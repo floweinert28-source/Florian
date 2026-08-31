@@ -78,6 +78,19 @@ class OpeningRangeParams(StrategyParams):
     entry_deadline_minutes: int = 210
     max_signals_per_day: int = 1
     allow_short: bool = True
+    # Scheitert ein Ausbruch, dreht der Tag meistens: von 144 ausgestoppten
+    # Long-Ausbruechen auf NQ schlossen 78,5 % spaeter unter dem Spannen-Tief.
+    # Mit diesem Schalter dreht der Bot am Stop in die Gegenrichtung - Stop an
+    # der anderen Spannenseite, Ziel `reversal_reward` mal die Spannenbreite.
+    reversal_after_failure: bool = False
+    reversal_reward: float = 1.5
+    # Volatilitaetsfenster, gemessen als ATR in Prozent des Kurses. Aus der
+    # Verlustanalyse auf NQ: unter 0,15 % fehlt dem Ausbruch der Schub
+    # (38,9 % Treffer, -0,083 R), ueber 0,5 % zerreisst es die Stops
+    # (33,3 % Treffer, -0,412 R). Dazwischen liegt der brauchbare Bereich.
+    # None schaltet die jeweilige Grenze ab.
+    min_atr_pct: float | None = None
+    max_atr_pct: float | None = None
 
     def __post_init__(self) -> None:
         if self.range_minutes < 1:
@@ -94,6 +107,14 @@ class OpeningRangeParams(StrategyParams):
             raise ValueError("reward_ratio muss positiv sein.")
         if self.max_signals_per_day < 1:
             raise ValueError("max_signals_per_day muss mindestens 1 sein.")
+        if self.reversal_reward <= 0:
+            raise ValueError("reversal_reward muss positiv sein.")
+        if (
+            self.min_atr_pct is not None
+            and self.max_atr_pct is not None
+            and self.min_atr_pct >= self.max_atr_pct
+        ):
+            raise ValueError("min_atr_pct muss kleiner als max_atr_pct sein.")
 
 
 class OpeningRange(Strategy):
@@ -109,6 +130,8 @@ class OpeningRange(Strategy):
         super().__init__(session or SessionWindow.us_futures_rth())
         self.p = params or OpeningRangeParams()
         self._cache = ArrayCache()
+        #: Merkt sich einen gescheiterten Ausbruch fuer den Umkehr-Trade.
+        self._fehlschlag: dict | None = None
 
     @property
     def warmup(self) -> int:
@@ -144,7 +167,15 @@ class OpeningRange(Strategy):
         breite_ok = (data["or_width"] >= params.min_range_atr * data["atr"]) & (
             data["or_width"] <= params.max_range_atr * data["atr"]
         )
-        handelbar = nach_range & rechtzeitig & breite_ok & data["or_width"].gt(0)
+        vola = data["atr"] / data["close"] * 100
+        vola_ok = pd.Series(True, index=data.index)
+        if params.min_atr_pct is not None:
+            vola_ok &= vola >= params.min_atr_pct
+        if params.max_atr_pct is not None:
+            vola_ok &= vola <= params.max_atr_pct
+        data["vola_pct"] = vola
+
+        handelbar = nach_range & rechtzeitig & breite_ok & vola_ok & data["or_width"].gt(0)
 
         puffer = params.breakout_buffer_atr * data["atr"]
         ausbruch_hoch = handelbar & (data["close"] > data["or_high"] + puffer)
@@ -166,11 +197,81 @@ class OpeningRange(Strategy):
         if index < self.warmup:
             return None
         arrays = self._cache.arrays(frame, _COLUMNS)
+        umkehr = self._umkehr_signal(frame, arrays, index)
+        if umkehr is not None:
+            return umkehr
         if arrays["long_signal"][index]:
             return self._build(Side.LONG, arrays, index)
         if arrays["short_signal"][index]:
             return self._build(Side.SHORT, arrays, index)
         return None
+
+    # --------------------------------------------------------------- Umkehr
+    def on_trade_closed(self, trade) -> None:
+        """Merkt sich einen gescheiterten Ausbruch als Umkehr-Gelegenheit."""
+        if not self.p.reversal_after_failure:
+            return
+        gescheitert = (
+            trade.setup.startswith(self.name)
+            and "umkehr" not in trade.setup
+            and trade.exit_reason is not None
+            and trade.exit_reason.value == "stop"
+        )
+        if not gescheitert or trade.exit_time is None:
+            self._fehlschlag = None
+            return
+        self._fehlschlag = {
+            "tag": pd.Timestamp(trade.exit_time).tz_convert(self.session.zeitzone).date(),
+            "seite": trade.side.opposite,
+        }
+
+    def _umkehr_signal(self, frame: pd.DataFrame, arrays: dict, index: int) -> Signal | None:
+        """Dreht nach einem gescheiterten Ausbruch in die Gegenrichtung."""
+        merker = self._fehlschlag
+        if merker is None:
+            return None
+        moment = frame.index[index].tz_convert(self.session.zeitzone)
+        if moment.date() != merker["tag"]:
+            self._fehlschlag = None  # gilt nur am selben Handelstag
+            return None
+        minute = float(arrays["minute"][index])
+        if minute > self.p.entry_deadline_minutes:
+            self._fehlschlag = None
+            return None
+
+        # ``allow_short`` gilt bewusst nur fuer Ausbrueche nach unten. Der
+        # Umkehr-Trade ist ein anderes Setup: die Zahlen zeigen schwache
+        # Short-Ausbrueche (-0,016 R), aber einen brauchbaren Vorteil beim
+        # gescheiterten Long-Ausbruch (+0,107 R). Beides in einen Schalter zu
+        # werfen, waere bequem und falsch.
+        seite = merker["seite"]
+        hoch, tief = float(arrays["or_high"][index]), float(arrays["or_low"][index])
+        breite = hoch - tief
+        einstieg = float(arrays["close"][index])
+        if breite <= 0:
+            return None
+
+        self._fehlschlag = None  # nur ein Umkehrversuch je Tag
+        if seite is Side.SHORT:
+            stop, ziel = hoch, einstieg - self.p.reversal_reward * breite
+            if einstieg >= stop:
+                return None
+        else:
+            stop, ziel = tief, einstieg + self.p.reversal_reward * breite
+            if einstieg <= stop:
+                return None
+
+        return Signal(
+            side=seite,
+            stop_price=stop,
+            target_price=ziel,
+            setup=f"{self.name}_umkehr_{seite.value}",
+            context={
+                "or_width": round(breite, 2),
+                "minute": int(minute),
+                "trend": "reversal",
+            },
+        )
 
     def _build(self, side: Side, arrays: dict, index: int) -> Signal | None:
         params = self.p

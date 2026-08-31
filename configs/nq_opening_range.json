@@ -10,7 +10,11 @@
     "max_range_atr": 3.0,
     "allow_short": false,
     "max_signals_per_day": 1,
-    "entry_deadline_minutes": 210
+    "entry_deadline_minutes": 210,
+    "reversal_after_failure": true,
+    "reversal_reward": 1.5,
+    "min_atr_pct": 0.15,
+    "max_atr_pct": 0.5
   },
   "adaptive": false,
   "session_profile": "us_rth",

@@ -204,6 +204,35 @@ INSTRUMENTS: dict[str, Instrument] = {
         digits=2,
         tick_size=0.25,
     ),
+    # Micro E-mini S&P 500: 5 $ je Indexpunkt, Tick 0,25 = 1,25 $. Der S&P
+    # bewegt sich in weniger Punkten als der Nasdaq, dadurch ist der
+    # Geldbetrag je Trade feiner rasterbar - auf kleinen Konten ein Vorteil.
+    "MES": Instrument(
+        symbol="MES",
+        value_per_point=5.0,
+        spread=0.25,
+        commission=1.24,
+        slippage=0.25,
+        size_step=1.0,
+        min_size=1.0,
+        max_size=50.0,
+        digits=2,
+        tick_size=0.25,
+    ),
+    # Micro E-mini Dow: 0,50 $ je Indexpunkt, Tick 1 Punkt. Der Dow notiert in
+    # zehntausenden Punkten, die Position laesst sich damit am feinsten dosieren.
+    "MYM": Instrument(
+        symbol="MYM",
+        value_per_point=0.50,
+        spread=1.0,
+        commission=1.24,
+        slippage=1.0,
+        size_step=1.0,
+        min_size=1.0,
+        max_size=100.0,
+        digits=0,
+        tick_size=1.0,
+    ),
     # Micro E-mini Nasdaq-100: 2 $ je Punkt, ein Zehntel des NQ. Kommission
     # 1,34 $ Round Turn ist ein ueblicher Retail-/Prop-Satz inkl. Gebuehren.
     "MNQ": Instrument(

@@ -464,7 +464,7 @@ propbot/
   cli.py           Kommandozeile
 ```
 
-229 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
+231 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
 unter anderem die Ruinformel gegen Brute-Force-Abzählung, die Indikatoren gegen
 abgeschnittene Datensätze, jede Ausführungsregel der Engine einzeln und dass ein
 Regelverstoß wirklich jeden weiteren Trade verhindert.
@@ -821,3 +821,111 @@ Konto ist 0,5 % Risiko nicht nur sicherer, sondern auch **produktiver**.
   steckt nicht in den Daten.
 * **Nächster Schritt bleibt das Demokonto**: Papierhandel, dann Dry-Run am
   echten Broker, dann kleine echte Orders — die Kette aus Abschnitt 8.
+
+---
+
+## 14. Verlustanalyse: was die Charts zeigen
+
+415 Trades, davon 186 Verlierer. Die Frage war nicht "wie viele", sondern
+"warum" — und ob sich daraus etwas bauen lässt.
+
+### Die Zahlen
+
+**Der Stop sitzt richtig.** Nur **5,6 %** der ausgestoppten Trades erreichen
+später am selben Tag doch noch ihr ursprüngliches Ziel. Ein gescheiterter
+Ausbruch bleibt gescheitert — ein weiterer Stop hätte nur mehr gekostet.
+
+**Verschenkt wird wenig.** 98,4 % der Verlierer waren irgendwann im Plus, aber
+nur 5,4 % erreichten je +1 R. Der typische Verlierer lief 0,39 R ins Plus und
+drehte dann. Da ist kein vergessener Gewinn.
+
+**Volatilität entscheidet** (ATR in Prozent des Kurses am Einstieg):
+
+| ATR/Kurs | Trades | Trefferquote | Erwartungswert |
+| --- | --- | --- | --- |
+| unter 0,15 % | 36 | 38,9 % | **−0,083 R** |
+| 0,15 – 0,25 % | 173 | 51,4 % | +0,075 R |
+| **0,25 – 0,35 %** | 116 | **67,2 %** | **+0,331 R** |
+| 0,35 – 0,5 % | 78 | 56,4 % | +0,113 R |
+| über 0,5 % | 12 | 33,3 % | **−0,412 R** |
+
+Zu ruhig heißt kein Schub hinter dem Ausbruch, zu wild heißt, dass der Stop im
+Rauschen liegt. Beide Ränder kosten Geld.
+
+**Der frühe Ausbruch ist der schlechteste.** Entgegen der Lehrbuchmeinung:
+Einstiege in den ersten 20 Minuten nach der Spanne bringen +0,094 R, Einstiege
+nach zwei Stunden +0,219 R. Die erste Bewegung ist am häufigsten die falsche.
+
+### Was die Charts zeigen
+
+Zwölf Verlierer, die innerhalb von 45 Minuten ausgestoppt wurden, neben den
+zwölf besten Gewinnern — der Unterschied ist auf einen Blick sichtbar:
+
+* **Gewinner sind Trendtage.** Der Kurs verlässt die Spanne und kommt nie
+  zurück, sondern steigt in einer Treppe bis zum Schluss. Die Zielmarke fällt
+  meist erst am Nachmittag.
+* **Verlierer sind Umkehrtage.** Der Ausbruch hält eine bis drei Kerzen, dann
+  fällt der Kurs durch die gesamte Spanne hindurch — und läuft danach weiter
+  nach unten, oft den ganzen Tag.
+
+Der zweite Punkt ist der verwertbare: **78,5 % der gescheiterten
+Long-Ausbrüche schließen später unter dem Spannen-Tief.** Der fehlgeschlagene
+Ausbruch ist selbst ein Signal.
+
+### Was daraus gebaut wurde
+
+**Umkehr nach Fehlausbruch** (`reversal_after_failure`): Wird ein Ausbruch
+ausgestoppt, dreht der Bot am selben Tag in die Gegenrichtung — Stop an der
+anderen Seite der Spanne, Ziel 1,5 Spannenbreiten. Das ergibt 63 zusätzliche
+Trades mit +0,056 R.
+
+**Volatilitätsfenster** (`min_atr_pct` / `max_atr_pct`): nur handeln, wenn der
+ATR zwischen 0,15 % und 0,5 % des Kurses liegt.
+
+In-Sample sieht das stark aus: +0,127 → **+0,185 R**, größter Rückgang von
+1.433 $ auf 1.356 $, Payout-Wahrscheinlichkeit von 89,8 % auf 97,8 %.
+
+**Out-of-Sample bleibt davon wenig:**
+
+| | Basis | mit Umkehr + Vola-Filter |
+| --- | --- | --- |
+| Walk-Forward OOS | +0,136 R | +0,139 R |
+| Testabschnitte zusammen | +0,147 R | +0,159 R |
+| Profitfaktor | 1,37 | 1,42 |
+
+Also: eine echte, aber kleine Verbesserung. Der Rest des In-Sample-Sprungs war
+Anpassung an dieselben Daten, aus denen die Filter stammen. Beide Änderungen
+sind trotzdem in der Standardkonfiguration, weil sie strukturell begründet sind
+und out-of-sample nicht schaden.
+
+Auf dem historischen Pfad verkürzen sie die Zyklen: erster Payout nach 841
+statt 1.007 Tagen, zweiter nach 333 statt 381.
+
+### Mehr Instrumente helfen nicht
+
+Naheliegender Weg zu mehr Trades: dieselbe Strategie auf ES und YM. Beide
+Datensätze wurden über dieselben fünf Jahre geladen und geprüft:
+
+| Markt | Trades | Erwartungswert | Walk-Forward OOS | Payout-Chance |
+| --- | --- | --- | --- | --- |
+| **NQ (MNQ)** | 426 | **+0,180 R** | +0,139 R | **97,2 %** |
+| ES (MES) | 583 | +0,022 R | +0,021 R | 28,1 % |
+| YM (MYM) | 580 | −0,018 R | **−0,022 R** | 9,3 % |
+
+Und gemischt wird es schlechter, nicht besser:
+
+| Kombination | Trades | Erwartungswert | Payout | Median-Dauer |
+| --- | --- | --- | --- | --- |
+| NQ allein | 426 | +0,180 R | **97,4 %** | 108 Tage |
+| NQ + YM | 1.006 | +0,065 R | 57,3 % | 86 Tage |
+| NQ + ES + YM | 1.589 | +0,049 R | 46,2 % | 60 Tage |
+
+Mehr Trades machen den Weg zum Ziel kürzer (108 → 60 Tage im Median) und die
+Erfolgsaussicht kleiner (97 % → 46 %). Ein schnelleres Pferd nützt nichts, wenn
+es in die falsche Richtung läuft.
+
+**Der Edge ist NQ-spezifisch.** Der Nasdaq-Future hat die stärkste
+Intraday-Folgebewegung der drei Indizes; Dow und S&P kehren häufiger um. Ein
+Ausbruchssystem braucht genau diese Folgebewegung. Wer die Frequenz erhöhen
+will, braucht deshalb ein **anderes Setup**, kein weiteres Instrument mit
+demselben.

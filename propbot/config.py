@@ -87,7 +87,19 @@ class BotConfig:
 
 
 #: Instrumente, die in der US-Kernhandelszeit gehandelt werden.
-_US_FUTURES = {"NQ", "MNQ", "ES", "MES", "YM", "MYM", "RTY", "M2K", "NAS100", "SPX500", "US30"}
+_US_FUTURES = {
+    "NQ",
+    "MNQ",
+    "ES",
+    "MES",
+    "YM",
+    "MYM",
+    "RTY",
+    "M2K",
+    "NAS100",
+    "SPX500",
+    "US30",
+}
 
 
 def sitzung_fuer(profil: str, symbol: str) -> SessionWindow:

@@ -56,6 +56,20 @@ class RiskSettings:
     consistency_guard: bool = True
     max_stop_distance_atr: float = 3.0
     min_reward_ratio: float = 1.3
+    # Futures gibt es nur in ganzen Kontrakten. Kostet der kleinste Kontrakt
+    # etwas mehr als das Budget, waere "gar nicht handeln" die teuerste aller
+    # Antworten - auf NQ fielen dadurch 42 % aller Signale aus. Bis zu diesem
+    # Faktor ueber dem Budget wird die Mindestgroesse trotzdem gehandelt.
+    # 1.0 = nie ueberschreiten, 1.25 = bis 25 % darueber. Die harten Grenzen
+    # (Restpuffer, Tagesbudget) gelten weiterhin absolut.
+    #
+    # Gemessen auf NQ ueber 5 Jahre: Toleranz 1.25 bringt 24 % mehr Trades,
+    # aber der groesste Rueckgang steigt von 1.433 $ auf 2.765 $ und aus zwei
+    # Payouts werden null - die zusaetzlichen Trades sind genau die mit den
+    # weitesten Stops, und die sind auch die schlechteren. Deshalb steht der
+    # Standard bei 1.0. Wer ein Instrument mit feinerer Rasterung handelt,
+    # kann die Toleranz gefahrlos hochsetzen.
+    min_position_tolerance: float = 1.0
 
     def __post_init__(self) -> None:
         if not 0 < self.base_risk_pct <= self.max_risk_pct:
@@ -66,6 +80,8 @@ class RiskSettings:
             raise ValueError("daily_budget_fraction muss zwischen 0 und 1 liegen.")
         if not 0 < self.min_streak_factor <= 1:
             raise ValueError("min_streak_factor muss zwischen 0 und 1 liegen.")
+        if self.min_position_tolerance < 1:
+            raise ValueError("min_position_tolerance muss mindestens 1.0 sein.")
 
 
 @dataclass(slots=True)
@@ -220,18 +236,28 @@ class RiskManager:
         raw_size = risk_money / risk_per_unit
         size = instrument.round_size(raw_size)
         if size <= 0:
-            # Kategorie statt Zahl: sonst zerfaellt die Auswertung im Report in
-            # hunderte Einzelfaelle. Die konkreten Werte stehen in `factors`.
-            return _blocked(
-                "Kleinste Position waere zu gross fuers Budget",
-                {**budgets, "noetige_groesse": raw_size, "min_groesse": instrument.min_size},
-            )
+            # Die kleinste handelbare Position liegt ueber dem Budget. Statt das
+            # Signal wegzuwerfen, wird sie bis zur erlaubten Toleranz trotzdem
+            # gehandelt - aber nur, wenn auch die harten Grenzen halten.
+            kleinste_risiko = instrument.min_size * risk_per_unit
+            erlaubt = risk_money * settings.min_position_tolerance
+            if kleinste_risiko <= erlaubt and kleinste_risiko <= self._harte_grenze(account):
+                size = instrument.min_size
+            else:
+                # Kategorie statt Zahl: sonst zerfaellt die Auswertung im Report
+                # in hunderte Einzelfaelle. Die Werte stehen in `factors`.
+                return _blocked(
+                    "Kleinste Position waere zu gross fuers Budget",
+                    {
+                        **budgets,
+                        "noetige_groesse": raw_size,
+                        "min_groesse": instrument.min_size,
+                        "risiko_kleinste_position": kleinste_risiko,
+                    },
+                )
 
         actual_risk = size * risk_per_unit
-        hard_cap = min(
-            account.remaining_drawdown,
-            account.remaining_daily_loss,
-        )
+        hard_cap = self._harte_grenze(account)
         if actual_risk > hard_cap:
             # Aufrunden auf das Raster darf nie ueber die harte Grenze gehen.
             size = instrument.round_size(hard_cap / risk_per_unit)
@@ -247,6 +273,14 @@ class RiskManager:
             planned_risk=risk_money,
             factors={**budgets, "streak_factor": self.streak_factor},
         )
+
+    def _harte_grenze(self, account: AccountState) -> float:
+        """Was das Konto maximal verkraftet - hier gibt es keine Toleranz.
+
+        Restpuffer und Tagesbudget sind Regeln der Firma, keine Richtwerte.
+        Ueber diese Grenze geht auch die Mindestgroesse nicht.
+        """
+        return min(account.remaining_drawdown, account.remaining_daily_loss)
 
     def budget(self, account: AccountState) -> float:
         """Das aktuell bindende Risikobudget in Geld (ohne konkretes Signal)."""

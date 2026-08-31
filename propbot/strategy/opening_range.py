@@ -189,9 +189,7 @@ class OpeningRange(Strategy):
         else:
             roh = atr_value
 
-        distanz = max(
-            params.min_stop_atr * atr_value, min(roh, params.max_stop_atr * atr_value)
-        )
+        distanz = max(params.min_stop_atr * atr_value, min(roh, params.max_stop_atr * atr_value))
         if side is Side.LONG:
             stop = entry - distanz
             ziel = entry + params.reward_ratio * distanz

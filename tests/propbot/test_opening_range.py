@@ -169,7 +169,9 @@ def test_stop_modi_unterscheiden_sich() -> None:
     abstaende = {}
     for modus in ("range", "fraction", "atr"):
         strategie = OpeningRange(
-            OpeningRangeParams(stop_mode=modus, stop_fraction=0.5, min_stop_atr=0.1, max_stop_atr=20)
+            OpeningRangeParams(
+                stop_mode=modus, stop_fraction=0.5, min_stop_atr=0.1, max_stop_atr=20
+            )
         )
         daten = strategie.prepare(daten_roh)
         index = int(np.flatnonzero(daten["long_signal"].to_numpy())[0])

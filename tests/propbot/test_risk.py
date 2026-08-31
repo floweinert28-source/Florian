@@ -151,3 +151,39 @@ def test_budgetuebersicht_nennt_die_bindende_grenze() -> None:
 
     assert status["binding"] == "dd_puffer"
     assert status["risk_budget"] == pytest.approx(60.0)
+
+
+def test_mindestposition_wird_nur_mit_toleranz_gehandelt() -> None:
+    """Futures gibt es nur ganz: passt der kleinste Kontrakt knapp nicht ins
+    Budget, entscheidet die Toleranz zwischen 'gar nicht' und 'etwas mehr'."""
+    from propbot.models import INSTRUMENTS
+
+    mnq = INSTRUMENTS["MNQ"]
+    zustand = account()  # 250 $ Budget
+    # Stop von 140 Punkten -> 1 Kontrakt riskiert 280 $, also 12 % ueber Budget
+    einstieg, stop, ziel = 15_000.0, 14_860.0, 15_300.0
+
+    streng = RiskManager(RiskSettings(min_position_tolerance=1.0))
+    tolerant = RiskManager(RiskSettings(min_position_tolerance=1.25))
+
+    hart = streng.plan(zustand, mnq, Side.LONG, einstieg, stop, target_price=ziel)
+    weich = tolerant.plan(zustand, mnq, Side.LONG, einstieg, stop, target_price=ziel)
+
+    assert not hart.allowed and "zu gross" in hart.reason
+    assert weich.allowed and weich.size == 1
+    assert 250 < weich.risk_money <= 250 * 1.25
+
+
+def test_toleranz_bricht_die_harten_grenzen_nicht() -> None:
+    """Restpuffer und Tageslimit sind Firmenregeln - da hilft keine Toleranz."""
+    from propbot.models import INSTRUMENTS
+
+    zustand = account(daily_loss_limit=None)
+    zustand.mark(START, 48_150, 48_150)  # nur noch 150 $ Puffer
+    manager = RiskManager(RiskSettings(min_position_tolerance=3.0))
+
+    entscheidung = manager.plan(
+        zustand, INSTRUMENTS["MNQ"], Side.LONG, 15_000.0, 14_860.0, target_price=15_300.0
+    )
+
+    assert not entscheidung.allowed

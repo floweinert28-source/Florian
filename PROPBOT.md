@@ -457,6 +457,9 @@ propbot/
   journal.py       SQLite-Handelstagebuch (Backtest und Live im selben Format)
   live.py          Live-Loop mit Zustandssicherung
   broker/          Schnittstelle, Papier-Broker, MetaTrader 5
+  features.py      Marktkontext: VWAP, Tagesstruktur, Momentum, Kerzen
+  confluence.py    Punktesystem aus den validierten Merkmalen
+  gamma.py         Gamma-Exposure aus CBOE-Daten (live, nicht backtestbar)
   data.py          CSV-Loader und synthetischer Marktgenerator
   dukascopy.py     Download echter Minutenkerzen (NQ, ES, FX, Gold)
   validate.py      Quellenvergleich gegen echte Futuresdaten
@@ -464,7 +467,7 @@ propbot/
   cli.py           Kommandozeile
 ```
 
-231 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
+261 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
 unter anderem die Ruinformel gegen Brute-Force-Abzählung, die Indikatoren gegen
 abgeschnittene Datensätze, jede Ausführungsregel der Engine einzeln und dass ein
 Regelverstoß wirklich jeden weiteren Trade verhindert.
@@ -929,3 +932,145 @@ Intraday-Folgebewegung der drei Indizes; Dow und S&P kehren häufiger um. Ein
 Ausbruchssystem braucht genau diese Folgebewegung. Wer die Frequenz erhöhen
 will, braucht deshalb ein **anderes Setup**, kein weiteres Instrument mit
 demselben.
+
+---
+
+## 15. Confluence: welche Marktmerkmale wirklich tragen
+
+Der Vorwurf war berechtigt: ein Ausbruch aus der Eröffnungsspanne ist ein
+Standard-Setup. Dieses Kapitel prüft 24 zusätzliche Merkmale — VWAP, höherer
+Zeitrahmen, Momentum, Kerzenformationen, Uhrzeit, Aktivität — und zwar nicht
+nach Gefühl, sondern mit getrennter Prüfperiode.
+
+### Zuerst: was an Daten überhaupt da ist
+
+| Datenart | Verfügbar? | Anmerkung |
+| --- | --- | --- |
+| OHLC, Minutenauflösung, 5 Jahre | **ja** | Dukascopy, gegen CME-Futures geprüft (0,9995 Korrelation in der Kernzeit) |
+| Volumen | **nur als Näherung** | Liquiditätsmaß der CFD-Quelle, kein Börsenvolumen |
+| VWAP | **ja, mit festem Profil** | siehe unten |
+| Bid/Ask je Tick | **ja, aber schwach** | Dukascopy-Ticks führen Bid-/Ask-Volumen, im Median aber 0 |
+| Orderflow, Footprint, Delta | **nein** | braucht Marktdaten mit Handelsseite (CME MBO) |
+| DOM / Heatmap / Liquiditätskarte | **nein** | braucht Level-2-Orderbuch, kostenpflichtig |
+| Gamma-Exposure | **live ja, historisch nein** | siehe Abschnitt unten |
+
+Das ist die ehrliche Grenze: **alles, was mit Orderbuch und Handelsseite zu tun
+hat, kann dieser Bot nicht sehen.** Wer Heatmaps und Footprint handeln will,
+braucht einen Datenanbieter wie Databento, CME DataMine oder Bookmap — und dann
+eine ganz andere Backtest-Infrastruktur.
+
+### Der VWAP — und wie er beinahe falsch geworden wäre
+
+Der VWAP verlangt Volumen, und das vorhandene taugt dafür nicht: die
+CFD-Aktivität fällt über den Tag monoton ab und kennt den Anstieg zur
+Schlussauktion nicht. Ein VWAP mit diesen Gewichten lag **95 Punkte** vom
+echten entfernt — schlechter als ein simpler Mittelwert (15 Punkte).
+
+Die Lösung ist ein **festes Volumenprofil**, gemessen am echten CME-Volumen:
+
+```
+09:30 ###############################################  3,20
+10:30 ###########################                      1,38
+12:30 ############                                     0,65
+14:45 #########                                        0,48
+15:45 ####################################             1,84   <- Schlussauktion
+```
+
+Damit liegt der VWAP im Median **2,8 Punkte** neben dem echten (6 % eines ATR)
+und ist 81 % genauer als ein ungewichteter Mittelwert.
+
+Zwei Fehler auf dem Weg dorthin, beide erwähnenswert:
+
+1. Die erste Fassung mittelte das Volumenprofil über den **gesamten**
+   Datensatz — also auch über die Zukunft. Aufgefallen ist das nur, weil der
+   Lookahead-Test aus der Testsuite angeschlagen hat.
+2. Zwei Messungen zeigten den VWAP als katastrophal schlecht (95 bzw. 120
+   Punkte daneben). Beide Male lag es am Vergleich, nicht am Code: einmal
+   wurden unterschiedliche Kerzenmengen verglichen, einmal CFD-Kurse gegen
+   Futures-Kurse, zwischen denen die Finanzierungsprämie von ~90 Punkten liegt.
+
+### Die Merkmalsstudie
+
+24 Merkmale, gemessen an 646 Trades. Trainingszeitraum bis 08/2024,
+Prüfzeitraum ab 09/2024 (der nie zur Auswahl benutzt wurde).
+
+**Zehn Merkmale halten den Test — und sie erzählen alle dieselbe Geschichte:**
+
+| Merkmal | In-Sample | Out-of-Sample | Richtung |
+| --- | --- | --- | --- |
+| Momentum 8 Kerzen | −0,211 R | **−0,391 R** | negativ |
+| VWAP-Steigung | −0,148 R | −0,319 R | negativ |
+| RSI | −0,147 R | −0,232 R | negativ |
+| Abstand zum Vortageshoch | −0,303 R | −0,193 R | negativ |
+| Lage zum VWAP | +0,147 R | +0,102 R | positiv |
+| Uhrzeit | +0,101 R | +0,171 R | positiv |
+| grüne Kerzen in Folge | +0,131 R | +0,109 R | positiv |
+
+**Der rote Faden: ein Ausbruch taugt nichts, wenn die Bewegung schon gelaufen
+ist.** Vier der stärksten Merkmale messen Überdehnung, und alle vier sind
+negativ. Positiv sind dagegen die Lage zum VWAP und eine späte Uhrzeit.
+
+**Vierzehn Merkmale fallen durch** — darunter alle klassischen
+Kerzenformationen: Engulfing sah in-sample stark aus (+0,281 R) und war
+out-of-sample wertlos (+0,027 R). Ebenso Innentag, Gap, Dochte, Vortagsrichtung.
+
+### Die Confluence-Schicht
+
+`propbot/confluence.py` bewertet jedes Signal mit sieben Bedingungen aus den
+überlebenden Merkmalen und lässt nur Signale ab einer Punktzahl durch. Bewusst
+als Punktesystem statt als Und-Verknüpfung: fünf harte Filter hintereinander
+lassen fast nichts übrig und passen sich an die Stichprobe an.
+
+| Variante | Trades | Erwartungswert | OOS | Payout |
+| --- | --- | --- | --- | --- |
+| **nur Long, ohne Confluence** | **426** | **+0,180 R** | **+0,230 R** | **97,2 %** |
+| beide Richtungen, ohne | 667 | +0,080 R | +0,140 R | 65,1 % |
+| beide + Confluence ≥ 4 | 442 | +0,107 R | +0,175 R | 77,0 % |
+| beide + Confluence ≥ 5 | 328 | +0,152 R | +0,209 R | 92,7 % |
+
+Die Schicht funktioniert — sie hebt die Zwei-Richtungs-Variante von +0,080 auf
++0,152 R. Aber sie schlägt die einfache Long-only-Variante nicht. Der Grund ist
+naheliegend: mehrere Bedingungen (Lage zum VWAP, Mehrtagestrend) wählen
+faktisch dasselbe aus, was "nur Long" schon auswählt.
+
+**Und das Entscheidende für die Frequenzfrage: Filter erhöhen die Trade-Zahl
+nie.** Jede Confluence-Bedingung nimmt Trades weg. Wer mehr Trades will,
+braucht mehr *Setups*, nicht mehr Filter.
+
+### Der Versuch eines zweiten Setups
+
+Aus den validierten Merkmalen wurde ein eigenständiges Setup gebaut: Rücksetzer
+an den VWAP in Richtung des Mehrtagestrends, Einstieg bei der Rückeroberung
+(`propbot/strategy/vwap_pullback.py`). 917 Signale — mehr als doppelt so viele
+wie der Opening-Range-Breakout.
+
+| | Trades | Erwartungswert | Out-of-Sample | Jahre positiv |
+| --- | --- | --- | --- | --- |
+| Opening Range (Referenz) | 426 | +0,180 R | +0,230 R | 6/6 |
+| VWAP-Rücksetzer | 423 | +0,066 R | **−0,046 R** | 4/6 |
+| VWAP-Rücksetzer + Confluence | 418 | +0,079 R | **−0,019 R** | 4/6 |
+
+**Out-of-Sample negativ.** Dieselben Merkmale, die als *Filter* für
+Ausbruchstrades funktionieren, ergeben kein eigenständiges Setup. Das Modul
+bleibt im Paket, ist aber in keiner Konfiguration aktiv.
+
+### Gamma-Exposure
+
+`propbot/gamma.py` liest die frei verfügbaren, verzögerten Optionsketten von
+CBOE (NDX und QQQ) und rechnet Gamma je Strike, Netto-Gamma und den
+Nulldurchgang aus:
+
+```
+Gamma-Profil _NDX (verzoegert)
+  Kurs:          29.456,97
+  Netto-Gamma:   +1.743,4 Mio. $ je 1 % Bewegung (positiv)
+  Gamma-Flip:    30.090
+  Positives Gamma: Haendler hedgen gegen die Bewegung, Ausschlaege werden
+  gedaempft. Ausbrueche laufen seltener weit.
+```
+
+**Aber: CBOE liefert nur den aktuellen Stand, keine Historie.** Ob Gamma die
+Trefferquote verbessert, lässt sich mit diesen Daten nicht nachweisen — dafür
+bräuchte es historische Optionsketten. Das Modul ist deshalb ein
+**Live-Kontextwerkzeug**, kein Backtest-Filter. Es steht bewusst ohne
+Wirksamkeitsbehauptung im Paket.

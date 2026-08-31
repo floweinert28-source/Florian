@@ -5,6 +5,7 @@ from .mean_reversion import RangeFade, RangeFadeParams
 from .opening_range import OpeningRange, OpeningRangeParams
 from .router import RegimeRouter
 from .trend_pullback import TrendPullback, TrendPullbackParams
+from .vwap_pullback import VwapPullback, VwapPullbackParams
 
 __all__ = [
     "OpeningRange",
@@ -17,6 +18,8 @@ __all__ = [
     "StrategyParams",
     "TrendPullback",
     "TrendPullbackParams",
+    "VwapPullback",
+    "VwapPullbackParams",
 ]
 
 
@@ -26,6 +29,7 @@ def build(name: str, **kwargs) -> Strategy:
         "trend_pullback": TrendPullback,
         "range_fade": RangeFade,
         "opening_range": OpeningRange,
+        "vwap_pullback": VwapPullback,
         "regime_router": RegimeRouter,
     }
     if name not in registry:

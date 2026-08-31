@@ -761,6 +761,53 @@ python -m propbot montecarlo --config configs/nq_opening_range.json
 python -m propbot paper --config configs/nq_opening_range.json
 ```
 
+### Payout-Zyklen: die Sicht des Prop-Traders
+
+Ein Backtest endet beim Ziel. Auf einem echten Konto wird ausgezahlt, das Konto
+läuft weiter, und die Frage lautet: **wie oft im Zeitraum?** Dafür wird das
+Konto nach jedem Payout auf 50.000 $ zurückgesetzt:
+
+| Zyklus | Zeitraum | Dauer | Trades | Ergebnis | max. Rückgang |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 09/2021 – 06/2024 | 1.007 Tage | 233 | **Payout +4.012 $** | 1.262 $ |
+| 2 | 06/2024 – 07/2025 | 381 Tage | 80 | **Payout +4.007 $** | 799 $ |
+| 3 | 07/2025 – 08/2026 | 402 Tage | 54 | läuft (+334 $) | 1.204 $ |
+
+**Zwei Payouts in fünf Jahren, kein einziges gerissenes Konto.** Das sind rund
+1.600 $ Auszahlung pro Jahr — ehrlich gesagt wenig für den Aufwand, und
+deutlich langsamer als die Monte-Carlo-Verteilung nahelegt (Median ~130
+Handelstage). Der Unterschied hat einen klaren Grund: die Simulation zieht
+Trades unabhängig und nimmt einen Trade pro Tag an, in Wirklichkeit gibt es nur
+an 32 % der Tage einen handelbaren Ausbruch.
+
+### Mehr Risiko macht es schlechter, nicht schneller
+
+Der naheliegende Hebel wäre eine größere Position. Er funktioniert nicht:
+
+| Risiko je Trade | Payouts in 5 J. | Busts | Tage je Payout | Trades |
+| --- | --- | --- | --- | --- |
+| 0,4 % (200 $) | 1 | 0 | 1.130 | — |
+| **0,5 % (250 $)** | **2** | **0** | **694** | **233** |
+| 0,6 % (300 $) | 0 | 0 | — | — |
+| 0,8 % (400 $) | 0 | 0 | — | 78 |
+| 1,0 % (500 $) | 0 | 0 | — | — |
+
+Der Grund ist eine Rückkopplung, die erst im Zusammenspiel aller drei Ebenen
+entsteht:
+
+1. Größere Positionen erzeugen früh einen tieferen Rückgang (1.771 $ statt
+   1.262 $ bei 0,8 %).
+2. Der Risk-Manager bemisst das Budget am **Restpuffer** — nach dem Rückgang
+   sind 20 % davon nur noch 211 $, also *weniger* als das Basisrisiko bei
+   0,5 %.
+3. Bei diesem Budget passt fast kein MNQ-Kontrakt mehr hinein: 669 von 749
+   Signalen fallen aus, der Erwartungswert dreht auf −0,050 R, und das Konto
+   steht still.
+
+Das Konto stirbt also nicht am Bust, sondern an der Drosselung — genau der
+Zustand, den die Monte-Carlo-Simulation als „festgefahren" ausweist. Auf diesem
+Konto ist 0,5 % Risiko nicht nur sicherer, sondern auch **produktiver**.
+
 ### Was weiter offen ist
 
 * **42 % der Signale fallen weiterhin an der Kontraktgröße aus.** Ein MNQ ist

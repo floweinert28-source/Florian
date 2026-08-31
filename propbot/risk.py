@@ -143,12 +143,9 @@ class RiskManager:
         if self.day_trades >= settings.max_trades_per_day:
             return _blocked(f"Tageslimit erreicht: {settings.max_trades_per_day} Trades")
         if self.day_losses >= settings.max_losses_per_day:
-            return _blocked(f"{self.day_losses} Verluste heute - Feierabend")
+            return _blocked(f"{settings.max_losses_per_day} Verluste am Tag erreicht")
         if account.daily_loss_used() >= settings.own_daily_stop_fraction:
-            return _blocked(
-                f"Eigener Tagesstop bei {settings.own_daily_stop_fraction:.0%} "
-                f"des Tageslimits erreicht"
-            )
+            return _blocked("Eigener Tagesstop erreicht")
         if account.remaining_drawdown <= settings.min_risk_money:
             return _blocked("Drawdown-Puffer ist aufgebraucht")
         if settings.consistency_guard and account.max_day_profit_allowed() <= 0:
@@ -183,7 +180,8 @@ class RiskManager:
             reward = abs(target_price - entry_price) / distance
             if reward < settings.min_reward_ratio:
                 return _blocked(
-                    f"CRV {reward:.2f} unter Mindestwert {settings.min_reward_ratio:.2f}"
+                    "CRV unter Mindestwert",
+                    {"crv": reward, "minimum": settings.min_reward_ratio},
                 )
 
         budgets = self._budgets(account)
@@ -199,9 +197,11 @@ class RiskManager:
         raw_size = risk_money / risk_per_unit
         size = instrument.round_size(raw_size)
         if size <= 0:
+            # Kategorie statt Zahl: sonst zerfaellt die Auswertung im Report in
+            # hunderte Einzelfaelle. Die konkreten Werte stehen in `factors`.
             return _blocked(
-                f"Positionsgroesse {raw_size:.4f} unter Mindestgroesse {instrument.min_size}",
-                budgets,
+                "Kleinste Position waere zu gross fuers Budget",
+                {**budgets, "noetige_groesse": raw_size, "min_groesse": instrument.min_size},
             )
 
         actual_risk = size * risk_per_unit
@@ -213,7 +213,7 @@ class RiskManager:
             # Aufrunden auf das Raster darf nie ueber die harte Grenze gehen.
             size = instrument.round_size(hard_cap / risk_per_unit)
             if size <= 0:
-                return _blocked("Nach Rasterung bleibt keine zulaessige Groesse", budgets)
+                return _blocked("Kleinste Position waere zu gross fuers Budget", budgets)
             actual_risk = size * risk_per_unit
 
         return RiskDecision(

@@ -268,9 +268,7 @@ def lessons(
 
     # 6. Stopabstand: wie oft wird der Stop von der Obergrenze gekappt?
     gekappt = [
-        trade
-        for trade in closed
-        if float(trade.context.get("stop_atr", 0) or 0) >= wide_stop_atr
+        trade for trade in closed if float(trade.context.get("stop_atr", 0) or 0) >= wide_stop_atr
     ]
     if closed and len(gekappt) / len(closed) >= 0.4:
         share = len(gekappt) / len(closed)

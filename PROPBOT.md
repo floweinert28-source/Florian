@@ -15,13 +15,21 @@ Alles ist konfigurierbar — die Zahlen oben sind nur die Standardwerte.
 ```bash
 pip install -r requirements-propbot.txt
 
-python -m propbot math                 # Was verlangt dieses Konto rechnerisch?
-python -m propbot backtest --bars 40000 --journal
-python -m propbot montecarlo           # Wie wahrscheinlich ist der Payout?
-python -m propbot lessons              # Welche Fehler macht der Bot?
-python -m propbot walkforward          # Sind die Parameter echt oder angepasst?
-python -m propbot paper --bars 5000    # Live-Logik ohne Geld
+python -m propbot math                       # Was verlangt dieses Konto rechnerisch?
+python -m propbot fetch --symbol NQ --jahre 5   # Echte Kursdaten laden
+python -m propbot validate --data data/nq_m15.csv   # Daten gegen NQ-Futures prüfen
+python -m propbot backtest --data data/nq_m15.csv --symbol MNQ --journal
+python -m propbot montecarlo --data ...      # Wie wahrscheinlich ist der Payout?
+python -m propbot walkforward --data ...     # Parameter echt oder angepasst?
+python -m propbot lessons --data ...         # Welche Fehler macht der Bot?
+python -m propbot paper --data ...           # Live-Logik ohne Geld
 ```
+
+> **Ergebnis des Praxistests vorweg:** Auf fünf Jahren echter NQ-Daten hat die
+> mitgelieferte Strategie **keinen Edge** (+0,015 R je Trade out-of-sample,
+> Payout-Wahrscheinlichkeit 26 %). Die Werkzeuge funktionieren und weisen das
+> sauber nach — die Strategie gehört so nicht auf ein echtes Konto.
+> Details in [Kapitel 12](#12-praxistest-nq-über-fünf-jahre-echter-daten).
 
 ---
 
@@ -412,6 +420,8 @@ gehört auf ein Demokonto derselben Firma, bevor Geld daran hängt.
 | `paper` | Live-Logik gegen den Papier-Broker abspielen |
 | `live` | MetaTrader 5 (Dry-Run, bis man es bewusst abschaltet) |
 | `journal` | Auswertung nach Setup, Session, ADX-Klasse und Fehler-Label |
+| `fetch` | Echte Kursdaten von Dukascopy laden (Minutenkerzen, 5 Jahre ≈ 25 MB) |
+| `validate` | Kursdaten gegen echte Futuresdaten prüfen (Korrelation, Tracking Error) |
 
 Globale Optionen gehen vor **und** nach dem Befehl:
 
@@ -445,11 +455,13 @@ propbot/
   live.py          Live-Loop mit Zustandssicherung
   broker/          Schnittstelle, Papier-Broker, MetaTrader 5
   data.py          CSV-Loader und synthetischer Marktgenerator
+  dukascopy.py     Download echter Minutenkerzen (NQ, ES, FX, Gold)
+  validate.py      Quellenvergleich gegen echte Futuresdaten
   config.py        JSON + Umgebungsvariablen
   cli.py           Kommandozeile
 ```
 
-188 Tests (`python -m pytest tests/propbot -q`, gut 30 Sekunden). Sie prüfen
+218 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
 unter anderem die Ruinformel gegen Brute-Force-Abzählung, die Indikatoren gegen
 abgeschnittene Datensätze, jede Ausführungsregel der Engine einzeln und dass ein
 Regelverstoß wirklich jeden weiteren Trade verhindert.
@@ -471,3 +483,157 @@ Ehrlichkeit gehört zu einem Handelssystem:
   sie größer — genau deshalb sind die Sperrfenster da.
 * **Backtests kennen keine Requotes, keine Serverausfälle und keinen Menschen,
   der nachts den Stop verschiebt.**
+
+---
+
+## 12. Praxistest: NQ über fünf Jahre echter Daten
+
+Alles bis hierher war Mechanik. Dieses Kapitel ist der eigentliche Test — und
+er fällt negativ aus. Das steht hier so ausführlich, weil ein negatives
+Ergebnis, sauber gemessen, mehr wert ist als eine schöne Kurve.
+
+### Die Daten
+
+| | |
+| --- | --- |
+| Quelle | Dukascopy, Minutenkerzen des Nasdaq-100 (`propbot fetch`) |
+| Zeitraum | 01.09.2021 – 28.08.2026 (5 Jahre) |
+| Umfang | 2.223.360 Minutenkerzen → 33.436 M15-Kerzen in der Kernhandelszeit |
+| Handelstage | 1.286 |
+| Instrument im Test | **MNQ** (Micro, 2 $/Punkt), Kommission 1,34 $ Round Turn |
+
+**Warum nicht NQ selbst?** Ein voller NQ-Kontrakt ist 20 $ je Indexpunkt wert.
+Der typische Stop dieser Strategie liegt bei 121 Punkten — das sind **2.420 $
+Risiko für einen einzigen Kontrakt**, mehr als der gesamte Drawdown-Puffer. Auf
+einem 50k-Konto mit 2.000 $ Puffer ist NQ nicht handelbar, MNQ ist die einzige
+sinnvolle Größe. Der Risk-Manager lehnt NQ-Orders von sich aus ab; ein Test
+dafür steht in `tests/propbot/test_sessions.py`.
+
+### Taugen die Daten?
+
+Dukascopy liefert einen CFD auf den Index, gehandelt wird der CME-Future. Die
+Gegenprobe gegen echte NQ-Futuresdaten (Yahoo, `propbot validate`):
+
+| Zeitfenster | Korrelation der Renditen | Tracking Error |
+| --- | --- | --- |
+| **Kernhandelszeit 09:30–16:00 NY** | **0,9995** | 0,5 bp je Kerze |
+| nach dem Kassaschluss | 0,9209 | 3,6 bp |
+| alle Stunden | 0,9818 | 2,0 bp |
+
+Der Befund hat die Testanlage geändert: **nach dem US-Schluss stehen die
+CFD-Kurse still**, während der Future weiterläuft (1,3 % aller Kerzen, keine
+davon in der Kernzeit). Für die Kernhandelszeit sind beide Quellen praktisch
+identisch — also wird nur dort gehandelt *und* nur dort werden die Indikatoren
+gerechnet. Der Preisunterschied von rund +55 Punkten (Future über Index) ist
+die normale Finanzierungsprämie und für Renditen bedeutungslos.
+
+### Ein Fehler, den erst echte Daten zeigten
+
+Im ersten Lauf betrug die durchschnittliche Haltedauer **897 Minuten** — bei
+einer Strategie, die abends flach sein soll. Ursache: Die Flat-Regel verglich
+den *Beginn* der Kerze mit der Schlusszeit. Bei einem Datensatz, der nur die
+Kernhandelszeit enthält, beginnt die letzte Kerze um 15:45 und die Regel
+(15:50) löste nie aus — die Position lief über Nacht weiter. Auf synthetischen
+24-Stunden-Daten war das nie aufgefallen.
+
+Behoben: geprüft wird jetzt das **Ende** der Kerze, dessen Länge die Engine aus
+dem Zeitindex ableitet. Zwei Regressionstests halten es fest.
+
+### Das Ergebnis
+
+Trend-Pullback, Standardparameter, 5 Jahre, MNQ, Kernhandelszeit:
+
+```
+Trades:            112 in 99 Handelstagen
+Trefferquote:      42,9 %
+Erwartungswert:    -0,041 R je Trade
+Endstand:          49.338 $  (-662 $)
+Max. Drawdown:     1.798 $ (Puffer 2.000 $)
+Kosten:            0,023 R je Trade (2,0 % der Bruttobewegung)
+```
+
+Nur 112 Trades in fünf Jahren — der Grund ist die zweite große Erkenntnis:
+
+> **1.241 von 1.795 Signalen (69 %) wurden abgelehnt, weil schon ein einziger
+> MNQ-Kontrakt mehr riskiert hätte als das Budget erlaubt.**
+
+Der Median-Stop von 121 Punkten entspricht 242 $ Risiko je Kontrakt — bei 250 $
+Budget. Die Positionsgröße ist auf ganze Kontrakte gerastert, also gibt es
+zwischen „ein Kontrakt" und „gar nicht" nichts. Auf einem 50k-Konto ist die
+Kontraktgröße von MNQ die eigentliche Grenze, nicht die Strategie.
+
+### Es liegt nicht an den Parametern
+
+24 Kombinationen aus Stopweite, Chance-Risiko-Verhältnis und ADX-Schwelle,
+gerechnet über die vollen fünf Jahre ohne vorzeitigen Payout-Stopp:
+
+| max_stop_atr | CRV | ADX | Trades | Erwartungswert |
+| --- | --- | --- | --- | --- |
+| 1,5 | 1,5 | 26 | 161 | −0,014 R |
+| 1,5 | 2,0 | 26 | 177 | −0,016 R |
+| 1,5 | 1,5 | 22 | 223 | −0,024 R |
+| 2,0 | 1,5 | 22 | 128 | −0,098 R |
+| 3,5 | 2,0 | 22 | 121 | +0,046 R |
+
+**Keine einzige Kombination mit brauchbarer Stichprobe kommt über null.** Die
+zwei leicht positiven Werte stehen bei rund 120 Trades — das ist Rauschen, kein
+Vorteil.
+
+Auch die anderen Stellschrauben helfen nicht:
+
+| Variante | Trades | Erwartungswert |
+| --- | --- | --- |
+| M5 statt M15 | 1.063 | +0,012 R |
+| M30 | 14 | +0,018 R |
+| H1 | 14 | −0,107 R |
+| nur Long (M15) | 97 | −0,089 R |
+| Range-Fade (M15) | 27 | −0,145 R |
+
+Zum Vergleich: NQ selbst stieg im Zeitraum um **+87 %**.
+
+### Der ehrliche Schlussstrich: Walk-Forward und Monte Carlo
+
+M5 ist der einzige Zeitrahmen mit belastbarer Stichprobe. Walk-Forward über
+vier Fenster, Gitter aus 12 Kombinationen:
+
+```
+Fold 1: IS +0.224 R -> OOS +0.059 R | 201 Trades | +1,057 $
+Fold 2: IS +0.068 R -> OOS +0.005 R | 176 Trades | -1,492 $
+Fold 3: IS +0.007 R -> OOS -0.022 R | 102 Trades |   +578 $
+Fold 4: IS +0.016 R -> OOS -0.016 R | 110 Trades | -1,079 $
+Mittel: In-Sample +0.079 R, Out-of-Sample +0.007 R (Degradation 8 %)
+```
+
+Über alle Testabschnitte zusammen: 589 Trades, Profitfaktor 0,98, −936 $.
+
+Und was das für die Challenge bedeutet — Monte Carlo mit dem echten Regelwerk
+(4.000 $ Ziel, 2.000 $ Drawdown, 1.000 $ Tageslimit):
+
+```
+Payout 26,1 % | Bust 0,0 % | festgefahren 73,7 %
+Endstand p05/p50/p95: 48.088 / 49.597 / 54.134 $
+Urteil: Finger weg - mit diesen Zahlen ist die Challenge ein Lottoschein.
+```
+
+### Was fehlt, in einer Zahl
+
+Für eine Payout-Wahrscheinlichkeit über 80 % braucht es bei 250 $ Risiko rund
+**+0,15 R je Trade**. Geliefert werden **+0,015 R** — Faktor zehn. Das ist keine
+Lücke, die man mit Parametern schließt.
+
+### Was daraus folgt
+
+1. **Diese Strategie gehört nicht auf ein NQ-Prop-Konto.** Nicht mit anderen
+   Parametern, nicht mit anderem Zeitrahmen.
+2. **Der Trend-Pullback ist für NQ die falsche Familie.** Er wartet auf einen
+   Rücksetzer im laufenden Trend — NQ intraday dreht schneller, als der
+   Momentum-Trigger bestätigt. Erfolgversprechender wären Ansätze, die zur
+   Struktur des Index-Futures passen: Opening-Range-Breakout der ersten 15–30
+   Minuten, VWAP-Rückkehr, oder Tagesschluss-Ausbrüche über das Vortageshoch.
+3. **Die Kontraktgröße muss in die Strategie einfließen.** Solange ein
+   MNQ-Kontrakt fast das gesamte Risikobudget frisst, muss der Stop zur
+   Kontraktgröße passen, nicht umgekehrt — sonst hebelt die Rasterung 69 % der
+   Signale weg.
+4. **Was funktioniert hat, ist das Regelwerk drumherum.** In keinem einzigen
+   Lauf über fünf Jahre wurde das Konto gerissen: kein Drawdown-Verstoß, kein
+   Tageslimit-Verstoß. Der Bot verliert nicht das Konto, er verdient nur nichts.

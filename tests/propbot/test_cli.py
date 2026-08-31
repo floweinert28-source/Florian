@@ -82,4 +82,6 @@ def test_parser_kennt_alle_befehle() -> None:
         "paper",
         "live",
         "journal",
+        "fetch",
+        "validate",
     }

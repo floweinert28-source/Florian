@@ -33,15 +33,16 @@ def _parse_clock(value: str) -> clock_time:
 
 @dataclass(frozen=True, slots=True)
 class SessionWindow:
-    """Wann darf gehandelt werden (alles in UTC).
+    """Wann darf gehandelt werden.
 
-    Standard ist 07:00-16:30 UTC: London-Session plus die ersten Stunden
-    New York. Ausserhalb sind die Spreads breiter und die Bewegungen duenner -
-    auf einem Konto mit 2.000 $ Puffer ist das schlecht bezahltes Risiko.
+    Die Zeiten gelten in ``zeitzone`` - das ist bei Futures entscheidend. Die
+    US-Kernhandelszeit beginnt um 09:30 New Yorker Zeit, also je nach
+    Sommerzeit um 13:30 oder 14:30 UTC. Wer das Fenster fest in UTC angibt,
+    handelt ein halbes Jahr lang die falsche Stunde.
 
-    ``blackouts`` sind taegliche Sperrfenster, typischerweise um
-    Nachrichtentermine (13:30 UTC = US-Daten). ``no_new_trades_after`` verhindert
-    Einstiege kurz vor Sessionende, ``flat_at`` schliesst alles offene.
+    ``blackouts`` sind taegliche Sperrfenster (Eroeffnungsauktion,
+    Nachrichtentermine). ``no_new_trades_after`` verhindert Einstiege kurz vor
+    Schluss, ``flat_at`` schliesst alles Offene.
     """
 
     start: str = "07:00"
@@ -51,12 +52,49 @@ class SessionWindow:
     no_new_trades_after: str = "15:30"
     flat_at: str = "20:45"
     skip_friday_after: str | None = "15:00"
+    zeitzone: str = "UTC"
+
+    @classmethod
+    def fx_london_ny(cls) -> "SessionWindow":
+        """London plus fruehe New-York-Session, Sperrfenster um 13:30 UTC."""
+        return cls()
+
+    @classmethod
+    def us_futures_rth(cls) -> "SessionWindow":
+        """Kernhandelszeit der US-Boersen (09:30-16:00 New York).
+
+        Bewusst ohne Overnight-Handel: der Bot geht jeden Tag vor dem Schluss
+        flach. Auf einem Konto mit Trailing-Drawdown ist eine Position, die
+        ueber Nacht durch duenne Liquiditaet laeuft, das schlechteste Risiko -
+        sie kann den Boden reissen, waehrend niemand zuschaut.
+
+        Die ersten 15 Minuten sind gesperrt: die Eroeffnungsauktion erzeugt
+        Spitzen, die jeden ATR-Stop zur Lotterie machen.
+        """
+        return cls(
+            start="09:30",
+            end="16:00",
+            blackouts=(("09:30", "09:45"), ("14:00", "14:05")),
+            no_new_trades_after="15:15",
+            flat_at="15:50",
+            skip_friday_after="15:00",
+            zeitzone="America/New_York",
+        )
+
+    def lokal(self, moment: pd.Timestamp) -> pd.Timestamp:
+        """Rechnet einen Zeitpunkt in die Zeitzone der Session um."""
+        if moment.tzinfo is None:
+            moment = moment.tz_localize("UTC")
+        if self.zeitzone == "UTC":
+            return moment
+        return moment.tz_convert(self.zeitzone)
 
     def allows(self, moment: pd.Timestamp) -> bool:
         """Darf zu diesem Zeitpunkt ein *neuer* Trade eroeffnet werden?"""
+        moment = self.lokal(moment)
         if moment.weekday() not in self.weekdays:
             return False
-        now = moment.timetz().replace(tzinfo=None)
+        now = moment.time()
         if not (_parse_clock(self.start) <= now <= _parse_clock(self.no_new_trades_after)):
             return False
         if self.skip_friday_after and moment.weekday() == 4:
@@ -68,17 +106,25 @@ class SessionWindow:
         return True
 
     def must_be_flat(self, moment: pd.Timestamp) -> bool:
-        """Muss eine offene Position jetzt geschlossen werden?"""
-        now = moment.timetz().replace(tzinfo=None)
-        if moment.weekday() == 4 and now >= _parse_clock(self.flat_at):
-            return True  # kein Wochenendrisiko
-        return now >= _parse_clock(self.flat_at)
+        """Muss eine offene Position jetzt geschlossen werden?
+
+        Offen sein darf sie nur zwischen ``start`` und ``flat_at``. Alles
+        davor und danach ist Feierabend - auch der Vormittag, falls eine
+        Position durch eine Datenluecke uebrig geblieben ist.
+
+        (Fenster ueber Mitternacht hinweg unterstuetzt diese Pruefung nicht;
+        alle mitgelieferten Profile enden am selben Tag.)
+        """
+        moment = self.lokal(moment)
+        now = moment.time()
+        return now >= _parse_clock(self.flat_at) or now < _parse_clock(self.start)
 
     def describe(self) -> str:
         blackouts = ", ".join(f"{a}-{b}" for a, b in self.blackouts) or "keine"
         return (
-            f"{self.start}-{self.end} UTC, neue Trades bis {self.no_new_trades_after}, "
-            f"flat um {self.flat_at}, Sperrfenster: {blackouts}"
+            f"{self.start}-{self.end} {self.zeitzone}, neue Trades bis "
+            f"{self.no_new_trades_after}, flat um {self.flat_at}, "
+            f"Sperrfenster: {blackouts}"
         )
 
 

@@ -369,6 +369,70 @@ def cmd_live(args, config: BotConfig) -> int:
     return 0
 
 
+def cmd_fetch(args, config: BotConfig) -> int:
+    """Laedt echte Kursdaten von Dukascopy und legt sie als CSV ab."""
+    from datetime import date, timedelta
+
+    from .data import resample
+    from .dukascopy import SYMBOLE, lade_kerzen
+
+    symbol = args.quelle or config.symbol
+    if symbol not in SYMBOLE:
+        print(
+            f"Fuer {symbol!r} gibt es keine Dukascopy-Zuordnung. "
+            f"Bekannt: {', '.join(sorted(SYMBOLE))}"
+        )
+        return 2
+
+    ende = date.today() if args.bis is None else date.fromisoformat(args.bis)
+    start = ende - timedelta(days=int(args.jahre * 365.25))
+    print(f"Lade {symbol} ({SYMBOLE[symbol][0]}) von {start} bis {ende} ...")
+    minuten = lade_kerzen(symbol, start, ende, cache=args.cache)
+
+    regel = _timeframe_regel(args.timeframe)
+    kerzen = resample(minuten, regel) if regel != "1min" else minuten
+    ziel = Path(args.out or f"data/{symbol.lower()}_{args.timeframe.lower()}.csv")
+    ziel.parent.mkdir(parents=True, exist_ok=True)
+    kerzen.to_csv(ziel)
+    print(
+        f"{len(kerzen):,} {args.timeframe}-Kerzen gespeichert: {ziel}\n"
+        f"Zeitraum {kerzen.index[0]:%Y-%m-%d} bis {kerzen.index[-1]:%Y-%m-%d}"
+    )
+    print(f"\nNaechster Schritt: python -m propbot backtest --data {ziel} --symbol {config.symbol}")
+    return 0
+
+
+def _timeframe_regel(name: str) -> str:
+    """Uebersetzt 'M15' in die pandas-Regel '15min'."""
+    text = name.strip().upper()
+    einheiten = {"M": "min", "H": "h", "D": "D"}
+    if text[0] not in einheiten or not text[1:].isdigit():
+        raise ConfigError(f"Zeitrahmen {name!r} nicht verstanden. Beispiele: M1, M15, H1, D1")
+    return f"{int(text[1:])}{einheiten[text[0]]}"
+
+
+def cmd_validate(args, config: BotConfig) -> int:
+    """Vergleicht die Backtest-Daten mit echten Futuresdaten von Yahoo."""
+    from .validate import lade_yahoo, vergleiche_quellen
+
+    pfad = args.data or config.data_path
+    if not pfad:
+        print("Bitte --data angeben: die zu pruefende Kursdatei.")
+        return 2
+    eigene = load_csv(pfad)
+    print(
+        f"Eigene Daten:  {len(eigene):,} Kerzen, {eigene.index[0]:%Y-%m-%d} bis {eigene.index[-1]:%Y-%m-%d}"
+    )
+    referenz = lade_yahoo(args.referenz, "1h", args.tage)
+    print(
+        f"Referenz {args.referenz}: {len(referenz):,} Stundenkerzen, "
+        f"{referenz.index[0]:%Y-%m-%d} bis {referenz.index[-1]:%Y-%m-%d}\n"
+    )
+    ergebnis = vergleiche_quellen(eigene, referenz)
+    _emit(ergebnis.describe(), args.out)
+    return 0 if ergebnis.brauchbar else 1
+
+
 def cmd_journal(args, config: BotConfig) -> int:
     with TradeJournal(config.journal_path) as journal:
         runs = journal.runs(limit=args.limit)
@@ -453,6 +517,13 @@ def _common_options() -> argparse.ArgumentParser:
         "--journal-path", default=argparse.SUPPRESS, help="Pfad zur Tagebuch-Datenbank"
     )
     common.add_argument(
+        "--session",
+        dest="session_profile",
+        choices=["auto", "fx", "us_rth"],
+        default=argparse.SUPPRESS,
+        help="Handelszeitfenster (Standard: auto nach Instrument)",
+    )
+    common.add_argument(
         "-v", "--verbose", action="store_true", default=argparse.SUPPRESS, help="Mehr Ausgabe"
     )
     return common
@@ -531,6 +602,22 @@ def build_parser() -> argparse.ArgumentParser:
     live_parser.add_argument("--out")
     live_parser.set_defaults(func=cmd_live)
 
+    fetch_parser = add("fetch", "Echte Kursdaten von Dukascopy laden")
+    fetch_parser.add_argument("--quelle", help="Dukascopy-Symbol (Standard: wie --symbol)")
+    fetch_parser.add_argument("--jahre", type=float, default=5.0, help="Wie viele Jahre zurueck")
+    fetch_parser.add_argument("--bis", help="Enddatum JJJJ-MM-TT (Standard: heute)")
+    fetch_parser.add_argument("--timeframe", default="M15", help="Zielzeitrahmen, z. B. M15")
+    fetch_parser.add_argument("--cache", default="data/dukascopy", help="Ablage der Rohdateien")
+    fetch_parser.add_argument("--out", help="Zieldatei (CSV)")
+    fetch_parser.set_defaults(func=cmd_fetch)
+
+    validate_parser = add("validate", "Kursdaten gegen echte Futuresdaten pruefen")
+    validate_parser.add_argument("--data", help="Zu pruefende CSV")
+    validate_parser.add_argument("--referenz", default="NQ=F", help="Yahoo-Symbol der Referenz")
+    validate_parser.add_argument("--tage", type=int, default=720)
+    validate_parser.add_argument("--out")
+    validate_parser.set_defaults(func=cmd_validate)
+
     journal_parser = add("journal", "Tagebuch auswerten")
     journal_parser.add_argument("--run", type=int, help="Lauf-ID")
     journal_parser.add_argument("--limit", type=int, default=15)
@@ -554,6 +641,7 @@ def main(argv: list[str] | None = None) -> int:
             symbol=getattr(args, "symbol", None),
             strategy=getattr(args, "strategy", None),
             adaptive=getattr(args, "adaptive", None),
+            session_profile=getattr(args, "session_profile", None),
             journal_path=getattr(args, "journal_path", None),
         )
         config = _apply_rule_overrides(config, args)

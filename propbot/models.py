@@ -188,6 +188,24 @@ INSTRUMENTS: dict[str, Instrument] = {
         max_size=100.0,
         digits=1,
     ),
+    # E-mini Nasdaq-100. Achtung: 20 $ je Indexpunkt - bei 2.000 $ Drawdown
+    # ist schon ein einziger Kontrakt mit 30 Punkten Stop (600 $) fast ein
+    # Drittel des gesamten Puffers. Auf einem 50k-Konto gehoert stattdessen
+    # MNQ gehandelt (ein Zehntel der Groesse).
+    "NQ": Instrument(
+        symbol="NQ",
+        value_per_point=20.0,
+        spread=0.25,
+        commission=4.00,
+        slippage=0.25,
+        size_step=1.0,
+        min_size=1.0,
+        max_size=10.0,
+        digits=2,
+        tick_size=0.25,
+    ),
+    # Micro E-mini Nasdaq-100: 2 $ je Punkt, ein Zehntel des NQ. Kommission
+    # 1,34 $ Round Turn ist ein ueblicher Retail-/Prop-Satz inkl. Gebuehren.
     "MNQ": Instrument(
         symbol="MNQ",
         value_per_point=2.0,
@@ -196,7 +214,7 @@ INSTRUMENTS: dict[str, Instrument] = {
         slippage=0.25,
         size_step=1.0,
         min_size=1.0,
-        max_size=30.0,
+        max_size=50.0,
         digits=2,
         tick_size=0.25,
     ),

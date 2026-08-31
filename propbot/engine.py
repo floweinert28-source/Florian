@@ -132,11 +132,13 @@ class Backtester:
         self.rules = rules or PropFirmRules()
         self.risk_settings = risk or RiskSettings()
         self.execution = execution or ExecutionSettings()
+        self._bar_duration = pd.Timedelta(0)
 
     # ---------------------------------------------------------------- Ablauf
     def run(self, frame: pd.DataFrame) -> BacktestResult:
         """Laesst die Strategie ueber den Datensatz laufen."""
         data = self.strategy.prepare(frame)
+        self._bar_duration = _bar_duration(data.index)
         account = AccountState(self.rules, start_time=data.index[0])
         manager = RiskManager(self.risk_settings)
 
@@ -401,7 +403,14 @@ class Backtester:
         # e) Zeit- und Sessionstop.
         if settings.time_stop_bars is not None and position.bars >= settings.time_stop_bars:
             return self._close(position, account, manager, moment, close, ExitReason.TIME)
-        if settings.respect_session_flat and self.strategy.session.must_be_flat(moment):
+        # Geprueft wird das ENDE der Kerze, nicht ihr Anfang. Bei einem
+        # Datensatz, der nur die Kernhandelszeit enthaelt, beginnt die letzte
+        # Kerze um 15:45 und der Handelstag endet um 16:00 - ein Vergleich mit
+        # dem Kerzenbeginn wuerde nie ausloesen, und die Position liefe ueber
+        # Nacht weiter. Genau dieser Fehler kostete im ersten NQ-Test die
+        # Haelfte des Kontos.
+        ende = moment + self._bar_duration
+        if settings.respect_session_flat and self.strategy.session.must_be_flat(ende):
             return self._close(position, account, manager, moment, close, ExitReason.SESSION_END)
         return None
 
@@ -512,6 +521,17 @@ class Backtester:
             balance + self._floating(position, best_price),
             balance + self._floating(position, worst_price),
         )
+
+
+def _bar_duration(index: pd.DatetimeIndex) -> pd.Timedelta:
+    """Schaetzt die Kerzenlaenge aus dem Zeitindex (Median der Abstaende).
+
+    Der Median ist robust gegen Wochenendluecken und Feiertage.
+    """
+    if len(index) < 3:
+        return pd.Timedelta(0)
+    abstaende = index.to_series().diff().dropna()
+    return pd.Timedelta(abstaende.median())
 
 
 def check_no_lookahead(

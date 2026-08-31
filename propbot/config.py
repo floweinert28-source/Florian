@@ -21,7 +21,7 @@ from .risk import RiskSettings
 from .rules import DrawdownMode, PropFirmRules
 from .strategy.base import SessionWindow
 
-__all__ = ["BotConfig", "ConfigError", "load_config"]
+__all__ = ["BotConfig", "ConfigError", "load_config", "sitzung_fuer"]
 
 _PREFIX = "PROPBOT_"
 
@@ -42,6 +42,11 @@ class BotConfig:
     risk: RiskSettings = field(default_factory=RiskSettings)
     execution: ExecutionSettings = field(default_factory=ExecutionSettings)
     session: SessionWindow = field(default_factory=SessionWindow)
+    # "auto" waehlt das Zeitfenster nach Instrument: Index-Futures handeln in
+    # der US-Kernhandelszeit, FX-Paare in London/New York. Ein eigenes
+    # "session"-Objekt in der JSON-Datei hat immer Vorrang.
+    session_profile: str = "auto"
+    session_explicit: bool = False
     data_path: str | None = None
     journal_path: str = "data/journal.db"
     state_path: str = "data/live_state.json"
@@ -78,6 +83,28 @@ class BotConfig:
         )
 
 
+#: Instrumente, die in der US-Kernhandelszeit gehandelt werden.
+_US_FUTURES = {"NQ", "MNQ", "ES", "MES", "YM", "MYM", "RTY", "M2K", "NAS100", "SPX500", "US30"}
+
+
+def sitzung_fuer(profil: str, symbol: str) -> SessionWindow:
+    """Waehlt das Handelszeitfenster nach Profil und Instrument.
+
+    Der Unterschied ist keine Kosmetik: ein Index-Future in der FX-Session zu
+    handeln heisst, die Haelfte der Trades in duenner Vorboersenzeit zu
+    eroeffnen - mit Spreads, die den Edge auffressen.
+    """
+    if profil == "fx":
+        return SessionWindow.fx_london_ny()
+    if profil == "us_rth":
+        return SessionWindow.us_futures_rth()
+    if profil != "auto":
+        raise ConfigError(f"Unbekanntes Session-Profil {profil!r}. Erlaubt: auto, fx, us_rth")
+    if symbol.upper() in _US_FUTURES:
+        return SessionWindow.us_futures_rth()
+    return SessionWindow.fx_london_ny()
+
+
 def load_config(path: str | Path | None = None, **overrides) -> BotConfig:
     """Baut die Konfiguration aus Datei, Umgebung und expliziten Werten."""
     config = BotConfig()
@@ -88,6 +115,8 @@ def load_config(path: str | Path | None = None, **overrides) -> BotConfig:
         config = _apply(
             config, {key: value for key, value in overrides.items() if value is not None}
         )
+    if not config.session_explicit:
+        config.session = sitzung_fuer(config.session_profile, config.symbol)
     return config
 
 
@@ -128,6 +157,8 @@ def _from_dict(config: BotConfig, data: dict) -> BotConfig:
                     f"Unbekannte Einstellung(en) in '{name}': {', '.join(sorted(unknown))}"
                 )
             setattr(config, name, replace(getattr(config, name), **payload))
+            if name == "session":
+                config.session_explicit = True
     return config
 
 
@@ -140,6 +171,7 @@ def _from_env(config: BotConfig) -> BotConfig:
         "ADAPTIVE": ("adaptive", _to_bool),
         "DRY_RUN": ("dry_run", _to_bool),
         "DATA": ("data_path", str),
+        "SESSION": ("session_profile", str),
         "JOURNAL": ("journal_path", str),
         "STATE": ("state_path", str),
     }

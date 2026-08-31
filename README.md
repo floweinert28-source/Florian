@@ -5,12 +5,13 @@ Zwei eigenständige Projekte in einem Repository:
 | Projekt | Was es ist | Doku |
 | --- | --- | --- |
 | **tasksbot** | Discord-Bot zur Aufgabenverwaltung in Channels | dieses Dokument |
-| **propbot** | Prop-Firm-Trading-Bot für ein 50k-Konto (+4.000 $ Ziel, 2.000 $ Drawdown) | [PROPBOT.md](PROPBOT.md) |
+| **propbot** | Prop-Firm-Trading-Bot für ein 50k-Konto (+4.000 $ Ziel, 2.000 $ Drawdown), getestet auf 5 Jahren echter NQ-Daten | [PROPBOT.md](PROPBOT.md) |
 
 ```bash
 python main.py                  # Discord-Bot starten
 python -m propbot math          # Trading-Bot: Kontorechnung
-python -m propbot backtest      # Trading-Bot: Backtest
+python -m propbot fetch --symbol NQ --jahre 5   # echte Kursdaten laden
+python -m propbot backtest --data data/nq_m15.csv --symbol MNQ
 ```
 
 ---

@@ -270,7 +270,10 @@ class LiveTrader:
         )
         bar_time = pd.Timestamp(data.index[-1])
 
-        if self.execution.respect_session_flat and self.strategy.session.must_be_flat(bar_time):
+        # Auch hier zaehlt das Ende der Kerze (siehe propbot.engine).
+        laenge = data.index.to_series().diff().median()
+        ende = bar_time + (laenge if pd.notna(laenge) else pd.Timedelta(0))
+        if self.execution.respect_session_flat and self.strategy.session.must_be_flat(ende):
             self._close(position, "sessionende")
             return self._result(moment, "GESCHLOSSEN", "Sessionende", info, None)
 

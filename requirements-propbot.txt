@@ -1,0 +1,5 @@
+# Abhaengigkeiten des Trading-Bots (propbot). Der Discord-Bot braucht sie nicht.
+numpy>=1.26
+pandas>=2.1
+# Nur fuer echten Handel ueber MetaTrader 5 (Windows bzw. Wine):
+# MetaTrader5>=5.0.45

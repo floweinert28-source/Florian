@@ -1,3 +1,20 @@
+# Repository „Florian"
+
+Zwei eigenständige Projekte in einem Repository:
+
+| Projekt | Was es ist | Doku |
+| --- | --- | --- |
+| **tasksbot** | Discord-Bot zur Aufgabenverwaltung in Channels | dieses Dokument |
+| **propbot** | Prop-Firm-Trading-Bot für ein 50k-Konto (+4.000 $ Ziel, 2.000 $ Drawdown) | [PROPBOT.md](PROPBOT.md) |
+
+```bash
+python main.py                  # Discord-Bot starten
+python -m propbot math          # Trading-Bot: Kontorechnung
+python -m propbot backtest      # Trading-Bot: Backtest
+```
+
+---
+
 # Aufgaben-Bot für Discord
 
 Ein Discord-Bot, der Aufgaben in deinen Channels verwaltet: anlegen, zuweisen,

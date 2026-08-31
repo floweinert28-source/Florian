@@ -101,7 +101,11 @@ class SessionWindow:
             if now >= _parse_clock(self.skip_friday_after):
                 return False
         for begin, finish in self.blackouts:
-            if _parse_clock(begin) <= now <= _parse_clock(finish):
+            # Ende exklusiv: das Sperrfenster 09:30-09:45 meint die ersten 15
+            # Minuten. Die Kerze, die *um* 09:45 beginnt, gehoert nicht mehr
+            # dazu - sonst blockiert der Filter beim Opening-Range-Breakout
+            # ausgerechnet das erste handelbare Signal des Tages.
+            if _parse_clock(begin) <= now < _parse_clock(finish):
                 return False
         return True
 

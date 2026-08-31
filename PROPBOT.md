@@ -25,11 +25,13 @@ python -m propbot lessons --data ...         # Welche Fehler macht der Bot?
 python -m propbot paper --data ...           # Live-Logik ohne Geld
 ```
 
-> **Ergebnis des Praxistests vorweg:** Auf fünf Jahren echter NQ-Daten hat die
-> mitgelieferte Strategie **keinen Edge** (+0,015 R je Trade out-of-sample,
-> Payout-Wahrscheinlichkeit 26 %). Die Werkzeuge funktionieren und weisen das
-> sauber nach — die Strategie gehört so nicht auf ein echtes Konto.
-> Details in [Kapitel 12](#12-praxistest-nq-über-fünf-jahre-echter-daten).
+> **Ergebnis der Praxistests vorweg:** Auf fünf Jahren echter NQ-Daten hat der
+> **Trend-Pullback keinen Edge** (+0,015 R out-of-sample, Payout 26 % —
+> [Kapitel 12](#12-praxistest-nq-über-fünf-jahre-echter-daten)). Der daraufhin
+> gebaute **Opening-Range-Breakout schon**: +0,136 R out-of-sample über vier
+> Walk-Forward-Fenster, in allen sechs Jahren positiv, Payout-Wahrscheinlichkeit
+> 90 % ([Kapitel 13](#13-zweiter-anlauf-opening-range-breakout-auf-nq)). Klein,
+> aber echt — und getestet, nicht behauptet.
 
 ---
 
@@ -445,7 +447,8 @@ propbot/
   risk.py          Positionsgröße und Handelsfreigabe (fünf Budgets)
   reporting.py     Rechenberichte im Klartext
   indicators.py    EMA, ATR, RSI, ADX, Bollinger, Donchian - alle kausal
-  strategy/        trend_pullback, mean_reversion, router, Handelszeitfenster
+  strategy/        trend_pullback, mean_reversion, opening_range, router,
+                   Handelszeitfenster mit Zeitzone
   engine.py        Backtest mit pessimistischer Ausführung + Lookahead-Prüfung
   metrics.py       Kennzahlen, die auf einem Prop-Konto zählen
   montecarlo.py    Bootstrap der Trades durch das echte Regelwerk
@@ -461,7 +464,7 @@ propbot/
   cli.py           Kommandozeile
 ```
 
-218 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
+229 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
 unter anderem die Ruinformel gegen Brute-Force-Abzählung, die Indikatoren gegen
 abgeschnittene Datensätze, jede Ausführungsregel der Engine einzeln und dass ein
 Regelverstoß wirklich jeden weiteren Trade verhindert.
@@ -637,3 +640,137 @@ Lücke, die man mit Parametern schließt.
 4. **Was funktioniert hat, ist das Regelwerk drumherum.** In keinem einzigen
    Lauf über fünf Jahre wurde das Konto gerissen: kein Drawdown-Verstoß, kein
    Tageslimit-Verstoß. Der Bot verliert nicht das Konto, er verdient nur nichts.
+
+---
+
+## 13. Zweiter Anlauf: Opening-Range-Breakout auf NQ
+
+Nach dem negativen Befund aus Kapitel 12 wurde eine Strategie gebaut, die zur
+Struktur des Handelstags passt statt zu einem Indikatorbild.
+
+### Die Idee
+
+In den ersten Minuten nach der Eröffnung treffen die über Nacht aufgelaufenen
+Orders aufeinander. Die Spanne, die dabei entsteht — die *Opening Range* — ist
+die Zone, auf die sich beide Seiten geeinigt haben. Verlässt der Kurs sie, hat
+eine Seite gewonnen.
+
+Drei Gründe, warum das auf einem Prop-Konto besser funktioniert als der
+Trend-Pullback:
+
+1. **Der Zeitpunkt ist definiert, nicht der Zustand.** Täglich zur selben Zeit,
+   an einer klar bestimmten Marke.
+2. **Das Risiko steht vorher fest.** Die Spanne *ist* der Stop. Schon um 09:45
+   weiß der Bot, ob der Trade ins Budget passt — beim Trend-Pullback ergab sich
+   der Stopabstand erst aus dem Rücksetzer und sprengte in 69 % der Fälle das
+   Budget.
+3. **Eine klare Gelegenheit pro Tag** statt Dutzender Zufallstreffer.
+
+### Zwei Fehler, die dabei aufflogen
+
+**Das Sperrfenster blockierte das erste handelbare Signal.** Der Blackout
+09:30–09:45 war an beiden Enden einschließend — die Kerze, die *um* 09:45
+beginnt und den Ausbruch aus einer 15-Minuten-Spanne bringt, fiel also noch
+hinein. Ende ist jetzt exklusiv.
+
+**Die Streak-Bremse fraß sich fest.** Nach zwei Verlusten in Folge senkt der
+Risk-Manager das Budget, und Erholung gab es nur nach zwei Gewinnen. Auf NQ
+passte bei 100 $ Budget aber kein einziger Trade mehr hinein — also gab es keine
+Gewinne, also blieb die Bremse für immer unten. Über fünf Jahre hat das **zwei
+Drittel aller Trades verschluckt** (257 statt 648) und ab 2026 gar nichts mehr
+zugelassen. Ein Handelstag ohne Verlust holt jetzt einen Schritt zurück
+(`recovery_days`).
+
+Das war zugleich eine Lehre über Statistik: die kaputte Bremse *verbesserte* den
+Erwartungswert scheinbar von +0,079 auf +0,168 R — sie ließ zufällig nur einen
+Teil der Trades durch. Wer nur auf die Kennzahl schaut, hält so einen Fehler für
+eine Verbesserung.
+
+### Ergebnis über fünf Jahre
+
+Beide Richtungen, 15-Minuten-Spanne, Stop an der Gegenseite, CRV 2:
+
+| Jahr | NQ | Trades | Erwartungswert | Trefferquote |
+| --- | --- | --- | --- | --- |
+| 2021 | +4,6 % | 57 | −0,020 R | 50,9 % |
+| 2022 | **−33,7 %** | 101 | +0,173 R | 56,4 % |
+| 2023 | +53,6 % | 197 | +0,069 R | 52,8 % |
+| 2024 | +24,9 % | 154 | +0,060 R | 49,4 % |
+| 2025 | +20,0 % | 109 | +0,095 R | 54,1 % |
+| 2026 | +16,6 % | 30 | +0,062 R | 53,3 % |
+| **gesamt** | | **648** | **+0,079 R** | 52,9 % |
+
+Die Shorts sind der schwache Teil (+0,130 R Long gegen −0,016 R Short über die
+Testabschnitte). Nur Long gehandelt:
+
+| Jahr | Trades | Erwartungswert | Trefferquote |
+| --- | --- | --- | --- |
+| 2021 | 31 | +0,068 R | 48,4 % |
+| 2022 (NQ −33,7 %) | 59 | **+0,096 R** | 55,9 % |
+| 2023 | 125 | +0,192 R | 60,0 % |
+| 2024 | 105 | +0,116 R | 52,4 % |
+| 2025 | 77 | +0,027 R | 53,2 % |
+| 2026 | 19 | +0,155 R | 57,9 % |
+| **gesamt** | **416** | **+0,118 R** | 55,0 % |
+
+**Der wichtigste Wert steht in Zeile zwei.** Long-only auf einem Index, der im
+Zeitraum um 87 % gestiegen ist, riecht nach Aufwärtsdrift. Aber 2022, als NQ um
+ein Drittel fiel, verdiente die Long-Variante trotzdem +0,096 R. Der Bot ist
+jeden Abend flach und greift nur die Intraday-Bewegung ab — die läuft auch im
+Bärenmarkt oft nach oben.
+
+### Walk-Forward (nur Long)
+
+```
+Fold 1: Test 2022-08-31 bis 2023-09-08 | IS +0.289 R -> OOS +0.209 R | 101 Trades | +3,409 $
+Fold 2: Test 2023-09-08 bis 2024-09-04 | IS +0.238 R -> OOS +0.092 R | 104 Trades | +1,415 $
+Fold 3: Test 2024-09-04 bis 2025-09-03 | IS +0.113 R -> OOS +0.181 R |  84 Trades | +2,890 $
+Fold 4: Test 2025-09-03 bis 2026-08-28 | IS +0.181 R -> OOS +0.061 R |  41 Trades |   +432 $
+Mittel: In-Sample +0.205 R, Out-of-Sample +0.136 R (Degradation 66 %)
+```
+
+**Alle vier Fenster out-of-sample positiv**, zusammen 330 Trades mit +0,147 R,
+Profitfaktor 1,37, Trefferquote 56,7 %. Zum Vergleich: der Trend-Pullback kam
+out-of-sample auf +0,007 R.
+
+### Was das fürs Konto heißt
+
+Monte Carlo mit dem echten Regelwerk (4.000 $ Ziel, 2.000 $ Drawdown,
+1.000 $ Tageslimit, adaptive Positionsgröße):
+
+| Variante | Payout | festgefahren | Bust |
+| --- | --- | --- | --- |
+| nur Long, CRV 1,5 | **89,8 %** | 10,2 % | 0,0 % |
+| nur Long, CRV 2,0 | 84,2 % | 15,8 % | 0,0 % |
+| nur Long, CRV 2,5 | 82,3 % | 17,7 % | 0,0 % |
+| beide Richtungen | 60,7 % | 39,3 % | 0,0 % |
+| Trend-Pullback (Kapitel 12) | 26,1 % | 73,7 % | 0,0 % |
+
+Die drei CRV-Werte liegen dicht beieinander — ein Plateau, kein Einzeltreffer.
+Gewählt wird 1,5, weil auch der Walk-Forward diesen Wert am häufigsten
+ausgesucht hat.
+
+Der historische Einzelpfad mit echten Kontoregeln erreicht das Ziel: 233 Trades,
++0,110 R, Endstand 54.012 $, größter Rückgang 1.262 $ von 2.000 $ Puffer.
+
+### Fertige Konfiguration
+
+```bash
+python -m propbot backtest --config configs/nq_opening_range.json
+python -m propbot montecarlo --config configs/nq_opening_range.json
+python -m propbot paper --config configs/nq_opening_range.json
+```
+
+### Was weiter offen ist
+
+* **42 % der Signale fallen weiterhin an der Kontraktgröße aus.** Ein MNQ ist
+  für ein 50k-Konto grob gerastert; je höher NQ steigt, desto schlimmer wird es.
+  Der Backtest weist das jetzt als Hinweis aus.
+* **Der Edge ist real, aber klein** (+0,13 R). Im historischen Pfad dauerte der
+  Weg zum Payout rund 21 Monate. Die Monte-Carlo-Verteilung ist optimistischer
+  (Median ~130 Handelstage), weil sie die Signalausfälle in volatilen Phasen
+  nicht abbildet.
+* **Fünf Jahre sind eine Marktepoche**, kein Beweis. Ein Crash-Jahr wie 2008
+  steckt nicht in den Daten.
+* **Nächster Schritt bleibt das Demokonto**: Papierhandel, dann Dry-Run am
+  echten Broker, dann kleine echte Orders — die Kette aus Abschnitt 8.

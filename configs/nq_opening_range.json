@@ -1,0 +1,30 @@
+{
+  "symbol": "MNQ",
+  "timeframe": "M15",
+  "strategy": "opening_range",
+  "strategy_params": {
+    "range_minutes": 15,
+    "stop_mode": "range",
+    "reward_ratio": 1.5,
+    "min_range_atr": 0.3,
+    "max_range_atr": 3.0,
+    "allow_short": false,
+    "max_signals_per_day": 1,
+    "entry_deadline_minutes": 210
+  },
+  "adaptive": false,
+  "session_profile": "us_rth",
+  "data_path": "data/nq_m15_rth.csv",
+  "rules": {
+    "start_balance": 50000,
+    "profit_target": 4000,
+    "max_drawdown": 2000,
+    "daily_loss_limit": 1000,
+    "drawdown_mode": "trailing_eod"
+  },
+  "risk": {
+    "base_risk_pct": 0.005,
+    "max_trades_per_day": 3,
+    "max_losses_per_day": 2
+  }
+}

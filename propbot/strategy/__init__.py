@@ -2,10 +2,13 @@
 
 from .base import SessionWindow, Strategy, StrategyParams
 from .mean_reversion import RangeFade, RangeFadeParams
+from .opening_range import OpeningRange, OpeningRangeParams
 from .router import RegimeRouter
 from .trend_pullback import TrendPullback, TrendPullbackParams
 
 __all__ = [
+    "OpeningRange",
+    "OpeningRangeParams",
     "RangeFade",
     "RangeFadeParams",
     "RegimeRouter",
@@ -22,6 +25,7 @@ def build(name: str, **kwargs) -> Strategy:
     registry = {
         "trend_pullback": TrendPullback,
         "range_fade": RangeFade,
+        "opening_range": OpeningRange,
         "regime_router": RegimeRouter,
     }
     if name not in registry:

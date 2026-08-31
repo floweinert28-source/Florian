@@ -31,7 +31,15 @@ from .models import INSTRUMENTS
 from .montecarlo import format_sweep, simulate, sweep_risk
 from .optimize import walk_forward
 from .rules import DrawdownMode
-from .strategy import RangeFade, RegimeRouter, TrendPullback, TrendPullbackParams
+from .strategy import (
+    OpeningRange,
+    OpeningRangeParams,
+    RangeFade,
+    RangeFadeParams,
+    RegimeRouter,
+    TrendPullback,
+    TrendPullbackParams,
+)
 
 log = logging.getLogger("propbot")
 
@@ -41,16 +49,23 @@ def build_strategy(config: BotConfig, params: dict | None = None):
     """Erzeugt die Strategie aus der Konfiguration (inkl. Lernschicht)."""
     session = config.session
     name = config.strategy
-    if name == "trend_pullback":
-        base = TrendPullback(TrendPullbackParams(**(params or {})), session=session)
-    elif name == "range_fade":
-        base = RangeFade(session=session)
-    elif name == "regime_router":
-        base = RegimeRouter(session=session)
-    else:
-        raise ConfigError(
-            f"Unbekannte Strategie {name!r}. Erlaubt: trend_pullback, range_fade, regime_router"
-        )
+    werte = {**config.strategy_params, **(params or {})}
+    try:
+        if name == "trend_pullback":
+            base = TrendPullback(TrendPullbackParams(**werte), session=session)
+        elif name == "range_fade":
+            base = RangeFade(RangeFadeParams(**werte), session=session)
+        elif name == "opening_range":
+            base = OpeningRange(OpeningRangeParams(**werte), session=session)
+        elif name == "regime_router":
+            base = RegimeRouter(session=session)
+        else:
+            raise ConfigError(
+                f"Unbekannte Strategie {name!r}. Erlaubt: trend_pullback, range_fade, "
+                f"opening_range, regime_router"
+            )
+    except TypeError as fehler:
+        raise ConfigError(f"Parameter passen nicht zu {name!r}: {fehler}") from None
     return AdaptiveStrategy(base) if config.adaptive else base
 
 
@@ -479,7 +494,7 @@ def _common_options() -> argparse.ArgumentParser:
     common.add_argument("--symbol", default=argparse.SUPPRESS, help="Instrument (Standard EURUSD)")
     common.add_argument(
         "--strategy",
-        choices=["trend_pullback", "range_fade", "regime_router"],
+        choices=["trend_pullback", "range_fade", "opening_range", "regime_router"],
         default=argparse.SUPPRESS,
     )
     common.add_argument(

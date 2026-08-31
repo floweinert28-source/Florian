@@ -37,6 +37,8 @@ class BotConfig:
     symbol: str = "EURUSD"
     timeframe: str = "M15"
     strategy: str = "trend_pullback"
+    #: Parameter der Strategie, z. B. {"reward_ratio": 1.5, "allow_short": false}
+    strategy_params: dict = field(default_factory=dict)
     adaptive: bool = True
     rules: PropFirmRules = field(default_factory=PropFirmRules)
     risk: RiskSettings = field(default_factory=RiskSettings)
@@ -77,6 +79,7 @@ class BotConfig:
     def describe(self) -> str:
         return (
             f"Symbol {self.symbol} ({self.timeframe}) | Strategie {self.strategy}"
+            f"{' ' + str(self.strategy_params) if self.strategy_params else ''}"
             f"{' + Lernschicht' if self.adaptive else ''} | "
             f"Risiko {self.risk.base_risk_pct:.2%} | "
             f"{'DRY-RUN' if self.dry_run else 'LIVE'}\n" + self.rules.describe()

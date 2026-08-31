@@ -109,6 +109,15 @@ class BacktestResult:
             text += (
                 f"\nAbgelehnte Signale:  {sum(self.blocked.values())} von {self.signals} -> {top}"
             )
+        zu_gross = self.blocked.get("Kleinste Position waere zu gross fuers Budget", 0)
+        if self.signals and zu_gross / self.signals >= 0.2:
+            text += (
+                f"\n\nHINWEIS: {zu_gross / self.signals:.0%} der Signale scheiterten daran, dass "
+                f"die kleinste handelbare Position mehr riskiert als das Budget erlaubt.\n"
+                f"Die Grenze ist hier nicht die Strategie, sondern die Kontraktgroesse. Abhilfe: "
+                f"engere Stops, ein kleineres Instrument\noder mehr Risiko je Trade - Letzteres "
+                f"erst nach einem Blick auf 'propbot math'."
+            )
         return text
 
     def r_multiples(self) -> list[float]:

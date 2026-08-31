@@ -45,6 +45,12 @@ class RiskSettings:
     loss_streak_step: float = 0.30
     min_streak_factor: float = 0.40
     wins_to_recover: int = 2
+    # Ohne zeitliche Erholung frisst sich die Streak-Bremse fest: nach ein paar
+    # Verlusten ist das Budget so klein, dass kein Trade mehr hineinpasst -
+    # also gibt es keine Gewinne, die sie loesen koennten. Im NQ-Test hat das
+    # zwei Drittel aller Trades verschluckt und ab 2026 gar nichts mehr
+    # zugelassen. Ein ruhiger Handelstag holt jetzt einen Schritt zurueck.
+    recovery_days: int = 2
     payout_guard_start: float = 0.75
     payout_guard_factor: float = 0.50
     consistency_guard: bool = True
@@ -91,6 +97,7 @@ class RiskManager:
         self.streak_factor = 1.0
         self.day_losses = 0
         self.day_trades = 0
+        self.quiet_days = 0
         self._day_key = None
 
     # ------------------------------------------------------------ Rueckmeldung
@@ -114,7 +121,23 @@ class RiskManager:
         self.day_trades += 1
 
     def start_day(self, key) -> None:
-        """Setzt die Tageszaehler zurueck (Streaks bleiben bewusst bestehen)."""
+        """Beginnt einen neuen Handelstag.
+
+        Die Tageszaehler werden zurueckgesetzt; die Verlust-Bremse bleibt
+        bestehen, erholt sich aber nach ``recovery_days`` Tagen ohne Verlust um
+        je einen Schritt. Ein schlechter Lauf soll die naechsten Tage
+        beeinflussen, nicht den Rest der Challenge.
+        """
+        settings = self.settings
+        if self._day_key is not None and self.streak_factor < 1.0:
+            if self.day_losses == 0:
+                self.quiet_days += 1
+                if self.quiet_days >= settings.recovery_days:
+                    self.streak_factor = min(1.0, self.streak_factor + settings.loss_streak_step)
+                    self.loss_streak = 0
+                    self.quiet_days = 0
+            else:
+                self.quiet_days = 0
         self._day_key = key
         self.day_losses = 0
         self.day_trades = 0
@@ -276,6 +299,7 @@ class RiskManager:
             "win_streak": self.win_streak,
             "day_trades": self.day_trades,
             "day_losses": self.day_losses,
+            "quiet_days": self.quiet_days,
             "payout_guard": round(self._payout_guard(account), 3),
             "risk_budget": round(min(budgets.values()), 2),
             "binding": min(budgets, key=budgets.get),

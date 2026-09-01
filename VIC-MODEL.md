@@ -73,7 +73,7 @@ wird auf Micros).
 | resweep | erneutes Abholen eines bereits gesweepten Levels | T18, L23 |
 | SMT | Divergenz zwischen ES und NQ bei Session-Sweeps | L3 |
 | EQHs | Equal Highs (mit London High) | L3 |
-| reclaim VIC entry | Entry-Variante nach Rückeroberung — **nicht definiert, offen** | L7 |
+| reclaim VIC entry | VIC-Variante: Preis bricht etwas über/unter den NY VWAP hinaus (Disrespect), erobert ihn zurück und bricht mit IFVG wieder durch → Entry | L7, Def. Nutzer |
 | Mid Range Trade | Trade innerhalb der Range vor dem OR-Break — verboten (§5) | T24, L8 |
 
 ---
@@ -189,13 +189,18 @@ Ergänzungen:
   KEINEN DOUBLE BREAK SONDERN VIC MODEL" — Regel war vorher formuliert, wurde
   gebrochen, Max-Loss.
 
-### 5.4 Verbotene / undefinierte Varianten
-- **Mid Range Trades: verboten.** T24: „Nächstes mal erst auf Opening Range break
-  warten und nicht mehr Midrange Trades nehmen." Trotzdem danach wieder genommen
-  (T30 Trade 1 = Loss, L8) — beide Male verloren.
+### 5.4 Weitere Varianten und Verbote
+- **Vor dem OR-Break gibt es keine Trades — endgültig bestätigt (Nutzer).**
+  Damit sind **Mid Range Trades verboten**, ohne Ausnahme. (T24: „Nächstes mal erst
+  auf Opening Range break warten und nicht mehr Midrange Trades nehmen"; danach
+  trotzdem zweimal genommen — T30 Trade 1 und L8 — beide verloren.)
+- **VIC reclaim entry (Definition Nutzer):** wie VIC, aber der Preis bricht ein
+  Stück **durch den NY VWAP hinaus** (Disrespect), erobert ihn zurück und **bricht
+  mit einem IFVG erneut durch** → Entry in die ursprüngliche Richtung. Also:
+  gescheiterter Gegen-Break am NY VWAP + Reclaim + IFVG-Bestätigung. In L7 war
+  das der einzige verfügbare Entry des Tages (und wurde zu früh geschlossen).
 - **Reentry-Variante** (L18, sauber beschrieben): alle VWAPs gebrochen + klare
   Seller-Stärke + VWAP-Retrace + IFVG.
-- **„reclaim VIC Model entry"** (L7): einmal erwähnt, nie definiert. Offen.
 
 ---
 
@@ -408,8 +413,9 @@ Winrate-Aussagen lassen sich daraus nicht ableiten — Regeln schon.
 2. ~~Opening Range~~ **GEKLÄRT: 9:30–9:44 ET (15:30–15:44 CEST).**
 3. ~~VWAP-Ordnung~~ **GEPRÜFT — siehe Anhang B.** NY am Extrem = beste Lage,
    nicht Pflicht; PD-über-Preis nur mit intakter Struktur als Ziel-Magnet.
-4. **„reclaim VIC entry"** (L7) und **Mid Range** (offiziell verboten, faktisch
-   wieder genommen): Status klären — Mid Range komplett raus?
+4. ~~reclaim VIC entry / Mid Range~~ **GEKLÄRT:** reclaim = NY-VWAP-Disrespect →
+   Reclaim → erneuter Break mit IFVG (§5.4). Mid Range endgültig raus — vor dem
+   OR-Break gibt es keine Trades.
 5. **Panel-„Trend"-Logik:** Wie berechnet der Indikator Strong Up/Down/Neutral?
    (Für den Bot muss ich das nachbauen.)
 6. **„protected"**: operational nur teilweise definiert (nächstes LH im Trend T2;

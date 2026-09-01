@@ -256,11 +256,11 @@ SMT (ES sweept London, NQ nicht) als Bias-Argument (L3).
 - **Beide OR-Seiten bereits abgeholt ⇒ kein A+** (L22). Range vor NY Open größer als
   die gesamte Opening Range ⇒ Longs unwahrscheinlicher (L17). Starker London-Dump
   drückt Long-Wahrscheinlichkeit (L10).
-- **Kalender:** Freitag = schlechte Price Action (T34-Exit; Loss-Tage 05.06., 26.06.,
-  24.07. waren Freitage; L5 wörtlich „am Freitag einfach mal ruhig sein"). Bank
-  Holiday am Folgetag = unklare Struktur (T20). **News:** T22 nutzt bullishe News als
-  Confluence; L9 verlor 2 Accounts durch Trump-News gegen die Position — es gibt
-  keinen News-Filter, und das war der teuerste Einzelfehler der Sammlung.
+- **Kalender:** Freitag wird **normal gehandelt** (Entscheidung Nutzer); die
+  Freitags-Häufung der Losses (05.06., 26.06., 24.07.) bleibt als Journal-Befund
+  notiert. Bank Holiday am Folgetag = unklare Struktur (T20). **News-Filter
+  (Entscheidung Nutzer): kein Trading vor FOMC, PPI und CPI.** Hintergrund: L9
+  verlor 2 Accounts durch Trump-News gegen eine regelkonforme Position.
 - **„No trading Day"** (L11): unklare Range + kein Break + HTF dagegen ⇒ gar nicht
   handeln. Kriterien bisher nur negativ definiert.
 
@@ -408,24 +408,28 @@ Winrate-Aussagen lassen sich daraus nicht ableiten — Regeln schon.
 
 ## 14. Widersprüche und offene Punkte (müssen vor dem Bau geklärt werden)
 
-1. ~~HTF-Hierarchie~~ **GEKLÄRT: 1h > 15m.** Offen bleibt nur: ab wann gilt die
-   1h-Struktur als gebrochen (Close? Wick? Punkteschwelle?).
+1. ~~HTF-Hierarchie~~ **GEKLÄRT: 1h > 15m.** Bruch-Definition (Nutzer): ein
+   1h-High/Low gilt als gebrochen, wenn eine **15m-Kerze mit Body-Close** jenseits
+   des Levels schließt. Wicks zählen nicht.
 2. ~~Opening Range~~ **GEKLÄRT: 9:30–9:44 ET (15:30–15:44 CEST).**
 3. ~~VWAP-Ordnung~~ **GEPRÜFT — siehe Anhang B.** NY am Extrem = beste Lage,
    nicht Pflicht; PD-über-Preis nur mit intakter Struktur als Ziel-Magnet.
 4. ~~reclaim VIC entry / Mid Range~~ **GEKLÄRT:** reclaim = NY-VWAP-Disrespect →
    Reclaim → erneuter Break mit IFVG (§5.4). Mid Range endgültig raus — vor dem
    OR-Break gibt es keine Trades.
-5. **Panel-„Trend"-Logik:** Wie berechnet der Indikator Strong Up/Down/Neutral?
-   (Für den Bot muss ich das nachbauen.)
+5. **Panel-„Trend"-Logik:** Pine-Skript existiert beim Nutzer, liegt aber in einer
+   anderen (nicht zugänglichen) Chat-Sitzung — muss hier eingereicht oder ins Repo
+   gelegt werden. Bis dahin Nachbau aus den Charts.
 6. **„protected"**: operational nur teilweise definiert (nächstes LH im Trend T2;
    PO3-Manipulation macht High protected T30). Vollständige Definition nötig.
-7. **Bookmap-Bestandteile** (T6, T9): im Bot nicht verfügbar — Ersatz oder weglassen?
+7. ~~Bookmap~~ **GEKLÄRT: wird vorerst weggelassen** (keine Orderflow-Daten
+   verfügbar). TP-Anker und Ausschlüsse laufen über die übrigen Level.
 8. **1000-Punkte-Schwelle** der Erschöpfungsregel: NQ-Wert klar, ES-Äquivalent
    (~100 Punkte?) festlegen.
-9. **News-Filter:** existiert nicht, kostete am meisten (L9). Kalender-Blackout
-   (CPI/FOMC/NFP + Breaking-News-Fenster) definieren.
-10. **Freitags-Regel:** ganz aussetzen oder reduzierte Größe?
+9. ~~News-Filter~~ **GEKLÄRT: kein Trading vor FOMC, PPI und CPI.** (Genaues
+   Blackout-Fenster — ganzer Tag oder Stunden davor — noch zu präzisieren.)
+10. ~~Freitags-Regel~~ **GEKLÄRT: Freitag wird ganz normal gehandelt.** Der Befund
+    „4 von 24 Loss-Tagen waren Freitage" bleibt als Beobachtung im Journal stehen.
 
 ---
 

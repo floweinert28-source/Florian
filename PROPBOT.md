@@ -1601,3 +1601,110 @@ Nebenbei eine Lehre über Tests: der erste Versuch prüfte das an synthetischen
 Daten und lief mit 0 blockierten Signalen **wirkungslos durch** — ein Test, der
 nichts prüft, aber grün ist. Ersetzt durch zwei deterministische Fälle plus
 einen direkten Test des Risikomanagers.
+
+## 19. Den Chart sehen — und ein Datenfehler, der alles davor betrifft
+
+### Warum das Werkzeug gebraucht wurde
+
+Alle Strategien in diesem Projekt sind aus Statistik entstanden. Kein einziges
+Mal wurde auf die Kerzen geschaut. Das ist ein Konstruktionsfehler: eine
+Verengung, ein Ausbruch, eine Umkehr sind visuelle Begriffe, und wer sie nur
+über Perzentile definiert, prüft nie, ob das Definierte auch das Gemeinte ist.
+
+`propbot chart` rendert Kerzen, `propbot zeitprofil` fasst zusammen, was zu
+welcher Uhrzeit passiert.
+
+```bash
+propbot chart --datum 2024-03-05 --tf 5m,15m,1h --marken 10:00,11:30
+propbot chart --data data/nq_m1.csv --datum 2024-06-12 --tf 1m,5m,30m \
+              --von 09:30 --bis 11:30
+propbot zeitprofil --takt 30
+```
+
+Drei Entwurfsentscheidungen, die ungewöhnlich sind, weil das Bild nicht für ein
+menschliches Auge, sondern fürs Modell gedacht ist:
+
+* **Höchstens 160 Kerzen je Feld.** Darüber verschmelzen die Körper. Wer mehr
+  Zeitraum will, nimmt einen größeren Zeitrahmen — nicht mehr Kerzen.
+* **Jedes Bild kommt mit einer Zahlentafel.** Aus einem Bild lässt sich nicht
+  messen. Struktur kommt aus dem Bild, Werte aus der Tabelle, beide über
+  exakt denselben Ausschnitt.
+* **Wenige Linien:** VWAP, Vortageshoch/-tief, gesetzte Zeitmarken. Mehr
+  Indikatoren machen das Bild schlechter lesbar, nicht besser.
+
+### Das Zeitprofil
+
+Die Antwort auf "was passiert ab 10:00", über fünf Jahre NQ:
+
+| Zeit | Spanne Median | Richtung | grün | Vola-Anteil |
+|---|---|---|---|---|
+| 09:30 | 41.61 | +0.244 | 51.2 % | **1.68** |
+| 10:00 | 34.07 | −0.239 | 50.3 % | 1.40 |
+| 10:30 | 28.71 | −0.396 | 50.4 % | 1.18 |
+| 11:00 | 25.05 | +0.287 | 51.9 % | 1.03 |
+| 12:00 | 20.51 | −0.029 | 50.7 % | 0.85 |
+| **13:30** | **18.27** | +0.434 | 52.1 % | **0.78** |
+| 15:30 | 23.18 | −0.014 | 50.3 % | 0.97 |
+
+Die Volatilität fällt monoton von 1.68× auf 0.78× und zieht zum Schluss wieder
+an. Die Richtung ist in jedem Block praktisch null — es gibt keine Tageszeit,
+zu der der Markt systematisch steigt oder fällt. Der Anteil grüner Kerzen
+bleibt überall bei 50–52 %.
+
+### Der Datenfehler: Phantomkerzen
+
+Beim Bau des Werkzeugs fiel auf, dass jede Stunde des Tages exakt gleich viele
+Kerzen hatte — auch Stunden, in denen die CME geschlossen ist. Der Datensatz
+ist **aufgefüllt**: geschlossene Zeiten stehen als flache Kerzen drin,
+open = high = low = close, Volumen 0.
+
+Betroffen, allein in den RTH-Dateien:
+
+* **15 komplette Feiertage** (Weihnachten, Neujahr, 4. Juli, Karfreitag) mit je
+  78 M5-Kerzen,
+* **44 halbe Handelstage**, bei denen die Nachmittagshälfte aufgefüllt ist,
+* insgesamt 2.762 von 100.308 Kerzen, also 2.75 %.
+
+`ohne_phantomkerzen()` entfernt sie, `load_csv(..., drop_phantom=True)` ist
+Standard.
+
+### Was das an den bisherigen Zahlen ändert
+
+Die Phantomkerzen haben die Ergebnisse **geschönt**:
+
+| | Kerzen | Trades | Erwartungswert | schlechtester Tag |
+|---|---|---|---|---|
+| mit Phantomkerzen | 100.308 | 951 | **+0.137 R** | −632 $ |
+| bereinigt | 97.546 | 973 | **+0.101 R** | **−1.409 $** |
+
+Der Mechanismus ist einfach und ärgerlich: an den 44 halben Handelstagen saß
+eine offene Position durch 36 flache Nachmittagskerzen und stieg zum
+Sitzungsende exakt zum Mittagskurs aus. Kein Gegenlauf möglich, kein Stop
+erreichbar — **geschenkte Haltezeit**. Dazu drückten die flachen Kerzen die
+ATR und verschoben jedes rollende Quantil.
+
+Und die Aussage aus Kapitel 16, es habe **keinen einzigen Bust** gegeben, war
+ein Artefakt derselben Ursache. Auf bereinigten Daten:
+
+| | Payouts | Busts | festgefahren |
+|---|---|---|---|
+| Kapitel 16 (verschmutzt) | 4 | **0** | 1 |
+| bereinigt | 3 | **1** | 1 |
+
+Damit sind alle Erwartungswerte in den Kapiteln 13 bis 18 um grob ein Viertel
+zu hoch. Die *Rangfolge* der Befunde ändert sich nicht — CRV 2.0 schlägt
+weiterhin 1:0.5, die Kostenformel gilt unverändert, das Frequenzmaximum liegt
+weiter bei 3–5 Trades — aber jede absolute Zahl ist zu optimistisch.
+
+### Die Lehre
+
+Das ist der vierte Fehler dieser Bauart in diesem Projekt: das
+Volumenprofil über den ganzen Datensatz (Kapitel 15), die beim Payout
+abgeschnittene Monte-Carlo-Stichprobe (Kapitel 16), der Quotient von
+Mittelwerten (Kapitel 17) — und jetzt Kerzen, die es nie gab. Alle vier haben
+das Ergebnis **verbessert**, keiner verschlechtert.
+
+Das ist kein Zufall. Fehler, die das Ergebnis verschlechtern, fallen sofort
+auf, weil man ihnen nachgeht. Fehler, die es verbessern, bestätigen die
+Erwartung und werden nicht geprüft. Daraus folgt eine Arbeitsregel: **jede
+angenehme Überraschung ist zuerst ein Fehlerverdacht.**

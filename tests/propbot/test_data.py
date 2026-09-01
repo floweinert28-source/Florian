@@ -81,3 +81,52 @@ def test_split_ist_chronologisch() -> None:
 
     assert len(train) == 600 and len(test) == 400
     assert train.index[-1] < test.index[0], "niemals zufaellig teilen"
+
+
+def test_phantomkerzen_werden_entfernt(tmp_path) -> None:
+    """Aufgefuellte Kerzen geschlossener Zeiten duerfen nicht in die Auswertung.
+
+    Der NQ-Datensatz von Dukascopy enthaelt ganze Feiertage als flache Kerzen
+    (open = high = low = close, Volumen 0). Sie verzerren ATR, VWAP und jedes
+    rollende Quantil.
+    """
+    from propbot.data import ohne_phantomkerzen
+
+    index = pd.date_range("2024-03-05 14:30", periods=6, freq="5min", tz="UTC")
+    frame = pd.DataFrame(
+        {
+            "open": [100.0, 101.0, 102.0, 102.0, 103.0, 102.0],
+            "high": [101.0, 102.0, 102.0, 102.0, 104.0, 103.0],
+            "low": [99.5, 100.5, 102.0, 102.0, 102.5, 101.5],
+            "close": [101.0, 102.0, 102.0, 102.0, 103.5, 102.5],
+            "volume": [10.0, 12.0, 0.0, 0.0, 9.0, 11.0],
+        },
+        index=index,
+    )
+
+    sauber = ohne_phantomkerzen(frame)
+
+    assert len(sauber) == 4
+    assert not ((sauber["high"] == sauber["low"]) & (sauber["volume"] == 0)).any()
+
+
+def test_flache_kerze_mit_volumen_bleibt() -> None:
+    """Eine echte Doji-Kerze mit Umsatz ist keine Phantomkerze."""
+    from propbot.data import ohne_phantomkerzen
+
+    index = pd.date_range("2024-03-05 14:30", periods=2, freq="5min", tz="UTC")
+    frame = pd.DataFrame(
+        {
+            "open": [100.0, 100.0],
+            "high": [100.0, 100.0],
+            "low": [100.0, 100.0],
+            "close": [100.0, 100.0],
+            "volume": [42.0, 0.0],
+        },
+        index=index,
+    )
+
+    sauber = ohne_phantomkerzen(frame)
+
+    assert len(sauber) == 1
+    assert sauber["volume"].iloc[0] == 42.0

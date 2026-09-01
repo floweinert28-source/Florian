@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import reporting
+from . import charting, reporting
 from .config import BotConfig, ConfigError, load_config
 from .data import load_csv, synthetic_market
 from .engine import Backtester, check_no_lookahead
@@ -447,6 +447,64 @@ def _timeframe_regel(name: str) -> str:
     return f"{int(text[1:])}{einheiten[text[0]]}"
 
 
+def cmd_chart(args, config: BotConfig) -> int:
+    """Rendert Kerzencharts und die Zahlentafel dazu."""
+    frame = load_data(args, config)
+    zeitzone = config.session.zeitzone if config.session else "America/New_York"
+    timeframes = [tf.strip() for tf in args.tf.split(",") if tf.strip()]
+    marken = [m.strip() for m in args.marken.split(",")] if args.marken else None
+
+    ausschnitte = []
+    for timeframe in timeframes:
+        ausschnitte.append(
+            charting.schneide(
+                frame,
+                timeframe=timeframe,
+                datum=args.datum,
+                von=args.von,
+                bis=args.bis,
+                zeitzone=zeitzone,
+                max_kerzen=args.max_kerzen,
+            )
+        )
+
+    ziel = Path(args.out or f"chart_{args.datum or 'zuletzt'}.png")
+    charting.male_chart(
+        ausschnitte, ziel, titel=f"{config.symbol} {args.datum or ''}".strip(), marken=marken
+    )
+    print(f"Chart geschrieben: {ziel}")
+    for a in ausschnitte:
+        print()
+        print(charting.zahlentafel(a))
+    return 0
+
+
+def cmd_zeitprofil(args, config: BotConfig) -> int:
+    """Was zu welcher Uhrzeit passiert - ueber den ganzen Datensatz."""
+    frame = load_data(args, config)
+    zeitzone = config.session.zeitzone if config.session else "America/New_York"
+    profil = charting.zeitprofil(frame, zeitzone=zeitzone, takt=args.takt)
+
+    zeilen = [
+        f"=== Zeitprofil {config.symbol} ({zeitzone}, {args.takt}-Minuten-Bloecke) ===",
+        f"{'Zeit':>6} {'Kerzen':>8} {'Spanne med':>11} {'Spanne mit':>11} "
+        f"{'Richtung':>10} {'gruen':>7} {'Vola-Anteil':>12}",
+    ]
+    for zeit, r in profil.iterrows():
+        zeilen.append(
+            f"{zeit:>6} {int(r['kerzen']):>8,} {r['spanne_median']:>11.2f} "
+            f"{r['spanne_mittel']:>11.2f} {r['richtung_mittel']:>+10.3f} "
+            f"{r['anteil_gruen']:>6.1%} {r['vola_anteil']:>12.2f}"
+        )
+    zeilen.append("")
+    zeilen.append(
+        "Vola-Anteil = mittlere Spanne des Blocks geteilt durch die mittlere Spanne "
+        "aller Bloecke.\n1.00 heisst durchschnittlich, 2.00 doppelt so bewegt."
+    )
+    _emit("\n".join(zeilen), args.out)
+    return 0
+
+
 def cmd_validate(args, config: BotConfig) -> int:
     """Vergleicht die Backtest-Daten mit echten Futuresdaten von Yahoo."""
     from .validate import lade_yahoo, vergleiche_quellen
@@ -661,6 +719,29 @@ def build_parser() -> argparse.ArgumentParser:
     validate_parser.add_argument("--tage", type=int, default=720)
     validate_parser.add_argument("--out")
     validate_parser.set_defaults(func=cmd_validate)
+
+    chart_parser = add("chart", "Kerzenchart rendern (mehrere Zeitrahmen nebeneinander)")
+    chart_parser.add_argument("--data", help="CSV mit Kursdaten")
+    chart_parser.add_argument("--datum", help="Handelstag, z. B. 2024-03-05")
+    chart_parser.add_argument(
+        "--tf", default="5m,15m,1h", help="Zeitrahmen, kommagetrennt: 1m,5m,15m,30m,1h,4h,1d"
+    )
+    chart_parser.add_argument("--von", help="Startzeit im Ausschnitt, z. B. 09:30")
+    chart_parser.add_argument("--bis", help="Endzeit im Ausschnitt, z. B. 16:00")
+    chart_parser.add_argument(
+        "--marken", help="Senkrechte Marker, kommagetrennt, z. B. 10:00,11:30"
+    )
+    chart_parser.add_argument(
+        "--max-kerzen", type=int, default=charting.MAX_KERZEN, dest="max_kerzen"
+    )
+    chart_parser.add_argument("--out", help="Zieldatei (PNG)")
+    chart_parser.set_defaults(func=cmd_chart)
+
+    zeit_parser = add("zeitprofil", "Was zu welcher Uhrzeit passiert - ueber alle Tage")
+    zeit_parser.add_argument("--data", help="CSV mit Kursdaten")
+    zeit_parser.add_argument("--takt", type=int, default=30, help="Blockgroesse in Minuten")
+    zeit_parser.add_argument("--out")
+    zeit_parser.set_defaults(func=cmd_zeitprofil)
 
     journal_parser = add("journal", "Tagebuch auswerten")
     journal_parser.add_argument("--run", type=int, help="Lauf-ID")

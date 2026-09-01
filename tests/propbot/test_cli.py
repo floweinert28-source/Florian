@@ -111,4 +111,6 @@ def test_parser_kennt_alle_befehle() -> None:
         "journal",
         "fetch",
         "validate",
+        "chart",
+        "zeitprofil",
     }

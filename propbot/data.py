@@ -27,6 +27,7 @@ import pandas as pd
 __all__ = [
     "REQUIRED_COLUMNS",
     "load_csv",
+    "ohne_phantomkerzen",
     "resample",
     "split",
     "synthetic_market",
@@ -37,8 +38,15 @@ REQUIRED_COLUMNS = ("open", "high", "low", "close")
 _TIME_CANDIDATES = ("time", "timestamp", "date", "datetime", "date_time", "<date>")
 
 
-def load_csv(path: str | Path, *, time_column: str | None = None) -> pd.DataFrame:
-    """Laedt eine CSV-Datei mit OHLC-Daten und normalisiert sie."""
+def load_csv(
+    path: str | Path, *, time_column: str | None = None, drop_phantom: bool = True
+) -> pd.DataFrame:
+    """Laedt eine CSV-Datei mit OHLC-Daten und normalisiert sie.
+
+    ``drop_phantom`` entfernt aufgefuellte Kerzen geschlossener Zeiten - siehe
+    :func:`ohne_phantomkerzen`. Standardmaessig an, weil solche Kerzen jede
+    Auswertung verfaelschen.
+    """
     frame = pd.read_csv(path)
     frame.columns = [
         str(column).strip().lower().lstrip("<").rstrip(">") for column in frame.columns
@@ -67,7 +75,28 @@ def load_csv(path: str | Path, *, time_column: str | None = None) -> pd.DataFram
 
     frame = frame[[*REQUIRED_COLUMNS, "volume"]].astype(float)
     frame = frame[~frame.index.duplicated(keep="last")].sort_index()
+    if drop_phantom:
+        frame = ohne_phantomkerzen(frame)
     return validate(frame)
+
+
+def ohne_phantomkerzen(frame: pd.DataFrame) -> pd.DataFrame:
+    """Entfernt Kerzen, die es nie gab.
+
+    Datenanbieter fuellen geschlossene Zeiten oft mit flachen Kerzen auf:
+    open = high = low = close, Volumen 0. Im NQ-Datensatz von Dukascopy
+    betrifft das ganze Feiertage (15 Tage mit je 78 M5-Kerzen), die
+    Nachmittagshaelfte von 44 halben Handelstagen und die taegliche
+    CME-Wartungspause.
+
+    Das ist kein Schoenheitsfehler: solche Kerzen verzerren ATR, VWAP und jedes
+    rollende Quantil, und eine Strategie kann darauf Signale erzeugen, die es
+    in Wirklichkeit nie gab.
+    """
+    flach = (frame["high"] == frame["low"]) & (frame["open"] == frame["close"])
+    if "volume" in frame.columns:
+        flach &= frame["volume"] <= 0
+    return frame[~flach]
 
 
 def validate(frame: pd.DataFrame) -> pd.DataFrame:

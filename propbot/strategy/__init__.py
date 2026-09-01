@@ -1,6 +1,7 @@
 """Strategien des Bots."""
 
 from .base import SessionWindow, Strategy, StrategyParams
+from .intraday_momentum import IntradayMomentum, IntradayMomentumParams
 from .mean_reversion import RangeFade, RangeFadeParams
 from .opening_range import OpeningRange, OpeningRangeParams
 from .router import RegimeRouter
@@ -15,6 +16,8 @@ __all__ = [
     "RangeFadeParams",
     "RegimeRouter",
     "SessionWindow",
+    "IntradayMomentum",
+    "IntradayMomentumParams",
     "SqueezeBreakout",
     "SqueezeBreakoutParams",
     "Strategy",
@@ -33,6 +36,7 @@ def build(name: str, **kwargs) -> Strategy:
         "range_fade": RangeFade,
         "opening_range": OpeningRange,
         "squeeze": SqueezeBreakout,
+        "intraday_momentum": IntradayMomentum,
         "vwap_pullback": VwapPullback,
         "regime_router": RegimeRouter,
     }

@@ -33,6 +33,8 @@ from .montecarlo import format_sweep, simulate, sweep_risk
 from .optimize import walk_forward
 from .rules import DrawdownMode
 from .strategy import (
+    IntradayMomentum,
+    IntradayMomentumParams,
     OpeningRange,
     OpeningRangeParams,
     RangeFade,
@@ -64,6 +66,8 @@ def build_strategy(config: BotConfig, params: dict | None = None):
             base = OpeningRange(OpeningRangeParams(**werte), session=session)
         elif name == "squeeze":
             base = SqueezeBreakout(SqueezeBreakoutParams(**werte), session=session)
+        elif name == "intraday_momentum":
+            base = IntradayMomentum(IntradayMomentumParams(**werte), session=session)
         elif name == "vwap_pullback":
             base = VwapPullback(VwapPullbackParams(**werte), session=session)
         elif name == "regime_router":
@@ -71,7 +75,7 @@ def build_strategy(config: BotConfig, params: dict | None = None):
         else:
             raise ConfigError(
                 f"Unbekannte Strategie {name!r}. Erlaubt: trend_pullback, range_fade, "
-                f"opening_range, squeeze, vwap_pullback, regime_router"
+                f"opening_range, squeeze, intraday_momentum, vwap_pullback, regime_router"
             )
     except TypeError as fehler:
         raise ConfigError(f"Parameter passen nicht zu {name!r}: {fehler}") from None
@@ -516,6 +520,7 @@ def _common_options() -> argparse.ArgumentParser:
             "range_fade",
             "opening_range",
             "squeeze",
+            "intraday_momentum",
             "vwap_pullback",
             "regime_router",
         ],

@@ -1356,3 +1356,162 @@ python -m propbot montecarlo --config configs/nq_squeeze.json
 - **46 % Degradation** ist ein Warnschild. Weniger Parameter zu testen wäre der
   saubere Weg, das zu senken — jede zusätzliche Gitterzeile kauft
   In-Sample-Ergebnis auf Kredit.
+
+## 17. Die Frequenzgrenze — warum "mehr Trades" nicht zu 12 Payouts führt
+
+Das Ziel lautet: **12 Payouts im Jahr aus einem Konto.** Dieses Kapitel rechnet
+nach, was das verlangt, und warum der naheliegende Weg — mehr Trades am Tag —
+eine Obergrenze hat, die deutlich unter dem Ziel liegt.
+
+### Was 12 Payouts verlangen
+
+12 × 4.000 $ = 48.000 $ im Jahr, also ein Payout je 21 Handelstage oder
+**190 $ am Tag** bei 250 $ Risiko je Trade:
+
+| Trades/Tag | EW +0.05 R | +0.10 R | +0.15 R | +0.20 R | +0.30 R |
+|---|---|---|---|---|---|
+| 1 | 0.8 | 1.6 | 2.4 | 3.1 | 4.7 |
+| 3 | 2.4 | 4.7 | 7.1 | 9.5 | **14.2** |
+| 5 | 3.9 | 7.9 | **11.8** | **15.8** | **23.6** |
+| 8 | 6.3 | **12.6** | **18.9** | **25.2** | **37.8** |
+
+(Payouts pro Jahr. Fett = Ziel erreicht.)
+
+Der Zielpunkt ist also **rund 5 Trades am Tag bei +0.15 R.** Stand heute:
+0.73 Trades/Tag bei out-of-sample +0.074 R — das ergibt 0.6 Payouts im Jahr.
+Fehlender Faktor: **etwa 7 bei der Frequenz und 2 beim Vorteil.**
+
+### Warum Frequenz nicht beliebig skaliert
+
+Mehr Trades am Tag heißt zwangsläufig **engere Stops** — sonst passen sie
+zeitlich nicht in den Tag. Und die Kosten je Trade sind in Geld ungefähr
+konstant (Kommission plus ein halber Tick), also wächst ihr Anteil am Risiko
+genau dann, wenn der Stop schrumpft:
+
+> Kosten in R = Kosten je Kontrakt / (Stop in Punkten × Punktwert)
+
+Für MNQ (2 $/Punkt, rund 2 $ Round-Turn je Kontrakt):
+
+| Stop | Risiko/Kontrakt | Kosten in R | Haltedauer |
+|---|---|---|---|
+| 100 Pkt | 200 $ | 0.010 | ~2 h |
+| 40 Pkt | 80 $ | 0.025 | ~40 min |
+| 20 Pkt | 40 $ | 0.050 | ~15 min |
+| 10 Pkt | 20 $ | **0.100** | ~6 min |
+| 5 Pkt | 10 $ | **0.200** | ~2 min |
+
+Die eigenen Backtests bestätigen die Formel: der Squeeze mit 75 Minuten
+Haltedauer zahlt 0.036 R je Trade, das Intraday-Momentum mit 6 Minuten
+**0.077 R** — halbe Haltedauer, doppelte Kosten.
+
+Daraus folgt die Kurve, auf die es ankommt. Bei konstantem Bruttovorteil von
++0.11 R je Trade:
+
+| Trades/Tag | Stop | Kosten | netto/Trade | netto R/Tag | Payouts/Jahr |
+|---|---|---|---|---|---|
+| 1 | 60 Pkt | 0.017 | +0.093 | +0.093 | 1.5 |
+| 2 | 40 Pkt | 0.025 | +0.085 | +0.170 | 2.7 |
+| 3 | 25 Pkt | 0.040 | +0.070 | +0.210 | 3.3 |
+| **5** | 15 Pkt | 0.067 | +0.043 | **+0.217** | **3.4** |
+| 8 | 10 Pkt | 0.100 | +0.010 | +0.080 | 1.3 |
+| 12 | 6 Pkt | 0.167 | **−0.057** | −0.680 | 0.0 |
+
+**Das Maximum liegt bei 3–5 Trades am Tag und bei rund 3.4 Payouts im Jahr.**
+Danach fällt die Kurve, und bei 12 Trades am Tag ist der Vorteil vollständig
+aufgefressen. Wer die Frequenz weiter treibt, handelt für den Broker.
+
+Das ist zugleich die quantitative Begründung dafür, Hochfrequenzhandel hier
+auszuschließen: dieselbe Formel, nur weiter rechts, wo sie tief negativ wird.
+Der Weg dorthin führt nur über niedrigere Kosten je Trade, nicht über eine
+bessere Strategie.
+
+### Intraday-Momentum: eine veröffentlichte Idee, geprüft
+
+Die Recherche nach dokumentierten Verfahren führte auf Gao, Han, Li und Zhou,
+*Market Intraday Momentum* (Journal of Financial Economics, 2018): die
+Bewegung eines Tages sagt ihre Fortsetzung voraus, besonders an volatilen
+Tagen. Umgesetzt in `propbot/strategy/intraday_momentum.py`.
+
+Der Aufbau unterscheidet sich grundlegend von ORB und Squeeze: gemessen wird
+nicht eine lokale Spanne, sondern der Abstand zur **Tageseröffnung**, gegen ein
+Band aus der typischen Auslenkung zur selben Uhrzeit an den letzten 30 Tagen.
+Auf echten NQ-Daten wächst dieses Band wie erwartet von 0.33 % (Minute 20) auf
+0.85 % (Minute 385) — annähernd wie √t.
+
+Das Ergebnis war trotzdem **schlechter als das Vorhandene**:
+
+| min. Stop | CRV | Band | Trades/Tag | EW | Haltedauer |
+|---|---|---|---|---|---|
+| 0.5 ATR | 1.5 | 1.0 | 1.04 | **−0.079 R** | 6 min |
+| 1.0 ATR | 2.5 | 1.4 | 0.81 | +0.043 R | 37 min |
+| 1.5 ATR | 4.0 | 1.4 | 0.70 | **+0.053 R** | 80 min |
+
+Bestes Ergebnis +0.053 R bei 0.70 Trades/Tag — gegenüber dem Squeeze mit
++0.074 R out-of-sample bei 0.73 Trades/Tag also kein Fortschritt, weder beim
+Vorteil noch bei der Frequenz. Die Strategie bleibt im Paket, weil sie sauber
+getestet ist und als Vergleichsmaßstab taugt; als Verbesserung taugt sie nicht.
+
+Das Muster in der Tabelle ist aber die Bestätigung der Kostenformel: enge
+Stops sind durchweg negativ, weite durchweg positiv. Nicht die Richtungsidee
+war das Problem, sondern die Haltedauer.
+
+### Die Auszahlungsmechanik — der größte gefundene Hebel
+
+Ein Punkt, den alle früheren Kapitel übersehen haben: **Auszahlen senkt den
+Kontostand, aber nicht den Drawdown-Boden.** Wer bei 54.000 $ die vollen
+4.000 $ abzieht, steht bei 50.000 $ mit dem Boden bei 50.000 $ — also mit
+null Puffer. Das nächste Minus ist das Ende.
+
+Simulation über die echte R-Verteilung, 250 $ Risiko:
+
+| ausgezahlt | behalten | P(≥1 Payout) | P(≥2) | P(≥3) | Summe erwartet |
+|---|---|---|---|---|---|
+| 4.000 $ | 0 $ | 68.4 % | **16.0 %** | 4.0 % | 3.577 $ |
+| 3.500 $ | 500 $ | 67.9 % | 35.8 % | 18.5 % | 4.963 $ |
+| 3.000 $ | 1.000 $ | 67.4 % | 47.5 % | 33.4 % | 6.695 $ |
+| 2.000 $ | 2.000 $ | 68.7 % | **61.9 %** | 55.4 % | **9.773 $** |
+
+**Wer die Hälfte stehen lässt, vervierfacht die Chance auf zwei Payouts
+hintereinander** (16 % → 62 %) und verdreifacht die erwartete Gesamtsumme.
+Das ist reine Kontoführung und kostet keine einzige Zeile Strategiecode.
+
+### Warum die Bootstrap-Zahlen dieses Kapitels nicht die Antwort sind
+
+Eine Simulation mit **festem** Risiko von 700 $ je Trade und sofortigem Ersatz
+gerissener Konten ergab scheinbar 6.6 Payouts pro Jahr und Konto-Slot. Auf dem
+**echten historischen Pfad** waren es 0.9. Der Unterschied hat zwei Ursachen,
+beide real:
+
+1. **Der Risikomanager riskiert die eingestellte Zahl gar nicht.** Bei
+   konfigurierten 1.4 % lag das tatsächliche Risiko im Median bei 250 $, ohne
+   Puffer-Drossel bei 435 $ — nie bei 700 $. Die konkurrierenden Budgets
+   greifen vorher.
+2. **Der Bootstrap zieht unabhängig.** Echte Daten haben Serienabhängigkeit:
+   schlechte Strecken halten an. Genau daran ist der reale Zyklus 2022–2024
+   hängengeblieben.
+
+Zwei weitere Rechenfehler auf dem Weg, beide korrigiert und hier festgehalten,
+weil sie typisch sind:
+
+* **Quotient von Mittelwerten.** `Mittel(Geld) / Mittel(Tage) × 252` ist nicht
+  die Jahresrate — Konten, die schnell platzen, verkürzen den Nenner, ohne den
+  Zähler zu senken. Richtig ist `Summe(Geld) / Summe(Tage)`. Der Fehler hatte
+  die Rate um den Faktor 3 überhöht (26.181 $ statt 9.089 $ im Prüffall).
+* **Fehlende Regeln in der Simulation.** Ohne Tagesverlustlimit sah Risiko von
+  1.400 $ je Trade optimal aus. Mit Limit reißt dieselbe Einstellung in 99.9 %
+  der Fälle das Tageslimit. Eine Simulation ohne das vollständige Regelwerk
+  beantwortet eine Frage, die niemand gestellt hat.
+
+### Der Stand
+
+| | Trades/Tag | EW (OOS) | Payouts/Jahr, echter Pfad |
+|---|---|---|---|
+| Opening Range | 0.33 | +0.136 R | 0.6 |
+| Squeeze | 0.73 | +0.074 R | 0.8 |
+| Intraday-Momentum | 0.70 | +0.053 R | — |
+| theoretisches Optimum der Kostenkurve | 3–5 | — | **3.4** |
+
+Zwischen dem heutigen Stand (0.8) und der Obergrenze der Kostenkurve (3.4)
+liegt Arbeit, die sich lohnt. Zwischen 3.4 und dem Ziel 12 liegt keine
+Parameterwahl, sondern eine andere Kostenstruktur oder ein deutlich stärkerer
+Vorteil je Trade, als sich in fünf Jahren NQ nachweisen ließ.

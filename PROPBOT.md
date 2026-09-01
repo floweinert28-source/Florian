@@ -1074,3 +1074,192 @@ Trefferquote verbessert, lässt sich mit diesen Daten nicht nachweisen — dafü
 bräuchte es historische Optionsketten. Das Modul ist deshalb ein
 **Live-Kontextwerkzeug**, kein Backtest-Filter. Es steht bewusst ohne
 Wirksamkeitsbehauptung im Paket.
+
+## 16. Squeeze-Breakout: die Strategie fürs Payout-Farming
+
+### Der Denkfehler in Kapitel 13
+
+Der Opening-Range-Breakout funktioniert — aber er hat einen strukturellen
+Deckel: **die Eröffnungsrange gibt es genau einmal am Tag.** Über die volle
+Datenspanne (2021-09 bis 2026-08, 1.303 Handelstage) macht er 429 Trades. Das
+sind 0.33 Trades je Kalender-Handelstag. Selbst mit einem guten
+Erwartungswert von +0.177 R reicht das nicht für einen monatlichen Payout.
+
+Der Fehler war nicht die Idee, sondern ihre Verengung auf eine Uhrzeit. Was
+den ORB trägt, ist nicht 09:30 Uhr — es ist der **Ausbruch aus einer
+Kontraktion**. Die Eröffnungsrange ist nur der bekannteste Fall davon.
+
+### Die Verallgemeinerung
+
+Die neue Strategie (`propbot/strategy/squeeze.py`) sucht dieselbe Struktur zu
+jeder Tageszeit: eine Phase, in der die Handelsspanne relativ zur jüngeren
+Vergangenheit eng wird, gefolgt vom Bruch dieser Spanne.
+
+### Warum eine feste ATR-Schwelle scheitert
+
+Der erste Versuch definierte "eng" absolut: Spanne der letzten 6 Bars
+kleiner als 1.1 × ATR. Ergebnis: **0.10 Signale am Tag** — noch weniger als
+der ORB.
+
+Der Grund ist eine Messung, die ich vorher hätte machen sollen: die
+6-Bar-Spanne beträgt im Median **2.21 ATR**, nicht etwa 1.0. Das ist keine
+Anomalie, sondern Arithmetik — sechs Bars mit je einer ATR Bewegung spannen
+zusammen mehr als eine ATR auf, sobald sie auch nur schwach gerichtet sind.
+Eine Schwelle bei 1.1 ATR verlangte also das untere Perzentil eines Perzentils.
+
+Die Lehre ist allgemein: **absolute Schwellwerte auf abgeleiteten Größen sind
+Ratespiele.** Was "eng" heißt, lässt sich nur relativ zur eigenen
+Vergangenheit sagen:
+
+```python
+schwelle = (d["sq_width"].rolling(p.quantil_fenster, min_periods=p.quantil_fenster // 2)
+            .quantile(p.squeeze_quantil).shift(1))
+eng = ((d["sq_width"] <= schwelle) & (d["sq_width"] <= p.max_range_atr * d["atr"])
+       & (d["sq_width"] >= p.min_range_atr * d["atr"]))
+```
+
+Die Spanne liegt im unteren 30 %-Quantil der letzten 78 Bars (ein halber
+Handelstag auf M5). Die ATR-Grenzen bleiben, aber nur noch als
+Plausibilitätsklammer gegen entartete Fälle — nicht mehr als Definition.
+
+Das `.shift(1)` ist kein Detail: ohne es enthielte die Schwelle die aktuelle
+Bar und damit einen Blick in die Zukunft. Aus demselben Grund kommt die
+Spanne selbst ausschließlich aus abgeschlossenen Bars:
+
+```python
+hoch = d["high"].rolling(p.squeeze_bars).max().shift(1)
+```
+
+`check_no_lookahead` prüft das bei jedem Backtest gegen.
+
+### Signalhäufung: ein Problem, das der ORB nicht hatte
+
+Eine Konsolidierung erzeugt nicht ein Signal, sondern eine Serie — jede Bar,
+in der die Enge noch gilt, meldet sich erneut. Ohne Bremse hängen zehn Trades
+an derselben Struktur und derselben Entscheidung. Das ist kein Diversifizieren,
+das ist ein zehnfach gehebelter Einzeltrade.
+
+`_mit_abstand(roh, tag, abstand, max_pro_tag)` dünnt deshalb aus: mindestens
+`cooldown_bars=6` Abstand, höchstens `max_signals_per_day=6`. Der ORB brauchte
+das nie, weil er pro Tag ohnehin nur einmal feuern konnte.
+
+### Ergebnis
+
+Backtest über die volle Spanne (NQ M5 RTH, 100.308 Kerzen):
+
+```
+Trades:            951 in 739 Handelstagen (1.29/Tag)
+Trefferquote:      51.4% (489W / 462V)
+Erwartungswert:    +0.137 R je Trade (Streuung 1.10 R)
+Profitfaktor:      1.31          Sharpe / Sortino: 2.02 / 3.37
+Kosten:            0.036 R je Trade (3.6% der Bruttobewegung)
+Setups:  squeeze_long   586 Trades  50.7%  +0.123 R
+         squeeze_short  365 Trades  52.6%  +0.158 R
+```
+
+Bemerkenswert: **die Short-Seite trägt hier**, anders als beim ORB
+(-0.016 R short, siehe Kapitel 13). Der Grund ist plausibel — der ORB-Short
+handelte gegen die Aufwärtsdrift des Index in einem festen Zeitfenster; der
+Squeeze-Short findet Kontraktionen auch in Abwärtsphasen.
+
+Walk-Forward mit vier Folds:
+
+```
+Fold 1: 2022-08 bis 2023-09 | IS +0.280 R -> OOS +0.216 R | 201 Trades
+Fold 2: 2023-09 bis 2024-09 | IS +0.225 R -> OOS +0.029 R | 224 Trades
+Fold 3: 2024-09 bis 2025-09 | IS +0.103 R -> OOS -0.037 R | 203 Trades
+Fold 4: 2025-09 bis 2026-08 | IS +0.035 R -> OOS +0.090 R | 154 Trades
+Mittel: IS +0.161 R, OOS +0.074 R (Degradation 46%)
+```
+
+Drei von vier Folds positiv, alle sechs Kalenderjahre positiv (2021 +0.040 R
+bis 2022 +0.236 R). **46 % Degradation ist ehrlich gesagt viel** — die Hälfte
+des In-Sample-Ergebnisses war Anpassung. Die realistische Erwartung ist
++0.074 R, nicht +0.137 R.
+
+### Was das für den Payout heißt
+
+Monte Carlo mit dem echten Regelwerk (50k, 4.000 $ Ziel, 2.000 $ Drawdown,
+20 % Konsistenzdeckel), Blockbootstrap:
+
+```
+Payout 99.2% | Bust 0.0% | festgefahren 0.8% | Median 82 Trades / 41 Handelstage
+```
+
+**Diese 41 Tage sind zu optimistisch.** Sie stammen aus der Stichprobe mit
++0.137 R. Mit der Out-of-Sample-Erwartung von +0.074 R verdoppelt sich die
+Dauer grob auf **~80 Handelstage, also knapp vier Monate — rund 3 Payouts pro
+Jahr und Konto.**
+
+Zusammen mit dem ORB (der zu anderen Zeiten und auf anderem Timeframe feuert):
+
+| | Trades | je Kalender-Handelstag | EW |
+|---|---|---|---|
+| ORB (M15) | 429 | 0.33 | +0.177 R |
+| Squeeze (M5) | 951 | 0.73 | +0.137 R |
+| zusammen | 1.380 | **1.06** | +0.149 R |
+
+Das ist die Zahl, auf die es ankommt: **1.06 Trades am Tag** statt 0.33.
+
+Einschränkung, die dazugehört: diese Kombination ist **gerechnet, nicht
+gemessen.** Beide Strategien liefen in getrennten Backtests mit je eigenem
+Risikomanager. Auf einem gemeinsamen Konto würden sich die Trades um dasselbe
+Budget streiten, und ein Teil davon würde abgelehnt. Ein Portfolio-Läufer, der
+M15 und M5 auf einem Konto zusammenführt, fehlt noch — bis dahin ist 1.06 eine
+Obergrenze, kein Messwert.
+
+### Der Konsistenzdeckel als eigentliche Bremse
+
+Bei 20 % Deckel für Direktkonten darf kein Tag mehr als 800 $ der 4.000 $
+beitragen. Das erzwingt **mindestens fünf profitable Tage**, praktisch eher
+zwanzig. Der Backtest der ausgelieferten Konfiguration zeigt den besten Tag
+bei 4 % des Gewinns — der Deckel ist mit dieser Trade-Frequenz kein Problem
+mehr. Beim ORB mit 0.33 Trades/Tag wäre er einer geworden.
+
+### Das Risiko-Fenster
+
+Der Vergleich bei festem Risiko zeigt, wo die Grenze liegt:
+
+| Risiko | % Konto | Payout | Bust | Trades bis Ende |
+|---|---|---|---|---|
+| 100 $ | 0.20 % | 99.7 % | 0.2 % | 154 |
+| 200 $ | 0.40 % | 94.7 % | 4.1 % | 74 |
+| 250 $ | 0.50 % | 88.6 % | 10.4 % | 54 |
+| 300 $ | 0.60 % | 81.5 % | 16.5 % | 40 |
+| 500 $ | 1.00 % | 24.2 % | 75.8 % | 8 |
+
+Zwischen 250 $ und 300 $ liegt der Knick. Darüber kauft man Tempo mit einer
+Bust-Wahrscheinlichkeit, die schneller wächst als der Zeitgewinn.
+
+### Payout-Farming statt Kontoerhalt
+
+Der entscheidende Perspektivwechsel: Ein Prop-Konto ist **kein Live-Konto, das
+ewig halten muss.** Der Verlust bei einem Bust ist die Gebühr, nicht das
+Kapital. Damit ist die richtige Zielgröße nicht die Überlebenswahrscheinlichkeit,
+sondern der **Erwartungswert je Gebühr**.
+
+Bei ~3 Payouts pro Jahr und Konto braucht das Ziel "1 Payout im Monat" also
+**vier Konten parallel**, für "2 Payouts im Monat" acht. Das ist die ehrliche
+Antwort — nicht eine Strategie, die zehnmal so gut ist, sondern mehrere Konten
+mit derselben validierten Strategie.
+
+### Konfiguration
+
+`configs/nq_squeeze.json`: MNQ, M5, `squeeze_bars=8`, `squeeze_quantil=0.30`,
+`reward_ratio=2.0`, `require_trend=true`, `consistency_cap=0.20`,
+`max_trades_per_day=4`. Diese Parameter kamen aus dem Walk-Forward als
+stabilste Kombination, nicht aus der besten In-Sample-Zeile.
+
+```bash
+python -m propbot backtest --config configs/nq_squeeze.json
+python -m propbot montecarlo --config configs/nq_squeeze.json
+```
+
+### Was offen bleibt
+
+- **Portfolio-Läufer** für ORB + Squeeze auf einem Konto (siehe oben).
+- **Asia/London-Setups** brauchen echte Futures-Daten; die Dukascopy-CFDs sind
+  außerhalb der RTH zu dünn, um darauf zu testen.
+- **46 % Degradation** ist ein Warnschild. Weniger Parameter zu testen wäre der
+  saubere Weg, das zu senken — jede zusätzliche Gitterzeile kauft
+  In-Sample-Ergebnis auf Kredit.

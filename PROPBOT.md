@@ -1515,3 +1515,89 @@ Zwischen dem heutigen Stand (0.8) und der Obergrenze der Kostenkurve (3.4)
 liegt Arbeit, die sich lohnt. Zwischen 3.4 und dem Ziel 12 liegt keine
 Parameterwahl, sondern eine andere Kostenstruktur oder ein deutlich stärkerer
 Vorteil je Trade, als sich in fünf Jahren NQ nachweisen ließ.
+
+## 18. 1:0.5 geprüft — warum ein kleines Ziel hier nicht trägt
+
+Die Idee hat einen guten Grund: ein Ziel bei 1:0.5 schließt Trades schneller
+(mehr Trades am Tag passen in die Sitzung) und hebt die Trefferquote, was die
+Tagesverteilung glättet — beides genau das, was der Konsistenzdeckel belohnt.
+Die Hürde ist Arithmetik: der Break-even liegt bei 1/(1+0.5) = **66.7 %.**
+
+### Das Ergebnis
+
+Squeeze auf NQ M5, volle Datenspanne, alle anderen Parameter unverändert:
+
+| CRV | Break-even | erreicht | Vorsprung | Trades/Tag | netto EW | netto R/Tag |
+|---|---|---|---|---|---|---|
+| 0.40 | 71.4 % | 72.6 % | +1.2 pp | 1.01 | −0.008 | −0.008 |
+| **0.50** | **66.7 %** | **67.9 %** | **+1.2 pp** | **0.98** | **−0.001** | **−0.001** |
+| 0.75 | 57.1 % | 60.0 % | +2.9 pp | 0.91 | +0.036 | +0.033 |
+| 1.00 | 50.0 % | 55.6 % | +5.6 pp | 0.85 | +0.089 | +0.076 |
+| 1.50 | 40.0 % | 51.9 % | +11.9 pp | 0.77 | +0.122 | +0.094 |
+| 2.00 | 33.3 % | 51.4 % | +18.1 pp | 0.73 | +0.137 | **+0.100** |
+| 3.00 | 25.0 % | 51.0 % | +26.0 pp | 0.70 | +0.142 | +0.099 |
+
+Die Trefferquote steigt tatsächlich wie erhofft — bei 1:0.5 auf 67.9 %. Sie
+steigt nur eben **fast genau bis zum Break-even und keinen Schritt weiter.**
+Der Vorsprung bleibt bei mageren 1.2 Prozentpunkten, und die Gebühr von
+0.036 R je Trade frisst ihn vollständig auf.
+
+Und der Frequenzgewinn ist klein: 0.98 statt 0.73 Trades am Tag, also +34 % —
+zu wenig, um einen Erwartungswert von null zu retten.
+
+### Brutto gegen netto: wo die Grenze wirklich liegt
+
+| | CRV 0.5 brutto | Kosten | netto |
+|---|---|---|---|
+| Squeeze (M5, enge Stops) | +0.035 R | 0.036 R | **−0.001 R** |
+| Opening Range (M15, weite Stops) | +0.093 R | 0.018 R | **+0.075 R** |
+
+Beim ORB **trägt 1:0.5 sogar** — nicht weil die Strategie besser wäre, sondern
+weil ihre M15-Stops doppelt so weit sind und die Gebühr deshalb nur halb so
+viel vom Risiko ausmacht. Das ist dieselbe Kostenformel wie in Kapitel 17, aus
+einer anderen Richtung bestätigt: **ob ein kleines Ziel funktioniert, hängt
+nicht am Ziel, sondern an der Stopweite.**
+
+Auch beim ORB bleibt 1:0.5 aber die schlechtere Wahl: +0.075 R gegen +0.169 R
+bei CRV 1.5, also weniger als die Hälfte.
+
+### Warum der Vorsprung mit dem CRV wächst
+
+Die aufschlussreichste Spalte ist der Vorsprung über den Break-even: **+1.2 pp
+bei CRV 0.5, +26.0 pp bei CRV 3.0.** Er wächst monoton.
+
+Das ist die Signatur eines Ausbruchsvorteils. Die Strategie liegt bei der
+**Richtung** richtig, und wenn sie richtig liegt, laufen die Bewegungen weit.
+Ein Ziel bei 0.5 R schneidet genau den Teil ab, der den Vorteil trägt, und
+behält den vollen Verlust auf der anderen Seite. Man verkauft das Beste an der
+Strategie und kauft dafür eine Trefferquote, die der Markt fair bepreist.
+
+Ein kleines Ziel würde einen Vorteil brauchen, der in der **Trefferquote**
+steckt statt in der Bewegungslänge — ein Mean-Reversion- oder
+Auktionsungleichgewichts-Setup. Das Range-Fade aus Kapitel 12 war der Versuch
+dazu und hatte keinen Vorteil.
+
+### Auf dem echten Pfad
+
+| CRV | Payouts/Jahr (Squeeze) | Payouts/Jahr (ORB) |
+|---|---|---|
+| 0.50 | 0.2 | 0.0 |
+| 1.00 | 0.6 | 0.2 |
+| 2.00 | **0.8** | 0.2 |
+
+### Ein stiller Fallstrick, jetzt behoben
+
+Wer `reward_ratio: 0.5` in eine Konfiguration schreibt, bekam **null Trades** —
+ohne erkennbaren Grund. Ursache ist `min_reward_ratio` im Risikomanager, das
+standardmäßig bei 1.3 sperrt. Der Bericht sah aus, als fände die Strategie
+nichts; tatsächlich wurde jedes Signal verworfen.
+
+`summary()` weist jetzt darauf hin, sobald mehr als die Hälfte der Signale an
+diesem Filter scheitert, und nennt die Einstellung beim Namen. Zwei Tests
+halten das fest — einer für den Hinweis, einer dafür, dass er bei wenigen
+Ablehnungen ausbleibt.
+
+Nebenbei eine Lehre über Tests: der erste Versuch prüfte das an synthetischen
+Daten und lief mit 0 blockierten Signalen **wirkungslos durch** — ein Test, der
+nichts prüft, aber grün ist. Ersetzt durch zwei deterministische Fälle plus
+einen direkten Test des Risikomanagers.

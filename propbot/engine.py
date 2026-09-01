@@ -118,6 +118,15 @@ class BacktestResult:
                 f"engere Stops, ein kleineres Instrument\noder mehr Risiko je Trade - Letzteres "
                 f"erst nach einem Blick auf 'propbot math'."
             )
+        crv_blockiert = self.blocked.get("CRV unter Mindestwert", 0)
+        if self.signals and crv_blockiert / self.signals >= 0.5:
+            text += (
+                f"\n\nHINWEIS: {crv_blockiert / self.signals:.0%} der Signale wurden wegen eines "
+                f"zu kleinen Chance-Risiko-Verhaeltnisses verworfen.\nDas ist eine Einstellung des "
+                f"Risikomanagers ('min_reward_ratio'), keine Eigenschaft der Strategie. Wer bewusst "
+                f"mit\nkleinen Zielen handeln will (etwa 1:0.5), muss sie senken - sonst handelt "
+                f"der Bot schlicht nicht."
+            )
         return text
 
     def r_multiples(self) -> list[float]:

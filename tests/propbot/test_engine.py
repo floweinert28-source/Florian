@@ -6,7 +6,7 @@ import pytest
 
 from propbot.engine import Backtester, ExecutionSettings, check_no_lookahead
 from propbot.models import ExitReason, Side, Signal
-from propbot.risk import RiskSettings
+from propbot.risk import RiskManager, RiskSettings
 from propbot.rules import AccountStatus, PropFirmRules
 from propbot.strategy import TrendPullback
 
@@ -255,3 +255,44 @@ def test_strategie_bekommt_jeden_abschluss_gemeldet() -> None:
 
 def test_lookahead_pruefung_auf_echter_strategie(market) -> None:
     assert check_no_lookahead(TrendPullback(), market.iloc[:3000], samples=12) == []
+
+
+def test_kleines_ziel_wird_vom_risikomanager_gesperrt() -> None:
+    """Ein Ziel bei 1:0.5 faellt am Standard-Mindest-CRV von 1.3 durch."""
+    from propbot.rules import AccountState
+
+    konto = AccountState(PropFirmRules())
+    argumente = dict(side=Side.LONG, entry_price=100.0, stop_price=90.0, target_price=105.0)
+
+    gesperrt = RiskManager(RiskSettings()).plan(konto, CLEAN, **argumente)
+    assert not gesperrt.allowed
+    assert gesperrt.reason == "CRV unter Mindestwert"
+
+    # Mit gesenktem Mindestwert faellt genau dieser Grund weg (an der
+    # Positionsgroesse kann derselbe Aufruf trotzdem noch scheitern).
+    erlaubt = RiskManager(RiskSettings(min_reward_ratio=0.4)).plan(konto, CLEAN, **argumente)
+    assert erlaubt.reason != "CRV unter Mindestwert"
+
+
+def test_hinweis_wenn_crv_filter_alles_blockiert() -> None:
+    """Ein zu kleines Ziel darf nicht still zu null Trades fuehren.
+
+    Wer reward_ratio auf 0.5 stellt, bekommt mit dem Standard-Mindest-CRV von
+    1.3 gar keine Trades. Ohne Hinweis sieht das aus, als faende die Strategie
+    nichts - dabei ist es eine Einstellung des Risikomanagers.
+    """
+    ergebnis = run(flat_bars(5), {})
+    ergebnis.signals = 10
+    ergebnis.blocked["CRV unter Mindestwert"] = 8
+
+    text = ergebnis.summary("Test")
+    assert "min_reward_ratio" in text
+    assert "1:0.5" in text
+
+
+def test_kein_crv_hinweis_bei_wenigen_ablehnungen() -> None:
+    ergebnis = run(flat_bars(5), {})
+    ergebnis.signals = 10
+    ergebnis.blocked["CRV unter Mindestwert"] = 2
+
+    assert "min_reward_ratio" not in ergebnis.summary("Test")

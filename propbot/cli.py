@@ -37,8 +37,12 @@ from .strategy import (
     RangeFade,
     RangeFadeParams,
     RegimeRouter,
+    SqueezeBreakout,
+    SqueezeBreakoutParams,
     TrendPullback,
     TrendPullbackParams,
+    VwapPullback,
+    VwapPullbackParams,
 )
 
 log = logging.getLogger("propbot")
@@ -57,12 +61,16 @@ def build_strategy(config: BotConfig, params: dict | None = None):
             base = RangeFade(RangeFadeParams(**werte), session=session)
         elif name == "opening_range":
             base = OpeningRange(OpeningRangeParams(**werte), session=session)
+        elif name == "squeeze":
+            base = SqueezeBreakout(SqueezeBreakoutParams(**werte), session=session)
+        elif name == "vwap_pullback":
+            base = VwapPullback(VwapPullbackParams(**werte), session=session)
         elif name == "regime_router":
             base = RegimeRouter(session=session)
         else:
             raise ConfigError(
                 f"Unbekannte Strategie {name!r}. Erlaubt: trend_pullback, range_fade, "
-                f"opening_range, regime_router"
+                f"opening_range, squeeze, vwap_pullback, regime_router"
             )
     except TypeError as fehler:
         raise ConfigError(f"Parameter passen nicht zu {name!r}: {fehler}") from None
@@ -494,7 +502,14 @@ def _common_options() -> argparse.ArgumentParser:
     common.add_argument("--symbol", default=argparse.SUPPRESS, help="Instrument (Standard EURUSD)")
     common.add_argument(
         "--strategy",
-        choices=["trend_pullback", "range_fade", "opening_range", "regime_router"],
+        choices=[
+            "trend_pullback",
+            "range_fade",
+            "opening_range",
+            "squeeze",
+            "vwap_pullback",
+            "regime_router",
+        ],
         default=argparse.SUPPRESS,
     )
     common.add_argument(

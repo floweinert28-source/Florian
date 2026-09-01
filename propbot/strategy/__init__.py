@@ -4,6 +4,7 @@ from .base import SessionWindow, Strategy, StrategyParams
 from .mean_reversion import RangeFade, RangeFadeParams
 from .opening_range import OpeningRange, OpeningRangeParams
 from .router import RegimeRouter
+from .squeeze import SqueezeBreakout, SqueezeBreakoutParams
 from .trend_pullback import TrendPullback, TrendPullbackParams
 from .vwap_pullback import VwapPullback, VwapPullbackParams
 
@@ -14,6 +15,8 @@ __all__ = [
     "RangeFadeParams",
     "RegimeRouter",
     "SessionWindow",
+    "SqueezeBreakout",
+    "SqueezeBreakoutParams",
     "Strategy",
     "StrategyParams",
     "TrendPullback",
@@ -29,6 +32,7 @@ def build(name: str, **kwargs) -> Strategy:
         "trend_pullback": TrendPullback,
         "range_fade": RangeFade,
         "opening_range": OpeningRange,
+        "squeeze": SqueezeBreakout,
         "vwap_pullback": VwapPullback,
         "regime_router": RegimeRouter,
     }

@@ -15,6 +15,7 @@ Befehle:
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import logging
 import sys
 from pathlib import Path
@@ -151,10 +152,17 @@ def cmd_backtest(args, config: BotConfig) -> int:
 def cmd_montecarlo(args, config: BotConfig) -> int:
     frame = load_data(args, config)
     strategy = build_strategy(config)
+    # Die Stichprobe muss aus dem *ganzen* Datensatz kommen, nicht aus einem
+    # Lauf unter den echten Regeln. Ein solcher Lauf endet beim Payout - die
+    # Trades danach fehlen, und die Frage "wie wahrscheinlich ist ein Payout?"
+    # waere mit Daten beantwortet, die per Konstruktion einen enthalten.
+    # Deshalb: Ziel und Drawdown zum Sammeln aushebeln, simuliert wird dann
+    # wieder mit den echten Regeln.
+    offen = dataclasses.replace(config.rules, profit_target=1e12, max_drawdown=1e12)
     result = Backtester(
         strategy,
         config.instrument,
-        rules=config.rules,
+        rules=offen,
         risk=config.risk,
         execution=config.execution,
     ).run(frame)
@@ -164,7 +172,8 @@ def cmd_montecarlo(args, config: BotConfig) -> int:
         return 1
 
     print(
-        f"Grundlage: {len(r_values)} Trades, Erwartungswert {result.report.expectancy_r:+.3f} R\n"
+        f"Grundlage: {len(r_values)} Trades ueber den ganzen Datensatz, "
+        f"Erwartungswert {result.report.expectancy_r:+.3f} R\n"
     )
     lines = ["=== Monte-Carlo (Regeln des Kontos aktiv) ==="]
     for block in (1, 5):

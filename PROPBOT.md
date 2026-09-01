@@ -1183,13 +1183,101 @@ Monte Carlo mit dem echten Regelwerk (50k, 4.000 $ Ziel, 2.000 $ Drawdown,
 20 % Konsistenzdeckel), Blockbootstrap:
 
 ```
-Payout 99.2% | Bust 0.0% | festgefahren 0.8% | Median 82 Trades / 41 Handelstage
+Payout 81.6% | Bust 0.0% | festgefahren 17.2% | Median 123 Trades / 62 Handelstage
 ```
 
-**Diese 41 Tage sind zu optimistisch.** Sie stammen aus der Stichprobe mit
+Diese Zahlen sind die *korrigierten*. Die erste Fassung dieses Kapitels nannte
+99.2 % Payout und 41 Tage — das war falsch, siehe den nächsten Abschnitt.
+
+Auch 62 Tage sind noch optimistisch: sie stammen aus der Stichprobe mit
 +0.137 R. Mit der Out-of-Sample-Erwartung von +0.074 R verdoppelt sich die
-Dauer grob auf **~80 Handelstage, also knapp vier Monate — rund 3 Payouts pro
-Jahr und Konto.**
+Dauer grob auf **~120 Handelstage, also gut fünf Monate — rund 2 bis 3 Payouts
+pro Jahr und Konto.**
+
+### Der Fehler im Werkzeug: eine zirkuläre Monte-Carlo-Stichprobe
+
+`cmd_montecarlo` baute seine Stichprobe aus einem Backtest **unter den echten
+Regeln**. Ein solcher Lauf endet beim Payout. Die Stichprobe bestand damit aus
+117 Trades mit +0.254 R — genau der Strecke, die einen Payout erzeugt hatte.
+Darauf dann die Payout-Wahrscheinlichkeit zu simulieren, beantwortet die Frage
+mit Daten, die per Konstruktion die Antwort enthalten.
+
+Das Ergebnis war entsprechend geschmeichelt: **99.2 % statt 81.6 %**, und
+41 statt 62 Tage. Der Fehler ist behoben — die Stichprobe kommt jetzt aus einem
+Lauf mit ausgehebeltem Ziel und Drawdown, simuliert wird weiter mit den echten
+Regeln. `test_montecarlo_stichprobe_endet_nicht_beim_payout` hält das fest.
+
+Die Lehre gehört zu den unangenehmeren im Projekt: **eine Stichprobe, die durch
+Erfolg begrenzt wurde, misst Erfolg.** Derselbe Fehlertyp wie das
+Volumenprofil aus Kapitel 15, nur schwerer zu sehen, weil hier keine Zukunft
+in die Vergangenheit sickerte — sondern eine Auswahl.
+
+### Wurden Konten geblowt?
+
+Die Frage, die zählt. Statt Monte Carlo hier der **echte historische Pfad**:
+Konto starten, laufen lassen bis Payout oder Bust, dann das nächste Konto ab
+der Stelle, wo das vorige endete.
+
+| von | bis | Trades | P/L | Ausgang |
+|---|---|---|---|---|
+| 2021-09-09 | 2022-04-26 | 117 | +4.012 $ | Payout |
+| 2022-05-03 | 2022-08-18 | 60 | +4.010 $ | Payout |
+| 2022-08-26 | 2023-04-27 | 133 | +4.004 $ | Payout |
+| 2023-05-05 | 2024-01-19 | 150 | +4.003 $ | Payout |
+| 2024-01-29 | 2024-12-11 | 143 | +187 $ | **festgefahren** |
+
+**Kein einziger Bust — in keinem Zyklus, weder beim Squeeze noch beim ORB.**
+Der Drawdown wurde nie gerissen, das Tagesverlustlimit nie.
+
+Aber der letzte Zyklus zeigt die Kehrseite. Das Konto stieg bis 52.919 $ —
+2.919 $ von 4.000 $, kurz vorm Ziel. Dann fiel es zurück auf 50.187 $. Der
+Drawdown-Boden war bei 50.000 $ eingerastet. Restpuffer: **186,94 $.**
+
+Und damit war das Konto tot, ohne gerissen zu sein:
+
+```
+Abgelehnte Signale:  520  Kleinste Position waere zu gross fuers Budget
+                      38  ausserhalb der Handelszeit
+```
+
+Bei 186,94 $ Puffer erlaubt `dd_buffer_fraction=0.20` noch **37,39 $** Risiko je
+Trade. Ein einziger MNQ-Kontrakt riskiert bei einem typischen Squeeze-Stop
+60–120 $. Das Konto hat danach **20 Monate lang keinen einzigen Trade mehr
+gemacht.**
+
+Fürs Payout-Farming ist das **genauso teuer wie ein Bust**: Gebühr bezahlt,
+nichts zurück. Der Unterschied ist kosmetisch. Wer nur auf die Bust-Rate
+schaut, hält ein Konto für gesund, das seit anderthalb Jahren tot ist.
+
+Die reale Quote ist damit: **4 von 5 Zyklen Payout, 0 Busts, 1 festgefahren**
+(ORB: 2 von 3, 0 Busts, 1 festgefahren). Das deckt sich mit dem korrigierten
+Monte Carlo (81.6 % / 17.2 %) — und eben nicht mit den 99.2 % vorher.
+
+### Lässt sich der festgefahrene Zustand auflösen?
+
+Naheliegender Gedanke: Wenn die eigene Vorsicht das Konto lähmt, dann eben
+mehr Risiko im Restpuffer zulassen. Auf dem historischen Pfad sah das gut aus —
+`dd_buffer_fraction` von 0.20 auf 0.35 brachte **einen Payout mehr, weiterhin
+ohne Bust.**
+
+Das ist aber n=6. Monte Carlo über 4.000 Läufe sagt das Gegenteil:
+
+| `dd_buffer_fraction` | Payout | Bust | festgefahren |
+|---|---|---|---|
+| 0.20 | **78.2 %** | 0.0 % | 20.4 % |
+| 0.35 | 73.0 % | 0.0 % | 26.6 % |
+| 0.50 | 71.7 % | 0.0 % | 28.1 % |
+| 1.00 | 71.3 % | 23.8 % | 4.8 % |
+
+Mehr Risiko im Puffer macht es **schlechter**, nicht besser: das Konto stirbt
+nur schneller, statt sich zu erholen. Der eine Extra-Payout auf dem echten Pfad
+war Rauschen. Bei voller Ausschöpfung kippt „festgefahren" in „Bust" um — 23.8 %
+— ohne dass die Payout-Rate steigt.
+
+**Der Wert bleibt bei 0.20.** Ein festgefahrenes Konto lässt sich nicht
+zurückholen; es lässt sich nur abschreiben und durch ein neues ersetzen. Genau
+das ist beim Payout-Farming die richtige Antwort — der Verlust ist die Gebühr,
+nicht das Kapital.
 
 Zusammen mit dem ORB (der zu anderen Zeiten und auf anderem Timeframe feuert):
 
@@ -1238,10 +1326,15 @@ ewig halten muss.** Der Verlust bei einem Bust ist die Gebühr, nicht das
 Kapital. Damit ist die richtige Zielgröße nicht die Überlebenswahrscheinlichkeit,
 sondern der **Erwartungswert je Gebühr**.
 
-Bei ~3 Payouts pro Jahr und Konto braucht das Ziel "1 Payout im Monat" also
-**vier Konten parallel**, für "2 Payouts im Monat" acht. Das ist die ehrliche
-Antwort — nicht eine Strategie, die zehnmal so gut ist, sondern mehrere Konten
-mit derselben validierten Strategie.
+Bei ~2–3 Payouts pro Jahr und Konto — und einer Ausfallquote von rund 20 %
+(festgefahren, nicht geblowt) — braucht das Ziel "1 Payout im Monat"
+**fünf bis sechs Konten parallel**, für "2 Payouts im Monat" das Doppelte. Das
+ist die ehrliche Antwort — nicht eine Strategie, die zehnmal so gut ist,
+sondern mehrere Konten mit derselben validierten Strategie.
+
+Der Konsistenzdeckel ist dabei der Grund, warum sich das nicht durch mehr
+Risiko abkürzen lässt: 20 % je Tag erzwingen viele Tage, und viele Tage
+brauchen ein Konto, das lange genug lebt.
 
 ### Konfiguration
 

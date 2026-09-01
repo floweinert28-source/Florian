@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import pytest
 
 from propbot.cli import build_parser, main
@@ -56,6 +58,31 @@ def test_montecarlo_laeuft(capsys) -> None:
 
     ausgabe = capsys.readouterr().out
     assert "Monte-Carlo" in ausgabe or "zu wenig" in ausgabe
+
+
+def test_montecarlo_stichprobe_endet_nicht_beim_payout(capsys) -> None:
+    """Die Stichprobe darf nicht aus einem Lauf unter den echten Regeln kommen.
+
+    Ein solcher Lauf bricht beim Payout ab. Simuliert man daraus die
+    Payout-Wahrscheinlichkeit, beantwortet man die Frage mit Daten, die per
+    Konstruktion einen Payout enthalten - das Ergebnis ist zirkulaer und viel
+    zu optimistisch. Deshalb muss die Grundlage mehr Trades haben als der
+    Backtest unter den echten Regeln liefert.
+    """
+    argumente = ["--bars", "12000", "--seed", "5"]
+    assert main(["backtest", *argumente]) in (0, 1)
+    backtest = capsys.readouterr().out
+
+    assert main(["montecarlo", *argumente, "--runs", "200"]) in (0, 1)
+    montecarlo = capsys.readouterr().out
+
+    treffer = re.search(r"Trades:\s+(\d+) in", backtest)
+    grundlage = re.search(r"Grundlage: (\d+) Trades", montecarlo)
+    if treffer is None or grundlage is None:
+        pytest.skip("Zu wenige Trades fuer den Vergleich")
+
+    assert "ueber den ganzen Datensatz" in montecarlo
+    assert int(grundlage.group(1)) >= int(treffer.group(1))
 
 
 def test_bericht_kann_gespeichert_werden(tmp_path, capsys) -> None:

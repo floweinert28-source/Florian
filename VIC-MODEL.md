@@ -29,6 +29,11 @@ mit dieser Unsicherheit zu lesen.
   mit grünen/roten Punkten (Preis über/unter dem jeweiligen VWAP) plus Trend-Zeile
   („Strong Up" / „Strong Down" / „Neutral"). Spaltenreihenfolge anfangs NQ, ES, YM;
   ab ~Anfang Juli ES, NQ, YM — der Indikator wurde zwischendurch geändert.
+- **Wichtige Einschränkung:** Das Panel ist live und zeigt den Zustand **zum
+  Screenshot-Zeitpunkt**, nicht zum Entry. Beleg: Loss 18 — Notiz „Preis war über
+  allen VWaps" (Entry ~15:45), Panel im Screenshot von 22:29 komplett rot, weil der
+  Preis bis dahin unter alle VWAPs gefallen war. Alle Panel-Angaben in den Katalogen
+  sind daher Capture-Zeitpunkt, nicht Entry-Zustand.
 - Bekannter Bug: „Error on bar 10650: The requested historical offset (301) is beyond
   the historical buffer's limit (300)" (Loss 21) — das Skript greift >300 Bars zurück,
   an solchen Tagen fällt das Panel aus.
@@ -136,10 +141,12 @@ Entry-Zeit, Entry→Exit, Distanz.
    über allen dreien; erst der spätere IFVG-Entry wurde genommen.
 2. **Kein Entry zwischen den VWAPs.** „Nächstes mal nur Trades die klar über oder
    unter allen 3 Vwaps sind" (L19, nach −360$). Preis zwischen den Linien = Chop.
-3. **Ordnungs-Hypothese (unbestätigt):** Für Longs soll NY VWAP der oberste sein.
-   L16 verlor ein ansonsten regelkonformes B&R-Setup — einzige gefundene Abweichung:
-   „NY Vwap war nicht an höchster stelle sondern unter Overnight Vwap." L24 nennt es
-   „nicht gemeinsam im Takt". → Muss an den 37 Winnern gegengeprüft werden.
+3. **Ordnung der drei VWAPs:** NY am Extrem (oberste für Longs, unterste für
+   Shorts) ist die beste Konstellation, aber keine Pflicht (Nutzer-Aussage).
+   Gegenprüfung an den B&R-Winnern durchgeführt — Ergebnis in **Anhang B**:
+   alle ablesbaren B&R-Winner hatten entweder NY am Extrem ODER die
+   PD-Magnet-Konstellation (PD über dem Preis als TP bei intakter Struktur);
+   4 von 5 ablesbaren B&R-Losses hatten NY *nicht* am Extrem.
 4. Alignment bewusst ignorieren ging in T28 gut („hab nicht wirklich auf VWAP
    allignement geschaut") — als Ausnahme dokumentiert, nicht als Widerlegung: der TP
    wurde dafür bewusst verkürzt, weil die VWAPs über dem Einstieg lagen.
@@ -198,6 +205,9 @@ Aus T33 (vier beschriftete Schritte), T35, L19, L22, T24:
 1. **Opening-Range-Break abwarten.** Vorher kein Entry — keine Ausnahme. (T24, L11
    „Trade bevor Break und überhaupt klarer Range", L19 „immer warten auf opening
    Range break. Alles andere ist eher gamble als klare Struktur.")
+   **Definition (vom Nutzer festgelegt): OR = 9:30–9:44 ET = 15:30–15:44 CEST.**
+   High/Low dieser 15 Minuten; Breaks zählen ab 15:45. Passt zum Befund, dass
+   Break-Markierungen auf den Charts fast immer 15:45–16:00 liegen.
 2. Retrace / Tap an einen der VWAPs (welcher, hängt vom Setup ab).
 3. **IFVG bildet sich und schließt** (min. 1m; 30s verworfen T29; „schwacher Break-
    Close" macht ihn ungültig L4; FVG muss unfilled sein L4).
@@ -220,8 +230,11 @@ SMT (ES sweept London, NQ nicht) als Bias-Argument (L3).
 - **HTF-Definition ist mechanisch: HHs+HLs = bullish, LHs+LLs = bearish** (T11, 17,
   22, 27, 28, 29, 31, 33, L6, L17, L24). „Bias" ohne diese Struktur zählt nicht
   (L4: „HTF war Bullish aber die Struktur davon war sehr schwach bullish").
-- **Offener Konflikt: welcher Timeframe ist „HTF"?** L21: 15m machte Lower Low,
-  1h weiter HH/HL — beide Lesarten möglich, Trade verlor. Braucht feste Hierarchie.
+- **HTF-Hierarchie (vom Nutzer festgelegt): 1h-Highs/Lows schlagen 15m-Highs/Lows.**
+  Der Konfliktfall L21 (15m Lower Low, 1h weiter HH/HL) ist damit entschieden:
+  maßgeblich war die 1h-Struktur (bullish) — der Long war danach richtig gelesen,
+  verloren hat ihn das Risikomanagement. 15m bleibt Arbeitsebene für Struktur,
+  1h ist Veto-Ebene.
 - **Gegen-HTF-Trades sind erlaubt, aber nur mit Overextension-Begründung** (T9, T19:
   „zu sehr im premium", lange kein Pullback zum Overnight VWAP, Bookmap ohne Orders
   darüber) — und dann **schnelle TPs** (L18: „HTF war Bearish deshalb hätten wir
@@ -390,12 +403,11 @@ Winrate-Aussagen lassen sich daraus nicht ableiten — Regeln schon.
 
 ## 14. Widersprüche und offene Punkte (müssen vor dem Bau geklärt werden)
 
-1. **HTF-Hierarchie:** 15m vs. 1h können widersprechen (L21). Welcher gewinnt, und
-   ab wann gilt eine Struktur als gebrochen (Close? Wick? wie viele Punkte)?
-2. **Opening Range:** exakte Definition fehlt (15:30–16:00? High/Low welcher
-   Kerzen?). Alles hängt an ihr.
-3. **VWAP-Ordnungs-Hypothese** (NY oben für Longs, L16/L24): an den 37 Winnern
-   gegenprüfen — dafür brauche ich die Panelzustände, die dokumentiert sind.
+1. ~~HTF-Hierarchie~~ **GEKLÄRT: 1h > 15m.** Offen bleibt nur: ab wann gilt die
+   1h-Struktur als gebrochen (Close? Wick? Punkteschwelle?).
+2. ~~Opening Range~~ **GEKLÄRT: 9:30–9:44 ET (15:30–15:44 CEST).**
+3. ~~VWAP-Ordnung~~ **GEPRÜFT — siehe Anhang B.** NY am Extrem = beste Lage,
+   nicht Pflicht; PD-über-Preis nur mit intakter Struktur als Ziel-Magnet.
 4. **„reclaim VIC entry"** (L7) und **Mid Range** (offiziell verboten, faktisch
    wieder genommen): Status klären — Mid Range komplett raus?
 5. **Panel-„Trend"-Logik:** Wie berechnet der Indikator Strong Up/Down/Neutral?
@@ -414,7 +426,7 @@ Winrate-Aussagen lassen sich daraus nicht ableiten — Regeln schon.
 ## 15. Kompakteste Fassung des Regelwerks (Stand der Dokumentation)
 
 1. Handle nur 15:30–~17:00 CEST, Einstiege nach dem Opening-Range-Break, nie davor.
-2. Bestimme den Bias mechanisch (HH/HL vs. LH/LL auf 15m, Konfliktregel offen).
+2. Bestimme den Bias mechanisch (HH/HL vs. LH/LL); bei 15m/1h-Konflikt entscheidet 1h.
 3. Alle 3 VWAPs auf einer Seite des Preises — sonst kein Trade.
 4. Unfilled 5m/15m-FVG mit NY VWAP darin seit NY Open? → Continuation. Keiner? → Double Break. Niemals das jeweils andere.
 5. Trigger-Reihenfolge: Break → VWAP-Tap → IFVG-Close (≥1m, FVG unfilled) → NY-VWAP-Break. Jeder fehlende Schritt = warten.
@@ -466,3 +478,75 @@ Muster über die Tabelle:
   Verluste — L16 mit der offenen Ordnungs-Frage, L23-1 schlicht Gegenseite.
 - In **mindestens 5 Loss-Tagen** stand der richtige Trade sichtbar daneben und wurde
   markiert, aber nicht genommen (L2, L8, L20, L22, L24).
+
+---
+
+## Anhang B: Ordnungs-Check — NY-VWAP-Position bei den Break-and-Retest-Winnern
+
+Frage (Nutzer): Hatten die B&R/VIC-Winner den NY VWAP ganz oben (Longs) bzw. ganz
+unten (Shorts) im VWAP-Stapel, oder waren die VWAPs durcheinander?
+
+Methode und Grenzen: Für Trades 1–35 stammt die Ordnung aus den beim Empfang
+protokollierten Notizen und Linienlagen (die Bilder selbst sind nicht mehr einsehbar);
+für T36 und alle Losses direkt aus den vorliegenden Bildern. Das Dashboard taugt
+dafür nur bedingt (Live-Panel, Capture-Zeitpunkt ≠ Entry — siehe §1). Wo die Ordnung
+nicht sauber ablesbar war, steht „unbekannt" — geraten wird nichts.
+
+### B&R/VIC-Winner
+
+| Trade | Seite | NY-Position ablesbar | Befund |
+|---|---|---|---|
+| T4 | Short | nein | unbekannt |
+| T6 | Short | teilweise (Panel, Capture) | Preis vermutlich zwischen VWAPs — unsicher |
+| T7 | Long | teilweise | NY über Overnight (Preis brach NY+PD, hielt ON); NY vs. PD offen |
+| T10 | Long | ja (Notiz) | **PD über Preis** („ohne Retrace auf PD seit Tagesbeginn") — NY nicht oben; PD war der Magnet, Lauf 174 Pkt Richtung PD |
+| T11 | Long | nein | „über allen Vwaps", Ordnung offen |
+| T12 | Short | teilweise | unter allen; ON „sehr gut gehalten" = nächste Linie über Preis? nicht eindeutig |
+| T14 | Long | nein | PD+ON unten gehalten, NY-Lage offen |
+| T15 | Long | nein | alle unter Preis, Ordnung offen |
+| T17 | Long | ja (Notiz) | **PD über Preis — TP war exakt der PD VWAP.** NY getappt (direkt unter Preis) |
+| T22 | Long | nein | alle unter Preis, Ordnung offen |
+| T25 | Short | ja | Retrace **zum NY VWAP** = NY unterste der drei → **NY am Extrem ✓** |
+| T29 | Long | ja | NY-Break als letzter Schritt = NY oberste → **✓** |
+| T30-2 | Short | ja | NY-VWAP-Retest, „volles Vwap allignment", unter allen → NY unterste → **✓** |
+| T31 | Long | ja | ON-Tap, dann NY-Break = NY über ON, oberste ablesbare → **✓** |
+| T33 | Long | unklar | Tap-Folge PD-NY dann NY — Reihenfolge der Linien nicht rekonstruierbar |
+| T36 | Long | **ja (Bild)** | NY ~28.081 > ON ~28.020 > PD ~27.885, Preis darüber → **✓ sauberste Bestätigung** |
+
+Zwischenstand Winner: **5 klar konsistent (T25, T29, T30-2, T31, T36) + 1 teilweise
+(T7). 2 strukturierte Ausnahmen (T10, T17). 8 nicht ablesbar. 0 ablesbare Winner mit
+„VWAPs durcheinander" ohne erkennbare Logik.**
+
+Die beiden Ausnahmen sind kein Zufallsrauschen, sondern **dieselbe Konstellation**:
+PD NY VWAP lag noch **über** dem Preis, die Struktur war intakt bullish, und der PD
+diente als Ziel — T17 nahm ihn wörtlich als TP, T10 lief 174 Punkte auf ihn zu. Also:
+
+> **PD über dem Preis ist bei Longs kein Ausschluss, sondern ein Ziel-Magnet — aber
+> nur bei intakter bullisher Struktur (1h).**
+
+### B&R-Versuche unter den Losses (Ordnung aus den Bildern ablesbar)
+
+| Loss | Seite | Ordnung am Entry | NY am Extrem? | Ausgang |
+|---|---|---|---|---|
+| L3 | Long | ON ~29.840 > NY ~29.810 > PD ~29.780 | **nein** (ON oben) | Loss (+ Signal nur auf MNQ) |
+| L9 | Long | NY ~29.905 > ON ~29.875 > PD ~29.870 | **ja** | Loss nur durch Trump-News — Setup galt |
+| L10 | Long | PD 29.366 > NY ~29.305 > ON ~29.275 | nein (PD oben) | Loss — PD oben, aber **1h-Struktur bearish** ⇒ PD-Magnet-Ausnahme galt nicht |
+| L15-B | Long | Preis am ON, NY darunter | **nein** | Loss („rein ICT", schwache Buyers am ON) |
+| L16 | Long | NY unter ON (Nutzer-Notiz) | **nein** | Loss — der ursprüngliche Auslöser der Frage |
+
+**4 von 5 ablesbaren B&R-Losses hatten NY nicht am Extrem; der einzige mit NY oben
+(L9) verlor ausschließlich durch ein News-Event.** L10 zeigt zugleich die Grenze der
+PD-Magnet-Ausnahme: PD oben zählt nur mit bullisher 1h-Struktur — dort war sie bearish.
+
+### Ableitung für das Regelwerk
+
+1. **A-Bedingung:** NY VWAP am Extrem des Stapels (oben für Long, unten für Short).
+2. **Zulässige Ausnahme:** PD NY VWAP über dem Preis bei Long (bzw. unter bei Short),
+   wenn die 1h-Struktur in Traderichtung intakt ist — dann ist PD das Ziel und der
+   TP gehört an/unter den PD.
+3. **Rote Flagge:** Overnight VWAP über NY bei einem Long (bzw. unter NY bei Short)
+   ohne PD-Magnet-Konstellation. In keinem ablesbaren Winner vorhanden, in L3, L15-B
+   und L16 die gemeinsame Signatur.
+4. Einschränkung: 8 von 16 B&R-Winnern sind für die Ordnung nicht mehr auswertbar.
+   Die Regel ist mit dem vorhandenen Material **gestützt, nicht bewiesen** — final
+   verifizierbar erst mit VWAP-Berechnung auf den historischen Daten des Bots.

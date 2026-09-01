@@ -34,6 +34,7 @@ __all__ = [
     "ChartAusschnitt",
     "TIMEFRAMES",
     "folge",
+    "volumen_ist_echt",
     "male_chart",
     "schneide",
     "zahlentafel",
@@ -69,6 +70,9 @@ class ChartAusschnitt:
     vwap: pd.Series | None = None
     vortag_hoch: float | None = None
     vortag_tief: float | None = None
+    #: Falsch, wenn das Volumen ein Tick-Zaehler ist - dann ist die Linie ein
+    #: kumulativer Durchschnittskurs und ausdruecklich *kein* VWAP.
+    vwap_echt: bool = False
 
 
 def _aggregiere(frame: pd.DataFrame, regel: str) -> pd.DataFrame:
@@ -78,10 +82,32 @@ def _aggregiere(frame: pd.DataFrame, regel: str) -> pd.DataFrame:
     return kerzen.dropna(subset=["open", "high", "low", "close"])
 
 
+#: Ab dieser relativen Streuung gilt eine Volumenreihe als echtes Volumen.
+#: Echtes CME-Volumen schwankt innerhalb einer Sitzung um Faktor 50-100 zwischen
+#: ruhigen Minuten und Nachrichtenzeiten; der Variationskoeffizient liegt weit
+#: ueber 1. Der Tick-Zaehler von Dukascopy kommt auf 0.32 - er gewichtet
+#: praktisch nicht und macht aus dem VWAP einen simplen Durchschnittskurs.
+ECHTES_VOLUMEN_CV = 0.8
+
+
+def volumen_ist_echt(volumen: pd.Series) -> bool:
+    """Prueft, ob eine Volumenreihe stark genug streut, um zu gewichten.
+
+    Ein Tick-Zaehler sieht aus wie Volumen, wirkt aber nicht wie eines. Mit ihm
+    gerechnet weicht der "VWAP" nur um wenige Prozent der Tagesspanne vom
+    ungewichteten Mittel ab - die Linie heisst dann VWAP, ist aber keiner.
+    """
+    gueltig = volumen[volumen > 0]
+    if len(gueltig) < 10 or gueltig.mean() <= 0:
+        return False
+    return float(gueltig.std() / gueltig.mean()) >= ECHTES_VOLUMEN_CV
+
+
 def _vwap(kerzen: pd.DataFrame, tag: pd.Index) -> pd.Series:
-    """VWAP, taeglich zurueckgesetzt. Ohne echtes Volumen typischer Kurs."""
+    """Kumulativer Durchschnittskurs, mit Volumen gewichtet sofern vorhanden."""
     typisch = (kerzen["high"] + kerzen["low"] + kerzen["close"]) / 3.0
-    volumen = kerzen["volume"].where(kerzen["volume"] > 0, 1.0)
+    volumen = kerzen["volume"].where(kerzen["volume"] > 0, np.nan)
+    volumen = volumen.fillna(volumen.median() if volumen.notna().any() else 1.0)
     gewichtet = (typisch * volumen).groupby(tag).cumsum()
     summe = volumen.groupby(tag).cumsum()
     return gewichtet / summe
@@ -155,6 +181,7 @@ def schneide(
         timeframe=timeframe,
         zeitzone=zeitzone,
         vwap=_vwap(kerzen, tag),
+        vwap_echt=volumen_ist_echt(kerzen["volume"]),
         vortag_hoch=vortag_hoch,
         vortag_tief=vortag_tief,
     )
@@ -188,7 +215,8 @@ def _male_feld(ax, a: ChartAusschnitt, titel: str, marken: list[str] | None) -> 
         )
 
     if a.vwap is not None and len(a.vwap) == n:
-        ax.plot(range(n), a.vwap.to_numpy(), color="#5b6bbf", linewidth=1.3, zorder=4, label="VWAP")
+        name = "VWAP" if a.vwap_echt else "Ø Kurs (kein VWAP: Volumen ist Proxy)"
+        ax.plot(range(n), a.vwap.to_numpy(), color="#5b6bbf", linewidth=1.3, zorder=4, label=name)
     for wert, name, farbe in (
         (a.vortag_hoch, "PDH", "#f39c12"),
         (a.vortag_tief, "PDL", "#8e44ad"),
@@ -254,6 +282,7 @@ def folge(
                 timeframe=timeframe,
                 zeitzone=zeitzone,
                 vwap=ganz.vwap.iloc[stueck[0] : stueck[-1] + 1] if ganz.vwap is not None else None,
+                vwap_echt=ganz.vwap_echt,
                 vortag_hoch=ganz.vortag_hoch,
                 vortag_tief=ganz.vortag_tief,
             )

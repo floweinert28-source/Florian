@@ -131,3 +131,54 @@ def test_vwap_springt_nicht_ueber_mitternacht(markt) -> None:
 
     assert len(vwap) > 10
     assert schritte.max() < spanne * 0.25, "VWAP macht einen Sprung - vermutlich Tagesreset"
+
+
+def test_tickzaehler_gilt_nicht_als_volumen() -> None:
+    """Ein Tick-Zaehler sieht aus wie Volumen, gewichtet aber nicht.
+
+    Dukascopys Volumenspalte streut um Faktor 9; echtes CME-Volumen um 50-100.
+    Mit dem Proxy gerechnet weicht der "VWAP" nur um wenige Punkte vom
+    ungewichteten Mittel ab - die Linie darf dann nicht VWAP heissen.
+    """
+    from propbot.charting import volumen_ist_echt
+
+    rng = np.random.default_rng(11)
+    proxy = pd.Series(rng.uniform(0.02, 0.08, 400))
+    echt = pd.Series(rng.lognormal(mean=6.0, sigma=1.4, size=400))
+
+    assert not volumen_ist_echt(proxy)
+    assert volumen_ist_echt(echt)
+
+
+def test_chart_beschriftet_die_linie_ehrlich(markt, tmp_path) -> None:
+    """Bei Proxy-Volumen darf im Bild nicht 'VWAP' als Legende stehen."""
+    a = schneide(markt, timeframe="5m", datum="2024-03-05")
+    assert not a.vwap_echt, "Der Testmarkt hat gleichmaessiges Volumen - also Proxy"
+
+    ziel = male_chart([a], tmp_path / "chart.png")
+    assert ziel.exists()
+
+
+def test_nullvolumen_bekommt_medianes_gewicht(markt) -> None:
+    """Eine Kerze ohne Volumen darf nicht das 20-fache Gewicht bekommen.
+
+    Frueher wurde Volumen 0 durch 1.0 ersetzt - beim Dukascopy-Massstab
+    (Median 0.05) war das ein 20-faches Gewicht fuer genau die Kerzen, in denen
+    nichts passiert ist.
+    """
+    from propbot.charting import _vwap
+
+    kerzen = pd.DataFrame(
+        {
+            "high": [101.0, 102.0, 103.0, 104.0],
+            "low": [99.0, 100.0, 101.0, 102.0],
+            "close": [100.0, 101.0, 102.0, 103.0],
+            "volume": [0.05, 0.0, 0.05, 0.05],
+        }
+    )
+    tag = pd.Index([0, 0, 0, 0])
+
+    linie = _vwap(kerzen, tag)
+
+    typisch = (kerzen["high"] + kerzen["low"] + kerzen["close"]) / 3.0
+    assert linie.iloc[-1] == pytest.approx(typisch.mean(), abs=0.01)

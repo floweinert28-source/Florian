@@ -107,3 +107,27 @@ def test_zeitprofil_deckt_den_handelstag_ab(markt) -> None:
 def test_timeframe_tabelle_ist_vollstaendig() -> None:
     for name in ("1m", "5m", "15m", "30m", "1h", "4h", "1d"):
         assert name in TIMEFRAMES
+
+
+def test_vwap_springt_nicht_ueber_mitternacht(markt) -> None:
+    """Bei einem Fenster ueber Nacht darf der VWAP nicht am Datum zuruecksetzen.
+
+    Die asiatische Sitzung laeuft ueber Mitternacht New Yorker Zeit. Ein
+    VWAP-Sprung mitten darin gehoert keiner Sitzung an und waere ein
+    Zeichenfehler, kein Marktereignis.
+    """
+    from propbot.charting import schneide as schneiden
+
+    a = schneiden(
+        markt,
+        timeframe="5m",
+        start="2024-03-04 14:00",
+        ende="2024-03-05 12:00",
+        zeitzone="America/New_York",
+    )
+    vwap = a.vwap.dropna()
+    schritte = vwap.diff().abs().dropna()
+    spanne = float(a.kerzen["high"].max() - a.kerzen["low"].min())
+
+    assert len(vwap) > 10
+    assert schritte.max() < spanne * 0.25, "VWAP macht einen Sprung - vermutlich Tagesreset"

@@ -30,7 +30,15 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-__all__ = ["ChartAusschnitt", "TIMEFRAMES", "male_chart", "zahlentafel", "zeitprofil"]
+__all__ = [
+    "ChartAusschnitt",
+    "TIMEFRAMES",
+    "folge",
+    "male_chart",
+    "schneide",
+    "zahlentafel",
+    "zeitprofil",
+]
 
 #: Zeitrahmen, die die Kommandozeile kennt - auf Pandas-Regeln abgebildet.
 TIMEFRAMES: dict[str, str] = {
@@ -86,15 +94,31 @@ def schneide(
     datum: str | None = None,
     von: str | None = None,
     bis: str | None = None,
+    start: str | pd.Timestamp | None = None,
+    ende: str | pd.Timestamp | None = None,
     zeitzone: str = "America/New_York",
     max_kerzen: int = MAX_KERZEN,
 ) -> ChartAusschnitt:
-    """Schneidet den gewuenschten Ausschnitt zu und rechnet den Kontext dazu."""
+    """Schneidet den gewuenschten Ausschnitt zu und rechnet den Kontext dazu.
+
+    ``datum`` waehlt einen Kalendertag. ``start``/``ende`` waehlen stattdessen
+    ein absolutes Zeitfenster - noetig fuer Sitzungen, die ueber Mitternacht
+    laufen, etwa die asiatische.
+    """
     if timeframe not in TIMEFRAMES:
         raise ValueError(f"Unbekannter Zeitrahmen {timeframe!r}. Bekannt: {', '.join(TIMEFRAMES)}")
+    if datum is not None and (start is not None or ende is not None):
+        raise ValueError("Entweder 'datum' oder 'start'/'ende' - nicht beides.")
 
     lokal = frame.tz_convert(zeitzone)
     vortag_hoch = vortag_tief = None
+    if start is not None or ende is not None:
+        if start is not None:
+            lokal = lokal[lokal.index >= pd.Timestamp(start).tz_localize(zeitzone)]
+        if ende is not None:
+            lokal = lokal[lokal.index < pd.Timestamp(ende).tz_localize(zeitzone)]
+        if lokal.empty:
+            raise ValueError(f"Keine Daten zwischen {start} und {ende}.")
     if datum is not None:
         ziel = pd.Timestamp(datum).date()
         tage = pd.Index(lokal.index.date)
@@ -108,6 +132,7 @@ def schneide(
         if lokal.empty:
             raise ValueError(f"Keine Daten fuer {datum} - Feiertag, Wochenende oder ausserhalb.")
 
+    fenster_modus = start is not None or ende is not None
     kerzen = _aggregiere(lokal, TIMEFRAMES[timeframe])
     if von is not None:
         kerzen = kerzen[kerzen.index.time >= pd.Timestamp(von).time()]
@@ -118,7 +143,13 @@ def schneide(
     if len(kerzen) > max_kerzen:
         kerzen = kerzen.iloc[-max_kerzen:]
 
-    tag = pd.Index(kerzen.index.date)
+    # Der VWAP setzt normalerweise je Handelstag zurueck. Bei einem absoluten
+    # Fenster waere das falsch: die asiatische Sitzung laeuft ueber Mitternacht
+    # New Yorker Zeit, und ein Sprung mittendrin gehoert keiner Sitzung an.
+    if fenster_modus:
+        tag = pd.Index(np.zeros(len(kerzen), dtype=int))
+    else:
+        tag = pd.Index(kerzen.index.date)
     return ChartAusschnitt(
         kerzen=kerzen,
         timeframe=timeframe,
@@ -184,22 +215,79 @@ def _male_feld(ax, a: ChartAusschnitt, titel: str, marken: list[str] | None) -> 
         ax.legend(fontsize=7, loc="upper left", framealpha=0.85)
 
 
+def folge(
+    frame: pd.DataFrame,
+    *,
+    timeframe: str,
+    start: str | pd.Timestamp,
+    ende: str | pd.Timestamp,
+    zeitzone: str = "America/New_York",
+    max_kerzen: int = MAX_KERZEN,
+) -> list[ChartAusschnitt]:
+    """Teilt ein langes Fenster in aufeinanderfolgende, lesbare Ausschnitte.
+
+    Eine Sitzung von neun Stunden hat auf dem Minutenchart 540 Kerzen. In ein
+    Feld gezeichnet ist das ein Farbbrei. Statt den Zeitrahmen zu vergroessern -
+    was die Frage veraendern wuerde - wird das Fenster in Abschnitte zerlegt,
+    die einzeln lesbar sind und zusammen den ganzen Zeitraum abdecken.
+    """
+    ganz = schneide(
+        frame,
+        timeframe=timeframe,
+        start=start,
+        ende=ende,
+        zeitzone=zeitzone,
+        max_kerzen=10**9,
+    )
+    kerzen = ganz.kerzen
+    anzahl = max(1, -(-len(kerzen) // max_kerzen))  # aufrunden
+    grenzen = np.array_split(np.arange(len(kerzen)), anzahl)
+
+    teile: list[ChartAusschnitt] = []
+    for stueck in grenzen:
+        if not len(stueck):
+            continue
+        teil = kerzen.iloc[stueck[0] : stueck[-1] + 1]
+        teile.append(
+            ChartAusschnitt(
+                kerzen=teil,
+                timeframe=timeframe,
+                zeitzone=zeitzone,
+                vwap=ganz.vwap.iloc[stueck[0] : stueck[-1] + 1] if ganz.vwap is not None else None,
+                vortag_hoch=ganz.vortag_hoch,
+                vortag_tief=ganz.vortag_tief,
+            )
+        )
+    return teile
+
+
 def male_chart(
     ausschnitte: list[ChartAusschnitt],
     ziel: str | Path,
     *,
     titel: str = "",
     marken: list[str] | None = None,
+    spalten: int | None = None,
 ) -> Path:
-    """Malt einen oder mehrere Ausschnitte nebeneinander in eine PNG-Datei."""
+    """Malt die Ausschnitte in eine PNG-Datei, bei Bedarf als Gitter."""
     if not ausschnitte:
         raise ValueError("Ohne Ausschnitt laesst sich nichts malen.")
-    breite = 7.0 * len(ausschnitte)
-    fig, achsen = plt.subplots(1, len(ausschnitte), figsize=(breite, 6.8))
-    if len(ausschnitte) == 1:
-        achsen = [achsen]
-    for ax, a in zip(achsen, ausschnitte):
-        _male_feld(ax, a, f"{titel} {a.timeframe} ({len(a.kerzen)} Kerzen)".strip(), marken)
+    anzahl = len(ausschnitte)
+    spalten = spalten or (anzahl if anzahl <= 3 else 2)
+    zeilen = -(-anzahl // spalten)
+    fig, achsen = plt.subplots(
+        zeilen, spalten, figsize=(7.0 * spalten, 6.0 * zeilen), squeeze=False
+    )
+    flach = achsen.ravel()
+    for ax, a in zip(flach, ausschnitte):
+        zeitraum = (
+            f"{a.kerzen.index[0]:%d.%m %H:%M}-{a.kerzen.index[-1]:%H:%M}"
+            if anzahl > 1
+            else f"({len(a.kerzen)} Kerzen)"
+        )
+        _male_feld(ax, a, f"{titel} {a.timeframe} {zeitraum}".strip(), marken)
+    for ax in flach[anzahl:]:
+        ax.axis("off")
     plt.tight_layout()
     ziel = Path(ziel)
     plt.savefig(ziel, dpi=100, facecolor="white")

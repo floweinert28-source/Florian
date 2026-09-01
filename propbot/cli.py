@@ -455,18 +455,33 @@ def cmd_chart(args, config: BotConfig) -> int:
     marken = [m.strip() for m in args.marken.split(",")] if args.marken else None
 
     ausschnitte = []
-    for timeframe in timeframes:
-        ausschnitte.append(
-            charting.schneide(
-                frame,
-                timeframe=timeframe,
-                datum=args.datum,
-                von=args.von,
-                bis=args.bis,
-                zeitzone=zeitzone,
-                max_kerzen=args.max_kerzen,
+    if args.start or args.ende:
+        # Absolutes Fenster: kann ueber Mitternacht laufen und wird bei Bedarf
+        # in mehrere lesbare Abschnitte zerlegt.
+        for timeframe in timeframes:
+            ausschnitte.extend(
+                charting.folge(
+                    frame,
+                    timeframe=timeframe,
+                    start=args.start,
+                    ende=args.ende,
+                    zeitzone=zeitzone,
+                    max_kerzen=args.max_kerzen,
+                )
             )
-        )
+    else:
+        for timeframe in timeframes:
+            ausschnitte.append(
+                charting.schneide(
+                    frame,
+                    timeframe=timeframe,
+                    datum=args.datum,
+                    von=args.von,
+                    bis=args.bis,
+                    zeitzone=zeitzone,
+                    max_kerzen=args.max_kerzen,
+                )
+            )
 
     ziel = Path(args.out or f"chart_{args.datum or 'zuletzt'}.png")
     charting.male_chart(
@@ -728,6 +743,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     chart_parser.add_argument("--von", help="Startzeit im Ausschnitt, z. B. 09:30")
     chart_parser.add_argument("--bis", help="Endzeit im Ausschnitt, z. B. 16:00")
+    chart_parser.add_argument(
+        "--start", help="Absoluter Beginn, z. B. '2026-08-27 18:00' (fuer Sitzungen ueber Nacht)"
+    )
+    chart_parser.add_argument("--ende", help="Absolutes Ende, z. B. '2026-08-28 03:00'")
     chart_parser.add_argument(
         "--marken", help="Senkrechte Marker, kommagetrennt, z. B. 10:00,11:30"
     )

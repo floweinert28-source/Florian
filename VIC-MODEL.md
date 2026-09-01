@@ -52,6 +52,9 @@ Definitionen aus dem Skript:
   Zugriff — der Fehler stammt fast sicher aus dem **weggelassenen POC/Value-Area-
   Teil** der Vollversion (Schleifen über >300 Bars). Die POC/VAH/VAL- und
   Session-Level auf den Charts kommen NICHT aus dieser Skript-Fassung.
+- **Nutzer-Bestätigung: alle VWAP-Semantiken sind absichtlich so** (Overnight =
+  normaler Tages-VWAP ab Handelstagbeginn, PD läuft weiter). Der Nachbau im Bot
+  erfolgt 1:1 nach diesem Skript — nichts wird „korrigiert".
 - Rechte Preisskala führt zusätzlich pVAH / pPOC / pVAL (Previous Day Value Area),
   Session-Level (Asia, Lndn, NYAM/NYPM High/Low), teils „4h"- und „Daily FVG"-Marken.
 
@@ -441,8 +444,11 @@ Winrate-Aussagen lassen sich daraus nicht ableiten — Regeln schon.
    verfügbar). TP-Anker und Ausschlüsse laufen über die übrigen Level.
 8. **1000-Punkte-Schwelle** der Erschöpfungsregel: NQ-Wert klar, ES-Äquivalent
    (~100 Punkte?) festlegen.
-9. ~~News-Filter~~ **GEKLÄRT: kein Trading vor FOMC, PPI und CPI.** (Genaues
-   Blackout-Fenster — ganzer Tag oder Stunden davor — noch zu präzisieren.)
+9. ~~News-Filter~~ **GEKLÄRT: kein Trading vor FOMC, PPI und CPI — nach dem
+   Release sind Trades wieder valid.** Praktische Konsequenz im Handelsfenster
+   (9:30–~11:30 ET): CPI/PPI erscheinen 8:30 ET, also VOR dem Fenster ⇒ diese Tage
+   werden ab 9:30 normal gehandelt. FOMC erscheint 14:00 ET, also NACH dem Fenster
+   ⇒ FOMC-Tage sind faktisch handelsfreie Tage.
 10. ~~Freitags-Regel~~ **GEKLÄRT: Freitag wird ganz normal gehandelt.** Der Befund
     „4 von 24 Loss-Tagen waren Freitage" bleibt als Beobachtung im Journal stehen.
 

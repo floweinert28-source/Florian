@@ -113,8 +113,21 @@ def sitzung_fuer(profil: str, symbol: str) -> SessionWindow:
         return SessionWindow.fx_london_ny()
     if profil == "us_rth":
         return SessionWindow.us_futures_rth()
+    if profil == "vic":
+        # Fenster des VIC-Modells (VIC-MODEL.md §11): Einstiege nach dem
+        # Opening-Range-Break bis 11:15, flach um 12:00 New York. Freitag
+        # wird auf ausdrueckliche Nutzer-Entscheidung normal gehandelt.
+        return SessionWindow(
+            start="09:45",
+            end="12:00",
+            blackouts=(),
+            no_new_trades_after="11:15",
+            flat_at="12:00",
+            skip_friday_after=None,
+            zeitzone="America/New_York",
+        )
     if profil != "auto":
-        raise ConfigError(f"Unbekanntes Session-Profil {profil!r}. Erlaubt: auto, fx, us_rth")
+        raise ConfigError(f"Unbekanntes Session-Profil {profil!r}. Erlaubt: auto, fx, us_rth, vic")
     if symbol.upper() in _US_FUTURES:
         return SessionWindow.us_futures_rth()
     return SessionWindow.fx_london_ny()

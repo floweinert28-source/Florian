@@ -7,9 +7,12 @@ from .opening_range import OpeningRange, OpeningRangeParams
 from .router import RegimeRouter
 from .squeeze import SqueezeBreakout, SqueezeBreakoutParams
 from .trend_pullback import TrendPullback, TrendPullbackParams
+from .vic import Vic, VicParams
 from .vwap_pullback import VwapPullback, VwapPullbackParams
 
 __all__ = [
+    "Vic",
+    "VicParams",
     "OpeningRange",
     "OpeningRangeParams",
     "RangeFade",

@@ -581,3 +581,69 @@ PD-Magnet-Ausnahme: PD oben zählt nur mit bullisher 1h-Struktur — dort war si
 4. Einschränkung: 8 von 16 B&R-Winnern sind für die Ordnung nicht mehr auswertbar.
    Die Regel ist mit dem vorhandenen Material **gestützt, nicht bewiesen** — final
    verifizierbar erst mit VWAP-Berechnung auf den historischen Daten des Bots.
+
+---
+
+## Anhang C: Erster mechanischer Backtest (Stand 01.09.2026)
+
+**Code:** `propbot/vic_levels.py` (VWAPs + OR, 1:1 nach dem Pine-Skript, gegen
+Handrechnungen getestet), `propbot/strategy/vic.py` (Setups), Config
+`configs/nq_vic.json`. Lookahead-Prüfung bestanden (Signale identisch auf
+gekürzten Daten). 305 Tests grün.
+
+### Was mechanisiert wurde
+Continuation (Zone = unfilled 5m/15m-FVG seit 09:30 mit NY VWAP darin, nach
+Trennung vom Zonenrand der erste Retrace, Reclaim-Kerze + NY-VWAP-Tap +
+Alignment aller drei VWAPs) und Double Break (starker OR-Break mit Momentum-
+Body und cleanem Close, kein schwacher Break, nur wenn keine Zone existiert).
+Bias 1h-Pivots mit 15m-Body-Close-Bruch. SL am Invalidierungspunkt, nie auf
+einem VWAP. TP: 15m-Swing bzw. 1:1-Fallback (Continuation), 1,2R (DB).
+Fenster 09:45–11:15 ET, flach 12:00. FOMC-Tage gesperrt. Max. 2 Signale/Tag.
+**Nicht mechanisiert:** Bookmap, Gegen-HTF-Overextension-Trades, Session-
+Level-Ziele, PD-Magnet, reclaim-Entry, sowie alles, was im Journal Ermessen
+blieb.
+
+### Ergebnis (purer Edge: jedes Signal, feste Größe, MNQ-Kosten 1,17 Punkte)
+
+| Zeitraum | n | EW | t-Stat | WR |
+|---|---|---|---|---|
+| 2021-09 – 2026-08 gesamt | 493 | **−0,044 R** | −1,00 | 47 % |
+| 2021–2024 | 377 | −0,067 R | — | 46 % |
+| **2025–2026** | 116 | **+0,076 R** | +0,8 | 50 % |
+
+Nach Setup: Continuation 2021–24 **−0,334 R** (33 % WR) → 2025–26 **+0,241 R**
+(55 % WR, n=40). Double Break in beiden Perioden ≈ 0. Frequenz 0,4/Tag
+(deutlich strenger als der echte Trader). Sensitivität: 9 Varianten
+(db_reward, Momentum, Retrace-Fenster, Trennung, Cooldown, ohne Shorts) —
+alle im Gesamtzeitraum zwischen −0,06 und 0,00 R, alle ab 2025 zwischen
++0,06 und +0,13 R. Das Bild hängt nicht an einer Stellschraube.
+
+### Ehrliche Einordnung
+
+1. **Kein statistisch belastbarer Edge in der Mechanisierung.** Gesamt leicht
+   negativ (nicht signifikant), jüngste zwei Jahre leicht positiv (nicht
+   signifikant, n=116). Auffällig: die positive Phase ist genau der Zeitraum,
+   in dem das Modell entwickelt wurde, und wird vom Continuation-Teil
+   getragen. Zwei Erklärungen, beide möglich, mit diesen Daten nicht
+   unterscheidbar: (a) das Modell passt auf das aktuelle Regime und hätte
+   2022–24 verloren; (b) die Mechanisierung ist zu grob und das Ermessen des
+   Traders trägt den eigentlichen Edge.
+2. **Datenqualität ist die härteste Grenze.** CFD-Proxydaten mit
+   Tick-Volumen: die drei VWAPs weichen um einzelne Punkte von den echten
+   CME-VWAPs ab — bei Regeln, die auf VWAP-Taps in Punktenähe triggern, ist
+   das systematisches Rauschen. Echte CME-Daten (z. B. Databento OHLCV-1m
+   mit echtem Volumen) würden diese Schwäche beheben.
+3. **Validierung gegen die Journal-Tage war nur begrenzt möglich:** die
+   Screenshot-Daten der Winner sind nicht die Handelstage. Wo Achsen-Daten
+   existieren (Losses), gibt es Teilübereinstimmung in Tag/Richtung.
+4. Konto-Simulation (50k-Regeln, 300 $ Risiko, 1 Loss/Tag): über 5 Jahre
+   −1.303 $ Endstand — konsistent mit EW ≈ 0 minus Reibung. Ohne positiven
+   Edge gibt es nichts zu skalieren.
+
+### Nächste sinnvolle Schritte (nicht begonnen)
+- Echte CME-Daten beschaffen und VWAPs/Backtest darauf wiederholen — erst
+  dann ist die 2025/26-Beobachtung belastbar prüfbar.
+- Die Continuation-Regel isoliert auf 2025/26 out-of-sample fortschreiben
+  (paper-forward), statt weiter an Parametern zu drehen.
+- Mit dem Nutzer die Trades durchgehen, die der Code nimmt und er nicht
+  (und umgekehrt), um die größten Übersetzungslücken zu finden.

@@ -19,24 +19,39 @@ mit dieser Unsicherheit zu lesen.
 
 ## 1. Werkzeuge und Darstellung
 
-**Indikator „VIC - Model"** (eigenes TradingView-Skript, ab Trade 5 im Chart-Titel):
-- Drei Session-VWAPs. Zuordnung nach Deckkraft (vom Nutzer bestätigt):
-  - **deckend dunkelrot = NY VWAP** (startet 15:30 CEST)
-  - **leicht transparent = Overnight VWAP**
-  - **fast farblos = PD NY VWAP** (NY VWAP von gestern, weiterlaufend)
-- Beschriftungen im Chart: „NY", „VWAP" (= Overnight), „PD".
-- **Dashboard** oben rechts: Matrix Ticker × (NY VWAP, Overnight VWAP, PD NY VWAP)
-  mit grünen/roten Punkten (Preis über/unter dem jeweiligen VWAP) plus Trend-Zeile
-  („Strong Up" / „Strong Down" / „Neutral"). Spaltenreihenfolge anfangs NQ, ES, YM;
-  ab ~Anfang Juli ES, NQ, YM — der Indikator wurde zwischendurch geändert.
+**Indikator „VIC - Model"** (eigenes TradingView-Skript, Pine v6 — liegt jetzt im
+Repo unter `indicators/vic_model.pine`; ab Trade 5 im Chart-Titel). Exakte
+Definitionen aus dem Skript:
+- **NY VWAP:** verankert am NY Open **09:30 ET**, hlc3 × Volumen, existiert nur
+  09:30–16:00 ET (außerhalb `na`). Deckend dunkelrot, Label „NY".
+- **Overnight VWAP:** verankert am **Beginn des Futures-Handelstages** (Tageskerzen-
+  Wechsel, CME = 18:00 ET) und läuft **den ganzen Tag durch** — auch durch die
+  RTH-Session. Es ist also faktisch ein Ganztages-VWAP ab 18:00 ET, kein reiner
+  Overnight-Wert. Leicht transparent, Label „VWAP".
+- **PD NY VWAP:** verankert am **NY Open des Vortags (09:30 ET gestern)** und
+  **akkumuliert seitdem weiter** (rollt beim NY Close 16:00 ET auf den Anker der
+  gerade beendeten Session). Es ist NICHT der eingefrorene gestrige VWAP, sondern
+  ein laufender ~31-Stunden-VWAP — deshalb driftet die Linie intraday. Fast
+  farblos, Label „PD".
+- Typischer Preis: hlc3. Volumen: Chartsymbol.
+- **Dashboard** oben rechts: Matrix Ticker × (NY VWAP, Overnight VWAP, PD NY VWAP).
+  Aus dem Skript: **Punkte = Close > VWAP grün, Close < VWAP rot, sonst grau** —
+  berechnet auf den **Micro-Kontrakten** (MES1!, MNQ1!, MYM1!), nur angezeigt als
+  ES/NQ/YM. **Trend = „Strong Up" wenn Close über ALLEN verfügbaren VWAPs, „Strong
+  Down" wenn unter allen, sonst „Neutral"** — die Trend-Zeile ist also exakt die
+  Alignment-Regel aus §4.1 als Ampel. Achtung: außerhalb 09:30–16:00 ET ist der NY
+  VWAP `na`, dann zählt der Trend nur noch 2 VWAPs. Spaltenreihenfolge anfangs
+  NQ, ES, YM; ab ~Anfang Juli ES, NQ, YM (Skript geändert).
 - **Wichtige Einschränkung:** Das Panel ist live und zeigt den Zustand **zum
   Screenshot-Zeitpunkt**, nicht zum Entry. Beleg: Loss 18 — Notiz „Preis war über
   allen VWaps" (Entry ~15:45), Panel im Screenshot von 22:29 komplett rot, weil der
   Preis bis dahin unter alle VWAPs gefallen war. Alle Panel-Angaben in den Katalogen
   sind daher Capture-Zeitpunkt, nicht Entry-Zustand.
-- Bekannter Bug: „Error on bar 10650: The requested historical offset (301) is beyond
-  the historical buffer's limit (300)" (Loss 21) — das Skript greift >300 Bars zurück,
-  an solchen Tagen fällt das Panel aus.
+- Bekannter Bug: „Error on bar 10650: … historical offset (301) … beyond … limit
+  (300)" (Loss 21). In der eingereichten Skript-Fassung gibt es keinen solchen
+  Zugriff — der Fehler stammt fast sicher aus dem **weggelassenen POC/Value-Area-
+  Teil** der Vollversion (Schleifen über >300 Bars). Die POC/VAH/VAL- und
+  Session-Level auf den Charts kommen NICHT aus dieser Skript-Fassung.
 - Rechte Preisskala führt zusätzlich pVAH / pPOC / pVAL (Previous Day Value Area),
   Session-Level (Asia, Lndn, NYAM/NYPM High/Low), teils „4h"- und „Daily FVG"-Marken.
 
@@ -417,9 +432,9 @@ Winrate-Aussagen lassen sich daraus nicht ableiten — Regeln schon.
 4. ~~reclaim VIC entry / Mid Range~~ **GEKLÄRT:** reclaim = NY-VWAP-Disrespect →
    Reclaim → erneuter Break mit IFVG (§5.4). Mid Range endgültig raus — vor dem
    OR-Break gibt es keine Trades.
-5. **Panel-„Trend"-Logik:** Pine-Skript existiert beim Nutzer, liegt aber in einer
-   anderen (nicht zugänglichen) Chat-Sitzung — muss hier eingereicht oder ins Repo
-   gelegt werden. Bis dahin Nachbau aus den Charts.
+5. ~~Panel-„Trend"-Logik~~ **GEKLÄRT — Skript liegt im Repo**
+   (`indicators/vic_model.pine`): Trend = Close über/unter allen verfügbaren VWAPs,
+   Punkte = Close vs. VWAP je Micro-Ticker. Damit exakt nachbaubar.
 6. **„protected"**: operational nur teilweise definiert (nächstes LH im Trend T2;
    PO3-Manipulation macht High protected T30). Vollständige Definition nötig.
 7. ~~Bookmap~~ **GEKLÄRT: wird vorerst weggelassen** (keine Orderflow-Daten

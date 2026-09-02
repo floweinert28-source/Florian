@@ -37,7 +37,7 @@ END_DAY = dt.date(2026, 8, 31)
 
 
 def load_days(data_dir):
-    cache = os.path.join(data_dir, "..", "bars_cache.pkl")
+    cache = os.path.join(data_dir, "bars_cache.pkl")
     if os.path.exists(cache):
         with open(cache, "rb") as f:
             return pickle.load(f)

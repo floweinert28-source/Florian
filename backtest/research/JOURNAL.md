@@ -29,3 +29,11 @@ Lehre: Auch Volumen/VWAP/Extension aendern nichts an der Kernstruktur "Intraday-
 - News-Bars 08:30/10:00/14:00 (Range >= 3–5x): Continuation 37–49 % (negativ), Fade 41–47 %. Nach News ist der Preis KEIN gutes 1:1-Spiel – weder mit noch gegen.
 - Multi-Tages-Kontext (Inside-Day, NR7, 3 Up/Down, Wide-Day) auf 08:12-Fade/-Break: 46–54 %, Train/Test widerspruechlich.
 Lehre: Konditionierung auf Kontext (Cross-Asset, News, Vortagesstruktur) verschiebt die 50 % nicht. Naechste Runde: Drift-Quellen (Uhrzeit-Saisonalitaet, Overnight, Turn-of-Month, Post-Big-Day) statt Reversal-Entries.
+
+## Runde 5 – Drift-Quellen (RR 1:1, TP/SL +/- k ATR)
+- Drift-Karte pro 30-min-Fenster: Long-Bias 50–55 %, Short 45–50 % (Bullenmarkt 2021–26). Kein Fenster > 55 %.
+- Overnight-Long (15:59 -> 09:30): NQ 52–54 %, ES 54–55 % (t 1–1.6). Bekannter Overnight-Drift, klein.
+- Turn-of-Month Long: 54–55 % (t 1.4–1.6).
+- Nach grossem Vortag (>= 1 ATR): CONTINUATION 55–57 %, Reversal 43–45 % → Momentum auf Tagesebene, nicht Mean-Reversion.
+- Wochentag: Montag Long 58 % (N=232, t 1.2), Freitag Long 57 %, Donnerstag Short 52 %.
+Lehre: Echte Drift-Effekte existieren, sind aber 3–8 pp gross und richtungsabhaengig (Regime). Weit weg von 80 %.

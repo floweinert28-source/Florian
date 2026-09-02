@@ -84,3 +84,8 @@ Fazit: LDR ist NQ-spezifisch. Naechste Runde: Frequenz-Varianten des LDR + "Lond
   → Trade-off Frequenz vs. Trefferquote: 60 Trades/Jahr bei ~59 % oder 11–18/Jahr bei 69–75 %.
 - NY-Fortsetzung nach Down-Vortag + Premarket-Retrace: Train ~50 %, Test schwankend → nichts. Auch an LDR-Tagen keine Richtung fuer 09:30.
 - Spiegel (Up-Vortag, Premarket-Retrace runter -> Long): 56–63 %, N klein, Test schwach.
+
+## Gestufte Groesse (LDR strict/loose) – Prop-Sim
+- Direct: strict 600 / loose 300: >=1 Payout 59 %, Ø 0.81 Payouts, ROI +366 %, Median 296 Tage. Groessere Stufen senken die Payout-Quote (Konsistenzregel).
+- Flex: strict 1200 / loose 300: >=1 Payout 49 %, Ø 1.45 Payouts, ROI +1214 %, Median 175 Tage – beste Kombination fuer Flex.
+- Frequenz-Ziel (1–2 Payouts/Monat) wird von keiner Variante erreicht: LDR liefert ~5 Trades/Monat (lockere Stufe) mit +0.16R bzw. ~1.5/Monat mit +0.4R.

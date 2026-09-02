@@ -1,0 +1,35 @@
+# Range-Reversal-Forschung – Abschlussbericht (Stand 02.09.2026)
+
+**Daten:** Dukascopy 1-min BID (Cash-Index-CFDs), Sep 2021 – Aug 2026. NQ + ES komplett (je 1.566 Tage), YM 87 %, Gold 42 %, WTI/EURUSD ausstehend.
+**Methodik (nach dem Look-Ahead-Bug vom 28.08.):** Entscheidungen nur aus abgeschlossenen Bars; im Entry-Bar wird nie ein TP gewertet; Limit-Fills nur durch spätere Bars; SL vor TP im selben Bar; Kosten NQ 0,75 Pkt / ES 0,4 Pkt / YM 2,5 Pkt; Train 2021-09 … 2024-12, Test 2025-01 … 2026-08; Jahresstabilität; Cross-Instrument-Check.
+
+## 1. Ursprungsfrage
+| Frage | Ergebnis |
+|---|---|
+| Range 08:12–09:12 NY: wie oft werden beide Seiten bis Tagesende gebrochen? | **64,4 %** (1.565 Tage), jedes Jahr 62–70 % – reines Muster, kein Trade-Setup |
+
+## 2. Getestete Strategie-Familien (alle ❌)
+| # | Familie | Varianten | Bestes ehrliches Ergebnis | Warum ❌ |
+|---|---|---|---|---|
+| 1 | Fade an der Linie, TP Gegenseite (RR 0,95 / 1:1 / 2×TP+BE) | 2.500+ Zonen | max. 53 % WR ≈ Rauschen | Münzwurf, nach Kosten negativ |
+| 2 | Mini-TP / weiter SL („Midday-Fade") | 400 Kombis | 81,6 % bei 80 % Breakeven | vor Bug-Fix „87 %" – Artefakt; nach Kosten tot |
+| 3 | Sweep + Confirmation (MSS, iFVG, OTE, Reclaim) | 96 Kombis | +108R brutto | Train-Periode nach Kosten negativ |
+| 4 | HTF-FVG (15m/1h/2h/4h) | ~1.000 | ES 4h-FVG +100 $/Trade, t 1–2 | 2–4 pp über BE, DD 17–35k, Rauschbereich |
+| 5 | Session-Interaktionen | 2.360 | 96 formale Survivor | mittlere Erwartung negativ; Spiegelrichtung/ES bestätigen nicht; Top-10-Gewinner = 77–133 % des Gewinns |
+| 6 | Opening Range (ORB, Judas, Gap, ON-Sweep) | ~2.400 | Gap-Fade +58k, London-Reclaim +42k | unabhängig nachgebaut: Gewinn = Top-10-Trades bzw. 2025-Regime, Train ≈ 0 |
+| 7 | Tagestyp-Filter → Fade an Kompressionstagen (ON/W ≥ 3) | 56 | NQ +44,7k, t 2,2, Train+Test>0 | bricht bei anderer Overnight-Definition zusammen; ES t 0,7; **YM negativ** |
+| 8 | „80–90 % nach flachem Sweep" | – | Train 80 % / Test 82–90 % | Tautologie: Gegenseite ist meist schon im 30-min-Fenster geholt – kein Trade übrig |
+| 9 | Impulskerzen-Continuation | 24 | alle negativ | tot |
+| 10 | PDH/PDL/PDC/Midnight-Open Turtle-Soup | 78 | max t 1,8 | nichts |
+| 11 | Mehrfach-Konfluenzen (6 Bausteine, 504 Kombis × NQ/ES) | 1.008 | Median t ≈ –0,5 | Konfluenzen verschlechtern Sweep-Reclaim |
+| 12 | Mikrostruktur nach Uhrzeit | 192 | 5-min-Fortsetzung 47–52 % | keine Momentum-/Reversal-Fenster |
+
+## 3. Was real ist (Statistik, kein Trade)
+- Beide Range-Seiten werden in ~2/3 der Tage geholt; an Kompressionstagen (Range/ATR < 0,2, Overnight/Range ≥ 3) und montags 75–85 %.
+- Sweeps von Session-Levels setzen sich eher fort als umzukehren.
+- Nach einem Linienbruch läuft der Preis im Median 7,7 Range-Breiten gegen die Position, bevor die Gegenseite kommt – deshalb stirbt jeder Fade mit engem Stop.
+
+## 4. Fazit
+Nach ~12.000 Regelvarianten auf NQ/ES: **kein Setup mit validierbarem Edge**. Hohe Win-Raten sind immer über das RR erkauft (Fair Value), positive 5-Jahres-Summen stammen aus dem 2025-Regime oder wenigen Ausreißer-Tagen.
+
+Skripte: `backtest/` (Kern) und `backtest/research/` (alle Familien). Daten: `backtest/data/`.

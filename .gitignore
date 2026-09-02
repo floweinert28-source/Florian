@@ -16,7 +16,9 @@ venv/
 data/
 # Kursdaten fuer Backtests sind bewusst versioniert
 !backtest/data/
-backtest/data/**/bars_cache.pkl
+backtest/data/**/*.pkl
+backtest/research/**/*.pkl
+backtest/research/**/__pycache__/
 
 # Editors / OS
 .vscode/

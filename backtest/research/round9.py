@@ -3,9 +3,10 @@ Sweep+Reclaim aller 30-min-Zonen des Tages (NQ), (c) Verlierer-Features innerhal
 import sys, math, datetime as dt, statistics
 from bisect import bisect_left
 from collections import defaultdict
-sys.path.insert(0, "/tmp/claude-0/-home-user-Florian/154c19e6-740a-5434-82b2-7192601fe205/scratchpad/research/r3")
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import round7 as R
-SP = "/tmp/claude-0/-home-user-Florian/154c19e6-740a-5434-82b2-7192601fe205/scratchpad"
+SP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 PT, BT = -0.3, 0.7
 
 def stats(rows):
@@ -64,7 +65,7 @@ def build_var(zs, ze, buf=0.1, max_wait=120, tp_mult=1.0, end=960, cov=0.87):
                          sld=sld, W=W, entry_t=mods[ei], sweep_t=mods[j], dirn=dirn, hold=(mods[min(kk, m-1)] - mods[ei])))
     return rows
 
-R.days = R.load_days_vol(SP + "/data"); R.dates = sorted(R.days); R.COST = 0.75; R.USD = 20; R.TAG = "NQ"
+R.days = R.load_days_vol(SP + "/nq"); R.dates = sorted(R.days); R.COST = 0.75; R.USD = 20; R.TAG = "NQ"
 R.rth = {}; R.hist = []
 for d in R.dates:
     if d.weekday() >= 5: continue

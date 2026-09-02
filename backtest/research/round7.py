@@ -7,9 +7,11 @@ dist_pdh/pdl (Entry - PDH bzw PDL in ATR), on_pos (Entry-Position in Overnight-R
 import sys, math, datetime as dt, statistics
 from bisect import bisect_left
 from collections import defaultdict
-sys.path.insert(0, "/tmp/claude-0/-home-user-Florian/154c19e6-740a-5434-82b2-7192601fe205/scratchpad/research/r3")
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+_REPO_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 from load_vol import load_days_vol
-DATA = sys.argv[1] if len(sys.argv) > 4 else "/tmp/claude-0/-home-user-Florian/154c19e6-740a-5434-82b2-7192601fe205/scratchpad/data"
+DATA = sys.argv[1] if len(sys.argv) > 4 else os.path.join(_REPO_DATA, "nq")
 COST = float(sys.argv[2]) if len(sys.argv) > 4 else 0.75; USD = float(sys.argv[3]) if len(sys.argv) > 4 else 20; TAG = sys.argv[4] if len(sys.argv) > 4 else "NQ"
 days = load_days_vol(DATA); dates = sorted(days)
 def zone(d, a, b, cov=0.6):

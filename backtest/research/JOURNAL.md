@@ -15,3 +15,11 @@
 - Multi-Tages-Kontext: Inside-Days, NR7, Tag nach Trendtag
 - EURUSD/Gold Asian-Range-Fade (Daten ausstehend)
 - Zeit-Stop statt Preis-Stop (Trade nach N min schliessen) – veraendert WR-Definition, nur wenn TP 1:1 bleibt
+
+## Runde 3 – Ergebnis (NQ+ES, RR 1:1)
+- Volumen-Klimax am Sweep: KEIN Vorteil (NQ 08:12 mit Klimax 46,9 % / ohne 50,2 %; ES 53,5 % vs 50,2 % – Rauschen). Volumen erklaert das Reversal nicht.
+- VWAP-Band-Rueckkehr (1,5–3 σ): 47–53 %, alle t < 0. TP am VWAP: 27–45 % (RR-Effekt).
+- Extension-Fade (0,75–1,5 ATR vom Open): 44–51 %, negativ.
+- Close-Sweeps 14:30–15:30: 47–52 %, negativ.
+- Bestes: London-Sweep-Reclaim ohne Klimax 54,4 % (bekannt, t=2). Nichts naeher an 80 %.
+Lehre: Auch Volumen/VWAP/Extension aendern nichts an der Kernstruktur "Intraday-Preis ist nahe Martingal bei symmetrischen Barrieren".

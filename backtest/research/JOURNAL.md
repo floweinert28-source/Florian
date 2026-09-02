@@ -23,3 +23,9 @@
 - Close-Sweeps 14:30–15:30: 47–52 %, negativ.
 - Bestes: London-Sweep-Reclaim ohne Klimax 54,4 % (bekannt, t=2). Nichts naeher an 80 %.
 Lehre: Auch Volumen/VWAP/Extension aendern nichts an der Kernstruktur "Intraday-Preis ist nahe Martingal bei symmetrischen Barrieren".
+
+## Runde 4 – Ergebnis (NQ+ES, RR 1:1)
+- SMT-Divergenz (NQ sweept, ES nicht, oder umgekehrt): 45–52 %, kein Vorteil gegenueber "beide brechen" (46–55 %). ICT-SMT bringt bei 1:1 nichts Messbares.
+- News-Bars 08:30/10:00/14:00 (Range >= 3–5x): Continuation 37–49 % (negativ), Fade 41–47 %. Nach News ist der Preis KEIN gutes 1:1-Spiel – weder mit noch gegen.
+- Multi-Tages-Kontext (Inside-Day, NR7, 3 Up/Down, Wide-Day) auf 08:12-Fade/-Break: 46–54 %, Train/Test widerspruechlich.
+Lehre: Konditionierung auf Kontext (Cross-Asset, News, Vortagesstruktur) verschiebt die 50 % nicht. Naechste Runde: Drift-Quellen (Uhrzeit-Saisonalitaet, Overnight, Turn-of-Month, Post-Big-Day) statt Reversal-Entries.

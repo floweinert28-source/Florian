@@ -30,7 +30,7 @@ NY = ZoneInfo("America/New_York")
 UTC = ZoneInfo("UTC")
 PRICE_SCALE = 1000.0
 MIN_COVERAGE = 0.87     # Anteil der Zonen-Minuten, die Daten haben muessen
-MIN_DAYS = 800
+MIN_DAYS = int(os.environ.get("MIN_DAYS", "800"))
 
 START_DAY = dt.date(2021, 9, 1)
 END_DAY = dt.date(2026, 8, 31)

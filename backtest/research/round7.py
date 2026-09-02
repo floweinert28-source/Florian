@@ -9,7 +9,8 @@ from bisect import bisect_left
 from collections import defaultdict
 sys.path.insert(0, "/tmp/claude-0/-home-user-Florian/154c19e6-740a-5434-82b2-7192601fe205/scratchpad/research/r3")
 from load_vol import load_days_vol
-DATA = sys.argv[1]; COST = float(sys.argv[2]); USD = float(sys.argv[3]); TAG = sys.argv[4]
+DATA = sys.argv[1] if len(sys.argv) > 4 else "/tmp/claude-0/-home-user-Florian/154c19e6-740a-5434-82b2-7192601fe205/scratchpad/data"
+COST = float(sys.argv[2]) if len(sys.argv) > 4 else 0.75; USD = float(sys.argv[3]) if len(sys.argv) > 4 else 20; TAG = sys.argv[4] if len(sys.argv) > 4 else "NQ"
 days = load_days_vol(DATA); dates = sorted(days)
 def zone(d, a, b, cov=0.6):
     mods, o, c, lo, hi, v = days[d]; i = bisect_left(mods, a); j = bisect_left(mods, b)
@@ -114,6 +115,7 @@ def analyze(name, rows):
         if g and gt:
             print(f"  Kombi {combo[0][4]}&{combo[1][4]}: Train WR {sum(r['win'] for r in g)/len(g)*100:.1f}% ({len(g)}) -> Test WR {sum(r['win'] for r in gt)/len(gt)*100:.1f}% ({len(gt)})")
 
-analyze("London 02-05 Sweep+Reclaim 1R", build(120, 300))
-analyze("08:12-09:12 Fade an der Linie 1R", build(492, 552, entry_mode="line"))
-analyze("08:12-09:12 Sweep+Reclaim 1R", build(492, 552))
+if __name__ == "__main__":
+    analyze("London 02-05 Sweep+Reclaim 1R", build(120, 300))
+    analyze("08:12-09:12 Fade an der Linie 1R", build(492, 552, entry_mode="line"))
+    analyze("08:12-09:12 Sweep+Reclaim 1R", build(492, 552))

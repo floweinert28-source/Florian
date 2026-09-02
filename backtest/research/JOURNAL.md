@@ -50,3 +50,11 @@ Lehre: Drift ist real, aber klein und schwankt mit dem Marktregime (2022/2024/20
 - 08:12-Fade/-Reclaim: keine Feature-Kombi haelt im Test (Kombis fallen auf 36–46 %).
 - ES London: andere Quartile, Kombi faellt im Test (60 % -> 45 %). Keine Cross-Instrument-Bestaetigung der NQ-Regel (Runde 8 prueft mit identischer Regel).
 Lehre: Einzelne Features verschieben 3–8 pp; Kombinationen bringen 15 pp, aber die Stichprobe schrumpft auf ein Niveau, wo Zufall ~10 pp Streuung hat.
+
+## Runde 8 – Stress-Test Kandidat "London-Sweep-Reclaim nach Down-Vortag mit starker Reclaim-Kerze" (RR 1:1)
+- NQ: Nachbarschaft pt<-0.3..-0.7 x body>=0.7..0.8 durchweg 64–72 % WR, t 2.5–3.2, Train ~ Test, alle Jahre >= 57 % (2023 schwaechstes Jahr). Beste Balance: pt<-0.3 & body>=0.7 (N=119, 64.7 %, Train 65.9 / Test 62.2) bzw. body>=0.75 (N=90, 68.9 %, 67.8 / 71.0).
+- Einzelfilter: nur Vortag-Down 58.7 % (N=286), nur Body>=0.75 58.3 % (N=312) – beide Test > Train.
+- Gegenprobe Vortag-UP & Body: 55 % → die Richtung des Vortags ist relevant (Mean-Reversion nach Down-Tag im London-Sweep).
+- ES: 47–52 % (keine Bestaetigung; nur pt<-0.7 56–62 % bei N<65). YM: Train 55–60 %, Test 33–50 % → faellt durch.
+- Andere Zonen (PRE, 08:12, OPEN) mit gleicher Regel: NQ 41–58 %, ES 50–56 %, YM OPEN 61 % (N=80).
+Einordnung: Erster 1:1-Kandidat mit >60 % out-of-sample, aber NQ-spezifisch, ~15–25 Trades/Jahr, Test-N nur 24–37 (SE ~8 pp). Multiple-Testing: aus ~150 Feature-Quartilen gewaehlt – die Konsistenz der Nachbarschaft und Jahre ist das Hauptargument, nicht ein einzelner t-Wert.

@@ -34,3 +34,17 @@
 Nach ~12.000 Regelvarianten auf NQ/ES: **kein Setup mit validierbarem Edge**. Hohe Win-Raten sind immer über das RR erkauft (Fair Value), positive 5-Jahres-Summen stammen aus dem 2025-Regime oder wenigen Ausreißer-Tagen.
 
 Skripte: `backtest/` (Kern) und `backtest/research/` (alle Familien). Daten: `backtest/data/`.
+
+## 5. Prop-Firm-ROI (Lucid 50K) – Monte-Carlo nach exakten Regeln
+Simulator: `backtest/propfirm/` (Regeln: Eval +3.000 $, MLL 2.000 $ EOD-trailing, Eval-Konsistenz 50 %, Funded ohne Konsistenz, Payout 50 % des Gewinns max 2.000 $, Split 90/10, 5 Payouts; Daily-Variante: Payout jederzeit über 52.100 $, MLL intraday).
+
+| Konfiguration (1 Trade/Tag, Risiko 1.850 $, Fair Value) | Pass-Quote | ≥1 Payout | E[Auszahlung] | ROI (Gebühr 136 $) | ROI (81,60 $) |
+|---|---|---|---|---|---|
+| Flex, RR 1:1, p=50 % | 38 % | 10 % | 405 $ | +198 % | +405 % |
+| Flex, RR 1:0,75, p=57 % | 37 % | 11 % | 413 $ | +204 % | +410 % |
+| Flex, RR 1:1,5, p=40 % | 29 % | 6 % | 263 $ | +93 % | +230 % |
+| Daily, RR 1:1, p=50 % | 38 % | 17 % | 675 $ | +322 % (~160 $) | – |
+| Flex, RR 1:1, p=47 % (Slippage) | 33 % | 7 % | 239 $ | +76 % | +202 % |
+| Flex, 2 Trades/Tag à 925 $, p=50 % | 26 % | 5 % | 200 $ | +47 % | – |
+
+Kernaussagen: (1) Ohne jeden Edge ist die Eval eine positiv bewertete Option, weil der Verlust bei der Gebühr gedeckelt ist. (2) Entscheidend ist die Positionsgröße: ein Verlust knapp unter dem MLL (1.850–1.900 $) hebt die Pass-Quote von 22 % (kleine Trades) auf 37 %. (3) Ein Trade pro Tag; jeder zusätzliche Trade kostet Erwartungswert (Kosten + Trailing-Ratsche). (4) 90 % der Evals enden bei 0 – der ROI entsteht über viele Evals. (5) –3 pp Trefferquote (Slippage) halbiert den ROI; ein echter Edge multipliziert ihn.

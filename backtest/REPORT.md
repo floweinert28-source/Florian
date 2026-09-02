@@ -23,6 +23,7 @@
 | 10 | PDH/PDL/PDC/Midnight-Open Turtle-Soup | 78 | max t 1,8 | nichts |
 | 11 | Mehrfach-Konfluenzen (6 Bausteine, 504 Kombis × NQ/ES) | 1.008 | Median t ≈ –0,5 | Konfluenzen verschlechtern Sweep-Reclaim |
 | 12 | Mikrostruktur nach Uhrzeit | 192 | 5-min-Fortsetzung 47–52 % | keine Momentum-/Reversal-Fenster |
+| 13 | Limit-Entry in definierter Sweep-Tiefe (0,25/0,5/1 W hinter der Linie) | 216 × NQ/ES | max t 1,5; Median t –0,9 | Familie klar negativ |
 
 ## 3. Was real ist (Statistik, kein Trade)
 - Beide Range-Seiten werden in ~2/3 der Tage geholt; an Kompressionstagen (Range/ATR < 0,2, Overnight/Range ≥ 3) und montags 75–85 %.

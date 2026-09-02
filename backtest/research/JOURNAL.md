@@ -78,3 +78,9 @@ Fazit: Die Methode liefert kein zweites Setup. Der London-Effekt bleibt singulae
 - YM: RR-1:1-Zonensuche max 52 %, Mini-TP-Fades Edge <= 0.9 pp, LDR 51.9 % (Test 40 %). YM komplett ohne Edge.
 - Gold (75 % der Tage): LDR 51 % → Muster nicht uebertragbar. ES 48 %.
 Fazit: LDR ist NQ-spezifisch. Naechste Runde: Frequenz-Varianten des LDR + "London retraced -> NY setzt fort".
+
+## Runde 11 – LDR-Frequenzstufen und "London retraced -> NY setzt fort"
+- Stufen (London-Reclaim, TP 1R): Body>=0.75 ohne Vortagsfilter 58.3 % (N=312, Test 60.6 %); Body>=0.75 & jeder Down-Tag 59.6 % (136); Body>=0.75 & Vortag<-0.3 68.9 % (90); Body>=0.83 & Vortag<-0.3 75.0 % (60, Test 84 %); Body>=0.85 & Vortag<-0.3 75.0 % (52, Test 82 %).
+  → Trade-off Frequenz vs. Trefferquote: 60 Trades/Jahr bei ~59 % oder 11–18/Jahr bei 69–75 %.
+- NY-Fortsetzung nach Down-Vortag + Premarket-Retrace: Train ~50 %, Test schwankend → nichts. Auch an LDR-Tagen keine Richtung fuer 09:30.
+- Spiegel (Up-Vortag, Premarket-Retrace runter -> Long): 56–63 %, N klein, Test schwach.

@@ -16,7 +16,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sweep_reclaim_backtest import load_days
 
-PT = -0.3; COST = 0.75; USD = 20.0
+PT = -0.3; COST = 0.75; USD = 20.0  # PT per CLI ueberschreibbar (5. Argument)
 
 def run(days, body_thr=0.75, tp_mult=1.0, buf=0.1, zs=120, ze=300, start_min=300, max_wait=120, end=960):
     dates = sorted(days)
@@ -98,6 +98,7 @@ def summary(trades):
 if __name__ == "__main__":
     days = load_days(sys.argv[1]); body = float(sys.argv[2]) if len(sys.argv) > 2 else 0.75
     tpm = float(sys.argv[3]) if len(sys.argv) > 3 else 1.0; out = sys.argv[4] if len(sys.argv) > 4 else "ldr_trades.csv"
+    if len(sys.argv) > 5: PT = float(sys.argv[5])
     trades = run(days, body, tpm)
     print(f"LDR body>={body} TP {tpm}R:"); summary(trades)
     with open(out, "w", newline="") as f:

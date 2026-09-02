@@ -24,8 +24,8 @@ from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
 UTC = ZoneInfo("UTC")
 PRICE_SCALE = 1000.0
-DURATION = 60          # Range-Laenge in Minuten
-MIN_RANGE_BARS = 55
+DURATION = int(__import__("os").environ.get("DURATION", 60))
+MIN_RANGE_BARS = int(DURATION * 0.9)
 HORIZONS = (60, 120, 240)  # Minuten nach Range-Ende
 
 

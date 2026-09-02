@@ -60,7 +60,15 @@ def simulate(days, start, dur, tp_frac, sl_frac):
             sl_lvl = rh + sl_frac * width
         n += 1
         res = None
-        while j < m:
+        # Entry-Bar: High/Low-Reihenfolge unbekannt -> kein TP werten,
+        # SL konservativ werten (Bar kann nach dem Touch durchlaufen)
+        if direction == "long" and lows[j] <= sl_lvl:
+            res = "SL"
+        elif direction == "short" and highs[j] >= sl_lvl:
+            res = "SL"
+        else:
+            j += 1
+        while res is None and j < m:
             if direction == "long":
                 if lows[j] <= sl_lvl:
                     res = "SL"; break

@@ -58,3 +58,11 @@ Lehre: Einzelne Features verschieben 3–8 pp; Kombinationen bringen 15 pp, aber
 - ES: 47–52 % (keine Bestaetigung; nur pt<-0.7 56–62 % bei N<65). YM: Train 55–60 %, Test 33–50 % → faellt durch.
 - Andere Zonen (PRE, 08:12, OPEN) mit gleicher Regel: NQ 41–58 %, ES 50–56 %, YM OPEN 61 % (N=80).
 Einordnung: Erster 1:1-Kandidat mit >60 % out-of-sample, aber NQ-spezifisch, ~15–25 Trades/Jahr, Test-N nur 24–37 (SE ~8 pp). Multiple-Testing: aus ~150 Feature-Quartilen gewaehlt – die Konsistenz der Nachbarschaft und Jahre ist das Hauptargument, nicht ein einzelner t-Wert.
+
+## Runde 9 – Ausfuehrung, Zeit-Karte, Verlierer des Kandidaten (NQ LDR)
+- Puffer 0.1–0.2 W noetig (buf 0 → 50 %): der Stop muss hinter dem Sweep-Extrem Luft haben.
+- Wartezeit 60–240 min egal; TP 0.75R 73 % / 1R 65 % / 1.5R 55 % / 2R 44 % → Erwartung ~+0.3R bei jedem RR (echter Drift nach dem Reclaim, kein RR-Artefakt).
+- Zonen 01:30/02:30–05:00 gleich gut; 02:00–04:30 schwaecher → die volle London-Range zaehlt.
+- Zeit-Karte (gleicher Filter auf 30-min-Zonen): ~50 % ueberall → Effekt ist London-Range-spezifisch, nicht "Kerzenkoerper allgemein".
+- Innerhalb des Kandidaten: Body >= 0.83 → 75 % (60) vs 54 % (59); breite Range (W >= 97 Pkt) → 70 %; Long/Short gleich gut.
+Fazit: Kandidat 1 = "London Down-Day Reclaim" (NQ). Als Strategie-Skript festgehalten: backtest/strategies_ldr.py.

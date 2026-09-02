@@ -26,7 +26,7 @@ UTC = ZoneInfo("UTC")
 PRICE_SCALE = 1000.0
 DURATION = int(__import__("os").environ.get("DURATION", 60))
 MIN_RANGE_BARS = int(DURATION * 0.9)
-HORIZONS = (60, 120, 240)  # Minuten nach Range-Ende
+HORIZONS = tuple(int(x) for x in os.environ.get("HORIZONS", "60,120,240").split(","))
 
 
 def load_all(data_dir):
@@ -127,32 +127,31 @@ def main():
             "start_ny": f"{s // 60:02d}:{s % 60:02d}",
             "end_ny": f"{(s + DURATION) // 60:02d}:{(s + DURATION) % 60:02d}",
             "days": n,
-            "win_1h_pct": round(wins[60] / n * 100, 1),
-            "win_2h_pct": round(wins[120] / n * 100, 1),
-            "win_4h_pct": round(wins[240] / n * 100, 1),
+            **{f"win_{h}m_pct": round(wins[h] / n * 100, 1) for h in HORIZONS},
             "median_resolve_min": med,
             "median_range_pts": round(med_range, 1),
         })
         if (k + 1) % 20 == 0:
             print(f"  {k + 1}/{len(starts)} Fenster...", flush=True)
 
-    rows.sort(key=lambda r: -r["win_4h_pct"])
+    rows.sort(key=lambda r: -r[f"win_{HORIZONS[-1]}m_pct"])
     with open(out_csv, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()
         w.writerows(rows)
 
-    print(f"\nTop 15 Fenster (sortiert nach Win innerhalb 4h), {DURATION}min Range:")
-    print(f"{'Start':>6} {'Ende':>6} {'Tage':>5} {'1h%':>6} {'2h%':>6} {'4h%':>6} {'MedMin':>7} {'MedRange':>9}")
+    hdr = " ".join(f"{h}m%".rjust(7) for h in HORIZONS)
+    print(f"\nTop 15 Fenster (sortiert nach Win innerhalb {HORIZONS[-1]}min), {DURATION}min Range:")
+    print(f"{'Start':>6} {'Ende':>6} {'Tage':>5} {hdr} {'MedMin':>7} {'MedRange':>9}")
     for r in rows[:15]:
-        print(f"{r['start_ny']:>6} {r['end_ny']:>6} {r['days']:>5} "
-              f"{r['win_1h_pct']:>6} {r['win_2h_pct']:>6} {r['win_4h_pct']:>6} "
+        vals = " ".join(str(r[f"win_{h}m_pct"]).rjust(7) for h in HORIZONS)
+        print(f"{r['start_ny']:>6} {r['end_ny']:>6} {r['days']:>5} {vals} "
               f"{r['median_resolve_min']:>7} {r['median_range_pts']:>9}")
     ref = [r for r in rows if r["start_ny"] == "08:12"]
     if ref:
         r = ref[0]
-        print(f"\nReferenz 08:12-09:12: 1h {r['win_1h_pct']}% | 2h {r['win_2h_pct']}% "
-              f"| 4h {r['win_4h_pct']}% | Median {r['median_resolve_min']}min")
+        vals = " | ".join(f"{h}min {r[f'win_{h}m_pct']}%" for h in HORIZONS)
+        print(f"\nReferenz 08:12 + {DURATION}min Range: {vals} | Median {r['median_resolve_min']}min")
 
 
 if __name__ == "__main__":

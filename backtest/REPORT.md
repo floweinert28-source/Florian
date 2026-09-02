@@ -48,3 +48,19 @@ Simulator: `backtest/propfirm/` (Regeln: Eval +3.000 $, MLL 2.000 $ EOD-trailing
 | Flex, 2 Trades/Tag à 925 $, p=50 % | 26 % | 5 % | 200 $ | +47 % | – |
 
 Kernaussagen: (1) Ohne jeden Edge ist die Eval eine positiv bewertete Option, weil der Verlust bei der Gebühr gedeckelt ist. (2) Entscheidend ist die Positionsgröße: ein Verlust knapp unter dem MLL (1.850–1.900 $) hebt die Pass-Quote von 22 % (kleine Trades) auf 37 %. (3) Ein Trade pro Tag; jeder zusätzliche Trade kostet Erwartungswert (Kosten + Trailing-Ratsche). (4) 90 % der Evals enden bei 0 – der ROI entsteht über viele Evals. (5) –3 pp Trefferquote (Slippage) halbiert den ROI; ein echter Edge multipliziert ihn.
+
+### 5b. Alle bisherigen Strategien durch die Prop-Linse (Bootstrap echter NQ-Trades, Risiko ~1.850 $, 1 Trade/Tag, Gebühr 136 $)
+| Strategie | Flex ROI gesamt / nur Train / nur Test / Fair Value | Daily ROI gesamt / Train / Test / Fair Value |
+|---|---|---|
+| Zone 08:12–09:12 Fade, TP Gegenseite, SL 1 W | +131 / +62 / +346 / +193 | **+234 / +130 / +455 / +268** |
+| Zone 08:12–09:12 Fade, TP Gegenseite, SL 1,5 W | +155 / +99 / +334 / **+211** | +172 / +127 / +307 / +241 |
+| London 02–05 Sweep+Reclaim TP 1R | +199 / +110 / +388 / +160 | +210 / +123 / +410 / +168 |
+| Zone 05:24–05:39 Fade RR 1:1 | +171 / +90 / +312 / +167 | +175 / +131 / +357 / +185 |
+| Midday 11:12 Fade TP 0,25 W / SL 1 W | +167 / +69 / +473 / +216 | +105 / +33 / +341 / +157 |
+| Gap ≥0,3 ATR + OR15 Fade → PDC | +167 / +123 / +325 / +95 | +207 / +172 / +341 / +148 |
+| OTE 08:12 TP Mitte | +180 / +24 / +785 / +60 | +295 / +108 / +862 / +139 |
+| Kompressions-Fade (ON/W ≥ 3) | +481 / +184 / +1153 / +79 | +569 / +280 / +1090 / +117 |
+| 06:20 Fade RR 1:0,95 | +31 | +70 |
+| OTE 05:24 (SL zu klein, Ø-Risiko 564 $) | +14 | +7 |
+
+„Fair Value" = Tages-P&L um den Mittelwert bereinigt: zeigt den ROI, der allein aus der Trade-Struktur (RR, 1 Trade/Tag, volle Größe) kommt. Die Rangfolge nach Fair Value ist die belastbare: einfache Zonen-Fades mit RR 1:1 bis 1:0,67 bei voller Größe. Der Kompressions-Fade-Spitzenwert ist Sample-Glück (Test 2025/26).

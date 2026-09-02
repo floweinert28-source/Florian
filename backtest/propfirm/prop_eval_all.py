@@ -185,27 +185,28 @@ STRATS = {
   "MSS 06:20 TP r1": lambda: sc(380, 15, "mss", "r1"),
 }
 
-random.seed(5); N = int(sys.argv[1]) if len(sys.argv) > 1 else 15000
-print(f"{'Strategie':58s} {'Tage':>5} {'Ø$/Tag':>7} {'WR%':>5} {'ØRisk$':>7} | Flex: Pass / >=1Pay / E[$] / ROI | Daily: >=1Pay / E[$] / ROI")
-rows = []
-for name, fn in STRATS.items():
-    trades = fn()
-    daily = to_daily(trades)
-    if len(daily) < 100:
-        print(f"{name:58s} zu wenig Tage ({len(daily)})"); continue
-    vals = list(daily.values()); wr = sum(1 for v in vals if v > 0) / len(vals) * 100
-    risks = [size(sl) * sl * USD_MICRO for _, _, sl in trades if size(sl) > 0]
-    avg_risk = sum(risks) / len(risks)
-    def day_fn(rng, st, vals=vals): return [rng.choice(vals)]
-    fee = 136.0
-    resF = [sim(day_fn, fee, "flex", "eod") for _ in range(N)]
-    resD = [sim(day_fn, fee, "daily", "intraday") for _ in range(N)]
-    def agg(res):
-        n = len(res); return (sum(1 for r in res if r["passed"])/n*100, sum(1 for r in res if r["payouts"] > 0)/n*100, sum(r["payouts"] for r in res)/n)
-    pF, aF, eF = agg(resF); pD, aD, eD = agg(resD)
-    rows.append((name, len(vals), sum(vals)/len(vals), wr, avg_risk, pF, aF, eF, (eF-fee)/fee*100, aD, eD, (eD-fee)/fee*100))
-    r = rows[-1]
-    print(f"{r[0]:58s} {r[1]:5d} {r[2]:+7.0f} {r[3]:5.1f} {r[4]:7.0f} | {r[5]:4.1f}% / {r[6]:4.1f}% / {r[7]:5.0f}$ / {r[8]:+5.0f}% | {r[9]:4.1f}% / {r[10]:5.0f}$ / {r[11]:+5.0f}%", flush=True)
-print("\n=== Ranking nach Flex-ROI ===")
-for r in sorted(rows, key=lambda x: -x[8]):
-    print(f"  {r[8]:+5.0f}% Flex | {r[11]:+5.0f}% Daily | {r[0]}")
+if __name__ == "__main__":
+  random.seed(5); N = int(sys.argv[1]) if len(sys.argv) > 1 else 15000
+  print(f"{'Strategie':58s} {'Tage':>5} {'Ø$/Tag':>7} {'WR%':>5} {'ØRisk$':>7} | Flex: Pass / >=1Pay / E[$] / ROI | Daily: >=1Pay / E[$] / ROI")
+  rows = []
+  for name, fn in STRATS.items():
+      trades = fn()
+      daily = to_daily(trades)
+      if len(daily) < 100:
+          print(f"{name:58s} zu wenig Tage ({len(daily)})"); continue
+      vals = list(daily.values()); wr = sum(1 for v in vals if v > 0) / len(vals) * 100
+      risks = [size(sl) * sl * USD_MICRO for _, _, sl in trades if size(sl) > 0]
+      avg_risk = sum(risks) / len(risks)
+      def day_fn(rng, st, vals=vals): return [rng.choice(vals)]
+      fee = 136.0
+      resF = [sim(day_fn, fee, "flex", "eod") for _ in range(N)]
+      resD = [sim(day_fn, fee, "daily", "intraday") for _ in range(N)]
+      def agg(res):
+          n = len(res); return (sum(1 for r in res if r["passed"])/n*100, sum(1 for r in res if r["payouts"] > 0)/n*100, sum(r["payouts"] for r in res)/n)
+      pF, aF, eF = agg(resF); pD, aD, eD = agg(resD)
+      rows.append((name, len(vals), sum(vals)/len(vals), wr, avg_risk, pF, aF, eF, (eF-fee)/fee*100, aD, eD, (eD-fee)/fee*100))
+      r = rows[-1]
+      print(f"{r[0]:58s} {r[1]:5d} {r[2]:+7.0f} {r[3]:5.1f} {r[4]:7.0f} | {r[5]:4.1f}% / {r[6]:4.1f}% / {r[7]:5.0f}$ / {r[8]:+5.0f}% | {r[9]:4.1f}% / {r[10]:5.0f}$ / {r[11]:+5.0f}%", flush=True)
+  print("\n=== Ranking nach Flex-ROI ===")
+  for r in sorted(rows, key=lambda x: -x[8]):
+      print(f"  {r[8]:+5.0f}% Flex | {r[11]:+5.0f}% Daily | {r[0]}")

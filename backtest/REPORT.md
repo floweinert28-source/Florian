@@ -64,3 +64,19 @@ Kernaussagen: (1) Ohne jeden Edge ist die Eval eine positiv bewertete Option, we
 | OTE 05:24 (SL zu klein, Ø-Risiko 564 $) | +14 | +7 |
 
 „Fair Value" = Tages-P&L um den Mittelwert bereinigt: zeigt den ROI, der allein aus der Trade-Struktur (RR, 1 Trade/Tag, volle Größe) kommt. Die Rangfolge nach Fair Value ist die belastbare: einfache Zonen-Fades mit RR 1:1 bis 1:0,67 bei voller Größe. Der Kompressions-Fade-Spitzenwert ist Sample-Glück (Test 2025/26).
+
+### 5c. LucidDirect 50K (Instant Funded) – andere Regeln, andere Optimalgröße
+Regeln: kein Eval, Preis 520 $ (312 $ mit Code), MLL 2.000 $ EOD-trailing, DLL 1.200 $ soft, **Konsistenz 20 %** (bester Tag ≤ 20 % des Zyklus-Gewinns → ≥ 5 profitable Tage), Ziel 3.000 $ dann 2.500 $, Payout-Cap 2.000 $ (1–3) / 2.500 $ (4–5), 90/10, 5 Payouts. Simulator `backtest/propfirm/lucid_direct_mc.py`.
+
+| Parameter (Fair Value, 1 Trade/Tag, RR 1:1) | ≥1 Payout | E[Auszahlung] | ROI @312 $ | ROI @520 $ |
+|---|---|---|---|---|
+| Risiko 300 $ | 15 % | 332 $ | +6 % | –36 % |
+| **Risiko 600 $** | **26 %** | **687 $** | **+120 %** | **+32 %** |
+| Risiko 800 $ | 22 % | 648 $ | +108 % | +27 % |
+| Risiko 1.200 $ | 16 % | 520 $ | +67 % | –1 % |
+| 2 Trades/Tag à 300 $ | 15 % | 335 $ | +7 % | –36 % |
+| Risiko 600 $, p = 47 % (Slippage) | 18 % | 399 $ | +28 % | –24 % |
+| Risiko 600 $, p = 53 % | 36 % | 1.210 $ | +288 % | +136 % |
+
+Strategien unter Direct-Regeln (Bootstrap echter NQ-Trades, Risiko 600 $): Fair-Value-ROI@312 $ +137 … +173 % für alle einfachen Zonen-Fades (05:24, 08:12, London-Reclaim, MSS 06:20); Gap-Fade, iFVG, OTE 05:24 negativ. Kompressions-Fade nur durch 2025/26-Sample vorn.
+Fazit Direct: Nur mit Code-Preis (312 $) klar positiv; zum Listenpreis knapp; Slippage von 3 pp macht es negativ. Konsistenzregel zwingt zu ~600 $ Tagesrisiko und ~15 Handelstagen bis zum ersten Payout.

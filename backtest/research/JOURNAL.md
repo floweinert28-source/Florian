@@ -73,3 +73,8 @@ Fazit: Kandidat 1 = "London Down-Day Reclaim" (NQ). Als Strategie-Skript festgeh
 - Open-Range 09:30–10:00: 49/52 %, Kombis 54→42. Nichts.
 - PDH/PDL-Sweep ab 09:30: prev_trend −0.5..0.07 58→56 % (N=143/64) einziges haltendes Feature; Kombi 68→44 faellt.
 Fazit: Die Methode liefert kein zweites Setup. Der London-Effekt bleibt singulaer.
+
+## YM komplett / Gold 75 % – Cross-Check
+- YM: RR-1:1-Zonensuche max 52 %, Mini-TP-Fades Edge <= 0.9 pp, LDR 51.9 % (Test 40 %). YM komplett ohne Edge.
+- Gold (75 % der Tage): LDR 51 % → Muster nicht uebertragbar. ES 48 %.
+Fazit: LDR ist NQ-spezifisch. Naechste Runde: Frequenz-Varianten des LDR + "London retraced -> NY setzt fort".

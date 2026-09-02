@@ -37,3 +37,9 @@ Lehre: Konditionierung auf Kontext (Cross-Asset, News, Vortagesstruktur) verschi
 - Nach grossem Vortag (>= 1 ATR): CONTINUATION 55–57 %, Reversal 43–45 % → Momentum auf Tagesebene, nicht Mean-Reversion.
 - Wochentag: Montag Long 58 % (N=232, t 1.2), Freitag Long 57 %, Donnerstag Short 52 %.
 Lehre: Echte Drift-Effekte existieren, sind aber 3–8 pp gross und richtungsabhaengig (Regime). Weit weg von 80 %.
+
+## Runde 6 – Drift-Faktoren gestapelt (Long ab 09:30, +/- k ATR)
+- Score >= 3 (Mo/Fr/TOM/Vortag-Up/Overnight-Up): NQ 63,5 % (N=115, t 2,6) – aber pro Jahr 33/60/83/67/43/67 %, ES nur 56 %. Kleine Stichprobe, regimeabhaengig.
+- Montag Long: NQ 58 % / ES 57 % (t ~1); Jahre 40–80 %.
+- Alle Faktoren zusammen: Long-Bias +3–8 pp, kein stabiler Weg zu 80 %.
+Lehre: Drift ist real, aber klein und schwankt mit dem Marktregime (2022/2024/2025 schwach). Naechster Schritt: Verlierer-Analyse der besten 1:1-Setups (Features am Entry) -> Filter Train->Test.

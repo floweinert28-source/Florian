@@ -80,3 +80,26 @@ Regeln: kein Eval, Preis 520 $ (312 $ mit Code), MLL 2.000 $ EOD-trailing, DLL 1
 
 Strategien unter Direct-Regeln (Bootstrap echter NQ-Trades, Risiko 600 $): Fair-Value-ROI@312 $ +137 … +173 % für alle einfachen Zonen-Fades (05:24, 08:12, London-Reclaim, MSS 06:20); Gap-Fade, iFVG, OTE 05:24 negativ. Kompressions-Fade nur durch 2025/26-Sample vorn.
 Fazit Direct: Nur mit Code-Preis (312 $) klar positiv; zum Listenpreis knapp; Slippage von 3 pp macht es negativ. Konsistenzregel zwingt zu ~600 $ Tagesrisiko und ~15 Handelstagen bis zum ersten Payout.
+
+## 6. Iterative Suche nach 80 % WR bei RR 1:1 (Runden 3–10, 02.09.2026)
+Getestet: Volumen-Klimax, VWAP-Bänder, Extension-Fades, Close-Sweeps, SMT-Divergenz NQ/ES, News-Bars, Multi-Tages-Kontext, Drift-Karte (Uhrzeit/Overnight/Turn-of-Month/Wochentag/Post-Big-Day), Verlierer-Analyse mit 12 Entry-Features auf 7 Basis-Setups. Journal: `backtest/research/JOURNAL.md`.
+
+**Einziger Kandidat, der Train/Test/Jahre/Nachbarschaft übersteht: NQ „London Down-Day Reclaim" (LDR)** – `backtest/strategies_ldr.py`
+| Regel | Wert |
+|---|---|
+| Filter 1 | Vortag Close-zu-Close ≤ −0,3 ATR10 |
+| Range | London 02:00–04:59 NY |
+| Sweep | erster Bruch einer Seite ab 05:00 |
+| Entry | erster 1-min-Close zurück in der Range (≤ 120 min), Kerzenkörper ≥ 75 % der Kerzenrange, Entry = Close |
+| SL / TP | Sweep-Extrem ± 0,1 W / 1R (alternativ 0,75R) |
+
+| Variante | N (5 J.) | WR | Train / Test | t | Netto 1 NQ |
+|---|---|---|---|---|---|
+| Body ≥ 0,70, TP 1R | 119 | 64,7 % | 65,9 / 62,2 | 2,8 | +24.261 $ |
+| **Body ≥ 0,75, TP 1R** | 90 | **68,9 %** | 67,8 / 71,0 | 3,2 | +25.225 $ |
+| Body ≥ 0,80, TP 1R | 69 | 72,5 % | 71,1 / 75,0 | 3,2 | +23.557 $ |
+| Body ≥ 0,75, TP 0,75R | 90 | 75,6 % | 76,3 / 74,2 | 3,4 | +21.739 $ |
+Jahre (Body 0,75): 2021 75 % · 2022 69 % · 2023 62 % · 2024 70 % · 2025 78 % · 2026 62 %. ES: keine Bestätigung (~50 %), YM: Train-only. ~18 Trades/Jahr.
+
+Prop-Simulation (Direct, 600 $ Risiko, nur LDR-Tage): ≥1 Payout 69 %, Ø 0,9 Payouts pro Konto, aber Median ~300 Kalendertage (zu wenige Trades für 1–2 Payouts/Monat). Fair-Value-Füller an anderen Tagen verschlechtert (verdünnt den Edge).
+**Kein zweites Setup gefunden** (Asia-Range, Pre-Market, Open-Range, PDH/PDL: alle Feature-Kombis fallen im Test).

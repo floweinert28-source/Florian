@@ -43,3 +43,10 @@ Lehre: Echte Drift-Effekte existieren, sind aber 3–8 pp gross und richtungsabh
 - Montag Long: NQ 58 % / ES 57 % (t ~1); Jahre 40–80 %.
 - Alle Faktoren zusammen: Long-Bias +3–8 pp, kein stabiler Weg zu 80 %.
 Lehre: Drift ist real, aber klein und schwankt mit dem Marktregime (2022/2024/2025 schwach). Naechster Schritt: Verlierer-Analyse der besten 1:1-Setups (Features am Entry) -> Filter Train->Test.
+
+## Runde 7 – Verlierer-Analyse (Features am Entry, Quartile Train->Test)
+- NQ London Sweep+Reclaim 1R (Basis 52 % Train / 58 % Test): Einzelfeatures mit Out-of-Sample-Bestand: Vortag stark gefallen (prev_trend < -0.5 ATR) 58 % -> 61 %; Reclaim-Kerze Body >= 0.75 57.5 % -> 60 %; Volumen-Ratio 1.3–1.6 57.5 % -> 65 %.
+  KOMBI prev_trend<-0.5 & body>=0.75: Train 68.1 % (47) -> Test 69.0 % (29). Erster Kandidat, der bei 1:1 deutlich ueber 60 % liegt und im Test haelt – aber N klein (~15 Trades/Jahr).
+- 08:12-Fade/-Reclaim: keine Feature-Kombi haelt im Test (Kombis fallen auf 36–46 %).
+- ES London: andere Quartile, Kombi faellt im Test (60 % -> 45 %). Keine Cross-Instrument-Bestaetigung der NQ-Regel (Runde 8 prueft mit identischer Regel).
+Lehre: Einzelne Features verschieben 3–8 pp; Kombinationen bringen 15 pp, aber die Stichprobe schrumpft auf ein Niveau, wo Zufall ~10 pp Streuung hat.

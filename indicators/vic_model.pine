@@ -1,0 +1,435 @@
+//@version=6
+indicator("VIC - Model", overlay=true, max_lines_count=200, max_labels_count=200)
+
+// =======================
+// GLOBAL
+// =======================
+tz = "America/New_York"
+isNewDay = ta.change(time("D")) != 0
+
+// =======================
+// VWAP SETTINGS
+// =======================
+grpVWAP = "VWAPs"
+
+showNY   = input.bool(true, "NY VWAP", group=grpVWAP)
+nyColor  = input.color(color.blue, "NY Color", group=grpVWAP)
+nyWidth  = input.int(2, "NY Width", minval=1, maxval=5, group=grpVWAP)
+nyStyle  = input.string("Solid", "NY Style", options=["Solid", "Dotted", "Stepline"], group=grpVWAP)
+
+showPDNY = input.bool(true, "PD NY VWAP", group=grpVWAP)
+pdColor  = input.color(color.orange, "PD Color", group=grpVWAP)
+pdWidth  = input.int(2, "PD Width", minval=1, maxval=5, group=grpVWAP)
+pdStyle  = input.string("Solid", "PD Style", options=["Solid", "Dotted", "Stepline"], group=grpVWAP)
+
+showOv   = input.bool(true, "Overnight VWAP", group=grpVWAP)
+ovColor  = input.color(color.gray, "OV Color", group=grpVWAP)
+ovWidth  = input.int(1, "OV Width", minval=1, maxval=5, group=grpVWAP)
+ovStyle  = input.string("Solid", "OV Style", options=["Solid", "Dotted", "Stepline"], group=grpVWAP)
+
+// =======================
+// VWAP LABEL SETTINGS
+// =======================
+grpLbl = "VWAP LABELS"
+
+showVwapLabels = input.bool(true, "Show VWAP Labels", group=grpLbl)
+labelOffset    = input.int(5, "Label Offset Bars", minval=1, maxval=50, group=grpLbl)
+
+labelTextColor = input.color(color.white, "Text Color", group=grpLbl)
+labelBgColor   = input.color(color.rgb(40, 40, 40), "Background Color", group=grpLbl)
+
+labelSizeInput = input.string("Small", "Label Size", options=["Tiny", "Small", "Normal", "Large", "Huge"], group=grpLbl)
+
+showNYLabel = input.bool(true, "NY Label", group=grpLbl)
+nyLabelText = input.string("NY VWAP", "NY Text", group=grpLbl)
+
+showPDLabel = input.bool(true, "PD NY Label", group=grpLbl)
+pdLabelText = input.string("PD NY VWAP", "PD Text", group=grpLbl)
+
+showOvLabel = input.bool(true, "Overnight Label", group=grpLbl)
+ovLabelText = input.string("Overnight VWAP", "Overnight Text", group=grpLbl)
+
+f_labelSize(s) =>
+    switch s
+        "Tiny" => size.tiny
+        "Small" => size.small
+        "Normal" => size.normal
+        "Large" => size.large
+        "Huge" => size.huge
+        => size.small
+
+lblSize = f_labelSize(labelSizeInput)
+
+// =======================
+// NY SESSION
+// =======================
+inNY      = not na(time(timeframe.period, "0930-1600", tz))
+isNYOpen  = inNY and not inNY[1]
+isNYClose = not inNY and inNY[1]
+
+// =======================
+// TOTAL KUMULATION
+// =======================
+var float totalPV = 0.0
+var float totalV  = 0.0
+
+var float currentNYAnchorPV = na
+var float currentNYAnchorV  = na
+
+var float pdAnchorPV = na
+var float pdAnchorV  = na
+
+if isNYOpen
+    currentNYAnchorPV := totalPV
+    currentNYAnchorV  := totalV
+
+    if na(pdAnchorPV)
+        pdAnchorPV := currentNYAnchorPV
+        pdAnchorV  := currentNYAnchorV
+
+totalPV += hlc3 * volume
+totalV  += volume
+
+nyPV = not na(currentNYAnchorPV) ? totalPV - currentNYAnchorPV : na
+nyV  = not na(currentNYAnchorV)  ? totalV  - currentNYAnchorV  : na
+nyVWAP = inNY and nyV > 0 ? nyPV / nyV : na
+
+pdPV = not na(pdAnchorPV) ? totalPV - pdAnchorPV : na
+pdV  = not na(pdAnchorV)  ? totalV  - pdAnchorV  : na
+pdVWAP = pdV > 0 ? pdPV / pdV : na
+
+if isNYClose and not na(currentNYAnchorPV)
+    pdAnchorPV := currentNYAnchorPV
+    pdAnchorV  := currentNYAnchorV
+
+var float ovPV = 0.0
+var float ovV  = 0.0
+
+if isNewDay
+    ovPV := hlc3 * volume
+    ovV  := volume
+else
+    ovPV += hlc3 * volume
+    ovV  += volume
+
+overnightVWAP = ovV > 0 ? ovPV / ovV : na
+
+// =======================
+// OPENING RANGE
+// =======================
+grpOR = "NY OPENING RANGE"
+
+showOR      = input.bool(true, "Show Opening Range", group=grpOR)
+orShowH     = input.bool(true, "High", group=grpOR, inline="hl")
+orShowL     = input.bool(true, "Low", group=grpOR, inline="hl")
+orColorH    = input.color(color.green, "H Color", group=grpOR)
+orColorL    = input.color(color.red, "L Color", group=grpOR)
+orLineStyle = input.string("Dashed", "Style", group=grpOR, options=["Solid","Dashed","Dotted"])
+orExtend    = input.int(50, "Extend Bars", group=grpOR)
+
+f_lineStyle(s) =>
+    switch s
+        "Dashed" => line.style_dashed
+        "Dotted" => line.style_dotted
+        => line.style_solid
+
+inOR = not na(time(timeframe.period, "0930-0945", tz))
+
+var float orH = na
+var float orL = na
+var bool  orLocked = false
+var int   orStartBar = na
+
+if isNewDay
+    orH := na
+    orL := na
+    orLocked := false
+    orStartBar := na
+
+if inOR and not orLocked
+    if na(orH)
+        orH := high
+        orL := low
+        orStartBar := bar_index
+    else
+        orH := math.max(orH, high)
+        orL := math.min(orL, low)
+
+if not inOR and not na(orH)
+    orLocked := true
+
+var line[] orLines = array.new_line()
+
+if barstate.islast
+    int i = 0
+    while i < array.size(orLines)
+        line.delete(array.get(orLines, i))
+        i += 1
+    array.clear(orLines)
+
+    if showOR and not na(orH)
+        endBar = bar_index + orExtend
+        styleOR = f_lineStyle(orLineStyle)
+
+        if orShowH
+            array.push(orLines, line.new(orStartBar, orH, endBar, orH, color=orColorH, style=styleOR, width=1))
+
+        if orShowL
+            array.push(orLines, line.new(orStartBar, orL, endBar, orL, color=orColorL, style=styleOR, width=1))
+
+// =======================
+// VWAP PLOTS
+// =======================
+
+// NY VWAP
+plot(showNY and nyStyle == "Solid" ? nyVWAP : na, "NY VWAP Solid", color=nyColor, linewidth=nyWidth, style=plot.style_linebr)
+plot(showNY and nyStyle == "Dotted" ? nyVWAP : na, "NY VWAP Dotted", color=nyColor, linewidth=nyWidth, style=plot.style_circles)
+plot(showNY and nyStyle == "Stepline" ? nyVWAP : na, "NY VWAP Stepline", color=nyColor, linewidth=nyWidth, style=plot.style_stepline)
+
+// PD NY VWAP
+plot(showPDNY and pdStyle == "Solid" ? pdVWAP : na, "PD NY VWAP Solid", color=pdColor, linewidth=pdWidth)
+plot(showPDNY and pdStyle == "Dotted" ? pdVWAP : na, "PD NY VWAP Dotted", color=pdColor, linewidth=pdWidth, style=plot.style_circles)
+plot(showPDNY and pdStyle == "Stepline" ? pdVWAP : na, "PD NY VWAP Stepline", color=pdColor, linewidth=pdWidth, style=plot.style_stepline)
+
+// Overnight VWAP
+plot(showOv and ovStyle == "Solid" ? overnightVWAP : na, "Overnight VWAP Solid", color=ovColor, linewidth=ovWidth)
+plot(showOv and ovStyle == "Dotted" ? overnightVWAP : na, "Overnight VWAP Dotted", color=ovColor, linewidth=ovWidth, style=plot.style_circles)
+plot(showOv and ovStyle == "Stepline" ? overnightVWAP : na, "Overnight VWAP Stepline", color=ovColor, linewidth=ovWidth, style=plot.style_stepline)
+
+// =======================
+// VWAP LABELS
+// =======================
+var label nyLbl = na
+var label pdLbl = na
+var label ovLbl = na
+
+if barstate.islast
+    label.delete(nyLbl)
+    label.delete(pdLbl)
+    label.delete(ovLbl)
+
+    if showVwapLabels
+        if showNYLabel and showNY and not na(nyVWAP)
+            nyLbl := label.new(
+                 bar_index + labelOffset,
+                 nyVWAP,
+                 nyLabelText,
+                 style=label.style_label_left,
+                 textcolor=labelTextColor,
+                 color=labelBgColor,
+                 size=lblSize
+            )
+
+        if showPDLabel and showPDNY and not na(pdVWAP)
+            pdLbl := label.new(
+                 bar_index + labelOffset,
+                 pdVWAP,
+                 pdLabelText,
+                 style=label.style_label_left,
+                 textcolor=labelTextColor,
+                 color=labelBgColor,
+                 size=lblSize
+            )
+
+        if showOvLabel and showOv and not na(overnightVWAP)
+            ovLbl := label.new(
+                 bar_index + labelOffset,
+                 overnightVWAP,
+                 ovLabelText,
+                 style=label.style_label_left,
+                 textcolor=labelTextColor,
+                 color=labelBgColor,
+                 size=lblSize
+            )
+
+// ======================================================================
+// DASHBOARD SETTINGS
+// ======================================================================
+grpDash = "VWAP DASHBOARD"
+
+dashEnable    = input.bool(true, "Enable Dashboard", group=grpDash)
+dashShowNY    = input.bool(true, "NY VWAP", group=grpDash, inline="vwap")
+dashShowOV    = input.bool(true, "Overnight VWAP", group=grpDash, inline="vwap")
+dashShowPD    = input.bool(true, "PD NY VWAP", group=grpDash, inline="vwap")
+dashShowTrend = input.bool(true, "Trend", group=grpDash)
+
+dashPosition = input.string("Bottom Right", "Position", options=["Top Left", "Top Right", "Bottom Left", "Bottom Right"], group=grpDash)
+dashSize     = input.string("Small", "Size", options=["Tiny", "Small", "Normal"], group=grpDash)
+
+dashLeftBg    = input.color(color.rgb(47, 51, 61), "Left Column BG", group=grpDash)
+dashHeaderBg  = input.color(color.new(color.white, 100), "Ticker Header BG", group=grpDash)
+dashBodyBg    = input.color(color.new(color.white, 100), "Body BG", group=grpDash)
+dashText      = input.color(color.white, "Left Text", group=grpDash)
+dashTickerTxt = input.color(color.black, "Ticker Text", group=grpDash)
+dashBull      = input.color(color.lime, "Bull Color", group=grpDash)
+dashBear      = input.color(color.red, "Bear Color", group=grpDash)
+dashNeutral   = input.color(color.gray, "Neutral Color", group=grpDash)
+
+grpTickers = "DASHBOARD TICKERS"
+
+useT1 = input.bool(true, "1.", group=grpTickers, inline="t1")
+sym1  = input.symbol("CME_MINI:MES1!", "", group=grpTickers, inline="t1")
+
+useT2 = input.bool(true, "2.", group=grpTickers, inline="t2")
+sym2  = input.symbol("CME_MINI:MNQ1!", "", group=grpTickers, inline="t2")
+
+useT3 = input.bool(true, "3.", group=grpTickers, inline="t3")
+sym3  = input.symbol("CBOT_MINI:MYM1!", "", group=grpTickers, inline="t3")
+
+// =======================
+// DASHBOARD FUNCTIONS
+// =======================
+f_tablePos(pos) =>
+    switch pos
+        "Top Left" => position.top_left
+        "Top Right" => position.top_right
+        "Bottom Left" => position.bottom_left
+        => position.bottom_right
+
+f_textSize(s) =>
+    switch s
+        "Tiny" => size.tiny
+        "Normal" => size.normal
+        => size.small
+
+f_shortTicker(sym) =>
+    string s = str.replace(sym, "CME_MINI:", "")
+    s := str.replace(s, "CBOT_MINI:", "")
+    s := str.replace(s, "MES1!", "ES")
+    s := str.replace(s, "MNQ1!", "NQ")
+    s := str.replace(s, "MYM1!", "YM")
+    s := str.replace(s, "ES1!", "ES")
+    s := str.replace(s, "NQ1!", "NQ")
+    s := str.replace(s, "YM1!", "YM")
+    s
+
+f_dotColor(condBull, condBear) =>
+    condBull ? dashBull : condBear ? dashBear : dashNeutral
+
+f_trendText(c, ny, ov, pd) =>
+    int used = 0
+    int above = 0
+    int below = 0
+
+    if dashShowNY and not na(ny)
+        used += 1
+        above += c > ny ? 1 : 0
+        below += c < ny ? 1 : 0
+
+    if dashShowOV and not na(ov)
+        used += 1
+        above += c > ov ? 1 : 0
+        below += c < ov ? 1 : 0
+
+    if dashShowPD and not na(pd)
+        used += 1
+        above += c > pd ? 1 : 0
+        below += c < pd ? 1 : 0
+
+    used > 0 and above == used ? "Strong Up" :
+     used > 0 and below == used ? "Strong Down" :
+     "Neutral"
+
+f_trendColor(txt) =>
+    txt == "Strong Up" ? dashBull :
+     txt == "Strong Down" ? dashBear :
+     dashNeutral
+
+// =======================
+// DASHBOARD VWAP DATA
+// =======================
+f_dashData() =>
+    _isNewDay = ta.change(time("D")) != 0
+
+    _inNY      = not na(time(timeframe.period, "0930-1600", tz))
+    _isNYOpen  = _inNY and not _inNY[1]
+    _isNYClose = not _inNY and _inNY[1]
+
+    var float _totalPV = 0.0
+    var float _totalV  = 0.0
+
+    var float _curPV = na
+    var float _curV  = na
+
+    var float _pdPVAnchor = na
+    var float _pdVAnchor  = na
+
+    if _isNYOpen
+        _curPV := _totalPV
+        _curV  := _totalV
+
+        if na(_pdPVAnchor)
+            _pdPVAnchor := _curPV
+            _pdVAnchor  := _curV
+
+    _totalPV += hlc3 * volume
+    _totalV  += volume
+
+    _nyPV = not na(_curPV) ? _totalPV - _curPV : na
+    _nyV  = not na(_curV)  ? _totalV  - _curV  : na
+    _nyVWAP = _inNY and _nyV > 0 ? _nyPV / _nyV : na
+
+    _pdPV = not na(_pdPVAnchor) ? _totalPV - _pdPVAnchor : na
+    _pdV  = not na(_pdVAnchor)  ? _totalV  - _pdVAnchor  : na
+    _pdVWAP = _pdV > 0 ? _pdPV / _pdV : na
+
+    if _isNYClose and not na(_curPV)
+        _pdPVAnchor := _curPV
+        _pdVAnchor  := _curV
+
+    var float _ovPV = 0.0
+    var float _ovV  = 0.0
+
+    if _isNewDay
+        _ovPV := hlc3 * volume
+        _ovV  := volume
+    else
+        _ovPV += hlc3 * volume
+        _ovV  += volume
+
+    _ovVWAP = _ovV > 0 ? _ovPV / _ovV : na
+
+    [close, _nyVWAP, _ovVWAP, _pdVWAP]
+
+[c1, ny1, ov1, pd1] = request.security(sym1, timeframe.period, f_dashData())
+[c2, ny2, ov2, pd2] = request.security(sym2, timeframe.period, f_dashData())
+[c3, ny3, ov3, pd3] = request.security(sym3, timeframe.period, f_dashData())
+
+// =======================
+// DASHBOARD TABLE
+// =======================
+var table dash = table.new(f_tablePos(dashPosition), 4, 5, border_width=0)
+txtSize = f_textSize(dashSize)
+
+if barstate.islast
+    table.clear(dash, 0, 0, 3, 4)
+
+    if dashEnable
+        table.cell(dash, 0, 0, "Ticker", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 0, useT1 ? f_shortTicker(sym1) : "", text_color=dashTickerTxt, bgcolor=dashHeaderBg, text_size=txtSize)
+        table.cell(dash, 2, 0, useT2 ? f_shortTicker(sym2) : "", text_color=dashTickerTxt, bgcolor=dashHeaderBg, text_size=txtSize)
+        table.cell(dash, 3, 0, useT3 ? f_shortTicker(sym3) : "", text_color=dashTickerTxt, bgcolor=dashHeaderBg, text_size=txtSize)
+
+        table.cell(dash, 0, 1, "NY VWAP", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 1, dashShowNY and useT1 ? "●" : "", text_color=f_dotColor(c1 > ny1, c1 < ny1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 1, dashShowNY and useT2 ? "●" : "", text_color=f_dotColor(c2 > ny2, c2 < ny2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 1, dashShowNY and useT3 ? "●" : "", text_color=f_dotColor(c3 > ny3, c3 < ny3), bgcolor=dashBodyBg, text_size=txtSize)
+
+        table.cell(dash, 0, 2, "Overnight VWAP", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 2, dashShowOV and useT1 ? "●" : "", text_color=f_dotColor(c1 > ov1, c1 < ov1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 2, dashShowOV and useT2 ? "●" : "", text_color=f_dotColor(c2 > ov2, c2 < ov2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 2, dashShowOV and useT3 ? "●" : "", text_color=f_dotColor(c3 > ov3, c3 < ov3), bgcolor=dashBodyBg, text_size=txtSize)
+
+        table.cell(dash, 0, 3, "PD NY VWAP", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 3, dashShowPD and useT1 ? "●" : "", text_color=f_dotColor(c1 > pd1, c1 < pd1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 3, dashShowPD and useT2 ? "●" : "", text_color=f_dotColor(c2 > pd2, c2 < pd2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 3, dashShowPD and useT3 ? "●" : "", text_color=f_dotColor(c3 > pd3, c3 < pd3), bgcolor=dashBodyBg, text_size=txtSize)
+
+        t1 = f_trendText(c1, ny1, ov1, pd1)
+        t2 = f_trendText(c2, ny2, ov2, pd2)
+        t3 = f_trendText(c3, ny3, ov3, pd3)
+
+        table.cell(dash, 0, 4, "Trend", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 4, dashShowTrend and useT1 ? t1 : "", text_color=f_trendColor(t1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 4, dashShowTrend and useT2 ? t2 : "", text_color=f_trendColor(t2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 4, dashShowTrend and useT3 ? t3 : "", text_color=f_trendColor(t3), bgcolor=dashBodyBg, text_size=txtSize)

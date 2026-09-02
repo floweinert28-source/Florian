@@ -1,0 +1,34 @@
+{
+  "symbol": "MNQ",
+  "timeframe": "M5",
+  "strategy": "squeeze",
+  "strategy_params": {
+    "squeeze_bars": 8,
+    "squeeze_quantil": 0.30,
+    "quantil_fenster": 78,
+    "reward_ratio": 2.0,
+    "require_trend": true,
+    "require_vwap_side": true,
+    "min_atr_pct": 0.05,
+    "max_atr_pct": 0.5,
+    "cooldown_bars": 6,
+    "max_signals_per_day": 6,
+    "allow_short": true
+  },
+  "adaptive": false,
+  "session_profile": "us_rth",
+  "data_path": "data/nq_m5_rth.csv",
+  "rules": {
+    "start_balance": 50000,
+    "profit_target": 4000,
+    "max_drawdown": 2000,
+    "daily_loss_limit": 1000,
+    "drawdown_mode": "trailing_eod",
+    "consistency_cap": 0.20
+  },
+  "risk": {
+    "base_risk_pct": 0.005,
+    "max_trades_per_day": 4,
+    "max_losses_per_day": 3
+  }
+}

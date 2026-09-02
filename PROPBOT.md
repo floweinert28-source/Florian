@@ -1,0 +1,1710 @@
+# Prop-Firm-Trading-Bot (50.000 $ / +4.000 $ / 2.000 $ Drawdown)
+
+Ein vollständiger, von Grund auf gebauter Handelsbot für ein Prop-Firm-Konto mit
+genau diesen Vorgaben:
+
+| Vorgabe | Wert |
+| --- | --- |
+| Startkapital | 50.000 $ |
+| Gewinnziel (danach Payout, Handel endet) | +4.000 $ → 54.000 $ |
+| Maximaler Drawdown | 2.000 $ |
+| Selbst gesetztes Tageslimit | 1.000 $ |
+
+Alles ist konfigurierbar — die Zahlen oben sind nur die Standardwerte.
+
+```bash
+pip install -r requirements-propbot.txt
+
+python -m propbot math                       # Was verlangt dieses Konto rechnerisch?
+python -m propbot fetch --symbol NQ --jahre 5   # Echte Kursdaten laden
+python -m propbot validate --data data/nq_m15.csv   # Daten gegen NQ-Futures prüfen
+python -m propbot backtest --data data/nq_m15.csv --symbol MNQ --journal
+python -m propbot montecarlo --data ...      # Wie wahrscheinlich ist der Payout?
+python -m propbot walkforward --data ...     # Parameter echt oder angepasst?
+python -m propbot lessons --data ...         # Welche Fehler macht der Bot?
+python -m propbot paper --data ...           # Live-Logik ohne Geld
+```
+
+> **Ergebnis der Praxistests vorweg:** Auf fünf Jahren echter NQ-Daten hat der
+> **Trend-Pullback keinen Edge** (+0,015 R out-of-sample, Payout 26 % —
+> [Kapitel 12](#12-praxistest-nq-über-fünf-jahre-echter-daten)). Der daraufhin
+> gebaute **Opening-Range-Breakout schon**: +0,136 R out-of-sample über vier
+> Walk-Forward-Fenster, in allen sechs Jahren positiv, Payout-Wahrscheinlichkeit
+> 90 % ([Kapitel 13](#13-zweiter-anlauf-opening-range-breakout-auf-nq)). Klein,
+> aber echt — und getestet, nicht behauptet.
+
+---
+
+## 1. Das eigentliche Problem
+
+Ein 50k-Konto mit 4.000 $ Ziel und 2.000 $ Drawdown ist **kein Renditeproblem,
+sondern ein Überlebensproblem**: du musst das Doppelte deines Notgroschens
+verdienen, bevor eine Pechserie ihn aufbraucht. 8 % Gewinn sind leicht — 8 %
+Gewinn, ohne je 4 % im Minus zu sein, ist schwer.
+
+Daraus folgt die ganze Architektur: die Strategie ist der kleinste Teil des
+Programms. Der größte Teil ist die Frage, **wie viel** gehandelt wird und
+**wann gar nicht**.
+
+`python -m propbot math` rechnet das für dein Konto durch. Auszug (Trefferquote
+45 %, CRV 2,0, inklusive Kosten):
+
+```
+  Risiko  % Konto  Verluste   Payout     Bust  Trades bis Ziel
+     100   0.20%        20    99.9%     0.1%              115
+     250   0.50%         8    93.3%     6.7%               42
+     500   1.00%         4    75.3%    24.7%               15
+   1,000   2.00%         2    55.8%    44.2%                4
+```
+
+Die Zahlen sind kein Simulationsrauschen, sondern die **exakte Lösung** eines
+Random Walks mit zwei absorbierenden Rändern (Boden und Ziel), aufgestellt als
+lineares Gleichungssystem in `propbot/riskmath.py`. Gegengeprüft wurde sie gegen
+die klassische Gambler's-Ruin-Formel und gegen Monte Carlo.
+
+Drei Dinge, die aus dieser Rechnung folgen und im Bot fest verdrahtet sind:
+
+**a) Klein ist fast immer besser.** Der Erwartungswert je Trade ändert sich mit
+der Positionsgröße nicht — das Ruinrisiko schon. Doppeltes Risiko halbiert
+nicht die Zeit bis zum Ziel, aber es vervierfacht fast die Bust-Rate.
+
+**b) Verlustserien sind normal, nicht die Ausnahme.** Bei 45 % Trefferquote und
+200 Trades ist eine Serie von 6 Verlusten zu 93 % sicher, eine von 8 zu 53 %.
+Bei 250 $ Risiko hält der Puffer genau 8 aus. Deshalb halbiert der Risk-Manager
+die Größe nach zwei Verlusten in Folge: die Serie wird dadurch nicht kürzer,
+aber billiger.
+
+**c) Die Tageslimit-Falle.** Das ist ein Fund aus der eigenen Monte-Carlo-Simulation:
+
+```
+  Risiko  % Konto   Payout    Bust
+     400   0.80%    73.4%   26.6%
+     500   1.00%    22.2%   77.8%   <-- Ausreißer
+     600   1.20%    67.1%   32.9%
+```
+
+Bei exakt 1,0 % Risiko treffen **zwei** Verluste das Tageslimit von 1.000 $ auf
+den Cent genau. Der eigene Tagesstop (60 % des Limits) greift nach dem ersten
+Verlust noch nicht, also wird ein zweiter Trade erlaubt — und der reißt das
+Konto, obwohl der große Puffer noch halb voll ist. `propbot/reporting.py`
+rechnet die sichere Obergrenze deshalb explizit aus: **495 $ je Trade** bei den
+Standardeinstellungen.
+
+---
+
+## 2. Die Strategie
+
+### Trend-Pullback (Hauptstrategie, `propbot/strategy/trend_pullback.py`)
+
+*Im etablierten Trend auf einen Rücksetzer warten und erst einsteigen, wenn der
+Trend die Kontrolle zurückholt.*
+
+Ein Long-Signal braucht **alle fünf** Bedingungen:
+
+1. **Trend** — Kurs über der EMA200, EMA20 > EMA50 > EMA200.
+2. **Trendstärke** — ADX(14) über der Schwelle (Standard 20).
+3. **Rücksetzer** — in den letzten 6 Kerzen war der RSI unter 45 *oder* der Kurs
+   hat die EMA20 berührt.
+4. **Auslöser** — die aktuelle Kerze schließt über dem Hoch der Vorkerze,
+   bullisch, RSI zurück über 48. Ohne Auslöser kein Einstieg: fallende Messer
+   fängt niemand.
+5. **Bewegung** — ATR im Verhältnis zum Kurs über einer Mindestschwelle.
+
+Der Stop liegt unter dem Rücksetzer-Tief minus 0,25 ATR, begrenzt auf einen
+Korridor von 0,7 bis 3,5 ATR (zur Herkunft der 3,5 siehe Abschnitt 5). Das Ziel
+ist 2 R. Short ist exakt gespiegelt.
+
+**Warum genau das für dieses Konto?** Weil der Stop hinter einer Marktstruktur
+liegt und nicht an einer runden Zahl — nur dann ist das Risiko je Trade vorher
+exakt bekannt, und nur dann kann man Positionsgrößen rechnen. Und weil ein CRV
+von 2 bereits bei 35 % Trefferquote (inkl. Kosten) über Wasser bleibt: das ist
+der Puffer für schlechte Phasen.
+
+### Range-Fade (`propbot/strategy/mean_reversion.py`)
+
+Für Seitwärtsphasen: Kurs schießt aus dem Bollinger-Band, kommt zurück ins Band,
+Ziel ist die Mittellinie, Stop hinter dem Extrem. Läuft nur bei ADX ≤ 20.
+Sie ist bewusst sehr selektiv (auf 20.000 Testkerzen nur ~20 Signale) — ihr
+Zweck ist, die Equity-Kurve in Phasen zu glätten, in denen die Trendstrategie
+nur Stops einsammelt.
+
+### Regime-Router (`propbot/strategy/router.py`)
+
+Schickt jede Kerze zur passenden Strategie: ADX ≥ 23 → Trend, ADX ≤ 18 → Range,
+**dazwischen gar nichts**. Die Lücke ist Absicht: im Übergangsbereich verlieren
+beide Ansätze Geld, und „nicht handeln" ist auf einem Konto mit 2.000 $ Puffer
+eine vollwertige Entscheidung.
+
+### Handelszeiten
+
+Standard 07:00–16:30 UTC (London + früher New York), neue Trades nur bis 15:30,
+Sperrfenster 13:25–13:35 (US-Daten), freitags ab 15:00 kein Einstieg mehr, alles
+flat um 20:45. Außerhalb der liquiden Zeit sind die Spreads breiter und die
+Bewegungen dünner — schlecht bezahltes Risiko.
+
+---
+
+## 3. Risikomanagement: fünf Budgets, das kleinste gewinnt
+
+Die Strategie sagt nur *ob* und *wohin*. Wie groß gehandelt wird, entscheidet
+allein `propbot/risk.py`. Die Positionsgröße ist das Minimum aus:
+
+| Budget | Standard | Warum |
+| --- | --- | --- |
+| Basisrisiko | 0,5 % = 250 $ | Grundgröße |
+| Anteil am **Restpuffer** | 20 % | Ein Konto mit 300 $ Puffer darf keine 250 $ riskieren |
+| Anteil am Tagesbudget | 50 % | Ein Tag darf nie alles kosten |
+| Streak-Faktor | −30 % je Verlust ab dem zweiten, min. 40 % | Serien billiger machen |
+| Payout-Schutz | ab 75 % Zielfortschritt bis auf 50 % herunter | Kurz vor dem Payout ist ein großer Trade das schlechteste Geschäft der Welt |
+
+Dazu Sperren, die gar keinen Trade zulassen: max. 3 Trades/Tag, max. 2
+Verluste/Tag, eigener Tagesstop bei 60 % des Tageslimits, Restpuffer leer,
+Konsistenzregel für heute erfüllt.
+
+**Der zweite Punkt ist der entscheidende Unterschied zu einem normalen Bot.** Auf
+einem Prop-Konto ist nicht das Kapital die Grenze, sondern der Abstand zum Boden.
+
+---
+
+## 4. Das Regelwerk (`propbot/rules.py`)
+
+Drei Drawdown-Modelle, weil jede Firma es anders macht:
+
+| Modus | Boden | Typisch für |
+| --- | --- | --- |
+| `static` | fest bei 48.000 $ | viele FX-Firmen |
+| `trailing_intraday` | folgt dem höchsten **Equity**-Stand (inkl. Buchgewinn) | Apex und andere Futures-Firmen |
+| `trailing_eod` | folgt dem höchsten **Tagesschluss** | Topstep, Standard hier |
+
+Bei den Trailing-Varianten friert der Boden ein, sobald er den Startkontostand
+erreicht hat: ab einem Hoch von 52.000 $ kann das Konto nicht mehr unter
+50.000 $ fallen.
+
+Zwei Details, die im Betrieb den Unterschied machen:
+
+* **Der Handelstag wechselt nicht um Mitternacht UTC**, sondern zur
+  Broker-Rollover-Zeit (Standard 22:00 UTC). Ein Trade um 23:00 gehört bereits
+  zum nächsten Tag — genau so rechnet die Firma ab.
+* **Der Tageswechsel wird mit dem Stand vom Vortag abgeschlossen.** Wird zuerst
+  der neue Kontostand gebucht, landet der erste Trade des neuen Tages noch im
+  alten Tag und der Trailing-Boden hängt am falschen Wert. (Dieser Fehler war
+  im ersten Entwurf drin und ist durch `test_bester_tag_anteil_ueber_mehrere_tage`
+  aufgefallen.)
+
+Dazu die **Konsistenzregel**: ein einzelner Tag darf höchstens 40 % des Gewinns
+ausmachen. Während der Challenge wird sie gegen das *Gesamtziel* geprüft (sonst
+wäre der erste Handelstag zwangsläufig 100 %), am Payout gegen den tatsächlichen
+Gewinn.
+
+---
+
+## 5. Wie der Bot aus Fehlern lernt
+
+Drei Ebenen, von langsam nach schnell (`propbot/learning.py`):
+
+**Ebene 1 — Fehler-Label.** Jeder abgeschlossene Trade bekommt automatisch
+Etiketten: `gewinn_verschenkt` (lag 1 R im Plus, ging bei null raus),
+`knapper_stop`, `zu_weiter_stop`, `rachetrade` (Einstieg <45 min nach einem
+Verlust), `overtrading`, `news_fenster`, `duenne_session`, `zeitstop`,
+`grosser_verlust`, `gegen_den_trend`.
+
+**Ebene 2 — Empfehlungen.** `python -m propbot lessons` verdichtet Label und
+Statistik zu nachprüfbaren Sätzen, sortiert nach Geldwirkung:
+
+```
+=== Fehleranalyse ueber 85 Trades ===
+Haeufigkeit der Muster:
+    34x (40.0%)  stop_gekappt
+     4x ( 4.7%)  rachetrade
+     3x ( 3.5%)  knapper_stop
+     2x ( 2.4%)  duenne_session
+
+=== Empfehlungen (nach Wirkung sortiert) ===
+[Stopabstand] 40% der Stops liegen an der ATR-Obergrenze - die Marktstruktur
+lag weiter weg als erlaubt.
+    -> max_stop_atr erhoehen oder pullback_bars verkleinern. Ein gekappter
+       Stop sitzt im Rauschen statt hinter dem Ruecksetzer.
+[Fehlermuster] Einstieg kurz nach einem Verlust - typisches Zurueckholen-Wollen.
+    -> Wartezeit nach Verlusten erzwingen (cooldown_minutes).
+```
+
+**Ebene 3 — Sperren im laufenden Betrieb.** `AdaptiveStrategy` führt für jede
+Kombination aus Setup, Session und ADX-Klasse eine laufende Statistik und
+blockiert Kombinationen, deren Zahlen negativ sind. Entscheidend ist das
+Kriterium: gesperrt wird erst, wenn die **obere** Vertrauensgrenze unter null
+liegt — wenn also selbst die wohlwollende Lesart negativ ist.
+
+> Der erste Entwurf sperrte bei der *unteren* Grenze. Ergebnis: Setups mit
+> +0,22 R Mittelwert flogen raus, weil bei 25 Trades und 1,1 R Streuung die
+> untere Grenze fast immer unter null liegt. Genau so schaltet man funktionierende
+> Strategien ab. Zusätzlich bleibt eine Erkundungsquote von 10 %, damit eine
+> Sperre sich auch wieder aufheben kann.
+
+### Ein durchgezogenes Beispiel
+
+So sieht der Kreis aus, wenn man ihn zu Ende geht — das ist die Änderung, die
+aus der eigenen Fehleranalyse in den Code zurückgeflossen ist:
+
+1. **Befund.** `propbot lessons` meldete: *„70 % der Stops liegen an der
+   ATR-Obergrenze"*. Ein gekappter Stop liegt näher am Einstieg als das
+   Rücksetzer-Tief — er sitzt also im Rauschen statt hinter der Struktur.
+2. **Hypothese.** Die Obergrenze von 2,5 ATR ist zu eng gesetzt.
+3. **Gegenprobe** über sechs unabhängige Datensätze (je 30.000 Kerzen):
+
+   | max_stop_atr | Erwartungswert | Ziel erreicht | Anteil gekappt | Kosten je Trade |
+   | --- | --- | --- | --- | --- |
+   | 2,5 (alt) | +0,050 R | 3/6 | 69 % | 0,152 R |
+   | 3,0 | +0,087 R | 4/6 | 54 % | 0,140 R |
+   | **3,5 (neu)** | **+0,137 R** | **6/6** | 42 % | 0,131 R |
+   | 4,0 | +0,125 R | 6/6 | 32 % | 0,130 R |
+   | 5,0 | +0,125 R | 5/6 | 18 % | 0,129 R |
+   | 8,0 | +0,117 R | 5/6 | 1 % | 0,126 R |
+
+4. **Entscheidung.** Standard auf 3,5. Bewusst **nicht** auf den höchsten Wert
+   der Tabelle: 3,5 bis 4,0 ist ein Plateau, und ein Plateau ist stabiler als
+   eine Spitze. Wer den Maximalwert nimmt, optimiert das Rauschen mit.
+5. **Nebenbefund**, der die Erklärung stützt: mit weiterem Stop sinken auch die
+   Kosten je Trade (0,152 R → 0,131 R). Ein weiterer Stop heißt kleinere
+   Position bei gleichem Risiko — und damit weniger Spread.
+
+Der Fund steht als Kommentar mit Zahlen an der geänderten Zeile in
+`propbot/strategy/trend_pullback.py`.
+
+---
+
+## 6. Warum den Backtest-Zahlen zu trauen ist (und wo nicht)
+
+Ein Backtest, der optimistisch rechnet, kostet auf dem echten Konto genau einmal
+Geld. Deshalb ist die Engine (`propbot/engine.py`) durchgehend pessimistisch:
+
+* Signal am **Schluss** einer Kerze, Ausführung zur **Eröffnung der nächsten**.
+* Die Positionsgröße wird erst beim **tatsächlichen Füllpreis** berechnet.
+* Stop und Ziel in derselben Kerze → der **Stop** zählt.
+* Eröffnung jenseits des Stops (Gap) → Füllung zur **Eröffnung**, nicht am Stop.
+* Spread, Slippage und Kommission auf beiden Seiten.
+* Für die Drawdown-Prüfung zählt der **schlechteste Punkt innerhalb der Kerze** —
+  so wie die Firma auch auf den Tick schaut.
+
+Dazu `check_no_lookahead()`: für zufällige Kerzen wird jedes Signal einmal auf
+dem vollen und einmal auf dem abgeschnittenen Datensatz berechnet. Unterscheiden
+sich die Ergebnisse, schaut die Strategie in die Zukunft. Der Test läuft in der
+Testsuite mit und ist über `--check-lookahead` auch im CLI abrufbar.
+
+**Was die Kosten wirklich fressen:** bei 15 Pips Stopabstand und 250 $ Risiko
+handelst du 1,59 Lot — Spread und Slippage kosten dann 0,20 R **je Trade**. Das
+ist der Grund, warum der Bot lieber wenige Trades mit größerem Stopabstand
+macht. Der Report weist die Gesamtkosten separat aus (nicht nur die Kommission,
+wie es die meisten Backtester tun).
+
+---
+
+## 7. Ergebnisse — und wie sie zu lesen sind
+
+Alle folgenden Zahlen stammen aus **synthetischen** Daten (`propbot/data.py`:
+Regimewechsel zwischen Trend und Seitwärts, Session-Volatilität, Wochenenden,
+Montags-Gaps). Sie testen die **Mechanik**, sie beweisen **keinen Edge** — der
+Generator enthält per Konstruktion Trends, und die Strategie ist darauf gebaut,
+Trends abzugreifen. Für eine Aussage über die Strategie brauchst du echte
+Kursdaten deines Brokers (`--data deine_daten.csv`).
+
+Acht unabhängige Läufe über je 40.000 M15-Kerzen (~1,7 Jahre), EURUSD-Kosten,
+Standardeinstellungen inklusive Lernschicht:
+
+| Seed | Ergebnis | Trades | EW je Trade | max. DD | Trefferquote |
+| --- | --- | --- | --- | --- | --- |
+| 1 | **Ziel erreicht** | 170 | +0,166 R | 1.573 $ | 54,1 % |
+| 2 | **Ziel erreicht** | 49 | +0,390 R | 746 $ | 65,3 % |
+| 3 | **Ziel erreicht** | 208 | +0,092 R | 2.177 $ | 54,8 % |
+| 4 | **Ziel erreicht** | 155 | +0,181 R | 1.758 $ | 58,1 % |
+| 5 | **Ziel erreicht** | 163 | +0,177 R | 1.410 $ | 54,6 % |
+| 6 | **Ziel erreicht** | 94 | +0,244 R | 1.139 $ | 58,5 % |
+| 7 | läuft (−1.645 $) | 62 | −0,186 R | 2.227 $ | 43,5 % |
+| 8 | **Ziel erreicht** | 34 | +0,544 R | 514 $ | 76,5 % |
+
+Drei Beobachtungen, die wichtiger sind als die Trefferquoten:
+
+**Kein einziger Lauf hat das Konto gerissen.** Das ist die Aufgabe des
+Risk-Managers, nicht der Strategie. Lauf 7 endet nach 62 Trades im Minus — aber
+er endet nicht mit einem Bust, sondern damit, dass der Bot mangels Puffer
+aufhört zu handeln.
+
+**Ein Drawdown nahe oder über 2.000 $ ist kein Widerspruch.** Sobald der
+Trailing-Boden bei 50.000 $ eingefroren ist, kann die Equity vom Hoch mehr als
+2.000 $ fallen, ohne den Boden zu berühren — Lauf 3 hat 2.177 $ Rückgang vom
+Hoch und trotzdem keinen Verstoß.
+
+**Die Streuung ist riesig.** 34 bis 208 Trades bis zum selben Ziel, und derselbe
+Bot, der auf sieben Datensätzen ans Ziel kommt, bleibt auf dem achten stecken.
+Wer aus einem einzelnen Backtest eine Erwartung ableitet, täuscht sich selbst.
+Deshalb:
+
+Monte-Carlo über alle 935 Trades zusammen (Block-Bootstrap, Blockgröße 5,
+3.000 Durchläufe, volles Regelwerk aktiv):
+
+```
+Payout 87,9 % | Bust 0,0 % | festgefahren 12,0 % | Median 101 Trades / 51 Tage
+Endstand p05/p50/p95: 49.037 / 54.054 / 54.152 $
+```
+
+Der interessante Wert ist **„festgefahren": 12,0 %.** Das ist die typische
+Todesart dieses Systems — es sprengt das Konto nicht, es läuft leer. Ein Konto
+mit 150 $ Restpuffer ist formal am Leben, praktisch aber tot, weil der
+Risk-Manager keinen Trade mehr freigibt. Ein Backtest, der das als „läuft noch"
+verbucht, lügt; hier steht es als eigene Kategorie in der Statistik.
+
+### Der ernüchternde Teil: Walk-Forward
+
+`python -m propbot walkforward` optimiert auf Block *n* und handelt auf Block
+*n+1*. Ergebnis über 60.000 Kerzen und 54 Parameterkombinationen:
+
+```
+Fold 1: IS +0.142 R -> OOS -0.104 R | 112 Trades | -1,364 $
+Fold 2: IS +0.061 R -> OOS +0.063 R |  97 Trades |   +233 $
+Fold 3: IS +0.207 R -> OOS +0.228 R |  68 Trades | +4,013 $
+Fold 4: IS +0.204 R -> OOS +0.007 R | 125 Trades |   -636 $
+Mittel: In-Sample +0.154 R, Out-of-Sample +0.049 R (Degradation 32 %)
+Urteil: brauchbar, aber ein grosser Teil war Anpassung. Weniger Parameter testen.
+```
+
+Von 0,154 R In-Sample-Vorteil bleiben 0,049 R übrig — und ein Fenster ist klar
+negativ. **Genau das ist der Grund, warum die Standardparameter im Code runde,
+gewöhnliche Werte sind (EMA 20/50/200, ADX 20, CRV 2,0) und nicht die Gewinner
+einer Gittersuche.** Ein Werkzeug, das dir sagt „deine Optimierung war zum
+großen Teil Selbstbetrug", ist mehr wert als eines, das eine schöne Kurve zeigt.
+
+Derselbe Lauf zeigt über alle Testabschnitte zusammen (402 Trades) ein Muster,
+das auf echten Daten eine Entscheidung verlangen würde: Longs +0,150 R, Shorts
+−0,121 R. Dann wäre `allow_short=False` der nächste Test. Im synthetischen Markt
+ist es dagegen vermutlich ein Artefakt des Generators (multiplikative
+Kursbildung bevorzugt Aufwärtsbewegungen) — deshalb bleibt der Standard hier
+unverändert. Genau diese Unterscheidung kann dir kein Backtest abnehmen.
+
+---
+
+## 8. Vom Test zum echten Konto
+
+Die Reihenfolge ist nicht verhandelbar:
+
+1. **Echte Daten besorgen.** M15-Export deines Brokers als CSV, mindestens 2–3
+   Jahre. `python -m propbot backtest --data eurusd_m15.csv --check-lookahead`
+2. **Walk-Forward laufen lassen.** Bleibt out-of-sample nichts übrig, hört es
+   hier auf — kein Live-Handel gegen eine Strategie ohne Edge.
+3. **Monte Carlo.** Liegt die Payout-Wahrscheinlichkeit unter 60 %, ist die
+   Challenge ein teurer Lottoschein.
+4. **Papierhandel.** `python -m propbot paper --data ... ` spielt die komplette
+   Live-Logik ab: Regelprüfung, Ordergröße, Stop-Nachführung, Journal.
+5. **Demokonto der Firma, Dry-Run.** `python -m propbot live` (Standard: es wird
+   nur geloggt, was der Bot tun würde).
+6. **Demokonto, echte Orders.** `python -m propbot live --real`
+7. **Erst dann die Challenge.** `--real --i-know-what-i-do`
+
+Zwei Sicherungen sind fest eingebaut: `dry_run` ist Standard, und der Zustand
+(vor allem der Trailing-Boden und die Tageszähler) liegt in einer JSON-Datei.
+Ein Neustart mitten am Handelstag setzt das Tageslimit **nicht** zurück — sonst
+wäre der wichtigste Schutz nach jedem Absturz weg.
+
+Der MT5-Adapter (`propbot/broker/mt5.py`) ist der einzige Teil, den die Tests
+nicht abdecken können: er braucht ein laufendes Terminal. Symbolnamen,
+Lotgrößen, Stop-Level und Filling-Modus unterscheiden sich je Broker — das
+gehört auf ein Demokonto derselben Firma, bevor Geld daran hängt.
+
+---
+
+## 9. Befehle
+
+| Befehl | Zweck |
+| --- | --- |
+| `math` | Rechenbericht: Risikotabellen, Serien, Kosten, Tageslimit-Falle |
+| `backtest` | Strategie durch Daten laufen lassen (`--journal`, `--check-lookahead`) |
+| `montecarlo` | Payout-/Bust-Wahrscheinlichkeit unter vollem Regelwerk |
+| `walkforward` | Parameter suchen und ehrlich out-of-sample prüfen |
+| `lessons` | Fehler-Label, Empfehlungen, Gedächtnis der Lernschicht |
+| `paper` | Live-Logik gegen den Papier-Broker abspielen |
+| `live` | MetaTrader 5 (Dry-Run, bis man es bewusst abschaltet) |
+| `journal` | Auswertung nach Setup, Session, ADX-Klasse und Fehler-Label |
+| `fetch` | Echte Kursdaten von Dukascopy laden (Minutenkerzen, 5 Jahre ≈ 25 MB) |
+| `validate` | Kursdaten gegen echte Futuresdaten prüfen (Korrelation, Tracking Error) |
+
+Globale Optionen gehen vor **und** nach dem Befehl:
+
+```bash
+python -m propbot --balance 100000 --target 8000 --drawdown 4000 math
+python -m propbot backtest --dd-mode static --risk-pct 0.003 --no-adaptive
+python -m propbot --symbol XAUUSD backtest --data gold_m15.csv
+```
+
+Konfiguration wahlweise über JSON (`--config`) oder Umgebungsvariablen
+(`PROPBOT_RULES_MAX_DRAWDOWN=2500`, siehe `.env.example`).
+
+---
+
+## 10. Aufbau
+
+```
+propbot/
+  rules.py         Prop-Firm-Regelwerk: Drawdown-Modi, Tageslimit, Konsistenz, Payout
+  riskmath.py      Erwartungswert, Kelly, Ruinwahrscheinlichkeit (exakt gelöst)
+  risk.py          Positionsgröße und Handelsfreigabe (fünf Budgets)
+  reporting.py     Rechenberichte im Klartext
+  indicators.py    EMA, ATR, RSI, ADX, Bollinger, Donchian - alle kausal
+  strategy/        trend_pullback, mean_reversion, opening_range, router,
+                   Handelszeitfenster mit Zeitzone
+  engine.py        Backtest mit pessimistischer Ausführung + Lookahead-Prüfung
+  metrics.py       Kennzahlen, die auf einem Prop-Konto zählen
+  montecarlo.py    Bootstrap der Trades durch das echte Regelwerk
+  optimize.py      Gittersuche und Walk-Forward
+  learning.py      Fehler-Label, Empfehlungen, lernende Sperren
+  journal.py       SQLite-Handelstagebuch (Backtest und Live im selben Format)
+  live.py          Live-Loop mit Zustandssicherung
+  broker/          Schnittstelle, Papier-Broker, MetaTrader 5
+  features.py      Marktkontext: VWAP, Tagesstruktur, Momentum, Kerzen
+  confluence.py    Punktesystem aus den validierten Merkmalen
+  gamma.py         Gamma-Exposure aus CBOE-Daten (live, nicht backtestbar)
+  data.py          CSV-Loader und synthetischer Marktgenerator
+  dukascopy.py     Download echter Minutenkerzen (NQ, ES, FX, Gold)
+  validate.py      Quellenvergleich gegen echte Futuresdaten
+  config.py        JSON + Umgebungsvariablen
+  cli.py           Kommandozeile
+```
+
+261 Tests (`python -m pytest tests/propbot -q`, rund 30 Sekunden). Sie prüfen
+unter anderem die Ruinformel gegen Brute-Force-Abzählung, die Indikatoren gegen
+abgeschnittene Datensätze, jede Ausführungsregel der Engine einzeln und dass ein
+Regelverstoß wirklich jeden weiteren Trade verhindert.
+
+---
+
+## 11. Was der Bot nicht kann
+
+Ehrlichkeit gehört zu einem Handelssystem:
+
+* **Er findet keinen Edge, den es nicht gibt.** Auf synthetischen Daten zeigt der
+  Walk-Forward 15 % Degradation. Auf echten Daten kann es schlechter aussehen.
+* **Ein Symbol, eine Position.** Kein Portfolio, keine Korrelationsrechnung
+  zwischen gleichzeitig offenen Trades.
+* **Kein Nachrichtenkalender.** Sperrfenster sind feste Uhrzeiten, keine echten
+  Termine. Für NFP-Wochen gehört das per Hand angepasst.
+* **Der MT5-Adapter ist ungetestet ohne Terminal** (siehe Abschnitt 8).
+* **Slippage ist ein fester Wert**, kein Modell. In echten Nachrichtenlagen ist
+  sie größer — genau deshalb sind die Sperrfenster da.
+* **Backtests kennen keine Requotes, keine Serverausfälle und keinen Menschen,
+  der nachts den Stop verschiebt.**
+
+---
+
+## 12. Praxistest: NQ über fünf Jahre echter Daten
+
+Alles bis hierher war Mechanik. Dieses Kapitel ist der eigentliche Test — und
+er fällt negativ aus. Das steht hier so ausführlich, weil ein negatives
+Ergebnis, sauber gemessen, mehr wert ist als eine schöne Kurve.
+
+### Die Daten
+
+| | |
+| --- | --- |
+| Quelle | Dukascopy, Minutenkerzen des Nasdaq-100 (`propbot fetch`) |
+| Zeitraum | 01.09.2021 – 28.08.2026 (5 Jahre) |
+| Umfang | 2.223.360 Minutenkerzen → 33.436 M15-Kerzen in der Kernhandelszeit |
+| Handelstage | 1.286 |
+| Instrument im Test | **MNQ** (Micro, 2 $/Punkt), Kommission 1,34 $ Round Turn |
+
+**Warum nicht NQ selbst?** Ein voller NQ-Kontrakt ist 20 $ je Indexpunkt wert.
+Der typische Stop dieser Strategie liegt bei 121 Punkten — das sind **2.420 $
+Risiko für einen einzigen Kontrakt**, mehr als der gesamte Drawdown-Puffer. Auf
+einem 50k-Konto mit 2.000 $ Puffer ist NQ nicht handelbar, MNQ ist die einzige
+sinnvolle Größe. Der Risk-Manager lehnt NQ-Orders von sich aus ab; ein Test
+dafür steht in `tests/propbot/test_sessions.py`.
+
+### Taugen die Daten?
+
+Dukascopy liefert einen CFD auf den Index, gehandelt wird der CME-Future. Die
+Gegenprobe gegen echte NQ-Futuresdaten (Yahoo, `propbot validate`):
+
+| Zeitfenster | Korrelation der Renditen | Tracking Error |
+| --- | --- | --- |
+| **Kernhandelszeit 09:30–16:00 NY** | **0,9995** | 0,5 bp je Kerze |
+| nach dem Kassaschluss | 0,9209 | 3,6 bp |
+| alle Stunden | 0,9818 | 2,0 bp |
+
+Der Befund hat die Testanlage geändert: **nach dem US-Schluss stehen die
+CFD-Kurse still**, während der Future weiterläuft (1,3 % aller Kerzen, keine
+davon in der Kernzeit). Für die Kernhandelszeit sind beide Quellen praktisch
+identisch — also wird nur dort gehandelt *und* nur dort werden die Indikatoren
+gerechnet. Der Preisunterschied von rund +55 Punkten (Future über Index) ist
+die normale Finanzierungsprämie und für Renditen bedeutungslos.
+
+### Ein Fehler, den erst echte Daten zeigten
+
+Im ersten Lauf betrug die durchschnittliche Haltedauer **897 Minuten** — bei
+einer Strategie, die abends flach sein soll. Ursache: Die Flat-Regel verglich
+den *Beginn* der Kerze mit der Schlusszeit. Bei einem Datensatz, der nur die
+Kernhandelszeit enthält, beginnt die letzte Kerze um 15:45 und die Regel
+(15:50) löste nie aus — die Position lief über Nacht weiter. Auf synthetischen
+24-Stunden-Daten war das nie aufgefallen.
+
+Behoben: geprüft wird jetzt das **Ende** der Kerze, dessen Länge die Engine aus
+dem Zeitindex ableitet. Zwei Regressionstests halten es fest.
+
+### Das Ergebnis
+
+Trend-Pullback, Standardparameter, 5 Jahre, MNQ, Kernhandelszeit:
+
+```
+Trades:            112 in 99 Handelstagen
+Trefferquote:      42,9 %
+Erwartungswert:    -0,041 R je Trade
+Endstand:          49.338 $  (-662 $)
+Max. Drawdown:     1.798 $ (Puffer 2.000 $)
+Kosten:            0,023 R je Trade (2,0 % der Bruttobewegung)
+```
+
+Nur 112 Trades in fünf Jahren — der Grund ist die zweite große Erkenntnis:
+
+> **1.241 von 1.795 Signalen (69 %) wurden abgelehnt, weil schon ein einziger
+> MNQ-Kontrakt mehr riskiert hätte als das Budget erlaubt.**
+
+Der Median-Stop von 121 Punkten entspricht 242 $ Risiko je Kontrakt — bei 250 $
+Budget. Die Positionsgröße ist auf ganze Kontrakte gerastert, also gibt es
+zwischen „ein Kontrakt" und „gar nicht" nichts. Auf einem 50k-Konto ist die
+Kontraktgröße von MNQ die eigentliche Grenze, nicht die Strategie.
+
+### Es liegt nicht an den Parametern
+
+24 Kombinationen aus Stopweite, Chance-Risiko-Verhältnis und ADX-Schwelle,
+gerechnet über die vollen fünf Jahre ohne vorzeitigen Payout-Stopp:
+
+| max_stop_atr | CRV | ADX | Trades | Erwartungswert |
+| --- | --- | --- | --- | --- |
+| 1,5 | 1,5 | 26 | 161 | −0,014 R |
+| 1,5 | 2,0 | 26 | 177 | −0,016 R |
+| 1,5 | 1,5 | 22 | 223 | −0,024 R |
+| 2,0 | 1,5 | 22 | 128 | −0,098 R |
+| 3,5 | 2,0 | 22 | 121 | +0,046 R |
+
+**Keine einzige Kombination mit brauchbarer Stichprobe kommt über null.** Die
+zwei leicht positiven Werte stehen bei rund 120 Trades — das ist Rauschen, kein
+Vorteil.
+
+Auch die anderen Stellschrauben helfen nicht:
+
+| Variante | Trades | Erwartungswert |
+| --- | --- | --- |
+| M5 statt M15 | 1.063 | +0,012 R |
+| M30 | 14 | +0,018 R |
+| H1 | 14 | −0,107 R |
+| nur Long (M15) | 97 | −0,089 R |
+| Range-Fade (M15) | 27 | −0,145 R |
+
+Zum Vergleich: NQ selbst stieg im Zeitraum um **+87 %**.
+
+### Der ehrliche Schlussstrich: Walk-Forward und Monte Carlo
+
+M5 ist der einzige Zeitrahmen mit belastbarer Stichprobe. Walk-Forward über
+vier Fenster, Gitter aus 12 Kombinationen:
+
+```
+Fold 1: IS +0.224 R -> OOS +0.059 R | 201 Trades | +1,057 $
+Fold 2: IS +0.068 R -> OOS +0.005 R | 176 Trades | -1,492 $
+Fold 3: IS +0.007 R -> OOS -0.022 R | 102 Trades |   +578 $
+Fold 4: IS +0.016 R -> OOS -0.016 R | 110 Trades | -1,079 $
+Mittel: In-Sample +0.079 R, Out-of-Sample +0.007 R (Degradation 8 %)
+```
+
+Über alle Testabschnitte zusammen: 589 Trades, Profitfaktor 0,98, −936 $.
+
+Und was das für die Challenge bedeutet — Monte Carlo mit dem echten Regelwerk
+(4.000 $ Ziel, 2.000 $ Drawdown, 1.000 $ Tageslimit):
+
+```
+Payout 26,1 % | Bust 0,0 % | festgefahren 73,7 %
+Endstand p05/p50/p95: 48.088 / 49.597 / 54.134 $
+Urteil: Finger weg - mit diesen Zahlen ist die Challenge ein Lottoschein.
+```
+
+### Was fehlt, in einer Zahl
+
+Für eine Payout-Wahrscheinlichkeit über 80 % braucht es bei 250 $ Risiko rund
+**+0,15 R je Trade**. Geliefert werden **+0,015 R** — Faktor zehn. Das ist keine
+Lücke, die man mit Parametern schließt.
+
+### Was daraus folgt
+
+1. **Diese Strategie gehört nicht auf ein NQ-Prop-Konto.** Nicht mit anderen
+   Parametern, nicht mit anderem Zeitrahmen.
+2. **Der Trend-Pullback ist für NQ die falsche Familie.** Er wartet auf einen
+   Rücksetzer im laufenden Trend — NQ intraday dreht schneller, als der
+   Momentum-Trigger bestätigt. Erfolgversprechender wären Ansätze, die zur
+   Struktur des Index-Futures passen: Opening-Range-Breakout der ersten 15–30
+   Minuten, VWAP-Rückkehr, oder Tagesschluss-Ausbrüche über das Vortageshoch.
+3. **Die Kontraktgröße muss in die Strategie einfließen.** Solange ein
+   MNQ-Kontrakt fast das gesamte Risikobudget frisst, muss der Stop zur
+   Kontraktgröße passen, nicht umgekehrt — sonst hebelt die Rasterung 69 % der
+   Signale weg.
+4. **Was funktioniert hat, ist das Regelwerk drumherum.** In keinem einzigen
+   Lauf über fünf Jahre wurde das Konto gerissen: kein Drawdown-Verstoß, kein
+   Tageslimit-Verstoß. Der Bot verliert nicht das Konto, er verdient nur nichts.
+
+---
+
+## 13. Zweiter Anlauf: Opening-Range-Breakout auf NQ
+
+Nach dem negativen Befund aus Kapitel 12 wurde eine Strategie gebaut, die zur
+Struktur des Handelstags passt statt zu einem Indikatorbild.
+
+### Die Idee
+
+In den ersten Minuten nach der Eröffnung treffen die über Nacht aufgelaufenen
+Orders aufeinander. Die Spanne, die dabei entsteht — die *Opening Range* — ist
+die Zone, auf die sich beide Seiten geeinigt haben. Verlässt der Kurs sie, hat
+eine Seite gewonnen.
+
+Drei Gründe, warum das auf einem Prop-Konto besser funktioniert als der
+Trend-Pullback:
+
+1. **Der Zeitpunkt ist definiert, nicht der Zustand.** Täglich zur selben Zeit,
+   an einer klar bestimmten Marke.
+2. **Das Risiko steht vorher fest.** Die Spanne *ist* der Stop. Schon um 09:45
+   weiß der Bot, ob der Trade ins Budget passt — beim Trend-Pullback ergab sich
+   der Stopabstand erst aus dem Rücksetzer und sprengte in 69 % der Fälle das
+   Budget.
+3. **Eine klare Gelegenheit pro Tag** statt Dutzender Zufallstreffer.
+
+### Zwei Fehler, die dabei aufflogen
+
+**Das Sperrfenster blockierte das erste handelbare Signal.** Der Blackout
+09:30–09:45 war an beiden Enden einschließend — die Kerze, die *um* 09:45
+beginnt und den Ausbruch aus einer 15-Minuten-Spanne bringt, fiel also noch
+hinein. Ende ist jetzt exklusiv.
+
+**Die Streak-Bremse fraß sich fest.** Nach zwei Verlusten in Folge senkt der
+Risk-Manager das Budget, und Erholung gab es nur nach zwei Gewinnen. Auf NQ
+passte bei 100 $ Budget aber kein einziger Trade mehr hinein — also gab es keine
+Gewinne, also blieb die Bremse für immer unten. Über fünf Jahre hat das **zwei
+Drittel aller Trades verschluckt** (257 statt 648) und ab 2026 gar nichts mehr
+zugelassen. Ein Handelstag ohne Verlust holt jetzt einen Schritt zurück
+(`recovery_days`).
+
+Das war zugleich eine Lehre über Statistik: die kaputte Bremse *verbesserte* den
+Erwartungswert scheinbar von +0,079 auf +0,168 R — sie ließ zufällig nur einen
+Teil der Trades durch. Wer nur auf die Kennzahl schaut, hält so einen Fehler für
+eine Verbesserung.
+
+### Ergebnis über fünf Jahre
+
+Beide Richtungen, 15-Minuten-Spanne, Stop an der Gegenseite, CRV 2:
+
+| Jahr | NQ | Trades | Erwartungswert | Trefferquote |
+| --- | --- | --- | --- | --- |
+| 2021 | +4,6 % | 57 | −0,020 R | 50,9 % |
+| 2022 | **−33,7 %** | 101 | +0,173 R | 56,4 % |
+| 2023 | +53,6 % | 197 | +0,069 R | 52,8 % |
+| 2024 | +24,9 % | 154 | +0,060 R | 49,4 % |
+| 2025 | +20,0 % | 109 | +0,095 R | 54,1 % |
+| 2026 | +16,6 % | 30 | +0,062 R | 53,3 % |
+| **gesamt** | | **648** | **+0,079 R** | 52,9 % |
+
+Die Shorts sind der schwache Teil (+0,130 R Long gegen −0,016 R Short über die
+Testabschnitte). Nur Long gehandelt:
+
+| Jahr | Trades | Erwartungswert | Trefferquote |
+| --- | --- | --- | --- |
+| 2021 | 31 | +0,068 R | 48,4 % |
+| 2022 (NQ −33,7 %) | 59 | **+0,096 R** | 55,9 % |
+| 2023 | 125 | +0,192 R | 60,0 % |
+| 2024 | 105 | +0,116 R | 52,4 % |
+| 2025 | 77 | +0,027 R | 53,2 % |
+| 2026 | 19 | +0,155 R | 57,9 % |
+| **gesamt** | **416** | **+0,118 R** | 55,0 % |
+
+**Der wichtigste Wert steht in Zeile zwei.** Long-only auf einem Index, der im
+Zeitraum um 87 % gestiegen ist, riecht nach Aufwärtsdrift. Aber 2022, als NQ um
+ein Drittel fiel, verdiente die Long-Variante trotzdem +0,096 R. Der Bot ist
+jeden Abend flach und greift nur die Intraday-Bewegung ab — die läuft auch im
+Bärenmarkt oft nach oben.
+
+### Walk-Forward (nur Long)
+
+```
+Fold 1: Test 2022-08-31 bis 2023-09-08 | IS +0.289 R -> OOS +0.209 R | 101 Trades | +3,409 $
+Fold 2: Test 2023-09-08 bis 2024-09-04 | IS +0.238 R -> OOS +0.092 R | 104 Trades | +1,415 $
+Fold 3: Test 2024-09-04 bis 2025-09-03 | IS +0.113 R -> OOS +0.181 R |  84 Trades | +2,890 $
+Fold 4: Test 2025-09-03 bis 2026-08-28 | IS +0.181 R -> OOS +0.061 R |  41 Trades |   +432 $
+Mittel: In-Sample +0.205 R, Out-of-Sample +0.136 R (Degradation 66 %)
+```
+
+**Alle vier Fenster out-of-sample positiv**, zusammen 330 Trades mit +0,147 R,
+Profitfaktor 1,37, Trefferquote 56,7 %. Zum Vergleich: der Trend-Pullback kam
+out-of-sample auf +0,007 R.
+
+### Was das fürs Konto heißt
+
+Monte Carlo mit dem echten Regelwerk (4.000 $ Ziel, 2.000 $ Drawdown,
+1.000 $ Tageslimit, adaptive Positionsgröße):
+
+| Variante | Payout | festgefahren | Bust |
+| --- | --- | --- | --- |
+| nur Long, CRV 1,5 | **89,8 %** | 10,2 % | 0,0 % |
+| nur Long, CRV 2,0 | 84,2 % | 15,8 % | 0,0 % |
+| nur Long, CRV 2,5 | 82,3 % | 17,7 % | 0,0 % |
+| beide Richtungen | 60,7 % | 39,3 % | 0,0 % |
+| Trend-Pullback (Kapitel 12) | 26,1 % | 73,7 % | 0,0 % |
+
+Die drei CRV-Werte liegen dicht beieinander — ein Plateau, kein Einzeltreffer.
+Gewählt wird 1,5, weil auch der Walk-Forward diesen Wert am häufigsten
+ausgesucht hat.
+
+Der historische Einzelpfad mit echten Kontoregeln erreicht das Ziel: 233 Trades,
++0,110 R, Endstand 54.012 $, größter Rückgang 1.262 $ von 2.000 $ Puffer.
+
+### Fertige Konfiguration
+
+```bash
+python -m propbot backtest --config configs/nq_opening_range.json
+python -m propbot montecarlo --config configs/nq_opening_range.json
+python -m propbot paper --config configs/nq_opening_range.json
+```
+
+### Payout-Zyklen: die Sicht des Prop-Traders
+
+Ein Backtest endet beim Ziel. Auf einem echten Konto wird ausgezahlt, das Konto
+läuft weiter, und die Frage lautet: **wie oft im Zeitraum?** Dafür wird das
+Konto nach jedem Payout auf 50.000 $ zurückgesetzt:
+
+| Zyklus | Zeitraum | Dauer | Trades | Ergebnis | max. Rückgang |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 09/2021 – 06/2024 | 1.007 Tage | 233 | **Payout +4.012 $** | 1.262 $ |
+| 2 | 06/2024 – 07/2025 | 381 Tage | 80 | **Payout +4.007 $** | 799 $ |
+| 3 | 07/2025 – 08/2026 | 402 Tage | 54 | läuft (+334 $) | 1.204 $ |
+
+**Zwei Payouts in fünf Jahren, kein einziges gerissenes Konto.** Das sind rund
+1.600 $ Auszahlung pro Jahr — ehrlich gesagt wenig für den Aufwand, und
+deutlich langsamer als die Monte-Carlo-Verteilung nahelegt (Median ~130
+Handelstage). Der Unterschied hat einen klaren Grund: die Simulation zieht
+Trades unabhängig und nimmt einen Trade pro Tag an, in Wirklichkeit gibt es nur
+an 32 % der Tage einen handelbaren Ausbruch.
+
+### Mehr Risiko macht es schlechter, nicht schneller
+
+Der naheliegende Hebel wäre eine größere Position. Er funktioniert nicht:
+
+| Risiko je Trade | Payouts in 5 J. | Busts | Tage je Payout | Trades |
+| --- | --- | --- | --- | --- |
+| 0,4 % (200 $) | 1 | 0 | 1.130 | — |
+| **0,5 % (250 $)** | **2** | **0** | **694** | **233** |
+| 0,6 % (300 $) | 0 | 0 | — | — |
+| 0,8 % (400 $) | 0 | 0 | — | 78 |
+| 1,0 % (500 $) | 0 | 0 | — | — |
+
+Der Grund ist eine Rückkopplung, die erst im Zusammenspiel aller drei Ebenen
+entsteht:
+
+1. Größere Positionen erzeugen früh einen tieferen Rückgang (1.771 $ statt
+   1.262 $ bei 0,8 %).
+2. Der Risk-Manager bemisst das Budget am **Restpuffer** — nach dem Rückgang
+   sind 20 % davon nur noch 211 $, also *weniger* als das Basisrisiko bei
+   0,5 %.
+3. Bei diesem Budget passt fast kein MNQ-Kontrakt mehr hinein: 669 von 749
+   Signalen fallen aus, der Erwartungswert dreht auf −0,050 R, und das Konto
+   steht still.
+
+Das Konto stirbt also nicht am Bust, sondern an der Drosselung — genau der
+Zustand, den die Monte-Carlo-Simulation als „festgefahren" ausweist. Auf diesem
+Konto ist 0,5 % Risiko nicht nur sicherer, sondern auch **produktiver**.
+
+### Was weiter offen ist
+
+* **42 % der Signale fallen weiterhin an der Kontraktgröße aus.** Ein MNQ ist
+  für ein 50k-Konto grob gerastert; je höher NQ steigt, desto schlimmer wird es.
+  Der Backtest weist das jetzt als Hinweis aus.
+* **Der Edge ist real, aber klein** (+0,13 R). Im historischen Pfad dauerte der
+  Weg zum Payout rund 21 Monate. Die Monte-Carlo-Verteilung ist optimistischer
+  (Median ~130 Handelstage), weil sie die Signalausfälle in volatilen Phasen
+  nicht abbildet.
+* **Fünf Jahre sind eine Marktepoche**, kein Beweis. Ein Crash-Jahr wie 2008
+  steckt nicht in den Daten.
+* **Nächster Schritt bleibt das Demokonto**: Papierhandel, dann Dry-Run am
+  echten Broker, dann kleine echte Orders — die Kette aus Abschnitt 8.
+
+---
+
+## 14. Verlustanalyse: was die Charts zeigen
+
+415 Trades, davon 186 Verlierer. Die Frage war nicht "wie viele", sondern
+"warum" — und ob sich daraus etwas bauen lässt.
+
+### Die Zahlen
+
+**Der Stop sitzt richtig.** Nur **5,6 %** der ausgestoppten Trades erreichen
+später am selben Tag doch noch ihr ursprüngliches Ziel. Ein gescheiterter
+Ausbruch bleibt gescheitert — ein weiterer Stop hätte nur mehr gekostet.
+
+**Verschenkt wird wenig.** 98,4 % der Verlierer waren irgendwann im Plus, aber
+nur 5,4 % erreichten je +1 R. Der typische Verlierer lief 0,39 R ins Plus und
+drehte dann. Da ist kein vergessener Gewinn.
+
+**Volatilität entscheidet** (ATR in Prozent des Kurses am Einstieg):
+
+| ATR/Kurs | Trades | Trefferquote | Erwartungswert |
+| --- | --- | --- | --- |
+| unter 0,15 % | 36 | 38,9 % | **−0,083 R** |
+| 0,15 – 0,25 % | 173 | 51,4 % | +0,075 R |
+| **0,25 – 0,35 %** | 116 | **67,2 %** | **+0,331 R** |
+| 0,35 – 0,5 % | 78 | 56,4 % | +0,113 R |
+| über 0,5 % | 12 | 33,3 % | **−0,412 R** |
+
+Zu ruhig heißt kein Schub hinter dem Ausbruch, zu wild heißt, dass der Stop im
+Rauschen liegt. Beide Ränder kosten Geld.
+
+**Der frühe Ausbruch ist der schlechteste.** Entgegen der Lehrbuchmeinung:
+Einstiege in den ersten 20 Minuten nach der Spanne bringen +0,094 R, Einstiege
+nach zwei Stunden +0,219 R. Die erste Bewegung ist am häufigsten die falsche.
+
+### Was die Charts zeigen
+
+Zwölf Verlierer, die innerhalb von 45 Minuten ausgestoppt wurden, neben den
+zwölf besten Gewinnern — der Unterschied ist auf einen Blick sichtbar:
+
+* **Gewinner sind Trendtage.** Der Kurs verlässt die Spanne und kommt nie
+  zurück, sondern steigt in einer Treppe bis zum Schluss. Die Zielmarke fällt
+  meist erst am Nachmittag.
+* **Verlierer sind Umkehrtage.** Der Ausbruch hält eine bis drei Kerzen, dann
+  fällt der Kurs durch die gesamte Spanne hindurch — und läuft danach weiter
+  nach unten, oft den ganzen Tag.
+
+Der zweite Punkt ist der verwertbare: **78,5 % der gescheiterten
+Long-Ausbrüche schließen später unter dem Spannen-Tief.** Der fehlgeschlagene
+Ausbruch ist selbst ein Signal.
+
+### Was daraus gebaut wurde
+
+**Umkehr nach Fehlausbruch** (`reversal_after_failure`): Wird ein Ausbruch
+ausgestoppt, dreht der Bot am selben Tag in die Gegenrichtung — Stop an der
+anderen Seite der Spanne, Ziel 1,5 Spannenbreiten. Das ergibt 63 zusätzliche
+Trades mit +0,056 R.
+
+**Volatilitätsfenster** (`min_atr_pct` / `max_atr_pct`): nur handeln, wenn der
+ATR zwischen 0,15 % und 0,5 % des Kurses liegt.
+
+In-Sample sieht das stark aus: +0,127 → **+0,185 R**, größter Rückgang von
+1.433 $ auf 1.356 $, Payout-Wahrscheinlichkeit von 89,8 % auf 97,8 %.
+
+**Out-of-Sample bleibt davon wenig:**
+
+| | Basis | mit Umkehr + Vola-Filter |
+| --- | --- | --- |
+| Walk-Forward OOS | +0,136 R | +0,139 R |
+| Testabschnitte zusammen | +0,147 R | +0,159 R |
+| Profitfaktor | 1,37 | 1,42 |
+
+Also: eine echte, aber kleine Verbesserung. Der Rest des In-Sample-Sprungs war
+Anpassung an dieselben Daten, aus denen die Filter stammen. Beide Änderungen
+sind trotzdem in der Standardkonfiguration, weil sie strukturell begründet sind
+und out-of-sample nicht schaden.
+
+Auf dem historischen Pfad verkürzen sie die Zyklen: erster Payout nach 841
+statt 1.007 Tagen, zweiter nach 333 statt 381.
+
+### Mehr Instrumente helfen nicht
+
+Naheliegender Weg zu mehr Trades: dieselbe Strategie auf ES und YM. Beide
+Datensätze wurden über dieselben fünf Jahre geladen und geprüft:
+
+| Markt | Trades | Erwartungswert | Walk-Forward OOS | Payout-Chance |
+| --- | --- | --- | --- | --- |
+| **NQ (MNQ)** | 426 | **+0,180 R** | +0,139 R | **97,2 %** |
+| ES (MES) | 583 | +0,022 R | +0,021 R | 28,1 % |
+| YM (MYM) | 580 | −0,018 R | **−0,022 R** | 9,3 % |
+
+Und gemischt wird es schlechter, nicht besser:
+
+| Kombination | Trades | Erwartungswert | Payout | Median-Dauer |
+| --- | --- | --- | --- | --- |
+| NQ allein | 426 | +0,180 R | **97,4 %** | 108 Tage |
+| NQ + YM | 1.006 | +0,065 R | 57,3 % | 86 Tage |
+| NQ + ES + YM | 1.589 | +0,049 R | 46,2 % | 60 Tage |
+
+Mehr Trades machen den Weg zum Ziel kürzer (108 → 60 Tage im Median) und die
+Erfolgsaussicht kleiner (97 % → 46 %). Ein schnelleres Pferd nützt nichts, wenn
+es in die falsche Richtung läuft.
+
+**Der Edge ist NQ-spezifisch.** Der Nasdaq-Future hat die stärkste
+Intraday-Folgebewegung der drei Indizes; Dow und S&P kehren häufiger um. Ein
+Ausbruchssystem braucht genau diese Folgebewegung. Wer die Frequenz erhöhen
+will, braucht deshalb ein **anderes Setup**, kein weiteres Instrument mit
+demselben.
+
+---
+
+## 15. Confluence: welche Marktmerkmale wirklich tragen
+
+Der Vorwurf war berechtigt: ein Ausbruch aus der Eröffnungsspanne ist ein
+Standard-Setup. Dieses Kapitel prüft 24 zusätzliche Merkmale — VWAP, höherer
+Zeitrahmen, Momentum, Kerzenformationen, Uhrzeit, Aktivität — und zwar nicht
+nach Gefühl, sondern mit getrennter Prüfperiode.
+
+### Zuerst: was an Daten überhaupt da ist
+
+| Datenart | Verfügbar? | Anmerkung |
+| --- | --- | --- |
+| OHLC, Minutenauflösung, 5 Jahre | **ja** | Dukascopy, gegen CME-Futures geprüft (0,9995 Korrelation in der Kernzeit) |
+| Volumen | **nur als Näherung** | Liquiditätsmaß der CFD-Quelle, kein Börsenvolumen |
+| VWAP | **ja, mit festem Profil** | siehe unten |
+| Bid/Ask je Tick | **ja, aber schwach** | Dukascopy-Ticks führen Bid-/Ask-Volumen, im Median aber 0 |
+| Orderflow, Footprint, Delta | **nein** | braucht Marktdaten mit Handelsseite (CME MBO) |
+| DOM / Heatmap / Liquiditätskarte | **nein** | braucht Level-2-Orderbuch, kostenpflichtig |
+| Gamma-Exposure | **live ja, historisch nein** | siehe Abschnitt unten |
+
+Das ist die ehrliche Grenze: **alles, was mit Orderbuch und Handelsseite zu tun
+hat, kann dieser Bot nicht sehen.** Wer Heatmaps und Footprint handeln will,
+braucht einen Datenanbieter wie Databento, CME DataMine oder Bookmap — und dann
+eine ganz andere Backtest-Infrastruktur.
+
+### Der VWAP — und wie er beinahe falsch geworden wäre
+
+Der VWAP verlangt Volumen, und das vorhandene taugt dafür nicht: die
+CFD-Aktivität fällt über den Tag monoton ab und kennt den Anstieg zur
+Schlussauktion nicht. Ein VWAP mit diesen Gewichten lag **95 Punkte** vom
+echten entfernt — schlechter als ein simpler Mittelwert (15 Punkte).
+
+Die Lösung ist ein **festes Volumenprofil**, gemessen am echten CME-Volumen:
+
+```
+09:30 ###############################################  3,20
+10:30 ###########################                      1,38
+12:30 ############                                     0,65
+14:45 #########                                        0,48
+15:45 ####################################             1,84   <- Schlussauktion
+```
+
+Damit liegt der VWAP im Median **2,8 Punkte** neben dem echten (6 % eines ATR)
+und ist 81 % genauer als ein ungewichteter Mittelwert.
+
+Zwei Fehler auf dem Weg dorthin, beide erwähnenswert:
+
+1. Die erste Fassung mittelte das Volumenprofil über den **gesamten**
+   Datensatz — also auch über die Zukunft. Aufgefallen ist das nur, weil der
+   Lookahead-Test aus der Testsuite angeschlagen hat.
+2. Zwei Messungen zeigten den VWAP als katastrophal schlecht (95 bzw. 120
+   Punkte daneben). Beide Male lag es am Vergleich, nicht am Code: einmal
+   wurden unterschiedliche Kerzenmengen verglichen, einmal CFD-Kurse gegen
+   Futures-Kurse, zwischen denen die Finanzierungsprämie von ~90 Punkten liegt.
+
+### Die Merkmalsstudie
+
+24 Merkmale, gemessen an 646 Trades. Trainingszeitraum bis 08/2024,
+Prüfzeitraum ab 09/2024 (der nie zur Auswahl benutzt wurde).
+
+**Zehn Merkmale halten den Test — und sie erzählen alle dieselbe Geschichte:**
+
+| Merkmal | In-Sample | Out-of-Sample | Richtung |
+| --- | --- | --- | --- |
+| Momentum 8 Kerzen | −0,211 R | **−0,391 R** | negativ |
+| VWAP-Steigung | −0,148 R | −0,319 R | negativ |
+| RSI | −0,147 R | −0,232 R | negativ |
+| Abstand zum Vortageshoch | −0,303 R | −0,193 R | negativ |
+| Lage zum VWAP | +0,147 R | +0,102 R | positiv |
+| Uhrzeit | +0,101 R | +0,171 R | positiv |
+| grüne Kerzen in Folge | +0,131 R | +0,109 R | positiv |
+
+**Der rote Faden: ein Ausbruch taugt nichts, wenn die Bewegung schon gelaufen
+ist.** Vier der stärksten Merkmale messen Überdehnung, und alle vier sind
+negativ. Positiv sind dagegen die Lage zum VWAP und eine späte Uhrzeit.
+
+**Vierzehn Merkmale fallen durch** — darunter alle klassischen
+Kerzenformationen: Engulfing sah in-sample stark aus (+0,281 R) und war
+out-of-sample wertlos (+0,027 R). Ebenso Innentag, Gap, Dochte, Vortagsrichtung.
+
+### Die Confluence-Schicht
+
+`propbot/confluence.py` bewertet jedes Signal mit sieben Bedingungen aus den
+überlebenden Merkmalen und lässt nur Signale ab einer Punktzahl durch. Bewusst
+als Punktesystem statt als Und-Verknüpfung: fünf harte Filter hintereinander
+lassen fast nichts übrig und passen sich an die Stichprobe an.
+
+| Variante | Trades | Erwartungswert | OOS | Payout |
+| --- | --- | --- | --- | --- |
+| **nur Long, ohne Confluence** | **426** | **+0,180 R** | **+0,230 R** | **97,2 %** |
+| beide Richtungen, ohne | 667 | +0,080 R | +0,140 R | 65,1 % |
+| beide + Confluence ≥ 4 | 442 | +0,107 R | +0,175 R | 77,0 % |
+| beide + Confluence ≥ 5 | 328 | +0,152 R | +0,209 R | 92,7 % |
+
+Die Schicht funktioniert — sie hebt die Zwei-Richtungs-Variante von +0,080 auf
++0,152 R. Aber sie schlägt die einfache Long-only-Variante nicht. Der Grund ist
+naheliegend: mehrere Bedingungen (Lage zum VWAP, Mehrtagestrend) wählen
+faktisch dasselbe aus, was "nur Long" schon auswählt.
+
+**Und das Entscheidende für die Frequenzfrage: Filter erhöhen die Trade-Zahl
+nie.** Jede Confluence-Bedingung nimmt Trades weg. Wer mehr Trades will,
+braucht mehr *Setups*, nicht mehr Filter.
+
+### Der Versuch eines zweiten Setups
+
+Aus den validierten Merkmalen wurde ein eigenständiges Setup gebaut: Rücksetzer
+an den VWAP in Richtung des Mehrtagestrends, Einstieg bei der Rückeroberung
+(`propbot/strategy/vwap_pullback.py`). 917 Signale — mehr als doppelt so viele
+wie der Opening-Range-Breakout.
+
+| | Trades | Erwartungswert | Out-of-Sample | Jahre positiv |
+| --- | --- | --- | --- | --- |
+| Opening Range (Referenz) | 426 | +0,180 R | +0,230 R | 6/6 |
+| VWAP-Rücksetzer | 423 | +0,066 R | **−0,046 R** | 4/6 |
+| VWAP-Rücksetzer + Confluence | 418 | +0,079 R | **−0,019 R** | 4/6 |
+
+**Out-of-Sample negativ.** Dieselben Merkmale, die als *Filter* für
+Ausbruchstrades funktionieren, ergeben kein eigenständiges Setup. Das Modul
+bleibt im Paket, ist aber in keiner Konfiguration aktiv.
+
+### Gamma-Exposure
+
+`propbot/gamma.py` liest die frei verfügbaren, verzögerten Optionsketten von
+CBOE (NDX und QQQ) und rechnet Gamma je Strike, Netto-Gamma und den
+Nulldurchgang aus:
+
+```
+Gamma-Profil _NDX (verzoegert)
+  Kurs:          29.456,97
+  Netto-Gamma:   +1.743,4 Mio. $ je 1 % Bewegung (positiv)
+  Gamma-Flip:    30.090
+  Positives Gamma: Haendler hedgen gegen die Bewegung, Ausschlaege werden
+  gedaempft. Ausbrueche laufen seltener weit.
+```
+
+**Aber: CBOE liefert nur den aktuellen Stand, keine Historie.** Ob Gamma die
+Trefferquote verbessert, lässt sich mit diesen Daten nicht nachweisen — dafür
+bräuchte es historische Optionsketten. Das Modul ist deshalb ein
+**Live-Kontextwerkzeug**, kein Backtest-Filter. Es steht bewusst ohne
+Wirksamkeitsbehauptung im Paket.
+
+## 16. Squeeze-Breakout: die Strategie fürs Payout-Farming
+
+### Der Denkfehler in Kapitel 13
+
+Der Opening-Range-Breakout funktioniert — aber er hat einen strukturellen
+Deckel: **die Eröffnungsrange gibt es genau einmal am Tag.** Über die volle
+Datenspanne (2021-09 bis 2026-08, 1.303 Handelstage) macht er 429 Trades. Das
+sind 0.33 Trades je Kalender-Handelstag. Selbst mit einem guten
+Erwartungswert von +0.177 R reicht das nicht für einen monatlichen Payout.
+
+Der Fehler war nicht die Idee, sondern ihre Verengung auf eine Uhrzeit. Was
+den ORB trägt, ist nicht 09:30 Uhr — es ist der **Ausbruch aus einer
+Kontraktion**. Die Eröffnungsrange ist nur der bekannteste Fall davon.
+
+### Die Verallgemeinerung
+
+Die neue Strategie (`propbot/strategy/squeeze.py`) sucht dieselbe Struktur zu
+jeder Tageszeit: eine Phase, in der die Handelsspanne relativ zur jüngeren
+Vergangenheit eng wird, gefolgt vom Bruch dieser Spanne.
+
+### Warum eine feste ATR-Schwelle scheitert
+
+Der erste Versuch definierte "eng" absolut: Spanne der letzten 6 Bars
+kleiner als 1.1 × ATR. Ergebnis: **0.10 Signale am Tag** — noch weniger als
+der ORB.
+
+Der Grund ist eine Messung, die ich vorher hätte machen sollen: die
+6-Bar-Spanne beträgt im Median **2.21 ATR**, nicht etwa 1.0. Das ist keine
+Anomalie, sondern Arithmetik — sechs Bars mit je einer ATR Bewegung spannen
+zusammen mehr als eine ATR auf, sobald sie auch nur schwach gerichtet sind.
+Eine Schwelle bei 1.1 ATR verlangte also das untere Perzentil eines Perzentils.
+
+Die Lehre ist allgemein: **absolute Schwellwerte auf abgeleiteten Größen sind
+Ratespiele.** Was "eng" heißt, lässt sich nur relativ zur eigenen
+Vergangenheit sagen:
+
+```python
+schwelle = (d["sq_width"].rolling(p.quantil_fenster, min_periods=p.quantil_fenster // 2)
+            .quantile(p.squeeze_quantil).shift(1))
+eng = ((d["sq_width"] <= schwelle) & (d["sq_width"] <= p.max_range_atr * d["atr"])
+       & (d["sq_width"] >= p.min_range_atr * d["atr"]))
+```
+
+Die Spanne liegt im unteren 30 %-Quantil der letzten 78 Bars (ein halber
+Handelstag auf M5). Die ATR-Grenzen bleiben, aber nur noch als
+Plausibilitätsklammer gegen entartete Fälle — nicht mehr als Definition.
+
+Das `.shift(1)` ist kein Detail: ohne es enthielte die Schwelle die aktuelle
+Bar und damit einen Blick in die Zukunft. Aus demselben Grund kommt die
+Spanne selbst ausschließlich aus abgeschlossenen Bars:
+
+```python
+hoch = d["high"].rolling(p.squeeze_bars).max().shift(1)
+```
+
+`check_no_lookahead` prüft das bei jedem Backtest gegen.
+
+### Signalhäufung: ein Problem, das der ORB nicht hatte
+
+Eine Konsolidierung erzeugt nicht ein Signal, sondern eine Serie — jede Bar,
+in der die Enge noch gilt, meldet sich erneut. Ohne Bremse hängen zehn Trades
+an derselben Struktur und derselben Entscheidung. Das ist kein Diversifizieren,
+das ist ein zehnfach gehebelter Einzeltrade.
+
+`_mit_abstand(roh, tag, abstand, max_pro_tag)` dünnt deshalb aus: mindestens
+`cooldown_bars=6` Abstand, höchstens `max_signals_per_day=6`. Der ORB brauchte
+das nie, weil er pro Tag ohnehin nur einmal feuern konnte.
+
+### Ergebnis
+
+Backtest über die volle Spanne (NQ M5 RTH, 100.308 Kerzen):
+
+```
+Trades:            951 in 739 Handelstagen (1.29/Tag)
+Trefferquote:      51.4% (489W / 462V)
+Erwartungswert:    +0.137 R je Trade (Streuung 1.10 R)
+Profitfaktor:      1.31          Sharpe / Sortino: 2.02 / 3.37
+Kosten:            0.036 R je Trade (3.6% der Bruttobewegung)
+Setups:  squeeze_long   586 Trades  50.7%  +0.123 R
+         squeeze_short  365 Trades  52.6%  +0.158 R
+```
+
+Bemerkenswert: **die Short-Seite trägt hier**, anders als beim ORB
+(-0.016 R short, siehe Kapitel 13). Der Grund ist plausibel — der ORB-Short
+handelte gegen die Aufwärtsdrift des Index in einem festen Zeitfenster; der
+Squeeze-Short findet Kontraktionen auch in Abwärtsphasen.
+
+Walk-Forward mit vier Folds:
+
+```
+Fold 1: 2022-08 bis 2023-09 | IS +0.280 R -> OOS +0.216 R | 201 Trades
+Fold 2: 2023-09 bis 2024-09 | IS +0.225 R -> OOS +0.029 R | 224 Trades
+Fold 3: 2024-09 bis 2025-09 | IS +0.103 R -> OOS -0.037 R | 203 Trades
+Fold 4: 2025-09 bis 2026-08 | IS +0.035 R -> OOS +0.090 R | 154 Trades
+Mittel: IS +0.161 R, OOS +0.074 R (Degradation 46%)
+```
+
+Drei von vier Folds positiv, alle sechs Kalenderjahre positiv (2021 +0.040 R
+bis 2022 +0.236 R). **46 % Degradation ist ehrlich gesagt viel** — die Hälfte
+des In-Sample-Ergebnisses war Anpassung. Die realistische Erwartung ist
++0.074 R, nicht +0.137 R.
+
+### Was das für den Payout heißt
+
+Monte Carlo mit dem echten Regelwerk (50k, 4.000 $ Ziel, 2.000 $ Drawdown,
+20 % Konsistenzdeckel), Blockbootstrap:
+
+```
+Payout 81.6% | Bust 0.0% | festgefahren 17.2% | Median 123 Trades / 62 Handelstage
+```
+
+Diese Zahlen sind die *korrigierten*. Die erste Fassung dieses Kapitels nannte
+99.2 % Payout und 41 Tage — das war falsch, siehe den nächsten Abschnitt.
+
+Auch 62 Tage sind noch optimistisch: sie stammen aus der Stichprobe mit
++0.137 R. Mit der Out-of-Sample-Erwartung von +0.074 R verdoppelt sich die
+Dauer grob auf **~120 Handelstage, also gut fünf Monate — rund 2 bis 3 Payouts
+pro Jahr und Konto.**
+
+### Der Fehler im Werkzeug: eine zirkuläre Monte-Carlo-Stichprobe
+
+`cmd_montecarlo` baute seine Stichprobe aus einem Backtest **unter den echten
+Regeln**. Ein solcher Lauf endet beim Payout. Die Stichprobe bestand damit aus
+117 Trades mit +0.254 R — genau der Strecke, die einen Payout erzeugt hatte.
+Darauf dann die Payout-Wahrscheinlichkeit zu simulieren, beantwortet die Frage
+mit Daten, die per Konstruktion die Antwort enthalten.
+
+Das Ergebnis war entsprechend geschmeichelt: **99.2 % statt 81.6 %**, und
+41 statt 62 Tage. Der Fehler ist behoben — die Stichprobe kommt jetzt aus einem
+Lauf mit ausgehebeltem Ziel und Drawdown, simuliert wird weiter mit den echten
+Regeln. `test_montecarlo_stichprobe_endet_nicht_beim_payout` hält das fest.
+
+Die Lehre gehört zu den unangenehmeren im Projekt: **eine Stichprobe, die durch
+Erfolg begrenzt wurde, misst Erfolg.** Derselbe Fehlertyp wie das
+Volumenprofil aus Kapitel 15, nur schwerer zu sehen, weil hier keine Zukunft
+in die Vergangenheit sickerte — sondern eine Auswahl.
+
+### Wurden Konten geblowt?
+
+Die Frage, die zählt. Statt Monte Carlo hier der **echte historische Pfad**:
+Konto starten, laufen lassen bis Payout oder Bust, dann das nächste Konto ab
+der Stelle, wo das vorige endete.
+
+| von | bis | Trades | P/L | Ausgang |
+|---|---|---|---|---|
+| 2021-09-09 | 2022-04-26 | 117 | +4.012 $ | Payout |
+| 2022-05-03 | 2022-08-18 | 60 | +4.010 $ | Payout |
+| 2022-08-26 | 2023-04-27 | 133 | +4.004 $ | Payout |
+| 2023-05-05 | 2024-01-19 | 150 | +4.003 $ | Payout |
+| 2024-01-29 | 2024-12-11 | 143 | +187 $ | **festgefahren** |
+
+**Kein einziger Bust — in keinem Zyklus, weder beim Squeeze noch beim ORB.**
+Der Drawdown wurde nie gerissen, das Tagesverlustlimit nie.
+
+Aber der letzte Zyklus zeigt die Kehrseite. Das Konto stieg bis 52.919 $ —
+2.919 $ von 4.000 $, kurz vorm Ziel. Dann fiel es zurück auf 50.187 $. Der
+Drawdown-Boden war bei 50.000 $ eingerastet. Restpuffer: **186,94 $.**
+
+Und damit war das Konto tot, ohne gerissen zu sein:
+
+```
+Abgelehnte Signale:  520  Kleinste Position waere zu gross fuers Budget
+                      38  ausserhalb der Handelszeit
+```
+
+Bei 186,94 $ Puffer erlaubt `dd_buffer_fraction=0.20` noch **37,39 $** Risiko je
+Trade. Ein einziger MNQ-Kontrakt riskiert bei einem typischen Squeeze-Stop
+60–120 $. Das Konto hat danach **20 Monate lang keinen einzigen Trade mehr
+gemacht.**
+
+Fürs Payout-Farming ist das **genauso teuer wie ein Bust**: Gebühr bezahlt,
+nichts zurück. Der Unterschied ist kosmetisch. Wer nur auf die Bust-Rate
+schaut, hält ein Konto für gesund, das seit anderthalb Jahren tot ist.
+
+Die reale Quote ist damit: **4 von 5 Zyklen Payout, 0 Busts, 1 festgefahren**
+(ORB: 2 von 3, 0 Busts, 1 festgefahren). Das deckt sich mit dem korrigierten
+Monte Carlo (81.6 % / 17.2 %) — und eben nicht mit den 99.2 % vorher.
+
+### Lässt sich der festgefahrene Zustand auflösen?
+
+Naheliegender Gedanke: Wenn die eigene Vorsicht das Konto lähmt, dann eben
+mehr Risiko im Restpuffer zulassen. Auf dem historischen Pfad sah das gut aus —
+`dd_buffer_fraction` von 0.20 auf 0.35 brachte **einen Payout mehr, weiterhin
+ohne Bust.**
+
+Das ist aber n=6. Monte Carlo über 4.000 Läufe sagt das Gegenteil:
+
+| `dd_buffer_fraction` | Payout | Bust | festgefahren |
+|---|---|---|---|
+| 0.20 | **78.2 %** | 0.0 % | 20.4 % |
+| 0.35 | 73.0 % | 0.0 % | 26.6 % |
+| 0.50 | 71.7 % | 0.0 % | 28.1 % |
+| 1.00 | 71.3 % | 23.8 % | 4.8 % |
+
+Mehr Risiko im Puffer macht es **schlechter**, nicht besser: das Konto stirbt
+nur schneller, statt sich zu erholen. Der eine Extra-Payout auf dem echten Pfad
+war Rauschen. Bei voller Ausschöpfung kippt „festgefahren" in „Bust" um — 23.8 %
+— ohne dass die Payout-Rate steigt.
+
+**Der Wert bleibt bei 0.20.** Ein festgefahrenes Konto lässt sich nicht
+zurückholen; es lässt sich nur abschreiben und durch ein neues ersetzen. Genau
+das ist beim Payout-Farming die richtige Antwort — der Verlust ist die Gebühr,
+nicht das Kapital.
+
+Zusammen mit dem ORB (der zu anderen Zeiten und auf anderem Timeframe feuert):
+
+| | Trades | je Kalender-Handelstag | EW |
+|---|---|---|---|
+| ORB (M15) | 429 | 0.33 | +0.177 R |
+| Squeeze (M5) | 951 | 0.73 | +0.137 R |
+| zusammen | 1.380 | **1.06** | +0.149 R |
+
+Das ist die Zahl, auf die es ankommt: **1.06 Trades am Tag** statt 0.33.
+
+Einschränkung, die dazugehört: diese Kombination ist **gerechnet, nicht
+gemessen.** Beide Strategien liefen in getrennten Backtests mit je eigenem
+Risikomanager. Auf einem gemeinsamen Konto würden sich die Trades um dasselbe
+Budget streiten, und ein Teil davon würde abgelehnt. Ein Portfolio-Läufer, der
+M15 und M5 auf einem Konto zusammenführt, fehlt noch — bis dahin ist 1.06 eine
+Obergrenze, kein Messwert.
+
+### Der Konsistenzdeckel als eigentliche Bremse
+
+Bei 20 % Deckel für Direktkonten darf kein Tag mehr als 800 $ der 4.000 $
+beitragen. Das erzwingt **mindestens fünf profitable Tage**, praktisch eher
+zwanzig. Der Backtest der ausgelieferten Konfiguration zeigt den besten Tag
+bei 4 % des Gewinns — der Deckel ist mit dieser Trade-Frequenz kein Problem
+mehr. Beim ORB mit 0.33 Trades/Tag wäre er einer geworden.
+
+### Das Risiko-Fenster
+
+Der Vergleich bei festem Risiko zeigt, wo die Grenze liegt:
+
+| Risiko | % Konto | Payout | Bust | Trades bis Ende |
+|---|---|---|---|---|
+| 100 $ | 0.20 % | 99.7 % | 0.2 % | 154 |
+| 200 $ | 0.40 % | 94.7 % | 4.1 % | 74 |
+| 250 $ | 0.50 % | 88.6 % | 10.4 % | 54 |
+| 300 $ | 0.60 % | 81.5 % | 16.5 % | 40 |
+| 500 $ | 1.00 % | 24.2 % | 75.8 % | 8 |
+
+Zwischen 250 $ und 300 $ liegt der Knick. Darüber kauft man Tempo mit einer
+Bust-Wahrscheinlichkeit, die schneller wächst als der Zeitgewinn.
+
+### Payout-Farming statt Kontoerhalt
+
+Der entscheidende Perspektivwechsel: Ein Prop-Konto ist **kein Live-Konto, das
+ewig halten muss.** Der Verlust bei einem Bust ist die Gebühr, nicht das
+Kapital. Damit ist die richtige Zielgröße nicht die Überlebenswahrscheinlichkeit,
+sondern der **Erwartungswert je Gebühr**.
+
+Bei ~2–3 Payouts pro Jahr und Konto — und einer Ausfallquote von rund 20 %
+(festgefahren, nicht geblowt) — braucht das Ziel "1 Payout im Monat"
+**fünf bis sechs Konten parallel**, für "2 Payouts im Monat" das Doppelte. Das
+ist die ehrliche Antwort — nicht eine Strategie, die zehnmal so gut ist,
+sondern mehrere Konten mit derselben validierten Strategie.
+
+Der Konsistenzdeckel ist dabei der Grund, warum sich das nicht durch mehr
+Risiko abkürzen lässt: 20 % je Tag erzwingen viele Tage, und viele Tage
+brauchen ein Konto, das lange genug lebt.
+
+### Konfiguration
+
+`configs/nq_squeeze.json`: MNQ, M5, `squeeze_bars=8`, `squeeze_quantil=0.30`,
+`reward_ratio=2.0`, `require_trend=true`, `consistency_cap=0.20`,
+`max_trades_per_day=4`. Diese Parameter kamen aus dem Walk-Forward als
+stabilste Kombination, nicht aus der besten In-Sample-Zeile.
+
+```bash
+python -m propbot backtest --config configs/nq_squeeze.json
+python -m propbot montecarlo --config configs/nq_squeeze.json
+```
+
+### Was offen bleibt
+
+- **Portfolio-Läufer** für ORB + Squeeze auf einem Konto (siehe oben).
+- **Asia/London-Setups** brauchen echte Futures-Daten; die Dukascopy-CFDs sind
+  außerhalb der RTH zu dünn, um darauf zu testen.
+- **46 % Degradation** ist ein Warnschild. Weniger Parameter zu testen wäre der
+  saubere Weg, das zu senken — jede zusätzliche Gitterzeile kauft
+  In-Sample-Ergebnis auf Kredit.
+
+## 17. Die Frequenzgrenze — warum "mehr Trades" nicht zu 12 Payouts führt
+
+Das Ziel lautet: **12 Payouts im Jahr aus einem Konto.** Dieses Kapitel rechnet
+nach, was das verlangt, und warum der naheliegende Weg — mehr Trades am Tag —
+eine Obergrenze hat, die deutlich unter dem Ziel liegt.
+
+### Was 12 Payouts verlangen
+
+12 × 4.000 $ = 48.000 $ im Jahr, also ein Payout je 21 Handelstage oder
+**190 $ am Tag** bei 250 $ Risiko je Trade:
+
+| Trades/Tag | EW +0.05 R | +0.10 R | +0.15 R | +0.20 R | +0.30 R |
+|---|---|---|---|---|---|
+| 1 | 0.8 | 1.6 | 2.4 | 3.1 | 4.7 |
+| 3 | 2.4 | 4.7 | 7.1 | 9.5 | **14.2** |
+| 5 | 3.9 | 7.9 | **11.8** | **15.8** | **23.6** |
+| 8 | 6.3 | **12.6** | **18.9** | **25.2** | **37.8** |
+
+(Payouts pro Jahr. Fett = Ziel erreicht.)
+
+Der Zielpunkt ist also **rund 5 Trades am Tag bei +0.15 R.** Stand heute:
+0.73 Trades/Tag bei out-of-sample +0.074 R — das ergibt 0.6 Payouts im Jahr.
+Fehlender Faktor: **etwa 7 bei der Frequenz und 2 beim Vorteil.**
+
+### Warum Frequenz nicht beliebig skaliert
+
+Mehr Trades am Tag heißt zwangsläufig **engere Stops** — sonst passen sie
+zeitlich nicht in den Tag. Und die Kosten je Trade sind in Geld ungefähr
+konstant (Kommission plus ein halber Tick), also wächst ihr Anteil am Risiko
+genau dann, wenn der Stop schrumpft:
+
+> Kosten in R = Kosten je Kontrakt / (Stop in Punkten × Punktwert)
+
+Für MNQ (2 $/Punkt, rund 2 $ Round-Turn je Kontrakt):
+
+| Stop | Risiko/Kontrakt | Kosten in R | Haltedauer |
+|---|---|---|---|
+| 100 Pkt | 200 $ | 0.010 | ~2 h |
+| 40 Pkt | 80 $ | 0.025 | ~40 min |
+| 20 Pkt | 40 $ | 0.050 | ~15 min |
+| 10 Pkt | 20 $ | **0.100** | ~6 min |
+| 5 Pkt | 10 $ | **0.200** | ~2 min |
+
+Die eigenen Backtests bestätigen die Formel: der Squeeze mit 75 Minuten
+Haltedauer zahlt 0.036 R je Trade, das Intraday-Momentum mit 6 Minuten
+**0.077 R** — halbe Haltedauer, doppelte Kosten.
+
+Daraus folgt die Kurve, auf die es ankommt. Bei konstantem Bruttovorteil von
++0.11 R je Trade:
+
+| Trades/Tag | Stop | Kosten | netto/Trade | netto R/Tag | Payouts/Jahr |
+|---|---|---|---|---|---|
+| 1 | 60 Pkt | 0.017 | +0.093 | +0.093 | 1.5 |
+| 2 | 40 Pkt | 0.025 | +0.085 | +0.170 | 2.7 |
+| 3 | 25 Pkt | 0.040 | +0.070 | +0.210 | 3.3 |
+| **5** | 15 Pkt | 0.067 | +0.043 | **+0.217** | **3.4** |
+| 8 | 10 Pkt | 0.100 | +0.010 | +0.080 | 1.3 |
+| 12 | 6 Pkt | 0.167 | **−0.057** | −0.680 | 0.0 |
+
+**Das Maximum liegt bei 3–5 Trades am Tag und bei rund 3.4 Payouts im Jahr.**
+Danach fällt die Kurve, und bei 12 Trades am Tag ist der Vorteil vollständig
+aufgefressen. Wer die Frequenz weiter treibt, handelt für den Broker.
+
+Das ist zugleich die quantitative Begründung dafür, Hochfrequenzhandel hier
+auszuschließen: dieselbe Formel, nur weiter rechts, wo sie tief negativ wird.
+Der Weg dorthin führt nur über niedrigere Kosten je Trade, nicht über eine
+bessere Strategie.
+
+### Intraday-Momentum: eine veröffentlichte Idee, geprüft
+
+Die Recherche nach dokumentierten Verfahren führte auf Gao, Han, Li und Zhou,
+*Market Intraday Momentum* (Journal of Financial Economics, 2018): die
+Bewegung eines Tages sagt ihre Fortsetzung voraus, besonders an volatilen
+Tagen. Umgesetzt in `propbot/strategy/intraday_momentum.py`.
+
+Der Aufbau unterscheidet sich grundlegend von ORB und Squeeze: gemessen wird
+nicht eine lokale Spanne, sondern der Abstand zur **Tageseröffnung**, gegen ein
+Band aus der typischen Auslenkung zur selben Uhrzeit an den letzten 30 Tagen.
+Auf echten NQ-Daten wächst dieses Band wie erwartet von 0.33 % (Minute 20) auf
+0.85 % (Minute 385) — annähernd wie √t.
+
+Das Ergebnis war trotzdem **schlechter als das Vorhandene**:
+
+| min. Stop | CRV | Band | Trades/Tag | EW | Haltedauer |
+|---|---|---|---|---|---|
+| 0.5 ATR | 1.5 | 1.0 | 1.04 | **−0.079 R** | 6 min |
+| 1.0 ATR | 2.5 | 1.4 | 0.81 | +0.043 R | 37 min |
+| 1.5 ATR | 4.0 | 1.4 | 0.70 | **+0.053 R** | 80 min |
+
+Bestes Ergebnis +0.053 R bei 0.70 Trades/Tag — gegenüber dem Squeeze mit
++0.074 R out-of-sample bei 0.73 Trades/Tag also kein Fortschritt, weder beim
+Vorteil noch bei der Frequenz. Die Strategie bleibt im Paket, weil sie sauber
+getestet ist und als Vergleichsmaßstab taugt; als Verbesserung taugt sie nicht.
+
+Das Muster in der Tabelle ist aber die Bestätigung der Kostenformel: enge
+Stops sind durchweg negativ, weite durchweg positiv. Nicht die Richtungsidee
+war das Problem, sondern die Haltedauer.
+
+### Die Auszahlungsmechanik — der größte gefundene Hebel
+
+Ein Punkt, den alle früheren Kapitel übersehen haben: **Auszahlen senkt den
+Kontostand, aber nicht den Drawdown-Boden.** Wer bei 54.000 $ die vollen
+4.000 $ abzieht, steht bei 50.000 $ mit dem Boden bei 50.000 $ — also mit
+null Puffer. Das nächste Minus ist das Ende.
+
+Simulation über die echte R-Verteilung, 250 $ Risiko:
+
+| ausgezahlt | behalten | P(≥1 Payout) | P(≥2) | P(≥3) | Summe erwartet |
+|---|---|---|---|---|---|
+| 4.000 $ | 0 $ | 68.4 % | **16.0 %** | 4.0 % | 3.577 $ |
+| 3.500 $ | 500 $ | 67.9 % | 35.8 % | 18.5 % | 4.963 $ |
+| 3.000 $ | 1.000 $ | 67.4 % | 47.5 % | 33.4 % | 6.695 $ |
+| 2.000 $ | 2.000 $ | 68.7 % | **61.9 %** | 55.4 % | **9.773 $** |
+
+**Wer die Hälfte stehen lässt, vervierfacht die Chance auf zwei Payouts
+hintereinander** (16 % → 62 %) und verdreifacht die erwartete Gesamtsumme.
+Das ist reine Kontoführung und kostet keine einzige Zeile Strategiecode.
+
+### Warum die Bootstrap-Zahlen dieses Kapitels nicht die Antwort sind
+
+Eine Simulation mit **festem** Risiko von 700 $ je Trade und sofortigem Ersatz
+gerissener Konten ergab scheinbar 6.6 Payouts pro Jahr und Konto-Slot. Auf dem
+**echten historischen Pfad** waren es 0.9. Der Unterschied hat zwei Ursachen,
+beide real:
+
+1. **Der Risikomanager riskiert die eingestellte Zahl gar nicht.** Bei
+   konfigurierten 1.4 % lag das tatsächliche Risiko im Median bei 250 $, ohne
+   Puffer-Drossel bei 435 $ — nie bei 700 $. Die konkurrierenden Budgets
+   greifen vorher.
+2. **Der Bootstrap zieht unabhängig.** Echte Daten haben Serienabhängigkeit:
+   schlechte Strecken halten an. Genau daran ist der reale Zyklus 2022–2024
+   hängengeblieben.
+
+Zwei weitere Rechenfehler auf dem Weg, beide korrigiert und hier festgehalten,
+weil sie typisch sind:
+
+* **Quotient von Mittelwerten.** `Mittel(Geld) / Mittel(Tage) × 252` ist nicht
+  die Jahresrate — Konten, die schnell platzen, verkürzen den Nenner, ohne den
+  Zähler zu senken. Richtig ist `Summe(Geld) / Summe(Tage)`. Der Fehler hatte
+  die Rate um den Faktor 3 überhöht (26.181 $ statt 9.089 $ im Prüffall).
+* **Fehlende Regeln in der Simulation.** Ohne Tagesverlustlimit sah Risiko von
+  1.400 $ je Trade optimal aus. Mit Limit reißt dieselbe Einstellung in 99.9 %
+  der Fälle das Tageslimit. Eine Simulation ohne das vollständige Regelwerk
+  beantwortet eine Frage, die niemand gestellt hat.
+
+### Der Stand
+
+| | Trades/Tag | EW (OOS) | Payouts/Jahr, echter Pfad |
+|---|---|---|---|
+| Opening Range | 0.33 | +0.136 R | 0.6 |
+| Squeeze | 0.73 | +0.074 R | 0.8 |
+| Intraday-Momentum | 0.70 | +0.053 R | — |
+| theoretisches Optimum der Kostenkurve | 3–5 | — | **3.4** |
+
+Zwischen dem heutigen Stand (0.8) und der Obergrenze der Kostenkurve (3.4)
+liegt Arbeit, die sich lohnt. Zwischen 3.4 und dem Ziel 12 liegt keine
+Parameterwahl, sondern eine andere Kostenstruktur oder ein deutlich stärkerer
+Vorteil je Trade, als sich in fünf Jahren NQ nachweisen ließ.
+
+## 18. 1:0.5 geprüft — warum ein kleines Ziel hier nicht trägt
+
+Die Idee hat einen guten Grund: ein Ziel bei 1:0.5 schließt Trades schneller
+(mehr Trades am Tag passen in die Sitzung) und hebt die Trefferquote, was die
+Tagesverteilung glättet — beides genau das, was der Konsistenzdeckel belohnt.
+Die Hürde ist Arithmetik: der Break-even liegt bei 1/(1+0.5) = **66.7 %.**
+
+### Das Ergebnis
+
+Squeeze auf NQ M5, volle Datenspanne, alle anderen Parameter unverändert:
+
+| CRV | Break-even | erreicht | Vorsprung | Trades/Tag | netto EW | netto R/Tag |
+|---|---|---|---|---|---|---|
+| 0.40 | 71.4 % | 72.6 % | +1.2 pp | 1.01 | −0.008 | −0.008 |
+| **0.50** | **66.7 %** | **67.9 %** | **+1.2 pp** | **0.98** | **−0.001** | **−0.001** |
+| 0.75 | 57.1 % | 60.0 % | +2.9 pp | 0.91 | +0.036 | +0.033 |
+| 1.00 | 50.0 % | 55.6 % | +5.6 pp | 0.85 | +0.089 | +0.076 |
+| 1.50 | 40.0 % | 51.9 % | +11.9 pp | 0.77 | +0.122 | +0.094 |
+| 2.00 | 33.3 % | 51.4 % | +18.1 pp | 0.73 | +0.137 | **+0.100** |
+| 3.00 | 25.0 % | 51.0 % | +26.0 pp | 0.70 | +0.142 | +0.099 |
+
+Die Trefferquote steigt tatsächlich wie erhofft — bei 1:0.5 auf 67.9 %. Sie
+steigt nur eben **fast genau bis zum Break-even und keinen Schritt weiter.**
+Der Vorsprung bleibt bei mageren 1.2 Prozentpunkten, und die Gebühr von
+0.036 R je Trade frisst ihn vollständig auf.
+
+Und der Frequenzgewinn ist klein: 0.98 statt 0.73 Trades am Tag, also +34 % —
+zu wenig, um einen Erwartungswert von null zu retten.
+
+### Brutto gegen netto: wo die Grenze wirklich liegt
+
+| | CRV 0.5 brutto | Kosten | netto |
+|---|---|---|---|
+| Squeeze (M5, enge Stops) | +0.035 R | 0.036 R | **−0.001 R** |
+| Opening Range (M15, weite Stops) | +0.093 R | 0.018 R | **+0.075 R** |
+
+Beim ORB **trägt 1:0.5 sogar** — nicht weil die Strategie besser wäre, sondern
+weil ihre M15-Stops doppelt so weit sind und die Gebühr deshalb nur halb so
+viel vom Risiko ausmacht. Das ist dieselbe Kostenformel wie in Kapitel 17, aus
+einer anderen Richtung bestätigt: **ob ein kleines Ziel funktioniert, hängt
+nicht am Ziel, sondern an der Stopweite.**
+
+Auch beim ORB bleibt 1:0.5 aber die schlechtere Wahl: +0.075 R gegen +0.169 R
+bei CRV 1.5, also weniger als die Hälfte.
+
+### Warum der Vorsprung mit dem CRV wächst
+
+Die aufschlussreichste Spalte ist der Vorsprung über den Break-even: **+1.2 pp
+bei CRV 0.5, +26.0 pp bei CRV 3.0.** Er wächst monoton.
+
+Das ist die Signatur eines Ausbruchsvorteils. Die Strategie liegt bei der
+**Richtung** richtig, und wenn sie richtig liegt, laufen die Bewegungen weit.
+Ein Ziel bei 0.5 R schneidet genau den Teil ab, der den Vorteil trägt, und
+behält den vollen Verlust auf der anderen Seite. Man verkauft das Beste an der
+Strategie und kauft dafür eine Trefferquote, die der Markt fair bepreist.
+
+Ein kleines Ziel würde einen Vorteil brauchen, der in der **Trefferquote**
+steckt statt in der Bewegungslänge — ein Mean-Reversion- oder
+Auktionsungleichgewichts-Setup. Das Range-Fade aus Kapitel 12 war der Versuch
+dazu und hatte keinen Vorteil.
+
+### Auf dem echten Pfad
+
+| CRV | Payouts/Jahr (Squeeze) | Payouts/Jahr (ORB) |
+|---|---|---|
+| 0.50 | 0.2 | 0.0 |
+| 1.00 | 0.6 | 0.2 |
+| 2.00 | **0.8** | 0.2 |
+
+### Ein stiller Fallstrick, jetzt behoben
+
+Wer `reward_ratio: 0.5` in eine Konfiguration schreibt, bekam **null Trades** —
+ohne erkennbaren Grund. Ursache ist `min_reward_ratio` im Risikomanager, das
+standardmäßig bei 1.3 sperrt. Der Bericht sah aus, als fände die Strategie
+nichts; tatsächlich wurde jedes Signal verworfen.
+
+`summary()` weist jetzt darauf hin, sobald mehr als die Hälfte der Signale an
+diesem Filter scheitert, und nennt die Einstellung beim Namen. Zwei Tests
+halten das fest — einer für den Hinweis, einer dafür, dass er bei wenigen
+Ablehnungen ausbleibt.
+
+Nebenbei eine Lehre über Tests: der erste Versuch prüfte das an synthetischen
+Daten und lief mit 0 blockierten Signalen **wirkungslos durch** — ein Test, der
+nichts prüft, aber grün ist. Ersetzt durch zwei deterministische Fälle plus
+einen direkten Test des Risikomanagers.
+
+## 19. Den Chart sehen — und ein Datenfehler, der alles davor betrifft
+
+### Warum das Werkzeug gebraucht wurde
+
+Alle Strategien in diesem Projekt sind aus Statistik entstanden. Kein einziges
+Mal wurde auf die Kerzen geschaut. Das ist ein Konstruktionsfehler: eine
+Verengung, ein Ausbruch, eine Umkehr sind visuelle Begriffe, und wer sie nur
+über Perzentile definiert, prüft nie, ob das Definierte auch das Gemeinte ist.
+
+`propbot chart` rendert Kerzen, `propbot zeitprofil` fasst zusammen, was zu
+welcher Uhrzeit passiert.
+
+```bash
+propbot chart --datum 2024-03-05 --tf 5m,15m,1h --marken 10:00,11:30
+propbot chart --data data/nq_m1.csv --datum 2024-06-12 --tf 1m,5m,30m \
+              --von 09:30 --bis 11:30
+propbot zeitprofil --takt 30
+```
+
+Drei Entwurfsentscheidungen, die ungewöhnlich sind, weil das Bild nicht für ein
+menschliches Auge, sondern fürs Modell gedacht ist:
+
+* **Höchstens 160 Kerzen je Feld.** Darüber verschmelzen die Körper. Wer mehr
+  Zeitraum will, nimmt einen größeren Zeitrahmen — nicht mehr Kerzen.
+* **Jedes Bild kommt mit einer Zahlentafel.** Aus einem Bild lässt sich nicht
+  messen. Struktur kommt aus dem Bild, Werte aus der Tabelle, beide über
+  exakt denselben Ausschnitt.
+* **Wenige Linien:** VWAP, Vortageshoch/-tief, gesetzte Zeitmarken. Mehr
+  Indikatoren machen das Bild schlechter lesbar, nicht besser.
+
+### Das Zeitprofil
+
+Die Antwort auf "was passiert ab 10:00", über fünf Jahre NQ:
+
+| Zeit | Spanne Median | Richtung | grün | Vola-Anteil |
+|---|---|---|---|---|
+| 09:30 | 41.61 | +0.244 | 51.2 % | **1.68** |
+| 10:00 | 34.07 | −0.239 | 50.3 % | 1.40 |
+| 10:30 | 28.71 | −0.396 | 50.4 % | 1.18 |
+| 11:00 | 25.05 | +0.287 | 51.9 % | 1.03 |
+| 12:00 | 20.51 | −0.029 | 50.7 % | 0.85 |
+| **13:30** | **18.27** | +0.434 | 52.1 % | **0.78** |
+| 15:30 | 23.18 | −0.014 | 50.3 % | 0.97 |
+
+Die Volatilität fällt monoton von 1.68× auf 0.78× und zieht zum Schluss wieder
+an. Die Richtung ist in jedem Block praktisch null — es gibt keine Tageszeit,
+zu der der Markt systematisch steigt oder fällt. Der Anteil grüner Kerzen
+bleibt überall bei 50–52 %.
+
+### Der Datenfehler: Phantomkerzen
+
+Beim Bau des Werkzeugs fiel auf, dass jede Stunde des Tages exakt gleich viele
+Kerzen hatte — auch Stunden, in denen die CME geschlossen ist. Der Datensatz
+ist **aufgefüllt**: geschlossene Zeiten stehen als flache Kerzen drin,
+open = high = low = close, Volumen 0.
+
+Betroffen, allein in den RTH-Dateien:
+
+* **15 komplette Feiertage** (Weihnachten, Neujahr, 4. Juli, Karfreitag) mit je
+  78 M5-Kerzen,
+* **44 halbe Handelstage**, bei denen die Nachmittagshälfte aufgefüllt ist,
+* insgesamt 2.762 von 100.308 Kerzen, also 2.75 %.
+
+`ohne_phantomkerzen()` entfernt sie, `load_csv(..., drop_phantom=True)` ist
+Standard.
+
+### Was das an den bisherigen Zahlen ändert
+
+Die Phantomkerzen haben die Ergebnisse **geschönt**:
+
+| | Kerzen | Trades | Erwartungswert | schlechtester Tag |
+|---|---|---|---|---|
+| mit Phantomkerzen | 100.308 | 951 | **+0.137 R** | −632 $ |
+| bereinigt | 97.546 | 973 | **+0.101 R** | **−1.409 $** |
+
+Der Mechanismus ist einfach und ärgerlich: an den 44 halben Handelstagen saß
+eine offene Position durch 36 flache Nachmittagskerzen und stieg zum
+Sitzungsende exakt zum Mittagskurs aus. Kein Gegenlauf möglich, kein Stop
+erreichbar — **geschenkte Haltezeit**. Dazu drückten die flachen Kerzen die
+ATR und verschoben jedes rollende Quantil.
+
+Und die Aussage aus Kapitel 16, es habe **keinen einzigen Bust** gegeben, war
+ein Artefakt derselben Ursache. Auf bereinigten Daten:
+
+| | Payouts | Busts | festgefahren |
+|---|---|---|---|
+| Kapitel 16 (verschmutzt) | 4 | **0** | 1 |
+| bereinigt | 3 | **1** | 1 |
+
+Damit sind alle Erwartungswerte in den Kapiteln 13 bis 18 um grob ein Viertel
+zu hoch. Die *Rangfolge* der Befunde ändert sich nicht — CRV 2.0 schlägt
+weiterhin 1:0.5, die Kostenformel gilt unverändert, das Frequenzmaximum liegt
+weiter bei 3–5 Trades — aber jede absolute Zahl ist zu optimistisch.
+
+### Die Lehre
+
+Das ist der vierte Fehler dieser Bauart in diesem Projekt: das
+Volumenprofil über den ganzen Datensatz (Kapitel 15), die beim Payout
+abgeschnittene Monte-Carlo-Stichprobe (Kapitel 16), der Quotient von
+Mittelwerten (Kapitel 17) — und jetzt Kerzen, die es nie gab. Alle vier haben
+das Ergebnis **verbessert**, keiner verschlechtert.
+
+Das ist kein Zufall. Fehler, die das Ergebnis verschlechtern, fallen sofort
+auf, weil man ihnen nachgeht. Fehler, die es verbessern, bestätigen die
+Erwartung und werden nicht geprüft. Daraus folgt eine Arbeitsregel: **jede
+angenehme Überraschung ist zuerst ein Fehlerverdacht.**

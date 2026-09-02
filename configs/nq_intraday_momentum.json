@@ -1,0 +1,29 @@
+{
+  "symbol": "MNQ",
+  "timeframe": "M5",
+  "strategy": "intraday_momentum",
+  "strategy_params": {
+    "lookback_tage": 30,
+    "band_faktor": 1.0,
+    "reward_ratio": 1.5,
+    "cooldown_bars": 10,
+    "max_signals_per_day": 8,
+    "require_vwap_side": true,
+    "allow_short": true
+  },
+  "adaptive": false,
+  "session_profile": "us_rth",
+  "data_path": "data/nq_m5_rth.csv",
+  "rules": {
+    "start_balance": 50000,
+    "profit_target": 4000,
+    "max_drawdown": 2000,
+    "daily_loss_limit": 1000,
+    "drawdown_mode": "trailing_intraday",
+    "consistency_cap": 0.20
+  },
+  "risk": {
+    "base_risk_pct": 0.005,
+    "max_trades_per_day": 8
+  }
+}

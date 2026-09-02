@@ -1,0 +1,25 @@
+{
+  "symbol": "MNQ",
+  "timeframe": "M1",
+  "strategy": "vic",
+  "strategy_params": {},
+  "adaptive": false,
+  "session_profile": "vic",
+  "data_path": "data/nq_m1.csv",
+  "rules": {
+    "start_balance": 50000,
+    "profit_target": 4000,
+    "max_drawdown": 2000,
+    "daily_loss_limit": 1000,
+    "drawdown_mode": "trailing_eod",
+    "consistency_cap": 0.20
+  },
+  "risk": {
+    "base_risk_pct": 0.006,
+    "max_risk_pct": 0.006,
+    "max_trades_per_day": 2,
+    "max_losses_per_day": 1,
+    "min_reward_ratio": 0.7,
+    "max_stop_distance_atr": 15.0
+  }
+}

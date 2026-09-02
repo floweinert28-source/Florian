@@ -4,13 +4,21 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tasksbot"
-version = "1.0.0"
-description = "Discord-Bot, der Aufgaben in einem Channel verwaltet"
+version = "1.1.0"
+description = "Discord-Aufgabenbot und Prop-Firm-Trading-Bot in einem Repository"
 requires-python = ">=3.11"
 dependencies = ["discord.py>=2.4,<3", "python-dotenv>=1.0"]
 
+[project.optional-dependencies]
+# Der Trading-Bot braucht kein discord.py, der Discord-Bot kein pandas.
+propbot = ["numpy>=1.26", "pandas>=2.1"]
+mt5 = ["MetaTrader5>=5.0.45"]
+
+[project.scripts]
+propbot = "propbot.cli:main"
+
 [tool.setuptools]
-packages = ["tasksbot", "tasksbot.cogs"]
+packages = ["tasksbot", "tasksbot.cogs", "propbot", "propbot.strategy", "propbot.broker"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

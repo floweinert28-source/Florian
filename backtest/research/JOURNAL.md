@@ -89,3 +89,7 @@ Fazit: LDR ist NQ-spezifisch. Naechste Runde: Frequenz-Varianten des LDR + "Lond
 - Direct: strict 600 / loose 300: >=1 Payout 59 %, Ø 0.81 Payouts, ROI +366 %, Median 296 Tage. Groessere Stufen senken die Payout-Quote (Konsistenzregel).
 - Flex: strict 1200 / loose 300: >=1 Payout 49 %, Ø 1.45 Payouts, ROI +1214 %, Median 175 Tage – beste Kombination fuer Flex.
 - Frequenz-Ziel (1–2 Payouts/Monat) wird von keiner Variante erreicht: LDR liefert ~5 Trades/Monat (lockere Stufe) mit +0.16R bzw. ~1.5/Monat mit +0.4R.
+
+## Runde 12 – Breite Parallel-Suche (Workflow wf_4c9f4368-5bb), Ziel >= 3 Trades/Woche & >= 60 % bei 1:1
+Familien: Bar-Pattern-Mining, Level-Cluster-Sweeps, 15-min-Swing-Liquiditaet, Sequenz-Muster (Doppel-Sweep, Failed-Reclaim, 3-Push, Displacement-Retest),
+Regime x Setup, 5-min-Signal-Timeframe, Feature-Modell (logistische Regression / Baum), ES/YM mit eigenen Features. Je Survivor ein Skeptiker-Agent. Ergebnisse folgen.

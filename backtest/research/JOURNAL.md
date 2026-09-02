@@ -66,3 +66,10 @@ Einordnung: Erster 1:1-Kandidat mit >60 % out-of-sample, aber NQ-spezifisch, ~15
 - Zeit-Karte (gleicher Filter auf 30-min-Zonen): ~50 % ueberall → Effekt ist London-Range-spezifisch, nicht "Kerzenkoerper allgemein".
 - Innerhalb des Kandidaten: Body >= 0.83 → 75 % (60) vs 54 % (59); breite Range (W >= 97 Pkt) → 70 %; Long/Short gleich gut.
 Fazit: Kandidat 1 = "London Down-Day Reclaim" (NQ). Als Strategie-Skript festgehalten: backtest/strategies_ldr.py.
+
+## Runde 10 – Zweites Setup mit gleicher Methodik (NQ)
+- Asia-Range (18:00–02:00) Sweep+Reclaim: Basis 49/46 %, beste Quartile fallen im Test (57→49, 56→39). Nichts.
+- Pre-Market 05–08: Basis 47/45 %, alles negativ.
+- Open-Range 09:30–10:00: 49/52 %, Kombis 54→42. Nichts.
+- PDH/PDL-Sweep ab 09:30: prev_trend −0.5..0.07 58→56 % (N=143/64) einziges haltendes Feature; Kombi 68→44 faellt.
+Fazit: Die Methode liefert kein zweites Setup. Der London-Effekt bleibt singulaer.

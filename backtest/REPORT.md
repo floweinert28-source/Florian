@@ -103,3 +103,12 @@ Jahre (Body 0,75): 2021 75 % · 2022 69 % · 2023 62 % · 2024 70 % · 2025 78 %
 
 Prop-Simulation (Direct, 600 $ Risiko, nur LDR-Tage): ≥1 Payout 69 %, Ø 0,9 Payouts pro Konto, aber Median ~300 Kalendertage (zu wenige Trades für 1–2 Payouts/Monat). Fair-Value-Füller an anderen Tagen verschlechtert (verdünnt den Edge).
 **Kein zweites Setup gefunden** (Asia-Range, Pre-Market, Open-Range, PDH/PDL: alle Feature-Kombis fallen im Test).
+
+### 6b. LDR-Frequenzstufen und Prop-Simulation (NQ, Direct 600 $ / Flex 1.850 $ Risiko, nur LDR-Tage)
+| Stufe | Trades/5J | WR | Direct: ≥1 Payout / Ø Payouts / ROI@312 | Flex: ≥1 Payout / ROI@136 |
+|---|---|---|---|---|
+| Body ≥ 0,75, ohne Vortagsfilter (~62/Jahr) | 312 | 58,3 % | 46 % / 0,81 / +372 % | 18 % / +521 % |
+| Body ≥ 0,75, jeder Down-Tag (~27/Jahr) | 136 | 59,6 % | 48 % / 0,63 / +263 % | 23 % / +587 % |
+| Body ≥ 0,75, Vortag ≤ −0,3 ATR (~18/Jahr) | 90 | 68,9 % | 69 % / 0,92 / +429 % | 45 % / +1.073 % |
+| Body ≥ 0,85, Vortag ≤ −0,3 ATR (~10/Jahr) | 52 | 75,0 % | 54 % / 0,60 / +246 % | 57 % / +865 % |
+Die strengen Stufen haben die hoechste Trefferquote, die lockere die meisten Trades; alle liegen weit ueber Fair-Value-ROI. Fuer 1–2 Payouts/Monat reicht die Frequenz keiner Stufe allein (Median 80–300 Kalendertage bis Payout bei Direct).

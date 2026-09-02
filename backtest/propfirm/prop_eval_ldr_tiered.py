@@ -9,7 +9,7 @@ random.seed(7); N = 12000
 SP = "/tmp/claude-0/-home-user-Florian/154c19e6-740a-5434-82b2-7192601fe205/scratchpad"
 loose = {r["date"]: (float(r["pnl_pts"]), float(r["sl_pts"])) for r in csv.DictReader(open(SP + "/ldr_tier_nofilter.csv"))}
 strict = {r["date"]: (float(r["pnl_pts"]), float(r["sl_pts"])) for r in csv.DictReader(open(SP + "/ldr_tier_strict.csv"))}
-all_days = sorted(set(d for d, _, _ in P.zone_fade(492, 552, 1.0)) | set(loose))
+all_days = sorted(set(d.isoformat() for d, _, _ in P.zone_fade(492, 552, 1.0)) | set(loose))
 def series(r_hi, r_lo):
     out = []
     for d in all_days:

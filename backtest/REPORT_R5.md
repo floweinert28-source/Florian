@@ -75,3 +75,53 @@ ES und YM identisch (49,7–50,2 %). **Ergebnis: Beide Richtungen liegen auf Bre
 **Einzige strukturelle Ausnahme:** Body-Kanten-Fade 46,5 % bei Breakeven 50 % (3,5 pp strukturell). Umgekehrt = Wick-Magnet 51,7 % (+1,7 pp) – siehe Abschnitt 3.
 
 **Konsequenz für Prop-Firm-Strategien:** Jeder Ansatz mit hoher Frequenz stirbt an den Kosten, nicht am Markt. Bei 20 Trades/Tag sind allein 300–500 $ Tagesgewinn nötig, um Spread und Kommission zu decken.
+
+### 5b. Warum 26–33 %-Winrates kein umkehrbarer Edge sind (`research/r5/artifact_check.py`)
+In früheren Runden tauchten Zellen mit 26–33 % Winrate auf (z. B. Impulskerzen-Fade,
+Schwelle 5 × Median, Stop 1 × Bar-Range: N=1.036, 26,5 %, –73.327 $). Naheliegender
+Gedanke: umdrehen. Der Test zeigt, dass das nicht geht.
+
+Aufbau: identische Impulskerze, Entry am Open des Folgebars, Barrieren symmetrisch
+bei k × typischer Bar-Range (Tagesmedian der 1-min-Ranges), gehalten bis Tagesende.
+Bei sauberer Messung müssen FADE-WR und CONT-WR zusammen 100 % ergeben.
+
+| Barriere (× Bar-Range) | FADE WR | CONT WR | Summe | beide im selben Bar |
+|---|---|---|---|---|
+| 0,5 | 26,0 % | 23,9 % | 49,9 % | 50,1 % |
+| 1,0 | 40,6 % | 39,0 % | 79,6 % | 20,4 % |
+| 2,0 | 48,3 % | 48,5 % | 96,7 % | 3,2 % |
+| 3,0 | 49,2 % | 49,8 % | 98,9 % | 0,9 % |
+| 5,0 | 49,3 % | 49,8 % | 99,1 % | 0,1 % |
+| 8,0 | 48,3 % | 48,8 % | 97,1 % | 0,1 % |
+
+Bei Stops unter 1 × Bar-Range liegen 20–50 % aller Trades mit TP **und** SL im selben
+1-min-Bar. Die konservative Regel (SL vor TP) bucht diese Fälle in **beiden** Richtungen
+als Verlust, also verlieren Fade und Continuation gleichzeitig. Ab 2–5 × Bar-Range
+addieren sich beide Richtungen auf 97–99 % und liegen beide bei ~49 %.
+
+**Folge:** Die 26–33 %-Zellen sind Messartefakte enger Stops, kein Edge. Ein Umkehren
+liefert wieder ~33 %, nicht 67 %.
+
+### 5c. Umkehr der schlechtesten Zellen mit sauberen Barrieren (`research/r5/worst_and_invert.py`)
+72 Zellen (Fade/Continuation × 4 Tagesfenster × 3 Impulsschwellen × 3 Barrierenweiten,
+Barrieren als Vielfache der Impulskerzen-Range, N ≥ 600). Die fünf schlechtesten und
+ihre exakte Gegenrichtung:
+
+| Zelle | N | WR (Train/Test) | Netto | invertiert WR | invertiert Netto |
+|---|---|---|---|---|---|
+| Fade, Schwelle 5,0, k 2,0, EU | 901 | 47,9 % (49,5/44,7) | –76.347 $ | 51,7 % | +47.577 $ |
+| Fade, Schwelle 5,0, k 3,0, EU | 889 | 48,1 % (49,3/45,7) | –83.344 $ | 51,6 % | +55.872 $ |
+| Cont., Schwelle 2,0, k 1,0, EU | 13.562 | 48,8 % (49,1/48,3) | –244.373 $ | 50,7 % | –198.777 $ |
+| Fade, Schwelle 2,0, k 3,0, MORN | 7.655 | 48,9 % (48,8/49,1) | –308.303 $ | 51,1 % | +78.653 $ |
+| Cont., Schwelle 2,0, k 3,0, EU | 8.175 | 49,0 % (49,3/48,3) | –109.181 $ | 50,9 % | –143.033 $ |
+
+Mit sauberen Barrieren liegt die schlechteste von 72 Zellen bei 47,9 %, nicht bei 26 %.
+Die Inversion landet bei 50,7–51,7 % – das ist genau die Spiegelung der Kosten (~1 pp
+bei 0,75 Punkten NQ), kein struktureller Vorteil. Zwei der fünf Inversionen bleiben
+trotzdem negativ. Außerdem sind die fünf Zellen aus 72 als Extremwerte ausgewählt, ihre
+Inversion ist per Konstruktion nahe am Optimum.
+
+**Gesamtfazit zur Umkehr-Frage:** Es gibt in fünf Jahren und ~380.000 getesteten
+Varianten genau eine strukturelle, richtungsabhängige Asymmetrie – den Body-Kanten-Fade
+(46,5 % bei Breakeven 50 %). Alles andere, was stark negativ aussieht, ist entweder
+Kosten (richtungsunabhängig) oder ein Messartefakt zu enger Stops.

@@ -1,0 +1,729 @@
+//@version=6
+// ============================================================================
+//  VIC - Entry Model
+//  Basis: "VIC - Model" (3 VWAPs, Opening Range, Dashboard) - Semantik der
+//  VWAPs unveraendert uebernommen. Neu: 5m/15m-FVG-Zonen, 1m-FVGs, Setup-Wahl
+//  (Continuation vs. Double Break), mechanische Entry-Signale mit SL/TP,
+//  1h-Bias, Alerts, Status-Tabelle.
+//
+//  Regelquelle: VIC-MODEL.md (37 Winner / 24 Losses) und die mechanisierte
+//  Fassung propbot/strategy/vic.py. Jede Stellschraube ist ein Input.
+//
+//  Trigger-Reihenfolge (Kap. 6):
+//    OR-Break -> Retrace in FVG-Zone mit NY VWAP -> NY-VWAP-Tap ->
+//    Reclaim-Kerze (optional 1m-IFVG) -> Alignment aller drei VWAPs
+//  Setup-Wahl (Kap. 5.3):
+//    Unfilled 5m/15m-FVG seit NY Open mit NY VWAP darin => Continuation (VIC)
+//    Keiner => Double Break
+// ============================================================================
+indicator("VIC - Entry Model", "VIC Entry", overlay=true,
+     max_lines_count=500, max_labels_count=500, max_boxes_count=500, max_bars_back=5000)
+
+// ============================================================================
+// GLOBAL
+// ============================================================================
+tz        = "America/New_York"
+isNewDay  = ta.change(time("D")) != 0
+inNY      = not na(time(timeframe.period, "0930-1600", tz))
+isNYOpen  = inNY and not inNY[1]
+isNYClose = not inNY and inNY[1]
+minET     = hour(time, tz) * 60 + minute(time, tz)
+todayKey  = year(time, tz) * 10000 + month(time, tz) * 100 + dayofmonth(time, tz)
+atr       = ta.atr(20)
+
+// ============================================================================
+// VWAP SETTINGS  (unveraendert)
+// ============================================================================
+grpVWAP = "VWAPs"
+showNY   = input.bool(true, "NY VWAP", group=grpVWAP)
+nyColor  = input.color(color.new(#5b051c, 0), "NY Color", group=grpVWAP)
+nyWidth  = input.int(1, "NY Width", minval=1, maxval=5, group=grpVWAP)
+nyStyle  = input.string("Solid", "NY Style", options=["Solid", "Dotted", "Stepline"], group=grpVWAP)
+showPDNY = input.bool(true, "PD NY VWAP", group=grpVWAP)
+pdColor  = input.color(color.new(#5b051c, 70), "PD Color", group=grpVWAP)
+pdWidth  = input.int(1, "PD Width", minval=1, maxval=5, group=grpVWAP)
+pdStyle  = input.string("Solid", "PD Style", options=["Solid", "Dotted", "Stepline"], group=grpVWAP)
+showOv   = input.bool(true, "Overnight VWAP", group=grpVWAP)
+ovColor  = input.color(color.new(#5b051c, 40), "OV Color", group=grpVWAP)
+ovWidth  = input.int(1, "OV Width", minval=1, maxval=5, group=grpVWAP)
+ovStyle  = input.string("Solid", "OV Style", options=["Solid", "Dotted", "Stepline"], group=grpVWAP)
+
+grpLbl = "VWAP LABELS"
+showVwapLabels = input.bool(true, "Show VWAP Labels", group=grpLbl)
+labelOffset    = input.int(1, "Label Offset Bars", minval=1, maxval=50, group=grpLbl)
+labelTextColor = input.color(#5b051c, "Text Color", group=grpLbl)
+labelBgColor   = input.color(color.new(color.white, 100), "Background Color", group=grpLbl)
+labelSizeInput = input.string("Tiny", "Label Size", options=["Tiny", "Small", "Normal", "Large", "Huge"], group=grpLbl)
+nyLabelText    = input.string("NY", "NY Text", group=grpLbl)
+pdLabelText    = input.string("PD", "PD Text", group=grpLbl)
+ovLabelText    = input.string("VWAP", "Overnight Text", group=grpLbl)
+
+f_labelSize(s) =>
+    switch s
+        "Tiny"   => size.tiny
+        "Small"  => size.small
+        "Normal" => size.normal
+        "Large"  => size.large
+        "Huge"   => size.huge
+        => size.small
+
+f_lineStyle(s) =>
+    switch s
+        "Dashed" => line.style_dashed
+        "Dotted" => line.style_dotted
+        => line.style_solid
+
+lblSize = f_labelSize(labelSizeInput)
+
+// ============================================================================
+// VWAP BERECHNUNG  (1:1 aus dem Originalskript)
+// ============================================================================
+var float totalPV = 0.0
+var float totalV  = 0.0
+var float currentNYAnchorPV = na
+var float currentNYAnchorV  = na
+var float pdAnchorPV = na
+var float pdAnchorV  = na
+
+if isNYOpen
+    currentNYAnchorPV := totalPV
+    currentNYAnchorV  := totalV
+    if na(pdAnchorPV)
+        pdAnchorPV := currentNYAnchorPV
+        pdAnchorV  := currentNYAnchorV
+
+totalPV += hlc3 * volume
+totalV  += volume
+
+nyPV   = not na(currentNYAnchorPV) ? totalPV - currentNYAnchorPV : na
+nyV    = not na(currentNYAnchorV)  ? totalV  - currentNYAnchorV  : na
+nyVWAP = inNY and nyV > 0 ? nyPV / nyV : na
+
+pdPV   = not na(pdAnchorPV) ? totalPV - pdAnchorPV : na
+pdV    = not na(pdAnchorV)  ? totalV  - pdAnchorV  : na
+pdVWAP = pdV > 0 ? pdPV / pdV : na
+
+if isNYClose and not na(currentNYAnchorPV)
+    pdAnchorPV := currentNYAnchorPV
+    pdAnchorV  := currentNYAnchorV
+
+var float ovPV = 0.0
+var float ovV  = 0.0
+if isNewDay
+    ovPV := hlc3 * volume
+    ovV  := volume
+else
+    ovPV += hlc3 * volume
+    ovV  += volume
+overnightVWAP = ovV > 0 ? ovPV / ovV : na
+
+// ============================================================================
+// OPENING RANGE  (09:30-09:44 ET, ab 09:45 eingefroren)
+// ============================================================================
+grpOR = "NY OPENING RANGE"
+showOR      = input.bool(true, "Show Opening Range", group=grpOR)
+orColorH    = input.color(color.black, "H Color", group=grpOR)
+orColorL    = input.color(color.black, "L Color", group=grpOR)
+orLineStyle = input.string("Solid", "Style", group=grpOR, options=["Solid","Dashed","Dotted"])
+orExtend    = input.int(7, "Extend Bars", group=grpOR)
+
+inOR = not na(time(timeframe.period, "0930-0945", tz))
+var float orH = na
+var float orL = na
+var bool  orLocked = false
+var int   orStartBar = na
+
+if isNewDay
+    orH := na
+    orL := na
+    orLocked := false
+    orStartBar := na
+if inOR and not orLocked
+    if na(orH)
+        orH := high
+        orL := low
+        orStartBar := bar_index
+    else
+        orH := math.max(orH, high)
+        orL := math.min(orL, low)
+if not inOR and not na(orH)
+    orLocked := true
+
+var line[] orLines = array.new_line()
+if barstate.islast
+    for l in orLines
+        line.delete(l)
+    array.clear(orLines)
+    if showOR and not na(orH)
+        endBar = bar_index + orExtend
+        styleOR = f_lineStyle(orLineStyle)
+        array.push(orLines, line.new(orStartBar, orH, endBar, orH, color=orColorH, style=styleOR, width=1))
+        array.push(orLines, line.new(orStartBar, orL, endBar, orL, color=orColorL, style=styleOR, width=1))
+
+// ============================================================================
+// ENTRY MODEL - EINSTELLUNGEN
+// ============================================================================
+grpM = "ENTRY MODEL"
+tfA        = input.timeframe("5",  "FVG-Zonen Timeframe 1", group=grpM)
+tfB        = input.timeframe("15", "FVG-Zonen Timeframe 2", group=grpM)
+useB       = input.bool(true, "Timeframe 2 aktiv", group=grpM)
+sepATR     = input.float(0.5, "Trennung nach FVG (x ATR)", minval=0, step=0.1, group=grpM, tooltip="Preis muss sich erst vom Zonenrand loesen, sonst waere jede Zone sofort beruehrt.")
+retraceWin = input.int(20, "Retrace-Fenster (Bars nach Beruehrung)", minval=1, group=grpM)
+tapWin     = input.int(5, "NY-VWAP-Tap Fenster (Bars)", minval=0, group=grpM)
+weakATR    = input.float(0.5, "Schwacher OR-Break (x ATR)", minval=0, step=0.1, group=grpM, tooltip="Break um weniger als das zaehlt nicht (T18: wird oft resweept).")
+momATR     = input.float(0.8, "DB: Momentum-Body (x ATR)", minval=0, step=0.1, group=grpM)
+cleanPct   = input.float(0.35, "DB: Clean Close (max. Wick-Anteil)", minval=0, maxval=1, step=0.05, group=grpM)
+dbWin      = input.int(8, "DB: Entry-Fenster nach Break (Bars)", minval=1, group=grpM)
+dbReward   = input.float(1.2, "DB: Take Profit (R)", minval=0.1, step=0.1, group=grpM)
+minSwingR  = input.float(0.8, "VIC: Min-R fuer 15m-Swing-TP, sonst 1:1", minval=0, step=0.1, group=grpM)
+swingN     = input.int(6, "VIC: 15m-Swing-Fenster (Kerzen)", minval=1, group=grpM)
+stopPufATR = input.float(0.25, "Stop-Puffer hinter Invalidierung (x ATR)", minval=0, step=0.05, group=grpM)
+vwapStopDist = input.float(3.0, "Stop-Mindestabstand zu jedem VWAP (Pkt)", minval=0, group=grpM, tooltip="L24: SL nie direkt auf einem VWAP.")
+minStop    = input.float(5.0, "Min Stop-Distanz (Pkt)", minval=0, group=grpM)
+maxStop    = input.float(100.0, "Max Stop-Distanz (Pkt)", minval=0, group=grpM)
+entryFrom  = input.int(585, "Entries ab (Minuten ET, 585 = 09:45)", minval=570, maxval=960, group=grpM)
+entryTo    = input.int(675, "Entries bis (Minuten ET, 675 = 11:15)", minval=570, maxval=960, group=grpM)
+maxSig     = input.int(2, "Max. Signale pro Tag", minval=1, group=grpM)
+cooldown   = input.int(15, "Cooldown zwischen Signalen (Bars)", minval=0, group=grpM)
+allowShort = input.bool(true, "Shorts erlauben", group=grpM)
+useBias    = input.bool(true, "1h-Bias-Filter (HH/HL vs. LH/LL, 15m-Body-Close bricht)", group=grpM)
+pivK       = input.int(2, "1h-Pivot Breite", minval=1, maxval=5, group=grpM)
+useIFVG    = input.bool(false, "1m-IFVG zusaetzlich zur Reclaim-Kerze verlangen", group=grpM, tooltip="Bot-Fassung nutzt nur die Reclaim-Kerze (Close ueber Vorgaenger-High). Hier optional strenger.")
+ifvgWin    = input.int(15, "IFVG Fenster (Bars)", minval=1, group=grpM)
+useFOMC    = input.bool(true, "FOMC-Tage sperren", group=grpM)
+
+grpV = "ENTRY MODEL - DARSTELLUNG"
+showZones   = input.bool(true, "5m/15m-FVG-Zonen zeichnen", group=grpV)
+showChartFvg = input.bool(true, "Chart-TF-FVGs zeichnen (letzte 30)", group=grpV)
+bullCol     = input.color(color.new(#26a69a, 0), "Bull FVG", group=grpV)
+bearCol     = input.color(color.new(#ef5350, 0), "Bear FVG", group=grpV)
+zoneFill    = input.int(85, "Zonen-Transparenz", minval=0, maxval=100, group=grpV)
+vwapZoneW   = input.int(2, "Rahmen, wenn NY VWAP in der Zone", minval=1, maxval=4, group=grpV)
+keepOld     = input.int(120, "Alte Zonen behalten (Anzahl Boxen)", minval=0, maxval=400, group=grpV)
+sigLen      = input.int(20, "SL/TP-Linien Laenge (Bars)", minval=1, group=grpV)
+showStatus  = input.bool(true, "Status-Tabelle", group=grpV)
+statusPos   = input.string("Bottom Right", "Status Position", options=["Top Left", "Top Right", "Bottom Left", "Bottom Right"], group=grpV)
+
+// ============================================================================
+// FOMC-TAGE (Entscheidungstage; Statement 14:00 ET -> ganzer Tag gesperrt)
+// ============================================================================
+var int[] fomc = array.from(
+     20210922, 20211103, 20211215,
+     20220126, 20220316, 20220504, 20220615, 20220727, 20220921, 20221102, 20221214,
+     20230201, 20230322, 20230503, 20230614, 20230726, 20230920, 20231101, 20231213,
+     20240131, 20240320, 20240501, 20240612, 20240731, 20240918, 20241107, 20241218,
+     20250129, 20250319, 20250507, 20250618, 20250730, 20250917, 20251029, 20251210,
+     20260128, 20260318, 20260429, 20260617, 20260729, 20260916, 20261028, 20261209)
+fomcToday = useFOMC and array.includes(fomc, todayKey)
+
+// ============================================================================
+// HTF-DATEN  (alle mit [1]-Offset + lookahead_on = letzte ABGESCHLOSSENE Kerze,
+//             identisch in Historie und Echtzeit, kein Repainting)
+// ============================================================================
+tfMinA = timeframe.in_seconds(tfA) / 60
+tfMinB = timeframe.in_seconds(tfB) / 60
+[hA1, lA1, hA3, lA3, tA1] = request.security(syminfo.tickerid, tfA, [high[1], low[1], high[3], low[3], time[1]], lookahead=barmerge.lookahead_on)
+[hB1, lB1, hB3, lB3, tB1] = request.security(syminfo.tickerid, tfB, [high[1], low[1], high[3], low[3], time[1]], lookahead=barmerge.lookahead_on)
+newA = not na(tA1) and tA1 != nz(tA1[1])
+newB = not na(tB1) and tB1 != nz(tB1[1])
+endA = not na(tA1) ? hour(tA1, tz) * 60 + minute(tA1, tz) + tfMinA : na
+endB = not na(tB1) ? hour(tB1, tz) * 60 + minute(tB1, tz) + tfMinB : na
+
+// 1h-Pivots fuer den Bias, 15m-Close fuer den Strukturbruch, 15m-Swings fuer das Ziel
+[ph60, pl60, t60] = request.security(syminfo.tickerid, "60", [ta.pivothigh(high, pivK, pivK)[1], ta.pivotlow(low, pivK, pivK)[1], time[1]], lookahead=barmerge.lookahead_on)
+[m15close, sw15H, sw15L] = request.security(syminfo.tickerid, "15", [close[1], ta.highest(high, swingN)[1], ta.lowest(low, swingN)[1]], lookahead=barmerge.lookahead_on)
+new60 = not na(t60) and t60 != nz(t60[1])
+
+var float ph1 = na
+var float ph2 = na
+var float pl1 = na
+var float pl2 = na
+if new60
+    if not na(ph60)
+        ph2 := ph1
+        ph1 := ph60
+    if not na(pl60)
+        pl2 := pl1
+        pl1 := pl60
+
+htfBull = not na(ph2) and not na(pl2) and ph1 > ph2 and pl1 > pl2
+htfBear = not na(ph2) and not na(pl2) and ph1 < ph2 and pl1 < pl2
+brkUp15 = not na(ph1) and m15close > ph1
+brkDn15 = not na(pl1) and m15close < pl1
+biasLong  = not useBias or (not htfBear or brkUp15)
+biasShort = not useBias or (not htfBull or brkDn15)
+biasText  = htfBull ? "Bull" : htfBear ? "Bear" : "Neutral"
+
+// ============================================================================
+// CHART-TF FVGs  (1m-IFVG-Trigger + optionale Darstellung)
+// ============================================================================
+bullFvg1 = low > high[2]
+bearFvg1 = high < low[2]
+var float lastBearTop = na
+var int   lastBearBar = na
+var float lastBullBot = na
+var int   lastBullBar = na
+if bearFvg1
+    lastBearTop := low[2]
+    lastBearBar := bar_index
+if bullFvg1
+    lastBullBot := high[2]
+    lastBullBar := bar_index
+ifvgUp = not useIFVG or (not na(lastBearTop) and bar_index - lastBearBar <= ifvgWin and close > lastBearTop)
+ifvgDn = not useIFVG or (not na(lastBullBot) and bar_index - lastBullBar <= ifvgWin and close < lastBullBot)
+
+var box[] chartFvgBoxes = array.new_box()
+if showChartFvg and inNY and (bullFvg1 or bearFvg1)
+    c = bullFvg1 ? bullCol : bearCol
+    top = bullFvg1 ? low : low[2]
+    bot = bullFvg1 ? high[2] : high
+    array.push(chartFvgBoxes, box.new(bar_index - 2, top, bar_index + 3, bot,
+         border_color=color.new(c, 60), bgcolor=color.new(c, 92), border_width=1))
+    while array.size(chartFvgBoxes) > 30
+        box.delete(array.shift(chartFvgBoxes))
+
+// ============================================================================
+// FVG-ZONEN (5m/15m seit NY Open) - Zustandsmaschine wie im Bot
+// ============================================================================
+type Zone
+    float  lo
+    float  hi
+    int    dir        // 1 = bullish, -1 = bearish
+    string tf
+    bool   sep        // Preis hat sich vom Zonenrand geloest
+    int    touched    // bar_index der ersten Beruehrung, -1 = noch nicht
+    bool   dead
+    box    bx
+    int    born
+
+var Zone[] zones    = array.new<Zone>()
+var box[]  oldBoxes = array.new_box()
+var int    breakUpBar = -1
+var int    breakDnBar = -1
+var int    sigCount   = 0
+var int    lastTrig   = -100000
+var int    sessStart  = na
+
+// Tagesreset am NY Open
+if isNYOpen
+    for z in zones
+        array.push(oldBoxes, z.bx)
+    array.clear(zones)
+    while array.size(oldBoxes) > keepOld
+        box.delete(array.shift(oldBoxes))
+    breakUpBar := -1
+    breakDnBar := -1
+    sigCount   := 0
+    lastTrig   := -100000
+    sessStart  := bar_index
+
+f_addZone(float lo, float hi, int dir, string tf) =>
+    c = dir == 1 ? bullCol : bearCol
+    b = showZones ? box.new(bar_index, hi, bar_index + 1, lo, border_color=color.new(c, 30),
+         bgcolor=color.new(c, zoneFill), border_width=1, text=tf, text_size=size.tiny,
+         text_color=color.new(c, 20), text_halign=text.align_left, text_valign=text.align_top) : na
+    array.push(zones, Zone.new(lo, hi, dir, tf, false, -1, false, b, bar_index))
+
+// Neue Zonen: HTF-Kerze abgeschlossen, Ende nach 09:30 und bis 16:00
+if inNY and newA and not na(endA) and endA > 570 and endA <= 960
+    if lA1 > hA3
+        f_addZone(hA3, lA1, 1, tfA)
+    if hA1 < lA3
+        f_addZone(hA1, lA3, -1, tfA)
+if inNY and useB and newB and not na(endB) and endB > 570 and endB <= 960
+    if lB1 > hB3
+        f_addZone(hB3, lB1, 1, tfB)
+    if hB1 < lB3
+        f_addZone(hB1, lB3, -1, tfB)
+
+// Zonenpflege + Auswahl der aktiven Zone (nur nach OR-Lock, wie im Bot)
+Zone aL = na
+Zone aS = na
+bool zoneLongExists  = false
+bool zoneShortExists = false
+nyIn(Zone z) => not na(nyVWAP) and z.lo <= nyVWAP and nyVWAP <= z.hi
+
+if inNY and orLocked and not na(atr)
+    for z in zones
+        if not z.dead
+            if z.dir == 1
+                if close < z.lo
+                    z.dead := true
+                else if not z.sep
+                    if close >= z.hi + sepATR * atr
+                        z.sep := true
+                else
+                    if z.touched < 0 and low <= z.hi
+                        z.touched := bar_index
+                    if z.touched >= 0 and bar_index - z.touched > retraceWin
+                        z.dead := true
+                    else if nyIn(z) and z.touched >= 0
+                        if na(aL)
+                            aL := z
+                        else if z.touched > aL.touched
+                            aL := z
+            else
+                if close > z.hi
+                    z.dead := true
+                else if not z.sep
+                    if close <= z.lo - sepATR * atr
+                        z.sep := true
+                else
+                    if z.touched < 0 and high >= z.lo
+                        z.touched := bar_index
+                    if z.touched >= 0 and bar_index - z.touched > retraceWin
+                        z.dead := true
+                    else if nyIn(z) and z.touched >= 0
+                        if na(aS)
+                            aS := z
+                        else if z.touched > aS.touched
+                            aS := z
+    for z in zones
+        if not z.dead and z.sep and nyIn(z)
+            if z.dir == 1
+                zoneLongExists := true
+            else
+                zoneShortExists := true
+
+// Zonen zeichnen: lebende verlaengern, tote einfrieren und abdunkeln
+if showZones
+    for z in zones
+        if not na(z.bx)
+            if not z.dead
+                box.set_right(z.bx, bar_index + 1)
+                box.set_border_width(z.bx, nyIn(z) ? vwapZoneW : 1)
+                if z.touched >= 0
+                    box.set_bgcolor(z.bx, color.new(z.dir == 1 ? bullCol : bearCol, math.min(100, zoneFill + 8)))
+            else if box.get_right(z.bx) > bar_index
+                box.set_right(z.bx, bar_index)
+                box.set_bgcolor(z.bx, color.new(color.gray, 94))
+                box.set_border_color(z.bx, color.new(color.gray, 70))
+                box.set_border_style(z.bx, line.style_dotted)
+
+// ============================================================================
+// OPENING-RANGE-BREAK  (Body-Close jenseits der Kante + Mindestabstand)
+// ============================================================================
+if inNY and orLocked and not na(atr)
+    if breakUpBar < 0 and close > orH + weakATR * atr
+        breakUpBar := bar_index
+    if breakDnBar < 0 and close < orL - weakATR * atr
+        breakDnBar := bar_index
+
+// ============================================================================
+// SIGNALE
+// ============================================================================
+f_avoidVwap(float stop, bool isLong) =>
+    float s = stop
+    for v in array.from(nyVWAP, overnightVWAP, pdVWAP)
+        if not na(v) and math.abs(s - v) < vwapStopDist
+            s := isLong ? v - vwapStopDist : v + vwapStopDist
+    s
+
+f_lowestSince(int fromBar) =>
+    float m = low
+    int n = math.max(0, math.min(bar_index - fromBar, 300))
+    for i = 0 to n
+        m := math.min(m, low[i])
+    m
+
+f_highestSince(int fromBar) =>
+    float m = high
+    int n = math.max(0, math.min(bar_index - fromBar, 300))
+    for i = 0 to n
+        m := math.max(m, high[i])
+    m
+
+alignLong  = not na(nyVWAP) and not na(overnightVWAP) and not na(pdVWAP) and close > nyVWAP and close > overnightVWAP and close > pdVWAP
+alignShort = not na(nyVWAP) and not na(overnightVWAP) and not na(pdVWAP) and close < nyVWAP and close < overnightVWAP and close < pdVWAP
+
+// NY-VWAP-Tap: Docht beruehrt die Linie in den letzten tapWin Bars
+bool tapUp = false
+bool tapDn = false
+for k = 0 to tapWin
+    if not na(nyVWAP[k])
+        if low[k] <= nyVWAP[k]
+            tapUp := true
+        if high[k] >= nyVWAP[k]
+            tapDn := true
+
+inWindow = inNY and minET >= entryFrom and minET <= entryTo
+free = inWindow and orLocked and not na(atr) and not fomcToday and sigCount < maxSig and bar_index - lastTrig >= cooldown
+
+bool   sigLong  = false
+bool   sigShort = false
+string sigSetup = ""
+float  sigStop  = na
+float  sigTP    = na
+
+if free
+    // ---------------------------------------------------- Continuation (VIC)
+    if not na(aL) and biasLong and breakUpBar >= 0 and alignLong and tapUp and close > high[1] and ifvgUp
+        basis = math.min(aL.lo, f_lowestSince(aL.touched))
+        stop  = f_avoidVwap(basis - stopPufATR * atr, true)
+        dist  = close - stop
+        if dist >= minStop and dist <= maxStop
+            tp = not na(sw15H) and sw15H - close >= minSwingR * dist ? sw15H : close + dist
+            sigLong := true
+            sigSetup := "VIC"
+            sigStop := stop
+            sigTP := tp
+            aL.dead := true
+    else if allowShort and not na(aS) and biasShort and breakDnBar >= 0 and alignShort and tapDn and close < low[1] and ifvgDn
+        basis = math.max(aS.hi, f_highestSince(aS.touched))
+        stop  = f_avoidVwap(basis + stopPufATR * atr, false)
+        dist  = stop - close
+        if dist >= minStop and dist <= maxStop
+            tp = not na(sw15L) and close - sw15L >= minSwingR * dist ? sw15L : close - dist
+            sigShort := true
+            sigSetup := "VIC"
+            sigStop := stop
+            sigTP := tp
+            aS.dead := true
+    // ------------------------------------------------------- Double Break
+    else if not zoneLongExists and breakUpBar >= 0 and bar_index - breakUpBar < dbWin and biasLong and alignLong
+        rng  = high - low
+        body = close - open
+        clean = rng > 0 and (high - close) <= cleanPct * rng
+        if body >= momATR * atr and clean
+            basis = f_lowestSince(na(sessStart) ? bar_index - 15 : math.max(sessStart, bar_index - 15))
+            stop  = f_avoidVwap(basis - stopPufATR * atr, true)
+            dist  = close - stop
+            if dist >= minStop and dist <= maxStop
+                sigLong := true
+                sigSetup := "DB"
+                sigStop := stop
+                sigTP := close + dbReward * dist
+    else if allowShort and not zoneShortExists and breakDnBar >= 0 and bar_index - breakDnBar < dbWin and biasShort and alignShort
+        rng  = high - low
+        body = open - close
+        clean = rng > 0 and (close - low) <= cleanPct * rng
+        if body >= momATR * atr and clean
+            basis = f_highestSince(na(sessStart) ? bar_index - 15 : math.max(sessStart, bar_index - 15))
+            stop  = f_avoidVwap(basis + stopPufATR * atr, false)
+            dist  = stop - close
+            if dist >= minStop and dist <= maxStop
+                sigShort := true
+                sigSetup := "DB"
+                sigStop := stop
+                sigTP := close - dbReward * dist
+
+if sigLong or sigShort
+    sigCount += 1
+    lastTrig := bar_index
+    isL = sigLong
+    c = isL ? bullCol : bearCol
+    txt = (isL ? "▲ " : "▼ ") + sigSetup + (isL ? " LONG" : " SHORT") +
+         "\nSL " + str.tostring(sigStop, format.mintick) +
+         "\nTP " + str.tostring(sigTP, format.mintick) +
+         "\nR " + str.tostring(math.abs(sigTP - close) / math.abs(close - sigStop), "#.##")
+    label.new(bar_index, isL ? low : high, txt, style=isL ? label.style_label_up : label.style_label_down,
+         color=color.new(c, 10), textcolor=color.white, size=size.small)
+    line.new(bar_index, sigStop, bar_index + sigLen, sigStop, color=color.new(bearCol, 0), width=1, style=line.style_dashed)
+    line.new(bar_index, sigTP,   bar_index + sigLen, sigTP,   color=color.new(bullCol, 0), width=1, style=line.style_dashed)
+    line.new(bar_index, close,   bar_index + sigLen, close,   color=color.new(color.gray, 40), width=1, style=line.style_dotted)
+
+plotshape(sigLong,  "Long Signal",  shape.triangleup,   location.belowbar, color=bullCol, size=size.tiny)
+plotshape(sigShort, "Short Signal", shape.triangledown, location.abovebar, color=bearCol, size=size.tiny)
+
+alertcondition(sigLong,  "VIC Long",  "VIC Entry LONG {{ticker}} @ {{close}}")
+alertcondition(sigShort, "VIC Short", "VIC Entry SHORT {{ticker}} @ {{close}}")
+alertcondition(sigLong or sigShort, "VIC Signal (beide)", "VIC Entry {{ticker}} @ {{close}}")
+
+// ============================================================================
+// VWAP PLOTS + LABELS  (unveraendert)
+// ============================================================================
+plot(showNY and nyStyle == "Solid"    ? nyVWAP : na, "NY VWAP Solid",    color=nyColor, linewidth=nyWidth, style=plot.style_linebr)
+plot(showNY and nyStyle == "Dotted"   ? nyVWAP : na, "NY VWAP Dotted",   color=nyColor, linewidth=nyWidth, style=plot.style_circles)
+plot(showNY and nyStyle == "Stepline" ? nyVWAP : na, "NY VWAP Stepline", color=nyColor, linewidth=nyWidth, style=plot.style_stepline)
+plot(showPDNY and pdStyle == "Solid"    ? pdVWAP : na, "PD NY VWAP Solid",    color=pdColor, linewidth=pdWidth)
+plot(showPDNY and pdStyle == "Dotted"   ? pdVWAP : na, "PD NY VWAP Dotted",   color=pdColor, linewidth=pdWidth, style=plot.style_circles)
+plot(showPDNY and pdStyle == "Stepline" ? pdVWAP : na, "PD NY VWAP Stepline", color=pdColor, linewidth=pdWidth, style=plot.style_stepline)
+plot(showOv and ovStyle == "Solid"    ? overnightVWAP : na, "Overnight VWAP Solid",    color=ovColor, linewidth=ovWidth)
+plot(showOv and ovStyle == "Dotted"   ? overnightVWAP : na, "Overnight VWAP Dotted",   color=ovColor, linewidth=ovWidth, style=plot.style_circles)
+plot(showOv and ovStyle == "Stepline" ? overnightVWAP : na, "Overnight VWAP Stepline", color=ovColor, linewidth=ovWidth, style=plot.style_stepline)
+
+var label nyLbl = na
+var label pdLbl = na
+var label ovLbl = na
+if barstate.islast
+    label.delete(nyLbl)
+    label.delete(pdLbl)
+    label.delete(ovLbl)
+    if showVwapLabels
+        if showNY and not na(nyVWAP)
+            nyLbl := label.new(bar_index + labelOffset, nyVWAP, nyLabelText, style=label.style_label_left, textcolor=labelTextColor, color=labelBgColor, size=lblSize)
+        if showPDNY and not na(pdVWAP)
+            pdLbl := label.new(bar_index + labelOffset, pdVWAP, pdLabelText, style=label.style_label_left, textcolor=labelTextColor, color=labelBgColor, size=lblSize)
+        if showOv and not na(overnightVWAP)
+            ovLbl := label.new(bar_index + labelOffset, overnightVWAP, ovLabelText, style=label.style_label_left, textcolor=labelTextColor, color=labelBgColor, size=lblSize)
+
+// ============================================================================
+// STATUS-TABELLE  (Setup-Modus, Bias, Break, Zonen, Signale heute)
+// ============================================================================
+f_tablePos(pos) =>
+    switch pos
+        "Top Left"     => position.top_left
+        "Top Right"    => position.top_right
+        "Bottom Left"  => position.bottom_left
+        => position.bottom_right
+
+var table st = table.new(f_tablePos(statusPos), 2, 8, border_width=0)
+f_row(int r, string k, string v, color col) =>
+    table.cell(st, 0, r, k, text_color=color.white, bgcolor=color.new(#162b2a, 0), text_size=size.tiny)
+    table.cell(st, 1, r, v, text_color=col, bgcolor=color.new(color.white, 100), text_size=size.tiny)
+
+if barstate.islast and showStatus
+    modeL = zoneLongExists ? "VIC" : "DB"
+    modeS = zoneShortExists ? "VIC" : "DB"
+    align = alignLong ? "ueber allen" : alignShort ? "unter allen" : "zwischen"
+    alignC = alignLong ? color.new(#26a69a, 0) : alignShort ? color.new(#ef5350, 0) : color.gray
+    f_row(0, "OR",      orLocked ? "gelockt " + str.tostring(orH, format.mintick) + " / " + str.tostring(orL, format.mintick) : "laeuft", color.black)
+    f_row(1, "Break",   breakUpBar >= 0 ? "UP" : breakDnBar >= 0 ? "DOWN" : "kein", breakUpBar >= 0 ? color.new(#26a69a, 0) : breakDnBar >= 0 ? color.new(#ef5350, 0) : color.gray)
+    f_row(2, "Bias 1h", biasText, htfBull ? color.new(#26a69a, 0) : htfBear ? color.new(#ef5350, 0) : color.gray)
+    f_row(3, "VWAPs",   align, alignC)
+    f_row(4, "Setup L", modeL + (not na(aL) ? " (Zone getappt)" : ""), zoneLongExists ? color.new(#26a69a, 0) : color.black)
+    f_row(5, "Setup S", modeS + (not na(aS) ? " (Zone getappt)" : ""), zoneShortExists ? color.new(#ef5350, 0) : color.black)
+    f_row(6, "Signale", str.tostring(sigCount) + " / " + str.tostring(maxSig), color.black)
+    f_row(7, "Sperre",  fomcToday ? "FOMC" : inWindow ? "offen" : "Fenster zu", fomcToday ? color.new(#ef5350, 0) : inWindow ? color.new(#26a69a, 0) : color.gray)
+
+// ============================================================================
+// VWAP DASHBOARD  (unveraendert aus dem Originalskript)
+// ============================================================================
+grpDash = "VWAP DASHBOARD"
+dashEnable    = input.bool(true, "Enable Dashboard", group=grpDash)
+dashShowNY    = input.bool(true, "NY VWAP", group=grpDash, inline="vwap")
+dashShowOV    = input.bool(true, "Overnight VWAP", group=grpDash, inline="vwap")
+dashShowPD    = input.bool(true, "PD NY VWAP", group=grpDash, inline="vwap")
+dashShowTrend = input.bool(true, "Trend", group=grpDash)
+dashPosition  = input.string("Top Right", "Position", options=["Top Left", "Top Right", "Bottom Left", "Bottom Right"], group=grpDash)
+dashSize      = input.string("Tiny", "Size", options=["Tiny", "Small", "Normal"], group=grpDash)
+dashLeftBg    = input.color(color.new(#162b2a, 0), "Left Column BG", group=grpDash)
+dashHeaderBg  = input.color(color.new(color.white, 100), "Ticker Header BG", group=grpDash)
+dashBodyBg    = input.color(color.new(color.white, 100), "Body BG", group=grpDash)
+dashText      = input.color(color.new(#fdfcf8, 0), "Left Text", group=grpDash)
+dashTickerTxt = input.color(color.new(#162b2a, 0), "Ticker Text", group=grpDash)
+dashBull      = input.color(color.new(#4caf50, 0), "Bull Color", group=grpDash)
+dashBear      = input.color(color.new(#F23645, 0), "Bear Color", group=grpDash)
+dashNeutral   = input.color(color.new(#808080, 0), "Neutral Color", group=grpDash)
+
+grpTickers = "DASHBOARD TICKERS"
+useT1 = input.bool(true, "1.", group=grpTickers, inline="t1")
+sym1  = input.symbol("CME_MINI:MNQ1!", "", group=grpTickers, inline="t1")
+useT2 = input.bool(true, "2.", group=grpTickers, inline="t2")
+sym2  = input.symbol("CME_MINI:MES1!", "", group=grpTickers, inline="t2")
+useT3 = input.bool(true, "3.", group=grpTickers, inline="t3")
+sym3  = input.symbol("CBOT_MINI:MYM1!", "", group=grpTickers, inline="t3")
+
+f_textSize(s) =>
+    switch s
+        "Tiny"   => size.tiny
+        "Normal" => size.normal
+        => size.small
+
+f_shortTicker(sym) =>
+    string s = str.replace(sym, "CME_MINI:", "")
+    s := str.replace(s, "CBOT_MINI:", "")
+    s := str.replace(s, "MES1!", "ES")
+    s := str.replace(s, "MNQ1!", "NQ")
+    s := str.replace(s, "MYM1!", "YM")
+    s := str.replace(s, "ES1!", "ES")
+    s := str.replace(s, "NQ1!", "NQ")
+    s := str.replace(s, "YM1!", "YM")
+    s
+
+f_dotColor(condBull, condBear) =>
+    condBull ? dashBull : condBear ? dashBear : dashNeutral
+
+f_trendText(c, ny, ov, pd) =>
+    int used = 0
+    int above = 0
+    int below = 0
+    if dashShowNY and not na(ny)
+        used += 1
+        above += c > ny ? 1 : 0
+        below += c < ny ? 1 : 0
+    if dashShowOV and not na(ov)
+        used += 1
+        above += c > ov ? 1 : 0
+        below += c < ov ? 1 : 0
+    if dashShowPD and not na(pd)
+        used += 1
+        above += c > pd ? 1 : 0
+        below += c < pd ? 1 : 0
+    used > 0 and above == used ? "Strong Up" : used > 0 and below == used ? "Strong Down" : "Neutral"
+
+f_trendColor(txt) =>
+    txt == "Strong Up" ? dashBull : txt == "Strong Down" ? dashBear : dashNeutral
+
+f_dashData() =>
+    _isNewDay  = ta.change(time("D")) != 0
+    _inNY      = not na(time(timeframe.period, "0930-1600", tz))
+    _isNYOpen  = _inNY and not _inNY[1]
+    _isNYClose = not _inNY and _inNY[1]
+    var float _totalPV = 0.0
+    var float _totalV  = 0.0
+    var float _curPV = na
+    var float _curV  = na
+    var float _pdPVAnchor = na
+    var float _pdVAnchor  = na
+    if _isNYOpen
+        _curPV := _totalPV
+        _curV  := _totalV
+        if na(_pdPVAnchor)
+            _pdPVAnchor := _curPV
+            _pdVAnchor  := _curV
+    _totalPV += hlc3 * volume
+    _totalV  += volume
+    _nyPV = not na(_curPV) ? _totalPV - _curPV : na
+    _nyV  = not na(_curV)  ? _totalV  - _curV  : na
+    _nyVWAP = _inNY and _nyV > 0 ? _nyPV / _nyV : na
+    _pdPV = not na(_pdPVAnchor) ? _totalPV - _pdPVAnchor : na
+    _pdV  = not na(_pdVAnchor)  ? _totalV  - _pdVAnchor  : na
+    _pdVWAP = _pdV > 0 ? _pdPV / _pdV : na
+    if _isNYClose and not na(_curPV)
+        _pdPVAnchor := _curPV
+        _pdVAnchor  := _curV
+    var float _ovPV = 0.0
+    var float _ovV  = 0.0
+    if _isNewDay
+        _ovPV := hlc3 * volume
+        _ovV  := volume
+    else
+        _ovPV += hlc3 * volume
+        _ovV  += volume
+    _ovVWAP = _ovV > 0 ? _ovPV / _ovV : na
+    [close, _nyVWAP, _ovVWAP, _pdVWAP]
+
+[c1, ny1, ov1, pd1] = request.security(sym1, timeframe.period, f_dashData())
+[c2, ny2, ov2, pd2] = request.security(sym2, timeframe.period, f_dashData())
+[c3, ny3, ov3, pd3] = request.security(sym3, timeframe.period, f_dashData())
+
+var table dash = table.new(f_tablePos(dashPosition), 4, 5, border_width=0)
+txtSize = f_textSize(dashSize)
+
+if barstate.islast
+    table.clear(dash, 0, 0, 3, 4)
+    if dashEnable
+        table.cell(dash, 0, 0, "Ticker", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 0, useT1 ? f_shortTicker(sym1) : "", text_color=dashTickerTxt, bgcolor=dashHeaderBg, text_size=txtSize)
+        table.cell(dash, 2, 0, useT2 ? f_shortTicker(sym2) : "", text_color=dashTickerTxt, bgcolor=dashHeaderBg, text_size=txtSize)
+        table.cell(dash, 3, 0, useT3 ? f_shortTicker(sym3) : "", text_color=dashTickerTxt, bgcolor=dashHeaderBg, text_size=txtSize)
+        table.cell(dash, 0, 1, "NY VWAP", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 1, dashShowNY and useT1 ? "●" : "", text_color=f_dotColor(c1 > ny1, c1 < ny1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 1, dashShowNY and useT2 ? "●" : "", text_color=f_dotColor(c2 > ny2, c2 < ny2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 1, dashShowNY and useT3 ? "●" : "", text_color=f_dotColor(c3 > ny3, c3 < ny3), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 0, 2, "Overnight VWAP", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 2, dashShowOV and useT1 ? "●" : "", text_color=f_dotColor(c1 > ov1, c1 < ov1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 2, dashShowOV and useT2 ? "●" : "", text_color=f_dotColor(c2 > ov2, c2 < ov2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 2, dashShowOV and useT3 ? "●" : "", text_color=f_dotColor(c3 > ov3, c3 < ov3), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 0, 3, "PD NY VWAP", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 3, dashShowPD and useT1 ? "●" : "", text_color=f_dotColor(c1 > pd1, c1 < pd1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 3, dashShowPD and useT2 ? "●" : "", text_color=f_dotColor(c2 > pd2, c2 < pd2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 3, dashShowPD and useT3 ? "●" : "", text_color=f_dotColor(c3 > pd3, c3 < pd3), bgcolor=dashBodyBg, text_size=txtSize)
+        t1 = f_trendText(c1, ny1, ov1, pd1)
+        t2 = f_trendText(c2, ny2, ov2, pd2)
+        t3 = f_trendText(c3, ny3, ov3, pd3)
+        table.cell(dash, 0, 4, "Trend", text_color=dashText, bgcolor=dashLeftBg, text_size=txtSize)
+        table.cell(dash, 1, 4, dashShowTrend and useT1 ? t1 : "", text_color=f_trendColor(t1), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 2, 4, dashShowTrend and useT2 ? t2 : "", text_color=f_trendColor(t2), bgcolor=dashBodyBg, text_size=txtSize)
+        table.cell(dash, 3, 4, dashShowTrend and useT3 ? t3 : "", text_color=f_trendColor(t3), bgcolor=dashBodyBg, text_size=txtSize)

@@ -152,3 +152,24 @@ Fazit: Kein Setup mit >= 3 Trades/Woche und >= 60 % bei 1:1 auf NQ/ES/YM.
   WTI 48.9 %. Keine Bestaetigung. 2.3 Sigma bei Auswahl aus 120 Varianten reicht nicht.
 - Lehre: Beim Notieren einer Strategie immer das RR mitschreiben. Eine niedrige
   Trefferquote allein sagt nichts, solange das RR nicht danebensteht.
+
+## Runde 15: Jagd auf strukturelle Verlierer (worst_hunt.py)
+- Florians Auftrag: eine Strategie finden, die gefuehlt immer verliert (~30 % WR),
+  denn deren Umkehrung waere der Edge.
+- Aufbau: 22 Signalfamilien x 5 Tagesfenster x 4 Barrierenweiten, RR 1:1, beide
+  Richtungen aus einem Durchlauf, Barrieren >= 2 x Bar-Range, unentscheidbare
+  Faelle ausgewiesen.
+- EIGENER FEHLER gefunden: Barrierenweite war an den Tagesmedian der 1-min-Range
+  des LAUFENDEN Tages gekoppelt = Look-Ahead. Ersetzt durch kausalen Schaetzer
+  (Mittel der Tagesmediane der letzten 5 Tage). NQ-Gap fiel dadurch 55.1 -> 50.7 %.
+- Boden ueber ~330 Zellen je Instrument: NQ 42.7, ES 38.9, YM 40.6, Gold 41.6,
+  WTI 41.8 %. Median jeweils ~49 %. Eine 30-%-Strategie existiert nicht.
+- Konsistentester Fund: Faden der Eroeffnungsluecke verliert auf ALLEN fuenf
+  Instrumenten (40.6-46.4 % bei Barriere 3-4 x Bar-Range, Train und Test beide).
+  Umgekehrt = mit der Luecke gehen: 53.6-59.4 %.
+- Aber: der Effekt ist horizontabhaengig (ab 8 x Bar-Range weg) und lebt in der
+  ersten Minute (Entry 09:35 -> 48-52 %, 10:00 -> 45-51 %). Wirtschaftlich nach
+  Kosten auf Gold und WTI negativ (Spread 30-35 $/Trade frisst die Erwartung),
+  auf NQ/ES/YM positiv, aber die Train-Haelfte ist ueberall negativ.
+- Lehre: Auch selbstgebaute Volatilitaetsmasse muessen kausal sein. Ein Tagesmedian
+  ist keine zum Entry bekannte Groesse.

@@ -200,3 +200,72 @@ Die richtig gerechnete Strategie liegt bei 48,5–49,6 % über fünf Instrumente
 bei 3 σ ist der sauberste Einzelfund der Untersuchung (kohärente Parameterregion,
 kostenrobust, in beiden Perioden positiv), aber ohne Cross-Instrument-Bestätigung
 und mit 0,3 Trades/Tag nicht als Prop-Firm-Strategie tragfähig.
+
+## 7. Jagd auf strukturelle Verlierer (`research/r5/worst_hunt.py`)
+Frage: Gibt es eine Strategie, die zuverlässig ~30 % trifft? Dann wäre ihre Umkehrung
+70 %. Aufbau: 22 Signalfamilien × 5 Tagesfenster × 4 Barrierenweiten, RR 1:1,
+Entry zum Close des Signalbars, Bewertung ab dem Folgebar, beide Richtungen aus
+demselben Durchlauf. Barrieren mindestens 2 × Bar-Range, damit nicht wieder das
+Artefakt aus Abschnitt 5b greift; der Anteil unentscheidbarer Fälle wird ausgewiesen.
+
+**Eigener Fehler, gefunden und behoben:** Die Barrierenweite war ursprünglich an den
+Median der 1-min-Range *des ganzen Tages* gekoppelt – also auch an Bars nach dem Entry.
+Das ist Look-Ahead. Ersetzt durch einen kausalen Schätzer (Mittel der Tagesmediane der
+letzten 5 abgeschlossenen Tage). Wirkung am Beispiel NQ-Gap: 55,1 % → 50,7 %.
+
+Verteilung der jeweils schlechteren Richtung über ~330 Zellen je Instrument:
+
+| Instrument | Minimum | 5. Perzentil | Median |
+|---|---|---|---|
+| NQ | 42,7 % | 44,9 % | 49,2 % |
+| ES | 38,9 % | 45,3 % | 49,3 % |
+| YM | 40,6 % | 45,3 % | 49,6 % |
+| Gold | 41,6 % | 45,9 % | 48,9 % |
+| WTI | 41,8 % | 45,9 % | 49,2 % |
+
+**Der Boden liegt bei 39–43 %, nicht bei 30 %.** Eine 30-%-Strategie bei RR 1:1 existiert
+in diesen fünf Instrumenten über fünf Jahre nicht.
+
+### 7a. Was tatsächlich zuverlässig verliert: das Faden der Eröffnungslücke
+Ein Signal steht auf **allen fünf** Instrumenten unter den schlechtesten Zellen:
+gegen die Eröffnungslücke handeln. Signal: Eröffnung 09:30 NY gegen Vortagesschluss,
+Abstand ≥ 0,3 × ATR10. Entry zum Close des 09:30-Bars, Bewertung ab dem Folgebar,
+unentscheidbare Fälle ausgewiesen und aus der Quote genommen (Summe daher exakt 100 %).
+
+| Barriere | NQ | ES | YM | Gold | WTI |
+|---|---|---|---|---|---|
+| 2 × Bar-Range | 44,2 % | 39,6 % | 41,0 % | 43,8 % | 44,5 % |
+| 3 × | 46,4 % | 40,6 % | 44,7 % | 45,9 % | 45,0 % |
+| 4 × | 45,3 % | 42,6 % | 45,7 % | 48,3 % | 45,7 % |
+| 6 × | 48,5 % | 48,0 % | 48,3 % | 47,9 % | 47,8 % |
+| 8 × | 49,8 % | 49,7 % | 49,5 % | 49,9 % | 46,6 % |
+| 12 × | 50,7 % | 51,3 % | 50,2 % | 49,2 % | 47,9 % |
+
+Der Effekt ist kein Artefakt (bei 3–4 × liegen nur 0,2–9 % unentscheidbar), aber er ist
+**horizontabhängig**: Bei engen Zielen 53–59 % in Gap-Richtung, ab 8 × Bar-Range
+verschwindet er auf 50 %. Er lebt außerdem fast vollständig in der ersten Minute – Entry
+zum Close von 09:35 ergibt 48–52 %, zum Close von 10:00 nur noch 45–51 %.
+Train/Test bei Barriere 3–4 ×: NQ 52,6/55,5 · ES 59,9/58,3 · YM 55,2/55,6 ·
+Gold 55,2/52,1 · WTI 53,7/57,6 – in beiden Perioden auf allen fünf Instrumenten.
+
+### 7b. Warum die Umkehrung trotzdem kein Geld verdient (`research/r5/gap_econ.py`)
+Erwartungswert je Trade = (2 × WR − 1) × Barrierendistanz − Kosten:
+
+| Instrument | beste Zelle | Risiko/Trade | $/Trade | Train | Test |
+|---|---|---|---|---|---|
+| NQ | g 0,3 / k 4 | 480 $ | +28,7 $ | –1.196 $ | +12.944 $ |
+| ES | g 0,2 / k 4 | 246 $ | +11,0 $ | –805 $ | +8.004 $ |
+| YM | g 0,2 / k 6 | 260 $ | +1,4 $ | –1.148 $ | +2.005 $ |
+| Gold | g 0,2 / k 6 | 495 $ | +13,9 $ | –4.110 $ | +14.829 $ |
+| WTI | alle | 107–330 $ | –7,4 bis –22,1 $ | negativ | negativ |
+
+Die Trefferquote ist echt und über fünf Instrumente konsistent, aber der Vorsprung von
+3–9 pp ist zu klein für die Kosten: Auf Gold frisst der Spread (35 $/Trade) fast die
+gesamte Erwartung, auf WTI (30 $/Trade) mehr als die gesamte. Auf NQ und ES bleibt ein
+Rest, aber die Train-Hälfte ist überall negativ und nur die Test-Hälfte trägt – das ist
+kein tragfähiges Muster, sondern zeitlich konzentriert.
+
+**Antwort auf die Ausgangsfrage:** Eine „gefühlt immer verlierende" Strategie mit 30 %
+gibt es nicht. Das Zuverlässigste, was existiert, ist das Faden der Eröffnungslücke mit
+40–46 %. Umgedreht sind das 54–59 % – die konsistenteste Struktur der gesamten
+Untersuchung, aber nach Kosten auf drei von fünf Instrumenten negativ.

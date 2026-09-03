@@ -127,3 +127,9 @@ Regime x Setup, 5-min-Signal-Timeframe, Feature-Modell (logistische Regression /
 
 ## Gold komplett (1.566 Tage) – Suite
 - LDR-Muster: 48.8 % (Test 43 %) → nicht uebertragbar. RR-1:1-Zonensuche: max 52.6 % (Rauschen). Mini-TP-Fades: Edge <= 2.3 pp, Jahre 1–4/6. Gold ohne Edge in dieser Setup-Familie.
+
+## Runde 12 – Abschluss (8 Familien, ~370.000 Varianten, 0 Survivor). Vollbericht: backtest/REPORT_R4.md
+- 5-/15-min-Signal-Timeframe: 48–51 % gepoolt; zerstoert sogar den LDR-Vorteil (5m 57 %, 15m 45 %).
+- Feature-Modell (238k Events, 85 Features, LR/Baum/Boosting): Universum 49.7/49.8 %; kein Feature > 3.9 pp Dezil-Spread; Modell-Tails 57–76 % Train → 46–55 % Test.
+- ES/YM eigene Features (10.470 Varianten): Basis 47–54 %; Paare 58–63 % Train → ~50 % Test. Einziger Rest: YM "tiefer Sweep + schwacher Reclaim-Koerper" 55/54.5 % (3.6/Wo) bzw. 59.7/60.6 % (1.4/Wo, N=372, 6/6 Jahre) – gegenlaeufig zum NQ-Befund, bei ES nicht vorhanden.
+Fazit: Kein Setup mit >= 3 Trades/Woche und >= 60 % bei 1:1 auf NQ/ES/YM.

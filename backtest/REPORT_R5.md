@@ -57,3 +57,21 @@ Parameter-Instabilität unter pessimistischer Ausführung: Docht > 15 % → +31,
 - Florians Wickless-Zone: real besser als die Kontrolle, aber klein (+2,5 pp), NQ-spezifisch, ~0,6–1,7 Trades/Tag. Kein 60 %, kein 80 %.
 - Wick-Magnet: die stabilste Struktur der ganzen Untersuchung (Fade an der Body-Kante verliert zuverlässig), aber der handelbare Rest ist nach realistischer Ausführung ~+11 $/Trade auf NQ und negativ auf ES/YM/Gold/WTI.
 - Robust und praktisch verwertbar ist nur die **negative** Aussage: Nicht an der Body-Kante einer Docht-Kerze dagegenhandeln (46,5–48 % über 5 Instrumente).
+
+## 5. Umkehr-Test der größten Verlierer (Frage: „Gab es Strategien mit extremem Minus?")
+Größte Verluste über 5 Jahre: Impulskerzen-Continuation NQ –1.906.164 $ (36.784 Trades), k=4 –1.001.266 $, Body-Kanten-Fade –332.829 $, Wick-Magnet-Fade –471.415 $, Sweep→Displacement –163.945 $.
+
+**Test, ob der Verlust strukturell oder kostenbedingt ist** – dieselbe Impulskerzen-Logik in beide Richtungen (NQ):
+
+| Richtung | Trades | WR | Breakeven | pro Trade |
+|---|---|---|---|---|
+| Fade, TP 1R | 28.163 | 50,0 % | 50,0 % | –16,2 $ |
+| Continuation, TP 1R | 28.163 | 49,9 % | 50,0 % | –14,8 $ |
+| Fade, TP 0,5R | 35.391 | 65,6 % | 66,7 % | –18,5 $ |
+| Continuation, TP 0,5R | 35.391 | 66,0 % | 66,7 % | –17,9 $ |
+
+ES und YM identisch (49,7–50,2 %). **Ergebnis: Beide Richtungen liegen auf Breakeven, der gesamte Verlust ist Kosten** (15–25 $/Trade bei 21–29 Trades/Tag). Umkehren bringt nichts, weil Kosten richtungsunabhängig sind.
+
+**Einzige strukturelle Ausnahme:** Body-Kanten-Fade 46,5 % bei Breakeven 50 % (3,5 pp strukturell). Umgekehrt = Wick-Magnet 51,7 % (+1,7 pp) – siehe Abschnitt 3.
+
+**Konsequenz für Prop-Firm-Strategien:** Jeder Ansatz mit hoher Frequenz stirbt an den Kosten, nicht am Markt. Bei 20 Trades/Tag sind allein 300–500 $ Tagesgewinn nötig, um Spread und Kommission zu decken.

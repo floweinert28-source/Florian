@@ -173,3 +173,17 @@ Fazit: Kein Setup mit >= 3 Trades/Woche und >= 60 % bei 1:1 auf NQ/ES/YM.
   auf NQ/ES/YM positiv, aber die Train-Haelfte ist ueberall negativ.
 - Lehre: Auch selbstgebaute Volatilitaetsmasse muessen kausal sein. Ein Tagesmedian
   ist keine zum Entry bekannte Groesse.
+
+## Runde 16: EURUSD als sauberer Out-of-Sample-Test
+- EURUSD-Download nach mehreren Container-Neustarts abgeschlossen: 1566 Dateien,
+  0 dauerhaft fehlend, in backtest/data/6e committet. 1301 Handelstage.
+- EURUSD wurde in der gesamten Sitzung nie angefasst - der einzige echte
+  Out-of-Sample-Test, der uns geblieben ist.
+- Die beiden Lucid-Kandidaten mit FESTEN Parametern darauf geprueft:
+    H1 Gap g=0.3 k=4:          N=641  WR 50.7 % [46.8-54.6]  z=+0.36
+    H2 VWAP 3.0 Sigma ab 11:00: N=166  WR 52.4 % [44.8-59.9]  z=+0.62
+- Beide bestaetigen sich nicht. Sie liegen sogar auf oder unter dem Median des
+  Instruments (volles Gitter 21 Zellen: Median 51.9 %, Spanne 48.8-54.2 %).
+- Lehre: Ein Instrument in Reserve zu halten, das man wirklich nie ansieht, ist
+  den Aufwand wert. Es hat die Frage in einem Durchlauf entschieden, waehrend
+  Train/Validation/Holdout durch die Vorgeschichte kontaminiert waren.

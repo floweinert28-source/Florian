@@ -247,6 +247,37 @@ Die Antwort auf die Ausgangsfrage lautet damit: **Median 0 Payouts. Wer den erst
 schafft, holt im Erwartungswert noch etwa einen weiteren. P(alle fünf) liegt ohne
 Edge bei rund 1 %.**
 
+---
+
+## Phase 6 — Sauberer Out-of-Sample-Test auf EURUSD (`lucid/phase6_eurusd.py`)
+
+EURUSD wurde in dieser gesamten Untersuchung nie angefasst: kein Scan, kein
+Gitter, kein Blick. Damit ist es der einzige echte Out-of-Sample-Test, der
+uebrig bleibt. Getestet wurden die beiden Kandidaten mit **festen** Parametern
+aus Phase 3 und 4 — keine Anpassung, keine Auswahl, zwei Vorhersagen.
+1.301 Handelstage.
+
+| Kandidat | N | Trefferquote | 95 %-Intervall | z gegen 50 % |
+|---|---|---|---|---|
+| H1 Gap-Continuation, g=0,3, k=4 | 641 | 50,7 % | 46,8 – 54,6 % | +0,36 |
+| H2 VWAP-Reclaim, 3,0 σ ab 11:00 | 166 | 52,4 % | 44,8 – 59,9 % | +0,62 |
+
+**Beide Vorhersagen bestaetigen sich nicht.** Die Intervalle schliessen 50 %
+bequem ein, und beide Zellen liegen auf oder unter dem Median des Instruments
+selbst (volles Gitter ueber 21 Zellen: Median 51,9 %, Mittel 51,6 %,
+Spanne 48,8 – 54,2 %). Die Kandidaten sind auf ungesehenen Daten nicht einmal
+ueberdurchschnittliche Zellen.
+
+Die hoechste Einzelzelle ist Gap g=0,2/k=2 mit 54,2 % (z=+2,46). Bei 21 Zellen
+liegt der erwartete Maximal-z-Wert aus reinem Rauschen bei rund 2,1 — und es ist
+ausgerechnet die engste Barriere, wo der Anteil intrabar-unentscheidbarer Faelle
+am groessten ist. Kein Fund.
+
+**Damit ist das Abbruchkriterium endgueltig erfuellt.** Der einzige unabhaengige
+Test, den dieses Projekt noch hatte, faellt negativ aus.
+
+---
+
 ### Grenzen dieser Rechnung
 
 - Trail-Balance 52.100 und Lock 50.100 sind unbestätigt und tragen das Ergebnis.

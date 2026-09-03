@@ -25,6 +25,9 @@ INSTR = {
     "ym":   dict(micro_usd=0.5,   cost=1.70),   # MYM 0.50 $/Pkt
     "gold": dict(micro_usd=10.0,  cost=2.20),   # MGC 10 $/Pkt
     "cl":   dict(micro_usd=100.0, cost=2.20),   # MCL 100 $/Pkt
+    # M6E: 12.500 EUR Kontrakt -> 12.500 $ je 1.0 Preisbewegung,
+    # Tick 0.00005 = 0.625 $; Kommission 1.20 + 1 Tick Slippage
+    "6e":   dict(micro_usd=12_500.0, cost=1.85),
 }
 
 

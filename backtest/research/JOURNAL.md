@@ -133,3 +133,6 @@ Regime x Setup, 5-min-Signal-Timeframe, Feature-Modell (logistische Regression /
 - Feature-Modell (238k Events, 85 Features, LR/Baum/Boosting): Universum 49.7/49.8 %; kein Feature > 3.9 pp Dezil-Spread; Modell-Tails 57–76 % Train → 46–55 % Test.
 - ES/YM eigene Features (10.470 Varianten): Basis 47–54 %; Paare 58–63 % Train → ~50 % Test. Einziger Rest: YM "tiefer Sweep + schwacher Reclaim-Koerper" 55/54.5 % (3.6/Wo) bzw. 59.7/60.6 % (1.4/Wo, N=372, 6/6 Jahre) – gegenlaeufig zum NQ-Befund, bei ES nicht vorhanden.
 Fazit: Kein Setup mit >= 3 Trades/Woche und >= 60 % bei 1:1 auf NQ/ES/YM.
+
+## WTI komplett (1.566 Tage) – Suite
+- RR-1:1-Zonensuche max 52.3 %; Mini-TP-Fades Edge <= 1.2 pp (Jahre 1–5/6); LDR 50.9 % (Test 46 %). WTI ohne Edge in dieser Familie.

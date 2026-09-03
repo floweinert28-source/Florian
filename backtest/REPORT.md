@@ -18,7 +18,7 @@
 | 5 | Session-Interaktionen | 2.360 | 96 formale Survivor | mittlere Erwartung negativ; Spiegelrichtung/ES bestätigen nicht; Top-10-Gewinner = 77–133 % des Gewinns |
 | 6 | Opening Range (ORB, Judas, Gap, ON-Sweep) | ~2.400 | Gap-Fade +58k, London-Reclaim +42k | unabhängig nachgebaut: Gewinn = Top-10-Trades bzw. 2025-Regime, Train ≈ 0 |
 | 7 | Tagestyp-Filter → Fade an Kompressionstagen (ON/W ≥ 3) | 56 | NQ +44,7k, t 2,2, Train+Test>0 | bricht bei anderer Overnight-Definition zusammen; ES t 0,7; **YM negativ** |
-| 7b | Gesamte Suite auf YM und Gold (je 1.566 Tage) | ~3.000 | YM max 52 %, Gold max 52,6 % bei 1:1; Mini-TP-Edges ≤ 2,3 pp; LDR 52 % / 49 % | beide Instrumente ohne Edge |
+| 7b | Gesamte Suite auf YM, Gold und WTI (je 1.566 Tage) | ~4.500 | YM max 52 %, Gold 52,6 %, WTI 52,3 % bei 1:1; Mini-TP-Edges ≤ 2,3 pp; LDR 52 / 49 / 51 % | alle drei ohne Edge |
 | 8 | „80–90 % nach flachem Sweep" | – | Train 80 % / Test 82–90 % | Tautologie: Gegenseite ist meist schon im 30-min-Fenster geholt – kein Trade übrig |
 | 9 | Impulskerzen-Continuation | 24 | alle negativ | tot |
 | 10 | PDH/PDL/PDC/Midnight-Open Turtle-Soup | 78 | max t 1,8 | nichts |

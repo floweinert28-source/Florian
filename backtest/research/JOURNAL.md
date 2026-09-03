@@ -136,3 +136,19 @@ Fazit: Kein Setup mit >= 3 Trades/Woche und >= 60 % bei 1:1 auf NQ/ES/YM.
 
 ## WTI komplett (1.566 Tage) – Suite
 - RR-1:1-Zonensuche max 52.3 %; Mini-TP-Fades Edge <= 1.2 pp (Jahre 1–5/6); LDR 50.9 % (Test 46 %). WTI ohne Edge in dieser Familie.
+
+## Runde 14: VWAP-Rueckkehr mit echtem RR 1:1 (Korrektur zu Runde 3)
+- Florian hat zu Recht beanstandet, dass "TP am VWAP" in Runde 3 mit dem engen Stop
+  am Sweep-Extrem kombiniert war -> faktisch RR 1:2 bis 1:3. Die dort notierten
+  27-45 % waren der RR-Effekt, nicht die Strategie.
+- Neu gerechnet mit TP = VWAP und SL spiegelbildlich im gleichen Abstand (RR 1:1):
+  Median ueber 120 Varianten je Instrument: NQ 49.0 %, ES 48.6 %, YM 49.6 %,
+  Gold 48.5 %, WTI 49.5 %. Also neutral, nicht kaputt.
+- Auffaellig: NQ Session-VWAP, Band >= 3 Sigma, Reclaim-Entry ab 10:30-11:30 zeigt ein
+  zusammenhaengendes Plateau von 53-56 % (Basiszelle 3.0 Sigma ab 11:00: N=413,
+  55.7 %, +90.7 $/Trade). Kostenrobust bis Kosten x4, ueberlebt pessimistischen
+  Entry am Bandlevel (53.3 %), braucht aber den Session-Anker (RTH-Anker: 51.3 %).
+- Cross-Instrument bei identischen Parametern: ES 48.3 %, YM 50.9 %, Gold 46.5 %,
+  WTI 48.9 %. Keine Bestaetigung. 2.3 Sigma bei Auswahl aus 120 Varianten reicht nicht.
+- Lehre: Beim Notieren einer Strategie immer das RR mitschreiben. Eine niedrige
+  Trefferquote allein sagt nichts, solange das RR nicht danebensteht.

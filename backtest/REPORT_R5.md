@@ -125,3 +125,78 @@ Inversion ist per Konstruktion nahe am Optimum.
 Varianten genau eine strukturelle, richtungsabhängige Asymmetrie – den Body-Kanten-Fade
 (46,5 % bei Breakeven 50 %). Alles andere, was stark negativ aussieht, ist entweder
 Kosten (richtungsunabhängig) oder ein Messartefakt zu enger Stops.
+
+## 6. Korrektur: Rückkehr zum VWAP mit echtem RR 1:1 (`research/r5/vwap_return_1to1.py`)
+**Fehler in Runde 3:** Dort war „TP am VWAP" mit dem engen Stop am Sweep-Extrem
+kombiniert. Der Weg zum VWAP ist aber weit, der Stop war eng – faktisch RR 1:2 bis
+1:3. Die damals notierten 27–45 % waren also der RR-Effekt, nicht die Strategie.
+
+**Korrekte Rechnung:** TP = VWAP (Wert zum Entry eingefroren), SL exakt spiegelbildlich
+im gleichen Abstand → RR 1:1, Breakeven 50 %. 120 Varianten je Instrument
+(VWAP-Anker Session/RTH × Trigger Reclaim/Touch × Band 1,0–3,0 σ × Start 10:00/10:30/11:00
+× ein Trade pro Tag / mehrfach), Auswertung bis 16:00 NY, Entry zum Close → Bewertung
+ab Folgebar, SL vor TP im selben Bar.
+
+| Instrument | Median-WR über 120 Varianten | beste Zelle |
+|---|---|---|
+| NQ | 49,0 % | 55,7 % (N=413) |
+| ES | 48,6 % | 52,2 % |
+| YM | 49,6 % | 52,8 % |
+| Gold | 48,5 % | – |
+| WTI | 49,5 % | – |
+
+Damit ist der alte 27–45 %-Eintrag erledigt: Die Strategie ist bei 1:1 **nicht** kaputt,
+sie ist neutral.
+
+### 6a. Der auffällige NQ-Bereich (`research/r5/vwap_verify.py`)
+Auf NQ liegt ein zusammenhängendes Plateau bei Band ≥ 3 σ (Session-VWAP, Reclaim-Entry):
+
+| σ \ Start | 10:30 | 10:45 | 11:00 | 11:15 | 11:30 |
+|---|---|---|---|---|---|
+| 2,50 | 50,2 % | 50,2 % | 51,1 % | 51,3 % | 51,8 % |
+| 2,75 | 50,1 % | 51,3 % | 51,3 % | 52,0 % | 52,5 % |
+| **3,00** | **54,0 %** | **55,6 %** | **55,7 %** | **55,7 %** | **54,0 %** |
+| 3,25 | 53,5 % | 55,0 % | 55,3 % | 54,7 % | 53,8 % |
+| 3,50 | 54,4 % | 54,1 % | 55,4 % | 56,4 % | 55,0 % |
+
+Kein Einzelspike, sondern ein monotoner Übergang: unter 3 σ rund 50–52 %, ab 3 σ
+durchgehend 53–56 %. Basiszelle (3,0 σ, ab 11:00, mehrfach): N=413, 55,7 %, +37.469 $,
++90,7 $/Trade, ~0,3 Trades pro Handelstag.
+
+**Robustheit:**
+
+| Test | N | WR | pro Trade |
+|---|---|---|---|
+| Basis | 413 | 55,7 % | +90,7 $ |
+| Entry am Bandlevel statt Close (pessimistisch) | 627 | 53,3 % | +33,7 $ |
+| max 1 Trade/Tag | 280 | 54,6 % | +44,8 $ |
+| Kosten ×2 | 413 | 55,7 % | +75,7 $ |
+| Kosten ×4 | 413 | 55,7 % | +45,7 $ |
+| RTH-Anker statt Session-Anker | 302 | 51,3 % | –4,0 $ |
+
+Kein Kostenartefakt. Der Session-Anker ist entscheidend, der RTH-Anker zerstört den Effekt.
+Richtung: Long 58,8 % (N=243) vs Short 51,2 % (N=170) – ein Teil davon ist Aufwärtsdrift.
+
+**Jahre:** 2021 42,4 % (N=33) · 2022 54,9 % · 2023 58,0 % · 2024 50,6 % · 2025 63,0 % · 2026 60,9 %.
+Zwei schwache Jahre von sechs.
+
+### 6b. Cross-Instrument – und damit erledigt
+Dieselben Parameter (Session-VWAP, 3,0 σ, ab 11:00, Reclaim, mehrfach):
+
+| Instrument | N | WR (Train/Test) | Netto |
+|---|---|---|---|
+| NQ | 413 | 55,7 % (53,4/62,5) | +37.469 $ |
+| ES | 458 | 48,3 % (46,6/52,9) | –12.359 $ |
+| YM | 273 | 50,9 % (49,5/55,1) | –10.129 $ |
+| Gold | 288 | 46,5 % (46,7/46,2) | –10.548 $ |
+| WTI | 278 | 48,9 % (47,1/54,3) | –5.391 $ |
+
+ES, der mit NQ am stärksten korrelierte Index, liegt 7,4 pp darunter. Kein einziges
+weiteres Instrument bestätigt. 55,7 % bei N=413 sind 2,3 σ über 50 %, ausgewählt aus
+120 Varianten je Instrument – dafür wären ~3 σ nötig.
+
+**Fazit:** Die Korrektur war berechtigt und der alte 27–45 %-Wert ist falsch gewesen.
+Die richtig gerechnete Strategie liegt bei 48,5–49,6 % über fünf Instrumente. Das NQ-Plateau
+bei 3 σ ist der sauberste Einzelfund der Untersuchung (kohärente Parameterregion,
+kostenrobust, in beiden Perioden positiv), aber ohne Cross-Instrument-Bestätigung
+und mit 0,3 Trades/Tag nicht als Prop-Firm-Strategie tragfähig.

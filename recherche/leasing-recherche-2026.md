@@ -146,6 +146,13 @@ sauber obendrauf.** Keine Doppelzählung, keine Diskussion.
 
 ### Der Raval im Modellprogramm
 
+**Wichtig zur Begriffsklärung:** Basis, Plus, Endurance und VZ sind *Ausstattungslinien
+desselben Autos*, keine verschiedenen Modelle. Der Endurance ist nicht die günstige,
+sondern die zweitteuerste Variante — 5.000 € über dem Plus, dafür 76 PS und 117 km mehr.
+Dass Angebot A (Endurance) im Vergleich trotzdem günstiger dasteht als Angebot D (Plus),
+liegt an der Händleraktion mit 6.000 € Anzahlung, nicht am Fahrzeug.
+
+
 | Variante | Preis | Leistung | Batterie | Reichweite | Verfügbar |
 |---|---|---|---|---|---|
 | Basis | 25.950 € | 85 kW | 37 kWh | — | ab 09/2026 |
@@ -282,6 +289,27 @@ Kein Streit, keine Abtretung, kein Risiko. Direkt beim CUPRA-Händler, Aktion l�
 inklusive.** Konservativ 251 €/Monat. Wenn der Händler bestätigt, dass du die BAFA-Prämie
 zusätzlich beantragen darfst, fällt es auf **112 €/Monat** — dann ist es mit Abstand das
 beste Angebot der ganzen Liste. **Genau das fragen.**
+
+### A oder D — die eigentliche Abwägung
+
+Angebot A ist auf dem Papier klar besser: 21 € billiger pro Monat, 76 PS mehr,
+117 km mehr Reichweite, Wartung inklusive, und nur 36 statt 48 Monate Bindung.
+Es scheitert ausschließlich an drei praktischen Bedingungen.
+
+| | A · Endurance | D · Plus |
+|---|---|---|
+| Bargeld beim Abschluss | **6.000 €**, Rückfluss erst Monate später | 3.000 € |
+| Verfügbar ab | **03/2027** | Aktion bis 30.09.2026 |
+| Wenn die Förderung scheitert | 342 €/Monat | 329 €/Monat |
+| Netto mit Förderung | **203 €/Monat** | 224 €/Monat |
+| Leistung / Reichweite | **211 PS · 445 km** | 135 PS · 328 km |
+| Gesamtausgabe | 12.325 € über 3 Jahre | 15.772 € über 4 Jahre |
+
+**Die Regel:** 6.000 € liquide + bis März 2027 Zeit + Förderung bewilligt → **A**.
+Fehlt eines der drei → **D**.
+
+Bemerkenswert: Ohne Förderung liegen beide fast gleichauf. Der Unterschied ist nicht
+die Rate, sondern wie viel Geld monatelang festhängt.
 
 ### Warum Raval und nicht Born
 

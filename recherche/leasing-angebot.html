@@ -1,0 +1,627 @@
+<title>Raval oder nichts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#F4F3EF;
+  --card:#FCFCFB;
+  --card-2:#EFEEE9;
+  --ink:#191B1E;
+  --ink-2:#4A4E55;
+  --ink-3:#797E86;
+  --rule:#DCDAD3;
+  --rule-2:#C9C6BD;
+  --copper:#BE5415;
+  --blue:#31549E;
+  --teal:#0B7D63;
+  --amber:#8A6206;
+  --copper-wash:#F6E7DC;
+  --teal-wash:#DFEDE8;
+  --amber-wash:#F6EDD8;
+  --shadow:0 1px 2px rgba(25,27,30,.05);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --disp:"Archivo","IBM Plex Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111317;
+    --card:#1A1D22;
+    --card-2:#22262C;
+    --ink:#E9E8E4;
+    --ink-2:#B4B8BF;
+    --ink-3:#888D95;
+    --rule:#2E333A;
+    --rule-2:#3D434B;
+    --copper:#D4762F;
+    --blue:#6E95D8;
+    --teal:#1FA588;
+    --amber:#C99A2E;
+    --copper-wash:#3A2415;
+    --teal-wash:#12302A;
+    --amber-wash:#33270F;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111317;
+  --card:#1A1D22;
+  --card-2:#22262C;
+  --ink:#E9E8E4;
+  --ink-2:#B4B8BF;
+  --ink-3:#888D95;
+  --rule:#2E333A;
+  --rule-2:#3D434B;
+  --copper:#D4762F;
+  --blue:#6E95D8;
+  --teal:#1FA588;
+  --amber:#C99A2E;
+  --copper-wash:#3A2415;
+  --teal-wash:#12302A;
+  --amber-wash:#33270F;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:940px;margin:0 auto;padding:0 24px 96px}
+
+/* ---------- masthead ---------- */
+.mast{
+  border-bottom:2px solid var(--ink);
+  padding:44px 0 16px;
+  display:flex;flex-wrap:wrap;align-items:flex-end;gap:20px;justify-content:space-between;
+}
+.mast h1{
+  font-family:var(--disp);font-weight:700;font-size:clamp(30px,5.4vw,46px);
+  line-height:1.02;letter-spacing:-.022em;margin:0;text-wrap:balance;
+}
+.mast h1 em{font-style:normal;color:var(--copper)}
+.mast-meta{
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-3);
+  text-align:right;line-height:1.7;letter-spacing:.01em;
+}
+.kicker{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--copper);margin:0 0 10px;font-weight:500;
+}
+
+/* ---------- sections ---------- */
+section{margin-top:52px}
+h2{
+  font-family:var(--disp);font-weight:600;font-size:21px;letter-spacing:-.012em;
+  margin:0 0 4px;display:flex;align-items:baseline;gap:11px;
+}
+h2 .num{
+  font-family:var(--mono);font-size:11px;color:var(--copper);font-weight:600;
+  letter-spacing:.06em;flex:none;
+}
+.sub{color:var(--ink-2);margin:0 0 22px;max-width:66ch}
+h3{font-family:var(--disp);font-weight:600;font-size:15.5px;margin:0 0 8px;letter-spacing:-.005em}
+p{margin:0 0 14px;max-width:70ch}
+a{color:var(--copper)}
+strong{font-weight:600}
+
+/* ---------- verdict ---------- */
+.verdict{
+  background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--copper);
+  border-radius:3px;padding:26px 28px;margin-top:32px;box-shadow:var(--shadow);
+}
+.verdict-grid{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+@media(max-width:640px){.verdict-grid{grid-template-columns:1fr;gap:20px}}
+.verdict h2{margin-bottom:10px;font-size:23px}
+.verdict p{margin-bottom:0;font-size:15.5px}
+.bignum{text-align:right;flex:none}
+@media(max-width:640px){.bignum{text-align:left}}
+.bignum .v{
+  font-family:var(--disp);font-weight:700;font-size:54px;line-height:.92;
+  letter-spacing:-.035em;color:var(--copper);font-variant-numeric:tabular-nums;
+}
+.bignum .u{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.05em;margin-top:7px}
+
+/* ---------- spec strip ---------- */
+.specs{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;
+  margin-top:20px;overflow:hidden;
+}
+.spec{background:var(--card);padding:13px 15px}
+.spec dt{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:5px;
+}
+.spec dd{
+  margin:0;font-family:var(--disp);font-weight:600;font-size:16.5px;
+  letter-spacing:-.01em;font-variant-numeric:tabular-nums;
+}
+.spec dd small{font-family:var(--sans);font-weight:400;font-size:12px;color:var(--ink-3);letter-spacing:0}
+
+/* ---------- charts ---------- */
+.chart-box{
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:22px 20px 16px;overflow-x:auto;box-shadow:var(--shadow);
+}
+.chart-box svg{display:block;min-width:660px;width:100%;height:auto}
+.axis-t{font-family:var(--mono);font-size:10px;fill:var(--ink-3)}
+.bar-lab{font-family:var(--sans);font-size:12.5px;fill:var(--ink);font-weight:500}
+.bar-sub{font-family:var(--mono);font-size:9.5px;fill:var(--ink-3)}
+.bar-val{font-family:var(--disp);font-size:14px;font-weight:700;fill:var(--ink)}
+.tag{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.09em}
+.note{font-size:12.5px;color:var(--ink-3);margin:12px 0 0;max-width:74ch}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 14px;padding:0;list-style:none}
+.legend li{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2)}
+.swatch{width:11px;height:11px;border-radius:2px;flex:none}
+
+/* ---------- table ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--rule)}
+thead th{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500;background:var(--card-2);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.id{font-family:var(--mono);font-weight:600;color:var(--copper);width:26px}
+tr.pick td{background:var(--copper-wash)}
+tr.pick td.id{color:var(--copper)}
+.strike{color:var(--ink-3);text-decoration:line-through}
+
+/* ---------- callouts ---------- */
+.flag{
+  border:1px solid var(--rule);border-left:3px solid var(--amber);background:var(--card);
+  border-radius:3px;padding:17px 20px;margin:18px 0;
+}
+.flag.good{border-left-color:var(--teal)}
+.flag h3{margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.flag h3::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:var(--amber);flex:none;
+}
+.flag.good h3::before{background:var(--teal)}
+.flag p:last-child{margin-bottom:0}
+
+/* ---------- lever list ---------- */
+.levers{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.levers li{
+  background:var(--card);padding:14px 18px;display:grid;
+  grid-template-columns:1fr auto;gap:6px 20px;align-items:baseline;
+}
+.levers .lv-t{grid-column:1;grid-row:1;font-weight:600;font-size:14.5px}
+.levers .lv-d{grid-column:1;grid-row:2;font-size:13px;color:var(--ink-2);max-width:62ch}
+.levers .lv-n{
+  grid-column:2;grid-row:1/3;
+  font-family:var(--disp);font-weight:700;font-size:19px;text-align:right;
+  color:var(--teal);white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+@media(max-width:560px){
+  .levers li{grid-template-columns:1fr}
+  .levers .lv-t{grid-row:auto}
+  .levers .lv-d{grid-row:auto}
+  .levers .lv-n{grid-column:1;grid-row:auto;font-size:17px;text-align:left}
+}
+
+/* ---------- steps ---------- */
+.steps{list-style:none;counter-reset:s;padding:0;margin:0}
+.steps li{
+  counter-increment:s;position:relative;padding:0 0 18px 40px;
+  border-left:1px solid var(--rule);margin-left:11px;
+}
+.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+.steps li::before{
+  content:counter(s);position:absolute;left:-11px;top:0;
+  width:22px;height:22px;border-radius:50%;background:var(--card);
+  border:1px solid var(--rule-2);color:var(--ink-2);
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+.steps li.hot::before{background:var(--copper);border-color:var(--copper);color:#fff}
+.steps .st{font-weight:600;font-size:14.5px;display:block;margin-bottom:2px}
+.steps .sd{font-size:13.5px;color:var(--ink-2);max-width:64ch}
+
+/* ---------- ask box ---------- */
+.ask{
+  background:var(--card-2);border:1px dashed var(--rule-2);border-radius:3px;
+  padding:18px 22px;margin:20px 0;
+}
+.ask .q{
+  font-family:var(--disp);font-size:17px;font-weight:600;line-height:1.4;
+  letter-spacing:-.008em;margin:0;color:var(--ink);
+}
+.ask .lbl{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--copper);margin:0 0 8px;font-weight:600;
+}
+
+footer{
+  margin-top:64px;padding-top:20px;border-top:1px solid var(--rule);
+  font-size:12px;color:var(--ink-3);
+}
+footer a{color:var(--ink-2)}
+:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){
+  .bar-anim{animation:grow .7s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes grow{from{transform:scaleX(.4);opacity:.5}to{transform:scaleX(1);opacity:1}}
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div>
+    <p class="kicker">Privatleasing-Analyse · 21 Jahre · 10.000 km/Jahr</p>
+    <h1>Raval oder <em>nichts</em></h1>
+  </div>
+  <div class="mast-meta">
+    Stand 04.09.2026<br>
+    6 Angebote geprüft<br>
+    BAFA-Anspruch 5.000 €
+  </div>
+</header>
+
+<div class="verdict">
+  <div class="verdict-grid">
+    <div>
+      <h2 style="color:var(--copper)">CUPRA Raval Plus 99 kW</h2>
+      <p><strong>239 € Rate, 48 Monate, 3.000 € Anzahlung — direkt von CUPRA, Aktion läuft bis 30.09.2026.</strong>
+      Nicht die kleinste Zahl im Markt, aber die einzige, bei der die staatliche Prämie
+      nachweislich <em>obendrauf</em> kommt statt schon im Preis zu stecken.
+      Nach Förderung zahlst du <strong>224 € im Monat</strong>.</p>
+    </div>
+    <div class="bignum">
+      <div class="v">224</div>
+      <div class="u">EURO / MONAT NETTO</div>
+    </div>
+  </div>
+  <dl class="specs">
+    <div class="spec"><dt>Listenpreis</dt><dd>29.850 <small>€</small></dd></div>
+    <div class="spec"><dt>Leistung</dt><dd>135 <small>PS</small></dd></div>
+    <div class="spec"><dt>Reichweite</dt><dd>328 <small>km</small></dd></div>
+    <div class="spec"><dt>Kfz-Steuer</dt><dd>0 <small>€ bis 2035</small></dd></div>
+    <div class="spec"><dt>Vollkasko-TK</dt><dd>16 <small>vs. 20 Born</small></dd></div>
+    <div class="spec"><dt>Leasinggeber</dt><dd style="font-size:13px">SEAT <small>/ VW Leasing</small></dd></div>
+  </dl>
+</div>
+
+<!-- ===================== 1 ===================== -->
+<section>
+  <h2><span class="num">01</span> Was die Angebote wirklich kosten</h2>
+  <p class="sub">Nicht die beworbene Rate, sondern alles zusammen: Raten + Anzahlung +
+  Überführung, geteilt durch die Laufzeit, abzüglich der Förderung, die du realistisch bekommst.</p>
+
+  <div class="chart-box">
+    <svg viewBox="0 0 700 306" role="img" aria-label="Nettokosten pro Monat je Angebot: A 203 Euro, B 218 Euro, D 224 Euro (Empfehlung), C zwischen 112 und 251 Euro, E zwischen 180 und 284 Euro">
+      <defs>
+        <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="6" height="6" fill="var(--card)"/>
+          <line x1="0" y1="0" x2="0" y2="6" stroke="var(--copper)" stroke-width="2.4" opacity=".55"/>
+        </pattern>
+      </defs>
+      <!-- grid -->
+      <g class="axis-t" text-anchor="middle">
+        <line x1="196" y1="30" x2="196" y2="274" stroke="var(--rule)" stroke-width="1"/>
+        <line x1="266" y1="30" x2="266" y2="274" stroke="var(--rule)" stroke-width="1"/>
+        <line x1="336" y1="30" x2="336" y2="274" stroke="var(--rule)" stroke-width="1"/>
+        <line x1="406" y1="30" x2="406" y2="274" stroke="var(--rule)" stroke-width="1"/>
+        <line x1="476" y1="30" x2="476" y2="274" stroke="var(--rule)" stroke-width="1"/>
+        <line x1="546" y1="30" x2="546" y2="274" stroke="var(--rule)" stroke-width="1"/>
+        <line x1="616" y1="30" x2="616" y2="274" stroke="var(--rule)" stroke-width="1"/>
+        <text x="196" y="22">0</text>
+        <text x="266" y="22">50</text>
+        <text x="336" y="22">100</text>
+        <text x="406" y="22">150</text>
+        <text x="476" y="22">200</text>
+        <text x="546" y="22">250</text>
+        <text x="616" y="22">300 €</text>
+      </g>
+
+      <!-- A : bar y 42, center 51 -->
+      <g>
+        <text class="bar-lab" x="0" y="48">A · Endurance 211 PS</text>
+        <text class="bar-sub" x="0" y="62">36 Mon · 6.000 € Anz.</text>
+        <rect class="bar-anim" style="transform-origin:196px 0" x="196" y="42" width="284" height="18" rx="3" fill="var(--copper)"/>
+        <text class="bar-val" x="490" y="56">203 €</text>
+      </g>
+      <!-- B : bar y 94 -->
+      <g>
+        <text class="bar-lab" x="0" y="100">B · Plus 135 PS</text>
+        <text class="bar-sub" x="0" y="114">36 Mon · 6.000 € Anz.</text>
+        <rect class="bar-anim" style="transform-origin:196px 0" x="196" y="94" width="305" height="18" rx="3" fill="var(--copper)"/>
+        <text class="bar-val" x="511" y="108">218 €</text>
+      </g>
+      <!-- D : bar y 146  (Empfehlung) -->
+      <g>
+        <text class="bar-lab" x="0" y="152" font-weight="600">D · Plus 99 kW</text>
+        <text class="bar-sub" x="0" y="166" fill="var(--copper)">CUPRA offiziell · 48 Mon</text>
+        <rect class="bar-anim" style="transform-origin:196px 0" x="196" y="146" width="314" height="18" rx="3" fill="var(--copper)"/>
+        <rect x="194" y="144" width="318" height="22" rx="4" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+        <text class="bar-val" x="522" y="160">224 €</text>
+        <rect x="575" y="148" width="88" height="14" rx="2" fill="var(--ink)"/>
+        <text class="tag" x="619" y="158.5" fill="var(--paper)" text-anchor="middle">EMPFEHLUNG</text>
+      </g>
+      <!-- C : bar y 198 · gesichert bis 112 €, unsicher bis 251 € -->
+      <g>
+        <text class="bar-lab" x="0" y="204">C · Endurance, 0 € Anz.</text>
+        <text class="bar-sub" x="0" y="218">36 Mon · Förderung unklar</text>
+        <rect class="bar-anim" style="transform-origin:196px 0" x="196" y="198" width="157" height="18" rx="3" fill="var(--copper)"/>
+        <rect x="355" y="198" width="192" height="18" rx="3" fill="url(#hatch)" stroke="var(--copper)" stroke-width="1"/>
+        <text class="bar-val" x="557" y="212">112–251 €</text>
+      </g>
+      <!-- E : bar y 250 · gesichert bis 180 €, unsicher bis 284 € -->
+      <g>
+        <text class="bar-lab" x="0" y="256">E · Plus, sofort verfügbar</text>
+        <text class="bar-sub" x="0" y="270">48 Mon · Förderung unklar</text>
+        <rect class="bar-anim" style="transform-origin:196px 0" x="196" y="250" width="252" height="18" rx="3" fill="var(--copper)"/>
+        <rect x="450" y="250" width="143" height="18" rx="3" fill="url(#hatch)" stroke="var(--copper)" stroke-width="1"/>
+        <text class="bar-val" x="601" y="264">180–284 €</text>
+      </g>
+
+      <text class="axis-t" x="0" y="295">Netto pro Monat inkl. Anzahlung und Überführung, nach Abzug von 5.000 € Förderung · schraffiert = offene Spanne</text>
+    </svg>
+  </div>
+  <p class="note"><strong>Die blassen Balken sind das Problem.</strong> Angebot C und E werben mit
+  „Förderung eingerechnet“, verlangen aber keine Anzahlung. Dann ist offen, ob du die BAFA-Prämie
+  trotzdem selbst kassieren darfst oder ob der Händler sie sich abtreten lässt. Solid gezeichnet ist
+  der sichere Fall, blass der günstigere. Genau danach musst du fragen.</p>
+
+  <div class="ask">
+    <p class="lbl">Die eine Frage, die alles entscheidet</p>
+    <p class="q">„Ist die BAFA-Prämie in dieser Rate schon einkalkuliert — und darf ich sie
+    trotzdem selbst beantragen und behalten?“</p>
+  </div>
+
+  <h3 style="margin-top:30px">Alle Angebote im Detail</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th></th><th>Angebot</th><th class="n">Rate</th><th class="n">Laufzeit</th>
+          <th class="n">Anzahlung</th><th class="n">Auszahlung</th><th class="n">Netto/Mon.</th><th>Lieferung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="id">A</td><td>Raval Endurance 211 PS · leasingmarkt.de</td><td class="n">139,58 €</td><td class="n">36</td><td class="n">6.000 €</td><td class="n">12.325 €</td><td class="n"><strong>203 €</strong></td><td>03/2027</td></tr>
+        <tr><td class="id">B</td><td>Raval Plus 135 PS · carwow</td><td class="n">149,00 €</td><td class="n">36</td><td class="n">6.000 €</td><td class="n">12.854 €</td><td class="n"><strong>218 €</strong></td><td>~4 Mon.</td></tr>
+        <tr class="pick"><td class="id">D</td><td><strong>Raval Plus 99 kW · CUPRA offiziell</strong></td><td class="n">239,00 €</td><td class="n">48</td><td class="n">3.000 €</td><td class="n">15.772 €</td><td class="n"><strong>224 €</strong></td><td>bis 30.09.</td></tr>
+        <tr><td class="id">C</td><td>Raval Endurance · ohne Anzahlung</td><td class="n">214,90 €</td><td class="n">36</td><td class="n">0 €</td><td class="n">9.036 €</td><td class="n"><strong>251 €</strong><br><span style="font-size:11px;color:var(--ink-3)">bis 112 €</span></td><td>03/2027</td></tr>
+        <tr><td class="id">E</td><td>Raval Plus +Edge/Navi · sofort</td><td class="n">257,00 €</td><td class="n">48</td><td class="n">0 €</td><td class="n">13.636 €</td><td class="n"><strong>284 €</strong><br><span style="font-size:11px;color:var(--ink-3)">bis 180 €</span></td><td>09/2026</td></tr>
+        <tr><td class="id">F</td><td class="strike">Cupra Born 190 PS · Preisanker</td><td class="n">277,00 €</td><td class="n">48</td><td class="n">0 €</td><td class="n">14.886 €</td><td class="n">206 €</td><td>abgelaufen</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Überführung/Zulassung mit 1.300 € angesetzt, wo der Anbieter nichts nennt
+  (carwow: 1.490 €, Born: 1.590 €). <strong>Leasingfaktor allein ist wertlos</strong> — Angebot A
+  glänzt mit 0,40, landet nach Anzahlung und Überführung aber bei einem Gesamtkostenfaktor
+  von 0,58. Nur der zählt. Unter 0,7 ist sehr gut.</p>
+</section>
+
+<!-- ===================== 2 ===================== -->
+<section>
+  <h2><span class="num">02</span> Die Förderung — und die zwei Fallen</h2>
+  <p class="sub">Die staatliche E-Auto-Prämie gilt seit 19.05.2026 ausdrücklich auch für
+  Privatleasing, zu denselben Beträgen wie beim Kauf. Du beantragst sie selbst, das Geld landet
+  auf deinem Konto.</p>
+
+  <div class="tbl-wrap" style="max-width:520px">
+    <table style="min-width:440px">
+      <thead><tr><th>Zu versteuerndes Haushaltseinkommen</th><th class="n">ohne Kind</th><th class="n">1 Kind</th><th class="n">2 Kinder</th></tr></thead>
+      <tbody>
+        <tr class="pick"><td>bis 45.000 €</td><td class="n"><strong>5.000 €</strong></td><td class="n">5.500 €</td><td class="n">6.000 €</td></tr>
+        <tr><td>45.001 – 60.000 €</td><td class="n">4.000 €</td><td class="n">4.500 €</td><td class="n">5.000 €</td></tr>
+        <tr><td>60.001 – 80.000 €</td><td class="n">3.000 €</td><td class="n">3.500 €</td><td class="n">4.000 €</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flag">
+    <h3>Die „6.000 €“ aus der Werbung gelten für dich nicht</h3>
+    <p>Der Höchstsatz setzt <strong>zwei Kinder</strong> voraus. Realistisch für dich sind
+    <strong>5.000 €</strong> — Basis 3.000 € plus 2.000 € Einkommensbonus. Jedes Angebot, das mit
+    6.000 € kalkuliert (A und B tun das), ist damit rund <strong>1.000 € teurer</strong> als
+    angeschrieben. In der Tabelle oben ist das schon korrigiert.</p>
+  </div>
+
+  <div class="flag">
+    <h3>Der Nachweis, an dem es mit 21 scheitert</h3>
+    <p>Die BAFA verlangt deine <strong>zwei aktuellsten Einkommensteuerbescheide</strong>,
+    maximal drei Jahre alt. Mit 21 hat man die oft schlicht nicht. Wer nicht abgabepflichtig ist,
+    darf Steuererklärungen freiwillig nachreichen — das dauert aber Wochen bis Monate.
+    <strong>Kläre das, bevor du unterschreibst</strong>, und strecke niemals 6.000 € vor,
+    solange dein Förderbescheid nicht vorliegt.</p>
+  </div>
+
+  <div class="flag">
+    <h3>Der Topf könnte vor dir leer sein</h3>
+    <p>500 Mio. € stehen für 2026 bereit. Anfang August lagen bereits 103.542 Anträge vor, rund
+    450 Mio. € gebunden — nach knapp drei Monaten. Leasing und Kauf halten sich dabei exakt die
+    Waage. Das Ende soll „rechtzeitig vorher verkündet“ werden. Heißt: <strong>zügig handeln.</strong></p>
+  </div>
+
+  <h3 style="margin-top:26px">Was zusätzlich gilt</h3>
+  <ul class="levers">
+    <li>
+      <span class="lv-t">Kfz-Steuer</span>
+      <span class="lv-n">0 €</span>
+      <span class="lv-d">Für reine Elektroautos bis längstens 31.12.2035. Kein Antrag nötig, läuft automatisch. Als Halter bist du der Begünstigte.</span>
+    </li>
+    <li>
+      <span class="lv-t">THG-Quote</span>
+      <span class="lv-n">200–415 €</span>
+      <span class="lv-d">Pro Jahr, steuerfrei. Du musst Halter laut Fahrzeugschein sein — beim Privatleasing normalerweise ja. <strong>Frist: 15. November.</strong> Im Vertrag prüfen, dass die Quote nicht an den Leasinggeber abgetreten ist.</span>
+    </li>
+    <li>
+      <span class="lv-t">Mindestlaufzeit 36 Monate</span>
+      <span class="lv-n">Pflicht</span>
+      <span class="lv-d">Das Auto muss 36 Monate durchgehend auf dich zugelassen bleiben. Bei kürzeren Verträgen droht Rückforderung. Alle empfohlenen Angebote erfüllen das.</span>
+    </li>
+    <li>
+      <span class="lv-t">Kein Sozialleasing</span>
+      <span class="lv-n">—</span>
+      <span class="lv-d">Ein Programm nach französischem Vorbild (99 €/Monat) gibt es in Deutschland nicht. Der Grünen-Antrag wurde am 24.06.2026 abgelehnt. Für 2027 nur Absichtserklärungen. Nicht darauf warten.</span>
+    </li>
+  </ul>
+</section>
+
+<!-- ===================== 3 ===================== -->
+<section>
+  <h2><span class="num">03</span> Der größte Hebel ist nicht die Rate</h2>
+  <p class="sub">Als Fahranfänger startest du in SF 0 — Beitragssatz 200 bis 260 % des
+  Grundbeitrags. Zwischen der teuren und der schlauen Lösung liegen 1.100 € im Jahr.
+  Das ist mehr, als jede Verhandlung über die Leasingrate je bringt.</p>
+
+  <ul class="legend">
+    <li><span class="swatch" style="background:var(--copper)"></span>Leasing netto</li>
+    <li><span class="swatch" style="background:var(--blue)"></span>Versicherung</li>
+    <li><span class="swatch" style="background:var(--teal)"></span>Strom</li>
+  </ul>
+
+  <div class="chart-box">
+    <svg viewBox="0 0 700 226" role="img" aria-label="Vollkosten pro Monat: mit Zweitwagenregelung über die Eltern 317 Euro netto, mit eigenem Vertrag in SF 0 409 Euro netto. Differenz 92 Euro pro Monat.">
+      <g class="axis-t" text-anchor="middle">
+        <line x1="176" y1="34" x2="176" y2="152" stroke="var(--rule)"/>
+        <line x1="274" y1="34" x2="274" y2="152" stroke="var(--rule)"/>
+        <line x1="372" y1="34" x2="372" y2="152" stroke="var(--rule)"/>
+        <line x1="470" y1="34" x2="470" y2="152" stroke="var(--rule)"/>
+        <line x1="568" y1="34" x2="568" y2="152" stroke="var(--rule)"/>
+        <text x="176" y="26">0</text><text x="274" y="26">100</text><text x="372" y="26">200</text>
+        <text x="470" y="26">300</text><text x="568" y="26">400 €</text>
+      </g>
+
+      <!-- Zweitwagen: 224 + 75 + 43 = 342 brutto, 317 nach THG -->
+      <text class="bar-lab" x="0" y="56">Zweitwagen über Eltern</text>
+      <text class="bar-sub" x="0" y="70">Start in SF ½ statt SF 0</text>
+      <rect class="bar-anim" style="transform-origin:176px 0" x="176" y="48" width="219" height="24" rx="3" fill="var(--copper)"/>
+      <rect class="bar-anim" style="transform-origin:176px 0" x="397" y="48" width="73"  height="24" rx="3" fill="var(--blue)"/>
+      <rect class="bar-anim" style="transform-origin:176px 0" x="472" y="48" width="42"  height="24" rx="3" fill="var(--teal)"/>
+      <text class="bar-val" x="524" y="61" fill="var(--teal)">317 €</text>
+      <text class="bar-sub" x="524" y="73">342 − 25 THG</text>
+
+      <!-- SF0: 224 + 167 + 43 = 434 brutto, 409 nach THG -->
+      <text class="bar-lab" x="0" y="116">Eigener Vertrag, SF 0</text>
+      <text class="bar-sub" x="0" y="130">Fahranfänger-Einstufung</text>
+      <rect class="bar-anim" style="transform-origin:176px 0" x="176" y="108" width="219" height="24" rx="3" fill="var(--copper)"/>
+      <rect class="bar-anim" style="transform-origin:176px 0" x="397" y="108" width="164" height="24" rx="3" fill="var(--blue)"/>
+      <rect class="bar-anim" style="transform-origin:176px 0" x="563" y="108" width="42"  height="24" rx="3" fill="var(--teal)"/>
+      <text class="bar-val" x="615" y="121">409 €</text>
+      <text class="bar-sub" x="615" y="133">434 − 25 THG</text>
+
+      <text class="bar-sub" x="0" y="180" fill="var(--ink-2)">Beide Szenarien: Angebot D · Strom zu Hause bei 31 ct/kWh · THG-Prämie 300 €/Jahr gegengerechnet · Kfz-Steuer 0 €</text>
+      <text class="bar-val" x="0" y="205" fill="var(--copper)">Differenz: 92 € pro Monat — 1.100 € pro Jahr</text>
+    </svg>
+  </div>
+
+  <h3 style="margin-top:28px">Die Spartipps, nach Wirkung sortiert</h3>
+  <ul class="levers">
+    <li>
+      <span class="lv-t">Zweitwagen über die Eltern</span>
+      <span class="lv-n">~1.100 €</span>
+      <span class="lv-d">Der mit Abstand größte Hebel. Statt SF 0 startest du in SF ½. Voraussetzung: Die Eltern haben einen Erstwagen beim selben Versicherer, du wirst als Fahrer eingetragen. Pro Jahr.</span>
+    </li>
+    <li>
+      <span class="lv-t">SF-Klasse übertragen lassen</span>
+      <span class="lv-n">40–60 %</span>
+      <span class="lv-d">Gibt jemand in der Familie ein Auto ab, kann dessen Schadenfreiheitsklasse auf dich übertragen werden. Funktioniert auch von Großeltern.</span>
+    </li>
+    <li>
+      <span class="lv-t">Telematik-Tarif</span>
+      <span class="lv-n">bis 32 %</span>
+      <span class="lv-d">HUK Telematik Plus, Allianz BonusDrive, VHV Telematik. Ruhiges Fahren wird gemessen und belohnt. Ein dokumentiertes Beispiel: 1.250 € fallen auf 850 €.</span>
+    </li>
+    <li>
+      <span class="lv-t">Der Raval ist günstiger eingestuft als der Born</span>
+      <span class="lv-n">TK 16</span>
+      <span class="lv-d">Vollkasko-Typklasse 16 gegenüber 20 beim Born VZ. Bei einem Fahranfänger, wo die Vollkasko den Beitrag dominiert, ist das bares Geld — zusätzlich zu 10.000 € niedrigerem Listenpreis.</span>
+    </li>
+    <li>
+      <span class="lv-t">GAP-Deckung nicht vergessen</span>
+      <span class="lv-n">Pflicht</span>
+      <span class="lv-d">Bei Totalschaden zahlt die Vollkasko den Wiederbeschaffungswert, der Leasinggeber will den Restwert. Die Differenz trägst du. Muss ausdrücklich im Tarif stehen — nicht jeder günstige Tarif hat sie.</span>
+    </li>
+  </ul>
+</section>
+
+<!-- ===================== 4 ===================== -->
+<section>
+  <h2><span class="num">04</span> Kommst du mit 21 überhaupt an den Vertrag?</h2>
+  <p>Bei SEAT/CUPRA Leasing — einer Zweigniederlassung der Volkswagen Leasing GmbH — gilt
+  grundsätzlich ab 18. Volkswagen Leasing staffelt aber nach Fahrzeugklasse: <strong>19 Jahre</strong>
+  für Kleinwagen, <strong>21 Jahre</strong> für die Mittelklasse, <strong>23 Jahre</strong> für
+  höherwertige Fahrzeuge.</p>
+  <p>Der Raval fällt als Kleinwagen in die unterste Stufe und ist mit 21 unproblematisch.
+  Der Born als Kompaktklasse liegt genau an der Grenze — <strong>noch ein Grund für den Raval.</strong>
+  Entscheidend bleibt die Bonität: keine negativen SCHUFA-Einträge, regelmäßiges Einkommen im
+  gesunden Verhältnis zur Rate. In der Probezeit, als Azubi oder Student löst ein
+  <strong>Bürge oder Mitantragsteller</strong> das in aller Regel.</p>
+
+  <div class="flag good">
+    <h3>Warum Raval und nicht Born</h3>
+    <p>Der Born ist das schönere Auto, aber für dein Profil das schlechtere Geschäft:
+    10.000 € höherer Listenpreis, Vollkasko-Typklasse 20 statt 16, und bei der Altersstaffel
+    grenzwertig. Der Raval Endurance bietet mit <strong>211 PS mehr Leistung als der
+    Basis-Born mit 190 PS</strong> — bei deutlich niedrigeren Fixkosten.</p>
+  </div>
+</section>
+
+<!-- ===================== 5 ===================== -->
+<section>
+  <h2><span class="num">05</span> Kostenfallen im Vertrag</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Falle</th><th>Was passiert</th><th>Gegenmittel</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Restwertleasing</strong></td><td>Du haftest für den Marktwert bei Rückgabe</td><td>Nur <strong>Kilometerleasing</strong> unterschreiben</td></tr>
+        <tr><td><strong>Überführung</strong></td><td>1.100–1.600 €, oft klein gedruckt</td><td>Vorher erfragen — ist verhandelbar</td></tr>
+        <tr><td><strong>Mehrkilometer</strong></td><td>10–25 ct pro km</td><td>Knapp kalkulieren: Minderkilometer werden meist teilweise erstattet, Mehrkilometer sind teuer</td></tr>
+        <tr><td><strong>Rückgabeschäden</strong></td><td>Minderwert-Forderungen des Leasinggebers</td><td>Vorher alles fotografieren, innen und außen, Zeugen mitnehmen. Bei hohen Forderungen Gegengutachten</td></tr>
+        <tr><td><strong>Förderung vorstrecken</strong></td><td>6.000 € Anzahlung, Bescheid kommt nie</td><td>Erst Bescheid, dann Vertrag</td></tr>
+        <tr><td><strong>Laufzeit unter 36 Monaten</strong></td><td>BAFA fordert die Prämie zurück</td><td>Mindestens 36 Monate</td></tr>
+        <tr><td><strong>Auto-Abo statt Leasing</strong></td><td>Nicht förderfähig — du bist nicht Halter</td><td>Kein Abo, wenn du die Prämie willst</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Rechtlicher Maßstab bei der Rückgabe: Das Auto muss <strong>nicht</strong>
+  neuwertig sein. Normale Gebrauchsspuren, die Alter und Laufleistung entsprechen, sind nach
+  der Rechtsprechung keine übermäßige Abnutzung.</p>
+</section>
+
+<!-- ===================== 6 ===================== -->
+<section>
+  <h2><span class="num">06</span> Reihenfolge zum Abarbeiten</h2>
+  <p class="sub">Die ersten drei Schritte kosten nichts und entscheiden über mehr Geld als
+  die Wahl des Angebots.</p>
+  <ol class="steps">
+    <li class="hot"><span class="st">Mit den Eltern über die Zweitwagen-Lösung sprechen</span>
+      <span class="sd">Bevor du überhaupt ein Auto aussuchst. Entscheidet über 1.100 € im Jahr.</span></li>
+    <li class="hot"><span class="st">Steuerbescheide klären</span>
+      <span class="sd">Hast du zwei? Wenn nicht: freiwillige Steuererklärungen nachreichen. Das ist der wahrscheinlichste Grund, an dem die Förderung scheitert.</span></li>
+    <li class="hot"><span class="st">BundID beantragen</span>
+      <span class="sd">Online-Ausweisfunktion oder ELSTER-Zertifikat. Ohne die kein Förderantrag. Dauert.</span></li>
+    <li><span class="st">Bonität prüfen, ggf. Bürgen organisieren</span>
+      <span class="sd">SCHUFA-Selbstauskunft ist einmal im Jahr kostenlos.</span></li>
+    <li><span class="st">Beim Händler die eine Frage stellen</span>
+      <span class="sd">Ob die Prämie schon in der Rate steckt oder obendrauf kommt. Bei Angebot D ist die Antwort dokumentiert: sie kommt obendrauf.</span></li>
+    <li><span class="st">Vertrag prüfen</span>
+      <span class="sd">Kilometerleasing, mindestens 36 Monate, Überführungskosten, Mehrkilometer-Satz, THG-Quote nicht abgetreten.</span></li>
+    <li><span class="st">Nach der Zulassung: zwei Anträge</span>
+      <span class="sd">BAFA-Förderung (Frist 12 Monate nach Zulassung) und THG-Prämie (Frist 15. November).</span></li>
+  </ol>
+</section>
+
+<footer>
+  <p>Recherchiert am 4. September 2026 aus BAFA, BMUKN, Bundesregierung, Bundestag,
+  gesetze-im-internet.de, ADAC, cupra.com, leasingmarkt.de, carwow, autozeitung,
+  sparneuwagen, dieversicherer.de, AUTO BILD und ecomento.</p>
+  <p>Alle Angebote sind Momentaufnahmen vom 03./04.09.2026 und ändern sich täglich.
+  Vor Vertragsabschluss beim Händler verifizieren. Keine Rechts- oder Steuerberatung.</p>
+</footer>
+
+</div>

@@ -290,7 +290,50 @@ inklusive.** Konservativ 251 €/Monat. Wenn der Händler bestätigt, dass du di
 zusätzlich beantragen darfst, fällt es auf **112 €/Monat** — dann ist es mit Abstand das
 beste Angebot der ganzen Liste. **Genau das fragen.**
 
-### A oder D — die eigentliche Abwägung
+### Was am Tag 1 fällig ist
+
+Ohne größeres Startkapital fallen die beiden günstig aussehenden Angebote A und B weg.
+Die Überführung von rund 1.300 € fällt bei *jedem* Angebot an.
+
+| | Angebot | Anzahlung | + Überführung | = Tag 1 | |
+|---|---|---|---|---|---|
+| A | Endurance, 36 Mon. | 6.000 € | 1.300 € | **7.300 €** | nicht drin |
+| B | Plus, 36 Mon. | 6.000 € | 1.300 € | **7.300 €** | nicht drin |
+| D | Plus, 48 Mon. · CUPRA | 3.000 € | 1.300 € | **4.300 €** | nur wenn machbar |
+| **C** | **Endurance, 36 Mon.** | 0 € | 1.300 € | **1.300 €** | machbar |
+| **E** | **Plus, 48 Mon. · sofort** | 0 € | 1.300 € | **1.300 €** | machbar |
+
+**Ohne Anzahlung wird die Prämie zu echtem Geld.** Bei A streckst du 6.000 € vor und
+bekommst 5.000 € zurück — unterm Strich 1.000 € Verlust plus monatelang totes Kapital.
+Bei C zahlst du 1.300 € und bekommst, wenn die Förderung durchgeht, 5.000 € ausgezahlt.
+Du stehst nach dem ersten Jahr **3.700 € im Plus** statt im Minus.
+
+### Die drei bezahlbaren Angebote
+
+| | Angebot | Netto/Monat | GKF | Auto | Verfügbar |
+|---|---|---|---|---|---|
+| **C** | **Endurance, 36 Mon., Wartung inkl.** | **112–251 €** | **0,72** | 211 PS · 445 km | 03/2027 |
+| D | Plus, 48 Mon., Förderung sicher obendrauf | 224 € | 0,75 | 135 PS · 328 km | bis 30.09. |
+| E | Plus, 48 Mon., + Edge/Navi | 180–284 € | 0,95 | 135 PS · 328 km | sofort |
+
+**Die Regel:**
+- Bis März 2027 warten möglich → **C**. Bester Gesamtkostenfaktor, stärkeres Auto,
+  Wartung inklusive, nur 36 Monate Bindung, im schlechtesten Fall nur 27 € über D —
+  bei 3.000 € weniger Startkapital.
+- Sofort ein Auto nötig → **E**. Ebenfalls ohne Anzahlung, aber schwächeres
+  Preis-Leistungs-Verhältnis und vier Jahre Bindung.
+- 4.300 € sind aufzubringen → **D** bleibt die sicherste Rechnung, weil dort als
+  einzigem Angebot dokumentiert ist, dass die Prämie obendrauf kommt.
+
+### Noch ungeprüft: der Raval Basis
+
+Der **Raval Basis für 25.950 €** läuft laut CUPRA im **September 2026** an. In keiner
+der durchsuchten Datenbanken gab es dafür bereits Leasingangebote — die Portale listen
+bisher nur Plus, Endurance und VZ. Ein Auto 3.900 € unter dem Plus ergibt bei gleichem
+Leasingfaktor eine spürbar niedrigere Rate. **Beim Händler gezielt nach einer Kalkulation
+für den Basis ohne Anzahlung fragen.** Eine Zahl lässt sich dazu noch nicht nennen.
+
+### A oder D — die Abwägung, falls doch Kapital da ist
 
 Angebot A ist auf dem Papier klar besser: 21 € billiger pro Monat, 76 PS mehr,
 117 km mehr Reichweite, Wartung inklusive, und nur 36 statt 48 Monate Bindung.

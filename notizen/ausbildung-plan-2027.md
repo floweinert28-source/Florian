@@ -132,7 +132,8 @@ Wahrscheinlichkeit dazu. **Erst die Schichtfrage klären, dann einschreiben.**
 
 ### 🎯 Der Satz, den du ab Tag 1 sagen kannst
 
-> **„Ich arbeite Vollzeit bei GFV und studiere berufsbegleitend BWL."**
+> **„Ich arbeite Vollzeit bei GFV und studiere berufsbegleitend BWL mit
+> Schwerpunkt Banking und Finance."**
 
 Ab der Einschreibung wahr. Nicht in vier Jahren — **in ein paar Wochen.**
 Das war dein eigentliches Ziel, und es ist das Schnellste, was du erreichen
@@ -184,66 +185,82 @@ wählt man bewusst **unabhängig** vom unsicheren Teil. Wenn du das Studium ans
 Trading koppelst und das Trading nicht funktioniert, verlierst du beides
 gleichzeitig. Genau das soll die Absicherung ja verhindern.
 
-### Die Optionen
+### ✅ Entschieden: BWL mit Schwerpunkt Banking & Finance
 
-| Studiengang | Führt realistisch zu | Passt zu dir, weil |
-| --- | --- | --- |
-| **BWL mit Schwerpunkt Finance / Banking** | Bank, Versicherung, Vermögensverwaltung, Controlling, Finanzbuchhaltung | Finanznähe bleibt erhalten; Bilanzen, Bewertung, Zinsen und Makro helfen dir tatsächlich beim eigenen Trading (Fundamentalseite) |
-| **Wirtschaftsingenieurwesen** | Produktionsleitung, Arbeitsvorbereitung, Einkauf, Projektmanagement in der Industrie | Du arbeitest in einem Produktionsbetrieb und kennst Materialfluss und Auftragsplanung von innen. Objektiv die besten Gehalts- und Jobaussichten der Liste. |
-| **BWL (allgemein)** | Controlling, Einkauf, Vertrieb, Personal, Projektmanagement | Breiteste Option, überall einsetzbar, kein Festlegen |
-| **Logistik / Supply Chain** | Disposition, Produktionsplanung, Logistikleitung | Am nächsten an dem, was du heute schon tust |
+*„Finanzen und Märkte. Ich hasse Industriemaschinen und dieses Zeug."*
+Damit ist die Wahl klar — und eine zweite Sache gleich mit: **GFV ist ein
+Übergangsjob, kein Karriereweg.** Das Studium ist nicht nur Absicherung, es ist
+dein Ausstiegsticket aus der Produktion. Der interne Aufstieg bei GFV, der hier
+mal stand, ist damit gestrichen.
 
-### Meine Empfehlung: BWL mit Schwerpunkt Finance
+### 🚪 Du musst nicht sechs Jahre warten, um rauszukommen
 
-Nicht weil es dich zum Trader macht — das tut es nicht. Sondern weil:
+Das ist der Punkt, der die ganze Sache erträglich macht:
 
-1. **Es ist eine echte Absicherung.** BWL-Abschluss gilt in jeder Branche, in
-   jeder Stadt, unabhängig davon, was aus dem Trading wird.
-2. **Die Inhalte interessieren dich wirklich.** Zinsen, Bewertung, Märkte,
-   Bilanzen — das ist nicht weit weg von dem, womit du dich abends ohnehin
-   beschäftigst.
-3. **Und das ist der entscheidende Punkt:**
+**Nach ein bis zwei Jahren Studium** — nicht nach dem Abschluss — ist dein Profil
+*Fachhochschulreife + Vollzeitberufserfahrung + laufendes Studium Banking &
+Finance*. Das reicht für einen kaufmännischen Einstieg:
 
-> ### Das beste Studium ist das, das du nicht abbrichst.
->
-> Bei über 70 % Abbruchquote im Fernstudium ist Motivation wichtiger als die
-> objektiv beste Fachwahl. Wirtschaftsingenieurwesen bringt im Schnitt mehr
-> Gehalt — aber nur, wenn du es zu Ende bringst. Ein Fach, das dich abends nach
-> der Schicht noch interessiert, hat eine deutlich höhere Chance, fertig zu
-> werden.
+- Sparkasse / Volksbank vor Ort (Lindau, Friedrichshafen, Ravensburg)
+- Versicherungen, Finanzdienstleister
+- Finanzbuchhaltung, Backoffice, Sachbearbeitung
 
-Wenn dich Technik und Produktion mehr reizen als Finanzen: nimm
-Wirtschaftsingenieurwesen. Das ist keine schlechtere Wahl, im Gegenteil. Aber
-entscheide nach Interesse, nicht nach Nähe zum Trading — die gibt es nämlich
-in keinem der Fächer.
+**Ehrlich zur Rechnung:** Ein solcher Einstieg liegt oft bei 2.400–2.800 €
+brutto. Klingt nach mehr als jetzt — ist es aber vielleicht nicht, weil deine
+**steuerfreien Nachtzuschläge (§ 3b EStG) wegfallen**. Rechne das aus, bevor du
+wechselst. Was du dafür bekommst: Tagesrhythmus (deutlich besser fürs Studium),
+Branchenwechsel, und du bist raus aus der Halle.
 
-### Die Kostenfrage: 2.400 € oder 13.000 €
+Die Entscheidung triffst du in ein bis zwei Jahren, nicht heute. Aber es ist gut
+zu wissen, dass die Tür dann schon offensteht.
 
-Das ist die einzige echte Entscheidung, und sie hängt an **einer** Frage.
+### Die Anbieter — konkrete Shortlist
 
-| | Staatlich (zfh-Verbund, WINGS, o. ä.) | Privat (IU, AKAD, Wilhelm Büchner) |
-| --- | --- | --- |
-| **Kosten gesamt** | **ca. 2.400 €** (Semesterbeitrag 100–300 €, kaum Gebühren) | **12.500–15.000 €** |
-| Studienstart | meist 2× im Jahr (März/April, Sept./Okt.) | teils **monatlich** |
-| Klausuren | häufig **Präsenzprüfungen vor Ort** | **online**, flexible Termine |
-| Flexibilität | geringer, feste Termine | hoch |
+| Hochschule | Studiengang | Kosten | Klausuren | Start |
+| --- | --- | --- | --- | --- |
+| **IU Internationale Hochschule** | Finanzmanagement / BWL (B.Sc.) | **199–339 €/Mon** je nach Modell | **online, rund um die Uhr** | **monatlich** |
+| **AKAD University** | BWL – Banking und Finance (B.A.) | 199 €/Mon bei 72 Mon (14.328 € ges.); 48 Mon = 13.872 €; 36 Mon = 12.564 € | online | mehrmals jährlich |
+| **HFH Hamburger Fern-Hochschule** | Betriebswirtschaft (B.A.) | 12.600–15.600 € gesamt | **Präsenz** in Studienzentren — Süden: München, Stuttgart, Nürnberg, Freiburg | 2× jährlich |
+| **Euro-FH** | BWL / Finance | mittleres Segment | online + optionale Präsenzseminare | mehrmals jährlich |
+| **PFH Göttingen** | BWL, Schwerpunkt Banking | mittleres Segment | gemischt | 2× jährlich |
+| zfh-Verbund (staatlich) | BWL | **ca. 2.400 € gesamt** | **Präsenz, Schwerpunkt Rheinland-Pfalz** | 2× jährlich |
 
-**Der Unterschied sind rund 10.000 €.** Dafür kaufst du bei den privaten
-Flexibilität — und die ist bei rotierender Schicht nicht nichts.
+### 🏆 Empfehlung: IU, Modell mit der längsten Laufzeit
 
-> ### 🔑 Die Frage, die das entscheidet:
-> **Wie weit im Voraus kennst du deinen Schichtplan?**
->
-> - **3 Monate oder mehr** → du kannst Präsenzprüfungen einplanen und Urlaub
->   dafür nehmen. → **Staatlich. Spart dir 10.000 €.**
-> - **Nur wenige Wochen** → feste Prüfungstermine werden zum Dauerrisiko.
->   → **Privat mit Online-Klausuren.** Die 10.000 € kaufen dir, dass du das
->   Studium überhaupt zu Ende bringst.
+Der Preisunterschied zur staatlichen Option sieht nach 11.000 € aus. Er ist es
+aber nicht — weil die staatliche Option für dich praktisch nicht durchführbar
+ist:
 
-Zweiter Punkt bei staatlich: **Wo ist der Prüfungsort?** Der zfh-Verbund sitzt
-schwerpunktmäßig in Rheinland-Pfalz — von Lindau aus weit. Prüf zuerst
-Hochschulen mit Fernangeboten in erreichbarer Entfernung (Bayern,
-Baden-Württemberg) und frag dort nach dem Prüfungsort.
+- **zfh-Prüfungsorte liegen schwerpunktmäßig in Rheinland-Pfalz** — von Lindau
+  über 400 km. Für jede Klausur.
+- **HFH-Studienzentrum München** ist mit ~180 km die nächstbeste Präsenzoption.
+  Machbar, aber jeder Termin kostet dich einen Urlaubstag plus Fahrt — und muss
+  mit dem Schichtplan zusammenpassen.
+- **IU-Klausuren gehen online, rund um die Uhr.** Nach der Nachtschicht um 7 Uhr
+  morgens, am freien Sonntag, wann immer es passt. Das ist bei rotierender
+  Schicht kein Komfortmerkmal, sondern die Bedingung dafür, dass es überhaupt
+  funktioniert.
+
+Die Rechnung lautet also nicht „11.000 € sparen", sondern **„14.000 € zahlen
+oder gar nicht studieren"**. So gerechnet ist die IU die richtige Wahl.
+
+Dazu: **monatlicher Studienstart** — du kannst im Oktober oder November 2026
+anfangen, nicht erst im März. Und **vier Wochen kostenloses Probestudium** mit
+Rücktrittsrecht.
+
+### Was es dich wirklich kostet
+
+| Posten | € / Monat |
+| --- | --- |
+| Studiengebühr (längstes Modell) | **−199 €** |
+| Steuerersparnis (Sonderausgaben, ~2.400 €/Jahr bei ~25 %) | **+50 €** |
+| Fixkosten-Hebel aus Abschnitt 6 (Kfz-Versicherung, Strom, Handy, Konto) | **+50 bis +90 €** |
+| **Echte Mehrbelastung** | **ca. 60–100 €/Monat** |
+
+**Das Studium finanziert sich zu zwei Dritteln aus Dingen, die du ohnehin tun
+solltest.** Die verbleibenden 60–100 € sind bei einem Vollzeitgehalt mit
+Schichtzuschlägen tragbar — vorausgesetzt, du ziehst die Fixkosten-Hebel
+wirklich. Deshalb stehen sie in Abschnitt 9 gleichberechtigt neben dem Studium.
 
 ### Tempo: lieber langsam starten
 
@@ -1622,16 +1639,18 @@ studieren.** Alles andere ist damit vom Tisch.
 
 ### Studium (Hauptspur)
 
-- [ ] **Schichtplan-Vorlauf klären** — wie viele Wochen im Voraus kennst du ihn?
-      Entscheidet staatlich (2.400 €, Präsenzklausuren) vs. privat (13.000 €,
-      online).
-- [ ] **3–4 Hochschulen anschreiben** — Wirtschaftsinformatik B.Sc.,
-      berufsbegleitend, längstes Teilzeitmodell. Je Hochschule fragen:
-      Fachhochschulreife ausreichend? Online- oder Präsenzklausuren?
-      Prüfungsort? Nächster Studienstart? Wechsel des Zeitmodells möglich?
-- [ ] **GFV fragen** — Unterstützung für berufsbegleitendes Studium?
+- [ ] **IU-Infomaterial anfordern** — Bachelor Finanzmanagement **oder** BWL mit
+      Schwerpunkt Banking & Finance, längstes Teilzeitmodell (72 Monate,
+      ~199 €/Mon). Fragen: Reicht die Fachhochschulreife? (bei einer FH ja,
+      schriftlich geben lassen.) Nächster Studienstart? Modellwechsel später
+      möglich?
+- [ ] **Zum Vergleich AKAD anfragen** — BWL Banking und Finance (B.A.),
+      72-Monats-Variante. Zweitangebot schadet nie.
+- [ ] **Probestudium starten** (4 Wochen kostenlos, Rücktrittsrecht) —
+      **bevor** du irgendetwas unterschreibst
+- [ ] **Im ersten Semester ein Modul**, nicht drei
+- [ ] **GFV fragen**: Unterstützung für berufsbegleitendes Studium?
       Bildungsurlaub vor Klausuren, Kostenbeteiligung, Schichtrücksicht?
-- [ ] **Probestudium starten**, sobald eine Hochschule feststeht
 
 ### Fixkosten (parallel, unabhängig vom Studium)
 
@@ -1688,6 +1707,9 @@ studieren.** Alles andere ist damit vom Tisch.
 - Fernstudienkosten und Abbruchquoten: FernUni Hagen, fernstudi.net
 - Mindestlohn 2026/2027 (13,90 € / 14,60 €): DGB, IG Metall, Bundesregierung
 - Aufstiegs-BAföG (AFBG) 2026: Bundesregierung, studierenplus.de
+- Fernstudienanbieter BWL/Banking & Finance, Kosten und Modelle:
+  AKAD University, IU, HFH, PFH, fernstudi.net, karriere.de
+- Einstiegswege Finanzbranche: e-fellows.net, karrieresprung.de
 - Externenprüfung § 45 Abs. 2 BBiG: IHK Nord Westfalen, IHK Schwaben,
   Handelskammer Hamburg, gesetze-im-internet.de
 - Steuerfreie Zuschläge § 3b EStG: lohn-info.de, NWB Gesetze, hr-rocket.com

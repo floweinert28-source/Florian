@@ -1,0 +1,2262 @@
+<title>Orderflow lesen lernen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#F2F2F5; --surface:#FFFFFF; --surface-2:#F7F7F9; --surface-3:#ECECF0;
+  --ink:#16161A; --ink-2:#5B5B63; --ink-3:#8E8E96;
+  --line:#E2E2E8; --line-2:#CFCFD8;
+  --accent:#0071E3; --accent-ink:#0062C4; --accent-soft:#E9F2FD;
+  --bid:#1F9D5C; --bid-soft:#E5F5EC;
+  --ask:#D93A3F; --ask-soft:#FBE9EA;
+  --gamma:#7C3FBF; --gamma-soft:#F2EAFB;
+  --warn:#A66A00; --warn-soft:#FBF1DE;
+  --r:14px; --r-sm:9px;
+  --shadow:0 1px 2px rgba(22,22,30,.05), 0 10px 26px rgba(22,22,30,.05);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Figtree","Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --ground:#09090B; --surface:#151519; --surface-2:#1C1C21; --surface-3:#25252B;
+  --ink:#F4F4F7; --ink-2:#A5A5AE; --ink-3:#76767F;
+  --line:#2A2A31; --line-2:#3A3A43;
+  --accent:#3B9EFF; --accent-ink:#7CBEFF; --accent-soft:#122439;
+  --bid:#3DD68C; --bid-soft:#10291D;
+  --ask:#FF6369; --ask-soft:#31161A;
+  --gamma:#C08BF0; --gamma-soft:#241A33;
+  --warn:#E5A13A; --warn-soft:#2E2312;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#09090B; --surface:#151519; --surface-2:#1C1C21; --surface-3:#25252B;
+  --ink:#F4F4F7; --ink-2:#A5A5AE; --ink-3:#76767F;
+  --line:#2A2A31; --line-2:#3A3A43;
+  --accent:#3B9EFF; --accent-ink:#7CBEFF; --accent-soft:#122439;
+  --bid:#3DD68C; --bid-soft:#10291D;
+  --ask:#FF6369; --ask-soft:#31161A;
+  --gamma:#C08BF0; --gamma-soft:#241A33;
+  --warn:#E5A13A; --warn-soft:#2E2312;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{text-wrap:balance; letter-spacing:-.021em; line-height:1.18; margin:0}
+p{margin:0}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
+
+/* ---------- shell ---------- */
+.shell{display:grid; grid-template-columns:272px minmax(0,1fr); min-height:100vh}
+.side{
+  border-right:1px solid var(--line); background:var(--surface);
+  position:sticky; top:0; height:100vh; overflow-y:auto; padding:26px 16px 32px;
+}
+.brand{display:flex; flex-direction:column; gap:2px; padding:0 10px 18px}
+.brand b{font-size:17px; font-weight:700; letter-spacing:-.02em}
+.brand span{font-size:12.5px; color:var(--ink-3)}
+.navgroup{margin-top:18px; padding:0 10px 6px; font-size:11px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3)}
+.navlist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px}
+.navlist button{
+  width:100%; display:flex; align-items:center; gap:10px; text-align:left;
+  font:inherit; font-size:14.5px; color:var(--ink-2); background:none; border:0;
+  padding:8px 10px; border-radius:9px; cursor:pointer; line-height:1.35;
+}
+.navlist button:hover{background:var(--surface-2); color:var(--ink)}
+.navlist button[aria-current="true"]{background:var(--accent-soft); color:var(--accent-ink); font-weight:600}
+.navnum{
+  flex:0 0 21px; height:21px; display:grid; place-items:center; border-radius:6px;
+  background:var(--surface-3); color:var(--ink-3); font-size:11px; font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+.navlist button[aria-current="true"] .navnum{background:var(--accent); color:#fff}
+.progwrap{margin:22px 10px 0; padding-top:18px; border-top:1px solid var(--line)}
+.progtop{display:flex; justify-content:space-between; font-size:12px; color:var(--ink-3); margin-bottom:7px}
+.progbar{height:5px; border-radius:99px; background:var(--surface-3); overflow:hidden}
+.progbar i{display:block; height:100%; width:0; background:var(--accent); border-radius:99px; transition:width .35s ease}
+
+.topbar{display:none}
+
+/* ---------- main ---------- */
+main{padding-block:56px; padding-inline:40px; display:flex; justify-content:center}
+.col{width:100%; max-width:760px; display:flex; flex-direction:column; gap:40px}
+section[hidden]{display:none !important}
+.chapter{display:flex; flex-direction:column; gap:38px; animation:rise .32s ease both}
+@keyframes rise{from{opacity:.45; transform:translateY(6px)} to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:reduce){.chapter{animation:none}}
+
+.eyebrow{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+.chapter > header{display:flex; flex-direction:column; gap:12px}
+.chapter h2{font-size:40px; font-weight:800; letter-spacing:-.032em}
+.lede{font-size:20px; line-height:1.5; color:var(--ink-2)}
+.block{display:flex; flex-direction:column; gap:16px}
+.block h3{font-size:25px; font-weight:700}
+.block h4{font-size:18px; font-weight:700}
+.block p{font-size:17px}
+.block ul,.block ol{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:9px}
+.block li::marker{color:var(--ink-3)}
+strong{font-weight:650}
+.kbd{font-family:var(--mono); font-size:.87em; background:var(--surface-3); padding:1px 6px; border-radius:5px}
+
+/* ---------- components ---------- */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px}
+.grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px}
+
+.note{border-left:3px solid var(--accent); background:var(--accent-soft); padding:16px 18px;
+  border-radius:0 var(--r-sm) var(--r-sm) 0; display:flex; flex-direction:column; gap:7px}
+.note.warn{border-left-color:var(--warn); background:var(--warn-soft)}
+.note.kid{border-left-color:var(--bid); background:var(--bid-soft)}
+.note b{font-size:13px; letter-spacing:.04em; text-transform:uppercase}
+.note.warn b{color:var(--warn)} .note.kid b{color:var(--bid)} .note b{color:var(--accent-ink)}
+.note p{font-size:16px; color:var(--ink)}
+
+figure{margin:0; display:flex; flex-direction:column; gap:11px}
+figure svg{width:100%; height:auto; display:block; border-radius:var(--r-sm)}
+.figbox{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px}
+figcaption{font-size:14px; color:var(--ink-2); line-height:1.5}
+svg{font-family:var(--sans)}
+
+.pill{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:650;
+  padding:3px 10px; border-radius:99px; background:var(--surface-3); color:var(--ink-2)}
+.pill.bid{background:var(--bid-soft); color:var(--bid)}
+.pill.ask{background:var(--ask-soft); color:var(--ask)}
+.pill.gam{background:var(--gamma-soft); color:var(--gamma)}
+
+table{width:100%; border-collapse:collapse; font-size:15.5px}
+.tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--r); background:var(--surface)}
+th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); font-weight:700}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums; font-family:var(--mono); font-size:14px}
+
+.steps{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:2px}
+.steps li{display:grid; grid-template-columns:26px 1fr; gap:13px; padding:10px 0; border-bottom:1px solid var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps .n{width:24px; height:24px; border-radius:7px; background:var(--surface-3); color:var(--ink-2);
+  display:grid; place-items:center; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums}
+
+.check{display:flex; gap:12px; align-items:flex-start; padding:11px 14px; background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--r-sm); cursor:pointer}
+.check:hover{border-color:var(--line-2)}
+.check input{margin:4px 0 0; width:17px; height:17px; accent-color:var(--accent); flex:0 0 auto; cursor:pointer}
+.check span{font-size:15.5px; line-height:1.45}
+.check input:checked + span{color:var(--ink-3); text-decoration:line-through}
+.checklist{display:flex; flex-direction:column; gap:7px}
+
+.setup{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.setup > .head{display:flex; align-items:center; gap:11px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--surface-2)}
+.setup > .head .n{width:25px; height:25px; border-radius:7px; background:var(--accent); color:#fff;
+  display:grid; place-items:center; font-size:12.5px; font-weight:700}
+.setup > .head b{font-size:17px; font-weight:700}
+.setup .body{padding:20px; display:flex; flex-direction:column; gap:16px}
+.kv{display:grid; grid-template-columns:118px 1fr; gap:6px 14px; font-size:15.5px}
+.kv dt{font-weight:650; color:var(--ink-2)}
+.kv dd{margin:0}
+
+.footer-nav{display:flex; justify-content:space-between; gap:12px; padding-top:26px; border-top:1px solid var(--line)}
+.fbtn{font:inherit; font-size:15px; font-weight:600; background:var(--surface); color:var(--ink);
+  border:1px solid var(--line); border-radius:99px; padding:10px 20px; cursor:pointer; box-shadow:var(--shadow)}
+.fbtn:hover{border-color:var(--line-2)}
+.fbtn.primary{background:var(--accent); color:#fff; border-color:transparent}
+.fbtn.primary:hover{filter:brightness(1.07)}
+.fbtn[disabled]{opacity:.35; cursor:default; box-shadow:none}
+
+/* DOM ladder */
+.dom{font-family:var(--mono); font-size:14px; font-variant-numeric:tabular-nums;
+  border:1px solid var(--line); border-radius:var(--r-sm); overflow-x:auto; background:var(--surface)}
+.dom .row{min-width:390px}
+.dom .b,.dom .a{white-space:nowrap}
+.dom .row{display:grid; grid-template-columns:1fr 86px 1fr; align-items:center; border-bottom:1px solid var(--line)}
+.dom .row:last-child{border-bottom:0}
+.dom .row.mid{background:var(--surface-2)}
+.dom .b,.dom .a{padding:7px 12px}
+.dom .b{text-align:right; color:var(--bid)}
+.dom .a{color:var(--ask)}
+.dom .px{text-align:center; padding:7px 0; font-weight:700; border-inline:1px solid var(--line)}
+.dom .bar{display:inline-block; height:10px; border-radius:2px; vertical-align:middle; margin-inline:6px}
+.dom .b .bar{background:var(--bid); opacity:.28}
+.dom .a .bar{background:var(--ask); opacity:.28}
+
+/* footprint */
+.fp{display:grid; grid-template-columns:64px repeat(3,1fr); gap:4px; min-width:400px; font-family:var(--mono); font-size:13px;
+  font-variant-numeric:tabular-nums}
+.fp .px{display:grid; place-items:center; font-weight:700; color:var(--ink-2); background:var(--surface-2); border-radius:5px}
+.fp .cell{display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:5px; overflow:hidden; background:var(--surface)}
+.fp .cell span{padding:6px 8px; text-align:center}
+.fp .cell .bidv{color:var(--ink-2); border-right:1px solid var(--line)}
+.fp .cell .askv{color:var(--ink-2)}
+.fp .cell.imb-a{border-color:var(--ask)} .fp .cell.imb-a .askv{background:var(--ask-soft); color:var(--ask); font-weight:700}
+.fp .cell.imb-b{border-color:var(--bid)} .fp .cell.imb-b .bidv{background:var(--bid-soft); color:var(--bid); font-weight:700}
+.fphead{display:grid; grid-template-columns:64px repeat(3,1fr); gap:4px; min-width:400px; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:700; margin-bottom:5px}
+.fphead div{text-align:center}
+
+/* glossary */
+.gloss{display:flex; flex-direction:column; gap:0}
+.gloss div{display:grid; grid-template-columns:186px 1fr; gap:16px; padding:12px 0; border-bottom:1px solid var(--line); font-size:15.5px}
+.gloss div:last-child{border-bottom:0}
+.gloss b{font-weight:650}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{position:fixed; inset:0 auto 0 0; width:284px; z-index:40; transform:translateX(-102%);
+    transition:transform .26s ease; box-shadow:0 0 40px rgba(0,0,0,.18)}
+  .side.open{transform:none}
+  .topbar{display:flex; position:sticky; top:0; z-index:30; align-items:center; gap:12px;
+    padding:11px 16px; background:color-mix(in srgb, var(--surface) 86%, transparent);
+    backdrop-filter:saturate(180%) blur(14px); border-bottom:1px solid var(--line)}
+  .topbar button{font:inherit; font-size:14px; font-weight:600; background:var(--surface-2);
+    border:1px solid var(--line); border-radius:99px; padding:7px 15px; color:var(--ink); cursor:pointer}
+  .topbar .now{font-size:14px; color:var(--ink-3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .scrim{position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:35; display:none}
+  .scrim.on{display:block}
+  main{padding-block:34px; padding-inline:20px}
+  .chapter h2{font-size:31px}
+  .lede{font-size:18px}
+  body{font-size:16.5px}
+  .kv{grid-template-columns:1fr; gap:2px 0}
+  .kv dd{margin-bottom:8px}
+  .gloss div{grid-template-columns:1fr; gap:3px}
+}
+</style>
+
+<div class="topbar">
+  <button id="menuBtn" aria-expanded="false">☰ Kapitel</button>
+  <span class="now" id="nowTitle">Start hier</span>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<div class="shell">
+<nav class="side" id="side" aria-label="Kapitel">
+  <div class="brand"><b>Orderflow lesen lernen</b><span>Vom Orderbuch bis zu den Gamma-Levels</span></div>
+  <div class="navgroup">Anfang</div>
+  <ul class="navlist" id="nav1"></ul>
+  <div class="navgroup">Grundlagen</div>
+  <ul class="navlist" id="nav2"></ul>
+  <div class="navgroup">Die Werkzeuge</div>
+  <ul class="navlist" id="nav3"></ul>
+  <div class="navgroup">Lesen lernen</div>
+  <ul class="navlist" id="nav4"></ul>
+  <div class="navgroup">Handeln</div>
+  <ul class="navlist" id="nav5"></ul>
+  <div class="navgroup">Dein Weg</div>
+  <ul class="navlist" id="nav6"></ul>
+  <div class="progwrap">
+    <div class="progtop"><span>Lernfortschritt</span><span id="progTxt">0 / 0</span></div>
+    <div class="progbar"><i id="progBar"></i></div>
+  </div>
+</nav>
+
+<main><div class="col" id="col">
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--ink)"/></marker>
+    <marker id="arG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--bid)"/></marker>
+    <marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--ask)"/></marker>
+    <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--accent)"/></marker>
+    <marker id="arV" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--gamma)"/></marker>
+    <marker id="arM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--ink-3)"/></marker>
+  </defs>
+</svg>
+
+<!-- ===================== 0 START ===================== -->
+<section id="k0" class="chapter" data-title="Start hier" data-group="1">
+  <header>
+    <div class="eyebrow">Kapitel 0</div>
+    <h2>Start hier</h2>
+    <p class="lede">Diese Seite erklärt dir alles, was du für Orderflow-Trading brauchst — in der Reihenfolge, in der du es lernen solltest. Von ganz vorne. Ohne Fachchinesisch.</p>
+  </header>
+
+  <div class="block">
+    <h3>Die eine Sache, die du zuerst verstehen musst</h3>
+    <p>Heatmap, TPO, Delta, Gamma-Levels — <strong>keines dieser Werkzeuge sagt dir, wohin der Preis geht.</strong> Wer eines davon allein benutzt, handelt Zufall.</p>
+    <p>Ein echter Vorteil entsteht erst, wenn du vier Dinge nacheinander abarbeitest. Immer in dieser Reihenfolge. Fehlt ein Glied, gibt es keinen Trade.</p>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 152" role="img" aria-label="Vier Schritte in Reihe: Kontext, Level, Trigger, Risiko. Jeder Schritt beantwortet eine Frage, und nur wenn alle vier beantwortet sind, entsteht ein Trade.">
+          <g>
+            <rect x="4" y="34" width="150" height="60" rx="12" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="79" y="60" text-anchor="middle" font-size="15" font-weight="700" fill="var(--accent-ink)">Kontext</text>
+            <text x="79" y="79" text-anchor="middle" font-size="12" fill="var(--ink-2)">Wo sind wir?</text>
+
+            <rect x="192" y="34" width="150" height="60" rx="12" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1.5"/>
+            <text x="267" y="60" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">Level</text>
+            <text x="267" y="79" text-anchor="middle" font-size="12" fill="var(--ink-2)">Wo genau?</text>
+
+            <rect x="380" y="34" width="150" height="60" rx="12" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1.5"/>
+            <text x="455" y="60" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">Trigger</text>
+            <text x="455" y="79" text-anchor="middle" font-size="12" fill="var(--ink-2)">Passiert es?</text>
+
+            <rect x="568" y="34" width="148" height="60" rx="12" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1.5"/>
+            <text x="642" y="60" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">Risiko</text>
+            <text x="642" y="79" text-anchor="middle" font-size="12" fill="var(--ink-2)">Was kostet Irrtum?</text>
+          </g>
+          <g stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)" opacity=".55">
+            <line x1="158" y1="64" x2="185" y2="64"/>
+            <line x1="346" y1="64" x2="373" y2="64"/>
+            <line x1="534" y1="64" x2="561" y2="64"/>
+          </g>
+          <text x="4" y="20" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing="1.2">DIE KETTE — JEDES GLIED IST PFLICHT</text>
+          <text x="4" y="126" font-size="12.5" fill="var(--ink-2)">TPO &amp; Profile</text>
+          <text x="192" y="126" font-size="12.5" fill="var(--ink-2)">Heatmap, LVN, GEX</text>
+          <text x="380" y="126" font-size="12.5" fill="var(--ink-2)">Footprint, CVD, Tape</text>
+          <text x="568" y="126" font-size="12.5" fill="var(--ink-2)">Stop, Größe, Ziel</text>
+        </svg>
+      </div>
+      <figcaption>Unten steht, welches Werkzeug welchen Schritt beantwortet. Die Werkzeuge sind austauschbar — die Reihenfolge nicht.</figcaption>
+    </figure>
+
+    <div class="note kid">
+      <b>So einfach ist es wirklich</b>
+      <p>Stell dir vor, du willst ein Fußballspiel vorhersagen. <strong>Kontext</strong> = welche Liga, wer ist stärker. <strong>Level</strong> = der Strafraum, wo Tore fallen. <strong>Trigger</strong> = der Stürmer holt tatsächlich zum Schuss aus. <strong>Risiko</strong> = wie viel du setzt, falls er danebenschießt. Niemand wettet beim Anpfiff einfach so.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Wie du diese Seite benutzt</h3>
+    <ul class="steps">
+      <li><span class="n">1</span><span>Lies die Kapitel <strong>der Reihe nach</strong>. Kapitel 9 ergibt ohne Kapitel 1 keinen Sinn.</span></li>
+      <li><span class="n">2</span><span>Jedes Kapitel hat Bilder. Schau dir das Bild an, <em>bevor</em> du den Text liest.</span></li>
+      <li><span class="n">3</span><span>In Kapitel 13 steht dein 12-Wochen-Plan zum Abhaken. Dein Fortschritt wird gespeichert.</span></li>
+      <li><span class="n">4</span><span>Kapitel 14 ist das Glossar — zum Nachschlagen, wenn dir ein Wort fehlt.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Was du morgen als Erstes tust</h3>
+    <p>Nicht traden. Nicht einen einzigen Klick. Du machst genau drei Dinge:</p>
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-step="start-1"><span>Kapitel 1 und 2 dieser Seite lesen — Auktion und Orderbuch.</span></label>
+      <label class="check"><input type="checkbox" data-step="start-2"><span>Deinen Chart aufmachen und eine Stunde lang <strong>nur zuschauen</strong>. Nichts einzeichnen, nichts anklicken.</span></label>
+      <label class="check"><input type="checkbox" data-step="start-3"><span>Ein Notizbuch anlegen (Papier oder Datei). Da kommt ab morgen jeden Tag ein Satz rein: was habe ich heute im Markt gesehen?</span></label>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 1 AUKTION ===================== -->
+<section id="k1" class="chapter" data-title="Der Markt ist eine Auktion" data-group="2" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 1 · Grundlagen</div>
+    <h2>Der Markt ist eine Auktion</h2>
+    <p class="lede">Das nennt man <strong>Auction Market Theory</strong> (AMT). Es ist das Fundament unter TPO, Volume Profile und allem anderen. Und es ist einfacher, als der Name klingt.</p>
+  </header>
+
+  <div class="block">
+    <h3>Der Wochenmarkt</h3>
+    <p>Ein Bauer steht mit Erdbeeren auf dem Markt. Er ruft: „5 Euro!“ Keiner kauft. Er ruft: „4 Euro!“ Immer noch keiner. Bei 3 Euro greifen die ersten zu. Bei 2,50 € ist der Stand leer.</p>
+    <p>Das war eine Auktion. Der Bauer hat den Preis <strong>gesenkt, bis Geschäft zustande kam</strong>. Genau das macht der Markt den ganzen Tag — nach oben und nach unten.</p>
+    <p>Und jetzt das Wichtigste: Bei 3 Euro wurde am meisten verkauft. <strong>3 Euro war der faire Preis.</strong> 5 Euro war zu teuer, 2,50 € war verschenkt. Der Markt hat durch Ausprobieren herausgefunden, wo der Wert liegt.</p>
+    <div class="note kid">
+      <b>Merksatz</b>
+      <p><strong>Preis</strong> ist, was gerade auf dem Schild steht. <strong>Wert</strong> ist, wo tatsächlich viel gehandelt wurde. Die beiden sind fast nie gleich — und aus dem Abstand zwischen ihnen entsteht jeder Trade.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Der Markt kann nur zwei Dinge tun</h3>
+    <p>Wirklich nur zwei. Alles, was du je im Chart siehst, ist eines von beiden:</p>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 290" role="img" aria-label="Zwei Marktzustände nebeneinander: links Balance, wo der Preis seitwärts läuft und ein breites Volumenprofil bildet; rechts Ungleichgewicht, wo der Preis schnell steigt und nur ein dünnes Profil hinterlässt.">
+          <text x="0" y="16" font-size="12.5" font-weight="700" fill="var(--ink-3)" letter-spacing="1">A · BALANCE — der Markt baut Wert</text>
+          <rect x="0" y="26" width="340" height="200" rx="10" fill="var(--surface-2)" stroke="var(--line)"/>
+          <line x1="16" y1="126" x2="250" y2="126" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 4" opacity=".7"/>
+          <polyline points="20,150 40,104 58,146 76,110 94,152 112,118 130,144 148,106 166,148 184,120 202,140 220,112 238,146"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          <g fill="var(--accent)" opacity=".5">
+            <rect x="256" y="98" width="20" height="10" rx="2"/><rect x="256" y="110" width="44" height="10" rx="2"/>
+            <rect x="256" y="122" width="66" height="10" rx="2"/><rect x="256" y="134" width="48" height="10" rx="2"/>
+            <rect x="256" y="146" width="26" height="10" rx="2"/><rect x="256" y="86" width="12" height="10" rx="2"/>
+          </g>
+          <text x="256" y="176" font-size="11.5" fill="var(--ink-2)">viel Volumen</text>
+          <text x="256" y="190" font-size="11.5" fill="var(--ink-2)">auf engem Raum</text>
+          <text x="16" y="212" font-size="13" font-weight="650" fill="currentColor">Preis geht hin und her</text>
+
+          <text x="380" y="16" font-size="12.5" font-weight="700" fill="var(--ink-3)" letter-spacing="1">B · UNGLEICHGEWICHT — der Markt sucht</text>
+          <rect x="380" y="26" width="340" height="200" rx="10" fill="var(--surface-2)" stroke="var(--line)"/>
+          <polyline points="398,196 418,188 438,192 458,160 478,150 498,112 518,102 538,70 558,62 578,52"
+            fill="none" stroke="var(--bid)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+          <g fill="var(--bid)" opacity=".5">
+            <rect x="596" y="48" width="14" height="10" rx="2"/><rect x="596" y="72" width="10" height="10" rx="2"/>
+            <rect x="596" y="96" width="16" height="10" rx="2"/><rect x="596" y="120" width="9" height="10" rx="2"/>
+            <rect x="596" y="144" width="13" height="10" rx="2"/><rect x="596" y="168" width="11" height="10" rx="2"/>
+            <rect x="596" y="186" width="30" height="10" rx="2"/>
+          </g>
+          <text x="596" y="212" font-size="11.5" fill="var(--ink-2)">kaum Volumen</text>
+          <text x="596" y="226" font-size="11.5" fill="var(--ink-2)">pro Preis</text>
+          <text x="396" y="212" font-size="13" font-weight="650" fill="var(--bid)">Preis läuft weg</text>
+
+          <text x="0" y="256" font-size="13.5" fill="currentColor" font-weight="650">Balance = Preis ist akzeptiert.</text>
+          <text x="0" y="276" font-size="13.5" fill="var(--ink-2)">Es wird gehandelt, niemand muss weg.</text>
+          <text x="380" y="256" font-size="13.5" fill="currentColor" font-weight="650">Ungleichgewicht = Preis wird abgelehnt.</text>
+          <text x="380" y="276" font-size="13.5" fill="var(--ink-2)">Eine Seite muss unbedingt handeln.</text>
+        </svg>
+      </div>
+      <figcaption>Rechts neben jedem Chart ist das Volumenprofil eingezeichnet — die gleiche Bewegung, einmal als Linie, einmal als „wie viel wurde hier gehandelt“. Balance macht einen dicken Bauch, Ungleichgewicht eine dünne Spur.</figcaption>
+    </figure>
+
+    <ul>
+      <li><strong>Balance (Gleichgewicht).</strong> Käufer und Verkäufer sind sich einig. Der Preis pendelt in einem Bereich. Das ist der Normalzustand — ungefähr 70–80 % der Zeit.</li>
+      <li><strong>Ungleichgewicht.</strong> Eine Seite ist ungeduldig. Der Preis schießt weg und sucht den nächsten Bereich, in dem wieder gehandelt wird.</li>
+    </ul>
+    <p>Nach einem Ungleichgewicht folgt immer wieder eine Balance. Nach einer Balance folgt irgendwann ein Ausbruch. <strong>Der Markt atmet.</strong> Dein ganzer Job besteht darin zu erkennen, in welcher Phase du gerade bist.</p>
+  </div>
+
+  <div class="block">
+    <h3>Die zwei Bewegungsrichtungen</h3>
+    <div class="grid2">
+      <div class="card">
+        <span class="pill">↕ Vertikal</span>
+        <h4 style="margin-top:10px">Preis suchen</h4>
+        <p style="font-size:15.5px; color:var(--ink-2); margin-top:6px">Der Markt bewegt sich schnell nach oben oder unten, weil beim aktuellen Preis niemand mehr handeln will. Er sucht nach Gegenseite. Wenig Volumen, viel Weg.</p>
+      </div>
+      <div class="card">
+        <span class="pill">↔ Horizontal</span>
+        <h4 style="margin-top:10px">Wert bilden</h4>
+        <p style="font-size:15.5px; color:var(--ink-2); margin-top:6px">Der Markt bleibt auf einem Niveau und handelt dort viel. Beide Seiten finden den Preis in Ordnung. Viel Volumen, wenig Weg.</p>
+      </div>
+    </div>
+    <div class="note">
+      <b>Die eine Frage</b>
+      <p>Jedes Werkzeug in dieser Seite beantwortet am Ende nur eine einzige Frage: <strong>Wird dieser Preis gerade akzeptiert oder abgelehnt?</strong> Akzeptiert = es wird dort viel und lange gehandelt. Abgelehnt = der Markt rauscht durch und kommt nicht wieder.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Wer handelt da eigentlich?</h3>
+    <p>Dalton nennt sie „die anderen Zeitrahmen“. Für dich reichen zwei Gruppen:</p>
+    <ul>
+      <li><strong>Kurzfrist-Teilnehmer</strong> — Market Maker, Scalper, Algorithmen. Sie halten nichts über Nacht, sie verdienen am Spread und an der Bewegung. Sie sorgen für das Hin und Her in der Balance.</li>
+      <li><strong>Langfrist-Teilnehmer</strong> — Fonds, Versicherungen, große Adressen. Sie interessiert ein Tick nicht. Wenn sie kommen, bricht die Balance, weil sie zu jedem Preis kaufen oder verkaufen <em>müssen</em>.</li>
+    </ul>
+    <p>Eine Bewegung, die hält, kommt fast immer daher, dass ein Langfrist-Teilnehmer eingestiegen ist. Genau das willst du im Orderflow sehen.</p>
+  </div>
+</section>
+
+<!-- ===================== 2 ORDERBUCH ===================== -->
+<section id="k2" class="chapter" data-title="Das Orderbuch" data-group="2" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 2 · Grundlagen</div>
+    <h2>Das Orderbuch</h2>
+    <p class="lede">Hier entsteht jeder einzelne Preis. Wenn du dieses Kapitel verstehst, verstehst du danach auch die Heatmap — denn die Heatmap ist nichts anderes als das Orderbuch mit Zeitachse.</p>
+  </header>
+
+  <div class="block">
+    <h3>Es gibt nur zwei Arten von Aufträgen</h3>
+    <div class="grid2">
+      <div class="card" style="border-color:var(--line-2)">
+        <span class="pill bid">Limit-Order · passiv</span>
+        <h4 style="margin-top:10px">„Ich warte auf meinen Preis“</h4>
+        <p style="font-size:15.5px; color:var(--ink-2); margin-top:6px">Du legst deinen Auftrag ins Buch und wartest. Du bekommst deinen Wunschpreis — aber nur, wenn jemand zu dir kommt. Vielleicht passiert nie etwas.</p>
+        <p style="font-size:15.5px; margin-top:10px"><strong>Du gibst Liquidität.</strong></p>
+      </div>
+      <div class="card" style="border-color:var(--line-2)">
+        <span class="pill ask">Market-Order · aggressiv</span>
+        <h4 style="margin-top:10px">„Ich will sofort rein“</h4>
+        <p style="font-size:15.5px; color:var(--ink-2); margin-top:6px">Du nimmst, was gerade da ist. Du wirst garantiert ausgeführt — aber zum Preis der Gegenseite, und bei großer Order auch schlechter.</p>
+        <p style="font-size:15.5px; margin-top:10px"><strong>Du nimmst Liquidität.</strong></p>
+      </div>
+    </div>
+    <div class="note kid">
+      <b>Bild dazu</b>
+      <p>Limit-Order = du legst am Flohmarkt einen Zettel hin: „Kaufe diese Vase für 10 €.“ Market-Order = du gehst zum Stand und kaufst die Vase sofort für 14 €, weil du sie <em>jetzt</em> willst. Beide kaufen. Nur einer hat es eilig.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>So sieht das Buch aus</h3>
+    <p>Links stehen die Kaufaufträge (Bids), rechts die Verkaufsaufträge (Asks), in der Mitte die Preise. Die Zahl ist, wie viele Kontrakte dort warten.</p>
+
+    <div class="dom" role="table" aria-label="Orderbuch-Leiter mit Bid-Größen links, Preis in der Mitte und Ask-Größen rechts">
+      <div class="row"><span class="b"></span><span class="px">5013.00</span><span class="a"><i class="bar" style="width:16px"></i>412</span></div>
+      <div class="row"><span class="b"></span><span class="px">5012.75</span><span class="a"><i class="bar" style="width:10px"></i>268</span></div>
+      <div class="row"><span class="b"></span><span class="px">5012.50</span><span class="a"><i class="bar" style="width:70px"></i><b>1840</b> ← die Wand</span></div>
+      <div class="row"><span class="b"></span><span class="px">5012.25</span><span class="a"><i class="bar" style="width:7px"></i>190</span></div>
+      <div class="row mid"><span class="b"></span><span class="px">5012.00</span><span class="a"><i class="bar" style="width:4px"></i>95 · bestes Ask</span></div>
+      <div class="row mid"><span class="b">bestes Bid · 120<i class="bar" style="width:5px"></i></span><span class="px">5011.75</span><span class="a"></span></div>
+      <div class="row"><span class="b">240<i class="bar" style="width:9px"></i></span><span class="px">5011.50</span><span class="a"></span></div>
+      <div class="row"><span class="b">310<i class="bar" style="width:12px"></i></span><span class="px">5011.25</span><span class="a"></span></div>
+      <div class="row"><span class="b">880<i class="bar" style="width:34px"></i></span><span class="px">5011.00</span><span class="a"></span></div>
+    </div>
+    <ul>
+      <li><strong>Bestes Bid</strong> (5011.75) = der höchste Preis, den gerade jemand zu zahlen bereit ist.</li>
+      <li><strong>Bestes Ask</strong> (5012.00) = der niedrigste Preis, zu dem gerade jemand verkaufen will.</li>
+      <li><strong>Spread</strong> = der Abstand dazwischen. Hier 1 Tick. Je liquider der Markt, desto enger.</li>
+      <li>Die <strong>1840 bei 5012.50</strong> ist auffällig groß — das ist eine „Wand“. Was sie bedeutet, klärt Kapitel 3. Vorwegnahme: meistens nichts Gutes.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Der Satz, an dem die meisten scheitern</h3>
+    <div class="note warn">
+      <b>Wichtig</b>
+      <p>Es gibt <strong>nie</strong> „mehr Käufer als Verkäufer“. Jeder einzelne Trade hat genau einen Käufer <em>und</em> einen Verkäufer. Die Stückzahlen sind immer exakt gleich.</p>
+    </div>
+    <p>Was sich unterscheidet, ist die <strong>Dringlichkeit</strong>. Die Frage lautet nicht „wer ist in der Überzahl“, sondern:</p>
+    <p style="font-size:19px; font-weight:650">Wer ist so ungeduldig, dass er den schlechteren Preis nimmt?</p>
+    <p>Wenn Käufer ungeduldig sind, greifen sie ins Ask — der Preis steigt. Wenn Verkäufer ungeduldig sind, hauen sie ins Bid — der Preis fällt. <strong>Aggression bewegt den Preis. Nicht Meinung.</strong></p>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 210" role="img" aria-label="Zwei Ausgänge, wenn ein aggressiver Kauf auf eine große Verkaufswand trifft: entweder wird die Wand aufgegessen und der Preis steigt, oder die Wand füllt immer wieder nach und der Preis bleibt stehen.">
+          <text x="0" y="15" font-size="12.5" font-weight="700" fill="var(--ink-3)" letter-spacing="1">AGGRESSIVER KAUF TRIFFT AUF 1840 VERKAUFS-KONTRAKTE</text>
+
+          <rect x="0" y="30" width="344" height="140" rx="10" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="20" y="56" width="150" height="20" rx="4" fill="var(--ask)" opacity=".25"/>
+          <rect x="20" y="56" width="150" height="20" rx="4" fill="none" stroke="var(--ask)" stroke-width="1.2"/>
+          <text x="95" y="71" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ask)">1840 Ask</text>
+          <path d="M 240 66 L 186 66" stroke="var(--bid)" stroke-width="3" marker-end="url(#arG)" fill="none"/>
+          <text x="248" y="70" font-size="12" fill="var(--bid)" font-weight="650">2100 gekauft</text>
+          <path d="M 95 96 L 95 128" stroke="var(--bid)" stroke-width="2.5" marker-end="url(#arG)" fill="none"/>
+          <text x="20" y="150" font-size="13.5" font-weight="700" fill="var(--bid)">Wand aufgegessen → Preis steigt</text>
+          <text x="20" y="166" font-size="12" fill="var(--ink-2)">Die Verkäufer sind durch. Oben ist jetzt wenig.</text>
+
+          <rect x="376" y="30" width="344" height="140" rx="10" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="396" y="56" width="150" height="20" rx="4" fill="var(--ask)" opacity=".25"/>
+          <rect x="396" y="56" width="150" height="20" rx="4" fill="none" stroke="var(--ask)" stroke-width="1.2"/>
+          <text x="471" y="71" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ask)">1840 Ask</text>
+          <path d="M 616 66 L 562 66" stroke="var(--bid)" stroke-width="3" marker-end="url(#arG)" fill="none"/>
+          <text x="624" y="70" font-size="12" fill="var(--bid)" font-weight="650">2100 gekauft</text>
+          <g stroke="var(--ask)" stroke-width="2" fill="none">
+            <path d="M 471 96 L 471 112" marker-end="url(#arR)"/>
+          </g>
+          <text x="482" y="110" font-size="11.5" fill="var(--ask)">immer wieder nachgefüllt</text>
+          <text x="396" y="150" font-size="13.5" font-weight="700" fill="var(--ask)">Wand hält → Preis bleibt stehen</text>
+          <text x="396" y="166" font-size="12" fill="var(--ink-2)">Das ist Absorption. Die Käufer sitzen fest.</text>
+
+          <text x="0" y="197" font-size="13" fill="var(--ink-2)">Gleicher Kaufdruck, zwei völlig verschiedene Ausgänge. <tspan font-weight="700" fill="currentColor">Nur der Orderflow zeigt dir, welcher gerade passiert.</tspan></text>
+        </svg>
+      </div>
+      <figcaption>Das ist der Kern des ganzen Themas. Eine große Order im Buch ist keine Vorhersage — entscheidend ist, was mit ihr geschieht, wenn der Preis sie erreicht.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Warteschlange: warum deine Limit-Order nicht gefüllt wird</h3>
+    <p>Bei den meisten Futures gilt <strong>FIFO</strong> — first in, first out. Wer zuerst da war, wird zuerst bedient.</p>
+    <p>Stehen bei 5011.00 schon 880 Kontrakte und du stellst dich dazu, bist du Nummer 881. Es müssen erst 880 Kontrakte vor dir abgearbeitet werden, bevor du dran bist. Meistens passiert etwas anderes: Der Preis fällt einfach durch — <strong>und dann bist du drin, aber sofort im Minus.</strong></p>
+    <div class="note warn">
+      <b>Praktische Folge</b>
+      <p>Eine Limit-Order an einem viel beachteten Level wird oft nur dann ausgeführt, wenn das Level bricht. Deshalb steigen viele Orderflow-Trader lieber <em>nach</em> der Reaktion mit einer Market-Order ein — ein Tick schlechter, dafür mit Bestätigung.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Welche Daten dein Tool sieht</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Ebene</th><th>Was du siehst</th><th>Reicht für</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Level 1</strong></td><td>Nur bestes Bid, bestes Ask und die getätigten Trades</td><td>Tape lesen, Delta</td></tr>
+          <tr><td><strong>Level 2 (MBP)</strong></td><td>Die Summe aller Orders je Preis — aber nicht, aus wie vielen Orders sie besteht</td><td>Heatmap, Depth Chart</td></tr>
+          <tr><td><strong>Level 3 (MBO)</strong></td><td>Jede einzelne Order mit Platz in der Warteschlange</td><td>Echte Iceberg-Erkennung, Queue-Analyse</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Die CME liefert MBO — deshalb funktionieren Heatmaps bei ES und NQ so gut. Bei Krypto-Börsen gibt es keinen zentralen Feed, jede Börse hat ihr eigenes Buch, und ein großer Teil ist künstlich. <strong>Zum Lernen sind Futures die saubersten Daten, die es gibt.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== 3 HEATMAP ===================== -->
+<section id="k3" class="chapter" data-title="Depth Chart &amp; Heatmap" data-group="3" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 3 · Werkzeuge</div>
+    <h2>Depth Chart &amp; Heatmap</h2>
+    <p class="lede">Dein wichtigstes Werkzeug — und das am häufigsten falsch verstandene. Die Heatmap ist das Orderbuch aus Kapitel 2, nur mit einer Zeitachse dahinter.</p>
+  </header>
+
+  <div class="block">
+    <h3>Was du da eigentlich siehst</h3>
+    <p>Nimm die Orderbuch-Leiter von vorhin, dreh sie hochkant und lass sie mit der Zeit nach links weglaufen. Statt Zahlen malst du Farbe: <strong>je mehr Kontrakte an einem Preis warten, desto heller.</strong> Fertig ist die Heatmap.</p>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 316" role="img" aria-label="Aufbau einer Liquiditäts-Heatmap: senkrecht der Preis, waagerecht die Zeit, Helligkeit zeigt die Größe wartender Limit-Orders. Eine helle durchgehende Linie markiert eine große ruhende Verkaufsorder, die weiße Linie ist der gehandelte Preis.">
+          <text x="0" y="14" font-size="12.5" font-weight="700" fill="var(--ink-3)" letter-spacing="1">ANATOMIE EINER HEATMAP</text>
+          <rect x="56" y="26" width="600" height="216" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+
+          <g fill="var(--ask)">
+            <rect x="58" y="40" width="596" height="12" rx="2" opacity=".16"/>
+            <rect x="58" y="56" width="596" height="12" rx="2" opacity=".62"/>
+            <rect x="58" y="72" width="596" height="12" rx="2" opacity=".10"/>
+            <rect x="58" y="88" width="300" height="12" rx="2" opacity=".30"/>
+            <rect x="380" y="88" width="274" height="12" rx="2" opacity=".13"/>
+            <rect x="58" y="104" width="596" height="12" rx="2" opacity=".14"/>
+            <rect x="58" y="120" width="240" height="12" rx="2" opacity=".22"/>
+          </g>
+          <g fill="var(--bid)">
+            <rect x="58" y="152" width="596" height="12" rx="2" opacity=".15"/>
+            <rect x="58" y="168" width="596" height="12" rx="2" opacity=".24"/>
+            <rect x="58" y="184" width="596" height="12" rx="2" opacity=".11"/>
+            <rect x="58" y="200" width="596" height="12" rx="2" opacity=".55"/>
+            <rect x="58" y="216" width="596" height="12" rx="2" opacity=".13"/>
+          </g>
+
+          <polyline points="60,196 110,190 160,176 210,182 260,150 310,142 360,136 410,140 460,130 510,132 560,124 610,128 652,122"
+            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+
+          <text x="0" y="46" font-size="11" fill="var(--ink-3)">höher</text>
+          <text x="0" y="234" font-size="11" fill="var(--ink-3)">tiefer</text>
+          <text x="0" y="140" font-size="11.5" font-weight="700" fill="var(--ink-2)">Preis</text>
+          <text x="56" y="258" font-size="11.5" font-weight="700" fill="var(--ink-2)">Zeit</text>
+          <line x1="92" y1="254" x2="652" y2="254" stroke="var(--ink-3)" stroke-width="1" marker-end="url(#arM)"/>
+
+          <line x1="662" y1="62" x2="690" y2="62" stroke="var(--ask)" stroke-width="1.2"/>
+          <text x="668" y="58" font-size="11" fill="var(--ask)" font-weight="650">hell = viel</text>
+          <line x1="662" y1="206" x2="690" y2="206" stroke="var(--bid)" stroke-width="1.2"/>
+          <text x="668" y="222" font-size="11" fill="var(--bid)" font-weight="650">hell = viel</text>
+
+          <text x="60" y="286" font-size="13" fill="var(--ask)" font-weight="700">Rot oben = Verkaufsaufträge, die warten</text>
+          <text x="60" y="304" font-size="13" fill="var(--bid)" font-weight="700">Grün unten = Kaufaufträge, die warten</text>
+          <text x="420" y="286" font-size="13" fill="currentColor" font-weight="700">Weiße Linie = der gehandelte Preis</text>
+          <text x="420" y="304" font-size="12.5" fill="var(--ink-2)">Alles andere ist nur eine Absichtserklärung.</text>
+        </svg>
+      </div>
+      <figcaption>Die beiden hellen, durchgehenden Bänder sind große ruhende Orders — oben eine Verkaufsseite, unten eine Kaufseite. Genau diese Bänder nennst du <strong>RL-Level</strong> (resting liquidity, ruhende Liquidität).</figcaption>
+    </figure>
+
+    <div class="note warn">
+      <b>Der wichtigste Satz zur Heatmap</b>
+      <p>Die Heatmap zeigt dir <strong>Absichten, keine Tatsachen</strong>. Eine Order im Buch ist ein Versprechen, das jederzeit zurückgezogen werden kann — und das passiert ständig. Erst wenn tatsächlich dagegen gehandelt wird, entsteht Information.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Die fünf Muster, die du erkennen musst</h3>
+    <p>Mehr gibt es nicht. Wenn du diese fünf sicher unterscheidest, kannst du eine Heatmap lesen.</p>
+
+    <div class="grid2">
+      <figure class="figbox">
+        <svg viewBox="0 0 300 128" role="img" aria-label="Stacking: über dem Preis werden immer mehr Verkaufsorders aufgebaut, während der Preis darauf zuläuft.">
+          <rect x="0" y="0" width="300" height="128" rx="8" fill="var(--surface-2)"/>
+          <g fill="var(--ask)">
+            <rect x="120" y="30" width="60" height="9" rx="2" opacity=".22"/>
+            <rect x="180" y="30" width="60" height="9" rx="2" opacity=".45"/>
+            <rect x="240" y="30" width="56" height="9" rx="2" opacity=".75"/>
+            <rect x="180" y="42" width="60" height="9" rx="2" opacity=".20"/>
+            <rect x="240" y="42" width="56" height="9" rx="2" opacity=".42"/>
+          </g>
+          <polyline points="8,100 50,94 92,88 134,76 176,68 218,62 260,58 292,57" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <text x="10" y="22" font-size="11.5" font-weight="700" fill="var(--ask)">wird immer mehr →</text>
+        </svg>
+        <figcaption><strong>1 · Stacking</strong> — vor dem Preis wird Liquidität aufgebaut. Jemand will dort wirklich verkaufen. Erst mal ein Bremsklotz, mehr nicht.</figcaption>
+      </figure>
+
+      <figure class="figbox">
+        <svg viewBox="0 0 300 128" role="img" aria-label="Pulling: eine große Verkaufsorder verschwindet genau dann, wenn der Preis sie fast erreicht, und der Preis beschleunigt nach oben.">
+          <rect x="0" y="0" width="300" height="128" rx="8" fill="var(--surface-2)"/>
+          <rect x="8" y="34" width="150" height="10" rx="2" fill="var(--ask)" opacity=".7"/>
+          <rect x="158" y="34" width="134" height="10" rx="2" fill="var(--ask)" opacity=".05"/>
+          <line x1="158" y1="30" x2="158" y2="52" stroke="var(--ask)" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <text x="164" y="28" font-size="11.5" font-weight="700" fill="var(--ask)">weg!</text>
+          <polyline points="8,104 48,98 88,92 128,78 158,64 196,50 236,42 292,32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <text x="10" y="120" font-size="11.5" fill="var(--ink-2)">Preis war noch nicht da</text>
+        </svg>
+        <figcaption><strong>2 · Pulling</strong> — die Wand verschwindet, <em>bevor</em> der Preis sie erreicht. Sie war nie Widerstand, sie war ein Magnet. Danach geht es oft schneller.</figcaption>
+      </figure>
+
+      <figure class="figbox">
+        <svg viewBox="0 0 300 128" role="img" aria-label="Refilling: eine Verkaufsorder bleibt trotz mehrfacher Angriffe bestehen und wird immer wieder nachgefüllt, der Preis prallt jedes Mal ab.">
+          <rect x="0" y="0" width="300" height="128" rx="8" fill="var(--surface-2)"/>
+          <rect x="8" y="34" width="284" height="10" rx="2" fill="var(--ask)" opacity=".72"/>
+          <polyline points="8,102 46,70 76,50 104,72 140,52 168,48 196,74 226,50 258,48 292,86" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <g fill="var(--ask)" opacity=".9">
+            <circle cx="76" cy="48" r="3"/><circle cx="168" cy="46" r="3"/><circle cx="258" cy="46" r="3"/>
+          </g>
+          <text x="10" y="24" font-size="11.5" font-weight="700" fill="var(--ask)">bleibt · wird nachgefüllt</text>
+          <text x="196" y="120" font-size="11.5" font-weight="700" fill="var(--ink-2)">→ Preis gibt auf</text>
+        </svg>
+        <figcaption><strong>3 · Refilling</strong> — angegriffen, abgearbeitet, sofort wieder aufgefüllt. Das ist <strong>Absorption</strong> und das stärkste Signal auf der ganzen Heatmap.</figcaption>
+      </figure>
+
+      <figure class="figbox">
+        <svg viewBox="0 0 300 128" role="img" aria-label="Vakuum: zwischen zwei Liquiditätszonen liegt ein leerer Bereich, durch den der Preis sehr schnell hindurchläuft.">
+          <rect x="0" y="0" width="300" height="128" rx="8" fill="var(--surface-2)"/>
+          <rect x="8" y="22" width="284" height="9" rx="2" fill="var(--ask)" opacity=".5"/>
+          <rect x="8" y="33" width="284" height="7" rx="2" fill="var(--ask)" opacity=".18"/>
+          <rect x="8" y="96" width="284" height="9" rx="2" fill="var(--bid)" opacity=".5"/>
+          <rect x="8" y="86" width="284" height="7" rx="2" fill="var(--bid)" opacity=".18"/>
+          <rect x="8" y="44" width="284" height="38" rx="4" fill="none" stroke="var(--ink-3)" stroke-width="1.2" stroke-dasharray="4 4"/>
+          <text x="98" y="68" font-size="12" font-weight="700" fill="var(--ink-2)">hier ist nichts</text>
+          <polyline points="30,100 60,98 86,92 104,60 118,34 150,30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <text x="160" y="120" font-size="11.5" fill="var(--ink-2)">Preis rutscht durch</text>
+        </svg>
+        <figcaption><strong>4 · Vakuum (Liquidity Void)</strong> — eine leere Zone. Schlechter Ort zum Einsteigen, hervorragender Ort als Kursziel.</figcaption>
+      </figure>
+    </div>
+
+    <figure class="figbox">
+      <svg viewBox="0 0 620 150" role="img" aria-label="Absorbierte Wand: eine große Verkaufsorder wird vollständig durchgehandelt statt zurückgezogen, danach beschleunigt der Preis nach oben.">
+        <rect x="0" y="0" width="620" height="150" rx="8" fill="var(--surface-2)"/>
+        <rect x="10" y="52" width="300" height="12" rx="2" fill="var(--ask)" opacity=".72"/>
+        <rect x="310" y="52" width="300" height="12" rx="2" fill="var(--ask)" opacity=".06"/>
+        <g fill="var(--ink)" opacity=".55">
+          <circle cx="200" cy="58" r="2.5"/><circle cx="222" cy="58" r="2.5"/><circle cx="244" cy="58" r="2.5"/>
+          <circle cx="266" cy="58" r="2.5"/><circle cx="288" cy="58" r="2.5"/><circle cx="306" cy="58" r="2.5"/>
+        </g>
+        <text x="150" y="40" font-size="12" font-weight="700" fill="var(--ink-2)">durchgehandelt — nicht gezogen</text>
+        <polyline points="12,118 70,112 128,104 186,74 244,62 300,58 330,44 400,34 470,28 560,20 606,18"
+          fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="336" y="72" font-size="12.5" font-weight="700" fill="var(--bid)">Verkäufer sind leer → freie Bahn</text>
+        <text x="10" y="140" font-size="11.5" fill="var(--ink-2)">Die Punkte sind tatsächlich gehandelte Kontrakte an genau diesem Preis.</text>
+      </svg>
+      <figcaption><strong>5 · Absorbierte Wand</strong> — der Unterschied zu Muster 2 ist entscheidend: Hier wird die Wand <em>aufgegessen</em>. Wer dort verkauft hat, ist jetzt leer oder falsch positioniert. Das trägt eine Bewegung.</figcaption>
+    </figure>
+
+    <div class="note kid">
+      <b>Muster 2 gegen Muster 5 — der Unterschied in einem Satz</b>
+      <p><strong>Gezogen</strong> heißt: da war nie jemand ernsthaft. <strong>Aufgegessen</strong> heißt: da war jemand, und er hat verloren. Nur das Zweite ist ein Ereignis, auf das du wetten kannst.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>RL-Level: die fünf Regeln</h3>
+    <p>„RL“ steht für <em>resting liquidity</em> — die hellen waagerechten Bänder, also große Orders, die im Buch liegen und warten. So bewertest du sie:</p>
+    <ul class="steps">
+      <li><span class="n">1</span><span><strong>Relativ, nie absolut.</strong> 500 Kontrakte sind im ES ein Nichts und im CL ein Ereignis. Vergleiche immer mit der normalen Buchtiefe des Instruments — nicht mit einer festen Zahl.</span></li>
+      <li><span class="n">2</span><span><strong>Zeit macht Relevanz.</strong> Eine Order, die seit 20 Minuten liegt und dreimal nachgefüllt wurde, ist etwas anderes als eine, die vor drei Sekunden erschienen ist.</span></li>
+      <li><span class="n">3</span><span><strong>Gezogen ist kein Support.</strong> Verschwindet sie beim Herankommen, war sie Köder. Der Preis läuft danach meistens genau dorthin, wo sie lag.</span></li>
+      <li><span class="n">4</span><span><strong>Aufgegessen schlägt gezogen.</strong> Durchgehandelte Liquidität ist ein echtes Ereignis. Zurückgezogene ist ein Nicht-Ereignis.</span></li>
+      <li><span class="n">5</span><span><strong>Niemals allein handeln.</strong> Ein RL-Level ist ein Filter für die Frage „wo“ — nie die Antwort auf die Frage „jetzt“.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Was die Heatmap nicht kann</h3>
+    <ul>
+      <li><strong>Spoofing.</strong> Große Orders, die nur da sind, um andere zu erschrecken, und konsequent verschwinden. Sieht aus wie eine Mauer, ist aber Pappe.</li>
+      <li><strong>Icebergs.</strong> Große Aufträge, die nur häppchenweise sichtbar sind. Du siehst 50 im Buch, gehandelt werden 5000. Das erkennst du <em>nur</em> am gehandelten Volumen, nicht an der Farbe.</li>
+      <li><strong>Die Zukunft.</strong> Das Buch von vor zwei Sekunden sagt nichts darüber, was in zwei Sekunden noch da ist.</li>
+    </ul>
+    <div class="note">
+      <b>Deshalb</b>
+      <p>Die Heatmap beantwortet die Frage <strong>„wo?“</strong> hervorragend und die Frage <strong>„wann?“</strong> gar nicht. Für das „wann“ brauchst du Footprint, Delta und das Tape — Kapitel 6 und 7.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4 VOLUME PROFILE ===================== -->
+<section id="k4" class="chapter" data-title="Volume Profile" data-group="3" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 4 · Werkzeuge</div>
+    <h2>Volume Profile</h2>
+    <p class="lede">Ein Chart zeigt dir, <em>wann</em> etwas passiert ist. Das Volume Profile zeigt dir, <em>wo</em> es passiert ist — und das ist für Levels die deutlich nützlichere Frage.</p>
+  </header>
+
+  <div class="block">
+    <h3>Die Idee in einem Bild</h3>
+    <p>Nimm alle gehandelten Kontrakte eines Tages und sortiere sie nicht nach Uhrzeit, sondern nach Preis. Lege sie als waagerechte Balken übereinander. Fertig.</p>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 330" role="img" aria-label="Chart mit danebenliegendem Volumenprofil. Markiert sind Point of Control, Value Area High und Low, ein High Volume Node und ein Low Volume Node.">
+          <rect x="0" y="20" width="430" height="250" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="446" y="20" width="204" height="250" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <text x="0" y="12" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing=".8">KURSVERLAUF</text>
+          <text x="446" y="12" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing=".8">GEHANDELTES VOLUMEN JE PREIS</text>
+
+          <rect x="446" y="26" width="204" height="218" fill="var(--accent)" opacity=".05"/>
+          <g fill="var(--accent)" opacity=".62">
+            <rect x="448" y="34" width="18" height="12" rx="2"/>
+            <rect x="448" y="50" width="30" height="12" rx="2"/>
+            <rect x="448" y="66" width="52" height="12" rx="2"/>
+            <rect x="448" y="82" width="74" height="12" rx="2"/>
+            <rect x="448" y="98" width="120" height="12" rx="2"/>
+            <rect x="448" y="114" width="96" height="12" rx="2"/>
+            <rect x="448" y="130" width="24" height="12" rx="2"/>
+            <rect x="448" y="146" width="16" height="12" rx="2"/>
+            <rect x="448" y="162" width="62" height="12" rx="2"/>
+            <rect x="448" y="178" width="104" height="12" rx="2"/>
+            <rect x="448" y="194" width="80" height="12" rx="2"/>
+            <rect x="448" y="210" width="36" height="12" rx="2"/>
+            <rect x="448" y="226" width="14" height="12" rx="2"/>
+          </g>
+          <rect x="448" y="98" width="120" height="12" rx="2" fill="var(--accent)"/>
+
+          <line x1="8" y1="104" x2="650" y2="104" stroke="var(--accent)" stroke-width="2"/>
+          <text x="576" y="101" font-size="12" font-weight="700" fill="var(--accent)">POC</text>
+          <line x1="8" y1="72" x2="650" y2="72" stroke="var(--ink-3)" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <text x="576" y="69" font-size="12" font-weight="700" fill="var(--ink-2)">VAH</text>
+          <line x1="8" y1="200" x2="650" y2="200" stroke="var(--ink-3)" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <text x="576" y="216" font-size="12" font-weight="700" fill="var(--ink-2)">VAL</text>
+
+          <text x="660" y="108" font-size="11.5" font-weight="700" fill="var(--accent)">HVN</text>
+          <text x="660" y="154" font-size="11.5" font-weight="700" fill="var(--ask)">LVN</text>
+          <line x1="446" y1="152" x2="654" y2="152" stroke="var(--ask)" stroke-width="1.4" stroke-dasharray="3 3"/>
+
+          <polyline points="16,214 48,196 78,176 106,152 132,128 158,112 186,102 212,118 240,106 266,96 292,108 318,100 344,92 370,110 398,122 422,134"
+            fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+
+          <text x="0" y="292" font-size="13.5" font-weight="700" fill="var(--accent)">POC — der meistgehandelte Preis</text>
+          <text x="0" y="310" font-size="12.5" fill="var(--ink-2)">Hier waren sich alle am ehesten einig. Magnet.</text>
+          <text x="330" y="292" font-size="13.5" font-weight="700" fill="currentColor">Value Area — 70 % des Volumens</text>
+          <text x="330" y="310" font-size="12.5" fill="var(--ink-2)">Von VAL bis VAH. Das ist „der faire Bereich“.</text>
+        </svg>
+      </div>
+      <figcaption>Der schmale Balken bei <span class="pill ask">LVN</span> ist eine Preiszone, in der kaum gehandelt wurde. Der Markt wollte dort nicht sein — deshalb rauscht er beim nächsten Mal meist wieder durch.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Die vier Begriffe, die alles tragen</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Begriff</th><th>Was es ist</th><th>Was du damit machst</th></tr></thead>
+        <tbody>
+          <tr><td><strong>POC</strong><br><span style="color:var(--ink-3);font-size:13.5px">Point of Control</span></td><td>Der Preis mit dem meisten Volumen</td><td>Magnet und Ziel. Kommt der Preis von weit weg zurück, will er oft genau dorthin.</td></tr>
+          <tr><td><strong>Value Area</strong><br><span style="color:var(--ink-3);font-size:13.5px">VAH / VAL</span></td><td>Der Bereich um den POC, in dem 70 % des Volumens liegen</td><td>Innen = Balance, außen = Ungleichgewicht. Die Kanten sind Reaktionspunkte.</td></tr>
+          <tr><td><strong>HVN</strong><br><span style="color:var(--ink-3);font-size:13.5px">High Volume Node</span></td><td>Ein dicker Balken, viel Volumen</td><td>Bremse. Der Preis wird dort langsam und bleibt oft kleben. Schlechtes Ziel, guter Ort für Teilgewinne.</td></tr>
+          <tr><td><strong>LVN</strong><br><span style="color:var(--ink-3);font-size:13.5px">Low Volume Node</span></td><td>Ein dünner Balken, kaum Volumen</td><td>Beschleuniger. Der Preis rauscht durch. Perfekte Kante für den Stop und guter Einstiegsbereich.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note kid">
+      <b>Bild dazu</b>
+      <p>Denk an eine Treppe mit einer Lücke. <strong>HVN</strong> = eine breite Stufe, auf der man stehen bleibt. <strong>LVN</strong> = die Lücke dazwischen, in die man reintritt und durchfällt. Man bleibt dort nicht stehen — man geht durch.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Der nackte POC</h3>
+    <p>Ein <strong>naked POC</strong> (auch „virgin POC“) ist der POC eines früheren Tages, den der Preis seitdem nie wieder berührt hat.</p>
+    <p>Warum das zählt: Der POC war einmal der fairste Preis überhaupt. Dort wurden Positionen aufgebaut. Kommt der Markt nicht zurück, bleibt dieses Geschäft unerledigt — und unerledigte Auktionen zieht es zurück. Naked POCs werden erfahrungsgemäß früher oder später getestet. <strong>Als Kursziel sind sie Gold, als Einstiegsgrund taugen sie nichts.</strong></p>
+  </div>
+
+  <div class="block">
+    <h3>Welche Profile du benutzt</h3>
+    <ul>
+      <li><strong>Session-Profil</strong> — ein Tag. Dein Standard für die Vorbereitung des nächsten Tages.</li>
+      <li><strong>Composite-Profil</strong> — mehrere Wochen oder Monate zusammen. Zeigt die großen HVN und LVN. Das ist dein <em>Kontext</em>, Schritt 1 der Kette.</li>
+      <li><strong>Fixed Range</strong> — ein Profil über einen selbst gewählten Abschnitt, z. B. über die letzte Trendbewegung oder die Nachtsession. Gut, um zu sehen, wo innerhalb einer Bewegung der Schwerpunkt lag.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 5 TPO ===================== -->
+<section id="k5" class="chapter" data-title="TPO / Market Profile" data-group="3" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 5 · Werkzeuge</div>
+    <h2>TPO / Market Profile</h2>
+    <p class="lede">Das Volume Profile zählt Kontrakte. Das TPO zählt <strong>Zeit</strong>. Es beantwortet die Frage: Wie lange hat der Markt einen Preis ausgehalten?</p>
+  </header>
+
+  <div class="block">
+    <h3>Wie ein TPO gebaut wird</h3>
+    <p>TPO heißt <em>Time Price Opportunity</em> — Zeit-Preis-Gelegenheit. Der Handelstag wird in Abschnitte von 30 Minuten geschnitten. Jeder Abschnitt bekommt einen Buchstaben: A, B, C, D …</p>
+    <p>Für jeden Preis, den der Markt in diesen 30 Minuten berührt hat, wird ein Buchstabe gesetzt. Danach werden alle Buchstaben nach links zusammengeschoben. Das war's — mehr ist ein Market Profile nicht.</p>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 236" role="img" aria-label="Aufbau eines TPO-Profils in drei Schritten: erst die Buchstaben der ersten halben Stunde, dann die der zweiten, schließlich alle Buchstaben nach links zusammengeschoben zum fertigen Profil.">
+          <text x="10" y="14" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing=".8">1 · 09:30–10:00 = „A“</text>
+          <text x="250" y="14" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing=".8">2 · +10:00–10:30 = „B“, +„C“</text>
+          <text x="500" y="14" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing=".8">3 · nach links geschoben</text>
+          <rect x="10" y="24" width="215" height="176" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="250" y="24" width="215" height="176" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="490" y="24" width="220" height="176" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+
+          <g font-family="var(--mono)" font-size="13" font-weight="700">
+            <g fill="currentColor">
+              <text x="30" y="82">A</text><text x="30" y="102">A</text><text x="30" y="122">A</text><text x="30" y="142">A</text>
+            </g>
+            <g fill="currentColor">
+              <text x="270" y="82">A</text><text x="270" y="102">A</text><text x="270" y="122">A</text><text x="270" y="142">A</text>
+            </g>
+            <g fill="var(--accent)">
+              <text x="286" y="62">B</text><text x="286" y="82">B</text><text x="286" y="102">B</text><text x="286" y="122">B</text>
+            </g>
+            <g fill="var(--bid)">
+              <text x="302" y="102">C</text><text x="302" y="122">C</text><text x="302" y="142">C</text><text x="302" y="162">C</text>
+            </g>
+            <g fill="currentColor">
+              <text x="510" y="82">A</text><text x="510" y="102">A</text><text x="510" y="122">A</text><text x="510" y="142">A</text>
+            </g>
+            <g fill="var(--accent)">
+              <text x="510" y="62">B</text><text x="526" y="82">B</text><text x="526" y="102">B</text><text x="526" y="122">B</text>
+            </g>
+            <g fill="var(--bid)">
+              <text x="542" y="102">C</text><text x="542" y="122">C</text><text x="526" y="142">C</text><text x="510" y="162">C</text>
+            </g>
+          </g>
+          <line x1="560" y1="98" x2="596" y2="107" stroke="var(--accent)" stroke-width="1.2"/>
+          <text x="600" y="110" font-size="11.5" font-weight="700" fill="var(--accent)">breiteste Stelle = POC</text>
+          <text x="14" y="190" font-size="11" fill="var(--ink-2)">Preis läuft senkrecht</text>
+          <text x="254" y="190" font-size="11" fill="var(--ink-2)">jede Periode ein Buchstabe</text>
+          <text x="494" y="190" font-size="11" fill="var(--ink-2)">das Profil des Tages</text>
+          <text x="10" y="224" font-size="13" fill="var(--ink-2)">Ein Preis mit vielen Buchstaben war <tspan font-weight="700" fill="currentColor">lange akzeptiert</tspan>. Ein Preis mit einem Buchstaben wurde nur kurz angetippt und sofort abgelehnt.</text>
+        </svg>
+      </div>
+      <figcaption>Genau deshalb ist TPO etwas anderes als das Volume Profile: Ein Preis kann in Sekunden riesiges Volumen sehen (viel Volumen, wenig Zeit) — das ist Ablehnung, keine Akzeptanz.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Die Bauteile eines Profils</h3>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 330" role="img" aria-label="Beschriftetes TPO-Profil mit Value Area High, Point of Control, Value Area Low, Initial Balance und den einzelnen Buchstaben oben und unten als Single Prints und Excess.">
+          <rect x="0" y="16" width="720" height="296" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <g fill="var(--accent)" opacity=".30">
+            <rect x="120" y="36" width="13" height="12" rx="2"/>
+            <rect x="120" y="52" width="13" height="12" rx="2"/>
+            <rect x="120" y="68" width="39" height="12" rx="2"/>
+          </g>
+          <g fill="var(--accent)" opacity=".62">
+            <rect x="120" y="84" width="65" height="12" rx="2"/>
+            <rect x="120" y="100" width="104" height="12" rx="2"/>
+            <rect x="120" y="116" width="143" height="12" rx="2"/>
+            <rect x="120" y="132" width="169" height="12" rx="2"/>
+            <rect x="120" y="148" width="156" height="12" rx="2"/>
+            <rect x="120" y="164" width="130" height="12" rx="2"/>
+            <rect x="120" y="180" width="91" height="12" rx="2"/>
+            <rect x="120" y="196" width="65" height="12" rx="2"/>
+          </g>
+          <g fill="var(--accent)" opacity=".30">
+            <rect x="120" y="212" width="39" height="12" rx="2"/>
+            <rect x="120" y="228" width="26" height="12" rx="2"/>
+            <rect x="120" y="244" width="13" height="12" rx="2"/>
+            <rect x="120" y="260" width="13" height="12" rx="2"/>
+            <rect x="120" y="276" width="13" height="12" rx="2"/>
+          </g>
+          <rect x="120" y="132" width="169" height="12" rx="2" fill="var(--accent)"/>
+
+          <line x1="100" y1="82" x2="480" y2="82" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="6 4"/>
+          <text x="488" y="79" font-size="13" font-weight="700" fill="currentColor">VAH</text>
+          <text x="528" y="79" font-size="12" fill="var(--ink-2)">obere Kante des fairen Bereichs</text>
+          <line x1="100" y1="138" x2="480" y2="138" stroke="var(--accent)" stroke-width="2"/>
+          <text x="488" y="135" font-size="13" font-weight="700" fill="var(--accent)">POC</text>
+          <text x="528" y="135" font-size="12" fill="var(--ink-2)">längste Reihe = fairster Preis</text>
+          <line x1="100" y1="210" x2="480" y2="210" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="6 4"/>
+          <text x="488" y="207" font-size="13" font-weight="700" fill="currentColor">VAL</text>
+          <text x="528" y="207" font-size="12" fill="var(--ink-2)">untere Kante</text>
+
+          <path d="M 108 84 L 100 84 L 100 208 L 108 208" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="10" y="142" font-size="12" font-weight="700" fill="var(--accent)">Value Area</text>
+          <text x="10" y="158" font-size="11.5" fill="var(--ink-2)">70 % der Zeit</text>
+
+          <path d="M 312 100 L 320 100 L 320 176 L 312 176" fill="none" stroke="var(--ink-3)" stroke-width="1.5"/>
+          <text x="328" y="134" font-size="12" font-weight="700" fill="var(--ink-2)">IB</text>
+          <text x="328" y="150" font-size="11.5" fill="var(--ink-3)">erste Stunde</text>
+
+          <text x="145" y="46" font-size="11.5" font-weight="700" fill="var(--ask)">Single Prints — hier wollte keiner bleiben</text>
+          <text x="145" y="272" font-size="11.5" font-weight="700" fill="var(--bid)">Excess / Tail — saubere Ablehnung nach unten</text>
+
+          <text x="0" y="326" font-size="12.5" fill="var(--ink-2)">Alle Linien ziehst du morgens in den neuen Tag hinein. Sie sind deine Levels.</text>
+        </svg>
+      </div>
+      <figcaption>Ein Profil ist fast immer eine Glocke: breit in der Mitte (dort war der Markt lange), dünn an den Rändern (dort wurde er schnell abgelehnt).</figcaption>
+    </figure>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Bauteil</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><strong>POC</strong></td><td>Die längste Buchstabenreihe. Der Preis, an dem der Markt am längsten ausgehalten hat.</td></tr>
+          <tr><td><strong>Value Area (VAH/VAL)</strong></td><td>Der Bereich um den POC, der 70 % aller TPOs enthält. „Hier war der Markt zu Hause.“</td></tr>
+          <tr><td><strong>Initial Balance (IB)</strong></td><td>Hoch und Tief der ersten Stunde. Bricht der Markt später darüber oder darunter aus, heißt das <em>Range Extension</em> — ein früher Hinweis auf einen Trendtag.</td></tr>
+          <tr><td><strong>Single Prints</strong></td><td>Preise mit nur einem Buchstaben. Der Markt ist durchgerauscht. Werden später oft wieder „aufgefüllt“.</td></tr>
+          <tr><td><strong>Excess / Tail</strong></td><td>Eine längere Reihe von Single Prints am Rand. Sauberes Ende einer Auktion: „zu teuer“ bzw. „zu billig“, alle waren sich einig.</td></tr>
+          <tr><td><strong>Poor High / Poor Low</strong></td><td>Ein Rand <em>ohne</em> Excess — mehrere gleich lange Reihen. Die Auktion ist unfertig. Der Markt kommt fast immer zurück, um sie zu beenden.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 620 190" role="img" aria-label="Vergleich zwischen sauberem Excess-Hoch, das mit einem einzelnen Buchstaben endet, und einem Poor High, das mit mehreren gleich langen Reihen flach abschließt.">
+          <text x="0" y="14" font-size="12" font-weight="700" fill="var(--bid)">SAUBERES HOCH (Excess)</text>
+          <text x="330" y="14" font-size="12" font-weight="700" fill="var(--ask)">POOR HIGH (unfertig)</text>
+          <rect x="0" y="24" width="290" height="126" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="330" y="24" width="290" height="126" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <g fill="var(--bid)" opacity=".6">
+            <rect x="24" y="36" width="12" height="11" rx="2"/>
+            <rect x="24" y="50" width="26" height="11" rx="2"/>
+            <rect x="24" y="64" width="52" height="11" rx="2"/>
+            <rect x="24" y="78" width="92" height="11" rx="2"/>
+            <rect x="24" y="92" width="118" height="11" rx="2"/>
+            <rect x="24" y="106" width="92" height="11" rx="2"/>
+            <rect x="24" y="120" width="52" height="11" rx="2"/>
+          </g>
+          <line x1="48" y1="41" x2="150" y2="41" stroke="var(--bid)" stroke-width="1.2"/>
+          <text x="156" y="45" font-size="11.5" font-weight="700" fill="var(--bid)">Spitze — Auktion beendet</text>
+          <g fill="var(--ask)" opacity=".6">
+            <rect x="354" y="36" width="92" height="11" rx="2"/>
+            <rect x="354" y="50" width="92" height="11" rx="2"/>
+            <rect x="354" y="64" width="96" height="11" rx="2"/>
+            <rect x="354" y="78" width="118" height="11" rx="2"/>
+            <rect x="354" y="92" width="104" height="11" rx="2"/>
+            <rect x="354" y="106" width="78" height="11" rx="2"/>
+            <rect x="354" y="120" width="46" height="11" rx="2"/>
+          </g>
+          <line x1="450" y1="41" x2="500" y2="41" stroke="var(--ask)" stroke-width="1.2"/>
+          <text x="452" y="34" font-size="11.5" font-weight="700" fill="var(--ask)">flach = abgeschnitten</text>
+          <text x="0" y="172" font-size="12.5" fill="var(--ink-2)">Der Markt lässt Unfertiges selten liegen: Ein Poor High wird meist irgendwann abgeholt. <tspan font-weight="700" fill="currentColor">Das ist ein Kursziel, kein Einstiegssignal.</tspan></text>
+        </svg>
+      </div>
+      <figcaption>Merke die Form: ein spitzes Ende ist erledigt, ein flaches Ende ist eine offene Rechnung.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Die vier Tagestypen</h3>
+    <p>An der Form des Profils erkennst du, was für ein Tag das war — und wenn du sie früh erkennst, weißt du, welche Taktik heute funktioniert.</p>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 250" role="img" aria-label="Vier Profilformen nebeneinander: Normal Day als breite Glocke, Trend Day als schmales langes Profil, Double Distribution mit zwei Bäuchen und dünner Mitte, Neutral Day als Glocke mit Ausschlägen nach beiden Seiten.">
+          <g fill="var(--accent)" opacity=".55">
+            <rect x="16" y="52" width="12" height="11" rx="2"/><rect x="16" y="66" width="34" height="11" rx="2"/>
+            <rect x="16" y="80" width="66" height="11" rx="2"/><rect x="16" y="94" width="98" height="11" rx="2"/>
+            <rect x="16" y="108" width="120" height="11" rx="2"/><rect x="16" y="122" width="104" height="11" rx="2"/>
+            <rect x="16" y="136" width="72" height="11" rx="2"/><rect x="16" y="150" width="40" height="11" rx="2"/>
+            <rect x="16" y="164" width="12" height="11" rx="2"/>
+          </g>
+          <g fill="var(--bid)" opacity=".55">
+            <rect x="196" y="38" width="26" height="11" rx="2"/><rect x="196" y="52" width="34" height="11" rx="2"/>
+            <rect x="196" y="66" width="28" height="11" rx="2"/><rect x="196" y="80" width="40" height="11" rx="2"/>
+            <rect x="196" y="94" width="30" height="11" rx="2"/><rect x="196" y="108" width="36" height="11" rx="2"/>
+            <rect x="196" y="122" width="28" height="11" rx="2"/><rect x="196" y="136" width="42" height="11" rx="2"/>
+            <rect x="196" y="150" width="32" height="11" rx="2"/><rect x="196" y="164" width="26" height="11" rx="2"/>
+          </g>
+          <g fill="var(--warn)" opacity=".6">
+            <rect x="376" y="38" width="20" height="11" rx="2"/><rect x="376" y="52" width="62" height="11" rx="2"/>
+            <rect x="376" y="66" width="90" height="11" rx="2"/><rect x="376" y="80" width="54" height="11" rx="2"/>
+            <rect x="376" y="94" width="16" height="11" rx="2"/><rect x="376" y="108" width="14" height="11" rx="2"/>
+            <rect x="376" y="122" width="48" height="11" rx="2"/><rect x="376" y="136" width="86" height="11" rx="2"/>
+            <rect x="376" y="150" width="58" height="11" rx="2"/><rect x="376" y="164" width="18" height="11" rx="2"/>
+          </g>
+          <g fill="var(--gamma)" opacity=".55">
+            <rect x="556" y="38" width="44" height="11" rx="2"/><rect x="556" y="52" width="18" height="11" rx="2"/>
+            <rect x="556" y="66" width="58" height="11" rx="2"/><rect x="556" y="80" width="96" height="11" rx="2"/>
+            <rect x="556" y="94" width="118" height="11" rx="2"/><rect x="556" y="108" width="92" height="11" rx="2"/>
+            <rect x="556" y="122" width="54" height="11" rx="2"/><rect x="556" y="136" width="20" height="11" rx="2"/>
+            <rect x="556" y="150" width="48" height="11" rx="2"/>
+          </g>
+          <text x="16" y="30" font-size="13" font-weight="700" fill="var(--accent)">Normal Day</text>
+          <text x="196" y="30" font-size="13" font-weight="700" fill="var(--bid)">Trend Day</text>
+          <text x="376" y="30" font-size="13" font-weight="700" fill="var(--warn)">Double Distribution</text>
+          <text x="556" y="30" font-size="13" font-weight="700" fill="var(--gamma)">Neutral Day</text>
+          <text x="16" y="198" font-size="12" fill="var(--ink-2)">Dicke Glocke,</text><text x="16" y="214" font-size="12" fill="var(--ink-2)">enge Range.</text>
+          <text x="16" y="234" font-size="12" font-weight="700" fill="currentColor">Ränder faden.</text>
+          <text x="196" y="198" font-size="12" fill="var(--ink-2)">Dünn und lang,</text><text x="196" y="214" font-size="12" fill="var(--ink-2)">eine Richtung.</text>
+          <text x="196" y="234" font-size="12" font-weight="700" fill="currentColor">Nie dagegen!</text>
+          <text x="376" y="198" font-size="12" fill="var(--ink-2)">Zwei Bäuche,</text><text x="376" y="214" font-size="12" fill="var(--ink-2)">dünne Mitte.</text>
+          <text x="376" y="234" font-size="12" font-weight="700" fill="currentColor">Mitte = LVN.</text>
+          <text x="556" y="198" font-size="12" fill="var(--ink-2)">Beide Seiten</text><text x="556" y="214" font-size="12" fill="var(--ink-2)">getestet, unklar.</text>
+          <text x="556" y="234" font-size="12" font-weight="700" fill="currentColor">Schwerster Tag.</text>
+        </svg>
+      </div>
+      <figcaption>Die Form fällt erst am Abend fertig aus — aber die Richtung zeichnet sich meist schon in der ersten Stunde ab. Deshalb das nächste Thema.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Die Eröffnung verrät den Tag</h3>
+    <p>Die ersten 15–30 Minuten sagen dir mehr über den Tag als alles andere. Es gibt vier Muster:</p>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 210" role="img" aria-label="Vier Eröffnungstypen als Kursverläufe: Open Drive läuft sofort in eine Richtung, Open Test Drive testet erst die Gegenseite, Open Rejection Reverse dreht durch die Eröffnung zurück, Open Auction pendelt um die Eröffnung.">
+          <g stroke="var(--ink-3)" stroke-width="1.1" stroke-dasharray="4 4">
+            <line x1="10" y1="100" x2="160" y2="100"/><line x1="190" y1="100" x2="340" y2="100"/>
+            <line x1="370" y1="100" x2="520" y2="100"/><line x1="550" y1="100" x2="700" y2="100"/>
+          </g>
+          <g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16,100 40,88 64,72 92,56 122,42 156,32" stroke="var(--bid)"/>
+            <polyline points="196,100 214,116 232,124 252,104 276,78 302,56 336,40" stroke="var(--bid)"/>
+            <polyline points="376,100 396,78 414,60 436,72 458,104 480,130 516,152" stroke="var(--ask)"/>
+            <polyline points="556,100 574,86 592,110 610,88 628,112 648,92 666,110 696,98" stroke="var(--ink-3)"/>
+          </g>
+          <g><circle cx="16" cy="100" r="3.5" fill="currentColor"/><circle cx="196" cy="100" r="3.5" fill="currentColor"/>
+             <circle cx="376" cy="100" r="3.5" fill="currentColor"/><circle cx="556" cy="100" r="3.5" fill="currentColor"/></g>
+          <text x="10" y="22" font-size="13" font-weight="700" fill="currentColor">Open-Drive</text>
+          <text x="190" y="22" font-size="13" font-weight="700" fill="currentColor">Open-Test-Drive</text>
+          <text x="370" y="22" font-size="13" font-weight="700" fill="currentColor">Open-Rejection-Reverse</text>
+          <text x="550" y="22" font-size="13" font-weight="700" fill="currentColor">Open-Auction</text>
+          <text x="10" y="180" font-size="12" fill="var(--ink-2)">Sofort los, kein</text><text x="10" y="195" font-size="12" fill="var(--ink-2)">Rücklauf. Stärkstes Signal.</text>
+          <text x="190" y="180" font-size="12" fill="var(--ink-2)">Testet eine Seite, lehnt</text><text x="190" y="195" font-size="12" fill="var(--ink-2)">ab, läuft dann. Guter Stop.</text>
+          <text x="370" y="180" font-size="12" fill="var(--ink-2)">Läuft, wird abgelehnt,</text><text x="370" y="195" font-size="12" fill="var(--ink-2)">dreht durch die Eröffnung.</text>
+          <text x="550" y="180" font-size="12" fill="var(--ink-2)">Orientierungslos.</text><text x="550" y="195" font-size="12" fill="var(--ink-2)">Heute weniger handeln.</text>
+          <text x="10" y="108" font-size="10.5" fill="var(--ink-3)">Eröffnung</text>
+        </svg>
+      </div>
+      <figcaption>Je klarer die Eröffnung, desto mehr Überzeugung steckt dahinter — und desto eher lohnt es sich, in Richtung der Eröffnung zu denken statt dagegen.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Wo liegt der Wert im Vergleich zu gestern?</h3>
+    <p>Die zweite Frage jeden Morgen. Vergleiche die heutige Eröffnung mit der <strong>Value Area von gestern</strong>:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Lage</th><th>Was das meist bedeutet</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Eröffnung innerhalb</strong> der gestrigen Value Area</td><td>Balance geht weiter. Ränder (VAH/VAL) faden, POC als Ziel. Zurückhaltend handeln.</td></tr>
+          <tr><td><strong>Eröffnung außerhalb, kehrt aber zurück</strong> in die Value Area</td><td>Klassiker: Der Markt will meist quer durch — bis zur gegenüberliegenden Kante.</td></tr>
+          <tr><td><strong>Eröffnung außerhalb und bleibt draußen</strong></td><td>Akzeptanz auf neuem Niveau. Trendtag-Kandidat. Rücksetzer kaufen bzw. verkaufen, nicht dagegenhalten.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <b>Die 80-%-Regel</b>
+      <p>Eröffnet der Markt außerhalb der gestrigen Value Area und handelt dann <strong>zwei aufeinanderfolgende 30-Minuten-Perioden wieder innerhalb</strong>, liegt die Wahrscheinlichkeit erfahrungsgemäß bei rund 80 %, dass er die Value Area einmal komplett durchquert. Das ist eine der wenigen Regeln im Market Profile mit einer konkreten Zahl — und sie funktioniert am besten, wenn der Vortag eine saubere Balance war.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Welche Levels du morgens einzeichnest</h3>
+    <p>Genau diese, in genau dieser Reihenfolge. Mehr nicht — ein Chart mit 30 Linien ist ein Chart ohne Levels.</p>
+    <ul class="steps">
+      <li><span class="n">1</span><span><strong>Gestern: VAH, POC, VAL.</strong> Drei Linien. Das ist dein Grundgerüst.</span></li>
+      <li><span class="n">2</span><span><strong>Gestern: Hoch und Tief.</strong> Zwei Linien. Dort liegen die Stops der anderen.</span></li>
+      <li><span class="n">3</span><span><strong>Poor High / Poor Low</strong>, falls vorhanden. Unerledigte Auktionen — als Ziel markieren.</span></li>
+      <li><span class="n">4</span><span><strong>Naked POCs</strong> der letzten Tage. Nur die, die noch nicht getestet wurden.</span></li>
+      <li><span class="n">5</span><span><strong>LVN aus dem Composite-Profil</strong> (Wochen/Monate). Ein bis drei Stück, die nah am aktuellen Preis liegen.</span></li>
+      <li><span class="n">6</span><span><strong>Overnight-Hoch und -Tief.</strong> Die Nachtsession — besonders in ES und NQ.</span></li>
+      <li><span class="n">7</span><span><strong>Nach der ersten Stunde: IB-Hoch und IB-Tief</strong> ergänzen.</span></li>
+    </ul>
+    <div class="note warn">
+      <b>Regel</b>
+      <p>Jedes Level, das du einzeichnest, muss einen Grund haben, den du in einem Satz erklären kannst. Kannst du das nicht — weg damit.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>TPO oder Volume Profile?</h3>
+    <p>Beide. Sie messen verschiedene Dinge:</p>
+    <ul>
+      <li><strong>TPO = Zeit.</strong> Wie lange wurde ein Preis ausgehalten? Besser für Struktur, Tagestypen und die Frage nach Akzeptanz.</li>
+      <li><strong>Volume Profile = Menge.</strong> Wie viel wurde gehandelt? Besser für HVN/LVN und exakte Levels.</li>
+    </ul>
+    <p>Wenn die beiden POCs an <em>verschiedenen</em> Preisen liegen, ist genau das die Information: Dort gab es viel Volumen in kurzer Zeit — ein Schlagabtausch, keine Akzeptanz. Solche Stellen halten oft nicht.</p>
+  </div>
+</section>
+
+<!-- ===================== 6 FOOTPRINT ===================== -->
+<section id="k6" class="chapter" data-title="Footprint, Cluster &amp; Delta" data-group="3" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 6 · Werkzeuge</div>
+    <h2>Footprint, Cluster &amp; Delta</h2>
+    <p class="lede">Footprint-Chart, Cluster-Chart, Orderflow-Chart — drei Namen für dasselbe. Es ist die Brücke zwischen Heatmap (wer <em>will</em>) und Chart (was <em>passiert</em> ist).</p>
+  </header>
+
+  <div class="block">
+    <h3>Delta — die eine Zahl, die du brauchst</h3>
+    <p>Jeder Trade wird zugeordnet: Wurde <strong>ins Ask hineingekauft</strong> (Käufer war ungeduldig) oder <strong>ins Bid hineinverkauft</strong> (Verkäufer war ungeduldig)?</p>
+    <p style="font-size:19px; font-weight:650">Delta = aggressive Käufe − aggressive Verkäufe</p>
+    <p>Ein Delta von +348 heißt: In dieser Kerze wurden 348 Kontrakte mehr aggressiv gekauft als aggressiv verkauft. Es heißt <strong>nicht</strong>, dass mehr gekauft als verkauft wurde — das ist immer gleich (Kapitel 2). Es heißt nur: Die Käufer hatten es eiliger.</p>
+  </div>
+
+  <div class="block">
+    <h3>Eine Footprint-Zelle lesen</h3>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 220" role="img" aria-label="Eine einzelne Footprint-Zelle, links das am Bid gehandelte Volumen, rechts das am Ask gehandelte Volumen, darunter die Delta-Rechnung.">
+          <rect x="180" y="46" width="360" height="72" rx="10" fill="var(--surface)" stroke="var(--line-2)" stroke-width="1.6"/>
+          <line x1="360" y1="46" x2="360" y2="118" stroke="var(--line-2)" stroke-width="1.6"/>
+          <text x="270" y="92" text-anchor="middle" font-size="26" font-weight="700" font-family="var(--mono)" fill="var(--ask)">55</text>
+          <text x="450" y="92" text-anchor="middle" font-size="26" font-weight="700" font-family="var(--mono)" fill="var(--bid)">180</text>
+          <text x="270" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ask)">am BID verkauft</text>
+          <text x="450" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="var(--bid)">am ASK gekauft</text>
+          <text x="100" y="88" text-anchor="end" font-size="15" font-weight="700" font-family="var(--mono)" fill="currentColor">5012.75</text>
+          <line x1="110" y1="82" x2="172" y2="82" stroke="var(--ink-3)" stroke-width="1" marker-end="url(#arM)"/>
+          <text x="100" y="106" text-anchor="end" font-size="11.5" fill="var(--ink-3)">ein Preis</text>
+          <text x="270" y="140" text-anchor="middle" font-size="12" fill="var(--ink-2)">Verkäufer waren aggressiv</text>
+          <text x="450" y="140" text-anchor="middle" font-size="12" fill="var(--ink-2)">Käufer waren aggressiv</text>
+          <text x="180" y="178" font-size="15" fill="currentColor">Delta dieser Zelle = 180 − 55 = <tspan font-weight="700" fill="var(--bid)">+125</tspan></text>
+          <text x="180" y="202" font-size="13" fill="var(--ink-2)">Gesamtvolumen dieser Zelle = 235 Kontrakte.</text>
+        </svg>
+      </div>
+      <figcaption>Eine Footprint-Kerze ist einfach ein Stapel solcher Zellen — eine pro Preis, den die Kerze berührt hat.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Imbalance — und warum diagonal</h3>
+    <p>Eine <strong>Imbalance</strong> ist ein starkes Übergewicht auf einer Seite. Üblicher Schwellenwert: <strong>3:1</strong>, also dreimal so viel.</p>
+    <p>Verglichen wird aber nicht links gegen rechts in derselben Zeile, sondern <strong>diagonal</strong>. Der Grund ist einfach: Wer bei 5012.75 ins Ask kauft, handelt gegen jemanden, der bei 5012.50 ins Bid verkauft hätte — das sind die beiden Parteien, die sich gegenüberstehen.</p>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 620 200" role="img" aria-label="Die diagonale Imbalance-Regel: Ask-Volumen eines Preises wird mit dem Bid-Volumen des Preises darunter verglichen, Bid-Volumen mit dem Ask-Volumen des Preises darüber.">
+          <g font-family="var(--mono)" font-size="14" font-weight="700">
+            <rect x="120" y="34" width="200" height="40" rx="7" fill="var(--surface)" stroke="var(--line-2)"/>
+            <line x1="220" y1="34" x2="220" y2="74" stroke="var(--line-2)"/>
+            <text x="170" y="60" text-anchor="middle" fill="var(--ink-2)">40</text>
+            <text x="270" y="60" text-anchor="middle" fill="var(--bid)">210</text>
+            <rect x="120" y="86" width="200" height="40" rx="7" fill="var(--surface)" stroke="var(--line-2)"/>
+            <line x1="220" y1="86" x2="220" y2="126" stroke="var(--line-2)"/>
+            <text x="170" y="112" text-anchor="middle" fill="var(--ink-2)">55</text>
+            <text x="270" y="112" text-anchor="middle" fill="var(--ink-2)">180</text>
+            <text x="112" y="60" text-anchor="end" font-size="12.5" fill="currentColor">5013.00</text>
+            <text x="112" y="112" text-anchor="end" font-size="12.5" fill="currentColor">5012.75</text>
+          </g>
+          <text x="150" y="24" font-size="11" fill="var(--ink-3)" font-weight="700">BID</text>
+          <text x="250" y="24" font-size="11" fill="var(--ink-3)" font-weight="700">ASK</text>
+          <path d="M 262 66 C 220 74, 200 82, 178 100" fill="none" stroke="var(--bid)" stroke-width="2" marker-end="url(#arG)"/>
+          <text x="336" y="62" font-size="13" font-weight="700" fill="var(--bid)">210 gegen 55 = 3,8 : 1</text>
+          <text x="336" y="82" font-size="12.5" fill="var(--ink-2)">→ Ask-Imbalance, Käufer dominieren</text>
+          <text x="336" y="116" font-size="12.5" fill="var(--ink-2)">Verglichen wird immer über Eck —</text>
+          <text x="336" y="134" font-size="12.5" fill="var(--ink-2)">nie nebeneinander in derselben Zeile.</text>
+          <text x="0" y="176" font-size="12.5" fill="var(--ink-2)">Drei oder mehr Imbalances direkt übereinander heißen <tspan font-weight="700" fill="currentColor">Stacked Imbalance</tspan> — eine Treppe. Das ist echter Druck, kein Zufall.</text>
+        </svg>
+      </div>
+      <figcaption>Einzelne Imbalances passieren ständig. Interessant wird es erst, wenn sie sich stapeln.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Drei Kerzen, eine ganze Geschichte</h3>
+    <p>So sieht ein Footprint in der Praxis aus. Lies ihn von links nach rechts:</p>
+    <div class="tablewrap" style="padding:16px">
+      <div class="fphead"><div></div><div>1 · Anstieg</div><div>2 · Absorption</div><div>3 · Absturz</div></div>
+      <div class="fp">
+        <div class="px">5013.00</div>
+        <div class="cell imb-a"><span class="bidv">40</span><span class="askv">210</span></div>
+        <div class="cell"><span class="bidv">380</span><span class="askv">1420</span></div>
+        <div class="cell"><span class="bidv">—</span><span class="askv">—</span></div>
+
+        <div class="px">5012.75</div>
+        <div class="cell imb-a"><span class="bidv">55</span><span class="askv">180</span></div>
+        <div class="cell"><span class="bidv">210</span><span class="askv">340</span></div>
+        <div class="cell"><span class="bidv">60</span><span class="askv">45</span></div>
+
+        <div class="px">5012.50</div>
+        <div class="cell imb-a"><span class="bidv">48</span><span class="askv">160</span></div>
+        <div class="cell"><span class="bidv">180</span><span class="askv">160</span></div>
+        <div class="cell imb-b"><span class="bidv">240</span><span class="askv">70</span></div>
+
+        <div class="px">5012.25</div>
+        <div class="cell"><span class="bidv">44</span><span class="askv">90</span></div>
+        <div class="cell"><span class="bidv">90</span><span class="askv">80</span></div>
+        <div class="cell imb-b"><span class="bidv">310</span><span class="askv">85</span></div>
+
+        <div class="px">5012.00</div>
+        <div class="cell"><span class="bidv">120</span><span class="askv">70</span></div>
+        <div class="cell"><span class="bidv">—</span><span class="askv">—</span></div>
+        <div class="cell imb-b"><span class="bidv">280</span><span class="askv">70</span></div>
+
+        <div class="px">5011.75</div>
+        <div class="cell"><span class="bidv">95</span><span class="askv">40</span></div>
+        <div class="cell"><span class="bidv">—</span><span class="askv">—</span></div>
+        <div class="cell"><span class="bidv">150</span><span class="askv">60</span></div>
+      </div>
+      <div class="fphead" style="margin:8px 0 0"><div>Delta</div><div style="color:var(--bid)">+348</div><div style="color:var(--bid)">+1140</div><div style="color:var(--ask)">−710</div></div>
+    </div>
+    <ul class="steps">
+      <li><span class="n">1</span><span><strong>Kerze 1:</strong> drei grüne Imbalances übereinander — eine Treppe nach oben. Käufer drücken, es funktioniert, der Preis steigt.</span></li>
+      <li><span class="n">2</span><span><strong>Kerze 2:</strong> Delta explodiert auf +1140, davon 1420 Kontrakte allein ganz oben bei 5013.00 — <em>und der Preis kommt trotzdem keinen Tick höher</em>. Das ist Absorption. Jemand hat alles genommen, was die Käufer werfen konnten.</span></li>
+      <li><span class="n">3</span><span><strong>Kerze 3:</strong> Die Käufer aus Kerze 2 sitzen fest und müssen raus. Rote Imbalances nach unten, Delta −710. Die Bewegung trägt sich selbst.</span></li>
+    </ul>
+    <div class="note warn">
+      <b>Die wichtigste Lektion des ganzen Kapitels</b>
+      <p>Ein <strong>sehr großes Delta ohne Preisfortschritt</strong> ist kein Stärkezeichen — es ist das Gegenteil. Viel Kraft, kein Ergebnis: Da steht jemand Größeres dagegen. Genau danach suchst du an deinen Levels.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Was du im Footprint suchst — und mehr nicht</h3>
+    <div class="grid2">
+      <div class="card"><span class="pill bid">Fortsetzung</span><h4 style="margin-top:9px">Stacked Imbalance</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Drei und mehr Imbalances übereinander in Richtung des Trends, an einem Level, das gerade bricht.</p></div>
+      <div class="card"><span class="pill ask">Umkehr</span><h4 style="margin-top:9px">Absorption</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Extremes Volumen und Delta am Rand der Kerze, ohne dass der Preis weiterkommt.</p></div>
+      <div class="card"><span class="pill">Erschöpfung</span><h4 style="margin-top:9px">Delta gegen Preis</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Der Preis macht ein neues Hoch, aber das Delta der Kerze ist kleiner als beim letzten Hoch.</p></div>
+      <div class="card"><span class="pill">Warnung</span><h4 style="margin-top:9px">Dünne Kerze am Level</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Kaum Volumen an einem wichtigen Level heißt: niemanden interessiert es. Kein Trade.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 7 CVD ===================== -->
+<section id="k7" class="chapter" data-title="CVD" data-group="3" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 7 · Werkzeuge</div>
+    <h2>CVD — Cumulative Volume Delta</h2>
+    <p class="lede">Delta sagt dir, wer in <em>einer</em> Kerze aggressiver war. CVD addiert das einfach immer weiter auf — und zeigt dir damit die Kraftanstrengung über den ganzen Tag.</p>
+  </header>
+
+  <div class="block">
+    <h3>Wie CVD entsteht</h3>
+    <p>Kerze 1 hat +348, Kerze 2 hat +1140, Kerze 3 hat −710. Der CVD läuft also: 348 → 1488 → 778. Eine fortlaufende Linie. Steigt sie, waren Käufer insgesamt aggressiver. Fällt sie, Verkäufer.</p>
+    <div class="note kid">
+      <b>Bild dazu</b>
+      <p>CVD ist wie ein Tacho für <strong>Anstrengung</strong>, und der Preis ist der Tacho für <strong>Fortschritt</strong>. Ein Auto, das Vollgas gibt und trotzdem nicht schneller wird, hat ein Problem. Genau dieses Auseinanderlaufen suchst du.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Die Divergenz</h3>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 300" role="img" aria-label="Oben der Preis, der ein zweites höheres Hoch macht. Unten der CVD, dessen zweites Hoch niedriger liegt als das erste. Diese bärische Divergenz zeigt, dass die Käufer absorbiert werden.">
+          <text x="0" y="14" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing=".8">PREIS</text>
+          <rect x="0" y="22" width="720" height="118" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <polyline points="20,112 70,96 120,68 170,46 210,54 260,76 310,66 360,50 410,38 452,34 500,52 560,82 620,104 700,118"
+            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="170" cy="46" r="4.5" fill="var(--ink)"/>
+          <circle cx="452" cy="34" r="4.5" fill="var(--ask)"/>
+          <line x1="170" y1="46" x2="452" y2="34" stroke="var(--ask)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="190" y="36" font-size="12" font-weight="700" fill="var(--ask)">Preis: höheres Hoch ↑</text>
+
+          <text x="0" y="166" font-size="11.5" font-weight="700" fill="var(--ink-3)" letter-spacing=".8">CVD</text>
+          <rect x="0" y="174" width="720" height="112" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <polyline points="20,266 70,250 120,224 170,200 210,212 260,236 310,226 360,214 410,210 452,216 500,236 560,256 620,268 700,276"
+            fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="170" cy="200" r="4.5" fill="var(--accent)"/>
+          <circle cx="452" cy="216" r="4.5" fill="var(--ask)"/>
+          <line x1="170" y1="200" x2="452" y2="216" stroke="var(--ask)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="190" y="194" font-size="12" font-weight="700" fill="var(--ask)">CVD: tieferes Hoch ↓</text>
+          <text x="470" y="252" font-size="12.5" font-weight="700" fill="var(--ask)">Die Käufer haben mehr</text>
+          <text x="470" y="270" font-size="12.5" font-weight="700" fill="var(--ask)">gedrückt und weniger erreicht.</text>
+        </svg>
+      </div>
+      <figcaption>Bärische Divergenz: neues Kurshoch, aber die aggressiven Käufe reichen nicht mehr so weit wie beim letzten Mal. Jemand verkauft passiv dagegen. Spiegelbildlich funktioniert die bullische Divergenz am Tief.</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="card"><span class="pill ask">Bärisch</span><p style="font-size:15.5px;margin-top:9px">Preis macht ein <strong>höheres Hoch</strong>, CVD ein <strong>tieferes Hoch</strong>. Kaufkraft lässt nach, obwohl der Preis noch steigt.</p></div>
+      <div class="card"><span class="pill bid">Bullisch</span><p style="font-size:15.5px;margin-top:9px">Preis macht ein <strong>tieferes Tief</strong>, CVD ein <strong>höheres Tief</strong>. Die Verkäufer drücken, kommen aber nicht mehr weiter.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Absorption im CVD</h3>
+    <p>Das ist der zweite, oft noch bessere Fall: <strong>CVD schießt steil in eine Richtung, der Preis bewegt sich aber praktisch nicht.</strong></p>
+    <p>Beispiel: Am Tagestief fällt der CVD scharf ab — die Verkäufer werfen alles raus. Der Preis macht aber keinen neuen Tiefpunkt. Dann steht dort jemand mit einer großen passiven Kauforder und nimmt alles. Das ist dasselbe Ereignis, das du auf der Heatmap als <em>Refilling</em> siehst (Kapitel 3, Muster 3) und im Footprint als Absorption (Kapitel 6). <strong>Drei Werkzeuge, ein Ereignis — deshalb ist die Bestätigung so stark.</strong></p>
+  </div>
+
+  <div class="block">
+    <h3>Die Grenzen — bitte ernst nehmen</h3>
+    <ul>
+      <li><strong>CVD ist eine Bedingung, kein Auslöser.</strong> Eine Divergenz allein ist kein Trade. Sie muss an einem Level auftreten, das du vorher markiert hast.</li>
+      <li><strong>An Trendtagen ist CVD fast nutzlos.</strong> Divergenzen erscheinen dort ständig und werden ständig überrannt.</li>
+      <li><strong>CVD hängt am Datenfeed.</strong> Bei Futures sauber. Bei Forex und vielen Krypto-Börsen gibt es kein zentrales Volumen — dort ist CVD eine Schätzung.</li>
+      <li><strong>Der Startpunkt zählt.</strong> Ein CVD ab Tagesbeginn sieht anders aus als einer über die ganze Woche. Entscheide dich für einen und bleib dabei.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 8 TRAPS ===================== -->
+<section id="k8" class="chapter" data-title="Traps &amp; Stop Runs" data-group="4" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 8 · Lesen lernen</div>
+    <h2>Traps &amp; Stop Runs</h2>
+    <p class="lede">Gefangene Trader sind der Treibstoff fast jeder sauberen Bewegung. Wenn du nur eine einzige Sache aus dem Orderflow mitnimmst, dann diese.</p>
+  </header>
+
+  <div class="block">
+    <h3>Warum Stops zusammenliegen</h3>
+    <p>Fast alle Trader denken gleich. Wer long ist, legt den Stop unter das letzte Tief. Wer short ist, über das letzte Hoch. Ergebnis: Direkt über jedem markanten Hoch und unter jedem markanten Tief liegt ein <strong>Haufen Stop-Orders</strong>.</p>
+    <p>Und eine Stop-Order ist, sobald sie ausgelöst wird, eine <strong>Market-Order</strong> — also aggressiv. Ein Cluster von Stops ist damit ein Reservoir an garantierter Aggression an einem exakt bekannten Preis.</p>
+    <div class="note kid">
+      <b>Worum es wirklich geht</b>
+      <p>Wer eine sehr große Position kaufen will, hat ein Problem: Es gibt nicht genug Verkäufer. Wo findet er welche? Genau dort, wo Hunderte Long-Stops liegen — denn wenn die auslösen, <em>müssen</em> diese Leute verkaufen. Der Preis wird nach unten geschoben, die Stops lösen aus, der Große kauft alles auf. Danach dreht der Markt.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Der Sweep — Schritt für Schritt</h3>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 300" role="img" aria-label="Ablauf eines Stop Runs: Der Preis läuft in einer Range, bricht kurz über das Hoch, löst dort die Stop-Orders aus, kehrt sofort in die Range zurück und fällt anschließend zur Gegenseite.">
+          <rect x="0" y="24" width="720" height="212" rx="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="16" y="76" width="688" height="128" fill="var(--accent)" opacity=".05"/>
+          <line x1="16" y1="76" x2="704" y2="76" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="6 4"/>
+          <line x1="16" y1="204" x2="704" y2="204" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="6 4"/>
+          <text x="16" y="70" font-size="11.5" font-weight="700" fill="var(--ink-2)">Range-Hoch</text>
+          <text x="16" y="220" font-size="11.5" font-weight="700" fill="var(--ink-2)">Range-Tief</text>
+
+          <g fill="var(--ask)" opacity=".55">
+            <rect x="150" y="52" width="440" height="6" rx="3"/>
+          </g>
+          <text x="150" y="46" font-size="11.5" font-weight="700" fill="var(--ask)">hier liegen die Stops der Shorts + die Kauf-Stops der Ausbruchstrader</text>
+
+          <polyline points="24,150 70,118 116,160 162,110 208,168 254,120 300,96 340,56 366,44 392,70 420,110 452,138 492,166 540,186 590,200 650,214 700,222"
+            fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="366" cy="44" r="5" fill="var(--ask)"/>
+          <text x="378" y="34" font-size="12.5" font-weight="700" fill="var(--ask)">1 · Ausbruch — Stops lösen aus</text>
+          <circle cx="420" cy="110" r="5" fill="var(--accent)"/>
+          <text x="432" y="106" font-size="12.5" font-weight="700" fill="var(--accent)">2 · sofort zurück in die Range</text>
+          <text x="470" y="196" font-size="12.5" font-weight="700" fill="var(--bid)">3 · alle Ausbruchskäufer sitzen fest → zur Gegenseite</text>
+
+          <text x="0" y="262" font-size="13" fill="var(--ink-2)">Das Entscheidende ist Schritt 2. <tspan font-weight="700" fill="currentColor">Ein Ausbruch, der nicht hält, ist stärker als ein Ausbruch, der hält</tspan> — weil jetzt eine</text>
+          <text x="0" y="282" font-size="13" fill="var(--ink-2)">ganze Gruppe auf der falschen Seite steht und ihre Positionen wieder auflösen muss.</text>
+        </svg>
+      </div>
+      <figcaption>Der Sweep hat immer drei Takte: durchstoßen, sofort zurück, dann in die Gegenrichtung laufen. Fehlt der zweite Takt, war es ein echter Ausbruch — kein Trap.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Woran du einen echten Trap erkennst</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Werkzeug</th><th>Was du siehst</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Heatmap</strong></td><td>Beim Durchstoßen war oben <em>keine</em> Liquidität mehr (Vakuum) — und direkt nach dem Rücklauf baut sich schnell neue Verkaufsliquidität über dem Hoch auf.</td></tr>
+          <tr><td><strong>Footprint</strong></td><td>Riesiges Volumen in der Ausbruchskerze am obersten Preis, aber die nächste Kerze kommt nicht höher. Absorption.</td></tr>
+          <tr><td><strong>CVD</strong></td><td>Steiler Anstieg beim Ausbruch, danach sofortiger Einbruch — und der Preis fällt schneller als der CVD. Die Käufer werden rausgedrückt.</td></tr>
+          <tr><td><strong>Geschwindigkeit</strong></td><td>Der Ausbruch ist schnell, der Rücklauf ist <em>noch schneller</em>. Das ist das Kennzeichen erzwungener Ausstiege.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn">
+      <b>Und wann ist es kein Trap?</b>
+      <p>Wenn der Preis nach dem Ausbruch <strong>oben bleibt</strong> und dort anfängt zu handeln — das nennt man Akzeptanz. Dann ist es ein echter Ausbruch und du bist auf der falschen Seite, wenn du dagegenhältst. Faustregel: Zwei 30-Minuten-Perioden Handel außerhalb sind Akzeptanz, ein Docht ist es nicht.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Wo Traps am häufigsten passieren</h3>
+    <ul>
+      <li>Über dem <strong>Vortageshoch</strong> und unter dem <strong>Vortagestief</strong></li>
+      <li>Über dem <strong>Overnight-Hoch</strong> / unter dem Overnight-Tief — besonders kurz nach der Eröffnung</li>
+      <li>An <strong>Poor Highs und Poor Lows</strong> (Kapitel 5) — dort <em>weiß</em> der Markt, dass eine Rechnung offen ist</li>
+      <li>An runden Zahlen (5000, 5050)</li>
+      <li>Am Rand der <strong>Initial Balance</strong>, 60–90 Minuten nach Eröffnung</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 9 GEX ===================== -->
+<section id="k9" class="chapter" data-title="GEX &amp; MenthorQ-Levels" data-group="4" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 9 · Lesen lernen</div>
+    <h2>GEX &amp; MenthorQ-Levels</h2>
+    <p class="lede">Diese Levels kommen nicht aus dem Chart, sondern aus dem <strong>Optionsmarkt</strong>. Sie sagen dir, wo große Händler gezwungen sind zu reagieren — ganz egal, was sie eigentlich denken.</p>
+  </header>
+
+  <div class="block">
+    <h3>Optionen in vier Sätzen</h3>
+    <ul>
+      <li>Ein <strong>Call</strong> ist das Recht, später zu einem festen Preis zu <em>kaufen</em>. Man kauft ihn, wenn man steigende Kurse erwartet.</li>
+      <li>Ein <strong>Put</strong> ist das Recht, später zu einem festen Preis zu <em>verkaufen</em>. Eine Versicherung gegen fallende Kurse.</li>
+      <li>Auf der Gegenseite steht immer ein <strong>Dealer</strong> (Market Maker). Er verkauft dir die Option — aber er will selbst keine Wette auf die Richtung eingehen.</li>
+      <li>Also sichert er sich ab: Er kauft oder verkauft <strong>Futures</strong>. Und genau das bewegt den Markt, den du handelst.</li>
+    </ul>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 170" role="img" aria-label="Kette vom Optionskauf zum Futures-Handel: Ein Kunde kauft eine Option, der Dealer verkauft sie und trägt dadurch ein Risiko, das er durch Kauf oder Verkauf von Futures neutralisiert. Diese Absicherungsgeschäfte bewegen den Kurs.">
+          <rect x="0" y="40" width="152" height="62" rx="11" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1.4"/>
+          <text x="76" y="66" text-anchor="middle" font-size="13.5" font-weight="700" fill="currentColor">Kunde kauft</text>
+          <text x="76" y="84" text-anchor="middle" font-size="13.5" font-weight="700" fill="currentColor">eine Option</text>
+
+          <rect x="190" y="40" width="152" height="62" rx="11" fill="var(--gamma-soft)" stroke="var(--gamma)" stroke-width="1.4"/>
+          <text x="266" y="66" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--gamma)">Dealer hält</text>
+          <text x="266" y="84" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--gamma)">die Gegenseite</text>
+
+          <rect x="380" y="40" width="152" height="62" rx="11" fill="var(--gamma-soft)" stroke="var(--gamma)" stroke-width="1.4"/>
+          <text x="456" y="66" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--gamma)">Er will kein</text>
+          <text x="456" y="84" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--gamma)">Richtungsrisiko</text>
+
+          <rect x="570" y="40" width="150" height="62" rx="11" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.4"/>
+          <text x="645" y="66" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--accent-ink)">Er handelt</text>
+          <text x="645" y="84" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--accent-ink)">Futures</text>
+
+          <g stroke="var(--gamma)" stroke-width="1.6" fill="none" marker-end="url(#arV)">
+            <line x1="156" y1="71" x2="183" y2="71"/>
+            <line x1="346" y1="71" x2="373" y2="71"/>
+          </g>
+          <line x1="536" y1="71" x2="563" y2="71" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#arB)"/>
+          <text x="570" y="126" font-size="12.5" font-weight="700" fill="var(--accent)">← und das bewegt deinen Kurs</text>
+          <text x="0" y="126" font-size="12.5" fill="var(--ink-2)">Er muss ständig nachjustieren — bei jeder Kursbewegung neu.</text>
+          <text x="0" y="148" font-size="12.5" fill="var(--ink-2)">Wie stark er nachjustieren muss, nennt man <tspan font-weight="700" fill="var(--gamma)">Gamma</tspan>. Wo besonders viel davon liegt, entstehen die Levels.</text>
+        </svg>
+      </div>
+      <figcaption>Der Dealer handelt nicht, weil er eine Meinung hat, sondern weil er <em>muss</em>. Das macht sein Verhalten berechenbarer als das der meisten anderen Teilnehmer.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Die zwei Gamma-Zustände</h3>
+    <p><strong>Net GEX</strong> (Netto-Gamma-Exposure) ist Call-Gamma minus Put-Gamma. Das Vorzeichen entscheidet, ob die Absicherungsgeschäfte der Dealer den Markt <em>beruhigen</em> oder <em>aufschaukeln</em>.</p>
+
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 250" role="img" aria-label="Positives Gamma als Schüssel, in der eine Kugel immer zur Mitte zurückrollt, gegenüber negativem Gamma als Hügel, von dem die Kugel immer weiter wegrollt.">
+          <text x="0" y="16" font-size="12.5" font-weight="700" fill="var(--bid)" letter-spacing=".6">POSITIVES GAMMA — die Schüssel</text>
+          <text x="380" y="16" font-size="12.5" font-weight="700" fill="var(--ask)" letter-spacing=".6">NEGATIVES GAMMA — der Hügel</text>
+          <rect x="0" y="26" width="344" height="150" rx="9" fill="var(--surface-2)" stroke="var(--line)"/>
+          <rect x="376" y="26" width="344" height="150" rx="9" fill="var(--surface-2)" stroke="var(--line)"/>
+
+          <path d="M 30 60 Q 172 178 314 60" fill="none" stroke="var(--bid)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="230" cy="120" r="9" fill="var(--bid)"/>
+          <path d="M 214 134 L 176 148" stroke="var(--bid)" stroke-width="2" fill="none" marker-end="url(#arG)"/>
+          <text x="52" y="86" font-size="11.5" fill="var(--ink-2)">Steigt der Preis,</text>
+          <text x="52" y="102" font-size="11.5" fill="var(--ink-2)">verkauft der Dealer.</text>
+          <text x="196" y="86" font-size="11.5" fill="var(--ink-2)">Fällt er, kauft er.</text>
+
+          <path d="M 406 148 Q 548 24 690 148" fill="none" stroke="var(--ask)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="604" cy="82" r="9" fill="var(--ask)"/>
+          <path d="M 620 92 L 662 122" stroke="var(--ask)" stroke-width="2" fill="none" marker-end="url(#arR)"/>
+          <text x="410" y="76" font-size="11.5" fill="var(--ink-2)">Steigt der Preis,</text>
+          <text x="410" y="92" font-size="11.5" fill="var(--ink-2)">kauft der Dealer noch dazu.</text>
+
+          <text x="0" y="202" font-size="13.5" font-weight="700" fill="var(--bid)">Volatilität wird gedämpft.</text>
+          <text x="0" y="222" font-size="12.5" fill="var(--ink-2)">Range-Tag, Chop, Levels halten gut.</text>
+          <text x="0" y="240" font-size="12.5" fill="var(--ink-2)">Ränder faden funktioniert.</text>
+          <text x="376" y="202" font-size="13.5" font-weight="700" fill="var(--ask)">Volatilität wird verstärkt.</text>
+          <text x="376" y="222" font-size="12.5" fill="var(--ink-2)">Trendtag, schnelle Bewegungen.</text>
+          <text x="376" y="240" font-size="12.5" fill="var(--ink-2)">Ränder faden wird gefährlich.</text>
+        </svg>
+      </div>
+      <figcaption>Die Kugel ist der Kurs. In der Schüssel rollt sie immer zur Mitte zurück — auf dem Hügel rollt sie immer weiter weg. Das ist der ganze Unterschied zwischen positivem und negativem Gamma.</figcaption>
+    </figure>
+
+    <div class="note kid">
+      <b>In einem Satz</b>
+      <p><strong>Positives Gamma = die Dealer bremsen.</strong> <strong>Negatives Gamma = die Dealer treten aufs Gas.</strong> Das Vorzeichen sagt dir also nicht die Richtung — es sagt dir, ob heute ein ruhiger oder ein wilder Tag wahrscheinlich ist.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Die MenthorQ-Levels, einzeln erklärt</h3>
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 326" role="img" aria-label="Preisleiter mit den MenthorQ-Levels von oben nach unten: 1D Max, Call Resistance, GEX-Level, Gamma Wall, aktueller Preis, HVL, Put Support, Blind Spot und 1D Min.">
+          <rect x="0" y="16" width="400" height="288" rx="9" fill="var(--surface-2)" stroke="var(--line)"/>
+          <g stroke-width="2">
+            <line x1="14" y1="42" x2="386" y2="42" stroke="var(--ink-3)" stroke-dasharray="6 5" stroke-width="1.4"/>
+            <line x1="14" y1="76" x2="386" y2="76" stroke="var(--gamma)"/>
+            <line x1="14" y1="108" x2="386" y2="108" stroke="var(--gamma)" stroke-width="1.3" opacity=".65"/>
+            <line x1="14" y1="140" x2="386" y2="140" stroke="var(--gamma)" stroke-width="3.4"/>
+            <line x1="14" y1="200" x2="386" y2="200" stroke="var(--gamma)" stroke-dasharray="7 4" stroke-width="1.8"/>
+            <line x1="14" y1="238" x2="386" y2="238" stroke="var(--gamma)"/>
+            <line x1="14" y1="266" x2="386" y2="266" stroke="var(--gamma)" stroke-dasharray="2 4" stroke-width="1.6"/>
+            <line x1="14" y1="292" x2="386" y2="292" stroke="var(--ink-3)" stroke-dasharray="6 5" stroke-width="1.4"/>
+          </g>
+          <polyline points="20,190 66,176 112,182 158,164 204,172 250,156 296,166 342,150 380,158"
+            fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+          <circle cx="380" cy="158" r="4" fill="currentColor"/>
+
+          <g font-size="12.5" font-weight="700">
+            <text x="414" y="46" fill="var(--ink-2)">1D Max</text>
+            <text x="414" y="80" fill="var(--gamma)">Call Resistance</text>
+            <text x="414" y="112" fill="var(--gamma)">GEX 1 … 10</text>
+            <text x="414" y="144" fill="var(--gamma)">Gamma Wall (0DTE)</text>
+            <text x="414" y="162" fill="currentColor">◂ aktueller Preis</text>
+            <text x="414" y="204" fill="var(--gamma)">HVL</text>
+            <text x="414" y="242" fill="var(--gamma)">Put Support</text>
+            <text x="414" y="270" fill="var(--gamma)">Blind Spot</text>
+            <text x="414" y="296" fill="var(--ink-2)">1D Min</text>
+          </g>
+          <g font-size="11.5" fill="var(--ink-3)">
+            <text x="556" y="46">erwartete Obergrenze</text>
+            <text x="556" y="80">Deckel</text>
+            <text x="556" y="112">nach Stärke sortiert</text>
+            <text x="556" y="144">Magnet / Klebepunkt</text>
+            <text x="556" y="204">Regimewechsel</text>
+            <text x="556" y="242">Boden</text>
+            <text x="556" y="270">versteckte Reaktionszone</text>
+            <text x="556" y="296">erwartete Untergrenze</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>Alle Linien kommen aus demselben Datensatz — der Positionierung im Optionsmarkt. Deshalb sind sie violett: Sie gehören <em>nicht</em> zu deinen Chart-Levels, sondern sind eine zweite, unabhängige Schicht.</figcaption>
+    </figure>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:180px">Level</th><th>Was es ist und was es bedeutet</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Call Resistance</strong></td><td>Der Strike mit dem höchsten Netto-Call-Gamma. Steigt der Preis dorthin, müssen die Dealer tendenziell Futures <em>verkaufen</em> — es wirkt wie ein Deckel. Typischer Ort für Chop oder eine Gegenbewegung. Wird er klar durchbrochen, ist das ein echtes bullisches Signal.</td></tr>
+          <tr><td><strong>Put Support</strong></td><td>Der Strike mit dem höchsten Netto-Put-Gamma. Fällt der Preis dorthin, kaufen die Dealer tendenziell Futures — es wirkt wie ein Boden. Bricht er, wird es darunter schnell und unangenehm.</td></tr>
+          <tr><td><strong>HVL</strong><br><span style="color:var(--ink-3);font-size:13.5px">High Volatility Level</span></td><td>Die Grenze zwischen positivem und negativem Gamma-Regime. <strong>Darüber = Schüssel (ruhig), darunter = Hügel (wild)</strong> — oder umgekehrt, je nach Tag. Das wichtigste Level für die Frage „welche Taktik passt heute?“.</td></tr>
+          <tr><td><strong>Gamma Wall (0DTE)</strong></td><td>Das stärkste Gamma-Level der Optionen, die <em>heute</em> auslaufen. Wirkt oft wie ein Klebepunkt: Der Kurs wird immer wieder dorthin gezogen, besonders am Nachmittag. Nach Ablauf verliert es schlagartig seine Wirkung.</td></tr>
+          <tr><td><strong>GEX 1 – 10</strong></td><td>Die Preise mit dem höchsten Netto-GEX innerhalb der erwarteten Tagesspanne, absteigend sortiert. GEX 1 ist das stärkste. Als zusätzliche Reaktionspunkte zwischen den Hauptlevels.</td></tr>
+          <tr><td><strong>1D Max / 1D Min</strong></td><td>Die erwartete Tagesspanne, aus der impliziten Volatilität gerechnet. Erreicht der Kurs eine Kante früh am Tag, ist eine Fortsetzung darüber hinaus statistisch seltener — aber nicht unmöglich.</td></tr>
+          <tr><td><strong>Blind Spots</strong></td><td>Reaktionszonen, die aus Gamma-Verschiebungen in <em>korrelierten</em> Märkten berechnet werden und im eigenen Chart unsichtbar sind. Werden häufig zu Zielen, wenn ein Hauptlevel bricht.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>So benutzt du sie richtig</h3>
+    <ul class="steps">
+      <li><span class="n">1</span><span><strong>Morgens neu laden.</strong> Die Levels ändern sich täglich, teilweise stündlich. Ein Level von gestern ist Müll.</span></li>
+      <li><span class="n">2</span><span><strong>Erst das Regime bestimmen.</strong> Liegt der Preis auf der ruhigen Seite des HVL? Dann Ränder faden. Auf der wilden Seite? Dann Ausbrüche und Trends handeln, nie dagegenhalten.</span></li>
+      <li><span class="n">3</span><span><strong>Nur Konfluenz handeln.</strong> Ein GEX-Level allein ist eine Linie. Ein GEX-Level, das <em>auf</em> einem LVN oder der gestrigen VAL liegt, ist ein Level.</span></li>
+      <li><span class="n">4</span><span><strong>Der Trigger kommt weiterhin aus dem Orderflow.</strong> Die Gamma-Levels sagen dir „wo“. Absorption, Sweep oder Imbalance sagen dir „jetzt“. Nie umgekehrt.</span></li>
+    </ul>
+
+    <div class="note warn">
+      <b>Ehrlich bleiben: die Grenzen</b>
+      <p>Alle GEX-Modelle beruhen auf einer <strong>Annahme darüber, wer welche Seite hält</strong> — wer Optionen gekauft und wer sie verkauft hat, ist nicht öffentlich. Die Modelle schätzen das. Das funktioniert oft gut, aber es ist keine Messung, sondern eine Rekonstruktion.</p>
+      <p>Außerdem: Diese Levels gelten für <strong>Index-Produkte</strong> mit großem Optionsmarkt — SPX/ES, NDX/NQ. Bei Öl, DAX-Futures oder Krypto ist der Zusammenhang viel schwächer oder nicht vorhanden.</p>
+    </div>
+    <p style="font-size:14.5px; color:var(--ink-3)">Definitionen nach den offiziellen MenthorQ-Guides (menthorq.com/guide) — Stand der Recherche September 2026.</p>
+  </div>
+</section>
+
+<!-- ===================== 10 ENTRIES ===================== -->
+<section id="k10" class="chapter" data-title="Entry-Signale" data-group="5" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 10 · Handeln</div>
+    <h2>Entry-Signale</h2>
+    <p class="lede">Fünf Setups. Mehr brauchst du nicht — und mehr solltest du auch nicht handeln. Für jedes steht hier, was du konkret auf dem Depth Chart siehst.</p>
+  </header>
+
+  <div class="block">
+    <h3>Was ein Entry-Signal überhaupt ist</h3>
+    <p>Ein Entry-Signal ist <strong>kein Muster im Chart</strong>. Es ist der Moment, in dem drei Dinge gleichzeitig zutreffen:</p>
+    <ol>
+      <li>Der Preis ist an einem <strong>Level, das du vorher markiert hast</strong>. Nicht an einem, das dir gerade auffällt.</li>
+      <li>Im Orderflow passiert dort <strong>etwas Messbares</strong> — Absorption, ein Sweep, eine Treppe aus Imbalances.</li>
+      <li>Du kannst in einem Satz sagen, <strong>wann du falsch liegst</strong> — und dieser Punkt ist nah genug, dass der Trade sich lohnt.</li>
+    </ol>
+    <div class="note warn">
+      <b>Fehlt eines der drei</b>
+      <p>Dann ist es kein Signal, sondern eine Meinung. Meinungen kosten Geld.</p>
+    </div>
+    <p style="font-size:14.5px;color:var(--ink-3)">In allen Bildern unten gilt: <span class="pill" style="background:var(--accent-soft);color:var(--accent-ink)">▲ Einstieg</span> &nbsp; <span class="pill ask">- - - Stop</span> &nbsp; <span class="pill bid">- - - Ziel</span></p>
+  </div>
+
+  <div class="setup">
+    <div class="head"><span class="n">1</span><b>Absorption am Level</b><span class="pill ask" style="margin-left:auto">Umkehr</span></div>
+    <div class="body">
+      <figure>
+        <svg viewBox="0 0 620 156" role="img" aria-label="Absorptions-Setup: Eine große Verkaufsorder auf der Heatmap wird dreimal angegriffen und immer wieder nachgefüllt, danach Einstieg short mit Stop über der Order und Ziel am Point of Control.">
+          <rect x="0" y="0" width="620" height="156" rx="8" fill="var(--surface-2)"/>
+          <rect x="10" y="30" width="600" height="11" rx="2" fill="var(--ask)" opacity=".72"/>
+          <line x1="10" y1="22" x2="610" y2="22" stroke="var(--ask)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="14" y="18" font-size="10.5" font-weight="700" fill="var(--ask)">Stop</text>
+          <line x1="10" y1="128" x2="610" y2="128" stroke="var(--bid)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="14" y="124" font-size="10.5" font-weight="700" fill="var(--bid)">Ziel · POC</text>
+          <polyline points="14,108 60,76 96,48 128,68 176,46 214,44 252,70 292,46 330,44 360,58 400,80 450,98 510,116 600,126"
+            fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"/>
+          <g fill="var(--ask)"><circle cx="96" cy="46" r="3"/><circle cx="214" cy="42" r="3"/><circle cx="330" cy="42" r="3"/></g>
+          <text x="120" y="34" font-size="11" font-weight="700" fill="var(--ask)">nachgefüllt · nachgefüllt · nachgefüllt</text>
+          <polygon points="360,52 353,40 367,40" fill="var(--accent)"/>
+          <text x="372" y="50" font-size="11.5" font-weight="700" fill="var(--accent)">Einstieg short, nachdem der 3. Versuch scheitert</text>
+        </svg>
+      </figure>
+      <dl class="kv">
+        <dt>Kontext</dt><dd>Balance-Tag oder positives Gamma-Regime. Preis kommt an ein vorher markiertes Level: gestriges VAH, Call Resistance, ein Composite-HVN.</dd>
+        <dt>Heatmap</dt><dd>Ein großes RL-Band liegt am Level. Der Preis greift es an, es wird abgearbeitet — und <strong>sofort wieder aufgefüllt</strong>. Zwei-, dreimal. Das Band bleibt hell.</dd>
+        <dt>Bestätigung</dt><dd>Footprint: sehr hohes Volumen und Delta an der obersten Zelle, aber kein neues Hoch. CVD steigt, Preis nicht.</dd>
+        <dt>Einstieg</dt><dd>Nach dem <em>gescheiterten</em> Versuch — wenn der Preis vom Band wegkippt. Nicht beim ersten Antippen.</dd>
+        <dt>Stop</dt><dd>Über das Band, plus Puffer. Wird es doch aufgegessen, war deine These falsch — raus.</dd>
+        <dt>Ziel</dt><dd>POC, gegenüberliegende Value-Kante oder das nächste Vakuum.</dd>
+        <dt>Ungültig</dt><dd>Das Band verschwindet, ohne gehandelt zu werden (Muster 2) — oder es wird durchgehandelt und der Preis bleibt darüber.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="setup">
+    <div class="head"><span class="n">2</span><b>Sweep-Reversal (Trap)</b><span class="pill ask" style="margin-left:auto">Umkehr</span></div>
+    <div class="body">
+      <figure>
+        <svg viewBox="0 0 620 156" role="img" aria-label="Sweep-Reversal: Der Preis bricht kurz über das Vortageshoch, kehrt sofort darunter zurück, Einstieg short beim Rücklauf mit Stop über der Spitze.">
+          <rect x="0" y="0" width="620" height="156" rx="8" fill="var(--surface-2)"/>
+          <line x1="10" y1="58" x2="610" y2="58" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="6 4"/>
+          <text x="14" y="53" font-size="10.5" font-weight="700" fill="var(--ink-2)">Vortageshoch</text>
+          <line x1="10" y1="24" x2="610" y2="24" stroke="var(--ask)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="14" y="20" font-size="10.5" font-weight="700" fill="var(--ask)">Stop</text>
+          <line x1="10" y1="132" x2="610" y2="132" stroke="var(--bid)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="14" y="128" font-size="10.5" font-weight="700" fill="var(--bid)">Ziel</text>
+          <rect x="10" y="58" width="600" height="8" fill="var(--ask)" opacity=".18"/>
+          <polyline points="14,104 56,90 98,96 140,78 182,86 224,70 258,50 278,36 296,54 316,74 348,88 390,102 440,114 500,124 600,130"
+            fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="278" cy="36" r="4.5" fill="var(--ask)"/>
+          <text x="212" y="30" font-size="11" font-weight="700" fill="var(--ask)">Stops gefressen</text>
+          <polygon points="316,68 309,56 323,56" fill="var(--accent)"/>
+          <text x="330" y="68" font-size="11.5" font-weight="700" fill="var(--accent)">Einstieg short, sobald der Preis wieder unter dem Hoch handelt</text>
+        </svg>
+      </figure>
+      <dl class="kv">
+        <dt>Kontext</dt><dd>Ein klarer Referenzpunkt mit Stops dahinter: Vortageshoch/-tief, Overnight-Extrem, Poor High, IB-Rand.</dd>
+        <dt>Heatmap</dt><dd>Über dem Level ist ein <strong>Vakuum</strong> — dort liegt kaum Liquidität. Der Preis schießt durch, und <em>direkt danach</em> baut sich über dem Hoch neue Verkaufsliquidität auf.</dd>
+        <dt>Bestätigung</dt><dd>Sehr hohes Volumen genau in der Spitzenkerze, dann sofortiger Rücklauf. CVD springt hoch und bricht sofort ein.</dd>
+        <dt>Einstieg</dt><dd>Erst, wenn der Preis <strong>wieder unter dem Level handelt</strong>. Nicht in die Spitze hinein.</dd>
+        <dt>Stop</dt><dd>Über die Spitze des Sweeps. Der Punkt ist eng und sauber — das ist der Reiz dieses Setups.</dd>
+        <dt>Ziel</dt><dd>Gegenüberliegende Range-Kante, POC oder das Level, von dem der Ausbruchsversuch startete.</dd>
+        <dt>Ungültig</dt><dd>Der Preis bleibt oben und handelt dort zwei Perioden lang. Dann war es Akzeptanz, kein Trap.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="setup">
+    <div class="head"><span class="n">3</span><b>Vakuum-Ausbruch</b><span class="pill bid" style="margin-left:auto">Fortsetzung</span></div>
+    <div class="body">
+      <figure>
+        <svg viewBox="0 0 620 156" role="img" aria-label="Vakuum-Ausbruch: Zwischen zwei Liquiditätszonen liegt ein leerer Bereich, der Preis bricht hinein und läuft schnell bis zur nächsten Zone.">
+          <rect x="0" y="0" width="620" height="156" rx="8" fill="var(--surface-2)"/>
+          <rect x="10" y="28" width="600" height="10" rx="2" fill="var(--ask)" opacity=".45"/>
+          <rect x="10" y="112" width="600" height="10" rx="2" fill="var(--bid)" opacity=".45"/>
+          <rect x="10" y="48" width="600" height="54" rx="4" fill="none" stroke="var(--ink-3)" stroke-width="1.2" stroke-dasharray="4 4"/>
+          <text x="210" y="78" font-size="11.5" font-weight="700" fill="var(--ink-2)">Vakuum — hier liegt nichts</text>
+          <line x1="10" y1="124" x2="610" y2="124" stroke="var(--ask)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="14" y="136" font-size="10.5" font-weight="700" fill="var(--ask)">Stop unter die Zone</text>
+          <line x1="10" y1="32" x2="610" y2="32" stroke="var(--bid)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="480" y="24" font-size="10.5" font-weight="700" fill="var(--bid)">Ziel: nächste Zone</text>
+          <polyline points="14,116 60,112 104,118 148,110 190,106 214,96 236,74 258,54 300,44 350,40 420,38 500,36 600,34"
+            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+          <polygon points="214,88 207,100 221,100" fill="var(--accent)"/>
+          <text x="228" y="112" font-size="11.5" font-weight="700" fill="var(--accent)">Einstieg long beim Eintritt ins Vakuum</text>
+        </svg>
+      </figure>
+      <dl class="kv">
+        <dt>Kontext</dt><dd>Trendtag, Open-Drive oder negatives Gamma-Regime. Nur in Trendrichtung — niemals gegen einen laufenden Trend.</dd>
+        <dt>Heatmap</dt><dd>Über dem aktuellen Preis ist eine dunkle, leere Zone. Die Liquidität, die den Preis bisher gebremst hat, ist <strong>aufgegessen oder gezogen</strong>.</dd>
+        <dt>Bestätigung</dt><dd>Footprint: gestapelte Imbalances in Ausbruchsrichtung. Tape wird schnell, Prints werden größer.</dd>
+        <dt>Einstieg</dt><dd>Beim Eintritt in die leere Zone — das ist der Moment, in dem der Preis am wenigsten Widerstand hat.</dd>
+        <dt>Stop</dt><dd>Zurück unter die Liquiditätszone, aus der er gekommen ist. Kommt er dorthin zurück, war der Ausbruch falsch.</dd>
+        <dt>Ziel</dt><dd>Die nächste dicke Liquiditätszone oder das nächste HVN. Dort sitzt die Bremse — dort nimmst du Gewinne.</dd>
+        <dt>Ungültig</dt><dd>Im Vakuum baut sich plötzlich neue Gegenliquidität auf, die hält. Dann sofort raus, nicht hoffen.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="setup">
+    <div class="head"><span class="n">4</span><b>Rotation in der Balance</b><span class="pill" style="margin-left:auto">Range</span></div>
+    <div class="body">
+      <figure>
+        <svg viewBox="0 0 620 156" role="img" aria-label="Rotation in der Balance: Der Preis prallt an der unteren Kante der Value Area ab und rotiert zum Point of Control in der Mitte.">
+          <rect x="0" y="0" width="620" height="156" rx="8" fill="var(--surface-2)"/>
+          <rect x="10" y="38" width="600" height="80" fill="var(--accent)" opacity=".06"/>
+          <line x1="10" y1="38" x2="610" y2="38" stroke="var(--ink-2)" stroke-width="1.3" stroke-dasharray="6 4"/>
+          <text x="14" y="33" font-size="10.5" font-weight="700" fill="var(--ink-2)">VAH</text>
+          <line x1="10" y1="78" x2="610" y2="78" stroke="var(--accent)" stroke-width="1.8"/>
+          <text x="14" y="73" font-size="10.5" font-weight="700" fill="var(--accent)">POC · Ziel 1</text>
+          <line x1="10" y1="118" x2="610" y2="118" stroke="var(--ink-2)" stroke-width="1.3" stroke-dasharray="6 4"/>
+          <text x="14" y="132" font-size="10.5" font-weight="700" fill="var(--ink-2)">VAL</text>
+          <line x1="10" y1="138" x2="610" y2="138" stroke="var(--ask)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="540" y="150" font-size="10.5" font-weight="700" fill="var(--ask)">Stop</text>
+          <polyline points="14,60 60,78 106,96 152,114 186,120 214,116 252,100 296,86 340,76 390,66 440,52 500,44 560,50 600,60"
+            fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"/>
+          <polygon points="214,108 207,120 221,120" fill="var(--accent)"/>
+          <text x="230" y="136" font-size="11.5" font-weight="700" fill="var(--accent)">Einstieg long an der VAL, nachdem sie hält</text>
+        </svg>
+      </figure>
+      <dl class="kv">
+        <dt>Kontext</dt><dd>Normal Day, enge Range, <strong>positives Gamma</strong>. Dieses Setup ist an Trendtagen der schnellste Weg, Geld zu verlieren.</dd>
+        <dt>Heatmap</dt><dd>An der Value-Kante liegt sichtbare Liquidität, die gehalten wird. Im Inneren der Range ist es dünn — dort läuft der Preis leicht durch.</dd>
+        <dt>Bestätigung</dt><dd>Kleine Absorption an der Kante, Delta dreht, keine gestapelten Imbalances gegen dich.</dd>
+        <dt>Einstieg</dt><dd>An der Kante, <em>nachdem</em> sie einmal gehalten hat.</dd>
+        <dt>Stop</dt><dd>Knapp außerhalb der Value Area. Wird die Kante akzeptiert, ist die Balance vorbei.</dd>
+        <dt>Ziel</dt><dd>Erstes Ziel POC. Wer mehr will: die gegenüberliegende Kante — aber Teilgewinn am POC ist die vernünftigere Variante.</dd>
+        <dt>Ungültig</dt><dd>Ein Open-Drive, Range Extension über die IB oder ein Regimewechsel unter das HVL. Dann sofort aufhören zu faden.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="setup">
+    <div class="head"><span class="n">5</span><b>Pull &amp; Go</b><span class="pill bid" style="margin-left:auto">Fortsetzung</span></div>
+    <div class="body">
+      <figure>
+        <svg viewBox="0 0 620 156" role="img" aria-label="Pull and Go: Eine große Verkaufsorder wird zurückgezogen, bevor der Preis sie erreicht, danach beschleunigt der Preis nach oben.">
+          <rect x="0" y="0" width="620" height="156" rx="8" fill="var(--surface-2)"/>
+          <rect x="10" y="44" width="290" height="11" rx="2" fill="var(--ask)" opacity=".72"/>
+          <rect x="300" y="44" width="310" height="11" rx="2" fill="var(--ask)" opacity=".05"/>
+          <line x1="300" y1="36" x2="300" y2="64" stroke="var(--ask)" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <text x="196" y="38" font-size="11" font-weight="700" fill="var(--ask)">gezogen — nicht gehandelt</text>
+          <line x1="10" y1="112" x2="610" y2="112" stroke="var(--ask)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          <text x="14" y="124" font-size="10.5" font-weight="700" fill="var(--ask)">Stop</text>
+          <polyline points="14,124 60,118 106,110 152,102 200,94 252,86 300,80 330,64 370,50 420,42 480,34 540,30 600,28"
+            fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"/>
+          <polygon points="330,74 323,86 337,86" fill="var(--accent)"/>
+          <text x="344" y="96" font-size="11.5" font-weight="700" fill="var(--accent)">Einstieg long, sobald die Wand weg ist und der Preis anzieht</text>
+        </svg>
+      </figure>
+      <dl class="kv">
+        <dt>Kontext</dt><dd>Laufende Bewegung, die auf eine sichtbare Wand zuläuft. Funktioniert in beide Richtungen.</dd>
+        <dt>Heatmap</dt><dd>Das große Band <strong>verschwindet, bevor der Preis es erreicht</strong>. Wichtig: Es wird nicht durchgehandelt — es wird gezogen. Der Bremsklotz, auf den alle gestarrt haben, ist einfach weg.</dd>
+        <dt>Bestätigung</dt><dd>Tape wird sofort schneller, Delta zieht in Bewegungsrichtung an.</dd>
+        <dt>Einstieg</dt><dd>Direkt nach dem Verschwinden, solange die Beschleunigung läuft. Dieses Setup ist die schnellste Reaktion von allen fünf — im Zweifel auslassen.</dd>
+        <dt>Stop</dt><dd>Unter das letzte kleine Zwischentief vor der Beschleunigung.</dd>
+        <dt>Ziel</dt><dd>Die nächste sichtbare Liquiditätszone auf der Heatmap.</dd>
+        <dt>Ungültig</dt><dd>Die Wand kommt an derselben Stelle zurück und der Preis stoppt. Dann war es ein Umschichten, kein Rückzug.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="note">
+      <b>Womit du anfängst</b>
+      <p>Lerne <strong>Setup 1 zuerst</strong> und nur Setup 1. Es ist das langsamste, das klarste und das, bei dem du deinen Irrtum am schnellsten merkst. Setup 5 ist das schwerste — lass es die ersten sechs Monate komplett weg.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 11 PROZESS ===================== -->
+<section id="k11" class="chapter" data-title="Dein Tagesablauf" data-group="5" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 11 · Handeln</div>
+    <h2>Dein Tagesablauf</h2>
+    <p class="lede">Gute Trader improvisieren nicht. Sie arbeiten jeden Tag dieselbe Liste ab — das ist der ganze Unterschied.</p>
+  </header>
+
+  <div class="block">
+    <figure>
+      <div class="figbox">
+        <svg viewBox="0 0 720 186" role="img" aria-label="Tagesablauf als Zeitstrahl mit fünf Stationen: Vorbereitung vor der Eröffnung, die Eröffnung selbst, die erste Stunde, die Mitte des Tages und die Nachbereitung nach Handelsschluss.">
+          <line x1="30" y1="86" x2="700" y2="86" stroke="var(--line-2)" stroke-width="2"/>
+          <g>
+            <circle cx="60" cy="86" r="9" fill="var(--accent)"/><circle cx="215" cy="86" r="9" fill="var(--accent)"/>
+            <circle cx="370" cy="86" r="9" fill="var(--accent)"/><circle cx="525" cy="86" r="9" fill="var(--ink-3)"/>
+            <circle cx="670" cy="86" r="9" fill="var(--bid)"/>
+          </g>
+          <g font-size="12.5" font-weight="700" fill="currentColor" text-anchor="middle">
+            <text x="60" y="56">Vorbereitung</text><text x="215" y="56">Eröffnung</text>
+            <text x="370" y="56">Erste Stunde</text><text x="525" y="56">Mitte</text><text x="670" y="56">Nachbereitung</text>
+          </g>
+          <g font-size="11.5" fill="var(--ink-2)" text-anchor="middle">
+            <text x="60" y="38">−60 Min</text><text x="215" y="38">0</text>
+            <text x="370" y="38">+60 Min</text><text x="525" y="38">Mittag</text><text x="670" y="38">nach Schluss</text>
+            <text x="60" y="118">Levels zeichnen</text><text x="60" y="134">Szenarien schreiben</text>
+            <text x="215" y="118">Open Type</text><text x="215" y="134">bestimmen</text>
+            <text x="370" y="118">IB eintragen,</text><text x="370" y="134">Tagestyp festlegen</text>
+            <text x="525" y="118">meist ruhig —</text><text x="525" y="134">Finger still</text>
+            <text x="670" y="118">Journal,</text><text x="670" y="134">Screenshots</text>
+          </g>
+          <rect x="440" y="72" width="170" height="28" rx="7" fill="var(--warn-soft)" opacity=".8"/>
+          <text x="525" y="90" font-size="11" font-weight="700" fill="var(--warn)" text-anchor="middle">gefährlichste Zeit</text>
+        </svg>
+      </div>
+      <figcaption>Die Mittagszeit ist statistisch die schlechteste Handelszeit: wenig Volumen, viele Fehlsignale. Die meisten Konten sterben zwischen 12 und 14 Uhr.</figcaption>
+    </figure>
+  </div>
+
+  <div class="block">
+    <h3>Vor der Eröffnung — 20 Minuten</h3>
+    <ul class="steps">
+      <li><span class="n">1</span><span><strong>Composite-Profil anschauen.</strong> Wo sind die großen HVN und LVN? Bin ich in einer großen Balance oder in einem Trend?</span></li>
+      <li><span class="n">2</span><span><strong>Gestern auswerten.</strong> Tagestyp? VAH/POC/VAL? Poor High oder Poor Low? Excess an den Enden?</span></li>
+      <li><span class="n">3</span><span><strong>Levels einzeichnen</strong> — die sieben aus Kapitel 5. Mehr nicht.</span></li>
+      <li><span class="n">4</span><span><strong>Gamma-Levels laden</strong> (Kapitel 9) und schauen, welche davon auf deinen Chart-Levels liegen. Diese Doppel-Levels sind deine Kandidaten für den Tag.</span></li>
+      <li><span class="n">5</span><span><strong>Nachrichtenkalender prüfen.</strong> CPI, FOMC, Arbeitsmarkt? Dann vorher keine Position.</span></li>
+      <li><span class="n">6</span><span><strong>Zwei Szenarien aufschreiben</strong> — A und B, je mit Auslöser und Ungültigkeitspunkt. Schriftlich, nicht im Kopf.</span></li>
+    </ul>
+    <div class="note">
+      <b>Beispiel für ein Szenario</b>
+      <p><em>„A: Eröffnung innerhalb der gestrigen Value Area. Dann erwarte ich Rotation. Long an der VAL bei 5008.50, wenn dort Absorption kommt, Stop 5005.75, Ziel POC 5014.25.“</em> — So konkret. Wenn du es nicht so aufschreiben kannst, hast du kein Szenario, sondern ein Gefühl.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Während der Session</h3>
+    <ul>
+      <li><strong>Open Type bestimmen</strong> (Kapitel 5) — in den ersten 15 Minuten. Daraus folgt deine Taktik für den ganzen Tag.</li>
+      <li><strong>Nur an deinen Levels handeln.</strong> Passiert dort nichts, passiert eben nichts. Nichtstun ist eine Position.</li>
+      <li><strong>Trigger abwarten.</strong> Der Preis <em>am</em> Level ist kein Trigger. Die Reaktion am Level ist der Trigger.</li>
+      <li><strong>Nach jedem Trade 5 Minuten Pause.</strong> Egal ob Gewinn oder Verlust. Das verhindert die meisten Folgefehler.</li>
+      <li><strong>Bei zwei Verlusten in Folge: Schluss für heute.</strong> Ohne Diskussion mit dir selbst.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Wie dein Bildschirm aussehen sollte</h3>
+    <div class="grid3">
+      <div class="card"><span class="pill">Haupt</span><h4 style="margin-top:9px">Heatmap</h4><p style="font-size:15px;color:var(--ink-2);margin-top:5px">Groß, in der Mitte. Hier verbringst du die meiste Zeit.</p></div>
+      <div class="card"><span class="pill">Links</span><h4 style="margin-top:9px">Chart mit Levels</h4><p style="font-size:15px;color:var(--ink-2);margin-top:5px">Volume Profile, TPO, deine sieben Linien, Gamma-Levels.</p></div>
+      <div class="card"><span class="pill">Rechts</span><h4 style="margin-top:9px">Footprint + CVD</h4><p style="font-size:15px;color:var(--ink-2);margin-top:5px">Für die Bestätigung am Level. Klein reicht.</p></div>
+    </div>
+    <div class="note warn">
+      <b>Kein viertes Fenster</b>
+      <p>Kein RSI, kein MACD, keine Bollinger Bänder. Jeder zusätzliche Indikator erzeugt zusätzliche Gründe zu handeln — und du brauchst weniger Gründe, nicht mehr.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Nach Handelsschluss — 10 Minuten</h3>
+    <p>Das ist der Teil, den fast alle auslassen, und genau deshalb lernen fast alle nichts.</p>
+    <ul>
+      <li>Screenshot von jedem Trade, mit den Levels drauf.</li>
+      <li>Ein Satz: Warum bin ich eingestiegen?</li>
+      <li>Ein Satz: Habe ich meine eigenen Regeln eingehalten — ja oder nein?</li>
+      <li>Ein Satz: Welcher Tagestyp war es wirklich, und habe ich ihn richtig erkannt?</li>
+    </ul>
+    <div class="note kid">
+      <b>Wichtiger als alles andere</b>
+      <p>Bewerte deine Trades nach <strong>Regeltreue</strong>, nicht nach Gewinn. Ein regelkonformer Verlust ist ein <em>guter</em> Trade. Ein Gewinn ohne Regel ist ein <em>schlechter</em> Trade — er bringt dir bei, wieder gegen deine Regeln zu verstoßen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 12 RISIKO ===================== -->
+<section id="k12" class="chapter" data-title="Risiko &amp; Geld" data-group="5" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 12 · Handeln</div>
+    <h2>Risiko &amp; Geld</h2>
+    <p class="lede">Ohne diesen Teil ist alles davor wertlos. Man kann mit einer mittelmäßigen Analyse und gutem Risikomanagement überleben — umgekehrt nie.</p>
+  </header>
+
+  <div class="block">
+    <h3>Denk in R, nicht in Euro</h3>
+    <p><strong>1R = das Geld, das du verlierst, wenn dein Stop ausgelöst wird.</strong> Immer gleich groß, in jedem Trade.</p>
+    <p>Ein Trade, der dreimal so viel bringt wie dein Risiko, ist +3R. Einer, der ausgestoppt wird, ist −1R. So werden völlig verschiedene Trades vergleichbar, und du hörst auf, in „heute 180 Euro“ zu denken.</p>
+  </div>
+
+  <div class="block">
+    <h3>Positionsgröße — die einzige Formel, die du brauchst</h3>
+    <p style="font-size:19px; font-weight:650">Kontrakte = (Konto × Risiko in %) ÷ (Stop in Ticks × Tickwert)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Größe</th><th class="num">Wert</th><th>Erklärung</th></tr></thead>
+        <tbody>
+          <tr><td>Konto</td><td class="num">10 000 $</td><td>Dein Handelskapital</td></tr>
+          <tr><td>Risiko pro Trade</td><td class="num">0,5 % = 50 $</td><td>Am Anfang nie mehr. 0,25 % ist auch völlig in Ordnung.</td></tr>
+          <tr><td>Stop</td><td class="num">8 Ticks</td><td>Ergibt sich aus der Struktur, nicht aus deinem Wunsch</td></tr>
+          <tr><td>Tickwert MES</td><td class="num">1,25 $</td><td>Micro E-mini S&amp;P 500</td></tr>
+          <tr><td><strong>Ergebnis</strong></td><td class="num"><strong>5 Kontrakte</strong></td><td>50 ÷ (8 × 1,25) = 5</td></tr>
+          <tr><td>Zum Vergleich: ES</td><td class="num">12,50 $/Tick</td><td>8 × 12,50 = 100 $ — ein einziger Kontrakt wäre schon doppeltes Risiko. <strong>Deshalb Mikros.</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn">
+      <b>Die Reihenfolge ist entscheidend</b>
+      <p>Erst der Stop, <em>dann</em> die Größe. Nie umgekehrt. Wer zuerst entscheidet „ich nehme 3 Kontrakte“ und dann den Stop danach setzt, hat kein Risikomanagement, sondern eine Hoffnung.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Rechnet sich dein Setup überhaupt?</h3>
+    <p style="font-size:19px; font-weight:650">Erwartungswert = Trefferquote × Ø-Gewinn − (1 − Trefferquote) × Ø-Verlust</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Trefferquote</th><th class="num">Ø Gewinn</th><th class="num">Erwartungswert je Trade</th><th>Urteil</th></tr></thead>
+        <tbody>
+          <tr><td>40 %</td><td class="num">2,0 R</td><td class="num">+0,20 R</td><td>Tragfähig</td></tr>
+          <tr><td>50 %</td><td class="num">1,5 R</td><td class="num">+0,25 R</td><td>Gut</td></tr>
+          <tr><td>65 %</td><td class="num">1,0 R</td><td class="num">+0,30 R</td><td>Gut, aber braucht Disziplin</td></tr>
+          <tr><td>70 %</td><td class="num">0,5 R</td><td class="num">+0,05 R</td><td>Nach Gebühren wertlos</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Schau dir die letzte Zeile genau an: <strong>70 % Trefferquote und trotzdem kein Geschäft.</strong> Die Trefferquote allein sagt gar nichts — nur zusammen mit dem Verhältnis von Gewinn zu Verlust.</p>
+  </div>
+
+  <div class="block">
+    <h3>Deine harten Grenzen</h3>
+    <div class="grid2">
+      <div class="card"><h4>Pro Trade</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Maximal 0,5 % des Kontos.</p></div>
+      <div class="card"><h4>Pro Tag</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Maximal 2 % oder zwei Verluste in Folge — was zuerst kommt. Dann Plattform zu.</p></div>
+      <div class="card"><h4>Pro Tag, Anzahl</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Maximal 3 Trades. Mehr sind fast immer Langeweile, nicht Gelegenheit.</p></div>
+      <div class="card"><h4>Vor Größer-Werden</h4><p style="font-size:15.5px;color:var(--ink-2);margin-top:6px">Mindestens 100 Trades mit positivem Erwartungswert und Regeltreue über 90 %.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Was in dein Journal gehört</h3>
+    <p>Pro Trade sechs Felder — mehr wird nie ausgefüllt:</p>
+    <ol>
+      <li>Screenshot mit eingezeichneten Levels</li>
+      <li>Setup-Nummer (1–5 aus Kapitel 10)</li>
+      <li>Tagestyp und Open Type</li>
+      <li>Ergebnis in R</li>
+      <li>Regel eingehalten: ja / nein</li>
+      <li>Ein Satz: Was würde ich nochmal genauso machen?</li>
+    </ol>
+    <p>Nach 50 Trades sortierst du nach Setup-Nummer. Dann siehst du zum ersten Mal schwarz auf weiß, welches Setup dein Geld verdient — und welches es verbrennt. <strong>Bis dahin rätst du.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== 13 PLAN ===================== -->
+<section id="k13" class="chapter" data-title="Dein 12-Wochen-Plan" data-group="6" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 13 · Dein Weg</div>
+    <h2>Dein 12-Wochen-Plan</h2>
+    <p class="lede">Zum Abhaken. Dein Fortschritt wird gespeichert — du kannst die Seite zumachen und morgen weitermachen.</p>
+  </header>
+
+  <div class="block">
+    <div class="note warn">
+      <b>Die Reihenfolge ist nicht verhandelbar</b>
+      <p>Jede Phase baut auf der davor auf. Wer in Woche 3 anfängt zu traden, lernt zwölf Wochen lang nichts und zahlt dafür Lehrgeld.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Woche 1–2 · Mechanik verstehen</h3>
+    <p style="color:var(--ink-2)">Ziel: Du kannst erklären, wie ein Preis entsteht. <strong>Keine Trades. Null.</strong></p>
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-step="w1a"><span>Kapitel 1 und 2 gelesen — und beides in eigenen Worten erklären können, ohne nachzuschauen.</span></label>
+      <label class="check"><input type="checkbox" data-step="w1b"><span>Kontraktspezifikation von MES und MNQ nachgeschlagen: Tickgröße, Tickwert, Handelszeiten, Rollover-Termin.</span></label>
+      <label class="check"><input type="checkbox" data-step="w1c"><span>Fünf Sessions lang je 30 Minuten nur Tape und Heatmap beobachtet. Nichts eingezeichnet, nichts gehandelt.</span></label>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Woche 3–4 · Struktur lesen</h3>
+    <p style="color:var(--ink-2)">Ziel: Du erkennst den Tagestyp, bevor der Tag vorbei ist.</p>
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-step="w2a"><span>Zehn Handelstage manuell ausgewertet: Tagestyp, Open Type, Lage zur gestrigen Value Area.</span></label>
+      <label class="check"><input type="checkbox" data-step="w2b"><span>Zehn Tage lang die sieben Levels aus Kapitel 5 <em>vor</em> der Eröffnung eingezeichnet.</span></label>
+      <label class="check"><input type="checkbox" data-step="w2c"><span>Abends notiert, welches dieser Levels tatsächlich eine Reaktion erzeugt hat — und welches nicht.</span></label>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Woche 5–6 · Heatmap lesen</h3>
+    <p style="color:var(--ink-2)">Ziel: Du unterscheidest sicher zwischen gezogen und aufgegessen.</p>
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-step="w3a"><span>Täglich drei RL-Level markiert und protokolliert: gehalten / absorbiert / gezogen.</span></label>
+      <label class="check"><input type="checkbox" data-step="w3b"><span>Jedes der fünf Muster aus Kapitel 3 mindestens zehnmal im echten Markt gefunden und als Screenshot gesammelt.</span></label>
+      <label class="check"><input type="checkbox" data-step="w3c"><span>Pro Tag einen Sweep gefunden und die drei Takte nachvollzogen (durchstoßen → zurück → Gegenrichtung).</span></label>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Woche 7–8 · Ein einziges Setup</h3>
+    <p style="color:var(--ink-2)">Ziel: Setup 1 sitzt im Schlaf. Nur Setup 1.</p>
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-step="w4a"><span>Absorption im Footprint zwanzigmal identifiziert und mit der Heatmap gegengeprüft.</span></label>
+      <label class="check"><input type="checkbox" data-step="w4b"><span>Setup 1 schriftlich definiert: Kontext, Trigger, Einstieg, Stop, Ziel, Ungültigkeit. Eine halbe Seite.</span></label>
+      <label class="check"><input type="checkbox" data-step="w4c"><span>Setup 1 im Market Replay hundertmal durchgespielt.</span></label>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Woche 9–10 · Simulation</h3>
+    <p style="color:var(--ink-2)">Ziel: Du hältst deine eigenen Regeln ein, wenn es zählt.</p>
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-step="w5a"><span>Fünfzig Trades im Sim — ausschließlich Setup 1, maximal drei pro Tag.</span></label>
+      <label class="check"><input type="checkbox" data-step="w5b"><span>Journal lückenlos geführt, Regeltreue über 90 %.</span></label>
+      <label class="check"><input type="checkbox" data-step="w5c"><span>Erwartungswert nach der Formel aus Kapitel 12 ausgerechnet. Ist er negativ: Phase wiederholen, nicht weitergehen.</span></label>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Woche 11–12 · Live mit Mikros</h3>
+    <p style="color:var(--ink-2)">Ziel: den Unterschied zwischen Sim und echtem Geld aushalten.</p>
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-step="w6a"><span>MES oder MNQ, <strong>ein</strong> Kontrakt, maximal zwei Trades pro Tag.</span></label>
+      <label class="check"><input type="checkbox" data-step="w6b"><span>Dreißig Live-Trades mit vollständigem Journal.</span></label>
+      <label class="check"><input type="checkbox" data-step="w6c"><span>Erst danach über ein zweites Setup oder mehr Größe nachdenken — nicht vorher.</span></label>
+    </div>
+    <div class="note kid">
+      <b>Nach zwölf Wochen</b>
+      <p>Du wirst noch nicht profitabel sein. Das ist normal und kein Grund aufzuhören. Du wirst aber etwas haben, das fast niemand hat: <strong>einen Prozess, Daten über dich selbst und ein Setup, das du wirklich kennst.</strong> Ab da wird es zum ersten Mal eine Frage der Wiederholung statt des Glücks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 14 FEHLER + GLOSSAR ===================== -->
+<section id="k14" class="chapter" data-title="Fehler &amp; Glossar" data-group="6" hidden>
+  <header>
+    <div class="eyebrow">Kapitel 14 · Dein Weg</div>
+    <h2>Fehler &amp; Glossar</h2>
+    <p class="lede">Die Fallen, in die praktisch jeder tappt — und ein Nachschlagewerk für jedes Wort dieser Seite.</p>
+  </header>
+
+  <div class="block">
+    <h3>Die acht häufigsten Fehler</h3>
+    <ul class="steps">
+      <li><span class="n">1</span><span><strong>Eine Wand auf der Heatmap für Support halten.</strong> Sie ist erst dann etwas wert, wenn sie durchgehandelt und nachgefüllt wird.</span></li>
+      <li><span class="n">2</span><span><strong>Divergenzen ohne Level handeln.</strong> Eine CVD-Divergenz mitten in der Range ist Rauschen.</span></li>
+      <li><span class="n">3</span><span><strong>Ränder faden an einem Trendtag.</strong> Der teuerste Fehler überhaupt. Deshalb kommt der Tagestyp vor dem Trade.</span></li>
+      <li><span class="n">4</span><span><strong>Zu viele Werkzeuge gleichzeitig lernen.</strong> Drei halb verstandene Tools sind schlechter als eines, das du beherrschst.</span></li>
+      <li><span class="n">5</span><span><strong>Den Stop nach der Wunschgröße setzen</strong> statt nach der Struktur.</span></li>
+      <li><span class="n">6</span><span><strong>Nach zwei Verlusten weitermachen.</strong> Der dritte Trade ist fast nie eine Analyse, sondern eine Rückholaktion.</span></li>
+      <li><span class="n">7</span><span><strong>Größe erhöhen, bevor die Statistik steht.</strong> Unter 100 Trades weißt du gar nichts über dein Setup.</span></li>
+      <li><span class="n">8</span><span><strong>Kein schriftliches Playbook.</strong> Was nicht aufgeschrieben ist, wird im Eifer des Gefechts neu erfunden.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Glossar</h3>
+    <div class="gloss">
+      <div><b>Absorption</b><span>Aggressive Market-Orders treffen auf passive Limit-Orders, die immer wieder nachgefüllt werden. Viel Kraft, kein Preisfortschritt.</span></div>
+      <div><b>Aggressor</b><span>Wer mit einer Market-Order handelt und damit Liquidität nimmt. Bewegt den Preis.</span></div>
+      <div><b>AMT</b><span>Auction Market Theory. Die Idee, dass der Markt eine laufende Auktion ist, die zwischen Wertbildung und Preissuche wechselt.</span></div>
+      <div><b>Ask</b><span>Der Preis, zu dem gerade jemand verkaufen will. Wer dort kauft, ist aggressiv.</span></div>
+      <div><b>Bid</b><span>Der Preis, zu dem gerade jemand kaufen will. Wer dort verkauft, ist aggressiv.</span></div>
+      <div><b>Blind Spot</b><span>MenthorQ-Level, das aus Gamma-Verschiebungen in korrelierten Märkten berechnet wird. Oft Ziel, wenn ein Hauptlevel bricht.</span></div>
+      <div><b>Call Resistance</b><span>Strike mit dem höchsten Netto-Call-Gamma. Wirkt meist wie ein Deckel.</span></div>
+      <div><b>Cluster-Chart</b><span>Anderer Name für Footprint-Chart. Zeigt Bid- und Ask-Volumen je Preis innerhalb einer Kerze.</span></div>
+      <div><b>CVD</b><span>Cumulative Volume Delta. Die fortlaufende Summe aller Deltas.</span></div>
+      <div><b>Delta</b><span>Aggressive Käufe minus aggressive Verkäufe in einem Zeitraum.</span></div>
+      <div><b>DOM</b><span>Depth of Market. Die Orderbuch-Leiter mit Bid- und Ask-Größen je Preis.</span></div>
+      <div><b>Excess / Tail</b><span>Mehrere Single Prints am Rand eines Profils. Saubere Ablehnung, Auktion beendet.</span></div>
+      <div><b>Footprint</b><span>Kerzenchart, der jede Kerze in Bid- und Ask-Volumen je Preis aufschlüsselt.</span></div>
+      <div><b>Gamma</b><span>Wie stark sich die Absicherung eines Optionshändlers ändert, wenn sich der Kurs bewegt.</span></div>
+      <div><b>Gamma Wall</b><span>Stärkstes Gamma-Level der heute auslaufenden Optionen. Wirkt oft wie ein Klebepunkt.</span></div>
+      <div><b>GEX</b><span>Gamma Exposure. Call-Gamma minus Put-Gamma. Positiv dämpft, negativ verstärkt die Volatilität.</span></div>
+      <div><b>HVL</b><span>High Volatility Level. Grenze zwischen positivem und negativem Gamma-Regime.</span></div>
+      <div><b>HVN</b><span>High Volume Node. Preiszone mit viel Volumen. Bremse.</span></div>
+      <div><b>Iceberg</b><span>Große Order, von der nur ein kleiner Teil sichtbar ist. Erkennbar am gehandelten Volumen, nicht an der Anzeige.</span></div>
+      <div><b>Imbalance</b><span>Diagonales Übergewicht im Footprint, üblich ab 3:1.</span></div>
+      <div><b>Initial Balance (IB)</b><span>Hoch und Tief der ersten Handelsstunde.</span></div>
+      <div><b>Limit-Order</b><span>Passiver Auftrag, der im Buch wartet. Gibt Liquidität.</span></div>
+      <div><b>Liquidity Void</b><span>Preiszone ohne nennenswerte Liquidität. Der Preis rauscht durch.</span></div>
+      <div><b>LVN</b><span>Low Volume Node. Preiszone mit kaum Volumen. Beschleuniger und gute Stop-Grenze.</span></div>
+      <div><b>Market-Order</b><span>Aggressiver Auftrag, der sofort ausgeführt wird. Nimmt Liquidität.</span></div>
+      <div><b>MBO / MBP</b><span>Market by Order (jede einzelne Order) gegenüber Market by Price (nur die Summe je Preis).</span></div>
+      <div><b>Naked POC</b><span>POC eines früheren Tages, der seitdem nie wieder berührt wurde. Magnet.</span></div>
+      <div><b>POC</b><span>Point of Control. Der Preis mit dem meisten Volumen bzw. der längsten TPO-Reihe.</span></div>
+      <div><b>Poor High / Low</b><span>Profilrand ohne Excess. Unfertige Auktion, wird meist später abgeholt.</span></div>
+      <div><b>Pulling</b><span>Zurückziehen einer großen Order, bevor der Preis sie erreicht.</span></div>
+      <div><b>Put Support</b><span>Strike mit dem höchsten Netto-Put-Gamma. Wirkt meist wie ein Boden.</span></div>
+      <div><b>R</b><span>Das Risiko eines Trades als Einheit. Ein ausgestoppter Trade ist −1R.</span></div>
+      <div><b>Range Extension</b><span>Handel außerhalb der Initial Balance. Frühes Zeichen für einen Trendtag.</span></div>
+      <div><b>Refilling</b><span>Eine abgearbeitete Order wird sofort wieder aufgefüllt. Kern der Absorption.</span></div>
+      <div><b>RL</b><span>Resting Liquidity. Große ruhende Limit-Orders, auf der Heatmap als helle waagerechte Bänder sichtbar.</span></div>
+      <div><b>Single Print</b><span>Preis mit nur einem TPO-Buchstaben. Der Markt ist durchgerauscht.</span></div>
+      <div><b>Spoofing</b><span>Große Orders, die nur zum Täuschen platziert und vor Ausführung gezogen werden.</span></div>
+      <div><b>Spread</b><span>Abstand zwischen bestem Bid und bestem Ask.</span></div>
+      <div><b>Stacked Imbalance</b><span>Drei oder mehr Imbalances direkt übereinander. Echter Druck.</span></div>
+      <div><b>Stop Run / Sweep</b><span>Bewegung, die gezielt einen Stop-Cluster auslöst, um Gegenseite zu bekommen.</span></div>
+      <div><b>Tape</b><span>Time &amp; Sales. Die Liste aller tatsächlich ausgeführten Trades.</span></div>
+      <div><b>TPO</b><span>Time Price Opportunity. Baustein des Market Profile — ein Buchstabe je Preis und 30-Minuten-Periode.</span></div>
+      <div><b>Trap</b><span>Ausbruch, der sofort zurückläuft und eine Gruppe Trader auf der falschen Seite zurücklässt.</span></div>
+      <div><b>Value Area</b><span>Bereich um den POC, der 70 % der Aktivität enthält. Grenzen: VAH oben, VAL unten.</span></div>
+      <div><b>Volume Profile</b><span>Verteilung des gehandelten Volumens über die Preise statt über die Zeit.</span></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Bücher und Quellen</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Thema</th><th>Empfehlung</th></tr></thead>
+        <tbody>
+          <tr><td>Marktmechanik</td><td><strong>Larry Harris — Trading and Exchanges.</strong> Das Fundament. Trocken, aber kein Buch erklärt Orderbücher besser.</td></tr>
+          <tr><td>Market Profile</td><td><strong>James Dalton — Mind Over Markets</strong> zum Lernen, <strong>Markets in Profile</strong> zum Vertiefen.</td></tr>
+          <tr><td>Ursprung</td><td><strong>Peter Steidlmayer — Steidlmayer on Markets.</strong> Der Erfinder des Market Profile.</td></tr>
+          <tr><td>Volume Profile</td><td><strong>Trader Dale — Volume Profile.</strong> Praxisnah, guter Einstieg.</td></tr>
+          <tr><td>Psychologie</td><td><strong>Mark Douglas — Trading in the Zone.</strong></td></tr>
+          <tr><td>Orderflow / DOM</td><td>Jigsaw Trading (Peter Davies) — bodenständig und ohne Verkaufsshow. Bookmap Education für die Heatmap.</td></tr>
+          <tr><td>Mechanik &amp; Kontrakte</td><td>CME Institute — kostenlos, direkt von der Börse.</td></tr>
+          <tr><td>Gamma-Levels</td><td>menthorq.com/guide — die offiziellen Definitionen der Levels aus Kapitel 9.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <b>Womit du anfängst</b>
+      <p>Ein Buch. <strong>Mind Over Markets.</strong> Lies es parallel zu Woche 3 und 4 deines Plans, dann sitzt die Theorie genau dann, wenn du sie brauchst.</p>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <button class="fbtn" id="prevBtn">← Zurück</button>
+  <button class="fbtn primary" id="nextBtn">Weiter →</button>
+</div>
+
+</div></main>
+</div>
+
+<script>
+(function(){
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section.chapter'));
+  var navBoxes = {1:'nav1',2:'nav2',3:'nav3',4:'nav4',5:'nav5',6:'nav6'};
+  var buttons = [];
+
+  sections.forEach(function(sec, i){
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = '<span class="navnum">' + i + '</span><span>' + sec.dataset.title + '</span>';
+    b.addEventListener('click', function(){ show(i, true); });
+    li.appendChild(b);
+    document.getElementById(navBoxes[sec.dataset.group] || 'nav1').appendChild(li);
+    buttons.push(b);
+  });
+
+  var side = document.getElementById('side');
+  var scrim = document.getElementById('scrim');
+  var menuBtn = document.getElementById('menuBtn');
+  var nowTitle = document.getElementById('nowTitle');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var current = 0;
+
+  function closeMenu(){
+    side.classList.remove('open');
+    scrim.classList.remove('on');
+    menuBtn.setAttribute('aria-expanded','false');
+  }
+  menuBtn.addEventListener('click', function(){
+    var open = side.classList.toggle('open');
+    scrim.classList.toggle('on', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  scrim.addEventListener('click', closeMenu);
+
+  function show(i, scroll){
+    if (i < 0 || i >= sections.length) return;
+    current = i;
+    sections.forEach(function(s, n){ s.hidden = (n !== i); });
+    buttons.forEach(function(b, n){
+      if (n === i) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current');
+    });
+    nowTitle.textContent = sections[i].dataset.title;
+    prevBtn.disabled = (i === 0);
+    nextBtn.disabled = (i === sections.length - 1);
+    nextBtn.textContent = (i === sections.length - 1) ? 'Ende' : 'Weiter →';
+    closeMenu();
+    if (scroll) window.scrollTo({top:0, behavior:'auto'});
+    if (history.replaceState) history.replaceState(null, '', '#' + sections[i].id);
+  }
+  prevBtn.addEventListener('click', function(){ show(current - 1, true); });
+  nextBtn.addEventListener('click', function(){ show(current + 1, true); });
+
+  var start = 0;
+  var h = (location.hash || '').replace('#','');
+  sections.forEach(function(s, n){ if (s.id === h) start = n; });
+  show(start, false);
+
+  /* ---- Fortschritt ---- */
+  var KEY = 'orderflow-progress-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-step]'));
+  var progBar = document.getElementById('progBar');
+  var progTxt = document.getElementById('progTxt');
+  var state = {};
+  var docRef = null;
+
+  function paint(){
+    boxes.forEach(function(b){ b.checked = !!state[b.dataset.step]; });
+    var done = boxes.filter(function(b){ return b.checked; }).length;
+    progTxt.textContent = done + ' / ' + boxes.length;
+    progBar.style.width = boxes.length ? (done / boxes.length * 100) + '%' : '0%';
+  }
+  function persist(){
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+    if (docRef) { docRef.set({checked: state}).catch(function(){}); }
+  }
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) state = JSON.parse(raw) || {};
+  } catch(e){ state = {}; }
+  paint();
+
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      if (b.checked) state[b.dataset.step] = true; else delete state[b.dataset.step];
+      paint(); persist();
+    });
+  });
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    window.claude.use('db').then(function(db){
+      if (!db) return;
+      docRef = db.doc('progress/main');
+      return docRef.get().then(function(snap){
+        if (snap && snap.exists) {
+          var d = snap.data() || {};
+          var saved = d.checked || {};
+          Object.keys(saved).forEach(function(k){ if (saved[k]) state[k] = true; });
+          paint();
+        }
+        persist();
+      });
+    }).catch(function(){});
+  }
+})();
+</script>

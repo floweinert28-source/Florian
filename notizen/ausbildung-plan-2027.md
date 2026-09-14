@@ -114,6 +114,80 @@ hinten.
 > 2030 laufen und dich rund 2,5 Jahre Gehaltsdifferenz kosten.
 > Die Externenprüfung ist **zweieinhalb Jahre schneller und kostet nichts.**
 
+### ⚠️ Wichtig: Zeit ≠ Abschluss
+
+Zwei Dinge, die man leicht falsch versteht:
+
+**1. Ein Jahr reicht nicht ganz.**
+
+| Zeitpunkt | Praxis | Status (36 Mon nötig) |
+| --- | --- | --- |
+| heute, 14.09.2026 | 20,4 Mon | Antrag zulässig (Hälfte erreicht) |
+| in 6 Mon (03/2027) | 26,4 Mon | fehlen 9,6 Mon |
+| in 12 Mon (09/2027) | 32,4 Mon | **fehlen noch 3,6 Mon** |
+| **01/2028** | **36,0 Mon** | ✅ **vollständig** |
+
+**2. Die Zeit ist nur die Eintrittskarte, nicht der Abschluss.**
+
+Die Berufspraxis gibt dir das **Recht, zur Prüfung anzutreten** — mehr nicht.
+Den Abschluss bekommst du, wenn du die **IHK-Abschlussprüfung bestehst.** Und das
+ist exakt dieselbe Prüfung, die die Azubis schreiben:
+
+- **schriftlich**: Fachtheorie **plus Wirtschafts- und Sozialkunde**
+- **praktisch**: Arbeitsaufgabe bzw. Prüfungsstück
+
+Der Haken: Das ist zu großen Teilen **Berufsschulstoff, den du nie hattest.**
+Wer nur arbeitet und sonst nichts tut, fällt in der Theorie durch — die Praxis
+kannst du, die Theorie nicht.
+
+**Deshalb ist ein Vorbereitungskurs faktisch Pflicht.** Es gibt sie
+berufsbegleitend (abends/samstags, meist 6–12 Monate) bei IHK-Bildungszentren
+und freien Trägern.
+
+### 💰 Und den Kurs zahlt möglicherweise die Agentur für Arbeit
+
+Das ist der Teil, den kaum jemand kennt:
+
+**Beschäftigte ohne Berufsabschluss haben nach § 81 Abs. 2 SGB III einen
+Rechtsanspruch auf Förderung zum nachträglichen Erwerb eines Berufsabschlusses.**
+Rechtsanspruch heißt: kein Ermessen, sondern Anspruch, wenn die Voraussetzungen
+stimmen.
+
+Das trifft auf dich exakt zu — du arbeitest, und du hast keinen Berufsabschluss.
+Gefördert werden die Lehrgangskosten (Bildungsgutschein), teils auch Fahrt- und
+Prüfungskosten.
+
+Bedingungen, die du kennen musst:
+
+- Der **Bildungsträger und die Maßnahme müssen AZAV-zertifiziert** sein. Frag bei
+  der Agentur direkt nach zugelassenen Trägern in deiner Region, statt selbst
+  einen Kurs zu buchen und hinterher Geld zu wollen.
+- **Erst beantragen, dann anmelden.** Ein bereits begonnener Kurs wird in der
+  Regel nicht mehr gefördert.
+- Über das Qualifizierungschancengesetz kann auch dein **Arbeitgeber** Zuschüsse
+  bekommen — das ist ein gutes Argument, wenn du GFV um Freistellung für
+  Kurstage bittest.
+
+### Die realistische Zeitachse
+
+| Wann | Was |
+| --- | --- |
+| **jetzt** | IHK Schwaben: Zuordnung klären + Antrag § 45 Abs. 2 BBiG stellen |
+| **jetzt** | Agentur für Arbeit: Beratungstermin zur Nachqualifizierung, Bildungsgutschein beantragen |
+| **2027** | Vorbereitungskurs berufsbegleitend, parallel weiterarbeiten |
+| **01/2028** | 36 Monate Berufspraxis voll |
+| **Sommer 2028** | Abschlussprüfung (IHK prüft meist nur Sommer und Winter — der Termin nach Januar ist realistisch der Sommertermin) |
+
+**Wenn du bestehst, ist dein Abschluss rechtlich und praktisch identisch mit dem
+eines Azubis.** Im Zeugnis steht kein Vermerk, kein Unterschied, keine Fußnote.
+Niemand sieht dem Facharbeiterbrief an, dass du ihn ohne Ausbildungsvertrag
+gemacht hast.
+
+**Die richtige Formulierung ist also nicht** „in einem Jahr habe ich eine
+Ausbildung", **sondern**: „Anfang 2028 darf ich die Abschlussprüfung machen —
+und wenn ich sie bestehe, habe ich den Berufsabschluss." Der Unterschied ist die
+Prüfungsvorbereitung, und die fängt nicht erst 2028 an.
+
 ### Die drei Dinge, die jetzt zählen
 
 **1. Die Tätigkeitsbeschreibung entscheidet über den Zielberuf.**
@@ -897,6 +971,9 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
 - Externenprüfung § 45 Abs. 2 BBiG: IHK Nord Westfalen, IHK Schwaben,
   Handelskammer Hamburg, gesetze-im-internet.de
 - Steuerfreie Zuschläge § 3b EStG: lohn-info.de, NWB Gesetze, hr-rocket.com
+- Nachqualifizierung Beschäftigter ohne Berufsabschluss (§§ 81, 82 SGB III,
+  Qualifizierungschancengesetz): Bundesagentur für Arbeit, BMAS,
+  sozialgesetzbuch-sgb.de
 
 Alle Beträge vor einer Entscheidung gegenprüfen — die Werte für **2027** stehen
 teilweise noch nicht fest (Mindestvergütung kommt bis November 2026).

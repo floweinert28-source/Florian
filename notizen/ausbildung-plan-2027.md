@@ -258,6 +258,126 @@ Suche „IHK + dein Landkreis" die richtige Stelle. Frag dort nach der
 
 ---
 
+## 1e. Wie die Prüfung abläuft
+
+*Beispiel: **Maschinen- und Anlagenführer/-in** (2 Jahre) — der wahrscheinlichste
+Zielberuf für eine Produktionstätigkeit. **Welcher Beruf es bei dir wirklich wird,
+sagt die IHK**, anhand deiner Tätigkeitsbeschreibung. Andere 2-jährige Kandidaten:
+Fachkraft für Metalltechnik, Fachlagerist, Produktionsfachkraft Chemie,
+Fachkraft für Lebensmitteltechnik.*
+
+### Kurz: Theorie **und** Praxis. Beides.
+
+Du legst **dieselbe Abschlussprüfung ab wie die Azubis**, gemeinsam mit ihnen,
+am selben Termin. Keine Sonderprüfung, kein reduzierter Umfang.
+
+### Teil 1 — Schriftlich (3 Bereiche, zusammen 3 Stunden 45 Minuten)
+
+| Prüfungsbereich | Dauer | Inhalt |
+| --- | --- | --- |
+| **Produktionstechnik** | 120 Min | Fertigungsverfahren, Werkstoffe, Maschinen- und Anlagentechnik, Steuerungstechnik, Instandhaltung, Arbeitssicherheit |
+| **Produktionsplanung** | 60 Min | Arbeitsabläufe planen, Material- und Auftragsdisposition, Qualitätssicherung, Dokumentation |
+| **Wirtschafts- und Sozialkunde (WiSo)** | 45 Min | Arbeits- und Tarifrecht, Sozialversicherung, Betriebsverfassung, Wirtschaftskreislauf, Berufsbildungsrecht |
+
+**Das ist dein kritischer Teil.** Produktionstechnik und Produktionsplanung
+überschneiden sich teilweise mit deinem Arbeitsalltag — aber die Prüfung fragt
+Fachsystematik und Fachbegriffe ab, nicht Routine. **WiSo hat mit deinem Job gar
+nichts zu tun** und wird rein aus dem Lehrbuch gelernt. Genau deshalb der
+Vorbereitungskurs.
+
+### Teil 2 — Praktisch (bis zu 7 Stunden)
+
+**Bis zu zwei praktische Aufgaben in höchstens sieben Stunden.** Typisch:
+
+- eine Maschine oder Anlage **einrichten und in Betrieb nehmen**
+- **bedienen und überwachen**, Prozessparameter anpassen
+- **warten und instandhalten**, Störung erkennen und beheben
+- **Qualität sichern**: messen, prüfen, dokumentieren
+
+Dazu kommen in der Regel situative Gesprächsphasen — der Prüfer fragt während
+der Arbeit nach dem Warum. Also nicht nur machen, sondern **erklären können,
+warum du es so machst.**
+
+**Das ist dein starker Teil** — das tust du jeden Tag. Wenn du ab jetzt gezielt
+Rüsten, Störungsbehebung und Qualitätsprüfung übernimmst (Abschnitt 1c), machst
+du die praktische Prüfung nebenbei zur Routine.
+
+### Bestehensregeln
+
+- **Praktischer Teil: mindestens „ausreichend"**
+- **Schriftlicher Teil insgesamt: mindestens „ausreichend"**
+- davon **zwei der drei schriftlichen Bereiche mindestens „ausreichend"**
+- im dritten Bereich darf **kein „ungenügend"** stehen
+
+Heißt im Klartext: Ein schwacher Bereich ist verkraftbar, ein katastrophaler
+nicht. Und **beide Teile müssen bestanden sein** — eine perfekte Praxisprüfung
+rettet dich nicht, wenn die Theorie durchfällt. Deshalb ist der Kurs keine
+Empfehlung, sondern Teil des Plans.
+
+### Schwerpunkt
+
+Maschinen- und Anlagenführer hat fünf Schwerpunkte:
+Metall- und Kunststofftechnik · Textiltechnik · Textilveredelung ·
+Lebensmitteltechnik · Druckweiter- und Papierverarbeitung.
+
+Welcher für dich gilt, hängt davon ab, was GFV produziert. **Das klärst du im
+selben IHK-Gespräch** — es bestimmt, welchen Vorbereitungskurs du brauchst.
+
+---
+
+## 1f. Die Fristen — hier wird es ernst
+
+Zwei Fristen laufen parallel, und die erste ist der Grund, warum der IHK-Anruf
+nicht warten kann:
+
+> **1. Der Zulassungsantrag muss mindestens 6 Monate vor dem Prüfungstermin
+> bei der IHK vorliegen.**
+>
+> **2. Die Prüfungsanmeldung hat feste Stichtage:**
+> Sommerprüfung → Anmeldeschluss **31.01./01.02.**
+> Winterprüfung → Anmeldeschluss **31.07./01.09.** (je nach Kammer)
+
+Prüfungstermine: **Sommer = Mai bis Juli**, **Winter = November bis Januar**.
+
+### Deine zwei Optionen
+
+| | Option A — Winter 27/28 | Option B — Sommer 2028 |
+| --- | --- | --- |
+| Antrag stellen | **jetzt** | **jetzt** |
+| Anmeldeschluss | 31.07.2027 | 31.01.2028 |
+| Prüfungstermin | Nov 2027 – Jan 2028 | Mai – Juli 2028 |
+| 36 Monate voll am | 01/2028 | 01/2028 |
+| Bewertung | ⚠️ **auf Kante** — die Praxiszeit wäre erst zum spätesten Prüfungstermin voll. Ob die IHK das zulässt, musst du fragen. | ✅ **sicher**, mit Puffer |
+
+**Frag beide Optionen im selben Gespräch ab.** Wenn Option A geht, sparst du ein
+halbes Jahr. Wenn nicht, planst du auf Sommer 2028 — und hast dann ein volles
+Jahr für den Vorbereitungskurs statt ein halbes.
+
+### Praktisches zur Anmeldung
+
+- Externe nehmen **nicht am elektronischen Anmeldeverfahren** teil — du bekommst
+  ein **Papierformular** von der IHK.
+- **Ein Berichtsheft brauchst du nicht.** Das ist eine Azubi-Pflicht nach § 43
+  BBiG und gilt für Externe nicht. Dein Nachweis sind die
+  Tätigkeitsbescheinigungen von GFV.
+- Es fallen **Prüfungsgebühren** an (je nach Kammer meist im niedrigen
+  dreistelligen Bereich). Frag den Betrag gleich mit ab — und ob er über den
+  Bildungsgutschein mit abgedeckt werden kann.
+
+### Was du im IHK-Gespräch abfragst — die Liste
+
+1. Welchem Ausbildungsberuf wird meine Tätigkeit zugeordnet? Welcher Schwerpunkt?
+2. Bestätigt ihr meine 20,4 Monate aus zwei Beschäftigungsabschnitten?
+3. Kann ich den Antrag nach § 45 Abs. 2 BBiG **jetzt** stellen (halbe Zeit
+   erreicht), mit Zulassung unter Auflage?
+4. Welche Unterlagen braucht ihr von GFV genau?
+5. Ist die **Winterprüfung 2027/28** möglich, oder erst Sommer 2028?
+6. Wie hoch sind die Prüfungsgebühren?
+7. Welche Vorbereitungskurse gibt es hier — und sind die Träger **AZAV-zertifiziert**
+   (wichtig für die Förderung nach § 81 SGB III)?
+
+---
+
 ## 1d. Der Zwei-Spuren-Plan
 
 Die Externenprüfung ist **Absicherung, nicht Ziel.** Ein Abschluss als

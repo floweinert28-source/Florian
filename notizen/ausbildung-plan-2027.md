@@ -16,6 +16,42 @@ Start August/September 2027.
 
 ---
 
+## 0. „Ich habe nichts" — das stimmt faktisch nicht
+
+Das ist der Satz, um den sich das Ganze eigentlich dreht. Also einmal nüchtern,
+was tatsächlich auf deiner Seite steht:
+
+| | Status |
+| --- | --- |
+| **Fachhochschulreife** | ✅ Hochschulzugangsberechtigung. Du darfst an jeder FH und Fernhochschule sofort studieren. Viele, die dir Druck machen, haben das nicht. |
+| **20,4 Monate Berufserfahrung** | ✅ Genug, um **heute** den Antrag auf Externenzulassung zu stellen |
+| **Vollzeitstelle** | ✅ Eigenes Einkommen, Sozialversicherung, Rentenpunkte seit 2024 |
+| **Softwareprojekte** | ✅ Ein lauffähiger Discord-Bot in Python mit Datenbank, Scheduler und Fehlerbehandlung. Das ist ein Portfolio, kein Hobby. |
+| **Prop-Trading mit Journal** | ✅ Zwei Sessions strukturiert gehandelt, neben Schichtarbeit |
+| Berufsabschluss | ⏳ Prüfung Sommer 2028 — **der Weg dahin läuft bereits** |
+
+Was dir fehlt, ist **ein Papier**, nicht eine Fähigkeit. Und der Abstand zwischen
+dir und diesem Papier sind rund 16 Monate, in denen du genau das tust, was du
+ohnehin tust: arbeiten.
+
+### 🔑 Der wichtigste Punkt: Du musst nicht bis 2028 warten
+
+Der Satz „ich habe nichts" endet **nicht** mit der Prüfung im Sommer 2028. Er
+endet in dem Moment, in dem die IHK deinen Antrag nach § 45 Abs. 2 BBiG annimmt.
+Ab dann lautet die Antwort auf jede Nachfrage:
+
+> **„Ich mache meinen Abschluss als [Beruf] über die Externenprüfung bei der IHK.
+> Prüfung ist Sommer 2028."**
+
+Das ist wahr, überprüfbar, und es beendet die Diskussion genauso zuverlässig wie
+ein Ausbildungsvertrag. Mit dem Unterschied, dass du dafür kein Gehalt aufgibst
+und es in **Wochen** haben kannst statt in einem Jahr.
+
+Das ist der Grund, warum der Anruf bei der IHK ganz oben auf der Liste steht —
+nicht wegen 2028, sondern wegen nächster Woche.
+
+---
+
 ## 1. Die Kernaussage (neu)
 
 **Du brauchst keine Ausbildung. Du hast die zwei Dinge schon, für die Leute eine
@@ -77,6 +113,209 @@ Die 70-%-Abbruchquote im Fernstudium entsteht genau in deiner Konstellation:
 Vollzeit + wechselnde Schichten + Selbststudium ohne festen Stundenplan. Wer in
 rotierender Nachtschicht ein Fernstudium beginnt, gehört mit hoher
 Wahrscheinlichkeit dazu. **Erst die Schichtfrage klären, dann einschreiben.**
+
+---
+
+## 1c. Deine konkrete Rechnung — Externenprüfung
+
+**Stand: Produktionshelfer bei GFV, Reutin.**
+
+| Zeitraum | Dauer |
+| --- | --- |
+| 01.11.2024 – 01.08.2025 | 9,0 Monate |
+| *Lücke (gekündigt wegen geplanter Ausbildung)* | *–2 Monate* |
+| 01.10.2025 – heute (14.09.2026) | 11,4 Monate |
+| **Summe anrechenbare Berufspraxis** | **20,4 Monate** |
+
+Die Zeiten werden **addiert** — sie müssen nicht zusammenhängend sein. Die Lücke
+schadet also nicht grundsätzlich, sie verschiebt nur alles um zwei Monate nach
+hinten.
+
+### Was das für die Zulassung heißt
+
+| Zielberuf | Nötige Praxis | Antrag möglich ab | Prüfung frühestens |
+| --- | --- | --- | --- |
+| **2-jähriger Beruf** (z. B. Maschinen- und Anlagenführer, Fachkraft für Metalltechnik, Fachlagerist) | 36 Mon | ✅ **JETZT** (18 Mon erreicht) | **01/2028** |
+| 3-jähriger Beruf (z. B. Verfahrensmechaniker) | 54 Mon | ab 04/2027 | 07/2029 |
+| 3,5-jähriger Beruf (z. B. Industriemechaniker) | 63 Mon | ab 08/2027 | 04/2030 |
+
+> ### 🎯 Der 2-jährige Beruf ist dein Weg.
+> Du hast die halbe Mindestzeit **bereits überschritten** — der Antrag nach
+> § 45 Abs. 2 BBiG ist **ab sofort zulässig**, mit Zulassung unter der Auflage,
+> die restlichen Monate bis zur Prüfung zu sammeln.
+> **Prüfungstermin Anfang 2028. Du wärst 23 — und hättest keinen einzigen Euro
+> Gehalt dafür aufgegeben.**
+>
+> Zum Vergleich: Eine reguläre Ausbildung ab September 2027 würde bis Sommer
+> 2030 laufen und dich rund 2,5 Jahre Gehaltsdifferenz kosten.
+> Die Externenprüfung ist **zweieinhalb Jahre schneller und kostet nichts.**
+
+### ⚠️ Wichtig: Zeit ≠ Abschluss
+
+Zwei Dinge, die man leicht falsch versteht:
+
+**1. Ein Jahr reicht nicht ganz.**
+
+| Zeitpunkt | Praxis | Status (36 Mon nötig) |
+| --- | --- | --- |
+| heute, 14.09.2026 | 20,4 Mon | Antrag zulässig (Hälfte erreicht) |
+| in 6 Mon (03/2027) | 26,4 Mon | fehlen 9,6 Mon |
+| in 12 Mon (09/2027) | 32,4 Mon | **fehlen noch 3,6 Mon** |
+| **01/2028** | **36,0 Mon** | ✅ **vollständig** |
+
+**2. Die Zeit ist nur die Eintrittskarte, nicht der Abschluss.**
+
+Die Berufspraxis gibt dir das **Recht, zur Prüfung anzutreten** — mehr nicht.
+Den Abschluss bekommst du, wenn du die **IHK-Abschlussprüfung bestehst.** Und das
+ist exakt dieselbe Prüfung, die die Azubis schreiben:
+
+- **schriftlich**: Fachtheorie **plus Wirtschafts- und Sozialkunde**
+- **praktisch**: Arbeitsaufgabe bzw. Prüfungsstück
+
+Der Haken: Das ist zu großen Teilen **Berufsschulstoff, den du nie hattest.**
+Wer nur arbeitet und sonst nichts tut, fällt in der Theorie durch — die Praxis
+kannst du, die Theorie nicht.
+
+**Deshalb ist ein Vorbereitungskurs faktisch Pflicht.** Es gibt sie
+berufsbegleitend (abends/samstags, meist 6–12 Monate) bei IHK-Bildungszentren
+und freien Trägern.
+
+### 💰 Und den Kurs zahlt möglicherweise die Agentur für Arbeit
+
+Das ist der Teil, den kaum jemand kennt:
+
+**Beschäftigte ohne Berufsabschluss haben nach § 81 Abs. 2 SGB III einen
+Rechtsanspruch auf Förderung zum nachträglichen Erwerb eines Berufsabschlusses.**
+Rechtsanspruch heißt: kein Ermessen, sondern Anspruch, wenn die Voraussetzungen
+stimmen.
+
+Das trifft auf dich exakt zu — du arbeitest, und du hast keinen Berufsabschluss.
+Gefördert werden die Lehrgangskosten (Bildungsgutschein), teils auch Fahrt- und
+Prüfungskosten.
+
+Bedingungen, die du kennen musst:
+
+- Der **Bildungsträger und die Maßnahme müssen AZAV-zertifiziert** sein. Frag bei
+  der Agentur direkt nach zugelassenen Trägern in deiner Region, statt selbst
+  einen Kurs zu buchen und hinterher Geld zu wollen.
+- **Erst beantragen, dann anmelden.** Ein bereits begonnener Kurs wird in der
+  Regel nicht mehr gefördert.
+- Über das Qualifizierungschancengesetz kann auch dein **Arbeitgeber** Zuschüsse
+  bekommen — das ist ein gutes Argument, wenn du GFV um Freistellung für
+  Kurstage bittest.
+
+### Die realistische Zeitachse
+
+| Wann | Was |
+| --- | --- |
+| **jetzt** | IHK Schwaben: Zuordnung klären + Antrag § 45 Abs. 2 BBiG stellen |
+| **jetzt** | Agentur für Arbeit: Beratungstermin zur Nachqualifizierung, Bildungsgutschein beantragen |
+| **2027** | Vorbereitungskurs berufsbegleitend, parallel weiterarbeiten |
+| **01/2028** | 36 Monate Berufspraxis voll |
+| **Sommer 2028** | Abschlussprüfung (IHK prüft meist nur Sommer und Winter — der Termin nach Januar ist realistisch der Sommertermin) |
+
+**Wenn du bestehst, ist dein Abschluss rechtlich und praktisch identisch mit dem
+eines Azubis.** Im Zeugnis steht kein Vermerk, kein Unterschied, keine Fußnote.
+Niemand sieht dem Facharbeiterbrief an, dass du ihn ohne Ausbildungsvertrag
+gemacht hast.
+
+**Die richtige Formulierung ist also nicht** „in einem Jahr habe ich eine
+Ausbildung", **sondern**: „Anfang 2028 darf ich die Abschlussprüfung machen —
+und wenn ich sie bestehe, habe ich den Berufsabschluss." Der Unterschied ist die
+Prüfungsvorbereitung, und die fängt nicht erst 2028 an.
+
+### Die drei Dinge, die jetzt zählen
+
+**1. Die Tätigkeitsbeschreibung entscheidet über den Zielberuf.**
+Die IHK ordnet dich nicht nach deiner Jobbezeichnung („Produktionshelfer") zu,
+sondern nach dem, **was du tatsächlich tust**. Je mehr Facharbeiter-Tätigkeiten
+in der Bescheinigung deines Arbeitgebers stehen, desto höherwertig der Beruf,
+für den du zugelassen wirst:
+
+- Maschine **einrichten und rüsten** (nicht nur bestücken)
+- **Störungen beheben**, Wartung, Instandhaltung
+- **Qualitätskontrolle**, Messmittel, Prüfprotokolle
+- Materialfluss steuern, Dokumentation, neue Kollegen einweisen
+
+**Übernimm ab jetzt aktiv solche Aufgaben** und sag deinem Vorgesetzten warum.
+Das kostet dich nichts und hebt die Zuordnung.
+
+**2. Hol dir die Nachweise, solange die Leute dich kennen.**
+Du brauchst für **beide** Zeiträume eine Tätigkeitsbescheinigung oder ein
+Zwischenzeugnis von GFV — mit Zeitraum und detaillierter Tätigkeitsbeschreibung.
+Personaler wechseln, Vorgesetzte gehen. Hol dir das jetzt, nicht 2028.
+
+**3. Kündige nicht wieder ohne Unterschrift.**
+Deine zweimonatige Lücke ist entstanden, weil du für eine Ausbildung gekündigt
+hast, die dann nicht zustande kam. Das hat dich zwei Monate Einkommen gekostet
+**und verschiebt deine Externenprüfung um zwei Monate.** Ab jetzt gilt: erst der
+unterschriebene Vertrag, dann die Kündigung. Nie umgekehrt.
+
+**Zuständige Kammer:** Reutin gehört zu Lindau am Bodensee → **IHK Schwaben**
+(Geschäftsstelle Lindau). Falls ein anderes Reutin gemeint ist, sagt dir die
+Suche „IHK + dein Landkreis" die richtige Stelle. Frag dort nach der
+**Externenzulassung nach § 45 Abs. 2 BBiG**.
+
+---
+
+## 1d. Der Zwei-Spuren-Plan
+
+Die Externenprüfung ist **Absicherung, nicht Ziel.** Ein Abschluss als
+Maschinen- und Anlagenführer macht dich vom Helfer zur Fachkraft — mehr Geld,
+mehr Sicherheit, ein Beruf statt einer Hilfstätigkeit. Aber er bringt dich nicht
+Richtung Märkte, IT oder Finance. Deshalb zwei Spuren gleichzeitig:
+
+### Spur 1 — Facharbeiterbrief (läuft von allein)
+
+Du musst dafür **nichts ändern außer weiterarbeiten**, was du ohnehin tust.
+Antrag jetzt, Prüfung Anfang 2028, Vorbereitungskurse gibt es berufsbegleitend.
+
+**Ergebnis 2028:** IHK-Abschluss, spürbar mehr Gehalt, und du bist nicht mehr
+der Erste, der bei Auftragsflaute geht.
+
+### Spur 2 — Fernstudium (das ist die eigentliche Arbeit)
+
+Mit Fachabi kannst du an jeder Fernhochschule sofort anfangen.
+Passend: **Wirtschaftsinformatik** — du baust bereits Python-Bots, und es ist der
+Studiengang, der dich sowohl in die IT als auch ins Fintech-Umfeld bringt.
+
+**Aber erst nach der Schichtfrage** (Abschnitt 1b). In rotierender Nachtschicht
+ein Fernstudium zu starten heißt, in die 70-%-Abbrecherquote zu laufen.
+
+### Warum diese Reihenfolge funktioniert
+
+Spur 1 kostet dich **keine Zeit** — sie läuft im Hintergrund mit, während du
+arbeitest. Damit ist deine gesamte freie Kapazität für Spur 2 und das Trading
+verfügbar. Und du hast ab 2028 einen Berufsabschluss in der Hand, **falls das
+Studium nicht klappt** — was bei 70 % Abbruchquote ein ernstzunehmendes Szenario
+ist.
+
+Zwei Netze statt eines. Keins davon kostet dich Gehalt.
+
+---
+
+## 1b. Schicht und Trading — erledigt
+
+*Korrektur vom 14.09.2026: Die frühere Fassung dieses Abschnitts vermutete, der
+Schichtplan sei die Ursache für die fehlende Konsistenz. Das trifft nicht zu und
+ist hiermit zurückgenommen.*
+
+Dein Setup deckt beide Rotationen ab:
+
+| Schicht | Arbeitszeit | Freies Fenster | Session |
+| --- | --- | --- | --- |
+| **Spätschicht** | ca. 14:00–22:00 | vormittags | **London** (ca. 09:00–12:00 MEZ) |
+| **Nachtschicht** | ca. 22:00–06:00 | nachmittags | **New York** (ca. 15:30–22:00 MEZ) |
+
+Das ist sauberer strukturiert als bei den meisten Vollzeit-Tradern: Du hast in
+**jeder** Rotation ein definiertes Fenster, und du handelst in beiden die
+jeweilige Hauptsession statt irgendwelcher Randzeiten.
+
+Ein Schichtwechsel ist damit kein Thema mehr — und die steuerfreien Zuschläge
+nach § 3b EStG bleiben, wo sie sind: in deinem Netto. Der einzige Punkt, der aus
+diesem Abschnitt bestehen bleibt: Trag die Session zu jedem Trade ins Journal
+(London / NY), damit du später siehst, ob eine der beiden besser läuft als die
+andere.
 
 ---
 
@@ -728,6 +967,38 @@ Typische große Brocken und was geht:
   bräuchte sie nicht; wer es nicht ist, wird durch sie nicht konsistent.
 - **Raten und Kredite** — vor Ausbildungsbeginn abzahlen oder umschulden, sonst
   laufen sie drei Jahre mit.
+
+### Konkrete Hebel mit Stichtagen — abarbeitbar ohne mich zu fragen
+
+Diese Punkte gelten unabhängig davon, wie deine 1.000 € genau aufgeteilt sind.
+Reihenfolge nach Ersparnis pro investierter Minute:
+
+| # | Hebel | Ersparnis | Stichtag |
+| --- | --- | --- | --- |
+| 1 | **Kfz-Versicherung wechseln** | 150–400 €/Jahr | ⏰ **Kündigung bis 30.11.2026** für Wechsel zum 01.01.2027 — einmal im Jahr, sonst ein Jahr warten |
+| 2 | **Stromtarif wechseln** | 100–300 €/Jahr | jederzeit; Grundversorgung ist fast immer der teuerste Tarif |
+| 3 | **Handyvertrag prüfen** | 10–30 €/Monat | alte Verträge kosten oft das Doppelte des heutigen Marktpreises |
+| 4 | **Kontoführungsgebühren** | 5–12 €/Monat | kostenlose Girokonten gibt es weiterhin; Wechsel dauert eine halbe Stunde |
+| 5 | **Challenge-Gebühren deckeln** | dein Betrag | sofort, Regel 2 in Abschnitt 7 |
+| 6 | **Abos durchgehen** | 20–80 €/Monat | Streaming, Trading-Tools, Fitness, Software — Kontoauszug 6 Monate rückwärts durchgehen |
+| 7 | **Versicherungen aussortieren** | variiert | Privathaftpflicht behalten (~50 €/Jahr, wichtig). Handyversicherung, Hausrat bei wenig Besitz, Zusatzpolicen: meist streichbar |
+
+Allein die Punkte 1–4 bringen realistisch **50–90 € im Monat**, ohne dass sich an
+deinem Leben irgendetwas ändert. Das ist mehr, als die meisten durch Verzicht
+schaffen.
+
+### Prüfen lassen: Kindergeld während der Prüfungsvorbereitung
+
+Unsicher, aber 259 €/Monat wert: Kindergeld gibt es bis 25, solange ein Kind
+„für einen Beruf ausgebildet wird" (§ 32 Abs. 4 Nr. 2a EStG). Ob ein
+**berufsbegleitender Vorbereitungskurs auf die Externenprüfung** neben
+Vollzeitarbeit dafür ausreicht, ist Auslegungssache — die Familienkasse verlangt,
+dass die Ausbildungsmaßnahme ernsthaft und nachhaltig betrieben wird, und bei
+Vollzeiterwerbstätigkeit daneben wird das kritisch gesehen.
+
+**Ich sage bewusst nicht, dass es klappt.** Aber die Frage kostet ein Telefonat
+bei der Familienkasse und kann 259 €/Monat bringen. Frag, sobald du beim
+Vorbereitungskurs angemeldet bist, und lass dir die Auskunft schriftlich geben.
 
 **Zielmarke: unter 800 € Fixkosten.** Dann funktionieren alle drei Tracks
 komfortabel statt knapp.

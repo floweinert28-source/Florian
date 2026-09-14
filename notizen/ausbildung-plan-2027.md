@@ -132,31 +132,90 @@ Wahrscheinlichkeit dazu. **Erst die Schichtfrage klären, dann einschreiben.**
 
 ### 🎯 Der Satz, den du ab Tag 1 sagen kannst
 
-> **„Ich arbeite Vollzeit bei GFV und studiere berufsbegleitend
-> Wirtschaftsinformatik."**
+> **„Ich arbeite Vollzeit bei GFV und studiere berufsbegleitend BWL."**
 
 Ab der Einschreibung wahr. Nicht in vier Jahren — **in ein paar Wochen.**
 Das war dein eigentliches Ziel, und es ist das Schnellste, was du erreichen
 kannst.
 
-### Studiengang: Wirtschaftsinformatik
+### Studiengang — erst die ehrliche Einordnung
 
-**Empfehlung: Wirtschaftsinformatik (B.Sc.)**
+*Korrektur 14.09.2026: Wirtschaftsinformatik stand hier, weil du Python-Bots
+baust. Das war eine Ableitung aus einem Hobby, kein Ziel, das du je genannt hast.
+Gestrichen.*
 
-- verbindet IT und BWL — der Standardweg in **Finanz- und Unternehmens-IT**
-- passt zu dem, was du schon tust (Python, Datenbanken, Automatisierung)
-- und passt zu dem, wo du hinwillst (Fintech, Finanzdatenverarbeitung, Quant-nahe
-  Rollen sind fast alle über IT- oder Wirtschaftsabschlüsse besetzt)
+#### Was ein Studium für dein Trading tut: fast nichts
 
-**Alternative: Informatik (B.Sc.)** — tiefer technisch, weniger BWL. Nimm den,
-wenn du klar Entwickler werden willst und BWL dich nicht interessiert.
+Das muss klar auf dem Tisch liegen, bevor du 2.400 € oder 13.000 € ausgibst:
 
-**Nicht zu unterschätzen: der Weg bei GFV selbst.** Ein
-Wirtschaftsinformatiker, der die Produktion von innen kennt — Auftragsplanung,
-Maschinenbelegung, Materialfluss — ist bei jeder ERP-Einführung und
-Digitalisierung Gold wert. Vom Helfer in die Arbeitsvorbereitung oder
-Produktionsplanung ist ein realistischer interner Pfad, lange bevor der
-Bachelor fertig ist.
+> **Kein Studium macht dich zum Trader. Und dein Trading braucht kein Studium.**
+
+Was dein Trading braucht, ist Journal, Disziplin, Zeit, Kapital und
+Risikomanagement. Nichts davon steht in einem Bachelor-Curriculum. Die 60–70 %
+Drawdown-Fails aus Abschnitt 7 werden von keinem Modul verhindert.
+
+#### Und der Job am Trading Desk? Der Weg ist realistisch zu
+
+Falls die Idee im Hinterkopf war, über das Studium an einen institutionellen
+Trading Desk zu kommen — die Realität:
+
+- Investmentbanken setzen **fast immer einen Master** voraus
+- **Praktika sind Pflicht**, nicht Bonus
+- Rekrutiert wird aus Zielhochschulen (Frankfurt School, WHU, Mannheim),
+  mit Bewerbern, die mit 22–24 bereits drei einschlägige Praktika haben
+- Ein Fernstudium BWL neben Vollzeit-Schichtarbeit führt dort **nicht** hin
+
+Das ist hart, aber es ist besser, das jetzt zu wissen als nach vier Jahren.
+
+**Nur: Das ist auch gar nicht dein Ziel.** Du willst nicht *bei einer Bank*
+traden, du willst **selbst** traden — Prop-Firmen, eigenes Konto, eigene
+Entscheidungen. Dafür brauchst du keinen Arbeitgeber und keinen Abschluss.
+
+#### 🔑 Die richtige Frage
+
+Nicht: *„Welches Studium bringt mich näher ans Trading?"*
+
+Sondern:
+
+> **„Welches Studium gibt mir ein gutes Leben, FALLS das Trading nicht trägt?"**
+
+Das Studium ist die **Absicherung**, nicht der Weg zum Ziel. Und eine Absicherung
+wählt man bewusst **unabhängig** vom unsicheren Teil. Wenn du das Studium ans
+Trading koppelst und das Trading nicht funktioniert, verlierst du beides
+gleichzeitig. Genau das soll die Absicherung ja verhindern.
+
+### Die Optionen
+
+| Studiengang | Führt realistisch zu | Passt zu dir, weil |
+| --- | --- | --- |
+| **BWL mit Schwerpunkt Finance / Banking** | Bank, Versicherung, Vermögensverwaltung, Controlling, Finanzbuchhaltung | Finanznähe bleibt erhalten; Bilanzen, Bewertung, Zinsen und Makro helfen dir tatsächlich beim eigenen Trading (Fundamentalseite) |
+| **Wirtschaftsingenieurwesen** | Produktionsleitung, Arbeitsvorbereitung, Einkauf, Projektmanagement in der Industrie | Du arbeitest in einem Produktionsbetrieb und kennst Materialfluss und Auftragsplanung von innen. Objektiv die besten Gehalts- und Jobaussichten der Liste. |
+| **BWL (allgemein)** | Controlling, Einkauf, Vertrieb, Personal, Projektmanagement | Breiteste Option, überall einsetzbar, kein Festlegen |
+| **Logistik / Supply Chain** | Disposition, Produktionsplanung, Logistikleitung | Am nächsten an dem, was du heute schon tust |
+
+### Meine Empfehlung: BWL mit Schwerpunkt Finance
+
+Nicht weil es dich zum Trader macht — das tut es nicht. Sondern weil:
+
+1. **Es ist eine echte Absicherung.** BWL-Abschluss gilt in jeder Branche, in
+   jeder Stadt, unabhängig davon, was aus dem Trading wird.
+2. **Die Inhalte interessieren dich wirklich.** Zinsen, Bewertung, Märkte,
+   Bilanzen — das ist nicht weit weg von dem, womit du dich abends ohnehin
+   beschäftigst.
+3. **Und das ist der entscheidende Punkt:**
+
+> ### Das beste Studium ist das, das du nicht abbrichst.
+>
+> Bei über 70 % Abbruchquote im Fernstudium ist Motivation wichtiger als die
+> objektiv beste Fachwahl. Wirtschaftsingenieurwesen bringt im Schnitt mehr
+> Gehalt — aber nur, wenn du es zu Ende bringst. Ein Fach, das dich abends nach
+> der Schicht noch interessiert, hat eine deutlich höhere Chance, fertig zu
+> werden.
+
+Wenn dich Technik und Produktion mehr reizen als Finanzen: nimm
+Wirtschaftsingenieurwesen. Das ist keine schlechtere Wahl, im Gegenteil. Aber
+entscheide nach Interesse, nicht nach Nähe zum Trading — die gibt es nämlich
+in keinem der Fächer.
 
 ### Die Kostenfrage: 2.400 € oder 13.000 €
 

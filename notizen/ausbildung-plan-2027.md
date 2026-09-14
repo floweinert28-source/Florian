@@ -144,6 +144,12 @@ Ein Puffer von 130–210 € ist **kein komfortabler Puffer.** Eine Autoreparatu
 eine Nachzahlung, ein kaputtes Notebook — und du bist im Minus. Deshalb braucht
 es beides: höhere Einnahmen **und** niedrigere Fixkosten.
 
+**Zwei Korrekturen nach oben sind möglich** (siehe Abschnitt 5b): Wenn du
+aktuell deine Krankenversicherung selbst zahlst, fallen mit Ausbildungsbeginn
+rund 250 € Fixkosten weg — dann liegt der Puffer bei 380–460 € statt 130–210 €.
+Und das Kindergeld kannst du dir wahrscheinlich **schon ab jetzt** zurückholen,
+nicht erst ab Ausbildungsbeginn.
+
 **Prop-Auszahlungen tauchen in dieser Tabelle bewusst nicht auf.** Sie sind kein
 Planungsposten, weil sie keinen Boden haben (Abschnitt 7). Das Budget muss ohne
 sie aufgehen. Alles, was an Payouts kommt, geht in die Rücklage — nicht in einen
@@ -158,16 +164,26 @@ Alles hier ist Geld, das du liegen lässt, wenn du es nicht beantragst.
 - [ ] **BAB (Berufsausbildungsbeihilfe)**, Agentur für Arbeit — bei betrieblicher
       Ausbildung und eigener Wohnung. Bedarf auswärts wohnend bis **992 €**
       (855 € Grundbedarf + bis 170 € KV/PV-Zuschlag), davon werden
-      Ausbildungsvergütung und je nach Alter/Situation das Elterneinkommen
-      abgezogen. Ab 21 Jahren bzw. nach abgeschlossener Erstausbildung/3 Jahren
-      Erwerbstätigkeit zählt Elterneinkommen oft nicht mehr mit → dann wird BAB
-      deutlich realistischer. **Früh beantragen, Bewilligung dauert.**
+      Ausbildungsvergütung **und das Einkommen der Eltern** abgezogen.
+      **⚠️ Korrektur zur ersten Fassung dieses Dokuments:** Eine elternunabhängige
+      BAB gibt es **nicht**. BAB fördert die Erstausbildung, und dabei greift immer
+      die Unterhaltspflicht der Eltern — unabhängig von deinem Alter und davon, ob
+      du eigenständig lebst. Es gibt Freibeträge, und vom übersteigenden
+      Elterneinkommen bleiben 50 % anrechnungsfrei, aber bei durchschnittlichem
+      Elterneinkommen kann die BAB trotzdem gegen null gehen.
+      **Konsequenz: BAB ist eine Möglichkeit, kein Planungsposten.** Beantragen ja,
+      aber das Budget muss ohne sie aufgehen. (Elternunabhängiges BAföG bräuchte
+      30+ Jahre oder 5 Jahre Erwerbstätigkeit nach dem 18. — mit 21 beides nicht
+      erreichbar.)
 - [ ] **Fahrtkosten über BAB** — bis zu 476 €/Monat für Fahrten
       Wohnung↔Betrieb/Berufsschule plus Heimfahrten
 - [ ] **BAföG** (nur schulische Ausbildung oder Studium; im dualen Studium mit
       Vergütung meist nicht) — Höchstsatz 2026: **992 €**
       (475 € Grundbedarf + 380 € Wohnpauschale + 137 € KV/PV)
-- [ ] **Kindergeld / Abzweigungsantrag** — 259 €/Monat, s. o.
+- [ ] **Kindergeld — 259 €/Monat, ab sofort und nicht erst ab Ausbildungsbeginn.**
+      Siehe Abschnitt 5b. Das ist der größte Sofort-Hebel in diesem Dokument.
+- [ ] **Abzweigungsantrag** bei der Familienkasse, falls deine Eltern das
+      Kindergeld nicht an dich weitergeben
 - [ ] **Wohngeld** — Achtung: Azubis sind oft ausgeschlossen, wenn die Ausbildung
       *dem Grunde nach* BAB-fähig ist. Trotzdem beim Wohngeldamt konkret
       durchrechnen lassen, die Ausnahmen sind Einzelfall.
@@ -176,6 +192,78 @@ Alles hier ist Geld, das du liegen lässt, wenn du es nicht beantragst.
 - [ ] **Minijob nebenbei** (Grenze 2026 rund 600 €) — braucht die Zustimmung des
       Ausbildungsbetriebs und darf die Ausbildung nicht beeinträchtigen.
       Als Reserve einplanen, nicht als Grundlage.
+
+---
+
+## 5b. Mit 21: was jetzt gilt (und was Geld bringt)
+
+### ✅ Kindergeld — 259 €/Monat, ab sofort
+
+Das ist der konkreteste Sofort-Gewinn in diesem ganzen Dokument.
+
+**Der Stand jetzt:** Ohne Ausbildung und nur „arbeitsuchend gemeldet" endet der
+Kindergeldanspruch **mit dem 21. Geburtstag**. Wenn das auf dich zutrifft, ist
+das Geld also gerade weg oder läuft demnächst aus.
+
+**Der Hebel:** Nach **§ 32 Abs. 4 Nr. 2c EStG** wird ein Kind **bis 25** weiter
+berücksichtigt, wenn es eine Berufsausbildung **mangels Ausbildungsplatz nicht
+beginnen kann.** Das ist genau deine Situation ab jetzt — du bewirbst dich, hast
+aber noch keinen Platz.
+
+Der Nachweis ist einfach:
+
+- Meldung bei der Agentur für Arbeit als **ausbildungsplatzsuchend** — **Achtung:
+  diese Meldung gilt nur 3 Monate, danach muss sie erneuert werden**, sonst
+  entfällt der Anspruch rückwirkend, **und/oder**
+- **dokumentierte Bewerbungen**: Anschreiben, Eingangsbestätigungen, Absagen,
+  E-Mails. Absagen sind hier keine Niederlage, sondern der Beleg.
+
+**Rechnung:** 259 € × ca. 11 Monate bis zum Ausbildungsstart ≈ **2.850 €** —
+für etwas, das du sowieso tust. Ab Ausbildungsbeginn läuft es dann bis 25 weiter.
+
+> **Das erledigst du diese Woche.** Termin bei der Agentur für Arbeit
+> (Berufsberatung **und** Meldung als ausbildungsplatzsuchend in einem Termin),
+> plus ab sofort jede Bewerbung und jede Absage in einem Ordner sammeln.
+> Ab dem dritten Monat: Wiedervorlage für die Erneuerung der Meldung setzen.
+
+### ⚠️ Familienversicherung — die 565-€-Falle
+
+Kinder können in der gesetzlichen Familienversicherung der Eltern bleiben:
+ohne Erwerbstätigkeit **bis 23**, in Ausbildung/Studium **bis 25**. Mit 21 bist
+du also grundsätzlich drin.
+
+**Aber:** Das monatliche **Gesamteinkommen** darf 2026 **565 €** nicht
+übersteigen (bei reinem Minijob: 603 €). **Prop-Payouts zählen voll dazu** — es
+werden alle Einkunftsarten zusammengerechnet.
+
+Wenn du im Schnitt über 565 €/Monat ausgezahlt bekommst, fliegst du aus der
+Familienversicherung und musst dich freiwillig gesetzlich versichern —
+**Mindestbeitrag rund 250 €/Monat.** Das ist ein Viertel deiner Fixkosten.
+
+Zwei Dinge folgen daraus:
+
+1. **Prüf sofort, wie du aktuell krankenversichert bist.** Falls du schon selbst
+   zahlst, stehen ~250 € deiner 1.000 € dafür — und die **fallen mit
+   Ausbildungsbeginn weg**, weil du dann über den Betrieb pflichtversichert bist
+   (der Beitrag steckt bereits in den Netto-Zahlen in Abschnitt 4).
+   Dein Puffer wäre dann nicht 130–210 €, sondern **380–460 €.** Das ist der
+   Unterschied zwischen knapp und tragfähig.
+2. Eine unangemeldete Überschreitung der Grenze wird rückwirkend korrigiert —
+   mit Beitragsnachforderung. Also melden, nicht hoffen.
+
+### ℹ️ Was mit 21 sonst noch gilt
+
+- **Dein Alter ist kein Problem.** Das Durchschnittsalter bei Ausbildungsbeginn
+  in Deutschland liegt bei rund 20 Jahren. Mit 22 beim Start 2027 bist du
+  minimal drüber und damit vollkommen unauffällig. Wer dir wegen des Alters
+  Druck macht, kennt die Statistik nicht.
+- **Verkürzung ist realistisch.** Nach § 8 BBiG kann die Ausbildungszeit verkürzt
+  werden — bei Abitur/Fachabitur oft direkt auf 2,5 Jahre, bei guten Leistungen
+  zusätzlich vorzeitige Prüfung. Weniger Zeit in der knappen Phase, früher volles
+  Gehalt. Sprich das im Vorstellungsgespräch aktiv an.
+- **Kein Jugendarbeitsschutzgesetz mehr.** Für die Nebentätigkeit gibt es keine
+  Altersbeschränkung bei den Stunden — es gilt nur noch das Arbeitszeitgesetz und
+  die Zustimmung des Betriebs.
 
 ---
 
@@ -193,7 +281,8 @@ Trag es ehrlich ein, mit echten Zahlen aus dem Kontoauszug der letzten 3 Monate:
 | Strom / Gas | | | |
 | Auto (Rate, Versicherung, Steuer, Sprit, Rücklage) | | | |
 | Handy / Internet | | | |
-| Versicherungen | | | |
+| **Krankenversicherung** (falls du selbst zahlst) | | entfällt ab Ausbildung | 0 € |
+| Sonstige Versicherungen | | | |
 | Abos (Streaming, Software, Fitness) | | | |
 | **Prop-Challenge-Gebühren** (Schnitt der letzten 6 Monate) | | | |
 | Trading-Tools (Charting, Daten, Journal) | | | |
@@ -394,6 +483,20 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
 
 ## 9. Diese Woche konkret
 
+**Zuerst — das ist Geld, kein Papierkram:**
+
+- [ ] **Termin bei der Agentur für Arbeit**: Berufsberatung **und** Meldung als
+      **ausbildungsplatzsuchend** in einem Termin. Letzteres sichert dir das
+      Kindergeld (259 €/Monat bis 25). Wiedervorlage nach 3 Monaten setzen —
+      die Meldung verfällt sonst.
+- [ ] **Ordner „Bewerbungen" anlegen** — jede Bewerbung, jede Absage aufheben.
+      Das ist der Kindergeld-Nachweis.
+- [ ] **Krankenversicherung prüfen:** familienversichert oder zahlst du selbst?
+      Falls selbst: wie viel? Falls familienversichert: liegen deine Payouts im
+      Schnitt unter 565 €/Monat?
+
+**Dann:**
+
 - [ ] Fixkosten-Tabelle in Abschnitt 6 mit echten Zahlen füllen (Kontoauszüge,
       3 Monate)
 - [ ] Entscheiden: Track A, B oder C zuerst — oder alle drei parallel
@@ -442,6 +545,11 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
   (Studis Online), bafoeg-aktuell.de
 - Nebentätigkeit während der Ausbildung: Bundesagentur für Arbeit,
   IHK Düsseldorf
+- Kindergeld bei fehlendem Ausbildungsplatz (§ 32 Abs. 4 Nr. 2c EStG):
+  Familienportal des Bundes, Haufe, lohnsteuer-kompakt.de
+- Familienversicherung, Einkommensgrenzen 2026 (565 €/603 €): AOK, TK, vdek
+- BAB und Elterneinkommen (keine elternunabhängige Förderung):
+  arbeitsrechte.de, bafoeg-aktuell.de
 
 Alle Beträge vor einer Entscheidung gegenprüfen — die Werte für **2027** stehen
 teilweise noch nicht fest (Mindestvergütung kommt bis November 2026).

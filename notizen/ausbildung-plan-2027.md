@@ -19,6 +19,29 @@
 **Schritte:** Infomaterial anfordern → 1 Monat kostenlos testen → einschreiben →
 im längsten Teilzeitmodell starten → erstes Semester ein Modul.
 
+## 1b. Deine echten Fixkosten (Stand 14.09.2026)
+
+| Posten | € / Monat | Anteil |
+| --- | --- | --- |
+| **Kredit** (läuft bis 2030) | **670 €** | **63 %** |
+| Miete | 200 € | 19 % |
+| Abos | 200 € | 19 % |
+| **Summe** | **1.070 €** | |
+
+- Restlaufzeit Kredit: ca. **45 Monate**, noch ca. **30.150 €**
+- Mit Studium (220–259 €): **1.290–1.330 € Fixkosten**
+
+**Miete 200 € ist sehr gut** — daran nichts ändern.
+**Kredit ist der Elefant.** Umschuldung prüfen: Vorfälligkeitsentschädigung ist
+bei Verbraucherdarlehen auf **max. 1 % der Restschuld** gedeckelt (bei
+Restlaufzeit über 12 Monaten) — bei 30.150 € also **höchstens ~300 €**. Da der
+Kreditzins fast immer deutlich über 1 % liegt, lohnt sich eine Ablösung bei
+Raten- und Autokrediten fast immer.
+**200 € Abos** sind der schnellste Hebel — realistisch 100–150 € davon streichbar.
+
+*Korrektur: Die früher genannten Hebel (Kfz-Versicherung, Stromtarif) passen
+nicht zu dieser Kostenstruktur. Der Hebel sind die Abos und der Kreditzins.*
+
 ## 2. Was du solange machst
 
 | Wann | Was |

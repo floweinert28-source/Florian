@@ -116,7 +116,150 @@ Wahrscheinlichkeit dazu. **Erst die Schichtfrage klären, dann einschreiben.**
 
 ---
 
-## 1c. Deine konkrete Rechnung — Externenprüfung
+## 1g. ✅ DER PLAN: Berufsbegleitend studieren, GFV behalten
+
+**Entschieden am 14.09.2026.** Job bleibt, Studium kommt oben drauf.
+
+### Warum das aufgeht
+
+| | |
+| --- | --- |
+| Zugang | **Fachhochschulreife reicht** an jeder Fernhochschule (das sind FHs) |
+| Einkommen | Bleibt vollständig — inklusive der steuerfreien Nachtzuschläge |
+| Fixkosten | Gedeckt wie bisher, kein Gehaltsverzicht |
+| Trading | London in der Spätschicht, NY in der Nachtschicht — unverändert |
+| „Ich habe nichts" | **Endet mit der Immatrikulation**, nicht erst mit dem Abschluss |
+
+### 🎯 Der Satz, den du ab Tag 1 sagen kannst
+
+> **„Ich arbeite Vollzeit bei GFV und studiere berufsbegleitend
+> Wirtschaftsinformatik."**
+
+Ab der Einschreibung wahr. Nicht in vier Jahren — **in ein paar Wochen.**
+Das war dein eigentliches Ziel, und es ist das Schnellste, was du erreichen
+kannst.
+
+### Studiengang: Wirtschaftsinformatik
+
+**Empfehlung: Wirtschaftsinformatik (B.Sc.)**
+
+- verbindet IT und BWL — der Standardweg in **Finanz- und Unternehmens-IT**
+- passt zu dem, was du schon tust (Python, Datenbanken, Automatisierung)
+- und passt zu dem, wo du hinwillst (Fintech, Finanzdatenverarbeitung, Quant-nahe
+  Rollen sind fast alle über IT- oder Wirtschaftsabschlüsse besetzt)
+
+**Alternative: Informatik (B.Sc.)** — tiefer technisch, weniger BWL. Nimm den,
+wenn du klar Entwickler werden willst und BWL dich nicht interessiert.
+
+**Nicht zu unterschätzen: der Weg bei GFV selbst.** Ein
+Wirtschaftsinformatiker, der die Produktion von innen kennt — Auftragsplanung,
+Maschinenbelegung, Materialfluss — ist bei jeder ERP-Einführung und
+Digitalisierung Gold wert. Vom Helfer in die Arbeitsvorbereitung oder
+Produktionsplanung ist ein realistischer interner Pfad, lange bevor der
+Bachelor fertig ist.
+
+### Die Kostenfrage: 2.400 € oder 13.000 €
+
+Das ist die einzige echte Entscheidung, und sie hängt an **einer** Frage.
+
+| | Staatlich (zfh-Verbund, WINGS, o. ä.) | Privat (IU, AKAD, Wilhelm Büchner) |
+| --- | --- | --- |
+| **Kosten gesamt** | **ca. 2.400 €** (Semesterbeitrag 100–300 €, kaum Gebühren) | **12.500–15.000 €** |
+| Studienstart | meist 2× im Jahr (März/April, Sept./Okt.) | teils **monatlich** |
+| Klausuren | häufig **Präsenzprüfungen vor Ort** | **online**, flexible Termine |
+| Flexibilität | geringer, feste Termine | hoch |
+
+**Der Unterschied sind rund 10.000 €.** Dafür kaufst du bei den privaten
+Flexibilität — und die ist bei rotierender Schicht nicht nichts.
+
+> ### 🔑 Die Frage, die das entscheidet:
+> **Wie weit im Voraus kennst du deinen Schichtplan?**
+>
+> - **3 Monate oder mehr** → du kannst Präsenzprüfungen einplanen und Urlaub
+>   dafür nehmen. → **Staatlich. Spart dir 10.000 €.**
+> - **Nur wenige Wochen** → feste Prüfungstermine werden zum Dauerrisiko.
+>   → **Privat mit Online-Klausuren.** Die 10.000 € kaufen dir, dass du das
+>   Studium überhaupt zu Ende bringst.
+
+Zweiter Punkt bei staatlich: **Wo ist der Prüfungsort?** Der zfh-Verbund sitzt
+schwerpunktmäßig in Rheinland-Pfalz — von Lindau aus weit. Prüf zuerst
+Hochschulen mit Fernangeboten in erreichbarer Entfernung (Bayern,
+Baden-Württemberg) und frag dort nach dem Prüfungsort.
+
+### Tempo: lieber langsam starten
+
+Fernhochschulen bieten meist mehrere Modelle:
+
+| Modell | Dauer | Aufwand/Woche | Für dich |
+| --- | --- | --- | --- |
+| Vollzeit | 36 Mon | ~40 h | ❌ unmöglich neben dem Job |
+| Teilzeit I | 48 Mon | ~20 h | ⚠️ ambitioniert bei Schicht + Trading |
+| **Teilzeit II** | **72 Mon** | **~10–15 h** | ✅ **so starten** |
+
+**Starte im langsamsten Modell.** Du kannst bei den meisten Anbietern später
+hochschalten, wenn es gut läuft — aber ein Studium, das du im ersten Jahr
+überfährst, brichst du ab. Die 70-%-Abbruchquote entsteht genau da.
+
+Mit 72 Monaten bist du mit **27** fertig. Mit 48 Monaten mit **25/26**. Der
+Unterschied ist kleiner als der Unterschied zwischen „fertig" und „abgebrochen".
+
+### Risiko klein halten
+
+- **Probestudium nutzen.** Mehrere Anbieter (u. a. IU) bieten ~4 Wochen
+  kostenlos zum Testen, mit Rücktrittsrecht. Nutze das, bevor du unterschreibst.
+- **Ein Modul im ersten Semester**, nicht drei. Sieh erst, wie sich Lernen neben
+  Schicht anfühlt.
+- **Feste Lernzeiten an den Schichtrhythmus koppeln**, nicht „wenn Zeit ist".
+  Du hast das beim Trading schon hinbekommen — dieselbe Logik.
+
+### Steuer: was du wissen musst
+
+Studienkosten sind absetzbar — aber in welcher Form, hängt an einem Detail:
+
+- **Ohne abgeschlossene Berufsausbildung** gilt das Studium als **Erstausbildung**
+  → **Sonderausgaben, maximal 6.000 €/Jahr.** Wirkt nur im Jahr der Zahlung, ist
+  nicht auf spätere Jahre vortragsfähig. Bei ~2.400–3.500 € Studienkosten im Jahr
+  reicht der Rahmen aber locker, und da du Vollzeit verdienst, wirkt der Abzug
+  auch.
+- **Mit abgeschlossener Berufsausbildung** wäre es **Werbungskosten** —
+  unbegrenzt und vortragsfähig, also deutlich besser.
+
+*Nur als Information, nicht als Widerspruch zur Entscheidung: Der
+Externenprüfungs-Antrag (ab April 2027 möglich) kostet dich kein Gehalt und
+keine Zeit — er läuft im Hintergrund. Falls du ihn irgendwann doch stellst und
+bestehst, wird dein Studium steuerlich zur Zweitausbildung. Kein Grund, jetzt
+etwas zu ändern; nur ein Fakt für später.*
+
+### Konkret: diese Woche
+
+- [ ] **Schichtplan-Vorlauf klären** — wie viele Wochen/Monate im Voraus? Das
+      entscheidet staatlich vs. privat.
+- [ ] **3–4 Hochschulen anschreiben**, Infomaterial anfordern:
+      Wirtschaftsinformatik B.Sc., berufsbegleitend, Teilzeitmodell.
+      Frag jeweils ausdrücklich: **Reicht die Fachhochschulreife?** (Antwort ist
+      bei FHs ja, aber lass es dir schriftlich geben.) **Online- oder
+      Präsenzklausuren? Wo ist der Prüfungsort? Wann ist der nächste
+      Studienstart?**
+- [ ] **Bei GFV fragen**, ob der Betrieb berufsbegleitendes Studium unterstützt:
+      Bildungsurlaub vor Klausuren, Kostenbeteiligung, Schichtberücksichtigung.
+      Kostet nichts zu fragen, und viele Betriebe machen mit — besonders bei
+      einem Fach, das ihnen selbst nützt.
+- [ ] **Probestudium starten**, sobald du eine Hochschule hast.
+
+---
+
+## — Abschnitte 1c bis 1f: verworfen (Externenprüfung) —
+
+*Entscheidung vom 14.09.2026: Die Externenprüfung ist raus. Grund: Der einzig
+passende Zielberuf (Medientechnologe Siebdruck) ist dreijährig, die Prüfung wäre
+erst Winter 2029/30 — zu spät, um das Hauptproblem zu lösen. Die folgenden
+Abschnitte bleiben als Referenz stehen, falls sich die Lage ändert oder du die
+Zulassung später doch noch mitnehmen willst (sie kostet kein Gehalt und läuft
+im Hintergrund weiter, sobald du den Antrag im April 2027 stellst).*
+
+**Der aktive Plan steht in Abschnitt 1g.**
+
+## 1c. Externenprüfung — Rechnung (verworfen)
 
 **Stand: Produktionshelfer bei GFV, Reutin.**
 
@@ -1415,40 +1558,48 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
 
 ## 9. Diese Woche konkret
 
-**Vier Dinge, keins davon kostet dich Gehalt:**
+**Entschieden: Job bei GFV behalten, berufsbegleitend Wirtschaftsinformatik
+studieren.** Alles andere ist damit vom Tisch.
 
-- [ ] **IHK anrufen (Externenprüfung).** Frag: „Welchem Ausbildungsberuf ist
-      meine Tätigkeit zuzuordnen, und wie viel Berufspraxis fehlt mir für die
-      Zulassung nach § 45 Abs. 2 BBiG?" Ein Telefonat, das dir drei Jahre
-      Ausbildung ersparen kann.
-- [ ] **Lohnabrechnungen der letzten 3 Monate raussuchen** und die steuerfreien
-      Zuschläge (Nacht-/SFN-Zuschlag) addieren. Das ist der exakte Preis eines
-      Schichtwechsels — die Zahl brauchst du für jede weitere Entscheidung.
-- [ ] **Beim Arbeitgeber die Schichtfrage stellen.** Gibt es Tagschicht- oder
-      Frühschichtplätze? Ab wann? Und: Unterstützt der Betrieb ein
-      berufsbegleitendes Studium (Bildungsurlaub, Kostenbeteiligung, flexible
-      Zeiten vor Klausuren)? Viele tun das — man muss fragen.
-- [ ] **Journal auf Handelszeiten auswerten.** Trag zu jedem Trade die Uhrzeit
-      und die Schicht ein, in der du an dem Tag warst. Wenn die Ergebnisse je
-      nach Schichtwoche auseinanderlaufen, hast du deine Ursache für die
-      fehlende Konsistenz schwarz auf weiß — und weißt, was sich ändern muss.
+### Studium (Hauptspur)
 
-**Danach, in dieser Reihenfolge:**
+- [ ] **Schichtplan-Vorlauf klären** — wie viele Wochen im Voraus kennst du ihn?
+      Entscheidet staatlich (2.400 €, Präsenzklausuren) vs. privat (13.000 €,
+      online).
+- [ ] **3–4 Hochschulen anschreiben** — Wirtschaftsinformatik B.Sc.,
+      berufsbegleitend, längstes Teilzeitmodell. Je Hochschule fragen:
+      Fachhochschulreife ausreichend? Online- oder Präsenzklausuren?
+      Prüfungsort? Nächster Studienstart? Wechsel des Zeitmodells möglich?
+- [ ] **GFV fragen** — Unterstützung für berufsbegleitendes Studium?
+      Bildungsurlaub vor Klausuren, Kostenbeteiligung, Schichtrücksicht?
+- [ ] **Probestudium starten**, sobald eine Hochschule feststeht
 
-- [ ] Fixkosten-Tabelle in Abschnitt 6 mit echten Zahlen füllen
-- [ ] Krankenversicherung prüfen — bei Vollzeitjob bist du über den Arbeitgeber
-      pflichtversichert, die 565-€-Falle aus Abschnitt 5b betrifft dich dann
-      nicht. Kindergeld läuft bei Vollzeitarbeit ohne Ausbildung allerdings
-      **nicht** weiter (§ 32 EStG greift nur bei Ausbildung oder
-      Ausbildungsplatzsuche).
-- [ ] Challenge-Gebühren der letzten 6 Monate zusammenrechnen, Monatsbudget
-      festlegen (Regel 2, Abschnitt 7)
-- [ ] Steuerliche Behandlung der Prop-Payouts klären (Abschnitt 7b) — das wird
-      mit Vollzeitgehalt wichtiger, weil die Payouts oben auf dein Einkommen
-      draufkommen und damit in die Progression fallen
-- [ ] **Erst wenn die Schichtfrage geklärt ist:** Fernstudiengänge vergleichen
-      (Wirtschaftsinformatik, Informatik, Banking & Finance), Kosten und
-      Studienbeginn notieren. Nicht vorher einschreiben.
+### Fixkosten (parallel, unabhängig vom Studium)
+
+- [ ] ⏰ **Kfz-Versicherung kündigen bis 30.11.2026** — größter Einzelhebel,
+      geht nur einmal im Jahr, 150–400 €/Jahr
+- [ ] Stromtarif wechseln, Handyvertrag prüfen, Kontoführungsgebühren prüfen
+      → zusammen mit Punkt 1 realistisch **50–90 €/Monat**
+- [ ] Abos 6 Monate rückwärts durchgehen
+- [ ] Challenge-Gebühren: Monatsschnitt ausrechnen und Budget festlegen
+      (Regel 2, Abschnitt 7)
+
+### Trading (läuft weiter, unverändert)
+
+- [ ] Session (London / NY) zu jedem Trade ins Journal, damit du siehst, welche
+      besser läuft
+- [ ] Steuerliche Behandlung der Payouts klären (Abschnitt 7b) — mit
+      Vollzeitgehalt landen sie oben auf deinem Einkommen und damit in der
+      Progression
+- [ ] Familienversicherung prüfen: bei Vollzeitjob bist du über GFV
+      pflichtversichert, die 565-€-Grenze aus Abschnitt 5b betrifft dich nicht
+
+### Nicht vergessen
+
+- [ ] **Tätigkeitsbescheinigung von GFV** für beide Beschäftigungszeiträume
+      besorgen — auch ohne Externenprüfung ist das ein Dokument, das du in fünf
+      Jahren nicht mehr bekommst, wenn deine Vorgesetzten gewechselt haben.
+      Kostet ein Gespräch, ist später bei jeder Bewerbung wertvoll.
 
 ---
 

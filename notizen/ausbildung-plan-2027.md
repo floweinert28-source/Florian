@@ -80,6 +80,110 @@ Wahrscheinlichkeit dazu. **Erst die Schichtfrage klären, dann einschreiben.**
 
 ---
 
+## 1c. Deine konkrete Rechnung — Externenprüfung
+
+**Stand: Produktionshelfer bei GFV, Reutin.**
+
+| Zeitraum | Dauer |
+| --- | --- |
+| 01.11.2024 – 01.08.2025 | 9,0 Monate |
+| *Lücke (gekündigt wegen geplanter Ausbildung)* | *–2 Monate* |
+| 01.10.2025 – heute (14.09.2026) | 11,4 Monate |
+| **Summe anrechenbare Berufspraxis** | **20,4 Monate** |
+
+Die Zeiten werden **addiert** — sie müssen nicht zusammenhängend sein. Die Lücke
+schadet also nicht grundsätzlich, sie verschiebt nur alles um zwei Monate nach
+hinten.
+
+### Was das für die Zulassung heißt
+
+| Zielberuf | Nötige Praxis | Antrag möglich ab | Prüfung frühestens |
+| --- | --- | --- | --- |
+| **2-jähriger Beruf** (z. B. Maschinen- und Anlagenführer, Fachkraft für Metalltechnik, Fachlagerist) | 36 Mon | ✅ **JETZT** (18 Mon erreicht) | **01/2028** |
+| 3-jähriger Beruf (z. B. Verfahrensmechaniker) | 54 Mon | ab 04/2027 | 07/2029 |
+| 3,5-jähriger Beruf (z. B. Industriemechaniker) | 63 Mon | ab 08/2027 | 04/2030 |
+
+> ### 🎯 Der 2-jährige Beruf ist dein Weg.
+> Du hast die halbe Mindestzeit **bereits überschritten** — der Antrag nach
+> § 45 Abs. 2 BBiG ist **ab sofort zulässig**, mit Zulassung unter der Auflage,
+> die restlichen Monate bis zur Prüfung zu sammeln.
+> **Prüfungstermin Anfang 2028. Du wärst 23 — und hättest keinen einzigen Euro
+> Gehalt dafür aufgegeben.**
+>
+> Zum Vergleich: Eine reguläre Ausbildung ab September 2027 würde bis Sommer
+> 2030 laufen und dich rund 2,5 Jahre Gehaltsdifferenz kosten.
+> Die Externenprüfung ist **zweieinhalb Jahre schneller und kostet nichts.**
+
+### Die drei Dinge, die jetzt zählen
+
+**1. Die Tätigkeitsbeschreibung entscheidet über den Zielberuf.**
+Die IHK ordnet dich nicht nach deiner Jobbezeichnung („Produktionshelfer") zu,
+sondern nach dem, **was du tatsächlich tust**. Je mehr Facharbeiter-Tätigkeiten
+in der Bescheinigung deines Arbeitgebers stehen, desto höherwertig der Beruf,
+für den du zugelassen wirst:
+
+- Maschine **einrichten und rüsten** (nicht nur bestücken)
+- **Störungen beheben**, Wartung, Instandhaltung
+- **Qualitätskontrolle**, Messmittel, Prüfprotokolle
+- Materialfluss steuern, Dokumentation, neue Kollegen einweisen
+
+**Übernimm ab jetzt aktiv solche Aufgaben** und sag deinem Vorgesetzten warum.
+Das kostet dich nichts und hebt die Zuordnung.
+
+**2. Hol dir die Nachweise, solange die Leute dich kennen.**
+Du brauchst für **beide** Zeiträume eine Tätigkeitsbescheinigung oder ein
+Zwischenzeugnis von GFV — mit Zeitraum und detaillierter Tätigkeitsbeschreibung.
+Personaler wechseln, Vorgesetzte gehen. Hol dir das jetzt, nicht 2028.
+
+**3. Kündige nicht wieder ohne Unterschrift.**
+Deine zweimonatige Lücke ist entstanden, weil du für eine Ausbildung gekündigt
+hast, die dann nicht zustande kam. Das hat dich zwei Monate Einkommen gekostet
+**und verschiebt deine Externenprüfung um zwei Monate.** Ab jetzt gilt: erst der
+unterschriebene Vertrag, dann die Kündigung. Nie umgekehrt.
+
+**Zuständige Kammer:** Reutin gehört zu Lindau am Bodensee → **IHK Schwaben**
+(Geschäftsstelle Lindau). Falls ein anderes Reutin gemeint ist, sagt dir die
+Suche „IHK + dein Landkreis" die richtige Stelle. Frag dort nach der
+**Externenzulassung nach § 45 Abs. 2 BBiG**.
+
+---
+
+## 1d. Der Zwei-Spuren-Plan
+
+Die Externenprüfung ist **Absicherung, nicht Ziel.** Ein Abschluss als
+Maschinen- und Anlagenführer macht dich vom Helfer zur Fachkraft — mehr Geld,
+mehr Sicherheit, ein Beruf statt einer Hilfstätigkeit. Aber er bringt dich nicht
+Richtung Märkte, IT oder Finance. Deshalb zwei Spuren gleichzeitig:
+
+### Spur 1 — Facharbeiterbrief (läuft von allein)
+
+Du musst dafür **nichts ändern außer weiterarbeiten**, was du ohnehin tust.
+Antrag jetzt, Prüfung Anfang 2028, Vorbereitungskurse gibt es berufsbegleitend.
+
+**Ergebnis 2028:** IHK-Abschluss, spürbar mehr Gehalt, und du bist nicht mehr
+der Erste, der bei Auftragsflaute geht.
+
+### Spur 2 — Fernstudium (das ist die eigentliche Arbeit)
+
+Mit Fachabi kannst du an jeder Fernhochschule sofort anfangen.
+Passend: **Wirtschaftsinformatik** — du baust bereits Python-Bots, und es ist der
+Studiengang, der dich sowohl in die IT als auch ins Fintech-Umfeld bringt.
+
+**Aber erst nach der Schichtfrage** (Abschnitt 1b). In rotierender Nachtschicht
+ein Fernstudium zu starten heißt, in die 70-%-Abbrecherquote zu laufen.
+
+### Warum diese Reihenfolge funktioniert
+
+Spur 1 kostet dich **keine Zeit** — sie läuft im Hintergrund mit, während du
+arbeitest. Damit ist deine gesamte freie Kapazität für Spur 2 und das Trading
+verfügbar. Und du hast ab 2028 einen Berufsabschluss in der Hand, **falls das
+Studium nicht klappt** — was bei 70 % Abbruchquote ein ernstzunehmendes Szenario
+ist.
+
+Zwei Netze statt eines. Keins davon kostet dich Gehalt.
+
+---
+
 ## 1b. Deine Schicht ist wahrscheinlich der Grund, warum das Trading nicht läuft
 
 Das ist die wichtigste Beobachtung in diesem ganzen Dokument, und sie hat nichts

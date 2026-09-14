@@ -5,23 +5,148 @@ Start August/September 2027.
 
 ---
 
-## 1. Die Kernaussage
-
-Das Problem ist nicht „Ausbildung ja oder nein". Das Problem ist:
-**Mit 1.000 € Fixkosten kannst du dir keine durchschnittliche Ausbildung leisten.**
-
-Die gesetzliche Mindestausbildungsvergütung liegt 2026 bei **724 € brutto** im
-1. Lehrjahr (netto ca. 640 €). Damit fehlen dir jeden Monat rund 100–150 €, selbst
-mit Kindergeld. Handwerk, Einzelhandel, Gastro, Friseur, viele soziale Berufe liegen
-in dieser Region.
-
-Also nicht „irgendeine Ausbildung", sondern gezielt die Tracks, die **ab 1.000 €
-brutto im 1. Jahr** zahlen. Davon gibt es genug — sie sind nur kompetitiver und
-haben frühere Bewerbungsfristen.
+> **Stand 14.09.2026 — Grundannahme korrigiert.**
+> Die erste Fassung dieses Dokuments ging davon aus, dass du kein Einkommen hast
+> und deshalb eine Ausbildung brauchst, die deine Fixkosten deckt. Das war falsch.
+> Tatsächlich gilt: **Fachabitur vorhanden, Vollzeitjob in Spät- und Nachtschicht
+> vorhanden.** Damit hast du beides schon — Hochschulzugang **und** ein
+> Vollzeitgehalt. Die Abschnitte 2 bis 6 unten beschreiben den Ausbildungsweg und
+> bleiben als Fallback-Zweig erhalten; die aktuelle Empfehlung steht hier in
+> Abschnitt 1.
 
 ---
 
-## 2. Der Zeitdruck (wichtigster Punkt)
+## 1. Die Kernaussage (neu)
+
+**Du brauchst keine Ausbildung. Du hast die zwei Dinge schon, für die Leute eine
+machen.**
+
+- **Fachabitur** = Hochschulzugangsberechtigung. Du kannst an jeder Fachhochschule
+  und jeder Fernhochschule (IU, AKAD, Wilhelm Büchner, Euro-FH, SRH) sofort
+  studieren. Kein Umweg nötig.
+- **Vollzeitgehalt** = deine Fixkosten sind gedeckt. Das Problem, um das sich
+  dieses Dokument ursprünglich drehte, existiert nicht.
+
+Eine Ausbildung wäre für dich jetzt ein **Rückschritt**: Du gibst 2,5–3 Jahre lang
+Gehalt ab, um eine Zugangsberechtigung zu erwerben, die du bereits besitzt.
+
+### Was du stattdessen hast: drei Hebel, die kein Gehalt kosten
+
+**1. Externenprüfung nach § 45 Abs. 2 BBiG — IHK-Abschluss ohne Ausbildung**
+
+Wer **das 1,5-fache der Ausbildungsdauer** im Beruf gearbeitet hat, wird zur
+regulären IHK-Abschlussprüfung zugelassen — ohne je einen Ausbildungsvertrag
+gehabt zu haben.
+
+| Ausbildungsberuf | Nötige Berufspraxis |
+| --- | --- |
+| 3-jähriger Beruf (z. B. Fachkraft für Lagerlogistik, Industriemechaniker) | **4,5 Jahre** |
+| 2-jähriger Beruf (z. B. Fachlagerist, Maschinen- und Anlagenführer) | **3 Jahre** |
+
+Zwei Erleichterungen, die kaum jemand kennt:
+
+- Der **Antrag ist schon zulässig, wenn die Hälfte der Zeit nachgewiesen ist** —
+  Zulassung dann unter der Auflage, den Rest bis zur Prüfung zu sammeln.
+- Die Mindestzeit kann **ganz oder teilweise erlassen werden**, wenn du die
+  berufliche Handlungsfähigkeit anderweitig glaubhaft machst (Zeugnisse,
+  Tätigkeitsnachweise, Projekte).
+
+Du bist 21. Arbeitest du seit ~18, hast du rund 3 Jahre — bei einem 2-jährigen
+Beruf **reicht das jetzt schon**, bei einem 3-jährigen fehlen dir anderthalb
+Jahre, und der Antrag geht trotzdem bereits.
+
+> **Konkret: Ruf deine IHK an und frag, welchem Ausbildungsberuf deine Tätigkeit
+> zugeordnet wird und wie viel Zeit dir fehlt.** Das ist ein Telefonat und kann
+> dir eine dreijährige Ausbildung komplett ersparen.
+
+**2. Berufsbegleitendes Fernstudium — mit Fachabi sofort möglich**
+
+FernUni Hagen ist eine Universität (mit Fachhochschulreife meist nur über
+Probestudium/Zugangsprüfung). Die **Fernhochschulen sind FHs — dort reicht dein
+Fachabi direkt.** Kosten: ab 12.000 € bei privaten Anbietern; staatliche und
+kirchliche FHs mit Fernangeboten sind teils deutlich günstiger.
+
+Für dein Ziel passend: **Wirtschaftsinformatik**, Finance/Banking & Finance,
+oder Informatik.
+
+**3. Schichtmodell ändern — der eigentliche Hebel (siehe Abschnitt 1b)**
+
+### ⚠️ Aber: nicht alles gleichzeitig, und nicht in dieser Schicht
+
+Die 70-%-Abbruchquote im Fernstudium entsteht genau in deiner Konstellation:
+Vollzeit + wechselnde Schichten + Selbststudium ohne festen Stundenplan. Wer in
+rotierender Nachtschicht ein Fernstudium beginnt, gehört mit hoher
+Wahrscheinlichkeit dazu. **Erst die Schichtfrage klären, dann einschreiben.**
+
+---
+
+## 1b. Deine Schicht ist wahrscheinlich der Grund, warum das Trading nicht läuft
+
+Das ist die wichtigste Beobachtung in diesem ganzen Dokument, und sie hat nichts
+mit Ausbildung zu tun.
+
+Du sagst, dein Trading sei „noch nicht konstant genug". Schau dir an, wann du
+überhaupt handeln kannst:
+
+| Deine Schicht | Typische Zeit | US-Session (15:30–22:00 MEZ) |
+| --- | --- | --- |
+| **Spätschicht** | ca. 14:00–22:00 | **komplett blockiert** — du arbeitest |
+| **Nachtschicht** | ca. 22:00–06:00 | fällt in deine Schlafzeit |
+
+Bei rotierenden Schichten heißt das: **Du kannst nie zur selben Zeit traden.**
+Mal Asia-Session nach Feierabend um 6 Uhr früh, mal ein Rest London, mal gar
+nicht. Unterschiedliche Sessions haben unterschiedliche Volatilität, Liquidität
+und Charakteristik — dieselbe Strategie liefert darin verschiedene Ergebnisse.
+
+**Inkonsistente Handelszeiten produzieren inkonsistente Ergebnisse. Unabhängig
+davon, wie gut deine Strategie ist.**
+
+Dazu kommt der Schlaf. Schichtarbeit mit wechselndem Rhythmus beeinträchtigt
+nachweislich Risikoabwägung und Impulskontrolle — exakt die zwei Fähigkeiten,
+an denen Prop-Konten sterben. Erinnerung an die Zahl aus Abschnitt 7:
+**60–70 % aller Prop-Fails sind Drawdown-Verletzungen**, also
+Risikomanagement-Fehler, nicht Strategiefehler. Das passt zusammen.
+
+### Was daraus folgt
+
+Bevor du über Ausbildung, Studium oder die nächste Challenge nachdenkst, ist das
+hier die Frage mit dem größten Hebel:
+
+> **Kannst du in ein Schichtmodell wechseln, das dir 17:00–22:00 freihält?**
+> Tagschicht, Frühschicht, oder ein anderer Arbeitgeber.
+
+Das würde auf einen Schlag:
+
+- das US-Fenster fürs Trading freigeben — **jeden Tag zur gleichen Zeit**
+- ein Fernstudium überhaupt durchhaltbar machen
+- deinen Schlafrhythmus normalisieren
+
+**Der Preis, ehrlich gerechnet:** Nachtzuschläge zwischen 20:00 und 6:00 sind
+nach **§ 3b EStG bis 25 % steuer- *und* sozialabgabenfrei** (bis 40 % zwischen
+0:00 und 4:00, Sonntag 50 %, Feiertag 125 %). Steuerfreies Geld ist ungefähr
+30–40 % mehr wert als Bruttolohn — dein Nettoverlust beim Wechsel in Tagschicht
+ist also spürbar, oft 200–400 €/Monat.
+
+Für **Spätschicht gibt es keinen gesetzlichen Zuschlag** — falls du dort keine
+tarifliche Zulage bekommst, kostet dich der Wechsel aus der Spätschicht
+möglicherweise fast nichts. Das lohnt sich zu prüfen.
+
+**Rechne es aus, statt es zu schätzen:** Nimm deine letzten drei
+Lohnabrechnungen und addiere die Zeilen „Nachtzuschlag", „SFN-Zuschlag" oder
+„steuerfreie Zuschläge". Das ist der exakte Preis für ein planbares
+Trading-Fenster und ein machbares Studium.
+
+---
+
+## — ab hier: Fallback-Zweig (Ausbildungsweg) —
+
+*Die folgenden Abschnitte 2–6 gelten nur, falls du dich doch gegen Job + Studium
+und für eine Ausbildung entscheidest — etwa weil du aus deiner jetzigen Branche
+komplett raus willst und der Quereinstieg über das Studium zu lange dauert.
+Sie sind auf dem Stand vom 13.09.2026, als noch angenommen war, dass du kein
+Einkommen hast. Die Zahlen stimmen, die Prämisse nicht mehr.*
+
+## 2. Der Zeitdruck (nur im Fallback-Zweig relevant)
 
 Es ist September 2026. Für einen Start im August/September 2027 gilt:
 
@@ -602,49 +727,40 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
 
 ## 9. Diese Woche konkret
 
-**Zuerst — das ist Geld, kein Papierkram:**
+**Vier Dinge, keins davon kostet dich Gehalt:**
 
-- [ ] **Termin bei der Agentur für Arbeit**: Berufsberatung **und** Meldung als
-      **ausbildungsplatzsuchend** in einem Termin. Letzteres sichert dir das
-      Kindergeld (259 €/Monat bis 25). Wiedervorlage nach 3 Monaten setzen —
-      die Meldung verfällt sonst.
-- [ ] **Ordner „Bewerbungen" anlegen** — jede Bewerbung, jede Absage aufheben.
-      Das ist der Kindergeld-Nachweis.
-- [ ] **Krankenversicherung prüfen:** familienversichert oder zahlst du selbst?
-      Falls selbst: wie viel? Falls familienversichert: liegen deine Payouts im
-      Schnitt unter 565 €/Monat?
+- [ ] **IHK anrufen (Externenprüfung).** Frag: „Welchem Ausbildungsberuf ist
+      meine Tätigkeit zuzuordnen, und wie viel Berufspraxis fehlt mir für die
+      Zulassung nach § 45 Abs. 2 BBiG?" Ein Telefonat, das dir drei Jahre
+      Ausbildung ersparen kann.
+- [ ] **Lohnabrechnungen der letzten 3 Monate raussuchen** und die steuerfreien
+      Zuschläge (Nacht-/SFN-Zuschlag) addieren. Das ist der exakte Preis eines
+      Schichtwechsels — die Zahl brauchst du für jede weitere Entscheidung.
+- [ ] **Beim Arbeitgeber die Schichtfrage stellen.** Gibt es Tagschicht- oder
+      Frühschichtplätze? Ab wann? Und: Unterstützt der Betrieb ein
+      berufsbegleitendes Studium (Bildungsurlaub, Kostenbeteiligung, flexible
+      Zeiten vor Klausuren)? Viele tun das — man muss fragen.
+- [ ] **Journal auf Handelszeiten auswerten.** Trag zu jedem Trade die Uhrzeit
+      und die Schicht ein, in der du an dem Tag warst. Wenn die Ergebnisse je
+      nach Schichtwoche auseinanderlaufen, hast du deine Ursache für die
+      fehlende Konsistenz schwarz auf weiß — und weißt, was sich ändern muss.
 
-**Dann:**
+**Danach, in dieser Reihenfolge:**
 
-- [ ] Fixkosten-Tabelle in Abschnitt 6 mit echten Zahlen füllen (Kontoauszüge,
-      3 Monate)
-- [ ] Entscheiden: Track A, B oder C zuerst — oder alle drei parallel
-- [ ] 10 konkrete Betriebe/Hochschulen heraussuchen, mit Vergütung und
-      Bewerbungsfrist in einer Liste
-- [ ] Prüfen, welche Fristen schon im Oktober/November 2026 enden — die zuerst
-      bearbeiten
-- [ ] Lebenslauf schreiben. **Die Discord-Bot-Projekte gehören rein**, mit
-      GitHub-Link. Für Track A und C ist das ein echter Vorteil, nicht ein Hobby.
-- [ ] Termin bei der Berufsberatung der Agentur für Arbeit machen — kostenlos,
-      und die kennen die regionalen Betriebe mit Tarifbindung
-- [ ] BAB-Anspruch vorab mit einem Online-Rechner grob prüfen
-
-**Zusätzlich, wegen Prop Trading:**
-
-- [ ] **Journal auf das Zeitfenster 17:00–22:00 MEZ filtern.** Ist die Erwartung
-      dort positiv? Das ist die wichtigste Einzelzahl in diesem ganzen Dokument —
-      sie entscheidet, ob dein aktuelles Setup mit einer Ausbildung überhaupt
-      vereinbar ist.
-- [ ] Challenge-Gebühren der letzten 6 Monate zusammenrechnen → monatlicher
-      Schnitt → in die Fixkosten-Tabelle in Abschnitt 6 eintragen
-- [ ] Monatsbudget für Challenges festlegen und aufschreiben (Regel 2,
-      Abschnitt 7)
-- [ ] Alle Challenge-Rechnungen der letzten 2 Jahre in einen Ordner sammeln —
-      absetzbar, auch die gescheiterten
-- [ ] Bisherige Auszahlungen zusammenstellen: Wie viele, wann, wie viel? Wurden
-      sie versteuert? Falls nein: zum Steuerberater, bevor es mehr wird.
-- [ ] Bei Track A und B vor jeder Bewerbung prüfen, ob der Arbeitgeber
-      Mitarbeitergeschäfte einschränkt
+- [ ] Fixkosten-Tabelle in Abschnitt 6 mit echten Zahlen füllen
+- [ ] Krankenversicherung prüfen — bei Vollzeitjob bist du über den Arbeitgeber
+      pflichtversichert, die 565-€-Falle aus Abschnitt 5b betrifft dich dann
+      nicht. Kindergeld läuft bei Vollzeitarbeit ohne Ausbildung allerdings
+      **nicht** weiter (§ 32 EStG greift nur bei Ausbildung oder
+      Ausbildungsplatzsuche).
+- [ ] Challenge-Gebühren der letzten 6 Monate zusammenrechnen, Monatsbudget
+      festlegen (Regel 2, Abschnitt 7)
+- [ ] Steuerliche Behandlung der Prop-Payouts klären (Abschnitt 7b) — das wird
+      mit Vollzeitgehalt wichtiger, weil die Payouts oben auf dein Einkommen
+      draufkommen und damit in die Progression fallen
+- [ ] **Erst wenn die Schichtfrage geklärt ist:** Fernstudiengänge vergleichen
+      (Wirtschaftsinformatik, Informatik, Banking & Finance), Kosten und
+      Studienbeginn notieren. Nicht vorher einschreiben.
 
 ---
 
@@ -674,6 +790,9 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
 - Fernstudienkosten und Abbruchquoten: FernUni Hagen, fernstudi.net
 - Mindestlohn 2026/2027 (13,90 € / 14,60 €): DGB, IG Metall, Bundesregierung
 - Aufstiegs-BAföG (AFBG) 2026: Bundesregierung, studierenplus.de
+- Externenprüfung § 45 Abs. 2 BBiG: IHK Nord Westfalen, IHK Schwaben,
+  Handelskammer Hamburg, gesetze-im-internet.de
+- Steuerfreie Zuschläge § 3b EStG: lohn-info.de, NWB Gesetze, hr-rocket.com
 
 Alle Beträge vor einer Entscheidung gegenprüfen — die Werte für **2027** stehen
 teilweise noch nicht fest (Mindestvergütung kommt bis November 2026).

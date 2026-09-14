@@ -70,6 +70,13 @@ werden.
 - **Nachteil:** Retail-Bank ≠ Trading Desk. Das ist ein Umweg, kein Direktweg.
   Der Handel sitzt bei Investmentbanken, Market Makern und Asset Managern —
   dahin kommst du realistisch über Studium oder starke Spezialisierung.
+- **⚠️ Konflikt mit Prop Trading:** Banken unterliegen den Regeln für
+  **Mitarbeitergeschäfte** (WpHG, MaComp). Das heißt je nach Haus:
+  Anzeigepflicht für private Wertpapiergeschäfte, Genehmigungspflicht,
+  Mindesthaltefristen, teilweise Verbot von Derivaten und kurzfristigem Handel.
+  Prop Trading kann damit kollidieren — und ein Verstoß ist ein Kündigungsgrund,
+  kein Formfehler. **Vor Vertragsunterschrift schriftlich bei der Compliance-
+  Abteilung klären.** Gilt genauso für duales Studium bei einer Bank.
 - **Wo suchen:** Sparkassen und Volksbanken vor Ort (fangen früh an),
   Direktbanken, DekaBank, Union Investment
 
@@ -89,15 +96,25 @@ werden.
   in die Branche.
 - **Nachteil:** Kein Finanzwissen im Lehrplan, das musst du selbst mitbringen.
 
-### Empfehlung
+### Empfehlung (angepasst, weil du mit Prop Firms tradest)
 
-**Track C als Basis, Track A als Ziel, Track B als solide Alternative.**
-Bewirb dich auf alle drei parallel — das kostet nur Zeit, nicht Geld, und du
-brauchst Auswahl, keine einzelne Hoffnung.
+**1. Track C (Fachinformatiker AE) — primär.**
+Kein Compliance-Konflikt, abendkompatibel, und die Fähigkeiten fließen direkt ins
+Trading zurück: Backtesting, Datenauswertung, Broker-/Prop-APIs, eigenes Journal-
+Tooling. Von allen drei Tracks der einzige, der dein Trading *technisch besser*
+macht, statt es nur zu finanzieren.
 
-Wenn du dich für nur einen entscheiden musst: **duales Studium
-Wirtschaftsinformatik bei einem Konzern oder einer Bank.** Das ist die Kombination
-aus Geld jetzt, Abschluss später und Nähe zum Zielberuf.
+**2. Track A (duales Studium) — sekundär, aber nicht bei einer Bank.**
+Wirtschaftsinformatik bei Industrie-, IT- oder Softwarekonzern. Höchste Decke
+langfristig. Nachteil: Vorlesung + Betrieb + Klausuren ist die zeitintensivste
+Variante — das ist der Track, der am meisten Trading-Zeit frisst.
+
+**3. Track B (Bank) — nur nach schriftlicher Compliance-Klärung.**
+Das Geld stimmt, die Nähe zum Thema stimmt. Aber wenn dir dein
+Ausbildungsbetrieb das Prop Trading untersagt, verlierst du drei Jahre Fortschritt
+an deinem eigentlichen Ziel. Erst fragen, dann bewerben.
+
+Bewirb dich trotzdem breit — Auswahl ist besser als eine einzelne Hoffnung.
 
 ---
 
@@ -126,6 +143,11 @@ direkt an dich gezahlt.
 Ein Puffer von 130–210 € ist **kein komfortabler Puffer.** Eine Autoreparatur,
 eine Nachzahlung, ein kaputtes Notebook — und du bist im Minus. Deshalb braucht
 es beides: höhere Einnahmen **und** niedrigere Fixkosten.
+
+**Prop-Auszahlungen tauchen in dieser Tabelle bewusst nicht auf.** Sie sind kein
+Planungsposten, weil sie keinen Boden haben (Abschnitt 7). Das Budget muss ohne
+sie aufgehen. Alles, was an Payouts kommt, geht in die Rücklage — nicht in einen
+höheren Lebensstandard, der dann monatlich gedeckt werden muss.
 
 ---
 
@@ -172,7 +194,9 @@ Trag es ehrlich ein, mit echten Zahlen aus dem Kontoauszug der letzten 3 Monate:
 | Auto (Rate, Versicherung, Steuer, Sprit, Rücklage) | | | |
 | Handy / Internet | | | |
 | Versicherungen | | | |
-| Abos (Streaming, Software, Fitness, Trading-Tools) | | | |
+| Abos (Streaming, Software, Fitness) | | | |
+| **Prop-Challenge-Gebühren** (Schnitt der letzten 6 Monate) | | | |
+| Trading-Tools (Charting, Daten, Journal) | | | |
 | Kredite / Raten / offene Schulden | | | |
 | Sonstiges | | | |
 | **Summe** | **1.000 €** | | |
@@ -184,8 +208,13 @@ Typische große Brocken und was geht:
   aber es entscheidet, ob der Plan aufgeht.
 - **Wohnen** — WG statt eigener Wohnung, oder (wenn es sozial tragbar ist)
   zeitweise wieder zu Hause. 3 Jahre sind endlich.
-- **Trading-Tools und Abos** — TradingView-Pläne, Prop-Challenges, Signal-Dienste,
-  Kurse. Solange du nicht konsistent bist, sind das reine Kosten. Streichen.
+- **Prop-Challenge-Gebühren** — der wichtigste Posten, den du kennen musst.
+  Rechne die letzten 6 Monate zusammen und teile durch 6. Wenn da 150–300 €/Monat
+  stehen, ist das ein Sechstel bis ein Drittel deiner Fixkosten — und es ist der
+  einzige Posten, den du sofort auf einen von dir gewählten Betrag deckeln kannst.
+  Siehe Regel 2 in Abschnitt 7.
+- **Signal-Dienste, Kurse, Mentorships** — streichen. Wer konsistent wäre,
+  bräuchte sie nicht; wer es nicht ist, wird durch sie nicht konsistent.
 - **Raten und Kredite** — vor Ausbildungsbeginn abzahlen oder umschulden, sonst
   laufen sie drei Jahre mit.
 
@@ -194,42 +223,157 @@ komfortabel statt knapp.
 
 ---
 
-## 7. Trading — ehrlich
+## 7. Prop Trading — die echte Rechnung
 
-Nicht aufgeben. Aber die Mathematik klar sehen:
+Du tradest mit Prop Firms. Das ändert zwei Dinge grundlegend — eines zu deinen
+Gunsten, eines gegen dich.
 
-**Trading wird erst dann ein Beruf, wenn Konto × Rendite > Lebenshaltung.**
-Bei 1.000 € Fixkosten und realistischen 2–3 % im Monat brauchst du ein Konto von
-**30.000–50.000 €** — und zwar Kapital, auf das du nicht angewiesen bist.
-Alles darunter ist kein Beruf, sondern ein Hobby mit Risiko. Das ist keine
-Meinung, das ist Arithmetik.
+### Was dadurch besser wird
 
-Der entscheidende Punkt, den fast alle übersehen:
-**Ein festes Einkommen macht dich zum besseren Trader.** Wer aus der Miete heraus
-traden muss, geht zu groß rein, hält Verluste zu lange und jagt Trades nach.
-Druck ist der zuverlässigste Weg, ein funktionierendes System zu zerstören.
-Die Ausbildung ist also nicht das Gegenteil des Trading-Ziels — sie ist die
-Voraussetzung dafür.
+Die Kapitalhürde fällt weg. Meine ursprüngliche Rechnung („du brauchst 30.000 bis
+50.000 € eigenes Konto") gilt für dich **nicht**. Ein gefundetes 100k-Konto bei
+80 % Profit Split und 2 % Monatsrendite sind rund **1.600 € brutto** für dich.
+Das ist real, und es ist mehr, als jede der drei Ausbildungen zahlt.
+
+Damit ist „erst Kapital aufbauen, dann traden" kein Argument mehr. Gut.
+
+### Was dadurch schlechter wird
+
+Die Zahlen der Branche (2025/2026):
+
+| Kennzahl | Wert |
+| --- | --- |
+| Bestehen die Challenge | 5–14 % (FTMO ~9–10 %) |
+| Erhalten jemals **eine** Auszahlung | **~7 %** aller Challenge-Käufer |
+| Werden dauerhaft konsistent bezahlt | **1–3 %** |
+| Scheitern an Drawdown-Regel statt am Ziel | 60–70 % der Fails |
+
+Die letzte Zeile ist die wichtigste. Die meisten scheitern **nicht**, weil ihre
+Strategie kein Geld verdient, sondern weil eine Daily- oder Max-Drawdown-Regel
+gerissen wurde. Das heißt: Auch eine funktionierende Strategie killt das Konto,
+wenn die Varianz ungünstig fällt. Und sie fällt irgendwann ungünstig — das ist
+keine Frage des Ob, sondern des Wann.
+
+Daraus folgt die entscheidende Eigenschaft von Prop-Einkommen:
+
+> **Es hat keinen Boden.** Ein einziger Tag kann sechs gute Monate löschen,
+> vollständig und ohne Berufungsmöglichkeit.
+
+Dazu kommt: kein Arbeitsvertrag, keine Krankenversicherung, keine Rentenpunkte,
+keine Arbeitslosenversicherung, kein Kündigungsschutz. Kein Vermieter und keine
+Bank rechnen damit. Und die Gegenpartei, die über deine Auszahlung entscheidet,
+verdient ihr Geld primär an Challenge-Gebühren — nicht an deinem Erfolg. Das ist
+ein struktureller Interessenkonflikt, egal wie seriös die einzelne Firma ist.
+
+### Die Schlussfolgerung
+
+Prop Trading ist ein **Bonus-Kanal, keine Grundlage.**
+Die Ausbildung liefert den Boden — die 1.000 € Fixkosten sind gedeckt, egal was
+der Markt macht. Prop liefert das Upside obendrauf.
+
+Und das ist nicht nur Risikomanagement, es ist auch der schnellere Weg zum Ziel:
+Wer aus der Miete heraus traden muss, geht zu groß rein, hält Verluste zu lange
+und rebuyt nach einem Fail sofort. Genau das produziert die 60–70 % Drawdown-
+Fails. **Ein festes Gehalt ist der billigste Risikomanager, den du kriegen
+kannst.**
+
+### Das Zeitfenster-Problem (vor der Bewerbung testen)
+
+Ausbildung läuft typisch 8:00–16:30, dazu Berufsschule. Die US-Session öffnet
+15:30 MEZ — die volumenstärkste Phase liegt also **mitten in deiner Arbeitszeit.**
+
+Realistisch bleibt dir:
+- **17:00–22:00 MEZ** — US-Nachmittag/Close, gut handelbar
+- früh morgens vor der Arbeit — möglich, aber übermüdet zu traden ist eine
+  der zuverlässigsten Arten, ein Konto zu verlieren
+- **Wochenende: gar nicht** — Forex und Futures sind zu
+
+**Konkrete Aufgabe, jetzt und nicht später:** Filtere dein Journal auf Trades
+zwischen 17:00 und 22:00 MEZ. Ist deine Erwartung in diesem Fenster noch positiv?
+
+- **Ja** → dein Setup ist ausbildungskompatibel, weiter wie geplant.
+- **Nein** (z. B. reine London-Open-Strategie 9:00–11:00) → dann muss sich die
+  Strategie ändern, nicht die Lebensplanung. Das jetzt zu wissen ist mehr wert
+  als jede Challenge, die du in den nächsten Monaten kaufst.
 
 ### Regeln, die ab jetzt gelten
 
-1. Trading ist Abendbeschäftigung und Wochenende. Nie während Arbeitszeit oder
-   Berufsschule.
-2. Jeder Trade kommt ins Journal. Ohne Journal gibt es keine Konsistenz,
-   sondern nur Erinnerung — und die lügt.
-3. Fixkosten und Trading-Kapital sind getrennte Konten. Vom Trading-Konto wird
-   nichts für Miete abgezweigt, in keiner Situation.
-4. Kein Geld mehr für Kurse, Signale oder Prop-Challenges, solange die eigene
-   Statistik nicht über mindestens 6 Monate positiv ist.
-5. **Über „hauptberuflich" wird erst geredet, wenn beides gilt:**
-   12 Monate dokumentierte Konsistenz mit echten Zahlen **und** 12 Monate
-   Fixkosten als Rücklage. Nicht vorher.
-
-Und: Track B und C bringen dich beruflich näher an Märkte heran, nicht weiter weg.
-Die Leute, die in dieser Branche wirklich Geld bewegen, sind über Banken,
-Abschlüsse und Technik reingekommen — fast nie über ein privates Retail-Konto.
+1. **Trading ist Feierabend.** Nie während Arbeitszeit oder Berufsschule. Ein
+   Azubi, der auf dem Klo Charts schaut, fliegt irgendwann — und dann ist beides
+   weg.
+2. **Challenge-Gebühren bekommen ein hartes Monatsbudget.** Du legst einen Betrag
+   fest (z. B. eine Challenge pro Monat) und der steht. Aufgebraucht heißt
+   aufgebraucht bis zum Monatsersten.
+3. **Kein Rebuy am selben Tag, an dem du gefailt hast.** Mindestens 72 Stunden
+   Abstand. Der Rebuy aus Frust ist die teuerste Gewohnheit der Branche.
+4. **Payouts fließen nicht ins Trading zurück.** Aufteilung: 50 % in die
+   Rücklage, 30 % Steuerrücklage (siehe unten), 20 % frei. Erst wenn 12 Monate
+   Fixkosten auf der Seite liegen, ändert sich diese Regel.
+5. **Getrennte Konten.** Fixkostenkonto, Trading-/Gebührenkonto, Steuerkonto.
+   Vom Fixkostenkonto wird nie eine Challenge bezahlt, in keiner Situation.
+6. **Jeder Trade ins Journal**, mit Uhrzeit. Ohne Zeitstempel kannst du Regel
+   „Zeitfenster" oben nicht prüfen.
+7. **Über „hauptberuflich" wird erst geredet, wenn beides gilt:** 12 Monate
+   dokumentierte Auszahlungen (nicht Konto-Gewinne — *Auszahlungen*) **und**
+   12 Monate Fixkosten als Rücklage. Das ist die Schwelle, an der aus 1–3 %
+   Wahrscheinlichkeit ein belastbarer Befund wird.
 
 ---
+
+## 7b. Was du bei Ämtern und Finanzamt angeben musst
+
+Das ist kein Kleingedrucktes. Falsche oder fehlende Angaben führen zu
+Rückforderungen — und beim BAföG/BAB-Amt zu einem Ordnungswidrigkeits- oder
+Strafverfahren. Einmal richtig machen, dann ist es erledigt.
+
+### Finanzamt
+
+- Prop-Auszahlungen sind **kein** Kapitalertrag, also **keine** 25 %
+  Abgeltungsteuer. Du erbringst eine Leistung (Handel auf fremdem Konto) und
+  bekommst dafür eine Vergütung.
+- Einordnung: **sonstige Einkünfte (§ 22 EStG)** oder — bei regelmäßiger,
+  nachhaltiger Tätigkeit — **gewerbliche Einkünfte (§ 15 EStG)**.
+- Besteuert mit deinem **persönlichen Einkommensteuersatz (14–45 %)**. Mit
+  Ausbildungsvergütung obendrauf rutschst du schnell in eine spürbare Progression
+  — deshalb Regel 4 oben: 30 % jeder Auszahlung sofort auf ein Steuerkonto.
+- Faustregel aus der Praxis: **ab 3–4 Auszahlungen im Jahr** Gewerbeanmeldung
+  prüfen lassen.
+- **Challenge-Gebühren sind absetzbar** — als Betriebsausgaben (gewerblich) oder
+  Werbungskosten (sonstige Einkünfte). Also **jede Rechnung aufheben**, auch die
+  der gescheiterten Challenges. Das ist bares Geld zurück.
+- Einmal zu einem Steuerberater gehen, bevor die erste größere Auszahlung kommt.
+  Kostet einmalig ein paar hundert Euro und ist günstiger als eine Nachzahlung.
+
+### BAB / BAföG — der Punkt, den fast alle falsch machen
+
+Der Freibetrag für eigenes Einkommen liegt ab 01.01.2026 bei **389 €/Monat**
+(4.668 €/Jahr). Ein normaler Minijob bleibt bis zur Minijob-Grenze (2026 rund
+603 €) anrechnungsfrei, weil Werbungskosten- und Sozialpauschale obendrauf
+kommen.
+
+**Bei selbstständigen Einkünften — und das sind Prop-Payouts — gilt die
+Werbungskostenpauschale nicht.** Für dich heißt das: **nur 389 €/Monat sind
+anrechnungsfrei**, nicht 603 €. Alles darüber kürzt deine BAB praktisch
+eins zu eins.
+
+Konsequenz für die Planung: Eine Auszahlung von 1.000 € in einem Monat kann dir
+mehrere hundert Euro BAB kosten. Das macht die Auszahlung nicht wertlos — aber
+rechne es vorher durch, statt dich hinterher zu wundern. **Und melde es.**
+Nicht gemeldete Einkünfte sind der Grund, aus dem Leute Jahre später
+fünfstellige Rückforderungen bekommen.
+
+### Ausbildungsbetrieb
+
+- Ein Nebenjob ist grundsätzlich erlaubt, aber der Betrieb muss **vorab informiert
+  werden und zustimmen.**
+- Untersagen darf er bei **Gefährdung des Ausbildungserfolgs** oder bei
+  **Wettbewerbsverbot** — Letzteres ist genau der Punkt bei Banken (siehe die
+  Compliance-Warnung bei Track B).
+- Im Urlaub ruht die Nebentätigkeit (§ 8 BUrlG).
+- **Klär das vor der Unterschrift, nicht danach.** Frag im Bewerbungsgespräch
+  neutral: „Gibt es Regelungen zu privaten Wertpapier- oder Derivategeschäften
+  und zu Nebentätigkeiten?" Das ist eine völlig normale Frage und du bekommst eine
+  ehrliche Antwort, solange du noch nicht unterschrieben hast.
 
 ## 8. Zum Stress von außen
 
@@ -263,6 +407,23 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
       und die kennen die regionalen Betriebe mit Tarifbindung
 - [ ] BAB-Anspruch vorab mit einem Online-Rechner grob prüfen
 
+**Zusätzlich, wegen Prop Trading:**
+
+- [ ] **Journal auf das Zeitfenster 17:00–22:00 MEZ filtern.** Ist die Erwartung
+      dort positiv? Das ist die wichtigste Einzelzahl in diesem ganzen Dokument —
+      sie entscheidet, ob dein aktuelles Setup mit einer Ausbildung überhaupt
+      vereinbar ist.
+- [ ] Challenge-Gebühren der letzten 6 Monate zusammenrechnen → monatlicher
+      Schnitt → in die Fixkosten-Tabelle in Abschnitt 6 eintragen
+- [ ] Monatsbudget für Challenges festlegen und aufschreiben (Regel 2,
+      Abschnitt 7)
+- [ ] Alle Challenge-Rechnungen der letzten 2 Jahre in einen Ordner sammeln —
+      absetzbar, auch die gescheiterten
+- [ ] Bisherige Auszahlungen zusammenstellen: Wie viele, wann, wie viel? Wurden
+      sie versteuert? Falls nein: zum Steuerberater, bevor es mehr wird.
+- [ ] Bei Track A und B vor jeder Bewerbung prüfen, ob der Arbeitgeber
+      Mitarbeitergeschäfte einschränkt
+
 ---
 
 ## Quellen
@@ -273,6 +434,14 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
 - Kindergeld 2026 (259 €): Bundesagentur für Arbeit
 - Ausbildungsvergütungen Bank/IT/duales Studium 2026: ausbildung.de,
   wirtschaftsinformatik-studieren.net, mygermanuniversity.com
+- Prop-Firm-Statistiken 2026 (Pass Rates, Payout-Quoten, Drawdown-Fails):
+  track360.io, quantvps.com, thepropfirmguide.com
+- Besteuerung von Prop-Trading-Auszahlungen in Deutschland: track360.io,
+  accountable.de, fundingvergleich.de
+- Einkommensfreibetrag BAföG/BAB ab 01.01.2026 (389 €): bafoeg-rechner.de
+  (Studis Online), bafoeg-aktuell.de
+- Nebentätigkeit während der Ausbildung: Bundesagentur für Arbeit,
+  IHK Düsseldorf
 
 Alle Beträge vor einer Entscheidung gegenprüfen — die Werte für **2027** stehen
 teilweise noch nicht fest (Mindestvergütung kommt bis November 2026).

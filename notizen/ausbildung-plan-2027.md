@@ -118,6 +118,125 @@ Bewirb dich trotzdem breit — Auswahl ist besser als eine einzelne Hoffnung.
 
 ---
 
+## 3b. Variante: berufsbegleitend studieren, Vollzeitgehalt behalten
+
+Der Reiz ist klar: volles Gehalt läuft weiter, Abschluss kommt obendrauf, keine
+Einkommenslücke. Das ist eine ernstzunehmende Option — aber sie hat eine harte
+Eintrittsvoraussetzung und einen Preis, der genau da anfällt, wo es dir wehtut.
+
+### Die Eintrittsfrage: Hochschulzugangsberechtigung
+
+**Mit Abitur oder Fachabitur** → geht sofort. Du brauchst nur einen Vollzeitjob.
+
+**Ohne Abitur** → geht **jetzt nicht**. Für beruflich Qualifizierte gilt:
+
+| Weg | Voraussetzung | Ergebnis |
+| --- | --- | --- |
+| Fachgebundene HZB | abgeschlossene Berufsausbildung (mind. 2 Jahre) **+ mind. 3 Jahre Berufserfahrung im erlernten Beruf** | Studium im fachlich verwandten Bereich |
+| Allgemeine HZB | **Aufstiegsfortbildung**: Meister, Techniker, Fachwirt, Erzieher | Studium in jedem Fach |
+
+Die Details variieren nach Bundesland (teils Probestudium oder Eignungsprüfung).
+
+**Konsequenz ohne Abi:** Die Ausbildung ist kein Umweg zum Studium — sie ist die
+**einzige Zugangsvoraussetzung dafür**. Ein berufsbegleitendes Studium als
+*Ersatz* für die Ausbildung existiert nicht. Als *Fortsetzung* danach dagegen
+sehr wohl, und dann sogar ziemlich gut.
+
+### Wenn die HZB steht: was es kostet
+
+**Geld — überschaubar, wenn du staatlich gehst:**
+
+| Anbieter | Kosten kompletter Bachelor |
+| --- | --- |
+| FernUni Hagen (staatlich) | **ca. 2.100–2.400 €** gesamt (60 € Grundgebühr/Semester + 11 €/ECTS) |
+| IU, Wilhelm Büchner, AKAD, Euro-FH (privat) | **ab 12.000 €**, meist 12.000–18.000 € |
+
+**Zeit — hier liegt das eigentliche Problem:**
+
+- Teilzeitstudium heißt **unter 20 Wochenstunden**. Zusammen mit einem
+  Vollzeitjob ist das eine **60-Stunden-Woche**, dauerhaft, über Jahre.
+- Regelstudienzeit berufsbegleitend: **4–5 Jahre** statt 3.
+- Die **Abbruchquote an der FernUni Hagen liegt bei über 70 %.** Das ist keine
+  Warnung vor der Hochschule — es ist das, was passiert, wenn man Vollzeitarbeit
+  und Selbststudium ohne festen Stundenplan kombiniert. Private Anbieter haben
+  bessere Quoten, aber sie kosten das Fünf- bis Achtfache.
+
+### ⚠️ Der Punkt, der dich betrifft: die Trading-Zeit ist dann weg
+
+Rechne das Zeitfenster aus Abschnitt 7 gegen:
+
+| Modell | Woche | Fenster 17:00–22:00 |
+| --- | --- | --- |
+| **Ausbildung** | 40 h | **frei** — Trading möglich |
+| **Vollzeitjob + Fernstudium** | ~60 h | **das ist deine Studienzeit** |
+
+Berufsbegleitend studieren löst dein Geldproblem und **vernichtet gleichzeitig
+genau die Stunden, in denen du traden kannst.** Von den drei Dingen, die du
+willst — Geld, Qualifikation, Trading — bedient dieses Modell zwei und streicht
+das dritte.
+
+Das ist kein Argument dagegen. Aber es ist die Entscheidung, die du triffst,
+und du solltest sie bewusst treffen statt sie zu entdecken.
+
+### 💡 Aufstiegs-BAföG — der stark unterschätzte Hebel
+
+Für **Fachwirt, Techniker, Meister** berufsbegleitend gibt es das
+**Aufstiegs-BAföG (AFBG)**, und die Konditionen sind ungewöhnlich gut:
+
+- Lehrgangs- und Prüfungsgebühren werden bis **15.000 €** gefördert
+- davon **50 % als echter Zuschuss** — geschenkt, keine Rückzahlung
+- die anderen 50 % als zinsgünstiges KfW-Darlehen, optional
+- **einkommensunabhängig** — dein Gehalt spielt keine Rolle, anders als bei
+  BAföG und BAB
+- **ausdrücklich mit Berufstätigkeit kombinierbar**, das ist bei
+  berufsbegleitenden Formaten der Regelfall
+- (bei Vollzeit-Fortbildung zusätzlich bis 1.019 €/Monat Unterhaltsbeitrag als
+  Vollzuschuss)
+
+Und der Clou: **Ein Fachwirt oder Techniker gibt dir die allgemeine
+Hochschulzugangsberechtigung.** Das ist der Weg vom „kein Abi" zum „kann alles
+studieren" — bezahlt zur Hälfte vom Staat, ohne Einkommensprüfung, neben dem
+Job.
+
+### Die Zahlen zum Vergleichen
+
+Vollzeit ungelernt zum Mindestlohn (2027: **14,60 €/h**, 40 h/Woche):
+ca. **2.530 € brutto → rund 1.750 € netto**.
+
+| Modell | Netto/Monat | Fixkosten-Puffer | Abschluss nach | Trading-Zeit |
+| --- | --- | --- | --- | --- |
+| Ausbildung Fachinformatiker | ~950 € + 259 € KG = **1.209 €** | +209 € | 2,5–3 J | ✅ Abende frei |
+| Vollzeit ungelernt + Fernstudium | **~1.750 €** | +750 € | 4–5 J | ❌ keine |
+| Vollzeit ungelernt, ohne Studium | **~1.750 €** | +750 € | nie | ✅ Abende frei |
+
+Der ungelernte Vollzeitjob bringt **rund 540 €/Monat mehr** als die Ausbildung —
+über drei Jahre etwa 19.000 €. Dafür stehst du danach ohne Abschluss da, und
+ungelernte Vollzeitstellen sind meist Schicht-, Lager- oder Produktionsarbeit.
+Das ist körperlich die Variante, nach der abends am wenigsten Konzentration für
+Charts übrig ist.
+
+### Empfehlung: Reihenfolge statt Parallelität
+
+Starte nicht beides gleichzeitig. Der Plan, der dir alle Optionen offenhält:
+
+**Phase 1 — 2027 bis 2029/30: Ausbildung.**
+40-Stunden-Woche, Abende frei. Genau die Jahre, in denen sich zeigt, ob dein
+Trading trägt — bei gedeckten Fixkosten und ohne Druck, also unter den besten
+Bedingungen, die du je haben wirst.
+
+**Phase 2 — ab 2030: Vollzeitgehalt, dann entscheiden.**
+Als Fachinformatiker liegt der Einstieg bei rund 3.000–3.800 € brutto. Ab da:
+
+- **Trading trägt** → mehr Kapital, mehr Rücklage, Studium ist optional geworden
+- **Trading trägt nicht** → berufsbegleitend Fachwirt/Techniker (Aufstiegs-BAföG,
+  50 % geschenkt) oder direkt Bachelor, mit vollem Gehalt und oft
+  Arbeitgeberzuschuss
+
+In beiden Fällen stehst du besser da als heute — und du musst die Entscheidung
+erst 2030 treffen, mit drei Jahren echter Daten statt heute mit einer Vermutung.
+
+---
+
 ## 4. Die Rechnung
 
 ### Einnahmen im 1. Ausbildungsjahr (Schätzung, Steuerklasse I, kinderlos)
@@ -550,6 +669,11 @@ gewinnen. Ergebnisse in einem Jahr sind das Argument, nicht Erklärungen heute.
 - Familienversicherung, Einkommensgrenzen 2026 (565 €/603 €): AOK, TK, vdek
 - BAB und Elterneinkommen (keine elternunabhängige Förderung):
   arbeitsrechte.de, bafoeg-aktuell.de
+- Studieren ohne Abitur, beruflich Qualifizierte: Hochschulkompass,
+  studienwahl.de, studieren-ohne-abitur.de
+- Fernstudienkosten und Abbruchquoten: FernUni Hagen, fernstudi.net
+- Mindestlohn 2026/2027 (13,90 € / 14,60 €): DGB, IG Metall, Bundesregierung
+- Aufstiegs-BAföG (AFBG) 2026: Bundesregierung, studierenplus.de
 
 Alle Beträge vor einer Entscheidung gegenprüfen — die Werte für **2027** stehen
 teilweise noch nicht fest (Mindestvergütung kommt bis November 2026).

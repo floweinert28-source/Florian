@@ -260,11 +260,16 @@ Suche „IHK + dein Landkreis" die richtige Stelle. Frag dort nach der
 
 ## 1e. Wie die Prüfung abläuft
 
-*Beispiel: **Maschinen- und Anlagenführer/-in** (2 Jahre) — der wahrscheinlichste
-Zielberuf für eine Produktionstätigkeit. **Welcher Beruf es bei dir wirklich wird,
-sagt die IHK**, anhand deiner Tätigkeitsbeschreibung. Andere 2-jährige Kandidaten:
-Fachkraft für Metalltechnik, Fachlagerist, Produktionsfachkraft Chemie,
-Fachkraft für Lebensmitteltechnik.*
+> ⚠️ **Korrektur 14.09.2026:** Maschinen- und Anlagenführer war eine Annahme aus
+> der Jobbezeichnung „Produktionshelfer" und passt **nicht**. Tatsächliche
+> Tätigkeit: Laserbedienung, Klebearbeiten, Arbeitsvorbereitung und
+> Prozesssauberkeit im „Labor". Der Zielberuf ist damit offen — siehe
+> Abschnitt 1e-2. Das Beispiel unten bleibt trotzdem stehen, weil der
+> **Aufbau** der Prüfung bei allen IHK-Ausbildungsberufen gleich ist:
+> schriftliche Fachbereiche + WiSo, dazu ein praktischer Teil. Nur die Inhalte
+> wechseln.
+
+*Beispiel: **Maschinen- und Anlagenführer/-in** (2 Jahre).*
 
 ### Kurz: Theorie **und** Praxis. Beides.
 
@@ -322,6 +327,72 @@ Lebensmitteltechnik · Druckweiter- und Papierverarbeitung.
 
 Welcher für dich gilt, hängt davon ab, was GFV produziert. **Das klärst du im
 selben IHK-Gespräch** — es bestimmt, welchen Vorbereitungskurs du brauchst.
+
+---
+
+## 1e-2. Dein Zielberuf — und warum deine Wortwahl darüber entscheidet
+
+### Das Problem
+
+Die IHK ordnet dich einem Ausbildungsberuf zu **anhand der
+Tätigkeitsbescheinigung deines Arbeitgebers.** Die Anforderung dort ist wörtlich:
+Aus dem Nachweis müssen die **„Bandbreite und Sachtiefe der beruflichen
+Erfahrungen"** erkennbar sein, und die betriebliche Praxis muss **„in enger
+Beziehung"** zum Ausbildungsberuf stehen.
+
+Wenn auf dem Papier steht *„Reinigungs- und Klebearbeiten, Hilfstätigkeiten in
+der Produktion"*, wirst du **keinem Beruf zugeordnet** und der Antrag scheitert.
+Nicht weil du zu wenig kannst — sondern weil es zu dünn beschrieben ist.
+
+Du beschreibst deine Arbeit selbst als „sauber machen und Sachen kleben". Das ist
+eine massive Untertreibung dessen, was du tatsächlich tust. Laseranlagen bedienen,
+Fügeverbindungen herstellen und Fertigungsunterlagen vorbereiten sind
+Facharbeiter-Tätigkeiten.
+
+### Die Übersetzung
+
+Nimm das mit zu deinem Vorgesetzten, wenn du die Bescheinigung anforderst:
+
+| Wie du es sagst | Wie es im Tätigkeitsnachweis stehen muss |
+| --- | --- |
+| „ich lasere Zeug" | **Bedienen und Rüsten einer Laserschneid-/Gravieranlage**; Materialpositionierung; Auswahl und Kontrolle der Prozessparameter (Leistung, Vorschub, Fokuslage); Bedienung der Absaugung; Einhaltung der Laserschutzvorschriften; Maßkontrolle der gefertigten Teile |
+| „ich klebe Sachen" | **Herstellen von Klebeverbindungen nach Arbeitsanweisung**; Oberflächenvorbehandlung der Fügeflächen; Dosieren und Auftragen von Klebstoffen; Einhaltung von Topf- und Aushärtezeiten; Sicht- und Funktionsprüfung der Verbindung |
+| „ich richte Pläne hin" | **Arbeitsvorbereitung**: Lesen und Umsetzen technischer Zeichnungen und Zuschnittpläne; Bereitstellen von Fertigungsunterlagen; Materialdisposition und Zuschnittoptimierung |
+| „ich mache sauber" | **Sicherstellung der Prozesssauberkeit** im kontrollierten Fertigungsbereich; Reinigung und Vorbehandlung von Fügeflächen; Reinigung und Pflege der Anlagen; Umgang mit Gefahrstoffen nach Sicherheitsdatenblatt |
+| *(sagst du gar nicht)* | **Qualitätsprüfung mit Messmitteln und Dokumentation**; Störungserkennung und -meldung; Wartungsarbeiten an der Anlage; Einweisen neuer Kollegen |
+
+Das ist keine Schönfärberei — es ist dieselbe Arbeit in der Sprache, in der die
+Ausbildungsordnungen geschrieben sind. Genau diese Formulierungen sucht der
+Sachbearbeiter bei der IHK.
+
+### 📌 Aufgabe: die letzte Zeile ernst nehmen
+
+Alles in der Zeile *„sagst du gar nicht"* — Messen, Prüfen, Dokumentieren,
+Störungen erkennen, Wartung, Kollegen einweisen — **entscheidet über die
+Zuordnung zu einem höherwertigen Beruf.** Falls du das schon machst: unbedingt in
+die Bescheinigung. Falls nicht: **ab jetzt aktiv einfordern.** Sag deinem
+Vorgesetzten warum — Betriebe stellen so etwas in der Regel gern, weil eine
+Fachkraft mehr wert ist als ein Helfer.
+
+### Welcher Beruf es wird, hängt am Material
+
+| Was du lasert/klebst | Wahrscheinlicher Ausbildungsberuf | Dauer | Nötige Praxis |
+| --- | --- | --- | --- |
+| **Metall** | **Fachkraft für Metalltechnik**, FR Konstruktionstechnik — Laserschneiden ist hier ausdrücklich Teil des Berufsbilds | 2 J | 3 J → **01/2028** |
+| **Kunststoff / Acryl** | Maschinen- und Anlagenführer, Schwerpunkt Metall- und Kunststofftechnik | 2 J | 3 J → **01/2028** |
+| Kunststoff, anspruchsvoller | Verfahrensmechaniker Kunststoff- und Kautschuktechnik | 3 J | 4,5 J → 07/2029 |
+| **Papier / Karton / Verpackung** | Packmitteltechnologe | 3 J | 4,5 J → 07/2029 |
+| **Schilder / Werbetechnik** | Schilder- und Lichtreklamehersteller | 3 J | 4,5 J → 07/2029 |
+| **Faserverbund / GFK** | Verfahrensmechaniker Kunststofftechnik, FR Faserverbundtechnologie | 3,5 J | 5,25 J → 04/2030 |
+
+**Das ist der entscheidende Unterschied:** Bei einem 2-jährigen Beruf bist du
+**Anfang 2028** so weit. Bei einem 3-jährigen erst **Mitte 2029**, bei 3,5 Jahren
+**2030**. Es lohnt sich also, im IHK-Gespräch ausdrücklich zu fragen:
+
+> **„Gibt es einen zweijährigen Ausbildungsberuf, der zu meiner Tätigkeit passt?"**
+
+Und falls ja, später auf den 3-jährigen aufzubauen — viele 2-jährige Berufe sind
+als Grundstufe eines 3-jährigen angelegt und werden voll angerechnet.
 
 ---
 

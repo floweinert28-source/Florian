@@ -1,3 +1,60 @@
+# KURZFASSUNG — 1 Seite
+
+*Stand 14.09.2026. Alles darunter ist Detail und Verlauf.*
+
+## 1. Wie du an den Bachelor kommst
+
+**Fernstudium BWL / Finanzmanagement an der IU.** Job bei GFV bleibt.
+
+| | Verifiziert |
+| --- | --- |
+| Zugang | **Fachhochschulreife reicht** — bundesweit gültig für Fachhochschulen |
+| Kosten | **220–259 €/Monat**, gesamt **13.000–16.000 €** |
+| Dauer | 3 Modelle: Vollzeit / Teilzeit I / Teilzeit II |
+| Start | **ganzjährig**, keine Semestertermine, kein NC |
+| Klausuren | **rund um die Uhr von zuhause**, Video-Proctoring; optional Prüfungszentrum |
+| Testen | **1 Monat kostenlos**, Wechsel von Studiengang und Zeitmodell möglich |
+| Puffer | bis zu **2 kostenlose Verlängerungssemester** |
+
+**Schritte:** Infomaterial anfordern → 1 Monat kostenlos testen → einschreiben →
+im längsten Teilzeitmodell starten → erstes Semester ein Modul.
+
+## 2. Was du solange machst
+
+| Wann | Was |
+| --- | --- |
+| **ab sofort** | GFV weiterarbeiten. Gehalt und Nachtzuschläge laufen unverändert. |
+| **ab sofort** | Fixkosten senken: **Kfz-Versicherung bis 30.11. kündigen** (150–400 €/Jahr), Strom, Handy, Kontogebühren → zusammen 50–90 €/Monat |
+| **Jahr 1** | **Excel-/Office-Nachweis** holen (Zertifikat). Einzige echte Lücke für den Bürojob. |
+| **Jahr 1–2** | Lebenslauf umschreiben: nicht „Produktionshelfer", sondern Arbeitsvorbereitung und Disposition |
+| **ab 2028** | Bewerben auf Sachbearbeitung / Vertriebsinnendienst / Disposition → **raus aus der Halle, Tagschicht** |
+| durchgehend | Trading läuft weiter: London in Spätschicht, NY in Nachtschicht, Wochenende ist Lernzeit (Markt zu) |
+
+## 3. Was du mit dem Bachelor kannst
+
+| Feld | Brutto/Jahr |
+| --- | --- |
+| Einstieg BWL-Bachelor allgemein | ca. 38.000 € |
+| Controlling, Bank, Asset Management | Mittelfeld |
+| **Treasury** (Zins-/Währungsabsicherung, Handel mit Banken) | überdurchschnittlich |
+| **Risikomanagement, Compliance, Meldewesen** | überdurchschnittlich |
+| **Durchschnitt Finance in Deutschland** | **67.584 €** |
+
+Heute als Helfer: 30.000–35.000 € — und das bleibt so. Das ist der Unterschied.
+
+**Der CFA ist dein Hebel** (verifiziert bei CFA Society Germany):
+
+- Zugang: Bachelor, vorletztes Studienjahr — **oder 4 Jahre Berufserfahrung,
+  nicht zwingend investmentbezogen.** Du hast die 4 Jahre etwa **Anfang 2029**,
+  also **auch ohne Bachelor**.
+- 3 Level, ~300 Stunden Selbststudium pro Level, **Prüfungen auf Englisch**
+- Für die volle Charter zusätzlich: 4.000 h Investment-Berufserfahrung +
+  2–3 Empfehlungsschreiben → geht erst mit einem Finance-Job
+- Nur ~1.600 Charterholder in Deutschland
+- **Niemand fragt, wo dein Bachelor herkommt, wenn du CFA hast.**
+
+---
+
 # Plan: Ausbildung/Studium 2027 bei 1.000 € Fixkosten
 
 Stand: September 2026 · Ziel: Vertrag unterschrieben bis spätestens Frühjahr 2027,
@@ -273,7 +330,7 @@ du 2028, nicht heute.
 
 | Hochschule | Studiengang | Kosten | Klausuren | Start |
 | --- | --- | --- | --- | --- |
-| **IU Internationale Hochschule** | Finanzmanagement / BWL (B.Sc.) | **199–339 €/Mon** je nach Modell | **online, rund um die Uhr** | **monatlich** |
+| **IU Internationale Hochschule** | Finanzmanagement / BWL | **220–259 €/Mon**, ges. 13.000–16.000 € | **online, rund um die Uhr** | **ganzjährig** |
 | **AKAD University** | BWL – Banking und Finance (B.A.) | 199 €/Mon bei 72 Mon (14.328 € ges.); 48 Mon = 13.872 €; 36 Mon = 12.564 € | online | mehrmals jährlich |
 | **HFH Hamburger Fern-Hochschule** | Betriebswirtschaft (B.A.) | 12.600–15.600 € gesamt | **Präsenz** in Studienzentren — Süden: München, Stuttgart, Nürnberg, Freiburg | 2× jährlich |
 | **Euro-FH** | BWL / Finance | mittleres Segment | online + optionale Präsenzseminare | mehrmals jährlich |
@@ -299,18 +356,18 @@ ist:
 Die Rechnung lautet also nicht „11.000 € sparen", sondern **„14.000 € zahlen
 oder gar nicht studieren"**. So gerechnet ist die IU die richtige Wahl.
 
-Dazu: **monatlicher Studienstart** — du kannst im Oktober oder November 2026
-anfangen, nicht erst im März. Und **vier Wochen kostenloses Probestudium** mit
-Rücktrittsrecht.
+Dazu: **ganzjähriger Studienstart ohne feste Semestertermine** — du kannst im
+Oktober oder November 2026 anfangen. Und **einen Monat kostenlos testen**,
+inklusive Wechsel von Studiengang und Zeitmodell in dieser Zeit.
 
 ### Was es dich wirklich kostet
 
 | Posten | € / Monat |
 | --- | --- |
-| Studiengebühr (längstes Modell) | **−199 €** |
+| Studiengebühr (längstes Modell) | **−220 €** |
 | Steuerersparnis (Sonderausgaben, ~2.400 €/Jahr bei ~25 %) | **+50 €** |
 | Fixkosten-Hebel aus Abschnitt 6 (Kfz-Versicherung, Strom, Handy, Konto) | **+50 bis +90 €** |
-| **Echte Mehrbelastung** | **ca. 60–100 €/Monat** |
+| **Echte Mehrbelastung** | **ca. 80–120 €/Monat** |
 
 **Das Studium finanziert sich zu zwei Dritteln aus Dingen, die du ohnehin tun
 solltest.** Die verbleibenden 60–100 € sind bei einem Vollzeitgehalt mit

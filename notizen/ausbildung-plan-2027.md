@@ -317,6 +317,100 @@ solltest.** Die verbleibenden 60–100 € sind bei einem Vollzeitgehalt mit
 Schichtzuschlägen tragbar — vorausgesetzt, du ziehst die Fixkosten-Hebel
 wirklich. Deshalb stehen sie in Abschnitt 9 gleichberechtigt neben dem Studium.
 
+## Was der Bachelor dir öffnet
+
+### Die Berufsfelder
+
+| Feld | Was du tust | Einstieg |
+| --- | --- | --- |
+| **Controlling / Unternehmens-Finance** | Planung, Reporting, Kalkulation, Forecasts | breitester Arbeitsmarkt, überall und in jeder Branche |
+| **Treasury** | Liquidität steuern, **Zins- und Währungsrisiken absichern, mit Banken handeln** | ⭐ überdurchschnittlich bezahlt |
+| **Risikomanagement / quantitative Risikoanalyse** | Markt-, Kredit-, Liquiditätsrisiko modellieren und überwachen | ⭐ überdurchschnittlich bezahlt |
+| **Compliance / Meldewesen / Geldwäscheprävention** | Regulatorik, Aufsichtsrecht, AML | ⭐ stark wachsend, überdurchschnittlich bezahlt |
+| **Bank** | Kreditanalyse, Firmenkunden-, Privatkundenberatung | klassischer Weg |
+| **Asset & Wealth Management** | Fondsadministration, Portfolio-Support, Vermögensberatung | näher am Markt |
+| **Wirtschaftsprüfung / Steuerberatung** | Prüfungsassistenz, Weg zum StB/WP | harte Arbeitszeiten, klarer Karrierepfad |
+| **Fintech** | Produktmanagement, Operations, Business Development | offenste Branche für Quereinsteiger |
+
+### ⭐ Treasury — der Job, der deinem Trading am nächsten kommt
+
+Wenn du wissen willst, welche **realistisch erreichbare** Rolle dem Trading am
+nächsten ist: **Corporate Treasury.**
+
+Du steuerst die Liquidität eines Unternehmens, sicherst Währungs- und
+Zinsrisiken ab und handelst dafür mit Banken. Das ist echtes Marktgeschäft —
+Zinskurven, FX, Absicherungsstrategien, Termingeschäfte. Kein Prop-Desk, aber
+auch kein Schreibtisch weit weg von Märkten.
+
+Erreichbar mit einem BWL-Bachelor mit Finance-Schwerpunkt, und Treasury wird
+ausdrücklich höher bewertet als generalistische Tätigkeiten.
+
+### 🔑 Der CFA — dein Ausgleich für das Fernstudium
+
+Das ist die wichtigste Information in diesem ganzen Abschnitt.
+
+Der **Chartered Financial Analyst (CFA)** ist die international anerkannte
+Qualifikation der Investmentbranche. Und er ist **rein meritokratisch**: drei
+Prüfungen (Level I–III), du bestehst sie oder nicht. Niemand fragt, an welcher
+Hochschule dein Bachelor entstanden ist.
+
+| | |
+| --- | --- |
+| **Zugang** | Bachelor — **oder bereits im vorletzten Studienjahr**, oder 4 Jahre Berufserfahrung (nicht zwingend investmentbezogen) |
+| **Für die Charter zusätzlich** | 4.000 Stunden Berufserfahrung im Investment-Entscheidungsprozess, über mindestens 36 Monate |
+| **Dauer** | ca. 3 Jahre, ein Exam pro Jahr |
+| **Kosten** | deutlich günstiger als ein MBA oder ein bezahlter Master |
+| **Seltenheit** | nur rund **1.600 Charterholder in ganz Deutschland** |
+
+> **Das ist dein Hebel.** Der Nachteil des Fernstudiums ist das fehlende
+> Netzwerk und der fehlende Markenname der Hochschule. Der CFA ersetzt beides:
+> Er ist ein international anerkanntes Signal, das du dir selbst erarbeitest —
+> unabhängig von Herkunft, Hochschule und Vitamin B.
+>
+> Und du kannst **Level I bereits im vorletzten Bachelorjahr schreiben**, musst
+> also nicht bis 2032 warten.
+
+Alternativen im selben Geist: **FRM** (Financial Risk Manager, für
+Risikomanagement) und **CIIA**.
+
+### Die Gehaltsrealität — ehrlich
+
+| | Brutto/Jahr |
+| --- | --- |
+| Einstieg BWL-Bachelor allgemein | **ca. 38.000 €** (Spanne 32.800–48.700) |
+| Durchschnitt BWL in Deutschland | **58.500 €** |
+| **Durchschnitt Finance in Deutschland** | **67.584 €** |
+
+**Der ehrliche Vergleich zu heute:** Als Produktionshelfer mit Schichtzuschlägen
+liegst du grob bei 30.000–35.000 € brutto. Der Einstieg nach dem Bachelor ist
+also zunächst **nur moderat besser** — teils sogar vergleichbar, weil die
+steuerfreien Nachtzuschläge wegfallen.
+
+**Der Unterschied ist nicht der Sprung, sondern die Kurve.**
+
+- Produktionshelfer bleibt bei 30.000–35.000 €. Für immer.
+- Finance geht mit Erfahrung auf 58.000–68.000 € und darüber.
+
+Mit dem Bachelor mit 27, fünf Jahren Erfahrung mit 32, plus CFA: Du bist dann in
+einem Bereich, den du als Helfer nie erreichst — bei planbarer Arbeit, im Büro,
+in einer Branche, die dich interessiert.
+
+### Und was das für das Trading bedeutet
+
+Nichts davon macht dich zum Trader — das bleibt so, wie in Abschnitt 1g
+beschrieben. **Aber:** Ein Finance-Einkommen von 60.000 € plus verändert die
+Trading-Mathematik grundlegend. Aus Abschnitt 7:
+
+> Bei 1.000 € Fixkosten und 2–3 % Monatsrendite brauchst du 30.000–50.000 €
+> Kapital, auf das du nicht angewiesen bist.
+
+Mit einem Helfergehalt sparst du das in zehn Jahren zusammen. Mit einem
+Finance-Gehalt in drei bis vier. **Der schnellste Weg zu echtem
+Trading-Kapital führt über ein gutes Gehalt** — nicht über die nächste
+Challenge.
+
+---
+
 ### Tempo: lieber langsam starten
 
 Fernhochschulen bieten meist mehrere Modelle:
@@ -1766,6 +1860,9 @@ studieren.** Alles andere ist damit vom Tisch.
   AKAD University, IU, HFH, PFH, fernstudi.net, karriere.de
 - Einstiegswege Finanzbranche: e-fellows.net, karrieresprung.de
 - Quereinstieg in kaufmännische Berufe: arwa.de, jobblitz.de, alfatraining.de
+- CFA-Programm, Voraussetzungen und Anerkennung: CFA Society Germany,
+  Gabler Banklexikon, Staufenbiel
+- Gehälter BWL und Finance 2026: jobvector, StepStone, berufsstart.de
 - Werkstudentenprivileg bei Teilzeit- und Fernstudium: Haufe, Studis Online,
   IU, jobruf.de
 - Externenprüfung § 45 Abs. 2 BBiG: IHK Nord Westfalen, IHK Schwaben,

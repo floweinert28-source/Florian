@@ -330,69 +330,117 @@ selben IHK-Gespräch** — es bestimmt, welchen Vorbereitungskurs du brauchst.
 
 ---
 
-## 1e-2. Dein Zielberuf — und warum deine Wortwahl darüber entscheidet
+## 1e-2. Dein Zielberuf: Medientechnologe Siebdruck
 
-### Das Problem
+**Geklärt.** Was du machst, ist **Siebdruckformherstellung** — eine der
+Kernstationen des Ausbildungsberufs **Medientechnologe/-in Siebdruck**
+(SiebdrAusbV, **3 Jahre**).
 
-Die IHK ordnet dich einem Ausbildungsberuf zu **anhand der
-Tätigkeitsbescheinigung deines Arbeitgebers.** Die Anforderung dort ist wörtlich:
-Aus dem Nachweis müssen die **„Bandbreite und Sachtiefe der beruflichen
-Erfahrungen"** erkennbar sein, und die betriebliche Praxis muss **„in enger
-Beziehung"** zum Ausbildungsberuf stehen.
+### Du deckst drei von sechs Ausbildungsstationen ab
 
-Wenn auf dem Papier steht *„Reinigungs- und Klebearbeiten, Hilfstätigkeiten in
-der Produktion"*, wirst du **keinem Beruf zugeordnet** und der Antrag scheitert.
-Nicht weil du zu wenig kannst — sondern weil es zu dünn beschrieben ist.
+Die Ausbildung gliedert sich in sechs Bereiche. Dein Arbeitsalltag:
 
-Du beschreibst deine Arbeit selbst als „sauber machen und Sachen kleben". Das ist
-eine massive Untertreibung dessen, was du tatsächlich tust. Laseranlagen bedienen,
-Fügeverbindungen herstellen und Fertigungsunterlagen vorbereiten sind
-Facharbeiter-Tätigkeiten.
+| Ausbildungsstation | Deine Tätigkeit | Abdeckung |
+| --- | --- | --- |
+| **Siebdruckformherstellung** | Rahmen bespannen, Gewebe verkleben und zuschneiden, entschichten, entfetten, Kopierschicht auftragen, trocknen, UV-belichten, auswaschen, Siebe reparieren | ✅ **vollständig** |
+| **Produktionsplanung und -steuerung** | Maschinenbelegungspläne auswerten, Aufträge durchgehen, Siebe/Farben/Muster kommissionieren und zurückführen | ✅ **weitgehend** |
+| **Farblabor** | Farben bereitstellen, sortieren, verwalten | ⚠️ **teilweise** — du bringst und sortierst, du **rezeptierst und mischst nicht** |
+| **Produktion (Drucken)** | — | ❌ **fehlt** |
+| **Druckvorstufe** | — | ❌ **fehlt** |
+| **Qualitätsmanagement** | — | ❌ **fehlt** |
 
-### Die Übersetzung
+Die Siebdruckformherstellung ist kein Nebenbereich — in der Branche gilt, dass
+Fachkräfte im Siebdruck typischerweise **einen Großteil von Druckvorstufe und
+Druckformherstellung beherrschen.** Genau das machst du. **Das ist keine
+Hilfstätigkeit, das ist Facharbeit.**
 
-Nimm das mit zu deinem Vorgesetzten, wenn du die Bescheinigung anforderst:
+### ⚠️ Ehrliche Korrektur zur Zeitachse
 
-| Wie du es sagst | Wie es im Tätigkeitsnachweis stehen muss |
+Medientechnologe Siebdruck ist ein **3-jähriger** Beruf. Damit gilt nicht mehr
+die 2-Jahres-Rechnung aus Abschnitt 1c:
+
+| | |
 | --- | --- |
-| „ich lasere Zeug" | **Bedienen und Rüsten einer Laserschneid-/Gravieranlage**; Materialpositionierung; Auswahl und Kontrolle der Prozessparameter (Leistung, Vorschub, Fokuslage); Bedienung der Absaugung; Einhaltung der Laserschutzvorschriften; Maßkontrolle der gefertigten Teile |
-| „ich klebe Sachen" | **Herstellen von Klebeverbindungen nach Arbeitsanweisung**; Oberflächenvorbehandlung der Fügeflächen; Dosieren und Auftragen von Klebstoffen; Einhaltung von Topf- und Aushärtezeiten; Sicht- und Funktionsprüfung der Verbindung |
-| „ich richte Pläne hin" | **Arbeitsvorbereitung**: Lesen und Umsetzen technischer Zeichnungen und Zuschnittpläne; Bereitstellen von Fertigungsunterlagen; Materialdisposition und Zuschnittoptimierung |
-| „ich mache sauber" | **Sicherstellung der Prozesssauberkeit** im kontrollierten Fertigungsbereich; Reinigung und Vorbehandlung von Fügeflächen; Reinigung und Pflege der Anlagen; Umgang mit Gefahrstoffen nach Sicherheitsdatenblatt |
-| *(sagst du gar nicht)* | **Qualitätsprüfung mit Messmitteln und Dokumentation**; Störungserkennung und -meldung; Wartungsarbeiten an der Anlage; Einweisen neuer Kollegen |
+| Nötige Berufspraxis | **4,5 Jahre = 54 Monate** |
+| Du hast | 20,4 Monate |
+| Fehlen | **33,6 Monate** |
+| **Antrag möglich ab** (halbe Zeit, 27 Mon) | **April 2027** |
+| 54 Monate voll | **Juli 2029** |
+| Prüfung realistisch | Sommer 2029 auf Kante, **Winter 2029/30 sicher** |
 
-Das ist keine Schönfärberei — es ist dieselbe Arbeit in der Sprache, in der die
-Ausbildungsordnungen geschrieben sind. Genau diese Formulierungen sucht der
-Sachbearbeiter bei der IHK.
+Das ist später als die Anfang 2028, die in Abschnitt 1c steht — die galt für
+einen 2-jährigen Beruf. Einen 2-jährigen Ausbildungsberuf für
+Siebdruckformherstellung gibt es nicht.
 
-### 📌 Aufgabe: die letzte Zeile ernst nehmen
+### 🔑 Der Hebel, der das verkürzen kann
 
-Alles in der Zeile *„sagst du gar nicht"* — Messen, Prüfen, Dokumentieren,
-Störungen erkennen, Wartung, Kollegen einweisen — **entscheidet über die
-Zuordnung zu einem höherwertigen Beruf.** Falls du das schon machst: unbedingt in
-die Bescheinigung. Falls nicht: **ab jetzt aktiv einfordern.** Sag deinem
-Vorgesetzten warum — Betriebe stellen so etwas in der Regel gern, weil eine
-Fachkraft mehr wert ist als ein Helfer.
+§ 45 Abs. 2 BBiG erlaubt, **ganz oder teilweise von der Mindestzeit abzusehen**,
+wenn glaubhaft gemacht wird, dass die berufliche Handlungsfähigkeit bereits
+erworben wurde.
 
-### Welcher Beruf es wird, hängt am Material
+Deine Abdeckung der Druckformherstellung ist ungewöhnlich vollständig — vom
+Bespannen des nackten Alurahmens bis zur belichteten, ausgewaschenen Druckform,
+inklusive Entschichtung und Regeneration. Das ist ein echtes Argument für einen
+**Teilerlass**.
 
-| Was du lasert/klebst | Wahrscheinlicher Ausbildungsberuf | Dauer | Nötige Praxis |
-| --- | --- | --- | --- |
-| **Metall** | **Fachkraft für Metalltechnik**, FR Konstruktionstechnik — Laserschneiden ist hier ausdrücklich Teil des Berufsbilds | 2 J | 3 J → **01/2028** |
-| **Kunststoff / Acryl** | Maschinen- und Anlagenführer, Schwerpunkt Metall- und Kunststofftechnik | 2 J | 3 J → **01/2028** |
-| Kunststoff, anspruchsvoller | Verfahrensmechaniker Kunststoff- und Kautschuktechnik | 3 J | 4,5 J → 07/2029 |
-| **Papier / Karton / Verpackung** | Packmitteltechnologe | 3 J | 4,5 J → 07/2029 |
-| **Schilder / Werbetechnik** | Schilder- und Lichtreklamehersteller | 3 J | 4,5 J → 07/2029 |
-| **Faserverbund / GFK** | Verfahrensmechaniker Kunststofftechnik, FR Faserverbundtechnologie | 3,5 J | 5,25 J → 04/2030 |
+Garantiert ist das nicht. Aber es ist die wichtigste Frage im Kammergespräch:
 
-**Das ist der entscheidende Unterschied:** Bei einem 2-jährigen Beruf bist du
-**Anfang 2028** so weit. Bei einem 3-jährigen erst **Mitte 2029**, bei 3,5 Jahren
-**2030**. Es lohnt sich also, im IHK-Gespräch ausdrücklich zu fragen:
+> **„Ich decke die Siebdruckformherstellung vollständig ab. Kommt ein
+> Teilerlass der Mindestzeit nach § 45 Abs. 2 Satz 2 BBiG in Betracht?"**
 
-> **„Gibt es einen zweijährigen Ausbildungsberuf, der zu meiner Tätigkeit passt?"**
+### 📌 Was du ab sofort brauchst: Bandbreite
 
-Und falls ja, später auf den 3-jährigen aufzubauen — viele 2-jährige Berufe sind
-als Grundstufe eines 3-jährigen angelegt und werden voll angerechnet.
+Du hast **Tiefe** in einem Bereich. Was der Kammer für die Zulassung fehlt, ist
+**Breite**. Genau das kannst du in den nächsten Monaten gezielt aufbauen — und
+es kostet dich nichts außer dem Gespräch mit deinem Vorgesetzten:
+
+- [ ] **An der Siebdruckmaschine mitdrucken** — Maschine einrichten, Rakel
+      einstellen, Anlauf begleiten. Auch nur gelegentlich. Das ist die Station
+      „Produktion", und sie fehlt dir komplett.
+- [ ] **Beim Farbmischen dabei sein** — Rezeptieren, Anmischen, Farbtonabgleich.
+      Das hebt „Farblabor" von *teilweise* auf *abgedeckt*.
+- [ ] **Qualitätsprüfung übernehmen** — Gewebespannung messen (Spannungsmessgerät),
+      Schichtdicke, Passer, Farbtonkontrolle, Prüfprotokolle führen.
+- [ ] **Druckvorstufe anschauen** — wie aus der Kundendatei das Belichtungsfilm-
+      bzw. Belichtungsmotiv wird. Du belichtest bereits, aber die Datenseite davor
+      kennst du nicht.
+
+Sag deinem Vorgesetzten offen, warum: Du willst die Externenprüfung machen. Die
+meisten Betriebe unterstützen das — eine Fachkraft ist für GFV mehr wert als ein
+Helfer, und es kostet sie nichts.
+
+### Die Übersetzung für den Tätigkeitsnachweis
+
+| Wie du es sagst | Wie es im Nachweis stehen muss |
+| --- | --- |
+| „Siebe bespannen" | **Bespannen von Siebdruckrahmen**: Auswahl des Siebgewebes nach Feinheit und Fadendurchmesser, Spannen auf dem Spanntisch mit definierter Gewebespannung, Verkleben des Gewebes am Aluminiumrahmen, Zuschnitt und Kantenversiegelung |
+| „waschen mit Siebentfetter" | **Entfetten und Konditionieren des Siebgewebes** zur Vorbereitung der Beschichtung |
+| „mit Siebfüller einstreichen" | **Beschichten der Siebdruckform mit Kopierschicht** mittels Beschichtungsrinne, Einhaltung definierter Schichtdicken, kontrollierte Trocknung |
+| „in die UV-Maschine" | **Belichten der Druckform** im UV-Belichtungsgerät nach Belichtungskennlinie, anschließendes Auswaschen, Trocknen und Sichtprüfung der Schablone |
+| „Siebe reparieren, Gewebe abziehen" | **Entschichten und Regenerieren von Siebdruckformen**, Bewertung der Wiederverwendbarkeit, Instandsetzung beschädigter Formen |
+| „Pläne hinrichten" | **Auftragsvorbereitung und Produktionssteuerung**: Auswerten der Maschinenbelegungspläne, auftragsbezogenes Kommissionieren von Druckformen, Farben und Referenzmustern, Rückführung und Bestandspflege |
+| „Farben hinbringen, einsortieren" | **Bereitstellen und Verwalten von Druckfarben** einschließlich Lagerhaltung nach Gefahrstoffvorgaben |
+| „Musterkartuschen" | **Bereitstellen auftragsbezogener Muster- und Referenzteile** zur Druckfreigabe |
+
+### Nebenbei: deine Wahlqualifikation steht wahrscheinlich schon fest
+
+Die Ausbildung verlangt Wahlqualifikationen, darunter aus Liste II:
+Bogensiebdruck, Rollensiebdruck, **Siebdruck auf gewölbten Oberflächen**,
+technischer Siebdruck, Textil-, Keramik- oder Glassiebdruck.
+
+Wenn GFV auf **Kartuschen** druckt, ist das *Siebdruck auf gewölbten
+Oberflächen* — eine reguläre Wahlqualifikation des Berufs. Dein Betrieb passt
+also fachlich sauber zum Berufsbild. Das ist ein gutes Argument im Antrag.
+
+### ⚠️ Erst klären: IHK oder Handwerkskammer?
+
+Siebdruck existiert **in beiden Kammerbereichen**. Zuständig ist die Kammer, bei
+der **GFV gemeldet** ist — Industriebetrieb → IHK Schwaben, Handwerksbetrieb →
+Handwerkskammer.
+
+**Frag das in der Personalabteilung, bevor du anrufst.** Ein Anruf bei der
+falschen Kammer kostet dich nur Zeit, aber die Frage ist in zwei Minuten
+beantwortet.
 
 ---
 

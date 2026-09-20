@@ -275,3 +275,85 @@ Bankstelle schwer zu bekommen. Realistische Reihenfolge:
 - **Deutsches Konto behalten**, damit die Lastschrift weiterläuft; Adressänderung der Bank melden
 - **Währungsrisiko**: Einkommen in CHF, Schuld in EUR – aktuell zu deinen Gunsten, aber nicht garantiert
 - Niemals ohne Vertrag umziehen: Sozialhilfebezug kann EU-Bürgern die Bewilligung kosten
+
+---
+
+## Nachtrag: Ausgangslage korrigiert – 2 Jahre Industrieerfahrung, keine Ausbildung begonnen
+
+### Warum der Bankkaufmann-Plan finanziell nicht aufgeht
+
+Ausbildungsvergütung Bankkaufmann 2026 (brutto/Monat):
+
+| Lehrjahr | Brutto | Netto (StKl I, ca.) |
+|---|---|---|
+| 1. Jahr | 1.100–1.160 € | ca. 900–950 € |
+| 2. Jahr | 1.110–1.244 € | ca. 910–1.000 € |
+| 3. Jahr | 1.170–1.316 € (Spitze bis 1.620 €) | ca. 950–1.050 € |
+
+**Bei 700 € Kreditrate bleiben im ersten Lehrjahr rund 200–250 €.** Das funktioniert nur
+mietfrei zuhause und ohne Auto.
+
+Dazu die Zeitachse: Bewerbung 2026 → Start August 2027 → Abschluss Anfang 2030 →
+plus 2–3 Jahre Praxis → **Schweiz erst 2032/2033**, im Alter von 27–28.
+Zusätzlich bauen Schweizer Banken seit der CS-Integration Stellen ab.
+
+### Der schnellere Hebel: Externenprüfung (§ 45 Abs. 2 BBiG)
+
+Ein IHK-Abschluss ist **ohne Ausbildung** möglich, wenn das **1,5-fache der Ausbildungsdauer**
+im Beruf gearbeitet wurde:
+
+| Ausbildungsberuf | Regeldauer | Nötige Berufserfahrung | Bei 2 Jahren bereits erreicht |
+|---|---|---|---|
+| **Maschinen- und Anlagenführer** | 2 Jahre | **3 Jahre** | **fehlt nur ~1 Jahr** |
+| **Fachkraft für Metalltechnik** | 2 Jahre | **3 Jahre** | **fehlt nur ~1 Jahr** |
+| Fertigungsmechaniker | 3 Jahre | 4 Jahre 6 Monate | fehlen ~2,5 Jahre |
+| Industriemechaniker | 3,5 Jahre | 5 Jahre 3 Monate | fehlen ~3,25 Jahre |
+
+Zusätzlich gilt: Der **Antrag kann bereits bei der Hälfte der Zeit** gestellt werden
+(Zulassung unter Auflagen), und § 45 Abs. 2 BBiG erlaubt Ausnahmen vom 1,5-fachen, wenn die
+berufliche Handlungsfähigkeit anderweitig glaubhaft gemacht wird.
+
+**Der entscheidende Vorteil:** Das Einkommen von 2.100 € netto bleibt erhalten, der Kredit
+läuft weiter, und trotzdem steht 2027 ein anerkannter Abschluss. Kosten: Prüfungsgebühr
+plus optionaler Vorbereitungskurs.
+
+### Was die Schweizer Industrie zahlt
+
+GAV der MEM-Industrie (Maschinen-, Elektro-, Metallindustrie), Stand 2026:
+
+| Funktion | Monatslohn brutto |
+|---|---|
+| GAV-Mindestlohn qualifiziert (≥3 J. Ausbildung) | CHF 4.028–4.463 |
+| Produktionsmitarbeiter (Marktlohn) | ca. CHF 4.600 |
+| Mit Berufsabschluss | CHF 4.800–5.800 |
+| Anlagenführer / Schichtführer mit Erfahrung | CHF 5.500–7.000 |
+
+Die Schweizer Industrie rekrutiert aktiv in Deutschland – der Einstieg ist dort deutlich
+leichter als im Bankensektor.
+
+### Die drei Wege im Vergleich
+
+| | A: Bankkaufmann-Ausbildung | B: Externenprüfung Industrie | C: Sofort Schweiz, ungelernt |
+|---|---|---|---|
+| Einkommen währenddessen | 900–1.050 € netto | **2.100 € netto** | CHF 4.200–4.800 |
+| Kredit bedienbar | nur mietfrei zuhause | ja | ja |
+| Abschluss vorhanden | 2030 | **2027** | nie |
+| Schweiz realistisch ab | 2032/33 | **2028** | sofort |
+| Nachfrage in der Schweiz | schwach | **stark** | mittel, ohne Aufstieg |
+
+### Empfohlener Fahrplan
+
+1. **Jetzt:** bei der zuständigen IHK klären, welcher zweijährige Beruf zu den bisherigen
+   Tätigkeiten passt, und die anrechenbaren Zeiten schriftlich bestätigen lassen.
+2. **2026/27:** fehlende Monate im Betrieb sammeln, Vorbereitungskurs belegen,
+   Externenprüfung ablegen.
+3. **2027/28:** Bewerbung als Grenzgänger in der Schweizer Industrie
+   (Basel, Schaffhausen, Aargau, Rheinfelden) – Schweizer Lohn, deutsche Lebenshaltung.
+4. **Bis 2028/29:** Kredit vorzeitig ablösen (Vorfälligkeitsentschädigung max. 1 %, § 502 BGB)
+   statt regulär bis August 2030.
+5. **Ab 2029:** Industriemeister oder staatlich geprüfter Techniker berufsbegleitend,
+   gefördert über Aufstiegs-BAföG. Beides ist in der Schweiz stark nachgefragt.
+6. **Danach:** Umzug in die Schweiz, Eigenkapital aufbauen, Hauskauf.
+
+Der Bankberuf bleibt als spätere Option offen – eine kaufmännische Weiterbildung lässt sich
+berufsbegleitend nachholen, sobald der Kredit weg ist.

@@ -199,3 +199,79 @@ Thurgau, Appenzell) realistisch.
    erst dann Hauskauf am Wohnort.
 5. **Weiterbildung**, die Schweizer Banken honorieren: Bankwirtschafter HF,
    CAS/Diplom in Anlage- oder Vorsorgeberatung.
+
+---
+
+## Nachtrag: Umzug mit laufendem Kredit (21 J., ledig, 2.100 € netto, 700 €/Monat bis 08/2030)
+
+### Darf ich mit Schulden in die Schweiz? – Ja.
+
+Das **Freizügigkeitsabkommen EU/Schweiz kennt keine Bonitätsprüfung.** Die Aufenthaltsbewilligung
+hängt allein am Arbeitsvertrag:
+
+- Arbeitsvertrag **unbefristet oder ≥ 365 Tage** → **B-Bewilligung**, 5 Jahre gültig
+- Arbeitsvertrag **< 12 Monate** → **L-Bewilligung** (Kurzaufenthalt)
+- Deutsche Schulden oder SCHUFA-Einträge werden **nicht abgefragt**
+
+**Aber:** Der Kredit läuft weiter. Die Schweiz gehört zum **Lugano-Übereinkommen**, deutsche
+Vollstreckungstitel sind dort durchsetzbar. Wegziehen löscht keine Schulden – es geht nur darum,
+sie aus einem höheren Einkommen schneller zu tilgen.
+
+### Wo die Schulden doch relevant werden
+
+| Situation | Wirkung |
+|---|---|
+| Aufenthaltsbewilligung | Keine – es gibt keine Bonitätsprüfung |
+| Wohnungssuche (Betreibungsregisterauszug) | **Vorteil:** deutsche Schulden stehen nicht drin, du startest sauber |
+| Schweizer ZEK-Register | Ebenfalls sauber |
+| **Spätere Hypothek fürs Haus** | **Kritisch:** ~CHF 660/Monat laufende Verpflichtung senkt die Tragbarkeit deutlich → Kredit muss vor dem Hauskauf weg |
+
+### Variante A: Umzug in die Schweiz (CHF 70.000 brutto, ledig, Thurgau)
+
+| Position | Betrag |
+|---|---|
+| Brutto/Jahr | CHF 70.000 |
+| AHV/IV/EO, ALV, NBU | − ca. CHF 4.970 |
+| Pensionskasse | **unter 25 nur Risikobeiträge** → ca. − CHF 500 |
+| Quellensteuer Tarif A0 (~8 %) | − ca. CHF 5.600 |
+| **Netto** | **≈ CHF 58.900/Jahr = CHF 4.910/Monat** |
+
+Fixkosten ledig (Ostschweiz): Wohnung ~CHF 1.200, Krankenkasse junger Erwachsener bis 25
+**CHF 355**, Essen ~CHF 550, Mobilität ~CHF 250, Rest ~CHF 150 → **ca. CHF 2.500**.
+
+**Frei nach Kredit (≈ CHF 660): ca. CHF 1.750/Monat** gegenüber heute 1.400 € –
+spürbar, aber kein Sprung, weil die Schweizer Lebenshaltung den Vorteil auffrisst.
+
+### Variante B: Grenzgänger (G-Bewilligung) – für diese Lage die stärkere Option
+
+Wohnen in Deutschland (Waldshut, Lörrach, Konstanz, Singen), arbeiten in Basel, Schaffhausen
+oder Zürich: **Schweizer Lohn, deutsche Lebenshaltungskosten.**
+
+- Besteuerung im Wohnsitzland Deutschland, die Schweiz behält **4,5 %** ein und rechnet sie an
+- **Ab 01.01.2026:** mindestens **20 % der Arbeitstage** müssen gependelt werden
+- Maximal **60 Nichtrückkehrtage** pro Jahr, sonst entfällt der Grenzgängerstatus
+- Sozialversicherung in der Schweiz; über das **Optionsrecht** die günstige Schweizer
+  Krankenkasse statt der deutschen GKV wählen (als junger Lediger deutlich billiger)
+
+Grobe Schätzung bei CHF 70.000: **netto ca. 3.800–4.200 €/Monat** nach Krankenversicherung.
+Nach Kredit und deutscher Miete bleiben **rund 2.500 €/Monat** – etwa das Doppelte der
+Schweizer Wohnsitz-Variante.
+
+### Der eigentliche Engpass ist nicht die Schuld, sondern der Job
+
+Ohne Arbeitsvertrag keine Bewilligung. Mit 21 und ohne Berufserfahrung ist eine Schweizer
+Bankstelle schwer zu bekommen. Realistische Reihenfolge:
+
+1. Ausbildung in Deutschland abschließen
+2. **2–3 Jahre Praxis** sammeln – das verdoppelt die Chancen und den Startlohn
+3. Parallel **8.000–12.000 CHF Startkapital** ansparen (Mietkaution = 3 Monatsmieten, Umzug, Puffer)
+4. Erst mit **unterschriebenem Vertrag** kündigen und umziehen
+5. Kredit mit dem höheren Lohn **vorzeitig ablösen**: bei Verbraucherkrediten jederzeit möglich,
+   Vorfälligkeitsentschädigung **max. 1 %** der Restschuld (0,5 % bei Restlaufzeit < 12 Monate, § 502 BGB)
+6. Erst nach Kreditablösung Hauskauf angehen
+
+### Kleinkram, der oft vergessen wird
+
+- **Deutsches Konto behalten**, damit die Lastschrift weiterläuft; Adressänderung der Bank melden
+- **Währungsrisiko**: Einkommen in CHF, Schuld in EUR – aktuell zu deinen Gunsten, aber nicht garantiert
+- Niemals ohne Vertrag umziehen: Sozialhilfebezug kann EU-Bürgern die Bewilligung kosten

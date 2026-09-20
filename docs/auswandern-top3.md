@@ -87,3 +87,45 @@ Stand: September 2026.
 ## Empfehlung in einem Satz
 
 Schweizer Job realistisch → **Schweiz**. Remote- oder deutsches Einkommen und Steuerlast ist das Hauptmotiv → **Tschechien**. Beste Mischung aus Natur, Sicherheit und EU-Normalität ohne Sprachhürde beim Alltag → **Slowenien**.
+
+---
+
+## Nachtrag: „Die Schweizer hassen doch Deutsche" – wie viel ist dran?
+
+**Kurz: Reibung ja, Hass nein.** Die Fakten:
+
+- **~324.000 Deutsche** leben in der Schweiz – zweitgrößte Ausländergruppe nach Italienern.
+  Im **Kanton Thurgau sind Deutsche sogar die größte Ausländergruppe** (27.600 Ende 2025).
+  Bei echter Feindseligkeit wären diese Zahlen nicht stabil.
+- Der Höhepunkt der Debatte lag **2008–2014** (starke Zuwanderungswelle, Masseneinwanderungs-
+  initiative). Seither hat sich das Thema deutlich abgekühlt.
+- **Rechtlich gibt es null Benachteiligung**: Freizügigkeitsabkommen, gleicher Zugang zu Job,
+  Schule, Gesundheit, Immobilienkauf am Wohnort.
+
+### Wo Reibung tatsächlich entsteht
+- **Städte und Konkurrenzberufe**: Zürich, Basel, Unikliniken, Hochschulen, Gastronomie –
+  dort, wo viele Deutsche auf dieselben Stellen zugreifen.
+- **Auf dem Dorf ist es umgekehrt**: dort zählt nicht die Herkunft, sondern ob man mitmacht.
+- Auslöser sind fast immer **Verhaltensmuster, nicht die Nationalität**: Hochdeutsch-Dominanz,
+  Korrigieren, deutsche Direktheit gegen Schweizer Understatement, Titel-/Statusbetonung,
+  Vergleiche à la „in Deutschland macht man das so".
+
+### Was nachweislich funktioniert
+1. **Schweizerdeutsch verstehen lernen** (sprechen muss man es nicht) – der wichtigste Punkt.
+2. **In einen Verein eintreten**: Feuerwehr, Turnverein, Musikgesellschaft, Schützen.
+   Das ist auf dem Land die eigentliche Eintrittskarte.
+3. **Gemeindeversammlung besuchen**, ungeschriebene Regeln ernst nehmen
+   (Sonntags- und Mittagsruhe, Waschküchenplan, Kehrichtmarken).
+4. **Nie Deutschland als Maßstab zitieren.**
+5. **Kinder sind kein Thema** – nach rund sechs Monaten sprechen sie Mundart und sind durch.
+
+### Politischer Rahmen 2026 (wichtiger als das Ressentiment)
+- Die Initiative **„Keine 10-Millionen-Schweiz" wurde am 14. Juni 2026 mit ~62 % Nein abgelehnt**
+  → Personenfreizügigkeit bleibt bestehen.
+- Die **Bilateralen III wurden am 2. März 2026 unterzeichnet** und sind im Parlament;
+  ein Referendum ist wahrscheinlich. Enthalten ist eine **neue Schutzklausel**, mit der die Schweiz
+  bei zu hoher Zuwanderung autonom Maßnahmen ergreifen kann.
+- **Fazit:** Das Zeitfenster ist aktuell offen, mittelfristig aber nicht garantiert.
+  Wer die Schweiz will, sollte eher früher als später handeln.
+
+**Das eigentliche Ausschlusskriterium der Schweiz bleibt der Kaufpreis, nicht die Stimmung.**

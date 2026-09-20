@@ -278,87 +278,88 @@ Bankstelle schwer zu bekommen. Realistische Reihenfolge:
 
 ---
 
-## Nachtrag: Bankweg trotz laufendem Kredit – Ausgangslage 21 J., 2.100 € netto, 700 €/Monat bis 08/2030
+## Nachtrag: Bankweg mit Restschuld 21.000 € / Rate 560 €
 
-Berufsziel ist der Bankbereich. Zwei Jahre Industrieerfahrung liegen vor, eine Ausbildung
-wurde noch nicht begonnen. Der Industrieweg ist ausdrücklich ausgeschlossen.
+Ausgangslage: 21 Jahre, 2.100 € netto, zwei Jahre Berufserfahrung (Industrie, wird nicht
+fortgeführt), keine Ausbildung begonnen. Berufsziel Bank. Restschuld rund 21.000 €,
+Rate 560 €, Restlaufzeit rund 37 Monate.
 
-### Das eigentliche Problem ist die Rate, nicht der Berufswunsch
+### Ausgangsrechnung
 
-Ausbildungsvergütung Bankkaufmann 2026:
+Ausbildungsvergütung Bankkaufmann 2026: 1.100–1.160 € brutto im ersten Lehrjahr,
+netto rund 950 €. Nach Rate bleiben **390 €** – knapp, aber nicht mehr aussichtslos
+wie bei 700 €.
 
-| Lehrjahr | Brutto | Netto (StKl I, ca.) |
+### Umschuldungsoptionen (21.000 €, ca. 7 % effektiv)
+
+| Laufzeit | Rate | Zinskosten gesamt |
 |---|---|---|
-| 1. Jahr | 1.100–1.160 € | 900–950 € |
-| 2. Jahr | 1.110–1.244 € | 910–1.000 € |
-| 3. Jahr | 1.170–1.316 € (Spitze bis 1.620 €) | 950–1.050 € |
+| 37 Monate (aktuell) | 560 € | Basis |
+| 48 Monate | 503 € | ca. 3.100 € |
+| 60 Monate | **416 €** | ca. 3.960 € |
+| 72 Monate | **358 €** | ca. 4.780 € |
+| 84 Monate | 317 € | ca. 5.630 € |
+| 96 Monate | 286 € | ca. 6.460 € |
 
-Bei 700 € Rate bleiben rund 200–250 €. Gelöst wird das an drei Stellen: Rate senken,
-Zusatzeinnahmen aktivieren, Azubi-Gehalt ganz umgehen.
+**Strecken ist reversibel:** Bei Verbraucherdarlehen besteht jederzeit ein Recht auf
+vorzeitige Rückzahlung (§ 500 Abs. 2 BGB), die Vorfälligkeitsentschädigung beträgt maximal
+1 % des zurückgezahlten Betrags, bei Restlaufzeit unter zwölf Monaten 0,5 % (§ 502 BGB).
+Eine längere Laufzeit kauft also Flexibilität, ohne die Schuld dauerhaft zu verlängern.
 
-### Hebel 1 – Kredit umschulden, solange die Bonität steht
+### Die vier Wege im Vergleich
 
-Restschuld ca. 33.000 € (700 € × ~47 Monate).
+| Weg | Rate | Übrig im 1. Lehrjahr | Bewertung |
+|---|---|---|---|
+| **A** Quereinstieg / Umschulung bei einer Bank | 560 € | volles Gehalt, kein Engpass | **beste Option** |
+| **B** Erst 1 Jahr weiterarbeiten und sondertilgen, dann Ausbildung | ca. 322 € | ca. 630 € + Zusatzeinnahmen | **bester Kompromiss** |
+| **C** Ausbildung sofort, Kredit auf 72 Monate strecken | 358 € | ca. 590 € + Zusatzeinnahmen | solide |
+| **D** Ausbildung sofort, Rate unverändert | 560 € | ca. 390 € + Zusatzeinnahmen | machbar, aber eng |
 
-| Restlaufzeit | Rate ca. |
+### Weg B im Detail – der empfohlene Plan
+
+Ausbildungsplätze starten regulär im August. Das Jahr bis dahin ist ohnehin Bewerbungszeit
+und lässt sich zur Tilgung nutzen.
+
+| Zeitraum | Vorgang | Restschuld |
+|---|---|---|
+| Heute | Stand | 21.000 € |
+| 11 Monate reguläre Raten | 11 × 560 € | − ca. 6.160 € |
+| 11 Monate Sondertilgung à 400 € | freiwillig aus 2.100 € netto | − ca. 4.400 € |
+| **Ausbildungsstart August 2027** | | **ca. 10.400 €** |
+| Restschuld auf 36 Monate strecken | | **Rate ca. 322 €** |
+
+### Budget im ersten Lehrjahr nach Weg B
+
+| Position | Betrag |
 |---|---|
-| 47 Monate (aktuell) | 700 € |
-| 84 Monate | 420–450 € |
-| 96 Monate | 370–400 € |
+| Ausbildungsvergütung netto | ca. 950 € |
+| Kindergeld (läuft in der Ausbildung bis 25) | + 255 € |
+| Minijob (Grenze 2026: 603 €) | + bis 603 € |
+| **Einnahmen** | **bis 1.808 €** |
+| Kreditrate | − 322 € |
+| **Verfügbar** | **bis ca. 1.486 €** |
 
-**Zeitpunkt ist entscheidend:** Die Bonitätsprüfung erfolgt auf Basis des aktuellen Einkommens.
-Mit 2.100 € netto ist eine Umschuldung machbar, mit 950 € Azubi-Gehalt nicht mehr.
-Also **vor** jeder Kündigung erledigen. Oft genügt schon eine Laufzeitverlängerung beim
-bestehenden Kreditgeber, ohne neuen Vertrag. Mehrzinsen werden später durch Sondertilgung
-aus dem Schweizer Gehalt wieder aufgeholt.
+BAB zusätzlich prüfen: Bedarfssatz bis 822 € bei eigener Wohnung, Azubi-Freibetrag 389 €,
+Elterneinkommen wird angerechnet.
 
-### Hebel 2 – Einnahmen während der Ausbildung
+### Warum Weg A trotzdem zuerst geprüft gehört
 
-| Quelle | Betrag/Monat | Bedingung |
-|---|---|---|
-| Ausbildungsvergütung netto | ca. 950 € | – |
-| **Minijob** | bis **603 €** | Grenze 2026; Nebentätigkeit muss die Bank genehmigen |
-| **Kindergeld** | **255 €** | läuft in der Ausbildung bis 25 weiter; Abzweigungsantrag möglich, wenn die Eltern keinen Unterhalt leisten |
-| **BAB** | Bedarfssatz bis **822 €** (442 € Grund + 380 € Unterkunft) | nur bei eigener Wohnung wegen Entfernung; Azubi-Freibetrag 389 €, Elterneinkommen wird angerechnet |
+Quereinstieg und Umschulung bedeuten reguläre Anstellung statt Azubi-Vergütung –
+damit entfällt das Problem vollständig:
 
-Kombination aus Vergütung, Minijob und Kindergeld ergibt rund **1.800 €** – damit wäre sogar
-die ungekürzte Rate tragbar.
-
-### Hebel 3 – Ausbildung verkürzen
-
-Die Regeldauer von drei Jahren lässt sich bei guten Leistungen auf **2,5 Jahre** verkürzen;
-Berufserfahrung und Alter sind zusätzliche Argumente. Antrag gemeinsam mit dem
-Ausbildungsbetrieb bei der IHK. Spart ein halbes Jahr Niedriglohn.
-
-### Hebel 4 – Der Königsweg: Quereinstieg statt Ausbildung
-
-Damit entfällt das Azubi-Gehalt vollständig, weil von Anfang an eine reguläre Anstellung besteht:
-
-- **Sparkassenkaufmann/-frau** (Qualifizierungsprogramm der Sparkassenakademie):
-  qualifiziert für dieselben Tätigkeiten wie Bankkaufleute und stellt in der Weiterbildung gleich.
+- **Sparkassenkaufmann/-frau** über die Sparkassenakademie, danach Bankkaufleuten gleichgestellt
 - **Umschulung zum Bankkaufmann** über Agentur für Arbeit oder Jobcenter, rund zwei Jahre,
-  Theorie plus Filialpraxis, Finanzierung per Bildungsgutschein. Voraussetzungen im Einzelfall prüfen.
-- **Quereinsteigerprogramme einzelner Banken** für Service und Kundenberatung mit interner
-  Qualifizierung.
-- Anerkannt werden auch nachgewiesene Bankexpertise aus der Praxis, ein wirtschaftsnahes
-  Studium oder eine IHK-Weiterbildung im Finanzbereich.
+  Bildungsgutschein
+- **Quereinsteigerprogramme einzelner Banken** für Service und Kundenberatung
 
-### Hebel 5 – Den IHK-Abschluss später nachholen
+Der IHK-Abschluss lässt sich anschließend per **Externenprüfung (§ 45 Abs. 2 BBiG)**
+nachholen – nötig sind 4,5 Jahre Tätigkeit in der Bank.
 
-Wer über den Quereinstieg startet, kann den offiziellen Abschluss später per
-**Externenprüfung (§ 45 Abs. 2 BBiG)** nachholen: nötig ist das 1,5-fache der Ausbildungsdauer,
-bei drei Jahren also **4,5 Jahre Tätigkeit in der Bank**. Ergebnis: derselbe IHK-Abschluss
-Bankkaufmann, ohne jemals Azubi-Gehalt bezogen zu haben. Für eine spätere Bewerbung in der
-Schweiz ist dieser Abschluss besser lesbar als ein rein internes Zertifikat.
+### Reihenfolge
 
-### Fahrplan
-
-1. **Sofort:** Umschuldung oder Laufzeitverlängerung klären, solange 2.100 € netto nachweisbar sind.
-2. **Parallel:** bei Sparkassen, Volksbanken und Privatbanken der Region gezielt nach
-   Quereinstiegs- und Umschulungsprogrammen fragen, nicht nur nach Ausbildungsplätzen.
-3. **Fallback:** klassische Ausbildung, verkürzt auf 2,5 Jahre, kombiniert mit Kindergeld,
-   Minijob und geprüftem BAB-Anspruch.
-4. **Nach 4,5 Jahren in der Bank:** Externenprüfung zum Bankkaufmann, falls über den
-   Quereinstieg begonnen.
-5. **Danach:** Bewerbung als Grenzgänger im Raum Basel oder Schaffhausen, Kredit per
-   Sondertilgung vorzeitig ablösen, anschließend Eigenkapital für den Hauskauf aufbauen.
+1. Angebote für Umschuldung einholen, **solange 2.100 € netto nachweisbar sind** –
+   als Azubi ist keine Umschuldung mehr möglich.
+2. Parallel bei Sparkassen, Volksbanken und Privatbanken nach Quereinstieg und Umschulung fragen.
+3. Bis zum Ausbildungsstart so viel wie möglich sondertilgen.
+4. Kindergeld, Minijob-Genehmigung und BAB-Anspruch vor Ausbildungsbeginn klären.
+5. Ab dem ersten vollen Gehalt Sondertilgungen, Kredit vor dem Hauskauf vollständig ablösen.

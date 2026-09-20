@@ -278,82 +278,87 @@ Bankstelle schwer zu bekommen. Realistische Reihenfolge:
 
 ---
 
-## Nachtrag: Ausgangslage korrigiert – 2 Jahre Industrieerfahrung, keine Ausbildung begonnen
+## Nachtrag: Bankweg trotz laufendem Kredit – Ausgangslage 21 J., 2.100 € netto, 700 €/Monat bis 08/2030
 
-### Warum der Bankkaufmann-Plan finanziell nicht aufgeht
+Berufsziel ist der Bankbereich. Zwei Jahre Industrieerfahrung liegen vor, eine Ausbildung
+wurde noch nicht begonnen. Der Industrieweg ist ausdrücklich ausgeschlossen.
 
-Ausbildungsvergütung Bankkaufmann 2026 (brutto/Monat):
+### Das eigentliche Problem ist die Rate, nicht der Berufswunsch
+
+Ausbildungsvergütung Bankkaufmann 2026:
 
 | Lehrjahr | Brutto | Netto (StKl I, ca.) |
 |---|---|---|
-| 1. Jahr | 1.100–1.160 € | ca. 900–950 € |
-| 2. Jahr | 1.110–1.244 € | ca. 910–1.000 € |
-| 3. Jahr | 1.170–1.316 € (Spitze bis 1.620 €) | ca. 950–1.050 € |
+| 1. Jahr | 1.100–1.160 € | 900–950 € |
+| 2. Jahr | 1.110–1.244 € | 910–1.000 € |
+| 3. Jahr | 1.170–1.316 € (Spitze bis 1.620 €) | 950–1.050 € |
 
-**Bei 700 € Kreditrate bleiben im ersten Lehrjahr rund 200–250 €.** Das funktioniert nur
-mietfrei zuhause und ohne Auto.
+Bei 700 € Rate bleiben rund 200–250 €. Gelöst wird das an drei Stellen: Rate senken,
+Zusatzeinnahmen aktivieren, Azubi-Gehalt ganz umgehen.
 
-Dazu die Zeitachse: Bewerbung 2026 → Start August 2027 → Abschluss Anfang 2030 →
-plus 2–3 Jahre Praxis → **Schweiz erst 2032/2033**, im Alter von 27–28.
-Zusätzlich bauen Schweizer Banken seit der CS-Integration Stellen ab.
+### Hebel 1 – Kredit umschulden, solange die Bonität steht
 
-### Der schnellere Hebel: Externenprüfung (§ 45 Abs. 2 BBiG)
+Restschuld ca. 33.000 € (700 € × ~47 Monate).
 
-Ein IHK-Abschluss ist **ohne Ausbildung** möglich, wenn das **1,5-fache der Ausbildungsdauer**
-im Beruf gearbeitet wurde:
-
-| Ausbildungsberuf | Regeldauer | Nötige Berufserfahrung | Bei 2 Jahren bereits erreicht |
-|---|---|---|---|
-| **Maschinen- und Anlagenführer** | 2 Jahre | **3 Jahre** | **fehlt nur ~1 Jahr** |
-| **Fachkraft für Metalltechnik** | 2 Jahre | **3 Jahre** | **fehlt nur ~1 Jahr** |
-| Fertigungsmechaniker | 3 Jahre | 4 Jahre 6 Monate | fehlen ~2,5 Jahre |
-| Industriemechaniker | 3,5 Jahre | 5 Jahre 3 Monate | fehlen ~3,25 Jahre |
-
-Zusätzlich gilt: Der **Antrag kann bereits bei der Hälfte der Zeit** gestellt werden
-(Zulassung unter Auflagen), und § 45 Abs. 2 BBiG erlaubt Ausnahmen vom 1,5-fachen, wenn die
-berufliche Handlungsfähigkeit anderweitig glaubhaft gemacht wird.
-
-**Der entscheidende Vorteil:** Das Einkommen von 2.100 € netto bleibt erhalten, der Kredit
-läuft weiter, und trotzdem steht 2027 ein anerkannter Abschluss. Kosten: Prüfungsgebühr
-plus optionaler Vorbereitungskurs.
-
-### Was die Schweizer Industrie zahlt
-
-GAV der MEM-Industrie (Maschinen-, Elektro-, Metallindustrie), Stand 2026:
-
-| Funktion | Monatslohn brutto |
+| Restlaufzeit | Rate ca. |
 |---|---|
-| GAV-Mindestlohn qualifiziert (≥3 J. Ausbildung) | CHF 4.028–4.463 |
-| Produktionsmitarbeiter (Marktlohn) | ca. CHF 4.600 |
-| Mit Berufsabschluss | CHF 4.800–5.800 |
-| Anlagenführer / Schichtführer mit Erfahrung | CHF 5.500–7.000 |
+| 47 Monate (aktuell) | 700 € |
+| 84 Monate | 420–450 € |
+| 96 Monate | 370–400 € |
 
-Die Schweizer Industrie rekrutiert aktiv in Deutschland – der Einstieg ist dort deutlich
-leichter als im Bankensektor.
+**Zeitpunkt ist entscheidend:** Die Bonitätsprüfung erfolgt auf Basis des aktuellen Einkommens.
+Mit 2.100 € netto ist eine Umschuldung machbar, mit 950 € Azubi-Gehalt nicht mehr.
+Also **vor** jeder Kündigung erledigen. Oft genügt schon eine Laufzeitverlängerung beim
+bestehenden Kreditgeber, ohne neuen Vertrag. Mehrzinsen werden später durch Sondertilgung
+aus dem Schweizer Gehalt wieder aufgeholt.
 
-### Die drei Wege im Vergleich
+### Hebel 2 – Einnahmen während der Ausbildung
 
-| | A: Bankkaufmann-Ausbildung | B: Externenprüfung Industrie | C: Sofort Schweiz, ungelernt |
-|---|---|---|---|
-| Einkommen währenddessen | 900–1.050 € netto | **2.100 € netto** | CHF 4.200–4.800 |
-| Kredit bedienbar | nur mietfrei zuhause | ja | ja |
-| Abschluss vorhanden | 2030 | **2027** | nie |
-| Schweiz realistisch ab | 2032/33 | **2028** | sofort |
-| Nachfrage in der Schweiz | schwach | **stark** | mittel, ohne Aufstieg |
+| Quelle | Betrag/Monat | Bedingung |
+|---|---|---|
+| Ausbildungsvergütung netto | ca. 950 € | – |
+| **Minijob** | bis **603 €** | Grenze 2026; Nebentätigkeit muss die Bank genehmigen |
+| **Kindergeld** | **255 €** | läuft in der Ausbildung bis 25 weiter; Abzweigungsantrag möglich, wenn die Eltern keinen Unterhalt leisten |
+| **BAB** | Bedarfssatz bis **822 €** (442 € Grund + 380 € Unterkunft) | nur bei eigener Wohnung wegen Entfernung; Azubi-Freibetrag 389 €, Elterneinkommen wird angerechnet |
 
-### Empfohlener Fahrplan
+Kombination aus Vergütung, Minijob und Kindergeld ergibt rund **1.800 €** – damit wäre sogar
+die ungekürzte Rate tragbar.
 
-1. **Jetzt:** bei der zuständigen IHK klären, welcher zweijährige Beruf zu den bisherigen
-   Tätigkeiten passt, und die anrechenbaren Zeiten schriftlich bestätigen lassen.
-2. **2026/27:** fehlende Monate im Betrieb sammeln, Vorbereitungskurs belegen,
-   Externenprüfung ablegen.
-3. **2027/28:** Bewerbung als Grenzgänger in der Schweizer Industrie
-   (Basel, Schaffhausen, Aargau, Rheinfelden) – Schweizer Lohn, deutsche Lebenshaltung.
-4. **Bis 2028/29:** Kredit vorzeitig ablösen (Vorfälligkeitsentschädigung max. 1 %, § 502 BGB)
-   statt regulär bis August 2030.
-5. **Ab 2029:** Industriemeister oder staatlich geprüfter Techniker berufsbegleitend,
-   gefördert über Aufstiegs-BAföG. Beides ist in der Schweiz stark nachgefragt.
-6. **Danach:** Umzug in die Schweiz, Eigenkapital aufbauen, Hauskauf.
+### Hebel 3 – Ausbildung verkürzen
 
-Der Bankberuf bleibt als spätere Option offen – eine kaufmännische Weiterbildung lässt sich
-berufsbegleitend nachholen, sobald der Kredit weg ist.
+Die Regeldauer von drei Jahren lässt sich bei guten Leistungen auf **2,5 Jahre** verkürzen;
+Berufserfahrung und Alter sind zusätzliche Argumente. Antrag gemeinsam mit dem
+Ausbildungsbetrieb bei der IHK. Spart ein halbes Jahr Niedriglohn.
+
+### Hebel 4 – Der Königsweg: Quereinstieg statt Ausbildung
+
+Damit entfällt das Azubi-Gehalt vollständig, weil von Anfang an eine reguläre Anstellung besteht:
+
+- **Sparkassenkaufmann/-frau** (Qualifizierungsprogramm der Sparkassenakademie):
+  qualifiziert für dieselben Tätigkeiten wie Bankkaufleute und stellt in der Weiterbildung gleich.
+- **Umschulung zum Bankkaufmann** über Agentur für Arbeit oder Jobcenter, rund zwei Jahre,
+  Theorie plus Filialpraxis, Finanzierung per Bildungsgutschein. Voraussetzungen im Einzelfall prüfen.
+- **Quereinsteigerprogramme einzelner Banken** für Service und Kundenberatung mit interner
+  Qualifizierung.
+- Anerkannt werden auch nachgewiesene Bankexpertise aus der Praxis, ein wirtschaftsnahes
+  Studium oder eine IHK-Weiterbildung im Finanzbereich.
+
+### Hebel 5 – Den IHK-Abschluss später nachholen
+
+Wer über den Quereinstieg startet, kann den offiziellen Abschluss später per
+**Externenprüfung (§ 45 Abs. 2 BBiG)** nachholen: nötig ist das 1,5-fache der Ausbildungsdauer,
+bei drei Jahren also **4,5 Jahre Tätigkeit in der Bank**. Ergebnis: derselbe IHK-Abschluss
+Bankkaufmann, ohne jemals Azubi-Gehalt bezogen zu haben. Für eine spätere Bewerbung in der
+Schweiz ist dieser Abschluss besser lesbar als ein rein internes Zertifikat.
+
+### Fahrplan
+
+1. **Sofort:** Umschuldung oder Laufzeitverlängerung klären, solange 2.100 € netto nachweisbar sind.
+2. **Parallel:** bei Sparkassen, Volksbanken und Privatbanken der Region gezielt nach
+   Quereinstiegs- und Umschulungsprogrammen fragen, nicht nur nach Ausbildungsplätzen.
+3. **Fallback:** klassische Ausbildung, verkürzt auf 2,5 Jahre, kombiniert mit Kindergeld,
+   Minijob und geprüftem BAB-Anspruch.
+4. **Nach 4,5 Jahren in der Bank:** Externenprüfung zum Bankkaufmann, falls über den
+   Quereinstieg begonnen.
+5. **Danach:** Bewerbung als Grenzgänger im Raum Basel oder Schaffhausen, Kredit per
+   Sondertilgung vorzeitig ablösen, anschließend Eigenkapital für den Hauskauf aufbauen.

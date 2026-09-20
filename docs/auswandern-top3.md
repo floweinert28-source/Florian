@@ -129,3 +129,73 @@ Schweizer Job realistisch → **Schweiz**. Remote- oder deutsches Einkommen und 
   Wer die Schweiz will, sollte eher früher als später handeln.
 
 **Das eigentliche Ausschlusskriterium der Schweiz bleibt der Kaufpreis, nicht die Stimmung.**
+
+---
+
+## Nachtrag: Was verdient ein Bankkaufmann in der Schweiz?
+
+Kurs-Basis: 1 CHF ≈ 1,06 € (Sept. 2026). Alle Löhne brutto, in der Schweiz üblich in **13 Monatslöhnen**.
+
+### Realistische Lohnstufen
+
+| Stufe | Brutto/Jahr | Brutto/Monat (×13) |
+|---|---|---|
+| Einstieg Backoffice / Sachbearbeitung | CHF 65.000–80.000 | CHF 5.000–6.150 |
+| Privatkundenberatung nach 2–4 Jahren | CHF 85.000–110.000 | CHF 6.500–8.450 |
+| Erfahrener Anlage-/Hypothekarberater | CHF 110.000–150.000 | CHF 8.450–11.500 |
+| Private Banking mit eigenem Kundenbuch | CHF 150.000–250.000+ | plus Bonus |
+
+Zum Einordnen: **Medianlohn der Branche Banken: CHF 10.723/Monat** (BFS-Lohnstrukturerhebung 2024),
+gesamtschweizerischer Medianlohn: **CHF 7.024/Monat**. Der Branchenmedian enthält aber Kader und
+Spezialisten – er ist kein Einstiegslohn.
+
+**Vorsicht bei Online-Zahlen:** Werte um CHF 47.000 stammen von Lernenden „in Ausbildung",
+Werte um CHF 186.000 für „Kundenberater" sind durch Private Banking verzerrt. Beides ist für
+den Einstieg nicht repräsentativ.
+
+### Beispielrechnung netto (CHF 85.000, verheiratet, 2 Kinder, Kanton Thurgau)
+
+| Position | Betrag/Jahr |
+|---|---|
+| Bruttolohn | CHF 85.000 |
+| AHV/IV/EO 5,3 % | − CHF 4.500 |
+| ALV 1,1 % | − CHF 935 |
+| Nichtberufsunfall ~0,7 % | − CHF 595 |
+| Pensionskasse (2. Säule, AN-Anteil) | − CHF 3.000 |
+| Quellensteuer (~4 %) | − CHF 3.400 |
+| **Netto** | **≈ CHF 72.500** (≈ CHF 6.040/Monat) |
+| Krankenkasse Familie (4 Pers.) | − ca. CHF 1.100/Monat |
+| **Verfügbar** | **≈ CHF 4.950/Monat** + Kinderzulagen CHF 200–300 je Kind |
+
+Zum Vergleich Deutschland: Bankkaufmann nach der Ausbildung ca. 42.000–48.000 € brutto,
+verheiratet mit 2 Kindern netto rund 2.700–2.900 €/Monat plus Kindergeld.
+**Der Schweizer Vorteil liegt real bei grob +40 bis +60 % Kaufkraft**, nachdem höhere Mieten
+und Lebensmittelpreise abgezogen sind.
+
+### Reicht das für den Hauskauf?
+
+Schweizer Banken rechnen die Tragbarkeit **kalkulatorisch mit 5 % Zins + 1 % Unterhalt +
+Amortisation**, und die Summe darf **maximal ein Drittel des Bruttoeinkommens** betragen.
+Mindestens 20 % Eigenkapital, davon mindestens die Hälfte nicht aus der Pensionskasse.
+
+| Kaufpreis | Nötiges Eigenkapital | Nötiges Bruttoeinkommen |
+|---|---|---|
+| CHF 550.000 (Jura, ländlich) | CHF 110.000 | ca. CHF 98.000 |
+| CHF 800.000 (Thurgau, Dorf) | CHF 160.000 | ca. CHF 143.000 |
+| CHF 1.100.000 (Zürcher Umland) | CHF 220.000 | ca. CHF 196.000 |
+
+**Fazit:** Ein Einstiegsgehalt allein trägt kein Haus. Mit **zwei Einkommen** oder nach
+**3–5 Jahren in der Kundenberatung** wird es in günstigeren Kantonen (Jura, Solothurn,
+Thurgau, Appenzell) realistisch.
+
+### Was du dafür brauchst
+
+1. **Keine formelle Anerkennung nötig** – Bankberufe sind in der Schweiz nicht reglementiert.
+   Eine Niveaubestätigung beim SBFI (anerkennung.swiss) hilft aber bei Bewerbungen.
+2. **Schweiz-spezifisches Wissen ist der eigentliche Engpass**: 2. und 3. Säule,
+   Schweizer Hypothekarmarkt, Steuersystem, FIDLEG/FINIG. Ohne das startest du eine Stufe tiefer.
+3. **Eintrag im Kundenberaterregister nach FIDLEG** für beratende Funktionen.
+4. **Reihenfolge beachten:** erst Stellenzusage → dann B-Bewilligung → dann Wohnsitz →
+   erst dann Hauskauf am Wohnort.
+5. **Weiterbildung**, die Schweizer Banken honorieren: Bankwirtschafter HF,
+   CAS/Diplom in Anlage- oder Vorsorgeberatung.

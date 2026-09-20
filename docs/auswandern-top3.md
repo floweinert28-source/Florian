@@ -278,88 +278,95 @@ Bankstelle schwer zu bekommen. Realistische Reihenfolge:
 
 ---
 
-## Nachtrag: Bankweg mit Restschuld 21.000 € / Rate 560 €
+## Finanzplan: Bankausbildung ab 2027 bei 21.000 € Restschuld
 
-Ausgangslage: 21 Jahre, 2.100 € netto, zwei Jahre Berufserfahrung (Industrie, wird nicht
-fortgeführt), keine Ausbildung begonnen. Berufsziel Bank. Restschuld rund 21.000 €,
-Rate 560 €, Restlaufzeit rund 37 Monate.
+Ausgangslage: 21 Jahre, 2.100 € netto, **1.200 € Fixkosten**, Kreditrate 560 €,
+Restschuld rund 21.000 €. Ausbildungsbeginn geplant für 2027.
 
-### Ausgangsrechnung
-
-Ausbildungsvergütung Bankkaufmann 2026: 1.100–1.160 € brutto im ersten Lehrjahr,
-netto rund 950 €. Nach Rate bleiben **390 €** – knapp, aber nicht mehr aussichtslos
-wie bei 700 €.
-
-### Umschuldungsoptionen (21.000 €, ca. 7 % effektiv)
-
-| Laufzeit | Rate | Zinskosten gesamt |
-|---|---|---|
-| 37 Monate (aktuell) | 560 € | Basis |
-| 48 Monate | 503 € | ca. 3.100 € |
-| 60 Monate | **416 €** | ca. 3.960 € |
-| 72 Monate | **358 €** | ca. 4.780 € |
-| 84 Monate | 317 € | ca. 5.630 € |
-| 96 Monate | 286 € | ca. 6.460 € |
-
-**Strecken ist reversibel:** Bei Verbraucherdarlehen besteht jederzeit ein Recht auf
-vorzeitige Rückzahlung (§ 500 Abs. 2 BGB), die Vorfälligkeitsentschädigung beträgt maximal
-1 % des zurückgezahlten Betrags, bei Restlaufzeit unter zwölf Monaten 0,5 % (§ 502 BGB).
-Eine längere Laufzeit kauft also Flexibilität, ohne die Schuld dauerhaft zu verlängern.
-
-### Die vier Wege im Vergleich
-
-| Weg | Rate | Übrig im 1. Lehrjahr | Bewertung |
-|---|---|---|---|
-| **A** Quereinstieg / Umschulung bei einer Bank | 560 € | volles Gehalt, kein Engpass | **beste Option** |
-| **B** Erst 1 Jahr weiterarbeiten und sondertilgen, dann Ausbildung | ca. 322 € | ca. 630 € + Zusatzeinnahmen | **bester Kompromiss** |
-| **C** Ausbildung sofort, Kredit auf 72 Monate strecken | 358 € | ca. 590 € + Zusatzeinnahmen | solide |
-| **D** Ausbildung sofort, Rate unverändert | 560 € | ca. 390 € + Zusatzeinnahmen | machbar, aber eng |
-
-### Weg B im Detail – der empfohlene Plan
-
-Ausbildungsplätze starten regulär im August. Das Jahr bis dahin ist ohnehin Bewerbungszeit
-und lässt sich zur Tilgung nutzen.
-
-| Zeitraum | Vorgang | Restschuld |
-|---|---|---|
-| Heute | Stand | 21.000 € |
-| 11 Monate reguläre Raten | 11 × 560 € | − ca. 6.160 € |
-| 11 Monate Sondertilgung à 400 € | freiwillig aus 2.100 € netto | − ca. 4.400 € |
-| **Ausbildungsstart August 2027** | | **ca. 10.400 €** |
-| Restschuld auf 36 Monate strecken | | **Rate ca. 322 €** |
-
-### Budget im ersten Lehrjahr nach Weg B
+### Ist-Situation
 
 | Position | Betrag |
 |---|---|
-| Ausbildungsvergütung netto | ca. 950 € |
-| Kindergeld (läuft in der Ausbildung bis 25) | + 255 € |
-| Minijob (Grenze 2026: 603 €) | + bis 603 € |
-| **Einnahmen** | **bis 1.808 €** |
-| Kreditrate | − 322 € |
-| **Verfügbar** | **bis ca. 1.486 €** |
+| Netto | 2.100 € |
+| Fixkosten | − 1.200 € |
+| Kreditrate | − 560 € |
+| **Frei** | **340 €** |
 
-BAB zusätzlich prüfen: Bedarfssatz bis 822 € bei eigener Wohnung, Azubi-Freibetrag 389 €,
-Elterneinkommen wird angerechnet.
+### Das Problem in einer Zeile
 
-### Warum Weg A trotzdem zuerst geprüft gehört
+Azubi-Netto im ersten Lehrjahr rund 950 €. Bei unveränderten Fixkosten von 1.200 €
+fehlen **250 € allein für die Fixkosten** – noch vor der Kreditrate.
+Entscheidend sind daher nicht Zusatzeinnahmen, sondern die Fixkosten.
 
-Quereinstieg und Umschulung bedeuten reguläre Anstellung statt Azubi-Vergütung –
-damit entfällt das Problem vollständig:
+### Drei Varianten für das erste Lehrjahr
 
-- **Sparkassenkaufmann/-frau** über die Sparkassenakademie, danach Bankkaufleuten gleichgestellt
-- **Umschulung zum Bankkaufmann** über Agentur für Arbeit oder Jobcenter, rund zwei Jahre,
-  Bildungsgutschein
-- **Quereinsteigerprogramme einzelner Banken** für Service und Kundenberatung
+| | Variante 1: nichts ändern | Variante 2: Umschuldung + Minijob | Variante 3: Fixkosten senken + Umschuldung |
+|---|---|---|---|
+| Azubi-Netto | 950 € | 950 € | 950 € |
+| Kindergeld | 255 € | 255 € | 255 € |
+| Minijob (Grenze 603 €) | – | 603 € | optional |
+| **Einnahmen** | **1.205 €** | **1.808 €** | **1.205 €** |
+| Fixkosten | − 1.200 € | − 1.200 € | **− 800 €** |
+| Kreditrate | − 560 € | − 257 € | − 257 € |
+| **Ergebnis** | **− 555 €** ❌ | **+ 351 €** | **+ 148 €**, mit Minijob **+ 751 €** ✅ |
 
-Der IHK-Abschluss lässt sich anschließend per **Externenprüfung (§ 45 Abs. 2 BBiG)**
-nachholen – nötig sind 4,5 Jahre Tätigkeit in der Bank.
+### Der wichtigste Hebel: Fixkosten von 1.200 € auf rund 800 €
+
+| Posten | Typisch | Maßnahme | Ersparnis |
+|---|---|---|---|
+| **Auto** | 250–400 € | Verkaufen, Restfinanzierung ablösen. **Deutschlandticket Azubi 2026: 50,40 € ohne, 31,50 € mit Arbeitgeberzuschuss** | **200–350 €** |
+| **Wohnen** | 500–650 € | WG oder zurück zu den Eltern während der Ausbildung | 200–600 € |
+| Versicherungen, Abos, Handy | 130–150 € | Durchgehen und kündigen, Azubi-Tarife nutzen | 40–80 € |
+
+Ein Hebel allein genügt meist. Das Auto ist in der Regel der größte und der am schnellsten
+umsetzbare.
+
+### Was BAB und Wohngeld realistisch bringen
+
+- **BAB** nur, wenn wegen der Entfernung zum Ausbildungsbetrieb eine eigene Wohnung nötig ist.
+  Bedarfssatz bis 822 € (442 € Grund + 380 € Unterkunft), Azubi-Freibetrag 389 €,
+  Elterneinkommen wird angerechnet. Prüfen lassen, aber nicht einplanen.
+- **Wohngeld** ist in der Regel **ausgeschlossen**: Wer BAB dem Grunde nach zusteht, bekommt
+  kein Wohngeld. Auch eine Ablehnung allein wegen zu hohen Elterneinkommens eröffnet
+  keinen Anspruch.
+- **Kindergeld** läuft in der Ausbildung bis 25 weiter – 255 € monatlich, notfalls über
+  einen Abzweigungsantrag direkt an den Azubi.
+- **Minijob** bis 603 € (Grenze 2026). Die Bank muss die Nebentätigkeit genehmigen;
+  bei Tätigkeiten ohne Interessenkonflikt ist das üblich.
+
+### Tilgungsplan bis zum Ausbildungsstart
+
+11 Monate bis August 2027, Sondertilgung aus den freien 340 € (realistisch 250 €):
+
+| Position | Betrag |
+|---|---|
+| Restschuld heute | 21.000 € |
+| 11 reguläre Raten (abzüglich Zinsen) | − ca. 5.160 € |
+| 11 Sondertilgungen à 250 € | − 2.750 € |
+| **Restschuld bei Ausbildungsstart** | **ca. 13.100 €** |
+
+Anschließend strecken:
+
+| Laufzeit | Rate |
+|---|---|
+| 48 Monate | 311 € |
+| **60 Monate** | **257 €** |
+| 72 Monate | 222 € |
+
+Vorzeitige Rückzahlung ist jederzeit möglich (§ 500 Abs. 2 BGB), die
+Vorfälligkeitsentschädigung liegt bei maximal 1 %, unter zwölf Monaten Restlaufzeit
+bei 0,5 % (§ 502 BGB). Ab dem ersten vollen Gehalt kann also wieder beschleunigt werden.
 
 ### Reihenfolge
 
-1. Angebote für Umschuldung einholen, **solange 2.100 € netto nachweisbar sind** –
-   als Azubi ist keine Umschuldung mehr möglich.
-2. Parallel bei Sparkassen, Volksbanken und Privatbanken nach Quereinstieg und Umschulung fragen.
-3. Bis zum Ausbildungsstart so viel wie möglich sondertilgen.
-4. Kindergeld, Minijob-Genehmigung und BAB-Anspruch vor Ausbildungsbeginn klären.
-5. Ab dem ersten vollen Gehalt Sondertilgungen, Kredit vor dem Hauskauf vollständig ablösen.
+1. **Fixkostenliste aufschreiben**, Posten für Posten. Auto zuerst prüfen.
+2. **Umschuldung jetzt anfragen**, solange 2.100 € netto nachweisbar sind.
+   Als Azubi ist keine Umschuldung mehr möglich.
+3. **Parallel Quereinstiegs- und Umschulungsprogramme** bei Sparkassen und Volksbanken
+   anfragen – reguläre Anstellung statt Azubi-Vergütung löst das Problem vollständig.
+4. Ausbildungsbetrieb nach Vergütungshöhe auswählen (Spitzenwerte bis 1.620 € im
+   dritten Lehrjahr) und nach Fahrtkosten- oder Wohnkostenzuschuss fragen.
+5. **Verkürzung auf 2,5 Jahre** mit dem Betrieb vereinbaren.
+6. Kindergeld, Minijob-Genehmigung und BAB-Antrag vor Ausbildungsbeginn klären.
+7. Kostenlose Budgetberatung der Verbraucherzentrale nutzen – sie verhandelt auch
+   Ratenanpassungen mit dem Kreditgeber.

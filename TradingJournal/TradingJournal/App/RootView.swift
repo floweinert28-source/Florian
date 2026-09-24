@@ -21,8 +21,11 @@ struct RootView: View {
                 TabLayout()
             }
         }
+        .preferredColorScheme(settings.appearance.colorScheme)
+        .tint(.accentColor)
         .sheet(item: $appModel.activeSheet) { sheet in
             SheetContent(sheet: sheet)
+                .preferredColorScheme(settings.appearance.colorScheme)
         }
         .sensoryFeedback(.success, trigger: appModel.saveCount)
         .task {
@@ -49,48 +52,109 @@ struct RootView: View {
     }
 }
 
-// MARK: - Layouts
+// MARK: - Seitenleiste (Mac, iPad)
 
 private struct SidebarLayout: View {
     @Environment(AppModel.self) private var appModel
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
 
     var body: some View {
-        @Bindable var appModel = appModel
         NavigationSplitView(columnVisibility: $columnVisibility) {
-            List(selection: sidebarSelection) {
-                ForEach(AppSection.allCases) { section in
-                    Label(section.title, systemImage: section.systemImage)
-                        .tag(section)
-                }
-            }
-            .listStyle(.sidebar)
-            .navigationTitle("Journal")
-            .navigationSplitViewColumnWidth(min: 190, ideal: 220, max: 280)
-            .safeAreaInset(edge: .bottom) {
-                Button {
-                    appModel.present(.newTrade)
-                } label: {
-                    Label("Neuer Trade", systemImage: "plus.circle.fill")
-                        .font(.body.weight(.medium))
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .padding(Theme.Spacing.m)
-            }
+            SidebarView()
+                .navigationSplitViewColumnWidth(min: 200, ideal: 232, max: 280)
+                .toolbar(removing: .sidebarToggle)
         } detail: {
             SectionContent(section: appModel.selectedSection)
         }
-    }
-
-    private var sidebarSelection: Binding<AppSection?> {
-        Binding(
-            get: { appModel.selectedSection },
-            set: { if let value = $0 { appModel.selectedSection = value } }
-        )
+        .navigationSplitViewStyle(.balanced)
     }
 }
+
+/// Eigene Seitenleiste im Dashboard-Stil: Wortmarke, Navigationspunkte, Aktion unten.
+private struct SidebarView: View {
+    @Environment(AppModel.self) private var appModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 10) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(LinearGradient(colors: [Color.accentColor, Color.accentColor.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+                .frame(width: 30, height: 30)
+                Text("Trading Journal")
+                    .font(.subheadline.weight(.bold))
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 14)
+            .padding(.top, 14)
+            .padding(.bottom, 22)
+
+            VStack(spacing: 2) {
+                ForEach(AppSection.allCases) { section in
+                    SidebarRow(section: section, isSelected: appModel.selectedSection == section) {
+                        withAnimation(Theme.quickSpring) { appModel.show(section) }
+                    }
+                }
+            }
+            .padding(.horizontal, 10)
+
+            Spacer()
+
+            Button {
+                appModel.present(.newTrade)
+            } label: {
+                Label("Neuer Trade", systemImage: "plus")
+                    .font(.subheadline.weight(.semibold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 9)
+            }
+            .buttonStyle(.borderedProminent)
+            .padding(14)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(Color.sidebarBackground)
+        .overlay(alignment: .trailing) {
+            Rectangle().fill(Color.cardBorder).frame(width: 1)
+        }
+    }
+}
+
+private struct SidebarRow: View {
+    let section: AppSection
+    let isSelected: Bool
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: section.systemImage)
+                    .font(.system(size: 14, weight: .semibold))
+                    .frame(width: 20)
+                Text(section.title)
+                    .font(.subheadline.weight(isSelected ? .semibold : .medium))
+                Spacer(minLength: 0)
+            }
+            .foregroundStyle(isSelected ? Color.accentColor : Color.primary.opacity(0.75))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(
+                RoundedRectangle(cornerRadius: Theme.Radius.control, style: .continuous)
+                    .fill(isSelected ? Color.accentColor.opacity(0.16) : (hovering ? Color.primary.opacity(0.06) : Color.clear))
+            )
+            .contentShape(RoundedRectangle(cornerRadius: Theme.Radius.control, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering = $0 }
+        .keyboardShortcut(section.shortcut, modifiers: .command)
+    }
+}
+
+// MARK: - Tabs (iPhone)
 
 private struct TabLayout: View {
     @Environment(AppModel.self) private var appModel

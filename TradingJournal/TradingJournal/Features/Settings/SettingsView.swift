@@ -35,6 +35,13 @@ struct SettingsView: View {
                 Text("Die Kontogröße dient für Risiko-Prozente, Tilt-Grenzen und die Monte-Carlo-Simulation.")
             }
 
+            Section("Darstellung") {
+                Picker("Erscheinungsbild", selection: $settings.appearance) {
+                    ForEach(AppearanceMode.allCases) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+            }
+
             Section {
                 Toggle("Tilt-Warnungen", isOn: $settings.tiltWarningsEnabled)
                 if settings.tiltWarningsEnabled {
@@ -103,6 +110,8 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .background(Color.screenBackground)
         .navigationTitle("Einstellungen")
         .confirmationDialog("Wirklich alle Daten löschen?", isPresented: $showDeleteAll, titleVisibility: .visible) {
             Button("Alle Daten löschen", role: .destructive) {
@@ -193,6 +202,8 @@ struct RulesSettingsView: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color.screenBackground)
         .navigationTitle("Regeln")
         .overlay {
             if rules.isEmpty {
@@ -271,6 +282,8 @@ struct TagsSettingsView: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color.screenBackground)
         .navigationTitle("Tags")
         .sheet(item: $editingTag) { tag in
             RenameSheet(title: "Tag umbenennen", text: tag.name) { newName in

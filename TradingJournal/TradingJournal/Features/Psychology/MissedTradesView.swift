@@ -67,7 +67,7 @@ struct MissedTradesView: View {
                                 }
                             }
                         }
-                        if missed.id != items.last?.id { Divider().padding(.leading, 44) }
+                        if missed.id != items.last?.id { Divider().overlay(Color.cardBorder) }
                     }
                 }
             }
@@ -210,6 +210,8 @@ struct MissedTradeEditorView: View {
                 }
             }
             .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
+            .background(Color.screenBackground)
             .navigationTitle(missedTrade == nil ? "Verpasster Trade" : "Verpassten Trade bearbeiten")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)

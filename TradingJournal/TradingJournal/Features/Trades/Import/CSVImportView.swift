@@ -138,6 +138,8 @@ struct CSVImportView: View {
             previewSection
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .background(Color.screenBackground)
     }
 
     private func columnPicker(_ field: ImportField, headers: [String]) -> some View {
@@ -169,7 +171,7 @@ struct CSVImportView: View {
                     Spacer()
                     if preview.skippedRows > 0 {
                         Label("\(preview.skippedRows) Zeilen übersprungen", systemImage: "exclamationmark.triangle.fill")
-                            .foregroundStyle(Color.orange)
+                            .foregroundStyle(Color.warning)
                     }
                 }
                 .font(.subheadline)

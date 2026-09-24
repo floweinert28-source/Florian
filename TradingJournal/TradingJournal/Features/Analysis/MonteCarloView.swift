@@ -195,7 +195,7 @@ struct MonteCarloView: View {
     private func ruinTint(_ value: Double) -> Color {
         switch value {
         case ..<0.02: .profit
-        case ..<0.10: .orange
+        case ..<0.10: Color.warning
         default: .loss
         }
     }

@@ -118,7 +118,7 @@ struct PlanVsExecutionCard: View {
                 ForEach(discipline.components) { component in
                     HStack(spacing: 8) {
                         Image(systemName: component.fulfillment >= 0.99 ? "checkmark.circle.fill" : (component.fulfillment > 0.3 ? "minus.circle.fill" : "xmark.circle.fill"))
-                            .foregroundStyle(component.fulfillment >= 0.99 ? Color.profit : (component.fulfillment > 0.3 ? Color.orange : Color.loss))
+                            .foregroundStyle(component.fulfillment >= 0.99 ? Color.profit : (component.fulfillment > 0.3 ? Color.warning : Color.loss))
                             .font(.subheadline)
                         Text(component.kind.title(deviation: discipline.entryDeviationR))
                             .font(.subheadline)

@@ -89,6 +89,8 @@ struct TradeEditorView: View {
                 notesSection
             }
             .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
+            .background(Color.screenBackground)
             .navigationTitle(trade == nil ? "Neuer Trade" : "Trade bearbeiten")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -219,7 +221,7 @@ struct TradeEditorView: View {
             .padding(.vertical, 4)
             VStack(alignment: .leading, spacing: 6) {
                 Text("Emotionen").font(.subheadline.weight(.medium))
-                MultiTagPicker(kind: .emotion, tags: tags, selection: $emotions, tint: .orange)
+                MultiTagPicker(kind: .emotion, tags: tags, selection: $emotions, tint: Color.warning)
             }
             .padding(.vertical, 4)
             VStack(alignment: .leading, spacing: 6) {

@@ -65,12 +65,18 @@ Konto-Größe, Währung und Tilt-Grenzen liegen in `UserDefaults` (`SettingsStor
 
 ### Design-System
 
-`Theme` (Abstände, Radien, Federn), `Typography` (große Zahlen, dezente Labels, feste Ziffernbreite),
-Asset-Farben `AccentColor` (sanftes Indigo), `Profit`/`Loss` (gedämpft), `ScreenBackground`/`CardBackground`
-(macOS; iOS nutzt Systemfarben). Bausteine: `Card`/`TitledCard`, `StatTile`, `InlineStat`, `LabeledValueRow`,
-`PnLText`/`RText`, `TagChip`/`SelectableChip`, `ScoreRing`, `LabeledBar`, `BannerView`, `EmptyStateView`,
-`FlowLayout`, `Screen`/`AdaptiveColumns`. Hover-Effekte auf dem Mac (`Card(interactive:)`, `hoverHighlight()`),
-Haptik auf dem iPhone (`sensoryFeedback`, `Haptics`), Spring-Animationen (`Theme.spring`).
+Optik wie bei modernen Trading-Dashboards: dunkles Erscheinungsbild als Standard (Hell und System wählbar),
+violetter Akzent, kräftiges Grün/Rot für Ergebnisse, flache Karten mit feiner Kontur, Sidebar mit Wortmarke.
+Asset-Farben: `AccentColor`, `Profit`, `Loss`, `Warning`, `ScreenBackground`, `SidebarBackground`, `CardBackground`,
+`CardBorder`, `ElevatedFill`. Bausteine: `Card`/`TitledCard`, `StatTile` mit Gauge (`DonutGauge`, `ArcGauge`,
+`WinLossBars`), `ScoreRing`, `LabeledBar`, `RadarChartView` (Trader-Score), `CalendarHeatmapView`, `TagChip`,
+`DirectionBadge`, `BannerView`, `EmptyStateView`, `FlowLayout`, `Screen`/`AdaptiveColumns`, `PeriodBar`.
+
+**Dashboard-Aufbau:** Zeitraum-Filter · fünf KPI-Kacheln (Netto-P&L, Trade-Win-Rate, Profit-Faktor,
+Tages-Win-Rate, Ø Gewinn/Verlust) mit Gauges · Trader-Score-Radar (Win-Rate, Profit-Faktor, Ø Gewinn/Verlust,
+Erholung, Drawdown, Konsistenz) · kumulierte und tägliche Netto-P&L · Kalender-Heatmap mit Wochensummen und
+Tagesjournal je Tag · Disziplin-Score und Fehlerkosten · letzte Trades als Tabelle. Trades sind auf Mac und iPad
+eine sortierbare Tabelle mit Kennzahlen-Leiste, auf dem iPhone eine nach Tagen gruppierte Liste.
 
 ## Features
 

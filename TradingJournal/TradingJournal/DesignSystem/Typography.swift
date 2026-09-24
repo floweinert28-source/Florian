@@ -1,19 +1,19 @@
 import SwiftUI
 
-/// Typografische Hierarchie: große Zahlen für Kennzahlen, dezente Labels.
+/// Typografische Hierarchie: große Zahlen für Kennzahlen, kleine kräftige Labels.
 extension Font {
     /// Die eine große Zahl pro Bildschirm.
-    static let metricHero = Font.system(size: 40, weight: .bold, design: .default)
+    static let metricHero = Font.system(size: 34, weight: .bold, design: .default)
     /// Kennzahl in einer Kachel.
-    static let metricValue = Font.system(.title2, design: .default, weight: .semibold)
-    /// Kleinere Kennzahl (z. B. in Listen).
-    static let metricSmall = Font.system(.body, design: .default, weight: .semibold)
-    /// Beschriftung über oder unter einer Kennzahl.
-    static let metricLabel = Font.footnote.weight(.medium)
+    static let metricValue = Font.system(size: 22, weight: .semibold, design: .default)
+    /// Kleinere Kennzahl (z. B. in Listen und Tabellen).
+    static let metricSmall = Font.system(.subheadline, design: .default, weight: .semibold)
+    /// Beschriftung über einer Kennzahl.
+    static let metricLabel = Font.caption.weight(.medium)
     /// Kartentitel.
-    static let cardTitle = Font.headline
+    static let cardTitle = Font.subheadline.weight(.semibold)
     /// Erläuternder Text in Karten.
-    static let explanation = Font.subheadline
+    static let explanation = Font.footnote
 }
 
 extension View {

@@ -10,7 +10,7 @@ struct Screen<Content: View>: View {
             VStack(alignment: .leading, spacing: spacing) {
                 content()
             }
-            .padding(.horizontal, Theme.Spacing.l)
+            .padding(.horizontal, Theme.Spacing.xl)
             .padding(.vertical, Theme.Spacing.l)
             .frame(maxWidth: Theme.contentMaxWidth)
             .frame(maxWidth: .infinity)

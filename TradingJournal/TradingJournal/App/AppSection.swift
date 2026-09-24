@@ -12,9 +12,9 @@ enum AppSection: String, CaseIterable, Identifiable, Hashable {
 
     var title: LocalizedStringKey {
         switch self {
-        case .dashboard: "Übersicht"
+        case .dashboard: "Dashboard"
         case .trades: "Trades"
-        case .analysis: "Analyse"
+        case .analysis: "Berichte"
         case .psychology: "Psychologie"
         case .settings: "Einstellungen"
         }
@@ -22,11 +22,11 @@ enum AppSection: String, CaseIterable, Identifiable, Hashable {
 
     var systemImage: String {
         switch self {
-        case .dashboard: "chart.xyaxis.line"
-        case .trades: "list.bullet.rectangle.portrait"
-        case .analysis: "chart.bar.xaxis"
-        case .psychology: "brain.head.profile"
-        case .settings: "gearshape"
+        case .dashboard: "square.grid.2x2.fill"
+        case .trades: "list.bullet.rectangle.fill"
+        case .analysis: "chart.bar.fill"
+        case .psychology: "brain.head.profile.fill"
+        case .settings: "gearshape.fill"
         }
     }
 

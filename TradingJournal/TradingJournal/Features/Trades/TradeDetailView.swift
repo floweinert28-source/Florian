@@ -149,7 +149,7 @@ private struct TagsCard: View {
                         TagChip(text: rule.title, tint: .loss, systemImage: "xmark.seal")
                     }
                     ForEach(trade.emotionTags) { tag in
-                        TagChip(text: tag.name, tint: .orange, systemImage: "face.smiling")
+                        TagChip(text: tag.name, tint: Color.warning, systemImage: "face.smiling")
                     }
                 }
             }

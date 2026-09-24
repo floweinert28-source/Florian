@@ -1,12 +1,11 @@
 import SwiftUI
 
-/// Abgerundete Karte mit weichem Schatten (hell) bzw. feiner Kontur (dunkel).
+/// Flache Karte mit feiner Kontur, wie in modernen Analyse-Dashboards.
 struct Card<Content: View>: View {
     var padding: CGFloat = Theme.cardPadding
     var interactive: Bool = false
     @ViewBuilder var content: () -> Content
 
-    @Environment(\.colorScheme) private var colorScheme
     @State private var hovering = false
 
     var body: some View {
@@ -14,9 +13,7 @@ struct Card<Content: View>: View {
             .padding(padding)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(cardShape.fill(Color.cardBackground))
-            .overlay(cardShape.strokeBorder(strokeColor, lineWidth: 0.5))
-            .shadow(color: shadowColor, radius: hovering ? 14 : 8, y: hovering ? 5 : 2)
-            .scaleEffect(interactive && hovering ? 1.008 : 1)
+            .overlay(cardShape.strokeBorder(hovering && interactive ? Color.accentColor.opacity(0.5) : Color.cardBorder, lineWidth: 1))
             .onHover { isHovering in
                 guard interactive else { return }
                 withAnimation(Theme.quickSpring) { hovering = isHovering }
@@ -26,17 +23,9 @@ struct Card<Content: View>: View {
     private var cardShape: RoundedRectangle {
         RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous)
     }
-
-    private var strokeColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.07) : Color.black.opacity(0.04)
-    }
-
-    private var shadowColor: Color {
-        colorScheme == .dark ? Color.black.opacity(0.35) : Color.black.opacity(0.06)
-    }
 }
 
-/// Karte mit Titelzeile.
+/// Karte mit Titelzeile: kleiner, kräftiger Titel, optionaler Untertitel, rechts Aktionen.
 struct TitledCard<Content: View, Trailing: View>: View {
     let title: LocalizedStringKey
     var subtitle: LocalizedStringKey? = nil
@@ -66,13 +55,13 @@ struct TitledCard<Content: View, Trailing: View>: View {
                         HStack(spacing: 6) {
                             if let systemImage {
                                 Image(systemName: systemImage)
-                                    .foregroundStyle(Color.accentColor)
-                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.secondary)
+                                    .font(.caption.weight(.semibold))
                             }
                             Text(title).font(.cardTitle)
                         }
                         if let subtitle {
-                            Text(subtitle).font(.footnote).foregroundStyle(.secondary)
+                            Text(subtitle).font(.caption).foregroundStyle(.secondary)
                         }
                     }
                     Spacer(minLength: Theme.Spacing.s)

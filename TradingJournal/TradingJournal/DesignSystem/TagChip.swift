@@ -14,11 +14,12 @@ struct TagChip: View {
             }
             Text(text).font(.caption.weight(.medium)).lineLimit(1)
         }
-        .padding(.horizontal, 9)
-        .padding(.vertical, 5)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
         .foregroundStyle(selected ? tint : .secondary)
         .background(
-            Capsule().fill(selected ? tint.opacity(0.14) : Color.subtleFill)
+            RoundedRectangle(cornerRadius: Theme.Radius.chip, style: .continuous)
+                .fill(selected ? tint.opacity(0.16) : Color.elevatedFill)
         )
     }
 }
@@ -41,7 +42,8 @@ struct SelectableChip: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 7)
             .foregroundStyle(isSelected ? Color.white : Color.primary)
-            .background(Capsule().fill(isSelected ? tint : Color.subtleFill))
+            .background(RoundedRectangle(cornerRadius: Theme.Radius.control, style: .continuous).fill(isSelected ? tint : Color.elevatedFill))
+            .overlay(RoundedRectangle(cornerRadius: Theme.Radius.control, style: .continuous).strokeBorder(isSelected ? Color.clear : Color.cardBorder, lineWidth: 1))
         }
         .buttonStyle(.plain)
         .animation(Theme.quickSpring, value: isSelected)
@@ -53,13 +55,14 @@ struct DirectionBadge: View {
     let isLong: Bool
 
     var body: some View {
-        Text(isLong ? "L" : "S")
-            .font(.caption.weight(.bold))
-            .frame(width: 26, height: 26)
+        Text(isLong ? "LONG" : "SHORT")
+            .font(.system(size: 9, weight: .bold))
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
             .foregroundStyle(isLong ? Color.profit : Color.loss)
             .background(
-                RoundedRectangle(cornerRadius: 7, style: .continuous)
-                    .fill((isLong ? Color.profit : Color.loss).opacity(0.14))
+                RoundedRectangle(cornerRadius: 5, style: .continuous)
+                    .fill((isLong ? Color.profit : Color.loss).opacity(0.16))
             )
             .accessibilityLabel(Text(isLong ? "Long" : "Short"))
     }

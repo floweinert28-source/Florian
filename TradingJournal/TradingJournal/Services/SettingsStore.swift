@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import SwiftUI
 import JournalCore
 
 /// Nutzereinstellungen, in UserDefaults gesichert.
@@ -15,6 +16,7 @@ final class SettingsStore {
         static let tiltNotificationsEnabled = "settings.tiltNotificationsEnabled"
         static let ruinDrawdownPercent = "settings.ruinDrawdownPercent"
         static let hasLaunchedBefore = "settings.hasLaunchedBefore"
+        static let appearance = "settings.appearance"
     }
 
     private let defaults: UserDefaults
@@ -28,6 +30,8 @@ final class SettingsStore {
     /// Ruin-Schwelle für die Monte-Carlo-Simulation in Prozent.
     var ruinDrawdownPercent: Double { didSet { defaults.set(ruinDrawdownPercent, forKey: Keys.ruinDrawdownPercent) } }
     var hasLaunchedBefore: Bool { didSet { defaults.set(hasLaunchedBefore, forKey: Keys.hasLaunchedBefore) } }
+    /// Erscheinungsbild; Standard ist Dunkel.
+    var appearance: AppearanceMode { didSet { defaults.set(appearance.rawValue, forKey: Keys.appearance) } }
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -41,6 +45,7 @@ final class SettingsStore {
         let storedRuin = defaults.double(forKey: Keys.ruinDrawdownPercent)
         ruinDrawdownPercent = storedRuin > 0 ? storedRuin : 30
         hasLaunchedBefore = defaults.bool(forKey: Keys.hasLaunchedBefore)
+        appearance = AppearanceMode(rawValue: defaults.string(forKey: Keys.appearance) ?? "") ?? .dark
     }
 
     var tiltConfiguration: TiltConfiguration {

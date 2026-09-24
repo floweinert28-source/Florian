@@ -24,7 +24,6 @@ struct AppCommands: Commands {
                 } label: {
                     Label(section.title, systemImage: section.systemImage)
                 }
-                .keyboardShortcut(section.shortcut, modifiers: .command)
             }
         }
 

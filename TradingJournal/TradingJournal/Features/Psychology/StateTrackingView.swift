@@ -147,7 +147,7 @@ struct StateTrackingView: View {
                             Text(Format.shortDate(checkIn.date)).font(.subheadline).frame(width: 64, alignment: .leading)
                             Label("\(Format.number(checkIn.sleepHours, digits: 1)) h", systemImage: "bed.double").font(.caption)
                             Spacer()
-                            LevelDots(level: checkIn.stressLevel, tint: .orange, systemImage: "bolt.heart")
+                            LevelDots(level: checkIn.stressLevel, tint: Color.warning, systemImage: "bolt.heart")
                             LevelDots(level: checkIn.mood, tint: .accentColor, systemImage: "face.smiling")
                         }
                         .foregroundStyle(.secondary)
@@ -244,6 +244,8 @@ struct CheckInSheet: View {
                 }
             }
             .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
+            .background(Color.screenBackground)
             .navigationTitle("Tages-Check-in")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)

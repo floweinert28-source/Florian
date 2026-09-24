@@ -199,10 +199,10 @@ struct VerdictBadge: View {
     }
 
     private var tint: Color {
-        if deteriorating { return .orange }
+        if deteriorating { return Color.warning }
         switch verdict {
         case .insufficientData: return .secondary
-        case .unproven: return .orange
+        case .unproven: return Color.warning
         case .positive: return .profit
         case .negative: return .loss
         }
@@ -234,7 +234,7 @@ private struct ConfidenceIntervalBar: View {
             ZStack(alignment: .leading) {
                 Capsule().fill(Color.subtleFill).frame(height: 8)
                 Capsule()
-                    .fill(low > 0 ? Color.profit : (high < 0 ? Color.loss : Color.orange))
+                    .fill(low > 0 ? Color.profit : (high < 0 ? Color.loss : Color.warning))
                     .frame(width: max((high - low) * scale, 4), height: 8)
                     .offset(x: origin + low * scale)
                 Rectangle()

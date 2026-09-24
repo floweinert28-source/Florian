@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// Zentrale Design-Konstanten: Abstände, Radien, Animationen, Farben.
+/// Zentrale Design-Konstanten. Optik: dunkles, flaches Analyse-Dashboard mit violettem Akzent,
+/// kräftigem Grün/Rot für Ergebnisse und klar abgesetzten Karten mit feiner Kontur.
 enum Theme {
     enum Spacing {
         static let xs: CGFloat = 4
@@ -12,60 +13,71 @@ enum Theme {
     }
 
     enum Radius {
-        static let card: CGFloat = 18
-        static let tile: CGFloat = 14
-        static let chip: CGFloat = 9
-        static let control: CGFloat = 10
-        static let thumbnail: CGFloat = 12
+        static let card: CGFloat = 12
+        static let tile: CGFloat = 12
+        static let chip: CGFloat = 6
+        static let control: CGFloat = 8
+        static let thumbnail: CGFloat = 10
     }
 
-    /// Maximale Inhaltsbreite auf großen Displays, damit Karten nicht endlos breit werden.
-    static let contentMaxWidth: CGFloat = 1120
+    /// Maximale Inhaltsbreite auf sehr großen Displays.
+    static let contentMaxWidth: CGFloat = 1440
 
-    static let cardPadding: CGFloat = 18
+    static let cardPadding: CGFloat = 16
 
     /// Ruhige Standard-Feder für Übergänge.
-    static let spring = Animation.spring(duration: 0.42, bounce: 0.18)
+    static let spring = Animation.spring(duration: 0.4, bounce: 0.15)
     /// Schnelle Feder für Hover und kleine Zustandswechsel.
-    static let quickSpring = Animation.spring(duration: 0.24, bounce: 0.12)
+    static let quickSpring = Animation.spring(duration: 0.22, bounce: 0.1)
     /// Sanftes Ein-/Ausblenden.
-    static let fade = Animation.easeInOut(duration: 0.22)
+    static let fade = Animation.easeInOut(duration: 0.2)
 }
 
 extension Color {
     static let profit = Color("Profit")
     static let loss = Color("Loss")
+    static let warning = Color("Warning")
+    /// Hintergrund der Bildschirme.
+    static let screenBackground = Color("ScreenBackground")
+    /// Hintergrund der Seitenleiste.
+    static let sidebarBackground = Color("SidebarBackground")
+    /// Hintergrund von Karten.
+    static let cardBackground = Color("CardBackground")
+    /// Feine Kontur von Karten und Trennlinien.
+    static let cardBorder = Color("CardBorder")
+    /// Leicht erhöhte Fläche innerhalb von Karten (Balken-Hintergründe, Eingaben, Chips).
+    static let elevatedFill = Color("ElevatedFill")
+    /// Dezente Fläche innerhalb von Karten.
+    static var subtleFill: Color { elevatedFill }
 
     /// Grün für Gewinn, Rot für Verlust, dezent für Null.
     static func pnl(_ value: Double) -> Color {
         if abs(value) < 1e-9 { return .secondary }
         return value > 0 ? .profit : .loss
     }
+}
 
-    /// Hintergrund der Bildschirme (gruppiert).
-    static var screenBackground: Color {
-        #if os(macOS)
-        Color("ScreenBackground")
-        #else
-        Color(.systemGroupedBackground)
-        #endif
+/// Erscheinungsbild der App. Standard ist Dunkel, wie bei Analyse-Dashboards üblich.
+enum AppearanceMode: String, CaseIterable, Identifiable {
+    case dark
+    case light
+    case system
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .dark: String(localized: "Dunkel")
+        case .light: String(localized: "Hell")
+        case .system: String(localized: "System")
+        }
     }
 
-    /// Hintergrund von Karten.
-    static var cardBackground: Color {
-        #if os(macOS)
-        Color("CardBackground")
-        #else
-        Color(.secondarySystemGroupedBackground)
-        #endif
-    }
-
-    /// Dezente Fläche innerhalb von Karten (z. B. Balken-Hintergrund).
-    static var subtleFill: Color {
-        #if os(macOS)
-        Color(nsColor: .quaternaryLabelColor).opacity(0.5)
-        #else
-        Color(.tertiarySystemFill)
-        #endif
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .dark: .dark
+        case .light: .light
+        case .system: nil
+        }
     }
 }

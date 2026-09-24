@@ -8,7 +8,7 @@ struct BannerView: View {
         var tint: Color {
             switch self {
             case .notice: .accentColor
-            case .warning: .orange
+            case .warning: Color.warning
             case .critical: .loss
             }
         }

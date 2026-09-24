@@ -19,3 +19,11 @@ data/
 .vscode/
 .idea/
 .DS_Store
+
+# Xcode / Swift
+TradingJournal/**/.build/
+TradingJournal/**/xcuserdata/
+TradingJournal/**/*.xcuserstate
+TradingJournal/**/DerivedData/
+.swiftpm/
+*.xcworkspace/xcuserdata/

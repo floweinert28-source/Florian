@@ -1,0 +1,122 @@
+name: Trading Journal Build
+
+on:
+  push:
+    branches: [claude/trading-journal-app-cqdxfe, main]
+    paths: [TradingJournal/**, .github/workflows/build-mac.yml]
+  pull_request:
+    paths: [TradingJournal/**, .github/workflows/build-mac.yml]
+  workflow_dispatch:
+
+concurrency:
+  group: build-mac-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Bauen und testen (macOS)
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode-Version
+        run: |
+          sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)" 2>/dev/null || true
+          xcodebuild -version
+          swift --version
+
+      - name: Core-Paket testen
+        working-directory: TradingJournal/Packages/JournalCore
+        run: swift test 2>&1 | tail -20
+
+      - name: macOS-App bauen
+        working-directory: TradingJournal
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project TradingJournal.xcodeproj \
+            -scheme TradingJournal \
+            -destination 'platform=macOS' \
+            -configuration Release \
+            -derivedDataPath build \
+            -xcconfig ci/Unsigned.xcconfig \
+            -skipPackagePluginValidation \
+            -skipMacroValidation \
+            2>&1 | tee build-macos.log | grep -E "error:|warning: unre|BUILD|Compiling|\\*\\*" | tail -80
+
+      - name: iOS-App bauen (Simulator)
+        working-directory: TradingJournal
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project TradingJournal.xcodeproj \
+            -scheme TradingJournal \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            -derivedDataPath build-ios \
+            -xcconfig ci/Unsigned.xcconfig \
+            CODE_SIGNING_ALLOWED=NO \
+            -skipPackagePluginValidation \
+            -skipMacroValidation \
+            2>&1 | tee build-ios.log | grep -E "error:|BUILD|\\*\\*" | tail -60
+
+      - name: App-Tests (macOS)
+        working-directory: TradingJournal
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project TradingJournal.xcodeproj \
+            -scheme TradingJournal \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            -derivedDataPath build-test \
+            -xcconfig ci/Unsigned.xcconfig \
+            -only-testing:TradingJournalTests \
+            -skipPackagePluginValidation \
+            -skipMacroValidation \
+            2>&1 | tee test-macos.log | grep -E "error:|Test Suite|Test Case|passed|failed|\\*\\*" | tail -60
+
+      - name: App verpacken
+        working-directory: TradingJournal
+        run: |
+          APP="build/Build/Products/Release/TradingJournal.app"
+          test -d "$APP"
+          codesign --force --deep --sign - "$APP"
+          ditto -c -k --keepParent "$APP" "Trading-Journal-macOS.zip"
+          ls -la Trading-Journal-macOS.zip
+
+      - name: Build-Protokolle sichern
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: TradingJournal/*.log
+          if-no-files-found: ignore
+
+      - name: App als Artefakt hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: Trading-Journal-macOS
+          path: TradingJournal/Trading-Journal-macOS.zip
+
+      - name: Download-Release aktualisieren
+        if: github.event_name != 'pull_request'
+        working-directory: TradingJournal
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete vorschau --yes --cleanup-tag 2>/dev/null || true
+          gh release create vorschau Trading-Journal-macOS.zip \
+            --prerelease \
+            --target "$GITHUB_SHA" \
+            --title "Trading Journal – Vorschau-Build (macOS)" \
+            --notes "Automatisch gebaut aus \`$GITHUB_REF_NAME\` (\`${GITHUB_SHA::7}\`).
+
+**Installation:** ZIP laden, entpacken, \`Trading Journal.app\` in den Programme-Ordner ziehen.
+Beim ersten Start meldet macOS, dass der Entwickler nicht überprüft werden kann: Systemeinstellungen → Datenschutz & Sicherheit → unten auf **Trotzdem öffnen** klicken.
+
+Dieser Build ist nicht mit einem Entwickler-Konto signiert, daher ist iCloud-Sync deaktiviert. Alle anderen Funktionen laufen; die Daten bleiben lokal auf dem Mac."

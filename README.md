@@ -1,3 +1,7 @@
+> **Hinweis:** Dieses Repository enthält zwei Projekte. Die native Trading-Journal-App
+> (macOS, iPhone, iPad) liegt im Ordner [`TradingJournal/`](TradingJournal/README.md).
+> Darunter folgt die Beschreibung des Discord-Bots.
+
 # Aufgaben-Bot für Discord
 
 Ein Discord-Bot, der Aufgaben in deinen Channels verwaltet: anlegen, zuweisen,

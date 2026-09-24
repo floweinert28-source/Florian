@@ -60,10 +60,10 @@ public struct SampleDataGenerator: Sendable {
     ]
 
     private static let setups: [SetupProfile] = [
-        SetupProfile(name: "Pullback", baseWinRate: 0.58, strategy: "Trendfolge", trendBonus: 0.08, rangeBonus: -0.10),
-        SetupProfile(name: "Breakout", baseWinRate: 0.50, strategy: "Trendfolge", trendBonus: 0.12, rangeBonus: -0.15),
-        SetupProfile(name: "Range-Fade", baseWinRate: 0.52, strategy: "Mean Reversion", trendBonus: -0.14, rangeBonus: 0.10),
-        SetupProfile(name: "Reversal", baseWinRate: 0.42, strategy: "Mean Reversion", trendBonus: -0.05, rangeBonus: 0.02),
+        SetupProfile(name: "Pullback", baseWinRate: 0.60, strategy: "Trendfolge", trendBonus: 0.08, rangeBonus: -0.10),
+        SetupProfile(name: "Breakout", baseWinRate: 0.53, strategy: "Trendfolge", trendBonus: 0.12, rangeBonus: -0.14),
+        SetupProfile(name: "Range-Fade", baseWinRate: 0.55, strategy: "Mean Reversion", trendBonus: -0.12, rangeBonus: 0.10),
+        SetupProfile(name: "Reversal", baseWinRate: 0.44, strategy: "Mean Reversion", trendBonus: -0.05, rangeBonus: 0.03),
     ]
 
     public static let mistakeNames = ["FOMO", "Regel gebrochen", "Revenge-Trade", "Zu früh raus", "Stop verschoben", "Übergröße"]
@@ -141,7 +141,7 @@ public struct SampleDataGenerator: Sendable {
                 // Risiko: 0,5–1 % des Kontos, an Tilt-Tagen nach Verlust eskalierend.
                 var riskAmount = accountSize * Double.random(in: 0.005...0.010, using: &rng)
                 if isTiltDay, previousWasLoss, previousRisk > 0 {
-                    riskAmount = previousRisk * Double.random(in: 1.6...2.4, using: &rng)
+                    riskAmount = min(previousRisk * Double.random(in: 1.6...2.4, using: &rng), accountSize * 0.03)
                     if !mistakes.contains("Übergröße") { mistakes.append("Übergröße") }
                 }
                 if mistakes.contains("Übergröße"), riskAmount < accountSize * 0.015 {
@@ -165,7 +165,8 @@ public struct SampleDataGenerator: Sendable {
                 if hour >= 9 && hour < 11 { winProbability += 0.06 }
                 if hour >= 12 && hour < 14 { winProbability -= 0.08 }
                 if calendar.component(.weekday, from: day) == 6 { winProbability -= 0.06 }
-                if !mistakes.isEmpty { winProbability -= 0.18 }
+                // Fehler kosten spürbar: deutlich geringere Trefferquote und gekappte Gewinne.
+                if !mistakes.isEmpty { winProbability -= 0.30 }
                 if regime.volatility == .high { winProbability -= 0.03 }
                 winProbability = min(max(winProbability, 0.15), 0.85)
 
@@ -175,6 +176,7 @@ public struct SampleDataGenerator: Sendable {
                     rResult = Double.random(in: 0.7...2.6, using: &rng)
                     if mistakes.contains("Zu früh raus") { rResult = Double.random(in: 0.2...0.6, using: &rng) }
                     if setup.name == "Breakout" { rResult += 0.3 }
+                    if !mistakes.isEmpty { rResult = min(rResult, 1.1) }
                 } else {
                     rResult = -Double.random(in: 0.75...1.1, using: &rng)
                     if mistakes.contains("Stop verschoben") { rResult = -Double.random(in: 1.4...2.1, using: &rng) }

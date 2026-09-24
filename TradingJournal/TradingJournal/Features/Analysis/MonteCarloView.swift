@@ -191,7 +191,7 @@ struct MonteCarloView: View {
             }
             .chartXAxis {
                 AxisMarks(values: .automatic(desiredCount: 4)) {
-                    AxisValueLabel(format: .percent.precision(.fractionLength(0)))
+                    AxisValueLabel(format: FloatingPointFormatStyle<Double>.Percent().precision(.fractionLength(0)))
                 }
             }
             .chartYAxis(.hidden)

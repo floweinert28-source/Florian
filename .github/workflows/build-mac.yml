@@ -109,14 +109,21 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cat > release-notes.md <<'NOTES'
+          Automatisch gebaut aus dem Branch `claude/trading-journal-app-cqdxfe`.
+
+          **Installation:** ZIP laden, entpacken, `TradingJournal.app` in den Programme-Ordner ziehen.
+          Beim ersten Start meldet macOS, dass der Entwickler nicht überprüft werden kann:
+          Systemeinstellungen → Datenschutz & Sicherheit → unten auf **Trotzdem öffnen** klicken.
+
+          Dieser Build ist nicht mit einem Entwickler-Konto signiert, daher ist iCloud-Sync deaktiviert.
+          Alle anderen Funktionen laufen; die Daten bleiben lokal auf dem Mac.
+          NOTES
+          echo "" >> release-notes.md
+          echo "Commit: ${GITHUB_SHA::7}" >> release-notes.md
           gh release delete vorschau --yes --cleanup-tag 2>/dev/null || true
           gh release create vorschau Trading-Journal-macOS.zip \
             --prerelease \
             --target "$GITHUB_SHA" \
             --title "Trading Journal – Vorschau-Build (macOS)" \
-            --notes "Automatisch gebaut aus \`$GITHUB_REF_NAME\` (\`${GITHUB_SHA::7}\`).
-
-**Installation:** ZIP laden, entpacken, \`Trading Journal.app\` in den Programme-Ordner ziehen.
-Beim ersten Start meldet macOS, dass der Entwickler nicht überprüft werden kann: Systemeinstellungen → Datenschutz & Sicherheit → unten auf **Trotzdem öffnen** klicken.
-
-Dieser Build ist nicht mit einem Entwickler-Konto signiert, daher ist iCloud-Sync deaktiviert. Alle anderen Funktionen laufen; die Daten bleiben lokal auf dem Mac."
+            --notes-file release-notes.md

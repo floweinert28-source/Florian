@@ -1,0 +1,29 @@
+/* Strategien */
+(function (root) {
+  'use strict';
+  const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
+  App.screens.strategy = {
+    title: 'Strategien',
+    actions() { return `<button type="button" class="btn hide-m" data-action="new-strategy">${I.plus}<span>Strategie anlegen</span></button>`; },
+    render(ctx) {
+      const list = ctx.inRange; const strategies = S.data.strategies; if (!strategies.length) return U.empty('strategy', 'Noch keine Strategien', 'Eine Strategie bündelt Setups und Regeln. Ordne Trades im Editor einer Strategie zu, dann siehst du hier, welche wirklich Geld verdient.', `<button type="button" class="btn sm primary" data-action="new-strategy">${I.plus} Strategie anlegen</button>`);
+      const groups = C.groupBy(list, t => t.strategy || null); const unassigned = C.closedOnly(list).filter(t => !t.strategy).length;
+      const cards = strategies.map(st => { const g = groups.find(x => x.key === st.name); const s = g ? g.s : C.summary([]); const disc = g ? C.avgDiscipline(g.trades) : null; const id = 'strat-' + st.id; let c = 0; U.chartData[id] = { values: g ? g.trades.slice().sort((a, b) => a.close - b.close).map(t => (c += t.pnl)) : [] };
+        return `<section class="card strat-card"><div class="card-head"><div><div class="card-title">${esc(st.name)}</div>${st.description ? `<div class="card-sub">${esc(st.description)}</div>` : ''}</div><div class="row"><button type="button" class="btn ghost icon sm" data-action="edit-strategy" data-id="${st.id}" aria-label="Bearbeiten">${I.edit}</button><button type="button" class="btn ghost icon sm" data-action="delete-strategy" data-id="${st.id}" aria-label="Löschen">${I.trash}</button></div></div>
+          <div class="row between" style="align-items:flex-end"><div><div class="caption">Netto-P&L im Zeitraum</div><div class="score-big ${U.cls(s.total)}">${s.n ? fmt.cur(s.total, { signed: true }) : '—'}</div></div><div class="chart h80" data-chart="spark" data-id="${id}" style="width:180px;min-height:80px"></div></div>
+          <div class="strat-stats"><div><div class="k">Trades</div><div class="v">${s.n}</div></div><div><div class="k">Win-Rate</div><div class="v">${s.n ? fmt.pct(s.winRate) : '—'}</div></div><div><div class="k">Profit-Faktor</div><div class="v">${s.n ? fmt.factor(s.pf) : '—'}</div></div><div><div class="k">Ø pro Trade</div><div class="v ${U.cls(s.expectancy)}">${s.n ? fmt.cur(s.expectancy, { signed: true }) : '—'}</div></div><div><div class="k">Ø R</div><div class="v">${s.avgR != null ? fmt.r(s.avgR) : '—'}</div></div><div><div class="k">Disziplin</div><div class="v" style="color:${disc == null ? 'inherit' : U.scoreColor(disc)}">${disc == null ? '—' : disc}</div></div><div><div class="k">Max. DD</div><div class="v neg">${s.n ? fmt.cur(-s.maxDD) : '—'}</div></div><div><div class="k">Setups</div><div class="v small">${(st.setups || []).length ? esc(st.setups.join(', ')) : '—'}</div></div></div>
+          ${(st.rules || []).length ? `<div class="caption" style="margin-top:14px">Regeln</div><ul class="rules">${st.rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}</section>`; }).join('');
+      return `<div class="grid two">${cards}</div>${unassigned ? `<div class="muted small">${unassigned} Trades im Zeitraum ohne Strategie.</div>` : ''}`;
+    },
+  };
+  function editor(st) {
+    const s = st || { name: '', description: '', setups: [], rules: [] };
+    U.modal(`<form data-action="save-strategy" data-id="${s.id || ''}"><div class="modal-head"><h2>${st ? 'Strategie bearbeiten' : 'Strategie anlegen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><div class="stack" style="gap:14px"><div class="field"><label for="st-name">Name</label><input class="input" id="st-name" name="name" value="${esc(s.name)}" required placeholder="z. B. Trendfolge"></div><div class="field"><label for="st-desc">Beschreibung</label><textarea class="input" id="st-desc" name="description" style="min-height:70px">${esc(s.description || '')}</textarea></div><div class="field"><label for="st-setups">Setups (Komma-getrennt)</label><input class="input" id="st-setups" name="setups" value="${esc((s.setups || []).join(', '))}" placeholder="Pullback, Breakout"></div><div class="field"><label for="st-rules">Regeln (eine pro Zeile)</label><textarea class="input" id="st-rules" name="rules" style="min-height:100px">${esc((s.rules || []).join('\n'))}</textarea></div></div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`);
+  }
+  Object.assign(App.actions, {
+    'new-strategy'() { editor(null); },
+    'edit-strategy'(el) { editor(S.data.strategies.find(x => x.id === el.dataset.id)); },
+    'save-strategy'(form) { const fd = new FormData(form); const patch = { name: String(fd.get('name')).trim(), description: String(fd.get('description') || '').trim(), setups: String(fd.get('setups') || '').split(',').map(x => x.trim()).filter(Boolean), rules: String(fd.get('rules') || '').split('\n').map(x => x.trim()).filter(Boolean) }; if (!patch.name) return; patch.setups.forEach(x => S.addTag('setups', x)); if (form.dataset.id) { const old = S.data.strategies.find(x => x.id === form.dataset.id); if (old && old.name !== patch.name) for (const t of S.trades()) if (t.strategy === old.name) t.strategy = patch.name; S.updateStrategy(form.dataset.id, patch); } else S.addStrategy(patch); U.closeModal(); App.rerender(); },
+    async 'delete-strategy'(el) { if (await U.confirmModal('Strategie löschen?', 'Trades behalten ihre Zuordnung als Text, die Strategie-Karte verschwindet.', { ok: 'Löschen', danger: true })) { S.deleteStrategy(el.dataset.id); App.rerender(); } },
+  });
+})(typeof self !== 'undefined' ? self : this);

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trading Journal</title>
+<meta name="description" content="Trading-Journal im Browser: Trades loggen, CSV importieren, Kennzahlen, Score, Fehlerkosten, Tilt-Warnungen, Edge-Check und Monte Carlo.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C10.5 3 6 7.4 6 12.9c0 6.5 7.6 13.4 9.3 14.9a1 1 0 0 0 1.4 0C18.4 26.3 26 19.4 26 12.9 26 7.4 21.5 3 16 3z' fill='none' stroke='%2334f58a' stroke-width='2.4'/%3E%3Cpath d='M11 14.5l3-3 2.5 2.5 4.5-5' fill='none' stroke='%2334f58a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Navigation"></aside>
+  <div class="scrim" id="scrim" data-action="scrim" hidden></div>
+  <main class="main" id="main"></main>
+</div>
+<script src="js/core.js"></script>
+<script src="js/sample.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+<script src="js/screens/dashboard.js"></script>
+<script src="js/screens/trades.js"></script>
+<script src="js/screens/day.js"></script>
+<script src="js/screens/stats.js"></script>
+<script src="js/screens/journal.js"></script>
+<script src="js/screens/library.js"></script>
+<script src="js/screens/strategy.js"></script>
+<script src="js/screens/progress.js"></script>
+<script src="js/screens/misc.js"></script>
+<script>
+(function () {
+  Store.load();
+  if (!Store.settings.onboarded) { if (!Store.trades().length) Store.installSample(); Store.settings.onboarded = true; Store.saveNow(); }
+  document.documentElement.dataset.theme = Store.settings.theme || 'dark';
+  App.bind();
+  App.render();
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return; const tag = (e.target.tagName || '').toLowerCase(); if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable || document.querySelector('.modal-bg')) return;
+    const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'journal', '6': 'library', '7': 'strategy', '8': 'progress' };
+    if (map[e.key]) { location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.openTradeEditor(null); }
+  });
+})();
+</script>
+</body>
+</html>

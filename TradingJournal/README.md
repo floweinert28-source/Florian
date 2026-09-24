@@ -6,23 +6,25 @@ Swift Charts, On-Device-Spracherkennung. Deutschsprachig, lokalisierbar aufgebau
 ## In Xcode starten
 
 1. **Xcode 16 oder neuer** öffnen und `TradingJournal/TradingJournal.xcodeproj` laden.
-2. Im Projekt-Navigator das Projekt anklicken → Target **TradingJournal** → **Signing & Capabilities**:
-   - dein **Team** wählen,
-   - die **Bundle-ID** `com.florian.TradingJournal` auf eine eigene ID ändern (z. B. `de.deinname.TradingJournal`),
-   - unter **iCloud** den Container auf `iCloud.<deine Bundle-ID>` umstellen (in beiden Entitlements-Dateien
-     `TradingJournal.entitlements` und `TradingJournalMac.entitlements` steht derselbe Container).
-3. Oben das Ziel wählen: **My Mac**, ein iPhone- oder ein iPad-Simulator.
-4. **⌘R**. Beim ersten Start werden automatisch Beispieldaten angelegt (rund 140 Trades über vier Monate).
+2. Projekt im Navigator anklicken → Target **TradingJournal** → **Signing & Capabilities**: bei „Team“ deine
+   Apple-ID hinzufügen und auswählen, die **Bundle-ID** auf eine eigene ändern (z. B. `de.deinname.tradingjournal`).
+3. Ziel wählen: **My Mac**, ein iPhone- oder ein iPad-Simulator. Dann **⌘R**.
+4. Beim ersten Start werden automatisch Beispieldaten angelegt (rund 160 Trades über vier Monate).
    Sie lassen sich unter *Einstellungen → Daten → Beispieldaten* jederzeit entfernen.
 
-**Ohne bezahltes Developer-Programm** (nur kostenlose Apple-ID): iCloud/CloudKit und Push sind dann nicht
-verfügbar. Entferne in beiden Entitlements-Dateien die Schlüssel `aps-environment`,
-`com.apple.developer.icloud-container-identifiers` und `com.apple.developer.icloud-services`.
-Die App erkennt das und arbeitet rein lokal.
+Das funktioniert mit einer kostenlosen Apple-ID. Die Daten bleiben dann lokal auf dem Gerät.
 
-**Tests:** ⌘U führt die Kernlogik-Tests (`JournalCoreTests`, 43 Tests) und die App-Tests
-(`TradingJournalTests`) aus. Das Paket lässt sich auch ohne Xcode testen:
-`cd Packages/JournalCore && swift test`.
+**iCloud-Sync einschalten** (braucht ein bezahltes Apple-Developer-Konto): Unter *Signing & Capabilities*
+auf **+ Capability** klicken, **iCloud** hinzufügen, **CloudKit** anhaken und einen Container
+`iCloud.<deine Bundle-ID>` anlegen. Danach noch **Push Notifications** und unter **Background Modes**
+„Remote notifications“ hinzufügen. Mehr ist nicht nötig: Die App erkennt den Container automatisch und
+synchronisiert ab dann zwischen allen Geräten mit derselben Apple-ID.
+
+**Tests:** ⌘U führt die Kernlogik-Tests (`JournalCoreTests`) und die App-Tests (`TradingJournalTests`) aus.
+Das Paket lässt sich auch ohne Xcode testen: `cd Packages/JournalCore && swift test`.
+
+**Fertiger Mac-Build ohne Xcode:** Der GitHub-Workflow `.github/workflows/build-mac.yml` baut die App bei jedem
+Push und legt sie unter *Releases → vorschau* als ZIP ab (ad-hoc signiert, ohne iCloud).
 
 ## Architektur
 

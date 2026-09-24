@@ -221,7 +221,7 @@ struct TradesListView: View {
                 }
             }
         }
-        .listStyle(.insetGrouped)
+        .modifier(PlatformListStyle())
         .scrollContentBackground(.hidden)
     }
 
@@ -284,5 +284,16 @@ struct TradesListView: View {
             modelContext.delete(trade)
             try? modelContext.save()
         }
+    }
+}
+
+/// Gruppierte Liste auf iOS, eingerückte Liste auf dem Mac.
+struct PlatformListStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(iOS)
+        content.listStyle(.insetGrouped)
+        #else
+        content.listStyle(.inset)
+        #endif
     }
 }

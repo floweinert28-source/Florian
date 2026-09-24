@@ -86,32 +86,54 @@ struct MonteCarloView: View {
 
     @ViewBuilder
     private func resultCards(_ result: MonteCarloResult) -> some View {
-        let code = settings.currencyCode
-
         AdaptiveColumns {
-            TitledCard("Risk of Ruin", subtitle: "Anteil der Verläufe mit mehr als \(Format.percent(ruinPercent / 100)) Drawdown", systemImage: "exclamationmark.shield") {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(Format.percent(result.riskOfRuin, digits: 1))
-                        .font(.metricHero)
-                        .numeric()
-                        .foregroundStyle(ruinTint(result.riskOfRuin))
-                        .contentTransition(.numericText())
-                    Text(ruinText(result.riskOfRuin))
-                        .font(.footnote).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-                }
-            }
-            TitledCard("Drawdown-Bereich", subtitle: "Maximaler Rückgang je Durchlauf", systemImage: "arrow.down.to.line") {
-                VStack(alignment: .leading, spacing: Theme.Spacing.s) {
-                    LabeledValueRow(label: "Typisch (Median)", value: Format.currency(-result.maxDrawdown.p50, code: code, signed: true), tint: .loss, secondaryValue: Format.percent(result.maxDrawdownFraction.p50, digits: 1))
-                    LabeledValueRow(label: "Schlechte Phase (95 %)", value: Format.currency(-result.maxDrawdown.p95, code: code, signed: true), tint: .loss, secondaryValue: Format.percent(result.maxDrawdownFraction.p95, digits: 1))
-                    LabeledValueRow(label: "Schlimmster Fall", value: Format.currency(-result.worstDrawdownFraction * result.startingBalance, code: code, signed: true), tint: .loss, secondaryValue: Format.percent(result.worstDrawdownFraction, digits: 1))
-                    Divider()
-                    LabeledValueRow(label: "Gewinnwahrscheinlichkeit", value: Format.percent(result.probabilityOfProfit, digits: 0))
-                }
+            ruinCard(result)
+            drawdownCard(result)
+        }
+        curvesCard(result)
+        AdaptiveColumns {
+            finalEquityCard(result)
+            histogramCard(result)
+        }
+    }
+
+    private func valueRow(_ label: LocalizedStringKey, _ value: String, tint: Color? = nil, secondary: String? = nil) -> some View {
+        LabeledValueRow(label: label, value: value, tint: tint, secondaryValue: secondary)
+    }
+
+    private func ruinCard(_ result: MonteCarloResult) -> some View {
+        TitledCard("Risk of Ruin", subtitle: "Anteil der Verläufe mit mehr als \(Format.percent(ruinPercent / 100)) Drawdown", systemImage: "exclamationmark.shield") {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(Format.percent(result.riskOfRuin, digits: 1))
+                    .font(.metricHero)
+                    .numeric()
+                    .foregroundStyle(ruinTint(result.riskOfRuin))
+                    .contentTransition(.numericText())
+                Text(ruinText(result.riskOfRuin))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
 
-        TitledCard("Mögliche Kapitalverläufe", subtitle: "\(result.sampleCurves.count) zufällige Durchläufe über \(result.tradesPerRun) Trades", systemImage: "chart.line.uptrend.xyaxis") {
+    private func drawdownCard(_ result: MonteCarloResult) -> some View {
+        let code = settings.currencyCode
+        return TitledCard("Drawdown-Bereich", subtitle: "Maximaler Rückgang je Durchlauf", systemImage: "arrow.down.to.line") {
+            VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+                valueRow("Typisch (Median)", Format.currency(-result.maxDrawdown.p50, code: code, signed: true), tint: .loss, secondary: Format.percent(result.maxDrawdownFraction.p50, digits: 1))
+                valueRow("Schlechte Phase (95 %)", Format.currency(-result.maxDrawdown.p95, code: code, signed: true), tint: .loss, secondary: Format.percent(result.maxDrawdownFraction.p95, digits: 1))
+                valueRow("Schlimmster Fall", Format.currency(-result.worstDrawdownFraction * result.startingBalance, code: code, signed: true), tint: .loss, secondary: Format.percent(result.worstDrawdownFraction, digits: 1))
+                Divider()
+                valueRow("Gewinnwahrscheinlichkeit", Format.percent(result.probabilityOfProfit, digits: 0))
+            }
+        }
+    }
+
+    private func curvesCard(_ result: MonteCarloResult) -> some View {
+        let code = settings.currencyCode
+        let ruinLevel = result.startingBalance * (1 - ruinPercent / 100)
+        return TitledCard("Mögliche Kapitalverläufe", subtitle: "\(result.sampleCurves.count) zufällige Durchläufe über \(result.tradesPerRun) Trades", systemImage: "chart.line.uptrend.xyaxis") {
             Chart {
                 ForEach(Array(result.sampleCurves.enumerated()), id: \.offset) { index, curve in
                     ForEach(Array(curve.enumerated()), id: \.offset) { step, equity in
@@ -123,7 +145,7 @@ struct MonteCarloView: View {
                 RuleMark(y: .value("Start", result.startingBalance))
                     .foregroundStyle(.secondary)
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
-                RuleMark(y: .value("Ruin", result.startingBalance * (1 - ruinPercent / 100)))
+                RuleMark(y: .value("Ruin", ruinLevel))
                     .foregroundStyle(Color.loss.opacity(0.7))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
                     .annotation(position: .bottom, alignment: .leading) {
@@ -132,7 +154,7 @@ struct MonteCarloView: View {
             }
             .chartYAxis {
                 AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) {
-                    AxisGridLine().foregroundStyle(.quaternary)
+                    AxisGridLine().foregroundStyle(Color.cardBorder)
                     AxisValueLabel(format: .currency(code: code).precision(.fractionLength(0)))
                 }
             }
@@ -142,32 +164,38 @@ struct MonteCarloView: View {
             .chartLegend(.hidden)
             .frame(height: 240)
         }
+    }
 
-        AdaptiveColumns {
-            TitledCard("Endkapital", subtitle: "nach \(result.tradesPerRun) Trades", systemImage: "banknote") {
-                VStack(alignment: .leading, spacing: Theme.Spacing.s) {
-                    LabeledValueRow(label: "Pessimistisch (5 %)", value: Format.currency(result.finalEquity.p5, code: code), tint: Color.pnl(result.finalEquity.p5 - result.startingBalance))
-                    LabeledValueRow(label: "Median", value: Format.currency(result.finalEquity.p50, code: code), tint: Color.pnl(result.finalEquity.p50 - result.startingBalance))
-                    LabeledValueRow(label: "Optimistisch (95 %)", value: Format.currency(result.finalEquity.p95, code: code), tint: Color.pnl(result.finalEquity.p95 - result.startingBalance))
+    private func finalEquityCard(_ result: MonteCarloResult) -> some View {
+        let code = settings.currencyCode
+        let start = result.startingBalance
+        return TitledCard("Endkapital", subtitle: "nach \(result.tradesPerRun) Trades", systemImage: "banknote") {
+            VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+                valueRow("Pessimistisch (5 %)", Format.currency(result.finalEquity.p5, code: code), tint: Color.pnl(result.finalEquity.p5 - start))
+                valueRow("Median", Format.currency(result.finalEquity.p50, code: code), tint: Color.pnl(result.finalEquity.p50 - start))
+                valueRow("Optimistisch (95 %)", Format.currency(result.finalEquity.p95, code: code), tint: Color.pnl(result.finalEquity.p95 - start))
+            }
+        }
+    }
+
+    private func histogramCard(_ result: MonteCarloResult) -> some View {
+        let threshold = ruinPercent / 100
+        return TitledCard("Verteilung der Drawdowns", systemImage: "chart.bar") {
+            Chart(result.drawdownHistogram) { bin in
+                BarMark(
+                    x: .value("Drawdown", (bin.lowerBound + bin.upperBound) / 2),
+                    y: .value("Durchläufe", bin.count),
+                    width: .ratio(0.9)
+                )
+                .foregroundStyle(bin.lowerBound >= threshold ? Color.loss : Color.accentColor.opacity(0.7))
+            }
+            .chartXAxis {
+                AxisMarks(values: .automatic(desiredCount: 4)) {
+                    AxisValueLabel(format: .percent.precision(.fractionLength(0)))
                 }
             }
-            TitledCard("Verteilung der Drawdowns", systemImage: "chart.bar") {
-                Chart(result.drawdownHistogram) { bin in
-                    BarMark(
-                        x: .value("Drawdown", (bin.lowerBound + bin.upperBound) / 2),
-                        y: .value("Durchläufe", bin.count),
-                        width: .ratio(0.9)
-                    )
-                    .foregroundStyle(bin.lowerBound >= ruinPercent / 100 ? Color.loss : Color.accentColor.opacity(0.7))
-                }
-                .chartXAxis {
-                    AxisMarks(values: .automatic(desiredCount: 4)) {
-                        AxisValueLabel(format: .percent.precision(.fractionLength(0)))
-                    }
-                }
-                .chartYAxis(.hidden)
-                .frame(height: 120)
-            }
+            .chartYAxis(.hidden)
+            .frame(height: 120)
         }
     }
 

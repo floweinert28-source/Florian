@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="vendor/quill/quill.snow.css">
 <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
@@ -22,12 +23,14 @@
 <script src="js/sample.js"></script>
 <script src="js/store.js"></script>
 <script src="js/ui.js"></script>
+<script src="vendor/quill/quill.js"></script>
+<script src="js/editor.js"></script>
 <script src="js/app.js"></script>
 <script src="js/screens/dashboard.js"></script>
 <script src="js/screens/trades.js"></script>
 <script src="js/screens/day.js"></script>
 <script src="js/screens/stats.js"></script>
-<script src="js/screens/journal.js"></script>
+<script src="js/screens/notebook.js"></script>
 <script src="js/screens/progress.js"></script>
 <script src="js/screens/misc.js"></script>
 <script>
@@ -39,7 +42,7 @@
   App.render();
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return; const tag = (e.target.tagName || '').toLowerCase(); if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable || document.querySelector('.modal-bg')) return;
-    const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'journal', '6': 'progress' };
+    const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'notebook', '6': 'progress' };
     if (map[e.key]) { location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.openTradeEditor(null); }
   });
 })();

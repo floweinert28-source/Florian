@@ -13,7 +13,7 @@
         { label: 'Session gestartet', done: !!sess || S.data.sessions.some(s => s.startedAt && s.startedAt.startsWith(todayKey)), action: sess ? null : 'start-session' },
         { label: 'Trades geloggt', done: todayTrades.length > 0, action: 'new-trade' },
         { label: 'Regeln abgehakt', done: !!(today.rulesFollowed && today.rulesFollowed.length), href: '#/day/' + todayKey },
-        { label: 'Tagesjournal geschrieben', done: !!(today.notes && today.notes.trim()) || S.data.notes.some(n => n.dateKey === todayKey && n.body), href: '#/day/' + todayKey },
+        { label: 'Tagesnotiz geschrieben', done: !!S.notesByDay()[todayKey], href: '#/notebook' },
       ];
       const doneN = items.filter(i => i.done).length;
       /* Regeltreue: Anteil abgehakter Regeln über Handelstage im Zeitraum */

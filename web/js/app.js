@@ -5,7 +5,7 @@
 
   const NAV = [
     ['dashboard', 'Dashboard', 'dashboard'], ['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['stats', 'Statistiken', 'stats'],
-    ['journal', 'Journal', 'journal'], ['progress', 'Fortschritt', 'progress'],
+    ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'],
   ];
   const NAV2 = [['settings', 'Einstellungen', 'settings']];
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
@@ -35,11 +35,12 @@
     account() { return S.accountSize(); },
     /* ---------- Navigation ---------- */
     navigate(hash) { if (location.hash === hash) this.render(); else location.hash = hash; },
-    parseRoute() { const h = location.hash.replace(/^#\/?/, ''); const parts = h.split('/').filter(Boolean); const route = parts[0] && this.screens[parts[0]] ? parts[0] : 'dashboard'; this.state.route = route; this.state.params = parts.slice(1).map(decodeURIComponent); },
+    parseRoute() { const h = location.hash.replace(/^#\/?/, ''); if (h.startsWith('share_')) { this.state.route = 'share'; this.state.params = [h.slice(6)]; return; } const parts = h.split('/').filter(Boolean); if (parts[0] === 'journal') parts[0] = 'notebook'; const route = parts[0] && this.screens[parts[0]] ? parts[0] : 'dashboard'; this.state.route = route; this.state.params = parts.slice(1).map(decodeURIComponent); },
     /* ---------- Rendern ---------- */
     render() {
+      if (this._screen && this._screen.unmount) { try { this._screen.unmount(); } catch (e) { console.warn(e); } }
       this.parseRoute(); fmt.setCurrency(S.currency()); root.Theme.apply(S.settings);
-      const screen = this.screens[this.state.route]; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
+      const screen = this.screens[this.state.route]; this._screen = screen; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
       document.title = `${title} · Trading Journal`;
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.render(ctx)}</div>`;
@@ -73,6 +74,7 @@
       document.addEventListener('click', e => {
         const pop = e.target.closest('[data-pop]'); if (pop) { const id = 'pop-' + pop.dataset.pop; document.querySelectorAll('.popover.open').forEach(p => { if (p.id !== id) p.classList.remove('open'); }); document.getElementById(id)?.classList.toggle('open'); return; }
         if (!e.target.closest('.popover')) document.querySelectorAll('.popover.open').forEach(p => p.classList.remove('open'));
+        if (e.target.closest('[data-stop]')) return;
         const el = e.target.closest('[data-action]'); if (!el || el.tagName === 'FORM') return;
         const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, el, e); }
         if (e.target.closest('[data-close]')) U.closeModal();
@@ -203,14 +205,14 @@
       <div class="row" style="gap:18px"><div><div class="caption">Heute</div><div class="score-big">${U.pnl(s.total)}</div></div><div><div class="caption">Trades</div><div class="score-big">${s.n}</div></div><div><div class="caption">Win-Rate</div><div class="score-big">${fmt.pct(s.winRate)}</div></div></div>
       ${rules.length ? `<div class="fieldset"><div class="legend">Welche Regeln hast du heute eingehalten?</div><div class="checklist" data-chips="rules">${rules.map(r => `<label class="it toggle"><input type="checkbox" name="rule" value="${r.id}" ${followed.includes(r.id) ? 'checked' : ''} class="hidden"><span class="box">${I.check}</span><span>${esc(r.text)}</span></label>`).join('')}</div></div>` : ''}
       <div class="fieldset"><div class="legend">Marktphase heute</div><div class="form-grid"><div class="field"><span class="lbl">Trend</span>${U.seg([['trending', 'Trend'], ['ranging', 'Seitwärts']], reg.trend || '', 'seg-set-name')}<input type="hidden" name="trend" value="${reg.trend || ''}"></div><div class="field"><span class="lbl">Volatilität</span>${U.seg([['low', 'niedrig'], ['normal', 'normal'], ['high', 'hoch']], reg.vol || '', 'seg-set-name')}<input type="hidden" name="vol" value="${reg.vol || ''}"></div></div></div>
-      <div class="field"><label for="se-notes">Reflexion</label><textarea class="input" id="se-notes" name="notes" placeholder="Was lief gut, was nicht, was nimmst du mit?">${esc(d.notes || '')}</textarea></div>
+      <div class="field"><label for="se-notes">Reflexion <span class="faint">(wird in die Tagesnotiz im Notebook geschrieben)</span></label><textarea class="input" id="se-notes" name="notes" placeholder="Was lief gut, was nicht, was nimmst du mit?"></textarea></div>
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${I.check} Session beenden</button></div></form>`);
   };
   Object.assign(App.actions, {
     'seg-set'(el) { const name = el.dataset.name; const wrap = el.closest('form'); wrap.querySelector(`input[name="${name}"]`).value = el.dataset.value; el.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === el)); },
     'seg-set-name'(el) { const field = el.closest('.field'); const inp = field.querySelector('input[type=hidden]'); inp.value = inp.value === el.dataset.value ? '' : el.dataset.value; field.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.value === inp.value)); },
     'session-start'(form) { const ci = App.readCheckIn(form); const key = C.dayKey(new Date()); S.setDay(key, { checkIn: ci }); S.startSession({ goal: ci.goal }); U.closeModal(); U.toast('Session läuft. Viel Erfolg.', 'ok'); App.rerender(); },
-    'session-end'(form) { const fd = new FormData(form); const key = C.dayKey(new Date()); const followed = [...form.querySelectorAll('input[name=rule]:checked')].map(i => i.value); const trend = fd.get('trend') || null, vol = fd.get('vol') || null; const patch = { rulesFollowed: followed, notes: String(fd.get('notes') || '') }; if (trend || vol) patch.regime = { trend: trend || undefined, vol: vol || undefined }; S.setDay(key, patch); S.endSession({ rulesFollowed: followed }); U.closeModal(); U.toast('Session beendet', 'ok'); App.rerender(); },
+    'session-end'(form) { const fd = new FormData(form); const key = C.dayKey(new Date()); const followed = [...form.querySelectorAll('input[name=rule]:checked')].map(i => i.value); const trend = fd.get('trend') || null, vol = fd.get('vol') || null; const patch = { rulesFollowed: followed }; if (trend || vol) patch.regime = { trend: trend || undefined, vol: vol || undefined }; S.setDay(key, patch); const refl = String(fd.get('notes') || '').trim(); if (refl) { const n = S.dayNote(key, true); S.updateNote(n.id, { content: { ops: [...(n.content.ops || []).filter((o, i, a) => !(i === a.length - 1 && o.insert === '\n' && a.length === 1)), { insert: 'Session-Reflexion' }, { attributes: { header: 3 }, insert: '\n' }, { insert: refl + '\n' }] } }); } S.endSession({ rulesFollowed: followed }); U.closeModal(); U.toast('Session beendet', 'ok'); App.rerender(); },
     'save-checkin'(form) { const ci = App.readCheckIn(form); S.setDay(form.dataset.day, { checkIn: ci }); U.closeModal(); U.toast('Check-in gespeichert', 'ok'); App.rerender(); },
     'delete-checkin'(el) { const d = S.day(el.dataset.day); if (d) { delete d.checkIn; S.save(); } U.closeModal(); App.rerender(); },
   });

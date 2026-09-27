@@ -45,8 +45,15 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit.
-- **Journal** mit Ordnern, **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue,
-  Aktivitäts-Heatmap und Tilt-Profil.
+- **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz). Standardordner Trade Notes,
+  Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Rich-Text-Editor
+  (Quill 2, Inhalte als JSON) mit Toolbar: Vollbild, Rückgängig, Spracheingabe, Listen, Schriftart,
+  Schriftgröße, Fett/Kursiv/Unterstrichen/Code/Link, Farben, Einfügen (Tabelle, Bild, Trennlinie,
+  Zitat, Codeblock, Abschnitt, YouTube, Tweet), Absatzformate, Ausrichtung, Import/Export/PDF.
+  „/“ öffnet Befehle, „:“ die Emoji-Auswahl, Bilder per Einfügen oder Drag & Drop mit Unterschrift.
+  Tags, Vorlagen, Suche über alle Notizen, Filter, Papierkorb (30 Tage), Teilen per Link, Autosave.
+  Notizen zu Handelstagen und Trades zeigen Netto-P&L und eine Statistik.
+- **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Einstellungen**: Konten, Regeln, Tags, Limits, Export/Import als JSON (optional mit Anhängen), Beispieldaten.
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
@@ -65,6 +72,8 @@ web/
   js/sample.js          Beispieldaten (deterministisch)
   js/store.js           Speicher (localStorage, IndexedDB), Export/Import
   js/ui.js              Formatierung, Symbole, Bausteine, SVG-Diagramme, Dialoge
+  js/editor.js          Notiz-Editor (Quill 2): Toolbar, Blots, Slash-Befehle, Emojis, Bilder
+  vendor/quill/         Quill 2.0.3 (BSD-3-Clause)
   js/app.js             Router, Seitenleiste, Kopfzeile, Trade-Editor, Session, CSV-Import
   js/screens/*.js       Die einzelnen Seiten
   tests/core.test.mjs   Tests für die Analytik

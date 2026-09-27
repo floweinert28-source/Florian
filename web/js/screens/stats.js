@@ -32,10 +32,10 @@
   }
   function groupTable(groups, keyLabel) { return `<div class="tbl-wrap"><table class="tbl compact"><thead><tr><th>${keyLabel}</th><th class="r">Trades</th><th class="r">Win-Rate</th><th class="r">Ø pro Trade</th><th class="r">Ø R</th><th class="r">Profit-Faktor</th><th class="r">Netto-P&L</th></tr></thead><tbody>${groups.map(g => `<tr><td><b>${esc(g.label || g.key)}</b></td><td class="r">${g.s.n}</td><td class="r">${fmt.pct(g.s.winRate)}</td><td class="r">${U.pnl(g.s.expectancy)}</td><td class="r">${U.rText(g.s.avgR)}</td><td class="r">${fmt.factor(g.s.pf)}</td><td class="r">${U.pnl(g.s.total)}</td></tr>`).join('')}</tbody></table></div>`; }
   function tabSetups(list, closed) {
-    const setups = C.groupBy(list, t => t.setup || 'Ohne Setup'); const strategies = C.groupBy(list, t => t.strategy || 'Ohne Strategie'); const symbols = C.groupBy(list, t => t.symbol); const dirs = C.groupBy(list, t => t.direction > 0 ? 'Long' : 'Short');
+    const setups = C.groupBy(list, t => t.setup || 'Ohne Setup'); const symbols = C.groupBy(list, t => t.symbol); const dirs = C.groupBy(list, t => t.direction > 0 ? 'Long' : 'Short');
     if (!closed.length) return U.empty('strategy', 'Keine Trades im Zeitraum', '');
     U.chartData['st-setups'] = { groups: setups, metric: 'expectancy' }; U.chartData['st-sym'] = { groups: symbols, metric: 'total' };
-    return `<div class="grid two">${U.card('Erwartungswert je Setup', `<div class="chart h240" data-chart="hbars" data-id="st-setups"></div>`, { info: 'Ø Netto-P&L pro Trade je Setup.' })}${U.card('Netto-P&L je Symbol', `<div class="chart h240" data-chart="vbars" data-id="st-sym"></div>`)}</div>${U.card('Setups', groupTable(setups, 'Setup'))}<div class="grid two">${U.card('Strategien', groupTable(strategies, 'Strategie'))}${U.card('Richtung', groupTable(dirs, 'Richtung'))}</div>`;
+    return `<div class="grid two">${U.card('Erwartungswert je Setup', `<div class="chart h240" data-chart="hbars" data-id="st-setups"></div>`, { info: 'Ø Netto-P&L pro Trade je Setup.' })}${U.card('Netto-P&L je Symbol', `<div class="chart h240" data-chart="vbars" data-id="st-sym"></div>`)}</div>${U.card('Setups', groupTable(setups, 'Setup'))}${U.card('Richtung', groupTable(dirs, 'Richtung'))}`;
   }
   function tabTime(list, closed) {
     if (!closed.length) return U.empty('clock', 'Keine Trades im Zeitraum', '');

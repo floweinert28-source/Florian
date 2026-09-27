@@ -5,13 +5,13 @@
 
   const NAV = [
     ['dashboard', 'Dashboard', 'dashboard'], ['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['stats', 'Statistiken', 'stats'],
-    ['journal', 'Journal', 'journal'], ['library', 'Bibliothek', 'library'], ['strategy', 'Strategien', 'strategy'], ['progress', 'Fortschritt', 'progress'],
+    ['journal', 'Journal', 'journal'], ['progress', 'Fortschritt', 'progress'],
   ];
-  const NAV2 = [['coach', 'Coach', 'coach'], ['zen', 'Zen-Modus', 'zen'], ['settings', 'Einstellungen', 'settings']];
+  const NAV2 = [['settings', 'Einstellungen', 'settings']];
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
   const App = {
-    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, library: { filters: {} }, zenTimer: null },
+    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null } },
     /* ---------- Daten ---------- */
     allTrades() { const acc = S.settings.accountId; return C.deriveAll(S.trades().filter(t => acc === 'all' || !acc || t.accountId === acc)); },
     range() {
@@ -45,7 +45,6 @@
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.render(ctx)}</div>`;
       this.renderSidebar();
       U.drawCharts(main); this.loadBlobImages(main); if (screen.mount) screen.mount(main, ctx);
-      if (this.state.route !== 'zen') this.stopZenTimer();
       window.scrollTo({ top: 0 });
     },
     rerender(keepScroll = true) { const y = window.scrollY; this.render(); if (keepScroll) window.scrollTo({ top: y }); },
@@ -68,7 +67,6 @@
         <a class="avatar" href="#/settings" title="Einstellungen">${esc(initials)}</a></div></header>`;
     },
     async loadBlobImages(scope) { const imgs = scope.querySelectorAll('img[data-blob]'); for (const img of imgs) { const u = await root.Blobs.url(img.dataset.blob).catch(() => null); if (u) img.src = u; else img.closest('.shot, .thumb, .lib-card')?.classList.add('missing'); } const auds = scope.querySelectorAll('audio[data-blob]'); for (const a of auds) { const u = await root.Blobs.url(a.dataset.blob).catch(() => null); if (u) a.src = u; } },
-    stopZenTimer() { if (this.state.zenTimer) { clearInterval(this.state.zenTimer); this.state.zenTimer = null; } },
 
     /* ---------- Aktionen ---------- */
     bind() {
@@ -115,7 +113,7 @@
   /* ---------- Trade-Editor ---------- */
   App.openTradeEditor = function (trade, preset = {}) {
     const t = trade || Object.assign({ symbol: '', direction: 1, openedAt: new Date().toISOString(), closedAt: null, entryPrice: '', exitPrice: '', quantity: 1, multiplier: 1, fees: 0, plannedEntry: '', plannedStop: '', plannedTarget: '', plannedReason: '', mae: '', mfe: '', setup: '', strategy: '', mistakes: [], emotions: [], rulesBroken: [], rating: null, notes: '', accountId: S.defaultAccountId() }, preset);
-    const tags = S.data.tags; const rules = S.data.rules.filter(r => r.active !== false); const strategies = S.data.strategies;
+    const tags = S.data.tags; const rules = S.data.rules.filter(r => r.active !== false);
     const chips = (kind, list, sel, cls) => `<div class="chips" data-chips="${kind}">${list.map(x => `<button type="button" class="chip sel ${cls}" data-action="toggle-chip" data-value="${esc(x)}" aria-pressed="${sel.includes(x)}">${esc(x)}</button>`).join('')}<button type="button" class="chip sel" data-action="add-chip" data-kind="${kind}">${I.plus} Neu</button></div>`;
     const html = `<form id="trade-form" data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
       <div class="stack" style="gap:16px">
@@ -141,7 +139,6 @@
       </div></div>
       <div class="form-grid">
         <div class="field"><label for="f-setup">Setup</label><input class="input" id="f-setup" name="setup" list="setup-list" value="${esc(t.setup || '')}" placeholder="Pullback, Breakout …"><datalist id="setup-list">${tags.setups.map(s => `<option value="${esc(s)}">`).join('')}</datalist></div>
-        <div class="field"><label for="f-strategy">Strategie</label><select class="select" id="f-strategy" name="strategy"><option value="">Keine</option>${strategies.map(s => `<option value="${esc(s.name)}" ${s.name === t.strategy ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></div>
         <div class="field"><span class="lbl">Bewertung</span><div class="rating" id="f-rating">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="set-rating" data-value="${n}" aria-pressed="${t.rating >= n}">★</button>`).join('')}</div><input type="hidden" name="rating" value="${t.rating || ''}"></div>
       </div>
       <div class="field"><span class="lbl">Fehler-Tags</span>${chips('mistakes', tags.mistakes, t.mistakes || [], 'mistake')}</div>
@@ -160,7 +157,7 @@
       symbol: String(fd.get('symbol') || '').trim().toUpperCase(), direction: Number(fd.get('direction')) === -1 ? -1 : 1, accountId: fd.get('accountId'), openedAt: isNaN(opened) ? new Date().toISOString() : opened.toISOString(), closedAt: closed && !isNaN(closed) ? closed.toISOString() : null,
       entryPrice: num('entryPrice'), exitPrice: num('exitPrice'), quantity: Math.abs(num('quantity') || 0), multiplier: num('multiplier') || 1, fees: Math.abs(num('fees') || 0),
       plannedEntry: num('plannedEntry'), plannedStop: num('plannedStop'), plannedTarget: num('plannedTarget'), plannedReason: String(fd.get('plannedReason') || ''), mae: num('mae'), mfe: num('mfe'),
-      setup: String(fd.get('setup') || '').trim(), strategy: String(fd.get('strategy') || ''), rating: num('rating'), mistakes: chips('mistakes'), emotions: chips('emotions'), rulesBroken: chips('rulesBroken'), notes: String(fd.get('notes') || ''),
+      setup: String(fd.get('setup') || '').trim(), rating: num('rating'), mistakes: chips('mistakes'), emotions: chips('emotions'), rulesBroken: chips('rulesBroken'), notes: String(fd.get('notes') || ''),
     };
   };
   App.updateTradePreview = function (el) { const f = el.querySelector('#trade-form'); if (!f) return; const d = C.derive(Object.assign({ mistakes: [], emotions: [], rulesBroken: [] }, App.readTradeForm(f))); const p = el.querySelector('#trade-preview'); if (!d.closed) { p.innerHTML = `<span class="muted small">Offener Trade · Risiko ${d.risk ? fmt.cur(d.risk) : '—'}${d.plannedR ? ` · geplant ${fmt.r(d.plannedR, false)}` : ''}</span>`; return; } p.innerHTML = `<span class="small muted">Netto-P&L</span> ${U.pnl(d.pnl)} ${d.r != null ? `<span class="small muted">·</span> ${U.rText(d.r)}` : ''} <span class="small muted">· Disziplin ${C.discipline(d).score}</span>`; };

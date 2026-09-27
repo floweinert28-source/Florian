@@ -2,7 +2,7 @@
 
 Ein Trading-Journal im Browser, im Aufbau und Look von TradeZella und TradePath: schwarzer Grund,
 Neongrün als Akzent, Seitenleiste mit Dashboard, TradeLog, Tagesansicht, Statistiken, Journal,
-Bibliothek, Strategien, Fortschritt, Coach, Zen-Modus und Einstellungen.
+Fortschritt und Einstellungen.
 
 Alle Daten bleiben im Browser (localStorage für Daten, IndexedDB für Bilder und Audio).
 Es gibt keinen Server und keine Anmeldung.
@@ -38,16 +38,15 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
 - **Dashboard**: Netto-P&L, Profit-Faktor, Trade- und Tages-Win-Rate mit Halbkreis-Anzeigen,
   Ø Gewinn/Verlust, täglicher und kumulierter P&L, Journal-Score als Radar (Win-Rate, Profit-Faktor,
-  Gewinn/Verlust, Konsistenz, Regeltreue, Drawdown), Disziplin und Fehlerkosten, Strategie-Performance,
+  Gewinn/Verlust, Konsistenz, Regeltreue, Drawdown), Disziplin und Fehlerkosten,
   Monatskalender mit Wochensummen, letzte Trades, Tilt-Warnungen. Widgets per „Layout“ ein- und ausblendbar.
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
-- **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole/Strategien, Wochentag/Uhrzeit/Haltedauer,
+- **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit.
-- **Journal** mit Ordnern, **Bibliothek** mit Filterkacheln, **Strategien** mit Kennzahlen,
-  **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil,
-  **Coach** mit regelbasierten Einsichten, **Zen-Modus** ohne Kontostand.
+- **Journal** mit Ordnern, **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue,
+  Aktivitäts-Heatmap und Tilt-Profil.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Einstellungen**: Konten, Regeln, Tags, Limits, Export/Import als JSON (optional mit Anhängen), Beispieldaten.
 
@@ -74,4 +73,4 @@ Tests:
 node --test web/tests/core.test.mjs
 ```
 
-Tastatur: **N** neuer Trade, **1–8** Bereiche, **Esc** schließt Dialoge.
+Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge.

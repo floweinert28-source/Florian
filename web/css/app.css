@@ -417,25 +417,7 @@ span.info:hover { color: var(--accent); }
 .note-body:focus { outline: none; }
 @media (max-width: 960px) { .journal { grid-template-columns: 1fr; } .journal .col { border-right: 0; border-bottom: 1px solid var(--border); } }
 
-/* ---------- Bibliothek ---------- */
-.lib-filters { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
-.lib-filter { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); cursor: pointer; font-weight: 600; font-size: 13px; text-align: left; color: var(--text); }
-.lib-filter svg { width: 17px; height: 17px; color: var(--accent); }
-.lib-filter:hover { border-color: var(--border-2); }
-.lib-filter[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
-.lib-filter .cnt { margin-left: auto; font-size: 11px; color: var(--muted); font-weight: 500; }
-.lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
-.lib-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); cursor: pointer; transition: border-color .15s, transform .12s; max-width: 100%; }
-.lib-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
-.lib-card .thumb { aspect-ratio: 16 / 9; background: var(--surface-2); display: grid; place-items: center; overflow: hidden; }
-.lib-card .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.lib-card .thumb svg { width: 100%; height: 100%; }
-.lib-card .meta { padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
-.lib-card .meta .t { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-family: var(--font-display); }
-
-/* ---------- Strategien ---------- */
-.strat-card .rules { margin: 8px 0 0; padding-left: 18px; color: var(--text-2); font-size: 13px; }
-.strat-card .rules li { margin: 2px 0; }
+/* Kleine Kennzahl-Kästchen (Tagesansicht) */
 .strat-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
 .strat-stats div { padding: 8px 10px; border-radius: 9px; background: var(--surface-2); }
 .strat-stats .k { font-size: 11px; color: var(--muted); }
@@ -451,12 +433,6 @@ span.info:hover { color: var(--accent); }
 .checklist .it.done .box svg { width: 13px; height: 13px; }
 .checklist .it.done span { color: var(--muted); text-decoration: line-through; }
 .checklist .it.toggle { cursor: pointer; }
-
-/* ---------- Zen ---------- */
-.zen { min-height: calc(100vh - var(--topbar-h) - 80px); display: grid; place-items: center; text-align: center; }
-.zen .clock { font-family: var(--font-display); font-size: clamp(48px, 10vw, 96px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
-.zen .timer { font-family: var(--font-display); font-size: 22px; color: var(--accent); margin-top: 6px; }
-.zen .rules { max-width: 460px; margin: 26px auto 0; text-align: left; }
 
 /* ---------- Modal ---------- */
 .modal-bg { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, .6); backdrop-filter: blur(4px); display: grid; place-items: center; padding: 20px; overflow-y: auto; }
@@ -488,15 +464,6 @@ span.info:hover { color: var(--accent); }
 .day-card .body { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; align-items: center; }
 @media (max-width: 720px) { .day-card .body { grid-template-columns: 1fr; } }
 
-/* ---------- Coach ---------- */
-.insight { display: flex; gap: 14px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
-.insight .ico { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex: 0 0 auto; background: var(--accent-soft); color: var(--accent); }
-.insight .ico svg { width: 18px; height: 18px; }
-.insight.warn .ico { background: var(--warn-soft); color: var(--warn); }
-.insight.loss .ico { background: var(--loss-soft); color: var(--loss); }
-.insight b { display: block; font-size: 14px; margin-bottom: 3px; }
-.insight p { color: var(--text-2); font-size: 13px; }
-
 /* ---------- Responsiv ---------- */
 @media (max-width: 960px) {
   .shell { grid-template-columns: 1fr; }
@@ -523,5 +490,4 @@ span.info:hover { color: var(--accent); }
   .cal .p { font-size: 10.5px; } .cal .c { display: none; }
   .modal { padding: 18px 16px; }
   .map-row { grid-template-columns: 1fr; }
-  .strat-stats { grid-template-columns: repeat(2, 1fr); }
 }

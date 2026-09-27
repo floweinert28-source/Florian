@@ -9,7 +9,7 @@
     mistakes: ['FOMO', 'Regel gebrochen', 'Revenge-Trade', 'Zu früh raus', 'Stop verschoben', 'Übergröße', 'Kein Plan', 'Zu spät rein', 'Overtrading'],
     emotions: ['Ruhig', 'Fokussiert', 'Gelangweilt', 'Unsicher', 'Gierig', 'Ängstlich', 'Euphorisch', 'Frustriert', 'Müde'],
   };
-  const WIDGETS = { kpis: 'Kennzahlen', score: 'Score', pnl: 'Täglicher & kumulierter P&L', winloss: 'Ø Gewinn/Verlust', strategy: 'Strategie-Performance', calendar: 'Kalender', recent: 'Letzte Trades', discipline: 'Disziplin' };
+  const WIDGETS = { kpis: 'Kennzahlen', score: 'Score', pnl: 'Täglicher & kumulierter P&L', winloss: 'Ø Gewinn/Verlust', calendar: 'Kalender', recent: 'Letzte Trades', discipline: 'Disziplin' };
 
   function defaults() {
     return {

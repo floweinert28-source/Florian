@@ -27,8 +27,6 @@
 <script src="js/screens/day.js"></script>
 <script src="js/screens/stats.js"></script>
 <script src="js/screens/journal.js"></script>
-<script src="js/screens/library.js"></script>
-<script src="js/screens/strategy.js"></script>
 <script src="js/screens/progress.js"></script>
 <script src="js/screens/misc.js"></script>
 <script>
@@ -40,7 +38,7 @@
   App.render();
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return; const tag = (e.target.tagName || '').toLowerCase(); if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable || document.querySelector('.modal-bg')) return;
-    const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'journal', '6': 'library', '7': 'strategy', '8': 'progress' };
+    const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'journal', '6': 'progress' };
     if (map[e.key]) { location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.openTradeEditor(null); }
   });
 })();

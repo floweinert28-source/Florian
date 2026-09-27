@@ -1,35 +1,7 @@
-/* Coach, Zen-Modus, Einstellungen */
+/* Einstellungen */
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
-
-  /* ---------- Coach ---------- */
-  App.screens.coach = {
-    title: 'Coach',
-    render(ctx) {
-      const list = ctx.inRange; const ins = C.insights({ trades: list, account: App.account(), regimeByDay: S.regimeByDay(), checkInByDay: S.checkInByDay(), currency: S.currency() === 'EUR' ? '€' : S.currency() });
-      const icon = { good: 'trend', warn: 'warning', loss: 'warning', info: 'sparkle' };
-      const today = App.todayTrades(ctx.all); const tilt = C.tiltCheck(today, { account: App.account(), dailyLossLimitPct: S.settings.dailyLossLimitPct / 100 });
-      return `<div class="row between"><p class="muted" style="max-width:640px">Regelbasierte Einsichten aus deinen Daten im gewählten Zeitraum. Keine externe KI, alles wird lokal im Browser berechnet.</p></div>
-        ${tilt.warnings.length ? `<div class="stack">${tilt.warnings.map(w => U.banner(w.severity === 'critical' ? 'loss' : 'warn', w.title, w.text)).join('')}</div>` : ''}
-        <div class="grid two">${ins.map(i => `<div class="insight ${i.kind}"><div class="ico">${I[icon[i.kind] || 'sparkle']}</div><div class="grow"><b>${esc(i.title)}</b><p>${esc(i.text)}</p>${i.link ? `<a class="btn xs ghost" href="${i.link}" style="margin-top:8px">Details ${I.chevR}</a>` : ''}</div></div>`).join('')}</div>`;
-    },
-  };
-
-  /* ---------- Zen-Modus ---------- */
-  App.screens.zen = {
-    title: 'Zen-Modus',
-    render(ctx) {
-      const rules = S.data.rules.filter(r => r.active !== false); const sess = S.activeSession(); const todayKey = C.dayKey(new Date()); const today = S.day(todayKey) || {}; const n = App.todayTrades(ctx.all).length;
-      return `<div class="zen"><div><div class="caption">${fmt.weekdayLong(new Date())}</div><div class="clock" id="zen-clock">${new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</div><div class="timer" id="zen-timer">${sess ? 'Session ' + fmt.hm((Date.now() - new Date(sess.startedAt)) / 1000) : 'Keine Session aktiv'}</div>
-        <p class="muted" style="margin-top:14px">${n ? `${n} Trade${n === 1 ? '' : 's'} heute.` : 'Noch kein Trade heute.'} Der Kontostand bleibt hier bewusst verborgen.</p>
-        ${today.checkIn && today.checkIn.goal ? `<p style="margin-top:10px"><span class="muted">Fokus:</span> <b>${esc(today.checkIn.goal)}</b></p>` : ''}
-        <div class="row" style="justify-content:center;margin-top:20px">${sess ? `<button type="button" class="btn" data-action="end-session">${I.stop} Session beenden</button>` : `<button type="button" class="btn primary" data-action="start-session">${I.play} Session starten</button>`}<button type="button" class="btn accent" data-action="new-trade">${I.plus} Trade loggen</button></div>
-        ${rules.length ? `<div class="rules card"><div class="caption" style="margin-bottom:8px">Deine Regeln</div>${rules.map(r => `<div class="comp"><span>${esc(r.text)}</span></div>`).join('')}</div>` : ''}
-        </div></div>`;
-    },
-    mount() { App.stopZenTimer(); App.state.zenTimer = setInterval(() => { const c = document.getElementById('zen-clock'); if (c) c.textContent = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }); const s = S.activeSession(); const t = document.getElementById('zen-timer'); if (t && s) t.textContent = 'Session ' + fmt.hm((Date.now() - new Date(s.startedAt)) / 1000); }, 1000); },
-  };
 
   /* ---------- Einstellungen ---------- */
   App.screens.settings = {
@@ -42,7 +14,7 @@
       const tagCard = kind => { const label = { setups: 'Setups', mistakes: 'Fehler-Tags', emotions: 'Emotionen' }[kind]; const cls = { setups: 'setup', mistakes: 'mistake', emotions: 'emotion' }[kind]; return `<div class="field"><span class="lbl">${label}</span><div class="chips">${tags[kind].map(t => `<span class="chip ${cls}">${esc(t)} <button type="button" class="btn ghost icon xs" style="padding:0;width:16px;height:16px;color:inherit" data-action="remove-tag" data-kind="${kind}" data-value="${esc(t)}" aria-label="Entfernen">${I.close}</button></span>`).join('')}</div><form data-action="add-tag" data-kind="${kind}" class="row" style="margin-top:6px"><input class="input" name="name" placeholder="Neu …" style="max-width:220px" aria-label="Neuer Tag"><button type="submit" class="btn xs">${I.plus}</button></form></div>`; };
       const tagsCard = U.card('Tags', `<div class="stack" style="gap:16px">${tagCard('setups')}${tagCard('mistakes')}${tagCard('emotions')}</div>`);
       const dataCard = U.card('Daten', `<div class="stack" style="gap:14px">
-        <div class="row between" style="gap:12px"><div><b>Beispieldaten</b><div class="small muted">Rund 170 Trades über vier Monate mit Check-ins, Notizen, Strategien und Regeln. Jederzeit entfernbar.</div></div>${st.sampleInstalled ? `<button type="button" class="btn sm danger" data-action="remove-sample">Entfernen</button>` : `<button type="button" class="btn sm" data-action="install-sample">Laden</button>`}</div>
+        <div class="row between" style="gap:12px"><div><b>Beispieldaten</b><div class="small muted">Rund 170 Trades über vier Monate mit Check-ins, Notizen und Regeln. Jederzeit entfernbar.</div></div>${st.sampleInstalled ? `<button type="button" class="btn sm danger" data-action="remove-sample">Entfernen</button>` : `<button type="button" class="btn sm" data-action="install-sample">Laden</button>`}</div>
         <div class="divider"></div>
         <div class="row between" style="gap:12px"><div><b>Sicherung exportieren</b><div class="small muted">Alle Trades, Notizen und Einstellungen als JSON. Optional mit Bildern und Audio.</div></div><div class="row"><button type="button" class="btn sm" data-action="export" data-blobs="0">${I.download} Ohne Anhänge</button><button type="button" class="btn sm" data-action="export" data-blobs="1">${I.download} Mit Anhängen</button></div></div>
         <div class="row between" style="gap:12px"><div><b>Sicherung einspielen</b><div class="small muted">JSON-Datei aus einem Export. „Zusammenführen“ behält vorhandene Daten.</div></div><div class="row"><button type="button" class="btn sm" data-action="import-backup" data-mode="merge">${I.upload} Zusammenführen</button><button type="button" class="btn sm" data-action="import-backup" data-mode="replace">${I.upload} Ersetzen</button><input type="file" id="backup-file" accept="application/json,.json" class="hidden"></div></div>
@@ -50,7 +22,7 @@
         <div class="divider"></div>
         <div class="row between" style="gap:12px"><div><b class="neg">Alles löschen</b><div class="small muted">Entfernt alle Daten aus diesem Browser. Vorher exportieren!</div></div><button type="button" class="btn sm danger" data-action="wipe">${I.trash} Alles löschen</button></div>
         <div class="small faint">Speicherort: dieser Browser (localStorage und IndexedDB). ${S.storageOK ? '' : '<span class="neg">Achtung: Speichern ist derzeit nicht möglich (privates Fenster oder blockierte Website-Daten).</span>'}</div></div>`);
-      const about = U.card('Über', `<p class="small muted">Trading Journal, Web-Version. Aufbau und Optik orientieren sich an TradeZella und TradePath. Alle Auswertungen laufen lokal im Browser, es werden keine Daten übertragen.</p><div class="divider"></div><div class="small muted">Tastatur: <b>N</b> neuer Trade · <b>1–8</b> Bereiche · <b>Esc</b> schließt Dialoge</div>`);
+      const about = U.card('Über', `<p class="small muted">Trading Journal, Web-Version. Aufbau und Optik orientieren sich an TradeZella und TradePath. Alle Auswertungen laufen lokal im Browser, es werden keine Daten übertragen.</p><div class="divider"></div><div class="small muted">Tastatur: <b>N</b> neuer Trade · <b>1–6</b> Bereiche · <b>Esc</b> schließt Dialoge</div>`);
       return `<div class="grid two">${general}${accounts}${rulesCard}${tagsCard}${dataCard}${about}</div>`;
     },
   };

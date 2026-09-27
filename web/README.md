@@ -46,13 +46,14 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit.
 - **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz). Standardordner Trade Notes,
-  Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Rich-Text-Editor
-  (Quill 2, Inhalte als JSON) mit Toolbar: Vollbild, Rückgängig, Spracheingabe, Listen, Schriftart,
-  Schriftgröße, Fett/Kursiv/Unterstrichen/Code/Link, Farben, Einfügen (Tabelle, Bild, Trennlinie,
-  Zitat, Codeblock, Abschnitt, YouTube, Tweet), Absatzformate, Ausrichtung, Import/Export/PDF.
-  „/“ öffnet Befehle, „:“ die Emoji-Auswahl, Bilder per Einfügen oder Drag & Drop mit Unterschrift.
-  Tags, Vorlagen, Suche über alle Notizen, Filter, Papierkorb (30 Tage), Teilen per Link, Autosave.
-  Notizen zu Handelstagen und Trades zeigen Netto-P&L und eine Statistik.
+  Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Notiz-Kopf mit
+  Datumswahl, großem Titel, Erstellt- und Bearbeitet-Zeit. Schlanker Rich-Text-Editor (Quill 2,
+  Inhalte als JSON) nach TradePath-Vorbild: „+“ (Bausteine, Listen, Vorlagen), Absatzformat,
+  Schriftgröße, Fett/Kursiv/Unterstrichen/Durchgestrichen, Schriftfarbe mit Farbraster, Bild
+  (Datei oder Adresse), Textmarker. „/“ öffnet Befehle, „:“ die Emoji-Auswahl, Bilder per Einfügen
+  oder Drag & Drop mit Unterschrift. Tags, Vorlagen, Suche über alle Notizen, Filter, Papierkorb
+  (30 Tage), Teilen per Link, Export/Import, Autosave. Notizen zu Handelstagen und Trades zeigen
+  Netto-P&L und eine aufklappbare Statistik.
 - **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Einstellungen**: Konten, Regeln, Tags, Limits, Export/Import als JSON (optional mit Anhängen), Beispieldaten.

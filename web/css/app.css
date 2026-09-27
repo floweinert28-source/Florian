@@ -447,6 +447,7 @@ span.info:hover { color: var(--accent); }
 .checklist .it .box { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-2); display: grid; place-items: center; flex: 0 0 auto; }
 .checklist .it.done .box { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .checklist .it.done .box svg { width: 13px; height: 13px; }
+.checklist .it:not(.done):not(.fail) .box svg { display: none; }
 .checklist .it.done span { color: var(--muted); text-decoration: line-through; }
 .checklist .it.toggle { cursor: pointer; }
 
@@ -699,3 +700,33 @@ span.info:hover { color: var(--accent); }
   .ql-editor { color: #000; }
   .nb .col-body { max-height: none; overflow: visible; }
 }
+
+/* ---------- Fortschritt (Aufbau nach TradePath) ---------- */
+.big-stat { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 44px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 6px 0 8px; }
+.big-stat .trend { display: inline-flex; width: 22px; height: 22px; }
+.big-stat .trend svg { width: 22px; height: 22px; }
+.big-stat .trend.up { color: var(--profit); }
+.big-stat .trend.down { color: var(--loss); }
+.dashed { border: 1px dashed var(--border-2); border-radius: 10px; padding: 12px 14px; color: var(--muted); font-size: 13px; }
+.rules-list { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+.rules-list li::marker { color: var(--accent); font-weight: 700; }
+.checklist .it.fail .box { border-color: var(--loss); color: var(--loss); }
+.checklist .it.fail .box svg { width: 12px; height: 12px; }
+.activity { --cell: 24px; --gap: 5px; overflow-x: auto; padding-bottom: 4px; }
+.activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.activity .months span { white-space: nowrap; }
+.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); grid-auto-rows: var(--cell); gap: var(--gap); }
+.activity .wl { font-size: 12px; color: var(--muted); display: flex; align-items: center; }
+.activity i { display: block; width: var(--cell); height: var(--cell); border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border); cursor: pointer; }
+.activity i.future { visibility: hidden; }
+.activity i.l1, .heat-legend i.l1 { background: color-mix(in srgb, var(--accent) 22%, var(--surface-2)); border-color: transparent; }
+.activity i.l2, .heat-legend i.l2 { background: color-mix(in srgb, var(--accent) 40%, var(--surface-2)); border-color: transparent; }
+.activity i.l3, .heat-legend i.l3 { background: color-mix(in srgb, var(--accent) 60%, var(--surface-2)); border-color: transparent; }
+.activity i.l4, .heat-legend i.l4 { background: color-mix(in srgb, var(--accent) 80%, var(--surface-2)); border-color: transparent; }
+.activity i.l5, .heat-legend i.l5 { background: var(--accent); border-color: transparent; }
+.activity i.today { box-shadow: 0 0 0 2px var(--accent); }
+.activity i:hover { transform: scale(1.12); }
+.heat-legend { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+.heat-legend i { display: block; width: 18px; height: 18px; border-radius: 5px; }
+.heat-legend span { margin: 0 6px; }
+@media (max-width: 960px) { .big-stat { font-size: 34px; } .activity { --cell: 18px; --gap: 3px; } }

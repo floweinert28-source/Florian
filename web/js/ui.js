@@ -119,6 +119,7 @@
   const smooth = pts => { if (pts.length < 3) return 'M' + pts.map(p => p.join(',')).join('L'); let d = `M${pts[0][0]},${pts[0][1]}`; for (let i = 0; i < pts.length - 1; i++) { const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2; const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6]; d += `C${c1[0]},${c1[1]} ${c2[0]},${c2[1]} ${p2[0]},${p2[1]}`; } return d; };
   const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? (a / 1000).toFixed(a >= 10000 ? 0 : 1).replace('.', ',').replace(',0', '') + 'k' : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
   const gid = () => 'g' + Math.random().toString(36).slice(2, 8);
+  const xTicks = (n, iw) => { const k = Math.max(2, Math.min(n, Math.floor(iw / 95) + 1)); if (n <= k) return Array.from({ length: n }, (_, i) => i); return Array.from({ length: k }, (_, i) => Math.round(i / (k - 1) * (n - 1))); };
   const chartData = {};
   const drawers = {};
   function drawCharts(scope) {
@@ -142,7 +143,7 @@
     const line = n === 1 ? `M${x(0) - 1},${y(pts[0].cum)}L${x(0) + 1},${y(pts[0].cum)}` : smooth(pts.map((p, i) => [x(i), y(p.cum)]));
     const area = `${line} L${x(n - 1)},${y(0)} L${x(0)},${y(0)} Z`;
     const gp = gid(), gn = gid(), cp = gid(), cn = gid();
-    const xt = n <= 6 ? pts.map((_, i) => i) : [0, Math.round((n - 1) / 4), Math.round((n - 1) / 2), Math.round((n - 1) * 3 / 4), n - 1];
+    const xt = xTicks(n, iw);
     const last = pts[n - 1].cum, lastCol = last >= 0 ? 'var(--profit)' : 'var(--loss)';
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs>
       <linearGradient id="${gp}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--profit)" stop-opacity=".35"/><stop offset="1" stop-color="var(--profit)" stop-opacity=".02"/></linearGradient>
@@ -166,6 +167,21 @@
     const line = smooth(pts.map((p, i) => [x(i), y(p.equity)])); const last = pts[pts.length - 1].equity, col = last >= 0 ? 'var(--profit)' : 'var(--loss)';
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".3"/><stop offset="1" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g><line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">${fmt.date(pts[i].date)}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].equity), i => { const p = pts[i]; return `<b>${pnl(p.equity)}</b><br>${fmt.dateTime(p.date)}<br><span class="muted">${esc(p.t.symbol)} ${fmt.cur(p.pnl, { signed: true })}</span>`; });
+  };
+  /* Linie mit Basislinie (Kontostand) */
+  drawers.line = function (el, d, W, H) {
+    const pts = d && d.points || []; if (!pts.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%">${I.stats}<span class="small">Keine abgeschlossenen Trades im Zeitraum</span></div>`; return; }
+    const ml = 8, mr = 60, mt = 12, mb = 26; const base = d.baseline; const ys = pts.map(p => p.v).concat(base == null ? [] : [base]);
+    const ticks = niceTicks(Math.min(...ys), Math.max(...ys), 4); const y0 = Math.min(ticks[0], ...ys), y1 = Math.max(ticks[ticks.length - 1], ...ys);
+    const n = pts.length; const iw = W - ml - mr; const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb);
+    const line = n === 1 ? `M${x(0) - 1},${y(pts[0].v)}L${x(0) + 1},${y(pts[0].v)}` : 'M' + pts.map((p, i) => `${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join('L');
+    const xt = xTicks(n, iw); const last = pts[n - 1].v;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g>
+      ${base != null ? `<line x1="${ml}" x2="${W - mr}" y1="${y(base)}" y2="${y(base)}" stroke="var(--muted)" stroke-dasharray="4 3"/>` : ''}
+      <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+      ${xt.map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.date(pts[i].date)}</text>`).join('')}
+      <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+    hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].v), i => { const p = pts[i]; return `<b>${fmt.cur(p.v)}</b><br>${fmt.weekdayLong(p.date)}${p.pnl != null ? `<br><span class="muted">Tag: ${fmt.cur(p.pnl, { signed: true })}</span>` : ''}`; });
   };
   /* Kleine Fläche (Tageskarte) */
   drawers.spark = function (el, d, W, H) {

@@ -38,8 +38,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
 - **Dashboard**: Netto-P&L, Profit-Faktor, Trade- und Tages-Win-Rate mit Halbkreis-Anzeigen,
   Ø Gewinn/Verlust, täglicher und kumulierter P&L, Journal-Score als Radar (Win-Rate, Profit-Faktor,
-  Gewinn/Verlust, Konsistenz, Regeltreue, Drawdown), Disziplin und Fehlerkosten,
-  Monatskalender mit Wochensummen, letzte Trades, Tilt-Warnungen. Widgets per „Layout“ ein- und ausblendbar.
+  Gewinn/Verlust, Konsistenz, Regeltreue, Drawdown), kumulierter Netto-P&L, Kontostand,
+  letzte Trades und offene Positionen, Monatskalender, Tilt-Warnungen. Widgets per „Layout“ ein- und ausblendbar.
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
 - **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
@@ -49,6 +49,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Aktivitäts-Heatmap und Tilt-Profil.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Einstellungen**: Konten, Regeln, Tags, Limits, Export/Import als JSON (optional mit Anhängen), Beispieldaten.
+- **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
+  Die Wahl gilt für die ganze Website inklusive Startseite.
 
 ## Aufbau
 
@@ -58,6 +60,7 @@ web/
   app.html              App
   css/app.css           Design-Tokens (dunkel/hell) und alle Komponenten
   css/landing.css       Startseite
+  js/theme.js           Farben (Akzent, Gewinn, Verlust) für App und Startseite
   js/core.js            Analytik ohne DOM (auch in Node nutzbar)
   js/sample.js          Beispieldaten (deterministisch)
   js/store.js           Speicher (localStorage, IndexedDB), Export/Import

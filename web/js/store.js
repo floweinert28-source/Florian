@@ -9,12 +9,12 @@
     mistakes: ['FOMO', 'Regel gebrochen', 'Revenge-Trade', 'Zu früh raus', 'Stop verschoben', 'Übergröße', 'Kein Plan', 'Zu spät rein', 'Overtrading'],
     emotions: ['Ruhig', 'Fokussiert', 'Gelangweilt', 'Unsicher', 'Gierig', 'Ängstlich', 'Euphorisch', 'Frustriert', 'Müde'],
   };
-  const WIDGETS = { kpis: 'Kennzahlen', score: 'Score', pnl: 'Täglicher & kumulierter P&L', winloss: 'Ø Gewinn/Verlust', calendar: 'Kalender', recent: 'Letzte Trades', discipline: 'Disziplin' };
+  const WIDGETS = { kpis: 'Kennzahlen', score: 'Score', pnl: 'Kumulierter Netto-P&L', balance: 'Kontostand', recent: 'Letzte Trades', calendar: 'Kalender' };
 
   function defaults() {
     return {
       version: 1,
-      settings: { theme: 'dark', currency: 'EUR', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, widgets: Object.fromEntries(Object.keys(WIDGETS).map(k => [k, true])), range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader' },
+      settings: { theme: 'dark', currency: 'EUR', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, widgets: Object.fromEntries(Object.keys(WIDGETS).map(k => [k, true])), range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' } },
       accounts: [{ id: 'main', name: 'Hauptkonto', size: 25000, currency: 'EUR' }],
       trades: [], days: {}, notes: [], strategies: [], rules: [], missed: [], sessions: [], tags: JSON.parse(JSON.stringify(DEFAULT_TAGS)), dismissed: {},
     };
@@ -24,7 +24,7 @@
     data: defaults(), listeners: new Set(), _timer: null, storageOK: true,
     load() {
       let raw = null; try { raw = localStorage.getItem(KEY); } catch (e) { this.storageOK = false; }
-      if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.widgets = Object.assign(defaults().settings.widgets, (parsed.settings || {}).widgets || {}); this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
+      if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.widgets = Object.assign(defaults().settings.widgets, (parsed.settings || {}).widgets || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '' }, (parsed.settings || {}).colors || {}); this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
       if (!this.data.notes.some(n => n.folder === 'welcome')) this.data.notes.push(welcomeNote());
       return this;
     },

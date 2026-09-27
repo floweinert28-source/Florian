@@ -11,7 +11,7 @@
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
   const App = {
-    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null } },
+    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
     /* ---------- Daten ---------- */
     allTrades() { const acc = S.settings.accountId; return C.deriveAll(S.trades().filter(t => acc === 'all' || !acc || t.accountId === acc)); },
     range() {
@@ -38,7 +38,7 @@
     parseRoute() { const h = location.hash.replace(/^#\/?/, ''); const parts = h.split('/').filter(Boolean); const route = parts[0] && this.screens[parts[0]] ? parts[0] : 'dashboard'; this.state.route = route; this.state.params = parts.slice(1).map(decodeURIComponent); },
     /* ---------- Rendern ---------- */
     render() {
-      this.parseRoute(); fmt.setCurrency(S.currency()); document.documentElement.dataset.theme = S.settings.theme || 'dark';
+      this.parseRoute(); fmt.setCurrency(S.currency()); root.Theme.apply(S.settings);
       const screen = this.screens[this.state.route]; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
       document.title = `${title} · Trading Journal`;
@@ -91,7 +91,7 @@
   Object.assign(App.actions, {
     sidebar() { this.state.sidebarOpen = !this.state.sidebarOpen; this.renderSidebar(); },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
-    theme(el) { S.setSetting('theme', el.dataset.value); document.documentElement.dataset.theme = el.dataset.value; this.renderSidebar(); U.drawCharts(document.getElementById('main')); },
+    theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); this.renderSidebar(); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     range(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.rerender(); },
     'range-custom'(f) { const from = f.querySelector('#range-from').value, to = f.querySelector('#range-to').value; if (!from) return U.toast('Bitte ein Startdatum wählen', 'err'); S.setSetting('range', { preset: 'custom', from, to: to || from }); this.rerender(); },
     account(el) { S.setSetting('accountId', el.dataset.value); this.rerender(); },

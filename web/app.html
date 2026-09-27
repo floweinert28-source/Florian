@@ -17,6 +17,7 @@
   <div class="scrim" id="scrim" data-action="scrim" hidden></div>
   <main class="main" id="main"></main>
 </div>
+<script src="js/theme.js"></script>
 <script src="js/core.js"></script>
 <script src="js/sample.js"></script>
 <script src="js/store.js"></script>
@@ -33,7 +34,7 @@
 (function () {
   Store.load();
   if (!Store.settings.onboarded) { if (!Store.trades().length) Store.installSample(); Store.settings.onboarded = true; Store.saveNow(); }
-  document.documentElement.dataset.theme = Store.settings.theme || 'dark';
+  Theme.apply(Store.settings);
   App.bind();
   App.render();
   document.addEventListener('keydown', function (e) {

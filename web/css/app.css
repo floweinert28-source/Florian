@@ -1130,7 +1130,7 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .pair-card b { font-size: 13px; }
 .pair-card:hover { border-color: var(--text-2); }
 .pair-card[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.cpick-row { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.cpick-row { display: flex; gap: 22px; flex-wrap: wrap; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
 .cpick { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 600; }
 .cpick input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
 .cpick i { width: 34px; height: 34px; border-radius: 999px; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--border-2); display: block; }

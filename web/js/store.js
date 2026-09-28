@@ -32,9 +32,9 @@
   function defaults() {
     return {
       version: 1,
-      settings: { theme: 'dark', currency: 'EUR', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' }, dashboardId: null },
+      settings: { theme: 'dark', currency: 'EUR', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' }, dashboardId: null, notifications: { weekly: true, monthly: true }, recapShown: {}, instruments: [], beOffset: { mode: 'abs', from: 0, to: 0 }, notebook: { h1: 30, h2: 24, h3: 19, body: 16, strike: true } },
       accounts: [{ id: 'main', name: 'Hauptkonto', size: 25000, currency: 'EUR' }], dashboards: [defaultDashboard()],
-      trades: [], days: {}, notes: [], folders: defaultFolders(), noteTags: [], templates: defaultTemplates(), strategies: [], rules: [], missed: [], sessions: [], tags: JSON.parse(JSON.stringify(DEFAULT_TAGS)), dismissed: {},
+      trades: [], days: {}, notes: [], folders: defaultFolders(), noteTags: [], templates: defaultTemplates(), strategies: [], rules: [], missed: [], sessions: [], tags: JSON.parse(JSON.stringify(DEFAULT_TAGS)), tagMeta: {}, imports: [], logs: [], dismissed: {},
     };
   }
   /* ---------- Notebook: Ordner, Vorlagen, Delta-Hilfen ---------- */
@@ -72,7 +72,7 @@
     data: defaults(), listeners: new Set(), _timer: null, storageOK: true,
     load() {
       let raw = null; try { raw = localStorage.getItem(KEY); } catch (e) { this.storageOK = false; }
-      if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '' }, (parsed.settings || {}).colors || {}); this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
+      if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '' }, (parsed.settings || {}).colors || {}); const ds = defaults().settings; for (const k of ['notifications', 'beOffset', 'notebook', 'recapShown']) this.data.settings[k] = Object.assign({}, ds[k], (parsed.settings || {})[k] || {}); if (!Array.isArray(this.data.settings.instruments)) this.data.settings.instruments = []; this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
       migrateNotes(this.data); migrateDashboards(this.data);
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       return this;
@@ -87,20 +87,26 @@
     get settings() { return this.data.settings; },
     setSetting(k, v) { this.data.settings[k] = v; this.save(); },
 
+    /* Protokoll (Verlauf) und Import-Verlauf */
+    log(e) { if (!Array.isArray(this.data.logs)) this.data.logs = []; this.data.logs.unshift(Object.assign({ id: C.uid(), at: new Date().toISOString(), source: 'manuell', field: '', old: '', new: '' }, e)); if (this.data.logs.length > 500) this.data.logs.length = 500; },
+    addImport(e) { if (!Array.isArray(this.data.imports)) this.data.imports = []; this.data.imports.unshift(Object.assign({ id: C.uid(), at: new Date().toISOString() }, e)); if (this.data.imports.length > 200) this.data.imports.length = 200; this.log({ type: 'Import', action: e.status === 'Fehler' ? 'fehlgeschlagen' : 'importiert', source: e.source || 'Import', ident: `${e.file || ''} · ${e.count || 0} Trades` }); this.save(); },
+    deleteImport(id) { this.data.imports = (this.data.imports || []).filter(x => x.id !== id); this.save(); },
+    clearLogs() { this.data.logs = []; this.save(); },
+    tradeIdent(t) { const d = t.openedAt ? new Date(t.openedAt) : null; return `${t.symbol || '?'} ${t.direction === -1 || t.direction === 'short' ? 'Short' : 'Long'}${d ? ' · ' + d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit' }) : ''}`; },
     /* Trades */
     trades() { return this.data.trades; },
     getTrade(id) { return this.data.trades.find(t => t.id === id) || null; },
-    addTrade(t) { t.id = t.id || C.uid(); t.createdAt = t.createdAt || new Date().toISOString(); t.accountId = t.accountId || this.defaultAccountId(); this.data.trades.push(t); this.save(); return t; },
-    addTrades(list) { for (const t of list) { t.id = t.id || C.uid(); t.accountId = t.accountId || this.defaultAccountId(); this.data.trades.push(t); } this.save(); },
-    updateTrade(id, patch) { const t = this.getTrade(id); if (!t) return null; Object.assign(t, patch, { updatedAt: new Date().toISOString() }); this.save(); return t; },
-    async deleteTrade(id) { const t = this.getTrade(id); if (!t) return; for (const s of t.screenshots || []) await Blobs.del(s).catch(() => {}); for (const v of t.voiceNotes || []) if (v.blobId) await Blobs.del(v.blobId).catch(() => {}); this.data.trades = this.data.trades.filter(x => x.id !== id); this.save(); },
+    addTrade(t) { t.id = t.id || C.uid(); t.createdAt = t.createdAt || new Date().toISOString(); t.accountId = t.accountId || this.defaultAccountId(); this.data.trades.push(t); this.log({ type: 'Trade', action: 'erstellt', ident: this.tradeIdent(t) }); this.save(); return t; },
+    addTrades(list, source = 'Import') { for (const t of list) { t.id = t.id || C.uid(); t.accountId = t.accountId || this.defaultAccountId(); this.data.trades.push(t); this.log({ type: 'Trade', action: 'erstellt', source, ident: this.tradeIdent(t) }); } this.save(); },
+    updateTrade(id, patch) { const t = this.getTrade(id); if (!t) return null; const FIELDS = { symbol: 'Symbol', direction: 'Richtung', openedAt: 'Eröffnet', closedAt: 'Geschlossen', entryPrice: 'Einstieg', exitPrice: 'Ausstieg', quantity: 'Stück', fees: 'Gebühren', setup: 'Setup', plannedEntry: 'Geplanter Einstieg', plannedStop: 'Stop', plannedTarget: 'Ziel', notes: 'Notiz', rating: 'Bewertung', pnlOverride: 'P&L' }; const fmtV = v => v == null || v === '' ? '—' : Array.isArray(v) ? v.join(', ') : String(v).length > 40 ? String(v).slice(0, 40) + '…' : String(v); let n = 0; for (const k of Object.keys(FIELDS)) { if (!(k in patch)) continue; const a = t[k], b = patch[k]; if (JSON.stringify(a == null ? '' : a) === JSON.stringify(b == null ? '' : b)) continue; if (n++ < 6) this.log({ type: 'Trade', action: 'bearbeitet', ident: this.tradeIdent(t), field: FIELDS[k], old: fmtV(a), new: fmtV(b) }); } for (const k of ['mistakes', 'emotions', 'rulesBroken']) { if (k in patch && JSON.stringify(t[k] || []) !== JSON.stringify(patch[k] || [])) this.log({ type: 'Trade', action: 'bearbeitet', ident: this.tradeIdent(t), field: { mistakes: 'Fehler', emotions: 'Emotionen', rulesBroken: 'Regeln gebrochen' }[k], old: fmtV(t[k] || []), new: fmtV(patch[k] || []) }); } Object.assign(t, patch, { updatedAt: new Date().toISOString() }); this.save(); return t; },
+    async deleteTrade(id) { const t = this.getTrade(id); if (!t) return; for (const s of t.screenshots || []) await Blobs.del(s).catch(() => {}); for (const v of t.voiceNotes || []) if (v.blobId) await Blobs.del(v.blobId).catch(() => {}); this.data.trades = this.data.trades.filter(x => x.id !== id); this.log({ type: 'Trade', action: 'gelöscht', ident: this.tradeIdent(t) }); this.save(); },
     defaultAccountId() { const a = this.data.settings.accountId; return a && a !== 'all' && this.data.accounts.some(x => x.id === a) ? a : (this.data.accounts[0] || { id: 'main' }).id; },
     accountSize() { const a = this.data.settings.accountId; if (a === 'all' || !a) return this.data.accounts.reduce((s, x) => s + (Number(x.size) || 0), 0) || 10000; const acc = this.data.accounts.find(x => x.id === a); return acc ? Number(acc.size) || 10000 : 10000; },
     currency() { const a = this.data.accounts.find(x => x.id === this.data.settings.accountId); return (a && a.currency) || this.data.settings.currency || 'EUR'; },
 
     /* Tage */
     day(key) { return this.data.days[key] || null; },
-    setDay(key, patch) { const d = this.data.days[key] || { key }; Object.assign(d, patch); this.data.days[key] = d; this.save(); return d; },
+    setDay(key, patch) { const d = this.data.days[key] || { key }; if ('checkIn' in patch) this.log({ type: 'Check-in', action: d.checkIn ? 'bearbeitet' : 'erstellt', ident: key, field: patch.checkIn ? 'Schlaf / Stress / Stimmung' : '', new: patch.checkIn ? `${patch.checkIn.sleep == null ? '—' : patch.checkIn.sleep + ' h'} / ${patch.checkIn.stress || '—'} / ${patch.checkIn.mood || '—'}` : '' }); if ('regime' in patch) this.log({ type: 'Marktphase', action: 'gesetzt', ident: key, new: [patch.regime && patch.regime.trend, patch.regime && patch.regime.vol].filter(Boolean).join(' / ') }); Object.assign(d, patch); this.data.days[key] = d; this.save(); return d; },
     regimeByDay() { const out = {}; for (const [k, d] of Object.entries(this.data.days)) if (d.regime) out[k] = d.regime; return out; },
     checkInByDay() { const out = {}; for (const [k, d] of Object.entries(this.data.days)) if (d.checkIn) out[k] = d.checkIn; return out; },
     notesByDay() { const out = {}; for (const n of this.data.notes) if (n.dateKey && !n.deletedAt && hasContent(n.content)) out[n.dateKey] = true; for (const [k, d] of Object.entries(this.data.days)) if (d.notes) out[k] = true; return out; },
@@ -143,16 +149,21 @@
     addStrategy(s) { s.id = s.id || C.uid(); this.data.strategies.push(s); this.save(); return s; },
     updateStrategy(id, patch) { const s = this.data.strategies.find(x => x.id === id); if (s) { Object.assign(s, patch); this.save(); } return s; },
     deleteStrategy(id) { this.data.strategies = this.data.strategies.filter(x => x.id !== id); this.save(); },
-    addRule(text) { const r = { id: C.uid(), text, active: true }; this.data.rules.push(r); this.save(); return r; },
+    addRule(text) { const r = { id: C.uid(), text, active: true }; this.data.rules.push(r); this.log({ type: 'Regel', action: 'erstellt', ident: text }); this.save(); return r; },
     updateRule(id, patch) { const r = this.data.rules.find(x => x.id === id); if (r) { Object.assign(r, patch); this.save(); } },
-    deleteRule(id) { this.data.rules = this.data.rules.filter(x => x.id !== id); this.save(); },
+    deleteRule(id) { const r = this.data.rules.find(x => x.id === id); this.data.rules = this.data.rules.filter(x => x.id !== id); if (r) this.log({ type: 'Regel', action: 'gelöscht', ident: r.text }); this.save(); },
     addMissed(m) { m.id = m.id || C.uid(); this.data.missed.unshift(m); this.save(); return m; },
     deleteMissed(id) { this.data.missed = this.data.missed.filter(x => x.id !== id); this.save(); },
-    addAccount(a) { a.id = a.id || C.uid(); this.data.accounts.push(a); this.save(); return a; },
+    addAccount(a) { a.id = a.id || C.uid(); this.data.accounts.push(a); this.log({ type: 'Konto', action: 'erstellt', ident: a.name }); this.save(); return a; },
     updateAccount(id, patch) { const a = this.data.accounts.find(x => x.id === id); if (a) { Object.assign(a, patch); this.save(); } },
     deleteAccount(id) { if (this.data.accounts.length <= 1) return; this.data.accounts = this.data.accounts.filter(x => x.id !== id); const fb = this.data.accounts[0].id; for (const t of this.data.trades) if (t.accountId === id) t.accountId = fb; if (this.data.settings.accountId === id) this.data.settings.accountId = 'all'; this.save(); },
     addTag(kind, name) { name = name.trim(); if (!name) return; if (!this.data.tags[kind].includes(name)) this.data.tags[kind].push(name); this.save(); },
-    removeTag(kind, name) { this.data.tags[kind] = this.data.tags[kind].filter(x => x !== name); this.save(); },
+    removeTag(kind, name) { this.data.tags[kind] = this.data.tags[kind].filter(x => x !== name); delete (this.data.tagMeta || {})[kind + '|' + name]; this.save(); },
+    tagMeta(kind, name) { return (this.data.tagMeta || {})[kind + '|' + name] || {}; },
+    setTagMeta(kind, name, meta) { if (!this.data.tagMeta) this.data.tagMeta = {}; this.data.tagMeta[kind + '|' + name] = Object.assign({}, this.tagMeta(kind, name), meta); this.save(); },
+    renameTag(kind, from, to) { to = String(to || '').trim(); if (!to || from === to) return; const list = this.data.tags[kind]; const i = list.indexOf(from); if (i >= 0) list[i] = to; else list.push(to); for (const t of this.data.trades) { if (kind === 'setups' && t.setup === from) t.setup = to; if (kind === 'mistakes' && Array.isArray(t.mistakes)) t.mistakes = t.mistakes.map(x => x === from ? to : x); if (kind === 'emotions' && Array.isArray(t.emotions)) t.emotions = t.emotions.map(x => x === from ? to : x); } const meta = this.tagMeta(kind, from); delete (this.data.tagMeta || {})[kind + '|' + from]; if (Object.keys(meta).length) this.setTagMeta(kind, to, meta); this.save(); },
+    tagUsage(kind, name) { return this.data.trades.filter(t => kind === 'setups' ? t.setup === name : Array.isArray(t[kind]) && t[kind].includes(name)).length; },
+    resetTags() { this.data.tags = JSON.parse(JSON.stringify(DEFAULT_TAGS)); this.data.tagMeta = {}; this.save(); },
 
     /* Dashboard-Vorlagen */
     dashboards() { return this.data.dashboards; },
@@ -167,9 +178,9 @@
     deleteDashboard(id) { if (this.data.dashboards.length <= 1) return false; const d = this.getDashboard(id); if (!d) return false; this.data.dashboards = this.data.dashboards.filter(x => x.id !== id); if (d.isDefault) this.data.dashboards[0].isDefault = true; if (this.data.settings.dashboardId === id) this.data.settings.dashboardId = this.defaultDashboard().id; this.save(); return true; },
 
     /* Sessions */
-    startSession(pre) { const s = { id: C.uid(), startedAt: new Date().toISOString(), endedAt: null, pre: pre || {}, post: null }; this.data.sessions.push(s); this.save(); return s; },
+    startSession(pre) { const s = { id: C.uid(), startedAt: new Date().toISOString(), endedAt: null, pre: pre || {}, post: null }; this.data.sessions.push(s); this.log({ type: 'Session', action: 'gestartet', ident: C.dayKey(new Date()) }); this.save(); return s; },
     activeSession() { return this.data.sessions.find(s => !s.endedAt) || null; },
-    endSession(post) { const s = this.activeSession(); if (s) { s.endedAt = new Date().toISOString(); s.post = post || {}; this.save(); } return s; },
+    endSession(post) { const s = this.activeSession(); if (s) { s.endedAt = new Date().toISOString(); s.post = post || {}; this.log({ type: 'Session', action: 'beendet', ident: C.dayKey(new Date()) }); this.save(); } return s; },
 
     /* Beispieldaten */
     installSample() {
@@ -181,7 +192,7 @@
       for (const f of g.folders || []) if (!this.data.folders.some(x => x.id === f.id)) this.data.folders.push(f);
       for (const t of g.noteTags || []) if (!this.data.noteTags.some(x => x.id === t.id)) this.data.noteTags.push(t);
       for (const r of g.rules) if (!this.data.rules.some(x => x.text === r.text)) this.data.rules.push(r);
-      this.data.settings.sampleInstalled = true; this.save();
+      this.data.settings.sampleInstalled = true; this.log({ type: 'Import', action: 'importiert', source: 'Beispieldaten', ident: `${g.trades.length} Trades` }); this.save();
     },
     removeSample(save = true) {
       this.data.trades = this.data.trades.filter(t => !t.sample);

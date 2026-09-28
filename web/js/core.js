@@ -26,6 +26,10 @@
   const percentile = (arr, q) => { if (!arr.length) return 0; const s = arr.slice().sort((a, b) => a - b); const pos = q * (s.length - 1), lo = Math.floor(pos), hi = Math.ceil(pos); return lo === hi ? s[lo] : s[lo] + (s[hi] - s[lo]) * (pos - lo); };
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   const EPS = 0.005;
+  /* Break-even-Bereich: absolut (Währung) oder in Prozent des Positionswerts */
+  const BE = { mode: 'abs', from: 0, to: 0 };
+  function setBreakEven(cfg) { const c = cfg || {}; BE.mode = c.mode === 'pct' ? 'pct' : 'abs'; BE.from = Math.min(0, Number(c.from) || 0); BE.to = Math.max(0, Number(c.to) || 0); }
+  const isBreakEven = (pnl, notional) => { const v = BE.mode === 'pct' ? (notional > 0 ? pnl / notional * 100 : pnl) : pnl; return v >= BE.from - EPS && v <= BE.to + EPS; };
 
   /* ---------- Ableitung eines Trades ---------- */
   function derive(t) {
@@ -51,7 +55,7 @@
     const holdingMin = closed ? Math.max(0, (close - open) / 60000) : null;
     const maeR = t.mae != null && t.mae !== '' && stopDist > 0 ? (entry - Number(t.mae)) * dir / stopDist : null;
     const mfeR = t.mfe != null && t.mfe !== '' && stopDist > 0 ? (Number(t.mfe) - entry) * dir / stopDist : null;
-    const status = !closed ? 'open' : pnl > EPS ? 'win' : pnl < -EPS ? 'loss' : 'be';
+    const status = !closed ? 'open' : isBreakEven(pnl, entry * qty * mult) ? 'be' : pnl > 0 ? 'win' : 'loss';
     const roi = risk > 0 ? pnl / risk : null;
     return Object.assign({}, t, {
       direction: dir, open, close, closed, gross, pnl, fees, risk, r, plannedR, holdingMin, maeR, mfeR, status, roi,
@@ -555,7 +559,7 @@
   }
 
   return {
-    clamp, sum, mean, sd, dayKey, parseDayKey, weekStart, isoWeek, mulberry, percentile, uid, EPS,
+    clamp, sum, mean, sd, dayKey, parseDayKey, weekStart, isoWeek, mulberry, percentile, uid, EPS, setBreakEven,
     derive, deriveAll, closedOnly, summary, streaks, dailyAggregation, daySummary, equityCurve, cumulativeByDay, calendarMonth,
     discipline, avgDiscipline, weeklyDiscipline, mistakeReport, groupBy, timeAnalysis, regimeAnalysis, WEEKDAYS, HOUR_BUCKETS, HOLD_BUCKETS,
     edge, monteCarlo, pearson, stateAnalysis, traderScore, SCORE_AXES, tiltCheck, tiltProfile, stats16, activityDays, journalStreak,

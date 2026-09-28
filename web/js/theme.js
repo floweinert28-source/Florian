@@ -19,6 +19,7 @@
     set('--accent', acc); set('--accent-2', acc && shade(acc, -0.14)); set('--accent-soft', acc && rgba(acc, 0.13)); set('--accent-glow', acc && rgba(acc, 0.3)); set('--accent-ink', acc && (lum(acc) > 0.4 ? '#04140a' : '#ffffff'));
     const p = valid(c.profit) ? (light ? forLight(c.profit) : c.profit) : null; const l = valid(c.loss) ? (light ? forLight(c.loss) : c.loss) : null;
     set('--profit', p); set('--loss', l); set('--loss-soft', l && rgba(l, 0.14));
+    const nb = (settings && settings.notebook) || {}; const px = v => v > 0 ? v + 'px' : null; set('--nb-h1', px(nb.h1)); set('--nb-h2', px(nb.h2)); set('--nb-h3', px(nb.h3)); set('--nb-body', px(nb.body)); root.classList.toggle('nb-nostrike', nb.strike === false);
   }
   function applyFromStorage(key) { try { const raw = localStorage.getItem(key || 'trading-journal-web-v1'); if (raw) apply(JSON.parse(raw).settings || {}); } catch (e) { /* ohne Speicher: Standardfarben */ } }
   root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, apply, applyFromStorage, lum, shade, valid };

@@ -129,3 +129,12 @@ test('reportSeries + aggregateSeries: kumulierte Report-Kennzahlen', () => {
   const w = C.aggregateSeries(r, 'woche'); assert.equal(w.length, 2); assert.equal(w[0].dayPnl, 5); assert.equal(w[0].trades, 2); assert.equal(w[1].cum, 25);
   const m = C.aggregateSeries(r, 'monat'); assert.equal(m.length, 1); assert.equal(m[0].dayPnl, 25); assert.equal(m[0].trades, 3);
 });
+
+test('setBreakEven: Bereich absolut und in Prozent', () => {
+  C.setBreakEven({ mode: 'abs', from: -10, to: 10 });
+  assert.equal(C.derive(mk({ exitPrice: 108 })).status, 'be'); assert.equal(C.derive(mk({ exitPrice: 92 })).status, 'be'); assert.equal(C.derive(mk({ exitPrice: 111 })).status, 'win'); assert.equal(C.derive(mk({ exitPrice: 89 })).status, 'loss');
+  C.setBreakEven({ mode: 'pct', from: -1, to: 1 });
+  assert.equal(C.derive(mk({ exitPrice: 100.5 })).status, 'be'); assert.equal(C.derive(mk({ exitPrice: 102 })).status, 'win');
+  C.setBreakEven({ mode: 'abs', from: 0, to: 0 });
+  assert.equal(C.derive(mk({ exitPrice: 100.001 })).status, 'be'); assert.equal(C.derive(mk({ exitPrice: 100.5 })).status, 'win');
+});

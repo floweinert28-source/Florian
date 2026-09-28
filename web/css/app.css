@@ -31,8 +31,9 @@
   --warn-soft: rgba(245, 185, 58, 0.14);
   --info: #5cb8ff;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-  --font: "Roboto", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-display: "Roboto", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-num: "Roboto", "Segoe UI", system-ui, -apple-system, sans-serif;
   --radius: 14px;
   --radius-sm: 10px;
   --radius-xs: 7px;
@@ -1030,3 +1031,6 @@ span.info:hover { color: var(--accent); }
   .tpl-pop { min-width: 260px; }
   .heat.big { grid-template-rows: repeat(7, 12px); gap: 3px; } .heat.big i { width: 12px; height: 12px; }
 }
+
+/* Zahlen in Roboto (Stil wie TradeZella), Text in der System-Schrift von Apple bzw. Inter */
+.num, .tbl td, .tile .val, .tile.spark-tile .val, .kv b, .cal .p, .cal .d .n, .cal .w .p, .stat .v, .big-stat, .score-big, .streak-ring, .yc b, .yc small, .tracker-foot .score-n, .slider .sv, .chart text, .tile .head .n, .pill, .pg-info, .strat-stats .v, .day-card .pnl, .detail-head .big, .tilt-stats .v, .ym-head span, .score-scale .lbls, .ticks, .stats-grid .v, .tbl th.r { font-family: var(--font-num); }

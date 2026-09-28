@@ -716,9 +716,9 @@ span.info:hover { color: var(--accent); }
 .checklist .it.fail .box svg { width: 12px; height: 12px; }
 .activity { --gap: 6px; --cell: 40px; overflow-x: auto; padding-bottom: 6px; cursor: grab; user-select: none; scrollbar-width: thin; }
 .activity.dragging { cursor: grabbing; }
-.activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 6px; width: max-content; }
+.activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 4px; width: max-content; padding-right: 28px; }
 .activity .months span { white-space: nowrap; }
-.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); width: max-content; }
+.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); width: max-content; padding: 3px 28px 3px 0; }
 .activity .wl { position: sticky; left: 0; background: var(--surface); z-index: 1; }
 .activity .wl { font-size: 13px; color: var(--muted); display: flex; align-items: center; }
 .activity i { display: block; width: var(--cell); height: var(--cell); border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); cursor: pointer; }

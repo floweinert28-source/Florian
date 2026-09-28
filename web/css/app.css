@@ -196,6 +196,7 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; min-width: 0; }
 .card.tight { padding: 14px 16px; }
 .card.flush { padding: 0; overflow: hidden; }
+.card.fill { display: flex; flex-direction: column; }
 .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .card-title { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 600; font-size: 15px; }
 span.info { display: inline-flex; width: 14px; height: 14px; color: var(--faint); vertical-align: middle; flex: 0 0 auto; cursor: help; margin-left: 2px; }
@@ -731,3 +732,12 @@ span.info:hover { color: var(--accent); }
 .heat-legend i { display: block; width: 22px; height: 22px; border-radius: 6px; }
 .heat-legend span { margin: 0 6px; }
 @media (max-width: 960px) { .big-stat { font-size: 34px; } .activity { --gap: 4px; } }
+
+/* Tilt-Profil: Inhalt mittig, füllt die Karte */
+.tilt-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; text-align: center; padding: 6px 0 4px; }
+.tilt-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tilt-stats .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; min-height: 30px; display: flex; align-items: flex-end; justify-content: center; }
+.tilt-stats .v { font-family: var(--font-display); font-size: 40px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-top: 8px; font-variant-numeric: tabular-nums; }
+.tilt-stats .v small { display: block; font-size: 13px; color: var(--muted); font-weight: 600; font-family: var(--font); letter-spacing: 0; margin-top: 2px; }
+.tilt-wrap p { max-width: 42ch; margin: 0 auto; }
+@media (max-width: 960px) { .tilt-stats .v { font-size: 30px; } }

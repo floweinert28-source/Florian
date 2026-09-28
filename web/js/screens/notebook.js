@@ -63,7 +63,7 @@
           <div class="tags-row">${noteTags.map(t => `<span class="chip setup">${esc(t.name)}<button type="button" data-action="nb-tag-remove" data-id="${cur.id}" data-tag="${t.id}" aria-label="Tag entfernen">${I.close}</button></span>`).join('')}<div class="popwrap"><button type="button" class="tag-add" data-pop="nbtags" aria-label="Tag hinzufügen">${I.plus} Tag</button><div class="popover left tagpop" id="pop-nbtags">${S.noteTags().length ? S.noteTags().slice().sort((a, b) => a.name.localeCompare(b.name, 'de')).map(t => `<button type="button" class="item" data-action="nb-tag-toggle" data-id="${cur.id}" data-tag="${t.id}" aria-checked="${(cur.tags || []).includes(t.id)}"><span class="chk">${(cur.tags || []).includes(t.id) ? I.check : ''}</span>${esc(t.name)}</button>`).join('') : '<div class="small muted" style="padding:8px 12px">Noch keine Tags</div>'}<hr><button type="button" class="item" data-action="nb-tag-new" data-id="${cur.id}">${I.plus} Neuen Tag anlegen</button></div></div></div>
           </div>${stats}<div class="note-body"><div id="nb-editor"></div><input type="file" accept="application/json,.json" class="hidden" id="nb-import-file"></div></div>`;
       }
-      return `${search}<section class="card flush nb-card"><div class="nb ${nb.leftOpen ? '' : 'no-left'}" data-view="${nb.view}">${(nb.leftOpen ? left : '') + mid}${right}</div></section>`;
+      return `${search}<div class="nb ${nb.leftOpen ? '' : 'no-left'}" data-view="${nb.view}">${(nb.leftOpen ? left : '') + mid}${right}</div>`;
     },
     mount(main) {
       const nb = st(); const el = main.querySelector('#nb-editor'); if (!el || !root.NoteEditor) return; const n = S.getNote(nb.note); if (!n) return;

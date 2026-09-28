@@ -7,8 +7,6 @@
     standard: { name: 'Standard', desc: 'Klar und neutral, Zahlen in Roboto', text: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif', num: '"Roboto", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Inter:wght@400;500;600;700;800', 'Roboto:wght@400;500;700'] },
     rund: { name: 'Rund', desc: 'Weiche, runde Formen', text: '"Nunito", "Segoe UI", system-ui, sans-serif', gf: ['Nunito:wght@400;500;600;700;800'] },
     geschwungen: { name: 'Geschwungen', desc: 'Leicht und geschwungen', text: '"Quicksand", "Segoe UI", system-ui, sans-serif', gf: ['Quicksand:wght@400;500;600;700'] },
-    codiert: { name: 'Codiert', desc: 'Monospace wie im Code-Editor', text: '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace', gf: ['JetBrains+Mono:wght@400;500;600;700;800'] },
-    modern: { name: 'Modern', desc: 'Technisch und markant', text: '"Space Grotesk", "Segoe UI", system-ui, sans-serif', gf: ['Space+Grotesk:wght@400;500;600;700'] },
   };
   function loadFont(key) { const f = FONTS[key]; if (!f || typeof document === 'undefined') return; for (const fam of f.gf) { const id = 'font-' + fam.replace(/[^a-z]/gi, '').toLowerCase(); if (document.getElementById(id)) continue; const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + fam + '&display=swap'; document.head.appendChild(l); } }
   const PRESETS_ACCENT = [['Neongrün', '#34f58a'], ['Violett', '#7b61ff'], ['Blau', '#3b82f6'], ['Türkis', '#22d3ee'], ['Orange', '#f97316'], ['Pink', '#ec4899'], ['Gelb', '#facc15'], ['Weiß', '#e5e7eb']];

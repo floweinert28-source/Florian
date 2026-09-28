@@ -21,11 +21,12 @@
     render(ctx) {
       if (ctx.params[0]) return renderDetail(ctx.params[0], ctx);
       const view = App.state.tradeFilter.view; const list = ctx.inRange; const s = C.summary(list);
+      const W = root.Widgets; const d = W.data(ctx, App); let cum = 0; const spark = d.days.map(x => { cum += x.pnl; return cum; }); U.chartData['tl-spark'] = { values: spark };
       const head = `<div class="grid tiles">
-        ${U.tile('Netto-P&L kumuliert', U.pnl(s.total, '', { signed: false }), { n: `${s.n}`, info: 'Summe aller abgeschlossenen Trades im Zeitraum.' })}
-        ${U.tile('Profit-Faktor', s.n ? fmt.factor(s.pf) : '—', { info: 'Bruttogewinn geteilt durch Bruttoverlust.' })}
-        ${U.tile('Trade-Win-Rate', fmt.pct(s.winRate, 1), { info: 'Anteil der Gewinn-Trades.', gauge: `<span class="pills">${U.pill(s.wins, 'win')}${U.pill(s.be, 'be')}${U.pill(s.losses, 'loss')}</span>` })}
-        ${U.tile('Ø Gewinn / Verlust', s.payoff == null ? (s.avgWin > 0 ? '∞' : '—') : fmt.num(s.payoff, 2), { info: 'Durchschnittlicher Gewinn geteilt durch durchschnittlichen Verlust.' })}
+        <div class="tile spark-tile"><div class="head"><span>Netto-P&L kumuliert${U.info('Summe aller abgeschlossenen Trades im Zeitraum. Darunter der kumulierte Verlauf je Handelstag.')}</span>${s.n ? `<span class="n">${s.n} Trades</span>` : ''}</div><div class="val">${s.n ? U.pnl(s.total, '', { signed: false }) : '<span class="nodata">Noch keine Daten</span>'}</div>${s.n ? `<div class="chart h80" data-chart="spark" data-id="tl-spark"></div>` : ''}</div>
+        ${W.render({ typ: 'profit_faktor' }, d, App)}
+        ${W.render({ typ: 'trade_trefferquote' }, d, App)}
+        ${W.render({ typ: 'avg_gewinn_verlust' }, d, App)}
       </div>`;
       const tabs = U.tabs([['trades', 'Trades'], ['days', 'Tage'], ['missed', 'Verpasste Trades']], view, 'trades-view');
       return head + `<div class="row between">${tabs}${view === 'missed' ? `<button type="button" class="btn sm" data-action="new-missed">${I.plus} Verpassten Trade notieren</button>` : ''}</div>` + (view === 'days' ? renderDays(list) : view === 'missed' ? renderMissed() : renderTable(list, ctx));

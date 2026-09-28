@@ -869,7 +869,7 @@ span.info:hover { color: var(--accent); }
 .more-link { color: var(--accent); font-weight: 600; font-size: 13px; text-decoration: none; }
 .more-link:hover { text-decoration: underline; }
 /* Regel-Tracker (Aufbau nach TradeZella) */
-.tracker { display: grid; grid-template-columns: 30px repeat(var(--weeks, 13), minmax(0, 1fr)); gap: 4px; align-items: center; }
+.tracker { display: grid; grid-template-columns: 28px repeat(var(--weeks, 13), minmax(0, 1fr)); gap: 3px; align-items: center; }
 .tracker .tl, .tracker .ml { font-size: 12px; color: var(--muted); height: 16px; line-height: 16px; white-space: nowrap; overflow: visible; }
 .tracker .wl { font-size: 12px; color: var(--muted); padding-right: 4px; border-right: 1px solid var(--border); }
 .tracker i { display: block; aspect-ratio: 1; border-radius: 5px; background: var(--surface-2); cursor: pointer; }
@@ -883,10 +883,10 @@ span.info:hover { color: var(--accent); }
 .tracker i:hover { transform: scale(1.12); }
 .heat-legend.right { justify-content: flex-end; margin-top: 8px; font-size: 12px; }
 .heat-legend.right i { width: 16px; height: 16px; border-radius: 4px; }
-.tracker-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.tracker-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
 .tracker-foot > div { flex: 1 1 auto; min-width: 0; }
 .tracker-foot > .btn { flex: 0 0 auto; padding: 8px 12px; font-size: 12.5px; }
-.tracker-foot .score-n { font-family: var(--font-display); font-size: 26px; font-weight: 700; }
+.tracker-foot .score-n { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
 .tracker-foot .bar-track { flex: 1 1 60px; max-width: 160px; height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
 .tracker-foot .bar-track i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
 /* Jahreskalender kompakt */

@@ -63,6 +63,7 @@
     eyeOff: sv('<path d="M3 3l18 18M10 6a10 10 0 0 1 2-.2c6 0 10 6.2 10 6.2a17 17 0 0 1-3 3.5M6.6 6.6A16 16 0 0 0 2 12s4 6.2 10 6.2a9 9 0 0 0 4-1"/>'),
     arrowUp: sv('<path d="M12 19V5M5 12l7-7 7 7"/>'),
     arrowDown: sv('<path d="M12 5v14M5 12l7 7 7-7"/>'),
+    grip: sv('<circle cx="9" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1.5" fill="currentColor" stroke="none"/>'),
     dice: sv('<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="16" cy="8" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="8" cy="16" r="1.3" fill="currentColor"/><circle cx="16" cy="16" r="1.3" fill="currentColor"/>'),
   };
 
@@ -286,6 +287,11 @@
     });
   }
 
+  function promptModal(title, o = {}) {
+    return new Promise(res => {
+      modal(`<div class="modal-head"><h2>${esc(title)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><form class="stack"><label class="field"><span>${esc(o.label || 'Name')}</span><input class="input" name="v" value="${esc(o.value || '')}" placeholder="${esc(o.placeholder || '')}" maxlength="${o.maxlength || 80}" required></label><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${esc(o.ok || 'OK')}</button></div></form>`, { cls: 'narrow', onMount(el) { el.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { closeModal(); res(null); })); el.querySelector('form').addEventListener('submit', e => { e.preventDefault(); const v = el.querySelector('input[name=v]').value; closeModal(); res(v); }); const inp = el.querySelector('input[name=v]'); setTimeout(() => { inp.focus(); inp.select(); }, 40); } });
+    });
+  }
   function downloadText(name, text, mime = 'application/json') { let ok = false; try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); ok = true; } catch (e) { ok = false; } modal(`<div class="modal-head"><h2>${esc(name)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted small">${ok ? 'Der Download wurde gestartet. Falls nichts passiert (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn selbst.' : 'Kopiere den Text und speichere ihn als Datei.'}</p><textarea class="input mono" id="dl-text" style="min-height:160px" readonly>${esc(text.length > 2000000 ? 'Zu groß für die Anzeige.' : text)}</textarea><div class="modal-foot"><button type="button" class="btn" data-action="copy-text" data-target="dl-text">${I.copy} Kopieren</button><button type="button" class="btn primary" data-close>Fertig</button></div>`, { cls: 'narrow' }); }
-  root.UI = { I, esc, fmt, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, niceTicks, smooth };
+  root.UI = { I, esc, fmt, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth };
 })(typeof self !== 'undefined' ? self : this);

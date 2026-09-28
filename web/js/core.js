@@ -341,6 +341,34 @@
     return streak;
   }
 
+  /* ---------- Dashboard: Drawdown, Tages-Serien, laufende Kennzahlen ---------- */
+  function drawdownSeries(days) { let cum = 0, peak = 0; return days.map(d => { cum += d.pnl; peak = Math.max(peak, cum); return { date: d.day, key: d.key, cum, peak, dd: cum - peak, pnl: d.pnl }; }); }
+  function drawdownStats(days, account) {
+    const acct = account > 0 ? account : 10000; const series = drawdownSeries(days);
+    let max = 0, maxAt = null, maxPeak = 0; const episodes = []; let ep = null;
+    for (const p of series) {
+      if (p.dd < -EPS) { if (!ep) ep = { start: p.date, depth: 0, peak: p.peak, at: p.date }; if (p.dd < ep.depth) { ep.depth = p.dd; ep.at = p.date; } }
+      else if (ep) { episodes.push(ep); ep = null; }
+      if (p.dd < max) { max = p.dd; maxAt = p.date; maxPeak = p.peak; }
+    }
+    if (ep) episodes.push(ep);
+    const last = series[series.length - 1]; const pct = (dd, peak) => dd / (acct + peak);
+    return { series, max, maxAt, maxPct: pct(max, maxPeak), avg: episodes.length ? mean(episodes.map(e => e.depth)) : 0, avgPct: episodes.length ? mean(episodes.map(e => pct(e.depth, e.peak))) : 0, current: last ? last.dd : 0, currentPct: last ? pct(last.dd, last.peak) : 0, currentAt: last ? last.date : null, episodes: episodes.length };
+  }
+  function dayStreaks(days) {
+    let run = 0, runKind = null, maxW = 0, maxL = 0;
+    for (const d of days) { const k = d.pnl > EPS ? 'win' : d.pnl < -EPS ? 'loss' : null; if (!k) continue; if (k === runKind) run++; else { run = 1; runKind = k; } if (k === 'win') maxW = Math.max(maxW, run); else maxL = Math.max(maxL, run); }
+    return { current: run, kind: runKind, maxWin: maxW, maxLoss: maxL };
+  }
+  function runningStats(days) {
+    let n = 0, wins = 0, losses = 0, gp = 0, gl = 0, total = 0, cum = 0, peak = 0;
+    return days.map(d => {
+      for (const t of d.trades) { n++; total += t.pnl; if (t.status === 'win') { wins++; gp += t.pnl; } else if (t.status === 'loss') { losses++; gl += t.pnl; } }
+      cum += d.pnl; peak = Math.max(peak, cum); const avgWin = wins ? gp / wins : 0, avgLoss = losses ? gl / losses : 0;
+      return { date: d.day, key: d.key, n, dayN: d.n, dayPnl: d.pnl, cum, winRate: n ? wins / n : 0, avgWin, avgLoss, pf: gl < 0 ? gp / -gl : (gp > 0 ? null : 0), expectancy: n ? total / n : 0, dd: cum - peak, payoff: avgLoss < 0 ? avgWin / -avgLoss : null };
+    });
+  }
+
   /* ---------- CSV ---------- */
   function parseCSV(text) {
     text = text.replace(/^﻿/, '');
@@ -490,6 +518,7 @@
     derive, deriveAll, closedOnly, summary, streaks, dailyAggregation, daySummary, equityCurve, cumulativeByDay, calendarMonth,
     discipline, avgDiscipline, weeklyDiscipline, mistakeReport, groupBy, timeAnalysis, regimeAnalysis, WEEKDAYS, HOUR_BUCKETS, HOLD_BUCKETS,
     edge, monteCarlo, pearson, stateAnalysis, traderScore, SCORE_AXES, tiltCheck, tiltProfile, stats16, activityDays, journalStreak,
+    drawdownSeries, drawdownStats, dayStreaks, runningStats,
     parseCSV, FIELDS, guessMapping, parseNumber, parseDate, parseDirection, mapRows, dedupeKey, sentiment, insights,
   };
 });

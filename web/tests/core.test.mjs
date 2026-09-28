@@ -99,3 +99,24 @@ test('calendarMonth und stats16', () => {
   const weeks = C.calendarMonth(C.dailyAggregation(list), 2026, 2); assert.equal(weeks.length, 6); assert.equal(weeks[1].pnl, 10); assert.equal(weeks[2].pnl, -10);
   const st = C.stats16(list); assert.equal(st.items.length, 16); assert.equal(st.items.find(i => i.key === 'days').v, 2);
 });
+
+test('drawdownStats: Tiefe, Datum, Episoden, aktueller Drawdown', () => {
+  const day = (k, pnl) => ({ key: k, day: C.parseDayKey(k), pnl, n: 1, trades: [] });
+  const days = [day('2026-03-02', 100), day('2026-03-03', -50), day('2026-03-04', -30), day('2026-03-05', 100), day('2026-03-06', -20)];
+  const dd = C.drawdownStats(days, 10000);
+  assert.equal(dd.max, -80); assert.equal(C.dayKey(dd.maxAt), '2026-03-04'); assert.equal(dd.episodes, 2); assert.equal(dd.avg, -50); assert.equal(dd.current, -20);
+  assert.ok(Math.abs(dd.maxPct - (-80 / 10100)) < 1e-9);
+  assert.equal(C.drawdownStats([], 10000).max, 0);
+});
+
+test('dayStreaks: aktuelle und längste Tages-Serien', () => {
+  const day = (i, pnl) => ({ key: '2026-03-0' + i, day: new Date(2026, 2, i), pnl, n: 1, trades: [] });
+  const s = C.dayStreaks([day(1, 10), day(2, 5), day(3, -1), day(4, -2), day(5, -3), day(6, 0), day(7, 4)]);
+  assert.equal(s.current, 1); assert.equal(s.kind, 'win'); assert.equal(s.maxWin, 2); assert.equal(s.maxLoss, 3);
+});
+
+test('runningStats: laufende Kennzahlen je Handelstag', () => {
+  const list = C.deriveAll([mk({ exitPrice: 110 }), mk({ openedAt: '2026-03-03T09:00:00', closedAt: '2026-03-03T10:00:00', exitPrice: 95 }), mk({ openedAt: '2026-03-03T11:00:00', closedAt: '2026-03-03T12:00:00', exitPrice: 120 })]);
+  const r = C.runningStats(C.dailyAggregation(list));
+  assert.equal(r.length, 2); assert.equal(r[0].winRate, 1); assert.equal(r[1].n, 3); assert.ok(Math.abs(r[1].winRate - 2 / 3) < 1e-9); assert.equal(r[1].avgWin, 15); assert.equal(r[1].avgLoss, -5); assert.equal(r[1].cum, 25); assert.equal(r[1].pf, 6);
+});

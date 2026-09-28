@@ -9,13 +9,29 @@
     mistakes: ['FOMO', 'Regel gebrochen', 'Revenge-Trade', 'Zu früh raus', 'Stop verschoben', 'Übergröße', 'Kein Plan', 'Zu spät rein', 'Overtrading'],
     emotions: ['Ruhig', 'Fokussiert', 'Gelangweilt', 'Unsicher', 'Gierig', 'Ängstlich', 'Euphorisch', 'Frustriert', 'Müde'],
   };
-  const WIDGETS = { kpis: 'Kennzahlen', score: 'Score', pnl: 'Kumulierter Netto-P&L', balance: 'Kontostand', recent: 'Letzte Trades', calendar: 'Kalender' };
+  /* Dashboard-Vorlagen: layout = { oben: [{ typ }], unten: [{ typ, groesse, einstellungen }] } */
+  const SIZES = ['klein', 'mittel', 'gross'];
+  function defaultDashboard() {
+    const now = new Date().toISOString();
+    return { id: 'standard', name: 'Standard', isDefault: true, lastActiveAt: null, createdAt: now, updatedAt: now, layout: {
+      oben: ['netto_pnl', 'trade_trefferquote', 'profit_faktor', 'tages_trefferquote', 'avg_gewinn_verlust'].map(typ => ({ typ })),
+      unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'kum_pnl', groesse: 'klein' }, { typ: 'pnl_pro_tag', groesse: 'klein' }, { typ: 'letzte_trades', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }],
+    } };
+  }
+  function migrateDashboards(data) {
+    if (!Array.isArray(data.dashboards)) data.dashboards = [];
+    data.dashboards = data.dashboards.filter(d => d && d.id && d.layout);
+    if (!data.dashboards.length) data.dashboards.push(defaultDashboard());
+    for (const d of data.dashboards) { d.layout.oben = (d.layout.oben || []).filter(w => w && w.typ).slice(0, 5).map(w => ({ typ: w.typ })); d.layout.unten = (d.layout.unten || []).filter(w => w && w.typ).map(w => ({ typ: w.typ, groesse: SIZES.includes(w.groesse) ? w.groesse : 'klein', einstellungen: w.einstellungen || undefined })); d.name = String(d.name || 'Vorlage'); }
+    if (!data.dashboards.some(d => d.isDefault)) data.dashboards[0].isDefault = true;
+    let seen = false; for (const d of data.dashboards) { if (d.isDefault && seen) d.isDefault = false; if (d.isDefault) seen = true; }
+  }
 
   function defaults() {
     return {
       version: 1,
-      settings: { theme: 'dark', currency: 'EUR', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, widgets: Object.fromEntries(Object.keys(WIDGETS).map(k => [k, true])), range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' } },
-      accounts: [{ id: 'main', name: 'Hauptkonto', size: 25000, currency: 'EUR' }],
+      settings: { theme: 'dark', currency: 'EUR', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' }, dashboardId: null },
+      accounts: [{ id: 'main', name: 'Hauptkonto', size: 25000, currency: 'EUR' }], dashboards: [defaultDashboard()],
       trades: [], days: {}, notes: [], folders: defaultFolders(), noteTags: [], templates: defaultTemplates(), strategies: [], rules: [], missed: [], sessions: [], tags: JSON.parse(JSON.stringify(DEFAULT_TAGS)), dismissed: {},
     };
   }
@@ -54,8 +70,8 @@
     data: defaults(), listeners: new Set(), _timer: null, storageOK: true,
     load() {
       let raw = null; try { raw = localStorage.getItem(KEY); } catch (e) { this.storageOK = false; }
-      if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.widgets = Object.assign(defaults().settings.widgets, (parsed.settings || {}).widgets || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '' }, (parsed.settings || {}).colors || {}); this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
-      migrateNotes(this.data);
+      if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '' }, (parsed.settings || {}).colors || {}); this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
+      migrateNotes(this.data); migrateDashboards(this.data);
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       return this;
     },
@@ -136,6 +152,18 @@
     addTag(kind, name) { name = name.trim(); if (!name) return; if (!this.data.tags[kind].includes(name)) this.data.tags[kind].push(name); this.save(); },
     removeTag(kind, name) { this.data.tags[kind] = this.data.tags[kind].filter(x => x !== name); this.save(); },
 
+    /* Dashboard-Vorlagen */
+    dashboards() { return this.data.dashboards; },
+    getDashboard(id) { return this.data.dashboards.find(d => d.id === id) || null; },
+    defaultDashboard() { return this.data.dashboards.find(d => d.isDefault) || this.data.dashboards[0]; },
+    activeDashboard() { return this.getDashboard(this.data.settings.dashboardId) || this.defaultDashboard(); },
+    setActiveDashboard(id) { const d = this.getDashboard(id); if (!d) return null; this.data.settings.dashboardId = id; d.lastActiveAt = new Date().toISOString(); this.save(); return d; },
+    addDashboard(name, layout) { const now = new Date().toISOString(); const d = { id: C.uid(), name: String(name || 'Neue Vorlage').trim() || 'Neue Vorlage', isDefault: false, lastActiveAt: null, createdAt: now, updatedAt: now, layout: JSON.parse(JSON.stringify(layout || { oben: [], unten: [] })) }; this.data.dashboards.push(d); this.save(); return d; },
+    updateDashboard(id, patch) { const d = this.getDashboard(id); if (!d) return null; Object.assign(d, patch, { updatedAt: new Date().toISOString() }); this.save(); return d; },
+    duplicateDashboard(id) { const d = this.getDashboard(id); if (!d) return null; return this.addDashboard(d.name + ' (Kopie)', d.layout); },
+    setDefaultDashboard(id) { if (!this.getDashboard(id)) return; for (const d of this.data.dashboards) d.isDefault = d.id === id; this.save(); },
+    deleteDashboard(id) { if (this.data.dashboards.length <= 1) return false; const d = this.getDashboard(id); if (!d) return false; this.data.dashboards = this.data.dashboards.filter(x => x.id !== id); if (d.isDefault) this.data.dashboards[0].isDefault = true; if (this.data.settings.dashboardId === id) this.data.settings.dashboardId = this.defaultDashboard().id; this.save(); return true; },
+
     /* Sessions */
     startSession(pre) { const s = { id: C.uid(), startedAt: new Date().toISOString(), endedAt: null, pre: pre || {}, post: null }; this.data.sessions.push(s); this.save(); return s; },
     activeSession() { return this.data.sessions.find(s => !s.endedAt) || null; },
@@ -173,11 +201,11 @@
       if (mode === 'replace') { this.data = Object.assign(defaults(), d); this.data.settings = Object.assign(defaults().settings, d.settings || {}); }
       else { const ids = new Set(this.data.trades.map(t => t.id)); const keys = new Set(this.data.trades.map(C.dedupeKey)); for (const t of d.trades) if (!ids.has(t.id) && !keys.has(C.dedupeKey(t))) this.data.trades.push(t); for (const [k, v] of Object.entries(d.days || {})) this.data.days[k] = Object.assign({}, this.data.days[k] || {}, v); const nids = new Set(this.data.notes.map(n => n.id)); for (const n of d.notes || []) if (!nids.has(n.id)) this.data.notes.push(n); for (const s of d.strategies || []) if (!this.data.strategies.some(x => x.name === s.name)) this.data.strategies.push(s); for (const r of d.rules || []) if (!this.data.rules.some(x => x.text === r.text)) this.data.rules.push(r); for (const m of d.missed || []) if (!this.data.missed.some(x => x.id === m.id)) this.data.missed.push(m); }
       if (parsed.blobs) for (const [id, b] of Object.entries(parsed.blobs)) { const blob = await (await fetch(b.data)).blob(); await Blobs.put(blob, id).catch(() => {}); }
-      migrateNotes(this.data); if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
+      migrateNotes(this.data); migrateDashboards(this.data); if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       this.saveNow(); this.listeners.forEach(fn => fn());
       return { trades: d.trades.length };
     },
-    WIDGETS, DEFAULT_TAGS, textDelta, deltaText, hasContent, dayTitle,
+    DEFAULT_TAGS, DASHBOARD_SIZES: SIZES, newDefaultDashboard: defaultDashboard, textDelta, deltaText, hasContent, dayTitle,
   };
 
   function dayTitle(key) { const d = C.parseDayKey(key); const wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][d.getDay()]; const mo = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][d.getMonth()]; return `${wd}, ${d.getDate()}. ${mo} ${d.getFullYear()}`; }

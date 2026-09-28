@@ -2,7 +2,7 @@
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
-  const WEEKS = 34;
+  const WEEKS = 26;
   const arrow = (dir) => dir > 0 ? `<span class="trend up" aria-label="steigend">${I.arrowUp}</span>` : dir < 0 ? `<span class="trend down" aria-label="fallend">${I.arrowDown}</span>` : '';
   function ruleRate(rules, from, to) { const entries = Object.values(S.data.days).filter(d => d.rulesFollowed && (!from || (C.parseDayKey(d.key) >= from && C.parseDayKey(d.key) <= to))); return { n: entries.length, rate: rules.length && entries.length ? C.mean(entries.map(d => d.rulesFollowed.filter(id => rules.some(x => x.id === id)).length / rules.length)) : null }; }
   function activityGrid(activity, account) {

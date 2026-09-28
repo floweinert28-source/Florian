@@ -1097,3 +1097,41 @@ span.info:hover { color: var(--accent); }
 .ql-editor h2 { font-size: var(--nb-h2, 24px); }
 .ql-editor h3 { font-size: var(--nb-h3, 19px); }
 html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color: var(--text); }
+/* Profil: Foto */
+.avatar-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.avatar-big { position: relative; width: 84px; height: 84px; border-radius: 999px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--accent-ink); font-weight: 700; font-size: 26px; cursor: pointer; overflow: hidden; flex: 0 0 auto; }
+.avatar-big img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-big .cam { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0, 0, 0, .45); color: #fff; opacity: 0; transition: opacity .15s; }
+.avatar-big .cam svg { width: 22px; height: 22px; }
+.avatar-big:hover .cam { opacity: 1; }
+.avatar img { width: 100%; height: 100%; border-radius: 999px; object-fit: cover; display: block; }
+.tbl td.c, .tbl th.c { text-align: center; }
+.tbl td.c .cat-dot { display: inline-block; vertical-align: middle; }
+/* Design: Schrift und Farben */
+.font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.font-card { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-2); background: var(--surface-2); color: var(--text); cursor: pointer; text-align: left; }
+.font-card .sample { font-size: 30px; font-weight: 700; line-height: 1.1; }
+.font-card .nums { font-size: 14px; color: var(--text-2); margin-bottom: 8px; }
+.font-card b { font-size: 13px; font-family: var(--font); }
+.font-card small { font-size: 11.5px; color: var(--muted); font-family: var(--font); }
+.font-card:hover { border-color: var(--text-2); }
+.font-card[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-soft); }
+.dots { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.dot { position: relative; width: 38px; height: 38px; border-radius: 999px; border: 3px solid var(--surface); background: var(--c); box-shadow: 0 0 0 1px var(--border-2); cursor: pointer; padding: 0; transition: transform .12s; }
+.dot:hover { transform: scale(1.1); }
+.dot[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--text); transform: scale(1.08); }
+.dot.custom { display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); border-style: dashed; border-color: var(--border-2); box-shadow: none; }
+.dot.custom svg { width: 16px; height: 16px; pointer-events: none; }
+.dot.custom input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.pair-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.pair-card { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-2); background: var(--surface-2); color: var(--text); cursor: pointer; text-align: left; }
+.pair-card .pv { display: flex; gap: 6px; }
+.pair-card .pv i { flex: 1; display: block; padding: 7px 8px; border-radius: 8px; font-style: normal; font-weight: 700; font-size: 12.5px; color: #04140a; text-align: center; }
+.pair-card b { font-size: 13px; }
+.pair-card:hover { border-color: var(--text-2); }
+.pair-card[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.cpick-row { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.cpick { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.cpick input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.cpick i { width: 34px; height: 34px; border-radius: 999px; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--border-2); display: block; }
+.cpick:hover i { box-shadow: 0 0 0 2px var(--text); }

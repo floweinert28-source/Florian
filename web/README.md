@@ -20,7 +20,7 @@ python3 -m http.server 8080
 ```
 
 Beim ersten Start werden Beispieldaten geladen (rund 170 Trades über vier Monate). Sie sind als
-Beispiele markiert und lassen sich unter **Einstellungen → Daten** mit einem Klick entfernen.
+Beispiele markiert und lassen sich unter **Einstellungen → Profil → Daten und Sicherung** mit einem Klick entfernen.
 
 ## Veröffentlichen
 
@@ -62,7 +62,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Netto-P&L und eine aufklappbare Statistik.
 - **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
-- **Einstellungen**: Konten, Regeln, Tags, Limits, Export/Import als JSON (optional mit Anhängen), Beispieldaten.
+- **Einstellungen** in Bereichen: Profil (Angaben, Profilbild, Privatsphäre, 2FA, Daten und Sicherung), Design (Hell/Dunkel, fünf Schriftarten, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
   Die Wahl gilt für die ganze Website inklusive Startseite.
 

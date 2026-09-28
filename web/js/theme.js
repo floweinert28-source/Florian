@@ -1,7 +1,16 @@
 /* Farben: Akzent, Gewinn und Verlust frei wählbar; gilt für App und Startseite */
 (function (root) {
   'use strict';
-  const DEFAULTS = { dark: { accent: '#34f58a', profit: '#34f58a', loss: '#ff5c5c' }, light: { accent: '#0fb862', profit: '#0fb862', loss: '#e03e3e' } };
+  const DEFAULTS = { dark: { accent: '#34f58a', profit: '#34f58a', loss: '#ff5c5c', be: '#8b7cf6' }, light: { accent: '#0fb862', profit: '#0fb862', loss: '#e03e3e', be: '#6b5bd6' } };
+  /* Schriftarten: „standard“ = Systemschrift (SF Pro / Inter) mit Roboto-Zahlen, alle anderen eine Schrift für Text und Zahlen */
+  const FONTS = {
+    standard: { name: 'Standard', desc: 'Klar und neutral, Zahlen in Roboto', text: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif', num: '"Roboto", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Inter:wght@400;500;600;700;800', 'Roboto:wght@400;500;700'] },
+    rund: { name: 'Rund', desc: 'Weiche, runde Formen', text: '"Nunito", "Segoe UI", system-ui, sans-serif', gf: ['Nunito:wght@400;500;600;700;800'] },
+    geschwungen: { name: 'Geschwungen', desc: 'Leicht und geschwungen', text: '"Quicksand", "Segoe UI", system-ui, sans-serif', gf: ['Quicksand:wght@400;500;600;700'] },
+    codiert: { name: 'Codiert', desc: 'Monospace wie im Code-Editor', text: '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace', gf: ['JetBrains+Mono:wght@400;500;600;700;800'] },
+    modern: { name: 'Modern', desc: 'Technisch und markant', text: '"Space Grotesk", "Segoe UI", system-ui, sans-serif', gf: ['Space+Grotesk:wght@400;500;600;700'] },
+  };
+  function loadFont(key) { const f = FONTS[key]; if (!f || typeof document === 'undefined') return; for (const fam of f.gf) { const id = 'font-' + fam.replace(/[^a-z]/gi, '').toLowerCase(); if (document.getElementById(id)) continue; const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + fam + '&display=swap'; document.head.appendChild(l); } }
   const PRESETS_ACCENT = [['Neongrün', '#34f58a'], ['Violett', '#7b61ff'], ['Blau', '#3b82f6'], ['Türkis', '#22d3ee'], ['Orange', '#f97316'], ['Pink', '#ec4899'], ['Gelb', '#facc15'], ['Weiß', '#e5e7eb']];
   const PRESETS_PAIR = [['Grün / Rot', '#34f58a', '#ff5c5c'], ['Blau / Orange', '#3b82f6', '#f97316'], ['Türkis / Pink', '#22d3ee', '#ec4899'], ['Violett / Gelb', '#8b7cf6', '#facc15'], ['Grün / Grau', '#34f58a', '#9aa3a0'], ['Weiß / Rot', '#f2f5f3', '#ff5c5c']];
   const hex2rgb = h => { const s = h.replace('#', ''); const v = s.length === 3 ? s.split('').map(c => c + c).join('') : s; const n = parseInt(v, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
@@ -19,8 +28,10 @@
     set('--accent', acc); set('--accent-2', acc && shade(acc, -0.14)); set('--accent-soft', acc && rgba(acc, 0.13)); set('--accent-glow', acc && rgba(acc, 0.3)); set('--accent-ink', acc && (lum(acc) > 0.4 ? '#04140a' : '#ffffff'));
     const p = valid(c.profit) ? (light ? forLight(c.profit) : c.profit) : null; const l = valid(c.loss) ? (light ? forLight(c.loss) : c.loss) : null;
     set('--profit', p); set('--loss', l); set('--loss-soft', l && rgba(l, 0.14));
+    const b = valid(c.be) ? (light ? forLight(c.be) : c.be) : null; set('--be', b); set('--be-soft', b && rgba(b, 0.16));
+    const fk = FONTS[settings && settings.font] ? settings.font : 'standard'; const f = FONTS[fk]; loadFont(fk); set('--font', fk === 'standard' ? null : f.text); set('--font-display', fk === 'standard' ? null : f.text); set('--font-num', fk === 'standard' ? null : f.text); root.dataset.font = fk;
     const nb = (settings && settings.notebook) || {}; const px = v => v > 0 ? v + 'px' : null; set('--nb-h1', px(nb.h1)); set('--nb-h2', px(nb.h2)); set('--nb-h3', px(nb.h3)); set('--nb-body', px(nb.body)); root.classList.toggle('nb-nostrike', nb.strike === false);
   }
   function applyFromStorage(key) { try { const raw = localStorage.getItem(key || 'trading-journal-web-v1'); if (raw) apply(JSON.parse(raw).settings || {}); } catch (e) { /* ohne Speicher: Standardfarben */ } }
-  root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, apply, applyFromStorage, lum, shade, valid };
+  root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, FONTS, loadFont, apply, applyFromStorage, lum, shade, valid };
 })(typeof self !== 'undefined' ? self : this);

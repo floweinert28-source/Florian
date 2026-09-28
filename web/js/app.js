@@ -76,9 +76,11 @@
       document.addEventListener('click', e => {
         const pop = e.target.closest('[data-pop]'); if (pop) { const id = 'pop-' + pop.dataset.pop; document.querySelectorAll('.popover.open').forEach(p => { if (p.id !== id) p.classList.remove('open'); }); document.getElementById(id)?.classList.toggle('open'); return; }
         if (!e.target.closest('.popover')) document.querySelectorAll('.popover.open').forEach(p => p.classList.remove('open'));
-        if (e.target.closest('[data-stop]')) return;
-        const closeEl = e.target.closest('[data-close]'); if (closeEl) { if (closeEl.isConnected) U.closeModal(); return; }
-        const el = e.target.closest('[data-action]'); if (!el || el.tagName === 'FORM') return;
+        const stopEl = e.target.closest('[data-stop]'); const closeEl = e.target.closest('[data-close]'); const el = e.target.closest('[data-action]');
+        const inside = x => !!x && x !== stopEl && stopEl.contains(x);
+        if (stopEl && !inside(closeEl) && !inside(el)) return; /* data-stop schirmt nur äußere Aktionen ab, nicht Knöpfe darin */
+        if (closeEl) { if (closeEl.isConnected) U.closeModal(); return; }
+        if (!el || el.tagName === 'FORM') return;
         const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, el, e); }
       });
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });

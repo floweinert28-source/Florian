@@ -973,8 +973,8 @@ span.info:hover { color: var(--accent); }
 }
 /* TradeLog: Kennzahl-Kachel mit Verlauf */
 .tile.spark-tile { gap: 2px; padding-bottom: 12px; }
-.tile.spark-tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; flex: 1; display: flex; align-items: flex-end; padding-bottom: 4px; min-height: 44px; }
-.tile.spark-tile .chart { flex: 0 0 auto; min-height: 0; height: 84px; }
+.tile.spark-tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; flex: 1; display: flex; align-items: flex-end; padding-bottom: 0; margin-bottom: -6px; min-height: 44px; }
+.tile.spark-tile .chart { flex: 0 0 auto; min-height: 0; height: 66px; }
 /* TradeLog: Seiten, sichtbarer Ausschnitt etwa 10 Zeilen */
 .tbl-wrap.paged { overflow: hidden; display: flex; flex-direction: column; }
 .tbl-wrap.paged .tbl-scroll { max-height: 530px; overflow: auto; }

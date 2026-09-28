@@ -22,7 +22,7 @@
   function wrap(area, i, inst, html, count) {
     const s = st(); const e = W.get(inst.typ) || {}; const size = area === 'unten' ? (inst.groesse || e.groesse || 'klein') : '';
     const bar = s.editing ? `<div class="w-bar"><button type="button" class="handle" title="Ziehen zum Verschieben" aria-label="Verschieben">${I.grip}</button><span class="w-name">${esc(e.name || inst.typ)}</span>${area === 'unten' ? `<div class="seg mini">${Object.entries(W.SIZES).map(([k, l]) => `<button type="button" data-action="dash-size" data-value="${k}" aria-pressed="${size === k}">${l}</button>`).join('')}</div>` : ''}<div class="mv"><button type="button" class="btn ghost icon sm" data-action="dash-move" data-dir="-1" ${i === 0 ? 'disabled' : ''} aria-label="Nach vorn">${area === 'oben' ? I.chevL : I.arrowUp}</button><button type="button" class="btn ghost icon sm" data-action="dash-move" data-dir="1" ${i === count - 1 ? 'disabled' : ''} aria-label="Nach hinten">${area === 'oben' ? I.chevR : I.arrowDown}</button></div><button type="button" class="btn ghost icon sm rm" data-action="dash-remove" title="Entfernen" aria-label="Widget entfernen">${I.close}</button></div>` : '';
-    return `<div class="w ${s.editing ? 'editing' : ''} ${size ? 'sz-' + size : ''} ${e.hoch ? 'tall' : ''}" data-area="${area}" data-idx="${i}" data-typ="${esc(inst.typ)}">${bar}<div class="w-body">${html}</div></div>`;
+    return `<div class="w ${s.editing ? 'editing' : ''} ${size ? 'sz-' + size : ''} ${e.hoch ? 'tall' : ''} ${e.flach ? 'flat' : ''}" data-area="${area}" data-idx="${i}" data-typ="${esc(inst.typ)}">${bar}<div class="w-body">${html}</div></div>`;
   }
   function topArea(list, d) {
     const s = st(); const items = list.map((inst, i) => wrap('oben', i, inst, W.render(inst, d, App), list.length));
@@ -36,7 +36,7 @@
     if (!items.length) return `<div class="dashed" style="text-align:center;padding:30px">Diese Vorlage hat noch keine Widgets. Über „Vorlage bearbeiten“ fügst du welche hinzu.</div>`;
     return `<div class="dash-main ${s.editing ? 'editing' : ''}">${items.join('')}</div>`;
   }
-  function skeleton(lay) { return `<div class="dash-top" style="--n:${Math.max(1, lay.oben.length)}">${lay.oben.map(() => '<div class="skel" style="height:118px"></div>').join('')}</div><div class="dash-main">${lay.unten.map(w => { const e = W.get(w.typ) || {}; return `<div class="skel sz-${w.groesse || 'klein'} ${e.hoch ? 'tall' : ''}"></div>`; }).join('')}</div>`; }
+  function skeleton(lay) { return `<div class="dash-top" style="--n:${Math.max(1, lay.oben.length)}">${lay.oben.map(() => '<div class="skel" style="height:118px"></div>').join('')}</div><div class="dash-main">${lay.unten.map(w => { const e = W.get(w.typ) || {}; return `<div class="skel sz-${w.groesse || 'klein'} ${e.hoch ? 'tall' : ''} ${e.flach ? 'flat' : ''}"></div>`; }).join('')}</div>`; }
   function panelListHTML(area, lay, q) {
     const have = new Set(lay[area].map(x => x.typ)); const full = area === 'oben' && lay.oben.length >= MAX_TOP; const ql = q.trim().toLowerCase();
     const items = W.list(area).filter(e => !ql || (e.name + ' ' + e.desc).toLowerCase().includes(ql));

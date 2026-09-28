@@ -951,6 +951,21 @@ span.info:hover { color: var(--accent); }
   .tracker { --weeks: 13; }
   .tracker-foot { flex-wrap: wrap; }
 }
+/* TradeLog: Seiten, sichtbarer Ausschnitt etwa 10 Zeilen */
+.tbl-wrap.paged { overflow: hidden; display: flex; flex-direction: column; }
+.tbl-wrap.paged .tbl-scroll { max-height: 530px; overflow: auto; }
+.tbl-wrap.paged .tbl th { z-index: 2; }
+.pager { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-2); background: var(--surface); flex-wrap: wrap; }
+.pager .pg-l { display: inline-flex; align-items: center; gap: 8px; }
+.pager .pg-sep { width: 1px; height: 26px; background: var(--border-2); }
+.pager .pg-info { white-space: nowrap; }
+.pager .pg-nav { display: inline-flex; border: 1px solid var(--border-2); border-radius: 9px; overflow: hidden; }
+.pager .pg-nav button { width: 36px; height: 32px; border: 0; background: var(--surface-2); color: var(--text); cursor: pointer; display: grid; place-items: center; }
+.pager .pg-nav button + button { border-left: 1px solid var(--border-2); }
+.pager .pg-nav button:hover:not(:disabled) { background: var(--surface-3); }
+.pager .pg-nav button:disabled { color: var(--faint); cursor: default; }
+.pager .pg-nav svg { width: 16px; height: 16px; }
+@media (max-width: 960px) { .pager { gap: 8px; padding: 8px 10px; } .pager .pg-sep { display: none; } }
 /* Kalender-Varianten */
 .cal.ext { grid-template-columns: repeat(7, minmax(0, 1fr)) 118px; }
 .cal .wd.wk { border-color: transparent; background: transparent; }

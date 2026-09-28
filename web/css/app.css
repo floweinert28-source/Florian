@@ -205,6 +205,7 @@ span.info:hover { color: var(--accent); }
 .card-sub { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
 .card .divider { border-top: 1px solid var(--border); margin: 12px 0; }
 .grid { display: grid; gap: 18px; }
+.grid.start { align-items: start; }
 .grid.tiles { grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); }
 .grid.two { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
 .grid.three { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
@@ -341,7 +342,7 @@ span.info:hover { color: var(--accent); }
 .chart .hover.on { display: block; }
 .chart .hit { cursor: crosshair; }
 .chart [data-tip] { cursor: pointer; }
-.chart.h160 { height: 160px; min-height: 160px; } .chart.h200 { height: 200px; min-height: 200px; } .chart.h240 { height: 240px; min-height: 240px; } .chart.h280 { height: 280px; min-height: 280px; } .chart.h320 { height: 320px; min-height: 320px; } .chart.h120 { height: 120px; min-height: 120px; } .chart.h80 { height: 80px; min-height: 80px; }
+.chart.h160 { height: 160px; min-height: 160px; } .chart.h220 { height: 220px; min-height: 220px; } .chart.h300 { height: 300px; min-height: 300px; } .chart.h200 { height: 200px; min-height: 200px; } .chart.h240 { height: 240px; min-height: 240px; } .chart.h280 { height: 280px; min-height: 280px; } .chart.h320 { height: 320px; min-height: 320px; } .chart.h120 { height: 120px; min-height: 120px; } .chart.h80 { height: 80px; min-height: 80px; }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); justify-content: center; margin-top: 6px; }
 .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 999px; margin-right: 6px; vertical-align: middle; }
 #tip { position: fixed; z-index: 100; pointer-events: none; background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 9px; padding: 8px 11px; font-size: 12px; line-height: 1.45; box-shadow: var(--shadow); opacity: 0; transition: opacity .1s; max-width: 260px; }
@@ -713,9 +714,9 @@ span.info:hover { color: var(--accent); }
 .checklist .it.fail .box { border-color: var(--loss); color: var(--loss); }
 .checklist .it.fail .box svg { width: 12px; height: 12px; }
 .activity { --gap: 6px; overflow-x: auto; padding-bottom: 4px; max-width: 1140px; margin: 0 auto; }
-.activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), minmax(20px, 1fr)); gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 6px; min-width: 720px; }
+.activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), minmax(20px, 40px)); justify-content: center; gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 6px; min-width: 620px; }
 .activity .months span { white-space: nowrap; }
-.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), minmax(20px, 1fr)); gap: var(--gap); min-width: 720px; }
+.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), minmax(20px, 40px)); justify-content: center; gap: var(--gap); min-width: 620px; }
 .activity .wl { font-size: 13px; color: var(--muted); display: flex; align-items: center; }
 .activity i { display: block; width: 100%; aspect-ratio: 1; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); cursor: pointer; }
 .activity i.future { visibility: hidden; }

@@ -43,7 +43,7 @@
     let n = 0;
     tradingDays(opts.days || 88).forEach((day, di) => {
       const key = C.dayKey(day);
-      const regime = { trend: rand() < 0.55 ? 'trending' : 'ranging', vol: pick(['low', 'normal', 'normal', 'high']) };
+      const regime = { trend: rand() < 0.55 ? (di % 2 ? 'up' : 'down') : 'ranging', vol: pick(['low', 'normal', 'normal', 'high']) };
       const tilt = di % 11 === 4;
       const entry = { key, regime, sample: true };
       if (rand() < 0.82) { const sleep = tilt ? R(4.8, 6) : R(6, 8.6); entry.checkIn = { sleep: Math.round(sleep * 2) / 2, stress: tilt ? RI(4, 5) : RI(1, 4), mood: tilt ? RI(1, 3) : RI(2, 5), note: tilt ? 'Schlecht geschlafen, unruhig.' : '', createdAt: new Date(day.getTime() + 8 * 3600000).toISOString() }; }
@@ -68,7 +68,7 @@
         if (mistakes.includes('Übergröße') && risk < ACCOUNT * 0.015) risk = ACCOUNT * R(0.015, 0.02);
         if (ti > 0) cursor = new Date(prevExit.getTime() + (tilt ? RI(3, 9) : RI(25, 140)) * 60000);
         const hour = cursor.getHours(); if (hour >= 18) break;
-        let wp = setup.wr + (regime.trend === 'trending' ? setup.tb : setup.rb);
+        let wp = setup.wr + (regime.trend !== 'ranging' ? setup.tb : setup.rb);
         if (hour >= 9 && hour < 11) wp += 0.06; if (hour >= 12 && hour < 14) wp -= 0.08;
         if (day.getDay() === 5) wp -= 0.06; if (mistakes.length) wp -= 0.30; if (regime.vol === 'high') wp -= 0.03;
         wp = clamp(wp, 0.15, 0.85);

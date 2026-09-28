@@ -8,9 +8,11 @@
     ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'],
   ];
   const NAV2 = [['settings', 'Einstellungen', 'settings']];
+  const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
   const App = {
+    TREND_LABELS, TREND_OPTIONS: [['up', 'Aufwärts'], ['down', 'Abwärts'], ['ranging', 'Seitwärts']],
     screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
     /* ---------- Daten ---------- */
     allTrades() { const acc = S.settings.accountId; return C.deriveAll(S.trades().filter(t => acc === 'all' || !acc || t.accountId === acc)); },
@@ -75,9 +77,9 @@
         const pop = e.target.closest('[data-pop]'); if (pop) { const id = 'pop-' + pop.dataset.pop; document.querySelectorAll('.popover.open').forEach(p => { if (p.id !== id) p.classList.remove('open'); }); document.getElementById(id)?.classList.toggle('open'); return; }
         if (!e.target.closest('.popover')) document.querySelectorAll('.popover.open').forEach(p => p.classList.remove('open'));
         if (e.target.closest('[data-stop]')) return;
+        const closeEl = e.target.closest('[data-close]'); if (closeEl) { if (closeEl.isConnected) U.closeModal(); return; }
         const el = e.target.closest('[data-action]'); if (!el || el.tagName === 'FORM') return;
         const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, el, e); }
-        if (e.target.closest('[data-close]')) U.closeModal();
       });
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
       document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); document.querySelectorAll('.popover.open').forEach(p => p.classList.remove('open')); } });
@@ -222,7 +224,7 @@
     U.modal(`<form data-action="session-end"><div class="modal-head"><h2>Session beenden</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
       <div class="row" style="gap:18px"><div><div class="caption">Heute</div><div class="score-big">${U.pnl(s.total)}</div></div><div><div class="caption">Trades</div><div class="score-big">${s.n}</div></div><div><div class="caption">Win-Rate</div><div class="score-big">${fmt.pct(s.winRate)}</div></div></div>
       ${rules.length ? `<div class="fieldset"><div class="legend">Welche Regeln hast du heute eingehalten?</div><div class="checklist" data-chips="rules">${rules.map(r => `<label class="it toggle"><input type="checkbox" name="rule" value="${r.id}" ${followed.includes(r.id) ? 'checked' : ''} class="hidden"><span class="box">${I.check}</span><span>${esc(r.text)}</span></label>`).join('')}</div></div>` : ''}
-      <div class="fieldset"><div class="legend">Marktphase heute</div><div class="form-grid"><div class="field"><span class="lbl">Trend</span>${U.seg([['trending', 'Trend'], ['ranging', 'Seitwärts']], reg.trend || '', 'seg-set-name')}<input type="hidden" name="trend" value="${reg.trend || ''}"></div><div class="field"><span class="lbl">Volatilität</span>${U.seg([['low', 'niedrig'], ['normal', 'normal'], ['high', 'hoch']], reg.vol || '', 'seg-set-name')}<input type="hidden" name="vol" value="${reg.vol || ''}"></div></div></div>
+      <div class="fieldset"><div class="legend">Marktphase heute</div><div class="form-grid"><div class="field"><span class="lbl">Trend</span>${U.seg(App.TREND_OPTIONS, reg.trend || '', 'seg-set-name')}<input type="hidden" name="trend" value="${reg.trend || ''}"></div><div class="field"><span class="lbl">Volatilität</span>${U.seg([['low', 'niedrig'], ['normal', 'normal'], ['high', 'hoch']], reg.vol || '', 'seg-set-name')}<input type="hidden" name="vol" value="${reg.vol || ''}"></div></div></div>
       <div class="field"><label for="se-notes">Reflexion <span class="faint">(wird in die Tagesnotiz im Notebook geschrieben)</span></label><textarea class="input" id="se-notes" name="notes" placeholder="Was lief gut, was nicht, was nimmst du mit?"></textarea></div>
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${I.check} Session beenden</button></div></form>`);
   };

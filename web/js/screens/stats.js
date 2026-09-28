@@ -3,7 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
   const TABS = [['summary', 'Übersicht'], ['days', 'Tage'], ['setups', 'Setups'], ['time', 'Zeit'], ['mistakes', 'Fehler'], ['regime', 'Marktphase'], ['state', 'Zustand'], ['edge', 'Edge-Check'], ['mc', 'Monte Carlo']];
-  const REG_T = { trending: 'Trend', ranging: 'Seitwärts' }, REG_V = { low: 'Vola niedrig', normal: 'Vola normal', high: 'Vola hoch' };
+  const REG_T = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' }, REG_V = { low: 'Vola niedrig', normal: 'Vola normal', high: 'Vola hoch' };
   App.screens.stats = {
     title: 'Statistiken',
     render(ctx) {
@@ -51,10 +51,10 @@
       <div class="grid two">${U.card('Kosten je Fehler', mr.items.length ? mr.items.map(it => U.barRow(it.name, it.total, max, `${fmt.cur(it.total, { signed: true })} · ${it.n}× · WR ${fmt.pct(it.n ? it.wins / it.n : 0)}`, it.total < 0 ? 'var(--loss)' : 'var(--profit)')).join('') : '<div class="muted small">Keine Fehler-Tags vergeben. Sehr gut, oder ehrlich bleiben?</div>', { info: 'Summe des Netto-P&L aller Trades mit diesem Tag.' })}${U.card('Erwartungswert nach Emotion', `<div class="chart h280" data-chart="hbars" data-id="m-emo"></div>`)}</div>`;
   }
   function tabRegime(list, closed) {
-    const ra = C.regimeAnalysis(list, S.regimeByDay()); if (!ra.coverage) return U.empty('trend', 'Keine Marktphasen erfasst', 'Lege in der Tagesansicht oder beim Beenden der Session fest, ob der Tag ein Trend- oder Seitwärtstag war.');
+    const ra = C.regimeAnalysis(list, S.regimeByDay()); if (!ra.coverage) return U.empty('trend', 'Keine Marktphasen erfasst', 'Lege in der Tagesansicht oder beim Beenden der Session fest, ob der Tag ein Aufwärts-, Abwärts- oder Seitwärtstag war.');
     const lab = g => Object.assign(g, { label: g.key.includes('|') ? `${REG_T[g.key.split('|')[0]]} · ${REG_V[g.key.split('|')[1]]}` : REG_T[g.key] || REG_V[g.key] || g.key });
     U.chartData['r-t'] = { groups: ra.trend.map(lab), metric: 'expectancy' }; U.chartData['r-v'] = { groups: ra.vol.map(lab), metric: 'expectancy' };
-    return `<div class="muted small">${ra.coverage} von ${closed.length} Trades haben eine Marktphase.</div><div class="grid two">${U.card('Ø pro Trade: Trend vs. Seitwärts', `<div class="chart h220" data-chart="vbars" data-id="r-t"></div>`)}${U.card('Ø pro Trade nach Volatilität', `<div class="chart h220" data-chart="vbars" data-id="r-v"></div>`)}</div>${U.card('Kombinationen', groupTable(ra.combined.map(lab), 'Marktphase'))}${U.card('Setups je Marktphase', (() => { const rb = S.regimeByDay(); const rows = []; for (const trend of ['trending', 'ranging']) { const sub = closed.filter(t => (rb[t.dayKey] || {}).trend === trend); const g = C.groupBy(sub, t => t.setup || 'Ohne Setup'); for (const x of g) rows.push({ label: `${REG_T[trend]} · ${x.key}`, s: x.s }); } return rows.length ? groupTable(rows, 'Phase · Setup') : '<div class="muted small">Noch keine Kombinationen.</div>'; })())}`;
+    return `<div class="muted small">${ra.coverage} von ${closed.length} Trades haben eine Marktphase.</div><div class="grid two">${U.card('Ø pro Trade je Marktphase', `<div class="chart h220" data-chart="vbars" data-id="r-t"></div>`)}${U.card('Ø pro Trade nach Volatilität', `<div class="chart h220" data-chart="vbars" data-id="r-v"></div>`)}</div>${U.card('Kombinationen', groupTable(ra.combined.map(lab), 'Marktphase'))}${U.card('Setups je Marktphase', (() => { const rb = S.regimeByDay(); const rows = []; for (const trend of ['up', 'down', 'trending', 'ranging']) { const sub = closed.filter(t => (rb[t.dayKey] || {}).trend === trend); const g = C.groupBy(sub, t => t.setup || 'Ohne Setup'); for (const x of g) rows.push({ label: `${REG_T[trend]} · ${x.key}`, s: x.s }); } return rows.length ? groupTable(rows, 'Phase · Setup') : '<div class="muted small">Noch keine Kombinationen.</div>'; })())}`;
   }
   function tabState(list, closed, days) {
     const st = C.stateAnalysis(days, S.checkInByDay()); if (!st.n) return U.empty('sparkle', 'Keine Check-ins im Zeitraum', 'Starte den Tag mit „Session starten“, dann siehst du hier, wie Schlaf, Stress und Stimmung mit deinem Ergebnis zusammenhängen.');

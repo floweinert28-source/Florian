@@ -85,6 +85,8 @@
     factor(v) { return v == null ? '∞' : fmt.num(v, 2); },
     date(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: 'short' }) : '—'; },
     dateFull(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'; },
+    dateShort(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—'; },
+    axisCur(v) { return fmt.cur(v, { compact: true }); },
     dateTime(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + fmt.time(d) : '—'; },
     time(d) { return d ? new Date(d).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : '—'; },
     dur(min) { if (min == null || isNaN(min)) return '—'; min = Math.round(min); if (min < 60) return `${min} min`; const h = Math.floor(min / 60), m = min % 60; if (h < 48) return m ? `${h} h ${m} min` : `${h} h`; return `${Math.round(h / 24)} T`; },
@@ -123,6 +125,9 @@
   const xTicks = (n, iw) => { const k = Math.max(2, Math.min(n, Math.floor(iw / 95) + 1)); if (n <= k) return Array.from({ length: n }, (_, i) => i); return Array.from({ length: k }, (_, i) => Math.round(i / (k - 1) * (n - 1))); };
   const chartData = {};
   const drawers = {};
+  /* Werteachse links (Aufbau nach TradeZella): Beschriftung links, gestrichelte Gitterlinien über die volle Breite */
+  const axisWidth = labels => Math.max(30, ...labels.map(l => String(l).length * 6.6 + 14));
+  const axisLeft = (ticks, yf, ml, W, mr, fmtFn) => `<g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${yf(t)}" y2="${yf(t)}"/><text x="${ml - 8}" y="${yf(t) + 3.5}" text-anchor="end">${fmtFn(t)}</text>`).join('')}</g>`;
   function drawCharts(scope) {
     (scope || document).querySelectorAll('.chart[data-chart]').forEach(el => { const k = el.dataset.chart; const W = el.clientWidth, H = el.clientHeight; if (!W || !H) return; const data = chartData[el.dataset.id]; try { drawers[k] && drawers[k](el, data, W, H); } catch (e) { console.warn('Diagramm', k, e); } });
   }
@@ -135,10 +140,11 @@
   /* Täglicher (Balken) und kumulierter (Fläche) P&L */
   drawers.pnl = function (el, d, W, H) {
     const days = d && d.days || []; if (!days.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%">${I.stats}<span class="small">Keine abgeschlossenen Trades im Zeitraum</span></div>`; return; }
-    const ml = 8, mr = 56, mt = 12, mb = 26; const showBars = d.bars !== false, dots = !!d.dots;
+    const showBars = d.bars !== false, dots = !!d.dots;
     let cum = 0; const pts = days.map(x => { cum += x.pnl; return { day: x.day, pnl: x.pnl, cum, n: x.n }; });
-    const vals = [0, ...pts.map(p => p.cum), ...(showBars ? pts.map(p => p.pnl) : [])]; const ticks = niceTicks(Math.min(...vals), Math.max(...vals), 4);
+    const vals = [0, ...pts.map(p => p.cum), ...(showBars ? pts.map(p => p.pnl) : [])]; const ticks = niceTicks(Math.min(...vals), Math.max(...vals), 6);
     const y0 = Math.min(ticks[0], ...vals), y1 = Math.max(ticks[ticks.length - 1], ...vals);
+    const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 12, mb = 30;
     const n = pts.length; const iw = W - ml - mr; const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb);
     const bw = Math.max(2, Math.min(14, iw / n * 0.55));
     const line = n === 1 ? `M${x(0) - 1},${y(pts[0].cum)}L${x(0) + 1},${y(pts[0].cum)}` : smooth(pts.map((p, i) => [x(i), y(p.cum)]));
@@ -150,38 +156,40 @@
       <linearGradient id="${gp}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--profit)" stop-opacity=".35"/><stop offset="1" stop-color="var(--profit)" stop-opacity=".02"/></linearGradient>
       <linearGradient id="${gn}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--loss)" stop-opacity=".35"/><stop offset="1" stop-color="var(--loss)" stop-opacity=".02"/></linearGradient>
       <clipPath id="${cp}"><rect x="0" y="0" width="${W}" height="${Math.max(0, y(0))}"/></clipPath><clipPath id="${cn}"><rect x="0" y="${y(0)}" width="${W}" height="${Math.max(0, H - y(0))}"/></clipPath></defs>
-      <g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g>
+      ${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
       <line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>
       ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
       <path d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
       <path d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
       ${dots ? pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.cum)}" r="3" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
-      ${xt.map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.date(pts[i].day)}</text>`).join('')}
+      ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].day)}</text>`).join('')}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].cum), i => { const p = pts[i]; return `<b>${fmt.weekdayLong(p.day)}</b><br>Tag: ${pnl(p.pnl)} · ${p.n} Trade${p.n === 1 ? '' : 's'}<br>Kumuliert: ${pnl(p.cum)}`; }, i => pts[i].cum >= 0 ? 'var(--profit)' : 'var(--loss)');
   };
   /* Equity pro Trade */
   drawers.equity = function (el, d, W, H) {
-    const pts = d && d.points || []; if (pts.length < 2) { el.innerHTML = ''; return; } const ml = 8, mr = 56, mt = 12, mb = 26;
-    const ys = pts.map(p => p.equity); const ticks = niceTicks(Math.min(0, ...ys), Math.max(0, ...ys), 4); const y0 = Math.min(ticks[0], ...ys, 0), y1 = Math.max(ticks[ticks.length - 1], ...ys, 0);
+    const pts = d && d.points || []; if (pts.length < 2) { el.innerHTML = ''; return; }
+    const ys = pts.map(p => p.equity); const ticks = niceTicks(Math.min(0, ...ys), Math.max(0, ...ys), 6); const y0 = Math.min(ticks[0], ...ys, 0), y1 = Math.max(ticks[ticks.length - 1], ...ys, 0);
+    const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 12, mb = 30;
     const iw = W - ml - mr; const x = i => ml + i / (pts.length - 1) * iw, y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb); const g = gid();
     const line = smooth(pts.map((p, i) => [x(i), y(p.equity)])); const last = pts[pts.length - 1].equity, col = last >= 0 ? 'var(--profit)' : 'var(--loss)';
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".3"/><stop offset="1" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g><line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">${fmt.date(pts[i].date)}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".3"/><stop offset="1" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs>${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].equity), i => { const p = pts[i]; return `<b>${pnl(p.equity)}</b><br>${fmt.dateTime(p.date)}<br><span class="muted">${esc(p.t.symbol)} ${fmt.cur(p.pnl, { signed: true })}</span>`; });
   };
   /* Linie mit Basislinie (Kontostand) */
   drawers.line = function (el, d, W, H) {
     const pts = d && d.points || []; if (!pts.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%">${I.stats}<span class="small">Keine abgeschlossenen Trades im Zeitraum</span></div>`; return; }
-    const ml = 8, mr = 60, mt = 12, mb = 26; const base = d.baseline; const ys = pts.map(p => p.v).concat(base == null ? [] : [base]);
-    const ticks = niceTicks(Math.min(...ys), Math.max(...ys), 4); const y0 = Math.min(ticks[0], ...ys), y1 = Math.max(ticks[ticks.length - 1], ...ys);
+    const base = d.baseline; const ys = pts.map(p => p.v).concat(base == null ? [] : [base]);
+    const ticks = niceTicks(Math.min(...ys), Math.max(...ys), 6); const y0 = Math.min(ticks[0], ...ys), y1 = Math.max(ticks[ticks.length - 1], ...ys);
+    const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 12, mb = 30;
     const n = pts.length; const iw = W - ml - mr; const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb);
     const line = n === 1 ? `M${x(0) - 1},${y(pts[0].v)}L${x(0) + 1},${y(pts[0].v)}` : 'M' + pts.map((p, i) => `${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join('L');
-    const xt = xTicks(n, iw); const last = pts[n - 1].v;
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g>
-      ${base != null ? `<line x1="${ml}" x2="${W - mr}" y1="${y(base)}" y2="${y(base)}" stroke="var(--muted)" stroke-dasharray="4 3"/>` : ''}
-      <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
-      ${xt.map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.date(pts[i].date)}</text>`).join('')}
-      <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+    const xt = xTicks(n, iw); const last = pts[n - 1].v; const col = d.color || 'var(--accent)';
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
+      ${base != null ? `<line x1="${ml}" x2="${W - mr}" y1="${y(base)}" y2="${y(base)}" stroke="${d.baseColor || 'var(--loss)'}" stroke-width="2" stroke-opacity=".9"/>` : ''}
+      <path d="${line}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>
+      ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}
+      <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].v), i => { const p = pts[i]; return `<b>${fmt.cur(p.v)}</b><br>${fmt.weekdayLong(p.date)}${p.pnl != null ? `<br><span class="muted">Tag: ${fmt.cur(p.pnl, { signed: true })}</span>` : ''}`; });
   };
   /* Kleine Fläche (Tageskarte) */
@@ -293,5 +301,5 @@
     });
   }
   function downloadText(name, text, mime = 'application/json') { let ok = false; try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); ok = true; } catch (e) { ok = false; } modal(`<div class="modal-head"><h2>${esc(name)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted small">${ok ? 'Der Download wurde gestartet. Falls nichts passiert (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn selbst.' : 'Kopiere den Text und speichere ihn als Datei.'}</p><textarea class="input mono" id="dl-text" style="min-height:160px" readonly>${esc(text.length > 2000000 ? 'Zu groß für die Anzeige.' : text)}</textarea><div class="modal-foot"><button type="button" class="btn" data-action="copy-text" data-target="dl-text">${I.copy} Kopieren</button><button type="button" class="btn primary" data-close>Fertig</button></div>`, { cls: 'narrow' }); }
-  root.UI = { I, esc, fmt, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth };
+  root.UI = { I, esc, fmt, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
 })(typeof self !== 'undefined' ? self : this);

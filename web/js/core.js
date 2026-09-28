@@ -369,6 +369,47 @@
     });
   }
 
+  /* ---------- Report: laufende Kennzahlen je Handelstag (kumuliert) ---------- */
+  function reportSeries(days) {
+    const st = { n: 0, wins: 0, losses: 0, be: 0, gp: 0, gl: 0, total: 0, cum: 0, peak: 0, longs: 0, longWins: 0, shorts: 0, shortWins: 0, vol: 0, holdSum: 0, holdN: 0, holdMax: 0, largestWin: 0, largestLoss: 0, rSum: 0, rN: 0, prSum: 0, prN: 0, winDays: 0, lossDays: 0, beDays: 0, winDayPnl: 0, lossDayPnl: 0, ddSum: 0, ddMax: 0, dayDurSum: 0, dayDurMax: 0, curW: 0, curL: 0, maxW: 0, maxL: 0, curWD: 0, curLD: 0, maxWD: 0, maxLD: 0, dayWinRateSum: 0 };
+    return days.map((d, i) => {
+      for (const t of d.trades) {
+        st.n++; st.total += t.pnl; st.vol += t.quantity; if (t.direction > 0) st.longs++; else st.shorts++;
+        if (t.holdingMin != null) { st.holdSum += t.holdingMin; st.holdN++; st.holdMax = Math.max(st.holdMax, t.holdingMin); }
+        if (t.r != null) { st.rSum += t.r; st.rN++; } if (t.plannedR != null) { st.prSum += t.plannedR; st.prN++; }
+        if (t.status === 'win') { st.wins++; st.gp += t.pnl; st.largestWin = Math.max(st.largestWin, t.pnl); if (t.direction > 0) st.longWins++; else st.shortWins++; st.curW++; st.curL = 0; st.maxW = Math.max(st.maxW, st.curW); }
+        else if (t.status === 'loss') { st.losses++; st.gl += t.pnl; st.largestLoss = Math.min(st.largestLoss, t.pnl); st.curL++; st.curW = 0; st.maxL = Math.max(st.maxL, st.curL); }
+        else st.be++;
+      }
+      st.cum += d.pnl; st.peak = Math.max(st.peak, st.cum); const daysN = i + 1;
+      if (d.pnl > EPS) { st.winDays++; st.winDayPnl += d.pnl; st.curWD++; st.curLD = 0; st.maxWD = Math.max(st.maxWD, st.curWD); }
+      else if (d.pnl < -EPS) { st.lossDays++; st.lossDayPnl += d.pnl; st.curLD++; st.curWD = 0; st.maxLD = Math.max(st.maxLD, st.curLD); }
+      else st.beDays++;
+      st.ddSum += d.intradayDD || 0; st.ddMax = Math.max(st.ddMax, d.intradayDD || 0); st.dayWinRateSum += d.winRate || 0;
+      const dur = d.trades.length ? (Math.max(...d.trades.map(t => t.close.getTime())) - Math.min(...d.trades.map(t => t.open.getTime()))) / 60000 : 0; st.dayDurSum += dur; st.dayDurMax = Math.max(st.dayDurMax, dur);
+      const avgWin = st.wins ? st.gp / st.wins : 0, avgLoss = st.losses ? st.gl / st.losses : 0, winRate = st.n ? st.wins / st.n : 0, lossRate = st.n ? st.losses / st.n : 0;
+      const winDayAvg = st.winDays ? st.winDayPnl / st.winDays : 0, lossDayAvg = st.lossDays ? st.lossDayPnl / st.lossDays : 0;
+      return {
+        date: d.day, key: d.key, cum: st.cum, dayPnl: d.pnl, avgDayPnl: st.cum / daysN, avgDayWL: lossDayAvg < 0 ? winDayAvg / -lossDayAvg : null,
+        avgWin, avgLoss, avgTrade: st.n ? st.total / st.n : 0, payoff: avgLoss < 0 ? avgWin / -avgLoss : null, largestWin: st.largestWin, largestLoss: st.largestLoss,
+        pf: st.gl < 0 ? st.gp / -st.gl : (st.gp > 0 ? null : 0), expectancy: winRate * avgWin + lossRate * avgLoss,
+        dd: st.cum - st.peak, avgDayDD: -st.ddSum / daysN, maxDayDD: -st.ddMax, avgPlannedR: st.prN ? st.prSum / st.prN : null, avgR: st.rN ? st.rSum / st.rN : null,
+        beTrades: st.be, beDays: st.beDays, lossDays: st.lossDays, winDays: st.winDays, trades: st.n, winTrades: st.wins, lossTrades: st.losses,
+        longs: st.longs, shorts: st.shorts, longWins: st.longWins, shortWins: st.shortWins, longWinRate: st.longs ? st.longWins / st.longs : 0, shortWinRate: st.shorts ? st.shortWins / st.shorts : 0,
+        volume: st.vol, avgDayVolume: st.vol / daysN, tradingDays: daysN, winRate, avgDayWinRate: st.dayWinRateSum / daysN,
+        maxW: st.maxW, maxL: st.maxL, maxWD: st.maxWD, maxLD: st.maxLD, avgHold: st.holdN ? st.holdSum / st.holdN : null, maxHold: st.holdMax, avgDayDur: st.dayDurSum / daysN, maxDayDur: st.dayDurMax,
+      };
+    });
+  }
+  /* Tages-Serie auf Woche oder Monat verdichten: kumulierte Werte vom letzten Tag der Periode, Tages-P&L summiert */
+  function aggregateSeries(series, res) {
+    if (res !== 'woche' && res !== 'monat') return series;
+    const keyOf = r => res === 'woche' ? dayKey(weekStart(r.date)) : `${r.date.getFullYear()}-${pad2(r.date.getMonth() + 1)}-01`;
+    const out = []; let cur = null;
+    for (const r of series) { const k = keyOf(r); if (!cur || cur.key !== k) { cur = Object.assign({}, r, { key: k, date: parseDayKey(k), dayPnl: 0 }); out.push(cur); } else Object.assign(cur, r, { key: k, date: cur.date, dayPnl: cur.dayPnl }); cur.dayPnl += r.dayPnl; }
+    return out;
+  }
+
   /* ---------- CSV ---------- */
   function parseCSV(text) {
     text = text.replace(/^﻿/, '');
@@ -518,7 +559,7 @@
     derive, deriveAll, closedOnly, summary, streaks, dailyAggregation, daySummary, equityCurve, cumulativeByDay, calendarMonth,
     discipline, avgDiscipline, weeklyDiscipline, mistakeReport, groupBy, timeAnalysis, regimeAnalysis, WEEKDAYS, HOUR_BUCKETS, HOLD_BUCKETS,
     edge, monteCarlo, pearson, stateAnalysis, traderScore, SCORE_AXES, tiltCheck, tiltProfile, stats16, activityDays, journalStreak,
-    drawdownSeries, drawdownStats, dayStreaks, runningStats,
+    drawdownSeries, drawdownStats, dayStreaks, runningStats, reportSeries, aggregateSeries,
     parseCSV, FIELDS, guessMapping, parseNumber, parseDate, parseDirection, mapRows, dedupeKey, sentiment, insights,
   };
 });

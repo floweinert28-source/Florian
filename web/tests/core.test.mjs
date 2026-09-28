@@ -120,3 +120,12 @@ test('runningStats: laufende Kennzahlen je Handelstag', () => {
   const r = C.runningStats(C.dailyAggregation(list));
   assert.equal(r.length, 2); assert.equal(r[0].winRate, 1); assert.equal(r[1].n, 3); assert.ok(Math.abs(r[1].winRate - 2 / 3) < 1e-9); assert.equal(r[1].avgWin, 15); assert.equal(r[1].avgLoss, -5); assert.equal(r[1].cum, 25); assert.equal(r[1].pf, 6);
 });
+
+test('reportSeries + aggregateSeries: kumulierte Report-Kennzahlen', () => {
+  const list = C.deriveAll([mk({ exitPrice: 110 }), mk({ openedAt: '2026-03-03T09:00:00', closedAt: '2026-03-03T10:00:00', exitPrice: 105, direction: -1, plannedStop: 105 }), mk({ openedAt: '2026-03-09T11:00:00', closedAt: '2026-03-09T12:00:00', exitPrice: 120 })]);
+  const r = C.reportSeries(C.dailyAggregation(list));
+  assert.equal(r.length, 3); assert.equal(r[2].trades, 3); assert.equal(r[2].longs, 2); assert.equal(r[2].shorts, 1); assert.equal(r[2].longWinRate, 1); assert.equal(r[2].shortWinRate, 0);
+  assert.equal(r[1].dd, -5); assert.equal(r[2].dd, 0); assert.equal(r[2].maxW, 1); assert.equal(r[2].maxL, 1); assert.equal(r[2].winDays, 2); assert.equal(r[2].lossDays, 1); assert.equal(r[2].avgHold, 60);
+  const w = C.aggregateSeries(r, 'woche'); assert.equal(w.length, 2); assert.equal(w[0].dayPnl, 5); assert.equal(w[0].trades, 2); assert.equal(w[1].cum, 25);
+  const m = C.aggregateSeries(r, 'monat'); assert.equal(m.length, 1); assert.equal(m[0].dayPnl, 25); assert.equal(m[0].trades, 3);
+});

@@ -69,6 +69,7 @@
       const s = st();
       if (s.first) { setTimeout(() => { s.first = false; if (App.state.route === 'dashboard') App.rerender(false); }, 160); return; }
       if (s.editing) bindDnD(main);
+      fitRecent(main);
       const list = main.querySelector('#dash-add-list'); if (list && s.listScroll) { list.scrollTop = s.listScroll; s.listScroll = 0; }
     },
   };
@@ -97,14 +98,19 @@
   function startEdit(id) { const s = st(); const t = S.getDashboard(id); if (!t) return; S.setActiveDashboard(id); s.editing = true; s.draft = clone(t.layout); s.panel = null; s.menu = null; App.rerender(false); }
   function stopEdit() { const s = st(); s.editing = false; s.draft = null; s.panel = null; App.rerender(false); }
   const widgetOf = el => { const w = el.closest('.w'); return w ? { area: w.dataset.area, idx: Number(w.dataset.idx), w } : null; };
+  const instOf = el => { const p = widgetOf(el); if (!p) return null; const lay = layout(); return { inst: lay[p.area][p.idx], lay }; };
+  function persist(lay) { const s = st(); if (!s.editing) S.updateDashboard(active().id, { layout: clone(lay) }); }
+  const repState = () => { const s = st(); return s.rep || (s.rep = { open: false, pick: null, q: '', groups: {} }); };
+  /* „Letzte Trades“: so viele Zeilen zeigen, wie in die Karte passen */
+  function fitRecent(main) {
+    (main || document).querySelectorAll('.recent-wrap').forEach(w => { const rows = [...w.querySelectorAll('tbody tr')]; if (!rows.length) return; rows.forEach(r => r.classList.remove('hidden')); const bottom = w.getBoundingClientRect().bottom; let cut = false; for (const r of rows) { if (cut || r.getBoundingClientRect().bottom > bottom + 0.5) { r.classList.add('hidden'); cut = true; } } });
+  }
+  let fitTimer; window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => { if (App.state.route === 'dashboard') fitRecent(); }, 150); });
 
   function openWidgetSettings(inst, save) {
     const e = W.get(inst.typ); const cfg = inst.einstellungen || {};
     if (e.settings === 'challenge') {
       U.modal(`<div class="modal-head"><h2>Challenge einrichten</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><form data-action="dash-w-settings-save" class="stack"><div class="form-grid"><label class="field"><span>Gewinnziel</span><input class="input" type="number" step="1" min="0" name="ziel" value="${cfg.ziel || ''}" placeholder="z. B. 2500"></label><label class="field"><span>Maximaler Verlust</span><input class="input" type="number" step="1" min="0" name="maxVerlust" value="${cfg.maxVerlust || ''}" placeholder="z. B. 1500"></label><label class="field"><span>Tagesverlustlimit (optional)</span><input class="input" type="number" step="1" min="0" name="tagesVerlust" value="${cfg.tagesVerlust || ''}" placeholder="z. B. 500"></label><label class="field"><span>Startdatum (optional)</span><input class="input" type="date" name="start" value="${cfg.start || ''}"><span class="hint">Leer: gewählter Zeitraum des Dashboards</span></label></div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'narrow', onMount(el) { el.querySelector('form').addEventListener('submit', ev => { ev.preventDefault(); const fd = new FormData(ev.target); const out = {}; for (const k of ['ziel', 'maxVerlust', 'tagesVerlust']) { const v = Number(fd.get(k)); if (v > 0) out[k] = v; } if (fd.get('start')) out.start = fd.get('start'); save(out); U.closeModal(); }); } });
-    } else if (e.settings === 'report') {
-      const sel = new Set((cfg.kennzahlen || ['trefferquote', 'netto_pnl']).slice(0, 3));
-      U.modal(`<div class="modal-head"><h2>Report: Kennzahlen wählen</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><form data-action="dash-w-settings-save" class="stack"><div class="small muted">Bis zu drei Kennzahlen, jeweils als laufender Wert je Handelstag.</div><div class="check-grid">${Object.entries(W.REPORT_METRICS).map(([k, m]) => `<label class="check"><input type="checkbox" name="k" value="${k}" ${sel.has(k) ? 'checked' : ''}> ${esc(m.label)}</label>`).join('')}</div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'narrow', onMount(el) { const boxes = [...el.querySelectorAll('input[name=k]')]; const limit = () => { const n = boxes.filter(b => b.checked).length; boxes.forEach(b => { b.disabled = !b.checked && n >= 3; }); }; boxes.forEach(b => b.addEventListener('change', limit)); limit(); el.querySelector('form').addEventListener('submit', ev => { ev.preventDefault(); const ks = boxes.filter(b => b.checked).map(b => b.value).slice(0, 3); if (!ks.length) return U.toast('Bitte mindestens eine Kennzahl wählen', 'err'); save({ kennzahlen: ks }); U.closeModal(); }); } });
     }
   }
 
@@ -131,6 +137,17 @@
     'dash-add-close'() { const s = st(); s.panel = null; App.rerender(); },
     'dash-add'(el) { const s = st(); if (!s.draft || !s.panel) return; const e = W.get(el.dataset.typ); if (!e) return; const arr = s.draft[s.panel]; if (arr.some(x => x.typ === e.typ)) return; if (s.panel === 'oben' && arr.length >= MAX_TOP) return U.toast('Maximal 5 Widgets – entferne zuerst eines', 'err'); arr.push(s.panel === 'oben' ? { typ: e.typ } : { typ: e.typ, groesse: e.groesse || 'klein' }); s.listScroll = (document.getElementById('dash-add-list') || {}).scrollTop || 0; App.rerender(); },
     'dash-add-q'(el) { const s = st(); s.q = el.value; const list = document.getElementById('dash-add-list'); if (list && s.draft) list.innerHTML = panelListHTML(s.panel, s.draft, s.q); },
+    'dash-w-opt'(el) { const r = instOf(el); if (!r) return; r.inst.einstellungen = Object.assign({}, r.inst.einstellungen, { [el.dataset.key]: el.value != null && el.tagName === 'SELECT' ? el.value : el.dataset.value }); persist(r.lay); App.rerender(); },
+    /* Report-Panel */
+    'dash-rep-toggle'() { const rs = repState(); rs.open = !rs.open; rs.pick = null; rs.q = ''; App.rerender(); },
+    'dash-rep-pick'(el) { const rs = repState(); const v = el.dataset.i === 'new' ? 'new' : Number(el.dataset.i); rs.pick = rs.pick === v ? null : v; rs.q = ''; App.rerender(); },
+    'dash-rep-group'(el) { const rs = repState(); rs.groups[el.dataset.g] = !rs.groups[el.dataset.g]; App.rerender(); },
+    'dash-rep-q'(el) { const rs = repState(); rs.q = el.value; const card = el.closest('.rep-card'); if (!card) return; const r = instOf(el); if (!r) return; const cfg = W.reportConfig(r.inst); const tmp = document.createElement('div'); tmp.innerHTML = W.reportPanelHTML(cfg.kennzahlen, rs); const fresh = tmp.querySelector('.rep-groups'); const cur = card.querySelector('.rep-groups'); if (fresh && cur) cur.replaceWith(fresh); },
+    'dash-rep-set'(el) { const rs = repState(); const r = instOf(el); if (!r) return; const cfg = W.reportConfig(r.inst); const list = cfg.kennzahlen; if (rs.pick === 'new') { if (list.length >= 3) return; list.push({ key: el.dataset.key, color: W.REPORT_COLORS.find(c => !list.some(x => x.color === c)) || W.REPORT_COLORS[list.length % 3], typ: 'linie' }); } else if (list[rs.pick]) list[rs.pick].key = el.dataset.key; r.inst.einstellungen = { kennzahlen: list, aufloesung: cfg.aufloesung }; rs.pick = null; rs.q = ''; persist(r.lay); App.rerender(); },
+    'dash-rep-remove'(el) { const r = instOf(el); if (!r) return; const cfg = W.reportConfig(r.inst); if (cfg.kennzahlen.length <= 1) return; cfg.kennzahlen.splice(Number(el.dataset.i), 1); r.inst.einstellungen = cfg; repState().pick = null; persist(r.lay); App.rerender(); },
+    'dash-rep-color'(el) { const r = instOf(el); if (!r) return; const cfg = W.reportConfig(r.inst); if (cfg.kennzahlen[Number(el.dataset.i)]) cfg.kennzahlen[Number(el.dataset.i)].color = el.value; r.inst.einstellungen = cfg; persist(r.lay); App.rerender(); },
+    'dash-rep-type'(el) { const r = instOf(el); if (!r) return; const cfg = W.reportConfig(r.inst); if (cfg.kennzahlen[Number(el.dataset.i)]) cfg.kennzahlen[Number(el.dataset.i)].typ = el.value; r.inst.einstellungen = cfg; persist(r.lay); App.rerender(); },
+    'dash-rep-reset'(el) { const r = instOf(el); if (!r) return; r.inst.einstellungen = W.REPORT_DEFAULT(); repState().pick = null; persist(r.lay); App.rerender(); },
     'dash-w-settings'(el) { const s = st(); const p = widgetOf(el); if (!p) return; const lay = layout(); const inst = lay[p.area][p.idx]; if (!inst) return; openWidgetSettings(inst, cfg => { inst.einstellungen = cfg; if (!s.editing) S.updateDashboard(active().id, { layout: clone(lay) }); App.rerender(); }); },
     /* Widget-interne Navigation */
     'cal-prev'() { const m = App.state.calMonth || new Date(); App.state.calMonth = new Date(m.getFullYear(), m.getMonth() - 1, 1); App.rerender(); },

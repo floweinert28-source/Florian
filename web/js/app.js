@@ -186,27 +186,18 @@
       ${rules.length ? `<div class="fieldset"><div class="legend">Deine Regeln</div><div class="checklist">${rules.map(r => `<div class="it"><span class="box">${I.check}</span><span>${esc(r.text)}</span></div>`).join('')}</div></div>` : ''}
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${I.play} Session starten</button></div></form>`);
   };
-  /* Schlaf-Gesicht: müde bei wenig Schlaf, fit im Bereich 7–9 h, überdreht bei zu viel */
-  App.sleepZone = function (h) { return h < 7 ? { key: 'tired', label: h < 5 ? 'Deutlich zu wenig Schlaf' : 'Etwas zu wenig Schlaf', color: h < 5 ? 'var(--loss)' : 'var(--warn)' } : h <= 9 ? { key: 'fit', label: 'Optimal, 7 bis 9 Stunden', color: 'var(--accent)' } : { key: 'crazy', label: h > 11 ? 'Viel zu viel Schlaf' : 'Etwas zu viel Schlaf', color: 'var(--be)' }; };
+  /* Schlaf-Gesicht im Linienstil der Symbole: fünf klare Zustände, weicher Wechsel per Überblendung */
+  App.sleepZone = function (h) { return h < 4.5 ? { key: 'exhausted', label: 'Deutlich zu wenig Schlaf', color: 'var(--loss)' } : h < 7 ? { key: 'tired', label: 'Etwas zu wenig Schlaf', color: 'var(--warn)' } : h <= 9 ? { key: 'fit', label: 'Optimal, 7 bis 9 Stunden', color: 'var(--accent)' } : h <= 11 ? { key: 'over', label: 'Etwas zu viel Schlaf', color: 'var(--be)' } : { key: 'wired', label: 'Viel zu viel Schlaf', color: 'var(--be)' }; };
+  App.SLEEP_FACES = {
+    exhausted: { color: 'var(--loss)', parts: '<path d="M14,20 h8M26,20 h8"/><path d="M15,24 q3,2 6,0M27,24 q3,2 6,0" opacity=".55"/><path d="M19,32 h10"/>' },
+    tired: { color: 'var(--warn)', parts: '<path d="M14,21 q4,-3 8,0M26,21 q4,-3 8,0"/><path d="M18,33 q6,-3 12,0"/>' },
+    fit: { color: 'var(--accent)', parts: '<circle cx="18" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="30" cy="19" r="1.6" fill="currentColor" stroke="none"/><path d="M16,29 q8,8 16,0"/>' },
+    over: { color: 'var(--be)', parts: '<circle cx="18" cy="19" r="3.2"/><circle cx="30" cy="19" r="3.2"/><circle cx="19.2" cy="20.2" r="1.1" fill="currentColor" stroke="none"/><circle cx="28.8" cy="20.2" r="1.1" fill="currentColor" stroke="none"/><path d="M17,31 q3,-3 6,0 t6,0"/>' },
+    wired: { color: 'var(--be)', parts: '<circle cx="18" cy="20" r="4"/><circle cx="30" cy="20" r="4"/><circle cx="18" cy="20" r="1" fill="currentColor" stroke="none"/><circle cx="30" cy="20" r="1" fill="currentColor" stroke="none"/><path d="M13,15 l7,-3M35,15 l-7,-3"/><path d="M16,32 q3,-4 6,0 t6,0 t4,-2"/>' },
+  };
   App.sleepFaceHTML = function (h) {
-    const clamp = C.clamp; const t = clamp((7 - h) / 7, 0, 1), c = clamp((h - 9) / 5, 0, 1), fit = clamp(1 - t - c, 0, 1);
-    const zone = App.sleepZone(h); const eyeRy = 6 - 5.2 * t; const yawn = clamp((t - 0.55) / 0.45, 0, 1);
-    const smile = fit * 1 - t * 0.6; const mouthCurve = `M42,80 Q60,${(80 + 20 * smile).toFixed(1)} 78,80`;
-    const wobble = `M40,82 q7,${(-9 * c).toFixed(1)} 13,0 t13,0 t13,0`;
-    const spiral = (cx, cy, r) => { let d = ''; for (let a = 0; a <= Math.PI * 5; a += 0.35) { const rr = r * a / (Math.PI * 5); const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a); d += (d ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1); } return d; };
-    return `<svg viewBox="0 0 120 120" class="sleep-face" style="--face:${zone.color};transform:rotate(${(c * 8).toFixed(1)}deg)" aria-hidden="true">
-      <circle cx="60" cy="60" r="50" fill="var(--surface-2)" stroke="var(--face)" stroke-width="3.5"/>
-      <g class="cheeks" opacity="${(fit * 0.55).toFixed(2)}"><circle cx="34" cy="66" r="6" fill="var(--face)"/><circle cx="86" cy="66" r="6" fill="var(--face)"/></g>
-      <g class="eyes" opacity="${(1 - c).toFixed(2)}"><ellipse cx="42" cy="50" rx="6" ry="${eyeRy.toFixed(2)}" fill="var(--text)"/><ellipse cx="78" cy="50" rx="6" ry="${eyeRy.toFixed(2)}" fill="var(--text)"/><g opacity="${fit.toFixed(2)}"><circle cx="44" cy="48" r="1.8" fill="var(--surface)"/><circle cx="80" cy="48" r="1.8" fill="var(--surface)"/></g></g>
-      <g class="bags" opacity="${t.toFixed(2)}" fill="none" stroke="var(--face)" stroke-width="2" stroke-linecap="round"><path d="M35,58 q7,5 14,0"/><path d="M71,58 q7,5 14,0"/></g>
-      <g class="lids" opacity="${(t * 0.9).toFixed(2)}" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><path d="M34,${(42 + 4 * t).toFixed(1)} q8,${(-3 + 6 * t).toFixed(1)} 16,0"/><path d="M70,${(42 + 4 * t).toFixed(1)} q8,${(-3 + 6 * t).toFixed(1)} 16,0"/></g>
-      <g class="spirals" opacity="${c.toFixed(2)}" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round"><path d="${spiral(42, 50, 8 + 3 * c)}"/><path d="${spiral(78, 50, 8 + 5 * c)}"/></g>
-      <g class="brows" opacity="${c.toFixed(2)}" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><path d="M32,${(36 - 6 * c).toFixed(1)} l18,-3"/><path d="M70,36 l18,${(-7 * c).toFixed(1)}"/></g>
-      <path class="mouth" d="${c > 0.02 ? wobble : mouthCurve}" fill="none" stroke="var(--text)" stroke-width="3" stroke-linecap="round" opacity="${(1 - yawn).toFixed(2)}"/>
-      <ellipse class="yawn" cx="60" cy="84" rx="${(8 * yawn).toFixed(1)}" ry="${(10 * yawn).toFixed(1)}" fill="var(--text)" opacity="${yawn.toFixed(2)}"/>
-      <g class="zz" opacity="${(t * 0.9).toFixed(2)}" fill="var(--face)" font-family="var(--font-display)" font-weight="800"><text x="92" y="30" font-size="14">z</text><text x="102" y="20" font-size="11">z</text></g>
-      <g class="spark" opacity="${fit.toFixed(2)}" fill="var(--face)"><path d="M100,22 l2,5 5,2 -5,2 -2,5 -2,-5 -5,-2 5,-2z"/><path d="M14,30 l1.5,3.5 3.5,1.5 -3.5,1.5 -1.5,3.5 -1.5,-3.5 -3.5,-1.5 3.5,-1.5z"/></g>
-    </svg>`;
+    const active = App.sleepZone(h).key;
+    return Object.entries(App.SLEEP_FACES).map(([k, f]) => `<svg viewBox="0 0 48 48" class="sleep-face ${k === active ? 'on' : ''}" data-state="${k}" style="color:${f.color}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="20"/>${f.parts}</svg>`).join('');
   };
   App.checkInFields = function (ci) {
     const scale = (name, val, labels) => `<div class="seg pill" data-chips="${name}">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="seg-set" data-name="${name}" data-value="${n}" aria-pressed="${Number(val) === n}" title="${labels[n - 1]}">${n}</button>`).join('')}</div><input type="hidden" name="${name}" value="${val || ''}">`;
@@ -236,7 +227,7 @@
     'ci-sleep'(el) {
       const v = Number(el.value); el.style.setProperty('--p', v / 14 * 100 + '%'); el.setAttribute('aria-valuetext', fmt.num(v, 1) + ' Stunden');
       const form = el.closest('form'); const out = form.querySelector('#ci-sleep-val'); const face = form.querySelector('#ci-face'); const zoneEl = form.querySelector('#ci-zone');
-      if (face) face.innerHTML = App.sleepFaceHTML(v); if (zoneEl) { const z = App.sleepZone(v); zoneEl.textContent = z.label; zoneEl.style.color = z.color; }
+      const z = App.sleepZone(v); if (face) face.querySelectorAll('.sleep-face').forEach(f => f.classList.toggle('on', f.dataset.state === z.key)); if (zoneEl) { zoneEl.textContent = z.label; zoneEl.style.color = z.color; }
       if (!out) return; const from = Number(out.dataset.v) || 0; out.dataset.v = v; const start = performance.now(); const dur = 260;
       cancelAnimationFrame(out._raf);
       const step = now => { const k = Math.min(1, (now - start) / dur); const e = 1 - Math.pow(1 - k, 3); const cur = from + (v - from) * e; out.textContent = fmt.num(Math.round(cur * 10) / 10, 1) + ' h'; if (k < 1) out._raf = requestAnimationFrame(step); };

@@ -57,19 +57,38 @@
   }
   Object.assign(App.actions, { 'recap-dismiss'(el) { const shown = Object.assign({}, S.settings.recapShown || {}); shown[el.dataset.kind] = el.dataset.key; S.setSetting('recapShown', shown); App.rerender(); } });
 
+  /* ---------- Filter (Symbol, Richtung, Status, Setup, Tags) ---------- */
+  const FILTER_EMPTY = () => ({ symbols: [], dir: '', status: '', setups: [], tags: [] });
+  function filterState() { return Object.assign(FILTER_EMPTY(), S.settings.dashFilter || {}); }
+  function filterCount(f) { return f.symbols.length + f.setups.length + f.tags.length + (f.dir ? 1 : 0) + (f.status ? 1 : 0); }
+  function applyFilter(list, f) {
+    return list.filter(t => (!f.symbols.length || f.symbols.includes(t.symbol)) && (!f.dir || (f.dir === 'long' ? t.direction > 0 : t.direction < 0)) && (!f.status || t.status === f.status) && (!f.setups.length || f.setups.includes(t.setup || '')) && (!f.tags.length || f.tags.some(x => (t.mistakes || []).includes(x) || (t.emotions || []).includes(x))));
+  }
+  function filterPopHTML(all, f) {
+    const uniq = a => [...new Set(a.filter(Boolean))]; const symbols = uniq(all.map(t => t.symbol)).sort(); const setups = uniq([...(S.data.tags.setups || []), ...all.map(t => t.setup)]); const tags = uniq([...(S.data.tags.mistakes || []), ...(S.data.tags.emotions || []), ...all.flatMap(t => [...(t.mistakes || []), ...(t.emotions || [])])]);
+    const chips = (key, items, on) => items.length ? items.map(v => `<button type="button" class="chip sel" data-action="dash-filter" data-key="${key}" data-value="${esc(v)}" aria-pressed="${on(v)}">${esc(v)}</button>`).join('') : '<span class="small faint">Noch nichts vorhanden</span>';
+    const sec = (label, body) => `<div class="fsec"><div class="lbl">${label}</div><div class="chips">${body}</div></div>`;
+    const single = (key, opts) => opts.map(([v, l]) => `<button type="button" class="chip sel" data-action="dash-filter" data-key="${key}" data-value="${v}" aria-pressed="${f[key] === v}">${l}</button>`).join('');
+    return `<div class="row between" style="margin-bottom:10px"><b>Filter</b>${filterCount(f) ? `<button type="button" class="btn xs ghost" data-action="dash-filter-clear">${I.close} Zurücksetzen</button>` : ''}</div>
+      ${sec('Symbol', chips('symbols', symbols, v => f.symbols.includes(v)))}${sec('Richtung', single('dir', [['long', 'Long'], ['short', 'Short']]))}${sec('Status', single('status', [['win', 'Gewinn'], ['loss', 'Verlust'], ['be', 'Break-even'], ['open', 'Offen']]))}${sec('Setup', chips('setups', setups, v => f.setups.includes(v)))}${sec('Tags', chips('tags', tags, v => f.tags.includes(v)))}`;
+  }
+  Object.assign(App.actions, {
+    'dash-filter'(el) { const f = filterState(); const k = el.dataset.key, v = el.dataset.value; if (Array.isArray(f[k])) f[k] = f[k].includes(v) ? f[k].filter(x => x !== v) : [...f[k], v]; else f[k] = f[k] === v ? '' : v; S.setSetting('dashFilter', f); App.rerender(); const pop = document.getElementById('pop-dfilter'); if (pop) pop.classList.add('open'); },
+    'dash-filter-clear'() { S.setSetting('dashFilter', FILTER_EMPTY()); App.rerender(); },
+  });
+
   /* ---------- Bildschirm ---------- */
   App.screens.dashboard = {
     title: 'Dashboard',
-    actions() { const tpl = active(); return `<div class="popwrap"><button type="button" class="btn" data-pop="tpl" aria-label="Vorlage wählen">${I.layout}<span class="hide-m">Vorlage: <b class="tpl-name">${esc(tpl.name)}</b></span>${caret}</button><div class="popover tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div>`; },
+    ownActions: true,
     render(ctx) {
-      const s = st(); const tpl = active(); const d = W.data(ctx, App); const all = ctx.all; const parts = []; const todayKey = C.dayKey(new Date()); const sess = S.activeSession();
+      const s = st(); const tpl = active(); const rawAll = ctx.all; const f = filterState(); const fN = filterCount(f); if (fN) ctx = Object.assign({}, ctx, { all: applyFilter(ctx.all, f), inRange: applyFilter(ctx.inRange, f) }); const d = W.data(ctx, App); const all = ctx.all; const parts = []; const todayKey = C.dayKey(new Date());
       if (s.editing) parts.push(`<div class="edit-bar"><div class="row"><span class="dot-live"></span><b>Bearbeitungsmodus</b><span class="muted">–</span><span>${esc(tpl.name)}</span></div><div class="row"><button type="button" class="btn" data-action="dash-cancel">Abbrechen</button><button type="button" class="btn primary" data-action="dash-save">${I.check} Speichern</button></div></div>`);
       else {
         if (S.settings.tiltWarnings) { const tilt = C.tiltCheck(App.todayTrades(all), { account: d.account, dailyLossLimitPct: S.settings.dailyLossLimitPct / 100 }); for (const wn of tilt.warnings) { if (S.data.dismissed[wn.kind] === todayKey) continue; parts.push(U.banner(wn.severity === 'critical' ? 'loss' : 'warn', wn.title, wn.text, { close: 'x' }).replace('data-action="x"', `data-action="dismiss" data-key="${wn.kind}"`)); } }
         for (const r of recaps(all)) parts.push(U.banner('info', r.title, r.text, { icon: 'bell', close: 'x', trailing: `<a class="btn sm" href="#/stats">Zur Statistik</a>` }).replace('data-action="x"', `data-action="recap-dismiss" data-kind="${r.kind}" data-key="${r.key}"`));
-        if (!all.length) parts.push(U.banner('accent', 'Willkommen', 'Dein Journal ist noch leer. Logge deinen ersten Trade, importiere eine CSV oder lade Beispieldaten, um alle Auswertungen zu sehen.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="import">${I.upload} CSV</button><button type="button" class="btn sm primary" data-action="install-sample">Beispieldaten laden</button>` }));
-        const lastTrade = all.length ? all.slice().sort((a, b) => b.sortTime - a.sortTime)[0] : null;
-        parts.push(`<div class="row between dash-head"><div class="small muted">${S.settings.sampleInstalled ? `Beispieldaten geladen, alle Zahlen sind Beispiele. <button type="button" class="btn xs ghost" data-action="remove-sample">Entfernen</button>` : lastTrade ? `<b>Letzter Trade:</b> ${fmt.dateTime(lastTrade.close || lastTrade.open)}` : ''}</div><div class="row">${S.day(todayKey) && S.day(todayKey).checkIn ? `<button type="button" class="btn" data-action="check-in" data-day="${todayKey}">${I.sparkle} Check-in bearbeiten</button>` : ''}${sess ? `<button type="button" class="btn" data-action="end-session">${I.stop} Session beenden</button>` : `<button type="button" class="btn" data-action="start-session">${I.play} Tag starten</button>`}<button type="button" class="btn" data-action="dash-tpl-edit" data-id="${tpl.id}">${I.edit} Vorlage bearbeiten</button></div></div>`);
+        if (!rawAll.length) parts.push(U.banner('accent', 'Willkommen', 'Dein Journal ist noch leer. Logge deinen ersten Trade, importiere eine CSV oder lade Beispieldaten, um alle Auswertungen zu sehen.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="import">${I.upload} CSV</button><button type="button" class="btn sm primary" data-action="install-sample">Beispieldaten laden</button>` }));
+        parts.push(`<div class="dash-head"><div class="row"><div class="popwrap"><button type="button" class="btn" data-pop="tpl" aria-label="Vorlage wählen">${I.layout}<span class="hide-m">Vorlage: <b class="tpl-name">${esc(tpl.name)}</b></span>${caret}</button><div class="popover left tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div><div class="popwrap"><button type="button" class="btn ${fN ? 'accent' : ''}" data-pop="dfilter" aria-label="Filter">${I.filter}<span>Filter</span>${fN ? `<b class="cntb">${fN}</b>` : ''}${caret}</button><div class="popover left filter-pop" id="pop-dfilter">${filterPopHTML(rawAll, f)}</div></div></div><div class="row">${App.globalActions()}<button type="button" class="btn" data-action="dash-tpl-edit" data-id="${tpl.id}">${I.edit} Vorlage bearbeiten</button></div></div>${S.settings.sampleInstalled ? `<div class="small muted" style="margin-top:-8px">Beispieldaten geladen, alle Zahlen sind Beispiele. <button type="button" class="btn xs ghost" data-action="remove-sample">Entfernen</button></div>` : ''}`);
       }
       const lay = layout();
       if (s.first) parts.push(skeleton(lay)); else { parts.push(topArea(lay.oben, d)); parts.push(mainArea(lay.unten, d)); }

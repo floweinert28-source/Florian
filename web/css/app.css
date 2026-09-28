@@ -301,6 +301,13 @@ span.info:hover { color: var(--accent); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* ---------- Statistiken / Kennzahlen ---------- */
+.stat-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; min-width: 0; }
+.stat-tile .k { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-2); }
+.stat-tile .k span.info { width: 13px; height: 13px; }
+.stat-tile .v { font-family: var(--font-display); font-size: 24px; font-weight: 600; margin-top: 8px; letter-spacing: -0.01em; }
+@media (max-width: 1100px) { .stat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .stat-tiles { grid-template-columns: 1fr; } }
 .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0 -1px -1px 0; }
 .stat:nth-child(4n) { border-right: 0; }
 @media (max-width: 1100px) { .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .stat:nth-child(4n) { border-right: 1px solid var(--border); } .stat:nth-child(2n) { border-right: 0; } }
@@ -558,6 +565,7 @@ span.info:hover { color: var(--accent); }
 .nb .folder svg.ico { width: 16px; height: 16px; flex: 0 0 auto; color: var(--muted); }
 .nb .folder.active svg.ico { color: var(--accent); }
 .nb .folder hr { margin: 0; }
+.nb .folder .sp { width: 24px; flex: 0 0 auto; }
 .nb .fsep { border-top: 1px solid var(--border); margin: 6px 8px; }
 .nb .tagpills { display: flex; flex-wrap: wrap; gap: 6px; padding: 2px 6px 8px; }
 .nb .tagpill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border-2); background: var(--surface); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-2); }
@@ -607,8 +615,12 @@ span.info:hover { color: var(--accent); }
 .nb .stats-grid .k { font-size: 11px; color: var(--muted); }
 .nb .stats-grid .v { font-weight: 700; font-size: 13.5px; }
 .nb .tags-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 2px 0 0; }
-.nb .tags-row .tag-in { border: 0; background: none; color: var(--muted); font-size: 12.5px; padding: 4px 6px; width: 110px; }
-.nb .tags-row .tag-in:focus { outline: none; color: var(--text); width: 180px; }
+.nb .tags-row .tag-add { display: inline-flex; align-items: center; gap: 4px; border: 1px dashed var(--border-2); background: none; color: var(--muted); font-size: 12.5px; padding: 4px 10px 4px 8px; border-radius: 999px; cursor: pointer; }
+.nb .tags-row .tag-add svg { width: 13px; height: 13px; }
+.nb .tags-row .tag-add:hover { color: var(--text); border-color: var(--text-2); }
+.nb .tagpop { min-width: 220px; max-height: 300px; overflow-y: auto; }
+.nb .tagpop .chk { width: 14px; height: 14px; display: inline-grid; place-items: center; color: var(--accent); }
+.nb .tagpop .chk svg { width: 14px; height: 14px; }
 .nb .tags-row .chip { gap: 6px; }
 .nb .tags-row .chip button { border: 0; background: none; color: inherit; padding: 0; width: 14px; height: 14px; cursor: pointer; opacity: .7; }
 .nb .tags-row .chip button:hover { opacity: 1; }
@@ -742,11 +754,11 @@ span.info:hover { color: var(--accent); }
 .rules-list li::marker { color: var(--accent); font-weight: 700; }
 .checklist .it.fail .box { border-color: var(--loss); color: var(--loss); }
 .checklist .it.fail .box svg { width: 12px; height: 12px; }
-.activity { --gap: 6px; --cell: 40px; overflow-x: auto; padding-bottom: 6px; cursor: grab; user-select: none; scrollbar-width: thin; }
+.activity { --gap: 6px; --cell: 40px; overflow-x: auto; padding-bottom: 16px; cursor: grab; user-select: none; scrollbar-width: thin; scrollbar-gutter: stable; }
 .activity.dragging { cursor: grabbing; }
 .activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 4px; width: max-content; padding-right: 28px; }
 .activity .months span { white-space: nowrap; }
-.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); width: max-content; padding: 3px 28px 3px 0; }
+.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); width: max-content; padding: 3px 28px 8px 0; }
 .activity .wl { position: sticky; left: 0; background: var(--surface); z-index: 1; }
 .activity .wl { font-size: 13px; color: var(--muted); display: flex; align-items: center; }
 .activity i { display: block; width: var(--cell); height: var(--cell); border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); cursor: pointer; }
@@ -788,7 +800,15 @@ span.info:hover { color: var(--accent); }
    Dashboard: Vorlagen, Bereiche, Bearbeitungsmodus, Widget-Bibliothek
    ============================================================ */
 .chart .grid line { stroke-dasharray: 3 4; }
-.dash-head { min-height: 36px; }
+.dash-head { min-height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; }
+.dash-head > .row { gap: 10px; flex-wrap: wrap; }
+.dash-head > .row:last-child { margin-left: auto; justify-content: flex-end; }
+.btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
+.filter-pop { width: 400px; max-width: calc(100vw - 32px); padding: 12px 14px; }
+.filter-pop .fsec { margin-bottom: 10px; }
+.filter-pop .fsec:last-child { margin-bottom: 0; }
+.filter-pop .fsec .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+.filter-pop .chips { gap: 5px; max-height: 120px; overflow-y: auto; }
 .dash-top { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); gap: 18px; align-items: stretch; }
 .dash-main { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; --card-h: 396px; grid-auto-flow: dense; }
 .dash-main > .w, .dash-main > .skel { height: var(--card-h); min-height: 0; }
@@ -1039,7 +1059,7 @@ span.info:hover { color: var(--accent); }
 }
 
 /* Zahlen in Roboto (Stil wie TradeZella), Text in der System-Schrift von Apple bzw. Inter */
-.num, .tbl td, .tile .val, .tile.spark-tile .val, .kv b, .cal .p, .cal .d .n, .cal .w .p, .stat .v, .big-stat, .score-big, .streak-ring, .yc b, .yc small, .tracker-foot .score-n, .slider .sv, .chart text, .tile .head .n, .pill, .pg-info, .strat-stats .v, .day-card .pnl, .detail-head .big, .tilt-stats .v, .ym-head span, .score-scale .lbls, .ticks, .stats-grid .v, .tbl th.r { font-family: var(--font-num); }
+.num, .tbl td, .tile .val, .tile.spark-tile .val, .kv b, .cal .p, .cal .d .n, .cal .w .p, .stat .v, .big-stat, .score-big, .streak-ring, .yc b, .yc small, .tracker-foot .score-n, .slider .sv, .chart text, .tile .head .n, .pill, .pg-info, .strat-stats .v, .day-card .pnl, .detail-head .big, .tilt-stats .v, .ym-head span, .score-scale .lbls, .ticks, .stats-grid .v, .stat-tile .v, .tbl th.r { font-family: var(--font-num); }
 
 /* ============================================================
    Einstellungen (Aufbau nach TradeZella): Bereiche links, Inhalt rechts

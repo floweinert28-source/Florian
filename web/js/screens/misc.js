@@ -25,6 +25,10 @@
   };
 
   /* ---------- Profil ---------- */
+  /* Bild quadratisch zuschneiden, verkleinern und als JPEG ablegen: klein, schnell, in jedem Browser anzeigbar */
+  function shrinkImage(file, size) {
+    return new Promise((res, rej) => { const url = URL.createObjectURL(file); const img = new Image(); img.onload = () => { try { const c = document.createElement('canvas'); c.width = size; c.height = size; const g = c.getContext('2d'); const w = img.naturalWidth, h = img.naturalHeight; if (!w || !h) throw new Error('leer'); const sq = Math.min(w, h); g.drawImage(img, (w - sq) / 2, (h - sq) / 2, sq, sq, 0, 0, size, size); c.toBlob(b => b ? res(b) : rej(new Error('encode')), 'image/jpeg', 0.88); } catch (e) { rej(e); } finally { URL.revokeObjectURL(url); } }; img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('decode')); }; img.src = url; });
+  }
   function timezones() { let list = []; try { list = Intl.supportedValuesOf('timeZone'); } catch (e) { list = ['Europe/Berlin', 'Europe/Vienna', 'Europe/Zurich', 'Europe/London', 'America/New_York', 'America/Chicago', 'America/Los_Angeles', 'Asia/Tokyo', 'Asia/Singapore', 'Australia/Sydney', 'UTC']; } return list; }
   function profil() {
     const st = S.settings; const pr = Object.assign({ firstName: '', lastName: '', username: '', email: '', address: '', bio: '', timezone: '' }, st.profile || {}); const tz = pr.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone; const priv = st.privacy || {};
@@ -177,7 +181,7 @@
     /* Profil */
     'save-profile'(form) { const fd = new FormData(form); const pr = {}; for (const k of ['firstName', 'lastName', 'username', 'email', 'address', 'bio', 'timezone']) pr[k] = String(fd.get(k) || '').trim(); S.data.settings.profile = pr; S.data.settings.name = [pr.firstName, pr.lastName].filter(Boolean).join(' ') || pr.username || 'Trader'; S.data.settings.currency = fd.get('currency'); S.save(); U.toast('Profil gespeichert', 'ok'); rerender(); },
     'avatar-upload'(el) { const inp = el.closest('.set-block').querySelector('input[type=file]'); if (inp) inp.click(); },
-    async 'avatar-file'(el) { const f = el.files && el.files[0]; if (!f) return; if (!f.type.startsWith('image/')) return U.toast('Bitte ein Bild wählen', 'err'); try { const old = S.settings.avatarId; const id = await root.Blobs.put(f); if (old) await root.Blobs.del(old).catch(() => {}); S.setSetting('avatarId', id); U.toast('Profilbild gespeichert', 'ok'); rerender(); } catch (e) { U.toast('Bild konnte nicht gespeichert werden', 'err'); } },
+    async 'avatar-file'(el) { const f = el.files && el.files[0]; el.value = ''; if (!f) return; let blob; try { blob = await shrinkImage(f, 256); } catch (e) { return U.toast('Dieses Bildformat kann der Browser nicht lesen (z. B. HEIC). Bitte JPG oder PNG wählen.', 'err'); } try { const old = S.settings.avatarId; const id = await root.Blobs.put(blob); if (old) await root.Blobs.del(old).catch(() => {}); S.setSetting('avatarId', id); U.toast('Profilbild gespeichert', 'ok'); rerender(); } catch (e) { U.toast('Bild konnte nicht gespeichert werden', 'err'); } },
     async 'avatar-remove'() { const id = S.settings.avatarId; if (!id) return; await root.Blobs.del(id).catch(() => {}); S.setSetting('avatarId', null); rerender(); },
     'pw-reset'() { U.modal(`<div class="modal-head"><h2>Passwort zurücksetzen</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">Dein Journal hat noch kein Benutzerkonto mit Passwort: Alle Daten liegen nur in diesem Browser. Sobald Konten mit Anmeldung verfügbar sind, kannst du hier ein neues Passwort anfordern.</p><div class="modal-foot"><button type="button" class="btn primary" data-close>Verstanden</button></div>`, { cls: 'narrow' }); },
     'save-privacy'(form) { const fd = new FormData(form); S.setSetting('privacy', { support: fd.get('support') === 'on' }); U.toast('Gespeichert', 'ok'); },

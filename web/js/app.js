@@ -199,6 +199,9 @@
     const active = App.sleepZone(h).key;
     return Object.entries(App.SLEEP_FACES).map(([k, f]) => `<svg viewBox="0 0 48 48" class="sleep-face ${k === active ? 'on' : ''}" data-state="${k}" style="color:${f.color}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="20"/>${f.parts}</svg>`).join('');
   };
+  App.sleepFaceIcon = function (h, size = 26) { const z = App.sleepZone(Number(h)); const f = App.SLEEP_FACES[z.key]; return `<svg viewBox="0 0 48 48" width="${size}" height="${size}" style="color:${f.color};vertical-align:middle;flex:0 0 auto" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="20"/>${f.parts}</svg>`; };
+  /* Farbe für 1–5-Skalen: gut = grün, schlecht = rot; bei Stress ist hoch schlecht */
+  App.scaleColor = function (n, highIsBad) { const v = Number(n); if (!v) return 'var(--muted)'; const i = highIsBad ? 6 - v : v; return ['var(--loss)', '#ff8c5c', 'var(--warn)', 'color-mix(in srgb, var(--accent) 70%, var(--warn))', 'var(--accent)'][i - 1]; };
   App.checkInFields = function (ci) {
     const scale = (name, val, labels) => `<div class="seg pill" data-chips="${name}">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="seg-set" data-name="${name}" data-value="${n}" aria-pressed="${Number(val) === n}" title="${labels[n - 1]}">${n}</button>`).join('')}</div><input type="hidden" name="${name}" value="${val || ''}">`;
     const sleep = ci.sleep == null ? 7 : Number(ci.sleep); const pct = sleep / 14 * 100; const zone = App.sleepZone(sleep);

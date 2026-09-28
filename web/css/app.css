@@ -899,12 +899,12 @@ span.info:hover { color: var(--accent); }
 .yc.year { background: transparent; border: 1px solid var(--border); }
 .yc.year b { font-size: 16px; }
 .yc.total { background: transparent; border: 1px solid var(--border); }
-.yc.win { background: color-mix(in srgb, var(--profit) 55%, var(--surface-2)); color: var(--text); }
-.yc.loss { background: color-mix(in srgb, var(--loss) 65%, var(--surface-2)); color: var(--text); }
-.yc.be { background: var(--surface-3); }
-.yc.total.win, .yc.total.loss, .yc.total.be { background: transparent; }
-.yc.total.win b { color: var(--profit); } .yc.total.loss b { color: var(--loss); }
-.yc.win small, .yc.loss small { color: var(--text); opacity: .85; }
+.yc { border: 1px solid transparent; }
+.yc.win { background: color-mix(in srgb, var(--profit) 16%, var(--surface)); border-color: color-mix(in srgb, var(--profit) 45%, var(--border)); }
+.yc.loss { background: color-mix(in srgb, var(--loss) 16%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 45%, var(--border)); }
+.yc.be { background: color-mix(in srgb, var(--be) 14%, var(--surface)); border-color: color-mix(in srgb, var(--be) 40%, var(--border)); }
+.yc.win b { color: var(--profit); } .yc.loss b { color: var(--loss); } .yc.be b { color: var(--be); }
+.yc.total.win, .yc.total.loss, .yc.total.be { background: transparent; border-color: var(--border); }
 /* Report-Panel */
 .card.rep-card { position: relative; }
 .rep-panel { position: absolute; z-index: 30; top: 54px; left: 20px; right: 20px; background: var(--surface); border: 1px solid var(--border-2); border-radius: 14px; box-shadow: var(--shadow); padding: 14px; display: flex; flex-direction: column; gap: 10px; }

@@ -186,11 +186,33 @@
       ${rules.length ? `<div class="fieldset"><div class="legend">Deine Regeln</div><div class="checklist">${rules.map(r => `<div class="it"><span class="box">${I.check}</span><span>${esc(r.text)}</span></div>`).join('')}</div></div>` : ''}
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${I.play} Session starten</button></div></form>`);
   };
+  /* Schlaf-Gesicht: müde bei wenig Schlaf, fit im Bereich 7–9 h, überdreht bei zu viel */
+  App.sleepZone = function (h) { return h < 7 ? { key: 'tired', label: h < 5 ? 'Deutlich zu wenig Schlaf' : 'Etwas zu wenig Schlaf', color: h < 5 ? 'var(--loss)' : 'var(--warn)' } : h <= 9 ? { key: 'fit', label: 'Optimal, 7 bis 9 Stunden', color: 'var(--accent)' } : { key: 'crazy', label: h > 11 ? 'Viel zu viel Schlaf' : 'Etwas zu viel Schlaf', color: 'var(--be)' }; };
+  App.sleepFaceHTML = function (h) {
+    const clamp = C.clamp; const t = clamp((7 - h) / 7, 0, 1), c = clamp((h - 9) / 5, 0, 1), fit = clamp(1 - t - c, 0, 1);
+    const zone = App.sleepZone(h); const eyeRy = 6 - 5.2 * t; const yawn = clamp((t - 0.55) / 0.45, 0, 1);
+    const smile = fit * 1 - t * 0.6; const mouthCurve = `M42,80 Q60,${(80 + 20 * smile).toFixed(1)} 78,80`;
+    const wobble = `M40,82 q7,${(-9 * c).toFixed(1)} 13,0 t13,0 t13,0`;
+    const spiral = (cx, cy, r) => { let d = ''; for (let a = 0; a <= Math.PI * 5; a += 0.35) { const rr = r * a / (Math.PI * 5); const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a); d += (d ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1); } return d; };
+    return `<svg viewBox="0 0 120 120" class="sleep-face" style="--face:${zone.color};transform:rotate(${(c * 8).toFixed(1)}deg)" aria-hidden="true">
+      <circle cx="60" cy="60" r="50" fill="var(--surface-2)" stroke="var(--face)" stroke-width="3.5"/>
+      <g class="cheeks" opacity="${(fit * 0.55).toFixed(2)}"><circle cx="34" cy="66" r="6" fill="var(--face)"/><circle cx="86" cy="66" r="6" fill="var(--face)"/></g>
+      <g class="eyes" opacity="${(1 - c).toFixed(2)}"><ellipse cx="42" cy="50" rx="6" ry="${eyeRy.toFixed(2)}" fill="var(--text)"/><ellipse cx="78" cy="50" rx="6" ry="${eyeRy.toFixed(2)}" fill="var(--text)"/><g opacity="${fit.toFixed(2)}"><circle cx="44" cy="48" r="1.8" fill="var(--surface)"/><circle cx="80" cy="48" r="1.8" fill="var(--surface)"/></g></g>
+      <g class="bags" opacity="${t.toFixed(2)}" fill="none" stroke="var(--face)" stroke-width="2" stroke-linecap="round"><path d="M35,58 q7,5 14,0"/><path d="M71,58 q7,5 14,0"/></g>
+      <g class="lids" opacity="${(t * 0.9).toFixed(2)}" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><path d="M34,${(42 + 4 * t).toFixed(1)} q8,${(-3 + 6 * t).toFixed(1)} 16,0"/><path d="M70,${(42 + 4 * t).toFixed(1)} q8,${(-3 + 6 * t).toFixed(1)} 16,0"/></g>
+      <g class="spirals" opacity="${c.toFixed(2)}" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round"><path d="${spiral(42, 50, 8 + 3 * c)}"/><path d="${spiral(78, 50, 8 + 5 * c)}"/></g>
+      <g class="brows" opacity="${c.toFixed(2)}" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><path d="M32,${(36 - 6 * c).toFixed(1)} l18,-3"/><path d="M70,36 l18,${(-7 * c).toFixed(1)}"/></g>
+      <path class="mouth" d="${c > 0.02 ? wobble : mouthCurve}" fill="none" stroke="var(--text)" stroke-width="3" stroke-linecap="round" opacity="${(1 - yawn).toFixed(2)}"/>
+      <ellipse class="yawn" cx="60" cy="84" rx="${(8 * yawn).toFixed(1)}" ry="${(10 * yawn).toFixed(1)}" fill="var(--text)" opacity="${yawn.toFixed(2)}"/>
+      <g class="zz" opacity="${(t * 0.9).toFixed(2)}" fill="var(--face)" font-family="var(--font-display)" font-weight="800"><text x="92" y="30" font-size="14">z</text><text x="102" y="20" font-size="11">z</text></g>
+      <g class="spark" opacity="${fit.toFixed(2)}" fill="var(--face)"><path d="M100,22 l2,5 5,2 -5,2 -2,5 -2,-5 -5,-2 5,-2z"/><path d="M14,30 l1.5,3.5 3.5,1.5 -3.5,1.5 -1.5,3.5 -1.5,-3.5 -3.5,-1.5 3.5,-1.5z"/></g>
+    </svg>`;
+  };
   App.checkInFields = function (ci) {
     const scale = (name, val, labels) => `<div class="seg pill" data-chips="${name}">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="seg-set" data-name="${name}" data-value="${n}" aria-pressed="${Number(val) === n}" title="${labels[n - 1]}">${n}</button>`).join('')}</div><input type="hidden" name="${name}" value="${val || ''}">`;
-    const sleep = ci.sleep == null ? 7 : Number(ci.sleep); const pct = sleep / 14 * 100;
+    const sleep = ci.sleep == null ? 7 : Number(ci.sleep); const pct = sleep / 14 * 100; const zone = App.sleepZone(sleep);
     return `<div class="ci-stack">
-      <div class="field"><label for="ci-sleep">Schlaf (Stunden)</label><div class="slider"><input type="range" id="ci-sleep" name="sleep" min="0" max="14" step="0.5" value="${sleep}" style="--p:${pct}%" data-input="ci-sleep" aria-valuetext="${fmt.num(sleep, 1)} Stunden"><b class="sv" id="ci-sleep-val">${fmt.num(sleep, 1)} h</b></div><div class="ticks"><span>0 h</span><span>7 h</span><span>14 h</span></div></div>
+      <div class="field"><label for="ci-sleep">Schlaf (Stunden)</label><div class="sleep-row"><div class="face-wrap" id="ci-face">${App.sleepFaceHTML(sleep)}</div><div class="grow"><div class="slider"><input type="range" id="ci-sleep" name="sleep" min="0" max="14" step="0.5" value="${sleep}" style="--p:${pct}%" data-input="ci-sleep" aria-valuetext="${fmt.num(sleep, 1)} Stunden"><b class="sv" id="ci-sleep-val" data-v="${sleep}">${fmt.num(sleep, 1)} h</b></div><div class="ticks"><span>0 h</span><span>7 h</span><span>14 h</span></div><div class="zone" id="ci-zone" style="color:${zone.color}">${zone.label}</div></div></div></div>
       <div class="field"><span class="lbl">Stress (1 entspannt – 5 sehr gestresst)</span>${scale('stress', ci.stress, ['entspannt', 'leicht', 'mittel', 'hoch', 'sehr hoch'])}</div>
       <div class="field"><span class="lbl">Stimmung (1 schlecht – 5 sehr gut)</span>${scale('mood', ci.mood, ['schlecht', 'mäßig', 'neutral', 'gut', 'sehr gut'])}</div>
       <div class="field"><label for="ci-note">Notiz</label><input class="input" id="ci-note" name="note" value="${esc(ci.note || '')}" placeholder="Wie fühlst du dich?"></div></div>`;
@@ -211,7 +233,15 @@
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${I.check} Session beenden</button></div></form>`);
   };
   Object.assign(App.actions, {
-    'ci-sleep'(el) { const v = Number(el.value); el.style.setProperty('--p', v / 14 * 100 + '%'); el.setAttribute('aria-valuetext', fmt.num(v, 1) + ' Stunden'); const out = el.closest('form').querySelector('#ci-sleep-val'); if (out) out.textContent = fmt.num(v, 1) + ' h'; },
+    'ci-sleep'(el) {
+      const v = Number(el.value); el.style.setProperty('--p', v / 14 * 100 + '%'); el.setAttribute('aria-valuetext', fmt.num(v, 1) + ' Stunden');
+      const form = el.closest('form'); const out = form.querySelector('#ci-sleep-val'); const face = form.querySelector('#ci-face'); const zoneEl = form.querySelector('#ci-zone');
+      if (face) face.innerHTML = App.sleepFaceHTML(v); if (zoneEl) { const z = App.sleepZone(v); zoneEl.textContent = z.label; zoneEl.style.color = z.color; }
+      if (!out) return; const from = Number(out.dataset.v) || 0; out.dataset.v = v; const start = performance.now(); const dur = 260;
+      cancelAnimationFrame(out._raf);
+      const step = now => { const k = Math.min(1, (now - start) / dur); const e = 1 - Math.pow(1 - k, 3); const cur = from + (v - from) * e; out.textContent = fmt.num(Math.round(cur * 10) / 10, 1) + ' h'; if (k < 1) out._raf = requestAnimationFrame(step); };
+      out._raf = requestAnimationFrame(step);
+    },
     'seg-set'(el) { const name = el.dataset.name; const wrap = el.closest('form'); wrap.querySelector(`input[name="${name}"]`).value = el.dataset.value; el.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === el)); },
     'seg-set-name'(el) { const field = el.closest('.field'); const inp = field.querySelector('input[type=hidden]'); inp.value = inp.value === el.dataset.value ? '' : el.dataset.value; field.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.value === inp.value)); },
     'session-start'(form) { const ci = App.readCheckIn(form); const key = C.dayKey(new Date()); S.setDay(key, { checkIn: ci }); S.startSession({ goal: ci.goal }); U.closeModal(); U.toast('Session läuft. Viel Erfolg.', 'ok'); App.rerender(); },

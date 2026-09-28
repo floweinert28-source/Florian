@@ -714,12 +714,14 @@ span.info:hover { color: var(--accent); }
 .rules-list li::marker { color: var(--accent); font-weight: 700; }
 .checklist .it.fail .box { border-color: var(--loss); color: var(--loss); }
 .checklist .it.fail .box svg { width: 12px; height: 12px; }
-.activity { --gap: 6px; overflow-x: auto; padding-bottom: 4px; max-width: 1140px; margin: 0 auto; }
-.activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), minmax(20px, 40px)); justify-content: center; gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 6px; min-width: 620px; }
+.activity { --gap: 6px; --cell: 40px; overflow-x: auto; padding-bottom: 6px; cursor: grab; user-select: none; scrollbar-width: thin; }
+.activity.dragging { cursor: grabbing; }
+.activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 6px; width: max-content; }
 .activity .months span { white-space: nowrap; }
-.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), minmax(20px, 40px)); justify-content: center; gap: var(--gap); min-width: 620px; }
+.activity .cells { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); width: max-content; }
+.activity .wl { position: sticky; left: 0; background: var(--surface); z-index: 1; }
 .activity .wl { font-size: 13px; color: var(--muted); display: flex; align-items: center; }
-.activity i { display: block; width: 100%; aspect-ratio: 1; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); cursor: pointer; }
+.activity i { display: block; width: var(--cell); height: var(--cell); border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); cursor: pointer; }
 .activity i.future { visibility: hidden; }
 .activity i.l1, .heat-legend i.l1 { background: color-mix(in srgb, var(--accent) 22%, var(--surface-2)); border-color: transparent; }
 .activity i.l2, .heat-legend i.l2 { background: color-mix(in srgb, var(--accent) 40%, var(--surface-2)); border-color: transparent; }
@@ -731,7 +733,7 @@ span.info:hover { color: var(--accent); }
 .heat-legend { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
 .heat-legend i { display: block; width: 22px; height: 22px; border-radius: 6px; }
 .heat-legend span { margin: 0 6px; }
-@media (max-width: 960px) { .big-stat { font-size: 34px; } .activity { --gap: 4px; } }
+@media (max-width: 960px) { .big-stat { font-size: 34px; } .activity { --gap: 4px; --cell: 26px; } }
 
 /* Tilt-Profil: Inhalt mittig, füllt die Karte */
 .tilt-wrap { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; text-align: left; padding: 4px 0 0; }
@@ -742,3 +744,14 @@ span.info:hover { color: var(--accent); }
 .tilt-stats .v small { display: block; font-size: 13px; color: var(--muted); font-weight: 600; font-family: var(--font); letter-spacing: 0; margin-top: 2px; }
 .tilt-wrap p { margin: 0; }
 @media (max-width: 960px) { .tilt-stats .v { font-size: 30px; } .tilt-stats .v.cur { font-size: 24px; } }
+
+/* Ring ohne Zahl, animiert */
+.card.ring-card { position: relative; min-height: 150px; display: flex; flex-direction: column; justify-content: center; }
+.card.ring-card .card-title { white-space: nowrap; }
+.card.ring-card > .big-stat, .card.ring-card > .small { margin-right: 150px; }
+.card.ring-card .card-head { margin-bottom: 8px; }
+.ring-abs { position: absolute; right: 26px; top: 50%; transform: translateY(-50%); }
+.ring-arc svg { width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.ring-arc .track { stroke: var(--surface-3); }
+.ring-arc .arc { stroke: var(--accent); transition: stroke-dashoffset 1.1s cubic-bezier(.22, .61, .36, 1); filter: drop-shadow(0 0 6px var(--accent-glow)); }
+@media (max-width: 600px) { .card.ring-card { min-height: 0; } .card.ring-card > .big-stat, .card.ring-card > .small { margin-right: 0; } .ring-abs { position: static; transform: none; margin-top: 10px; } }

@@ -2,7 +2,8 @@
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
-  const WEEKS = 22;
+  const WEEKS = 52;
+  function ringArc(rate, size = 116, lw = 9) { const r = (size - lw) / 2, c = 2 * Math.PI * r; const off = rate == null ? c : c * (1 - Math.max(0, Math.min(1, rate))); return `<div class="ring-arc" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}"><circle class="track" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${lw}"/><circle class="arc" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${lw}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c}" data-target="${off.toFixed(2)}"/></svg></div>`; }
   const arrow = (dir) => dir > 0 ? `<span class="trend up" aria-label="steigend">${I.arrowUp}</span>` : dir < 0 ? `<span class="trend down" aria-label="fallend">${I.arrowDown}</span>` : '';
   function ruleRate(rules, from, to) { const entries = Object.values(S.data.days).filter(d => d.rulesFollowed && (!from || (C.parseDayKey(d.key) >= from && C.parseDayKey(d.key) <= to))); return { n: entries.length, rate: rules.length && entries.length ? C.mean(entries.map(d => d.rulesFollowed.filter(id => rules.some(x => x.id === id)).length / rules.length)) : null }; }
   function activityGrid(activity, account) {
@@ -14,9 +15,13 @@
     const rows = C.WEEKDAYS.map((wd, d) => `<span class="wl">${wd}</span>` + cols.map(x => { const cell = x.col[d]; if (!cell.a) return `<i class="${cell.future ? 'future' : ''}"></i>`; const a = cell.a; return `<i class="l${level(a)} ${a.key === today ? 'today' : ''}" data-tip="<b>${fmt.weekdayLong(a.date)}</b><br>${a.n ? `${a.n} Trade${a.n === 1 ? '' : 's'} · ${fmt.cur(a.pnl, { signed: true })}` : 'Keine Trades'}${a.checkIn ? '<br>Check-in ✓' : ''}${a.note ? '<br>Notiz ✓' : ''}" data-action="day" data-day="${a.key}"></i>`; }).join('')).join('');
     return `<div class="activity" style="--weeks:${weeks}"><div class="months"><span class="wl"></span>${months}</div><div class="cells">${rows}</div></div><div class="heat-legend"><span>Weniger</span><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><i class="l5"></i><span>Mehr</span></div>`;
   }
+  Object.assign(App.actions, { 'act-scroll'(el) { const a = document.querySelector('.activity'); if (a) a.scrollBy({ left: Number(el.dataset.dir) * 46 * 8, behavior: 'smooth' }); } });
   App.screens.progress = {
     title: 'Fortschritt',
-    mount(main) { const a = main.querySelector('.activity'); if (a) a.scrollLeft = a.scrollWidth; },
+    mount(main) {
+      const a = main.querySelector('.activity'); if (a) { a.scrollLeft = a.scrollWidth; let drag = null; a.addEventListener('mousedown', e => { if (e.button !== 0) return; drag = { x: e.clientX, left: a.scrollLeft, moved: false }; a.classList.add('dragging'); }); window.addEventListener('mousemove', e => { if (!drag) return; const dx = e.clientX - drag.x; if (Math.abs(dx) > 3) drag.moved = true; a.scrollLeft = drag.left - dx; }); window.addEventListener('mouseup', () => { if (drag && drag.moved) a.dataset.dragged = '1'; drag = null; a.classList.remove('dragging'); setTimeout(() => { delete a.dataset.dragged; }, 50); }); a.addEventListener('click', e => { if (a.dataset.dragged) { e.stopPropagation(); e.preventDefault(); } }, true); }
+      requestAnimationFrame(() => main.querySelectorAll('.ring-arc .arc').forEach(c => { c.style.strokeDashoffset = c.dataset.target; }));
+    },
     render(ctx) {
       const all = ctx.all, list = ctx.inRange; const account = App.account(); const todayKey = C.dayKey(new Date()); const today = S.day(todayKey) || {}; const rules = S.data.rules.filter(r => r.active !== false);
       const activity = C.activityDays(all, S.checkInByDay(), S.notesByDay(), WEEKS); const streak = C.journalStreak(activity);
@@ -39,9 +44,9 @@
       return `<div class="grid three">
         ${U.card('Aktuelle Serie', `<div class="big-stat"><span>${streak} Tag${streak === 1 ? '' : 'e'}</span>${arrow(streak > 0 ? 1 : 0)}</div><div class="small muted">Werktage in Folge mit Trades, Check-in oder Notiz</div>`, { info: 'Wochenenden unterbrechen die Serie nicht.' })}
         ${U.card('Heutiger Fortschritt', `<div class="big-stat"><span>${doneN ? pct + ' %' : 'Keine Daten'}</span>${arrow(doneN >= 4 ? 1 : 0)}</div><div class="small muted">${doneN} von ${items.length} Schritten erledigt</div>`, { info: 'Check-in, Session, Trades, Regeln, Tagesnotiz.' })}
-        ${U.card('% Regeln eingehalten', `<div class="row between" style="align-items:center"><div><div class="big-stat"><span>${cur.rate == null ? '0 %' : fmt.pct(cur.rate)}</span>${arrow(rateDir)}</div><div class="small muted">${rules.length ? (cur.n ? `${cur.n} Tage mit Regel-Check im Zeitraum` : 'Noch keine Tage mit Regel-Check') : 'Noch keine Regeln angelegt'}</div></div>${U.ring(cur.rate == null ? null : Math.round(cur.rate * 100), 84, 8)}</div>`, { info: 'Anteil der abgehakten Regeln an den Handelstagen im gewählten Zeitraum.' })}
+        ${U.card('% Regeln eingehalten', `<div class="big-stat"><span>${cur.rate == null ? '0 %' : fmt.pct(cur.rate)}</span>${arrow(rateDir)}</div><div class="small muted">${rules.length ? (cur.n ? `${cur.n} Tage mit Regel-Check im Zeitraum` : 'Noch keine Tage mit Regel-Check') : 'Noch keine Regeln angelegt'}</div><div class="ring-abs">${ringArc(cur.rate)}</div>`, { info: 'Anteil der abgehakten Regeln an den Handelstagen im gewählten Zeitraum.', cls: 'ring-card' })}
       </div>
-      ${U.card('Trading-Aktivität', activityGrid(activity, account), { info: 'Ein Kästchen pro Tag der letzten Monate. Je mehr Trades, desto kräftiger das Grün. Klick öffnet die Tagesansicht.' })}
+      ${U.card('Trading-Aktivität', activityGrid(activity, account), { info: 'Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Grün. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.', trailing: `<div class="row" style="gap:6px"><button type="button" class="btn round" data-action="act-scroll" data-dir="-1" aria-label="Zurück">${I.chevL}</button><button type="button" class="btn round" data-action="act-scroll" data-dir="1" aria-label="Vor">${I.chevR}</button></div>` })}
       <div class="grid two">
         ${U.card('Tages-Checkliste', `<div class="small muted" style="margin-bottom:8px">${fmt.weekdayLong(new Date())}</div>${rules.length ? `<div class="checklist">${rules.map(rule => `<div class="it toggle ${followed.includes(rule.id) ? 'done' : ''}" data-action="day-rule" data-day="${todayKey}" data-rule="${rule.id}"><span class="box">${I.check}</span><span>${esc(rule.text)}</span></div>`).join('')}</div>` : `<div class="dashed">Noch keine Regeln. Lege unter Einstellungen deine Handelsregeln an, dann erscheinen sie hier als Checkliste.</div>`}
           <div class="caption" style="margin:14px 0 6px">Automatische Regeln</div>${todayTrades.length ? `<div class="checklist">${auto.map(([k, l]) => `<div class="it ${kinds.has(k) ? 'fail' : 'done'}"><span class="box">${kinds.has(k) ? I.close : I.check}</span><span>${l}</span></div>`).join('')}</div>` : `<div class="dashed">Noch keine Trades heute.</div>`}

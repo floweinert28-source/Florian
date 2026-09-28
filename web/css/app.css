@@ -846,12 +846,12 @@ span.info:hover { color: var(--accent); }
 .tpl-menu .star-i { width: 15px; display: inline-block; text-align: center; color: var(--warn); }
 /* Serie: Tage und Trades nebeneinander */
 .tile { container-type: inline-size; }
-.tile .body.serie { display: flex; gap: 20px; align-items: flex-start; justify-content: flex-start; }
+.tile .body.serie { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; justify-items: center; }
 .serie .sg { display: flex; flex-direction: column; gap: 6px; }
 .serie .sr { display: flex; align-items: center; gap: 8px; }
 .serie .pills.col { gap: 5px; }
 .serie .pill { font-size: 11px; padding: 3px 8px; white-space: nowrap; }
-@container (max-width: 250px) { .tile .pill .u { display: none; } .serie .sg { gap: 4px; } .tile .body.serie { gap: 14px; } .streak-tile .val { font-size: 24px; } }
+@container (max-width: 250px) { .tile .pill .u { display: none; } .serie .sg { gap: 4px; } .tile .body.serie { gap: 8px; } .streak-tile .val { font-size: 24px; } }
 .streak-tile .val { white-space: nowrap; }
 .tile .pill { white-space: nowrap; }
 /* Achsen-Text */

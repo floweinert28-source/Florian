@@ -23,6 +23,8 @@
     data.dashboards = data.dashboards.filter(d => d && d.id && d.layout);
     if (!data.dashboards.length) data.dashboards.push(defaultDashboard());
     for (const d of data.dashboards) { d.layout.oben = (d.layout.oben || []).filter(w => w && w.typ).slice(0, 5).map(w => ({ typ: w.typ })); d.layout.unten = (d.layout.unten || []).filter(w => w && w.typ).map(w => ({ typ: w.typ, groesse: SIZES.includes(w.groesse) ? w.groesse : 'klein', einstellungen: w.einstellungen || undefined })); d.name = String(d.name || 'Vorlage'); }
+    /* Version 2: Report und Regel-Tracker sind seit dem Umbau klein; alte Vorlagen mit „mittel“ einmalig anpassen */
+    if ((data.dashboardsVersion || 1) < 2) { for (const d of data.dashboards) for (const w of d.layout.unten) if ((w.typ === 'report' || w.typ === 'regel_tracker') && w.groesse === 'mittel') w.groesse = 'klein'; data.dashboardsVersion = 2; }
     if (!data.dashboards.some(d => d.isDefault)) data.dashboards[0].isDefault = true;
     let seen = false; for (const d of data.dashboards) { if (d.isDefault && seen) d.isDefault = false; if (d.isDefault) seen = true; }
   }

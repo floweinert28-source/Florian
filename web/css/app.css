@@ -458,6 +458,15 @@ span.info:hover { color: var(--accent); }
 .checklist .it.done span { color: var(--muted); text-decoration: line-through; }
 .checklist .it.toggle { cursor: pointer; }
 
+/* Check-in: gestapelt, Schlaf als Regler */
+.ci-stack { display: flex; flex-direction: column; gap: 16px; }
+.slider { display: flex; align-items: center; gap: 14px; padding-top: 4px; }
+.slider input[type=range] { -webkit-appearance: none; appearance: none; flex: 1; height: 8px; border-radius: 4px; border: 0; margin: 0; background: linear-gradient(90deg, var(--accent) var(--p, 50%), var(--surface-3) var(--p, 50%)); outline: none; cursor: pointer; }
+.slider input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 999px; background: var(--accent); border: 4px solid var(--surface); box-shadow: 0 0 0 1.5px var(--accent), 0 0 14px -2px var(--accent-glow); cursor: grab; }
+.slider input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 999px; background: var(--accent); border: 4px solid var(--surface); box-shadow: 0 0 0 1.5px var(--accent); cursor: grab; }
+.slider input[type=range]:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); }
+.slider .sv { min-width: 58px; text-align: right; font-family: var(--font-display); font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; }
+.ticks { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); padding-right: 72px; }
 /* ---------- Modal ---------- */
 .modal-bg { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, .6); backdrop-filter: blur(4px); display: grid; place-items: center; padding: 20px; overflow-y: auto; }
 .modal { width: min(860px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; background: var(--surface); border: 1px solid var(--border-2); border-radius: 16px; box-shadow: var(--shadow); padding: 22px 24px; display: flex; flex-direction: column; gap: 16px; }

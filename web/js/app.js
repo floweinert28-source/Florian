@@ -188,10 +188,12 @@
   };
   App.checkInFields = function (ci) {
     const scale = (name, val, labels) => `<div class="seg pill" data-chips="${name}">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="seg-set" data-name="${name}" data-value="${n}" aria-pressed="${Number(val) === n}" title="${labels[n - 1]}">${n}</button>`).join('')}</div><input type="hidden" name="${name}" value="${val || ''}">`;
-    return `<div class="form-grid"><div class="field"><label for="ci-sleep">Schlaf (Stunden)</label><input class="input" type="number" step="0.5" min="0" max="14" id="ci-sleep" name="sleep" value="${ci.sleep == null ? '' : ci.sleep}" inputmode="decimal"></div>
+    const sleep = ci.sleep == null ? 7 : Number(ci.sleep); const pct = sleep / 14 * 100;
+    return `<div class="ci-stack">
+      <div class="field"><label for="ci-sleep">Schlaf (Stunden)</label><div class="slider"><input type="range" id="ci-sleep" name="sleep" min="0" max="14" step="0.5" value="${sleep}" style="--p:${pct}%" data-input="ci-sleep" aria-valuetext="${fmt.num(sleep, 1)} Stunden"><b class="sv" id="ci-sleep-val">${fmt.num(sleep, 1)} h</b></div><div class="ticks"><span>0 h</span><span>7 h</span><span>14 h</span></div></div>
       <div class="field"><span class="lbl">Stress (1 entspannt – 5 sehr gestresst)</span>${scale('stress', ci.stress, ['entspannt', 'leicht', 'mittel', 'hoch', 'sehr hoch'])}</div>
       <div class="field"><span class="lbl">Stimmung (1 schlecht – 5 sehr gut)</span>${scale('mood', ci.mood, ['schlecht', 'mäßig', 'neutral', 'gut', 'sehr gut'])}</div>
-      <div class="field span2"><label for="ci-note">Notiz</label><input class="input" id="ci-note" name="note" value="${esc(ci.note || '')}" placeholder="Wie fühlst du dich?"></div></div>`;
+      <div class="field"><label for="ci-note">Notiz</label><input class="input" id="ci-note" name="note" value="${esc(ci.note || '')}" placeholder="Wie fühlst du dich?"></div></div>`;
   };
   App.readCheckIn = function (form) { const fd = new FormData(form); const n = k => fd.get(k) === '' || fd.get(k) == null ? null : Number(fd.get(k)); return { sleep: n('sleep'), stress: n('stress'), mood: n('mood'), note: String(fd.get('note') || ''), goal: String(fd.get('goal') || ''), createdAt: new Date().toISOString() }; };
   App.openCheckIn = function (key) {
@@ -209,6 +211,7 @@
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${I.check} Session beenden</button></div></form>`);
   };
   Object.assign(App.actions, {
+    'ci-sleep'(el) { const v = Number(el.value); el.style.setProperty('--p', v / 14 * 100 + '%'); el.setAttribute('aria-valuetext', fmt.num(v, 1) + ' Stunden'); const out = el.closest('form').querySelector('#ci-sleep-val'); if (out) out.textContent = fmt.num(v, 1) + ' h'; },
     'seg-set'(el) { const name = el.dataset.name; const wrap = el.closest('form'); wrap.querySelector(`input[name="${name}"]`).value = el.dataset.value; el.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === el)); },
     'seg-set-name'(el) { const field = el.closest('.field'); const inp = field.querySelector('input[type=hidden]'); inp.value = inp.value === el.dataset.value ? '' : el.dataset.value; field.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.value === inp.value)); },
     'session-start'(form) { const ci = App.readCheckIn(form); const key = C.dayKey(new Date()); S.setDay(key, { checkIn: ci }); S.startSession({ goal: ci.goal }); U.closeModal(); U.toast('Session läuft. Viel Erfolg.', 'ok'); App.rerender(); },

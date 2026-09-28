@@ -219,8 +219,8 @@ span.info:hover { color: var(--accent); }
 .tile .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--text-2); }
 .tile .head .n { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; }
 .tile .body { display: flex; align-items: center; justify-content: space-between; gap: 12px 14px; padding-top: 10px; border-top: 1px solid var(--border); flex: 1; }
-.tile.wide .body { flex-wrap: wrap; gap: 12px 28px; }
-.tile.wide .gauge { flex: 1 1 140px; min-width: 0; }
+.tile.wide .body { flex-wrap: nowrap; gap: 12px 44px; }
+.tile.wide .gauge { flex: 1 1 100px; min-width: 0; }
 .gauge-stack { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .gauge-stack .pills { gap: 5px; }
 .tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
@@ -867,7 +867,7 @@ span.info:hover { color: var(--accent); }
 .serie .sr { display: flex; align-items: center; gap: 8px; }
 .serie .pills.col { gap: 5px; }
 .serie .pill { font-size: 11px; padding: 3px 8px; white-space: nowrap; }
-@container (max-width: 250px) { .tile .pill .u { display: none; } .serie .sg { gap: 4px; } .tile .body.serie { gap: 8px; } .streak-tile .val { font-size: 24px; } }
+@container (max-width: 250px) { .tile .pill .u { display: none; } .serie .sg { gap: 4px; } .tile .body.serie { gap: 8px; } .streak-tile .val { font-size: 24px; } .tile.wide .body { gap: 12px 16px; } }
 .streak-tile .val { white-space: nowrap; }
 .tile .pill { white-space: nowrap; }
 /* Achsen-Text */

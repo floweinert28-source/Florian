@@ -617,7 +617,10 @@ span.info:hover { color: var(--accent); }
 .nb .tags-row .tag-add { display: inline-flex; align-items: center; gap: 4px; border: 1px dashed var(--border-2); background: none; color: var(--muted); font-size: 12.5px; padding: 4px 10px 4px 8px; border-radius: 999px; cursor: pointer; }
 .nb .tags-row .tag-add svg { width: 13px; height: 13px; }
 .nb .tags-row .tag-add:hover { color: var(--text); border-color: var(--text-2); }
-.nb .tagpop { min-width: 220px; max-height: 300px; overflow-y: auto; }
+.nb .tagpop { min-width: 220px; width: max-content; max-width: min(720px, calc(100vw - 48px)); }
+.nb .tagcols { display: flex; gap: 4px; align-items: flex-start; }
+.nb .tagcol { min-width: 150px; max-height: 340px; overflow-y: auto; }
+@media (max-width: 760px) { .nb .tagcols { flex-direction: column; max-height: 55vh; overflow-y: auto; } .nb .tagcol { max-height: none; overflow: visible; } }
 .nb .tagpop .chk { width: 14px; height: 14px; display: inline-grid; place-items: center; color: var(--accent); }
 .nb .tagpop .chk svg { width: 14px; height: 14px; }
 .nb .tags-row .chip { gap: 6px; }

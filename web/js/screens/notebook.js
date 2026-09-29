@@ -25,9 +25,9 @@
   function tagMenuHTML(cur) {
     const assigned = new Set(cur.tags || []); const nt = S.noteTags(); const byName = n => nt.find(t => t.name.toLowerCase() === n.toLowerCase()); const used = new Set();
     const item = n => { const t = byName(n); const on = !!(t && assigned.has(t.id)); used.add(n.toLowerCase()); return `<button type="button" class="item" data-action="nb-tag-toggle" data-id="${cur.id}" data-name="${esc(n)}" aria-checked="${on}"><span class="chk">${on ? I.check : ''}</span>${esc(n)}</button>`; };
-    const tags = S.data.tags || {}; let html = [['Setups', tags.setups], ['Fehler', tags.mistakes], ['Emotionen', tags.emotions]].map(([label, names]) => names && names.length ? `<div class="sec">${label}</div>${names.map(item).join('')}` : '').join('');
-    const own = nt.filter(t => !used.has(t.name.toLowerCase())).sort((a, b) => a.name.localeCompare(b.name, 'de')); if (own.length) html += `<div class="sec">Eigene</div>${own.map(t => item(t.name)).join('')}`;
-    return html || '<div class="small muted" style="padding:8px 12px">Noch keine Tags</div>';
+    const tags = S.data.tags || {}; const cols = [['Setups', tags.setups || []], ['Fehler', tags.mistakes || []], ['Emotionen', tags.emotions || []]].filter(([, names]) => names.length).map(([label, names]) => `<div class="tagcol"><div class="sec">${label}</div>${names.map(item).join('')}</div>`);
+    const own = nt.filter(t => !used.has(t.name.toLowerCase())).sort((a, b) => a.name.localeCompare(b.name, 'de')); if (own.length) cols.push(`<div class="tagcol"><div class="sec">Eigene</div>${own.map(t => item(t.name)).join('')}</div>`);
+    return cols.length ? `<div class="tagcols">${cols.join('')}</div>` : '<div class="small muted" style="padding:8px 12px">Noch keine Tags</div>';
   }
   App.screens.notebook = {
     title: 'Notebook',

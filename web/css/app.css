@@ -618,7 +618,14 @@ span.info:hover { color: var(--accent); }
 .nb .tags-row .tag-add svg { width: 13px; height: 13px; }
 .nb .tags-row .tag-add:hover { color: var(--text); border-color: var(--text-2); }
 .nb .tagpop { min-width: 220px; width: max-content; max-width: min(720px, calc(100vw - 48px)); }
+.nb .tags-row .tag-chips { display: contents; }
 .nb .tagcols { display: flex; gap: 4px; align-items: flex-start; }
+.nb .tagpop .sec.k-setup, .nb .tagpop .item.k-setup[aria-checked="true"] { color: var(--accent); }
+.nb .tagpop .sec.k-mistake, .nb .tagpop .item.k-mistake[aria-checked="true"] { color: var(--loss); }
+.nb .tagpop .sec.k-emotion, .nb .tagpop .item.k-emotion[aria-checked="true"] { color: var(--be); }
+.nb .tagpop .item.k-own[aria-checked="true"] { color: var(--text); }
+.nb .tagpill.k-mistake[aria-pressed="true"] { border-color: var(--loss); color: var(--loss); background: var(--loss-soft); }
+.nb .tagpill.k-emotion[aria-pressed="true"] { border-color: var(--be); color: var(--be); background: var(--be-soft); }
 .nb .tagcol { min-width: 150px; max-height: 340px; overflow-y: auto; }
 @media (max-width: 760px) { .nb .tagcols { flex-direction: column; max-height: 55vh; overflow-y: auto; } .nb .tagcol { max-height: none; overflow: visible; } }
 .nb .tagpop .chk { width: 14px; height: 14px; display: inline-grid; place-items: center; color: var(--accent); }

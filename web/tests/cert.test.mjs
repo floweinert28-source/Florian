@@ -52,6 +52,6 @@ test('Nicht berechenbare Werte sind null (kein NaN)', () => {
 test('Zertifikatsnummer: Format und deterministisch', () => {
   const p = D.period('week', '2026-09-24'); const m = D.compute('week', D.select(trades, p), p); const d = new Date(2026, 8, 29);
   const a = D.certNo('week', p, m, d), b = D.certNo('week', p, m, d);
-  assert.match(a, /^#TJ-20260929-[0-9A-Z]{4}$/); assert.equal(a, b);
+  assert.match(a, /^#JY-20260929-[0-9A-Z]{4}$/); assert.equal(a, b);
   assert.notEqual(a, D.certNo('week', p, Object.assign({}, m, { pnl: m.pnl + 1 }), d));
 });

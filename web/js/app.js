@@ -44,7 +44,7 @@
       this.parseRoute(); fmt.setCurrency(S.currency()); root.Theme.apply(S.settings); C.setBreakEven(S.settings.beOffset);
       const screen = this.screens[this.state.route]; this._screen = screen; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
-      document.title = `${title} · Trading Journal`;
+      document.title = `${title} · Journalyst`;
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.render(ctx)}</div>`;
       this.renderSidebar();
       U.drawCharts(main); this.loadBlobImages(main); if (screen.mount) screen.mount(main, ctx);
@@ -54,7 +54,7 @@
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}">${I[icon]}<span>${label}</span></a>`;
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span>Trade<em>Journal</em></span></div><hr><nav class="nav">${NAV.map(item).join('')}</nav><hr><nav class="nav">${NAV2.map(item).join('')}</nav><div class="spacer"></div>
+      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span>Journal<em>yst</em></span></div><hr><nav class="nav">${NAV.map(item).join('')}</nav><hr><nav class="nav">${NAV2.map(item).join('')}</nav><div class="spacer"></div>
         <div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div>`;
       sb.classList.toggle('open', this.state.sidebarOpen); const scrim = document.getElementById('scrim'); scrim.hidden = !this.state.sidebarOpen;
     },

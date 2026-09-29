@@ -56,12 +56,12 @@
     return out;
   }
 
-  /* Zertifikatsnummer: #TJ-JJJJMMTT-XXXX, deterministisch aus Art, Zeitraum und Ergebnis */
+  /* Zertifikatsnummer: #JY-JJJJMMTT-XXXX, deterministisch aus Art, Zeitraum und Ergebnis */
   function hash(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h; }
   function certNo(kind, p, m, issued) {
     const d = issued || new Date(); const seed = [kind, p.from ? C.dayKey(p.from) : 'all', p.to ? C.dayKey(p.to) : 'all', Math.round(m.pnl * 100), m.n].join('|');
     const code = hash(seed).toString(36).toUpperCase().padStart(4, '0').slice(-4);
-    return `#TJ-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${code}`;
+    return `#JY-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${code}`;
   }
   const defaultRef = (kind, now) => { const d = now || new Date(); return kind === 'month' ? monthKey(d) : kind === 'stats' ? null : C.dayKey(d); };
   return { KINDS, period, shift, select, compute, certNo, defaultRef, monthKey, parseMonthKey };

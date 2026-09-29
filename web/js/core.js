@@ -1,4 +1,4 @@
-/* Trading Journal – Analytik-Kern (ohne DOM, auch in Node testbar) */
+/* Journalyst – Analytik-Kern (ohne DOM, auch in Node testbar) */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
   else root.Core = factory();

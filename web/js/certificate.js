@@ -46,7 +46,7 @@
     return `<div class="cert" data-theme="${o.theme}" data-format="${o.format}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg};--c-accent:${sign === 'neg' ? c.neg : c.pos};--cols:${cols}">
       ${guilloche(f.w, f.h)}<div class="frame"></div>
       <div class="cert-in">
-        <header class="cert-head"><div class="brand"><span class="mark">${I.logo}</span><span>Trade<em>Journal</em></span></div>${user ? `<span class="user">${esc(user)}</span>` : ''}</header>
+        <header class="cert-head"><div class="brand"><span class="mark">${I.logo}</span><span>Journal<em>yst</em></span></div>${user ? `<span class="user">${esc(user)}</span>` : ''}</header>
         <div class="cert-main">
           <div class="cert-title">${D.KINDS[m.kind].title}</div>
           <div class="cert-period">${esc(p.label)}</div>
@@ -57,7 +57,7 @@
         </div>
         <footer class="cert-foot">
           <div class="seal">${I.check}</div>
-          <div class="issue"><div class="k">Issued by</div><div class="v">TradeJournal</div></div>
+          <div class="issue"><div class="k">Issued by</div><div class="v">Journalyst</div></div>
           <div class="issue"><div class="k">Certificate No.</div><div class="v mono">${no}</div></div>
           <div class="issue"><div class="k">Issued on</div><div class="v">${fmt.dateFull(issued)}</div></div>
           <div class="sig"><div class="line"></div><div class="k">Signature</div></div>

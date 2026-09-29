@@ -62,6 +62,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Netto-P&L und eine aufklappbare Statistik.
 - **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
+- **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Daily/Weekly/Monthly Profit Certificate und Performance Certificate mit Live-Vorschau, Dunkel/Hell, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen.
 - **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Hell/Dunkel, drei Schriftarten, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
   Die Wahl gilt für die ganze Website inklusive Startseite.

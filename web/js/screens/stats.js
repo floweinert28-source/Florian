@@ -6,6 +6,7 @@
   const REG_T = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' }, REG_V = { low: 'Vola niedrig', normal: 'Vola normal', high: 'Vola hoch' };
   App.screens.stats = {
     title: 'Statistiken',
+    actions() { return `<div class="popwrap"><button type="button" class="btn" data-pop="cert" aria-label="Zertifikat erstellen">${I.shield}<span class="hide-m">Zertifikat</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-cert">${root.Certificate.menuHTML({})}</div></div>`; },
     render(ctx) {
       const tab = ctx.params[0] && TABS.some(t => t[0] === ctx.params[0]) ? ctx.params[0] : 'summary'; App.state.statsTab = tab; const list = ctx.inRange; const closed = C.closedOnly(list);
       const days = C.dailyAggregation(list); const r = App.range();

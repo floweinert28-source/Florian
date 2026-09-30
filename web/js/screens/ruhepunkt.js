@@ -584,9 +584,18 @@ var FLOWS = {
 };
 
 var ICON = {
-  vor: '<svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="28" cy="19" r="11" style="fill:var(--c)"/><rect x="0" y="28" width="56" height="12" style="fill:var(--surface-2)"/><line x1="4" x2="52" y1="28" y2="28" style="stroke:var(--text);stroke-opacity:.4;stroke-width:1.5"/></svg>',
-  nach: '<svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="28" cy="32" r="11" style="fill:var(--c)"/><rect x="0" y="28" width="56" height="12" style="fill:var(--surface-2)"/><line x1="4" x2="52" y1="28" y2="28" style="stroke:var(--text);stroke-opacity:.4;stroke-width:1.5"/></svg>',
-  akut: '<svg viewBox="0 0 56 40" aria-hidden="true"><rect x="21" y="8" width="5" height="16" rx="2" style="fill:var(--c)"/><rect x="30" y="8" width="5" height="16" rx="2" style="fill:var(--c)"/><line x1="4" x2="52" y1="28" y2="28" style="stroke:var(--text);stroke-opacity:.4;stroke-width:1.5"/></svg>'
+  /* Sonnenaufgang: Sonne steigt über den Horizont, Strahlen atmen */
+  vor: '<svg viewBox="0 0 56 56" aria-hidden="true"><defs><clipPath id="rpc-vor"><rect x="0" y="0" width="56" height="37"/></clipPath></defs>' +
+    '<g clip-path="url(#rpc-vor)"><g class="rp-i-sun"><g class="rp-i-rays" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"><line x1="28" y1="9" x2="28" y2="14"/><line x1="14.6" y1="14.6" x2="18.1" y2="18.1"/><line x1="41.4" y1="14.6" x2="37.9" y2="18.1"/><line x1="8" y1="28" x2="13" y2="28"/><line x1="43" y1="28" x2="48" y2="28"/></g><circle cx="28" cy="28" r="9.5" fill="var(--c)"/></g></g>' +
+    '<line class="rp-i-hz" x1="8" y1="37" x2="48" y2="37" stroke="var(--c)" stroke-width="2" stroke-linecap="round" opacity=".55"/><line x1="16" y1="43" x2="40" y2="43" stroke="var(--c)" stroke-width="2" stroke-linecap="round" opacity=".22"/></svg>',
+  /* Abend: Mond sinkt sanft, Sterne blinken */
+  nach: '<svg viewBox="0 0 56 56" aria-hidden="true"><defs><mask id="rpm-nach"><rect width="56" height="56" fill="#fff"/><circle cx="34" cy="21" r="8" fill="#000"/></mask></defs>' +
+    '<g class="rp-i-moon"><circle cx="28" cy="25" r="10" fill="var(--c)" mask="url(#rpm-nach)"/></g>' +
+    '<g class="rp-i-stars" fill="var(--c)"><circle class="s1" cx="13" cy="15" r="1.6"/><circle class="s2" cx="44" cy="31" r="1.4"/><circle class="s3" cx="18" cy="33" r="1.2"/></g>' +
+    '<line x1="8" y1="41" x2="48" y2="41" stroke="var(--c)" stroke-width="2" stroke-linecap="round" opacity=".55"/><line x1="16" y1="47" x2="40" y2="47" stroke="var(--c)" stroke-width="2" stroke-linecap="round" opacity=".22"/></svg>',
+  /* Akut: Pause im atmenden Ring */
+  akut: '<svg viewBox="0 0 56 56" aria-hidden="true"><circle class="rp-i-ring" cx="28" cy="28" r="17" fill="none" stroke="var(--c)" stroke-width="2"/><circle class="rp-i-ring2" cx="28" cy="28" r="17" fill="none" stroke="var(--c)" stroke-width="1.5"/>' +
+    '<g class="rp-i-pause" fill="var(--c)"><rect x="21" y="19" width="5" height="18" rx="2.5"/><rect x="30" y="19" width="5" height="18" rx="2.5"/></g></svg>'
 };
 
 /* ================================================================

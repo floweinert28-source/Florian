@@ -204,24 +204,22 @@ function chipField(label, options, isOn, toggle) {
     h('div', { class: 'rp-chips', role: 'group', 'aria-labelledby': lid }, btns));
 }
 
-var SVG_BREATH =
-  '<svg viewBox="0 0 300 200" aria-hidden="true" focusable="false">' +
-  '<defs><clipPath id="bSky"><rect x="0" y="0" width="300" height="140"/></clipPath>' +
-  '<clipPath id="bWater"><rect x="0" y="140" width="300" height="60"/></clipPath></defs>' +
-  '<g clip-path="url(#bSky)"><g class="rp-sun"><circle cx="150" cy="140" r="56"/></g></g>' +
-  '<g clip-path="url(#bWater)"><g class="rp-reflect"><circle cx="150" cy="140" r="56"/></g>' +
-  '<line class="rp-ripple" x1="96" x2="204" y1="151" y2="151"/><line class="rp-ripple" x1="110" x2="190" y1="161" y2="161"/>' +
-  '<line class="rp-ripple" x1="124" x2="176" y1="171" y2="171"/><line class="rp-ripple" x1="136" x2="164" y1="181" y2="181"/></g>' +
-  '<line class="rp-horizon" x1="16" x2="284" y1="140" y2="140"/></svg>';
+var RING_R = 88, RING_C = 2 * Math.PI * RING_R;
+function ringSVG(startOffset) {
+  var wrap = h('div', { class: 'rp-orb-wrap' });
+  wrap.innerHTML = '<svg class="rp-orb-ring" viewBox="0 0 200 200" aria-hidden="true"><circle class="rp-orb-track" cx="100" cy="100" r="' + RING_R + '"/><circle class="rp-orb-prog" cx="100" cy="100" r="' + RING_R + '" stroke-dasharray="' + RING_C.toFixed(2) + '" stroke-dashoffset="' + startOffset.toFixed(2) + '"/></svg>';
+  return wrap;
+}
 
-/* Geführte Atmung: die Sonne steigt beim Einatmen und sinkt beim Ausatmen */
+/* Geführte Atmung: der leuchtende Kreis wächst beim Einatmen und zieht sich beim Ausatmen zusammen, der Ring zeigt die laufende Phase */
 function breather(container, segments) {
   var total = segments.reduce(function (a, s) {
     return a + s.rounds * s.pattern.reduce(function (b, p) { return b + p.secs; }, 0);
   }, 0);
-  var art = h('div', { class: 'rp-art' });
-  art.innerHTML = SVG_BREATH;
-  var sun = art.querySelector('.rp-sun'), ref = art.querySelector('.rp-reflect');
+  var wrap = ringSVG(RING_C);
+  var prog = wrap.querySelector('.rp-orb-prog');
+  var orb = h('div', { class: 'rp-orb' }, h('span', { class: 'rp-orb-glow' }), h('span', { class: 'rp-orb-core' }));
+  wrap.appendChild(orb);
   var allNames = segments.map(function (s) { return s.name; }).join(', danach ');
   var segEl = h('p', { class: 'rp-seg' }, allNames);
   var phaseEl = h('p', { class: 'rp-phase', 'aria-live': 'polite' }, 'Bereit, wenn du es bist.');
@@ -231,11 +229,21 @@ function breather(container, segments) {
   var state = 'idle', seg = 0, round = 0, ph = 0, phaseStart = 0, pausedAt = 0, timer = null;
 
   function place(level, secs) {
-    var ty = reducedMotion ? -12 : 38 - level * 100;
+    var sc = reducedMotion ? 0.85 : 0.6 + level * 0.4;
     var tr = (secs > 0 && !reducedMotion) ? 'transform ' + secs + 's ease-in-out' : 'none';
-    sun.style.transition = tr; ref.style.transition = tr;
-    sun.style.transform = 'translateY(' + ty + 'px)';
-    ref.style.transform = 'translateY(' + (-ty) + 'px)';
+    orb.style.transition = tr; orb.style.transform = 'scale(' + sc + ')';
+    orb.style.setProperty('--lvl', String(level)); orb.style.setProperty('--dur', secs + 's');
+  }
+  function ring(secs, offset) {
+    var frac = secs > 0 ? Math.max(0, Math.min(1, offset / secs)) : 1;
+    prog.style.transition = 'none'; prog.style.strokeDashoffset = (RING_C * (1 - frac)).toFixed(2);
+    void prog.getBoundingClientRect();
+    prog.style.transition = reducedMotion ? 'none' : 'stroke-dashoffset ' + Math.max(0, secs - offset) + 's linear';
+    prog.style.strokeDashoffset = '0';
+  }
+  function freeze() {
+    var t = getComputedStyle(orb).transform; orb.style.transition = 'none'; orb.style.transform = (t && t !== 'none') ? t : orb.style.transform;
+    var o = getComputedStyle(prog).strokeDashoffset; prog.style.transition = 'none'; prog.style.strokeDashoffset = o;
   }
   function cur() { return segments[seg].pattern[ph]; }
   function meta() {
@@ -249,6 +257,7 @@ function breather(container, segments) {
     hintEl.textContent = p.hint || '';
     segEl.textContent = segments[seg].name;
     place(p.level, p.secs - offset);
+    ring(p.secs, offset);
     meta();
   }
   function finish() {
@@ -258,7 +267,7 @@ function breather(container, segments) {
     segEl.textContent = allNames;
     metaEl.textContent = 'Geh weiter, wenn du bereit bist, oder mach noch eine Runde.';
     btn.textContent = 'Noch einmal';
-    place(0.5, 3);
+    place(0.5, 3); prog.style.transition = 'stroke-dashoffset 1s ease'; prog.style.strokeDashoffset = '0';
   }
   function advance() {
     ph += 1;
@@ -278,11 +287,7 @@ function breather(container, segments) {
     if (state === 'running') {
       pausedAt = (performance.now() - phaseStart) / 1000;
       clearInterval(timer); timer = null; state = 'paused';
-      [sun, ref].forEach(function (g) {
-        var t = getComputedStyle(g).transform;
-        g.style.transition = 'none';
-        g.style.transform = (t && t !== 'none') ? t : g.style.transform;
-      });
+      freeze();
       phaseEl.textContent = 'Pausiert.'; hintEl.textContent = '';
       btn.textContent = 'Weiter atmen';
     } else if (state === 'paused') {
@@ -295,21 +300,25 @@ function breather(container, segments) {
   });
   place(0, 0);
   onCleanup(function () { clearInterval(timer); });
-  container.appendChild(h('div', { class: 'rp-breath' }, art, segEl, phaseEl, hintEl, metaEl, h('div', { class: 'rp-controls' }, btn)));
+  container.appendChild(h('div', { class: 'rp-breath' }, segEl, wrap, phaseEl, hintEl, metaEl, h('div', { class: 'rp-controls' }, btn)));
 }
 
-/* Einfacher Countdown (Visualisierung, Pause) */
+/* Countdown (Visualisierung, Pause): Zeit im Ring, der Ring leert sich mit der Zeit */
 function countdown(container, secs, opts) {
   var left = secs, timer = null, state = 'idle', last = 0;
+  var wrap = ringSVG(0); wrap.classList.add('rp-timer-wrap');
+  var prog = wrap.querySelector('.rp-orb-prog');
   var big = h('p', { class: 'rp-bigtime' }, fmtClock(secs));
-  var status = h('p', { class: 'rp-muted', 'aria-live': 'polite' }, '');
+  wrap.appendChild(h('div', { class: 'rp-timer-center' }, big));
+  var status = h('p', { class: 'rp-muted rp-small', 'aria-live': 'polite' }, '');
   var btn = h('button', { type: 'button', class: 'rp-btn rp-primary' }, opts.startLabel);
+  function draw() { prog.style.strokeDashoffset = (RING_C * (1 - Math.max(0, left) / secs)).toFixed(2); }
   btn.addEventListener('click', function () {
     if (state === 'running') {
       clearInterval(timer); state = 'paused'; btn.textContent = 'Fortsetzen';
       return;
     }
-    if (state === 'done') { left = secs; status.textContent = ''; }
+    if (state === 'done') { left = secs; status.textContent = ''; draw(); }
     state = 'running'; btn.textContent = 'Pausieren';
     if (opts.onStart) opts.onStart();
     last = performance.now();
@@ -318,15 +327,15 @@ function countdown(container, secs, opts) {
       left -= (now - last) / 1000; last = now;
       if (left <= 0) {
         left = 0; clearInterval(timer); state = 'done';
-        big.textContent = fmtClock(0); status.textContent = opts.doneText;
+        big.textContent = fmtClock(0); status.textContent = opts.doneText; draw();
         btn.textContent = 'Noch einmal';
         return;
       }
-      big.textContent = fmtClock(Math.ceil(left));
+      big.textContent = fmtClock(Math.ceil(left)); draw();
     }, 250);
   });
   onCleanup(function () { clearInterval(timer); });
-  container.appendChild(h('div', { class: 'rp-timer' }, big, status, h('div', { class: 'rp-controls' }, btn)));
+  container.appendChild(h('div', { class: 'rp-timer' }, wrap, status, h('div', { class: 'rp-controls' }, btn)));
 }
 
 function ampelStatus(c) {
@@ -685,6 +694,15 @@ function renderStep() {
     h('div', { class: 'rp-progress', 'aria-hidden': 'true' }, flow.steps.map(function (_, i) { return h('i', { class: i <= stepIdx ? 'rp-on' : '' }); })),
     title, content, h('div', { class: 'rp-nav' }, back, next));
   step.render(content);
+  if (content.querySelector('.rp-breath')) {
+    content.querySelectorAll('.rp-guide').forEach(function (g) {
+      var ps = Array.prototype.slice.call(g.querySelectorAll(':scope > p'));
+      if (ps.length < 2) return;
+      var more = h('details', { class: 'rp-more' }, h('summary', null, 'Mehr dazu'));
+      ps.slice(1).forEach(function (pEl) { more.appendChild(pEl); });
+      g.appendChild(more);
+    });
+  }
   window.scrollTo(0, 0);
   title.focus({ preventScroll: true });
 }

@@ -298,7 +298,8 @@
       if (prev.closed && prev.status === 'loss' && prev.symbol === cur.symbol && cur.open - prev.close <= 10 * 60000 && cur.open >= prev.close) { warnings.push({ kind: 'revenge', severity: 'high', title: `Sofortiger Wiedereinstieg in ${cur.symbol}`, text: 'Weniger als zehn Minuten nach einem Verlust wieder im selben Markt. Das sieht nach Revenge-Trading aus.' }); break; }
     }
     const dayPnL = sum(closed.map(t => t.pnl));
-    if (limitPct > 0 && dayPnL <= -account * limitPct) warnings.push({ kind: 'dailyLoss', severity: 'critical', title: 'Tagesverlustlimit erreicht', text: `Heute ${Math.round(dayPnL)} Verlust, das Limit liegt bei ${Math.round(account * limitPct)}. Der Handelstag ist vorbei.` });
+    const money = opts.fmtMoney || (v => String(Math.round(v)));
+    if (limitPct > 0 && dayPnL <= -account * limitPct) warnings.push({ kind: 'dailyLoss', severity: 'critical', title: 'Tagesverlustlimit erreicht', text: `Heute ${money(-dayPnL)} Verlust, das Limit liegt bei ${money(account * limitPct)}. Der Handelstag ist vorbei.` });
     return { warnings, streak, dayPnL, n: list.length };
   }
   function tiltProfile(list) {
@@ -537,7 +538,7 @@
   function insights(ctx) {
     const { trades, account, regimeByDay, checkInByDay } = ctx; const out = []; const c = closedOnly(trades);
     if (c.length < 5) { out.push({ kind: 'info', title: 'Noch zu wenig Daten', text: 'Ab etwa 20 abgeschlossenen Trades werden Muster sichtbar. Logge weiter oder importiere eine CSV.' }); return out; }
-    const cur = v => (v < 0 ? '−' : '') + Math.abs(Math.round(v)).toLocaleString('de-DE') + ' ' + (ctx.currency || '€');
+    const cur = ctx.fmtMoney || (v => (v < 0 ? '−' : '') + Math.abs(Math.round(v)).toLocaleString('de-DE') + ' ' + (ctx.currency || '€'));
     const pct = v => Math.round(v * 100) + ' %';
     const mr = mistakeReport(c);
     if (mr.mistakeN >= 3 && mr.cost < 0) out.push({ kind: 'loss', title: `Fehler haben dich ${cur(-mr.cost)} gekostet`, text: `${mr.mistakeN} Trades mit Fehler-Tags. Ohne sie läge dein Ergebnis bei ${cur(mr.compliant)} statt ${cur(mr.actual)}. Häufigster Kostenfaktor: ${mr.items[0] ? mr.items[0].name : '—'}.`, link: '#/stats/mistakes' });

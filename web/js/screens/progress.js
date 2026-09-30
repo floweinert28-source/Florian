@@ -38,7 +38,7 @@
       const rateDir = cur.rate == null ? 0 : prev && prev.rate != null ? Math.sign(cur.rate - prev.rate) : (cur.rate >= 0.8 ? 1 : cur.rate < 0.5 ? -1 : 0);
       const disc = C.avgDiscipline(list); const weeks = C.weeklyDiscipline(all, 10); U.chartData['prog-weeks'] = { weeks };
       const tp = C.tiltProfile(all); const followed = today.rulesFollowed || [];
-      const tilt = C.tiltCheck(todayTrades, { account, dailyLossLimitPct: S.settings.dailyLossLimitPct / 100 }); const kinds = new Set(tilt.warnings.map(w => w.kind));
+      const tilt = C.tiltCheck(todayTrades, { account, dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); const kinds = new Set(tilt.warnings.map(w => w.kind));
       const auto = [['dailyLoss', 'Tagesverlustlimit eingehalten'], ['lossStreak', 'Keine drei Verluste in Folge'], ['sizeEscalation', 'Keine Größenerhöhung nach Verlust'], ['revenge', 'Kein sofortiger Wiedereinstieg nach Verlust'], ['rapidFire', 'Nicht mehr als drei Trades in 15 Minuten']];
       const rows = rules.map(rule => { const n = cur.n; const entries = Object.values(S.data.days).filter(d => d.rulesFollowed && (!r.from || (C.parseDayKey(d.key) >= r.from && C.parseDayKey(d.key) <= r.to))); const kept = entries.filter(d => d.rulesFollowed.includes(rule.id)).length; const broken = C.closedOnly(list).filter(t => t.rulesBroken.includes(rule.text)); return { rule, n, kept, brokenN: broken.length, brokenCost: C.sum(broken.map(t => t.pnl)) }; });
       return `<div class="grid three">

@@ -19,6 +19,7 @@
 
   /* ---------- Karte ---------- */
   function cardHTML(m, p, o) {
+    if (fmt.moneyBlind()) o = Object.assign({}, o, { hide: true });
     const f = FORMATS[o.format]; const sign = m.pnl < 0 ? 'neg' : 'pos'; const c = colors(o.theme); const issued = new Date(); const no = D.certNo(m.kind, p, m, issued);
     const main = o.hide ? (o.account > 0 ? fmt.pct(m.pnl / o.account, 2, true) : m.rSum != null ? fmt.r(m.rSum) : '—') : fmt.cur(m.pnl, { signed: true });
     const stat = (k, v) => v == null || v === '' ? '' : `<div class="st"><div class="k">${k}</div><div class="v">${v}</div></div>`;
@@ -26,7 +27,8 @@
     const dayVal = d => { if (!d) return null; const v = money(d.pnl, o); return v == null ? null : `${v} <small>${dayLabel(d)}</small>`; };
     let viz = '', stats = '', extra = '', cols = 4;
     if (m.kind === 'day') {
-      const bt = m.bestTrade ? (o.hide ? (m.bestTrade.r != null ? fmt.r(m.bestTrade.r) : money(m.bestTrade.pnl, o)) : fmt.cur(m.bestTrade.pnl, { signed: true })) : null;
+      /* Best trade ist ein einzelner Trade: im Geld-blind-Modus sein exaktes R, ohne Stop „– R“; bei manuell ausgeblendeten Beträgen wie bisher R oder Prozent vom Konto */
+      const bt = m.bestTrade ? (fmt.moneyBlind() ? fmt.cur(m.bestTrade.pnl, { signed: true, r: m.bestTrade.r }) : o.hide ? (m.bestTrade.r != null ? fmt.r(m.bestTrade.r) : money(m.bestTrade.pnl, o)) : fmt.cur(m.bestTrade.pnl, { signed: true })) : null;
       stats = stat('Trades', fmt.int(m.n)) + stat('Win rate', fmt.pct(m.winRate, 0)) + stat('Avg RR', m.avgR != null ? fmt.r(m.avgR) : null) + stat('Best trade', bt ? `${bt} <small>${esc(m.bestTrade.symbol)}</small>` : null);
       if (m.symbols.length) extra = `<div class="cert-syms">${m.symbols.slice(0, 8).map(x => `<span>${esc(x)}</span>`).join('')}${m.symbols.length > 8 ? `<span>+${m.symbols.length - 8}</span>` : ''}</div>`;
     } else if (m.kind === 'week') {
@@ -94,7 +96,7 @@
         let cur = null;
         const fit = () => { const sc = preview.querySelector('.cert-scale'); if (!sc || !cur) return; const f = FORMATS[o.format]; const availW = preview.clientWidth - 24; const availH = Math.max(260, Math.min(window.innerHeight * 0.66, 720)); const s = Math.min(availW / f.w, availH / f.h, 1); sc.style.transform = `scale(${s})`; sc.style.width = `${f.w * s}px`; sc.style.height = `${f.h * s}px`; };
         const seg = (key, items) => `<div class="seg sm">${items.map(([v, l]) => `<button type="button" data-c="${key}" data-v="${v}" aria-pressed="${String(o[key]) === String(v)}">${l}</button>`).join('')}</div>`;
-        const toggle = (key, label) => `<label class="check"><input type="checkbox" data-c="${key}" ${o[key] ? 'checked' : ''}> ${label}</label>`;
+        const toggle = (key, label) => { const forced = key === 'hide' && fmt.moneyBlind(); return `<label class="check"><input type="checkbox" data-c="${key}" ${o[key] || forced ? 'checked' : ''} ${forced ? 'disabled' : ''}> ${label}${forced ? ' <small class="muted">(Geld-blind-Modus)</small>' : ''}</label>`; };
         const periodInput = p => {
           if (kind === 'day') return `<input class="input" type="date" data-c="ref" value="${state.ref}" aria-label="Tag">`;
           if (kind === 'week') { const from = p.from; const wk = `${from.getFullYear()}-W${String(C.isoWeek(from)).padStart(2, '0')}`; return `<input class="input" type="week" data-c="ref" value="${wk}" aria-label="Woche">`; }

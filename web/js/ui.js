@@ -74,10 +74,27 @@
 
   /* ---------- Formatierung ---------- */
   let currency = 'EUR';
+  /* Geld-blind-Modus: jeder Betrag läuft durch fmt.cur. Ist der Modus an, kommt statt Geld ein R-Multiple heraus:
+     o.r = exaktes R eines Trades (null = kein Risiko bekannt → „– R“), sonst Umrechnung über die R-Einheit
+     (Median des Risikos der Trades mit Stop oder der Wert aus den Einstellungen). o.money = true erzwingt Geld. */
+  const blind = { on: false, unit: null };
   const fmt = {
     setCurrency(c) { currency = c || 'EUR'; },
+    setMoneyBlind(on, unit) { blind.on = !!on; blind.unit = Number(unit) > 0 ? Number(unit) : null; },
+    moneyBlind() { return blind.on; },
+    rUnit() { return blind.unit; },
+    blindR(v, o = {}) {
+      if (o.r === null) return '– R';
+      const r = o.r !== undefined ? Number(o.r) : (blind.unit ? v / blind.unit : null);
+      if (r == null || isNaN(r)) return '– R';
+      if (o.compact) { const a = Math.abs(r); const s = (a >= 10 ? Math.round(a) : Math.round(a * 10) / 10).toLocaleString('de-DE') + ' R'; return (r < -C.EPS ? '−' : (o.signed && r > C.EPS ? '+' : '')) + s; }
+      return fmt.r(r, !!o.signed);
+    },
+    /* Kontostand: im Geld-blind-Modus komplett ausgeblendet */
+    balance(v, o = {}) { return blind.on ? (o.html === false ? 'ausgeblendet' : '<span class="muted">ausgeblendet</span>') : fmt.cur(v, o); },
     cur(v, o = {}) {
       if (v == null || isNaN(v)) return '—';
+      if (blind.on && !o.money) return fmt.blindR(v, o);
       const a = Math.abs(v); const d = o.compact ? 0 : (a >= 10000 ? 0 : 2);
       let s; try { s = new Intl.NumberFormat('de-DE', { style: 'currency', currency, minimumFractionDigits: d, maximumFractionDigits: d }).format(a); } catch (e) { s = a.toFixed(d) + ' ' + currency; }
       return (v < -C.EPS ? '−' : (o.signed && v > C.EPS ? '+' : '')) + s;

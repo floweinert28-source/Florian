@@ -1371,11 +1371,25 @@ dl.rp-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .rp-orb-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
 .rp-orb-track { fill: none; stroke: var(--border-2); stroke-width: 3; }
 .rp-orb-prog { fill: none; stroke: var(--phase); stroke-width: 3; stroke-linecap: round; }
-.rp-orb { position: relative; width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; transform: scale(.6); will-change: transform; transition-timing-function: cubic-bezier(.42, 0, .58, 1); }
-.rp-swap { animation: rp-swap .42s ease-out both; }
+.rp-tide { --lvl: 0; position: relative; width: 150px; height: 150px; border-radius: 50%; overflow: hidden; background: color-mix(in srgb, var(--phase) 7%, var(--surface-2)); border: 1px solid color-mix(in srgb, var(--phase) 22%, var(--border)); box-shadow: inset 0 0 40px color-mix(in srgb, var(--phase) 10%, transparent); }
+.rp-tide-glow { position: absolute; inset: -30%; border-radius: 50%; background: radial-gradient(circle at 50% 80%, color-mix(in srgb, var(--phase) 38%, transparent), transparent 62%); opacity: calc(.35 + var(--lvl) * .65); transition: opacity var(--dur, 1s) ease-in-out; pointer-events: none; }
+.rp-tide-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 16%; background: linear-gradient(180deg, color-mix(in srgb, var(--phase) 78%, #ffffff) 0%, var(--phase) 30%, color-mix(in srgb, var(--phase) 80%, #000000) 100%); box-shadow: 0 -6px 24px color-mix(in srgb, var(--phase) 45%, transparent); }
+.rp-tide-wave { position: absolute; left: -50%; right: -50%; top: -7px; height: 14px; background: radial-gradient(12px 7px at 12px 7px, color-mix(in srgb, var(--phase) 70%, #ffffff) 60%, transparent 62%) repeat-x; background-size: 24px 14px; opacity: .55; animation: rp-wave 7s linear infinite; }
+@keyframes rp-wave { from { transform: translateX(0); } to { transform: translateX(24px); } }
+.rp-swap { animation: rp-swap .45s ease-out both; }
 @keyframes rp-swap { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-.rp-orb-glow { position: absolute; inset: -22px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--phase) 50%, transparent), transparent 68%); opacity: calc(.25 + var(--lvl, 0) * .75); transition: opacity var(--dur, 1s) ease-in-out; }
-.rp-orb-core { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--phase) 70%, #ffffff), var(--phase) 55%, color-mix(in srgb, var(--phase) 72%, #000000) 100%); box-shadow: 0 0 36px color-mix(in srgb, var(--phase) calc(25% + var(--lvl, 0) * 40%), transparent), inset 0 -12px 28px rgba(0, 0, 0, .28); transition: box-shadow var(--dur, 1s) ease-in-out; }
+.rp-seq { display: flex; gap: 6px; width: 100%; max-width: 440px; margin: 10px auto 0; }
+.rp-seq-i { position: relative; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.rp-seq-i::before { content: ''; display: block; height: 6px; border-radius: 3px; background: var(--surface-3); }
+.rp-seq-i i { position: absolute; left: 0; top: 0; height: 6px; width: 0%; border-radius: 3px; background: var(--phase); box-shadow: 0 0 8px color-mix(in srgb, var(--phase) 50%, transparent); }
+.rp-seq-i b { font-size: 11px; font-weight: 600; color: var(--muted); line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-seq-i small { font-size: 10.5px; color: var(--muted); opacity: .7; font-family: var(--font-num); }
+.rp-seq-i.rp-on b { color: var(--text); }
+.rp-seq-i.rp-done b { color: var(--text-2); }
+.rp-next { font-size: 12.5px; color: var(--muted); margin: 8px 0 12px; text-align: center; min-height: 1.4em; }
+.rp-tempo { display: flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 11.5px; color: var(--muted); }
+.rp-chip.rp-chip-sm { padding: 4px 10px; font-size: 11.5px; min-height: 0; }
+.rp-chip.rp-chip-sm:disabled { opacity: .5; cursor: default; }
 .rp-breath .rp-seg { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; text-align: center; }
 .rp-breath .rp-phase { font-family: var(--font-display); font-weight: 700; font-size: 19px; line-height: 1.3; margin: 2px 0 0; min-height: 1.3em; text-align: center; }
 .rp-breath .rp-hint { font-style: italic; color: var(--text-2); min-height: 1.5em; margin: 2px 0 0; text-align: center; font-size: 13.5px; }
@@ -1396,12 +1410,14 @@ dl.rp-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .rp-timer { text-align: center; margin: 10px 0; }
 .rp-bigtime { font-family: var(--font-num); font-size: 44px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; margin: 6px 0; letter-spacing: -.01em; }
 .rp-error { color: var(--rp-brick); font-weight: 600; margin: 12px 0 0; }
-.rp-foot { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.rp-candle-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-bottom: 6px; }
-.rp-candle { background: none; border: 0; padding: 0; width: 64px; height: 84px; cursor: pointer; border-radius: 18px; transition: transform .2s ease; }
+.rp-foot { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.rp-foot .rp-btn.rp-quiet { font-size: 12px; color: var(--muted); text-decoration: none; }
+.rp-foot .rp-btn.rp-quiet:hover { color: var(--text); text-decoration: underline; }
+.rp-candle-wrap { display: flex; align-items: center; gap: 10px; }
+.rp-candle { background: none; border: 0; padding: 0; width: 34px; height: 46px; cursor: pointer; border-radius: 10px; transition: transform .2s ease; }
 .rp-candle:hover { transform: translateY(-2px) scale(1.04); }
 .rp-candle:active { transform: scale(.97); }
-.rp-candle svg { width: 64px; height: 84px; display: block; overflow: visible; }
+.rp-candle svg { width: 34px; height: 46px; display: block; overflow: visible; }
 .rp-c-body { fill: var(--surface-3); stroke: var(--border-2); stroke-width: 1; }
 .rp-c-wax { fill: none; stroke: var(--border-2); stroke-width: 1.2; }
 .rp-c-base { fill: var(--surface-2); stroke: var(--border-2); stroke-width: 1; }
@@ -1417,7 +1433,7 @@ dl.rp-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 @keyframes rp-flicker { 0%, 100% { transform: scale(1) rotate(0); } 25% { transform: scale(1.04, 1.1) rotate(-2deg); } 50% { transform: scale(.96, .94) rotate(1.5deg); } 75% { transform: scale(1.03, 1.06) rotate(-1deg); } }
 @keyframes rp-glow { 0%, 100% { opacity: .8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
 @keyframes rp-smoke { 0% { opacity: .55; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-8px); } }
-.rp-candle-l { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.rp-candle-l { font-size: 12px; font-weight: 600; color: var(--muted); }
 .rp-candle-l b { color: var(--text-2); }
 .rp-candle[aria-pressed="true"] + .rp-candle-l b { color: #f5b93a; }
 .rp-dlg section { margin-bottom: 16px; }
@@ -1434,8 +1450,8 @@ dl.rp-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .rp-list .rp-li-time { white-space: nowrap; font-family: var(--font-num); }
 .rp-x { border: 0; background: none; color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
 .rp-x:hover { color: var(--loss); background: var(--loss-soft); }
-@media (prefers-reduced-motion: reduce) { .rp-orb, .rp-orb-glow, .rp-orb-core, .rp-orb-prog { transition: none !important; } .rp-c-flame, .rp-c-glow, .rp-c-smoke { animation: none !important; } .rp-switch input, .rp-switch input::after, .rp-choice { transition: none; } .rp-stage > *, .rp-choices .rp-choice, .rp-i-sun, .rp-i-rays, .rp-i-moon, .rp-i-stars circle, .rp-i-ring, .rp-i-ring2, .rp-i-pause { animation: none !important; } }
-@media (max-width: 560px) { .rp-list li { grid-template-columns: 10px 1fr auto; } .rp-list .rp-li-time { display: none; } .rp-content { padding: 14px; } .rp-q { font-size: 22px; } }
+@media (prefers-reduced-motion: reduce) { .rp-tide-fill, .rp-tide-glow, .rp-orb-prog, .rp-seq-i i { transition: none !important; } .rp-tide-wave { animation: none !important; } .rp-c-flame, .rp-c-glow, .rp-c-smoke { animation: none !important; } .rp-switch input, .rp-switch input::after, .rp-choice { transition: none; } .rp-stage > *, .rp-choices .rp-choice, .rp-i-sun, .rp-i-rays, .rp-i-moon, .rp-i-stars circle, .rp-i-ring, .rp-i-ring2, .rp-i-pause { animation: none !important; } }
+@media (max-width: 560px) { .rp-foot { justify-content: center; } .rp-seq-i b { white-space: normal; } .rp-list li { grid-template-columns: 10px 1fr auto; } .rp-list .rp-li-time { display: none; } .rp-content { padding: 14px; } .rp-q { font-size: 22px; } }
 
 /* ============================================================
    Mentor-Chat

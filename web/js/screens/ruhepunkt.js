@@ -211,30 +211,58 @@ function ringSVG(startOffset) {
   return wrap;
 }
 
-/* Geführte Atmung: der leuchtende Kreis wächst beim Einatmen und zieht sich beim Ausatmen zusammen, der Ring zeigt die laufende Phase */
+/* Geführte Atmung: eine ruhige Lichtfläche steigt beim Einatmen und sinkt beim Ausatmen, der Ring zeigt die Phase,
+   die Zeile darunter zeigt den ganzen Rhythmus mit der aktuellen und der nächsten Phase. Tempo „Sanft“ dehnt kurze Phasen. */
+function tempoSetting() { return S.settings.ruhepunktTempo === 'normal' ? 'normal' : 'sanft'; }
 function breather(container, segments) {
-  var LEAD = 3, REST = 1.5; /* Einstieg vor der ersten Phase und kurze Ruhe zwischen den Runden, damit nichts überstürzt wirkt */
-  var total = segments.reduce(function (a, s) {
-    return a + s.rounds * (s.pattern.reduce(function (b, p) { return b + p.secs; }, 0) + REST);
-  }, 0) + LEAD;
+  var LEAD = 3, REST = 1.5;
+  var tempo = tempoSetting();
+  function dur(p) { if (tempo !== 'sanft') return p.secs; return Math.round((p.secs <= 2 ? p.secs * 1.75 : p.secs <= 4 ? p.secs * 1.4 : p.secs * 1.25) * 2) / 2; }
+  function total() { return segments.reduce(function (a, s) { return a + s.rounds * (s.pattern.reduce(function (b, p) { return b + dur(p); }, 0) + REST); }, 0) + LEAD; }
   var wrap = ringSVG(RING_C);
   var prog = wrap.querySelector('.rp-orb-prog');
-  var orb = h('div', { class: 'rp-orb' }, h('span', { class: 'rp-orb-glow' }), h('span', { class: 'rp-orb-core' }));
-  wrap.appendChild(orb);
+  var tide = h('div', { class: 'rp-tide' }, h('span', { class: 'rp-tide-glow' }), h('span', { class: 'rp-tide-fill' }, h('span', { class: 'rp-tide-wave' })));
+  wrap.appendChild(tide);
   var allNames = segments.map(function (s) { return s.name; }).join(', danach ');
   var segEl = h('p', { class: 'rp-seg' }, allNames);
   var phaseEl = h('p', { class: 'rp-phase', 'aria-live': 'polite' }, 'Bereit, wenn du es bist.');
   var hintEl = h('p', { class: 'rp-hint' });
-  var metaEl = h('p', { class: 'rp-meta' }, 'Dauer: etwa ' + fmtDur(total));
+  var metaEl = h('p', { class: 'rp-meta' }, 'Dauer: etwa ' + fmtDur(total()));
+  var seqEl = h('div', { class: 'rp-seq', 'aria-hidden': 'true' });
+  var nextEl = h('p', { class: 'rp-next' });
   var btn = h('button', { type: 'button', class: 'rp-btn rp-primary' }, 'Starten');
+  var tempoBtns = [['sanft', 'Sanft'], ['normal', 'Normal']].map(function (t) {
+    var bt = h('button', { type: 'button', class: 'rp-chip rp-chip-sm', 'aria-pressed': String(tempo === t[0]) }, t[1]);
+    bt.addEventListener('click', function () { if (state === 'running') return; tempo = t[0]; S.setSetting('ruhepunktTempo', tempo); tempoBtns.forEach(function (x, i) { x.setAttribute('aria-pressed', String(['sanft', 'normal'][i] === tempo)); }); if (state !== 'paused') metaEl.textContent = 'Dauer: etwa ' + fmtDur(total()); buildSeq(); });
+    return bt;
+  });
+  var tempoRow = h('div', { class: 'rp-tempo' }, h('span', null, 'Tempo'), tempoBtns);
   var state = 'idle', seg = 0, round = 0, ph = 0, phaseStart = 0, pausedAt = 0, timer = null, waitKind = null, waitStart = 0, waitDur = 0;
   function say(el, text) { if (el.textContent === text) return; el.textContent = text; el.classList.remove('rp-swap'); void el.offsetWidth; el.classList.add('rp-swap'); }
 
+  /* Rhythmus-Zeile: ein Feld je Phase, Breite nach Dauer, aktives Feld füllt sich */
+  var seqItems = [];
+  function buildSeq() {
+    var pat = segments[seg].pattern; seqItems = [];
+    seqEl.replaceChildren.apply(seqEl, pat.map(function (p) {
+      var it = h('span', { class: 'rp-seq-i', style: 'flex:' + dur(p) }, h('i'), h('b', null, p.label), h('small', null, dur(p) + ' s'));
+      seqItems.push(it); return it;
+    }));
+  }
+  function seqActive(i, secs, offset) {
+    seqItems.forEach(function (it, k) { it.classList.toggle('rp-on', k === i); it.classList.toggle('rp-done', k < i); var f = it.querySelector('i'); if (k !== i) { f.style.transition = 'none'; f.style.width = k < i ? '100%' : '0%'; } });
+    var f = seqItems[i] && seqItems[i].querySelector('i'); if (!f) return;
+    var frac = secs > 0 ? Math.max(0, Math.min(1, offset / secs)) : 1;
+    f.style.transition = 'none'; f.style.width = (frac * 100).toFixed(1) + '%'; void f.getBoundingClientRect();
+    f.style.transition = reducedMotion ? 'none' : 'width ' + Math.max(0, secs - offset) + 's linear'; f.style.width = '100%';
+  }
+  function seqIdle() { seqItems.forEach(function (it) { it.classList.remove('rp-on', 'rp-done'); var f = it.querySelector('i'); f.style.transition = 'none'; f.style.width = '0%'; }); }
+
   function place(level, secs) {
-    var sc = reducedMotion ? 0.85 : 0.6 + level * 0.4;
-    var tr = (secs > 0 && !reducedMotion) ? 'transform ' + secs + 's ease-in-out' : 'none';
-    orb.style.transition = tr; orb.style.transform = 'scale(' + sc + ')';
-    orb.style.setProperty('--lvl', String(level)); orb.style.setProperty('--dur', secs + 's');
+    var tr = (secs > 0 && !reducedMotion) ? 'height ' + secs + 's cubic-bezier(.45, .05, .55, .95)' : 'none';
+    var fill = tide.querySelector('.rp-tide-fill');
+    fill.style.transition = tr; fill.style.height = (16 + level * 68) + '%';
+    tide.style.setProperty('--lvl', String(level)); tide.style.setProperty('--dur', secs + 's');
   }
   function ring(secs, offset) {
     var frac = secs > 0 ? Math.max(0, Math.min(1, offset / secs)) : 1;
@@ -244,31 +272,42 @@ function breather(container, segments) {
     prog.style.strokeDashoffset = '0';
   }
   function freeze() {
-    var t = getComputedStyle(orb).transform; orb.style.transition = 'none'; orb.style.transform = (t && t !== 'none') ? t : orb.style.transform;
+    var fill = tide.querySelector('.rp-tide-fill'); var hgt = getComputedStyle(fill).height; fill.style.transition = 'none'; fill.style.height = hgt;
     var o = getComputedStyle(prog).strokeDashoffset; prog.style.transition = 'none'; prog.style.strokeDashoffset = o;
+    seqItems.forEach(function (it) { var f = it.querySelector('i'); var w = getComputedStyle(f).width; f.style.transition = 'none'; f.style.width = w; });
   }
   function cur() { return segments[seg].pattern[ph]; }
+  function nextLabel() {
+    var pat = segments[seg].pattern;
+    if (ph + 1 < pat.length) return pat[ph + 1].label;
+    if (round + 1 < segments[seg].rounds) return 'kurz ruhen, dann ' + pat[0].label.charAt(0).toLowerCase() + pat[0].label.slice(1);
+    if (seg + 1 < segments.length) return segments[seg + 1].name;
+    return 'fertig';
+  }
   function meta() {
-    var left = Math.max(1, Math.ceil(cur().secs - (performance.now() - phaseStart) / 1000));
-    metaEl.textContent = 'Runde ' + (round + 1) + ' von ' + segments[seg].rounds + ', noch ' + left + ' s';
+    var left = Math.max(1, Math.ceil(dur(cur()) - (performance.now() - phaseStart) / 1000));
+    metaEl.textContent = 'Runde ' + (round + 1) + ' von ' + segments[seg].rounds + ' · noch ' + left + ' s';
   }
   function enter(offset) {
-    var p = cur(); waitKind = null;
+    var p = cur(); waitKind = null; var secs = dur(p);
     phaseStart = performance.now() - offset * 1000;
     say(phaseEl, p.label);
     say(hintEl, p.hint || '');
-    segEl.textContent = segments[seg].name;
-    place(p.level, p.secs - offset);
-    ring(p.secs, offset);
+    say(nextEl, 'Danach: ' + nextLabel());
+    if (segEl.textContent !== segments[seg].name) { segEl.textContent = segments[seg].name; buildSeq(); }
+    place(p.level, secs - offset);
+    ring(secs, offset);
+    seqActive(ph, secs, offset);
     meta();
   }
-  /* Einstieg („Gleich geht's los“) und Ruhe zwischen den Runden: der Kreis ruht, der Ring bleibt leer */
   function wait(kind, secs, offset) {
     waitKind = kind; waitDur = secs; waitStart = performance.now() - offset * 1000;
-    say(phaseEl, kind === 'lead' ? 'Gleich geht\u2019s los.' : 'Kurz ruhen.');
-    say(hintEl, kind === 'lead' ? 'Setz dich bequem hin und lass die Schultern sinken.' : '');
-    segEl.textContent = segments[seg].name;
-    place(0, Math.min(secs - offset, 1.2));
+    say(phaseEl, kind === 'lead' ? 'Gleich geht’s los.' : 'Kurz ruhen.');
+    say(hintEl, kind === 'lead' ? 'Setz dich bequem hin, Schultern locker. Schau auf das Licht: Es steigt, wenn du einatmest.' : 'Locker bleiben, gleich beginnt die nächste Runde.');
+    say(nextEl, 'Zuerst: ' + segments[seg].pattern[0].label);
+    if (segEl.textContent !== segments[seg].name) { segEl.textContent = segments[seg].name; buildSeq(); }
+    if (kind === 'lead') seqIdle();
+    place(0, Math.min(secs - offset, 1.5));
     prog.style.transition = 'stroke-dashoffset .6s ease'; prog.style.strokeDashoffset = RING_C.toFixed(2);
     waitMeta();
   }
@@ -280,10 +319,12 @@ function breather(container, segments) {
     clearInterval(timer); timer = null; state = 'done'; waitKind = null;
     say(phaseEl, 'Gut gemacht.');
     say(hintEl, '');
+    say(nextEl, '');
     segEl.textContent = allNames;
     metaEl.textContent = 'Geh weiter, wenn du bereit bist, oder mach noch eine Runde.';
     btn.textContent = 'Noch einmal';
     place(0.5, 3); prog.style.transition = 'stroke-dashoffset 1s ease'; prog.style.strokeDashoffset = '0';
+    seqItems.forEach(function (it) { it.classList.remove('rp-on'); it.classList.add('rp-done'); it.querySelector('i').style.width = '100%'; });
   }
   function advance() {
     ph += 1;
@@ -299,7 +340,7 @@ function breather(container, segments) {
   }
   function tick() {
     if (waitKind) { if ((performance.now() - waitStart) / 1000 >= waitDur) enter(0); else waitMeta(); return; }
-    if ((performance.now() - phaseStart) / 1000 >= cur().secs) advance(); else meta();
+    if ((performance.now() - phaseStart) / 1000 >= dur(cur())) advance(); else meta();
   }
   btn.addEventListener('click', function () {
     if (state === 'running') {
@@ -314,12 +355,14 @@ function breather(container, segments) {
       timer = setInterval(tick, 200);
     } else {
       seg = 0; round = 0; ph = 0; state = 'running'; btn.textContent = 'Pausieren';
+      segEl.textContent = segments[0].name; buildSeq();
       wait('lead', LEAD, 0); timer = setInterval(tick, 200);
     }
+    tempoBtns.forEach(function (x) { x.disabled = state === 'running'; });
   });
-  place(0, 0);
+  buildSeq(); place(0, 0);
   onCleanup(function () { clearInterval(timer); });
-  container.appendChild(h('div', { class: 'rp-breath' }, segEl, wrap, phaseEl, hintEl, metaEl, h('div', { class: 'rp-controls' }, btn)));
+  container.appendChild(h('div', { class: 'rp-breath' }, segEl, wrap, phaseEl, hintEl, metaEl, seqEl, nextEl, h('div', { class: 'rp-controls' }, btn), tempoRow));
 }
 
 /* Countdown (Visualisierung, Pause): Zeit im Ring, der Ring leert sich mit der Zeit */
@@ -794,7 +837,7 @@ var CANDLE_SVG = '<svg viewBox="0 0 64 84" aria-hidden="true">' +
   '<path d="M22 36c4 2 6-2 10 0s6 2 10 0" class="rp-c-wax"/>' +
   '<rect x="16" y="64" width="32" height="8" rx="4" class="rp-c-base"/></svg>';
 function candleHTML() {
-  return '<div class="rp-candle-wrap"><button type="button" class="rp-candle" data-action="rp-faith-toggle" aria-pressed="' + faith + '" aria-label="Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten') + '" data-tip="' + (faith ? 'Kerze ausblasen: ohne christlichen Impuls' : 'Kerze anzünden: mit christlichem Impuls') + '">' + CANDLE_SVG + '</button>' +
+  return '<div class="rp-candle-wrap" title="Christlicher Impuls: Bibelvers, Gebet und Atemgebet in den Sessions"><button type="button" class="rp-candle" data-action="rp-faith-toggle" aria-pressed="' + faith + '" aria-label="Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten') + '" data-tip="' + (faith ? 'Kerze ausblasen: ohne christlichen Impuls' : 'Kerze anzünden: mit christlichem Impuls') + '">' + CANDLE_SVG + '</button>' +
     '<span class="rp-candle-l">Christlicher Impuls <b>' + (faith ? 'an' : 'aus') + '</b></span></div>';
 }
 function syncFaithUI() {

@@ -219,9 +219,8 @@ function breather(container, segments) {
   var tempo = tempoSetting();
   function dur(p) { if (tempo !== 'sanft') return p.secs; return Math.round((p.secs <= 2 ? p.secs * 1.75 : p.secs <= 4 ? p.secs * 1.4 : p.secs * 1.25) * 2) / 2; }
   function total() { return segments.reduce(function (a, s) { return a + s.rounds * (s.pattern.reduce(function (b, p) { return b + dur(p); }, 0) + REST); }, 0) + LEAD; }
-  var wrap = ringSVG(RING_C);
-  var prog = wrap.querySelector('.rp-orb-prog');
-  var tide = h('div', { class: 'rp-tide' }, h('span', { class: 'rp-tide-glow' }), h('span', { class: 'rp-tide-fill' }, h('span', { class: 'rp-tide-wave' })));
+  var wrap = h('div', { class: 'rp-orb-wrap' });
+  var tide = h('div', { class: 'rp-tide' }, h('span', { class: 'rp-tide-glow' }), h('span', { class: 'rp-tide-fill' }));
   wrap.appendChild(tide);
   var allNames = segments.map(function (s) { return s.name; }).join(', danach ');
   var segEl = h('p', { class: 'rp-seg' }, allNames);
@@ -264,16 +263,8 @@ function breather(container, segments) {
     fill.style.transition = tr; fill.style.height = (16 + level * 68) + '%';
     tide.style.setProperty('--lvl', String(level)); tide.style.setProperty('--dur', secs + 's');
   }
-  function ring(secs, offset) {
-    var frac = secs > 0 ? Math.max(0, Math.min(1, offset / secs)) : 1;
-    prog.style.transition = 'none'; prog.style.strokeDashoffset = (RING_C * (1 - frac)).toFixed(2);
-    void prog.getBoundingClientRect();
-    prog.style.transition = reducedMotion ? 'none' : 'stroke-dashoffset ' + Math.max(0, secs - offset) + 's linear';
-    prog.style.strokeDashoffset = '0';
-  }
   function freeze() {
     var fill = tide.querySelector('.rp-tide-fill'); var hgt = getComputedStyle(fill).height; fill.style.transition = 'none'; fill.style.height = hgt;
-    var o = getComputedStyle(prog).strokeDashoffset; prog.style.transition = 'none'; prog.style.strokeDashoffset = o;
     seqItems.forEach(function (it) { var f = it.querySelector('i'); var w = getComputedStyle(f).width; f.style.transition = 'none'; f.style.width = w; });
   }
   function cur() { return segments[seg].pattern[ph]; }
@@ -296,7 +287,6 @@ function breather(container, segments) {
     say(nextEl, 'Danach: ' + nextLabel());
     if (segEl.textContent !== segments[seg].name) { segEl.textContent = segments[seg].name; buildSeq(); }
     place(p.level, secs - offset);
-    ring(secs, offset);
     seqActive(ph, secs, offset);
     meta();
   }
@@ -308,7 +298,6 @@ function breather(container, segments) {
     if (segEl.textContent !== segments[seg].name) { segEl.textContent = segments[seg].name; buildSeq(); }
     if (kind === 'lead') seqIdle();
     place(0, Math.min(secs - offset, 1.5));
-    prog.style.transition = 'stroke-dashoffset .6s ease'; prog.style.strokeDashoffset = RING_C.toFixed(2);
     waitMeta();
   }
   function waitMeta() {
@@ -323,7 +312,7 @@ function breather(container, segments) {
     segEl.textContent = allNames;
     metaEl.textContent = 'Geh weiter, wenn du bereit bist, oder mach noch eine Runde.';
     btn.textContent = 'Noch einmal';
-    place(0.5, 3); prog.style.transition = 'stroke-dashoffset 1s ease'; prog.style.strokeDashoffset = '0';
+    place(0.5, 3);
     seqItems.forEach(function (it) { it.classList.remove('rp-on'); it.classList.add('rp-done'); it.querySelector('i').style.width = '100%'; });
   }
   function advance() {
@@ -759,9 +748,9 @@ function renderStep() {
   if (content.querySelector('.rp-breath')) {
     content.querySelectorAll('.rp-guide').forEach(function (g) {
       var ps = Array.prototype.slice.call(g.querySelectorAll(':scope > p'));
-      if (ps.length < 2) return;
-      var more = h('details', { class: 'rp-more' }, h('summary', null, 'Mehr dazu'));
-      ps.slice(1).forEach(function (pEl) { more.appendChild(pEl); });
+      if (!ps.length) return;
+      var more = h('details', { class: 'rp-more' }, h('summary', null, 'Anleitung anzeigen'));
+      ps.forEach(function (pEl) { more.appendChild(pEl); });
       g.appendChild(more);
     });
   }
@@ -828,21 +817,14 @@ function historyEl() {
    SEITE UND ANBINDUNG AN JOURNALYST
    ================================================================ */
 /* Kerze statt Schalter: angezündet = Bibelvers, Gebet und Atemgebet in den Sessions */
-var CANDLE_SVG = '<svg viewBox="0 0 64 84" aria-hidden="true">' +
-  '<ellipse class="rp-c-glow" cx="32" cy="20" rx="20" ry="24"/>' +
-  '<path class="rp-c-smoke" d="M32 26c-3-4 3-7 0-11s3-6 0-9" fill="none" stroke-linecap="round"/>' +
-  '<g class="rp-c-flame"><path d="M32 6c5 6 8 10 8 15a8 8 0 0 1-16 0c0-5 3-9 8-15z"/><path class="rp-c-inner" d="M32 14c2.5 3 4 5.5 4 8a4 4 0 0 1-8 0c0-2.5 1.5-5 4-8z"/></g>' +
-  '<rect x="31" y="27" width="2" height="6" rx="1" class="rp-c-wick"/>' +
-  '<rect x="22" y="32" width="20" height="34" rx="4" class="rp-c-body"/>' +
-  '<path d="M22 36c4 2 6-2 10 0s6 2 10 0" class="rp-c-wax"/>' +
-  '<rect x="16" y="64" width="32" height="8" rx="4" class="rp-c-base"/></svg>';
+/* Christlicher Impuls: Schalter in der Fußzeile, gespeichert als Nutzereinstellung */
 function candleHTML() {
-  return '<div class="rp-candle-wrap" title="Christlicher Impuls: Bibelvers, Gebet und Atemgebet in den Sessions"><button type="button" class="rp-candle" data-action="rp-faith-toggle" aria-pressed="' + faith + '" aria-label="Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten') + '" data-tip="' + (faith ? 'Kerze ausblasen: ohne christlichen Impuls' : 'Kerze anzünden: mit christlichem Impuls') + '">' + CANDLE_SVG + '</button>' +
-    '<span class="rp-candle-l">Christlicher Impuls <b>' + (faith ? 'an' : 'aus') + '</b></span></div>';
+  return '<label class="rp-faith' + (faith ? ' rp-on' : '') + '" title="Bibelvers, Gebet und Atemgebet in den Sessions"><span class="rp-faith-ico">' + I.sparkle + '</span><span class="rp-faith-l">Christlicher Impuls</span>' +
+    '<button type="button" class="switch" role="switch" aria-checked="' + faith + '" data-action="rp-faith-toggle" aria-label="Christlicher Impuls"></button></label>';
 }
 function syncFaithUI() {
   var t = document.getElementById('rp-faith'); if (t) t.checked = faith;
-  document.querySelectorAll('.rp-candle').forEach(function (b) { b.setAttribute('aria-pressed', String(faith)); b.setAttribute('aria-label', 'Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten')); b.setAttribute('data-tip', faith ? 'Kerze ausblasen: ohne christlichen Impuls' : 'Kerze anzünden: mit christlichem Impuls'); var l = b.parentElement.querySelector('.rp-candle-l b'); if (l) l.textContent = faith ? 'an' : 'aus'; });
+  document.querySelectorAll('[data-action="rp-faith-toggle"]').forEach(function (b) { b.setAttribute('aria-checked', String(faith)); var w = b.closest('.rp-faith'); if (w) w.classList.toggle('rp-on', faith); });
 }
 function setFaith(v) {
   faith = !!v; S.setSetting('christlicherImpuls', faith);

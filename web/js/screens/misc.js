@@ -5,7 +5,7 @@
 
   const SECTIONS = [
     ['profil', 'Profil', 'account'], ['design', 'Design', 'sun'], ['benachrichtigungen', 'Benachrichtigungen', 'bell'], ['abo', 'Abo', 'card'], null,
-    ['konten', 'Konten', 'folder'], ['trading', 'Trading', 'stats'], ['regeln', 'Regeln', 'shield'], ['notebook', 'Notebook', 'journal'], ['inhalte', 'Inhalte', 'tag'], ['logs', 'Logs', 'clock'],
+    ['konten', 'Konten', 'folder'], ['trading', 'Trading', 'stats'], ['regeln', 'Regeln', 'shield'], ['notebook', 'Notebook', 'journal'], ['mentor', 'Mentor', 'chat'], ['inhalte', 'Inhalte', 'tag'], ['logs', 'Logs', 'clock'],
   ];
   const KINDS = { setups: { label: 'Setups', color: 'var(--accent)', cls: 'setup' }, mistakes: { label: 'Fehler', color: 'var(--loss)', cls: 'mistake' }, emotions: { label: 'Emotionen', color: 'var(--be)', cls: 'emotion' } };
   const INSTRUMENTS = [['aktien', 'Aktien'], ['forex', 'Forex'], ['futures', 'Futures'], ['optionen', 'Optionen'], ['krypto', 'Krypto'], ['sonstiges', 'Sonstiges']];
@@ -19,7 +19,7 @@
     render(ctx) {
       const sec = SECTIONS.some(s => s && s[0] === ctx.params[0]) ? ctx.params[0] : 'profil';
       const nav = `<nav class="set-nav">${SECTIONS.map(s => s ? `<a href="#/settings/${s[0]}" class="${sec === s[0] ? 'active' : ''}">${I[s[2]]}<span>${s[1]}</span></a>` : '<hr>').join('')}</nav>`;
-      const body = ({ profil, design, benachrichtigungen, abo, konten, trading, regeln, notebook, inhalte, logs })[sec]();
+      const body = ({ profil, design, benachrichtigungen, abo, konten, trading, regeln, notebook, mentor, inhalte, logs })[sec]();
       return `<div class="settings">${nav}<section class="set-body">${body}</section></div>`;
     },
   };
@@ -75,6 +75,18 @@
       <div class="set-block"><h3>Akzentfarbe</h3><div class="small muted" style="margin-bottom:12px">Buttons, aktive Einträge und Diagramme.</div><div class="dots">${accents.map(([n, c]) => `<button type="button" class="dot" data-action="color-preset" data-key="accent" data-value="${c}" aria-pressed="${cur.accent.toLowerCase() === c}" data-tip="${n}" style="--c:${c}"></button>`).join('')}<label class="dot custom" data-tip="Eigene Farbe wählen"><input type="color" value="${cur.accent}" data-input="color-set" data-key="accent" aria-label="Eigene Akzentfarbe">${I.plus}</label></div></div>
       <div class="set-block"><h3>Gewinn, Verlust und Break-even</h3><div class="small muted" style="margin-bottom:12px">Farben für Plus, Minus und Break-even in Zahlen, Kalendern und Diagrammen.</div><div class="pair-grid">${pairs}</div><div class="cpick-row">${picker('profit', 'Gewinn', cur.profit)}${picker('loss', 'Verlust', cur.loss)}${picker('be', 'Break-even', cur.be)}<button type="button" class="btn sm ghost" data-action="color-reset" style="margin-left:auto">${I.close} Standardfarben</button></div></div>
       `;
+  }
+
+  /* ---------- Mentor ---------- */
+  function mentor() {
+    const m = Object.assign({ url: '', token: '' }, S.settings.mentor || {});
+    return head('Mentor', 'Dein Trading-Psychologie-Mentor läuft über einen eigenen Server, damit der API-Schlüssel nie im Browser landet.') + `
+      <form data-action="save-mentor" class="set-block stack" style="gap:14px">
+        <div class="field"><label for="mentor-url">Server-Adresse</label><input class="input" id="mentor-url" name="url" type="url" value="${esc(m.url)}" placeholder="https://mentor.deine-domain.de" autocomplete="off"><div class="small muted" style="margin-top:6px">Der Server aus <code>server/</code> im Projekt. Anleitung in <code>server/README.md</code>.</div></div>
+        <div class="field"><label for="mentor-token">Zugangstoken</label><input class="input" id="mentor-token" name="token" type="password" value="${esc(m.token)}" placeholder="Wert von MENTOR_APP_TOKEN" autocomplete="off"><div class="small muted" style="margin-top:6px">Derselbe Wert wie auf dem Server. Nicht der API-Schlüssel des Sprachmodells, der bleibt nur auf dem Server.</div></div>
+        <div class="row"><button type="submit" class="btn primary">Speichern</button><button type="button" class="btn" data-action="mentor-test">Verbindung testen</button><span class="small muted" id="mentor-test-out"></span></div>
+      </form>
+      <div class="set-block"><h3>So funktioniert es</h3><div class="stack small muted" style="gap:6px"><div>Vor jedem Gespräch bekommt der Mentor deinen Namen, den Glaubensmodus aus dem Ruhepunkt (Einstellungen → Profil → Christlicher Impuls) und eine kurze Zusammenfassung deiner letzten 20 Trades und des heutigen Ruhepunkt-Check-ins.</div><div>Der Verlauf wird pro Nutzer auf dem Server gespeichert. Das Tageslimit legt der Server fest (Standard 30 Nachrichten), damit die Kosten kontrollierbar bleiben.</div><div>Nutzerkennung ist dein Benutzername aus dem Profil, aktuell: <b>${esc(S.userId())}</b>.</div></div></div>`;
   }
 
   /* ---------- Benachrichtigungen ---------- */
@@ -185,6 +197,7 @@
     async 'avatar-file'(el) { const f = el.files && el.files[0]; el.value = ''; if (!f) return; let blob; try { blob = await shrinkImage(f, 256); } catch (e) { return U.toast('Dieses Bildformat kann der Browser nicht lesen (z. B. HEIC). Bitte JPG oder PNG wählen.', 'err'); } try { const old = S.settings.avatarId; const id = await root.Blobs.put(blob); if (old) await root.Blobs.del(old).catch(() => {}); S.setSetting('avatarId', id); U.toast('Profilbild gespeichert', 'ok'); rerender(); } catch (e) { U.toast('Bild konnte nicht gespeichert werden', 'err'); } },
     async 'avatar-remove'() { const id = S.settings.avatarId; if (!id) return; await root.Blobs.del(id).catch(() => {}); S.setSetting('avatarId', null); rerender(); },
     'pw-reset'() { U.modal(`<div class="modal-head"><h2>Passwort zurücksetzen</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">Dein Journal hat noch kein Benutzerkonto mit Passwort: Alle Daten liegen nur in diesem Browser. Sobald Konten mit Anmeldung verfügbar sind, kannst du hier ein neues Passwort anfordern.</p><div class="modal-foot"><button type="button" class="btn primary" data-close>Verstanden</button></div>`, { cls: 'narrow' }); },
+    'save-mentor'(form) { const fd = new FormData(form); S.setSetting('mentor', { url: String(fd.get('url') || '').trim().replace(/\/+$/, ''), token: String(fd.get('token') || '').trim() }); if (App.state.mentor) { App.state.mentor.messages = null; App.state.mentor.quota = null; } U.toast('Gespeichert', 'ok'); rerender(); },
     'faith-toggle'() { S.setSetting('christlicherImpuls', !(S.settings.christlicherImpuls !== false)); rerender(); },
     'save-privacy'(form) { const fd = new FormData(form); S.setSetting('privacy', { support: fd.get('support') === 'on' }); U.toast('Gespeichert', 'ok'); },
     twofa() { U.modal(`<div class="modal-head"><h2>Zwei-Faktor-Authentifizierung</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">2FA schützt eine Anmeldung. Da dein Journal derzeit ohne Benutzerkonto läuft und alle Daten lokal in diesem Browser liegen, gibt es noch nichts abzusichern. Der Schalter wird aktiv, sobald Konten mit Anmeldung verfügbar sind.</p><div class="modal-foot"><button type="button" class="btn primary" data-close>Verstanden</button></div>`, { cls: 'narrow' }); },

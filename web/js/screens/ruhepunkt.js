@@ -12,8 +12,8 @@ var CONFIG = {
   glaubensmodusStandard: true,
   // Jede Session landet als Eintrag im Journal, verknüpft mit dem Nutzer (Store.addRuhepunkt)
   onSave: function (eintrag) { S.addRuhepunkt(eintrag); return Promise.resolve(); },
-  // Mentor-Chat: wird gesetzt, sobald die Mentor-Seite existiert (null = Button ausgeblendet)
-  onMentor: null
+  // Öffnet die Mentor-Seite; die gespeicherte Session geht als Kontext mit (Ereignis ruhepunkt:gespeichert)
+  onMentor: function () { location.hash = '#/mentor'; }
 };
 
 /* ================================================================

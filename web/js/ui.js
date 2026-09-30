@@ -16,6 +16,7 @@
     library: sv('<rect x="3" y="5" width="4" height="14" rx="1"/><rect x="10" y="5" width="4" height="14" rx="1"/><path d="M17 6l4 12"/>'),
     strategy: sv('<path d="M4 5h4l4 7 4 7h4M4 19h4l3-5M16 5h4l-3 5"/>'),
     progress: sv('<path d="M6 3h12M6 21h12M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/>'),
+    chat: sv('<path d="M20 4H4v11h4v5l5-5h7z"/><path d="M8 9h8M8 12h5"/>'),
     calm: sv('<circle cx="12" cy="10" r="4"/><path d="M3 15h18M4 19.5c2-1.6 4-1.6 6 0s4 1.6 6 0 3-1.2 4 0"/>'),
     coach: sv('<path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 15l.6 1.4 1.4.6-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z"/>'),
     zen: sv('<circle cx="12" cy="5" r="2"/><path d="M12 8v6M12 14l-4 6M12 14l4 6M5 11l7 1 7-1"/>'),

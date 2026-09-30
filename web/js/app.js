@@ -5,8 +5,9 @@
 
   const NAV = [
     ['dashboard', 'Dashboard', 'dashboard'], ['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['stats', 'Statistiken', 'stats'],
-    ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'], ['ruhepunkt', 'Ruhepunkt', 'calm'], ['mentor', 'Mentor', 'chat'],
+    ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'],
   ];
+  const NAV3 = [['ruhepunkt', 'Ruhepunkt', 'calm'], ['mentor', 'Mentor', 'chat']];
   const NAV2 = [['settings', 'Einstellungen', 'settings']];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
@@ -54,7 +55,7 @@
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}">${I[icon]}<span>${label}</span></a>`;
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span>Journal<em>yst</em></span></div><hr><nav class="nav">${NAV.map(item).join('')}</nav><hr><nav class="nav">${NAV2.map(item).join('')}</nav><div class="spacer"></div>
+      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span>Journal<em>yst</em></span></div><hr><nav class="nav">${NAV.map(item).join('')}</nav><hr><nav class="nav">${NAV3.map(item).join('')}</nav><div class="spacer"></div><hr><nav class="nav">${NAV2.map(item).join('')}</nav>
         <div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div>`;
       sb.classList.toggle('open', this.state.sidebarOpen); const scrim = document.getElementById('scrim'); scrim.hidden = !this.state.sidebarOpen;
     },

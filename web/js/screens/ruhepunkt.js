@@ -164,13 +164,15 @@ function slider(label, obj, key, lo, hi, onChange) {
   var out = h('output', { class: 'rp-range-val', for: id }, String(obj[key]));
   var inp = h('input', { type: 'range', id: id, min: '1', max: '10', step: '1' });
   inp.value = String(obj[key]);
+  var fill = function () { inp.style.setProperty('--p', ((Number(inp.value) - 1) / 9 * 100) + '%'); };
+  fill();
   inp.addEventListener('input', function () {
-    obj[key] = Number(inp.value); out.textContent = inp.value;
+    obj[key] = Number(inp.value); out.textContent = inp.value; fill();
     if (onChange) onChange();
   });
   return h('div', { class: 'rp-field' },
     h('label', { class: 'rp-l', for: id }, label),
-    h('div', { class: 'rp-range-row' }, inp, out),
+    h('div', { class: 'rp-range-row slider' }, inp, out),
     h('div', { class: 'rp-scale-ends', 'aria-hidden': 'true' }, h('span', null, '1 = ' + lo), h('span', null, '10 = ' + hi)));
 }
 
@@ -626,8 +628,9 @@ function buildEntry() {
   return JSON.parse(JSON.stringify(e));
 }
 
+function homeBtn(show) { var b = document.getElementById('rp-homebtn'); if (b) b.hidden = !show; }
 function renderHome() {
-  cleanup();
+  cleanup(); homeBtn(false);
   mode = 'home'; flowKey = null; session = null;
   stage.style.setProperty('--phase', 'var(--rp-moss)');
   var title = h('h1', { class: 'rp-q', tabindex: '-1' }, 'Wo stehst du gerade?');
@@ -651,7 +654,7 @@ function start(key) {
 }
 
 function renderStep() {
-  cleanup();
+  cleanup(); homeBtn(true);
   mode = 'step';
   var flow = FLOWS[flowKey], step = flow.steps[stepIdx], n = flow.steps.length;
   var isLast = stepIdx === n - 1;
@@ -692,7 +695,7 @@ function finish(btn) {
 }
 
 function renderDone() {
-  cleanup();
+  cleanup(); homeBtn(true);
   mode = 'done';
   var title = h('h2', { class: 'rp-title', tabindex: '-1' }, 'Gespeichert.');
   var home = h('button', { type: 'button', class: 'rp-btn rp-ghost' }, 'Zur Übersicht');
@@ -745,7 +748,7 @@ App.screens.ruhepunkt = {
   ownActions: true, /* keine globalen Kopfzeilen-Knöpfe: ein Neuaufbau würde Atmung und Countdown zurücksetzen */
   render: function () {
     faith = faithSetting();
-    return '<div class="rp"><header class="rp-top"><button type="button" class="rp-brand" data-action="rp-home">Ruhepunkt</button>' +
+    return '<div class="rp"><header class="rp-top"><button type="button" class="btn ghost sm" id="rp-homebtn" data-action="rp-home" hidden>' + I.back + ' Übersicht</button>' +
       '<label class="rp-switch"><input type="checkbox" id="rp-faith" role="switch" data-change="rp-faith"' + (faith ? ' checked' : '') + '><span>Christlicher Impuls</span></label></header>' +
       '<div class="rp-stage" id="rp-stage"></div>' +
       '<footer class="rp-foot"><button type="button" class="rp-btn rp-quiet" data-action="rp-help">Hilfe und Beratung</button></footer></div>';

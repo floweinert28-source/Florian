@@ -1,0 +1,15 @@
+.git
+**/__pycache__/
+**/*.pyc
+server/data/
+*.sqlite
+*.sqlite-journal
+*.db
+server/tests/
+tests/
+web/
+TradingJournal/
+tasksbot/
+docs/*
+!docs/mentor-systemprompt.md
+.env

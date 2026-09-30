@@ -22,7 +22,7 @@ from zoneinfo import ZoneInfo
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 log = logging.getLogger("mentor")
 
@@ -38,6 +38,10 @@ TZ = ZoneInfo(os.environ.get("MENTOR_TZ", "Europe/Berlin"))
 ORIGINS = [o.strip() for o in os.environ.get("MENTOR_ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 APP_NAME_DEFAULT = "Journalyst"
 PLACEHOLDER = re.compile(r"\{\{(APP_NAME|NUTZERNAME|GLAUBENSMODUS|JOURNAL_KONTEXT)\}\}")
+
+
+def api_key_present() -> bool:
+    return bool(os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN"))
 
 
 # ---------------------------------------------------------------- Prompt
@@ -61,9 +65,30 @@ def build_system_prompt(template: str, *, app_name: str, user_name: str, glauben
     return PLACEHOLDER.sub(lambda m: values[m.group(1)], template)
 
 
+def conversation(past: list[dict], new_message: str) -> list[dict]:
+    """Baut die Nachrichtenliste für das Modell: beginnt mit einer Nutzernachricht, Rollen wechseln sich ab.
+
+    Ein ungerades Fenster oder eine verwaiste Nutzerzeile (Antwort ging verloren) würde sonst
+    vom Modell mit 400 abgelehnt; gleiche Rollen in Folge werden zusammengefasst.
+    """
+    rows = [m for m in past if m.get("role") in ("user", "assistant")] + [{"role": "user", "content": new_message}]
+    while rows and rows[0]["role"] != "user":
+        rows.pop(0)
+    out: list[dict] = []
+    for m in rows:
+        if out and out[-1]["role"] == m["role"]:
+            out[-1] = {"role": m["role"], "content": out[-1]["content"] + "\n\n" + m["content"]}
+        else:
+            out.append({"role": m["role"], "content": m["content"]})
+    return out
+
+
 # ---------------------------------------------------------------- Speicher
 class ChatStore:
-    """Chatverlauf pro Nutzer in SQLite; klein, ohne weitere Abhängigkeiten."""
+    """Chatverlauf und Tageszähler pro Nutzer in SQLite; klein, ohne weitere Abhängigkeiten.
+
+    Der Tageszähler (Tabelle usage) ist vom Verlauf getrennt: Löschen des Verlaufs setzt das Limit nicht zurück.
+    """
 
     def __init__(self, path: Path):
         self.path = path
@@ -74,18 +99,48 @@ class ChatStore:
                 "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT NOT NULL, "
                 "role TEXT NOT NULL, content TEXT NOT NULL, created_at TEXT NOT NULL, day TEXT NOT NULL)"
             )
-            c.execute("CREATE INDEX IF NOT EXISTS idx_messages_user_day ON messages (user_id, day)")
             c.execute("CREATE INDEX IF NOT EXISTS idx_messages_user_id ON messages (user_id, id)")
+            c.execute("CREATE TABLE IF NOT EXISTS usage (user_id TEXT NOT NULL, day TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (user_id, day))")
 
     def _conn(self) -> sqlite3.Connection:
         return sqlite3.connect(str(self.path))
 
-    def add(self, user: str, role: str, content: str, now: datetime) -> dict:
-        row = {"role": role, "content": content, "at": now.isoformat()}
+    @staticmethod
+    def day_of(at: datetime) -> str:
+        return at.astimezone(TZ).date().isoformat()
+
+    def used(self, user: str, day: str) -> int:
+        with self.lock, self._conn() as c:
+            row = c.execute("SELECT n FROM usage WHERE user_id = ? AND day = ?", (user, day)).fetchone()
+        return int(row[0]) if row else 0
+
+    def reserve(self, user: str, content: str, at: datetime, limit: int) -> int | None:
+        """Zählt die Nachricht und legt die Nutzerzeile an, atomar. None, wenn das Tageslimit erreicht ist."""
+        day = self.day_of(at)
+        with self.lock, self._conn() as c:
+            row = c.execute("SELECT n FROM usage WHERE user_id = ? AND day = ?", (user, day)).fetchone()
+            n = int(row[0]) if row else 0
+            if n >= limit:
+                return None
+            c.execute("INSERT INTO usage (user_id, day, n) VALUES (?, ?, 1) ON CONFLICT(user_id, day) DO UPDATE SET n = n + 1", (user, day))
+            cur = c.execute(
+                "INSERT INTO messages (user_id, role, content, created_at, day) VALUES (?, 'user', ?, ?, ?)", (user, content, at.isoformat(), day)
+            )
+            return int(cur.lastrowid)
+
+    def release(self, user: str, message_id: int, at: datetime) -> None:
+        """Nimmt eine Reservierung zurück, wenn das Modell nicht geantwortet hat."""
+        day = self.day_of(at)
+        with self.lock, self._conn() as c:
+            c.execute("DELETE FROM messages WHERE id = ?", (message_id,))
+            c.execute("UPDATE usage SET n = MAX(n - 1, 0) WHERE user_id = ? AND day = ?", (user, day))
+
+    def add_reply(self, user: str, content: str, at: datetime) -> dict:
+        row = {"role": "assistant", "content": content, "at": at.isoformat()}
         with self.lock, self._conn() as c:
             c.execute(
-                "INSERT INTO messages (user_id, role, content, created_at, day) VALUES (?, ?, ?, ?, ?)",
-                (user, role, content, row["at"], now.astimezone(TZ).date().isoformat()),
+                "INSERT INTO messages (user_id, role, content, created_at, day) VALUES (?, 'assistant', ?, ?, ?)",
+                (user, content, row["at"], self.day_of(at)),
             )
         return row
 
@@ -95,13 +150,6 @@ class ChatStore:
                 "SELECT role, content, created_at FROM messages WHERE user_id = ? ORDER BY id DESC LIMIT ?", (user, limit)
             ).fetchall()
         return [{"role": r, "content": t, "at": a} for r, t, a in reversed(rows)]
-
-    def count_user_messages(self, user: str, day: str) -> int:
-        with self.lock, self._conn() as c:
-            (n,) = c.execute(
-                "SELECT COUNT(*) FROM messages WHERE user_id = ? AND day = ? AND role = 'user'", (user, day)
-            ).fetchone()
-        return int(n)
 
     def clear(self, user: str) -> int:
         with self.lock, self._conn() as c:
@@ -136,12 +184,20 @@ class ChatContext(BaseModel):
 
 class ChatIn(BaseModel):
     user: str = Field(..., min_length=1, max_length=80)
-    message: str = Field(..., min_length=1, max_length=4000)
+    message: str = Field(..., max_length=4000)
     context: ChatContext = ChatContext()
+
+    @field_validator("message")
+    @classmethod
+    def _not_blank(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("Die Nachricht ist leer.")
+        return v
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="Journalyst Mentor", version="1.0.0", docs_url=None, redoc_url=None)
+    app = FastAPI(title="Journalyst Mentor", version="1.1.0", docs_url=None, redoc_url=None)
     app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_methods=["GET", "POST", "DELETE"], allow_headers=["Authorization", "Content-Type"])
     app.state.store = ChatStore(DB_PATH)
     app.state.ask = make_anthropic_ask()
@@ -152,6 +208,8 @@ def create_app() -> FastAPI:
         app.state.template = ""
     if not APP_TOKEN:
         log.warning("MENTOR_APP_TOKEN ist nicht gesetzt: der Server nimmt Anfragen ohne Zugangstoken an.")
+    if not api_key_present():
+        log.warning("ANTHROPIC_API_KEY ist nicht gesetzt: Chats werden fehlschlagen, bis der Schlüssel gesetzt ist.")
 
     def auth(authorization: str | None = Header(default=None)) -> None:
         if APP_TOKEN and authorization != f"Bearer {APP_TOKEN}":
@@ -162,14 +220,13 @@ def create_app() -> FastAPI:
 
     def quota(user: str, at: datetime) -> dict:
         local = at.astimezone(TZ)
-        day = local.date().isoformat()
-        used = app.state.store.count_user_messages(user, day)
+        used = app.state.store.used(user, local.date().isoformat())
         reset = (local + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
         return {"limit": DAILY_LIMIT, "used": used, "remaining": max(0, DAILY_LIMIT - used), "reset_at": reset.isoformat()}
 
     @app.get("/api/mentor/health")
     def health() -> dict:
-        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN)}
+        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN), "api_key": api_key_present()}
 
     @app.get("/api/mentor/history", dependencies=[Depends(auth)])
     def history(user: str = Query(..., min_length=1, max_length=80)) -> dict:
@@ -177,16 +234,19 @@ def create_app() -> FastAPI:
 
     @app.delete("/api/mentor/history", dependencies=[Depends(auth)])
     def clear(user: str = Query(..., min_length=1, max_length=80)) -> dict:
-        return {"ok": True, "deleted": app.state.store.clear(user)}
+        return {"ok": True, "deleted": app.state.store.clear(user), "quota": quota(user, now())}
 
     @app.post("/api/mentor/chat", dependencies=[Depends(auth)])
     def chat(body: ChatIn) -> dict:
         if not app.state.template:
             raise HTTPException(status_code=500, detail={"error": "prompt", "message": "Der System-Prompt fehlt auf dem Server."})
+        if not api_key_present():
+            raise HTTPException(status_code=503, detail={"error": "key", "message": "Auf dem Server ist kein ANTHROPIC_API_KEY gesetzt."})
         at = now()
-        q = quota(body.user, at)
-        if q["remaining"] <= 0:
-            raise HTTPException(status_code=429, detail={"error": "limit", "message": f"Tageslimit von {DAILY_LIMIT} Nachrichten erreicht.", "quota": q})
+        past = app.state.store.history(body.user, HISTORY_WINDOW)
+        reserved = app.state.store.reserve(body.user, body.message, at, DAILY_LIMIT)
+        if reserved is None:
+            raise HTTPException(status_code=429, detail={"error": "limit", "message": f"Tageslimit von {DAILY_LIMIT} Nachrichten erreicht.", "quota": quota(body.user, at)})
         system = build_system_prompt(
             app.state.template,
             app_name=body.context.app_name,
@@ -194,18 +254,15 @@ def create_app() -> FastAPI:
             glaubensmodus=body.context.glaubensmodus,
             journal=body.context.journal,
         )
-        past = app.state.store.history(body.user, HISTORY_WINDOW)
-        messages = [{"role": m["role"], "content": m["content"]} for m in past if m["role"] in ("user", "assistant")]
-        messages.append({"role": "user", "content": body.message.strip()})
         try:
-            reply = app.state.ask(system, messages)
+            reply = app.state.ask(system, conversation(past, body.message))
+            if not reply:
+                raise RuntimeError("leere Antwort")
         except Exception as exc:  # noqa: BLE001 - jede Modellstörung wird als 502 gemeldet, nie als Absturz
+            app.state.store.release(body.user, reserved, at)
             log.exception("Modellanfrage fehlgeschlagen")
             raise HTTPException(status_code=502, detail={"error": "model", "message": f"Das Sprachmodell hat nicht geantwortet: {type(exc).__name__}"}) from exc
-        if not reply:
-            raise HTTPException(status_code=502, detail={"error": "model", "message": "Das Sprachmodell hat eine leere Antwort geliefert."})
-        app.state.store.add(body.user, "user", body.message.strip(), at)
-        saved = app.state.store.add(body.user, "assistant", reply, now())
+        saved = app.state.store.add_reply(body.user, reply, now())
         return {"reply": reply, "at": saved["at"], "model": MODEL, "quota": quota(body.user, at)}
 
     return app

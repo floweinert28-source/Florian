@@ -89,7 +89,7 @@
 
     /* Protokoll (Verlauf) und Import-Verlauf */
     /* Nutzerkennung für Einträge: Benutzername, sonst E-Mail oder Name; später durch eine Konto-ID ersetzbar */
-    userId() { const p = this.data.settings.profile || {}; return String(p.username || p.email || this.data.settings.name || 'local').trim() || 'local'; },
+    userId() { const p = this.data.settings.profile || {}; const own = String(p.username || p.email || '').trim(); if (own) return own; if (!this.data.settings.deviceId) { this.data.settings.deviceId = 'geraet-' + C.uid(); this.save(); } return this.data.settings.deviceId; },
     ruhepunkt() { if (!Array.isArray(this.data.ruhepunkt)) this.data.ruhepunkt = []; return this.data.ruhepunkt; },
     addRuhepunkt(e) { const entry = Object.assign({ id: C.uid(), userId: this.userId(), createdAt: new Date().toISOString() }, e); this.ruhepunkt().unshift(entry); const names = { vor: 'Vor dem Trading', nach: 'Nach dem Trading', akut: 'Akut-Reset' }; this.log({ type: 'Ruhepunkt', action: 'gespeichert', ident: names[entry.typ] || entry.typ, field: entry.userId }); this.saveNow(); return entry; },
     deleteRuhepunkt(id) { const list = this.ruhepunkt(); const i = list.findIndex(x => x.id === id); if (i >= 0) { const e = list.splice(i, 1)[0]; const names = { vor: 'Vor dem Trading', nach: 'Nach dem Trading', akut: 'Akut-Reset' }; this.log({ type: 'Ruhepunkt', action: 'gelöscht', ident: names[e.typ] || e.typ }); this.saveNow(); } },

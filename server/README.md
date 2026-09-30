@@ -27,7 +27,7 @@ und dasselbe Token eintragen. „Verbindung testen“ ruft `/api/mentor/health` 
 | `MENTOR_APP_TOKEN` | leer | Zugangstoken, das die Website als `Authorization: Bearer …` mitschickt. Leer = kein Schutz (nur lokal sinnvoll) |
 | `MENTOR_MODEL` | `claude-sonnet-5` | Modell |
 | `MENTOR_DAILY_LIMIT` | `30` | Nachrichten pro Nutzer und Tag |
-| `MENTOR_HISTORY_WINDOW` | `20` | Wie viele frühere Nachrichten ans Modell gehen |
+| `MENTOR_HISTORY_WINDOW` | `20` | Wie viele frühere Nachrichten (Fragen und Antworten zusammen) ans Modell gehen |
 | `MENTOR_MAX_TOKENS` | `700` | Maximale Antwortlänge |
 | `MENTOR_TZ` | `Europe/Berlin` | Zeitzone für den Tageswechsel des Limits |
 | `MENTOR_ALLOWED_ORIGINS` | `*` | Erlaubte Website-Ursprünge, kommagetrennt |
@@ -36,14 +36,19 @@ und dasselbe Token eintragen. „Verbindung testen“ ruft `/api/mentor/health` 
 
 ## Schnittstelle
 
-- `GET /api/mentor/health` → Modell, Limit, ob Prompt und Token gesetzt sind (ohne Token erreichbar)
+- `GET /api/mentor/health` → Modell, Limit, ob Prompt, Zugangstoken und API-Schlüssel gesetzt sind (ohne Token erreichbar)
 - `GET /api/mentor/history?user=ID` → Verlauf und Kontingent des Nutzers
 - `DELETE /api/mentor/history?user=ID` → Verlauf löschen
 - `POST /api/mentor/chat` mit `{ "user": "ID", "message": "…", "context": { "app_name": "Journalyst", "user_name": "…", "glaubensmodus": true, "journal": "…" } }`
   → `{ "reply": "…", "quota": { "limit", "used", "remaining", "reset_at" } }`; bei erschöpftem Limit `429`
 
-Die Nutzerkennung ist heute der Benutzername aus dem Profil der Website. Sobald es echte
-Konten gibt, ersetzt ein Login-Token das Zugangstoken, und `user` kommt aus der Sitzung.
+Die Nutzerkennung ist heute der Benutzername aus dem Profil der Website (ohne Benutzername eine
+zufällige Kennung des Geräts). Das Zugangstoken ist für alle Nutzer einer Installation dasselbe:
+Wer es hat, gilt als vertrauenswürdig und kann jede Nutzerkennung angeben. Für eine Gruppe,
+die sich nicht vertraut, braucht es erst echte Konten. Sobald es die gibt, ersetzt ein Login-Token
+das Zugangstoken, und `user` kommt aus der Sitzung.
+
+Das Tageslimit zählt in einer eigenen Tabelle und wird durch Löschen des Verlaufs nicht zurückgesetzt.
 
 ## Tests
 

@@ -817,14 +817,31 @@ function historyEl() {
    SEITE UND ANBINDUNG AN JOURNALYST
    ================================================================ */
 /* Kerze statt Schalter: angezündet = Bibelvers, Gebet und Atemgebet in den Sessions */
-/* Christlicher Impuls: Schalter in der Fußzeile, gespeichert als Nutzereinstellung */
+/* Christlicher Impuls: eine schlanke Kerze in einer Kachel wie bei den Ablauf-Symbolen. Angezündet = an, ausgeblasen = aus. */
+var CANDLE_SVG = '<svg viewBox="0 0 48 60" aria-hidden="true">' +
+  '<defs><radialGradient id="rpc-glow" cx="50%" cy="60%" r="50%"><stop offset="0" stop-color="#ffd166" stop-opacity=".55"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient>' +
+  '<linearGradient id="rpc-flame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe29a"/><stop offset=".55" stop-color="#ffb13b"/><stop offset="1" stop-color="#f97316"/></linearGradient>' +
+  '<linearGradient id="rpc-body" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fbf5e6"/><stop offset=".55" stop-color="#efe6d0"/><stop offset="1" stop-color="#d9cfb6"/></linearGradient></defs>' +
+  '<ellipse class="rp-c-glow" cx="24" cy="17" rx="16" ry="18" fill="url(#rpc-glow)"/>' +
+  '<path class="rp-c-smoke" d="M24 20c-2.2-3 2.2-5.5 0-8.5s2.2-4.5 0-7.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' +
+  '<g class="rp-c-flame"><path d="M24 5.5c3.6 4.6 6.2 7.8 6.2 12a6.2 6.2 0 0 1-12.4 0c0-4.2 2.6-7.4 6.2-12z" fill="url(#rpc-flame)"/><path d="M24 12.5c1.7 2.3 3 4.2 3 6.2a3 3 0 0 1-6 0c0-2 1.3-3.9 3-6.2z" fill="#fff6d6" opacity=".9"/></g>' +
+  '<circle class="rp-c-ember" cx="24" cy="23.4" r="1.1" fill="#f97316"/>' +
+  '<rect x="23.2" y="20" width="1.6" height="4.6" rx=".8" fill="#5a4a3a"/>' +
+  '<rect x="18.5" y="24" width="11" height="30" rx="3" fill="url(#rpc-body)"/>' +
+  '<path d="M18.5 28c2.2 1.6 3.3-1.2 5.5 0s3.3 1.6 5.5 0" fill="none" stroke="#c9bda2" stroke-width="1"/>' +
+  '<rect x="15" y="53" width="18" height="3.5" rx="1.75" fill="#b8ad95" opacity=".8"/></svg>';
 function candleHTML() {
-  return '<label class="rp-faith' + (faith ? ' rp-on' : '') + '" title="Bibelvers, Gebet und Atemgebet in den Sessions"><span class="rp-faith-ico">' + I.sparkle + '</span><span class="rp-faith-l">Christlicher Impuls</span>' +
-    '<button type="button" class="switch" role="switch" aria-checked="' + faith + '" data-action="rp-faith-toggle" aria-label="Christlicher Impuls"></button></label>';
+  return '<button type="button" class="rp-candle' + (faith ? ' rp-on' : '') + '" role="switch" aria-checked="' + faith + '" data-action="rp-faith-toggle" aria-label="Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten') + '">' +
+    '<span class="rp-candle-tile">' + CANDLE_SVG + '</span>' +
+    '<span class="rp-candle-text"><b>Christlicher Impuls</b><small>' + (faith ? 'an · Bibelvers, Gebet, Atemgebet' : 'aus · neutrale Leitsätze') + '</small></span></button>';
 }
 function syncFaithUI() {
   var t = document.getElementById('rp-faith'); if (t) t.checked = faith;
-  document.querySelectorAll('[data-action="rp-faith-toggle"]').forEach(function (b) { b.setAttribute('aria-checked', String(faith)); var w = b.closest('.rp-faith'); if (w) w.classList.toggle('rp-on', faith); });
+  document.querySelectorAll('[data-action="rp-faith-toggle"]').forEach(function (b) {
+    b.setAttribute('aria-checked', String(faith)); b.classList.toggle('rp-on', faith);
+    b.setAttribute('aria-label', 'Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten'));
+    var sm = b.querySelector('.rp-candle-text small'); if (sm) sm.textContent = faith ? 'an · Bibelvers, Gebet, Atemgebet' : 'aus · neutrale Leitsätze';
+  });
 }
 function setFaith(v) {
   faith = !!v; S.setSetting('christlicherImpuls', faith);

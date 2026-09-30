@@ -1250,8 +1250,8 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 /* ============================================================
    Ruhepunkt: geführte Sessions (Modul-Design an Journalyst angepasst, alle Klassen mit Präfix rp-)
    ============================================================ */
-.rp { --rp-moss: var(--accent); --rp-dawn: #5cb8ff; --rp-dusk: var(--be); --rp-amber: var(--warn, #f5b93a); --rp-brick: var(--loss); --rp-on-phase: var(--accent-ink); --phase: var(--rp-moss); --rp-serif: Georgia, "Iowan Old Style", "Times New Roman", serif; max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; min-height: calc(100vh - var(--topbar-h) - 90px); font-size: 16px; line-height: 1.55; }
-html[data-theme="light"] .rp, :root[data-theme="light"] .rp { --rp-dawn: #2f7fd1; }
+.rp { --rp-moss: var(--accent); --rp-dawn: #5cb8ff; --rp-dusk: var(--be); --rp-amber: var(--warn, #f5b93a); --rp-brick: var(--loss); --rp-on-phase: #04140a; --phase: var(--rp-moss); width: 100%; --rp-serif: Georgia, "Iowan Old Style", "Times New Roman", serif; max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; min-height: calc(100vh - var(--topbar-h) - 90px); font-size: 16px; line-height: 1.55; }
+html[data-theme="light"] .rp, :root[data-theme="light"] .rp { --rp-dawn: #2a6fb8; --rp-brick: #c73a3a; --rp-on-phase: #ffffff; }
 .rp *, .rp *::before, .rp *::after { box-sizing: border-box; }
 .rp :focus-visible { outline: 2px solid var(--phase); outline-offset: 3px; }
 .rp [tabindex="-1"]:focus { outline: none; }

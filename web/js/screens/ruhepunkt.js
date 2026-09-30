@@ -742,25 +742,26 @@ function setFaith(v) {
 }
 App.screens.ruhepunkt = {
   title: 'Ruhepunkt',
+  ownActions: true, /* keine globalen Kopfzeilen-Knöpfe: ein Neuaufbau würde Atmung und Countdown zurücksetzen */
   render: function () {
     faith = faithSetting();
     return '<div class="rp"><header class="rp-top"><button type="button" class="rp-brand" data-action="rp-home">Ruhepunkt</button>' +
       '<label class="rp-switch"><input type="checkbox" id="rp-faith" role="switch" data-change="rp-faith"' + (faith ? ' checked' : '') + '><span>Christlicher Impuls</span></label></header>' +
-      '<main class="rp-stage" id="rp-stage"></main>' +
+      '<div class="rp-stage" id="rp-stage"></div>' +
       '<footer class="rp-foot"><button type="button" class="rp-btn rp-quiet" data-action="rp-help">Hilfe und Beratung</button></footer></div>';
   },
   mount: function (main) {
     stage = main.querySelector('#rp-stage'); faith = faithSetting();
-    if (mode === 'step' && session) renderStep(); else if (mode === 'done' && flowKey) renderDone(); else renderHome();
+    if (mode === 'step' && session) renderStep(); else renderHome();
   }
 };
 Object.assign(App.actions, {
   'rp-faith': function (el) { setFaith(el.checked); },
   'rp-help': function () { openHelp(); },
   'rp-home': function () { if (stage) renderHome().focus({ preventScroll: true }); },
-  'rp-delete': function (el) { S.deleteRuhepunkt(el.dataset.id); if (stage && mode === 'home') renderHome(); }
+  'rp-delete': function (el) { U.confirmModal('Session löschen?', 'Der Eintrag wird dauerhaft aus dem Journal entfernt.', { ok: 'Löschen', danger: true }).then(function (yes) { if (!yes) return; S.deleteRuhepunkt(el.dataset.id); if (stage && mode === 'home') renderHome(); }); }
 });
 /* Beim Verlassen der Seite laufen keine Timer weiter; eine angefangene Session bleibt erhalten und geht beim Zurückkommen weiter */
-window.addEventListener('hashchange', function () { if (location.hash.indexOf('#/ruhepunkt') !== 0) cleanup(); });
+window.addEventListener('hashchange', function () { if (location.hash.indexOf('#/ruhepunkt') !== 0) { cleanup(); if (mode === 'done') { mode = 'home'; flowKey = null; session = null; } } });
 root.Ruhepunkt = { CONFIG: CONFIG, FLOWS: FLOWS, AMPEL: AMPEL, ampelStatus: ampelStatus, einordnung: einordnung, buildEntry: buildEntry, newSession: newSession, session: function () { return session; }, start: start, setFaith: setFaith };
 })(typeof self !== 'undefined' ? self : this);

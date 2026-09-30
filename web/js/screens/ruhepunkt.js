@@ -213,9 +213,10 @@ function ringSVG(startOffset) {
 
 /* Geführte Atmung: der leuchtende Kreis wächst beim Einatmen und zieht sich beim Ausatmen zusammen, der Ring zeigt die laufende Phase */
 function breather(container, segments) {
+  var LEAD = 3, REST = 1.5; /* Einstieg vor der ersten Phase und kurze Ruhe zwischen den Runden, damit nichts überstürzt wirkt */
   var total = segments.reduce(function (a, s) {
-    return a + s.rounds * s.pattern.reduce(function (b, p) { return b + p.secs; }, 0);
-  }, 0);
+    return a + s.rounds * (s.pattern.reduce(function (b, p) { return b + p.secs; }, 0) + REST);
+  }, 0) + LEAD;
   var wrap = ringSVG(RING_C);
   var prog = wrap.querySelector('.rp-orb-prog');
   var orb = h('div', { class: 'rp-orb' }, h('span', { class: 'rp-orb-glow' }), h('span', { class: 'rp-orb-core' }));
@@ -226,7 +227,8 @@ function breather(container, segments) {
   var hintEl = h('p', { class: 'rp-hint' });
   var metaEl = h('p', { class: 'rp-meta' }, 'Dauer: etwa ' + fmtDur(total));
   var btn = h('button', { type: 'button', class: 'rp-btn rp-primary' }, 'Starten');
-  var state = 'idle', seg = 0, round = 0, ph = 0, phaseStart = 0, pausedAt = 0, timer = null;
+  var state = 'idle', seg = 0, round = 0, ph = 0, phaseStart = 0, pausedAt = 0, timer = null, waitKind = null, waitStart = 0, waitDur = 0;
+  function say(el, text) { if (el.textContent === text) return; el.textContent = text; el.classList.remove('rp-swap'); void el.offsetWidth; el.classList.add('rp-swap'); }
 
   function place(level, secs) {
     var sc = reducedMotion ? 0.85 : 0.6 + level * 0.4;
@@ -251,19 +253,33 @@ function breather(container, segments) {
     metaEl.textContent = 'Runde ' + (round + 1) + ' von ' + segments[seg].rounds + ', noch ' + left + ' s';
   }
   function enter(offset) {
-    var p = cur();
+    var p = cur(); waitKind = null;
     phaseStart = performance.now() - offset * 1000;
-    phaseEl.textContent = p.label;
-    hintEl.textContent = p.hint || '';
+    say(phaseEl, p.label);
+    say(hintEl, p.hint || '');
     segEl.textContent = segments[seg].name;
     place(p.level, p.secs - offset);
     ring(p.secs, offset);
     meta();
   }
+  /* Einstieg („Gleich geht's los“) und Ruhe zwischen den Runden: der Kreis ruht, der Ring bleibt leer */
+  function wait(kind, secs, offset) {
+    waitKind = kind; waitDur = secs; waitStart = performance.now() - offset * 1000;
+    say(phaseEl, kind === 'lead' ? 'Gleich geht\u2019s los.' : 'Kurz ruhen.');
+    say(hintEl, kind === 'lead' ? 'Setz dich bequem hin und lass die Schultern sinken.' : '');
+    segEl.textContent = segments[seg].name;
+    place(0, Math.min(secs - offset, 1.2));
+    prog.style.transition = 'stroke-dashoffset .6s ease'; prog.style.strokeDashoffset = RING_C.toFixed(2);
+    waitMeta();
+  }
+  function waitMeta() {
+    var left = Math.max(1, Math.ceil(waitDur - (performance.now() - waitStart) / 1000));
+    metaEl.textContent = waitKind === 'lead' ? 'Los in ' + left + ' s' : 'Runde ' + (round + 1) + ' von ' + segments[seg].rounds + ' gleich';
+  }
   function finish() {
-    clearInterval(timer); timer = null; state = 'done';
-    phaseEl.textContent = 'Gut gemacht.';
-    hintEl.textContent = '';
+    clearInterval(timer); timer = null; state = 'done'; waitKind = null;
+    say(phaseEl, 'Gut gemacht.');
+    say(hintEl, '');
     segEl.textContent = allNames;
     metaEl.textContent = 'Geh weiter, wenn du bereit bist, oder mach noch eine Runde.';
     btn.textContent = 'Noch einmal';
@@ -277,25 +293,28 @@ function breather(container, segments) {
         round = 0; seg += 1;
         if (seg >= segments.length) { finish(); return; }
       }
+      wait('rest', REST, 0); return;
     }
     enter(0);
   }
   function tick() {
+    if (waitKind) { if ((performance.now() - waitStart) / 1000 >= waitDur) enter(0); else waitMeta(); return; }
     if ((performance.now() - phaseStart) / 1000 >= cur().secs) advance(); else meta();
   }
   btn.addEventListener('click', function () {
     if (state === 'running') {
-      pausedAt = (performance.now() - phaseStart) / 1000;
+      pausedAt = waitKind ? (performance.now() - waitStart) / 1000 : (performance.now() - phaseStart) / 1000;
       clearInterval(timer); timer = null; state = 'paused';
       freeze();
-      phaseEl.textContent = 'Pausiert.'; hintEl.textContent = '';
+      say(phaseEl, 'Pausiert.'); say(hintEl, '');
       btn.textContent = 'Weiter atmen';
     } else if (state === 'paused') {
       state = 'running'; btn.textContent = 'Pausieren';
-      enter(pausedAt); timer = setInterval(tick, 200);
+      if (waitKind) wait(waitKind, waitDur, pausedAt); else enter(pausedAt);
+      timer = setInterval(tick, 200);
     } else {
       seg = 0; round = 0; ph = 0; state = 'running'; btn.textContent = 'Pausieren';
-      enter(0); timer = setInterval(tick, 200);
+      wait('lead', LEAD, 0); timer = setInterval(tick, 200);
     }
   });
   place(0, 0);

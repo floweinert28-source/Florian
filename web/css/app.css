@@ -1371,7 +1371,9 @@ dl.rp-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .rp-orb-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
 .rp-orb-track { fill: none; stroke: var(--border-2); stroke-width: 3; }
 .rp-orb-prog { fill: none; stroke: var(--phase); stroke-width: 3; stroke-linecap: round; }
-.rp-orb { position: relative; width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; transform: scale(.6); will-change: transform; }
+.rp-orb { position: relative; width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; transform: scale(.6); will-change: transform; transition-timing-function: cubic-bezier(.42, 0, .58, 1); }
+.rp-swap { animation: rp-swap .42s ease-out both; }
+@keyframes rp-swap { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .rp-orb-glow { position: absolute; inset: -22px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--phase) 50%, transparent), transparent 68%); opacity: calc(.25 + var(--lvl, 0) * .75); transition: opacity var(--dur, 1s) ease-in-out; }
 .rp-orb-core { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--phase) 70%, #ffffff), var(--phase) 55%, color-mix(in srgb, var(--phase) 72%, #000000) 100%); box-shadow: 0 0 36px color-mix(in srgb, var(--phase) calc(25% + var(--lvl, 0) * 40%), transparent), inset 0 -12px 28px rgba(0, 0, 0, .28); transition: box-shadow var(--dur, 1s) ease-in-out; }
 .rp-breath .rp-seg { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; text-align: center; }

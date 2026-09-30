@@ -46,7 +46,7 @@
     filter: sv('<path d="M3 5h18l-7 8v6l-4 2v-8z"/>'),
     calendar: sv('<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
     account: sv('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>'),
-    menu: sv('<path d="M4 7h16M4 12h16M4 17h16"/>'),
+    menu: sv('<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>'),
     clock: sv('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
     flame: sv('<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>'),
     target: sv('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'),
@@ -292,8 +292,12 @@
     const f = bg.querySelector('input:not([type=hidden]),select,textarea,button'); if (f && !o.noFocus) setTimeout(() => f.focus(), 30);
     return bg.firstElementChild;
   }
-  function closeModal(all) { const m = all ? modals.splice(0) : [modals.pop()].filter(Boolean); for (const x of m) { x.bg.remove(); if (x.o.onClose) x.o.onClose(); } if (!modals.length) document.body.style.overflow = ''; }
-  function toast(msg, kind = '') { let w = document.querySelector('.toast-wrap'); if (!w) { w = document.createElement('div'); w.className = 'toast-wrap'; document.body.appendChild(w); } const t = document.createElement('div'); t.className = `toast ${kind}`; t.textContent = msg; w.appendChild(t); setTimeout(() => t.remove(), 2600); }
+  function closeModal(all) {
+    const m = all ? modals.splice(0) : [modals.pop()].filter(Boolean);
+    for (const x of m) { const bg = x.bg; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(bg, 'out', '--dur-1', () => bg.remove()); else bg.remove(); if (x.o.onClose) x.o.onClose(); }
+    if (!modals.length) document.body.style.overflow = '';
+  }
+  function toast(msg, kind = '') { let w = document.querySelector('.toast-wrap'); if (!w) { w = document.createElement('div'); w.className = 'toast-wrap'; document.body.appendChild(w); } const t = document.createElement('div'); t.className = `toast ${kind}`; t.textContent = msg; w.appendChild(t); setTimeout(() => { const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(t, 'out', '--dur-2', () => t.remove()); else t.remove(); }, 2400); }
   function confirmModal(title, text, o = {}) {
     return new Promise(res => {
       modal(`<div class="modal-head"><h2>${esc(title)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">${text}</p><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="button" class="btn ${o.danger ? 'danger' : 'primary'}" data-confirm>${esc(o.ok || 'Bestätigen')}</button></div>`, { cls: 'narrow', onMount(el) { el.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { closeModal(); res(false); })); el.querySelector('[data-confirm]').addEventListener('click', () => { closeModal(); res(true); }); } });

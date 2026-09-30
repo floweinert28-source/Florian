@@ -4,10 +4,13 @@
 .lp header.topnav { display: flex; align-items: center; gap: 24px; padding: 18px 24px; max-width: var(--max); margin: 0 auto; }
 .lp header.topnav .brand { padding: 0; font-size: 19px; }
 .lp header.topnav .links { display: flex; gap: 26px; margin: 0 auto; font-weight: 500; color: var(--text-2); }
+.lp header.topnav .links a { position: relative; transition: color var(--dur-1) var(--ease); }
+.lp header.topnav .links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; border-radius: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease); }
+.lp header.topnav .links a:hover::after, .lp header.topnav .links a.active::after { transform: scaleX(1); }
 .lp header.topnav .links a:hover, .lp header.topnav .links a.active { color: var(--accent); }
 .lp header.topnav .cta { display: flex; gap: 10px; }
-.lp .hero { position: relative; max-width: var(--max); margin: 0 auto; padding: 60px 24px 30px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
-.lp .hero::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(var(--border-2) 1px, transparent 1px); background-size: 22px 22px; opacity: .35; mask-image: radial-gradient(circle at 30% 40%, #000 0, transparent 70%); -webkit-mask-image: radial-gradient(circle at 30% 40%, #000 0, transparent 70%); pointer-events: none; }
+.lp .hero { position: relative; overflow: hidden; max-width: var(--max); margin: 0 auto; padding: 60px 24px 30px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.lp .hero::before { content: ""; position: absolute; inset: -30% 0; transform: translate3d(0, calc(var(--py, 0) * 1px), 0); will-change: transform; background-image: radial-gradient(var(--border-2) 1px, transparent 1px); background-size: 22px 22px; opacity: .35; mask-image: radial-gradient(circle at 30% 40%, #000 0, transparent 70%); -webkit-mask-image: radial-gradient(circle at 30% 40%, #000 0, transparent 70%); pointer-events: none; }
 .lp .hero h1 { font-family: var(--font-display); font-size: clamp(44px, 6.6vw, 96px); font-weight: 800; line-height: .98; letter-spacing: -0.04em; color: #ededed; }
 .lp .hero h1 span { display: block; }
 .lp .hero .lead { font-size: clamp(19px, 2.2vw, 27px); color: var(--text-2); line-height: 1.4; max-width: 34ch; }
@@ -42,3 +45,17 @@
 .lp footer { border-top: 1px solid var(--border); padding: 30px 24px 50px; }
 .lp footer .in { max-width: var(--max); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
 @media (max-width: 900px) { .lp .hero { grid-template-columns: 1fr; padding-top: 34px; } .lp header.topnav .links { display: none; } .lp .demo { grid-template-columns: 1fr; } .lp .demo .side { display: none; } .lp .demo .area { grid-template-columns: repeat(2, 1fr); } }
+
+/* Bewegung auf der Startseite: Hero blendet beim Laden ein (reines CSS, ohne JS sichtbar), Karten heben sich beim Überfahren */
+html { scroll-behavior: smooth; }
+.lp .hero h1 span, .lp .hero .lead, .lp .hero .actions, .lp .hero .small { animation: lp-in var(--dur-3) var(--ease) both; }
+.lp .hero h1 span:nth-child(2) { animation-delay: 80ms; } .lp .hero h1 span:nth-child(3) { animation-delay: 160ms; }
+.lp .hero .lead { animation-delay: 200ms; } .lp .hero .actions { animation-delay: 280ms; } .lp .hero .small { animation-delay: 340ms; }
+@keyframes lp-in { from { opacity: 0; transform: translateY(14px); } }
+.lp .feat-card, .lp .step { transition: transform var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
+.lp .feat-card:hover, .lp .step:hover { transform: translateY(-3px); border-color: var(--border-2); box-shadow: var(--lift-shadow); }
+.lp .feat-card .ico { transition: transform var(--dur-2) var(--ease); }
+.lp .feat-card:hover .ico { transform: scale(1.08); }
+.lp .shot .frame { transition: transform var(--dur-3) var(--ease), box-shadow var(--dur-3) var(--ease); }
+.lp .shot .frame:hover { transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .lp .hero::before { transform: none; } }

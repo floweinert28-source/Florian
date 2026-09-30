@@ -57,5 +57,14 @@
   <div class="step"><div class="k">SCHRITT 3</div><b>Auswerten</b><p>Dashboard, Statistiken, Coach und Fortschritt zeigen, was du ändern solltest. Jede Woche ein Stück besser.</p></div>
 </section>
 <footer><div class="in"><span>Journalyst · Web-Version. Alle Daten bleiben in deinem Browser.</span><span><a class="btn sm" href="app.html">Journal öffnen</a></span></div></footer>
+<script src="js/motion.js"></script>
+<script>
+/* Startseite: Feature-Karten und Schritte gleiten beim Scrollen ein, das Punkteraster im Hero bewegt sich dezent mit */
+(function () {
+  if (!window.Motion) return;
+  document.querySelectorAll('.shot, section.feat, section.steps').forEach(function (el) { Motion.scan(el, false); });
+  Motion.parallax(document.querySelector('.hero'), 0.12);
+})();
+</script>
 </body>
 </html>

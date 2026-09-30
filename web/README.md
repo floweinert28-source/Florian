@@ -96,3 +96,11 @@ node --test web/tests/core.test.mjs
 ```
 
 Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge.
+
+## Bewegung und Übergänge
+
+Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 150 ms, `--dur-2` 240 ms, `--dur-3` 380 ms, `--ease`).
+`js/motion.js` blendet Karten und Abschnitte beim Reinscrollen ein (einmalig, gestaffelt), kapselt den Seitenwechsel in eine
+View Transition und blendet Dialoge, Popover und Toasts aus, bevor sie entfernt werden. Animiert werden nur `transform` und `opacity`.
+Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
+oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.

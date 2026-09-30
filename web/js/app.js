@@ -2,6 +2,7 @@
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt;
+  const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
 
   const NAV = [
     ['dashboard', 'Dashboard', 'dashboard'], ['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['stats', 'Statistiken', 'stats'],
@@ -40,24 +41,29 @@
     navigate(hash) { if (location.hash === hash) this.render(); else location.hash = hash; },
     parseRoute() { const h = location.hash.replace(/^#\/?/, ''); if (h.startsWith('share_')) { this.state.route = 'share'; this.state.params = [h.slice(6)]; return; } const parts = h.split('/').filter(Boolean); if (parts[0] === 'journal') parts[0] = 'notebook'; const route = parts[0] && this.screens[parts[0]] ? parts[0] : 'dashboard'; this.state.route = route; this.state.params = parts.slice(1).map(decodeURIComponent); },
     /* ---------- Rendern ---------- */
-    render() {
+    render(o) {
+      const enter = !o || o.enter !== false; /* neue Seite: Inhalte gleiten ein; Neuaufbau nach Eingaben: nur, was noch unter dem Fenster liegt */
       if (this._screen && this._screen.unmount) { try { this._screen.unmount(); } catch (e) { console.warn(e); } }
       this.parseRoute(); fmt.setCurrency(S.currency()); root.Theme.apply(S.settings); C.setBreakEven(S.settings.beOffset);
       const screen = this.screens[this.state.route]; this._screen = screen; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
       document.title = `${title} · Journalyst`;
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.render(ctx)}</div>`;
+      M.scan(main.querySelector('#content'), enter);
       this.renderSidebar();
       U.drawCharts(main); this.loadBlobImages(main); if (screen.mount) screen.mount(main, ctx);
       window.scrollTo({ top: 0 });
     },
-    rerender(keepScroll = true) { const y = window.scrollY; this.render(); if (keepScroll) window.scrollTo({ top: y }); },
+    /* offene Popover ausblenden und dann schließen; except = Popover, das gerade umgeschaltet wird */
+    closePopovers(except) { document.querySelectorAll('.popover.open:not(.closing)').forEach(p => { if (p.id === except) return; M.leave(p, 'closing', '--dur-1', () => p.classList.remove('open', 'closing')); }); },
+    rerender(keepScroll = true) { const y = window.scrollY; this.render({ enter: false }); if (keepScroll) window.scrollTo({ top: y }); },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}">${I[icon]}<span>${label}</span></a>`;
       sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span>Journal<em>yst</em></span></div><hr><nav class="nav">${NAV.map(item).join('')}</nav><hr><nav class="nav">${NAV3.map(item).join('')}</nav><div class="spacer"></div><hr><nav class="nav">${NAV2.map(item).join('')}</nav>
         <div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div>`;
-      sb.classList.toggle('open', this.state.sidebarOpen); const scrim = document.getElementById('scrim'); scrim.hidden = !this.state.sidebarOpen;
+      const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
+      document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
     },
     globalActions() {
       const r = this.range(); const sess = S.activeSession(); const acc = S.settings.accountId; const accounts = S.data.accounts; const accName = acc === 'all' || !acc ? (accounts.length > 1 ? 'Alle Konten' : (accounts[0] || {}).name || 'Konto') : ((accounts.find(a => a.id === acc) || {}).name || 'Konto');
@@ -72,13 +78,13 @@
         ${screen.actions ? screen.actions(ctx) : ''}${screen.ownActions ? '' : this.globalActions()}
         <a class="avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(initials)}</a></div></header>`;
     },
-    async loadBlobImages(scope) { const imgs = scope.querySelectorAll('img[data-blob]'); for (const img of imgs) { const u = await root.Blobs.url(img.dataset.blob).catch(() => null); if (u) img.src = u; else img.closest('.shot, .thumb, .lib-card')?.classList.add('missing'); } const auds = scope.querySelectorAll('audio[data-blob]'); for (const a of auds) { const u = await root.Blobs.url(a.dataset.blob).catch(() => null); if (u) a.src = u; } },
+    async loadBlobImages(scope) { const imgs = scope.querySelectorAll('img[data-blob]'); for (const img of imgs) { const u = await root.Blobs.url(img.dataset.blob).catch(() => null); if (u) { img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); img.src = u; if (img.complete && img.naturalWidth) img.classList.add('loaded'); } else img.closest('.shot, .thumb, .lib-card')?.classList.add('missing'); } const auds = scope.querySelectorAll('audio[data-blob]'); for (const a of auds) { const u = await root.Blobs.url(a.dataset.blob).catch(() => null); if (u) a.src = u; } },
 
     /* ---------- Aktionen ---------- */
     bind() {
       document.addEventListener('click', e => {
-        const pop = e.target.closest('[data-pop]'); if (pop) { const id = 'pop-' + pop.dataset.pop; document.querySelectorAll('.popover.open').forEach(p => { if (p.id !== id) p.classList.remove('open'); }); document.getElementById(id)?.classList.toggle('open'); return; }
-        if (!e.target.closest('.popover')) document.querySelectorAll('.popover.open').forEach(p => p.classList.remove('open'));
+        const pop = e.target.closest('[data-pop]'); if (pop) { const id = 'pop-' + pop.dataset.pop; this.closePopovers(id); const target = document.getElementById(id); if (target) { if (target.classList.contains('open') && !target.classList.contains('closing')) this.closePopovers(); else { target.classList.remove('closing'); target.classList.add('open'); } } return; }
+        if (!e.target.closest('.popover')) this.closePopovers();
         const stopEl = e.target.closest('[data-stop]'); const closeEl = e.target.closest('[data-close]'); const el = e.target.closest('[data-action]');
         const inside = x => !!x && x !== stopEl && stopEl.contains(x);
         if (stopEl && !inside(closeEl) && !inside(el)) return; /* data-stop schirmt nur äußere Aktionen ab, nicht Knöpfe darin */
@@ -87,10 +93,10 @@
         const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, el, e); }
       });
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); document.querySelectorAll('.popover.open').forEach(p => p.classList.remove('open')); } });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); } });
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) fn.call(this, el, e); } });
-      window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; this.render(); });
+      window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; M.transition(() => this.render()); });
       let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => U.drawCharts(document.getElementById('main')), 120); });
       setInterval(() => { const t = document.getElementById('session-timer'); const s = S.activeSession(); if (t && s) t.textContent = fmt.hm((Date.now() - new Date(s.startedAt)) / 1000); }, 1000);
       U.bindTips();

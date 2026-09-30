@@ -170,9 +170,9 @@ function slider(label, obj, key, lo, hi, onChange) {
     obj[key] = Number(inp.value); out.textContent = inp.value; fill();
     if (onChange) onChange();
   });
-  return h('div', { class: 'rp-field' },
-    h('label', { class: 'rp-l', for: id }, label),
-    h('div', { class: 'rp-range-row slider' }, inp, out),
+  return h('div', { class: 'rp-field rp-slider' },
+    h('div', { class: 'rp-sl-head' }, h('label', { class: 'rp-l', for: id }, label), out),
+    h('div', { class: 'rp-range-row slider' }, inp),
     h('div', { class: 'rp-scale-ends', 'aria-hidden': 'true' }, h('span', null, '1 = ' + lo), h('span', null, '10 = ' + hi)));
 }
 

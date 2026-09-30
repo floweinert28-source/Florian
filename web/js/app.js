@@ -5,7 +5,7 @@
 
   const NAV = [
     ['dashboard', 'Dashboard', 'dashboard'], ['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['stats', 'Statistiken', 'stats'],
-    ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'],
+    ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'], ['ruhepunkt', 'Ruhepunkt', 'calm'],
   ];
   const NAV2 = [['settings', 'Einstellungen', 'settings']];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };

@@ -765,9 +765,26 @@ function historyEl() {
 /* ================================================================
    SEITE UND ANBINDUNG AN JOURNALYST
    ================================================================ */
+/* Kerze statt Schalter: angezündet = Bibelvers, Gebet und Atemgebet in den Sessions */
+var CANDLE_SVG = '<svg viewBox="0 0 64 84" aria-hidden="true">' +
+  '<ellipse class="rp-c-glow" cx="32" cy="20" rx="20" ry="24"/>' +
+  '<path class="rp-c-smoke" d="M32 26c-3-4 3-7 0-11s3-6 0-9" fill="none" stroke-linecap="round"/>' +
+  '<g class="rp-c-flame"><path d="M32 6c5 6 8 10 8 15a8 8 0 0 1-16 0c0-5 3-9 8-15z"/><path class="rp-c-inner" d="M32 14c2.5 3 4 5.5 4 8a4 4 0 0 1-8 0c0-2.5 1.5-5 4-8z"/></g>' +
+  '<rect x="31" y="27" width="2" height="6" rx="1" class="rp-c-wick"/>' +
+  '<rect x="22" y="32" width="20" height="34" rx="4" class="rp-c-body"/>' +
+  '<path d="M22 36c4 2 6-2 10 0s6 2 10 0" class="rp-c-wax"/>' +
+  '<rect x="16" y="64" width="32" height="8" rx="4" class="rp-c-base"/></svg>';
+function candleHTML() {
+  return '<div class="rp-candle-wrap"><button type="button" class="rp-candle" data-action="rp-faith-toggle" aria-pressed="' + faith + '" aria-label="Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten') + '" data-tip="' + (faith ? 'Kerze ausblasen: ohne christlichen Impuls' : 'Kerze anzünden: mit christlichem Impuls') + '">' + CANDLE_SVG + '</button>' +
+    '<span class="rp-candle-l">Christlicher Impuls <b>' + (faith ? 'an' : 'aus') + '</b></span></div>';
+}
+function syncFaithUI() {
+  var t = document.getElementById('rp-faith'); if (t) t.checked = faith;
+  document.querySelectorAll('.rp-candle').forEach(function (b) { b.setAttribute('aria-pressed', String(faith)); b.setAttribute('aria-label', 'Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten')); b.setAttribute('data-tip', faith ? 'Kerze ausblasen: ohne christlichen Impuls' : 'Kerze anzünden: mit christlichem Impuls'); var l = b.parentElement.querySelector('.rp-candle-l b'); if (l) l.textContent = faith ? 'an' : 'aus'; });
+}
 function setFaith(v) {
   faith = !!v; S.setSetting('christlicherImpuls', faith);
-  var t = document.getElementById('rp-faith'); if (t) t.checked = faith;
+  syncFaithUI();
   if (mode === 'step') renderStep();
 }
 App.screens.ruhepunkt = {
@@ -775,10 +792,9 @@ App.screens.ruhepunkt = {
   ownActions: true, /* keine globalen Kopfzeilen-Knöpfe: ein Neuaufbau würde Atmung und Countdown zurücksetzen */
   render: function () {
     faith = faithSetting();
-    return '<div class="rp"><header class="rp-top"><button type="button" class="btn ghost sm" id="rp-homebtn" data-action="rp-home" hidden>' + I.back + ' Übersicht</button>' +
-      '<label class="rp-switch"><input type="checkbox" id="rp-faith" role="switch" data-change="rp-faith"' + (faith ? ' checked' : '') + '><span>Christlicher Impuls</span></label></header>' +
+    return '<div class="rp"><header class="rp-top"><button type="button" class="btn ghost sm" id="rp-homebtn" data-action="rp-home" hidden>' + I.back + ' Übersicht</button></header>' +
       '<div class="rp-stage" id="rp-stage"></div>' +
-      '<footer class="rp-foot"><button type="button" class="rp-btn rp-quiet" data-action="rp-help">Hilfe und Beratung</button></footer></div>';
+      '<footer class="rp-foot">' + candleHTML() + '<button type="button" class="rp-btn rp-quiet" data-action="rp-help">Hilfe und Beratung</button></footer></div>';
   },
   mount: function (main) {
     stage = main.querySelector('#rp-stage'); faith = faithSetting();
@@ -787,6 +803,7 @@ App.screens.ruhepunkt = {
 };
 Object.assign(App.actions, {
   'rp-faith': function (el) { setFaith(el.checked); },
+  'rp-faith-toggle': function () { setFaith(!faith); },
   'rp-help': function () { openHelp(); },
   'rp-home': function () { if (stage) renderHome().focus({ preventScroll: true }); },
   'rp-delete': function (el) { U.confirmModal('Session löschen?', 'Der Eintrag wird dauerhaft aus dem Journal entfernt.', { ok: 'Löschen', danger: true }).then(function (yes) { if (!yes) return; S.deleteRuhepunkt(el.dataset.id); if (stage && mode === 'home') renderHome(); }); }

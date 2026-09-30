@@ -1250,7 +1250,7 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 /* ============================================================
    Ruhepunkt: geführte Sessions (Abläufe aus dem Modul, Optik wie der Rest von Journalyst; Klassen mit Präfix rp-)
    ============================================================ */
-.rp { --rp-moss: var(--accent); --rp-dawn: #5cb8ff; --rp-dusk: var(--be); --rp-amber: var(--warn, #f5b93a); --rp-brick: var(--loss); --rp-on-phase: #04140a; --phase: var(--rp-moss); --phase-soft: color-mix(in srgb, var(--phase) 14%, transparent); width: 100%; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; min-height: calc(100vh - var(--topbar-h) - 90px); font-size: 14.5px; line-height: 1.55; }
+.rp { --rp-moss: var(--accent); --rp-dawn: #5cb8ff; --rp-dusk: var(--be); --rp-amber: var(--warn, #f5b93a); --rp-brick: var(--loss); --rp-on-phase: #04140a; --phase: var(--rp-moss); --phase-soft: color-mix(in srgb, var(--phase) 14%, transparent); width: 100%; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; font-size: 14.5px; line-height: 1.55; }
 html[data-theme="light"] .rp, :root[data-theme="light"] .rp { --rp-dawn: #2a6fb8; --rp-brick: #c73a3a; --rp-on-phase: #ffffff; }
 .rp *, .rp *::before, .rp *::after { box-sizing: border-box; }
 .rp :focus-visible { outline: 2px solid var(--phase); outline-offset: 3px; }
@@ -1394,7 +1394,30 @@ dl.rp-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .rp-timer { text-align: center; margin: 10px 0; }
 .rp-bigtime { font-family: var(--font-num); font-size: 44px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; margin: 6px 0; letter-spacing: -.01em; }
 .rp-error { color: var(--rp-brick); font-weight: 600; margin: 12px 0 0; }
-.rp-foot { margin-top: auto; padding-top: 28px; text-align: center; }
+.rp-foot { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.rp-candle-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-bottom: 6px; }
+.rp-candle { background: none; border: 0; padding: 0; width: 64px; height: 84px; cursor: pointer; border-radius: 18px; transition: transform .2s ease; }
+.rp-candle:hover { transform: translateY(-2px) scale(1.04); }
+.rp-candle:active { transform: scale(.97); }
+.rp-candle svg { width: 64px; height: 84px; display: block; overflow: visible; }
+.rp-c-body { fill: var(--surface-3); stroke: var(--border-2); stroke-width: 1; }
+.rp-c-wax { fill: none; stroke: var(--border-2); stroke-width: 1.2; }
+.rp-c-base { fill: var(--surface-2); stroke: var(--border-2); stroke-width: 1; }
+.rp-c-wick { fill: var(--text-2); }
+.rp-c-flame { fill: #f5b93a; transform-origin: 32px 30px; transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), opacity .3s ease; animation: rp-flicker 1.7s ease-in-out infinite; filter: drop-shadow(0 0 6px rgba(245, 185, 58, .75)); }
+.rp-c-inner { fill: #fff3c4; }
+.rp-c-glow { fill: rgba(245, 185, 58, .22); transition: opacity .5s ease, transform .5s ease; transform-origin: 32px 20px; animation: rp-glow 1.7s ease-in-out infinite; }
+.rp-c-smoke { stroke: var(--muted); stroke-width: 1.4; opacity: 0; transition: opacity .4s ease; }
+.rp-candle[aria-pressed="false"] .rp-c-flame { transform: scale(.15); opacity: 0; animation: none; filter: none; }
+.rp-candle[aria-pressed="false"] .rp-c-glow { opacity: 0; transform: scale(.4); animation: none; }
+.rp-candle[aria-pressed="false"] .rp-c-smoke { opacity: .55; animation: rp-smoke 2.6s ease-in-out infinite; }
+.rp-candle[aria-pressed="false"] .rp-c-wick { fill: var(--muted); }
+@keyframes rp-flicker { 0%, 100% { transform: scale(1) rotate(0); } 25% { transform: scale(1.04, 1.1) rotate(-2deg); } 50% { transform: scale(.96, .94) rotate(1.5deg); } 75% { transform: scale(1.03, 1.06) rotate(-1deg); } }
+@keyframes rp-glow { 0%, 100% { opacity: .8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+@keyframes rp-smoke { 0% { opacity: .55; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-8px); } }
+.rp-candle-l { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.rp-candle-l b { color: var(--text-2); }
+.rp-candle[aria-pressed="true"] + .rp-candle-l b { color: #f5b93a; }
 .rp-dlg section { margin-bottom: 16px; }
 .rp-dlg h3 { font-size: 14px; margin: 0 0 6px; }
 .rp-dlg p { margin: 0 0 8px; color: var(--text-2); }
@@ -1409,7 +1432,7 @@ dl.rp-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .rp-list .rp-li-time { white-space: nowrap; font-family: var(--font-num); }
 .rp-x { border: 0; background: none; color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
 .rp-x:hover { color: var(--loss); background: var(--loss-soft); }
-@media (prefers-reduced-motion: reduce) { .rp-orb, .rp-orb-glow, .rp-orb-core, .rp-orb-prog { transition: none !important; } .rp-switch input, .rp-switch input::after, .rp-choice { transition: none; } .rp-stage > *, .rp-choices .rp-choice, .rp-i-sun, .rp-i-rays, .rp-i-moon, .rp-i-stars circle, .rp-i-ring, .rp-i-ring2, .rp-i-pause { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .rp-orb, .rp-orb-glow, .rp-orb-core, .rp-orb-prog { transition: none !important; } .rp-c-flame, .rp-c-glow, .rp-c-smoke { animation: none !important; } .rp-switch input, .rp-switch input::after, .rp-choice { transition: none; } .rp-stage > *, .rp-choices .rp-choice, .rp-i-sun, .rp-i-rays, .rp-i-moon, .rp-i-stars circle, .rp-i-ring, .rp-i-ring2, .rp-i-pause { animation: none !important; } }
 @media (max-width: 560px) { .rp-list li { grid-template-columns: 10px 1fr auto; } .rp-list .rp-li-time { display: none; } .rp-content { padding: 14px; } .rp-q { font-size: 22px; } }
 
 /* ============================================================

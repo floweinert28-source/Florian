@@ -173,7 +173,7 @@ function slider(label, obj, key, lo, hi, onChange) {
   return h('div', { class: 'rp-field rp-slider' },
     h('div', { class: 'rp-sl-head' }, h('label', { class: 'rp-l', for: id }, label), out),
     h('div', { class: 'rp-range-row slider' }, inp),
-    h('div', { class: 'rp-scale-ends', 'aria-hidden': 'true' }, h('span', null, '1 = ' + lo), h('span', null, '10 = ' + hi)));
+    h('div', { class: 'rp-scale-ends', 'aria-hidden': 'true' }, h('span', null, lo), h('span', null, hi)));
 }
 
 function textField(label, obj, key, opts) {
@@ -427,11 +427,11 @@ function summaryVor() {
   var r = session.regeln, leer = 'nicht festgelegt';
   var rows = [
     ['Zustand', 'Ampel ' + AMPEL[session.ampel].label],
-    ['Maximaler Verlust', r.maxVerlust || leer],
-    ['Maximale Trades', r.maxTrades || leer],
-    ['Ich höre auf, wenn', r.stoppWenn || leer]
+    ['Maximaler Verlust', r.maxVerlust],
+    ['Maximale Trades', r.maxTrades],
+    ['Ich höre auf, wenn', r.stoppWenn]
   ];
-  var nodes = [h('dl', { class: 'rp-summary' }, rows.map(function (row) { return [h('dt', null, row[0]), h('dd', null, row[1])]; }))];
+  var nodes = [h('dl', { class: 'rp-summary' }, rows.map(function (row) { return [h('dt', null, row[0]), h('dd', { class: row[1] ? null : 'rp-none' }, row[1] || leer)]; }))];
   if (!r.maxVerlust && !r.maxTrades && !r.stoppWenn) {
     nodes.push(h('p', { class: 'rp-small rp-muted' }, 'Du hast noch keine Regeln festgelegt. Geh zwei Schritte zurück, wenn du sie ergänzen willst.'));
   }
@@ -628,16 +628,17 @@ var FLOWS = {
           chipField('Benenne es, ohne es zu bewerten.', GEFUEHLE,
             function (v) { return session.gefuehle.indexOf(v) >= 0; },
             function (v) { toggleIn(session.gefuehle, v); }),
-          guide('Das Gefühl ist Information, kein Befehl. Du darfst es spüren, ohne ihm zu gehorchen.'),
-          h('h3', { class: 'rp-sub' }, 'Deine Pause: 15 Minuten kein neuer Trade.'));
-        countdown(el, 15 * 60, {
+          guide('Das Gefühl ist Information, kein Befehl. Du darfst es spüren, ohne ihm zu gehorchen.'));
+        var pause = h('section', { class: 'rp-pause' }, h('h3', { class: 'rp-sub' }, 'Deine Pause: 15 Minuten kein neuer Trade.'));
+        countdown(pause, 15 * 60, {
           startLabel: 'Pause starten',
           doneText: 'Die Pause ist vorbei. Entscheide jetzt in Ruhe, ob du heute weitermachst.',
           onStart: function () { session.pauseGestartet = true; }
         });
-        el.appendChild(h('p', { class: 'rp-small rp-muted' },
+        pause.appendChild(h('p', { class: 'rp-small rp-muted' },
           'Passiert dir das öfter? Sprich im Mentor-Chat darüber oder schau unter ',
           h('button', { type: 'button', class: 'rp-inline-link', onclick: openHelp }, 'Hilfe und Beratung'), '.'));
+        el.appendChild(pause);
       } }
     ]
   }
@@ -741,10 +742,13 @@ function renderStep() {
     if (isLast) finish(next); else { stepIdx += 1; renderStep(); }
   });
   stage.replaceChildren(
-    h('p', { class: 'rp-where' }, flow.name + ', Schritt ' + (stepIdx + 1) + ' von ' + n),
-    h('div', { class: 'rp-progress', 'aria-hidden': 'true' }, flow.steps.map(function (_, i) { return h('i', { class: i <= stepIdx ? 'rp-on' : '' }); })),
+    h('div', { class: 'rp-head' },
+      h('p', { class: 'rp-where' }, flow.name + ', Schritt ' + (stepIdx + 1) + ' von ' + n),
+      h('div', { class: 'rp-progress', 'aria-hidden': 'true' }, flow.steps.map(function (_, i) { return h('i', { class: i <= stepIdx ? 'rp-on' : '' }); }))),
     title, content, h('div', { class: 'rp-nav' }, back, next));
   step.render(content);
+  /* Schritte ohne Atmung liegen offen auf der Seite, nur die Atemschritte haben eine Bühne */
+  content.classList.toggle('rp-open', !content.querySelector('.rp-breath'));
   if (content.querySelector('.rp-breath')) {
     content.querySelectorAll('.rp-guide').forEach(function (g) {
       var ps = Array.prototype.slice.call(g.querySelectorAll(':scope > p'));

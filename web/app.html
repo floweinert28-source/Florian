@@ -21,6 +21,8 @@
 <script src="js/theme.js"></script>
 <script src="js/motion.js"></script>
 <script src="js/core.js"></script>
+<script src="js/shadow.js"></script>
+<script src="js/replay.js"></script>
 <script src="js/sample.js"></script>
 <script src="js/store.js"></script>
 <script src="js/ui.js"></script>
@@ -39,6 +41,9 @@
 <script src="js/screens/progress.js"></script>
 <script src="js/screens/ruhepunkt.js"></script>
 <script src="js/screens/mentor.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/screens/shadow.js"></script>
+<script src="js/screens/replay.js"></script>
 <script src="js/screens/misc.js"></script>
 <script>
 (function () {
@@ -49,7 +54,7 @@
   App.render();
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return; const tag = (e.target.tagName || '').toLowerCase(); if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable || document.querySelector('.modal-bg')) return;
-    const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'notebook', '6': 'progress', '7': 'ruhepunkt', '8': 'mentor' };
+    const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'notebook', '6': 'progress', '7': 'ruhepunkt', '8': 'mentor', '9': 'shadow', '0': 'replay' };
     if (map[e.key]) { location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.openTradeEditor(null); }
   });
 })();

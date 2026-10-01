@@ -6,7 +6,7 @@
 
   const NAV = [
     ['dashboard', 'Dashboard', 'dashboard'], ['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['stats', 'Statistiken', 'stats'],
-    ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'],
+    ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'], ['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'],
   ];
   const NAV3 = [['ruhepunkt', 'Ruhepunkt', 'calm'], ['mentor', 'Mentor', 'chat']];
   const NAV2 = [['settings', 'Einstellungen', 'settings']];
@@ -139,6 +139,7 @@
         <div class="field"><label for="f-symbol">Symbol</label><input class="input" id="f-symbol" name="symbol" value="${esc(t.symbol)}" placeholder="z. B. DAX, NQ, EURUSD" required autocapitalize="characters"></div>
         <div class="field"><span class="lbl">Richtung</span><div class="seg" id="f-dir">${U.seg([[1, 'Long'], [-1, 'Short']], t.direction, 'set-dir')}</div><input type="hidden" name="direction" value="${t.direction}"></div>
         <div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>
+        ${(S.propAccounts ? S.propAccounts() : []).filter(a => a.status !== 'archived').length ? `<div class="field" style="grid-column:1 / -1"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${S.propAccounts().filter(a => a.status !== 'archived').map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}
         <div class="field"><label for="f-open">Eröffnung</label><input class="input" type="datetime-local" id="f-open" name="openedAt" value="${fmt.isoLocal(t.openedAt)}" required></div>
         <div class="field"><label for="f-close">Schluss <span class="faint">(leer = offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" value="${t.closedAt ? fmt.isoLocal(t.closedAt) : ''}"></div>
         <div class="field"><label for="f-entry">Einstiegskurs</label><input class="input" type="number" step="any" id="f-entry" name="entryPrice" value="${t.entryPrice}" required inputmode="decimal"></div>
@@ -175,7 +176,7 @@
       symbol: String(fd.get('symbol') || '').trim().toUpperCase(), direction: Number(fd.get('direction')) === -1 ? -1 : 1, accountId: fd.get('accountId'), openedAt: isNaN(opened) ? new Date().toISOString() : opened.toISOString(), closedAt: closed && !isNaN(closed) ? closed.toISOString() : null,
       entryPrice: num('entryPrice'), exitPrice: num('exitPrice'), quantity: Math.abs(num('quantity') || 0), multiplier: num('multiplier') || 1, fees: Math.abs(num('fees') || 0),
       plannedEntry: num('plannedEntry'), plannedStop: num('plannedStop'), plannedTarget: num('plannedTarget'), plannedReason: String(fd.get('plannedReason') || ''), mae: num('mae'), mfe: num('mfe'),
-      setup: String(fd.get('setup') || '').trim(), rating: num('rating'), mistakes: chips('mistakes'), emotions: chips('emotions'), rulesBroken: chips('rulesBroken'), notes: String(fd.get('notes') || ''),
+      setup: String(fd.get('setup') || '').trim(), rating: num('rating'), mistakes: chips('mistakes'), emotions: chips('emotions'), rulesBroken: chips('rulesBroken'), propAccountIds: chips('propAccountIds'), notes: String(fd.get('notes') || ''),
     };
   };
   /* Vorschau des gerade bearbeiteten Trades. Geld-blind: P&L mit dem exakten R des derive-Ergebnisses (ohne Stop „– R“), Risiko = 1 R per Definition; das kleine R neben dem P&L entfällt dann, weil es doppelt wäre */

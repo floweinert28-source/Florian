@@ -42,6 +42,8 @@
     check: sv('<path d="M5 12l5 5L20 7"/>'),
     warning: sv('<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17h.01"/>'),
     play: sv('<path d="M7 5l12 7-12 7z"/>'),
+    shadow: sv('<circle cx="9" cy="12" r="6"/><path d="M13.5 6.6a6 6 0 1 1 0 10.8" stroke-dasharray="2 2.5"/>'),
+    replay: sv('<rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v11"/><path d="M8 11l4 2-4 2z"/>'),
     layout: sv('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 10h18M10 10v11"/>'),
     filter: sv('<path d="M3 5h18l-7 8v6l-4 2v-8z"/>'),
     calendar: sv('<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/>'),

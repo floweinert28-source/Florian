@@ -28,7 +28,7 @@
   const RP_NAMES = { vor: 'Vor dem Trading', nach: 'Nach dem Trading', akut: 'Akut-Reset' };
   const clip = (s, n) => { s = String(s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
   function tradeLine(t) {
-    const res = t.r != null ? fmt.r(t.r) : fmt.cur(t.pnl, { signed: true });
+    const res = t.r != null ? fmt.r(t.r) : fmt.cur(t.pnl, { signed: true, r: null });
     const broke = (t.rulesBroken || []).length || (t.mistakes || []).length;
     const parts = [`${fmt.dateShort(t.close)} ${t.symbol} ${t.direction > 0 ? 'Long' : 'Short'}: ${res}`, `Regeln eingehalten: ${broke ? 'nein' : 'ja'}`];
     if ((t.mistakes || []).length) parts.push('Fehler: ' + t.mistakes.join(', '));

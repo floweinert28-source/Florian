@@ -225,17 +225,19 @@
     _sampleToken: 0, sampleImages: Promise.resolve(0),
     installSample() {
       const Sample = root.Sample; const g = Sample.generate({ accountId: this.data.accounts[0].id });
-      const removed = this.removeSample(false);
+      const removed = this.removeSample(false, true);
       this.data.trades.push(...g.trades);
-      for (const [k, d] of Object.entries(g.days)) this.data.days[k] = Object.assign({}, this.data.days[k] || {}, d);
+      for (const [k, d] of Object.entries(g.days)) this.data.days[k] = mergeSampleDay(this.data.days[k], d);
       this.data.notes.push(...g.notes); this.data.missed.push(...g.missed); this.data.strategies.push(...g.strategies);
       for (const f of g.folders || []) if (!this.data.folders.some(x => x.id === f.id)) this.data.folders.push(f);
       for (const t of g.noteTags || []) if (!this.data.noteTags.some(x => x.id === t.id)) this.data.noteTags.push(t);
       for (const r of g.rules) if (!this.data.rules.some(x => x.text === r.text)) this.data.rules.push(r);
       this.propAccounts().push(...(g.propAccounts || [])); this.propExpenses().push(...(g.propExpenses || [])); this.propPayouts().push(...(g.propPayouts || [])); this.propBreaches().push(...(g.propBreaches || []));
       this.replayHistory().push(...(g.replay || [])); this.replayHistory().sort((a, b) => String(a.at).localeCompare(String(b.at)));
-      /* Schatten-Ich: ohne eine einzige aktive Regel bleibt die Seite leer; die drei Vorschlagsregeln einschalten, sofern der Nutzer noch keine Regel aktiviert hat */
-      const sr = this.shadowRules(); if (!Object.values(sr).some(x => x && x.on)) { for (const k of ['maxTrades', 'lossStreak', 'cooldown']) if (sr[k]) sr[k].on = true; this.data.shadowRules = sr; }
+      /* Schatten-Ich: ohne eine einzige aktive Regel bleibt die Seite leer. Hat der Nutzer noch keine Regel eingeschaltet, gehen die drei Vorschlagsregeln an;
+         das wird gemerkt (settings.sampleShadowRules) und protokolliert, damit removeSample sie wieder ausschaltet, sofern das Regelwerk bis dahin unverändert ist. */
+      const sr = this.shadowRules();
+      if (!Object.values(sr).some(x => x && x.on)) { for (const k of SAMPLE_SHADOW) if (sr[k]) sr[k].on = true; this.data.shadowRules = sr; this.data.settings.sampleShadowRules = true; this.log({ type: 'Schatten-Ich', action: 'Vorschlagsregeln eingeschaltet', source: 'Beispieldaten', ident: 'Max. Trades pro Tag, Verlustserie, Pause nach Verlust' }); }
       this.data.settings.sampleInstalled = true; this.data.settings.sampleVersion = Sample.VERSION || 1;
       this.log({ type: 'Import', action: 'importiert', source: 'Beispieldaten', ident: `${g.trades.length} Trades · ${(g.propAccounts || []).length} Prop-Konten` }); this.save();
       /* Bilder nachlaufend; alte gleichnamige Blobs sind vorher gelöscht. Ein späteres removeSample bricht die Erzeugung ab (Token). */
@@ -243,13 +245,21 @@
       this.sampleImages = Promise.resolve(removed).then(() => typeof Sample.renderScreenshots === 'function' ? Sample.renderScreenshots(g.screenshots || [], Blobs, { alive }) : 0).then(n => { if (n && alive()) refreshBlobImages(); return n; }).catch(() => 0);
       return this.sampleImages;
     },
-    /* Entfernt alles mit sample: true, dazu Verweise eigener Trades auf Beispiel-Prop-Konten und Replay-Karten zu Beispiel-Trades; Blobs werden asynchron gelöscht (Promise auf die Anzahl) */
-    removeSample(save = true) {
+    /* Entfernt alles mit sample: true, dazu Verweise eigener Trades auf Beispiel-Prop-Konten und Replay-Karten zu Beispiel-Trades; Blobs werden asynchron gelöscht (Promise auf die Anzahl).
+       Tage: nur unveränderte Beispiel-Felder werden entfernt (eigene oder bearbeitete Check-ins bleiben), ein leerer Tag wird gelöscht. Vorschlagsregeln des Schatten-Ichs gehen wieder aus, wenn die Beispieldaten sie eingeschaltet hatten und das Regelwerk seitdem unverändert ist (nicht beim erneuten Laden durch installSample). */
+    removeSample(save = true, reinstall = false) {
       const blobIds = [];
       for (const t of this.data.trades) if (t.sample) { for (const s of t.screenshots || []) blobIds.push(s); if (t.screenshotPre) blobIds.push(t.screenshotPre); for (const v of t.voiceNotes || []) if (v && v.blobId) blobIds.push(v.blobId); }
       const sampleTrades = new Set(this.data.trades.filter(t => t.sample).map(t => t.id));
       this.data.trades = this.data.trades.filter(t => !t.sample);
-      for (const [k, d] of Object.entries(this.data.days)) { if (d.sample) { delete this.data.days[k]; } }
+      const sampleRuleIds = new Set(this.data.rules.filter(r => r.sample).map(r => r.id));
+      for (const [k, d] of Object.entries(this.data.days)) if (d && d.sample && stripSampleDay(k, d, sampleRuleIds)) delete this.data.days[k];
+      /* Beim erneuten Laden (reinstall) bleiben die Vorschlagsregeln an, statt sie aus- und gleich wieder einzuschalten */
+      if (this.data.settings.sampleShadowRules && !reinstall) {
+        const cur = this.shadowRules(), exp = root.Shadow ? root.Shadow.defaultRules() : null;
+        if (exp) { for (const k of SAMPLE_SHADOW) if (exp[k]) exp[k].on = true; if (Object.keys(exp).every(k => JSON.stringify(cur[k]) === JSON.stringify(exp[k]))) { this.data.shadowRules = root.Shadow.defaultRules(); this.log({ type: 'Schatten-Ich', action: 'Vorschlagsregeln ausgeschaltet', source: 'Beispieldaten', ident: 'Regelwerk war seit dem Laden der Beispieldaten unverändert' }); } }
+        delete this.data.settings.sampleShadowRules;
+      }
       this.data.notes = this.data.notes.filter(n => !n.sample); this.data.folders = this.data.folders.filter(f => !f.sample); this.data.noteTags = this.data.noteTags.filter(t => !t.sample); this.data.missed = this.data.missed.filter(m => !m.sample); this.data.strategies = this.data.strategies.filter(s => !s.sample); this.data.rules = this.data.rules.filter(r => !r.sample);
       const sampleAccounts = new Set(this.propAccounts().filter(a => a.sample).map(a => a.id)); const ownAccount = x => !x.sample && !sampleAccounts.has(x.accountId);
       this.data.propAccounts = this.propAccounts().filter(a => !a.sample); this.data.propExpenses = this.propExpenses().filter(ownAccount); this.data.propPayouts = this.propPayouts().filter(ownAccount); this.data.propBreaches = this.propBreaches().filter(ownAccount);
@@ -283,6 +293,31 @@
     DEFAULT_TAGS, DASHBOARD_SIZES: SIZES, newDefaultDashboard: defaultDashboard, textDelta, deltaText, hasContent, dayTitle,
   };
 
+  /* Beispiel-Tage: eigene Felder gewinnen beim Einmischen. Jedes vom Beispiel übernommene Feld bekommt eine Prüfsumme (sampleFields), damit removeSample nur
+     unveränderte Beispiel-Felder entfernt und eigene oder bearbeitete Check-ins, Marktphasen und Regel-Häkchen stehen bleiben. */
+  const DAY_FIELDS = ['regime', 'checkIn', 'rulesFollowed'];
+  const SAMPLE_SHADOW = ['maxTrades', 'lossStreak', 'cooldown'];
+  const fingerprint = v => { const s = JSON.stringify(v == null ? null : v); let h = 5381; for (let i = 0; i < s.length; i++) h = (h * 33 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
+  function mergeSampleDay(own, d) {
+    const out = Object.assign({}, own || {}, d), fields = {};
+    for (const f of Object.keys(own || {})) if (own[f] != null && f !== 'sample' && f !== 'sampleFields') out[f] = own[f];
+    for (const f of DAY_FIELDS) if (d[f] != null && (!own || own[f] == null)) fields[f] = fingerprint(d[f]);
+    out.sample = true; out.sampleFields = fields; return out;
+  }
+  /* Tag ohne Prüfsummen (Beispieldaten v1): Marktphase und Regel-Häkchen gelten als Beispiel; der Check-in nur, wenn er wie generiert aussieht (8:00 Uhr des Tages, ohne Tagesziel) */
+  function legacySampleFields(key, d) {
+    const out = {}; if (d.regime != null) out.regime = fingerprint(d.regime); if (d.rulesFollowed != null) out.rulesFollowed = fingerprint(d.rulesFollowed);
+    const ci = d.checkIn; if (ci && typeof ci === 'object' && !('goal' in ci) && ci.createdAt === new Date(C.parseDayKey(key).getTime() + 8 * 3600000).toISOString()) out.checkIn = fingerprint(ci);
+    return out;
+  }
+  /* Entfernt die unveränderten Beispiel-Felder eines Tages (und Häkchen auf Beispiel-Regeln); true, wenn der Tag danach leer ist */
+  function stripSampleDay(key, d, sampleRuleIds) {
+    const fields = d.sampleFields && typeof d.sampleFields === 'object' ? d.sampleFields : legacySampleFields(key, d);
+    for (const f of DAY_FIELDS) if (f in d && fields[f] != null && fields[f] === fingerprint(d[f])) delete d[f];
+    if (Array.isArray(d.rulesFollowed)) { d.rulesFollowed = d.rulesFollowed.filter(id => !sampleRuleIds.has(id)); if (!d.rulesFollowed.length) delete d.rulesFollowed; }
+    delete d.sample; delete d.sampleFields;
+    return !Object.keys(d).some(f => f !== 'key' && d[f] != null);
+  }
   function dayTitle(key) { const d = C.parseDayKey(key); const wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][d.getDay()]; const mo = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][d.getMonth()]; return `${wd}, ${d.getDate()}. ${mo} ${d.getFullYear()}`; }
   function welcomeNote() {
     const now = new Date().toISOString();

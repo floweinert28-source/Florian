@@ -34,7 +34,7 @@ test('generate: deterministisch, alles mit sample: true, Trades in plausibler Za
   assert.equal(Sample.VERSION, 2);
 });
 
-test('Instrumente: NQ am häufigsten, dann ES; Futures mit Punktwert und ganzen Kontrakten 1–3 (NQ/ES), Stops 8–40 Punkte bei NQ', () => {
+test('Instrumente: NQ am häufigsten, dann ES; Futures mit Punktwert und ganzen Kontrakten 1–3 (NQ/ES, MNQ höchstens 5), Stops 8–40 Punkte bei NQ', () => {
   const by = count('symbol'); const order = Object.entries(by).sort((a, b) => b[1] - a[1]).map(x => x[0]);
   assert.equal(order[0], 'NQ'); assert.equal(order[1], 'ES');
   for (const s of ['MNQ', 'GC', 'CL', 'DAX', 'EURUSD']) assert.ok(by[s] > 0, s);
@@ -43,6 +43,7 @@ test('Instrumente: NQ am häufigsten, dann ES; Futures mit Punktwert und ganzen 
     if (!mult[t.symbol]) continue;
     assert.equal(t.multiplier, mult[t.symbol], t.symbol); assert.equal(t.quantity, Math.round(t.quantity), 'ganze Kontrakte');
     if (t.symbol === 'NQ' || t.symbol === 'ES') assert.ok(t.quantity >= 1 && t.quantity <= 3, `${t.symbol} ${t.quantity}`);
+    if (t.symbol === 'MNQ') assert.ok(t.quantity >= 1 && t.quantity <= 5, `MNQ ${t.quantity}`);
     if (t.symbol === 'NQ') { assert.ok(t.entryPrice >= 19000 && t.entryPrice <= 22000, `NQ ${t.entryPrice}`); assert.ok(t.stopDist >= 8 && t.stopDist <= 40.01, `NQ Stop ${t.stopDist}`); assert.equal(Math.round(t.entryPrice * 4) / 4, t.entryPrice, 'Tick 0,25'); }
     if (t.symbol === 'ES') assert.ok(t.entryPrice >= 5200 && t.entryPrice <= 6000, `ES ${t.entryPrice}`);
   }
@@ -99,15 +100,35 @@ test('Apex: ~60 Trades, nie verletzt, Ziel beim Funded-Wechsel erreicht, Payouts
   assert.ok(list.every(t => t.quantity <= 14));
 });
 
-test('FTMO: Prop.evaluate bewertet das Konto als verletzt (Daily Loss 5 % = 5.000), Breach-Datensatz zeigt auf den auslösenden Verlust-Trade', () => {
-  const e = ev(Sample.ACC.ftmo); const b = g.propBreaches[0];
+test('FTMO (Forex/CFD): nur DAX/EURUSD/AAPL zugeordnet, Prop.evaluate bewertet das Konto als verletzt (Daily Loss 5 % = 5.000), Breach-Datensatz zeigt auf den auslösenden DAX-Verlust-Trade', () => {
+  const e = ev(Sample.ACC.ftmo); const b = g.propBreaches[0]; const list = tradesOf(Sample.ACC.ftmo);
   assert.equal(e.status, 'breached'); assert.equal(e.breaches[0].rule, 'dailyLoss'); assert.ok(e.breaches[0].loss >= 5000, `Tagesverlust ${e.breaches[0].loss}`);
   assert.ok(b && b.rule === 'dailyLoss' && b.tradeId === e.breaches[0].tradeId && b.accountId === Sample.ACC.ftmo && b.note);
-  const t = all.find(x => x.id === b.tradeId); assert.ok(t && t.pnl < 0 && t.propAccountIds.includes(Sample.ACC.ftmo) && t.symbol === 'NQ' && t.quantity === 3);
+  const t = all.find(x => x.id === b.tradeId); assert.ok(t && t.pnl < 0 && t.propAccountIds.includes(Sample.ACC.ftmo) && t.symbol === 'DAX' && t.quantity === 75 && t.multiplier === 1);
   assert.equal(acc(Sample.ACC.ftmo).breachedAt, t.closedAt); assert.equal(b.at, t.closedAt);
   assert.ok(e.n >= 20, `${e.n} zugeordnete Trades`);
+  assert.equal(acc(Sample.ACC.ftmo).market, 'forex');
+  for (const x of list) assert.ok(['DAX', 'EURUSD', 'AAPL'].includes(x.symbol), `${x.symbol} gehört nicht auf ein Forex/CFD-Konto`);
+  assert.ok(!all.some(x => ['NQ', 'ES', 'MNQ', 'GC', 'CL'].includes(x.symbol) && x.propAccountIds.includes(Sample.ACC.ftmo)), 'keine Futures bei FTMO');
   const breachDay = all.filter(x => x.dayKey === t.dayKey && x.propAccountIds.includes(Sample.ACC.ftmo)); assert.equal(breachDay.length, 4);
+  assert.deepEqual(breachDay.map(x => x.symbol), ['DAX', 'DAX', 'DAX', 'EURUSD']);
+  assert.ok(breachDay.every(x => x.open.getHours() >= 9 && x.open.getHours() < 14), 'Breach-Tag in der Frühsession');
   assert.ok(breachDay.some(x => x.voiceNotes.length), 'Sprachnotiz am Breach-Trade');
+  assert.ok(C.sum(breachDay.slice(0, 2).map(x => x.pnl)) > -5000 && C.sum(breachDay.slice(0, 3).map(x => x.pnl)) < -5000, 'erst der dritte Trade reißt das Limit');
+});
+
+test('Heute: kein geschlossener Trade mit Ausstieg in der Zukunft; Replay-Screenshots unabhängig von der Uhrzeit', () => {
+  const day = new Date(NOW); while (day.getDay() === 0 || day.getDay() === 6) day.setDate(day.getDate() - 1);
+  const at = h => { const d = new Date(day); d.setHours(h, 30, 0, 0); return d; };
+  const key = C.dayKey(day);
+  for (const h of [10, 16, 18]) {
+    const gen = Sample.generate({ now: at(h) }); const today = gen.trades.filter(t => C.dayKey(new Date(t.openedAt)) === key);
+    assert.equal(today.filter(t => t.closedAt && new Date(t.closedAt) > at(h)).length, 0, `${h}:30: geschlossener Trade mit closedAt in der Zukunft`);
+    assert.equal(today.filter(t => new Date(t.openedAt) > at(h)).length, 0, `${h}:30: Trade in der Zukunft eröffnet`);
+    if (h >= 15) { const open = today.find(t => !t.closedAt); assert.ok(open && open.symbol === 'NQ' && open.exitPrice == null, 'laufender NQ-Trade'); }
+    assert.equal(gen.screenshots.length, g.screenshots.length, 'Bildanzahl hängt nicht von der Uhrzeit ab');
+    assert.ok(!gen.trades.some(t => t.screenshotPre && C.dayKey(new Date(t.openedAt)) === key), 'heutige Trades ohne Replay-Screenshot');
+  }
 });
 
 test('Ausgaben und Bilanz: Challenge-Gebühren je Konto, Reset bei FTMO, Aktivierung bei Apex, zwei Monatsgebühren; Netto und ROI positiv', () => {
@@ -209,4 +230,66 @@ test('Store.load: alte Installation (sampleInstalled, sampleVersion fehlt) bekom
   const { Store: S3 } = makeStore({ version: 1, settings: { sampleInstalled: true, sampleVersion: 2, onboarded: true }, trades: [own], logs: [] }); S3.load();
   assert.equal(S3.trades().length, 1); assert.equal((S3.data.logs || []).length, 0);
   void mem;
+});
+
+test('Store: Beispiel-Tage – eigene Felder gewinnen, removeSample entfernt nur unveränderte Beispiel-Felder, leere Tage verschwinden', async () => {
+  const { Store } = makeStore(null); Store.load();
+  const keys = Object.keys(Sample.generate({ accountId: 'main' }).days); const kOwn = keys[30], kEdit = keys[31], kRules = keys[32];
+  /* Eigener Check-in auf einem Tag, den das Beispiel ebenfalls belegt, bevor die Beispieldaten geladen werden */
+  Store.setDay(kOwn, { checkIn: { sleep: 7.5, stress: 2, mood: 4, note: 'EIGEN', goal: 'ruhig bleiben', createdAt: '2026-01-01T12:00:00.000Z' } });
+  await Store.installSample();
+  const dOwn = Store.data.days[kOwn];
+  assert.equal(dOwn.checkIn.note, 'EIGEN', 'eigener Check-in gewinnt gegen den Beispiel-Check-in'); assert.equal(dOwn.sample, true); assert.ok(dOwn.regime && dOwn.sampleFields.regime && !dOwn.sampleFields.checkIn);
+  /* Check-in auf einem Beispiel-Tag bearbeiten, Regel-Häkchen auf einem anderen ändern */
+  Store.setDay(kEdit, { checkIn: Object.assign({}, Store.data.days[kEdit].checkIn, { note: 'BEARBEITET' }) });
+  const sampleRule = Store.data.rules.find(r => r.sample).id; Store.data.rules.push({ id: 'own-rule', text: 'Eigene Regel', active: true });
+  Store.setDay(kRules, { rulesFollowed: [sampleRule, 'own-rule'] });
+  const nDays = Object.keys(Store.data.days).length;
+  await Store.removeSample();
+  assert.equal(Object.values(Store.data.days).filter(d => d.sample || d.sampleFields).length, 0, 'keine Beispiel-Markierung mehr');
+  assert.deepEqual(Object.keys(Store.data.days).sort(), [kOwn, kEdit, kRules].sort(), `nur Tage mit eigenen Feldern bleiben (vorher ${nDays})`);
+  assert.equal(Store.data.days[kOwn].checkIn.note, 'EIGEN'); assert.ok(!Store.data.days[kOwn].regime && !Store.data.days[kOwn].rulesFollowed, 'Beispiel-Marktphase und -Häkchen entfernt');
+  assert.equal(Store.data.days[kEdit].checkIn.note, 'BEARBEITET'); assert.ok(!Store.data.days[kEdit].regime);
+  assert.deepEqual(Store.data.days[kRules].rulesFollowed, ['own-rule'], 'Häkchen auf Beispiel-Regeln fallen weg, eigenes bleibt'); assert.ok(!Store.data.days[kRules].checkIn);
+  /* Erneut laden: eigene Felder gewinnen weiterhin, Entfernen lässt sie stehen */
+  await Store.installSample(); assert.equal(Store.data.days[kEdit].checkIn.note, 'BEARBEITET'); assert.ok(Store.data.days[kEdit].regime);
+  await Store.removeSample(); assert.equal(Store.data.days[kEdit].checkIn.note, 'BEARBEITET'); assert.equal(Object.keys(Store.data.days).length, 3);
+});
+
+test('Store.load (Upgrade v1 → v2): eigener Check-in auf einem alten Beispiel-Tag bleibt, generierte v1-Check-ins und leere Beispiel-Tage verschwinden', () => {
+  const keys = Object.keys(Sample.generate({ accountId: 'main' }).days); const kOwn = keys[40], kGen = keys[41];
+  const genCheckIn = { sleep: 7, stress: 2, mood: 4, note: 'Schlecht geschlafen, unruhig.', createdAt: new Date(C.parseDayKey(kGen).getTime() + 8 * 3600000).toISOString() };
+  const days = { '2026-02-02': { key: '2026-02-02', sample: true } };
+  days[kOwn] = { key: kOwn, sample: true, regime: { trend: 'up', vol: 'low' }, checkIn: { sleep: 8, stress: 1, mood: 5, note: 'EIGENER CHECK-IN auf einem Beispiel-Tag' } };
+  days[kGen] = { key: kGen, sample: true, regime: { trend: 'down', vol: 'high' }, checkIn: genCheckIn, rulesFollowed: ['r1'] };
+  const { Store } = makeStore({ version: 1, settings: { sampleInstalled: true, onboarded: true }, trades: [own], days, notes: [], rules: [{ id: 'r1', text: 'Nur mit vollständigem Plan handeln', active: true, sample: true }] }); Store.load();
+  assert.equal(Store.settings.sampleVersion, 2);
+  assert.ok(!Store.data.days['2026-02-02'], 'leerer v1-Beispiel-Tag gelöscht');
+  assert.equal(Store.data.days[kOwn].checkIn.note, 'EIGENER CHECK-IN auf einem Beispiel-Tag', 'eigener Check-in überlebt das Upgrade');
+  assert.ok(Store.data.days[kOwn].sample && Store.data.days[kOwn].regime && !Store.data.days[kOwn].sampleFields.checkIn, 'Tag trägt die neuen Beispiel-Felder, der Check-in gilt als eigen');
+  const gen = Store.data.days[kGen]; assert.ok(gen.sample && gen.sampleFields.regime, 'generiert aussehender v1-Tag wird durch v2 ersetzt');
+  assert.ok(gen.checkIn == null || gen.sampleFields.checkIn, 'v1-Check-in (8:00 Uhr, ohne Tagesziel) gilt als Beispiel und wird nicht als eigener übernommen');
+});
+
+test('Store: Schatten-Ich-Vorschlagsregeln – mit den Beispieldaten an (gemerkt, protokolliert), beim Entfernen wieder aus, außer das Regelwerk wurde geändert', async () => {
+  const on = S => Object.entries(S.shadowRules()).filter(([k, r]) => r.on).map(([k]) => k).sort();
+  const { Store } = makeStore(null); Store.load();
+  assert.deepEqual(on(Store), []);
+  await Store.installSample();
+  assert.deepEqual(on(Store), ['cooldown', 'lossStreak', 'maxTrades']); assert.equal(Store.settings.sampleShadowRules, true);
+  assert.ok(Store.data.logs.some(l => l.type === 'Schatten-Ich' && l.source === 'Beispieldaten' && /eingeschaltet/.test(l.action)));
+  await Store.removeSample();
+  assert.deepEqual(on(Store), [], 'wieder aus'); assert.equal(Store.settings.sampleShadowRules, undefined);
+  assert.ok(Store.data.logs.some(l => l.type === 'Schatten-Ich' && /ausgeschaltet/.test(l.action)));
+  /* Nutzer hatte schon eine Regel an: Beispieldaten ändern nichts, kein Flag */
+  const r = Sh.defaultRules(); r.hours.on = true; Store.setShadowRules(r);
+  await Store.installSample(); assert.deepEqual(on(Store), ['hours']); assert.equal(Store.settings.sampleShadowRules, undefined);
+  await Store.removeSample(); assert.deepEqual(on(Store), ['hours']);
+  /* Nutzer ändert das Regelwerk nach dem Laden: Entfernen lässt es stehen */
+  Store.setShadowRules(Sh.defaultRules()); await Store.installSample(); assert.equal(Store.settings.sampleShadowRules, true);
+  const r2 = Store.shadowRules(); r2.cooldown.on = false; r2.maxTrades.value = 5; Store.setShadowRules(r2);
+  await Store.removeSample(); assert.deepEqual(on(Store), ['lossStreak', 'maxTrades']); assert.equal(Store.shadowRules().maxTrades.value, 5); assert.equal(Store.settings.sampleShadowRules, undefined);
+  /* Upgrade in Store.load: Regeln gehen an und werden protokolliert (nicht stillschweigend) */
+  const { Store: S2 } = makeStore({ version: 1, settings: { sampleInstalled: true, onboarded: true }, trades: [], logs: [] }); S2.load();
+  assert.deepEqual(on(S2), ['cooldown', 'lossStreak', 'maxTrades']); assert.equal(S2.settings.sampleShadowRules, true); assert.ok(S2.data.logs.some(l => l.type === 'Schatten-Ich'));
 });

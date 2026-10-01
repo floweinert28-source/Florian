@@ -1,7 +1,7 @@
 /* Beispieldaten (deterministisch, markiert mit sample: true, jederzeit entfernbar)
-   Version 2: NQ/ES-Futures als häufigste Symbole, vier Prop-Konten (Topstep in der Challenge, Apex funded mit Payouts, FTMO geplatzt,
-   MyFundedFutures abgebrochen) mit Ausgaben, Payouts und Breach-Datensatz, Replay-Screenshots (Canvas, nur im Browser), zwei
-   Replay-Sessions und Sprachnotizen ohne Audio. Die Trade-Folge hängt nur vom Seed und vom Index des Handelstags ab, nicht vom
+   Version 2: NQ/ES-Futures als häufigste Symbole, vier Prop-Konten (Topstep in der Challenge, Apex funded mit Payouts, FTMO als
+   Forex/CFD-Konto mit DAX und EURUSD geplatzt, MyFundedFutures abgebrochen) mit Ausgaben, Payouts und Breach-Datensatz,
+   Replay-Screenshots (Canvas, nur im Browser), zwei Replay-Sessions und Sprachnotizen ohne Audio. Die Trade-Folge hängt nur vom Seed und vom Index des Handelstags ab, nicht vom
    Kalenderdatum, damit die Prop-Geschichte (Topstep ~40 % zum Ziel, Apex nie verletzt, FTMO am Daily Loss gerissen) an jedem Tag gleich bleibt.
    Größen sind auf ein 25.000er Konto ausgelegt (Risiko ~0,5–1,5 % je Trade, Tilt-Tage größer). */
 (function (root) {
@@ -9,12 +9,15 @@
   const C = root.Core || (typeof require === 'function' ? require('./core.js') : null);
   const PD = root.PropData || (typeof require === 'function' ? (require('./propdata.js').PropData || null) : null);
   const VERSION = 2;
-  const SEED = 232; /* per Seed-Suche gewählt: Topstep ~40 % zum Ziel, Apex ohne Verletzung mit > 6.000 beim Funded-Wechsel, FTMO am Breach-Tag gerissen */
+  const SEED = 19887; /* per Seed-Suche (scratchpad/seedsearch.js) gewählt: Topstep ~35 % zum Ziel, Apex ohne Verletzung mit > 6.000 beim Funded-Wechsel, FTMO am Breach-Tag im DAX gerissen, MNQ höchstens 5 Kontrakte */
   const DAYS = 88;
-  /* Fenster als Index der Handelstage (0 = ältester, 87 = heute): Topstep seit ~3 Wochen, Apex seit ~3 Monaten (funded seit ~6 Wochen), FTMO ~8 bis ~5 Wochen, Breach-Tag ~5 Wochen her */
-  const WIN = { topstep: [71, 87], apex: [22, 87], apexFunded: 58, ftmo: [45, 62], breach: 62 };
+  /* Fenster als Index der Handelstage (0 = ältester, 87 = heute): Topstep seit ~3 Wochen, Apex seit ~3 Monaten (funded seit ~6 Wochen), FTMO ~9 bis ~5 Wochen (Forex/CFD, Frühsession), Breach-Tag ~5 Wochen her */
+  const WIN = { topstep: [71, 87], apex: [12, 87], apexFunded: 58, ftmo: [40, 62], breach: 62 };
   const ACC = { topstep: 'smpa-topstep', apex: 'smpa-apex', ftmo: 'smpa-ftmo', mffu: 'smpa-mffu' };
   const TILT = di => di % 11 === 4;
+  const inWin = (di, w) => di >= w[0] && di <= w[1];
+  /* FTMO ist ein Forex/CFD-Konto: nur DAX, EURUSD und AAPL werden ihm zugeordnet, Futures laufen auf Topstep und Apex */
+  const FTMO_SYMS = new Set(['DAX', 'EURUSD', 'AAPL']);
   const pad2 = n => String(n).padStart(2, '0');
   const PRESET_FALLBACK = {
     'topstep-50k': { id: 'topstep-50k', firm: 'Topstep', name: '50K', market: 'futures', size: 50000, currency: 'USD', profitSplit: 0.9, rules: { dailyLoss: null, drawdown: { value: 2000, mode: 'abs', type: 'trailing_eod', lockAt: null, basis: 'eod' }, profitTarget: { value: 3000, mode: 'abs' }, minTradingDays: 2, maxContracts: 5, consistency: { maxDayPct: 50 } }, fees: { challenge: 49, reset: 49, activation: 149, monthly: 49, data: 0 }, payout: { minDays: 5, minProfit: null, minBalance: null } },
@@ -38,11 +41,11 @@
     const ACCOUNT = Number(opts.account) > 0 ? Number(opts.account) : 25000;
     const accountId = opts.accountId || 'main';
 
-    /* Instrumente: lo/hi = Kursband über die vier Monate, noise = Tagesrauschen, mult = Punktwert, stop = Stop-Abstand in Punkten (bias > 1 zieht zu engen Stops), maxQty = Kontrakte, qd = Dezimalstellen der Stückzahl (CFD/Forex/Aktien) */
+    /* Instrumente: lo/hi = Kursband über die vier Monate, noise = Tagesrauschen, mult = Punktwert, stop = Stop-Abstand in Punkten (bias > 1 zieht zu engen Stops), maxQty = Kontrakte (MNQ als Micro-Ausweichgröße bis 5), qd = Dezimalstellen der Stückzahl (CFD/Forex/Aktien) */
     const INSTR = {
       NQ: { s: 'NQ', lo: 19400, hi: 21500, noise: 230, tick: 0.25, dec: 2, mult: 20, stop: [8, 40], bias: 2.2, maxQty: 3, fut: true },
       ES: { s: 'ES', lo: 5300, hi: 5900, noise: 65, tick: 0.25, dec: 2, mult: 50, stop: [3, 12], bias: 1.5, maxQty: 3, fut: true },
-      MNQ: { s: 'MNQ', lo: 19400, hi: 21500, noise: 230, tick: 0.25, dec: 2, mult: 2, stop: [10, 40], bias: 1.2, maxQty: 12, fut: true },
+      MNQ: { s: 'MNQ', lo: 19400, hi: 21500, noise: 230, tick: 0.25, dec: 2, mult: 2, stop: [10, 40], bias: 1.2, maxQty: 5, fut: true },
       GC: { s: 'GC', lo: 2300, hi: 2450, noise: 18, tick: 0.1, dec: 1, mult: 100, stop: [2.5, 6], bias: 1.3, maxQty: 1, fut: true },
       CL: { s: 'CL', lo: 68, hi: 84, noise: 1.6, tick: 0.01, dec: 2, mult: 1000, stop: [0.25, 0.55], bias: 1.3, maxQty: 1, fut: true },
       AAPL: { s: 'AAPL', lo: 185, hi: 215, noise: 3, tick: 0.01, dec: 2, mult: 1, stop: [0.8, 2.2], bias: 1, qd: 0 },
@@ -106,23 +109,23 @@
       info.set(t.id, { di: o.di, win: o.win, rr: o.rr, exit, stopDist: o.stopDist });
       return t;
     }
-    /* Der Tag, an dem das FTMO-Konto platzt: vier NQ-Trades, der dritte reißt mit dreifacher Größe das Daily Loss Limit (5 % = 5.000) */
+    /* Der Tag, an dem das FTMO-Konto platzt (Forex/CFD, Frühsession): drei DAX-Trades, der dritte reißt mit dreifacher Größe das Daily Loss Limit (5 % = 5.000); danach ein später EURUSD-Versuch */
     function breachDay(day, di, cursor, entry) {
-      const ins = INSTR.NQ; const r = i => RULES[i].text;
+      const r = i => RULES[i].text;
       const plan = [
-        { dir: -1, stop: 20, qty: 2, rr: -1.0, mistakes: [], rules: [], emotions: ['Fokussiert'], setup: SETUPS[1], rating: 3, notes: 'Ausbruch nach unten, aber sofort zurück in die Range. Stop sauber genommen.', gap: 0, hold: 18 },
-        { dir: 1, stop: 25, qty: 3, rr: -1.25, mistakes: ['Revenge-Trade', 'Übergröße', 'Stop verschoben'], rules: [r(1), r(2)], emotions: ['Frustriert'], setup: SETUPS[3], rating: 1, notes: 'Wollte den ersten Verlust sofort zurückholen. Drei Kontrakte, Stop nach hinten gezogen.', gap: 6, hold: 34 },
-        { dir: -1, stop: 40, qty: 3, rr: -1.15, mistakes: ['Revenge-Trade', 'Übergröße', 'Stop verschoben'], rules: [r(1), r(2), r(3)], emotions: ['Ängstlich'], setup: SETUPS[1], rating: 1, notes: 'Tunnelblick. Dritter Verlust mit dreifacher Größe, damit war das FTMO-Konto weg.', gap: 4, hold: 41 },
-        { dir: 1, stop: 15, qty: 1, rr: 1.4, mistakes: ['Regel gebrochen'], rules: [r(3)], emotions: ['Unsicher'], setup: SETUPS[0], rating: 2, notes: 'Noch ein Versuch nach der Pause. Lief, aber das Konto war schon geplatzt.', gap: 55, hold: 22 },
+        { ins: INSTR.DAX, dir: -1, stop: 25, qty: 25, rr: -1.0, mistakes: [], rules: [], emotions: ['Fokussiert'], setup: SETUPS[1], rating: 3, notes: 'Ausbruch nach unten, aber sofort zurück in die Range. Stop sauber genommen.', gap: 0, hold: 18 },
+        { ins: INSTR.DAX, dir: 1, stop: 35, qty: 50, rr: -1.25, mistakes: ['Revenge-Trade', 'Übergröße', 'Stop verschoben'], rules: [r(1), r(2)], emotions: ['Frustriert'], setup: SETUPS[3], rating: 1, notes: 'Wollte den ersten Verlust sofort zurückholen. Doppelte Größe, Stop nach hinten gezogen.', gap: 6, hold: 34 },
+        { ins: INSTR.DAX, dir: -1, stop: 40, qty: 75, rr: -1.15, mistakes: ['Revenge-Trade', 'Übergröße', 'Stop verschoben'], rules: [r(1), r(2), r(3)], emotions: ['Ängstlich'], setup: SETUPS[1], rating: 1, notes: 'Tunnelblick. Dritter Verlust mit dreifacher Größe, damit war das FTMO-Konto weg.', gap: 4, hold: 41 },
+        { ins: INSTR.EURUSD, dir: 1, stop: 0.0015, qty: 2, rr: 1.4, mistakes: ['Regel gebrochen'], rules: [r(3)], emotions: ['Unsicher'], setup: SETUPS[0], rating: 2, notes: 'Noch ein Versuch nach der Pause. Lief, aber das Konto war schon geplatzt.', gap: 55, hold: 22 },
       ];
       let prevExit = cursor; const out = [];
       plan.forEach((p, i) => {
         const at = i ? new Date(prevExit.getTime() + p.gap * 60000) : cursor;
-        const t = build({ di, ins, dir: p.dir, cursor: at, stopDist: p.stop, qty: p.qty, rr: p.rr, win: p.rr > 0, mistakes: p.mistakes, rules: p.rules, emotions: p.emotions, setup: p.setup, reason: pick(REASONS), holding: p.hold, rating: p.rating, notes: p.notes, plannedEntry: priceAt(ins, di) });
+        const t = build({ di, ins: p.ins, dir: p.dir, cursor: at, stopDist: p.stop, qty: p.qty, rr: p.rr, win: p.rr > 0, mistakes: p.mistakes, rules: p.rules, emotions: p.emotions, setup: p.setup, reason: pick(REASONS), holding: p.hold, rating: p.rating, notes: p.notes, plannedEntry: priceAt(p.ins, di) });
         trades.push(t); out.push(t); prevExit = info.get(t.id).exit;
       });
       entry.rulesFollowed = RULES.filter(x => ![1, 2, 3].includes(RULES.indexOf(x))).map(x => x.id);
-      notes.push({ id: 'smpn' + entry.key, folderId: 'daily', type: 'day', dateKey: entry.key, title: dayTitle(day), tags: ['smpt-tilt', 'smpt-lehre', 'smpt-prop'], deletedAt: null, content: { ops: [{ insert: 'FTMO-Konto geplatzt' }, { attributes: { header: 2 }, insert: '\n' }, { insert: 'Erster Verlust war sauber. Danach wollte ich es zurückholen: drei Kontrakte statt einem, Stop zweimal verschoben, keine Pause. Der dritte Trade hat das Daily Loss Limit gerissen.\n' }, { insert: 'Lehre' }, { attributes: { header: 3 }, insert: '\n' }, { insert: 'Nach zwei Verlusten in Folge ist der Tag vorbei. Ohne Ausnahme.' }, { attributes: { list: 'bullet' }, insert: '\n' }, { insert: 'Größe nie nach einem Verlust erhöhen, erst recht nicht auf dem Prop-Konto.' }, { attributes: { list: 'bullet' }, insert: '\n' }] }, createdAt: evening(day).toISOString(), updatedAt: evening(day).toISOString(), sample: true });
+      notes.push({ id: 'smpn' + entry.key, folderId: 'daily', type: 'day', dateKey: entry.key, title: dayTitle(day), tags: ['smpt-tilt', 'smpt-lehre', 'smpt-prop'], deletedAt: null, content: { ops: [{ insert: 'FTMO-Konto geplatzt' }, { attributes: { header: 2 }, insert: '\n' }, { insert: 'Erster Verlust war sauber. Danach wollte ich es zurückholen: dreifache Größe im DAX, Stop zweimal verschoben, keine Pause. Der dritte Trade hat das Daily Loss Limit gerissen.\n' }, { insert: 'Lehre' }, { attributes: { header: 3 }, insert: '\n' }, { insert: 'Nach zwei Verlusten in Folge ist der Tag vorbei. Ohne Ausnahme.' }, { attributes: { list: 'bullet' }, insert: '\n' }, { insert: 'Größe nie nach einem Verlust erhöhen, erst recht nicht auf dem Prop-Konto.' }, { attributes: { list: 'bullet' }, insert: '\n' }] }, createdAt: evening(day).toISOString(), updatedAt: evening(day).toISOString(), sample: true });
       return out;
     }
 
@@ -133,7 +136,8 @@
       const tilt = TILT(di), breach = di === WIN.breach;
       const entry = { key, regime, sample: true };
       if (rand() < 0.82 || breach) { const bad = tilt || breach; const sleep = bad ? R(4.8, 6) : R(6, 8.6); entry.checkIn = { sleep: Math.round(sleep * 2) / 2, stress: bad ? RI(4, 5) : RI(1, 4), mood: bad ? RI(1, 3) : RI(2, 5), note: breach ? 'Kaum geschlafen, FTMO-Ziel sitzt im Nacken.' : tilt ? 'Schlecht geschlafen, unruhig.' : '', createdAt: new Date(day.getTime() + 8 * 3600000).toISOString() }; }
-      const session = breach ? 'us' : rand() < 0.78 ? 'us' : 'eu';
+      /* Im FTMO-Fenster (Forex/CFD-Challenge) überwiegt die Frühsession mit DAX und EURUSD, der Breach-Tag liegt ebenfalls dort */
+      const session = breach ? 'eu' : rand() < (inWin(di, WIN.ftmo) ? 0.5 : 0.78) ? 'us' : 'eu';
       const count = breach ? 4 : tilt ? RI(4, 5) : pick([0, 1, 1, 2, 2, 2, 3, 3, 3]);
       dayMap[key] = entry;
       if (!count) return;
@@ -186,9 +190,9 @@
     function evening(day) { return new Date(day.getTime() + 22 * 3600000); }
     function dayTitle(d) { const wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][d.getDay()]; const mo = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][d.getMonth()]; return `${wd}, ${d.getDate()}. ${mo} ${d.getFullYear()}`; }
 
-    /* Heute: nur Trades, die vor jetzt eröffnet wurden; dazu ein laufender NQ-Trade in der US-Session */
+    /* Heute: nur Trades, die vor jetzt eröffnet UND geschlossen wurden (ein geschlossener Trade mit Ausstieg in der Zukunft wäre im Journal sichtbar); dazu ein laufender NQ-Trade in der US-Session */
     const lastKey = C.dayKey(days[DAYS - 1]);
-    for (let i = trades.length - 1; i >= 0; i--) { const t = trades[i]; if (C.dayKey(new Date(t.openedAt)) === lastKey && new Date(t.openedAt) > NOW) { info.delete(t.id); trades.splice(i, 1); } }
+    for (let i = trades.length - 1; i >= 0; i--) { const t = trades[i]; if (C.dayKey(new Date(t.openedAt)) === lastKey && (new Date(t.openedAt) > NOW || new Date(t.closedAt) > NOW)) { info.delete(t.id); trades.splice(i, 1); } }
     const openPrice = priceAt(INSTR.NQ, DAYS - 1);
     let openTrade = null;
     if (NOW.getDay() !== 0 && NOW.getDay() !== 6 && NOW.getHours() >= 15 && NOW.getHours() < 22) {
@@ -198,12 +202,11 @@
     }
 
     /* ---------- Prop-Konten: Zuordnung nach Fenster (Topstep + Apex teilen sich jeden zweiten Trade der letzten drei Wochen = Copy-Trading) ---------- */
-    const inWin = (di, w) => di >= w[0] && di <= w[1];
     const NQES = new Set(['NQ', 'ES', 'MNQ']);
     let copyN = 0;
     for (const t of trades) {
       const m = info.get(t.id); if (!m) continue;
-      if (inWin(m.di, WIN.ftmo)) t.propAccountIds.push(ACC.ftmo);
+      if (inWin(m.di, WIN.ftmo) && FTMO_SYMS.has(t.symbol)) t.propAccountIds.push(ACC.ftmo);
       if (m.di === WIN.breach || !NQES.has(t.symbol)) continue;
       if (inWin(m.di, WIN.topstep) && t.quantity <= 5) { t.propAccountIds.push(ACC.topstep); if (copyN++ % 2 === 0) t.propAccountIds.push(ACC.apex); continue; }
       if (inWin(m.di, WIN.apex) && t.quantity <= 14) t.propAccountIds.push(ACC.apex);
@@ -215,7 +218,7 @@
     const propAccounts = [
       account(ACC.topstep, 'topstep-50k', { phase: 'challenge1', status: 'active', startedAt: iso(WIN.topstep[0]), createdAt: iso(WIN.topstep[0]), phases: [{ phase: 'challenge1', at: iso(WIN.topstep[0]) }], group: 'Copy NQ', note: 'Trading Combine, Ziel 3.000. Nur NQ und ES, max. 3 Kontrakte.' }),
       account(ACC.apex, 'apex-100k', { phase: 'funded', status: 'active', startedAt: iso(WIN.apex[0]), createdAt: iso(WIN.apex[0]), phases: [{ phase: 'challenge1', at: iso(WIN.apex[0]) }, { phase: 'funded', at: iso(WIN.apexFunded) }], group: 'Copy NQ', note: 'PA-Konto seit sechs Wochen. Payout alle zwei Wochen beantragen.' }),
-      account(ACC.ftmo, 'ftmo-100k', { phase: 'challenge1', status: 'breached', startedAt: iso(WIN.ftmo[0]), createdAt: iso(WIN.ftmo[0]), phases: [{ phase: 'challenge1', at: iso(WIN.ftmo[0]) }], breachedAt: breachTrade ? breachTrade.closedAt : iso(WIN.breach), note: 'Zweiter Versuch nach Reset. Am Daily Loss Limit gescheitert.' }),
+      account(ACC.ftmo, 'ftmo-100k', { phase: 'challenge1', status: 'breached', startedAt: iso(WIN.ftmo[0]), createdAt: iso(WIN.ftmo[0]), phases: [{ phase: 'challenge1', at: iso(WIN.ftmo[0]) }], breachedAt: breachTrade ? breachTrade.closedAt : iso(WIN.breach), note: 'Zweiter Versuch nach Reset, DAX und EURUSD in der Frühsession. Am Daily Loss Limit gescheitert.' }),
       account(ACC.mffu, 'mffu-50k', { phase: 'challenge1', status: 'archived', startedAt: iso(0), createdAt: iso(0), phases: [{ phase: 'challenge1', at: iso(0) }], note: 'Nach zwei Wochen abgebrochen: zu wenig Zeit neben dem Apex-Konto.' }),
     ];
     const expense = (id, accountId, type, amount, di, note) => ({ id, type, amount, date: dk(di), firm: propAccounts.find(a => a.id === accountId).firm, accountId, note, sample: true });
@@ -233,9 +236,9 @@
     const propPayouts = [payout('smpp1', 1500, WIN.apexFunded + 12, WIN.apexFunded + 14, 'received'), payout('smpp2', 2000, WIN.apexFunded + 21, WIN.apexFunded + 23, 'received'), payout('smpp3', 1200, DAYS - 2, null, 'requested')];
     const propBreaches = breachTrade ? [{ id: 'smpb1', accountId: ACC.ftmo, tradeId: breachTrade.id, rule: 'dailyLoss', at: breachTrade.closedAt, note: 'Daily Loss Limit (5 % = 5.000) am dritten Verlust des Tages gerissen: dreifache Größe, Stop zweimal verschoben.', auto: true, sample: true }] : [];
 
-    /* ---------- Blind-Replay: Screenshot vor Entry und „danach“ für jeden fünften geschlossenen Trade, zwei abgeschlossene Sessions ---------- */
+    /* ---------- Blind-Replay: Screenshot vor Entry und „danach“ für jeden fünften geschlossenen Trade (ohne heutige, damit die Anzahl nicht von der Uhrzeit abhängt), zwei abgeschlossene Sessions ---------- */
     const closed = trades.filter(t => t.closedAt);
-    const shotTrades = closed.filter((t, i) => i % 5 === 2);
+    const shotTrades = closed.filter(t => info.get(t.id).di < DAYS - 1).filter((t, i) => i % 5 === 2);
     const screenshots = [];
     const fmtTime = d => `${pad2(d.getDate())}.${pad2(d.getMonth() + 1)}.${d.getFullYear()}, ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
     shotTrades.forEach((t, i) => {

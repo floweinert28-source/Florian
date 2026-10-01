@@ -171,12 +171,14 @@
   App.readTradeForm = function (form) {
     const fd = new FormData(form); const num = k => { const v = fd.get(k); return v === '' || v == null ? null : Number(v); };
     const chips = kind => [...form.querySelectorAll(`[data-chips="${kind}"] [aria-pressed="true"]`)].map(b => b.dataset.value);
+    /* Prop-Konten: die Chips zeigen nur nicht archivierte Konten. Zuordnungen zu archivierten Konten (oder ohne Chip-Block) bleiben erhalten. */
+    const propWrap = form.querySelector('[data-chips="propAccountIds"]'); const prevProp = ((form.dataset.id && S.getTrade(form.dataset.id)) || {}).propAccountIds || []; const shownProp = propWrap ? [...propWrap.querySelectorAll('[data-value]')].map(b => b.dataset.value) : [];
     const opened = new Date(fd.get('openedAt')); const closedRaw = fd.get('closedAt'); const closed = closedRaw ? new Date(closedRaw) : null;
     return {
       symbol: String(fd.get('symbol') || '').trim().toUpperCase(), direction: Number(fd.get('direction')) === -1 ? -1 : 1, accountId: fd.get('accountId'), openedAt: isNaN(opened) ? new Date().toISOString() : opened.toISOString(), closedAt: closed && !isNaN(closed) ? closed.toISOString() : null,
       entryPrice: num('entryPrice'), exitPrice: num('exitPrice'), quantity: Math.abs(num('quantity') || 0), multiplier: num('multiplier') || 1, fees: Math.abs(num('fees') || 0),
       plannedEntry: num('plannedEntry'), plannedStop: num('plannedStop'), plannedTarget: num('plannedTarget'), plannedReason: String(fd.get('plannedReason') || ''), mae: num('mae'), mfe: num('mfe'),
-      setup: String(fd.get('setup') || '').trim(), rating: num('rating'), mistakes: chips('mistakes'), emotions: chips('emotions'), rulesBroken: chips('rulesBroken'), propAccountIds: chips('propAccountIds'), notes: String(fd.get('notes') || ''),
+      setup: String(fd.get('setup') || '').trim(), rating: num('rating'), mistakes: chips('mistakes'), emotions: chips('emotions'), rulesBroken: chips('rulesBroken'), propAccountIds: propWrap ? [...prevProp.filter(id => !shownProp.includes(id)), ...chips('propAccountIds')] : prevProp.slice(), notes: String(fd.get('notes') || ''),
     };
   };
   /* Vorschau des gerade bearbeiteten Trades. Geld-blind: P&L mit dem exakten R des derive-Ergebnisses (ohne Stop „– R“), Risiko = 1 R per Definition; das kleine R neben dem P&L entfällt dann, weil es doppelt wäre */

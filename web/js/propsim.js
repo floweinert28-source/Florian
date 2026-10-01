@@ -136,7 +136,7 @@
    * Presets: { id, firm, name, size, rules, fees: { challenge, reset, activation, monthly }, profitSplit, payout: { minDays, minProfit } }.
    * referenceSize > 0: Tagesbeträge werden auf die Kontogröße des Presets skaliert (sizeFactor × size / referenceSize). Sortierung: pass absteigend, dann Challenge-Gebühr aufsteigend. */
   function matchFirms(dayPnLs, presets, opts = {}) {
-    const src = source(dayPnLs); const days = (src.days || []).map(v => num(v)); const st = dayStats(days); const fmt = opts.fmtMoney || fmtDefault;
+    const src = source(dayPnLs); const days = (src.days || []).map(v => num(v)); const st = dayStats(days); const fmt = typeof opts.fmtMoney === 'function' ? opts.fmtMoney : fmtDefault; /* über postMessage geklonte Werte sind keine Funktionen */
     const ref = num(opts.referenceSize); const baseFactor = factorOf(opts.sizeFactor);
     const rows = (presets || []).filter(Boolean).map(p => {
       const size = num(p.size); const sizeFactor = ref > 0 && size > 0 ? baseFactor * size / ref : baseFactor;

@@ -270,7 +270,7 @@ test('payoutPlan: fehlende Tage und Gewinn, Vorschlag unter der Consistency-Gren
 test('balanceSheet: Summen, ROI, je Firma, Kosten je bestandenes Konto, Serie', () => {
   const expenses = [{ id: 'e1', type: 'fee', amount: 150, date: '2026-01-05', firm: 'Topstep' }, { id: 'e2', type: 'reset', amount: -100, date: '2026-02-01', accountId: 'b' }, { id: 'e3', type: 'fee', amount: 50, date: '2026-01-05', firm: 'Topstep' }];
   const payouts = [{ id: 'p1', firm: 'Topstep', gross: 1000, split: 90, requestedAt: '2026-02-10', receivedAt: '2026-02-15', status: 'paid' }, { id: 'p2', accountId: 'c', gross: 500, net: 400, requestedAt: '2026-03-01', status: 'pending' }, { id: 'p3', firm: 'Apex', gross: 9999, status: 'rejected' }];
-  const accounts = [{ id: 'a', firm: 'Topstep', status: 'passed' }, { id: 'b', firm: 'Apex', status: 'breached' }, { id: 'c', firm: 'Apex', status: 'funded' }, { id: 'd', firm: 'Apex', status: 'active' }];
+  const accounts = [{ id: 'a', firm: 'Topstep', status: 'passed' }, { id: 'b', firm: 'Apex', status: 'breached' }, { id: 'c', firm: 'Apex', phase: 'funded', status: 'active' }, { id: 'd', firm: 'Apex', status: 'active' }];
   const bs = P.balanceSheet(expenses, payouts, accounts);
   assert.equal(bs.spent, 300); assert.equal(bs.received, 1300); assert.equal(bs.pending, 400); assert.equal(bs.net, 1000); near(bs.roi, 1000 / 300); assert.equal(bs.toBreakEven, 0);
   assert.equal(bs.costPerPassed, 150); near(bs.passRate, 2 / 3);

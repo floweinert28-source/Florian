@@ -58,9 +58,11 @@
     return `${p.year}-${pad2(p.month)}-${pad2(p.day)}`;
   }
 
+  const DD_LABEL = { static: 'statisch', trailing_intraday: 'trailing intraday', trailing_eod: 'trailing Tagesende', trailing_lock: 'trailing + Lock' };
+
   /* ---------- Limits ---------- */
   /* Absolutes Limit einer Regel: 'pct' → Prozent der Startbalance (5 → 5 %), 'abs' → Wert wie angegeben. null ohne Regel. */
-  function limitOf(rule, startBalance) { if (!rule || rule.value == null || rule.value === '') return null; const v = Math.abs(num(rule.value)); return rule.mode === 'pct' ? num(startBalance) * v / 100 : v; }
+  function limitOf(rule, startBalance) { if (!rule || rule.value == null || rule.value === '') return null; const v = Math.abs(num(rule.value)); if (!(v > 0)) return null; /* 0 = keine Regel */ return rule.mode === 'pct' ? num(startBalance) * v / 100 : v; }
 
   /* ---------- Consistency Rule ---------- */
   /* Bester Tag darf höchstens maxDayPct % des Gesamtgewinns (total = Balance − Startbalance) ausmachen. Ohne Gewinn (total ≤ 0) ist die Regel nicht anwendbar → ok, bestDayPct null.
@@ -119,12 +121,12 @@
       maxUsed = Math.max(maxUsed, qty);
       if (maxC != null && qty > maxC + 1e-9) { contractsN++; breaches.push({ rule: 'maxContracts', at, tradeId: t.id, balance, detail: `${qty} Kontrakte/Lots gehandelt, erlaubt sind ${maxC}` }); }
       /* Daily Loss: Verlust ab Tagesbeginn-Balance (erst +500, dann −1400 → Tagesverlust 900). basis 'equity' rechnet identisch, da keine offenen P&L bekannt sind. */
-      if (dl && !first.dailyLoss) { const loss = cur.startBalance - balance; if (loss >= dlLimit - EPS) { first.dailyLoss = true; breaches.push({ rule: 'dailyLoss', at, tradeId: t.id, balance, detail: `Tagesverlust ${round2(loss)} erreicht das Limit ${round2(dlLimit)} (Handelstag ${k})` }); } }
+      if (dl && !first.dailyLoss) { const loss = cur.startBalance - balance; if (loss >= dlLimit - EPS) { first.dailyLoss = true; breaches.push({ rule: 'dailyLoss', at, tradeId: t.id, balance, loss: round2(loss), limit: round2(dlLimit), dayKey: k, detail: `Tagesverlust ${round2(loss)} erreicht das Limit ${round2(dlLimit)} (Handelstag ${k})` }); } }
       /* Drawdown: Peak je nach Variante nach jedem Trade (intraday) oder erst am Tagesende (eod); Breach, wenn Balance ≤ Boden */
       if (dd) {
         if (ddType !== 'static' && !usesEod) peak = Math.max(peak, balance);
         raise();
-        if (!first.drawdown && balance <= floor + EPS) { first.drawdown = true; breaches.push({ rule: 'drawdown', at, tradeId: t.id, balance, detail: `Balance ${round2(balance)} unter dem Drawdown-Boden ${round2(floor)} (${ddType})` }); }
+        if (!first.drawdown && balance <= floor + EPS) { first.drawdown = true; breaches.push({ rule: 'drawdown', at, tradeId: t.id, balance, floor: round2(floor), type: ddType, detail: `Balance ${round2(balance)} unter dem Drawdown-Boden ${round2(floor)} (${DD_LABEL[ddType] || ddType})` }); }
       }
     }
     const todayKey = keyOf(now);
@@ -235,12 +237,14 @@
     for (const e of ex) { const f = firms.get(e.firm) || { firm: e.firm, spent: 0, received: 0 }; f.spent += e.amount; firms.set(e.firm, f); }
     for (const p of po) { const f = firms.get(p.firm) || { firm: p.firm, spent: 0, received: 0 }; f.received += p.amount; firms.set(p.firm, f); }
     const byFirm = [...firms.values()].map(f => Object.assign(f, { net: f.received - f.spent, roi: f.spent > 0 ? (f.received - f.spent) / f.spent : null })).sort((a, b) => a.firm < b.firm ? -1 : a.firm > b.firm ? 1 : 0);
-    const st = s => accs.filter(a => a && a.status === s).length; const good = st('passed') + st('funded'), bad = st('breached');
+    /* Funded ist eine Phase, kein Status: ein Funded-Konto zählt als bestanden, solange es nicht geplatzt ist */
+    const st = s => accs.filter(a => a && a.status === s).length; const isFunded = a => a && a.phase === 'funded' && a.status !== 'breached';
+    const good = accs.filter(a => a && (a.status === 'passed' || isFunded(a))).length, bad = st('breached');
     const costPerPassed = good > 0 ? spent / good : null; const passRate = good + bad > 0 ? good / (good + bad) : null;
     /* Serie: alle Ausgaben und Payouts (Payout-Datum = receivedAt, sonst requestedAt) chronologisch, ein Punkt je Ereignis; Einträge ohne Datum fehlen in der Serie, zählen aber in den Summen */
     const events = [...ex, ...po].filter(e => e.date).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : a.kind === b.kind ? a.i - b.i : a.kind === 'expense' ? -1 : 1);
     let sc = 0, rc = 0; const series = events.map(e => { if (e.kind === 'expense') sc += e.amount; else rc += e.amount; return { date: e.date, spentCum: sc, receivedCum: rc, kind: e.kind, amount: e.amount, firm: e.firm }; });
-    return { spent, received, pending, net, roi, byFirm, costPerPassed, passRate, toBreakEven: Math.max(0, spent - received), series, accounts: { passed: st('passed'), funded: st('funded'), breached: st('breached'), active: st('active') } };
+    return { spent, received, pending, net, roi, byFirm, costPerPassed, passRate, toBreakEven: Math.max(0, spent - received), series, accounts: { passed: st('passed'), funded: accs.filter(isFunded).length, breached: st('breached'), active: st('active') } };
   }
 
   return { dayKey, parseResetTime, systemTz, limitOf, consistency: consistencyOf, evaluate, stopSize, positionSize, payoutPlan, balanceSheet };

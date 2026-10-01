@@ -99,7 +99,7 @@
       if (v == null || isNaN(v)) return '—';
       if (blind.on && !o.money) return fmt.blindR(v, o);
       const a = Math.abs(v); const d = o.compact ? 0 : (a >= 10000 ? 0 : 2);
-      let s; try { s = new Intl.NumberFormat('de-DE', { style: 'currency', currency, minimumFractionDigits: d, maximumFractionDigits: d }).format(a); } catch (e) { s = a.toFixed(d) + ' ' + currency; }
+      const cc = o.currency || currency; let s; try { s = new Intl.NumberFormat('de-DE', { style: 'currency', currency: cc, minimumFractionDigits: d, maximumFractionDigits: d }).format(a); } catch (e) { s = a.toFixed(d) + ' ' + cc; }
       return (v < -C.EPS ? '−' : (o.signed && v > C.EPS ? '+' : '')) + s;
     },
     pct(f, d = 0, signed = false) { if (f == null || isNaN(f)) return '—'; const s = new Intl.NumberFormat('de-DE', { style: 'percent', maximumFractionDigits: d, minimumFractionDigits: d }).format(Math.abs(f)); return (f < 0 ? '−' : signed && f > 0 ? '+' : '') + s; },

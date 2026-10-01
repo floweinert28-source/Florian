@@ -1820,3 +1820,60 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
   .prop-cmp th .long { display: none; }
   .prop-cmp th .short { display: inline; }
 }
+
+/* ============================================================
+   Prop Firms · Simulation: Bereichs-Umschalter, Datengrundlage, Ergebnisraster, Rechnet-Platzhalter, Matcher-Tabelle (Klassen mit Präfix prop-sim-)
+   ============================================================ */
+.prop-sim-areas .seg { gap: 8px; }
+.prop-sim-params { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 16px; align-items: end; }
+.prop-sim-params .seg.pill { flex-wrap: nowrap; }
+.prop-sim-params .seg.pill button { flex: 1 1 auto; text-align: center; }
+.prop-sim-sample { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; font-size: 13px; color: var(--muted); }
+.prop-sim-sample b { color: var(--text); font-weight: 600; }
+.prop-sim-sample span + span::before { content: '·'; margin-right: 10px; color: var(--faint); }
+.prop-sim-sample + .banner { margin-top: 12px; }
+.prop-sim-run { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-start; }
+.prop-sim-run .field { flex: 1 1 280px; max-width: 560px; }
+.prop-sim-run .field .hint { display: block; min-height: 18px; }
+.prop-sim-run .btn { flex: 0 0 auto; margin-top: 22px; }
+.prop-sim-idle, .prop-sim-busy, .prop-sim-result, .prop-sim-table { margin-top: 16px; }
+.prop-sim-result { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px 28px; }
+.prop-sim-result > div { min-width: 0; }
+.prop-sim-big .big { font-family: var(--font-display); font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin: 4px 0 6px; }
+.prop-sim-big .big .pos, .prop-sim-big .big .neg, .prop-sim-big .big .neu { font-weight: 700; }
+.prop-sim-fail .caption { margin-bottom: 4px; }
+.prop-sim-fail .bar-row { padding: 6px 0; }
+.prop-sim-fail .bar-row .bl span { color: var(--text-2); }
+.prop-sim-kv .kv { padding: 7px 0; flex-wrap: nowrap; align-items: baseline; }
+.prop-sim-kv .kv span { flex: 1 1 auto; min-width: 0; }
+.prop-sim-kv .kv b { flex: 0 0 auto; text-align: right; white-space: nowrap; }
+.prop-sim-kv .caption { padding-bottom: 4px; }
+.prop-sim-be .val { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 4px 0 6px; }
+.prop-sim-be .small { color: var(--text-2); line-height: 1.5; }
+.prop-sim-note { margin-top: 14px; line-height: 1.5; }
+.prop-sim-busy { display: flex; flex-direction: column; gap: 10px; }
+.prop-sim-busy .skel { height: 16px; width: 70%; }
+.prop-sim-busy .skel.tall { height: 46px; width: 38%; }
+.prop-sim-busy .skel.short { width: 50%; }
+.prop-sim-mini { display: inline-flex; align-items: center; gap: 10px; }
+.prop-sim-mini .track { display: inline-block; width: 80px; height: 7px; border-radius: 4px; background: var(--surface-3); overflow: hidden; flex: 0 0 auto; }
+.prop-sim-mini .track i { display: block; height: 100%; border-radius: 4px; }
+/* Mindestbreite der Begründung so, dass die sieben Spalten bei 1440 px auch mit Ersatzschrift (ohne Inter) ohne Scrollen passen */
+.prop-sim-match td.reason { white-space: normal; min-width: 200px; max-width: 440px; font-size: 12.5px; color: var(--text-2); line-height: 1.45; }
+.prop-sim-match td .sub { margin-top: 5px; }
+@media (max-width: 960px) {
+  .prop-sim-big .big { font-size: 38px; }
+  .prop-sim-be .val { font-size: 24px; }
+}
+@media (max-width: 560px) {
+  .prop-sim-sample { flex-direction: column; gap: 4px; }
+  .prop-sim-sample span + span::before { content: none; }
+  .prop-sim-areas .seg { width: 100%; }
+  .prop-sim-areas .seg button { flex: 1 1 auto; }
+  .prop-sim-run .field { max-width: none; }
+  .prop-sim-run .btn { width: 100%; justify-content: center; margin-top: 0; }
+  .prop-sim-result { grid-template-columns: 1fr; gap: 14px; }
+  .prop-sim-busy .skel.tall { width: 60%; }
+}
+.prop-sim-run + .banner { margin-top: 14px; }
+.prop-sim-fees .prop-sim-curnote { margin-top: 8px; line-height: 1.45; }

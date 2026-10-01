@@ -83,6 +83,16 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   optional, dann „Nehmen“ oder „Skippen“ mit Sicherheit 1–3, Auflösung mit Ergebnis in R. Richtig heißt Gewinner
   genommen oder Verlierer geskippt. Karteikasten mit drei Fächern (`js/replay.js`): falsch eingeschätzte Trades
   kommen öfter wieder. Trefferquote gesamt, je Setup, je Sicherheit und im Verlauf.
+- **Prop Firms** (eigener Bereich): Firmen-Presets (Beispiele sind als unverifiziert markiert, eigene Firmen mit
+  eigenen Regeln möglich), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
+  lassen sich einem oder mehreren Prop-Konten zuordnen (Copy-Trading). Regel-Engine in `js/prop.js`: Daily Loss
+  (Betrag oder %, Reset-Uhrzeit und Zeitzone), Max Drawdown statisch, intraday trailing, Tagesende-trailing und
+  trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer
+  und Ampel. Cockpit mit allen Konten, echte Prop-Bilanz (Ausgaben gegen Payouts, ROI, Kosten pro bestandenem Konto,
+  Bestehensquote), Puffer in Stop-Losses, Positionsgrößenrechner mit editierbaren Instrument-Spezifikationen,
+  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse, Challenge vs. Funded, Monte-Carlo-Simulation
+  der Bestehens-Wahrscheinlichkeit im Web Worker (`js/propworker.js`, Rechenkern `js/propsim.js`), Firmen-Matcher und
+  Erwartungswert der Challenge. Tests: `web/tests/prop.test.mjs`, `web/tests/propsim.test.mjs`.
 
 ## Aufbau
 

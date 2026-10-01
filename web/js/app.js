@@ -8,7 +8,7 @@
     ['dashboard', 'Dashboard', 'dashboard'], ['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['stats', 'Statistiken', 'stats'],
     ['notebook', 'Notebook', 'journal'], ['progress', 'Fortschritt', 'progress'], ['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'],
   ];
-  const NAV3 = [['ruhepunkt', 'Ruhepunkt', 'calm'], ['mentor', 'Mentor', 'chat']];
+  const NAV3 = [['prop', 'Prop Firms', 'prop'], ['ruhepunkt', 'Ruhepunkt', 'calm'], ['mentor', 'Mentor', 'chat']];
   const NAV2 = [['settings', 'Einstellungen', 'settings']];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };

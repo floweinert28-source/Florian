@@ -78,7 +78,7 @@
       migrateNotes(this.data); migrateDashboards(this.data);
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       /* Beispieldaten-Upgrade: ältere Installationen bekommen die neuen Beispieldaten (Prop-Konten, Replay, Sprachnotizen); eigene Daten bleiben */
-      if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleVersion) || 0) < (root.Sample.VERSION || 1)) this.installSample();
+      if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleVersion) || 0) < (root.Sample.VERSION || 1)) { try { this.installSample(); } catch (e) { console.warn('Beispieldaten-Upgrade fehlgeschlagen', e); this.data.settings.sampleVersion = root.Sample.VERSION || 1; } }
       return this;
     },
     save() {

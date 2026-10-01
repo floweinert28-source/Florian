@@ -31,7 +31,7 @@ test('generate: deterministisch, alles mit sample: true, Trades in plausibler Za
   for (const list of [g.trades, g.notes, g.missed, g.strategies, g.rules, g.folders, g.noteTags, g.propAccounts, g.propExpenses, g.propPayouts, g.propBreaches, g.replay]) for (const x of list) assert.equal(x.sample, true);
   for (const d of Object.values(g.days)) assert.equal(d.sample, true);
   for (const t of g.trades) { assert.ok(t.id && t.symbol && t.openedAt && t.entryPrice > 0 && t.quantity > 0 && t.multiplier > 0); assert.ok(Array.isArray(t.propAccountIds) && Array.isArray(t.screenshots) && Array.isArray(t.voiceNotes)); }
-  assert.equal(Sample.VERSION, 2);
+  assert.equal(Sample.VERSION, 3);
 });
 
 test('Instrumente: NQ am häufigsten, dann ES; Futures mit Punktwert und ganzen Kontrakten 1–3 (NQ/ES, MNQ höchstens 5), Stops 8–40 Punkte bei NQ', () => {
@@ -191,11 +191,11 @@ function makeStore(saved) {
 }
 const own = { id: 'own1', accountId: 'main', symbol: 'DAX', direction: 1, openedAt: '2026-01-05T09:00:00.000Z', closedAt: '2026-01-05T10:00:00.000Z', entryPrice: 18000, exitPrice: 18020, quantity: 1, multiplier: 1, fees: 1, screenshots: [], voiceNotes: [], propAccountIds: [Sample.ACC.apex, 'eigen'] };
 
-test('Store.installSample: füllt Trades, Tage, Prop-Konten, Ausgaben, Payouts, Breaches, Replay-Verlauf; setzt sampleVersion 2; gibt Promise zurück', async () => {
+test('Store.installSample: füllt Trades, Tage, Prop-Konten, Ausgaben, Payouts, Breaches, Replay-Verlauf; setzt sampleVersion 3; gibt Promise zurück', async () => {
   const { Store } = makeStore(null); Store.load();
   const p = Store.installSample(); assert.ok(p && typeof p.then === 'function'); assert.equal(await p, 0, 'in Node keine Bilder');
   assert.ok(Store.trades().length >= 150); assert.equal(Store.propAccounts().length, 4); assert.equal(Store.propExpenses().length, 8); assert.equal(Store.propPayouts().length, 3); assert.equal(Store.propBreaches().length, 1); assert.equal(Store.replayHistory().length, 20);
-  assert.equal(Store.settings.sampleInstalled, true); assert.equal(Store.settings.sampleVersion, 2);
+  assert.equal(Store.settings.sampleInstalled, true); assert.equal(Store.settings.sampleVersion, 3);
   assert.ok(Store.data.rules.length === 5 && Store.data.missed.length === 6 && Store.data.strategies.length === 2);
   assert.ok(Store.tradesForPropAccount(Sample.ACC.topstep).length >= 18);
   const again = Store.installSample(); await again; assert.equal(Store.propAccounts().length, 4, 'erneutes Laden ersetzt statt zu verdoppeln'); assert.equal(Store.replayHistory().length, 20);
@@ -218,7 +218,7 @@ test('Store.load: alte Installation (sampleInstalled, sampleVersion fehlt) bekom
   const oldSample = { id: 'smpold', accountId: 'main', symbol: 'DAX', direction: 1, openedAt: '2026-02-02T09:00:00.000Z', closedAt: '2026-02-02T10:00:00.000Z', entryPrice: 18000, exitPrice: 18010, quantity: 1, multiplier: 1, fees: 1, sample: true, screenshots: [], voiceNotes: [] };
   const saved = { version: 1, settings: { sampleInstalled: true, onboarded: true }, trades: [oldSample, own], days: { '2026-02-02': { key: '2026-02-02', sample: true } }, notes: [], rules: [{ id: 'r9', text: 'Eigene Regel', active: true }], replay: { history: [] } };
   const { Store, mem } = makeStore(saved); Store.load();
-  assert.equal(Store.settings.sampleVersion, 2); assert.equal(Store.settings.sampleInstalled, true);
+  assert.equal(Store.settings.sampleVersion, 3); assert.equal(Store.settings.sampleInstalled, true);
   assert.ok(!Store.trades().some(t => t.id === 'smpold')); assert.ok(Store.trades().some(t => t.id === 'own1'));
   assert.ok(Store.trades().filter(t => t.symbol === 'NQ' && t.sample).length > 30); assert.equal(Store.propAccounts().length, 4);
   assert.ok(Store.data.rules.some(r => r.text === 'Eigene Regel') && Store.data.rules.length === 6);
@@ -227,7 +227,7 @@ test('Store.load: alte Installation (sampleInstalled, sampleVersion fehlt) bekom
   const { Store: S2 } = makeStore({ version: 1, settings: { sampleInstalled: false, onboarded: true }, trades: [own] }); S2.load();
   assert.equal(S2.trades().length, 1); assert.equal(S2.propAccounts().length, 0);
   /* Aktuelle Version wird nicht erneut installiert (Verlauf bleibt unverändert) */
-  const { Store: S3 } = makeStore({ version: 1, settings: { sampleInstalled: true, sampleVersion: 2, onboarded: true }, trades: [own], logs: [] }); S3.load();
+  const { Store: S3 } = makeStore({ version: 1, settings: { sampleInstalled: true, sampleVersion: 3, onboarded: true }, trades: [own], logs: [] }); S3.load();
   assert.equal(S3.trades().length, 1); assert.equal((S3.data.logs || []).length, 0);
   void mem;
 });
@@ -263,7 +263,7 @@ test('Store.load (Upgrade v1 → v2): eigener Check-in auf einem alten Beispiel-
   days[kOwn] = { key: kOwn, sample: true, regime: { trend: 'up', vol: 'low' }, checkIn: { sleep: 8, stress: 1, mood: 5, note: 'EIGENER CHECK-IN auf einem Beispiel-Tag' } };
   days[kGen] = { key: kGen, sample: true, regime: { trend: 'down', vol: 'high' }, checkIn: genCheckIn, rulesFollowed: ['r1'] };
   const { Store } = makeStore({ version: 1, settings: { sampleInstalled: true, onboarded: true }, trades: [own], days, notes: [], rules: [{ id: 'r1', text: 'Nur mit vollständigem Plan handeln', active: true, sample: true }] }); Store.load();
-  assert.equal(Store.settings.sampleVersion, 2);
+  assert.equal(Store.settings.sampleVersion, 3);
   assert.ok(!Store.data.days['2026-02-02'], 'leerer v1-Beispiel-Tag gelöscht');
   assert.equal(Store.data.days[kOwn].checkIn.note, 'EIGENER CHECK-IN auf einem Beispiel-Tag', 'eigener Check-in überlebt das Upgrade');
   assert.ok(Store.data.days[kOwn].sample && Store.data.days[kOwn].regime && !Store.data.days[kOwn].sampleFields.checkIn, 'Tag trägt die neuen Beispiel-Felder, der Check-in gilt als eigen');

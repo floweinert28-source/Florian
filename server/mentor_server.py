@@ -10,11 +10,15 @@ Umgebung: siehe server/README.md
 
 from __future__ import annotations
 
+import base64
+import json
 import logging
 import os
 import re
 import sqlite3
 import threading
+import urllib.request
+import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Callable
@@ -37,6 +41,32 @@ APP_TOKEN = os.environ.get("MENTOR_APP_TOKEN", "")
 TZ = ZoneInfo(os.environ.get("MENTOR_TZ", "Europe/Berlin"))
 ORIGINS = [o.strip() for o in os.environ.get("MENTOR_ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 APP_NAME_DEFAULT = "Journalyst"
+# Sprachjournal: Auswertung über dasselbe Modell, eigenes Tageslimit; Transkription optional über einen
+# OpenAI-kompatiblen Speech-to-Text-Endpunkt (nur wenn der Browser kein Transkript liefern konnte)
+VOICE_LIMIT = int(os.environ.get("VOICE_DAILY_LIMIT", "30"))
+VOICE_MAX_TOKENS = int(os.environ.get("VOICE_MAX_TOKENS", "600"))
+STT_URL = os.environ.get("VOICE_STT_URL", "")
+STT_KEY = os.environ.get("VOICE_STT_KEY", "")
+STT_MODEL = os.environ.get("VOICE_STT_MODEL", "whisper-1")
+EMOTIONS = ["ruhig", "fokussiert", "zuversichtlich", "unsicher", "ängstlich", "gierig", "euphorisch", "frustriert", "wütend", "müde", "gelangweilt", "neutral"]
+VOICE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "emotion": {"type": "string", "enum": EMOTIONS},
+        "setup": {"type": "string"},
+        "mistakes": {"type": "array", "items": {"type": "string"}},
+        "summary": {"type": "string"},
+    },
+    "required": ["emotion", "setup", "mistakes", "summary"],
+    "additionalProperties": False,
+}
+VOICE_SYSTEM = (
+    "Du wertest eine kurze gesprochene Trading-Notiz aus einem Trading-Journal aus. Antworte nur mit dem geforderten JSON.\n"
+    "Regeln: emotion ist genau ein Wert aus der festen Liste (die dominierende Gefühlslage; 'neutral', wenn unklar). "
+    "setup ist genau einer der erlaubten Setup-Namen des Nutzers oder ein leerer String, wenn keiner passt. "
+    "mistakes enthält nur Namen aus der Liste der erlaubten Fehler-Tags des Nutzers, die der Text klar belegt (leer, wenn keiner). "
+    "summary ist eine Zusammenfassung in höchstens zwei kurzen deutschen Sätzen in der Du-Form, ohne Bewertung, ohne Ratschläge."
+)
 PLACEHOLDER = re.compile(r"\{\{(APP_NAME|NUTZERNAME|GLAUBENSMODUS|JOURNAL_KONTEXT)\}\}")
 
 
@@ -128,6 +158,20 @@ class ChatStore:
             )
             return int(cur.lastrowid)
 
+    def reserve_usage(self, user: str, at: datetime, limit: int) -> bool:
+        """Zählt nur im Tageszähler (ohne Nachricht), z. B. für das Sprachjournal. False, wenn das Limit erreicht ist."""
+        day = self.day_of(at)
+        with self.lock, self._conn() as c:
+            row = c.execute("SELECT n FROM usage WHERE user_id = ? AND day = ?", (user, day)).fetchone()
+            if (int(row[0]) if row else 0) >= limit:
+                return False
+            c.execute("INSERT INTO usage (user_id, day, n) VALUES (?, ?, 1) ON CONFLICT(user_id, day) DO UPDATE SET n = n + 1", (user, day))
+            return True
+
+    def release_usage(self, user: str, at: datetime) -> None:
+        with self.lock, self._conn() as c:
+            c.execute("UPDATE usage SET n = MAX(n - 1, 0) WHERE user_id = ? AND day = ?", (user, self.day_of(at)))
+
     def release(self, user: str, message_id: int, at: datetime) -> None:
         """Nimmt eine Reservierung zurück, wenn das Modell nicht geantwortet hat."""
         day = self.day_of(at)
@@ -174,12 +218,85 @@ def make_anthropic_ask() -> Callable[[str, list[dict]], str]:
     return ask
 
 
+def make_anthropic_ask_json(schema: dict, max_tokens: int) -> Callable[[str, str], dict]:
+    """Modellanfrage mit erzwungenem JSON (output_config.format); liefert das geparste Objekt."""
+    client = None
+
+    def ask_json(system: str, user_text: str) -> dict:
+        nonlocal client
+        if client is None:
+            import anthropic
+
+            client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model=MODEL,
+            max_tokens=max_tokens,
+            system=system,
+            messages=[{"role": "user", "content": user_text}],
+            output_config={"format": {"type": "json_schema", "schema": schema}},
+        )
+        text = next((part.text for part in resp.content if getattr(part, "type", "") == "text"), "")
+        return json.loads(text)
+
+    return ask_json
+
+
+def transcribe_remote(audio_b64: str, mime: str, language: str) -> str:
+    """Transkription über einen OpenAI-kompatiblen Endpunkt (multipart/form-data, Feld 'file')."""
+    if not STT_URL:
+        raise RuntimeError("keine Transkription eingerichtet")
+    data = base64.b64decode(audio_b64)
+    ext = "mp4" if "mp4" in mime or "m4a" in mime or "aac" in mime else "ogg" if "ogg" in mime else "wav" if "wav" in mime else "webm"
+    boundary = "----journalyst" + uuid.uuid4().hex
+    parts = []
+    for name, value in (("model", STT_MODEL), ("language", language or "de"), ("response_format", "json")):
+        parts.append(f"--{boundary}\r\nContent-Disposition: form-data; name=\"{name}\"\r\n\r\n{value}\r\n".encode())
+    parts.append(f"--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"aufnahme.{ext}\"\r\nContent-Type: {mime or 'application/octet-stream'}\r\n\r\n".encode() + data + b"\r\n")
+    parts.append(f"--{boundary}--\r\n".encode())
+    body = b"".join(parts)
+    headers = {"Content-Type": f"multipart/form-data; boundary={boundary}"}
+    if STT_KEY:
+        headers["Authorization"] = f"Bearer {STT_KEY}"
+    req = urllib.request.Request(STT_URL, data=body, headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=60) as resp:  # noqa: S310 - Ziel kommt aus der Server-Konfiguration
+        payload = json.loads(resp.read().decode("utf-8"))
+    return str(payload.get("text", "")).strip()
+
+
+def clean_voice_result(raw: dict, setups: list[str], mistakes: list[str]) -> dict:
+    """Hält die Vorschläge innerhalb der erlaubten Listen; unbekannte Werte fallen weg."""
+    emotion = str(raw.get("emotion", "")).strip().lower()
+    if emotion not in EMOTIONS:
+        emotion = "neutral"
+    by_lower = {s.strip().lower(): s for s in setups if s and s.strip()}
+    setup = by_lower.get(str(raw.get("setup", "")).strip().lower(), "")
+    allowed = {m.strip().lower(): m for m in mistakes if m and m.strip()}
+    found: list[str] = []
+    for m in raw.get("mistakes", []) or []:
+        key = str(m).strip().lower()
+        if key in allowed and allowed[key] not in found:
+            found.append(allowed[key])
+    summary = " ".join(str(raw.get("summary", "")).split())[:400]
+    return {"emotion": emotion, "setup": setup, "mistakes": found, "summary": summary}
+
+
 # ---------------------------------------------------------------- API
 class ChatContext(BaseModel):
     app_name: str = Field(APP_NAME_DEFAULT, max_length=60)
     user_name: str = Field("", max_length=80)
     glaubensmodus: bool = True
     journal: str = Field("", max_length=8000)
+
+
+class VoiceIn(BaseModel):
+    user: str = Field(..., min_length=1, max_length=80)
+    transcript: str = Field("", max_length=4000)
+    audio: str = Field("", max_length=2_600_000)  # Base64 der Aufnahme (max. 30 s), nur nötig ohne Browser-Transkript
+    mime: str = Field("", max_length=80)
+    language: str = Field("de", max_length=10)
+    setups: list[str] = Field(default_factory=list, max_length=100)
+    mistakes: list[str] = Field(default_factory=list, max_length=100)
+    trade: str = Field("", max_length=600)
 
 
 class ChatIn(BaseModel):
@@ -201,6 +318,8 @@ def create_app() -> FastAPI:
     app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_methods=["GET", "POST", "DELETE"], allow_headers=["Authorization", "Content-Type"])
     app.state.store = ChatStore(DB_PATH)
     app.state.ask = make_anthropic_ask()
+    app.state.ask_json = make_anthropic_ask_json(VOICE_SCHEMA, VOICE_MAX_TOKENS)
+    app.state.transcribe = transcribe_remote
     try:
         app.state.template = load_prompt_template()
     except FileNotFoundError:
@@ -226,7 +345,7 @@ def create_app() -> FastAPI:
 
     @app.get("/api/mentor/health")
     def health() -> dict:
-        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN), "api_key": api_key_present()}
+        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN), "api_key": api_key_present(), "voice_limit": VOICE_LIMIT, "stt": bool(STT_URL), "emotions": EMOTIONS}
 
     @app.get("/api/mentor/history", dependencies=[Depends(auth)])
     def history(user: str = Query(..., min_length=1, max_length=80)) -> dict:
@@ -264,6 +383,49 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=502, detail={"error": "model", "message": f"Das Sprachmodell hat nicht geantwortet: {type(exc).__name__}"}) from exc
         saved = app.state.store.add_reply(body.user, reply, now())
         return {"reply": reply, "at": saved["at"], "model": MODEL, "quota": quota(body.user, at)}
+
+    @app.post("/api/voice/analyze", dependencies=[Depends(auth)])
+    def voice(body: VoiceIn) -> dict:
+        """Sprachjournal: Transkript (vom Browser oder per Server-Transkription) auswerten → Vorschläge als JSON."""
+        if not api_key_present():
+            raise HTTPException(status_code=503, detail={"error": "key", "message": "Auf dem Server ist kein ANTHROPIC_API_KEY gesetzt."})
+        at = now()
+        transcript = " ".join(body.transcript.split())
+        source = "browser"
+        if not transcript:
+            if not body.audio:
+                raise HTTPException(status_code=422, detail={"error": "transcript", "message": "Kein Transkript und keine Aufnahme erhalten."})
+            if not STT_URL:
+                raise HTTPException(status_code=422, detail={"error": "stt", "message": "Dein Browser hat kein Transkript geliefert und auf dem Server ist keine Transkription eingerichtet (VOICE_STT_URL)."})
+            try:
+                transcript = app.state.transcribe(body.audio, body.mime, body.language)
+            except Exception as exc:  # noqa: BLE001
+                log.exception("Transkription fehlgeschlagen")
+                raise HTTPException(status_code=502, detail={"error": "stt", "message": f"Die Transkription ist fehlgeschlagen: {type(exc).__name__}"}) from exc
+            source = "server"
+            if not transcript:
+                raise HTTPException(status_code=422, detail={"error": "transcript", "message": "In der Aufnahme wurde keine Sprache erkannt."})
+        key = f"{body.user}#voice"
+        if not app.state.store.reserve_usage(key, at, VOICE_LIMIT):
+            raise HTTPException(status_code=429, detail={"error": "limit", "message": f"Tageslimit von {VOICE_LIMIT} Sprachnotizen erreicht."})
+        setups = [s for s in body.setups if s.strip()][:100]
+        mistakes = [m for m in body.mistakes if m.strip()][:100]
+        user_text = (
+            f"Erlaubte Setups: {', '.join(setups) or '(keine)'}\nErlaubte Fehler-Tags: {', '.join(mistakes) or '(keine)'}\n"
+            + (f"Trade: {body.trade.strip()}\n" if body.trade.strip() else "")
+            + f"Gesprochene Notiz:\n{transcript}"
+        )
+        try:
+            raw = app.state.ask_json(VOICE_SYSTEM, user_text)
+            if not isinstance(raw, dict):
+                raise RuntimeError("keine Auswertung")
+        except Exception as exc:  # noqa: BLE001
+            app.state.store.release_usage(key, at)
+            log.exception("Sprachauswertung fehlgeschlagen")
+            raise HTTPException(status_code=502, detail={"error": "model", "message": f"Die Auswertung ist fehlgeschlagen: {type(exc).__name__}"}) from exc
+        result = clean_voice_result(raw, setups, mistakes)
+        used = app.state.store.used(key, ChatStore.day_of(at))
+        return dict(result, transcript=transcript, source=source, model=MODEL, quota={"limit": VOICE_LIMIT, "used": used, "remaining": max(0, VOICE_LIMIT - used)})
 
     return app
 

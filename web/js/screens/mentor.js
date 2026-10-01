@@ -136,5 +136,5 @@
     const name = RP_NAMES[d.typ] || 'Ruhepunkt-Session';
     s.draft = d.typ === 'akut' ? `Ich habe gerade den Akut-Reset gemacht${(d.gefuehle || []).length ? ', dabei kam vor allem ' + d.gefuehle.map(g => GEF[g] || g).join(' und ') + ' hoch' : ''}. ` : `Ich habe gerade die Session „${name}“ im Ruhepunkt abgeschlossen. `;
   });
-  root.Mentor = { buildContext, renderText, configured };
+  root.Mentor = { buildContext, renderText, configured, api };
 })(typeof self !== 'undefined' ? self : this);

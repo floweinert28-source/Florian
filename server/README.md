@@ -33,6 +33,11 @@ und dasselbe Token eintragen. „Verbindung testen“ ruft `/api/mentor/health` 
 | `MENTOR_ALLOWED_ORIGINS` | `*` | Erlaubte Website-Ursprünge, kommagetrennt |
 | `MENTOR_PROMPT_FILE` | `docs/mentor-systemprompt.md` | System-Prompt; alles vor der ersten `---`-Zeile wird nicht gesendet |
 | `MENTOR_DB` | `server/data/mentor.sqlite` | SQLite-Datei mit den Verläufen |
+| `VOICE_DAILY_LIMIT` | `30` | Sprachnotizen (Auswertungen) pro Nutzer und Tag, getrennt vom Chat-Limit |
+| `VOICE_MAX_TOKENS` | `600` | Maximale Länge der Auswertung |
+| `VOICE_STT_URL` | leer | Optional: OpenAI-kompatibler Speech-to-Text-Endpunkt (z. B. `https://api.openai.com/v1/audio/transcriptions`) für Browser ohne eigene Spracherkennung. Leer = nur Browser-Transkript |
+| `VOICE_STT_KEY` | leer | Schlüssel für den Transkriptions-Dienst (nur hier, nie im Frontend) |
+| `VOICE_STT_MODEL` | `whisper-1` | Modellname für den Transkriptions-Dienst |
 
 ## Schnittstelle
 
@@ -41,6 +46,9 @@ und dasselbe Token eintragen. „Verbindung testen“ ruft `/api/mentor/health` 
 - `DELETE /api/mentor/history?user=ID` → Verlauf löschen
 - `POST /api/mentor/chat` mit `{ "user": "ID", "message": "…", "context": { "app_name": "Journalyst", "user_name": "…", "glaubensmodus": true, "journal": "…" } }`
   → `{ "reply": "…", "quota": { "limit", "used", "remaining", "reset_at" } }`; bei erschöpftem Limit `429`
+- `POST /api/voice/analyze` mit `{ "user": "ID", "transcript": "…", "audio": "<Base64, optional>", "mime": "audio/mp4", "language": "de", "setups": ["…"], "mistakes": ["…"], "trade": "…" }`
+  → `{ "transcript", "emotion" (feste Liste, siehe `/health`), "setup" (aus den Setups des Nutzers oder leer), "mistakes" (nur Fehler-Tags des Nutzers), "summary", "source": "browser"|"server", "quota" }`.
+  Das Transkript kommt normalerweise aus der Spracherkennung des Browsers (Safari, Chrome); ohne Transkript und mit `VOICE_STT_URL` transkribiert der Server die Aufnahme. Ohne beides `422`.
 
 Die Nutzerkennung ist heute der Benutzername aus dem Profil der Website (ohne Benutzername eine
 zufällige Kennung des Geräts). Das Zugangstoken ist für alle Nutzer einer Installation dasselbe:

@@ -40,7 +40,16 @@
     };
   }
   /* ---------- Notebook: Ordner, Vorlagen, Delta-Hilfen ---------- */
-  const DEFAULT_FOLDERS = [['trades', 'Trade Notes', '#5cb8ff'], ['daily', 'Daily Journal', '#34f58a'], ['recap', 'Session Recap', '#f5b93a']];
+  const DEFAULT_FOLDERS = [['trades', 'Trade Notes', '#b8b3b0'], ['daily', 'Daily Journal', '#a0ca92'], ['recap', 'Session Recap', '#ee6018']];
+  /* Migrationslisten (Alt-Palette vor der Factory-Umstellung): Ordnerfarben je Ordner-ID und frei gewählte Theme-Farben */
+  const LEGACY_FOLDER_COLORS = { trades: ['#5cb8ff'], daily: ['#34f58a'], recap: ['#f5b93a'], strategy: ['#8b7cf6'], other: ['#9aa3a0'] };
+  const LEGACY_THEME_COLORS = new Set(['#34f58a', '#1fd873', '#ff5c5c', '#8b7cf6', '#0fb862', '#0a9a52', '#e03e3e', '#6b5bd6', '#7b61ff', '#3b82f6', '#22d3ee', '#f97316', '#ec4899', '#facc15', '#9aa3a0', '#f2f5f3', '#e5e7eb']);
+  const NEW_FOLDER_COLORS = { trades: '#b8b3b0', daily: '#a0ca92', recap: '#ee6018', strategy: '#8a8380', other: '#4d4947' };
+  function migrateColors(data) {
+    const legacy = (root.Theme && root.Theme.LEGACY) || LEGACY_THEME_COLORS; const c = data.settings && data.settings.colors;
+    if (c) for (const k of Object.keys(c)) if (typeof c[k] === 'string' && legacy.has(c[k].toLowerCase())) c[k] = '';
+    for (const f of data.folders || []) { const old = LEGACY_FOLDER_COLORS[f.id]; if (old && typeof f.color === 'string' && old.includes(f.color.toLowerCase())) f.color = NEW_FOLDER_COLORS[f.id]; }
+  }
   function defaultFolders() { return DEFAULT_FOLDERS.map(([id, name, color], i) => ({ id, name, color, isDefault: true, defaultTemplateId: null, order: i, createdAt: new Date(0).toISOString() })); }
   const textDelta = text => ({ ops: [{ insert: String(text || '').replace(/\n?$/, '\n') }] });
   const richDelta = ops => ({ ops });
@@ -63,11 +72,12 @@
     for (const n of data.notes) {
       if (n.folderId) continue;
       const target = OLD_FOLDER_MAP[n.folder] || 'other';
-      if (target === 'strategy') ensureFolder('strategy', 'Strategie-Notizen', '#8b7cf6'); if (target === 'other') ensureFolder('other', 'Sonstiges', '#9aa3a0');
+      if (target === 'strategy') ensureFolder('strategy', 'Strategie-Notizen', '#8a8380'); if (target === 'other') ensureFolder('other', 'Sonstiges', '#4d4947');
       n.folderId = target; n.type = n.dateKey ? 'day' : 'normal'; n.content = n.content || textDelta(n.body || ''); delete n.body; delete n.folder; n.tags = n.tags || []; n.deletedAt = n.deletedAt || null;
     }
     for (const [key, d] of Object.entries(data.days || {})) { if (d.notes && String(d.notes).trim()) { if (!data.notes.some(n => n.type === 'day' && n.dateKey === key && !n.deletedAt)) data.notes.unshift({ id: 'day-' + key, folderId: 'daily', type: 'day', dateKey: key, title: dayTitle(key), tags: [], deletedAt: null, content: textDelta(d.notes), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), sample: !!d.sample }); delete d.notes; } }
     const cutoff = Date.now() - 30 * 86400000; data.notes = data.notes.filter(n => !n.deletedAt || new Date(n.deletedAt).getTime() > cutoff);
+    migrateColors(data);
   }
 
   const Store = {
@@ -79,6 +89,8 @@
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       /* Beispieldaten-Upgrade: ältere Installationen bekommen die neuen Beispieldaten (Prop-Konten, Replay, Sprachnotizen); eigene Daten bleiben */
       if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleVersion) || 0) < (root.Sample.VERSION || 1)) { try { this.installSample(); } catch (e) { console.warn('Beispieldaten-Upgrade fehlgeschlagen', e); this.data.settings.sampleError = { message: String(e && e.message || e), stack: String(e && e.stack || '').slice(0, 1200), at: new Date().toISOString(), ua: typeof navigator !== 'undefined' ? navigator.userAgent : '' }; } }
+      /* Nur die Beispielbilder sind veraltet (Sample.IMAGES erhöht, z. B. neue Chart-Palette): Blobs neu rendern, Daten unverändert */
+      else if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleImages) || 0) < (root.Sample.IMAGES || 1)) { try { this.refreshSampleImages(); } catch (e) { console.warn('Beispielbilder-Upgrade fehlgeschlagen', e); } }
       return this;
     },
     save() {
@@ -137,7 +149,7 @@
     /* Ordner */
     folders() { return this.data.folders.slice().sort((a, b) => (a.isDefault === b.isDefault ? a.order - b.order : a.isDefault ? -1 : 1)); },
     getFolder(id) { return this.data.folders.find(f => f.id === id) || null; },
-    addFolder(name, color) { const f = { id: C.uid(), name: name.trim(), color: color || '#8b7cf6', isDefault: false, defaultTemplateId: null, order: this.data.folders.length, createdAt: new Date().toISOString() }; this.data.folders.push(f); this.save(); return f; },
+    addFolder(name, color) { const f = { id: C.uid(), name: name.trim(), color: color || '#8a8380', isDefault: false, defaultTemplateId: null, order: this.data.folders.length, createdAt: new Date().toISOString() }; this.data.folders.push(f); this.save(); return f; },
     updateFolder(id, patch) { const f = this.getFolder(id); if (f) { Object.assign(f, patch); this.save(); } return f; },
     deleteFolder(id) { const f = this.getFolder(id); if (!f || f.isDefault) return false; const now = new Date().toISOString(); for (const n of this.data.notes) if (n.folderId === id && !n.deletedAt) n.deletedAt = now; this.data.folders = this.data.folders.filter(x => x.id !== id); this.save(); return true; },
     /* Notiz-Tags */
@@ -223,6 +235,16 @@
        Trades und Felder sind sofort da; die Replay-Screenshots entstehen danach im Browser (Canvas → IndexedDB) und laufen nach.
        Rückgabe: Promise auf die Anzahl gespeicherter Bilder (auch als Store.sampleImages abrufbar); löst nie mit Fehler auf. */
     _sampleToken: 0, sampleImages: Promise.resolve(0),
+    /* Beispielbilder neu rendern, ohne die Beispieldaten anzufassen: nur Blobs, auf die aktuelle Beispiel-Trades verweisen (IDs sind deterministisch) */
+    refreshSampleImages() {
+      const Sample = root.Sample; this.data.settings.sampleImages = Sample.IMAGES || 1; this.save();
+      if (typeof document === 'undefined' || typeof Sample.renderScreenshots !== 'function') return this.sampleImages;
+      const ids = new Set(); for (const t of this.data.trades) if (t.sample) { for (const s of t.screenshots || []) ids.add(s); if (t.screenshotPre) ids.add(t.screenshotPre); }
+      const acc = (this.data.accounts && this.data.accounts[0]) || null; const specs = (Sample.generate({ accountId: acc ? acc.id : 'main' }).screenshots || []).filter(s => ids.has(s.id));
+      const token = ++this._sampleToken; const alive = () => this._sampleToken === token && this.data.settings.sampleInstalled;
+      this.sampleImages = Promise.resolve().then(() => Sample.renderScreenshots(specs, Blobs, { alive })).then(n => { if (n && alive()) refreshBlobImages(); return n; }).catch(() => 0);
+      return this.sampleImages;
+    },
     installSample() {
       const Sample = root.Sample; const acc = (this.data.accounts && this.data.accounts[0]) || null; const g = Sample.generate({ accountId: acc ? acc.id : 'main' });
       /* Schlägt der Datenumbau fehl, bleibt der vorherige Stand erhalten (Rücksicherung), damit das Journal nie leer zurückbleibt */
@@ -243,7 +265,7 @@
          das wird gemerkt (settings.sampleShadowRules) und protokolliert, damit removeSample sie wieder ausschaltet, sofern das Regelwerk bis dahin unverändert ist. */
       const sr = this.shadowRules();
       if (!Object.values(sr).some(x => x && x.on)) { for (const k of SAMPLE_SHADOW) if (sr[k]) sr[k].on = true; this.data.shadowRules = sr; this.data.settings.sampleShadowRules = true; this.log({ type: 'Schatten-Ich', action: 'Vorschlagsregeln eingeschaltet', source: 'Beispieldaten', ident: 'Max. Trades pro Tag, Verlustserie, Pause nach Verlust' }); }
-      this.data.settings.sampleInstalled = true; this.data.settings.sampleVersion = Sample.VERSION || 1; delete this.data.settings.sampleError;
+      this.data.settings.sampleInstalled = true; this.data.settings.sampleVersion = Sample.VERSION || 1; this.data.settings.sampleImages = Sample.IMAGES || 1; delete this.data.settings.sampleError;
       this.log({ type: 'Import', action: 'importiert', source: 'Beispieldaten', ident: `${g.trades.length} Trades · ${(g.propAccounts || []).length} Prop-Konten` }); this.save();
       /* Bilder nachlaufend; alte gleichnamige Blobs sind vorher gelöscht. Ein späteres removeSample bricht die Erzeugung ab (Token). */
       const token = ++this._sampleToken; const alive = () => this._sampleToken === token && this.data.settings.sampleInstalled;

@@ -9,6 +9,8 @@
   const C = root.Core || (typeof require === 'function' ? require('./core.js') : null);
   const PD = root.PropData || (typeof require === 'function' ? (require('./propdata.js').PropData || null) : null);
   const VERSION = 3; /* 3: FTMO als Forex-Konto, Tage-Merge mit Prüfsummen; Erhöhung erzwingt die Neuinstallation bestehender Beispieldaten */
+  const IMAGES = 2; /* 2: Beispiel-Charts in der Factory-Palette (Obsidian, Metric Green, Signal Orange, Geist Mono); Erhöhung rendert die Beispielbilder bei Bestandsnutzern neu (Store.load) */
+  const MONO = '11px "Geist Mono", ui-monospace, monospace'; /* Achsen, Marken, Footer der Beispiel-Charts */
   const SEED = 19887; /* per Seed-Suche (scratchpad/seedsearch.js) gewählt: Topstep ~35 % zum Ziel, Apex ohne Verletzung mit > 6.000 beim Funded-Wechsel, FTMO am Breach-Tag im DAX gerissen, MNQ höchstens 5 Kontrakte */
   const DAYS = 88;
   /* Fenster als Index der Handelstage (0 = ältester, 87 = heute): Topstep seit ~3 Wochen, Apex seit ~3 Monaten (funded seit ~6 Wochen), FTMO ~9 bis ~5 Wochen (Forex/CFD, Frühsession), Breach-Tag ~5 Wochen her */
@@ -281,7 +283,7 @@
     ];
     const rules = RULES.map(r => Object.assign({ active: true, sample: true }, r));
     const firstLoss = closed.find(t => (t.exitPrice - t.entryPrice) * t.direction < 0 && t.mistakes.includes('Zu früh raus')) || closed.find(t => t.mistakes.length) || closed[0];
-    const folders = [{ id: 'smpf-strategie', name: '📈 Strategie', color: '#8b7cf6', isDefault: false, defaultTemplateId: null, order: 10, createdAt: new Date(NOW.getTime() - 40 * 86400000).toISOString(), sample: true }, { id: 'smpf-ideen', name: '💡 Ideen', color: '#f97316', isDefault: false, defaultTemplateId: null, order: 11, createdAt: new Date(NOW.getTime() - 20 * 86400000).toISOString(), sample: true }];
+    const folders = [{ id: 'smpf-strategie', name: 'Strategie', color: '#8a8380', isDefault: false, defaultTemplateId: null, order: 10, createdAt: new Date(NOW.getTime() - 40 * 86400000).toISOString(), sample: true }, { id: 'smpf-ideen', name: 'Ideen', color: '#ee6018', isDefault: false, defaultTemplateId: null, order: 11, createdAt: new Date(NOW.getTime() - 20 * 86400000).toISOString(), sample: true }];
     const noteTags = [{ id: 'smpt-tilt', name: 'Tilt', sample: true }, { id: 'smpt-lehre', name: 'Lehre', sample: true }, { id: 'smpt-setup', name: 'Setup', sample: true }, { id: 'smpt-fomc', name: 'FOMC', sample: true }, { id: 'smpt-prop', name: 'Prop Firm', sample: true }];
     const ago = d => new Date(NOW.getTime() - d * 86400000).toISOString();
     notes.push({ id: 'smpn-strat', folderId: 'smpf-strategie', type: 'normal', title: 'Warum Pullbacks besser laufen als Breakouts', tags: ['smpt-setup'], deletedAt: null, content: { ops: [{ insert: 'Beobachtung nach 3 Monaten' }, { attributes: { header: 2 }, insert: '\n' }, { insert: 'Pullbacks im Trend haben die beste Trefferquote, Breakouts brauchen einen Trendtag mit hoher Vola. In Seitwärtsphasen Breakouts komplett streichen.\n' }, { insert: 'Regime morgens festlegen' }, { attributes: { list: 'checked' }, insert: '\n' }, { insert: 'Setups danach filtern' }, { attributes: { list: 'unchecked' }, insert: '\n' }] }, createdAt: ago(9), updatedAt: ago(9), sample: true });
@@ -307,22 +309,22 @@
     let min = Math.min(...all.map(c => c.lo), ...levels), max = Math.max(...all.map(c => c.hi), ...levels); const pad = (max - min) * 0.08 || 1; min -= pad; max += pad;
     const L = 16, RM = 118, T = 46, B = 30; const pw = W - L - RM, ph = H - T - B; const slots = N + (post.length ? post.length + 3 : 7); const slot = pw / slots;
     const x = i => L + i * slot + slot / 2, y = v => T + (max - v) / (max - min) * ph; const dec = spec.dec == null ? 2 : spec.dec;
-    g.fillStyle = '#0b0f0d'; g.fillRect(0, 0, W, H);
-    g.strokeStyle = 'rgba(255,255,255,0.07)'; g.lineWidth = 1; g.font = '11px Inter, Roboto, sans-serif'; g.textAlign = 'left';
-    for (let k = 0; k <= 5; k++) { const yy = T + k * ph / 5; g.beginPath(); g.moveTo(L, yy); g.lineTo(W - RM + 64, yy); g.stroke(); g.fillStyle = '#6f7a74'; g.fillText(fmtPrice(max - k * (max - min) / 5, dec), W - RM + 70, yy + 4); }
-    const candle = (c, i) => { const up = c.c >= c.o; g.strokeStyle = g.fillStyle = up ? '#34f58a' : '#ff5c5c'; g.lineWidth = 1; g.beginPath(); g.moveTo(x(i), y(c.hi)); g.lineTo(x(i), y(c.lo)); g.stroke(); const bw = Math.max(3, slot * 0.6); g.fillRect(x(i) - bw / 2, y(Math.max(c.o, c.c)), bw, Math.max(1.5, Math.abs(y(c.o) - y(c.c)))); };
+    g.fillStyle = '#101010'; g.fillRect(0, 0, W, H);
+    g.strokeStyle = 'rgba(238,238,238,0.07)'; g.lineWidth = 1; g.font = MONO; g.textAlign = 'left';
+    for (let k = 0; k <= 5; k++) { const yy = T + k * ph / 5; g.beginPath(); g.moveTo(L, yy); g.lineTo(W - RM + 64, yy); g.stroke(); g.fillStyle = '#8a8380'; g.fillText(fmtPrice(max - k * (max - min) / 5, dec), W - RM + 70, yy + 4); }
+    const candle = (c, i) => { const up = c.c >= c.o; g.strokeStyle = g.fillStyle = up ? '#a0ca92' : '#ee6018'; g.lineWidth = 1; g.beginPath(); g.moveTo(x(i), y(c.hi)); g.lineTo(x(i), y(c.lo)); g.stroke(); const bw = Math.max(3, slot * 0.6); g.fillRect(x(i) - bw / 2, y(Math.max(c.o, c.c)), bw, Math.max(1.5, Math.abs(y(c.o) - y(c.c)))); };
     candles.forEach(candle); post.forEach((c, k) => candle(c, N + k));
-    const line = (v, color, label, dash) => { g.setLineDash(dash); g.strokeStyle = color; g.lineWidth = 1.2; g.beginPath(); g.moveTo(L, y(v)); g.lineTo(W - RM + 64, y(v)); g.stroke(); g.setLineDash([]); g.fillStyle = color; g.font = 'bold 11px Inter, Roboto, sans-serif'; g.textAlign = 'right'; g.fillText(label, W - RM + 58, y(v) - 4); };
-    if (spec.stop != null && spec.stop !== '') line(Number(spec.stop), '#ff5c5c', 'Stop ' + fmtPrice(spec.stop, dec), [5, 4]);
-    if (spec.target != null && spec.target !== '') line(Number(spec.target), '#34f58a', 'Ziel ' + fmtPrice(spec.target, dec), [5, 4]);
-    line(entry, '#5cb8ff', 'Einstieg ' + fmtPrice(entry, dec), [2, 3]);
+    const line = (v, color, label, dash) => { g.setLineDash(dash); g.strokeStyle = color; g.lineWidth = 1.2; g.beginPath(); g.moveTo(L, y(v)); g.lineTo(W - RM + 64, y(v)); g.stroke(); g.setLineDash([]); g.fillStyle = color; g.font = MONO; g.textAlign = 'right'; g.fillText(label, W - RM + 58, y(v) - 4); };
+    if (spec.stop != null && spec.stop !== '') line(Number(spec.stop), '#ee6018', 'Stop ' + fmtPrice(spec.stop, dec), [5, 4]);
+    if (spec.target != null && spec.target !== '') line(Number(spec.target), '#a0ca92', 'Ziel ' + fmtPrice(spec.target, dec), [5, 4]);
+    line(entry, '#eeeeee', 'Einstieg ' + fmtPrice(entry, dec), [2, 3]);
     const arrow = (cx, cy, up, color) => { g.fillStyle = color; g.beginPath(); const s = 7; if (up) { g.moveTo(cx, cy - 4); g.lineTo(cx - s, cy + s); g.lineTo(cx + s, cy + s); } else { g.moveTo(cx, cy + 4); g.lineTo(cx - s, cy - s); g.lineTo(cx + s, cy - s); } g.closePath(); g.fill(); };
-    arrow(x(N - 1), y(entry) + (dir > 0 ? 14 : -14), dir > 0, '#5cb8ff');
-    if (post.length) { const ex = Number(spec.exit); arrow(x(N + post.length - 1), y(ex) + (dir > 0 ? -14 : 14), dir < 0, '#f5b93a'); g.fillStyle = '#f5b93a'; g.font = 'bold 11px Inter, Roboto, sans-serif'; g.textAlign = 'right'; g.fillText('Ausstieg ' + fmtPrice(ex, dec), W - RM + 58, y(ex) + (dir > 0 ? 14 : -6)); }
+    arrow(x(N - 1), y(entry) + (dir > 0 ? 14 : -14), dir > 0, '#eeeeee');
+    if (post.length) { const ex = Number(spec.exit); arrow(x(N + post.length - 1), y(ex) + (dir > 0 ? -14 : 14), dir < 0, '#b8b3b0'); g.fillStyle = '#b8b3b0'; g.font = MONO; g.textAlign = 'right'; g.fillText('Ausstieg ' + fmtPrice(ex, dec), W - RM + 58, y(ex) + (dir > 0 ? 14 : -6)); }
     const title = `${spec.symbol || ''} · ${dir > 0 ? 'Long' : 'Short'}`;
-    g.fillStyle = '#e8ece9'; g.font = 'bold 16px Inter, Roboto, sans-serif'; g.textAlign = 'left'; g.fillText(title, 16, 26); const titleW = g.measureText(title).width;
-    g.fillStyle = '#9aa3a0'; g.font = '13px Inter, Roboto, sans-serif'; g.fillText(`5 min · ${spec.time || ''} · ${spec.kind === 'post' ? 'nach dem Einstieg' : 'vor dem Einstieg'}`, 16 + titleW + 18, 26);
-    g.fillStyle = '#56605b'; g.font = '11px Inter, Roboto, sans-serif'; g.fillText('Beispiel-Chart · Journalyst', 16, H - 10);
+    g.fillStyle = '#eeeeee'; g.font = '16px Geist, ui-sans-serif, system-ui, sans-serif'; g.textAlign = 'left'; g.fillText(title, 16, 26); const titleW = g.measureText(title).width;
+    g.fillStyle = '#8a8380'; g.font = '13px Geist, ui-sans-serif, system-ui, sans-serif'; g.fillText(`5 min · ${spec.time || ''} · ${spec.kind === 'post' ? 'nach dem Einstieg' : 'vor dem Einstieg'}`, 16 + titleW + 18, 26);
+    g.fillStyle = '#4d4947'; g.font = MONO; g.fillText('Beispiel-Chart · Journalyst', 16, H - 10);
     return new Promise(res => { try { cv.toBlob(b => res(b || null), 'image/png'); } catch (e) { res(null); } });
   }
   /* renderScreenshots(specs, Blobs, { alive }) → Anzahl gespeicherter Bilder. alive() wird vor jedem Bild geprüft (Abbruch, wenn die Beispieldaten inzwischen entfernt wurden). */
@@ -338,6 +340,6 @@
     return n;
   }
 
-  const api = { generate, renderScreenshots, drawChart, VERSION, SEED, DAYS, WIN, ACC };
+  const api = { generate, renderScreenshots, drawChart, VERSION, IMAGES, SEED, DAYS, WIN, ACC };
   if (typeof module === 'object' && module.exports) module.exports = api; else root.Sample = api;
 })(typeof self !== 'undefined' ? self : this);

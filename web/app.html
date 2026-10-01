@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: light)">
 <title>Journalyst</title>
 <meta name="description" content="Journalyst, dein Trading-Journal im Browser: Trades loggen, CSV importieren, Kennzahlen, Score, Fehlerkosten, Tilt-Warnungen, Edge-Check und Monte Carlo.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C10.5 3 6 7.4 6 12.9c0 6.5 7.6 13.4 9.3 14.9a1 1 0 0 0 1.4 0C18.4 26.3 26 19.4 26 12.9 26 7.4 21.5 3 16 3z' fill='none' stroke='%2334f58a' stroke-width='2.4'/%3E%3Cpath d='M11 14.5l3-3 2.5 2.5 4.5-5' fill='none' stroke='%2334f58a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C10.5 3 6 7.4 6 12.9c0 6.5 7.6 13.4 9.3 14.9a1 1 0 0 0 1.4 0C18.4 26.3 26 19.4 26 12.9 26 7.4 21.5 3 16 3z' fill='none' stroke='%23eeeeee' stroke-width='2.4'/%3E%3Cpath d='M11 14.5l3-3 2.5 2.5 4.5-5' fill='none' stroke='%23eeeeee' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
 <link rel="stylesheet" href="vendor/quill/quill.snow.css">
 <link rel="stylesheet" href="css/app.css">
 </head>
@@ -57,12 +59,12 @@
   function startFail(e) {
     console.error(e); var main = document.getElementById('main'); if (!main) return;
     var msg = String(e && (e.stack || e.message) || e).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-    main.innerHTML = '<div style="max-width:720px;margin:40px auto;padding:24px;font:15px/1.5 Inter,Roboto,sans-serif;color:#eee;background:#161616;border:1px solid #333;border-radius:14px">'
-      + '<h2 style="margin:0 0 8px;font-size:20px">Journalyst konnte nicht starten</h2><p style="margin:0 0 14px;color:#aaa">Bitte diese Meldung weitergeben:</p>'
-      + '<pre style="white-space:pre-wrap;word-break:break-word;background:#0d0d0d;padding:12px;border-radius:10px;font-size:12px;max-height:240px;overflow:auto">' + msg + '</pre>'
-      + '<p style="color:#aaa">Browser: ' + String(navigator.userAgent).replace(/</g, '&lt;') + '</p>'
-      + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button id="sf-sample" style="padding:10px 14px;border-radius:10px;border:1px solid #444;background:#222;color:#eee;cursor:pointer">Beispieldaten entfernen und neu laden</button>'
-      + '<button id="sf-reset" style="padding:10px 14px;border-radius:10px;border:1px solid #633;background:#2a1414;color:#f8caca;cursor:pointer">Alle lokalen Daten löschen und neu laden</button></div></div>';
+    main.innerHTML = '<div style="max-width:720px;margin:40px auto;padding:24px;font:14px/1.5 Geist,system-ui,sans-serif;color:#eeeeee;background:#101010;border:1px solid #1d1a18;border-radius:10px">'
+      + '<h2 style="margin:0 0 8px;font-size:20px;font-weight:400;letter-spacing:-0.02em">Journalyst konnte nicht starten</h2><p style="margin:0 0 14px;color:#8a8380">Bitte diese Meldung weitergeben:</p>'
+      + '<pre style="white-space:pre-wrap;word-break:break-word;background:#1d1a18;padding:12px;border-radius:6px;font:12px/1.5 \'Geist Mono\',ui-monospace,monospace;max-height:240px;overflow:auto">' + msg + '</pre>'
+      + '<p style="color:#8a8380">Browser: ' + String(navigator.userAgent).replace(/</g, '&lt;') + '</p>'
+      + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button id="sf-sample" style="padding:0 14px;min-height:40px;border-radius:3px;border:1px solid #3d3a39;background:#1d1a18;color:#eeeeee;font:14px Geist,system-ui,sans-serif;cursor:pointer">Beispieldaten entfernen und neu laden</button>'
+      + '<button id="sf-reset" style="padding:0 14px;min-height:40px;border-radius:3px;border:1px solid #3d3a39;background:#1d1a18;color:#ee6018;font:14px Geist,system-ui,sans-serif;cursor:pointer">Alle lokalen Daten löschen und neu laden</button></div></div>';
     var b1 = document.getElementById('sf-sample'), b2 = document.getElementById('sf-reset');
     if (b1) b1.onclick = function () { try { if (typeof Store !== 'undefined' && Store.removeSample) Store.removeSample(); } catch (err) { console.warn(err); } try { var k = 'trading-journal-web-v1', d = JSON.parse(localStorage.getItem(k) || '{}'); if (d.settings) { d.settings.sampleInstalled = false; d.settings.sampleVersion = 99; localStorage.setItem(k, JSON.stringify(d)); } } catch (err) { console.warn(err); } location.reload(); };
     if (b2) b2.onclick = function () { if (confirm('Wirklich alle lokalen Daten dieses Journals löschen?')) { try { localStorage.removeItem('trading-journal-web-v1'); } catch (err) { console.warn(err); } location.reload(); } };

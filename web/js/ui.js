@@ -135,11 +135,14 @@
   const empty = (icon, title, text, action = '') => `<div class="empty">${I[icon] || ''}<b>${esc(title)}</b><span class="small">${text}</span>${action}</div>`;
   const banner = (kind, title, text, o = {}) => `<div class="banner ${kind}">${I[o.icon || (kind === 'warn' || kind === 'loss' ? 'warning' : 'info')]}<div class="grow">${title ? `<b>${esc(title)}</b>` : ''}<span>${text}</span></div>${o.close ? `<button type="button" class="btn ghost icon sm close" data-action="${o.close}" aria-label="Schließen">${I.close}</button>` : ''}${o.trailing || ''}</div>`;
   const kv = (k, v) => `<div class="kv"><span>${esc(k)}</span><b>${v}</b></div>`;
-  const barRow = (label, v, max, text, color = 'var(--accent)') => `<div class="bar-row"><div class="bl"><span>${esc(label)}</span><b>${text}</b></div><div class="track"><i style="width:${max > 0 ? Math.min(Math.abs(v) / max, 1) * 100 : 0}%;background:${color}"></i></div></div>`;
+  const barRow = (label, v, max, text, color = 'var(--text-2)') => `<div class="bar-row"><div class="bl"><span>${esc(label)}</span><b>${text}</b></div><div class="track"><i style="width:${max > 0 ? Math.min(Math.abs(v) / max, 1) * 100 : 0}%;background:${color}"></i></div></div>`;
   const seg = (options, current, action, extra = '') => `<div class="seg ${extra}">${options.map(([k, l]) => `<button type="button" data-action="${action}" data-value="${esc(k)}" aria-pressed="${String(current) === String(k)}">${esc(l)}</button>`).join('')}</div>`;
   const tabs = (options, current, action) => `<div class="tabs">${options.map(([k, l]) => `<button type="button" data-action="${action}" data-value="${esc(k)}" aria-pressed="${current === k}">${esc(l)}</button>`).join('')}</div>`;
-  const ring = (score, size = 92, lw = 9, sub = '') => { const r = 40, c = 2 * Math.PI * r; const col = score == null ? 'var(--faint)' : score < 50 ? 'var(--loss)' : score < 75 ? 'var(--warn)' : 'var(--accent)'; return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 92 92"><circle cx="46" cy="46" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/><circle cx="46" cy="46" r="${r}" fill="none" stroke="${col}" stroke-width="${lw}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - (score || 0) / 100)}"/></svg><div class="n" style="font-size:${size * 0.28}px">${score == null ? '—' : score}${sub ? `<small>${sub}</small>` : ''}</div></div>`; };
-  const scoreColor = s => s < 50 ? 'var(--loss)' : s < 75 ? 'var(--warn)' : 'var(--accent)';
+  const ring = (score, size = 92, lw = 6, sub = '') => { const r = 40, c = 2 * Math.PI * r; const col = score == null ? 'var(--faint)' : score < 50 ? 'var(--loss)' : score < 75 ? 'var(--warn-mid)' : 'var(--profit)'; return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 92 92"><circle cx="46" cy="46" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/><circle cx="46" cy="46" r="${r}" fill="none" stroke="${col}" stroke-width="${lw}" stroke-linecap="butt" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - (score || 0) / 100)}"/></svg><div class="n" style="font-size:${size * 0.28}px">${score == null ? '—' : score}${sub ? `<small>${sub}</small>` : ''}</div></div>`; };
+  /* Score-Ampel als TEXT: Ink-Tokens (Dark identisch zu --profit/--loss, Light abgedunkelt, >= 4.5:1).
+     Für Flächen (Balken, Ringe) scoreFill mit den Original-Akzenten verwenden. */
+  const scoreColor = s => s < 50 ? 'var(--loss-ink)' : s < 75 ? 'var(--warn-mid)' : 'var(--profit-ink)';
+  const scoreFill = s => s < 50 ? 'var(--loss)' : s < 75 ? 'var(--warn-mid)' : 'var(--profit)';
 
   /* ---------- Diagramme ---------- */
   const NS = 'http://www.w3.org/2000/svg';
@@ -174,21 +177,19 @@
     const bw = Math.max(2, Math.min(14, iw / n * 0.55));
     const line = n === 1 ? `M${x(0) - 1},${y(pts[0].cum)}L${x(0) + 1},${y(pts[0].cum)}` : smooth(pts.map((p, i) => [x(i), y(p.cum)]));
     const area = `${line} L${x(n - 1)},${y(0)} L${x(0)},${y(0)} Z`;
-    const gp = gid(), gn = gid(), cp = gid(), cn = gid();
+    const cp = gid(), cn = gid();
     const xt = xTicks(n, iw);
     const last = pts[n - 1].cum, lastCol = last >= 0 ? 'var(--profit)' : 'var(--loss)';
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs>
-      <linearGradient id="${gp}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--profit)" stop-opacity=".35"/><stop offset="1" stop-color="var(--profit)" stop-opacity=".02"/></linearGradient>
-      <linearGradient id="${gn}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--loss)" stop-opacity=".35"/><stop offset="1" stop-color="var(--loss)" stop-opacity=".02"/></linearGradient>
       <clipPath id="${cp}"><rect x="0" y="0" width="${W}" height="${Math.max(0, y(0))}"/></clipPath><clipPath id="${cn}"><rect x="0" y="${y(0)}" width="${W}" height="${Math.max(0, H - y(0))}"/></clipPath></defs>
       ${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
       <line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>
       ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
-      <path d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
-      <path d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
-      ${dots ? pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.cum)}" r="3" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
+      <path d="${area}" fill="var(--profit)" fill-opacity=".10" clip-path="url(#${cp})"/><path d="${area}" fill="var(--loss)" fill-opacity=".10" clip-path="url(#${cn})"/>
+      <path d="${line}" fill="none" stroke="var(--profit)" stroke-width="1.5" clip-path="url(#${cp})" stroke-linejoin="round"/><path d="${line}" fill="none" stroke="var(--loss)" stroke-width="1.5" clip-path="url(#${cn})" stroke-linejoin="round"/>
+      ${dots ? pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.cum)}" r="3" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--bg)" stroke-width="2"/>`}
       ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].day)}</text>`).join('')}
-      <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+      <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--bg)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].cum), i => { const p = pts[i]; return `<b>${fmt.weekdayLong(p.day)}</b><br>Tag: ${pnl(p.pnl)} · ${p.n} Trade${p.n === 1 ? '' : 's'}<br>Kumuliert: ${pnl(p.cum)}`; }, i => pts[i].cum >= 0 ? 'var(--profit)' : 'var(--loss)');
   };
   /* Equity pro Trade */
@@ -196,9 +197,9 @@
     const pts = d && d.points || []; if (pts.length < 2) { el.innerHTML = ''; return; }
     const ys = pts.map(p => p.equity); const ticks = niceTicks(Math.min(0, ...ys), Math.max(0, ...ys), 6); const y0 = Math.min(ticks[0], ...ys, 0), y1 = Math.max(ticks[ticks.length - 1], ...ys, 0);
     const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 12, mb = 30;
-    const iw = W - ml - mr; const x = i => ml + i / (pts.length - 1) * iw, y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb); const g = gid();
+    const iw = W - ml - mr; const x = i => ml + i / (pts.length - 1) * iw, y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb); 
     const line = smooth(pts.map((p, i) => [x(i), y(p.equity)])); const last = pts[pts.length - 1].equity, col = last >= 0 ? 'var(--profit)' : 'var(--loss)';
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".3"/><stop offset="1" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs>${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="${col}" fill-opacity=".10"/><path d="${line}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--bg)" stroke-width="2"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--bg)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].equity), i => { const p = pts[i]; return `<b>${pnl(p.equity)}</b><br>${fmt.dateTime(p.date)}<br><span class="muted">${esc(p.t.symbol)} ${fmt.cur(p.pnl, { signed: true })}</span>`; });
   };
   /* Linie mit Basislinie (Kontostand) */
@@ -209,20 +210,20 @@
     const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 12, mb = 30;
     const n = pts.length; const iw = W - ml - mr; const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb);
     const line = n === 1 ? `M${x(0) - 1},${y(pts[0].v)}L${x(0) + 1},${y(pts[0].v)}` : 'M' + pts.map((p, i) => `${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join('L');
-    const xt = xTicks(n, iw); const last = pts[n - 1].v; const col = d.color || 'var(--accent)';
+    const xt = xTicks(n, iw); const last = pts[n - 1].v; const col = d.color || 'var(--text-2)';
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
-      ${base != null ? `<line x1="${ml}" x2="${W - mr}" y1="${y(base)}" y2="${y(base)}" stroke="${d.baseColor || 'var(--loss)'}" stroke-width="2" stroke-opacity=".9"/>` : ''}
-      <path d="${line}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>
+      ${base != null ? `<line x1="${ml}" x2="${W - mr}" y1="${y(base)}" y2="${y(base)}" stroke="${d.baseColor || 'var(--border-2)'}" stroke-width="1"/>` : ''}
+      <path d="${line}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="butt"/><circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--bg)" stroke-width="2"/>
       ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}
-      <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+      <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--bg)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].v), i => { const p = pts[i]; return `<b>${fmt.cur(p.v)}</b><br>${fmt.weekdayLong(p.date)}${p.pnl != null ? `<br><span class="muted">Tag: ${fmt.cur(p.pnl, { signed: true })}</span>` : ''}`; });
   };
   /* Kleine Fläche (Tageskarte) */
   drawers.spark = function (el, d, W, H) {
     const vals = d && d.values || []; if (vals.length < 1) { el.innerHTML = ''; return; } const pts = [0, ...vals]; const mn = Math.min(0, ...pts), mx = Math.max(0, ...pts);
-    const x = i => 4 + i / (pts.length - 1) * (W - 8), y = v => 6 + (mx - v) / (mx - mn || 1) * (H - 12); const g = gid(); const last = pts[pts.length - 1], col = last >= 0 ? 'var(--profit)' : 'var(--loss)';
+    const x = i => 4 + i / (pts.length - 1) * (W - 8), y = v => 6 + (mx - v) / (mx - mn || 1) * (H - 12); const last = pts[pts.length - 1], col = last >= 0 ? 'var(--profit)' : 'var(--loss)';
     const line = pts.length > 1 ? smooth(pts.map((v, i) => [x(i), y(v)])) : '';
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".35"/><stop offset="1" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs><line class="zero" x1="4" x2="${W - 4}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(mn)} L${x(0)},${y(mn)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="3" fill="${col}"/></svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><line class="zero" x1="4" x2="${W - 4}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(mn)} L${x(0)},${y(mn)} Z" fill="${col}" fill-opacity=".10"/><path d="${line}" fill="none" stroke="${col}" stroke-width="1" stroke-linejoin="round"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="3" fill="${col}"/></svg>`;
   };
   /* Senkrechte Balken je Gruppe */
   drawers.vbars = function (el, d, W, H) {
@@ -230,22 +231,31 @@
     const vals = groups.map(g => perTrade ? g.s.expectancy : g.s.total); const ml = 8, mr = 52, mt = 12, mb = 26;
     const ticks = niceTicks(Math.min(0, ...vals), Math.max(0, ...vals), 3); const y0 = Math.min(ticks[0], ...vals, 0), y1 = Math.max(ticks[ticks.length - 1], ...vals, 0);
     const y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb); const gap = (W - ml - mr) / groups.length, bw = Math.min(44, gap * 0.62);
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g><line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>${groups.map((g, i) => { const v = vals[i]; const top = Math.min(y(v), y(0)), h = Math.max(2, Math.abs(y(v) - y(0))); const cx = ml + i * gap + gap / 2; return `<rect x="${cx - bw / 2}" y="${top}" width="${bw}" height="${h}" rx="4" fill="var(--${v >= 0 ? 'profit' : 'loss'})" data-tip="<b>${esc(g.label || g.key)}</b>: ${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}<br>${g.s.n} Trades · Win-Rate ${fmt.pct(g.s.winRate)}"></rect><text x="${cx}" y="${H - 7}" text-anchor="middle">${esc(g.label || g.key)}</text>`; }).join('')}</svg>`;
+    /* X-Labels ausdünnen (wie drawers.weeks): Breite des längsten Mono-Labels schätzen (11px ≈ 6,6px/Zeichen + Luft), Randverschiebung einrechnen,
+       nur jedes k-te Label zeigen; Randlabels werden nach innen verankert statt abgeschnitten. Balken und Tooltips bleiben vollständig. */
+    const labels = groups.map(g => String(g.label || g.key)); const lw = Math.max(...labels.map(l => l.length)) * 6.6 + 12; const edge = Math.max(0, lw / 2 - gap / 2);
+    const k = Math.max(1, Math.ceil((lw + edge) / gap));
+    const xLabel = (i, cx) => { if (i % k !== 0) return ''; const a = cx - lw / 2 < 0 ? 'start' : cx + lw / 2 > W ? 'end' : 'middle'; return `<text x="${a === 'start' ? 2 : a === 'end' ? W - 2 : cx}" y="${H - 7}" text-anchor="${a}">${esc(labels[i])}</text>`; };
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g><line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>${groups.map((g, i) => { const v = vals[i]; const top = Math.min(y(v), y(0)), h = Math.max(2, Math.abs(y(v) - y(0))); const cx = ml + i * gap + gap / 2; return `<rect x="${cx - bw / 2}" y="${top}" width="${bw}" height="${h}" rx="2" fill="var(--${v >= 0 ? 'profit' : 'loss'})" fill-opacity=".9" data-tip="<b>${esc(g.label || g.key)}</b>: ${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}<br>${g.s.n} Trades · Win-Rate ${fmt.pct(g.s.winRate)}"></rect>${xLabel(i, cx)}`; }).join('')}</svg>`;
   };
   /* Waagerechte Balken */
   drawers.hbars = function (el, d, W, H) {
     const groups = d && d.groups || []; if (!groups.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Keine Daten</span></div>`; return; } const perTrade = d.metric === 'expectancy';
-    const vals = groups.map(g => perTrade ? g.s.expectancy : g.s.total); const ml = Math.min(130, W * 0.3), mr = 44, mt = 6, mb = 24;
+    const vals = groups.map(g => perTrade ? g.s.expectancy : g.s.total); const ml = Math.min(150, W * 0.32), mr = 44, mt = 6, mb = 24; /* ml reserviert die Beschriftungsspalte (Kategorie-Labels, Mono 12px) links der Achse */
+    const lblCh = Math.max(4, Math.floor((ml - 10) / 7.2)); /* Zeichen, die in die Spalte passen (Geist Mono 12px ≈ 7,2px/Zeichen); längere Labels werden mit … gekürzt, statt in den Balkenbereich oder aus dem Canvas zu laufen */
+    const lbl = g => { const t = String(g.label || g.key); return t.length > lblCh ? t.slice(0, lblCh - 1).trimEnd() + '…' : t; };
     const ticks = niceTicks(Math.min(0, ...vals), Math.max(0, ...vals), 4); const x0 = Math.min(ticks[0], ...vals, 0), x1 = Math.max(ticks[ticks.length - 1], ...vals, 0);
     const x = v => ml + (v - x0) / (x1 - x0 || 1) * (W - ml - mr); const rowH = (H - mt - mb) / groups.length, bh = Math.min(20, rowH * 0.62);
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${x(t)}" x2="${x(t)}" y1="${mt}" y2="${H - mb}"/><text x="${x(t)}" y="${H - 7}" text-anchor="middle">${curShort(t)}</text>`).join('')}</g><line class="zero" x1="${x(0)}" x2="${x(0)}" y1="${mt}" y2="${H - mb}"/>${groups.map((g, i) => { const v = vals[i]; const cy = mt + i * rowH + rowH / 2; const left = Math.min(x(v), x(0)), w = Math.max(2, Math.abs(x(v) - x(0))); return `<text x="${ml - 10}" y="${cy + 4}" text-anchor="end" style="fill:var(--text-2);font-size:12px">${esc(String(g.label || g.key).slice(0, 18))}</text><rect x="${left}" y="${cy - bh / 2}" width="${w}" height="${bh}" rx="4" fill="var(--${v >= 0 ? 'profit' : 'loss'})" data-tip="<b>${esc(g.label || g.key)}</b>: ${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}<br>${g.s.n} Trades · Win-Rate ${fmt.pct(g.s.winRate)}"></rect><text x="${v >= 0 ? x(v) + 6 : x(v) - 6}" y="${cy + 3.5}" text-anchor="${v >= 0 ? 'start' : 'end'}">${g.s.n}×</text>`; }).join('')}</svg>`;
+    /* Zähler (n×): bei positiven Balken rechts vom Balkenende, bei negativen rechts der Nulllinie – nie links davon, damit er nicht mit dem Kategorie-Label kollidiert */
+    const cntX = v => (v >= 0 ? x(v) : x(0)) + 6;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${x(t)}" x2="${x(t)}" y1="${mt}" y2="${H - mb}"/><text x="${x(t)}" y="${H - 7}" text-anchor="middle">${curShort(t)}</text>`).join('')}</g><line class="zero" x1="${x(0)}" x2="${x(0)}" y1="${mt}" y2="${H - mb}"/>${groups.map((g, i) => { const v = vals[i]; const cy = mt + i * rowH + rowH / 2; const left = Math.min(x(v), x(0)), w = Math.max(2, Math.abs(x(v) - x(0))); return `<text x="${ml - 10}" y="${cy + 4}" text-anchor="end" style="fill:var(--text-2);font-size:12px">${esc(lbl(g))}</text><rect x="${left}" y="${cy - bh / 2}" width="${w}" height="${bh}" rx="2" fill="var(--${v >= 0 ? 'profit' : 'loss'})" fill-opacity=".9" data-tip="<b>${esc(g.label || g.key)}</b>: ${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}<br>${g.s.n} Trades · Win-Rate ${fmt.pct(g.s.winRate)}"></rect><text x="${cntX(v)}" y="${cy + 3.5}" text-anchor="start">${g.s.n}×</text>`; }).join('')}</svg>`;
   };
   /* Rollierender Edge */
   drawers.rolling = function (el, d, W, H) {
     const e = d && d.edge; const pts = e ? e.rolling : []; if (!pts.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Mindestens ${e ? e.window : 20} Trades mit R-Wert nötig</span></div>`; return; } const ml = 8, mr = 56, mt = 16, mb = 26;
     const vs = pts.map(p => p.v); const ticks = niceTicks(Math.min(0, ...vs, e.mean), Math.max(0, ...vs, e.mean), 4); const y0 = Math.min(ticks[0], ...vs, 0), y1 = Math.max(ticks[ticks.length - 1], ...vs, e.mean);
-    const x = i => ml + i / Math.max(1, pts.length - 1) * (W - ml - mr), y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb); const line = smooth(pts.map((p, i) => [x(i), y(p.v)])); const g = gid();
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".25"/><stop offset="1" stop-color="var(--accent)" stop-opacity=".02"/></linearGradient></defs><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${fmt.r(t)}</text>`).join('')}</g><line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><line x1="${ml}" x2="${W - mr}" y1="${y(e.mean)}" y2="${y(e.mean)}" stroke="var(--${e.mean >= 0 ? 'profit' : 'loss'})" stroke-opacity=".7"/><text x="${W - mr - 4}" y="${y(e.mean) - 5}" text-anchor="end">Gesamt ${fmt.r(e.mean)}</text><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">Trade ${pts[i].i}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${W - ml - mr}" height="${H}" fill="transparent"/></svg>`;
+    const x = i => ml + i / Math.max(1, pts.length - 1) * (W - ml - mr), y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb); const line = smooth(pts.map((p, i) => [x(i), y(p.v)]));
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${fmt.r(t)}</text>`).join('')}</g><line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><line x1="${ml}" x2="${W - mr}" y1="${y(e.mean)}" y2="${y(e.mean)}" stroke="var(--${e.mean >= 0 ? 'profit' : 'loss'})" stroke-opacity=".7"/><text x="${W - mr - 4}" y="${y(e.mean) - 5}" text-anchor="end">Gesamt ${fmt.r(e.mean)}</text><path d="${line}" fill="none" stroke="var(--text-2)" stroke-width="1.5" stroke-linejoin="round"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">Trade ${pts[i].i}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="var(--text-2)" stroke="var(--bg)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${W - ml - mr}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].v), i => `<b class="${cls(pts[i].v)}">${fmt.r(pts[i].v)}</b><br>Ø der Trades ${pts[i].i - e.window + 1} bis ${pts[i].i}`);
   };
   /* Monte Carlo Pfade */
@@ -253,27 +263,32 @@
     const mc = d && d.mc; if (!mc) { el.innerHTML = ''; return; } const ml = 8, mr = 58, mt = 12, mb = 26;
     const all = mc.curves.flat(); const ruinY = mc.start * (1 - mc.ruinPct); const ticks = niceTicks(Math.min(...all, ruinY), Math.max(...all), 4); const y0 = Math.min(ticks[0], ...all, ruinY), y1 = Math.max(ticks[ticks.length - 1], ...all);
     const x = i => ml + i / mc.horizon * (W - ml - mr), y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb);
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g>${mc.curves.map(c => `<polyline fill="none" stroke="var(--accent)" stroke-opacity=".3" stroke-width="1" points="${c.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}"/>`).join('')}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(mc.start)}" y2="${y(mc.start)}"/><line x1="${ml}" x2="${W - mr}" y1="${y(ruinY)}" y2="${y(ruinY)}" stroke="var(--loss)" stroke-opacity=".8" stroke-dasharray="4 3"/><text x="${ml + 2}" y="${y(ruinY) - 5}" style="fill:var(--loss)">Ruin-Schwelle ${curShort(ruinY)}</text>${[0, Math.round(mc.horizon / 2), mc.horizon].map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === mc.horizon ? 'end' : 'middle'}">${i} Trades</text>`).join('')}</svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text x="${W - mr + 8}" y="${y(t) + 3.5}">${curShort(t)}</text>`).join('')}</g>${mc.curves.map(c => `<polyline fill="none" stroke="var(--faint)" stroke-opacity=".6" stroke-width="1" points="${c.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}"/>`).join('')}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(mc.start)}" y2="${y(mc.start)}"/><line x1="${ml}" x2="${W - mr}" y1="${y(ruinY)}" y2="${y(ruinY)}" stroke="var(--loss)" stroke-opacity=".8" stroke-dasharray="4 3"/><text x="${ml + 2}" y="${y(ruinY) - 5}" style="fill:var(--loss)">Ruin-Schwelle ${curShort(ruinY)}</text>${[0, Math.round(mc.horizon / 2), mc.horizon].map(i => `<text x="${x(i)}" y="${H - 7}" text-anchor="${i === 0 ? 'start' : i === mc.horizon ? 'end' : 'middle'}">${i} Trades</text>`).join('')}</svg>`;
   };
   drawers.hist = function (el, d, W, H) {
     const mc = d && d.mc; if (!mc) { el.innerHTML = ''; return; } const n = mc.hist.length, max = Math.max(1, ...mc.hist.map(b => b.n)); const mb = 20, gap = W / n;
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${mc.hist.map((b, i) => { const h = b.n / max * (H - mb - 4); return `<rect x="${i * gap + 1}" y="${H - mb - h}" width="${Math.max(1, gap - 2)}" height="${Math.max(h, 0)}" rx="2" fill="var(--${b.lo >= mc.ruinPct ? 'loss' : 'accent'})" fill-opacity="${b.lo >= mc.ruinPct ? 1 : .75}" data-tip="Drawdown ${fmt.pct(b.lo, 0)} bis ${fmt.pct(b.hi, 0)}: ${b.n} Durchläufe"></rect>`; }).join('')}${[0, Math.floor(n / 2), n - 1].map(i => `<text x="${i * gap + gap / 2}" y="${H - 5}" text-anchor="middle">${fmt.pct(mc.hist[i].lo, 0)}</text>`).join('')}</svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${mc.hist.map((b, i) => { const h = b.n / max * (H - mb - 4); return `<rect x="${i * gap + 1}" y="${H - mb - h}" width="${Math.max(1, gap - 2)}" height="${Math.max(h, 0)}" rx="2" fill="var(--${b.lo >= mc.ruinPct ? 'loss' : 'faint'})" fill-opacity=".9" data-tip="Drawdown ${fmt.pct(b.lo, 0)} bis ${fmt.pct(b.hi, 0)}: ${b.n} Durchläufe"></rect>`; }).join('')}${[0, Math.floor(n / 2), n - 1].map(i => `<text x="${i * gap + gap / 2}" y="${H - 5}" text-anchor="middle">${fmt.pct(mc.hist[i].lo, 0)}</text>`).join('')}</svg>`;
   };
   /* Wochen-Disziplin */
   drawers.weeks = function (el, d, W, H) {
-    const w = d && d.weeks || []; if (!w.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Noch keine Wochen</span></div>`; return; } const mb = 18; const gap = W / w.length, bw = Math.min(28, gap * 0.6);
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${w.map((p, i) => { const h = Math.max(2, p.score / 100 * (H - mb - 4)); return `<rect x="${i * gap + (gap - bw) / 2}" y="${H - mb - h}" width="${bw}" height="${h}" rx="4" fill="${scoreColor(p.score)}" fill-opacity=".85" data-tip="Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${p.n} Trades)"></rect><text x="${i * gap + gap / 2}" y="${H - 4}" text-anchor="middle">${fmt.date(p.week)}</text>`; }).join('')}</svg>`;
+    const w = d && d.weeks || []; if (!w.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Noch keine Wochen</span></div>`; return; } const mb = 18; const n = w.length, gap = W / n, bw = Math.min(28, gap * 0.6);
+    /* Achsenlabels ausdünnen: Breite eines Mono-Labels schätzen (11px ≈ 6,6px/Zeichen + Luft), Randlabels werden nach innen gerückt (edge),
+       dann nur jede k-te Woche beschriften, so dass benachbarte Labels nie überlappen. Die jüngste Woche ist immer beschriftet. */
+    const labels = w.map(p => fmt.date(p.week)); const lw = Math.max(...labels.map(l => l.length)) * 6.6 + 12; const edge = Math.max(0, lw / 2 - gap / 2);
+    const k = Math.max(1, Math.ceil((lw + edge) / gap)); const show = i => (n - 1 - i) % k === 0;
+    const label = i => { const cx = i * gap + gap / 2; const a = cx - lw / 2 < 0 ? 'start' : cx + lw / 2 > W ? 'end' : 'middle'; return `<text x="${a === 'start' ? 2 : a === 'end' ? W - 2 : cx}" y="${H - 4}" text-anchor="${a}">${labels[i]}</text>`; };
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${w.map((p, i) => { const h = Math.max(2, p.score / 100 * (H - mb - 4)); return `<rect x="${i * gap + (gap - bw) / 2}" y="${H - mb - h}" width="${bw}" height="${h}" rx="2" fill="${scoreFill(p.score)}" fill-opacity=".9" data-tip="Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${p.n} Trades)"></rect>${show(i) ? label(i) : ''}`; }).join('')}</svg>`;
   };
   /* Halbkreis-Anzeige (Win-Rate) */
   function semiGauge(segments, label, size = 110) {
-    const r = 42, cx = 60, cy = 58, lw = 11; const total = Math.max(1e-9, segments.reduce((a, s) => a + Math.max(0, s.v), 0)); let a = Math.PI;
+    const r = 42, cx = 60, cy = 58, lw = 10; const total = Math.max(1e-9, segments.reduce((a, s) => a + Math.max(0, s.v), 0)); let a = Math.PI; const gap = 2 / r; /* 2px Lücke zwischen Segmenten statt Farbtrennung */
     const pt = ang => [cx + r * Math.cos(ang), cy - r * Math.sin(ang)];
-    const arcs = segments.filter(s => s.v > 0).map(s => { const span = s.v / total * Math.PI; const a1 = a - span; const [x0, y0] = pt(a), [x1, y1] = pt(a1); const dd = `M${x0.toFixed(2)},${y0.toFixed(2)} A${r},${r} 0 ${span > Math.PI ? 1 : 0} 1 ${x1.toFixed(2)},${y1.toFixed(2)}`; a = a1; return `<path d="${dd}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-linecap="butt"/>`; }).join('');
-    return `<svg viewBox="0 0 120 66" width="${size}" height="${size * 0.55}" aria-hidden="true"><path d="M${cx - r},${cy} A${r},${r} 0 0 1 ${cx + r},${cy}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/>${arcs}<text x="60" y="57" text-anchor="middle" style="font-size:15px;font-weight:700;fill:var(--text);font-family:var(--font-display)">${label}</text></svg>`;
+    const arcs = segments.filter(s => s.v > 0).map(s => { const span = s.v / total * Math.PI; const a1 = a - span; const g = span > 2 * gap ? gap / 2 : 0; const [x0, y0] = pt(a - g), [x1, y1] = pt(a1 + g); const dd = `M${x0.toFixed(2)},${y0.toFixed(2)} A${r},${r} 0 ${span > Math.PI ? 1 : 0} 1 ${x1.toFixed(2)},${y1.toFixed(2)}`; a = a1; return `<path d="${dd}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-linecap="butt"/>`; }).join('');
+    return `<svg viewBox="0 0 120 66" width="${size}" height="${size * 0.55}" aria-hidden="true"><path d="M${cx - r},${cy} A${r},${r} 0 0 1 ${cx + r},${cy}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/>${arcs}<text x="60" y="57" text-anchor="middle" style="font-size:15px;font-weight:400;fill:var(--text);font-family:var(--font);font-variant-numeric:tabular-nums">${label}</text></svg>`;
   }
   function donut(segments, size = 56, lw = 8, center = '') {
     const r = (size - lw) / 2, c = 2 * Math.PI * r; const total = Math.max(segments.reduce((a, s) => a + Math.max(s.v, 0), 0), 1e-9); let acc = 0;
-    const arcs = segments.map(s => { const f = Math.max(s.v, 0) / total; const len = Math.max(f * c - 2, 0); const e = `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-acc * c + 1}"/>`; acc += f; return e; }).join('');
+    const arcs = segments.map(s => { const f = Math.max(s.v, 0) / total; const len = Math.max(f * c - 2, 0); const e = `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-linecap="butt" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-acc * c + 1}"/>`; acc += f; return e; }).join('');
     return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/>${arcs}</svg>${center ? `<div class="n" style="font-size:${size * 0.22}px">${center}</div>` : ''}</div>`;
   }
   function radar(axes, size = 240) {
@@ -281,9 +296,9 @@
     const ringP = f => `<polygon points="${axes.map((_, i) => pt(i, f).join(',')).join(' ')}" fill="none" stroke="var(--border-2)"/>`;
     const spokes = axes.map((_, i) => `<line x1="${c}" y1="${c}" x2="${pt(i, 1)[0]}" y2="${pt(i, 1)[1]}" stroke="var(--border)"/>`).join('');
     const area = axes.map((a, i) => pt(i, Math.max(a.score, 0.03)).join(',')).join(' ');
-    const dots = axes.map((a, i) => { const [x, y] = pt(i, Math.max(a.score, 0.03)); return `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}"/>`; }).join('');
-    const labels = axes.map((a, i) => { const [x, y] = pt(i, 1.22); const anchor = Math.abs(x - c) < 4 ? 'middle' : x < c ? 'end' : 'start'; return `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" style="font-size:11px;fill:var(--text-2);font-weight:600">${esc(a.label)}</text>`; }).join('');
-    return `<svg viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+    const dots = axes.map((a, i) => { const [x, y] = pt(i, Math.max(a.score, 0.03)); return `<circle cx="${x}" cy="${y}" r="3" fill="var(--text)" stroke="var(--bg)" stroke-width="1.5" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}"/>`; }).join('');
+    const labels = axes.map((a, i) => { const [x, y] = pt(i, 1.22); const anchor = Math.abs(x - c) < 4 ? 'middle' : x < c ? 'end' : 'start'; return `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:-0.24px;fill:var(--text-2);font-weight:400">${esc(a.label)}</text>`; }).join('');
+    return `<svg viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="var(--faint)" fill-opacity=".35" stroke="var(--text-2)" stroke-width="1.5" stroke-linejoin="round"/>${dots}${labels}</svg>`;
   }
   function heatmap(activity, account) {
     const ref = Math.max(1, (account || 10000) * 0.01); const lvl = a => { if (!a.n) return a.checkIn || a.note ? 'l1' : ''; const f = Math.abs(a.pnl) / ref; return a.pnl >= 0 ? (f < 0.5 ? 'l2' : f < 1.5 ? 'l3' : 'l4') : (f < 0.5 ? 'n1' : f < 1.5 ? 'n2' : 'n3'); };
@@ -293,27 +308,33 @@
 
   /* ---------- Tooltip ---------- */
   function tipEl() { let t = document.getElementById('tip'); if (!t) { t = document.createElement('div'); t.id = 'tip'; document.body.appendChild(t); } return t; }
-  function tipAt(el, lx, ly, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); const r = el.getBoundingClientRect(); const x = r.left + lx, y = r.top + ly; tip.style.left = Math.min(x + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, y - tip.offsetHeight - 14) + 'px'; }
-  function tipShowAt(clientX, clientY, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); tip.style.left = Math.min(clientX + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, clientY - tip.offsetHeight - 12) + 'px'; }
-  function tipHide() { const t = document.getElementById('tip'); if (t) t.classList.remove('on'); }
+  /* tipFor: das [data-tip]-Element, zu dem der Tooltip gerade gehört. Wird es aus dem DOM entfernt (Modal, Re-Render,
+     Routenwechsel), bleibt das mouseout-Event aus – deshalb wird der Tooltip zusätzlich bei Klick, hashchange,
+     Modal-Öffnen/-Schließen und bei verwaistem Ziel versteckt. */
+  let tipFor = null;
+  function tipAt(el, lx, ly, html) { const tip = tipEl(); tipFor = null; tip.innerHTML = html; tip.classList.add('on'); const r = el.getBoundingClientRect(); const x = r.left + lx, y = r.top + ly; tip.style.left = Math.min(x + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, y - tip.offsetHeight - 14) + 'px'; }
+  function tipShowAt(clientX, clientY, html, target) { const tip = tipEl(); tipFor = target || null; tip.innerHTML = html; tip.classList.add('on'); tip.style.left = Math.min(clientX + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, clientY - tip.offsetHeight - 12) + 'px'; }
+  function tipHide() { tipFor = null; const t = document.getElementById('tip'); if (t) t.classList.remove('on'); }
   function bindTips() {
-    document.addEventListener('mouseover', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) tipShowAt(e.clientX, e.clientY, t.dataset.tip); });
-    document.addEventListener('mousemove', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) tipShowAt(e.clientX, e.clientY, t.dataset.tip); });
+    document.addEventListener('mouseover', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) tipShowAt(e.clientX, e.clientY, t.dataset.tip, t); });
+    document.addEventListener('mousemove', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) tipShowAt(e.clientX, e.clientY, t.dataset.tip, t); else if (tipFor && (!tipFor.isConnected || !tipFor.contains(e.target))) tipHide(); });
     document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('[data-tip]')) tipHide(); });
+    document.addEventListener('click', () => tipHide(), true);
+    window.addEventListener('hashchange', tipHide);
   }
 
   /* ---------- Modal & Toast ---------- */
   const modals = [];
   function modal(html, o = {}) {
     const bg = document.createElement('div'); bg.className = 'modal-bg'; bg.innerHTML = `<div class="modal ${o.cls || ''}" role="dialog" aria-modal="true">${html}</div>`;
-    document.body.appendChild(bg); modals.push({ bg, o }); document.body.style.overflow = 'hidden';
+    document.body.appendChild(bg); modals.push({ bg, o }); document.body.style.overflow = 'hidden'; tipHide();
     bg.addEventListener('mousedown', e => { if (e.target === bg && !o.locked) closeModal(); });
     if (o.onMount) o.onMount(bg.firstElementChild);
     const f = bg.querySelector('input:not([type=hidden]),select,textarea,button'); if (f && !o.noFocus) setTimeout(() => f.focus(), 30);
     return bg.firstElementChild;
   }
   function closeModal(all) {
-    const m = all ? modals.splice(0) : [modals.pop()].filter(Boolean);
+    const m = all ? modals.splice(0) : [modals.pop()].filter(Boolean); tipHide();
     for (const x of m) { const bg = x.bg; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(bg, 'out', '--dur-1', () => bg.remove()); else bg.remove(); if (x.o.onClose) x.o.onClose(); }
     if (!modals.length) document.body.style.overflow = '';
   }
@@ -330,5 +351,5 @@
     });
   }
   function downloadText(name, text, mime = 'application/json') { let ok = false; try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); ok = true; } catch (e) { ok = false; } modal(`<div class="modal-head"><h2>${esc(name)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted small">${ok ? 'Der Download wurde gestartet. Falls nichts passiert (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn selbst.' : 'Kopiere den Text und speichere ihn als Datei.'}</p><textarea class="input mono" id="dl-text" style="min-height:160px" readonly>${esc(text.length > 2000000 ? 'Zu groß für die Anzeige.' : text)}</textarea><div class="modal-foot"><button type="button" class="btn" data-action="copy-text" data-target="dl-text">${I.copy} Kopieren</button><button type="button" class="btn primary" data-close>Fertig</button></div>`, { cls: 'narrow' }); }
-  root.UI = { I, esc, fmt, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
+  root.UI = { I, esc, fmt, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, scoreFill, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
 })(typeof self !== 'undefined' ? self : this);

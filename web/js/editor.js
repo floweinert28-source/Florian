@@ -63,16 +63,23 @@
     ['Objekte', [['📝', 'notiz schreiben'], ['📓', 'notizbuch'], ['📅', 'kalender'], ['☕', 'kaffee'], ['🖥️', 'computer'], ['📱', 'handy'], ['🎧', 'kopfhörer'], ['📊', 'balken statistik'], ['🏁', 'ziel flagge'], ['🎓', 'lernen']]],
   ];
   const YT = /https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/i;
-  /* Farbpalette wie ein Farbfeld-Raster: Grautöne, kräftige Farben, dann hell bis dunkel */
-  const hsl = (h, s, l) => { s /= 100; l /= 100; const k = n => (n + h / 30) % 12; const a = s * Math.min(l, 1 - l); const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); return '#' + [f(0), f(8), f(4)].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join(''); };
-  const HUES = [0, 25, 50, 110, 175, 205, 235, 270, 300, 335];
-  const PALETTE = [['#000000', '#2b2b2b', '#444444', '#5e5e5e', '#7a7a7a', '#969696', '#b3b3b3', '#d1d1d1', '#ececec', '#ffffff'], HUES.map(h => hsl(h, 95, 52)), ...[88, 78, 68, 58, 46, 36, 26].map(l => HUES.map(h => hsl(h, 55, l)))];
+  /* Farbangebot = Factory-Palette, je Format eine feste Liste (Reference-Lock 4: genau zwei chromatische Akzente,
+     keine weiteren Hues, keine Zwischentöne). Schriftfarbe: die acht Neutralen (Obsidian bis Chalk) plus Metric Green
+     und Signal Orange. Textmarker: die drei dunklen Neutralen als Fläche plus die beiden Akzente mit 35 % Deckkraft
+     (rgba; Quill reicht rgba-Werte unverändert durch, nur rgb() wird zu Hex). Bereits gespeicherte Fremdfarben laden
+     weiterhin, nur das Angebot ist eingeschränkt; freie Farben bleiben über „Eigene Farben“ möglich. */
+  const NEUTRALS = ['#101010', '#1d1a18', '#3d3a39', '#4d4947', '#8a8380', '#b8b3b0', '#eeeeee', '#fafafa'];
+  const ACCENTS = ['#a0ca92', '#ee6018'];
+  const PALETTE = {
+    color: [NEUTRALS, ACCENTS],
+    background: [['#1d1a18', '#3d3a39', '#4d4947'], ['rgba(160,202,146,.35)', 'rgba(238,96,24,.35)']],
+  };
   const BLOCKS = { text: 'Text', 1: 'Überschrift 1', 2: 'Überschrift 2', 3: 'Überschrift 3', bullet: 'Aufzählung', ordered: 'Nummerierte Liste', check: 'To-do-Liste', code: 'Code', quote: 'Zitat' };
 
   /* ---------- Toolbar ---------- */
   const btn = (act, icon, tip, extra = '') => `<button type="button" class="tb" data-ed="${act}" data-tip="${esc(tip)}" aria-label="${esc(tip)}" ${extra}>${icon}</button>`;
   const item = (act, icon, text, val = '') => `<button type="button" class="item" data-ed="${act}" data-value="${esc(val)}">${icon}<span class="grow">${esc(text)}</span><span class="chk">${I.check}</span></button>`;
-  const palette = (kind, custom) => `<div class="ed-palette"><div class="sec">Eigene Farben</div><div class="row-c">${custom.map(c => `<button type="button" class="c" style="background:${esc(c)}" data-ed="${kind}" data-value="${esc(c)}" data-tip="${esc(c)}"></button>`).join('')}<label class="c add" data-tip="Eigene Farbe wählen">${I.plus}<input type="color" data-ed-custom="${kind}" aria-label="Eigene Farbe"></label></div><div class="sec">Standardfarben</div>${PALETTE.map(row => `<div class="row-c">${row.map(c => `<button type="button" class="c" style="background:${c}" data-ed="${kind}" data-value="${c}"></button>`).join('')}</div>`).join('')}<div class="row-c" style="margin-top:6px"><button type="button" class="btn xs ghost" data-ed="${kind}" data-value="">Farbe entfernen</button></div></div>`;
+  const palette = (kind, custom) => `<div class="ed-palette"><div class="sec">Eigene Farben</div><div class="row-c">${custom.map(c => `<button type="button" class="c" style="background:${esc(c)}" data-ed="${kind}" data-value="${esc(c)}" data-tip="${esc(c)}"></button>`).join('')}<label class="c add" data-tip="Eigene Farbe wählen">${I.plus}<input type="color" data-ed-custom="${kind}" aria-label="Eigene Farbe"></label></div><div class="sec">Standardfarben</div>${(PALETTE[kind] || PALETTE.color).map(row => `<div class="row-c">${row.map(c => `<button type="button" class="c" style="background:${c}" data-ed="${kind}" data-value="${c}"></button>`).join('')}</div>`).join('')}<div class="row-c" style="margin-top:6px"><button type="button" class="btn xs ghost" data-ed="${kind}" data-value="">Farbe entfernen</button></div></div>`;
   function toolbarHTML(p, o) {
     const tpls = (o.templates ? o.templates() : []);
     return `<div class="nb-toolbar" role="toolbar">

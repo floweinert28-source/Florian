@@ -7,7 +7,8 @@
 
   /* ---------- Hilfen ---------- */
   function username() { const pr = S.settings.profile || {}; if (pr.username) return '@' + pr.username.replace(/^@/, ''); const n = (S.settings.name || '').trim(); return n && n !== 'Trader' ? n : ''; }
-  function colors(theme) { const col = S.settings.colors || {}; const defs = root.Theme.DEFAULTS[theme] || root.Theme.DEFAULTS.dark; const v = h => root.Theme.valid(h) ? (theme === 'light' ? root.Theme.shade(h, -0.2) : h) : null; return { pos: v(col.profit) || defs.profit, neg: v(col.loss) || defs.loss }; }
+  /* Gewinn/Verlust aus den Einstellungen (Alt-Farben ignoriert), im Light-Modus über Theme.ink auf Bone-Karte abgedunkelt (≥ 4.5:1); Defaults light sind bereits Ink-Hex */
+  function colors(theme) { const T = root.Theme, col = S.settings.colors || {}; const defs = T.DEFAULTS[theme] || T.DEFAULTS.dark; const v = h => T.valid(h) && !(T.LEGACY && T.LEGACY.has(h.toLowerCase())) ? (theme === 'light' ? T.ink(h, '#eeeeee') : h) : null; return { pos: v(col.profit) || defs.profit, neg: v(col.loss) || defs.loss }; }
   function guilloche(w, h) {
     const cx = w / 2, cy = h * 0.42; let s = '';
     for (let i = 0; i < 18; i++) s += `<ellipse cx="${cx}" cy="${cy}" rx="${w * 0.46}" ry="${h * 0.16}" transform="rotate(${i * 10} ${cx} ${cy})"/>`;

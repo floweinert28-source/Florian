@@ -209,11 +209,11 @@
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${I.play} Session starten</button></div></form>`);
   };
   /* Schlaf-Gesicht im Linienstil der Symbole: fünf klare Zustände, weicher Wechsel per Überblendung */
-  App.sleepZone = function (h) { return h < 4.5 ? { key: 'exhausted', label: 'Deutlich zu wenig Schlaf', color: 'var(--loss)' } : h < 7 ? { key: 'tired', label: 'Etwas zu wenig Schlaf', color: 'var(--warn)' } : h <= 9 ? { key: 'fit', label: 'Optimal, 7 bis 9 Stunden', color: 'var(--accent)' } : h <= 11 ? { key: 'over', label: 'Etwas zu viel Schlaf', color: 'var(--be)' } : { key: 'wired', label: 'Viel zu viel Schlaf', color: 'var(--be)' }; };
+  App.sleepZone = function (h) { return h < 4.5 ? { key: 'exhausted', label: 'Deutlich zu wenig Schlaf', color: 'var(--loss-ink)' } : h < 7 ? { key: 'tired', label: 'Etwas zu wenig Schlaf', color: 'var(--warn-mid)' } : h <= 9 ? { key: 'fit', label: 'Optimal, 7 bis 9 Stunden', color: 'var(--profit-ink)' } : h <= 11 ? { key: 'over', label: 'Etwas zu viel Schlaf', color: 'var(--be)' } : { key: 'wired', label: 'Viel zu viel Schlaf', color: 'var(--be)' }; };
   App.SLEEP_FACES = {
     exhausted: { color: 'var(--loss)', parts: '<path d="M14,20 h8M26,20 h8"/><path d="M15,24 q3,2 6,0M27,24 q3,2 6,0" opacity=".55"/><path d="M19,32 h10"/>' },
-    tired: { color: 'var(--warn)', parts: '<path d="M14,21 q4,-3 8,0M26,21 q4,-3 8,0"/><path d="M18,33 q6,-3 12,0"/>' },
-    fit: { color: 'var(--accent)', parts: '<circle cx="18" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="30" cy="19" r="1.6" fill="currentColor" stroke="none"/><path d="M16,29 q8,8 16,0"/>' },
+    tired: { color: 'var(--warn-mid)', parts: '<path d="M14,21 q4,-3 8,0M26,21 q4,-3 8,0"/><path d="M18,33 q6,-3 12,0"/>' },
+    fit: { color: 'var(--profit)', parts: '<circle cx="18" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="30" cy="19" r="1.6" fill="currentColor" stroke="none"/><path d="M16,29 q8,8 16,0"/>' },
     over: { color: 'var(--be)', parts: '<circle cx="18" cy="19" r="3.2"/><circle cx="30" cy="19" r="3.2"/><circle cx="19.2" cy="20.2" r="1.1" fill="currentColor" stroke="none"/><circle cx="28.8" cy="20.2" r="1.1" fill="currentColor" stroke="none"/><path d="M17,31 q3,-3 6,0 t6,0"/>' },
     wired: { color: 'var(--be)', parts: '<circle cx="18" cy="20" r="4"/><circle cx="30" cy="20" r="4"/><circle cx="18" cy="20" r="1" fill="currentColor" stroke="none"/><circle cx="30" cy="20" r="1" fill="currentColor" stroke="none"/><path d="M13,15 l7,-3M35,15 l-7,-3"/><path d="M16,32 q3,-4 6,0 t6,0 t4,-2"/>' },
   };
@@ -222,8 +222,8 @@
     return Object.entries(App.SLEEP_FACES).map(([k, f]) => `<svg viewBox="0 0 48 48" class="sleep-face ${k === active ? 'on' : ''}" data-state="${k}" style="color:${f.color}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="20"/>${f.parts}</svg>`).join('');
   };
   App.sleepFaceIcon = function (h, size = 26) { const z = App.sleepZone(Number(h)); const f = App.SLEEP_FACES[z.key]; return `<svg viewBox="0 0 48 48" width="${size}" height="${size}" style="color:${f.color};vertical-align:middle;flex:0 0 auto" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="20"/>${f.parts}</svg>`; };
-  /* Farbe für 1–5-Skalen: gut = grün, schlecht = rot; bei Stress ist hoch schlecht */
-  App.scaleColor = function (n, highIsBad) { const v = Number(n); if (!v) return 'var(--muted)'; const i = highIsBad ? 6 - v : v; return ['var(--loss)', '#ff8c5c', 'var(--warn)', 'color-mix(in srgb, var(--accent) 70%, var(--warn))', 'var(--accent)'][i - 1]; };
+  /* Farbe für 1–5-Skalen: gut = Metric Green, schlecht = Signal Orange, dazwischen gedämpfte Stufen derselben Hues; bei Stress ist hoch schlecht */
+  App.scaleColor = function (n, highIsBad) { const v = Number(n); if (!v) return 'var(--muted)'; const i = highIsBad ? 6 - v : v; return ['var(--loss-ink)', 'color-mix(in srgb, var(--loss-ink) 60%, var(--text-2))', 'var(--warn-mid)', 'color-mix(in srgb, var(--profit-ink) 60%, var(--text-2))', 'var(--profit-ink)'][i - 1]; };
   App.checkInFields = function (ci) {
     const scale = (name, val, labels) => `<div class="seg pill" data-chips="${name}">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="seg-set" data-name="${name}" data-value="${n}" aria-pressed="${Number(val) === n}" title="${labels[n - 1]}">${n}</button>`).join('')}</div><input type="hidden" name="${name}" value="${val || ''}">`;
     const sleep = ci.sleep == null ? 7 : Number(ci.sleep); const pct = sleep / 14 * 100; const zone = App.sleepZone(sleep);

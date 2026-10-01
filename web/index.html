@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: light)">
 <title>Journalyst</title>
 <meta name="description" content="Aufzeichnen. Traden. Besser werden. Ein Trading-Journal im Browser mit Kennzahlen, Score, Fehlerkosten, Tilt-Warnungen, Edge-Check und Monte Carlo.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C10.5 3 6 7.4 6 12.9c0 6.5 7.6 13.4 9.3 14.9a1 1 0 0 0 1.4 0C18.4 26.3 26 19.4 26 12.9 26 7.4 21.5 3 16 3z' fill='none' stroke='%2334f58a' stroke-width='2.4'/%3E%3Cpath d='M11 14.5l3-3 2.5 2.5 4.5-5' fill='none' stroke='%2334f58a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C10.5 3 6 7.4 6 12.9c0 6.5 7.6 13.4 9.3 14.9a1 1 0 0 0 1.4 0C18.4 26.3 26 19.4 26 12.9 26 7.4 21.5 3 16 3z' fill='none' stroke='%23eeeeee' stroke-width='2.4'/%3E%3Cpath d='M11 14.5l3-3 2.5 2.5 4.5-5' fill='none' stroke='%23eeeeee' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/landing.css">
 <script src="js/theme.js"></script>
@@ -36,7 +38,7 @@
     <div class="tile"><div class="head"><span>Profit-Faktor</span></div><div class="body"><div class="val">1,31</div></div></div>
     <div class="tile"><div class="head"><span>Trade-Win-Rate</span></div><div class="body"><div class="val">52,0 %</div><span class="pills"><span class="pill win">89</span><span class="pill be">2</span><span class="pill loss">80</span></span></div></div>
     <div class="tile"><div class="head"><span>Fehler haben gekostet</span></div><div class="body"><div class="val neg">−8.103 €</div></div></div>
-    <div class="tile wide"><div class="head"><span>Täglicher &amp; kumulierter P&L</span></div><div class="body" style="display:block"><svg viewBox="0 0 800 130" width="100%" height="130" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".35"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs><path d="M0,110 C60,105 90,95 140,92 S230,80 280,84 S360,60 420,55 S520,62 580,40 S700,30 800,18 L800,130 L0,130 Z" fill="url(#lg)"/><path d="M0,110 C60,105 90,95 140,92 S230,80 280,84 S360,60 420,55 S520,62 580,40 S700,30 800,18" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg></div></div>
+    <div class="tile wide"><div class="head"><span>Täglicher &amp; kumulierter P&L</span></div><div class="body" style="display:block"><svg viewBox="0 0 800 130" width="100%" height="130" aria-hidden="true"><path d="M0,110 C60,105 90,95 140,92 S230,80 280,84 S360,60 420,55 S520,62 580,40 S700,30 800,18" fill="none" stroke="var(--profit)" stroke-width="1.5"/></svg></div></div>
   </div>
 </div></div></div>
 <section class="feat" id="funktionen">
@@ -59,11 +61,10 @@
 <footer><div class="in"><span>Journalyst · Web-Version. Alle Daten bleiben in deinem Browser.</span><span><a class="btn sm" href="app.html">Journal öffnen</a></span></div></footer>
 <script src="js/motion.js"></script>
 <script>
-/* Startseite: Feature-Karten und Schritte gleiten beim Scrollen ein, das Punkteraster im Hero bewegt sich dezent mit */
+/* Startseite: Feature-Karten und Schritte gleiten beim Scrollen ein */
 (function () {
   if (!window.Motion) return;
   document.querySelectorAll('.shot, section.feat, section.steps').forEach(function (el) { Motion.scan(el, false); });
-  Motion.parallax(document.querySelector('.hero'), 0.12);
 })();
 </script>
 </body>

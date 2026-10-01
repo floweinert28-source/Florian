@@ -69,18 +69,19 @@
   /* ---------- Bildkarte (feste 1080×1080, Vorschau skaliert, Export über Certificate.toBlob) ---------- */
   const CARD = { w: 1080, h: 1080, s: 1 };
   /* Kartenfarben: Gewinn/Verlust/Akzent aus den Einstellungen (sonst Standard), Rest je Theme fest – auch als Werte für die Grafik, damit der Export ohne Stylesheet-Zugriff stimmt */
-  const CARD_TOKENS = { dark: { bg: '#050706', muted: '#8b948f', line: '#262d29' }, light: { bg: '#fbfbfa', muted: '#6c766f', line: '#dfe4e0' } };
-  function cardColors(theme) { const T = root.Theme, col = S.settings.colors || {}; const v = h => T && typeof T.valid === 'function' && T.valid(h) ? h : null; return Object.assign({ pos: v(col.profit) || '#34f58a', neg: v(col.loss) || '#ff5c5c', accent: v(col.accent) || '#34f58a' }, CARD_TOKENS[theme] || CARD_TOKENS.dark); }
+  const CARD_TOKENS = { dark: { bg: '#101010', muted: '#8a8380', line: '#3d3a39' }, light: { bg: '#eeeeee', muted: '#4d4947', line: '#b8b3b0' } }; /* hex-identisch zu .shadow-card in app.css */
+  /* pos/neg aus den Einstellungen (Alt-Farben ignoriert) bzw. Theme.DEFAULTS; im Light über Theme.ink auf die Bone-Karte abgedunkelt. accent folgt dem Vorzeichen: Schatten besser → pos, sonst neg */
+  function cardColors(theme, better = true) { const T = root.Theme, col = S.settings.colors || {}; const tok = CARD_TOKENS[theme] || CARD_TOKENS.dark; const defs = T && T.DEFAULTS ? (T.DEFAULTS[theme] || T.DEFAULTS.dark) : { profit: '#a0ca92', loss: '#ee6018' }; const v = h => T && typeof T.valid === 'function' && T.valid(h) && !(T.LEGACY && T.LEGACY.has(h.toLowerCase())) ? (theme === 'light' && typeof T.ink === 'function' ? T.ink(h, tok.bg) : h) : null; const pos = v(col.profit) || defs.profit, neg = v(col.loss) || defs.loss; return Object.assign({ pos, neg, accent: better ? pos : neg }, tok); }
   /* Zwei Linien als inline-SVG; Darstellung als Attribute, nicht per CSS-Klasse: html-to-image übernimmt sie so in jedem Fall in das PNG */
   function miniChart(curve, W, H, c) {
     const pts = [{ real: 0, shadow: 0 }].concat(curve); const vals = pts.flatMap(p => [p.real, p.shadow]); const lo = Math.min(...vals), hi = Math.max(...vals);
     const x = i => 8 + i / Math.max(1, pts.length - 1) * (W - 16), y = v => 10 + (hi - v) / (hi - lo || 1) * (H - 20);
     const path = k => 'M' + pts.map((p, i) => `${x(i).toFixed(1)},${y(p[k]).toFixed(1)}`).join('L'); const last = pts[pts.length - 1]; const lx = x(pts.length - 1).toFixed(1);
-    const line = (k, col) => `<path d="${path(k)}" fill="none" stroke="${col}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>`;
-    return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><line x1="8" x2="${W - 8}" y1="${y(0).toFixed(1)}" y2="${y(0).toFixed(1)}" stroke="${c.line}" stroke-width="2" stroke-dasharray="6 6"/>${line('real', c.muted)}${line('shadow', c.accent)}<circle cx="${lx}" cy="${y(last.real).toFixed(1)}" r="8" fill="${c.muted}"/><circle cx="${lx}" cy="${y(last.shadow).toFixed(1)}" r="8" fill="${c.accent}" stroke="${c.bg}" stroke-width="3"/></svg>`;
+    const line = (k, col) => `<path d="${path(k)}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round" stroke-linecap="butt"/>`;
+    return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><line x1="8" x2="${W - 8}" y1="${y(0).toFixed(1)}" y2="${y(0).toFixed(1)}" stroke="${c.line}" stroke-width="1"/>${line('real', c.muted)}${line('shadow', c.accent)}<circle cx="${lx}" cy="${y(last.real).toFixed(1)}" r="5" fill="${c.muted}" stroke="${c.bg}" stroke-width="2"/><circle cx="${lx}" cy="${y(last.shadow).toFixed(1)}" r="5" fill="${c.accent}" stroke="${c.bg}" stroke-width="2"/></svg>`;
   }
   function cardHTML(pd, now) {
-    const cv = costView(pd.sums.cost); const theme = S.settings.theme === 'light' ? 'light' : 'dark'; const c = cardColors(theme); const top = pd.ranking.find(x => x.n > 0 && x.cost > C.EPS) || null;
+    const cv = costView(pd.sums.cost); const theme = S.settings.theme === 'light' ? 'light' : 'dark'; const c = cardColors(theme, pd.sums.shadow >= pd.sums.real); const top = pd.ranking.find(x => x.n > 0 && x.cost > C.EPS) || null;
     const stat = (k, v, cls = '') => `<div class="st ${cls}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
     return `<div class="shadow-card" data-theme="${theme}" style="width:${CARD.w}px;height:${CARD.h}px;--c-pos:${c.pos};--c-neg:${c.neg};--c-accent:${c.accent}">
       <div class="sc-glow"></div>
@@ -141,15 +142,15 @@
       const ready = res.active && closed.length > 0;
       const head = `<div class="shadow-head"><div class="shadow-intro"><b>Dein Schatten-Ich handelt wie du – nur ohne Regelbrüche.</b><span class="small muted">Was die Abweichung kostet, siehst du hier.</span></div><div class="row shadow-ctl">${U.seg(PERIODS, s.period, 'shadow-period')}<button type="button" class="btn" data-action="shadow-card" ${ready ? '' : 'disabled'}>${I.image}<span>Bildkarte</span></button></div></div>`;
       if (!closed.length) return head + U.empty('stats', 'Noch keine abgeschlossenen Trades', 'Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.', `<button type="button" class="btn sm" data-action="new-trade">${I.plus} Trade loggen</button>`) + rulesCard(res, r);
-      const cv = res.active ? costView(pd.sums.cost) : null; const p = pd.sums;
+      const cv = res.active ? costView(pd.sums.cost) : null; const p = pd.sums; const shadowCol = p.shadow >= p.real ? 'var(--profit)' : 'var(--loss)'; /* Schatten-Linie nach Vorzeichen: besser = Grün, sonst Orange */
       const tiles = `<div class="grid tiles shadow-tiles">
         <div class="tile shadow-main"><div class="head"><span>Disziplin-Kosten${U.info('Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.')}</span><span class="n">${esc(periodName(s.period))}</span></div><div class="body"><div><div class="val ${cv ? cv.cls : ''}">${cv ? cv.text : '—'}</div><div class="foot">${cv ? cv.foot : 'Keine Regel aktiv'}</div></div></div></div>
         ${U.tile('Echt', res.active ? U.pnl(p.real) : '—', { n: `${p.n} Trade${p.n === 1 ? '' : 's'}` })}
         ${U.tile('Schatten-Ich', res.active ? U.pnl(p.shadow) : '—', { foot: 'Mit allen Regeln eingehalten' })}
         ${U.tile('Verstöße', res.active ? String(pd.violations.length) : '—', { foot: res.active && p.n ? `${fmt.pct(pd.violations.length / p.n)} der Trades` : '' })}
       </div>`;
-      U.chartData['shadow-curve'] = { points: res.curve.map(pt => ({ date: pt.date, v: { real: pt.real, shadow: pt.shadow } })), series: [{ key: 'real', label: 'Echt', unit: 'cur', color: 'var(--text-2)' }, { key: 'shadow', label: 'Schatten-Ich', unit: 'cur', color: 'var(--accent)' }], periodLabel: d => fmt.dateTime(d) };
-      const chart = U.card('Equity: echt vs. Schatten-Ich', `<div class="legend top"><span><i style="background:var(--text-2)"></i>Echt</span><span><i style="background:var(--accent)"></i>Schatten-Ich</span></div><div class="chart h300" data-chart="lines" data-id="shadow-curve"></div>`, { info: 'Kumuliert über alle abgeschlossenen Trades. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.' });
+      U.chartData['shadow-curve'] = { points: res.curve.map(pt => ({ date: pt.date, v: { real: pt.real, shadow: pt.shadow } })), series: [{ key: 'real', label: 'Echt', unit: 'cur', color: 'var(--text-2)' }, { key: 'shadow', label: 'Schatten-Ich', unit: 'cur', color: shadowCol }], periodLabel: d => fmt.dateTime(d) };
+      const chart = U.card('Equity: echt vs. Schatten-Ich', `<div class="legend top"><span><i style="background:var(--text-2)"></i>Echt</span><span><i style="background:${shadowCol}"></i>Schatten-Ich</span></div><div class="chart h300" data-chart="lines" data-id="shadow-curve"></div>`, { info: 'Kumuliert über alle abgeschlossenen Trades. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.' });
       const banner = res.active ? '' : U.banner('info', 'Noch keine Regel aktiv', 'Schalte unten mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="shadow-preset">${I.bolt} Vorschlag übernehmen</button>` });
       const detail = res.active ? `<div class="grid shadow-detail start">${U.card('Regelverstöße', violationsTable(pd.violations, s.all), { sub: esc(pd.label), info: 'Die erste verletzte Regel zählt als Grund. Klick auf eine Zeile öffnet den Trade.' })}${U.card('Welche Regel kostet am meisten', rankingRows(pd.ranking), { sub: 'Netto-Effekt der Verstöße auf dein Konto' })}</div>` : '';
       return head + banner + tiles + chart + rulesCard(res, r) + detail;

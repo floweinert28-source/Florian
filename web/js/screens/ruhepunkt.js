@@ -87,8 +87,8 @@ var GEFUEHLE = [
 ];
 var AMPEL = {
   gruen: { label: 'Grün', color: 'var(--rp-moss)', titel: 'Gute Voraussetzungen.', text: 'Du bist heute gut aufgestellt. Handle nach Plan, nicht nach Gefühl.' },
-  gelb: { label: 'Gelb', color: 'var(--rp-amber)', titel: 'Du bist heute nicht ganz bei dir.', text: 'Weniger Trades, kleineres Risiko, früher Schluss. Das ist heute Stärke, keine Schwäche.' },
-  rot: { label: 'Rot', color: 'var(--rp-brick)', titel: 'Kein guter Tag für Entscheidungen unter Druck.', text: 'Überleg ernsthaft, heute nicht zu traden oder nur zu beobachten. Der Markt ist morgen auch noch da.' }
+  gelb: { label: 'Warnung', color: 'var(--rp-amber)', titel: 'Du bist heute nicht ganz bei dir.', text: 'Weniger Trades, kleineres Risiko, früher Schluss. Das ist heute Stärke, keine Schwäche.' },
+  rot: { label: 'Kritisch', color: 'var(--rp-brick)', titel: 'Kein guter Tag für Entscheidungen unter Druck.', text: 'Überleg ernsthaft, heute nicht zu traden oder nur zu beobachten. Der Markt ist morgen auch noch da.' }
 };
 var DONE = {
   vor: 'Du bist vorbereitet. Handle nach deinem Plan, nicht nach deinen Gefühlen.',
@@ -822,18 +822,16 @@ function historyEl() {
    ================================================================ */
 /* Kerze statt Schalter: angezündet = Bibelvers, Gebet und Atemgebet in den Sessions */
 /* Christlicher Impuls: eine schlanke Kerze in einer Kachel wie bei den Ablauf-Symbolen. Angezündet = an, ausgeblasen = aus. */
+/* Flache Füllungen aus der Factory-Palette, keine Verläufe, kein Glow: Flamme Signal Orange, Kern Bone, Körper Pale Stone, Rillen Warm Granite, Sockel Graphite, Docht Ash */
 var CANDLE_SVG = '<svg viewBox="0 0 48 60" aria-hidden="true">' +
-  '<defs><radialGradient id="rpc-glow" cx="50%" cy="60%" r="50%"><stop offset="0" stop-color="#ffd166" stop-opacity=".55"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient>' +
-  '<linearGradient id="rpc-flame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe29a"/><stop offset=".55" stop-color="#ffb13b"/><stop offset="1" stop-color="#f97316"/></linearGradient>' +
-  '<linearGradient id="rpc-body" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fbf5e6"/><stop offset=".55" stop-color="#efe6d0"/><stop offset="1" stop-color="#d9cfb6"/></linearGradient></defs>' +
-  '<ellipse class="rp-c-glow" cx="24" cy="17" rx="16" ry="18" fill="url(#rpc-glow)"/>' +
+  '<ellipse class="rp-c-glow" cx="24" cy="17" rx="16" ry="18" fill="none"/>' +
   '<path class="rp-c-smoke" d="M24 20c-2.2-3 2.2-5.5 0-8.5s2.2-4.5 0-7.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' +
-  '<g class="rp-c-flame"><path d="M24 5.5c3.6 4.6 6.2 7.8 6.2 12a6.2 6.2 0 0 1-12.4 0c0-4.2 2.6-7.4 6.2-12z" fill="url(#rpc-flame)"/><path d="M24 12.5c1.7 2.3 3 4.2 3 6.2a3 3 0 0 1-6 0c0-2 1.3-3.9 3-6.2z" fill="#fff6d6" opacity=".9"/></g>' +
-  '<circle class="rp-c-ember" cx="24" cy="23.4" r="1.1" fill="#f97316"/>' +
-  '<rect x="23.2" y="20" width="1.6" height="4.6" rx=".8" fill="#5a4a3a"/>' +
-  '<rect x="18.5" y="24" width="11" height="30" rx="3" fill="url(#rpc-body)"/>' +
-  '<path d="M18.5 28c2.2 1.6 3.3-1.2 5.5 0s3.3 1.6 5.5 0" fill="none" stroke="#c9bda2" stroke-width="1"/>' +
-  '<rect x="15" y="53" width="18" height="3.5" rx="1.75" fill="#b8ad95" opacity=".8"/></svg>';
+  '<g class="rp-c-flame"><path d="M24 5.5c3.6 4.6 6.2 7.8 6.2 12a6.2 6.2 0 0 1-12.4 0c0-4.2 2.6-7.4 6.2-12z" fill="#ee6018"/><path d="M24 12.5c1.7 2.3 3 4.2 3 6.2a3 3 0 0 1-6 0c0-2 1.3-3.9 3-6.2z" fill="#eeeeee" opacity=".9"/></g>' +
+  '<circle class="rp-c-ember" cx="24" cy="23.4" r="1.1" fill="#ee6018"/>' +
+  '<rect x="23.2" y="20" width="1.6" height="4.6" rx=".8" fill="#3d3a39"/>' +
+  '<rect x="18.5" y="24" width="11" height="30" rx="3" fill="#b8b3b0"/>' +
+  '<path d="M18.5 28c2.2 1.6 3.3-1.2 5.5 0s3.3 1.6 5.5 0" fill="none" stroke="#8a8380" stroke-width="1"/>' +
+  '<rect x="15" y="53" width="18" height="3.5" rx="1.75" fill="#4d4947"/></svg>';
 function candleHTML() {
   return '<button type="button" class="rp-candle' + (faith ? ' rp-on' : '') + '" role="switch" aria-checked="' + faith + '" data-action="rp-faith-toggle" aria-label="Christlicher Impuls ' + (faith ? 'ausschalten' : 'einschalten') + '">' +
     '<span class="rp-candle-tile">' + CANDLE_SVG + '</span>' +

@@ -78,7 +78,7 @@
       migrateNotes(this.data); migrateDashboards(this.data);
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       /* Beispieldaten-Upgrade: ältere Installationen bekommen die neuen Beispieldaten (Prop-Konten, Replay, Sprachnotizen); eigene Daten bleiben */
-      if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleVersion) || 0) < (root.Sample.VERSION || 1)) { try { this.installSample(); } catch (e) { console.warn('Beispieldaten-Upgrade fehlgeschlagen', e); this.data.settings.sampleVersion = root.Sample.VERSION || 1; } }
+      if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleVersion) || 0) < (root.Sample.VERSION || 1)) { try { this.installSample(); } catch (e) { console.warn('Beispieldaten-Upgrade fehlgeschlagen', e); this.data.settings.sampleError = { message: String(e && e.message || e), stack: String(e && e.stack || '').slice(0, 1200), at: new Date().toISOString(), ua: typeof navigator !== 'undefined' ? navigator.userAgent : '' }; } }
       return this;
     },
     save() {
@@ -224,7 +224,12 @@
        Rückgabe: Promise auf die Anzahl gespeicherter Bilder (auch als Store.sampleImages abrufbar); löst nie mit Fehler auf. */
     _sampleToken: 0, sampleImages: Promise.resolve(0),
     installSample() {
-      const Sample = root.Sample; const g = Sample.generate({ accountId: this.data.accounts[0].id });
+      const Sample = root.Sample; const acc = (this.data.accounts && this.data.accounts[0]) || null; const g = Sample.generate({ accountId: acc ? acc.id : 'main' });
+      /* Schlägt der Datenumbau fehl, bleibt der vorherige Stand erhalten (Rücksicherung), damit das Journal nie leer zurückbleibt */
+      const backup = JSON.stringify(this.data);
+      try { return this._installSampleData(Sample, g); } catch (e) { try { this.data = JSON.parse(backup); } catch (e2) { /* nichts */ } throw e; }
+    },
+    _installSampleData(Sample, g) {
       const removed = this.removeSample(false, true);
       this.data.trades.push(...g.trades);
       for (const [k, d] of Object.entries(g.days)) this.data.days[k] = mergeSampleDay(this.data.days[k], d);
@@ -238,7 +243,7 @@
          das wird gemerkt (settings.sampleShadowRules) und protokolliert, damit removeSample sie wieder ausschaltet, sofern das Regelwerk bis dahin unverändert ist. */
       const sr = this.shadowRules();
       if (!Object.values(sr).some(x => x && x.on)) { for (const k of SAMPLE_SHADOW) if (sr[k]) sr[k].on = true; this.data.shadowRules = sr; this.data.settings.sampleShadowRules = true; this.log({ type: 'Schatten-Ich', action: 'Vorschlagsregeln eingeschaltet', source: 'Beispieldaten', ident: 'Max. Trades pro Tag, Verlustserie, Pause nach Verlust' }); }
-      this.data.settings.sampleInstalled = true; this.data.settings.sampleVersion = Sample.VERSION || 1;
+      this.data.settings.sampleInstalled = true; this.data.settings.sampleVersion = Sample.VERSION || 1; delete this.data.settings.sampleError;
       this.log({ type: 'Import', action: 'importiert', source: 'Beispieldaten', ident: `${g.trades.length} Trades · ${(g.propAccounts || []).length} Prop-Konten` }); this.save();
       /* Bilder nachlaufend; alte gleichnamige Blobs sind vorher gelöscht. Ein späteres removeSample bricht die Erzeugung ab (Token). */
       const token = ++this._sampleToken; const alive = () => this._sampleToken === token && this.data.settings.sampleInstalled;

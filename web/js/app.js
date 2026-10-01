@@ -124,6 +124,8 @@
     'check-in'(el) { this.openCheckIn(el.dataset.day || C.dayKey(new Date())); },
     dismiss(el) { S.data.dismissed[el.dataset.key] = C.dayKey(new Date()); S.save(); this.rerender(); },
     'install-sample'() { S.installSample(); U.toast('Beispieldaten geladen', 'ok'); this.rerender(false); },
+    'sample-retry'() { try { S.installSample(); U.toast('Beispieldaten geladen', 'ok'); } catch (e) { S.settings.sampleError = { message: String(e && e.message || e), stack: String(e && e.stack || '').slice(0, 1200), at: new Date().toISOString(), ua: navigator.userAgent }; S.save(); U.toast('Beispieldaten konnten nicht geladen werden', 'err'); } this.rerender(false); },
+    'sample-error-dismiss'() { delete S.settings.sampleError; S.settings.sampleVersion = (root.Sample && root.Sample.VERSION) || S.settings.sampleVersion; S.save(); this.rerender(false); },
     'remove-sample'() { S.removeSample(); U.toast('Beispieldaten entfernt'); this.rerender(false); },
     import() { this.openImport(); },
   });

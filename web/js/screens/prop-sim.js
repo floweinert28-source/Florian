@@ -20,8 +20,8 @@
   const money = s => esc(s).replace(/‹M:(-?[\d.eE+-]+)›/g, (_, v) => fmt.cur(Number(v)));
   const num = X.num, accounts = X.accounts, presets = X.presets, accName = X.accName;
   /* Spezifikationswerte wie im Tab Konten (prop.js specMoney): Zahl + Währungscode des Presets, nicht fmt.cur (Journalwährung, Geld-blind → R) */
-  const specMoney = typeof X.specMoney === 'function' ? X.specMoney : (v, c) => v == null || v === '' || isNaN(Number(v)) ? '—' : `${fmt.num(Number(v), Number(v) % 1 ? 2 : 0)} ${c || ''}`.trim();
-  const journalCur = () => (S.settings && S.settings.currency) || 'EUR';
+  const specMoney = typeof X.specMoney === 'function' ? X.specMoney : (v, c) => v == null || v === '' || isNaN(Number(v)) ? '—' : `${fmt.num(Number(v), Number(v) % 1 ? 2 : 0)} ${esc(c || '')}`.trim();
+  const journalCur = () => (typeof S.currency === 'function' && S.currency()) || (S.settings && S.settings.currency) || 'EUR';
   const sim = () => { const s = X.st(); return s.sim || (s.sim = { area: 'pass', source: 'all', sizeFactor: 1, maxDays: 90, referenceSize: null, rules: '', evPreset: '', results: {}, busy: {} }); };
   const unitDays = v => v == null ? '—' : `${fmt.num(v, 1)} Tag${Math.round(v * 10) === 10 ? '' : 'e'}`;
 
@@ -36,7 +36,8 @@
     const probe = PS.simulate(dp, {}, { runs: 1, maxDays: 1 }); /* nur für minSample und den Hinweissatz, kein Ergebnis */
     return { account, dp, resetTime, tz, minSample: probe.minSample, note: probe.note, journalClosed: all.some(t => t.closed) };
   }
-  const paramKey = b => { const s = sim(); return [s.source, s.sizeFactor, s.maxDays, b.dp.tradeCount, b.dp.n, Math.round(C.sum(b.dp.days) * 100)].join('|'); };
+  /* Schlüssel der Datengrundlage: auch die Tagesreihe selbst und die Tagesgrenzen (Reset-Zeit, Zeitzone), damit ein verschobener Trade oder eine geänderte Reset-Zeit kein altes Ergebnis stehen lässt */
+  const paramKey = b => { const s = sim(); return [s.source, s.sizeFactor, s.maxDays, b.resetTime, b.tz, b.dp.tradeCount, b.dp.n, hash((b.dp.days || []).map(v => Math.round(v * 100)))].join('|'); };
   /* Fingerabdruck (djb2 über JSON) der Regeln/Preise im Schlüssel: ändert der Nutzer im Tab Konten die Regeln eines Kontos oder ein eigenes Preset, passt kein gespeichertes Ergebnis mehr */
   const hash = o => { const s = JSON.stringify(o) || ''; let h = 5381; for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; return h.toString(36); };
   const fpPreset = p => hash([p.firm, p.name, p.rules, p.fundedRules, p.fees, p.payout, p.profitSplit, p.size, p.currency]);
@@ -155,10 +156,10 @@
   function matchTable(rows, ps) {
     const byId = new Map(ps.map(p => [p.id, p]));
     /* Pill „unverifiziert“ unter dem Firmennamen statt in einer eigenen Spalte, damit die Tabelle auf Desktop ohne Scrollen passt */
-    /* Größe und Gebühr sind Spezifikationswerte in der Währung des Presets (specMoney), Beträge in der Begründung sind Tagesbeträge des Journals (fmt.cur) */
+    /* Größe und Gebühr sind Spezifikationswerte in der Währung des Presets (specMoney). Beträge in der Begründung (fmt.cur): Tagesbeträge aus dem Journal und Regelgrenzen aus dem Preset, ohne Umrechnung verglichen */
     const tr = r => { const p = byId.get(r.presetId); const c = p ? p.currency : ''; return `<tr data-preset="${esc(r.presetId)}" data-pass="${r.pass}"><td><b>${esc(r.firm)}</b>${p ? `<div class="sub">${X.verifiedPill(p)}</div>` : ''}</td><td>${esc(r.name)}</td><td class="r">${r.size > 0 ? specMoney(r.size, c) : '—'}</td><td><span class="prop-sim-mini"><span class="track"><i style="width:${(r.pass * 100).toFixed(1)}%;background:${U.scoreColor(r.pass * 100)}"></i></span><b>${fmt.pct(r.pass, 1)}</b></span></td><td class="r">${r.medianDaysToPass == null ? '—' : fmt.num(r.medianDaysToPass, 1)}</td><td class="r">${r.fees > 0 ? specMoney(r.fees, c) : '—'}</td><td class="reason">${money(r.reason)}</td></tr>`; };
-    const unv = ps.some(p => p.unverified || !p.lastVerified);
-    return `<div class="tbl-wrap prop-sim-table"><table class="tbl compact prop-sim-match"><thead><tr><th>Firma</th><th>Konto</th><th class="r">Größe</th><th>Bestehensquote</th><th class="r">Median Tage</th><th class="r">Challenge-Gebühr</th><th>Begründung</th></tr></thead><tbody>${rows.map(tr).join('')}</tbody></table></div><div class="prop-sim-note small muted">${esc(PS.NOTE)}${unv ? ' Als unverifiziert markierte Presets: Regeln und Preise bitte auf der Website der Firma prüfen.' : ''}</div>`;
+    const unv = ps.some(p => p.unverified || !p.lastVerified); const jc = journalCur(); const mixed = ps.some(p => p.currency && p.currency !== jc);
+    return `<div class="tbl-wrap prop-sim-table"><table class="tbl compact prop-sim-match"><thead><tr><th>Firma</th><th>Konto</th><th class="r">Größe</th><th>Bestehensquote</th><th class="r">Median Tage</th><th class="r">Challenge-Gebühr</th><th>Begründung</th></tr></thead><tbody>${rows.map(tr).join('')}</tbody></table></div><div class="prop-sim-note small muted">${esc(PS.NOTE)}${unv ? ' Als unverifiziert markierte Presets: Regeln und Preise bitte auf der Website der Firma prüfen.' : ''}${mixed ? ` Regelgrenzen in der Begründung sind Preset-Werte, Tagesbeträge Journalwerte in ${esc(jc)}, ohne Umrechnung verglichen.` : ''}</div>`;
   }
 
   /* ---------- Lohnt sich die Challenge? ---------- */
@@ -172,7 +173,7 @@
     return U.card('Lohnt sich die Challenge?', `${form}${hint}<div class="prop-sim-out" data-area="ev">${out}</div>`, { info: 'Erwartungswert netto = Bestehensquote × erwartete erste Auszahlung − Gebühren (Challenge, erwartete Resets, Aktivierung bei Bestehen). Nur Presets, weil Gebühren nötig sind.' });
   }
   function evResult(r, p) {
-    const ev = r.ev, q = r.sim, f = ev.fees; const noFees = !(num(p && p.fees ? p.fees.challenge : 0, 0) > 0);
+    const ev = r.ev, q = r.sim, f = ev.fees; const noFees = !(num(f.challenge, 0) > 0 || num(f.reset, 0) > 0 || num(f.activation, 0) > 0);
     const hint = noFees ? U.banner('warn', '', 'Gebühren im Preset nicht hinterlegt, Ergebnis ohne Kosten.') : '';
     const big = `<div class="prop-sim-big"><div class="caption">Erwartungswert netto</div><div class="big" data-ev="${ev.ev}">${U.pnl(ev.ev)}</div><div class="small muted">je Challenge-Versuch · ${fmt.int(ev.runs)} Funded-Durchläufe · höchstens ${ev.maxDays} Handelstage</div></div>`;
     const kv1 = `<div class="prop-sim-kv">${U.kv('Bestehensquote (simuliert)', fmt.pct(q.pass, 1))}${U.kv('Erwartete erste Auszahlung', fmt.cur(ev.expectedPayout))}${U.kv('Payout vor Breach', fmt.pct(ev.payoutProb, 1))}${U.kv('Ø Tage bis Payout', unitDays(ev.avgDaysToPayout))}</div>`;
@@ -210,7 +211,7 @@
     'prop-sim-factor'(el) { const s = sim(); const f = Number(el.dataset.value); s.sizeFactor = FACTORS.some(x => x[0] === f) ? f : 1; invalidate(); App.rerender(); },
     'prop-sim-days'(el) { const d = Number(el.value); sim().maxDays = DAYS.includes(d) ? d : 90; invalidate(); App.rerender(); },
     /* input statt change und kein Rerender: Tippen + sofort „Matcher starten“ muss in einem Klick funktionieren (siehe showIdle) */
-    'prop-sim-ref'(el) { const s = sim(); const v = num(el.value); const next = v > 0 ? v : null; if (next === s.referenceSize) return; s.referenceSize = next; invalidate(); showIdle('match'); },
+    'prop-sim-ref'(el) { const s = sim(); const v = num(el.value); const next = v > 0 ? v : null; if (next === s.referenceSize) return; const b = cur || basis(); const before = refSize(b); s.referenceSize = next; /* nur der Matcher hängt an der Referenzgröße; sein Schlüssel trägt sie, andere Ergebnisse bleiben */ if (refSize(b) !== before) showIdle('match'); },
     'prop-sim-rules'(el) { sim().rules = el.value; App.rerender(); },
     'prop-sim-ev-preset'(el) { sim().evPreset = el.value; App.rerender(); },
     'prop-sim-run'(el) { run(el.dataset.area || sim().area); },

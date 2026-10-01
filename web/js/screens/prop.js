@@ -30,7 +30,7 @@
   /* Kontoname ohne Geldbetrag (im Geld-blind-Modus würde fmt.cur sonst R anzeigen) */
   const sizeName = a => a.name || (a.size ? `${fmt.int(a.size / 1000)}K` : 'Konto');
   /* Spezifikationswerte (Kontogröße, Gebühr, Tick-Wert) sind keine Ergebnisse: Zahl + Währungscode, nie in R */
-  const specMoney = (v, cur) => v == null || v === '' || isNaN(Number(v)) ? '—' : `${fmt.num(Number(v), Number(v) % 1 ? 2 : 0)} ${cur || ''}`.trim();
+  const specMoney = (v, cur) => v == null || v === '' || isNaN(Number(v)) ? '—' : `${fmt.num(Number(v), Number(v) % 1 ? 2 : 0)} ${esc(cur || '')}`.trim();
   const money = (a, v, o = {}) => fmt.cur(v, Object.assign({ currency: a && a.currency }, o));
   /* Breach-Text aus Strukturfeldern der Engine, damit Beträge über fmt.cur laufen (Geld-blind) */
   const detailOf = (a, b) => b.rule === 'dailyLoss' && b.loss != null ? `Tagesverlust ${money(a, b.loss)} erreicht das Limit ${money(a, b.limit)}${b.dayKey ? ` (Handelstag ${esc(b.dayKey)})` : ''}`

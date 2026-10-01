@@ -77,6 +77,8 @@
       if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '', be: '' }, (parsed.settings || {}).colors || {}); const ds = defaults().settings; for (const k of ['notifications', 'beOffset', 'notebook', 'recapShown', 'profile', 'privacy', 'dashFilter', 'mentor', 'propThresholds']) this.data.settings[k] = Object.assign({}, ds[k], (parsed.settings || {})[k] || {}); if (!Array.isArray(this.data.settings.instruments)) this.data.settings.instruments = []; this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
       migrateNotes(this.data); migrateDashboards(this.data);
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
+      /* Beispieldaten-Upgrade: ältere Installationen bekommen die neuen Beispieldaten (Prop-Konten, Replay, Sprachnotizen); eigene Daten bleiben */
+      if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleVersion) || 0) < (root.Sample.VERSION || 1)) this.installSample();
       return this;
     },
     save() {
@@ -217,23 +219,44 @@
     activeSession() { return this.data.sessions.find(s => !s.endedAt) || null; },
     endSession(post) { const s = this.activeSession(); if (s) { s.endedAt = new Date().toISOString(); s.post = post || {}; this.log({ type: 'Session', action: 'beendet', ident: C.dayKey(new Date()) }); this.save(); } return s; },
 
-    /* Beispieldaten */
+    /* Beispieldaten (Sample.generate: Trades, Tage, Notizen, Prop-Konten mit Ausgaben/Payouts/Breach, Replay-Verlauf, Sprachnotizen).
+       Trades und Felder sind sofort da; die Replay-Screenshots entstehen danach im Browser (Canvas → IndexedDB) und laufen nach.
+       Rückgabe: Promise auf die Anzahl gespeicherter Bilder (auch als Store.sampleImages abrufbar); löst nie mit Fehler auf. */
+    _sampleToken: 0, sampleImages: Promise.resolve(0),
     installSample() {
-      const g = root.Sample.generate({ account: this.accountSize() === 10000 ? 25000 : this.data.accounts[0].size || 25000, accountId: this.data.accounts[0].id });
-      this.removeSample(false);
+      const Sample = root.Sample; const g = Sample.generate({ accountId: this.data.accounts[0].id });
+      const removed = this.removeSample(false);
       this.data.trades.push(...g.trades);
       for (const [k, d] of Object.entries(g.days)) this.data.days[k] = Object.assign({}, this.data.days[k] || {}, d);
       this.data.notes.push(...g.notes); this.data.missed.push(...g.missed); this.data.strategies.push(...g.strategies);
       for (const f of g.folders || []) if (!this.data.folders.some(x => x.id === f.id)) this.data.folders.push(f);
       for (const t of g.noteTags || []) if (!this.data.noteTags.some(x => x.id === t.id)) this.data.noteTags.push(t);
       for (const r of g.rules) if (!this.data.rules.some(x => x.text === r.text)) this.data.rules.push(r);
-      this.data.settings.sampleInstalled = true; this.log({ type: 'Import', action: 'importiert', source: 'Beispieldaten', ident: `${g.trades.length} Trades` }); this.save();
+      this.propAccounts().push(...(g.propAccounts || [])); this.propExpenses().push(...(g.propExpenses || [])); this.propPayouts().push(...(g.propPayouts || [])); this.propBreaches().push(...(g.propBreaches || []));
+      this.replayHistory().push(...(g.replay || [])); this.replayHistory().sort((a, b) => String(a.at).localeCompare(String(b.at)));
+      /* Schatten-Ich: ohne eine einzige aktive Regel bleibt die Seite leer; die drei Vorschlagsregeln einschalten, sofern der Nutzer noch keine Regel aktiviert hat */
+      const sr = this.shadowRules(); if (!Object.values(sr).some(x => x && x.on)) { for (const k of ['maxTrades', 'lossStreak', 'cooldown']) if (sr[k]) sr[k].on = true; this.data.shadowRules = sr; }
+      this.data.settings.sampleInstalled = true; this.data.settings.sampleVersion = Sample.VERSION || 1;
+      this.log({ type: 'Import', action: 'importiert', source: 'Beispieldaten', ident: `${g.trades.length} Trades · ${(g.propAccounts || []).length} Prop-Konten` }); this.save();
+      /* Bilder nachlaufend; alte gleichnamige Blobs sind vorher gelöscht. Ein späteres removeSample bricht die Erzeugung ab (Token). */
+      const token = ++this._sampleToken; const alive = () => this._sampleToken === token && this.data.settings.sampleInstalled;
+      this.sampleImages = Promise.resolve(removed).then(() => typeof Sample.renderScreenshots === 'function' ? Sample.renderScreenshots(g.screenshots || [], Blobs, { alive }) : 0).then(n => { if (n && alive()) refreshBlobImages(); return n; }).catch(() => 0);
+      return this.sampleImages;
     },
+    /* Entfernt alles mit sample: true, dazu Verweise eigener Trades auf Beispiel-Prop-Konten und Replay-Karten zu Beispiel-Trades; Blobs werden asynchron gelöscht (Promise auf die Anzahl) */
     removeSample(save = true) {
+      const blobIds = [];
+      for (const t of this.data.trades) if (t.sample) { for (const s of t.screenshots || []) blobIds.push(s); if (t.screenshotPre) blobIds.push(t.screenshotPre); for (const v of t.voiceNotes || []) if (v && v.blobId) blobIds.push(v.blobId); }
+      const sampleTrades = new Set(this.data.trades.filter(t => t.sample).map(t => t.id));
       this.data.trades = this.data.trades.filter(t => !t.sample);
       for (const [k, d] of Object.entries(this.data.days)) { if (d.sample) { delete this.data.days[k]; } }
       this.data.notes = this.data.notes.filter(n => !n.sample); this.data.folders = this.data.folders.filter(f => !f.sample); this.data.noteTags = this.data.noteTags.filter(t => !t.sample); this.data.missed = this.data.missed.filter(m => !m.sample); this.data.strategies = this.data.strategies.filter(s => !s.sample); this.data.rules = this.data.rules.filter(r => !r.sample);
-      this.data.settings.sampleInstalled = false; if (save) this.save();
+      const sampleAccounts = new Set(this.propAccounts().filter(a => a.sample).map(a => a.id)); const ownAccount = x => !x.sample && !sampleAccounts.has(x.accountId);
+      this.data.propAccounts = this.propAccounts().filter(a => !a.sample); this.data.propExpenses = this.propExpenses().filter(ownAccount); this.data.propPayouts = this.propPayouts().filter(ownAccount); this.data.propBreaches = this.propBreaches().filter(ownAccount);
+      for (const t of this.data.trades) if (Array.isArray(t.propAccountIds) && t.propAccountIds.some(id => sampleAccounts.has(id))) t.propAccountIds = t.propAccountIds.filter(id => !sampleAccounts.has(id));
+      this.data.replay.history = this.replayHistory().filter(c => !c.sample && !sampleTrades.has(c.tradeId));
+      this.data.settings.sampleInstalled = false; this._sampleToken++; if (save) this.save();
+      return Promise.all(blobIds.map(id => Blobs.del(id).catch(() => {}))).then(() => blobIds.length).catch(() => 0);
     },
     async wipe() { await Blobs.clear().catch(() => {}); const theme = this.data.settings.theme, colors = this.data.settings.colors; this.data = defaults(); this.data.settings.theme = theme; this.data.settings.colors = colors; this.data.settings.onboarded = true; this.data.notes.push(welcomeNote()); this.saveNow(); this.listeners.forEach(fn => fn()); },
 
@@ -275,6 +298,11 @@
     ]) };
   }
   function blobToDataURL(blob) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(blob); }); }
+  /* Bilder, die beim Rendern noch fehlten (Beispiel-Screenshots laufen nach), jetzt nachladen; ohne vollständigen Neuaufbau, damit Eingaben erhalten bleiben */
+  function refreshBlobImages() {
+    if (typeof document === 'undefined') return;
+    for (const img of document.querySelectorAll('img[data-blob]:not([src])')) Blobs.url(img.dataset.blob).then(u => { if (!u) return; img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); img.src = u; const box = img.closest('.shot, .thumb, .lib-card'); if (box) box.classList.remove('missing'); }).catch(() => {});
+  }
 
   /* IndexedDB */
   const Blobs = {

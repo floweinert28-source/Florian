@@ -92,7 +92,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Bestehensquote), Puffer in Stop-Losses, Positionsgrößenrechner mit editierbaren Instrument-Spezifikationen,
   Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse, Challenge vs. Funded, Monte-Carlo-Simulation
   der Bestehens-Wahrscheinlichkeit im Web Worker (`js/propworker.js`, Rechenkern `js/propsim.js`), Firmen-Matcher und
-  Erwartungswert der Challenge. Tests: `web/tests/prop.test.mjs`, `web/tests/propsim.test.mjs`.
+  Erwartungswert der Challenge. Alle Preset-Werte (Regeln, Gebühren, Payout-Bedingungen, Instrumente) sind
+  unverifiziert und in `web/PROP-PRESETS.md` zum Prüfen aufgelistet. Tests: `web/tests/prop.test.mjs`,
+  `web/tests/propsim.test.mjs`.
 
 ## Aufbau
 

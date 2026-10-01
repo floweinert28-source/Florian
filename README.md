@@ -1,3 +1,10 @@
+> **Hinweis:** Dieses Repository enthält mehrere Projekte.
+>
+> - **Trading Journal als Web-App** (Aufbau wie TradeZella / TradePath, läuft im Browser):
+>   Ordner [`web/`](web/README.md). Starten mit `web/app.html`.
+> - Native Trading-Journal-App für macOS, iPhone und iPad: Ordner [`TradingJournal/`](TradingJournal/README.md).
+> - Darunter folgt die Beschreibung des Discord-Bots.
+
 # Aufgaben-Bot für Discord
 
 Ein Discord-Bot, der Aufgaben in deinen Channels verwaltet: anlegen, zuweisen,

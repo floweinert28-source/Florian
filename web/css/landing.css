@@ -1,0 +1,167 @@
+/* ============================================================
+   Startseite – Factory-Landing
+   Obsidian #101010 als Canvas, Geist 400 mit enger Laufweite, Geist Mono 12px
+   uppercase als Instrumenten-Stimme. Farbe nur als Daten (Demo-Kacheln) und als
+   Status-Punkt (Ribbon, Schritte, Fensterleiste). Karten sind 1px-Haarlinien,
+   Buttons 3px: Chalk-Fläche für die Primäraktion, Ghost mit Pfeil daneben.
+   Eine helle Bone-Karte: die CTA im Footer. Keine Verläufe, keine Schatten.
+   Tokens kommen aus app.css; Fallbacks decken ältere Token-Stände ab.
+   ============================================================ */
+.lp { --max: 1200px; --section: 96px; --lp-mono: var(--font-mono, "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace); --lp-mono-size: var(--mono-size, 12px); --lp-mono-tracking: var(--mono-tracking, -0.24px); }
+
+/* ---- Instrumenten-Stimme: Ribbon, Wortmarke, Kachel-Köpfe, Schritt-Nummern, Hinweis ---- */
+.lp .ribbon, .lp header.topnav .brand, .lp .hero .small, .lp .demo .area .tile .head, .lp .step .k { font-family: var(--lp-mono); font-size: var(--lp-mono-size); line-height: 1.3; font-weight: 400; text-transform: uppercase; letter-spacing: var(--lp-mono-tracking); color: var(--text-2); }
+
+/* ---- Ribbon: Mono-Zeile mit Status-Punkt (ersetzt das Orange-Wort „Neu") ---- */
+.lp .ribbon { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 16px; background: var(--bg); border-bottom: 1px solid var(--border); text-align: center; }
+.lp .ribbon::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--loss); flex: 0 0 auto; }
+
+/* ---- Buttons auf der Startseite: 3px, flach, keine Bewegung ---- */
+.lp .btn { border-radius: var(--radius-sm, 3px); font-weight: 400; letter-spacing: 0; text-transform: none; transform: none; transition: color var(--dur-1) var(--ease), background-color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
+.lp .btn:hover, .lp .btn:active { transform: none; }
+.lp .btn.primary { background: var(--accent-2, #fafafa); border: 1px solid transparent; color: var(--accent-ink, #101010); }
+.lp .btn.primary:hover { background: var(--accent, #eeeeee); border-color: transparent; color: var(--accent-ink, #101010); }
+.lp .btn:not(.primary) { background: transparent; border: 1px solid var(--border-2); color: var(--text); }
+.lp .btn:not(.primary):hover { background: transparent; border-color: var(--text); color: var(--accent-2, #fafafa); }
+
+/* ---- Top-Navigation: 64px, transparent über dem Canvas ---- */
+.lp header.topnav { display: flex; align-items: center; gap: 24px; min-height: 64px; padding: 0 var(--gutter, 24px); max-width: var(--max); margin: 0 auto; }
+.lp header.topnav .brand { display: flex; align-items: center; gap: 10px; padding: 0; color: var(--text); }
+.lp header.topnav .brand .mark { width: 18px; height: 18px; display: grid; place-items: center; color: var(--text); }
+.lp header.topnav .brand .mark svg { width: 18px; height: 18px; }
+.lp header.topnav .brand em { font-style: normal; color: var(--text); }
+.lp header.topnav .links { display: flex; gap: 24px; margin: 0 auto; font: 400 14px/1 var(--font); text-transform: uppercase; letter-spacing: -0.01em; color: var(--text); }
+.lp header.topnav .links a { position: relative; transition: color var(--dur-1) var(--ease); }
+.lp header.topnav .links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 0; background: transparent; }
+.lp header.topnav .links a:hover, .lp header.topnav .links a.active { color: var(--accent-2, #fafafa); }
+.lp header.topnav .cta { display: flex; gap: 8px; }
+.lp header.topnav .cta .btn { height: 36px; padding: 0 14px; font-size: 14px; display: inline-flex; align-items: center; }
+
+/* ---- Hero: Display-Zeile links, Text und Aktionen rechts unten; kein Punkteraster ---- */
+.lp .hero { position: relative; max-width: var(--max); margin: 0 auto; padding: 80px var(--gutter, 24px) 0; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+.lp .hero::before { display: none; }
+.lp .hero h1 { font: 400 clamp(44px, 6vw, 72px)/1 var(--font); letter-spacing: -0.04em; color: var(--text); text-wrap: balance; }
+.lp .hero h1 span { display: block; }
+.lp .hero .lead { font-size: clamp(16px, 1.4vw, 18px); line-height: 1.5; color: var(--muted); max-width: 40ch; }
+.lp .hero .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.lp .btn.big { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; font-size: 15px; }
+.lp .hero .actions .btn:not(.primary)::after { content: '→'; font-family: var(--lp-mono); font-size: 14px; line-height: 1; color: var(--text-2); transition: color var(--dur-1) var(--ease); }
+.lp .hero .actions .btn:not(.primary):hover::after { color: var(--accent-2, #fafafa); }
+.lp .hero .small { line-height: 1.5; max-width: 52ch; }
+
+/* ---- Produktbild: Dashboard-Frame mit Haarlinie, Fensterleiste mit einem Live-Punkt ---- */
+/* .shot ist in app.css das Trade-Screenshot-Thumbnail (16/10, Carbon-Fläche); hier nur ein Wrapper ohne eigene Fläche */
+.lp .shot { position: static; aspect-ratio: auto; border: 0; border-radius: 0; overflow: visible; background: transparent; max-width: var(--max); margin: 56px auto 0; padding: 0 var(--gutter, 24px); }
+.lp .shot .frame { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius, 10px); overflow: hidden; max-width: 100%; }
+.lp .shot .frame .bar { display: flex; gap: 8px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.lp .shot .frame .bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--border-2); }
+.lp .shot .frame .bar i:nth-child(1) { background: var(--loss); }
+.lp .demo { display: grid; grid-template-columns: 200px minmax(0, 1fr); }
+.lp .demo .side { border-right: 1px solid var(--border); padding: 16px 12px; display: flex; flex-direction: column; gap: 2px; }
+.lp .demo .side div { padding: 8px 10px; border-radius: var(--radius-sm, 3px); font: 400 14px/1.3 var(--font); color: var(--text-2); border: 1px solid transparent; }
+.lp .demo .side div.on { background: var(--surface-2); color: var(--text); border-color: transparent; }
+/* Kennzahlen als Metric-Tiles: keine Fläche, Haarlinien-Trenner, Mono-Label, Geist-Wert */
+.lp .demo .area { padding: 0; display: grid; gap: 0; grid-template-columns: repeat(4, 1fr); align-content: start; }
+.lp .demo .area .tile { background: transparent; border: 0; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; padding: 20px; gap: 12px; }
+.lp .demo .area .tile:hover { border-color: var(--border); }
+.lp .demo .area .tile:nth-child(4n) { border-right: 0; }
+.lp .demo .area .tile.wide { grid-column: 1 / -1; border-right: 0; border-bottom: 0; }
+.lp .demo .area .tile .head .n { color: var(--muted); font-weight: 400; }
+.lp .demo .area .tile .body { border-top: 0; padding-top: 0; flex-wrap: wrap; }
+.lp .demo .area .tile .val { font: 400 24px/1.1 var(--font); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--text); }
+.lp .demo .area .tile .val.pos { color: var(--profit-ink, var(--profit)); }
+.lp .demo .area .tile .val.neg { color: var(--loss-ink, var(--loss)); }
+.lp .demo .area .tile.wide svg { display: block; width: 100%; height: 130px; }
+.lp .pills { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.lp .pill { display: inline-flex; align-items: center; padding: 2px 6px; border-radius: var(--radius-sm, 3px); font: 400 var(--lp-mono-size)/1.3 var(--lp-mono); letter-spacing: var(--lp-mono-tracking); text-transform: uppercase; background: transparent; border: 1px solid var(--border-2); color: var(--text-2); }
+.lp .pill.win { color: var(--profit-ink, var(--profit)); }
+.lp .pill.be { color: var(--be); }
+.lp .pill.loss { color: var(--loss-ink, var(--loss)); }
+
+/* ---- Funktionen: Feature-Card-Reihe, 1px Haarlinie, 24px Raster ---- */
+.lp section.feat { max-width: var(--max); margin: 0 auto; padding: var(--section) var(--gutter, 24px) 0; }
+.lp section.feat h2 { font: 400 clamp(30px, 4vw, 44px)/1.12 var(--font); letter-spacing: -0.025em; color: var(--text); max-width: 26ch; margin-bottom: 12px; }
+.lp section.feat .sub { color: var(--muted); font-size: 16px; line-height: 1.5; max-width: 60ch; margin-bottom: 40px; }
+.lp .feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; } /* sechs Karten = zwei geschlossene Dreierreihen, kein auto-fit (4+2-Raster) */
+.lp .feat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius, 10px); padding: 20px; transition: border-color var(--dur-2) var(--ease); }
+.lp .feat-card:hover { border-color: var(--border-2); }
+.lp .feat-card .ico { width: 20px; height: 20px; border-radius: 0; display: block; background: none; color: var(--text-2); margin-bottom: 16px; transform: none; }
+.lp .feat-card:hover .ico { transform: none; }
+.lp .feat-card .ico svg { width: 20px; height: 20px; display: block; }
+.lp .feat-card b { display: block; font: 400 16px/1.4 var(--font); letter-spacing: -0.01em; color: var(--text); margin-bottom: 6px; }
+.lp .feat-card p { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+/* ---- Ablauf: drei Karten, Schritt-Nummer als Mono-Eyebrow mit Status-Punkt ---- */
+.lp .steps { max-width: var(--max); margin: 0 auto; padding: var(--section) var(--gutter, 24px) 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+.lp .step { padding: 24px; border-radius: var(--radius, 10px); background: var(--surface); border: 1px solid var(--border); transition: border-color var(--dur-2) var(--ease); }
+.lp .step:hover { border-color: var(--border-2); }
+.lp .step .k { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.lp .step .k::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--loss); flex: 0 0 auto; }
+.lp .step b { display: block; font: 400 16px/1.4 var(--font); letter-spacing: -0.01em; color: var(--text); }
+.lp .step p { color: var(--muted); font-size: 14px; line-height: 1.5; margin-top: 6px; }
+
+/* ---- Footer: 96px Luft, kein Trenner; die eine Bone-CTA-Karte (lokale Token-Inversion wie in app.css) ---- */
+.lp footer { padding: var(--section) var(--gutter, 24px); border-top: 0; }
+.lp footer .in {
+  max-width: var(--max); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center;
+  background: var(--bone, #eeeeee); color: var(--bone-ink, #101010); border-radius: var(--radius, 10px); padding: 24px;
+  font: 400 16px/1.5 var(--font); letter-spacing: -0.01em;
+  --text: #101010; --text-2: #3d3a39; --muted: #4d4947; --faint: #8a8380;
+  --border: #d9d6d4; --border-2: #b8b3b0; --surface-2: #e4e4e4; --surface-3: #d9d6d4;
+  --accent: #101010; --accent-2: #1d1a18; --accent-ink: #fafafa; --accent-soft: rgba(16, 16, 16, 0.06);
+  --profit-ink: color-mix(in srgb, #a0ca92 50%, #101010);
+  --loss-ink: color-mix(in srgb, #ee6018 65%, #101010);
+}
+:root[data-theme="light"] .lp footer .in {
+  --text: #eeeeee; --text-2: #b8b3b0; --muted: #8a8380; --faint: #4d4947;
+  --border: #1d1a18; --border-2: #3d3a39; --surface-2: #1d1a18; --surface-3: #3d3a39;
+  --accent: #eeeeee; --accent-2: #fafafa; --accent-ink: #101010; --accent-soft: rgba(238, 238, 238, 0.08);
+  --profit-ink: #a0ca92; --loss-ink: #ee6018;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .lp footer .in {
+    --text: #eeeeee; --text-2: #b8b3b0; --muted: #8a8380; --faint: #4d4947;
+    --border: #1d1a18; --border-2: #3d3a39; --surface-2: #1d1a18; --surface-3: #3d3a39;
+    --accent: #eeeeee; --accent-2: #fafafa; --accent-ink: #101010; --accent-soft: rgba(238, 238, 238, 0.08);
+    --profit-ink: #a0ca92; --loss-ink: #ee6018;
+  }
+}
+.lp footer .in > span { min-width: 0; }
+.lp footer .in .btn.sm { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; font-size: 14px; border-radius: var(--radius-sm, 3px); background: var(--bone-ink, #101010); color: var(--bone, #eeeeee); border: 1px solid transparent; }
+.lp footer .in .btn.sm:hover { background: var(--accent-2); color: var(--accent-ink); border-color: transparent; }
+
+/* ---- Responsiv ---- */
+@media (max-width: 900px) {
+  .lp .hero { grid-template-columns: 1fr; gap: 24px; padding-top: 56px; align-items: start; }
+  .lp .hero h1 { letter-spacing: -0.025em; }
+  .lp header.topnav .links { display: none; }
+  .lp .demo { grid-template-columns: 1fr; }
+  .lp .demo .side { display: none; }
+  .lp .demo .area { grid-template-columns: repeat(2, 1fr); }
+  .lp .demo .area .tile { border-right: 1px solid var(--border); padding: 16px; }
+  .lp .demo .area .tile:nth-child(2n) { border-right: 0; }
+  .lp .demo .area .tile.wide { border-right: 0; }
+  .lp .demo .area .tile .val { font-size: 22px; }
+  .lp .shot { margin-top: 40px; }
+  .lp .feats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp .feats, .lp .steps { gap: 16px; }
+  .lp { --section: 64px; }
+}
+@media (max-width: 960px) {
+  .lp .btn, .lp header.topnav .cta .btn, .lp footer .in .btn.sm { min-height: var(--touch, 40px); }
+}
+@media (max-width: 600px) {
+  .lp .feats { grid-template-columns: minmax(0, 1fr); }
+  .lp header.topnav .cta .btn:not(.primary) { display: none; }
+  .lp .hero .actions .btn.big { flex: 1 1 auto; justify-content: center; }
+  .lp footer .in > span:last-child { width: 100%; }
+  .lp footer .in .btn.sm { width: 100%; justify-content: center; }
+}
+
+/* ---- Bewegung: Hero blendet beim Laden ein (reines CSS); keine Hover-Transformationen ---- */
+html { scroll-behavior: smooth; }
+.lp .hero h1 span, .lp .hero .lead, .lp .hero .actions, .lp .hero .small { animation: lp-in var(--dur-3) var(--ease) both; }
+.lp .hero h1 span:nth-child(2) { animation-delay: 80ms; } .lp .hero h1 span:nth-child(3) { animation-delay: 160ms; }
+.lp .hero .lead { animation-delay: 200ms; } .lp .hero .actions { animation-delay: 280ms; } .lp .hero .small { animation-delay: 340ms; }
+@keyframes lp-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .lp .hero h1 span, .lp .hero .lead, .lp .hero .actions, .lp .hero .small { animation: none; } }

@@ -1,21 +1,28 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.venv/
-venv/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Secrets & local state
-.env
-*.db
-*.db-journal
-*.sqlite3
-data/
 
 # Editors / OS
-.vscode/
-.idea/
+# Python
+# Secrets & local state
+# Xcode / Swift
+*.db
+*.db-journal
+*.egg-info/
+*.py[cod]
+*.sqlite3
+*.xcworkspace/xcuserdata/
 .DS_Store
+.env
+.idea/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.swiftpm/
+.venv/
+.vscode/
+TradingJournal/**/*.xcuserstate
+TradingJournal/**/.build/
+TradingJournal/**/DerivedData/
+TradingJournal/**/xcuserdata/
+__pycache__/
+data/
+server/data/
+venv/

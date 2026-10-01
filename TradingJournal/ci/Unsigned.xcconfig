@@ -1,0 +1,10 @@
+// Build ohne Entwickler-Konto (GitHub Actions): ad-hoc signiert, ohne iCloud-/Push-Entitlements.
+// Die App läuft damit rein lokal; iCloud-Sync ist in diesem Build deaktiviert.
+CODE_SIGN_IDENTITY = -
+CODE_SIGN_STYLE = Manual
+CODE_SIGNING_REQUIRED = NO
+CODE_SIGN_ENTITLEMENTS =
+CODE_SIGN_ENTITLEMENTS[sdk=macosx*] =
+ENABLE_HARDENED_RUNTIME = NO
+DEVELOPMENT_TEAM =
+PROVISIONING_PROFILE_SPECIFIER =

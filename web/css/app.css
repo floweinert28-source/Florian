@@ -126,7 +126,7 @@ svg { display: block; }
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; align-items: center; gap: 12px; min-height: var(--topbar-h);
   padding: 12px var(--gutter); background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border);
 }
-.topbar h1 { font-size: 21px; font-weight: 600; }
+.topbar h1 { font-size: 21px; font-weight: 600; white-space: nowrap; }
 .topbar .actions { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
 .menu-btn { display: none; }
 .menu-btn svg path { transform-box: view-box; transition: transform var(--dur-2) var(--ease), opacity var(--dur-1) var(--ease); }
@@ -549,6 +549,8 @@ span.info:hover { color: var(--accent); }
   .topbar h1 { font-size: 17px; flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .topbar .actions { flex: 0 0 auto; margin-left: 0; flex-wrap: nowrap; gap: 6px; }
   .topbar .actions .hide-m { display: none; }
+  /* Zeitraum-Knopf nur als Kalender-Symbol mit Pfeil, damit der Seitentitel Platz behält */
+  .topbar .actions [data-pop="range"] > span { display: none; }
   .topbar .actions .btn { padding: 8px 9px; font-size: 12.5px; }
   .topbar .actions .btn.tl span, .topbar .actions .btn.tl { gap: 0; }
   .topbar .actions .btn.tl span { display: none; }
@@ -1764,4 +1766,57 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
   .prop-assign-row .qty, .prop-assign-row .badge { display: none; }
   .prop-filters .seg { width: 100%; }
   .prop-foot .btn { flex: 1 1 auto; justify-content: center; }
+}
+
+/* ============================================================
+   Prop Firms, Phase 3: Konto-Friedhof (Grabsteine, Muster) und Challenge vs. Funded (Vergleichstabelle)
+   ============================================================ */
+.prop-grave-tiles .tile .val.neg { color: var(--loss); }
+.prop-patterns, .prop-highlights { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 7px; font-size: 13.5px; line-height: 1.45; }
+.prop-patterns li::marker, .prop-highlights li::marker { color: var(--accent); }
+.prop-patterns-empty, .prop-highlights-empty { margin: 0; line-height: 1.5; max-width: 560px; }
+/* Grabsteine: oben gerundet wie ein Stein, roter Deckel */
+.prop-graves { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); align-items: stretch; }
+.prop-grave { position: relative; display: flex; flex-direction: column; gap: 10px; border-radius: 22px 22px var(--radius) var(--radius); border-color: var(--loss); overflow: hidden; }
+.prop-grave::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--loss); opacity: .7; }
+.prop-grave-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; padding-top: 2px; }
+.prop-grave-head b { font-family: var(--font-display); font-size: 15px; }
+.prop-grave-head .pills { flex-wrap: wrap; justify-content: flex-end; flex: 0 0 auto; }
+.prop-grave-life { font-size: 13px; color: var(--text-2); padding: 6px 0 2px; border-bottom: 1px solid var(--border); }
+.prop-grave-life b { color: var(--text); }
+.prop-grave-kv { display: flex; flex-direction: column; }
+.prop-grave .kv { align-items: flex-start; flex-wrap: wrap; padding: 7px 0; }
+.prop-grave .kv > span { flex: 0 0 auto; }
+.prop-grave .kv > b { text-align: right; min-width: 0; margin-left: auto; }
+.prop-grave .chips { display: inline-flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end; }
+.prop-grave-trade { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; text-align: right; }
+.prop-grave-trade .sym { font-family: var(--font-display); font-weight: 700; }
+.prop-grave-note { display: inline-block; font-size: 12.5px; font-weight: 500; color: var(--text-2); font-style: italic; text-align: right; max-width: 100%; white-space: normal; }
+.prop-grave-foot { margin-top: auto; display: flex; justify-content: flex-end; padding-top: 4px; }
+/* Challenge vs. Funded */
+.prop-cmp-sample { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; font-size: 13.5px; padding: 2px 2px 6px; }
+.prop-cmp-sample b { font-family: var(--font-display); }
+.prop-cmp { min-width: 480px; }
+.prop-cmp td:first-child { white-space: normal; }
+.prop-cmp td:first-child .pill { margin-left: 6px; vertical-align: 1px; }
+.prop-cmp tbody tr.hl td { background: var(--warn-soft); }
+.prop-cmp tbody tr.hl td:first-child { box-shadow: inset 3px 0 0 var(--warn); font-weight: 600; }
+.prop-cmp-note { margin: 0; line-height: 1.5; max-width: 720px; }
+.prop-cmp th .short { display: none; }
+@media (max-width: 560px) {
+  .prop-grave-head { flex-direction: column; }
+  .prop-grave-head .pills { justify-content: flex-start; }
+  .prop-grave .kv { flex-direction: column; gap: 4px; }
+  .prop-grave .kv > b { text-align: left; margin-left: 0; }
+  .prop-grave .chips, .prop-grave-trade { justify-content: flex-start; align-items: flex-start; text-align: left; }
+  .prop-grave-note { text-align: left; }
+  .prop-grave-foot .btn { width: 100%; justify-content: center; }
+  /* Tabelle passt ohne inneren Scroll: Kennzahl darf umbrechen, Zahlen bleiben einzeilig */
+  .prop-cmp { min-width: 0; font-size: 12.5px; }
+  .prop-cmp td, .prop-cmp th { padding: 10px 7px; }
+  .prop-cmp td:first-child, .prop-cmp th:first-child { padding-left: 10px; }
+  .prop-cmp td:last-child, .prop-cmp th:last-child { padding-right: 10px; }
+  .prop-cmp td:first-child .pill { display: block; width: max-content; margin: 4px 0 0; }
+  .prop-cmp th .long { display: none; }
+  .prop-cmp th .short { display: inline; }
 }

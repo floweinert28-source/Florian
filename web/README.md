@@ -90,9 +90,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer
   und Ampel. Cockpit mit allen Konten, echte Prop-Bilanz (Ausgaben gegen Payouts, ROI, Kosten pro bestandenem Konto,
   Bestehensquote), Puffer in Stop-Losses, Positionsgrößenrechner mit editierbaren Instrument-Spezifikationen,
-  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse, Challenge vs. Funded, Monte-Carlo-Simulation
-  der Bestehens-Wahrscheinlichkeit im Web Worker (`js/propworker.js`, Rechenkern `js/propsim.js`), Firmen-Matcher und
-  Erwartungswert der Challenge. Alle Preset-Werte (Regeln, Gebühren, Payout-Bedingungen, Instrumente) sind
+  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse und Challenge vs. Funded (`js/screens/prop-friedhof.js`), Monte-Carlo-Simulation
+  der Bestehens-Wahrscheinlichkeit im Web Worker (`js/propworker.js`, Rechenkern `js/propsim.js`; ohne Worker, etwa unter
+  `file://`, synchron im Hauptthread), Firmen-Matcher (Sortierung nach Bestehensquote mit den eigenen Tagen, keine Bewertung der Firmen) und
+  Erwartungswert der Challenge (Tab Simulation, `js/screens/prop-sim.js`). Phasenwechsel eines Kontos werden mit Datum
+  gespeichert; Trades zählen zur Phase, in der sie geschlossen wurden. Alle Preset-Werte (Regeln, Gebühren, Payout-Bedingungen, Instrumente) sind
   unverifiziert und in `web/PROP-PRESETS.md` zum Prüfen aufgelistet. Tests: `web/tests/prop.test.mjs`,
   `web/tests/propsim.test.mjs`.
 

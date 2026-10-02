@@ -8,62 +8,38 @@
   /* ---------- Hilfen ---------- */
   function username() { const pr = S.settings.profile || {}; if (pr.username) return '@' + pr.username.replace(/^@/, ''); const n = (S.settings.name || '').trim(); return n && n !== 'Trader' ? n : ''; }
   function colors(theme) { const col = S.settings.colors || {}; const defs = root.Theme.DEFAULTS[theme] || root.Theme.DEFAULTS.dark; const v = h => root.Theme.valid(h) ? (theme === 'light' ? root.Theme.shade(h, -0.2) : h) : null; return { pos: v(col.profit) || defs.profit, neg: v(col.loss) || defs.loss }; }
-  const money = (v, o) => o.hide ? (o.account > 0 ? fmt.pct(v / o.account, 2, true) : null) : fmt.cur(v, { signed: true });
   const pfText = v => v == null ? null : v === Infinity ? '∞' : fmt.num(v, 2);
 
   /* ---------- Karte ----------
-     Design nach Canva-Vorlage: tiefes Navy mit blauen Lichtstreifen, großes „Certificate“ mit Farbverlauf, gesperrte Unterzeile,
-     feine Rahmenecken oben rechts und unten links, Marke oben rechts, Text und Kennzahlen rechts, Unterschriftslinien unten.
-     Aufteilung je Format über CSS-Grid-Bereiche (css/app.css, Block „Zertifikat“). */
+     Bewusst reduziert: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften. Drei Designs:
+     „Navy“ (data-theme dark, Vorlage 1: Navy mit Lichtstreifen und Rahmenecken), „Aurora“ (Vorlage 2: Blau mit weichen
+     rosa-lila Lichtflecken, zentriert, Ergebnis in einer Farbpille) und „Hell“ (helle Variante von Navy). Aufteilung je
+     Design und Format über Grid-Bereiche in css/app.css (Block „Zertifikat“). */
   const KIND_SUB = { day: 'of Daily Profit', week: 'of Weekly Profit', month: 'of Monthly Profit', stats: 'of Performance' };
-  const KIND_TEXT = {
-    day: 'In recognition of a disciplined trading session. Plan, execution and risk management came together on this day.',
-    week: 'In recognition of a consistent trading week and the discipline to follow the plan, day after day.',
-    month: 'In recognition of a strong trading month, built on patience, risk management and consistent execution.',
-    stats: 'In recognition of a track record built trade by trade, with discipline, focus and steady improvement.',
-  };
-  const LOSS_TEXT = 'In recognition of showing up and staying disciplined, even when the market did not cooperate.';
   function cardHTML(m, p, o) {
     if (fmt.moneyBlind()) o = Object.assign({}, o, { hide: true });
-    const f = FORMATS[o.format]; const sign = m.pnl < 0 ? 'neg' : 'pos'; const c = colors(o.theme); const issued = new Date(); const no = D.certNo(m.kind, p, m, issued);
+    const f = FORMATS[o.format]; const sign = m.pnl < 0 ? 'neg' : 'pos'; const c = colors(o.theme === 'light' ? 'light' : 'dark'); const issued = new Date(); const no = D.certNo(m.kind, p, m, issued);
     const main = o.hide ? (o.account > 0 ? fmt.pct(m.pnl / o.account, 2, true) : m.rSum != null ? fmt.r(m.rSum) : '—') : fmt.cur(m.pnl, { signed: true });
-    const stat = (k, v, cls = '') => v == null || v === '' ? '' : `<div class="st${cls ? ' ' + cls : ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
-    const dayLabel = d => d ? new Date(C.parseDayKey(d.key)).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) : null;
-    const dayVal = d => { if (!d) return null; const v = money(d.pnl, o); return v == null ? null : `${v} <small>${dayLabel(d)}</small>`; };
-    let viz = '', stats = '', extra = '';
-    if (m.kind === 'day') {
-      /* Best trade ist ein einzelner Trade: im Geld-blind-Modus sein exaktes R, ohne Stop „– R“; bei manuell ausgeblendeten Beträgen wie bisher R oder Prozent vom Konto */
-      const bt = m.bestTrade ? (fmt.moneyBlind() ? fmt.cur(m.bestTrade.pnl, { signed: true, r: m.bestTrade.r }) : o.hide ? (m.bestTrade.r != null ? fmt.r(m.bestTrade.r) : money(m.bestTrade.pnl, o)) : fmt.cur(m.bestTrade.pnl, { signed: true })) : null;
-      stats = stat('Trades', fmt.int(m.n)) + stat('Win rate', fmt.pct(m.winRate, 0)) + stat('Avg RR', m.avgR != null ? fmt.r(m.avgR) : null) + stat('Best trade', bt ? `${bt} <small>${esc(m.bestTrade.symbol)}</small>` : null);
-      if (m.symbols.length) extra = `<div class="cert-syms">${m.symbols.slice(0, 8).map(x => `<span>${esc(x)}</span>`).join('')}${m.symbols.length > 8 ? `<span>+${m.symbols.length - 8}</span>` : ''}</div>`;
-    } else if (m.kind === 'week') {
-      const max = Math.max(1, ...m.weekBars.map(b => Math.abs(b.pnl || 0))); const H = 140;
-      viz = `<div class="cert-week">${m.weekBars.map(b => { const v = b.pnl; const h = v == null ? 0 : Math.max(6, Math.abs(v) / max * (H / 2 - 4)); const top = v == null ? H / 2 : v >= 0 ? H / 2 - h : H / 2; return `<div class="wb"><div class="col" style="height:calc(var(--s) * ${H}px)"><i class="${v == null ? 'none' : v >= 0 ? 'pos' : 'neg'}" style="top:calc(var(--s) * ${top}px);height:calc(var(--s) * ${v == null ? 2 : h}px)"></i><em style="top:calc(var(--s) * ${H / 2}px)"></em></div><span>${esc(b.label)}</span></div>`; }).join('')}</div>`;
-      stats = stat('Trading days', fmt.int(m.tradingDays)) + stat('Win rate', fmt.pct(m.winRate, 0)) + stat('Avg RR', m.avgR != null ? fmt.r(m.avgR) : null) + stat('Best day', dayVal(m.bestDay));
-    } else if (m.kind === 'month') {
-      const max = Math.max(1, ...m.monthCells.filter(Boolean).map(x => Math.abs(x.pnl || 0)));
-      viz = `<div class="cert-month"><div class="wd">${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(x => `<span>${x}</span>`).join('')}</div><div class="cells">${m.monthCells.map(x => { if (!x) return '<i class="pad"></i>'; if (x.pnl == null) return `<i class="none"><b>${x.day}</b></i>`; const a = 0.35 + 0.65 * Math.abs(x.pnl) / max; return `<i class="${x.pnl >= 0 ? 'pos' : 'neg'}" style="--a:${a.toFixed(2)}"><b>${x.day}</b></i>`; }).join('')}</div></div>`;
-      stats = stat('Green / red days', `<span class="pos">${m.greenDays}</span> <small>/</small> <span class="neg">${m.redDays}</span>`) + stat('Win rate', fmt.pct(m.winRate, 0)) + stat('Profit factor', pfText(m.pf)) + stat('Avg RR', m.avgR != null ? fmt.r(m.avgR) : null);
-    } else {
-      const aw = m.avgWin != null ? money(m.avgWin, o) : null, al = m.avgLoss != null ? money(m.avgLoss, o) : null;
-      stats = stat('Win rate', fmt.pct(m.winRate, 0)) + stat('Avg RR', m.avgR != null ? fmt.r(m.avgR) : null) + stat('Profit factor', pfText(m.pf)) + stat('Avg win / loss', aw || al ? `<span class="pos">${aw || '—'}</span> <small>/</small> <span class="neg">${al || '—'}</span>` : null, 'wrap') + stat('Trades', fmt.int(m.n)) + stat('Max drawdown', m.maxDD != null && (o.account > 0 || !o.hide) ? (o.hide ? fmt.pct(-m.maxDD / o.account, 2) : fmt.cur(-m.maxDD, { signed: true })) : null) + stat('Best day', dayVal(m.bestDay)) + stat('Worst day', dayVal(m.worstDay)) + stat('Win streak', m.maxWinStreak ? `${m.maxWinStreak} <small>trades</small>` : null);
-    }
+    const stat = (k, v) => v == null || v === '' ? '' : `<div class="st"><div class="v">${v}</div><div class="k">${k}</div></div>`;
+    const wr = stat('Win rate', fmt.pct(m.winRate, 0)), rr = stat('Avg RR', m.avgR != null ? fmt.r(m.avgR) : null);
+    const stats = m.kind === 'day' ? stat(m.n === 1 ? 'Trade' : 'Trades', fmt.int(m.n)) + wr + rr
+      : m.kind === 'week' ? stat(m.tradingDays === 1 ? 'Trading day' : 'Trading days', fmt.int(m.tradingDays)) + wr + rr
+      : m.kind === 'month' ? stat('Green days', `${fmt.int(m.greenDays)}<small> / ${fmt.int(m.greenDays + m.redDays)}</small>`) + wr + stat('Profit factor', pfText(m.pf))
+      : wr + stat('Profit factor', pfText(m.pf)) + stat('Trades', fmt.int(m.n));
     const user = o.user ? username() : '';
-    const subline = `Net P&amp;L · ${fmt.int(m.n)} ${m.n === 1 ? 'trade' : 'trades'}${m.kind !== 'day' && m.tradingDays ? ` · ${fmt.int(m.tradingDays)} ${m.tradingDays === 1 ? 'trading day' : 'trading days'}` : ''}`;
     const len = String(main).replace(/<[^>]*>/g, '').length;
     return `<div class="cert" data-theme="${o.theme}" data-format="${o.format}" data-kind="${m.kind}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg}">
-      <div class="cert-bg" aria-hidden="true"><i class="band"></i><i class="band2"></i><i class="glow-l"></i><i class="glow-r"></i><i class="bars-l"></i><i class="bars-r"></i></div>
+      <div class="cert-bg" aria-hidden="true"><i class="band"></i><i class="band2"></i><i class="glow-l"></i><i class="glow-r"></i><i class="bars-l"></i><i class="bars-r"></i><i class="blob1"></i><i class="blob2"></i></div>
       <i class="cert-line tr-h"></i><i class="cert-line tr-v"></i><i class="cert-line bl-v"></i><i class="cert-line bl-h"></i>
       <div class="cert-in">
-        <h1 class="cert-title"><span class="ct-big gt">Certificate</span><span class="ct-sub">${KIND_SUB[m.kind]}</span></h1>
-        <div class="cert-brand"><span class="mark">${I.logo}</span><span class="gt">Journalyst</span></div>
-        <div class="cert-to"><div class="k">${user ? 'This certificate is<br>proudly presented to' : 'This certificate<br>is awarded for'}</div>${user ? `<div class="user gt">${esc(user)}</div>` : ''}</div>
-        <div class="cert-hero"><div class="cert-period">${esc(p.label)}</div><div class="cert-value gt${len > 10 ? ' long' : ''}">${main}</div><div class="cert-sub">${subline}</div></div>
-        <p class="cert-text">${m.pnl < 0 ? LOSS_TEXT : KIND_TEXT[m.kind]}</p>
-        <div class="cert-side">${viz ? `<div class="cert-viz">${viz}</div>` : ''}${stats ? `<div class="cert-stats">${stats}</div>` : ''}${extra}</div>
+        <div class="cert-brand"><span class="mark">${I.logo}</span><span class="name">Journalyst</span></div>
+        <h1 class="cert-title"><span class="ct-big">Certificate</span><span class="ct-sub">${KIND_SUB[m.kind]}</span></h1>
+        <div class="cert-to">${user ? `<span class="k">Presented to</span> <span class="user">${esc(user)}</span>` : '<span class="k">Net result</span>'}</div>
+        <div class="cert-hero"><div class="cert-value${len > 10 ? ' long' : ''}"><span>${main}</span></div><div class="cert-period">${esc(p.label)}</div></div>
+        <div class="cert-stats">${stats}</div>
         <footer class="cert-foot">
           <div class="issue"><div class="v">Journalyst</div><div class="line"></div><div class="k">Issued by</div></div>
-          <div class="issue"><div class="v mono">${no}</div><div class="line"></div><div class="k">Issued on ${fmt.dateFull(issued)}</div></div>
+          <div class="issue"><div class="v mono">${no}</div><div class="line"></div><div class="k">Issued ${fmt.dateFull(issued)}</div></div>
         </footer>
       </div></div>`;
   }
@@ -109,7 +85,7 @@
           const empty = !list.length;
           preview.innerHTML = empty ? `<div class="cert-empty">${U.empty('stats', 'Keine Trades in diesem Zeitraum', 'Wähle einen anderen Zeitraum, um ein Zertifikat zu erstellen.')}</div>` : `<div class="cert-scale">${cardHTML(m, p, ex)}</div>`;
           side.innerHTML = `<div class="field"><span class="lbl">Zeitraum</span><div class="row" style="gap:6px;flex-wrap:nowrap">${kind !== 'stats' ? `<button type="button" class="btn round sm" data-c="prev" aria-label="Zurück">${I.chevL}</button>` : ''}${periodInput(p)}${kind !== 'stats' ? `<button type="button" class="btn round sm" data-c="next" aria-label="Weiter">${I.chevR}</button>` : ''}</div><div class="small muted" style="margin-top:6px">${esc(p.label)}${empty ? '' : ` · ${fmt.int(m.n)} Trades`}</div></div>
-            <div class="field"><span class="lbl">Theme</span>${seg('theme', [['dark', 'Dunkel'], ['light', 'Hell']])}</div>
+            <div class="field"><span class="lbl">Design</span>${seg('theme', [['dark', 'Navy'], ['aurora', 'Aurora'], ['light', 'Hell']])}</div>
             <div class="field"><span class="lbl">Format</span>${seg('format', Object.entries(FORMATS).map(([k, v]) => [k, `${v.label} <small class="muted">${v.w}×${v.h}</small>`]))}</div>
             <div class="stack" style="gap:8px">${toggle('hide', 'Beträge ausblenden (nur % bzw. R)')}${toggle('user', 'Username anzeigen')}</div>`;
           foot.innerHTML = `<span class="small muted left">PNG in doppelter Auflösung (${f.w * 2}×${f.h * 2}).</span>${canShare() ? `<button type="button" class="btn" data-c="share" ${empty ? 'disabled' : ''}>${I.external} Teilen</button>` : ''}<button type="button" class="btn" data-c="copy" ${empty ? 'disabled' : ''}>${I.copy} Kopieren</button><button type="button" class="btn primary" data-c="png" ${empty ? 'disabled' : ''}>${I.download} PNG herunterladen</button>`;

@@ -7,7 +7,7 @@
   /* ---------- Symbole ---------- */
   const sv = (d, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${d}</svg>`;
   const I = {
-    logo: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3C10.5 3 6 7.4 6 12.9c0 6.5 7.6 13.4 9.3 14.9a1 1 0 0 0 1.4 0C18.4 26.3 26 19.4 26 12.9 26 7.4 21.5 3 16 3z" stroke="currentColor" stroke-width="2.2"/><path d="M11 14.5l3-3 2.5 2.5 4.5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    logo: `<svg viewBox="258 262 500 500" aria-hidden="true"><path d="M411 283H677Q687 283 687 293V480A262 262 0 0 1 425 742H347Q337 742 337 732V615Q337 605 347 605H425A128 128 0 0 0 553 477V416H339Q329 416 333.8 407.2L396.2 291.8Q401 283 411 283Z" fill="currentColor"/></svg>`,
     dashboard: sv('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
     tradelog: sv('<path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="1"/>'),
     day: sv('<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/><rect x="7" y="13" width="4" height="4" rx="1"/>'),

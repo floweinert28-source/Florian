@@ -325,7 +325,7 @@ span.info:hover { color: var(--accent); }
 .gauge-stack .pills { gap: 4px; }
 .tile .gauge-stack svg { width: 62px; }
 .tile .gauge-stack .pill { padding: 1px 7px; font-size: 11px; line-height: 1.5; }
-.tile .val { font-family: var(--font-display); font-size: 25px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.tile .val { font-family: var(--font-display); font-size: 25px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
 .tile .foot { font-size: 12px; color: var(--muted); margin-top: 4px; }
 .tile .gauge { flex: 0 1 auto; min-width: 0; }
 .tile .gauge svg { max-width: 100%; height: auto; }
@@ -406,7 +406,7 @@ span.info:hover { color: var(--accent); }
 .stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; min-width: 0; transition: border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
 .stat-tile .k { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-2); }
 .stat-tile .k span.info { width: 13px; height: 13px; }
-.stat-tile .v { font-family: var(--font-display); font-size: 24px; font-weight: 600; margin-top: 8px; letter-spacing: -0.01em; }
+.stat-tile .v { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-top: 8px; letter-spacing: -0.01em; }
 @media (max-width: 1100px) { .stat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .stat-tiles { grid-template-columns: 1fr; } }
 .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0 -1px -1px 0; }
@@ -416,7 +416,7 @@ span.info:hover { color: var(--accent); }
 .stat { padding: 16px 18px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); min-width: 0; }
 .stat .k { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-2); }
 .stat .k span.info { width: 13px; height: 13px; }
-.stat .v { font-family: var(--font-display); font-size: 22px; font-weight: 600; margin-top: 4px; letter-spacing: -0.01em; }
+.stat .v { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-top: 4px; letter-spacing: -0.01em; }
 .stat .s { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .kv { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
 .kv:last-child { border-bottom: 0; }
@@ -1096,7 +1096,7 @@ span.info:hover { color: var(--accent); }
 .ycal-head, .ycal-row { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 8px; }
 .ycal-head span { text-align: center; font-size: 12.5px; color: var(--text-2); border: 1px solid var(--border); border-radius: 9px; padding: 8px 2px; }
 .yc { min-height: 82px; border-radius: 10px; background: var(--surface-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; min-width: 0; padding: 4px; }
-.yc b { font-size: 13px; font-family: var(--font-display); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.yc b { font-size: 13px; font-family: var(--font-display); font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
 .yc small { font-size: 11px; color: var(--text-2); white-space: nowrap; }
 .yc.year { background: transparent; border: 1px solid var(--border); }
 .yc.year b { font-size: 16px; }
@@ -1142,7 +1142,7 @@ span.info:hover { color: var(--accent); }
 }
 /* TradeLog: Kennzahl-Kachel mit Verlauf */
 .tile.spark-tile { gap: 2px; padding-bottom: 12px; }
-.tile.spark-tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; flex: 1; display: flex; align-items: flex-end; padding-bottom: 0; margin-bottom: -6px; min-height: 44px; }
+.tile.spark-tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; flex: 1; display: flex; align-items: flex-end; padding-bottom: 0; margin-bottom: -6px; min-height: 44px; }
 .tile.spark-tile .chart { flex: 0 0 auto; min-height: 0; height: 66px; }
 /* TradeLog: Seiten, sichtbarer Ausschnitt etwa 10 Zeilen */
 .tbl-wrap.paged { overflow: hidden; display: flex; flex-direction: column; }
@@ -1201,7 +1201,7 @@ span.info:hover { color: var(--accent); }
   .heat.big { grid-template-rows: repeat(7, 12px); gap: 3px; } .heat.big i { width: 12px; height: 12px; }
 }
 
-/* Zahlen in eigener Schrift (Standard: Onest), Text in Quicksand; andere Schriftarten setzt theme.js */
+/* Zahlen in eigener Schrift (Standard: Onest), Text in Quicksand; andere Schriftarten setzt theme.js. Die wichtigen Werte (Kacheln, Kennzahlen) stehen fett (700) */
 .num, .tbl td, .tile .val, .tile.spark-tile .val, .kv b, .cal .p, .cal .d .n, .cal .w .p, .stat .v, .big-stat, .score-big, .streak-ring, .yc b, .yc small, .tracker-foot .score-n, .slider .sv, .chart text, .tile .head .n, .pill, .pg-info, .strat-stats .v, .day-card .pnl, .detail-head .big, .tilt-stats .v, .ym-head span, .score-scale .lbls, .ticks, .stats-grid .v, .stat-tile .v, .tbl th.r { font-family: var(--font-num); }
 
 /* ============================================================
@@ -1443,6 +1443,65 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert[data-theme="aurora"][data-format="story"] .cert-value { font-size: calc(var(--s) * 100px); }
 .cert[data-theme="aurora"][data-format="story"] .cert-value.long { font-size: calc(var(--s) * 86px); }
 .cert[data-theme="aurora"][data-format="story"] .cert-to .k, .cert[data-theme="aurora"][data-format="story"] .cert-to .user { font-size: calc(var(--s) * 22px); }
+
+/* ============================================================
+   Ruhepunkt als eigener, ruhiger Raum (ruhepunkt.js: calmEnter/calmLeave)
+   Eingang: ein Atemzug über den ganzen Bildschirm; danach treibende Farbflächen hinter den Inhalten, gedämpfte Seitenleiste
+   ============================================================ */
+.calm-veil { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; overflow: hidden; cursor: pointer;
+  background: radial-gradient(circle at 50% 46%, #12304a 0%, #0a1b28 42%, #05090d 100%); animation: calm-veil 2600ms cubic-bezier(.4, 0, .2, 1) forwards; }
+:root[data-theme="light"] .calm-veil { background: radial-gradient(circle at 50% 46%, #f7fcfe 0%, #e4f0f5 45%, #d0e2e9 100%); }
+.calm-veil > * { grid-area: 1 / 1; pointer-events: none; }
+.calm-veil.skip { animation: calm-veil-out 260ms ease forwards; }
+.cv-orb { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle at 50% 42%, rgba(160, 220, 255, .78), rgba(92, 184, 255, .36) 38%, rgba(52, 214, 176, .14) 62%, transparent 72%); box-shadow: 0 0 90px 30px rgba(92, 184, 255, .16); animation: calm-orb 2600ms cubic-bezier(.45, 0, .25, 1) forwards; }
+.cv-ring { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(160, 220, 255, .45); opacity: 0; animation: calm-ring 2200ms cubic-bezier(.2, .6, .3, 1) forwards; }
+.cv-ring:nth-child(2) { animation-delay: 420ms; }
+.cv-ring:nth-child(3) { animation-delay: 840ms; }
+.cv-word { transform: translateY(118px); font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: rgba(226, 243, 250, .92); opacity: 0; animation: calm-word 2600ms ease forwards; }
+.cv-sub { transform: translateY(144px); font-size: 13.5px; color: rgba(200, 225, 236, .72); opacity: 0; animation: calm-sub 2600ms ease forwards; }
+:root[data-theme="light"] .cv-word { color: #1d4356; }
+:root[data-theme="light"] .cv-sub { color: #4a6b7a; }
+:root[data-theme="light"] .cv-ring { border-color: rgba(42, 111, 184, .32); }
+:root[data-theme="light"] .cv-orb { background: radial-gradient(circle at 50% 42%, rgba(120, 190, 240, .7), rgba(42, 111, 184, .26) 40%, rgba(15, 184, 160, .12) 62%, transparent 72%); box-shadow: 0 0 90px 30px rgba(42, 111, 184, .12); }
+@keyframes calm-veil { 0% { opacity: 0; } 12% { opacity: 1; } 62% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes calm-veil-out { to { opacity: 0; visibility: hidden; } }
+@keyframes calm-orb { 0% { transform: scale(.5); opacity: 0; } 16% { opacity: 1; } 52% { transform: scale(1.16); opacity: 1; } 100% { transform: scale(2.8); opacity: 0; } }
+@keyframes calm-ring { 0% { transform: scale(.85); opacity: 0; } 18% { opacity: .7; } 100% { transform: scale(4.6); opacity: 0; } }
+@keyframes calm-word { 0%, 16% { opacity: 0; letter-spacing: .2em; } 40%, 68% { opacity: 1; } 92%, 100% { opacity: 0; letter-spacing: .44em; } }
+@keyframes calm-sub { 0%, 24% { opacity: 0; } 46%, 68% { opacity: 1; } 92%, 100% { opacity: 0; } }
+/* Inhalte tauchen weich auf, während der Schleier sich hebt */
+html.calm-enter .rp > * { animation: calm-content 1100ms cubic-bezier(.2, .7, .2, 1) 1350ms backwards; }
+html.calm-enter .rp > :nth-child(2) { animation-delay: 1460ms; }
+html.calm-enter .rp > :nth-child(3) { animation-delay: 1570ms; }
+@keyframes calm-content { from { opacity: 0; filter: blur(8px); transform: translateY(12px); } }
+/* Hintergrund: drei weiche Farbflächen treiben langsam, die mittlere atmet im 10-Sekunden-Takt */
+.rp-ambient { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; opacity: 0; animation: calm-fade-in 1600ms ease 300ms forwards; }
+.rp-ambient i { position: absolute; border-radius: 50%; will-change: transform; }
+.rp-ambient i:nth-child(1) { width: 56vmax; height: 56vmax; left: -6vmax; top: -20vmax; background: radial-gradient(circle, rgba(92, 184, 255, .26), transparent 62%); animation: calm-drift-a 28s ease-in-out infinite alternate; }
+.rp-ambient i:nth-child(2) { width: 50vmax; height: 50vmax; right: -14vmax; bottom: -22vmax; background: radial-gradient(circle, rgba(52, 214, 176, .17), transparent 62%); animation: calm-drift-b 34s ease-in-out infinite alternate; }
+.rp-ambient i:nth-child(3) { width: 38vmax; height: 38vmax; left: 36%; top: 22%; background: radial-gradient(circle, rgba(139, 124, 246, .16), transparent 62%); animation: calm-breathe 10s ease-in-out infinite; }
+:root[data-theme="light"] .rp-ambient i:nth-child(1) { background: radial-gradient(circle, rgba(42, 111, 184, .16), transparent 62%); }
+:root[data-theme="light"] .rp-ambient i:nth-child(2) { background: radial-gradient(circle, rgba(15, 184, 160, .13), transparent 62%); }
+:root[data-theme="light"] .rp-ambient i:nth-child(3) { background: radial-gradient(circle, rgba(107, 91, 214, .12), transparent 62%); }
+@keyframes calm-fade-in { to { opacity: 1; } }
+@keyframes calm-drift-a { to { transform: translate3d(8vw, 6vh, 0) scale(1.1); } }
+@keyframes calm-drift-b { to { transform: translate3d(-7vw, -5vh, 0) scale(1.08); } }
+@keyframes calm-breathe { 0%, 100% { transform: scale(.92); opacity: .7; } 50% { transform: scale(1.08); opacity: 1; } }
+/* Leiste und Kopf treten zurück; mit der Maus darüber ist die Leiste wieder voll da */
+html.calm .topbar { background: color-mix(in srgb, var(--bg) 45%, transparent); border-bottom-color: transparent; }
+@media (min-width: 961px) {
+  .sidebar { transition: opacity .7s var(--ease), filter .7s var(--ease); }
+  html.calm .sidebar { opacity: .6; filter: saturate(.35); transition-duration: 1.4s; }
+  html.calm .sidebar:hover, html.calm .sidebar:focus-within { opacity: 1; filter: none; transition-duration: .3s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .calm-veil { animation: calm-veil 1000ms ease forwards; }
+  .cv-ring { display: none; }
+  .cv-orb { animation: none; }
+  .cv-word, .cv-sub { animation: none; opacity: 1; }
+  html.calm-enter .rp > * { animation: none; }
+  .rp-ambient, .rp-ambient i { animation: none; opacity: 1; }
+}
 
 /* ============================================================
    Ruhepunkt: geführte Sessions (Abläufe aus dem Modul, Optik wie der Rest von Journalyst; Klassen mit Präfix rp-)

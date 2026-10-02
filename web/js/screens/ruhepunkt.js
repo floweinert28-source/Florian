@@ -852,6 +852,29 @@ function setFaith(v) {
   syncFaithUI();
   if (mode === 'step') renderStep();
 }
+/* ---------- Ruhiger Raum: beim Betreten ein Atemzug über den ganzen Bildschirm, danach treibende Farbflächen und eine gedämpfte Leiste ----------
+   Klick oder Taste überspringt den Eingang; bei reduzierter Bewegung nur ein kurzes Einblenden */
+var calmHere = false, calmVeil = null, calmTimer = null;
+function calmEnter() {
+  var html = document.documentElement; html.classList.add('calm');
+  if (!document.querySelector('.rp-ambient')) { var amb = document.createElement('div'); amb.className = 'rp-ambient'; amb.setAttribute('aria-hidden', 'true'); amb.innerHTML = '<i></i><i></i><i></i>'; document.body.appendChild(amb); }
+  if (calmHere) return; calmHere = true;
+  var v = document.createElement('div'); v.className = 'calm-veil'; v.setAttribute('aria-hidden', 'true');
+  v.innerHTML = '<span class="cv-ring"></span><span class="cv-ring"></span><span class="cv-ring"></span><span class="cv-orb"></span><span class="cv-word">Ruhepunkt</span><span class="cv-sub">Atme ruhig ein und aus</span>';
+  var done = function () { clearTimeout(calmTimer); document.removeEventListener('keydown', skip, true); if (calmVeil === v) calmVeil = null; v.remove(); html.classList.remove('calm-enter'); };
+  var skip = function () { if (!v.isConnected || v.classList.contains('skip')) return; v.classList.add('skip'); html.classList.remove('calm-enter'); clearTimeout(calmTimer); calmTimer = setTimeout(done, 280); };
+  v.addEventListener('animationend', function (e) { if (e.target === v && !v.classList.contains('skip')) done(); });
+  v.addEventListener('click', skip); document.addEventListener('keydown', skip, true);
+  document.body.appendChild(v); calmVeil = v; html.classList.add('calm-enter');
+  calmTimer = setTimeout(done, reducedMotion ? 1100 : 3400); /* falls animationend ausbleibt */
+  /* sobald der Schleier sich hebt, gehen Klicks schon an die Seite darunter */
+  setTimeout(function () { v.style.pointerEvents = 'none'; }, reducedMotion ? 300 : 1500);
+}
+function calmLeave() {
+  calmHere = false; document.documentElement.classList.remove('calm', 'calm-enter');
+  if (calmVeil) { calmVeil.remove(); calmVeil = null; }
+  var amb = document.querySelector('.rp-ambient'); if (amb) amb.remove();
+}
 App.screens.ruhepunkt = {
   title: 'Ruhepunkt',
   ownActions: true, /* keine globalen Kopfzeilen-Knöpfe: ein Neuaufbau würde Atmung und Countdown zurücksetzen */
@@ -862,6 +885,7 @@ App.screens.ruhepunkt = {
       '<footer class="rp-foot">' + candleHTML() + '<button type="button" class="rp-btn rp-quiet" data-action="rp-help">Hilfe und Beratung</button></footer></div>';
   },
   mount: function (main) {
+    calmEnter();
     stage = main.querySelector('#rp-stage'); faith = faithSetting();
     if (mode === 'step' && session) renderStep(); else renderHome();
   }
@@ -874,6 +898,6 @@ Object.assign(App.actions, {
   'rp-delete': function (el) { U.confirmModal('Session löschen?', 'Der Eintrag wird dauerhaft aus dem Journal entfernt.', { ok: 'Löschen', danger: true }).then(function (yes) { if (!yes) return; S.deleteRuhepunkt(el.dataset.id); if (stage && mode === 'home') renderHome(); }); }
 });
 /* Beim Verlassen der Seite laufen keine Timer weiter; eine angefangene Session bleibt erhalten und geht beim Zurückkommen weiter */
-window.addEventListener('hashchange', function () { if (location.hash.indexOf('#/ruhepunkt') !== 0) { cleanup(); if (mode === 'done') { mode = 'home'; flowKey = null; session = null; } } });
+window.addEventListener('hashchange', function () { if (location.hash.indexOf('#/ruhepunkt') !== 0) { cleanup(); calmLeave(); if (mode === 'done') { mode = 'home'; flowKey = null; session = null; } } });
 root.Ruhepunkt = { CONFIG: CONFIG, FLOWS: FLOWS, AMPEL: AMPEL, ampelStatus: ampelStatus, einordnung: einordnung, buildEntry: buildEntry, newSession: newSession, session: function () { return session; }, start: start, setFaith: setFaith };
 })(typeof self !== 'undefined' ? self : this);

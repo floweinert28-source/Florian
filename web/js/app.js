@@ -53,7 +53,7 @@
       fmt.setMoneyBlind(S.settings.moneyBlind, this.rUnit(ctx.all));
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
       document.title = `${title} · Journalyst`;
-      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.render(ctx)}</div>`;
+      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${screen.render(ctx)}</div>`;
       M.scan(main.querySelector('#content'), enter);
       this.renderSidebar();
       U.drawCharts(main); this.loadBlobImages(main); if (screen.mount) screen.mount(main, ctx);
@@ -72,7 +72,7 @@
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
     },
-    /* Bausteine der Kopfzeile: Zeitraum, Konto, Session, neuer Trade (Dashboard ordnet sie selbst an) */
+    /* Bausteine der Kopfreihe: Zeitraum, Konto, Session, neuer Trade (Dashboard ordnet sie selbst an, alle anderen Seiten über pageHead) */
     rangeControl() {
       const r = this.range();
       return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-range">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}<hr><div class="sec">Benutzerdefiniert</div><form class="range-form" data-action="range-custom"><input class="input" type="date" id="range-from" value="${(S.settings.range || {}).from || ''}" aria-label="Von"><input class="input" type="date" id="range-to" value="${(S.settings.range || {}).to || ''}" aria-label="Bis"><button type="submit" class="btn sm primary">Anwenden</button></form></div></div>`;
@@ -89,16 +89,13 @@
         : `<button type="button" class="btn hide-m" data-action="start-session">${I.play}<span>Session starten</span></button>`;
     },
     newTradeButton() { return `<button type="button" class="btn accent tl" data-action="new-trade">${I.plus}<span>Trade loggen</span></button>`; },
-    globalActions() {
-      return `${this.newTradeButton()}
-        ${this.sessionControl(false)}
-        ${this.rangeControl()}
-        ${this.accountControl()}`;
+    /* Kopfreihe unter dem Seitentitel wie beim Dashboard: links Zeitraum und Konto, rechts die Knöpfe der Seite, Session und „Trade loggen“ */
+    pageHead(screen, ctx) {
+      return `<div class="dash-head page-head"><div class="row dh-context">${this.rangeControl()}${this.accountControl()}</div><div class="row dh-tools">${screen.actions ? screen.actions(ctx) : ''}${this.sessionControl(true)}<span class="dh-sep" aria-hidden="true"></span>${this.newTradeButton()}</div></div>`;
     },
     topbar(title, screen, ctx) {
       const initials = (S.settings.name || 'T').split(/\s+/).map(s => s[0]).join('').slice(0, 2).toUpperCase();
       return `<header class="topbar"><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1>${screen.titleBadge ? screen.titleBadge(ctx) : ''}<div class="actions">
-        ${screen.actions ? screen.actions(ctx) : ''}${screen.ownActions ? '' : this.globalActions()}
         <a class="avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(initials)}</a></div></header>`;
     },
     async loadBlobImages(scope) { const imgs = scope.querySelectorAll('img[data-blob]'); for (const img of imgs) { const u = await root.Blobs.url(img.dataset.blob).catch(() => null); if (u) { img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); img.src = u; if (img.complete && img.naturalWidth) img.classList.add('loaded'); } else img.closest('.shot, .thumb, .lib-card')?.classList.add('missing'); } const auds = scope.querySelectorAll('audio[data-blob]'); for (const a of auds) { const u = await root.Blobs.url(a.dataset.blob).catch(() => null); if (u) a.src = u; } },

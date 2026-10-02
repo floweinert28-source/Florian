@@ -128,7 +128,7 @@
   /* ---------- Bausteine ---------- */
   const info = text => text ? `<span class="info" data-tip="${esc(text)}">${I.info}</span>` : '';
   const card = (title, body, o = {}) => `<section class="card ${o.cls || ''}" ${o.attrs || ''}>${title ? `<div class="card-head"><div><div class="card-title">${esc(title)}${info(o.info)}</div>${o.sub ? `<div class="card-sub">${o.sub}</div>` : ''}</div>${o.trailing ? `<div class="row">${o.trailing}</div>` : ''}</div>` : ''}${body}</section>`;
-  const tile = (label, value, o = {}) => `<div class="tile"><div class="head"><span>${esc(label)}${info(o.info)}</span>${o.n != null ? `<span class="n">${o.n}</span>` : ''}</div><div class="body"><div><div class="val ${o.tint || ''}">${value}</div>${o.foot ? `<div class="foot">${o.foot}</div>` : ''}</div>${o.gauge ? `<div class="gauge">${o.gauge}</div>` : ''}</div></div>`;
+  const tile = (label, value, o = {}) => `<div class="tile${o.side ? ' side' : ''}"><div class="head"><span>${esc(label)}${info(o.info)}</span>${o.n != null ? `<span class="n">${o.n}</span>` : ''}</div><div class="body"><div><div class="val ${o.tint || ''}">${value}</div>${o.foot ? `<div class="foot">${o.foot}</div>` : ''}</div>${o.gauge ? `<div class="gauge">${o.gauge}</div>` : ''}</div></div>`;
   const pill = (text, kind = 'neutral') => `<span class="pill ${kind}">${text}</span>`;
   const badge = dir => `<span class="badge ${dir > 0 ? 'l' : 's'}">${dir > 0 ? 'LONG' : 'SHORT'}</span>`;
   const chip = (text, kind = '') => `<span class="chip ${kind}">${esc(text)}</span>`;

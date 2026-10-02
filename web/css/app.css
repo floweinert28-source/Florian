@@ -43,6 +43,7 @@
   --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .7);
   --sidebar-w: 232px;
   --topbar-h: 72px;
+  --page-head-h: 64px; /* Kopfreihe unter dem Titel samt Abstand (pageHead in app.js) */
   --gutter: 24px;
 }
 @media (prefers-color-scheme: light) {
@@ -268,6 +269,17 @@ span.info:hover { color: var(--accent); }
 .tile .body { display: flex; align-items: center; justify-content: space-between; gap: 12px 14px; padding-top: 8px; flex: 1;
   background: linear-gradient(90deg, var(--border), var(--border) 22%, transparent 48%) top left / 100% 1px no-repeat; }
 .tile.wide .body { flex-wrap: nowrap; gap: 12px 44px; }
+/* Kacheln mit kleinem Diagramm (Donut, Halbkreis): das Diagramm steht über die ganze Kachelhöhe mittig rechts, die Trennlinie wandert an den Kopf */
+.tile.side { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr; gap: 0 14px; min-height: 108px; }
+.tile.side .head { grid-area: 1 / 1 / 2 / 3; padding-bottom: 7px; background: linear-gradient(90deg, var(--border), var(--border) 22%, transparent 48%) bottom left / 100% 1px no-repeat; }
+.tile.side .body { display: contents; }
+.tile.side .body > :first-child { grid-area: 2 / 1; display: flex; flex-direction: column; justify-content: center; padding-top: 8px; min-width: 0; }
+.tile.side .gauge { grid-area: 1 / 2 / 3 / 3; align-self: center; }
+/* schmale Kacheln: lange Titel (Trefferquote) reichen bis über das Diagramm, dann rutscht es um die Kopfhöhe nach unten */
+@container (max-width: 230px) { .tile.side .gauge-stack { margin-top: 20px; } }
+@container (max-width: 170px) { .tile.side .gauge > .ring { margin-top: 20px; } }
+/* sehr schmal: Titel bricht um, Diagramm steht wieder unter dem Kopf neben dem Wert */
+@container (max-width: 145px) { .tile.side .gauge { grid-area: 2 / 2; } .tile.side .gauge-stack, .tile.side .gauge > .ring { margin-top: 0; } }
 .tile.wide .gauge { flex: 1 1 100px; min-width: 0; }
 .gauge-stack { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .gauge-stack .pills { gap: 4px; }
@@ -605,11 +617,11 @@ span.info:hover { color: var(--accent); }
 .nb-search .q input { padding-left: 36px; }
 .nb-search .q svg { position: absolute; left: 12px; top: 11px; width: 16px; height: 16px; color: var(--muted); }
 .nb-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-.nb { display: grid; grid-template-columns: 236px 300px minmax(0, 1fr); gap: 14px; min-height: calc(100vh - var(--topbar-h) - 150px); }
+.nb { display: grid; grid-template-columns: 236px 300px minmax(0, 1fr); gap: 14px; min-height: calc(100vh - var(--topbar-h) - 150px - var(--page-head-h)); }
 .nb.no-left { grid-template-columns: 300px minmax(0, 1fr); }
 .nb > .col { min-width: 0; display: flex; flex-direction: column; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
 .nb .col-head { display: flex; align-items: center; gap: 8px; padding: 12px 12px 10px; border-bottom: 1px solid var(--border); }
-.nb .col-body { flex: 1; overflow-y: auto; padding: 10px 12px; max-height: calc(100vh - var(--topbar-h) - 210px); }
+.nb .col-body { flex: 1; overflow-y: auto; padding: 10px 12px; max-height: calc(100vh - var(--topbar-h) - 210px - var(--page-head-h)); }
 .nb .sec-h { display: flex; align-items: center; gap: 6px; width: 100%; padding: 8px 6px 6px; border: 0; background: none; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; cursor: pointer; text-align: left; }
 .nb .sec-h svg { width: 14px; height: 14px; transition: transform var(--dur-1) var(--ease); }
 .nb .sec-h[aria-expanded="false"] svg { transform: rotate(-90deg); }
@@ -881,6 +893,7 @@ span.info:hover { color: var(--accent); }
 /* Zwischen Tablet und großem Desktop: Konto und Filter nur als Symbol, damit die Kopfzeile in einer Reihe bleibt (Name steht im Tooltip/Menü) */
 @media (min-width: 961px) and (max-width: 1180px) { .dash-head [data-pop="account"] > span, .dash-head [data-pop="dfilter"] > span { display: none; } }
 @media (max-width: 560px) { .title-badge { display: none; } .dash-head > .row.dh-tools { margin-left: 0; width: 100%; } .dash-head > .row.dh-tools .tl { margin-left: auto; } .dash-head .dh-sep { display: none; } }
+@media (max-width: 560px) { :root { --page-head-h: 115px; } }
 .btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
 .filter-pop { width: 400px; max-width: calc(100vw - 32px); padding: 12px 14px; }
 .filter-pop .fsec { margin-bottom: 10px; }
@@ -1614,7 +1627,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .mentor-setup .ico svg { width: 40px; height: 40px; color: var(--accent); }
 .mentor-setup h2 { margin: 10px 0 8px; font-size: 20px; }
 .mentor-setup p { max-width: 46em; margin: 0 auto 18px; }
-.mentor { display: flex; flex-direction: column; padding: 0; height: calc(100vh - var(--topbar-h) - 90px); min-height: 480px; }
+.mentor { display: flex; flex-direction: column; padding: 0; height: calc(100vh - var(--topbar-h) - 90px - var(--page-head-h)); min-height: 480px; }
 .mentor-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .mentor-log { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
 .mentor-intro { color: var(--text-2); max-width: 40em; }
@@ -1634,7 +1647,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .mentor-form textarea { flex: 1; resize: none; min-height: 48px; max-height: 160px; line-height: 1.45; }
 .mentor-form .btn.icon { width: 44px; height: 44px; flex: 0 0 auto; }
 .mentor-note { padding: 0 18px 12px; }
-@media (max-width: 960px) { .mentor { height: calc(100vh - var(--topbar-h) - 140px); min-height: 400px; } .msg { max-width: 92%; } }
+@media (max-width: 960px) { .mentor { height: calc(100vh - var(--topbar-h) - 140px - var(--page-head-h)); min-height: 400px; } .msg { max-width: 92%; } }
 
 /* ============================================================
    Bewegung: Einblenden beim Scrollen, Seitenwechsel, Dialoge (js/motion.js)

@@ -260,16 +260,19 @@ span.info:hover { color: var(--accent); }
 @media (max-width: 1100px) { .grid.main-side, .grid.side-main { grid-template-columns: 1fr; } }
 
 /* KPI-Kacheln */
-.tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; transition: border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 15px 12px; display: flex; flex-direction: column; gap: 7px; min-width: 0; transition: border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
 .tile:hover, .stat-tile:hover { border-color: var(--border-2); transform: translateY(-2px); box-shadow: var(--lift-shadow); }
 .tile .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--text-2); }
 .tile .head .n { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; }
-.tile .body { display: flex; align-items: center; justify-content: space-between; gap: 12px 14px; padding-top: 10px; border-top: 1px solid var(--border); flex: 1; }
+.tile .body { display: flex; align-items: center; justify-content: space-between; gap: 12px 14px; padding-top: 8px; flex: 1;
+  background: linear-gradient(90deg, var(--border), var(--border) 22%, transparent 48%) top left / 100% 1px no-repeat; }
 .tile.wide .body { flex-wrap: nowrap; gap: 12px 44px; }
 .tile.wide .gauge { flex: 1 1 100px; min-width: 0; }
-.gauge-stack { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.gauge-stack .pills { gap: 5px; }
-.tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.gauge-stack { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.gauge-stack .pills { gap: 4px; }
+.tile .gauge-stack svg { width: 62px; }
+.tile .gauge-stack .pill { padding: 1px 7px; font-size: 11px; line-height: 1.5; }
+.tile .val { font-family: var(--font-display); font-size: 25px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
 .tile .foot { font-size: 12px; color: var(--muted); margin-top: 4px; }
 .tile .gauge { flex: 0 1 auto; min-width: 0; }
 .tile .gauge svg { max-width: 100%; height: auto; }

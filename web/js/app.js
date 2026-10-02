@@ -47,6 +47,7 @@
     /* ---------- Rendern ---------- */
     render(o) {
       const enter = !o || o.enter !== false; /* neue Seite: Inhalte gleiten ein; Neuaufbau nach Eingaben: nur, was noch unter dem Fenster liegt */
+      if (root.DatePicker) root.DatePicker.close(true);
       if (this._screen && this._screen.unmount) { try { this._screen.unmount(); } catch (e) { console.warn(e); } }
       this.parseRoute(); fmt.setCurrency(S.currency()); root.Theme.apply(S.settings); C.setBreakEven(S.settings.beOffset);
       const screen = this.screens[this.state.route]; this._screen = screen; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
@@ -75,11 +76,12 @@
     /* Bausteine der Kopfreihe: Zeitraum, Konto, Session, neuer Trade (Dashboard ordnet sie selbst an, alle anderen Seiten über pageHead) */
     rangeControl() {
       const r = this.range();
-      return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-range">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}<hr><div class="sec">Benutzerdefiniert</div><form class="range-form" data-action="range-custom"><input class="input" type="date" id="range-from" value="${(S.settings.range || {}).from || ''}" aria-label="Von"><input class="input" type="date" id="range-to" value="${(S.settings.range || {}).to || ''}" aria-label="Bis"><button type="submit" class="btn sm primary">Anwenden</button></form></div></div>`;
+      return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-range">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}<hr><div class="sec">Benutzerdefiniert</div><form class="range-form" data-action="range-custom"><input class="input" type="date" id="range-from" data-dp-group="range" value="${(S.settings.range || {}).from || ''}" aria-label="Von"><input class="input" type="date" id="range-to" data-dp-group="range" value="${(S.settings.range || {}).to || ''}" aria-label="Bis"><button type="submit" class="btn sm primary">Anwenden</button></form></div></div>`;
     },
-    accountControl() {
+    /* o.mobile: auch auf dem Handy zeigen (sonst nur ab Tablet-Breite) */
+    accountControl(o = {}) {
       const acc = S.settings.accountId; const accounts = S.data.accounts; const accName = acc === 'all' || !acc ? (accounts.length > 1 ? 'Alle Konten' : (accounts[0] || {}).name || 'Konto') : ((accounts.find(a => a.id === acc) || {}).name || 'Konto');
-      return `<div class="popwrap hide-m"><button type="button" class="btn" data-pop="account" title="Konto: ${esc(accName)}">${I.account}<span>${esc(accName)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-account">${accounts.length > 1 ? `<button type="button" class="item" data-action="account" data-value="all" aria-checked="${acc === 'all'}">Alle Konten</button>` : ''}${accounts.map(a => `<button type="button" class="item" data-action="account" data-value="${a.id}" aria-checked="${acc === a.id}">${esc(a.name)}<span class="muted small" style="margin-left:auto">${fmt.cur(a.size, { compact: true })}</span></button>`).join('')}<hr><a class="item" href="#/settings">${I.settings} Konten verwalten</a></div></div>`;
+      return `<div class="popwrap${o.mobile ? '' : ' hide-m'}"><button type="button" class="btn" data-pop="account" title="Konto: ${esc(accName)}">${I.account}<span>${esc(accName)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-account">${accounts.length > 1 ? `<button type="button" class="item" data-action="account" data-value="all" aria-checked="${acc === 'all'}">Alle Konten</button>` : ''}${accounts.map(a => `<button type="button" class="item" data-action="account" data-value="${a.id}" aria-checked="${acc === a.id}">${esc(a.name)}<span class="muted small" style="margin-left:auto">${fmt.cur(a.size, { compact: true })}</span></button>`).join('')}<hr><a class="item" href="#/settings">${I.settings} Konten verwalten</a></div></div>`;
     },
     /* iconOnly: nur Symbol mit Tooltip, der Text bleibt für Screenreader im Knopf (Klasse vh) */
     sessionControl(iconOnly) {
@@ -89,9 +91,14 @@
         : `<button type="button" class="btn hide-m" data-action="start-session">${I.play}<span>Session starten</span></button>`;
     },
     newTradeButton() { return `<button type="button" class="btn accent tl" data-action="new-trade">${I.plus}<span>Trade loggen</span></button>`; },
-    /* Kopfreihe unter dem Seitentitel wie beim Dashboard: links Zeitraum und Konto, rechts die Knöpfe der Seite, Session und „Trade loggen“ */
+    /* Kopfreihe unter dem Seitentitel wie beim Dashboard: links Zeitraum und Konto, rechts die Knöpfe der Seite, Session und „Trade loggen“.
+       screen.head schaltet Teile ab und kann einen kurzen Hinweis zeigen (Mentor: nur das Konto, weil es bestimmt, welche Trades der Mentor sieht) */
     pageHead(screen, ctx) {
-      return `<div class="dash-head page-head"><div class="row dh-context">${this.rangeControl()}${this.accountControl()}</div><div class="row dh-tools">${screen.actions ? screen.actions(ctx) : ''}${this.sessionControl(true)}<span class="dh-sep" aria-hidden="true"></span>${this.newTradeButton()}</div></div>`;
+      const h = Object.assign({ range: true, account: true, session: true, trade: true, note: '' }, screen.head);
+      const own = screen.actions ? screen.actions(ctx) : '';
+      const left = `${h.range ? this.rangeControl() : ''}${h.account ? this.accountControl({ mobile: !h.range }) : ''}${h.note ? `<span class="ph-note">${esc(h.note)}</span>` : ''}`;
+      const right = `${own}${h.session ? this.sessionControl(true) : ''}${h.trade ? `${own || h.session ? '<span class="dh-sep" aria-hidden="true"></span>' : ''}${this.newTradeButton()}` : ''}`;
+      return `<div class="dash-head page-head${right ? '' : ' compact'}">${left ? `<div class="row dh-context">${left}</div>` : ''}${right ? `<div class="row dh-tools">${right}</div>` : ''}</div>`;
     },
     topbar(title, screen, ctx) {
       const initials = (S.settings.name || 'T').split(/\s+/).map(s => s[0]).join('').slice(0, 2).toUpperCase();
@@ -116,6 +123,7 @@
       document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
       /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
       window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
+      if (root.DatePicker) root.DatePicker.init(); /* eigener Kalender für Datumsfelder, nach dem Klick-Handler oben registriert */
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) fn.call(this, el, e); } });
       window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; M.transition(() => this.render()); });
@@ -132,7 +140,7 @@
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
     'nav-close'(el) { const h = el.getAttribute('href'); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
-    theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); this.renderSidebar(); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
+    theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     range(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.rerender(); },
     'range-custom'(f) { const from = f.querySelector('#range-from').value, to = f.querySelector('#range-to').value; if (!from) return U.toast('Bitte ein Startdatum wählen', 'err'); S.setSetting('range', { preset: 'custom', from, to: to || from }); this.rerender(); },
     account(el) { S.setSetting('accountId', el.dataset.value); this.rerender(); },

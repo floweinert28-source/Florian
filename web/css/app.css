@@ -144,12 +144,17 @@ html.sb-mini .brand .sb-toggle { margin-left: 0; }
 html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; padding: 8px 0; gap: 0; }
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
 html.sb-mini .nav a.active::after { top: 9px; bottom: 9px; }
-html.sb-mini .theme-toggle { flex-direction: column; align-self: center; padding: 4px; }
-html.sb-mini .theme-toggle button { width: 30px; height: 30px; }
-.theme-toggle { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; padding: 5px; border-radius: 999px; border: 1px solid var(--border-2); background: var(--surface); margin: 6px 10px 0; }
-.theme-toggle button { width: 34px; height: 34px; border-radius: 999px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; }
-.theme-toggle button svg { width: 17px; height: 17px; }
-.theme-toggle button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+/* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */
+.theme-toggle { position: relative; isolation: isolate; align-self: flex-start; display: inline-flex; align-items: center; padding: 2px; margin: 10px 16px 0; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
+.theme-toggle::before { content: ''; position: absolute; z-index: -1; top: 2px; left: 2px; width: 26px; height: 22px; border-radius: 999px; background: var(--surface-3); box-shadow: 0 1px 2px rgba(0, 0, 0, .28); transition: transform var(--dur-2) var(--ease); }
+:root[data-theme="light"] .theme-toggle::before { transform: translateX(26px); box-shadow: 0 1px 2px rgba(20, 30, 24, .14); }
+.theme-toggle button { width: 26px; height: 22px; border-radius: 999px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: color var(--dur-1) var(--ease); }
+.theme-toggle button svg { width: 14px; height: 14px; }
+.theme-toggle button:hover { color: var(--text-2); }
+.theme-toggle button[aria-pressed="true"] { color: var(--text); }
+.theme-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+html.sb-mini .theme-toggle { flex-direction: column; align-self: center; margin: 10px 0 0; }
+html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(22px); }
 
 .main { display: flex; flex-direction: column; min-width: 0; }
 .topbar {
@@ -238,6 +243,44 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .popover .sec { font-size: 11px; color: var(--muted); padding: 8px 12px 4px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
 .popover .range-form { padding: 8px 10px 6px; display: grid; gap: 8px; }
 
+/* ---------- Kalender (datepicker.js): ersetzt das Aufklapp-Fenster des Browsers bei Datumsfeldern ---------- */
+@media (pointer: fine) {
+  .input[type="date"], .input[type="datetime-local"], .input[type="month"] { padding-right: 38px; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b948e' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='5' width='18' height='16' rx='2.5'/><path d='M3 10h18M8 3v4M16 3v4'/></svg>"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; }
+  .input[type="date"]::-webkit-calendar-picker-indicator, .input[type="datetime-local"]::-webkit-calendar-picker-indicator, .input[type="month"]::-webkit-calendar-picker-indicator { display: none; }
+}
+.popover.dp { position: fixed; top: 0; left: 0; right: auto; z-index: 70; width: 284px; min-width: 0; padding: 12px 12px 10px; border-radius: var(--radius); transform-origin: top left; user-select: none; -webkit-user-select: none; }
+.popover.dp.up { transform-origin: bottom left; }
+.dp-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.dp-title { display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 8px; margin-left: -4px; border: 0; border-radius: 8px; background: none; color: var(--text); font-family: var(--font-display); font-size: 14.5px; font-weight: 600; cursor: pointer; transition: background var(--dur-1) var(--ease); }
+span.dp-title { cursor: default; }
+button.dp-title:hover { background: var(--surface-2); }
+.dp-title svg { width: 14px; height: 14px; color: var(--muted); transition: transform var(--dur-2) var(--ease); }
+.dp.months .dp-title svg { transform: rotate(180deg); }
+.dp-nav { display: flex; gap: 2px; }
+.dp-nav button { width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 8px; background: none; color: var(--text-2); cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.dp-nav button:hover { background: var(--surface-2); color: var(--text); }
+.dp-nav svg { width: 16px; height: 16px; }
+.dp-week, .dp-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
+.dp-week span { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .03em; color: var(--muted); padding: 4px 0 5px; }
+.dp-day { height: 34px; padding: 0; border: 0; border-radius: 9px; background: none; color: var(--text); font-family: var(--font-num); font-size: 13px; font-weight: 500; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.dp-day:hover { background: var(--surface-2); }
+.dp-day.out { color: var(--faint); }
+.dp-day.in { background: var(--accent-soft); color: var(--text); }
+.dp-day.today { color: var(--accent); font-weight: 700; box-shadow: inset 0 0 0 1px var(--accent-glow); }
+.dp-day.edge { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.dp-day.sel { background: var(--accent); color: var(--accent-ink); font-weight: 700; box-shadow: 0 0 0 3px var(--accent-soft); }
+.dp-day:disabled, .dp-month:disabled { opacity: .35; cursor: not-allowed; background: none; }
+.dp-months { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 4px 0 2px; }
+.dp-month { height: 46px; border: 0; border-radius: 10px; background: var(--surface-2); color: var(--text); font-size: 13.5px; font-weight: 600; cursor: pointer; transition: background var(--dur-1) var(--ease); }
+.dp-month:hover { background: var(--surface-3); }
+.dp-month.today { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent-glow); }
+.dp-month.sel { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+.dp-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.dp-link { height: 30px; padding: 0 10px; border: 0; border-radius: 8px; background: none; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.dp-link:hover { background: var(--surface-2); color: var(--text); }
+.dp-link.accent { color: var(--accent); }
+.dp button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
 /* ---------- Karten ---------- */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; min-width: 0; transition: border-color var(--dur-2) var(--ease); }
 .card:hover { border-color: var(--border-2); }
@@ -269,17 +312,14 @@ span.info:hover { color: var(--accent); }
 .tile .body { display: flex; align-items: center; justify-content: space-between; gap: 12px 14px; padding-top: 8px; flex: 1;
   background: linear-gradient(90deg, var(--border), var(--border) 22%, transparent 48%) top left / 100% 1px no-repeat; }
 .tile.wide .body { flex-wrap: nowrap; gap: 12px 44px; }
-/* Kacheln mit kleinem Diagramm (Donut, Halbkreis): das Diagramm steht über die ganze Kachelhöhe mittig rechts, die Trennlinie wandert an den Kopf */
-.tile.side { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr; gap: 0 14px; min-height: 108px; }
-.tile.side .head { grid-area: 1 / 1 / 2 / 3; padding-bottom: 7px; background: linear-gradient(90deg, var(--border), var(--border) 22%, transparent 48%) bottom left / 100% 1px no-repeat; }
-.tile.side .body { display: contents; }
-.tile.side .body > :first-child { grid-area: 2 / 1; display: flex; flex-direction: column; justify-content: center; padding-top: 8px; min-width: 0; }
-.tile.side .gauge { grid-area: 1 / 2 / 3 / 3; align-self: center; }
-/* schmale Kacheln: lange Titel (Trefferquote) reichen bis über das Diagramm, dann rutscht es um die Kopfhöhe nach unten */
-@container (max-width: 230px) { .tile.side .gauge-stack { margin-top: 20px; } }
-@container (max-width: 170px) { .tile.side .gauge > .ring { margin-top: 20px; } }
-/* sehr schmal: Titel bricht um, Diagramm steht wieder unter dem Kopf neben dem Wert */
-@container (max-width: 145px) { .tile.side .gauge { grid-area: 2 / 2; } .tile.side .gauge-stack, .tile.side .gauge > .ring { margin-top: 0; } }
+/* Kacheln mit kleinem Diagramm (Donut, Halbkreis): Diagramm auf Höhe der Wert-Schrift, etwas vom rechten Rand abgerückt */
+.tile.side .gauge { margin-right: 12px; }
+/* der Halbkreis hat oben Luft im SVG (Strichbreite), die Pillen hängen unten: sichtbare Mitte auf die Ziffern-Mitte ziehen */
+.tile.side .gauge-stack { transform: translateY(-3.5px); }
+/* enge Kacheln: erst der Abstand zum Rand weg, dann kompaktere Zähler, damit nichts in den Wert ragt */
+@container (max-width: 178px) { .tile.side .gauge { margin-right: 0; } }
+@container (max-width: 164px) { .tile .val { font-size: 22px; } .tile.side .gauge-stack .pill { padding: 1px 5px; font-size: 10.5px; } .tile.side .gauge-stack .pills { gap: 3px; } }
+@container (max-width: 150px) { .tile.side .gauge-stack .pills { display: none; } .tile.side .gauge-stack { transform: none; } .tile.side .gauge-stack svg { width: 54px; } }
 .tile.wide .gauge { flex: 1 1 100px; min-width: 0; }
 .gauge-stack { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .gauge-stack .pills { gap: 4px; }
@@ -894,6 +934,10 @@ span.info:hover { color: var(--accent); }
 @media (min-width: 961px) and (max-width: 1180px) { .dash-head [data-pop="account"] > span, .dash-head [data-pop="dfilter"] > span { display: none; } }
 @media (max-width: 560px) { .title-badge { display: none; } .dash-head > .row.dh-tools { margin-left: 0; width: 100%; } .dash-head > .row.dh-tools .tl { margin-left: auto; } .dash-head .dh-sep { display: none; } }
 @media (max-width: 560px) { :root { --page-head-h: 115px; } }
+/* Kopfreihe ohne Werkzeuge rechts (Mentor) bleibt auch auf dem Handy einzeilig */
+.content:has(> .page-head.compact) { --page-head-h: 64px; }
+@media (max-width: 560px) { .content:has(> .page-head.compact .ph-note) { --page-head-h: 90px; } }
+.page-head .ph-note { font-size: 12.5px; color: var(--muted); }
 .btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
 .filter-pop { width: 400px; max-width: calc(100vw - 32px); padding: 12px 14px; }
 .filter-pop .fsec { margin-bottom: 10px; }

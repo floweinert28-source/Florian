@@ -64,24 +64,40 @@
     rerender(keepScroll = true) { const y = window.scrollY; this.render({ enter: false }); if (keepScroll) window.scrollTo({ top: y }); },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
-      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}">${I[icon]}<span>${label}</span></a>`;
+      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
-      const mini = !!S.settings.sidebarMini && window.matchMedia('(min-width: 900px)').matches; document.documentElement.classList.toggle('sb-mini', mini);
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="name">Journal<em>yst</em></span><button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button></div>${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div><nav class="nav nav-sec">${NAV2.map(item).join('')}</nav>
+      const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
+      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="name">Journal<em>yst</em></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div>${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div><nav class="nav nav-sec">${NAV2.map(item).join('')}</nav>
         <div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div>`;
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
     },
+    /* Bausteine der Kopfzeile: Zeitraum, Konto, Session, neuer Trade (Dashboard ordnet sie selbst an) */
+    rangeControl() {
+      const r = this.range();
+      return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-range">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}<hr><div class="sec">Benutzerdefiniert</div><form class="range-form" data-action="range-custom"><input class="input" type="date" id="range-from" value="${(S.settings.range || {}).from || ''}" aria-label="Von"><input class="input" type="date" id="range-to" value="${(S.settings.range || {}).to || ''}" aria-label="Bis"><button type="submit" class="btn sm primary">Anwenden</button></form></div></div>`;
+    },
+    accountControl() {
+      const acc = S.settings.accountId; const accounts = S.data.accounts; const accName = acc === 'all' || !acc ? (accounts.length > 1 ? 'Alle Konten' : (accounts[0] || {}).name || 'Konto') : ((accounts.find(a => a.id === acc) || {}).name || 'Konto');
+      return `<div class="popwrap hide-m"><button type="button" class="btn" data-pop="account" title="Konto: ${esc(accName)}">${I.account}<span>${esc(accName)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-account">${accounts.length > 1 ? `<button type="button" class="item" data-action="account" data-value="all" aria-checked="${acc === 'all'}">Alle Konten</button>` : ''}${accounts.map(a => `<button type="button" class="item" data-action="account" data-value="${a.id}" aria-checked="${acc === a.id}">${esc(a.name)}<span class="muted small" style="margin-left:auto">${fmt.cur(a.size, { compact: true })}</span></button>`).join('')}<hr><a class="item" href="#/settings">${I.settings} Konten verwalten</a></div></div>`;
+    },
+    /* iconOnly: nur Symbol mit Tooltip, der Text bleibt für Screenreader im Knopf (Klasse vh) */
+    sessionControl(iconOnly) {
+      const sess = S.activeSession();
+      if (sess) return `<button type="button" class="btn" data-action="end-session" title="Session beenden">${I.stop}<span id="session-timer">${fmt.hm((Date.now() - new Date(sess.startedAt)) / 1000)}</span></button>`;
+      return iconOnly ? `<button type="button" class="btn icon-only" data-action="start-session" title="Session starten" aria-label="Session starten">${I.play}<span class="vh">Session starten</span></button>`
+        : `<button type="button" class="btn hide-m" data-action="start-session">${I.play}<span>Session starten</span></button>`;
+    },
+    newTradeButton() { return `<button type="button" class="btn accent tl" data-action="new-trade">${I.plus}<span>Trade loggen</span></button>`; },
     globalActions() {
-      const r = this.range(); const sess = S.activeSession(); const acc = S.settings.accountId; const accounts = S.data.accounts; const accName = acc === 'all' || !acc ? (accounts.length > 1 ? 'Alle Konten' : (accounts[0] || {}).name || 'Konto') : ((accounts.find(a => a.id === acc) || {}).name || 'Konto');
-      return `<button type="button" class="btn accent tl" data-action="new-trade">${I.plus}<span>Trade loggen</span></button>
-        ${sess ? `<button type="button" class="btn" data-action="end-session" title="Session beenden">${I.stop}<span id="session-timer">${fmt.hm((Date.now() - new Date(sess.startedAt)) / 1000)}</span></button>` : `<button type="button" class="btn hide-m" data-action="start-session">${I.play}<span>Session starten</span></button>`}
-        <div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-range">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}<hr><div class="sec">Benutzerdefiniert</div><form class="range-form" data-action="range-custom"><input class="input" type="date" id="range-from" value="${(S.settings.range || {}).from || ''}" aria-label="Von"><input class="input" type="date" id="range-to" value="${(S.settings.range || {}).to || ''}" aria-label="Bis"><button type="submit" class="btn sm primary">Anwenden</button></form></div></div>
-        <div class="popwrap hide-m"><button type="button" class="btn" data-pop="account">${I.account}<span>${esc(accName)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-account">${accounts.length > 1 ? `<button type="button" class="item" data-action="account" data-value="all" aria-checked="${acc === 'all'}">Alle Konten</button>` : ''}${accounts.map(a => `<button type="button" class="item" data-action="account" data-value="${a.id}" aria-checked="${acc === a.id}">${esc(a.name)}<span class="muted small" style="margin-left:auto">${fmt.cur(a.size, { compact: true })}</span></button>`).join('')}<hr><a class="item" href="#/settings">${I.settings} Konten verwalten</a></div></div>`;
+      return `${this.newTradeButton()}
+        ${this.sessionControl(false)}
+        ${this.rangeControl()}
+        ${this.accountControl()}`;
     },
     topbar(title, screen, ctx) {
       const initials = (S.settings.name || 'T').split(/\s+/).map(s => s[0]).join('').slice(0, 2).toUpperCase();
-      return `<header class="topbar"><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1><div class="actions">
+      return `<header class="topbar"><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1>${screen.titleBadge ? screen.titleBadge(ctx) : ''}<div class="actions">
         ${screen.actions ? screen.actions(ctx) : ''}${screen.ownActions ? '' : this.globalActions()}
         <a class="avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(initials)}</a></div></header>`;
     },
@@ -100,7 +116,9 @@
         const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, el, e); }
       });
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); } });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
+      /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
+      window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) fn.call(this, el, e); } });
       window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; M.transition(() => this.render()); });
@@ -113,8 +131,10 @@
   Object.assign(App.actions, {
     sidebar() { this.state.sidebarOpen = !this.state.sidebarOpen; this.renderSidebar(); },
     /* Knopf in der Marke: Desktop klappt auf Symbole zusammen, Handy schließt das Menü */
-    'sb-toggle'() { if (window.matchMedia('(min-width: 900px)').matches) { S.settings.sidebarMini = !S.settings.sidebarMini; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
+    'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.sidebarMini = !S.settings.sidebarMini; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
+    /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
+    'nav-close'(el) { const h = el.getAttribute('href'); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); this.renderSidebar(); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     range(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.rerender(); },
     'range-custom'(f) { const from = f.querySelector('#range-from').value, to = f.querySelector('#range-to').value; if (!from) return U.toast('Bitte ein Startdatum wählen', 'err'); S.setSetting('range', { preset: 'custom', from, to: to || from }); this.rerender(); },

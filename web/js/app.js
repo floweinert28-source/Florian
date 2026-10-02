@@ -62,8 +62,10 @@
     rerender(keepScroll = true) { const y = window.scrollY; this.render({ enter: false }); if (keepScroll) window.scrollTo({ top: y }); },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
-      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}">${I[icon]}<span>${label}</span></a>`;
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span>Journal<em>yst</em></span></div><hr><nav class="nav">${NAV.map(item).join('')}</nav><hr><nav class="nav">${NAV3.map(item).join('')}</nav><div class="spacer"></div><hr><nav class="nav">${NAV2.map(item).join('')}</nav>
+      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}">${I[icon]}<span>${label}</span></a>`;
+      /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
+      const mini = !!S.settings.sidebarMini && window.matchMedia('(min-width: 900px)').matches; document.documentElement.classList.toggle('sb-mini', mini);
+      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="name">Journal<em>yst</em></span><button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button></div><nav class="nav">${NAV.map(item).join('')}</nav><nav class="nav nav-sec">${NAV3.map(item).join('')}</nav><div class="spacer"></div><nav class="nav nav-sec">${NAV2.map(item).join('')}</nav>
         <div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div>`;
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
@@ -108,6 +110,8 @@
 
   Object.assign(App.actions, {
     sidebar() { this.state.sidebarOpen = !this.state.sidebarOpen; this.renderSidebar(); },
+    /* Knopf in der Marke: Desktop klappt auf Symbole zusammen, Handy schließt das Menü */
+    'sb-toggle'() { if (window.matchMedia('(min-width: 900px)').matches) { S.settings.sidebarMini = !S.settings.sidebarMini; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); this.renderSidebar(); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     range(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.rerender(); },

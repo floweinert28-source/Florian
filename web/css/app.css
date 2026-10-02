@@ -97,25 +97,50 @@ svg { display: block; }
 /* ---------- App-Rahmen ---------- */
 .shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100%; }
 .sidebar {
-  position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 6px;
-  padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto;
+  position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 4px;
+  padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
 }
-.brand { display: flex; align-items: center; gap: 10px; padding: 4px 10px 18px; font-family: var(--font-display); font-weight: 800; font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; }
-.brand .mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--accent); }
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 6px 22px 10px; font-family: var(--font-display); font-weight: 800; font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; }
+.brand .mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--accent); flex: 0 0 auto; }
 .brand .mark svg { width: 28px; height: 28px; }
+.brand .name { white-space: nowrap; }
 .brand em { font-style: normal; color: var(--accent); }
+.brand .sb-toggle { margin-left: auto; width: 32px; height: 32px; border-radius: 9px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.brand .sb-toggle svg { width: 18px; height: 18px; }
+.brand .sb-toggle:hover { background: var(--surface-2); color: var(--text); }
 .sidebar hr { border: 0; border-top: 1px solid var(--border); margin: 8px 6px; }
-.nav { display: flex; flex-direction: column; gap: 4px; }
+.nav { display: flex; flex-direction: column; gap: 6px; }
+.nav.nav-sec { margin-top: 14px; }
 .nav a, .nav button {
-  display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px; border: 1px solid transparent; background: none;
-  color: var(--text-2); font-weight: 500; font-size: 13.5px; cursor: pointer; text-align: left; width: 100%; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-2) var(--ease);
+  position: relative; display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-radius: 13px; border: 1px solid transparent; background: none;
+  color: var(--text-2); font-weight: 500; font-size: 14.5px; cursor: pointer; text-align: left; width: 100%; white-space: nowrap; overflow: hidden;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-2) var(--ease);
 }
-.nav a svg, .nav button svg { width: 19px; height: 19px; flex: 0 0 auto; }
+.nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-.nav a.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+/* aktiver Eintrag wie eine Pille: dunkle Fläche, die nach rechts in die Akzentfarbe ausläuft, mit leuchtendem Balken am rechten Rand */
+.nav a.active { color: var(--text); font-weight: 600; border-color: var(--border-2); background: linear-gradient(90deg, var(--surface-3) 0%, var(--surface-3) 58%, var(--accent-soft) 100%); }
+@supports (background: color-mix(in srgb, red 50%, blue)) {
+  .nav a.active { background: linear-gradient(90deg, var(--surface-3) 0%, var(--surface-3) 55%, color-mix(in srgb, var(--accent) 38%, var(--surface-3)) 100%); }
+}
+.nav a.active svg { opacity: 1; color: var(--text); }
+.nav a.active::after { content: ''; position: absolute; right: 0; top: 7px; bottom: 7px; width: 4px; border-radius: 4px 0 0 4px; background: var(--accent); box-shadow: 0 0 12px 2px var(--accent-soft), 0 0 4px var(--accent); }
+.nav a.active:hover { transform: none; }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
+
+/* ---------- Seitenleiste eingeklappt (nur Symbole), Desktop ---------- */
+html.sb-mini .shell { grid-template-columns: 80px minmax(0, 1fr); }
+html.sb-mini .sidebar { padding-left: 10px; padding-right: 10px; }
+html.sb-mini .brand { flex-direction: column; gap: 8px; padding: 0 0 18px; align-items: center; }
+html.sb-mini .brand .name { display: none; }
+html.sb-mini .brand .sb-toggle { margin-left: 0; }
+html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; padding: 11px 0; gap: 0; }
+html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
+html.sb-mini .nav a.active::after { top: 9px; bottom: 9px; }
+html.sb-mini .theme-toggle { flex-direction: column; align-self: center; padding: 4px; }
+html.sb-mini .theme-toggle button { width: 30px; height: 30px; }
 .theme-toggle { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; padding: 5px; border-radius: 999px; border: 1px solid var(--border-2); background: var(--surface); margin: 6px 10px 0; }
 .theme-toggle button { width: 34px; height: 34px; border-radius: 999px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; }
 .theme-toggle button svg { width: 17px; height: 17px; }

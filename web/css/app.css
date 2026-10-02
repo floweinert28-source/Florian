@@ -41,7 +41,7 @@
   --dur-1: 150ms; --dur-2: 240ms; --dur-3: 380ms;
   --ease: cubic-bezier(.2, .8, .2, 1); --ease-in: cubic-bezier(.4, 0, 1, 1);
   --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .7);
-  --sidebar-w: 212px;
+  --sidebar-w: 232px;
   --topbar-h: 72px;
   --gutter: 24px;
 }
@@ -98,25 +98,25 @@ svg { display: block; }
 .shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100%; }
 .sidebar {
   position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 4px;
-  padding: 22px 12px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
+  padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
 }
-.brand { display: flex; align-items: center; gap: 7px; padding: 4px 0 20px 4px; font-family: var(--font-display); font-weight: 800; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; }
-.brand .mark { width: 28px; height: 28px; display: grid; place-items: center; color: var(--accent); flex: 0 0 auto; }
-.brand .mark svg { width: 26px; height: 26px; }
+.brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 22px 8px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
+.brand .mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--accent); flex: 0 0 auto; }
+.brand .mark svg { width: 28px; height: 28px; }
 .brand .name { white-space: nowrap; }
 .brand em { font-style: normal; color: var(--accent); }
-.brand .sb-toggle { margin-left: auto; flex: 0 0 auto; width: 28px; height: 28px; border-radius: 9px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
-.brand .sb-toggle svg { width: 17px; height: 17px; }
+.brand .sb-toggle { margin-left: auto; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.brand .sb-toggle svg { width: 18px; height: 18px; }
 .brand .sb-toggle:hover { background: var(--surface-2); color: var(--text); }
 .sidebar hr { border: 0; border-top: 1px solid var(--border); margin: 8px 6px; }
 .nav { display: flex; flex-direction: column; gap: 3px; }
 .nav.nav-sec { margin-top: 12px; }
 .nav a, .nav button {
-  position: relative; display: flex; align-items: center; gap: 12px; padding: 10px 13px; border-radius: 11px; border: 1px solid transparent; background: none;
-  color: var(--text-2); font-weight: 500; font-size: 14px; cursor: pointer; text-align: left; width: 100%; white-space: nowrap; overflow: hidden;
+  position: relative; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border-radius: 11px; border: 1px solid transparent; background: none;
+  color: var(--text-2); font-weight: 500; font-size: 14.5px; cursor: pointer; text-align: left; width: 100%; white-space: nowrap; overflow: hidden;
   transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-2) var(--ease);
 }
-.nav a svg, .nav button svg { width: 19px; height: 19px; flex: 0 0 auto; opacity: .85; }
+.nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
 /* aktiver Eintrag wie eine Pille: dunkle Fläche, die nach rechts in die Akzentfarbe ausläuft, mit leuchtendem Balken am rechten Rand */
@@ -125,7 +125,7 @@ svg { display: block; }
   .nav a.active { background: linear-gradient(90deg, var(--surface-3) 0%, var(--surface-3) 55%, color-mix(in srgb, var(--accent) 38%, var(--surface-3)) 100%); }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; right: 0; top: 6px; bottom: 6px; width: 3px; border-radius: 4px 0 0 4px; background: var(--accent); box-shadow: 0 0 12px 2px var(--accent-soft), 0 0 4px var(--accent); }
+.nav a.active::after { content: ''; position: absolute; right: 0; top: 7px; bottom: 7px; width: 4px; border-radius: 4px 0 0 4px; background: var(--accent); box-shadow: 0 0 12px 2px var(--accent-soft), 0 0 4px var(--accent); }
 .nav a.active:hover { transform: none; }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
@@ -136,7 +136,7 @@ html.sb-mini .sidebar { padding-left: 10px; padding-right: 10px; }
 html.sb-mini .brand { flex-direction: column; gap: 8px; padding: 0 0 18px; align-items: center; }
 html.sb-mini .brand .name { display: none; }
 html.sb-mini .brand .sb-toggle { margin-left: 0; }
-html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; padding: 10px 0; gap: 0; }
+html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; padding: 8px 0; gap: 0; }
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
 html.sb-mini .nav a.active::after { top: 9px; bottom: 9px; }
 html.sb-mini .theme-toggle { flex-direction: column; align-self: center; padding: 4px; }

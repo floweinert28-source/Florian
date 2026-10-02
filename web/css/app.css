@@ -104,7 +104,7 @@ svg { display: block; }
 .brand .mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--text); flex: 0 0 auto; }
 .brand .mark svg { width: 28px; height: 28px; }
 .brand .name { white-space: nowrap; }
-.brand em { font-style: normal; color: var(--accent); }
+.brand em { font-style: normal; color: inherit; }
 .brand .sb-toggle { margin-left: auto; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .brand .sb-toggle svg { width: 18px; height: 18px; }
 .brand .sb-toggle:hover { background: var(--surface-2); color: var(--text); }
@@ -1688,7 +1688,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .shadow-card .sc-head .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; }
 .shadow-card .sc-head .brand .mark { display: inline-grid; place-items: center; }
 .shadow-card .sc-head .brand .mark svg { width: 32px; height: 32px; color: currentColor; }
-.shadow-card .sc-head .brand em { font-style: normal; color: var(--c-accent); }
+.shadow-card .sc-head .brand em { font-style: normal; color: inherit; }
 .shadow-card .sc-tag { font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: var(--c-muted); font-weight: 600; border: 1px solid var(--c-line); border-radius: 999px; padding: 10px 20px 10px 24px; }
 .shadow-card .sc-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px 0 10px; }
 .shadow-card .sc-title { font-size: 20px; letter-spacing: .34em; text-transform: uppercase; color: var(--c-muted); font-weight: 600; padding-left: .34em; }

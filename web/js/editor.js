@@ -36,16 +36,16 @@
     static create(v) {
       const node = super.create(); v = typeof v === 'string' ? { src: v } : (v || {}); node.setAttribute('contenteditable', 'false');
       /* Breite sitzt am Rahmen .fig (Prozent der Notizbreite), das Bild füllt ihn: so bleibt der Griff an der Bildecke */
-      node.innerHTML = `<div class="fig"><div class="img"><img alt=""><span class="rs" title="Größe ändern (ziehen)"></span><span class="fig-size" hidden></span><div class="fig-bar" role="group" aria-label="Bildgröße">${FIG_SIZES.map(([l, w]) => `<button type="button" data-w="${w}" title="${w === '100%' ? 'Volle Breite' : w + ' der Breite'}">${l}</button>`).join('')}</div></div><input class="cap" placeholder="Bildunterschrift" spellcheck="false"></div>`;
+      node.innerHTML = `<div class="fig"><div class="img"><img alt=""><span class="rs" title="Größe ändern (ziehen)"></span><span class="fig-size" hidden></span><div class="fig-bar" role="group" aria-label="Bildgröße">${FIG_SIZES.map(([l, w]) => `<button type="button" data-w="${w}" title="${w === '100%' ? 'Volle Breite' : w + ' der Breite'}">${l}</button>`).join('')}<span class="sep"></span><button type="button" class="del" data-fig-del title="Bild löschen" aria-label="Bild löschen">${I.trash}</button></div></div><input class="cap" placeholder="Bildunterschrift" spellcheck="false"></div>`;
       const fig = node.querySelector('.fig'), img = node.querySelector('img'); if (v.id) { img.dataset.blob = v.id; resolveBlob(img, v.id); } else if (v.src && /^(data:image|blob:|https?:)/.test(v.src)) img.src = v.src;
       if (v.width) fig.style.width = v.width; const cap = node.querySelector('.cap'); cap.value = v.caption || ''; stopKeys(cap); cap.addEventListener('input', () => dirty(node)); cap.addEventListener('mousedown', e => e.stopPropagation());
       img.addEventListener('dblclick', () => { const lb = document.createElement('div'); lb.className = 'lightbox'; lb.innerHTML = `<img src="${img.src}" alt="">`; lb.addEventListener('click', () => lb.remove()); document.body.appendChild(lb); });
       const bar = node.querySelector('.fig-bar'), badge = node.querySelector('.fig-size'), handle = node.querySelector('.rs');
-      const markBar = () => { const cur = fig.style.width || ''; bar.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.w === cur))); node.classList.toggle('narrow', fig.getBoundingClientRect().width < 190); };
+      const markBar = () => { const cur = fig.style.width || ''; bar.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.w === cur))); node.classList.toggle('narrow', fig.getBoundingClientRect().width < 230); };
       node.querySelector('.img').addEventListener('mouseenter', markBar);
       img.addEventListener('load', () => requestAnimationFrame(markBar));
       bar.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); });
-      bar.addEventListener('click', e => { const x = e.target.closest('[data-w]'); if (!x) return; e.preventDefault(); e.stopPropagation(); fig.style.width = x.dataset.w; markBar(); dirty(node); });
+      bar.addEventListener('click', e => { if (e.target.closest('[data-fig-del]')) return; const x = e.target.closest('[data-w]'); if (!x) return; e.preventDefault(); e.stopPropagation(); fig.style.width = x.dataset.w; markBar(); dirty(node); });
       /* Ziehen am Griff: Breite in Prozent, rastet bei 25/33/50/66/75/100 ein; Zeiger-Ereignisse, damit es auch mit Stift und Finger geht */
       handle.addEventListener('pointerdown', e => {
         e.preventDefault(); e.stopPropagation();
@@ -133,6 +133,20 @@
     const emit = () => { if (o.onChange) o.onChange(quill.getContents()); };
     quill.on('text-change', (d, old, src) => { emit(); if (src === 'user') { checkSlash(); checkEmoji(); checkYouTube(d); } refreshState(); });
     quill.on('selection-change', r => { if (r) refreshState(); else hideMenu(); });
+    /* Bilder: ein Klick markiert das Bild wie ein Zeichen (grüner Rahmen), Rücktaste oder Entf löschen es dann; der Papierkorb in der Bildleiste löscht direkt */
+    const figIndex = f => { const b = Q.find(f); return b ? quill.getIndex(b) : -1; };
+    const markFigures = r => { editorEl.querySelectorAll('.nb-figure').forEach(f => { const i = r && r.length ? figIndex(f) : -1; f.classList.toggle('selected', i >= 0 && i >= r.index && i < r.index + r.length); }); };
+    if (!o.readOnly) {
+      editorEl.addEventListener('click', e => {
+        const f = e.target.closest('.nb-figure'); if (!f) return;
+        const del = e.target.closest('[data-fig-del]'); const i = figIndex(f); if (i < 0) return;
+        if (del) { e.preventDefault(); e.stopPropagation(); quill.deleteText(i, 1, 'user'); quill.setSelection(Math.max(0, i), 0, 'user'); return; }
+        if (e.target.closest('.cap, .rs, .fig-bar')) return;
+        quill.setSelection(i, 1, 'user'); markFigures({ index: i, length: 1 });
+      });
+      quill.on('selection-change', r => markFigures(r));
+      quill.on('text-change', () => markFigures(quill.getSelection()));
+    }
     container.addEventListener('nb-dirty', () => emit());
     if (o.readOnly) return inst;
 

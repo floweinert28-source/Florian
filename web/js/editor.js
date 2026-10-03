@@ -10,7 +10,12 @@
   const Size = Q.import('attributors/style/size'); Size.whitelist = null; Q.register(Size, true);
   const BlockEmbed = Q.import('blots/block/embed');
   const sanitize = html => { const doc = new DOMParser().parseFromString(String(html || ''), 'text/html'); doc.querySelectorAll('script,style,iframe,object,embed,link,meta').forEach(n => n.remove()); doc.body.querySelectorAll('*').forEach(el => { for (const a of [...el.attributes]) { if (/^on/i.test(a.name) || (a.name === 'href' && /^\s*javascript:/i.test(a.value)) || a.name === 'srcdoc') el.removeAttribute(a.name); } }); return doc.body.innerHTML; };
-  const resolveBlob = (img, id) => { if (root.Blobs) root.Blobs.url(id).then(u => { if (u) img.src = u; else img.alt = 'Bild nicht mehr vorhanden'; }).catch(() => {}); };
+  /* Bilder aus dem Bildspeicher: die App blendet img[data-blob] erst ein, wenn sie als „loaded“ markiert sind (sanftes Einblenden) */
+  const resolveBlob = (img, id) => {
+    const shown = () => img.classList.add('loaded'); img.addEventListener('load', shown, { once: true }); img.addEventListener('error', shown, { once: true });
+    if (!root.Blobs) return shown();
+    root.Blobs.url(id).then(u => { if (u) { img.src = u; if (img.complete && img.naturalWidth) shown(); } else { img.alt = 'Bild nicht mehr vorhanden'; shown(); } }).catch(shown);
+  };
   const dirty = node => node.dispatchEvent(new CustomEvent('nb-dirty', { bubbles: true }));
   const withTimeout = (pr, ms) => Promise.race([pr, new Promise((_, rej) => setTimeout(() => rej(new Error('Zeitüberschreitung')), ms))]);
   /* Bild auf höchstens 1600 px verkleinern und als Daten-URL liefern (Ersatz, wenn der Bildspeicher fehlt); kleine PNGs bleiben PNG */

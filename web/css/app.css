@@ -1446,34 +1446,22 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 
 /* ============================================================
    Ruhepunkt als eigener, ruhiger Raum (ruhepunkt.js: calmEnter/calmLeave)
-   Eingang: ein Atemzug über den ganzen Bildschirm; danach treibende Farbflächen hinter den Inhalten, gedämpfte Seitenleiste
+   Beim Betreten zieht ein Schwarm bunter Blüten durch den Inhaltsbereich; danach treiben weiche Farbflächen hinter den Inhalten
    ============================================================ */
-.calm-veil { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; overflow: hidden; cursor: pointer;
-  background: radial-gradient(circle at 50% 46%, #12304a 0%, #0a1b28 42%, #05090d 100%); animation: calm-veil 2600ms cubic-bezier(.4, 0, .2, 1) forwards; }
-:root[data-theme="light"] .calm-veil { background: radial-gradient(circle at 50% 46%, #f7fcfe 0%, #e4f0f5 45%, #d0e2e9 100%); }
-.calm-veil > * { grid-area: 1 / 1; pointer-events: none; }
-.calm-veil.skip { animation: calm-veil-out 260ms ease forwards; }
-.cv-orb { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle at 50% 42%, rgba(160, 220, 255, .78), rgba(92, 184, 255, .36) 38%, rgba(52, 214, 176, .14) 62%, transparent 72%); box-shadow: 0 0 90px 30px rgba(92, 184, 255, .16); animation: calm-orb 2600ms cubic-bezier(.45, 0, .25, 1) forwards; }
-.cv-ring { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(160, 220, 255, .45); opacity: 0; animation: calm-ring 2200ms cubic-bezier(.2, .6, .3, 1) forwards; }
-.cv-ring:nth-child(2) { animation-delay: 420ms; }
-.cv-ring:nth-child(3) { animation-delay: 840ms; }
-.cv-word { transform: translateY(118px); font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: rgba(226, 243, 250, .92); opacity: 0; animation: calm-word 2600ms ease forwards; }
-.cv-sub { transform: translateY(144px); font-size: 13.5px; color: rgba(200, 225, 236, .72); opacity: 0; animation: calm-sub 2600ms ease forwards; }
-:root[data-theme="light"] .cv-word { color: #1d4356; }
-:root[data-theme="light"] .cv-sub { color: #4a6b7a; }
-:root[data-theme="light"] .cv-ring { border-color: rgba(42, 111, 184, .32); }
-:root[data-theme="light"] .cv-orb { background: radial-gradient(circle at 50% 42%, rgba(120, 190, 240, .7), rgba(42, 111, 184, .26) 40%, rgba(15, 184, 160, .12) 62%, transparent 72%); box-shadow: 0 0 90px 30px rgba(42, 111, 184, .12); }
-@keyframes calm-veil { 0% { opacity: 0; } 12% { opacity: 1; } 62% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-@keyframes calm-veil-out { to { opacity: 0; visibility: hidden; } }
-@keyframes calm-orb { 0% { transform: scale(.5); opacity: 0; } 16% { opacity: 1; } 52% { transform: scale(1.16); opacity: 1; } 100% { transform: scale(2.8); opacity: 0; } }
-@keyframes calm-ring { 0% { transform: scale(.85); opacity: 0; } 18% { opacity: .7; } 100% { transform: scale(4.6); opacity: 0; } }
-@keyframes calm-word { 0%, 16% { opacity: 0; letter-spacing: .2em; } 40%, 68% { opacity: 1; } 92%, 100% { opacity: 0; letter-spacing: .44em; } }
-@keyframes calm-sub { 0%, 24% { opacity: 0; } 46%, 68% { opacity: 1; } 92%, 100% { opacity: 0; } }
-/* Inhalte tauchen weich auf, während der Schleier sich hebt */
-html.calm-enter .rp > * { animation: calm-content 1100ms cubic-bezier(.2, .7, .2, 1) 1350ms backwards; }
-html.calm-enter .rp > :nth-child(2) { animation-delay: 1460ms; }
-html.calm-enter .rp > :nth-child(3) { animation-delay: 1570ms; }
-@keyframes calm-content { from { opacity: 0; filter: blur(8px); transform: translateY(12px); } }
+.rp-bloom { position: fixed; z-index: 15; pointer-events: none; overflow: hidden; }
+.rp-bloom .fl { position: absolute; left: 0; opacity: 0; will-change: transform, opacity; animation: bloom-x var(--d) cubic-bezier(.3, .1, .4, 1) var(--dl) forwards; }
+.rp-bloom .fl i { display: block; animation: bloom-bob var(--b) ease-in-out infinite alternate; }
+.rp-bloom .fl b { display: block; animation: bloom-spin var(--d) linear var(--dl) both; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .28)); }
+:root[data-theme="light"] .rp-bloom .fl b { filter: drop-shadow(0 2px 4px rgba(40, 60, 50, .14)); }
+.rp-bloom svg { display: block; width: 100%; height: 100%; }
+@keyframes bloom-x { 0% { transform: translate3d(-70px, 0, 0); opacity: 0; } 8% { opacity: var(--o); } 86% { opacity: var(--o); } 100% { transform: translate3d(calc(var(--w) + 20px), var(--rise), 0); opacity: 0; } }
+@keyframes bloom-bob { from { transform: translateY(calc(var(--amp) * -1)); } to { transform: translateY(var(--amp)); } }
+@keyframes bloom-spin { from { transform: rotate(0deg); } to { transform: rotate(var(--spin)); } }
+/* Inhalte tauchen weich auf */
+html.calm-enter .rp > * { animation: calm-content 900ms cubic-bezier(.2, .7, .2, 1) backwards; }
+html.calm-enter .rp > :nth-child(2) { animation-delay: 90ms; }
+html.calm-enter .rp > :nth-child(3) { animation-delay: 180ms; }
+@keyframes calm-content { from { opacity: 0; filter: blur(6px); transform: translateY(10px); } }
 /* Hintergrund: drei weiche Farbflächen treiben langsam, die mittlere atmet im 10-Sekunden-Takt */
 .rp-ambient { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; opacity: 0; animation: calm-fade-in 1600ms ease 300ms forwards; }
 .rp-ambient i { position: absolute; border-radius: 50%; will-change: transform; }
@@ -1487,18 +1475,8 @@ html.calm-enter .rp > :nth-child(3) { animation-delay: 1570ms; }
 @keyframes calm-drift-a { to { transform: translate3d(8vw, 6vh, 0) scale(1.1); } }
 @keyframes calm-drift-b { to { transform: translate3d(-7vw, -5vh, 0) scale(1.08); } }
 @keyframes calm-breathe { 0%, 100% { transform: scale(.92); opacity: .7; } 50% { transform: scale(1.08); opacity: 1; } }
-/* Leiste und Kopf treten zurück; mit der Maus darüber ist die Leiste wieder voll da */
-html.calm .topbar { background: color-mix(in srgb, var(--bg) 45%, transparent); border-bottom-color: transparent; }
-@media (min-width: 961px) {
-  .sidebar { transition: opacity .7s var(--ease), filter .7s var(--ease); }
-  html.calm .sidebar { opacity: .6; filter: saturate(.35); transition-duration: 1.4s; }
-  html.calm .sidebar:hover, html.calm .sidebar:focus-within { opacity: 1; filter: none; transition-duration: .3s; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .calm-veil { animation: calm-veil 1000ms ease forwards; }
-  .cv-ring { display: none; }
-  .cv-orb { animation: none; }
-  .cv-word, .cv-sub { animation: none; opacity: 1; }
+  .rp-bloom { display: none; }
   html.calm-enter .rp > * { animation: none; }
   .rp-ambient, .rp-ambient i { animation: none; opacity: 1; }
 }

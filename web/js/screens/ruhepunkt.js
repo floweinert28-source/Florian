@@ -852,27 +852,42 @@ function setFaith(v) {
   syncFaithUI();
   if (mode === 'step') renderStep();
 }
-/* ---------- Ruhiger Raum: beim Betreten ein Atemzug über den ganzen Bildschirm, danach treibende Farbflächen und eine gedämpfte Leiste ----------
-   Klick oder Taste überspringt den Eingang; bei reduzierter Bewegung nur ein kurzes Einblenden */
-var calmHere = false, calmVeil = null, calmTimer = null;
+/* ---------- Ruhiger Raum: beim Betreten zieht ein Schwarm bunter Blüten durch den Ruhepunkt-Bereich, danach treiben ruhige Farbflächen hinter den Inhalten ----------
+   Nur im Inhaltsbereich (unter der Kopfzeile, neben der Seitenleiste), Klicks gehen durch; bei reduzierter Bewegung keine Blüten */
+var calmHere = false, bloomLayer = null, bloomTimer = null, calmEnterTimer = null;
+var BLOOM_COLORS = [['#ff9ec7', '#ffe08a'], ['#c9a7ff', '#fff1b8'], ['#ffc08f', '#ffe9a8'], ['#9fd6ff', '#fff6c7'], ['#a6eccf', '#ffe08a'], ['#ff8fa8', '#ffd36b'], ['#f3b0ff', '#fff1b8'], ['#ffe27a', '#ff9f5a']];
+function flowerSVG(petal, core, n) {
+  var p = ''; for (var k = 0; k < n; k++) p += '<ellipse cx="20" cy="10.5" rx="6.2" ry="9.5" transform="rotate(' + (k * 360 / n) + ' 20 20)"/>';
+  return '<svg viewBox="0 0 40 40"><g fill="' + petal + '">' + p + '</g><circle cx="20" cy="20" r="5.4" fill="' + core + '"/><circle cx="18.6" cy="18.6" r="1.6" fill="#ffffff" opacity=".55"/></svg>';
+}
+function petalSVG(c) { return '<svg viewBox="0 0 20 20"><path d="M10 1C15.5 6 15.5 13.5 10 19C4.5 13.5 4.5 6 10 1Z" fill="' + c + '"/><path d="M10 3.5V16.5" stroke="#ffffff" stroke-opacity=".35" stroke-width="1"/></svg>'; }
+function bloom() {
+  if (reducedMotion) return;
+  var main = document.getElementById('main'), bar = document.querySelector('.topbar'); if (!main) return;
+  var r = main.getBoundingClientRect(), top = Math.max(0, bar ? bar.getBoundingClientRect().bottom : r.top), w = r.width, h = window.innerHeight - top; if (w < 40 || h < 40) return;
+  var layer = document.createElement('div'); layer.className = 'rp-bloom'; layer.setAttribute('aria-hidden', 'true');
+  layer.style.cssText = 'left:' + r.left + 'px;top:' + top + 'px;width:' + w + 'px;height:' + h + 'px;--w:' + Math.round(w) + 'px';
+  var out = '', n = w < 600 ? 20 : 36, rnd = Math.random;
+  for (var i = 0; i < n; i++) {
+    var c = BLOOM_COLORS[i % BLOOM_COLORS.length], size = 20 + rnd() * 34, depth = size / 54; /* größere Blüten sind näher: schneller und kräftiger */
+    var dur = 7.4 - depth * 2.6 + rnd() * 1.2, delay = rnd() * 2.4, loose = rnd() < 0.28, spin = (rnd() < 0.5 ? -1 : 1) * (120 + rnd() * 260);
+    out += '<span class="fl" style="top:' + (3 + rnd() * 88).toFixed(1) + '%;--d:' + dur.toFixed(2) + 's;--dl:' + delay.toFixed(2) + 's;--rise:' + Math.round((rnd() - 0.5) * 140) + 'px;--o:' + (0.5 + depth * 0.45).toFixed(2) + '">' +
+      '<i style="--b:' + (1.6 + rnd() * 1.4).toFixed(2) + 's;--amp:' + Math.round(8 + rnd() * 16) + 'px"><b style="width:' + Math.round(size) + 'px;height:' + Math.round(size) + 'px;--spin:' + Math.round(spin) + 'deg">' +
+      (loose ? petalSVG(c[0]) : flowerSVG(c[0], c[1], rnd() < 0.5 ? 5 : 6)) + '</b></i></span>';
+  }
+  layer.innerHTML = out; document.body.appendChild(layer); bloomLayer = layer;
+  clearTimeout(bloomTimer); bloomTimer = setTimeout(function () { layer.remove(); if (bloomLayer === layer) bloomLayer = null; }, 11000);
+}
 function calmEnter() {
   var html = document.documentElement; html.classList.add('calm');
   if (!document.querySelector('.rp-ambient')) { var amb = document.createElement('div'); amb.className = 'rp-ambient'; amb.setAttribute('aria-hidden', 'true'); amb.innerHTML = '<i></i><i></i><i></i>'; document.body.appendChild(amb); }
   if (calmHere) return; calmHere = true;
-  var v = document.createElement('div'); v.className = 'calm-veil'; v.setAttribute('aria-hidden', 'true');
-  v.innerHTML = '<span class="cv-ring"></span><span class="cv-ring"></span><span class="cv-ring"></span><span class="cv-orb"></span><span class="cv-word">Ruhepunkt</span><span class="cv-sub">Atme ruhig ein und aus</span>';
-  var done = function () { clearTimeout(calmTimer); document.removeEventListener('keydown', skip, true); if (calmVeil === v) calmVeil = null; v.remove(); html.classList.remove('calm-enter'); };
-  var skip = function () { if (!v.isConnected || v.classList.contains('skip')) return; v.classList.add('skip'); html.classList.remove('calm-enter'); clearTimeout(calmTimer); calmTimer = setTimeout(done, 280); };
-  v.addEventListener('animationend', function (e) { if (e.target === v && !v.classList.contains('skip')) done(); });
-  v.addEventListener('click', skip); document.addEventListener('keydown', skip, true);
-  document.body.appendChild(v); calmVeil = v; html.classList.add('calm-enter');
-  calmTimer = setTimeout(done, reducedMotion ? 1100 : 3400); /* falls animationend ausbleibt */
-  /* sobald der Schleier sich hebt, gehen Klicks schon an die Seite darunter */
-  setTimeout(function () { v.style.pointerEvents = 'none'; }, reducedMotion ? 300 : 1500);
+  html.classList.add('calm-enter'); clearTimeout(calmEnterTimer); calmEnterTimer = setTimeout(function () { html.classList.remove('calm-enter'); }, 1400);
+  bloom();
 }
 function calmLeave() {
-  calmHere = false; document.documentElement.classList.remove('calm', 'calm-enter');
-  if (calmVeil) { calmVeil.remove(); calmVeil = null; }
+  calmHere = false; clearTimeout(calmEnterTimer); clearTimeout(bloomTimer); document.documentElement.classList.remove('calm', 'calm-enter');
+  if (bloomLayer) { bloomLayer.remove(); bloomLayer = null; }
   var amb = document.querySelector('.rp-ambient'); if (amb) amb.remove();
 }
 App.screens.ruhepunkt = {

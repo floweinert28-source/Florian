@@ -60,6 +60,14 @@
       U.drawCharts(main); this.loadBlobImages(main); if (screen.mount) screen.mount(main, ctx);
       window.scrollTo({ top: 0 });
     },
+    /* Popover in seiner Box halten: ragt ein rechtsbündiges Menü links aus dem nächsten scrollenden Rahmen (z. B. der Notiz-Spalte), klappt es nach rechts auf */
+    fitPopover(pop) {
+      if (pop.classList.contains('left') && !pop.dataset.autoLeft) return;
+      pop.classList.remove('left'); delete pop.dataset.autoLeft;
+      let left = 0;
+      for (let a = pop.parentElement; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a); if (/(auto|scroll|hidden|clip)/.test(cs.overflowX + ' ' + cs.overflowY)) { left = a.getBoundingClientRect().left; break; } }
+      if (pop.getBoundingClientRect().left < left + 4) { pop.classList.add('left'); pop.dataset.autoLeft = '1'; }
+    },
     /* offene Popover ausblenden und dann schließen; except = Popover, das gerade umgeschaltet wird */
     closePopovers(except) { document.querySelectorAll('.popover.open:not(.closing)').forEach(p => { if (p.id === except) return; M.leave(p, 'closing', '--dur-1', () => p.classList.remove('open', 'closing')); }); },
     rerender(keepScroll = true) { const y = window.scrollY; this.render({ enter: false }); if (keepScroll) window.scrollTo({ top: y }); },
@@ -110,7 +118,7 @@
     /* ---------- Aktionen ---------- */
     bind() {
       document.addEventListener('click', e => {
-        const pop = e.target.closest('[data-pop]'); if (pop) { const id = 'pop-' + pop.dataset.pop; this.closePopovers(id); const target = document.getElementById(id); if (target) { if (target.classList.contains('open') && !target.classList.contains('closing')) this.closePopovers(); else { target.classList.remove('closing'); target.classList.add('open'); } } return; }
+        const pop = e.target.closest('[data-pop]'); if (pop) { const id = 'pop-' + pop.dataset.pop; this.closePopovers(id); const target = document.getElementById(id); if (target) { if (target.classList.contains('open') && !target.classList.contains('closing')) this.closePopovers(); else { target.classList.remove('closing'); target.classList.add('open'); this.fitPopover(target); } } return; }
         if (!e.target.closest('.popover')) this.closePopovers();
         const stopEl = e.target.closest('[data-stop]'); const closeEl = e.target.closest('[data-close]'); const el = e.target.closest('[data-action]');
         const inside = x => !!x && x !== stopEl && stopEl.contains(x);

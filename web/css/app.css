@@ -657,11 +657,18 @@ span.info:hover { color: var(--accent); }
 .nb-search .q input { padding-left: 36px; }
 .nb-search .q svg { position: absolute; left: 12px; top: 11px; width: 16px; height: 16px; color: var(--muted); }
 .nb-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-.nb { display: grid; grid-template-columns: 236px 300px minmax(0, 1fr); gap: 14px; min-height: calc(100vh - var(--topbar-h) - 150px - var(--page-head-h)); }
+.nb { display: grid; grid-template-columns: 236px 300px minmax(0, 1fr); gap: 14px; }
+/* Desktop: das Notebook füllt genau das Fenster, die Seite scrollt nicht; Ordner, Liste und Notiz scrollen jeweils in ihrer Box */
+@media (min-width: 961px) {
+  .main:has(> .content > .nb) { height: 100vh; height: 100dvh; }
+  .main:has(> .content > .nb) > .content { flex: 1 1 auto; min-height: 0; padding-bottom: 22px; }
+  .content > .nb { flex: 1 1 auto; min-height: 360px; }
+  .nb > .col.right { overflow-y: auto; }
+}
 .nb.no-left { grid-template-columns: 300px minmax(0, 1fr); }
-.nb > .col { min-width: 0; display: flex; flex-direction: column; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.nb > .col { min-width: 0; min-height: 0; display: flex; flex-direction: column; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
 .nb .col-head { display: flex; align-items: center; gap: 8px; padding: 12px 12px 10px; border-bottom: 1px solid var(--border); }
-.nb .col-body { flex: 1; overflow-y: auto; padding: 10px 12px; max-height: calc(100vh - var(--topbar-h) - 210px - var(--page-head-h)); }
+.nb .col-body { flex: 1; min-height: 0; overflow-y: auto; padding: 10px 12px; }
 .nb .sec-h { display: flex; align-items: center; gap: 6px; width: 100%; padding: 8px 6px 6px; border: 0; background: none; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; cursor: pointer; text-align: left; }
 .nb .sec-h svg { width: 14px; height: 14px; transition: transform var(--dur-1) var(--ease); }
 .nb .sec-h[aria-expanded="false"] svg { transform: rotate(-90deg); }
@@ -750,7 +757,7 @@ span.info:hover { color: var(--accent); }
 .nb .back { display: none; }
 @media (max-width: 1180px) { .nb { grid-template-columns: 210px 260px minmax(0, 1fr); } .nb.no-left { grid-template-columns: 260px minmax(0, 1fr); } }
 @media (max-width: 960px) {
-  .nb, .nb.no-left { grid-template-columns: 1fr; }
+  .nb, .nb.no-left { grid-template-columns: 1fr; min-height: calc(100vh - var(--topbar-h) - 150px - var(--page-head-h)); }
   .nb > .col { display: none; }
   .nb[data-view="folders"] > .col.left, .nb[data-view="list"] > .col.mid, .nb[data-view="note"] > .col.right { display: flex; }
   .nb .col-body { max-height: none; }
@@ -763,6 +770,9 @@ span.info:hover { color: var(--accent); }
 
 /* Editor */
 .nb-editor-wrap { position: relative; }
+/* Datei-Feld fürs Bild: unsichtbar, aber vorhanden, damit das Label es direkt öffnen kann */
+.vh-file { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip-path: inset(50%); pointer-events: none; }
+.ed-pop .ed-hint { padding: 6px 12px 8px; max-width: 240px; font-size: 11.5px; line-height: 1.4; color: var(--muted); }
 .nb-toolbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; flex-wrap: wrap; gap: 3px; padding: 8px 10px; margin: 0 -8px 10px; border-bottom: 1px solid var(--border); background: var(--surface); white-space: nowrap; }
 .nb-toolbar .sep { width: 1px; height: 24px; background: var(--border-2); margin: 0 4px; flex: 0 0 auto; }
 .nb-toolbar .tb { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 32px; height: 34px; padding: 0 6px; border-radius: 8px; border: 1px solid transparent; background: none; color: var(--text); cursor: pointer; flex: 0 0 auto; }
@@ -860,6 +870,7 @@ span.info:hover { color: var(--accent); }
   body, .card { background: #fff !important; color: #000 !important; }
   .ql-editor { color: #000; }
   .nb .col-body { max-height: none; overflow: visible; }
+  .main:has(> .content > .nb) { height: auto; } .nb > .col.right { overflow: visible; }
 }
 
 /* ---------- Fortschritt (Aufbau nach TradePath) ---------- */

@@ -12,6 +12,16 @@
   const sanitize = html => { const doc = new DOMParser().parseFromString(String(html || ''), 'text/html'); doc.querySelectorAll('script,style,iframe,object,embed,link,meta').forEach(n => n.remove()); doc.body.querySelectorAll('*').forEach(el => { for (const a of [...el.attributes]) { if (/^on/i.test(a.name) || (a.name === 'href' && /^\s*javascript:/i.test(a.value)) || a.name === 'srcdoc') el.removeAttribute(a.name); } }); return doc.body.innerHTML; };
   const resolveBlob = (img, id) => { if (root.Blobs) root.Blobs.url(id).then(u => { if (u) img.src = u; else img.alt = 'Bild nicht mehr vorhanden'; }).catch(() => {}); };
   const dirty = node => node.dispatchEvent(new CustomEvent('nb-dirty', { bubbles: true }));
+  const withTimeout = (pr, ms) => Promise.race([pr, new Promise((_, rej) => setTimeout(() => rej(new Error('Zeitüberschreitung')), ms))]);
+  /* Bild auf höchstens 1600 px verkleinern und als Daten-URL liefern (Ersatz, wenn der Bildspeicher fehlt); kleine PNGs bleiben PNG */
+  const shrinkToDataUrl = (f, max = 1600) => new Promise(res => {
+    const viaReader = () => { const rd = new FileReader(); rd.onload = () => res(rd.result); rd.onerror = () => res(null); rd.readAsDataURL(f); };
+    let u; try { u = URL.createObjectURL(f); } catch (e) { viaReader(); return; }
+    const im = new Image();
+    im.onload = () => { try { const k = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight)); const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(im.naturalWidth * k)); c.height = Math.max(1, Math.round(im.naturalHeight * k)); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(u); res(c.toDataURL(f.type === 'image/png' && f.size < 400000 ? 'image/png' : 'image/jpeg', 0.86)); } catch (e) { URL.revokeObjectURL(u); viaReader(); } };
+    im.onerror = () => { URL.revokeObjectURL(u); viaReader(); };
+    im.src = u;
+  });
   const stopKeys = el => ['keydown', 'keyup', 'keypress', 'beforeinput', 'input', 'paste', 'cut', 'copy', 'compositionstart', 'compositionend'].forEach(ev => el.addEventListener(ev, e => e.stopPropagation()));
 
   class Divider extends BlockEmbed { static create() { const n = super.create(); n.setAttribute('contenteditable', 'false'); return n; } }
@@ -82,14 +92,14 @@
       ${btn('bold', E.bold, 'Fett (Strg+B)')}${btn('italic', E.italic, 'Kursiv (Strg+I)')}${btn('underline', E.underline, 'Unterstrichen (Strg+U)')}${btn('strike', E.strike, 'Durchgestrichen (Strg+Umschalt+M)')}
       <div class="popwrap"><button type="button" class="tb" data-pop="${p}color" data-tip="Schriftfarbe" aria-label="Schriftfarbe">${E.color}</button><div class="popover ed-pop" id="pop-${p}color">${palette('color', o.customColors ? o.customColors() : [])}</div></div>
       <div class="popwrap"><button type="button" class="tb" data-pop="${p}bg" data-tip="Textmarker" aria-label="Textmarker">${E.highlight}</button><div class="popover ed-pop" id="pop-${p}bg">${palette('background', o.customColors ? o.customColors() : [])}</div></div><span class="sep"></span>
-      <div class="popwrap"><button type="button" class="tb" data-pop="${p}image" data-tip="Bild" aria-label="Bild">${E.image}${E.chev}</button><div class="popover ed-pop" id="pop-${p}image">${item('image', E.image, 'Vom Computer hochladen')}${item('image-url', E.link, 'Über Adresse einfügen')}</div></div>
+      <div class="popwrap"><button type="button" class="tb" data-pop="${p}image" data-tip="Bild" aria-label="Bild">${E.image}${E.chev}</button><div class="popover ed-pop" id="pop-${p}image"><label class="item" for="${p}img" data-ed-label="image">${E.image}<span class="grow">Vom Computer hochladen</span></label>${item('image-url', E.link, 'Über Adresse einfügen')}<div class="ed-hint">Oder ein Bild mit Strg+V einfügen oder in die Notiz ziehen.</div></div></div>
     </div>`;
   }
 
   /* ---------- Editor ---------- */
   function create(container, o = {}) {
     const p = 'ed' + Math.random().toString(36).slice(2, 7) + '-';
-    container.classList.add('nb-editor-wrap'); container.innerHTML = (o.readOnly ? '' : toolbarHTML(p, o)) + `<div class="nb-editor"></div><div class="nb-menu" hidden></div><div class="nb-ytpop" hidden><span>YouTube-Link erkannt</span><button type="button" class="btn xs primary" data-ed="yt-embed">Als Video einbetten</button><button type="button" class="btn xs" data-ed="yt-keep">Als Link lassen</button></div><input type="file" accept="image/*" class="hidden" data-ed-file="image">`;
+    container.classList.add('nb-editor-wrap'); container.innerHTML = (o.readOnly ? '' : toolbarHTML(p, o)) + `<div class="nb-editor"></div><div class="nb-menu" hidden></div><div class="nb-ytpop" hidden><span>YouTube-Link erkannt</span><button type="button" class="btn xs primary" data-ed="yt-embed">Als Video einbetten</button><button type="button" class="btn xs" data-ed="yt-keep">Als Link lassen</button></div><input type="file" accept="image/*" multiple class="vh-file" id="${p}img" tabindex="-1" data-ed-file="image">`;
     const editorEl = container.querySelector('.nb-editor'), menuEl = container.querySelector('.nb-menu'), ytPop = container.querySelector('.nb-ytpop');
     const quill = new Q(editorEl, { theme: 'snow', readOnly: !!o.readOnly, placeholder: o.placeholder || 'Schreib los …', modules: { toolbar: false, table: true, history: { delay: 400, userOnly: true }, keyboard: { bindings: { strike: { key: 'm', shortKey: true, shiftKey: true, handler() { quill.format('strike', !quill.getFormat().strike, 'user'); } } } }, uploader: { mimetypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'], handler(range, files) { insertImages(range ? range.index : quill.getLength(), files); } } } });
     if (o.content) quill.setContents(o.content, 'silent');
@@ -130,10 +140,24 @@
     container.addEventListener('mousedown', e => { if (e.target.closest('.nb-toolbar') && !e.target.closest('input')) e.preventDefault(); });
     container.querySelector('.sz').addEventListener('change', e => setSize(parseInt(e.target.value, 10) || 16));
     container.querySelectorAll('[data-ed-custom]').forEach(inp => inp.addEventListener('input', () => { const kind = inp.dataset.edCustom; quill.format(kind, inp.value, 'user'); if (o.onCustomColor) o.onCustomColor(inp.value); }));
-    container.querySelector('[data-ed-file="image"]').addEventListener('change', e => { insertImages(sel().index, [...e.target.files]); e.target.value = ''; });
+    /* „Vom Computer hochladen“ ist ein Label am Datei-Feld: der Browser öffnet die Auswahl selbst, das klappt auch dort, wo ein Skript-Klick blockiert wird */
+    const imgLabel = container.querySelector('[data-ed-label="image"]'); if (imgLabel) imgLabel.addEventListener('click', () => { const pop = imgLabel.closest('.popover'); setTimeout(() => { if (pop) pop.classList.remove('open'); }, 0); });
+    container.querySelector('[data-ed-file="image"]').addEventListener('change', e => { const files = [...e.target.files]; e.target.value = ''; if (files.length) insertImages(sel().index, files); });
 
     function insertEmbed(name, value) { const r = sel(); quill.insertEmbed(r.index, name, value, 'user'); quill.insertText(r.index + 1, '\n', 'user'); quill.setSelection(r.index + 2, 'silent'); }
-    async function insertImages(index, files) { let idx = index; for (const f of files) { if (!f.type.startsWith('image/')) continue; const id = root.Blobs ? await root.Blobs.put(f).catch(() => null) : null; if (id) { quill.insertEmbed(idx, 'figure', { id, caption: '' }, 'user'); idx += 1; } else { const url = await new Promise(res => { const rd = new FileReader(); rd.onload = () => res(rd.result); rd.readAsDataURL(f); }); quill.insertEmbed(idx, 'figure', { src: url, caption: '' }, 'user'); idx += 1; } } quill.setSelection(idx, 'silent'); }
+    /* Bilder (Datei, Strg+V, Hineinziehen): bevorzugt im Bildspeicher (IndexedDB); antwortet der nicht, verkleinert als Daten-URL direkt in die Notiz */
+    async function insertImages(index, files) {
+      let idx = index, inserted = 0, skipped = 0;
+      for (const f of files) {
+        if (!f || !/^image\//.test(f.type)) { skipped++; continue; }
+        let id = null; if (root.Blobs) { try { id = await withTimeout(root.Blobs.put(f), 5000); } catch (e) { console.warn('Bildspeicher nicht erreichbar, Bild wird direkt in die Notiz gelegt', e); } }
+        if (id) quill.insertEmbed(idx, 'figure', { id, caption: '' }, 'user');
+        else { const url = await shrinkToDataUrl(f); if (!url) { skipped++; continue; } quill.insertEmbed(idx, 'figure', { src: url, caption: '' }, 'user'); }
+        idx += 1; inserted++;
+      }
+      if (inserted) quill.setSelection(idx, 'silent');
+      if (skipped) U.toast(inserted ? 'Nicht alle Dateien waren Bilder' : 'Das war keine Bilddatei', 'err');
+    }
     function embedYouTube(url, index, length) { const m = String(url).match(YT); if (!m) return; const src = 'https://www.youtube.com/embed/' + m[1]; quill.deleteText(index, length, 'user'); quill.insertEmbed(index, 'video', src, 'user'); quill.setSelection(index + 1, 'silent'); }
     function urlModal(title, ph, cb) { U.modal(`<form><div class="modal-head"><h2>${esc(title)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><div class="field"><label for="u-url">Adresse</label><input class="input" id="u-url" name="url" placeholder="${esc(ph)}" required></div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Einfügen</button></div></form>`, { cls: 'narrow', onMount(m) { m.querySelector('form').addEventListener('submit', e => { e.preventDefault(); const url = String(new FormData(e.target).get('url') || '').trim(); U.closeModal(); if (url) cb(url); }); } }); }
 

@@ -351,9 +351,11 @@
       if (this._db) return Promise.resolve(this._db);
       return new Promise((res, rej) => {
         if (!root.indexedDB) return rej(new Error('IndexedDB nicht verfügbar'));
+        /* in manchen eingebetteten Ansichten antwortet IndexedDB nie: nach 4 s aufgeben, damit Aufrufer auf ihren Ersatz ausweichen */
+        const timer = setTimeout(() => rej(new Error('IndexedDB antwortet nicht')), 4000);
         const req = indexedDB.open('trading-journal-blobs', 1);
         req.onupgradeneeded = () => { req.result.createObjectStore('files', { keyPath: 'id' }); };
-        req.onsuccess = () => { this._db = req.result; res(this._db); }; req.onerror = () => rej(req.error);
+        req.onsuccess = () => { clearTimeout(timer); this._db = req.result; res(this._db); }; req.onerror = () => { clearTimeout(timer); rej(req.error); };
       });
     },
     async put(blob, id) { id = id || C.uid(); const db = await this.open(); await new Promise((res, rej) => { const tx = db.transaction('files', 'readwrite'); tx.objectStore('files').put({ id, blob, type: blob.type, createdAt: Date.now() }); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); return id; },

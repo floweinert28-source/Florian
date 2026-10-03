@@ -59,6 +59,7 @@
       const keep = o && o.keep; const hold = keep ? main.offsetHeight : 0; const tok = this._holdTok = (this._holdTok || 0) + 1;
       main.style.minHeight = hold ? hold + 'px' : '';
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
+      this.translateNow(main); /* sofort übersetzen: Scrollstand und Höhen gelten für den übersetzten Text, nicht für das deutsche Zwischenbild */
       M.scan(main.querySelector('#content'), enter);
       this.renderSidebar();
       U.drawCharts(main); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
@@ -73,6 +74,9 @@
         new Promise(r => setTimeout(r, 2000)),
       ])).then(done);
     },
+    /* Neu eingefügten Inhalt sofort in die gewählte Sprache übersetzen (der Beobachter in i18n.js käme erst nach dem Skript dran;
+       bis dahin wäre der deutsche Text da, oft länger – und der Browser richtet Scrollstände am falschen Layout aus) */
+    translateNow(el) { if (root.I18N && root.I18N.lang() !== 'de' && el) root.I18N.translate(el); },
     /* Scrollstand über einen Neuaufbau retten: das Fenster und jeder gescrollte Bereich im Inhalt (Notizliste, Spalten, Tabellen,
        Listen in Seitenleisten). Wiedergefunden wird ein Bereich über seinen Weg im Baum: id, sonst Tag + erste Klasse + Position
        unter gleichartigen Geschwistern. data-keep-scroll merkt einen Bereich auch in Ausgangsstellung (z. B. ganz links). */

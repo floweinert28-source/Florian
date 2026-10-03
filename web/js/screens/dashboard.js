@@ -54,7 +54,7 @@
   function keepPanel(fn) {
     const old = document.querySelector('.side-panel'); const ol = old && old.querySelector('#dash-add-list'); const top = ol ? ol.scrollTop : 0; const y0 = ol ? ol.getBoundingClientRect().top : 0;
     fn(); const neu = document.querySelector('.side-panel'); if (!old || !neu || !ol) return;
-    const nl = neu.querySelector('#dash-add-list'); if (!nl) return; ol.innerHTML = nl.innerHTML;
+    const nl = neu.querySelector('#dash-add-list'); if (!nl) return; ol.innerHTML = nl.innerHTML; App.translateNow(ol);
     const ob = old.querySelector('.banner'), nb = neu.querySelector('.banner'); if (ob) ob.remove(); if (nb) ol.before(nb);
     old.classList.add('settled'); neu.replaceWith(old);
     /* erst im Dokument greift die Scrollposition wieder; erscheint oder verschwindet der Hinweis über der Liste, gleicht der Scrollstand das aus */
@@ -181,7 +181,7 @@
       let at = s.slot != null && isGap(arr[s.slot]) ? s.slot : (s.panel === 'oben' && arr.length >= MAX_TOP ? arr.findIndex(isGap) : -1);
       if (at >= 0) { if (s.panel === 'unten') inst.groesse = arr[at].groesse || inst.groesse; arr[at] = inst; const next = arr.findIndex((x, i) => i > at && isGap(x)); s.slot = next >= 0 ? next : null; } else arr.push(inst);
       keepPanel(() => App.rerender()); },
-    'dash-add-q'(el) { const s = st(); s.q = el.value; const list = document.getElementById('dash-add-list'); if (list && s.draft) list.innerHTML = panelListHTML(s.panel, s.draft, s.q); },
+    'dash-add-q'(el) { const s = st(); s.q = el.value; const list = document.getElementById('dash-add-list'); if (list && s.draft) { list.innerHTML = panelListHTML(s.panel, s.draft, s.q); App.translateNow(list); } },
     'dash-w-opt'(el) { const r = instOf(el); if (!r) return; r.inst.einstellungen = Object.assign({}, r.inst.einstellungen, { [el.dataset.key]: el.value != null && el.tagName === 'SELECT' ? el.value : el.dataset.value }); persist(r.lay); App.rerender(); },
     /* Report-Panel */
     'dash-rep-toggle'() { const rs = repState(); rs.open = !rs.open; rs.pick = null; rs.q = ''; App.rerender(); },

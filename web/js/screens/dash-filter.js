@@ -145,8 +145,8 @@
   /* Inhalt neu zeichnen, Scrollposition behalten; Kopfzähler und Fuß mitziehen */
   function refresh(focusQ) {
     const u = ui(); const l = document.getElementById('fd-layer'); if (!u.open || !l) return;
-    const body = l.querySelector('#fd-body'); if (!body) { l.innerHTML = panelHTML(); return; }
-    const top = body.scrollTop; body.innerHTML = bodyHTML(u.draft, App.allTrades()); body.scrollTop = top;
+    const body = l.querySelector('#fd-body'); if (!body) { l.innerHTML = panelHTML(); App.translateNow(l); return; }
+    const top = body.scrollTop; body.innerHTML = bodyHTML(u.draft, App.allTrades()); App.translateNow(body); body.scrollTop = top;
     l.querySelector('#fd-foot').innerHTML = footHTML(u.draft);
     const h = l.querySelector('.sp-head h2'); const n = count(u.draft); if (h) h.innerHTML = `Filter${n ? ` <b class="cntb">${n}</b>` : ''}`;
     if (focusQ) { const q = l.querySelector('#fd-q'); if (q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); } }

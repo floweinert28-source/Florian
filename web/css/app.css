@@ -784,6 +784,7 @@ span.info:hover { color: var(--accent); }
 .nb-toolbar .tb .lbl { font-size: 13px; font-weight: 600; }
 .nb-toolbar .tb.wide { padding: 0 8px; }
 .nb-toolbar .tb:hover { background: var(--surface-2); color: var(--text); }
+.nb-toolbar .tb:disabled { opacity: .35; cursor: default; background: none; color: inherit; }
 .nb-toolbar .tb[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }
 .nb-toolbar .size { display: inline-flex; align-items: center; gap: 0; border-radius: 10px; background: var(--surface-2); padding: 2px; }
 .nb-toolbar .size .tb { min-width: 28px; height: 30px; }

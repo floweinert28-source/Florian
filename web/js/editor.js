@@ -84,6 +84,7 @@
   /* ---------- Symbole ---------- */
   const sv = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const E = {
+    undo: sv('<path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>'), redo: sv('<path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>'),
     para: sv('<path d="M13 4v16M17 4v16M17 4H9.5a3.5 3.5 0 0 0 0 7H13"/>'), h1: sv('<path d="M4 6v12M4 12h7M11 6v12M17 10l2-1v9"/>'), h2: sv('<path d="M4 6v12M4 12h7M11 6v12M15 10c0-1 1-2 2.5-2s2.5 1 2.5 2-1 2-2 3l-3 3h5"/>'), h3: sv('<path d="M4 6v12M4 12h7M11 6v12M15 9h5l-3 3.5c2 0 3 1 3 2.5s-1 2.5-2.5 2.5S15 16.5 15 16"/>'),
     table: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16M15 4v16"/>'), code: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 9l-3 3 3 3M15 9l3 3-3 3"/>'), quote: sv('<path d="M7 7h4v6H7a3 3 0 0 0 3 3M14 7h4v6h-4a3 3 0 0 0 3 3"/>'), hr: sv('<path d="M4 12h16"/>'),
     list: sv('<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor"/>'), ol: sv('<path d="M10 6h10M10 12h10M10 18h10"/><path d="M4 5h1v4M4 9h2M4 14.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5c0 1-3 2.5-3 2.5h3"/>'), check: sv('<rect x="3" y="5" width="14" height="14" rx="3"/><path d="M7 12l3 3 5-6"/>'), toggle: sv('<path d="M9 6l6 6-6 6"/>'),
@@ -112,6 +113,7 @@
   function toolbarHTML(p, o) {
     const tpls = (o.templates ? o.templates() : []);
     return `<div class="nb-toolbar" role="toolbar">
+      ${btn('undo', E.undo, 'Rückgängig (Strg+Z)', 'disabled')}${btn('redo', E.redo, 'Wiederholen (Strg+Umschalt+Z)', 'disabled')}<span class="sep" aria-hidden="true"></span>
       <div class="popwrap"><button type="button" class="tb" data-pop="${p}insert" data-tip="Einfügen" aria-label="Einfügen">${E.plus}${E.chev}</button><div class="popover left ed-pop wide" id="pop-${p}insert"><div class="cols"><div><div class="sec">Grundbausteine</div>${item('text', E.para, 'Absatz')}${item('header', E.h1, 'Überschrift 1', '1')}${item('header', E.h2, 'Überschrift 2', '2')}${item('header', E.h3, 'Überschrift 3', '3')}${item('table', E.table, 'Tabelle')}${item('codeblock', E.code, 'Code')}${item('quote', E.quote, 'Zitat')}${item('divider', E.hr, 'Trennlinie')}${item('emoji', E.emoji, 'Emoji')}</div><div><div class="sec">Listen</div>${item('list', E.list, 'Aufzählung', 'bullet')}${item('list', E.ol, 'Nummerierte Liste', 'ordered')}${item('list', E.check, 'To-do-Liste', 'unchecked')}${item('details', E.toggle, 'Aufklappbare Liste')}<div class="sec">Vorlagen</div>${tpls.map(t => `<div class="row" style="gap:0"><button type="button" class="item grow" data-ed="template" data-value="${esc(t.id)}">${E.tpl}<span class="grow">${esc(t.name)}</span></button><button type="button" class="btn ghost icon xs" data-ed="template-edit" data-value="${esc(t.id)}" aria-label="Vorlage bearbeiten" data-tip="Bearbeiten">${I.edit}</button></div>`).join('')}${item('template-new', E.plus, 'Neue Vorlage …')}</div></div></div></div>
       <div class="popwrap"><button type="button" class="tb wide turn" data-pop="${p}turn" data-tip="Umwandeln in" aria-label="Umwandeln in"><span class="lbl">Text</span>${E.chev}</button><div class="popover left ed-pop" id="pop-${p}turn"><div class="sec">Umwandeln in</div>${item('text', E.para, 'Text', 'text')}${item('header', E.h1, 'Überschrift 1', '1')}${item('header', E.h2, 'Überschrift 2', '2')}${item('header', E.h3, 'Überschrift 3', '3')}${item('list', E.list, 'Aufzählung', 'bullet')}${item('list', E.ol, 'Nummerierte Liste', 'ordered')}${item('list', E.check, 'To-do-Liste', 'unchecked')}${item('details', E.toggle, 'Aufklappbare Liste')}${item('codeblock', E.code, 'Code', 'code')}${item('quote', E.quote, 'Zitat', 'quote')}</div></div>
       <span class="size"><button type="button" class="tb" data-ed="size-dec" data-tip="Kleiner" aria-label="Kleiner">${I.minus}</button><input type="number" class="sz" min="8" max="72" value="16" data-ed-input="size" aria-label="Schriftgröße"><button type="button" class="tb" data-ed="size-inc" data-tip="Größer" aria-label="Größer">${I.plus}</button></span><span class="sep"></span>
@@ -151,6 +153,9 @@
     if (o.readOnly) return inst;
 
     const tb = container.querySelector('.nb-toolbar');
+    /* Rückgängig/Wiederholen: Pfeile nur aktiv, wenn es etwas zurückzunehmen gibt (Verlauf zählt nur eigene Eingaben, nicht das Laden der Notiz) */
+    const histState = () => { if (!tb) return; const st = quill.history.stack; const u = tb.querySelector('[data-ed="undo"]'), r = tb.querySelector('[data-ed="redo"]'); if (u) u.disabled = !st.undo.length; if (r) r.disabled = !st.redo.length; };
+    quill.on('editor-change', histState);
     function blockKey(f) { if (f.header) return String(f.header); if (f.list) return f.list === 'checked' || f.list === 'unchecked' ? 'check' : f.list; if (f['code-block']) return 'code'; if (f.blockquote) return 'quote'; return 'text'; }
     function refreshState() {
       const r = quill.getSelection(); if (!r) return; const f = quill.getFormat(r); const bk = blockKey(f);
@@ -171,6 +176,7 @@
       'size-dec': () => setSize(curSize() - 1), 'size-inc': () => setSize(curSize() + 1),
       bold: () => quill.format('bold', !quill.getFormat().bold, 'user'), italic: () => quill.format('italic', !quill.getFormat().italic, 'user'), underline: () => quill.format('underline', !quill.getFormat().underline, 'user'), strike: () => quill.format('strike', !quill.getFormat().strike, 'user'),
       color: v => quill.format('color', v || false, 'user'), background: v => quill.format('background', v || false, 'user'),
+      undo: () => quill.history.undo(), redo: () => quill.history.redo(),
       image: () => container.querySelector('[data-ed-file="image"]').click(), 'image-url': () => urlModal('Bild über Adresse einfügen', 'https://…/bild.png', url => { if (/^https?:\/\//i.test(url)) insertEmbed('figure', { src: url, caption: '' }); else U.toast('Bitte eine vollständige Adresse angeben', 'err'); }),
       template: v => { if (o.onTemplate) o.onTemplate(v); }, 'template-new': () => { if (o.onNewTemplate) o.onNewTemplate(); }, 'template-edit': v => { if (o.onEditTemplate) o.onEditTemplate(v); },
       'yt-embed': () => { if (ytPending) embedYouTube(ytPending.url, ytPending.index, ytPending.length); hideYt(); }, 'yt-keep': () => hideYt(),

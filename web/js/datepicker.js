@@ -7,6 +7,14 @@
   const MONTHS_S = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
   const WD = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
   const TYPES = { date: 1, 'datetime-local': 1, month: 1 };
+  /* Monats- und Tagesnamen in der gewählten Sprache (i18n.js); Deutsch nutzt die festen Listen oben */
+  const LOC = () => (root.I18N && root.I18N.lang() !== 'de' ? root.I18N.locale() : null);
+  const fmtD = (o, d) => new Intl.DateTimeFormat(LOC(), o).format(d);
+  const monthTitle = (y, m) => LOC() ? fmtD({ month: 'long', year: 'numeric' }, new Date(y, m, 1)) : `${MONTHS[m]} ${y}`;
+  const monthShort = m => LOC() ? fmtD({ month: 'short' }, new Date(2020, m, 1)) : MONTHS_S[m];
+  const dayLabel = d => LOC() ? fmtD({ day: 'numeric', month: 'long', year: 'numeric' }, d) : `${d.getDate()}. ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  const monthLabel = (y, m) => LOC() ? fmtD({ month: 'long', year: 'numeric' }, new Date(y, m, 1)) : `${MONTHS[m]} ${y}`;
+  const weekdays = () => LOC() ? [0, 1, 2, 3, 4, 5, 6].map(i => fmtD({ weekday: 'short' }, new Date(2024, 0, 1 + i))) : WD;
   const pad = n => String(n).padStart(2, '0');
   const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   const parse = k => { const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?/.exec(k || ''); return m ? new Date(+m[1], +m[2] - 1, m[3] ? +m[3] : 1) : null; };
@@ -36,22 +44,22 @@
       const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i); const k = keyOf(d);
       const c = ['dp-day']; if (d.getMonth() !== view.m) c.push('out'); if (k === today) c.push('today'); if (k === sel) c.push('sel'); else if (k === pk) c.push('edge'); if (lo && k > lo && k < hi) c.push('in');
       const off = (min && k < min) || (max && k > max);
-      cells += `<button type="button" class="${c.join(' ')}" data-dp="day" data-k="${k}" tabindex="${k === focusKey ? '0' : '-1'}" aria-label="${d.getDate()}. ${MONTHS[d.getMonth()]} ${d.getFullYear()}"${k === sel ? ' aria-pressed="true"' : ''}${k === today ? ' aria-current="date"' : ''}${off ? ' disabled' : ''}>${d.getDate()}</button>`;
+      cells += `<button type="button" class="${c.join(' ')}" data-dp="day" data-k="${k}" tabindex="${k === focusKey ? '0' : '-1'}" aria-label="${dayLabel(d)}"${k === sel ? ' aria-pressed="true"' : ''}${k === today ? ' aria-current="date"' : ''}${off ? ' disabled' : ''}>${d.getDate()}</button>`;
     }
-    return `<div class="dp-week" aria-hidden="true">${WD.map(w => `<span>${w}</span>`).join('')}</div><div class="dp-grid">${cells}</div>`;
+    return `<div class="dp-week" aria-hidden="true">${weekdays().map(w => `<span>${w}</span>`).join('')}</div><div class="dp-grid">${cells}</div>`;
   }
   function monthsHTML() {
     const s = parse(dayOf(input)), now = new Date(); const { min, max } = limits(input);
     return `<div class="dp-months">${MONTHS_S.map((n, m) => {
       const mk = `${view.y}-${pad(m + 1)}`; const sel = !!s && s.getFullYear() === view.y && s.getMonth() === m; const cur = now.getFullYear() === view.y && now.getMonth() === m;
       const off = (min && mk < min.slice(0, 7)) || (max && mk > max.slice(0, 7));
-      return `<button type="button" class="dp-month${sel ? ' sel' : ''}${cur ? ' today' : ''}" data-dp="month" data-m="${m}" aria-label="${MONTHS[m]} ${view.y}"${sel ? ' aria-pressed="true"' : ''}${off ? ' disabled' : ''}>${n}</button>`;
+      return `<button type="button" class="dp-month${sel ? ' sel' : ''}${cur ? ' today' : ''}" data-dp="month" data-m="${m}" aria-label="${monthLabel(view.y, m)}"${sel ? ' aria-pressed="true"' : ''}${off ? ' disabled' : ''}>${monthShort(m)}</button>`;
     }).join('')}</div>`;
   }
   function render() {
     if (!el || !input) return;
     const months = view.mode === 'months', monthField = input.type === 'month';
-    const title = months ? String(view.y) : `${MONTHS[view.m]} ${view.y}`;
+    const title = months ? String(view.y) : monthTitle(view.y, view.m);
     const head = `<div class="dp-head">${monthField ? `<span class="dp-title">${title}</span>` : `<button type="button" class="dp-title" data-dp="mode" aria-label="${months ? 'Zurück zu den Tagen' : 'Monat und Jahr wählen'}">${title}${IC.caret}</button>`}<div class="dp-nav"><button type="button" data-dp="prev" aria-label="${months ? 'Vorheriges Jahr' : 'Vorheriger Monat'}">${IC.prev}</button><button type="button" data-dp="next" aria-label="${months ? 'Nächstes Jahr' : 'Nächster Monat'}">${IC.next}</button></div></div>`;
     const foot = `<div class="dp-foot">${input.required ? '<span></span>' : '<button type="button" class="dp-link" data-dp="clear">Löschen</button>'}<button type="button" class="dp-link accent" data-dp="today">${monthField ? 'Dieser Monat' : 'Heute'}</button></div>`;
     el.innerHTML = head + (months ? monthsHTML() : daysHTML()) + foot;

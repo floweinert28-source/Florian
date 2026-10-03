@@ -237,7 +237,8 @@ function breather(container, segments) {
   });
   var tempoRow = h('div', { class: 'rp-tempo' }, h('span', null, 'Tempo'), tempoBtns);
   var state = 'idle', seg = 0, round = 0, ph = 0, phaseStart = 0, pausedAt = 0, timer = null, waitKind = null, waitStart = 0, waitDur = 0;
-  function say(el, text) { if (el.textContent === text) return; el.textContent = text; el.classList.remove('rp-swap'); void el.offsetWidth; el.classList.add('rp-swap'); }
+  /* der Originaltext steht in data-raw, weil die angezeigte Fassung übersetzt sein kann */
+  function say(el, text) { if (el.dataset.raw === text) return; el.dataset.raw = text; el.textContent = text; el.classList.remove('rp-swap'); void el.offsetWidth; el.classList.add('rp-swap'); }
 
   /* Rhythmus-Zeile: ein Feld je Phase, Breite nach Dauer, aktives Feld füllt sich */
   var seqItems = [];
@@ -285,7 +286,7 @@ function breather(container, segments) {
     say(phaseEl, p.label);
     say(hintEl, p.hint || '');
     say(nextEl, 'Danach: ' + nextLabel());
-    if (segEl.textContent !== segments[seg].name) { segEl.textContent = segments[seg].name; buildSeq(); }
+    if (segEl.dataset.raw !== segments[seg].name) { segEl.dataset.raw = segments[seg].name; segEl.textContent = segments[seg].name; buildSeq(); }
     place(p.level, secs - offset);
     seqActive(ph, secs, offset);
     meta();
@@ -295,7 +296,7 @@ function breather(container, segments) {
     say(phaseEl, kind === 'lead' ? 'Gleich geht’s los.' : 'Kurz ruhen.');
     say(hintEl, kind === 'lead' ? 'Setz dich bequem hin, Schultern locker. Schau auf das Licht: Es steigt, wenn du einatmest.' : 'Locker bleiben, gleich beginnt die nächste Runde.');
     say(nextEl, 'Zuerst: ' + segments[seg].pattern[0].label);
-    if (segEl.textContent !== segments[seg].name) { segEl.textContent = segments[seg].name; buildSeq(); }
+    if (segEl.dataset.raw !== segments[seg].name) { segEl.dataset.raw = segments[seg].name; segEl.textContent = segments[seg].name; buildSeq(); }
     if (kind === 'lead') seqIdle();
     place(0, Math.min(secs - offset, 1.5));
     waitMeta();
@@ -309,7 +310,7 @@ function breather(container, segments) {
     say(phaseEl, 'Gut gemacht.');
     say(hintEl, '');
     say(nextEl, '');
-    segEl.textContent = allNames;
+    segEl.dataset.raw = allNames; segEl.textContent = allNames;
     metaEl.textContent = 'Geh weiter, wenn du bereit bist, oder mach noch eine Runde.';
     btn.textContent = 'Noch einmal';
     place(0.5, 3);
@@ -344,7 +345,7 @@ function breather(container, segments) {
       timer = setInterval(tick, 200);
     } else {
       seg = 0; round = 0; ph = 0; state = 'running'; btn.textContent = 'Pausieren';
-      segEl.textContent = segments[0].name; buildSeq();
+      segEl.dataset.raw = segments[0].name; segEl.textContent = segments[0].name; buildSeq();
       wait('lead', LEAD, 0); timer = setInterval(tick, 200);
     }
     tempoBtns.forEach(function (x) { x.disabled = state === 'running'; });

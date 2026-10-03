@@ -21,6 +21,7 @@
     coach: sv('<path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 15l.6 1.4 1.4.6-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z"/>'),
     zen: sv('<circle cx="12" cy="5" r="2"/><path d="M12 8v6M12 14l-4 6M12 14l4 6M5 11l7 1 7-1"/>'),
     /* Zahnrad mit geschlossenem Kranz, damit es sich klar von der Sonne (Hell-Modus) unterscheidet */
+    globe: sv('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
     settings: sv('<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'),
     sun: sv('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
     moon: sv('<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>'),
@@ -83,6 +84,8 @@
      o.r = exaktes R eines Trades (null = kein Risiko bekannt → „– R“), sonst Umrechnung über die R-Einheit
      (Median des Risikos der Trades mit Stop oder der Wert aus den Einstellungen). o.money = true erzwingt Geld. */
   const blind = { on: false, unit: null };
+  /* Zahlen und Daten im Gebietsschema der gewählten Sprache (i18n.js), sonst deutsch */
+  const LOC = () => (root.I18N ? root.I18N.locale() : 'de-DE');
   const fmt = {
     setCurrency(c) { currency = c || 'EUR'; },
     setMoneyBlind(on, unit) { blind.on = !!on; blind.unit = Number(unit) > 0 ? Number(unit) : null; },
@@ -92,7 +95,7 @@
       if (o.r === null) return '– R';
       const r = o.r !== undefined ? Number(o.r) : (blind.unit ? v / blind.unit : null);
       if (r == null || isNaN(r)) return '– R';
-      if (o.compact) { const a = Math.abs(r); const s = (a >= 10 ? Math.round(a) : Math.round(a * 10) / 10).toLocaleString('de-DE') + ' R'; return (r < -C.EPS ? '−' : (o.signed && r > C.EPS ? '+' : '')) + s; }
+      if (o.compact) { const a = Math.abs(r); const s = (a >= 10 ? Math.round(a) : Math.round(a * 10) / 10).toLocaleString(LOC()) + ' R'; return (r < -C.EPS ? '−' : (o.signed && r > C.EPS ? '+' : '')) + s; }
       return fmt.r(r, !!o.signed);
     },
     /* Kontostand: im Geld-blind-Modus komplett ausgeblendet */
@@ -101,24 +104,30 @@
       if (v == null || isNaN(v)) return '—';
       if (blind.on && !o.money) return fmt.blindR(v, o);
       const a = Math.abs(v); const d = o.compact ? 0 : (a >= 10000 ? 0 : 2);
-      const cc = o.currency || currency; let s; try { s = new Intl.NumberFormat('de-DE', { style: 'currency', currency: cc, minimumFractionDigits: d, maximumFractionDigits: d }).format(a); } catch (e) { s = a.toFixed(d) + ' ' + cc; }
+      const cc = o.currency || currency; let s; try { s = new Intl.NumberFormat(LOC(), { style: 'currency', currency: cc, minimumFractionDigits: d, maximumFractionDigits: d }).format(a); } catch (e) { s = a.toFixed(d) + ' ' + cc; }
       return (v < -C.EPS ? '−' : (o.signed && v > C.EPS ? '+' : '')) + s;
     },
-    pct(f, d = 0, signed = false) { if (f == null || isNaN(f)) return '—'; const s = new Intl.NumberFormat('de-DE', { style: 'percent', maximumFractionDigits: d, minimumFractionDigits: d }).format(Math.abs(f)); return (f < 0 ? '−' : signed && f > 0 ? '+' : '') + s; },
-    r(v, signed = true) { if (v == null || isNaN(v)) return '—'; return (v < 0 ? '−' : (signed && v > 0 ? '+' : '')) + Math.abs(v).toFixed(2).replace('.', ',') + ' R'; },
-    num(v, d = 2) { if (v == null || isNaN(v)) return '—'; return new Intl.NumberFormat('de-DE', { maximumFractionDigits: d, minimumFractionDigits: 0 }).format(v); },
-    int(v) { return v == null ? '—' : new Intl.NumberFormat('de-DE').format(Math.round(v)); },
-    price(v) { if (v == null || isNaN(v)) return '—'; const a = Math.abs(v); return new Intl.NumberFormat('de-DE', { minimumFractionDigits: a < 10 ? 4 : a < 1000 ? 2 : 1, maximumFractionDigits: a < 10 ? 5 : 2 }).format(v); },
+    pct(f, d = 0, signed = false) { if (f == null || isNaN(f)) return '—'; const s = new Intl.NumberFormat(LOC(), { style: 'percent', maximumFractionDigits: d, minimumFractionDigits: d }).format(Math.abs(f)); return (f < 0 ? '−' : signed && f > 0 ? '+' : '') + s; },
+    r(v, signed = true) { if (v == null || isNaN(v)) return '—'; return (v < 0 ? '−' : (signed && v > 0 ? '+' : '')) + fmt.dec(Math.abs(v), 2) + ' R'; },
+    /* feste Nachkommastellen ohne Tausenderpunkte, mit dem Dezimalzeichen der Sprache (Deutsch: Komma) */
+    dec(v, d = 2) { const s = Number(v).toFixed(d); const sep = (1.5).toLocaleString(LOC()).charAt(1); return sep === '.' ? s : s.replace('.', sep); },
+    /* Prozentzeichen samt Abstand der Sprache: Deutsch „52,3 %“, Englisch „52.3%“ */
+    pctSuffix() { return new Intl.NumberFormat(LOC(), { style: 'percent' }).format(0.5).replace(/\d/g, '').replace(/\u00a0|\u202f/g, ' '); },
+    /* kurze Tausender: 1,5k / 12k (ohne „,0“) */
+    kilo(a, d = 1) { const s = fmt.dec(a / 1000, d).replace(/[.,]0$/, ''); return s + 'k'; },
+    num(v, d = 2) { if (v == null || isNaN(v)) return '—'; return new Intl.NumberFormat(LOC(), { maximumFractionDigits: d, minimumFractionDigits: 0 }).format(v); },
+    int(v) { return v == null ? '—' : new Intl.NumberFormat(LOC()).format(Math.round(v)); },
+    price(v) { if (v == null || isNaN(v)) return '—'; const a = Math.abs(v); return new Intl.NumberFormat(LOC(), { minimumFractionDigits: a < 10 ? 4 : a < 1000 ? 2 : 1, maximumFractionDigits: a < 10 ? 5 : 2 }).format(v); },
     factor(v) { return v == null ? '∞' : fmt.num(v, 2); },
-    date(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: 'short' }) : '—'; },
-    dateFull(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'; },
-    dateShort(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—'; },
+    date(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: 'short' }) : '—'; },
+    dateFull(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'; },
+    dateShort(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—'; },
     axisCur(v) { return fmt.cur(v, { compact: true }); },
-    dateTime(d) { return d ? new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + fmt.time(d) : '—'; },
-    time(d) { return d ? new Date(d).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : '—'; },
+    dateTime(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + fmt.time(d) : '—'; },
+    time(d) { return d ? new Date(d).toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' }) : '—'; },
     dur(min) { if (min == null || isNaN(min)) return '—'; min = Math.round(min); if (min < 60) return `${min} min`; const h = Math.floor(min / 60), m = min % 60; if (h < 48) return m ? `${h} h ${m} min` : `${h} h`; return `${Math.round(h / 24)} T`; },
-    weekdayLong(d) { return new Date(d).toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); },
-    monthYear(d) { return new Date(d).toLocaleDateString('de-DE', { month: 'long', year: 'numeric' }); },
+    weekdayLong(d) { return new Date(d).toLocaleDateString(LOC(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); },
+    monthYear(d) { return new Date(d).toLocaleDateString(LOC(), { month: 'long', year: 'numeric' }); },
     isoLocal(d) { const x = new Date(d); const p = n => String(n).padStart(2, '0'); return `${x.getFullYear()}-${p(x.getMonth() + 1)}-${p(x.getDate())}T${p(x.getHours())}:${p(x.getMinutes())}`; },
     hm(sec) { const p = n => String(n).padStart(2, '0'); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = Math.floor(sec % 60); return `${p(h)}:${p(m)}:${p(s)}`; },
   };
@@ -147,7 +156,7 @@
   const NS = 'http://www.w3.org/2000/svg';
   function niceTicks(min, max, n = 4) { const span = max - min || 1; const raw = span / n; const p = 10 ** Math.floor(Math.log10(raw)); const s = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= n + 1) || raw; const t = []; for (let v = Math.ceil(min / s) * s; v <= max + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
   const smooth = pts => { if (pts.length < 3) return 'M' + pts.map(p => p.join(',')).join('L'); let d = `M${pts[0][0]},${pts[0][1]}`; for (let i = 0; i < pts.length - 1; i++) { const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2; const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6]; d += `C${c1[0]},${c1[1]} ${c2[0]},${c2[1]} ${p2[0]},${p2[1]}`; } return d; };
-  const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? (a / 1000).toFixed(a >= 10000 ? 0 : 1).replace('.', ',').replace(',0', '') + 'k' : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
+  const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? fmt.kilo(a, a >= 10000 ? 0 : 1) : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
   const gid = () => 'g' + Math.random().toString(36).slice(2, 8);
   const xTicks = (n, iw) => { const k = Math.max(2, Math.min(n, Math.floor(iw / 95) + 1)); if (n <= k) return Array.from({ length: n }, (_, i) => i); return Array.from({ length: k }, (_, i) => Math.round(i / (k - 1) * (n - 1))); };
   const chartData = {};
@@ -286,7 +295,24 @@
     /* Ecken ohne sichtbare Punkte: unsichtbare Trefferflächen behalten den Tooltip */
     const dots = axes.map((a, i) => { const [x, y] = pt(i, Math.max(a.score, 0.03)); return `<circle cx="${x}" cy="${y}" r="10" fill="transparent" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}"/>`; }).join('');
     const labels = axes.map((a, i) => { const [x, y] = pt(i, 1.22); const anchor = Math.abs(x - c) < 4 ? 'middle' : x < c ? 'end' : 'start'; return `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" style="font-size:11px;fill:var(--text-2);font-weight:600">${esc(a.label)}</text>`; }).join('');
-    return `<svg viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+    if (typeof requestAnimationFrame !== 'undefined' && !radar.pending) { radar.pending = true; requestAnimationFrame(() => { radar.pending = false; fitRadars(); }); }
+    return `<svg class="radar-svg" data-c="${c}" viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+  }
+  /* Beschriftungen können nach der Übersetzung länger sein: Sichtbereich symmetrisch so weit öffnen, dass nichts abgeschnitten wird */
+  function fitRadars() {
+    document.querySelectorAll('svg.radar-svg').forEach(svg => {
+      /* lange Beschriftungen auf zwei Zeilen verteilen (Trennung am Leerzeichen nahe der Mitte) */
+      svg.querySelectorAll('text').forEach(t => {
+        const s = t.textContent; if (t.firstElementChild || s.length <= 13 || s.indexOf(' ') < 0) return;
+        let cut = -1; for (let i = 0; i < s.length; i++) if (s[i] === ' ' && (cut < 0 || Math.abs(i - s.length / 2) < Math.abs(cut - s.length / 2))) cut = i;
+        const x = t.getAttribute('x'); t.textContent = '';
+        [[s.slice(0, cut), '-0.5em'], [s.slice(cut + 1), '1.1em']].forEach(([txt, dy]) => { const sp = document.createElementNS('http://www.w3.org/2000/svg', 'tspan'); sp.setAttribute('x', x); sp.setAttribute('dy', dy); sp.textContent = txt; t.appendChild(sp); });
+      });
+      let bb; try { bb = svg.getBBox(); } catch (e) { return; } if (!bb.width) return;
+      const vb = svg.viewBox.baseVal; const c = +svg.dataset.c; const left = Math.min(vb.x, bb.x - 4), right = Math.max(vb.x + vb.width, bb.x + bb.width + 4);
+      const half = Math.max(c - left, right - c); if (half * 2 <= vb.width + 0.5) return;
+      svg.setAttribute('viewBox', `${c - half} ${vb.y} ${half * 2} ${vb.height}`); svg.style.maxWidth = Math.round(half * 2) + 'px';
+    });
   }
   function heatmap(activity, account) {
     const ref = Math.max(1, (account || 10000) * 0.01); const lvl = a => { if (!a.n) return a.checkIn || a.note ? 'l1' : ''; const f = Math.abs(a.pnl) / ref; return a.pnl >= 0 ? (f < 0.5 ? 'l2' : f < 1.5 ? 'l3' : 'l4') : (f < 0.5 ? 'n1' : f < 1.5 ? 'n2' : 'n3'); };

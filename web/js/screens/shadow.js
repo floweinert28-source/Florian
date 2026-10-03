@@ -84,7 +84,7 @@
     const stat = (k, v, cls = '') => `<div class="st ${cls}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
     return `<div class="shadow-card" data-theme="${theme}" style="width:${CARD.w}px;height:${CARD.h}px;--c-pos:${c.pos};--c-neg:${c.neg};--c-accent:${c.accent}">
       <div class="sc-glow"></div>
-      <header class="sc-head"><div class="brand"><span class="mark">${I.logo}</span><span>Journal<em>yst</em></span></div><span class="sc-tag">Schatten-Ich</span></header>
+      <header class="sc-head"><div class="brand"><span class="mark">${I.logo}</span><span class="no-i18n">Journal<em>yst</em></span></div><span class="sc-tag">Schatten-Ich</span></header>
       <div class="sc-main">
         <div class="sc-title">Disziplin-Kosten</div>
         <div class="sc-period">${esc(pd.label)}</div>

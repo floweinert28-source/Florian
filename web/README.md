@@ -68,6 +68,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
 - **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Hell/Dunkel, drei Schriftarten: Standard „Geschwungen“ mit Zahlen in Onest, „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
+- **Sprachen** (Einstellungen → Sprache): Deutsch, Englisch, Spanisch, Chinesisch (vereinfacht), Hindi und
+  Portugiesisch (Brasilien), die fünf meistgesprochenen Sprachen der Welt neben Deutsch. Zahlen, Beträge, Daten und der Kalender
+  folgen dem Format der Sprache. Übersetzt wird in Etappen: Etappe 1 umfasst Navigation, Dashboard, TradeLog mit Trade-Detail
+  und Trade-Editor, Kopfreihen und alle Einstellungen; die übrigen Bereiche bleiben bis zu ihrer Etappe deutsch.
+  So funktioniert es: Der Code bleibt deutsch, `js/i18n.js` ersetzt beim Anzeigen sichtbare Texte, Platzhalter, Titel und
+  Screenreader-Texte aus dem Wörterbuch der Sprache (`js/lang/<code>.js`, deutscher Text → Übersetzung, `{0}` für Zahlen,
+  Beträge und Namen). Eigene Inhalte (Notizen, Eingabefelder) werden nie verändert, gespeicherte Daten bleiben unverändert.
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
   Die Wahl gilt für die ganze Website inklusive Startseite.
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.
@@ -113,6 +120,8 @@ web/
   js/sample.js          Beispieldaten (deterministisch)
   js/store.js           Speicher (localStorage, IndexedDB), Export/Import
   js/ui.js              Formatierung, Symbole, Bausteine, SVG-Diagramme, Dialoge
+  js/i18n.js            Sprachen: übersetzt die Oberfläche beim Anzeigen, Gebietsschema für Zahlen und Daten
+  js/lang/*.js          Wörterbücher (en, es, zh, hi, pt)
   js/editor.js          Notiz-Editor (Quill 2): Toolbar, Blots, Slash-Befehle, Emojis, Bilder
   vendor/quill/         Quill 2.0.3 (BSD-3-Clause)
   js/app.js             Router, Seitenleiste, Kopfzeile und Kopfreihe unter dem Titel, Trade-Editor, Session, CSV-Import

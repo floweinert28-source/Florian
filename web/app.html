@@ -28,6 +28,7 @@
 <script src="js/propdata.js"></script>
 <script src="js/sample.js"></script>
 <script src="js/store.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/datepicker.js"></script>
 <script src="vendor/quill/quill.js"></script>
@@ -71,6 +72,7 @@
   window.addEventListener('error', function (ev) { var main = document.getElementById('main'); if (main && !main.innerHTML.trim()) startFail(ev.error || ev.message); });
   try {
     Store.load();
+    if (window.I18N) I18N.setLang(Store.settings.language || 'de');
     if (!Store.settings.onboarded) { if (!Store.trades().length) Store.installSample(); Store.settings.onboarded = true; Store.saveNow(); }
     Theme.apply(Store.settings);
     App.bind();

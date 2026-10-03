@@ -4,7 +4,7 @@
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
 
   const SECTIONS = [
-    ['profil', 'Profil', 'account'], ['design', 'Design', 'sun'], ['benachrichtigungen', 'Benachrichtigungen', 'bell'], ['abo', 'Abo', 'card'], null,
+    ['profil', 'Profil', 'account'], ['design', 'Design', 'sun'], ['sprache', 'Sprache', 'globe'], ['benachrichtigungen', 'Benachrichtigungen', 'bell'], ['abo', 'Abo', 'card'], null,
     ['konten', 'Konten', 'folder'], ['trading', 'Trading', 'stats'], ['regeln', 'Regeln', 'shield'], ['notebook', 'Notebook', 'journal'], ['mentor', 'Mentor', 'chat'], ['inhalte', 'Inhalte', 'tag'], ['logs', 'Logs', 'clock'],
   ];
   const KINDS = { setups: { label: 'Setups', color: 'var(--accent)', cls: 'setup' }, mistakes: { label: 'Fehler', color: 'var(--loss)', cls: 'mistake' }, emotions: { label: 'Emotionen', color: 'var(--be)', cls: 'emotion' } };
@@ -19,10 +19,19 @@
     render(ctx) {
       const sec = SECTIONS.some(s => s && s[0] === ctx.params[0]) ? ctx.params[0] : 'profil';
       const nav = `<nav class="set-nav">${SECTIONS.map(s => s ? `<a href="#/settings/${s[0]}" class="${sec === s[0] ? 'active' : ''}">${I[s[2]]}<span>${s[1]}</span></a>` : '<hr>').join('')}</nav>`;
-      const body = ({ profil, design, benachrichtigungen, abo, konten, trading, regeln, notebook, mentor, inhalte, logs })[sec]();
+      const body = ({ profil, design, sprache, benachrichtigungen, abo, konten, trading, regeln, notebook, mentor, inhalte, logs })[sec]();
       return `<div class="settings">${nav}<section class="set-body">${body}</section></div>`;
     },
   };
+
+  /* ---------- Sprache ---------- */
+  /* Sprachen aus i18n.js; der eigene Name jeder Sprache bleibt unübersetzt (no-i18n), darunter der Name in der gewählten Sprache */
+  function sprache() {
+    const L = root.I18N; const curL = L ? L.lang() : 'de';
+    const cards = (L ? L.LANGS : []).map(x => `<button type="button" class="lang-card" data-action="lang-set" data-value="${x.code}" aria-pressed="${curL === x.code}"><b class="no-i18n" lang="${x.html}">${esc(x.label)}</b><small>${esc(x.name)}</small></button>`).join('');
+    return head('Sprache', 'Sprache der Oberfläche. Zahlen, Währungen und Daten werden im Format der Sprache angezeigt.') + `<div class="set-block"><div class="lang-grid">${cards}</div>
+      <p class="small muted" style="margin-top:14px;max-width:640px">Die Übersetzung kommt in Etappen: Bereiche, die noch nicht übersetzt sind, bleiben vorerst deutsch. Deine eigenen Einträge wie Notizen, Setups und Tags werden nicht übersetzt.</p></div>`;
+  }
 
   /* ---------- Profil ---------- */
   /* Bild quadratisch zuschneiden, verkleinern und als JPEG ablegen: klein, schnell, in jedem Browser anzeigbar */
@@ -170,7 +179,7 @@
   /* ---------- Logs ---------- */
   function logs() {
     const u = ui(); const tabs = `<div class="set-tabs">${[['imports', 'Imports'], ['verlauf', 'Verlauf']].map(([k, l]) => `<button type="button" data-action="log-tab" data-value="${k}" aria-pressed="${u.logTab === k}">${l}</button>`).join('')}</div>`;
-    const when = iso => { const d = new Date(iso); return `${fmt.dateFull(d)} ${d.toLocaleTimeString('de-DE')}`; };
+    const when = iso => { const d = new Date(iso); return `${fmt.dateFull(d)} ${d.toLocaleTimeString((root.I18N ? root.I18N.locale() : 'de-DE'))}`; };
     let body;
     if (u.logTab === 'imports') {
       const imps = S.data.imports || []; const accName = id => (S.data.accounts.find(a => a.id === id) || {}).name || '—';
@@ -204,6 +213,7 @@
     'faith-toggle'() { S.setSetting('christlicherImpuls', !(S.settings.christlicherImpuls !== false)); rerender(); },
     'save-privacy'(form) { const fd = new FormData(form); S.setSetting('privacy', { support: fd.get('support') === 'on' }); U.toast('Gespeichert', 'ok'); },
     twofa() { U.modal(`<div class="modal-head"><h2>Zwei-Faktor-Authentifizierung</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">2FA schützt eine Anmeldung. Da dein Journal derzeit ohne Benutzerkonto läuft und alle Daten lokal in diesem Browser liegen, gibt es noch nichts abzusichern. Der Schalter wird aktiv, sobald Konten mit Anmeldung verfügbar sind.</p><div class="modal-foot"><button type="button" class="btn primary" data-close>Verstanden</button></div>`, { cls: 'narrow' }); },
+    'lang-set'(el) { S.setSetting('language', el.dataset.value); if (root.I18N) root.I18N.setLang(el.dataset.value); App.render({ enter: false }); },
     'font-set'(el) { S.setSetting('font', el.dataset.value); root.Theme.apply(S.settings); rerender(); },
     'color-preset'(el) { setColors({ [el.dataset.key]: el.dataset.value }); rerender(); },
     'color-pair'(el) { setColors({ profit: el.dataset.profit, loss: el.dataset.loss }); rerender(); },

@@ -53,7 +53,7 @@
       const screen = this.screens[this.state.route]; this._screen = screen; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
       fmt.setMoneyBlind(S.settings.moneyBlind, this.rUnit(ctx.all));
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
-      document.title = `${title} · Journalyst`;
+      document.title = `${root.I18N ? root.I18N.t(title) : title} · Journalyst`;
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${screen.render(ctx)}</div>`;
       M.scan(main.querySelector('#content'), enter);
       this.renderSidebar();
@@ -76,7 +76,7 @@
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="name">Journal<em>yst</em></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div>${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div><nav class="nav nav-sec">${NAV2.map(item).join('')}</nav>
+      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="name no-i18n">Journal<em>yst</em></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div>${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div><nav class="nav nav-sec">${NAV2.map(item).join('')}</nav>
         <div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div>`;
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
@@ -135,6 +135,8 @@
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) fn.call(this, el, e); } });
       window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; M.transition(() => this.render()); });
+      /* Wörterbuch einer neu gewählten Sprache ist nachgeladen: Seite neu aufbauen (Fenstertitel, Diagramm-Beschriftungen) */
+      window.addEventListener('i18n-ready', () => this.render({ enter: false }));
       let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => U.drawCharts(document.getElementById('main')), 120); });
       setInterval(() => { const t = document.getElementById('session-timer'); const s = S.activeSession(); if (t && s) t.textContent = fmt.hm((Date.now() - new Date(s.startedAt)) / 1000); }, 1000);
       U.bindTips();

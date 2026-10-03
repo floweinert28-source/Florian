@@ -149,7 +149,7 @@
     const top = body.scrollTop; body.innerHTML = bodyHTML(u.draft, App.allTrades()); body.scrollTop = top;
     l.querySelector('#fd-foot').innerHTML = footHTML(u.draft);
     const h = l.querySelector('.sp-head h2'); const n = count(u.draft); if (h) h.innerHTML = `Filter${n ? ` <b class="cntb">${n}</b>` : ''}`;
-    if (focusQ) { const q = l.querySelector('#fd-q'); if (q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }
+    if (focusQ) { const q = l.querySelector('#fd-q'); if (q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); } }
   }
   /* beim Öffnen: „Trade“ offen, die anderen Bereiche nur, wenn darin schon gefiltert wird */
   const GROUP_KEYS = { time: ['weekdays', 'months', ['entryFrom', 'entryTo'], ['exitFrom', 'exitTo'], ['holdMin', 'holdMax']], vals: [['entryMin', 'entryMax'], ['exitMin', 'exitMax'], ['rMin', 'rMax'], ['qtyMin', 'qtyMax'], ['volMin', 'volMax']], tags: ['setups', 'mistakes', 'emotions'] };

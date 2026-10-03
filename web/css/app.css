@@ -1009,6 +1009,8 @@ span.info:hover { color: var(--accent); }
 .content:has(> .page-head.compact) { --page-head-h: 64px; }
 @media (max-width: 560px) { .content:has(> .page-head.compact .ph-note) { --page-head-h: 90px; } }
 .page-head .ph-note { font-size: 12.5px; color: var(--muted); }
+.page-head .dh-context:has(> .nb-search) { flex: 1 1 380px; min-width: 0; } /* Notebook: Suche statt Zeitraum und Konto */
+.page-head .dh-context > .nb-search { flex: 1 1 auto; min-width: 0; }
 .btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
 /* Filter-Seitenleiste: vier aufklappbare Bereiche, Zeilen mit Beschriftung links und Bedienung rechts */
 .fd-panel { --sp-pad: 20px; width: min(520px, 100%); padding-bottom: 0; }
@@ -1158,6 +1160,10 @@ span.info:hover { color: var(--accent); }
 .sp-item b { display: block; font-size: 13.5px; margin-bottom: 2px; }
 .sp-item .small { display: block; line-height: 1.4; }
 .sp-item .btn { flex: 0 0 auto; }
+/* Hinzufügen/Hinzugefügt liegen übereinander: der Knopf ist in beiden Zuständen gleich breit, der Eintrag wird beim Klick nicht höher */
+.sp-add .sp-lbl { display: grid; }
+.sp-add .sp-lbl > span { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+.sp-add:not(.added) .sp-lbl .b, .sp-add.added .sp-lbl .a { visibility: hidden; }
 .sp-item .btn.added { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); opacity: 1; }
 .sp-item .btn:disabled:not(.added) { opacity: .45; cursor: not-allowed; }
 .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }

@@ -58,7 +58,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit.
-- **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz). Standardordner Trade Notes,
+- **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz); Notizen gelten für alles, darum ohne Zeitraum und Konto, die Suche steht in der Kopfreihe. Standardordner Trade Notes,
   Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Notiz-Kopf mit
   Datumswahl, großem Titel, Erstellt- und Bearbeitet-Zeit. Schlanker Rich-Text-Editor (Quill 2,
   Inhalte als JSON) nach TradePath-Vorbild: „+“ (Bausteine, Listen, Vorlagen), Absatzformat,
@@ -146,6 +146,10 @@ node --test web/tests/core.test.mjs
 ```
 
 Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge.
+
+Neuaufbau ohne Springen: `App.rerender()` baut die Seite nach jeder Eingabe neu auf und hält dabei die Stelle – das Fenster
+und jeden gescrollten Bereich darin (Notizliste, Spalten, Tabellen, Listen in Seitenleisten). Bis Screenshots geladen sind,
+behält die Seite ihre alte Höhe. Nur ein Seitenwechsel, eine neue Replay-Karte oder eine andere Dashboard-Vorlage beginnt oben.
 
 ## Bewegung und Übergänge
 

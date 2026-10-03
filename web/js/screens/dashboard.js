@@ -47,16 +47,18 @@
   function panelListHTML(area, lay, q) {
     const have = new Set(real(lay[area]).map(x => x.typ)); const full = area === 'oben' && real(lay.oben).length >= MAX_TOP; const ql = q.trim().toLowerCase();
     const items = W.list(area).filter(e => !ql || (e.name + ' ' + e.desc).toLowerCase().includes(ql));
-    return items.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview, e.typ)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}">${added ? `${I.check} Hinzugefügt` : 'Hinzufügen'}</button></div>`; }).join('') || `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
+    return items.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview, e.typ)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm sp-add ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}"><span class="sp-lbl"><span class="a">Hinzufügen</span><span class="b">${I.check} Hinzugefügt</span></span></button></div>`; }).join('') || `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
   }
   /* Neuaufbau bei offener Widget-Auswahl: die Seitenleiste bleibt dasselbe Element (kein erneutes Hereingleiten,
      Liste behält ihre Scrollposition); nur Liste und Hinweis werden aus dem Neuaufbau übernommen */
   function keepPanel(fn) {
-    const old = document.querySelector('.side-panel'); const ol = old && old.querySelector('#dash-add-list'); const top = ol ? ol.scrollTop : 0;
+    const old = document.querySelector('.side-panel'); const ol = old && old.querySelector('#dash-add-list'); const top = ol ? ol.scrollTop : 0; const y0 = ol ? ol.getBoundingClientRect().top : 0;
     fn(); const neu = document.querySelector('.side-panel'); if (!old || !neu || !ol) return;
     const nl = neu.querySelector('#dash-add-list'); if (!nl) return; ol.innerHTML = nl.innerHTML;
     const ob = old.querySelector('.banner'), nb = neu.querySelector('.banner'); if (ob) ob.remove(); if (nb) ol.before(nb);
-    old.classList.add('settled'); neu.replaceWith(old); ol.scrollTop = top; /* erst im Dokument greift die Scrollposition wieder */
+    old.classList.add('settled'); neu.replaceWith(old);
+    /* erst im Dokument greift die Scrollposition wieder; erscheint oder verschwindet der Hinweis über der Liste, gleicht der Scrollstand das aus */
+    ol.scrollTop = top + (ol.getBoundingClientRect().top - y0);
   }
   function addPanel(area, lay, q) {
     const full = area === 'oben' && real(lay.oben).length >= MAX_TOP;
@@ -133,8 +135,8 @@
   }
 
   /* ---------- Bearbeiten ---------- */
-  function startEdit(id) { const s = st(); const t = S.getDashboard(id); if (!t) return; S.setActiveDashboard(id); s.editing = true; s.draft = clone(t.layout); s.panel = null; s.menu = null; App.rerender(false); }
-  function stopEdit() { const s = st(); s.editing = false; s.draft = null; s.panel = null; App.rerender(false); }
+  function startEdit(id) { const s = st(); const t = S.getDashboard(id); if (!t) return; const same = active().id === id; S.setActiveDashboard(id); s.editing = true; s.draft = clone(t.layout); s.panel = null; s.menu = null; App.rerender(same); } /* gleiche Vorlage: Stelle halten; andere Vorlage: oben beginnen */
+  function stopEdit() { const s = st(); s.editing = false; s.draft = null; s.panel = null; App.rerender(); } /* Speichern/Abbrechen: an derselben Stelle bleiben */
   const widgetOf = el => { const w = el.closest('.w'); return w ? { area: w.dataset.area, idx: Number(w.dataset.idx), w } : null; };
   const instOf = el => { const p = widgetOf(el); if (!p) return null; const lay = layout(); return { inst: lay[p.area][p.idx], lay }; };
   function persist(lay) { const s = st(); if (!s.editing) S.updateDashboard(active().id, { layout: clone(lay) }); }

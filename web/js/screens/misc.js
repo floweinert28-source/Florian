@@ -216,7 +216,7 @@
     /* Sprache wechseln: Währung zieht mit (Store.setLanguage); ein Wechsel der Währung unter Profil ändert die Sprache nicht */
     'lang-set'(el) {
       const code = el.dataset.value; const L = root.I18N && root.I18N.LANGS.find(x => x.code === code);
-      const changed = S.setLanguage(code, L && L.currency); if (root.I18N) root.I18N.setLang(code); App.render({ enter: false });
+      const changed = S.setLanguage(code, L && L.currency); if (root.I18N) root.I18N.setLang(code); App.rerender();
       if (changed) { const c = fmt.currencies().find(x => x.code === S.settings.currency); U.toast(`Währung: ${c ? c.label : S.settings.currency}`, 'ok'); }
     },
     'font-set'(el) { S.setSetting('font', el.dataset.value); root.Theme.apply(S.settings); rerender(); },
@@ -247,7 +247,7 @@
     'nb-reset'() { S.setSetting('notebook', Object.assign({}, NB_DEFAULT)); root.Theme.apply(S.settings); rerender(); },
     /* Inhalte */
     'content-tab'(el) { ui().contentTab = el.dataset.value; rerender(); },
-    'tag-q'(el) { ui().tagQ = el.value; clearTimeout(App._tq); App._tq = setTimeout(() => { rerender(); const q = document.getElementById('tag-q'); if (q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }, 150); },
+    'tag-q'(el) { ui().tagQ = el.value; clearTimeout(App._tq); App._tq = setTimeout(() => { rerender(); const q = document.getElementById('tag-q'); if (q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); } }, 150); },
     'tag-filter'(el) { ui().tagFilter = el.value; rerender(); },
     'tag-new'() { tagEditor('setups', null); },
     'tag-edit'(el) { tagEditor(el.dataset.kind, el.dataset.value); },
@@ -256,7 +256,7 @@
     async 'tags-reset'() { if (await U.confirmModal('Tags zurücksetzen', 'Alle Tags werden auf die Standardliste zurückgesetzt. Beschreibungen gehen verloren, Trades bleiben unverändert.', { ok: 'Zurücksetzen', danger: true })) { S.resetTags(); rerender(); } },
     /* Logs */
     'log-tab'(el) { ui().logTab = el.dataset.value; rerender(); },
-    'log-q'(el) { ui().logQ = el.value; clearTimeout(App._lq); App._lq = setTimeout(() => { rerender(); const q = document.getElementById('log-q'); if (q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }, 150); },
+    'log-q'(el) { ui().logQ = el.value; clearTimeout(App._lq); App._lq = setTimeout(() => { rerender(); const q = document.getElementById('log-q'); if (q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); } }, 150); },
     'log-filter'(el) { ui().logFilter = el.value; rerender(); },
     'import-delete'(el) { S.deleteImport(el.dataset.id); rerender(); },
     async 'logs-clear'() { if (await U.confirmModal('Verlauf leeren', 'Der gesamte Änderungsverlauf wird gelöscht. Trades und Daten bleiben erhalten.', { ok: 'Leeren', danger: true })) { S.clearLogs(); rerender(); } },

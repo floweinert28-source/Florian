@@ -99,7 +99,7 @@
   Object.assign(App.actions, {
     'trades-view'(el) { App.state.tradeFilter.view = el.dataset.value; App.rerender(); },
     'trade-sort'(el) { const k = el.dataset.key; const s = App.state.tradeSort; if (s.key === k) s.dir = -s.dir; else { s.key = k; s.dir = k === 'symbol' || k === 'setup' ? 1 : -1; } App.rerender(); },
-    'trade-q'(el) { App.state.tradeFilter.q = el.value; clearTimeout(App._qt); App._qt = setTimeout(() => { App.rerender(); const q = document.getElementById('tf-q'); if (q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }, 250); },
+    'trade-q'(el) { App.state.tradeFilter.q = el.value; clearTimeout(App._qt); App._qt = setTimeout(() => { App.rerender(); const q = document.getElementById('tf-q'); if (q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); } }, 250); },
     'trade-filter'(el) { App.state.tradeFilter[el.dataset.key] = el.value; pageState().page = 1; App.rerender(); },
     'trade-page-size'(el) { const pg = pageState(); pg.size = Number(el.value) || 50; pg.page = 1; App.rerender(); },
     'trade-page'(el) { pageState().page = Number(el.value) || 1; App.rerender(); },

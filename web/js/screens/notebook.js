@@ -36,6 +36,7 @@
   function refreshTags(noteId) { const n = S.getNote(noteId); if (!n) return; const chips = document.getElementById('nb-tag-chips'); if (chips) chips.innerHTML = tagChipsHTML(n); const cols = document.querySelector('#pop-nbtags .tagcols'); if (cols) cols.outerHTML = tagMenuHTML(n); const pills = document.querySelector('.nb .tagpills'); if (pills) pills.innerHTML = tagPillsHTML(st()); }
   App.screens.notebook = {
     title: 'Notebook',
+    head: { range: false, account: false }, /* Notizen gelten für alles: kein Zeitraum, kein Konto; links steht die Suche */
     render(ctx) {
       const nb = st();
       if (ctx.params[0] && ctx.params[0] !== nb._lastParam) { nb._lastParam = ctx.params[0]; const n = S.getNote(ctx.params[0]); if (n) { nb.note = n.id; if (n.deletedAt) nb.folder = 'trash'; else if (nb.folder !== 'all' && nb.folder !== n.folderId) nb.folder = n.folderId; nb.view = 'note'; } }
@@ -76,9 +77,13 @@
           <div class="tags-row"><div class="popwrap"><button type="button" class="tag-add" data-pop="nbtags" aria-label="Tag hinzufügen">${I.plus} <span class="no-i18n">Tag</span></button><div class="popover left tagpop" id="pop-nbtags">${tagMenuHTML(cur)}<hr><button type="button" class="item" data-action="nb-tag-new" data-id="${cur.id}">${I.plus} Neuen Tag anlegen</button></div></div><span class="tag-chips" id="nb-tag-chips">${tagChipsHTML(cur)}</span></div>
           </div>${stats}<div class="note-body"><div id="nb-editor"></div><input type="file" accept="application/json,.json" class="hidden" id="nb-import-file"></div></div>`;
       }
-      return `${search}<div class="nb ${nb.leftOpen ? '' : 'no-left'}" data-view="${nb.view}">${(nb.leftOpen ? left : '') + mid}${right}</div>`;
+      ctx.headLeft = search; /* Suche steht in der Kopfreihe neben „Trade loggen“ */
+      return `<div class="nb ${nb.leftOpen ? '' : 'no-left'}" data-view="${nb.view}">${(nb.leftOpen ? left : '') + mid}${right}</div>`;
     },
     mount(main) {
+      /* wird eine andere Notiz geöffnet (z. B. neue Notiz oben), sie in ihrer Liste sichtbar machen; nur die Liste scrollen, nicht die Seite */
+      const act = main.querySelector('.note-item.active'); const box = act && act.closest('.col-body'); const nbs = st(); const changed = nbs._shown !== nbs.note; nbs._shown = nbs.note;
+      if (box && changed) { const r = act.getBoundingClientRect(), b = box.getBoundingClientRect(); if (r.top < b.top) box.scrollTop -= b.top - r.top + 8; else if (r.bottom > b.bottom) box.scrollTop += r.bottom - b.bottom + 8; }
       const nb = st(); const el = main.querySelector('#nb-editor'); if (!el || !root.NoteEditor) return; const n = S.getNote(nb.note); if (!n) return;
       editor = root.NoteEditor.create(el, { content: n.content, templates: () => S.templates().map(t => ({ id: t.id, name: t.name })), customColors: () => S.settings.editorColors || [],
         onChange(delta) { pendingContent = delta; pendingId = n.id; setSaveState('saving'); clearTimeout(saveTimer); saveTimer = setTimeout(flush, 1000); },
@@ -87,7 +92,7 @@
         onCustomColor(c) { const list = (S.settings.editorColors || []).filter(x => x !== c); list.unshift(c); S.setSetting('editorColors', list.slice(0, 10)); } });
       const imp = main.querySelector('#nb-import-file'); if (imp) imp.addEventListener('change', e => { const f = e.target.files[0]; if (!f || !editor) return; const r = new FileReader(); r.onload = () => { try { const j = JSON.parse(r.result); const delta = j.ops ? j : j.note && j.note.content ? j.note.content : j.content; if (!delta || !delta.ops) throw new Error('Kein Notiz-Format'); editor.setContents(delta); pendingContent = delta; pendingId = n.id; flush(); if (j.note && j.note.title) { S.updateNote(n.id, { title: j.note.title }); const t = main.querySelector('#nb-title'); if (t) t.value = j.note.title; } U.toast('Notiz geladen', 'ok'); } catch (err) { U.toast('Datei nicht lesbar: ' + err.message, 'err'); } }; r.readAsText(f); e.target.value = ''; });
       if (nb._openPop) { const pop = document.getElementById('pop-' + nb._openPop); if (pop) pop.classList.add('open'); nb._openPop = null; }
-      const q = main.querySelector('#nb-q'); if (nb._focusSearch && q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); nb._focusSearch = false; }
+      const q = main.querySelector('#nb-q'); if (nb._focusSearch && q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); nb._focusSearch = false; }
     },
     unmount() { flush(); if (editor) { editor.destroy(); editor = null; } },
   };

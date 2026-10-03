@@ -54,11 +54,47 @@
       fmt.setMoneyBlind(S.settings.moneyBlind, this.rUnit(ctx.all));
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
       document.title = `${root.I18N ? root.I18N.t(title) : title} · Journalyst`;
-      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${screen.render(ctx)}</div>`;
+      const body = screen.render(ctx); /* zuerst der Inhalt: er kann ctx.headLeft für die Kopfreihe setzen (Notebook: Suche) */
+      /* Neuaufbau: alte Höhe halten, bis die Bilder (Screenshots) geladen sind – sonst ist die Seite kurz zu kurz und die Scrollposition rutscht auf 0 */
+      const keep = o && o.keep; const hold = keep ? main.offsetHeight : 0; const tok = this._holdTok = (this._holdTok || 0) + 1;
+      main.style.minHeight = hold ? hold + 'px' : '';
+      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
       M.scan(main.querySelector('#content'), enter);
       this.renderSidebar();
-      U.drawCharts(main); this.loadBlobImages(main); if (screen.mount) screen.mount(main, ctx);
-      window.scrollTo({ top: 0 });
+      U.drawCharts(main); const imgs = this.loadBlobImages(main); if (keep) this.restoreScroll(main, keep); if (screen.mount) screen.mount(main, ctx);
+      window.scrollTo({ top: keep ? keep.y : 0 });
+      if (hold) this.releaseHeight(main, imgs, tok);
+    },
+    /* gehaltene Höhe freigeben, sobald alle Bilder da sind (höchstens 2 s); ein neuerer Aufbau übernimmt das Halten */
+    releaseHeight(main, imgs, tok) {
+      const done = () => { if (this._holdTok === tok) main.style.minHeight = ''; };
+      Promise.resolve(imgs).catch(() => {}).then(() => Promise.race([
+        Promise.all([...main.querySelectorAll('img')].filter(i => !i.complete).map(i => new Promise(r => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); }))),
+        new Promise(r => setTimeout(r, 2000)),
+      ])).then(done);
+    },
+    /* Scrollstand über einen Neuaufbau retten: das Fenster und jeder gescrollte Bereich im Inhalt (Notizliste, Spalten, Tabellen,
+       Listen in Seitenleisten). Wiedergefunden wird ein Bereich über seinen Weg im Baum: id, sonst Tag + erste Klasse + Position
+       unter gleichartigen Geschwistern. data-keep-scroll merkt einen Bereich auch in Ausgangsstellung (z. B. ganz links). */
+    scrollPath(el, box) {
+      const path = [];
+      for (let e = el; e && e !== box; e = e.parentElement) {
+        if (e.id) { path.unshift({ id: e.id }); break; }
+        const c = e.classList[0] || ''; let i = 0; for (let s = e.previousElementSibling; s; s = s.previousElementSibling) if (s.tagName === e.tagName && (s.classList[0] || '') === c) i++;
+        path.unshift({ tag: e.tagName, c, i });
+      }
+      return path;
+    },
+    saveScroll(box) {
+      const areas = []; if (box) box.querySelectorAll('*').forEach(e => { if (e.scrollTop > 0 || e.scrollLeft > 0 || e.hasAttribute('data-keep-scroll')) areas.push({ path: this.scrollPath(e, box), top: e.scrollTop, left: e.scrollLeft }); });
+      return { y: window.scrollY, areas };
+    },
+    restoreScroll(box, keep) {
+      for (const a of keep.areas) {
+        let el = box;
+        for (const p of a.path) { if (!el) break; el = p.id ? box.querySelector('#' + CSS.escape(p.id)) : [...el.children].filter(k => k.tagName === p.tag && (k.classList[0] || '') === p.c)[p.i] || null; }
+        if (el && el !== box) { el.scrollTop = a.top; el.scrollLeft = a.left; el.dataset.scrollKept = '1'; }
+      }
     },
     /* Popover in seiner Box halten: ragt ein rechtsbündiges Menü links aus dem nächsten scrollenden Rahmen (z. B. der Notiz-Spalte), klappt es nach rechts auf */
     fitPopover(pop) {
@@ -70,7 +106,7 @@
     },
     /* offene Popover ausblenden und dann schließen; except = Popover, das gerade umgeschaltet wird */
     closePopovers(except) { document.querySelectorAll('.popover.open:not(.closing)').forEach(p => { if (p.id === except) return; M.leave(p, 'closing', '--dur-1', () => p.classList.remove('open', 'closing')); }); },
-    rerender(keepScroll = true) { const y = window.scrollY; this.render({ enter: false }); if (keepScroll) window.scrollTo({ top: y }); },
+    rerender(keepScroll = true) { this.render({ enter: false, keep: keepScroll ? this.saveScroll(document.getElementById('main')) : null }); },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
@@ -104,7 +140,7 @@
     pageHead(screen, ctx) {
       const h = Object.assign({ range: true, account: true, session: true, trade: true, note: '' }, screen.head);
       const own = screen.actions ? screen.actions(ctx) : '';
-      const left = `${h.range ? this.rangeControl() : ''}${h.account ? this.accountControl({ mobile: !h.range }) : ''}${h.note ? `<span class="ph-note">${esc(h.note)}</span>` : ''}`;
+      const left = `${h.range ? this.rangeControl() : ''}${h.account ? this.accountControl({ mobile: !h.range }) : ''}${ctx.headLeft || ''}${h.note ? `<span class="ph-note">${esc(h.note)}</span>` : ''}`;
       const right = `${own}${h.session ? this.sessionControl(true) : ''}${h.trade ? `${own || h.session ? '<span class="dh-sep" aria-hidden="true"></span>' : ''}${this.newTradeButton()}` : ''}`;
       return `<div class="dash-head page-head${right ? '' : ' compact'}">${left ? `<div class="row dh-context">${left}</div>` : ''}${right ? `<div class="row dh-tools">${right}</div>` : ''}</div>`;
     },
@@ -137,7 +173,7 @@
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) fn.call(this, el, e); } });
       window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; M.transition(() => this.render()); });
       /* Wörterbuch einer neu gewählten Sprache ist nachgeladen: Seite neu aufbauen (Fenstertitel, Diagramm-Beschriftungen) */
-      window.addEventListener('i18n-ready', () => this.render({ enter: false }));
+      window.addEventListener('i18n-ready', () => this.rerender());
       let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => U.drawCharts(document.getElementById('main')), 120); });
       setInterval(() => { const t = document.getElementById('session-timer'); const s = S.activeSession(); if (t && s) t.textContent = fmt.hm((Date.now() - new Date(s.startedAt)) / 1000); }, 1000);
       U.bindTips();

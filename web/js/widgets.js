@@ -155,7 +155,8 @@
     progress: '<rect x="8" y="14" width="40" height="5" rx="2.5" fill="var(--faint)"/><rect x="8" y="24" width="84" height="8" rx="4" fill="var(--surface-3)"/><rect x="8" y="24" width="56" height="8" rx="4" fill="var(--profit)"/><rect x="8" y="40" width="30" height="5" rx="2.5" fill="var(--faint)"/><rect x="8" y="50" width="84" height="8" rx="4" fill="var(--surface-3)"/><rect x="8" y="50" width="24" height="8" rx="4" fill="var(--loss)"/>',
     dd: '<line x1="8" x2="92" y1="12" y2="12" stroke="var(--border-2)"/><path d="M8 12 L20 28 L32 16 L44 40 L56 30 L68 12 L80 34 L92 22 L92 12 Z" fill="var(--loss)" fill-opacity=".3"/><path d="M8 12 L20 28 L32 16 L44 40 L56 30 L68 12 L80 34 L92 22" fill="none" stroke="var(--loss)" stroke-width="2"/>',
   };
-  const preview = kind => `<svg viewBox="0 0 100 64" width="96" height="62" aria-hidden="true">${PV[kind] || PV.num}</svg>`;
+  /* eigene Vorschau je Widget in js/widgetpreviews.js; ohne die Datei die alten Grundformen */
+  const preview = (kind, typ) => (root.WidgetPreviews ? root.WidgetPreviews.svg(typ, kind) : `<svg viewBox="0 0 100 64" width="96" height="62" aria-hidden="true">${PV[kind] || PV.num}</svg>`);
 
   /* ---------- Oberer Bereich: Kennzahl-Kacheln ---------- */
   const TOP = [

@@ -47,7 +47,7 @@
   function panelListHTML(area, lay, q) {
     const have = new Set(real(lay[area]).map(x => x.typ)); const full = area === 'oben' && real(lay.oben).length >= MAX_TOP; const ql = q.trim().toLowerCase();
     const items = W.list(area).filter(e => !ql || (e.name + ' ' + e.desc).toLowerCase().includes(ql));
-    return items.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}">${added ? `${I.check} Hinzugefügt` : 'Hinzufügen'}</button></div>`; }).join('') || `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
+    return items.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview, e.typ)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}">${added ? `${I.check} Hinzugefügt` : 'Hinzufügen'}</button></div>`; }).join('') || `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
   }
   /* Neuaufbau bei offener Widget-Auswahl: die Seitenleiste bleibt dasselbe Element (kein erneutes Hereingleiten,
      Liste behält ihre Scrollposition); nur Liste und Hinweis werden aus dem Neuaufbau übernommen */
@@ -74,24 +74,11 @@
   Object.assign(App.actions, { 'recap-dismiss'(el) { const shown = Object.assign({}, S.settings.recapShown || {}); shown[el.dataset.kind] = el.dataset.key; S.setSetting('recapShown', shown); App.rerender(); } });
 
   /* ---------- Filter (Symbol, Richtung, Status, Setup, Tags) ---------- */
-  const FILTER_EMPTY = () => ({ symbols: [], dir: '', status: '', setups: [], tags: [] });
-  function filterState() { return Object.assign(FILTER_EMPTY(), S.settings.dashFilter || {}); }
-  function filterCount(f) { return f.symbols.length + f.setups.length + f.tags.length + (f.dir ? 1 : 0) + (f.status ? 1 : 0); }
-  function applyFilter(list, f) {
-    return list.filter(t => (!f.symbols.length || f.symbols.includes(t.symbol)) && (!f.dir || (f.dir === 'long' ? t.direction > 0 : t.direction < 0)) && (!f.status || t.status === f.status) && (!f.setups.length || f.setups.includes(t.setup || '')) && (!f.tags.length || f.tags.some(x => (t.mistakes || []).includes(x) || (t.emotions || []).includes(x))));
-  }
-  function filterPopHTML(all, f) {
-    const uniq = a => [...new Set(a.filter(Boolean))]; const symbols = uniq(all.map(t => t.symbol)).sort(); const setups = uniq([...(S.data.tags.setups || []), ...all.map(t => t.setup)]); const tags = uniq([...(S.data.tags.mistakes || []), ...(S.data.tags.emotions || []), ...all.flatMap(t => [...(t.mistakes || []), ...(t.emotions || [])])]);
-    const chips = (key, items, on) => items.length ? items.map(v => `<button type="button" class="chip sel" data-action="dash-filter" data-key="${key}" data-value="${esc(v)}" aria-pressed="${on(v)}">${esc(v)}</button>`).join('') : '<span class="small faint">Noch nichts vorhanden</span>';
-    const sec = (label, body) => `<div class="fsec"><div class="lbl">${label}</div><div class="chips">${body}</div></div>`;
-    const single = (key, opts) => opts.map(([v, l]) => `<button type="button" class="chip sel" data-action="dash-filter" data-key="${key}" data-value="${v}" aria-pressed="${f[key] === v}">${l}</button>`).join('');
-    return `<div class="row between" style="margin-bottom:10px"><b>Filter</b>${filterCount(f) ? `<button type="button" class="btn xs ghost" data-action="dash-filter-clear">${I.close} Zurücksetzen</button>` : ''}</div>
-      ${sec('Symbol', chips('symbols', symbols, v => f.symbols.includes(v)))}${sec('Richtung', single('dir', [['long', 'Long'], ['short', 'Short']]))}${sec('Status', single('status', [['win', 'Gewinn'], ['loss', 'Verlust'], ['be', 'Break-even'], ['open', 'Offen']]))}${sec('Setup', chips('setups', setups, v => f.setups.includes(v)))}${sec('Tags', chips('tags', tags, v => f.tags.includes(v)))}`;
-  }
-  Object.assign(App.actions, {
-    'dash-filter'(el) { const f = filterState(); const k = el.dataset.key, v = el.dataset.value; if (Array.isArray(f[k])) f[k] = f[k].includes(v) ? f[k].filter(x => x !== v) : [...f[k], v]; else f[k] = f[k] === v ? '' : v; S.setSetting('dashFilter', f); App.rerender(); const pop = document.getElementById('pop-dfilter'); if (pop) pop.classList.add('open'); },
-    'dash-filter-clear'() { S.setSetting('dashFilter', FILTER_EMPTY()); App.rerender(); },
-  });
+  /* Filter: Seitenleiste und Logik in js/screens/dash-filter.js */
+  const DF = () => root.DashFilter;
+  function filterState() { return DF().state(); }
+  function filterCount(f) { return DF().count(f); }
+  function applyFilter(list, f) { return DF().apply(list, f); }
 
   /* ---------- Bildschirm ---------- */
   App.screens.dashboard = {
@@ -103,7 +90,7 @@
       else {
         /* Kopfzeile in einer ruhigen Reihe: links Kontext (Zeitraum, Konto, Filter, Vorlage), rechts Werkzeuge als Symbole und „Trade loggen“ */
         parts.push(`<div class="dash-head">
-          <div class="row dh-context">${App.rangeControl()}${App.accountControl()}<div class="popwrap"><button type="button" class="btn ${fN ? 'accent' : ''}" data-pop="dfilter" aria-label="Filter">${I.filter}<span class="hide-m">Filter</span>${fN ? `<b class="cntb">${fN}</b>` : ''}${caret}</button><div class="popover left filter-pop" id="pop-dfilter">${filterPopHTML(rawAll, f)}</div></div><div class="popwrap"><button type="button" class="btn" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="hide-m tpl-name">${esc(tpl.name)}</span>${caret}</button><div class="popover left tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div></div>
+          <div class="row dh-context">${App.rangeControl()}${App.accountControl()}<button type="button" class="btn ${fN ? 'accent' : ''}" data-action="dash-f-open" aria-label="Filter">${I.filter}<span class="hide-m">Filter</span>${fN ? `<b class="cntb">${fN}</b>` : ''}</button><div class="popwrap"><button type="button" class="btn" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="hide-m tpl-name">${esc(tpl.name)}</span>${caret}</button><div class="popover left tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div></div>
           <div class="row dh-tools"><button type="button" class="btn icon-only" data-action="voice-last" title="Sprachnotiz zum letzten Trade" aria-label="Sprachnotiz zum letzten Trade">${I.mic}<span class="vh">Sprachnotiz</span></button><div class="popwrap"><button type="button" class="btn icon-only" data-pop="cert" title="Zertifikat erstellen" aria-label="Zertifikat erstellen">${I.shield}<span class="vh">Zertifikat</span></button><div class="popover" id="pop-cert">${root.Certificate.menuHTML({ day: todayKey })}</div></div>${App.sessionControl(true)}<span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}</div>
         </div>`);
         if (S.settings.tiltWarnings) { const tilt = C.tiltCheck(App.todayTrades(all), { account: d.account, dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); for (const wn of tilt.warnings) { if (S.data.dismissed[wn.kind] === todayKey) continue; parts.push(U.banner(wn.severity === 'critical' ? 'loss' : 'warn', wn.title, wn.text, { close: 'x' }).replace('data-action="x"', `data-action="dismiss" data-key="${wn.kind}"`)); } }

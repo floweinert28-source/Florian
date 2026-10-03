@@ -852,31 +852,33 @@ function setFaith(v) {
   syncFaithUI();
   if (mode === 'step') renderStep();
 }
-/* ---------- Ruhiger Raum: beim Betreten zieht ein Schwarm bunter Blüten durch den Ruhepunkt-Bereich, danach treiben ruhige Farbflächen hinter den Inhalten ----------
-   Nur im Inhaltsbereich (unter der Kopfzeile, neben der Seitenleiste), Klicks gehen durch; bei reduzierter Bewegung keine Blüten */
+/* ---------- Ruhiger Raum: beim Betreten schweben Kirschblütenblätter durch den Ruhepunkt-Bereich, danach treiben ruhige Farbflächen hinter den Inhalten ----------
+   Wenige Blätter, langsam, schräg wie vom Wind getragen; jedes kippt und dreht sich beim Fallen. Nur im Inhaltsbereich (unter der Kopfzeile,
+   neben der Seitenleiste), Klicks gehen durch; bei reduzierter Bewegung keine Blätter */
 var calmHere = false, bloomLayer = null, bloomTimer = null, calmEnterTimer = null;
-var BLOOM_COLORS = [['#ff9ec7', '#ffe08a'], ['#c9a7ff', '#fff1b8'], ['#ffc08f', '#ffe9a8'], ['#9fd6ff', '#fff6c7'], ['#a6eccf', '#ffe08a'], ['#ff8fa8', '#ffd36b'], ['#f3b0ff', '#fff1b8'], ['#ffe27a', '#ff9f5a']];
-function flowerSVG(petal, core, n) {
-  var p = ''; for (var k = 0; k < n; k++) p += '<ellipse cx="20" cy="10.5" rx="6.2" ry="9.5" transform="rotate(' + (k * 360 / n) + ' 20 20)"/>';
-  return '<svg viewBox="0 0 40 40"><g fill="' + petal + '">' + p + '</g><circle cx="20" cy="20" r="5.4" fill="' + core + '"/><circle cx="18.6" cy="18.6" r="1.6" fill="#ffffff" opacity=".55"/></svg>';
-}
-function petalSVG(c) { return '<svg viewBox="0 0 20 20"><path d="M10 1C15.5 6 15.5 13.5 10 19C4.5 13.5 4.5 6 10 1Z" fill="' + c + '"/><path d="M10 3.5V16.5" stroke="#ffffff" stroke-opacity=".35" stroke-width="1"/></svg>'; }
+var SAKURA_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>' +
+  '<linearGradient id="rp-sk-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2f6"/><stop offset=".55" stop-color="#ffd0df"/><stop offset="1" stop-color="#f7a8c2"/></linearGradient>' +
+  '<linearGradient id="rp-sk-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#ffe3ec"/><stop offset="1" stop-color="#fbbcd0"/></linearGradient>' +
+  '<linearGradient id="rp-sk-c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe0ea"/><stop offset=".6" stop-color="#ffb9cf"/><stop offset="1" stop-color="#ef93b2"/></linearGradient></defs></svg>';
+/* Blütenblatt mit der typischen Kerbe oben, unten spitz zulaufend */
+function sakuraSVG(g) { return '<svg viewBox="0 0 30 30"><path d="M15 28.5C6.5 23 3 13.5 7.5 5.6C9.6 2.2 13.2 2.6 15 6.4C16.8 2.6 20.4 2.2 22.5 5.6C27 13.5 23.5 23 15 28.5Z" fill="url(#rp-sk-' + g + ')"/><path d="M15 9.5V24" stroke="#ffffff" stroke-opacity=".45" stroke-width=".9" stroke-linecap="round"/></svg>'; }
 function bloom() {
   if (reducedMotion) return;
   var main = document.getElementById('main'), bar = document.querySelector('.topbar'); if (!main) return;
   var r = main.getBoundingClientRect(), top = Math.max(0, bar ? bar.getBoundingClientRect().bottom : r.top), w = r.width, h = window.innerHeight - top; if (w < 40 || h < 40) return;
   var layer = document.createElement('div'); layer.className = 'rp-bloom'; layer.setAttribute('aria-hidden', 'true');
-  layer.style.cssText = 'left:' + r.left + 'px;top:' + top + 'px;width:' + w + 'px;height:' + h + 'px;--w:' + Math.round(w) + 'px';
-  var out = '', n = w < 600 ? 20 : 36, rnd = Math.random;
+  layer.style.cssText = 'left:' + r.left + 'px;top:' + top + 'px;width:' + w + 'px;height:' + h + 'px';
+  var out = SAKURA_DEFS, n = w < 600 ? 10 : 15, rnd = Math.random;
   for (var i = 0; i < n; i++) {
-    var c = BLOOM_COLORS[i % BLOOM_COLORS.length], size = 20 + rnd() * 34, depth = size / 54; /* größere Blüten sind näher: schneller und kräftiger */
-    var dur = 7.4 - depth * 2.6 + rnd() * 1.2, delay = rnd() * 2.4, loose = rnd() < 0.28, spin = (rnd() < 0.5 ? -1 : 1) * (120 + rnd() * 260);
-    out += '<span class="fl" style="top:' + (3 + rnd() * 88).toFixed(1) + '%;--d:' + dur.toFixed(2) + 's;--dl:' + delay.toFixed(2) + 's;--rise:' + Math.round((rnd() - 0.5) * 140) + 'px;--o:' + (0.5 + depth * 0.45).toFixed(2) + '">' +
-      '<i style="--b:' + (1.6 + rnd() * 1.4).toFixed(2) + 's;--amp:' + Math.round(8 + rnd() * 16) + 'px"><b style="width:' + Math.round(size) + 'px;height:' + Math.round(size) + 'px;--spin:' + Math.round(spin) + 'deg">' +
-      (loose ? petalSVG(c[0]) : flowerSVG(c[0], c[1], rnd() < 0.5 ? 5 : 6)) + '</b></i></span>';
+    var size = 15 + rnd() * 18, near = (size - 15) / 18; /* größere Blätter sind näher: kräftiger und etwas schneller, kleine leicht unscharf */
+    var x = -0.08 * w + rnd() * 0.72 * w, dur = 10.4 - near * 2.4 + rnd() * 1.2, delay = i * (3.6 / n) + rnd() * 0.5;
+    var tx = Math.round(0.28 * w + rnd() * 0.3 * w + 80), ty = Math.round(h + 90);
+    out += '<span class="fl" style="left:' + Math.round(x) + 'px;--tx:' + tx + 'px;--ty:' + ty + 'px;--d:' + dur.toFixed(2) + 's;--dl:' + delay.toFixed(2) + 's;--o:' + (0.6 + near * 0.38).toFixed(2) + (near < 0.3 ? ';--blur:1px' : '') + '">' +
+      '<i style="--b:' + (2.6 + rnd() * 1.6).toFixed(2) + 's;--amp:' + Math.round(14 + rnd() * 22) + 'px"><b style="width:' + Math.round(size) + 'px;height:' + Math.round(size) + 'px;--t:' + (1.8 + rnd() * 1.6).toFixed(2) + 's;--spin:' + Math.round((rnd() < 0.5 ? -1 : 1) * (160 + rnd() * 220)) + 'deg">' +
+      sakuraSVG('abc'.charAt(i % 3)) + '</b></i></span>';
   }
   layer.innerHTML = out; document.body.appendChild(layer); bloomLayer = layer;
-  clearTimeout(bloomTimer); bloomTimer = setTimeout(function () { layer.remove(); if (bloomLayer === layer) bloomLayer = null; }, 11000);
+  clearTimeout(bloomTimer); bloomTimer = setTimeout(function () { layer.remove(); if (bloomLayer === layer) bloomLayer = null; }, 16000);
 }
 function calmEnter() {
   var html = document.documentElement; html.classList.add('calm');

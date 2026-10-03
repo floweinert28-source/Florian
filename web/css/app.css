@@ -1446,17 +1446,18 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 
 /* ============================================================
    Ruhepunkt als eigener, ruhiger Raum (ruhepunkt.js: calmEnter/calmLeave)
-   Beim Betreten zieht ein Schwarm bunter Blüten durch den Inhaltsbereich; danach treiben weiche Farbflächen hinter den Inhalten
+   Beim Betreten schweben Kirschblütenblätter durch den Inhaltsbereich; danach treiben weiche Farbflächen (blau, rosa, violett) hinter den Inhalten
    ============================================================ */
 .rp-bloom { position: fixed; z-index: 15; pointer-events: none; overflow: hidden; }
-.rp-bloom .fl { position: absolute; left: 0; opacity: 0; will-change: transform, opacity; animation: bloom-x var(--d) cubic-bezier(.3, .1, .4, 1) var(--dl) forwards; }
-.rp-bloom .fl i { display: block; animation: bloom-bob var(--b) ease-in-out infinite alternate; }
-.rp-bloom .fl b { display: block; animation: bloom-spin var(--d) linear var(--dl) both; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .28)); }
-:root[data-theme="light"] .rp-bloom .fl b { filter: drop-shadow(0 2px 4px rgba(40, 60, 50, .14)); }
-.rp-bloom svg { display: block; width: 100%; height: 100%; }
-@keyframes bloom-x { 0% { transform: translate3d(-70px, 0, 0); opacity: 0; } 8% { opacity: var(--o); } 86% { opacity: var(--o); } 100% { transform: translate3d(calc(var(--w) + 20px), var(--rise), 0); opacity: 0; } }
-@keyframes bloom-bob { from { transform: translateY(calc(var(--amp) * -1)); } to { transform: translateY(var(--amp)); } }
-@keyframes bloom-spin { from { transform: rotate(0deg); } to { transform: rotate(var(--spin)); } }
+.rp-bloom .fl { position: absolute; top: -48px; opacity: 0; will-change: transform, opacity; animation: sakura-fall var(--d) cubic-bezier(.37, .12, .52, .94) var(--dl) forwards; }
+.rp-bloom .fl i { display: block; perspective: 160px; animation: sakura-sway var(--b) ease-in-out infinite alternate; }
+.rp-bloom .fl b { display: block; transform-style: preserve-3d; filter: blur(var(--blur, 0)) drop-shadow(0 3px 5px rgba(0, 0, 0, .22)); animation: sakura-tumble var(--t) ease-in-out infinite alternate; }
+:root[data-theme="light"] .rp-bloom .fl b { filter: blur(var(--blur, 0)) drop-shadow(0 2px 4px rgba(160, 60, 100, .16)); }
+.rp-bloom .fl svg { display: block; width: 100%; height: 100%; animation: sakura-spin var(--d) linear var(--dl) both; }
+@keyframes sakura-fall { 0% { transform: translate3d(0, 0, 0); opacity: 0; } 9% { opacity: var(--o); } 84% { opacity: var(--o); } 100% { transform: translate3d(var(--tx), var(--ty), 0); opacity: 0; } }
+@keyframes sakura-sway { from { transform: translateX(calc(var(--amp) * -1)); } to { transform: translateX(var(--amp)); } }
+@keyframes sakura-tumble { 0% { transform: rotateX(0deg) rotateY(-25deg); } 50% { transform: rotateX(62deg) rotateY(18deg); } 100% { transform: rotateX(-34deg) rotateY(48deg); } }
+@keyframes sakura-spin { from { transform: rotate(0deg); } to { transform: rotate(var(--spin)); } }
 /* Inhalte tauchen weich auf */
 html.calm-enter .rp > * { animation: calm-content 900ms cubic-bezier(.2, .7, .2, 1) backwards; }
 html.calm-enter .rp > :nth-child(2) { animation-delay: 90ms; }
@@ -1466,10 +1467,10 @@ html.calm-enter .rp > :nth-child(3) { animation-delay: 180ms; }
 .rp-ambient { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; opacity: 0; animation: calm-fade-in 1600ms ease 300ms forwards; }
 .rp-ambient i { position: absolute; border-radius: 50%; will-change: transform; }
 .rp-ambient i:nth-child(1) { width: 56vmax; height: 56vmax; left: -6vmax; top: -20vmax; background: radial-gradient(circle, rgba(92, 184, 255, .26), transparent 62%); animation: calm-drift-a 28s ease-in-out infinite alternate; }
-.rp-ambient i:nth-child(2) { width: 50vmax; height: 50vmax; right: -14vmax; bottom: -22vmax; background: radial-gradient(circle, rgba(52, 214, 176, .17), transparent 62%); animation: calm-drift-b 34s ease-in-out infinite alternate; }
+.rp-ambient i:nth-child(2) { width: 50vmax; height: 50vmax; right: -14vmax; bottom: -22vmax; background: radial-gradient(circle, rgba(255, 160, 196, .15), transparent 62%); animation: calm-drift-b 34s ease-in-out infinite alternate; }
 .rp-ambient i:nth-child(3) { width: 38vmax; height: 38vmax; left: 36%; top: 22%; background: radial-gradient(circle, rgba(139, 124, 246, .16), transparent 62%); animation: calm-breathe 10s ease-in-out infinite; }
 :root[data-theme="light"] .rp-ambient i:nth-child(1) { background: radial-gradient(circle, rgba(42, 111, 184, .16), transparent 62%); }
-:root[data-theme="light"] .rp-ambient i:nth-child(2) { background: radial-gradient(circle, rgba(15, 184, 160, .13), transparent 62%); }
+:root[data-theme="light"] .rp-ambient i:nth-child(2) { background: radial-gradient(circle, rgba(226, 110, 156, .12), transparent 62%); }
 :root[data-theme="light"] .rp-ambient i:nth-child(3) { background: radial-gradient(circle, rgba(107, 91, 214, .12), transparent 62%); }
 @keyframes calm-fade-in { to { opacity: 1; } }
 @keyframes calm-drift-a { to { transform: translate3d(8vw, 6vh, 0) scale(1.1); } }

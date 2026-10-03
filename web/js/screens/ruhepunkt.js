@@ -852,10 +852,68 @@ function setFaith(v) {
   syncFaithUI();
   if (mode === 'step') renderStep();
 }
-/* ---------- Ruhiger Raum: beim Betreten schweben Kirschblütenblätter durch den Ruhepunkt-Bereich, danach treiben ruhige Farbflächen hinter den Inhalten ----------
-   Wenige Blätter, langsam, schräg wie vom Wind getragen; jedes kippt und dreht sich beim Fallen. Nur im Inhaltsbereich (unter der Kopfzeile,
-   neben der Seitenleiste), Klicks gehen durch; bei reduzierter Bewegung keine Blätter */
-var calmHere = false, bloomLayer = null, bloomTimer = null, calmEnterTimer = null;
+/* ---------- Ruhiger Raum: beim Betreten wächst links ein Kirschbaum (erst die Wurzeln, dann Stamm und Äste), blüht auf und wirft seine
+   Blütenblätter ab, die schräg durch den Bereich schweben. Der Baum steht hinter den Inhalten und bleibt danach leise stehen.
+   Nur im Ruhepunkt-Bereich, Klicks gehen durch; bei reduzierter Bewegung steht der Baum fertig da, ohne fallende Blätter ---------- */
+var calmHere = false, bloomLayer = null, bloomTimer = null, calmEnterTimer = null, treeEl = null, treeTimers = [];
+var TREE_SEED = 42, TREE_PACE = 1.25; /* Form des Baums (fester Zufall, immer gleich schön) und Tempo des Wachsens */
+function treeRng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function buildTree(seed) {
+  var R = treeRng(seed), segs = [], tips = [], roots = [], f = function (n) { return n.toFixed(1); };
+  function seg(list, x, y, ang, len, w, t0, bendK) {
+    var a = ang * Math.PI / 180, x2 = x + Math.cos(a) * len, y2 = y - Math.sin(a) * len, bd = (R() - 0.5) * len * bendK;
+    var mx = (x + x2) / 2 - Math.sin(a) * bd, my = (y + y2) / 2 - Math.cos(a) * bd, dur = 0.2 + len / 300;
+    list.push({ d: 'M' + f(x) + ' ' + f(y) + 'Q' + f(mx) + ' ' + f(my) + ' ' + f(x2) + ' ' + f(y2), w: w, t: t0, dur: dur });
+    return { x: x2, y: y2, end: t0 + dur * 0.8 };
+  }
+  function grow(x, y, ang, len, w, depth, t0) {
+    var e = seg(segs, x, y, ang, len, w, t0, 0.3);
+    if (depth >= 5) { tips.push({ x: e.x, y: e.y, t: e.end }); return; }
+    if (depth >= 3) tips.push({ x: e.x, y: e.y, t: e.end });
+    var n = depth < 1 ? 2 : (R() < 0.38 ? 3 : 2);
+    for (var i = 0; i < n; i++) {
+      var spread = n === 2 ? (i ? 1 : -1) * (14 + R() * 16) : (i - 1) * (22 + R() * 10);
+      grow(e.x, e.y, ang + spread - 3 + (R() - 0.5) * 8, len * (0.7 + R() * 0.12), Math.max(1.3, w * 0.64), depth + 1, e.end);
+    }
+  }
+  /* zuerst die Wurzeln, flach zur Seite in den Boden, dann der Stamm */
+  [[192, 46, 5.5], [208, 30, 4], [236, 18, 3.5], [306, 20, 3.5], [334, 34, 4.5], [350, 50, 5]].forEach(function (r, i) {
+    var e = seg(roots, 0, 0, r[0], r[1], r[2], 0.05 + i * 0.07, 0.5);
+    seg(roots, e.x, e.y, r[0] + (R() - 0.5) * 30, r[1] * 0.55, Math.max(1.2, r[2] * 0.5), 0.35 + i * 0.07, 0.6);
+  });
+  grow(0, 0, 87, 150, 15, 0, 0.6);
+  var xs = [], ys = []; segs.concat(roots).forEach(function (sg) { var v = sg.d.match(/-?[\d.]+/g); for (var k = 0; k < v.length; k += 2) { xs.push(+v[k]); ys.push(+v[k + 1]); } });
+  tips.forEach(function (t) { xs.push(t.x - 22, t.x + 22); ys.push(t.y - 22); });
+  var box = { x: Math.min.apply(null, xs) - 6, y: Math.min.apply(null, ys) - 6 }; box.w = Math.max.apply(null, xs) + 6 - box.x; box.h = Math.max.apply(null, ys) + 6 - box.y;
+  return { segs: segs, tips: tips, roots: roots, box: box, rnd: R };
+}
+var TREE_DEFS = '<defs>' +
+  '<radialGradient id="rp-tr-glow"><stop offset="0" stop-color="#ffc2d6" stop-opacity=".5"/><stop offset="1" stop-color="#ffc2d6" stop-opacity="0"/></radialGradient>' +
+  '<radialGradient id="rp-tr-pa" cx=".5" cy=".85" r=".9"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#ffd6e3"/><stop offset="1" stop-color="#f6a3bf"/></radialGradient>' +
+  '<radialGradient id="rp-tr-pb" cx=".5" cy=".85" r=".9"><stop offset="0" stop-color="#fff4f8"/><stop offset=".6" stop-color="#ffc3d6"/><stop offset="1" stop-color="#ec8fb0"/></radialGradient>' +
+  ['a', 'b'].map(function (k) { var p = ''; for (var i = 0; i < 5; i++) p += '<path d="M10 9.6C7.4 8 6.6 4.6 8.4 2.2C9.1 1.4 9.8 1.9 10 2.6C10.2 1.9 10.9 1.4 11.6 2.2C13.4 4.6 12.6 8 10 9.6Z" transform="rotate(' + (i * 72) + ' 10 10)"/>'; return '<symbol id="rp-tr-fl' + k + '" viewBox="0 0 20 20"><g fill="url(#rp-tr-p' + k + ')">' + p + '</g><circle cx="10" cy="10" r="1.9" fill="#e7769c"/><circle cx="10" cy="10" r=".8" fill="#ffe08a"/></symbol>'; }).join('') +
+  '</defs>';
+function growTree(area) {
+  var T = buildTree(TREE_SEED), R = T.rnd, P = TREE_PACE, b = T.box;
+  var h = Math.max(260, Math.min(area.h * 0.56, 520)), w = h * b.w / b.h, k = h / b.h;
+  var out = '<svg viewBox="' + [b.x, b.y, b.w, b.h].map(function (v) { return v.toFixed(1); }).join(' ') + '" width="' + Math.round(w) + '" height="' + Math.round(h) + '">' + TREE_DEFS;
+  out += '<ellipse cx="0" cy="4" rx="70" ry="7" fill="#000" opacity=".22" class="gl" style="--s:0s"/>';
+  T.roots.concat(T.segs).forEach(function (sg) { out += '<path class="wd" pathLength="1" d="' + sg.d + '" stroke-width="' + sg.w.toFixed(1) + '" style="--s:' + (sg.t * P).toFixed(2) + 's;--g:' + (sg.dur * P).toFixed(2) + 's"/>'; });
+  var blooms = [];
+  T.tips.forEach(function (tp, i) {
+    if (i % 2 === 0) out += '<circle class="gl" cx="' + tp.x.toFixed(1) + '" cy="' + tp.y.toFixed(1) + '" r="' + (26 + R() * 18).toFixed(1) + '" fill="url(#rp-tr-glow)" style="--s:' + ((tp.t + 0.1) * P).toFixed(2) + 's"/>';
+    for (var j = 0; j < 3; j++) {
+      var s = 8 + R() * 6, x = tp.x + (R() - 0.5) * 18, y = tp.y + (R() - 0.5) * 16, st = (tp.t + 0.1 + R() * 0.5) * P, shed = R() < 0.4;
+      blooms.push({ x: x, y: y, st: st });
+      out += '<g class="bl' + (shed ? ' shed' : '') + '" style="--s:' + st.toFixed(2) + 's' + (shed ? ';--sh:' + (st + 1.6 + R() * 7).toFixed(2) + 's' : '') + '"><use href="#rp-tr-fl' + (R() < 0.5 ? 'a' : 'b') + '" x="' + (x - s / 2).toFixed(1) + '" y="' + (y - s / 2).toFixed(1) + '" width="' + s.toFixed(1) + '" height="' + s.toFixed(1) + '" transform="rotate(' + Math.round(R() * 72) + ' ' + x.toFixed(1) + ' ' + y.toFixed(1) + ')"/></g>';
+    }
+  });
+  var el = document.createElement('div'); el.className = 'rp-tree'; el.setAttribute('aria-hidden', 'true'); el.style.width = Math.round(w) + 'px'; el.style.height = Math.round(h) + 'px';
+  el.innerHTML = out + '</svg>'; document.body.appendChild(el);
+  /* Bildschirm-Lage der Blüten für die fallenden Blätter */
+  var r = el.getBoundingClientRect();
+  return { el: el, blooms: blooms.map(function (bl) { return { x: r.left + (bl.x - b.x) * k, y: r.top + (bl.y - b.y) * k, st: bl.st }; }), done: Math.max.apply(null, blooms.map(function (bl) { return bl.st; })) + 0.6 };
+}
 var SAKURA_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>' +
   '<linearGradient id="rp-sk-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2f6"/><stop offset=".55" stop-color="#ffd0df"/><stop offset="1" stop-color="#f7a8c2"/></linearGradient>' +
   '<linearGradient id="rp-sk-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#ffe3ec"/><stop offset="1" stop-color="#fbbcd0"/></linearGradient>' +
@@ -863,22 +921,25 @@ var SAKURA_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidd
 /* Blütenblatt mit der typischen Kerbe oben, unten spitz zulaufend */
 function sakuraSVG(g) { return '<svg viewBox="0 0 30 30"><path d="M15 28.5C6.5 23 3 13.5 7.5 5.6C9.6 2.2 13.2 2.6 15 6.4C16.8 2.6 20.4 2.2 22.5 5.6C27 13.5 23.5 23 15 28.5Z" fill="url(#rp-sk-' + g + ')"/><path d="M15 9.5V24" stroke="#ffffff" stroke-opacity=".45" stroke-width=".9" stroke-linecap="round"/></svg>'; }
 function bloom() {
-  if (reducedMotion) return;
   var main = document.getElementById('main'), bar = document.querySelector('.topbar'); if (!main) return;
   var r = main.getBoundingClientRect(), top = Math.max(0, bar ? bar.getBoundingClientRect().bottom : r.top), w = r.width, h = window.innerHeight - top; if (w < 40 || h < 40) return;
+  var tree = growTree({ w: w, h: h }); treeEl = tree.el;
+  if (reducedMotion) { tree.el.classList.add('rest'); return; }
+  treeTimers.push(setTimeout(function () { if (treeEl === tree.el) tree.el.classList.add('rest'); }, (tree.done + 13) * 1000));
+  /* fallende Blätter: lösen sich von den Blüten, sobald der Baum voll blüht, und schweben schräg nach rechts unten */
   var layer = document.createElement('div'); layer.className = 'rp-bloom'; layer.setAttribute('aria-hidden', 'true');
   layer.style.cssText = 'left:' + r.left + 'px;top:' + top + 'px;width:' + w + 'px;height:' + h + 'px';
-  var out = SAKURA_DEFS, n = w < 600 ? 10 : 15, rnd = Math.random;
+  var out = SAKURA_DEFS, n = w < 600 ? 10 : 18, rnd = Math.random, last = 0;
   for (var i = 0; i < n; i++) {
-    var size = 15 + rnd() * 18, near = (size - 15) / 18; /* größere Blätter sind näher: kräftiger und etwas schneller, kleine leicht unscharf */
-    var x = -0.08 * w + rnd() * 0.72 * w, dur = 10.4 - near * 2.4 + rnd() * 1.2, delay = i * (3.6 / n) + rnd() * 0.5;
-    var tx = Math.round(0.28 * w + rnd() * 0.3 * w + 80), ty = Math.round(h + 90);
-    out += '<span class="fl" style="left:' + Math.round(x) + 'px;--tx:' + tx + 'px;--ty:' + ty + 'px;--d:' + dur.toFixed(2) + 's;--dl:' + delay.toFixed(2) + 's;--o:' + (0.6 + near * 0.38).toFixed(2) + (near < 0.3 ? ';--blur:1px' : '') + '">' +
-      '<i style="--b:' + (2.6 + rnd() * 1.6).toFixed(2) + 's;--amp:' + Math.round(14 + rnd() * 22) + 'px"><b style="width:' + Math.round(size) + 'px;height:' + Math.round(size) + 'px;--t:' + (1.8 + rnd() * 1.6).toFixed(2) + 's;--spin:' + Math.round((rnd() < 0.5 ? -1 : 1) * (160 + rnd() * 220)) + 'deg">' +
+    var from = tree.blooms[Math.floor(rnd() * tree.blooms.length)], size = 14 + rnd() * 16, near = (size - 14) / 16;
+    var x = from.x - r.left - size / 2, y = from.y - top - size / 2, dur = 9.6 - near * 2.2 + rnd() * 1.4, delay = tree.done + 0.3 + i * (5.5 / n) + rnd() * 0.6;
+    var tx = Math.round(0.25 * w + rnd() * 0.3 * w + 60), ty = Math.round(h - y + 70); last = Math.max(last, delay + dur);
+    out += '<span class="fl" style="left:' + Math.round(x) + 'px;top:' + Math.round(y) + 'px;--tx:' + tx + 'px;--ty:' + ty + 'px;--d:' + dur.toFixed(2) + 's;--dl:' + delay.toFixed(2) + 's;--o:' + (0.65 + near * 0.33).toFixed(2) + (near < 0.3 ? ';--blur:1px' : '') + '">' +
+      '<i style="--b:' + (2.6 + rnd() * 1.6).toFixed(2) + 's;--amp:' + Math.round(12 + rnd() * 20) + 'px"><b style="width:' + Math.round(size) + 'px;height:' + Math.round(size) + 'px;--t:' + (1.8 + rnd() * 1.6).toFixed(2) + 's;--spin:' + Math.round((rnd() < 0.5 ? -1 : 1) * (160 + rnd() * 220)) + 'deg">' +
       sakuraSVG('abc'.charAt(i % 3)) + '</b></i></span>';
   }
   layer.innerHTML = out; document.body.appendChild(layer); bloomLayer = layer;
-  clearTimeout(bloomTimer); bloomTimer = setTimeout(function () { layer.remove(); if (bloomLayer === layer) bloomLayer = null; }, 16000);
+  clearTimeout(bloomTimer); bloomTimer = setTimeout(function () { layer.remove(); if (bloomLayer === layer) bloomLayer = null; }, (last + 1) * 1000);
 }
 function calmEnter() {
   var html = document.documentElement; html.classList.add('calm');
@@ -890,6 +951,7 @@ function calmEnter() {
 function calmLeave() {
   calmHere = false; clearTimeout(calmEnterTimer); clearTimeout(bloomTimer); document.documentElement.classList.remove('calm', 'calm-enter');
   if (bloomLayer) { bloomLayer.remove(); bloomLayer = null; }
+  if (treeEl) { treeEl.remove(); treeEl = null; } treeTimers.forEach(clearTimeout); treeTimers = [];
   var amb = document.querySelector('.rp-ambient'); if (amb) amb.remove();
 }
 App.screens.ruhepunkt = {

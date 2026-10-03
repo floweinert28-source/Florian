@@ -64,11 +64,21 @@
     return vars ? out.replace(/\{(\d+)\}/g, (_, i) => (vars[i] != null ? vars[i] : '')) : out;
   }
 
+  /* schon übersetzte Texte merken: eine Übersetzung kann zufällig wie ein anderer deutscher Text lauten
+     (z. B. spanisch „Bilanz“ → „Balance“) und darf beim erneuten Durchgehen nicht noch einmal übersetzt werden */
+  const doneText = new WeakMap(), doneAttr = new WeakMap();
   function textNode(n) {
-    const v = n.nodeValue; const hit = lookup(v); if (hit == null || hit === norm(v)) return;
-    n.nodeValue = v.match(/^\s*/)[0] + hit + v.match(/\s*$/)[0];
+    const v = n.nodeValue; if (doneText.get(n) === v) return;
+    const hit = lookup(v); if (hit == null || hit === norm(v)) return;
+    const out = v.match(/^\s*/)[0] + hit + v.match(/\s*$/)[0]; n.nodeValue = out; doneText.set(n, out);
   }
-  function attrs(el) { ATTRS.forEach(a => { const v = el.getAttribute(a); if (v) { const hit = lookup(v); if (hit != null && hit !== v) el.setAttribute(a, hit); } }); }
+  function attrs(el) {
+    ATTRS.forEach(a => {
+      const v = el.getAttribute(a); if (!v) return; const d = doneAttr.get(el); if (d && d[a] === v) return;
+      const hit = lookup(v); if (hit == null || hit === v) return;
+      el.setAttribute(a, hit); if (d) d[a] = hit; else doneAttr.set(el, { [a]: hit });
+    });
+  }
   function walk(node) {
     if (node.nodeType === 3) { const p = node.parentElement; if (p && !p.closest(SKIP)) textNode(node); return; }
     if (node.nodeType !== 1) return;

@@ -876,7 +876,7 @@ I18N.add('hi', {
   "Eröffnungsrange": "ओपनिंग रेंज",
   "Nur mit vollständigem Plan handeln": "केवल पूरे प्लान के साथ ट्रेड करें",
   "Stop niemals verschieben": "स्टॉप कभी न खिसकाएँ",
-  "Maximal 1 % Risiko pro Trade": "प्रति ट्रेड अधिकतम 1% जोखिम",
+  "Maximal 1 % Risiko pro Trade": "प्रति ट्रेड अधिकतम 1% रिस्क",
   "Nach zwei Verlusten in Folge Pause machen": "लगातार दो लॉस के बाद ब्रेक लें",
   "Keine Trades in den ersten fünf Minuten": "पहले पाँच मिनट में कोई ट्रेड नहीं",
 });

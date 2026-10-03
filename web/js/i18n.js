@@ -5,12 +5,13 @@
 (function (root) {
   'use strict';
   const LANGS = [
-    { code: 'de', label: 'Deutsch', name: 'Deutsch', locale: 'de-DE', html: 'de' },
-    { code: 'en', label: 'English', name: 'Englisch', locale: 'en-US', html: 'en' },
-    { code: 'es', label: 'Español', name: 'Spanisch', locale: 'es-ES', html: 'es' },
-    { code: 'zh', label: '中文（简体）', name: 'Chinesisch', locale: 'zh-CN', html: 'zh-Hans' },
-    { code: 'hi', label: 'हिन्दी', name: 'Hindi', locale: 'hi-IN', html: 'hi' },
-    { code: 'pt', label: 'Português', name: 'Portugiesisch', locale: 'pt-BR', html: 'pt-BR' },
+    /* currency: Währung, auf die beim Sprachwechsel umgestellt wird */
+    { code: 'de', label: 'Deutsch', name: 'Deutsch', locale: 'de-DE', html: 'de', currency: 'EUR' },
+    { code: 'en', label: 'English', name: 'Englisch', locale: 'en-US', html: 'en', currency: 'USD' },
+    { code: 'es', label: 'Español', name: 'Spanisch', locale: 'es-ES', html: 'es', currency: 'EUR' },
+    { code: 'zh', label: '中文（简体）', name: 'Chinesisch', locale: 'zh-CN', html: 'zh-Hans', currency: 'CNY' },
+    { code: 'hi', label: 'हिन्दी', name: 'Hindi', locale: 'hi-IN', html: 'hi', currency: 'INR' },
+    { code: 'pt', label: 'Português', name: 'Portugiesisch', locale: 'pt-BR', html: 'pt-BR', currency: 'BRL' },
   ];
   const DICTS = {};
   const SKIP = 'script,style,code,pre,textarea,input,.ql-editor,[contenteditable="true"],.no-i18n';

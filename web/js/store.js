@@ -92,6 +92,13 @@
     onChange(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); },
     get settings() { return this.data.settings; },
     setSetting(k, v) { this.data.settings[k] = v; this.save(); },
+    /* Sprache wechseln: die Währung zieht mit (Standardwährung und Konten, die bisher die Standardwährung hatten);
+       Konten mit einer eigenen, abweichenden Währung bleiben. Gibt true zurück, wenn sich die Währung geändert hat */
+    setLanguage(code, currency) {
+      const st = this.data.settings; const changedLang = st.language !== code; st.language = code; const old = st.currency; let changed = false;
+      if (changedLang && currency && currency !== old) { st.currency = currency; (this.data.accounts || []).forEach(a => { if (!a.currency || a.currency === old) a.currency = currency; }); changed = true; }
+      this.save(); return changed;
+    },
 
     /* Protokoll (Verlauf) und Import-Verlauf */
     /* Nutzerkennung für Einträge: Benutzername, sonst E-Mail oder Name; später durch eine Konto-ID ersetzbar */

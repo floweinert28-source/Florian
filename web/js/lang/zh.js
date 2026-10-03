@@ -881,4 +881,7 @@ I18N.add('zh', {
   "Keine Trades in den ersten fünf Minuten": "开盘前五分钟不交易",
   "Hauptkonto": "主账户",
   "Betrag ({0})": "金额 ({0})",
+  "Sprache der Oberfläche. Beim Wechsel stellt sich die Währung passend mit um; ändern kannst du sie jederzeit unter Profil. Zahlen und Daten erscheinen im Format der Sprache.": "界面语言。切换语言时，货币会自动随之调整；你可以随时在“个人资料”中更改货币。数字和日期按该语言的格式显示。",
+  "Währung: {0}": "货币：{0}",
+  "Alle Konten": "全部账户",
 });

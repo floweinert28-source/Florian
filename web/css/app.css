@@ -1317,6 +1317,9 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .lang-card:hover { border-color: var(--accent); }
 .lang-card b { font-size: 16px; font-weight: 700; }
 .lang-card small { font-size: 12px; color: var(--muted); }
+.lang-card { position: relative; }
+.lang-card .lang-cur { position: absolute; top: 12px; right: 12px; padding: 1px 7px; border-radius: 999px; font: 600 11px/1.6 var(--font-num); color: var(--muted); background: var(--surface-3); }
+.lang-card[aria-pressed="true"] .lang-cur { color: var(--accent); background: transparent; box-shadow: inset 0 0 0 1px var(--accent); }
 .lang-card[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-soft); }
 .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
 .font-card { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-2); background: var(--surface-2); color: var(--text); cursor: pointer; text-align: left; }

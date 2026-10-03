@@ -816,4 +816,7 @@ I18N.add('en', {
   "Keine Trades in den ersten fünf Minuten": "No trades in the first five minutes",
   "Hauptkonto": "Main account",
   "Betrag ({0})": "Amount ({0})",
+  "Sprache der Oberfläche. Beim Wechsel stellt sich die Währung passend mit um; ändern kannst du sie jederzeit unter Profil. Zahlen und Daten erscheinen im Format der Sprache.": "Interface language. Switching it also sets the matching currency; you can change the currency anytime under Profile. Numbers and dates use the format of the language.",
+  "Währung: {0}": "Currency: {0}",
+  "Alle Konten": "All accounts",
 });

@@ -28,8 +28,8 @@
   /* Sprachen aus i18n.js; der eigene Name jeder Sprache bleibt unübersetzt (no-i18n), darunter der Name in der gewählten Sprache */
   function sprache() {
     const L = root.I18N; const curL = L ? L.lang() : 'de';
-    const cards = (L ? L.LANGS : []).map(x => `<button type="button" class="lang-card" data-action="lang-set" data-value="${x.code}" aria-pressed="${curL === x.code}"><b class="no-i18n" lang="${x.html}">${esc(x.label)}</b><small>${esc(x.name)}</small></button>`).join('');
-    return head('Sprache', 'Sprache der Oberfläche. Zahlen, Währungen und Daten werden im Format der Sprache angezeigt.') + `<div class="set-block"><div class="lang-grid">${cards}</div>
+    const cards = (L ? L.LANGS : []).map(x => `<button type="button" class="lang-card" data-action="lang-set" data-value="${x.code}" aria-pressed="${curL === x.code}"><b class="no-i18n" lang="${x.html}">${esc(x.label)}</b><small>${esc(x.name)}</small><span class="lang-cur no-i18n">${esc(x.currency || '')}</span></button>`).join('');
+    return head('Sprache', 'Sprache der Oberfläche. Beim Wechsel stellt sich die Währung passend mit um; ändern kannst du sie jederzeit unter Profil. Zahlen und Daten erscheinen im Format der Sprache.') + `<div class="set-block"><div class="lang-grid">${cards}</div>
       <p class="small muted" style="margin-top:14px;max-width:640px">Die Übersetzung kommt in Etappen: Bereiche, die noch nicht übersetzt sind, bleiben vorerst deutsch. Deine eigenen Einträge wie Notizen, Setups und Tags werden nicht übersetzt.</p></div>`;
   }
 
@@ -213,7 +213,12 @@
     'faith-toggle'() { S.setSetting('christlicherImpuls', !(S.settings.christlicherImpuls !== false)); rerender(); },
     'save-privacy'(form) { const fd = new FormData(form); S.setSetting('privacy', { support: fd.get('support') === 'on' }); U.toast('Gespeichert', 'ok'); },
     twofa() { U.modal(`<div class="modal-head"><h2>Zwei-Faktor-Authentifizierung</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">2FA schützt eine Anmeldung. Da dein Journal derzeit ohne Benutzerkonto läuft und alle Daten lokal in diesem Browser liegen, gibt es noch nichts abzusichern. Der Schalter wird aktiv, sobald Konten mit Anmeldung verfügbar sind.</p><div class="modal-foot"><button type="button" class="btn primary" data-close>Verstanden</button></div>`, { cls: 'narrow' }); },
-    'lang-set'(el) { S.setSetting('language', el.dataset.value); if (root.I18N) root.I18N.setLang(el.dataset.value); App.render({ enter: false }); },
+    /* Sprache wechseln: Währung zieht mit (Store.setLanguage); ein Wechsel der Währung unter Profil ändert die Sprache nicht */
+    'lang-set'(el) {
+      const code = el.dataset.value; const L = root.I18N && root.I18N.LANGS.find(x => x.code === code);
+      const changed = S.setLanguage(code, L && L.currency); if (root.I18N) root.I18N.setLang(code); App.render({ enter: false });
+      if (changed) { const c = fmt.currencies().find(x => x.code === S.settings.currency); U.toast(`Währung: ${c ? c.label : S.settings.currency}`, 'ok'); }
+    },
     'font-set'(el) { S.setSetting('font', el.dataset.value); root.Theme.apply(S.settings); rerender(); },
     'color-preset'(el) { setColors({ [el.dataset.key]: el.dataset.value }); rerender(); },
     'color-pair'(el) { setColors({ profit: el.dataset.profit, loss: el.dataset.loss }); rerender(); },

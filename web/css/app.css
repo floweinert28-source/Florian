@@ -1155,8 +1155,9 @@ span.info:hover { color: var(--accent); }
 .side-panel .nb-search .q { max-width: none; flex: 1 1 auto; }
 .side-panel .sp-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; }
 .sp-item { display: flex; align-items: center; gap: 14px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); }
-.sp-item .pv { flex: 0 0 auto; width: 124px; height: 80px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); display: grid; place-items: center; overflow: hidden; }
-.sp-item .pv svg.wpv { width: 120px; height: 76px; display: block; }
+.sp-item .pv { flex: 0 0 auto; width: 144px; height: 92px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); display: grid; place-items: center; overflow: hidden; }
+.sp-item .pv svg.wpv { width: 140px; height: 88px; display: block; }
+.wpv text { font-family: var(--font); } .wpv text.n { font-family: var(--font-num); } /* Miniaturen: Beschriftungen in der App-Schrift, Zahlen in der Zahlenschrift */
 .sp-item b { display: block; font-size: 13.5px; margin-bottom: 2px; }
 .sp-item .small { display: block; line-height: 1.4; }
 .sp-item .btn { flex: 0 0 auto; }
@@ -1330,8 +1331,8 @@ span.info:hover { color: var(--accent); }
   .edit-bar { top: 4px; }
   .side-panel { width: 100%; padding: 16px; }
   .sp-item { flex-wrap: wrap; }
-  .sp-item .pv { width: 96px; height: 62px; }
-  .sp-item .pv svg, .sp-item .pv svg.wpv { width: 94px; height: 60px; }
+  .sp-item .pv { width: 104px; height: 66px; }
+  .sp-item .pv svg, .sp-item .pv svg.wpv { width: 100px; height: 63px; }
   .cal.ext { grid-template-columns: repeat(7, minmax(0, 1fr)) 64px; }
   .cal .w .days { display: none; } .cal .w .t { font-size: 10px; } .cal .w .p { font-size: 11px; }
   .check-grid { grid-template-columns: 1fr; }

@@ -51,9 +51,14 @@
         e.preventDefault(); e.stopPropagation();
         const full = node.getBoundingClientRect().width || 1, startW = fig.getBoundingClientRect().width, startX = e.clientX;
         node.classList.add('resizing'); try { handle.setPointerCapture(e.pointerId); } catch (x) { /* ohne Zeiger-Bindung */ }
-        const move = ev => { let p = (startW + ev.clientX - startX) / full * 100; p = Math.max(10, Math.min(100, p)); for (const sn of FIG_SNAP) if (Math.abs(p - sn) < 1.6) p = sn; fig.style.width = (Math.round(p * 10) / 10) + '%'; badge.hidden = false; badge.textContent = Math.round(p) + ' %'; };
-        const up = () => { handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', up); handle.removeEventListener('pointercancel', up); node.classList.remove('resizing'); badge.hidden = true; markBar(); dirty(node); };
-        handle.addEventListener('pointermove', move); handle.addEventListener('pointerup', up); handle.addEventListener('pointercancel', up);
+        /* Ende sicher erkennen: Loslassen irgendwo im Fenster, verlorene Zeiger-Bindung, Fensterwechsel oder Bewegung ohne gedrückte Taste
+           (im eingebetteten Chat-Rahmen kommt das Loslassen sonst nicht immer am Griff an und der Rahmen bliebe stehen) */
+        const move = ev => { if (ev.buttons === 0) { end(); return; } let p = (startW + ev.clientX - startX) / full * 100; p = Math.max(10, Math.min(100, p)); for (const sn of FIG_SNAP) if (Math.abs(p - sn) < 1.6) p = sn; fig.style.width = (Math.round(p * 10) / 10) + '%'; badge.hidden = false; badge.textContent = Math.round(p) + ' %'; };
+        const end = () => {
+          window.removeEventListener('pointermove', move, true); window.removeEventListener('pointerup', end, true); window.removeEventListener('pointercancel', end, true); window.removeEventListener('blur', end); handle.removeEventListener('lostpointercapture', end);
+          if (!node.classList.contains('resizing')) return; node.classList.remove('resizing'); badge.hidden = true; markBar(); dirty(node);
+        };
+        window.addEventListener('pointermove', move, true); window.addEventListener('pointerup', end, true); window.addEventListener('pointercancel', end, true); window.addEventListener('blur', end); handle.addEventListener('lostpointercapture', end);
       });
       return node;
     }

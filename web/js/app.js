@@ -61,13 +61,13 @@
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
       M.scan(main.querySelector('#content'), enter);
       this.renderSidebar();
-      U.drawCharts(main); const imgs = this.loadBlobImages(main); if (keep) this.restoreScroll(main, keep); if (screen.mount) screen.mount(main, ctx);
+      U.drawCharts(main); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
       window.scrollTo({ top: keep ? keep.y : 0 });
-      if (hold) this.releaseHeight(main, imgs, tok);
+      if (hold) this.releaseHeight(main, imgs, tok, short);
     },
     /* gehaltene Höhe freigeben, sobald alle Bilder da sind (höchstens 2 s); ein neuerer Aufbau übernimmt das Halten */
-    releaseHeight(main, imgs, tok) {
-      const done = () => { if (this._holdTok === tok) main.style.minHeight = ''; };
+    releaseHeight(main, imgs, tok, short) {
+      const done = () => { if (this._holdTok !== tok) return; this.catchUpScroll(short); main.style.minHeight = ''; };
       Promise.resolve(imgs).catch(() => {}).then(() => Promise.race([
         Promise.all([...main.querySelectorAll('img')].filter(i => !i.complete).map(i => new Promise(r => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); }))),
         new Promise(r => setTimeout(r, 2000)),
@@ -90,11 +90,18 @@
       return { y: window.scrollY, areas };
     },
     restoreScroll(box, keep) {
+      const short = [];
       for (const a of keep.areas) {
         let el = box;
         for (const p of a.path) { if (!el) break; el = p.id ? box.querySelector('#' + CSS.escape(p.id)) : [...el.children].filter(k => k.tagName === p.tag && (k.classList[0] || '') === p.c)[p.i] || null; }
-        if (el && el !== box) { el.scrollTop = a.top; el.scrollLeft = a.left; el.dataset.scrollKept = '1'; }
+        if (el && el !== box) { el.scrollTop = a.top; el.scrollLeft = a.left; el.dataset.scrollKept = '1'; if (el.scrollTop < a.top - 1 || el.scrollLeft < a.left - 1) short.push({ el, a, t: el.scrollTop, l: el.scrollLeft }); }
       }
+      return short;
+    },
+    /* Bereiche, die beim Setzen noch zu kurz waren (der Notiz-Editor entsteht erst im mount, Bilder laden später), nachziehen –
+       nur wenn dort seitdem niemand gescrollt hat (auch mount nicht, z. B. Mentor-Verlauf ans Ende) */
+    catchUpScroll(short) {
+      for (const x of short) { if (!x.el.isConnected || x.el.scrollTop !== x.t || x.el.scrollLeft !== x.l) continue; x.el.scrollTop = x.a.top; x.el.scrollLeft = x.a.left; x.t = x.el.scrollTop; x.l = x.el.scrollLeft; }
     },
     /* Popover in seiner Box halten: ragt ein rechtsbündiges Menü links aus dem nächsten scrollenden Rahmen (z. B. der Notiz-Spalte), klappt es nach rechts auf */
     fitPopover(pop) {

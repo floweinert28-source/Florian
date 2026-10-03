@@ -103,7 +103,7 @@
     const nb = st(); const sel = C.parseDayKey(dateKey); const m = nb.pickMonth || new Date(sel.getFullYear(), sel.getMonth(), 1); nb.pickMonth = m;
     const first = new Date(m.getFullYear(), m.getMonth(), 1); const lead = (first.getDay() + 6) % 7; const start = new Date(first); start.setDate(first.getDate() - lead); const today = C.dayKey(new Date());
     let cells = ''; for (let i = 0; i < 42; i++) { const d = new Date(start); d.setDate(start.getDate() + i); const k = C.dayKey(d); cells += `<button type="button" class="dp ${d.getMonth() !== m.getMonth() ? 'out' : ''} ${k === dateKey ? 'sel' : ''} ${k === today ? 'today' : ''}" data-action="nb-date-pick" data-id="${n.id}" data-key="${k}">${d.getDate()}</button>`; }
-    return `<div class="datepick"><div class="row between"><button type="button" class="btn ghost icon sm" data-action="nb-date-nav" data-dir="-1" aria-label="Voriger Monat">${I.chevL}</button><b>${fmt.monthYear(m)}</b><button type="button" class="btn ghost icon sm" data-action="nb-date-nav" data-dir="1" aria-label="Nächster Monat">${I.chevR}</button></div><div class="grid7">${C.WEEKDAYS.map(w => `<span class="wd">${w}</span>`).join('')}${cells}</div></div>`;
+    return `<div class="datepick"><div class="row between"><button type="button" class="btn ghost icon sm" data-action="nb-date-nav" data-dir="-1" aria-label="Voriger Monat">${I.chevL}</button><b>${fmt.monthYear(m)}</b><button type="button" class="btn ghost icon sm" data-action="nb-date-nav" data-dir="1" aria-label="Nächster Monat">${I.chevR}</button></div><div class="grid7">${U.fmt.weekdays().map(w => `<span class="wd">${w}</span>`).join('')}${cells}</div></div>`;
   }
   function folderModal(f, colorOnly) {
     const cur = f || { name: '', color: FOLDER_COLORS[3] };

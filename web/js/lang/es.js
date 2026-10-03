@@ -846,4 +846,7 @@ I18N.add('es', {
   "Sprache der Oberfläche. Beim Wechsel stellt sich die Währung passend mit um; ändern kannst du sie jederzeit unter Profil. Zahlen und Daten erscheinen im Format der Sprache.": "Idioma de la interfaz. Al cambiarlo, la moneda se ajusta automáticamente; puedes cambiarla cuando quieras en Perfil. Los números y las fechas usan el formato del idioma.",
   "Währung: {0}": "Moneda: {0}",
   "Alle Konten": "Todas las cuentas",
+  "Ø Gewinn": "Ganancia media",
+  "Ø Verlust": "Pérdida media",
+  "Start- und Enddatum wählen": "Elige fecha de inicio y de fin",
 });

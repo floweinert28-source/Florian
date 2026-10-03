@@ -141,6 +141,8 @@
     dateFull(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'; },
     dateShort(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—'; },
     axisCur(v) { return fmt.cur(v, { compact: true }); },
+    /* kurze Wochentage ab Montag in der Sprache der Oberfläche (Deutsch: Mo, Di …) */
+    weekdays() { if (!root.I18N || root.I18N.lang() === 'de') return C.WEEKDAYS; const f = new Intl.DateTimeFormat(LOC(), { weekday: 'short' }); return [0, 1, 2, 3, 4, 5, 6].map(i => f.format(new Date(2024, 0, 1 + i)).replace(/\.$/, '')); },
     /* steht das Währungszeichen vor der Zahl? (Dollar ja, Euro nie) */
     symbolFirst(cc) { const s = fmt.cur(1, { money: true, compact: true, currency: cc }); return !/^\d/.test(s); },
     dateTime(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + fmt.time(d) : '—'; },
@@ -217,7 +219,7 @@
       ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
       <path d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
       <path d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
-      ${dots ? pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.cum)}" r="3" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
+      ${dots ? pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.cum)}" r="2.2" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
       ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].day)}</text>`).join('')}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].cum), i => { const p = pts[i]; return `<b>${fmt.weekdayLong(p.day)}</b><br>Tag: ${pnl(p.pnl)} · ${p.n} Trade${p.n === 1 ? '' : 's'}<br>Kumuliert: ${pnl(p.cum)}`; }, i => pts[i].cum >= 0 ? 'var(--profit)' : 'var(--loss)');

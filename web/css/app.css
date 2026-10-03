@@ -243,6 +243,44 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .popover hr { border: 0; border-top: 1px solid var(--border); margin: 6px 4px; }
 .popover .sec { font-size: 11px; color: var(--muted); padding: 8px 12px 4px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
 .popover .range-form { padding: 8px 10px 6px; display: grid; gap: 8px; }
+/* Zeitraum-Menü: links die festen Zeiträume, rechts „Benutzerdefiniert“ mit zwei Monaten nebeneinander */
+.popover.range-pop { display: grid; grid-template-columns: 168px auto; width: max-content; max-width: calc(100vw - 24px); padding: 0; }
+.range-pop .rr-presets { display: flex; flex-direction: column; gap: 2px; padding: 8px; border-right: 1px solid var(--border); }
+.range-pop .rr-cal { padding: 10px 16px 14px; min-width: 0; }
+.range-pop .rr-cal > .sec { padding: 2px 0 6px; }
+/* Pfeile in der Monatszeile: links nur am ersten, rechts nur am zweiten Monat (Handy: beide am einzigen Monat) */
+.rr-m-head { display: flex; align-items: center; justify-content: space-between; height: 30px; }
+.rr-months > .rr-m:first-child .rr-next, .rr-months > .rr-m:last-child .rr-prev { visibility: hidden; }
+.rr-nav { width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 8px; background: none; color: var(--text-2); cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.rr-nav:hover { background: var(--surface-2); color: var(--text); }
+.rr-nav svg { width: 17px; height: 17px; }
+.rr-months { display: grid; grid-template-columns: repeat(2, 252px); gap: 26px; }
+.rr-m-title { font-family: var(--font-display); font-size: 14.5px; font-weight: 600; }
+.rr-week, .rr-grid { display: grid; grid-template-columns: repeat(7, 36px); }
+.rr-week span { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .03em; color: var(--muted); padding: 6px 0 5px; }
+.rr-grid { row-gap: 2px; }
+.rr-day { height: 34px; padding: 0; border: 0; border-radius: 9px; background: none; color: var(--text); font-family: var(--font-num); font-size: 13px; font-weight: 500; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.rr-day.blank { cursor: default; }
+button.rr-day:hover { background: var(--surface-2); }
+.rr-day.today { color: var(--accent); font-weight: 700; }
+.rr-day.in, .rr-day.pv { background: var(--accent-soft); border-radius: 0; }
+.rr-day.pv-end { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.rr-day.start, .rr-day.end, button.rr-day.start:hover, button.rr-day.end:hover { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+button.rr-day.in:hover { background: var(--accent-soft); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.rr-day.start { border-radius: 9px 0 0 9px; } .rr-day.end { border-radius: 0 9px 9px 0; } .rr-day.start.end { border-radius: 9px; }
+.rr-range:not(:has(.rr-day.end)) .rr-day.start { border-radius: 9px; } /* nur Start gewählt: rund */
+.rr-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.rr-sum { font-size: 13px; color: var(--muted); min-width: 0; }
+.rr-sum b { color: var(--text); font-family: var(--font-num); font-weight: 600; }
+.rr-sum .rr-dash { margin: 0 8px; color: var(--muted); }
+.rr-btns { display: flex; gap: 8px; flex: 0 0 auto; }
+@media (max-width: 700px) {
+  .popover.range-pop { grid-template-columns: 1fr; width: min(320px, calc(100vw - 24px)); }
+  .range-pop .rr-presets { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--border); }
+  .range-pop .rr-presets .item { width: auto; }
+  .rr-months { grid-template-columns: 252px; justify-content: center; } .rr-months > .rr-m:nth-child(2) { display: none; } .rr-months > .rr-m:first-child .rr-next { visibility: visible; }
+  .rr-foot { flex-wrap: wrap; }
+}
 
 /* ---------- Kalender (datepicker.js): ersetzt das Aufklapp-Fenster des Browsers bei Datumsfeldern ---------- */
 @media (pointer: fine) {
@@ -961,13 +999,10 @@ span.info:hover { color: var(--accent); }
 .btn.icon-only { width: 40px; padding-left: 0; padding-right: 0; justify-content: center; }
 .btn.icon-only svg { margin: 0; }
 .vh { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.title-badge { display: inline-flex; align-items: center; gap: 8px; margin-left: 12px; padding: 4px 6px 4px 10px; border-radius: 999px; border: 1px solid var(--border-2); background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 600; white-space: nowrap; }
-.title-badge button { border: 0; background: var(--surface-2); color: var(--text-2); font: inherit; font-weight: 600; padding: 2px 8px; border-radius: 999px; cursor: pointer; }
-.title-badge button:hover { color: var(--text); background: var(--surface-3); }
 @media (max-width: 1320px) { .dash-head .tpl-name { display: none; } }
 /* Zwischen Tablet und großem Desktop: Konto und Filter nur als Symbol, damit die Kopfzeile in einer Reihe bleibt (Name steht im Tooltip/Menü) */
 @media (min-width: 961px) and (max-width: 1180px) { .dash-head [data-pop="account"] > span, .dash-head [data-pop="dfilter"] > span { display: none; } }
-@media (max-width: 560px) { .title-badge { display: none; } .dash-head > .row.dh-tools { margin-left: 0; width: 100%; } .dash-head > .row.dh-tools .tl { margin-left: auto; } .dash-head .dh-sep { display: none; } }
+@media (max-width: 560px) { .dash-head > .row.dh-tools { margin-left: 0; width: 100%; } .dash-head > .row.dh-tools .tl { margin-left: auto; } .dash-head .dh-sep { display: none; } }
 @media (max-width: 560px) { :root { --page-head-h: 115px; } }
 /* Kopfreihe ohne Werkzeuge rechts (Mentor) bleibt auch auf dem Handy einzeilig */
 .content:has(> .page-head.compact) { --page-head-h: 64px; }
@@ -1049,10 +1084,17 @@ span.info:hover { color: var(--accent); }
 .add-slot svg { width: 18px; height: 18px; }
 .add-slot:hover, .add-slot.over { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 .add-slot.big { min-height: 220px; }
+/* Lücke im Bearbeitungsmodus: gleiche Größe wie das entfernte Widget */
+.dash-top > .add-slot.gap { min-height: 118px; height: 100%; }
+.dash-main > .add-slot.gap { height: calc(var(--card-h) + 48px); }
+.dash-main > .add-slot.gap.sz-mittel { grid-column: span 2; } .dash-main > .add-slot.gap.sz-gross { grid-column: span 3; }
+.dash-main > .add-slot.gap.tall { grid-row: span 2; height: calc(var(--card-h) * 2 + 18px + 96px); }
+.dash-main > .add-slot.gap.flat { height: auto; min-height: 220px; }
 /* Widget-Bibliothek (Seitenpanel) */
 .panel-bg { position: fixed; inset: 0; z-index: 55; background: rgba(0, 0, 0, .45); backdrop-filter: blur(2px); }
 .side-panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 56; width: min(460px, 100%); background: var(--surface); border-left: 1px solid var(--border-2); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; padding: 20px 20px 16px; animation: slide-in var(--dur-3) var(--ease) backwards; }
 @keyframes slide-in { from { transform: translateX(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+.side-panel.settled { animation: none; } /* nach dem Öffnen nicht erneut hereingleiten (Widget hinzufügen) */
 .side-panel .sp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 .side-panel .sp-head h2 { font-size: 19px; }
 .side-panel .nb-search .q { max-width: none; flex: 1 1 auto; }
@@ -1219,6 +1261,7 @@ span.info:hover { color: var(--accent); }
   .dash-main, .dash-main.editing { grid-template-columns: 1fr; }
   .dash-main > .w, .dash-main > .skel, .dash-main > .w.tall, .dash-main.editing > .w, .dash-main.editing > .w.tall { grid-column: auto !important; grid-row: auto !important; height: auto; }
   .dash-main .w-body > .card { height: auto; }
+  .dash-main > .add-slot.gap { grid-column: auto !important; grid-row: auto !important; height: 160px; }
   .dash-main .cal .d { min-height: 56px; }
   .dash-main .skel { height: 340px; }
   .w-bar .handle { display: none; }

@@ -884,4 +884,7 @@ I18N.add('zh', {
   "Sprache der Oberfläche. Beim Wechsel stellt sich die Währung passend mit um; ändern kannst du sie jederzeit unter Profil. Zahlen und Daten erscheinen im Format der Sprache.": "界面语言。切换语言时，货币会自动随之调整；你可以随时在“个人资料”中更改货币。数字和日期按该语言的格式显示。",
   "Währung: {0}": "货币：{0}",
   "Alle Konten": "全部账户",
+  "Ø Gewinn": "平均盈利",
+  "Ø Verlust": "平均亏损",
+  "Start- und Enddatum wählen": "选择开始和结束日期",
 });

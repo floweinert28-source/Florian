@@ -884,4 +884,7 @@ I18N.add('hi', {
   "Sprache der Oberfläche. Beim Wechsel stellt sich die Währung passend mit um; ändern kannst du sie jederzeit unter Profil. Zahlen und Daten erscheinen im Format der Sprache.": "इंटरफ़ेस की भाषा। भाषा बदलने पर मुद्रा भी अपने आप बदल जाती है; मुद्रा आप कभी भी प्रोफ़ाइल में बदल सकते हैं। संख्याएँ और तारीखें उसी भाषा के फ़ॉर्मेट में दिखती हैं।",
   "Währung: {0}": "मुद्रा: {0}",
   "Alle Konten": "सभी खाते",
+  "Ø Gewinn": "औसत प्रॉफिट",
+  "Ø Verlust": "औसत लॉस",
+  "Start- und Enddatum wählen": "शुरुआती और अंतिम तारीख चुनें",
 });

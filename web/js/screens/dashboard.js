@@ -8,6 +8,13 @@
   function active() { const s = st(); if (!s.booted) { s.booted = true; S.data.settings.dashboardId = S.defaultDashboard().id; } return S.activeDashboard(); }
   const layout = () => { const s = st(); return s.editing && s.draft ? s.draft : active().layout; };
   const caret = I.chev.replace('<svg', '<svg class="caret"');
+  /* Lücken im Bearbeitungsmodus: ein entferntes Widget hinterlässt einen freien Platz gleicher Größe, damit nichts nachrutscht.
+     Beim Speichern werden die Lücken geschlossen (Widgets von unten rücken auf) */
+  const GAP = '_luecke';
+  const isGap = x => !!x && x.typ === GAP;
+  const real = arr => arr.filter(x => !isGap(x));
+  const gapFor = (area, inst) => { if (area === 'oben') return { typ: GAP }; const e = W.get(inst.typ) || {}; return { typ: GAP, groesse: inst.groesse || e.groesse || 'klein', hoch: !!(inst.hoch || e.hoch), flach: !!(inst.flach || e.flach) }; };
+  const gapSlot = (area, i, g) => `<button type="button" class="add-slot gap ${area === 'unten' ? 'sz-' + (g.groesse || 'klein') : ''} ${g.hoch ? 'tall' : ''} ${g.flach ? 'flat' : ''}" data-action="dash-add-open" data-area="${area}" data-slot="${i}">${I.plus}<span>Widget hinzufügen</span></button>`;
 
   /* ---------- Vorlagen-Menü ---------- */
   function tplPopHTML() {
@@ -25,25 +32,34 @@
     return `<div class="w ${s.editing ? 'editing' : ''} ${size ? 'sz-' + size : ''} ${e.hoch ? 'tall' : ''} ${e.flach ? 'flat' : ''}" data-area="${area}" data-idx="${i}" data-typ="${esc(inst.typ)}">${bar}<div class="w-body">${html}</div></div>`;
   }
   function topArea(list, d) {
-    const s = st(); const items = list.map((inst, i) => wrap('oben', i, inst, W.render(inst, d, App), list.length));
+    const s = st(); const items = list.map((inst, i) => isGap(inst) ? gapSlot('oben', i, inst) : wrap('oben', i, inst, W.render(inst, d, App), list.length));
     if (s.editing && list.length < MAX_TOP) items.push(`<button type="button" class="add-slot" data-action="dash-add-open" data-area="oben">${I.plus}<span>Widget hinzufügen</span></button>`);
     if (!items.length) return '';
     return `<div class="dash-top" style="--n:${items.length}">${items.join('')}</div>`;
   }
   function mainArea(list, d) {
-    const s = st(); const items = list.map((inst, i) => wrap('unten', i, inst, W.render(inst, d, App), list.length));
+    const s = st(); const items = list.map((inst, i) => isGap(inst) ? gapSlot('unten', i, inst) : wrap('unten', i, inst, W.render(inst, d, App), list.length));
     if (s.editing) items.push(`<button type="button" class="add-slot big" data-action="dash-add-open" data-area="unten">${I.plus}<span>Widget hinzufügen</span></button>`);
     if (!items.length) return `<div class="dashed" style="text-align:center;padding:30px">Diese Vorlage hat noch keine Widgets. Über „Vorlage bearbeiten“ fügst du welche hinzu.</div>`;
     return `<div class="dash-main ${s.editing ? 'editing' : ''}">${items.join('')}</div>`;
   }
   function skeleton(lay) { return `<div class="dash-top" style="--n:${Math.max(1, lay.oben.length)}">${lay.oben.map(() => '<div class="skel" style="height:118px"></div>').join('')}</div><div class="dash-main">${lay.unten.map(w => { const e = W.get(w.typ) || {}; return `<div class="skel sz-${w.groesse || 'klein'} ${e.hoch ? 'tall' : ''} ${e.flach ? 'flat' : ''}"></div>`; }).join('')}</div>`; }
   function panelListHTML(area, lay, q) {
-    const have = new Set(lay[area].map(x => x.typ)); const full = area === 'oben' && lay.oben.length >= MAX_TOP; const ql = q.trim().toLowerCase();
+    const have = new Set(real(lay[area]).map(x => x.typ)); const full = area === 'oben' && real(lay.oben).length >= MAX_TOP; const ql = q.trim().toLowerCase();
     const items = W.list(area).filter(e => !ql || (e.name + ' ' + e.desc).toLowerCase().includes(ql));
     return items.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}">${added ? `${I.check} Hinzugefügt` : 'Hinzufügen'}</button></div>`; }).join('') || `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
   }
+  /* Neuaufbau bei offener Widget-Auswahl: die Seitenleiste bleibt dasselbe Element (kein erneutes Hereingleiten,
+     Liste behält ihre Scrollposition); nur Liste und Hinweis werden aus dem Neuaufbau übernommen */
+  function keepPanel(fn) {
+    const old = document.querySelector('.side-panel'); const ol = old && old.querySelector('#dash-add-list'); const top = ol ? ol.scrollTop : 0;
+    fn(); const neu = document.querySelector('.side-panel'); if (!old || !neu || !ol) return;
+    const nl = neu.querySelector('#dash-add-list'); if (!nl) return; ol.innerHTML = nl.innerHTML;
+    const ob = old.querySelector('.banner'), nb = neu.querySelector('.banner'); if (ob) ob.remove(); if (nb) ol.before(nb);
+    old.classList.add('settled'); neu.replaceWith(old); ol.scrollTop = top; /* erst im Dokument greift die Scrollposition wieder */
+  }
   function addPanel(area, lay, q) {
-    const full = area === 'oben' && lay.oben.length >= MAX_TOP;
+    const full = area === 'oben' && real(lay.oben).length >= MAX_TOP;
     return `<div class="panel-bg" data-action="dash-add-close"></div><aside class="side-panel" role="dialog" aria-label="Widget hinzufügen"><div class="sp-head"><div><h2>Widget hinzufügen</h2><div class="small muted">${area === 'oben' ? 'Kennzahl-Kacheln für den oberen Bereich' : 'Diagramme, Kalender und Listen für den unteren Bereich'}</div></div><button type="button" class="btn ghost icon" data-action="dash-add-close" aria-label="Schließen">${I.close}</button></div><div class="nb-search"><div class="q">${I.search}<input class="input" id="dash-add-q" placeholder="Widget suchen …" value="${esc(q)}" data-input="dash-add-q" autocomplete="off"></div></div>${full ? `<div class="banner warn">${I.warning}<span>Maximal 5 Widgets – entferne zuerst eines.</span></div>` : ''}<div class="sp-list" id="dash-add-list">${panelListHTML(area, lay, q)}</div></aside>`;
   }
 
@@ -81,7 +97,6 @@
   App.screens.dashboard = {
     title: 'Dashboard',
     ownActions: true,
-    titleBadge() { return S.settings.sampleInstalled ? `<span class="title-badge">Beispieldaten<button type="button" data-action="remove-sample" title="Beispieldaten entfernen">Entfernen</button></span>` : ''; },
     render(ctx) {
       const s = st(); const tpl = active(); const rawAll = ctx.all; const f = filterState(); const fN = filterCount(f); if (fN) ctx = Object.assign({}, ctx, { all: applyFilter(ctx.all, f), inRange: applyFilter(ctx.inRange, f) }); const d = W.data(ctx, App); const all = ctx.all; const parts = []; const todayKey = C.dayKey(new Date());
       if (s.editing) parts.push(`<div class="edit-bar"><div class="row"><span class="dot-live"></span><b>Bearbeitungsmodus</b><span class="muted">–</span><span>${esc(tpl.name)}</span></div><div class="row"><button type="button" class="btn" data-action="dash-cancel">Abbrechen</button><button type="button" class="btn primary" data-action="dash-save">${I.check} Speichern</button></div></div>`);
@@ -126,7 +141,7 @@
     main.querySelectorAll('.add-slot').forEach(slot => {
       slot.addEventListener('dragover', e => { if (!drag || drag.area !== slot.dataset.area) return; e.preventDefault(); slot.classList.add('over'); });
       slot.addEventListener('dragleave', () => slot.classList.remove('over'));
-      slot.addEventListener('drop', e => { if (!drag || drag.area !== slot.dataset.area) return; e.preventDefault(); const arr = s.draft[drag.area]; const [item] = arr.splice(drag.idx, 1); arr.push(item); drag = null; App.rerender(); });
+      slot.addEventListener('drop', e => { if (!drag || drag.area !== slot.dataset.area) return; e.preventDefault(); const arr = s.draft[drag.area]; const gi = slot.dataset.slot != null ? Number(slot.dataset.slot) : -1; if (gi >= 0 && isGap(arr[gi])) { const item = arr[drag.idx]; arr[gi] = item; arr[drag.idx] = gapFor(drag.area, item); } else { const [item] = arr.splice(drag.idx, 1); arr.push(item); } drag = null; App.rerender(); });
     });
   }
 
@@ -165,13 +180,18 @@
     async 'dash-tpl-delete'(el) { const t = S.getDashboard(el.dataset.id); if (!t) return; if (S.dashboards().length <= 1) return U.toast('Die letzte Vorlage kann nicht gelöscht werden', 'err'); const ok = await U.confirmModal('Vorlage löschen', `Vorlage „${esc(t.name)}“ wirklich löschen?`, { ok: 'Löschen', danger: true }); if (!ok) return; const s = st(); if (s.editing && active().id === t.id) { s.editing = false; s.draft = null; s.panel = null; } S.deleteDashboard(t.id); s.menu = null; U.toast('Vorlage gelöscht'); App.rerender(false); },
     /* Bearbeitungsmodus */
     'dash-cancel'() { stopEdit(); },
-    'dash-save'() { const s = st(); if (!s.editing) return; S.updateDashboard(active().id, { layout: clone(s.draft) }); U.toast('Vorlage gespeichert', 'ok'); stopEdit(); },
-    'dash-remove'(el) { const s = st(); const p = widgetOf(el); if (!p || !s.draft) return; s.draft[p.area].splice(p.idx, 1); App.rerender(); },
+    'dash-save'() { const s = st(); if (!s.editing) return; const lay = clone(s.draft); lay.oben = real(lay.oben); lay.unten = real(lay.unten); S.updateDashboard(active().id, { layout: lay }); U.toast('Vorlage gespeichert', 'ok'); stopEdit(); },
+    'dash-remove'(el) { const s = st(); const p = widgetOf(el); if (!p || !s.draft) return; const arr = s.draft[p.area]; arr[p.idx] = gapFor(p.area, arr[p.idx]); App.rerender(); },
     'dash-size'(el) { const s = st(); const p = widgetOf(el); if (!p || !s.draft) return; s.draft[p.area][p.idx].groesse = el.dataset.value; App.rerender(); },
     'dash-move'(el) { const s = st(); const p = widgetOf(el); if (!p || !s.draft) return; const arr = s.draft[p.area]; const to = p.idx + Number(el.dataset.dir); if (to < 0 || to >= arr.length) return; [arr[p.idx], arr[to]] = [arr[to], arr[p.idx]]; App.rerender(); },
-    'dash-add-open'(el) { const s = st(); s.panel = el.dataset.area; s.q = ''; App.rerender(); },
-    'dash-add-close'() { const s = st(); s.panel = null; App.rerender(); },
-    'dash-add'(el) { const s = st(); if (!s.draft || !s.panel) return; const e = W.get(el.dataset.typ); if (!e) return; const arr = s.draft[s.panel]; if (arr.some(x => x.typ === e.typ)) return; if (s.panel === 'oben' && arr.length >= MAX_TOP) return U.toast('Maximal 5 Widgets – entferne zuerst eines', 'err'); arr.push(s.panel === 'oben' ? { typ: e.typ } : { typ: e.typ, groesse: e.groesse || 'klein' }); s.listScroll = (document.getElementById('dash-add-list') || {}).scrollTop || 0; App.rerender(); },
+    'dash-add-open'(el) { const s = st(); s.panel = el.dataset.area; s.slot = el.dataset.slot != null ? Number(el.dataset.slot) : null; s.q = ''; App.rerender(); },
+    'dash-add-close'() { const s = st(); s.panel = null; s.slot = null; App.rerender(); },
+    'dash-add'(el) { const s = st(); if (!s.draft || !s.panel) return; const e = W.get(el.dataset.typ); if (!e) return; const arr = s.draft[s.panel]; if (arr.some(x => x.typ === e.typ)) return; if (s.panel === 'oben' && real(arr).length >= MAX_TOP) return U.toast('Maximal 5 Widgets – entferne zuerst eines', 'err');
+      const inst = s.panel === 'oben' ? { typ: e.typ } : { typ: e.typ, groesse: e.groesse || 'klein' };
+      /* in die angeklickte Lücke (danach in die nächste), sonst ans Ende; oben bei 5 Plätzen in die erste Lücke */
+      let at = s.slot != null && isGap(arr[s.slot]) ? s.slot : (s.panel === 'oben' && arr.length >= MAX_TOP ? arr.findIndex(isGap) : -1);
+      if (at >= 0) { if (s.panel === 'unten') inst.groesse = arr[at].groesse || inst.groesse; arr[at] = inst; const next = arr.findIndex((x, i) => i > at && isGap(x)); s.slot = next >= 0 ? next : null; } else arr.push(inst);
+      keepPanel(() => App.rerender()); },
     'dash-add-q'(el) { const s = st(); s.q = el.value; const list = document.getElementById('dash-add-list'); if (list && s.draft) list.innerHTML = panelListHTML(s.panel, s.draft, s.q); },
     'dash-w-opt'(el) { const r = instOf(el); if (!r) return; r.inst.einstellungen = Object.assign({}, r.inst.einstellungen, { [el.dataset.key]: el.value != null && el.tagName === 'SELECT' ? el.value : el.dataset.value }); persist(r.lay); App.rerender(); },
     /* Report-Panel */

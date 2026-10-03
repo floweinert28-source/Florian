@@ -84,7 +84,7 @@
     /* Bausteine der Kopfreihe: Zeitraum, Konto, Session, neuer Trade (Dashboard ordnet sie selbst an, alle anderen Seiten über pageHead) */
     rangeControl() {
       const r = this.range();
-      return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-range">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}<hr><div class="sec">Benutzerdefiniert</div><form class="range-form" data-action="range-custom"><input class="input" type="date" id="range-from" data-dp-group="range" value="${(S.settings.range || {}).from || ''}" aria-label="Von"><input class="input" type="date" id="range-to" data-dp-group="range" value="${(S.settings.range || {}).to || ''}" aria-label="Bis"><button type="submit" class="btn sm primary">Anwenden</button></form></div></div>`;
+      return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover range-pop" id="pop-range"><div class="rr-presets">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}</div><div class="rr-cal"><div class="sec">Benutzerdefiniert</div>${root.RangePicker ? root.RangePicker.html(r.preset === 'custom' ? (S.settings.range || {}).from : '', r.preset === 'custom' ? (S.settings.range || {}).to : '') : ''}</div></div></div>`;
     },
     /* o.mobile: auch auf dem Handy zeigen (sonst nur ab Tablet-Breite) */
     accountControl(o = {}) {
@@ -131,6 +131,7 @@
       document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
       /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
       window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
+      if (root.RangePicker) root.RangePicker.init(); /* Zeitraum „Benutzerdefiniert“ mit zwei Monaten */
       if (root.DatePicker) root.DatePicker.init(); /* eigener Kalender für Datumsfelder, nach dem Klick-Handler oben registriert */
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) fn.call(this, el, e); } });
@@ -152,7 +153,7 @@
     'nav-close'(el) { const h = el.getAttribute('href'); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     range(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.rerender(); },
-    'range-custom'(f) { const from = f.querySelector('#range-from').value, to = f.querySelector('#range-to').value; if (!from) return U.toast('Bitte ein Startdatum wählen', 'err'); S.setSetting('range', { preset: 'custom', from, to: to || from }); this.rerender(); },
+    'range-custom'() { const v = root.RangePicker ? root.RangePicker.value() : { from: '' }; if (!v.from) return U.toast('Bitte ein Startdatum wählen', 'err'); S.setSetting('range', { preset: 'custom', from: v.from, to: v.to || v.from }); this.closePopovers(); this.rerender(); },
     account(el) { S.setSetting('accountId', el.dataset.value); this.rerender(); },
     nav(el) { this.navigate(el.dataset.href); },
     day(el) { this.navigate('#/day/' + el.dataset.day); },

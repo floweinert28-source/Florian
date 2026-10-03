@@ -29,19 +29,35 @@
   });
   const stopKeys = el => ['keydown', 'keyup', 'keypress', 'beforeinput', 'input', 'paste', 'cut', 'copy', 'compositionstart', 'compositionend'].forEach(ev => el.addEventListener(ev, e => e.stopPropagation()));
 
+  const FIG_SIZES = [['S', '33%'], ['M', '50%'], ['L', '75%'], ['Voll', '100%']], FIG_SNAP = [25, 33, 50, 66, 75, 100];
   class Divider extends BlockEmbed { static create() { const n = super.create(); n.setAttribute('contenteditable', 'false'); return n; } }
   Divider.blotName = 'divider'; Divider.tagName = 'hr'; Divider.className = 'nb-hr';
   class Figure extends BlockEmbed {
     static create(v) {
       const node = super.create(); v = typeof v === 'string' ? { src: v } : (v || {}); node.setAttribute('contenteditable', 'false');
-      node.innerHTML = `<div class="img"><img alt=""><span class="rs" title="Größe ändern"></span></div><input class="cap" placeholder="Bildunterschrift" spellcheck="false">`;
-      const img = node.querySelector('img'); if (v.id) { img.dataset.blob = v.id; resolveBlob(img, v.id); } else if (v.src && /^(data:image|blob:|https?:)/.test(v.src)) img.src = v.src;
-      if (v.width) img.style.width = v.width; const cap = node.querySelector('.cap'); cap.value = v.caption || ''; stopKeys(cap); cap.addEventListener('input', () => dirty(node)); cap.addEventListener('mousedown', e => e.stopPropagation());
+      /* Breite sitzt am Rahmen .fig (Prozent der Notizbreite), das Bild füllt ihn: so bleibt der Griff an der Bildecke */
+      node.innerHTML = `<div class="fig"><div class="img"><img alt=""><span class="rs" title="Größe ändern (ziehen)"></span><span class="fig-size" hidden></span><div class="fig-bar" role="group" aria-label="Bildgröße">${FIG_SIZES.map(([l, w]) => `<button type="button" data-w="${w}" title="${w === '100%' ? 'Volle Breite' : w + ' der Breite'}">${l}</button>`).join('')}</div></div><input class="cap" placeholder="Bildunterschrift" spellcheck="false"></div>`;
+      const fig = node.querySelector('.fig'), img = node.querySelector('img'); if (v.id) { img.dataset.blob = v.id; resolveBlob(img, v.id); } else if (v.src && /^(data:image|blob:|https?:)/.test(v.src)) img.src = v.src;
+      if (v.width) fig.style.width = v.width; const cap = node.querySelector('.cap'); cap.value = v.caption || ''; stopKeys(cap); cap.addEventListener('input', () => dirty(node)); cap.addEventListener('mousedown', e => e.stopPropagation());
       img.addEventListener('dblclick', () => { const lb = document.createElement('div'); lb.className = 'lightbox'; lb.innerHTML = `<img src="${img.src}" alt="">`; lb.addEventListener('click', () => lb.remove()); document.body.appendChild(lb); });
-      node.querySelector('.rs').addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); const startX = e.clientX, startW = img.getBoundingClientRect().width, maxW = node.getBoundingClientRect().width; const move = ev => { const w = Math.max(80, Math.min(maxW, startW + ev.clientX - startX)); img.style.width = Math.round(w / maxW * 100) + '%'; }; const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); dirty(node); }; document.addEventListener('mousemove', move); document.addEventListener('mouseup', up); });
+      const bar = node.querySelector('.fig-bar'), badge = node.querySelector('.fig-size'), handle = node.querySelector('.rs');
+      const markBar = () => { const cur = fig.style.width || ''; bar.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.w === cur))); node.classList.toggle('narrow', fig.getBoundingClientRect().width < 190); };
+      node.querySelector('.img').addEventListener('mouseenter', markBar);
+      img.addEventListener('load', () => requestAnimationFrame(markBar));
+      bar.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); });
+      bar.addEventListener('click', e => { const x = e.target.closest('[data-w]'); if (!x) return; e.preventDefault(); e.stopPropagation(); fig.style.width = x.dataset.w; markBar(); dirty(node); });
+      /* Ziehen am Griff: Breite in Prozent, rastet bei 25/33/50/66/75/100 ein; Zeiger-Ereignisse, damit es auch mit Stift und Finger geht */
+      handle.addEventListener('pointerdown', e => {
+        e.preventDefault(); e.stopPropagation();
+        const full = node.getBoundingClientRect().width || 1, startW = fig.getBoundingClientRect().width, startX = e.clientX;
+        node.classList.add('resizing'); try { handle.setPointerCapture(e.pointerId); } catch (x) { /* ohne Zeiger-Bindung */ }
+        const move = ev => { let p = (startW + ev.clientX - startX) / full * 100; p = Math.max(10, Math.min(100, p)); for (const sn of FIG_SNAP) if (Math.abs(p - sn) < 1.6) p = sn; fig.style.width = (Math.round(p * 10) / 10) + '%'; badge.hidden = false; badge.textContent = Math.round(p) + ' %'; };
+        const up = () => { handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', up); handle.removeEventListener('pointercancel', up); node.classList.remove('resizing'); badge.hidden = true; markBar(); dirty(node); };
+        handle.addEventListener('pointermove', move); handle.addEventListener('pointerup', up); handle.addEventListener('pointercancel', up);
+      });
       return node;
     }
-    static value(node) { const img = node.querySelector('img'); const cap = node.querySelector('.cap'); const v = { caption: cap ? cap.value : '' }; if (img.dataset.blob) v.id = img.dataset.blob; else if (img.getAttribute('src')) v.src = img.getAttribute('src'); if (img.style.width) v.width = img.style.width; return v; }
+    static value(node) { const img = node.querySelector('img'), fig = node.querySelector('.fig'), cap = node.querySelector('.cap'); const v = { caption: cap ? cap.value : '' }; if (img.dataset.blob) v.id = img.dataset.blob; else if (img.getAttribute('src')) v.src = img.getAttribute('src'); const w = (fig && fig.style.width) || img.style.width; if (w) v.width = w; return v; }
   }
   Figure.blotName = 'figure'; Figure.tagName = 'figure'; Figure.className = 'nb-figure';
   class Details extends BlockEmbed {

@@ -116,7 +116,13 @@
       if (v == null || isNaN(v)) return '—';
       if (blind.on && !o.money) return fmt.blindR(v, o);
       const a = Math.abs(v); const d = o.compact ? 0 : (a >= 10000 ? 0 : 2);
-      const cc = o.currency || currency; let s; try { s = new Intl.NumberFormat(LOC(), { style: 'currency', currency: cc, minimumFractionDigits: d, maximumFractionDigits: d }).format(a); } catch (e) { s = a.toFixed(d) + ' ' + cc; }
+      const cc = o.currency || currency; let s;
+      try {
+        const nf = o2 => new Intl.NumberFormat(LOC(), Object.assign({ style: 'currency', currency: cc, minimumFractionDigits: d, maximumFractionDigits: d }, o2));
+        let parts; try { parts = nf({ currencyDisplay: 'narrowSymbol' }).formatToParts(a); } catch (e2) { parts = nf().formatToParts(a); } /* kurze Zeichen: $ statt US$ */
+        /* Euro steht in jeder Sprache hinter der Zahl („1,234.50 €“), andere Währungen wie in der Sprache üblich („$1,234.50“) */
+        s = cc === 'EUR' ? parts.filter(x => x.type !== 'currency' && x.type !== 'literal').map(x => x.value).join('') + '\u00a0€' : parts.map(x => x.value).join('');
+      } catch (e) { s = a.toFixed(d) + ' ' + cc; }
       return (v < -C.EPS ? '−' : (o.signed && v > C.EPS ? '+' : '')) + s;
     },
     pct(f, d = 0, signed = false) { if (f == null || isNaN(f)) return '—'; const s = new Intl.NumberFormat(LOC(), { style: 'percent', maximumFractionDigits: d, minimumFractionDigits: d }).format(Math.abs(f)); return (f < 0 ? '−' : signed && f > 0 ? '+' : '') + s; },
@@ -135,6 +141,8 @@
     dateFull(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'; },
     dateShort(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—'; },
     axisCur(v) { return fmt.cur(v, { compact: true }); },
+    /* steht das Währungszeichen vor der Zahl? (Dollar ja, Euro nie) */
+    symbolFirst(cc) { const s = fmt.cur(1, { money: true, compact: true, currency: cc }); return !/^\d/.test(s); },
     dateTime(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + fmt.time(d) : '—'; },
     time(d) { return d ? new Date(d).toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' }) : '—'; },
     dur(min) { if (min == null || isNaN(min)) return '—'; min = Math.round(min); if (min < 60) return `${min} min`; const h = Math.floor(min / 60), m = min % 60; if (h < 48) return m ? `${h} h ${m} min` : `${h} h`; return `${Math.round(h / 24)} T`; },

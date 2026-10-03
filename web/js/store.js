@@ -32,8 +32,8 @@
   function defaults() {
     return {
       version: 1,
-      settings: { theme: 'dark', currency: 'EUR', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' }, dashboardId: null, notifications: { weekly: true, monthly: true }, recapShown: {}, instruments: [], beOffset: { mode: 'abs', from: 0, to: 0 }, notebook: { h1: 30, h2: 24, h3: 19, body: 16, strike: true }, font: 'geschwungen', language: 'de', profile: { firstName: '', lastName: '', username: '', email: '', address: '', bio: '', timezone: '' }, avatarId: null, privacy: { support: false }, christlicherImpuls: true, mentor: { url: '', token: '' }, dashFilter: { symbols: [], dir: '', status: '', setups: [], tags: [] }, moneyBlind: false, sidebarMini: false, blindRUnit: 0, voiceKeepAudio: true, propThresholds: { yellow: 0.5, red: 0.25 }, propStopSize: 0, propMaxBufferPct: 25, propInstruments: null },
-      accounts: [{ id: 'main', name: 'Hauptkonto', size: 25000, currency: 'EUR' }], dashboards: [defaultDashboard()],
+      settings: { theme: 'dark', currency: 'USD', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' }, dashboardId: null, notifications: { weekly: true, monthly: true }, recapShown: {}, instruments: [], beOffset: { mode: 'abs', from: 0, to: 0 }, notebook: { h1: 30, h2: 24, h3: 19, body: 16, strike: true }, font: 'geschwungen', language: 'en', profile: { firstName: '', lastName: '', username: '', email: '', address: '', bio: '', timezone: '' }, avatarId: null, privacy: { support: false }, christlicherImpuls: true, mentor: { url: '', token: '' }, dashFilter: { symbols: [], dir: '', status: '', setups: [], tags: [] }, moneyBlind: false, sidebarMini: false, blindRUnit: 0, voiceKeepAudio: true, propThresholds: { yellow: 0.5, red: 0.25 }, propStopSize: 0, propMaxBufferPct: 25, propInstruments: null },
+      accounts: [{ id: 'main', name: 'Hauptkonto', size: 25000, currency: 'USD' }], dashboards: [defaultDashboard()],
       trades: [], days: {}, notes: [], folders: defaultFolders(), noteTags: [], templates: defaultTemplates(), strategies: [], rules: [], missed: [], sessions: [], tags: JSON.parse(JSON.stringify(DEFAULT_TAGS)), tagMeta: {}, imports: [], logs: [], ruhepunkt: [], dismissed: {},
       shadowRules: root.Shadow ? root.Shadow.defaultRules() : {}, replay: { history: [] },
       propFirms: [], propAccounts: [], propExpenses: [], propPayouts: [], propBreaches: [],
@@ -75,6 +75,8 @@
     load() {
       let raw = null; try { raw = localStorage.getItem(KEY); } catch (e) { this.storageOK = false; }
       if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '', be: '' }, (parsed.settings || {}).colors || {}); const ds = defaults().settings; for (const k of ['notifications', 'beOffset', 'notebook', 'recapShown', 'profile', 'privacy', 'dashFilter', 'mentor', 'propThresholds']) this.data.settings[k] = Object.assign({}, ds[k], (parsed.settings || {})[k] || {}); if (!Array.isArray(this.data.settings.instruments)) this.data.settings.instruments = []; if (this.data.settings.font === 'standard') this.data.settings.font = 'geschwungen'; /* frühere Standardschrift heißt jetzt „Klassisch“, Standard ist Geschwungen */ this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
+      /* Standard ist seit den Sprachen Englisch mit Dollar. Wer schon Daten hat, behält Deutsch und die bisherige Währung (damals Euro) */
+      if (raw && this.data.settings) { let ps = {}; try { ps = JSON.parse(raw).settings || {}; } catch (e) { /* schon oben behandelt */ } if (!('language' in ps)) this.data.settings.language = 'de'; if (!('currency' in ps)) this.data.settings.currency = 'EUR'; }
       migrateNotes(this.data); migrateDashboards(this.data);
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       /* Beispieldaten-Upgrade: ältere Installationen bekommen die neuen Beispieldaten (Prop-Konten, Replay, Sprachnotizen); eigene Daten bleiben */
@@ -111,7 +113,7 @@
     async deleteTrade(id) { const t = this.getTrade(id); if (!t) return; for (const s of t.screenshots || []) await Blobs.del(s).catch(() => {}); if (t.screenshotPre) await Blobs.del(t.screenshotPre).catch(() => {}); for (const v of t.voiceNotes || []) if (v.blobId) await Blobs.del(v.blobId).catch(() => {}); this.data.trades = this.data.trades.filter(x => x.id !== id); this.log({ type: 'Trade', action: 'gelöscht', ident: this.tradeIdent(t) }); this.save(); },
     defaultAccountId() { const a = this.data.settings.accountId; return a && a !== 'all' && this.data.accounts.some(x => x.id === a) ? a : (this.data.accounts[0] || { id: 'main' }).id; },
     accountSize() { const a = this.data.settings.accountId; if (a === 'all' || !a) return this.data.accounts.reduce((s, x) => s + (Number(x.size) || 0), 0) || 10000; const acc = this.data.accounts.find(x => x.id === a); return acc ? Number(acc.size) || 10000 : 10000; },
-    currency() { const a = this.data.accounts.find(x => x.id === this.data.settings.accountId); return (a && a.currency) || this.data.settings.currency || 'EUR'; },
+    currency() { const a = this.data.accounts.find(x => x.id === this.data.settings.accountId); return (a && a.currency) || this.data.settings.currency || 'USD'; },
 
     /* Tage */
     day(key) { return this.data.days[key] || null; },
@@ -273,7 +275,7 @@
       this.data.settings.sampleInstalled = false; this._sampleToken++; if (save) this.save();
       return Promise.all(blobIds.map(id => Blobs.del(id).catch(() => {}))).then(() => blobIds.length).catch(() => 0);
     },
-    async wipe() { await Blobs.clear().catch(() => {}); const theme = this.data.settings.theme, colors = this.data.settings.colors; this.data = defaults(); this.data.settings.theme = theme; this.data.settings.colors = colors; this.data.settings.onboarded = true; this.data.notes.push(welcomeNote()); this.saveNow(); this.listeners.forEach(fn => fn()); },
+    async wipe() { await Blobs.clear().catch(() => {}); const theme = this.data.settings.theme, colors = this.data.settings.colors, language = this.data.settings.language, currency = this.data.settings.currency; this.data = defaults(); this.data.settings.theme = theme; this.data.settings.colors = colors; /* Sprache und Währung sind Vorlieben wie das Design und bleiben */ if (language) this.data.settings.language = language; if (currency) { this.data.settings.currency = currency; this.data.accounts.forEach(a => { a.currency = currency; }); } this.data.settings.onboarded = true; this.data.notes.push(welcomeNote()); this.saveNow(); this.listeners.forEach(fn => fn()); },
 
     /* Sicherung */
     async exportJSON(includeBlobs) {

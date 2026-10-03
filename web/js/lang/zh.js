@@ -879,4 +879,6 @@ I18N.add('zh', {
   "Maximal 1 % Risiko pro Trade": "每笔交易风险最多 1%",
   "Nach zwei Verlusten in Folge Pause machen": "连续亏损两次后暂停",
   "Keine Trades in den ersten fünf Minuten": "开盘前五分钟不交易",
+  "Hauptkonto": "主账户",
+  "Betrag ({0})": "金额 ({0})",
 });

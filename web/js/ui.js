@@ -79,7 +79,9 @@
   };
 
   /* ---------- Formatierung ---------- */
-  let currency = 'EUR';
+  let currency = 'USD';
+  /* wählbare Währungen: die der angebotenen Sprachen (Dollar, Euro, Yuan, Rupie, Real) plus Pfund und Franken */
+  const CURRENCIES = ['USD', 'EUR', 'CNY', 'INR', 'BRL', 'GBP', 'CHF'];
   /* Geld-blind-Modus: jeder Betrag läuft durch fmt.cur. Ist der Modus an, kommt statt Geld ein R-Multiple heraus:
      o.r = exaktes R eines Trades (null = kein Risiko bekannt → „– R“), sonst Umrechnung über die R-Einheit
      (Median des Risikos der Trades mit Stop oder der Wert aus den Einstellungen). o.money = true erzwingt Geld. */
@@ -87,7 +89,17 @@
   /* Zahlen und Daten im Gebietsschema der gewählten Sprache (i18n.js), sonst deutsch */
   const LOC = () => (root.I18N ? root.I18N.locale() : 'de-DE');
   const fmt = {
-    setCurrency(c) { currency = c || 'EUR'; },
+    setCurrency(c) { currency = c || 'USD'; },
+    currencyCodes: CURRENCIES,
+    /* Einträge für Auswahlfelder, z. B. „USD · US-Dollar ($)“; Name und Zeichen kommen aus dem Browser in der Sprache der Oberfläche */
+    currencies() {
+      let names = null; try { names = new Intl.DisplayNames([LOC()], { type: 'currency' }); } catch (e) { /* ältere Browser: nur Kürzel */ }
+      return CURRENCIES.map(code => {
+        let sym = code; try { const p = new Intl.NumberFormat(LOC(), { style: 'currency', currency: code, currencyDisplay: 'narrowSymbol' }).formatToParts(0).find(x => x.type === 'currency'); if (p) sym = p.value; } catch (e) { /* Kürzel bleibt */ }
+        const name = names ? names.of(code) : ''; return { code, label: code + (name && name !== code ? ' · ' + name : '') + (sym && sym !== code ? ` (${sym})` : '') };
+      });
+    },
+    currencyOptions(sel) { return fmt.currencies().map(c => `<option value="${c.code}" ${c.code === sel ? 'selected' : ''}>${c.label}</option>`).join(''); },
     setMoneyBlind(on, unit) { blind.on = !!on; blind.unit = Number(unit) > 0 ? Number(unit) : null; },
     moneyBlind() { return blind.on; },
     rUnit() { return blind.unit; },

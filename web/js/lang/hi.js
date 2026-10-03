@@ -879,4 +879,6 @@ I18N.add('hi', {
   "Maximal 1 % Risiko pro Trade": "प्रति ट्रेड अधिकतम 1% रिस्क",
   "Nach zwei Verlusten in Folge Pause machen": "लगातार दो लॉस के बाद ब्रेक लें",
   "Keine Trades in den ersten fünf Minuten": "पहले पाँच मिनट में कोई ट्रेड नहीं",
+  "Hauptkonto": "मुख्य खाता",
+  "Betrag ({0})": "राशि ({0})",
 });

@@ -814,4 +814,6 @@ I18N.add('en', {
   "Maximal 1 % Risiko pro Trade": "Max. 1% risk per trade",
   "Nach zwei Verlusten in Folge Pause machen": "Take a break after two losses in a row",
   "Keine Trades in den ersten fünf Minuten": "No trades in the first five minutes",
+  "Hauptkonto": "Main account",
+  "Betrag ({0})": "Amount ({0})",
 });

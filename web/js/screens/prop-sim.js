@@ -21,7 +21,7 @@
   const num = X.num, accounts = X.accounts, presets = X.presets, accName = X.accName;
   /* Spezifikationswerte wie im Tab Konten (prop.js specMoney): Zahl + Währungscode des Presets, nicht fmt.cur (Journalwährung, Geld-blind → R) */
   const specMoney = typeof X.specMoney === 'function' ? X.specMoney : (v, c) => v == null || v === '' || isNaN(Number(v)) ? '—' : `${fmt.num(Number(v), Number(v) % 1 ? 2 : 0)} ${esc(c || '')}`.trim();
-  const journalCur = () => (typeof S.currency === 'function' && S.currency()) || (S.settings && S.settings.currency) || 'EUR';
+  const journalCur = () => (typeof S.currency === 'function' && S.currency()) || (S.settings && S.settings.currency) || 'USD';
   const sim = () => { const s = X.st(); return s.sim || (s.sim = { area: 'pass', source: 'all', sizeFactor: 1, maxDays: 90, referenceSize: null, rules: '', evPreset: '', results: {}, busy: {} }); };
   const unitDays = v => v == null ? '—' : `${fmt.num(v, 1)} Tag${Math.round(v * 10) === 10 ? '' : 'e'}`;
 

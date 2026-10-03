@@ -70,7 +70,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Hell/Dunkel, drei Schriftarten: Standard „Geschwungen“ mit Zahlen in Onest, „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
 - **Sprachen** (Einstellungen → Sprache): Deutsch, Englisch, Spanisch, Chinesisch (vereinfacht), Hindi und
   Portugiesisch (Brasilien), die fünf meistgesprochenen Sprachen der Welt neben Deutsch. Zahlen, Beträge, Daten und der Kalender
-  folgen dem Format der Sprache. Übersetzt wird in Etappen: Etappe 1 umfasst Navigation, Dashboard, TradeLog mit Trade-Detail
+  folgen dem Format der Sprache. **Standard für neue Nutzer: Englisch und US-Dollar**; wer schon Daten im Browser hat,
+  behält Deutsch und Euro (oder was gespeichert ist). Währungen (Einstellungen → Profil, je Konto und je Prop-Konto):
+  USD, EUR, CNY, INR, BRL, GBP, CHF, mit Namen und Zeichen in der gewählten Sprache. Übersetzt wird in Etappen: Etappe 1 umfasst Navigation, Dashboard, TradeLog mit Trade-Detail
   und Trade-Editor, Kopfreihen und alle Einstellungen; die übrigen Bereiche bleiben bis zu ihrer Etappe deutsch.
   So funktioniert es: Der Code bleibt deutsch, `js/i18n.js` ersetzt beim Anzeigen sichtbare Texte, Platzhalter, Titel und
   Screenreader-Texte aus dem Wörterbuch der Sprache (`js/lang/<code>.js`, deutscher Text → Übersetzung, `{0}` für Zahlen,

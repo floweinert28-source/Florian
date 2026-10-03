@@ -841,4 +841,6 @@ I18N.add('es', {
   "Maximal 1 % Risiko pro Trade": "Máximo 1 % de riesgo por trade",
   "Nach zwei Verlusten in Folge Pause machen": "Haz una pausa tras dos pérdidas seguidas",
   "Keine Trades in den ersten fünf Minuten": "Sin trades en los primeros cinco minutos",
+  "Hauptkonto": "Cuenta principal",
+  "Betrag ({0})": "Importe ({0})",
 });

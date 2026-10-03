@@ -12,7 +12,7 @@
   const RULE_LABEL = { dailyLoss: 'Daily Loss', drawdown: 'Max. Drawdown', maxContracts: 'Max. Kontrakte/Lots' };
   const DD_SHORT = { static: 'statisch', trailing_intraday: 'trailing intraday', trailing_eod: 'trailing Tagesende', trailing_lock: 'trailing + Lock' };
   const AMPEL = { gruen: 'Grün', gelb: 'Gelb', rot: 'Rot', aus: 'Inaktiv' };
-  const CURRENCIES = ['USD', 'EUR', 'GBP', 'CHF'];
+  const CURRENCIES = U.fmt.currencyCodes;
   const PAYOUT_STATUS = [['requested', 'Beantragt'], ['received', 'Erhalten'], ['denied', 'Abgelehnt']];
   const nameOf = (list, k, d = '—') => (list.find(x => x[0] === k) || [k, k || d])[1];
   const st = () => App.state.prop || (App.state.prop = { filter: { firm: '', phase: '', status: '' }, calcAccount: null, calcMode: 'ticks', calc: {}, payoutAccount: null });
@@ -166,7 +166,7 @@
         <div class="field"><label for="pa-name">Konto (z. B. 50K)</label><input class="input" id="pa-name" name="name" value="${esc(s.name)}"></div>
         <div class="field"><label for="pa-market">Markt</label>${sel('market', PD.MARKETS, s.market, 'pa-market')}</div>
         <div class="field"><label for="pa-size">Kontogröße</label><input class="input" id="pa-size" name="size" type="number" step="any" min="0" value="${esc(s.size)}" required inputmode="decimal"></div>
-        <div class="field"><label for="pa-cur">Währung</label>${sel('currency', CURRENCIES.map(c => [c, c]), s.currency, 'pa-cur')}<span class="hint">Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.</span></div>
+        <div class="field"><label for="pa-cur">Währung</label>${sel('currency', U.fmt.currencies().map(c => [c.code, c.label]), s.currency, 'pa-cur')}<span class="hint">Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.</span></div>
         <div class="field"><label for="pa-phase">Phase</label>${sel('phase', PHASES, s.phase, 'pa-phase')}</div>
         <div class="field"><label for="pa-status">Status</label>${sel('status', STATUS, s.status, 'pa-status')}</div>
         <div class="field"><label for="pa-start">Startdatum</label><input class="input" id="pa-start" name="startedAt" type="date" value="${s.startedAt ? C.dayKey(new Date(s.startedAt)) : today()}"></div>
@@ -192,7 +192,7 @@
         <div class="field"><label for="pp-name">Konto (z. B. 50K)</label><input class="input" id="pp-name" name="name" value="${esc(s.name)}" required ${dis}></div>
         <div class="field"><label for="pp-market">Markt</label>${sel('market', PD.MARKETS, s.market, 'pp-market')}</div>
         <div class="field"><label for="pp-size">Kontogröße</label><input class="input" id="pp-size" name="size" type="number" step="any" min="0" value="${esc(s.size)}" required inputmode="decimal" ${dis}></div>
-        <div class="field"><label for="pp-cur">Währung</label>${sel('currency', CURRENCIES.map(c => [c, c]), s.currency, 'pp-cur')}</div>
+        <div class="field"><label for="pp-cur">Währung</label>${sel('currency', U.fmt.currencies().map(c => [c.code, c.label]), s.currency, 'pp-cur')}</div>
         <div class="field"><label for="pp-split">Profit Split (%)</label><input class="input" id="pp-split" name="profitSplit" type="number" step="1" min="0" max="100" value="${Math.round(num(s.profitSplit, 0.9) * 100)}" ${dis}></div>
         <div class="field"><label for="pp-ver">Zuletzt geprüft am</label><input class="input" id="pp-ver" name="lastVerified" type="date" value="${esc(s.lastVerified || '')}" ${dis}><span class="hint">Ohne Datum gilt das Preset als unverifiziert.</span></div>
         <div class="field span2"><label for="pp-note">Notiz</label><textarea class="input" id="pp-note" name="note" rows="2" ${dis}>${esc(s.note || '')}</textarea></div>

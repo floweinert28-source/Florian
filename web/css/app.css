@@ -103,8 +103,8 @@ svg { display: block; }
   padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
 }
 .brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 22px 8px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
-.brand .mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--text); flex: 0 0 auto; }
-.brand .mark svg { width: 28px; height: 28px; }
+.brand .mark { width: 24px; height: 24px; display: grid; place-items: center; color: var(--text); flex: 0 0 auto; }
+.brand .mark svg { width: 21px; height: 21px; }
 .brand .name { white-space: nowrap; }
 .brand em { font-style: normal; color: inherit; }
 .brand .sb-toggle { margin-left: auto; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }

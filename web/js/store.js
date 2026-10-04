@@ -3,6 +3,7 @@
   'use strict';
   const C = root.Core;
   const KEY = 'trading-journal-web-v1';
+  const LOGIN_KEY = KEY + ':login'; /* Zeitpunkte für „Letzter Login“, getrennt von den Journal-Daten */
 
   const DEFAULT_TAGS = {
     setups: ['Pullback', 'Breakout', 'Range-Fade', 'Reversal', 'Trendfortsetzung', 'Eröffnungsrange', 'News'],
@@ -89,13 +90,16 @@
       this.listeners.forEach(fn => fn());
     },
     /* „Letzter Login“ der Seitenleiste: eine neue Sitzung beginnt, wenn seit dem letzten Lebenszeichen mehr als 30 Minuten
-       vergangen sind (Neuladen zählt nicht als Login). prevLoginAt = Beginn der vorigen Sitzung, loginAt = Beginn der jetzigen */
+       vergangen sind (Neuladen zählt nicht als Login). prevLoginAt = Beginn der vorigen Sitzung, loginAt = Beginn der jetzigen.
+       Eigener kleiner Speicherplatz: berührt die Journal-Daten nie (sonst könnte das Speichern beim Verlassen der Seite
+       „Alles löschen“ oder einen Import überschreiben) */
+    loginInfo() { if (this._login) return this._login; try { this._login = JSON.parse(localStorage.getItem(LOGIN_KEY) || '{}') || {}; } catch (e) { this._login = {}; } return this._login; },
     touchLogin(now = Date.now()) {
-      const st = this.data.settings; const seen = Date.parse(st.lastSeenAt || '') || 0;
-      if (!st.loginAt || now - seen > 30 * 60 * 1000) { st.prevLoginAt = st.loginAt || null; st.loginAt = new Date(now).toISOString(); }
-      st.lastSeenAt = new Date(now).toISOString(); this.saveNow();
+      const L = this.loginInfo(); const seen = Date.parse(L.lastSeenAt || '') || 0;
+      if (!L.loginAt || now - seen > 30 * 60 * 1000) { L.prevLoginAt = L.loginAt || null; L.loginAt = new Date(now).toISOString(); }
+      L.lastSeenAt = new Date(now).toISOString(); try { localStorage.setItem(LOGIN_KEY, JSON.stringify(L)); } catch (e) { /* ohne Speicher: nur für diese Sitzung */ }
     },
-    markSeen() { this.data.settings.lastSeenAt = new Date().toISOString(); this.saveNow(); },
+    markSeen() { const L = this.loginInfo(); L.lastSeenAt = new Date().toISOString(); try { localStorage.setItem(LOGIN_KEY, JSON.stringify(L)); } catch (e) { /* egal */ } },
     saveNow() { clearTimeout(this._timer); try { localStorage.setItem(KEY, JSON.stringify(this.data)); } catch (e) { this.storageOK = false; } },
     onChange(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); },
     get settings() { return this.data.settings; },

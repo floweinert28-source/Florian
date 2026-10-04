@@ -933,4 +933,7 @@ I18N.add('pt', {
   "Aug": "Ago",
   "Sep": "Set",
   "Okt": "Out",
+  "Willkommen zurück,": "Bem-vindo de volta,",
+  "Willkommen zurück": "Bem-vindo de volta",
+  "Letzter Login:": "Último acesso:",
 });

@@ -896,4 +896,7 @@ I18N.add('en', {
   "Mai": "May",
   "Okt": "Oct",
   "Dez": "Dec",
+  "Willkommen zurück,": "Welcome back,",
+  "Willkommen zurück": "Welcome back",
+  "Letzter Login:": "Last login:",
 });

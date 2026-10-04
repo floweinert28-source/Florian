@@ -88,6 +88,14 @@
       this._timer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(this.data)); this.storageOK = true; } catch (e) { this.storageOK = false; console.warn('Speichern fehlgeschlagen', e); } }, 120);
       this.listeners.forEach(fn => fn());
     },
+    /* „Letzter Login“ der Seitenleiste: eine neue Sitzung beginnt, wenn seit dem letzten Lebenszeichen mehr als 30 Minuten
+       vergangen sind (Neuladen zählt nicht als Login). prevLoginAt = Beginn der vorigen Sitzung, loginAt = Beginn der jetzigen */
+    touchLogin(now = Date.now()) {
+      const st = this.data.settings; const seen = Date.parse(st.lastSeenAt || '') || 0;
+      if (!st.loginAt || now - seen > 30 * 60 * 1000) { st.prevLoginAt = st.loginAt || null; st.loginAt = new Date(now).toISOString(); }
+      st.lastSeenAt = new Date(now).toISOString(); this.saveNow();
+    },
+    markSeen() { this.data.settings.lastSeenAt = new Date().toISOString(); this.saveNow(); },
     saveNow() { clearTimeout(this._timer); try { localStorage.setItem(KEY, JSON.stringify(this.data)); } catch (e) { this.storageOK = false; } },
     onChange(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); },
     get settings() { return this.data.settings; },

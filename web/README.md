@@ -36,6 +36,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
+- **Seitenleiste**: unter dem Logo „Trading Journal App“, darunter „Willkommen zurück, Name“ (Vorname aus Einstellungen → Profil)
+  und „Letzter Login“ = Beginn der vorigen Sitzung (neue Sitzung nach 30 Minuten Pause; Neuladen zählt nicht). Trennlinien zwischen
+  Logo, Begrüßung und Navigation; im eingeklappten Modus nur Symbole. Auf niedrigen Bildschirmen etwas dichter.
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster

@@ -102,10 +102,42 @@ svg { display: block; }
   position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 4px;
   padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
 }
-.brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 22px 8px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
+.brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 18px 8px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
 .brand .mark { width: 16px; height: 16px; display: grid; place-items: center; color: var(--text); flex: 0 0 auto; }
 .brand .mark svg { width: 12px; height: 12px; } /* so hoch wie die Großbuchstaben von JOURNALYST */
-.brand .name { white-space: nowrap; }
+.brand .name { white-space: nowrap; line-height: 1.2; }
+.brand .mark { align-self: flex-start; margin-top: 1.5px; } /* Zeichen auf Höhe von JOURNALYST, nicht mittig zwischen den zwei Zeilen */
+.brand .brand-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.brand .sub { font-family: var(--font); font-size: 12px; font-weight: 500; letter-spacing: .01em; text-transform: none; color: var(--muted); white-space: nowrap; }
+/* Begrüßung unter dem Logo, mit Trennlinien zu Logo und Navigation */
+.sidebar .sb-sep { border: 0; border-top: 1px solid var(--border); margin: 0 8px; flex: 0 0 auto; }
+.sb-welcome { padding: 15px 8px 16px; }
+.sb-hello { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1.12; letter-spacing: -.01em; color: var(--text); overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .sb-hello { background: linear-gradient(180deg, var(--text) 35%, var(--text-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+}
+.sb-last { margin-top: 7px; font-size: 12.5px; color: var(--muted); }
+.sb-last span { color: var(--text-2); }
+.sb-welcome + .sb-sep { margin-bottom: 14px; }
+/* niedrige Fenster: Begrüßung etwas kleiner, Navigation dichter, damit Einstellungen und Hell/Dunkel ohne Scrollen sichtbar bleiben */
+@media (min-width: 961px) and (max-height: 1060px) {
+  .sb-hello { font-size: 19px; }
+  .sb-welcome { padding: 12px 8px 13px; }
+  .sb-welcome + .sb-sep { margin-bottom: 10px; }
+  .brand { padding-bottom: 14px; }
+  .nav a, .nav button { padding-top: 6px; padding-bottom: 6px; }
+  .nav.nav-group + .nav.nav-group { margin-top: 16px; }
+  .nav-title { padding-bottom: 6px; }
+  .nav.nav-sec { margin-top: 8px; }
+}
+@media (min-width: 961px) and (max-height: 940px) {
+  .sb-hello { font-size: 17px; }
+  .sb-last { margin-top: 5px; }
+  .nav a, .nav button { padding-top: 5px; padding-bottom: 5px; }
+  .nav.nav-group + .nav.nav-group { margin-top: 12px; }
+}
+html.sb-mini .brand .brand-text, html.sb-mini .sb-welcome, html.sb-mini .sb-welcome + .sb-sep { display: none; }
+html.sb-mini .sb-sep { margin-bottom: 14px; }
 .brand em { font-style: normal; color: inherit; }
 .brand .sb-toggle { margin-left: auto; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .brand .sb-toggle svg { width: 18px; height: 18px; }

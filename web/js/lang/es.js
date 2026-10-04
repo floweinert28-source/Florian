@@ -935,4 +935,7 @@ I18N.add('es', {
   "Aug": "Ago",
   "Okt": "Oct",
   "Dez": "Dic",
+  "Willkommen zurück,": "Bienvenido de nuevo,",
+  "Willkommen zurück": "Bienvenido de nuevo",
+  "Letzter Login:": "Último acceso:",
 });

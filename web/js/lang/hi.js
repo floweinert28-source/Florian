@@ -978,4 +978,7 @@ I18N.add('hi', {
   "Okt": "अक्टू",
   "Nov": "नव",
   "Dez": "दिस",
+  "Willkommen zurück,": "फिर से स्वागत है,",
+  "Willkommen zurück": "फिर से स्वागत है",
+  "Letzter Login:": "पिछला लॉगिन:",
 });

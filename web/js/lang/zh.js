@@ -978,4 +978,7 @@ I18N.add('zh', {
   "Okt": "10月",
   "Nov": "11月",
   "Dez": "12月",
+  "Willkommen zurück,": "欢迎回来，",
+  "Willkommen zurück": "欢迎回来",
+  "Letzter Login:": "上次登录：",
 });

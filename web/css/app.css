@@ -6,6 +6,7 @@
 
 :root {
   color-scheme: dark;
+  --sheen: rgba(255, 255, 255, .055); /* Lade-Glanz über Platzhaltern */
   --bg: #000000;
   --bg-2: #070907;
   --surface: #0b0d0c;
@@ -49,6 +50,7 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     color-scheme: light;
+    --sheen: rgba(255, 255, 255, .75);
     --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9;
     --border: #e1e6e2; --border-2: #cfd6d1; --text: #0d130f; --text-2: #3d463f; --muted: #6a746d; --faint: #b0b8b2; --lift-shadow: 0 14px 28px -20px rgba(20, 30, 24, .35);
     --accent: #0fb862; --accent-2: #0a9a52; --accent-ink: #ffffff; --accent-soft: rgba(15, 184, 98, 0.12); --accent-glow: rgba(15, 184, 98, 0.22);
@@ -58,6 +60,7 @@
 }
 :root[data-theme="light"] {
   color-scheme: light;
+  --sheen: rgba(255, 255, 255, .75);
   --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9;
   --border: #e1e6e2; --border-2: #cfd6d1; --text: #0d130f; --text-2: #3d463f; --muted: #6a746d; --faint: #b0b8b2; --lift-shadow: 0 14px 28px -20px rgba(20, 30, 24, .35);
   --accent: #0fb862; --accent-2: #0a9a52; --accent-ink: #ffffff; --accent-soft: rgba(15, 184, 98, 0.12); --accent-glow: rgba(15, 184, 98, 0.22);
@@ -1171,13 +1174,37 @@ span.info:hover { color: var(--accent); }
 .tabs.scroll-x, .prop-tabs { padding: 4px 3px 4px; margin: -4px -3px -2px; scrollbar-width: thin; }
 .tip-dot, #tip i.dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; vertical-align: middle; }
 /* Skeleton */
-.skel { border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); animation: skel-pulse 1.6s var(--ease) infinite; min-width: 0; }
-@keyframes skel-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+.skel { position: relative; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); min-width: 0; }
+/* Platzhalter beim Laden: ein weicher Glanz wandert langsam darüber (nur transform), statt zu blinken */
+.skel::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(100deg, transparent 20%, var(--sheen) 50%, transparent 80%); animation: skel-sheen 1.8s cubic-bezier(.45, 0, .25, 1) infinite; }
+@keyframes skel-sheen { to { transform: translateX(100%); } }
+
+/* ---------- Laden: Kurslinie (U.loader) und Ring (U.spin) ---------- */
+.ld { display: inline-grid; place-items: center; color: var(--accent); vertical-align: middle; }
+.ld svg { width: 40px; height: 18px; overflow: visible; }
+.ld.sm svg { width: 26px; height: 12px; } .ld.lg svg { width: 72px; height: 33px; }
+.ld .ld-track, .ld .ld-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ld .ld-track { stroke: var(--border-2); stroke-width: 1.6; }
+.ld .ld-line { stroke: currentColor; stroke-width: 2.2; stroke-dasharray: 32 100; stroke-dashoffset: 32; animation: ld-run 1.5s cubic-bezier(.65, 0, .35, 1) infinite; filter: drop-shadow(0 0 3px var(--accent-soft)); }
+@keyframes ld-run { to { stroke-dashoffset: -100; } }
+.spin { display: inline-block; width: 14px; height: 14px; flex: 0 0 auto; vertical-align: -2px; border-radius: 50%; background: conic-gradient(from 90deg, transparent 0 20%, currentColor 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px)); animation: spin-turn .75s linear infinite; }
+@keyframes spin-turn { to { transform: rotate(360deg); } }
+.ld-row { display: inline-flex; align-items: center; gap: 10px; }
+/* App-Start: Zeichen und Kurslinie mittig, erscheint erst nach kurzer Zeit (schneller Start blitzt nicht) */
+.boot { flex: 1; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; animation: boot-in .5s var(--ease, ease) .2s both; }
+.boot > div { display: flex; flex-direction: column; align-items: center; gap: 18px; color: var(--text); }
+.boot .boot-mark svg { width: 30px; height: 30px; display: block; }
+@keyframes boot-in { from { opacity: 0; transform: translateY(4px); } }
+@media (prefers-reduced-motion: reduce) {
+  .skel::after { animation: none; display: none; }
+  .ld .ld-line { animation: none; stroke-dasharray: none; opacity: .9; }
+  .spin { animation-duration: 2.4s; }
+  .boot { animation: none; }
+}
 .mentor-skel { display: flex; flex-direction: column; gap: 12px; }
 .mentor-skel .skel { border-radius: 14px; }
 .mentor-skel .skel.user { align-self: flex-end; }
 .skel.sz-mittel { grid-column: span 2; } .skel.sz-gross { grid-column: span 3; }
-@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 /* Bearbeitungsmodus */
 .edit-bar { position: sticky; top: 8px; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); box-shadow: var(--shadow); }
 .dot-live { width: 9px; height: 9px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); animation: pulse 1.6s infinite; }
@@ -1933,9 +1960,9 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .msg .b ul { margin: 0 0 8px; padding-left: 20px; } .msg .b li { margin: 2px 0; }
 .msg .t { font-size: 11px; color: var(--muted); margin-top: 4px; text-align: right; }
 .msg.typing { display: flex; gap: 5px; align-items: center; padding: 14px 16px; }
-.msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--text-2); animation: mentor-dot 1.2s infinite ease-in-out; }
-.msg.typing i:nth-child(2) { animation-delay: .2s; } .msg.typing i:nth-child(3) { animation-delay: .4s; }
-@keyframes mentor-dot { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+.msg.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: mentor-dot 1.4s infinite cubic-bezier(.45, 0, .55, 1); }
+.msg.typing i:nth-child(2) { animation-delay: .16s; } .msg.typing i:nth-child(3) { animation-delay: .32s; }
+@keyframes mentor-dot { 0%, 70%, 100% { opacity: .25; transform: translateY(0) scale(.85); } 35% { opacity: 1; transform: translateY(-3px) scale(1); } }
 .mentor-err { align-self: stretch; padding: 10px 14px; border-radius: 10px; background: var(--loss-soft); color: var(--loss); font-size: 13.5px; }
 .mentor-form { display: flex; gap: 10px; align-items: flex-end; padding: 12px 18px; border-top: 1px solid var(--border); }
 .mentor-form textarea { flex: 1; resize: none; min-height: 48px; max-height: 160px; line-height: 1.45; }

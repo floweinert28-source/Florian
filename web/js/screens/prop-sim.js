@@ -105,7 +105,7 @@
     Promise.resolve().then(job).then(res => { if (ep !== epoch) return; s.results[key] = res; delete s.busy[key]; App.rerender(); }, err => { if (ep !== epoch) return; delete s.busy[key]; U.toast(`Simulation fehlgeschlagen: ${err && err.message || err}`, 'err'); App.rerender(); });
   }
   const invalidate = () => { const s = sim(); s.results = {}; s.busy = {}; epoch++; };
-  const busyHtml = runs => `<div class="prop-sim-busy" role="status" aria-live="polite"><div class="skel tall"></div><div class="skel"></div><div class="skel short"></div><span class="muted small">Rechnet… ${fmt.int(runs)} Durchläufe</span></div>`;
+  const busyHtml = runs => `<div class="prop-sim-busy" role="status" aria-live="polite"><div class="skel tall"></div><div class="skel"></div><div class="skel short"></div><span class="ld-row">${U.loader('sm', 'Rechnet')}<span class="muted small">Rechnet… ${fmt.int(runs)} Durchläufe</span></span></div>`;
   const idleMatch = n => `<div class="dashed prop-sim-idle">Noch nicht gerechnet. Der Matcher simuliert ${fmt.int(n)} Presets mit je ${fmt.int(RUNS.match)} Durchläufen aus deinen Handelstagen.</div>`;
   /* Ergebnis gezielt aus dem DOM nehmen statt App.rerender(): ein Rerender beim Tippen/Verlassen des Feldes würde den Knopf unter dem Mauszeiger ersetzen
      (mousedown → blur → change → Rerender), der Klick auf „Matcher starten“ ginge verloren */

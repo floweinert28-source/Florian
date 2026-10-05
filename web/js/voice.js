@@ -101,7 +101,7 @@
         status.textContent = transcript ? 'Aufnahme gespeichert.' : 'Aufnahme gespeichert, dein Browser hat kein Transkript geliefert.';
         const M = mentor();
         if (!(M && M.configured())) { result.innerHTML = `<div class="small muted" style="margin-top:10px">Transkript gespeichert. Für Vorschläge (Emotion, Setup, Fehler) richte den Mentor-Server ein.</div>`; App.rerender(); return; }
-        result.innerHTML = `<div class="row" style="margin-top:12px;gap:8px"><span class="dot-live"></span><span class="small muted">Wird ausgewertet …</span></div>`;
+        result.innerHTML = `<div class="ld-row" style="margin-top:12px">${U.loader('sm', 'Wird ausgewertet')}<span class="small muted">Wird ausgewertet …</span></div>`;
         const r = await runAnalysis(tradeId, note.id);
         const fresh = S.getTrade(tradeId);
         if (r && r.ok) { result.innerHTML = `<div class="caption" style="margin-top:14px">Vorschläge</div>${suggestionsHTML(fresh, r.note.analysis)}`; result.dataset.trade = tradeId; result.dataset.voice = note.id; }

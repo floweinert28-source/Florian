@@ -166,5 +166,8 @@ behält die Seite ihre alte Höhe. Nur ein Seitenwechsel, eine neue Replay-Karte
 Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 150 ms, `--dur-2` 240 ms, `--dur-3` 380 ms, `--ease`).
 `js/motion.js` blendet Karten und Abschnitte beim Reinscrollen ein (einmalig, gestaffelt), kapselt den Seitenwechsel in eine
 View Transition und blendet Dialoge, Popover und Toasts aus, bevor sie entfernt werden. Animiert werden nur `transform` und `opacity`.
+**Laden** hat eine gemeinsame Bildsprache: `U.loader('sm'|''|'lg')` zeichnet eine kleine Kurslinie, über die ein grünes Stück
+gleitet (App-Start mit Logo, Auswertung von Sprachnotizen, Prop-Simulation); `U.spin()` ist ein feiner Ring für Knöpfe
+(„Wird erstellt …“); Platzhalter (`.skel`) bekommen einen weichen Glanz, der darüberwandert, statt zu blinken.
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.

@@ -16,7 +16,7 @@
 <div class="shell">
   <aside class="sidebar" id="sidebar" aria-label="Navigation"></aside>
   <div class="scrim" id="scrim" data-action="scrim"></div>
-  <main class="main" id="main"></main>
+  <main class="main" id="main"><div class="boot" role="status" aria-label="Journalyst lädt"><div><span class="boot-mark"><svg viewBox="258 262 500 500" aria-hidden="true"><path d="M411 283H677Q687 283 687 293V480A262 262 0 0 1 425 742H347Q337 742 337 732V615Q337 605 347 605H425A128 128 0 0 0 553 477V416H339Q329 416 333.8 407.2L396.2 291.8Q401 283 411 283Z" fill="currentColor"/></svg></span><span class="ld lg"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8"/><path class="ld-line" d="M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8" pathLength="100"/></svg></span></div></div></main>
 </div>
 <script src="js/theme.js"></script>
 <script src="js/motion.js"></script>
@@ -72,7 +72,7 @@
     if (b1) b1.onclick = function () { try { if (typeof Store !== 'undefined' && Store.removeSample) Store.removeSample(); } catch (err) { console.warn(err); } try { var k = 'trading-journal-web-v1', d = JSON.parse(localStorage.getItem(k) || '{}'); if (d.settings) { d.settings.sampleInstalled = false; d.settings.sampleVersion = 99; localStorage.setItem(k, JSON.stringify(d)); } } catch (err) { console.warn(err); } location.reload(); };
     if (b2) b2.onclick = function () { if (confirm('Wirklich alle lokalen Daten dieses Journals löschen?')) { try { localStorage.removeItem('trading-journal-web-v1'); } catch (err) { console.warn(err); } location.reload(); } };
   }
-  window.addEventListener('error', function (ev) { var main = document.getElementById('main'); if (main && !main.innerHTML.trim()) startFail(ev.error || ev.message); });
+  window.addEventListener('error', function (ev) { var main = document.getElementById('main'); if (main && (!main.innerHTML.trim() || main.querySelector('.boot'))) startFail(ev.error || ev.message); /* Startfehler: auch wenn noch die Ladeanzeige steht */ });
   try {
     Store.load();
     if (window.I18N) I18N.setLang(Store.settings.language || 'de');

@@ -346,11 +346,16 @@
   function tipEl() { let t = document.getElementById('tip'); if (!t) { t = document.createElement('div'); t.id = 'tip'; document.body.appendChild(t); } return t; }
   function tipAt(el, lx, ly, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); const r = el.getBoundingClientRect(); const x = r.left + lx, y = r.top + ly; tip.style.left = Math.min(x + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, y - tip.offsetHeight - 14) + 'px'; }
   function tipShowAt(clientX, clientY, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); tip.style.left = Math.min(clientX + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, clientY - tip.offsetHeight - 12) + 'px'; }
-  function tipHide() { const t = document.getElementById('tip'); if (t) t.classList.remove('on'); }
+  let tipFor = null; /* Element mit data-tip, zu dem der sichtbare Tooltip gehört (Diagramm-Tooltips laufen ohne) */
+  function tipHide() { tipFor = null; const t = document.getElementById('tip'); if (t) t.classList.remove('on'); }
   function bindTips() {
-    document.addEventListener('mouseover', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) tipShowAt(e.clientX, e.clientY, t.dataset.tip); });
-    document.addEventListener('mousemove', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) tipShowAt(e.clientX, e.clientY, t.dataset.tip); });
+    /* Über einem data-tip-Element anzeigen; woanders verstecken. Wird das Element beim Klick neu aufgebaut (Spalte ein-/ausklappen),
+       kommt kein mouseout mehr – darum versteckt der Klick den Tooltip sofort und die nächste Mausbewegung räumt Reste weg */
+    const move = e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) { tipFor = t; tipShowAt(e.clientX, e.clientY, t.dataset.tip); } else if (tipFor) tipHide(); };
+    document.addEventListener('mouseover', move);
+    document.addEventListener('mousemove', move);
     document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('[data-tip]')) tipHide(); });
+    document.addEventListener('pointerdown', () => { if (tipFor) tipHide(); }, true);
   }
 
   /* ---------- Modal & Toast ---------- */

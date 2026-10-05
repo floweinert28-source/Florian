@@ -164,6 +164,10 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a.active svg { opacity: 1; color: var(--text); }
 .nav a.active::after { content: ''; position: absolute; right: 0; top: 7px; bottom: 7px; width: 4px; border-radius: 4px 0 0 4px; background: var(--accent); box-shadow: 0 0 12px 2px var(--accent-soft), 0 0 4px var(--accent); }
 .nav a.active:hover { transform: none; }
+/* Hinweis-Punkt: kleines Quadrat in der Akzentfarbe mit weichem Hof, rechts im Eintrag; eingeklappt oben rechts am Symbol */
+.nav .nav-dot { margin-left: auto; margin-right: 10px; width: 7px; height: 7px; border-radius: 2px; flex: 0 0 auto; background: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft), 0 0 12px var(--accent-soft); }
+.nav a.active .nav-dot { margin-right: 14px; }
+html.sb-mini .nav .nav-dot { position: absolute; top: 7px; right: 12px; margin: 0; width: 6px; height: 6px; box-shadow: 0 0 0 3px var(--accent-soft); }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
 

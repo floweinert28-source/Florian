@@ -45,6 +45,8 @@
     const stopSize = P.stopSize(trades, S.settings.propStopSize);
     const r = { trades, stopSize, ev: P.evaluate(a, trades, { thresholds: thresholds(), stopSize }) }; cache.set(a.id, r); return r;
   }
+  /* Hinweis-Punkt in der Seitenleiste: aktive Konten auf Rot oder mit verletzter Regel (gleiche Zählung wie die Kachel „Aktive Konten“) */
+  App.navDot('prop', () => { const n = accounts().filter(a => a.status === 'active').filter(a => { const { ev } = evalOf(a, true); return ev.buffer.ampel === 'rot' || ev.status === 'breached'; }).length; return n ? (n === 1 ? '1 Prop-Konto auf Rot oder verletzt' : `${n} Prop-Konten auf Rot oder verletzt`) : null; });
   /* Payout-Bedingungen: Funded → payout-Werte (Konto, sonst Preset); Challenge → Mindesttage und Profit Target der Regeln */
   function planOpts(a, ev) {
     const r = a.rules || {}; const po = a.payout && typeof a.payout === 'object' ? a.payout : ((presetOf(a) || {}).payout || {}); /* Snapshot im Konto; Preset nur für Altkonten ohne payout-Objekt */

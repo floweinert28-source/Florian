@@ -15,7 +15,26 @@
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
+  /* Hinweis-Punkte der Seitenleiste: Bereich, Bezeichnung und Erklärung für Einstellungen → Benachrichtigungen */
+  const NAV_DOT_AREAS = [
+    ['dashboard', 'Dashboard', 'Ein neuer Wochen- oder Monats-Recap wartet.'],
+    ['trades', 'TradeLog', 'Es gibt offene Positionen.'],
+    ['day', 'Tagesansicht', 'Der Check-in für heute fehlt (Montag bis Freitag).'],
+    ['notebook', 'Notebook', 'Heute gehandelt, aber noch keine Tagesnotiz.'],
+    ['progress', 'Fortschritt', 'Heute gehandelt, aber die Regeln noch nicht abgehakt.'],
+    ['prop', 'Prop Firms', 'Ein aktives Prop-Konto steht auf Rot oder hat eine Regel verletzt.'],
+  ];
+
   const App = {
+    NAV_DOT_AREAS,
+    /* Prüfungen je Bereich: liefern einen kurzen Grund (Tooltip) oder null. Bereiche mit eigenen Daten melden sich über navDot an */
+    dots: {
+      trades: c => { const n = c.all.filter(t => !t.closed).length; return n ? (n === 1 ? '1 offene Position' : `${n} offene Positionen`) : null; },
+      day: c => { const wd = new Date().getDay(); if (wd === 0 || wd === 6) return null; return (S.day(c.key) || {}).checkIn ? null : 'Check-in für heute fehlt'; },
+      notebook: c => (!c.todays.length || S.notesByDay()[c.key] ? null : 'Tagesnotiz für heute fehlt'),
+      progress: c => { const rules = (S.data.rules || []).filter(r => r.active !== false); if (!rules.length || !c.todays.length) return null; const f = (S.day(c.key) || {}).rulesFollowed; return f && f.length ? null : 'Regeln von heute noch nicht abgehakt'; },
+    },
+    navDot(key, fn) { this.dots[key] = fn; },
     TREND_LABELS, TREND_OPTIONS: [['up', 'Aufwärts'], ['down', 'Abwärts'], ['ranging', 'Seitwärts']],
     screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
     /* ---------- Daten ---------- */
@@ -120,11 +139,18 @@
     rerender(keepScroll = true) { this.render({ enter: false, keep: keepScroll ? this.saveScroll(document.getElementById('main')) : null }); },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
-      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
+      /* Hinweis-Punkte: nur wenn eingeschaltet (Einstellungen → Benachrichtigungen); Grund steht im Tooltip */
+      const nd = Object.assign({ on: true }, S.settings.navDots || {}); const all = nd.on ? this.allTrades() : null;
+      const dctx = all ? { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) } : null;
+      const dot = key => { if (!dctx || nd[key] === false || !this.dots[key]) return ''; let why = null; try { why = this.dots[key](dctx); } catch (e) { console.warn(e); } return why ? `<span class="nav-dot" role="img" title="${esc(why)}" aria-label="${esc(why)}"></span>` : ''; };
+      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
       /* Begrüßung: Vorname (Profil), sonst Benutzername oder Anzeigename; „Letzter Login“ = Beginn der vorigen Sitzung */
-      const pr = S.settings.profile || {}; const nm = String(pr.firstName || pr.username || (S.settings.name !== 'Trader' ? S.settings.name : '') || '').trim();
+      /* Namensform wählbar (Einstellungen → Profil): Vor- und Nachname (Standard), nur Vorname oder nur Benutzername; fehlt der Teil, der nächstbeste */
+      const pr = S.settings.profile || {}; const first = String(pr.firstName || '').trim(), user = String(pr.username || '').trim().replace(/^@/, ''); const full = [first, String(pr.lastName || '').trim()].filter(Boolean).join(' ');
+      const legacy = S.settings.name && S.settings.name !== 'Trader' ? String(S.settings.name).trim() : ''; const gm = S.settings.greetName || 'full';
+      const nm = (gm === 'first' ? first || full || user : gm === 'user' ? user || full || first : full || first || user) || legacy;
       const lg = S.loginInfo(); const last = lg.prevLoginAt || lg.loginAt; const lastTxt = last ? new Date(last).toLocaleDateString(root.I18N ? root.I18N.locale() : 'de-DE', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
       const welcome = `<hr class="sb-sep"><div class="sb-welcome"><div class="sb-hello">${nm ? `Willkommen zurück,<br><span class="no-i18n">${esc(nm)}</span>` : 'Willkommen zurück'}</div>${lastTxt ? `<div class="sb-last">Letzter Login: <span class="no-i18n">${lastTxt}</span></div>` : ''}</div><hr class="sb-sep">`;
       sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div>${welcome}${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div><nav class="nav nav-sec">${NAV2.map(item).join('')}</nav>

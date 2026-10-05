@@ -39,6 +39,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Seitenleiste**: unter dem Logo „Trading Journal App“, darunter „Willkommen zurück, Name“ (Vorname aus Einstellungen → Profil)
   und „Letzter Login“ = Beginn der vorigen Sitzung (neue Sitzung nach 30 Minuten Pause; Neuladen zählt nicht). Trennlinien zwischen
   Logo, Begrüßung und Navigation; im eingeklappten Modus nur Symbole. Auf niedrigen Bildschirmen etwas dichter.
+  Namensform der Begrüßung unter Einstellungen → Profil: Vor- und Nachname (Standard), nur Vorname oder nur Benutzername.
+  **Hinweis-Punkte** neben Bereichen, in denen etwas wartet (Grund im Tooltip): Dashboard (neuer Recap), TradeLog (offene
+  Positionen), Tagesansicht (Check-in fehlt, Mo–Fr), Notebook (heute gehandelt, keine Tagesnotiz), Fortschritt (heute gehandelt,
+  Regeln nicht abgehakt), Prop Firms (aktives Konto auf Rot oder verletzt). Ein- und ausschalten, gesamt oder je Bereich, unter
+  Einstellungen → Benachrichtigungen. Weitere Bereiche melden sich mit `App.navDot(key, fn)` an.
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster

@@ -73,6 +73,8 @@
     if (n.monthly !== false && now.getDate() >= 2) { const key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`; if (shown.month !== key) { const from = new Date(now.getFullYear(), now.getMonth() - 1, 1); const to = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999); build('month', key, from, to, from.toLocaleDateString((root.I18N ? root.I18N.locale() : 'de-DE'), { month: 'long', year: 'numeric' })); } }
     return out;
   }
+  App.navDot('dashboard', c => (recaps(c.all).length ? 'Neuer Performance-Recap' : null)); /* Hinweis-Punkt in der Seitenleiste */
+
   Object.assign(App.actions, { 'recap-dismiss'(el) { const shown = Object.assign({}, S.settings.recapShown || {}); shown[el.dataset.kind] = el.dataset.key; S.setSetting('recapShown', shown); App.rerender(); } });
 
   /* ---------- Filter (Symbol, Richtung, Status, Setup, Tags) ---------- */

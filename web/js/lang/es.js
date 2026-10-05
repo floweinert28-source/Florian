@@ -1001,4 +1001,9 @@ I18N.add('es', {
   "Tick- und Pip-Werte für den Rechner": "Valores de tick y pip para la calculadora",
   "Noch keine Payouts für dieses Konto. Erfasse sie unter Finanzen › Bilanz.": "Aún no hay pagos para esta cuenta. Regístralos en Finanzas › Balance.",
   "Ampel und Stop-Größe": "Semáforo y tamaño del stop",
+  "Noch keine Regel aktiv": "Aún no hay ninguna regla activa",
+  "Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.": "Activa arriba al menos una regla: entonces tu Yo sombra calcula cuánto cuestan las infracciones.",
+  "Vorschlag übernehmen": "Usar sugerencia",
+  "Keine Regel aktiv": "Ninguna regla activa",
+  "Drei Regeln eingeschaltet": "Tres reglas activadas",
 });

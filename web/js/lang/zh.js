@@ -1045,4 +1045,9 @@ I18N.add('zh', {
   "Tick- und Pip-Werte für den Rechner": "计算器使用的跳动点和点值",
   "Noch keine Payouts für dieses Konto. Erfasse sie unter Finanzen › Bilanz.": "此账户尚无出金。请在 财务 › 收支 中记录。",
   "Ampel und Stop-Größe": "信号灯与止损大小",
+  "Noch keine Regel aktiv": "尚未启用任何规则",
+  "Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.": "在上方至少启用一条规则——影子自我就会计算违规的代价。",
+  "Vorschlag übernehmen": "采用建议",
+  "Keine Regel aktiv": "没有启用的规则",
+  "Drei Regeln eingeschaltet": "已启用三条规则",
 });

@@ -2305,7 +2305,8 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
   .prop-accsel { width: 100%; } .prop-accsel .select { min-width: 0; flex: 1; }
   .prop-calc-grid .form-grid { grid-template-columns: 1fr; }
   .pf-sub { display: none; }
-  .prop-tabs { display: flex; width: 100%; } .prop-tabs a { flex: 1 1 auto; text-align: center; padding: 8px 7px; font-size: 12.5px; }
+  .prop-tabs { display: flex; width: 100%; gap: 0; } .prop-tabs a { flex: 1 1 auto; text-align: center; padding: 8px 4px; font-size: 12.5px; }
+  .seg.segc { max-width: 100%; } .seg.segc button { white-space: normal; line-height: 1.25; } /* lange Beschriftungen umbrechen statt überlaufen */
   .page-head .dh-context:has(> .prop-tabs) { width: 100%; }
   .prop-foot .btn { flex: 1 1 auto; justify-content: center; }
 }
@@ -2412,7 +2413,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
   .prop-sim-sample { flex-direction: column; gap: 4px; }
   .prop-sim-sample span + span::before { content: none; }
   .prop-sim-areas .seg { width: 100%; }
-  .prop-sim-areas .seg button { flex: 1 1 auto; }
+  .prop-sim-areas .seg button { flex: 1 1 0; min-width: 0; }
   .prop-sim-run .field { max-width: none; }
   .prop-sim-run .btn { width: 100%; justify-content: center; margin-top: 0; }
   .prop-sim-result { grid-template-columns: 1fr; gap: 14px; }

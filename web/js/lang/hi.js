@@ -1045,4 +1045,9 @@ I18N.add('hi', {
   "Tick- und Pip-Werte für den Rechner": "कैलकुलेटर के लिए टिक और पिप मान",
   "Noch keine Payouts für dieses Konto. Erfasse sie unter Finanzen › Bilanz.": "इस खाते के लिए अभी कोई पेआउट नहीं। इन्हें वित्त › हिसाब में जोड़ें।",
   "Ampel und Stop-Größe": "ट्रैफ़िक लाइट और स्टॉप साइज़",
+  "Noch keine Regel aktiv": "अभी कोई नियम सक्रिय नहीं",
+  "Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.": "ऊपर कम से कम एक नियम चालू करें – तब आपका छाया स्वयं गणना करेगा कि नियम तोड़ने की कीमत क्या है।",
+  "Vorschlag übernehmen": "सुझाव अपनाएँ",
+  "Keine Regel aktiv": "कोई नियम सक्रिय नहीं",
+  "Drei Regeln eingeschaltet": "तीन नियम चालू किए",
 });

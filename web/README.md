@@ -107,7 +107,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Equity echt vs. Schatten, Disziplin-Kosten je Woche/Monat/gesamt (ehrlich auch, wenn ein Regelbruch Geld
   gebracht hat), Verstoßliste, Regel-Ranking und eine teilbare Bildkarte. Tests: `web/tests/shadow.test.mjs`.
   „Mein Regelwerk“ ist eine schlichte Liste: links die Regel, rechts der Schalter; die Eingaben erscheinen nur bei
-  eingeschalteten Regeln, die Einheit steht im Feld, die Erklärung im (i).
+  eingeschalteten Regeln, die Einheit steht im Feld, die Erklärung im (i). Ohne aktive Regel steht der Hinweis mit
+  „Vorschlag übernehmen“ unter den Schaltern, damit beim ersten Einschalten nichts darüber verrutscht.
 - **Blind-Replay** (Taste 0): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“
   (eigenes Feld in der Trade-Ansicht) kommen vor. Zehn Karten je Session: Chart, Instrument, Uhrzeit, Setup
   optional, dann „Nehmen“ oder „Skippen“ mit Sicherheit 1–3, Auflösung mit Ergebnis in R. Richtig heißt Gewinner
@@ -172,7 +173,10 @@ Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge.
 
 Neuaufbau ohne Springen: `App.rerender()` baut die Seite nach jeder Eingabe neu auf und hält dabei die Stelle – das Fenster
 und jeden gescrollten Bereich darin (Notizliste, Spalten, Tabellen, Listen in Seitenleisten). Bis Screenshots geladen sind,
-behält die Seite ihre alte Höhe. Nur ein Seitenwechsel, eine neue Replay-Karte oder eine andere Dashboard-Vorlage beginnt oben.
+behält die Seite ihre alte Höhe; wird sie danach kürzer, bleibt unten so viel Luft, wie das Fenster gerade braucht. Das
+angeklickte Element (Schalter, Knopf, Auswahlfeld) bleibt an seinem Platz unter der Maus: Ändert die Aktion etwas darüber,
+gleicht der Scrollstand das aus (`App.noteAnchor` / `keepAnchor`, nur im normalen Seitenfluss, nicht in Dialogen, Menüs und
+eigenen Scrollbereichen). Nur ein Seitenwechsel, eine neue Replay-Karte oder eine andere Dashboard-Vorlage beginnt oben.
 
 ## Bewegung und Übergänge
 

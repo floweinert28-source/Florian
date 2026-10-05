@@ -962,4 +962,9 @@ I18N.add('en', {
   "Tick- und Pip-Werte für den Rechner": "Tick and pip values for the calculator",
   "Noch keine Payouts für dieses Konto. Erfasse sie unter Finanzen › Bilanz.": "No payouts for this account yet. Add them under Finances › Ledger.",
   "Ampel und Stop-Größe": "Traffic light and stop size",
+  "Noch keine Regel aktiv": "No rule active yet",
+  "Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.": "Turn on at least one rule above – then your Shadow Self calculates what rule breaks cost.",
+  "Vorschlag übernehmen": "Use suggestion",
+  "Keine Regel aktiv": "No rule active",
+  "Drei Regeln eingeschaltet": "Three rules turned on",
 });

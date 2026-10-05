@@ -53,6 +53,8 @@
   function rulesCard(res, r) {
     const setups = (S.data.tags && S.data.tags.setups) || [];
     const notes = res.warnings.map(w => U.banner('warn', '', esc(w)));
+    /* Hinweis ohne aktive Regel steht unter den Schaltern: beim ersten Einschalten verschwindet er, ohne dass sich darüber etwas verschiebt */
+    if (!res.active) notes.push(U.banner('info', 'Noch keine Regel aktiv', 'Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="shadow-preset">${I.bolt} Vorschlag übernehmen</button>` }));
     if (res.unknownRisk) notes.push(U.banner('info', '', `${res.unknownRisk === 1 ? '1 Trade ohne Stop konnte' : `${res.unknownRisk} Trades ohne Stop konnten`} bei der Risiko-Regel nicht geprüft werden.`));
     return U.card('Mein Regelwerk', `<div class="shadow-rules">${Sh.RULES.map(def => ruleRow(def, r[def.key], setups)).join('')}</div>${notes.length ? `<div class="stack shadow-notes">${notes.join('')}</div>` : ''}`, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' });
   }
@@ -156,9 +158,9 @@
       </div>`;
       U.chartData['shadow-curve'] = { points: res.curve.map(pt => ({ date: pt.date, v: { real: pt.real, shadow: pt.shadow } })), series: [{ key: 'real', label: 'Echt', unit: 'cur', color: 'var(--text-2)' }, { key: 'shadow', label: 'Schatten-Ich', unit: 'cur', color: 'var(--accent)' }], periodLabel: d => fmt.dateTime(d) };
       const chart = U.card('Equity: echt vs. Schatten-Ich', `<div class="legend top"><span><i style="background:var(--text-2)"></i>Echt</span><span><i style="background:var(--accent)"></i>Schatten-Ich</span></div><div class="chart h300" data-chart="lines" data-id="shadow-curve"></div>`, { info: 'Kumuliert über alle abgeschlossenen Trades. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.' });
-      const banner = res.active ? '' : U.banner('info', 'Noch keine Regel aktiv', 'Schalte unten mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="shadow-preset">${I.bolt} Vorschlag übernehmen</button>` });
+
       const detail = res.active ? `<div class="grid shadow-detail start">${U.card('Regelverstöße', violationsTable(pd.violations, s.all), { sub: esc(pd.label), info: 'Die erste verletzte Regel zählt als Grund. Klick auf eine Zeile öffnet den Trade.' })}${U.card('Welche Regel kostet am meisten', rankingRows(pd.ranking), { sub: 'Netto-Effekt der Verstöße auf dein Konto' })}</div>` : '';
-      return head + banner + tiles + chart + rulesCard(res, r) + detail;
+      return head + tiles + chart + rulesCard(res, r) + detail;
     },
   };
 })(typeof self !== 'undefined' ? self : this);

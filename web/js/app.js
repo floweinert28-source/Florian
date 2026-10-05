@@ -82,11 +82,14 @@
       this.renderSidebar();
       U.drawCharts(main); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
       window.scrollTo({ top: keep ? keep.y : 0 });
+      if (keep && keep.anchor) this.keepAnchor(main, keep.anchor);
       if (hold) this.releaseHeight(main, imgs, tok, short);
     },
     /* gehaltene Höhe freigeben, sobald alle Bilder da sind (höchstens 2 s); ein neuerer Aufbau übernimmt das Halten */
     releaseHeight(main, imgs, tok, short) {
-      const done = () => { if (this._holdTok !== tok) return; this.catchUpScroll(short); main.style.minHeight = ''; };
+      /* Freigeben, aber nie unter das, was das Fenster gerade zeigt: wird die Seite kürzer (z. B. eine Tabelle unten fällt weg),
+         würde der Browser den Scrollstand kürzen und alles rutschen. Der Rest bleibt als Luft unten bis zum nächsten Aufbau. */
+      const done = () => { if (this._holdTok !== tok) return; this.catchUpScroll(short); const c = main.querySelector('#content'); const mt = main.getBoundingClientRect().top; const natural = c ? c.getBoundingClientRect().bottom - mt + (parseFloat(getComputedStyle(main).paddingBottom) || 0) : 0; const need = Math.ceil(window.innerHeight - mt); main.style.minHeight = need > natural + 1 ? need + 'px' : ''; };
       Promise.resolve(imgs).catch(() => {}).then(() => Promise.race([
         Promise.all([...main.querySelectorAll('img')].filter(i => !i.complete).map(i => new Promise(r => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); }))),
         new Promise(r => setTimeout(r, 2000)),
@@ -136,7 +139,26 @@
     },
     /* offene Popover ausblenden und dann schließen; except = Popover, das gerade umgeschaltet wird */
     closePopovers(except) { document.querySelectorAll('.popover.open:not(.closing)').forEach(p => { if (p.id === except) return; M.leave(p, 'closing', '--dur-1', () => p.classList.remove('open', 'closing')); }); },
-    rerender(keepScroll = true) { this.render({ enter: false, keep: keepScroll ? this.saveScroll(document.getElementById('main')) : null }); },
+    rerender(keepScroll = true) { const keep = keepScroll ? this.saveScroll(document.getElementById('main')) : null; if (keep) keep.anchor = this.takeAnchor(); this.render({ enter: false, keep }); },
+    /* Angeklicktes Element an seinem Platz halten: Ändert sich durch die Aktion etwas darüber (ein Hinweis verschwindet, eine Karte wächst),
+       gleicht der Scrollstand das aus – das Element bleibt unter der Maus. Nur für Elemente im normalen Seitenfluss (nicht in Dialogen,
+       Menüs, festen Leisten oder eigenen Scrollbereichen); gemessen ohne Transformationen (Einblend-Animationen), über offsetTop */
+    anchorKey(el) {
+      const A = ['data-action', 'data-change', 'data-input', 'data-rule', 'data-field', 'data-value', 'data-key', 'data-id', 'data-typ', 'data-symbol', 'data-area'];
+      const parts = A.filter(a => el.hasAttribute(a)).map(a => `[${a}="${CSS.escape(el.getAttribute(a))}"]`); return parts.length ? el.tagName.toLowerCase() + parts.join('') : null;
+    },
+    docTop(el) { let y = 0; for (let e = el; e; e = e.offsetParent) y += e.offsetTop; return y; },
+    inPageFlow(el) {
+      const main = document.getElementById('main'); if (!main || !main.contains(el) || el.closest('.modal-bg, .modal, .popover, .side-panel, [data-no-anchor]')) return false;
+      for (let a = el.parentElement; a && a !== main; a = a.parentElement) { const cs = getComputedStyle(a); if (cs.position === 'fixed' || cs.position === 'sticky' || /(auto|scroll)/.test(cs.overflowY)) return false; }
+      return true;
+    },
+    noteAnchor(el) { this._anchor = null; try { const key = this.anchorKey(el); if (!key || !this.inPageFlow(el)) return; this._anchor = { key, top: this.docTop(el) - window.scrollY, y: window.scrollY, route: this.state.route, hash: location.hash, t: Date.now() }; } catch (e) { this._anchor = null; } },
+    takeAnchor() { const a = this._anchor; this._anchor = null; return a && a.y === window.scrollY && a.hash === location.hash && Date.now() - a.t < 3000 ? a : null; }, /* nur direkt nach der Aktion, ohne Scrollen dazwischen */
+    keepAnchor(main, a) {
+      if (!a || a.route !== this.state.route) return; const hits = main.querySelectorAll(a.key); if (hits.length !== 1 || !this.inPageFlow(hits[0])) return;
+      const d = Math.round(this.docTop(hits[0]) - window.scrollY - a.top); if (Math.abs(d) >= 1) window.scrollTo({ top: Math.max(0, window.scrollY + d) });
+    },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
       /* Hinweis-Punkte: nur wenn eingeschaltet (Einstellungen → Benachrichtigungen); Grund steht im Tooltip */
@@ -221,7 +243,7 @@
         if (stopEl && !inside(closeEl) && !inside(el)) return; /* data-stop schirmt nur äußere Aktionen ab, nicht Knöpfe darin */
         if (closeEl) { if (closeEl.isConnected) U.closeModal(); return; }
         if (!el || el.tagName === 'FORM') return;
-        const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, el, e); }
+        const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); this.noteAnchor(el); fn.call(this, el, e); }
       });
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
       document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
@@ -230,7 +252,7 @@
       if (root.RangePicker) root.RangePicker.init(); /* Zeitraum „Benutzerdefiniert“ mit zwei Monaten */
       if (root.DatePicker) root.DatePicker.init(); /* eigener Kalender für Datumsfelder, nach dem Klick-Handler oben registriert */
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
-      document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) fn.call(this, el, e); } });
+      document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) { this.noteAnchor(el); fn.call(this, el, e); } } });
       window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; M.transition(() => this.render()); });
       /* Wörterbuch einer neu gewählten Sprache ist nachgeladen: Seite neu aufbauen (Fenstertitel, Diagramm-Beschriftungen) */
       window.addEventListener('i18n-ready', () => this.rerender());

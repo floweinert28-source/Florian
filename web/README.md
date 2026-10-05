@@ -113,11 +113,10 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   (eigenes Feld in der Trade-Ansicht) kommen vor. Zehn Karten je Session: Chart, Instrument, Uhrzeit, Setup
   optional, dann „Nehmen“ oder „Skippen“ mit Sicherheit 1–3, Auflösung mit Ergebnis in R. Richtig heißt Gewinner
   genommen oder Verlierer geskippt. Karteikasten mit drei Fächern (`js/replay.js`): falsch eingeschätzte Trades
-  kommen öfter wieder. Die Übersicht spricht Alltagssprache: „Trainiere dein Bauchgefühl“ mit drei Schritten (Chart
-  ansehen → nehmen oder skippen → Ergebnis sehen) und dem Start; Zahlen als „Richtig eingeschätzt“ (x von y Trades),
-  „Letzte 20 Trades“ (besser/schlechter als dein Schnitt), „Runden gespielt“ und „Lernstand“ (noch üben · einmal
-  richtig · sitzen) statt Karteikasten-Fächern; darunter „Bei welchem Setup liegst du richtig?“, „Passt dein Gefühl?“
-  (Unsicher/Eher sicher/Sicher mit einem Satz Deutung) und „Wirst du besser?“ als Säulen je Runde. In der Session stehen
+  kommen öfter wieder. Die Übersicht ist bewusst knapp: eine große Zahl „Richtig eingeschätzt“ (x von y Trades), daneben
+  die Runden als kleine Säulen (nur die letzte grün, Wert beim Überfahren) und „Session starten“; darunter drei Fakten
+  (Letzte 20 mit Pfeil, Runden, Zum Üben) und zwei schlanke Listen „Treffer je Setup“ und „Treffer je Gefühl“
+  (Unsicher/Eher sicher/Sicher) in einer Farbe. Ohne Daten erklärt die Startkarte in drei Schritten, worum es geht. In der Session stehen
   Zähler („Trade 1 von 10“), Fortschritt, Setup-Schalter und Abbrechen im Kopf der Karte, Sicherheit und
   „Skippen“/„Nehmen“ in einer Reihe. Die Sicherheit ist eine Signal-Anzeige: drei ansteigende Balken (Bernstein → Grün)
   mit dem Wort daneben, Vorschau beim Überfahren; ein Klick ändert nur die Anzeige. Der Zeitraum spielt hier keine Rolle

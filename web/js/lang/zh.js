@@ -1005,4 +1005,6 @@ I18N.add('zh', {
   "Vor- und Nachname": "名字和姓氏",
   "Nur Vorname": "仅名字",
   "Nur Benutzername": "仅用户名",
+  "Konto und Einstellungen": "账户与设置",
+  "Profil vervollständigen": "完善个人资料",
 });

@@ -44,6 +44,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Positionen), Tagesansicht (Check-in fehlt, Mo–Fr), Notebook (heute gehandelt, keine Tagesnotiz), Fortschritt (heute gehandelt,
   Regeln nicht abgehakt), Prop Firms (aktives Konto auf Rot oder verletzt). Ein- und ausschalten, gesamt oder je Bereich, unter
   Einstellungen → Benachrichtigungen. Weitere Bereiche melden sich mit `App.navDot(key, fn)` an.
+  Unten die **Konto-Karte** (Profilbild oder Initialen, Name, E-Mail): Klick öffnet ein Menü mit Profil, Einstellungen,
+  Benachrichtigungen, Sprache und dem Hell/Dunkel-Schalter; eingeklappt nur das Profilbild, Menü rechts daneben.
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster

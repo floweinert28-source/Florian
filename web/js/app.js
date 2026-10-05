@@ -11,7 +11,6 @@
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
     ['Konten', [['prop', 'Prop Firms', 'prop']]],
   ];
-  const NAV2 = [['settings', 'Einstellungen', 'settings']];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
@@ -128,6 +127,7 @@
     },
     /* Popover in seiner Box halten: ragt ein rechtsbündiges Menü links aus dem nächsten scrollenden Rahmen (z. B. der Notiz-Spalte), klappt es nach rechts auf */
     fitPopover(pop) {
+      if (pop.id === 'pop-user') { const mini = document.documentElement.classList.contains('sb-mini'); const card = pop.parentElement.querySelector('.sb-user'); if (mini && card) { const r = card.getBoundingClientRect(), sb = document.getElementById('sidebar').getBoundingClientRect(); pop.style.left = `${Math.round(sb.right + 8)}px`; pop.style.bottom = `${Math.round(window.innerHeight - r.bottom)}px`; } else { pop.style.left = ''; pop.style.bottom = ''; } return; }
       if (pop.classList.contains('left') && !pop.dataset.autoLeft) return;
       pop.classList.remove('left'); delete pop.dataset.autoLeft;
       let left = 0;
@@ -153,10 +153,27 @@
       const nm = (gm === 'first' ? first || full || user : gm === 'user' ? user || full || first : full || first || user) || legacy;
       const lg = S.loginInfo(); const last = lg.prevLoginAt || lg.loginAt; const lastTxt = last ? new Date(last).toLocaleDateString(root.I18N ? root.I18N.locale() : 'de-DE', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
       const welcome = `<hr class="sb-sep"><div class="sb-welcome"><div class="sb-hello">${nm ? `Willkommen zurück,<br><span class="no-i18n">${esc(nm)}</span>` : 'Willkommen zurück'}</div>${lastTxt ? `<div class="sb-last">Letzter Login: <span class="no-i18n">${lastTxt}</span></div>` : ''}</div><hr class="sb-sep">`;
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div>${welcome}${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div><nav class="nav nav-sec">${NAV2.map(item).join('')}</nav>
-        <div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div>`;
+      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div>${welcome}${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme)}`;
+      this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
+    },
+    /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Einstellungen,
+       Benachrichtigungen, Sprache und Hell/Dunkel. Ersetzt den früheren Einstellungen-Eintrag und den Hell/Dunkel-Schalter */
+    userCard(theme) {
+      const st = S.settings, pr = st.profile || {}; const cur = this.state.route;
+      const full = [pr.firstName, pr.lastName].map(x => String(x || '').trim()).filter(Boolean).join(' '); const user = String(pr.username || '').trim().replace(/^@/, '');
+      const name = full || user || (st.name && st.name !== 'Trader' ? String(st.name).trim() : '') || 'Trader';
+      const mail = String(pr.email || '').trim(); const sub = mail || (user ? '@' + user : '');
+      const initials = name.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
+      const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+      const link = (href, icon, label) => `<a class="item" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
+      return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
+        <span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span>
+        <span class="sb-who"><b class="no-i18n">${esc(name)}</b>${sub ? `<span class="no-i18n">${esc(sub)}</span>` : '<span>Profil vervollständigen</span>'}</span>
+        <span class="sb-chev">${chev('M7 14l5-5 5 5')}${chev('M7 10l5 5 5-5')}</span></button>
+        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
+          <div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
     },
     /* Bausteine der Kopfreihe: Zeitraum, Konto, Session, neuer Trade (Dashboard ordnet sie selbst an, alle anderen Seiten über pageHead) */
     rangeControl() {
@@ -229,7 +246,7 @@
     'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.sidebarMini = !S.settings.sidebarMini; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
-    'nav-close'(el) { const h = el.getAttribute('href'); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
+    'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     range(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.rerender(); },
     'range-custom'() { const v = root.RangePicker ? root.RangePicker.value() : { from: '' }; if (!v.from) return U.toast('Bitte ein Startdatum wählen', 'err'); S.setSetting('range', { preset: 'custom', from: v.from, to: v.to || v.from }); this.closePopovers(); this.rerender(); },

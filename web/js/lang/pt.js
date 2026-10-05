@@ -960,4 +960,6 @@ I18N.add('pt', {
   "Vor- und Nachname": "Nome e sobrenome",
   "Nur Vorname": "Só o nome",
   "Nur Benutzername": "Só o nome de usuário",
+  "Konto und Einstellungen": "Conta e configurações",
+  "Profil vervollständigen": "Complete seu perfil",
 });

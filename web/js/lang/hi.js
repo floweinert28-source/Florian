@@ -1005,4 +1005,6 @@ I18N.add('hi', {
   "Vor- und Nachname": "पहला और अंतिम नाम",
   "Nur Vorname": "सिर्फ़ पहला नाम",
   "Nur Benutzername": "सिर्फ़ यूज़रनेम",
+  "Konto und Einstellungen": "खाता और सेटिंग्स",
+  "Profil vervollständigen": "प्रोफ़ाइल पूरी करें",
 });

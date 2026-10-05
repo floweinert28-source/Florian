@@ -923,4 +923,6 @@ I18N.add('en', {
   "Vor- und Nachname": "First and last name",
   "Nur Vorname": "First name only",
   "Nur Benutzername": "Username only",
+  "Konto und Einstellungen": "Account and settings",
+  "Profil vervollständigen": "Complete your profile",
 });

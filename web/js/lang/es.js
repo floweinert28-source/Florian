@@ -962,4 +962,6 @@ I18N.add('es', {
   "Vor- und Nachname": "Nombre y apellido",
   "Nur Vorname": "Solo el nombre",
   "Nur Benutzername": "Solo el nombre de usuario",
+  "Konto und Einstellungen": "Cuenta y ajustes",
+  "Profil vervollständigen": "Completa tu perfil",
 });

@@ -9,21 +9,47 @@
   const tradeById = all => { const m = new Map(); for (const t of all) m.set(t.id, t); return m; };
 
   /* ---------- Übersicht ----------
-     Eine Startkarte (Frage, Start, Kennzahlen), darunter Setup und Sicherheit als Balken, dann der Verlauf; Erklärungen stecken im (i) */
-  const ABOUT = 'Du siehst den Chart vor dem Einstieg, Instrument und Uhrzeit, aber nicht das Ergebnis. Entscheide, ob du den Trade nehmen würdest. Richtig heißt: Gewinner genommen oder Verlierer geskippt. Falsch eingeschätzte Trades kommen öfter wieder.';
+     Selbsterklärend: oben, was man hier macht (drei Schritte) und der Start; darunter die Zahlen in Alltagssprache
+     (richtig eingeschätzt, letzte 20, Runden, Lernstand statt Karteikasten-Fächern), dann Setup, Gefühl und Verlauf mit je einem Satz Deutung */
+  const CONF_WORD = { 1: 'Unsicher', 2: 'Eher sicher', 3: 'Sicher' };
+  const n1 = (n, one, many) => `${fmt.int(n)} ${n === 1 ? one : many}`;
   function overview(all) {
-    const eligible = R.eligible(all); const hist = S.replayHistory(); const stats = R.stats(hist, all);
-    const start = `<button type="button" class="btn primary rh-start" data-action="replay-start"${eligible.length ? '' : ' disabled'}>${I.play} Session starten${eligible.length ? ` <span class="rh-n">${Math.min(N, eligible.length)} Karten</span>` : ''}</button>`;
-    const kpi = (label, value, extra = '') => `<div class="rk"><span class="rk-l">${label}${extra}</span><b class="rk-v">${value}</b></div>`;
-    const boxes = `<div class="rk"><span class="rk-l">Karteikasten${U.info('Fach 1: zuletzt falsch eingeschätzt, kommt am häufigsten. Fach 3: dreimal in Folge richtig.')}</span><span class="replay-boxes"><b>${stats.boxes[1] || 0}</b><i>Fach 1</i><b>${stats.boxes[2] || 0}</b><i>Fach 2</i><b>${stats.boxes[3] || 0}</b><i>Fach 3</i></span></div>`;
-    const hero = `<section class="card replay-hero"><div class="rh-top"><div class="rh-text"><div class="card-title">Würdest du ihn wieder nehmen?${U.info(ABOUT)}</div>
-      <div class="rh-sub">${eligible.length} Trades mit „Screenshot vor Entry“${eligible.length ? '' : '. Lade bei deinen Trades einen Screenshot vor dem Einstieg hoch, dann erscheinen sie hier.'}</div></div>${start}</div>
-      <div class="rh-kpis">${kpi('Trefferquote', pct(stats.hitRate), `<em>${stats.n} Karten</em>`)}${kpi('Letzte 20', pct(stats.recent))}${kpi('Sessions', fmt.int(stats.timeline.length))}${boxes}</div></section>`;
-    const setups = stats.bySetup.length ? stats.bySetup.map(s => U.barRow(s.setup, s.hitRate || 0, 1, `${pct(s.hitRate)} · ${s.correct}/${s.n}`)).join('') : `<span class="small muted">Starte eine Session, dann siehst du hier deine Trefferquote je Setup.</span>`;
-    const conf = stats.byConfidence.map(c => U.barRow(`Sicherheit ${c.confidence}`, c.hitRate || 0, 1, `${pct(c.hitRate)} · ${c.n}`)).join('') || `<span class="small muted">Noch keine Daten.</span>`;
-    if (stats.timeline.length) U.chartData['replay-timeline'] = { values: stats.timeline.map(x => Math.round((x.hitRate || 0) * 100)) };
-    const timeline = stats.timeline.length >= 2 ? `<div class="chart h120" data-chart="spark" data-id="replay-timeline"></div>` : `<span class="small muted">Ab zwei Sessions erscheint hier der Verlauf.</span>`;
-    return `<div class="stack replay">${hero}<div class="grid two">${U.card('Trefferquote je Setup', `<div class="replay-bars">${setups}</div>`, { info: 'Anteil richtig eingeschätzter Karten je Setup · richtig/gesamt.' })}${U.card('Sicherheit vs. Treffer', `<div class="replay-bars">${conf}</div>`, { info: 'Wie oft du richtig lagst, je nachdem wie sicher du dir warst.' })}</div>${U.card('Verlauf', timeline, { info: 'Trefferquote je Session in Prozent, älteste links.' })}</div>`;
+    const eligible = R.eligible(all); const hist = S.replayHistory(); const stats = R.stats(hist, all); const has = stats.n > 0;
+    const start = `<button type="button" class="btn primary rh-start" data-action="replay-start"${eligible.length ? '' : ' disabled'}>${I.play} Session starten${eligible.length ? ` <span class="rh-n">${n1(Math.min(N, eligible.length), 'Trade', 'Trades')}</span>` : ''}</button>`;
+    const steps = `<ol class="rh-steps"><li><b>1</b>Chart vor dem Einstieg ansehen</li><li><b>2</b>Nehmen oder skippen?</li><li><b>3</b>Ergebnis sehen</li></ol>`;
+    const avail = eligible.length ? `${n1(eligible.length, 'Trade', 'Trades')} mit „Screenshot vor Entry“ verfügbar` : 'Noch kein Trade mit „Screenshot vor Entry“. Lade ihn in der Trade-Ansicht hoch, dann kannst du hier üben.';
+    /* Kennzahlen */
+    const kpi = (label, value, foot = '', o = {}) => `<div class="rk${o.cls ? ' ' + o.cls : ''}"><span class="rk-l">${label}${o.info ? U.info(o.info) : ''}</span>${value}${foot ? `<span class="rk-f">${foot}</span>` : ''}</div>`;
+    const big = v => `<b class="rk-v">${v}</b>`;
+    const trend = stats.recent == null || stats.hitRate == null ? '' : stats.recent - stats.hitRate >= 0.03 ? '<span class="pos">↑ besser als dein Schnitt</span>' : stats.hitRate - stats.recent >= 0.03 ? '<span class="neg">↓ schlechter als dein Schnitt</span>' : 'wie dein Schnitt';
+    const bx = stats.boxes, bt = (bx[1] || 0) + (bx[2] || 0) + (bx[3] || 0);
+    const seg = (k, cls) => bx[k] ? `<i class="${cls}" style="flex:${bx[k]}"></i>` : '';
+    const learn = kpi('Lernstand', `<div class="learn-bar">${bt ? `${seg(1, 'l1')}${seg(2, 'l2')}${seg(3, 'l3')}` : '<i class="l0"></i>'}</div>`, `<span class="replay-learn"><span class="l1"><b>${bx[1] || 0}</b> noch üben</span><span class="l2"><b>${bx[2] || 0}</b> einmal richtig</span><span class="l3"><b>${bx[3] || 0}</b> sitzen</span></span>`, { cls: 'rk-learn', info: 'Falsch eingeschätzte Trades kommen öfter wieder. Ein Trade „sitzt“, wenn du ihn dreimal in Folge richtig eingeschätzt hast.' });
+    const kpis = has ? `<div class="rh-kpis">${kpi('Richtig eingeschätzt', big(pct(stats.hitRate)), `${fmt.int(stats.correct)} von ${n1(stats.n, 'Trade', 'Trades')}`)}${kpi('Letzte 20 Trades', big(pct(stats.recent)), trend)}${kpi('Runden gespielt', big(fmt.int(stats.timeline.length)), 'je bis zu 10 Trades')}${learn}</div>` : '';
+    const hero = `<section class="card replay-hero"><div class="rh-top"><div class="rh-text"><div class="card-title">Trainiere dein Bauchgefühl</div>
+      <div class="rh-sub">Du siehst einen alten Trade ohne Ergebnis und entscheidest: nehmen oder skippen. Richtig ist, Gewinner zu nehmen und Verlierer zu skippen.</div></div>${start}</div>
+      ${steps}<div class="rh-avail">${avail}</div>${kpis}</section>`;
+    if (!has) return `<div class="stack replay">${hero}</div>`;
+    /* Setup */
+    const setups = stats.bySetup.map(s => U.barRow(s.setup, s.hitRate || 0, 1, `${pct(s.hitRate)} · ${s.correct} von ${s.n}`)).join('');
+    /* bestes Setup (ab drei Trades); bei Gleichstand alle besten nennen */
+    const enough = stats.bySetup.filter(s => s.n >= 3); const top = enough.length ? Math.max(...enough.map(s => s.hitRate || 0)) : null;
+    const best = top == null ? [] : enough.filter(s => Math.abs((s.hitRate || 0) - top) < 1e-9).map(s => `<b>${esc(s.setup)}</b>`);
+    const setupNote = !best.length ? 'Ab drei Trades je Setup siehst du hier, wo du am besten liegst.' : best.length === enough.length && best.length > 1 ? 'Bei allen Setups liegst du gleich oft richtig.' : `Am besten liest du ${best.length > 1 ? `${best.slice(0, -1).join(', ')} und ${best[best.length - 1]}` : best[0]}.`;
+    /* Gefühl: Sicherheit in Worten, dazu ein Satz, ob das Gefühl stimmt */
+    const conf = stats.byConfidence.map(c => U.barRow(CONF_WORD[c.confidence], c.hitRate || 0, 1, c.n ? `${pct(c.hitRate)} · ${n1(c.n, 'Trade', 'Trades')}` : '—')).join('');
+    const lo = stats.byConfidence.find(c => c.confidence === 1), hi = stats.byConfidence.find(c => c.confidence === 3);
+    const feel = !lo || !hi || lo.n < 3 || hi.n < 3 ? 'Ab je drei Trades mit „Unsicher“ und „Sicher“ siehst du hier, ob dein Gefühl stimmt.'
+      : hi.hitRate - lo.hitRate >= 0.1 ? '<span class="pos">Dein Gefühl passt:</span> Wenn du dir sicher bist, liegst du öfter richtig.'
+      : lo.hitRate - hi.hitRate >= 0.1 ? '<span class="neg">Achtung:</span> Wenn du dir sicher bist, liegst du seltener richtig.'
+      : 'Ob du dir sicher bist oder nicht, macht bei dir kaum einen Unterschied.';
+    /* Verlauf */
+    /* Verlauf als Säulen: eine je Runde (höchstens die letzten 12), Wert darüber; grün, wenn mehr als die Hälfte richtig war */
+    const tl = stats.timeline; const shown = tl.slice(-12); const off = tl.length - shown.length;
+    const tlNote = tl.length >= 2 ? `Runde 1: <b>${pct(tl[0].hitRate)}</b> → Runde ${tl.length}: <b>${pct(tl[tl.length - 1].hitRate)}</b>` : '';
+    const timeline = tl.length >= 2 ? `<div class="replay-rounds">${shown.map((x, i) => `<div class="rr-col${(x.hitRate || 0) > 0.5 ? ' good' : (x.hitRate || 0) < 0.5 ? ' bad' : ''}"><span class="rr-v">${pct(x.hitRate)}</span><div class="rr-bar"><i style="height:${Math.max(2, Math.round((x.hitRate || 0) * 100))}%"></i></div><span class="rr-l">${shown.length <= 6 ? 'Runde ' : ''}${off + i + 1}</span></div>`).join('')}</div>` : `<span class="small muted">Ab zwei Runden siehst du hier, ob du besser wirst.</span>`;
+    const note = html => `<p class="replay-note">${html}</p>`;
+    return `<div class="stack replay">${hero}<div class="grid two">${U.card('Bei welchem Setup liegst du richtig?', `${note(setupNote)}<div class="replay-bars">${setups}</div>`)}${U.card('Passt dein Gefühl?', `${note(feel)}<div class="replay-bars">${conf}</div>`, { info: 'Wie oft du richtig lagst, je nachdem wie sicher du dir vor der Entscheidung warst.' })}</div>${U.card('Wirst du besser?', `${tlNote ? note(tlNote) : ''}${timeline}`, { info: 'Anteil richtig je Runde, älteste links. Grün: mehr als die Hälfte richtig.' })}</div>`;
   }
 
   /* ---------- Session ---------- */
@@ -40,7 +66,7 @@
     if (!t) return summaryView();
     /* Kopf der Karte: Instrument und Zeit links, Kartenzähler, Setup-Schalter und Abbrechen rechts; darunter der Fortschritt über die ganze Breite */
     const meta = `<div class="replay-meta"><span class="sym">${esc(t.symbol)}</span><span class="muted">${fmt.dateTime(t.open)}</span>${s.showSetup && t.setup ? U.chip(t.setup, 'setup') : ''}</div>`;
-    const tools = `<div class="rc-tools"><span class="rc-count">Karte ${ses.idx + 1} von ${total}</span><label class="check small"><input type="checkbox" data-change="replay-setup" ${s.showSetup ? 'checked' : ''}> Setup anzeigen</label><button type="button" class="btn ghost sm" data-action="replay-abort">Abbrechen</button></div>`;
+    const tools = `<div class="rc-tools"><span class="rc-count">Trade ${ses.idx + 1} von ${total}</span><label class="check small"><input type="checkbox" data-change="replay-setup" ${s.showSetup ? 'checked' : ''}> Setup anzeigen</label><button type="button" class="btn ghost sm" data-action="replay-abort">Abbrechen</button></div>`;
     const progress = `<div class="replay-progress">${ses.queue.map((_, i) => `<i class="${i < ses.idx ? (ses.results[i] && ses.results[i].correct ? 'ok' : 'bad') : i === ses.idx ? 'cur' : ''}"></i>`).join('')}</div>`;
     const shot = `<div class="replay-shot"><img data-blob="${esc(t.screenshotPre)}" alt="Chart vor dem Einstieg" data-action="lightbox" data-blob-id="${esc(t.screenshotPre)}"></div>`;
     let body;
@@ -50,8 +76,8 @@
     } else {
       const g = ses.reveal; const after = (t.screenshots || []).filter(id => id !== t.screenshotPre);
       const rest = after.length ? `<div class="caption" style="margin-top:16px">So ging es weiter</div><div class="shots">${after.map(id => `<div class="shot"><img data-blob="${id}" alt="Chart nach dem Einstieg" data-action="lightbox" data-blob-id="${id}"></div>`).join('')}</div>` : `<div class="small muted" style="margin-top:12px">Kein weiterer Screenshot zu diesem Trade.</div>`;
-      body = `${shot}<div class="replay-result ${g.correct ? 'ok' : 'bad'}"><div class="rr-text"><div class="replay-verdict">${g.correct ? I.check + ' Richtig' : I.close + ' Daneben'}</div><div class="replay-outcome">${g.winner ? 'Gewinner' : 'Verlierer'} · ${g.r != null ? U.rText(g.r) : U.pnl(g.pnl, '', { r: null })}${t.setup ? ` · ${esc(t.setup)}` : ''}</div><div class="small muted">Du hast „${g.decision === 'take' ? 'Nehmen' : 'Skippen'}“ gewählt mit Sicherheit ${g.confidence}.</div></div>
-        <button type="button" class="btn primary" data-action="replay-next">${ses.idx + 1 < total ? 'Nächste Karte' : 'Auswertung'} ${I.chevR}</button></div>${rest}`;
+      body = `${shot}<div class="replay-result ${g.correct ? 'ok' : 'bad'}"><div class="rr-text"><div class="replay-verdict">${g.correct ? I.check + ' Richtig' : I.close + ' Daneben'}</div><div class="replay-outcome">${g.winner ? 'Gewinner' : 'Verlierer'} · ${g.r != null ? U.rText(g.r) : U.pnl(g.pnl, '', { r: null })}${t.setup ? ` · ${esc(t.setup)}` : ''}</div><div class="small muted rr-choice"><span>Deine Wahl:</span> <b>${g.decision === 'take' ? 'Nehmen' : 'Skippen'}</b> <span>· Gefühl:</span> <b>${CONF_WORD[g.confidence] || CONF_WORD[2]}</b></div></div>
+        <button type="button" class="btn primary" data-action="replay-next">${ses.idx + 1 < total ? 'Nächster Trade' : 'Auswertung'} ${I.chevR}</button></div>${rest}`;
     }
     return `<div class="stack replay"><section class="card replay-card"><div class="rc-head">${meta}${tools}</div>${progress}${body}</section></div>`;
   }

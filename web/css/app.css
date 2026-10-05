@@ -2087,13 +2087,34 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .rh-sub { color: var(--muted); font-size: 13px; margin-top: 4px; max-width: 62ch; }
 .rh-start { padding: 11px 18px; gap: 8px; }
 .rh-n { font-weight: 600; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--accent-ink) 14%, transparent); }
-.rh-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); }
+.rh-steps { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 16px 0 0; padding: 0; }
+.rh-steps li { display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 600; color: var(--text); }
+.rh-steps li b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 700; }
+.rh-steps li + li::before { content: ''; width: 18px; height: 1px; background: var(--border-2); margin-right: 4px; }
+.rh-avail { font-size: 12.5px; color: var(--muted); margin-top: 12px; }
+.rh-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.5fr); margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
 .rk { display: flex; flex-direction: column; gap: 6px; padding: 0 18px; min-width: 0; }
 .rk:first-child { padding-left: 0; }
 .rk + .rk { border-left: 1px solid var(--border); }
 .rk-l { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-2); white-space: nowrap; }
-.rk-l em { font-style: normal; font-weight: 500; color: var(--muted); font-size: 11.5px; }
-.rk-l em::before { content: '· '; }
+.rk-f { font-size: 12px; color: var(--muted); }
+/* Lernstand: ein Balken aus drei Teilen (noch üben · einmal richtig · sitzen) mit Legende */
+.learn-bar { display: flex; gap: 3px; height: 10px; margin: 8px 0 2px; }
+.learn-bar i { display: block; min-width: 4px; border-radius: 3px; }
+.learn-bar .l0 { flex: 1; background: var(--surface-3); }
+.learn-bar .l1, .replay-learn .l1 b { background: var(--loss); } .learn-bar .l2, .replay-learn .l2 b { background: var(--warn); } .learn-bar .l3, .replay-learn .l3 b { background: var(--profit); }
+.replay-learn { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.replay-learn > span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.replay-learn b { display: inline-grid; place-items: center; min-width: 20px; height: 18px; padding: 0 5px; border-radius: 6px; color: #0b0f0d; font-size: 11px; font-weight: 700; }
+.replay-note { margin: -4px 0 14px; font-size: 13px; color: var(--text-2); }
+.replay-rounds { display: flex; align-items: flex-end; gap: 10px; height: 150px; }
+.rr-col { flex: 1 1 0; max-width: 84px; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+.rr-v { font-size: 12px; font-weight: 700; color: var(--text-2); }
+.rr-bar { flex: 1; width: 100%; display: flex; align-items: flex-end; border-radius: 8px; background: var(--surface-2); overflow: hidden; }
+.rr-bar i { display: block; width: 100%; border-radius: 8px 8px 0 0; background: var(--faint); transition: height var(--dur-3) var(--ease); }
+.rr-col.good .rr-bar i { background: var(--accent); } .rr-col.bad .rr-bar i { background: var(--loss); }
+.rr-l { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.replay-note b { color: var(--text); }
 .rk-v { font-family: var(--font-display); font-weight: 700; font-size: 26px; letter-spacing: -.01em; line-height: 1.1; }
 .replay-bars { display: flex; flex-direction: column; gap: 4px; }
 .replay-card { padding: 18px 20px 20px; }
@@ -2147,9 +2168,6 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .replay-summary { text-align: center; padding: 34px 20px; }
 .replay-summary .row { justify-content: center; }
 .replay-big { font-family: var(--font-display); font-weight: 700; font-size: 34px; letter-spacing: -.02em; margin: 6px 0 4px; }
-.replay-boxes { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0 16px; align-items: baseline; }
-.replay-boxes b { font-size: 26px; line-height: 1.1; font-family: var(--font-display); font-weight: 700; }
-.replay-boxes i { font-style: normal; font-size: 11px; color: var(--muted); grid-row: 2; white-space: nowrap; }
 /* Ruhiger Umschalter: verbundene Knöpfe in einer Schiene (Replay-Sicherheit, Prop-Unterbereiche) */
 .seg.segc { gap: 2px; padding: 3px; border-radius: 11px; background: var(--surface-2); border: 1px solid var(--border); flex-wrap: nowrap; }
 .seg.segc button { border: 0; background: none; padding: 7px 14px; border-radius: 8px; font-size: 12.5px; white-space: nowrap; }
@@ -2159,6 +2177,8 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
   .replay-card { padding: 14px; } .replay-shot img { max-height: 60vh; }
   .rh-kpis { grid-template-columns: 1fr 1fr; gap: 16px 0; }
   .rk:nth-child(3) { padding-left: 0; border-left: 0; }
+  .rk-learn { grid-column: 1 / -1; padding-left: 0; border-left: 0 !important; padding-top: 14px; border-top: 1px solid var(--border); }
+  .rh-steps { flex-direction: column; gap: 8px; } .rh-steps li + li::before { display: none; }
   .rh-start { width: 100%; justify-content: center; }
   .replay-decide { flex-direction: column; align-items: stretch; }
   .conf { justify-content: space-between; } .conf-q { flex: 1; }

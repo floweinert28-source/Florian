@@ -1006,4 +1006,10 @@ I18N.add('es', {
   "Vorschlag übernehmen": "Usar sugerencia",
   "Keine Regel aktiv": "Ninguna regla activa",
   "Drei Regeln eingeschaltet": "Tres reglas activadas",
+  "Wie sicher bist du?": "¿Qué tan seguro estás?",
+  "Eher sicher": "Bastante seguro",
+  "Sicher": "Seguro",
+  "1 · Unsicher": "1 · Inseguro",
+  "2 · Eher sicher": "2 · Bastante seguro",
+  "3 · Sicher": "3 · Seguro",
 });

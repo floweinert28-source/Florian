@@ -967,4 +967,10 @@ I18N.add('en', {
   "Vorschlag übernehmen": "Use suggestion",
   "Keine Regel aktiv": "No rule active",
   "Drei Regeln eingeschaltet": "Three rules turned on",
+  "Wie sicher bist du?": "How sure are you?",
+  "Eher sicher": "Fairly sure",
+  "Sicher": "Sure",
+  "1 · Unsicher": "1 · Unsure",
+  "2 · Eher sicher": "2 · Fairly sure",
+  "3 · Sicher": "3 · Sure",
 });

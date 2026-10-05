@@ -116,7 +116,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   kommen öfter wieder. Trefferquote gesamt, je Setup, je Sicherheit und im Verlauf. Die Übersicht ist eine
   Startkarte (Frage, „Session starten“, Kennzahlen in einer Leiste), darunter Setup und Sicherheit als Balken und der
   Verlauf; Erklärungen stecken im (i). In der Session stehen Kartenzähler, Fortschritt, Setup-Schalter und Abbrechen
-  im Kopf der Karte, Sicherheit und „Skippen“/„Nehmen“ in einer Reihe. Der Zeitraum spielt hier keine Rolle und fehlt
+  im Kopf der Karte, Sicherheit und „Skippen“/„Nehmen“ in einer Reihe. Die Sicherheit ist eine Signal-Anzeige: drei
+  ansteigende Balken (Bernstein → Grün) mit dem Wort daneben, Vorschau beim Überfahren; ein Klick ändert nur die Anzeige. Der Zeitraum spielt hier keine Rolle und fehlt
   in der Kopfreihe.
 - **Prop Firms** (eigener Bereich, fünf Bereiche links in der Kopfreihe: Übersicht · Konten · Rechner · Finanzen ·
   Analyse; Finanzen mit den Reitern Bilanz und Payout, Analyse mit Simulation, Friedhof und Challenge vs. Funded. Die

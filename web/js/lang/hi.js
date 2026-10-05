@@ -1050,4 +1050,10 @@ I18N.add('hi', {
   "Vorschlag übernehmen": "सुझाव अपनाएँ",
   "Keine Regel aktiv": "कोई नियम सक्रिय नहीं",
   "Drei Regeln eingeschaltet": "तीन नियम चालू किए",
+  "Wie sicher bist du?": "आप कितने निश्चित हैं?",
+  "Eher sicher": "काफ़ी निश्चित",
+  "Sicher": "निश्चित",
+  "1 · Unsicher": "1 · असमंजस में",
+  "2 · Eher sicher": "2 · काफ़ी निश्चित",
+  "3 · Sicher": "3 · निश्चित",
 });

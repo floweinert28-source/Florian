@@ -2110,8 +2110,31 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .replay-shot { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--surface-2); }
 .replay-shot img { display: block; width: 100%; max-height: 520px; object-fit: contain; cursor: zoom-in; }
 .replay-decide { display: flex; align-items: center; justify-content: space-between; gap: 14px 20px; flex-wrap: wrap; margin-top: 16px; }
-.rd-conf { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.rd-conf .lbl { font-size: 13px; color: var(--text-2); font-weight: 600; }
+/* Sicherheit als Signal-Anzeige: drei ansteigende Balken; gefüllt bis zur Stufe, Farbe je Stufe, Wort daneben (alle Wörter
+   liegen übereinander, damit die Breite nie springt). Beim Überfahren zeigen die Balken die Stufe unter der Maus als Vorschau */
+.conf { --c1: var(--warn); --c2: color-mix(in srgb, var(--warn) 40%, var(--accent)); --c3: var(--accent); --c: var(--c3); display: inline-flex; align-items: center; gap: 14px; padding: 8px 16px 8px 14px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--border); }
+.conf[data-level="1"] { --c: var(--c1); }
+.conf[data-level="2"] { --c: var(--c2); }
+.conf-q { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.conf-bars { display: flex; align-items: flex-end; gap: 0; }
+.conf-bar { width: 14px; height: 34px; padding: 0 0 4px; border: 0; background: none; cursor: pointer; display: flex; align-items: flex-end; justify-content: center; border-radius: 6px; }
+.conf-bar i { display: block; width: 9px; border-radius: 3px; background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--border-2); transform-origin: bottom; transition: background var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease), transform var(--dur-2) var(--ease); }
+.conf-bar:nth-child(1) i { height: 10px; } .conf-bar:nth-child(2) i { height: 17px; transition-delay: 40ms; } .conf-bar:nth-child(3) i { height: 25px; transition-delay: 80ms; }
+.conf[data-level="1"] .conf-bar:nth-child(-n+1) i, .conf[data-level="2"] .conf-bar:nth-child(-n+2) i, .conf[data-level="3"] .conf-bar i { background: var(--c); box-shadow: 0 0 10px -2px color-mix(in srgb, var(--c) 70%, transparent); }
+.conf-bar[aria-checked="true"] i { transform: scaleY(1.08); }
+.conf-bar:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.conf-word { display: grid; font-size: 14px; }
+.conf-word b { grid-area: 1 / 1; font-weight: 700; color: var(--c); opacity: 0; transform: translateY(5px); transition: opacity var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), color var(--dur-2) var(--ease); white-space: nowrap; }
+.conf[data-level="1"] .conf-word b[data-l="1"], .conf[data-level="2"] .conf-word b[data-l="2"], .conf[data-level="3"] .conf-word b[data-l="3"] { opacity: 1; transform: none; }
+/* Vorschau mit der Maus: Balken, Farbe und Wort der Stufe unter dem Zeiger */
+@media (hover: hover) {
+  .conf:has(.conf-bar:nth-child(1):hover) { --c: var(--c1); } .conf:has(.conf-bar:nth-child(2):hover) { --c: var(--c2); } .conf:has(.conf-bar:nth-child(3):hover) { --c: var(--c3); }
+  .conf[data-level] .conf-bars:hover .conf-bar i { background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--border-2); transition-delay: 0ms; }
+  .conf[data-level] .conf-bars .conf-bar:hover i, .conf[data-level] .conf-bars .conf-bar:has(~ .conf-bar:hover) i { background: var(--c); box-shadow: 0 0 10px -2px color-mix(in srgb, var(--c) 70%, transparent); }
+  .conf:has(.conf-bar:hover) .conf-word b { opacity: 0; transform: translateY(5px); }
+  .conf:has(.conf-bar:nth-child(1):hover) .conf-word b[data-l="1"], .conf:has(.conf-bar:nth-child(2):hover) .conf-word b[data-l="2"], .conf:has(.conf-bar:nth-child(3):hover) .conf-word b[data-l="3"] { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .conf-bar i, .conf-word b { transition: none; } }
 .rd-btns { display: flex; gap: 10px; }
 .replay-decide .btn.big { padding: 13px 26px; font-size: 15px; border-radius: 14px; min-width: 132px; justify-content: center; }
 .replay-result { display: flex; align-items: center; justify-content: space-between; gap: 14px 20px; flex-wrap: wrap; margin-top: 16px; padding: 16px 18px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-2); border-left: 3px solid var(--profit); }
@@ -2137,8 +2160,8 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
   .rh-kpis { grid-template-columns: 1fr 1fr; gap: 16px 0; }
   .rk:nth-child(3) { padding-left: 0; border-left: 0; }
   .rh-start { width: 100%; justify-content: center; }
-  .replay-decide, .rd-conf { flex-direction: column; align-items: stretch; }
-  .rd-conf .seg.segc { width: 100%; } .rd-conf .seg.segc button { flex: 1; }
+  .replay-decide { flex-direction: column; align-items: stretch; }
+  .conf { justify-content: space-between; } .conf-q { flex: 1; }
   .rd-btns .btn { flex: 1; min-width: 0; }
   .replay-result .btn { width: 100%; justify-content: center; }
 }

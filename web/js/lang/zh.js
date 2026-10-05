@@ -1050,4 +1050,10 @@ I18N.add('zh', {
   "Vorschlag übernehmen": "采用建议",
   "Keine Regel aktiv": "没有启用的规则",
   "Drei Regeln eingeschaltet": "已启用三条规则",
+  "Wie sicher bist du?": "你有多确定？",
+  "Eher sicher": "比较确定",
+  "Sicher": "确定",
+  "1 · Unsicher": "1 · 不确定",
+  "2 · Eher sicher": "2 · 比较确定",
+  "3 · Sicher": "3 · 确定",
 });

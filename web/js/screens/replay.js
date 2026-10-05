@@ -45,7 +45,7 @@
     const shot = `<div class="replay-shot"><img data-blob="${esc(t.screenshotPre)}" alt="Chart vor dem Einstieg" data-action="lightbox" data-blob-id="${esc(t.screenshotPre)}"></div>`;
     let body;
     if (!ses.reveal) {
-      body = `${shot}<div class="replay-decide"><div class="rd-conf"><span class="lbl">Wie sicher bist du?</span>${U.seg([['1', '1 · unsicher'], ['2', '2'], ['3', '3 · sicher']], String(ses.confidence), 'replay-conf', 'segc')}</div>
+      body = `${shot}<div class="replay-decide">${confMeter(ses.confidence)}
         <div class="rd-btns"><button type="button" class="btn big" data-action="replay-decide" data-value="skip">${I.close} Skippen</button><button type="button" class="btn primary big" data-action="replay-decide" data-value="take">${I.check} Nehmen</button></div></div>`;
     } else {
       const g = ses.reveal; const after = (t.screenshots || []).filter(id => id !== t.screenshotPre);
@@ -54,6 +54,13 @@
         <button type="button" class="btn primary" data-action="replay-next">${ses.idx + 1 < total ? 'Nächste Karte' : 'Auswertung'} ${I.chevR}</button></div>${rest}`;
     }
     return `<div class="stack replay"><section class="card replay-card"><div class="rc-head">${meta}${tools}</div>${progress}${body}</section></div>`;
+  }
+  /* Sicherheit als Signal-Anzeige: drei ansteigende Balken, Farbe von Bernstein (unsicher) nach Grün (sicher), daneben das Wort.
+     Ein Klick füllt die Balken bis zur gewählten Stufe; nur die Anzeige ändert sich, die Seite wird nicht neu aufgebaut */
+  const CONF = [['1', 'Unsicher'], ['2', 'Eher sicher'], ['3', 'Sicher']];
+  function confMeter(level) {
+    const lv = String(level || 2);
+    return `<div class="conf" data-level="${lv}"><span class="conf-q" id="conf-q">Wie sicher bist du?</span><div class="conf-bars" role="radiogroup" aria-labelledby="conf-q">${CONF.map(([k, l]) => `<button type="button" class="conf-bar" role="radio" aria-checked="${k === lv}" aria-label="${k} · ${l}" data-action="replay-conf" data-value="${k}"><i></i></button>`).join('')}</div><span class="conf-word" aria-hidden="true">${CONF.map(([k, l]) => `<b data-l="${k}">${l}</b>`).join('')}</span></div>`;
   }
   function summaryView() {
     const ses = st().session; const n = ses.results.length; const ok = ses.results.filter(r => r.correct).length;
@@ -65,7 +72,11 @@
     'replay-start'() { startSession(App.allTrades()); },
     'replay-abort'() { st().session = null; App.rerender(false); },
     'replay-close'() { st().session = null; App.rerender(false); },
-    'replay-conf'(el) { const ses = st().session; if (ses) { ses.confidence = Number(el.dataset.value) || 2; App.rerender(); } },
+    'replay-conf'(el) {
+      const ses = st().session; if (!ses) return; ses.confidence = Number(el.dataset.value) || 2;
+      const box = el.closest('.conf'); if (!box) return App.rerender();
+      box.dataset.level = String(ses.confidence); box.querySelectorAll('.conf-bar').forEach(b => b.setAttribute('aria-checked', String(b.dataset.value === String(ses.confidence))));
+    },
     'replay-setup'(el) { st().showSetup = el.checked; App.rerender(); },
     'replay-decide'(el) {
       const ses = st().session; if (!ses || ses.reveal) return; const t = tradeById(App.allTrades()).get(ses.queue[ses.idx]); if (!t) return;

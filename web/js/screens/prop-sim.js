@@ -118,7 +118,7 @@
   function header(b) {
     const s = sim(); const accs = accounts(); const dp = b.dp;
     const src = `<div class="field"><label for="psim-src">Trades</label><select class="select" id="psim-src" data-change="prop-sim-source"><option value="all" ${s.source === 'all' ? 'selected' : ''}>Alle geschlossenen Trades des Journals</option>${accs.map(a => `<option value="${esc(a.id)}" ${s.source === a.id ? 'selected' : ''}>${esc(accName(a))} · ${X.nameOf(X.PHASES, a.phase)} · ${X.nameOf(X.STATUS, a.status)}</option>`).join('')}</select></div>`;
-    const factor = `<div class="field"><span class="lbl">Positionsgröße</span>${U.seg(FACTORS, s.sizeFactor, 'prop-sim-factor', 'pill')}</div>`;
+    const factor = `<div class="field"><span class="lbl">Positionsgröße</span>${U.seg(FACTORS, s.sizeFactor, 'prop-sim-factor', 'segc')}</div>`;
     const days = `<div class="field"><label for="psim-days">Zeitraum</label><select class="select" id="psim-days" data-change="prop-sim-days">${DAYS.map(d => `<option value="${d}" ${s.maxDays === d ? 'selected' : ''}>${d} Tage</option>`).join('')}</select></div>`;
     const sample = `<div class="prop-sim-sample"><span class="n"><b>${fmt.int(dp.tradeCount)} Trades</b> an <b>${fmt.int(dp.n)} Handelstag${dp.n === 1 ? '' : 'en'}</b></span><span>Handelstag ab ${esc(b.resetTime)} Uhr (${esc(String(b.tz).replace(/_/g, ' '))})</span><span>${fmt.int(RUNS.pass)} Durchläufe (Matcher ${fmt.int(RUNS.match)}, Erwartungswert ${fmt.int(RUNS.ev)})</span>${fallback ? '<span class="faint">Rechnung im Hauptthread</span>' : ''}</div>`;
     const warn = b.minSample ? '' : U.banner('warn', 'Zu wenig Daten', esc(String(b.note).replace(PS.NOTE, '').trim()));
@@ -189,7 +189,7 @@
   /* ---------- Tab ---------- */
   function render() {
     const s = sim(); const b = cur = basis();
-    const areas = `<div class="prop-sim-areas">${U.seg(AREAS, s.area, 'prop-sim-area')}</div>`;
+    const areas = `<div class="prop-sim-areas">${U.seg(AREAS, s.area, 'prop-sim-area', 'segc')}</div>`;
     if (!b.journalClosed) return areas + U.empty('dice', 'Erst Trades eintragen', 'Die Simulation zieht aus deinen geschlossenen Handelstagen. Logge Trades oder lade die Beispieldaten in den Einstellungen.', `<button type="button" class="btn primary" data-action="new-trade">${I.plus} Trade loggen</button>`);
     const body = !b.dp.tradeCount ? U.empty('dice', 'Keine geschlossenen Trades für dieses Konto', 'Ordne dem Konto Trades zu oder wähle oben alle Trades des Journals.') : s.area === 'match' ? areaMatch(b) : s.area === 'ev' ? areaEv(b) : areaPass(b);
     return areas + header(b) + body;

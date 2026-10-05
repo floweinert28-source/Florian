@@ -106,12 +106,25 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   chronologisch durch, Tageslimits gelten für das Schatten-Konto, zu große Trades werden herunterskaliert.
   Equity echt vs. Schatten, Disziplin-Kosten je Woche/Monat/gesamt (ehrlich auch, wenn ein Regelbruch Geld
   gebracht hat), Verstoßliste, Regel-Ranking und eine teilbare Bildkarte. Tests: `web/tests/shadow.test.mjs`.
+  „Mein Regelwerk“ ist eine schlichte Liste: links die Regel, rechts der Schalter; die Eingaben erscheinen nur bei
+  eingeschalteten Regeln, die Einheit steht im Feld, die Erklärung im (i).
 - **Blind-Replay** (Taste 0): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“
   (eigenes Feld in der Trade-Ansicht) kommen vor. Zehn Karten je Session: Chart, Instrument, Uhrzeit, Setup
   optional, dann „Nehmen“ oder „Skippen“ mit Sicherheit 1–3, Auflösung mit Ergebnis in R. Richtig heißt Gewinner
   genommen oder Verlierer geskippt. Karteikasten mit drei Fächern (`js/replay.js`): falsch eingeschätzte Trades
-  kommen öfter wieder. Trefferquote gesamt, je Setup, je Sicherheit und im Verlauf.
-- **Prop Firms** (eigener Bereich): Firmen-Presets (Beispiele sind als unverifiziert markiert, eigene Firmen mit
+  kommen öfter wieder. Trefferquote gesamt, je Setup, je Sicherheit und im Verlauf. Die Übersicht ist eine
+  Startkarte (Frage, „Session starten“, Kennzahlen in einer Leiste), darunter Setup und Sicherheit als Balken und der
+  Verlauf; Erklärungen stecken im (i). In der Session stehen Kartenzähler, Fortschritt, Setup-Schalter und Abbrechen
+  im Kopf der Karte, Sicherheit und „Skippen“/„Nehmen“ in einer Reihe. Der Zeitraum spielt hier keine Rolle und fehlt
+  in der Kopfreihe.
+- **Prop Firms** (eigener Bereich, fünf Bereiche links in der Kopfreihe: Übersicht · Konten · Rechner · Finanzen ·
+  Analyse; Finanzen mit den Reitern Bilanz und Payout, Analyse mit Simulation, Friedhof und Challenge vs. Funded. Die
+  Adressen bleiben `#/prop/<ansicht>` (z. B. `#/prop/bilanz`), `#/prop/finanzen` und `#/prop/analyse` öffnen die zuletzt
+  benutzte Ansicht. Kennzahlen stehen als ruhige Leiste in einer Karte; Filter der Übersicht sind drei Auswahlfelder;
+  bestandene, geplatzte und archivierte Konten liegen eingeklappt unter „Abgeschlossen“; Firmen-Presets, Ampel und
+  Stop-Größe sowie Instrumente sind aufklappbar; die Eingabeformulare für Ausgaben und Payouts öffnen sich über den
+  Knopf im Kartenkopf. Journal-Zeitraum und -Konto fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
+  Firmen-Presets (Beispiele sind als unverifiziert markiert, eigene Firmen mit
   eigenen Regeln möglich), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
   lassen sich einem oder mehreren Prop-Konten zuordnen (Copy-Trading). Regel-Engine in `js/prop.js`: Daily Loss
   (Betrag oder %, Reset-Uhrzeit und Zeitzone), Max Drawdown statisch, intraday trailing, Tagesende-trailing und

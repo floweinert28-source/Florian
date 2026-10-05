@@ -29,26 +29,32 @@
   const curSym = () => fmt.cur(0, { money: true }).replace(/[\d.,\s ]/g, '');
 
   /* ---------- Regelwerk ---------- */
+  /* Eine Regel = eine ruhige Zeile: Name links, Schalter rechts; Werte erscheinen erst, wenn die Regel an ist,
+     als kompakte Felder mit Einheit im Feld (3 Trades, 2 R, 08:00 – 17:00) */
   function ruleRow(def, r, setups) {
     const on = !!r.on;
+    const common = f => `data-change="shadow-rule-field" data-rule="${def.key}" data-field="${f.key}" aria-label="${esc(def.label + ': ' + f.label)}"`;
     const field = f => {
-      const common = `data-change="shadow-rule-field" data-rule="${def.key}" data-field="${f.key}" aria-label="${esc(def.label + ': ' + f.label)}"`;
-      if (f.type === 'unit') return `<label class="shadow-field"><span>${esc(f.label)}</span><select class="select" ${common}>${[['r', 'R-Einheit'], ['pct', '% vom Konto'], ['money', fmt.moneyBlind() ? 'Betrag' : `Betrag (${curSym()})`]].map(([k, l]) => `<option value="${k}" ${r.unit === k ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></label>`;
-      if (f.type === 'time') return `<label class="shadow-field"><span>${esc(f.label)}</span><input class="input" type="time" value="${esc(r[f.key])}" ${common}></label>`;
-      if (f.type === 'setups') {
-        const list = Array.isArray(r.list) ? r.list : []; const all = [...new Set([...(setups || []), ...list])];
-        if (!all.length) return `<div class="small muted shadow-hint">Noch keine Setups angelegt. Lege sie unter <a href="#/settings/inhalte">Einstellungen → Inhalte</a> an oder vergib sie beim Loggen.</div>`;
-        return `<div class="chips shadow-chips">${all.map(s => `<button type="button" class="chip sel" aria-pressed="${list.includes(s)}" data-action="shadow-setup-toggle" data-value="${esc(s)}">${esc(s)}</button>`).join('')}</div>${on && !list.length ? `<div class="small warn shadow-hint">Kein Setup gewählt – so zählt jeder Trade als Verstoß.</div>` : ''}`;
-      }
-      return `<label class="shadow-field"><span>${esc(f.label)}</span><input class="input" type="number" inputmode="decimal" min="0" step="${f.type === 'int' ? '1' : 'any'}" value="${esc(r[f.key])}" ${common}></label>`;
+      if (f.type === 'unit') return `<select class="select sr-unit" ${common(f)}>${[['r', 'R-Einheit'], ['pct', '% vom Konto'], ['money', fmt.moneyBlind() ? 'Betrag' : `Betrag (${curSym()})`]].map(([k, l]) => `<option value="${k}" ${r.unit === k ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+      if (f.type === 'time') return `<input class="input sr-time" type="time" value="${esc(r[f.key])}" ${common(f)}>`;
+      const suffix = def.fields.length === 1 ? f.label : '';
+      return `<label class="sr-num"><input class="input" type="number" inputmode="decimal" min="0" step="${f.type === 'int' ? '1' : 'any'}" value="${esc(r[f.key])}" ${common(f)}>${suffix ? `<span>${esc(suffix)}</span>` : ''}</label>`;
     };
-    return `<div class="shadow-rule ${on ? 'on' : ''}"><button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button><div class="shadow-rule-body"><b>${esc(def.label)}</b><div class="shadow-fields">${def.fields.map(field).join('')}</div></div></div>`;
+    const plain = def.fields.filter(f => f.type !== 'setups');
+    const ctrl = !plain.length ? '' : def.key === 'hours' ? `${field(plain[0])}<span class="sr-dash">–</span>${field(plain[1])}` : plain.map(field).join('');
+    let extra = '';
+    if (def.fields.some(f => f.type === 'setups')) {
+      const list = Array.isArray(r.list) ? r.list : []; const all = [...new Set([...(setups || []), ...list])];
+      extra = !all.length ? `<div class="small muted shadow-hint">Noch keine Setups angelegt. Lege sie unter <a href="#/settings/inhalte">Einstellungen → Inhalte</a> an oder vergib sie beim Loggen.</div>`
+        : `<div class="chips shadow-chips">${all.map(x => `<button type="button" class="chip sel" aria-pressed="${list.includes(x)}" data-action="shadow-setup-toggle" data-value="${esc(x)}">${esc(x)}</button>`).join('')}</div>${!list.length ? `<div class="small warn shadow-hint">Kein Setup gewählt – so zählt jeder Trade als Verstoß.</div>` : ''}`;
+    }
+    return `<div class="shadow-rule ${on ? 'on' : ''}"><div class="sr-main"><span class="sr-label">${esc(def.label)}</span>${on && ctrl ? `<div class="sr-ctrl">${ctrl}</div>` : ''}<button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button></div>${on && extra ? `<div class="sr-extra">${extra}</div>` : ''}</div>`;
   }
   function rulesCard(res, r) {
     const setups = (S.data.tags && S.data.tags.setups) || [];
     const notes = res.warnings.map(w => U.banner('warn', '', esc(w)));
     if (res.unknownRisk) notes.push(U.banner('info', '', `${res.unknownRisk === 1 ? '1 Trade ohne Stop konnte' : `${res.unknownRisk} Trades ohne Stop konnten`} bei der Risiko-Regel nicht geprüft werden.`));
-    return U.card('Mein Regelwerk', `<div class="shadow-rules">${Sh.RULES.map(def => ruleRow(def, r[def.key], setups)).join('')}</div>${notes.length ? `<div class="stack shadow-notes">${notes.join('')}</div>` : ''}`, { sub: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' });
+    return U.card('Mein Regelwerk', `<div class="shadow-rules">${Sh.RULES.map(def => ruleRow(def, r[def.key], setups)).join('')}</div>${notes.length ? `<div class="stack shadow-notes">${notes.join('')}</div>` : ''}`, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' });
   }
 
   /* ---------- Verstöße und Ranking ---------- */

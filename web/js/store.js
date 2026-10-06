@@ -12,11 +12,13 @@
   };
   /* Dashboard-Vorlagen: layout = { oben: [{ typ }], unten: [{ typ, groesse, einstellungen }] } */
   const SIZES = ['klein', 'mittel', 'gross'];
+  /* Bereiche der App als Karten auf dem Standard-Dashboard (Schatten-Ich, Blind-Replay, Prop-Konten, Ruhepunkt, Mentor) */
+  const FEATURE_CARDS = ['schatten_ich', 'blind_replay', 'prop_konten', 'ruhepunkt', 'mentor'];
   function defaultDashboard() {
     const now = new Date().toISOString();
     return { id: 'standard', name: 'Standard', isDefault: true, lastActiveAt: null, createdAt: now, updatedAt: now, layout: {
       oben: ['netto_pnl', 'trade_trefferquote', 'profit_faktor', 'tages_trefferquote', 'avg_gewinn_verlust'].map(typ => ({ typ })),
-      unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'kum_pnl', groesse: 'klein' }, { typ: 'pnl_pro_tag', groesse: 'klein' }, { typ: 'letzte_trades', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }],
+      unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'kum_pnl', groesse: 'klein' }, { typ: 'pnl_pro_tag', groesse: 'klein' }, { typ: 'letzte_trades', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }, ...FEATURE_CARDS.map(typ => ({ typ, groesse: 'klein' }))],
     } };
   }
   /* Performance-Recaps oben auf dem Dashboard sind standardmäßig aus (sie störten beim Öffnen). Einmalig auch für bestehende
@@ -34,6 +36,8 @@
     if ((data.dashboardsVersion || 1) < 3) { for (const d of data.dashboards) for (const w of d.layout.unten) if (w.typ === 'report' || w.typ === 'regel_tracker' || w.typ === 'mini_kalender') w.groesse = 'klein'; data.dashboardsVersion = 3; }
     if (!data.dashboards.some(d => d.isDefault)) data.dashboards[0].isDefault = true;
     let seen = false; for (const d of data.dashboards) { if (d.isDefault && seen) d.isDefault = false; if (d.isDefault) seen = true; }
+    /* Version 4: die Bereichs-Karten einmalig ans Ende des Standard-Dashboards hängen (nur was noch fehlt; danach entfernt bleibt entfernt) */
+    if ((data.dashboardsVersion || 1) < 4) { const d0 = data.dashboards.find(d => d.isDefault) || data.dashboards[0]; const have = new Set(d0.layout.unten.map(w => w.typ)); for (const typ of FEATURE_CARDS) if (!have.has(typ)) d0.layout.unten.push({ typ, groesse: 'klein' }); data.dashboardsVersion = 4; }
   }
 
   function defaults() {

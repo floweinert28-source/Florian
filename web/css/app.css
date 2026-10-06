@@ -1158,6 +1158,57 @@ span.info:hover { color: var(--accent); }
 .w-body > .tile, .w-body > .card { flex: 1; }
 .w-body > .card { display: flex; flex-direction: column; }
 .w-body > .card > .chart { flex: 1 0 auto; }
+/* Bereichs-Widgets (Schatten-Ich, Blind-Replay, Prop-Konten, Ruhepunkt, Mentor): ruhig, eine Akzentfarbe, Handlung unten */
+.fw-empty { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px; }
+.fw-empty b { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+.fw-empty > span { color: var(--muted); font-size: 13px; max-width: 36ch; }
+.fw-missing { flex: 1; display: grid; place-items: center; text-align: center; }
+.fw-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+.fw-stats > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.fw-stats > div > span { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fw-stats b { font-family: var(--font-display); font-size: 16px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.w-body > .card > .fw-chart { flex: 1 1 auto; min-height: 170px; }
+.fw-replay { display: flex; flex-direction: column; gap: 14px; flex: 1; min-height: 0; }
+.fw-rounds-wrap { flex: 1; min-height: 70px; display: flex; flex-direction: column; justify-content: flex-end; }
+.fw-rounds-wrap .rh-rounds-l { margin-top: 6px; }
+.fw-rounds-empty { flex: 1; display: grid; place-items: center; font-size: 12.5px; color: var(--muted); border: 1px dashed var(--border); border-radius: 10px; }
+.fw-hero { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.fw-lbl { font-size: 12.5px; color: var(--text-2); font-weight: 600; }
+.fw-big { font-family: var(--font-display); font-weight: 700; font-size: 48px; line-height: 1.05; letter-spacing: -.03em; margin-top: 2px; }
+.fw-sub { font-size: 12px; color: var(--muted); }
+.rh-rounds.fw-rounds { height: auto; flex: 1; max-width: none; min-height: 60px; }
+.rh-rounds.fw-rounds i { max-width: 26px; }
+.fw-facts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); }
+.fw-facts b { color: var(--text); font-weight: 700; } .fw-facts b.neg { color: var(--loss); } .fw-facts b.pos { color: var(--profit); }
+.fw-go { width: 100%; justify-content: center; padding: 11px 16px; gap: 8px; }
+.fw-ampels { display: inline-flex; gap: 14px; } .fw-ampels > span { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-weight: 600; }
+.fw-ampels .prop-ampel { width: 9px; height: 9px; box-shadow: none; }
+.fw-accs { display: flex; flex-direction: column; gap: 2px; }
+.fw-acc { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 6px 12px; padding: 10px 8px; margin: 0 -8px; border-radius: 10px; color: inherit; text-decoration: none; transition: background var(--dur-1) var(--ease); }
+.fw-acc:hover { background: var(--surface-2); }
+.fw-acc .prop-ampel { width: 10px; height: 10px; }
+.fw-acc-n { display: flex; flex-direction: column; min-width: 0; }
+.fw-acc-n b { font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fw-acc-n > span { font-size: 12px; color: var(--muted); }
+.fw-acc-v { font-weight: 700; font-size: 14px; text-align: right; white-space: nowrap; }
+.fw-acc-bar { grid-column: 2 / -1; height: 4px; border-radius: 3px; background: var(--surface-3); overflow: hidden; }
+.fw-acc-bar i { display: block; height: 100%; border-radius: 3px; }
+.fw-more { margin-top: auto; padding-top: 8px; }
+.fw-rps { display: flex; flex-direction: column; gap: 10px; }
+.fw-rp { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); }
+.fw-rp-i { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; border: 1.5px dashed var(--border-2); color: var(--accent-ink); flex: none; }
+.fw-rp-i svg { width: 14px; height: 14px; }
+.fw-rp.done .fw-rp-i { background: var(--accent); border-color: transparent; }
+.fw-rp-t { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.fw-rp-t b { font-size: 14px; } .fw-rp-t > span { font-size: 12px; color: var(--muted); }
+.fw-rp-last { margin-top: 10px; }
+.btn.fw-reset { margin-top: auto; width: 100%; justify-content: space-between; border: 1px dashed var(--border-2); padding: 11px 14px; font-weight: 600; }
+.fw-mentor { display: flex; flex-direction: column; gap: 10px; }
+.fw-mentor textarea { resize: none; min-height: 96px; }
+.fw-mentor .btn { align-self: flex-end; gap: 6px; }
+.fw-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 12px; }
+.fw-chips button { border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 12.5px; cursor: pointer; transition: color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
+.fw-chips button:hover { color: var(--text); border-color: var(--border-2); }
 :root[data-theme="light"] .card, :root[data-theme="light"] .tile { box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 6px 18px rgba(20, 30, 24, .06); }
 .w-body .card-head .row .btn.w-cfg { color: var(--muted); }
 .tile .val small.sub { display: inline-block; font-size: 13px; font-weight: 600; margin-left: 8px; font-family: var(--font); letter-spacing: 0; }
@@ -1245,6 +1296,8 @@ span.info:hover { color: var(--accent); }
 .side-panel .sp-head h2 { font-size: 19px; }
 .side-panel .nb-search .q { max-width: none; flex: 1 1 auto; }
 .side-panel .sp-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; }
+.sp-group { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 14px 4px 6px; }
+.sp-group:first-child { padding-top: 2px; }
 .sp-item { display: flex; align-items: center; gap: 14px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); }
 .sp-item .pv { flex: 0 0 auto; width: 144px; height: 92px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); display: grid; place-items: center; overflow: hidden; }
 .sp-item .pv svg.wpv { width: 140px; height: 88px; display: block; }

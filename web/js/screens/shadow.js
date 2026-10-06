@@ -163,4 +163,6 @@
       return head + tiles + chart + rulesCard(res, r) + detail;
     },
   };
+  /* Für die Dashboard-Widgets: dieselbe Rechnung wie auf der Seite (Regelwerk, Konto, R-Einheit) */
+  root.ShadowScreen = { rules, evaluate, costView };
 })(typeof self !== 'undefined' ? self : this);

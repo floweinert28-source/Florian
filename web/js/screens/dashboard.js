@@ -47,7 +47,11 @@
   function panelListHTML(area, lay, q) {
     const have = new Set(real(lay[area]).map(x => x.typ)); const full = area === 'oben' && real(lay.oben).length >= MAX_TOP; const ql = q.trim().toLowerCase();
     const items = W.list(area).filter(e => !ql || (e.name + ' ' + e.desc).toLowerCase().includes(ql));
-    return items.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview, e.typ)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm sp-add ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}"><span class="sp-lbl"><span class="a">Hinzufügen</span><span class="b">${I.check} Hinzugefügt</span></span></button></div>`; }).join('') || `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
+    /* zwei Gruppen: die Bereiche der App (Schatten-Ich, Replay, Prop …) zuerst, dann die Auswertungen */
+    const groups = [['Bereiche der App', items.filter(e => e.gruppe === 'bereiche')], ['Auswertungen', items.filter(e => e.gruppe !== 'bereiche')]].filter(g => g[1].length);
+    if (!groups.length) return `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
+    return groups.map(([title, list]) => `<div class="sp-group">${esc(title)}</div>` + itemsHTML(list)).join('');
+    function itemsHTML(list) { return list.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview, e.typ)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm sp-add ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}"><span class="sp-lbl"><span class="a">Hinzufügen</span><span class="b">${I.check} Hinzugefügt</span></span></button></div>`; }).join(''); }
   }
   /* Neuaufbau bei offener Widget-Auswahl: die Seitenleiste bleibt dasselbe Element (kein erneutes Hereingleiten,
      Liste behält ihre Scrollposition); nur Liste und Hinweis werden aus dem Neuaufbau übernommen */
@@ -75,6 +79,19 @@
   }
   App.navDot('dashboard', c => (recaps(c.all).length ? 'Neuer Performance-Recap' : null)); /* Hinweis-Punkt in der Seitenleiste */
 
+  /* Bereichs-Widgets: Ruhepunkt-Ablauf direkt starten (erst wenn die Seite steht – der Seitenwechsel läuft über eine Überblendung),
+     Frage an den Mentor mitnehmen (landet im Eingabefeld, abschicken im Mentor) */
+  const whenReady = (test, fn, tries = 90) => { if (test()) return fn(); if (tries > 0) requestAnimationFrame(() => whenReady(test, fn, tries - 1)); };
+  Object.assign(App.actions, {
+    'rp-open'(el) {
+      const key = el.dataset.flow; const RP = root.Ruhepunkt; if (location.hash.indexOf('#/ruhepunkt') !== 0) location.hash = '#/ruhepunkt'; if (!RP || !RP.FLOWS[key]) return;
+      whenReady(() => location.hash.indexOf('#/ruhepunkt') === 0 && document.getElementById('rp-stage'), () => RP.start(key));
+    },
+    'mentor-ask'(el) {
+      const text = el.tagName === 'FORM' ? String(new FormData(el).get('q') || '').trim() : String(el.dataset.q || '').trim(); if (!text) return U.toast('Schreib zuerst, was dich beschäftigt', 'err');
+      const m = App.state.mentor || (App.state.mentor = { messages: null, loading: false, sending: false, error: '', quota: null, draft: '', stale: false, focus: false }); m.draft = text; m.focus = true; location.hash = '#/mentor';
+    },
+  });
   Object.assign(App.actions, { 'recap-dismiss'(el) { const shown = Object.assign({}, S.settings.recapShown || {}); shown[el.dataset.kind] = el.dataset.key; S.setSetting('recapShown', shown); App.rerender(); } });
 
   /* ---------- Filter (Symbol, Richtung, Status, Setup, Tags) ---------- */

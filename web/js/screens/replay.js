@@ -42,13 +42,14 @@
   }
 
   /* ---------- Session ---------- */
-  function startSession(all) {
-    const eligible = R.eligible(all); if (!eligible.length) return U.toast('Keine Trades mit „Screenshot vor Entry“', 'err');
+  function newSession(all) {
+    const eligible = R.eligible(all); if (!eligible.length) { U.toast('Keine Trades mit „Screenshot vor Entry“', 'err'); return false; }
     const rng = C.mulberry(Date.now() % 100000);
     const picked = R.pick(eligible, S.replayHistory(), N, rng);
     st().session = { id: C.uid(), startedAt: new Date().toISOString(), queue: picked.map(t => t.id), idx: 0, reveal: null, confidence: 2, results: [] };
-    App.rerender(false);
+    return true;
   }
+  function startSession(all) { if (newSession(all)) App.rerender(false); }
   function sessionView(all) {
     const s = st(); const ses = s.session; const byId = tradeById(all); const t = byId.get(ses.queue[ses.idx]);
     const total = ses.queue.length;
@@ -85,6 +86,8 @@
 
   Object.assign(App.actions, {
     'replay-start'() { startSession(App.allTrades()); },
+    /* vom Dashboard-Widget: Session vorbereiten und direkt mit der ersten Karte öffnen */
+    'replay-go'() { if (!newSession(App.allTrades())) return; if (location.hash.indexOf('#/replay') === 0) App.rerender(false); else location.hash = '#/replay'; },
     'replay-abort'() { st().session = null; App.rerender(false); },
     'replay-close'() { st().session = null; App.rerender(false); },
     'replay-conf'(el) {

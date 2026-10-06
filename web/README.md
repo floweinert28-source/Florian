@@ -64,6 +64,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Trade (Symbol per „+“ mit Suche, Long/Short, Gewinn/Verlust/Break-even, offen/geschlossen, Intraday/Multiday, Reviewed,
   Bewertung), Zeit (Wochentag, Monat, Entry- und Exit-Uhrzeit, Haltedauer in Min/Std/Tagen), Werte (Entry-/Exit-Preis,
   R-Multiple, Positionsgröße, Volumen) und Tags (Setups, Fehler, Emotionen); „Anwenden“ zeigt live die Zahl der Trades.
+  **Bereiche der App als Widgets** (eigene Gruppe „Bereiche der App“ in der Bibliothek, gleiche Rechnung wie auf den
+  Seiten): Kacheln Disziplin-Kosten (Schatten-Ich im Dashboard-Zeitraum), Blind-Replay (richtig eingeschätzt, letzte 20)
+  und Prop-Konten (aktiv, Ampel-Zählung); Karten Schatten-Ich (Kosten, echt, Schatten-Ich, Verstöße, Kurven), Blind-Replay
+  (große Zahl, Runden, „Session starten“ öffnet direkt die erste Karte), Prop-Konten (Ampel, Balance, Puffer je aktivem
+  Konto), Ruhepunkt (heute vor/nach dem Trading, Start mit einem Klick, Akut-Reset) und Mentor (Frage oder Vorschlag landet
+  im Eingabefeld des Mentors; ohne Server ein Einrichten-Hinweis). Die fünf Karten hängt eine einmalige Migration
+  (`dashboardsVersion` 4) ans Ende des Standard-Dashboards; Entferntes bleibt entfernt.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.

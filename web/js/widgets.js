@@ -299,6 +299,82 @@
     { typ: 'jahreskalender', name: 'Jahreskalender', preview: 'year', groesse: 'gross', flach: true, desc: 'Eine Zeile pro Jahr mit allen zwölf Monaten und Gesamt, umschaltbar zwischen Trefferquote, P&L und Trades.', info: 'Jede Zeile ist ein Jahr, jedes Kästchen ein Monat mit Anzahl Trades. P&L: grün bei Gewinn, rot bei Verlust. Trefferquote und Trades: je kräftiger das Blau, desto höher der Wert. Rechts das Jahresergebnis.',
       render(d, inst, e) { const ansicht = (inst.einstellungen || {}).ansicht || 'pnl'; const seg = `<div class="seg mini">${[['trefferquote', 'Trefferquote'], ['pnl', 'P&L'], ['trades', 'Trades']].map(([k, l]) => `<button type="button" data-action="dash-w-opt" data-key="ansicht" data-value="${k}" aria-pressed="${ansicht === k}">${l}</button>`).join('')}</div>`; return U.card(e.name, yearRows(d.daysAll, ansicht), { info: e.info, trailing: seg }); } },
   ];
+  /* ---------- Bereiche der App als Widgets: Schatten-Ich, Blind-Replay, Prop Firms, Ruhepunkt, Mentor ----------
+     Gleiche Rechnung wie auf den Seiten (ShadowScreen, Replay, PropScreen, Ruhepunkt); fehlt ein Bereich, zeigt das Widget einen ruhigen Hinweis.
+     Kennzahlen folgen dem Zeitraum des Dashboards, wo das Sinn ergibt (Schatten-Ich); Replay, Prop und Ruhepunkt zeigen den aktuellen Stand. */
+  const more = (href, label = 'Öffnen') => `<a class="more-link" href="${href}">${label}</a>`;
+  const missing = (e, what) => card(e, `<div class="dashed fw-missing">${what} ist hier nicht geladen.</div>`);
+  /* Schatten-Ich im Dashboard-Zeitraum: Summen, Verstöße und Kurve nur über die Trades im Zeitraum */
+  function shadowRange(d) {
+    const SS = root.ShadowScreen; if (!SS) return null; const res = SS.evaluate(d.all); if (!res.active) return { active: false };
+    const ids = new Set(d.closed.map(t => t.id)); const rows = res.trades.filter(r => ids.has(r.id)); const rowById = new Map(rows.map(r => [r.id, r]));
+    const real = C.sum(rows.map(r => r.realPnl)), shadow = C.sum(rows.map(r => r.shadowPnl)); const violations = res.violations.filter(v => ids.has(v.tradeId)).length;
+    let cr = 0, cs = 0; const curve = res.curve.filter(p => rowById.has(p.id)).map(p => { const r = rowById.get(p.id); cr += r.realPnl; cs += r.shadowPnl; return { date: p.date, real: cr, shadow: cs }; });
+    return { active: true, real, shadow, cost: shadow - real, violations, n: rows.length, curve, view: SS.costView(shadow - real) };
+  }
+  const ampelDot = a => `<span class="prop-ampel ${a}" data-ampel="${a}"></span>`;
+  function propActive() { const PS = root.PropScreen; if (!PS) return null; return PS.accounts().filter(a => a.status === 'active').map(a => ({ a, ev: PS.evalOf(a, true).ev, name: PS.accName(a) })); }
+  function rpToday() { const RP = root.Ruhepunkt; const list = typeof S.ruhepunkt === 'function' ? S.ruhepunkt() : []; const k = C.dayKey(new Date()); const at = e => new Date(e.gestartet || e.createdAt); const today = list.filter(e => C.dayKey(at(e)) === k); return { RP, list, today, at, vor: today.find(e => e.typ === 'vor'), nach: today.find(e => e.typ === 'nach') }; }
+  const MENTOR_Q = ['Wie war meine Woche?', 'Ich bin gerade im Tilt.', 'Was mache ich morgen besser?'];
+
+  const FEATURE_TOP = [
+    { typ: 'disziplin_kosten', name: 'Disziplin-Kosten', gruppe: 'bereiche', preview: 'num', desc: 'Schatten-Ich: was Regelbrüche dich im Zeitraum gekostet oder gebracht haben.', info: 'Schatten-Ich minus echt im gewählten Zeitraum. Dein Schatten-Ich handelt wie du, hält aber dein Regelwerk zu 100 % ein.',
+      render(d, inst, e) { const r = shadowRange(d); if (!r) return tile(e, noData()); if (!r.active) return tile(e, '<span class="nodata">Keine Regel aktiv</span>', { foot: '<a href="#/shadow">Regelwerk festlegen</a>' }); if (!r.n) return tile(e, noData()); return tile(e, `<span class="${r.view.cls}">${r.view.text}</span>`, { n: r.violations === 1 ? '1 Verstoß' : `${fmt.int(r.violations)} Verstöße`, foot: r.view.foot }); } },
+    { typ: 'replay_quote', name: 'Blind-Replay', gruppe: 'bereiche', preview: 'num', desc: 'Wie oft du im Blind-Replay richtig eingeschätzt hast, mit den letzten 20 Trades.', info: 'Anteil richtig eingeschätzter Trades im Blind-Replay (Gewinner genommen, Verlierer geskippt). Rechts die letzten 20.',
+      render(d, inst, e) { const R = root.Replay; if (!R) return tile(e, noData()); const st = R.stats(S.replayHistory(), d.all); if (!st.n) return tile(e, '<span class="nodata">Noch keine Runde</span>', { foot: '<a href="#/replay">Jetzt üben</a>' }); return tile(e, fmt.pct(st.hitRate, 0), { n: `Letzte 20: ${fmt.pct(st.recent, 0)}`, foot: `${fmt.int(st.correct)} von ${fmt.int(st.n)} richtig` }); } },
+    { typ: 'prop_status', name: 'Prop-Konten', gruppe: 'bereiche', preview: 'num', desc: 'Aktive Prop-Konten mit Ampel: wie viele im grünen, gelben oder roten Bereich sind.', info: 'Aktive Prop-Konten und ihre Ampel aus dem Prop-Firm-Bereich. Rot heißt: wenig Puffer bis zur nächsten Regel oder Regel verletzt.',
+      render(d, inst, e) { const list = propActive(); if (!list) return tile(e, noData()); if (!list.length) return tile(e, '<span class="nodata">Kein aktives Konto</span>', { foot: '<a href="#/prop/konten">Konto anlegen</a>' }); const cnt = { gruen: 0, gelb: 0, rot: 0 }; for (const x of list) { const k = x.ev.status === 'breached' ? 'rot' : x.ev.buffer.ampel; if (cnt[k] != null) cnt[k]++; } return tile(e, fmt.int(list.length), { n: 'aktiv', foot: `<span class="fw-ampels">${['gruen', 'gelb', 'rot'].map(k => `<span>${ampelDot(k)}${cnt[k]}</span>`).join('')}</span>` }); } },
+  ];
+  const FEATURE_MAIN = [
+    { typ: 'schatten_ich', name: 'Schatten-Ich', gruppe: 'bereiche', preview: 'line', groesse: 'klein', desc: 'Echt gegen Schatten-Ich im Zeitraum: was Regelbrüche gekostet haben, mit Verlauf und Verstößen.', info: 'Dein Schatten-Ich handelt wie du, hält aber dein Regelwerk zu 100 % ein. Die Kurven zeigen echt und Schatten-Ich im gewählten Zeitraum.',
+      render(d, inst, e) {
+        const r = shadowRange(d); if (!r) return missing(e, 'Das Schatten-Ich');
+        if (!r.active) return card(e, `<div class="fw-empty"><b>Noch keine Regel aktiv</b><span>Leg fest, was für dich gilt. Dann rechnet dein Schatten-Ich, was Regelbrüche kosten.</span><a class="btn sm primary" href="#/shadow">Regelwerk festlegen</a></div>`);
+        if (!r.n) return card(e, emptyBox(300), { trailing: more('#/shadow') });
+        U.chartData['dash-schatten'] = { points: r.curve.map(p => ({ date: p.date, v: { real: p.real, shadow: p.shadow } })), series: [{ key: 'real', label: 'Echt', unit: 'cur', color: 'var(--text-2)' }, { key: 'shadow', label: 'Schatten-Ich', unit: 'cur', color: 'var(--accent)' }], periodLabel: dt => fmt.dateTime(dt) };
+        return card(e, `<div class="fw-stats"><div><span>Disziplin-Kosten</span><b class="${r.view.cls}">${r.view.text}</b></div><div><span>Echt</span><b>${U.pnl(r.real)}</b></div><div><span>Schatten-Ich</span><b>${U.pnl(r.shadow)}</b></div><div><span>Verstöße</span><b>${fmt.int(r.violations)}</b></div></div><div class="chart fw-chart" data-chart="lines" data-id="dash-schatten"></div>`, { trailing: more('#/shadow') });
+      } },
+    { typ: 'blind_replay', name: 'Blind-Replay', gruppe: 'bereiche', preview: 'bars', groesse: 'klein', desc: 'Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Session.', info: 'Du siehst alte Trades ohne Ergebnis und entscheidest: nehmen oder skippen. Richtig ist, Gewinner zu nehmen und Verlierer zu skippen.',
+      render(d, inst, e) {
+        const R = root.Replay; if (!R) return missing(e, 'Das Blind-Replay');
+        const st = R.stats(S.replayHistory(), d.all); const ready = R.eligible(d.all).length;
+        const go = `<button type="button" class="btn primary fw-go" data-action="replay-go"${ready ? '' : ' disabled'}>${I.play} Session starten</button>`;
+        if (!st.n) return card(e, `<div class="fw-empty"><b>Trainiere dein Bauchgefühl</b><span>Alte Trades ohne Ergebnis: nehmen oder skippen?</span>${go}<span class="small muted">${ready ? `${fmt.int(ready)} Trades bereit` : 'Noch kein Trade mit „Screenshot vor Entry“'}</span></div>`, { trailing: more('#/replay') });
+        const tl = st.timeline.slice(-14);
+        const rounds = tl.length >= 2 ? `<div class="fw-rounds-wrap"><div class="rh-rounds fw-rounds" aria-label="Trefferquote je Runde">${tl.map((x, i) => `<i class="${i === tl.length - 1 ? 'cur' : ''}" style="height:${Math.max(4, Math.round((x.hitRate || 0) * 100))}%" data-tip="Runde ${st.timeline.length - tl.length + i + 1}: ${fmt.pct(x.hitRate, 0)}"></i>`).join('')}</div><div class="rh-rounds-l">Runden</div></div>` : `<div class="fw-rounds-empty">Ab zwei Runden siehst du hier deinen Verlauf.</div>`;
+        const down = st.recent != null && st.hitRate - st.recent >= 0.03, up = st.recent != null && st.recent - st.hitRate >= 0.03;
+        return card(e, `<div class="fw-replay"><div class="fw-hero"><span class="fw-lbl">Richtig eingeschätzt</span><b class="fw-big">${fmt.pct(st.hitRate, 0)}</b><span class="fw-sub">${fmt.int(st.correct)} von ${fmt.int(st.n)} Trades</span></div>${rounds}</div>
+          <div class="fw-facts"><span>Letzte 20 <b class="${down ? 'neg' : up ? 'pos' : ''}">${down ? '↓ ' : up ? '↑ ' : ''}${fmt.pct(st.recent, 0)}</b></span><span>Runden <b>${fmt.int(st.timeline.length)}</b></span><span>Zum Üben <b>${fmt.int(st.boxes[1] || 0)}</b></span></div>${go}`, { trailing: more('#/replay') });
+      } },
+    { typ: 'prop_konten', name: 'Prop-Konten', gruppe: 'bereiche', preview: 'table', groesse: 'klein', desc: 'Deine aktiven Prop-Konten mit Ampel, Balance und Puffer bis zur nächsten Regel.', info: 'Aus dem Prop-Firm-Bereich: je aktivem Konto die Ampel, die Balance und wie viel Spielraum bis Daily Loss oder Drawdown bleibt.',
+      render(d, inst, e) {
+        const list = propActive(); if (!list) return missing(e, 'Der Prop-Firm-Bereich');
+        if (!list.length) return card(e, `<div class="fw-empty"><b>Kein aktives Prop-Konto</b><span>Leg ein Konto an, dann siehst du hier Ampel, Balance und Puffer.</span><a class="btn sm primary" href="#/prop/konten">Konto anlegen</a></div>`, { trailing: more('#/prop') });
+        const order = { rot: 0, gelb: 1, gruen: 2, aus: 3 }; list.sort((x, y) => (order[x.ev.status === 'breached' ? 'rot' : x.ev.buffer.ampel] || 0) - (order[y.ev.status === 'breached' ? 'rot' : y.ev.buffer.ampel] || 0));
+        const shown = list.slice(0, 4);
+        const rows = shown.map(({ a, ev, name }) => { const b = ev.buffer; const amp = ev.status === 'breached' ? 'rot' : b.ampel; const f = b.ratio == null ? null : C.clamp(b.ratio, 0, 1); const col = amp === 'rot' ? 'var(--loss)' : amp === 'gelb' ? 'var(--warn)' : 'var(--profit)';
+          return `<a class="fw-acc" href="#/prop/cockpit">${ampelDot(amp)}<span class="fw-acc-n"><b>${esc(name)}</b><span>${ev.status === 'breached' ? '<span class="neg">Regel verletzt</span>' : b.stops != null ? `noch ${b.stops} Stop-Loss${b.stops === 1 ? '' : 'es'}` : f != null ? `${fmt.pct(f, 0)} Puffer` : 'keine Verlustregel'}</span></span><span class="fw-acc-v">${fmt.balance(ev.balance, { currency: a.currency })}</span><span class="fw-acc-bar"><i style="width:${f == null ? 0 : Math.round(f * 100)}%;background:${col}"></i></span></a>`; }).join('');
+        return card(e, `<div class="fw-accs">${rows}</div>${list.length > shown.length ? `<a class="small muted fw-more" href="#/prop">+ ${list.length - shown.length} weitere</a>` : ''}`, { trailing: more('#/prop') });
+      } },
+    { typ: 'ruhepunkt', name: 'Ruhepunkt', gruppe: 'bereiche', preview: 'progress', groesse: 'klein', desc: 'Heute schon im Ruhepunkt gewesen? Vor und nach dem Trading mit einem Klick starten, Akut-Reset inklusive.', info: 'Kurze geführte Sessions aus dem Ruhepunkt: vor dem Trading (Ampel und Limits), nach dem Trading (abschalten) und ein Akut-Reset, wenn es zu viel wird.',
+      render(d, inst, e) {
+        const t = rpToday(); if (!t.RP) return missing(e, 'Der Ruhepunkt');
+        const F = t.RP.FLOWS, AM = t.RP.AMPEL || {};
+        const row = (key, entry, extra) => `<div class="fw-rp ${entry ? 'done' : ''}"><span class="fw-rp-i">${entry ? I.check : ''}</span><span class="fw-rp-t"><b>${esc(F[key] ? F[key].name : key)}</b><span>${entry ? `<span>heute ${fmt.time(t.at(entry))}</span>${extra || ''}` : 'heute noch offen'}</span></span>${entry ? '' : `<button type="button" class="btn sm${key === 'vor' ? ' primary' : ''}" data-action="rp-open" data-flow="${key}">Starten</button>`}</div>`;
+        const amp = t.vor && t.vor.ampel && AM[t.vor.ampel] ? ` <span>· Ampel ${esc(AM[t.vor.ampel].label)}</span>` : '';
+        const last = t.list[0]; const lastTxt = last && !t.today.length ? `<div class="small muted fw-rp-last"><span>Zuletzt:</span> <b>${esc(F[last.typ] ? F[last.typ].name : last.typ)}</b> <span>${fmt.dateTime(t.at(last))}</span></div>` : '';
+        return card(e, `<div class="fw-rps">${row('vor', t.vor, amp)}${row('nach', t.nach)}</div>${lastTxt}<button type="button" class="btn ghost fw-reset" data-action="rp-open" data-flow="akut">${esc(F.akut ? F.akut.name : 'Akut-Reset')}<span class="small muted">wenn es gerade zu viel wird</span></button>`, { trailing: more('#/ruhepunkt') });
+      } },
+    { typ: 'mentor', name: 'Mentor', gruppe: 'bereiche', preview: 'table', groesse: 'klein', desc: 'Schnell eine Frage an deinen Trading-Psychologie-Mentor, direkt vom Dashboard.', info: 'Deine Frage landet im Mentor. Er kennt deine letzten 20 Trades und deinen heutigen Check-in. Abschicken kannst du dort.',
+      render(d, inst, e) {
+        /* Der Mentor läuft über den eigenen Server; ohne Adresse erst einrichten (Schlüssel bleibt auf dem Server) */
+        const mc = S.settings.mentor || {}; if (!/^https?:\/\//.test(String(mc.url || '').trim())) return card(e, `<div class="fw-empty"><b>Mentor noch nicht eingerichtet</b><span>Der Mentor läuft über deinen eigenen Server. Einmal einrichten, dann fragst du ihn direkt von hier.</span><a class="btn sm primary" href="#/mentor">Einrichten</a></div>`, { trailing: more('#/mentor') });
+        return card(e, `<form class="fw-mentor" data-action="mentor-ask"><textarea class="input" name="q" rows="3" maxlength="4000" placeholder="Was beschäftigt dich gerade?"></textarea><button type="submit" class="btn primary">${I.chevR} Zum Mentor</button></form>
+          <div class="fw-chips">${MENTOR_Q.map(q => `<button type="button" class="chip-btn" data-action="mentor-ask" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>`, { trailing: more('#/mentor') });
+      } },
+  ];
+  TOP.push(...FEATURE_TOP); MAIN.push(...FEATURE_MAIN);
+
   const settingsBtn = () => `<button type="button" class="btn ghost icon sm w-cfg" data-action="dash-w-settings" title="Einstellungen" aria-label="Widget-Einstellungen">${I.settings}</button>`;
 
   const ALL = {}; for (const e of TOP) ALL[e.typ] = Object.assign(e, { area: 'oben' }); for (const e of MAIN) ALL[e.typ] = Object.assign(e, { area: 'unten' });

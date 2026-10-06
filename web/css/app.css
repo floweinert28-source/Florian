@@ -152,7 +152,7 @@ html.sb-mini .sb-sep { margin-bottom: 14px; }
 .nav-title { padding: 0 16px 8px; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
 html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 1px; background: var(--border); }
 .nav a, .nav button {
-  position: relative; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border-radius: 999px; border: 1px solid transparent; background: none;
+  position: relative; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border-radius: 12px; border: 1px solid transparent; background: none;
   color: var(--text-2); font-weight: 500; font-size: 14.5px; cursor: pointer; text-align: left; width: 100%; white-space: nowrap; overflow: hidden;
   transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-2) var(--ease);
 }
@@ -189,7 +189,7 @@ html.sb-mini .brand { flex-direction: column; gap: 8px; padding: 0 0 18px; align
 html.sb-mini .brand .name { display: none; }
 html.sb-mini .brand .mark { width: 24px; height: 24px; } html.sb-mini .brand .mark svg { width: 20px; height: 20px; } /* ohne Schriftzug etwas größer */
 html.sb-mini .brand .sb-toggle { margin-left: 0; }
-html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: runde Knöpfe */
+html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: quadratische Knöpfe */
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
 html.sb-mini .nav a.active::after { left: -20px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf */
 /* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */

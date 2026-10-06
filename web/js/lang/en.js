@@ -1090,4 +1090,6 @@ I18N.add('en', {
   "Deine aktiven Prop-Konten mit Ampel, Balance und Puffer bis zur nächsten Regel.": "Your active prop accounts with traffic light, balance and buffer to the next rule.",
   "Heute schon im Ruhepunkt gewesen? Vor und nach dem Trading mit einem Klick starten, Akut-Reset inklusive.": "Been to Calm Point today? Start before and after trading with one click, acute reset included.",
   "Schnell eine Frage an deinen Trading-Psychologie-Mentor, direkt vom Dashboard.": "Quickly ask your trading psychology mentor, right from the dashboard.",
+  "Standard: klar und modern, Zahlen in Onest": "Default: clean and modern, numbers in Onest",
+  "Leicht und geschwungen, Zahlen in Onest": "Light and curved, numbers in Onest",
 });

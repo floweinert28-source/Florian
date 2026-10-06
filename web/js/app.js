@@ -38,8 +38,9 @@
     screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
     /* ---------- Daten ---------- */
     allTrades() { const acc = S.settings.accountId; return C.deriveAll(S.trades().filter(t => acc === 'all' || !acc || t.accountId === acc)); },
-    range() {
-      const r = S.settings.range || { preset: 'month' }; const now = new Date(); const start = new Date(now); start.setHours(0, 0, 0, 0); const end = new Date(now); end.setHours(23, 59, 59, 999);
+    /* rr: anderer Zeitraum als der gespeicherte (Vorschau im Zeitraum-Menü) */
+    range(rr) {
+      const r = rr || S.settings.range || { preset: 'month' }; const now = new Date(); const start = new Date(now); start.setHours(0, 0, 0, 0); const end = new Date(now); end.setHours(23, 59, 59, 999);
       let from = null, to = end;
       switch (r.preset) {
         case 'today': from = start; break;
@@ -190,10 +191,12 @@
         <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
           <div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
     },
+    /* Vorgabe für das Zeitraum-Menü: Schlüssel, Name und Tage (JJJJ-MM-TT) zum Markieren im Kalender; „Gesamt“ ohne Tage */
+    presetPick(key) { const r = this.range({ preset: key }); return { key, label: PRESETS[key] || key, from: r.from ? C.dayKey(r.from) : '', to: r.from && r.to ? C.dayKey(r.to) : '' }; },
     /* Bausteine der Kopfreihe: Zeitraum, Konto, Session, neuer Trade (Dashboard ordnet sie selbst an, alle anderen Seiten über pageHead) */
     rangeControl() {
       const r = this.range();
-      return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover range-pop" id="pop-range"><div class="rr-presets">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}</div><div class="rr-cal"><div class="sec">Benutzerdefiniert</div>${root.RangePicker ? root.RangePicker.html(r.preset === 'custom' ? (S.settings.range || {}).from : '', r.preset === 'custom' ? (S.settings.range || {}).to : '') : ''}</div></div></div>`;
+      return `<div class="popwrap"><button type="button" class="btn" data-pop="range">${I.calendar}<span>${esc(r.label)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover range-pop" id="pop-range"><div class="rr-presets">${Object.entries(PRESETS).filter(([k]) => k !== 'custom').map(([k, l]) => `<button type="button" class="item" data-action="range" data-value="${k}" aria-checked="${r.preset === k}">${l}</button>`).join('')}</div><div class="rr-cal"><div class="sec">Benutzerdefiniert</div>${root.RangePicker ? (r.preset === 'custom' ? root.RangePicker.html((S.settings.range || {}).from, (S.settings.range || {}).to) : root.RangePicker.html('', '', this.presetPick(r.preset))) : ''}</div></div></div>`;
     },
     /* o.mobile: auch auf dem Handy zeigen (sonst nur ab Tablet-Breite) */
     accountControl(o = {}) {
@@ -263,8 +266,9 @@
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
-    range(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.rerender(); },
-    'range-custom'() { const v = root.RangePicker ? root.RangePicker.value() : { from: '' }; if (!v.from) return U.toast('Bitte ein Startdatum wählen', 'err'); S.setSetting('range', { preset: 'custom', from: v.from, to: v.to || v.from }); this.closePopovers(); this.rerender(); },
+    /* Vorgabe links nur markieren und im Kalender zeigen; übernommen wird erst mit „Anwenden“ */
+    range(el) { const pop = el.closest('.range-pop'); if (!pop || !root.RangePicker) return; pop.querySelectorAll('.rr-presets [data-action="range"]').forEach(b => b.setAttribute('aria-checked', String(b === el))); root.RangePicker.setPreset(pop.querySelector('[data-rr-root]'), this.presetPick(el.dataset.value)); },
+    'range-custom'() { const v = root.RangePicker ? root.RangePicker.value() : { from: '' }; if (v.preset) S.setSetting('range', { preset: v.preset, from: null, to: null }); else if (!v.from) return U.toast('Bitte ein Startdatum wählen', 'err'); else S.setSetting('range', { preset: 'custom', from: v.from, to: v.to || v.from }); this.closePopovers(); this.rerender(); },
     account(el) { S.setSetting('accountId', el.dataset.value); this.rerender(); },
     nav(el) { this.navigate(el.dataset.href); },
     day(el) { this.navigate('#/day/' + el.dataset.day); },

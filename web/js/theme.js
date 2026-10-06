@@ -2,10 +2,13 @@
 (function (root) {
   'use strict';
   const DEFAULTS = { dark: { accent: '#34f58a', profit: '#34f58a', loss: '#ff5c5c', be: '#8b7cf6' }, light: { accent: '#0fb862', profit: '#0fb862', loss: '#e03e3e', be: '#6b5bd6' } };
-  /* Schriftarten: „geschwungen“ ist der Standard (Quicksand, Zahlen in Onest), „klassisch“ die frühere Standardschrift (SF Pro / Inter mit Roboto-Zahlen), „rund“ eine Schrift für Text und Zahlen */
-  const DEFAULT_FONT = 'geschwungen';
+  /* Schriftarten: „modern“ ist der Standard (Satoshi von Fontshare, Zahlen in Onest; beide geometrisch, gleiche Proportionen), „geschwungen“ die frühere
+     Standardschrift (Quicksand, Zahlen in Onest), „klassisch“ SF Pro / Inter mit Roboto-Zahlen, „rund“ eine Schrift für Text und Zahlen.
+     Satoshi steht unter der ITF Free Font License: Laden über die Fontshare-API (app.html), Schriftdateien liegen nicht im Repository */
+  const DEFAULT_FONT = 'modern';
   const FONTS = {
-    geschwungen: { name: 'Geschwungen', desc: 'Standard: leicht und geschwungen, Zahlen in Onest', text: '"Quicksand", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Quicksand:wght@400;500;600;700', 'Onest:wght@400;500;600;700'] },
+    modern: { name: 'Modern', desc: 'Standard: klar und modern, Zahlen in Onest', text: '"Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Onest:wght@400;500;600;700'] },
+    geschwungen: { name: 'Geschwungen', desc: 'Leicht und geschwungen, Zahlen in Onest', text: '"Quicksand", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Quicksand:wght@400;500;600;700', 'Onest:wght@400;500;600;700'] },
     rund: { name: 'Rund', desc: 'Weiche, runde Formen', text: '"Nunito", "Segoe UI", system-ui, sans-serif', gf: ['Nunito:wght@400;500;600;700;800'] },
     klassisch: { name: 'Klassisch', desc: 'Klar und neutral, Zahlen in Roboto', text: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif', display: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif', num: '"Roboto", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Inter:wght@400;500;600;700;800', 'Roboto:wght@400;500;700'] },
   };

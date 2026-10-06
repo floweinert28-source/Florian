@@ -1173,4 +1173,7 @@ I18N.add('zh', {
   "Deine aktiven Prop-Konten mit Ampel, Balance und Puffer bis zur nächsten Regel.": "你的活跃自营账户：信号灯、余额以及距下一条规则的缓冲。",
   "Heute schon im Ruhepunkt gewesen? Vor und nach dem Trading mit einem Klick starten, Akut-Reset inklusive.": "今天去过 静心点 了吗？一键开始交易前和交易后的引导，含紧急重置。",
   "Schnell eine Frage an deinen Trading-Psychologie-Mentor, direkt vom Dashboard.": "直接在仪表盘上快速向你的交易心理导师提问。",
+  "Modern": "现代",
+  "Standard: klar und modern, Zahlen in Onest": "默认：简洁现代，数字使用 Onest",
+  "Leicht und geschwungen, Zahlen in Onest": "轻盈流畅，数字使用 Onest",
 });

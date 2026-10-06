@@ -1173,4 +1173,7 @@ I18N.add('hi', {
   "Deine aktiven Prop-Konten mit Ampel, Balance und Puffer bis zur nächsten Regel.": "आपके सक्रिय प्रॉप खाते: ट्रैफ़िक लाइट, बैलेंस और अगले नियम तक बफ़र।",
   "Heute schon im Ruhepunkt gewesen? Vor und nach dem Trading mit einem Klick starten, Akut-Reset inklusive.": "आज शांति बिंदु गए? ट्रेडिंग से पहले और बाद एक क्लिक में शुरू करें, अक्यूट रीसेट भी।",
   "Schnell eine Frage an deinen Trading-Psychologie-Mentor, direkt vom Dashboard.": "डैशबोर्ड से ही अपने ट्रेडिंग-साइकोलॉजी मेंटर से जल्दी सवाल पूछें।",
+  "Modern": "आधुनिक",
+  "Standard: klar und modern, Zahlen in Onest": "डिफ़ॉल्ट: साफ़ और आधुनिक, संख्याएँ Onest में",
+  "Leicht und geschwungen, Zahlen in Onest": "हल्का और घुमावदार, संख्याएँ Onest में",
 });

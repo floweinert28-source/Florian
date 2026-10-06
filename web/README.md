@@ -60,7 +60,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beim Bearbeiten bleibt ein entferntes Widget als Lücke stehen (neue Widgets füllen sie, Drag & Drop tauscht hinein);
   erst „Speichern“ schließt die Lücken. Die Bibliothek zeigt zu jedem Widget ein eigenes Vorschaubild (`js/widgetpreviews.js`).
   **Zeitraum**: Voreinstellungen plus „Benutzerdefiniert“ mit zwei Monatskalendern nebeneinander (Handy: einer), erster Klick
-  Start, zweiter Klick Ende (`js/rangepicker.js`); beim Überfahren zeigt nur der Tag unter der Maus einen Rahmen, außerhalb des Kalenders verschwindet die Vorschau. **Filter** als Seitenleiste (`js/screens/dash-filter.js`), in Gruppen
+  Start, zweiter Klick Ende (`js/rangepicker.js`); die Vorgaben links (Heute, Diese Woche … Gesamt) werden nur markiert und im Kalender gezeigt, übernommen wird erst mit „Anwenden“; beim Überfahren zeigt nur der Tag unter der Maus einen Rahmen, außerhalb des Kalenders verschwindet die Vorschau. **Filter** als Seitenleiste (`js/screens/dash-filter.js`), in Gruppen
   Trade (Symbol per „+“ mit Suche, Long/Short, Gewinn/Verlust/Break-even, offen/geschlossen, Intraday/Multiday, Reviewed,
   Bewertung), Zeit (Wochentag, Monat, Entry- und Exit-Uhrzeit, Haltedauer in Min/Std/Tagen), Werte (Entry-/Exit-Preis,
   R-Multiple, Positionsgröße, Volumen) und Tags (Setups, Fehler, Emotionen); „Anwenden“ zeigt live die Zahl der Trades.
@@ -93,7 +93,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
-- **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Hell/Dunkel, drei Schriftarten: Standard „Geschwungen“ mit Zahlen in Onest, „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
+- **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Hell/Dunkel, vier Schriftarten: Standard „Modern“ (Text in Satoshi, Zahlen in Onest), „Geschwungen“ (Quicksand, Zahlen in Onest), „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
+- **Schrift**: Text in **Satoshi** (Fontshare, Indian Type Foundry), Zahlen in **Onest** (Google Fonts). Beide sind geometrisch
+  mit ähnlicher x-Höhe, deshalb passen Text und Zahlen nebeneinander. Satoshi steht unter der ITF Free Font License: freie
+  Nutzung auch kommerziell, Selbst-Hosting auf der eigenen Website erlaubt, Weitergabe der Schriftdateien nicht. Darum liegen
+  keine Satoshi-Dateien in diesem öffentlichen Repository; `app.html` lädt sie über die Fontshare-API (feste Schnitte 400, 500,
+  700, 900; Gewicht 600 nimmt Bold). Ohne Netz fällt der Text auf Onest zurück. Frühere Standardschrift „Geschwungen“
+  (Quicksand) bleibt unter Einstellungen → Design wählbar; wer sie als Standard hatte, wurde einmalig auf „Modern“ umgestellt.
 - **Sprachen** (Einstellungen → Sprache): Deutsch, Englisch, Spanisch, Chinesisch (vereinfacht), Hindi und
   Portugiesisch (Brasilien), die fünf meistgesprochenen Sprachen der Welt neben Deutsch. Zahlen, Beträge, Daten und der Kalender
   folgen dem Format der Sprache. **Standard für neue Nutzer: Englisch und US-Dollar**; wer schon Daten im Browser hat,

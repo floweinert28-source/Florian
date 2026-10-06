@@ -17,12 +17,12 @@
   const parse = k => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(k || ''); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
   const svg = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const IC = { prev: svg('<path d="M15 6l-6 6 6 6"/>'), next: svg('<path d="M9 6l6 6-6 6"/>') };
-  /* Zustand der offenen Auswahl: from/to als JJJJ-MM-TT, view = linker Monat */
-  const st = { from: '', to: '', view: { y: 0, m: 0 } };
+  /* Zustand der offenen Auswahl: from/to als JJJJ-MM-TT, view = linker Monat; preset = gewählte Vorgabe links ({ key, label }), noch nicht übernommen */
+  const st = { from: '', to: '', view: { y: 0, m: 0 }, preset: null };
   let inited = false;
 
   function reset(from, to) {
-    st.from = parse(from) ? from : ''; st.to = parse(to) ? to : '';
+    st.preset = null; st.from = parse(from) ? from : ''; st.to = parse(to) ? to : '';
     if (st.from && st.to && st.to < st.from) [st.from, st.to] = [st.to, st.from];
     /* gespeicherter Zeitraum: Startmonat links; sonst Vormonat links, aktueller Monat rechts */
     const base = parse(st.from); const now = new Date();
@@ -45,12 +45,19 @@
   function inner() {
     const { y, m } = st.view; const y2 = m === 11 ? y + 1 : y, m2 = (m + 1) % 12;
     const f = parse(st.from), t = parse(st.to);
-    const sum = f ? `<b>${dayShort(f)}</b><span class="rr-dash">–</span><b>${t ? dayShort(t) : '…'}</b>` : '';
+    const dates = f ? `<b>${dayShort(f)}</b><span class="rr-dash">–</span><b>${t ? dayShort(t) : '…'}</b>` : '';
+    /* Vorgabe gewählt: ihr Name, daneben die Tage; sonst die gewählten Tage */
+    const sum = st.preset ? `<b class="rr-pname">${st.preset.label}</b>${f ? `<span class="no-i18n rr-dates rr-pdates">${dayShort(f)} – ${dayShort(t || f)}</span>` : ''}`
+      : dates ? `<span class="no-i18n rr-dates">${dates}</span>` : '<span>Start- und Enddatum wählen</span>';
+    const can = !!(st.preset || f);
     return `<div class="rr-months">${monthHTML(y, m)}${monthHTML(y2, m2)}</div>
-      <div class="rr-foot"><span class="rr-sum">${sum ? `<span class="no-i18n rr-dates">${sum}</span>` : '<span>Start- und Enddatum wählen</span>'}</span><span class="rr-btns">${f ? '<button type="button" class="btn sm ghost" data-rr="clear">Zurücksetzen</button>' : ''}<button type="button" class="btn sm primary" data-action="range-custom" ${f ? '' : 'disabled'}>Anwenden</button></span></div>`;
+      <div class="rr-foot"><span class="rr-sum">${sum}</span><span class="rr-btns">${can ? '<button type="button" class="btn sm ghost" data-rr="clear">Zurücksetzen</button>' : ''}<button type="button" class="btn sm primary" data-action="range-custom" ${can ? '' : 'disabled'}>Anwenden</button></span></div>`;
   }
   /* Markup für das Zeitraum-Menü (bei jedem Seitenaufbau neu, mit dem gespeicherten Zeitraum) */
-  function html(from, to) { reset(from, to); return `<div class="rr-range" data-rr-root>${inner()}</div>`; }
+  function html(from, to, preset) { reset(from, to); if (preset) pick(preset); return `<div class="rr-range" data-rr-root>${inner()}</div>`; }
+  /* Vorgabe links gewählt: Tage markieren, rechts steht der aktuelle Monat */
+  function pick(p) { st.preset = { key: p.key, label: p.label }; st.from = parse(p.from) ? p.from : ''; st.to = parse(p.to) ? p.to : ''; const now = new Date(); st.view = { y: now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear(), m: (now.getMonth() + 11) % 12 }; }
+  function setPreset(box, p) { pick(p); refresh(box); }
   function refresh(box) { if (box) box.innerHTML = inner(); }
   /* Vorschau beim Überfahren: zwischen Start und Mauszeiger hell markieren, solange das Ende fehlt */
   function preview(box, k) {
@@ -65,9 +72,9 @@
       const b = e.target.closest('[data-rr]'); if (!b) return; const box = b.closest('[data-rr-root]'); if (!box) return;
       const a = b.dataset.rr;
       if (a === 'prev' || a === 'next') { const v = st.view; const t = new Date(v.y, v.m + (a === 'next' ? 1 : -1), 1); st.view = { y: t.getFullYear(), m: t.getMonth() }; }
-      else if (a === 'clear') { st.from = ''; st.to = ''; }
+      else if (a === 'clear') { st.from = ''; st.to = ''; st.preset = null; unmark(box); }
       else if (a === 'day') {
-        const k = b.dataset.k;
+        const k = b.dataset.k; if (st.preset) { st.preset = null; st.from = ''; st.to = ''; unmark(box); } /* eigene Tage statt Vorgabe */
         if (!st.from || st.to) { st.from = k; st.to = ''; }
         else if (k < st.from) { st.to = st.from; st.from = k; }
         else st.to = k;
@@ -82,7 +89,9 @@
       else if (pvBox && !(e.target.closest && e.target.closest('[data-rr-root]'))) { preview(pvBox, ''); pvBox = null; }
     });
   }
-  /* gewählter Zeitraum; ohne Ende gilt der Starttag allein */
-  const value = () => ({ from: st.from, to: st.to || st.from });
-  root.RangePicker = { html, value, init };
+  /* Markierung der Vorgaben links aufheben */
+  function unmark(box) { const pop = box.closest('.range-pop'); if (pop) pop.querySelectorAll('.rr-presets [data-action="range"]').forEach(x => x.setAttribute('aria-checked', 'false')); }
+  /* gewählter Zeitraum: Vorgabe (preset) oder eigene Tage; ohne Ende gilt der Starttag allein */
+  const value = () => ({ preset: st.preset ? st.preset.key : '', from: st.from, to: st.to || st.from });
+  root.RangePicker = { html, value, init, setPreset };
 })(typeof self !== 'undefined' ? self : this);

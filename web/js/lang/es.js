@@ -1129,4 +1129,7 @@ I18N.add('es', {
   "Deine aktiven Prop-Konten mit Ampel, Balance und Puffer bis zur nächsten Regel.": "Tus cuentas prop activas con semáforo, balance y margen hasta la siguiente regla.",
   "Heute schon im Ruhepunkt gewesen? Vor und nach dem Trading mit einem Klick starten, Akut-Reset inklusive.": "¿Ya pasaste hoy por Punto de calma? Inicia antes y después de operar con un clic, reset agudo incluido.",
   "Schnell eine Frage an deinen Trading-Psychologie-Mentor, direkt vom Dashboard.": "Pregunta rápido a tu mentor de psicología del trading, directamente desde el dashboard.",
+  "Modern": "Moderna",
+  "Standard: klar und modern, Zahlen in Onest": "Predeterminada: clara y moderna, números en Onest",
+  "Leicht und geschwungen, Zahlen in Onest": "Ligera y curvilínea, números en Onest",
 });

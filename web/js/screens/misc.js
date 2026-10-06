@@ -49,11 +49,10 @@
           <div class="field"><label for="pf-first">Vorname</label><input class="input" id="pf-first" name="firstName" value="${esc(pr.firstName)}" autocomplete="given-name"></div>
           <div class="field"><label for="pf-last">Nachname</label><input class="input" id="pf-last" name="lastName" value="${esc(pr.lastName)}" autocomplete="family-name"></div>
           <div class="field"><label for="pf-user">Benutzername</label><input class="input" id="pf-user" name="username" value="${esc(pr.username)}" autocomplete="username"></div>
-          <div class="field"><label for="pf-greet">Begrüßung in der Seitenleiste</label><select class="select" id="pf-greet" data-change="greet-name">${[['full', 'Vor- und Nachname'], ['first', 'Nur Vorname'], ['user', 'Nur Benutzername']].map(([v, l]) => `<option value="${v}" ${(st.greetName || 'full') === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
           <div class="field"><label for="pf-mail">E-Mail</label><input class="input" id="pf-mail" name="email" type="email" value="${esc(pr.email)}" autocomplete="email"></div>
           <div class="field"><label for="pf-addr">Adresse</label><input class="input" id="pf-addr" name="address" value="${esc(pr.address)}" autocomplete="street-address" placeholder="Straße, PLZ Ort"></div>
-          <div class="field span2"><label for="pf-bio">Bio</label><textarea class="input" id="pf-bio" name="bio" rows="3" maxlength="400" placeholder="Ein paar Worte zu dir und deinem Trading">${esc(pr.bio)}</textarea></div>
           <div class="field"><label for="pf-tz">Zeitzone</label><select class="select" id="pf-tz" name="timezone">${timezones().map(z => `<option value="${esc(z)}" ${z === tz ? 'selected' : ''}>${esc(z.replace(/_/g, ' '))}</option>`).join('')}</select></div>
+          <div class="field span2"><label for="pf-bio">Bio</label><textarea class="input" id="pf-bio" name="bio" rows="3" maxlength="400" placeholder="Ein paar Worte zu dir und deinem Trading">${esc(pr.bio)}</textarea></div>
           <div class="field"><label for="pf-cur">Standardwährung</label><select class="select" id="pf-cur" name="currency">${fmt.currencyOptions(st.currency || 'USD')}</select></div>
         </div>
         <div class="row"><button type="submit" class="btn primary">Speichern</button><button type="button" class="btn" data-action="pw-reset">Passwort zurücksetzen</button></div>
@@ -235,7 +234,6 @@
     /* Benachrichtigungen */
     'navdot-toggle'(el) { const d = Object.assign({ on: true }, S.settings.navDots || {}); const k = el.dataset.key; d[k] = d[k] === false; S.setSetting('navDots', d); rerender(); },
     /* Begrüßung in der Seitenleiste: sofort übernehmen, ohne das Profil-Formular neu aufzubauen (ungespeicherte Eingaben bleiben) */
-    'greet-name'(el) { S.setSetting('greetName', el.value); App.renderSidebar(); },
     'notif-toggle'(el) { const n = Object.assign({ weekly: false, monthly: false }, S.settings.notifications || {}); n[el.dataset.key] = !n[el.dataset.key]; S.setSetting('notifications', n); rerender(); },
     /* Konten */
     'edit-account'(el) { accountEditor(el.dataset.id ? S.data.accounts.find(a => a.id === el.dataset.id) : null); },

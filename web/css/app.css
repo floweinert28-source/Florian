@@ -160,17 +160,17 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag als Pille: Akzentfarbe links, läuft nach rechts ins Dunkle aus; feiner Rand mit demselben Verlauf; leuchtender Balken links am Rand der Leiste */
+/* aktiver Eintrag als Pille: Akzentfarbe links, läuft nach rechts ins Dunkle aus; sehr feiner Rand, links leicht grün; leuchtender Balken links am Rand der Leiste */
 .nav a.active {
   overflow: visible; color: var(--text); font-weight: 600;
-  background: linear-gradient(90deg, var(--accent-glow) 0%, var(--accent-soft) 42%, var(--surface-2) 80%) padding-box, linear-gradient(90deg, var(--accent) 0%, var(--border-2) 45%, var(--border-2) 100%) border-box;
+  background: linear-gradient(90deg, var(--accent-glow) 0%, var(--accent-soft) 42%, var(--surface-2) 80%) padding-box, linear-gradient(90deg, var(--accent-glow) 0%, var(--border) 40%, var(--border) 100%) border-box;
   box-shadow: -8px 0 24px -14px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 @supports (background: color-mix(in srgb, red 50%, blue)) {
   .nav a.active {
     background:
       linear-gradient(90deg, color-mix(in srgb, var(--accent) 36%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 14%, var(--surface-2)) 42%, var(--surface-2) 80%) padding-box,
-      linear-gradient(90deg, color-mix(in srgb, var(--accent) 80%, transparent) 0%, color-mix(in srgb, var(--accent) 22%, var(--border-2)) 32%, var(--border-2) 62%, color-mix(in srgb, var(--text) 24%, var(--border-2)) 100%) border-box;
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 40%, var(--border)) 0%, var(--border) 38%, var(--border) 100%) border-box;
   }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }

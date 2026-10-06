@@ -39,8 +39,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Seitenleiste**: unter dem Logo „Trading Journal App“, darunter „Willkommen zurück, Name“ (Vorname aus Einstellungen → Profil)
   und „Letzter Login“ = Beginn der vorigen Sitzung (neue Sitzung nach 30 Minuten Pause; Neuladen zählt nicht). Trennlinien zwischen
   Logo, Begrüßung und Navigation; im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
-  Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, feiner Rand mit demselben Verlauf und
-  ein leuchtender Balken links am Rand der Leiste.
+  Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
+  ein leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
   Namensform der Begrüßung unter Einstellungen → Profil: Vor- und Nachname (Standard), nur Vorname oder nur Benutzername.
   **Hinweis-Punkte** neben Bereichen, in denen etwas wartet (Grund im Tooltip): Dashboard (neuer Recap), TradeLog (offene
   Positionen), Tagesansicht (Check-in fehlt, Mo–Fr), Notebook (heute gehandelt, keine Tagesnotiz), Fortschritt (heute gehandelt,

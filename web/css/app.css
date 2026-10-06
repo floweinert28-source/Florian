@@ -163,13 +163,13 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 /* aktiver Eintrag als Pille: Akzentfarbe links, läuft nach rechts ins Dunkle aus; sehr feiner Rand, links leicht grün; schmaler, leicht leuchtender Balken links am Rand der Leiste */
 .nav a.active {
   overflow: visible; color: var(--text); font-weight: 600;
-  background: linear-gradient(90deg, var(--accent-glow) 0%, var(--accent-soft) 42%, var(--surface-2) 80%) padding-box, linear-gradient(90deg, var(--accent-glow) 0%, var(--border) 40%, var(--border) 100%) border-box;
-  box-shadow: -8px 0 24px -14px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, .04);
+  background: linear-gradient(90deg, var(--accent-soft) 0%, var(--surface-2) 76%) padding-box, linear-gradient(90deg, var(--accent-glow) 0%, var(--border) 40%, var(--border) 100%) border-box;
+  box-shadow: -8px 0 24px -14px var(--accent-soft), inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 @supports (background: color-mix(in srgb, red 50%, blue)) {
   .nav a.active {
     background:
-      linear-gradient(90deg, color-mix(in srgb, var(--accent) 36%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 14%, var(--surface-2)) 42%, var(--surface-2) 80%) padding-box,
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 24%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 9%, var(--surface-2)) 40%, var(--surface-2) 76%) padding-box,
       linear-gradient(90deg, color-mix(in srgb, var(--accent) 40%, var(--border)) 0%, var(--border) 38%, var(--border) 100%) border-box;
   }
 }

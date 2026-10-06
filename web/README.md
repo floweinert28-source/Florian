@@ -44,6 +44,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Positionen), Tagesansicht (Check-in fehlt, Mo–Fr), Notebook (heute gehandelt, keine Tagesnotiz), Fortschritt (heute gehandelt,
   Regeln nicht abgehakt), Prop Firms (aktives Konto auf Rot oder verletzt). Ein- und ausschalten, gesamt oder je Bereich, unter
   Einstellungen → Benachrichtigungen. Weitere Bereiche melden sich mit `App.navDot(key, fn)` an.
+  Wochen- und Monats-Recap oben auf dem Dashboard sind standardmäßig aus (einmalige Umstellung auch für bestehende Daten
+  und Importe über `settings.recapsOffV1`); einschalten unter Einstellungen → Benachrichtigungen.
   Unten die **Konto-Karte** (Profilbild oder Initialen, Name, E-Mail): Klick öffnet ein Menü mit Profil, Einstellungen,
   Benachrichtigungen, Sprache und dem Hell/Dunkel-Schalter; eingeklappt nur das Profilbild, Menü rechts daneben.
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,

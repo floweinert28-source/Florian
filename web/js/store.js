@@ -19,6 +19,12 @@
       unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'kum_pnl', groesse: 'klein' }, { typ: 'pnl_pro_tag', groesse: 'klein' }, { typ: 'letzte_trades', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }],
     } };
   }
+  /* Performance-Recaps oben auf dem Dashboard sind standardmäßig aus (sie störten beim Öffnen). Einmalig auch für bestehende
+     Daten und Importe umstellen; wer sie will, schaltet sie unter Einstellungen → Benachrichtigungen wieder ein (die Marke bleibt dann gesetzt) */
+  function migrateSettings(data) {
+    const st = data && data.settings; if (!st || st.recapsOffV1) return;
+    st.notifications = Object.assign({}, st.notifications || {}, { weekly: false, monthly: false }); st.recapsOffV1 = true;
+  }
   function migrateDashboards(data) {
     if (!Array.isArray(data.dashboards)) data.dashboards = [];
     data.dashboards = data.dashboards.filter(d => d && d.id && d.layout);
@@ -33,7 +39,7 @@
   function defaults() {
     return {
       version: 1,
-      settings: { theme: 'dark', currency: 'USD', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' }, dashboardId: null, notifications: { weekly: true, monthly: true }, recapShown: {}, instruments: [], beOffset: { mode: 'abs', from: 0, to: 0 }, notebook: { h1: 30, h2: 24, h3: 19, body: 16, strike: true }, font: 'geschwungen', language: 'en', profile: { firstName: '', lastName: '', username: '', email: '', address: '', bio: '', timezone: '' }, avatarId: null, privacy: { support: false }, christlicherImpuls: true, mentor: { url: '', token: '' }, dashFilter: { symbols: [], dir: '', status: '', setups: [], tags: [] }, moneyBlind: false, sidebarMini: false, blindRUnit: 0, voiceKeepAudio: true, propThresholds: { yellow: 0.5, red: 0.25 }, propStopSize: 0, propMaxBufferPct: 25, propInstruments: null },
+      settings: { theme: 'dark', currency: 'USD', dailyLossLimitPct: 3, tiltWarnings: true, ruinDrawdownPct: 30, mcRuns: 1000, range: { preset: 'month', from: null, to: null }, accountId: 'all', sampleInstalled: false, onboarded: false, name: 'Trader', colors: { accent: '', profit: '', loss: '' }, dashboardId: null, notifications: { weekly: false, monthly: false }, recapShown: {}, instruments: [], beOffset: { mode: 'abs', from: 0, to: 0 }, notebook: { h1: 30, h2: 24, h3: 19, body: 16, strike: true }, font: 'geschwungen', language: 'en', profile: { firstName: '', lastName: '', username: '', email: '', address: '', bio: '', timezone: '' }, avatarId: null, privacy: { support: false }, christlicherImpuls: true, mentor: { url: '', token: '' }, dashFilter: { symbols: [], dir: '', status: '', setups: [], tags: [] }, moneyBlind: false, sidebarMini: false, blindRUnit: 0, voiceKeepAudio: true, propThresholds: { yellow: 0.5, red: 0.25 }, propStopSize: 0, propMaxBufferPct: 25, propInstruments: null },
       accounts: [{ id: 'main', name: 'Hauptkonto', size: 25000, currency: 'USD' }], dashboards: [defaultDashboard()],
       trades: [], days: {}, notes: [], folders: defaultFolders(), noteTags: [], templates: defaultTemplates(), strategies: [], rules: [], missed: [], sessions: [], tags: JSON.parse(JSON.stringify(DEFAULT_TAGS)), tagMeta: {}, imports: [], logs: [], ruhepunkt: [], dismissed: {},
       shadowRules: root.Shadow ? root.Shadow.defaultRules() : {}, replay: { history: [] },
@@ -78,7 +84,7 @@
       if (raw) { try { const parsed = JSON.parse(raw); this.data = Object.assign(defaults(), parsed); this.data.settings = Object.assign(defaults().settings, parsed.settings || {}); this.data.settings.colors = Object.assign({ accent: '', profit: '', loss: '', be: '' }, (parsed.settings || {}).colors || {}); const ds = defaults().settings; for (const k of ['notifications', 'beOffset', 'notebook', 'recapShown', 'profile', 'privacy', 'dashFilter', 'mentor', 'propThresholds']) this.data.settings[k] = Object.assign({}, ds[k], (parsed.settings || {})[k] || {}); if (!Array.isArray(this.data.settings.instruments)) this.data.settings.instruments = []; if (this.data.settings.font === 'standard') this.data.settings.font = 'geschwungen'; /* frühere Standardschrift heißt jetzt „Klassisch“, Standard ist Geschwungen */ this.data.tags = Object.assign(JSON.parse(JSON.stringify(DEFAULT_TAGS)), parsed.tags || {}); } catch (e) { console.warn('Speicher unlesbar', e); } }
       /* Standard ist seit den Sprachen Englisch mit Dollar. Wer schon Daten hat, behält Deutsch und die bisherige Währung (damals Euro) */
       if (raw && this.data.settings) { let ps = {}; try { ps = JSON.parse(raw).settings || {}; } catch (e) { /* schon oben behandelt */ } if (!('language' in ps)) this.data.settings.language = 'de'; if (!('currency' in ps)) this.data.settings.currency = 'EUR'; }
-      migrateNotes(this.data); migrateDashboards(this.data);
+      migrateNotes(this.data); migrateDashboards(this.data); migrateSettings(this.data);
       if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       /* Beispieldaten-Upgrade: ältere Installationen bekommen die neuen Beispieldaten (Prop-Konten, Replay, Sprachnotizen); eigene Daten bleiben */
       if (this.data.settings.sampleInstalled && root.Sample && (Number(this.data.settings.sampleVersion) || 0) < (root.Sample.VERSION || 1)) { try { this.installSample(); } catch (e) { console.warn('Beispieldaten-Upgrade fehlgeschlagen', e); this.data.settings.sampleError = { message: String(e && e.message || e), stack: String(e && e.stack || '').slice(0, 1200), at: new Date().toISOString(), ua: typeof navigator !== 'undefined' ? navigator.userAgent : '' }; } }
@@ -312,7 +318,7 @@
       for (const key of ['propFirms', 'propAccounts', 'propExpenses', 'propPayouts', 'propBreaches']) { if (!Array.isArray(d[key])) continue; const cur = Array.isArray(this.data[key]) ? this.data[key] : (this.data[key] = []); const ids = new Set(cur.map(x => x.id)); for (const x of d[key]) if (x && !ids.has(x.id)) cur.push(x); }
       if (d.replay && Array.isArray(d.replay.history)) { const seen = new Set(this.replayHistory().map(c => c.at + '|' + c.tradeId)); for (const c of d.replay.history) if (c && !seen.has(c.at + '|' + c.tradeId)) this.data.replay.history.push(c); this.data.replay.history.sort((a, b) => String(a.at).localeCompare(String(b.at))); }
       if (parsed.blobs) for (const [id, b] of Object.entries(parsed.blobs)) { const blob = await (await fetch(b.data)).blob(); await Blobs.put(blob, id).catch(() => {}); }
-      migrateNotes(this.data); migrateDashboards(this.data); if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
+      migrateNotes(this.data); migrateDashboards(this.data); migrateSettings(this.data); if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       this.saveNow(); this.listeners.forEach(fn => fn());
       return { trades: d.trades.length };
     },

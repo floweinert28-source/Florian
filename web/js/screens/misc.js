@@ -106,8 +106,8 @@
     const nd = Object.assign({ on: true }, S.settings.navDots || {});
     return head('Benachrichtigungen', 'Hinweise auf dem Dashboard und in der Seitenleiste.') + `<div class="set-block stack" style="gap:18px">
       <div><h3 style="margin-bottom:4px">Performance-Recaps</h3><div class="small muted">Zusammenfassungen deiner Performance. Sie erscheinen als Hinweis oben auf dem Dashboard.</div></div>
-      ${switchRow('Wöchentlicher Performance-Recap', 'Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens 4 geschlossene Trades geloggt wurden.', 'notif-toggle', n.weekly, 'data-key="weekly"')}
-      ${switchRow('Monatlicher Performance-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum 1. des Monats mindestens 4 geschlossene Trades geloggt wurden.', 'notif-toggle', n.monthly, 'data-key="monthly"')}
+      ${switchRow('Wöchentlicher Performance-Recap', 'Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens 4 geschlossene Trades geloggt wurden.', 'notif-toggle', n.weekly === true, 'data-key="weekly"')}
+      ${switchRow('Monatlicher Performance-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum 1. des Monats mindestens 4 geschlossene Trades geloggt wurden.', 'notif-toggle', n.monthly === true, 'data-key="monthly"')}
     </div>
     <div class="set-block stack" style="gap:18px">
       <div><h3 style="margin-bottom:4px">Hinweis-Punkte in der Seitenleiste</h3><div class="small muted">Ein kleiner Punkt neben einem Bereich zeigt, dass dort etwas auf dich wartet. Fährst du mit der Maus darauf, steht der Grund dabei.</div></div>
@@ -236,7 +236,7 @@
     'navdot-toggle'(el) { const d = Object.assign({ on: true }, S.settings.navDots || {}); const k = el.dataset.key; d[k] = d[k] === false; S.setSetting('navDots', d); rerender(); },
     /* Begrüßung in der Seitenleiste: sofort übernehmen, ohne das Profil-Formular neu aufzubauen (ungespeicherte Eingaben bleiben) */
     'greet-name'(el) { S.setSetting('greetName', el.value); App.renderSidebar(); },
-    'notif-toggle'(el) { const n = Object.assign({ weekly: true, monthly: true }, S.settings.notifications || {}); n[el.dataset.key] = !n[el.dataset.key]; S.setSetting('notifications', n); rerender(); },
+    'notif-toggle'(el) { const n = Object.assign({ weekly: false, monthly: false }, S.settings.notifications || {}); n[el.dataset.key] = !n[el.dataset.key]; S.setSetting('notifications', n); rerender(); },
     /* Konten */
     'edit-account'(el) { accountEditor(el.dataset.id ? S.data.accounts.find(a => a.id === el.dataset.id) : null); },
     'save-account'(form) { const fd = new FormData(form); const patch = { name: String(fd.get('name')).trim(), size: Number(fd.get('size')) || 0, currency: fd.get('currency') }; if (form.dataset.id) S.updateAccount(form.dataset.id, patch); else S.addAccount(patch); U.closeModal(); rerender(); },

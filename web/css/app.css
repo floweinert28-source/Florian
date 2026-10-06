@@ -160,7 +160,7 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag als Pille: Akzentfarbe links, läuft nach rechts ins Dunkle aus; sehr feiner Rand, links leicht grün; leuchtender Balken links am Rand der Leiste */
+/* aktiver Eintrag als Pille: Akzentfarbe links, läuft nach rechts ins Dunkle aus; sehr feiner Rand, links leicht grün; schmaler, leicht leuchtender Balken links am Rand der Leiste */
 .nav a.active {
   overflow: visible; color: var(--text); font-weight: 600;
   background: linear-gradient(90deg, var(--accent-glow) 0%, var(--accent-soft) 42%, var(--surface-2) 80%) padding-box, linear-gradient(90deg, var(--accent-glow) 0%, var(--border) 40%, var(--border) 100%) border-box;
@@ -174,7 +174,7 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
   }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; left: -14px; top: 50%; width: 3px; height: 20px; transform: translateY(-50%); border-radius: 0 3px 3px 0; background: var(--accent); box-shadow: 0 0 10px 1px var(--accent-glow), 0 0 3px var(--accent); }
+.nav a.active::after { content: ''; position: absolute; left: -14px; top: 50%; width: 3px; height: 16px; transform: translateY(-50%); border-radius: 0 3px 3px 0; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
 .nav a.active:hover { transform: none; }
 /* Hinweis-Punkt: kleines Quadrat in der Akzentfarbe mit weichem Hof, rechts im Eintrag; eingeklappt oben rechts am Symbol */
 .nav .nav-dot { margin-left: auto; margin-right: 10px; width: 7px; height: 7px; border-radius: 2px; flex: 0 0 auto; background: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft), 0 0 12px var(--accent-soft); }

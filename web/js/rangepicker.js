@@ -54,7 +54,7 @@
   function refresh(box) { if (box) box.innerHTML = inner(); }
   /* Vorschau beim Überfahren: zwischen Start und Mauszeiger hell markieren, solange das Ende fehlt */
   function preview(box, k) {
-    box.querySelectorAll('.rr-day.pv').forEach(x => x.classList.remove('pv', 'pv-end'));
+    box.querySelectorAll('.rr-day.pv, .rr-day.pv-end').forEach(x => x.classList.remove('pv', 'pv-end')); /* auch den zuletzt überfahrenen Endtag, sonst bleibt sein Rahmen stehen */
     if (!st.from || st.to || !k || k === st.from) return;
     const lo = k < st.from ? k : st.from, hi = k < st.from ? st.from : k;
     box.querySelectorAll('.rr-day[data-k]').forEach(x => { const kk = x.dataset.k; if (kk > lo && kk < hi) x.classList.add('pv'); if (kk === k) x.classList.add('pv-end'); });
@@ -74,7 +74,13 @@
       }
       refresh(box);
     });
-    document.addEventListener('mouseover', e => { const d = e.target.closest && e.target.closest('.rr-day[data-k]'); const box = d && d.closest('[data-rr-root]'); if (box) preview(box, d.dataset.k); });
+    /* Maus verlässt den Kalender: Vorschau wegnehmen */
+    let pvBox = null;
+    document.addEventListener('mouseover', e => {
+      const d = e.target.closest && e.target.closest('.rr-day[data-k]'); const box = d && d.closest('[data-rr-root]');
+      if (box) { preview(box, d.dataset.k); pvBox = box; }
+      else if (pvBox && !(e.target.closest && e.target.closest('[data-rr-root]'))) { preview(pvBox, ''); pvBox = null; }
+    });
   }
   /* gewählter Zeitraum; ohne Ende gilt der Starttag allein */
   const value = () => ({ from: st.from, to: st.to || st.from });

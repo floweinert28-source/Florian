@@ -176,9 +176,9 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a.active svg { opacity: 1; color: var(--text); }
 .nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 16px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
 .nav a.active:hover { transform: none; }
-/* Hinweis: kurzer Lichtbalken rechts im Eintrag, im selben Stil wie der Balken am aktiven Eintrag (schmal, rund, leicht leuchtend); eingeklappt rechts am Knopf */
-.nav .nav-dot { margin-left: auto; margin-right: 10px; width: 3px; height: 12px; border-radius: 3px; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
-html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 50%; right: 4px; margin: 0; height: 10px; transform: translateY(-50%); }
+/* Hinweis-Punkt: kleiner runder Punkt rechts im Eintrag, farblich wie der Lichtbalken am aktiven Eintrag (gleiches Grün, gedämpft, leichtes Leuchten); eingeklappt oben rechts am Knopf */
+.nav .nav-dot { margin-left: auto; margin-right: 12px; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
+html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 4px; right: 4px; margin: 0; }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
 

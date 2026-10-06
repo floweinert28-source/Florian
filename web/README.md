@@ -42,7 +42,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
   Namensform der Begrüßung unter Einstellungen → Profil: Vor- und Nachname (Standard), nur Vorname oder nur Benutzername.
-  **Hinweis-Punkte** neben Bereichen, in denen etwas wartet (Grund im Tooltip): Dashboard (neuer Recap), TradeLog (offene
+  **Hinweise** (kurzer Lichtbalken rechts im Eintrag, gleicher Stil wie der Balken am aktiven Eintrag) neben Bereichen, in denen etwas wartet (Grund im Tooltip): Dashboard (neuer Recap), TradeLog (offene
   Positionen), Tagesansicht (Check-in fehlt, Mo–Fr), Notebook (heute gehandelt, keine Tagesnotiz), Fortschritt (heute gehandelt,
   Regeln nicht abgehakt), Prop Firms (aktives Konto auf Rot oder verletzt). Ein- und ausschalten, gesamt oder je Bereich, unter
   Einstellungen → Benachrichtigungen. Weitere Bereiche melden sich mit `App.navDot(key, fn)` an.

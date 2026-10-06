@@ -174,11 +174,11 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
   }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; left: -14px; top: 50%; width: 3px; height: 16px; transform: translateY(-50%); border-radius: 0 3px 3px 0; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
+.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 16px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
 .nav a.active:hover { transform: none; }
-/* Hinweis-Punkt: kleines Quadrat in der Akzentfarbe mit weichem Hof, rechts im Eintrag; eingeklappt oben rechts am Symbol */
-.nav .nav-dot { margin-left: auto; margin-right: 10px; width: 7px; height: 7px; border-radius: 2px; flex: 0 0 auto; background: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft), 0 0 12px var(--accent-soft); }
-html.sb-mini .nav .nav-dot { position: absolute; top: 5px; right: 3px; margin: 0; width: 6px; height: 6px; box-shadow: 0 0 0 3px var(--accent-soft); }
+/* Hinweis: kurzer Lichtbalken rechts im Eintrag, im selben Stil wie der Balken am aktiven Eintrag (schmal, rund, leicht leuchtend); eingeklappt rechts am Knopf */
+.nav .nav-dot { margin-left: auto; margin-right: 10px; width: 3px; height: 12px; border-radius: 3px; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
+html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 50%; right: 4px; margin: 0; height: 10px; transform: translateY(-50%); }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
 
@@ -191,7 +191,7 @@ html.sb-mini .brand .mark { width: 24px; height: 24px; } html.sb-mini .brand .ma
 html.sb-mini .brand .sb-toggle { margin-left: 0; }
 html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: quadratische Knöpfe */
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
-html.sb-mini .nav a.active::after { left: -20px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf */
+html.sb-mini .nav a.active::after { left: -18px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf, Balken 2px vom Rand */
 /* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */
 .theme-toggle { position: relative; isolation: isolate; align-self: flex-start; display: inline-flex; align-items: center; padding: 2px; margin: 10px 16px 0; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
 .theme-toggle::before { content: ''; position: absolute; z-index: -1; top: 2px; left: 2px; width: 26px; height: 22px; border-radius: 999px; background: var(--surface-3); box-shadow: 0 1px 2px rgba(0, 0, 0, .28); transition: transform var(--dur-2) var(--ease); }

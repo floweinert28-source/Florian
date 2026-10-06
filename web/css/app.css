@@ -152,25 +152,33 @@ html.sb-mini .sb-sep { margin-bottom: 14px; }
 .nav-title { padding: 0 16px 8px; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
 html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 1px; background: var(--border); }
 .nav a, .nav button {
-  position: relative; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border-radius: 11px; border: 1px solid transparent; background: none;
+  position: relative; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border-radius: 999px; border: 1px solid transparent; background: none;
   color: var(--text-2); font-weight: 500; font-size: 14.5px; cursor: pointer; text-align: left; width: 100%; white-space: nowrap; overflow: hidden;
   transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-2) var(--ease);
 }
+.nav a > span:not(.nav-dot) { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag wie eine Pille: dunkle Fläche, die nach rechts in die Akzentfarbe ausläuft, mit leuchtendem Balken am rechten Rand */
-.nav a.active { color: var(--text); font-weight: 600; border-color: var(--border-2); background: linear-gradient(90deg, var(--surface-3) 0%, var(--surface-3) 58%, var(--accent-soft) 100%); }
+/* aktiver Eintrag als Pille: Akzentfarbe links, läuft nach rechts ins Dunkle aus; feiner Rand mit demselben Verlauf; leuchtender Balken links am Rand der Leiste */
+.nav a.active {
+  overflow: visible; color: var(--text); font-weight: 600;
+  background: linear-gradient(90deg, var(--accent-glow) 0%, var(--accent-soft) 42%, var(--surface-2) 80%) padding-box, linear-gradient(90deg, var(--accent) 0%, var(--border-2) 45%, var(--border-2) 100%) border-box;
+  box-shadow: -8px 0 24px -14px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, .04);
+}
 @supports (background: color-mix(in srgb, red 50%, blue)) {
-  .nav a.active { background: linear-gradient(90deg, var(--surface-3) 0%, var(--surface-3) 55%, color-mix(in srgb, var(--accent) 38%, var(--surface-3)) 100%); }
+  .nav a.active {
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 36%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 14%, var(--surface-2)) 42%, var(--surface-2) 80%) padding-box,
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 80%, transparent) 0%, color-mix(in srgb, var(--accent) 22%, var(--border-2)) 32%, var(--border-2) 62%, color-mix(in srgb, var(--text) 24%, var(--border-2)) 100%) border-box;
+  }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; right: 0; top: 7px; bottom: 7px; width: 4px; border-radius: 4px 0 0 4px; background: var(--accent); box-shadow: 0 0 12px 2px var(--accent-soft), 0 0 4px var(--accent); }
+.nav a.active::after { content: ''; position: absolute; left: -14px; top: 50%; width: 3px; height: 20px; transform: translateY(-50%); border-radius: 0 3px 3px 0; background: var(--accent); box-shadow: 0 0 10px 1px var(--accent-glow), 0 0 3px var(--accent); }
 .nav a.active:hover { transform: none; }
 /* Hinweis-Punkt: kleines Quadrat in der Akzentfarbe mit weichem Hof, rechts im Eintrag; eingeklappt oben rechts am Symbol */
 .nav .nav-dot { margin-left: auto; margin-right: 10px; width: 7px; height: 7px; border-radius: 2px; flex: 0 0 auto; background: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft), 0 0 12px var(--accent-soft); }
-.nav a.active .nav-dot { margin-right: 14px; }
-html.sb-mini .nav .nav-dot { position: absolute; top: 7px; right: 12px; margin: 0; width: 6px; height: 6px; box-shadow: 0 0 0 3px var(--accent-soft); }
+html.sb-mini .nav .nav-dot { position: absolute; top: 5px; right: 3px; margin: 0; width: 6px; height: 6px; box-shadow: 0 0 0 3px var(--accent-soft); }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
 
@@ -181,9 +189,9 @@ html.sb-mini .brand { flex-direction: column; gap: 8px; padding: 0 0 18px; align
 html.sb-mini .brand .name { display: none; }
 html.sb-mini .brand .mark { width: 24px; height: 24px; } html.sb-mini .brand .mark svg { width: 20px; height: 20px; } /* ohne Schriftzug etwas größer */
 html.sb-mini .brand .sb-toggle { margin-left: 0; }
-html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; padding: 8px 0; gap: 0; }
+html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: runde Knöpfe */
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
-html.sb-mini .nav a.active::after { top: 9px; bottom: 9px; }
+html.sb-mini .nav a.active::after { left: -20px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf */
 /* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */
 .theme-toggle { position: relative; isolation: isolate; align-self: flex-start; display: inline-flex; align-items: center; padding: 2px; margin: 10px 16px 0; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
 .theme-toggle::before { content: ''; position: absolute; z-index: -1; top: 2px; left: 2px; width: 26px; height: 22px; border-radius: 999px; background: var(--surface-3); box-shadow: 0 1px 2px rgba(0, 0, 0, .28); transition: transform var(--dur-2) var(--ease); }

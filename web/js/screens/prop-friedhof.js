@@ -62,6 +62,9 @@
       : `<p class="muted small prop-patterns-empty">${g.n < 2 ? 'Ab zwei Grabsteinen erscheinen hier Muster: Uhrzeit, Wochentag, Symbol, Setup, Verlustserie oder Emotion, wenn sie sich wiederholen.' : 'Kein wiederkehrendes Muster: Uhrzeit, Symbol, Setup und Emotionen der Breaches unterscheiden sich.'}</p>`;
     return U.card('Muster', body, { info: 'Ein Satz je Dimension, wenn mindestens zwei und mindestens die Hälfte aller Breaches betroffen sind.', sub: g.n ? `über ${plural(g.n, 'Grabstein', 'Grabsteine')}` : '' });
   }
+  /* Grabstein: gewölbter Stein mit eingemeißeltem Rahmen und Riss (das Konto ist geplatzt), oben Name und Lebensdaten (* Start, † Breach),
+     in der Mitte die Todesursache und die Notiz als Grabinschrift, unten eine Tafel mit den Fakten; der Stein steht auf einem Sockel mit Grablicht */
+  const CRACK = '<svg class="pg-crack" viewBox="0 0 36 64" aria-hidden="true"><path d="M27 0 22 11l5 7-9 12 4 8-8 13 2 13"/><path d="M22 11l-7 3M18 30l-6-2"/></svg>';
   function grave(t, byId, accs) {
     const acc = accs.find(a => a.id === t.accountId) || null; const tz = acc ? acc.tz : null;
     const trade = t.cause.tradeId != null ? byId.get(t.cause.tradeId) || null : null;
@@ -72,12 +75,22 @@
       : when ? `<div class="prop-grave-trade"><span class="muted small">kein Trade hinterlegt</span><span class="muted small">${esc(when)}</span></div>` : DASH;
     const chips = [...t.emotions.map(e => U.chip(e, 'emotion')), ...t.mistakes.map(m => U.chip(m, 'mistake'))];
     const streak = t.lossStreakBefore > 0 ? `<span class="${t.lossStreakBefore >= 2 ? 'neg' : ''}">${plural(t.lossStreakBefore, 'Verlusttrade', 'Verlusttrades')} in Folge</span>` : '<span class="muted">keine</span>';
-    const link = c.tradeId != null && trade ? `<div class="prop-grave-foot"><a class="btn xs" href="#/trades/${esc(String(c.tradeId))}">${I.external} Trade öffnen</a></div>` : '';
-    return `<section class="card prop-grave" data-id="${esc(String(t.accountId))}">
-      <div class="prop-grave-head"><div><b>${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</b><div class="muted small">${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? ` · ${marketLabel(t.market)}` : ''}</div></div><div class="pills">${U.pill(esc(nameOf(PHASES, t.phase)), 'neutral')}${U.pill('Geplatzt', 'loss')}</div></div>
-      <div class="prop-grave-life">${t.lifetimeDays == null ? `<span class="muted">Lebensdauer unbekannt (${t.startedAt ? 'kein Breach-Datum' : 'kein Startdatum'})</span>` : `gelebt <b>${plural(t.lifetimeDays, 'Tag', 'Tage')}</b>${t.startedAt ? `<span class="muted small"> · ${fmt.dateFull(t.startedAt)} bis ${c.at ? dateIn(c.at, tz) : '—'}</span>` : ''}`}</div>
-      <div class="prop-grave-kv">${kv('Ergebnis', t.result == null ? DASH : U.pnl(t.result))}${kv('Ursache', ruleLabel(c.rule))}${kv('Auslösender Trade', tradeHtml)}${kv('Verlustserie davor', streak)}${kv('Emotionen & Fehler', chips.length ? `<span class="chips">${chips.join('')}</span>` : DASH)}${kv('Notiz', t.note ? `<span class="prop-grave-note">${esc(t.note)}</span>` : DASH)}</div>
-      ${link}
+    const link = c.tradeId != null && trade ? `<div class="prop-grave-foot"><a class="btn xs ghost" href="#/trades/${esc(String(c.tradeId))}">${I.external} Trade öffnen</a></div>` : '';
+    const born = t.startedAt ? fmt.dateFull(t.startedAt) : null, died = c.at ? dateIn(c.at, tz) : null;
+    const dates = born || died ? `<span class="pg-dates"><span>* ${born || '—'}</span><span>† ${died || '—'}</span></span>` : '';
+    const life = t.lifetimeDays == null ? `<span class="muted">Lebensdauer unbekannt (${t.startedAt ? 'kein Breach-Datum' : 'kein Startdatum'})</span>` : `<span class="pg-age">gelebt <b>${plural(t.lifetimeDays, 'Tag', 'Tage')}</b></span>`;
+    return `<section class="prop-grave" data-id="${esc(String(t.accountId))}">
+      <div class="pg-stone">${CRACK}
+        <span class="pg-rip" aria-hidden="true">R · I · P</span>
+        <div class="prop-grave-head"><b>${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</b><div class="muted small">${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? ` · ${marketLabel(t.market)}` : ''}</div><div class="pills">${U.pill(esc(nameOf(PHASES, t.phase)), 'neutral')}</div></div>
+        <div class="prop-grave-life">${dates}${life}</div>
+        <span class="pg-orn" aria-hidden="true"></span>
+        <div class="pg-cause"><span>Todesursache</span><b>${ruleLabel(c.rule)}</b></div>
+        ${t.note ? `<p class="pg-epitaph prop-grave-note">„${esc(t.note)}“</p>` : ''}
+        <div class="prop-grave-kv">${kv('Ergebnis', t.result == null ? DASH : U.pnl(t.result))}${kv('Auslösender Trade', tradeHtml)}${kv('Verlustserie davor', streak)}${chips.length ? `<div class="pg-chips chips">${chips.join('')}</div>` : ''}</div>
+        ${link}
+      </div>
+      <div class="pg-base" aria-hidden="true"><span class="pg-light"></span></div>
     </section>`;
   }
   function tabFriedhof() {

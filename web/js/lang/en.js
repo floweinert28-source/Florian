@@ -1116,4 +1116,6 @@ I18N.add('en', {
   "Verstöße pro Seite": "Violations per page",
   "{0} – {1} von {2} Verstößen": "{0} – {1} of {2} violations",
   "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": "Cumulative over the closed trades in the period. The shadow line leaves out trades that broke a rule and scales down risks that were too large.",
+  "Todesursache": "Cause of death",
+  "gelebt": "lived",
 });

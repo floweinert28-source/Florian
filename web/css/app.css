@@ -1973,30 +1973,9 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .rp-more p { margin: 8px 0 0; }
 .rp-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .rp-error { color: var(--rp-brick); font-weight: 600; margin: 12px 0 0; }
-.rp-foot { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.rp-foot { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: flex-end; gap: 16px; flex-wrap: wrap; }
 .rp-foot .rp-btn.rp-quiet { font-size: 12px; color: var(--muted); text-decoration: none; }
 .rp-foot .rp-btn.rp-quiet:hover { color: var(--text); text-decoration: underline; }
-.rp-candle { display: inline-flex; align-items: center; gap: 12px; background: none; border: 0; padding: 4px 8px 4px 4px; border-radius: 16px; cursor: pointer; text-align: left; color: var(--text); transition: background var(--dur-2) var(--ease); }
-.rp-candle:hover { background: var(--surface-2); }
-.rp-candle-tile { position: relative; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--surface-2); border: 1px solid var(--border); transition: background var(--dur-3) var(--ease), border-color var(--dur-3) var(--ease), box-shadow var(--dur-3) var(--ease); }
-.rp-candle.rp-on .rp-candle-tile { background: color-mix(in srgb, #f5b93a 14%, var(--surface-2)); border-color: color-mix(in srgb, #f5b93a 38%, transparent); box-shadow: 0 8px 22px -14px #f5b93a; }
-.rp-candle-tile svg { width: 36px; height: 44px; overflow: visible; color: var(--muted); }
-.rp-c-flame { transform-origin: 24px 22px; transition: transform .5s cubic-bezier(.3, 1.4, .5, 1), opacity var(--dur-3) var(--ease); animation: rp-flicker 2.4s ease-in-out infinite; filter: drop-shadow(0 0 4px rgba(255, 177, 59, .7)); }
-.rp-c-glow { transform-origin: 24px 17px; transition: opacity .5s ease; animation: rp-glow 2.4s ease-in-out infinite; }
-.rp-c-ember { opacity: 0; transition: opacity var(--dur-3) var(--ease); }
-.rp-c-smoke { opacity: 0; transition: opacity var(--dur-3) var(--ease); }
-.rp-candle[aria-checked="false"] .rp-c-flame { transform: scale(.1); opacity: 0; animation: none; filter: none; }
-.rp-candle[aria-checked="false"] .rp-c-glow { opacity: 0; animation: none; }
-.rp-candle[aria-checked="false"] .rp-c-ember { opacity: .9; animation: rp-ember 2.2s ease-in-out infinite; }
-.rp-candle[aria-checked="false"] .rp-c-smoke { opacity: .5; animation: rp-smoke 3s ease-in-out infinite; }
-@keyframes rp-flicker { 0%, 100% { transform: scale(1) rotate(0); } 30% { transform: scale(1.04, 1.08) rotate(-1.5deg); } 60% { transform: scale(.97, .95) rotate(1deg); } 80% { transform: scale(1.02, 1.04) rotate(-.5deg); } }
-@keyframes rp-glow { 0%, 100% { opacity: .85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
-@keyframes rp-ember { 0%, 100% { opacity: .35; } 50% { opacity: .95; } }
-@keyframes rp-smoke { 0% { opacity: .5; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-7px); } }
-.rp-candle-text { display: flex; flex-direction: column; gap: 2px; }
-.rp-candle-text b { font-size: 13px; font-weight: 600; color: var(--text); }
-.rp-candle-text small { font-size: 11.5px; color: var(--muted); }
-.rp-candle.rp-on .rp-candle-text small { color: color-mix(in srgb, #f5b93a 70%, var(--text-2)); }
 .rp-dlg section { margin-bottom: 16px; }
 .rp-dlg h3 { font-size: 14px; margin: 0 0 6px; }
 .rp-dlg p { margin: 0 0 8px; color: var(--text-2); }
@@ -2011,7 +1990,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .rp-list .rp-li-time { white-space: nowrap; font-family: var(--font-num); }
 .rp-x { border: 0; background: none; color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
 .rp-x:hover { color: var(--loss); background: var(--loss-soft); }
-@media (prefers-reduced-motion: reduce) { .rp-tide, .rp-tide-fill, .rp-tide-glow, .rp-orb-prog, .rp-seq-i i { transition: none !important; } .rp-c-flame, .rp-c-glow, .rp-c-ember, .rp-c-smoke { animation: none !important; } .rp-switch input, .rp-switch input::after, .rp-choice { transition: none; } .rp-stage > *, .rp-choices .rp-choice, .rp-i-sun, .rp-i-rays, .rp-i-moon, .rp-i-stars circle, .rp-i-ring, .rp-i-ring2, .rp-i-pause { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .rp-tide, .rp-tide-fill, .rp-tide-glow, .rp-orb-prog, .rp-seq-i i { transition: none !important; } .rp-switch input, .rp-switch input::after, .rp-choice { transition: none; } .rp-stage > *, .rp-choices .rp-choice, .rp-i-sun, .rp-i-rays, .rp-i-moon, .rp-i-stars circle, .rp-i-ring, .rp-i-ring2, .rp-i-pause { animation: none !important; } }
 @media (max-width: 560px) { .rp-foot { justify-content: center; } .rp-seq-i b { white-space: normal; } .rp-list li { grid-template-columns: 10px 1fr auto; } .rp-list .rp-li-time { display: none; } .rp-content { padding: 14px; } .rp-content.rp-open { padding: 0; } .rp-q { font-size: 22px; } .rp-title { font-size: 21px; } .rp-head { flex-direction: column; align-items: flex-start; gap: 10px; } .rp-progress i { width: 16px; } .rp input[type=text], .rp input[type=number] { max-width: none; } }
 
 /* ============================================================
@@ -2400,23 +2379,59 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .prop-patterns li::marker, .prop-highlights li::marker { color: var(--accent); }
 .prop-patterns-empty, .prop-highlights-empty { margin: 0; line-height: 1.5; max-width: 560px; }
 /* Grabsteine: oben gerundet wie ein Stein, roter Deckel */
-.prop-graves { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); align-items: stretch; }
-.prop-grave { position: relative; display: flex; flex-direction: column; gap: 10px; border-radius: 22px 22px var(--radius) var(--radius); border-color: var(--loss); overflow: hidden; }
-.prop-grave::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--loss); opacity: .7; }
-.prop-grave-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; padding-top: 2px; }
-.prop-grave-head b { font-family: var(--font-display); font-size: 15px; }
-.prop-grave-head .pills { flex-wrap: wrap; justify-content: flex-end; flex: 0 0 auto; }
-.prop-grave-life { font-size: 13px; color: var(--text-2); padding: 6px 0 2px; border-bottom: 1px solid var(--border); }
-.prop-grave-life b { color: var(--text); }
-.prop-grave-kv { display: flex; flex-direction: column; }
-.prop-grave .kv { align-items: flex-start; flex-wrap: wrap; padding: 7px 0; }
-.prop-grave .kv > span { flex: 0 0 auto; }
+/* Friedhof: jede Breach-Karte ist ein Grabstein. Gewölbter Stein mit Körnung, eingemeißeltem Rahmen, Riss und gravierter Schrift;
+   er steht auf einem Sockel mit Grablicht. Farben nur aus den Theme-Tokens, Rot bleibt den Beträgen vorbehalten */
+.prop-graves { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); align-items: end; gap: 34px 26px; padding-top: 6px; }
+.prop-grave { --eng-hi: rgba(255, 255, 255, .07); --eng-lo: rgba(0, 0, 0, .6); --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); position: relative; display: flex; flex-direction: column; min-width: 0; }
+.pg-stone { position: relative; z-index: 1; margin: 0 26px; padding: 44px 22px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; overflow: hidden;
+  border-radius: 50% 50% 8px 8px / 92px 92px 8px 8px; border: 1px solid var(--border-2);
+  background: var(--grain), radial-gradient(130% 70% at 50% 0%, color-mix(in srgb, var(--text) 7%, transparent), transparent 70%), linear-gradient(180deg, var(--surface-3), var(--surface-2) 78%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 9%, transparent), inset 0 -24px 34px -24px rgba(0, 0, 0, .5), 0 18px 30px -22px rgba(0, 0, 0, .8); }
+/* eingemeißelter Innenrahmen */
+.pg-stone::before { content: ''; position: absolute; inset: 9px; border-radius: 50% 50% 4px 4px / 84px 84px 4px 4px; border: 1px solid var(--eng-lo); box-shadow: 0 1px 0 var(--eng-hi), inset 0 1px 0 var(--eng-hi); pointer-events: none; opacity: .7; }
+.pg-stone > * { position: relative; }
+.pg-crack { position: absolute !important; top: -1px; right: 24%; width: 30px; height: 54px; fill: none; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.pg-crack path { stroke: var(--eng-lo); stroke-width: 1.6; filter: drop-shadow(1px 1px 0 var(--eng-hi)); }
+.pg-crack path + path { stroke-width: 1.1; }
+.pg-rip { font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: .5em; margin-right: -.5em; color: var(--muted); text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); }
+.prop-grave-head { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.prop-grave-head b { font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .01em; line-height: 1.2; text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); overflow-wrap: anywhere; }
+.prop-grave-head .pills { justify-content: center; margin-top: 4px; }
+.prop-grave .pills .pill { background: transparent; border: 1px solid var(--border-2); color: var(--text-2); }
+.prop-grave-life { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 12.5px; color: var(--muted); }
+.pg-dates { display: inline-flex; gap: 16px; font-family: var(--font-num); font-size: 13.5px; color: var(--text-2); text-shadow: 0 -1px 0 var(--eng-lo); }
+.prop-grave-life b { color: var(--text); font-weight: 600; }
+.pg-orn { width: 132px; height: 1px; margin: 4px 0; background: linear-gradient(90deg, transparent, var(--border-2) 30%, var(--border-2) 70%, transparent); }
+.pg-orn::after { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -4px 0 0 -4px; transform: rotate(45deg); border: 1px solid var(--border-2); background: var(--surface-2); }
+.pg-cause { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.pg-cause span { font-size: 10.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.pg-cause b { font-family: var(--font-display); font-size: 18px; font-weight: 700; text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); }
+.pg-epitaph { margin: 0; max-width: 34ch; font-size: 13px; font-style: italic; line-height: 1.5; color: var(--text-2); }
+/* Gedenktafel mit den Fakten */
+.prop-grave-kv { align-self: stretch; display: flex; flex-direction: column; margin-top: 4px; padding: 2px 12px; border-radius: 8px; text-align: left;
+  background: color-mix(in srgb, var(--bg) 45%, transparent); border: 1px solid var(--border); box-shadow: inset 0 1px 2px rgba(0, 0, 0, .25), 0 1px 0 var(--eng-hi); }
+.prop-grave .kv { align-items: flex-start; flex-wrap: wrap; padding: 8px 0; font-size: 12.5px; }
+.prop-grave .kv > span { flex: 0 0 auto; color: var(--muted); }
 .prop-grave .kv > b { text-align: right; min-width: 0; margin-left: auto; }
-.prop-grave .chips { display: inline-flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end; }
+.pg-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; padding: 9px 0 8px; border-top: 1px solid var(--border); }
+.prop-grave .chip { background: transparent; border: 1px solid var(--border-2); color: var(--text-2); }
 .prop-grave-trade { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; text-align: right; }
 .prop-grave-trade .sym { font-family: var(--font-display); font-weight: 700; }
-.prop-grave-note { display: inline-block; font-size: 12.5px; font-weight: 500; color: var(--text-2); font-style: italic; text-align: right; max-width: 100%; white-space: normal; }
-.prop-grave-foot { margin-top: auto; display: flex; justify-content: flex-end; padding-top: 4px; }
+.prop-grave-note { white-space: normal; }
+.prop-grave-foot { display: flex; justify-content: center; }
+.prop-grave-foot .btn { color: var(--text-2); }
+/* Sockel mit Grablicht (rotes Glas, die Flamme flackert ruhig; bei reduzierter Bewegung steht sie still) */
+.pg-base { position: relative; height: 16px; margin-top: -1px; border-radius: 3px 3px 6px 6px; border: 1px solid var(--border-2); background: var(--grain), linear-gradient(180deg, var(--surface-3), var(--surface-2)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent), 0 14px 22px -12px rgba(0, 0, 0, .8); }
+.pg-light { position: absolute; z-index: 2; right: 7px; bottom: calc(100% + 1px); width: 13px; height: 17px; border-radius: 2px 2px 3px 3px;
+  background: radial-gradient(circle at 50% 62%, rgba(255, 214, 140, .95) 0 1.5px, rgba(255, 140, 60, .7) 3px, transparent 7px), linear-gradient(180deg, #b0362b, #6a1a14);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 14px 2px rgba(255, 160, 70, .22); animation: pg-glow 3.2s ease-in-out infinite; }
+.pg-light::before { content: ''; position: absolute; left: -1px; right: -1px; top: -4px; height: 4px; border-radius: 2px 2px 0 0; background: linear-gradient(180deg, #8c877d, #5d5a54); }
+.pg-light::after { content: ''; position: absolute; left: 50%; top: 4px; width: 5px; height: 7px; margin-left: -2.5px; border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%; background: radial-gradient(circle at 50% 75%, #fff4d0, #ffc35a 50%, rgba(249, 115, 22, 0) 100%); transform-origin: 50% 100%; animation: pg-flicker 2.4s ease-in-out infinite; }
+@keyframes pg-flicker { 0%, 100% { transform: scale(1) rotate(0); opacity: .95; } 30% { transform: scale(1.06, 1.14) rotate(-3deg); opacity: 1; } 55% { transform: scale(.94, .9) rotate(2deg); opacity: .8; } 80% { transform: scale(1.03, 1.06) rotate(-1deg); opacity: .92; } }
+@keyframes pg-glow { 0%, 100% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 14px 2px rgba(255, 160, 70, .2); } 50% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 18px 4px rgba(255, 160, 70, .3); } }
+:root[data-theme="light"] .prop-grave { --eng-hi: rgba(255, 255, 255, .95); --eng-lo: rgba(40, 50, 44, .16); }
+:root[data-theme="light"] .pg-stone { box-shadow: inset 0 1px 0 #fff, inset 0 -24px 34px -24px rgba(40, 50, 44, .12), 0 18px 30px -22px rgba(40, 50, 44, .35); }
+:root[data-theme="light"] .prop-grave-kv { background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: inset 0 1px 2px rgba(40, 50, 44, .08); }
 /* Challenge vs. Funded */
 .prop-cmp-sample { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; font-size: 13.5px; padding: 2px 2px 6px; }
 .prop-cmp-sample b { font-family: var(--font-display); }
@@ -2428,13 +2443,11 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .prop-cmp-note { margin: 0; line-height: 1.5; max-width: 720px; }
 .prop-cmp th .short { display: none; }
 @media (max-width: 560px) {
-  .prop-grave-head { flex-direction: column; }
-  .prop-grave-head .pills { justify-content: flex-start; }
+  .pg-stone { margin: 0 22px; padding: 40px 16px 18px; }
+  .pg-light { right: 5px; }
   .prop-grave .kv { flex-direction: column; gap: 4px; }
   .prop-grave .kv > b { text-align: left; margin-left: 0; }
-  .prop-grave .chips, .prop-grave-trade { justify-content: flex-start; align-items: flex-start; text-align: left; }
-  .prop-grave-note { text-align: left; }
-  .prop-grave-foot .btn { width: 100%; justify-content: center; }
+  .prop-grave-trade { align-items: flex-start; text-align: left; }
   /* Tabelle passt ohne inneren Scroll: Kennzahl darf umbrechen, Zahlen bleiben einzeilig */
   .prop-cmp { min-width: 0; font-size: 12.5px; }
   .prop-cmp td, .prop-cmp th { padding: 10px 7px; }

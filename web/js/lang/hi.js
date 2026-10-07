@@ -1200,4 +1200,6 @@ I18N.add('hi', {
   "Verstöße pro Seite": "प्रति पेज उल्लंघन",
   "{0} – {1} von {2} Verstößen": "{2} उल्लंघनों में से {0} – {1}",
   "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": "अवधि के बंद ट्रेड पर संचयी। शैडो लाइन नियम तोड़ने वाले ट्रेड हटा देती है और बहुत बड़े जोखिम को छोटा कर देती है।",
+  "Todesursache": "मृत्यु का कारण",
+  "gelebt": "जीवित रहा",
 });

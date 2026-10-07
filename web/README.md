@@ -89,7 +89,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in drei Designs nach Canva-Vorlagen: Navy (Lichtstreifen, Farbverlauf-Titel, Rahmenecken), Aurora (zentriert, Ergebnis in einer Farbpille, rosa-lila Lichtflecken) und Hell; mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen.
-- **Ruhepunkt**: geführte Sessions vor und nach dem Trading plus Akut-Reset (Abläufe und Texte aus `docs/ruhepunkt.html`). Jede Session wird als Eintrag mit Nutzerkennung gespeichert; „Christlicher Impuls“ ist eine gespeicherte Einstellung.
+- **Ruhepunkt**: geführte Sessions vor und nach dem Trading plus Akut-Reset (Abläufe und Texte aus `docs/ruhepunkt.html`). Jede Session wird als Eintrag mit Nutzerkennung gespeichert; „Christlicher Impuls“ ist eine gespeicherte Einstellung, umschaltbar nur in den Einstellungen (unten im Ruhepunkt steht nur noch „Hilfe und Beratung“).
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
@@ -119,9 +119,12 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   hättest. Regelwerk mit max. Trades pro Tag, max. Tagesverlust, Stopp nach Verlustserie, max. Risiko pro Trade,
   Handelszeiten, erlaubten Setups und Cooldown nach Verlust. Die Berechnung in `js/shadow.js` geht alle Trades
   chronologisch durch, Tageslimits gelten für das Schatten-Konto, zu große Trades werden herunterskaliert.
-  Equity echt vs. Schatten, Disziplin-Kosten je Woche/Monat/gesamt (ehrlich auch, wenn ein Regelbruch Geld
-  gebracht hat), Verstoßliste, Regel-Ranking und eine teilbare Bildkarte. Tests: `web/tests/shadow.test.mjs`.
-  „Mein Regelwerk“: jede Regel ist eine ruhige Kachel mit Namen, kurzer Erklärung und Schalter (zwei bis drei Spalten, auf dem Handy eine); eingeschaltet ist sie leicht getönt, die Eingaben erscheinen darunter. Schalter in der ganzen App: schlanke Spur, heller Knopf, an = Akzentfarbe; die Eingaben erscheinen nur bei
+  Equity echt vs. Schatten, Disziplin-Kosten im Zeitraum (ehrlich auch, wenn ein Regelbruch Geld gebracht hat),
+  Verstoßliste (10 je Seite, umblättern wie im TradeLog) und Regel-Ranking. Tests: `web/tests/shadow.test.mjs`.
+  Zeitraum: nur der gemeinsame Zeitraum oben in der Kopfreihe (Heute bis Gesamt oder eigene Tage, wie auf allen
+  Seiten); gerechnet wird immer über alle Trades, damit Serien und Pausen über die Grenze hinweg stimmen, gezeigt
+  wird, was im Zeitraum geschlossen wurde. Die Kopfreihe hat hier kein „Trade loggen“ und kein „Session starten“.
+  „Mein Regelwerk“: jede Regel ist eine ruhige Kachel mit Namen, kurzer Erklärung und Schalter (zwei bis drei Spalten, auf dem Handy eine); eingeschaltet ist sie leicht getönt, die Eingaben erscheinen darunter. Schalter in der ganzen App: schlanke Spur (36×20), kleiner Knopf, aus = grau, an = Akzentfarbe mit weißem Knopf; der Knopf gleitet mit leichtem Nachfedern und streckt sich beim Drücken, auch wenn die Seite danach neu aufgebaut wird (`App.glideSwitch`); die Eingaben erscheinen nur bei
   eingeschalteten Regeln, die Einheit steht im Feld, die Erklärung im (i). Ohne aktive Regel steht der Hinweis mit
   „Vorschlag übernehmen“ unter den Schaltern, damit beim ersten Einschalten nichts darüber verrutscht.
 - **Blind-Replay** (Taste 0): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“
@@ -154,7 +157,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer
   und Ampel. Cockpit mit allen Konten, echte Prop-Bilanz (Ausgaben gegen Payouts, ROI, Kosten pro bestandenem Konto,
   Bestehensquote), Puffer in Stop-Losses, Positionsgrößenrechner mit editierbaren Instrument-Spezifikationen,
-  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse und Challenge vs. Funded (`js/screens/prop-friedhof.js`), Monte-Carlo-Simulation
+  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse (jedes geplatzte Konto als Grabstein: gewölbter Stein mit Körnung, Riss und gravierter Schrift, „R · I · P“, Lebensdaten * Start / † Breach, Todesursache, Notiz als Inschrift, Tafel mit Ergebnis, auslösendem Trade und Verlustserie; Sockel mit flackerndem Grablicht) und Challenge vs. Funded (`js/screens/prop-friedhof.js`), Monte-Carlo-Simulation
   der Bestehens-Wahrscheinlichkeit im Web Worker (`js/propworker.js`, Rechenkern `js/propsim.js`; ohne Worker, etwa unter
   `file://`, synchron im Hauptthread), Firmen-Matcher (Sortierung nach Bestehensquote mit den eigenen Tagen, keine Bewertung der Firmen) und
   Erwartungswert der Challenge (Tab Simulation, `js/screens/prop-sim.js`). Phasenwechsel eines Kontos werden mit Datum

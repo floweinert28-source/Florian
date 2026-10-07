@@ -1200,4 +1200,6 @@ I18N.add('zh', {
   "Verstöße pro Seite": "每页违规数",
   "{0} – {1} von {2} Verstößen": "第 {0} – {1} 条，共 {2} 条违规",
   "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": "按所选期间内已平仓的交易累计。影子线会去掉违反规则的交易，并缩小过大的风险。",
+  "Todesursache": "死因",
+  "gelebt": "存活",
 });

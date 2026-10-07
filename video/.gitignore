@@ -3,3 +3,6 @@ out/
 public/fonts/
 .remotion/
 public/footage.mp4
+
+# Ereignis-Log der Aufnahme gehört ins Repository (Root-Regel "data/" gilt hier nicht)
+!src/data/

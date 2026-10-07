@@ -1196,4 +1196,8 @@ I18N.add('zh', {
   "Handelstag ab {0} Uhr ({1}). {2} Durchläufe (Matcher {3}, Erwartungswert {4}). Rechnung im Hauptthread.": "交易日从 {0} 开始（{1}）。{2} 次模拟（匹配器 {3}，期望值 {4}）。在主线程中计算。",
   "{0} Puffer / {1} je Stop-Loss": "缓冲 {0} / 每次止损 {1}",
   "Werte bitte auf der Website der Firma prüfen.": "请在公司网站上核实这些数值。",
+  "Verstöße pro Seite:": "每页违规数：",
+  "Verstöße pro Seite": "每页违规数",
+  "{0} – {1} von {2} Verstößen": "第 {0} – {1} 条，共 {2} 条违规",
+  "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": "按所选期间内已平仓的交易累计。影子线会去掉违反规则的交易，并缩小过大的风险。",
 });

@@ -1152,4 +1152,8 @@ I18N.add('es', {
   "Handelstag ab {0} Uhr ({1}). {2} Durchläufe (Matcher {3}, Erwartungswert {4}). Rechnung im Hauptthread.": "El día de trading empieza a las {0} ({1}). {2} simulaciones (matcher {3}, valor esperado {4}). Cálculo en el hilo principal.",
   "{0} Puffer / {1} je Stop-Loss": "{0} de margen / {1} por stop-loss",
   "Werte bitte auf der Website der Firma prüfen.": "Comprueba los valores en la web de la empresa.",
+  "Verstöße pro Seite:": "Infracciones por página:",
+  "Verstöße pro Seite": "Infracciones por página",
+  "{0} – {1} von {2} Verstößen": "{0} – {1} de {2} infracciones",
+  "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": "Acumulado sobre las operaciones cerradas del período. La línea sombra omite las operaciones que rompieron una regla y reduce los riesgos demasiado grandes.",
 });

@@ -1196,4 +1196,8 @@ I18N.add('hi', {
   "Handelstag ab {0} Uhr ({1}). {2} Durchläufe (Matcher {3}, Erwartungswert {4}). Rechnung im Hauptthread.": "ट्रेडिंग दिन {0} बजे शुरू होता है ({1})। {2} सिमुलेशन (मैचर {3}, अपेक्षित मान {4})। मुख्य थ्रेड में गणना।",
   "{0} Puffer / {1} je Stop-Loss": "{0} बफ़र / {1} प्रति स्टॉप-लॉस",
   "Werte bitte auf der Website der Firma prüfen.": "कृपया मान फ़र्म की वेबसाइट पर जाँचें।",
+  "Verstöße pro Seite:": "प्रति पेज उल्लंघन:",
+  "Verstöße pro Seite": "प्रति पेज उल्लंघन",
+  "{0} – {1} von {2} Verstößen": "{2} उल्लंघनों में से {0} – {1}",
+  "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": "अवधि के बंद ट्रेड पर संचयी। शैडो लाइन नियम तोड़ने वाले ट्रेड हटा देती है और बहुत बड़े जोखिम को छोटा कर देती है।",
 });

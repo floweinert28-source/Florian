@@ -284,13 +284,18 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; }
 .check input { accent-color: var(--accent); width: 16px; height: 16px; }
 /* Schalter: schlanke Spur, heller Knopf mit weichem Schatten; an = Akzentfarbe */
-.switch { position: relative; width: 40px; height: 24px; border-radius: 999px; background: color-mix(in srgb, var(--text) 16%, transparent); border: 0; cursor: pointer; transition: background var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); flex: 0 0 auto; padding: 0; }
-.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 3px rgba(0, 0, 0, .35); transition: transform var(--dur-2) var(--ease); }
-.switch:hover { background: color-mix(in srgb, var(--text) 24%, transparent); }
-.switch[aria-checked="true"] { background: var(--accent); }
+/* Schalter: schlanke Spur, kleiner Knopf; der Knopf gleitet mit leichtem Nachfedern, beim Drücken streckt er sich (App.glideSwitch spielt das auch nach einem Neuaufbau ab) */
+.switch { --sw-ease: cubic-bezier(.34, 1.36, .64, 1); position: relative; width: 36px; height: 20px; border-radius: 999px; background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--border-2); border: 0; cursor: pointer; flex: 0 0 auto; padding: 0; transition: background-color .26s var(--ease), box-shadow .26s var(--ease); }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 999px; background: var(--muted); transition: transform .32s var(--sw-ease), width .18s var(--ease), background-color .26s var(--ease), box-shadow .26s var(--ease); }
+.switch:hover::after { background: var(--text-2); }
+.switch:active::after { width: 18px; }
+.switch[aria-checked="true"] { background: var(--accent); box-shadow: inset 0 0 0 1px transparent; }
 .switch[aria-checked="true"]:hover { background: var(--accent-2); }
-.switch[aria-checked="true"]::after { transform: translateX(16px); }
-.switch:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+.switch[aria-checked="true"]::after { transform: translateX(16px); background: #ffffff; box-shadow: 0 1px 2px rgba(0, 0, 0, .25); }
+.switch[aria-checked="true"]:active::after { transform: translateX(12px); }
+.switch:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--border-2), 0 0 0 3px var(--accent-soft); }
+.switch[aria-checked="true"]:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); }
+.switch.no-anim, .switch.no-anim::after { transition: none !important; }
 .seg { display: inline-flex; gap: 6px; flex-wrap: wrap; }
 .seg button { padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 600; font-size: 13px; cursor: pointer; }
 .seg button:hover { color: var(--text); background: var(--surface-2); }
@@ -1521,7 +1526,7 @@ span.info:hover { color: var(--accent); }
 .set-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
 .set-block h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
 .set-row { display: flex; align-items: flex-start; gap: 14px; }
-.set-row .switch { margin-top: 2px; }
+.set-row .switch { margin-top: 3px; }
 .set-row b { display: block; margin-bottom: 2px; }
 .set-tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--border); }
 .set-tabs button { padding: 8px 2px 12px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: -1px; }
@@ -2063,8 +2068,6 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .shadow-head { display: flex; align-items: center; justify-content: space-between; gap: 12px 18px; flex-wrap: wrap; }
 .shadow-intro { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .shadow-intro b { font-family: var(--font-display); font-size: 15px; }
-.shadow-ctl { flex-wrap: nowrap; gap: 8px; }
-.shadow-ctl .seg button { padding: 8px 13px; }
 .shadow-tiles .tile.shadow-main { border-color: var(--border-2); }
 .shadow-tiles .tile.shadow-main .val { font-size: 34px; }
 .shadow-tiles .tile .val.neu { color: var(--text); }
@@ -2096,54 +2099,15 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .shadow-tbl { min-width: 560px; }
 .shadow-detail { grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr); }
 @media (max-width: 1100px) { .shadow-detail { grid-template-columns: 1fr; } }
-.shadow-more { justify-content: center; padding-top: 10px; }
+.tbl-wrap.inset .pager { padding: 12px 0 0; background: transparent; }
 .shadow-rank .bar-row { grid-template-columns: minmax(0, 1fr); }
 .shadow-rank .bar-row .bl > b { flex: 0 0 auto; white-space: nowrap; }
 .shadow-rank .bar-row .bl > span { min-width: 0; margin-right: 10px; }
-/* Vorschau im Modal: feste Karte, per Skalierung eingepasst (wie .cert-scale) */
-.shadow-card-preview { display: grid; place-items: center; min-width: 0; width: 100%; min-height: 300px; padding: 12px; border-radius: 14px; background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
-.shadow-card-preview .shadow-card-scale { transform-origin: top left; flex: 0 0 auto; }
-/* Die Karte selbst: eigene Farbtokens, damit Export und Vorschau unabhängig vom App-Theme identisch sind */
-.shadow-card { --c-bg: #050706; --c-bg2: #121715; --c-text: #f3f6f4; --c-muted: #8b948f; --c-line: #262d29; --c-chip: rgba(255, 255, 255, .04); position: relative; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; padding: 72px 92px 64px; font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif; color: var(--c-text); background: var(--c-bg); font-variant-numeric: tabular-nums; line-height: 1.25; letter-spacing: 0; }
-.shadow-card[data-theme="light"] { --c-bg: #fbfbfa; --c-bg2: #eef1ef; --c-text: #0f1512; --c-muted: #6c766f; --c-line: #dfe4e0; --c-chip: rgba(0, 0, 0, .04); }
-.shadow-card * { box-sizing: border-box; }
-.shadow-card .sc-glow { position: absolute; inset: -20% -10% auto; height: 70%; background: radial-gradient(60% 60% at 50% 30%, color-mix(in srgb, var(--c-accent) 22%, transparent), transparent 70%); pointer-events: none; }
-.shadow-card[data-theme="light"] .sc-glow { background: radial-gradient(60% 60% at 50% 30%, color-mix(in srgb, var(--c-accent) 18%, transparent), transparent 70%); }
-.shadow-card .sc-head, .shadow-card .sc-main, .shadow-card .sc-foot { position: relative; }
-.shadow-card .sc-head { display: flex; align-items: center; justify-content: space-between; font-size: 24px; }
-.shadow-card .sc-head .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; }
-.shadow-card .sc-head .brand .mark { display: inline-grid; place-items: center; }
-.shadow-card .sc-head .brand .mark svg { width: 32px; height: 32px; color: currentColor; }
-.shadow-card .sc-head .brand em { font-style: normal; color: inherit; }
-.shadow-card .sc-tag { font-size: 16px; letter-spacing: .3em; text-transform: uppercase; color: var(--c-muted); font-weight: 600; border: 1px solid var(--c-line); border-radius: 999px; padding: 10px 20px 10px 24px; }
-.shadow-card .sc-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px 0 10px; }
-.shadow-card .sc-title { font-size: 20px; letter-spacing: .34em; text-transform: uppercase; color: var(--c-muted); font-weight: 600; padding-left: .34em; }
-.shadow-card .sc-period { font-family: Georgia, "Times New Roman", "Iowan Old Style", serif; font-style: italic; font-size: 34px; margin-top: 12px; }
-.shadow-card .sc-value { font-size: 128px; font-weight: 700; letter-spacing: -.035em; line-height: 1; margin: 30px 0 14px; }
-.shadow-card .sc-sub { font-size: 22px; color: var(--c-muted); letter-spacing: .02em; }
-.shadow-card .pos { color: var(--c-pos); } .shadow-card .neg { color: var(--c-neg); } .shadow-card .neu { color: var(--c-text); }
-.shadow-card .sc-chart { width: 100%; margin-top: 36px; padding: 18px 0 8px; }
-.shadow-card .sc-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
-.shadow-card .sc-legend { display: flex; gap: 28px; justify-content: center; font-size: 17px; color: var(--c-muted); font-weight: 600; letter-spacing: .04em; margin-top: 6px; }
-.shadow-card .sc-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 999px; margin-right: 8px; vertical-align: middle; }
-.shadow-card .sc-legend i.real { background: var(--c-muted); } .shadow-card .sc-legend i.shadow { background: var(--c-accent); }
-.shadow-card .sc-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 24px; width: 100%; margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--c-line); text-align: left; }
-.shadow-card .sc-stats .st .k { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--c-muted); font-weight: 600; white-space: nowrap; }
-.shadow-card .sc-stats .st .v { font-size: 30px; font-weight: 700; margin-top: 8px; letter-spacing: -.01em; white-space: nowrap; }
-.shadow-card .sc-stats .st .v small { font-size: 15px; font-weight: 500; color: var(--c-muted); letter-spacing: .04em; }
-.shadow-card .sc-stats .st.rule .v { font-size: 20px; white-space: normal; line-height: 1.25; }
-.shadow-card .sc-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 26px; border-top: 1px solid var(--c-line); font-size: 17px; color: var(--c-muted); letter-spacing: .04em; }
-.shadow-card .sc-foot .sc-brand { font-weight: 700; color: var(--c-text); letter-spacing: .02em; }
 @media (max-width: 960px) {
   .shadow-head { flex-direction: column; align-items: stretch; }
-  .shadow-ctl { justify-content: space-between; }
-  .shadow-ctl .seg { flex: 1; flex-wrap: nowrap; }
-  .shadow-ctl .seg button { flex: 1; padding: 8px 6px; font-size: 12.5px; }
-  .shadow-ctl .btn span { display: none; }
   .shadow-tiles .tile.shadow-main .val { font-size: 26px; }
   .shadow-rules { grid-template-columns: 1fr; }
   .shadow-tbl { min-width: 520px; }
-  .shadow-card-preview { min-height: 200px; }
 }
 
 /* ============================================================

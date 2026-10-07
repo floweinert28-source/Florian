@@ -1112,4 +1112,8 @@ I18N.add('en', {
   "Handelstag ab {0} Uhr ({1}). {2} Durchläufe (Matcher {3}, Erwartungswert {4}). Rechnung im Hauptthread.": "Trading day starts at {0} ({1}). {2} runs (matcher {3}, expected value {4}). Calculated on the main thread.",
   "{0} Puffer / {1} je Stop-Loss": "{0} buffer / {1} per stop-loss",
   "Werte bitte auf der Website der Firma prüfen.": "Please check the values on the firm's website.",
+  "Verstöße pro Seite:": "Violations per page:",
+  "Verstöße pro Seite": "Violations per page",
+  "{0} – {1} von {2} Verstößen": "{0} – {1} of {2} violations",
+  "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": "Cumulative over the closed trades in the period. The shadow line leaves out trades that broke a rule and scales down risks that were too large.",
 });

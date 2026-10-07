@@ -140,6 +140,13 @@
     },
     /* offene Popover ausblenden und dann schließen; except = Popover, das gerade umgeschaltet wird */
     closePopovers(except) { document.querySelectorAll('.popover.open:not(.closing)').forEach(p => { if (p.id === except) return; M.leave(p, 'closing', '--dur-1', () => p.classList.remove('open', 'closing')); }); },
+    /* Schalter gleiten lassen, auch wenn die Aktion die Seite neu aufbaut: den neuen Schalter kurz in den alten Zustand setzen und dann umschalten */
+    switchMark(el) { if (!el.matches('.switch[role="switch"]')) return null; const sel = '.switch' + [...el.attributes].filter(a => a.name.startsWith('data-') && a.name !== 'data-tip').map(a => `[${a.name}="${CSS.escape(a.value)}"]`).join(''); return { el, sel, was: el.getAttribute('aria-checked') }; },
+    glideSwitch(sw) {
+      if (sw.el.isConnected) return; const n = document.querySelector(sw.sel); if (!n) return; const now = n.getAttribute('aria-checked'); if (now === sw.was) return;
+      const tile = n.closest('.shadow-rule'); n.classList.add('no-anim'); n.setAttribute('aria-checked', sw.was); void n.offsetWidth; n.classList.remove('no-anim'); n.setAttribute('aria-checked', now);
+      if (tile) { const on = tile.classList.contains('on'); tile.style.transition = 'none'; tile.classList.toggle('on', !on); void tile.offsetWidth; tile.style.transition = ''; tile.classList.toggle('on', on); }
+    },
     rerender(keepScroll = true) { const keep = keepScroll ? this.saveScroll(document.getElementById('main')) : null; if (keep) keep.anchor = this.takeAnchor(); this.render({ enter: false, keep }); },
     /* Angeklicktes Element an seinem Platz halten: Ändert sich durch die Aktion etwas darüber (ein Hinweis verschwindet, eine Karte wächst),
        gleicht der Scrollstand das aus – das Element bleibt unter der Maus. Nur für Elemente im normalen Seitenfluss (nicht in Dialogen,
@@ -239,7 +246,7 @@
         if (stopEl && !inside(closeEl) && !inside(el)) return; /* data-stop schirmt nur äußere Aktionen ab, nicht Knöpfe darin */
         if (closeEl) { if (closeEl.isConnected) U.closeModal(); return; }
         if (!el || el.tagName === 'FORM') return;
-        const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); this.noteAnchor(el); fn.call(this, el, e); }
+        const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); this.noteAnchor(el); const sw = this.switchMark(el); fn.call(this, el, e); if (sw) this.glideSwitch(sw); }
       });
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
       document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });

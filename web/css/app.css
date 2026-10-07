@@ -1432,10 +1432,12 @@ span.info:hover { color: var(--accent); }
   .tracker { --weeks: 13; }
   .tracker-foot { flex-wrap: wrap; }
 }
-/* TradeLog: Kennzahl-Kachel mit Verlauf */
-.tile.spark-tile { gap: 2px; padding-bottom: 12px; }
-.tile.spark-tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; flex: 1; display: flex; align-items: flex-end; padding-bottom: 0; margin-bottom: -6px; min-height: 44px; }
-.tile.spark-tile .chart { flex: 0 0 auto; min-height: 0; height: 66px; }
+/* TradeLog: Kennzahl-Kachel mit Verlauf; Zahl links und Verlauf rechts daneben, beide mittig in der Höhe */
+.tile.spark-tile { gap: 2px; }
+.tile.spark-tile .spark-body { flex: 1; display: flex; align-items: center; gap: 18px; min-height: 0; }
+.tile.spark-tile .val { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; flex: 0 0 auto; display: flex; align-items: center; margin: 0; padding: 0; min-height: 0; }
+.tile.spark-tile .chart { flex: 1 1 auto; min-width: 0; min-height: 0; height: 56px; }
+@container (max-width: 190px) { .tile.spark-tile .spark-body { flex-direction: column; align-items: stretch; gap: 6px; } .tile.spark-tile .chart { flex: 0 0 auto; height: 48px; } }
 /* TradeLog: Seiten, sichtbarer Ausschnitt etwa 10 Zeilen */
 .tbl-wrap.paged { overflow: hidden; display: flex; flex-direction: column; }
 .tbl-wrap.paged .tbl-scroll { max-height: 530px; overflow: auto; }

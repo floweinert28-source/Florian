@@ -1178,4 +1178,5 @@ I18N.add('zh', {
   "Leicht und geschwungen, Zahlen in Onest": "轻盈流畅，数字使用 Onest",
   "Graphit": "石墨",
   "Schwarz": "黑色",
+  "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "时间段内所有已平仓交易的累计总和。旁边为每个交易日的走势。",
 });

@@ -1178,4 +1178,5 @@ I18N.add('hi', {
   "Leicht und geschwungen, Zahlen in Onest": "हल्का और घुमावदार, संख्याएँ Onest में",
   "Graphit": "ग्रेफ़ाइट",
   "Schwarz": "काला",
+  "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "अवधि में सभी बंद ट्रेडों का संचयी योग। बगल में हर ट्रेडिंग दिन का क्रम।",
 });

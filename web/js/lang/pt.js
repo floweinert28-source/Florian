@@ -1132,4 +1132,5 @@ I18N.add('pt', {
   "Leicht und geschwungen, Zahlen in Onest": "Leve e fluida, números em Onest",
   "Graphit": "Grafite",
   "Schwarz": "Preto",
+  "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "Soma acumulada de todos os trades fechados no período. Ao lado, a evolução por dia operado.",
 });

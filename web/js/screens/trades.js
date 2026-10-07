@@ -23,7 +23,7 @@
       const view = App.state.tradeFilter.view; const list = ctx.inRange; const s = C.summary(list);
       const W = root.Widgets; const d = W.data(ctx, App); let cum = 0; const spark = d.days.map(x => { cum += x.pnl; return cum; }); U.chartData['tl-spark'] = { values: spark };
       const head = `<div class="grid tiles">
-        <div class="tile spark-tile"><div class="head"><span>Netto-P&L${U.info('Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Darunter der Verlauf je Handelstag.')}</span>${s.n ? `<span class="n">${s.n} Trades</span>` : ''}</div><div class="val">${s.n ? U.pnl(s.total, '', { signed: false }) : '<span class="nodata">Noch keine Daten</span>'}</div>${s.n ? `<div class="chart h80" data-chart="spark" data-id="tl-spark"></div>` : ''}</div>
+        <div class="tile spark-tile"><div class="head"><span>Netto-P&L${U.info('Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.')}</span>${s.n ? `<span class="n">${s.n} Trades</span>` : ''}</div><div class="spark-body"><div class="val">${s.n ? U.pnl(s.total, '', { signed: false }) : '<span class="nodata">Noch keine Daten</span>'}</div>${s.n ? `<div class="chart" data-chart="spark" data-id="tl-spark"></div>` : ''}</div></div>
         ${W.render({ typ: 'profit_faktor' }, d, App)}
         ${W.render({ typ: 'trade_trefferquote' }, d, App)}
         ${W.render({ typ: 'avg_gewinn_verlust' }, d, App)}

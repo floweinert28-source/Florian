@@ -1094,4 +1094,5 @@ I18N.add('en', {
   "Leicht und geschwungen, Zahlen in Onest": "Light and curved, numbers in Onest",
   "Graphit": "Graphite",
   "Schwarz": "Black",
+  "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "Cumulative total of all closed trades in the period. Next to it, the progression per trading day.",
 });

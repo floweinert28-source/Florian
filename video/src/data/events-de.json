@@ -1,0 +1,282 @@
+{
+ "t0": 1791398314.369609,
+ "lang": "de",
+ "events": [
+  {
+   "t": -0.056,
+   "name": "start",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 0.212,
+   "name": "dash-enter",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 2.813,
+   "name": "dash-ready",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 3.335,
+   "name": "open-editor",
+   "x": 1826,
+   "y": 114
+  },
+  {
+   "t": 4.596,
+   "name": "f-symbol",
+   "x": 651,
+   "y": 123
+  },
+  {
+   "t": 5.349,
+   "name": "dir-long",
+   "x": 793,
+   "y": 122
+  },
+  {
+   "t": 5.709,
+   "name": "f-open",
+   "x": 651,
+   "y": 264
+  },
+  {
+   "t": 6.04,
+   "name": "f-close",
+   "x": 857,
+   "y": 264
+  },
+  {
+   "t": 6.829,
+   "name": "f-entry",
+   "x": 1063,
+   "y": 263
+  },
+  {
+   "t": 7.726,
+   "name": "f-exit",
+   "x": 1269,
+   "y": 263
+  },
+  {
+   "t": 9.301,
+   "name": "f-qty",
+   "x": 651,
+   "y": 342
+  },
+  {
+   "t": 10.409,
+   "name": "f-mult",
+   "x": 857,
+   "y": 342
+  },
+  {
+   "t": 11.699,
+   "name": "f-fees",
+   "x": 1063,
+   "y": 342
+  },
+  {
+   "t": 12.363,
+   "name": "scroll-editor-1",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 14.037,
+   "name": "f-pstop",
+   "x": 861,
+   "y": 321
+  },
+  {
+   "t": 15.1,
+   "name": "f-ptarget",
+   "x": 1059,
+   "y": 321
+  },
+  {
+   "t": 16.128,
+   "name": "f-reason",
+   "x": 960,
+   "y": 398
+  },
+  {
+   "t": 18.079,
+   "name": "scroll-editor-2",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 19.216,
+   "name": "f-setup",
+   "x": 754,
+   "y": 571
+  },
+  {
+   "t": 20.485,
+   "name": "rating-5",
+   "x": 1100,
+   "y": 563
+  },
+  {
+   "t": 21.37,
+   "name": "emotion-ruhig",
+   "x": 582,
+   "y": 745
+  },
+  {
+   "t": 21.645,
+   "name": "scroll-editor-3",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 22.524,
+   "name": "f-notes",
+   "x": 960,
+   "y": 943
+  },
+  {
+   "t": 25.98,
+   "name": "save-trade",
+   "x": 1298,
+   "y": 1015
+  },
+  {
+   "t": 26.713,
+   "name": "trade-saved",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 29.365,
+   "name": "nav-stats",
+   "x": 118,
+   "y": 196
+  },
+  {
+   "t": 32.466,
+   "name": "tab-mistakes",
+   "x": 617,
+   "y": 497
+  },
+  {
+   "t": 35.734,
+   "name": "nav-progress",
+   "x": 118,
+   "y": 238
+  },
+  {
+   "t": 37.972,
+   "name": "scroll-progress",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 39.784,
+   "name": "rule-1",
+   "x": 662,
+   "y": 425
+  },
+  {
+   "t": 40.473,
+   "name": "rule-2",
+   "x": 662,
+   "y": 469
+  },
+  {
+   "t": 41.209,
+   "name": "rule-3",
+   "x": 662,
+   "y": 513
+  },
+  {
+   "t": 41.939,
+   "name": "rule-4",
+   "x": 662,
+   "y": 557
+  },
+  {
+   "t": 42.654,
+   "name": "rule-5",
+   "x": 662,
+   "y": 601
+  },
+  {
+   "t": 45.167,
+   "name": "nav-shadow",
+   "x": 118,
+   "y": 514
+  },
+  {
+   "t": 48.402,
+   "name": "toggle-dailyLoss",
+   "x": 1855,
+   "y": 910
+  },
+  {
+   "t": 49.777,
+   "name": "toggle-maxRisk",
+   "x": 1855,
+   "y": 1020
+  },
+  {
+   "t": 52.53,
+   "name": "nav-ruhepunkt",
+   "x": 118,
+   "y": 640
+  },
+  {
+   "t": 56.768,
+   "name": "nav-mentor",
+   "x": 118,
+   "y": 598
+  },
+  {
+   "t": 59.015,
+   "name": "mentor-input",
+   "x": 1049,
+   "y": 939
+  },
+  {
+   "t": 61.292,
+   "name": "mentor-send",
+   "x": 1049,
+   "y": 939
+  },
+  {
+   "t": 61.321,
+   "name": "mentor-sent",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 63.168,
+   "name": "mentor-reply",
+   "x": null,
+   "y": null
+  },
+  {
+   "t": 67.012,
+   "name": "nav-prop",
+   "x": 118,
+   "y": 736
+  },
+  {
+   "t": 71.096,
+   "name": "nav-dashboard",
+   "x": 118,
+   "y": 154
+  },
+  {
+   "t": 78.131,
+   "name": "end",
+   "x": null,
+   "y": null
+  }
+ ]
+}

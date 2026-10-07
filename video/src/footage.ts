@@ -1,10 +1,14 @@
 /* Zeitachse: Intro, dann das echte App-Material (public/footage.mp4) mit Ereignissen aus out/footage/events.json.
    Zwischen Stützpunkten läuft das Material in Abschnitten mit eigener Geschwindigkeit (Tippen im Editor schneller). */
-import eventsJson from './data/events.json';
+import eventsEn from './data/events-en.json';
+import eventsDe from './data/events-de.json';
+
+/* Sprache der Fassung: REMOTION_LANG=de|en beim Bundeln, Standard Englisch */
+export const LANG: 'de' | 'en' = process.env.REMOTION_LANG === 'de' ? 'de' : 'en';
+const eventsJson = LANG === 'de' ? eventsDe : eventsEn;
 
 export type Ev = { t: number; name: string; x: number | null; y: number | null };
 const EVENTS: Ev[] = (eventsJson as { events: Ev[] }).events;
-export const LANG: 'de' | 'en' = ((eventsJson as { lang?: string }).lang === 'de' ? 'de' : 'en');
 export const ev = (name: string): Ev => { const e = EVENTS.find((x) => x.name === name); if (!e) throw new Error('Ereignis fehlt: ' + name); return e; };
 export const evTime = (name: string) => ev(name).t;
 export const allEvents = EVENTS;

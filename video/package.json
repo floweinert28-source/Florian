@@ -5,11 +5,10 @@
   "description": "Motion-Video zum Journalyst-Dashboard (Remotion)",
   "scripts": {
     "fonts": "bash scripts/fonts.sh",
+    "capture": "NODE_PATH=$(npm root -g) node scripts/capture.cjs",
     "studio": "remotion studio",
-    "still": "remotion still Journalyst",
     "render": "remotion render Journalyst out/journalyst-en.mp4",
-    "render:de": "REMOTION_LANG=de remotion render Journalyst out/journalyst-de.mp4",
-    "studio:de": "REMOTION_LANG=de remotion studio"
+    "render:de": "remotion render Journalyst out/journalyst-de.mp4 --props='{\"lang\":\"de\"}'"
   },
   "dependencies": {
     "@remotion/cli": "4.0.534",

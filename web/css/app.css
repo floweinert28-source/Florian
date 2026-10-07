@@ -1,23 +1,26 @@
 /* ============================================================
    Journalyst – Web-App
-   Design: schwarzer Grund, Neongrün als Akzent, konturierte Karten
+   Design: warmes Graphit (dunkel), Neongrün als Akzent, konturierte Karten
    (Aufbau nach TradePath / TradeZella)
    ============================================================ */
 
 :root {
   color-scheme: dark;
   --sheen: rgba(255, 255, 255, .055); /* Lade-Glanz über Platzhaltern */
-  --bg: #000000;
-  --bg-2: #070907;
-  --surface: #0b0d0c;
-  --surface-2: #121513;
-  --surface-3: #191d1a;
-  --border: #1f2622;
-  --border-2: #2b332e;
-  --text: #f2f5f3;
-  --text-2: #b4bdb7;
-  --muted: #7d877f;
-  --faint: #4d564f;
+  /* warmes Graphit statt Schwarz: ruhige, leicht warme Grautöne mit sanftem Licht von oben links */
+  --bg: #0e0d0b;
+  --bg-2: #151412;
+  --surface: #1a1917;
+  --surface-2: #22211f;
+  --surface-3: #2b2a26;
+  --border: #262522;
+  --border-2: #34322e;
+  --field: #121110; /* Eingabefelder liegen etwas tiefer als die Karten */
+  --ambient: radial-gradient(1100px 640px at 14% -10%, rgba(255, 238, 218, .045), transparent 62%);
+  --text: #f2f0ec;
+  --text-2: #bcb8b1;
+  --muted: #8a867f;
+  --faint: #4f4c47;
   --accent: #34f58a;
   --accent-2: #1fd873;
   --accent-ink: #04140a;
@@ -51,7 +54,7 @@
   :root:not([data-theme="dark"]) {
     color-scheme: light;
     --sheen: rgba(255, 255, 255, .75);
-    --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9;
+    --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9; --field: #ffffff; --ambient: none;
     --border: #e1e6e2; --border-2: #cfd6d1; --text: #0d130f; --text-2: #3d463f; --muted: #6a746d; --faint: #b0b8b2; --lift-shadow: 0 14px 28px -20px rgba(20, 30, 24, .35);
     --accent: #0fb862; --accent-2: #0a9a52; --accent-ink: #ffffff; --accent-soft: rgba(15, 184, 98, 0.12); --accent-glow: rgba(15, 184, 98, 0.22);
     --profit: #0fb862; --loss: #e03e3e; --loss-soft: rgba(224, 62, 62, 0.12); --be: #6b5bd6; --be-soft: rgba(107, 91, 214, 0.14);
@@ -61,7 +64,7 @@
 :root[data-theme="light"] {
   color-scheme: light;
   --sheen: rgba(255, 255, 255, .75);
-  --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9;
+  --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9; --field: #ffffff; --ambient: none;
   --border: #e1e6e2; --border-2: #cfd6d1; --text: #0d130f; --text-2: #3d463f; --muted: #6a746d; --faint: #b0b8b2; --lift-shadow: 0 14px 28px -20px rgba(20, 30, 24, .35);
   --accent: #0fb862; --accent-2: #0a9a52; --accent-ink: #ffffff; --accent-soft: rgba(15, 184, 98, 0.12); --accent-glow: rgba(15, 184, 98, 0.22);
   --profit: #0fb862; --loss: #e03e3e; --loss-soft: rgba(224, 62, 62, 0.12); --be: #6b5bd6; --be-soft: rgba(107, 91, 214, 0.14);
@@ -72,7 +75,7 @@
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
-  margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.45;
+  margin: 0; background: var(--ambient), var(--bg); background-attachment: fixed; color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.45;
   -webkit-font-smoothing: antialiased; overflow-x: hidden;
 }
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -260,7 +263,7 @@ html.sb-mini .popover.up.sb-menu.open { transform-origin: bottom left; }
 .btn .caret { width: 14px; height: 14px; opacity: .7; }
 
 .input, .select, textarea.input {
-  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-2); background: var(--surface); color: var(--text); font-size: 13.5px; min-width: 0;
+  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-2); background: var(--field); color: var(--text); font-size: 13.5px; min-width: 0;
   transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-2) var(--ease), background var(--dur-1) var(--ease);
 }
 .input:focus, .select:focus, textarea.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }

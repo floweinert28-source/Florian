@@ -1,6 +1,6 @@
 # Journalyst (Web-App)
 
-Journalyst ist ein Trading-Journal im Browser, im Aufbau und Look von TradeZella und TradePath: schwarzer Grund,
+Journalyst ist ein Trading-Journal im Browser, im Aufbau und Look von TradeZella und TradePath: warmes Graphit (dunkle, leicht warme Grautöne mit sanftem Licht von oben links),
 Neongrün als Akzent, Seitenleiste mit Dashboard, TradeLog, Tagesansicht, Statistiken, Journal,
 Fortschritt und Einstellungen.
 

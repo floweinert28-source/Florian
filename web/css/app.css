@@ -334,7 +334,7 @@ button.rr-day:hover { background: var(--surface-2); }
 .rr-grid > :nth-child(7n+1)::before, .rr-day.blank + .rr-day::before { border-top-left-radius: 13px; border-bottom-left-radius: 13px; }
 .rr-grid > :nth-child(7n)::before, button.rr-day:has(+ .rr-day.blank)::before { border-top-right-radius: 13px; border-bottom-right-radius: 13px; }
 .rr-day.start::after, .rr-day.end::after { content: ''; position: absolute; z-index: -1; inset: 1px 2px; border-radius: 10px; background: var(--accent); }
-.rr-day.pv-end::after, button.rr-day.in:hover::after { content: ''; position: absolute; z-index: -1; inset: 1px 2px; border-radius: 10px; box-shadow: inset 0 0 0 1.5px var(--accent); }
+.rr-day.pv-end::after, button.rr-day.in:hover::after { content: ''; position: absolute; z-index: -1; inset: 1px 2px; border-radius: 10px; background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--surface); box-shadow: inset 0 0 0 1.5px var(--accent); } /* gefüllt, damit das Band-Ende nicht mitten in der Kachel sichtbar ist */
 .rr-day.start, .rr-day.end { color: var(--accent-ink); font-weight: 700; }
 .rr-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
 .rr-sum { font-size: 13px; color: var(--muted); min-width: 0; }

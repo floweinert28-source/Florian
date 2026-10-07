@@ -2,7 +2,8 @@
 
 Ein Remotion-Projekt, das in rund 63 Sekunden zeigt, wie das Journalyst-Dashboard funktioniert:
 Intro, Dashboard-Aufbau, Trade loggen, Statistiken, Fortschritt, Schatten-Ich, Ruhepunkt und Mentor, Prop Firms, Abspann.
-16:9, 1920 × 1080, 30 fps, ohne Ton (für Autoplay auf der Website).
+16:9, 1920 × 1080, 30 fps, ohne Ton (für Autoplay auf der Website). Das fertige Video liegt als `journalyst.mp4` daneben;
+`npm run render` schreibt eine neue Fassung nach `out/`.
 
 Die Zahlen sind die echten Beispieldaten der Web-App (`web/js/sample.js`, gerechnet mit `web/js/core.js`) und liegen in
 `src/data/journal.json`. Farben, Schrift (Satoshi, Onest) und Aufbau folgen `web/css/app.css`.

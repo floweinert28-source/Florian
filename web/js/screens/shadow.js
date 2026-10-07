@@ -29,8 +29,10 @@
   const curSym = () => fmt.cur(0, { money: true }).replace(/[\d.,\s ]/g, '');
 
   /* ---------- Regelwerk ---------- */
-  /* Eine Regel = eine ruhige Zeile: Name links, Schalter rechts; Werte erscheinen erst, wenn die Regel an ist,
+  /* Eine Regel = eine ruhige Kachel: Name und kurze Erklärung links, Schalter rechts; Werte erscheinen erst, wenn die Regel an ist,
      als kompakte Felder mit Einheit im Feld (3 Trades, 2 R, 08:00 – 17:00) */
+  /* kurze Erklärung je Regel, damit man ohne Info-Symbol versteht, was sie tut */
+  const DESC = { maxTrades: 'Höchstens so viele Trades an einem Tag.', dailyLoss: 'Ist das Tageslimit erreicht, ist für heute Schluss.', lossStreak: 'Nach so vielen Verlusten hintereinander ist Pause.', maxRisk: 'Kein Trade mit mehr Risiko als festgelegt.', hours: 'Nur innerhalb dieser Uhrzeiten handeln.', setups: 'Nur Setups aus deiner Auswahl sind erlaubt.', cooldown: 'Nach einem Verlust erst eine Pause einlegen.' };
   function ruleRow(def, r, setups) {
     const on = !!r.on;
     const common = f => `data-change="shadow-rule-field" data-rule="${def.key}" data-field="${f.key}" aria-label="${esc(def.label + ': ' + f.label)}"`;
@@ -48,7 +50,7 @@
       extra = !all.length ? `<div class="small muted shadow-hint">Noch keine Setups angelegt. Lege sie unter <a href="#/settings/inhalte">Einstellungen → Inhalte</a> an oder vergib sie beim Loggen.</div>`
         : `<div class="chips shadow-chips">${all.map(x => `<button type="button" class="chip sel" aria-pressed="${list.includes(x)}" data-action="shadow-setup-toggle" data-value="${esc(x)}">${esc(x)}</button>`).join('')}</div>${!list.length ? `<div class="small warn shadow-hint">Kein Setup gewählt – so zählt jeder Trade als Verstoß.</div>` : ''}`;
     }
-    return `<div class="shadow-rule ${on ? 'on' : ''}"><div class="sr-main"><span class="sr-label">${esc(def.label)}</span>${on && ctrl ? `<div class="sr-ctrl">${ctrl}</div>` : ''}<button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button></div>${on && extra ? `<div class="sr-extra">${extra}</div>` : ''}</div>`;
+    return `<div class="shadow-rule ${on ? 'on' : ''}"><div class="sr-main"><div class="sr-txt"><span class="sr-label">${esc(def.label)}</span>${DESC[def.key] ? `<span class="sr-desc">${esc(DESC[def.key])}</span>` : ''}</div><button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button></div>${on && ctrl ? `<div class="sr-ctrl">${ctrl}</div>` : ''}${on && extra ? `<div class="sr-extra">${extra}</div>` : ''}</div>`;
   }
   function rulesCard(res, r) {
     const setups = (S.data.tags && S.data.tags.setups) || [];

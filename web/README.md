@@ -121,7 +121,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   chronologisch durch, Tageslimits gelten für das Schatten-Konto, zu große Trades werden herunterskaliert.
   Equity echt vs. Schatten, Disziplin-Kosten je Woche/Monat/gesamt (ehrlich auch, wenn ein Regelbruch Geld
   gebracht hat), Verstoßliste, Regel-Ranking und eine teilbare Bildkarte. Tests: `web/tests/shadow.test.mjs`.
-  „Mein Regelwerk“ ist eine schlichte Liste: links die Regel, rechts der Schalter; die Eingaben erscheinen nur bei
+  „Mein Regelwerk“: jede Regel ist eine ruhige Kachel mit Namen, kurzer Erklärung und Schalter (zwei bis drei Spalten, auf dem Handy eine); eingeschaltet ist sie leicht getönt, die Eingaben erscheinen darunter. Schalter in der ganzen App: schlanke Spur, heller Knopf, an = Akzentfarbe; die Eingaben erscheinen nur bei
   eingeschalteten Regeln, die Einheit steht im Feld, die Erklärung im (i). Ohne aktive Regel steht der Hinweis mit
   „Vorschlag übernehmen“ unter den Schaltern, damit beim ersten Einschalten nichts darüber verrutscht.
 - **Blind-Replay** (Taste 0): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“

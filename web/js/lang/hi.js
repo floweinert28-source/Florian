@@ -1179,4 +1179,11 @@ I18N.add('hi', {
   "Graphit": "ग्रेफ़ाइट",
   "Schwarz": "काला",
   "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "अवधि में सभी बंद ट्रेडों का संचयी योग। बगल में हर ट्रेडिंग दिन का क्रम।",
+  "Höchstens so viele Trades an einem Tag.": "एक दिन में अधिकतम इतने ट्रेड।",
+  "Ist das Tageslimit erreicht, ist für heute Schluss.": "दैनिक सीमा पूरी होते ही आज के लिए बस।",
+  "Nach so vielen Verlusten hintereinander ist Pause.": "लगातार इतने नुकसान के बाद विराम।",
+  "Kein Trade mit mehr Risiko als festgelegt.": "तय सीमा से ज़्यादा जोखिम वाला कोई ट्रेड नहीं।",
+  "Nur innerhalb dieser Uhrzeiten handeln.": "केवल इन घंटों के भीतर ट्रेड करें।",
+  "Nur Setups aus deiner Auswahl sind erlaubt.": "केवल आपके चुने हुए सेटअप ही मान्य हैं।",
+  "Nach einem Verlust erst eine Pause einlegen.": "नुकसान के बाद पहले विराम लें।",
 });

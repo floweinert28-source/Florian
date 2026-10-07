@@ -1179,4 +1179,11 @@ I18N.add('zh', {
   "Graphit": "石墨",
   "Schwarz": "黑色",
   "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "时间段内所有已平仓交易的累计总和。旁边为每个交易日的走势。",
+  "Höchstens so viele Trades an einem Tag.": "每天最多这么多笔交易。",
+  "Ist das Tageslimit erreicht, ist für heute Schluss.": "达到每日上限后，今天就停止。",
+  "Nach so vielen Verlusten hintereinander ist Pause.": "连续亏损达到这个次数后暂停。",
+  "Kein Trade mit mehr Risiko als festgelegt.": "任何交易的风险都不超过设定值。",
+  "Nur innerhalb dieser Uhrzeiten handeln.": "只在这个时间段内交易。",
+  "Nur Setups aus deiner Auswahl sind erlaubt.": "只允许你选择的形态。",
+  "Nach einem Verlust erst eine Pause einlegen.": "亏损后先休息一下。",
 });

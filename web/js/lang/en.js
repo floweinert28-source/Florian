@@ -1095,4 +1095,11 @@ I18N.add('en', {
   "Graphit": "Graphite",
   "Schwarz": "Black",
   "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "Cumulative total of all closed trades in the period. Next to it, the progression per trading day.",
+  "Höchstens so viele Trades an einem Tag.": "At most this many trades per day.",
+  "Ist das Tageslimit erreicht, ist für heute Schluss.": "Once the daily limit is hit, you are done for today.",
+  "Nach so vielen Verlusten hintereinander ist Pause.": "After this many losses in a row, take a break.",
+  "Kein Trade mit mehr Risiko als festgelegt.": "No trade with more risk than set.",
+  "Nur innerhalb dieser Uhrzeiten handeln.": "Only trade within these hours.",
+  "Nur Setups aus deiner Auswahl sind erlaubt.": "Only setups from your selection are allowed.",
+  "Nach einem Verlust erst eine Pause einlegen.": "After a loss, take a break first.",
 });

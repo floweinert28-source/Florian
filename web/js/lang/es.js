@@ -1135,4 +1135,11 @@ I18N.add('es', {
   "Graphit": "Grafito",
   "Schwarz": "Negro",
   "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": "Suma acumulada de todos los trades cerrados en el periodo. Al lado, la evolución por día de trading.",
+  "Höchstens so viele Trades an einem Tag.": "Como máximo esta cantidad de trades al día.",
+  "Ist das Tageslimit erreicht, ist für heute Schluss.": "Al alcanzar el límite diario, se acabó por hoy.",
+  "Nach so vielen Verlusten hintereinander ist Pause.": "Tras tantas pérdidas seguidas, toca pausa.",
+  "Kein Trade mit mehr Risiko als festgelegt.": "Ningún trade con más riesgo del fijado.",
+  "Nur innerhalb dieser Uhrzeiten handeln.": "Operar solo dentro de este horario.",
+  "Nur Setups aus deiner Auswahl sind erlaubt.": "Solo se permiten setups de tu selección.",
+  "Nach einem Verlust erst eine Pause einlegen.": "Tras una pérdida, primero haz una pausa.",
 });

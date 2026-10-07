@@ -3,19 +3,7 @@ import { useCurrentFrame } from 'remotion';
 import { D, ENTER, enterStyle, ms, prog } from '../motion';
 import { FONT_TEXT, T } from '../theme';
 import { JMark } from '../ui/Logo';
-import { DefaultHead, HeadChip, Shell } from '../ui/Shell';
-import { DashboardContent } from './DashboardContent';
 import { Glow } from './Intro';
-
-/* Hintergrund: das fertige Dashboard, das die Kamera langsam freigibt */
-export const OutroStage: React.FC<{ dur: number }> = () => {
-  const f = useCurrentFrame();
-  return (
-    <Shell frame={f} title="Dashboard" active="dashboard" prevActive="prop" switchAt={0} head={<DefaultHead extra={<><HeadChip icon="filter" label="Filter" /><HeadChip icon="layout" label="Standard" caret /></>} />}>
-      <DashboardContent frame={f} t0={-1000} logged={-1000} />
-    </Shell>
-  );
-};
 
 /* Vordergrund außerhalb der Kamera: abdunkeln, Marke, Claim, Einladung, Schwarzblende */
 export const OutroOverlay: React.FC<{ dur: number }> = ({ dur }) => {

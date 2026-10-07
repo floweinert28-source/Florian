@@ -60,7 +60,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beim Bearbeiten bleibt ein entferntes Widget als Lücke stehen (neue Widgets füllen sie, Drag & Drop tauscht hinein);
   erst „Speichern“ schließt die Lücken. Die Bibliothek zeigt zu jedem Widget ein eigenes Vorschaubild (`js/widgetpreviews.js`).
   **Zeitraum**: Voreinstellungen plus „Benutzerdefiniert“ mit zwei Monatskalendern nebeneinander (Handy: einer), erster Klick
-  Start, zweiter Klick Ende (`js/rangepicker.js`); die Vorgaben links (Heute, Diese Woche … Gesamt) werden nur markiert und im Kalender gezeigt, übernommen wird erst mit „Anwenden“; beim Überfahren zeigt nur der Tag unter der Maus einen Rahmen, außerhalb des Kalenders verschwindet die Vorschau. **Filter** als Seitenleiste (`js/screens/dash-filter.js`), in Gruppen
+  Start, zweiter Klick Ende (`js/rangepicker.js`); die Vorgaben links (Heute, Diese Woche … Gesamt) werden nur markiert und im Kalender gezeigt, übernommen wird erst mit „Anwenden“; der gewählte Zeitraum erscheint als schmales, an Wochen- und Monatsrändern rundes Band, Start und Ende als Kachel in der Akzentfarbe; beim Überfahren zeigt nur der Tag unter der Maus einen Rahmen, außerhalb des Kalenders verschwindet die Vorschau. **Filter** als Seitenleiste (`js/screens/dash-filter.js`), in Gruppen
   Trade (Symbol per „+“ mit Suche, Long/Short, Gewinn/Verlust/Break-even, offen/geschlossen, Intraday/Multiday, Reviewed,
   Bewertung), Zeit (Wochentag, Monat, Entry- und Exit-Uhrzeit, Haltedauer in Min/Std/Tagen), Werte (Entry-/Exit-Preis,
   R-Multiple, Positionsgröße, Volumen) und Tags (Setups, Fehler, Emotionen); „Anwenden“ zeigt live die Zahl der Trades.

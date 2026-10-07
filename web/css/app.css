@@ -321,16 +321,21 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .rr-week, .rr-grid { display: grid; grid-template-columns: repeat(7, 36px); }
 .rr-week span { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .03em; color: var(--muted); padding: 6px 0 5px; }
 .rr-grid { row-gap: 2px; }
-.rr-day { height: 34px; padding: 0; border: 0; border-radius: 9px; background: none; color: var(--text); font-family: var(--font-num); font-size: 13px; font-weight: 500; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.rr-day { position: relative; isolation: isolate; height: 34px; padding: 0; border: 0; border-radius: 9px; background: none; color: var(--text); font-family: var(--font-num); font-size: 13px; font-weight: 500; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .rr-day.blank { cursor: default; }
 button.rr-day:hover { background: var(--surface-2); }
 .rr-day.today { color: var(--accent); font-weight: 700; }
-.rr-day.in, .rr-day.pv { background: var(--accent-soft); border-radius: 0; }
-.rr-day.pv-end { box-shadow: inset 0 0 0 1.5px var(--accent); }
-.rr-day.start, .rr-day.end, button.rr-day.start:hover, button.rr-day.end:hover { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
-button.rr-day.in:hover { background: var(--accent-soft); box-shadow: inset 0 0 0 1.5px var(--accent); }
-.rr-day.start { border-radius: 9px 0 0 9px; } .rr-day.end { border-radius: 0 9px 9px 0; } .rr-day.start.end { border-radius: 9px; }
-.rr-range:not(:has(.rr-day.end)) .rr-day.start { border-radius: 9px; } /* nur Start gewählt: rund */
+/* Zeitraum: schmales Band hinter den Tagen (an Wochen- und Monatsrändern rund), Start und Ende als Kachel in der Akzentfarbe darauf */
+.rr-day.in, .rr-day.pv, .rr-day.start, .rr-day.end, .rr-day.pv-end, button.rr-day.in:hover, button.rr-day.pv:hover, button.rr-day.start:hover, button.rr-day.end:hover, button.rr-day.pv-end:hover { background: none; }
+.rr-day.in::before, .rr-day.pv::before, .rr-day.start::before, .rr-day.end::before, .rr-day.pv-end::before { content: ''; position: absolute; z-index: -1; top: 4px; bottom: 4px; left: 0; right: 0; background: var(--accent-soft); }
+.rr-day.start::before, .rr-rev .rr-day.pv-end::before { left: 50%; right: 0; }
+.rr-day.end::before, .rr-day.pv-end::before, .rr-rev .rr-day.start::before { left: 0; right: 50%; }
+.rr-day.start.end::before, .rr-range:not(:has(.rr-day.end, .rr-day.pv-end)) .rr-day.start::before { display: none; } /* nur ein Tag: kein Band */
+.rr-grid > :nth-child(7n+1)::before, .rr-day.blank + .rr-day::before { border-top-left-radius: 13px; border-bottom-left-radius: 13px; }
+.rr-grid > :nth-child(7n)::before, button.rr-day:has(+ .rr-day.blank)::before { border-top-right-radius: 13px; border-bottom-right-radius: 13px; }
+.rr-day.start::after, .rr-day.end::after { content: ''; position: absolute; z-index: -1; inset: 1px 2px; border-radius: 10px; background: var(--accent); }
+.rr-day.pv-end::after, button.rr-day.in:hover::after { content: ''; position: absolute; z-index: -1; inset: 1px 2px; border-radius: 10px; box-shadow: inset 0 0 0 1.5px var(--accent); }
+.rr-day.start, .rr-day.end { color: var(--accent-ink); font-weight: 700; }
 .rr-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
 .rr-sum { font-size: 13px; color: var(--muted); min-width: 0; }
 .rr-sum b { color: var(--text); font-family: var(--font-num); font-weight: 600; }

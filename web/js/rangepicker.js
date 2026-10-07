@@ -63,7 +63,7 @@
   function preview(box, k) {
     box.querySelectorAll('.rr-day.pv, .rr-day.pv-end').forEach(x => x.classList.remove('pv', 'pv-end')); /* auch den zuletzt überfahrenen Endtag, sonst bleibt sein Rahmen stehen */
     if (!st.from || st.to || !k || k === st.from) return;
-    const lo = k < st.from ? k : st.from, hi = k < st.from ? st.from : k;
+    const lo = k < st.from ? k : st.from, hi = k < st.from ? st.from : k; box.classList.toggle('rr-rev', k < st.from); /* früherer Tag: Band läuft vom Start nach links */
     box.querySelectorAll('.rr-day[data-k]').forEach(x => { const kk = x.dataset.k; if (kk > lo && kk < hi) x.classList.add('pv'); if (kk === k) x.classList.add('pv-end'); });
   }
   function init() {

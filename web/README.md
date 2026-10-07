@@ -136,12 +136,16 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   „Skippen“/„Nehmen“ in einer Reihe. Die Sicherheit ist eine Signal-Anzeige: drei ansteigende Balken (Bernstein → Grün)
   mit dem Wort daneben, Vorschau beim Überfahren; ein Klick ändert nur die Anzeige. Der Zeitraum spielt hier keine Rolle
   und fehlt in der Kopfreihe.
-- **Prop Firms** (eigener Bereich, fünf Bereiche links in der Kopfreihe: Übersicht · Konten · Rechner · Finanzen ·
-  Analyse; Finanzen mit den Reitern Bilanz und Payout, Analyse mit Simulation, Friedhof und Challenge vs. Funded. Die
-  Adressen bleiben `#/prop/<ansicht>` (z. B. `#/prop/bilanz`), `#/prop/finanzen` und `#/prop/analyse` öffnen die zuletzt
-  benutzte Ansicht. Kennzahlen stehen als ruhige Leiste in einer Karte; Filter der Übersicht sind drei Auswahlfelder;
-  bestandene, geplatzte und archivierte Konten liegen eingeklappt unter „Abgeschlossen“; Firmen-Presets, Ampel und
-  Stop-Größe sowie Instrumente sind aufklappbar; die Eingabeformulare für Ausgaben und Payouts öffnen sich über den
+- **Prop Firms** (eigener Bereich, für den Einstieg auf vier Bereiche links in der Kopfreihe reduziert: Übersicht ·
+  Rechner · Auswertung · Konten; Auswertung mit den Reitern Bilanz, Payout, Simulation, Challenge vs. Funded und Friedhof.
+  Die Adressen bleiben `#/prop/<ansicht>` (z. B. `#/prop/bilanz`); `#/prop/auswertung` und die alten `#/prop/finanzen`
+  und `#/prop/analyse` öffnen die zuletzt benutzte Ansicht. Ruhig gehalten: Kennzahlen als Leiste ohne Fußtexte;
+  Konto-Karten zeigen nur Balken für Regeln, die es gibt (Ziel nur in der Challenge), Status nur wenn nicht aktiv,
+  Puffer-Details im Tooltip; Filter erst ab fünf Konten; Presets-Tabelle mit Größe, Drawdown, Ziel und Gebühr (Rest unter
+  „Ansehen“); Rechner-Ergebnis ohne Farbfläche; Simulation zeigt nur die Stichprobe, Details im (i); Challenge vs. Funded
+  markiert auffällige Kennzahlen nur mit einem Punkt. Bestandene, geplatzte und archivierte Konten liegen eingeklappt
+  unter „Abgeschlossen“; Firmen-Presets, Ampel und Stop-Größe sowie Instrumente sind aufklappbar; die Eingabeformulare
+  für Ausgaben und Payouts öffnen sich über den
   Knopf im Kartenkopf. Journal-Zeitraum und -Konto fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
   Firmen-Presets (Beispiele sind als unverifiziert markiert, eigene Firmen mit
   eigenen Regeln möglich), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades

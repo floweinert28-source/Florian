@@ -3,13 +3,14 @@ import { useCurrentFrame } from 'remotion';
 import { D, ENTER, enterStyle, ms, prog } from '../motion';
 import { FONT_TEXT, T } from '../theme';
 import { JMark } from '../ui/Logo';
+import { C } from '../copy';
 import { Glow } from './Intro';
 
 /* Vordergrund außerhalb der Kamera: abdunkeln, Marke, Claim, Einladung, Schwarzblende */
 export const OutroOverlay: React.FC<{ dur: number }> = ({ dur }) => {
   const f = useCurrentFrame();
   const dim = prog(f, 0, ms(900), ENTER);
-  const words = ['Aufzeichnen.', 'Traden.', 'Besser werden.'];
+  const words = C.claim;
   const black = prog(f, dur - ms(900), ms(900));
   return (
     <div style={{ position: 'absolute', inset: 0, fontFamily: FONT_TEXT, color: T.text, overflow: 'hidden' }}>
@@ -24,7 +25,7 @@ export const OutroOverlay: React.FC<{ dur: number }> = ({ dur }) => {
           {words.map((w, i) => <span key={w} style={{ fontSize: 44, fontWeight: 500, letterSpacing: '-0.01em', color: i === 2 ? T.accent : T.text, ...enterStyle(f, 40 + i * 5, ms(520), 22) }}>{w}</span>)}
         </div>
         <div style={{ marginTop: 40, display: 'inline-flex', alignItems: 'center', gap: 12, height: 56, padding: '0 26px', borderRadius: 999, border: `1px solid ${T.accent}`, color: T.accent, fontWeight: 600, fontSize: 20, background: 'rgba(52,245,138,0.06)', boxShadow: `0 0 40px ${T.accentSoft}`, ...enterStyle(f, 82, D.card, 18) }}>
-          Kostenlos im Browser · ohne Anmeldung · deine Daten bleiben bei dir
+          {C.cta}
         </div>
       </div>
       <div style={{ position: 'absolute', inset: 0, background: '#000', opacity: black }} />

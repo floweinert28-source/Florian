@@ -4,6 +4,7 @@ import eventsJson from './data/events.json';
 
 export type Ev = { t: number; name: string; x: number | null; y: number | null };
 const EVENTS: Ev[] = (eventsJson as { events: Ev[] }).events;
+export const LANG: 'de' | 'en' = ((eventsJson as { lang?: string }).lang === 'de' ? 'de' : 'en');
 export const ev = (name: string): Ev => { const e = EVENTS.find((x) => x.name === name); if (!e) throw new Error('Ereignis fehlt: ' + name); return e; };
 export const evTime = (name: string) => ev(name).t;
 export const allEvents = EVENTS;

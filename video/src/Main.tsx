@@ -10,6 +10,7 @@ import { FootageStage } from './ui/FootageStage';
 import { Intro, Glow } from './scenes/Intro';
 import { OutroOverlay } from './scenes/Outro';
 import { INTRO, TOTAL, allEvents, tlEv } from './footage';
+import { C } from './copy';
 
 /* Kamera: Maßstab und Blickpunkt in App-Koordinaten; Fahrten 800 ms. Zeiten kommen aus dem Ereignis-Log der Aufnahme. */
 const CAM: CamKey[] = [
@@ -52,16 +53,11 @@ const CURSOR: CursorKey[] = (() => {
   return keys;
 })();
 
-const CAPTIONS = [
-  { no: '01', text: 'Dashboard: alle Kennzahlen auf einen Blick', start: tlEv('dash-enter', 0.6), end: tlEv('open-editor', -0.4) },
-  { no: '02', text: 'Trade loggen: Plan, Setup, Emotion, Notizen', start: tlEv('open-editor', 0.3), end: tlEv('trade-saved', 1.6) },
-  { no: '03', text: 'Statistiken: 16 Kennzahlen, Fehlerkosten in Euro', start: tlEv('nav-stats', 0.4), end: tlEv('nav-progress', -0.3) },
-  { no: '04', text: 'Fortschritt: Regeln abhaken, Serie halten', start: tlEv('nav-progress', 0.4), end: tlEv('nav-shadow', -0.3) },
-  { no: '05', text: 'Schatten-Ich: was Regelbrüche kosten', start: tlEv('nav-shadow', 0.4), end: tlEv('nav-ruhepunkt', -0.3) },
-  { no: '06', text: 'Ruhepunkt: ruhig rein, sauber raus', start: tlEv('nav-ruhepunkt', 0.4), end: tlEv('nav-mentor', -0.3) },
-  { no: '07', text: 'Mentor: fragt dein Journal, nicht dein Bauchgefühl', start: tlEv('nav-mentor', 0.4), end: tlEv('nav-prop', -0.3) },
-  { no: '08', text: 'Prop Firms: Regel-Engine, Puffer, Ampel', start: tlEv('nav-prop', 0.4), end: tlEv('nav-dashboard', -0.3) },
+const CAP_TIMES: [string, number, string, number][] = [
+  ['dash-enter', 0.6, 'open-editor', -0.4], ['open-editor', 0.3, 'trade-saved', 1.6], ['nav-stats', 0.4, 'nav-progress', -0.3], ['nav-progress', 0.4, 'nav-shadow', -0.3],
+  ['nav-shadow', 0.4, 'nav-ruhepunkt', -0.3], ['nav-ruhepunkt', 0.4, 'nav-mentor', -0.3], ['nav-mentor', 0.4, 'nav-prop', -0.3], ['nav-prop', 0.4, 'nav-dashboard', -0.3],
 ];
+const CAPTIONS = C.captions.map((c, i) => ({ ...c, start: tlEv(CAP_TIMES[i][0], CAP_TIMES[i][1]), end: tlEv(CAP_TIMES[i][2], CAP_TIMES[i][3]) }));
 
 /* Bühne: die App liegt eingerahmt auf Schwarz (1728 × 972 bei 0,9), darunter ein Band für die Bauchbinde */
 const STAGE = { x: 96, y: 20, w: 1728, h: 972, scale: 0.9 } as const;

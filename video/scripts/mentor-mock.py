@@ -5,8 +5,13 @@ import json, sys, time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from datetime import datetime, timezone
 
-REPLY = ("Zwischen 10 und 11 Uhr liegen deine teuersten Trades: 10 Stück, zusammen −4.740 €. Nach 17 Uhr noch einmal −1.265 € in 15 Trades. "
-         "Zwischen 15 und 17 Uhr läuft es dagegen: 68 Trades, +14.701 €. Mein Vorschlag: Handelszeiten im Schatten-Ich auf 15–17 Uhr begrenzen und morgen nur dort handeln.")
+REPLIES = {
+    "de": ("Zwischen 10 und 11 Uhr liegen deine teuersten Trades: 10 Stück, zusammen −4.740 €. Nach 17 Uhr noch einmal −1.265 € in 15 Trades. "
+           "Zwischen 15 und 17 Uhr läuft es dagegen: 68 Trades, +14.701 €. Mein Vorschlag: Handelszeiten im Schatten-Ich auf 15–17 Uhr begrenzen und morgen nur dort handeln."),
+    "en": ("Between 10 and 11 a.m. you take your most expensive trades: 10 of them, −$4,740 in total. After 5 p.m. another −$1,265 across 15 trades. "
+           "Between 3 and 5 p.m. it works: 68 trades, +$14,701. My suggestion: limit trading hours in your Shadow Self to 3–5 p.m. and trade only there tomorrow."),
+}
+REPLY = REPLIES[(sys.argv[2] if len(sys.argv) > 2 else "en").lower()]
 HISTORY = []
 
 class H(BaseHTTPRequestHandler):

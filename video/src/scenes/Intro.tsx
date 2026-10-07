@@ -4,6 +4,7 @@ import { evolvePath } from '@remotion/paths';
 import { D, ENTER, enterStyle, exitStyle, lerp, ms, prog, sine } from '../motion';
 import { FONT_TEXT, T } from '../theme';
 import { JMark } from '../ui/Logo';
+import { C } from '../copy';
 
 /* Umgebung: zwei weiche Lichtflächen, die langsam treiben */
 export const Glow: React.FC<{ frame: number; x: number; y: number; r: number; color: string; opacity: number; speed?: number; phase?: number }> = ({ frame, x, y, r, color, opacity, speed = 1, phase = 0 }) => (
@@ -20,7 +21,7 @@ export const Intro: React.FC<{ dur: number }> = ({ dur }) => {
   const glide = prog(f, 36, ms(1100), ENTER); /* grünes Stück gleitet über die Linie */
   const fadeLine = 1 - prog(f, 54, ms(500));
   const wordP = prog(f, 54, ms(800));
-  const words = ['Aufzeichnen.', 'Traden.', 'Besser werden.'];
+  const words = C.claim;
   return (
     <div style={{ position: 'absolute', inset: 0, background: T.bg, fontFamily: FONT_TEXT, color: T.text, overflow: 'hidden' }}>
       <Glow frame={f} x={700} y={420} r={620} color="rgba(52,245,138,0.16)" opacity={prog(f, 0, ms(1500)) * (1 - prog(f, out, ms(420)))} />
@@ -38,7 +39,7 @@ export const Intro: React.FC<{ dur: number }> = ({ dur }) => {
             <div style={{ fontWeight: 900, fontSize: 84, letterSpacing: '0.05em', lineHeight: '90px', textTransform: 'uppercase', translate: `0px ${((1 - wordP) * 90).toFixed(1)}px` }}>Journalyst</div>
           </div>
         </div>
-        <div style={{ fontSize: 20, color: T.muted, fontWeight: 500, letterSpacing: '0.01em', ...enterStyle(f, 78, D.card, 14) }}>Dein Trading-Journal im Browser</div>
+        <div style={{ fontSize: 20, color: T.muted, fontWeight: 500, letterSpacing: '0.01em', ...enterStyle(f, 78, D.card, 14) }}>{C.sub}</div>
         <div style={{ display: 'flex', gap: 18, marginTop: 36 }}>
           {words.map((w, i) => (
             <span key={w} style={{ fontSize: 44, fontWeight: 500, letterSpacing: '-0.01em', color: i === 2 ? T.accent : T.text, ...enterStyle(f, 98 + i * 5, ms(520), 22) }}>{w}</span>

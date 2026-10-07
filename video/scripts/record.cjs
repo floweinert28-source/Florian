@@ -4,7 +4,11 @@
    Mentor-Mock unter http://127.0.0.1:8788 (python3 scripts/mentor-mock.py 8788). */
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path');
 const APP = 'http://127.0.0.1:8787'; const MENTOR = 'http://127.0.0.1:8788';
-const FAKE_NOW = '2026-09-30T16:40:00Z'; /* Mittwoch, 30.09.2026: der Monat ist voll, der Kalender zeigt September */
+const FAKE_NOW = '2026-09-30T16:40:00Z';
+const LANG = (process.env.LANG_UI || 'en').toLowerCase() === 'de' ? 'de' : 'en'; const CUR = LANG === 'de' ? 'EUR' : 'USD';
+const TXT = LANG === 'de'
+  ? { reason: 'Range-Fade am Tageshoch, Ziel am Vortageshoch', notes: 'Sauber nach Plan. Einstieg am Range-Hoch, Ausstieg am Ziel.', question: 'Wann verliere ich am meisten Geld?', replyKey: 'Zwischen 10 und 11 Uhr' }
+  : { reason: 'Range fade at the high of the day, target at yesterday\'s high', notes: 'Clean, by the plan. Entry at the range high, exit at target.', question: 'When do I lose the most money?', replyKey: 'Between 10 and 11' }; /* Mittwoch, 30.09.2026: der Monat ist voll, der Kalender zeigt September */
 
 (async () => {
   const out = process.argv[3] || 'out/footage'; const frames = path.join(out, 'frames'); fs.rmSync(out, { recursive: true, force: true }); fs.mkdirSync(frames, { recursive: true });
@@ -13,7 +17,7 @@ const FAKE_NOW = '2026-09-30T16:40:00Z'; /* Mittwoch, 30.09.2026: der Monat ist 
   const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1, locale: 'de-DE', colorScheme: 'dark', reducedMotion: 'no-preference' });
   await ctx.route(/fontshare\.com|fonts\.googleapis\.com/, r => r.fulfill({ status: 200, contentType: 'text/css', body: css }));
   await ctx.route(/fonts\.gstatic\.com|cdn\.fontshare\.com/, r => r.abort());
-  await ctx.addInitScript(({ mentor }) => { try { if (!localStorage.getItem('trading-journal-web-v1')) localStorage.setItem('trading-journal-web-v1', JSON.stringify({ settings: { language: 'de', currency: 'EUR', mentor: { url: mentor, token: '' } } })); } catch (e) {} }, { mentor: MENTOR });
+  await ctx.addInitScript(({ mentor, lang, cur }) => { try { if (!localStorage.getItem('trading-journal-web-v1')) localStorage.setItem('trading-journal-web-v1', JSON.stringify({ settings: { language: lang, currency: cur, mentor: { url: mentor, token: '' } } })); } catch (e) {} }, { mentor: MENTOR, lang: LANG, cur: CUR });
   const page = await ctx.newPage();
   await page.clock.setSystemTime(FAKE_NOW);
   page.on('pageerror', e => console.log('PAGEERROR', e.message));
@@ -48,11 +52,11 @@ const FAKE_NOW = '2026-09-30T16:40:00Z'; /* Mittwoch, 30.09.2026: der Monat ist 
   await page.locator('#f-mult').fill(''); await typeIn('f-mult', '#f-mult', '20', 80);
   await page.locator('#f-fees').fill(''); await typeIn('f-fees', '#f-fees', '6.55', 70);
   await log('scroll-editor-1'); await wheel(960, 600, 300); await typeIn('f-pstop', '#f-pstop', '21181.5'); await typeIn('f-ptarget', '#f-ptarget', '21213');
-  await typeIn('f-reason', '#f-reason', 'Range-Fade am Tageshoch, Ziel am Vortageshoch', 30);
+  await typeIn('f-reason', '#f-reason', TXT.reason, 30);
   await log('scroll-editor-2'); await wheel(960, 600, 320); await typeIn('f-setup', '#f-setup', 'Range-Fade', 60);
   await click('rating-5', page.locator('#f-rating button[data-value="5"]').first(), 200); await wait(250);
   await click('emotion-ruhig', page.locator('[data-chips="emotions"] button[data-value="Ruhig"]').first(), 200); await wait(250);
-  await log('scroll-editor-3'); await wheel(960, 600, 320); await typeIn('f-notes', '#f-notes', 'Sauber nach Plan. Einstieg am Range-Hoch, Ausstieg am Ziel.', 30);
+  await log('scroll-editor-3'); await wheel(960, 600, 320); await typeIn('f-notes', '#f-notes', TXT.notes, 30);
   await wait(400);
   await click('save-trade', page.locator('#trade-form button[type="submit"]').first(), 500); await wait(600); await log('trade-saved'); await wait(2200);
 
@@ -78,9 +82,9 @@ const FAKE_NOW = '2026-09-30T16:40:00Z'; /* Mittwoch, 30.09.2026: der Monat ist 
   /* Mentor */
   await nav('mentor', 'Mentor', 1800);
   const input = page.locator('.main textarea, .main input[type="text"]').last();
-  await typeIn('mentor-input', '#mentor-in', 'Wann verliere ich am meisten Geld?', 40);
+  await typeIn('mentor-input', '#mentor-in', TXT.question, 40);
   await wait(300); await log('mentor-send', page.locator('#mentor-in').first()); await page.keyboard.press('Enter'); await log('mentor-sent');
-  await page.waitForSelector('.main :text("Zwischen 10 und 11 Uhr")', { timeout: 8000 }).catch(() => console.log('Mentor-Antwort nicht gefunden')); await log('mentor-reply'); await wait(3400);
+  await page.waitForSelector(`.main :text("${TXT.replyKey}")`, { timeout: 8000 }).catch(() => console.log('Mentor-Antwort nicht gefunden')); await log('mentor-reply'); await wait(3400);
 
   /* Prop Firms */
   await nav('prop', 'Prop Firms', 3600);
@@ -91,7 +95,7 @@ const FAKE_NOW = '2026-09-30T16:40:00Z'; /* Mittwoch, 30.09.2026: der Monat ist 
   await cdp.send('Page.stopScreencast'); rec = false; await wait(300);
   const t0 = stamps.length ? stamps[0][1] : events[0].t;
   fs.writeFileSync(path.join(out, 'stamps.json'), JSON.stringify(stamps));
-  fs.writeFileSync(path.join(out, 'events.json'), JSON.stringify({ t0, events: events.map(e => ({ ...e, t: Math.round((e.t - t0) * 1000) / 1000 })) }, null, 1));
+  fs.writeFileSync(path.join(out, 'events.json'), JSON.stringify({ t0, lang: LANG, events: events.map(e => ({ ...e, t: Math.round((e.t - t0) * 1000) / 1000 })) }, null, 1));
   console.log(`Frames: ${n}, Dauer ${(stamps[stamps.length - 1][1] - t0).toFixed(1)} s`);
   await browser.close();
 })();

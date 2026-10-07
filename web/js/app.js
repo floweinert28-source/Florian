@@ -265,6 +265,8 @@
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
+    /* Erscheinungsbild in den Einstellungen: Graphit oder Schwarz (beide dunkel) oder Weiß (hell); der Schalter im Konto-Menü wechselt nur Dunkel/Hell und behält die dunkle Variante */
+    appearance(el) { const v = el.dataset.value; if (v !== 'light') S.setSetting('darkStyle', v === 'schwarz' ? 'schwarz' : 'graphit'); this.actions.theme.call(this, { dataset: { value: v === 'light' ? 'light' : 'dark' } }); },
     theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     /* Vorgabe links nur markieren und im Kalender zeigen; übernommen wird erst mit „Anwenden“ */
     range(el) { const pop = el.closest('.range-pop'); if (!pop || !root.RangePicker) return; pop.querySelectorAll('.rr-presets [data-action="range"]').forEach(b => b.setAttribute('aria-checked', String(b === el))); root.RangePicker.setPreset(pop.querySelector('[data-rr-root]'), this.presetPick(el.dataset.value)); },

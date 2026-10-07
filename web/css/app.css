@@ -71,6 +71,12 @@
   --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --info: #2b8fe0; --shadow: 0 18px 50px rgba(20, 30, 24, 0.14);
 }
 :root[data-theme="dark"] { color-scheme: dark; }
+/* dunkle Variante „Schwarz“: tiefschwarzer Grund wie früher (Einstellungen → Design → Erscheinungsbild) */
+:root[data-theme="dark"][data-dark="schwarz"] {
+  --bg: #000000; --bg-2: #070907; --surface: #0b0d0c; --surface-2: #121513; --surface-3: #191d1a;
+  --border: #1f2622; --border-2: #2b332e; --field: #0b0d0c; --ambient: none;
+  --text: #f2f5f3; --text-2: #b4bdb7; --muted: #7d877f; --faint: #4d564f;
+}
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }

@@ -26,7 +26,7 @@
   const forLight = h => { let x = h; let i = 0; while (lum(x) > 0.3 && i++ < 8) x = shade(x, -0.15); return x; };
   function apply(settings) {
     const theme = (settings && settings.theme) || 'dark'; const light = theme === 'light'; const c = (settings && settings.colors) || {};
-    const root = document.documentElement; root.dataset.theme = theme;
+    const root = document.documentElement; root.dataset.theme = theme; root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
     const set = (k, v) => v ? root.style.setProperty(k, v) : root.style.removeProperty(k);
     const acc = valid(c.accent) ? (light ? forLight(c.accent) : c.accent) : null;
     set('--accent', acc); set('--accent-2', acc && shade(acc, -0.14)); set('--accent-soft', acc && rgba(acc, 0.13)); set('--accent-glow', acc && rgba(acc, 0.3)); set('--accent-ink', acc && (lum(acc) > 0.4 ? '#04140a' : '#ffffff'));

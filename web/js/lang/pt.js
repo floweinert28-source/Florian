@@ -1130,4 +1130,6 @@ I18N.add('pt', {
   "Modern": "Moderna",
   "Standard: klar und modern, Zahlen in Onest": "Padrão: limpa e moderna, números em Onest",
   "Leicht und geschwungen, Zahlen in Onest": "Leve e fluida, números em Onest",
+  "Graphit": "Grafite",
+  "Schwarz": "Preto",
 });

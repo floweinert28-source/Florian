@@ -1176,4 +1176,6 @@ I18N.add('zh', {
   "Modern": "现代",
   "Standard: klar und modern, Zahlen in Onest": "默认：简洁现代，数字使用 Onest",
   "Leicht und geschwungen, Zahlen in Onest": "轻盈流畅，数字使用 Onest",
+  "Graphit": "石墨",
+  "Schwarz": "黑色",
 });

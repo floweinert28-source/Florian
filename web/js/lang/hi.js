@@ -1176,4 +1176,6 @@ I18N.add('hi', {
   "Modern": "आधुनिक",
   "Standard: klar und modern, Zahlen in Onest": "डिफ़ॉल्ट: साफ़ और आधुनिक, संख्याएँ Onest में",
   "Leicht und geschwungen, Zahlen in Onest": "हल्का और घुमावदार, संख्याएँ Onest में",
+  "Graphit": "ग्रेफ़ाइट",
+  "Schwarz": "काला",
 });

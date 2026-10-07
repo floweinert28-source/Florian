@@ -1092,4 +1092,6 @@ I18N.add('en', {
   "Schnell eine Frage an deinen Trading-Psychologie-Mentor, direkt vom Dashboard.": "Quickly ask your trading psychology mentor, right from the dashboard.",
   "Standard: klar und modern, Zahlen in Onest": "Default: clean and modern, numbers in Onest",
   "Leicht und geschwungen, Zahlen in Onest": "Light and curved, numbers in Onest",
+  "Graphit": "Graphite",
+  "Schwarz": "Black",
 });

@@ -1132,4 +1132,6 @@ I18N.add('es', {
   "Modern": "Moderna",
   "Standard: klar und modern, Zahlen in Onest": "Predeterminada: clara y moderna, números en Onest",
   "Leicht und geschwungen, Zahlen in Onest": "Ligera y curvilínea, números en Onest",
+  "Graphit": "Grafito",
+  "Schwarz": "Negro",
 });

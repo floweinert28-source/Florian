@@ -126,7 +126,7 @@
     },
     mount(main) {
       const s = st();
-      if (s.first) { setTimeout(() => { s.first = false; if (App.state.route === 'dashboard') App.render(); }, 160); return; } /* render statt rerender: die Kacheln blenden nach dem Skeleton gestaffelt ein */
+      if (s.first) { setTimeout(() => { s.first = false; if (App.state.route === 'dashboard') App.render({ first: true }); }, 160); return; } /* render statt rerender: die Kacheln blenden nach dem Skeleton gestaffelt ein; first = zählt als Seitenstart (Diagramm-Einzug) */
       if (s.editing) bindDnD(main);
       fitRecent(main);
       const list = main.querySelector('#dash-add-list'); if (list && s.listScroll) { list.scrollTop = s.listScroll; s.listScroll = 0; }

@@ -248,6 +248,13 @@ gleitet (App-Start mit Logo, Auswertung von Sprachnotizen, Prop-Simulation); `U.
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
 
+**Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden
+Zeichner): Linien von links nach rechts, Flächen und Balken blenden ein, Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,
+bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Wechselt nur ein Parameter derselben Seite (Tag vor/zurück, Statistik-Reiter),
+gibt es keine Überblendung und keinen gestaffelten Einzug, sondern der Inhalt gleitet kurz herein – bei Tagesschlüsseln in Richtung
+des Wechsels (`.content.swap-next/-prev`), sonst nur weich (`.content.swap`). Das Dashboard zählt seinen Aufbau nach dem Skelett
+als Seitenstart (`App.render({ first: true })`).
+
 `js/scroll.js` macht das Scrollen der ganzen App weich und „schwer“ wie auf edlen Websites: das Mausrad setzt nur ein Ziel,
 die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; kleiner = träger). Nur das Fenster wird so bewegt –
 Bereiche mit eigenem Scrollen (Notiz-Spalten, Tabellen, Menüs, Dialoge), Tastatur, Scrollbalken und Touch bleiben nativ. Bei

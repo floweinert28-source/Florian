@@ -188,13 +188,29 @@
   const axisWidth = labels => Math.max(30, ...labels.map(l => String(l).length * 6.6 + 14));
   const axisLeft = (ticks, yf, ml, W, mr, fmtFn) => `<g class="grid">${ticks.map(t => `<line x1="${ml}" x2="${W - mr}" y1="${yf(t)}" y2="${yf(t)}"/><text x="${ml - 8}" y="${yf(t) + 3.5}" text-anchor="end">${fmtFn(t)}</text>`).join('')}</g>`;
   function drawCharts(scope) {
-    (scope || document).querySelectorAll('.chart[data-chart]').forEach(el => { const k = el.dataset.chart; const W = el.clientWidth, H = el.clientHeight; if (!W || !H) return; const data = chartData[el.dataset.id]; try { drawers[k] && drawers[k](el, data, W, H); } catch (e) { console.warn('Diagramm', k, e); } });
+    (scope || document).querySelectorAll('.chart[data-chart]').forEach(el => { const k = el.dataset.chart; const W = el.clientWidth, H = el.clientHeight; if (!W || !H) return; const data = chartData[el.dataset.id]; try { drawers[k] && drawers[k](el, data, W, H); if (chartEnter) enterAnim(el.querySelector('svg')); } catch (e) { console.warn('Diagramm', k, e); } });
   }
   function hoverLine(el, svg, pts, xf, yf, tipFn, color) {
     const hover = svg.querySelector('.hover'), hit = svg.querySelector('.hit'); if (!hover || !hit) return;
     const show = e => { const r = hit.getBoundingClientRect(); const cx = (e.touches ? e.touches[0].clientX : e.clientX); const i = C.clamp(Math.round((cx - r.left) / r.width * (pts.length - 1)), 0, pts.length - 1); hover.classList.add('on'); const x = xf(i), y = yf(i); const ln = hover.querySelector('line'), c = hover.querySelector('circle'); ln.setAttribute('x1', x); ln.setAttribute('x2', x); c.setAttribute('cx', x); c.setAttribute('cy', y); if (color) c.setAttribute('fill', color(i)); tipAt(el, x, y, tipFn(i)); };
     hit.addEventListener('mousemove', show); hit.addEventListener('touchstart', show, { passive: true }); hit.addEventListener('touchmove', show, { passive: true });
     hit.addEventListener('mouseleave', () => { hover.classList.remove('on'); tipHide(); }); hit.addEventListener('touchend', () => { hover.classList.remove('on'); tipHide(); });
+  }
+  /* Einzug beim Seitenwechsel (App.render schaltet es nur für den ersten Aufbau ein): die Linie zeichnet sich von links nach rechts,
+     Fläche und Balken blenden ein, der Endpunkt springt zuletzt auf. Beim Neuaufbau nach Eingaben oder Fenstergröße nicht */
+  let chartEnter = false;
+  function enterCharts(v) { chartEnter = !!v; }
+  /* gilt für jeden Zeichner: Linien (Pfade/Polylinien mit Strich, ohne Füllung) zeichnen sich, Flächen (gefüllte Pfade/Polygone), Balken
+     (Rechtecke) und Punkte (Kreise) blenden ein; Achsen, Raster, Hover-Elemente und defs bleiben außen vor */
+  function enterAnim(svg) {
+    if (!chartEnter || !svg || svg.classList.contains('enter')) return; svg.classList.add('enter');
+    const skip = el => el.closest('defs, .hover, .hit') || el.classList.contains('hit');
+    svg.querySelectorAll('path, polyline, polygon').forEach(el => { if (skip(el) || el.classList.contains('ln') || el.classList.contains('ar')) return; const f = el.getAttribute('fill'); if ((f === 'none' || f == null && el.tagName === 'polyline') && el.getAttribute('stroke')) el.classList.add('ln'); else if (f && f !== 'none' && f !== 'transparent') el.classList.add('ar'); });
+    svg.querySelectorAll('rect').forEach(el => { if (!skip(el) && !el.classList.contains('br') && el.getAttribute('fill') !== 'transparent') el.classList.add('br'); });
+    svg.querySelectorAll('circle').forEach(el => { if (!skip(el)) el.classList.add('dt'); });
+    let hasLine = false;
+    svg.querySelectorAll('.ln').forEach(p => { let L = 0; try { L = p.getTotalLength(); } catch (e) { L = 0; } if (L) { p.style.setProperty('--len', L.toFixed(1)); hasLine = true; } else p.classList.remove('ln'); });
+    svg.style.setProperty('--dt-delay', hasLine ? '1.1s' : '.15s'); /* Punkte erst nach der Linie, sonst gleich */
   }
   /* Täglicher (Balken) und kumulierter (Fläche) P&L */
   drawers.pnl = function (el, d, W, H) {
@@ -217,10 +233,10 @@
       <clipPath id="${cp}"><rect x="0" y="0" width="${W}" height="${Math.max(0, y(0))}"/></clipPath><clipPath id="${cn}"><rect x="0" y="${y(0)}" width="${W}" height="${Math.max(0, H - y(0))}"/></clipPath></defs>
       ${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
       <line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>
-      ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
-      <path d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
-      <path d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
-      ${dots ? pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.cum)}" r="2.2" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
+      ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" class="br" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
+      <path class="ar" d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path class="ar" d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
+      <path class="ln" d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path class="ln" d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
+      ${dots ? pts.map((p, i) => `<circle class="dt" cx="${x(i)}" cy="${y(p.cum)}" r="2.2" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle class="dt" cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
       ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].day)}</text>`).join('')}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].cum), i => { const p = pts[i]; return `<b>${fmt.weekdayLong(p.day)}</b><br>Tag: ${pnl(p.pnl)} · ${p.n} Trade${p.n === 1 ? '' : 's'}<br>Kumuliert: ${pnl(p.cum)}`; }, i => pts[i].cum >= 0 ? 'var(--profit)' : 'var(--loss)');
@@ -396,5 +412,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
 })(typeof self !== 'undefined' ? self : this);

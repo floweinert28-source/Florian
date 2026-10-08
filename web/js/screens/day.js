@@ -3,6 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
   App.screens.day = {
+    defaultParam: () => C.dayKey(new Date()), /* ohne Parameter = heute (für die Richtung beim Tageswechsel) */
     title: 'Tagesansicht',
     render(ctx) {
       const key = ctx.params[0] || C.dayKey(new Date()); const date = C.parseDayKey(key); if (isNaN(date)) return U.empty('day', 'Ungültiges Datum', '');

@@ -69,6 +69,10 @@
       if (root.DatePicker) root.DatePicker.close(true);
       if (this._screen && this._screen.unmount) { try { this._screen.unmount(); } catch (e) { console.warn(e); } }
       this.parseRoute(); fmt.setCurrency(S.currency()); root.Theme.apply(S.settings); C.setBreakEven(S.settings.beOffset);
+      /* gleiche Seite, andere Parameter (Tag vor/zurück, Reiter): kein Einzug der Karten, sondern ein kurzes Gleiten des Inhalts – bei
+         sortierbaren Parametern (Tagesschlüssel) in Richtung des Wechsels; Diagramme zeichnen sich nur beim echten Seitenwechsel */
+      const routeChanged = this._lastRoute !== this.state.route || !!(o && o.first); const prevParam = this._lastParam; this._lastRoute = this.state.route; const scr0 = this.screens[this.state.route]; this._lastParam = this.state.params[0] || (scr0 && scr0.defaultParam ? scr0.defaultParam() : '');
+      const swap = enter && !routeChanged && !(o && o.keep) ? (prevParam && this._lastParam && prevParam !== this._lastParam && /^\d/.test(prevParam) && /^\d/.test(this._lastParam) ? (this._lastParam > prevParam ? 'swap-next' : 'swap-prev') : 'swap') : '';
       const screen = this.screens[this.state.route]; this._screen = screen; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
       fmt.setMoneyBlind(S.settings.moneyBlind, this.rUnit(ctx.all));
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
@@ -77,11 +81,12 @@
       /* Neuaufbau: alte Höhe halten, bis die Bilder (Screenshots) geladen sind – sonst ist die Seite kurz zu kurz und die Scrollposition rutscht auf 0 */
       const keep = o && o.keep; const hold = keep ? main.offsetHeight : 0; const tok = this._holdTok = (this._holdTok || 0) + 1;
       main.style.minHeight = hold ? hold + 'px' : '';
-      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
+      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content${swap ? ' ' + swap : ''}" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
       this.translateNow(main); /* sofort übersetzen: Scrollstand und Höhen gelten für den übersetzten Text, nicht für das deutsche Zwischenbild */
-      M.scan(main.querySelector('#content'), enter);
+      M.scan(main.querySelector('#content'), enter && !swap);
       this.renderSidebar();
-      U.drawCharts(main); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
+      /* Diagramme zeichnen sich nur beim Seitenwechsel ein (nicht beim Neuaufbau nach Eingaben); bei „Bewegung reduzieren“ nie */
+      U.enterCharts(enter && routeChanged && M.enabled !== false && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)); U.drawCharts(main); U.enterCharts(false); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
       window.scrollTo({ top: keep ? keep.y : 0 });
       if (keep && keep.anchor) this.keepAnchor(main, keep.anchor);
       if (hold) this.releaseHeight(main, imgs, tok, short);
@@ -259,7 +264,8 @@
       if (root.DatePicker) root.DatePicker.init(); /* eigener Kalender für Datumsfelder, nach dem Klick-Handler oben registriert */
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) { this.noteAnchor(el); fn.call(this, el, e); } } });
-      window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; M.transition(() => this.render()); });
+      /* Seitenwechsel mit Überblendung; innerhalb derselben Seite (Tag vor/zurück, Reiter) ohne, dort gleitet nur der Inhalt */
+      window.addEventListener('hashchange', () => { this.state.sidebarOpen = false; const same = this._lastRoute === (location.hash.replace(/^#\/?/, '').split('/')[0] === 'journal' ? 'notebook' : location.hash.replace(/^#\/?/, '').split('/')[0]); if (same) this.render(); else M.transition(() => this.render()); });
       /* Wörterbuch einer neu gewählten Sprache ist nachgeladen: Seite neu aufbauen (Fenstertitel, Diagramm-Beschriftungen) */
       window.addEventListener('i18n-ready', () => this.rerender());
       let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => U.drawCharts(document.getElementById('main')), 120); });

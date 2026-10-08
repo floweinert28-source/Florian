@@ -1113,7 +1113,8 @@ span.info:hover { color: var(--accent); }
 .rules-list li::marker { color: var(--accent); font-weight: 700; }
 .checklist .it.fail .box { border-color: var(--loss); color: var(--loss); }
 .checklist .it.fail .box svg { width: 12px; height: 12px; }
-.activity { --gap: 6px; --cell: 40px; overflow-x: auto; padding-bottom: 16px; cursor: grab; user-select: none; scrollbar-width: thin; scrollbar-gutter: stable; }
+.activity { --gap: 6px; --cell: 40px; overflow-x: auto; padding-bottom: 6px; cursor: grab; user-select: none; scrollbar-width: none; } /* kein waagerechter Balken: Ziehen mit der Maus und die Pfeile reichen */
+.activity::-webkit-scrollbar { display: none; }
 .activity.dragging { cursor: grabbing; }
 .activity .months { display: grid; grid-template-columns: 36px repeat(var(--weeks), var(--cell)); gap: var(--gap); font-size: 13px; color: var(--muted); margin-bottom: 4px; width: max-content; padding-right: 28px; }
 .activity .months span { white-space: nowrap; }

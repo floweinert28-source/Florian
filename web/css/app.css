@@ -1055,29 +1055,34 @@ span.info:hover { color: var(--accent); }
    leuchtende Etappen, Karte mit wanderndem Nordlicht und atmendem Rand */
 .dstreak .big-stat { margin-bottom: 12px; gap: 14px; }
 .dstreak .big-stat > span:first-child { white-space: nowrap; }
-.dstreak-flame { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--faint); transition: color var(--dur-2) var(--ease), filter var(--dur-2) var(--ease); }
-.dstreak-flame svg { position: relative; width: 36px; height: 36px; stroke-width: 1.7; }
+.dstreak-flame { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; color: var(--faint); transition: color var(--dur-2) var(--ease), filter var(--dur-2) var(--ease); }
+.dstreak-flame svg { position: relative; width: 46px; height: 46px; overflow: visible; }
+.dstreak-flame .fo { fill: currentColor; } /* äußere Zunge in der Stufenfarbe */
+.dstreak-flame .fi { fill: var(--surface); fill-opacity: .55; } /* Kern etwas dunkler, wie ausgespart */
+.dstreak.s2 .dstreak-flame .fi, .dstreak.s3 .dstreak-flame .fi { fill: #fff; fill-opacity: .6; } /* ab Stufe 2 heller Kern */
 .dstreak.s0 .big-stat > span:first-child { color: var(--muted); }
 .dstreak.s1 .dstreak-flame { color: var(--text-2); }
 .dstreak.s2 .dstreak-flame { color: var(--accent); animation: streak-pulse 2.6s ease-in-out infinite; }
 .dstreak.s2 .big-stat > span:first-child { color: var(--accent); }
 @keyframes streak-pulse { 0%, 100% { filter: drop-shadow(0 0 6px var(--accent-soft)); } 50% { filter: drop-shadow(0 0 14px var(--accent-glow)); } }
 /* Stufe 3 */
-.dstreak.s3 .dstreak-flame { width: 52px; height: 52px; color: var(--warn); animation: streak-flicker 1.4s ease-in-out infinite, streak-pulse-3 2.4s ease-in-out infinite; }
-.dstreak.s3 .dstreak-flame svg { width: 44px; height: 44px; fill: var(--accent); stroke: var(--warn); stroke-width: 1.4; }
+.dstreak.s3 .dstreak-flame { width: 64px; height: 64px; color: var(--warn); animation: streak-flicker 1.4s ease-in-out infinite, streak-pulse-3 2.4s ease-in-out infinite; }
+.dstreak.s3 .dstreak-flame svg { width: 56px; height: 56px; }
+.dstreak.s3 .dstreak-flame .fo { fill: url(#dsf-grad); }
+.dstreak.s3 .dstreak-flame .fi { fill: #fff; fill-opacity: .72; }
 @keyframes streak-flicker { 0%, 100% { transform: scale(1) rotate(0); } 30% { transform: scale(1.07) rotate(-3deg); } 65% { transform: scale(1.04) rotate(2.5deg); } }
 @keyframes streak-pulse-3 { 0%, 100% { filter: drop-shadow(0 0 8px var(--accent-glow)) drop-shadow(0 0 18px color-mix(in srgb, var(--warn) 45%, transparent)); } 50% { filter: drop-shadow(0 0 14px var(--accent-glow)) drop-shadow(0 0 30px color-mix(in srgb, var(--warn) 65%, transparent)); } }
-.dstreak-flame .ember { position: absolute; left: 50%; bottom: 55%; width: 5px; height: 5px; border-radius: 50%; background: var(--warn); opacity: 0; pointer-events: none; animation: streak-ember 2.4s ease-out infinite; }
+.dstreak-flame .ember { position: absolute; left: 50%; bottom: 60%; width: 5px; height: 5px; border-radius: 50%; background: var(--warn); opacity: 0; pointer-events: none; animation: streak-ember 2.4s ease-out infinite; }
 .dstreak-flame .ember:nth-child(1) { --dx: -18px; animation-duration: 2.2s; }
 .dstreak-flame .ember:nth-child(2) { --dx: 14px; animation-delay: .5s; animation-duration: 2.6s; }
 .dstreak-flame .ember:nth-child(3) { --dx: -6px; animation-delay: 1s; animation-duration: 2s; background: var(--accent); }
 .dstreak-flame .ember:nth-child(4) { --dx: 20px; animation-delay: 1.4s; animation-duration: 2.8s; width: 4px; height: 4px; }
 .dstreak-flame .ember:nth-child(5) { --dx: -22px; animation-delay: 1.8s; animation-duration: 2.3s; background: var(--accent); width: 4px; height: 4px; }
 .dstreak-flame .ember:nth-child(6) { --dx: 6px; animation-delay: .9s; animation-duration: 3s; }
-@keyframes streak-ember { 0% { transform: translate(-50%, 0) scale(1); opacity: 0; } 15% { opacity: .95; } 100% { transform: translate(calc(-50% + var(--dx)), -58px) scale(.25); opacity: 0; } }
+@keyframes streak-ember { 0% { transform: translate(-50%, 0) scale(1); opacity: 0; } 15% { opacity: .95; } 100% { transform: translate(calc(-50% + var(--dx)), -64px) scale(.25); opacity: 0; } }
 .dstreak.s3 .dstreak-flame::before, .dstreak.s3 .dstreak-flame::after { content: ''; position: absolute; width: 12px; height: 12px; background: var(--warn); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); opacity: 0; animation: streak-twinkle 2.2s ease-in-out infinite; }
-.dstreak.s3 .dstreak-flame::before { top: -4px; right: -6px; }
-.dstreak.s3 .dstreak-flame::after { bottom: 0; left: -8px; width: 9px; height: 9px; background: var(--accent); animation-delay: 1.1s; }
+.dstreak.s3 .dstreak-flame::before { top: -2px; right: -8px; }
+.dstreak.s3 .dstreak-flame::after { bottom: 4px; left: -10px; width: 9px; height: 9px; background: var(--accent); animation-delay: 1.1s; }
 @keyframes streak-twinkle { 0%, 100% { opacity: 0; transform: scale(.3) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
 .dstreak.s3 .big-stat > span:first-child { background: linear-gradient(100deg, var(--accent) 0%, var(--warn) 45%, var(--accent-2) 55%, var(--accent) 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: streak-shimmer 3.2s linear infinite; }
 @keyframes streak-shimmer { from { background-position: 125% 0; } to { background-position: -125% 0; } }

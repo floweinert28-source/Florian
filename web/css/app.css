@@ -779,7 +779,8 @@ span.info:hover { color: var(--accent); }
 /* ---------- Responsiv ---------- */
 @media (max-width: 960px) {
   .shell { grid-template-columns: 1fr; }
-  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(280px, 86vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: var(--shadow); }
+  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(280px, 86vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: var(--shadow); border-right: 0; scrollbar-width: none; } /* Schublade ohne Rand und ohne sichtbare Scroll-Leiste */
+  .sidebar::-webkit-scrollbar { display: none; }
   .sidebar.open { transform: none; }
   .scrim { display: block; position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, .55); opacity: 0; pointer-events: none; transition: opacity var(--dur-2) var(--ease); }
   .scrim.show { opacity: 1; pointer-events: auto; }

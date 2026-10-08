@@ -204,6 +204,7 @@ web/
   css/app.css           Design-Tokens (dunkel/hell) und alle Komponenten
   css/landing.css       Startseite
   js/theme.js           Farben (Akzent, Gewinn, Verlust) für App und Startseite
+  js/scroll.js          Weiches, schweres Scrollen: das Rad setzt ein Ziel, die Seite gleitet mit Trägheit nach
   js/core.js            Analytik ohne DOM (auch in Node nutzbar)
   js/sample.js          Beispieldaten (deterministisch)
   js/store.js           Speicher (localStorage, IndexedDB), Export/Import
@@ -243,3 +244,9 @@ gleitet (App-Start mit Logo, Auswertung von Sprachnotizen, Prop-Simulation); `U.
 („Wird erstellt …“); Platzhalter (`.skel`) bekommen einen weichen Glanz, der darüberwandert, statt zu blinken.
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
+
+`js/scroll.js` macht das Scrollen der ganzen App weich und „schwer“ wie auf edlen Websites: das Mausrad setzt nur ein Ziel,
+die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; kleiner = träger). Nur das Fenster wird so bewegt –
+Bereiche mit eigenem Scrollen (Notiz-Spalten, Tabellen, Menüs, Dialoge), Tastatur, Scrollbalken und Touch bleiben nativ. Bei
+„Bewegung reduzieren“, auf Touch-Geräten und bei offenem Dialog passiert nichts; programmatisches Scrollen (Seitenwechsel,
+Scrollstand halten) bricht die Bewegung ab. Ohne das Skript scrollt alles wie gewohnt.

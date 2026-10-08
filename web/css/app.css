@@ -462,6 +462,10 @@ span.info:hover { color: var(--accent); }
 .tile:hover, .stat-tile:hover { border-color: var(--border-2); transform: translateY(-2px); box-shadow: var(--lift-shadow); }
 .tile .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--text-2); }
 .tile .head .n { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; }
+/* Kachel-Titel: das Info-Symbol bleibt neben dem Text (eigene Spalte), auch wenn der Titel in enge Kacheln umbricht */
+.tile .head > span:first-child { display: inline-grid; grid-auto-flow: column; align-items: center; justify-content: start; min-width: 0; }
+/* enge Kacheln: der Gewinn/Verlust-Balken rutscht mit voller Breite unter den Wert, die beiden Beträge bleiben in einer Zeile */
+@container (max-width: 220px) { .tile .body:has(> .gauge > .wl-single) { flex-wrap: wrap; } .tile .body > .gauge:has(> .wl-single) { flex: 1 1 100%; margin-right: 0; } }
 .tile .body { display: flex; align-items: center; justify-content: space-between; gap: 12px 14px; padding-top: 8px; flex: 1;
   background: linear-gradient(90deg, var(--border), var(--border) 22%, transparent 48%) top left / 100% 1px no-repeat; }
 .tile.wide .body { flex-wrap: nowrap; gap: 12px 44px; }

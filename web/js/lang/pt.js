@@ -1398,4 +1398,10 @@ I18N.add('pt', {
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Seu mentor deu uma nova tarefa a você.",
   "deinem Mentor": "seu mentor",
   "{0} Handelstage mit Check-in.": "{0} dias de trading com check-in.",
+  "Angefangen": "Começou",
+  "Im Flow": "No embalo",
+  "Unaufhaltsam": "Imparável",
+  "Stufe {0} ab {1} Werktagen": "Nível {0} a partir de {1} dias úteis",
+  "Höchste Stufe erreicht": "Nível máximo alcançado",
+  "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Fins de semana não interrompem a sequência. Três níveis: a partir de {0}, {1} e {2} dias úteis.",
 });

@@ -1358,4 +1358,10 @@ I18N.add('en', {
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Your mentor has given you a new task.",
   "deinem Mentor": "your mentor",
   "{0} Handelstage mit Check-in.": "{0} trading days with a check-in.",
+  "Angefangen": "Started",
+  "Im Flow": "In the flow",
+  "Unaufhaltsam": "Unstoppable",
+  "Stufe {0} ab {1} Werktagen": "Level {0} from {1} weekdays",
+  "Höchste Stufe erreicht": "Highest level reached",
+  "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Weekends do not break the streak. Three levels: from {0}, from {1} and from {2} weekdays.",
 });

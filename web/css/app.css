@@ -1037,6 +1037,26 @@ span.info:hover { color: var(--accent); }
 .big-stat .trend svg { width: 22px; height: 22px; }
 .big-stat .trend.up { color: var(--profit); }
 .big-stat .trend.down { color: var(--loss); }
+/* Aktuelle Serie (Fortschritt) in drei Stufen, Klasse dstreak (streak ist schon vergeben): 0 ruhig, 1 Flamme gedämpft, 2 Flamme und Zahl in Akzent mit Schein, 3 gefüllte Flamme mit Flackern, Verlaufszahl und Karten-Schein */
+.dstreak .big-stat { margin-bottom: 10px; }
+.dstreak .big-stat > span:first-child { white-space: nowrap; }
+.dstreak-flame { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; color: var(--faint); background: var(--surface-2); transition: color var(--dur-2) var(--ease), background var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
+.dstreak-flame svg { width: 18px; height: 18px; }
+.dstreak.s0 .big-stat > span:first-child { color: var(--muted); }
+.dstreak.s1 .dstreak-flame { color: var(--text-2); }
+.dstreak.s2 .dstreak-flame { color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 14px var(--accent-soft); }
+.dstreak.s2 .big-stat > span:first-child { color: var(--accent); }
+.dstreak.s3 .dstreak-flame { color: var(--accent-ink); background: var(--accent); box-shadow: 0 0 16px var(--accent-soft), 0 0 40px var(--accent-soft); animation: streak-flicker 1.8s ease-in-out infinite; }
+.dstreak.s3 .dstreak-flame svg { fill: currentColor; }
+.dstreak.s3 .big-stat > span:first-child { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.card:has(.dstreak.s3) { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, var(--border)), 0 0 48px -22px var(--accent); }
+@keyframes streak-flicker { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08) rotate(-3deg); } }
+.dstreak-steps { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; width: max-content; }
+.dstreak-steps i { display: block; width: 28px; height: 5px; border-radius: 3px; background: var(--surface-3); transition: background var(--dur-2) var(--ease); }
+.dstreak-steps i.on { background: var(--accent); }
+.dstreak-steps i.cur { box-shadow: 0 0 8px var(--accent-soft); }
+.dstreak-steps b { margin-left: 6px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
+.dstreak.s2 .dstreak-steps b, .dstreak.s3 .dstreak-steps b { color: var(--accent); }
 .dashed { border: 1px dashed var(--border-2); border-radius: 10px; padding: 12px 14px; color: var(--muted); font-size: 13px; }
 .rules-list { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
 .rules-list li::marker { color: var(--accent); font-weight: 700; }

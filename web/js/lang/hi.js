@@ -1448,4 +1448,10 @@ I18N.add('hi', {
   "deinem Mentor": "आपके मेंटर",
   "Coaching": "कोचिंग",
   "{0} Handelstage mit Check-in.": "{0} ट्रेडिंग दिन चेक-इन के साथ।",
+  "Angefangen": "शुरुआत",
+  "Im Flow": "लय में",
+  "Unaufhaltsam": "अजेय",
+  "Stufe {0} ab {1} Werktagen": "स्तर {0}: {1} कार्यदिवसों से",
+  "Höchste Stufe erreicht": "उच्चतम स्तर प्राप्त",
+  "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "सप्ताहांत से सिलसिला नहीं टूटता। तीन स्तर: {0}, {1} और {2} कार्यदिवसों से।",
 });

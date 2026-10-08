@@ -1401,4 +1401,10 @@ I18N.add('es', {
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Tu mentor te ha dado una tarea nueva.",
   "deinem Mentor": "tu mentor",
   "{0} Handelstage mit Check-in.": "{0} días de trading con check-in.",
+  "Angefangen": "Empezado",
+  "Im Flow": "En racha",
+  "Unaufhaltsam": "Imparable",
+  "Stufe {0} ab {1} Werktagen": "Nivel {0} a partir de {1} días laborables",
+  "Höchste Stufe erreicht": "Nivel máximo alcanzado",
+  "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Los fines de semana no interrumpen la racha. Tres niveles: a partir de {0}, {1} y {2} días laborables.",
 });

@@ -86,7 +86,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   oder Drag & Drop mit Unterschrift. Tags, Vorlagen, Suche über alle Notizen, Filter, Papierkorb
   (30 Tage), Teilen per Link, Export/Import, Autosave. Notizen zu Handelstagen und Trades zeigen
   Netto-P&L und eine aufklappbare Statistik.
-- **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil.
+- **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil. Die Serie hat drei Stufen (Werktage in Folge):
+  ab 1 „Angefangen“ (Flamme gedämpft), ab 5 „Im Flow“ (Flamme und Zahl in Akzent mit Schein), ab 20 „Unaufhaltsam“ (gefüllte, flackernde
+  Flamme, Verlaufszahl, Karte mit Schein); drei Stufenbalken darunter, die nächste Schwelle steht im Tooltip.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in drei Designs nach Canva-Vorlagen: Navy (Lichtstreifen, Farbverlauf-Titel, Rahmenecken), Aurora (zentriert, Ergebnis in einer Farbpille, rosa-lila Lichtflecken) und Hell; mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen.
 - **Ruhepunkt**: geführte Sessions vor und nach dem Trading plus Akut-Reset (Abläufe und Texte aus `docs/ruhepunkt.html`). Jede Session wird als Eintrag mit Nutzerkennung gespeichert; „Christlicher Impuls“ ist eine gespeicherte Einstellung, umschaltbar nur in den Einstellungen (unten im Ruhepunkt steht nur noch „Hilfe und Beratung“).

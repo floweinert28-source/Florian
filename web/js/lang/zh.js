@@ -1448,4 +1448,10 @@ I18N.add('zh', {
   "deinem Mentor": "你的导师",
   "Coaching": "辅导",
   "{0} Handelstage mit Check-in.": "{0} 个有签到的交易日。",
+  "Angefangen": "起步",
+  "Im Flow": "状态正佳",
+  "Unaufhaltsam": "势不可挡",
+  "Stufe {0} ab {1} Werktagen": "第 {0} 级：{1} 个工作日起",
+  "Höchste Stufe erreicht": "已达最高级",
+  "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "周末不会中断连续记录。三个等级：{0}、{1} 和 {2} 个工作日起。",
 });

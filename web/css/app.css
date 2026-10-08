@@ -2768,3 +2768,41 @@ a.coach-name:hover { color: var(--accent); }
 .stc-col.empty > b { color: var(--faint); }
 @container (max-width: 300px) { .stc-col { padding: 0 10px; } .stc-col > b { font-size: 14.5px; } } /* schmale Karte: Beträge ohne Umbruch (nach den Grundregeln, damit sie gewinnen) */
 @container (max-width: 272px) { .stc-col { padding: 0 8px; } .stc-col > b { font-size: 13.5px; } }
+
+/* ---------- Handy (bis 560px) ---------- */
+.cal .d .pm { display: none; }
+@media (max-width: 560px) {
+  .content { padding-bottom: 104px; } /* Platz für den runden „Trade loggen“-Knopf */
+  /* Kopfreihe: alle Knöpfe in einer umbrechenden Werkzeugleiste statt zwei halb leerer Zeilen */
+  .dash-head { gap: 8px; justify-content: flex-start; }
+  .dash-head > .row, .dash-head > .row.dh-tools { display: contents; }
+  .dash-head .dh-sep { display: none; }
+  .page-head .dh-context > .nb-search { flex: 1 1 100%; }
+  /* „Trade loggen“ als runder Knopf unten rechts */
+  .dash-head .tl { position: fixed; right: 16px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 54px; height: 54px; padding: 0; border-radius: 999px; justify-content: center; background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: 0 14px 30px -8px var(--accent-glow), 0 6px 18px rgba(0, 0, 0, .35); }
+  .dash-head .tl:hover { background: var(--accent); }
+  .dash-head .tl span { display: none; }
+  .dash-head .tl svg { width: 24px; height: 24px; }
+  .toast-wrap { bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+  /* Kacheln oben im Dashboard: zwei Spalten statt Karussell */
+  .dash-top { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow: visible; margin: 0; padding: 0; scroll-snap-type: none; }
+  .dash-top > .w, .dash-top > .skel, .dash-top > .add-slot { flex: none; }
+  .tile .val { font-size: 21px; }
+  /* Kennzahlen (Statistik) und Mini-Kennzahlen (Schatten-Ich-Widget): zwei Spalten */
+  .stat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .stat-tile { padding: 14px; }
+  .stat-tile .v { font-size: 20px; }
+  .fw-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Kalender: kurze Zahl je Tag */
+  .cal .d .p { display: none; }
+  .cal .d .pm { display: block; font-weight: 700; font-size: 10px; letter-spacing: -.01em; }
+  /* Reiter in einer Reihe, bei Bedarf seitlich scrollen statt umbrechen */
+  .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  .tabs > * { flex: 0 0 auto; white-space: nowrap; }
+  .tabs button { padding: 9px 14px; font-size: 13px; }
+  /* Tabellen: kompakter, Zellen nicht umbrechen (seitlich scrollen) */
+  .tbl th, .tbl td { padding: 9px 10px; font-size: 12.5px; white-space: nowrap; }
+  /* Dialoge als Bottom-Sheet */
+  .modal-bg { padding: 0; align-items: end; }
+  .modal { width: 100%; max-height: calc(100vh - 28px); max-height: calc(100dvh - 28px); border-radius: 20px 20px 0 0; border-bottom: 0; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
+}

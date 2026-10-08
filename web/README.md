@@ -56,7 +56,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
   Jedes Widget hat ein (i) mit Erklärung. **Vorlagen**: mehrere Dashboards anlegen, umbenennen,
   duplizieren, als Standard festlegen, löschen. **Bearbeitungsmodus** mit Drag & Drop, Entfernen,
-  Größe (klein/mittel/groß) und Widget-Bibliothek mit Suche. Handy: Kacheln wischbar, Pfeile statt Drag & Drop.
+  Größe (klein/mittel/groß) und Widget-Bibliothek mit Suche. Handy: Kacheln in zwei Spalten, Pfeile statt Drag & Drop.
   Beim Bearbeiten bleibt ein entferntes Widget als Lücke stehen (neue Widgets füllen sie, Drag & Drop tauscht hinein);
   erst „Speichern“ schließt die Lücken. Die Bibliothek zeigt zu jedem Widget ein eigenes Vorschaubild (`js/widgetpreviews.js`).
   **Zeitraum**: Voreinstellungen plus „Benutzerdefiniert“ mit zwei Monatskalendern nebeneinander (Handy: einer), erster Klick
@@ -72,6 +72,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   im Eingabefeld des Mentors; ohne Server ein Einrichten-Hinweis). Die fünf Karten hängt eine einmalige Migration
   (`dashboardsVersion` 4) ans Ende des Standard-Dashboards; Entferntes bleibt entfernt.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).
+- **Handy** (bis 560px, Regeln am Ende von `css/app.css`): Kopfreihe als eine umbrechende Werkzeugleiste, „Trade loggen“ als
+  runder Knopf unten rechts (Inhalt bekommt unten Platz, Toasts rutschen darüber), Dashboard-Kacheln und Statistik-Kennzahlen
+  in zwei Spalten, Kalender mit kurzer Tageszahl („+2,1k“, „−486“, eigene Klasse `.pm`; die Vollform `.p` bleibt für große
+  Bildschirme), Reiter in einer Reihe (seitlich scrollbar statt umbrechen), Tabellen kompakt ohne Zeilenumbruch, Dialoge als
+  Bottom-Sheet. Ab 961px bleibt alles wie gehabt; der Handy-Test `mobiletest` prüft dazu alle Routen auf seitlichen Überlauf.
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades. Auf dem Desktop füllt die Liste genau
   das Fenster (wie das Notebook): Kacheln, Reiter und Filter oben, die Tabelle nimmt den Rest und scrollt in ihrer Box, der
   Seitenwähler bleibt unten sichtbar; die Seite selbst scrollt nicht. Trade-Detail und Handy scrollen wie gewohnt.

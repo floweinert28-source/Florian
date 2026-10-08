@@ -1412,4 +1412,11 @@ I18N.add('pt', {
   "Umdrehen: Einzelheiten zeigen": "Virar: ver detalhes",
   "Umdrehen": "Virar",
   "kein Trade hinterlegt": "sem trade vinculado",
+  "Coupon-Codes": "Códigos de cupom",
+  "Rabatt-Codes für Prop Firms. Ein Klick auf den Code kopiert ihn.": "Códigos de desconto para prop firms. Um clique no código o copia.",
+  "Noch keine Codes hinterlegt.": "Ainda não há códigos.",
+  "Beispiel": "Exemplo",
+  "Zur Website": "Ir ao site",
+  "Code kopiert": "Código copiado",
+  "Kopieren nicht möglich, bitte den Code markieren": "Não foi possível copiar, selecione o código",
 });

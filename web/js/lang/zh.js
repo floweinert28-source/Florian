@@ -1462,4 +1462,11 @@ I18N.add('zh', {
   "Umdrehen: Einzelheiten zeigen": "翻面：查看详情",
   "Umdrehen": "翻面",
   "kein Trade hinterlegt": "未关联交易",
+  "Coupon-Codes": "优惠码",
+  "Rabatt-Codes für Prop Firms. Ein Klick auf den Code kopiert ihn.": "自营交易公司的折扣码。点击即可复制。",
+  "Noch keine Codes hinterlegt.": "还没有优惠码。",
+  "Beispiel": "示例",
+  "Zur Website": "前往网站",
+  "Code kopiert": "已复制优惠码",
+  "Kopieren nicht möglich, bitte den Code markieren": "无法复制，请手动选中优惠码",
 });

@@ -184,7 +184,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   für Ausgaben und Payouts öffnen sich über den
   Knopf im Kartenkopf. Journal-Zeitraum und -Konto fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
   Firmen-Presets (Beispiele sind als unverifiziert markiert, eigene Firmen mit
-  eigenen Regeln möglich), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
+  eigenen Regeln möglich), Coupon-Codes unter Konten (Rabatte bei Prop Firms, Liste `COUPONS` in `js/propdata.js`; Klick auf den Code kopiert ihn, Platzhalter tragen die Marke „Beispiel“), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
   lassen sich einem oder mehreren Prop-Konten zuordnen (Copy-Trading). Regel-Engine in `js/prop.js`: Daily Loss
   (Betrag oder %, Reset-Uhrzeit und Zeitzone), Max Drawdown statisch, intraday trailing, Tagesende-trailing und
   trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer

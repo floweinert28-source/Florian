@@ -94,5 +94,13 @@
     { symbol: 'USDJPY', name: 'US-Dollar / Yen', market: 'forex', tickSize: null, tickValue: null, pipSize: 0.01, pipValue: 6.67, currency: 'USD', unverified: true },
   ];
 
-  root.PropData = { PRESETS, EXPENSE_TYPES, MARKETS, DRAWDOWN_TYPES, instrumentsDefault };
+  /* Coupon-Codes, die unter Prop Firms → Konten erscheinen: { firm, code, discount, note, url, example }.
+     Einträge mit example: true sind Platzhalter und tragen in der Oberfläche die Marke „Beispiel“ – hier die echten Codes eintragen. */
+  const COUPONS = [
+    { firm: 'FTMO', code: 'JOURNALYST', discount: '10 % auf die Challenge', note: '', url: 'https://ftmo.com', example: true },
+    { firm: 'Topstep', code: 'JOURNALYST', discount: '20 % auf den ersten Monat', note: '', url: 'https://www.topstep.com', example: true },
+    { firm: 'Apex Trader Funding', code: 'JOURNALYST', discount: '50 % auf alle Evaluierungen', note: 'Nur während Aktionen gültig', url: 'https://apextraderfunding.com', example: true },
+  ];
+
+  root.PropData = { PRESETS, COUPONS, EXPENSE_TYPES, MARKETS, DRAWDOWN_TYPES, instrumentsDefault };
 })(typeof self !== 'undefined' ? self : this);

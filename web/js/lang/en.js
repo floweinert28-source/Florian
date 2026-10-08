@@ -1372,4 +1372,11 @@ I18N.add('en', {
   "Umdrehen: Einzelheiten zeigen": "Turn over: show details",
   "Umdrehen": "Turn over",
   "kein Trade hinterlegt": "no trade linked",
+  "Coupon-Codes": "Coupon codes",
+  "Rabatt-Codes für Prop Firms. Ein Klick auf den Code kopiert ihn.": "Discount codes for prop firms. Click a code to copy it.",
+  "Noch keine Codes hinterlegt.": "No codes yet.",
+  "Beispiel": "Example",
+  "Zur Website": "Visit website",
+  "Code kopiert": "Code copied",
+  "Kopieren nicht möglich, bitte den Code markieren": "Copying failed, please select the code",
 });

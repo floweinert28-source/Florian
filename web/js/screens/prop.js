@@ -239,7 +239,12 @@
       <div class="field"><label for="ps-red">Rot, wenn weniger als … % übrig</label><input class="input" id="ps-red" name="red" type="number" min="0" max="100" step="1" value="${Math.round(th.red * 100)}" inputmode="decimal"></div>
       <div class="field"><label for="ps-stop">${esc(unitLabel('Stop-Größe: Risiko pro Trade'))}</label><input class="input" id="ps-stop" name="stopSize" type="number" min="0" step="any" value="${S.settings.propStopSize > 0 ? S.settings.propStopSize : ''}" inputmode="decimal" placeholder="automatisch"><span class="hint">Leer: Median der Verlust-Trades der letzten 30 Trades je Konto. Bestimmt „noch X Stop-Losses“.</span></div>
       <div class="field span2"><div><button type="submit" class="btn primary sm">Speichern</button></div></div></form>`;
+    /* Coupon-Codes: Rabatte bei Prop Firms (Liste PD.COUPONS in js/propdata.js); ein Klick auf den Code kopiert ihn */
+    const cps = Array.isArray(PD.COUPONS) ? PD.COUPONS : [];
+    const couponTile = c => `<div class="cpn"><div class="cpn-head"><b class="no-i18n">${esc(c.firm)}</b>${c.example ? U.pill('Beispiel', 'neutral') : ''}</div>${c.discount ? `<div class="cpn-off">${esc(c.discount)}</div>` : ''}<button type="button" class="cpn-code no-i18n" data-action="prop-coupon-copy" data-code="${esc(c.code)}" data-tip="Kopieren" aria-label="Code ${esc(c.code)} kopieren"><span>${esc(c.code)}</span>${I.copy}</button>${c.note ? `<div class="cpn-note">${esc(c.note)}</div>` : ''}${c.url ? `<a class="cpn-link" href="${esc(c.url)}" target="_blank" rel="noopener">Zur Website ${I.external}</a>` : ''}</div>`;
+    const coupons = U.card('Coupon-Codes', cps.length ? `<div class="cpn-grid">${cps.map(couponTile).join('')}</div>` : '<div class="dashed">Noch keine Codes hinterlegt.</div>', { info: 'Rabatt-Codes für Prop Firms. Ein Klick auf den Code kopiert ihn.' });
     return U.card('Deine Konten', accTable, { trailing: `<button type="button" class="btn sm primary" data-action="prop-account-new">${I.plus} Konto anlegen</button>`, info: 'Regeln sind je Konto als Momentaufnahme gespeichert. Status (geplatzt, bestanden, archiviert) setzt du im Konto-Dialog.' })
+      + coupons
       + fold('presets', 'Firmen-Presets', presetBody, { count: ps.length, sub: 'Vorlagen für neue Konten' })
       + fold('ampel', 'Ampel und Stop-Größe', settings, { sub: `Gelb unter ${Math.round(th.yellow * 100)} %, Rot unter ${Math.round(th.red * 100)} %` });
   }
@@ -351,6 +356,7 @@
   const find = id => accounts().find(a => a.id === id) || null;
   Object.assign(App.actions, {
     'prop-filter'(el) { st().filter[el.dataset.key] = el.dataset.value != null ? el.dataset.value : el.value; App.rerender(); },
+    async 'prop-coupon-copy'(el) { const ok = await U.copyText(el.dataset.code || ''); U.toast(ok ? 'Code kopiert' : 'Kopieren nicht möglich, bitte den Code markieren', ok ? 'ok' : 'err'); if (ok) { el.classList.add('copied'); setTimeout(() => el.classList.remove('copied'), 1400); } },
     'prop-fold'(el) { const d = el.closest('details'); if (!d) return; d.open = !d.open; const s = st(); (s.fold || (s.fold = {}))[el.dataset.key] = d.open; },
     'prop-entry'(el) { const s = st(); const e = s.entry || (s.entry = {}); const kind = el.dataset.value; e[kind] = !e[kind]; const f = document.getElementById('prop-entry-' + kind); if (f) { f.hidden = !e[kind]; if (e[kind]) { const first = f.querySelector('select, input'); if (first) first.focus({ preventScroll: true }); } } const lbl = kind === 'expense' ? 'Ausgabe erfassen' : 'Payout erfassen'; el.classList.toggle('primary', !e[kind]); el.setAttribute('aria-expanded', String(!!e[kind])); el.innerHTML = e[kind] ? `${I.close} Schließen` : `${I.plus} ${lbl}`; if (App.translateNow) App.translateNow(el); },
     'prop-account-new'() { accountEditor(null); },

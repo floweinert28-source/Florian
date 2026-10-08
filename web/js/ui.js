@@ -25,6 +25,7 @@
     settings: sv('<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'),
     sun: sv('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
     moon: sv('<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>'),
+    mood: sv('<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8"/><path d="M9 9.5h.01M15 9.5h.01" stroke-width="2.6"/>'),
     plus: sv('<path d="M12 5v14M5 12h14"/>'),
     minus: sv('<path d="M5 12h14"/>'),
     chev: sv('<path d="M6 9l6 6 6-6"/>'),
@@ -159,7 +160,7 @@
 
   /* ---------- Bausteine ---------- */
   const info = text => text ? `<span class="info" data-tip="${esc(text)}">${I.info}</span>` : '';
-  const card = (title, body, o = {}) => `<section class="card ${o.cls || ''}" ${o.attrs || ''}>${title ? `<div class="card-head"><div><div class="card-title">${esc(title)}${info(o.info)}</div>${o.sub ? `<div class="card-sub">${o.sub}</div>` : ''}</div>${o.trailing ? `<div class="row">${o.trailing}</div>` : ''}</div>` : ''}${body}</section>`;
+  const card = (title, body, o = {}) => `<section class="card ${o.cls || ''}" ${o.attrs || ''}>${title ? `<div class="card-head"><div><div class="card-title">${o.icon ? `<span class="card-ico">${I[o.icon] || o.icon}</span>` : ''}${esc(title)}${info(o.info)}</div>${o.sub ? `<div class="card-sub">${o.sub}</div>` : ''}</div>${o.trailing ? `<div class="row">${o.trailing}</div>` : ''}</div>` : ''}${body}</section>`;
   const tile = (label, value, o = {}) => `<div class="tile${o.side ? ' side' : ''}"><div class="head"><span>${esc(label)}${info(o.info)}</span>${o.n != null ? `<span class="n">${o.n}</span>` : ''}</div><div class="body"><div><div class="val ${o.tint || ''}">${value}</div>${o.foot ? `<div class="foot">${o.foot}</div>` : ''}</div>${o.gauge ? `<div class="gauge">${o.gauge}</div>` : ''}</div></div>`;
   const pill = (text, kind = 'neutral') => `<span class="pill ${kind}">${text}</span>`;
   const badge = dir => `<span class="badge ${dir > 0 ? 'l' : 's'}">${dir > 0 ? 'LONG' : 'SHORT'}</span>`;

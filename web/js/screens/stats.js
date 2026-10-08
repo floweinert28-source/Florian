@@ -60,11 +60,11 @@
   function tabState(list, closed, days) {
     const st = C.stateAnalysis(days, S.checkInByDay()); if (!st.n) return U.empty('sparkle', 'Keine Check-ins im Zeitraum', 'Starte den Tag mit „Session starten“, dann siehst du hier, wie Schlaf, Stress und Stimmung mit deinem Ergebnis zusammenhängen.');
     /* je Wert nur das Nötigste: drei Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-P&L; Tage und Anteil im Plus im Tooltip. Korrelation oben rechts */
-    const block = (title, m) => { const rc = m.r == null ? '' : m.r > 0.2 ? 'pos' : m.r < -0.2 ? 'neg' : '';
+    const block = (title, m, icon) => { const rc = m.r == null ? '' : m.r > 0.2 ? 'pos' : m.r < -0.2 ? 'neg' : '';
       const cols = m.groups.map(g => `<div class="stc-col${g.n ? '' : ' empty'}" data-tip="${g.n ? `${esc(g.name)}: ${g.n} ${g.n === 1 ? 'Tag' : 'Tage'} · ${fmt.pct(g.winRate)} im Plus` : 'Keine Tage'}"><span class="stc-l">${esc(g.name)}${g.range ? `<small>${esc(g.range)}</small>` : ''}</span><b class="num ${g.n ? (g.avg >= 0 ? 'pos' : 'neg') : ''}">${g.n ? fmt.cur(g.avg, { signed: true }) : '—'}</b></div>`).join('');
-      return U.card(title, `<div class="stc">${cols}</div>`, { trailing: `<span class="st-corr">Korrelation <b class="num ${rc}">${m.r == null ? '—' : fmt.num(m.r, 2)}</b></span>` });
+      return U.card(title, `<div class="stc">${cols}</div>`, { icon, trailing: `<span class="st-corr">Korrelation <b class="num ${rc}">${m.r == null ? '—' : fmt.num(m.r, 2)}</b></span>` });
     };
-    return `<div class="muted small">${st.n} Handelstage mit Check-in. Korrelation von −1 bis +1 zwischen Wert und Tages-P&L.</div><div class="grid three">${block('Schlaf', st.sleep)}${block('Stress', st.stress)}${block('Stimmung', st.mood)}</div>`;
+    return `<div class="muted small">${st.n} Handelstage mit Check-in. Korrelation von −1 bis +1 zwischen Wert und Tages-P&L.</div><div class="grid three">${block('Schlaf', st.sleep, 'moon')}${block('Stress', st.stress, 'bolt')}${block('Stimmung', st.mood, 'mood')}</div>`;
   }
   function tabEdge(list, closed) {
     const e = C.edge(list); U.chartData['edge'] = { edge: e };

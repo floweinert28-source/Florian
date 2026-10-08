@@ -425,6 +425,9 @@ span.info { display: inline-flex; width: 14px; height: 14px; color: var(--faint)
 span.info svg { width: 100%; height: 100%; }
 span.info:hover { color: var(--accent); }
 .card-title span.info { width: 15px; height: 15px; }
+/* kleines Symbol vor dem Kartentitel (U.card mit icon): weiches Quadrat in Akzentfarbe */
+.card-ico { flex: 0 0 auto; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 9px; color: var(--accent); background: var(--accent-soft); margin: -4px 2px -4px 0; }
+.card-ico svg { width: 15px; height: 15px; }
 .card-sub { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
 .card .divider { border-top: 1px solid var(--border); margin: 12px 0; }
 .grid { display: grid; gap: 18px; }

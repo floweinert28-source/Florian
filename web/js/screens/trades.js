@@ -29,7 +29,8 @@
         ${W.render({ typ: 'avg_gewinn_verlust' }, d, App)}
       </div>`;
       const tabs = U.tabs([['trades', 'Trades'], ['days', 'Tage'], ['missed', 'Verpasste Trades']], view, 'trades-view');
-      return head + `<div class="row between">${tabs}${view === 'missed' ? `<button type="button" class="btn sm" data-action="new-missed">${I.plus} Verpassten Trade notieren</button>` : ''}</div>` + (view === 'days' ? renderDays(list) : view === 'missed' ? renderMissed() : renderTable(list, ctx));
+      /* Desktop: die Liste füllt genau das Fenster (tl-fit), die Tabelle scrollt in ihrer Box; die Seite selbst nicht */
+      return '<div class="tl-fit">' + head + `<div class="row between">${tabs}${view === 'missed' ? `<button type="button" class="btn sm" data-action="new-missed">${I.plus} Verpassten Trade notieren</button>` : ''}</div>` + (view === 'days' ? renderDays(list) : view === 'missed' ? renderMissed() : renderTable(list, ctx)) + '</div>';
     },
   };
   function renderTable(list, ctx) {

@@ -10,9 +10,10 @@
   function streakCard(n) {
     const stage = STREAK_STAGES.filter(([min]) => n >= min).length; const next = STREAK_STAGES[stage];
     const tip = next ? `Stufe ${stage + 1} ab ${next[0]} Werktagen` : 'Höchste Stufe erreicht';
+    /* drei Etappen als Punkte auf einer feinen Linie (1 · 5 · 20), erreichte gefüllt, die aktuelle leuchtet; dazu das Stufenwort */
     const steps = STREAK_STAGES.map((_, i) => `<i class="${i < stage ? 'on' : ''}${i === stage - 1 ? ' cur' : ''}"></i>`).join('');
     const fx = stage === 3 ? '<i class="ember"></i>'.repeat(6) : ''; /* Stufe 3: aufsteigende Funken um die Flamme */
-    return `<div class="dstreak s${stage}"><div class="big-stat"><span>${n} Tag${n === 1 ? '' : 'e'}</span><span class="dstreak-flame" aria-hidden="true">${fx}${I.flame}</span></div><div class="dstreak-steps" data-tip="${tip}">${steps}${stage ? `<b>${STREAK_STAGES[stage - 1][1]}</b>` : ''}</div><div class="small muted">Werktage in Folge mit Trades, Check-in oder Notiz</div></div>`;
+    return `<div class="dstreak s${stage}"><div class="big-stat"><span>${n} Tag${n === 1 ? '' : 'e'}</span><span class="dstreak-flame" aria-hidden="true">${fx}${I.flame}</span></div><div class="dstreak-steps" data-tip="${tip}"><span class="dstreak-track"><em></em>${steps}</span>${stage ? `<b>${STREAK_STAGES[stage - 1][1]}</b>` : ''}</div></div>`;
   }
   const arrow = (dir) => dir > 0 ? `<span class="trend up" aria-label="steigend">${I.arrowUp}</span>` : dir < 0 ? `<span class="trend down" aria-label="fallend">${I.arrowDown}</span>` : '';
   function ruleRate(rules, from, to) { const entries = Object.values(S.data.days).filter(d => d.rulesFollowed && (!from || (C.parseDayKey(d.key) >= from && C.parseDayKey(d.key) <= to))); return { n: entries.length, rate: rules.length && entries.length ? C.mean(entries.map(d => d.rulesFollowed.filter(id => rules.some(x => x.id === id)).length / rules.length)) : null }; }
@@ -52,7 +53,7 @@
       const auto = [['dailyLoss', 'Tagesverlustlimit eingehalten'], ['lossStreak', 'Keine drei Verluste in Folge'], ['sizeEscalation', 'Keine Größenerhöhung nach Verlust'], ['revenge', 'Kein sofortiger Wiedereinstieg nach Verlust'], ['rapidFire', 'Nicht mehr als drei Trades in 15 Minuten']];
       const rows = rules.map(rule => { const n = cur.n; const entries = Object.values(S.data.days).filter(d => d.rulesFollowed && (!r.from || (C.parseDayKey(d.key) >= r.from && C.parseDayKey(d.key) <= r.to))); const kept = entries.filter(d => d.rulesFollowed.includes(rule.id)).length; const broken = C.closedOnly(list).filter(t => t.rulesBroken.includes(rule.text)); return { rule, n, kept, brokenN: broken.length, brokenCost: C.sum(broken.map(t => t.pnl)) }; });
       return `<div class="grid three">
-        ${U.card('Aktuelle Serie', streakCard(streak), { info: 'Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab 1, ab 5 und ab 20 Werktagen.' })}
+        ${U.card('Aktuelle Serie', streakCard(streak), { info: 'Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab 1, ab 5 und ab 20 Werktagen.' })}
         ${U.card('Heutiger Fortschritt', `<div class="big-stat"><span>${doneN ? pct + ' %' : 'Keine Daten'}</span>${arrow(doneN >= 4 ? 1 : 0)}</div><div class="small muted">${doneN} von ${items.length} Schritten erledigt</div>`, { info: 'Check-in, Session, Trades, Regeln, Tagesnotiz.' })}
         ${U.card('% Regeln eingehalten', `<div class="big-stat"><span>${cur.rate == null ? '0 %' : fmt.pct(cur.rate)}</span>${arrow(rateDir)}</div><div class="small muted">${rules.length ? (cur.n ? `${cur.n} Tage mit Regel-Check im Zeitraum` : 'Noch keine Tage mit Regel-Check') : 'Noch keine Regeln angelegt'}</div><div class="ring-abs">${ringArc(cur.rate)}</div>`, { info: 'Anteil der abgehakten Regeln an den Handelstagen im gewählten Zeitraum.', cls: 'ring-card' })}
       </div>

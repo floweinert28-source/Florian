@@ -72,7 +72,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   im Eingabefeld des Mentors; ohne Server ein Einrichten-Hinweis). Die fünf Karten hängt eine einmalige Migration
   (`dashboardsVersion` 4) ans Ende des Standard-Dashboards; Entferntes bleibt entfernt.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).
-- **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades.
+- **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades. Auf dem Desktop füllt die Liste genau
+  das Fenster (wie das Notebook): Kacheln, Reiter und Filter oben, die Tabelle nimmt den Rest und scrollt in ihrer Box, der
+  Seitenwähler bleibt unten sichtbar; die Seite selbst scrollt nicht. Trade-Detail und Handy scrollen wie gewohnt.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
 - **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei ruhige Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-PZustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei Spalten in Skalen-Reihenfolge mit kleiner Säule an gemeinsamer Nulllinie, Betrag groß, Tage und Anteil im Plus),L, Tage und Anteil im Plus im Tooltip),
@@ -89,8 +91,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil. Die Serie hat drei Stufen (Werktage in Folge):
   ab 1 „Angefangen“ (Flamme gedämpft), ab 5 „Im Flow“ (Flamme und Zahl in Akzent mit Schein), ab 20 (≈ ein Monat) „Unaufhaltsam“ als Effekt:
   Flamme in Gold-Grün mit aufsteigenden Funken und Sternchen, Zahl mit wanderndem Schimmer, leuchtende Stufenbalken, wanderndes
-  Nordlicht und atmender Rand in der Karte (alles CSS, bei „Bewegung reduzieren“ still); drei Stufenbalken darunter, die nächste
-  Schwelle steht im Tooltip.
+  Nordlicht und atmender Rand in der Karte (alles CSS, bei „Bewegung reduzieren“ still). Die Flamme steht frei neben der Zahl
+  (kein Kasten), darunter drei Etappen-Punkte auf einer feinen Linie (1 · 5 · 20) mit Stufenwort; die nächste Schwelle und was
+  zählt (Werktage mit Trades, Check-in oder Notiz) stehen im Tooltip bzw. im Info-Punkt, kein Satz in der Karte.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in drei Designs nach Canva-Vorlagen: Navy (Lichtstreifen, Farbverlauf-Titel, Rahmenecken), Aurora (zentriert, Ergebnis in einer Farbpille, rosa-lila Lichtflecken) und Hell; mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen.
 - **Ruhepunkt**: geführte Sessions vor und nach dem Trading plus Akut-Reset (Abläufe und Texte aus `docs/ruhepunkt.html`). Jede Session wird als Eintrag mit Nutzerkennung gespeichert; „Christlicher Impuls“ ist eine gespeicherte Einstellung, umschaltbar nur in den Einstellungen (unten im Ruhepunkt steht nur noch „Hilfe und Beratung“).

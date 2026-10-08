@@ -1404,4 +1404,5 @@ I18N.add('pt', {
   "Stufe {0} ab {1} Werktagen": "Nível {0} a partir de {1} dias úteis",
   "Höchste Stufe erreicht": "Nível máximo alcançado",
   "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Fins de semana não interrompem a sequência. Três níveis: a partir de {0}, {1} e {2} dias úteis.",
+  "Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Dias úteis seguidos com trades, check-in ou nota. Fins de semana não interrompem a sequência. Três níveis: a partir de {0}, {1} e {2} dias úteis.",
 });

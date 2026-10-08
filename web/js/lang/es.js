@@ -1407,4 +1407,5 @@ I18N.add('es', {
   "Stufe {0} ab {1} Werktagen": "Nivel {0} a partir de {1} días laborables",
   "Höchste Stufe erreicht": "Nivel máximo alcanzado",
   "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Los fines de semana no interrumpen la racha. Tres niveles: a partir de {0}, {1} y {2} días laborables.",
+  "Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Días laborables seguidos con trades, check-in o nota. Los fines de semana no interrumpen la racha. Tres niveles: a partir de {0}, {1} y {2} días laborables.",
 });

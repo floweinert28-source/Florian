@@ -1454,4 +1454,5 @@ I18N.add('zh', {
   "Stufe {0} ab {1} Werktagen": "第 {0} 级：{1} 个工作日起",
   "Höchste Stufe erreicht": "已达最高级",
   "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "周末不会中断连续记录。三个等级：{0}、{1} 和 {2} 个工作日起。",
+  "Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "连续的工作日，其中有交易、签到或笔记。周末不会中断连续记录。三个等级：{0}、{1} 和 {2} 个工作日起。",
 });

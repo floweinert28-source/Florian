@@ -4,13 +4,14 @@
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt;
   const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
 
-  /* Seitenleiste in Gruppen: was ist los, was habe ich gehandelt, woran arbeite ich, welche Konten */
+  /* Seitenleiste zweistufig wie bei TradeZella: links eine schmale Leiste mit den Bereichen (nur Symbole), daneben nur die Seiten
+     des gewählten Bereichs. [id, Titel, Symbol, Seiten, unten]; Coaching steht unten in der schmalen Leiste, getrennt von den Arbeitsbereichen */
   const NAV_GROUPS = [
-    ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
-    ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
-    ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
-    ['Konten', [['prop', 'Prop Firms', 'prop']]],
-    ['Coaching', [['coach', 'Coach', 'coach']]], /* eigener Bereich ganz unten, nicht zwischen den Trainings-Werkzeugen */
+    ['overview', 'Übersicht', 'home', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
+    ['journal', 'Journal', 'edit', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
+    ['training', 'Training', 'target', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
+    ['accounts', 'Konten', 'prop', [['prop', 'Prop Firms', 'prop']]],
+    ['coaching', 'Coaching', 'coach', [['coach', 'Coach', 'coach']], true],
   ];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
@@ -26,7 +27,7 @@
   ];
 
   const App = {
-    NAV_DOT_AREAS,
+    NAV_DOT_AREAS, NAV_GROUPS,
     /* Prüfungen je Bereich: liefern einen kurzen Grund (Tooltip) oder null. Bereiche mit eigenen Daten melden sich über navDot an */
     dots: {
       trades: c => { const n = c.all.filter(t => !t.closed).length; return n ? (n === 1 ? '1 offene Position' : `${n} offene Positionen`) : null; },
@@ -36,7 +37,7 @@
     },
     navDot(key, fn) { this.dots[key] = fn; },
     TREND_LABELS, TREND_OPTIONS: [['up', 'Aufwärts'], ['down', 'Abwärts'], ['ranging', 'Seitwärts']],
-    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
+    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, navGroup: null, navLast: {}, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
     /* ---------- Daten ---------- */
     allTrades() { const acc = S.settings.accountId; return C.deriveAll(S.trades().filter(t => acc === 'all' || !acc || t.accountId === acc)); },
     /* rr: anderer Zeitraum als der gespeicherte (Vorschau im Zeitraum-Menü) */
@@ -132,6 +133,7 @@
     },
     /* Popover in seiner Box halten: ragt ein rechtsbündiges Menü links aus dem nächsten scrollenden Rahmen (z. B. der Notiz-Spalte), klappt es nach rechts auf */
     fitPopover(pop) {
+      if (pop.classList.contains('rail-pop')) { const b = pop.parentElement.querySelector('.rail-btn').getBoundingClientRect(), sb = document.getElementById('sidebar').getBoundingClientRect(); pop.style.left = `${Math.round(sb.right + 8)}px`; pop.style.top = `${Math.round(Math.min(b.top - 6, window.innerHeight - pop.offsetHeight - 12))}px`; return; } /* eingeklappt: Seiten des Bereichs rechts neben der schmalen Leiste */
       if (pop.id === 'pop-user') { const mini = document.documentElement.classList.contains('sb-mini'); const card = pop.parentElement.querySelector('.sb-user'); if (mini && card) { const r = card.getBoundingClientRect(), sb = document.getElementById('sidebar').getBoundingClientRect(); pop.style.left = `${Math.round(sb.right + 8)}px`; pop.style.bottom = `${Math.round(window.innerHeight - r.bottom)}px`; } else { pop.style.left = ''; pop.style.bottom = ''; } return; }
       if (pop.classList.contains('left') && !pop.dataset.autoLeft) return;
       pop.classList.remove('left'); delete pop.dataset.autoLeft;
@@ -168,19 +170,36 @@
       if (!a || a.route !== this.state.route) return; const hits = main.querySelectorAll(a.key); if (hits.length !== 1 || !this.inPageFlow(hits[0])) return;
       const d = Math.round(this.docTop(hits[0]) - window.scrollY - a.top); if (Math.abs(d) >= 1) window.scrollTo({ top: Math.max(0, window.scrollY + d) });
     },
+    /* Bereich einer Seite (null: Seite gehört zu keinem Bereich, z. B. Einstellungen) */
+    navGroupOf(route) { return NAV_GROUPS.find(g => g[3].some(([k]) => k === route)) || null; },
+    /* Grund für den Hinweis-Punkt einer Seite oder null (nur wenn eingeschaltet: Einstellungen → Benachrichtigungen) */
+    navWhy(key, dctx) { const nd = Object.assign({ on: true }, S.settings.navDots || {}); if (!dctx || !nd.on || nd[key] === false || !this.dots[key]) return null; try { return this.dots[key](dctx) || null; } catch (e) { console.warn(e); return null; } },
+    navDotCtx() { const nd = Object.assign({ on: true }, S.settings.navDots || {}); if (!nd.on) return null; const all = this.allTrades(); return { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) }; },
+    /* alle Hinweis-Punkte auf einmal (Seite → Grund), auch für Seiten, deren Bereich gerade nicht offen ist */
+    navDots() { const dctx = this.navDotCtx(); const out = {}; for (const g of NAV_GROUPS) for (const [k] of g[3]) { const w = this.navWhy(k, dctx); if (w) out[k] = w; } return out; },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
-      /* Hinweis-Punkte: nur wenn eingeschaltet (Einstellungen → Benachrichtigungen); Grund steht im Tooltip */
-      const nd = Object.assign({ on: true }, S.settings.navDots || {}); const all = nd.on ? this.allTrades() : null;
-      const dctx = all ? { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) } : null;
-      const dot = key => { if (!dctx || nd[key] === false || !this.dots[key]) return ''; let why = null; try { why = this.dots[key](dctx); } catch (e) { console.warn(e); } return why ? `<span class="nav-dot" role="img" title="${esc(why)}" aria-label="${esc(why)}"></span>` : ''; };
-      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
-      /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme)}`;
+      /* offener Bereich folgt der Seite; auf dem Handy kann man in der schmalen Leiste blättern, ohne die Seite zu wechseln */
+      const here = this.navGroupOf(cur); if (here) this.state.navLast[here[0]] = cur;
+      if (this._navRoute !== cur) { this._navRoute = cur; if (here) this.state.navGroup = here[0]; }
+      const open = NAV_GROUPS.find(g => g[0] === this.state.navGroup) || here || NAV_GROUPS[0];
+      const dots = this.navDots(); const dotHtml = why => why ? `<span class="nav-dot" role="img" title="${esc(why)}" aria-label="${esc(why)}"></span>` : '';
+      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dotHtml(dots[key])}</a>`;
+      /* Bereichs-Knopf: Punkt, wenn eine seiner Seiten einen hat. Eingeklappt öffnet ein Bereich mit mehreren Seiten ein kleines Menü daneben */
+      const railBtn = g => {
+        const [id, title, icon, items] = g; const tr = x => (root.I18N && root.I18N.t ? root.I18N.t(x) : x); const why = items.map(([k]) => dots[k]).filter(Boolean).map(tr).join(' · '); /* mehrere Gründe: einzeln übersetzt, dann verbunden */ const act = here && here[0] === id ? ' active' : ''; const shown = !mini && open[0] === id ? ' shown' : '';
+        const to = '#/' + (this.state.navLast[id] || items[0][0]);
+        if (mini && items.length > 1) return `<div class="popwrap rail-wrap"><button type="button" class="rail-btn${act}" data-pop="grp-${id}" data-value="${id}" aria-haspopup="menu" title="${title}" aria-label="${title}">${I[icon]}${dotHtml(why)}</button><div class="popover rail-pop" id="pop-grp-${id}" role="menu"><div class="sec">${title}</div>${items.map(([key, label, ic]) => `<a class="item${cur === key ? ' on' : ''}" role="menuitem" href="#/${key}" data-action="nav-close">${I[ic]}<span>${label}</span>${dotHtml(dots[key])}</a>`).join('')}</div></div>`;
+        return `<a href="${to}" class="rail-btn${act}${shown}" data-action="nav-group" data-value="${id}" title="${title}" aria-label="${title}"${act ? ' aria-current="true"' : ''}>${I[icon]}${dotHtml(why)}</a>`;
+      };
+      const toggle = desk ? `<button type="button" class="rail-btn sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="rail-btn sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`;
+      const rail = `<div class="sb-rail">${mini ? `<span class="rail-mark">${I.logo}</span>` : ''}${toggle}<nav class="rail-nav" aria-label="Bereiche">${NAV_GROUPS.filter(g => !g[4]).map(railBtn).join('')}</nav><div class="spacer"></div><nav class="rail-nav rail-foot" aria-label="Coaching">${NAV_GROUPS.filter(g => g[4]).map(railBtn).join('')}</nav>${mini ? this.userCard(theme) : ''}</div>`;
+      const panel = mini ? '' : `<div class="sb-panel"><div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span></div><hr class="sb-sep"><nav class="nav nav-group" aria-label="${open[1]}"><div class="nav-title">${open[1]}</div>${open[3].map(item).join('')}</nav><div class="spacer"></div>${this.userCard(theme)}</div>`;
+      sb.innerHTML = rail + panel;
       this.loadBlobImages(sb);
-      const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
-      document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
+      const isOpen = this.state.sidebarOpen; sb.classList.toggle('open', isOpen); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', isOpen);
+      document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(isOpen)));
     },
     /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Einstellungen,
        Benachrichtigungen, Sprache und Hell/Dunkel. Ersetzt den früheren Einstellungen-Eintrag und den Hell/Dunkel-Schalter */
@@ -272,6 +291,14 @@
     'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.sidebarMini = !S.settings.sidebarMini; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
+    /* Bereich in der schmalen Leiste: Desktop springt zur zuletzt besuchten Seite des Bereichs; auf dem Handy zeigt er nur dessen Seiten (eine Seite: direkt hin) */
+    'nav-group'(el) {
+      const g = NAV_GROUPS.find(x => x[0] === el.dataset.value); if (!g) return; this.closePopovers(); this.state.navGroup = g[0];
+      const to = '#/' + (this.state.navLast[g[0]] || g[3][0][0]); const desk = window.matchMedia('(min-width: 961px)').matches;
+      if (!desk && g[3].length > 1) { this.renderSidebar(); return; }
+      if (this.state.sidebarOpen) this.state.sidebarOpen = false;
+      if (location.hash !== to) location.hash = to; else this.renderSidebar();
+    },
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     /* Erscheinungsbild in den Einstellungen: Graphit oder Schwarz (beide dunkel) oder Weiß (hell); der Schalter im Konto-Menü wechselt nur Dunkel/Hell und behält die dunkle Variante */
     appearance(el) { const v = el.dataset.value; if (v !== 'light') S.setSetting('darkStyle', v === 'schwarz' ? 'schwarz' : 'graphit'); this.actions.theme.call(this, { dataset: { value: v === 'light' ? 'light' : 'dark' } }); },

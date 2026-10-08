@@ -36,10 +36,14 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: unter dem Logo „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung).
-  Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
-  Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
-  ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
+- **Seitenleiste** zweistufig wie bei TradeZella: ganz links eine schmale Leiste nur mit Symbolen für die Bereiche
+  Übersicht, Journal, Training und Konten, unten abgesetzt Coaching (Coach); daneben stehen nur die Seiten des gewählten
+  Bereichs, darüber das Logo mit „Trading Journal App“ (keine Begrüßung). Ein Klick auf einen Bereich öffnet dessen zuletzt
+  besuchte Seite; auf dem Handy zeigt er nur dessen Seiten. Hinweis-Punkte erscheinen an der Seite und an ihrem Bereich.
+  Eingeklappt bleibt nur die schmale Leiste; ein Bereich mit mehreren Seiten öffnet sie dann als kleines Menü daneben.
+  Auf niedrigen Bildschirmen etwas dichter.
+  Aktive Seite (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand, links leicht grün.
+  Aktiver Bereich in der schmalen Leiste: hinterlegt, mit schmalem, leicht leuchtendem Balken links am Rand.
   **Hinweis-Punkte** (kleiner runder Punkt, farblich wie der Lichtbalken am aktiven Eintrag) neben Bereichen, in denen etwas wartet (Grund im Tooltip): Dashboard (neuer Recap), TradeLog (offene
   Positionen), Tagesansicht (Check-in fehlt, Mo–Fr), Notebook (heute gehandelt, keine Tagesnotiz), Fortschritt (heute gehandelt,
   Regeln nicht abgehakt), Prop Firms (aktives Konto auf Rot oder verletzt). Ein- und ausschalten, gesamt oder je Bereich, unter
@@ -93,7 +97,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
-- **Coach Mode** (Seitenleiste → Coaching → Coach, ganz unten): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
+- **Coach Mode** (schmale Leiste links, Symbol ganz unten): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
   Schüler und schreibt Feedback direkt an den Eintrag. Gruppe mit einseitiger Sicht: der Mentor sieht alle Schüler, jeder
   Schüler nur sich selbst. Der Mentor erstellt eine Gruppe und kopiert den Einladungslink (`#/coach/join/<token>`); der
   Schüler sieht vor dem Beitritt die Sichtbarkeits-Liste (Journal-Einträge, Kurz-Stats, Mentor-Notizen, Bilder: ja;

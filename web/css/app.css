@@ -45,7 +45,7 @@
   --dur-1: 150ms; --dur-2: 240ms; --dur-3: 380ms;
   --ease: cubic-bezier(.2, .8, .2, 1); --ease-in: cubic-bezier(.4, 0, 1, 1);
   --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .7);
-  --sidebar-w: 232px;
+  --rail-w: 60px; --panel-w: 216px; --sidebar-w: calc(var(--rail-w) + var(--panel-w)); /* schmale Bereichs-Leiste + Seiten */
   --topbar-h: 72px;
   --page-head-h: 64px; /* Kopfreihe unter dem Titel samt Abstand (pageHead in app.js) */
   --gutter: 24px;
@@ -110,10 +110,32 @@ svg { display: block; }
 
 /* ---------- App-Rahmen ---------- */
 .shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100%; }
-.sidebar {
-  position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 4px;
-  padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
-}
+.sidebar { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; background: var(--bg-2); border-right: 1px solid var(--border); overflow: hidden; }
+/* links die schmale Leiste mit den Bereichen (wie bei TradeZella), etwas dunkler; Coaching unten */
+.sb-rail { flex: 0 0 var(--rail-w); width: var(--rail-w); display: flex; flex-direction: column; align-items: center; padding: 25px 0 18px; background: var(--bg); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.rail-nav { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.sb-rail .sb-toggle + .rail-nav { margin-top: 26px; }
+.rail-btn { position: relative; flex: 0 0 auto; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; border: 0; background: none; color: var(--muted); cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease); }
+.rail-btn svg { width: 20px; height: 20px; }
+.rail-btn:hover { background: var(--surface-2); color: var(--text); }
+.rail-btn:active { transform: scale(.94); }
+.rail-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rail-btn.shown { color: var(--text-2); background: var(--surface); } /* Handy: Seiten dieses Bereichs offen, Seite selbst woanders */
+.rail-btn.active { color: var(--text); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border-2); }
+.rail-btn.active::after { content: ''; position: absolute; left: -10px; top: 50%; width: 3px; height: 16px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
+.rail-btn .nav-dot { position: absolute; top: 7px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
+.rail-mark { width: 24px; height: 24px; display: grid; place-items: center; color: var(--text); margin-bottom: 12px; }
+.rail-mark svg { width: 20px; height: 20px; }
+.sb-rail .sb-userwrap { width: 100%; padding: 0 8px; }
+/* daneben nur die Seiten des gewählten Bereichs */
+.sb-panel { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 22px 14px 18px; overflow-y: auto; overflow-x: hidden; }
+.sb-panel .nav a.active::after { display: none; } /* der Lichtbalken sitzt am Bereich in der schmalen Leiste */
+/* eingeklappt: Seiten eines Bereichs als kleines Menü rechts neben der Leiste (Position setzt App.fitPopover) */
+.popover.rail-pop { position: fixed; top: 0; left: 0; right: auto; z-index: 70; min-width: 200px; }
+.popover.rail-pop.open { transform-origin: top left; }
+.rail-pop .item { color: var(--text-2); font-size: 13.5px; } .rail-pop .item:hover { color: var(--text); }
+.rail-pop .item.on { color: var(--text); background: var(--surface-2); font-weight: 600; }
+.rail-pop .item .nav-dot { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
 .brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 18px 8px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
 .brand .mark { width: 16px; height: 16px; display: grid; place-items: center; color: var(--text); flex: 0 0 auto; }
 .brand .mark svg { width: 12px; height: 12px; } /* so hoch wie die Großbuchstaben von JOURNALYST */
@@ -135,17 +157,12 @@ svg { display: block; }
   .nav a, .nav button { padding-top: 5px; padding-bottom: 5px; }
   .nav.nav-group + .nav.nav-group { margin-top: 12px; }
 }
-html.sb-mini .brand .brand-text { display: none; }
 .brand em { font-style: normal; color: inherit; }
-.brand .sb-toggle { margin-left: auto; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
-.brand .sb-toggle svg { width: 18px; height: 18px; }
-.brand .sb-toggle:hover { background: var(--surface-2); color: var(--text); }
 .sidebar hr { border: 0; border-top: 1px solid var(--border); margin: 8px 6px; }
 .nav { display: flex; flex-direction: column; gap: 3px; }
 .nav.nav-sec { margin-top: 12px; }
 .nav.nav-group + .nav.nav-group { margin-top: 26px; }
 .nav-title { padding: 0 16px 8px; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
-html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 1px; background: var(--border); }
 .nav a, .nav button {
   position: relative; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border-radius: 12px; border: 1px solid transparent; background: none;
   color: var(--text-2); font-weight: 500; font-size: 14.5px; cursor: pointer; text-align: left; width: 100%; white-space: nowrap; overflow: hidden;
@@ -173,20 +190,11 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a.active:hover { transform: none; }
 /* Hinweis-Punkt: kleiner runder Punkt rechts im Eintrag, farblich wie der Lichtbalken am aktiven Eintrag (gleiches Grün, gedämpft, leichtes Leuchten); eingeklappt oben rechts am Knopf */
 .nav .nav-dot { margin-left: auto; margin-right: 12px; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
-html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 4px; right: 4px; margin: 0; }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
 
-/* ---------- Seitenleiste eingeklappt (nur Symbole), Desktop ---------- */
-html.sb-mini .shell { grid-template-columns: 80px minmax(0, 1fr); }
-html.sb-mini .sidebar { padding-left: 10px; padding-right: 10px; }
-html.sb-mini .brand { flex-direction: column; gap: 8px; padding: 0 0 18px; align-items: center; }
-html.sb-mini .brand .name { display: none; }
-html.sb-mini .brand .mark { width: 24px; height: 24px; } html.sb-mini .brand .mark svg { width: 20px; height: 20px; } /* ohne Schriftzug etwas größer */
-html.sb-mini .brand .sb-toggle { margin-left: 0; }
-html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: quadratische Knöpfe */
-html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
-html.sb-mini .nav a.active::after { left: -18px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf, Balken 2px vom Rand */
+/* ---------- Seitenleiste eingeklappt: nur die schmale Leiste, Desktop ---------- */
+html.sb-mini .shell { grid-template-columns: var(--rail-w) minmax(0, 1fr); }
 /* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */
 .theme-toggle { position: relative; isolation: isolate; align-self: flex-start; display: inline-flex; align-items: center; padding: 2px; margin: 10px 16px 0; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
 .theme-toggle::before { content: ''; position: absolute; z-index: -1; top: 2px; left: 2px; width: 26px; height: 22px; border-radius: 999px; background: var(--surface-3); box-shadow: 0 1px 2px rgba(0, 0, 0, .28); transition: transform var(--dur-2) var(--ease); }
@@ -749,7 +757,7 @@ span.info:hover { color: var(--accent); }
 /* ---------- Responsiv ---------- */
 @media (max-width: 960px) {
   .shell { grid-template-columns: 1fr; }
-  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(280px, 86vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: var(--shadow); }
+  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(var(--sidebar-w), 92vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: var(--shadow); }
   .sidebar.open { transform: none; }
   .scrim { display: block; position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, .55); opacity: 0; pointer-events: none; transition: opacity var(--dur-2) var(--ease); }
   .scrim.show { opacity: 1; pointer-events: auto; }

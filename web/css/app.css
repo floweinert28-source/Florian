@@ -482,35 +482,12 @@ span.info:hover { color: var(--accent); }
 .wl-bars .track { height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
 .wl-bars .track i { display: block; height: 100%; border-radius: 4px; }
 
-/* Gesamt-Score als Instrument: offener Ring mit Skala, leuchtendes Ende, Zahl in der Mitte; darunter die sechs Bereiche ruhig in zwei Spalten.
-   --c = Farbe der Stufe (rot/gelb/grün); Spur und Glanz sind Töne derselben Farbe */
-.scg { position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
-.scg-dial { position: relative; width: min(100%, 222px); margin: -6px auto 0; }
-.scg-dial::before { content: ''; position: absolute; left: 50%; top: 52%; width: 64%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--c) 16%, transparent) 0%, transparent 68%); pointer-events: none; }
-.scg-svg { position: relative; display: block; width: 100%; height: auto; overflow: visible; }
-.scg-ticks line { stroke: var(--border-2); stroke-width: 1.4; stroke-linecap: round; }
-.scg-ticks line.mj { stroke: var(--faint); stroke-width: 1.8; }
-.scg-ticks line.on { stroke: color-mix(in srgb, var(--c) 55%, var(--border-2)); }
-.scg-track { fill: none; stroke: color-mix(in srgb, var(--c) 12%, var(--surface-3)); stroke-width: 10; stroke-linecap: round; }
-.scg-fill { fill: none; stroke-width: 10; stroke-linecap: round; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--c) 45%, transparent)); }
-.scg-knob { fill: var(--surface); stroke: var(--c); stroke-width: 3.5; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--c) 70%, transparent)); }
-.scg-mid { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-46%); display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
-.scg-mid b { font-family: var(--font-display); font-size: 54px; font-weight: 700; line-height: .9; letter-spacing: -.02em; color: var(--text); }
-.scg-mid span { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); }
-.scg-fill.anim { animation: scg-draw 1.2s cubic-bezier(.2, .8, .2, 1) both; }
-.scg-knob.anim { animation: scg-fade .4s ease-out .95s both; }
-.scg-mid.anim { animation: scg-rise .7s cubic-bezier(.2, .8, .2, 1) .15s both; }
-@keyframes scg-draw { from { stroke-dasharray: 0 100; } }
-@keyframes scg-fade { from { opacity: 0; transform: scale(.4); } }
-@keyframes scg-rise { from { opacity: 0; transform: translateY(-30%); } }
-.scg-knob.anim { transform-box: fill-box; transform-origin: center; }
-.scg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px; padding-top: 13px; border-top: 1px solid var(--border); }
-.scg-cell { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 7px 8px; }
-.scg-cell > span { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.scg-cell > b { font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
-.scg-cell > i { grid-column: 1 / -1; display: block; height: 3px; border-radius: 2px; background: var(--surface-3); overflow: hidden; }
-.scg-cell > i > i { display: block; height: 100%; border-radius: 2px; background: color-mix(in srgb, var(--text) 55%, transparent); transition: background var(--dur-1) var(--ease); }
-.scg-cell:hover > i > i { background: var(--c); }
+/* Score-Karte */
+.score-wrap { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: center; }
+.score-scale { position: relative; height: 26px; margin: 8px 6px 0; }
+.score-scale .track { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--loss), var(--warn), var(--accent)); opacity: .55; }
+.score-scale .knob { position: absolute; top: 3px; width: 20px; height: 20px; border-radius: 999px; background: var(--accent); border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--accent); transform: translateX(-50%); }
+.score-scale .lbls { position: absolute; left: 0; right: 0; top: 22px; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
 .score-big { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
 
 /* Farbwahl */

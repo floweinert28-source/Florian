@@ -310,21 +310,32 @@
     const arcs = segments.map(s => { const f = Math.max(s.v, 0) / total; const len = Math.max(f * c - 2, 0); const e = `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-acc * c + 1}"/>`; acc += f; return e; }).join('');
     return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/>${arcs}</svg>${center ? `<div class="n" style="font-size:${size * 0.22}px">${center}</div>` : ''}</div>`;
   }
-  /* Gesamt-Score als Instrument: ein offener Ring (270°) mit feinen Skalenstrichen, der sich bis zum Score füllt und am Ende
-     leuchtet; in der Mitte die Zahl und ein Wort (Stark / Solide / Ausbaufähig). Farbe nach Stufe (rot < 50, gelb < 75, grün),
-     die Spur ist ein heller Ton derselben Farbe. Darunter die sechs Bereiche ruhig in zwei Spalten mit Zahl und feiner Linie.
-     Der Ring zeichnet sich nur, wenn sich der Score geändert hat (nicht bei jedem Neuaufbau) */
-  let scoreShown = null;
-  function scoreBars(sc) {
-    const v = Math.max(0, Math.min(100, sc.overall)); const anim = scoreShown !== v; scoreShown = v;
-    const col = v < 50 ? 'var(--loss)' : v < 75 ? 'var(--warn)' : 'var(--accent)'; const word = v < 50 ? 'Ausbaufähig' : v < 75 ? 'Solide' : 'Stark';
-    const cx = 110, cy = 104, r = 86, a0 = 135, sweep = 270; const P = (deg, rr) => { const t = deg * Math.PI / 180; return [+(cx + rr * Math.cos(t)).toFixed(2), +(cy + rr * Math.sin(t)).toFixed(2)]; };
-    const [sx, sy] = P(a0, r), [ex, ey] = P(a0 + sweep, r); const arc = `M${sx} ${sy} A${r} ${r} 0 1 1 ${ex} ${ey}`;
-    const ticks = Array.from({ length: 21 }, (_, i) => { const deg = a0 + sweep * i / 20, major = i % 5 === 0; const [x1, y1] = P(deg, r - 15), [x2, y2] = P(deg, r - (major ? 22 : 18)); return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${major ? 'mj' : ''}${i / 20 * 100 <= v ? ' on' : ''}"/>`; }).join('');
-    const [kx, ky] = P(a0 + sweep * v / 100, r); const gid = 'scg' + Math.random().toString(36).slice(2, 8);
-    const gauge = `<svg class="scg-svg" viewBox="0 0 220 178" aria-hidden="true"><defs><linearGradient id="${gid}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="${col}" stop-opacity=".35"/><stop offset="1" stop-color="${col}"/></linearGradient></defs><g class="scg-ticks">${ticks}</g><path d="${arc}" class="scg-track" pathLength="100"/><path d="${arc}" class="scg-fill${anim ? ' anim' : ''}" pathLength="100" stroke="url(#${gid})" stroke-dasharray="${v} 100"/>${v > 0 ? `<circle class="scg-knob${anim ? ' anim' : ''}" cx="${kx}" cy="${ky}" r="5.5"/>` : ''}</svg>`;
-    const cells = sc.axes.map(a => { const n = Math.round(a.score * 100); return `<div class="scg-cell" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${n}"><span>${esc(a.label)}</span><b class="num">${n}</b><i><i style="width:${n}%"></i></i></div>`; }).join('');
-    return `<div class="scg" style="--c:${col}"><div class="scg-dial">${gauge}<div class="scg-mid${anim ? ' anim' : ''}"><b class="num">${v}</b><span>${word}</span></div></div><div class="scg-grid">${cells}</div></div>`;
+  function radar(axes, size = 240) {
+    const pad = 64; const c = size / 2, r = size / 2 - 34, n = axes.length; const pt = (i, f) => { const a = -Math.PI / 2 + i / n * 2 * Math.PI; return [c + Math.cos(a) * r * f, c + Math.sin(a) * r * f]; };
+    const ringP = f => `<polygon points="${axes.map((_, i) => pt(i, f).join(',')).join(' ')}" fill="none" stroke="var(--border-2)"/>`;
+    const spokes = axes.map((_, i) => `<line x1="${c}" y1="${c}" x2="${pt(i, 1)[0]}" y2="${pt(i, 1)[1]}" stroke="var(--border)"/>`).join('');
+    const area = axes.map((a, i) => pt(i, Math.max(a.score, 0.03)).join(',')).join(' ');
+    /* Ecken ohne sichtbare Punkte: unsichtbare Trefferflächen behalten den Tooltip */
+    const dots = axes.map((a, i) => { const [x, y] = pt(i, Math.max(a.score, 0.03)); return `<circle cx="${x}" cy="${y}" r="10" fill="transparent" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}"/>`; }).join('');
+    const labels = axes.map((a, i) => { const [x, y] = pt(i, 1.22); const anchor = Math.abs(x - c) < 4 ? 'middle' : x < c ? 'end' : 'start'; return `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" style="font-size:11px;fill:var(--text-2);font-weight:600">${esc(a.label)}</text>`; }).join('');
+    if (typeof requestAnimationFrame !== 'undefined' && !radar.pending) { radar.pending = true; requestAnimationFrame(() => { radar.pending = false; fitRadars(); }); }
+    return `<svg class="radar-svg" data-c="${c}" viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+  }
+  /* Beschriftungen können nach der Übersetzung länger sein: Sichtbereich symmetrisch so weit öffnen, dass nichts abgeschnitten wird */
+  function fitRadars() {
+    document.querySelectorAll('svg.radar-svg').forEach(svg => {
+      /* lange Beschriftungen auf zwei Zeilen verteilen (Trennung am Leerzeichen nahe der Mitte) */
+      svg.querySelectorAll('text').forEach(t => {
+        const s = t.textContent; if (t.firstElementChild || s.length <= 13 || s.indexOf(' ') < 0) return;
+        let cut = -1; for (let i = 0; i < s.length; i++) if (s[i] === ' ' && (cut < 0 || Math.abs(i - s.length / 2) < Math.abs(cut - s.length / 2))) cut = i;
+        const x = t.getAttribute('x'); t.textContent = '';
+        [[s.slice(0, cut), '-0.5em'], [s.slice(cut + 1), '1.1em']].forEach(([txt, dy]) => { const sp = document.createElementNS('http://www.w3.org/2000/svg', 'tspan'); sp.setAttribute('x', x); sp.setAttribute('dy', dy); sp.textContent = txt; t.appendChild(sp); });
+      });
+      let bb; try { bb = svg.getBBox(); } catch (e) { return; } if (!bb.width) return;
+      const vb = svg.viewBox.baseVal; const c = +svg.dataset.c; const left = Math.min(vb.x, bb.x - 4), right = Math.max(vb.x + vb.width, bb.x + bb.width + 4);
+      const half = Math.max(c - left, right - c); if (half * 2 <= vb.width + 0.5) return;
+      svg.setAttribute('viewBox', `${c - half} ${vb.y} ${half * 2} ${vb.height}`); svg.style.maxWidth = Math.round(half * 2) + 'px';
+    });
   }
 
 
@@ -385,5 +396,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, scoreBars, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
 })(typeof self !== 'undefined' ? self : this);

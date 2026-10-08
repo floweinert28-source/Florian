@@ -1397,9 +1397,4 @@ I18N.add('pt', {
   "{0} neue Aufgaben": "{0} novas tarefas",
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Seu mentor deu uma nova tarefa a você.",
   "deinem Mentor": "seu mentor",
-  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als leuchtender Ring mit den sechs Bereichen darunter.": "Pontuação de {0} a {1} com base em taxa de acerto, fator de lucro, relação ganho/perda, drawdown e consistência, como anel luminoso com as seis áreas abaixo.",
-  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert. Unter {2} Ausbaufähig, ab {3} Solide, ab {4} Stark.": "Seis áreas de {0} a {1}: taxa de acerto, fator de lucro, relação ganho/perda, consistência, cumprimento das regras e drawdown. O score é a média. Abaixo de {2} A melhorar, a partir de {3} Sólido, a partir de {4} Forte.",
-  "Stark": "Forte",
-  "Solide": "Sólido",
-  "Ausbaufähig": "A melhorar",
 });

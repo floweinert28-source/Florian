@@ -1357,9 +1357,4 @@ I18N.add('en', {
   "{0} neue Aufgaben": "{0} new tasks",
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Your mentor has given you a new task.",
   "deinem Mentor": "your mentor",
-  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als leuchtender Ring mit den sechs Bereichen darunter.": "Score from {0} to {1} based on win rate, profit factor, win/loss ratio, drawdown and consistency, shown as a glowing ring with the six areas below.",
-  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert. Unter {2} Ausbaufähig, ab {3} Solide, ab {4} Stark.": "Six areas from {0} to {1}: win rate, profit factor, win/loss ratio, consistency, rule adherence and drawdown. The score is the average. Below {2} Room to grow, from {3} Solid, from {4} Strong.",
-  "Stark": "Strong",
-  "Solide": "Solid",
-  "Ausbaufähig": "Room to grow",
 });

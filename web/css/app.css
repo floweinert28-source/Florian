@@ -1061,8 +1061,9 @@ span.info:hover { color: var(--accent); }
 .dstreak-flame .fi { fill: var(--surface); fill-opacity: .55; } /* Kern etwas dunkler, wie ausgespart */
 .dstreak.s2 .dstreak-flame .fi, .dstreak.s3 .dstreak-flame .fi { fill: #fff; fill-opacity: .6; } /* ab Stufe 2 heller Kern */
 .dstreak.s0 .big-stat > span:first-child { color: var(--muted); }
-.dstreak.s1 .dstreak-flame { color: var(--text-2); }
-.dstreak.s2 .dstreak-flame { color: var(--accent); animation: streak-pulse 2.6s ease-in-out infinite; }
+.dstreak.s1 .dstreak-flame { color: var(--text-2); animation: streak-flicker-soft 2.4s ease-in-out infinite; } /* ab Tag 1: ganz leichtes Flackern */
+.dstreak.s2 .dstreak-flame { color: var(--accent); animation: streak-flicker-soft 2s ease-in-out infinite, streak-pulse 2.6s ease-in-out infinite; }
+@keyframes streak-flicker-soft { 0%, 100% { transform: scale(1) rotate(0); } 35% { transform: scale(1.025) rotate(-1deg); } 70% { transform: scale(1.015) rotate(.8deg); } }
 .dstreak.s2 .big-stat > span:first-child { color: var(--accent); }
 @keyframes streak-pulse { 0%, 100% { filter: drop-shadow(0 0 6px var(--accent-soft)); } 50% { filter: drop-shadow(0 0 14px var(--accent-glow)); } }
 /* Stufe 3 */

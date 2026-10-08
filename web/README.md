@@ -89,7 +89,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   (30 Tage), Teilen per Link, Export/Import, Autosave. Notizen zu Handelstagen und Trades zeigen
   Netto-P&L und eine aufklappbare Statistik.
 - **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil. Die Serie hat drei Stufen (Werktage in Folge):
-  ab 1 „Angefangen“ (Flamme gedämpft), ab 5 „Im Flow“ (Flamme und Zahl in Akzent mit Schein), ab 20 (≈ ein Monat) „Unaufhaltsam“ als Effekt:
+  ab 1 „Angefangen“ (Flamme gedämpft, ganz leichtes Flackern), ab 5 „Im Flow“ (Flamme und Zahl in Akzent mit Schein, leichtes Flackern), ab 20 (≈ ein Monat) „Unaufhaltsam“ als Effekt:
   Flamme in Gold-Grün mit aufsteigenden Funken und Sternchen, Zahl mit wanderndem Schimmer, leuchtende Stufenbalken, wanderndes
   Nordlicht und atmender Rand in der Karte (alles CSS, bei „Bewegung reduzieren“ still). Die Flamme steht frei neben der Zahl
   (kein Kasten), darunter drei Etappen-Punkte auf einer feinen Linie (1 · 5 · 20) mit Stufenwort; die nächste Schwelle und was

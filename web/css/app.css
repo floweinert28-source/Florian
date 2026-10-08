@@ -45,7 +45,7 @@
   --dur-1: 150ms; --dur-2: 240ms; --dur-3: 380ms;
   --ease: cubic-bezier(.2, .8, .2, 1); --ease-in: cubic-bezier(.4, 0, 1, 1);
   --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .7);
-  --rail-w: 56px; --panel-w: 232px; --sidebar-w: calc(var(--rail-w) + var(--panel-w)); /* schmale Coach-Leiste + Navigation */
+  --sidebar-w: 232px;
   --topbar-h: 72px;
   --page-head-h: 64px; /* Kopfreihe unter dem Titel samt Abstand (pageHead in app.js) */
   --gutter: 24px;
@@ -110,19 +110,10 @@ svg { display: block; }
 
 /* ---------- App-Rahmen ---------- */
 .shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100%; }
-.sidebar { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; background: var(--bg-2); border-right: 1px solid var(--border); overflow: hidden; }
-/* ganz links eine schmale, etwas dunklere Leiste nur für Coach (wie bei TradeZella); daneben die Navigation wie gewohnt */
-.sb-rail { flex: 0 0 var(--rail-w); width: var(--rail-w); display: flex; flex-direction: column; align-items: center; padding: 25px 0 18px; background: var(--bg); border-right: 1px solid var(--border); overflow: hidden; }
-.rail-nav { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.rail-btn { position: relative; flex: 0 0 auto; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; color: var(--muted); transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease); }
-.rail-btn svg { width: 20px; height: 20px; }
-.rail-btn:hover { background: var(--surface-2); color: var(--text); }
-.rail-btn:active { transform: scale(.94); }
-.rail-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.rail-btn.active { color: var(--text); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border-2); }
-.rail-btn.active::after { content: ''; position: absolute; left: -8px; top: 50%; width: 3px; height: 16px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
-.rail-btn .nav-dot { position: absolute; top: 7px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
-.sb-panel { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 22px 14px 18px; overflow-y: auto; overflow-x: hidden; }
+.sidebar {
+  position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 4px;
+  padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
+}
 .brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 18px 8px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
 .brand .mark { width: 16px; height: 16px; display: grid; place-items: center; color: var(--text); flex: 0 0 auto; }
 .brand .mark svg { width: 12px; height: 12px; } /* so hoch wie die Großbuchstaben von JOURNALYST */
@@ -187,8 +178,8 @@ html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 4px; right
 .sidebar .spacer { flex: 1; }
 
 /* ---------- Seitenleiste eingeklappt (nur Symbole), Desktop ---------- */
-html.sb-mini .shell { grid-template-columns: calc(var(--rail-w) + 80px) minmax(0, 1fr); }
-html.sb-mini .sb-panel { padding-left: 10px; padding-right: 10px; }
+html.sb-mini .shell { grid-template-columns: 80px minmax(0, 1fr); }
+html.sb-mini .sidebar { padding-left: 10px; padding-right: 10px; }
 html.sb-mini .brand { flex-direction: column; gap: 8px; padding: 0 0 18px; align-items: center; }
 html.sb-mini .brand .name { display: none; }
 html.sb-mini .brand .mark { width: 24px; height: 24px; } html.sb-mini .brand .mark svg { width: 20px; height: 20px; } /* ohne Schriftzug etwas größer */
@@ -230,6 +221,9 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .sb-user:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .sb-av { width: 36px; height: 36px; flex: 0 0 auto; border-radius: 999px; overflow: hidden; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 12.5px; color: var(--accent-ink); background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
 .sb-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Hinweis-Punkt am Profilbild, wenn bei Coach etwas wartet (Coach steht im Konto-Menü) */
+.sb-avwrap { position: relative; flex: 0 0 auto; display: grid; }
+.sb-av-dot { position: absolute; top: -1px; right: -1px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--surface), 0 0 6px var(--accent-soft); }
 .sb-who { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1 1 auto; }
 .sb-who b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sb-who span { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -239,6 +233,8 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .popover.up.open { transform-origin: bottom center; }
 .sb-menu { padding: 6px; }
 .sb-menu .item { font-size: 13.5px; color: var(--text-2); } .sb-menu .item:hover { color: var(--text); }
+.sb-menu .item.on { color: var(--text); background: var(--surface-2); }
+.sb-menu .item .nav-dot { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
 .sb-menu-sep { height: 1px; background: var(--border); margin: 6px 4px; }
 .sb-menu-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 6px 4px 12px; font-size: 13.5px; color: var(--text-2); }
 .sb-menu .theme-toggle, html.sb-mini .sb-menu .theme-toggle { margin: 0; flex-direction: row; align-self: auto; }
@@ -453,7 +449,7 @@ span.info:hover { color: var(--accent); }
 /* der Halbkreis hat oben Luft im SVG (Strichbreite), die Pillen hängen unten: sichtbare Mitte auf die Ziffern-Mitte ziehen */
 .tile.side .gauge-stack { transform: translateY(-3.5px); }
 /* enge Kacheln: erst der Abstand zum Rand weg, dann kompaktere Zähler, damit nichts in den Wert ragt */
-@container (max-width: 170px) { .tile.side .gauge { margin-right: 0; } } /* erst sehr schmal an den Rand; mit der Coach-Leiste links sind die Kacheln bei 1440px gut 172px breit */
+@container (max-width: 178px) { .tile.side .gauge { margin-right: 0; } }
 @container (max-width: 164px) { .tile .val { font-size: 22px; } .tile.side .gauge-stack .pill { padding: 1px 5px; font-size: 10.5px; } .tile.side .gauge-stack .pills { gap: 3px; } }
 @container (max-width: 150px) { .tile.side .gauge-stack .pills { display: none; } .tile.side .gauge-stack { transform: none; } .tile.side .gauge-stack svg { width: 54px; } }
 .tile.wide .gauge { flex: 1 1 100px; min-width: 0; }
@@ -758,7 +754,7 @@ span.info:hover { color: var(--accent); }
 /* ---------- Responsiv ---------- */
 @media (max-width: 960px) {
   .shell { grid-template-columns: 1fr; }
-  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(var(--sidebar-w), 92vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: var(--shadow); }
+  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(280px, 86vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: var(--shadow); }
   .sidebar.open { transform: none; }
   .scrim { display: block; position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, .55); opacity: 0; pointer-events: none; transition: opacity var(--dur-2) var(--ease); }
   .scrim.show { opacity: 1; pointer-events: auto; }

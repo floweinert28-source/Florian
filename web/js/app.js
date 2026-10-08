@@ -10,9 +10,7 @@
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
     ['Konten', [['prop', 'Prop Firms', 'prop']]],
-  ];
-  /* Coach (Mentor-Modus) steht allein in einer schmalen Leiste ganz links, getrennt von der übrigen Navigation (wie bei TradeZella) */
-  const RAIL_ITEMS = [['coach', 'Coach', 'coach']];
+  ]; /* Coach steht nicht in der Navigation, sondern im Konto-Menü unten (userCard) */
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
@@ -169,41 +167,38 @@
       if (!a || a.route !== this.state.route) return; const hits = main.querySelectorAll(a.key); if (hits.length !== 1 || !this.inPageFlow(hits[0])) return;
       const d = Math.round(this.docTop(hits[0]) - window.scrollY - a.top); if (Math.abs(d) >= 1) window.scrollTo({ top: Math.max(0, window.scrollY + d) });
     },
-    /* alle Hinweis-Punkte auf einmal (Seite → Grund); nur wenn eingeschaltet (Einstellungen → Benachrichtigungen) */
-    navDots() {
-      const nd = Object.assign({ on: true }, S.settings.navDots || {}); if (!nd.on) return {};
-      const all = this.allTrades(); const dctx = { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) }; const out = {};
-      for (const [key] of NAV_GROUPS.flatMap(g => g[1]).concat(RAIL_ITEMS)) { if (nd[key] === false || !this.dots[key]) continue; try { const why = this.dots[key](dctx); if (why) out[key] = why; } catch (e) { console.warn(e); } }
-      return out;
-    },
     renderSidebar() {
       const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
       /* Hinweis-Punkte: nur wenn eingeschaltet (Einstellungen → Benachrichtigungen); Grund steht im Tooltip */
-      const dots = this.navDots(); const dot = key => dots[key] ? `<span class="nav-dot" role="img" title="${esc(dots[key])}" aria-label="${esc(dots[key])}"></span>` : '';
+      const nd = Object.assign({ on: true }, S.settings.navDots || {}); const all = nd.on ? this.allTrades() : null;
+      const dctx = all ? { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) } : null;
+      const why = key => { if (!dctx || nd[key] === false || !this.dots[key]) return null; try { return this.dots[key](dctx) || null; } catch (e) { console.warn(e); return null; } };
+      const dot = key => { const w = why(key); return w ? `<span class="nav-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}"></span>` : ''; };
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
-      const railItem = ([key, label, icon]) => `<a href="#/${key}" class="rail-btn${cur === key ? ' active' : ''}" title="${label}" aria-label="${label}" data-action="nav-close"${cur === key ? ' aria-current="page"' : ''}>${I[icon]}${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
-      sb.innerHTML = `<div class="sb-rail"><nav class="rail-nav" aria-label="Coach">${RAIL_ITEMS.map(railItem).join('')}</nav></div><div class="sb-panel"><div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme)}</div>`;
+      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
     },
-    /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Einstellungen,
-       Benachrichtigungen, Sprache und Hell/Dunkel. Ersetzt den früheren Einstellungen-Eintrag und den Hell/Dunkel-Schalter */
-    userCard(theme) {
+    /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Coach, Einstellungen,
+       Benachrichtigungen, Sprache und Hell/Dunkel. Ersetzt den früheren Einstellungen-Eintrag und den Hell/Dunkel-Schalter.
+       coachWhy: Grund für den Hinweis-Punkt bei Coach (neue Aufgabe) – dann auch ein Punkt am Profilbild */
+    userCard(theme, coachWhy) {
       const st = S.settings, pr = st.profile || {}; const cur = this.state.route;
       const full = [pr.firstName, pr.lastName].map(x => String(x || '').trim()).filter(Boolean).join(' '); const user = String(pr.username || '').trim().replace(/^@/, '');
       const name = full || user || (st.name && st.name !== 'Trader' ? String(st.name).trim() : '') || 'Trader';
       const mail = String(pr.email || '').trim(); const sub = mail || (user ? '@' + user : '');
       const initials = name.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
       const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
-      const link = (href, icon, label) => `<a class="item" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
-      return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
-        <span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span>
+      const cdot = coachWhy ? `<span class="nav-dot" role="img" title="${esc(coachWhy)}" aria-label="${esc(coachWhy)}"></span>` : '';
+      const link = (href, icon, label, extra = '', on = false) => `<a class="item${on ? ' on' : ''}" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span>${extra}</a>`;
+      return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' || cur === 'coach' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
+        <span class="sb-avwrap"><span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span>${coachWhy ? cdot.replace('nav-dot', 'nav-dot sb-av-dot') : ''}</span>
         <span class="sb-who"><b class="no-i18n">${esc(name)}</b>${sub ? `<span class="no-i18n">${esc(sub)}</span>` : '<span>Profil vervollständigen</span>'}</span>
         <span class="sb-chev">${chev('M7 14l5-5 5 5')}${chev('M7 10l5 5 5-5')}</span></button>
-        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
+        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/coach', 'coach', 'Coach', cdot, cur === 'coach')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
           <div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
     },
     /* Vorgabe für das Zeitraum-Menü: Schlüssel, Name und Tage (JJJJ-MM-TT) zum Markieren im Kalender; „Gesamt“ ohne Tage */

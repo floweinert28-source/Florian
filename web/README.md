@@ -37,8 +37,6 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
 - **Seitenleiste**: unter dem Logo „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung).
-  Ganz links daneben eine schmale, etwas dunklere Leiste nur mit Coach (Mentor-Modus), wie bei TradeZella; so steht Coach nicht
-  zwischen den übrigen Bereichen. Auch eingeklappt und im Handy-Menü bleibt sie links.
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
@@ -48,7 +46,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Einstellungen → Benachrichtigungen. Weitere Bereiche melden sich mit `App.navDot(key, fn)` an.
   Wochen- und Monats-Recap oben auf dem Dashboard sind standardmäßig aus (einmalige Umstellung auch für bestehende Daten
   und Importe über `settings.recapsOffV1`); einschalten unter Einstellungen → Benachrichtigungen.
-  Unten die **Konto-Karte** (Profilbild oder Initialen, Name, E-Mail): Klick öffnet ein Menü mit Profil, Einstellungen,
+  Unten die **Konto-Karte** (Profilbild oder Initialen, Name, E-Mail): Klick öffnet ein Menü mit Profil, Coach, Einstellungen,
   Benachrichtigungen, Sprache und dem Hell/Dunkel-Schalter; eingeklappt nur das Profilbild, Menü rechts daneben.
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
@@ -95,7 +93,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
-- **Coach Mode** (eigene schmale Leiste ganz links, wie bei TradeZella): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
+- **Coach Mode** (Konto-Menü unten links → Coach; ein Punkt am Profilbild zeigt neue Aufgaben): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
   Schüler und schreibt Feedback direkt an den Eintrag. Gruppe mit einseitiger Sicht: der Mentor sieht alle Schüler, jeder
   Schüler nur sich selbst. Der Mentor erstellt eine Gruppe und kopiert den Einladungslink (`#/coach/join/<token>`); der
   Schüler sieht vor dem Beitritt die Sichtbarkeits-Liste (Journal-Einträge, Kurz-Stats, Mentor-Notizen, Bilder: ja;

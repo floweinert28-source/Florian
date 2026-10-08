@@ -78,7 +78,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Bildschirme), Reiter in einer Reihe (seitlich scrollbar statt umbrechen), Tabellen kompakt ohne Zeilenumbruch, Dialoge als
   Bottom-Sheet; TradeLog-Blöcke mit festem 18-px-Abstand. Kacheln: das Info-Symbol bleibt neben dem Titel, auch wenn der
   umbricht (eigene Spalte), und in engen Kacheln (Container unter 220px) rutscht der Gewinn/Verlust-Balken mit voller Breite
-  unter den Wert, die Beträge bleiben in einer Zeile. Ab 961px bleibt alles wie gehabt; der Handy-Test `mobiletest` prüft dazu
+  unter den Wert, die Beträge bleiben in einer Zeile. Notebook: Suche, Filter und Session-Knopf in einer Reihe; in der
+  Notiz-Ansicht Kopfzeile in einer Reihe (Zurück, Datum, Speicherstand, Menü; „Teilen“ nur ab 561px), die Werkzeugleiste
+  des Editors als eine seitlich wischbare Zeile und kein runder Knopf über dem Text. Ab 961px bleibt alles wie gehabt; der Handy-Test `mobiletest` prüft dazu
   alle Routen auf seitlichen Überlauf.
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades. Auf dem Desktop füllt die Liste genau
   das Fenster (wie das Notebook): Kacheln, Reiter und Filter oben, die Tabelle nimmt den Rest und scrollt in ihrer Box, der

@@ -2782,7 +2782,21 @@ a.coach-name:hover { color: var(--accent); }
   .dash-head { gap: 8px; justify-content: flex-start; }
   .dash-head > .row, .dash-head > .row.dh-tools { display: contents; }
   .dash-head .dh-sep { display: none; }
-  .page-head .dh-context > .nb-search { flex: 1 1 100%; }
+  .page-head .dh-context > .nb-search { flex: 1 1 200px; } /* Suche wächst, die Symbole daneben bleiben in derselben Reihe */
+  /* Notebook, Notiz-Ansicht: Kopfzeile in einer Reihe (Zurück, Datum, Speicherstand, Menü), Teilen steckt auf dem Handy nicht in der Reihe */
+  .nb .note-head { padding: 12px 14px 10px; }
+  .nb .note-head > .row, .nb .note-head > .row > .row { flex-wrap: nowrap; min-width: 0; }
+  .nb .note-head > .row > .row:first-child { flex: 1 1 auto; }
+  .nb .note-head .popwrap:has(> .datebtn) { min-width: 0; }
+  .nb .note-head .row [data-action="nb-share"] { display: none; }
+  .nb .datebtn { min-width: 0; padding: 7px 6px; }
+  .nb .datebtn span { overflow: hidden; text-overflow: ellipsis; }
+  .nb .note-title { font-size: 24px; }
+  /* Werkzeugleiste des Editors: eine Zeile, seitlich wischbar statt drei Zeilen */
+  .nb-toolbar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -8px 8px; }
+  .nb-toolbar > * { flex: 0 0 auto; }
+  /* beim Schreiben einer Notiz kein runder Knopf über dem Text */
+  .content:has(.nb[data-view="note"]) .dash-head .tl { display: none; }
   /* „Trade loggen“ als runder Knopf unten rechts */
   .dash-head .tl { position: fixed; right: 16px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 54px; height: 54px; padding: 0; border-radius: 999px; justify-content: center; background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: 0 14px 30px -8px var(--accent-glow), 0 6px 18px rgba(0, 0, 0, .35); }
   .dash-head .tl:hover { background: var(--accent); }

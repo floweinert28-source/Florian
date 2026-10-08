@@ -2,18 +2,21 @@
    Der Mentor sieht von einem Schüler genau zwei Dinge: Journal-Einträge (Notebook ohne Trade-Notizen) und Kurz-Stats
    als Tages-Summen in R und Prozent. Einzelne Trades, Beträge, Kontostände, Playbooks und Einstellungen verlassen das
    Gerät nie: snapshot() baut nur diese zwei Teile, und mehr Endpunkte gibt es auf dem Server nicht.
-   Wer ist wer: beim ersten Öffnen entsteht ein geheimer Schlüssel (nur hier gespeichert, Kopfzeile X-Coach-Key). */
+   Wer ist wer: beim ersten Öffnen entsteht ein geheimer Schlüssel (nur hier gespeichert, Kopfzeile X-Coach-Key).
+   Vom Server kommen zurück: Mentor-Notizen mit Antworten (kleiner Thread) und Aufgaben; neue davon melden sich als Toast,
+   als Hinweis-Punkt und, wenn erlaubt, als Mitteilung des Browsers, solange Journalyst in einem Tab offen ist. */
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, App = root.App;
   const mentor = () => root.Mentor;
-  const data = () => { const d = S.data; if (!d.coach || typeof d.coach !== 'object') d.coach = {}; const c = d.coach; if (!Array.isArray(c.groups)) c.groups = []; if (!Array.isArray(c.own)) c.own = []; if (!Array.isArray(c.notes)) c.notes = []; if (!c.seen || typeof c.seen !== 'object') c.seen = {}; if (!c.assets || typeof c.assets !== 'object') c.assets = {}; return c; };
+  const data = () => { const d = S.data; if (!d.coach || typeof d.coach !== 'object') d.coach = {}; const c = d.coach; if (!Array.isArray(c.groups)) c.groups = []; if (!Array.isArray(c.own)) c.own = []; if (!Array.isArray(c.notes)) c.notes = []; if (!c.seen || typeof c.seen !== 'object') c.seen = {}; if (!c.assets || typeof c.assets !== 'object') c.assets = {}; if (!Array.isArray(c.tasks)) c.tasks = []; if (!Array.isArray(c.coached)) c.coached = []; if (!c.taskSeen || typeof c.taskSeen !== 'object') c.taskSeen = {}; if (!c.mentorsSeen || typeof c.mentorsSeen !== 'object') c.mentorsSeen = {}; return c; };
 
   /* Sichtbarkeits-Liste: steht vor dem Beitritt und in der Übersicht; dieselbe Liste wie im Konzept */
   const VISIBILITY = [
     ['Journal-Einträge (Notebook, ohne Trade-Notizen)', true, 'nur lesen'],
     ['Kurz-Stats', true, 'nur R und Prozent, keine Beträge'],
-    ['Mentor-Notizen', true, 'schreibt er selbst'],
+    ['Mentor-Notizen und deine Antworten darauf', true, ''],
+    ['Aufgaben und ob du sie erledigt hast', true, ''],
     ['Bilder und Charts im Journal-Eintrag', true, ''],
     ['Einzelne Trades und TradeLog', false, ''],
     ['Playbooks und Strategien', false, ''],
@@ -90,52 +93,118 @@
   }
 
   /* ---------- Abgleich ---------- */
-  const state = { syncing: false, timer: null, lastError: '', lastHash: '', lastAt: null };
+  const state = { syncing: false, current: Promise.resolve(null), timer: null, lastError: '', lastHash: '', lastAt: null };
   const hashOf = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return String(h); };
+  /* Notizen mit Antworten übernehmen; neu = Notiz oder Mentor-Antwort, die es vorher nicht gab und die noch nicht gelesen ist */
   function takeNotes(list, groups) {
-    const c = data(); const before = new Set(c.notes.map(n => n.id)); const fresh = [];
+    const c = data(); const before = new Set(); for (const n of c.notes) { before.add(n.id); for (const r of n.replies || []) before.add(r.id); }
+    const fresh = [];
     const keep = c.notes.filter(n => n.local); /* Notizen verlassener Gruppen bleiben als Kopie (local) */
     const activeIds = new Set((groups || c.groups).map(g => g.group_id));
     for (const old of c.notes) if (!old.local && !activeIds.has(old.group_id) && !old.deleted_at) keep.push(Object.assign({}, old, { local: true }));
-    for (const n of list || []) { if (n.deleted_at) { delete c.seen[n.id]; continue; } keep.push(n); if (!before.has(n.id) && !c.seen[n.id]) fresh.push(n); }
-    const seenIds = new Set(keep.map(n => n.id)); c.notes = keep.filter((n, i, a) => a.findIndex(x => x.id === n.id) === i); for (const id of Object.keys(c.seen)) if (!seenIds.has(id)) delete c.seen[id];
+    for (const n of list || []) {
+      if (n.deleted_at) { delete c.seen[n.id]; continue; }
+      const replies = (n.replies || []).filter(r => !r.deleted_at); keep.push(Object.assign({}, n, { replies }));
+      if (!before.has(n.id) && !c.seen[n.id]) fresh.push({ kind: 'note', author: n.mentor_name, item: n });
+      for (const r of replies) if (r.role === 'mentor' && !before.has(r.id) && !c.seen[r.id] && before.has(n.id)) fresh.push({ kind: 'reply', author: r.author_name, item: r });
+    }
+    c.notes = keep.filter((n, i, a) => a.findIndex(x => x.id === n.id) === i);
+    const ids = new Set(); for (const n of c.notes) { ids.add(n.id); for (const r of n.replies || []) ids.add(r.id); }
+    for (const id of Object.keys(c.seen)) if (!ids.has(id)) delete c.seen[id];
     return fresh;
+  }
+  /* Aufgaben übernehmen (nur aus aktiven Gruppen); neu = Aufgabe, die es vorher nicht gab */
+  function takeTasks(list) {
+    const c = data(); const before = new Set(c.tasks.map(t => t.id)); const fresh = [];
+    c.tasks = (list || []).filter(t => !t.deleted_at);
+    for (const t of c.tasks) if (!before.has(t.id) && !c.taskSeen[t.id] && !t.done_at) fresh.push({ kind: 'task', author: t.mentor_name, item: t });
+    const ids = new Set(c.tasks.map(t => t.id)); for (const id of Object.keys(c.taskSeen)) if (!ids.has(id)) delete c.taskSeen[id];
+    return fresh;
+  }
+  /* Neue Co-Coaches in einer Gruppe: der Schüler soll wissen, wer zusätzlich sieht */
+  function takeMentors(groups) {
+    const c = data(); const out = [];
+    for (const g of groups || []) { const now = g.mentors || []; const prev = c.mentorsSeen[g.group_id]; if (prev) for (const name of now) if (!prev.includes(name)) out.push({ group: g.group_name, name }); c.mentorsSeen[g.group_id] = now.slice(); }
+    return out;
   }
   async function me(name) {
     const r = await api('/api/coach/me', { method: 'POST', body: JSON.stringify({ name: name != null ? name : myName() }) });
-    const c = data(); c.userId = r.user.id; if (r.user.name) c.name = r.user.name; c.groups = r.groups || []; c.own = r.own || []; S.save();
+    const c = data(); c.userId = r.user.id; if (r.user.name) c.name = r.user.name; c.groups = r.groups || []; c.own = r.own || []; c.coached = r.coached || [];
+    c.notify = { email: r.user.email || '', notify_email: !!r.user.notify_email }; announceMentors(takeMentors(c.groups)); S.save();
     return r;
   }
-  async function sync(o = {}) {
-    if (!configured() || state.syncing) return null; const c = data(); if (!c.groups.length) return null;
-    state.syncing = true; state.lastError = '';
+  /* Mitteilung des Browsers, wenn erlaubt und Journalyst gerade nicht im Vordergrund ist (sonst reicht der Toast) */
+  const browserOn = () => !!S.settings.coachBrowserNotify && 'Notification' in root && root.Notification.permission === 'granted';
+  function browserNotify(title, body) { if (!browserOn() || !document.hidden) return; try { const n = new root.Notification(title, { body: String(body || '').slice(0, 160), tag: 'journalyst-coach' }); n.onclick = () => { try { root.focus(); } catch (e) { /* egal */ } n.close(); }; } catch (e) { /* manche Browser erlauben das nur über einen Service Worker */ } }
+  const tt = (s, v) => (root.I18N ? root.I18N.t(s, v) : s.replace(/\{(\d+)\}/g, (_, i) => (v || [])[i]));
+  function announce(fresh) {
+    if (!fresh.length) return;
+    const one = fresh[0]; const who = one.author || tt('deinem Mentor');
+    const msg = fresh.length > 1 ? tt('{0} Neuigkeiten von deinem Mentor', [fresh.length]) : one.kind === 'task' ? tt('Neue Aufgabe von {0}', [who]) : one.kind === 'reply' ? tt('Neue Antwort von {0}', [who]) : tt('Neue Mentor-Notiz von {0}', [who]);
+    U.toast(msg, 'ok'); browserNotify('Journalyst', fresh.length > 1 ? msg : `${msg}: ${one.item.text || ''}`);
+  }
+  function announceMentors(list) { for (const x of list) U.toast(tt('{0} sieht jetzt als Co-Coach deine Einträge in „{1}“', [x.name, x.group]), 'ok'); }
+  /* Läuft schon ein Abgleich, wartet ein erzwungener (z. B. „Jetzt abgleichen“) darauf und gleicht danach noch einmal ab */
+  function sync(o = {}) {
+    if (!configured() || !data().groups.length) return Promise.resolve(null);
+    if (state.syncing) return o.force ? state.current.then(() => sync(o)) : Promise.resolve(null);
+    state.current = runSync(o); return state.current;
+  }
+  async function runSync(o) {
+    const c = data(); state.syncing = true; state.lastError = '';
     try {
       const snap = await snapshot(); const body = JSON.stringify(snap); const h = hashOf(body);
       let r;
       if (!o.force && h === state.lastHash) r = await api('/api/coach/notes');
       else { r = await api('/api/coach/sync', { method: 'PUT', body }); state.lastHash = h; }
-      c.groups = r.groups || c.groups; const fresh = takeNotes(r.notes, c.groups); state.lastAt = new Date().toISOString(); c.lastSync = state.lastAt; S.save();
-      if (fresh.length) { U.toast(fresh.length === 1 ? `Neue Mentor-Notiz von ${fresh[0].mentor_name || 'deinem Mentor'}` : `${fresh.length} neue Mentor-Notizen`, 'ok'); const typing = document.activeElement && document.activeElement.closest && document.activeElement.closest('.ql-editor, .note-title'); if (App.state.route === 'notebook' && !typing) App.rerender(); else App.renderSidebar(); }
+      c.groups = r.groups || c.groups; announceMentors(takeMentors(c.groups)); const fresh = takeNotes(r.notes, c.groups).concat(takeTasks(r.tasks)); state.lastAt = new Date().toISOString(); c.lastSync = state.lastAt; S.save();
+      if (fresh.length) { announce(fresh); refreshView(); }
       return r;
     } catch (e) { state.lastError = e.message || String(e); if (e.status === 403 && e.code === 'member') { c.groups = []; S.save(); } return null; }
     finally { state.syncing = false; }
+  }
+  /* Ansicht nachziehen, ohne jemandem beim Schreiben den Text wegzunehmen */
+  function refreshView() {
+    const a = document.activeElement; const typing = a && a.closest && a.closest('.ql-editor, .note-title, textarea, input[type=text], input[type=email]');
+    if (!typing && (App.state.route === 'notebook' || App.state.route === 'coach')) App.rerender(); else App.renderSidebar();
   }
   function schedule(ms = 2500) { if (!configured() || !data().groups.length) return; clearTimeout(state.timer); state.timer = setTimeout(() => { sync(); }, ms); }
 
   /* Notizen des Mentors zu einem Eintrag (für das Notebook) und ungelesene insgesamt (für den Hinweis-Punkt) */
   const notesFor = noteId => data().notes.filter(n => n.entry_id === noteId && !n.deleted_at).sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''));
-  const unread = () => data().notes.filter(n => !n.deleted_at && !data().seen[n.id]);
+  /* ungelesen: Notizen und Antworten der Mentoren (eigene Antworten zählen nicht) */
+  function unread() { const c = data(); const out = []; for (const n of c.notes) { if (n.deleted_at) continue; if (!c.seen[n.id]) out.push(n); for (const r of n.replies || []) if (r.role === 'mentor' && !c.seen[r.id]) out.push(r); } return out; }
+  const openTasks = () => data().tasks.filter(t => !t.done_at);
+  const unseenTasks = () => data().tasks.filter(t => !t.done_at && !data().taskSeen[t.id]);
+  function markTasksSeen() { const c = data(); let changed = false; for (const t of c.tasks) if (!c.taskSeen[t.id]) { c.taskSeen[t.id] = new Date().toISOString(); changed = true; } if (changed) { S.save(); App.renderSidebar(); } }
+  /* Schüler: antworten, eigene Antwort löschen, Aufgabe abhaken; der lokale Stand zieht sofort nach */
+  async function reply(noteId, text) {
+    const r = await api(`/api/coach/notes/${encodeURIComponent(noteId)}/replies`, { method: 'POST', body: JSON.stringify({ text }) });
+    const c = data(); const n = c.notes.find(x => x.id === noteId); if (n) { n.replies = (n.replies || []).concat(r.reply); c.seen[r.reply.id] = new Date().toISOString(); S.save(); }
+    return r.reply;
+  }
+  async function deleteReply(noteId, replyId) {
+    await api(`/api/coach/replies/${encodeURIComponent(replyId)}`, { method: 'DELETE' });
+    const n = data().notes.find(x => x.id === noteId); if (n) { n.replies = (n.replies || []).filter(r => r.id !== replyId); S.save(); }
+  }
+  async function setTaskDone(taskId, done) {
+    const r = await api(`/api/coach/tasks/${encodeURIComponent(taskId)}/done`, { method: 'POST', body: JSON.stringify({ done }) });
+    const c = data(); const i = c.tasks.findIndex(t => t.id === taskId); if (i >= 0) { c.tasks[i] = Object.assign({}, c.tasks[i], r.task); c.taskSeen[taskId] = c.taskSeen[taskId] || new Date().toISOString(); S.save(); }
+    return r.task;
+  }
+  async function saveNotify(email, on) { const r = await api('/api/coach/notify', { method: 'PUT', body: JSON.stringify({ email, notify_email: on }) }); data().notify = { email: r.email, notify_email: r.notify_email }; S.save(); return r; }
   /* Notizen aus Gruppen, in denen man nicht mehr ist, bleiben als Kopie (werden bei späteren Abgleichen nicht entfernt) */
   function markLocal() { const c = data(); const active = new Set(c.groups.map(g => g.group_id)); let changed = false; for (const n of c.notes) if (!n.local && !active.has(n.group_id)) { n.local = true; changed = true; } if (changed) S.save(); }
-  function markSeen(noteId) { const c = data(); let changed = false; for (const n of c.notes) if (n.entry_id === noteId && !c.seen[n.id]) { c.seen[n.id] = new Date().toISOString(); changed = true; } if (changed) { S.save(); App.renderSidebar(); } }
+  function markSeen(noteId) { const c = data(); let changed = false; const now = new Date().toISOString(); for (const n of c.notes) if (n.entry_id === noteId) { if (!c.seen[n.id]) { c.seen[n.id] = now; changed = true; } for (const r of n.replies || []) if (!c.seen[r.id]) { c.seen[r.id] = now; changed = true; } } if (changed) { S.save(); App.renderSidebar(); } }
 
   /* Start: Mitgliedschaften und Notizen holen, danach bei jeder Änderung nach kurzer Pause abgleichen */
   function boot() {
     if (!S.onChange) return;
     S.onChange(() => schedule());
     if (configured() && data().groups.length) setTimeout(() => { sync({ force: true }); }, 1500);
-    setInterval(() => { if (configured() && data().groups.length && !state.syncing) sync(); }, 5 * 60 * 1000);
+    /* alle 2 Minuten nachsehen, ob der Mentor etwas geschrieben hat (ohne Änderung nur ein kurzer Abruf) */
+    setInterval(() => { if (configured() && data().groups.length && !state.syncing) sync(); }, 2 * 60 * 1000);
   }
 
-  root.Coach = { VISIBILITY, api, key, configured, baseUrl, myName, data, me, sync, schedule, snapshot, dayStats, sharedNotes, notesFor, unread, markSeen, markLocal, state, since, boot };
+  root.Coach = { VISIBILITY, api, key, configured, baseUrl, myName, data, me, sync, schedule, snapshot, dayStats, sharedNotes, notesFor, unread, markSeen, markLocal, openTasks, unseenTasks, markTasksSeen, reply, deleteReply, setTaskDone, saveNotify, browserOn, state, since, boot };
 })(typeof self !== 'undefined' ? self : this);

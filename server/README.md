@@ -86,6 +86,32 @@ Tabellen (`coach_*`, Migrationen in `CoachStore.MIGRATIONS`, Stand in `coach_sch
   `GET /notes`, `POST /assets` `{ "mime", "data": "<Base64>" }` (höchstens 1,5 MB)
 - `GET /api/coach/assets/{id}`: Bilder ohne Kopfzeilen (für `<img src>`); die Adresse ist ein 128-Bit-Zufallswert und steht nur in geteilten Einträgen.
 
+Phase 2 und 3 (Migration 2, ohne Datenverlust für Datenbanken aus Phase 1):
+
+- Antworten: `POST /notes/{id}/replies` `{ "text" }` (der Schüler der Notiz oder ein Mentor der Gruppe), `DELETE /replies/{id}` (nur eigene).
+  Notizen kommen mit `replies` zurück; die Schüler-Tabelle zählt neue Antworten (`new_replies`).
+- Co-Coaches: `GET /groups/{id}/coaches` (Besitzer bekommt `coach_token`), `POST /groups/{id}/coach-invite/rotate`,
+  `DELETE /groups/{id}/coaches/{uid}` (Besitzer), `POST /groups/{id}/coaches/leave` (Co-Coach),
+  `GET /coach-invite/{token}`, `POST /coach-invite/{token}/join` `{ "name" }`. Co-Coaches sehen und schreiben wie der
+  Mentor, verwalten nicht. Ein Schüler der Gruppe kann dort nicht Co-Coach werden (und umgekehrt).
+- Aufgaben: `POST /groups/{id}/tasks` `{ "text", "due": "YYYY-MM-DD" | null, "student_id" | "all": true }`,
+  `PATCH /tasks/{id}`, `DELETE /tasks/{id}` (nur eigene), `POST /tasks/{id}/done` `{ "done" }` (nur der Schüler).
+  `/sync` und `/notes` liefern zusätzlich `tasks`.
+- Gruppen-Statistik in `GET /groups/{id}/students` (`group_stats`): Durchschnitt über die Schüler mit Trades im Zeitraum.
+- E-Mail: `PUT /notify` `{ "email", "notify_email" }`. Mails gehen nur mit Einwilligung raus, im Hintergrund nach der
+  Antwort, höchstens `COACH_MAIL_DAILY_LIMIT` pro Empfänger und Tag; ein Fehler beim Versand ändert nichts an der Anfrage.
+  Verlässt jemand alle Gruppen und ist auch nicht Mentor, wird die Adresse gelöscht.
+
+| Variable | Standard | Bedeutung |
+| --- | --- | --- |
+| `COACH_SMTP_HOST` | leer | SMTP-Server für Benachrichtigungen. Leer = keine Mails (die Website zeigt dann einen Hinweis) |
+| `COACH_SMTP_PORT` | `587` | Port; `465` oder `COACH_SMTP_SSL=1` für SMTPS |
+| `COACH_SMTP_USER` / `COACH_SMTP_PASS` | leer | Zugang zum SMTP-Server (nur hier, nie im Frontend) |
+| `COACH_SMTP_FROM` | `COACH_SMTP_USER` | Absender, z. B. `Journalyst <coach@deine-domain.de>` |
+| `COACH_SMTP_STARTTLS` | `1` | `0` nur für ein lokales Relay ohne TLS |
+| `COACH_MAIL_DAILY_LIMIT` | `20` | Mails pro Empfänger und Tag |
+| `COACH_APP_URL` | leer | Adresse der Website; steht als Link in der Mail |
+
 ## Tests
 
 ```bash

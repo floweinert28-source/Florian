@@ -108,6 +108,17 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Server: `server/coach.py` (SQLite-Migrationen, Rechte-Trennung), Tests `server/tests/test_coach.py`; Oberfläche
   `js/screens/coach.js`. Nicht enthalten (bewusst): Gruppen-Chat, Trade-Einsicht, Bearbeiten von Schüler-Einträgen,
   Bezahlung, Ranglisten.
+  Phase 2 und 3: **Antworten** auf Mentor-Notizen als kleiner Verlauf (Schüler im Notebook, Mentoren in der
+  Journal-Ansicht; eigene Antworten löschbar; neue Antworten als „1 Antwort“ in der Schüler-Tabelle).
+  **Benachrichtigungen**: Toast und Hinweis-Punkt, auf Wunsch Mitteilung des Browsers (solange Journalyst in einem Tab
+  offen ist) und E-Mail über den Server (Adresse und Einwilligung in der Coach-Übersicht, höchstens 20 Mails am Tag;
+  ohne SMTP-Zugang auf dem Server ein Hinweis). Der Abgleich läuft alle 2 Minuten und nach jeder Änderung.
+  **Co-Coaches**: eigener Link (`#/coach/cojoin/<token>`), gleiche Sicht und Rechte beim Schreiben wie der Mentor;
+  umbenennen, Links und schließen nur der Besitzer; Schüler sehen alle Mentoren und bekommen einen Hinweis, wenn einer
+  dazukommt; Schüler einer Gruppe können dort nicht Co-Coach werden. **Aufgaben** vom Mentor an einen Schüler oder an
+  alle (Text, optional Fälligkeit); der Schüler hakt sie in der Coach-Übersicht ab, der Mentor sieht den Stand.
+  **Gruppen-Statistik** (nur Mentoren): aktive Schüler, Trades, Ø Winrate, Ø Profit-Faktor, Ø Gewinn/Verlust in R,
+  Ø Max. Drawdown, Journal-Einträge, Notizen und offene Aufgaben im Zeitraum; Durchschnitte, keine Rangliste.
 - **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Erscheinungsbild: Graphit (Standard, warmes dunkles Grau), Schwarz (tiefschwarz) oder Weiß (hell); der Schalter im Konto-Menü wechselt Dunkel/Hell und behält die gewählte dunkle Variante; vier Schriftarten: Standard „Modern“ (Text in Satoshi, Zahlen in Onest), „Geschwungen“ (Quicksand, Zahlen in Onest), „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
 - **Schrift**: Text in **Satoshi** (Fontshare, Indian Type Foundry), Zahlen in **Onest** (Google Fonts). Beide sind geometrisch
   mit ähnlicher x-Höhe, deshalb passen Text und Zahlen nebeneinander. Satoshi steht unter der ITF Free Font License: freie

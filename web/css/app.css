@@ -2579,3 +2579,50 @@ a.coach-name:hover { color: var(--accent); }
   .ce-write { flex-direction: column; align-items: stretch; }
   .coach-join { padding: 16px; }
 }
+/* Coach Mode, Phase 2 und 3: Antworten-Verlauf, Aufgaben, Gruppen-Statistik, Benachrichtigungen, Co-Coach */
+.mn-thread { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed color-mix(in srgb, var(--warn) 22%, var(--border)); }
+.mn-reply { padding: 6px 10px; border-radius: 8px; background: color-mix(in srgb, var(--bg) 35%, transparent); }
+.mn-reply.mentor { background: color-mix(in srgb, var(--warn) 5%, transparent); }
+.mn-reply.is-new { box-shadow: inset 2px 0 0 var(--accent); }
+.mr-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; }
+.mr-head b { font-size: 12.5px; }
+.mr-head .pill { font-size: 10.5px; padding: 1px 7px; }
+.mr-text { white-space: pre-wrap; font-size: 13.5px; line-height: 1.5; margin-top: 2px; }
+.mr-write { display: flex; gap: 8px; align-items: flex-end; }
+.mr-write textarea { flex: 1; min-height: 34px; resize: vertical; font-size: 13px; padding-top: 7px; padding-bottom: 7px; }
+.coach-tasks { display: flex; flex-direction: column; }
+.coach-task { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); }
+.coach-task:first-child { border-top: 0; padding-top: 2px; }
+.coach-task .ct-text { font-size: 14px; font-weight: 500; }
+.coach-task.done .ct-text { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--faint); }
+.ct-check { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 1px; border-radius: 6px; border: 1.5px solid var(--border-2); background: var(--field); display: grid; place-items: center; cursor: pointer; color: transparent; padding: 0; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.ct-check svg { width: 13px; height: 13px; }
+.ct-check:hover { border-color: var(--accent); }
+.ct-check[aria-checked="true"], .coach-task.done .ct-check.static { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.ct-check.static { cursor: default; }
+.ct-done { margin-top: 6px; }
+.ct-done summary { cursor: pointer; padding: 6px 0; list-style: none; }
+.ct-done summary::-webkit-details-marker { display: none; }
+.ct-done summary::before { content: '▸ '; }
+.ct-done[open] summary::before { content: '▾ '; }
+.coach-taskform { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); flex-wrap: nowrap; }
+.coach-taskform .input[type=date] { width: 150px; flex: 0 0 auto; }
+.coach-gstats { display: flex; flex-direction: column; gap: 10px; }
+.grid.tiles.coach-gs-tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1180px) { .grid.tiles.coach-gs-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .grid.tiles.coach-gs-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.coach-gs-tiles .tile .val { font-size: 21px; }
+.coach-gs-tiles .tile .foot { white-space: normal; }
+.coach-nrow { display: flex; align-items: flex-start; gap: 12px; }
+.coach-nrow .switch { margin-top: 3px; }
+.coach-nrow b { font-size: 13.5px; }
+.coach-mailrow { margin-top: 8px; flex-wrap: nowrap; }
+.coach-mailrow .input { flex: 1 1 220px; min-width: 0; max-width: 320px; }
+.coach-mailhint { margin-top: 6px; }
+.coach-co-what { display: flex; flex-direction: column; gap: 8px; max-width: 640px; margin: 0 auto; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); font-size: 13.5px; }
+@media (max-width: 760px) {
+  .coach-taskform { flex-wrap: wrap; }
+  .coach-taskform .input[type=date] { width: auto; flex: 1 1 140px; }
+  .mr-write { flex-direction: column; align-items: stretch; }
+  .coach-mailrow { flex-wrap: wrap; }
+}

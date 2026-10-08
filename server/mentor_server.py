@@ -28,7 +28,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, field_validator
 
-from server.coach import CoachStore, make_asset_route, make_router as make_coach_router
+from server.coach import CoachStore, make_asset_route, make_router as make_coach_router, smtp_mailer_from_env
 
 log = logging.getLogger("mentor")
 
@@ -320,6 +320,7 @@ def create_app() -> FastAPI:
     app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Authorization", "Content-Type", "X-Coach-Key"])
     app.state.store = ChatStore(DB_PATH)
     app.state.coach = CoachStore(DB_PATH, TZ)
+    app.state.coach_mailer = smtp_mailer_from_env(dict(os.environ))  # E-Mail-Benachrichtigungen im Coach Mode (optional)
     app.state.ask = make_anthropic_ask()
     app.state.ask_json = make_anthropic_ask_json(VOICE_SCHEMA, VOICE_MAX_TOKENS)
     app.state.transcribe = transcribe_remote
@@ -348,7 +349,7 @@ def create_app() -> FastAPI:
 
     @app.get("/api/mentor/health")
     def health() -> dict:
-        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN), "api_key": api_key_present(), "voice_limit": VOICE_LIMIT, "stt": bool(STT_URL), "emotions": EMOTIONS, "coach": True}
+        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN), "api_key": api_key_present(), "voice_limit": VOICE_LIMIT, "stt": bool(STT_URL), "emotions": EMOTIONS, "coach": True, "coach_mail": bool(app.state.coach_mailer)}
 
     @app.get("/api/mentor/history", dependencies=[Depends(auth)])
     def history(user: str = Query(..., min_length=1, max_length=80)) -> dict:
@@ -431,7 +432,7 @@ def create_app() -> FastAPI:
         return dict(result, transcript=transcript, source=source, model=MODEL, quota={"limit": VOICE_LIMIT, "used": used, "remaining": max(0, VOICE_LIMIT - used)})
 
     # Coach Mode (Gruppen, Journal-Ansicht, Mentor-Notizen): eigener Router, gleiches Zugangstoken, eigener Nutzer-Schlüssel
-    app.include_router(make_coach_router(app.state.coach, auth))
+    app.include_router(make_coach_router(app.state.coach, auth, mail_limit=int(os.environ.get("COACH_MAIL_DAILY_LIMIT", "20")), app_url=os.environ.get("COACH_APP_URL", "")))
     app.include_router(make_asset_route(app.state.coach))
     return app
 

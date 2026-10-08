@@ -93,7 +93,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
-- **Coach Mode** (Seitenleiste → Training → Coach): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
+- **Coach Mode** (Seitenleiste → Coaching → Coach, ganz unten): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
   Schüler und schreibt Feedback direkt an den Eintrag. Gruppe mit einseitiger Sicht: der Mentor sieht alle Schüler, jeder
   Schüler nur sich selbst. Der Mentor erstellt eine Gruppe und kopiert den Einladungslink (`#/coach/join/<token>`); der
   Schüler sieht vor dem Beitritt die Sichtbarkeits-Liste (Journal-Einträge, Kurz-Stats, Mentor-Notizen, Bilder: ja;

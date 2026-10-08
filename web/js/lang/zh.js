@@ -1446,4 +1446,5 @@ I18N.add('zh', {
   "{0} neue Aufgaben": "{0} 个新任务",
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "导师给你布置了新任务。",
   "deinem Mentor": "你的导师",
+  "Coaching": "辅导",
 });

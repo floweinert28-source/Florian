@@ -8,8 +8,9 @@
   const NAV_GROUPS = [
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
-    ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['coach', 'Coach', 'coach'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
+    ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
     ['Konten', [['prop', 'Prop Firms', 'prop']]],
+    ['Coaching', [['coach', 'Coach', 'coach']]], /* eigener Bereich ganz unten, nicht zwischen den Trainings-Werkzeugen */
   ];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };

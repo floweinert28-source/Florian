@@ -184,7 +184,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   für Ausgaben und Payouts öffnen sich über den
   Knopf im Kartenkopf. Journal-Zeitraum und -Konto fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
   Firmen-Presets (Beispiele sind als unverifiziert markiert, eigene Firmen mit
-  eigenen Regeln möglich), Coupon-Codes unter Konten (Rabatte bei Prop Firms, Liste `COUPONS` in `js/propdata.js`; Klick auf den Code kopiert ihn, Platzhalter tragen die Marke „Beispiel“), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
+  eigenen Regeln möglich), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
   lassen sich einem oder mehreren Prop-Konten zuordnen (Copy-Trading). Regel-Engine in `js/prop.js`: Daily Loss
   (Betrag oder %, Reset-Uhrzeit und Zeitzone), Max Drawdown statisch, intraday trailing, Tagesende-trailing und
   trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer
@@ -197,6 +197,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   gespeichert; Trades zählen zur Phase, in der sie geschlossen wurden. Alle Preset-Werte (Regeln, Gebühren, Payout-Bedingungen, Instrumente) sind
   unverifiziert und in `web/PROP-PRESETS.md` zum Prüfen aufgelistet. Tests: `web/tests/prop.test.mjs`,
   `web/tests/propsim.test.mjs`.
+- **Coupon-Codes** (eigener Bereich in der Gruppe Konten, direkt unter Prop Firms, `js/screens/coupons.js`): Rabatt-Codes für
+  Prop Firms aus der Liste `COUPONS` in `js/propdata.js`, je Firma eine Kachel mit Rabatt, Code als gestricheltes Ticket (Klick
+  kopiert ihn, Rahmen kurz grün, Toast), Notiz und Link zur Website; Platzhalter tragen die Marke „Beispiel“.
 
 ## Aufbau
 

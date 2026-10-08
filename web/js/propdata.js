@@ -94,7 +94,7 @@
     { symbol: 'USDJPY', name: 'US-Dollar / Yen', market: 'forex', tickSize: null, tickValue: null, pipSize: 0.01, pipValue: 6.67, currency: 'USD', unverified: true },
   ];
 
-  /* Coupon-Codes, die unter Prop Firms → Konten erscheinen: { firm, code, discount, note, url, example }.
+  /* Coupon-Codes für den eigenen Bereich „Coupon-Codes“ (Gruppe Konten, js/screens/coupons.js): { firm, code, discount, note, url, example }.
      Einträge mit example: true sind Platzhalter und tragen in der Oberfläche die Marke „Beispiel“ – hier die echten Codes eintragen. */
   const COUPONS = [
     { firm: 'FTMO', code: 'JOURNALYST', discount: '10 % auf die Challenge', note: '', url: 'https://ftmo.com', example: true },

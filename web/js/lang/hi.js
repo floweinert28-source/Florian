@@ -1463,10 +1463,10 @@ I18N.add('hi', {
   "Umdrehen": "पलटें",
   "kein Trade hinterlegt": "कोई ट्रेड नहीं जुड़ा",
   "Coupon-Codes": "कूपन कोड",
-  "Rabatt-Codes für Prop Firms. Ein Klick auf den Code kopiert ihn.": "प्रॉप फर्मों के लिए छूट कोड। कोड पर क्लिक करने से वह कॉपी हो जाता है।",
-  "Noch keine Codes hinterlegt.": "अभी कोई कोड नहीं है।",
   "Beispiel": "उदाहरण",
   "Zur Website": "वेबसाइट देखें",
   "Code kopiert": "कोड कॉपी हुआ",
   "Kopieren nicht möglich, bitte den Code markieren": "कॉपी नहीं हो सका, कृपया कोड चुनें",
+  "Noch keine Codes hinterlegt": "अभी कोई कोड नहीं है",
+  "Rabatt-Codes für Prop Firms erscheinen hier.": "प्रॉप फर्मों के लिए छूट कोड यहाँ दिखेंगे।",
 });

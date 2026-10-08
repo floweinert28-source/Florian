@@ -1416,10 +1416,10 @@ I18N.add('es', {
   "Umdrehen": "Dar la vuelta",
   "kein Trade hinterlegt": "sin trade vinculado",
   "Coupon-Codes": "Códigos de descuento",
-  "Rabatt-Codes für Prop Firms. Ein Klick auf den Code kopiert ihn.": "Códigos de descuento para prop firms. Un clic en el código lo copia.",
-  "Noch keine Codes hinterlegt.": "Aún no hay códigos.",
   "Beispiel": "Ejemplo",
   "Zur Website": "Ir al sitio web",
   "Code kopiert": "Código copiado",
   "Kopieren nicht möglich, bitte den Code markieren": "No se pudo copiar, selecciona el código",
+  "Noch keine Codes hinterlegt": "Aún no hay códigos",
+  "Rabatt-Codes für Prop Firms erscheinen hier.": "Aquí aparecerán los códigos de descuento para prop firms.",
 });

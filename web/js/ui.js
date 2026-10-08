@@ -47,6 +47,7 @@
     play: sv('<path d="M7 5l12 7-12 7z"/>'),
     shadow: sv('<circle cx="9" cy="12" r="6"/><path d="M13.5 6.6a6 6 0 1 1 0 10.8" stroke-dasharray="2 2.5"/>'),
     prop: sv('<path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M9 20v-5h6v5"/><path d="M12 8v3"/>'),
+    coupon: sv('<path d="M3 9V6h18v3a2.2 2.2 0 0 0 0 6v3H3v-3a2.2 2.2 0 0 0 0-6z"/><path d="M9.5 6v1.5M9.5 10v1.5M9.5 14v1.5M9.5 18v0"/>'),
     replay: sv('<rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v11"/><path d="M8 11l4 2-4 2z"/>'),
     layout: sv('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 10h18M10 10v11"/>'),
     filter: sv('<path d="M3 5h18l-7 8v6l-4 2v-8z"/>'),

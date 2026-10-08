@@ -108,7 +108,21 @@ svg { display: block; }
 .chart svg.enter circle.dt { transform-box: fill-box; transform-origin: center; animation: ch-pop .45s cubic-bezier(.2, .8, .2, 1) var(--dt-delay, 1.1s) both; }
 .chart svg.enter polyline.ln { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: ch-draw 1.25s cubic-bezier(.3, .7, .2, 1) .05s forwards; }
 .chart svg.enter polygon.ar { animation: ch-fade 1s ease .35s both; }
-/* gleiche Seite, andere Parameter: Inhalt gleitet kurz herein (Tag zurück von links, Tag vor von rechts, Reiter nur weich) */
+/* gleiche Seite, andere Parameter, per View Transition: nur der Inhalt wird animiert (benannt, solange data-swap gesetzt ist),
+   der Rest der Seite bleibt stehen – Tag zurück gleitet von links, Tag vor von rechts, Reiter nur weich */
+:root[data-swap] #content { view-transition-name: content; }
+:root[data-swap]::view-transition-old(root), :root[data-swap]::view-transition-new(root) { animation: none; }
+:root[data-swap]::view-transition-group(content) { animation-duration: .32s; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+:root[data-swap]::view-transition-old(content) { animation: vt-fade-out .18s ease-in forwards; }
+:root[data-swap]::view-transition-new(content) { animation: vt-fade-in .26s ease-out both; }
+:root[data-swap="next"]::view-transition-old(content) { animation: vt-out-l .22s ease-in forwards; }
+:root[data-swap="next"]::view-transition-new(content) { animation: vt-in-r .32s cubic-bezier(.2, .8, .2, 1) both; }
+:root[data-swap="prev"]::view-transition-old(content) { animation: vt-out-r .22s ease-in forwards; }
+:root[data-swap="prev"]::view-transition-new(content) { animation: vt-in-l .32s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes vt-fade-out { to { opacity: 0; } } @keyframes vt-fade-in { from { opacity: 0; } }
+@keyframes vt-out-l { to { opacity: 0; transform: translateX(-22px); } } @keyframes vt-out-r { to { opacity: 0; transform: translateX(22px); } }
+@keyframes vt-in-r { from { opacity: 0; transform: translateX(22px); } } @keyframes vt-in-l { from { opacity: 0; transform: translateX(-22px); } }
+/* ohne View Transitions: Ersatz über die Klasse am Inhalt */
 .content.swap { animation: swap-in .22s ease-out both; }
 .content.swap-next { animation: swap-in-r .3s cubic-bezier(.2, .8, .2, 1) both; }
 .content.swap-prev { animation: swap-in-l .3s cubic-bezier(.2, .8, .2, 1) both; }

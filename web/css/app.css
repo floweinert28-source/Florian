@@ -100,6 +100,10 @@ svg { display: block; }
 .small { font-size: 12px; } .caption { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
 .hidden, [hidden] { display: none !important; }
+/* Scrollbalken überall dünn und zurückhaltend: keine Spur, nur ein schmaler, runder Griff in einem halbtransparenten Ton der
+   Textfarbe (passt sich hell/dunkel an). Bereiche, die ihren Balken verstecken (prop-tabs), behalten das */
+:root { --sb-thumb: color-mix(in srgb, var(--text) 16%, transparent); }
+html, * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb) transparent; }
 .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .row.between { justify-content: space-between; }
 .stack { display: flex; flex-direction: column; gap: 10px; }

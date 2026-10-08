@@ -5,13 +5,14 @@
   const WEEKS = 52;
   function ringArc(rate, size = 116, lw = 9) { const r = (size - lw) / 2, c = 2 * Math.PI * r; const off = rate == null ? c : c * (1 - Math.max(0, Math.min(1, rate))); return `<div class="ring-arc" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}"><circle class="track" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${lw}"/><circle class="arc" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${lw}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c}" data-target="${off.toFixed(2)}"/></svg></div>`; }
   /* Aktuelle Serie in drei Stufen: Flamme, drei Stufenbalken und ein Wort – je länger, desto mehr leuchtet es.
-     Schwellen (Werktage): 1 Angefangen, 5 Im Flow, 20 Unaufhaltsam; bei 0 bleibt alles ruhig */
+     Schwellen (Werktage): 1 Angefangen, 5 Im Flow, 20 (≈ ein Monat) Unaufhaltsam mit Funken, Schimmer und Lichtschein; bei 0 bleibt alles ruhig */
   const STREAK_STAGES = [[1, 'Angefangen'], [5, 'Im Flow'], [20, 'Unaufhaltsam']];
   function streakCard(n) {
     const stage = STREAK_STAGES.filter(([min]) => n >= min).length; const next = STREAK_STAGES[stage];
     const tip = next ? `Stufe ${stage + 1} ab ${next[0]} Werktagen` : 'Höchste Stufe erreicht';
     const steps = STREAK_STAGES.map((_, i) => `<i class="${i < stage ? 'on' : ''}${i === stage - 1 ? ' cur' : ''}"></i>`).join('');
-    return `<div class="dstreak s${stage}"><div class="big-stat"><span>${n} Tag${n === 1 ? '' : 'e'}</span><span class="dstreak-flame" aria-hidden="true">${I.flame}</span></div><div class="dstreak-steps" data-tip="${tip}">${steps}${stage ? `<b>${STREAK_STAGES[stage - 1][1]}</b>` : ''}</div><div class="small muted">Werktage in Folge mit Trades, Check-in oder Notiz</div></div>`;
+    const fx = stage === 3 ? '<i class="ember"></i>'.repeat(6) : ''; /* Stufe 3: aufsteigende Funken um die Flamme */
+    return `<div class="dstreak s${stage}"><div class="big-stat"><span>${n} Tag${n === 1 ? '' : 'e'}</span><span class="dstreak-flame" aria-hidden="true">${fx}${I.flame}</span></div><div class="dstreak-steps" data-tip="${tip}">${steps}${stage ? `<b>${STREAK_STAGES[stage - 1][1]}</b>` : ''}</div><div class="small muted">Werktage in Folge mit Trades, Check-in oder Notiz</div></div>`;
   }
   const arrow = (dir) => dir > 0 ? `<span class="trend up" aria-label="steigend">${I.arrowUp}</span>` : dir < 0 ? `<span class="trend down" aria-label="fallend">${I.arrowDown}</span>` : '';
   function ruleRate(rules, from, to) { const entries = Object.values(S.data.days).filter(d => d.rulesFollowed && (!from || (C.parseDayKey(d.key) >= from && C.parseDayKey(d.key) <= to))); return { n: entries.length, rate: rules.length && entries.length ? C.mean(entries.map(d => d.rulesFollowed.filter(id => rules.some(x => x.id === id)).length / rules.length)) : null }; }

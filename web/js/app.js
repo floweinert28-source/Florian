@@ -137,11 +137,13 @@
     /* Popover in seiner Box halten: ragt ein rechtsbündiges Menü links aus dem nächsten scrollenden Rahmen (z. B. der Notiz-Spalte), klappt es nach rechts auf */
     fitPopover(pop) {
       if (pop.id === 'pop-user') { const mini = document.documentElement.classList.contains('sb-mini'); const card = pop.parentElement.querySelector('.sb-user'); if (mini && card) { const r = card.getBoundingClientRect(), sb = document.getElementById('sidebar').getBoundingClientRect(); pop.style.left = `${Math.round(sb.right + 8)}px`; pop.style.bottom = `${Math.round(window.innerHeight - r.bottom)}px`; } else { pop.style.left = ''; pop.style.bottom = ''; } return; }
-      if (pop.classList.contains('left') && !pop.dataset.autoLeft) return;
-      pop.classList.remove('left'); delete pop.dataset.autoLeft;
-      let left = 0;
-      for (let a = pop.parentElement; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a); if (/(auto|scroll|hidden|clip)/.test(cs.overflowX + ' ' + cs.overflowY)) { left = a.getBoundingClientRect().left; break; } }
-      if (pop.getBoundingClientRect().left < left + 4) { pop.classList.add('left'); pop.dataset.autoLeft = '1'; }
+      const fixedLeft = pop.classList.contains('left') && !pop.dataset.autoLeft; pop.style.left = '';
+      if (!fixedLeft) { pop.classList.remove('left'); delete pop.dataset.autoLeft; }
+      let left = 0, right = Math.min(document.documentElement.clientWidth, window.innerWidth, screen.width || Infinity); /* nicht innerWidth allein: auf dem Handy wächst es mit überstehendem Inhalt */
+      for (let a = pop.parentElement; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a); if (/(auto|scroll|hidden|clip)/.test(cs.overflowX + ' ' + cs.overflowY)) { const b = a.getBoundingClientRect(); left = b.left; right = Math.min(right, b.right); break; } }
+      if (!fixedLeft && pop.getBoundingClientRect().left < left + 4) { pop.classList.add('left'); pop.dataset.autoLeft = '1'; }
+      /* links verankerte Menüs (Vorlagen, Sortierung …) ragen auf dem Handy rechts hinaus: so weit nach links schieben, dass sie im Bild bleiben */
+      const r = pop.getBoundingClientRect(); const over = r.right - (right - 8); if (over > 0 && pop.classList.contains('left')) pop.style.left = `${-Math.round(Math.min(over, Math.max(0, r.left - left - 8)))}px`;
     },
     /* offene Popover ausblenden und dann schließen; except = Popover, das gerade umgeschaltet wird */
     closePopovers(except) { document.querySelectorAll('.popover.open:not(.closing)').forEach(p => { if (p.id === except) return; M.leave(p, 'closing', '--dur-1', () => p.classList.remove('open', 'closing')); }); },

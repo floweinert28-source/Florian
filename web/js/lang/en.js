@@ -1379,4 +1379,5 @@ I18N.add('en', {
   "Kopieren nicht möglich, bitte den Code markieren": "Copying failed, please select the code",
   "Noch keine Codes hinterlegt": "No codes yet",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "Discount codes for prop firms will appear here.",
+  "Ø Gewinn/Verlust": "Avg win/loss",
 });

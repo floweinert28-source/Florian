@@ -1469,4 +1469,5 @@ I18N.add('hi', {
   "Kopieren nicht möglich, bitte den Code markieren": "कॉपी नहीं हो सका, कृपया कोड चुनें",
   "Noch keine Codes hinterlegt": "अभी कोई कोड नहीं है",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "प्रॉप फर्मों के लिए छूट कोड यहाँ दिखेंगे।",
+  "Ø Gewinn/Verlust": "औसत लाभ/हानि",
 });

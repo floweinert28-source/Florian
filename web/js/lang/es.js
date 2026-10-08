@@ -1422,4 +1422,5 @@ I18N.add('es', {
   "Kopieren nicht möglich, bitte den Code markieren": "No se pudo copiar, selecciona el código",
   "Noch keine Codes hinterlegt": "Aún no hay códigos",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "Aquí aparecerán los códigos de descuento para prop firms.",
+  "Ø Gewinn/Verlust": "Ganancia/pérdida media",
 });

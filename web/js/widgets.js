@@ -31,7 +31,7 @@
   /* ---------- Bausteine ---------- */
   const noData = () => `<span class="nodata">${NO_DATA}</span>`;
   const emptyBox = (h = 220) => `<div class="empty" style="min-height:${h}px">${I.stats}<b>${NO_DATA}</b><span class="small">Logge Trades oder ändere den Zeitraum.</span></div>`;
-  const tile = (e, value, o = {}) => U.tile(e.name, value, Object.assign({ info: e.info }, o));
+  const tile = (e, value, o = {}) => U.tile(e.short || e.name, value, Object.assign({ info: e.info }, o)); /* short: kurzer Kacheltitel, der auch in engen Kacheln in eine Zeile passt */
   const card = (e, body, o = {}) => U.card(e.name, body, Object.assign({ info: e.info }, o));
   const pctText = f => (f < 0 ? '−' : '') + fmt.dec(Math.abs(f * 100), 1) + fmt.pctSuffix();
   const streakPills = (maxW, maxL, unit) => `<span class="pills col">${U.pill(`${maxL}<span class="u"> ${unit}</span>`, 'loss')}${U.pill(`${maxW}<span class="u"> ${unit}</span>`, 'win')}</span>`;
@@ -113,7 +113,7 @@
     let html = fmt.weekdays().map(w => `<div class="wd">${w}</div>`).join('') + (ext ? '<div class="wd wk">Woche</div>' : '');
     for (const wk of weeks) {
       html += wk.cells.map(c => { if (!c) return '<div class="d pad"></div>'; const e = c.entry; const k = e ? (e.pnl > C.EPS ? 'win' : e.pnl < -C.EPS ? 'loss' : 'be') : ''; return `<div class="d ${k} ${c.key === today ? 'today' : ''}" data-action="day" data-day="${c.key}" role="button" tabindex="0" ${mini && e ? `data-tip="<b>${fmt.dateFull(c.date)}</b><br>${fmt.cur(e.pnl, { signed: true })} · ${e.n} Trade${e.n === 1 ? '' : 's'}"` : ''}><span class="n">${c.date.getDate()}</span>${e && !mini ? `<span class="p ${U.cls(e.pnl)}">${fmt.cur(e.pnl, { signed: true, compact: Math.abs(e.pnl) >= 1000 })}</span><span class="pm ${U.cls(e.pnl)}">${shortPnl(e.pnl)}</span><span class="c">${e.n} Trade${e.n === 1 ? '' : 's'}</span>` : ''}</div>`; }).join('');
-      if (ext) html += `<div class="w"><span class="t">Woche ${wk.index}</span>${wk.days ? `<span class="p ${U.cls(wk.pnl)}">${fmt.cur(wk.pnl, { signed: true, compact: Math.abs(wk.pnl) >= 1000 })}</span><span class="days">${wk.days} Tag${wk.days === 1 ? '' : 'e'}</span>` : '<span class="p muted">—</span>'}</div>`;
+      if (ext) html += `<div class="w"><span class="t">Woche ${wk.index}</span>${wk.days ? `<span class="p ${U.cls(wk.pnl)}">${fmt.cur(wk.pnl, { signed: true, compact: Math.abs(wk.pnl) >= 1000 })}</span><span class="pm ${U.cls(wk.pnl)}">${shortPnl(wk.pnl)}</span><span class="days">${wk.days} Tag${wk.days === 1 ? '' : 'e'}</span>` : '<span class="p muted">—</span>'}</div>`;
     }
     return `<div class="cal ${ext ? 'ext' : ''} ${mini ? 'mini' : ''}">${html}</div>`;
   }
@@ -172,7 +172,7 @@
       render(d, inst, e) { const s = d.s; return tile(e, d.empty ? noData() : fmt.factor(s.pf), d.empty ? {} : { side: true, gauge: U.donut([{ v: s.gp, c: 'profit' }, { v: -s.gl, c: 'loss' }], 54, 8) }); } },
     { typ: 'tages_trefferquote', name: 'Tages-Trefferquote', preview: 'gauge', desc: 'Gewinntage geteilt durch alle Handelstage.', info: 'Anteil der Handelstage mit positivem Netto-Ergebnis an allen Handelstagen im Zeitraum.',
       render(d, inst, e) { const ds = d.ds; const be = ds.days - ds.winDays - ds.lossDays; return tile(e, d.empty ? noData() : fmt.pct(ds.dayWinRate, 1), d.empty ? {} : { side: true, gauge: `<div class="gauge-stack">${U.semiGauge([{ v: ds.winDays, c: 'profit' }, { v: be, c: 'be' }, { v: ds.lossDays, c: 'loss' }], '')}<span class="pills">${U.pill(ds.winDays, 'win')}${U.pill(be, 'be')}${U.pill(ds.lossDays, 'loss')}</span></div>` }); } },
-    { typ: 'avg_gewinn_verlust', name: 'Gewinn/Verlust pro Trade', preview: 'wl', desc: 'Durchschnittlicher Gewinn und Verlust pro Trade als Balken im Verhältnis zueinander.', info: 'Durchschnittlicher Gewinn-Trade geteilt durch durchschnittlichen Verlust-Trade. Der Balken zeigt das Verhältnis.',
+    { typ: 'avg_gewinn_verlust', name: 'Gewinn/Verlust pro Trade', short: 'Ø Gewinn/Verlust', preview: 'wl', desc: 'Durchschnittlicher Gewinn und Verlust pro Trade als Balken im Verhältnis zueinander.', info: 'Durchschnittlicher Gewinn-Trade geteilt durch durchschnittlichen Verlust-Trade. Der Balken zeigt das Verhältnis.',
       render(d, inst, e) { const s = d.s; const wf = s.avgWin / (s.avgWin - s.avgLoss || 1) * 100; return tile(e, d.empty ? noData() : (s.payoff == null ? (s.avgWin > 0 ? '∞' : '—') : fmt.num(s.payoff, 2)), d.empty ? {} : { gauge: `<div class="wl-single"><div class="track"><i style="width:${wf}%;background:var(--profit)"></i><i style="flex:1;background:var(--loss)"></i></div><div class="lbl"><span class="pos">${fmt.cur(s.avgWin, { compact: s.avgWin >= 1000 })}</span><span class="neg">${fmt.cur(s.avgLoss, { compact: -s.avgLoss >= 1000 })}</span></div></div>` }).replace('class="tile"', 'class="tile wide"'); } },
     { typ: 'erwartungswert', name: 'Erwartungswert pro Trade', preview: 'num', desc: '(Trefferquote × Ø Gewinn) − (Verlustquote × Ø Verlust).', info: 'Trefferquote × Ø Gewinn minus Verlustquote × Ø Verlust. Was ein Trade im Schnitt einbringt.',
       render(d, inst, e) { const s = d.s; return tile(e, d.empty ? noData() : U.pnl(s.tradeExpectancy), { foot: d.empty ? '' : `${fmt.pct(s.winRate)} × ${fmt.cur(s.avgWin, { compact: true })} − ${fmt.pct(s.lossRate)} × ${fmt.cur(-s.avgLoss, { compact: true })}` }); } },

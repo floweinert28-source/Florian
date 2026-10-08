@@ -463,7 +463,8 @@ span.info:hover { color: var(--accent); }
 .tile .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--text-2); }
 .tile .head .n { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; }
 /* Kachel-Titel: das Info-Symbol bleibt neben dem Text (eigene Spalte), auch wenn der Titel in enge Kacheln umbricht */
-.tile .head > span:first-child { display: inline-grid; grid-auto-flow: column; align-items: center; justify-content: start; min-width: 0; }
+.tile .head > span:first-child { display: flex; align-items: center; min-width: 0; }
+.tile .head > span:first-child > .info { flex: 0 0 auto; }
 /* enge Kacheln: der Gewinn/Verlust-Balken rutscht mit voller Breite unter den Wert, die beiden Beträge bleiben in einer Zeile */
 @container (max-width: 220px) { .tile .body:has(> .gauge > .wl-single) { flex-wrap: wrap; } .tile .body > .gauge:has(> .wl-single) { flex: 1 1 100%; margin-right: 0; } }
 .tile .body { display: flex; align-items: center; justify-content: space-between; gap: 12px 14px; padding-top: 8px; flex: 1;
@@ -1538,7 +1539,8 @@ span.info:hover { color: var(--accent); }
 .w-body .card-head .row .btn.w-cfg[aria-expanded="true"] { color: var(--accent); border-color: var(--accent); }
 @media (max-width: 960px) {
   .rep-panel { position: static; margin-bottom: 12px; }
-  .ycal { overflow-x: auto; }
+  .ycal { overflow-x: auto; scrollbar-width: none; } /* wischbar, aber ohne sichtbare Scroll-Leiste */
+  .ycal::-webkit-scrollbar { display: none; }
   .ycal-head, .ycal-row { min-width: 900px; }
   .tracker { --weeks: 13; }
   .tracker-foot { flex-wrap: wrap; }
@@ -1589,6 +1591,8 @@ span.info:hover { color: var(--accent); }
   .dash-main, .dash-main.editing { grid-template-columns: 1fr; }
   .dash-main > .w, .dash-main > .skel, .dash-main > .w.tall, .dash-main.editing > .w, .dash-main.editing > .w.tall { grid-column: auto !important; grid-row: auto !important; height: auto; }
   .dash-main .w-body > .card { height: auto; }
+  .card.recent-card { min-height: 0; }
+  .recent-wrap { height: auto; flex: 0 0 auto; } /* sonst bleibt die Liste bei Kartenhöhe „auto“ auf 0 Pixel */
   .dash-main > .add-slot.gap { grid-column: auto !important; grid-row: auto !important; height: 160px; }
   .dash-main .cal .d { min-height: 56px; }
   .dash-main .skel { height: 340px; }
@@ -2776,7 +2780,7 @@ a.coach-name:hover { color: var(--accent); }
 @container (max-width: 272px) { .stc-col { padding: 0 8px; } .stc-col > b { font-size: 13.5px; } }
 
 /* ---------- Handy (bis 560px) ---------- */
-.cal .d .pm { display: none; }
+.cal .d .pm, .cal .w .pm { display: none; }
 @media (max-width: 560px) {
   .content { padding-bottom: 104px; } /* Platz für den runden „Trade loggen“-Knopf */
   /* Kopfreihe: alle Knöpfe in einer umbrechenden Werkzeugleiste statt zwei halb leerer Zeilen */
@@ -2808,6 +2812,13 @@ a.coach-name:hover { color: var(--accent); }
   .dash-top { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow: visible; margin: 0; padding: 0; scroll-snap-type: none; }
   .dash-top > .w, .dash-top > .skel, .dash-top > .add-slot { flex: none; }
   .tile .val { font-size: 21px; }
+  .tile { padding: 16px 12px; } /* mehr Innenbreite, damit die Titel samt Info-Symbol in eine Zeile passen */
+  .tile .head { font-size: 12px; }
+  .tile .head .n { font-size: 11px; }
+  /* Letzte Trades: Datum, Symbol und P&L passen ohne Abschneiden nebeneinander */
+  .recent-wrap .tbl th, .recent-wrap .tbl td { padding: 8px 6px; font-size: 12px; }
+  .recent-wrap .tbl th:first-child, .recent-wrap .tbl td:first-child { padding-left: 0; }
+  .recent-wrap .tbl th:last-child, .recent-wrap .tbl td:last-child { padding-right: 0; }
   /* Kennzahlen (Statistik) und Mini-Kennzahlen (Schatten-Ich-Widget): zwei Spalten */
   .stat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .stat-tile { padding: 14px; }
@@ -2816,6 +2827,14 @@ a.coach-name:hover { color: var(--accent); }
   /* Kalender: kurze Zahl je Tag */
   .cal .d .p { display: none; }
   .cal .d .pm { display: block; font-weight: 700; font-size: 10px; letter-spacing: -.01em; }
+  .cal .w .p { display: none; }
+  .cal .w .pm { display: block; font-weight: 700; font-size: 12.5px; }
+  /* Widget-Bibliothek: Vorschau, Text, Knopf immer untereinander, Knopf unten links */
+  .sp-item .pv { order: 1; }
+  .sp-item .grow { order: 2; flex: 1 1 100%; }
+  .sp-item .btn { order: 3; }
+  /* Menüs bleiben im Bild */
+  .popover { max-width: calc(100vw - 16px); }
   /* Reiter in einer Reihe, bei Bedarf seitlich scrollen statt umbrechen */
   .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
   .tabs > * { flex: 0 0 auto; white-space: nowrap; }

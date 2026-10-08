@@ -1469,4 +1469,5 @@ I18N.add('zh', {
   "Kopieren nicht möglich, bitte den Code markieren": "无法复制，请手动选中优惠码",
   "Noch keine Codes hinterlegt": "还没有优惠码",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "自营交易公司的折扣码将显示在这里。",
+  "Ø Gewinn/Verlust": "平均盈亏",
 });

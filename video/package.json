@@ -1,0 +1,24 @@
+{
+  "name": "journalyst-motion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Journalyst dashboard launch video (Remotion)",
+  "scripts": {
+    "studio": "remotion studio",
+    "typecheck": "tsc --noEmit",
+    "render": "remotion render Journalyst out/dashboard.mp4 --codec=h264 --crf=14 --scale=2",
+    "render:prores": "remotion render Journalyst out/dashboard-prores4444.mov --codec=prores --prores-profile=4444 --scale=2"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "@remotion/fonts": "^4.0.534",
+    "@remotion/paths": "4.0.534",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.534"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.8",
+    "typescript": "5.8.3"
+  }
+}

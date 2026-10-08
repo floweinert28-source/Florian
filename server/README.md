@@ -58,9 +58,37 @@ das Zugangstoken, und `user` kommt aus der Sitzung.
 
 Das Tageslimit zählt in einer eigenen Tabelle und wird durch Löschen des Verlaufs nicht zurückgesetzt.
 
+## Coach Mode (`server/coach.py`)
+
+Derselbe Server trägt den Coach Mode: Gruppen eines Mentors, Beitritt der Schüler per Link, Kurz-Stats und
+Journal-Ansicht für den Mentor, Mentor-Notizen für den Schüler. Alles unter `/api/coach/…`, mit demselben
+Zugangstoken wie der Chat **plus** einer Kopfzeile `X-Coach-Key`: ein geheimer Schlüssel, den jede
+Journalyst-Installation sich selbst anlegt (der Server speichert nur den SHA-256 und hängt daran eine Nutzer-ID).
+So gibt es Rechte-Trennung ohne Konten: der Mentor sieht genau die Schüler seiner Gruppen, ein Schüler nie einen
+anderen, und niemand kann sich als jemand anderes ausgeben, ohne dessen Gerät zu haben.
+
+Was vom Schüler auf dem Server liegt: Journal-Einträge (Notebook ohne Trade-Notizen, als Quill-Delta; Bilder als
+Verweis auf hochgeladene Dateien) und Tages-Summen (Anzahl, Gewinne, Verluste, Break-even, Summen der R, Ergebnis
+in R und in Prozent der Kontogröße). Keine einzelnen Trades, keine Beträge, keine Kontostände: es gibt dafür weder
+Tabellen noch Endpunkte. Verlässt ein Schüler seine letzte Gruppe (oder der Mentor schließt sie), löscht der Server
+seine Einträge, Summen und Bilder; die Mentor-Notizen behält die Website des Schülers als Kopie.
+
+Tabellen (`coach_*`, Migrationen in `CoachStore.MIGRATIONS`, Stand in `coach_schema`): Nutzer, Gruppen, Mitgliedschaften
+(mit Stichtag `since`), Einträge, Tages-Summen, Notizen, Gelesen-Stand des Mentors, Bilder.
+
+- `POST /api/coach/me` `{ "name" }` → Nutzer, Mitgliedschaften (`groups`) und eigene Gruppen (`own`)
+- Mentor: `POST /groups` `{ "name" }`, `GET /groups`, `PATCH /groups/{id}`, `POST /groups/{id}/invite/rotate`, `DELETE /groups/{id}` (schließen),
+  `GET /groups/{id}/students?period=week|month|all` (Kurz-Stats, letzter Eintrag, neue Einträge seit dem letzten Besuch),
+  `GET /groups/{id}/students/{sid}/journal` (Einträge, Notizen; markiert als gelesen),
+  `POST /groups/{id}/students/{sid}/notes` `{ "entry_id", "text" }`, `PATCH /notes/{id}`, `DELETE /notes/{id}` (nur eigene)
+- Schüler: `GET /invite/{token}`, `POST /invite/{token}/join` `{ "name", "since": "YYYY-MM-DD" | null }`, `POST /groups/{id}/leave`,
+  `PUT /sync` `{ "entries": […], "days": […] }` (vollständiger Stand, ersetzt den alten; antwortet mit den Mentor-Notizen),
+  `GET /notes`, `POST /assets` `{ "mime", "data": "<Base64>" }` (höchstens 1,5 MB)
+- `GET /api/coach/assets/{id}`: Bilder ohne Kopfzeilen (für `<img src>`); die Adresse ist ein 128-Bit-Zufallswert und steht nur in geteilten Einträgen.
+
 ## Tests
 
 ```bash
 pip install pytest httpx
-pytest server/tests
+pytest server/tests        # Mentor-Chat, Sprachjournal und Coach Mode
 ```

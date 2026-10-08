@@ -8,7 +8,7 @@
   const NAV_GROUPS = [
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
-    ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
+    ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['coach', 'Coach', 'coach'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
     ['Konten', [['prop', 'Prop Firms', 'prop']]],
   ];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };

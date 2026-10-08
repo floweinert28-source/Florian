@@ -2,7 +2,7 @@ FROM python:3.11-slim
 WORKDIR /app
 COPY server/requirements.txt server/requirements.txt
 RUN pip install --no-cache-dir -r server/requirements.txt
-COPY server/__init__.py server/mentor_server.py server/
+COPY server/__init__.py server/mentor_server.py server/coach.py server/
 COPY docs/mentor-systemprompt.md docs/mentor-systemprompt.md
 RUN mkdir -p server/data
 ENV MENTOR_DB=/app/server/data/mentor.sqlite

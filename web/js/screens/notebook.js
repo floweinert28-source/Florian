@@ -75,7 +75,7 @@
           <input class="note-title" id="nb-title" value="${esc(cur.title || '')}" placeholder="Neue Notiz" data-input="nb-title" data-id="${cur.id}" aria-label="Titel">
           <div class="meta"><div>Erstellt: ${fmt.dateTime(cur.createdAt)}</div><div id="nb-updated">Zuletzt bearbeitet: ${fmt.dateTime(cur.updatedAt || cur.createdAt)}</div>${pnl != null ? `<div style="margin-top:4px;font-weight:700;color:var(--text)">Netto-P&L ${U.pnl(pnl, '', cur.type === 'trade' && linked[0] ? { r: linked[0].r } : {})}${cur.type === 'trade' && linked[0] ? ` <span class="muted small" style="font-weight:500">· ${esc(linked[0].symbol)} ${linked[0].direction > 0 ? 'Long' : 'Short'} · <a href="#/trades/${linked[0].id}" class="accent">Trade öffnen</a></span>` : ` <span class="muted small" style="font-weight:500">· <a href="#/day/${dateKey}" class="accent">Tagesansicht</a></span>`}</div>` : ''}</div>
           <div class="tags-row"><div class="popwrap"><button type="button" class="tag-add" data-pop="nbtags" aria-label="Tag hinzufügen">${I.plus} <span class="no-i18n">Tag</span></button><div class="popover left tagpop" id="pop-nbtags">${tagMenuHTML(cur)}<hr><button type="button" class="item" data-action="nb-tag-new" data-id="${cur.id}">${I.plus} Neuen Tag anlegen</button></div></div><span class="tag-chips" id="nb-tag-chips">${tagChipsHTML(cur)}</span></div>
-          </div>${stats}<div class="note-body"><div id="nb-editor"></div><input type="file" accept="application/json,.json" class="hidden" id="nb-import-file"></div></div>`;
+          </div>${stats}<div class="note-body"><div id="nb-editor"></div><input type="file" accept="application/json,.json" class="hidden" id="nb-import-file"></div>${root.CoachUI ? root.CoachUI.notesBlock(cur.id) : ''}</div>`;
       }
       ctx.headLeft = search; /* Suche steht in der Kopfreihe neben „Trade loggen“ */
       return `<div class="nb ${nb.leftOpen ? '' : 'no-left'}" data-view="${nb.view}">${(nb.leftOpen ? left : '') + mid}${right}</div>`;
@@ -85,6 +85,7 @@
       const act = main.querySelector('.note-item.active'); const box = act && act.closest('.col-body'); const nbs = st(); const changed = nbs._shown !== nbs.note; nbs._shown = nbs.note;
       if (box && changed) { const r = act.getBoundingClientRect(), b = box.getBoundingClientRect(); if (r.top < b.top) box.scrollTop -= b.top - r.top + 8; else if (r.bottom > b.bottom) box.scrollTop += r.bottom - b.bottom + 8; }
       const nb = st(); const el = main.querySelector('#nb-editor'); if (!el || !root.NoteEditor) return; const n = S.getNote(nb.note); if (!n) return;
+      if (root.Coach) root.Coach.markSeen(n.id); /* Mentor-Notizen zu dieser Notiz gelten als gelesen */
       editor = root.NoteEditor.create(el, { content: n.content, templates: () => S.templates().map(t => ({ id: t.id, name: t.name })), customColors: () => S.settings.editorColors || [],
         onChange(delta) { pendingContent = delta; pendingId = n.id; setSaveState('saving'); clearTimeout(saveTimer); saveTimer = setTimeout(flush, 1000); },
         onTemplate(id) { const t = S.getTemplate(id); if (!t || !editor) return; editor.insertDelta(JSON.parse(JSON.stringify(t.content))); S.markTemplateUsed(t.id); U.toast(`Vorlage „${t.name}“ eingefügt`, 'ok'); },

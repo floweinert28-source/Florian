@@ -318,6 +318,7 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .popover .item { transition: background var(--dur-1) var(--ease); }
 .popover .item:hover { background: var(--surface-2); }
 .popover .item[aria-checked="true"] { color: var(--accent); }
+.popover .item.danger { color: var(--loss); }
 .popover .item svg { width: 15px; height: 15px; }
 .popover hr { border: 0; border-top: 1px solid var(--border); margin: 6px 4px; }
 .popover .sec { font-size: 11px; color: var(--muted); padding: 8px 12px 4px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
@@ -2512,3 +2513,69 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 }
 .prop-sim-run + .banner { margin-top: 14px; }
 .prop-sim-fees .prop-sim-curnote { margin-top: 8px; line-height: 1.45; }
+
+/* ---------- Coach Mode: Übersicht, Mentor-Dashboard, Journal-Ansicht, Beitritt, Mentor-Notizen ---------- */
+.coach-wrap { max-width: 920px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 16px; }
+.coach-wrap.wide { max-width: 1180px; }
+.coach-head { display: flex; align-items: center; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; }
+.coach-title { font-size: 20px; }
+.coach-back { padding-left: 8px; }
+.coach-hint { margin: 0; max-width: 60em; }
+.coach-foot { margin: 0; }
+.coach-loading { display: flex; justify-content: center; padding: 40px 0; }
+.coach-list { display: flex; flex-direction: column; }
+.coach-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); }
+.coach-row:first-child { border-top: 0; padding-top: 2px; }
+.coach-name { font-weight: 600; color: var(--text); text-decoration: none; }
+a.coach-name:hover { color: var(--accent); }
+.coach-sync { padding-top: 10px; border-top: 1px solid var(--border); justify-content: space-between; }
+.coach-invite { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.coach-invite .input { flex: 1 1 260px; min-width: 0; font-family: var(--font-num); font-size: 12.5px; }
+.coach-ctl { margin-bottom: 12px; }
+.coach-tbl td .sub { white-space: nowrap; }
+.coach-tbl tbody tr.link td:first-child .pill { margin-left: 6px; }
+/* Journal-Einträge des Schülers, nur lesen */
+.coach-entries { display: flex; flex-direction: column; gap: 14px; }
+.coach-entry { padding: 16px 18px; }
+.coach-entry.is-new { border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
+.ce-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+.ce-date { font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.ce-title { font-size: 17px; margin-top: 2px; }
+.ce-body.ql-container { border: 0; height: auto; font-family: var(--font); font-size: 14.5px; }
+.ce-body .ql-editor { padding: 4px 0 8px; min-height: 0; height: auto; overflow: visible; line-height: 1.6; }
+.ce-body .nb-figure .rs, .ce-body .nb-figure .fig-bar, .ce-body .nb-figure .fig-size { display: none !important; }
+.ce-write { display: flex; gap: 10px; align-items: flex-end; margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border); }
+.ce-write textarea { flex: 1; resize: vertical; min-height: 44px; }
+/* Mentor-Notiz: wie eine Randnotiz des Lehrers, eigene Farbe, klar vom Text des Schülers getrennt */
+.mentor-notes { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.mentor-notes.in-note { margin: 8px 0 16px; padding-top: 12px; border-top: 1px dashed var(--border-2); }
+.mentor-notes .mn-title { margin-bottom: 2px; }
+.mentor-note { position: relative; padding: 10px 12px 10px 16px; border-radius: 10px; background: color-mix(in srgb, var(--warn) 6%, var(--surface-2)); border: 1px solid color-mix(in srgb, var(--warn) 28%, var(--border)); }
+.mentor-note::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 3px; background: var(--warn); }
+.mentor-note .mn-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12.5px; margin-bottom: 4px; }
+.mentor-note .mn-head b { font-size: 13px; }
+.mentor-note .mn-text { white-space: pre-wrap; font-size: 14px; line-height: 1.55; }
+.mentor-note .mn-edit { width: 100%; margin: 4px 0 8px; resize: vertical; }
+/* Beitritt */
+.coach-join { padding: 22px 24px; }
+.coach-join-head { text-align: center; margin-bottom: 16px; }
+.coach-join-head .ico svg { width: 36px; height: 36px; color: var(--accent); }
+.coach-join-head h2 { font-size: 20px; margin: 8px 0 6px; }
+.coach-join-head p { margin: 0 auto; max-width: 44em; }
+.coach-vis td:first-child { font-weight: 500; }
+.coach-yes { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); }
+.coach-yes svg { width: 15px; height: 15px; color: var(--accent); }
+.coach-no { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.coach-no svg { width: 15px; height: 15px; color: var(--faint); }
+.coach-since { display: flex; flex-direction: column; gap: 8px; }
+.coach-radio { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-2); cursor: pointer; }
+.coach-radio:has(input:checked) { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: color-mix(in srgb, var(--accent) 6%, var(--surface-2)); }
+.coach-radio input { margin-top: 3px; accent-color: var(--accent); }
+.coach-radio span { display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+.coach-radio small { color: var(--muted); font-size: 12px; }
+.coach-join-foot { margin-top: 16px; }
+@media (max-width: 760px) {
+  .coach-row { flex-wrap: wrap; }
+  .ce-write { flex-direction: column; align-items: stretch; }
+  .coach-join { padding: 16px; }
+}

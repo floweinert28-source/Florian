@@ -93,6 +93,21 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
+- **Coach Mode** (Seitenleiste → Training → Coach): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
+  Schüler und schreibt Feedback direkt an den Eintrag. Gruppe mit einseitiger Sicht: der Mentor sieht alle Schüler, jeder
+  Schüler nur sich selbst. Der Mentor erstellt eine Gruppe und kopiert den Einladungslink (`#/coach/join/<token>`); der
+  Schüler sieht vor dem Beitritt die Sichtbarkeits-Liste (Journal-Einträge, Kurz-Stats, Mentor-Notizen, Bilder: ja;
+  einzelne Trades, Playbooks, Kontostand, private Notizen: nein), wählt Namen und „nur ab heute“ oder „auch ältere“ und
+  bestätigt. Geteilt werden nur Notebook-Notizen ohne Trade-Notizen und Tages-Summen in R und Prozent (`js/coach.js`,
+  `snapshot()`), nie einzelne Trades oder Beträge. Mentor-Dashboard je Gruppe (Woche/Monat/Gesamt): Trades, Winrate,
+  Profit-Faktor (R), Ø Gewinn/Verlust in R, Max. Drawdown in %, letzter Eintrag, neue Einträge; Klick öffnet das Journal
+  (nur lesen) mit Mentor-Notizen (Badge „Mentor“, Name, Zeit; bearbeiten/löschen nur der Mentor). Beim Schüler erscheint
+  die Notiz im Notebook unter dem Eintrag plus Hinweis-Punkt am Notebook. Verlassen jederzeit: der Server löscht die
+  Daten des Schülers, seine Kopie der Notizen bleibt. Identität ist ein geheimer Schlüssel je Installation
+  (`Store.data.coach.key`, Kopfzeile `X-Coach-Key`), Server-Adresse und Zugangstoken kommen aus Einstellungen → Mentor.
+  Server: `server/coach.py` (SQLite-Migrationen, Rechte-Trennung), Tests `server/tests/test_coach.py`; Oberfläche
+  `js/screens/coach.js`. Nicht enthalten (bewusst): Gruppen-Chat, Trade-Einsicht, Bearbeiten von Schüler-Einträgen,
+  Bezahlung, Ranglisten.
 - **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Erscheinungsbild: Graphit (Standard, warmes dunkles Grau), Schwarz (tiefschwarz) oder Weiß (hell); der Schalter im Konto-Menü wechselt Dunkel/Hell und behält die gewählte dunkle Variante; vier Schriftarten: Standard „Modern“ (Text in Satoshi, Zahlen in Onest), „Geschwungen“ (Quicksand, Zahlen in Onest), „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
 - **Schrift**: Text in **Satoshi** (Fontshare, Indian Type Foundry), Zahlen in **Onest** (Google Fonts). Beide sind geometrisch
   mit ähnlicher x-Höhe, deshalb passen Text und Zahlen nebeneinander. Satoshi steht unter der ITF Free Font License: freie

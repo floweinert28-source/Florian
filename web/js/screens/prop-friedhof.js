@@ -64,6 +64,8 @@
   }
   /* Grabstein: gewölbter Stein mit eingemeißeltem Rahmen und Riss (das Konto ist geplatzt), oben Name und Lebensdaten (* Start, † Breach),
      in der Mitte die Todesursache und die Notiz als Grabinschrift, unten eine Tafel mit den Fakten; der Stein steht auf einem Sockel mit Grablicht */
+  /* Blumenstrauß am Sockel: drei Blüten (hell, gold, rot) mit grünen Stielen und Blättern, dazu zwei Grashalme */
+  const FLOWERS = `<svg class="pg-flowers" viewBox="0 0 72 56" aria-hidden="true"><g class="stems"><path d="M34 54c-3-10-10-20-16-30M36 54c0-12 1-24 2-40M38 54c3-9 9-18 14-26"/><path d="M27 40c-5-1-8 1-9 5 4 1 7-1 9-5zM41 44c5-2 8 0 10 4-4 2-7 0-10-4z" class="leaf"/></g><g class="f1" transform="translate(18 23)"><circle r="3.4" cy="-4.2"/><circle r="3.4" cx="4" cy="-1.3"/><circle r="3.4" cx="2.5" cy="3.4"/><circle r="3.4" cx="-2.5" cy="3.4"/><circle r="3.4" cx="-4" cy="-1.3"/><circle r="2" class="core"/></g><g class="f2" transform="translate(38 13)"><circle r="3.8" cy="-4.6"/><circle r="3.8" cx="4.4" cy="-1.4"/><circle r="3.8" cx="2.7" cy="3.7"/><circle r="3.8" cx="-2.7" cy="3.7"/><circle r="3.8" cx="-4.4" cy="-1.4"/><circle r="2.2" class="core"/></g><g class="f3" transform="translate(52 27)"><circle r="3.2" cy="-4"/><circle r="3.2" cx="3.8" cy="-1.2"/><circle r="3.2" cx="2.4" cy="3.2"/><circle r="3.2" cx="-2.4" cy="3.2"/><circle r="3.2" cx="-3.8" cy="-1.2"/><circle r="1.9" class="core"/></g><path class="grass" d="M6 54c1-6 0-10-2-14M10 54c2-5 4-8 7-10M64 54c-1-6-3-9-6-12M68 54c0-5 1-8 3-10"/></svg>`;
   const CRACK = '<svg class="pg-crack" viewBox="0 0 36 64" aria-hidden="true"><path d="M27 0 22 11l5 7-9 12 4 8-8 13 2 13"/><path d="M22 11l-7 3M18 30l-6-2"/></svg>';
   function grave(t, byId, accs) {
     const acc = accs.find(a => a.id === t.accountId) || null; const tz = acc ? acc.tz : null;
@@ -73,8 +75,8 @@
     const tradeHtml = trade
       ? `<div class="prop-grave-trade"><span><span class="sym">${esc(trade.symbol || '—')}</span>${trade.setup ? `<span class="muted small"> · ${esc(trade.setup)}</span>` : ''}</span>${when ? `<span class="muted small">${esc(when)}</span>` : ''}<span>${c.pnl == null ? DASH : U.pnl(c.pnl, '', { r: trade.r })}</span></div>`
       : when ? `<div class="prop-grave-trade"><span class="muted small">kein Trade hinterlegt</span><span class="muted small">${esc(when)}</span></div>` : DASH;
-    const chips = [...t.emotions.map(e => U.chip(e, 'emotion')), ...t.mistakes.map(m => U.chip(m, 'mistake'))];
-    const streak = t.lossStreakBefore > 0 ? `<span class="${t.lossStreakBefore >= 2 ? 'neg' : ''}">${plural(t.lossStreakBefore, 'Verlusttrade', 'Verlusttrades')} in Folge</span>` : '<span class="muted">keine</span>';
+    const whenShort = c.at ? `${c.weekdayIndex != null ? WEEKDAY_LONG[c.weekdayIndex].slice(0, 2) + '.' : (c.weekday || '')} ${dateIn(c.at, tz)} · ${timeIn(c.at, tz)}`.trim() : null;
+    const streak = t.lossStreakBefore > 0 ? `<span class="${t.lossStreakBefore >= 2 ? 'neg' : ''}">${plural(t.lossStreakBefore, 'Verlusttrade', 'Verlusttrades')}</span>` : '<span class="muted">keine</span>';
     const link = c.tradeId != null && trade ? `<div class="prop-grave-foot"><a class="btn xs ghost" data-stop href="#/trades/${esc(String(c.tradeId))}">${I.external} Trade öffnen</a></div>` : '';
     const born = t.startedAt ? fmt.dateFull(t.startedAt) : null, died = c.at ? dateIn(c.at, tz) : null;
     const dates = born || died ? `<span class="pg-dates"><span>* ${born || '—'}</span><span>† ${died || '—'}</span></span>` : '';
@@ -95,13 +97,21 @@
           <div class="pg-face pg-back" aria-hidden="true">
             <span class="pg-rip" aria-hidden="true">${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</span>
             ${t.note ? `<p class="pg-epitaph prop-grave-note">„${esc(t.note)}“</p>` : ''}
-            <div class="prop-grave-kv">${kv('Ergebnis', t.result == null ? DASH : U.pnl(t.result))}${kv('Auslösender Trade', tradeHtml)}${kv('Verlustserie davor', streak)}${chips.length ? `<div class="pg-chips chips">${chips.join('')}</div>` : ''}</div>
+            <dl class="pg-facts">
+              <dt>Ergebnis</dt><dd>${t.result == null ? DASH : U.pnl(t.result)}</dd>
+              <dt>Trade</dt><dd>${trade ? `<b class="sym">${esc(trade.symbol || '—')}</b>${trade.setup ? ` · ${esc(trade.setup)}` : ''}` : '<span class="muted">kein Trade hinterlegt</span>'}</dd>
+              ${whenShort ? `<dt>Wann</dt><dd>${esc(whenShort)}</dd>` : ''}
+              ${trade ? `<dt>Trade-P&L</dt><dd>${c.pnl == null ? DASH : U.pnl(c.pnl, '', { r: trade.r })}</dd>` : ''}
+              <dt>Serie davor</dt><dd>${streak}</dd>
+              ${t.emotions.length ? `<dt>Emotion</dt><dd class="pg-tags">${t.emotions.map(e => U.chip(e, 'emotion')).join('')}</dd>` : ''}
+              ${t.mistakes.length ? `<dt>Fehler</dt><dd class="pg-tags">${t.mistakes.map(m => U.chip(m, 'mistake')).join('')}</dd>` : ''}
+            </dl>
             ${link}
             <button type="button" class="pg-turn" data-action="pg-flip" aria-label="Zurückdrehen">${I.replay}<span>Zurück</span></button>
           </div>
         </div>
       </div>
-      <div class="pg-base" aria-hidden="true"><span class="pg-light"></span></div>
+      <div class="pg-base" aria-hidden="true">${FLOWERS}<span class="pg-light"></span></div>
     </section>`;
   }
   Object.assign(App.actions, {

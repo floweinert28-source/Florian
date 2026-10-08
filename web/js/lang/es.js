@@ -1408,4 +1408,11 @@ I18N.add('es', {
   "Höchste Stufe erreicht": "Nivel máximo alcanzado",
   "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Los fines de semana no interrumpen la racha. Tres niveles: a partir de {0}, {1} y {2} días laborables.",
   "Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Días laborables seguidos con trades, check-in o nota. Los fines de semana no interrumpen la racha. Tres niveles: a partir de {0}, {1} y {2} días laborables.",
+  "Wann": "Cuándo",
+  "Trade-P&L": "P&L del trade",
+  "Serie davor": "Racha previa",
+  "Zurückdrehen": "Dar la vuelta",
+  "Umdrehen: Einzelheiten zeigen": "Dar la vuelta: ver detalles",
+  "Umdrehen": "Dar la vuelta",
+  "kein Trade hinterlegt": "sin trade vinculado",
 });

@@ -1365,4 +1365,11 @@ I18N.add('en', {
   "Höchste Stufe erreicht": "Highest level reached",
   "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Weekends do not break the streak. Three levels: from {0}, from {1} and from {2} weekdays.",
   "Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "Weekdays in a row with trades, a check-in or a note. Weekends do not break the streak. Three levels: from {0}, from {1} and from {2} weekdays.",
+  "Wann": "When",
+  "Trade-P&L": "Trade P&L",
+  "Serie davor": "Streak before",
+  "Zurückdrehen": "Turn back",
+  "Umdrehen: Einzelheiten zeigen": "Turn over: show details",
+  "Umdrehen": "Turn over",
+  "kein Trade hinterlegt": "no trade linked",
 });

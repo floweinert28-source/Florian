@@ -2512,29 +2512,37 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .pg-cause span { font-size: 10.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .pg-cause b { font-family: var(--font-display); font-size: 18px; font-weight: 700; text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); }
 .pg-epitaph { margin: 0; max-width: 32ch; font-size: 12.5px; font-style: italic; line-height: 1.4; color: var(--text-2); }
-/* Gedenktafel mit den Fakten */
-.prop-grave-kv { align-self: stretch; display: flex; flex-direction: column; margin-top: 4px; padding: 2px 12px; border-radius: 8px; text-align: left;
-  background: color-mix(in srgb, var(--bg) 45%, transparent); border: 1px solid var(--border); box-shadow: inset 0 1px 2px rgba(0, 0, 0, .25), 0 1px 0 var(--eng-hi); }
-.prop-grave .kv { align-items: flex-start; flex-wrap: wrap; padding: 5px 0; font-size: 12.5px; row-gap: 2px; }
-.prop-grave .kv > span { flex: 0 0 auto; color: var(--muted); }
-.prop-grave .kv > b { text-align: right; min-width: 0; margin-left: auto; }
-.pg-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; padding: 7px 0 6px; border-top: 1px solid var(--border); }
-.prop-grave .chip { font-size: 11px; padding: 2px 8px; }
-.prop-grave .chip { background: transparent; border: 1px solid var(--border-2); color: var(--text-2); }
-.prop-grave-trade { display: flex; flex-direction: column; align-items: flex-end; gap: 0; text-align: right; line-height: 1.35; }
-.prop-grave-trade .sym { font-family: var(--font-display); font-weight: 700; }
+/* Rückseite: ruhige Faktenliste – Bezeichnung links, Wert rechts, eine Zeile pro Punkt, feine Trennlinien; Tags als schlichter Text */
+.pg-facts { align-self: stretch; margin: 2px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; text-align: left; font-size: 12.5px; }
+.pg-facts dt, .pg-facts dd { margin: 0; padding: 7px 0; border-top: 1px solid var(--border); }
+.pg-facts dt { color: var(--muted); white-space: nowrap; }
+.pg-facts dd { text-align: right; color: var(--text); font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-facts dd .sym { font-family: var(--font-display); font-weight: 700; }
+.pg-facts dd.pg-tags { white-space: normal; font-weight: 500; color: var(--text-2); }
+.pg-facts dd.pg-tags .chip { display: inline; padding: 0; border: 0; background: none; font-size: 12.5px; color: var(--text-2); }
+.pg-facts dd.pg-tags .chip + .chip::before { content: ' · '; color: var(--muted); }
 .prop-grave-note { white-space: normal; }
 .prop-grave-foot { display: flex; justify-content: center; }
 .prop-grave-foot .btn { color: var(--text-2); }
 /* Sockel mit Grablicht (rotes Glas, die Flamme flackert ruhig; bei reduzierter Bewegung steht sie still) */
 .pg-base { position: relative; height: 16px; margin-top: -1px; border-radius: 3px 3px 6px 6px; border: 1px solid var(--border-2); background: var(--grain), linear-gradient(180deg, var(--surface-3), var(--surface-2)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent), 0 14px 22px -12px rgba(0, 0, 0, .8); }
-.pg-light { position: absolute; z-index: 2; right: 7px; bottom: calc(100% + 1px); width: 13px; height: 17px; border-radius: 2px 2px 3px 3px;
+.pg-light { position: absolute; z-index: 2; right: 9px; bottom: calc(100% + 1px); width: 18px; height: 24px; border-radius: 3px 3px 4px 4px;
   background: radial-gradient(circle at 50% 62%, rgba(255, 214, 140, .95) 0 1.5px, rgba(255, 140, 60, .7) 3px, transparent 7px), linear-gradient(180deg, #b0362b, #6a1a14);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 14px 2px rgba(255, 160, 70, .22); animation: pg-glow 3.2s ease-in-out infinite; }
-.pg-light::before { content: ''; position: absolute; left: -1px; right: -1px; top: -4px; height: 4px; border-radius: 2px 2px 0 0; background: linear-gradient(180deg, #8c877d, #5d5a54); }
-.pg-light::after { content: ''; position: absolute; left: 50%; top: 4px; width: 5px; height: 7px; margin-left: -2.5px; border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%; background: radial-gradient(circle at 50% 75%, #fff4d0, #ffc35a 50%, rgba(249, 115, 22, 0) 100%); transform-origin: 50% 100%; animation: pg-flicker 2.4s ease-in-out infinite; }
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 18px 4px rgba(255, 160, 70, .26); animation: pg-glow 3.2s ease-in-out infinite; }
+.pg-light::before { content: ''; position: absolute; left: -1px; right: -1px; top: -5px; height: 5px; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, #8c877d, #5d5a54); }
+.pg-light::after { content: ''; position: absolute; left: 50%; top: 5px; width: 7px; height: 10px; margin-left: -3.5px; border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%; background: radial-gradient(circle at 50% 75%, #fff4d0, #ffc35a 50%, rgba(249, 115, 22, 0) 100%); transform-origin: 50% 100%; animation: pg-flicker 2.4s ease-in-out infinite; }
 @keyframes pg-flicker { 0%, 100% { transform: scale(1) rotate(0); opacity: .95; } 30% { transform: scale(1.06, 1.14) rotate(-3deg); opacity: 1; } 55% { transform: scale(.94, .9) rotate(2deg); opacity: .8; } 80% { transform: scale(1.03, 1.06) rotate(-1deg); opacity: .92; } }
-@keyframes pg-glow { 0%, 100% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 14px 2px rgba(255, 160, 70, .2); } 50% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 18px 4px rgba(255, 160, 70, .3); } }
+@keyframes pg-glow { 0%, 100% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 18px 4px rgba(255, 160, 70, .24); } 50% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 26px 7px rgba(255, 160, 70, .34); } }
+/* Blumenstrauß und Gras am Sockel links (Stiele und Blätter grün, Blüten hell/gold/rot) */
+.pg-flowers { position: absolute; z-index: 2; left: 4px; bottom: calc(100% - 2px); width: 72px; height: 56px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .45)); }
+.pg-flowers .stems path { fill: none; stroke: var(--accent-2); stroke-width: 1.6; stroke-linecap: round; }
+.pg-flowers .stems .leaf { fill: var(--accent-2); stroke: none; opacity: .9; }
+.pg-flowers .grass { fill: none; stroke: color-mix(in srgb, var(--accent-2) 70%, var(--surface-3)); stroke-width: 1.4; stroke-linecap: round; }
+.pg-flowers .f1 circle { fill: #f2f0ec; } .pg-flowers .f2 circle { fill: var(--warn); } .pg-flowers .f3 circle { fill: var(--loss); }
+.pg-flowers .core { fill: var(--warn) !important; } .pg-flowers .f2 .core { fill: #7a4a0a !important; } .pg-flowers .f3 .core { fill: #f2f0ec !important; }
+.pg-flowers g[class^="f"] { animation: pg-sway 4.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+.pg-flowers .f2 { animation-delay: -1.5s; } .pg-flowers .f3 { animation-delay: -3s; }
+@keyframes pg-sway { 0%, 100% { rotate: -2deg; } 50% { rotate: 2.5deg; } }
 :root[data-theme="light"] .prop-grave { --eng-hi: rgba(255, 255, 255, .95); --eng-lo: rgba(40, 50, 44, .16); }
 :root[data-theme="light"] .pg-stone { box-shadow: inset 0 1px 0 #fff, inset 0 -24px 34px -24px rgba(40, 50, 44, .12), 0 18px 30px -22px rgba(40, 50, 44, .35); }
 :root[data-theme="light"] .prop-grave-kv { background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: inset 0 1px 2px rgba(40, 50, 44, .08); }

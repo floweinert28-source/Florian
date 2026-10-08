@@ -1455,4 +1455,11 @@ I18N.add('hi', {
   "Höchste Stufe erreicht": "उच्चतम स्तर प्राप्त",
   "Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "सप्ताहांत से सिलसिला नहीं टूटता। तीन स्तर: {0}, {1} और {2} कार्यदिवसों से।",
   "Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab {0}, ab {1} und ab {2} Werktagen.": "लगातार कार्यदिवस जिनमें ट्रेड, चेक-इन या नोट हो। सप्ताहांत से सिलसिला नहीं टूटता। तीन स्तर: {0}, {1} और {2} कार्यदिवसों से।",
+  "Wann": "कब",
+  "Trade-P&L": "ट्रेड P&L",
+  "Serie davor": "पहले की श्रृंखला",
+  "Zurückdrehen": "वापस पलटें",
+  "Umdrehen: Einzelheiten zeigen": "पलटें: विवरण देखें",
+  "Umdrehen": "पलटें",
+  "kein Trade hinterlegt": "कोई ट्रेड नहीं जुड़ा",
 });

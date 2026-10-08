@@ -250,14 +250,14 @@
     const pairs = days.map(d => ({ d, c: checkInByDay[d.key] })).filter(p => p.c);
     const metric = (k, buckets) => {
       const xs = pairs.filter(p => p.c[k] != null).map(p => Number(p.c[k])), ys = pairs.filter(p => p.c[k] != null).map(p => p.d.pnl);
-      const groups = buckets.map(b => { const sel = pairs.filter(p => p.c[k] != null && b.test(Number(p.c[k]))); return { label: b.label, n: sel.length, avg: mean(sel.map(p => p.d.pnl)), winRate: sel.length ? sel.filter(p => p.d.pnl > EPS).length / sel.length : 0 }; });
+      const groups = buckets.map(b => { const sel = pairs.filter(p => p.c[k] != null && b.test(Number(p.c[k]))); return { label: b.label, name: b.name || b.label, range: b.range || '', n: sel.length, avg: mean(sel.map(p => p.d.pnl)), winRate: sel.length ? sel.filter(p => p.d.pnl > EPS).length / sel.length : 0 }; });
       return { r: pearson(xs, ys), n: xs.length, groups };
     };
     return {
       n: pairs.length,
       sleep: metric('sleep', [{ label: '< 6 h', test: v => v < 6 }, { label: '6–7,5 h', test: v => v >= 6 && v < 7.5 }, { label: '≥ 7,5 h', test: v => v >= 7.5 }]),
-      stress: metric('stress', [{ label: 'niedrig (1–2)', test: v => v <= 2 }, { label: 'mittel (3)', test: v => v === 3 }, { label: 'hoch (4–5)', test: v => v >= 4 }]),
-      mood: metric('mood', [{ label: 'schlecht (1–2)', test: v => v <= 2 }, { label: 'neutral (3)', test: v => v === 3 }, { label: 'gut (4–5)', test: v => v >= 4 }]),
+      stress: metric('stress', [{ label: 'niedrig (1–2)', name: 'Niedrig', range: '1–2', test: v => v <= 2 }, { label: 'mittel (3)', name: 'Mittel', range: '3', test: v => v === 3 }, { label: 'hoch (4–5)', name: 'Hoch', range: '4–5', test: v => v >= 4 }]),
+      mood: metric('mood', [{ label: 'schlecht (1–2)', name: 'Schlecht', range: '1–2', test: v => v <= 2 }, { label: 'neutral (3)', name: 'Neutral', range: '3', test: v => v === 3 }, { label: 'gut (4–5)', name: 'Gut', range: '4–5', test: v => v >= 4 }]),
     };
   }
 

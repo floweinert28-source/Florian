@@ -1357,4 +1357,7 @@ I18N.add('en', {
   "{0} neue Aufgaben": "{0} new tasks",
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Your mentor has given you a new task.",
   "deinem Mentor": "your mentor",
+  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als sechs Leuchtreihen.": "Score from {0} to {1} based on win rate, profit factor, win/loss ratio, drawdown and consistency, shown as six light bars.",
+  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Jede Reihe hat zehn Stufen. Der Score ist der Mittelwert.": "Six areas from {0} to {1}: win rate, profit factor, win/loss ratio, consistency, rule adherence and drawdown. Each row has ten steps. The score is the average.",
+  "Am schwächsten": "Weakest",
 });

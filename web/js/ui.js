@@ -309,33 +309,19 @@
     const arcs = segments.map(s => { const f = Math.max(s.v, 0) / total; const len = Math.max(f * c - 2, 0); const e = `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-acc * c + 1}"/>`; acc += f; return e; }).join('');
     return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/>${arcs}</svg>${center ? `<div class="n" style="font-size:${size * 0.22}px">${center}</div>` : ''}</div>`;
   }
-  function radar(axes, size = 240) {
-    const pad = 64; const c = size / 2, r = size / 2 - 34, n = axes.length; const pt = (i, f) => { const a = -Math.PI / 2 + i / n * 2 * Math.PI; return [c + Math.cos(a) * r * f, c + Math.sin(a) * r * f]; };
-    const ringP = f => `<polygon points="${axes.map((_, i) => pt(i, f).join(',')).join(' ')}" fill="none" stroke="var(--border-2)"/>`;
-    const spokes = axes.map((_, i) => `<line x1="${c}" y1="${c}" x2="${pt(i, 1)[0]}" y2="${pt(i, 1)[1]}" stroke="var(--border)"/>`).join('');
-    const area = axes.map((a, i) => pt(i, Math.max(a.score, 0.03)).join(',')).join(' ');
-    /* Ecken ohne sichtbare Punkte: unsichtbare Trefferflächen behalten den Tooltip */
-    const dots = axes.map((a, i) => { const [x, y] = pt(i, Math.max(a.score, 0.03)); return `<circle cx="${x}" cy="${y}" r="10" fill="transparent" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}"/>`; }).join('');
-    const labels = axes.map((a, i) => { const [x, y] = pt(i, 1.22); const anchor = Math.abs(x - c) < 4 ? 'middle' : x < c ? 'end' : 'start'; return `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" style="font-size:11px;fill:var(--text-2);font-weight:600">${esc(a.label)}</text>`; }).join('');
-    if (typeof requestAnimationFrame !== 'undefined' && !radar.pending) { radar.pending = true; requestAnimationFrame(() => { radar.pending = false; fitRadars(); }); }
-    return `<svg class="radar-svg" data-c="${c}" viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+  /* Gesamt-Score als eigenes Bild: oben die Zahl, darunter je Bereich eine Reihe aus zehn Leuchtstufen mit Teilscore.
+     Eine Farbe (Akzent), linke Stufen gedämpft, die letzte leuchtet; der schwächste Bereich steht oben rechts */
+  function scoreBars(sc) {
+    const weak = sc.axes.reduce((a, b) => (b.score < a.score ? b : a), sc.axes[0]); const showWeak = weak && weak.score < 1;
+    const rows = sc.axes.map(a => {
+      const n = Math.round(a.score * 100), lit = Math.round(a.score * 10);
+      const steps = Array.from({ length: 10 }, (_, i) => i < lit ? `<i class="on${i === lit - 1 ? ' top' : ''}" style="--k:${((i + 1) / lit).toFixed(2)}"></i>` : '<i></i>').join('');
+      return `<div class="scb-row${showWeak && a === weak ? ' weak' : ''}" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${n}"><span>${esc(a.label)}</span><div class="scb-steps">${steps}</div><b class="num">${n}</b></div>`;
+    }).join('');
+    return `<div class="scb"><div class="scb-head"><div class="scb-big num" style="color:${scoreColor(sc.overall)}">${sc.overall}<small>/100</small></div>${showWeak ? `<div class="scb-weak"><span>Am schwächsten</span><b>${esc(weak.label)}</b></div>` : ''}</div><div class="scb-rows">${rows}</div></div>`;
   }
-  /* Beschriftungen können nach der Übersetzung länger sein: Sichtbereich symmetrisch so weit öffnen, dass nichts abgeschnitten wird */
-  function fitRadars() {
-    document.querySelectorAll('svg.radar-svg').forEach(svg => {
-      /* lange Beschriftungen auf zwei Zeilen verteilen (Trennung am Leerzeichen nahe der Mitte) */
-      svg.querySelectorAll('text').forEach(t => {
-        const s = t.textContent; if (t.firstElementChild || s.length <= 13 || s.indexOf(' ') < 0) return;
-        let cut = -1; for (let i = 0; i < s.length; i++) if (s[i] === ' ' && (cut < 0 || Math.abs(i - s.length / 2) < Math.abs(cut - s.length / 2))) cut = i;
-        const x = t.getAttribute('x'); t.textContent = '';
-        [[s.slice(0, cut), '-0.5em'], [s.slice(cut + 1), '1.1em']].forEach(([txt, dy]) => { const sp = document.createElementNS('http://www.w3.org/2000/svg', 'tspan'); sp.setAttribute('x', x); sp.setAttribute('dy', dy); sp.textContent = txt; t.appendChild(sp); });
-      });
-      let bb; try { bb = svg.getBBox(); } catch (e) { return; } if (!bb.width) return;
-      const vb = svg.viewBox.baseVal; const c = +svg.dataset.c; const left = Math.min(vb.x, bb.x - 4), right = Math.max(vb.x + vb.width, bb.x + bb.width + 4);
-      const half = Math.max(c - left, right - c); if (half * 2 <= vb.width + 0.5) return;
-      svg.setAttribute('viewBox', `${c - half} ${vb.y} ${half * 2} ${vb.height}`); svg.style.maxWidth = Math.round(half * 2) + 'px';
-    });
-  }
+
+
   function heatmap(activity, account) {
     const ref = Math.max(1, (account || 10000) * 0.01); const lvl = a => { if (!a.n) return a.checkIn || a.note ? 'l1' : ''; const f = Math.abs(a.pnl) / ref; return a.pnl >= 0 ? (f < 0.5 ? 'l2' : f < 1.5 ? 'l3' : 'l4') : (f < 0.5 ? 'n1' : f < 1.5 ? 'n2' : 'n3'); };
     const lead = activity.length ? (activity[0].date.getDay() + 6) % 7 : 0; const cells = Array(lead).fill('<i style="visibility:hidden"></i>').concat(activity.map(a => `<i class="${lvl(a)}" data-tip="<b>${fmt.dateFull(a.date)}</b><br>${a.n ? `${a.n} Trades · ${fmt.cur(a.pnl, { signed: true })}` : 'Keine Trades'}${a.checkIn ? '<br>Check-in ✓' : ''}${a.note ? '<br>Journal ✓' : ''}" data-action="day" data-day="${a.key}"></i>`));
@@ -392,5 +378,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, semiGauge, donut, scoreBars, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
 })(typeof self !== 'undefined' ? self : this);

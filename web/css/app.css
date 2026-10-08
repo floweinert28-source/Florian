@@ -479,12 +479,23 @@ span.info:hover { color: var(--accent); }
 .wl-bars .track { height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
 .wl-bars .track i { display: block; height: 100%; border-radius: 4px; }
 
-/* Score-Karte */
-.score-wrap { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: center; }
-.score-scale { position: relative; height: 26px; margin: 8px 6px 0; }
-.score-scale .track { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--loss), var(--warn), var(--accent)); opacity: .55; }
-.score-scale .knob { position: absolute; top: 3px; width: 20px; height: 20px; border-radius: 999px; background: var(--accent); border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--accent); transform: translateX(-50%); }
-.score-scale .lbls { position: absolute; left: 0; right: 0; top: 22px; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+/* Gesamt-Score: oben die Zahl, darunter je Bereich eine Reihe aus zehn Leuchtstufen (eine Farbe, links gedämpft, die letzte leuchtet) */
+.scb { display: flex; flex-direction: column; gap: 26px; padding-top: 2px; }
+.scb-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.scb-big { font-family: var(--font-display); font-size: 46px; font-weight: 700; line-height: .9; letter-spacing: -.01em; white-space: nowrap; }
+.scb-big small { font-size: 15px; font-weight: 600; color: var(--muted); margin-left: 5px; letter-spacing: 0; }
+.scb-weak { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; min-width: 0; font-size: 12px; color: var(--muted); text-align: right; }
+.scb-weak b { font-size: 13.5px; font-weight: 600; color: var(--text-2); }
+.scb-rows { display: flex; flex-direction: column; gap: 18px; }
+.scb-row { display: grid; grid-template-columns: minmax(78px, 38%) minmax(0, 1fr) 30px; align-items: center; gap: 12px; }
+.scb-row > span { font-size: 13px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scb-steps { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; }
+.scb-steps i { display: block; height: 10px; border-radius: 3px; background: var(--surface-3); transition: opacity var(--dur-1) var(--ease); }
+.scb-steps i.on { background: var(--accent); opacity: calc(.38 + .62 * var(--k)); }
+.scb-steps i.top { box-shadow: 0 0 10px var(--accent-soft); }
+.scb-row:hover .scb-steps i.on { opacity: 1; }
+.scb-row > b { font-size: 14px; font-weight: 700; color: var(--text); text-align: right; font-variant-numeric: tabular-nums; }
+.scb-row.weak > span { color: var(--text); }
 .score-big { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
 
 /* Farbwahl */
@@ -2631,3 +2642,21 @@ a.coach-name:hover { color: var(--accent); }
   .mr-write { flex-direction: column; align-items: stretch; }
   .coach-mailrow { flex-wrap: wrap; }
 }
+
+/* Statistik → Zustand: Check-in-Werte als saubere Tabelle (Bereich, Tage, Im Plus, Ø Tag in festen Spalten, darunter ein schmaler Balken) */
+.st-corr { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.st-corr b { margin-left: 4px; color: var(--text); font-weight: 700; }
+.st-corr b.pos { color: var(--profit); } .st-corr b.neg { color: var(--loss); }
+.st-tbl { display: flex; flex-direction: column; }
+.st-h, .st-r { display: grid; grid-template-columns: minmax(0, 1fr) 30px 50px 88px; align-items: baseline; column-gap: 10px; }
+.st-h { padding-bottom: 8px; border-bottom: 1px solid var(--border); font-size: 11.5px; color: var(--muted); }
+.st-h > span:not(:first-child), .st-r > .num { text-align: right; }
+.st-r { row-gap: 8px; padding-top: 13px; font-size: 13.5px; }
+.st-l { min-width: 0; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-l small { margin-left: 6px; font-size: 12px; font-weight: 400; color: var(--muted); }
+.st-r > span.num { color: var(--text-2); font-variant-numeric: tabular-nums; }
+.st-r > b { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.st-r > b.pos { color: var(--profit); } .st-r > b.neg { color: var(--loss); }
+.st-bar { grid-column: 1 / -1; display: block; height: 4px; border-radius: 2px; background: var(--surface-3); overflow: hidden; }
+.st-bar > i { display: block; height: 100%; border-radius: 2px; }
+.st-r.empty .st-l { color: var(--muted); }

@@ -71,28 +71,46 @@
     const c = t.cause;
     const when = c.at ? `${c.weekdayIndex != null ? WEEKDAY_LONG[c.weekdayIndex] : (c.weekday || '—')}, ${dateIn(c.at, tz)} · ${timeIn(c.at, tz)} Uhr` : null;
     const tradeHtml = trade
-      ? `<div class="prop-grave-trade"><span class="sym">${esc(trade.symbol || '—')}</span>${trade.setup ? `<span class="muted small">${esc(trade.setup)}</span>` : ''}${when ? `<span class="muted small">${esc(when)}</span>` : ''}<span>${c.pnl == null ? DASH : U.pnl(c.pnl, '', { r: trade.r })}</span></div>`
+      ? `<div class="prop-grave-trade"><span><span class="sym">${esc(trade.symbol || '—')}</span>${trade.setup ? `<span class="muted small"> · ${esc(trade.setup)}</span>` : ''}</span>${when ? `<span class="muted small">${esc(when)}</span>` : ''}<span>${c.pnl == null ? DASH : U.pnl(c.pnl, '', { r: trade.r })}</span></div>`
       : when ? `<div class="prop-grave-trade"><span class="muted small">kein Trade hinterlegt</span><span class="muted small">${esc(when)}</span></div>` : DASH;
     const chips = [...t.emotions.map(e => U.chip(e, 'emotion')), ...t.mistakes.map(m => U.chip(m, 'mistake'))];
     const streak = t.lossStreakBefore > 0 ? `<span class="${t.lossStreakBefore >= 2 ? 'neg' : ''}">${plural(t.lossStreakBefore, 'Verlusttrade', 'Verlusttrades')} in Folge</span>` : '<span class="muted">keine</span>';
-    const link = c.tradeId != null && trade ? `<div class="prop-grave-foot"><a class="btn xs ghost" href="#/trades/${esc(String(c.tradeId))}">${I.external} Trade öffnen</a></div>` : '';
+    const link = c.tradeId != null && trade ? `<div class="prop-grave-foot"><a class="btn xs ghost" data-stop href="#/trades/${esc(String(c.tradeId))}">${I.external} Trade öffnen</a></div>` : '';
     const born = t.startedAt ? fmt.dateFull(t.startedAt) : null, died = c.at ? dateIn(c.at, tz) : null;
     const dates = born || died ? `<span class="pg-dates"><span>* ${born || '—'}</span><span>† ${died || '—'}</span></span>` : '';
     const life = t.lifetimeDays == null ? `<span class="muted">Lebensdauer unbekannt (${t.startedAt ? 'kein Breach-Datum' : 'kein Startdatum'})</span>` : `<span class="pg-age">gelebt <b>${plural(t.lifetimeDays, 'Tag', 'Tage')}</b></span>`;
+    /* zwei Seiten: vorne nur das Wesentliche (Name, Konto, Phase, Daten, Todesursache), per Klick dreht sich der Stein und zeigt
+       hinten kompakt den Rest (Inschrift, Ergebnis, auslösender Trade, Verlustserie, Tags, Link) */
     return `<section class="prop-grave" data-id="${esc(String(t.accountId))}">
-      <div class="pg-stone">${CRACK}
-        <span class="pg-rip" aria-hidden="true">R · I · P</span>
-        <div class="prop-grave-head"><b>${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</b><div class="muted small">${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? ` · ${marketLabel(t.market)}` : ''}</div><div class="pills">${U.pill(esc(nameOf(PHASES, t.phase)), 'neutral')}</div></div>
-        <div class="prop-grave-life">${dates}${life}</div>
-        <span class="pg-orn" aria-hidden="true"></span>
-        <div class="pg-cause"><span>Todesursache</span><b>${ruleLabel(c.rule)}</b></div>
-        ${t.note ? `<p class="pg-epitaph prop-grave-note">„${esc(t.note)}“</p>` : ''}
-        <div class="prop-grave-kv">${kv('Ergebnis', t.result == null ? DASH : U.pnl(t.result))}${kv('Auslösender Trade', tradeHtml)}${kv('Verlustserie davor', streak)}${chips.length ? `<div class="pg-chips chips">${chips.join('')}</div>` : ''}</div>
-        ${link}
+      <div class="pg-stone" data-action="pg-flip" title="Umdrehen">
+        <div class="pg-inner">
+          <div class="pg-face pg-front" aria-hidden="false">${CRACK}
+            <span class="pg-rip" aria-hidden="true">R · I · P</span>
+            <div class="prop-grave-head"><b>${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</b><div class="muted small">${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? ` · ${marketLabel(t.market)}` : ''}</div><div class="pills">${U.pill(esc(nameOf(PHASES, t.phase)), 'neutral')}</div></div>
+            <div class="prop-grave-life">${dates}${life}</div>
+            <span class="pg-orn" aria-hidden="true"></span>
+            <div class="pg-cause"><span>Todesursache</span><b>${ruleLabel(c.rule)}</b></div>
+            <button type="button" class="pg-turn" data-action="pg-flip" aria-label="Umdrehen: Einzelheiten zeigen">${I.replay}<span>Umdrehen</span></button>
+          </div>
+          <div class="pg-face pg-back" aria-hidden="true">
+            <span class="pg-rip" aria-hidden="true">${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</span>
+            ${t.note ? `<p class="pg-epitaph prop-grave-note">„${esc(t.note)}“</p>` : ''}
+            <div class="prop-grave-kv">${kv('Ergebnis', t.result == null ? DASH : U.pnl(t.result))}${kv('Auslösender Trade', tradeHtml)}${kv('Verlustserie davor', streak)}${chips.length ? `<div class="pg-chips chips">${chips.join('')}</div>` : ''}</div>
+            ${link}
+            <button type="button" class="pg-turn" data-action="pg-flip" aria-label="Zurückdrehen">${I.replay}<span>Zurück</span></button>
+          </div>
+        </div>
       </div>
       <div class="pg-base" aria-hidden="true"><span class="pg-light"></span></div>
     </section>`;
   }
+  Object.assign(App.actions, {
+    'pg-flip'(el, e) {
+      const t = e && e.target; if (t && t.closest('a, .btn') && !t.closest('.pg-turn')) return; /* Trade öffnen & Co. drehen nicht */
+      const stone = el.closest('.pg-stone'); if (!stone) return; const on = stone.classList.toggle('flipped');
+      stone.querySelector('.pg-front').setAttribute('aria-hidden', String(on)); stone.querySelector('.pg-back').setAttribute('aria-hidden', String(!on));
+    },
+  });
   function tabFriedhof() {
     const { g, byId, accs } = graveyard();
     if (!g.n) return U.empty('shield', 'Noch kein Konto auf dem Friedhof', 'Gut so. Konten, die du im Cockpit über „Als geplatzt markieren“ beendest, landen hier als Grabstein, mit Ursache, auslösendem Trade und den Mustern dahinter.');

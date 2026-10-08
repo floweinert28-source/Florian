@@ -190,7 +190,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer
   und Ampel. Cockpit mit allen Konten, echte Prop-Bilanz (Ausgaben gegen Payouts, ROI, Kosten pro bestandenem Konto,
   Bestehensquote), Puffer in Stop-Losses, Positionsgrößenrechner mit editierbaren Instrument-Spezifikationen,
-  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse (jedes geplatzte Konto als Grabstein: gewölbter Stein mit Körnung, Riss und gravierter Schrift, „R · I · P“, Lebensdaten * Start / † Breach, Todesursache, Notiz als Inschrift, Tafel mit Ergebnis, auslösendem Trade und Verlustserie; Sockel mit flackerndem Grablicht) und Challenge vs. Funded (`js/screens/prop-friedhof.js`), Monte-Carlo-Simulation
+  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse (jedes geplatzte Konto als zweiseitiger Grabstein – vorne nur das Wesentliche (Firma, Konto, Phase, * Start / † Breach, gelebte Tage, Todesursache), per Klick oder „Umdrehen“ dreht er sich um und zeigt hinten kompakt Inschrift, Ergebnis, auslösenden Trade, Verlustserie, Tags und den Trade-Link; gewölbter Stein mit Körnung, Riss und gravierter Schrift, „R · I · P“, Lebensdaten * Start / † Breach, Todesursache, Notiz als Inschrift, Tafel mit Ergebnis, auslösendem Trade und Verlustserie; Sockel mit flackerndem Grablicht) und Challenge vs. Funded (`js/screens/prop-friedhof.js`), Monte-Carlo-Simulation
   der Bestehens-Wahrscheinlichkeit im Web Worker (`js/propworker.js`, Rechenkern `js/propsim.js`; ohne Worker, etwa unter
   `file://`, synchron im Hauptthread), Firmen-Matcher (Sortierung nach Bestehensquote mit den eigenen Tagen, keine Bewertung der Firmen) und
   Erwartungswert der Challenge (Tab Simulation, `js/screens/prop-sim.js`). Phasenwechsel eines Kontos werden mit Datum
@@ -251,9 +251,9 @@ oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtba
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden
 Zeichner): Linien von links nach rechts, Flächen und Balken blenden ein, Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,
 bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Wechselt nur ein Parameter derselben Seite (Tag vor/zurück, Statistik-Reiter),
-gibt es keine Überblendung und keinen gestaffelten Einzug, sondern der Inhalt gleitet kurz herein – bei Tagesschlüsseln in Richtung
-des Wechsels (`.content.swap-next/-prev`), sonst nur weich (`.content.swap`). Das Dashboard zählt seinen Aufbau nach dem Skelett
-als Seitenstart (`App.render({ first: true })`).
+gibt es keine Überblendung der Seite und keinen gestaffelten Einzug; der Inhalt blendet nur kurz und ruhig ein (`.content.swap`,
+nur Deckkraft – keine Verschiebung und keine Schnappschüsse, damit die Schrift scharf bleibt und nichts rüttelt). Das Dashboard
+zählt seinen Aufbau nach dem Skelett als Seitenstart (`App.render({ first: true })`).
 
 `js/scroll.js` macht das Scrollen der ganzen App weich und „schwer“ wie auf edlen Websites: das Mausrad setzt nur ein Ziel,
 die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; kleiner = träger). Nur das Fenster wird so bewegt –

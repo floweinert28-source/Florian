@@ -75,7 +75,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
 - **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
-  Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei Spalten in Skalen-Reihenfolge mit kleiner Säule an gemeinsamer Nulllinie, Betrag groß, Tage und Anteil im Plus),
+  Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei ruhige Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-PZustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei Spalten in Skalen-Reihenfolge mit kleiner Säule an gemeinsamer Nulllinie, Betrag groß, Tage und Anteil im Plus),L, Tage und Anteil im Plus im Tooltip),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit.
 - **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz); Notizen gelten für alles, darum ohne Zeitraum und Konto, die Suche steht in der Kopfreihe. Standardordner Trade Notes,
   Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Notiz-Kopf mit

@@ -2655,21 +2655,17 @@ a.coach-name:hover { color: var(--accent); }
   .coach-mailrow { flex-wrap: wrap; }
 }
 
-/* Statistik → Zustand: je Check-in-Wert drei Spalten in Skalen-Reihenfolge – kleine Säule (gemeinsame Nulllinie), Bereich, Betrag groß, Tage und Anteil im Plus */
+/* Statistik → Zustand: je Check-in-Wert drei ruhige Spalten in Skalen-Reihenfolge – nur Bereich und Ø Tages-P&L, Rest im Tooltip */
 .st-corr { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
 .st-corr b { margin-left: 4px; color: var(--text); font-weight: 700; }
 .st-corr b.pos { color: var(--profit); } .st-corr b.neg { color: var(--loss); }
-.stc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 12px; padding-top: 6px; }
-.stc-col { display: flex; flex-direction: column; align-items: center; min-width: 0; text-align: center; }
-.stc-plot { position: relative; align-self: stretch; height: 92px; margin-bottom: 16px; }
-.stc-plot::after { content: ''; position: absolute; left: -6px; right: -6px; top: var(--base); height: 1px; background: var(--border-2); } /* Nulllinie, über alle Spalten durchgehend */
-.stc-col:first-child .stc-plot::after { left: 0; } .stc-col:last-child .stc-plot::after { right: 0; }
-.stc-plot i { position: absolute; left: 50%; width: 30px; transform: translateX(-50%); }
-.stc-plot i.up { border-radius: 6px 6px 0 0; background: linear-gradient(180deg, var(--profit), color-mix(in srgb, var(--profit) 55%, transparent)); }
-.stc-plot i.down { border-radius: 0 0 6px 6px; background: linear-gradient(0deg, var(--loss), color-mix(in srgb, var(--loss) 55%, transparent)); }
-.stc-l { font-size: 13px; font-weight: 500; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.stc-l small { margin-left: 5px; font-size: 11.5px; font-weight: 400; color: var(--muted); }
-.stc-col > b { margin: 6px 0 8px; font-size: 17px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.stc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 0 2px; container-type: inline-size; }
+.stc-col { display: flex; flex-direction: column; gap: 7px; min-width: 0; padding: 0 12px; border-left: 1px solid var(--border); }
+.stc-col:first-child { padding-left: 0; border-left: 0; }
+.stc-l { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stc-l small { margin-left: 5px; font-size: 11.5px; color: var(--faint); }
+.stc-col > b { font-size: 16px; font-weight: 700; line-height: 1.1; white-space: nowrap; }
 .stc-col > b.pos { color: var(--profit); } .stc-col > b.neg { color: var(--loss); }
-.stc-m { font-size: 11.5px; line-height: 1.5; color: var(--muted); white-space: nowrap; }
-.stc-col.empty .stc-l { color: var(--muted); }
+.stc-col.empty > b { color: var(--faint); }
+@container (max-width: 300px) { .stc-col { padding: 0 10px; } .stc-col > b { font-size: 14.5px; } } /* schmale Karte: Beträge ohne Umbruch (nach den Grundregeln, damit sie gewinnen) */
+@container (max-width: 272px) { .stc-col { padding: 0 8px; } .stc-col > b { font-size: 13.5px; } }

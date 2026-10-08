@@ -59,15 +59,10 @@
   }
   function tabState(list, closed, days) {
     const st = C.stateAnalysis(days, S.checkInByDay()); if (!st.n) return U.empty('sparkle', 'Keine Check-ins im Zeitraum', 'Starte den Tag mit „Session starten“, dann siehst du hier, wie Schlaf, Stress und Stimmung mit deinem Ergebnis zusammenhängen.');
-    /* je Wert drei Spalten in der Reihenfolge der Skala: oben eine kleine Säule (Ø Tages-P&L, Nulllinie gemeinsam, grün nach oben,
-       rot nach unten), darunter Bereich, Betrag groß und zwei kurze Zeilen Tage / Anteil im Plus; Korrelation oben rechts */
-    const block = (title, m) => {
-      const pos = Math.max(0, ...m.groups.filter(g => g.n).map(g => g.avg)), neg = Math.max(0, ...m.groups.filter(g => g.n).map(g => -g.avg)); const tot = pos + neg || 1; const base = pos / tot;
-      const rc = m.r == null ? '' : m.r > 0.2 ? 'pos' : m.r < -0.2 ? 'neg' : '';
-      const cols = m.groups.map(g => { const up = g.avg >= 0; const h = g.n ? Math.max(2.5, Math.abs(g.avg) / tot * 100) : 0;
-        const bar = g.n ? `<i class="${up ? 'up' : 'down'}" style="${up ? `bottom:${((1 - base) * 100).toFixed(1)}%` : `top:${(base * 100).toFixed(1)}%`};height:${h.toFixed(1)}%"></i>` : '';
-        return `<div class="stc-col${g.n ? '' : ' empty'}"><div class="stc-plot">${bar}</div><div class="stc-l">${esc(g.name)}${g.range ? `<small>${esc(g.range)}</small>` : ''}</div><b class="num ${g.n ? (up ? 'pos' : 'neg') : ''}">${g.n ? fmt.cur(g.avg, { signed: true }) : '—'}</b><span class="stc-m">${g.n} ${g.n === 1 ? 'Tag' : 'Tage'}</span><span class="stc-m">${g.n ? `${fmt.pct(g.winRate)} im Plus` : '—'}</span></div>`; }).join('');
-      return U.card(title, `<div class="stc" style="--base:${(base * 100).toFixed(1)}%">${cols}</div>`, { trailing: `<span class="st-corr">Korrelation <b class="num ${rc}">${m.r == null ? '—' : fmt.num(m.r, 2)}</b></span>` });
+    /* je Wert nur das Nötigste: drei Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-P&L; Tage und Anteil im Plus im Tooltip. Korrelation oben rechts */
+    const block = (title, m) => { const rc = m.r == null ? '' : m.r > 0.2 ? 'pos' : m.r < -0.2 ? 'neg' : '';
+      const cols = m.groups.map(g => `<div class="stc-col${g.n ? '' : ' empty'}" data-tip="${g.n ? `${esc(g.name)}: ${g.n} ${g.n === 1 ? 'Tag' : 'Tage'} · ${fmt.pct(g.winRate)} im Plus` : 'Keine Tage'}"><span class="stc-l">${esc(g.name)}${g.range ? `<small>${esc(g.range)}</small>` : ''}</span><b class="num ${g.n ? (g.avg >= 0 ? 'pos' : 'neg') : ''}">${g.n ? fmt.cur(g.avg, { signed: true }) : '—'}</b></div>`).join('');
+      return U.card(title, `<div class="stc">${cols}</div>`, { trailing: `<span class="st-corr">Korrelation <b class="num ${rc}">${m.r == null ? '—' : fmt.num(m.r, 2)}</b></span>` });
     };
     return `<div class="muted small">${st.n} Handelstage mit Check-in. Korrelation von −1 bis +1 zwischen Wert und Tages-P&L.</div><div class="grid three">${block('Schlaf', st.sleep)}${block('Stress', st.stress)}${block('Stimmung', st.mood)}</div>`;
   }

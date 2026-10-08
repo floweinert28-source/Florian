@@ -1400,7 +1400,9 @@ I18N.add('es', {
   "{0} neue Aufgaben": "{0} tareas nuevas",
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Tu mentor te ha dado una tarea nueva.",
   "deinem Mentor": "tu mentor",
-  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als sechs Leuchtreihen.": "Puntuación de {0} a {1} a partir de la tasa de acierto, el factor de beneficio, el ratio ganancia/pérdida, el drawdown y la consistencia, en seis barras de luz.",
-  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Jede Reihe hat zehn Stufen. Der Score ist der Mittelwert.": "Seis áreas de {0} a {1}: tasa de acierto, factor de beneficio, ratio ganancia/pérdida, consistencia, cumplimiento de reglas y drawdown. Cada fila tiene diez niveles. La puntuación es la media.",
-  "Am schwächsten": "Más débil",
+  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als leuchtender Ring mit den sechs Bereichen darunter.": "Puntuación de {0} a {1} a partir de la tasa de acierto, el factor de beneficio, el ratio ganancia/pérdida, el drawdown y la consistencia, como anillo luminoso con las seis áreas debajo.",
+  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert. Unter {2} Ausbaufähig, ab {3} Solide, ab {4} Stark.": "Seis áreas de {0} a {1}: tasa de acierto, factor de beneficio, ratio ganancia/pérdida, consistencia, cumplimiento de reglas y drawdown. La puntuación es la media. Por debajo de {2} Mejorable, desde {3} Sólido, desde {4} Fuerte.",
+  "Stark": "Fuerte",
+  "Solide": "Sólido",
+  "Ausbaufähig": "Mejorable",
 });

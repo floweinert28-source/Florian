@@ -1447,7 +1447,9 @@ I18N.add('hi', {
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "आपके मेंटर ने आपको नया कार्य दिया है।",
   "deinem Mentor": "आपके मेंटर",
   "Coaching": "कोचिंग",
-  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als sechs Leuchtreihen.": "विन रेट, प्रॉफिट फैक्टर, विन/लॉस अनुपात, ड्रॉडाउन और कंसिस्टेंसी से बना {0} से {1} तक का स्कोर, छह लाइट बार के रूप में।",
-  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Jede Reihe hat zehn Stufen. Der Score ist der Mittelwert.": "{0} से {1} तक छह क्षेत्र: विन रेट, प्रॉफिट फैक्टर, विन/लॉस अनुपात, कंसिस्टेंसी, नियम पालन और ड्रॉडाउन। हर पंक्ति में दस स्तर हैं। स्कोर इनका औसत है।",
-  "Am schwächsten": "सबसे कमज़ोर",
+  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als leuchtender Ring mit den sechs Bereichen darunter.": "विन रेट, प्रॉफिट फैक्टर, विन/लॉस अनुपात, ड्रॉडाउन और कंसिस्टेंसी से बना {0} से {1} तक का स्कोर, चमकती रिंग के रूप में, नीचे छह क्षेत्र।",
+  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert. Unter {2} Ausbaufähig, ab {3} Solide, ab {4} Stark.": "{0} से {1} तक छह क्षेत्र: विन रेट, प्रॉफिट फैक्टर, विन/लॉस अनुपात, कंसिस्टेंसी, नियम पालन और ड्रॉडाउन। स्कोर इनका औसत है। {2} से कम: सुधार की गुंजाइश, {3} से: ठीक-ठाक, {4} से: मज़बूत।",
+  "Stark": "मज़बूत",
+  "Solide": "ठीक-ठाक",
+  "Ausbaufähig": "सुधार की गुंजाइश",
 });

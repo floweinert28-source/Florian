@@ -479,23 +479,35 @@ span.info:hover { color: var(--accent); }
 .wl-bars .track { height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
 .wl-bars .track i { display: block; height: 100%; border-radius: 4px; }
 
-/* Gesamt-Score: oben die Zahl, darunter je Bereich eine Reihe aus zehn Leuchtstufen (eine Farbe, links gedämpft, die letzte leuchtet) */
-.scb { display: flex; flex-direction: column; gap: 26px; padding-top: 2px; }
-.scb-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.scb-big { font-family: var(--font-display); font-size: 46px; font-weight: 700; line-height: .9; letter-spacing: -.01em; white-space: nowrap; }
-.scb-big small { font-size: 15px; font-weight: 600; color: var(--muted); margin-left: 5px; letter-spacing: 0; }
-.scb-weak { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; min-width: 0; font-size: 12px; color: var(--muted); text-align: right; }
-.scb-weak b { font-size: 13.5px; font-weight: 600; color: var(--text-2); }
-.scb-rows { display: flex; flex-direction: column; gap: 18px; }
-.scb-row { display: grid; grid-template-columns: minmax(78px, 38%) minmax(0, 1fr) 30px; align-items: center; gap: 12px; }
-.scb-row > span { font-size: 13px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.scb-steps { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; }
-.scb-steps i { display: block; height: 10px; border-radius: 3px; background: var(--surface-3); transition: opacity var(--dur-1) var(--ease); }
-.scb-steps i.on { background: var(--accent); opacity: calc(.38 + .62 * var(--k)); }
-.scb-steps i.top { box-shadow: 0 0 10px var(--accent-soft); }
-.scb-row:hover .scb-steps i.on { opacity: 1; }
-.scb-row > b { font-size: 14px; font-weight: 700; color: var(--text); text-align: right; font-variant-numeric: tabular-nums; }
-.scb-row.weak > span { color: var(--text); }
+/* Gesamt-Score als Instrument: offener Ring mit Skala, leuchtendes Ende, Zahl in der Mitte; darunter die sechs Bereiche ruhig in zwei Spalten.
+   --c = Farbe der Stufe (rot/gelb/grün); Spur und Glanz sind Töne derselben Farbe */
+.scg { position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
+.scg-dial { position: relative; width: min(100%, 222px); margin: -6px auto 0; }
+.scg-dial::before { content: ''; position: absolute; left: 50%; top: 52%; width: 64%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--c) 16%, transparent) 0%, transparent 68%); pointer-events: none; }
+.scg-svg { position: relative; display: block; width: 100%; height: auto; overflow: visible; }
+.scg-ticks line { stroke: var(--border-2); stroke-width: 1.4; stroke-linecap: round; }
+.scg-ticks line.mj { stroke: var(--faint); stroke-width: 1.8; }
+.scg-ticks line.on { stroke: color-mix(in srgb, var(--c) 55%, var(--border-2)); }
+.scg-track { fill: none; stroke: color-mix(in srgb, var(--c) 12%, var(--surface-3)); stroke-width: 10; stroke-linecap: round; }
+.scg-fill { fill: none; stroke-width: 10; stroke-linecap: round; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--c) 45%, transparent)); }
+.scg-knob { fill: var(--surface); stroke: var(--c); stroke-width: 3.5; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--c) 70%, transparent)); }
+.scg-mid { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-46%); display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
+.scg-mid b { font-family: var(--font-display); font-size: 54px; font-weight: 700; line-height: .9; letter-spacing: -.02em; color: var(--text); }
+.scg-mid span { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); }
+.scg-fill.anim { animation: scg-draw 1.2s cubic-bezier(.2, .8, .2, 1) both; }
+.scg-knob.anim { animation: scg-fade .4s ease-out .95s both; }
+.scg-mid.anim { animation: scg-rise .7s cubic-bezier(.2, .8, .2, 1) .15s both; }
+@keyframes scg-draw { from { stroke-dasharray: 0 100; } }
+@keyframes scg-fade { from { opacity: 0; transform: scale(.4); } }
+@keyframes scg-rise { from { opacity: 0; transform: translateY(-30%); } }
+.scg-knob.anim { transform-box: fill-box; transform-origin: center; }
+.scg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px; padding-top: 13px; border-top: 1px solid var(--border); }
+.scg-cell { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 7px 8px; }
+.scg-cell > span { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scg-cell > b { font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.scg-cell > i { grid-column: 1 / -1; display: block; height: 3px; border-radius: 2px; background: var(--surface-3); overflow: hidden; }
+.scg-cell > i > i { display: block; height: 100%; border-radius: 2px; background: color-mix(in srgb, var(--text) 55%, transparent); transition: background var(--dur-1) var(--ease); }
+.scg-cell:hover > i > i { background: var(--c); }
 .score-big { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
 
 /* Farbwahl */
@@ -2643,20 +2655,21 @@ a.coach-name:hover { color: var(--accent); }
   .coach-mailrow { flex-wrap: wrap; }
 }
 
-/* Statistik → Zustand: Check-in-Werte als saubere Tabelle (Bereich, Tage, Im Plus, Ø Tag in festen Spalten, darunter ein schmaler Balken) */
+/* Statistik → Zustand: je Check-in-Wert drei Spalten in Skalen-Reihenfolge – kleine Säule (gemeinsame Nulllinie), Bereich, Betrag groß, Tage und Anteil im Plus */
 .st-corr { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
 .st-corr b { margin-left: 4px; color: var(--text); font-weight: 700; }
 .st-corr b.pos { color: var(--profit); } .st-corr b.neg { color: var(--loss); }
-.st-tbl { display: flex; flex-direction: column; }
-.st-h, .st-r { display: grid; grid-template-columns: minmax(0, 1fr) 30px 50px 88px; align-items: baseline; column-gap: 10px; }
-.st-h { padding-bottom: 8px; border-bottom: 1px solid var(--border); font-size: 11.5px; color: var(--muted); }
-.st-h > span:not(:first-child), .st-r > .num { text-align: right; }
-.st-r { row-gap: 8px; padding-top: 13px; font-size: 13.5px; }
-.st-l { min-width: 0; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.st-l small { margin-left: 6px; font-size: 12px; font-weight: 400; color: var(--muted); }
-.st-r > span.num { color: var(--text-2); font-variant-numeric: tabular-nums; }
-.st-r > b { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.st-r > b.pos { color: var(--profit); } .st-r > b.neg { color: var(--loss); }
-.st-bar { grid-column: 1 / -1; display: block; height: 4px; border-radius: 2px; background: var(--surface-3); overflow: hidden; }
-.st-bar > i { display: block; height: 100%; border-radius: 2px; }
-.st-r.empty .st-l { color: var(--muted); }
+.stc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 12px; padding-top: 6px; }
+.stc-col { display: flex; flex-direction: column; align-items: center; min-width: 0; text-align: center; }
+.stc-plot { position: relative; align-self: stretch; height: 92px; margin-bottom: 16px; }
+.stc-plot::after { content: ''; position: absolute; left: -6px; right: -6px; top: var(--base); height: 1px; background: var(--border-2); } /* Nulllinie, über alle Spalten durchgehend */
+.stc-col:first-child .stc-plot::after { left: 0; } .stc-col:last-child .stc-plot::after { right: 0; }
+.stc-plot i { position: absolute; left: 50%; width: 30px; transform: translateX(-50%); }
+.stc-plot i.up { border-radius: 6px 6px 0 0; background: linear-gradient(180deg, var(--profit), color-mix(in srgb, var(--profit) 55%, transparent)); }
+.stc-plot i.down { border-radius: 0 0 6px 6px; background: linear-gradient(0deg, var(--loss), color-mix(in srgb, var(--loss) 55%, transparent)); }
+.stc-l { font-size: 13px; font-weight: 500; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.stc-l small { margin-left: 5px; font-size: 11.5px; font-weight: 400; color: var(--muted); }
+.stc-col > b { margin: 6px 0 8px; font-size: 17px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.stc-col > b.pos { color: var(--profit); } .stc-col > b.neg { color: var(--loss); }
+.stc-m { font-size: 11.5px; line-height: 1.5; color: var(--muted); white-space: nowrap; }
+.stc-col.empty .stc-l { color: var(--muted); }

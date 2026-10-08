@@ -1447,7 +1447,9 @@ I18N.add('zh', {
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "导师给你布置了新任务。",
   "deinem Mentor": "你的导师",
   "Coaching": "辅导",
-  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als sechs Leuchtreihen.": "由胜率、盈利因子、盈亏比、回撤和稳定性综合得出的 {0} 至 {1} 分评分，以六条光柱显示。",
-  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Jede Reihe hat zehn Stufen. Der Score ist der Mittelwert.": "六个方面，范围 {0} 至 {1}：胜率、盈利因子、盈亏比、一致性、规则遵守度和回撤。每行有十级。总评分为其平均值。",
-  "Am schwächsten": "最薄弱",
+  "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als leuchtender Ring mit den sechs Bereichen darunter.": "由胜率、盈利因子、盈亏比、回撤和稳定性综合得出的 {0} 至 {1} 分评分，以发光圆环显示，下方为六个方面。",
+  "Sechs Bereiche von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert. Unter {2} Ausbaufähig, ab {3} Solide, ab {4} Stark.": "六个方面，范围 {0} 至 {1}：胜率、盈利因子、盈亏比、一致性、规则遵守度和回撤。总评分为其平均值。低于 {2} 为待提升，{3} 起为稳健，{4} 起为强。",
+  "Stark": "强",
+  "Solide": "稳健",
+  "Ausbaufähig": "待提升",
 });

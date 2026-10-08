@@ -309,17 +309,23 @@
     const arcs = segments.map(s => { const f = Math.max(s.v, 0) / total; const len = Math.max(f * c - 2, 0); const e = `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-acc * c + 1}"/>`; acc += f; return e; }).join('');
     return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/>${arcs}</svg>${center ? `<div class="n" style="font-size:${size * 0.22}px">${center}</div>` : ''}</div>`;
   }
-  /* Gesamt-Score als eigenes Bild: oben die Zahl, darunter je Bereich eine Reihe aus zehn Leuchtstufen mit Teilscore.
-     Eine Farbe (Akzent), linke Stufen gedämpft, die letzte leuchtet; der schwächste Bereich steht oben rechts */
+  /* Gesamt-Score als Instrument: ein offener Ring (270°) mit feinen Skalenstrichen, der sich bis zum Score füllt und am Ende
+     leuchtet; in der Mitte die Zahl und ein Wort (Stark / Solide / Ausbaufähig). Farbe nach Stufe (rot < 50, gelb < 75, grün),
+     die Spur ist ein heller Ton derselben Farbe. Darunter die sechs Bereiche ruhig in zwei Spalten mit Zahl und feiner Linie.
+     Der Ring zeichnet sich nur, wenn sich der Score geändert hat (nicht bei jedem Neuaufbau) */
+  let scoreShown = null;
   function scoreBars(sc) {
-    const weak = sc.axes.reduce((a, b) => (b.score < a.score ? b : a), sc.axes[0]); const showWeak = weak && weak.score < 1;
-    const rows = sc.axes.map(a => {
-      const n = Math.round(a.score * 100), lit = Math.round(a.score * 10);
-      const steps = Array.from({ length: 10 }, (_, i) => i < lit ? `<i class="on${i === lit - 1 ? ' top' : ''}" style="--k:${((i + 1) / lit).toFixed(2)}"></i>` : '<i></i>').join('');
-      return `<div class="scb-row${showWeak && a === weak ? ' weak' : ''}" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${n}"><span>${esc(a.label)}</span><div class="scb-steps">${steps}</div><b class="num">${n}</b></div>`;
-    }).join('');
-    return `<div class="scb"><div class="scb-head"><div class="scb-big num" style="color:${scoreColor(sc.overall)}">${sc.overall}<small>/100</small></div>${showWeak ? `<div class="scb-weak"><span>Am schwächsten</span><b>${esc(weak.label)}</b></div>` : ''}</div><div class="scb-rows">${rows}</div></div>`;
+    const v = Math.max(0, Math.min(100, sc.overall)); const anim = scoreShown !== v; scoreShown = v;
+    const col = v < 50 ? 'var(--loss)' : v < 75 ? 'var(--warn)' : 'var(--accent)'; const word = v < 50 ? 'Ausbaufähig' : v < 75 ? 'Solide' : 'Stark';
+    const cx = 110, cy = 104, r = 86, a0 = 135, sweep = 270; const P = (deg, rr) => { const t = deg * Math.PI / 180; return [+(cx + rr * Math.cos(t)).toFixed(2), +(cy + rr * Math.sin(t)).toFixed(2)]; };
+    const [sx, sy] = P(a0, r), [ex, ey] = P(a0 + sweep, r); const arc = `M${sx} ${sy} A${r} ${r} 0 1 1 ${ex} ${ey}`;
+    const ticks = Array.from({ length: 21 }, (_, i) => { const deg = a0 + sweep * i / 20, major = i % 5 === 0; const [x1, y1] = P(deg, r - 15), [x2, y2] = P(deg, r - (major ? 22 : 18)); return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${major ? 'mj' : ''}${i / 20 * 100 <= v ? ' on' : ''}"/>`; }).join('');
+    const [kx, ky] = P(a0 + sweep * v / 100, r); const gid = 'scg' + Math.random().toString(36).slice(2, 8);
+    const gauge = `<svg class="scg-svg" viewBox="0 0 220 178" aria-hidden="true"><defs><linearGradient id="${gid}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="${col}" stop-opacity=".35"/><stop offset="1" stop-color="${col}"/></linearGradient></defs><g class="scg-ticks">${ticks}</g><path d="${arc}" class="scg-track" pathLength="100"/><path d="${arc}" class="scg-fill${anim ? ' anim' : ''}" pathLength="100" stroke="url(#${gid})" stroke-dasharray="${v} 100"/>${v > 0 ? `<circle class="scg-knob${anim ? ' anim' : ''}" cx="${kx}" cy="${ky}" r="5.5"/>` : ''}</svg>`;
+    const cells = sc.axes.map(a => { const n = Math.round(a.score * 100); return `<div class="scg-cell" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${n}"><span>${esc(a.label)}</span><b class="num">${n}</b><i><i style="width:${n}%"></i></i></div>`; }).join('');
+    return `<div class="scg" style="--c:${col}"><div class="scg-dial">${gauge}<div class="scg-mid${anim ? ' anim' : ''}"><b class="num">${v}</b><span>${word}</span></div></div><div class="scg-grid">${cells}</div></div>`;
   }
+
 
 
   function heatmap(activity, account) {

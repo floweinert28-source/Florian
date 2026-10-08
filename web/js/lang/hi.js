@@ -1447,4 +1447,5 @@ I18N.add('hi', {
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "आपके मेंटर ने आपको नया कार्य दिया है।",
   "deinem Mentor": "आपके मेंटर",
   "Coaching": "कोचिंग",
+  "{0} Handelstage mit Check-in.": "{0} ट्रेडिंग दिन चेक-इन के साथ।",
 });

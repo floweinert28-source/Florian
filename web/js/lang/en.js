@@ -1357,4 +1357,5 @@ I18N.add('en', {
   "{0} neue Aufgaben": "{0} new tasks",
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Your mentor has given you a new task.",
   "deinem Mentor": "your mentor",
+  "{0} Handelstage mit Check-in.": "{0} trading days with a check-in.",
 });

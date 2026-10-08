@@ -2636,9 +2636,6 @@ a.coach-name:hover { color: var(--accent); }
 }
 
 /* Statistik → Zustand: je Check-in-Wert drei ruhige Spalten in Skalen-Reihenfolge – nur Bereich und Ø Tages-P&L, Rest im Tooltip */
-.st-corr { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
-.st-corr b { margin-left: 4px; color: var(--text); font-weight: 700; }
-.st-corr b.pos { color: var(--profit); } .st-corr b.neg { color: var(--loss); }
 .stc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 6px 0 2px; container-type: inline-size; }
 .stc-col { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 0 12px; border-left: 1px solid var(--border); } /* mehr Luft zwischen Bereich und Betrag */
 .stc-col:first-child { padding-left: 0; border-left: 0; }

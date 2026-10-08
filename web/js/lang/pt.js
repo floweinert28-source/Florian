@@ -1397,4 +1397,5 @@ I18N.add('pt', {
   "{0} neue Aufgaben": "{0} novas tarefas",
   "Dein Mentor hat dir eine neue Aufgabe gegeben.": "Seu mentor deu uma nova tarefa a você.",
   "deinem Mentor": "seu mentor",
+  "{0} Handelstage mit Check-in.": "{0} dias de trading com check-in.",
 });

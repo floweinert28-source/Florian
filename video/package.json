@@ -7,7 +7,7 @@
     "studio": "remotion studio",
     "typecheck": "tsc --noEmit",
     "render": "remotion render Journalyst out/dashboard.mp4 --codec=h264 --crf=14 --scale=2",
-    "render:prores": "remotion render Journalyst out/dashboard-prores4444.mov --codec=prores --prores-profile=4444 --scale=2"
+    "render:prores": "remotion render Journalyst out/dashboard-prores4444.mov --codec=prores --prores-profile=4444 --pixel-format=yuva444p10le --scale=2"
   },
   "dependencies": {
     "@remotion/cli": "4.0.534",

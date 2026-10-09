@@ -2416,9 +2416,6 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .prop-entry { padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
 .prop-entry[hidden] { display: none; }
 /* Rechner: Eingaben links, Ergebnis rechts */
-.prop-calc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
-.prop-calc-grid .form-grid { grid-template-columns: 1fr 1fr; }
-.prop-calc-grid .prop-result { margin-top: 0; }
 .prop-tiles .tile .val { font-size: 24px; }
 .prop-cards { align-items: stretch; }
 .prop-card { display: flex; flex-direction: column; gap: 12px; }
@@ -2470,20 +2467,13 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .prop-assign-row .sym { font-weight: 700; font-family: var(--font-display); min-width: 64px; }
 .prop-assign-row .r { margin-left: auto; }
 /* Rechner */
-.prop-result { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); } /* Ergebnis ruhig, ohne Farbfläche; die große Zahl trägt */
-.prop-result.warn { border-color: color-mix(in srgb, var(--warn) 45%, var(--border)); }
-.prop-result .big { font-family: var(--font-display); font-size: 40px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
-.prop-result .big small { font-size: 16px; font-weight: 600; color: var(--text-2); }
-.prop-result-kv .kv { padding: 5px 0; }
 .prop-unv { white-space: nowrap; }
 .prop-presets td .muted.small { display: block; }
 @media (max-width: 960px) {
-  .prop-calc-grid { grid-template-columns: 1fr; }
   .grid.tiles.kstrip { grid-template-columns: 1fr 1fr; }
   .kstrip .tile { padding: 14px 16px; }
   .kstrip .tile:last-child:nth-child(odd) { grid-column: span 2; }
   .prop-balance .val { font-size: 22px; }
-  .prop-result .big { font-size: 32px; }
   .prop-tiles .tile .val { font-size: 20px; }
 }
 @media (max-width: 560px) {
@@ -2494,7 +2484,6 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
   .prop-assign-row .qty, .prop-assign-row .badge { display: none; }
   .prop-filters { width: 100%; flex-wrap: nowrap; } .prop-filters .select.prop-fsel { flex: 1 1 0; min-width: 0; padding-left: 10px; }
   .prop-accsel { width: 100%; } .prop-accsel .select { min-width: 0; flex: 1; }
-  .prop-calc-grid .form-grid { grid-template-columns: 1fr; }
   .pf-sub { display: none; }
   .prop-tabs { display: flex; width: 100%; gap: 0; } .prop-tabs a { flex: 1 1 auto; text-align: center; padding: 8px 4px; font-size: 12.5px; }
   .seg.segc { max-width: 100%; } .seg.segc button { white-space: normal; line-height: 1.25; } /* lange Beschriftungen umbrechen statt überlaufen */

@@ -186,15 +186,15 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   „Skippen“/„Nehmen“ in einer Reihe. Die Sicherheit ist eine Signal-Anzeige: drei ansteigende Balken (Bernstein → Grün)
   mit dem Wort daneben, Vorschau beim Überfahren; ein Klick ändert nur die Anzeige. Der Zeitraum spielt hier keine Rolle
   und fehlt in der Kopfreihe.
-- **Prop Firms** (eigener Bereich, für den Einstieg auf vier Bereiche links in der Kopfreihe reduziert: Übersicht ·
-  Rechner · Auswertung · Konten; Auswertung mit den Reitern Bilanz und Friedhof, der Payout-Planer ist ein aufklappbarer
-  Abschnitt in der Bilanz. Simulation und Challenge vs. Funded sind entfallen (wenig genutzt); ihre alten Adressen führen
-  zur Bilanz, `#/prop/payout` zur Bilanz mit offenem Payout-Planer. Die Adressen bleiben `#/prop/<ansicht>` (z. B.
+- **Prop Firms** (eigener Bereich, für den Einstieg auf drei Bereiche links in der Kopfreihe reduziert: Übersicht ·
+  Auswertung · Konten; Auswertung mit den Reitern Bilanz und Friedhof, der Payout-Planer ist ein aufklappbarer
+  Abschnitt in der Bilanz. Rechner, Simulation und Challenge vs. Funded sind entfallen (wenig genutzt); `#/prop/rechner` führt zur
+  Übersicht, Simulation und Vergleich zur Bilanz, `#/prop/payout` zur Bilanz mit offenem Payout-Planer. Die Adressen bleiben `#/prop/<ansicht>` (z. B.
   `#/prop/bilanz`); `#/prop/auswertung` und die alten `#/prop/finanzen` und `#/prop/analyse` öffnen die zuletzt benutzte Ansicht. Ruhig gehalten: Kennzahlen als Leiste ohne Fußtexte;
   Konto-Karten zeigen nur Balken für Regeln, die es gibt (Ziel nur in der Challenge), Status nur wenn nicht aktiv,
   Puffer-Details im Tooltip; Filter erst ab fünf Konten; Presets-Tabelle mit Größe, Drawdown, Ziel und Gebühr (Rest unter
-  „Ansehen“); Rechner-Ergebnis ohne Farbfläche. Bestandene, geplatzte und archivierte Konten liegen eingeklappt
-  unter „Abgeschlossen“; eigene Presets, Ampel und Stop-Größe sowie Instrumente sind aufklappbar; die Eingabeformulare
+  „Ansehen“). Bestandene, geplatzte und archivierte Konten liegen eingeklappt
+  unter „Abgeschlossen“; eigene Presets sowie Ampel und Stop-Größe sind aufklappbar; die Eingabeformulare
   für Ausgaben und Payouts öffnen sich über den
   Knopf im Kartenkopf. Journal-Zeitraum und -Konto fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
   eigene Presets (Regeln je Firma und Kontogröße; die früher eingebauten Firmen-Presets erscheinen nicht mehr, weil ihre
@@ -204,7 +204,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   (Betrag oder %, Reset-Uhrzeit und Zeitzone), Max Drawdown statisch, intraday trailing, Tagesende-trailing und
   trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer
   und Ampel. Cockpit mit allen Konten, echte Prop-Bilanz (Ausgaben gegen Payouts, ROI, Kosten pro bestandenem Konto,
-  Bestehensquote), Puffer in Stop-Losses, Positionsgrößenrechner mit editierbaren Instrument-Spezifikationen,
+  Bestehensquote), Puffer in Stop-Losses,
   Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse (jedes geplatzte Konto als zweiseitiger Grabstein – vorne nur das Wesentliche (Firma, Konto, Phase, * Start / † Breach, gelebte Tage, Todesursache), per Klick oder „Umdrehen“ dreht er sich um und zeigt hinten eine ruhige Liste (Ergebnis, Trade, Wann, Trade-P&L, Serie davor, Emotion, Fehler) plus die Notiz als Inschrift und den Trade-Link; klassische Steinform mit Kuppel und eingekerbten Schultern als beleuchtetes SVG (Breite folgt der Karte: Kuppel und Tafelkopf als verschachtelte, nur waagrecht gestreckte SVGs, Rechtecke mit CSS-Breite/-Höhe per calc; unten dunkler über einen Verlauf in der Füllung): die Form wird mit Rauschen verbogen (raue Kanten), Kantenrundung plus Korn und Poren ergeben eine Höhenkarte mit Licht von oben links, dazu Flecken, Körner und unten Schmutz; vertiefte Schrifttafel mit Innenschatten; Riss und gravierte Schrift, „R · I · P“, Lebensdaten * Start / † Breach, Todesursache; zweistufiger Steinsockel mit demselben Licht, darauf (ganz auf der oberen Stufe) zwei Haufen hoher Stumpenkerzen – jede eine zusammenhängende, beleuchtete Wachsform mit geschmolzenem, an den Ecken gerundetem Rand, Läufen und kleiner Pfütze, die nie über die Sockelkante hinausreicht (Läufe an den Seiten sind Teil der Kontur und liegen eng an der Kante an, alle Läufe beginnen genau am Rand mit einem kleinen Überlauf und enden in einem Tropfen), flüssigem Wachs im Krater, weicher Flamme und Lichthof; ein warmer Schein fällt auf den Stein; `js/screens/prop-friedhof.js`, Rechenkern `js/propsim.js`). Phasenwechsel eines Kontos werden mit Datum
   gespeichert; Trades zählen zur Phase, in der sie geschlossen wurden. Alle Preset-Werte (Regeln, Gebühren, Payout-Bedingungen, Instrumente) sind
   unverifiziert und in `web/PROP-PRESETS.md` zum Prüfen aufgelistet. Tests: `web/tests/prop.test.mjs`,

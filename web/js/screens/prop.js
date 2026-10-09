@@ -1,15 +1,16 @@
-/* Prop Firms: Multi-Account-Cockpit, echte Prop-Bilanz, Konten- und Preset-Verwaltung, Puffer-/Positionsgrößenrechner, Payout-Planer (Rechnung: js/prop.js, Presets: js/propdata.js)
+/* Prop Firms: Multi-Account-Cockpit, echte Prop-Bilanz, Konten- und Preset-Verwaltung, Payout-Planer (Rechnung: js/prop.js, Presets: js/propdata.js)
    Unter-Tabs über #/prop/<tab>. Alle Beträge laufen über fmt.cur / U.pnl / fmt.balance, damit der Geld-blind-Modus greift. Aktionen mit Präfix prop-. */
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App, P = root.Prop, PD = root.PropData;
-  const TABS = [['cockpit', 'Übersicht'], ['bilanz', 'Bilanz'], ['konten', 'Konten'], ['rechner', 'Rechner']];
+  const TABS = [['cockpit', 'Übersicht'], ['bilanz', 'Bilanz'], ['konten', 'Konten']];
   /* Weitere Ansichten (Friedhof, Vergleich, Simulation …) registrieren sich aus eigenen Dateien über root.PropScreen.register.
      Oben stehen nur fünf Bereiche; Finanzen und Analyse haben einen kleinen Umschalter für ihre Ansichten. Die Adressen bleiben #/prop/<ansicht> */
-  /* Vier Bereiche: Übersicht (Konten auf einen Blick), Rechner, Auswertung (Bilanz mit Payout-Planer, Friedhof) und Konten (Verwaltung, eigene Presets).
-     Simulation und Challenge vs. Funded sind entfallen; ihre alten Adressen führen zur Bilanz, #/prop/payout zur Bilanz mit offenem Payout-Planer */
-  const AREAS = [['cockpit', 'Übersicht'], ['rechner', 'Rechner'], ['auswertung', 'Auswertung'], ['konten', 'Konten']];
-  const AREA_OF = { cockpit: 'cockpit', konten: 'konten', rechner: 'rechner', bilanz: 'auswertung', friedhof: 'auswertung' };
+  /* Drei Bereiche: Übersicht (Konten auf einen Blick), Auswertung (Bilanz mit Payout-Planer, Friedhof) und Konten (Verwaltung, eigene Presets).
+     Rechner, Simulation und Challenge vs. Funded sind entfallen; #/prop/rechner führt zur Übersicht, Simulation und Vergleich zur Bilanz,
+     #/prop/payout zur Bilanz mit offenem Payout-Planer */
+  const AREAS = [['cockpit', 'Übersicht'], ['auswertung', 'Auswertung'], ['konten', 'Konten']];
+  const AREA_OF = { cockpit: 'cockpit', konten: 'konten', bilanz: 'auswertung', friedhof: 'auswertung' };
   const SUB_ORDER = ['bilanz', 'friedhof'];
   const areaOf = k => AREA_OF[k] || 'auswertung';
   const subsOf = area => TABS.filter(t => areaOf(t[0]) === area).sort((a, b) => (SUB_ORDER.indexOf(a[0]) + 1 || 99) - (SUB_ORDER.indexOf(b[0]) + 1 || 99));
@@ -23,8 +24,8 @@
   const CURRENCIES = U.fmt.currencyCodes;
   const PAYOUT_STATUS = [['requested', 'Beantragt'], ['received', 'Erhalten'], ['denied', 'Abgelehnt']];
   const nameOf = (list, k, d = '—') => (list.find(x => x[0] === k) || [k, k || d])[1];
-  const st = () => App.state.prop || (App.state.prop = { filter: { firm: '', phase: '', status: '' }, calcAccount: null, calcMode: 'ticks', calc: {}, payoutAccount: null, last: {}, fold: {}, entry: {} });
-  /* Aufklappbarer Abschnitt (Presets, Instrumente, Einstellungen, beendete Konten); der Zustand bleibt beim Neuaufbau erhalten */
+  const st = () => App.state.prop || (App.state.prop = { filter: { firm: '', phase: '', status: '' }, payoutAccount: null, last: {}, fold: {}, entry: {} });
+  /* Aufklappbarer Abschnitt (Presets, Einstellungen, Payout-Planer, beendete Konten); der Zustand bleibt beim Neuaufbau erhalten */
   const fold = (key, title, body, o = {}) => { const open = (st().fold || {})[key] != null ? st().fold[key] : !!o.open; return `<details class="prop-fold ${o.cls || ''}" data-fold="${key}"${open ? ' open' : ''}><summary data-action="prop-fold" data-key="${key}"><span class="pf-t">${esc(title)}${o.count != null ? ` <span class="pf-n">${o.count}</span>` : ''}</span>${o.sub ? `<span class="pf-sub">${o.sub}</span>` : ''}<span class="pf-chev">${I.chev}</span></summary><div class="pf-body">${body}</div></details>`; };
   /* Kennzahlen als eine ruhige Leiste statt einzelner Kästen (gleiche .tile-Bausteine) */
   const strip = tiles => `<div class="grid tiles prop-tiles kstrip">${tiles}</div>`;
@@ -33,7 +34,6 @@
   const curSym = () => fmt.moneyBlind() ? '' : fmt.cur(0, { money: true }).replace(/[\d.,\s ]/g, '');
   const unitLabel = (text) => { const s = curSym(); return s ? `${text} (${s})` : text; };
   const thresholds = () => Object.assign({ yellow: 0.5, red: 0.25 }, S.settings.propThresholds || {});
-  const instruments = () => Array.isArray(S.settings.propInstruments) && S.settings.propInstruments.length ? S.settings.propInstruments : PD.instrumentsDefault;
   const accounts = () => (typeof S.propAccounts === 'function' ? S.propAccounts() : []).slice();
   const presets = () => typeof S.propPresets === 'function' ? S.propPresets() : [];
   /* Altkonten ohne eigenes payout-Objekt: Bedingungen weiter aus dem Preset, auch aus den früher eingebauten (nur noch intern) */
@@ -271,42 +271,6 @@
     return `${tiles}<div class="grid main-side">${chart}${byFirm}</div>${expenses}${payouts}${planer}`;
   }
 
-  /* ---------- Rechner ---------- */
-  function calcOut(a, ev, inst, c, mode) {
-    const forex = inst.market === 'forex'; const buffer = ev.buffer.money == null ? 0 : ev.buffer.money;
-    const p = { market: inst.market, tickValue: inst.tickValue, tickSize: inst.tickSize, pipValue: inst.pipValue, pipSize: inst.pipSize, buffer, maxPct: c.maxPct };
-    if (mode === 'price') { p.entryPrice = c.entryPrice; p.stopPrice = c.stopPrice; } else if (forex) p.stopPips = c.stopTicks; else p.stopTicks = c.stopTicks;
-    const r = P.positionSize(p); const unit = forex ? 'Lots' : 'Kontrakte'; const maxC = a.rules && a.rules.maxContracts != null && a.rules.maxContracts !== '' ? Number(a.rules.maxContracts) : null; const over = maxC != null && r.units > maxC; const dist = forex ? r.stopPips : r.stopTicks;
-    return `<div class="prop-result ${over ? 'warn' : ''}"><div class="caption">Maximale Positionsgröße · ${esc(inst.symbol)}</div><div class="big" data-units="${r.units}">${forex ? fmt.num(r.units, 2) : fmt.int(r.units)} <small>${unit}</small></div>
-      <div class="prop-result-kv">${U.kv('Stop-Distanz', dist == null ? '—' : `${fmt.num(dist, 2)} ${forex ? 'Pips' : 'Ticks'}`)}${U.kv(`Risiko je ${forex ? 'Lot' : 'Kontrakt'}`, r.riskPerUnit ? fmt.cur(r.riskPerUnit) : '—')}${U.kv(`Max. Risiko (${fmt.num(num(c.maxPct, 0))} % des Puffers)`, fmt.cur(r.maxRisk))}${U.kv('Risiko dieser Position', fmt.cur(r.risk))}</div>
-      ${over ? U.banner('warn', '', `Über dem Kontraktlimit des Kontos (max. ${maxC}). Handle höchstens ${maxC} ${unit}.`) : ''}${ev.buffer.money == null ? '<div class="small muted">Das Konto hat keine Verlustregel, daher keinen Puffer. Trage Daily Loss oder Drawdown im Konto ein.</div>' : ev.buffer.money <= C.EPS ? '<div class="small neg">Kein Puffer mehr – das Konto steht am Limit.</div>' : ''}${inst.unverified ? '<div class="small warn">Instrument-Spezifikation unverifiziert, bitte prüfen.</div>' : ''}</div>`;
-  }
-  function tabRechner() {
-    const list = accounts(); if (!list.length) return emptyAccounts(); const s = st(); const a = pickAccount(list, 'calcAccount'); const { ev, stopSize } = evalOf(a); const b = ev.buffer;
-    const accSel = `<div class="prop-toolbar">${accSelect('pc-acc', 'prop-calc-account', list, a.id)}</div>`;
-    const binding = ev.dailyLoss && ev.drawdown ? (ev.dailyLoss.remaining <= ev.drawdown.remaining ? 'Daily Loss' : 'Max. Drawdown') : ev.dailyLoss ? 'Daily Loss' : ev.drawdown ? 'Max. Drawdown' : null;
-    const buffer = strip(`${U.tile('Puffer bis zur nächsten Regel', b.money == null ? '—' : fmt.cur(b.money), { foot: binding ? `begrenzt durch ${binding}` : 'keine Verlustregel im Konto', tint: b.ampel === 'rot' ? 'neg' : b.ampel === 'gelb' ? 'warn' : '' })}${U.tile('Noch möglich', b.stops == null ? '—' : `<span class="prop-stops">${b.stops} Stop-Loss${b.stops === 1 ? '' : 'es'}</span>`, { foot: stopSize ? `Stop-Größe ${fmt.cur(stopSize)}` : 'keine Stop-Größe', info: stopSize ? (S.settings.propStopSize > 0 ? 'Stop-Größe manuell unter Konten › Ampel und Stop-Größe eingetragen.' : 'Stop-Größe: Median der Verlust-Trades der letzten 30 Trades dieses Kontos.') : 'Noch keine Verlust-Trades. Du kannst die Stop-Größe unter Konten › Ampel und Stop-Größe eintragen.' })}${U.tile('Ampel', `<span class="prop-ampel big ${b.ampel}"></span>${AMPEL[b.ampel]}`, { foot: b.ratio == null ? 'keine Verlustregel' : `${fmt.pct(b.ratio)} des Limits übrig` })}`);
-    const ins = instruments(); const c = Object.assign({ symbol: ins[0] ? ins[0].symbol : '', stopTicks: 10, entryPrice: '', stopPrice: '', maxPct: num(S.settings.propMaxBufferPct, 25) }, s.calc); if (c.maxPct === '' || c.maxPct == null) c.maxPct = num(S.settings.propMaxBufferPct, 25); const inst = ins.find(x => x.symbol === c.symbol) || ins[0]; const mode = s.calcMode === 'price' ? 'price' : 'ticks';
-    const form = inst ? `<div class="prop-calc-grid"><form data-action="prop-calc" id="prop-calc" class="prop-calc"><div class="form-grid">
-      <div class="field"><label for="pc-sym">Instrument</label><select class="select" id="pc-sym" name="symbol" data-change="prop-calc">${ins.map(x => `<option value="${esc(x.symbol)}" ${x.symbol === inst.symbol ? 'selected' : ''}>${esc(x.symbol)} · ${x.market === 'forex' ? 'Forex' : 'Futures'}</option>`).join('')}</select></div>
-      <div class="field"><span class="lbl">Stop-Distanz als</span>${U.seg([['ticks', inst.market === 'forex' ? 'Pips' : 'Ticks'], ['price', 'Kurse']], mode, 'prop-calc-mode', 'segc')}</div>
-      ${mode === 'ticks' ? `<div class="field"><label for="pc-stop">Stop-Distanz (${inst.market === 'forex' ? 'Pips' : 'Ticks'})</label><input class="input" id="pc-stop" type="number" name="stopTicks" min="0" step="any" value="${esc(c.stopTicks)}" inputmode="decimal" data-input="prop-calc"></div>` : `<div class="field"><label for="pc-entry">Einstiegskurs</label><input class="input" id="pc-entry" type="number" name="entryPrice" step="any" value="${esc(c.entryPrice)}" inputmode="decimal" data-input="prop-calc"></div><div class="field"><label for="pc-sl">Stop-Kurs</label><input class="input" id="pc-sl" type="number" name="stopPrice" step="any" value="${esc(c.stopPrice)}" inputmode="decimal" data-input="prop-calc"></div>`}
-      <div class="field"><label for="pc-pct">Max. Anteil des Puffers (%)</label><input class="input" id="pc-pct" type="number" name="maxPct" min="0" max="100" step="1" value="${esc(c.maxPct)}" inputmode="decimal" data-input="prop-calc"><span class="hint">Wird als Einstellung gespeichert.</span></div>
-    </div></form><div id="prop-calc-out">${calcOut(a, ev, inst, c, mode)}</div></div>` : '<div class="dashed">Keine Instrumente. Lege unten eines an.</div>';
-    const instRows = ins.map(x => `<tr><td><b>${esc(x.symbol)}</b><div class="sub">${esc(x.name || '')}</div></td><td>${x.market === 'forex' ? 'Forex' : 'Futures'}</td><td class="r">${x.tickSize != null ? fmt.num(x.tickSize, 4) : '—'}</td><td class="r">${specMoney(x.tickValue, x.currency)}</td><td class="r">${x.pipSize != null ? fmt.num(x.pipSize, 5) : '—'}</td><td class="r">${specMoney(x.pipValue, x.currency)}</td><td>${esc(x.currency || '')}</td><td>${x.unverified ? U.pill('unverifiziert', 'warn') : U.pill('geprüft', 'win')}</td><td class="r nowrap"><button type="button" class="btn ghost icon sm" data-action="prop-instr-edit" data-symbol="${esc(x.symbol)}" aria-label="Bearbeiten">${I.edit}</button><button type="button" class="btn ghost icon sm" data-action="prop-instr-delete" data-symbol="${esc(x.symbol)}" aria-label="Löschen">${I.trash}</button></td></tr>`).join('');
-    const instBody = `<div class="prop-fold-bar"><p class="small muted prop-fold-note">Richtwerte, bitte bei deinem Broker prüfen.</p><div class="row"><button type="button" class="btn sm" data-action="prop-instr-new">${I.plus} Instrument</button><button type="button" class="btn sm ghost" data-action="prop-instr-reset">Standard</button></div></div><div class="tbl-wrap inset"><table class="tbl compact"><thead><tr><th>Symbol</th><th>Markt</th><th class="r">Tick-Größe</th><th class="r">Tick-Wert</th><th class="r">Pip-Größe</th><th class="r">Pip-Wert je Lot</th><th>Währung</th><th>Stand</th><th></th></tr></thead><tbody>${instRows || '<tr><td colspan="9" class="muted">Keine Instrumente.</td></tr>'}</tbody></table></div>`;
-    return `${accSel}${buffer}${U.card('Positionsgrößenrechner', form, { info: 'Max. Kontrakte = (Puffer × Anteil) ÷ (Stop-Distanz × Tick- bzw. Pip-Wert), abgerundet. Forex auf 0,01 Lots.' })}${fold('instr', 'Instrumente', instBody, { count: ins.length, sub: 'Tick- und Pip-Werte für den Rechner' })}`;
-  }
-  function instrumentEditor(x) {
-    const s = x || { symbol: '', name: '', market: 'futures', tickSize: '', tickValue: '', pipSize: 0.0001, pipValue: '', currency: 'USD' };
-    U.modal(`<form data-action="prop-instr-save" data-symbol="${esc(x ? x.symbol : '')}"><div class="modal-head"><h2>${x ? 'Instrument bearbeiten' : 'Instrument anlegen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><div class="form-grid">
-      <div class="field"><label for="pi-sym">Symbol</label><input class="input" id="pi-sym" name="symbol" value="${esc(s.symbol)}" required autocapitalize="characters"></div><div class="field"><label for="pi-name">Name</label><input class="input" id="pi-name" name="name" value="${esc(s.name || '')}"></div>
-      <div class="field"><label for="pi-market">Markt</label><select class="select" id="pi-market" name="market">${PD.MARKETS.map(([k, l]) => `<option value="${k}" ${s.market === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div><div class="field"><label for="pi-cur">Währung</label><select class="select" id="pi-cur" name="currency">${CURRENCIES.map(c => `<option ${s.currency === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
-      <div class="field"><label for="pi-ts">Tick-Größe (Futures)</label><input class="input" id="pi-ts" name="tickSize" type="number" step="any" min="0" value="${esc(s.tickSize == null ? '' : s.tickSize)}" inputmode="decimal"></div><div class="field"><label for="pi-tv">Tick-Wert je Kontrakt</label><input class="input" id="pi-tv" name="tickValue" type="number" step="any" min="0" value="${esc(s.tickValue == null ? '' : s.tickValue)}" inputmode="decimal"></div>
-      <div class="field"><label for="pi-ps">Pip-Größe (Forex)</label><input class="input" id="pi-ps" name="pipSize" type="number" step="any" min="0" value="${esc(s.pipSize == null ? '' : s.pipSize)}" inputmode="decimal"></div><div class="field"><label for="pi-pv">Pip-Wert je Standard-Lot</label><input class="input" id="pi-pv" name="pipValue" type="number" step="any" min="0" value="${esc(s.pipValue == null ? '' : s.pipValue)}" inputmode="decimal"></div>
-    </div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'narrow' });
-  }
-
   /* ---------- Payout-Planer (Abschnitt in der Bilanz) ---------- */
   function payoutPlanner() {
     const list = accounts(); if (!list.length) return emptyAccounts(); const a = pickAccount(list, 'payoutAccount'); const { ev } = evalOf(a); const plan = planOf(a, ev); const o = plan.opts; const cons = plan.consistency;
@@ -332,7 +296,7 @@
       cache = new Map(); const s = st(); s.last = s.last || {};
       /* Adresse → Ansicht: alte Adressen (#/prop/bilanz …) gelten weiter; #/prop/auswertung (auch die alten #/prop/finanzen und #/prop/analyse) öffnet die zuletzt benutzte Ansicht */
       let key = ctx.params[0] || 'cockpit'; if (key === 'uebersicht') key = 'cockpit';
-      if (key === 'payout') { key = 'bilanz'; (s.fold || (s.fold = {})).planer = true; } else if (key === 'simulation' || key === 'vergleich') key = 'bilanz';
+      if (key === 'payout') { key = 'bilanz'; (s.fold || (s.fold = {})).planer = true; } else if (key === 'simulation' || key === 'vergleich') key = 'bilanz'; else if (key === 'rechner') key = 'cockpit';
       if (key === 'finanzen' || key === 'analyse' || key === 'auswertung') { const subs = subsOf('auswertung'); key = (subs.find(t => t[0] === s.last.auswertung) || subs[0] || ['cockpit'])[0]; }
       if (!VIEWS[key]) key = 'cockpit';
       const area = areaOf(key); s.tab = key; s.last[area] = key;
@@ -345,11 +309,11 @@
     mount(main) { const fn = MOUNTS[st().tab]; if (fn) fn(main); /* Diagramme zeichnet App.render über U.drawCharts */ },
     unmount() { const fn = UNMOUNTS[st().tab]; if (fn) fn(); },
   };
-  Object.assign(VIEWS, { cockpit: tabCockpit, bilanz: tabBilanz, konten: tabKonten, rechner: tabRechner });
+  Object.assign(VIEWS, { cockpit: tabCockpit, bilanz: tabBilanz, konten: tabKonten });
   /* Schnittstelle für weitere Tabs: register(key, label, render(ctx), { mount(main), unmount() }); Hilfen für dieselben Konten-/Bewertungsdaten */
   root.PropScreen = {
     TABS, register(key, label, render, o = {}) { if (!TABS.some(t => t[0] === key)) TABS.push([key, label]); VIEWS[key] = render; if (o.mount) MOUNTS[key] = o.mount; if (o.unmount) UNMOUNTS[key] = o.unmount; },
-    accounts, presets, presetOf, accName, evalOf, planOf, planText, pickAccount, thresholds, instruments, st, num, nameOf, PHASES, STATUS, STATUS_KIND, DD_SHORT, AMPEL, verifiedPill, emptyAccounts,
+    accounts, presets, presetOf, accName, evalOf, planOf, planText, pickAccount, thresholds, st, num, nameOf, PHASES, STATUS, STATUS_KIND, DD_SHORT, AMPEL, verifiedPill, emptyAccounts,
   };
 
   /* ---------- Aktionen ---------- */
@@ -405,27 +369,6 @@
     'prop-payout-add'(form) { const fd = new FormData(form); const a = find(String(fd.get('accountId') || '')); const gross = num(fd.get('gross'), 0); if (!a || !(gross > 0)) return U.toast('Bitte Konto und Bruttobetrag angeben', 'err'); const split = Math.min(1, Math.max(0, num(fd.get('split'), 90) / 100)); const net = num(fd.get('net')) != null ? num(fd.get('net')) : Math.round(gross * split * 100) / 100; const receivedAt = String(fd.get('receivedAt') || '') || null; let status = PAYOUT_STATUS.some(s => s[0] === fd.get('status')) ? String(fd.get('status')) : 'requested'; if (receivedAt && status === 'requested') status = 'received'; S.addPropPayout({ accountId: a.id, firm: a.firm, gross, split, net, requestedAt: String(fd.get('requestedAt') || today()), receivedAt, status }); U.toast('Payout erfasst', 'ok'); App.rerender(); },
     'prop-payout-received'(el) { S.updatePropPayout(el.dataset.id, { status: 'received', receivedAt: today() }); App.rerender(); },
     async 'prop-payout-delete'(el) { if (await U.confirmModal('Payout löschen?', '', { ok: 'Löschen', danger: true })) { S.deletePropPayout(el.dataset.id); App.rerender(); } },
-    /* Rechner */
-    'prop-calc-account'(el) { st().calcAccount = el.value; App.rerender(); },
-    'prop-calc-mode'(el) { st().calcMode = el.dataset.value; App.rerender(); },
-    'prop-calc'(el) {
-      const form = el.tagName === 'FORM' ? el : el.form || el.closest('form'); if (!form) return; const s = st(); const v = k => form.elements[k] ? form.elements[k].value : (s.calc[k] != null ? s.calc[k] : '');
-      s.calc = { symbol: v('symbol'), stopTicks: v('stopTicks'), entryPrice: v('entryPrice'), stopPrice: v('stopPrice'), maxPct: v('maxPct') };
-      const pct = num(s.calc.maxPct); if (pct != null && pct !== S.settings.propMaxBufferPct) { S.data.settings.propMaxBufferPct = Math.min(100, Math.max(0, pct)); S.save(); }
-      if (el.name === 'symbol' || el.tagName === 'FORM') { App.rerender(); return; }
-      const a = find(form.elements.accountId ? form.elements.accountId.value : s.calcAccount) || accounts().find(x => x.id === s.calcAccount); const out = document.getElementById('prop-calc-out'); if (!a || !out) return;
-      const ins = instruments(); const inst = ins.find(x => x.symbol === s.calc.symbol) || ins[0]; const { ev } = evalOf(a); out.innerHTML = calcOut(a, ev, inst, Object.assign({}, s.calc, { maxPct: num(s.calc.maxPct, 25) }), s.calcMode === 'price' ? 'price' : 'ticks');
-    },
-    'prop-instr-new'() { instrumentEditor(null); },
-    'prop-instr-edit'(el) { const x = instruments().find(i => i.symbol === el.dataset.symbol); if (x) instrumentEditor(x); },
-    'prop-instr-save'(form) {
-      const fd = new FormData(form); const symbol = String(fd.get('symbol') || '').trim().toUpperCase(); if (!symbol) return U.toast('Bitte ein Symbol angeben', 'err');
-      const x = { symbol, name: String(fd.get('name') || '').trim(), market: fd.get('market') === 'forex' ? 'forex' : 'futures', tickSize: num(fd.get('tickSize')), tickValue: num(fd.get('tickValue')), pipSize: num(fd.get('pipSize')), pipValue: num(fd.get('pipValue')), currency: String(fd.get('currency') || 'USD'), unverified: false };
-      const list = instruments().map(i => Object.assign({}, i)); const old = form.dataset.symbol; const i = list.findIndex(y => y.symbol === (old || symbol)); if (i >= 0) list[i] = x; else list.push(x);
-      S.setSetting('propInstruments', list); if (st().calc.symbol === old) st().calc.symbol = symbol; U.closeModal(); U.toast('Instrument gespeichert', 'ok'); App.rerender();
-    },
-    async 'prop-instr-delete'(el) { if (await U.confirmModal('Instrument löschen?', `„${esc(el.dataset.symbol)}“ wird aus deiner Liste entfernt.`, { ok: 'Löschen', danger: true })) { const list = instruments().filter(i => i.symbol !== el.dataset.symbol); S.setSetting('propInstruments', list); /* leere Liste → Standardliste */ if (!list.length) U.toast('Letztes Instrument entfernt – Standardliste wiederhergestellt'); App.rerender(); } },
-    async 'prop-instr-reset'() { if (await U.confirmModal('Instrumente zurücksetzen?', 'Deine Liste wird durch die Standardliste ersetzt.', { ok: 'Zurücksetzen' })) { S.setSetting('propInstruments', null); App.rerender(); } },
     /* Payout-Planer */
     'prop-payout-account'(el) { st().payoutAccount = el.value; App.rerender(); },
   });

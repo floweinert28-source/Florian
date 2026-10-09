@@ -1,4 +1,5 @@
-/* Dashboard-Filter: Seitenleiste mit vier Bereichen (Trade, Zeit, Werte, Tags).
+/* Dashboard-Filter: Fenster unter dem Filter-Knopf (wie Zeitraum, Konto und Vorlage) mit vier Bereichen (Trade, Zeit, Werte, Tags).
+   Klick daneben, Escape oder ein Seitenwechsel schließen es; der Inhalt scrollt im Fenster, Anwenden/Zurücksetzen stehen unten.
    Änderungen landen in einem Entwurf; erst „Anwenden“ filtert das Dashboard. Unten steht live, wie viele Trades im Zeitraum passen.
    Symbole und Tags werden nicht alle aufgelistet, sondern über „+ hinzufügen“ mit Suche gewählt.
    Gespeichert in Store.settings.dashFilter; ältere Filter (symbols, dir, status, setups, tags) werden übernommen. */
@@ -139,13 +140,21 @@
   }
   function panelHTML() {
     const u = ui(); const f = u.draft; const all = App.allTrades(); const n = count(f);
-    return `<div class="panel-bg" data-action="dash-f-close"></div><aside class="side-panel fd-panel" role="dialog" aria-label="Filter"><div class="sp-head"><div><h2>Filter${n ? ` <b class="cntb">${n}</b>` : ''}</h2><div class="small muted">Gilt für alle Widgets im gewählten Zeitraum</div></div><button type="button" class="btn ghost icon" data-action="dash-f-close" aria-label="Schließen">${I.close}</button></div><div class="fd-body" id="fd-body">${bodyHTML(f, all)}</div><div class="fd-foot" id="fd-foot">${footHTML(f)}</div></aside>`;
+    return `<aside class="fd-panel fd-pop" id="fd-pop" role="dialog" aria-label="Filter"><div class="sp-head"><div><h2>Filter${n ? ` <b class="cntb">${n}</b>` : ''}</h2><div class="small muted">Gilt für alle Widgets im gewählten Zeitraum</div></div><button type="button" class="btn ghost icon" data-action="dash-f-close" aria-label="Schließen">${I.close}</button></div><div class="fd-body" id="fd-body">${bodyHTML(f, all)}</div><div class="fd-foot" id="fd-foot">${footHTML(f)}</div></aside>`;
   }
   function layer() { let l = document.getElementById('fd-layer'); if (!l) { l = document.createElement('div'); l.id = 'fd-layer'; document.body.appendChild(l); } return l; }
+  /* Fenster unter den Filter-Knopf setzen: linksbündig zum Knopf, im Bild gehalten; auf dem Handy volle Breite mit 8px Rand.
+     Absolut im Dokument, damit es beim Scrollen am Knopf bleibt; Höhe bis knapp über den unteren Fensterrand, der Inhalt scrollt */
+  function place() {
+    const pop = document.getElementById('fd-pop'), btn = document.querySelector('[data-action="dash-f-open"]'); if (!pop || !btn) return;
+    const r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight, phone = vw <= 560;
+    const w = phone ? vw - 16 : Math.min(440, vw - 16), left = phone ? 8 : Math.min(Math.max(8, r.left), vw - w - 8), top = r.bottom + 8;
+    Object.assign(pop.style, { left: `${Math.round(left + window.scrollX)}px`, top: `${Math.round(top + window.scrollY)}px`, width: `${Math.round(w)}px`, maxHeight: `${Math.round(Math.max(340, Math.min(phone ? 9999 : 620, vh - top - 16)))}px` });
+  }
   /* Inhalt neu zeichnen, Scrollposition behalten; Kopfzähler und Fuß mitziehen */
   function refresh(focusQ) {
     const u = ui(); const l = document.getElementById('fd-layer'); if (!u.open || !l) return;
-    const body = l.querySelector('#fd-body'); if (!body) { l.innerHTML = panelHTML(); App.translateNow(l); return; }
+    const body = l.querySelector('#fd-body'); if (!body) { l.innerHTML = panelHTML(); App.translateNow(l); place(); return; }
     const top = body.scrollTop; body.innerHTML = bodyHTML(u.draft, App.allTrades()); App.translateNow(body); body.scrollTop = top;
     l.querySelector('#fd-foot').innerHTML = footHTML(u.draft);
     const h = l.querySelector('.sp-head h2'); const n = count(u.draft); if (h) h.innerHTML = `Filter${n ? ` <b class="cntb">${n}</b>` : ''}`;
@@ -153,13 +162,16 @@
   }
   /* beim Öffnen: „Trade“ offen, die anderen Bereiche nur, wenn darin schon gefiltert wird */
   const GROUP_KEYS = { time: ['weekdays', 'months', ['entryFrom', 'entryTo'], ['exitFrom', 'exitTo'], ['holdMin', 'holdMax']], vals: [['entryMin', 'entryMax'], ['exitMin', 'exitMax'], ['rMin', 'rMax'], ['qtyMin', 'qtyMax'], ['volMin', 'volMax']], tags: ['setups', 'mistakes', 'emotions'] };
-  function open() { const u = ui(); u.open = true; u.draft = state(); u.pick = null; u.q = ''; u.closed = { trade: false }; for (const [g, keys] of Object.entries(GROUP_KEYS)) u.closed[g] = !activeIn(u.draft, keys); App.closePopovers(); layer().innerHTML = panelHTML(); document.documentElement.classList.add('fd-open'); }
-  function close() { const u = ui(); u.open = false; u.draft = null; u.pick = null; const l = document.getElementById('fd-layer'); if (l) l.innerHTML = ''; document.documentElement.classList.remove('fd-open'); }
+  function open() { const u = ui(); u.open = true; u.draft = state(); u.pick = null; u.q = ''; u.closed = { trade: false }; for (const [g, keys] of Object.entries(GROUP_KEYS)) u.closed[g] = !activeIn(u.draft, keys); App.closePopovers(); layer().innerHTML = panelHTML(); place(); }
+  function close() { const u = ui(); u.open = false; u.draft = null; u.pick = null; const l = document.getElementById('fd-layer'); if (l) l.innerHTML = ''; }
   window.addEventListener('hashchange', close);
+  window.addEventListener('resize', () => { if (ui().open) place(); });
+  /* Klick neben das Fenster schließt es (Entwurf verworfen, wie bei den anderen Menüs); der Filter-Knopf selbst schaltet um */
+  document.addEventListener('pointerdown', e => { if (!ui().open || !e.target.closest) return; if (e.target.closest('#fd-layer') || e.target.closest('[data-action="dash-f-open"]')) return; close(); }, true);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && ui().open) { if (ui().pick) { ui().pick = null; refresh(); } else close(); } });
 
   Object.assign(App.actions, {
-    'dash-f-open'() { open(); },
+    'dash-f-open'() { if (ui().open) close(); else open(); },
     'dash-f-close'() { close(); },
     'dash-f-group'(el) { const u = ui(); u.closed[el.dataset.id] = !u.closed[el.dataset.id]; refresh(); },
     'dash-f-set'(el) { const u = ui(); u.draft[el.dataset.key] = el.dataset.value; refresh(); },

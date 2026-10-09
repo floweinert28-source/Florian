@@ -1202,7 +1202,13 @@ span.info:hover { color: var(--accent); }
 .page-head .dh-context > .nb-search { flex: 1 1 auto; min-width: 0; }
 .btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
 /* Filter-Seitenleiste: vier aufklappbare Bereiche, Zeilen mit Beschriftung links und Bedienung rechts */
-.fd-panel { --sp-pad: 20px; width: min(520px, 100%); padding-bottom: 0; }
+.fd-panel { --sp-pad: 16px; }
+/* Filter als Fenster unter dem Knopf (Größe und Lage setzt dash-filter.js) */
+.fd-pop { position: absolute; z-index: 56; display: flex; flex-direction: column; gap: 10px; min-height: 0; padding: 14px var(--sp-pad) 0; background: var(--surface); border: 1px solid var(--border-2); border-radius: 14px; box-shadow: var(--shadow); transform-origin: top left; animation: pop-in var(--dur-1) var(--ease) backwards; }
+.fd-pop .sp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.fd-pop .sp-head h2 { font-size: 17px; }
+.fd-pop .sp-head .btn.icon { margin: -4px -6px 0 0; }
+.fd-pop .fd-foot { border-radius: 0 0 13px 13px; }
 .fd-body { flex: 1; overflow-y: auto; margin: 0 calc(-1 * var(--sp-pad)); padding: 0 var(--sp-pad) 12px; display: flex; flex-direction: column; gap: 10px; }
 .fd-group { border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); }
 .fd-gh { display: flex; align-items: center; gap: 8px; width: 100%; padding: 13px 16px; border: 0; background: none; color: var(--text); font-family: var(--font-display); font-size: 15px; font-weight: 600; cursor: pointer; text-align: left; }
@@ -1257,7 +1263,6 @@ span.info:hover { color: var(--accent); }
 .fd-panel .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
 .fd-panel .sp-head h2 .cntb { vertical-align: 3px; }
 @media (max-width: 560px) { .fd-l { flex-direction: column; gap: 2px; } }
-@media (max-width: 960px) { .fd-panel { --sp-pad: 16px; } }
 /* Handy: der „Anwenden“-Knopf passt sich der Breite an (die Trade-Anzahl im Knopf wechselt), nichts ragt heraus */
 @media (max-width: 560px) { .fd-foot .btn { min-width: 0; } .fd-foot .btn.ghost { padding-left: 10px; padding-right: 10px; flex: 0 0 auto; } .fd-foot .btn.primary { flex: 1 1 auto; justify-content: center; } .fd-foot .fd-n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
 .dash-top { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); gap: 18px; align-items: stretch; }

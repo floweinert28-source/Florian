@@ -65,11 +65,29 @@
   /* Grabstein: gewölbter Stein mit eingemeißeltem Rahmen und Riss (das Konto ist geplatzt), oben Name und Lebensdaten (* Start, † Breach),
      in der Mitte die Todesursache und die Notiz als Grabinschrift, unten eine Tafel mit den Fakten; der Stein steht auf einem Sockel mit Grablicht */
   /* Blumenstrauß am Sockel: drei Blüten (hell, gold, rot) mit grünen Stielen und Blättern, dazu zwei Grashalme */
-  /* Kerzenhaufen am Sockel: cremefarbene Stumpenkerzen verschiedener Höhe mit Wachstropfen, Docht und flackernder Flamme (Glühen per CSS) */
-  const candle = (x, h, w, d) => { const top = 58 - h, cx = x + w / 2; return `<g class="candle" style="--d:${d}s"><rect class="wax" x="${x}" y="${top}" width="${w}" height="${h}" rx="1.6"/><rect class="shade" x="${x + w - 3.2}" y="${top + 1.2}" width="2.2" height="${h - 2.4}" rx="1"/><path class="drip" d="M${x + 1.4} ${top + .8}c-.7 3.8.2 6.8.1 9.8 1.3-.3 1.4-2.1 1.2-3.7-.2-2-.5-4.4.1-6.1z"/><path class="drip" d="M${x + w - 4.2} ${top + .5}c1 2.4 1.1 5 .5 7.6 1.4-.5 1.6-3.1 1-5.1-.3-1.3-.6-2.1-1.5-2.5z"/><rect class="wick" x="${cx - .5}" y="${top - 3.2}" width="1" height="3.6"/><g class="flame"><path class="fo" d="M${cx} ${top - 12.5}c2.4 3.3 3.6 5.8 3.6 7.8a3.6 3.6 0 0 1-7.2 0c0-2 1.2-4.5 3.6-7.8z"/><path class="fi" d="M${cx} ${top - 7.6}c1.1 1.6 1.7 2.8 1.7 3.8a1.7 1.7 0 0 1-3.4 0c0-1 .6-2.2 1.7-3.8z"/></g></g>`; };
-  const CANDLES_R = `<svg class="pg-candles right" viewBox="0 0 100 60" aria-hidden="true">${candle(5, 30, 12, -0.4)}${candle(22, 44, 13, -1.3)}${candle(41, 22, 11, -0.9)}${candle(57, 36, 12, -2)}${candle(75, 17, 11, -1.6)}</svg>`;
-  const CANDLES_L = `<svg class="pg-candles left" viewBox="0 0 48 60" aria-hidden="true">${candle(5, 26, 12, -0.7)}${candle(22, 38, 13, -1.9)}</svg>`;
-  const IVY = '<svg class="pg-ivy" viewBox="0 0 60 34" aria-hidden="true"><path class="vine" d="M3 31c7-9 15-16 27-20 9-3 17-4 27-3"/><path class="leaf" d="M13 24c-5-5 0-11 5-7 5-4 10 2 5 7-3 3-7 3-10 0z"/><path class="leaf l2" d="M27 16c-4-5 1-10 5-6 4-4 9 1 5 6-3 3-7 3-10 0z"/><path class="leaf" d="M42 13c-3-4 1-8 4-5 3-3 7 1 4 5-2 2-6 2-8 0z"/><path class="leaf l2" d="M53 11c-2-3 1-6 3-4 2-2 5 1 3 4-2 2-4 2-6 0z"/></svg>';
+  /* Kerzenhaufen am Sockel: Stumpenkerzen mit geschmolzenem, unebenem Rand, Wachsläufen bis weit hinunter, Pfützen am Fuß,
+     Docht, flackernder Flamme und warmem Lichthof. Hinten die hohen, vorn die kurzen; Verläufe je SVG (gleiche ids, gleicher Inhalt) */
+  const CANDLE_DEFS = '<defs><linearGradient id="pgc-wax" x1="0" x2="1"><stop offset="0" stop-color="#bf9f70"/><stop offset=".3" stop-color="#f1e0bd"/><stop offset=".6" stop-color="#e2c99c"/><stop offset="1" stop-color="#8f6f45"/></linearGradient><linearGradient id="pgc-warm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb04f" stop-opacity=".9"/><stop offset=".22" stop-color="#ffc06a" stop-opacity=".35"/><stop offset=".5" stop-color="#ffc06a" stop-opacity="0"/><stop offset="1" stop-color="#2e2012" stop-opacity=".45"/></linearGradient><linearGradient id="pgc-drip" x1="0" x2="1"><stop offset="0" stop-color="#d8bf93"/><stop offset=".45" stop-color="#f8ead0"/><stop offset="1" stop-color="#b8956a"/></linearGradient><radialGradient id="pgc-halo"><stop offset="0" stop-color="#ffc36e" stop-opacity=".6"/><stop offset=".4" stop-color="#ff9d42" stop-opacity=".18"/><stop offset="1" stop-color="#ff9d42" stop-opacity="0"/></radialGradient><radialGradient id="pgc-flame" cx=".5" cy=".8" r=".65"><stop offset="0" stop-color="#fffbea"/><stop offset=".3" stop-color="#ffe08a"/><stop offset=".7" stop-color="#ff9e3a"/><stop offset="1" stop-color="#ff7a1a" stop-opacity=".15"/></radialGradient></defs>';
+  const candle = ([x, h, w, d, drips], i) => {
+    const B = 78, t = B - h, cx = x + w / 2, ft = t - 14.5, n = v => Math.round(v * 10) / 10, m = i % 2 ? -1 : 1; /* m: welche Seite höher stehen bleibt */
+    const lipL = t + (m > 0 ? 5.2 : .2), lipR = t + (m > 0 ? .2 : 5.2);
+    const body = `M${x} ${n(lipL)}C${n(x + w * .12)} ${n(lipL - 2)} ${n(x + w * .3)} ${n(t + 4.6)} ${n(cx)} ${n(t + 4.2)}S${n(x + w * .88)} ${n(lipR - 2)} ${x + w} ${n(lipR)}V${B}H${x}Z`;
+    /* Wachslauf: wellige Kanten, verdicktes Ende */
+    const drip = ([o, len, dw]) => { const x0 = x + o, y0 = t + 3, e = y0 + len, br = dw * .6; return `<path class="drip" d="M${n(x0)} ${n(y0)}C${n(x0 + dw * .35)} ${n(y0 + len * .25)} ${n(x0 - dw * .3)} ${n(y0 + len * .55)} ${n(x0 + dw * .1)} ${n(e - br * .2)}A${n(br)} ${n(br)} 0 1 0 ${n(x0 + dw * .9)} ${n(e - br * .2)}C${n(x0 + dw * 1.2)} ${n(y0 + len * .62)} ${n(x0 + dw * .7)} ${n(y0 + len * .3)} ${n(x0 + dw)} ${n(y0)}Z"/>`; };
+    const halo = `<circle class="halo" style="--d:${d}s" cx="${n(cx)}" cy="${n(ft + 9)}" r="${n(13 + w * .4)}"/>`;
+    const wax = `<g class="candle${i % 3 === 2 ? ' aged' : ''}"><path class="pool" d="M${n(x - w * .45)} ${B}c${n(w * .2)} -2.6 ${n(w * .6)} -3.2 ${n(w * .9)} -2.6s${n(w * .7)} -.9 ${n(w * 1.1)} .2c${n(w * .3)} .7 ${n(w * .4)} 1.6 ${n(w * .3)} 2.4z"/><path class="wax" d="${body}"/><path class="warm" d="${body}"/>${drips.map(drip).join('')}<ellipse class="crater" cx="${n(cx)}" cy="${n(t + 4.4)}" rx="${n(w * .32)}" ry="1.5"/><ellipse class="melt" cx="${n(cx)}" cy="${n(t + 4.3)}" rx="${n(w * .16)}" ry=".8"/><path class="wick" d="M${n(cx)} ${n(t + 4)}q${.6 * m} -2.4 ${-.4 * m} -4.4"/><g class="flame" style="--d:${d}s"><ellipse class="fb" cx="${n(cx)}" cy="${n(t - .6)}" rx="1.5" ry="1"/><path class="fo" d="M${n(cx)} ${n(ft)}c2.2 4.4 3.3 8 3.3 10.6a3.3 3.3 0 0 1-6.6 0c0-2.6 1.1-6.2 3.3-10.6z"/><path class="fi" d="M${n(cx)} ${n(ft + 6)}c1 2 1.6 3.6 1.6 4.8a1.6 1.6 0 0 1-3.2 0c0-1.2.6-2.8 1.6-4.8z"/></g></g>`;
+    return { halo, wax };
+  };
+  const cluster = (cls, vw, list) => { const c = list.map(candle); return `<svg class="pg-candles ${cls}" viewBox="0 0 ${vw} 80" aria-hidden="true">${CANDLE_DEFS}<g class="halos">${c.map(x => x.halo).join('')}</g>${c.map(x => x.wax).join('')}</svg>`; };
+  /* [x, Höhe, Breite, Flacker-Versatz, Wachsläufe [Abstand vom linken Rand, Länge, Breite]] – erst die hintere Reihe (hoch), dann die vordere (kurz) */
+  const CANDLES_R = cluster('right', 100, [
+    [4, 48, 13, -0.4, [[-1.2, 17, 3.2], [6, 31, 2.8], [10.8, 11, 2.8]]], [26, 62, 14, -1.3, [[-1.2, 36, 3.4], [4.6, 14, 2.8], [9.8, 46, 3.2]]], [50, 44, 12, -0.9, [[-.8, 22, 3], [8.8, 13, 3]]], [72, 56, 13, -2.1, [[-1, 11, 2.8], [4.5, 37, 3.2], [10.2, 24, 2.8]]],
+    [14, 26, 14, -1.7, [[-1, 12, 3], [9.6, 17, 3.2]]], [40, 18, 13, -0.6, [[1.5, 9, 2.8], [9.5, 12, 3]]], [60, 30, 14, -2.6, [[-1, 20, 3.2], [6.2, 8, 2.8], [11, 15, 2.8]]], [84, 16, 12, -1.1, [[1, 8, 2.8], [8.6, 11, 2.8]]],
+  ]);
+  const CANDLES_L = cluster('left', 60, [
+    [3, 54, 14, -0.8, [[-1.2, 26, 3.2], [5.6, 38, 2.8], [11, 14, 2.8]]], [30, 40, 13, -1.9, [[-.8, 15, 3], [7.6, 27, 3.2]]],
+    [14, 24, 14, -2.4, [[-1, 14, 3], [9.8, 10, 2.8]]], [40, 15, 12, -0.3, [[1.2, 9, 2.8], [8.4, 7, 2.8]]],
+  ]);
   const CRACK = '<svg class="pg-crack" viewBox="0 0 36 64" aria-hidden="true"><path d="M27 0 22 11l5 7-9 12 4 8-8 13 2 13"/><path d="M22 11l-7 3M18 30l-6-2"/></svg>';
   function grave(t, byId, accs) {
     const acc = accs.find(a => a.id === t.accountId) || null; const tz = acc ? acc.tz : null;
@@ -88,7 +106,7 @@
     /* zwei Seiten: vorne nur das Wesentliche (Name, Konto, Phase, Daten, Todesursache), per Klick dreht sich der Stein und zeigt
        hinten kompakt den Rest (Inschrift, Ergebnis, auslösender Trade, Verlustserie, Tags, Link) */
     return `<section class="prop-grave" data-id="${esc(String(t.accountId))}">
-      <div class="pg-stone" data-action="pg-flip" title="Umdrehen">${IVY}
+      <div class="pg-stone" data-action="pg-flip" title="Umdrehen">
         <div class="pg-inner">
           <div class="pg-face pg-front" aria-hidden="false">${CRACK}
             <span class="pg-rip" aria-hidden="true">R · I · P</span>
@@ -115,7 +133,7 @@
           </div>
         </div>
       </div>
-      <div class="pg-base" aria-hidden="true">${CANDLES_L}${CANDLES_R}</div>
+      <div class="pg-base" aria-hidden="true"><span class="pg-glow"></span>${CANDLES_L}${CANDLES_R}</div>
       <span class="pg-mound" aria-hidden="true"></span>
     </section>`;
   }

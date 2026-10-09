@@ -1380,4 +1380,12 @@ I18N.add('en', {
   "Noch keine Codes hinterlegt": "No codes yet",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "Discount codes for prop firms will appear here.",
   "Ø Gewinn/Verlust": "Avg win/loss",
+  "Payout-Planer": "Payout planner",
+  "Bedingungen und Vorschlag je Konto": "Conditions and suggestion per account",
+  "Eigene Presets": "Your presets",
+  "Deine Regeln je Firma und Kontogröße, beim Anlegen eines Kontos auswählbar.": "Your rules per firm and account size, selectable when creating an account.",
+  "Noch keine eigenen Presets.": "No presets of your own yet.",
+  "Ohne Preset": "No preset",
+  "Eigenes Preset": "Own preset",
+  "Noch keine Payouts für dieses Konto. Erfasse sie oben unter Payouts.": "No payouts for this account yet. Record them above under Payouts.",
 });

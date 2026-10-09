@@ -195,7 +195,8 @@
     shadowRules() { const base = root.Shadow ? root.Shadow.defaultRules() : {}; const cur = this.data.shadowRules && typeof this.data.shadowRules === 'object' ? this.data.shadowRules : {}; for (const k of Object.keys(cur)) base[k] = Object.assign({}, base[k] || {}, cur[k]); return base; },
     setShadowRules(rules) { this.data.shadowRules = rules; this.log({ type: 'Schatten-Ich', action: 'Regelwerk geändert' }); this.save(); },
     /* Prop Firms: Presets (eingebaute aus PropData plus eigene), Konten mit Regel-Snapshot, Ausgaben, Payouts, Breaches, Trade-Zuordnung */
-    propPresets() { const own = Array.isArray(this.data.propFirms) ? this.data.propFirms : (this.data.propFirms = []); const built = root.PropData && Array.isArray(root.PropData.PRESETS) ? root.PropData.PRESETS : []; return built.concat(own); },
+    /* nur eigene Presets: die eingebauten Firmen-Werte sind ungeprüft und ändern sich laufend, sie erscheinen nicht mehr in der Oberfläche */
+    propPresets() { return Array.isArray(this.data.propFirms) ? this.data.propFirms : (this.data.propFirms = []); },
     addPropFirm(p) { p.id = p.id || C.uid(); p.custom = true; p.createdAt = new Date().toISOString(); (this.data.propFirms = this.data.propFirms || []).push(p); this.log({ type: 'Prop Firm', action: 'Preset erstellt', ident: `${p.firm || ''} ${p.name || ''}`.trim() }); this.save(); return p; },
     updatePropFirm(id, patch) { const p = (this.data.propFirms || []).find(x => x.id === id); if (p) { Object.assign(p, patch); this.save(); } },
     deletePropFirm(id) { this.data.propFirms = (this.data.propFirms || []).filter(x => x.id !== id); this.save(); },

@@ -1470,4 +1470,12 @@ I18N.add('hi', {
   "Noch keine Codes hinterlegt": "अभी कोई कोड नहीं है",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "प्रॉप फर्मों के लिए छूट कोड यहाँ दिखेंगे।",
   "Ø Gewinn/Verlust": "औसत लाभ/हानि",
+  "Payout-Planer": "पेआउट प्लानर",
+  "Bedingungen und Vorschlag je Konto": "हर खाते के लिए शर्तें और सुझाव",
+  "Eigene Presets": "अपने प्रीसेट",
+  "Deine Regeln je Firma und Kontogröße, beim Anlegen eines Kontos auswählbar.": "फर्म और खाते के आकार के अनुसार आपके नियम, खाता बनाते समय चुने जा सकते हैं।",
+  "Noch keine eigenen Presets.": "अभी कोई अपना प्रीसेट नहीं है।",
+  "Ohne Preset": "कोई प्रीसेट नहीं",
+  "Eigenes Preset": "अपना प्रीसेट",
+  "Noch keine Payouts für dieses Konto. Erfasse sie oben unter Payouts.": "इस खाते के लिए अभी कोई पेआउट नहीं है। उन्हें ऊपर पेआउट में दर्ज करें।",
 });

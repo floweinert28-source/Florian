@@ -1420,4 +1420,12 @@ I18N.add('pt', {
   "Noch keine Codes hinterlegt": "Ainda não há códigos",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "Os códigos de desconto para prop firms aparecerão aqui.",
   "Ø Gewinn/Verlust": "Ganho/perda médio",
+  "Payout-Planer": "Planejador de payouts",
+  "Bedingungen und Vorschlag je Konto": "Condições e sugestão por conta",
+  "Eigene Presets": "Seus presets",
+  "Deine Regeln je Firma und Kontogröße, beim Anlegen eines Kontos auswählbar.": "Suas regras por empresa e tamanho de conta, selecionáveis ao criar uma conta.",
+  "Noch keine eigenen Presets.": "Ainda não há presets próprios.",
+  "Ohne Preset": "Sem preset",
+  "Eigenes Preset": "Preset próprio",
+  "Noch keine Payouts für dieses Konto. Erfasse sie oben unter Payouts.": "Ainda não há payouts para esta conta. Registre-os acima em Payouts.",
 });

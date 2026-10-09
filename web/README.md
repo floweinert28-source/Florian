@@ -187,27 +187,25 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   mit dem Wort daneben, Vorschau beim Überfahren; ein Klick ändert nur die Anzeige. Der Zeitraum spielt hier keine Rolle
   und fehlt in der Kopfreihe.
 - **Prop Firms** (eigener Bereich, für den Einstieg auf vier Bereiche links in der Kopfreihe reduziert: Übersicht ·
-  Rechner · Auswertung · Konten; Auswertung mit den Reitern Bilanz, Payout, Simulation, Challenge vs. Funded und Friedhof.
-  Die Adressen bleiben `#/prop/<ansicht>` (z. B. `#/prop/bilanz`); `#/prop/auswertung` und die alten `#/prop/finanzen`
-  und `#/prop/analyse` öffnen die zuletzt benutzte Ansicht. Ruhig gehalten: Kennzahlen als Leiste ohne Fußtexte;
+  Rechner · Auswertung · Konten; Auswertung mit den Reitern Bilanz und Friedhof, der Payout-Planer ist ein aufklappbarer
+  Abschnitt in der Bilanz. Simulation und Challenge vs. Funded sind entfallen (wenig genutzt); ihre alten Adressen führen
+  zur Bilanz, `#/prop/payout` zur Bilanz mit offenem Payout-Planer. Die Adressen bleiben `#/prop/<ansicht>` (z. B.
+  `#/prop/bilanz`); `#/prop/auswertung` und die alten `#/prop/finanzen` und `#/prop/analyse` öffnen die zuletzt benutzte Ansicht. Ruhig gehalten: Kennzahlen als Leiste ohne Fußtexte;
   Konto-Karten zeigen nur Balken für Regeln, die es gibt (Ziel nur in der Challenge), Status nur wenn nicht aktiv,
   Puffer-Details im Tooltip; Filter erst ab fünf Konten; Presets-Tabelle mit Größe, Drawdown, Ziel und Gebühr (Rest unter
-  „Ansehen“); Rechner-Ergebnis ohne Farbfläche; Simulation zeigt nur die Stichprobe, Details im (i); Challenge vs. Funded
-  markiert auffällige Kennzahlen nur mit einem Punkt. Bestandene, geplatzte und archivierte Konten liegen eingeklappt
-  unter „Abgeschlossen“; Firmen-Presets, Ampel und Stop-Größe sowie Instrumente sind aufklappbar; die Eingabeformulare
+  „Ansehen“); Rechner-Ergebnis ohne Farbfläche. Bestandene, geplatzte und archivierte Konten liegen eingeklappt
+  unter „Abgeschlossen“; eigene Presets, Ampel und Stop-Größe sowie Instrumente sind aufklappbar; die Eingabeformulare
   für Ausgaben und Payouts öffnen sich über den
   Knopf im Kartenkopf. Journal-Zeitraum und -Konto fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
-  Firmen-Presets (Beispiele sind als unverifiziert markiert, eigene Firmen mit
-  eigenen Regeln möglich), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
+  eigene Presets (Regeln je Firma und Kontogröße; die früher eingebauten Firmen-Presets erscheinen nicht mehr, weil ihre
+  Werte ungeprüft sind und sich laufend ändern – `PropData.PRESETS` dient nur noch den Beispieldaten und Altkonten ohne
+  eigene Payout-Bedingungen; der Konto-Dialog zeigt die Preset-Auswahl nur, wenn es eigene Presets gibt), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades
   lassen sich einem oder mehreren Prop-Konten zuordnen (Copy-Trading). Regel-Engine in `js/prop.js`: Daily Loss
   (Betrag oder %, Reset-Uhrzeit und Zeitzone), Max Drawdown statisch, intraday trailing, Tagesende-trailing und
   trailing mit Lock, Profit Target, Mindest-Handelstage, max. Kontrakte/Lots, Consistency Rule, verbleibender Puffer
   und Ampel. Cockpit mit allen Konten, echte Prop-Bilanz (Ausgaben gegen Payouts, ROI, Kosten pro bestandenem Konto,
   Bestehensquote), Puffer in Stop-Losses, Positionsgrößenrechner mit editierbaren Instrument-Spezifikationen,
-  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse (jedes geplatzte Konto als zweiseitiger Grabstein – vorne nur das Wesentliche (Firma, Konto, Phase, * Start / † Breach, gelebte Tage, Todesursache), per Klick oder „Umdrehen“ dreht er sich um und zeigt hinten eine ruhige Liste (Ergebnis, Trade, Wann, Trade-P&L, Serie davor, Emotion, Fehler) plus die Notiz als Inschrift und den Trade-Link; klassische Steinform mit Kuppel und eingekerbten Schultern als beleuchtetes SVG (Breite folgt der Karte: Kuppel und Tafelkopf als verschachtelte, nur waagrecht gestreckte SVGs, Rechtecke mit CSS-Breite/-Höhe per calc; unten dunkler über einen Verlauf in der Füllung): die Form wird mit Rauschen verbogen (raue Kanten), Kantenrundung plus Korn und Poren ergeben eine Höhenkarte mit Licht von oben links, dazu Flecken, Körner und unten Schmutz; vertiefte Schrifttafel mit Innenschatten; Riss und gravierte Schrift, „R · I · P“, Lebensdaten * Start / † Breach, Todesursache; zweistufiger Steinsockel mit demselben Licht, darauf zwei Haufen hoher Stumpenkerzen – jede eine zusammenhängende, beleuchtete Wachsform mit geschmolzenem, an den Ecken gerundetem Rand, Läufen und Pfütze (Läufe an den Seiten sind Teil der Kontur und liegen eng an der Kante an, alle Läufe beginnen genau am Rand mit einem kleinen Überlauf und enden in einem Tropfen), flüssigem Wachs im Krater, weicher Flamme und Lichthof; ein warmer Schein fällt auf den Stein) und Challenge vs. Funded (`js/screens/prop-friedhof.js`), Monte-Carlo-Simulation
-  der Bestehens-Wahrscheinlichkeit im Web Worker (`js/propworker.js`, Rechenkern `js/propsim.js`; ohne Worker, etwa unter
-  `file://`, synchron im Hauptthread), Firmen-Matcher (Sortierung nach Bestehensquote mit den eigenen Tagen, keine Bewertung der Firmen) und
-  Erwartungswert der Challenge (Tab Simulation, `js/screens/prop-sim.js`). Phasenwechsel eines Kontos werden mit Datum
+  Payout-Planer mit Consistency-Warnung, Konto-Friedhof mit Musteranalyse (jedes geplatzte Konto als zweiseitiger Grabstein – vorne nur das Wesentliche (Firma, Konto, Phase, * Start / † Breach, gelebte Tage, Todesursache), per Klick oder „Umdrehen“ dreht er sich um und zeigt hinten eine ruhige Liste (Ergebnis, Trade, Wann, Trade-P&L, Serie davor, Emotion, Fehler) plus die Notiz als Inschrift und den Trade-Link; klassische Steinform mit Kuppel und eingekerbten Schultern als beleuchtetes SVG (Breite folgt der Karte: Kuppel und Tafelkopf als verschachtelte, nur waagrecht gestreckte SVGs, Rechtecke mit CSS-Breite/-Höhe per calc; unten dunkler über einen Verlauf in der Füllung): die Form wird mit Rauschen verbogen (raue Kanten), Kantenrundung plus Korn und Poren ergeben eine Höhenkarte mit Licht von oben links, dazu Flecken, Körner und unten Schmutz; vertiefte Schrifttafel mit Innenschatten; Riss und gravierte Schrift, „R · I · P“, Lebensdaten * Start / † Breach, Todesursache; zweistufiger Steinsockel mit demselben Licht, darauf zwei Haufen hoher Stumpenkerzen – jede eine zusammenhängende, beleuchtete Wachsform mit geschmolzenem, an den Ecken gerundetem Rand, Läufen und Pfütze (Läufe an den Seiten sind Teil der Kontur und liegen eng an der Kante an, alle Läufe beginnen genau am Rand mit einem kleinen Überlauf und enden in einem Tropfen), flüssigem Wachs im Krater, weicher Flamme und Lichthof; ein warmer Schein fällt auf den Stein; `js/screens/prop-friedhof.js`, Rechenkern `js/propsim.js`). Phasenwechsel eines Kontos werden mit Datum
   gespeichert; Trades zählen zur Phase, in der sie geschlossen wurden. Alle Preset-Werte (Regeln, Gebühren, Payout-Bedingungen, Instrumente) sind
   unverifiziert und in `web/PROP-PRESETS.md` zum Prüfen aufgelistet. Tests: `web/tests/prop.test.mjs`,
   `web/tests/propsim.test.mjs`.
@@ -260,7 +258,7 @@ Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 
 `js/motion.js` blendet Karten und Abschnitte beim Reinscrollen ein (einmalig, gestaffelt), kapselt den Seitenwechsel in eine
 View Transition und blendet Dialoge, Popover und Toasts aus, bevor sie entfernt werden. Animiert werden nur `transform` und `opacity`.
 **Laden** hat eine gemeinsame Bildsprache: `U.loader('sm'|''|'lg')` zeichnet eine kleine Kurslinie, über die ein grünes Stück
-gleitet (App-Start mit Logo, Auswertung von Sprachnotizen, Prop-Simulation); `U.spin()` ist ein feiner Ring für Knöpfe
+gleitet (App-Start mit Logo, Auswertung von Sprachnotizen); `U.spin()` ist ein feiner Ring für Knöpfe
 („Wird erstellt …“); Platzhalter (`.skel`) bekommen einen weichen Glanz, der darüberwandert, statt zu blinken.
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.

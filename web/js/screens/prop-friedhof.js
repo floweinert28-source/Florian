@@ -1,5 +1,5 @@
-/* Prop Firms, Phase 3: Konto-Friedhof (#/prop/friedhof) und Challenge vs. Funded (#/prop/vergleich).
-   Rechenkern: js/propsim.js (graveyard, compare). Registriert beide Tabs über root.PropScreen.register; alle Beträge laufen über fmt.cur / U.pnl (Geld-blind-Modus).
+/* Prop Firms: Konto-Friedhof (#/prop/friedhof).
+   Rechenkern: js/propsim.js (graveyard). Registriert den Tab über root.PropScreen.register; alle Beträge laufen über fmt.cur / U.pnl (Geld-blind-Modus).
    Es wird nichts erfunden: fehlende Werte stehen als „—“. Datum und Uhrzeit des Breachs stehen in der Zeitzone des Kontos (dort gilt die Regel),
    das Startdatum als lokaler Tag wie im Konten-Tab. Geplatzte Konten ohne Breach-Datensatz, aber mit breachedAt, bekommen einen synthetischen Eintrag (Datum ohne Regel/Trade). */
 (function (root) {
@@ -10,7 +10,6 @@
   const { nameOf, PHASES, num } = PS;
   const RULE_LABEL = { dailyLoss: 'Daily Loss', drawdown: 'Max. Drawdown', consistency: 'Consistency', maxContracts: 'Max. Kontrakte/Lots', manual: 'Manuell markiert' };
   const WEEKDAY_LONG = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
-  const MIN_TRADES = 5, THRESHOLD = 20;
   const DASH = '<span class="faint">—</span>';
   const call = (name, ...args) => typeof S[name] === 'function' ? (S[name](...args) || []) : [];
   const ruleLabel = r => r == null || r === '' ? DASH : esc(RULE_LABEL[r] || String(r));
@@ -224,43 +223,6 @@
     return `${tiles(g)}${patternsCard(g)}<div class="grid prop-graves">${g.tombstones.map(t => grave(t, byId, accs)).join('')}</div>`;
   }
 
-  /* ---------- Challenge vs. Funded ---------- */
-  const GOOD_UP = new Set(['winRate', 'avgR', 'pf']), GOOD_DOWN = new Set(['maxDD']);
-  function value(unit, v) {
-    if (v == null || (typeof v === 'number' && isNaN(v))) return DASH;
-    switch (unit) { case 'pct': return fmt.pct(v, 1); case 'r': return U.rText(v); case 'cur': return fmt.cur(v); case 'dur': return fmt.dur(v); default: return fmt.num(v, 2); }
-  }
-  function diffCls(r) {
-    if (r.diffPct == null || Math.abs(r.diffPct) < 0.5) return 'neu';
-    if (GOOD_UP.has(r.key)) return r.diffPct > 0 ? 'pos' : 'neg';
-    if (GOOD_DOWN.has(r.key)) return r.diffPct < 0 ? 'pos' : 'neg';
-    return 'neu';
-  }
-  /* Unterschied in %: unter 0,5 % neutral „0 %“ statt „+0 %“/„−0 %“ (Vorzeichen ohne Betrag) */
-  const diffText = r => r.diffPct == null ? DASH : Math.abs(r.diffPct) < 0.5 ? fmt.pct(0) : fmt.pct(r.diffPct / 100, 0, true);
-  /* Trades je Phase über alle Konten, dedupliziert nach id (ein Trade kann mehreren Konten zugeordnet sein, Copy-Trading) */
-  function collect(phases) {
-    const m = new Map();
-    /* Phase zum Schlusszeitpunkt des Trades (Store.propPhaseAt mit Phasenverlauf), sonst aktuelle Phase */
-    const phaseOf = (a, t) => typeof S.propPhaseAt === 'function' ? S.propPhaseAt(a, t.close || t.open) : a.phase;
-    for (const a of PS.accounts()) for (const t of call('tradesForPropAccount', a.id)) if (t && !m.has(t.id) && phases.includes(phaseOf(a, t))) m.set(t.id, t);
-    return [...m.values()];
-  }
-  function tabVergleich() {
-    const ch = collect(['challenge1', 'challenge2']), fu = collect(['funded']);
-    const cmp = Sim.compare(ch, fu, { threshold: THRESHOLD });
-    const sample = `<div class="prop-cmp-sample"><span><b>${cmp.n.challenge}</b> Trades in Challenges, <b>${cmp.n.funded}</b> Trades funded${U.info('Geschlossene Trades der Konten nach der Phase, in der sie geschlossen wurden (Phasenwechsel werden mit Datum gespeichert). Unterschied = Funded gegenüber Challenge; Grün und Rot nur bei Kennzahlen mit klarer Richtung (Trefferquote, Ø R, Profit Factor, Max. Drawdown).')}</span></div>`;
-    if (cmp.n.challenge < MIN_TRADES || cmp.n.funded < MIN_TRADES) {
-      const missing = [cmp.n.challenge < MIN_TRADES ? `auf der Challenge-Seite (${cmp.n.challenge} von ${MIN_TRADES})` : '', cmp.n.funded < MIN_TRADES ? `auf der Funded-Seite (${cmp.n.funded} von ${MIN_TRADES})` : ''].filter(Boolean);
-      return sample + U.empty('stats', 'Noch zu wenig Daten für den Vergleich', `Jede Seite braucht mindestens ${MIN_TRADES} geschlossene Trades. Es fehlen Trades ${missing.join(' und ')}. Ordne Trades im Cockpit über „Trades zuordnen“ einem Konto in der passenden Phase zu.`);
-    }
-    const rows = cmp.rows.map(r => `<tr class="${r.highlight ? 'hl' : ''}" data-key="${esc(r.key)}"><td>${esc(r.label)}${r.highlight ? ' <span class="hl-dot" data-tip="Auffällig" aria-label="auffällig"></span>' : ''}</td><td class="r">${value(r.unit, r.challenge)}</td><td class="r">${value(r.unit, r.funded)}</td><td class="r ${diffCls(r)}">${diffText(r)}</td></tr>`).join('');
-    const table = `<div class="tbl-wrap"><table class="tbl prop-cmp"><thead><tr><th>Kennzahl</th><th class="r">Challenge</th><th class="r">Funded</th><th class="r"><span class="long">Unterschied</span><span class="short" title="Unterschied">Diff.</span></th></tr></thead><tbody>${rows}</tbody></table></div>`;
-    const hl = cmp.highlights.length ? `<ul class="prop-highlights">${cmp.highlights.map(s => `<li>${esc(s)}</li>`).join('')}</ul>` : `<p class="muted small prop-highlights-empty">Keine großen Unterschiede: alle Kennzahlen liegen unter ${THRESHOLD} % Abweichung. Du handelst funded so wie in der Challenge.</p>`;
-    return `${sample}${table}${U.card('Auffällig', hl, { info: `Hervorgehoben ab ${THRESHOLD} % Unterschied zwischen Challenge und Funded, nach Größe sortiert.` })}`;
-  }
-
   PS.register('friedhof', 'Friedhof', tabFriedhof);
-  PS.register('vergleich', 'Challenge vs. Funded', tabVergleich);
-  root.PropFriedhof = { tabFriedhof, tabVergleich, collect, graveyard, breachesOf, dateIn, timeIn, diffText, RULE_LABEL, MIN_TRADES, THRESHOLD };
+  root.PropFriedhof = { tabFriedhof, graveyard, breachesOf, dateIn, timeIn, RULE_LABEL };
 })(window);

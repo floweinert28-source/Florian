@@ -3,13 +3,14 @@
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App, P = root.Prop, PD = root.PropData;
-  const TABS = [['cockpit', 'Übersicht'], ['bilanz', 'Bilanz'], ['konten', 'Konten'], ['rechner', 'Rechner'], ['payout', 'Payout']];
+  const TABS = [['cockpit', 'Übersicht'], ['bilanz', 'Bilanz'], ['konten', 'Konten'], ['rechner', 'Rechner']];
   /* Weitere Ansichten (Friedhof, Vergleich, Simulation …) registrieren sich aus eigenen Dateien über root.PropScreen.register.
      Oben stehen nur fünf Bereiche; Finanzen und Analyse haben einen kleinen Umschalter für ihre Ansichten. Die Adressen bleiben #/prop/<ansicht> */
-  /* Vier Bereiche für den Einstieg: Übersicht (Konten auf einen Blick), Rechner, Auswertung (Bilanz, Payout, Simulation, Vergleich, Friedhof) und Konten (Verwaltung, Presets) */
+  /* Vier Bereiche: Übersicht (Konten auf einen Blick), Rechner, Auswertung (Bilanz mit Payout-Planer, Friedhof) und Konten (Verwaltung, eigene Presets).
+     Simulation und Challenge vs. Funded sind entfallen; ihre alten Adressen führen zur Bilanz, #/prop/payout zur Bilanz mit offenem Payout-Planer */
   const AREAS = [['cockpit', 'Übersicht'], ['rechner', 'Rechner'], ['auswertung', 'Auswertung'], ['konten', 'Konten']];
-  const AREA_OF = { cockpit: 'cockpit', konten: 'konten', rechner: 'rechner', bilanz: 'auswertung', payout: 'auswertung', simulation: 'auswertung', friedhof: 'auswertung', vergleich: 'auswertung' };
-  const SUB_ORDER = ['bilanz', 'payout', 'simulation', 'vergleich', 'friedhof'];
+  const AREA_OF = { cockpit: 'cockpit', konten: 'konten', rechner: 'rechner', bilanz: 'auswertung', friedhof: 'auswertung' };
+  const SUB_ORDER = ['bilanz', 'friedhof'];
   const areaOf = k => AREA_OF[k] || 'auswertung';
   const subsOf = area => TABS.filter(t => areaOf(t[0]) === area).sort((a, b) => (SUB_ORDER.indexOf(a[0]) + 1 || 99) - (SUB_ORDER.indexOf(b[0]) + 1 || 99));
   const VIEWS = {}, MOUNTS = {}, UNMOUNTS = {};
@@ -34,8 +35,9 @@
   const thresholds = () => Object.assign({ yellow: 0.5, red: 0.25 }, S.settings.propThresholds || {});
   const instruments = () => Array.isArray(S.settings.propInstruments) && S.settings.propInstruments.length ? S.settings.propInstruments : PD.instrumentsDefault;
   const accounts = () => (typeof S.propAccounts === 'function' ? S.propAccounts() : []).slice();
-  const presets = () => typeof S.propPresets === 'function' ? S.propPresets() : PD.PRESETS;
-  const presetOf = a => presets().find(p => p.id === a.firmId) || null;
+  const presets = () => typeof S.propPresets === 'function' ? S.propPresets() : [];
+  /* Altkonten ohne eigenes payout-Objekt: Bedingungen weiter aus dem Preset, auch aus den früher eingebauten (nur noch intern) */
+  const presetOf = a => presets().find(p => p.id === a.firmId) || (Array.isArray(PD.PRESETS) ? PD.PRESETS.find(p => p.id === a.firmId) : null) || null;
   const accName = a => `${a.firm || 'Eigene Firma'} ${a.name || ''}`.trim();
   const today = () => C.dayKey(new Date());
   const n1 = (n, s, p) => `${fmt.int(n)} ${n === 1 ? s : p}`;
@@ -180,11 +182,11 @@
   function accountEditor(a) {
     const isNew = !a; const s = a || { firmId: '', firm: '', name: '', market: 'futures', size: '', currency: 'USD', phase: 'challenge1', status: 'active', startedAt: new Date().toISOString(), startBalance: '', rules: {}, payout: {}, profitSplit: 0.9, group: '', tz: P.systemTz(), note: '' };
     const ps = presets(); const firms = [...new Set(ps.map(p => p.firm))];
-    const presetSel = `<div class="field span2"><label for="pa-preset">Firma und Kontogröße (Preset)</label><select class="select" id="pa-preset" name="firmId" data-change="prop-preset-pick"><option value="">Eigene Firma (leeres Preset)</option>${firms.map(f => `<optgroup label="${esc(f)}">${ps.filter(p => p.firm === f).map(p => `<option value="${esc(p.id)}" ${s.firmId === p.id ? 'selected' : ''}>${esc(p.firm)} ${esc(p.name)}${p.unverified || !p.lastVerified ? ' · unverifiziert' : ''}</option>`).join('')}</optgroup>`).join('')}</select><span class="hint" id="pa-preset-hint">Füllt alle Felder aus; alles bleibt editierbar.</span></div>`;
+    const presetSel = `<div class="field span2"><label for="pa-preset">Firma und Kontogröße (Preset)</label><select class="select" id="pa-preset" name="firmId" data-change="prop-preset-pick"><option value="">Ohne Preset</option>${firms.map(f => `<optgroup label="${esc(f)}">${ps.filter(p => p.firm === f).map(p => `<option value="${esc(p.id)}" ${s.firmId === p.id ? 'selected' : ''}>${esc(p.firm)} ${esc(p.name)}${p.unverified || !p.lastVerified ? ' · unverifiziert' : ''}</option>`).join('')}</optgroup>`).join('')}</select><span class="hint" id="pa-preset-hint">Füllt alle Felder aus; alles bleibt editierbar.</span></div>`;
     const sel = (name, opts, cur, id) => `<select class="select" name="${name}" id="${id}">${opts.map(([k, l]) => `<option value="${esc(k)}" ${String(cur) === String(k) ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
     U.modal(`<form data-action="prop-account-save" data-id="${s.id || ''}" class="prop-form"><div class="modal-head"><h2>${isNew ? 'Konto anlegen' : 'Konto bearbeiten'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
       <div class="banner info">${I.info}<div class="grow">Die Regeln werden beim Speichern als Momentaufnahme in das Konto kopiert. Änderst du später ein Preset, bleibt dieses Konto unverändert.</div></div>
-      <div class="form-grid">${isNew ? presetSel : ''}
+      <div class="form-grid">${isNew && ps.length ? presetSel : ''}
         <div class="field"><label for="pa-firm">Firma</label><input class="input" id="pa-firm" name="firm" value="${esc(s.firm)}" required placeholder="z. B. Topstep"></div>
         <div class="field"><label for="pa-name">Konto (z. B. 50K)</label><input class="input" id="pa-name" name="name" value="${esc(s.name)}"></div>
         <div class="field"><label for="pa-market">Markt</label>${sel('market', PD.MARKETS, s.market, 'pa-market')}</div>
@@ -233,14 +235,14 @@
     /* Presets schlank: Name (darunter Markt und „unverifiziert“), Größe, Drawdown, Ziel, Gebühr; Daily Loss, Split, Mindesttage und alle Gebühren zeigt „Ansehen“ */
     const unvPill = p => p.unverified || !p.lastVerified ? `<span data-tip="Unverifiziert, bitte prüfen">${U.pill('unverifiziert', 'warn')}</span>` : `<span data-tip="Geprüft am ${fmt.dateFull(p.lastVerified)}">${U.pill('geprüft', 'win')}</span>`;
     const presetRows = ps.map(p => `<tr class="${p.custom ? '' : 'prop-builtin'}"><td><b>${esc(p.firm)}</b> ${esc(p.name)}<div class="sub">${nameOf(PD.MARKETS, p.market, 'Futures')} ${unvPill(p)}</div></td><td class="r">${specMoney(p.size, p.currency)}</td><td class="r"><span data-tip="${esc(DD_SHORT[(p.rules && p.rules.drawdown && p.rules.drawdown.type) || 'static'] || '')}">${limText(p.rules && p.rules.drawdown)}</span></td><td class="r">${limText(p.rules && p.rules.profitTarget)}</td><td class="r">${p.fees && p.fees.challenge != null && p.fees.challenge !== '' ? specMoney(p.fees.challenge, p.currency) : '—'}</td><td class="r nowrap">${p.custom ? `<button type="button" class="btn ghost icon sm" data-action="prop-preset-edit" data-id="${esc(p.id)}" aria-label="Bearbeiten">${I.edit}</button><button type="button" class="btn ghost icon sm" data-action="prop-preset-delete" data-id="${esc(p.id)}" aria-label="Löschen">${I.trash}</button>` : `<button type="button" class="btn ghost icon sm" data-action="prop-preset-view" data-id="${esc(p.id)}" aria-label="Ansehen">${I.eye}</button><button type="button" class="btn ghost icon sm" data-action="prop-preset-copy" data-id="${esc(p.id)}" aria-label="Kopieren">${I.copy}</button>`}</td></tr>`).join('');
-    const presetBody = `<div class="prop-fold-bar"><p class="small muted prop-fold-note">Werte bitte auf der Website der Firma prüfen.</p><button type="button" class="btn sm" data-action="prop-preset-new">${I.plus} Eigenes Preset</button></div><div class="tbl-wrap inset"><table class="tbl compact prop-presets"><thead><tr><th>Preset</th><th class="r">Größe</th><th class="r">Drawdown</th><th class="r">Ziel</th><th class="r">Gebühr</th><th></th></tr></thead><tbody>${presetRows || `<tr><td colspan="6"><div class="empty" style="min-height:120px"><b>Keine Presets</b></div></td></tr>`}</tbody></table></div>`;
+    const presetBody = `<div class="prop-fold-bar"><p class="small muted prop-fold-note">Deine Regeln je Firma und Kontogröße, beim Anlegen eines Kontos auswählbar.</p><button type="button" class="btn sm" data-action="prop-preset-new">${I.plus} Eigenes Preset</button></div>${presetRows ? `<div class="tbl-wrap inset"><table class="tbl compact prop-presets"><thead><tr><th>Preset</th><th class="r">Größe</th><th class="r">Drawdown</th><th class="r">Ziel</th><th class="r">Gebühr</th><th></th></tr></thead><tbody>${presetRows}</tbody></table></div>` : '<div class="dashed">Noch keine eigenen Presets.</div>'}`;
     const settings = `<p class="small muted prop-fold-note">Die Ampel vergleicht den kleinsten verbleibenden Spielraum (Daily Loss oder Drawdown) mit dem jeweiligen Limit.</p><form data-action="prop-settings-save" class="form-grid prop-settings">
       <div class="field"><label for="ps-yellow">Gelb, wenn weniger als … % des Limits übrig</label><input class="input" id="ps-yellow" name="yellow" type="number" min="0" max="100" step="1" value="${Math.round(th.yellow * 100)}" inputmode="decimal"></div>
       <div class="field"><label for="ps-red">Rot, wenn weniger als … % übrig</label><input class="input" id="ps-red" name="red" type="number" min="0" max="100" step="1" value="${Math.round(th.red * 100)}" inputmode="decimal"></div>
       <div class="field"><label for="ps-stop">${esc(unitLabel('Stop-Größe: Risiko pro Trade'))}</label><input class="input" id="ps-stop" name="stopSize" type="number" min="0" step="any" value="${S.settings.propStopSize > 0 ? S.settings.propStopSize : ''}" inputmode="decimal" placeholder="automatisch"><span class="hint">Leer: Median der Verlust-Trades der letzten 30 Trades je Konto. Bestimmt „noch X Stop-Losses“.</span></div>
       <div class="field span2"><div><button type="submit" class="btn primary sm">Speichern</button></div></div></form>`;
     return U.card('Deine Konten', accTable, { trailing: `<button type="button" class="btn sm primary" data-action="prop-account-new">${I.plus} Konto anlegen</button>`, info: 'Regeln sind je Konto als Momentaufnahme gespeichert. Status (geplatzt, bestanden, archiviert) setzt du im Konto-Dialog.' })
-      + fold('presets', 'Firmen-Presets', presetBody, { count: ps.length, sub: 'Vorlagen für neue Konten' })
+      + fold('presets', 'Eigene Presets', presetBody, { count: ps.length, sub: 'Vorlagen für neue Konten' })
       + fold('ampel', 'Ampel und Stop-Größe', settings, { sub: `Gelb unter ${Math.round(th.yellow * 100)} %, Rot unter ${Math.round(th.red * 100)} %` });
   }
 
@@ -264,7 +266,9 @@
     const poForm = accs.length ? `<form data-action="prop-payout-add" class="form-grid prop-entry" id="prop-entry-payout"${ent.payout ? '' : ' hidden'}><div class="field"><label for="pp-acc">Konto</label><select class="select" id="pp-acc" name="accountId" required data-change="prop-payout-form">${accs.map(a => `<option value="${a.id}" ${first && a.id === first.id ? 'selected' : ''}>${esc(accName(a))} · ${nameOf(STATUS, a.status)}</option>`).join('')}</select></div><div class="field"><label for="pp-gross">${esc(unitLabel('Brutto'))}</label><input class="input" id="pp-gross" name="gross" type="number" step="0.01" min="0" required inputmode="decimal" data-input="prop-payout-net"></div><div class="field"><label for="pp-split">Split (%)</label><input class="input" id="pp-split" name="split" type="number" step="1" min="0" max="100" value="${split0}" inputmode="decimal" data-input="prop-payout-net"></div><div class="field"><label for="pp-net">${esc(unitLabel('Netto'))}</label><input class="input" id="pp-net" name="net" type="number" step="0.01" min="0" inputmode="decimal" placeholder="automatisch"></div><div class="field"><label for="pp-req">Beantragt am</label><input class="input" id="pp-req" name="requestedAt" type="date" value="${today()}" required></div><div class="field"><label for="pp-rec">Erhalten am</label><input class="input" id="pp-rec" name="receivedAt" type="date"></div><div class="field"><label for="pp-status">Status</label><select class="select" id="pp-status" name="status">${PAYOUT_STATUS.map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></div><div class="field"><span class="lbl">&nbsp;</span><button type="submit" class="btn primary">${I.plus} Payout erfassen</button></div></form>` : '<div class="dashed">Lege zuerst ein Prop-Konto an, dann kannst du Payouts erfassen.</div>';
     const poRows = po.slice().sort((a, b) => String(b.requestedAt).localeCompare(String(a.requestedAt))).map(p => { const a = accs.find(x => x.id === p.accountId); const kind = p.status === 'received' ? 'win' : p.status === 'denied' ? 'loss' : 'open'; return `<tr><td>${a ? esc(accName(a)) : esc(p.firm || '—')}</td><td class="r">${fmt.cur(p.gross)}</td><td class="r">${fmt.pct(num(p.split, 0))}</td><td class="r pos">${fmt.cur(p.net)}</td><td>${fmt.dateFull(p.requestedAt)}</td><td>${p.receivedAt ? fmt.dateFull(p.receivedAt) : '—'}</td><td>${U.pill(nameOf(PAYOUT_STATUS, p.status), kind)}</td><td class="r nowrap">${p.status === 'requested' ? `<button type="button" class="btn xs" data-action="prop-payout-received" data-id="${esc(p.id)}">Erhalten</button> ` : ''}<button type="button" class="btn ghost icon sm" data-action="prop-payout-delete" data-id="${esc(p.id)}" aria-label="Löschen">${I.trash}</button></td></tr>`; }).join('');
     const payouts = U.card('Payouts', `${poForm}${po.length ? `<div class="tbl-wrap"><table class="tbl compact"><thead><tr><th>Konto</th><th class="r">Brutto</th><th class="r">Split</th><th class="r">Netto</th><th>Beantragt</th><th>Erhalten</th><th>Status</th><th></th></tr></thead><tbody>${poRows}</tbody></table></div>` : `<div class="dashed">Noch keine Payouts erfasst.</div>`}`, { info: 'Netto = Brutto × Split. Abgelehnte Payouts zählen nicht in der Bilanz.', trailing: accs.length ? entryBtn('payout', 'Payout erfassen') : '' });
-    return `${tiles}<div class="grid main-side">${chart}${byFirm}</div>${expenses}${payouts}`;
+    /* Payout-Planer (früher eigener Reiter) als aufklappbarer Abschnitt unter den Payouts */
+    const planer = accs.length ? fold('planer', 'Payout-Planer', payoutPlanner(), { sub: 'Bedingungen und Vorschlag je Konto' }) : '';
+    return `${tiles}<div class="grid main-side">${chart}${byFirm}</div>${expenses}${payouts}${planer}`;
   }
 
   /* ---------- Rechner ---------- */
@@ -303,8 +307,8 @@
     </div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'narrow' });
   }
 
-  /* ---------- Payout-Planer ---------- */
-  function tabPayout() {
+  /* ---------- Payout-Planer (Abschnitt in der Bilanz) ---------- */
+  function payoutPlanner() {
     const list = accounts(); if (!list.length) return emptyAccounts(); const a = pickAccount(list, 'payoutAccount'); const { ev } = evalOf(a); const plan = planOf(a, ev); const o = plan.opts; const cons = plan.consistency;
     const sel = `<div class="prop-toolbar">${accSelect('pp-acc-sel', 'prop-payout-account', list, a.id)}</div>`;
     const dead = ev.status === 'breached' || a.status === 'breached';
@@ -315,7 +319,7 @@
     const conds = U.card(plan.funded ? 'Payout-Bedingungen' : 'Bedingungen zum Bestehen', `${U.kv('Handelstage', `${ev.days.length}${o.minDays != null ? ` von ${o.minDays}` : ''} ${plan.missingDays ? `<span class="warn">· noch ${plan.missingDays}</span>` : o.minDays != null ? '<span class="pos">· erfüllt</span>' : '<span class="muted">· keine Vorgabe</span>'}`)}${U.kv(plan.funded ? 'Gewinn seit Start' : 'Profit Target', `${U.pnl(ev.pnl)}${o.minProfit != null && o.minProfit > 0 ? ` <span class="muted">von ${fmt.cur(o.minProfit)}</span>` : ''} ${missP > C.EPS ? `<span class="warn">· ${fmt.cur(missP)} fehlen</span>` : o.minProfit != null && o.minProfit > 0 ? '<span class="pos">· erfüllt</span>' : '<span class="muted">· keine Vorgabe</span>'}`)}${o.minBalance != null ? U.kv('Mindestbalance', `${fmt.balance(ev.balance)} <span class="muted">von ${fmt.cur(o.minBalance)}</span> ${missB > C.EPS ? `<span class="warn">· ${fmt.cur(missB)} fehlen</span>` : '<span class="pos">· erfüllt</span>'}`) : ''}${U.kv('Consistency Rule', cons ? `${cons.ok ? '<span class="pos">ok</span>' : '<span class="neg">verletzt</span>'} <span class="muted">· bester Tag <span title="${cons.bestDayPct > 1 ? 'Der Gesamtgewinn ist kleiner als der beste Tag' : 'Anteil des besten Tages am Gesamtgewinn'}">${cons.bestDayPct == null ? '—' : fmt.pct(cons.bestDayPct)}</span> von max. ${fmt.num(cons.maxDayPct)} %${isFinite(cons.allowedToday) ? ` · heute noch ${fmt.cur(cons.allowedToday)} erlaubt` : ''}</span>` : '<span class="muted">keine Regel</span>')}${U.kv('Profit Split', fmt.pct(num(a.profitSplit, 0)))}${plan.funded && ev.pnl > C.EPS ? U.kv('Netto bei Auszahlung des Gewinns', fmt.cur(ev.pnl * num(a.profitSplit, 0))) : ''}`);
     const sugg = !dead && plan.suggestion.total > C.EPS ? U.card('Vorschlag', `<div class="big-stat"><span>${fmt.cur(plan.suggestion.perDay)}</span></div><div class="small muted">Ø Gewinn pro Tag über ${plan.suggestion.days} Tag${plan.suggestion.days === 1 ? '' : 'e'}. So erreichst du die fehlenden ${fmt.cur(plan.suggestion.total)}${cons ? ', und kein Tag überschreitet die Consistency-Grenze' : ''}.</div>`, { info: 'Fehlender Gewinn gleichmäßig auf die fehlenden Tage verteilt; bei verletzter Consistency Rule zusätzlich so viel, dass der beste Tag wieder unter die Grenze fällt.' }) : '';
     const hist = (typeof S.propPayouts === 'function' ? S.propPayouts() : []).filter(p => p.accountId === a.id).sort((x, y) => String(y.requestedAt).localeCompare(String(x.requestedAt)));
-    const history = U.card('Payouts dieses Kontos', hist.length ? `<div class="tbl-wrap inset"><table class="tbl compact"><thead><tr><th>Beantragt</th><th>Erhalten</th><th class="r">Brutto</th><th class="r">Netto</th><th>Status</th></tr></thead><tbody>${hist.map(p => `<tr><td>${fmt.dateFull(p.requestedAt)}</td><td>${p.receivedAt ? fmt.dateFull(p.receivedAt) : '—'}</td><td class="r">${fmt.cur(p.gross)}</td><td class="r pos">${fmt.cur(p.net)}</td><td>${U.pill(nameOf(PAYOUT_STATUS, p.status), p.status === 'received' ? 'win' : p.status === 'denied' ? 'loss' : 'open')}</td></tr>`).join('')}</tbody></table></div>` : '<div class="dashed">Noch keine Payouts für dieses Konto. Erfasse sie unter Finanzen › Bilanz.</div>');
+    const history = U.card('Payouts dieses Kontos', hist.length ? `<div class="tbl-wrap inset"><table class="tbl compact"><thead><tr><th>Beantragt</th><th>Erhalten</th><th class="r">Brutto</th><th class="r">Netto</th><th>Status</th></tr></thead><tbody>${hist.map(p => `<tr><td>${fmt.dateFull(p.requestedAt)}</td><td>${p.receivedAt ? fmt.dateFull(p.receivedAt) : '—'}</td><td class="r">${fmt.cur(p.gross)}</td><td class="r pos">${fmt.cur(p.net)}</td><td>${U.pill(nameOf(PAYOUT_STATUS, p.status), p.status === 'received' ? 'win' : p.status === 'denied' ? 'loss' : 'open')}</td></tr>`).join('')}</tbody></table></div>` : '<div class="dashed">Noch keine Payouts für dieses Konto. Erfasse sie oben unter Payouts.</div>');
     return `${sel}${intro}${warn}<div class="grid two">${conds}${sugg || history}</div>${sugg ? history : ''}`;
   }
 
@@ -328,6 +332,7 @@
       cache = new Map(); const s = st(); s.last = s.last || {};
       /* Adresse → Ansicht: alte Adressen (#/prop/bilanz …) gelten weiter; #/prop/auswertung (auch die alten #/prop/finanzen und #/prop/analyse) öffnet die zuletzt benutzte Ansicht */
       let key = ctx.params[0] || 'cockpit'; if (key === 'uebersicht') key = 'cockpit';
+      if (key === 'payout') { key = 'bilanz'; (s.fold || (s.fold = {})).planer = true; } else if (key === 'simulation' || key === 'vergleich') key = 'bilanz';
       if (key === 'finanzen' || key === 'analyse' || key === 'auswertung') { const subs = subsOf('auswertung'); key = (subs.find(t => t[0] === s.last.auswertung) || subs[0] || ['cockpit'])[0]; }
       if (!VIEWS[key]) key = 'cockpit';
       const area = areaOf(key); s.tab = key; s.last[area] = key;
@@ -340,7 +345,7 @@
     mount(main) { const fn = MOUNTS[st().tab]; if (fn) fn(main); /* Diagramme zeichnet App.render über U.drawCharts */ },
     unmount() { const fn = UNMOUNTS[st().tab]; if (fn) fn(); },
   };
-  Object.assign(VIEWS, { cockpit: tabCockpit, bilanz: tabBilanz, konten: tabKonten, rechner: tabRechner, payout: tabPayout });
+  Object.assign(VIEWS, { cockpit: tabCockpit, bilanz: tabBilanz, konten: tabKonten, rechner: tabRechner });
   /* Schnittstelle für weitere Tabs: register(key, label, render(ctx), { mount(main), unmount() }); Hilfen für dieselben Konten-/Bewertungsdaten */
   root.PropScreen = {
     TABS, register(key, label, render, o = {}) { if (!TABS.some(t => t[0] === key)) TABS.push([key, label]); VIEWS[key] = render; if (o.mount) MOUNTS[key] = o.mount; if (o.unmount) UNMOUNTS[key] = o.unmount; },

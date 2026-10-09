@@ -1470,4 +1470,12 @@ I18N.add('zh', {
   "Noch keine Codes hinterlegt": "还没有优惠码",
   "Rabatt-Codes für Prop Firms erscheinen hier.": "自营交易公司的折扣码将显示在这里。",
   "Ø Gewinn/Verlust": "平均盈亏",
+  "Payout-Planer": "出金规划",
+  "Bedingungen und Vorschlag je Konto": "每个账户的条件与建议",
+  "Eigene Presets": "我的预设",
+  "Deine Regeln je Firma und Kontogröße, beim Anlegen eines Kontos auswählbar.": "按公司和账户规模设置的规则，创建账户时可选择。",
+  "Noch keine eigenen Presets.": "还没有自己的预设。",
+  "Ohne Preset": "不使用预设",
+  "Eigenes Preset": "自定义预设",
+  "Noch keine Payouts für dieses Konto. Erfasse sie oben unter Payouts.": "此账户还没有出金记录。请在上方的出金中记录。",
 });

@@ -1204,11 +1204,33 @@ span.info:hover { color: var(--accent); }
 /* Filter-Seitenleiste: vier aufklappbare Bereiche, Zeilen mit Beschriftung links und Bedienung rechts */
 .fd-panel { --sp-pad: 16px; }
 /* Filter als Fenster unter dem Knopf (Größe und Lage setzt dash-filter.js) */
-.fd-pop { position: absolute; z-index: 56; display: flex; flex-direction: column; gap: 10px; min-height: 0; padding: 14px var(--sp-pad) 0; background: var(--surface); border: 1px solid var(--border-2); border-radius: 14px; box-shadow: var(--shadow); transform-origin: top left; animation: pop-in var(--dur-1) var(--ease) backwards; }
-.fd-pop .sp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.fd-pop .sp-head h2 { font-size: 17px; }
-.fd-pop .sp-head .btn.icon { margin: -4px -6px 0 0; }
-.fd-pop .fd-foot { border-radius: 0 0 13px 13px; }
+.fd-pop { --sp-pad: 12px; position: absolute; z-index: 56; display: flex; flex-direction: column; gap: 4px; min-height: 0; padding: 10px var(--sp-pad) 0; background: var(--surface); border: 1px solid var(--border-2); border-radius: 12px; box-shadow: var(--shadow); transform-origin: top left; animation: pop-in var(--dur-1) var(--ease) backwards; }
+/* kompakt wie die anderen Menüs: kleiner Kopf ohne Untertitel, Bereiche ohne eigene Kästen, nur feine Trennlinien */
+.fd-pop .sp-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 2px; }
+.fd-pop .sp-head h2 { font-size: 14.5px; }
+.fd-pop .sp-head .small { display: none; }
+.fd-pop .sp-head .btn.icon { width: 28px; height: 28px; padding: 0; margin-right: -4px; }
+.fd-pop .sp-head .btn.icon svg { width: 15px; height: 15px; }
+.fd-pop .fd-body { gap: 0; padding-bottom: 6px; }
+.fd-pop .fd-group { border: 0; border-top: 1px solid var(--border); border-radius: 0; background: none; }
+.fd-pop .fd-group:first-child { border-top: 0; }
+.fd-pop .fd-gh { padding: 9px 2px; font-size: 13px; }
+.fd-pop .fd-gh svg { width: 14px; height: 14px; }
+.fd-pop .fd-gb { padding: 0 2px 6px; }
+.fd-pop .fd-row { gap: 6px; padding: 8px 0; border-top: 0; }
+.fd-pop .fd-row:first-child { padding-top: 0; }
+.fd-pop .fd-l { font-size: 11.5px; }
+.fd-pop .fd-seg { padding: 2px; border-radius: 8px; }
+.fd-pop .fd-seg button { padding: 4px 8px; font-size: 12px; border-radius: 6px; }
+.fd-pop .fd-tog button { height: 28px; min-width: 32px; padding: 0 7px; font-size: 12px; border-radius: 7px; }
+.fd-pop .fd-add, .fd-pop .fd-chip { height: 28px; font-size: 12px; }
+.fd-pop .fd-pair .input, .fd-pop .fd-pair .fd-unit { height: 32px; font-size: 12.5px; }
+.fd-pop .fd-foot { gap: 8px; padding: 10px var(--sp-pad); border-radius: 0 0 11px 11px; }
+.fd-pop .fd-foot .btn { min-width: 0; padding: 7px 10px; font-size: 12.5px; }
+.fd-pop .fd-foot .btn.ghost { flex: 0 0 auto; }
+.fd-pop .fd-foot .btn.primary { flex: 1 1 auto; justify-content: center; }
+.fd-pop .fd-foot .fd-n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fd-pop .fd-foot .btn svg { width: 14px; height: 14px; }
 .fd-body { flex: 1; overflow-y: auto; margin: 0 calc(-1 * var(--sp-pad)); padding: 0 var(--sp-pad) 12px; display: flex; flex-direction: column; gap: 10px; }
 .fd-group { border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); }
 .fd-gh { display: flex; align-items: center; gap: 8px; width: 100%; padding: 13px 16px; border: 0; background: none; color: var(--text); font-family: var(--font-display); font-size: 15px; font-weight: 600; cursor: pointer; text-align: left; }
@@ -1747,7 +1769,7 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 
 /* ---------- Zertifikat ----------
    Reduziert und luftig: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften.
-   Designs über data-theme: dark = „Navy“ (Vorlage 1), aurora = „Aurora“ (Vorlage 2), light = „Hell“.
+   Ein Design: Aurora (data-theme="aurora"); die Grundregeln darunter sind die Basis, die Aurora-Regeln setzen darauf auf.
    Maße in Einheiten des Quadratformats, skaliert über --s (Story 1,12, Querformat 0,66). */
 .cert {
   --c-bg: #070a19; --c-text: #f1f3fb; --c-soft: rgba(241, 243, 251, .78); --c-muted: #8f98c6; --c-line: rgba(208, 215, 255, .6); --c-hair: rgba(208, 215, 255, .16);
@@ -1755,40 +1777,20 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
   --g1: #8e98d0; --g2: #f3f4fc; --gn1: #df8592; --gn2: #f9e5e8;
   position: relative; overflow: hidden; background: var(--c-bg); color: var(--c-text); font-family: var(--font); line-height: 1.25; /* Schrift der App (Satoshi), Zahlen unten in der Zahlenschrift (Onest) */
 }
-.cert[data-theme="light"] {
-  --c-bg: #f4f6fc; --c-text: #121833; --c-soft: rgba(18, 24, 51, .75); --c-muted: #5d6690; --c-line: rgba(40, 58, 140, .45); --c-hair: rgba(40, 58, 140, .14);
-  --c-glow: rgba(86, 116, 226, .26); --c-glow2: rgba(86, 116, 226, .2); --c-bar: rgba(60, 90, 210, .08); --c-band: rgba(255, 255, 255, .55); --c-band2: rgba(60, 90, 210, .04);
-  --g1: #2b3984; --g2: #6676cf; --gn1: #a3263d; --gn2: #d76f80;
-}
 .cert[data-theme="aurora"] { --c-bg: #07022c; --c-text: #ffffff; --c-soft: rgba(255, 255, 255, .82); --c-muted: rgba(226, 222, 255, .7); --c-hair: rgba(255, 255, 255, .16);
   background: linear-gradient(112deg, #04103f 0%, #08022c 38%, #0a1a7a 72%, #0838c4 100%); }
 .cert * { box-sizing: border-box; }
 /* Hintergrund */
 .cert-bg, .cert-bg i { position: absolute; pointer-events: none; display: block; }
 .cert-bg { inset: 0; }
-.cert-bg .band { inset: -30%; background: linear-gradient(135deg, transparent 0 41%, var(--c-band) 41% 55%, transparent 55% 100%); }
-.cert-bg .band2 { inset: -30%; background: linear-gradient(45deg, transparent 0 57%, var(--c-band2) 57% 70%, transparent 70% 100%); }
-.cert-bg .glow-l { left: -22%; top: -28%; width: 62%; height: 95%; background: radial-gradient(closest-side, var(--c-glow), transparent); }
-.cert-bg .glow-r { right: -24%; bottom: -34%; width: 70%; height: 82%; background: radial-gradient(closest-side, var(--c-glow2), transparent); }
-.cert-bg .bars-l { left: 0; top: 0; bottom: 0; width: 16%; background: repeating-linear-gradient(90deg, var(--c-bar) 0 calc(var(--s) * 16px), transparent calc(var(--s) * 16px) calc(var(--s) * 30px), var(--c-bar) calc(var(--s) * 30px) calc(var(--s) * 36px), transparent calc(var(--s) * 36px) calc(var(--s) * 58px)); -webkit-mask-image: linear-gradient(90deg, #000 10%, transparent); mask-image: linear-gradient(90deg, #000 10%, transparent); }
-.cert-bg .bars-r { right: 0; top: 0; bottom: 0; width: 12%; opacity: .7; background: repeating-linear-gradient(270deg, var(--c-bar) 0 calc(var(--s) * 12px), transparent calc(var(--s) * 12px) calc(var(--s) * 34px)); -webkit-mask-image: linear-gradient(270deg, #000 5%, transparent); mask-image: linear-gradient(270deg, #000 5%, transparent); }
-.cert-bg .blob1, .cert-bg .blob2 { display: none; }
-.cert[data-theme="aurora"] .cert-bg > i { display: none; }
 .cert[data-theme="aurora"] .cert-bg .blob1 { display: block; left: -16%; top: -26%; width: 48%; height: 64%; background: radial-gradient(closest-side, rgba(245, 150, 245, .95), rgba(214, 150, 250, .62) 42%, rgba(120, 90, 230, .18) 72%, transparent); }
 .cert[data-theme="aurora"] .cert-bg .blob2 { display: block; right: -18%; bottom: -30%; width: 46%; height: 70%; background: radial-gradient(closest-side, rgba(238, 222, 252, .95), rgba(214, 160, 245, .7) 40%, rgba(90, 110, 240, .2) 72%, transparent); }
 /* Rahmenecken (nur Navy und Hell) */
-.cert-line { position: absolute; display: block; pointer-events: none; }
-.cert-line.tr-h { top: 5.4%; right: 4.6%; width: 42%; height: 2px; background: linear-gradient(90deg, transparent, var(--c-line) 35%, var(--c-line)); }
-.cert-line.tr-v { top: 5.4%; right: 4.6%; width: 2px; height: 26%; background: linear-gradient(180deg, var(--c-line), var(--c-line) 45%, transparent); }
-.cert-line.bl-v { bottom: 5.4%; left: 3.4%; width: 2px; height: 34%; background: linear-gradient(0deg, var(--c-line), var(--c-line) 45%, transparent); }
-.cert-line.bl-h { bottom: 5.4%; left: 3.4%; width: 40%; height: 2px; background: linear-gradient(90deg, var(--c-line), var(--c-line) 45%, transparent); }
-.cert[data-theme="aurora"] .cert-line { display: none; }
 
 /* ---------- Navy und Hell ---------- */
 .cert-in { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr auto auto auto auto;
   grid-template-areas: "title" "." "to" "hero" "stats" "foot"; row-gap: calc(var(--s) * 30px); padding: calc(var(--s) * 120px) calc(var(--s) * 110px) calc(var(--s) * 116px); }
 .cert-brand { position: absolute; top: calc(var(--s) * 82px); right: calc(var(--s) * 110px); display: flex; align-items: center; gap: calc(var(--s) * 9px); font-size: calc(var(--s) * 22px); font-weight: 700; color: var(--g1); white-space: nowrap; }
-.cert[data-theme="dark"] .cert-brand { color: #b9c0e6; }
 .cert-brand .mark { display: inline-grid; place-items: center; }
 .cert-brand .mark svg { width: calc(var(--s) * 28px); height: calc(var(--s) * 28px); }
 .cert-title { grid-area: title; margin: 0; display: flex; flex-direction: column; align-items: flex-start; font-weight: 400; }
@@ -2570,8 +2572,8 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 /* Kerzenhaufen am Sockel: Stumpenkerzen mit Wachsläufen und Pfützen; die Flammen flackern versetzt, der Lichthof atmet mit,
    ein warmer Schein fällt auf den unteren Teil des Steins */
 .pg-candles { position: absolute; z-index: 2; bottom: calc(100% + 10px); height: 108px; pointer-events: none; overflow: visible; }
-.pg-candles.right { right: -1px; width: 135px; }
-.pg-candles.left { left: -1px; width: 81px; }
+.pg-candles.right { right: 7px; width: 135px; } /* ganz auf der oberen Sockelstufe */
+.pg-candles.left { left: 7px; width: 81px; }
 .pg-candles .runs-hi { fill: #fff3dc; opacity: .2; }
 .pg-candles .lip { fill: none; stroke: #fff4da; stroke-width: .55; stroke-linecap: round; opacity: .55; }
 .pg-candles .fi { fill: #fffef6; opacity: .9; }

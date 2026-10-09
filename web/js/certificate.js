@@ -3,7 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App, D = root.CertData;
   const FORMATS = { square: { w: 1080, h: 1080, label: 'Quadrat', s: 1 }, story: { w: 1080, h: 1920, label: 'Story', s: 1.12 }, wide: { w: 1200, h: 675, label: 'Querformat', s: 0.66 } };
-  const opts = () => App.state.cert || (App.state.cert = { theme: null, format: 'square', hide: false, user: true });
+  const opts = () => App.state.cert || (App.state.cert = { theme: 'aurora', format: 'square', hide: false, user: true });
 
   /* ---------- Hilfen ---------- */
   function username() { const pr = S.settings.profile || {}; if (pr.username) return '@' + pr.username.replace(/^@/, ''); const n = (S.settings.name || '').trim(); return n && n !== 'Trader' ? n : ''; }
@@ -11,14 +11,13 @@
   const pfText = v => v == null ? null : v === Infinity ? '∞' : fmt.num(v, 2);
 
   /* ---------- Karte ----------
-     Bewusst reduziert: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften. Drei Designs:
-     „Navy“ (data-theme dark, Vorlage 1: Navy mit Lichtstreifen und Rahmenecken), „Aurora“ (Vorlage 2: Blau mit weichen
-     rosa-lila Lichtflecken, zentriert, Ergebnis in einer Farbpille) und „Hell“ (helle Variante von Navy). Aufteilung je
-     Design und Format über Grid-Bereiche in css/app.css (Block „Zertifikat“). */
+     Bewusst reduziert: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften. Ein Design: „Aurora“
+     (Blau mit weichen rosa-lila Lichtflecken, zentriert, Ergebnis in einer Farbpille); Navy und Hell sind entfallen.
+     Aufteilung je Format über Grid-Bereiche in css/app.css (Block „Zertifikat“). */
   const KIND_SUB = { day: 'of Daily Profit', week: 'of Weekly Profit', month: 'of Monthly Profit', stats: 'of Performance' };
   function cardHTML(m, p, o) {
     if (fmt.moneyBlind()) o = Object.assign({}, o, { hide: true });
-    const f = FORMATS[o.format]; const sign = m.pnl < 0 ? 'neg' : 'pos'; const c = colors(o.theme === 'light' ? 'light' : 'dark'); const issued = new Date(); const no = D.certNo(m.kind, p, m, issued);
+    const f = FORMATS[o.format]; const sign = m.pnl < 0 ? 'neg' : 'pos'; const c = colors('dark'); const issued = new Date(); const no = D.certNo(m.kind, p, m, issued);
     const main = o.hide ? (o.account > 0 ? fmt.pct(m.pnl / o.account, 2, true) : m.rSum != null ? fmt.r(m.rSum) : '—') : fmt.cur(m.pnl, { signed: true });
     const stat = (k, v) => v == null || v === '' ? '' : `<div class="st"><div class="v">${v}</div><div class="k">${k}</div></div>`;
     const wr = stat('Win rate', fmt.pct(m.winRate, 0)), rr = stat('Avg RR', m.avgR != null ? fmt.r(m.avgR) : null);
@@ -28,9 +27,8 @@
       : wr + stat('Profit factor', pfText(m.pf)) + stat('Trades', fmt.int(m.n));
     const user = o.user ? username() : '';
     const len = String(main).replace(/<[^>]*>/g, '').length;
-    return `<div class="cert" data-theme="${o.theme}" data-format="${o.format}" data-kind="${m.kind}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg}">
-      <div class="cert-bg" aria-hidden="true"><i class="band"></i><i class="band2"></i><i class="glow-l"></i><i class="glow-r"></i><i class="bars-l"></i><i class="bars-r"></i><i class="blob1"></i><i class="blob2"></i></div>
-      <i class="cert-line tr-h"></i><i class="cert-line tr-v"></i><i class="cert-line bl-v"></i><i class="cert-line bl-h"></i>
+    return `<div class="cert" data-theme="aurora" data-format="${o.format}" data-kind="${m.kind}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg}">
+      <div class="cert-bg" aria-hidden="true"><i class="blob1"></i><i class="blob2"></i></div>
       <div class="cert-in">
         <div class="cert-brand"><span class="mark">${I.logo}</span><span class="name">Journalyst</span></div>
         <h1 class="cert-title"><span class="ct-big">Certificate</span><span class="ct-sub">${KIND_SUB[m.kind]}</span></h1>
@@ -64,7 +62,7 @@
   function resolveRef(kind, ref) { if (ref === 'range' || ref == null || ref === '') { if (kind !== 'stats') return D.defaultRef(kind); const r = App.range(); return r.from ? { from: r.from, to: r.to } : null; } return ref; }
 
   function open(kind, ref) {
-    const o = opts(); if (!o.theme) o.theme = S.settings.theme === 'light' ? 'light' : 'dark';
+    const o = opts(); o.theme = 'aurora';
     const state = { kind, ref: resolveRef(kind, ref), busy: false };
     const mo = {
       cls: 'wide cert-modal',
@@ -85,7 +83,6 @@
           const empty = !list.length;
           preview.innerHTML = empty ? `<div class="cert-empty">${U.empty('stats', 'Keine Trades in diesem Zeitraum', 'Wähle einen anderen Zeitraum, um ein Zertifikat zu erstellen.')}</div>` : `<div class="cert-scale">${cardHTML(m, p, ex)}</div>`;
           side.innerHTML = `<div class="field"><span class="lbl">Zeitraum</span><div class="row" style="gap:6px;flex-wrap:nowrap">${kind !== 'stats' ? `<button type="button" class="btn round sm" data-c="prev" aria-label="Zurück">${I.chevL}</button>` : ''}${periodInput(p)}${kind !== 'stats' ? `<button type="button" class="btn round sm" data-c="next" aria-label="Weiter">${I.chevR}</button>` : ''}</div><div class="small muted" style="margin-top:6px">${esc(p.label)}${empty ? '' : ` · ${fmt.int(m.n)} Trades`}</div></div>
-            <div class="field"><span class="lbl">Design</span>${seg('theme', [['dark', 'Navy'], ['aurora', 'Aurora'], ['light', 'Hell']])}</div>
             <div class="field"><span class="lbl">Format</span>${seg('format', Object.entries(FORMATS).map(([k, v]) => [k, `${v.label} <small class="muted">${v.w}×${v.h}</small>`]))}</div>
             <div class="stack" style="gap:8px">${toggle('hide', 'Beträge ausblenden (nur % bzw. R)')}${toggle('user', 'Username anzeigen')}</div>`;
           foot.innerHTML = `<span class="small muted left">PNG in doppelter Auflösung (${f.w * 2}×${f.h * 2}).</span>${canShare() ? `<button type="button" class="btn" data-c="share" ${empty ? 'disabled' : ''}>${I.external} Teilen</button>` : ''}<button type="button" class="btn" data-c="copy" ${empty ? 'disabled' : ''}>${I.copy} Kopieren</button><button type="button" class="btn primary" data-c="png" ${empty ? 'disabled' : ''}>${I.download} PNG herunterladen</button>`;
@@ -94,7 +91,7 @@
         const busy = async (btn, fn) => { if (state.busy) return; state.busy = true; const label = btn.innerHTML; btn.disabled = true; btn.innerHTML = `${U.spin()} Wird erstellt …`; try { await fn(); } catch (e) { U.toast(e && e.message === 'clipboard' ? 'Zwischenablage nicht verfügbar. Lade das PNG stattdessen herunter.' : e && e.message === 'share' ? 'Teilen wird hier nicht unterstützt.' : 'Export fehlgeschlagen. Bitte noch einmal versuchen.', 'err'); } finally { btn.disabled = false; btn.innerHTML = label; state.busy = false; } };
         el.addEventListener('click', e => {
           const b = e.target.closest('[data-c]'); if (!b || b.tagName === 'INPUT' || b.tagName === 'SELECT') return; const k = b.dataset.c;
-          if (k === 'theme' || k === 'format') { o[k] = b.dataset.v; render(); return; }
+          if (k === 'format') { o[k] = b.dataset.v; render(); return; }
           if (k === 'prev' || k === 'next') { state.ref = D.shift(kind, state.ref, k === 'next' ? 1 : -1); render(); return; }
           const card = preview.querySelector('.cert'); if (!card || !cur) return; const name = fileName(cur.m, cur.p);
           if (k === 'png') busy(b, async () => { await exportPng(card, cur.f, name); U.toast('PNG wird heruntergeladen', 'ok'); });

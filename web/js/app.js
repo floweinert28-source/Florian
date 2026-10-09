@@ -315,44 +315,76 @@
   });
 
   /* ---------- Trade-Editor ---------- */
+  /* Trade-Fenster, bewusst schlicht: oben nur das Nötige (Symbol, Richtung, Einstieg, Ausstieg, Kontrakte, Zeit; Konto nur bei mehreren
+     Konten). Alles Weitere liegt in einklappbaren Zeilen darunter, die zugeklappt eine kurze Zusammenfassung zeigen:
+     Plan (Stop, Ziel, Begründung, MAE/MFE) · Setup & Bewertung (Tags, Emotionen, gebrochene Regeln) · Notiz · Punktwert & Gebühren (Prop-Konten).
+     Gespeichert wird alles wie bisher (readTradeForm). Punktwert: bei einem neuen Trade vom letzten Trade mit demselben Symbol übernommen. */
   App.openTradeEditor = function (trade, preset = {}) {
     const t = trade || Object.assign({ symbol: '', direction: 1, openedAt: new Date().toISOString(), closedAt: null, entryPrice: '', exitPrice: '', quantity: 1, multiplier: 1, fees: 0, plannedEntry: '', plannedStop: '', plannedTarget: '', plannedReason: '', mae: '', mfe: '', setup: '', strategy: '', mistakes: [], emotions: [], rulesBroken: [], rating: null, notes: '', accountId: S.defaultAccountId() }, preset);
     const tags = S.data.tags; const rules = S.data.rules.filter(r => r.active !== false);
+    const val = v => v == null ? '' : v;
     const chips = (kind, list, sel, cls) => `<div class="chips" data-chips="${kind}">${list.map(x => `<button type="button" class="chip sel ${cls}" data-action="toggle-chip" data-value="${esc(x)}" aria-pressed="${sel.includes(x)}">${esc(x)}</button>`).join('')}<button type="button" class="chip sel" data-action="add-chip" data-kind="${kind}">${I.plus} Neu</button></div>`;
-    const html = `<form id="trade-form" data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
-      <div class="stack" style="gap:16px">
-      <div class="form-grid">
-        <div class="field"><label for="f-symbol">Symbol</label><input class="input" id="f-symbol" name="symbol" value="${esc(t.symbol)}" placeholder="z. B. DAX, NQ, EURUSD" required autocapitalize="characters"></div>
+    const props = (S.propAccounts ? S.propAccounts() : []).filter(a => a.status !== 'archived');
+    const accField = S.data.accounts.length > 1 ? `<div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>` : `<input type="hidden" name="accountId" value="${esc(t.accountId || S.defaultAccountId())}">`;
+    const sec = (key, title, body) => `<details class="tf-sec" data-sec="${key}"><summary><span class="tf-t">${title}</span><span class="tf-sum" data-sum="${key}"></span><span class="tf-chev">${I.chevR}</span></summary><div class="tf-body">${body}</div></details>`;
+    const html = `<form id="trade-form" class="tf" data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
+      <div class="tf-main">
+        <div class="field tf-sym"><label for="f-symbol">Symbol</label><input class="input" id="f-symbol" name="symbol" value="${esc(t.symbol)}" placeholder="z. B. NQ, ES, EURUSD" required autocapitalize="characters" autocomplete="off"></div>
         <div class="field"><span class="lbl">Richtung</span><div class="seg" id="f-dir">${U.seg([[1, 'Long'], [-1, 'Short']], t.direction, 'set-dir')}</div><input type="hidden" name="direction" value="${t.direction}"></div>
-        <div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>
-        ${(S.propAccounts ? S.propAccounts() : []).filter(a => a.status !== 'archived').length ? `<div class="field" style="grid-column:1 / -1"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${S.propAccounts().filter(a => a.status !== 'archived').map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}
-        <div class="field"><label for="f-open">Eröffnung</label><input class="input" type="datetime-local" id="f-open" name="openedAt" value="${fmt.isoLocal(t.openedAt)}" required></div>
-        <div class="field"><label for="f-close">Schluss <span class="faint">(leer = offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" value="${t.closedAt ? fmt.isoLocal(t.closedAt) : ''}"></div>
-        <div class="field"><label for="f-entry">Einstiegskurs</label><input class="input" type="number" step="any" id="f-entry" name="entryPrice" value="${t.entryPrice}" required inputmode="decimal"></div>
-        <div class="field"><label for="f-exit">Ausstiegskurs</label><input class="input" type="number" step="any" id="f-exit" name="exitPrice" value="${t.exitPrice == null ? '' : t.exitPrice}" inputmode="decimal"></div>
-        <div class="field"><label for="f-qty">Stückzahl / Kontrakte</label><input class="input" type="number" step="any" min="0" id="f-qty" name="quantity" value="${t.quantity}" required inputmode="decimal"></div>
-        <div class="field"><label for="f-mult">Punktwert</label><input class="input" type="number" step="any" min="0" id="f-mult" name="multiplier" value="${t.multiplier || 1}" inputmode="decimal"><span class="hint">P&L = (Ausstieg − Einstieg) × Stück × Punktwert</span></div>
-        <div class="field"><label for="f-fees">Gebühren</label><input class="input" type="number" step="any" min="0" id="f-fees" name="fees" value="${t.fees || 0}" inputmode="decimal"></div>
+        ${accField}
+        <div class="tf-row3">
+          <div class="field"><label for="f-entry">Einstieg</label><input class="input" type="number" step="any" id="f-entry" name="entryPrice" value="${val(t.entryPrice)}" required inputmode="decimal"></div>
+          <div class="field"><label for="f-exit">Ausstieg</label><input class="input" type="number" step="any" id="f-exit" name="exitPrice" value="${val(t.exitPrice)}" inputmode="decimal"></div>
+          <div class="field"><label for="f-qty">Kontrakte</label><input class="input" type="number" step="any" min="0" id="f-qty" name="quantity" value="${t.quantity}" required inputmode="decimal"></div>
+        </div>
+        <div class="tf-row2">
+          <div class="field"><label for="f-open">Eröffnet</label><input class="input" type="datetime-local" id="f-open" name="openedAt" value="${fmt.isoLocal(t.openedAt)}" required></div>
+          <div class="field"><label for="f-close">Geschlossen <span class="faint">(leer = offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" value="${t.closedAt ? fmt.isoLocal(t.closedAt) : ''}"></div>
+        </div>
       </div>
-      <div class="fieldset"><div class="legend">Plan</div><div class="form-grid">
-        <div class="field"><label for="f-pentry">Geplanter Einstieg</label><input class="input" type="number" step="any" id="f-pentry" name="plannedEntry" value="${t.plannedEntry == null ? '' : t.plannedEntry}" inputmode="decimal"></div>
-        <div class="field"><label for="f-pstop">Stop</label><input class="input" type="number" step="any" id="f-pstop" name="plannedStop" value="${t.plannedStop == null ? '' : t.plannedStop}" inputmode="decimal"></div>
-        <div class="field"><label for="f-ptarget">Ziel</label><input class="input" type="number" step="any" id="f-ptarget" name="plannedTarget" value="${t.plannedTarget == null ? '' : t.plannedTarget}" inputmode="decimal"></div>
-        <div class="field span2"><label for="f-reason">Begründung</label><input class="input" id="f-reason" name="plannedReason" value="${esc(t.plannedReason || '')}" placeholder="Warum dieser Trade?"></div>
-        <div class="field"><label for="f-mae">Tiefster Kurs gegen dich (MAE)</label><input class="input" type="number" step="any" id="f-mae" name="mae" value="${t.mae == null ? '' : t.mae}" inputmode="decimal"></div>
-        <div class="field"><label for="f-mfe">Bester Kurs für dich (MFE)</label><input class="input" type="number" step="any" id="f-mfe" name="mfe" value="${t.mfe == null ? '' : t.mfe}" inputmode="decimal"></div>
-      </div></div>
-      <div class="form-grid">
-        <div class="field"><label for="f-setup">Setup</label><input class="input" id="f-setup" name="setup" list="setup-list" value="${esc(t.setup || '')}" placeholder="Pullback, Breakout …"><datalist id="setup-list">${tags.setups.map(s => `<option value="${esc(s)}">`).join('')}</datalist></div>
-        <div class="field"><span class="lbl">Bewertung</span><div class="rating" id="f-rating">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="set-rating" data-value="${n}" aria-pressed="${t.rating >= n}">★</button>`).join('')}</div><input type="hidden" name="rating" value="${t.rating || ''}"></div>
-      </div>
-      <div class="field"><span class="lbl">Fehler-Tags</span>${chips('mistakes', tags.mistakes, t.mistakes || [], 'mistake')}</div>
-      <div class="field"><span class="lbl">Emotionen</span>${chips('emotions', tags.emotions, t.emotions || [], 'emotion')}</div>
-      ${rules.length ? `<div class="field"><span class="lbl">Gebrochene Regeln</span><div class="chips" data-chips="rulesBroken">${rules.map(r => `<button type="button" class="chip sel mistake" data-action="toggle-chip" data-value="${esc(r.text)}" aria-pressed="${(t.rulesBroken || []).includes(r.text)}">${esc(r.text)}</button>`).join('')}</div></div>` : ''}
-      <div class="field"><label for="f-notes">Notizen</label><textarea class="input" id="f-notes" name="notes" placeholder="Was ist passiert, was hast du gelernt?">${esc(t.notes || '')}</textarea></div>
+      <div class="tf-more">
+        ${sec('plan', 'Plan', `<div class="form-grid">
+          <div class="field"><label for="f-pstop">Stop</label><input class="input" type="number" step="any" id="f-pstop" name="plannedStop" value="${val(t.plannedStop)}" inputmode="decimal"></div>
+          <div class="field"><label for="f-ptarget">Ziel</label><input class="input" type="number" step="any" id="f-ptarget" name="plannedTarget" value="${val(t.plannedTarget)}" inputmode="decimal"></div>
+          <div class="field"><label for="f-pentry">Geplanter Einstieg</label><input class="input" type="number" step="any" id="f-pentry" name="plannedEntry" value="${val(t.plannedEntry)}" inputmode="decimal"></div>
+          <div class="field span2"><label for="f-reason">Begründung</label><input class="input" id="f-reason" name="plannedReason" value="${esc(t.plannedReason || '')}" placeholder="Warum dieser Trade?"></div>
+          <div class="field"><label for="f-mae">Tiefster Kurs gegen dich (MAE)</label><input class="input" type="number" step="any" id="f-mae" name="mae" value="${val(t.mae)}" inputmode="decimal"></div>
+          <div class="field"><label for="f-mfe">Bester Kurs für dich (MFE)</label><input class="input" type="number" step="any" id="f-mfe" name="mfe" value="${val(t.mfe)}" inputmode="decimal"></div>
+        </div>`)}
+        ${sec('review', 'Setup & Bewertung', `<div class="form-grid">
+          <div class="field"><label for="f-setup">Setup</label><input class="input" id="f-setup" name="setup" list="setup-list" value="${esc(t.setup || '')}" placeholder="Pullback, Breakout …"><datalist id="setup-list">${tags.setups.map(x => `<option value="${esc(x)}">`).join('')}</datalist></div>
+          <div class="field"><span class="lbl">Bewertung</span><div class="rating" id="f-rating">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="set-rating" data-value="${n}" aria-pressed="${t.rating >= n}">★</button>`).join('')}</div><input type="hidden" name="rating" value="${t.rating || ''}"></div>
+        </div>
+        <div class="field"><span class="lbl">Fehler-Tags</span>${chips('mistakes', tags.mistakes, t.mistakes || [], 'mistake')}</div>
+        <div class="field"><span class="lbl">Emotionen</span>${chips('emotions', tags.emotions, t.emotions || [], 'emotion')}</div>
+        ${rules.length ? `<div class="field"><span class="lbl">Gebrochene Regeln</span><div class="chips" data-chips="rulesBroken">${rules.map(r => `<button type="button" class="chip sel mistake" data-action="toggle-chip" data-value="${esc(r.text)}" aria-pressed="${(t.rulesBroken || []).includes(r.text)}">${esc(r.text)}</button>`).join('')}</div></div>` : ''}`)}
+        ${sec('notes', 'Notiz', `<textarea class="input" id="f-notes" name="notes" placeholder="Was ist passiert, was hast du gelernt?">${esc(t.notes || '')}</textarea>`)}
+        ${sec('costs', 'Punktwert & Gebühren', `<div class="form-grid">
+          <div class="field"><label for="f-mult">Punktwert ${U.info('P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.')}</label><input class="input" type="number" step="any" min="0" id="f-mult" name="multiplier" value="${t.multiplier || 1}" inputmode="decimal"></div>
+          <div class="field"><label for="f-fees">Gebühren</label><input class="input" type="number" step="any" min="0" id="f-fees" name="fees" value="${t.fees || 0}" inputmode="decimal"></div>
+        </div>
+        ${props.length ? `<div class="field"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}`)}
       </div>
       <div class="modal-foot"><div class="left row" id="trade-preview"></div><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${trade ? 'Speichern' : 'Trade speichern'}</button></div></form>`;
-    U.modal(html, { onMount(el) { const upd = () => App.updateTradePreview(el); el.addEventListener('input', upd); upd(); } });
+    U.modal(html, { cls: 'tf-modal', onMount(el) {
+      if (!trade) setTimeout(() => { const sy = el.querySelector('#f-symbol'); if (sy && document.activeElement !== sy) sy.focus(); }, 50); /* neuer Trade: gleich das Symbol tippen */
+      const upd = () => { App.updateTradePreview(el); App.updateTradeSummaries(el); }; el.addEventListener('input', upd); el.addEventListener('click', () => setTimeout(() => App.updateTradeSummaries(el), 0)); upd();
+      /* Punktwert vom letzten Trade mit demselben Symbol, solange er hier nicht von Hand geändert wurde (nur bei neuen Trades) */
+      const mult = el.querySelector('#f-mult'); mult.addEventListener('input', () => { mult.dataset.touched = '1'; });
+      if (!trade) el.querySelector('#f-symbol').addEventListener('input', e => { if (mult.dataset.touched) return; const sym = e.target.value.trim().toUpperCase(); const last = sym && S.trades().filter(x => String(x.symbol).toUpperCase() === sym && Number(x.multiplier) > 0).sort((a, b) => String(b.openedAt).localeCompare(String(a.openedAt)))[0]; if (last && Number(last.multiplier) !== Number(mult.value)) { mult.value = last.multiplier; upd(); } });
+    } });
+  };
+  /* Kurze Zusammenfassungen der eingeklappten Zeilen, je Angabe ein eigenes Stück (übersetzbar über Muster wie „Stop {0}“) */
+  App.updateTradeSummaries = function (el) {
+    const f = el.querySelector('#trade-form'); if (!f) return; const t = App.readTradeForm(f); const n = v => fmt.num(v, 4);
+    const part = (txt, raw) => `<span${raw ? ' class="no-i18n"' : ''}>${esc(txt)}</span>`; const cut = (s, k) => s.length > k ? s.slice(0, k - 1) + '…' : s;
+    const sums = {
+      plan: [t.plannedStop != null && part(`Stop ${n(t.plannedStop)}`), t.plannedTarget != null && part(`Ziel ${n(t.plannedTarget)}`), t.plannedReason && part(cut(t.plannedReason, 28), true)],
+      review: [t.setup && part(cut(t.setup, 22), true), t.rating && part('★'.repeat(t.rating), true), (t.mistakes.length + t.emotions.length + t.rulesBroken.length) && part((k => k === 1 ? '1 Markierung' : `${k} Markierungen`)(t.mistakes.length + t.emotions.length + t.rulesBroken.length))],
+      notes: [t.notes.trim() && part(cut(t.notes.trim().replace(/\s+/g, ' '), 40), true)],
+      costs: [part(`Punktwert ${n(t.multiplier)}`), t.fees > 0 && part(`Gebühren ${fmt.cur(t.fees, { money: true })}`), t.propAccountIds.length && part(t.propAccountIds.length === 1 ? '1 Prop-Konto' : `${t.propAccountIds.length} Prop-Konten`)],
+    };
+    Object.entries(sums).forEach(([k, list]) => { const s = f.querySelector(`[data-sum="${k}"]`); if (s) { const html = list.filter(Boolean).join(''); if (s.innerHTML !== html) s.innerHTML = html; } });
   };
   App.readTradeForm = function (form) {
     const fd = new FormData(form); const num = k => { const v = fd.get(k); return v === '' || v == null ? null : Number(v); };

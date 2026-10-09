@@ -30,9 +30,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 
 ## Was die App kann
 
-- **Trade loggen**: Symbol, Richtung, Zeiten, Kurse, Stückzahl, Punktwert, Gebühren, Plan
-  (Einstieg, Stop, Ziel, Begründung), MAE/MFE, Setup, Strategie, Bewertung, Fehler-Tags,
-  Emotionen, gebrochene Regeln, Notizen. Screenshots per Drag & Drop, Datei oder Einfügen.
+- **Trade loggen** (schlichtes Fenster): oben nur Symbol, Long/Short, Einstieg, Ausstieg, Kontrakte, Eröffnet und Geschlossen
+  (Konto nur bei mehreren Konten; bei einem neuen Trade steht der Cursor gleich im Symbol). Darunter einklappbare Zeilen, die
+  zugeklappt eine kurze Zusammenfassung zeigen: Plan (Stop, Ziel, geplanter Einstieg, Begründung, MAE/MFE), Setup & Bewertung
+  (Setup, Sterne, Fehler-Tags, Emotionen, gebrochene Regeln), Notiz, Punktwert & Gebühren (mit Prop-Konten fürs Copy-Trading).
+  Der Punktwert wird bei einem neuen Trade vom letzten Trade mit demselben Symbol übernommen. Gespeichert wird alles wie bisher. Screenshots per Drag & Drop, Datei oder Einfügen.
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.

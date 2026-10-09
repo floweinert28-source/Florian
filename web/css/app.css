@@ -183,14 +183,14 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 @supports (background: color-mix(in srgb, red 50%, blue)) {
   .nav a.active {
     background:
-      radial-gradient(40% 90% at 0% 100%, color-mix(in srgb, var(--accent) 22%, transparent), transparent) padding-box,
-      linear-gradient(90deg, color-mix(in srgb, var(--accent) 30%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 13%, var(--surface-2)) 22%, color-mix(in srgb, var(--accent) 4%, var(--surface-2)) 42%, var(--surface-2) 62%) padding-box,
-      linear-gradient(104deg, color-mix(in srgb, var(--accent) 90%, var(--border)) 0%, color-mix(in srgb, var(--accent) 42%, var(--border-2)) 22%, var(--border-2) 52%, var(--border) 100%) border-box;
-    box-shadow: -10px 6px 22px -12px color-mix(in srgb, var(--accent) 55%, transparent), inset 0 1px 0 rgba(255, 255, 255, .05);
+      radial-gradient(40% 90% at 0% 100%, color-mix(in srgb, var(--accent) 13%, transparent), transparent) padding-box,
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 9%, var(--surface-2)) 22%, color-mix(in srgb, var(--accent) 3%, var(--surface-2)) 42%, var(--surface-2) 62%) padding-box,
+      linear-gradient(104deg, color-mix(in srgb, var(--accent) 62%, var(--border)) 0%, color-mix(in srgb, var(--accent) 28%, var(--border-2)) 22%, var(--border-2) 50%, var(--border) 100%) border-box;
+    box-shadow: -10px 6px 20px -13px color-mix(in srgb, var(--accent) 34%, transparent), inset 0 1px 0 rgba(255, 255, 255, .04);
   }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .95; box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent), 0 0 3px var(--accent); }
+.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .85; box-shadow: 0 0 7px color-mix(in srgb, var(--accent) 45%, transparent); }
 .nav a.active:hover { transform: none; }
 /* Hinweis-Punkt: kleiner runder Punkt rechts im Eintrag, farblich wie der Lichtbalken am aktiven Eintrag (gleiches Grün, gedämpft, leichtes Leuchten); eingeklappt oben rechts am Knopf */
 .nav .nav-dot { margin-left: auto; margin-right: 12px; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
@@ -756,6 +756,30 @@ span.info:hover { color: var(--accent); }
 .modal-head h2 { font-size: 19px; }
 .modal-foot { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; padding-top: 6px; border-top: 1px solid var(--border); }
 .modal-foot .left { margin-right: auto; }
+/* Trade-Fenster: oben das Nötige, darunter einklappbare Zeilen mit kurzer Zusammenfassung */
+.modal.tf-modal { width: min(680px, 100%); }
+.tf-main { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 14px; align-items: end; }
+.tf-main:has(#f-account) { grid-template-columns: minmax(0, 1fr) auto minmax(0, .8fr); }
+.tf-main .tf-row3, .tf-main .tf-row2 { grid-column: 1 / -1; display: grid; gap: 14px; }
+.tf-main .tf-row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tf-main .tf-row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tf-main #f-dir .seg { width: 100%; }
+.tf-more { margin-top: 18px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tf-sec + .tf-sec { border-top: 1px solid var(--border); }
+.tf-sec > summary { display: flex; align-items: center; gap: 12px; padding: 13px 16px; cursor: pointer; list-style: none; user-select: none; transition: background var(--dur-1) var(--ease); }
+.tf-sec > summary::-webkit-details-marker { display: none; }
+.tf-sec > summary:hover { background: var(--surface-2); }
+.tf-sec > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tf-t { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.tf-sum { flex: 1; min-width: 0; display: flex; justify-content: flex-end; gap: 6px; overflow: hidden; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.tf-sum > span { overflow: hidden; text-overflow: ellipsis; }
+.tf-sum > span + span::before { content: '·'; margin-right: 6px; color: var(--faint); }
+.tf-chev { display: grid; place-items: center; margin-left: auto; color: var(--muted); transition: transform var(--dur-2) var(--ease); }
+.tf-chev svg { width: 16px; height: 16px; }
+.tf-sec[open] > summary .tf-chev { transform: rotate(90deg); }
+.tf-sec[open] > summary .tf-sum { visibility: hidden; }
+.tf-body { display: flex; flex-direction: column; gap: 14px; padding: 4px 16px 16px; }
+.tf-body textarea { min-height: 96px; }
 .fieldset { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
 .fieldset > legend, .fieldset > .legend { font-weight: 700; font-size: 13px; color: var(--text-2); padding: 0 6px; }
 .map-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
@@ -2765,6 +2789,14 @@ a.coach-name:hover { color: var(--accent); }
 /* ---------- Handy (bis 560px) ---------- */
 .cal .d .pm, .cal .w .pm { display: none; }
 @media (max-width: 560px) {
+  .tf-main, .tf-main:has(#f-account) { grid-template-columns: minmax(0, 1fr) auto; }
+  .tf-main .field:has(#f-account) { grid-column: 1 / -1; }
+  .tf-main .tf-row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .tf-main .tf-row2 { grid-template-columns: minmax(0, 1fr); }
+  .tf-sum { display: none; }
+  .tf-modal .modal-foot { flex-wrap: wrap; }
+  .tf-modal .modal-foot #trade-preview { flex: 1 0 100%; }
+  .tf-modal .modal-foot .btn { flex: 1; }
   .aff-share { grid-template-columns: 1fr; }
   .aff-top .aff-pick { flex: 1; min-width: 0; }
   .aff-tbl { min-width: 0; }

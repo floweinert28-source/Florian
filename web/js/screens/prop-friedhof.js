@@ -65,20 +65,83 @@
   /* Grabstein: gewölbter Stein mit eingemeißeltem Rahmen und Riss (das Konto ist geplatzt), oben Name und Lebensdaten (* Start, † Breach),
      in der Mitte die Todesursache und die Notiz als Grabinschrift, unten eine Tafel mit den Fakten; der Stein steht auf einem Sockel mit Grablicht */
   /* Blumenstrauß am Sockel: drei Blüten (hell, gold, rot) mit grünen Stielen und Blättern, dazu zwei Grashalme */
-  /* Kerzenhaufen am Sockel: Stumpenkerzen mit geschmolzenem, unebenem Rand, Wachsläufen bis weit hinunter, Pfützen am Fuß,
-     Docht, flackernder Flamme und warmem Lichthof. Hinten die hohen, vorn die kurzen; Verläufe je SVG (gleiche ids, gleicher Inhalt) */
-  const CANDLE_DEFS = '<defs><linearGradient id="pgc-wax" x1="0" x2="1"><stop offset="0" stop-color="#bf9f70"/><stop offset=".3" stop-color="#f1e0bd"/><stop offset=".6" stop-color="#e2c99c"/><stop offset="1" stop-color="#8f6f45"/></linearGradient><linearGradient id="pgc-warm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb04f" stop-opacity=".9"/><stop offset=".22" stop-color="#ffc06a" stop-opacity=".35"/><stop offset=".5" stop-color="#ffc06a" stop-opacity="0"/><stop offset="1" stop-color="#2e2012" stop-opacity=".45"/></linearGradient><linearGradient id="pgc-drip" x1="0" x2="1"><stop offset="0" stop-color="#d8bf93"/><stop offset=".45" stop-color="#f8ead0"/><stop offset="1" stop-color="#b8956a"/></linearGradient><radialGradient id="pgc-halo"><stop offset="0" stop-color="#ffc36e" stop-opacity=".6"/><stop offset=".4" stop-color="#ff9d42" stop-opacity=".18"/><stop offset="1" stop-color="#ff9d42" stop-opacity="0"/></radialGradient><radialGradient id="pgc-flame" cx=".5" cy=".8" r=".65"><stop offset="0" stop-color="#fffbea"/><stop offset=".3" stop-color="#ffe08a"/><stop offset=".7" stop-color="#ff9e3a"/><stop offset="1" stop-color="#ff7a1a" stop-opacity=".15"/></radialGradient></defs>';
-  const candle = ([x, h, w, d, drips], i) => {
-    const B = 78, t = B - h, cx = x + w / 2, ft = t - 14.5, n = v => Math.round(v * 10) / 10, m = i % 2 ? -1 : 1; /* m: welche Seite höher stehen bleibt */
-    const lipL = t + (m > 0 ? 5.2 : .2), lipR = t + (m > 0 ? .2 : 5.2);
-    const body = `M${x} ${n(lipL)}C${n(x + w * .12)} ${n(lipL - 2)} ${n(x + w * .3)} ${n(t + 4.6)} ${n(cx)} ${n(t + 4.2)}S${n(x + w * .88)} ${n(lipR - 2)} ${x + w} ${n(lipR)}V${B}H${x}Z`;
-    /* Wachslauf: wellige Kanten, verdicktes Ende */
-    const drip = ([o, len, dw]) => { const x0 = x + o, y0 = t + 3, e = y0 + len, br = dw * .6; return `<path class="drip" d="M${n(x0)} ${n(y0)}C${n(x0 + dw * .35)} ${n(y0 + len * .25)} ${n(x0 - dw * .3)} ${n(y0 + len * .55)} ${n(x0 + dw * .1)} ${n(e - br * .2)}A${n(br)} ${n(br)} 0 1 0 ${n(x0 + dw * .9)} ${n(e - br * .2)}C${n(x0 + dw * 1.2)} ${n(y0 + len * .62)} ${n(x0 + dw * .7)} ${n(y0 + len * .3)} ${n(x0 + dw)} ${n(y0)}Z"/>`; };
+  /* Stein als SVG mit echter Beleuchtung: die Form wird mit Rauschen verbogen (raue, leicht abgeschlagene Kanten), die geweichte
+     Alpha-Kante plus feines Korn und gröbere Poren ergeben eine Höhenkarte, die von oben links beleuchtet wird; dazu Flecken,
+     Körner und unten etwas Schmutz. Die Schrifttafel ist vertieft (Innenschatten oben links, Lichtkante unten rechts).
+     Breite fest 300px; die Höhe folgt dem Inhalt (Rechtecke mit CSS-Höhe calc()). Gleiche ids in jeder Seite, gleicher Inhalt */
+  const ROCK_TOP = 'M4 140V90A62 27 0 0 0 66 63A84 60 0 0 1 234 63A62 27 0 0 0 296 90V140Z';
+  const PANEL_TOP = 'M21 165V97A49 21 0 0 0 70 76A80 56 0 0 1 230 76A49 21 0 0 0 279 97V165Z';
+  const ROCK = `<svg class="pg-rock" aria-hidden="true" focusable="false"><defs>
+    <filter id="pgs-rock" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="7" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="5" xChannelSelector="R" yChannelSelector="B" result="shape"/>
+      <feGaussianBlur in="shape" stdDeviation="3.2" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="grain"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".07" numOctaves="4" seed="11" result="pits"/>
+      <feComposite in="edge" in2="grain" operator="arithmetic" k2=".72" k3=".2" result="h1"/>
+      <feComposite in="h1" in2="pits" operator="arithmetic" k2="1" k3=".24" k4="-.18" result="height"/>
+      <feDiffuseLighting in="height" surfaceScale="2.4" diffuseConstant="1.3" lighting-color="#fff" result="light"><feDistantLight azimuth="235" elevation="40"/></feDiffuseLighting>
+      <feComposite in="shape" in2="light" operator="arithmetic" k1="1.12" result="lit"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .045" numOctaves="3" seed="19" result="stain"/>
+      <feColorMatrix in="stain" type="matrix" values=".55 0 0 0 .66  .55 0 0 0 .66  .55 0 0 0 .64  0 0 0 0 1" result="stainG"/>
+      <feComposite in="lit" in2="stainG" operator="arithmetic" k1="1" result="aged"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="1" seed="23" result="sp"/>
+      <feComponentTransfer in="sp" result="specks"><feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 .35 .6"/></feComponentTransfer>
+      <feFlood flood-color="#e8e4da" flood-opacity=".5"/><feComposite in2="specks" operator="in" result="flecks"/>
+      <feMerge result="all"><feMergeNode in="aged"/><feMergeNode in="flecks"/></feMerge>
+      <feComposite in="all" in2="shape" operator="in"/>
+    </filter>
+    <filter id="pgs-panel" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="7" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="2" xChannelSelector="R" yChannelSelector="B" result="shape"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="5" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.2" result="grainA"/>
+      <feComposite in="grainA" in2="shape" operator="in" result="grainIn"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".02 .06" numOctaves="3" seed="29" result="mot"/>
+      <feColorMatrix in="mot" type="matrix" values=".4 0 0 0 .8  .4 0 0 0 .8  .4 0 0 0 .78  0 0 0 0 1" result="motG"/>
+      <feComposite in="shape" in2="motG" operator="arithmetic" k1="1" result="toned"/>
+      <feMerge result="tex"><feMergeNode in="toned"/><feMergeNode in="grainIn"/></feMerge>
+      <feComponentTransfer in="shape" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feGaussianBlur in="inv" stdDeviation="3.2" result="invB"/>
+      <feOffset in="invB" dx="1.6" dy="3.6" result="invO"/>
+      <feFlood flood-color="#000" flood-opacity=".8"/><feComposite in2="invO" operator="in"/><feComposite in2="shape" operator="in" result="shadow"/>
+      <feOffset in="inv" dx="-.9" dy="-1.4" result="invH"/><feGaussianBlur in="invH" stdDeviation=".7" result="invHB"/>
+      <feFlood flood-color="#fff" flood-opacity=".16"/><feComposite in2="invHB" operator="in"/><feComposite in2="shape" operator="in" result="hl"/>
+      <feMerge><feMergeNode in="tex"/><feMergeNode in="shadow"/><feMergeNode in="hl"/></feMerge>
+    </filter>
+    <linearGradient id="pgs-grime" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".07"/><stop offset=".18" stop-color="#fff" stop-opacity="0"/><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#140f08" stop-opacity=".5"/></linearGradient>
+    <mask id="pgs-mask"><path fill="#fff" d="${ROCK_TOP}"/><rect fill="#fff" x="4" y="130" width="292" class="rk-body"/></mask>
+  </defs><g class="rock" filter="url(#pgs-rock)"><path d="${ROCK_TOP}"/><rect x="4" y="130" width="292" class="rk-body"/></g><rect class="grime" width="100%" height="100%" fill="url(#pgs-grime)" mask="url(#pgs-mask)"/><g class="panel" filter="url(#pgs-panel)"><path d="${PANEL_TOP}"/><rect x="21" y="155" width="258" class="pn-body"/></g></svg>`;
+  /* Sockel: zwei Steinplatten mit demselben Licht, weniger verbogen */
+  const SLAB = `<svg class="pg-slab" viewBox="0 0 348 27" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs>
+    <filter id="pgs-slab" x="-3%" y="-30%" width="106%" height="160%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="3" seed="13" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.2" xChannelSelector="R" yChannelSelector="B" result="shape"/>
+      <feGaussianBlur in="shape" stdDeviation="1.6" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="4" result="grain"/>
+      <feComposite in="edge" in2="grain" operator="arithmetic" k2=".8" k3=".22" k4="-.08" result="height"/>
+      <feDiffuseLighting in="height" surfaceScale="2" diffuseConstant="1.25" lighting-color="#fff" result="light"><feDistantLight azimuth="250" elevation="42"/></feDiffuseLighting>
+      <feComposite in="shape" in2="light" operator="arithmetic" k1="1.08"/><feComposite in2="shape" operator="in"/>
+    </filter></defs><g class="slab" filter="url(#pgs-slab)"><rect x="1" y="11" width="346" height="15"/><rect x="6" y="1" width="336" height="11.5"/></g></svg>`;
+  /* Kerzenhaufen am Sockel: jede Kerze ist eine zusammenhängende Wachsform (Körper, geschmolzener Rand, Läufe an den Kanten,
+     Pfütze) mit einem Verlauf vom leuchtenden Rand nach unten; ein Lichtfilter verbiegt die Form leicht und gibt ihr Rundung
+     und Glanz. Läufe auf der Vorderseite liegen als eigene, ebenso beleuchtete Wachsbahnen darauf. Darüber flüssiges Wachs im
+     Krater, Docht, weiche Flamme und Lichthof. Hinten die hohen, vorn die kurzen */
+  const CANDLE_DEFS = '<defs><filter id="pgc-wax3d" x="-40%" y="-15%" width="180%" height="130%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".11" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.1" xChannelSelector="R" yChannelSelector="G" result="g"/><feGaussianBlur in="g" stdDeviation="2.4" result="b"/><feDiffuseLighting in="b" surfaceScale="1.5" diffuseConstant="1.08" lighting-color="#fff" result="d"><feDistantLight azimuth="250" elevation="58"/></feDiffuseLighting><feSpecularLighting in="b" surfaceScale="1.5" specularConstant=".28" specularExponent="9" lighting-color="#fff3dc" result="s"><feDistantLight azimuth="250" elevation="58"/></feSpecularLighting><feComposite in="g" in2="d" operator="arithmetic" k1="1.06" result="lit"/><feComposite in="s" in2="g" operator="in" result="si"/><feComposite in="lit" in2="si" operator="arithmetic" k2="1" k3=".5" result="o"/><feComposite in="o" in2="g" operator="in"/></filter><filter id="pgc-drip3d" x="-80%" y="-10%" width="260%" height="125%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".16" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale=".8" xChannelSelector="R" yChannelSelector="G" result="g"/><feGaussianBlur in="g" stdDeviation="1.1" result="b"/><feDiffuseLighting in="b" surfaceScale="1.4" diffuseConstant="1.12" lighting-color="#fff" result="d"><feDistantLight azimuth="250" elevation="58"/></feDiffuseLighting><feSpecularLighting in="b" surfaceScale="1.4" specularConstant=".5" specularExponent="14" lighting-color="#fff6e6" result="s"><feDistantLight azimuth="250" elevation="58"/></feSpecularLighting><feComposite in="g" in2="d" operator="arithmetic" k1="1.12" result="lit"/><feComposite in="s" in2="g" operator="in" result="si"/><feComposite in="lit" in2="si" operator="arithmetic" k2="1" k3=".7" result="o"/><feComposite in="o" in2="g" operator="in" result="drip"/><feGaussianBlur in="g" stdDeviation=".8" result="sb"/><feOffset in="sb" dx=".9" dy=".6" result="so"/><feFlood flood-color="#3a2510" flood-opacity=".38"/><feComposite in2="so" operator="in" result="shadow"/><feMerge><feMergeNode in="shadow"/><feMergeNode in="drip"/></feMerge></filter><filter id="pgc-soft" x="-60%" y="-30%" width="220%" height="160%"><feGaussianBlur stdDeviation=".45"/></filter><linearGradient id="pgc-cyl" x1="0" x2="1"><stop offset="0" stop-color="#5a3a16" stop-opacity=".22"/><stop offset=".22" stop-color="#fff8ea" stop-opacity=".16"/><stop offset=".42" stop-color="#fff8ea" stop-opacity="0"/><stop offset=".7" stop-color="#5a3a16" stop-opacity=".1"/><stop offset="1" stop-color="#4a2d10" stop-opacity=".5"/></linearGradient><radialGradient id="pgc-pool"><stop offset="0" stop-color="#fff8dc"/><stop offset=".5" stop-color="#ffd98a"/><stop offset="1" stop-color="#d9a35a"/></radialGradient><radialGradient id="pgc-halo"><stop offset="0" stop-color="#ffc36e" stop-opacity=".55"/><stop offset=".4" stop-color="#ff9d42" stop-opacity=".16"/><stop offset="1" stop-color="#ff9d42" stop-opacity="0"/></radialGradient><linearGradient id="pgc-flame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset=".25" stop-color="#fff3c4"/><stop offset=".55" stop-color="#ffc45c"/><stop offset=".85" stop-color="#ff8a24" stop-opacity=".85"/><stop offset="1" stop-color="#ff6a10" stop-opacity="0"/></linearGradient></defs>';
+  const candle = ([x, h, w, d, drips], i, cid) => {
+    const B = 78, t = B - h, cx = x + w / 2, ft = t - 15, n = v => Math.round(v * 10) / 10, m = i % 2 ? -1 : 1; /* m: welche Seite höher stehen bleibt */
+    const gid = `pgc-${cid}${i}`;
+    const grad = `<radialGradient id="${gid}" gradientUnits="userSpaceOnUse" cx="${n(cx)}" cy="${n(t - 1)}" r="${n(h * 1.1 + 6)}"><stop offset="0" stop-color="#fff3d4"/><stop offset=".07" stop-color="#ffd896"/><stop offset=".2" stop-color="#f2dbb0"/><stop offset=".5" stop-color="#e6cfa4"/><stop offset=".8" stop-color="#cdb185"/><stop offset="1" stop-color="#a5845a"/></radialGradient>`;
+    const lipL = t + (m > 0 ? 5 : .4), lipR = t + (m > 0 ? .4 : 5);
+    const body = `M${x} ${B}V${n(lipL)}C${n(x + w * .1)} ${n(lipL - 2.2)} ${n(x + w * .3)} ${n(t + 4.4)} ${n(cx)} ${n(t + 4)}S${n(x + w * .9)} ${n(lipR - 2.2)} ${x + w} ${n(lipR)}V${B}Z`;
+    const pool = `M${n(x - w * .45)} ${B + .4}c${n(w * .25)} -2.8 ${n(w * .65)} -3.4 ${n(w * .95)} -2.8s${n(w * .7)} -1 ${n(w * 1.1)} .1c${n(w * .3)} .8 ${n(w * .4)} 1.8 ${n(w * .3)} 2.7z`;
+    const drip = ([o, len, dw]) => { const x0 = x + o, y0 = t + 2.6, e = y0 + len, br = dw * .6; return `<path d="M${n(x0)} ${n(y0)}C${n(x0 + dw * .35)} ${n(y0 + len * .25)} ${n(x0 - dw * .3)} ${n(y0 + len * .55)} ${n(x0 + dw * .1)} ${n(e - br * .2)}A${n(br)} ${n(br)} 0 1 0 ${n(x0 + dw * .9)} ${n(e - br * .2)}C${n(x0 + dw * 1.2)} ${n(y0 + len * .62)} ${n(x0 + dw * .7)} ${n(y0 + len * .3)} ${n(x0 + dw)} ${n(y0)}Z"/>`; };
+    const edge = drips.filter(([o, , dw]) => o < .5 || o + dw > w - .5), front = drips.filter(([o, , dw]) => !(o < .5 || o + dw > w - .5));
     const halo = `<circle class="halo" style="--d:${d}s" cx="${n(cx)}" cy="${n(ft + 9)}" r="${n(13 + w * .4)}"/>`;
-    const wax = `<g class="candle${i % 3 === 2 ? ' aged' : ''}"><path class="pool" d="M${n(x - w * .45)} ${B}c${n(w * .2)} -2.6 ${n(w * .6)} -3.2 ${n(w * .9)} -2.6s${n(w * .7)} -.9 ${n(w * 1.1)} .2c${n(w * .3)} .7 ${n(w * .4)} 1.6 ${n(w * .3)} 2.4z"/><path class="wax" d="${body}"/><path class="warm" d="${body}"/>${drips.map(drip).join('')}<ellipse class="crater" cx="${n(cx)}" cy="${n(t + 4.4)}" rx="${n(w * .32)}" ry="1.5"/><ellipse class="melt" cx="${n(cx)}" cy="${n(t + 4.3)}" rx="${n(w * .16)}" ry=".8"/><path class="wick" d="M${n(cx)} ${n(t + 4)}q${.6 * m} -2.4 ${-.4 * m} -4.4"/><g class="flame" style="--d:${d}s"><ellipse class="fb" cx="${n(cx)}" cy="${n(t - .6)}" rx="1.5" ry="1"/><path class="fo" d="M${n(cx)} ${n(ft)}c2.2 4.4 3.3 8 3.3 10.6a3.3 3.3 0 0 1-6.6 0c0-2.6 1.1-6.2 3.3-10.6z"/><path class="fi" d="M${n(cx)} ${n(ft + 6)}c1 2 1.6 3.6 1.6 4.8a1.6 1.6 0 0 1-3.2 0c0-1.2.6-2.8 1.6-4.8z"/></g></g>`;
-    return { halo, wax };
+    const wax = `<g class="candle"><g class="body" filter="url(#pgc-wax3d)" fill="url(#${gid})"><path d="${pool}"/><path d="${body}"/>${edge.map(drip).join('')}<path d="${body}" fill="url(#pgc-cyl)"/></g>${front.length ? `<g class="runs" filter="url(#pgc-drip3d)"><g fill="url(#${gid})">${front.map(drip).join('')}</g><g class="runs-hi">${front.map(drip).join('')}</g></g>` : ''}<ellipse class="crater" cx="${n(cx)}" cy="${n(t + 4.2)}" rx="${n(w * .34)}" ry="1.6" fill="url(#pgc-pool)"/><path class="lip" d="M${n(cx - w * .32)} ${n(t + 4.6)}q${n(w * .32)} 1.6 ${n(w * .64)} 0"/><path class="wick" d="M${n(cx)} ${n(t + 3.8)}q${.6 * m} -2.4 ${-.4 * m} -4.4"/><g class="flame" style="--d:${d}s" filter="url(#pgc-soft)"><path class="fo" d="M${n(cx)} ${n(ft)}c2.1 4.6 3.2 8.3 3.2 10.9a3.2 3.2 0 0 1-6.4 0c0-2.6 1.1-6.3 3.2-10.9z" fill="url(#pgc-flame)"/><path class="fi" d="M${n(cx)} ${n(ft + 6.4)}c.9 2 1.4 3.5 1.4 4.6a1.4 1.4 0 0 1-2.8 0c0-1.1.5-2.6 1.4-4.6z"/><ellipse class="fb" cx="${n(cx)}" cy="${n(t - .5)}" rx="1.4" ry=".9"/></g></g>`;
+    return { grad, halo, wax };
   };
-  const cluster = (cls, vw, list) => { const c = list.map(candle); return `<svg class="pg-candles ${cls}" viewBox="0 0 ${vw} 80" aria-hidden="true">${CANDLE_DEFS}<g class="halos">${c.map(x => x.halo).join('')}</g>${c.map(x => x.wax).join('')}</svg>`; };
+  const cluster = (cls, vw, list) => { const c = list.map((x, i) => candle(x, i, cls[0])); return `<svg class="pg-candles ${cls}" viewBox="0 0 ${vw} 80" aria-hidden="true" focusable="false">${CANDLE_DEFS}<defs>${c.map(x => x.grad).join('')}</defs><g class="halos">${c.map(x => x.halo).join('')}</g>${c.map(x => x.wax).join('')}</svg>`; };
   /* [x, Höhe, Breite, Flacker-Versatz, Wachsläufe [Abstand vom linken Rand, Länge, Breite]] – erst die hintere Reihe (hoch), dann die vordere (kurz) */
   const CANDLES_R = cluster('right', 100, [
     [4, 48, 13, -0.4, [[-1.2, 17, 3.2], [6, 31, 2.8], [10.8, 11, 2.8]]], [26, 62, 14, -1.3, [[-1.2, 36, 3.4], [4.6, 14, 2.8], [9.8, 46, 3.2]]], [50, 44, 12, -0.9, [[-.8, 22, 3], [8.8, 13, 3]]], [72, 56, 13, -2.1, [[-1, 11, 2.8], [4.5, 37, 3.2], [10.2, 24, 2.8]]],
@@ -108,7 +171,7 @@
     return `<section class="prop-grave" data-id="${esc(String(t.accountId))}">
       <div class="pg-stone" data-action="pg-flip" title="Umdrehen">
         <div class="pg-inner">
-          <div class="pg-face pg-front" aria-hidden="false">${CRACK}
+          <div class="pg-face pg-front" aria-hidden="false">${ROCK}${CRACK}
             <span class="pg-rip" aria-hidden="true">R · I · P</span>
             <div class="prop-grave-head"><b>${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</b><div class="muted small">${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? ` · ${marketLabel(t.market)}` : ''}</div><div class="pills">${U.pill(esc(nameOf(PHASES, t.phase)), 'neutral')}</div></div>
             <div class="prop-grave-life">${dates}${life}</div>
@@ -116,7 +179,7 @@
             <div class="pg-cause"><span>Todesursache</span><b>${ruleLabel(c.rule)}</b></div>
             <button type="button" class="pg-turn" data-action="pg-flip" aria-label="Umdrehen: Einzelheiten zeigen">${I.replay}<span>Umdrehen</span></button>
           </div>
-          <div class="pg-face pg-back" aria-hidden="true">
+          <div class="pg-face pg-back" aria-hidden="true">${ROCK}
             <span class="pg-rip" aria-hidden="true">${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</span>
             ${t.note ? `<p class="pg-epitaph prop-grave-note">„${esc(t.note)}“</p>` : ''}
             <dl class="pg-facts">
@@ -133,8 +196,7 @@
           </div>
         </div>
       </div>
-      <div class="pg-base" aria-hidden="true"><span class="pg-glow"></span>${CANDLES_L}${CANDLES_R}</div>
-      <span class="pg-mound" aria-hidden="true"></span>
+      <div class="pg-base" aria-hidden="true">${SLAB}<span class="pg-glow"></span>${CANDLES_L}${CANDLES_R}</div>
     </section>`;
   }
   Object.assign(App.actions, {

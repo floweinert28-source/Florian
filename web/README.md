@@ -287,8 +287,10 @@ Punkten nie über den höheren oder unter den tieferen hinaus, darum wird z. B. 
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden
 Zeichner): Linien von links nach rechts, Flächen und Balken blenden ein, Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,
 bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Wechselt nur ein Parameter derselben Seite (Tag vor/zurück, Statistik-Reiter),
-gibt es keine Überblendung der Seite und keinen gestaffelten Einzug; der Inhalt blendet nur kurz und ruhig ein (`.content.swap`,
-nur Deckkraft – keine Verschiebung und keine Schnappschüsse, damit die Schrift scharf bleibt und nichts rüttelt).
+gibt es keine Überblendung der Seite und keinen gestaffelten Einzug. Kopfreihe und Unter-Navigation (Elemente mit `data-subnav`:
+Einstellungs-Menü, Statistik-Reiter, Prop-Unterreiter, Affiliate-Umschalter) bleiben stehen; nur der Teil darunter blendet kurz ein
+(`.content.swap`, nur Deckkraft ab 0,35 – kein Aufblitzen, keine Verschiebung, keine Schnappschüsse). Ohne `data-subnav` blendet
+alles außer der Kopfreihe.
 
 `js/scroll.js` macht das Scrollen der ganzen App weich und „schwer“ wie auf edlen Websites: das Mausrad setzt nur ein Ziel,
 die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; kleiner = träger). Nur das Fenster wird so bewegt –

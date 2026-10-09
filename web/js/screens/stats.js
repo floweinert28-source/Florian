@@ -12,7 +12,7 @@
       const days = C.dailyAggregation(list); const r = App.range();
       const chartDays = fillDays(days, r); const id = 'stats-top'; U.chartData[id] = { days: chartDays, bars: false, dots: chartDays.length <= 45 };
       const top = U.card('', `<div class="chart h240" data-chart="pnl" data-id="${id}"></div><div class="legend"><span><i style="background:var(--accent)"></i>Kumulierter Netto-P&L</span></div>`);
-      const tabs = `<div class="tabs scroll-x">${TABS.map(([k, l]) => `<a class="btn" href="#/stats/${k}" aria-pressed="${tab === k}" style="${tab === k ? '' : 'color:var(--text-2)'}">${l}</a>`).join('')}</div>`;
+      const tabs = `<div class="tabs scroll-x" data-subnav>${TABS.map(([k, l]) => `<a class="btn" href="#/stats/${k}" aria-pressed="${tab === k}" style="${tab === k ? '' : 'color:var(--text-2)'}">${l}</a>`).join('')}</div>`;
       const body = ({ summary: tabSummary, days: tabDays, setups: tabSetups, time: tabTime, mistakes: tabMistakes, regime: tabRegime, state: tabState, edge: tabEdge, mc: tabMC })[tab](list, closed, days, ctx);
       return top + tabs + body;
     },

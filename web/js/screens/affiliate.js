@@ -76,7 +76,7 @@
       const view = ctx.params[0] === 'creator' ? 'creator' : 'admin'; const d = data();
       const c = d.creators.find(x => x.id === conf().creatorId) || d.creators[0];
       const pick = view === 'creator' ? `<select class="select aff-pick" data-change="aff-pick" aria-label="Creator wählen">${d.creators.map(x => `<option class="no-i18n" value="${x.id}" ${x.id === c.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select>` : '';
-      const top = `<div class="aff-top">${nav(view)}${pick}<span class="grow"></span>${U.pill('Beispieldaten', 'neutral')}</div>`;
+      const top = `<div class="aff-top" data-subnav>${nav(view)}${pick}<span class="grow"></span>${U.pill('Beispieldaten', 'neutral')}</div>`;
       return `<div class="aff">${top}${view === 'creator' ? creator(d, c) : admin(d)}</div>`;
     },
   };

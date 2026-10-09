@@ -302,7 +302,7 @@
       const area = areaOf(key); s.tab = key; s.last[area] = key;
       /* Die fünf Bereiche stehen links in der Kopfreihe (statt Zeitraum und Konto), die Unteransichten als Reiter darunter */
       const nav = `<nav class="prop-tabs" aria-label="Bereiche">${AREAS.filter(([k]) => subsOf(k).length).map(([k, l]) => { const subs = subsOf(k); const to = (subs.find(t => t[0] === s.last[k]) || subs[0])[0]; return `<a href="#/prop/${to}" data-area="${k}" aria-pressed="${area === k}"${area === k ? ' aria-current="page"' : ''}>${l}</a>`; }).join('')}</nav>`;
-      const subs = subsOf(area); const sub = subs.length > 1 ? `<nav class="prop-sub" aria-label="Ansichten">${subs.map(([k, l]) => `<a href="#/prop/${k}" aria-pressed="${k === key}"${k === key ? ' aria-current="page"' : ''}>${esc(l)}</a>`).join('')}</nav>` : '';
+      const subs = subsOf(area); const sub = subs.length > 1 ? `<nav class="prop-sub" aria-label="Ansichten" data-subnav>${subs.map(([k, l]) => `<a href="#/prop/${k}" aria-pressed="${k === key}"${k === key ? ' aria-current="page"' : ''}>${esc(l)}</a>`).join('')}</nav>` : '';
       ctx.headLeft = nav;
       return sub + VIEWS[key](ctx);
     },

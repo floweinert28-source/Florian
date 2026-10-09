@@ -109,8 +109,11 @@ svg { display: block; }
 .chart svg.enter polyline.ln { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: ch-draw 1.25s cubic-bezier(.3, .7, .2, 1) .05s forwards; }
 .chart svg.enter polygon.ar { animation: ch-fade 1s ease .35s both; }
 /* gleiche Seite, andere Parameter (Tag vor/zurück, Reiter): Inhalt blendet kurz und ruhig ein – nur Deckkraft, keine Verschiebung */
-.content.swap { animation: swap-in .16s ease-out both; }
-@keyframes swap-in { from { opacity: 0; } }
+/* Wechsel innerhalb derselben Seite (Reiter, Einstellungs-Bereich, Tag vor/zurück): Kopfreihe und Unter-Navigation ([data-subnav])
+   bleiben stehen, nur der Teil darunter blendet kurz ein – nicht aus ganz unsichtbar, damit nichts aufblitzt */
+.content.swap:not(:has([data-subnav])) > :not(.page-head),
+.content.swap [data-subnav] ~ * { animation: swap-in .16s ease-out both; }
+@keyframes swap-in { from { opacity: .35; } }
 @keyframes ch-draw { to { stroke-dashoffset: 0; } }
 @keyframes ch-fade { from { opacity: 0; } }
 @keyframes ch-pop { from { opacity: 0; transform: scale(.3); } }

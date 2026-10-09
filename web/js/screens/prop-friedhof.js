@@ -68,13 +68,15 @@
   /* Stein als SVG mit echter Beleuchtung: die Form wird mit Rauschen verbogen (raue, leicht abgeschlagene Kanten), die geweichte
      Alpha-Kante plus feines Korn und gröbere Poren ergeben eine Höhenkarte, die von oben links beleuchtet wird; dazu Flecken,
      Körner und unten etwas Schmutz. Die Schrifttafel ist vertieft (Innenschatten oben links, Lichtkante unten rechts).
-     Breite fest 300px; die Höhe folgt dem Inhalt (Rechtecke mit CSS-Höhe calc()). Gleiche ids in jeder Seite, gleicher Inhalt */
+     Breite folgt der Karte: Kuppel und Tafelkopf sind verschachtelte SVGs (nur waagrecht gestreckt), die Rechtecke haben CSS-Breite
+     und -Höhe per calc(); das Rauschen liegt im äußeren Koordinatensystem und wird nicht gestreckt. Unten wird der Stein dunkler
+     (Verlauf in der Füllung, kein eigener Overlay, damit am Rand nichts übersteht). Gleiche ids in jeder Seite, gleicher Inhalt */
   const ROCK_TOP = 'M4 140V90A62 27 0 0 0 66 63A84 60 0 0 1 234 63A62 27 0 0 0 296 90V140Z';
   const PANEL_TOP = 'M21 165V97A49 21 0 0 0 70 76A80 56 0 0 1 230 76A49 21 0 0 0 279 97V165Z';
   const ROCK = `<svg class="pg-rock" aria-hidden="true" focusable="false"><defs>
     <filter id="pgs-rock" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="7" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="5" xChannelSelector="R" yChannelSelector="B" result="shape"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="3" seed="7" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.4" xChannelSelector="R" yChannelSelector="B" result="shape"/>
       <feGaussianBlur in="shape" stdDeviation="3.2" result="edge"/>
       <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="grain"/>
       <feTurbulence type="fractalNoise" baseFrequency=".07" numOctaves="4" seed="11" result="pits"/>
@@ -109,9 +111,8 @@
       <feFlood flood-color="#fff" flood-opacity=".16"/><feComposite in2="invHB" operator="in"/><feComposite in2="shape" operator="in" result="hl"/>
       <feMerge><feMergeNode in="tex"/><feMergeNode in="shadow"/><feMergeNode in="hl"/></feMerge>
     </filter>
-    <linearGradient id="pgs-grime" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".07"/><stop offset=".18" stop-color="#fff" stop-opacity="0"/><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#140f08" stop-opacity=".5"/></linearGradient>
-    <mask id="pgs-mask"><path fill="#fff" d="${ROCK_TOP}"/><rect fill="#fff" x="4" y="130" width="292" class="rk-body"/></mask>
-  </defs><g class="rock" filter="url(#pgs-rock)"><path d="${ROCK_TOP}"/><rect x="4" y="130" width="292" class="rk-body"/></g><rect class="grime" width="100%" height="100%" fill="url(#pgs-grime)" mask="url(#pgs-mask)"/><g class="panel" filter="url(#pgs-panel)"><path d="${PANEL_TOP}"/><rect x="21" y="155" width="258" class="pn-body"/></g></svg>`;
+    <linearGradient id="pgs-tone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="tn-a"/><stop offset=".5" class="tn-a"/><stop offset="1" class="tn-b"/></linearGradient>
+  </defs><g class="rock" filter="url(#pgs-rock)"><svg class="rk-top" viewBox="0 0 300 140" preserveAspectRatio="none" width="100%" height="140"><path d="${ROCK_TOP}"/></svg><rect x="4" y="130" class="rk-body"/></g><g class="panel" filter="url(#pgs-panel)"><svg viewBox="0 0 300 165" preserveAspectRatio="none" width="100%" height="165"><path d="${PANEL_TOP}"/></svg><rect x="21" y="155" class="pn-body"/></g></svg>`;
   /* Sockel: zwei Steinplatten mit demselben Licht, weniger verbogen */
   const SLAB = `<svg class="pg-slab" viewBox="0 0 348 27" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs>
     <filter id="pgs-slab" x="-3%" y="-30%" width="106%" height="160%" color-interpolation-filters="sRGB">

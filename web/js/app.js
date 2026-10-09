@@ -326,7 +326,7 @@
     const accField = S.data.accounts.length > 1 ? `<div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>` : `<input type="hidden" name="accountId" value="${esc(t.accountId || S.defaultAccountId())}">`;
     const html = `<form id="trade-form" class="tf" data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
       <div class="tf-main">
-        <div class="field tf-sym"><label for="f-symbol">Symbol</label><input class="input" id="f-symbol" name="symbol" value="${esc(t.symbol)}" placeholder="z. B. NQ, ES, EURUSD" required autocapitalize="characters" autocomplete="off"></div>
+        <div class="field tf-sym"><span class="lbl" id="f-symbol-l">Symbol</span><button type="button" class="input sym-btn${t.symbol ? '' : ' sym-none'}" id="f-symbol-btn" data-action="sym-open" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="f-symbol-l"><span class="sym-v${t.symbol ? ' no-i18n' : ''}">${t.symbol ? esc(t.symbol) : 'Symbol wählen'}</span>${I.chev}</button><input type="hidden" name="symbol" id="f-symbol" value="${esc(t.symbol)}"></div>
         <div class="field"><span class="lbl">Richtung</span><div class="seg" id="f-dir">${U.seg([[1, 'Long'], [-1, 'Short']], t.direction, 'set-dir')}</div><input type="hidden" name="direction" value="${t.direction}"></div>
         ${accField}
         <div class="tf-row3">
@@ -345,13 +345,47 @@
         ${props.length ? `<div class="field tf-wide"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}
       </div>
       <div class="modal-foot"><div class="left row" id="trade-preview"></div><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${trade ? 'Speichern' : 'Trade speichern'}</button></div></form>`;
-    U.modal(html, { cls: 'tf-modal', onMount(el) {
-      if (!trade) setTimeout(() => { const sy = el.querySelector('#f-symbol'); if (sy && document.activeElement !== sy) sy.focus(); }, 50); /* neuer Trade: gleich das Symbol tippen */
+    U.modal(html, { cls: 'tf-modal', noFocus: true, onClose: () => App.closeSymbolMenu(), onMount(el) {
       const upd = () => App.updateTradePreview(el); el.addEventListener('input', upd); upd();
-      /* Punktwert vom letzten Trade mit demselben Symbol, solange er hier nicht von Hand geändert wurde (nur bei neuen Trades) */
-      const mult = el.querySelector('#f-mult'); mult.addEventListener('input', () => { mult.dataset.touched = '1'; });
-      if (!trade) el.querySelector('#f-symbol').addEventListener('input', e => { if (mult.dataset.touched) return; const sym = e.target.value.trim().toUpperCase(); const last = sym && S.trades().filter(x => String(x.symbol).toUpperCase() === sym && Number(x.multiplier) > 0).sort((a, b) => String(b.openedAt).localeCompare(String(a.openedAt)))[0]; if (last && Number(last.multiplier) !== Number(mult.value)) { mult.value = last.multiplier; upd(); } });
+      const mult = el.querySelector('#f-mult'); mult.addEventListener('input', () => { mult.dataset.touched = '1'; }); if (trade) mult.dataset.touched = '1'; /* bestehender Trade: Punktwert nicht still ändern */
+      App.noLabelFocus(el);
     } });
+  };
+  /* Klick auf eine Beschriftung (oder daneben) wählt das Feld nicht aus – nur ein Klick ins Feld selbst */
+  App.noLabelFocus = function (el) { el.addEventListener('click', e => { if (e.target.closest('label') && !e.target.closest('input, select, textarea, button')) e.preventDefault(); }); };
+  /* Symbol-Auswahl im Trade-Fenster: zuletzt gehandelte Symbole (häufigste zuerst, mit ihrem letzten Punktwert), dann Standard-Instrumente
+     aus js/propdata.js (Punktwert = Tick-Wert / Tick-Größe bzw. Pip-Wert / Pip-Größe, unverifiziert), unten „Anderes Symbol“ zum Eintippen.
+     Die Liste schwebt über dem Dialog (position: fixed) und schließt bei Auswahl, Escape oder Klick daneben. */
+  App.symbolOptions = function () {
+    const stat = {}; for (const x of S.trades()) { const k = String(x.symbol || '').toUpperCase(); if (!k) continue; const o = stat[k] || (stat[k] = { sym: k, n: 0, at: '', mult: null }); o.n++; if (String(x.openedAt) > o.at && Number(x.multiplier) > 0) { o.at = String(x.openedAt); o.mult = Number(x.multiplier); } }
+    const recent = Object.values(stat).sort((a, b) => b.n - a.n || b.at.localeCompare(a.at)).slice(0, 12);
+    const have = new Set(recent.map(o => o.sym)); const PD = root.PropData; const r = v => Math.round(v * 1e6) / 1e6;
+    const more = (PD && PD.instrumentsDefault || []).filter(i => !have.has(i.symbol)).map(i => ({ sym: i.symbol, name: i.name, mult: i.tickSize ? r(i.tickValue / i.tickSize) : i.pipSize ? r(i.pipValue / i.pipSize) : null }));
+    return { recent, more };
+  };
+  App.closeSymbolMenu = function () { const m = document.getElementById('sym-menu'); if (m) { if (m._off) m._off(); m.remove(); } document.querySelectorAll('#f-symbol-btn[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false')); };
+  App.openSymbolMenu = function (btn) {
+    if (document.getElementById('sym-menu')) return App.closeSymbolMenu();
+    const form = btn.closest('form'); const cur = form.querySelector('#f-symbol').value; const { recent, more } = App.symbolOptions();
+    const opt = o => `<button type="button" class="sym-opt" role="option" data-sym="${esc(o.sym)}" data-mult="${o.mult == null ? '' : o.mult}" aria-selected="${o.sym === cur}"><b class="no-i18n">${esc(o.sym)}</b><span class="nm">${o.name ? `<span class="no-i18n">${esc(o.name)}</span>` : o.n ? (o.n === 1 ? '1 Trade' : `${o.n} Trades`) : ''}</span>${o.mult != null ? `<span class="pv no-i18n">× ${fmt.num(o.mult, 4)}</span>` : ''}</button>`;
+    const m = document.createElement('div'); m.id = 'sym-menu'; m.className = 'sym-menu'; m.setAttribute('role', 'listbox'); m.setAttribute('aria-label', 'Symbol wählen');
+    m.innerHTML = `${recent.length ? `<div class="sym-cap">Zuletzt gehandelt</div>${recent.map(opt).join('')}` : ''}${more.length ? `<div class="sym-cap">Weitere</div>${more.map(opt).join('')}` : ''}<form class="sym-new" autocomplete="off"><input class="input" maxlength="20" placeholder="Anderes Symbol, z. B. DAX" autocapitalize="characters" aria-label="Anderes Symbol"><button type="submit" class="btn sm primary">OK</button></form>`;
+    document.body.appendChild(m); if (root.I18N && App.translateNow) App.translateNow(m);
+    const place = () => { const r = btn.getBoundingClientRect(); const vw = document.documentElement.clientWidth, vh = innerHeight; const w = Math.min(Math.max(r.width, 300), vw - 16); m.style.width = w + 'px'; m.style.left = Math.max(8, Math.min(r.left, vw - w - 8)) + 'px'; const below = vh - r.bottom - 14, above = r.top - 14; const up = below < 260 && above > below; m.style.maxHeight = Math.max(180, Math.min(360, up ? above : below)) + 'px'; m.style.top = up ? '' : (r.bottom + 6) + 'px'; m.style.bottom = up ? (vh - r.top + 6) + 'px' : ''; };
+    place(); btn.setAttribute('aria-expanded', 'true');
+    const pick = (sym, mult) => {
+      sym = String(sym || '').trim().toUpperCase(); if (!sym) return; form.querySelector('#f-symbol').value = sym; const v = btn.querySelector('.sym-v'); v.textContent = sym; v.classList.add('no-i18n'); btn.classList.remove('sym-none');
+      const mi = form.querySelector('#f-mult'); if (mi && !mi.dataset.touched && mult) mi.value = mult; /* Punktwert passend zum Symbol, solange nicht von Hand geändert */
+      App.closeSymbolMenu(); btn.focus(); App.updateTradePreview(form.closest('.modal'));
+    };
+    m.addEventListener('click', e => { const o = e.target.closest('.sym-opt'); if (o) pick(o.dataset.sym, Number(o.dataset.mult) || null); });
+    m.querySelector('.sym-new').addEventListener('submit', e => { e.preventDefault(); e.stopPropagation(); const v = m.querySelector('.sym-new input').value; const known = App.symbolOptions(); const hit = [...known.recent, ...known.more].find(o => o.sym === String(v).trim().toUpperCase()); pick(v, hit && hit.mult); });
+    m.addEventListener('keydown', e => { const opts = [...m.querySelectorAll('.sym-opt')]; const i = opts.indexOf(document.activeElement); if (e.key === 'ArrowDown') { e.preventDefault(); (opts[i + 1] || opts[0]).focus(); } else if (e.key === 'ArrowUp') { e.preventDefault(); (opts[i - 1] || opts[opts.length - 1]).focus(); } else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); App.closeSymbolMenu(); btn.focus(); } });
+    const outside = e => { if (!m.contains(e.target) && !btn.contains(e.target)) App.closeSymbolMenu(); };
+    const onResize = () => place(); const sc = btn.closest('.modal');
+    setTimeout(() => document.addEventListener('pointerdown', outside, true), 0); addEventListener('resize', onResize); if (sc) sc.addEventListener('scroll', onResize);
+    m._off = () => { document.removeEventListener('pointerdown', outside, true); removeEventListener('resize', onResize); if (sc) sc.removeEventListener('scroll', onResize); };
+    (m.querySelector('.sym-opt[aria-selected="true"]') || m.querySelector('.sym-opt') || m.querySelector('.sym-new input')).focus();
   };
   /* Auswertung eines Trades (aus der Trade-Ansicht): Plan (Stop, Ziel, geplanter Einstieg, Begründung, MAE/MFE), Setup, Bewertung,
      Fehler-Tags, Emotionen, gebrochene Regeln. Die alte Trade-Notiz erscheint nur, wenn schon eine existiert (neue Notizen ins Notebook). */
@@ -377,7 +411,7 @@
         ${rules.length ? `<div class="field"><span class="lbl">Gebrochene Regeln</span><div class="chips" data-chips="rulesBroken">${rules.map(r => `<button type="button" class="chip sel mistake" data-action="toggle-chip" data-value="${esc(r.text)}" aria-pressed="${(t.rulesBroken || []).includes(r.text)}">${esc(r.text)}</button>`).join('')}</div></div>` : ''}
         ${t.notes ? `<div class="field"><label for="f-notes">Notiz zum Trade</label><textarea class="input" id="f-notes" name="notes">${esc(t.notes)}</textarea></div>` : ''}
       </div>
-      <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'tf-modal' });
+      <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'tf-modal', onMount: el => App.noLabelFocus(el) });
   };
   App.readTradeForm = function (form) {
     const fd = new FormData(form); const num = k => { const v = fd.get(k); return v === '' || v == null ? null : Number(v); };
@@ -412,6 +446,7 @@
       const id = form.dataset.id; if (id) { S.updateTrade(id, t); U.toast('Trade gespeichert', 'ok'); } else { const n = S.addTrade(Object.assign({ screenshots: [], voiceNotes: [], plannedEntry: null, plannedStop: null, plannedTarget: null, plannedReason: '', mae: null, mfe: null, setup: '', strategy: '', mistakes: [], emotions: [], rulesBroken: [], rating: null, notes: '' }, t)); U.toast('Trade gespeichert', 'ok'); U.closeModal(); App.checkTiltAfterSave(); if (App.state.route === 'trades' && App.state.params[0]) App.navigate('#/trades/' + n.id); else App.rerender(); return; }
       U.closeModal(); App.rerender();
     },
+    'sym-open'(el) { App.openSymbolMenu(el); },
     'trade-journal'(el) { App.openTradeJournal(S.getTrade(el.dataset.id)); },
     'save-trade-journal'(form) { const id = form.dataset.id; if (!S.getTrade(id)) return U.closeModal(); const t = App.readTradeForm(form); if (t.setup) S.addTag('setups', t.setup); S.updateTrade(id, t); U.toast('Gespeichert', 'ok'); U.closeModal(); App.rerender(); },
   });

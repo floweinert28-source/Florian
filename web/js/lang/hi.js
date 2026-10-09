@@ -1519,4 +1519,9 @@ I18N.add('hi', {
   "P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.": "P&L = (एग्ज़िट − एंट्री) × कॉन्ट्रैक्ट × पॉइंट वैल्यू। उसी सिंबल के पिछले ट्रेड से लिया जाता है।",
   "Plan & Bewertung": "प्लान और रेटिंग",
   "Notiz zum Trade": "ट्रेड नोट",
+  "Symbol wählen": "सिंबल चुनें",
+  "Zuletzt gehandelt": "हाल में ट्रेड किए",
+  "Weitere": "और",
+  "Anderes Symbol, z. B. DAX": "दूसरा सिंबल, जैसे DAX",
+  "Anderes Symbol": "दूसरा सिंबल",
 });

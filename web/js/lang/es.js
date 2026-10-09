@@ -1472,4 +1472,9 @@ I18N.add('es', {
   "P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.": "P&L = (salida − entrada) × contratos × valor del punto. Se toma de tu último trade con el mismo símbolo.",
   "Plan & Bewertung": "Plan y valoración",
   "Notiz zum Trade": "Nota del trade",
+  "Symbol wählen": "Elegir símbolo",
+  "Zuletzt gehandelt": "Operado recientemente",
+  "Weitere": "Más",
+  "Anderes Symbol, z. B. DAX": "Otro símbolo, p. ej. DAX",
+  "Anderes Symbol": "Otro símbolo",
 });

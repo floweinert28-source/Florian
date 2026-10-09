@@ -32,8 +32,10 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 
 - **Trade loggen** (Ersatz für einen Broker-Sync, nur Trade-Daten): Symbol, Long/Short, Einstieg, Ausstieg, Kontrakte, Eröffnet,
   Geschlossen, Punktwert und Gebühren; Konto nur bei mehreren Konten, Prop-Konten fürs Copy-Trading. Keine Notiz- oder Bewertungsfragen:
-  Notizen gehören ins Notebook und in die Tagesansicht. Der Punktwert wird bei einem neuen Trade vom letzten Trade mit demselben Symbol
-  übernommen, der Cursor steht gleich im Symbol. „Trade bearbeiten“ zeigt dieselben Felder und lässt Plan, Setup und Tags unangetastet.
+  Notizen gehören ins Notebook und in die Tagesansicht. Das **Symbol ist eine Auswahl** (kein Tippen): zuletzt gehandelte Symbole
+  (häufigste zuerst, mit Anzahl und letztem Punktwert), darunter Standard-Instrumente aus `js/propdata.js` (Punktwert = Tick-Wert /
+  Tick-Größe bzw. Pip-Wert / Pip-Größe, unverifiziert) und „Anderes Symbol“ zum Eintippen; die Wahl setzt den Punktwert mit, solange
+  er nicht von Hand geändert wurde. Ein Klick auf eine Beschriftung wählt das Feld darunter nicht aus (`App.noLabelFocus`). „Trade bearbeiten“ zeigt dieselben Felder und lässt Plan, Setup und Tags unangetastet.
   **Plan & Bewertung** (Trade-Ansicht → „Bearbeiten“ an „Plan vs. Ausführung“ oder „Tags & Notizen“, `App.openTradeJournal`): Stop,
   Ziel, geplanter Einstieg, Begründung, MAE/MFE, Setup, Bewertung, Fehler-Tags, Emotionen, gebrochene Regeln; eine alte Trade-Notiz
   bleibt dort bearbeitbar. Screenshots per Drag & Drop, Datei oder Einfügen.
@@ -275,7 +277,9 @@ eigenen Scrollbereichen). Nur ein Seitenwechsel, eine neue Replay-Karte oder ein
 Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 150 ms, `--dur-2` 240 ms, `--dur-3` 380 ms, `--ease`).
 `js/motion.js` blendet Karten und Abschnitte beim Reinscrollen ein (einmalig, gestaffelt; nur was beim Öffnen unter dem Fenster
 liegt), kapselt den Seitenwechsel in eine View Transition und blendet Dialoge, Popover und Toasts aus, bevor sie entfernt werden.
-Animiert werden nur `transform` und `opacity`. **Seitenwechsel ohne Rütteln:** alte und neue Seite werden echt überblendet (gleiche
+Animiert werden nur `transform` und `opacity`. **Scrollen bleibt im Bereich:** über einem Menü, Popover, Filter-Fenster, Dialog oder einem Bereich mit eigenem Scrollen (Seitenleiste,
+Notiz-Spalten, Listen) scrollt nur dieser Bereich; an seinem Ende scrollt die Seite nicht mit (`js/scroll.js` → `area()`, dazu
+`overscroll-behavior: contain` an allen inneren Scrollbereichen in `css/app.css`). **Seitenwechsel ohne Rütteln:** alte und neue Seite werden echt überblendet (gleiche
 Dauer `--dur-2` und Kurve, die Deckkraft ergibt zusammen immer 1, nichts wird kurz dunkler); Seitenleiste und Kopfzeile stehen still
 (nur während des Wechsels, Klasse `vt-on` auf `<html>`, eigene Namen `jy-sidebar`/`jy-topbar` ohne Animation); was sichtbar ist,
 steht sofort da (kein Einzug Karte für Karte); das Dashboard zeigt kein Skelett mehr vorab.

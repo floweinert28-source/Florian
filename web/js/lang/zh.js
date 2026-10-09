@@ -1519,4 +1519,9 @@ I18N.add('zh', {
   "P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.": "盈亏 = (平仓价 − 开仓价) × 合约数 × 点值。沿用同一品种上一笔交易的点值。",
   "Plan & Bewertung": "计划与评分",
   "Notiz zum Trade": "交易备注",
+  "Symbol wählen": "选择品种",
+  "Zuletzt gehandelt": "最近交易",
+  "Weitere": "更多",
+  "Anderes Symbol, z. B. DAX": "其他品种，例如 DAX",
+  "Anderes Symbol": "其他品种",
 });

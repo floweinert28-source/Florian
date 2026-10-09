@@ -1753,7 +1753,7 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
   --c-bg: #070a19; --c-text: #f1f3fb; --c-soft: rgba(241, 243, 251, .78); --c-muted: #8f98c6; --c-line: rgba(208, 215, 255, .6); --c-hair: rgba(208, 215, 255, .16);
   --c-glow: rgba(52, 84, 196, .6); --c-glow2: rgba(64, 92, 200, .45); --c-bar: rgba(120, 148, 255, .14); --c-band: rgba(0, 0, 0, .32); --c-band2: rgba(130, 150, 255, .05);
   --g1: #8e98d0; --g2: #f3f4fc; --gn1: #df8592; --gn2: #f9e5e8;
-  position: relative; overflow: hidden; background: var(--c-bg); color: var(--c-text); font-family: Inter, Roboto, system-ui, sans-serif; line-height: 1.25;
+  position: relative; overflow: hidden; background: var(--c-bg); color: var(--c-text); font-family: var(--font); line-height: 1.25; /* Schrift der App (Satoshi), Zahlen unten in der Zahlenschrift (Onest) */
 }
 .cert[data-theme="light"] {
   --c-bg: #f4f6fc; --c-text: #121833; --c-soft: rgba(18, 24, 51, .75); --c-muted: #5d6690; --c-line: rgba(40, 58, 140, .45); --c-hair: rgba(40, 58, 140, .14);
@@ -1799,18 +1799,18 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert-to .k { font-size: calc(var(--s) * 16px); text-transform: uppercase; letter-spacing: .22em; color: var(--c-muted); font-weight: 600; }
 .cert-to .user { font-size: calc(var(--s) * 30px); font-weight: 650; color: var(--c-text); }
 .cert-hero { grid-area: hero; min-width: 0; }
-.cert-value { font-size: calc(var(--s) * 118px); font-weight: 700; letter-spacing: -.03em; line-height: 1.02; white-space: nowrap; }
+.cert-value { font-family: var(--font-num); font-size: calc(var(--s) * 118px); font-weight: 700; letter-spacing: -.03em; line-height: 1.02; white-space: nowrap; }
 .cert-value span { display: inline-block; padding-bottom: .04em; background: linear-gradient(90deg, var(--g1), var(--g2) 80%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 .cert[data-sign="neg"] .cert-value span { background-image: linear-gradient(90deg, var(--gn1), var(--gn2) 80%); }
 .cert-value.long { font-size: calc(var(--s) * 100px); }
 .cert-period { font-size: calc(var(--s) * 20px); color: var(--c-soft); margin-top: calc(var(--s) * 12px); }
 .cert-stats { grid-area: stats; display: flex; gap: calc(var(--s) * 64px); padding-top: calc(var(--s) * 30px); margin-top: calc(var(--s) * 8px); border-top: 1px solid var(--c-hair); }
-.cert-stats .st .v { font-size: calc(var(--s) * 30px); font-weight: 650; letter-spacing: -.01em; white-space: nowrap; color: var(--c-text); }
+.cert-stats .st .v { font-family: var(--font-num); font-size: calc(var(--s) * 30px); font-weight: 650; letter-spacing: -.01em; white-space: nowrap; color: var(--c-text); }
 .cert-stats .st .v small { font-size: .62em; font-weight: 500; color: var(--c-muted); }
 .cert-stats .st .k { font-size: calc(var(--s) * 13px); letter-spacing: .2em; text-transform: uppercase; color: var(--c-muted); font-weight: 600; margin-top: calc(var(--s) * 8px); white-space: nowrap; }
 .cert-foot { grid-area: foot; display: flex; gap: calc(var(--s) * 80px); margin-top: calc(var(--s) * 34px); }
 .cert-foot .issue { width: calc(var(--s) * 300px); }
-.cert-foot .issue .v { font-size: calc(var(--s) * 17px); font-weight: 600; color: var(--c-soft); white-space: nowrap; }
+.cert-foot .issue .v { font-family: var(--font-num); font-size: calc(var(--s) * 17px); font-weight: 600; color: var(--c-soft); white-space: nowrap; }
 .cert-foot .issue .v.mono { letter-spacing: .05em; }
 .cert-foot .issue .line { height: 2px; margin: calc(var(--s) * 11px) 0; background: linear-gradient(90deg, var(--c-line), var(--c-line) 40%, transparent); }
 .cert-foot .issue .k { font-size: calc(var(--s) * 15px); color: var(--c-muted); white-space: nowrap; }

@@ -40,11 +40,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Ziel, geplanter Einstieg, Begründung, MAE/MFE, Setup, Bewertung, Fehler-Tags, Emotionen, gebrochene Regeln; eine alte Trade-Notiz
   bleibt dort bearbeitbar. Screenshots per Drag & Drop, Datei oder Einfügen.
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
+  Long/Short ist ein Umschalter mit zwei Hälften und rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün,
+  Short rot). Am Handy stehen Symbol und Richtung untereinander.
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
   ↘ Short in Rot), Licht von links und feinem farbigen Rand (`UI.badge`).
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein leuchtender Balken am Rand.
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein hell leuchtender Balken am Rand; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso.
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.

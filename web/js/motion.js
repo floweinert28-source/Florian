@@ -56,11 +56,15 @@ function scan(container, enter) {
 /* ---------- Seitenwechsel ---------- */
 function transition(fn) {
   if (enabled && document.startViewTransition && !document.hidden) {
+    /* vt-on nur während des Übergangs: Seitenleiste und Kopfzeile bekommen dann eigene Namen und stehen still (css: „Seitenwechsel“) */
+    html.classList.add('vt-on');
     try {
       var t = document.startViewTransition(fn);
       if (t) { ['ready', 'finished'].forEach(function (k) { if (t[k]) t[k].catch(function () {}); }); if (t.updateCallbackDone) t.updateCallbackDone.catch(function (e) { console.warn(e); }); }
+      var off = function () { html.classList.remove('vt-on'); };
+      if (t && t.finished) t.finished.then(off, off); else off();
       return;
-    } catch (e) { /* Fallback unten */ }
+    } catch (e) { html.classList.remove('vt-on'); /* Fallback unten */ }
   }
   fn();
 }

@@ -3,7 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App, W = root.Widgets;
   const MAX_TOP = W.MAX_TOP;
-  const st = () => App.state.dash || (App.state.dash = { editing: false, draft: null, panel: null, q: '', menu: null, first: true, booted: false });
+  const st = () => App.state.dash || (App.state.dash = { editing: false, draft: null, panel: null, q: '', menu: null, booted: false });
   const clone = o => JSON.parse(JSON.stringify(o));
   function active() { const s = st(); if (!s.booted) { s.booted = true; S.data.settings.dashboardId = S.defaultDashboard().id; } return S.activeDashboard(); }
   const layout = () => { const s = st(); return s.editing && s.draft ? s.draft : active().layout; };
@@ -43,7 +43,6 @@
     if (!items.length) return `<div class="dashed" style="text-align:center;padding:30px">Diese Vorlage hat noch keine Widgets. Über „Vorlage bearbeiten“ fügst du welche hinzu.</div>`;
     return `<div class="dash-main ${s.editing ? 'editing' : ''}">${items.join('')}</div>`;
   }
-  function skeleton(lay) { return `<div class="dash-top" style="--n:${Math.max(1, lay.oben.length)}">${lay.oben.map(() => '<div class="skel" style="height:118px"></div>').join('')}</div><div class="dash-main">${lay.unten.map(w => { const e = W.get(w.typ) || {}; return `<div class="skel sz-${w.groesse || 'klein'} ${e.hoch ? 'tall' : ''} ${e.flach ? 'flat' : ''}"></div>`; }).join('')}</div>`; }
   function panelListHTML(area, lay, q) {
     const have = new Set(real(lay[area]).map(x => x.typ)); const full = area === 'oben' && real(lay.oben).length >= MAX_TOP; const ql = q.trim().toLowerCase();
     const items = W.list(area).filter(e => !ql || (e.name + ' ' + e.desc).toLowerCase().includes(ql));
@@ -120,20 +119,19 @@
         if (!rawAll.length) parts.push(U.banner('accent', 'Willkommen', 'Dein Journal ist noch leer. Logge deinen ersten Trade, importiere eine CSV oder lade Beispieldaten, um alle Auswertungen zu sehen.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="import">${I.upload} CSV</button><button type="button" class="btn sm primary" data-action="install-sample">Beispieldaten laden</button>` }));
       }
       const lay = layout();
-      if (s.first) parts.push(skeleton(lay)); else { parts.push(topArea(lay.oben, d)); parts.push(mainArea(lay.unten, d)); }
+      parts.push(topArea(lay.oben, d)); parts.push(mainArea(lay.unten, d));
       if (s.panel && s.editing) parts.push(addPanel(s.panel, lay, s.q));
       return parts.join('');
     },
     mount(main) {
       const s = st();
-      if (s.first) { setTimeout(() => { s.first = false; if (App.state.route === 'dashboard') App.render({ first: true }); }, 160); return; } /* render statt rerender: die Kacheln blenden nach dem Skeleton gestaffelt ein; first = zählt als Seitenstart (Diagramm-Einzug) */
       if (s.editing) bindDnD(main);
       fitRecent(main);
       const list = main.querySelector('#dash-add-list'); if (list && s.listScroll) { list.scrollTop = s.listScroll; s.listScroll = 0; }
     },
   };
-  /* Beim Seitenwechsel: nächster Aufruf zeigt kurz Skeletons, Panel und Menü zu */
-  window.addEventListener('hashchange', () => { const s = st(); s.first = true; s.panel = null; s.menu = null; });
+  /* Beim Seitenwechsel: Panel und Menü zu (kein Skeleton mehr: der Inhalt steht sofort, nichts springt) */
+  window.addEventListener('hashchange', () => { const s = st(); s.panel = null; s.menu = null; });
 
   /* ---------- Drag & Drop (Desktop) ---------- */
   function bindDnD(main) {

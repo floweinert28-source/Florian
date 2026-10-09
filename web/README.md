@@ -269,8 +269,12 @@ eigenen Scrollbereichen). Nur ein Seitenwechsel, eine neue Replay-Karte oder ein
 ## Bewegung und Übergänge
 
 Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 150 ms, `--dur-2` 240 ms, `--dur-3` 380 ms, `--ease`).
-`js/motion.js` blendet Karten und Abschnitte beim Reinscrollen ein (einmalig, gestaffelt), kapselt den Seitenwechsel in eine
-View Transition und blendet Dialoge, Popover und Toasts aus, bevor sie entfernt werden. Animiert werden nur `transform` und `opacity`.
+`js/motion.js` blendet Karten und Abschnitte beim Reinscrollen ein (einmalig, gestaffelt; nur was beim Öffnen unter dem Fenster
+liegt), kapselt den Seitenwechsel in eine View Transition und blendet Dialoge, Popover und Toasts aus, bevor sie entfernt werden.
+Animiert werden nur `transform` und `opacity`. **Seitenwechsel ohne Rütteln:** alte und neue Seite werden echt überblendet (gleiche
+Dauer `--dur-2` und Kurve, die Deckkraft ergibt zusammen immer 1, nichts wird kurz dunkler); Seitenleiste und Kopfzeile stehen still
+(nur während des Wechsels, Klasse `vt-on` auf `<html>`, eigene Namen `jy-sidebar`/`jy-topbar` ohne Animation); was sichtbar ist,
+steht sofort da (kein Einzug Karte für Karte); das Dashboard zeigt kein Skelett mehr vorab.
 **Laden** hat eine gemeinsame Bildsprache: `U.loader('sm'|''|'lg')` zeichnet eine kleine Kurslinie, über die ein grünes Stück
 gleitet (App-Start ohne Logo-Zeichen, Auswertung von Sprachnotizen); `U.spin()` ist ein feiner Ring für Knöpfe
 („Wird erstellt …“); Platzhalter (`.skel`) bekommen einen weichen Glanz, der darüberwandert, statt zu blinken.
@@ -284,8 +288,7 @@ Punkten nie über den höheren oder unter den tieferen hinaus, darum wird z. B. 
 Zeichner): Linien von links nach rechts, Flächen und Balken blenden ein, Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,
 bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Wechselt nur ein Parameter derselben Seite (Tag vor/zurück, Statistik-Reiter),
 gibt es keine Überblendung der Seite und keinen gestaffelten Einzug; der Inhalt blendet nur kurz und ruhig ein (`.content.swap`,
-nur Deckkraft – keine Verschiebung und keine Schnappschüsse, damit die Schrift scharf bleibt und nichts rüttelt). Das Dashboard
-zählt seinen Aufbau nach dem Skelett als Seitenstart (`App.render({ first: true })`).
+nur Deckkraft – keine Verschiebung und keine Schnappschüsse, damit die Schrift scharf bleibt und nichts rüttelt).
 
 `js/scroll.js` macht das Scrollen der ganzen App weich und „schwer“ wie auf edlen Websites: das Mausrad setzt nur ein Ziel,
 die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; kleiner = träger). Nur das Fenster wird so bewegt –

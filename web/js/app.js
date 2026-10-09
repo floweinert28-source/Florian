@@ -83,7 +83,10 @@
       main.style.minHeight = hold ? hold + 'px' : '';
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content${swap ? ' ' + swap : ''}" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
       this.translateNow(main); /* sofort übersetzen: Scrollstand und Höhen gelten für den übersetzten Text, nicht für das deutsche Zwischenbild */
-      M.scan(main.querySelector('#content'), enter && !swap);
+      /* Sichtbares erscheint sofort (die Seite wird als Ganzes überblendet, kein Einzug Karte für Karte, nichts rutscht);
+         nur was unter dem Fenster liegt, blendet beim Reinscrollen ein. Dafür vorher oben sein, wenn die Seite oben beginnt */
+      if (!keep) window.scrollTo({ top: 0 });
+      M.scan(main.querySelector('#content'), false);
       this.renderSidebar();
       /* Diagramme zeichnen sich nur beim Seitenwechsel ein (nicht beim Neuaufbau nach Eingaben); bei „Bewegung reduzieren“ nie */
       U.enterCharts(enter && routeChanged && M.enabled !== false && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)); U.drawCharts(main); U.enterCharts(false); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);

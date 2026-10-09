@@ -2144,8 +2144,14 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 @keyframes pop-in { from { opacity: 0; transform: translateY(8px) scale(.985); } }
 @keyframes pop-out { to { opacity: 0; transform: translateY(4px) scale(.99); } }
 ::view-transition { pointer-events: none; }
-::view-transition-old(root) { animation: fade-out var(--dur-1) var(--ease-in) both; }
+/* Seitenwechsel: echte Überblendung (gleiche Dauer und Kurve, Summe der Deckkraft bleibt 1), damit nichts kurz dunkler wird.
+   Seitenleiste und Kopfzeile stehen still: während des Übergangs (html.vt-on) eigene Namen, alter Schnappschuss weg, neuer sofort. */
+::view-transition-old(root) { animation: fade-out var(--dur-2) var(--ease) both; }
 ::view-transition-new(root) { animation: fade-in var(--dur-2) var(--ease) both; }
+.vt-on .sidebar { view-transition-name: jy-sidebar; }
+.vt-on .topbar { view-transition-name: jy-topbar; }
+::view-transition-group(jy-sidebar), ::view-transition-group(jy-topbar), ::view-transition-new(jy-sidebar), ::view-transition-new(jy-topbar) { animation: none; }
+::view-transition-old(jy-sidebar), ::view-transition-old(jy-topbar) { display: none; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
   .rv { opacity: 1 !important; transform: none !important; }

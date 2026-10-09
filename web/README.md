@@ -302,7 +302,9 @@ bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Wechselt nur ein Par
 gibt es keine Überblendung der Seite und keinen gestaffelten Einzug. Kopfreihe und Unter-Navigation (Elemente mit `data-subnav`:
 Einstellungs-Menü, Statistik-Reiter, Prop-Unterreiter, Affiliate-Umschalter) bleiben stehen; nur der Teil darunter blendet kurz ein
 (`.content.swap`, nur Deckkraft ab 0,35 – kein Aufblitzen, keine Verschiebung, keine Schnappschüsse). Ohne `data-subnav` blendet
-alles außer der Kopfreihe.
+alles außer der Kopfreihe. Beim Reiterwechsel bleibt die Seite, wo sie ist (kein Sprung nach oben), die Reiterleiste behält
+ihre Position und schiebt den gewählten Reiter ins Bild (`App.revealActive`); nur das Seitenmenü der Einstellungen (`data-subnav="side"`)
+beginnt einen neuen Bereich oben. Waagerechte Reiterleisten haben keinen sichtbaren Scrollbalken.
 
 `js/scroll.js` macht das Scrollen der ganzen App weich und „schwer“ wie auf edlen Websites: das Mausrad setzt nur ein Ziel,
 die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; kleiner = träger). Nur das Fenster wird so bewegt –

@@ -81,18 +81,28 @@
       /* Neuaufbau: alte Höhe halten, bis die Bilder (Screenshots) geladen sind – sonst ist die Seite kurz zu kurz und die Scrollposition rutscht auf 0 */
       const keep = o && o.keep; const hold = keep ? main.offsetHeight : 0; const tok = this._holdTok = (this._holdTok || 0) + 1;
       main.style.minHeight = hold ? hold + 'px' : '';
+      /* Reiterwechsel in derselben Seite (Statistik-Reiter, Prop-Bereiche, Einstellungen …): Seite und Reiterleiste bleiben, wo sie sind */
+      const stayY = swap ? window.scrollY : null; const subX = swap ? [...main.querySelectorAll('#content [data-subnav]')].map(e => e.scrollLeft) : [];
       main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content${swap ? ' ' + swap : ''}" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
       this.translateNow(main); /* sofort übersetzen: Scrollstand und Höhen gelten für den übersetzten Text, nicht für das deutsche Zwischenbild */
       /* Sichtbares erscheint sofort (die Seite wird als Ganzes überblendet, kein Einzug Karte für Karte, nichts rutscht);
          nur was unter dem Fenster liegt, blendet beim Reinscrollen ein. Dafür vorher oben sein, wenn die Seite oben beginnt */
-      if (!keep) window.scrollTo({ top: 0 });
+      const subs = [...main.querySelectorAll('#content [data-subnav]')]; const stay = stayY != null && subs.some(e => e.dataset.subnav !== 'side'); /* Seitenmenü (Einstellungen): neuer Bereich beginnt oben */
+      if (!keep) window.scrollTo({ top: stay ? stayY : 0 });
+      if (stay) subs.forEach((e, i) => { if (subX[i] != null) e.scrollLeft = subX[i]; this.revealActive(e); });
       M.scan(main.querySelector('#content'), false);
       this.renderSidebar();
       /* Diagramme zeichnen sich nur beim Seitenwechsel ein (nicht beim Neuaufbau nach Eingaben); bei „Bewegung reduzieren“ nie */
       U.enterCharts(enter && routeChanged && M.enabled !== false && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)); U.drawCharts(main); U.enterCharts(false); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
-      window.scrollTo({ top: keep ? keep.y : 0 });
+      window.scrollTo({ top: keep ? keep.y : stay ? stayY : 0 });
       if (keep && keep.anchor) this.keepAnchor(main, keep.anchor);
       if (hold) this.releaseHeight(main, imgs, tok, short);
+    },
+    /* gewählten Reiter in einer waagerecht scrollenden Leiste sichtbar machen (nur die Leiste bewegt sich, nie die Seite) */
+    revealActive(bar) {
+      if (!bar || bar.scrollWidth <= bar.clientWidth + 1) return; const a = bar.querySelector('[aria-pressed="true"], [aria-current="page"], .active'); if (!a) return;
+      const r = bar.getBoundingClientRect(), ar = a.getBoundingClientRect(), pad = 16;
+      if (ar.left < r.left + pad) bar.scrollLeft += ar.left - r.left - pad; else if (ar.right > r.right - pad) bar.scrollLeft += ar.right - r.right + pad;
     },
     /* gehaltene Höhe freigeben, sobald alle Bilder da sind (höchstens 2 s); ein neuerer Aufbau übernimmt das Halten */
     releaseHeight(main, imgs, tok, short) {

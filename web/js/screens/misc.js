@@ -18,7 +18,7 @@
     title: 'Einstellungen',
     render(ctx) {
       const sec = SECTIONS.some(s => s && s[0] === ctx.params[0]) ? ctx.params[0] : 'profil';
-      const nav = `<nav class="set-nav" data-subnav>${SECTIONS.map(s => s ? `<a href="#/settings/${s[0]}" class="${sec === s[0] ? 'active' : ''}">${I[s[2]]}<span>${s[1]}</span></a>` : '<hr>').join('')}</nav>`;
+      const nav = `<nav class="set-nav" data-subnav="side">${SECTIONS.map(s => s ? `<a href="#/settings/${s[0]}" class="${sec === s[0] ? 'active' : ''}">${I[s[2]]}<span>${s[1]}</span></a>` : '<hr>').join('')}</nav>`;
       const body = ({ profil, design, sprache, benachrichtigungen, abo, konten, trading, regeln, notebook, mentor, inhalte, logs })[sec]();
       return `<div class="settings">${nav}<section class="set-body">${body}</section></div>`;
     },

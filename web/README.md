@@ -216,7 +216,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Coupon-Codes** (eigener Bereich in der Gruppe Konten, direkt unter Prop Firms, `js/screens/coupons.js`): Rabatt-Codes für
   Prop Firms aus der Liste `COUPONS` in `js/propdata.js`, je Firma eine Kachel mit Rabatt, Code als gestricheltes Ticket (Klick
   kopiert ihn, Rahmen kurz grün, Toast), Notiz und Link zur Website; Platzhalter tragen die Marke „Beispiel“.
-- **Affiliate** (eigener Bereich in der Gruppe Konten, unter Coupon-Codes, `js/screens/affiliate.js`): für Trading-Content-Creator
+- **Affiliate** (im Konto-Menü unten links unter Coach, nicht in der Navigation, `js/screens/affiliate.js`): für Trading-Content-Creator
   mit eigenem Link und Code. Zwei Ansichten: **Alle Creator** (`#/affiliate`, für dich als Betreiber) mit Kennzahlen (Creator,
   Kunden, Umsatz, Provisionen, Offen), Tabelle je Creator (Code, Kunden, Umsatz, Provision in %, verdient, offen) und Balken
   „Provisionen je Monat“; **Creator-Ansicht** (`#/affiliate/creator`) mit Link und Code zum Kopieren, Verdient, Offen, Kunden

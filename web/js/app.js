@@ -9,8 +9,8 @@
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
-    ['Konten', [['prop', 'Prop Firms', 'prop'], ['coupons', 'Coupon-Codes', 'coupon'], ['affiliate', 'Affiliate', 'affiliate']]],
-  ]; /* Coach steht nicht in der Navigation, sondern im Konto-Menü unten (userCard) */
+    ['Konten', [['prop', 'Prop Firms', 'prop'], ['coupons', 'Coupon-Codes', 'coupon']]],
+  ]; /* Coach und Affiliate stehen nicht in der Navigation, sondern im Konto-Menü unten (userCard) */
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
@@ -204,11 +204,11 @@
       const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
       const cdot = coachWhy ? `<span class="nav-dot" role="img" title="${esc(coachWhy)}" aria-label="${esc(coachWhy)}"></span>` : '';
       const link = (href, icon, label, extra = '', on = false) => `<a class="item${on ? ' on' : ''}" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span>${extra}</a>`;
-      return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' || cur === 'coach' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
+      return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' || cur === 'coach' || cur === 'affiliate' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
         <span class="sb-avwrap"><span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span>${coachWhy ? cdot.replace('nav-dot', 'nav-dot sb-av-dot') : ''}</span>
         <span class="sb-who"><b class="no-i18n">${esc(name)}</b>${sub ? `<span class="no-i18n">${esc(sub)}</span>` : '<span>Profil vervollständigen</span>'}</span>
         <span class="sb-chev">${chev('M7 14l5-5 5 5')}${chev('M7 10l5 5 5-5')}</span></button>
-        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/coach', 'coach', 'Coach', cdot, cur === 'coach')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
+        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/coach', 'coach', 'Coach', cdot, cur === 'coach')}${link('#/affiliate', 'affiliate', 'Affiliate', '', cur === 'affiliate')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
           <div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
     },
     /* Vorgabe für das Zeitraum-Menü: Schlüssel, Name und Tage (JJJJ-MM-TT) zum Markieren im Kalender; „Gesamt“ ohne Tage */

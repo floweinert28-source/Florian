@@ -315,18 +315,15 @@
   });
 
   /* ---------- Trade-Editor ---------- */
-  /* Trade-Fenster, bewusst schlicht: oben nur das Nötige (Symbol, Richtung, Einstieg, Ausstieg, Kontrakte, Zeit; Konto nur bei mehreren
-     Konten). Alles Weitere liegt in einklappbaren Zeilen darunter, die zugeklappt eine kurze Zusammenfassung zeigen:
-     Plan (Stop, Ziel, Begründung, MAE/MFE) · Setup & Bewertung (Tags, Emotionen, gebrochene Regeln) · Notiz · Punktwert & Gebühren (Prop-Konten).
-     Gespeichert wird alles wie bisher (readTradeForm). Punktwert: bei einem neuen Trade vom letzten Trade mit demselben Symbol übernommen. */
+  /* Trade-Fenster als Ersatz für einen Broker-Sync: nur die Trade-Daten (Symbol, Richtung, Einstieg, Ausstieg, Kontrakte, Zeit,
+     Punktwert, Gebühren; Konto nur bei mehreren Konten, Prop-Konten fürs Copy-Trading). Auswertung gehört nicht hierher:
+     Plan, Setup, Bewertung und Tags bearbeitet man am Trade selbst (App.openTradeJournal, Trade-Ansicht), Notizen im Notebook
+     und in der Tagesansicht. Punktwert: bei einem neuen Trade vom letzten Trade mit demselben Symbol übernommen. */
   App.openTradeEditor = function (trade, preset = {}) {
-    const t = trade || Object.assign({ symbol: '', direction: 1, openedAt: new Date().toISOString(), closedAt: null, entryPrice: '', exitPrice: '', quantity: 1, multiplier: 1, fees: 0, plannedEntry: '', plannedStop: '', plannedTarget: '', plannedReason: '', mae: '', mfe: '', setup: '', strategy: '', mistakes: [], emotions: [], rulesBroken: [], rating: null, notes: '', accountId: S.defaultAccountId() }, preset);
-    const tags = S.data.tags; const rules = S.data.rules.filter(r => r.active !== false);
+    const t = trade || Object.assign({ symbol: '', direction: 1, openedAt: new Date().toISOString(), closedAt: null, entryPrice: '', exitPrice: '', quantity: 1, multiplier: 1, fees: 0, accountId: S.defaultAccountId() }, preset);
     const val = v => v == null ? '' : v;
-    const chips = (kind, list, sel, cls) => `<div class="chips" data-chips="${kind}">${list.map(x => `<button type="button" class="chip sel ${cls}" data-action="toggle-chip" data-value="${esc(x)}" aria-pressed="${sel.includes(x)}">${esc(x)}</button>`).join('')}<button type="button" class="chip sel" data-action="add-chip" data-kind="${kind}">${I.plus} Neu</button></div>`;
     const props = (S.propAccounts ? S.propAccounts() : []).filter(a => a.status !== 'archived');
     const accField = S.data.accounts.length > 1 ? `<div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>` : `<input type="hidden" name="accountId" value="${esc(t.accountId || S.defaultAccountId())}">`;
-    const sec = (key, title, body) => `<details class="tf-sec" data-sec="${key}"><summary><span class="tf-t">${title}</span><span class="tf-sum" data-sum="${key}"></span><span class="tf-chev">${I.chevR}</span></summary><div class="tf-body">${body}</div></details>`;
     const html = `<form id="trade-form" class="tf" data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
       <div class="tf-main">
         <div class="field tf-sym"><label for="f-symbol">Symbol</label><input class="input" id="f-symbol" name="symbol" value="${esc(t.symbol)}" placeholder="z. B. NQ, ES, EURUSD" required autocapitalize="characters" autocomplete="off"></div>
@@ -341,66 +338,69 @@
           <div class="field"><label for="f-open">Eröffnet</label><input class="input" type="datetime-local" id="f-open" name="openedAt" value="${fmt.isoLocal(t.openedAt)}" required></div>
           <div class="field"><label for="f-close">Geschlossen <span class="faint">(leer = offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" value="${t.closedAt ? fmt.isoLocal(t.closedAt) : ''}"></div>
         </div>
+        <div class="tf-row2">
+          <div class="field"><label for="f-mult">Punktwert ${U.info('P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.')}</label><input class="input" type="number" step="any" min="0" id="f-mult" name="multiplier" value="${t.multiplier || 1}" inputmode="decimal"></div>
+          <div class="field"><label for="f-fees">Gebühren</label><input class="input" type="number" step="any" min="0" id="f-fees" name="fees" value="${t.fees || 0}" inputmode="decimal"></div>
+        </div>
+        ${props.length ? `<div class="field tf-wide"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}
       </div>
-      <div class="tf-more">
-        ${sec('plan', 'Plan', `<div class="form-grid">
+      <div class="modal-foot"><div class="left row" id="trade-preview"></div><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${trade ? 'Speichern' : 'Trade speichern'}</button></div></form>`;
+    U.modal(html, { cls: 'tf-modal', onMount(el) {
+      if (!trade) setTimeout(() => { const sy = el.querySelector('#f-symbol'); if (sy && document.activeElement !== sy) sy.focus(); }, 50); /* neuer Trade: gleich das Symbol tippen */
+      const upd = () => App.updateTradePreview(el); el.addEventListener('input', upd); upd();
+      /* Punktwert vom letzten Trade mit demselben Symbol, solange er hier nicht von Hand geändert wurde (nur bei neuen Trades) */
+      const mult = el.querySelector('#f-mult'); mult.addEventListener('input', () => { mult.dataset.touched = '1'; });
+      if (!trade) el.querySelector('#f-symbol').addEventListener('input', e => { if (mult.dataset.touched) return; const sym = e.target.value.trim().toUpperCase(); const last = sym && S.trades().filter(x => String(x.symbol).toUpperCase() === sym && Number(x.multiplier) > 0).sort((a, b) => String(b.openedAt).localeCompare(String(a.openedAt)))[0]; if (last && Number(last.multiplier) !== Number(mult.value)) { mult.value = last.multiplier; upd(); } });
+    } });
+  };
+  /* Auswertung eines Trades (aus der Trade-Ansicht): Plan (Stop, Ziel, geplanter Einstieg, Begründung, MAE/MFE), Setup, Bewertung,
+     Fehler-Tags, Emotionen, gebrochene Regeln. Die alte Trade-Notiz erscheint nur, wenn schon eine existiert (neue Notizen ins Notebook). */
+  App.openTradeJournal = function (trade) {
+    if (!trade) return; const t = trade; const tags = S.data.tags; const rules = S.data.rules.filter(r => r.active !== false); const val = v => v == null ? '' : v;
+    const chips = (kind, list, sel, cls) => `<div class="chips" data-chips="${kind}">${list.map(x => `<button type="button" class="chip sel ${cls}" data-action="toggle-chip" data-value="${esc(x)}" aria-pressed="${sel.includes(x)}">${esc(x)}</button>`).join('')}<button type="button" class="chip sel" data-action="add-chip" data-kind="${kind}">${I.plus} Neu</button></div>`;
+    U.modal(`<form id="trade-form" class="tf tj" data-action="save-trade-journal" data-id="${t.id}"><div class="modal-head"><h2>Plan & Bewertung <span class="muted tj-sym no-i18n">${esc(t.symbol)}</span></h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
+      <div class="stack" style="gap:18px">
+        <div class="form-grid">
           <div class="field"><label for="f-pstop">Stop</label><input class="input" type="number" step="any" id="f-pstop" name="plannedStop" value="${val(t.plannedStop)}" inputmode="decimal"></div>
           <div class="field"><label for="f-ptarget">Ziel</label><input class="input" type="number" step="any" id="f-ptarget" name="plannedTarget" value="${val(t.plannedTarget)}" inputmode="decimal"></div>
           <div class="field"><label for="f-pentry">Geplanter Einstieg</label><input class="input" type="number" step="any" id="f-pentry" name="plannedEntry" value="${val(t.plannedEntry)}" inputmode="decimal"></div>
           <div class="field span2"><label for="f-reason">Begründung</label><input class="input" id="f-reason" name="plannedReason" value="${esc(t.plannedReason || '')}" placeholder="Warum dieser Trade?"></div>
           <div class="field"><label for="f-mae">Tiefster Kurs gegen dich (MAE)</label><input class="input" type="number" step="any" id="f-mae" name="mae" value="${val(t.mae)}" inputmode="decimal"></div>
           <div class="field"><label for="f-mfe">Bester Kurs für dich (MFE)</label><input class="input" type="number" step="any" id="f-mfe" name="mfe" value="${val(t.mfe)}" inputmode="decimal"></div>
-        </div>`)}
-        ${sec('review', 'Setup & Bewertung', `<div class="form-grid">
+        </div>
+        <div class="form-grid">
           <div class="field"><label for="f-setup">Setup</label><input class="input" id="f-setup" name="setup" list="setup-list" value="${esc(t.setup || '')}" placeholder="Pullback, Breakout …"><datalist id="setup-list">${tags.setups.map(x => `<option value="${esc(x)}">`).join('')}</datalist></div>
           <div class="field"><span class="lbl">Bewertung</span><div class="rating" id="f-rating">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-action="set-rating" data-value="${n}" aria-pressed="${t.rating >= n}">★</button>`).join('')}</div><input type="hidden" name="rating" value="${t.rating || ''}"></div>
         </div>
         <div class="field"><span class="lbl">Fehler-Tags</span>${chips('mistakes', tags.mistakes, t.mistakes || [], 'mistake')}</div>
         <div class="field"><span class="lbl">Emotionen</span>${chips('emotions', tags.emotions, t.emotions || [], 'emotion')}</div>
-        ${rules.length ? `<div class="field"><span class="lbl">Gebrochene Regeln</span><div class="chips" data-chips="rulesBroken">${rules.map(r => `<button type="button" class="chip sel mistake" data-action="toggle-chip" data-value="${esc(r.text)}" aria-pressed="${(t.rulesBroken || []).includes(r.text)}">${esc(r.text)}</button>`).join('')}</div></div>` : ''}`)}
-        ${sec('notes', 'Notiz', `<textarea class="input" id="f-notes" name="notes" placeholder="Was ist passiert, was hast du gelernt?">${esc(t.notes || '')}</textarea>`)}
-        ${sec('costs', 'Punktwert & Gebühren', `<div class="form-grid">
-          <div class="field"><label for="f-mult">Punktwert ${U.info('P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.')}</label><input class="input" type="number" step="any" min="0" id="f-mult" name="multiplier" value="${t.multiplier || 1}" inputmode="decimal"></div>
-          <div class="field"><label for="f-fees">Gebühren</label><input class="input" type="number" step="any" min="0" id="f-fees" name="fees" value="${t.fees || 0}" inputmode="decimal"></div>
-        </div>
-        ${props.length ? `<div class="field"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}`)}
+        ${rules.length ? `<div class="field"><span class="lbl">Gebrochene Regeln</span><div class="chips" data-chips="rulesBroken">${rules.map(r => `<button type="button" class="chip sel mistake" data-action="toggle-chip" data-value="${esc(r.text)}" aria-pressed="${(t.rulesBroken || []).includes(r.text)}">${esc(r.text)}</button>`).join('')}</div></div>` : ''}
+        ${t.notes ? `<div class="field"><label for="f-notes">Notiz zum Trade</label><textarea class="input" id="f-notes" name="notes">${esc(t.notes)}</textarea></div>` : ''}
       </div>
-      <div class="modal-foot"><div class="left row" id="trade-preview"></div><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${trade ? 'Speichern' : 'Trade speichern'}</button></div></form>`;
-    U.modal(html, { cls: 'tf-modal', onMount(el) {
-      if (!trade) setTimeout(() => { const sy = el.querySelector('#f-symbol'); if (sy && document.activeElement !== sy) sy.focus(); }, 50); /* neuer Trade: gleich das Symbol tippen */
-      const upd = () => { App.updateTradePreview(el); App.updateTradeSummaries(el); }; el.addEventListener('input', upd); el.addEventListener('click', () => setTimeout(() => App.updateTradeSummaries(el), 0)); upd();
-      /* Punktwert vom letzten Trade mit demselben Symbol, solange er hier nicht von Hand geändert wurde (nur bei neuen Trades) */
-      const mult = el.querySelector('#f-mult'); mult.addEventListener('input', () => { mult.dataset.touched = '1'; });
-      if (!trade) el.querySelector('#f-symbol').addEventListener('input', e => { if (mult.dataset.touched) return; const sym = e.target.value.trim().toUpperCase(); const last = sym && S.trades().filter(x => String(x.symbol).toUpperCase() === sym && Number(x.multiplier) > 0).sort((a, b) => String(b.openedAt).localeCompare(String(a.openedAt)))[0]; if (last && Number(last.multiplier) !== Number(mult.value)) { mult.value = last.multiplier; upd(); } });
-    } });
-  };
-  /* Kurze Zusammenfassungen der eingeklappten Zeilen, je Angabe ein eigenes Stück (übersetzbar über Muster wie „Stop {0}“) */
-  App.updateTradeSummaries = function (el) {
-    const f = el.querySelector('#trade-form'); if (!f) return; const t = App.readTradeForm(f); const n = v => fmt.num(v, 4);
-    const part = (txt, raw) => `<span${raw ? ' class="no-i18n"' : ''}>${esc(txt)}</span>`; const cut = (s, k) => s.length > k ? s.slice(0, k - 1) + '…' : s;
-    const sums = {
-      plan: [t.plannedStop != null && part(`Stop ${n(t.plannedStop)}`), t.plannedTarget != null && part(`Ziel ${n(t.plannedTarget)}`), t.plannedReason && part(cut(t.plannedReason, 28), true)],
-      review: [t.setup && part(cut(t.setup, 22), true), t.rating && part('★'.repeat(t.rating), true), (t.mistakes.length + t.emotions.length + t.rulesBroken.length) && part((k => k === 1 ? '1 Markierung' : `${k} Markierungen`)(t.mistakes.length + t.emotions.length + t.rulesBroken.length))],
-      notes: [t.notes.trim() && part(cut(t.notes.trim().replace(/\s+/g, ' '), 40), true)],
-      costs: [part(`Punktwert ${n(t.multiplier)}`), t.fees > 0 && part(`Gebühren ${fmt.cur(t.fees, { money: true })}`), t.propAccountIds.length && part(t.propAccountIds.length === 1 ? '1 Prop-Konto' : `${t.propAccountIds.length} Prop-Konten`)],
-    };
-    Object.entries(sums).forEach(([k, list]) => { const s = f.querySelector(`[data-sum="${k}"]`); if (s) { const html = list.filter(Boolean).join(''); if (s.innerHTML !== html) s.innerHTML = html; } });
+      <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'tf-modal' });
   };
   App.readTradeForm = function (form) {
     const fd = new FormData(form); const num = k => { const v = fd.get(k); return v === '' || v == null ? null : Number(v); };
-    const chips = kind => [...form.querySelectorAll(`[data-chips="${kind}"] [aria-pressed="true"]`)].map(b => b.dataset.value);
-    /* Prop-Konten: die Chips zeigen nur nicht archivierte Konten. Zuordnungen zu archivierten Konten (oder ohne Chip-Block) bleiben erhalten. */
-    const propWrap = form.querySelector('[data-chips="propAccountIds"]'); const prevProp = ((form.dataset.id && S.getTrade(form.dataset.id)) || {}).propAccountIds || []; const shownProp = propWrap ? [...propWrap.querySelectorAll('[data-value]')].map(b => b.dataset.value) : [];
-    const opened = new Date(fd.get('openedAt')); const closedRaw = fd.get('closedAt'); const closed = closedRaw ? new Date(closedRaw) : null;
-    return {
-      symbol: String(fd.get('symbol') || '').trim().toUpperCase(), direction: Number(fd.get('direction')) === -1 ? -1 : 1, accountId: fd.get('accountId'), openedAt: isNaN(opened) ? new Date().toISOString() : opened.toISOString(), closedAt: closed && !isNaN(closed) ? closed.toISOString() : null,
-      entryPrice: num('entryPrice'), exitPrice: num('exitPrice'), quantity: Math.abs(num('quantity') || 0), multiplier: num('multiplier') || 1, fees: Math.abs(num('fees') || 0),
-      plannedEntry: num('plannedEntry'), plannedStop: num('plannedStop'), plannedTarget: num('plannedTarget'), plannedReason: String(fd.get('plannedReason') || ''), mae: num('mae'), mfe: num('mfe'),
-      setup: String(fd.get('setup') || '').trim(), rating: num('rating'), mistakes: chips('mistakes'), emotions: chips('emotions'), rulesBroken: chips('rulesBroken'), propAccountIds: propWrap ? [...prevProp.filter(id => !shownProp.includes(id)), ...chips('propAccountIds')] : prevProp.slice(), notes: String(fd.get('notes') || ''),
-    };
+    const has = k => fd.has(k); const chips = kind => [...form.querySelectorAll(`[data-chips="${kind}"] [aria-pressed="true"]`)].map(b => b.dataset.value);
+    const out = {};
+    /* nur Felder, die das Formular wirklich enthält: Trade-Fenster und Auswertung überschreiben sich so nicht gegenseitig */
+    if (has('symbol')) {
+      const opened = new Date(fd.get('openedAt')); const closedRaw = fd.get('closedAt'); const closed = closedRaw ? new Date(closedRaw) : null;
+      Object.assign(out, { symbol: String(fd.get('symbol') || '').trim().toUpperCase(), direction: Number(fd.get('direction')) === -1 ? -1 : 1, accountId: fd.get('accountId'), openedAt: isNaN(opened) ? new Date().toISOString() : opened.toISOString(), closedAt: closed && !isNaN(closed) ? closed.toISOString() : null,
+        entryPrice: num('entryPrice'), exitPrice: num('exitPrice'), quantity: Math.abs(num('quantity') || 0), multiplier: num('multiplier') || 1, fees: Math.abs(num('fees') || 0) });
+      /* Prop-Konten: die Chips zeigen nur nicht archivierte Konten. Zuordnungen zu archivierten Konten (oder ohne Chip-Block) bleiben erhalten. */
+      const propWrap = form.querySelector('[data-chips="propAccountIds"]'); const prevProp = ((form.dataset.id && S.getTrade(form.dataset.id)) || {}).propAccountIds || []; const shownProp = propWrap ? [...propWrap.querySelectorAll('[data-value]')].map(b => b.dataset.value) : [];
+      out.propAccountIds = propWrap ? [...prevProp.filter(id => !shownProp.includes(id)), ...chips('propAccountIds')] : prevProp.slice();
+    }
+    ['plannedEntry', 'plannedStop', 'plannedTarget', 'mae', 'mfe', 'rating'].forEach(k => { if (has(k)) out[k] = num(k); });
+    if (has('plannedReason')) out.plannedReason = String(fd.get('plannedReason') || '');
+    if (has('setup')) out.setup = String(fd.get('setup') || '').trim();
+    if (has('notes')) out.notes = String(fd.get('notes') || '');
+    ['mistakes', 'emotions', 'rulesBroken'].forEach(k => { if (form.querySelector(`[data-chips="${k}"]`)) out[k] = chips(k); });
+    return out;
   };
   /* Vorschau des gerade bearbeiteten Trades. Geld-blind: P&L mit dem exakten R des derive-Ergebnisses (ohne Stop „– R“), Risiko = 1 R per Definition; das kleine R neben dem P&L entfällt dann, weil es doppelt wäre */
-  App.updateTradePreview = function (el) { const f = el.querySelector('#trade-form'); if (!f) return; const d = C.derive(Object.assign({ mistakes: [], emotions: [], rulesBroken: [] }, App.readTradeForm(f))); const p = el.querySelector('#trade-preview'); if (!d.closed) { p.innerHTML = `<span class="muted small">Offener Trade · Risiko ${d.risk ? fmt.cur(d.risk, { r: 1 }) : '—'}${d.plannedR ? ` · geplant ${fmt.r(d.plannedR, false)}` : ''}</span>`; return; } p.innerHTML = `<span class="small muted">Netto-P&L</span> ${U.pnl(d.pnl, '', { r: d.r })} ${d.r != null && !fmt.moneyBlind() ? `<span class="small muted">·</span> ${U.rText(d.r)}` : ''} <span class="small muted">· Disziplin ${C.discipline(d).score}</span>`; };
+  App.updateTradePreview = function (el) { const f = el.querySelector('#trade-form'); const p = el.querySelector('#trade-preview'); if (!f || !p) return; const d = C.derive(Object.assign({ mistakes: [], emotions: [], rulesBroken: [] }, (f.dataset.id && S.getTrade(f.dataset.id)) || {}, App.readTradeForm(f))); /* bestehender Trade: Plan (Stop) aus dem gespeicherten Trade, damit R stimmt */ if (!d.closed) { p.innerHTML = `<span class="muted small">Offener Trade · Risiko ${d.risk ? fmt.cur(d.risk, { r: 1 }) : '—'}${d.plannedR ? ` · geplant ${fmt.r(d.plannedR, false)}` : ''}</span>`; return; } p.innerHTML = `<span class="small muted">Netto-P&L</span> ${U.pnl(d.pnl, '', { r: d.r })} ${d.r != null && !fmt.moneyBlind() ? `<span class="small muted">·</span> ${U.rText(d.r)}` : ''} <span class="small muted">· Disziplin ${C.discipline(d).score}</span>`; };
   Object.assign(App.actions, {
     'set-dir'(el) { const f = el.closest('form'); f.querySelector('input[name=direction]').value = el.dataset.value; f.querySelectorAll('#f-dir button').forEach(b => b.setAttribute('aria-pressed', b === el)); App.updateTradePreview(f.closest('.modal')); },
     'set-rating'(el) { const f = el.closest('form'); const v = Number(el.dataset.value); const cur = Number(f.querySelector('input[name=rating]').value) || 0; const nv = cur === v ? 0 : v; f.querySelector('input[name=rating]').value = nv || ''; f.querySelectorAll('#f-rating button').forEach(b => b.setAttribute('aria-pressed', Number(b.dataset.value) <= nv)); },
@@ -409,9 +409,11 @@
     'save-trade'(form) {
       const t = App.readTradeForm(form); if (!t.symbol) return U.toast('Symbol fehlt', 'err'); if (t.entryPrice == null) return U.toast('Einstiegskurs fehlt', 'err'); if (t.closedAt && t.exitPrice == null) return U.toast('Ausstiegskurs fehlt für geschlossenen Trade', 'err');
       if (t.setup) S.addTag('setups', t.setup);
-      const id = form.dataset.id; if (id) { S.updateTrade(id, t); U.toast('Trade gespeichert', 'ok'); } else { const n = S.addTrade(Object.assign({ screenshots: [], voiceNotes: [] }, t)); U.toast('Trade gespeichert', 'ok'); U.closeModal(); App.checkTiltAfterSave(); if (App.state.route === 'trades' && App.state.params[0]) App.navigate('#/trades/' + n.id); else App.rerender(); return; }
+      const id = form.dataset.id; if (id) { S.updateTrade(id, t); U.toast('Trade gespeichert', 'ok'); } else { const n = S.addTrade(Object.assign({ screenshots: [], voiceNotes: [], plannedEntry: null, plannedStop: null, plannedTarget: null, plannedReason: '', mae: null, mfe: null, setup: '', strategy: '', mistakes: [], emotions: [], rulesBroken: [], rating: null, notes: '' }, t)); U.toast('Trade gespeichert', 'ok'); U.closeModal(); App.checkTiltAfterSave(); if (App.state.route === 'trades' && App.state.params[0]) App.navigate('#/trades/' + n.id); else App.rerender(); return; }
       U.closeModal(); App.rerender();
     },
+    'trade-journal'(el) { App.openTradeJournal(S.getTrade(el.dataset.id)); },
+    'save-trade-journal'(form) { const id = form.dataset.id; if (!S.getTrade(id)) return U.closeModal(); const t = App.readTradeForm(form); if (t.setup) S.addTag('setups', t.setup); S.updateTrade(id, t); U.toast('Gespeichert', 'ok'); U.closeModal(); App.rerender(); },
   });
   App.checkTiltAfterSave = function () { if (!S.settings.tiltWarnings) return; const res = C.tiltCheck(this.todayTrades(), { account: this.account(), dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); const w = res.warnings.find(x => x.severity === 'critical' || x.severity === 'high'); if (w) U.toast('⚠ ' + w.title, 'err'); };
 

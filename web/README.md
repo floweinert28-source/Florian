@@ -40,6 +40,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Ziel, geplanter Einstieg, Begründung, MAE/MFE, Setup, Bewertung, Fehler-Tags, Emotionen, gebrochene Regeln; eine alte Trade-Notiz
   bleibt dort bearbeitbar. Screenshots per Drag & Drop, Datei oder Einfügen.
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
+- **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
+  ↘ Short in Rot), Licht von links und feinem farbigen Rand (`UI.badge`).
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
 - **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein leuchtender Balken am Rand.

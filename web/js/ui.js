@@ -164,7 +164,9 @@
   const card = (title, body, o = {}) => `<section class="card ${o.cls || ''}" ${o.attrs || ''}>${title ? `<div class="card-head"><div><div class="card-title">${o.icon ? `<span class="card-ico">${I[o.icon] || o.icon}</span>` : ''}${esc(title)}${info(o.info)}</div>${o.sub ? `<div class="card-sub">${o.sub}</div>` : ''}</div>${o.trailing ? `<div class="row">${o.trailing}</div>` : ''}</div>` : ''}${body}</section>`;
   const tile = (label, value, o = {}) => `<div class="tile${o.side ? ' side' : ''}"><div class="head"><span>${esc(label)}${info(o.info)}</span>${o.n != null ? `<span class="n">${o.n}</span>` : ''}</div><div class="body"><div><div class="val ${o.tint || ''}">${value}</div>${o.foot ? `<div class="foot">${o.foot}</div>` : ''}</div>${o.gauge ? `<div class="gauge">${o.gauge}</div>` : ''}</div></div>`;
   const pill = (text, kind = 'neutral') => `<span class="pill ${kind}">${text}</span>`;
-  const badge = dir => `<span class="badge ${dir > 0 ? 'l' : 's'}">${dir > 0 ? 'LONG' : 'SHORT'}</span>`;
+  /* Richtung: Pille mit rundem Pfeil (↗ Long, ↘ Short), Licht von links und feinem farbigen Rand */
+  const DIR_ARROW = { l: '<path d="M7 17L17 7M9 7h8v8"/>', s: '<path d="M7 7l10 10M17 9v8H9"/>' };
+  const badge = dir => { const k = dir > 0 ? 'l' : 's'; return `<span class="badge ${k}"><i class="bi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${DIR_ARROW[k]}</svg></i>${dir > 0 ? 'LONG' : 'SHORT'}</span>`; };
   const chip = (text, kind = '') => `<span class="chip ${kind}">${esc(text)}</span>`;
   const statusPill = st => ({ win: pill('Gewinn', 'win'), loss: pill('Verlust', 'loss'), be: pill('Break-even', 'be'), open: pill('Offen', 'open') })[st] || '';
   const empty = (icon, title, text, action = '') => `<div class="empty">${I[icon] || ''}<b>${esc(title)}</b><span class="small">${text}</span>${action}</div>`;

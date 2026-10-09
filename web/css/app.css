@@ -2507,17 +2507,17 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
    er steht auf einem Sockel mit Grablicht. Farben nur aus den Theme-Tokens, Rot bleibt den Beträgen vorbehalten */
 .prop-graves { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); align-items: end; gap: 34px 26px; padding-top: 6px; }
 .prop-grave { --eng-hi: rgba(255, 255, 255, .07); --eng-lo: rgba(0, 0, 0, .6); --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); position: relative; display: flex; flex-direction: column; min-width: 0; }
-.pg-stone { position: relative; z-index: 1; margin: 0 26px; perspective: 1400px; cursor: pointer; }
+.pg-stone { position: relative; z-index: 1; margin: 0 26px; perspective: 1400px; cursor: pointer; filter: drop-shadow(0 16px 16px rgba(0, 0, 0, .5)); } /* Schatten folgt der Steinform */
 /* beide Seiten liegen übereinander (Höhe = höhere Seite); der Stein dreht sich um die senkrechte Achse */
-.pg-inner { position: relative; display: grid; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.3, .7, .2, 1); }
+.pg-inner { position: relative; display: grid; width: 300px; max-width: 100%; margin: 0 auto; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.3, .7, .2, 1); } /* feste Breite: die Steinform (Kuppel, Schultern) ist in Pixeln gezeichnet */
 .pg-stone.flipped .pg-inner { transform: rotateY(180deg); }
-.pg-face { grid-area: 1 / 1; position: relative; padding: 44px 22px 16px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  border-radius: 50% 50% 8px 8px / 92px 92px 8px 8px; border: 1px solid var(--border-2);
-  background: var(--grain), radial-gradient(130% 70% at 50% 0%, color-mix(in srgb, var(--text) 7%, transparent), transparent 70%), linear-gradient(180deg, var(--surface-3), var(--surface-2) 78%);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 9%, transparent), inset 0 -24px 34px -24px rgba(0, 0, 0, .5), 0 18px 30px -22px rgba(0, 0, 0, .8); }
-.pg-back { transform: rotateY(180deg); padding-top: 30px; gap: 8px; justify-content: flex-start; }
-/* eingemeißelter Innenrahmen */
-.pg-face::before { content: ''; position: absolute; inset: 9px; border-radius: 50% 50% 4px 4px / 84px 84px 4px 4px; border: 1px solid var(--eng-lo); box-shadow: 0 1px 0 var(--eng-hi), inset 0 1px 0 var(--eng-hi); pointer-events: none; opacity: .7; }
+.pg-face { grid-area: 1 / 1; position: relative; padding: 60px 26px 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  clip-path: path('M0 4000V88A66 28 0 0 0 66 60A84 60 0 0 1 234 60A66 28 0 0 0 300 88V4000Z'); /* Kuppel und eingekerbte Schultern (300px breit, beliebig hoch); der Rahmen ist der raue, hellere Stein außen */
+  background: var(--grain), radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--text) 9%, transparent), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--text) 5%, var(--surface-3)), var(--surface-3) 45%, var(--surface-2)); }
+.pg-back { transform: rotateY(180deg); padding-top: 60px; gap: 8px; justify-content: flex-start; }
+/* vertiefte Schrifttafel in derselben Form: oben dunkler Schattenrand, unten feine Lichtkante */
+.pg-face::before { content: ''; position: absolute; inset: 15px 15px 13px; clip-path: path('M0 4000V79A59 25 0 0 0 59 54A76 54 0 0 1 211 54A59 25 0 0 0 270 79V4000Z'); pointer-events: none;
+  background: var(--grain), linear-gradient(180deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, .2) 7%, transparent 26%), linear-gradient(0deg, color-mix(in srgb, var(--text) 10%, transparent), transparent 5px), linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 82%, #000), color-mix(in srgb, var(--surface-2) 90%, #000)); }
 .pg-face > * { position: relative; }
 .pg-front .pg-turn { margin-top: auto; }
 .pg-turn { display: inline-flex; align-items: center; gap: 6px; margin-top: 2px; padding: 5px 10px; border-radius: 999px; border: 1px solid transparent; background: none; color: var(--muted); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; cursor: pointer; transition: color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
@@ -2539,7 +2539,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .pg-cause { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .pg-cause span { font-size: 10.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .pg-cause b { font-family: var(--font-display); font-size: 18px; font-weight: 700; text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); }
-.pg-epitaph { margin: 0; max-width: 32ch; font-size: 12.5px; font-style: italic; line-height: 1.4; color: var(--text-2); }
+.pg-epitaph { margin: 6px 0 0; max-width: 32ch; font-size: 12.5px; font-style: italic; line-height: 1.4; color: var(--text-2); }
 /* Rückseite: ruhige Faktenliste – Bezeichnung links, Wert rechts, eine Zeile pro Punkt, feine Trennlinien; Tags als schlichter Text */
 .pg-facts { align-self: stretch; margin: 2px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; text-align: left; font-size: 12.5px; }
 .pg-facts dt, .pg-facts dd { margin: 0; padding: 7px 0; border-top: 1px solid var(--border); }
@@ -2553,8 +2553,16 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .prop-grave-foot { display: flex; justify-content: center; }
 .prop-grave-foot .btn { color: var(--text-2); }
 /* Sockel mit Grablicht (rotes Glas, die Flamme flackert ruhig; bei reduzierter Bewegung steht sie still) */
-.pg-base { position: relative; height: 16px; margin-top: -1px; border-radius: 3px 3px 6px 6px; border: 1px solid var(--border-2); background: var(--grain), linear-gradient(180deg, var(--surface-3), var(--surface-2)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent), 0 14px 22px -12px rgba(0, 0, 0, .8); }
-.pg-light { position: absolute; z-index: 2; right: 9px; bottom: calc(100% + 1px); width: 18px; height: 24px; border-radius: 3px 3px 4px 4px;
+.pg-base { position: relative; z-index: 1; width: 348px; max-width: 100%; height: 16px; margin: 10px auto 0; border-radius: 3px; border: 1px solid var(--border-2); background: var(--grain), linear-gradient(180deg, var(--surface-3), var(--surface-2)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent), 0 14px 22px -12px rgba(0, 0, 0, .8); }
+/* obere Sockelstufe, auf der der Stein steht */
+.pg-base::before { content: ''; position: absolute; left: 14px; right: 14px; bottom: 100%; height: 11px; border: 1px solid var(--border-2); border-bottom: 0; border-radius: 3px 3px 0 0; background: var(--grain), linear-gradient(180deg, color-mix(in srgb, var(--text) 6%, var(--surface-3)), var(--surface-3)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent); }
+/* dezenter Grashügel hinter dem Sockel, kleiner Efeuzweig an der Kuppel (wenig Grün) */
+.pg-mound { position: absolute; z-index: 0; left: calc(50% - 186px); right: calc(50% - 186px); bottom: -8px; height: 26px; border-radius: 50%; background: radial-gradient(ellipse at 50% 15%, color-mix(in srgb, var(--accent-2) 40%, var(--surface-2)), color-mix(in srgb, var(--accent-2) 18%, var(--surface-2)) 72%); box-shadow: 0 8px 14px -8px rgba(0, 0, 0, .6); }
+.pg-ivy { position: absolute; z-index: 3; top: -10px; left: calc(50% - 70px); transform: rotate(-6deg); width: 58px; height: 34px; pointer-events: none; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .45)); }
+.pg-ivy .vine { fill: none; stroke: color-mix(in srgb, var(--accent-2) 55%, #3b2c17); stroke-width: 1.3; stroke-linecap: round; }
+.pg-ivy .leaf { fill: color-mix(in srgb, var(--accent-2) 70%, var(--surface-2)); }
+.pg-ivy .leaf.l2 { fill: color-mix(in srgb, var(--accent-2) 52%, var(--surface-2)); }
+.pg-light { position: absolute; z-index: 2; right: 14px; bottom: calc(100% + 11px); width: 18px; height: 24px; border-radius: 3px 3px 4px 4px;
   background: radial-gradient(circle at 50% 62%, rgba(255, 214, 140, .95) 0 1.5px, rgba(255, 140, 60, .7) 3px, transparent 7px), linear-gradient(180deg, #b0362b, #6a1a14);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 18px 4px rgba(255, 160, 70, .26); animation: pg-glow 3.2s ease-in-out infinite; }
 .pg-light::before { content: ''; position: absolute; left: -1px; right: -1px; top: -5px; height: 5px; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, #8c877d, #5d5a54); }
@@ -2562,7 +2570,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 @keyframes pg-flicker { 0%, 100% { transform: scale(1) rotate(0); opacity: .95; } 30% { transform: scale(1.06, 1.14) rotate(-3deg); opacity: 1; } 55% { transform: scale(.94, .9) rotate(2deg); opacity: .8; } 80% { transform: scale(1.03, 1.06) rotate(-1deg); opacity: .92; } }
 @keyframes pg-glow { 0%, 100% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 18px 4px rgba(255, 160, 70, .24); } 50% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 26px 7px rgba(255, 160, 70, .34); } }
 /* Blumenstrauß und Gras am Sockel links (Stiele und Blätter grün, Blüten hell/gold/rot) */
-.pg-flowers { position: absolute; z-index: 2; left: 4px; bottom: calc(100% - 2px); width: 72px; height: 56px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .45)); }
+.pg-flowers { position: absolute; z-index: 2; left: 6px; bottom: calc(100% - 2px); width: 72px; height: 56px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .45)); }
 .pg-flowers .stems path { fill: none; stroke: var(--accent-2); stroke-width: 1.6; stroke-linecap: round; }
 .pg-flowers .stems .leaf { fill: var(--accent-2); stroke: none; opacity: .9; }
 .pg-flowers .grass { fill: none; stroke: color-mix(in srgb, var(--accent-2) 70%, var(--surface-3)); stroke-width: 1.4; stroke-linecap: round; }
@@ -2572,7 +2580,9 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .pg-flowers .f2 { animation-delay: -1.5s; } .pg-flowers .f3 { animation-delay: -3s; }
 @keyframes pg-sway { 0%, 100% { rotate: -2deg; } 50% { rotate: 2.5deg; } }
 :root[data-theme="light"] .prop-grave { --eng-hi: rgba(255, 255, 255, .95); --eng-lo: rgba(40, 50, 44, .16); }
-:root[data-theme="light"] .pg-stone { box-shadow: inset 0 1px 0 #fff, inset 0 -24px 34px -24px rgba(40, 50, 44, .12), 0 18px 30px -22px rgba(40, 50, 44, .35); }
+:root[data-theme="light"] .pg-stone { filter: drop-shadow(0 14px 14px rgba(40, 50, 44, .28)); }
+:root[data-theme="light"] .pg-face::before { background: var(--grain), linear-gradient(180deg, rgba(40, 50, 44, .22), rgba(40, 50, 44, .08) 7%, transparent 26%), linear-gradient(0deg, rgba(255, 255, 255, .8), transparent 5px), linear-gradient(180deg, color-mix(in srgb, var(--text) 11%, var(--surface-2)), color-mix(in srgb, var(--text) 8%, var(--surface-2))); }
+:root[data-theme="light"] .pg-mound { box-shadow: 0 8px 14px -8px rgba(40, 50, 44, .3); }
 :root[data-theme="light"] .prop-grave-kv { background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: inset 0 1px 2px rgba(40, 50, 44, .08); }
 /* Challenge vs. Funded */
 .prop-cmp-sample { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; font-size: 13.5px; padding: 2px 2px 6px; }
@@ -2586,7 +2596,6 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .prop-cmp th .short { display: none; }
 @media (max-width: 560px) {
   .pg-stone { margin: 0 22px; padding: 40px 16px 18px; }
-  .pg-light { right: 5px; }
   .prop-grave .kv { flex-direction: column; gap: 4px; }
   .prop-grave .kv > b { text-align: left; margin-left: 0; }
   .prop-grave-trade { align-items: flex-start; text-align: left; }

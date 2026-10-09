@@ -66,6 +66,7 @@
      in der Mitte die Todesursache und die Notiz als Grabinschrift, unten eine Tafel mit den Fakten; der Stein steht auf einem Sockel mit Grablicht */
   /* Blumenstrauß am Sockel: drei Blüten (hell, gold, rot) mit grünen Stielen und Blättern, dazu zwei Grashalme */
   const FLOWERS = `<svg class="pg-flowers" viewBox="0 0 72 56" aria-hidden="true"><g class="stems"><path d="M34 54c-3-10-10-20-16-30M36 54c0-12 1-24 2-40M38 54c3-9 9-18 14-26"/><path d="M27 40c-5-1-8 1-9 5 4 1 7-1 9-5zM41 44c5-2 8 0 10 4-4 2-7 0-10-4z" class="leaf"/></g><g class="f1" transform="translate(18 23)"><circle r="3.4" cy="-4.2"/><circle r="3.4" cx="4" cy="-1.3"/><circle r="3.4" cx="2.5" cy="3.4"/><circle r="3.4" cx="-2.5" cy="3.4"/><circle r="3.4" cx="-4" cy="-1.3"/><circle r="2" class="core"/></g><g class="f2" transform="translate(38 13)"><circle r="3.8" cy="-4.6"/><circle r="3.8" cx="4.4" cy="-1.4"/><circle r="3.8" cx="2.7" cy="3.7"/><circle r="3.8" cx="-2.7" cy="3.7"/><circle r="3.8" cx="-4.4" cy="-1.4"/><circle r="2.2" class="core"/></g><g class="f3" transform="translate(52 27)"><circle r="3.2" cy="-4"/><circle r="3.2" cx="3.8" cy="-1.2"/><circle r="3.2" cx="2.4" cy="3.2"/><circle r="3.2" cx="-2.4" cy="3.2"/><circle r="3.2" cx="-3.8" cy="-1.2"/><circle r="1.9" class="core"/></g><path class="grass" d="M6 54c1-6 0-10-2-14M10 54c2-5 4-8 7-10M64 54c-1-6-3-9-6-12M68 54c0-5 1-8 3-10"/></svg>`;
+  const IVY = '<svg class="pg-ivy" viewBox="0 0 60 34" aria-hidden="true"><path class="vine" d="M3 31c7-9 15-16 27-20 9-3 17-4 27-3"/><path class="leaf" d="M13 24c-5-5 0-11 5-7 5-4 10 2 5 7-3 3-7 3-10 0z"/><path class="leaf l2" d="M27 16c-4-5 1-10 5-6 4-4 9 1 5 6-3 3-7 3-10 0z"/><path class="leaf" d="M42 13c-3-4 1-8 4-5 3-3 7 1 4 5-2 2-6 2-8 0z"/><path class="leaf l2" d="M53 11c-2-3 1-6 3-4 2-2 5 1 3 4-2 2-4 2-6 0z"/></svg>';
   const CRACK = '<svg class="pg-crack" viewBox="0 0 36 64" aria-hidden="true"><path d="M27 0 22 11l5 7-9 12 4 8-8 13 2 13"/><path d="M22 11l-7 3M18 30l-6-2"/></svg>';
   function grave(t, byId, accs) {
     const acc = accs.find(a => a.id === t.accountId) || null; const tz = acc ? acc.tz : null;
@@ -84,7 +85,7 @@
     /* zwei Seiten: vorne nur das Wesentliche (Name, Konto, Phase, Daten, Todesursache), per Klick dreht sich der Stein und zeigt
        hinten kompakt den Rest (Inschrift, Ergebnis, auslösender Trade, Verlustserie, Tags, Link) */
     return `<section class="prop-grave" data-id="${esc(String(t.accountId))}">
-      <div class="pg-stone" data-action="pg-flip" title="Umdrehen">
+      <div class="pg-stone" data-action="pg-flip" title="Umdrehen">${IVY}
         <div class="pg-inner">
           <div class="pg-face pg-front" aria-hidden="false">${CRACK}
             <span class="pg-rip" aria-hidden="true">R · I · P</span>
@@ -112,6 +113,7 @@
         </div>
       </div>
       <div class="pg-base" aria-hidden="true">${FLOWERS}<span class="pg-light"></span></div>
+      <span class="pg-mound" aria-hidden="true"></span>
     </section>`;
   }
   Object.assign(App.actions, {

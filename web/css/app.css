@@ -1258,6 +1258,8 @@ span.info:hover { color: var(--accent); }
 .fd-panel .sp-head h2 .cntb { vertical-align: 3px; }
 @media (max-width: 560px) { .fd-l { flex-direction: column; gap: 2px; } }
 @media (max-width: 960px) { .fd-panel { --sp-pad: 16px; } }
+/* Handy: der „Anwenden“-Knopf passt sich der Breite an (die Trade-Anzahl im Knopf wechselt), nichts ragt heraus */
+@media (max-width: 560px) { .fd-foot .btn { min-width: 0; } .fd-foot .btn.ghost { padding-left: 10px; padding-right: 10px; flex: 0 0 auto; } .fd-foot .btn.primary { flex: 1 1 auto; justify-content: center; } .fd-foot .fd-n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
 .dash-top { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); gap: 18px; align-items: stretch; }
 .dash-main { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; --card-h: 396px; grid-auto-flow: dense; }
 .dash-main > .w, .dash-main > .skel { height: var(--card-h); min-height: 0; }

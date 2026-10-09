@@ -2503,7 +2503,7 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
    er steht auf einem Sockel mit Grablicht. Farben nur aus den Theme-Tokens, Rot bleibt den Beträgen vorbehalten */
 .prop-graves { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); align-items: end; gap: 34px 26px; padding-top: 6px; }
 .prop-grave { --eng-hi: rgba(255, 255, 255, .07); --eng-lo: rgba(0, 0, 0, .6); --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); position: relative; display: flex; flex-direction: column; min-width: 0; }
-.pg-stone { position: relative; z-index: 1; margin: 0 26px; perspective: 1400px; cursor: pointer; filter: drop-shadow(0 16px 16px rgba(0, 0, 0, .5)); } /* Schatten folgt der Steinform */
+.pg-stone { position: relative; z-index: 1; margin: 0 26px; perspective: 1400px; cursor: pointer; filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .35)); } /* weicher Schatten folgt der Steinform */
 /* beide Seiten liegen übereinander (Höhe = höhere Seite); der Stein dreht sich um die senkrechte Achse */
 .pg-inner { position: relative; display: grid; width: 300px; max-width: 100%; margin: 0 auto; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.3, .7, .2, 1); } /* feste Breite: die Steinform (Kuppel, Schultern) ist in Pixeln gezeichnet */
 .pg-stone.flipped .pg-inner { transform: rotateY(180deg); }
@@ -2511,25 +2511,20 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 .pg-back { transform: rotateY(180deg); padding-top: 60px; padding-bottom: 104px; gap: 8px; justify-content: flex-start; } /* unten Platz für die Kerzen */
 .pg-face > * { position: relative; }
 /* Stein und Schrifttafel als beleuchtetes SVG hinter dem Text; Farben je Theme */
-.prop-grave { --stone: #67645e; --stone-dk: #403d38; --stone-p: #4f4d48; --slab: #5c5a55; }
-:root[data-theme="light"] .prop-grave { --stone: #c4c0b7; --stone-dk: #a39e94; --stone-p: #b8b4ab; --slab: #b9b5ac; }
-:root[data-theme="light"] .pg-face { --muted: #4a463f; --text-2: #34312c; --text: #1c1a17; }
+.prop-grave { --stone: var(--surface-3); --stone-p: var(--surface-2); --slab: var(--surface-2); --slab-top: var(--surface-3); --eng-hi: transparent; --eng-lo: transparent; } /* flach: Flächenfarben der App, keine Gravur-Schatten */
+:root[data-theme="light"] .prop-grave { --stone: color-mix(in srgb, var(--text) 9%, var(--surface)); --stone-p: color-mix(in srgb, var(--text) 5%, var(--surface)); --slab: color-mix(in srgb, var(--text) 12%, var(--surface)); --slab-top: color-mix(in srgb, var(--text) 9%, var(--surface)); }
 .pg-face > .pg-rock { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
 .pg-rock .rock { fill: var(--stone); }
 .pg-rock .panel { fill: var(--stone-p); }
-.pg-rock .rk-body { width: calc(100% - 8px); height: calc(100% - 130px); fill: url(#pgs-tone); }
+.pg-rock .rk-body { width: calc(100% - 8px); height: calc(100% - 130px); }
 .pg-rock .pn-body { width: calc(100% - 42px); height: calc(100% - 172px); }
-.pg-rock .tn-a { stop-color: var(--stone); } .pg-rock .tn-b { stop-color: var(--stone-dk); }
 .pg-slab { position: absolute; left: 0; bottom: 0; width: 100%; height: 27px; overflow: visible; }
-.pg-slab .slab { fill: var(--slab); }
+.pg-slab .s2 { fill: var(--slab); } .pg-slab .s1 { fill: var(--slab-top); }
 .pg-front { padding-bottom: 104px; justify-content: center; } /* Inhalt mittig über den Kerzen */
 .pg-front .pg-turn { margin-top: 10px; }
 .pg-turn { display: inline-flex; align-items: center; gap: 6px; margin-top: 2px; padding: 5px 10px; border-radius: 999px; border: 1px solid transparent; background: none; color: var(--muted); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; cursor: pointer; transition: color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
 .pg-turn svg { width: 13px; height: 13px; }
 .pg-turn:hover { color: var(--text); border-color: var(--border-2); }
-.pg-crack { position: absolute !important; top: 14px; right: 31%; width: 30px; height: 54px; fill: none; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-.pg-crack path { stroke: var(--eng-lo); stroke-width: 1.6; filter: drop-shadow(1px 1px 0 var(--eng-hi)); }
-.pg-crack path + path { stroke-width: 1.1; }
 .pg-rip { font-family: var(--font-display); font-size: 10.5px; font-weight: 700; letter-spacing: .5em; margin-right: -.5em; color: var(--muted); text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); }
 .prop-grave-head { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .prop-grave-head b { font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .01em; line-height: 1.2; text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); overflow-wrap: anywhere; }
@@ -2575,7 +2570,6 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 :root[data-theme="light"] .pg-glow { opacity: .55; }
 @keyframes pg-flicker { 0%, 100% { transform: scale(1) rotate(0); opacity: .95; } 30% { transform: scale(1.06, 1.14) rotate(-3deg); opacity: 1; } 55% { transform: scale(.94, .9) rotate(2deg); opacity: .82; } 80% { transform: scale(1.03, 1.06) rotate(-1deg); opacity: .92; } }
 @keyframes pg-halo { 0%, 100% { opacity: .85; transform: scale(1); } 30% { opacity: 1; transform: scale(1.08); } 55% { opacity: .7; transform: scale(.95); } }
-:root[data-theme="light"] .prop-grave { --eng-hi: rgba(255, 255, 255, .95); --eng-lo: rgba(40, 50, 44, .16); }
 :root[data-theme="light"] .pg-stone { filter: drop-shadow(0 14px 14px rgba(40, 50, 44, .28)); }
 :root[data-theme="light"] .prop-grave-kv { background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: inset 0 1px 2px rgba(40, 50, 44, .08); }
 @media (max-width: 560px) {

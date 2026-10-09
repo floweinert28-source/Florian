@@ -64,65 +64,13 @@
   /* Grabstein: gewölbter Stein mit eingemeißeltem Rahmen und Riss (das Konto ist geplatzt), oben Name und Lebensdaten (* Start, † Breach),
      in der Mitte die Todesursache und die Notiz als Grabinschrift, unten eine Tafel mit den Fakten; der Stein steht auf einem Sockel mit Grablicht */
   /* Blumenstrauß am Sockel: drei Blüten (hell, gold, rot) mit grünen Stielen und Blättern, dazu zwei Grashalme */
-  /* Stein als SVG mit echter Beleuchtung: die Form wird mit Rauschen verbogen (raue, leicht abgeschlagene Kanten), die geweichte
-     Alpha-Kante plus feines Korn und gröbere Poren ergeben eine Höhenkarte, die von oben links beleuchtet wird; dazu Flecken,
-     Körner und unten etwas Schmutz. Die Schrifttafel ist vertieft (Innenschatten oben links, Lichtkante unten rechts).
-     Breite folgt der Karte: Kuppel und Tafelkopf sind verschachtelte SVGs (nur waagrecht gestreckt), die Rechtecke haben CSS-Breite
-     und -Höhe per calc(); das Rauschen liegt im äußeren Koordinatensystem und wird nicht gestreckt. Unten wird der Stein dunkler
-     (Verlauf in der Füllung, kein eigener Overlay, damit am Rand nichts übersteht). Gleiche ids in jeder Seite, gleicher Inhalt */
+  /* Flacher, ruhiger Stein in den Flächenfarben der App: Silhouette mit Kuppel und eingekerbten Schultern, darin eine etwas
+     dunklere Schrifttafel in derselben Form; flacher Sockel in zwei Stufen. Breite folgt der Karte (Kuppel und Tafelkopf als
+     verschachtelte, nur waagrecht gestreckte SVGs, Rechtecke mit CSS-Breite/-Höhe per calc) */
   const ROCK_TOP = 'M4 140V90A62 27 0 0 0 66 63A84 60 0 0 1 234 63A62 27 0 0 0 296 90V140Z';
   const PANEL_TOP = 'M21 165V97A49 21 0 0 0 70 76A80 56 0 0 1 230 76A49 21 0 0 0 279 97V165Z';
-  const ROCK = `<svg class="pg-rock" aria-hidden="true" focusable="false"><defs>
-    <filter id="pgs-rock" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="3" seed="7" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.4" xChannelSelector="R" yChannelSelector="B" result="shape"/>
-      <feGaussianBlur in="shape" stdDeviation="3.2" result="edge"/>
-      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="grain"/>
-      <feTurbulence type="fractalNoise" baseFrequency=".07" numOctaves="4" seed="11" result="pits"/>
-      <feComposite in="edge" in2="grain" operator="arithmetic" k2=".72" k3=".2" result="h1"/>
-      <feComposite in="h1" in2="pits" operator="arithmetic" k2="1" k3=".24" k4="-.18" result="height"/>
-      <feDiffuseLighting in="height" surfaceScale="2.4" diffuseConstant="1.3" lighting-color="#fff" result="light"><feDistantLight azimuth="235" elevation="40"/></feDiffuseLighting>
-      <feComposite in="shape" in2="light" operator="arithmetic" k1="1.12" result="lit"/>
-      <feTurbulence type="fractalNoise" baseFrequency=".012 .045" numOctaves="3" seed="19" result="stain"/>
-      <feColorMatrix in="stain" type="matrix" values=".55 0 0 0 .66  .55 0 0 0 .66  .55 0 0 0 .64  0 0 0 0 1" result="stainG"/>
-      <feComposite in="lit" in2="stainG" operator="arithmetic" k1="1" result="aged"/>
-      <feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="1" seed="23" result="sp"/>
-      <feComponentTransfer in="sp" result="specks"><feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 .35 .6"/></feComponentTransfer>
-      <feFlood flood-color="#e8e4da" flood-opacity=".5"/><feComposite in2="specks" operator="in" result="flecks"/>
-      <feMerge result="all"><feMergeNode in="aged"/><feMergeNode in="flecks"/></feMerge>
-      <feComposite in="all" in2="shape" operator="in"/>
-    </filter>
-    <filter id="pgs-panel" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="7" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="2" xChannelSelector="R" yChannelSelector="B" result="shape"/>
-      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="5" result="grain"/>
-      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.2" result="grainA"/>
-      <feComposite in="grainA" in2="shape" operator="in" result="grainIn"/>
-      <feTurbulence type="fractalNoise" baseFrequency=".02 .06" numOctaves="3" seed="29" result="mot"/>
-      <feColorMatrix in="mot" type="matrix" values=".4 0 0 0 .8  .4 0 0 0 .8  .4 0 0 0 .78  0 0 0 0 1" result="motG"/>
-      <feComposite in="shape" in2="motG" operator="arithmetic" k1="1" result="toned"/>
-      <feMerge result="tex"><feMergeNode in="toned"/><feMergeNode in="grainIn"/></feMerge>
-      <feComponentTransfer in="shape" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
-      <feGaussianBlur in="inv" stdDeviation="3.2" result="invB"/>
-      <feOffset in="invB" dx="1.6" dy="3.6" result="invO"/>
-      <feFlood flood-color="#000" flood-opacity=".8"/><feComposite in2="invO" operator="in"/><feComposite in2="shape" operator="in" result="shadow"/>
-      <feOffset in="inv" dx="-.9" dy="-1.4" result="invH"/><feGaussianBlur in="invH" stdDeviation=".7" result="invHB"/>
-      <feFlood flood-color="#fff" flood-opacity=".16"/><feComposite in2="invHB" operator="in"/><feComposite in2="shape" operator="in" result="hl"/>
-      <feMerge><feMergeNode in="tex"/><feMergeNode in="shadow"/><feMergeNode in="hl"/></feMerge>
-    </filter>
-    <linearGradient id="pgs-tone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="tn-a"/><stop offset=".5" class="tn-a"/><stop offset="1" class="tn-b"/></linearGradient>
-  </defs><g class="rock" filter="url(#pgs-rock)"><svg class="rk-top" viewBox="0 0 300 140" preserveAspectRatio="none" width="100%" height="140"><path d="${ROCK_TOP}"/></svg><rect x="4" y="130" class="rk-body"/></g><g class="panel" filter="url(#pgs-panel)"><svg viewBox="0 0 300 165" preserveAspectRatio="none" width="100%" height="165"><path d="${PANEL_TOP}"/></svg><rect x="21" y="155" class="pn-body"/></g></svg>`;
-  /* Sockel: zwei Steinplatten mit demselben Licht, weniger verbogen */
-  const SLAB = `<svg class="pg-slab" viewBox="0 0 348 27" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs>
-    <filter id="pgs-slab" x="-3%" y="-30%" width="106%" height="160%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="3" seed="13" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.2" xChannelSelector="R" yChannelSelector="B" result="shape"/>
-      <feGaussianBlur in="shape" stdDeviation="1.6" result="edge"/>
-      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="4" result="grain"/>
-      <feComposite in="edge" in2="grain" operator="arithmetic" k2=".8" k3=".22" k4="-.08" result="height"/>
-      <feDiffuseLighting in="height" surfaceScale="2" diffuseConstant="1.25" lighting-color="#fff" result="light"><feDistantLight azimuth="250" elevation="42"/></feDiffuseLighting>
-      <feComposite in="shape" in2="light" operator="arithmetic" k1="1.08"/><feComposite in2="shape" operator="in"/>
-    </filter></defs><g class="slab" filter="url(#pgs-slab)"><rect x="1" y="11" width="346" height="15"/><rect x="6" y="1" width="336" height="11.5"/></g></svg>`;
+  const ROCK = `<svg class="pg-rock" aria-hidden="true" focusable="false"><g class="rock"><svg viewBox="0 0 300 140" preserveAspectRatio="none" width="100%" height="140"><path d="${ROCK_TOP}"/></svg><rect x="4" y="130" class="rk-body"/></g><g class="panel"><svg viewBox="0 0 300 165" preserveAspectRatio="none" width="100%" height="165"><path d="${PANEL_TOP}"/></svg><rect x="21" y="155" class="pn-body"/></g></svg>`;
+  const SLAB = `<svg class="pg-slab" viewBox="0 0 348 27" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="s2" x="0" y="11" width="348" height="16" rx="3"/><rect class="s1" x="5" y="1" width="338" height="11.5" rx="2"/></svg>`;
   /* Kerzenhaufen am Sockel: jede Kerze ist eine zusammenhängende Wachsform (Körper, geschmolzener Rand, Läufe an den Kanten,
      Pfütze) mit einem Verlauf vom leuchtenden Rand nach unten; ein Lichtfilter verbiegt die Form leicht und gibt ihr Rundung
      und Glanz. Läufe auf der Vorderseite liegen als eigene, ebenso beleuchtete Wachsbahnen darauf. Darüber flüssiges Wachs im
@@ -164,7 +112,6 @@
     [3, 54, 14, -0.8, [[-1.2, 26, 3.2], [5.6, 38, 2.8], [11, 14, 2.8]]], [30, 40, 13, -1.9, [[-.8, 15, 3], [7.6, 27, 3.2]]],
     [14, 24, 14, -2.4, [[-1, 14, 3], [9.8, 10, 2.8]]], [40, 15, 12, -0.3, [[1.2, 9, 2.8], [8.4, 7, 2.8]]],
   ]);
-  const CRACK = '<svg class="pg-crack" viewBox="0 0 36 64" aria-hidden="true"><path d="M27 0 22 11l5 7-9 12 4 8-8 13 2 13"/><path d="M22 11l-7 3M18 30l-6-2"/></svg>';
   function grave(t, byId, accs) {
     const acc = accs.find(a => a.id === t.accountId) || null; const tz = acc ? acc.tz : null;
     const trade = t.cause.tradeId != null ? byId.get(t.cause.tradeId) || null : null;
@@ -184,7 +131,7 @@
     return `<section class="prop-grave" data-id="${esc(String(t.accountId))}">
       <div class="pg-stone" data-action="pg-flip" title="Umdrehen">
         <div class="pg-inner">
-          <div class="pg-face pg-front" aria-hidden="false">${ROCK}${CRACK}
+          <div class="pg-face pg-front" aria-hidden="false">${ROCK}
             <span class="pg-rip" aria-hidden="true">R · I · P</span>
             <div class="prop-grave-head"><b>${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</b><div class="muted small">${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? ` · ${marketLabel(t.market)}` : ''}</div><div class="pills">${U.pill(esc(nameOf(PHASES, t.phase)), 'neutral')}</div></div>
             <div class="prop-grave-life">${dates}${life}</div>

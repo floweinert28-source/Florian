@@ -1591,8 +1591,7 @@ span.info:hover { color: var(--accent); }
   .dash-main, .dash-main.editing { grid-template-columns: 1fr; }
   .dash-main > .w, .dash-main > .skel, .dash-main > .w.tall, .dash-main.editing > .w, .dash-main.editing > .w.tall { grid-column: auto !important; grid-row: auto !important; height: auto; }
   .dash-main .w-body > .card { height: auto; }
-  .card.recent-card { min-height: 0; }
-  .recent-wrap { height: auto; flex: 0 0 auto; } /* sonst bleibt die Liste bei Kartenhöhe „auto“ auf 0 Pixel */
+  .dash-main .w-body > .card.recent-card { flex: 0 0 auto; height: calc(280px + 74px); } /* so hoch wie eine Diagramm-Karte (Kopf + 280px-Diagramm + Innenabstand); flex-basis fest, sonst gilt height nicht; die Liste zeigt so viele Zeilen, wie hineinpassen */
   .dash-main > .add-slot.gap { grid-column: auto !important; grid-row: auto !important; height: 160px; }
   .dash-main .cal .d { min-height: 56px; }
   .dash-main .skel { height: 340px; }

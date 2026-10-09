@@ -162,7 +162,7 @@
   const repState = () => { const s = st(); return s.rep || (s.rep = { open: false, pick: null, q: '', groups: {} }); };
   /* „Letzte Trades“: so viele Zeilen zeigen, wie in die Karte passen */
   function fitRecent(main) {
-    (main || document).querySelectorAll('.recent-wrap').forEach(w => { const rows = [...w.querySelectorAll('tbody tr')]; if (!rows.length) return; rows.forEach(r => r.classList.remove('hidden')); if (window.matchMedia('(max-width: 960px)').matches) { rows.forEach((r, i) => { if (i >= 8) r.classList.add('hidden'); }); return; } /* Handy: die Karte wächst mit dem Inhalt, deshalb feste acht Zeilen statt Messen */ const bottom = w.getBoundingClientRect().bottom; let cut = false; for (const r of rows) { if (cut || r.getBoundingClientRect().bottom > bottom + 0.5) { r.classList.add('hidden'); cut = true; } } });
+    (main || document).querySelectorAll('.recent-wrap').forEach(w => { const rows = [...w.querySelectorAll('tbody tr')]; if (!rows.length) return; rows.forEach(r => r.classList.remove('hidden')); const bottom = w.getBoundingClientRect().bottom; let cut = false; for (const r of rows) { if (cut || r.getBoundingClientRect().bottom > bottom + 0.5) { r.classList.add('hidden'); cut = true; } } });
   }
   let fitTimer; window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => { if (App.state.route === 'dashboard') fitRecent(); }, 150); });
 

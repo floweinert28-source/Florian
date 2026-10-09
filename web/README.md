@@ -81,8 +81,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   unter den Wert, die Beträge bleiben in einer Zeile. Notebook: Suche, Filter und Session-Knopf in einer Reihe; in der
   Notiz-Ansicht Kopfzeile in einer Reihe (Zurück, Datum, Speicherstand, Menü; „Teilen“ nur ab 561px), die Werkzeugleiste
   des Editors als eine seitlich wischbare Zeile und kein runder Knopf über dem Text. Dashboard-Details: Jahreskalender
-  wischbar ohne sichtbare Scroll-Leiste, Wochen-Summen im Kalender in Kurzform, „Letzte Trades“ wächst mit dem Inhalt
-  (feste acht Zeilen statt Messen) mit enger Tabelle, Kacheltitel in einer Zeile (kleinere Schrift, `short`-Titel „Ø
+  wischbar ohne sichtbare Scroll-Leiste, Wochen-Summen im Kalender in Kurzform, „Letzte Trades“ so hoch wie eine Diagramm-Karte
+  (Kopf + 280px-Diagramm, feste flex-basis) und zeigt die Zeilen, die hineinpassen, mit enger Tabelle, Kacheltitel in einer Zeile (kleinere Schrift, `short`-Titel „Ø
   Gewinn/Verlust“), Menüs (Vorlagen, Sortierung) bleiben im Bild (`fitPopover` schiebt links verankerte Menüs nach links,
   Grenze ist der sichtbare Bereich), Widget-Bibliothek mit Vorschau, Text und Knopf untereinander. Ab 961px bleibt alles wie gehabt; der Handy-Test `mobiletest` prüft dazu
   alle Routen auf seitlichen Überlauf.

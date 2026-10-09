@@ -132,11 +132,8 @@ html, * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb) transparent; }
   position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 4px;
   padding: 22px 14px 18px; background: var(--bg-2); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden;
 }
-.brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 18px 8px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
-.brand .mark { width: 16px; height: 16px; display: grid; place-items: center; color: var(--text); flex: 0 0 auto; }
-.brand .mark svg { width: 12px; height: 12px; } /* so hoch wie die Großbuchstaben von JOURNALYST */
+.brand { display: flex; align-items: center; gap: 8px; padding: 4px 0 18px 16px; font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
 .brand .name { white-space: nowrap; line-height: 1.2; }
-.brand .mark { align-self: flex-start; margin-top: 1.5px; } /* Zeichen auf Höhe von JOURNALYST, nicht mittig zwischen den zwei Zeilen */
 .brand .brand-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .brand .sub { font-family: var(--font); font-size: 12px; font-weight: 500; letter-spacing: .01em; text-transform: none; color: var(--muted); white-space: nowrap; }
 /* Trennlinie zwischen Logo und Navigation */
@@ -200,7 +197,6 @@ html.sb-mini .shell { grid-template-columns: 80px minmax(0, 1fr); }
 html.sb-mini .sidebar { padding-left: 10px; padding-right: 10px; }
 html.sb-mini .brand { flex-direction: column; gap: 8px; padding: 0 0 18px; align-items: center; }
 html.sb-mini .brand .name { display: none; }
-html.sb-mini .brand .mark { width: 24px; height: 24px; } html.sb-mini .brand .mark svg { width: 20px; height: 20px; } /* ohne Schriftzug etwas größer */
 html.sb-mini .brand .sb-toggle { margin-left: 0; }
 html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: quadratische Knöpfe */
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
@@ -1392,10 +1388,9 @@ span.info:hover { color: var(--accent); }
 .spin { display: inline-block; width: 14px; height: 14px; flex: 0 0 auto; vertical-align: -2px; border-radius: 50%; background: conic-gradient(from 90deg, transparent 0 20%, currentColor 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px)); animation: spin-turn .75s linear infinite; }
 @keyframes spin-turn { to { transform: rotate(360deg); } }
 .ld-row { display: inline-flex; align-items: center; gap: 10px; }
-/* App-Start: Zeichen und Kurslinie mittig, erscheint erst nach kurzer Zeit (schneller Start blitzt nicht) */
+/* App-Start: Kurslinie mittig, erscheint erst nach kurzer Zeit (schneller Start blitzt nicht) */
 .boot { flex: 1; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; animation: boot-in .5s var(--ease, ease) .2s both; }
 .boot > div { display: flex; flex-direction: column; align-items: center; gap: 18px; color: var(--text); }
-.boot .boot-mark svg { width: 30px; height: 30px; display: block; }
 @keyframes boot-in { from { opacity: 0; transform: translateY(4px); } }
 @media (prefers-reduced-motion: reduce) {
   .skel::after { animation: none; display: none; }
@@ -1791,8 +1786,6 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert-in { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr auto auto auto auto;
   grid-template-areas: "title" "." "to" "hero" "stats" "foot"; row-gap: calc(var(--s) * 30px); padding: calc(var(--s) * 120px) calc(var(--s) * 110px) calc(var(--s) * 116px); }
 .cert-brand { position: absolute; top: calc(var(--s) * 82px); right: calc(var(--s) * 110px); display: flex; align-items: center; gap: calc(var(--s) * 9px); font-size: calc(var(--s) * 22px); font-weight: 700; color: var(--g1); white-space: nowrap; }
-.cert-brand .mark { display: inline-grid; place-items: center; }
-.cert-brand .mark svg { width: calc(var(--s) * 28px); height: calc(var(--s) * 28px); }
 .cert-title { grid-area: title; margin: 0; display: flex; flex-direction: column; align-items: flex-start; font-weight: 400; }
 .cert-title .ct-big { font-size: calc(var(--s) * 124px); font-weight: 700; letter-spacing: -.025em; line-height: 1; padding-bottom: .04em; white-space: nowrap;
   background: linear-gradient(90deg, var(--g1), var(--g2) 78%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
@@ -1840,7 +1833,6 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert[data-theme="aurora"] .cert-in { justify-items: center; text-align: center; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto auto auto auto 1.3fr auto;
   grid-template-areas: "." "title" "to" "hero" "stats" "." "foot"; row-gap: calc(var(--s) * 34px); padding: calc(var(--s) * 110px) calc(var(--s) * 110px) calc(var(--s) * 104px); }
 .cert[data-theme="aurora"] .cert-brand { color: #ffffff; top: calc(var(--s) * 70px); right: calc(var(--s) * 84px); flex-direction: column; gap: calc(var(--s) * 6px); font-size: calc(var(--s) * 20px); }
-.cert[data-theme="aurora"] .cert-brand .mark svg { width: calc(var(--s) * 44px); height: calc(var(--s) * 44px); }
 .cert[data-theme="aurora"] .cert-title { align-items: center; }
 .cert[data-theme="aurora"] .cert-title .ct-big { background: none; -webkit-text-fill-color: #ffffff; color: #ffffff; text-transform: uppercase; font-weight: 800; letter-spacing: .01em; font-size: calc(var(--s) * 112px); }
 .cert[data-theme="aurora"] .cert-title .ct-sub { font-weight: 700; font-size: calc(var(--s) * 22px); letter-spacing: .16em; margin-top: calc(var(--s) * 12px); padding-left: .16em; }

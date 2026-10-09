@@ -36,7 +36,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: unter dem Logo „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung).
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung).
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
@@ -108,6 +108,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Nordlicht und atmender Rand in der Karte (alles CSS, bei „Bewegung reduzieren“ still). Die Flamme steht frei neben der Zahl
   (kein Kasten), darunter drei Etappen-Punkte auf einer feinen Linie (1 · 5 · 20) mit Stufenwort; die nächste Schwelle und was
   zählt (Werktage mit Trades, Check-in oder Notiz) stehen im Tooltip bzw. im Info-Punkt, kein Satz in der Karte.
+  In „Dein Tag“ hakt ein Klick auf „Tagesnotiz geschrieben“ den Punkt ab oder löst ihn wieder (`days[heute].noteDone`, kein Sprung
+  ins Notebook); eine Notiz von heute im Notebook hakt ihn automatisch ab. Der Hinweis-Punkt am Notebook verschwindet dann ebenfalls.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
 - **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in einem Design: Aurora (zentriert, Ergebnis in einer Farbpille, rosa-lila Lichtflecken; Navy und Hell sind entfallen); Schrift wie in der App (Text in Satoshi über `--font`, Ergebnis, Kennzahlen und Ausstellungsdaten in der Zahlenschrift Onest über `--font-num`); mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen.
 - **Ruhepunkt**: geführte Sessions vor und nach dem Trading plus Akut-Reset (Abläufe und Texte aus `docs/ruhepunkt.html`). Jede Session wird als Eintrag mit Nutzerkennung gespeichert; „Christlicher Impuls“ ist eine gespeicherte Einstellung, umschaltbar nur in den Einstellungen (unten im Ruhepunkt steht nur noch „Hilfe und Beratung“).
@@ -268,10 +270,13 @@ Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 
 `js/motion.js` blendet Karten und Abschnitte beim Reinscrollen ein (einmalig, gestaffelt), kapselt den Seitenwechsel in eine
 View Transition und blendet Dialoge, Popover und Toasts aus, bevor sie entfernt werden. Animiert werden nur `transform` und `opacity`.
 **Laden** hat eine gemeinsame Bildsprache: `U.loader('sm'|''|'lg')` zeichnet eine kleine Kurslinie, über die ein grünes Stück
-gleitet (App-Start mit Logo, Auswertung von Sprachnotizen); `U.spin()` ist ein feiner Ring für Knöpfe
+gleitet (App-Start ohne Logo-Zeichen, Auswertung von Sprachnotizen); `U.spin()` ist ein feiner Ring für Knöpfe
 („Wird erstellt …“); Platzhalter (`.skel`) bekommen einen weichen Glanz, der darüberwandert, statt zu blinken.
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
+
+**Kurven:** `UI.smooth` legt eine weiche, monotone Kurve durch die Punkte (wie d3 `curveMonotoneX`). Sie schwingt zwischen zwei
+Punkten nie über den höheren oder unter den tieferen hinaus, darum wird z. B. der kumulierte P&L in Statistiken oben nicht abgeschnitten.
 
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden
 Zeichner): Linien von links nach rechts, Flächen und Balken blenden ein, Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,

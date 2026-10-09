@@ -30,7 +30,7 @@
     dots: {
       trades: c => { const n = c.all.filter(t => !t.closed).length; return n ? (n === 1 ? '1 offene Position' : `${n} offene Positionen`) : null; },
       day: c => { const wd = new Date().getDay(); if (wd === 0 || wd === 6) return null; return (S.day(c.key) || {}).checkIn ? null : 'Check-in für heute fehlt'; },
-      notebook: c => (!c.todays.length || S.notesByDay()[c.key] ? null : 'Tagesnotiz für heute fehlt'),
+      notebook: c => (!c.todays.length || S.notesByDay()[c.key] || (S.day(c.key) || {}).noteDone ? null : 'Tagesnotiz für heute fehlt'),
       progress: c => { const rules = (S.data.rules || []).filter(r => r.active !== false); if (!rules.length || !c.todays.length) return null; const f = (S.day(c.key) || {}).rulesFollowed; return f && f.length ? null : 'Regeln von heute noch nicht abgehakt'; },
     },
     navDot(key, fn) { this.dots[key] = fn; },
@@ -184,7 +184,7 @@
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
-      sb.innerHTML = `<div class="brand"><span class="mark">${I.logo}</span><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
+      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));

@@ -7,7 +7,6 @@
   /* ---------- Symbole ---------- */
   const sv = (d, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${d}</svg>`;
   const I = {
-    logo: `<svg viewBox="258 262 500 500" aria-hidden="true"><path d="M411 283H677Q687 283 687 293V480A262 262 0 0 1 425 742H347Q337 742 337 732V615Q337 605 347 605H425A128 128 0 0 0 553 477V416H339Q329 416 333.8 407.2L396.2 291.8Q401 283 411 283Z" fill="currentColor"/></svg>`,
     dashboard: sv('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
     tradelog: sv('<path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="1"/>'),
     day: sv('<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/><rect x="7" y="13" width="4" height="4" rx="1"/>'),
@@ -180,7 +179,20 @@
   /* ---------- Diagramme ---------- */
   const NS = 'http://www.w3.org/2000/svg';
   function niceTicks(min, max, n = 4) { const span = max - min || 1; const raw = span / n; const p = 10 ** Math.floor(Math.log10(raw)); const s = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= n + 1) || raw; const t = []; for (let v = Math.ceil(min / s) * s; v <= max + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
-  const smooth = pts => { if (pts.length < 3) return 'M' + pts.map(p => p.join(',')).join('L'); let d = `M${pts[0][0]},${pts[0][1]}`; for (let i = 0; i < pts.length - 1; i++) { const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2; const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6]; d += `C${c1[0]},${c1[1]} ${c2[0]},${c2[1]} ${p2[0]},${p2[1]}`; } return d; };
+  /* Weiche Kurve durch alle Punkte, monoton zwischen Nachbarpunkten (wie d3 curveMonotoneX): schießt nie über den höchsten oder unter den tiefsten Wert hinaus, wird also oben und unten nicht abgeschnitten */
+  const smooth = pts => {
+    const n = pts.length; if (n < 3) return 'M' + pts.map(p => p.join(',')).join('L');
+    const sgn = v => v > 0 ? 1 : v < 0 ? -1 : 0; const h = [], s = [], m = new Array(n);
+    for (let i = 0; i < n - 1; i++) { h[i] = pts[i + 1][0] - pts[i][0]; s[i] = h[i] ? (pts[i + 1][1] - pts[i][1]) / h[i] : 0; }
+    for (let i = 1; i < n - 1; i++) { const p = (s[i - 1] * h[i] + s[i] * h[i - 1]) / ((h[i - 1] + h[i]) || 1); m[i] = (sgn(s[i - 1]) + sgn(s[i])) * Math.min(Math.abs(s[i - 1]), Math.abs(s[i]), 0.5 * Math.abs(p)) || 0; }
+    m[0] = h[0] ? (3 * s[0] - m[1]) / 2 : m[1]; m[n - 1] = h[n - 2] ? (3 * s[n - 2] - m[n - 2]) / 2 : m[n - 2];
+    /* Enden ebenfalls begrenzen, damit auch das erste und letzte Stück nicht ausschlägt */
+    if (sgn(m[0]) !== sgn(s[0])) m[0] = 0; else if (Math.abs(m[0]) > 3 * Math.abs(s[0])) m[0] = 3 * s[0];
+    if (sgn(m[n - 1]) !== sgn(s[n - 2])) m[n - 1] = 0; else if (Math.abs(m[n - 1]) > 3 * Math.abs(s[n - 2])) m[n - 1] = 3 * s[n - 2];
+    const r = v => Math.round(v * 100) / 100; let d = `M${r(pts[0][0])},${r(pts[0][1])}`;
+    for (let i = 0; i < n - 1; i++) { const [x0, y0] = pts[i], [x1, y1] = pts[i + 1], dx = h[i] / 3; d += `C${r(x0 + dx)},${r(y0 + dx * m[i])} ${r(x1 - dx)},${r(y1 - dx * m[i + 1])} ${r(x1)},${r(y1)}`; }
+    return d;
+  };
   const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? fmt.kilo(a, a >= 10000 ? 0 : 1) : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
   const gid = () => 'g' + Math.random().toString(36).slice(2, 8);
   const xTicks = (n, iw) => { const k = Math.max(2, Math.min(n, Math.floor(iw / 95) + 1)); if (n <= k) return Array.from({ length: n }, (_, i) => i); return Array.from({ length: k }, (_, i) => Math.round(i / (k - 1) * (n - 1))); };

@@ -28,7 +28,11 @@
     const rows = U.fmt.weekdays().map((wd, d) => `<span class="wl">${wd}</span>` + cols.map(x => { const cell = x.col[d]; if (!cell.a) return `<i class="${cell.future ? 'future' : ''}"></i>`; const a = cell.a; return `<i class="l${level(a)} ${a.key === today ? 'today' : ''}" data-tip="<b>${fmt.weekdayLong(a.date)}</b><br>${a.n ? `${a.n} Trade${a.n === 1 ? '' : 's'} · ${fmt.cur(a.pnl, { signed: true })}` : 'Keine Trades'}${a.checkIn ? '<br>Check-in ✓' : ''}${a.note ? '<br>Notiz ✓' : ''}" data-action="day" data-day="${a.key}"></i>`; }).join('')).join('');
     return `<div class="activity" data-keep-scroll style="--weeks:${weeks}"><div class="months"><span class="wl"></span>${months}</div><div class="cells">${rows}</div></div><div class="heat-legend"><span>Weniger</span><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><i class="l5"></i><span>Mehr</span></div>`;
   }
-  Object.assign(App.actions, { 'act-scroll'(el) { const a = document.querySelector('.activity'); if (a) a.scrollBy({ left: Number(el.dataset.dir) * 46 * 8, behavior: 'smooth' }); } });
+  Object.assign(App.actions, {
+    'act-scroll'(el) { const a = document.querySelector('.activity'); if (a) a.scrollBy({ left: Number(el.dataset.dir) * 46 * 8, behavior: 'smooth' }); },
+    /* „Tagesnotiz geschrieben“ von Hand abhaken oder wieder lösen (nur solange es keine Notiz von heute im Notebook gibt) */
+    'day-note-check'() { const k = C.dayKey(new Date()); S.setDay(k, { noteDone: !(S.day(k) || {}).noteDone }); App.rerender(); },
+  });
   App.screens.progress = {
     title: 'Fortschritt',
     mount(main) {
@@ -38,13 +42,14 @@
     render(ctx) {
       const all = ctx.all, list = ctx.inRange; const account = App.account(); const todayKey = C.dayKey(new Date()); const today = S.day(todayKey) || {}; const rules = S.data.rules.filter(r => r.active !== false);
       const activity = C.activityDays(all, S.checkInByDay(), S.notesByDay(), WEEKS); const streak = C.journalStreak(activity);
-      const todayTrades = App.todayTrades(all); const sess = S.activeSession();
+      const todayTrades = App.todayTrades(all); const sess = S.activeSession(); const noteAuto = !!S.notesByDay()[todayKey];
       const items = [
         { label: 'Check-in gemacht', done: !!today.checkIn, action: 'check-in' },
         { label: 'Session gestartet', done: !!sess || S.data.sessions.some(s => s.startedAt && s.startedAt.startsWith(todayKey)), action: sess ? null : 'start-session' },
         { label: 'Trades geloggt', done: todayTrades.length > 0, action: 'new-trade' },
         { label: 'Regeln abgehakt', done: !!(today.rulesFollowed && today.rulesFollowed.length) },
-        { label: 'Tagesnotiz geschrieben', done: !!S.notesByDay()[todayKey], href: '#/notebook' },
+        /* abgehakt durch eine Notiz von heute im Notebook oder per Klick (today.noteDone) */
+        { label: 'Tagesnotiz geschrieben', done: noteAuto || !!today.noteDone, action: noteAuto ? null : 'day-note-check' },
       ];
       const doneN = items.filter(i => i.done).length; const pct = Math.round(doneN / items.length * 100);
       const r = App.range(); const cur = ruleRate(rules, r.from, r.to); let prev = null; if (r.from) { const len = r.to - r.from; prev = ruleRate(rules, new Date(r.from - len - 1), new Date(r.from - 1)); }

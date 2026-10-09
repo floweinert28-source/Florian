@@ -30,7 +30,7 @@
     return `<div class="cert" data-theme="aurora" data-format="${o.format}" data-kind="${m.kind}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg}">
       <div class="cert-bg" aria-hidden="true"><i class="blob1"></i><i class="blob2"></i></div>
       <div class="cert-in">
-        <div class="cert-brand"><span class="mark">${I.logo}</span><span class="name">Journalyst</span></div>
+        <div class="cert-brand"><span class="name">Journalyst</span></div>
         <h1 class="cert-title"><span class="ct-big">Certificate</span><span class="ct-sub">${KIND_SUB[m.kind]}</span></h1>
         <div class="cert-to">${user ? `<span class="k">Presented to</span> <span class="user">${esc(user)}</span>` : '<span class="k">Net result</span>'}</div>
         <div class="cert-hero"><div class="cert-value${len > 10 ? ' long' : ''}"><span>${main}</span></div><div class="cert-period">${esc(p.label)}</div></div>

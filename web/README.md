@@ -212,6 +212,16 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Coupon-Codes** (eigener Bereich in der Gruppe Konten, direkt unter Prop Firms, `js/screens/coupons.js`): Rabatt-Codes für
   Prop Firms aus der Liste `COUPONS` in `js/propdata.js`, je Firma eine Kachel mit Rabatt, Code als gestricheltes Ticket (Klick
   kopiert ihn, Rahmen kurz grün, Toast), Notiz und Link zur Website; Platzhalter tragen die Marke „Beispiel“.
+- **Affiliate** (eigener Bereich in der Gruppe Konten, unter Coupon-Codes, `js/screens/affiliate.js`): für Trading-Content-Creator
+  mit eigenem Link und Code. Zwei Ansichten: **Alle Creator** (`#/affiliate`, für dich als Betreiber) mit Kennzahlen (Creator,
+  Kunden, Umsatz, Provisionen, Offen), Tabelle je Creator (Code, Kunden, Umsatz, Provision in %, verdient, offen) und Balken
+  „Provisionen je Monat“; **Creator-Ansicht** (`#/affiliate/creator`) mit Link und Code zum Kopieren, Verdient, Offen, Kunden
+  (davon über Link/Code), Provision, „Verdient je Monat“ und Kundenliste (Datum, Plan, Über, Umsatz, Provision, Status, je 10
+  mehr). Provision = Umsatz × Prozent des Creators; die Prozente lassen sich je Creator ändern (Stift in der Tabelle, gespeichert
+  in `settings.affiliate.pct`). Offen = Provisionen des laufenden Monats, ältere gelten als ausgezahlt. **Nur Oberfläche:** alle
+  Zahlen sind Beispieldaten aus `js/affiliatedata.js` (Marke „Beispieldaten“); Planpreise (29/249 €) und Link-Adresse sind
+  Platzhalter, unverifiziert. Echte Daten brauchen später eine Quelle (Zahlungsanbieter/Server). Am Handy blendet die Tabelle
+  Nebenspalten aus, damit nichts seitlich scrollt.
 
 ## Aufbau
 

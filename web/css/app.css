@@ -1127,6 +1127,10 @@ span.info:hover { color: var(--accent); }
 .dstreak.s2 .dstreak-steps b { color: var(--accent); }
 .dstreak.s3 .dstreak-steps b { background: linear-gradient(90deg, var(--accent), var(--warn)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: .12em; }
 .dashed { border: 1px dashed var(--border-2); border-radius: 10px; padding: 12px 14px; color: var(--muted); font-size: 13px; }
+/* Fortschritt: rechte Spalte neben der Tages-Checkliste; Regeln und Disziplin in natürlicher Höhe, das Tilt-Profil füllt den Rest */
+.prog-side { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.prog-side > .card { flex: none; }
+.prog-side > .card.fill { flex: 1 1 auto; }
 .rules-list { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
 .rules-list li::marker { color: var(--accent); font-weight: 700; }
 .checklist .it.fail .box { border-color: var(--loss); color: var(--loss); }

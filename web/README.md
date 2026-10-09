@@ -108,6 +108,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Nordlicht und atmender Rand in der Karte (alles CSS, bei „Bewegung reduzieren“ still). Die Flamme steht frei neben der Zahl
   (kein Kasten), darunter drei Etappen-Punkte auf einer feinen Linie (1 · 5 · 20) mit Stufenwort; die nächste Schwelle und was
   zählt (Werktage mit Trades, Check-in oder Notiz) stehen im Tooltip bzw. im Info-Punkt, kein Satz in der Karte.
+  Aufbau: links die Tages-Checkliste, rechts untereinander Aktuelle Regeln, Disziplin pro Woche und Tilt-Profil, zusammen so hoch
+  wie die Checkliste (das Tilt-Profil füllt den Rest). Bei wenig Platz zeigt „Disziplin pro Woche“ kurze Daten (03.08.).
   In „Dein Tag“ hakt ein Klick auf „Tagesnotiz geschrieben“ den Punkt ab oder löst ihn wieder (`days[heute].noteDone`, kein Sprung
   ins Notebook); eine Notiz von heute im Notebook hakt ihn automatisch ab. Der Hinweis-Punkt am Notebook verschwindet dann ebenfalls.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.

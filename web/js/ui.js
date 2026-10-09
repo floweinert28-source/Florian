@@ -325,8 +325,9 @@
   };
   /* Wochen-Disziplin */
   drawers.weeks = function (el, d, W, H) {
-    const w = d && d.weeks || []; if (!w.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Noch keine Wochen</span></div>`; return; } const mb = 18; const gap = W / w.length, bw = Math.min(28, gap * 0.6);
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${w.map((p, i) => { const h = Math.max(2, p.score / 100 * (H - mb - 4)); return `<rect x="${i * gap + (gap - bw) / 2}" y="${H - mb - h}" width="${bw}" height="${h}" rx="4" fill="${scoreColor(p.score)}" fill-opacity=".85" data-tip="Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${p.n} Trades)"></rect><text x="${i * gap + gap / 2}" y="${H - 4}" text-anchor="middle">${fmt.date(p.week)}</text>`; }).join('')}</svg>`;
+    const w = d && d.weeks || []; if (!w.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Noch keine Wochen</span></div>`; return; } const mb = 18; const gap = W / w.length, bw = Math.min(28, gap * 0.6); /* bei wenig Platz kurze Beschriftung (03.08.), damit sich die Wochen nicht berühren */
+    const lbl = d0 => gap < 66 ? new Date(d0).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit' }) : fmt.date(d0);
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${w.map((p, i) => { const h = Math.max(2, p.score / 100 * (H - mb - 4)); return `<rect x="${i * gap + (gap - bw) / 2}" y="${H - mb - h}" width="${bw}" height="${h}" rx="4" fill="${scoreColor(p.score)}" fill-opacity=".85" data-tip="Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${p.n} Trades)"></rect><text x="${i * gap + gap / 2}" y="${H - 4}" text-anchor="middle">${lbl(p.week)}</text>`; }).join('')}</svg>`;
   };
   /* Halbkreis-Anzeige (Win-Rate) */
   function semiGauge(segments, label, size = 110) {

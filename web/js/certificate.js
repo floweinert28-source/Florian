@@ -3,7 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App, D = root.CertData;
   const FORMATS = { square: { w: 1080, h: 1080, label: 'Quadrat', s: 1 }, story: { w: 1080, h: 1920, label: 'Story', s: 1.12 }, wide: { w: 1200, h: 675, label: 'Querformat', s: 0.66 } };
-  const opts = () => App.state.cert || (App.state.cert = { theme: 'aurora', format: 'square', hide: false, user: true });
+  const opts = () => App.state.cert || (App.state.cert = { theme: 'app', format: 'square', hide: false, user: true });
 
   /* ---------- Hilfen ---------- */
   function username() { const pr = S.settings.profile || {}; if (pr.username) return '@' + pr.username.replace(/^@/, ''); const n = (S.settings.name || '').trim(); return n && n !== 'Trader' ? n : ''; }
@@ -11,9 +11,13 @@
   const pfText = v => v == null ? null : v === Infinity ? '∞' : fmt.num(v, 2);
 
   /* ---------- Karte ----------
-     Bewusst reduziert: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften. Ein Design: „Aurora“
-     (Blau mit weichen rosa-lila Lichtflecken, zentriert, Ergebnis in einer Farbpille); Navy und Hell sind entfallen.
+     Bewusst reduziert: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften. Ein Design im Look der App:
+     warmes Graphit, Ergebnis als grüne (bei Verlust rote) Pille wie ein aktiver Reiter, Kennzahlen als Kachelstreifen,
+     feiner Kartenrahmen und im Hintergrund die Kurslinie aus der Ladeanzeige (bei Verlust fallend).
      Aufteilung je Format über Grid-Bereiche in css/app.css (Block „Zertifikat“). */
+  /* Kurslinie wie in der Ladeanzeige (gerade Stücke), unten im Bild; Fläche darunter läuft nach unten aus */
+  const CURVE_D = 'M0 262 L70 248 L130 256 L200 222 L260 232 L330 196 L400 208 L470 170 L540 184 L610 140 L680 152 L750 112 L820 124 L890 84 L950 94 L1000 60';
+  const CURVE = `<svg class="cert-curve" viewBox="0 0 1000 300" preserveAspectRatio="none"><defs><linearGradient id="cert-cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".16"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs><path d="${CURVE_D} L1000 300 L0 300 Z" fill="url(#cert-cg)"/><path class="l" d="${CURVE_D}" fill="none"/></svg>`;
   const KIND_SUB = { day: 'of Daily Profit', week: 'of Weekly Profit', month: 'of Monthly Profit', stats: 'of Performance' };
   function cardHTML(m, p, o) {
     if (fmt.moneyBlind()) o = Object.assign({}, o, { hide: true });
@@ -27,10 +31,10 @@
       : wr + stat('Profit factor', pfText(m.pf)) + stat('Trades', fmt.int(m.n));
     const user = o.user ? username() : '';
     const len = String(main).replace(/<[^>]*>/g, '').length;
-    return `<div class="cert" data-theme="aurora" data-format="${o.format}" data-kind="${m.kind}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg}">
-      <div class="cert-bg" aria-hidden="true"><i class="blob1"></i><i class="blob2"></i></div>
+    return `<div class="cert" data-theme="app" data-format="${o.format}" data-kind="${m.kind}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg}">
+      <div class="cert-bg" aria-hidden="true"><i class="glow-warm"></i><i class="glow-acc"></i>${CURVE}<i class="cert-frame"></i></div>
       <div class="cert-in">
-        <div class="cert-brand"><span class="name">Journalyst</span></div>
+        <div class="cert-brand"><span class="name">Journal<em>yst</em></span><span class="tag">Trading Journal App</span></div>
         <h1 class="cert-title"><span class="ct-big">Certificate</span><span class="ct-sub">${KIND_SUB[m.kind]}</span></h1>
         <div class="cert-to">${user ? `<span class="k">Presented to</span> <span class="user">${esc(user)}</span>` : '<span class="k">Net result</span>'}</div>
         <div class="cert-hero"><div class="cert-value${len > 10 ? ' long' : ''}"><span>${main}</span></div><div class="cert-period">${esc(p.label)}</div></div>
@@ -62,7 +66,7 @@
   function resolveRef(kind, ref) { if (ref === 'range' || ref == null || ref === '') { if (kind !== 'stats') return D.defaultRef(kind); const r = App.range(); return r.from ? { from: r.from, to: r.to } : null; } return ref; }
 
   function open(kind, ref) {
-    const o = opts(); o.theme = 'aurora';
+    const o = opts(); o.theme = 'app';
     const state = { kind, ref: resolveRef(kind, ref), busy: false };
     const mo = {
       cls: 'wide cert-modal',

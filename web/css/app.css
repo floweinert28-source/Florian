@@ -173,7 +173,8 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag als Pille: Akzentfarbe links, läuft nach rechts ins Dunkle aus; sehr feiner Rand, links leicht grün; schmaler, leicht leuchtender Balken links am Rand der Leiste */
+/* aktiver Eintrag als Pille wie die Vorlage: Licht fällt von links herein und läuft nach rechts ins Dunkle aus; der Rand leuchtet links
+   (unten etwas stärker) in der Akzentfarbe und geht nach rechts in Grau über; weicher Schein nach außen unten links; Balken am Rand leuchtet */
 .nav a.active {
   overflow: visible; color: var(--text); font-weight: 600;
   background: linear-gradient(90deg, var(--accent-soft) 0%, var(--surface-2) 76%) padding-box, linear-gradient(90deg, var(--accent-glow) 0%, var(--border) 40%, var(--border) 100%) border-box;
@@ -182,12 +183,14 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 @supports (background: color-mix(in srgb, red 50%, blue)) {
   .nav a.active {
     background:
-      linear-gradient(90deg, color-mix(in srgb, var(--accent) 24%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 9%, var(--surface-2)) 40%, var(--surface-2) 76%) padding-box,
-      linear-gradient(90deg, color-mix(in srgb, var(--accent) 40%, var(--border)) 0%, var(--border) 38%, var(--border) 100%) border-box;
+      radial-gradient(40% 90% at 0% 100%, color-mix(in srgb, var(--accent) 22%, transparent), transparent) padding-box,
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 30%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 13%, var(--surface-2)) 22%, color-mix(in srgb, var(--accent) 4%, var(--surface-2)) 42%, var(--surface-2) 62%) padding-box,
+      linear-gradient(104deg, color-mix(in srgb, var(--accent) 90%, var(--border)) 0%, color-mix(in srgb, var(--accent) 42%, var(--border-2)) 22%, var(--border-2) 52%, var(--border) 100%) border-box;
+    box-shadow: -10px 6px 22px -12px color-mix(in srgb, var(--accent) 55%, transparent), inset 0 1px 0 rgba(255, 255, 255, .05);
   }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 16px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
+.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); opacity: .95; box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent), 0 0 3px var(--accent); }
 .nav a.active:hover { transform: none; }
 /* Hinweis-Punkt: kleiner runder Punkt rechts im Eintrag, farblich wie der Lichtbalken am aktiven Eintrag (gleiches Grün, gedämpft, leichtes Leuchten); eingeklappt oben rechts am Knopf */
 .nav .nav-dot { margin-left: auto; margin-right: 12px; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); opacity: .75; box-shadow: 0 0 6px var(--accent-soft); }
@@ -1771,7 +1774,8 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 
 /* ---------- Zertifikat ----------
    Reduziert und luftig: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften.
-   Ein Design: Aurora (data-theme="aurora"); die Grundregeln darunter sind die Basis, die Aurora-Regeln setzen darauf auf.
+   Ein Design im Look der App (data-theme="app"): warmes Graphit, grüner Akzent, Kachelstreifen, feiner Kartenrahmen und im
+   Hintergrund die Kurslinie aus der Ladeanzeige. Die Grundregeln darunter sind die Basis, die App-Regeln setzen darauf auf.
    Maße in Einheiten des Quadratformats, skaliert über --s (Story 1,12, Querformat 0,66). */
 .cert {
   --c-bg: #070a19; --c-text: #f1f3fb; --c-soft: rgba(241, 243, 251, .78); --c-muted: #8f98c6; --c-line: rgba(208, 215, 255, .6); --c-hair: rgba(208, 215, 255, .16);
@@ -1779,14 +1783,21 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
   --g1: #8e98d0; --g2: #f3f4fc; --gn1: #df8592; --gn2: #f9e5e8;
   position: relative; overflow: hidden; background: var(--c-bg); color: var(--c-text); font-family: var(--font); line-height: 1.25; /* Schrift der App (Satoshi), Zahlen unten in der Zahlenschrift (Onest) */
 }
-.cert[data-theme="aurora"] { --c-bg: #07022c; --c-text: #ffffff; --c-soft: rgba(255, 255, 255, .82); --c-muted: rgba(226, 222, 255, .7); --c-hair: rgba(255, 255, 255, .16);
-  background: linear-gradient(112deg, #04103f 0%, #08022c 38%, #0a1a7a 72%, #0838c4 100%); }
+.cert[data-theme="app"] { --px: 104px; --pb: 92px; --foot-h: 67px; --c-bg: #0e0d0b; --c-text: #f2f0ec; --c-soft: #bcb8b1; --c-muted: #8a867f; --c-hair: #262522; --c-surface: #1a1917; --c-frame: #2b2a26;
+  --c-acc: var(--c-pos); background: #0e0d0b; }
+.cert[data-theme="app"][data-sign="neg"] { --c-acc: var(--c-neg); }
 .cert * { box-sizing: border-box; }
 /* Hintergrund */
 .cert-bg, .cert-bg i { position: absolute; pointer-events: none; display: block; }
 .cert-bg { inset: 0; }
-.cert[data-theme="aurora"] .cert-bg .blob1 { display: block; left: -16%; top: -26%; width: 48%; height: 64%; background: radial-gradient(closest-side, rgba(245, 150, 245, .95), rgba(214, 150, 250, .62) 42%, rgba(120, 90, 230, .18) 72%, transparent); }
-.cert[data-theme="aurora"] .cert-bg .blob2 { display: block; right: -18%; bottom: -30%; width: 46%; height: 70%; background: radial-gradient(closest-side, rgba(238, 222, 252, .95), rgba(214, 160, 245, .7) 40%, rgba(90, 110, 240, .2) 72%, transparent); }
+/* warmes Licht oben links wie in der App, ein grüner (bei Verlust roter) Schein hinter dem Ergebnis, feiner Kartenrahmen, Kurslinie unten */
+.cert[data-theme="app"] .cert-bg .glow-warm { left: -20%; top: -30%; width: 90%; height: 80%; background: radial-gradient(closest-side, rgba(255, 238, 218, .07), transparent); }
+.cert[data-theme="app"] .cert-bg .glow-acc { left: 15%; top: 26%; width: 70%; height: 46%; background: radial-gradient(closest-side, color-mix(in srgb, var(--c-acc) 16%, transparent), transparent); }
+.cert[data-theme="app"] .cert-bg .cert-frame { inset: calc(var(--s) * 34px); border: 1px solid var(--c-frame); border-radius: calc(var(--s) * 30px); }
+/* Kurslinie steht auf der Linie über der Fußzeile (wie die Achse eines Diagramms) und so breit wie der Inhalt: sie kreuzt keine Schrift */
+.cert[data-theme="app"] .cert-bg .cert-curve { position: absolute; left: calc(var(--s) * var(--px)); bottom: calc(var(--s) * (var(--pb) + var(--foot-h))); width: calc(100% - var(--s) * var(--px) * 2); height: 27%; color: var(--c-acc); overflow: visible; }
+.cert[data-theme="app"][data-sign="neg"] .cert-bg .cert-curve { transform: scaleX(-1); }
+.cert[data-theme="app"] .cert-curve .l { stroke: currentColor; stroke-opacity: .5; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 /* Rahmenecken (nur Navy und Hell) */
 
 /* ---------- Navy und Hell ---------- */
@@ -1836,39 +1847,59 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert[data-format="story"] .cert-period { font-size: calc(var(--s) * 24px); }
 .cert[data-format="story"] .cert-to .user { font-size: calc(var(--s) * 36px); }
 
-/* ---------- Aurora: zentriert, Ergebnis in der Farbpille ---------- */
-.cert[data-theme="aurora"] .cert-in { justify-items: center; text-align: center; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto auto auto auto 1.3fr auto;
-  grid-template-areas: "." "title" "to" "hero" "stats" "." "foot"; row-gap: calc(var(--s) * 34px); padding: calc(var(--s) * 110px) calc(var(--s) * 110px) calc(var(--s) * 104px); }
-.cert[data-theme="aurora"] .cert-brand { color: #ffffff; top: calc(var(--s) * 70px); right: calc(var(--s) * 84px); flex-direction: column; gap: calc(var(--s) * 6px); font-size: calc(var(--s) * 20px); }
-.cert[data-theme="aurora"] .cert-title { align-items: center; }
-.cert[data-theme="aurora"] .cert-title .ct-big { background: none; -webkit-text-fill-color: #ffffff; color: #ffffff; text-transform: uppercase; font-weight: 800; letter-spacing: .01em; font-size: calc(var(--s) * 112px); }
-.cert[data-theme="aurora"] .cert-title .ct-sub { font-weight: 700; font-size: calc(var(--s) * 22px); letter-spacing: .16em; margin-top: calc(var(--s) * 12px); padding-left: .16em; }
-.cert[data-theme="aurora"] .cert-to { flex-direction: row; justify-content: center; gap: .45em; margin-top: calc(var(--s) * 30px); font-size: calc(var(--s) * 19px); }
-.cert[data-theme="aurora"] .cert-to .k, .cert[data-theme="aurora"] .cert-to .user { font-size: calc(var(--s) * 19px); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #ffffff; }
-.cert[data-theme="aurora"] .cert-value { font-size: calc(var(--s) * 84px); letter-spacing: -.01em; }
-.cert[data-theme="aurora"] .cert-value.long { font-size: calc(var(--s) * 72px); }
-.cert[data-theme="aurora"] .cert-value span { background: linear-gradient(90deg, #2410e2, #7a10ea 50%, #d40ee6); -webkit-background-clip: border-box; background-clip: border-box; color: #ffffff; -webkit-text-fill-color: #ffffff;
-  padding: .12em .55em .16em; border-radius: calc(var(--s) * 18px); }
-.cert[data-theme="aurora"][data-sign="neg"] .cert-value span { background: linear-gradient(90deg, #7a10ea, #c0127a 55%, #e2265a); }
-.cert[data-theme="aurora"] .cert-period { margin-top: calc(var(--s) * 22px); font-size: calc(var(--s) * 22px); color: #ffffff; }
-.cert[data-theme="aurora"] .cert-stats { border-top: 0; padding-top: 0; justify-content: center; gap: calc(var(--s) * 70px); }
-.cert[data-theme="aurora"] .cert-stats .st .v { color: #ffffff; }
-.cert[data-theme="aurora"] .cert-foot { justify-self: stretch; justify-content: space-between; padding: 0 calc(var(--s) * 60px); margin-top: 0; }
-.cert[data-theme="aurora"] .cert-foot .issue { width: auto; text-align: center; }
-.cert[data-theme="aurora"] .cert-foot .issue .line { display: none; }
-.cert[data-theme="aurora"] .cert-foot .issue .v { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #ffffff; font-size: calc(var(--s) * 18px); }
-.cert[data-theme="aurora"] .cert-foot .issue .k { color: rgba(255, 255, 255, .86); font-size: calc(var(--s) * 17px); margin-top: calc(var(--s) * 6px); }
-.cert[data-theme="aurora"][data-format="wide"] .cert-in { grid-template-rows: 1fr auto auto auto auto 1fr auto; padding: calc(var(--s) * 90px) calc(var(--s) * 200px) calc(var(--s) * 96px); row-gap: calc(var(--s) * 30px); }
-.cert[data-theme="aurora"][data-format="wide"] .cert-title .ct-big { font-size: calc(var(--s) * 126px); }
-.cert[data-theme="aurora"][data-format="wide"] .cert-value { font-size: calc(var(--s) * 92px); }
-.cert[data-theme="aurora"][data-format="wide"] .cert-to, .cert[data-theme="aurora"][data-format="wide"] .cert-stats, .cert[data-theme="aurora"][data-format="wide"] .cert-foot { align-self: auto; }
-.cert[data-theme="aurora"][data-format="wide"] .cert-foot { padding: 0 calc(var(--s) * 40px); }
-.cert[data-theme="aurora"][data-format="story"] .cert-in { grid-template-rows: 1fr auto auto auto auto 1fr auto; grid-template-areas: "." "title" "to" "hero" "stats" "." "foot"; row-gap: calc(var(--s) * 44px); }
-.cert[data-theme="aurora"][data-format="story"] .cert-brand { position: absolute; top: calc(var(--s) * 84px); right: calc(var(--s) * 84px); }
-.cert[data-theme="aurora"][data-format="story"] .cert-title .ct-big { font-size: calc(var(--s) * 120px); }
-.cert[data-theme="aurora"][data-format="story"] .cert-value { font-size: calc(var(--s) * 100px); }
-.cert[data-theme="aurora"][data-format="story"] .cert-value.long { font-size: calc(var(--s) * 86px); }
-.cert[data-theme="aurora"][data-format="story"] .cert-to .k, .cert[data-theme="aurora"][data-format="story"] .cert-to .user { font-size: calc(var(--s) * 22px); }
+/* ---------- App-Design: zentriert, Ergebnis als grüne Pille wie ein aktiver Reiter, Kennzahlen als Kachelstreifen ---------- */
+.cert[data-theme="app"] .cert-in { justify-items: center; text-align: center; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto auto auto auto 1fr auto;
+  grid-template-areas: "." "title" "to" "hero" "stats" "." "foot"; row-gap: calc(var(--s) * 30px); padding: calc(var(--s) * 120px) calc(var(--s) * var(--px)) calc(var(--s) * var(--pb)); }
+.cert[data-theme="app"] .cert-brand { top: calc(var(--s) * 82px); left: calc(var(--s) * 84px); right: auto; flex-direction: column; align-items: flex-start; gap: calc(var(--s) * 5px); text-align: left; }
+.cert[data-theme="app"] .cert-brand .name { font-family: var(--font-display); font-size: calc(var(--s) * 21px); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--c-text); }
+.cert[data-theme="app"] .cert-brand .name em { font-style: normal; color: inherit; }
+.cert[data-theme="app"] .cert-brand .tag { font-size: calc(var(--s) * 15px); font-weight: 500; color: var(--c-muted); letter-spacing: .01em; }
+.cert[data-theme="app"] .cert-title { align-items: center; }
+.cert[data-theme="app"] .cert-title .ct-big { font-family: var(--font-display); font-size: calc(var(--s) * 116px); font-weight: 700; letter-spacing: -.035em; background: none; color: var(--c-text); -webkit-text-fill-color: var(--c-text); }
+.cert[data-theme="app"] .cert-title .ct-sub { font-size: calc(var(--s) * 18px); font-weight: 700; letter-spacing: .16em; margin-top: calc(var(--s) * 14px); padding-left: .16em; color: var(--c-muted); }
+.cert[data-theme="app"] .cert-to { flex-direction: row; justify-content: center; align-items: baseline; gap: .5em; margin-top: calc(var(--s) * 26px); }
+.cert[data-theme="app"] .cert-to .k { font-size: calc(var(--s) * 15px); font-weight: 700; letter-spacing: .14em; color: var(--c-muted); }
+.cert[data-theme="app"] .cert-to .user { font-size: calc(var(--s) * 24px); font-weight: 700; color: var(--c-text); }
+.cert[data-theme="app"] .cert-value { font-size: calc(var(--s) * 88px); letter-spacing: -.02em; }
+.cert[data-theme="app"] .cert-value.long { font-size: calc(var(--s) * 74px); }
+.cert[data-theme="app"] .cert-value span { color: var(--c-acc); -webkit-text-fill-color: var(--c-acc); padding: .12em .5em .15em; border-radius: calc(var(--s) * 24px);
+  border: calc(var(--s) * 1.5px) solid transparent; -webkit-background-clip: padding-box, padding-box, border-box; background-clip: padding-box, padding-box, border-box;
+  /* wie der aktive Eintrag der Seitenleiste: Licht von links, Übergang ins Dunkle, Rand links hell und nach rechts grau */
+  background-image: radial-gradient(90% 150% at 0% 60%, color-mix(in srgb, var(--c-acc) 30%, transparent), color-mix(in srgb, var(--c-acc) 8%, transparent) 55%, transparent 80%),
+    linear-gradient(90deg, color-mix(in srgb, var(--c-acc) 10%, var(--c-surface)), var(--c-surface) 70%),
+    linear-gradient(100deg, var(--c-acc) 0%, color-mix(in srgb, var(--c-acc) 40%, var(--c-frame)) 24%, var(--c-frame) 60%, var(--c-frame) 100%);
+  box-shadow: calc(var(--s) * -14px) calc(var(--s) * 8px) calc(var(--s) * 44px) calc(var(--s) * -18px) color-mix(in srgb, var(--c-acc) 70%, transparent); }
+.cert[data-theme="app"] .cert-period { margin-top: calc(var(--s) * 20px); font-size: calc(var(--s) * 20px); font-weight: 500; color: var(--c-soft); }
+.cert[data-theme="app"] .cert-stats { gap: 0; padding: 0; margin-top: calc(var(--s) * 6px); border: 1px solid var(--c-hair); border-radius: calc(var(--s) * 20px); background: var(--c-surface); overflow: hidden; }
+.cert[data-theme="app"] .cert-stats .st { display: flex; flex-direction: column-reverse; align-items: flex-start; gap: calc(var(--s) * 10px); min-width: calc(var(--s) * 200px); padding: calc(var(--s) * 20px) calc(var(--s) * 28px) calc(var(--s) * 22px); text-align: left; }
+.cert[data-theme="app"] .cert-stats .st + .st { border-left: 1px solid var(--c-hair); }
+.cert[data-theme="app"] .cert-stats .st .k { margin-top: 0; padding-bottom: calc(var(--s) * 8px); border-bottom: 1px solid var(--c-frame); font-size: calc(var(--s) * 15px); font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--c-muted); }
+.cert[data-theme="app"] .cert-stats .st .v { font-size: calc(var(--s) * 34px); font-weight: 700; color: var(--c-text); }
+.cert[data-theme="app"] .cert-foot { justify-self: stretch; justify-content: space-between; box-sizing: border-box; height: calc(var(--s) * var(--foot-h)); padding: calc(var(--s) * 22px) calc(var(--s) * 4px) 0; margin-top: 0; border-top: 1px solid var(--c-frame); }
+.cert[data-theme="app"] .cert-foot .issue { width: auto; text-align: left; }
+.cert[data-theme="app"] .cert-foot .issue:last-child { text-align: right; }
+.cert[data-theme="app"] .cert-foot .issue .line { display: none; }
+.cert[data-theme="app"] .cert-foot .issue .v { font-family: var(--font-display); font-size: calc(var(--s) * 17px); font-weight: 700; color: var(--c-text); letter-spacing: .01em; }
+.cert[data-theme="app"] .cert-foot .issue .v.mono { font-family: var(--font-num); letter-spacing: .04em; }
+.cert[data-theme="app"] .cert-foot .issue .k { color: var(--c-muted); font-size: calc(var(--s) * 15px); margin-top: calc(var(--s) * 5px); }
+.cert[data-theme="app"][data-format="wide"] { --px: 120px; --pb: 90px; }
+.cert[data-theme="app"][data-format="wide"] .cert-in { grid-template-rows: 1fr auto auto auto auto 1fr auto; padding: calc(var(--s) * 110px) calc(var(--s) * var(--px)) calc(var(--s) * var(--pb)); row-gap: calc(var(--s) * 26px); }
+.cert[data-theme="app"][data-format="wide"] .cert-brand { top: calc(var(--s) * 90px); left: calc(var(--s) * 100px); }
+.cert[data-theme="app"][data-format="wide"] .cert-title .ct-big { font-size: calc(var(--s) * 128px); }
+.cert[data-theme="app"][data-format="wide"] .cert-value { font-size: calc(var(--s) * 96px); }
+.cert[data-theme="app"][data-format="wide"] .cert-to, .cert[data-theme="app"][data-format="wide"] .cert-stats, .cert[data-theme="app"][data-format="wide"] .cert-foot { align-self: auto; }
+.cert[data-theme="app"][data-format="wide"] .cert-stats { border-top: 1px solid var(--c-hair); }
+.cert[data-theme="app"][data-format="story"] .cert-in { grid-template-rows: 1fr auto auto auto auto 1fr auto; grid-template-areas: "." "title" "to" "hero" "stats" "." "foot"; row-gap: calc(var(--s) * 42px); }
+.cert[data-theme="app"][data-format="story"] .cert-bg .cert-curve { height: 20%; }
+.cert[data-theme="app"][data-format="story"] .cert-brand { position: absolute; top: calc(var(--s) * 84px); left: calc(var(--s) * 84px); }
+.cert[data-theme="app"][data-format="story"] .cert-title .ct-big { font-size: calc(var(--s) * 120px); }
+.cert[data-theme="app"][data-format="story"] .cert-value { font-size: calc(var(--s) * 100px); }
+.cert[data-theme="app"][data-format="story"] .cert-value.long { font-size: calc(var(--s) * 86px); }
+.cert[data-theme="app"][data-format="story"] .cert-stats { flex-direction: column; }
+.cert[data-theme="app"][data-format="story"] .cert-stats .st { min-width: calc(var(--s) * 520px); flex-direction: row-reverse; justify-content: space-between; align-items: center; }
+.cert[data-theme="app"][data-format="story"] .cert-stats .st + .st { border-left: 0; border-top: 1px solid var(--c-hair); }
+.cert[data-theme="app"][data-format="story"] .cert-stats .st .k { padding-bottom: 0; border-bottom: 0; font-size: calc(var(--s) * 17px); }
+.cert[data-theme="app"][data-format="story"] .cert-stats .st .v { font-size: calc(var(--s) * 34px); }
 
 /* ============================================================
    Ruhepunkt als eigener, ruhiger Raum (ruhepunkt.js: calmEnter/calmLeave)

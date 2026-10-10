@@ -6,13 +6,15 @@
   "scripts": {
     "fonts": "bash scripts/fonts.sh",
     "capture": "NODE_PATH=$(npm root -g) node scripts/capture.cjs",
+    "stills": "node scripts/stills.mjs",
     "studio": "remotion studio",
-    "render": "remotion render Journalyst out/journalyst-en.mp4",
-    "render:de": "remotion render Journalyst out/journalyst-de.mp4 --props='{\"lang\":\"de\"}'"
+    "render": "remotion render Journalyst out/journalyst.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.534",
     "@remotion/fonts": "^4.0.534",
+    "@remotion/layout-utils": "4.0.534",
+    "@remotion/paths": "4.0.534",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "remotion": "4.0.534"

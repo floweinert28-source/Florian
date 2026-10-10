@@ -1594,7 +1594,7 @@ span.info:hover { color: var(--text-2); }
 .wpv text { font-family: var(--font); } .wpv text.n { font-family: var(--font-num); } /* Miniaturen: Beschriftungen in der App-Schrift, Zahlen in der Zahlenschrift */
 .sp-item b { display: block; font-size: 13.5px; margin-bottom: 2px; }
 .sp-item .small { display: block; line-height: 1.4; }
-.sp-item .btn { flex: 0 0 auto; }
+.sp-item .btn { flex: 0 0 auto; font-weight: 600; } /* gleiches Gewicht vor und nach „Hinzugefügt“, damit der Knopf gleich breit bleibt */
 /* Hinzufügen/Hinzugefügt liegen übereinander: der Knopf ist in beiden Zuständen gleich breit, der Eintrag wird beim Klick nicht höher */
 .sp-add .sp-lbl { display: grid; }
 .sp-add .sp-lbl > span { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }

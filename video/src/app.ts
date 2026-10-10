@@ -30,7 +30,7 @@ export const trade = {
 export const rows = raw.trades.rows.map((r: Record<string, string>) => ({
   date: r['Opened'].replace(/^(\d\d\/\d\d)\/\d{4} (.*)$/, '$1 · $2'), day: r['Opened'].split(' ')[0], time: r['Opened'].split(' ').slice(1).join(' '),
   closed: r['Closed'].split(' ').slice(1).join(' '), symbol: r['Symbol'], side: r['Side'] as 'LONG' | 'SHORT', status: r['Status'],
-  setup: r['Setup'], pnl: r['P&L'], r: r['RR'],
+  setup: r['Setup'], pnl: r['P&L'], r: r['RR'], score: r['Score'],
 }));
 
 const sh = (label: string) => raw.shadow.tiles.find((t) => t[0] === label) ?? [];

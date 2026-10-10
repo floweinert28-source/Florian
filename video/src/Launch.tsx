@@ -11,8 +11,8 @@ import { Price, Worth } from './scenes/Shadow';
 import { EndCard, Statement } from './scenes/Outro';
 import { GREEN } from './theme';
 
-type Tr = 'cut' | 'fade' | 'blur' | 'wipe';
-type Shot = { from: number; to: number; in?: Tr; inDur?: number; el: React.ReactNode };
+export type Tr = 'cut' | 'fade' | 'blur' | 'wipe';
+export type Shot = { from: number; to: number; in?: Tr; inDur?: number; el: React.ReactNode };
 
 /* Zeitplan in Sekunden; „in“ ist der Übergang aus der vorigen Szene */
 const P0 = 14, P1 = P0 + FLOW_DURATION;
@@ -32,7 +32,7 @@ const SHOTS: Shot[] = [
 export const DURATION = sec(P1 + 18.5);
 
 /* Hülle einer Szene: blendet beim Eintritt über die vorige Szene; die vorige läuft so lange weiter */
-const Wrap: React.FC<{ tr: Tr; inDur: number; outTr?: Tr; outAt: number; outDur: number; children: React.ReactNode }> = ({ tr, inDur, outTr, outAt, outDur, children }) => {
+export const Wrap: React.FC<{ tr: Tr; inDur: number; outTr?: Tr; outAt: number; outDur: number; children: React.ReactNode }> = ({ tr, inDur, outTr, outAt, outDur, children }) => {
   const f = useCurrentFrame();
   const t = tr === 'cut' ? 1 : prog(f, 0, sec(inDur), tr === 'wipe' ? IN : OUT);
   const o = outTr === 'blur' || outTr === 'fade' ? prog(f, outAt, sec(outDur), IN) * (outTr === 'blur' ? 1 : 0.5) : 0;

@@ -9,7 +9,10 @@
     "stills": "node scripts/stills.mjs",
     "studio": "remotion studio",
     "render": "remotion render Journalyst out/journalyst.mp4",
-    "render:vertical": "remotion render JournalystVertical out/journalyst-vertical.mp4"
+    "render:vertical": "remotion render JournalystVertical out/journalyst-vertical.mp4",
+    "sound2": "python3 scripts/sound2.py",
+    "render2": "remotion render Journalyst2 out/journalyst-2.mp4",
+    "render2:vertical": "remotion render Journalyst2Vertical out/journalyst-2-vertical.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.534",

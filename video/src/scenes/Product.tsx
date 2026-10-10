@@ -20,7 +20,7 @@ const bump = (f: number, at: number) => prog(f, sec(at), sec(0.28), OUT) * (1 - 
 const enter = (f: number, at: number): React.CSSProperties => { const a = prog(f, sec(at), sec(0.4), OUT); return { opacity: a, translate: `0px ${lerp(22, 0, a).toFixed(2)}px` }; };
 
 /* ---------- Dashboard, 1440 × 900 App-Pixel ---------- */
-const NAV = [['dashboard', 'Dashboard'], ['stats', 'Statistics'], ['tradelog', 'TradeLog'], ['journal', 'Notebook'], ['shadow', 'Shadow Self'], ['replay', 'Blind Replay'], ['prop', 'Prop Firms']];
+export const NAV = [['dashboard', 'Dashboard'], ['stats', 'Statistics'], ['tradelog', 'TradeLog'], ['journal', 'Notebook'], ['shadow', 'Shadow Self'], ['replay', 'Blind Replay'], ['prop', 'Prop Firms']];
 export const LOG_BTN: R = { x: 1276, y: 86, w: 132, h: 40 };
 export const DashboardPanel: React.FC<{ f: number; still?: boolean; pops?: Record<string, number> }> = ({ f, still, pops = {} }) => {
   const e = (at: number) => (still ? {} : enter(f, at));
@@ -158,17 +158,17 @@ const LogForm: React.FC<{ f: number; T: Times }> = ({ f, T }) => {
 };
 
 /* ---------- TradeLog: quer 1000 App-Pixel breit, hochkant 640 mit den wichtigsten Spalten ---------- */
-type Col = { k: string; label: string; x: number; w: number; r?: boolean };
-const COLS_V: Col[] = [
+export type Col = { k: string; label: string; x: number; w: number; r?: boolean };
+export const COLS_V: Col[] = [
   { k: 'opened', label: 'Opened', x: 16, w: 150 }, { k: 'symbol', label: 'Symbol', x: 176, w: 60 }, { k: 'side', label: 'Side', x: 244, w: 96 },
   { k: 'pnl', label: 'P&L', x: 352, w: 110, r: true }, { k: 'r', label: 'RR', x: 472, w: 76, r: true }, { k: 'rules', label: 'Rules', x: 584, w: 44 },
 ];
-const COLS: Col[] = [
+export const COLS: Col[] = [
   { k: 'opened', label: 'Opened', x: 16, w: 170 }, { k: 'symbol', label: 'Symbol', x: 196, w: 60 }, { k: 'status', label: 'Status', x: 262, w: 66 }, { k: 'side', label: 'Side', x: 336, w: 96 },
   { k: 'pnl', label: 'P&L', x: 470, w: 130, r: true }, { k: 'r', label: 'RR', x: 610, w: 90, r: true }, { k: 'setup', label: 'Setup', x: 740, w: 140 }, { k: 'rules', label: 'Rules', x: 900, w: 80 },
 ];
-const tone = (v: string) => (/^\+/.test(v) ? A.accent : /^[−-]/.test(v) && v.length > 1 ? A.loss : A.faint);
-const TradeRow: React.FC<{ r: (typeof rows)[number]; cols: Col[] }> = ({ r, cols }) => (
+export const tone = (v: string) => (/^\+/.test(v) ? A.accent : /^[−-]/.test(v) && v.length > 1 ? A.loss : A.faint);
+export const TradeRow: React.FC<{ r: (typeof rows)[number]; cols: Col[] }> = ({ r, cols }) => (
   <div style={{ position: 'absolute', inset: 0, fontFamily: DISPLAY, fontSize: 13, color: A.text }}>
     {cols.map((c) => (
       <div key={c.k} style={{ position: 'absolute', left: c.x, width: c.w, top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: c.r ? 'flex-end' : 'flex-start', gap: 6, whiteSpace: 'nowrap', fontFamily: ['opened', 'pnl', 'r'].includes(c.k) ? NUM : DISPLAY, fontVariantNumeric: 'tabular-nums' }}>
@@ -184,11 +184,11 @@ const TradeRow: React.FC<{ r: (typeof rows)[number]; cols: Col[] }> = ({ r, cols
     ))}
   </div>
 );
-const TL = { title: 56, head: 40, row: 52 };
+export const TL = { title: 56, head: 40, row: 52 };
 const TL_H = TL.title + TL.head + TL.row * 6 + 8;
 
 /* ---------- Karte des Trades für die Regelprüfung, 300 × 250 App-Pixel ---------- */
-const TradeCard: React.FC = () => (
+export const TradeCard: React.FC = () => (
   <div style={{ position: 'absolute', left: 0, top: 0, width: 300, height: 250, padding: '16px 18px', boxSizing: 'border-box', fontFamily: DISPLAY, color: A.text }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ fontSize: 20, fontWeight: 700 }}>{trade.symbol}</span><Badge dir="LONG" /><span style={{ marginLeft: 'auto' }}><Pill tone="win">{rows[0].status}</Pill></span></div>
     <div style={{ fontFamily: NUM, fontSize: 12, color: A.muted, marginTop: 8 }}>{rows[0].day} · {rows[0].time} → {rows[0].closed}</div>
@@ -199,7 +199,7 @@ const TradeCard: React.FC = () => (
 );
 
 /* ---------- Eine aktive Regel wie in „My rule set“, 370 × 122 App-Pixel ---------- */
-const RuleTile: React.FC<{ r: (typeof rules)[number] }> = ({ r }) => (
+export const RuleTile: React.FC<{ r: (typeof rules)[number] }> = ({ r }) => (
   <div style={{ position: 'relative', width: 370, height: 122, boxSizing: 'border-box', padding: '16px 18px', borderRadius: 14, fontFamily: DISPLAY, background: mix(A.accent, 0.06, A.surface), border: `1px solid ${mixA(A.accent, 0.35)}` }}>
     <div style={{ fontSize: 15, fontWeight: 700, color: A.text }}>{r.name}</div>
     <div style={{ fontSize: 13, color: A.muted, marginTop: 4 }}>{r.hint}</div>

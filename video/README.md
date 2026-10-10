@@ -29,6 +29,26 @@ dann zur neuen Zeile im TradeLog und schließlich zur Karte bei der Regelprüfun
 | 38,5–42,5 s | „Others count trades.“ / „We build traders.“ |
 | 42,5–47,5 s | Endkarte: Wortmarke JOURNALYST, „The trading journal for discipline.“, Knopf „Start your journal“ |
 
+## Video 2: nach der Vorlage „LangEase“
+
+Zweites Launch-Video mit Aufbau und Bewegungen der Vorlage https://youtu.be/SgmuplXU2iY, im selben dunklen
+Journalyst-Design und mit echten Werten aus der App: `journalyst-2.mp4` (quer) und `journalyst-2-vertical.mp4` (hochkant),
+60 fps, 35 Sekunden. Nur Sound-Effekte (`scripts/sound2.py`), keine Musik. Code in `src/v2/`.
+
+| Zeit | Szene | Entspricht in der Vorlage |
+| --- | --- | --- |
+| 0–3 s | „Turn trades“ → „into discipline“ → „Every trade“, Wörter aus der Unschärfe | „Turn Books“ → „Audio“ → „Any language“ |
+| 3–5,1 s | Glas-Ordner „Trades · Import CSV“ springt auf, „instantly“, die Hand klickt, Flug in den Ordner | Ordner, Hand, Zoom hinein |
+| 5,1–7 s | „Just drop and go.“ Wort für Wort, vier Handys mit der App fliegen aus den Ecken | „Just drop and go“, vier iPhones |
+| 7–9,3 s | „Trades. Rules. Stats.“ → „All in one journal.“ | „Books. Audio. Video“ → „All In One Platform“ |
+| 9,3–12,8 s | Flug ins Handy, der Balken „Discipline score“ läuft von 72 auf 100, die drei Regeln leuchten auf | Fortschritt 70/100 → 100/100 |
+| 12,8–14,6 s | Balken wird zum Kreis, Häkchen, „Plan followed.“, Konfetti | „Done“ mit Häkchen und Konfetti |
+| 14,6–18,3 s | Kreis wird zur Karte des ES-Trades, die anderen Trades gleiten herein, TradeLog schräg, die Hand zeigt auf den Trade | Kreis → Karten → Bibliothek |
+| 18,3–21 s | Die Karte teilt sich in vier Kacheln (Net P&L, Trefferquote, Score, Shadow Self), „Know your edge.“ | „Multiple Languages“ |
+| 21–25,6 s | TradeLog als Liste, Klick auf „Create certificate“, der Knopf wird zum Häkchen-Abzeichen | „Distribute To Youtube“ → Stern |
+| 25,6–29 s | Das Abzeichen hüpft über „Log.“ „Review.“ „Improve.“ | „Translate. Dub. Distribute“ |
+| 29–35 s | Wortmarke JOURNALYST, darunter getippt „The trading journal for discipline.“ | Logo und Adresse |
+
 ## So entsteht es
 
 ```bash
@@ -46,6 +66,10 @@ npm run stills -- 7.5s 21s    # einzelne Bilder nach out/stills/ zur Sichtkontro
 npm run studio                # Vorschau
 npm run render                # out/journalyst.mp4 (quer)
 npm run render:vertical       # out/journalyst-vertical.mp4 (hochkant, Reels/TikTok/Shorts)
+
+npm run sound2                # Effekte für Video 2 nach public/audio/sound2.wav
+npm run render2               # out/journalyst-2.mp4 (Video 2, quer)
+npm run render2:vertical      # out/journalyst-2-vertical.mp4 (Video 2, hochkant)
 ```
 
 Die Aufnahme setzt die Uhr der App auf Mittwoch, 30.09.2026, damit die Beispieldaten den Monat füllen, und loggt einen
@@ -69,6 +93,9 @@ src/anim.ts              Kurven, Feder, Kamera
 src/theme.ts             Farben und Schrift
 src/format.ts            quer oder hochkant
 scripts/sound.py         Effekte (Beat optional), Zeitpunkte passend zu den Animationen
+src/v2/Launch2.tsx       Video 2: Zeitplan; Hook, Phones, Score, Edge, Finale sind die Abschnitte
+src/ui/Hand.tsx          Zeigehand mit Klick; src/ui/Confetti.tsx Konfetti; src/ui/Phone.tsx Handys mit App-Bildschirmen
+scripts/sound2.py        Effekte für Video 2
 ```
 
 Bewegungsregeln: `.claude/skills/motion-rules` im Repo-Root.

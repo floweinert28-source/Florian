@@ -43,7 +43,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Long/Short ist ein Umschalter mit zwei Hälften und rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün,
   Short rot; der Schieber gleitet weich an- und auslaufend, seine Farbe blendet schnell über; Schrift und Pfeil stehen sofort in der eigenen Farbe, Short wird nie kurz grün). Am Handy stehen Symbol und Richtung untereinander.
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
-  ↘ Short in Rot), Licht von links und feinem farbigen Rand (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
+  ↘ Short in Rot), bewusst ruhig: zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis ohne Leuchten (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.

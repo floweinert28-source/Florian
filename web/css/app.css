@@ -603,13 +603,12 @@ span.info:hover { color: var(--accent); }
 .tbl.wrap { min-width: 0; }
 .tbl.wrap td { white-space: normal; }
 
-.badge { --c: var(--accent); display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px 0 3px; border-radius: 999px; font-size: 10.5px; font-weight: 800; letter-spacing: .07em; line-height: 1; white-space: nowrap; vertical-align: middle;
-  color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 22%, transparent), color-mix(in srgb, var(--c) 6%, transparent) 75%); }
+/* Long/Short-Abzeichen: ruhig, damit es neben Symbol und P&L nicht heraussticht – zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis */
+.badge { --c: var(--accent); display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px 0 4px; border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; line-height: 1; white-space: nowrap; vertical-align: middle;
+  color: color-mix(in srgb, var(--c) 80%, var(--text)); border: 1px solid color-mix(in srgb, var(--c) 16%, transparent); background: color-mix(in srgb, var(--c) 8%, transparent); }
 .badge.s { --c: var(--loss); }
-.badge .bi { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px color-mix(in srgb, var(--c) 45%, transparent); flex: none; }
-.badge .bi svg { width: 10px; height: 10px; color: var(--bg); }
-:root[data-theme="light"] .badge .bi svg { color: #fff; }
+.badge .bi { display: grid; place-items: center; width: 15px; height: 15px; border-radius: 50%; background: color-mix(in srgb, var(--c) 20%, transparent); flex: none; }
+.badge .bi svg { width: 9px; height: 9px; color: var(--c); }
 .chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--surface-3); color: var(--text-2); border: 1px solid transparent; }
 .chip.setup { background: var(--accent-soft); color: var(--accent); }
 .chip.mistake { background: var(--loss-soft); color: var(--loss); }

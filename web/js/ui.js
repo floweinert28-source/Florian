@@ -188,9 +188,22 @@
   const NS = 'http://www.w3.org/2000/svg';
   function niceTicks(min, max, n = 4) { const span = max - min || 1; const raw = span / n; const p = 10 ** Math.floor(Math.log10(raw)); const s = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= n + 1) || raw; const t = []; for (let v = Math.ceil(min / s) * s; v <= max + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
   /* Weiche Kurve durch alle Punkte, monoton zwischen Nachbarpunkten (wie d3 curveMonotoneX): schießt nie über den höchsten oder unter den tiefsten Wert hinaus, wird also oben und unten nicht abgeschnitten */
-  /* Linien zwischen den Punkten: gerade, damit die Kurve genau die Daten zeigt (keine geschwungenen Übergänge, die
-     Zwischenwerte vortäuschen) */
-  const smooth = pts => { const r = v => Math.round(v * 100) / 100; return 'M' + pts.map(p => `${r(p[0])},${r(p[1])}`).join('L'); };
+  /* Linien zwischen den Punkten: gerade Stücke, nur die Ecken an den Datenpunkten leicht gerundet (Radius 12 px). So zeigt
+     die Kurve weiter genau die Daten (kein Überschwingen, keine erfundenen Zwischenwerte), wirkt aber nicht hart gezackt */
+  const smooth = (pts, R = 12) => {
+    const r = v => Math.round(v * 100) / 100; const n = pts.length; const P = p => `${r(p[0])},${r(p[1])}`;
+    if (n < 3) return 'M' + pts.map(P).join('L');
+    let d = `M${P(pts[0])}`;
+    for (let i = 1; i < n - 1; i++) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], [x2, y2] = pts[i + 1];
+      const l1 = Math.hypot(x1 - x0, y1 - y0), l2 = Math.hypot(x2 - x1, y2 - y1);
+      if (!l1 || !l2) { d += `L${P(pts[i])}`; continue; }
+      const t1 = Math.min(R, l1 / 2), t2 = Math.min(R, l2 / 2);
+      const a = [x1 - (x1 - x0) / l1 * t1, y1 - (y1 - y0) / l1 * t1], b = [x1 + (x2 - x1) / l2 * t2, y1 + (y2 - y1) / l2 * t2];
+      d += `L${P(a)}Q${P(pts[i])} ${P(b)}`;
+    }
+    return d + `L${P(pts[n - 1])}`;
+  };
   const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? fmt.kilo(a, a >= 10000 ? 0 : 1) : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
   const gid = () => 'g' + Math.random().toString(36).slice(2, 8);
   /* Datumsachse unten: kurzes Datum (ohne Jahr, wenn alle Punkte im selben Jahr liegen), gleichmäßig verteilt, mittig unter dem

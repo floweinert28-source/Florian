@@ -59,7 +59,8 @@
     units.forEach((u, ui) => { const vals = series.filter(s => s.unit === u).flatMap(s => pts.map(p => p.v[s.key]).concat(s.type === 'bar' ? [0] : [])).filter(v => v != null && isFinite(v)); if (!vals.length) vals.push(0); const lo = Math.min(...vals), hi = Math.max(...vals); const ticks = ui < 2 ? U.niceTicks(lo, hi === lo ? lo + 1 : hi, 6) : []; scale[u] = { ticks, y0: Math.min(ticks.length ? ticks[0] : lo, lo), y1: Math.max(ticks.length ? ticks[ticks.length - 1] : hi, hi) }; });
     const ml = U.axisWidth(scale[u0].ticks.map(t => unitFmt(u0, t, true))), mr = u1 ? U.axisWidth(scale[u1].ticks.map(t => unitFmt(u1, t, true))) : 12, mt = 12, mb = 30; const iw = W - ml - mr, ih = H - mt - mb;
     const n = pts.length; const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = (u, v) => mt + (scale[u].y1 - v) / (scale[u].y1 - scale[u].y0 || 1) * ih;
-    const path = s => { let out = '', open = false; pts.forEach((p, i) => { const v = p.v[s.key]; if (v == null || !isFinite(v)) { open = false; return; } out += `${open ? 'L' : 'M'}${x(i).toFixed(1)},${y(s.unit, v).toFixed(1)}`; open = true; }); return out; };
+    /* Lücken (fehlende Werte) trennen die Linie; jedes Stück mit leicht gerundeten Ecken wie die anderen Kurven */
+    const path = s => { const runs = [[]]; pts.forEach((p, i) => { const v = p.v[s.key]; if (v == null || !isFinite(v)) { if (runs[runs.length - 1].length) runs.push([]); return; } runs[runs.length - 1].push([x(i), y(s.unit, v)]); }); return runs.filter(r => r.length).map(r => U.smooth(r)).join(''); };
     const bars = series.filter(s => s.type === 'bar'); const bw = Math.max(2, Math.min(14, iw / n * 0.6 / Math.max(1, bars.length)));
     const xt = U.xTicks(n, iw); const dots = n <= 120;
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${U.axisLeft(scale[u0].ticks, v => y(u0, v), ml, W, mr, v => unitFmt(u0, v, true))}

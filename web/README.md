@@ -328,8 +328,9 @@ gleitet (App-Start ohne Logo-Zeichen, Auswertung von Sprachnotizen); `U.spin()` 
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
 
-**Kurven:** `UI.smooth` verbindet die Punkte mit geraden Linien. So zeigt jede Kurve genau die Daten; geschwungene Übergänge würden
-Zwischenwerte vortäuschen, die es nie gab. Die Datumsachse (`UI.dateAxis`) beschriftet je Tag höchstens einmal, auch wenn mehrere
+**Kurven:** `UI.smooth` verbindet die Punkte mit geraden Stücken und rundet nur die Ecken an den Datenpunkten leicht (Radius 12 px,
+Quadratkurve innerhalb der Ecke). So zeigt jede Kurve genau die Daten (kein Überschwingen, keine erfundenen Zwischenwerte), wirkt aber
+nicht hart gezackt. Auch das Mehrlinien-Diagramm (Schatten-Ich) nutzt diese Rundung je zusammenhängendem Stück. Die Datumsachse (`UI.dateAxis`) beschriftet je Tag höchstens einmal, auch wenn mehrere
 Punkte (einzelne Trades) auf denselben Tag fallen.
 
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden

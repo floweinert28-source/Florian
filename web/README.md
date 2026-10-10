@@ -31,7 +31,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 ## Was die App kann
 
 - **Trade loggen** (Ersatz für einen Broker-Sync, nur Trade-Daten): Symbol, Long/Short, Einstieg, Ausstieg, Kontrakte, Eröffnet,
-  Geschlossen, Punktwert und Gebühren; Konto nur bei mehreren Konten, Prop-Konten fürs Copy-Trading. Keine Notiz- oder Bewertungsfragen:
+  Geschlossen (Kalender mit Uhrzeit: rechts Stunde und Minute zum Anklicken, „Jetzt“ und „Fertig“), Punktwert und Gebühren; Konto nur bei mehreren Konten, Prop-Konten fürs Copy-Trading. Keine Notiz- oder Bewertungsfragen:
   Notizen gehören ins Notebook und in die Tagesansicht. Das **Symbol ist eine Auswahl** (kein Tippen): zuletzt gehandelte Symbole
   (häufigste zuerst, mit Anzahl und letztem Punktwert), darunter Standard-Instrumente aus `js/propdata.js` (Punktwert = Tick-Wert /
   Tick-Größe bzw. Pip-Wert / Pip-Größe, unverifiziert) und „Anderes Symbol“ zum Eintippen; die Wahl setzt den Punktwert mit, solange
@@ -259,7 +259,7 @@ web/
   js/editor.js          Notiz-Editor (Quill 2): Toolbar, Blots, Slash-Befehle, Emojis, Bilder
   vendor/quill/         Quill 2.0.3 (BSD-3-Clause)
   js/app.js             Router, Seitenleiste, Kopfzeile und Kopfreihe unter dem Titel, Trade-Editor, Session, CSV-Import
-  js/datepicker.js      Kalender im App-Design für Datumsfelder (Datum, Datum mit Uhrzeit, Monat), auf Touch-Geräten bleibt der System-Kalender
+  js/datepicker.js      Kalender im App-Design für Datumsfelder (Datum, Datum mit Uhrzeit samt Stunden-/Minuten-Spalten, Monat), auf Touch-Geräten bleibt der System-Kalender
   js/screens/*.js       Die einzelnen Seiten
   tests/core.test.mjs   Tests für die Analytik
 ```

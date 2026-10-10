@@ -872,7 +872,6 @@ I18N.add('es', {
   "Positionswert: Stück × Kurs × Punktwert": "Valor de la posición: unidades × precio × valor del punto",
   "Emotion": "Emoción",
   "Suchen …": "Buscar…",
-  "Min": "Mín",
   "Max": "Máx",
   "Nichts gefunden": "No se encontró nada",
   "z. B. {0}": "p. ej. {0}",
@@ -1477,4 +1476,8 @@ I18N.add('es', {
   "Weitere": "Más",
   "Anderes Symbol, z. B. DAX": "Otro símbolo, p. ej. DAX",
   "Anderes Symbol": "Otro símbolo",
+  "Std": "Hora",
+  "Stunde": "Hora",
+  "Minute": "Minuto",
+  "Jetzt": "Ahora",
 });

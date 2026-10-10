@@ -1,4 +1,6 @@
 /* Kalender im Journalyst-Design für Datumsfelder (Datum, Datum mit Uhrzeit, Monat).
+   Datum mit Uhrzeit: rechts neben dem Kalender zwei Spalten für Stunde und Minute; ein Klick setzt den Wert sofort,
+   der Kalender bleibt offen, bis „Fertig“, „Jetzt“, Enter oder ein Klick daneben ihn schließt.
    Das native Feld bleibt zum Tippen und für Formulare (Wert, Pflichtfeld, Ereignisse), ersetzt wird nur das Aufklapp-Fenster des Browsers.
    Auf Touch-Geräten bleibt der System-Kalender, der dort zur Bedienung passt. Von/Bis-Paare markieren sich über data-dp-group. */
 (function (root) {
@@ -23,6 +25,8 @@
   const svg = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const IC = { prev: svg('<path d="M15 6l-6 6 6 6"/>'), next: svg('<path d="M9 6l6 6-6 6"/>'), caret: svg('<path d="M6 9l6 6 6-6"/>') };
   let el = null, input = null, view = null, focusKey = '', inited = false;
+  const isDT = () => !!input && input.type === 'datetime-local';
+  const nowHM = () => { const n = new Date(); return `${pad(n.getHours())}:${pad(n.getMinutes())}`; };
 
   const isField = t => !!t && t.tagName === 'INPUT' && !!TYPES[t.type] && !t.disabled && !t.readOnly;
   const isOpen = () => !!el && el.classList.contains('open') && !el.classList.contains('closing');
@@ -56,14 +60,30 @@
       return `<button type="button" class="dp-month${sel ? ' sel' : ''}${cur ? ' today' : ''}" data-dp="month" data-m="${m}" aria-label="${monthLabel(view.y, m)}"${sel ? ' aria-pressed="true"' : ''}${off ? ' disabled' : ''}>${monthShort(m)}</button>`;
     }).join('')}</div>`;
   }
+  /* Stunde und Minute als Spalten; ohne Wert ist nichts markiert, die Spalten stehen dann auf der aktuellen Uhrzeit */
+  function timeHTML() {
+    const t = (input.value || '').slice(11, 16); const cur = { hour: t ? +t.slice(0, 2) : -1, min: t ? +t.slice(3, 5) : -1 };
+    const col = (kind, n, label) => `<div class="dp-tcol" data-col="${kind}" role="group" aria-label="${label}">${Array.from({ length: n }, (_, i) => `<button type="button" class="dp-t${i === cur[kind] ? ' sel' : ''}" data-dp="${kind}" data-v="${i}" tabindex="${i === Math.max(0, cur[kind]) ? '0' : '-1'}"${i === cur[kind] ? ' aria-pressed="true"' : ''}>${pad(i)}</button>`).join('')}</div>`;
+    return `<div class="dp-time"><div class="dp-thead"><span class="dp-tval${t ? '' : ' empty'}">${t || '--:--'}</span></div><div class="dp-week dp-tweek" aria-hidden="true"><span>Std</span><span>Min</span></div><div class="dp-tcols">${col('hour', 24, 'Stunde')}${col('min', 60, 'Minute')}</div></div>`;
+  }
+  /* gewählte (sonst aktuelle) Stunde und Minute mittig in ihre Spalte holen */
+  function centerTimes() {
+    if (!el) return; const now = new Date();
+    el.querySelectorAll('.dp-tcol').forEach(c => { const b = c.querySelector('.dp-t.sel') || c.querySelector(`.dp-t[data-v="${c.dataset.col === 'hour' ? now.getHours() : now.getMinutes()}"]`); if (b) c.scrollTop = b.offsetTop - (c.clientHeight - b.offsetHeight) / 2; });
+  }
   function render() {
     if (!el || !input) return;
+    const keep = [...el.querySelectorAll('.dp-tcol')].map(c => c.scrollTop); const dt = isDT();
     const months = view.mode === 'months', monthField = input.type === 'month';
     const title = months ? String(view.y) : monthTitle(view.y, view.m);
     const head = `<div class="dp-head">${monthField ? `<span class="dp-title">${title}</span>` : `<button type="button" class="dp-title" data-dp="mode" aria-label="${months ? 'Zurück zu den Tagen' : 'Monat und Jahr wählen'}">${title}${IC.caret}</button>`}<div class="dp-nav"><button type="button" data-dp="prev" aria-label="${months ? 'Vorheriges Jahr' : 'Vorheriger Monat'}">${IC.prev}</button><button type="button" data-dp="next" aria-label="${months ? 'Nächstes Jahr' : 'Nächster Monat'}">${IC.next}</button></div></div>`;
-    const foot = `<div class="dp-foot">${input.required ? '<span></span>' : '<button type="button" class="dp-link" data-dp="clear">Löschen</button>'}<button type="button" class="dp-link accent" data-dp="today">${monthField ? 'Dieser Monat' : 'Heute'}</button></div>`;
-    el.innerHTML = head + (months ? monthsHTML() : daysHTML()) + foot;
-    el.classList.toggle('months', months);
+    const clear = input.required ? '<span></span>' : '<button type="button" class="dp-link" data-dp="clear">Löschen</button>';
+    const foot = dt ? `<div class="dp-foot">${clear}<span class="dp-foot-r"><button type="button" class="dp-link" data-dp="today">Jetzt</button><button type="button" class="dp-link accent" data-dp="done">Fertig</button></span></div>`
+      : `<div class="dp-foot">${clear}<button type="button" class="dp-link accent" data-dp="today">${monthField ? 'Dieser Monat' : 'Heute'}</button></div>`;
+    const cal = head + (months ? monthsHTML() : daysHTML());
+    el.innerHTML = dt ? `<div class="dp-body"><div class="dp-cal">${cal}</div>${timeHTML()}</div>${foot}` : cal + foot;
+    el.classList.toggle('months', months); el.classList.toggle('dt', dt);
+    el.querySelectorAll('.dp-tcol').forEach((c, i) => { if (keep[i] != null) c.scrollTop = keep[i]; }); /* Neuaufbau behält die Scrollstände der Uhrzeit-Spalten */
     el.setAttribute('aria-label', monthField ? 'Monat wählen' : 'Datum wählen');
   }
   /* unter dem Feld, links bündig; reicht der Platz nach unten nicht, klappt der Kalender nach oben */
@@ -80,18 +100,26 @@
   }
   function focusCurrent() { const t = el && el.querySelector('.dp-day[tabindex="0"], .dp-month.sel, .dp-month.today, .dp-month'); if (t) t.focus({ preventScroll: true }); }
 
-  /* Wert schreiben wie eine Eingabe: input- und change-Ereignis, Uhrzeit bei Datum mit Uhrzeit bleibt erhalten */
-  function commit(k) {
+  /* Wert schreiben wie eine Eingabe: input- und change-Ereignis */
+  function write(inp, v) { if (inp.value !== v) { inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true })); } }
+  function refocus(inp) { try { inp.focus({ preventScroll: true }); } catch (e) { /* ohne Fokus-Optionen */ } }
+  /* Tag übernehmen; Uhrzeit bei Datum mit Uhrzeit bleibt erhalten. stay: Kalender bleibt offen (Uhrzeit noch wählbar) */
+  function commit(k, stay) {
     const inp = input; if (!inp) return; let v = '';
     if (k) {
       if (inp.type === 'month') v = k.slice(0, 7);
-      else if (inp.type === 'datetime-local') { const n = new Date(); v = k + 'T' + ((inp.value || '').slice(11, 16) || `${pad(n.getHours())}:${pad(n.getMinutes())}`); }
+      else if (inp.type === 'datetime-local') v = k + 'T' + ((inp.value || '').slice(11, 16) || nowHM());
       else v = k;
     }
-    close();
-    if (inp.value !== v) { inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true })); }
-    try { inp.focus({ preventScroll: true }); } catch (e) { /* ohne Fokus-Optionen */ }
+    if (stay) { focusKey = k || focusKey; write(inp, v); render(); return; }
+    close(); write(inp, v); refocus(inp);
   }
+  /* Stunde oder Minute setzen; ohne Datum gilt der markierte Tag im Kalender (sonst heute) */
+  function setTime(kind, n) {
+    const inp = input; const v = inp.value || ''; const day = v.slice(0, 10) || focusKey || keyOf(new Date()); const t = v.slice(11, 16) || nowHM();
+    write(inp, `${day}T${kind === 'hour' ? pad(n) : t.slice(0, 2)}:${kind === 'min' ? pad(n) : t.slice(3, 5)}`); render();
+  }
+  function done() { const inp = input; close(); if (inp && inp.isConnected) refocus(inp); }
   function onClick(e) {
     /* Klicks bleiben im Kalender: ein Neuaufbau löst das Ziel aus dem Baum, die App würde ihn sonst als Klick daneben werten */
     e.stopPropagation();
@@ -99,12 +127,24 @@
     if (a === 'prev' || a === 'next') { const s = a === 'prev' ? -1 : 1; if (view.mode === 'months') view.y += s; else { const d = new Date(view.y, view.m + s, 1); view.y = d.getFullYear(); view.m = d.getMonth(); } render(); place(); }
     else if (a === 'mode') { view.mode = view.mode === 'months' ? 'days' : 'months'; render(); place(); }
     else if (a === 'month') { const m = +b.dataset.m; if (input.type === 'month') commit(`${view.y}-${pad(m + 1)}-01`); else { view.m = m; view.mode = 'days'; focusKey = ''; render(); place(); } }
-    else if (a === 'day') commit(b.dataset.k);
-    else if (a === 'today') commit(keyOf(new Date()));
+    else if (a === 'day') commit(b.dataset.k, isDT());
+    else if (a === 'hour' || a === 'min') setTime(a, +b.dataset.v);
+    else if (a === 'today') { if (isDT()) { const inp = input; close(); write(inp, `${keyOf(new Date())}T${nowHM()}`); refocus(inp); } else commit(keyOf(new Date())); }
+    else if (a === 'done') done();
     else if (a === 'clear') commit('');
   }
   /* Pfeile: Tag und Woche, Bild auf/ab: Monat, Pos1/Ende: Wochenanfang und -ende */
   function onKey(e) {
+    /* Uhrzeit-Spalten: Pfeil hoch/runter wählt die Nachbarzeit, Enter schließt */
+    const tb = e.target.closest && e.target.closest('.dp-t');
+    if (tb) {
+      const kind = tb.dataset.dp, max = kind === 'hour' ? 24 : 60;
+      if (e.key === 'Enter') { e.preventDefault(); done(); return; }
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+      e.preventDefault(); const n = (+tb.dataset.v + (e.key === 'ArrowUp' ? -1 : 1) + max) % max; setTime(kind, n);
+      const nb = el.querySelector(`.dp-t[data-dp="${kind}"][data-v="${n}"]`); if (nb) { nb.focus({ preventScroll: true }); nb.scrollIntoView({ block: 'nearest' }); }
+      return;
+    }
     const b = e.target.closest && e.target.closest('.dp-day'); if (!b || view.mode !== 'days') return;
     const d = parse(b.dataset.k); const wd = (d.getDay() + 6) % 7;
     const shiftMonth = s => { const y = d.getFullYear(), m = d.getMonth() + s; const day = Math.min(d.getDate(), daysIn(y, m)); d.setFullYear(y, m, day); };
@@ -134,7 +174,7 @@
     ensure(); input = inp;
     const p = partner(inp); const cur = parse(dayOf(inp)) || (p && parse(dayOf(p))) || new Date();
     view = { y: cur.getFullYear(), m: cur.getMonth(), mode: inp.type === 'month' ? 'months' : 'days' }; focusKey = dayOf(inp);
-    render(); el.classList.remove('closing'); el.classList.add('open'); place();
+    render(); el.classList.remove('closing'); el.classList.add('open'); place(); centerTimes();
     if (keyboard) focusCurrent();
   }
   function close(now) {

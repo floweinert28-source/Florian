@@ -1431,4 +1431,7 @@ I18N.add('en', {
   "Weitere": "More",
   "Anderes Symbol, z. B. DAX": "Other symbol, e.g. DAX",
   "Anderes Symbol": "Other symbol",
+  "Std": "Hr",
+  "Stunde": "Hour",
+  "Jetzt": "Now",
 });

@@ -429,6 +429,21 @@ button.dp-title:hover { background: var(--surface-2); }
 .dp-link:hover { background: var(--surface-2); color: var(--text); }
 .dp-link.accent { color: var(--accent); }
 .dp button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* Datum mit Uhrzeit: Kalender links, rechts Stunde und Minute als schmale Spalten (gleich hoch wie der Kalender) */
+.popover.dp.dt { width: 404px; }
+.dp-body { display: grid; grid-template-columns: minmax(0, 1fr) 108px; gap: 12px; }
+.dp-time { display: flex; flex-direction: column; min-height: 0; padding-left: 12px; border-left: 1px solid var(--border); }
+.dp-thead { display: flex; align-items: center; height: 30px; margin-bottom: 6px; }
+.dp-tval { font-family: var(--font-num); font-size: 14.5px; font-weight: 600; color: var(--text); letter-spacing: .02em; }
+.dp-tval.empty { color: var(--faint); }
+.dp-tweek { grid-template-columns: 1fr 1fr; }
+.dp-tcols { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.dp-tcol { position: relative; display: flex; flex-direction: column; gap: 2px; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; -webkit-mask-image: linear-gradient(transparent, #000 12px, #000 calc(100% - 12px), transparent); mask-image: linear-gradient(transparent, #000 12px, #000 calc(100% - 12px), transparent); }
+.dp-tcol::-webkit-scrollbar { display: none; }
+.dp-t { flex: none; height: 30px; padding: 0; border: 0; border-radius: 8px; background: none; color: var(--text-2); font-family: var(--font-num); font-size: 13px; font-weight: 500; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.dp-t:hover { background: var(--surface-2); color: var(--text); }
+.dp-t.sel { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.dp-foot-r { display: flex; gap: 4px; }
 
 /* ---------- Karten ---------- */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; min-width: 0; transition: border-color var(--dur-2) var(--ease); }

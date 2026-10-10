@@ -909,7 +909,7 @@ I18N.add('hi', {
   "Positionswert: Stück × Kurs × Punktwert": "पोज़िशन वैल्यू: यूनिट × प्राइस × पॉइंट वैल्यू",
   "Emotion": "भावना",
   "Suchen …": "खोजें …",
-  "Min": "न्यूनतम",
+  "Min": "मि",
   "Max": "अधिकतम",
   "Nichts gefunden": "कुछ नहीं मिला",
   "z. B. {0}": "जैसे {0}",
@@ -1524,4 +1524,8 @@ I18N.add('hi', {
   "Weitere": "और",
   "Anderes Symbol, z. B. DAX": "दूसरा सिंबल, जैसे DAX",
   "Anderes Symbol": "दूसरा सिंबल",
+  "Std": "घं",
+  "Stunde": "घंटा",
+  "Minute": "मिनट",
+  "Jetzt": "अभी",
 });

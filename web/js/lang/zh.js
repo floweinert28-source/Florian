@@ -909,7 +909,7 @@ I18N.add('zh', {
   "Positionswert: Stück × Kurs × Punktwert": "持仓价值：数量 × 价格 × 点值",
   "Emotion": "情绪",
   "Suchen …": "搜索…",
-  "Min": "最小",
+  "Min": "分",
   "Max": "最大",
   "Nichts gefunden": "未找到",
   "z. B. {0}": "例如 {0}",
@@ -1524,4 +1524,8 @@ I18N.add('zh', {
   "Weitere": "更多",
   "Anderes Symbol, z. B. DAX": "其他品种，例如 DAX",
   "Anderes Symbol": "其他品种",
+  "Std": "时",
+  "Stunde": "小时",
+  "Minute": "分钟",
+  "Jetzt": "现在",
 });

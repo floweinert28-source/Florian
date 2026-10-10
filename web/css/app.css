@@ -1700,6 +1700,28 @@ span.info:hover { color: var(--accent); }
 .set-head p { margin-top: 4px; font-size: 13.5px; }
 .set-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
 .set-block h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+/* Erscheinungsbild: drei Vorschaukarten statt Wörtern; jede zeigt ein kleines App-Fenster in den Farben des Designs.
+   Gewählt: heller Ring mit Abstand, Name darunter in Textfarbe */
+.theme-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 200px)); gap: 14px; }
+.theme-card { display: flex; flex-direction: column; gap: 9px; padding: 0; border: 0; background: none; color: var(--muted); font: inherit; cursor: pointer; text-align: center; }
+.theme-card b { font-size: 12.5px; font-weight: 600; transition: color var(--dur-1) var(--ease); }
+.theme-card:hover b, .theme-card[aria-pressed="true"] b { color: var(--text); }
+.tc-prev { position: relative; display: block; aspect-ratio: 16 / 11; border-radius: 14px; overflow: hidden; background: linear-gradient(160deg, var(--c1), var(--c0)); box-shadow: inset 0 0 0 1px var(--cb), 0 0 0 0 transparent; transition: box-shadow var(--dur-1) var(--ease), transform var(--dur-1) var(--ease); }
+.theme-card:hover .tc-prev { transform: translateY(-1px); }
+.theme-card[aria-pressed="true"] .tc-prev { box-shadow: inset 0 0 0 1px var(--cb), 0 0 0 3px var(--surface), 0 0 0 4.5px color-mix(in srgb, var(--text) 85%, transparent), 0 10px 26px -14px rgba(0, 0, 0, .6); }
+.theme-card:focus-visible { outline: none; } .theme-card:focus-visible .tc-prev { box-shadow: inset 0 0 0 1px var(--cb), 0 0 0 3px var(--surface), 0 0 0 5px var(--accent); }
+.tc-win { position: absolute; left: 13%; top: 15%; right: -6%; bottom: -10%; border-radius: 9px; background: var(--cw); box-shadow: inset 0 0 0 1px var(--cb), 0 12px 24px -12px rgba(0, 0, 0, .55); }
+.tc-win i { display: block; border-radius: 2px; background: var(--cl); }
+.tc-dots { position: absolute; left: 7%; top: 7%; display: flex; gap: 3px; } .tc-dots i { width: 4px; height: 4px; border-radius: 50%; }
+.tc-side { position: absolute; left: 7%; top: 22%; width: 17%; display: flex; flex-direction: column; gap: 5px; } .tc-side i { height: 3px; }
+.tc-side i:nth-child(1) { width: 75%; background: var(--accent); opacity: .9; } .tc-side i:nth-child(2) { width: 100%; } .tc-side i:nth-child(3) { width: 85%; } .tc-side i:nth-child(4) { width: 60%; }
+.tc-user { position: absolute; left: 7%; bottom: 16%; display: flex; align-items: center; gap: 4px; } .tc-user i:first-child { width: 8px; height: 8px; border-radius: 50%; } .tc-user i:last-child { width: 14px; height: 3px; }
+.tc-main { position: absolute; left: 31%; top: 13%; right: 0; bottom: 0; padding: 9% 0 0 8%; border-radius: 7px 0 0 0; background: var(--cp); box-shadow: inset 1px 1px 0 var(--cb); }
+.tc-main .h { width: 18%; height: 3px; } .tc-main .h2 { width: 36%; height: 3px; margin-top: 4px; opacity: .6; } .tc-main .f { width: 22%; height: 3px; margin-top: 12%; opacity: .6; }
+.tc-tiles { display: flex; gap: 6%; margin-top: 11%; } .tc-tiles i { flex: 0 0 28%; aspect-ratio: 3 / 2; border-radius: 4px; background: var(--ct); }
+.theme-card.t-graphit { --c1: #1e1d1a; --c0: #0e0d0b; --cw: #151412; --cp: #1c1b19; --cb: #2f2d29; --cl: #3d3b36; --ct: #2a2926; }
+.theme-card.t-schwarz { --c1: #0c0e0d; --c0: #000000; --cw: #060807; --cp: #0d0f0e; --cb: #1f2622; --cl: #2b332e; --ct: #171b18; }
+.theme-card.t-light { --c1: #eef1ee; --c0: #d9dfda; --cw: #f3f5f3; --cp: #ffffff; --cb: #cfd6d1; --cl: #d3d9d4; --ct: #edf0ed; }
 .set-row { display: flex; align-items: flex-start; gap: 14px; }
 .set-row .switch { margin-top: 3px; }
 .set-row b { display: block; margin-bottom: 2px; }

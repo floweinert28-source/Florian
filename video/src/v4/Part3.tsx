@@ -92,7 +92,7 @@ export const Part3: React.FC = () => {
           {t < 3.3 ? <Hand x={hand.x} y={hand.y} clickAge={f - sec(CLICK)} size={V ? 100 : 92} opacity={prog(f, sec(2.2), sec(0.15)) * (1 - prog(f, sec(3.15), sec(0.15)))} /> : null}
         </AbsoluteFill>
       ) : null}
-      {flash > 0 && flash < 1 ? <AbsoluteFill style={{ background: '#d9ffe9', opacity: Math.sin(Math.PI * flash) * 0.85 }} /> : null}
+      {flash > 0 && flash < 1 ? <AbsoluteFill style={{ background: 'radial-gradient(closest-side, rgba(170,255,205,0.75), rgba(52,245,138,0.25) 60%, transparent)', opacity: Math.sin(Math.PI * flash) * 0.6 }} /> : null}
 
       {t >= 3.7 && out3 < 1 ? (
         <AbsoluteFill style={{ opacity: 1 - out3, transform: `translateX(${(-out3 * W * 0.3).toFixed(1)}px)`, filter: out3 > 0 ? `blur(${(out3 * 16).toFixed(1)}px)` : undefined }}>

@@ -17,7 +17,7 @@ const SHOTS: Shot[] = [
   { from: T1, to: T2, el: <Part2 /> },       /* Drop one or many CSV files → Import → It reads every trade */
   { from: T2, to: T3, el: <Part3 /> },       /* And seconds later → Your trades are in. → Time for a quick ◆ review. */
   { from: T3, to: T4, el: <Part4 /> },       /* TradeLog → Review trade → Save review */
-  { from: T4, to: T5, el: <Part5 /> },       /* Rule check → Plan followed → Trade reviewed → Save time … → JOURNALYST */
+  { from: T4, to: T5, in: 'blur', inDur: 0.3, el: <Part5 /> },       /* Rule check → Plan followed → Trade reviewed → Save time … → JOURNALYST */
 ];
 export const DURATION4 = sec(T5);
 

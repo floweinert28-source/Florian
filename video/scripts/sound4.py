@@ -149,9 +149,9 @@ sfx = np.zeros((2, N))
 def taps(times, f0=520, step=40, gain=0.36):
     for i, at in enumerate(times):
         put(sfx, tap(f0 + step * i), at, gain, [-0.15, 0.1, 0.0, 0.15, -0.1][i % 5])
-def keys(start, n, per, gain=0.1):
-    for i in range(n):
-        put(sfx, key(), start + i * per + rng.uniform(-0.004, 0.004), gain, rng.uniform(-0.2, 0.2))
+def keys(start, n, per, gain=0.07):
+    for i in range(n):  # weicher: Höhen gedämpft
+        put(sfx, filt(key(), 'lowpass', 2600), start + i * per + rng.uniform(-0.004, 0.004), gain, rng.uniform(-0.2, 0.2))
 
 # Part1 (0 s)
 put(sfx, swish(1.0, 250, 1500), 0.1, 0.06)
@@ -181,7 +181,7 @@ for i in range(5):
 taps([19.8, 19.95, 20.1], 520, 50, 0.3)                 # And seconds later
 put(sfx, soft_pop(), 21.0, 0.3)                         # Fenster
 put(sfx, click(), 22.6, 0.42)                           # Review trades (danach kein Whoosh)
-put(sfx, chime([note('C5'), note('E5')], 0.9, 0.03), 23.3, 0.2)  # Lichtblitz
+put(sfx, chime([note('C5'), note('E5')], 0.9, 0.03), 23.3, 0.14)  # Lichtschein
 put(sfx, swish(0.75, 400, 3000), 23.8, 0.08)            # Raute fliegt
 taps([24.6, 24.9, 25.05, 25.25], 520, 40, 0.3)          # Time for a quick
 put(sfx, soft_pop(700, 460, 0.14), 25.4, 0.24)          # Raute landet
@@ -212,7 +212,7 @@ put(sfx, chime([note('A3'), note('E4')], 1.6, 0.05), 42.3, 0.16)  # Stern aus B�
 put(sfx, swish(0.25, 300, 2000), 43.65, 0.1)
 put(sfx, soft_pop(), 43.85, 0.3)                        # Raute
 put(sfx, chime([note('C4'), note('E4'), note('G4'), note('C5')], 2.2, 0.04), 44.3, 0.42)  # Wortmarke
-keys(44.95, 18, 0.05, 0.09)                             # Start your journal
+keys(44.95, 18, 0.05, 0.06)                             # Start your journal
 sfx = reverb(sfx, 1.4, 0.16, 7000)
 sfx[:, int(47.12 * SR):] = 0                            # harter Schnitt wie im Vorbild
 

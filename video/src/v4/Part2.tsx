@@ -81,7 +81,7 @@ const Sheet: React.FC<{ hl: number[] }> = ({ hl }) => (
       <div key={r.date} style={{ position: 'absolute', left: 10, right: 10, top: ROW0 + i * RH + 4, height: RH - 8, borderRadius: 10, background: mixA(A.accent, 0.13 * (hl[i] ?? 0)), boxShadow: (hl[i] ?? 0) > 0 ? `inset 0 0 0 1px ${mixA(A.accent, 0.4 * hl[i])}` : undefined }}>
         {COL.map((c) => {
           const v = c.k === 'time' ? `${r.day.slice(0, 5)} ${r.time}` : c.k === 'symbol' ? r.symbol : c.k === 'side' ? (r.side === 'LONG' ? 'Buy' : 'Sell') : c.k === 'entry' ? r.entry : c.k === 'exit' ? r.exit : r.pnl;
-          return <div key={c.k} style={{ position: 'absolute', left: c.x - 10, width: c.w, top: 15, textAlign: c.r ? 'right' : 'left', fontSize: 14.5, fontWeight: c.k === 'symbol' ? 700 : 500, color: c.k === 'pnl' ? (/^\+/.test(r.pnl) ? A.accent : A.loss) : c.k === 'time' ? A.text2 : A.text }}>{v}</div>;
+          return <div key={c.k} style={{ position: 'absolute', left: c.x - 10, width: c.w, top: 15, textAlign: c.r ? 'right' : 'left', fontSize: 14.5, fontWeight: c.k === 'symbol' ? 700 : 500, color: c.k === 'pnl' ? (/^\+/.test(r.pnl) ? A.accent : A.loss) : A.text }}>{v}</div>;
         })}
       </div>
     ))}
@@ -115,7 +115,7 @@ export const Part2: React.FC = () => {
   /* 3: Tabelle */
   const dIn = prog(f, sec(6.1), sec(0.6), SOFT); const upright = prog(f, sec(8.0), sec(0.75), SIG);
   const side = prog(f, sec(6.25), sec(0.55), SOFT) * (1 - prog(f, sec(8.0), sec(0.4), IN));
-  const DS = (V ? lerp(0.95, 1.28, upright) : lerp(0.85, 1.3, upright)) * lerp(0.1, 1, dIn) * lerp(1, 0.95, prog(f, sec(10.25), sec(1.2), SIG));
+  const DS = (V ? lerp(0.95, 1.32, upright) : lerp(0.85, 1.45, upright)) * lerp(0.1, 1, dIn) * lerp(1, 0.95, prog(f, sec(10.25), sec(1.2), SIG));
   const scan = prog(f, sec(9.5), sec(0.65), (x) => x); const beamY = lerp(ROW0 - 20, ROW0 + closed.length * RH + 10, scan);
   const hl = closed.map((_, i) => prog(f, sec(9.5 + 0.65 * ((ROW0 + i * RH + RH / 2 - (ROW0 - 20)) / (closed.length * RH + 30))), sec(0.25)));
   const docOut = prog(f, sec(10.3), sec(1.2), IN); const fade = prog(f, sec(11.5), sec(0.3));

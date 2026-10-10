@@ -13,10 +13,7 @@
   /* ---------- Karte ----------
      Bewusst reduziert: Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften. Ein Design im Look der App:
      warmes Graphit, Ergebnis als grüne (bei Verlust rote) Pille wie ein aktiver Reiter, Kennzahlen als Kachelstreifen,
-     feiner Kartenrahmen und unten über der Fußlinie eine weiche Kurslinie (bei Verlust fallend).
-     Aufteilung je Format über Grid-Bereiche in css/app.css (Block „Zertifikat“). */
-  /* Kurslinie: weiche Kurve durch feste Punkte (Catmull-Rom als Bézier), Fläche darunter läuft nach unten aus, leuchtender Endpunkt.
-     Sie liegt im freien Streifen zwischen Kennzahlen und Fußlinie (Grid-Zeile 6), nichts verdeckt sie; bei Verlust gespiegelt (fallend). */
+     feiner Kartenrahmen, kein Hintergrund-Diagramm. Aufteilung je Format über Grid-Bereiche in css/app.css (Block „Zertifikat“). */
   const KIND_SUB = { day: 'of Daily Profit', week: 'of Weekly Profit', month: 'of Monthly Profit', stats: 'of Performance' };
   function cardHTML(m, p, o) {
     if (fmt.moneyBlind()) o = Object.assign({}, o, { hide: true });

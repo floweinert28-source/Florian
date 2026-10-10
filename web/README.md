@@ -172,6 +172,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Screenreader-Texte aus dem Wörterbuch der Sprache (`js/lang/<code>.js`, deutscher Text → Übersetzung, `{0}` für Zahlen,
   Beträge und Namen). Eigene Inhalte (Notizen, Eingabefelder) werden nie verändert, gespeicherte Daten bleiben unverändert.
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
+  Rote Flächen (Verlusttage im Kalender und in der Jahresübersicht, Fläche unter der Kurve im Minus) sind etwas kräftiger getönt als grüne,
+  damit sie auf dem dunklen Grund gleich stark wirken.
   Eigener **Farbwähler** im App-Design statt des System-Fensters (für alle Farbfelder der App, `js/colorpicker.js`): Fläche für Sättigung
   und Helligkeit, Farbton-Regler, Hex-Feld; die Farbe ist beim Wählen als Vorschau zu sehen, übernommen wird sie erst mit „Speichern“
   (oder Enter). „Abbrechen“, Escape und ein Klick daneben stellen die alte Farbe wieder her. Selbst gewählte Farben werden gemerkt (höchstens 8, neueste vorne),

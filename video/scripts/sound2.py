@@ -10,7 +10,7 @@ import numpy as np
 from scipy import signal
 
 SR = 48000
-DUR = 35.0
+DUR = 34.4
 N = int(SR * DUR)
 rng = np.random.default_rng(11)
 ROOT = os.path.join(os.path.dirname(__file__), '..')
@@ -127,7 +127,7 @@ def glide(d, f0, f1):
     """Leiser Ton, der beim Füllen des Balkens langsam steigt."""
     t = tt(d)
     f = f0 * (f1 / f0) ** (t / d)
-    x = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.3 * np.sin(2 * np.pi * np.cumsum(2 * f) / SR)
+    x = filt(np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.15 * np.sin(2 * np.pi * np.cumsum(2 * f) / SR), 'lowpass', 900)
     env = np.minimum(1, t / 0.15) * np.clip((d - t) / 0.25, 0, 1)
     return x * env * 0.35
 
@@ -165,14 +165,14 @@ for at, fr in [(6.85, 560), (7.3, 620), (7.75, 700)]:
 put(sfx, chime([note('C4'), note('E4'), note('G4')], 1.2, 0.03), 8.35, 0.35)  # All in one journal.
 put(sfx, swell(0.9), 9.35, 0.22)                     # in das Handy hinein
 # 3 Score
-put(sfx, glide(2.1, note('A3'), note('A4')), 10.6, 0.16)  # Balken läuft voll
+put(sfx, glide(2.1, note('A2'), note('E3')), 10.6, 0.13)  # Balken läuft voll
 for at, nm in zip((11.05, 11.75, 12.6), ('C5', 'E5', 'G5')):
     put(sfx, chime([note(nm)], 0.8), at, 0.3)        # Regeln leuchten auf (weich, wie in Video 1)
 put(sfx, swish(0.3, 300, 1800), 12.8, 0.1)           # zieht sich zum Kreis zusammen
 put(sfx, soft_pop(560, 380, 0.18), 13.25, 0.35)
 put(sfx, chime([note('G4'), note('C5'), note('E5')], 1.3, 0.06), 13.3, 0.38)  # Plan followed.
-put(sfx, sparkle(1.3), 13.28, 0.18, -0.3)
-put(sfx, sparkle(1.3), 13.33, 0.18, 0.3)
+put(sfx, sparkle(1.3), 13.28, 0.14, -0.3)
+put(sfx, sparkle(1.3), 13.33, 0.14, 0.3)
 put(sfx, tap(500), 14.75, 0.3)                       # Kreis wird zur Karte
 for i in range(2):
     put(sfx, tap(560 + 60 * i), 15.2 + i * 0.09, 0.22, 0.4 + 0.2 * i)  # Karten gleiten herein
@@ -200,7 +200,7 @@ put(sfx, chime([note('C4'), note('E4'), note('G4'), note('C5')], 1.8, 0.04), 29.
 for i in range(10):
     put(sfx, tap(760 + 18 * i), 29.3 + i * 0.04, 0.07)   # Buchstaben
 for i in range(35):
-    put(sfx, key(), 30.1 + i / 22 + rng.uniform(-0.004, 0.004), 0.17, rng.uniform(-0.2, 0.2))  # getippter Satz
+    put(sfx, key(), 30.1 + i / 30 + rng.uniform(-0.004, 0.004), 0.1, rng.uniform(-0.2, 0.2))  # getippter Satz
 sfx = reverb(sfx, 1.4, 0.16, 7000)
 
 # ---------- Mischen ----------

@@ -32,7 +32,7 @@ const project = (ax: number, ay: number, c: Cam, W: number, H: number) => {
 /* Zeitplan in Sekunden ab Beginn des Abschnitts */
 const T = { rows: 0, hand0: 0.4, hand1: 1.2, z0: 1.3, z1: 2.0, btn: 1.85, toBtn0: 2.15, toBtn1: 2.6, click: 2.65, lift0: 3.0, lift1: 3.45, morph0: 3.45, morph1: 3.9, exit0: 4.1, exit1: 4.6,
   back0: 4.75, back1: 5.15, words: [5.0, 6.05, 7.05], hops: [5.95, 6.95], wordsOut: 8.0, gather0: 8.0, gather1: 8.4, mark: 8.3, type: 9.1 };
-export const FINALE_DURATION = 14.0;
+export const FINALE_DURATION = 13.4;
 const WORDS = ['Log.', 'Review.', 'Improve.'];
 
 export const Finale: React.FC = () => {
@@ -49,7 +49,7 @@ export const Finale: React.FC = () => {
   const BW = 214, BH = 40;
   const btnApp = V ? { x: tw - 16 - BW, y: rowY + TL.row + 18 } : { x: tw - 16 - BW, y: rowY + (TL.row - BH) / 2 };
   const btnA = prog(f, sec(T.btn), sec(0.35), OUT);
-  const pressed = t >= T.click; const press = pressed && t < T.click + 0.14 ? 0.94 : 1;
+  const pressed = t >= T.click; const press = pressed && t < T.click + 0.1 ? 0.95 : 1;
   const tableOut = prog(f, sec(T.lift0), sec(T.lift1 - T.lift0), IN);
   const dimRest = prog(f, sec(T.z0), sec(0.5), SIG);
   const hoverRow = prog(f, sec(T.hand1 - 0.05), sec(0.25), OUT);
@@ -104,7 +104,7 @@ export const Finale: React.FC = () => {
   /* ---------- Wortmarke und Satz ---------- */
   const MARK = 'JOURNALYST'; const MS = V ? 100 : 120;
   const glow = prog(f, sec(T.mark), sec(0.9), SIG);
-  const push = 1 + 0.035 * prog(f, sec(T.gather0), sec(6), SIG);
+  const push = 1 + 0.035 * prog(f, sec(T.gather0), sec(5.4), SIG);
 
   const Check: React.FC<{ size: number; k: number }> = ({ size, k }) => {
     const d = 'M30 51 L44 65 L72 36'; const e = evolvePath(k, d);
@@ -194,7 +194,7 @@ export const Finale: React.FC = () => {
               return <span key={i} style={{ display: 'inline-block', opacity: a, transform: `translateY(${lerp(30, 0, Math.min(1, q)).toFixed(2)}px) scale(${lerp(0.6, 1, q).toFixed(4)})`, filter: a < 1 ? `blur(${lerp(14, 0, a).toFixed(2)}px)` : undefined }}>{ch}</span>; })}
           </div>
           <div style={{ position: 'absolute', left: 0, right: 0, top: cy + (V ? 70 : 80), textAlign: 'center', fontFamily: DISPLAY, fontSize: V ? 40 : 38, fontWeight: 500, color: A.text2, letterSpacing: '-0.01em' }}>
-            <Typed f={f} text="The trading journal for discipline." start={sec(T.type)} cps={22} caretColor={GREEN} />
+            <Typed f={f} text="The trading journal for discipline." start={sec(T.type)} cps={30} caretColor={GREEN} />
           </div>
         </AbsoluteFill>
       ) : null}

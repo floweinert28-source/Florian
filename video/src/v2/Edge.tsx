@@ -59,22 +59,23 @@ export const Edge: React.FC = () => {
   const targets = V
     ? [{ x: 285, y: 470, r: -6 }, { x: 795, y: 440, r: 5 }, { x: 290, y: 1490, r: 5 }, { x: 790, y: 1520, r: -6 }]
     : [{ x: 410, y: 265, r: -7 }, { x: 1515, y: 255, r: 6 }, { x: 415, y: 825, r: 5 }, { x: 1505, y: 820, r: -6 }];
-  const cardOut = prog(f, sec(0.05), sec(0.35), IN);
+  const breath = Math.sin(Math.PI * prog(f, 0, sec(0.22), SIG)) * 0.05;
+  const cardOut = prog(f, sec(0.16), sec(0.32), IN);
   const drift = prog(f, sec(0.7), sec(2.4), (x) => x);
   const chartT = prog(f, sec(0.45), sec(1.1), SIG);
   const word = (at: number) => prog(f, sec(at), sec(0.45), SOFT);
-  const W3 = [['Know', LIGHT, 0.4], ['your', LIGHT, 0.62], ['edge.', GREEN, 0.86]] as const;
+  const W3 = [['Know', LIGHT, 0.45], ['your', LIGHT, 0.67], ['edge.', GREEN, 0.9]] as const;
   return (
     <AbsoluteFill style={{ overflow: 'hidden' }}>
       <Bg f={f} kind="night" />
       {cardOut < 1 ? (
         <div style={{ position: 'absolute', left: cx - (CARD.w * cs) / 2, top: cy - (CARD.h * cs) / 2, width: CARD.w, height: CARD.h, transformOrigin: '0 0',
-          transform: `scale(${cs * lerp(1, 0.8, cardOut)})`, opacity: 1 - cardOut, translate: `${(CARD.w * cs * cardOut * 0.1).toFixed(2)}px ${(CARD.h * cs * cardOut * 0.1).toFixed(2)}px` }}>
+          transform: `scale(${cs * (1 + breath) * lerp(1, 0.8, cardOut)})`, opacity: 1 - cardOut, translate: `${(CARD.w * cs * (cardOut * 0.1 - breath / 2)).toFixed(2)}px ${(CARD.h * cs * (cardOut * 0.1 - breath / 2)).toFixed(2)}px` }}>
           <MiniCard r={rows[0]} hover={1} />
         </div>
       ) : null}
       {targets.map((g, i) => {
-        const a = prog(f, sec(0.06 + i * 0.05), sec(0.7), SOFT);
+        const a = prog(f, sec(0.16 + i * 0.05), sec(0.75), SOFT);
         if (a <= 0) return null;
         const out = 1 + 0.05 * drift;
         const x = lerp(cx, cx + (g.x - cx) * out, a), y = lerp(cy, cy + (g.y - cy) * out, a);

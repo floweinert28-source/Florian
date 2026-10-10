@@ -22,7 +22,7 @@ export const PHONES_DURATION = 5.2;
 export const Phones: React.FC = () => {
   const f = useCurrentFrame(); const t = f / FPS;
   const { W, H, V, cx, cy } = useFormat();
-  const S = V ? 86 : 96; const ps = V ? 0.98 : 0.92;
+  const S = V ? 90 : 110; const ps = V ? 0.98 : 0.92;
   const C = { x: PHONE.w / 2, y: PHONE.h / 2 };
   const list: { screen: Screen; pose: Pose; origin: { x: number; y: number } }[] = V
     ? [

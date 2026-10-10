@@ -9,7 +9,7 @@ const TIP = [11.5, 1.8];
 
 export const Hand: React.FC<{ x: number; y: number; clickAge?: number; size?: number; opacity?: number; rot?: number; line?: string }> = ({ x, y, clickAge = -1, size = 70, opacity = 1, rot = -14, line = '#0b8a47' }) => {
   const k = size / 36;
-  const press = clickAge >= 0 && clickAge < sec(0.22) ? 1 - 0.16 * Math.sin((clickAge / sec(0.22)) * Math.PI) : 1;
+  const press = clickAge >= 0 && clickAge < sec(0.15) ? 1 - 0.15 * Math.sin((clickAge / sec(0.15)) * Math.PI) : 1;
   const ring = clickAge >= 0 && clickAge < sec(0.5) ? clickAge / sec(0.5) : null;
   const R = size * (0.28 + 0.5 * (ring ?? 0));
   return (

@@ -119,7 +119,7 @@ export const Hook: React.FC = () => {
         {/* 1: Turn trades */}
         {out1 < 1 ? (
           <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ...blurOut(out1) }}>
-            <div style={big(S, LIGHT)}>
+            <div style={{ ...big(S, LIGHT), transform: `scale(${lerp(1, 1.045, prog(f, 0, sec(1.3), (x) => x)).toFixed(4)})` }}>
               <span style={{ display: 'inline-block', color: GREEN, opacity: clamp01(line1 * 1.5), filter: line1 < 1 ? `blur(${lerp(24, 0, line1).toFixed(2)}px)` : undefined, transform: `scale(${lerp(0.9, 1, line1)})` }}>Turn</span>{' '}
               <span style={{ display: 'inline-block', opacity: clamp01(tr * 1.5), filter: tr < 1 ? `blur(${lerp(14, 0, tr).toFixed(2)}px)` : undefined, transform: `translateX(${lerp(80, 0, tr).toFixed(2)}px)` }}>trades</span>
             </div>
@@ -128,14 +128,14 @@ export const Hook: React.FC = () => {
         {/* 2: into discipline */}
         {t >= 1.2 && out2 < 1 ? (
           <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ...blurOut(out2) }}>
-            <div style={{ ...big(S, LIGHT), opacity: clamp01(line2 * 1.5), filter: line2 < 1 ? `blur(${lerp(30, 0, line2).toFixed(2)}px)` : undefined, transform: `scale(${lerp(0.88, 1, line2)})` }}>
+            <div style={{ ...big(S, LIGHT), opacity: clamp01(line2 * 1.5), filter: line2 < 1 ? `blur(${lerp(30, 0, line2).toFixed(2)}px)` : undefined, transform: `scale(${(lerp(0.88, 1, line2) * lerp(1, 1.04, prog(f, sec(1.22), sec(1.1), (x) => x))).toFixed(4)})` }}>
               into <span style={{ color: GREEN }}>discipline</span>
             </div>
           </AbsoluteFill>
         ) : null}
         {/* 3: Every trade, dann rechts „instantly“ */}
         {t >= 2.28 ? (
-          <div style={{ position: 'absolute', left: third.left, top: third.top, transform: `translate(${third.tx}%, ${third.ty}%) scale(${lerp(0.9, 1, line3)})`, ...big(S, LIGHT),
+          <div style={{ position: 'absolute', left: third.left, top: third.top, transform: `translate(${third.tx}%, ${third.ty}%) scale(${(lerp(0.9, 1, line3) * lerp(1, 1.03, prog(f, sec(2.3), sec(2.0), (x) => x))).toFixed(4)})`, ...big(S, LIGHT),
             opacity: clamp01(line3 * 1.5) * (1 - fadeAll), filter: line3 < 1 ? `blur(${lerp(26, 0, line3).toFixed(2)}px)` : undefined }}>
             <span style={{ color: GREEN }}>Every</span> trade
           </div>

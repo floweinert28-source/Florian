@@ -951,7 +951,7 @@ span.info:hover { color: var(--accent); }
 .nb .sec-h { display: flex; align-items: center; gap: 6px; width: 100%; padding: 8px 6px 6px; border: 0; background: none; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; cursor: pointer; text-align: left; }
 .nb .sec-h svg { width: 14px; height: 14px; transition: transform var(--dur-1) var(--ease); }
 .nb .sec-h[aria-expanded="false"] svg { transform: rotate(-90deg); }
-.nb .folder { display: flex; align-items: center; gap: 9px; padding: 8px 8px 8px 12px; border-radius: 9px; cursor: pointer; border: 1px solid transparent; font-weight: 500; font-size: 13.5px; position: relative; }
+.nb .folder { display: flex; align-items: center; gap: 9px; padding: 8px 8px 8px 10px; border-radius: 9px; cursor: pointer; border: 1px solid transparent; border-left: 3px solid var(--fc, transparent); font-weight: 500; font-size: 13.5px; position: relative; }
 .nb .folder, .nb .note-item { transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
 .nb .folder:hover { background: var(--surface-2); }
 .nb .folder .cnt { margin-left: auto; font-size: 11px; color: var(--muted); }
@@ -959,6 +959,8 @@ span.info:hover { color: var(--accent); }
 .nb .folder:hover .more, .nb .folder.active .more { opacity: 1; }
 .nb .folder svg.ico { width: 16px; height: 16px; flex: 0 0 auto; color: var(--muted); }
 .nb .folder.active svg.ico { color: var(--accent); }
+/* eigene Ordner: Farbbalken links (--fc); der gewählte Ordner bekommt stattdessen den gleichmäßigen Rahmen wie „Trade loggen“ */
+.nb .folder.active { border-left-width: 1px; padding-left: 12px; }
 .nb .folder hr { margin: 0; }
 .nb .folder .sp { width: 24px; flex: 0 0 auto; }
 .nb .fsep { border-top: 1px solid var(--border); margin: 6px 8px; }

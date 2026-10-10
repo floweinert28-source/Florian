@@ -112,7 +112,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   ForexFactory-Wochen-Export lädt: diese Woche und, sobald veröffentlicht, die nächste. Neu geladen wird höchstens alle
   10 Minuten (Knopf „Aktualisieren“ sofort), nach einem Fehler frühestens nach einer Minute. Ohne eingerichteten Server zeigt
   die Seite eine klar markierte Beispielansicht ohne Werte und einen Link „Server einrichten“ (`js/screens/news.js`).
-- **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz); Notizen gelten für alles, darum ohne Zeitraum und Konto, die Suche steht in der Kopfreihe. Der gewählte Ordner sieht aus wie „Trade loggen“ (gleicher 1-px-Lichtrand und dieselbe Fläche). Standardordner Trade Notes,
+- **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz); Notizen gelten für alles, darum ohne Zeitraum und Konto, die Suche steht in der Kopfreihe. Eigene Ordner tragen links ihren Farbbalken; der gewählte Ordner sieht stattdessen aus wie „Trade loggen“ (gleicher 1-px-Lichtrand und dieselbe Fläche). Standardordner Trade Notes,
   Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Notiz-Kopf mit
   Datumswahl, großem Titel, Erstellt- und Bearbeitet-Zeit. Schlanker Rich-Text-Editor (Quill 2,
   Inhalte als JSON) nach TradePath-Vorbild: „+“ (Bausteine, Listen, Vorlagen), Absatzformat,

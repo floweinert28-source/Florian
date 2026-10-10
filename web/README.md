@@ -41,13 +41,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   bleibt dort bearbeitbar. Screenshots per Drag & Drop, Datei oder Einfügen.
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
   Long/Short ist ein Umschalter mit zwei Hälften und rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün,
-  Short rot; der Schieber gleitet weich an- und auslaufend, seine Farbe blendet schnell über; Schrift und Pfeil stehen sofort in der eigenen Farbe, Short wird nie kurz grün). Am Handy stehen Symbol und Richtung untereinander.
+  Short rot; der Schieber gleitet weich an- und auslaufend, seine Farbe blendet schnell über; Schrift und Pfeil stehen sofort in der eigenen Farbe, Short wird nie kurz grün). Bei einem neuen Trade ist keine Richtung vorgewählt (die Fläche erscheint erst bei der Wahl, an ihrem Platz); ohne Wahl wird nicht gespeichert, der Schalter wird kurz rot markiert und die Vorschau sagt „Long oder Short wählen“. Gebühren tragen das Währungszeichen des Kontos im Feld ($ davor, € dahinter; wechselt mit der Konto-Auswahl). In Datums- und Zeitfeldern wird das angeklickte Teilstück nicht blau markiert. Am Handy stehen Symbol und Richtung untereinander.
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
   ↘ Short in Rot), bewusst ruhig: zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis ohne Leuchten (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein Balken am Rand mit dezentem Leuchten; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist ruhig wie „Trade loggen“: ein Hauch Licht von oben links, feiner Rand (oben links leise grün), kein Schein nach außen, dazu der Balken am Rand mit dezentem Leuchten; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
@@ -112,7 +112,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   ForexFactory-Wochen-Export lädt: diese Woche und, sobald veröffentlicht, die nächste. Neu geladen wird höchstens alle
   10 Minuten (Knopf „Aktualisieren“ sofort), nach einem Fehler frühestens nach einer Minute. Ohne eingerichteten Server zeigt
   die Seite eine klar markierte Beispielansicht ohne Werte und einen Link „Server einrichten“ (`js/screens/news.js`).
-- **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz); Notizen gelten für alles, darum ohne Zeitraum und Konto, die Suche steht in der Kopfreihe. Eigene Ordner tragen links ihren Farbbalken; der gewählte Ordner sieht stattdessen aus wie „Trade loggen“ (gleicher 1-px-Lichtrand und dieselbe Fläche). Standardordner Trade Notes,
+- **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz); Notizen gelten für alles, darum ohne Zeitraum und Konto, die Suche steht in der Kopfreihe. Eigene Ordner tragen links ihren Farbbalken; der gewählte Ordner ist nur ruhig grau hinterlegt (helle Schrift, kein grüner Rahmen). Standardordner Trade Notes,
   Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Notiz-Kopf mit
   Datumswahl, großem Titel, Erstellt- und Bearbeitet-Zeit. Schlanker Rich-Text-Editor (Quill 2,
   Inhalte als JSON) nach TradePath-Vorbild: „+“ (Bausteine, Listen, Vorlagen), Absatzformat,

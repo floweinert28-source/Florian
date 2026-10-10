@@ -1543,4 +1543,5 @@ I18N.add('pt', {
   "Beispiel: BIP vorläufig": "Exemplo: PIB preliminar",
   "Beispiel: Pressekonferenz der Notenbank": "Exemplo: Coletiva do banco central",
   "Beispiel: Arbeitsmarktbericht": "Exemplo: Relatório de emprego",
+  "Long oder Short wählen": "Escolha Long ou Short",
 });

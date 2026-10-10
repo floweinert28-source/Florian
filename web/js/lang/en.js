@@ -1499,4 +1499,5 @@ I18N.add('en', {
   "Beispiel: BIP vorläufig": "Example: GDP preliminary",
   "Beispiel: Pressekonferenz der Notenbank": "Example: Central bank press conference",
   "Beispiel: Arbeitsmarktbericht": "Example: Jobs report",
+  "Long oder Short wählen": "Choose Long or Short",
 });

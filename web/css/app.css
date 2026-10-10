@@ -173,20 +173,19 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag als Pille wie die Vorlage: Licht fällt von links herein und läuft nach rechts ins Dunkle aus; der Rand leuchtet links
-   (unten etwas stärker) in der Akzentfarbe und geht nach rechts in Grau über; weicher Schein nach außen unten links; Balken am Rand leuchtet */
+/* aktiver Eintrag ruhig wie „Trade loggen“: ein Hauch Licht von oben links, feiner Rand, oben links leise grün, kein Schein nach außen */
 .nav a.active {
   overflow: visible; color: var(--text); font-weight: 600;
-  background: linear-gradient(90deg, var(--accent-soft) 0%, var(--surface-2) 76%) padding-box, linear-gradient(90deg, var(--accent-glow) 0%, var(--border) 40%, var(--border) 100%) border-box;
-  box-shadow: -8px 0 24px -14px var(--accent-soft), inset 0 1px 0 rgba(255, 255, 255, .04);
+  background: var(--surface-2); border-color: var(--border-2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 @supports (background: color-mix(in srgb, red 50%, blue)) {
   .nav a.active {
     background:
-      radial-gradient(40% 90% at 0% 100%, color-mix(in srgb, var(--accent) 13%, transparent), transparent) padding-box,
-      linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, var(--surface-2)) 0%, color-mix(in srgb, var(--accent) 9%, var(--surface-2)) 22%, color-mix(in srgb, var(--accent) 3%, var(--surface-2)) 42%, var(--surface-2) 62%) padding-box,
-      linear-gradient(104deg, color-mix(in srgb, var(--accent) 62%, var(--border)) 0%, color-mix(in srgb, var(--accent) 28%, var(--border-2)) 22%, var(--border-2) 50%, var(--border) 100%) border-box;
-    box-shadow: -10px 6px 20px -13px color-mix(in srgb, var(--accent) 34%, transparent), inset 0 1px 0 rgba(255, 255, 255, .04);
+      radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%) padding-box,
+      linear-gradient(var(--surface-2), var(--surface-2)) padding-box,
+      linear-gradient(155deg, color-mix(in srgb, var(--accent) 48%, var(--border-2)) 0%, color-mix(in srgb, var(--accent) 20%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--accent) 14%, var(--border-2)) 100%) border-box;
+    border-color: transparent;
   }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
@@ -397,6 +396,17 @@ button.rr-day:hover { background: var(--surface-2); }
   .input[type="date"], .input[type="datetime-local"], .input[type="month"] { padding-right: 38px; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b948e' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='5' width='18' height='16' rx='2.5'/><path d='M3 10h18M8 3v4M16 3v4'/></svg>"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; }
   .input[type="date"]::-webkit-calendar-picker-indicator, .input[type="datetime-local"]::-webkit-calendar-picker-indicator, .input[type="month"]::-webkit-calendar-picker-indicator { display: none; }
 }
+/* Datum und Uhrzeit: das angeklickte Teilstück (Tag, Monat, Stunde …) nicht als blauer Kasten markieren. Den Fokus-Zustand der
+   Teilstücke lassen Browser nicht gestalten, darum gilt die Regel immer (Seiten-Regeln schlagen die des Browsers).
+   Je Teilstück eine eigene Regel: kennt ein Browser eines nicht, verwirft er sonst die ganze Liste */
+.input::-webkit-datetime-edit-day-field { background: transparent; color: inherit; }
+.input::-webkit-datetime-edit-month-field { background: transparent; color: inherit; }
+.input::-webkit-datetime-edit-year-field { background: transparent; color: inherit; }
+.input::-webkit-datetime-edit-hour-field { background: transparent; color: inherit; }
+.input::-webkit-datetime-edit-minute-field { background: transparent; color: inherit; }
+.input::-webkit-datetime-edit-second-field { background: transparent; color: inherit; }
+.input::-webkit-datetime-edit-millisecond-field { background: transparent; color: inherit; }
+.input::-webkit-datetime-edit-ampm-field { background: transparent; color: inherit; }
 .popover.dp { position: fixed; top: 0; left: 0; right: auto; z-index: 70; width: 284px; min-width: 0; padding: 12px 12px 10px; border-radius: var(--radius); transform-origin: top left; user-select: none; -webkit-user-select: none; }
 .popover.dp.up { bottom: auto; right: auto; transform-origin: bottom left; } /* eigene Lage (fixed, oben gesetzt): die allgemeine Regel für nach oben klappende Menüs nicht übernehmen */
 .dp-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
@@ -829,12 +839,25 @@ span.info:hover { color: var(--accent); }
 .tf-main .tf-row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 /* Richtung im Trade-Fenster: zwei Hälften mit rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün, Short rot) */
 @property --dir-c { syntax: '<color>'; inherits: true; initial-value: #34f58a; } /* registriert: die Farbe blendet mit dem Schieber über statt zu springen */
+/* Eingabefeld mit Währungszeichen (Gebühren): Zeichen leise im Feld, davor ($) oder dahinter (€) */
+.inp-cur { position: relative; }
+.inp-cur .cur-sym { position: absolute; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 600; font-size: 13.5px; pointer-events: none; }
+.inp-cur.pre .cur-sym { left: 14px; }
+.inp-cur.pre .input { padding-left: calc(20px + var(--sl, 1) * 1ch); }
+.inp-cur.post .cur-sym { right: 40px; }
+.inp-cur.post .input { padding-right: calc(46px + var(--sl, 1) * 1ch); }
 .dir-switch { --dir-c: var(--accent); transition: --dir-c 140ms linear; position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr 1fr; min-width: 210px; height: 42px; padding: 3px; border-radius: 11px; background: var(--field); border: 1px solid var(--border-2); }
 .dir-switch[data-dir="-1"] { --dir-c: var(--loss); }
 .dir-switch::before { content: ''; position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 9px; transition: transform 260ms var(--ease-io);
   background: linear-gradient(90deg, color-mix(in srgb, var(--dir-c) 26%, var(--surface-2)), color-mix(in srgb, var(--dir-c) 7%, var(--surface-2)) 85%);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dir-c) 42%, transparent), -6px 4px 18px -10px color-mix(in srgb, var(--dir-c) 60%, transparent); }
 .dir-switch[data-dir="-1"]::before { transform: translateX(100%); }
+/* neuer Trade: noch nichts gewählt, die Fläche ist unsichtbar; bei der ersten Wahl erscheint sie an ihrem Platz, ohne zu rutschen */
+.dir-switch[data-dir="0"]::before { opacity: 0; }
+.dir-switch.first, .dir-switch.first::before { transition: opacity 160ms var(--ease); }
+/* Speichern ohne Richtung: Rand kurz rot, leichtes Wackeln */
+.dir-switch.need { border-color: var(--loss); animation: dir-need 320ms var(--ease-io); }
+@keyframes dir-need { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
 .dir-opt { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; border: 0; border-radius: 9px; background: none; color: var(--muted); font: inherit; font-size: 13.5px; font-weight: 700; letter-spacing: .02em; cursor: pointer; transition: color var(--dur-2) var(--ease); }
 .dir-opt:hover { color: var(--text-2); }
 .dir-opt:focus-visible { outline: 2px solid var(--dir-c); outline-offset: -2px; }
@@ -958,9 +981,9 @@ span.info:hover { color: var(--accent); }
 .nb .folder .more { opacity: 0; width: 24px; height: 24px; padding: 0; }
 .nb .folder:hover .more, .nb .folder.active .more { opacity: 1; }
 .nb .folder svg.ico { width: 16px; height: 16px; flex: 0 0 auto; color: var(--muted); }
-.nb .folder.active svg.ico { color: var(--accent); }
-/* eigene Ordner: Farbbalken links (--fc); der gewählte Ordner bekommt stattdessen den gleichmäßigen Rahmen wie „Trade loggen“ */
-.nb .folder.active { border-left-width: 1px; padding-left: 12px; }
+.nb .folder.active svg.ico { color: var(--text); }
+/* gewählter Ordner: ruhig grau hinterlegt, Schrift hell, kein grüner Rahmen; eigene Ordner behalten ihren Farbbalken links (--fc) */
+.nb .folder.active { background: var(--surface-2); color: var(--text); font-weight: 600; }
 .nb .folder hr { margin: 0; }
 .nb .folder .sp { width: 24px; flex: 0 0 auto; }
 .nb .fsep { border-top: 1px solid var(--border); margin: 6px 8px; }
@@ -3085,7 +3108,7 @@ a.coach-name:hover { color: var(--accent); }
    oben links ein, der Rand ist ein Lichtverlauf (oben links heller, an den Seiten leise, unten rechts ein schwacher Reflex),
    dazu eine feine Kante oben innen; bewusst ruhig, ohne Schein darunter (wie „Trade loggen“). --lc setzt die Lichtfarbe (Standard: Akzent). */
 .seg button[aria-pressed="true"], .swatch[aria-pressed="true"], .chip.sel[aria-pressed="true"], .rating button[aria-pressed="true"],
-.tabs button[aria-pressed="true"], .tabs a[aria-pressed="true"], .folder.active, .nb .tagpill[aria-pressed="true"],
+.tabs button[aria-pressed="true"], .tabs a[aria-pressed="true"], .nb .tagpill[aria-pressed="true"],
 .fd-seg button[aria-pressed="true"], .fd-tog button[aria-pressed="true"], .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"],
 .pair-card[aria-pressed="true"], .rp-chip[aria-pressed="true"], .prop-tabs a[aria-pressed="true"], .sb-user.active, .btn.accent {
   border-color: transparent; color: color-mix(in srgb, var(--lc, var(--accent)) 88%, var(--text));
@@ -3096,16 +3119,16 @@ a.coach-name:hover { color: var(--accent); }
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 /* Akzent-Knopf (z. B. „Trade loggen“): Form und Fläche wie die anderen Knöpfe, nur ein Hauch Licht von oben links und ein
-   leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht. Der gewählte Notebook-Ordner sieht genauso aus */
-.btn.accent, .nb .folder.active { --al: 8%; color: color-mix(in srgb, var(--accent) 88%, var(--text));
+   leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht */
+.btn.accent { --al: 8%; color: color-mix(in srgb, var(--accent) 88%, var(--text));
   background:
     radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) var(--al), transparent), transparent 60%) padding-box,
     linear-gradient(var(--surface), var(--surface)) padding-box,
     linear-gradient(155deg, color-mix(in srgb, var(--accent) 48%, var(--border-2)) 0%, color-mix(in srgb, var(--accent) 20%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--accent) 14%, var(--border-2)) 100%) border-box;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); }
-.btn.accent:hover, .nb .folder.active:hover { --al: 14%; background-color: transparent; }
+.btn.accent:hover { --al: 14%; background-color: transparent; }
 .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"], .pair-card[aria-pressed="true"], .sb-user.active { color: var(--text); } /* Karten: nur das Licht, Schrift bleibt */
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .rp-chip, .prop-tabs a)[aria-pressed="true"],
-:root[data-theme="light"] .folder.active, :root[data-theme="light"] .btn.accent { color: var(--lc, var(--accent)); }
+:root[data-theme="light"] .btn.accent { color: var(--lc, var(--accent)); }
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .lang-card, .font-card, .pair-card, .rp-chip, .prop-tabs a)[aria-pressed="true"],
-:root[data-theme="light"] .folder.active, :root[data-theme="light"] .sb-user.active, :root[data-theme="light"] .btn.accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }
+:root[data-theme="light"] .sb-user.active, :root[data-theme="light"] .btn.accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }

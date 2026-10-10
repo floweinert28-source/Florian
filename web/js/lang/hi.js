@@ -1594,4 +1594,5 @@ I18N.add('hi', {
   "Beispiel: BIP vorläufig": "उदाहरण: GDP प्रारंभिक",
   "Beispiel: Pressekonferenz der Notenbank": "उदाहरण: केंद्रीय बैंक की प्रेस कॉन्फ़्रेंस",
   "Beispiel: Arbeitsmarktbericht": "उदाहरण: रोज़गार रिपोर्ट",
+  "Long oder Short wählen": "Long या Short चुनें",
 });

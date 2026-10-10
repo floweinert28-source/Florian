@@ -149,6 +149,8 @@
     /* kurze Wochentage ab Montag in der Sprache der Oberfläche (Deutsch: Mo, Di …) */
     weekdays() { if (!root.I18N || root.I18N.lang() === 'de') return C.WEEKDAYS; const f = new Intl.DateTimeFormat(LOC(), { weekday: 'short' }); return [0, 1, 2, 3, 4, 5, 6].map(i => f.format(new Date(2024, 0, 1 + i)).replace(/\.$/, '')); },
     /* steht das Währungszeichen vor der Zahl? (Dollar ja, Euro nie) */
+    /* kurzes Währungszeichen ($, €, R$ …) für Eingabefelder */
+    curSym(cc) { const c = cc || currency; try { const p = new Intl.NumberFormat(LOC(), { style: 'currency', currency: c, currencyDisplay: 'narrowSymbol' }).formatToParts(0).find(x => x.type === 'currency'); return p ? p.value : c; } catch (e) { return c; } },
     symbolFirst(cc) { const s = fmt.cur(1, { money: true, compact: true, currency: cc }); return !/^\d/.test(s); },
     dateTime(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + fmt.time(d) : '—'; },
     time(d) { return d ? new Date(d).toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' }) : '—'; },

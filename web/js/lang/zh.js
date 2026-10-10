@@ -1594,4 +1594,5 @@ I18N.add('zh', {
   "Beispiel: BIP vorläufig": "示例：GDP 初值",
   "Beispiel: Pressekonferenz der Notenbank": "示例：央行新闻发布会",
   "Beispiel: Arbeitsmarktbericht": "示例：就业报告",
+  "Long oder Short wählen": "请选择 Long 或 Short",
 });

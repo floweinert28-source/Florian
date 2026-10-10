@@ -4,7 +4,7 @@ import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { evolvePath } from '@remotion/paths';
 import { lerp, prog, sec, SIG, zoomLerp } from '../anim';
 import { DashboardPanel } from './Product';
-import { big, GREEN, GREEN_D, INK } from '../theme';
+import { big, GREEN, GREEN_D, LIGHT } from '../theme';
 import { Bg } from '../ui/Bg';
 import { useFormat } from '../format';
 import { BlurText, ramp, useBox } from '../ui/Text';
@@ -25,12 +25,13 @@ const CURVES_V = [
 export const Stop: React.FC = () => {
   const f = useCurrentFrame(); const { W, H, V } = useFormat();
   return (
-    <AbsoluteFill style={{ background: '#fff' }}>
+    <AbsoluteFill>
+      <Bg f={f} kind="night" />
       <svg width={W} height={H} style={{ position: 'absolute', transform: `translateX(${(-f * 0.25).toFixed(2)}px)` }}>
-        {(V ? CURVES_V : CURVES).map((c, i) => { const e = evolvePath(prog(f, sec(c.at), sec(1.5), SIG), c.d); return <path key={i} d={c.d} fill="none" stroke={c.c} strokeWidth={c.w} strokeLinecap="round" strokeDasharray={e.strokeDasharray} strokeDashoffset={e.strokeDashoffset} opacity={0.75} />; })}
+        {(V ? CURVES_V : CURVES).map((c, i) => { const e = evolvePath(prog(f, sec(c.at), sec(1.5), SIG), c.d); return <path key={i} d={c.d} fill="none" stroke={c.c} strokeWidth={c.w} strokeLinecap="round" strokeDasharray={e.strokeDasharray} strokeDashoffset={e.strokeDashoffset} opacity={0.85} />; })}
       </svg>
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ ...big(V ? 104 : 108), ...(V ? { whiteSpace: 'normal', maxWidth: 900, textAlign: 'center' } : null) }}>
+        <div style={{ ...big(V ? 104 : 108, LIGHT), ...(V ? { whiteSpace: 'normal', maxWidth: 900, textAlign: 'center' } : null) }}>
           <BlurText f={f} text="Stop" by="letter" start={sec(0.1)} stagger={0.05} dur={0.6} />
           <BlurText f={f} text=" repeating mistakes." start={sec(0.4)} stagger={0.08} dur={0.7} />
         </div>
@@ -40,7 +41,7 @@ export const Stop: React.FC = () => {
 };
 
 /* „Meet Journalyst“: Buchstaben kommen nacheinander aus der Unschärfe, dann rückt „Meet“ zur Seite (Platz für das neue Logo folgt) */
-const MEET_COLORS = ramp('#0b0f0c', '#0b9a52');
+const MEET_COLORS = ramp('#ffffff', '#34f58a');
 export const Meet: React.FC = () => {
   const f = useCurrentFrame(); const { V } = useFormat();
   const [rowRef, row] = useBox<HTMLDivElement>(); const [meetRef, meet] = useBox<HTMLSpanElement>();
@@ -51,7 +52,7 @@ export const Meet: React.FC = () => {
   const push = zoomLerp(1, 1.05, prog(f, 0, sec(3.4), SIG));
   return (
     <AbsoluteFill data-root>
-      <Bg f={f} kind="green" />
+      <Bg f={f} kind="aurora" />
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', transform: `scale(${push})` }}>
         <div ref={rowRef} style={{ ...big(V ? 104 : 150), display: 'flex', alignItems: 'center', gap: V ? 26 : 38, letterSpacing: '-0.045em' }}>
           <span ref={meetRef} style={{ display: 'inline-block', transform: `translateX(${dx}px) scale(${sc})` }}>
@@ -72,20 +73,20 @@ export const Tagline: React.FC = () => {
   const drift = prog(f, 0, sec(3.4), SIG);
   return (
     <AbsoluteFill>
-      <Bg f={f} kind="mint" />
-      <div style={{ position: 'absolute', left: 0, top: 0, width: 1440, height: 900, opacity: 0.07, filter: 'blur(1.5px) grayscale(0.4)', transformOrigin: '0 0', transform: V ? `translate(${lerp(-1150, -1210, drift)}px, ${lerp(-60, -80, drift)}px) rotate(-7deg) scale(2.3)` : `translate(${lerp(-150, -210, drift)}px, ${lerp(-120, -140, drift)}px) rotate(-7deg) scale(1.6)` }}><DashboardPanel f={0} still /></div>
+      <Bg f={f} kind="night" />
+      <div style={{ position: 'absolute', left: 0, top: 0, width: 1440, height: 900, opacity: 0.2, filter: 'blur(1.5px) grayscale(0.4)', transformOrigin: '0 0', transform: V ? `translate(${lerp(-1150, -1210, drift)}px, ${lerp(-60, -80, drift)}px) rotate(-7deg) scale(2.3)` : `translate(${lerp(-150, -210, drift)}px, ${lerp(-120, -140, drift)}px) rotate(-7deg) scale(1.6)` }}><DashboardPanel f={0} still /></div>
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         {V ? (
-          <div style={{ ...big(84), lineHeight: 1.12 }}>
+          <div style={{ ...big(84, LIGHT), lineHeight: 1.12 }}>
             <BlurText f={f} text="The trading journal" start={sec(0.4)} stagger={0.08} />{'\n'}
             <BlurText f={f} text="that trains" start={sec(0.72)} stagger={0.08} />{'\n'}
-            <BlurText f={f} text="your discipline." start={sec(0.88)} stagger={0.08} color={(i) => (i === 1 ? GREEN_D : INK)} />
+            <BlurText f={f} text="your discipline." start={sec(0.88)} stagger={0.08} color={(i) => (i === 1 ? GREEN : LIGHT)} />
           </div>
         ) : (
-          <div style={{ ...big(92), lineHeight: 1.12 }}>
+          <div style={{ ...big(92, LIGHT), lineHeight: 1.12 }}>
             <BlurText f={f} text="The trading journal" start={sec(0.4)} stagger={0.08} />
             {'\n'}
-            <BlurText f={f} text="that trains your discipline." start={sec(0.72)} stagger={0.08} color={(i) => (i === 3 ? GREEN_D : INK)} />
+            <BlurText f={f} text="that trains your discipline." start={sec(0.72)} stagger={0.08} color={(i) => (i === 3 ? GREEN : LIGHT)} />
           </div>
         )}
       </AbsoluteFill>

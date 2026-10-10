@@ -25,7 +25,7 @@ const SHOTS: Shot[] = [
   { from: P1, to: P1 + 2.5, in: 'fade', inDur: 0.4, el: <Price /> },     /* Every broken rule has a price. */
   { from: P1 + 2.5, to: P1 + 6.5, in: 'fade', inDur: 0.4, el: <ShadowSelf /> }, /* Disziplin-Kosten zählen hoch, Kurven zeichnen sich */
   { from: P1 + 6.5, to: P1 + 9.5, in: 'fade', inDur: 0.4, el: <Worth /> },       /* Your Shadow Self shows you what discipline is worth. */
-  { from: P1 + 9.5, to: P1 + 11.5, in: 'blur', inDur: 0.45, el: <Statement text="Others count trades." bg="white" /> },
+  { from: P1 + 9.5, to: P1 + 11.5, in: 'blur', inDur: 0.45, el: <Statement text="Others count trades." bg="night" color="#f2f0ec" /> },
   { from: P1 + 11.5, to: P1 + 13.5, in: 'fade', inDur: 0.35, el: <Statement text="We build traders." bg="deep" color="#fff" accent={2} accentColor={GREEN} /> },
   { from: P1 + 13.5, to: P1 + 18.5, in: 'blur', inDur: 0.5, el: <EndCard /> },  /* Logo, Satz, Knopf – ein einziger Schluss */
 ];
@@ -45,7 +45,7 @@ const Wrap: React.FC<{ tr: Tr; inDur: number; outTr?: Tr; outAt: number; outDur:
 };
 
 export const Launch: React.FC = () => (
-  <AbsoluteFill style={{ background: '#fff' }}>
+  <AbsoluteFill style={{ background: '#060807' }}>
     {/* Eigener Beat und Effekte (scripts/sound.py), synthetisch erzeugt, ohne fremde Lizenz */}
     <Audio src={staticFile('audio/sound.wav')} />
     {SHOTS.map((s, i) => {

@@ -2,21 +2,22 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { AbsoluteFill, continueRender, delayRender, useCurrentFrame } from 'remotion';
 import { EXPO_IN, lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
-import { DISPLAY, GREY, INK, NUM, big } from '../theme';
+import { DISPLAY, LIGHT, NUM, big } from '../theme';
+import { Bg } from '../ui/Bg';
 import { fontsReady } from '../fonts';
 import { useFormat } from '../format';
 import { Typed, useMetrics } from '../ui/Text';
 
-const RED = '#e03e3e';
-const card: React.CSSProperties = { position: 'absolute', background: '#fff', borderRadius: 18, padding: '18px 20px', fontFamily: DISPLAY, color: INK, boxShadow: '0 26px 54px -20px rgba(8,40,22,0.30), 0 0 0 1px rgba(8,40,22,0.06)' };
-const small: React.CSSProperties = { fontSize: 14, color: GREY, fontWeight: 500 };
+const RED = '#ff5c5c'; const GRN = '#34f58a';
+const card: React.CSSProperties = { position: 'absolute', background: '#17191a', borderRadius: 18, padding: '18px 20px', fontFamily: DISPLAY, color: LIGHT, boxShadow: '0 30px 60px -24px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.08)' };
+const small: React.CSSProperties = { fontSize: 14, color: '#8a867f', fontWeight: 500 };
 
 const Candles: React.FC = () => {
   const c = [[40, 22, 30, 18], [34, 18, 40, 28], [44, 30, 52, 40], [50, 38, 60, 46], [56, 44, 66, 52], [60, 50, 58, 46], [62, 54, 74, 64], [72, 62, 84, 74], [80, 70, 92, 82], [88, 78, 98, 90]];
   return (
     <svg width="340" height="110" viewBox="0 0 340 110">
       {c.map(([o, l, h, cl], i) => { const up = i === 1 || i === 5; const x = 14 + i * 32; return (
-        <g key={i}><line x1={x} x2={x} y1={l} y2={h + 8} stroke={up ? '#0fb862' : RED} strokeWidth="2" /><rect x={x - 7} y={Math.min(o, cl)} width="14" height={Math.max(4, Math.abs(cl - o))} rx="2" fill={up ? '#0fb862' : RED} /></g>
+        <g key={i}><line x1={x} x2={x} y1={l} y2={h + 8} stroke={up ? GRN : RED} strokeWidth="2" /><rect x={x - 7} y={Math.min(o, cl)} width="14" height={Math.max(4, Math.abs(cl - o))} rx="2" fill={up ? GRN : RED} /></g>
       ); })}
     </svg>
   );
@@ -30,10 +31,10 @@ const POS_V = [
 ];
 const CARDS: C[] = [
   { x: 140, y: 130, w: 370, rot: -4, at: 1.65, body: (<>
-    <div style={{ ...small, display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, borderRadius: 3, background: '#1d7a46' }} />trades_final_v3.xlsx</div>
+    <div style={{ ...small, display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, borderRadius: 3, background: '#1fd873' }} />trades_final_v3.xlsx</div>
     <div style={{ marginTop: 12, fontFamily: NUM, fontSize: 16, display: 'grid', gridTemplateColumns: '70px 60px 1fr', rowGap: 8 }}>
-      {[['09/22', 'NQ', '−$212.40', RED], ['09/23', 'ES', '+$88.00', '#0fb862'], ['09/24', 'NQ', '−$412.50', RED], ['09/24', 'NQ', '−$318.00', RED]].map(([d, s, v, c], i) => (
-        <React.Fragment key={i}><span style={{ color: GREY }}>{d}</span><span style={{ fontWeight: 600 }}>{s}</span><span style={{ color: c, fontWeight: 600, textAlign: 'right' }}>{v}</span></React.Fragment>
+      {[['09/22', 'NQ', '−$212.40', RED], ['09/23', 'ES', '+$88.00', GRN], ['09/24', 'NQ', '−$412.50', RED], ['09/24', 'NQ', '−$318.00', RED]].map(([d, s, v, c], i) => (
+        <React.Fragment key={i}><span style={{ color: '#8a867f' }}>{d}</span><span style={{ fontWeight: 600 }}>{s}</span><span style={{ color: c, fontWeight: 600, textAlign: 'right' }}>{v}</span></React.Fragment>
       ))}
     </div></>) },
   { x: 1440, y: 170, w: 330, rot: 5, at: 1.75, body: (<>
@@ -42,13 +43,13 @@ const CARDS: C[] = [
   { x: 200, y: 760, w: 380, rot: 3, at: 1.85, body: (<>
     <div style={{ ...small, display: 'flex', justifyContent: 'space-between' }}><span>NQ · 5m</span><span style={{ color: RED, fontWeight: 700 }}>−2.1%</span></div><Candles /></>) },
   { x: 1370, y: 730, w: 390, rot: -3, at: 1.95, body: (<>
-    <div style={{ background: '#eef1ee', borderRadius: 16, padding: '12px 16px', fontSize: 21, fontWeight: 500 }}>Why did I even take that trade?</div>
+    <div style={{ background: '#25292b', borderRadius: 16, padding: '12px 16px', fontSize: 21, fontWeight: 500 }}>Why did I even take that trade?</div>
     <div style={{ ...small, fontSize: 13, marginTop: 8, textAlign: 'right' }}>4:47 PM</div></>) },
   { x: 750, y: 70, w: 420, rot: -2, at: 3.95, body: (
     <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}><span style={{ width: 14, height: 14, borderRadius: 7, background: RED, boxShadow: `0 0 0 6px ${RED}22` }} />
       <div><div style={{ fontSize: 21, fontWeight: 700 }}>Daily loss limit hit</div><div style={small}>Prop account 50K · just now</div></div></div>) },
   { x: 770, y: 880, w: 400, rot: 2, at: 4.05, body: (
-    <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}><span style={{ width: 40, height: 32, borderRadius: 6, background: 'linear-gradient(135deg,#dfe7e2,#c3cfc8)' }} /><div style={{ fontSize: 17, fontWeight: 500 }}>Screenshot 2026-09-30 at 16.41.png</div></div>) },
+    <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}><span style={{ width: 40, height: 32, borderRadius: 6, background: 'linear-gradient(135deg,#2c3331,#1f2422)' }} /><div style={{ fontSize: 17, fontWeight: 500 }}>Screenshot 2026-09-30 at 16.41.png</div></div>) },
   { x: 30, y: 470, w: 290, rot: -6, at: 4.15, body: (<><div style={small}>Monday</div><div style={{ fontSize: 24, fontWeight: 700, marginTop: 4, letterSpacing: '-0.02em' }}>Moved my stop. Again.</div></>) },
   { x: 1600, y: 450, w: 290, rot: 6, at: 4.25, body: (<><div style={small}>This week</div><div style={{ fontFamily: NUM, fontSize: 40, fontWeight: 700, color: RED, marginTop: 4, letterSpacing: '-0.02em' }}>−$1,284.50</div></>) },
 ];
@@ -90,7 +91,7 @@ export const Problem: React.FC = () => {
   const f = useCurrentFrame();
   const { V, cx, cy } = useFormat();
   const SIZE = V ? 84 : 116;
-  const line: React.CSSProperties = { position: 'absolute', left: 0, right: 0, top: cy - SIZE * 0.55, textAlign: 'center', ...big(SIZE) };
+  const line: React.CSSProperties = { position: 'absolute', left: 0, right: 0, top: cy - SIZE * 0.55, textAlign: 'center', ...big(SIZE, LIGHT) };
   /* Mitte des „o“ in „loss“: waagerecht aus dem Layout einer unsichtbaren Kopie der Zeile, senkrecht aus der Grundlinie
      und der Höhe des „o“ (Canvas-Maße derselben Schrift) */
   const LOSS = 'Same loss… again?';
@@ -114,7 +115,8 @@ export const Problem: React.FC = () => {
   /* Auswahl über „Different day.“, dann gelöscht */
   const sel = prog(f, sec(3.05), sec(0.4), SIG);
   return (
-    <AbsoluteFill style={{ background: '#fff', overflow: 'hidden' }}>
+    <AbsoluteFill style={{ overflow: 'hidden' }}>
+      <Bg f={f} kind="night" />
       {/* unsichtbare Messkopie der Zeile, ohne Kamera */}
       <div style={{ ...line, visibility: 'hidden' }}><Typed f={0} text={LOSS} start={1e9} caret={false} markIndex={6} markRef={oRef} /></div>
       <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: origin }}>

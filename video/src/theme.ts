@@ -3,6 +3,7 @@ import type React from 'react';
 export const W = 1920, H = 1080;
 
 export const INK = '#0b0f0c';          /* fast schwarz, leicht grün */
+export const LIGHT = '#f2f0ec';        /* Text auf dunklem Grund (--text der App) */
 export const GREY = '#a7aea9';         /* zweite Textebene auf Weiß */
 export const GREEN = '#34f58a';        /* Akzent der App (dunkles Erscheinungsbild) */
 export const GREEN_D = '#0fb862';      /* Akzent der App (helles Erscheinungsbild) */

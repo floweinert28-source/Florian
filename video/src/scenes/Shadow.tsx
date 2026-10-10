@@ -3,26 +3,27 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { OUT, prog, sec, SIG, zoomLerp } from '../anim';
-import { big, GREEN } from '../theme';
+import { big, GREEN, LIGHT } from '../theme';
 import { Bg } from '../ui/Bg';
 import { lerpColor } from '../ui/Kit';
 import { useFormat } from '../format';
 import { BlurText } from '../ui/Text';
 
-const LOSS = '#e03e3e'; /* Rot des hellen Erscheinungsbilds, auf Weiß */
+const LOSS = '#ff5c5c'; /* Rot der App (dunkles Erscheinungsbild) */
 
 export const Price: React.FC = () => {
   const f = useCurrentFrame(); const { V } = useFormat();
   const pill = prog(f, sec(0.75), sec(0.5), SIG);
   const push = zoomLerp(1, 1.04, prog(f, 0, sec(2.4), SIG));
   return (
-    <AbsoluteFill style={{ background: '#fff', alignItems: 'center', justifyContent: 'center' }}>
-      {V ? <div style={{ ...big(96), transform: `scale(${push})`, marginBottom: 10 }}><BlurText f={f} text="Every broken rule" start={sec(0.3)} stagger={0.06} /></div> : null}
-      <div style={{ ...big(96), display: 'flex', alignItems: 'baseline', transform: `scale(${push})` }}>
+    <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Bg f={f} kind="night" />
+      {V ? <div style={{ ...big(96, LIGHT), transform: `scale(${push})`, marginBottom: 10 }}><BlurText f={f} text="Every broken rule" start={sec(0.3)} stagger={0.06} /></div> : null}
+      <div style={{ ...big(96, LIGHT), display: 'flex', alignItems: 'baseline', transform: `scale(${push})` }}>
         <BlurText f={f} text={V ? 'has a' : 'Every broken rule has a'} start={sec(V ? 0.48 : 0.3)} stagger={0.06} />
         {/* Pille um „price“: unten mehr Luft für die Unterlänge des „p“, seitlich mehr Rand */}
         <span style={{ position: 'relative', display: 'inline-block', marginLeft: '0.26em', padding: '0 0.42em 0.22em' }}>
-          <span style={{ position: 'absolute', inset: 0, borderRadius: 999, background: 'rgba(224, 62, 62, 0.12)', transform: `scaleX(${pill})`, opacity: Math.min(1, pill * 2) }} />
+          <span style={{ position: 'absolute', inset: 0, borderRadius: 999, background: 'rgba(255, 92, 92, 0.16)', boxShadow: 'inset 0 0 0 1px rgba(255, 92, 92, 0.28)', transform: `scaleX(${pill})`, opacity: Math.min(1, pill * 2) }} />
           <span style={{ position: 'relative' }}><BlurText f={f} text="price" by="letter" start={sec(0.92)} stagger={0.04} dur={0.6} color={LOSS} /></span>
         </span>
         <span style={{ opacity: prog(f, sec(1.15), sec(0.3), OUT) }}>.</span>

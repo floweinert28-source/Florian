@@ -5,7 +5,7 @@ import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { clamp01, FPS, IN, lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
 import { cumulative, dash, num, radar, rows, rules, shadow, trade } from '../app';
-import { big, DISPLAY, NUM } from '../theme';
+import { big, DISPLAY, LIGHT, NUM } from '../theme';
 import { Bg } from '../ui/Bg';
 import { CursorView, cursorAt } from '../ui/Cursor';
 import { A, Badge, Btn, Card, CardTitle, Check, DayBars, Donut, Icon, lift, lerpColor, mix, mixA, PnlArea, Pill, Radar, ScoreScale, SemiGauge, shadowEnds, ShadowLines, Switch, TileHead, usd, Val } from '../ui/Kit';
@@ -31,7 +31,7 @@ export const DashboardPanel: React.FC<{ f: number; still?: boolean; pops?: Recor
   const pf = num(dash.pf);
   return (
     <div style={{ position: 'absolute', inset: 0, transformStyle: 'preserve-3d', fontFamily: DISPLAY, color: A.text }}>
-      <div style={{ position: 'absolute', inset: 0, borderRadius: 18, background: `radial-gradient(1100px 640px at 14% -10%, rgba(255,238,218,.045), transparent 62%), ${A.bg}`, border: `1px solid ${A.border}`, boxShadow: '0 90px 140px -50px rgba(6,40,20,0.55)' }} />
+      <div style={{ position: 'absolute', inset: 0, borderRadius: 18, background: `radial-gradient(1100px 640px at 14% -10%, rgba(255,238,218,.045), transparent 62%), ${A.bg}`, border: `1px solid ${A.border2}`, boxShadow: '0 0 0 1px rgba(255,255,255,0.03), 0 60px 160px -40px rgba(52,245,138,0.22), 0 90px 140px -50px rgba(0,0,0,0.7)' }} />
       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 220, borderRight: `1px solid ${A.border}` }}>
         <div style={{ position: 'absolute', left: 26, top: 26, fontSize: 15, fontWeight: 800, letterSpacing: '0.08em' }}>JOURNALYST</div>
         <div style={{ position: 'absolute', left: 26, top: 46, fontSize: 11.5, color: A.muted }}>Trading Journal App</div>
@@ -275,9 +275,9 @@ export const ProductFlow: React.FC = () => {
   const headA = prog(f, sec(0.35), sec(0.3)) * (1 - prog(f, sec(T.headOut), sec(0.3), IN));
   return (
     <AbsoluteFill>
-      <Bg f={f} kind="mint" />
-      {/* rechte (hochkant: untere) Hälfte wird dunkel */}
-      <div style={{ position: 'absolute', left: V ? 0 : lerp(W, SPLIT, wipe), top: V ? lerp(H, SPLIT, wipe) : 0, right: 0, bottom: 0, overflow: 'hidden' }}><div style={{ position: 'absolute', right: 0, bottom: 0, width: W, height: H }}><Bg f={f} kind="dark" /></div></div>
+      <Bg f={f} kind="night" />
+      {/* rechte (hochkant: untere) Hälfte wird zur dunklen Fläche mit grüner Kante */}
+      <div style={{ position: 'absolute', left: V ? 0 : lerp(W, SPLIT, wipe), top: V ? lerp(H, SPLIT, wipe) : 0, right: 0, bottom: 0, overflow: 'hidden', borderLeft: V ? undefined : '1px solid rgba(52,245,138,0.28)', borderTop: V ? '1px solid rgba(52,245,138,0.28)' : undefined, boxShadow: '0 0 60px rgba(52,245,138,0.10)' }}><div style={{ position: 'absolute', right: 0, bottom: 0, width: W, height: H }}><Bg f={f} kind="dark" /></div></div>
 
       {dashOut < 1 ? (
         <AbsoluteFill style={{ perspective: 2600, opacity: prog(f, 0, sec(0.25), OUT) * (1 - dashOut) }}>
@@ -288,7 +288,7 @@ export const ProductFlow: React.FC = () => {
           </div>
         </AbsoluteFill>
       ) : null}
-      <div style={{ position: 'absolute', left: V ? 80 : 120, top: V ? 190 : 96, ...big(V ? 84 : 70), lineHeight: 1.06, opacity: headA, filter: headA < 1 && t > 2 ? `blur(${((1 - headA) * 12).toFixed(2)}px)` : undefined }}>
+      <div style={{ position: 'absolute', left: V ? 80 : 120, top: V ? 190 : 96, ...big(V ? 84 : 70, LIGHT), lineHeight: 1.06, opacity: headA, filter: headA < 1 && t > 2 ? `blur(${((1 - headA) * 12).toFixed(2)}px)` : undefined }}>
         <BlurText f={f} text="Built for" start={sec(0.35)} stagger={0.07} />{'\n'}
         <BlurText f={f} text="serious traders" start={sec(0.5)} stagger={0.07} />
       </div>
@@ -366,7 +366,7 @@ export const ShadowSelf: React.FC = () => {
   ];
   return (
     <AbsoluteFill>
-      <Bg f={f} kind="mint" />
+      <Bg f={f} kind="night" />
       <AbsoluteFill style={{ transform: `scale(${push})` }}>
         {tiles.map((c, i) => (
           <div key={i} style={{ position: 'absolute', left: tilePos(i).left, top: tilePos(i).top, width: KW, height: KH, transformOrigin: '0 0', transform: `scale(${tilePos(i).s})`, ...enter(f, i * 0.08) }}>

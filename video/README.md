@@ -8,6 +8,8 @@ Social Media. Ein eigener Beat (120 BPM, A-Moll) ist im Skript vorhanden, aber a
 
 Die App-Szenen sind vereinfachte Karten im Design der App (dunkles Erscheinungsbild: Farben, Rundungen, Symbole,
 Abzeichen, Diagramme, Satoshi für Text, Onest für Zahlen). Alle Zahlen, Kurven, Trades und Regeln kommen aus der echten App.
+Alle Hintergründe sind dunkel wie die App (#060807). Damit die Flächen nicht leer wirken, liegen darauf leise Ebenen,
+die sich nur langsam bewegen: grüne Lichtflecken, ein feines Raster, eine schwache Kurslinie und Filmkorn (`public/noise.png`).
 Der Produkt-Teil ist ein durchgehender Ablauf ohne harte Schnitte: Eine Fläche wird vom Knopf „+ Log trade“ zum Formular,
 dann zur neuen Zeile im TradeLog und schließlich zur Karte bei der Regelprüfung.
 
@@ -62,7 +64,7 @@ src/scenes/Shadow.tsx    „price“ und „what discipline is worth“
 src/scenes/Outro.tsx     zwei Aussagen und die Endkarte
 src/ui/Kit.tsx           Bausteine im App-Design: Farben, Symbole, Kacheln, Abzeichen, Gauge, Ring, Radar, Kurven
 src/ui/Text.tsx          Schreibmaschine, Buchstaben und Wörter aus der Unschärfe, Textmaße
-src/ui/Bg.tsx            weiche grüne Verläufe
+src/ui/Bg.tsx            dunkle Hintergründe: Lichtflecken, Raster, Kurslinie, Filmkorn
 src/anim.ts              Kurven, Feder, Kamera
 src/theme.ts             Farben und Schrift
 src/format.ts            quer oder hochkant

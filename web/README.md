@@ -172,7 +172,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beträge und Namen). Eigene Inhalte (Notizen, Eingabefelder) werden nie verändert, gespeicherte Daten bleiben unverändert.
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
   Eigener **Farbwähler** im App-Design statt des System-Fensters (für alle Farbfelder der App, `js/colorpicker.js`): Fläche für Sättigung
-  und Helligkeit, Farbton-Regler, Hex-Feld, Escape nimmt zurück. Selbst gewählte Farben werden gemerkt (höchstens 8, neueste vorne),
+  und Helligkeit, Farbton-Regler, Hex-Feld; die Farbe ist beim Wählen als Vorschau zu sehen, übernommen wird sie erst mit „Speichern“
+  (oder Enter). „Abbrechen“, Escape und ein Klick daneben stellen die alte Farbe wieder her. Selbst gewählte Farben werden gemerkt (höchstens 8, neueste vorne),
   erscheinen im Farbwähler und in der Akzentreihe und lassen sich mit × löschen. **Meine Designs**: Erscheinungsbild, Schrift und alle
   Farben als Paket speichern, mit einem Klick anwenden, löschen; höchstens 6.
   Die Wahl gilt für die ganze Website inklusive Startseite.

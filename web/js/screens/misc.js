@@ -113,7 +113,17 @@
   App.openCustomLook = card => {
     const st = S.settings; const T = root.Theme; const inp = document.getElementById('custom-bg');
     if (T.valid(st.customBg) && !st.customLook) { applyCustom(st.customBg); App.rerender(); return; }
-    if (inp && root.ColorPicker) root.ColorPicker.open(inp, card.querySelector('.tc-prev'));
+    if (!inp || !root.ColorPicker) return;
+    const before = { customLook: !!st.customLook, customBg: st.customBg || '', theme: st.theme };
+    /* zurück zum vorigen Zustand, ohne Neuaufbau (ein Klick daneben soll sein Ziel nicht verlieren): Karte und Markierungen nachführen */
+    const restore = () => {
+      S.setSetting('customLook', before.customLook); S.setSetting('customBg', before.customBg); S.setSetting('theme', before.theme); T.apply(S.settings);
+      const c = document.querySelector('.theme-card.t-custom'); if (!c) return; const has = T.valid(before.customBg);
+      c.classList.toggle('is-new', !has); c.setAttribute('style', customVars(before.customBg)); if (!has) c.querySelector('.tc-prev').innerHTML = I.plus + `<i class="tc-edit">${I.edit}</i>`;
+      const lk = lookOf(S.settings); document.querySelectorAll('.theme-card').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === lk)));
+    };
+    inp.addEventListener('cpcancel', restore, { once: true }); inp.addEventListener('change', () => inp.removeEventListener('cpcancel', restore), { once: true });
+    root.ColorPicker.open(inp, card.querySelector('.tc-prev'));
   };
 
   function design() {
@@ -281,7 +291,12 @@
     'font-set'(el) { S.setSetting('font', el.dataset.value); root.Theme.apply(S.settings); rerender(); },
     'color-preset'(el) { setColors({ [el.dataset.key]: el.dataset.value }); rerender(); },
     'color-pair'(el) { setColors({ profit: el.dataset.profit, loss: el.dataset.loss }); rerender(); },
-    'color-set'(el) { setColors({ [el.dataset.key]: el.value }); const i = el.parentElement.querySelector('i'); if (i) i.style.background = el.value; document.querySelectorAll('.dot[data-key="' + el.dataset.key + '"], .pair-card').forEach(b => b.setAttribute('aria-pressed', 'false')); },
+    'color-set'(el) {
+      const key = el.dataset.key, v = el.value.toLowerCase(); setColors({ [key]: el.value }); const i = el.parentElement.querySelector('i'); if (i) i.style.background = el.value;
+      /* Markierungen nach dem tatsächlichen Wert, damit sie auch nach „Abbrechen“ (alte Farbe zurück) stimmen */
+      document.querySelectorAll(`.dot[data-key="${key}"]`).forEach(b => b.setAttribute('aria-pressed', String((b.dataset.value || '').toLowerCase() === v)));
+      const c = S.settings.colors || {}; document.querySelectorAll('.pair-card').forEach(b => b.setAttribute('aria-pressed', String((c.profit || '').toLowerCase() === b.dataset.profit && (c.loss || '').toLowerCase() === b.dataset.loss)));
+    },
     'color-reset'() { S.setSetting('colors', { accent: '', profit: '', loss: '', be: '' }); root.Theme.apply(S.settings); rerender(); },
     /* eigene Grundfarbe: beim Ziehen sofort anwenden, nur die Karte nachführen (der Farbwähler bleibt am Feld); beim Schließen neu aufbauen */
     'custom-bg'(el) {

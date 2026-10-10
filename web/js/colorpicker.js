@@ -1,7 +1,8 @@
 /* Farbwähler im Journalyst-Design für alle Farbfelder (input type=color); ersetzt das Farbfenster des Systems.
    Fläche für Sättigung und Helligkeit, Farbton-Regler, Hex-Feld und „Eigene Farben“: jede selbst gewählte Farbe wird
    gemerkt (neueste vorne, höchstens 8, einzeln löschbar). Das native Feld bleibt Träger des Werts: jede Änderung schreibt
-   value und löst input aus, beim Schließen change. Escape nimmt die Änderung zurück. */
+   value und löst input aus (Vorschau). Erst „Speichern“ (oder Enter) übernimmt: change und Farbe merken. „Abbrechen“, Escape
+   und ein Klick daneben stellen die Ausgangsfarbe wieder her (input mit der alten Farbe, danach das Ereignis cpcancel). */
 (function (root) {
   'use strict';
   const MAX = 8;
@@ -39,7 +40,8 @@
     el.innerHTML = `<div class="cp-sv" data-cp="sv" role="slider" tabindex="0" aria-label="Sättigung und Helligkeit"><i class="cp-knob"></i></div>
       <div class="cp-hue" data-cp="hue" role="slider" tabindex="0" aria-label="Farbton" aria-valuemin="0" aria-valuemax="360"><i class="cp-knob"></i></div>
       <div class="cp-row"><i class="cp-prev"></i><label class="cp-hex"><span>#</span><input type="text" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex-Farbwert"></label></div>
-      <div class="cp-saved">${savedHTML()}</div>`;
+      <div class="cp-saved">${savedHTML()}</div>
+      <div class="cp-foot"><button type="button" class="btn sm ghost" data-cp="cancel">Abbrechen</button><button type="button" class="btn sm primary" data-cp="save">Speichern</button></div>`;
   }
   /* Lage der Knöpfe und Farben setzen, ohne neu aufzubauen (flüssiges Ziehen) */
   function paint(skipHex) {
@@ -80,8 +82,9 @@
   }
   /* Pfeiltasten: Fläche in 2er-Schritten, Farbton in Grad (mit Umschalt größer) */
   function onKey(e) {
+    if (e.key === 'Enter' && e.target.closest && e.target.closest('.cp-hex')) { e.preventDefault(); close(); return; } /* Enter im Hex-Feld speichert */
     const t = e.target.closest && e.target.closest('[data-cp]'); if (!t) return; const k = t.dataset.cp; const big = e.shiftKey ? 10 : 2;
-    if (e.key === 'Enter' && k !== 'pick' && k !== 'del') { e.preventDefault(); close(); return; }
+    if (e.key === 'Enter' && k !== 'pick' && k !== 'del' && k !== 'cancel' && k !== 'save') { e.preventDefault(); close(); return; }
     const d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] }[e.key]; if (!d || (k !== 'sv' && k !== 'hue')) return;
     e.preventDefault();
     if (k === 'sv') { hsv.s = clamp(hsv.s + d[0] * big / 100, 0, 1); hsv.v = clamp(hsv.v + d[1] * big / 100, 0, 1); } else hsv.h = clamp(hsv.h + (d[0] || d[1]) * big, 0, 360);
@@ -98,7 +101,9 @@
     el.addEventListener('click', e => {
       e.stopPropagation(); /* Klicks bleiben im Farbwähler: die App würde sie sonst als Klick neben ein Menü werten */
       const b = e.target.closest('[data-cp]'); if (!b || !input) return;
-      if (b.dataset.cp === 'pick') setHex(b.dataset.v);
+      if (b.dataset.cp === 'save') close();
+      else if (b.dataset.cp === 'cancel') close(false, false, true);
+      else if (b.dataset.cp === 'pick') setHex(b.dataset.v);
       else if (b.dataset.cp === 'del') { forget(b.dataset.v); el.querySelector('.cp-saved').innerHTML = savedHTML(); paint(true); place(); }
     });
     el.addEventListener('keydown', onKey);
@@ -118,7 +123,7 @@
   function close(silent, gone, revert) {
     const inp = input; input = null; anchor = null; if (raf) { cancelAnimationFrame(raf); raf = 0; }
     if (inp && !gone) {
-      if (revert) { if (inp.value.toLowerCase() !== start) { inp.value = start; inp.dispatchEvent(new Event('input', { bubbles: true })); } }
+      if (revert) { if (inp.value.toLowerCase() !== start) { inp.value = start; inp.dispatchEvent(new Event('input', { bubbles: true })); } inp.dispatchEvent(new Event('cpcancel', { bubbles: true })); }
       else if (hsv) { const hex = hexOf(); if (inp.value.toLowerCase() !== hex) { inp.value = hex; inp.dispatchEvent(new Event('input', { bubbles: true })); } if (hex !== start) { inp.dispatchEvent(new Event('change', { bubbles: true })); if (!('cpNosave' in inp.dataset)) remember(hex); } /* data-cp-nosave: Farbe nicht in „Eigene Farben“ (z. B. Grundfarbe) */ }
     }
     if (!el || !el.classList.contains('open')) return;
@@ -130,7 +135,7 @@
     if (o) store = o; if (inited || typeof document === 'undefined') return; inited = true;
     document.addEventListener('click', e => { const t = e.target; if (!isField(t)) return; e.preventDefault(); open(t); });
     document.addEventListener('keydown', e => { const t = e.target; if (isField(t) && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(t); } }, true);
-    document.addEventListener('mousedown', e => { if (isOpen() && !el.contains(e.target) && e.target !== input) close(); }, true);
+    document.addEventListener('mousedown', e => { if (isOpen() && !el.contains(e.target) && e.target !== input) close(false, false, true); }, true); /* daneben: verwerfen */
     window.addEventListener('keydown', e => { if (e.key !== 'Escape' || !isOpen()) return; e.preventDefault(); e.stopImmediatePropagation(); close(false, false, true); }, true);
     window.addEventListener('resize', () => place());
     document.addEventListener('scroll', e => { if (el && el.contains(e.target)) return; place(); }, true);

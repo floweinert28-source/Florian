@@ -700,10 +700,12 @@ span.info:hover { color: var(--accent); }
 .cal .d.loss { background: color-mix(in srgb, var(--loss) 23%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 52%, var(--border)); } /* Rot etwas kräftiger als Grün, damit es auf dem dunklen Grund gleich stark wirkt */
 .cal .d.be { background: color-mix(in srgb, var(--be) 14%, var(--surface)); }
 .cal .d.sel { box-shadow: 0 0 0 2px var(--accent); }
-/* unter dem Betrag: Anzahl Trades, darunter die Winrate des Tages */
-.cal .d .c { display: flex; flex-direction: column; gap: 1px; }
-.cal .d .c .wr { white-space: nowrap; font-size: 10.5px; }
-.cal .d .c .wr b { font-family: var(--font-num); font-weight: 700; color: var(--text-2); }
+/* ruhige Kachel: oben links die Winrate des Tages (auf Höhe der Tageszahl), unten Betrag und Anzahl Trades.
+   In sehr schmalen Kacheln fällt die Winrate weg, damit nichts überlappt */
+.cal .d { container-type: inline-size; }
+.cal .d .c { white-space: nowrap; }
+.cal .d .c .wr { position: absolute; top: 6px; left: 8px; height: 24px; display: flex; align-items: center; font-family: var(--font-num); font-size: 10.5px; font-weight: 600; letter-spacing: -.01em; color: var(--muted); }
+@container (max-width: 52px) { .cal .d .c .wr { display: none; } }
 .cal .p { font-weight: 700; font-size: 13px; }
 .cal .d .p { font-weight: 800; font-size: 14px; letter-spacing: -.01em; } /* am PC kräftiger */
 .cal .c { font-size: 11px; color: var(--muted); }
@@ -2917,6 +2919,9 @@ a.coach-name:hover { color: var(--accent); }
 
 /* ---------- Handy (bis 560px) ---------- */
 .cal .d .pm, .cal .w .pm { display: none; }
+/* schmale Kacheln am PC (z. B. 1280 px Fensterbreite): kurzer Betrag (−486 €, +2,1k €) statt über den Rand zu laufen */
+@container (max-width: 77px) { .cal .d .p { display: none; } .cal .d .pm { display: block; font-weight: 800; font-size: 12.5px; letter-spacing: -.02em; white-space: nowrap; } }
+@container (max-width: 50px) { .cal .d .pm { font-size: 11px; margin: 0 -4px; } .cal .d .c { font-size: 10px; margin: 0 -4px; overflow: hidden; } }
 @media (max-width: 560px) {
   .tf-main, .tf-main:has(#f-account) { grid-template-columns: minmax(0, 1fr); } /* Handy: Symbol und Richtung untereinander, Umschalter über die volle Breite */
   .tf-main .field:has(#f-account) { grid-column: 1 / -1; }

@@ -17,9 +17,6 @@
      Aufteilung je Format über Grid-Bereiche in css/app.css (Block „Zertifikat“). */
   /* Kurslinie: weiche Kurve durch feste Punkte (Catmull-Rom als Bézier), Fläche darunter läuft nach unten aus, leuchtender Endpunkt.
      Sie liegt im freien Streifen zwischen Kennzahlen und Fußlinie (Grid-Zeile 6), nichts verdeckt sie; bei Verlust gespiegelt (fallend). */
-  const PTS = [[0, 250], [90, 240], [170, 246], [260, 216], [350, 222], [440, 188], [530, 194], [620, 152], [710, 160], [800, 116], [890, 104], [1000, 40]];
-  const CURVE_D = PTS.map((q, i) => { if (!i) return `M${q[0]} ${q[1]}`; const a = PTS[i - 2] || PTS[i - 1], b = PTS[i - 1], d = PTS[i + 1] || q; const r = v => Math.round(v * 10) / 10; return `C${r(b[0] + (q[0] - a[0]) / 6)} ${r(b[1] + (q[1] - a[1]) / 6)} ${r(q[0] - (d[0] - b[0]) / 6)} ${r(q[1] - (d[1] - b[1]) / 6)} ${q[0]} ${q[1]}`; }).join(' ');
-  const CURVE = `<div class="cert-chart" aria-hidden="true"><svg class="cert-curve" viewBox="0 0 1000 300" preserveAspectRatio="none"><defs><linearGradient id="cert-cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".2"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs><path d="${CURVE_D} L1000 300 L0 300 Z" fill="url(#cert-cg)"/><path class="l" d="${CURVE_D}" fill="none"/></svg><i class="end"></i></div>`;
   const KIND_SUB = { day: 'of Daily Profit', week: 'of Weekly Profit', month: 'of Monthly Profit', stats: 'of Performance' };
   function cardHTML(m, p, o) {
     if (fmt.moneyBlind()) o = Object.assign({}, o, { hide: true });
@@ -35,7 +32,7 @@
     const len = String(main).replace(/<[^>]*>/g, '').length;
     return `<div class="cert" data-theme="app" data-format="${o.format}" data-kind="${m.kind}" data-sign="${sign}" style="width:${f.w}px;height:${f.h}px;--s:${f.s};--c-pos:${c.pos};--c-neg:${c.neg}">
       <div class="cert-bg" aria-hidden="true"><i class="glow-warm"></i><i class="glow-acc"></i><i class="cert-frame"></i></div>
-      <div class="cert-in">${CURVE}
+      <div class="cert-in">
         <div class="cert-brand"><span class="name">Journal<em>yst</em></span><span class="tag">Trading Journal App</span></div>
         <h1 class="cert-title"><span class="ct-big">Certificate</span><span class="ct-sub">${KIND_SUB[m.kind]}</span></h1>
         <div class="cert-to">${user ? `<span class="k">Presented to</span> <span class="user">${esc(user)}</span>` : '<span class="k">Net result</span>'}</div>

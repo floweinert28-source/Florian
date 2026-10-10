@@ -173,21 +173,8 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag ruhig und neutral: ein Hauch Licht von oben links, feiner Rand, kein Schein nach außen; der kleine Balken links ist der einzige Akzent */
-.nav a.active {
-  overflow: visible; color: var(--text); font-weight: 600;
-  background: var(--surface-2); border-color: var(--border-2);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
-}
-@supports (background: color-mix(in srgb, red 50%, blue)) {
-  .nav a.active {
-    background:
-      radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--text) 6%, transparent), transparent 60%) padding-box,
-      linear-gradient(var(--surface-2), var(--surface-2)) padding-box,
-      linear-gradient(155deg, color-mix(in srgb, var(--text) 26%, var(--border-2)) 0%, color-mix(in srgb, var(--text) 12%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--text) 8%, var(--border-2)) 100%) border-box;
-    border-color: transparent;
-  }
-}
+/* aktiver Eintrag flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein; der kleine Balken links ist der einzige Akzent */
+.nav a.active { overflow: visible; color: var(--text); font-weight: 600; background: var(--surface-2); border-color: var(--border); }
 .nav a.active svg { opacity: 1; color: var(--text); }
 .nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); box-shadow: var(--dot-glow); } /* Balken mit sanftem Leuchten; alle Hinweis-Punkte leuchten genauso (--dot-glow) */
 .nav a.active:hover { transform: none; }
@@ -999,7 +986,7 @@ span.info:hover { color: var(--text-2); }
 .nb .trash-link:hover, .nb .trash-link.active { color: var(--text); background: var(--surface-2); }
 .nb .note-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 10px; border-radius: 10px; cursor: pointer; border: 1px solid transparent; }
 .nb .note-item:hover { background: var(--surface-2); }
-.nb .note-item.active { background: var(--accent-soft); border-color: var(--accent-soft); }
+.nb .note-item.active { background: var(--surface-3); border-color: var(--border-2); }
 .nb .note-item .t { flex: 1; min-width: 0; }
 .nb .note-item b { display: block; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nb .note-item .d { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
@@ -1976,13 +1963,6 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert[data-theme="app"] .cert-bg .cert-frame { inset: calc(var(--s) * 34px); border: 1px solid var(--c-frame); border-radius: calc(var(--s) * 30px); }
 /* Kurslinie steht auf der Linie über der Fußzeile (wie die Achse eines Diagramms) und so breit wie der Inhalt: sie kreuzt keine Schrift */
 /* Kurslinie im Streifen über der Fußlinie (Grid-Zeile 6): so breit wie die Fußlinie, sitzt direkt auf ihr, links weich eingeblendet */
-.cert[data-theme="app"] .cert-chart { grid-row: 6; grid-column: 1; justify-self: stretch; align-self: stretch; position: relative; min-height: 0; margin-bottom: calc(var(--s) * var(--rg) * -1); color: var(--c-acc); }
-.cert[data-theme="app"] .cert-curve { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; -webkit-mask-image: linear-gradient(90deg, transparent, #000 24%); mask-image: linear-gradient(90deg, transparent, #000 24%); }
-.cert[data-theme="app"][data-sign="neg"] .cert-curve { transform: scaleX(-1); -webkit-mask-image: linear-gradient(270deg, transparent, #000 24%); mask-image: linear-gradient(270deg, transparent, #000 24%); } /* gespiegelt: Ausblendung bleibt links */
-.cert[data-theme="app"] .cert-curve .l { stroke: currentColor; stroke-opacity: .85; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.cert[data-theme="app"] .cert-chart .end { position: absolute; right: 0; top: 13.33%; width: calc(var(--s) * 11px); height: calc(var(--s) * 11px); border-radius: 50%; background: var(--c-acc); transform: translate(50%, -50%);
-  box-shadow: 0 0 0 calc(var(--s) * 5px) color-mix(in srgb, var(--c-acc) 16%, transparent), 0 0 calc(var(--s) * 22px) color-mix(in srgb, var(--c-acc) 55%, transparent); }
-.cert[data-theme="app"][data-sign="neg"] .cert-chart .end { top: 83.33%; }
 /* Rahmenecken (nur Navy und Hell) */
 
 /* ---------- Navy und Hell ---------- */
@@ -2033,7 +2013,7 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert[data-format="story"] .cert-to .user { font-size: calc(var(--s) * 36px); }
 
 /* ---------- App-Design: zentriert, Ergebnis als grüne Pille wie ein aktiver Reiter, Kennzahlen als Kachelstreifen ---------- */
-.cert[data-theme="app"] .cert-in { justify-items: center; text-align: center; grid-template-columns: minmax(0, 1fr); grid-template-rows: .6fr auto auto auto auto 1.4fr auto;
+.cert[data-theme="app"] .cert-in { justify-items: center; text-align: center; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto auto auto auto 1fr auto;
   grid-template-areas: "." "title" "to" "hero" "stats" "." "foot"; row-gap: calc(var(--s) * var(--rg)); padding: calc(var(--s) * 120px) calc(var(--s) * var(--px)) calc(var(--s) * var(--pb)); }
 .cert[data-theme="app"] .cert-brand { top: calc(var(--s) * 82px); left: calc(var(--s) * 84px); right: auto; flex-direction: column; align-items: flex-start; gap: calc(var(--s) * 5px); text-align: left; }
 .cert[data-theme="app"] .cert-brand .name { font-family: var(--font-display); font-size: calc(var(--s) * 21px); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--c-text); }
@@ -2070,7 +2050,7 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert[data-theme="app"] .cert-foot .issue .v.mono { font-family: var(--font-num); letter-spacing: .04em; }
 .cert[data-theme="app"] .cert-foot .issue .k { color: var(--c-muted); font-size: calc(var(--s) * 15px); margin-top: calc(var(--s) * 5px); }
 .cert[data-theme="app"][data-format="wide"] { --px: 120px; --pb: 90px; --rg: 26px; }
-.cert[data-theme="app"][data-format="wide"] .cert-in { grid-template-rows: .6fr auto auto auto auto 1.4fr auto; padding: calc(var(--s) * 110px) calc(var(--s) * var(--px)) calc(var(--s) * var(--pb)); row-gap: calc(var(--s) * var(--rg)); }
+.cert[data-theme="app"][data-format="wide"] .cert-in { grid-template-rows: 1fr auto auto auto auto 1fr auto; padding: calc(var(--s) * 110px) calc(var(--s) * var(--px)) calc(var(--s) * var(--pb)); row-gap: calc(var(--s) * var(--rg)); }
 .cert[data-theme="app"][data-format="wide"] .cert-brand { top: calc(var(--s) * 90px); left: calc(var(--s) * 100px); }
 .cert[data-theme="app"][data-format="wide"] .cert-title .ct-big { font-size: calc(var(--s) * 128px); }
 .cert[data-theme="app"][data-format="wide"] .cert-value { font-size: calc(var(--s) * 96px); }
@@ -3110,32 +3090,26 @@ a.coach-name:hover { color: var(--accent); }
   .nw-next-when { align-items: flex-start; text-align: left; flex-direction: row; gap: 8px; align-items: baseline; }
 }
 
-/* Ausgewählt mit Rahmen (Reiter, Segmente, Chips, Karten, Akzent-Knöpfe): statt flacher Fläche mit Rand fällt Licht von
-   oben links ein, der Rand ist ein Lichtverlauf (oben links heller, an den Seiten leise, unten rechts ein schwacher Reflex),
-   dazu eine feine Kante oben innen; bewusst ruhig, ohne Schein darunter. Standard-Licht ist neutral (Schriftfarbe), damit Grün nur
-   für Gewinn und „Trade loggen“ steht; --lc setzt eine bewusste Farbe (Gewinn/Verlust, Long/Short, Bewertung, Fehler, Emotion). */
+/* Ausgewählt (Reiter, Segmente, Chips, Karten): flach und ruhig, eine leicht angehobene Fläche mit feinem Rand, ohne Licht,
+   Verlauf oder Schein. --lc setzt eine bewusste Farbe (Gewinn/Verlust, Long/Short, Bewertung, Fehler, Emotion): dann Schrift in der
+   Farbe, Fläche leicht getönt, Rand leise gefärbt. Ohne --lc neutral (Schriftfarbe als Grundlage). */
 .seg button[aria-pressed="true"], .swatch[aria-pressed="true"], .chip.sel[aria-pressed="true"], .rating button[aria-pressed="true"],
 .tabs button[aria-pressed="true"], .tabs a[aria-pressed="true"], .nb .tagpill[aria-pressed="true"],
 .fd-seg button[aria-pressed="true"], .fd-tog button[aria-pressed="true"], .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"],
-.pair-card[aria-pressed="true"], .rp-chip[aria-pressed="true"], .prop-tabs a[aria-pressed="true"], .sb-user.active, .btn.accent {
-  border-color: transparent; color: color-mix(in srgb, var(--lc, var(--text)) 88%, var(--text));
-  background:
-    radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--lc, var(--text)) 10%, transparent), transparent 60%) padding-box,
-    linear-gradient(180deg, color-mix(in srgb, var(--lc, var(--text)) 4%, var(--surface-2)), var(--surface)) padding-box,
-    linear-gradient(155deg, color-mix(in srgb, var(--lc, var(--text)) 50%, var(--border-2)) 0%, color-mix(in srgb, var(--lc, var(--text)) 22%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--lc, var(--text)) 14%, var(--border-2)) 100%) border-box;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+.pair-card[aria-pressed="true"], .rp-chip[aria-pressed="true"], .prop-tabs a[aria-pressed="true"], .sb-user.active {
+  color: var(--lc, var(--text));
+  background: color-mix(in srgb, var(--lc, var(--text)) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--lc, var(--text)) 22%, var(--border-2));
+  box-shadow: none;
 }
+.lang-card[aria-pressed="true"], .font-card[aria-pressed="true"], .pair-card[aria-pressed="true"], .sb-user.active { color: var(--text); } /* Karten: nur die Fläche, Schrift bleibt */
 /* Akzent-Knopf (z. B. „Trade loggen“): Form und Fläche wie die anderen Knöpfe, nur ein Hauch Licht von oben links und ein
    leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht */
-.btn.accent { --al: 8%; font-weight: 600; color: color-mix(in srgb, var(--accent) 88%, var(--text));
+.btn.accent { --al: 8%; font-weight: 600; border-color: transparent; color: color-mix(in srgb, var(--accent) 88%, var(--text));
   background:
     radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) var(--al), transparent), transparent 60%) padding-box,
     linear-gradient(var(--surface), var(--surface)) padding-box,
     linear-gradient(155deg, color-mix(in srgb, var(--accent) 48%, var(--border-2)) 0%, color-mix(in srgb, var(--accent) 20%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--accent) 14%, var(--border-2)) 100%) border-box;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); }
 .btn.accent:hover { --al: 14%; background-color: transparent; }
-.lang-card[aria-pressed="true"], .font-card[aria-pressed="true"], .pair-card[aria-pressed="true"], .sb-user.active { color: var(--text); } /* Karten: nur das Licht, Schrift bleibt */
-:root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .rp-chip, .prop-tabs a)[aria-pressed="true"],
-:root[data-theme="light"] .btn.accent { color: var(--lc, var(--text)); }
-:root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .lang-card, .font-card, .pair-card, .rp-chip, .prop-tabs a)[aria-pressed="true"],
-:root[data-theme="light"] .sb-user.active, :root[data-theme="light"] .btn.accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }
+:root[data-theme="light"] .btn.accent { color: var(--accent); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }

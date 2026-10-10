@@ -47,7 +47,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist ruhig und neutral: ein Hauch Licht von oben links, feiner grauer Rand, kein Schein nach außen; der kleine Balken am Rand mit dezentem Leuchten ist der einzige Akzent; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein; der kleine Balken am Rand mit dezentem Leuchten ist der einzige Akzent; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
@@ -99,7 +99,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   alle Routen auf seitlichen Überlauf.
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades. Auf dem Desktop füllt die Liste genau
   Die Tabelle passt bei 1280 px und mehr ohne seitliches Scrollen ins Fenster (engere Zellen; „Geschlossen“ zeigt am selben Tag nur die Uhrzeit).
-  Das „Overall score“-Netz färbt sich nach dem Gesamtscore (rot, gelb, grün) statt immer grün.
+  Das „Overall score“-Netz ist in der eingestellten Akzentfarbe, die Score-Zahl bleibt in der Schriftfarbe.
   das Fenster (wie das Notebook): Kacheln, Reiter und Filter oben, die Tabelle nimmt den Rest und scrollt in ihrer Box, der
   Seitenwähler bleibt unten sichtbar; die Seite selbst scrollt nicht. Trade-Detail und Handy scrollen wie gewohnt.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
@@ -134,7 +134,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   In „Dein Tag“ hakt ein Klick auf „Tagesnotiz geschrieben“ den Punkt ab oder löst ihn wieder (`days[heute].noteDone`, kein Sprung
   ins Notebook); eine Notiz von heute im Notebook hakt ihn automatisch ab. Der Hinweis-Punkt am Notebook verschwindet dann ebenfalls.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
-- **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in einem Design im Look der App (`data-theme="app"`): warmes Graphit wie die App, Schriftzug JOURNALYST oben links, zentriert, Ergebnis als Pille mit Licht von links wie der aktive Eintrag der Seitenleiste; der Rand folgt dem Licht (links hell, nach rechts dunkel auslaufend, am Rahmen ausgerichtet) (grün, bei Verlust rot), Kennzahlen als Kachelstreifen, feiner Kartenrahmen und unten eine weiche Kurslinie mit leuchtendem Endpunkt im freien Streifen zwischen Kennzahlen und Fußlinie (nichts verdeckt sie, links sanft eingeblendet, bei Verlust fallend); Schrift wie in der App (Text in Satoshi über `--font`, Ergebnis, Kennzahlen und Ausstellungsdaten in der Zahlenschrift Onest über `--font-num`); mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen.
+- **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in einem Design im Look der App (`data-theme="app"`): warmes Graphit wie die App, Schriftzug JOURNALYST oben links, zentriert, Ergebnis als Pille mit Licht von links wie der aktive Eintrag der Seitenleiste; der Rand folgt dem Licht (links hell, nach rechts dunkel auslaufend, am Rahmen ausgerichtet) (grün, bei Verlust rot), Kennzahlen als Kachelstreifen, feiner Kartenrahmen und unten eine weiche kein Hintergrund-Diagramm (Inhalt mittig zwischen Marke und Fußzeile); Schrift wie in der App (Text in Satoshi über `--font`, Ergebnis, Kennzahlen und Ausstellungsdaten in der Zahlenschrift Onest über `--font-num`); mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen.
 - **Ruhepunkt**: geführte Sessions vor und nach dem Trading plus Akut-Reset (Abläufe und Texte aus `docs/ruhepunkt.html`). Jede Session wird als Eintrag mit Nutzerkennung gespeichert; „Christlicher Impuls“ ist eine gespeicherte Einstellung, umschaltbar nur in den Einstellungen (unten im Ruhepunkt steht nur noch „Hilfe und Beratung“).
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
@@ -197,11 +197,12 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   erscheinen im Farbwähler und in der Akzentreihe und lassen sich mit × löschen. **Meine Designs**: Erscheinungsbild, Schrift und alle
   Farben als Paket speichern, mit einem Klick anwenden, löschen; höchstens 6.
   Die Wahl gilt für die ganze Website inklusive Startseite.
-  **Grün nur für Gewinn und „Trade loggen“:** ausgewählte Reiter, Segmente, Chips und Karten mit Rahmen haben dasselbe ruhige Licht wie
-  „Trade loggen“ (ein Hauch Licht von oben links, leiser Rand als Lichtverlauf, feine Kante oben innen, kein Schein darunter; ein gemeinsamer
-  Stil am Ende von `css/app.css`), aber in neutraler Lichtfarbe (Schrift). `--lc` setzt eine bewusste Farbe nur dort, wo sie etwas bedeutet
-  (Gewinn/Verlust, Long/Short, Bewertung, Fehler-/Emotions-Chips). Setup-Chips, Avatare, der aktive Seitenleisten-Eintrag, der Zähler im
-  Filter-Knopf und die News-Karte sind neutral; Grün bleibt für Gewinne, den Akzent-Knopf, Schalter und den kleinen Balken am aktiven Eintrag.
+  **Grün nur für Gewinn und „Trade loggen“:** ausgewählte Reiter, Segmente, Chips und Karten mit Rahmen sind flach und ruhig: eine leicht
+  angehobene Fläche mit feinem Rand, ohne Licht, Verlauf oder Schein (ein gemeinsamer Stil am Ende von `css/app.css`). `--lc` setzt eine
+  bewusste Farbe nur dort, wo sie etwas bedeutet (Gewinn/Verlust, Long/Short, Bewertung, Fehler-/Emotions-Chips): Schrift in der Farbe,
+  Fläche leicht getönt, Rand leise gefärbt. Nur „Trade loggen“ behält sein Licht. Setup-Chips, Avatare, der aktive Seitenleisten-Eintrag
+  (flach, feiner Rand), die gewählte Notiz, der Zähler im Filter-Knopf und die News-Karte sind neutral; Grün bleibt für Gewinne, den
+  Akzent-Knopf, Schalter und den kleinen Balken am aktiven Eintrag.
   **Schriftgewichte abgestuft:** Steuerelemente (Knöpfe, Reiter, Segmente, Chips, Tabellenköpfe, Kachel-Titel) 500, Titel 600, nur Werte und
   Hauptknöpfe („Trade loggen“, Speichern) fett. **Info-Symbole** in Karten und Kacheln erscheinen erst beim Darüberfahren (auf Touch immer).
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.
@@ -328,9 +329,9 @@ gleitet (App-Start ohne Logo-Zeichen, Auswertung von Sprachnotizen); `U.spin()` 
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
 
-**Kurven:** `UI.smooth` verbindet die Punkte mit geraden Stücken und rundet nur die Ecken an den Datenpunkten leicht (Radius 12 px,
-Quadratkurve innerhalb der Ecke). So zeigt jede Kurve genau die Daten (kein Überschwingen, keine erfundenen Zwischenwerte), wirkt aber
-nicht hart gezackt. Auch das Mehrlinien-Diagramm (Schatten-Ich) nutzt diese Rundung je zusammenhängendem Stück. Die Datumsachse (`UI.dateAxis`) beschriftet je Tag höchstens einmal, auch wenn mehrere
+**Kurven:** `UI.smooth` verbindet die Punkte mit geraden Stücken und ist nur um die Datenpunkte herum weich (Radius 12 px). Die Kurve
+läuft exakt durch jeden Punkt, die Markierungen sitzen auf der Linie; an Hoch- und Tiefpunkten ist die Tangente waagerecht, darum
+schwingt nichts über den Punkt hinaus und es entstehen keine erfundenen Zwischenwerte. Trotzdem wirkt sie nicht hart gezackt. Auch das Mehrlinien-Diagramm (Schatten-Ich) nutzt diese Rundung je zusammenhängendem Stück. Die Datumsachse (`UI.dateAxis`) beschriftet je Tag höchstens einmal, auch wenn mehrere
 Punkte (einzelne Trades) auf denselben Tag fallen.
 
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden

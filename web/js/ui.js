@@ -188,19 +188,23 @@
   const NS = 'http://www.w3.org/2000/svg';
   function niceTicks(min, max, n = 4) { const span = max - min || 1; const raw = span / n; const p = 10 ** Math.floor(Math.log10(raw)); const s = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= n + 1) || raw; const t = []; for (let v = Math.ceil(min / s) * s; v <= max + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
   /* Weiche Kurve durch alle Punkte, monoton zwischen Nachbarpunkten (wie d3 curveMonotoneX): schießt nie über den höchsten oder unter den tiefsten Wert hinaus, wird also oben und unten nicht abgeschnitten */
-  /* Linien zwischen den Punkten: gerade Stücke, nur die Ecken an den Datenpunkten leicht gerundet (Radius 12 px). So zeigt
-     die Kurve weiter genau die Daten (kein Überschwingen, keine erfundenen Zwischenwerte), wirkt aber nicht hart gezackt */
+  /* Linien zwischen den Punkten: gerade Stücke, nur um die Datenpunkte herum weich (Radius 12 px). Die Kurve läuft exakt durch
+     jeden Punkt (die Markierungen sitzen auf der Linie); an Hoch- und Tiefpunkten ist die Tangente waagerecht, darum schwingt
+     nichts über den Punkt hinaus und es entstehen keine erfundenen Zwischenwerte */
   const smooth = (pts, R = 12) => {
     const r = v => Math.round(v * 100) / 100; const n = pts.length; const P = p => `${r(p[0])},${r(p[1])}`;
     if (n < 3) return 'M' + pts.map(P).join('L');
+    const unit = (a, b) => { const l = Math.hypot(b[0] - a[0], b[1] - a[1]); return l ? [(b[0] - a[0]) / l, (b[1] - a[1]) / l, l] : [1, 0, 0]; };
     let d = `M${P(pts[0])}`;
     for (let i = 1; i < n - 1; i++) {
-      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], [x2, y2] = pts[i + 1];
-      const l1 = Math.hypot(x1 - x0, y1 - y0), l2 = Math.hypot(x2 - x1, y2 - y1);
-      if (!l1 || !l2) { d += `L${P(pts[i])}`; continue; }
-      const t1 = Math.min(R, l1 / 2), t2 = Math.min(R, l2 / 2);
-      const a = [x1 - (x1 - x0) / l1 * t1, y1 - (y1 - y0) / l1 * t1], b = [x1 + (x2 - x1) / l2 * t2, y1 + (y2 - y1) / l2 * t2];
-      d += `L${P(a)}Q${P(pts[i])} ${P(b)}`;
+      const p0 = pts[i - 1], p1 = pts[i], p2 = pts[i + 1];
+      const [ux1, uy1, l1] = unit(p0, p1), [ux2, uy2, l2] = unit(p1, p2);
+      if (!l1 || !l2) { d += `L${P(p1)}`; continue; }
+      const t1 = Math.min(R, l1 / 2), t2 = Math.min(R, l2 / 2), h1 = t1 / 2, h2 = t2 / 2;
+      let tx = ux1 + ux2, ty = (p1[1] - p0[1]) * (p2[1] - p1[1]) < 0 ? 0 : uy1 + uy2; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+      const a = [p1[0] - ux1 * t1, p1[1] - uy1 * t1], b = [p1[0] + ux2 * t2, p1[1] + uy2 * t2];
+      d += `L${P(a)}C${P([a[0] + ux1 * h1, a[1] + uy1 * h1])} ${P([p1[0] - tx * h1, p1[1] - ty * h1])} ${P(p1)}`;
+      d += `C${P([p1[0] + tx * h2, p1[1] + ty * h2])} ${P([b[0] - ux2 * h2, b[1] - uy2 * h2])} ${P(b)}`;
     }
     return d + `L${P(pts[n - 1])}`;
   };
@@ -373,8 +377,7 @@
     const ringP = f => `<polygon points="${axes.map((_, i) => pt(i, f).join(',')).join(' ')}" fill="none" stroke="var(--border-2)"/>`;
     const spokes = axes.map((_, i) => `<line x1="${c}" y1="${c}" x2="${pt(i, 1)[0]}" y2="${pt(i, 1)[1]}" stroke="var(--border)"/>`).join('');
     const area = axes.map((a, i) => pt(i, Math.max(a.score, 0.03)).join(',')).join(' ');
-    /* Fläche in der Farbe des Gesamtscores (rot, gelb, grün), nicht immer grün */
-    const rc = scoreColor(axes.length ? axes.reduce((t, a) => t + a.score, 0) / axes.length * 100 : 0);
+    const rc = 'var(--accent)'; /* Netz in der eingestellten Akzentfarbe */
     /* Ecken ohne sichtbare Punkte: unsichtbare Trefferflächen behalten den Tooltip */
     const dots = axes.map((a, i) => { const [x, y] = pt(i, Math.max(a.score, 0.03)); return `<circle cx="${x}" cy="${y}" r="10" fill="transparent" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}"/>`; }).join('');
     const labels = axes.map((a, i) => { const [x, y] = pt(i, 1.22); const anchor = Math.abs(x - c) < 4 ? 'middle' : x < c ? 'end' : 'start'; return `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" style="font-size:11px;fill:var(--text-2);font-weight:600">${esc(a.label)}</text>`; }).join('');

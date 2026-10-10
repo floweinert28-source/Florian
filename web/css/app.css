@@ -951,7 +951,7 @@ span.info:hover { color: var(--accent); }
 .nb .sec-h { display: flex; align-items: center; gap: 6px; width: 100%; padding: 8px 6px 6px; border: 0; background: none; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; cursor: pointer; text-align: left; }
 .nb .sec-h svg { width: 14px; height: 14px; transition: transform var(--dur-1) var(--ease); }
 .nb .sec-h[aria-expanded="false"] svg { transform: rotate(-90deg); }
-.nb .folder { display: flex; align-items: center; gap: 9px; padding: 8px 8px 8px 10px; border-radius: 9px; cursor: pointer; border: 1px solid transparent; border-left: 3px solid transparent; font-weight: 500; font-size: 13.5px; position: relative; }
+.nb .folder { display: flex; align-items: center; gap: 9px; padding: 8px 8px 8px 12px; border-radius: 9px; cursor: pointer; border: 1px solid transparent; font-weight: 500; font-size: 13.5px; position: relative; }
 .nb .folder, .nb .note-item { transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
 .nb .folder:hover { background: var(--surface-2); }
 .nb .folder .cnt { margin-left: auto; font-size: 11px; color: var(--muted); }
@@ -3081,14 +3081,14 @@ a.coach-name:hover { color: var(--accent); }
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 /* Akzent-Knopf (z. B. „Trade loggen“): Form und Fläche wie die anderen Knöpfe, nur ein Hauch Licht von oben links und ein
-   leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht */
-.btn.accent { --al: 8%; color: color-mix(in srgb, var(--accent) 88%, var(--text));
+   leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht. Der gewählte Notebook-Ordner sieht genauso aus */
+.btn.accent, .nb .folder.active { --al: 8%; color: color-mix(in srgb, var(--accent) 88%, var(--text));
   background:
     radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) var(--al), transparent), transparent 60%) padding-box,
     linear-gradient(var(--surface), var(--surface)) padding-box,
     linear-gradient(155deg, color-mix(in srgb, var(--accent) 48%, var(--border-2)) 0%, color-mix(in srgb, var(--accent) 20%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--accent) 14%, var(--border-2)) 100%) border-box;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); }
-.btn.accent:hover { --al: 14%; background-color: transparent; }
+.btn.accent:hover, .nb .folder.active:hover { --al: 14%; background-color: transparent; }
 .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"], .pair-card[aria-pressed="true"], .sb-user.active { color: var(--text); } /* Karten: nur das Licht, Schrift bleibt */
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .rp-chip, .prop-tabs a)[aria-pressed="true"],
 :root[data-theme="light"] .folder.active, :root[data-theme="light"] .btn.accent { color: var(--lc, var(--accent)); }

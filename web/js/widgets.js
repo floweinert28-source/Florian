@@ -67,7 +67,7 @@
       ${u1 ? `<g class="grid">${scale[u1].ticks.map(t => `<text x="${W - mr + 8}" y="${y(u1, t) + 3.5}">${unitFmt(u1, t, true)}</text>`).join('')}</g>` : ''}
       ${bars.map((s, bi) => pts.map((p, i) => { const v = p.v[s.key]; if (v == null || !isFinite(v)) return ''; const zero = y(s.unit, Math.max(scale[s.unit].y0, Math.min(scale[s.unit].y1, 0))); const yy = y(s.unit, v); return `<rect x="${(x(i) - bw * bars.length / 2 + bi * bw).toFixed(1)}" y="${Math.min(yy, zero).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, Math.abs(yy - zero)).toFixed(1)}" rx="2" fill="${s.color}" fill-opacity=".8"/>`; }).join('')).join('')}
       ${series.filter(s => s.type !== 'bar').map(s => `<path d="${path(s)}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots ? pts.map((p, i) => { const v = p.v[s.key]; return v == null || !isFinite(v) ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(s.unit, v).toFixed(1)}" r="1.8" fill="${s.color}"/>`; }).join('') : ''}`).join('')}
-      ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}
+      ${U.dateAxis(n, x, i => pts[i].date, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     bindHover(el, el.firstElementChild, n, x, () => null, i => `<b>${d.periodLabel ? d.periodLabel(pts[i].date) : fmt.weekdayLong(pts[i].date)}</b>${series.map(s => `<br><i class="dot" style="background:${s.color}"></i>${esc(s.label)}: ${unitFmt(s.unit, pts[i].v[s.key])}`).join('')}`);
   };
@@ -91,7 +91,7 @@
     const n = days.length; const gap = iw / n; const bw = Math.max(2, Math.min(18, gap * 0.62)); const x = i => ml + i * gap + gap / 2, y = v => mt + (y1 - v) / (y1 - y0 || 1) * ih; const xt = U.xTicks(n, iw);
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${U.axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>
       ${days.map((p, i) => `<rect x="${(x(i) - bw / 2).toFixed(1)}" y="${Math.min(y(p.pnl), y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0))).toFixed(1)}" rx="2" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".85" data-tip="<b>${fmt.weekdayLong(p.day)}</b><br>${fmt.cur(p.pnl, { signed: true })} · ${p.n} Trade${p.n === 1 ? '' : 's'}"></rect>`).join('')}
-      ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(days[i].day)}</text>`).join('')}</svg>`;
+      ${U.dateAxis(n, x, i => days[i].day, ml, W, mr, H)}</svg>`;
   };
   /* Drawdown-Fläche */
   U.drawers.dd = function (el, d, W, H) {
@@ -102,7 +102,7 @@
     const line = n === 1 ? `M${x(0) - 1},${y(pts[0].dd)}L${x(0) + 1},${y(pts[0].dd)}` : 'M' + pts.map((p, i) => `${x(i).toFixed(1)},${y(p.dd).toFixed(1)}`).join('L'); const xt = U.xTicks(n, iw);
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--loss)" stop-opacity=".05"/><stop offset="1" stop-color="var(--loss)" stop-opacity=".45"/></linearGradient></defs>${U.axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
       <path d="${line} L${x(n - 1)},${y(0)} L${x(0)},${y(0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="var(--loss)" stroke-width="2" stroke-linejoin="round"/>
-      ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}
+      ${U.dateAxis(n, x, i => pts[i].date, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="var(--loss)" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     bindHover(el, el.firstElementChild, n, x, i => y(pts[i].dd), i => `<b>${fmt.weekdayLong(pts[i].date)}</b><br>Drawdown: ${U.pnl(pts[i].dd)}<br><span class="muted">Kumuliert: ${fmt.cur(pts[i].cum, { signed: true })}</span>`);
   };

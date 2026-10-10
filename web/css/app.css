@@ -701,6 +701,7 @@ span.info:hover { color: var(--accent); }
 .cal .d.be { background: color-mix(in srgb, var(--be) 14%, var(--surface)); }
 .cal .d.sel { box-shadow: 0 0 0 2px var(--accent); }
 .cal .p { font-weight: 700; font-size: 13px; }
+.cal .d .p, .cal .d .pm { color: var(--text); } /* Tages-P&L weiß; Gewinn/Verlust zeigt die getönte Fläche */
 .cal .c { font-size: 11px; color: var(--muted); }
 .cal .w { border: 1px solid var(--border); border-radius: 12px; padding: 10px; background: var(--surface-2); display: flex; flex-direction: column; gap: 2px; justify-content: center; }
 .cal .w .t { font-size: 11.5px; color: var(--muted); font-weight: 600; }

@@ -142,6 +142,7 @@
     date(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: 'short' }) : '—'; },
     dateFull(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'; },
     dateShort(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—'; },
+    dateDM(d) { return d ? new Date(d).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit' }) : '—'; }, /* Tag und Monat (Diagrammachsen) */
     axisCur(v) { return fmt.cur(v, { compact: true }); },
     /* kurze Wochentage ab Montag in der Sprache der Oberfläche (Deutsch: Mo, Di …) */
     weekdays() { if (!root.I18N || root.I18N.lang() === 'de') return C.WEEKDAYS; const f = new Intl.DateTimeFormat(LOC(), { weekday: 'short' }); return [0, 1, 2, 3, 4, 5, 6].map(i => f.format(new Date(2024, 0, 1 + i)).replace(/\.$/, '')); },
@@ -197,6 +198,19 @@
   };
   const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? fmt.kilo(a, a >= 10000 ? 0 : 1) : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
   const gid = () => 'g' + Math.random().toString(36).slice(2, 8);
+  /* Datumsachse unten: kurzes Datum (ohne Jahr, wenn alle Punkte im selben Jahr liegen), gleichmäßig verteilt, mittig unter dem
+     Punkt (am Rand nach innen geschoben), nie überlappend. Ersetzt die frühere Auswahl, die bei schmalen Diagrammen einzelne Tage
+     übersprang und Anfang/Ende seitlich verschob */
+  function dateAxis(n, x, dateOf, ml, W, mr, H) {
+    if (!n) return ''; const ds = Array.from({ length: n }, (_, i) => dateOf(i));
+    const years = new Set(ds.filter(Boolean).map(d => new Date(d).getFullYear())); const lab = d => (years.size > 1 ? fmt.dateShort(d) : fmt.dateDM(d));
+    const w = Math.max(...ds.map(d => String(lab(d)).length)) * 6.6 + 4, pad = 14; const dx = n > 1 ? Math.abs(x(1) - x(0)) || 1 : Infinity;
+    const step = n > 1 ? Math.max(1, Math.ceil((w + pad) / dx)) : 1; const k = n > 1 ? Math.floor((n - 1) / step) + 1 : 1;
+    const idx = n === 1 ? [0] : k < 2 ? [0, n - 1] : Array.from({ length: k }, (_, i) => Math.round(i * (n - 1) / (k - 1)));
+    const lo = ml + w / 2, hi = W - mr - w / 2; const out = [];
+    for (const i of [...new Set(idx)]) { const cx = Math.min(hi, Math.max(lo, x(i))); if (out.length && cx - out[out.length - 1].cx < w + pad) { if (i !== n - 1) continue; out.pop(); } out.push({ i, cx }); }
+    return out.map(o => `<text x="${o.cx.toFixed(1)}" y="${H - 8}" text-anchor="middle">${lab(ds[o.i])}</text>`).join('');
+  }
   const xTicks = (n, iw) => { const k = Math.max(2, Math.min(n, Math.floor(iw / 95) + 1)); if (n <= k) return Array.from({ length: n }, (_, i) => i); return Array.from({ length: k }, (_, i) => Math.round(i / (k - 1) * (n - 1))); };
   const chartData = {};
   const drawers = {};
@@ -253,7 +267,7 @@
       <path class="ar" d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path class="ar" d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
       <path class="ln" d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path class="ln" d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
       ${dots ? pts.map((p, i) => `<circle class="dt" cx="${x(i)}" cy="${y(p.cum)}" r="2.2" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle class="dt" cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
-      ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].day)}</text>`).join('')}
+      ${dateAxis(n, x, i => pts[i].day, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].cum), i => { const p = pts[i]; return `<b>${fmt.weekdayLong(p.day)}</b><br>Tag: ${pnl(p.pnl)} · ${p.n} Trade${p.n === 1 ? '' : 's'}<br>Kumuliert: ${pnl(p.cum)}`; }, i => pts[i].cum >= 0 ? 'var(--profit)' : 'var(--loss)');
   };
@@ -264,7 +278,7 @@
     const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 12, mb = 30;
     const iw = W - ml - mr; const x = i => ml + i / (pts.length - 1) * iw, y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb); const g = gid();
     const line = smooth(pts.map((p, i) => [x(i), y(p.equity)])); const last = pts[pts.length - 1].equity, col = last >= 0 ? 'var(--profit)' : 'var(--loss)';
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity="${last >= 0 ? .3 : .45}"/><stop offset="1" stop-color="${col}" stop-opacity="${last >= 0 ? .02 : .06}"/></linearGradient></defs>${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>${[0, Math.round((pts.length - 1) / 2), pts.length - 1].map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity="${last >= 0 ? .3 : .45}"/><stop offset="1" stop-color="${col}" stop-opacity="${last >= 0 ? .02 : .06}"/></linearGradient></defs>${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(y0)} L${x(0)},${y(y0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2.2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>${dateAxis(pts.length, x, i => pts[i].date, ml, W, mr, H)}<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].equity), i => { const p = pts[i]; return `<b>${pnl(p.equity)}</b><br>${fmt.dateTime(p.date)}<br><span class="muted">${esc(p.t.symbol)} ${fmt.cur(p.pnl, { signed: true })}</span>`; });
   };
   /* Linie mit Basislinie (Kontostand) */
@@ -279,7 +293,7 @@
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
       ${base != null ? `<line x1="${ml}" x2="${W - mr}" y1="${y(base)}" y2="${y(base)}" stroke="${d.baseColor || 'var(--loss)'}" stroke-width="2" stroke-opacity=".9"/>` : ''}
       <path d="${line}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${col}" stroke="var(--surface)" stroke-width="2"/>
-      ${xt.map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${fmt.dateShort(pts[i].date)}</text>`).join('')}
+      ${dateAxis(n, x, i => pts[i].date, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="${col}" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].v), i => { const p = pts[i]; return `<b>${fmt.cur(p.v)}</b><br>${fmt.weekdayLong(p.date)}${p.pnl != null ? `<br><span class="muted">Tag: ${fmt.cur(p.pnl, { signed: true })}</span>` : ''}`; });
   };
@@ -432,5 +446,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
 })(typeof self !== 'undefined' ? self : this);

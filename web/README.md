@@ -174,6 +174,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
   Rote Flächen (Verlusttage im Kalender und in der Jahresübersicht, Fläche unter der Kurve im Minus) sind etwas kräftiger getönt als grüne,
   damit sie auf dem dunklen Grund gleich stark wirken.
+  Im Kalender stehen die Tages-P&L in Weiß, Gewinn/Verlust zeigt die getönte Fläche. Diagramme beschriften die Zeitachse mit
+  kurzem Datum (ohne Jahr, wenn alles im selben Jahr liegt), gleichmäßig verteilt und ohne Überlappung (`UI.dateAxis`).
+  Im Dashboard-Filter leuchtet die gewählte Richtung bzw. das Ergebnis in seiner Farbe (Long Akzent, Short/Verlust rot, Gewinn grün, Break-even BE-Farbe).
   Eigener **Farbwähler** im App-Design statt des System-Fensters (für alle Farbfelder der App, `js/colorpicker.js`): Fläche für Sättigung
   und Helligkeit, Farbton-Regler, Hex-Feld; die Farbe ist beim Wählen als Vorschau zu sehen, übernommen wird sie erst mit „Speichern“
   (oder Enter). „Abbrechen“, Escape und ein Klick daneben stellen die alte Farbe wieder her. Selbst gewählte Farben werden gemerkt (höchstens 8, neueste vorne),

@@ -700,6 +700,10 @@ span.info:hover { color: var(--accent); }
 .cal .d.loss { background: color-mix(in srgb, var(--loss) 23%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 52%, var(--border)); } /* Rot etwas kräftiger als Grün, damit es auf dem dunklen Grund gleich stark wirkt */
 .cal .d.be { background: color-mix(in srgb, var(--be) 14%, var(--surface)); }
 .cal .d.sel { box-shadow: 0 0 0 2px var(--accent); }
+/* unter dem Betrag: Anzahl Trades, darunter die Winrate des Tages */
+.cal .d .c { display: flex; flex-direction: column; gap: 1px; }
+.cal .d .c .wr { white-space: nowrap; font-size: 10.5px; }
+.cal .d .c .wr b { font-family: var(--font-num); font-weight: 700; color: var(--text-2); }
 .cal .p { font-weight: 700; font-size: 13px; }
 .cal .d .p { font-weight: 800; font-size: 14px; letter-spacing: -.01em; } /* am PC kräftiger */
 .cal .c { font-size: 11px; color: var(--muted); }
@@ -908,7 +912,7 @@ span.info:hover { color: var(--accent); }
   .cal { gap: 4px; }
   .cal .d { min-height: 56px; padding: 4px; border-radius: 8px; }
   .cal .d .n { width: 18px; height: 18px; font-size: 10px; top: 3px; right: 3px; }
-  .cal .p, .cal .d .p { font-size: 10.5px; } .cal .c { display: none; }
+  .cal .p, .cal .d .p { font-size: 10.5px; } .cal .c, .cal .d .c { display: none; }
   .modal { padding: 18px 16px; }
   .map-row { grid-template-columns: 1fr; }
 }

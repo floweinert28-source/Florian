@@ -41,7 +41,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   bleibt dort bearbeitbar. Screenshots per Drag & Drop, Datei oder Einfügen.
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
   Long/Short ist ein Umschalter mit zwei Hälften und rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün,
-  Short rot; Lage und Farbe gleiten gemeinsam und weich an- und auslaufend, ohne Nachziehen). Am Handy stehen Symbol und Richtung untereinander.
+  Short rot; der Schieber gleitet weich an- und auslaufend, seine Farbe blendet schnell über; Schrift und Pfeil stehen sofort in der eigenen Farbe, Short wird nie kurz grün). Am Handy stehen Symbol und Richtung untereinander.
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
   ↘ Short in Rot), Licht von links und feinem farbigen Rand (`UI.badge`).
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und

@@ -784,7 +784,7 @@ span.info:hover { color: var(--accent); }
 .tf-main .tf-row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 /* Richtung im Trade-Fenster: zwei Hälften mit rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün, Short rot) */
 @property --dir-c { syntax: '<color>'; inherits: true; initial-value: #34f58a; } /* registriert: die Farbe blendet mit dem Schieber über statt zu springen */
-.dir-switch { --dir-c: var(--accent); transition: --dir-c 260ms var(--ease-io); position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr 1fr; min-width: 210px; height: 42px; padding: 3px; border-radius: 11px; background: var(--field); border: 1px solid var(--border-2); }
+.dir-switch { --dir-c: var(--accent); transition: --dir-c 140ms linear; position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr 1fr; min-width: 210px; height: 42px; padding: 3px; border-radius: 11px; background: var(--field); border: 1px solid var(--border-2); }
 .dir-switch[data-dir="-1"] { --dir-c: var(--loss); }
 .dir-switch::before { content: ''; position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 9px; transition: transform 260ms var(--ease-io);
   background: linear-gradient(90deg, color-mix(in srgb, var(--dir-c) 26%, var(--surface-2)), color-mix(in srgb, var(--dir-c) 7%, var(--surface-2)) 85%);
@@ -795,8 +795,9 @@ span.info:hover { color: var(--accent); }
 .dir-opt:focus-visible { outline: 2px solid var(--dir-c); outline-offset: -2px; }
 .dir-opt .bi { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-3); flex: none; transition: background var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
 .dir-opt .bi svg { width: 11px; height: 11px; color: var(--muted); transition: color var(--dur-2) var(--ease); }
-.dir-opt[aria-pressed="true"] { color: var(--dir-c); }
-.dir-opt[aria-pressed="true"] .bi { background: var(--dir-c); box-shadow: 0 0 10px color-mix(in srgb, var(--dir-c) 50%, transparent); }
+.dir-opt.l { --oc: var(--accent); } .dir-opt.s { --oc: var(--loss); } /* Schrift und Pfeil sofort in der eigenen Farbe (Short nie kurz grün) */
+.dir-opt[aria-pressed="true"] { color: var(--oc); }
+.dir-opt[aria-pressed="true"] .bi { background: var(--oc); box-shadow: 0 0 10px color-mix(in srgb, var(--oc) 50%, transparent); }
 .dir-opt[aria-pressed="true"] .bi svg { color: var(--bg); }
 :root[data-theme="light"] .dir-opt[aria-pressed="true"] .bi svg { color: #fff; }
 .tf-main .tf-wide { grid-column: 1 / -1; }

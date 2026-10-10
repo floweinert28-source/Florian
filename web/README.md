@@ -43,7 +43,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Long/Short ist ein Umschalter mit zwei Hälften und rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün,
   Short rot; der Schieber gleitet weich an- und auslaufend, seine Farbe blendet schnell über; Schrift und Pfeil stehen sofort in der eigenen Farbe, Short wird nie kurz grün). Am Handy stehen Symbol und Richtung untereinander.
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
-  ↘ Short in Rot), Licht von links und feinem farbigen Rand (`UI.badge`).
+  ↘ Short in Rot), deckend getönt wie die Kalendertage, Licht von links und kräftiger farbiger Rand (`UI.badge`). In Tabellen
+  steht das Abzeichen in einer eigenen Spalte direkt neben dem Symbol (gemeinsame Überschrift „Symbol“), so stehen alle Abzeichen untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
 - **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein Balken am Rand mit dezentem Leuchten; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
@@ -61,7 +62,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
-  mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala ohne Rahmen (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
+  mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit kleinem hellem Rahmen (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
   Performance nach Uhrzeit und Haltedauer, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
   Jedes Widget hat ein (i) mit Erklärung. **Vorlagen**: mehrere Dashboards anlegen, umbenennen,

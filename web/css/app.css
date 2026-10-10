@@ -429,6 +429,34 @@ button.dp-title:hover { background: var(--surface-2); }
 .dp-link:hover { background: var(--surface-2); color: var(--text); }
 .dp-link.accent { color: var(--accent); }
 .dp button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* Farbwähler (js/colorpicker.js): Fläche für Sättigung/Helligkeit, Farbton-Regler, Vorschau mit Hex-Feld, eigene Farben */
+.popover.cp { position: fixed; top: 0; left: 0; right: auto; z-index: 72; width: 248px; min-width: 0; padding: 12px; border-radius: var(--radius); transform-origin: top left; user-select: none; -webkit-user-select: none; }
+.popover.cp.up { transform-origin: bottom left; }
+.cp-sv { position: relative; height: 150px; border-radius: 10px; cursor: crosshair; touch-action: none; outline: none;
+  background: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, var(--cp-hue, red)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); }
+.cp-hue { position: relative; height: 12px; margin: 14px 2px 0; border-radius: 6px; cursor: pointer; touch-action: none; outline: none;
+  background: linear-gradient(90deg, #f00, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00); }
+.cp-knob { position: absolute; width: 16px; height: 16px; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; background: var(--cp-col); box-shadow: 0 0 0 2.5px #fff, 0 1px 6px rgba(0, 0, 0, .45); transition: transform var(--dur-1) var(--ease); }
+.cp-hue .cp-knob { top: 50%; background: var(--cp-hue); }
+.cp-sv:focus-visible .cp-knob, .cp-hue:focus-visible .cp-knob { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 0 2.5px #fff, 0 0 0 5px var(--accent-soft), 0 1px 6px rgba(0, 0, 0, .45); }
+.cp-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.cp-prev { width: 34px; height: 34px; flex: none; border-radius: 10px; background: var(--cp-col); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); }
+.cp-hex { flex: 1; display: flex; align-items: center; gap: 2px; height: 34px; padding: 0 10px; border-radius: 10px; background: var(--field); border: 1px solid var(--border-2); color: var(--muted); font-family: var(--font-num); font-size: 13.5px; cursor: text; }
+.cp-hex:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.cp-hex input { flex: 1; min-width: 0; border: 0; padding: 0; background: none; color: var(--text); font: inherit; letter-spacing: .04em; text-transform: uppercase; outline: none; }
+.cp-saved:empty { display: none; }
+.cp-sec { margin: 14px 0 8px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.cp-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.cp-s { position: relative; }
+.cp-c { display: block; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: var(--c); cursor: pointer; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); transition: transform var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease); }
+.cp-c:hover { transform: scale(1.1); }
+.cp-c[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--text); }
+/* Löschen: kleines × oben rechts, mit Maus beim Darüberfahren, auf Touch-Geräten immer sichtbar */
+.cp-x, .dot-x { position: absolute; top: -5px; right: -5px; display: grid; place-items: center; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 50%; background: var(--surface-3); color: var(--text); cursor: pointer; opacity: 0; transform: scale(.7); transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), background var(--dur-1) var(--ease); box-shadow: 0 0 0 2px var(--surface); }
+.cp-x svg, .dot-x svg { width: 9px; height: 9px; }
+.cp-x:hover, .dot-x:hover { background: var(--loss); color: #fff; }
+.cp-s:hover .cp-x, .cp-x:focus-visible, .dot-wrap:hover .dot-x, .dot-x:focus-visible { opacity: 1; transform: none; }
+@media (hover: none) { .cp-x, .dot-x { opacity: 1; transform: none; } }
 /* Datum mit Uhrzeit: Kalender links, rechts Stunde und Minute als schmale Spalten (gleich hoch wie der Kalender) */
 .popover.dp.dt { width: 404px; }
 .dp-body { display: grid; grid-template-columns: minmax(0, 1fr) 108px; gap: 12px; }

@@ -24,10 +24,23 @@
   const rgba = (h, a) => { const [r, g, b] = hex2rgb(h); return `rgba(${r}, ${g}, ${b}, ${a})`; };
   const valid = h => typeof h === 'string' && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(h);
   const forLight = h => { let x = h; let i = 0; while (lum(x) > 0.3 && i++ < 8) x = shade(x, -0.15); return x; };
+  /* Flächen aus einer Grundfarbe: dunkle Grundfarbe → hellere Stufen für Karten und Ränder; helle → Karten fast weiß, Ränder dunkler.
+     Die Stufen folgen den festen Designs (Graphit bzw. Weiß), nur im Farbton der Grundfarbe. */
+  const SURFACE_KEYS = ['--bg', '--bg-2', '--surface', '--surface-2', '--surface-3', '--border', '--border-2', '--field', '--ambient'];
+  const isLightBase = h => lum(h) > 0.32;
+  function surfaces(base) {
+    const b = base.toLowerCase();
+    if (isLightBase(b)) return { '--bg': b, '--bg-2': shade(b, -0.03), '--surface': shade(b, 0.72), '--surface-2': shade(b, 0.38), '--surface-3': shade(b, -0.04), '--border': shade(b, -0.07), '--border-2': shade(b, -0.15), '--field': shade(b, 0.72), '--ambient': 'none' };
+    return { '--bg': b, '--bg-2': shade(b, 0.025), '--surface': shade(b, 0.05), '--surface-2': shade(b, 0.085), '--surface-3': shade(b, 0.12), '--border': shade(b, 0.07), '--border-2': shade(b, 0.13), '--field': shade(b, 0.015), '--ambient': 'none' };
+  }
   function apply(settings) {
     const theme = (settings && settings.theme) || 'dark'; const light = theme === 'light'; const c = (settings && settings.colors) || {};
     const root = document.documentElement; root.dataset.theme = theme; root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
     const set = (k, v) => v ? root.style.setProperty(k, v) : root.style.removeProperty(k);
+    /* eigenes Erscheinungsbild: Grund und Flächen aus einer Grundfarbe (hell oder dunkel je nach Helligkeit, siehe surfaces) */
+    const cs = settings && settings.customLook && valid(settings.customBg) ? surfaces(settings.customBg) : null;
+    if (cs) { root.dataset.dark = 'eigen'; }
+    for (const k of SURFACE_KEYS) set(k, cs ? cs[k] : null);
     const acc = valid(c.accent) ? (light ? forLight(c.accent) : c.accent) : null;
     set('--accent', acc); set('--accent-2', acc && shade(acc, -0.14)); set('--accent-soft', acc && rgba(acc, 0.13)); set('--accent-glow', acc && rgba(acc, 0.3)); set('--accent-ink', acc && (lum(acc) > 0.4 ? '#04140a' : '#ffffff'));
     const p = valid(c.profit) ? (light ? forLight(c.profit) : c.profit) : null; const l = valid(c.loss) ? (light ? forLight(c.loss) : c.loss) : null;
@@ -37,5 +50,5 @@
     const nb = (settings && settings.notebook) || {}; const px = v => v > 0 ? v + 'px' : null; set('--nb-h1', px(nb.h1)); set('--nb-h2', px(nb.h2)); set('--nb-h3', px(nb.h3)); set('--nb-body', px(nb.body)); root.classList.toggle('nb-nostrike', nb.strike === false);
   }
   function applyFromStorage(key) { try { const raw = localStorage.getItem(key || 'trading-journal-web-v1'); if (raw) apply(JSON.parse(raw).settings || {}); } catch (e) { /* ohne Speicher: Standardfarben */ } }
-  root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, FONTS, DEFAULT_FONT, fontKey, loadFont, apply, applyFromStorage, lum, shade, valid };
+  root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, FONTS, DEFAULT_FONT, fontKey, loadFont, apply, applyFromStorage, lum, shade, valid, surfaces, isLightBase };
 })(typeof self !== 'undefined' ? self : this);

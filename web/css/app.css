@@ -521,16 +521,26 @@ span.info:hover { color: var(--accent); }
 
 /* Score-Karte */
 .score-wrap { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: center; }
-.score-scale { position: relative; height: 26px; margin: 8px 6px 0; container-type: inline-size; }
-/* Skala deckend (Farben mit der Kartenfläche gemischt), damit die Ausbuchtung nahtlos in die Linie übergeht */
-.score-scale .track, .score-scale .knob { background-image: linear-gradient(90deg, color-mix(in srgb, var(--loss) 58%, var(--surface)), color-mix(in srgb, var(--warn) 58%, var(--surface)), color-mix(in srgb, var(--accent) 58%, var(--surface))); }
-.score-scale .track { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 3px; }
-/* Punkt als Wölbung der Linie: gleiche Farbe wie die Skala an dieser Stelle (Verlauf auf die Skalenbreite ausgerichtet),
-   ohne Rahmen; die Form (Maske) läuft links und rechts weich in die Linienstärke aus */
-.score-scale .knob { --x: clamp(12px, var(--p) * 1cqw, 100cqw - 12px); position: absolute; top: 5px; left: var(--x); width: 24px; height: 16px; transform: translateX(-50%);
-  background-size: 100cqw 100%; background-position: calc(12px - var(--x)) 0; background-repeat: no-repeat;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M0 5C4 5 5 1 12 1S20 5 24 5V11C20 11 19 15 12 15S4 11 0 11Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M0 5C4 5 5 1 12 1S20 5 24 5V11C20 11 19 15 12 15S4 11 0 11Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
+/* Score-Skala: blasser Verlauf über die ganze Breite, kräftige Füllung bis zum Score, am Ende der Füllung der Punkt als
+   leuchtende Wölbung der Linie. Beim Erscheinen läuft der Score von 0 hoch (registrierte Zahl --pv), danach atmet das Leuchten sanft. */
+@property --pv { syntax: '<number>'; inherits: true; initial-value: 0; }
+.score-scale { position: relative; height: 26px; margin: 8px 6px 0; container-type: inline-size; --pv: var(--p, 0); --sx: clamp(12px, var(--pv) * 1cqw, 100cqw - 12px); animation: score-run 1.3s cubic-bezier(.22, .9, .25, 1) .2s backwards; }
+.rv .score-scale { animation-play-state: paused; } /* startet erst, wenn die Karte ins Bild kommt */
+@keyframes score-run { from { --pv: 0; } }
+.score-scale .track { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 3px; background-image: linear-gradient(90deg, color-mix(in srgb, var(--loss) 26%, var(--surface)), color-mix(in srgb, var(--warn) 26%, var(--surface)), color-mix(in srgb, var(--accent) 26%, var(--surface))); }
+.score-scale .fill, .score-scale .knob, .score-scale .halo { background-image: linear-gradient(90deg, color-mix(in srgb, var(--loss) 82%, var(--surface)), color-mix(in srgb, var(--warn) 82%, var(--surface)), color-mix(in srgb, var(--accent) 82%, var(--surface))); background-size: 100cqw 100%; background-repeat: no-repeat; }
+.score-scale .fill { position: absolute; left: 0; top: 10px; height: 6px; width: var(--sx); border-radius: 3px 0 0 3px; }
+/* Punkt: links läuft er weich aus der Füllung heraus, rechts ist er rund; kleiner heller Glanz oben */
+.score-scale .knob { position: absolute; top: 5px; left: var(--sx); width: 24px; height: 16px; transform: translateX(-50%);
+  background-image: radial-gradient(circle at 11px 5.5px, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 4.5px), linear-gradient(90deg, color-mix(in srgb, var(--loss) 82%, var(--surface)), color-mix(in srgb, var(--warn) 82%, var(--surface)), color-mix(in srgb, var(--accent) 82%, var(--surface)));
+  background-size: 100% 100%, 100cqw 100%; background-position: 0 0, calc(12px - var(--sx)) 0;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M0 5C4 5 5 1 12 1A7 7 0 0 1 12 15C5 15 4 11 0 11Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M0 5C4 5 5 1 12 1A7 7 0 0 1 12 15C5 15 4 11 0 11Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
+/* weiches Leuchten in der Farbe an dieser Stelle, atmet langsam */
+.score-scale .halo { position: absolute; top: 13px; left: var(--sx); width: 34px; height: 34px; border-radius: 50%; background-position: calc(17px - var(--sx)) 0; filter: blur(7px); opacity: .5; transform: translate(-50%, -50%);
+  -webkit-mask: radial-gradient(circle, #000 30%, transparent 70%); mask: radial-gradient(circle, #000 30%, transparent 70%); animation: score-breath 2.8s ease-in-out 1.5s infinite; pointer-events: none; }
+@keyframes score-breath { 0%, 100% { opacity: .4; transform: translate(-50%, -50%) scale(.85); } 50% { opacity: .68; transform: translate(-50%, -50%) scale(1.1); } }
+:root[data-theme="light"] .score-scale .halo { opacity: .35; }
 .score-scale .lbls { position: absolute; left: 0; right: 0; top: 22px; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
 .score-big { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
 

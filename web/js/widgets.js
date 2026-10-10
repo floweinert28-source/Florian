@@ -4,7 +4,6 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt;
   /* Handy: kurze Tageszahl im Kalender („+2,1k“, „−486“); die Vollform (.p) bleibt für große Bildschirme */
-  const shortPnl = v => { const a = Math.abs(v); const loc = root.I18N ? root.I18N.locale() : 'de-DE'; const s = a >= 1000 ? (Math.round(a / 100) / 10).toLocaleString(loc, { maximumFractionDigits: 1 }) + 'k' : Math.round(a).toLocaleString(loc); return (v < -C.EPS ? '−' : v > C.EPS ? '+' : '') + s; };
   const SIZES = { klein: 'Klein', mittel: 'Mittel', gross: 'Groß' };
   const MAX_TOP = 5;
   const NO_DATA = 'Noch keine Daten';
@@ -112,8 +111,8 @@
     const weeks = C.calendarMonth(days, year, month); const today = C.dayKey(new Date()); const ext = !!o.weeks, mini = !!o.mini;
     let html = fmt.weekdays().map(w => `<div class="wd">${w}</div>`).join('') + (ext ? '<div class="wd wk">Woche</div>' : '');
     for (const wk of weeks) {
-      html += wk.cells.map(c => { if (!c) return '<div class="d pad"></div>'; const e = c.entry; const k = e ? (e.pnl > C.EPS ? 'win' : e.pnl < -C.EPS ? 'loss' : 'be') : ''; return `<div class="d ${k} ${c.key === today ? 'today' : ''}" data-action="day" data-day="${c.key}" role="button" tabindex="0" ${mini && e ? `data-tip="<b>${fmt.dateFull(c.date)}</b><br>${fmt.cur(e.pnl, { signed: true })} · ${e.n} Trade${e.n === 1 ? '' : 's'}"` : ''}><span class="n">${c.date.getDate()}</span>${e && !mini ? `<span class="p ${U.cls(e.pnl)}">${fmt.cur(e.pnl, { signed: true, compact: Math.abs(e.pnl) >= 1000 })}</span><span class="pm ${U.cls(e.pnl)}">${shortPnl(e.pnl)}</span><span class="c">${e.n} Trade${e.n === 1 ? '' : 's'}</span>` : ''}</div>`; }).join('');
-      if (ext) html += `<div class="w"><span class="t">Woche ${wk.index}</span>${wk.days ? `<span class="p ${U.cls(wk.pnl)}">${fmt.cur(wk.pnl, { signed: true, compact: Math.abs(wk.pnl) >= 1000 })}</span><span class="pm ${U.cls(wk.pnl)}">${shortPnl(wk.pnl)}</span><span class="days">${wk.days} Tag${wk.days === 1 ? '' : 'e'}</span>` : '<span class="p muted">—</span>'}</div>`;
+      html += wk.cells.map(c => { if (!c) return '<div class="d pad"></div>'; const e = c.entry; const k = e ? (e.pnl > C.EPS ? 'win' : e.pnl < -C.EPS ? 'loss' : 'be') : ''; return `<div class="d ${k} ${c.key === today ? 'today' : ''}" data-action="day" data-day="${c.key}" role="button" tabindex="0" ${mini && e ? `data-tip="<b>${fmt.dateFull(c.date)}</b><br>${fmt.cur(e.pnl, { signed: true })} · ${e.n} Trade${e.n === 1 ? '' : 's'}"` : ''}><span class="n">${c.date.getDate()}</span>${e && !mini ? `<span class="p ${U.cls(e.pnl)}">${fmt.cur(e.pnl, { signed: true, compact: Math.abs(e.pnl) >= 1000 })}</span><span class="pm ${U.cls(e.pnl)}">${curCompact(e.pnl).replace(/\u00a0/g, '')}</span><span class="c">${e.n} Trade${e.n === 1 ? '' : 's'}</span>` : ''}</div>`; }).join('');
+      if (ext) html += `<div class="w"><span class="t">Woche ${wk.index}</span>${wk.days ? `<span class="p ${U.cls(wk.pnl)}">${fmt.cur(wk.pnl, { signed: true, compact: Math.abs(wk.pnl) >= 1000 })}</span><span class="pm ${U.cls(wk.pnl)}">${curCompact(wk.pnl)}</span><span class="days">${wk.days} Tag${wk.days === 1 ? '' : 'e'}</span>` : '<span class="p muted">—</span>'}</div>`;
     }
     return `<div class="cal ${ext ? 'ext' : ''} ${mini ? 'mini' : ''}">${html}</div>`;
   }

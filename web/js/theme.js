@@ -7,8 +7,8 @@
      Satoshi steht unter der ITF Free Font License: Laden über die Fontshare-API (app.html), Schriftdateien liegen nicht im Repository */
   const DEFAULT_FONT = 'modern';
   const FONTS = {
-    modern: { name: 'Modern', desc: 'Standard: klar und modern, Zahlen in Onest', text: '"Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Onest:wght@400;500;600;700'] },
-    geschwungen: { name: 'Geschwungen', desc: 'Leicht und geschwungen, Zahlen in Onest', text: '"Quicksand", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Quicksand:wght@400;500;600;700', 'Onest:wght@400;500;600;700'] },
+    modern: { name: 'Modern', desc: 'Standard: klar und modern, Zahlen in Onest', text: '"Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Onest:wght@400;500;600;700;800'] },
+    geschwungen: { name: 'Geschwungen', desc: 'Leicht und geschwungen, Zahlen in Onest', text: '"Quicksand", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Quicksand:wght@400;500;600;700', 'Onest:wght@400;500;600;700;800'] },
     rund: { name: 'Rund', desc: 'Weiche, runde Formen', text: '"Nunito", "Segoe UI", system-ui, sans-serif', gf: ['Nunito:wght@400;500;600;700;800'] },
     klassisch: { name: 'Klassisch', desc: 'Klar und neutral, Zahlen in Roboto', text: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif', display: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif', num: '"Roboto", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Inter:wght@400;500;600;700;800', 'Roboto:wght@400;500;700'] },
   };

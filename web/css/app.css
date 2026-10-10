@@ -1986,11 +1986,13 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert[data-theme="app"] .cert-value.long { font-size: calc(var(--s) * 74px); }
 .cert[data-theme="app"] .cert-value span { color: var(--c-acc); -webkit-text-fill-color: var(--c-acc); padding: .12em .5em .15em; border-radius: calc(var(--s) * 24px);
   border: calc(var(--s) * 1.5px) solid transparent; -webkit-background-clip: padding-box, padding-box, border-box; background-clip: padding-box, padding-box, border-box;
-  /* rundum gleichmäßig: Licht fällt von oben mittig ein, der Rand leuchtet überall gleich (oben etwas heller), Schein mittig darunter */
-  background-image: radial-gradient(70% 130% at 50% 0%, color-mix(in srgb, var(--c-acc) 22%, transparent), color-mix(in srgb, var(--c-acc) 6%, transparent) 60%, transparent 85%),
-    linear-gradient(180deg, color-mix(in srgb, var(--c-acc) 9%, var(--c-surface)), var(--c-surface)),
-    linear-gradient(180deg, color-mix(in srgb, var(--c-acc) 75%, var(--c-frame)), color-mix(in srgb, var(--c-acc) 38%, var(--c-frame)));
-  box-shadow: inset 0 calc(var(--s) * 1px) 0 rgba(255, 255, 255, .06), 0 calc(var(--s) * 18px) calc(var(--s) * 50px) calc(var(--s) * -20px) color-mix(in srgb, var(--c-acc) 60%, transparent); }
+  background-origin: padding-box, padding-box, border-box; background-repeat: no-repeat; /* Rand-Verlauf am Rahmen ausrichten: sonst wiederholt er sich am Rand und steht links dunkel, rechts hell */
+  /* wie der aktive Eintrag der Seitenleiste: Licht von links, Übergang ins Dunkle. Der Rand folgt dem Licht: links hell,
+     nach rechts läuft er in die Fläche aus (keine helle Linie auf der dunklen Seite) */
+  background-image: radial-gradient(90% 150% at 0% 60%, color-mix(in srgb, var(--c-acc) 30%, transparent), color-mix(in srgb, var(--c-acc) 8%, transparent) 55%, transparent 80%),
+    linear-gradient(90deg, color-mix(in srgb, var(--c-acc) 10%, var(--c-surface)), var(--c-surface) 70%),
+    linear-gradient(90deg, var(--c-acc) 0%, color-mix(in srgb, var(--c-acc) 60%, var(--c-surface)) 14%, color-mix(in srgb, var(--c-acc) 22%, var(--c-surface)) 40%, var(--c-surface) 72%, var(--c-surface) 100%);
+  box-shadow: calc(var(--s) * -14px) calc(var(--s) * 8px) calc(var(--s) * 44px) calc(var(--s) * -18px) color-mix(in srgb, var(--c-acc) 70%, transparent); }
 .cert[data-theme="app"] .cert-period { margin-top: calc(var(--s) * 20px); font-size: calc(var(--s) * 20px); font-weight: 500; color: var(--c-soft); }
 .cert[data-theme="app"] .cert-stats { gap: 0; padding: 0; margin-top: calc(var(--s) * 6px); border: 1px solid var(--c-hair); border-radius: calc(var(--s) * 20px); background: var(--c-surface); overflow: hidden; }
 .cert[data-theme="app"] .cert-stats .st { display: flex; flex-direction: column-reverse; align-items: flex-start; gap: calc(var(--s) * 10px); min-width: calc(var(--s) * 200px); padding: calc(var(--s) * 20px) calc(var(--s) * 28px) calc(var(--s) * 22px); text-align: left; }

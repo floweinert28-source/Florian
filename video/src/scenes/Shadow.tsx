@@ -16,9 +16,10 @@ export const Price: React.FC = () => {
   const push = zoomLerp(1, 1.04, prog(f, 0, sec(2.4), SIG));
   return (
     <AbsoluteFill style={{ background: '#fff', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ ...big(96), display: 'flex', alignItems: 'center', transform: `scale(${push})` }}>
+      <div style={{ ...big(96), display: 'flex', alignItems: 'baseline', transform: `scale(${push})` }}>
         <BlurText f={f} text="Every broken rule has a" start={sec(0.3)} stagger={0.06} />
-        <span style={{ position: 'relative', display: 'inline-block', marginLeft: '0.3em', padding: '0.02em 0.32em 0.1em' }}>
+        {/* Pille um „price“: unten mehr Luft für die Unterlänge des „p“, seitlich mehr Rand */}
+        <span style={{ position: 'relative', display: 'inline-block', marginLeft: '0.26em', padding: '0 0.42em 0.22em' }}>
           <span style={{ position: 'absolute', inset: 0, borderRadius: 999, background: 'rgba(224, 62, 62, 0.12)', transform: `scaleX(${pill})`, opacity: Math.min(1, pill * 2) }} />
           <span style={{ position: 'relative' }}><BlurText f={f} text="price" by="letter" start={sec(0.92)} stagger={0.04} dur={0.6} color={LOSS} /></span>
         </span>

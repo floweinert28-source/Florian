@@ -1,9 +1,9 @@
 # Journalyst – Launch-Video
 
 Launch-Video im Stil von „Numtera“ (ObiN Studio, https://www.youtube.com/watch?v=awUYikrGsKk), in Journalyst-Grün.
-1920 × 1080, 60 fps, 47,5 Sekunden, Englisch, mit eigenem Ton: Beat (120 BPM, A-Moll) und Sound-Effekte sind komplett
-synthetisch erzeugt (`scripts/sound.py`), ohne fremde Samples, also ohne Lizenz nutzbar, auch auf Social Media.
-Lautheit −14,8 LUFS, passend für Instagram, TikTok und YouTube.
+1920 × 1080, 60 fps, 47,5 Sekunden, Englisch. Ton: nur Sound-Effekte (Tippen, Klicks, leises Antippen, Häkchen-Töne,
+Übergänge), komplett synthetisch erzeugt (`scripts/sound.py`), ohne fremde Samples, also ohne Lizenz nutzbar, auch auf
+Social Media. Ein eigener Beat (120 BPM, A-Moll) ist im Skript vorhanden, aber ausgeschaltet (`WITH_MUSIC = False`).
 
 Die App-Szenen sind vereinfachte Karten im Design der App (dunkles Erscheinungsbild: Farben, Rundungen, Symbole,
 Abzeichen, Diagramme, Satoshi für Text, Onest für Zahlen). Alle Zahlen, Kurven, Trades und Regeln kommen aus der echten App.
@@ -37,7 +37,7 @@ npm run fonts                 # Satoshi und Onest nach public/fonts (nicht im Re
 #   git archive origin/claude/trading-journal-app-cqdxfe web | tar -x -C /tmp/tj
 #   (cd /tmp/tj/web && python3 -m http.server 8787 --bind 127.0.0.1)
 npm run capture               # schreibt src/data/app.json
-python3 scripts/sound.py      # Beat und Effekte nach public/audio/sound.wav (braucht numpy und scipy)
+python3 scripts/sound.py      # Effekte nach public/audio/sound.wav (braucht numpy und scipy)
 
 npm run stills -- 7.5s 21s    # einzelne Bilder nach out/stills/ zur Sichtkontrolle
 npm run studio                # Vorschau
@@ -63,7 +63,7 @@ src/ui/Text.tsx          Schreibmaschine, Buchstaben und Wörter aus der Unschä
 src/ui/Bg.tsx            weiche grüne Verläufe
 src/anim.ts              Kurven, Feder, Kamera
 src/theme.ts             Farben und Schrift
-scripts/sound.py         Beat und Effekte, Zeitpunkte passend zu den Animationen
+scripts/sound.py         Effekte (Beat optional), Zeitpunkte passend zu den Animationen
 ```
 
 Bewegungsregeln: `.claude/skills/motion-rules` im Repo-Root.

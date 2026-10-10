@@ -1,4 +1,5 @@
-"""Eigener Beat und Sound-Effekte für das Launch-Video, komplett synthetisch (keine fremden Samples, keine Lizenz nötig).
+"""Sound-Effekte (und optional ein eigener Beat) für das Launch-Video, komplett synthetisch (keine fremden Samples, keine Lizenz nötig).
+Der Beat ist ausgeschaltet (WITH_MUSIC); unter das Video kommen nur die Effekte.
 
 120 BPM in A-Moll, die Schnitte des Videos liegen auf dem Raster. Die Effekte sitzen auf den Zeitpunkten der Animationen
 (siehe src/Launch.tsx und die Szenen). Aufruf:  python3 scripts/sound.py   (braucht numpy und scipy)
@@ -16,6 +17,7 @@ N = int(SR * DUR)
 BEAT = 0.5  # 120 BPM
 rng = np.random.default_rng(7)
 ROOT = os.path.join(os.path.dirname(__file__), '..')
+WITH_MUSIC = False  # True: eigener Beat (120 BPM, A-Moll) unter den Effekten
 
 
 def tt(d):
@@ -161,6 +163,14 @@ def low_blip(freqs=(note('E4'), note('C4')), step=0.11):
         i = int(k * step * SR)
         out[i:i + len(s)] += filt(s, 'lowpass', 1600)
     return out * 0.7
+
+
+def soft_tap(f=1450):
+    """Ganz leiser, gläserner Antipp-Ton (für Karten, die kurz herausragen)."""
+    t = tt(0.3)
+    tone = np.sin(2 * np.pi * f * t) * np.exp(-t / 0.05) * np.minimum(1, t / 0.005)
+    air = filt(rng.standard_normal(len(t)), 'bandpass', [3000, 8000]) * np.exp(-t / 0.02) * 0.06
+    return (tone + air) * 0.6
 
 
 def shimmer(d=0.8):
@@ -313,8 +323,8 @@ put(sfx, shimmer(0.9), 8.85, 0.18)                                            # 
 put(sfx, shimmer(0.8), 10.1, 0.14)                                            # Journalyst
 put(sfx, whoosh(0.5), 11.35, 0.22)
 put(sfx, whoosh(0.6), 13.8, 0.35)                                             # Dashboard
-for at in (14.9, 15.35, 15.8):
-    put(sfx, pop(620, 360, 0.16), at, 0.28)                                   # Karten ragen heraus
+for at, fr in zip((14.9, 15.35, 15.8), (1400, 1500, 1600)):
+    put(sfx, soft_tap(fr), at, 0.11)                                          # Karten ragen heraus: nur ein leises Antippen
 put(sfx, whoosh(0.8, up=False), 17.0, 0.18)                                   # wird flach
 put(sfx, click(), 17.95, 0.42)                                                # Klick „+ Log trade“
 for i in range(2):
@@ -335,15 +345,14 @@ put(sfx, chime([note('C5'), note('E5'), note('G5'), note('C6')], 1.4, 0.05, soft
 put(sfx, pop(900, 500), 27.9, 0.25)
 put(sfx, whoosh(0.5), 28.8, 0.2)
 put(sfx, low_blip(), 29.75, 0.4)                                              # price
-put(sfx, riser(0.8), 30.7, 0.3)                                               # Anlauf, bevor der Beat zurückkommt
 put(sfx, whoosh(0.5), 31.3, 0.22)
 for k in range(1, 21):                                                        # Zähler Disziplin-Kosten (läuft aus)
     put(sfx, tick(), 31.9 + 1.6 * (1 - (1 - k / 20) ** 0.5), 0.18)
 put(sfx, low_blip((note('D4'), note('A3'))), 33.85, 0.35)                     # Abstand als Preis
 put(sfx, whoosh(0.5), 35.3, 0.22)
 put(sfx, shimmer(0.9), 37.25, 0.22)                                           # discipline
-put(sfx, impact() * 0.6, 38.5, 0.45)                                          # Others count trades.
-put(sfx, impact() * 0.6, 40.5, 0.45)                                          # We build traders.
+put(sfx, impact() * 0.6, 38.5, 0.26)                                          # Others count trades.
+put(sfx, impact() * 0.6, 40.5, 0.26)                                          # We build traders.
 put(sfx, riser(1.0), 41.5, 0.45)
 put(sfx, impact(), 42.5, 0.7)                                                 # Endkarte
 put(sfx, shimmer(1.0), 43.0, 0.16)
@@ -351,7 +360,7 @@ put(sfx, pop(800, 420, 0.16), 44.15, 0.4)                                     # 
 sfx = reverb(sfx, 1.4, 0.15, 7000)
 
 # ---------- Mischen ----------
-mix = music * 0.62 + sfx * 0.6
+mix = (music * 0.62 + sfx * 0.6) if WITH_MUSIC else sfx * 0.6
 fade = np.clip((DUR - tN) / 1.2, 0, 1) ** 1.5
 mix *= fade
 mix = np.tanh(mix * 1.1) / np.tanh(1.1)

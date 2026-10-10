@@ -1,8 +1,9 @@
 /* 0–6,5 s: das Problem. Weißer Grund, getippter Text, verstreute Notizen und Tabellen; am Ende Flug durch das „o“ von „loss“. */
-import React from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { AbsoluteFill, continueRender, delayRender, useCurrentFrame } from 'remotion';
 import { EXPO_IN, lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
 import { DISPLAY, GREY, INK, NUM, big } from '../theme';
+import { fontsReady } from '../fonts';
 import { Typed, useMetrics } from '../ui/Text';
 
 const RED = '#e03e3e';
@@ -60,11 +61,33 @@ const Cards: React.FC<{ f: number }> = ({ f }) => (
 const SIZE = 116;
 const line: React.CSSProperties = { position: 'absolute', left: 0, right: 0, top: 540 - SIZE * 0.55, textAlign: 'center', ...big(SIZE) };
 
+/* Lage eines Zeichens in der zentrierten Zeile: relativ zur Zeile gemessen (beim ersten Rendern hat das Bild noch keine Breite),
+   dann auf die Bildmitte umgerechnet */
+const useCharBox = () => {
+  const ref = useRef<HTMLSpanElement>(null); const [box, setBox] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
+  const [handle] = useState(() => delayRender('Zeichen messen'));
+  useLayoutEffect(() => {
+    let done = false;
+    fontsReady.then(() => document.fonts.ready).then(() => {
+      const el = ref.current; const span = el?.parentElement; const row = span?.parentElement;
+      if (el && span && row) {
+        const r = el.getBoundingClientRect(), s = span.getBoundingClientRect(), l = row.getBoundingClientRect(); const k = s.width / span.offsetWidth || 1;
+        setBox({ x: 960 - span.offsetWidth / 2 + (r.left - s.left) / k, y: (line.top as number) + (r.top - l.top) / k, w: r.width / k, h: r.height / k });
+      }
+      if (!done) { done = true; continueRender(handle); }
+    });
+    return () => { if (!done) { done = true; continueRender(handle); } };
+  }, [handle]);
+  return [ref, box] as const;
+};
+
 export const Problem: React.FC = () => {
   const f = useCurrentFrame();
-  /* Mitte des „o“ in „loss“: Zeile ist zentriert, also halbe Gesamtbreite abziehen, Breite bis „l“ und halbes „o“ addieren */
+  /* Mitte des „o“ in „loss“: waagerecht aus dem Layout einer unsichtbaren Kopie der Zeile, senkrecht aus der Grundlinie
+     und der Höhe des „o“ (Canvas-Maße derselben Schrift) */
   const LOSS = 'Same loss… again?';
-  const mt = useMetrics(`700 ${SIZE}px Satoshi`, `${(-0.035 * SIZE).toFixed(2)}px`, [LOSS, 'Same l', 'o']);
+  const mt = useMetrics(`700 ${SIZE}px Satoshi`, `${(-0.035 * SIZE).toFixed(2)}px`, ['o']);
+  const [oRef, oBox] = useCharBox();
   /* A „Same mistake,“  B „Different day.“  C markiert und gelöscht  D an derselben Stelle weiter: „Same loss… again?“ */
   const A = sec(1.5), B = sec(3.0), D = sec(3.75), FLY = sec(5.65);
   /* Kamera: B zieht langsam auf, D fährt auf das „o“ zu und fliegt hindurch */
@@ -72,9 +95,9 @@ export const Problem: React.FC = () => {
   if (f >= A && f < D) scale = zoomLerp(1.12, 1, prog(f, A, sec(1.6), OUT));
   if (f >= D) {
     let ox = 960, oy = 540;
-    if (mt) {
-      const [all, pre, o] = mt; const lh = SIZE * 1.05; const base = (line.top as number) + (lh - (all.fAsc + all.fDesc)) / 2 + all.fAsc;
-      ox = 960 - all.w / 2 + pre.w + o.w / 2; oy = base - (o.asc - o.desc) / 2;
+    if (mt && oBox) {
+      const [o] = mt; const base = oBox.y + (oBox.h - (o.fAsc + o.fDesc)) / 2 + o.fAsc;
+      ox = oBox.x + oBox.w / 2; oy = base - (o.asc - o.desc) / 2;
     }
     origin = `${ox}px ${oy}px`;
     scale = zoomLerp(1, 1.12, prog(f, D + sec(0.15), sec(1.5), SIG));
@@ -84,6 +107,8 @@ export const Problem: React.FC = () => {
   const sel = prog(f, sec(3.05), sec(0.4), SIG);
   return (
     <AbsoluteFill style={{ background: '#fff', overflow: 'hidden' }}>
+      {/* unsichtbare Messkopie der Zeile, ohne Kamera */}
+      <div style={{ ...line, visibility: 'hidden' }}><Typed f={0} text={LOSS} start={1e9} caret={false} markIndex={6} markRef={oRef} /></div>
       <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: origin }}>
         {f >= A ? <Cards f={f} /> : null}
         {f < A ? <div style={line}><Typed f={f} text="Same mistake," start={sec(0.15)} /></div> : null}

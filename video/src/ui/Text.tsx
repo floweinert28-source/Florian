@@ -46,8 +46,8 @@ export const useMetrics = (font: string, letterSpacing: string, texts: string[])
 };
 
 /* Textcursor: blinkt im Ruhezustand, steht still beim Tippen */
-export const Caret: React.FC<{ f: number; typing: boolean; color?: string; height?: string }> = ({ f, typing, color = GREEN, height = '0.92em' }) => {
-  const on = typing || Math.floor(f / (FPS / 2)) % 2 === 0;
+export const Caret: React.FC<{ f: number; typing: boolean; color?: string; height?: string; hidden?: boolean }> = ({ f, typing, color = GREEN, height = '0.92em', hidden }) => {
+  const on = !hidden && (typing || Math.floor(f / (FPS / 2)) % 2 === 0);
   return (
     <span style={{ position: 'relative', display: 'inline-block', width: 0, height: '1em' }}>
       <span style={{ position: 'absolute', left: '0.03em', top: '0.1em', width: '0.065em', height, borderRadius: 2, background: color, opacity: on ? 1 : 0 }} />
@@ -55,7 +55,8 @@ export const Caret: React.FC<{ f: number; typing: boolean; color?: string; heigh
   );
 };
 
-/* Schreibmaschine: Zeichen erscheinen nacheinander, der Rest hält schon den Platz (zentrierter Text springt nicht) */
+/* Schreibmaschine: Zeichen erscheinen nacheinander, der Rest hält schon den Platz (zentrierter Text springt nicht).
+   caret={false} blendet den Cursor nur aus; er bleibt im Layout, sonst springt die Zeile in der Höhe. */
 export const Typed: React.FC<{
   f: number; text: string; start: number; cps?: number; style?: React.CSSProperties; caret?: boolean; caretColor?: string;
   markIndex?: number; markRef?: React.Ref<HTMLSpanElement>; clearAt?: number;
@@ -68,11 +69,11 @@ export const Typed: React.FC<{
     <span style={{ position: 'relative', display: 'inline-block', ...style }}>
       {chars.map((c, i) => (
         <React.Fragment key={i}>
-          {caret && i === shown ? <Caret f={f} typing={typing} color={caretColor} /> : null}
+          {i === shown ? <Caret f={f} typing={typing} color={caretColor} hidden={!caret} /> : null}
           <span ref={i === markIndex ? markRef : undefined} style={{ opacity: i < shown ? 1 : 0 }}>{c}</span>
         </React.Fragment>
       ))}
-      {caret && shown === chars.length ? <Caret f={f} typing={false} color={caretColor} /> : null}
+      {shown === chars.length ? <Caret f={f} typing={false} color={caretColor} hidden={!caret} /> : null}
     </span>
   );
 };

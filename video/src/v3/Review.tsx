@@ -104,7 +104,7 @@ const Modal: React.FC<{ score: number }> = ({ score }) => (
         <div style={{ marginTop: 6 }}><ScoreScale p={score} w={250} /></div>
       </div>
     </div>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 26, padding: '12px 14px', borderRadius: 12, background: A.surface2, fontSize: 14, color: A.text2 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 26, padding: '12px 14px', borderRadius: 12, background: A.surface2, fontSize: 16, fontWeight: 600, color: A.text }}>
       <Icon name="shadow" size={18} color={A.accent} />Shadow Self skipped this trade.
     </div>
   </div>
@@ -150,7 +150,7 @@ export const Review: React.FC = () => {
   const dim = prog(f, sec(9.8), sec(0.35)); const mp = pop(f, sec(9.85), { damping: 12, stiffness: 170 });
   const score = 80 * prog(f, sec(10.3), sec(1.6), OUT);
   const flash = prog(f, sec(12.05), sec(0.25), IN);
-  const MS = V ? 1.6 : 1.55;
+  const MS = V ? 1.78 : 1.8;
   return (
     <AbsoluteFill style={{ overflow: 'hidden' }}>
       <Bg f={f} kind="night" />

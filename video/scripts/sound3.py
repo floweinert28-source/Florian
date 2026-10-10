@@ -149,10 +149,10 @@ sfx = np.zeros((2, N))
 def taps(times, f0=520, step=40, gain=0.38):
     for i, at in enumerate(times):
         put(sfx, tap(f0 + step * i), at, gain, [-0.15, 0.1, 0.0, 0.15, -0.1][i % 5])
-def keys(start, n, per, gain=0.12):
+def keys(start, n, per, gain=0.1):
     for i in range(n):
         put(sfx, key(), start + i * per + rng.uniform(-0.004, 0.004), gain, rng.uniform(-0.2, 0.2))
-def ticks(start, dur, n, gain=0.1):
+def ticks(start, dur, n, gain=0.06):
     for k in range(1, n + 1):
         put(sfx, tap(900), start + dur * (1 - (1 - k / n) ** 0.5), gain)
 
@@ -203,7 +203,6 @@ keys(33.9, 4, 0.09)                                     # Open
 put(sfx, tap(760), 34.5, 0.22)                          # Vorschlag
 put(sfx, click(), 35.4, 0.42)
 put(sfx, soft_pop(600, 400, 0.15), 35.5, 0.26)          # Setup landet
-put(sfx, glide(0.9, note('A2'), note('E3')), 37.6, 0.1) # Linie füllt sich
 for at, nm in zip((38.75, 38.93, 39.11, 39.29), ('C5', 'D5', 'E5', 'G5')):
     put(sfx, chime([note(nm)], 0.7), at, 0.26)          # Regeln abgehakt (weich)
 put(sfx, tap(600), 39.6, 0.22)                          # Save plan
@@ -214,12 +213,11 @@ put(sfx, click(), 43.9, 0.42)                           # September
 put(sfx, swell(0.8), 44.5, 0.12)                        # Kamera zieht zurück
 taps([44.7, 45.4], 560, 60, 0.3)                        # Überschrift
 put(sfx, click(), 45.5, 0.36)                           # Schalter Shadow Self
-put(sfx, glide(1.1, note('E3'), note('B3')), 45.65, 0.08)  # grüne Linie
-ticks(46.5, 1.4, 16)                                    # Disziplin-Kosten zählen
+ticks(46.5, 1.4, 10)                                    # Disziplin-Kosten zählen
 put(sfx, swish(0.6, 200, 1500), 48.0, 0.08)
-ticks(48.2, 1.6, 16)                                    # Shadow Self zählt
+ticks(48.2, 1.6, 10)                                    # Shadow Self zählt
 put(sfx, soft_pop(560, 380, 0.18), 50.45, 0.34)         # Trade-Prüfung
-ticks(50.9, 1.6, 14, 0.09)                              # Discipline bis 80
+ticks(50.9, 1.6, 9, 0.055)                              # Discipline bis 80
 put(sfx, tap(480), 52.5, 0.26)
 put(sfx, swish(0.35, 400, 3500), 52.62, 0.12)
 # Outro (52,9 s)
@@ -227,9 +225,9 @@ put(sfx, swell(0.9), 52.9, 0.1)
 taps([53.0, 54.4], 520, 80)                             # Your plan. / Your rules.
 put(sfx, click(), 55.1, 0.38)
 put(sfx, click(), 56.65, 0.38)
-put(sfx, swish(0.4, 300, 2000), 57.0, 0.1)
-taps([57.4, 57.6, 57.8, 58.0, 58.2], 500, 30, 0.3)      # The way journaling should be
-put(sfx, soft_pop(), 58.7, 0.32)                        # Raute
+put(sfx, swish(0.4, 300, 2000), 56.9, 0.1)
+taps([57.25, 57.45, 57.65, 57.85, 58.05], 500, 30, 0.3)  # The way journaling should be
+put(sfx, soft_pop(), 58.55, 0.32)                       # Raute
 put(sfx, chime([note('C4'), note('E4'), note('G4'), note('C5')], 2.0, 0.04), 59.85, 0.42)  # Wortmarke
 for i in range(10):
     put(sfx, tap(760 + 18 * i), 59.85 + i * 0.05, 0.06)

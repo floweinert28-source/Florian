@@ -74,7 +74,7 @@ export const Plan: React.FC = () => {
   const ruleN = typedN(t, 2.15, NEW_RULE.name.length, 0.04);
   const added = pop(f, sec(3.05), { damping: 12, stiffness: 190 });
   /* Schritt 3 */
-  const qN = typedN(t, 6.3, 4, 0.09); const drop = prog(f, sec(6.9), sec(0.25), OUT) * (1 - prog(f, sec(7.85), sec(0.15), IN));
+  const qN = typedN(t, 6.3, 4, 0.09); const drop = prog(f, sec(6.9), sec(0.25), OUT) * (1 - prog(f, sec(7.85), sec(0.3), SIG));
   const setupAdded = prog(f, sec(7.9), sec(0.4), SOFT);
   const hk = prog(f, sec(7.0), sec(0.6), SIG); const CLICK = 7.8;
   /* Schritt 4 */
@@ -113,7 +113,7 @@ export const Plan: React.FC = () => {
                   {setupAdded > 0 ? <SetupRow y={266 + 3 * 64} name={NEW_SETUP} style={{ opacity: clamp01(setupAdded * 1.5), transform: `translateY(${lerp(-60, 0, setupAdded)}px)`, border: `1px solid ${mixA(A.accent, 0.45)}` }} /> : null}
                   {drop > 0 ? (
                     <div style={{ position: 'absolute', left: 24, top: 256, width: IW, height: 60, boxSizing: 'border-box', padding: '0 16px', borderRadius: 14, background: A.surface3, border: `1px solid ${mixA(A.accent, 0.5)}`,
-                      display: 'flex', alignItems: 'center', gap: 12, opacity: drop, transform: `translateY(${lerp(-8, 0, drop)}px)`, boxShadow: '0 20px 40px -10px rgba(0,0,0,0.7)' }}>
+                      display: 'flex', alignItems: 'center', gap: 12, opacity: drop, transform: `translateY(${lerp(-8, 0, drop)}px) scaleY(${lerp(0.6, 1, drop)})`, transformOrigin: '50% 0%', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.7)' }}>
                       <div style={{ width: 30, height: 30, borderRadius: 8, background: A.accentSoft, display: 'grid', placeItems: 'center' }}><Icon name="journal" size={16} color={A.accent} /></div>
                       <div style={{ fontSize: 15, fontWeight: 700 }}><span style={{ color: A.accent }}>Open</span>ing Range Breakout</div><div style={{ fontSize: 12.5, color: A.muted }}>Playbook</div>
                       <div style={{ marginLeft: 'auto', width: 30, height: 30, borderRadius: 15, background: t >= CLICK ? A.accent : A.surface2, display: 'grid', placeItems: 'center' }}><Icon name="plus" size={16} color={t >= CLICK ? A.ink : A.text} /></div>

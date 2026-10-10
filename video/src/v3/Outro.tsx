@@ -42,7 +42,7 @@ export const Outro: React.FC = () => {
   const f = useCurrentFrame(); const t = f / FPS;
   const { W, H, V, cx, cy } = useFormat();
   /* A: Your plan → Your rules, kreisende Menüs */
-  const outA = prog(f, sec(4.1), sec(0.35), IN);
+  const outA = prog(f, sec(4.0), sec(0.3), IN);
   const ms = V ? 1.22 : 1.3; const R = V ? { x: 290, y: 620 } : { x: 650, y: 335 };
   const base = [-150, -30, 90]; const omega = 7; /* Grad pro Sekunde, im Uhrzeigersinn */
   const cards = base.map((a0, i) => {
@@ -59,17 +59,17 @@ export const Outro: React.FC = () => {
   const arc = prog(f, 0, sec(1.2), SIG);
   const head = prog(f, sec(0.1), sec(0.5), SOFT);
   /* B: The way journaling should be */
-  const bOn = t >= 4.45 && t < 6.75; const outB = prog(f, sec(6.45), sec(0.25), IN);
-  const dia = pop(f, sec(5.8), { damping: 8, stiffness: 220 });
+  const bOn = t >= 4.28 && t < 6.75; const outB = prog(f, sec(6.45), sec(0.25), IN);
+  const dia = pop(f, sec(5.65), { damping: 8, stiffness: 220 });
   /* C: Wortmarke */
   const MARK = 'JOURNALYST'; const fadeEnd = prog(f, sec(9.1), sec(0.5), IN);
-  const night = (t < 4.45 ? 1 : 0) + (t >= 6.6 ? prog(f, sec(6.6), sec(0.4)) : 0);
+  const night = (t < 4.28 ? 1 - prog(f, sec(4.0), sec(0.28)) : 0) + (t >= 6.6 ? prog(f, sec(6.6), sec(0.4)) : 0);
   return (
     <AbsoluteFill style={{ overflow: 'hidden' }}>
       <Bg f={f} kind="black" />
       {night > 0 ? <AbsoluteFill style={{ opacity: Math.min(1, night) }}><Bg f={f} kind="night" /></AbsoluteFill> : null}
 
-      {t < 4.5 ? (
+      {t < 4.3 ? (
         <AbsoluteFill style={{ opacity: 1 - outA, transform: `scale(${lerp(1, 0.9, outA)})`, filter: outA > 0 ? `blur(${(outA * 14).toFixed(1)}px)` : undefined }}>
           <svg width={W} height={H} style={{ position: 'absolute', left: 0, top: 0 }}>
             <defs><filter id="arcglow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14" /></filter></defs>
@@ -97,7 +97,7 @@ export const Outro: React.FC = () => {
           <Rings f={f} x={cx} y={-H * 0.25} max={V ? 1500 : 1300} n={5} period={2.6} opacity={0.3} />
           <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ ...big(V ? 92 : 104, LIGHT), textAlign: 'center', whiteSpace: V ? 'normal' : 'pre', width: V ? 900 : undefined }}>
-              <BlurText f={f} text="The way journaling should be" start={sec(4.5)} stagger={0.2} dur={0.55} blur={14} scaleFrom={1.06} color={(i) => (i === 2 ? GREEN : LIGHT)} />
+              <BlurText f={f} text="The way journaling should be" start={sec(4.35)} stagger={0.2} dur={0.55} blur={14} scaleFrom={1.06} color={(i) => (i === 2 ? GREEN : LIGHT)} />
               <span style={{ display: 'inline-block', position: 'relative', width: V ? 70 : 80, height: 10 }}>
                 {dia > 0.001 ? <Guide x={V ? 44 : 50} y={V ? -28 : -32} size={V ? 34 : 40} scale={dia} rot={0} /> : null}
               </span>

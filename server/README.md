@@ -58,6 +58,23 @@ das Zugangstoken, und `user` kommt aus der Sitzung.
 
 Das Tageslimit zählt in einer eigenen Tabelle und wird durch Löschen des Verlaufs nicht zurückgesetzt.
 
+## News (`server/news.py`)
+
+Der Bereich **Journal → News** der Website zeigt den Wirtschaftskalender der kommenden Tage. Quelle ist der öffentliche
+Wochen-Export des ForexFactory-Kalenders (JSON, ohne API-Schlüssel): **diese Woche und, sobald veröffentlicht, die nächste
+Woche** (meist ab dem Wochenende; vorher liefert die Adresse 404 und zählt als leer). Weiter voraus gibt es diese Quelle
+nicht; dafür bräuchte es einen Anbieter mit Schlüssel, der dann nur hier auf dem Server stehen darf. Der Browser darf den
+Export nicht direkt laden (keine CORS-Freigabe), deshalb holt ihn der Server, hält ihn im Speicher und liefert eine
+bereinigte Liste. Keine Datenbank, keine Migration.
+
+- `GET /api/news` (mit Zugangstoken) → `{ "events": [{ "id", "title", "currency", "time" (UTC, ISO), "impact": "high"|"medium"|"low"|"holiday", "forecast", "previous", "actual" }], "updated_at", "stale", "source" }`.
+  `stale: true`, wenn eine Quelle zuletzt nicht erreichbar war; dann bleibt der letzte gute Stand.
+
+| Variable | Standard | Bedeutung |
+|---|---|---|
+| `NEWS_FEED_URLS` | ForexFactory diese + nächste Woche | Komma-getrennte JSON-Adressen im selben Format |
+| `NEWS_CACHE_MIN` | `30` | Minuten, die ein Abruf gültig bleibt |
+
 ## Coach Mode (`server/coach.py`)
 
 Derselbe Server trägt den Coach Mode: Gruppen eines Mentors, Beitritt der Schüler per Link, Kurz-Stats und
@@ -116,5 +133,5 @@ Phase 2 und 3 (Migration 2, ohne Datenverlust für Datenbanken aus Phase 1):
 
 ```bash
 pip install pytest httpx
-pytest server/tests        # Mentor-Chat, Sprachjournal und Coach Mode
+pytest server/tests        # Mentor-Chat, Sprachjournal, Coach Mode und News
 ```

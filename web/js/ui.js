@@ -11,6 +11,8 @@
     tradelog: sv('<path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="1"/>'),
     day: sv('<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/><rect x="7" y="13" width="4" height="4" rx="1"/>'),
     stats: sv('<path d="M3 17l5-6 4 3 5-7 4 4"/><path d="M3 21h18"/>'),
+    news: sv('<path d="M5 4h12a1 1 0 0 1 1 1v14a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V5a1 1 0 0 1 1-1z"/><path d="M18 9h2v10a2 2 0 0 1-2 2"/><path d="M8 8h6M8 12h6M8 16h4"/>'),
+    refresh: sv('<path d="M20 11a8 8 0 0 0-14.6-4.5L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.6 4.5L20 16"/><path d="M20 20v-4h-4"/>'),
     journal: sv('<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 3v18M12 8h4M12 12h4"/>'),
     library: sv('<rect x="3" y="5" width="4" height="14" rx="1"/><rect x="10" y="5" width="4" height="14" rx="1"/><path d="M17 6l4 12"/>'),
     strategy: sv('<path d="M4 5h4l4 7 4 7h4M4 19h4l3-5M16 5h4l-3 5"/>'),
@@ -152,6 +154,7 @@
     time(d) { return d ? new Date(d).toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' }) : '—'; },
     dur(min) { if (min == null || isNaN(min)) return '—'; min = Math.round(min); if (min < 60) return `${min} min`; const h = Math.floor(min / 60), m = min % 60; if (h < 48) return m ? `${h} h ${m} min` : `${h} h`; return `${Math.round(h / 24)} T`; },
     weekdayLong(d) { return new Date(d).toLocaleDateString(LOC(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); },
+    dayLong(d) { return new Date(d).toLocaleDateString(LOC(), { weekday: 'long', day: 'numeric', month: 'long' }); }, /* Wochentag, Tag und Monat ohne Jahr */
     monthYear(d) { return new Date(d).toLocaleDateString(LOC(), { month: 'long', year: 'numeric' }); },
     isoLocal(d) { const x = new Date(d); const p = n => String(n).padStart(2, '0'); return `${x.getFullYear()}-${p(x.getMonth() + 1)}-${p(x.getDate())}T${p(x.getHours())}:${p(x.getMinutes())}`; },
     hm(sec) { const p = n => String(n).padStart(2, '0'); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = Math.floor(sec % 60); return `${p(h)}:${p(m)}:${p(s)}`; },

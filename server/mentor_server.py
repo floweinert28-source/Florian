@@ -29,6 +29,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, field_validator
 
 from server.coach import CoachStore, make_asset_route, make_router as make_coach_router, smtp_mailer_from_env
+from server.news import make_router as make_news_router
 
 log = logging.getLogger("mentor")
 
@@ -349,7 +350,7 @@ def create_app() -> FastAPI:
 
     @app.get("/api/mentor/health")
     def health() -> dict:
-        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN), "api_key": api_key_present(), "voice_limit": VOICE_LIMIT, "stt": bool(STT_URL), "emotions": EMOTIONS, "coach": True, "coach_mail": bool(app.state.coach_mailer)}
+        return {"ok": True, "model": MODEL, "limit": DAILY_LIMIT, "prompt_loaded": bool(app.state.template), "auth": bool(APP_TOKEN), "api_key": api_key_present(), "voice_limit": VOICE_LIMIT, "stt": bool(STT_URL), "emotions": EMOTIONS, "coach": True, "coach_mail": bool(app.state.coach_mailer), "news": True}
 
     @app.get("/api/mentor/history", dependencies=[Depends(auth)])
     def history(user: str = Query(..., min_length=1, max_length=80)) -> dict:
@@ -434,6 +435,8 @@ def create_app() -> FastAPI:
     # Coach Mode (Gruppen, Journal-Ansicht, Mentor-Notizen): eigener Router, gleiches Zugangstoken, eigener Nutzer-Schlüssel
     app.include_router(make_coach_router(app.state.coach, auth, mail_limit=int(os.environ.get("COACH_MAIL_DAILY_LIMIT", "20")), app_url=os.environ.get("COACH_APP_URL", "")))
     app.include_router(make_asset_route(app.state.coach))
+    # News (Wirtschaftskalender): der Server holt den öffentlichen Wochen-Export, weil der Browser ihn nicht direkt laden darf
+    app.include_router(make_news_router(auth))
     return app
 
 

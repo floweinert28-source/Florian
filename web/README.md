@@ -104,6 +104,14 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei ruhige Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-PZustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei Spalten in Skalen-Reihenfolge mit kleiner Säule an gemeinsamer Nulllinie, Betrag groß, Tage und Anteil im Plus),L, Tage und Anteil im Plus im Tooltip),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit.
+- **News** (Journal → News): Wirtschaftskalender der kommenden Tage, nach Tagen gruppiert (Heute, Morgen, …) mit Uhrzeit in
+  der eigenen Zeitzone, Wichtigkeit als drei Balken (hoch rot, mittel gelb, niedrig grau, Feiertage mit Kalender-Symbol),
+  Währung und den Werten Ist, Prognose, Vorher in festen Spalten. Oben die Karte „Nächste wichtige News“ mit Countdown.
+  Filter Wichtigkeit (Standard: Hoch und Mittel) und Währung bleiben gespeichert (`newsFilter`). Die Termine kommen über den
+  eigenen Journalyst-Server (dieselbe Adresse und dasselbe Zugangstoken wie beim Mentor, `GET /api/news`), der den
+  ForexFactory-Wochen-Export lädt: diese Woche und, sobald veröffentlicht, die nächste. Neu geladen wird höchstens alle
+  10 Minuten (Knopf „Aktualisieren“ sofort), nach einem Fehler frühestens nach einer Minute. Ohne eingerichteten Server zeigt
+  die Seite eine klar markierte Beispielansicht ohne Werte und einen Link „Server einrichten“ (`js/screens/news.js`).
 - **Notebook**: drei Spalten (Ordner und Tags, Notizliste, Notiz); Notizen gelten für alles, darum ohne Zeitraum und Konto, die Suche steht in der Kopfreihe. Standardordner Trade Notes,
   Daily Journal und Session Recap, eigene Ordner mit Farbe und Standard-Vorlage. Notiz-Kopf mit
   Datumswahl, großem Titel, Erstellt- und Bearbeitet-Zeit. Schlanker Rich-Text-Editor (Quill 2,

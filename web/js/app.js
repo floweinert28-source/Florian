@@ -7,7 +7,7 @@
   /* Seitenleiste in Gruppen: was ist los, was habe ich gehandelt, woran arbeite ich, welche Konten */
   const NAV_GROUPS = [
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
-    ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
+    ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal'], ['news', 'News', 'news']]],
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
     ['Konten', [['prop', 'Prop Firms', 'prop'], ['coupons', 'Coupon-Codes', 'coupon']]],
   ]; /* Coach und Affiliate stehen nicht in der Navigation, sondern im Konto-Menü unten (userCard) */

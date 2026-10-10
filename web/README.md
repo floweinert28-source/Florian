@@ -46,7 +46,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   ↘ Short in Rot), Licht von links und feinem farbigen Rand (`UI.badge`).
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein hell leuchtender Balken am Rand; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso.
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein Balken am Rand mit dezentem Leuchten; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
@@ -61,7 +61,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
-  mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar, kumulierter P&L, Trefferquote-Verlauf,
+  mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Skala und kleinem Punkt, kumulierter P&L, Trefferquote-Verlauf,
   Performance nach Uhrzeit und Haltedauer, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
   Jedes Widget hat ein (i) mit Erklärung. **Vorlagen**: mehrere Dashboards anlegen, umbenennen,

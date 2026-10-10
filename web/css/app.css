@@ -26,6 +26,7 @@
   --accent-ink: #04140a;
   --accent-soft: rgba(52, 245, 138, 0.12);
   --accent-glow: rgba(52, 245, 138, 0.28);
+  --dot-glow: 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 8px color-mix(in srgb, var(--accent) 20%, transparent); /* Leuchten von Hinweis-Punkten und dem Balken am aktiven Menüpunkt */
   --profit: #34f58a;
   --loss: #ff5c5c;
   --loss-soft: rgba(255, 92, 92, 0.14);
@@ -189,10 +190,10 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
   }
 }
 .nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: color-mix(in srgb, var(--accent) 80%, #fff); box-shadow: 0 0 4px color-mix(in srgb, var(--accent) 90%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); } /* heller Balken mit Leuchten; der Hinweis-Punkt leuchtet genauso */
+.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); box-shadow: var(--dot-glow); } /* Balken mit sanftem Leuchten; alle Hinweis-Punkte leuchten genauso (--dot-glow) */
 .nav a.active:hover { transform: none; }
 /* Hinweis-Punkt: kleiner runder Punkt rechts im Eintrag, farblich wie der Lichtbalken am aktiven Eintrag (gleiches Grün, gedämpft, leichtes Leuchten); eingeklappt oben rechts am Knopf */
-.nav .nav-dot { margin-left: auto; margin-right: 12px; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: color-mix(in srgb, var(--accent) 80%, #fff); box-shadow: 0 0 4px color-mix(in srgb, var(--accent) 90%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); }
+.nav .nav-dot { margin-left: auto; margin-right: 12px; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); box-shadow: var(--dot-glow); }
 html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 4px; right: 4px; margin: 0; }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
@@ -242,9 +243,8 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .sb-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Hinweis-Punkt am Profilbild, wenn bei Coach etwas wartet (Coach steht im Konto-Menü) */
 .sb-avwrap { position: relative; flex: 0 0 auto; display: grid; }
-.sb-av-dot { position: absolute; top: -1px; right: -1px; width: 9px; height: 9px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 80%, #fff); box-shadow: 0 0 0 2px var(--surface), 0 0 6px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent); }
+.sb-av-dot { position: absolute; top: -1px; right: -1px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--surface), var(--dot-glow); }
 /* helles Design: Balken und Punkte im satten Akzent (aufgehellt wären sie auf Weiß zu blass) */
-:root[data-theme="light"] .nav a.active::after, :root[data-theme="light"] .nav .nav-dot, :root[data-theme="light"] .sb-menu .item .nav-dot, :root[data-theme="light"] .sb-av-dot { background: var(--accent); }
 .sb-who { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1 1 auto; }
 .sb-who b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sb-who span { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -255,7 +255,7 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .sb-menu { padding: 6px; }
 .sb-menu .item { font-size: 13.5px; color: var(--text-2); } .sb-menu .item:hover { color: var(--text); }
 .sb-menu .item.on { color: var(--text); background: var(--surface-2); }
-.sb-menu .item .nav-dot { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: color-mix(in srgb, var(--accent) 80%, #fff); box-shadow: 0 0 4px color-mix(in srgb, var(--accent) 90%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); }
+.sb-menu .item .nav-dot { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); box-shadow: var(--dot-glow); }
 .sb-menu-sep { height: 1px; background: var(--border); margin: 6px 4px; }
 .sb-menu-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 6px 4px 12px; font-size: 13.5px; color: var(--text-2); }
 .sb-menu .theme-toggle, html.sb-mini .sb-menu .theme-toggle { margin: 0; flex-direction: row; align-self: auto; }
@@ -512,7 +512,7 @@ span.info:hover { color: var(--accent); }
 .score-wrap { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: center; }
 .score-scale { position: relative; height: 26px; margin: 8px 6px 0; }
 .score-scale .track { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--loss), var(--warn), var(--accent)); opacity: .55; }
-.score-scale .knob { position: absolute; top: 3px; width: 20px; height: 20px; border-radius: 999px; background: var(--accent); border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--accent); transform: translateX(-50%); }
+.score-scale .knob { position: absolute; top: 7px; width: 12px; height: 12px; border-radius: 999px; background: var(--accent); border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--accent); transform: translateX(-50%); }
 .score-scale .lbls { position: absolute; left: 0; right: 0; top: 22px; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
 .score-big { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
 

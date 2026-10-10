@@ -72,6 +72,24 @@ Nur Sound-Effekte (`scripts/sound3.py`), keine Musik. Code in `src/v3/`.
 | 52,9–57,4 s | „Your plan.“ → „Your rules.“, drei Aktions-Menüs kreisen, Klicks | „Your process / Your control“ |
 | 57,4–62,5 s | „The way journaling should be“ mit Raute, dann die Wortmarke JOURNALYST | „The way bidding should be“, Logo |
 
+## Video 4: nach der Vorlage „iBanPay“
+
+Viertes Launch-Video mit Aufbau und Bewegungen der Vorlage https://youtu.be/wwIt5ZvROrs, im dunklen Journalyst-Design
+(die hellen Abschnitte der Vorlage sind hier heller grüner Grund) und mit echten Werten aus der App: `journalyst-4.mp4` (quer)
+und `journalyst-4-vertical.mp4` (hochkant), 60 fps, 47,5 Sekunden. Nur Sound-Effekte (`scripts/sound4.py`). Code in `src/v4/`.
+
+| Zeit | Szene | Entspricht in der Vorlage |
+| --- | --- | --- |
+| 0–4,5 s | „Still copying every trade / into spreadsheets?“ getippt, unscharfe Karten ringsum | „Still manually entering payment details?“ |
+| 4,5–8 s | „Meet“, Wortmarke JOURNALYST dreht ins Bild, Pille „The trading journal for discipline“ | „Meet iBanPay“ + Pille |
+| 8–14 s | „Drop one or many CSV files“, Pille „Import CSV“ wird zum Import-Fenster, CSV-Datei per Drag & Drop, „into your journal“ | Rechnung per E-Mail |
+| 14–19,8 s | „It reads / every trade“, Tabelle richtet sich auf, grüner Strahl markiert jede Zeile | Scan der Rechnung |
+| 19,8–24 s | „And seconds later“, „Your trades are in.“ (42 Trades, 20/22, +$4,578.08), Klick „Review trades“ | „Your payment draft is ready“ |
+| 24–26,9 s | „Time for a quick ◆ review.“ | „Time for a quick ✦ check“ |
+| 26,9–35 s | TradeLog schräg, Klick „REVIEW“ beim ES-Trade, „Review trade“ mit Werten aus der CSV, Pullback, Yes, „Save review“ | Zahlung prüfen und senden |
+| 35–40,6 s | Regel-Prüfung mit Häkchen → „Plan followed“ → grüner Ring → „Trade reviewed“, „Create certificate“ | Freigaben → „Payment sent“ |
+| 40,6–47,5 s | „Save time. Spot mistakes.“ → „Stay disciplined.“ → JOURNALYST, Pille „Start your journal“ | „Save time. Avoid errors. Stay in control.“, Logo |
+
 ## So entsteht es
 
 ```bash
@@ -97,6 +115,10 @@ npm run render2:vertical      # out/journalyst-2-vertical.mp4 (Video 2, hochkant
 npm run sound3                # Effekte für Video 3 nach public/audio/sound3.wav
 npm run render3               # out/journalyst-3.mp4 (Video 3, quer)
 npm run render3:vertical      # out/journalyst-3-vertical.mp4 (Video 3, hochkant)
+
+npm run sound4                # Effekte für Video 4 nach public/audio/sound4.wav
+npm run render4               # out/journalyst-4.mp4 (Video 4, quer)
+npm run render4:vertical      # out/journalyst-4-vertical.mp4 (Video 4, hochkant)
 ```
 
 Die Aufnahme setzt die Uhr der App auf Mittwoch, 30.09.2026, damit die Beispieldaten den Monat füllen, und loggt einen
@@ -125,6 +147,8 @@ src/ui/Hand.tsx          Zeigehand mit Klick; src/ui/Confetti.tsx Konfetti; src/
 scripts/sound2.py        Effekte für Video 2
 src/v3/Launch3.tsx       Video 3: Zeitplan; Open, Chaos, Overview, List, Plan, Review, Outro; Bausteine in src/v3/Parts.tsx
 scripts/sound3.py        Effekte für Video 3
+src/v4/Launch4.tsx       Video 4: Zeitplan; Part1 bis Part5
+scripts/sound4.py        Effekte für Video 4
 ```
 
 Bewegungsregeln: `.claude/skills/motion-rules` im Repo-Root.

@@ -18,6 +18,12 @@
       "sourceType": "github",
       "skillPath": "skills/motion-design/SKILL.md",
       "computedHash": "9fcf9130cc46ee8fd1d8e09a9263347a9d76efbcbfa46591cc4cefaf19bbb453"
+    },
+    "watch": {
+      "source": "bradautomates/claude-video",
+      "sourceType": "github",
+      "skillPath": "skills/watch/SKILL.md",
+      "computedHash": "cbdb39fea0f90a361e72307a189dab8b1c0bbd7cc2225bb33784ac882b32953c"
     }
   }
 }

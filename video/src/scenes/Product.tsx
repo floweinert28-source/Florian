@@ -9,6 +9,7 @@ import { big, DISPLAY, NUM } from '../theme';
 import { Bg } from '../ui/Bg';
 import { CursorView, cursorAt } from '../ui/Cursor';
 import { A, Badge, Btn, Card, CardTitle, Check, DayBars, Donut, Icon, lift, lerpColor, mix, mixA, PnlArea, Pill, Radar, ScoreScale, SemiGauge, shadowEnds, ShadowLines, Switch, TileHead, usd, Val } from '../ui/Kit';
+import { useFormat } from '../format';
 import { BlurText } from '../ui/Text';
 
 type R = { x: number; y: number; w: number; h: number };
@@ -156,16 +157,21 @@ const LogForm: React.FC<{ f: number; T: Times }> = ({ f, T }) => {
   );
 };
 
-/* ---------- TradeLog, 1000 App-Pixel breit ---------- */
-const COLS: { k: string; label: string; x: number; w: number; r?: boolean }[] = [
+/* ---------- TradeLog: quer 1000 App-Pixel breit, hochkant 640 mit den wichtigsten Spalten ---------- */
+type Col = { k: string; label: string; x: number; w: number; r?: boolean };
+const COLS_V: Col[] = [
+  { k: 'opened', label: 'Opened', x: 16, w: 150 }, { k: 'symbol', label: 'Symbol', x: 176, w: 60 }, { k: 'side', label: 'Side', x: 244, w: 96 },
+  { k: 'pnl', label: 'P&L', x: 352, w: 110, r: true }, { k: 'r', label: 'RR', x: 472, w: 76, r: true }, { k: 'rules', label: 'Rules', x: 584, w: 44 },
+];
+const COLS: Col[] = [
   { k: 'opened', label: 'Opened', x: 16, w: 170 }, { k: 'symbol', label: 'Symbol', x: 196, w: 60 }, { k: 'status', label: 'Status', x: 262, w: 66 }, { k: 'side', label: 'Side', x: 336, w: 96 },
   { k: 'pnl', label: 'P&L', x: 470, w: 130, r: true }, { k: 'r', label: 'RR', x: 610, w: 90, r: true }, { k: 'setup', label: 'Setup', x: 740, w: 140 }, { k: 'rules', label: 'Rules', x: 900, w: 80 },
 ];
 const tone = (v: string) => (/^\+/.test(v) ? A.accent : /^[−-]/.test(v) && v.length > 1 ? A.loss : A.faint);
-const TradeRow: React.FC<{ r: (typeof rows)[number] }> = ({ r }) => (
+const TradeRow: React.FC<{ r: (typeof rows)[number]; cols: Col[] }> = ({ r, cols }) => (
   <div style={{ position: 'absolute', inset: 0, fontFamily: DISPLAY, fontSize: 13, color: A.text }}>
-    {COLS.map((c) => (
-      <div key={c.k} style={{ position: 'absolute', left: c.x, width: c.w, top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: c.r ? 'flex-end' : 'flex-start', gap: 6, fontFamily: ['opened', 'pnl', 'r'].includes(c.k) ? NUM : DISPLAY, fontVariantNumeric: 'tabular-nums' }}>
+    {cols.map((c) => (
+      <div key={c.k} style={{ position: 'absolute', left: c.x, width: c.w, top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: c.r ? 'flex-end' : 'flex-start', gap: 6, whiteSpace: 'nowrap', fontFamily: ['opened', 'pnl', 'r'].includes(c.k) ? NUM : DISPLAY, fontVariantNumeric: 'tabular-nums' }}>
         {c.k === 'opened' ? <>{r.day}<span style={{ color: A.muted }}>{r.time}</span></> : null}
         {c.k === 'symbol' ? <b style={{ fontWeight: 700 }}>{r.symbol}</b> : null}
         {c.k === 'status' ? <Pill tone={r.status === 'Win' ? 'win' : r.status === 'Loss' ? 'loss' : 'open'}>{r.status}</Pill> : null}
@@ -178,7 +184,7 @@ const TradeRow: React.FC<{ r: (typeof rows)[number] }> = ({ r }) => (
     ))}
   </div>
 );
-const TL = { w: 1000, title: 56, head: 40, row: 52 };
+const TL = { title: 56, head: 40, row: 52 };
 const TL_H = TL.title + TL.head + TL.row * 6 + 8;
 
 /* ---------- Karte des Trades für die Regelprüfung, 300 × 250 App-Pixel ---------- */
@@ -211,18 +217,30 @@ const T = {
   b0: 7.7, b1: 8.5, c0: 10.8, c1: 11.6, ticks: [12.35, 12.75, 13.15], result: 13.6,
 };
 export const FLOW_DURATION = 15;
-const MS = 1.7, MODAL: R = { x: (1920 - 640 * MS) / 2, y: (1080 - 290 * MS) / 2, w: 640 * MS, h: 290 * MS };
-const TS = 1.5, TLR: R = { x: (1920 - TL.w * TS) / 2, y: (1080 - TL_H * TS) / 2, w: TL.w * TS, h: TL_H * TS };
-const ROW0: R = { x: TLR.x, y: TLR.y + (TL.title + TL.head) * TS, w: TLR.w, h: TL.row * TS };
-const CS = 1.6, CARD: R = { x: 240, y: (1080 - 250 * CS) / 2, w: 300 * CS, h: 250 * CS };
+/* Lage aller Flächen: quer nebeneinander, hochkant übereinander */
+const layout = (W: number, H: number, V: boolean) => {
+  const FS = V ? 0.7 : 1.12; /* Maßstab des flachen Dashboards */
+  const MS = V ? 1.55 : 1.7, MODAL: R = { x: (W - 640 * MS) / 2, y: (H - 290 * MS) / 2, w: 640 * MS, h: 290 * MS };
+  const cols = V ? COLS_V : COLS; const tw = V ? 640 : 1000;
+  const TS = V ? 1.55 : 1.5, TLR: R = { x: (W - tw * TS) / 2, y: (H - TL_H * TS) / 2, w: tw * TS, h: TL_H * TS };
+  const ROW0: R = { x: TLR.x, y: TLR.y + (TL.title + TL.head) * TS, w: TLR.w, h: TL.row * TS };
+  const CS = V ? 1.75 : 1.6, CARD: R = V ? { x: (W - 300 * CS) / 2, y: 190, w: 300 * CS, h: 250 * CS } : { x: 240, y: (H - 250 * CS) / 2, w: 300 * CS, h: 250 * CS };
+  /* Regelprüfung: quer rechte Hälfte, hochkant unterer Teil (ab SPLIT), Gruppe mittig */
+  const SPLIT = V ? 800 : W / 2; const rs = V ? 1.85 : 1.45; const gx = V ? (W - (44 + 26 + 370 * rs)) / 2 : 1040;
+  const RULES = V ? { x: gx, title: 860, top: 960, step: 245, scale: rs, result: 1720 } : { x: gx, title: 140, top: 240, step: 190, scale: rs, result: 840 };
+  return { FS, MS, MODAL, cols, tw, TS, TLR, ROW0, CS, CARD, RULES, SPLIT };
+};
 
 export const ProductFlow: React.FC = () => {
   const f = useCurrentFrame(); const t = f / FPS;
+  const { W, H, V, cx: CX, cy: CY } = useFormat();
+  const { FS, MS, MODAL, cols, tw, TS, TLR, ROW0, CS, CARD, RULES, SPLIT } = layout(W, H, V);
   /* Dashboard schräg, dann flach (für den Klick) */
   const tilt = prog(f, 0, sec(T.flat0), SIG); const flat = prog(f, sec(T.flat0), sec(T.flat1 - T.flat0), SIG);
-  const pose = { rx: lerp(lerp(30, 21, tilt), 0, flat), rz: lerp(lerp(-12, -7, tilt), 0, flat), s: lerp(lerp(0.98, 1.05, tilt), 1.12, flat), cx: lerp(lerp(690, 650, tilt), 720, flat), cy: lerp(lerp(470, 430, tilt), 450, flat), ty: lerp(115, 0, flat) };
-  const scr = (x: number, y: number) => ({ x: 960 + (x - 720) * 1.12, y: 540 + (y - 450) * 1.12 });
-  const btnTL = scr(LOG_BTN.x, LOG_BTN.y); const BTN: R = { x: btnTL.x, y: btnTL.y, w: LOG_BTN.w * 1.12, h: LOG_BTN.h * 1.12 };
+  const s0 = V ? [0.93, 0.99] : [0.98, 1.05]; const ty0 = V ? 230 : 115; const c0 = V ? [[530, 470], [500, 440]] : [[690, 470], [650, 430]];
+  const pose = { rx: lerp(lerp(30, 21, tilt), 0, flat), rz: lerp(lerp(-12, -7, tilt), 0, flat), s: lerp(lerp(s0[0], s0[1], tilt), FS, flat), cx: lerp(lerp(c0[0][0], c0[1][0], tilt), 720, flat), cy: lerp(lerp(c0[0][1], c0[1][1], tilt), 450, flat), ty: lerp(ty0, 0, flat) };
+  const scr = (x: number, y: number) => ({ x: CX + (x - 720) * FS, y: CY + (y - 450) * FS });
+  const btnTL = scr(LOG_BTN.x, LOG_BTN.y); const BTN: R = { x: btnTL.x, y: btnTL.y, w: LOG_BTN.w * FS, h: LOG_BTN.h * FS };
   const pops = { net: bump(f, T.pops[0]), score: bump(f, T.pops[1]), cum: bump(f, T.pops[2]) };
   const dim = prog(f, sec(T.open0), sec(0.4), OUT);
   const dashOut = prog(f, sec(T.b0), sec(0.45), IN);
@@ -234,8 +252,8 @@ export const ProductFlow: React.FC = () => {
   const shift = prog(f, sec(T.b0 + 0.3), sec(0.55), SIG);
 
   /* Die eine Fläche, die vom Knopf zum Formular, zur Zeile und zur Karte wird */
-  let box: R = BTN, radius = 12 * 1.12, bg = mix(A.accent, 0.1, A.surface), border = mixA(A.accent, 0.45);
-  if (t >= T.open0) { const k = prog(f, sec(T.open0), sec(T.open1 - T.open0), SIG); box = rl(BTN, MODAL, k); radius = lerp(12 * 1.12, 16 * MS, k); bg = lerpColor(mix(A.accent, 0.1, A.surface), A.surface, k); border = mixA(A.accent, lerp(0.45, 0, k)); }
+  let box: R = BTN, radius = 12 * FS, bg = mix(A.accent, 0.1, A.surface), border = mixA(A.accent, 0.45);
+  if (t >= T.open0) { const k = prog(f, sec(T.open0), sec(T.open1 - T.open0), SIG); box = rl(BTN, MODAL, k); radius = lerp(12 * FS, 16 * MS, k); bg = lerpColor(mix(A.accent, 0.1, A.surface), A.surface, k); border = mixA(A.accent, lerp(0.45, 0, k)); }
   if (t >= T.open1) { box = MODAL; radius = 16 * MS; bg = A.surface; border = A.border2; }
   if (t >= T.b0 + 0.1) { const k = prog(f, sec(T.b0 + 0.1), sec(T.b1 - T.b0 - 0.1), SIG); box = rl(MODAL, ROW0, k); radius = lerp(16 * MS, 10, k); bg = lerpColor(A.surface, mix(A.accent, 0.1, A.surface), k); border = mixA(A.accent, lerp(0, 0.35, k)); }
   if (t >= T.b1) { box = pushR(ROW0); radius = 10; const g = prog(f, sec(9.7), sec(0.6)); bg = lerpColor(mix(A.accent, 0.1, A.surface), mix(A.accent, 0.05, A.surface), g); border = mixA(A.accent, 0.35); }
@@ -248,7 +266,8 @@ export const ProductFlow: React.FC = () => {
 
   /* Cursor: Klick auf „+ Log trade“, später auf „Save trade“ */
   const saveC = { x: MODAL.x + (640 - 24 - 60) * MS, y: MODAL.y + (228 + 20) * MS };
-  const cur = cursorAt(f, [{ at: 0, x: 1500, y: 760 }, { at: sec(3.3), x: BTN.x + BTN.w * 0.55, y: BTN.y + BTN.h * 0.6, dur: sec(0.65), click: true }, { at: sec(4.3), x: 1500, y: 860, dur: sec(0.8) }, { at: sec(6.6), x: saveC.x + 8, y: saveC.y + 6, dur: sec(0.65), click: true }]);
+  const rest = V ? [{ x: 820, y: 1500 }, { x: 860, y: 1560 }] : [{ x: 1500, y: 760 }, { x: 1500, y: 860 }];
+  const cur = cursorAt(f, [{ at: 0, ...rest[0] }, { at: sec(3.3), x: BTN.x + BTN.w * 0.55, y: BTN.y + BTN.h * 0.6, dur: sec(0.65), click: true }, { at: sec(4.3), ...rest[1], dur: sec(0.8) }, { at: sec(6.6), x: saveC.x + 8, y: saveC.y + 6, dur: sec(0.65), click: true }]);
   const curA = prog(f, sec(3.25), sec(0.2)) * (1 - prog(f, sec(4.15), sec(0.2))) + prog(f, sec(6.55), sec(0.2)) * (1 - prog(f, sec(7.5), sec(0.2)));
 
   /* Regelprüfung rechts */
@@ -257,33 +276,33 @@ export const ProductFlow: React.FC = () => {
   return (
     <AbsoluteFill>
       <Bg f={f} kind="mint" />
-      {/* rechte Hälfte wird dunkel */}
-      <div style={{ position: 'absolute', left: lerp(1920, 960, wipe), top: 0, right: 0, bottom: 0, overflow: 'hidden' }}><div style={{ position: 'absolute', right: 0, top: 0, width: 1920, height: 1080 }}><Bg f={f} kind="dark" /></div></div>
+      {/* rechte (hochkant: untere) Hälfte wird dunkel */}
+      <div style={{ position: 'absolute', left: V ? 0 : lerp(W, SPLIT, wipe), top: V ? lerp(H, SPLIT, wipe) : 0, right: 0, bottom: 0, overflow: 'hidden' }}><div style={{ position: 'absolute', right: 0, bottom: 0, width: W, height: H }}><Bg f={f} kind="dark" /></div></div>
 
       {dashOut < 1 ? (
         <AbsoluteFill style={{ perspective: 2600, opacity: prog(f, 0, sec(0.25), OUT) * (1 - dashOut) }}>
           <div style={{ position: 'absolute', left: 0, top: 0, width: 1440, height: 900, transformOrigin: '0 0', transformStyle: dim > 0 ? 'flat' : 'preserve-3d',
-            transform: `translate(960px, ${540 + pose.ty}px) rotateX(${pose.rx}deg) rotateZ(${pose.rz}deg) scale(${pose.s}) translate(${-pose.cx}px, ${-pose.cy}px)`, filter: dim > 0 ? `blur(${(dim * 4).toFixed(2)}px)` : undefined }}>
+            transform: `translate(${CX}px, ${CY + pose.ty}px) rotateX(${pose.rx}deg) rotateZ(${pose.rz}deg) scale(${pose.s}) translate(${-pose.cx}px, ${-pose.cy}px)`, filter: dim > 0 ? `blur(${(dim * 4).toFixed(2)}px)` : undefined }}>
             <DashboardPanel f={f} pops={pops} />
             {dim > 0 ? <div style={{ position: 'absolute', inset: 0, borderRadius: 18, background: `rgba(0,0,0,${(dim * 0.6).toFixed(3)})` }} /> : null}
           </div>
         </AbsoluteFill>
       ) : null}
-      <div style={{ position: 'absolute', left: 120, top: 96, ...big(70), lineHeight: 1.06, opacity: headA, filter: headA < 1 && t > 2 ? `blur(${((1 - headA) * 12).toFixed(2)}px)` : undefined }}>
+      <div style={{ position: 'absolute', left: V ? 80 : 120, top: V ? 190 : 96, ...big(V ? 84 : 70), lineHeight: 1.06, opacity: headA, filter: headA < 1 && t > 2 ? `blur(${((1 - headA) * 12).toFixed(2)}px)` : undefined }}>
         <BlurText f={f} text="Built for" start={sec(0.35)} stagger={0.07} />{'\n'}
         <BlurText f={f} text="serious traders" start={sec(0.5)} stagger={0.07} />
       </div>
 
       {tlIn > 0 && tlOut < 1 ? (
-        <div style={{ position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, opacity: tlIn * (1 - tlOut), transform: `translateY(${lerp(30, 0, tlIn)}px) scale(${push * lerp(1, 0.98, tlOut)})`, transformOrigin: `${pushO.x}px ${pushO.y}px` }}>
-          <div style={{ position: 'absolute', left: TLR.x, top: TLR.y, width: TL.w, height: TL_H, transformOrigin: '0 0', transform: `scale(${TS})`, background: A.surface, border: `1px solid ${A.border}`, borderRadius: 14, boxShadow: '0 60px 100px -40px rgba(6,40,20,0.55)', fontFamily: DISPLAY, color: A.text, overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', left: 0, top: 0, width: W, height: H, opacity: tlIn * (1 - tlOut), transform: `translateY(${lerp(30, 0, tlIn)}px) scale(${push * lerp(1, 0.98, tlOut)})`, transformOrigin: `${pushO.x}px ${pushO.y}px` }}>
+          <div style={{ position: 'absolute', left: TLR.x, top: TLR.y, width: tw, height: TL_H, transformOrigin: '0 0', transform: `scale(${TS})`, background: A.surface, border: `1px solid ${A.border}`, borderRadius: 14, boxShadow: '0 60px 100px -40px rgba(6,40,20,0.55)', fontFamily: DISPLAY, color: A.text, overflow: 'hidden' }}>
             <div style={{ position: 'absolute', left: 20, top: 18, display: 'flex', alignItems: 'baseline', gap: 10 }}><span style={{ fontSize: 17, fontWeight: 600 }}>TradeLog</span><span style={{ fontSize: 12, color: A.muted }}>{shadow.actualTrades}</span></div>
             <div style={{ position: 'absolute', left: 0, right: 0, top: TL.title, height: TL.head, borderBottom: `1px solid ${A.border}` }}>
-              {COLS.map((c) => <div key={c.k} style={{ position: 'absolute', left: c.x, width: c.w, top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: c.r ? 'flex-end' : 'flex-start', fontSize: 12, fontWeight: 600, color: A.muted }}>{c.label}{c.k === 'opened' ? <span style={{ color: A.accent, fontSize: 10, marginLeft: 4 }}>▼</span> : null}</div>)}
+              {cols.map((c) => <div key={c.k} style={{ position: 'absolute', left: c.x, width: c.w, top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: c.r ? 'flex-end' : 'flex-start', fontSize: 12, fontWeight: 600, color: A.muted }}>{c.label}{c.k === 'opened' ? <span style={{ color: A.accent, fontSize: 10, marginLeft: 4 }}>▼</span> : null}</div>)}
             </div>
             <div style={{ position: 'absolute', left: 0, right: 0, top: TL.title + TL.head, height: TL.row * 6, overflow: 'hidden' }}>
               {rows.slice(1).map((r, i) => (
-                <div key={i} style={{ position: 'absolute', left: 0, right: 0, top: TL.row * (i + 1), height: TL.row, borderTop: `1px solid ${A.border}`, transform: `translateY(${lerp(-TL.row, 0, shift).toFixed(2)}px)` }}><TradeRow r={r} /></div>
+                <div key={i} style={{ position: 'absolute', left: 0, right: 0, top: TL.row * (i + 1), height: TL.row, borderTop: `1px solid ${A.border}`, transform: `translateY(${lerp(-TL.row, 0, shift).toFixed(2)}px)` }}><TradeRow r={r} cols={cols} /></div>
               ))}
             </div>
           </div>
@@ -294,27 +313,27 @@ export const ProductFlow: React.FC = () => {
         <div style={{ position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h, borderRadius: radius, background: bg, border: `1px solid ${border}`, boxSizing: 'border-box', overflow: 'hidden',
           boxShadow: `0 ${30 + boxLift * 30}px ${80 + boxLift * 40}px -30px rgba(0,0,0,${(0.55 + boxLift * 0.2).toFixed(2)})`, transform: boxLift > 0 ? `scale(${1 + boxLift * 0.04})` : undefined }}>
           {formA > 0 ? <div style={{ position: 'absolute', left: 0, top: 0, transformOrigin: '0 0', transform: `scale(${box.w / 640})`, opacity: formA }}><LogForm f={f} T={T} /></div> : null}
-          {rowA > 0 ? <div style={{ position: 'absolute', left: 0, top: 0, width: TL.w, height: TL.row, transformOrigin: '0 0', transform: `scale(${box.w / TL.w})`, opacity: rowA }}><TradeRow r={rows[0]} /></div> : null}
+          {rowA > 0 ? <div style={{ position: 'absolute', left: 0, top: 0, width: tw, height: TL.row, transformOrigin: '0 0', transform: `scale(${box.w / tw})`, opacity: rowA }}><TradeRow r={rows[0]} cols={cols} /></div> : null}
           {cardA > 0 ? <div style={{ position: 'absolute', left: 0, top: 0, transformOrigin: '0 0', transform: `scale(${box.w / 300})`, opacity: cardA }}><TradeCard /></div> : null}
         </div>
       ) : null}
 
       {wipe > 0 ? (
         <>
-          <div style={{ position: 'absolute', left: 1040, top: 140, ...big(46, '#fff', 600), letterSpacing: '-0.02em' }}>
+          <div style={{ position: 'absolute', left: RULES.x, top: RULES.title, ...big(46, '#fff', 600), letterSpacing: '-0.02em' }}>
             <BlurText f={f} text="Checking your rules" start={sec(T.c1 - 0.1)} stagger={0.06} />
             <span style={{ opacity: t < T.result ? 1 : 0 }}>{['.', '.', '.'].map((d, i) => <span key={i} style={{ opacity: t > T.c1 + 0.3 ? 0.35 + 0.65 * clamp01(Math.sin((f - sec(T.c1)) / 7 - i * 0.9)) : 0 }}>{d}</span>)}</span>
           </div>
           {rules.map((r, i) => {
             const a = prog(f, sec(T.c1 + 0.05 + i * 0.1), sec(0.5), OUT); const at = sec(T.ticks[i]);
             return (
-              <div key={r.name} style={{ position: 'absolute', left: 1040, top: 240 + i * 190, display: 'flex', alignItems: 'center', gap: 26, opacity: a, transform: `translateX(${lerp(80, 0, a)}px)` }}>
+              <div key={r.name} style={{ position: 'absolute', left: RULES.x, top: RULES.top + i * RULES.step, display: 'flex', alignItems: 'center', gap: 26, opacity: a, transform: `translateX(${lerp(80, 0, a)}px)` }}>
                 <Check f={f} at={at} done={pop(f, at, { damping: 11, stiffness: 190 })} />
-                <div style={{ width: 370 * 1.45, height: 122 * 1.45 }}><div style={{ transformOrigin: '0 0', transform: 'scale(1.45)' }}><RuleTile r={r} /></div></div>
+                <div style={{ width: 370 * RULES.scale, height: 122 * RULES.scale }}><div style={{ transformOrigin: '0 0', transform: `scale(${RULES.scale})` }}><RuleTile r={r} /></div></div>
               </div>
             );
           })}
-          <div style={{ position: 'absolute', left: 1040, top: 840, display: 'flex', alignItems: 'center', gap: 22 }}>
+          <div style={{ position: 'absolute', left: RULES.x, top: RULES.result, display: 'flex', alignItems: 'center', gap: 22 }}>
             <div style={big(44, '#fff', 700)}><BlurText f={f} text="Followed your plan" start={sec(T.result)} stagger={0.06} /></div>
             <div style={{ padding: '9px 20px', borderRadius: 999, background: A.accent, color: A.ink, fontFamily: DISPLAY, fontSize: 22, fontWeight: 700, opacity: prog(f, sec(T.result + 0.3), sec(0.25), OUT), transform: `scale(${lerp(0.7, 1, pop(f, sec(T.result + 0.3), { damping: 12 }))})`, boxShadow: `0 0 24px ${A.accentGlow}` }}>Discipline {trade.discipline}</div>
           </div>
@@ -328,9 +347,14 @@ export const ProductFlow: React.FC = () => {
 
 /* ---------- Shadow Self ---------- */
 export const ShadowSelf: React.FC = () => {
-  const f = useCurrentFrame();
-  const KS = 1.55, KW = 280, KH = 119, gap = 30, x0 = (1920 - (3 * KW * KS + 2 * gap)) / 2;
-  const CW = 3 * KW * KS + 2 * gap, CSs = CW / 1180, LW = 1140, LH = 290;
+  const f = useCurrentFrame(); const { W, V } = useFormat();
+  const KS = 1.55, KW = 280, KH = 119, gap = 30, x0 = (W - (3 * KW * KS + 2 * gap)) / 2;
+  const CW = 3 * KW * KS + 2 * gap, CSs = CW / 1180;
+  /* hochkant: Disziplin-Kosten groß über die ganze Breite, darunter „Actual“ und „Shadow Self“, unten der Verlauf */
+  const VW = 896, vx = (W - VW) / 2, BIG = VW / KW, SMALL = (VW - 28) / 2 / KW;
+  const tilePos = (i: number) => (V ? (i === 0 ? { left: vx, top: 230, s: BIG } : { left: vx + (i - 1) * ((VW + 28) / 2), top: 230 + KH * BIG + 30, s: SMALL }) : { left: x0 + i * (KW * KS + gap), top: 120, s: KS });
+  const chart = V ? { left: vx, top: 230 + KH * BIG + 30 + KH * SMALL + 30, w: 640, h: 470, s: VW / 640 } : { left: x0, top: 340, w: 1180, h: 400, s: CSs };
+  const LW = chart.w - 40, LH = V ? 340 : 290;
   const draw = prog(f, sec(0.35), sec(1.9), SIG);
   const cost = num(shadow.cost) * prog(f, sec(0.4), sec(1.6), OUT);
   const ends = shadowEnds(shadow.real, shadow.ideal, LW, LH); const gapA = pop(f, sec(2.35), { damping: 14 });
@@ -345,7 +369,7 @@ export const ShadowSelf: React.FC = () => {
       <Bg f={f} kind="mint" />
       <AbsoluteFill style={{ transform: `scale(${push})` }}>
         {tiles.map((c, i) => (
-          <div key={i} style={{ position: 'absolute', left: x0 + i * (KW * KS + gap), top: 120, width: KW, height: KH, transformOrigin: '0 0', transform: `scale(${KS})`, ...enter(f, i * 0.08) }}>
+          <div key={i} style={{ position: 'absolute', left: tilePos(i).left, top: tilePos(i).top, width: KW, height: KH, transformOrigin: '0 0', transform: `scale(${tilePos(i).s})`, ...enter(f, i * 0.08) }}>
             <Card tile x={0} y={0} w={KW} h={KH} style={{ boxShadow: '0 40px 70px -30px rgba(6,40,20,0.5)' }}>
               <TileHead n={c.n || undefined}>{c.label}</TileHead>
               <Val size={c.size} color={c.color} style={{ marginTop: c.size > 30 ? 10 : 16 }}>{c.value}</Val>
@@ -353,9 +377,9 @@ export const ShadowSelf: React.FC = () => {
             </Card>
           </div>
         ))}
-        <div style={{ position: 'absolute', left: x0, top: 340, width: 1180, height: 400, transformOrigin: '0 0', transform: `scale(${CSs})`, ...enter(f, 0.2) }}>
-          <Card x={0} y={0} w={1180} h={400} style={{ boxShadow: '0 60px 100px -40px rgba(6,40,20,0.55)' }}>
-            <CardTitle right={<div style={{ display: 'flex', gap: 16, fontSize: 12, color: A.muted }}><span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><i style={{ width: 8, height: 8, borderRadius: 4, background: A.text2 }} />Actual</span><span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><i style={{ width: 8, height: 8, borderRadius: 4, background: A.accent }} />Shadow Self</span></div>}>Equity: actual vs. Shadow Self</CardTitle>
+        <div style={{ position: 'absolute', left: chart.left, top: chart.top, width: chart.w, height: chart.h, transformOrigin: '0 0', transform: `scale(${chart.s})`, ...enter(f, 0.2) }}>
+          <Card x={0} y={0} w={chart.w} h={chart.h} style={{ boxShadow: '0 60px 100px -40px rgba(6,40,20,0.55)' }}>
+            <CardTitle right={V ? undefined : <div style={{ display: 'flex', gap: 16, fontSize: 12, color: A.muted }}><span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><i style={{ width: 8, height: 8, borderRadius: 4, background: A.text2 }} />Actual</span><span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><i style={{ width: 8, height: 8, borderRadius: 4, background: A.accent }} />Shadow Self</span></div>}>Equity: actual vs. Shadow Self</CardTitle>
             <div style={{ position: 'absolute', left: 20, top: 70 }}>
               <ShadowLines a={shadow.real} b={shadow.ideal} w={LW} h={LH} t={draw} />
               {gapA > 0.01 ? (

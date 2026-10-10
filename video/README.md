@@ -1,7 +1,8 @@
 # Journalyst – Launch-Video
 
 Launch-Video im Stil von „Numtera“ (ObiN Studio, https://www.youtube.com/watch?v=awUYikrGsKk), in Journalyst-Grün.
-1920 × 1080, 60 fps, 47,5 Sekunden, Englisch. Ton: nur Sound-Effekte (Tippen, Klicks, leises Antippen, Häkchen-Töne,
+1920 × 1080 (`journalyst.mp4`) und hochkant 1080 × 1920 fürs Handy (`journalyst-vertical.mp4`), 60 fps, 47,5 Sekunden, Englisch.
+Beide Fassungen kommen aus denselben Szenen; jede Szene liest das Format (`src/format.ts`) und ordnet sich danach an. Ton: nur Sound-Effekte (Tippen, Klicks, leises Antippen, Häkchen-Töne,
 Übergänge), komplett synthetisch erzeugt (`scripts/sound.py`), ohne fremde Samples, also ohne Lizenz nutzbar, auch auf
 Social Media. Ein eigener Beat (120 BPM, A-Moll) ist im Skript vorhanden, aber ausgeschaltet (`WITH_MUSIC = False`).
 
@@ -39,9 +40,10 @@ npm run fonts                 # Satoshi und Onest nach public/fonts (nicht im Re
 npm run capture               # schreibt src/data/app.json
 python3 scripts/sound.py      # Effekte nach public/audio/sound.wav (braucht numpy und scipy)
 
-npm run stills -- 7.5s 21s    # einzelne Bilder nach out/stills/ zur Sichtkontrolle
+npm run stills -- 7.5s 21s    # einzelne Bilder nach out/stills/ zur Sichtkontrolle (hochkant: COMP=JournalystVertical)
 npm run studio                # Vorschau
-npm run render                # out/journalyst.mp4
+npm run render                # out/journalyst.mp4 (quer)
+npm run render:vertical       # out/journalyst-vertical.mp4 (hochkant, Reels/TikTok/Shorts)
 ```
 
 Die Aufnahme setzt die Uhr der App auf Mittwoch, 30.09.2026, damit die Beispieldaten den Monat füllen, und loggt einen
@@ -63,6 +65,7 @@ src/ui/Text.tsx          Schreibmaschine, Buchstaben und Wörter aus der Unschä
 src/ui/Bg.tsx            weiche grüne Verläufe
 src/anim.ts              Kurven, Feder, Kamera
 src/theme.ts             Farben und Schrift
+src/format.ts            quer oder hochkant
 scripts/sound.py         Effekte (Beat optional), Zeitpunkte passend zu den Animationen
 ```
 

@@ -4,12 +4,14 @@ import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
 import { big, DISPLAY, GREEN, INK } from '../theme';
 import { Bg, BgKind } from '../ui/Bg';
+import { useFormat } from '../format';
 import { BlurText } from '../ui/Text';
 
 /* Eine Zeile auf vollem Grund: Wörter aus der Unschärfe oder die ganze Zeile skaliert herein */
 export const Statement: React.FC<{ text: string; bg: BgKind; color?: string; size?: number; mode?: 'words' | 'scale'; accent?: number; accentColor?: string; start?: number }> = ({ text, bg, color = INK, size = 124, mode = 'words', accent, accentColor = GREEN, start = 0.35 }) => {
-  const f = useCurrentFrame();
+  const f = useCurrentFrame(); const { V } = useFormat();
   const s = prog(f, sec(start), sec(0.9), OUT);
+  const wrap: React.CSSProperties = V ? { whiteSpace: 'normal', maxWidth: 880, textAlign: 'center', lineHeight: 1.08 } : {};
   const push = zoomLerp(1, 1.04, prog(f, 0, sec(2.2), SIG));
   return (
     <AbsoluteFill>
@@ -18,7 +20,7 @@ export const Statement: React.FC<{ text: string; bg: BgKind; color?: string; siz
         {mode === 'scale' ? (
           <div style={{ ...big(size, color), opacity: s, filter: s < 1 ? `blur(${lerp(22, 0, s).toFixed(2)}px)` : undefined, transform: `scale(${lerp(0.86, 1, s)})` }}>{text}</div>
         ) : (
-          <div style={big(size, color)}><BlurText f={f} text={text} start={sec(start)} stagger={0.09} dur={0.75} color={(i) => (i === accent ? accentColor : color)} /></div>
+          <div style={{ ...big(V ? Math.min(size, 120) : size, color), ...wrap }}><BlurText f={f} text={text} start={sec(start)} stagger={0.09} dur={0.75} color={(i) => (i === accent ? accentColor : color)} /></div>
         )}
       </AbsoluteFill>
     </AbsoluteFill>

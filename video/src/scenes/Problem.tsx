@@ -4,6 +4,7 @@ import { AbsoluteFill, continueRender, delayRender, useCurrentFrame } from 'remo
 import { EXPO_IN, lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
 import { DISPLAY, GREY, INK, NUM, big } from '../theme';
 import { fontsReady } from '../fonts';
+import { useFormat } from '../format';
 import { Typed, useMetrics } from '../ui/Text';
 
 const RED = '#e03e3e';
@@ -22,6 +23,11 @@ const Candles: React.FC = () => {
 };
 
 type C = { x: number; y: number; w: number; rot: number; at: number; body: React.ReactNode };
+/* Lage der Karten im Hochformat (gleiche Reihenfolge wie CARDS): oben und unten um den Satz herum */
+const POS_V = [
+  { x: 70, y: 330, rot: -4 }, { x: 660, y: 470, rot: 5 }, { x: 80, y: 1240, rot: 3 }, { x: 610, y: 1150, rot: -3 },
+  { x: 330, y: 150, rot: -2 }, { x: 330, y: 1620, rot: 2 }, { x: 40, y: 650, rot: -6 }, { x: 740, y: 1440, rot: 6 },
+];
 const CARDS: C[] = [
   { x: 140, y: 130, w: 370, rot: -4, at: 1.65, body: (<>
     <div style={{ ...small, display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, borderRadius: 3, background: '#1d7a46' }} />trades_final_v3.xlsx</div>
@@ -47,9 +53,10 @@ const CARDS: C[] = [
   { x: 1600, y: 450, w: 290, rot: 6, at: 4.25, body: (<><div style={small}>This week</div><div style={{ fontFamily: NUM, fontSize: 40, fontWeight: 700, color: RED, marginTop: 4, letterSpacing: '-0.02em' }}>−$1,284.50</div></>) },
 ];
 
-const Cards: React.FC<{ f: number }> = ({ f }) => (
+const Cards: React.FC<{ f: number; V: boolean }> = ({ f, V }) => (
   <>
-    {CARDS.map((c, i) => {
+    {CARDS.map((c0, i) => {
+      const c = V ? { ...c0, ...POS_V[i] } : c0;
       const s = pop(f, sec(c.at)); const a = prog(f, sec(c.at), sec(0.3), OUT);
       if (a <= 0) return null;
       const dx = Math.sin((f + i * 47) / 95) * 7, dy = Math.cos((f + i * 31) / 120) * 9;
@@ -58,12 +65,10 @@ const Cards: React.FC<{ f: number }> = ({ f }) => (
   </>
 );
 
-const SIZE = 116;
-const line: React.CSSProperties = { position: 'absolute', left: 0, right: 0, top: 540 - SIZE * 0.55, textAlign: 'center', ...big(SIZE) };
 
 /* Lage eines Zeichens in der zentrierten Zeile: relativ zur Zeile gemessen (beim ersten Rendern hat das Bild noch keine Breite),
    dann auf die Bildmitte umgerechnet */
-const useCharBox = () => {
+const useCharBox = (cx: number, top: number) => {
   const ref = useRef<HTMLSpanElement>(null); const [box, setBox] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
   const [handle] = useState(() => delayRender('Zeichen messen'));
   useLayoutEffect(() => {
@@ -72,7 +77,7 @@ const useCharBox = () => {
       const el = ref.current; const span = el?.parentElement; const row = span?.parentElement;
       if (el && span && row) {
         const r = el.getBoundingClientRect(), s = span.getBoundingClientRect(), l = row.getBoundingClientRect(); const k = s.width / span.offsetWidth || 1;
-        setBox({ x: 960 - span.offsetWidth / 2 + (r.left - s.left) / k, y: (line.top as number) + (r.top - l.top) / k, w: r.width / k, h: r.height / k });
+        setBox({ x: cx - span.offsetWidth / 2 + (r.left - s.left) / k, y: top + (r.top - l.top) / k, w: r.width / k, h: r.height / k });
       }
       if (!done) { done = true; continueRender(handle); }
     });
@@ -83,18 +88,21 @@ const useCharBox = () => {
 
 export const Problem: React.FC = () => {
   const f = useCurrentFrame();
+  const { V, cx, cy } = useFormat();
+  const SIZE = V ? 84 : 116;
+  const line: React.CSSProperties = { position: 'absolute', left: 0, right: 0, top: cy - SIZE * 0.55, textAlign: 'center', ...big(SIZE) };
   /* Mitte des „o“ in „loss“: waagerecht aus dem Layout einer unsichtbaren Kopie der Zeile, senkrecht aus der Grundlinie
      und der Höhe des „o“ (Canvas-Maße derselben Schrift) */
   const LOSS = 'Same loss… again?';
   const mt = useMetrics(`700 ${SIZE}px Satoshi`, `${(-0.035 * SIZE).toFixed(2)}px`, ['o']);
-  const [oRef, oBox] = useCharBox();
+  const [oRef, oBox] = useCharBox(cx, line.top as number);
   /* A „Same mistake,“  B „Different day.“  C markiert und gelöscht  D an derselben Stelle weiter: „Same loss… again?“ */
   const A = sec(1.5), B = sec(3.0), D = sec(3.75), FLY = sec(5.65);
   /* Kamera: B zieht langsam auf, D fährt auf das „o“ zu und fliegt hindurch */
-  let scale = 1, origin = '960px 540px';
+  let scale = 1, origin = `${cx}px ${cy}px`;
   if (f >= A && f < D) scale = zoomLerp(1.12, 1, prog(f, A, sec(1.6), OUT));
   if (f >= D) {
-    let ox = 960, oy = 540;
+    let ox = cx, oy = cy;
     if (mt && oBox) {
       const [o] = mt; const base = oBox.y + (oBox.h - (o.fAsc + o.fDesc)) / 2 + o.fAsc;
       ox = oBox.x + oBox.w / 2; oy = base - (o.asc - o.desc) / 2;
@@ -110,7 +118,7 @@ export const Problem: React.FC = () => {
       {/* unsichtbare Messkopie der Zeile, ohne Kamera */}
       <div style={{ ...line, visibility: 'hidden' }}><Typed f={0} text={LOSS} start={1e9} caret={false} markIndex={6} markRef={oRef} /></div>
       <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: origin }}>
-        {f >= A ? <Cards f={f} /> : null}
+        {f >= A ? <Cards f={f} V={V} /> : null}
         {f < A ? <div style={line}><Typed f={f} text="Same mistake," start={sec(0.15)} /></div> : null}
         {f >= A && f < D ? (
           <div style={line}>

@@ -12,7 +12,10 @@
     "render:vertical": "remotion render JournalystVertical out/journalyst-vertical.mp4",
     "sound2": "python3 scripts/sound2.py",
     "render2": "remotion render Journalyst2 out/journalyst-2.mp4",
-    "render2:vertical": "remotion render Journalyst2Vertical out/journalyst-2-vertical.mp4"
+    "render2:vertical": "remotion render Journalyst2Vertical out/journalyst-2-vertical.mp4",
+    "sound3": "python3 scripts/sound3.py",
+    "render3": "remotion render Journalyst3 out/journalyst-3.mp4",
+    "render3:vertical": "remotion render Journalyst3Vertical out/journalyst-3-vertical.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.534",

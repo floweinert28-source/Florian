@@ -49,6 +49,29 @@ Journalyst-Design und mit echten Werten aus der App: `journalyst-2.mp4` (quer) u
 | 25,6–29 s | Das Abzeichen hüpft über „Log.“ „Review.“ „Improve.“ | „Translate. Dub. Distribute“ |
 | 29–34,4 s | Wortmarke JOURNALYST, darunter getippt „The trading journal for discipline.“ | Logo und Adresse |
 
+## Video 3: nach der Vorlage „Outbidd“
+
+Drittes Launch-Video mit Aufbau und Bewegungen der Vorlage https://youtu.be/otlWhoTRUsw, im dunklen Journalyst-Design
+und mit echten Werten aus der App: `journalyst-3.mp4` (quer) und `journalyst-3-vertical.mp4` (hochkant), 60 fps, 62,5 Sekunden.
+Nur Sound-Effekte (`scripts/sound3.py`), keine Musik. Code in `src/v3/`.
+
+| Zeit | Szene | Entspricht in der Vorlage |
+| --- | --- | --- |
+| 0–2 s | „What if“ zwischen wachsenden grünen Rauten, Flug in die mittlere, sie wird zur Leit-Raute | „What if“, lila Rauten |
+| 2–6,4 s | „You could follow“, Wisch, „your trading plan“, die Raute fliegt ans Satzende, Ringe | „You could pick / the right contractor“ |
+| 6,4–7,5 s | „Every time?“ mit Verlauf und Leuchten | „Everytime?“ |
+| 7,5–11,1 s | „No more spreadsheets“ getippt, Hinweis-Karten springen auf; „And scattered notes.“, Klick auf „Done“ | „No more Dropbox links / And buried emails“ |
+| 11,1–15 s | „All your trades“ → „All in one place“, Dashboard gleitet herein, Flug in die Tagesbalken | „All your projects / All in one place“, Karte |
+| 15–17 s | Kalender September mit den echten Tagesergebnissen, Hinweis am 29., Klick „Review day“ | Karte mit Pin, Klick |
+| 17–20,8 s | Tagesansicht 29. September, „Forget“ / „messy spreadsheets“ → „forgotten lessons“, Journal-Karte hebt sich | „Forget / fragmented files / missed calls“ |
+| 20,8–24,5 s | „All“ + Trades, Rules, Notebook, Statistics, Shadow Self, Blind Replay mit grüner Markierung, Flug durch die Raute | „All“ + Budgeting, Documents … |
+| 24,5–27,6 s | „See the patterns you miss.“ | „Get the answers you need“ |
+| 27,6–40,6 s | „Build your trading plan“: Regel „Never move the stop“ tippen, 3D-Wechsel, Setup „Opening Range Breakout“ suchen und hinzufügen, Review mit Häkchen, „Save plan“ | „Send out to bid“, Schritte 2–4 |
+| 40,6–48 s | Seitenleiste, „Shadow Self“ → „September 2026 · Active“, „Review your month in minutes / not hours.“, Schalter Shadow Self, Disziplin-Kosten zählen | Seitenleiste → Bids Overview |
+| 48–52,9 s | Shadow Self zählt hoch, Trade-Prüfung des DAX-Trades, Discipline zählt bis 80 | Zahlen laufen, Bid Breakdown |
+| 52,9–57,4 s | „Your plan.“ → „Your rules.“, drei Aktions-Menüs kreisen, Klicks | „Your process / Your control“ |
+| 57,4–62,5 s | „The way journaling should be“ mit Raute, dann die Wortmarke JOURNALYST | „The way bidding should be“, Logo |
+
 ## So entsteht es
 
 ```bash
@@ -70,6 +93,10 @@ npm run render:vertical       # out/journalyst-vertical.mp4 (hochkant, Reels/Tik
 npm run sound2                # Effekte für Video 2 nach public/audio/sound2.wav
 npm run render2               # out/journalyst-2.mp4 (Video 2, quer)
 npm run render2:vertical      # out/journalyst-2-vertical.mp4 (Video 2, hochkant)
+
+npm run sound3                # Effekte für Video 3 nach public/audio/sound3.wav
+npm run render3               # out/journalyst-3.mp4 (Video 3, quer)
+npm run render3:vertical      # out/journalyst-3-vertical.mp4 (Video 3, hochkant)
 ```
 
 Die Aufnahme setzt die Uhr der App auf Mittwoch, 30.09.2026, damit die Beispieldaten den Monat füllen, und loggt einen
@@ -96,6 +123,8 @@ scripts/sound.py         Effekte (Beat optional), Zeitpunkte passend zu den Anim
 src/v2/Launch2.tsx       Video 2: Zeitplan; Hook, Phones, Score, Edge, Finale sind die Abschnitte
 src/ui/Hand.tsx          Zeigehand mit Klick; src/ui/Confetti.tsx Konfetti; src/ui/Phone.tsx Handys mit App-Bildschirmen
 scripts/sound2.py        Effekte für Video 2
+src/v3/Launch3.tsx       Video 3: Zeitplan; Open, Chaos, Overview, List, Plan, Review, Outro; Bausteine in src/v3/Parts.tsx
+scripts/sound3.py        Effekte für Video 3
 ```
 
 Bewegungsregeln: `.claude/skills/motion-rules` im Repo-Root.

@@ -186,16 +186,16 @@ export const DayBars: React.FC<{ values: number[]; w: number; h: number; t: numb
   );
 };
 /* Shadow Self: echt (text-2) gegen Schatten-Ich (Akzent) */
-export const ShadowLines: React.FC<{ a: number[]; b: number[]; w: number; h: number; t: number }> = ({ a, b, w, h, t }) => {
+export const ShadowLines: React.FC<{ a: number[]; b: number[]; w: number; h: number; t: number; tb?: number }> = ({ a, b, w, h, t, tb = t }) => {
   const L = 62; const W = w - L; const s = fit([a, b], W, h, false); const pa = s.pts(a), pb = s.pts(b); const la = smooth(pa), lb = smooth(pb);
-  const ea = evolvePath(clamp01(t), la), eb = evolvePath(clamp01(t), lb);
+  const ea = evolvePath(clamp01(t), la), eb = evolvePath(clamp01(tb), lb);
   return (
     <svg width={w} height={h} style={{ overflow: 'visible' }}>
       {ticks(s.lo, s.hi, 5).map((v) => <g key={v}><line x1={L} x2={w} y1={s.y(v)} y2={s.y(v)} stroke={A.border} /><text x={L - 12} y={s.y(v) + 4} textAnchor="end" style={{ fontFamily: NUM, fontSize: 11.5, fill: A.text2 }}>{axisMoney(v)}</text></g>)}
       <g transform={`translate(${L}, 0)`}>
         <path d={la} fill="none" stroke={A.text2} strokeWidth={2} strokeLinecap="round" strokeDasharray={ea.strokeDasharray} strokeDashoffset={ea.strokeDashoffset} />
         <path d={lb} fill="none" stroke={A.accent} strokeWidth={2.4} strokeLinecap="round" strokeDasharray={eb.strokeDasharray} strokeDashoffset={eb.strokeDashoffset} />
-        {t >= 1 ? <><circle cx={pa[pa.length - 1][0]} cy={pa[pa.length - 1][1]} r={4} fill={A.text2} /><circle cx={pb[pb.length - 1][0]} cy={pb[pb.length - 1][1]} r={4.5} fill={A.accent} /></> : null}
+        {t >= 1 ? <circle cx={pa[pa.length - 1][0]} cy={pa[pa.length - 1][1]} r={4} fill={A.text2} /> : null}{tb >= 1 ? <circle cx={pb[pb.length - 1][0]} cy={pb[pb.length - 1][1]} r={4.5} fill={A.accent} /> : null}
       </g>
     </svg>
   );

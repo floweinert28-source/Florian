@@ -2997,18 +2997,18 @@ a.coach-name:hover { color: var(--accent); }
 }
 
 /* Ausgewählt mit Rahmen (Reiter, Segmente, Chips, Karten, Akzent-Knöpfe): statt flacher Fläche mit Rand fällt Licht von
-   oben links ein, der Rand ist ein Lichtverlauf (oben links hell, an den Seiten leise, unten rechts ein schwacher Reflex),
-   dazu eine feine Kante oben innen und ein weicher Schein darunter. --lc setzt die Lichtfarbe (Standard: Akzent). */
+   oben links ein, der Rand ist ein Lichtverlauf (oben links heller, an den Seiten leise, unten rechts ein schwacher Reflex),
+   dazu eine feine Kante oben innen; bewusst ruhig, ohne Schein darunter (wie „Trade loggen“). --lc setzt die Lichtfarbe (Standard: Akzent). */
 .seg button[aria-pressed="true"], .swatch[aria-pressed="true"], .chip.sel[aria-pressed="true"], .rating button[aria-pressed="true"],
 .tabs button[aria-pressed="true"], .tabs a[aria-pressed="true"], .folder.active, .nb .tagpill[aria-pressed="true"],
 .fd-seg button[aria-pressed="true"], .fd-tog button[aria-pressed="true"], .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"],
 .pair-card[aria-pressed="true"], .rp-chip[aria-pressed="true"], .prop-tabs a[aria-pressed="true"], .sb-user.active, .btn.accent {
-  border-color: transparent; color: color-mix(in srgb, var(--lc, var(--accent)) 84%, var(--text));
+  border-color: transparent; color: color-mix(in srgb, var(--lc, var(--accent)) 88%, var(--text));
   background:
-    radial-gradient(110% 130% at 10% 0%, color-mix(in srgb, var(--lc, var(--accent)) 19%, transparent), transparent 62%) padding-box,
-    linear-gradient(180deg, color-mix(in srgb, var(--lc, var(--accent)) 8%, var(--surface-2)), color-mix(in srgb, var(--lc, var(--accent)) 3%, var(--surface))) padding-box,
-    linear-gradient(155deg, color-mix(in srgb, var(--lc, var(--accent)) 82%, var(--text)) 0%, color-mix(in srgb, var(--lc, var(--accent)) 38%, var(--border-2)) 30%, color-mix(in srgb, var(--lc, var(--accent)) 14%, var(--border)) 62%, color-mix(in srgb, var(--lc, var(--accent)) 34%, var(--border-2)) 100%) border-box;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 8px 22px -14px color-mix(in srgb, var(--lc, var(--accent)) 60%, transparent);
+    radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--lc, var(--accent)) 10%, transparent), transparent 60%) padding-box,
+    linear-gradient(180deg, color-mix(in srgb, var(--lc, var(--accent)) 4%, var(--surface-2)), var(--surface)) padding-box,
+    linear-gradient(155deg, color-mix(in srgb, var(--lc, var(--accent)) 50%, var(--border-2)) 0%, color-mix(in srgb, var(--lc, var(--accent)) 22%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--lc, var(--accent)) 14%, var(--border-2)) 100%) border-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 /* Akzent-Knopf (z. B. „Trade loggen“): Form und Fläche wie die anderen Knöpfe, nur ein Hauch Licht von oben links und ein
    leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht */
@@ -3023,4 +3023,4 @@ a.coach-name:hover { color: var(--accent); }
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .rp-chip, .prop-tabs a)[aria-pressed="true"],
 :root[data-theme="light"] .folder.active, :root[data-theme="light"] .btn.accent { color: var(--lc, var(--accent)); }
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .lang-card, .font-card, .pair-card, .rp-chip, .prop-tabs a)[aria-pressed="true"],
-:root[data-theme="light"] .folder.active, :root[data-theme="light"] .sb-user.active, :root[data-theme="light"] .btn.accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 16px -12px color-mix(in srgb, var(--lc, var(--accent)) 70%, transparent); }
+:root[data-theme="light"] .folder.active, :root[data-theme="light"] .sb-user.active, :root[data-theme="light"] .btn.accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }

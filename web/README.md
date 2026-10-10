@@ -180,9 +180,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   erscheinen im Farbwähler und in der Akzentreihe und lassen sich mit × löschen. **Meine Designs**: Erscheinungsbild, Schrift und alle
   Farben als Paket speichern, mit einem Klick anwenden, löschen; höchstens 6.
   Die Wahl gilt für die ganze Website inklusive Startseite.
-  Der Akzent-Knopf „Trade loggen“ hat Form und Fläche wie die anderen Knöpfe, nur einen leisen grünen Rand und einen Hauch Licht.
-  Ausgewählte Knöpfe und Karten mit Rahmen (Reiter, Segmente, Chips, Schrift-/Farbkarten) sind beleuchtet:
-  Licht fällt von oben links ein, der Rand ist ein Lichtverlauf, dazu eine feine Kante oben innen und ein weicher Schein darunter
+  Der Akzent-Knopf „Trade loggen“ und alle ausgewählten Knöpfe und Karten mit Rahmen (Reiter, Segmente, Chips, Schrift-/Farbkarten)
+  haben dasselbe ruhige Licht: ein Hauch Licht von oben links, ein leiser Rand als Lichtverlauf und eine feine Kante oben innen, kein Schein darunter
   (ein gemeinsamer Stil am Ende von `css/app.css`, Lichtfarbe über `--lc`, z. B. Rot bei Fehler-Chips).
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.
   Trades zeigen ihr exaktes R, ohne Stop „– R“; Summen werden über eine R-Einheit umgerechnet (Median des Risikos

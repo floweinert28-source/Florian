@@ -173,7 +173,7 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag ruhig wie „Trade loggen“: ein Hauch Licht von oben links, feiner Rand, oben links leise grün, kein Schein nach außen */
+/* aktiver Eintrag ruhig und neutral: ein Hauch Licht von oben links, feiner Rand, kein Schein nach außen; der kleine Balken links ist der einzige Akzent */
 .nav a.active {
   overflow: visible; color: var(--text); font-weight: 600;
   background: var(--surface-2); border-color: var(--border-2);
@@ -182,9 +182,9 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 @supports (background: color-mix(in srgb, red 50%, blue)) {
   .nav a.active {
     background:
-      radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%) padding-box,
+      radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--text) 6%, transparent), transparent 60%) padding-box,
       linear-gradient(var(--surface-2), var(--surface-2)) padding-box,
-      linear-gradient(155deg, color-mix(in srgb, var(--accent) 48%, var(--border-2)) 0%, color-mix(in srgb, var(--accent) 20%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--accent) 14%, var(--border-2)) 100%) border-box;
+      linear-gradient(155deg, color-mix(in srgb, var(--text) 26%, var(--border-2)) 0%, color-mix(in srgb, var(--text) 12%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--text) 8%, var(--border-2)) 100%) border-box;
     border-color: transparent;
   }
 }
@@ -237,7 +237,7 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .sb-user { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px 9px 9px; border-radius: 14px; border: 1px solid var(--border-2); background: var(--surface); color: var(--text); cursor: pointer; text-align: left; font: inherit; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
 .sb-user:hover { background: var(--surface-2); }
 .sb-user:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.sb-av { width: 36px; height: 36px; flex: 0 0 auto; border-radius: 999px; overflow: hidden; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 12.5px; color: var(--accent-ink); background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+.sb-av { width: 36px; height: 36px; flex: 0 0 auto; border-radius: 999px; overflow: hidden; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 12.5px; color: var(--text); background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--border-2); }
 .sb-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Hinweis-Punkt am Profilbild, wenn bei Coach etwas wartet (Coach steht im Konto-Menü) */
 .sb-avwrap { position: relative; flex: 0 0 auto; display: grid; }
@@ -265,17 +265,17 @@ html.sb-mini .sb-who, html.sb-mini .sb-chev { display: none; }
 @media (min-width: 961px) { .sidebar { z-index: 30; } } /* Desktop: Leiste über dem Inhalt, damit das Konto-Menü (eingeklappt rechts daneben) nicht unter den Karten liegt; Dialoge und Popover liegen höher */
 html.sb-mini .popover.up.sb-menu { position: fixed; top: auto; right: auto; width: 240px; z-index: 70; }
 html.sb-mini .popover.up.sb-menu.open { transform-origin: bottom left; }
-.avatar { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--accent-ink); background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 0 0 3px var(--accent-soft); cursor: pointer; border: 0; }
+.avatar { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--text); background: var(--surface-3); box-shadow: 0 0 0 1px var(--border-2); cursor: pointer; border: 0; }
 
 /* ---------- Buttons & Eingaben ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border-2);
-  background: var(--surface); color: var(--text); font-weight: 600; font-size: 13.5px; cursor: pointer; white-space: nowrap; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), color var(--dur-1) var(--ease), box-shadow var(--dur-2) var(--ease);
+  background: var(--surface); color: var(--text); font-weight: 500; font-size: 13.5px; cursor: pointer; white-space: nowrap; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), color var(--dur-1) var(--ease), box-shadow var(--dur-2) var(--ease);
 }
 .btn svg { width: 16px; height: 16px; }
 .btn:hover { background: var(--surface-2); border-color: var(--border-2); transform: translateY(-1px); }
 .btn:active { transform: scale(.97); transition-duration: 60ms; }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
 .btn.primary:hover { background: var(--accent-2); border-color: var(--accent-2); box-shadow: 0 8px 20px -10px var(--accent-glow); }
 .btn.danger { color: var(--loss); border-color: var(--loss); background: transparent; }
 .btn.danger:hover { background: var(--loss-soft); }
@@ -319,9 +319,9 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .switch[aria-checked="true"]:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); }
 .switch.no-anim, .switch.no-anim::after { transition: none !important; }
 .seg { display: inline-flex; gap: 6px; flex-wrap: wrap; }
-.seg button { padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 600; font-size: 13px; cursor: pointer; }
+.seg button { padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 500; font-size: 13px; cursor: pointer; }
 .seg button:hover { color: var(--text); background: var(--surface-2); }
-.seg button[aria-pressed="true"] { font-weight: 700; }
+.seg button[aria-pressed="true"] { font-weight: 600; }
 #f-dir button[data-value="-1"][aria-pressed="true"] { border-color: var(--loss); color: var(--loss); background: var(--loss-soft); box-shadow: inset 0 0 0 1px var(--loss); }
 .seg.pill button { border-radius: 999px; padding: 6px 12px; font-size: 12.5px; }
 .rating { display: inline-flex; gap: 4px; }
@@ -495,7 +495,11 @@ button.dp-title:hover { background: var(--surface-2); }
 .card-title { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 600; font-size: 15px; }
 span.info { display: inline-flex; width: 14px; height: 14px; color: var(--faint); vertical-align: middle; flex: 0 0 auto; cursor: help; margin-left: 2px; }
 span.info svg { width: 100%; height: 100%; }
-span.info:hover { color: var(--accent); }
+span.info:hover { color: var(--text-2); }
+/* in Karten und Kacheln erscheint das (i) erst, wenn man über die Karte fährt (auf Touch immer sichtbar) */
+.card span.info, .tile span.info, .stat-tile span.info { opacity: 0; transition: opacity var(--dur-1) var(--ease); }
+:is(.card, .tile, .stat-tile):is(:hover, :focus-within) span.info { opacity: 1; }
+@media (hover: none) { .card span.info, .tile span.info, .stat-tile span.info { opacity: 1; } }
 .card-title span.info { width: 15px; height: 15px; }
 /* kleines Symbol vor dem Kartentitel (U.card mit icon): weiches Quadrat in Akzentfarbe */
 .card-ico { flex: 0 0 auto; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 9px; color: var(--accent); background: var(--accent-soft); margin: -4px 2px -4px 0; }
@@ -514,7 +518,7 @@ span.info:hover { color: var(--accent); }
 /* KPI-Kacheln */
 .tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 15px 12px; display: flex; flex-direction: column; gap: 7px; min-width: 0; transition: border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
 .tile:hover, .stat-tile:hover { border-color: var(--border-2); transform: translateY(-2px); box-shadow: var(--lift-shadow); }
-.tile .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--text-2); }
+.tile .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 500; color: var(--text-2); }
 .tile .head .n { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; }
 /* Kachel-Titel: das Info-Symbol bleibt neben dem Text (eigene Spalte), auch wenn der Titel in enge Kacheln umbricht */
 .tile .head > span:first-child { display: flex; align-items: center; min-width: 0; }
@@ -542,7 +546,7 @@ span.info:hover { color: var(--accent); }
 .tile .gauge { flex: 0 1 auto; min-width: 0; }
 .tile .gauge svg { max-width: 100%; height: auto; }
 .pills { display: inline-flex; gap: 6px; }
-.pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
 .pill.win { background: var(--accent-soft); color: var(--accent); }
 .pill.be { background: var(--be-soft); color: var(--be); }
 .pill.loss { background: var(--loss-soft); color: var(--loss); }
@@ -589,10 +593,10 @@ span.info:hover { color: var(--accent); }
 /* ---------- Tabellen ---------- */
 .tbl-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .tbl { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 640px; }
-.tbl th { text-align: left; padding: 13px 14px; font-size: 12px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; background: var(--surface); position: sticky; top: 0; }
+.tbl th { text-align: left; padding: 13px 14px; font-size: 12px; font-weight: 500; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; background: var(--surface); position: sticky; top: 0; }
 .tbl th.sortable { cursor: pointer; user-select: none; }
 .tbl th.sortable:hover { color: var(--text); }
-.tbl th .dir { font-size: 10px; margin-left: 4px; color: var(--accent); }
+.tbl th .dir { font-size: 10px; margin-left: 4px; color: var(--text-2); }
 .tbl td { padding: 12px 14px; border-bottom: 1px solid var(--border); white-space: nowrap; vertical-align: middle; }
 .tbl tbody tr:last-child td { border-bottom: 0; }
 .tbl tbody tr.link { cursor: pointer; }
@@ -614,13 +618,13 @@ span.info:hover { color: var(--accent); }
 .tbl.wrap td { white-space: normal; }
 
 /* Long/Short-Abzeichen: ruhig, damit es neben Symbol und P&L nicht heraussticht – zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis */
-.badge { --c: var(--accent); display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px 0 4px; border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; line-height: 1; white-space: nowrap; vertical-align: middle;
+.badge { --c: var(--accent); display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px 0 4px; border-radius: 999px; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; line-height: 1; white-space: nowrap; vertical-align: middle;
   color: color-mix(in srgb, var(--c) 80%, var(--text)); border: 1px solid color-mix(in srgb, var(--c) 16%, transparent); background: color-mix(in srgb, var(--c) 8%, transparent); }
 .badge.s { --c: var(--loss); }
 .badge .bi { display: grid; place-items: center; width: 15px; height: 15px; border-radius: 50%; background: color-mix(in srgb, var(--c) 20%, transparent); flex: none; }
 .badge .bi svg { width: 9px; height: 9px; color: var(--c); }
-.chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--surface-3); color: var(--text-2); border: 1px solid transparent; }
-.chip.setup { background: var(--accent-soft); color: var(--accent); }
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--surface-3); color: var(--text-2); border: 1px solid transparent; }
+.chip.setup { background: var(--surface-3); color: var(--text-2); border-color: var(--border); }
 .chip.mistake { background: var(--loss-soft); color: var(--loss); }
 .chip.emotion { background: var(--be-soft); color: var(--be); }
 .chip.rule { background: var(--warn-soft); color: var(--warn); }
@@ -656,7 +660,7 @@ span.info:hover { color: var(--accent); }
 .bar-row .track { height: 7px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
 .bar-row .track i { display: block; height: 100%; border-radius: 4px; }
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
-.tabs button { padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 600; font-size: 13.5px; cursor: pointer; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.tabs button { padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 500; font-size: 13.5px; cursor: pointer; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .tabs button:hover { color: var(--text); }
 .banner { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 12px; border: 1px solid; font-size: 13px; }
 .banner svg { width: 18px; height: 18px; flex: 0 0 auto; margin-top: 1px; }
@@ -1338,7 +1342,7 @@ span.info:hover { color: var(--accent); }
 .page-head .ph-note { font-size: 12.5px; color: var(--muted); }
 .page-head .dh-context:has(> .nb-search) { flex: 1 1 380px; min-width: 0; } /* Notebook: Suche statt Zeitraum und Konto */
 .page-head .dh-context > .nb-search { flex: 1 1 auto; min-width: 0; }
-.btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
+.btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 11px; font-weight: 700; }
 /* Filter-Seitenleiste: vier aufklappbare Bereiche, Zeilen mit Beschriftung links und Bedienung rechts */
 .fd-panel { --sp-pad: 16px; }
 /* Filter als Fenster unter dem Knopf (Größe und Lage setzt dash-filter.js) */
@@ -1418,7 +1422,7 @@ span.info:hover { color: var(--accent); }
 .fd-foot { display: flex; justify-content: space-between; gap: 10px; margin: 0 calc(-1 * var(--sp-pad)); padding: 14px var(--sp-pad) 16px; border-top: 1px solid var(--border); background: var(--surface); }
 .fd-foot .btn.primary { gap: 8px; }
 .fd-foot .fd-n { padding-left: 8px; margin-left: 2px; border-left: 1px solid color-mix(in srgb, var(--accent-ink) 30%, transparent); font-weight: 600; opacity: .85; }
-.fd-panel .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; }
+.fd-panel .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 11px; font-weight: 700; }
 .fd-panel .sp-head h2 .cntb { vertical-align: 3px; }
 @media (max-width: 560px) { .fd-l { flex-direction: column; gap: 2px; } }
 /* Handy: der „Anwenden“-Knopf passt sich der Breite an (die Trade-Anzahl im Knopf wechselt), nichts ragt heraus */
@@ -1719,6 +1723,8 @@ span.info:hover { color: var(--accent); }
 .tbl-wrap.paged { overflow: hidden; display: flex; flex-direction: column; }
 .tbl-wrap.paged .tbl-scroll { max-height: 530px; overflow: auto; overscroll-behavior: contain; }
 .tbl-wrap.paged .tbl th { z-index: 2; }
+/* TradeLog: etwas engere Zellen, damit alle Spalten ohne seitliches Scrollen ins Fenster passen */
+.tl-fit .tbl th, .tl-fit .tbl td { padding-left: 10px; padding-right: 10px; }
 .pager { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-2); background: var(--surface); flex-wrap: wrap; }
 .pager .pg-l { display: inline-flex; align-items: center; gap: 8px; }
 .pager .pg-sep { width: 1px; height: 26px; background: var(--border-2); }
@@ -1786,7 +1792,7 @@ span.info:hover { color: var(--accent); }
 .set-nav a svg { width: 19px; height: 19px; color: var(--muted); flex: 0 0 auto; }
 .set-nav a:hover { background: var(--surface-2); color: var(--text); }
 .set-nav a.active { background: var(--surface-2); color: var(--text); font-weight: 600; }
-.set-nav a.active svg { color: var(--accent); }
+.set-nav a.active svg { color: var(--text); }
 .set-nav hr { border: 0; border-top: 1px solid var(--border); margin: 8px 6px; }
 .set-body { min-width: 0; display: flex; flex-direction: column; gap: 22px; }
 .set-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
@@ -1885,7 +1891,7 @@ span.info:hover { color: var(--accent); }
 html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color: var(--text); }
 /* Profil: Foto */
 .avatar-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-.avatar-big { position: relative; width: 84px; height: 84px; border-radius: 999px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--accent-ink); font-weight: 700; font-size: 26px; cursor: pointer; overflow: hidden; flex: 0 0 auto; }
+.avatar-big { position: relative; width: 84px; height: 84px; border-radius: 999px; display: grid; place-items: center; background: var(--surface-3); color: var(--text); box-shadow: inset 0 0 0 1px var(--border-2); font-weight: 700; font-size: 26px; cursor: pointer; overflow: hidden; flex: 0 0 auto; }
 .avatar-big img { width: 100%; height: 100%; object-fit: cover; }
 .avatar-big .cam { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0, 0, 0, .45); color: #fff; opacity: 0; transition: opacity var(--dur-1) var(--ease); }
 .avatar-big .cam svg { width: 22px; height: 22px; }
@@ -3047,19 +3053,19 @@ a.coach-name:hover { color: var(--accent); }
 /* News (Journal → News): Wirtschaftskalender nach Tagen, ruhige Karten, Wichtigkeit als drei Balken */
 .nw-wrap { display: flex; flex-direction: column; gap: 16px; max-width: 1040px; }
 .nw-banner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); font-size: 13px; color: var(--text-2); }
-.nw-banner > span:first-child svg { width: 18px; height: 18px; display: block; color: var(--accent); }
+.nw-banner > span:first-child svg { width: 18px; height: 18px; display: block; color: var(--text-2); }
 .nw-banner b { color: var(--text); font-weight: 600; }
 .nw-banner .grow { flex: 1 1 260px; min-width: 0; }
 .nw-banner.warn { border-color: color-mix(in srgb, var(--warn) 40%, var(--border)); }
 .nw-banner.warn > span:first-child svg { color: var(--warn); }
-.nw-next { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 14px; background: radial-gradient(120% 160% at 0% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 55%), var(--surface); }
-.nw-next-ico { flex: 0 0 auto; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
+.nw-next { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.nw-next-ico { flex: 0 0 auto; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--surface-3); color: var(--text); }
 .nw-next-ico svg { width: 18px; height: 18px; }
 .nw-next .grow { min-width: 0; }
 .nw-next-t { display: flex; align-items: center; gap: 8px; margin-top: 4px; min-width: 0; }
 .nw-next-t b { font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nw-next-when { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right; }
-.nw-next-when b { font-family: var(--font-num); font-size: 17px; font-weight: 700; color: var(--accent); }
+.nw-next-when b { font-family: var(--font-num); font-size: 17px; font-weight: 700; color: var(--text); }
 .nw-next-when small { font-size: 11.5px; color: var(--muted); }
 .nw-filters { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; }
 .nw-fg { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
@@ -3067,7 +3073,7 @@ a.coach-name:hover { color: var(--accent); }
 .nw-list { display: flex; flex-direction: column; gap: 14px; }
 .nw-day { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); overflow: hidden; }
 .nw-dh { display: flex; align-items: center; gap: 8px; margin: 0; padding: 11px 16px; font-size: 13px; font-weight: 600; border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--surface-2) 55%, var(--surface)); }
-.nw-rel { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.nw-rel { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--text); background: var(--surface-3); }
 .nw-dn { color: var(--text); }
 .nw-n { margin-left: auto; min-width: 22px; padding: 1px 7px; border-radius: 999px; text-align: center; font-family: var(--font-num); font-size: 11px; font-weight: 600; color: var(--muted); background: var(--surface-2); }
 .nw-row { display: grid; grid-template-columns: 64px 22px 46px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 10px 16px; font-size: 13.5px; }
@@ -3106,21 +3112,22 @@ a.coach-name:hover { color: var(--accent); }
 
 /* Ausgewählt mit Rahmen (Reiter, Segmente, Chips, Karten, Akzent-Knöpfe): statt flacher Fläche mit Rand fällt Licht von
    oben links ein, der Rand ist ein Lichtverlauf (oben links heller, an den Seiten leise, unten rechts ein schwacher Reflex),
-   dazu eine feine Kante oben innen; bewusst ruhig, ohne Schein darunter (wie „Trade loggen“). --lc setzt die Lichtfarbe (Standard: Akzent). */
+   dazu eine feine Kante oben innen; bewusst ruhig, ohne Schein darunter. Standard-Licht ist neutral (Schriftfarbe), damit Grün nur
+   für Gewinn und „Trade loggen“ steht; --lc setzt eine bewusste Farbe (Gewinn/Verlust, Long/Short, Bewertung, Fehler, Emotion). */
 .seg button[aria-pressed="true"], .swatch[aria-pressed="true"], .chip.sel[aria-pressed="true"], .rating button[aria-pressed="true"],
 .tabs button[aria-pressed="true"], .tabs a[aria-pressed="true"], .nb .tagpill[aria-pressed="true"],
 .fd-seg button[aria-pressed="true"], .fd-tog button[aria-pressed="true"], .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"],
 .pair-card[aria-pressed="true"], .rp-chip[aria-pressed="true"], .prop-tabs a[aria-pressed="true"], .sb-user.active, .btn.accent {
-  border-color: transparent; color: color-mix(in srgb, var(--lc, var(--accent)) 88%, var(--text));
+  border-color: transparent; color: color-mix(in srgb, var(--lc, var(--text)) 88%, var(--text));
   background:
-    radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--lc, var(--accent)) 10%, transparent), transparent 60%) padding-box,
-    linear-gradient(180deg, color-mix(in srgb, var(--lc, var(--accent)) 4%, var(--surface-2)), var(--surface)) padding-box,
-    linear-gradient(155deg, color-mix(in srgb, var(--lc, var(--accent)) 50%, var(--border-2)) 0%, color-mix(in srgb, var(--lc, var(--accent)) 22%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--lc, var(--accent)) 14%, var(--border-2)) 100%) border-box;
+    radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--lc, var(--text)) 10%, transparent), transparent 60%) padding-box,
+    linear-gradient(180deg, color-mix(in srgb, var(--lc, var(--text)) 4%, var(--surface-2)), var(--surface)) padding-box,
+    linear-gradient(155deg, color-mix(in srgb, var(--lc, var(--text)) 50%, var(--border-2)) 0%, color-mix(in srgb, var(--lc, var(--text)) 22%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--lc, var(--text)) 14%, var(--border-2)) 100%) border-box;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 /* Akzent-Knopf (z. B. „Trade loggen“): Form und Fläche wie die anderen Knöpfe, nur ein Hauch Licht von oben links und ein
    leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht */
-.btn.accent { --al: 8%; color: color-mix(in srgb, var(--accent) 88%, var(--text));
+.btn.accent { --al: 8%; font-weight: 600; color: color-mix(in srgb, var(--accent) 88%, var(--text));
   background:
     radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) var(--al), transparent), transparent 60%) padding-box,
     linear-gradient(var(--surface), var(--surface)) padding-box,
@@ -3129,6 +3136,6 @@ a.coach-name:hover { color: var(--accent); }
 .btn.accent:hover { --al: 14%; background-color: transparent; }
 .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"], .pair-card[aria-pressed="true"], .sb-user.active { color: var(--text); } /* Karten: nur das Licht, Schrift bleibt */
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .rp-chip, .prop-tabs a)[aria-pressed="true"],
-:root[data-theme="light"] .btn.accent { color: var(--lc, var(--accent)); }
+:root[data-theme="light"] .btn.accent { color: var(--lc, var(--text)); }
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .lang-card, .font-card, .pair-card, .rp-chip, .prop-tabs a)[aria-pressed="true"],
 :root[data-theme="light"] .sb-user.active, :root[data-theme="light"] .btn.accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }

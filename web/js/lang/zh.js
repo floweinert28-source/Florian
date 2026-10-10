@@ -1595,4 +1595,6 @@ I18N.add('zh', {
   "Beispiel: Pressekonferenz der Notenbank": "示例：央行新闻发布会",
   "Beispiel: Arbeitsmarktbericht": "示例：就业报告",
   "Long oder Short wählen": "请选择 Long 或 Short",
+  "Regelbrüche haben dich das gekostet": "违规让你损失了这些",
+  "Regelbrüche haben dir das gebracht": "违规让你获得了这些",
 });

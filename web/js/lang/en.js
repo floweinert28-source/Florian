@@ -1500,4 +1500,6 @@ I18N.add('en', {
   "Beispiel: Pressekonferenz der Notenbank": "Example: Central bank press conference",
   "Beispiel: Arbeitsmarktbericht": "Example: Jobs report",
   "Long oder Short wählen": "Choose Long or Short",
+  "Regelbrüche haben dich das gekostet": "Rule breaks cost you this",
+  "Regelbrüche haben dir das gebracht": "Rule breaks earned you this",
 });

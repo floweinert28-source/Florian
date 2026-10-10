@@ -1595,4 +1595,6 @@ I18N.add('hi', {
   "Beispiel: Pressekonferenz der Notenbank": "उदाहरण: केंद्रीय बैंक की प्रेस कॉन्फ़्रेंस",
   "Beispiel: Arbeitsmarktbericht": "उदाहरण: रोज़गार रिपोर्ट",
   "Long oder Short wählen": "Long या Short चुनें",
+  "Regelbrüche haben dich das gekostet": "नियम तोड़ने से आपको यह नुकसान हुआ",
+  "Regelbrüche haben dir das gebracht": "नियम तोड़ने से आपको यह लाभ हुआ",
 });

@@ -47,7 +47,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist ruhig wie „Trade loggen“: ein Hauch Licht von oben links, feiner Rand (oben links leise grün), kein Schein nach außen, dazu der Balken am Rand mit dezentem Leuchten; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist ruhig und neutral: ein Hauch Licht von oben links, feiner grauer Rand, kein Schein nach außen; der kleine Balken am Rand mit dezentem Leuchten ist der einzige Akzent; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
@@ -65,7 +65,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
   Performance nach Uhrzeit und Haltedauer, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
-  Jedes Widget hat ein (i) mit Erklärung. **Vorlagen**: mehrere Dashboards anlegen, umbenennen,
+  Jedes Widget hat ein (i) mit Erklärung (sichtbar beim Darüberfahren). **Vorlagen**: mehrere Dashboards anlegen, umbenennen,
   duplizieren, als Standard festlegen, löschen. **Bearbeitungsmodus** mit Drag & Drop, Entfernen,
   Größe (klein/mittel/groß) und Widget-Bibliothek mit Suche. Handy: Kacheln in zwei Spalten, Pfeile statt Drag & Drop.
   Beim Bearbeiten bleibt ein entferntes Widget als Lücke stehen (neue Widgets füllen sie, Drag & Drop tauscht hinein);
@@ -98,6 +98,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Grenze ist der sichtbare Bereich), Widget-Bibliothek mit Vorschau, Text und Knopf untereinander. Ab 961px bleibt alles wie gehabt; der Handy-Test `mobiletest` prüft dazu
   alle Routen auf seitlichen Überlauf.
 - **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades. Auf dem Desktop füllt die Liste genau
+  Die Tabelle passt bei 1280 px und mehr ohne seitliches Scrollen ins Fenster (engere Zellen; „Geschlossen“ zeigt am selben Tag nur die Uhrzeit).
+  Das „Overall score“-Netz färbt sich nach dem Gesamtscore (rot, gelb, grün) statt immer grün.
   das Fenster (wie das Notebook): Kacheln, Reiter und Filter oben, die Tabelle nimmt den Rest und scrollt in ihrer Box, der
   Seitenwähler bleibt unten sichtbar; die Seite selbst scrollt nicht. Trade-Detail und Handy scrollen wie gewohnt.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
@@ -195,9 +197,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   erscheinen im Farbwähler und in der Akzentreihe und lassen sich mit × löschen. **Meine Designs**: Erscheinungsbild, Schrift und alle
   Farben als Paket speichern, mit einem Klick anwenden, löschen; höchstens 6.
   Die Wahl gilt für die ganze Website inklusive Startseite.
-  Der Akzent-Knopf „Trade loggen“ und alle ausgewählten Knöpfe und Karten mit Rahmen (Reiter, Segmente, Chips, Schrift-/Farbkarten)
-  haben dasselbe ruhige Licht: ein Hauch Licht von oben links, ein leiser Rand als Lichtverlauf und eine feine Kante oben innen, kein Schein darunter
-  (ein gemeinsamer Stil am Ende von `css/app.css`, Lichtfarbe über `--lc`, z. B. Rot bei Fehler-Chips).
+  **Grün nur für Gewinn und „Trade loggen“:** ausgewählte Reiter, Segmente, Chips und Karten mit Rahmen haben dasselbe ruhige Licht wie
+  „Trade loggen“ (ein Hauch Licht von oben links, leiser Rand als Lichtverlauf, feine Kante oben innen, kein Schein darunter; ein gemeinsamer
+  Stil am Ende von `css/app.css`), aber in neutraler Lichtfarbe (Schrift). `--lc` setzt eine bewusste Farbe nur dort, wo sie etwas bedeutet
+  (Gewinn/Verlust, Long/Short, Bewertung, Fehler-/Emotions-Chips). Setup-Chips, Avatare, der aktive Seitenleisten-Eintrag, der Zähler im
+  Filter-Knopf und die News-Karte sind neutral; Grün bleibt für Gewinne, den Akzent-Knopf, Schalter und den kleinen Balken am aktiven Eintrag.
+  **Schriftgewichte abgestuft:** Steuerelemente (Knöpfe, Reiter, Segmente, Chips, Tabellenköpfe, Kachel-Titel) 500, Titel 600, nur Werte und
+  Hauptknöpfe („Trade loggen“, Speichern) fett. **Info-Symbole** in Karten und Kacheln erscheinen erst beim Darüberfahren (auf Touch immer).
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.
   Trades zeigen ihr exaktes R, ohne Stop „– R“; Summen werden über eine R-Einheit umgerechnet (Median des Risikos
   deiner Trades mit Stop oder ein fester Wert). Der Kontostand wird komplett ausgeblendet, das Zertifikat erzwingt
@@ -322,8 +328,9 @@ gleitet (App-Start ohne Logo-Zeichen, Auswertung von Sprachnotizen); `U.spin()` 
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
 
-**Kurven:** `UI.smooth` legt eine weiche, monotone Kurve durch die Punkte (wie d3 `curveMonotoneX`). Sie schwingt zwischen zwei
-Punkten nie über den höheren oder unter den tieferen hinaus, darum wird z. B. der kumulierte P&L in Statistiken oben nicht abgeschnitten.
+**Kurven:** `UI.smooth` verbindet die Punkte mit geraden Linien. So zeigt jede Kurve genau die Daten; geschwungene Übergänge würden
+Zwischenwerte vortäuschen, die es nie gab. Die Datumsachse (`UI.dateAxis`) beschriftet je Tag höchstens einmal, auch wenn mehrere
+Punkte (einzelne Trades) auf denselben Tag fallen.
 
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden
 Zeichner): Linien von links nach rechts, Flächen und Balken blenden ein, Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,

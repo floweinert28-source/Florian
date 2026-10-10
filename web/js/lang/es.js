@@ -1547,4 +1547,6 @@ I18N.add('es', {
   "Beispiel: Pressekonferenz der Notenbank": "Ejemplo: Rueda de prensa del banco central",
   "Beispiel: Arbeitsmarktbericht": "Ejemplo: Informe de empleo",
   "Long oder Short wählen": "Elige Long o Short",
+  "Regelbrüche haben dich das gekostet": "Las infracciones te costaron esto",
+  "Regelbrüche haben dir das gebracht": "Las infracciones te aportaron esto",
 });

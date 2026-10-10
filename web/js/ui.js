@@ -188,19 +188,9 @@
   const NS = 'http://www.w3.org/2000/svg';
   function niceTicks(min, max, n = 4) { const span = max - min || 1; const raw = span / n; const p = 10 ** Math.floor(Math.log10(raw)); const s = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= n + 1) || raw; const t = []; for (let v = Math.ceil(min / s) * s; v <= max + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
   /* Weiche Kurve durch alle Punkte, monoton zwischen Nachbarpunkten (wie d3 curveMonotoneX): schießt nie über den höchsten oder unter den tiefsten Wert hinaus, wird also oben und unten nicht abgeschnitten */
-  const smooth = pts => {
-    const n = pts.length; if (n < 3) return 'M' + pts.map(p => p.join(',')).join('L');
-    const sgn = v => v > 0 ? 1 : v < 0 ? -1 : 0; const h = [], s = [], m = new Array(n);
-    for (let i = 0; i < n - 1; i++) { h[i] = pts[i + 1][0] - pts[i][0]; s[i] = h[i] ? (pts[i + 1][1] - pts[i][1]) / h[i] : 0; }
-    for (let i = 1; i < n - 1; i++) { const p = (s[i - 1] * h[i] + s[i] * h[i - 1]) / ((h[i - 1] + h[i]) || 1); m[i] = (sgn(s[i - 1]) + sgn(s[i])) * Math.min(Math.abs(s[i - 1]), Math.abs(s[i]), 0.5 * Math.abs(p)) || 0; }
-    m[0] = h[0] ? (3 * s[0] - m[1]) / 2 : m[1]; m[n - 1] = h[n - 2] ? (3 * s[n - 2] - m[n - 2]) / 2 : m[n - 2];
-    /* Enden ebenfalls begrenzen, damit auch das erste und letzte Stück nicht ausschlägt */
-    if (sgn(m[0]) !== sgn(s[0])) m[0] = 0; else if (Math.abs(m[0]) > 3 * Math.abs(s[0])) m[0] = 3 * s[0];
-    if (sgn(m[n - 1]) !== sgn(s[n - 2])) m[n - 1] = 0; else if (Math.abs(m[n - 1]) > 3 * Math.abs(s[n - 2])) m[n - 1] = 3 * s[n - 2];
-    const r = v => Math.round(v * 100) / 100; let d = `M${r(pts[0][0])},${r(pts[0][1])}`;
-    for (let i = 0; i < n - 1; i++) { const [x0, y0] = pts[i], [x1, y1] = pts[i + 1], dx = h[i] / 3; d += `C${r(x0 + dx)},${r(y0 + dx * m[i])} ${r(x1 - dx)},${r(y1 - dx * m[i + 1])} ${r(x1)},${r(y1)}`; }
-    return d;
-  };
+  /* Linien zwischen den Punkten: gerade, damit die Kurve genau die Daten zeigt (keine geschwungenen Übergänge, die
+     Zwischenwerte vortäuschen) */
+  const smooth = pts => { const r = v => Math.round(v * 100) / 100; return 'M' + pts.map(p => `${r(p[0])},${r(p[1])}`).join('L'); };
   const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? fmt.kilo(a, a >= 10000 ? 0 : 1) : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
   const gid = () => 'g' + Math.random().toString(36).slice(2, 8);
   /* Datumsachse unten: kurzes Datum (ohne Jahr, wenn alle Punkte im selben Jahr liegen), gleichmäßig verteilt, mittig unter dem
@@ -209,11 +199,14 @@
   function dateAxis(n, x, dateOf, ml, W, mr, H) {
     if (!n) return ''; const ds = Array.from({ length: n }, (_, i) => dateOf(i));
     const years = new Set(ds.filter(Boolean).map(d => new Date(d).getFullYear())); const lab = d => (years.size > 1 ? fmt.dateShort(d) : fmt.dateDM(d));
-    const w = Math.max(...ds.map(d => String(lab(d)).length)) * 6.6 + 4, pad = 14; const dx = n > 1 ? Math.abs(x(1) - x(0)) || 1 : Infinity;
-    const step = n > 1 ? Math.max(1, Math.ceil((w + pad) / dx)) : 1; const k = n > 1 ? Math.floor((n - 1) / step) + 1 : 1;
-    const idx = n === 1 ? [0] : k < 2 ? [0, n - 1] : Array.from({ length: k }, (_, i) => Math.round(i * (n - 1) / (k - 1)));
+    const w = Math.max(...ds.map(d => String(lab(d)).length)) * 6.6 + 4, pad = 14;
+    /* je Tag nur eine Beschriftung: mehrere Punkte am selben Tag (einzelne Trades) teilen sich die erste */
+    const cand = []; for (let i = 0; i < n; i++) if (!i || lab(ds[i]) !== lab(ds[i - 1])) cand.push(i);
+    const m = cand.length, last = cand[m - 1]; const dx = m > 1 ? Math.abs(x(last) - x(cand[0])) / (m - 1) || 1 : Infinity;
+    const step = m > 1 ? Math.max(1, Math.ceil((w + pad) / dx)) : 1; const k = m > 1 ? Math.floor((m - 1) / step) + 1 : 1;
+    const idx = m === 1 ? [cand[0]] : k < 2 ? [cand[0], last] : Array.from({ length: k }, (_, i) => cand[Math.round(i * (m - 1) / (k - 1))]);
     const lo = ml + w / 2, hi = W - mr - w / 2; const out = [];
-    for (const i of [...new Set(idx)]) { const cx = Math.min(hi, Math.max(lo, x(i))); if (out.length && cx - out[out.length - 1].cx < w + pad) { if (i !== n - 1) continue; out.pop(); } out.push({ i, cx }); }
+    for (const i of [...new Set(idx)]) { const cx = Math.min(hi, Math.max(lo, x(i))); if (out.length && cx - out[out.length - 1].cx < w + pad) { if (i !== last) continue; out.pop(); } out.push({ i, cx }); }
     return out.map(o => `<text x="${o.cx.toFixed(1)}" y="${H - 8}" text-anchor="middle">${lab(ds[o.i])}</text>`).join('');
   }
   const xTicks = (n, iw) => { const k = Math.max(2, Math.min(n, Math.floor(iw / 95) + 1)); if (n <= k) return Array.from({ length: n }, (_, i) => i); return Array.from({ length: k }, (_, i) => Math.round(i / (k - 1) * (n - 1))); };
@@ -367,11 +360,13 @@
     const ringP = f => `<polygon points="${axes.map((_, i) => pt(i, f).join(',')).join(' ')}" fill="none" stroke="var(--border-2)"/>`;
     const spokes = axes.map((_, i) => `<line x1="${c}" y1="${c}" x2="${pt(i, 1)[0]}" y2="${pt(i, 1)[1]}" stroke="var(--border)"/>`).join('');
     const area = axes.map((a, i) => pt(i, Math.max(a.score, 0.03)).join(',')).join(' ');
+    /* Fläche in der Farbe des Gesamtscores (rot, gelb, grün), nicht immer grün */
+    const rc = scoreColor(axes.length ? axes.reduce((t, a) => t + a.score, 0) / axes.length * 100 : 0);
     /* Ecken ohne sichtbare Punkte: unsichtbare Trefferflächen behalten den Tooltip */
     const dots = axes.map((a, i) => { const [x, y] = pt(i, Math.max(a.score, 0.03)); return `<circle cx="${x}" cy="${y}" r="10" fill="transparent" data-tip="<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}"/>`; }).join('');
     const labels = axes.map((a, i) => { const [x, y] = pt(i, 1.22); const anchor = Math.abs(x - c) < 4 ? 'middle' : x < c ? 'end' : 'start'; return `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" style="font-size:11px;fill:var(--text-2);font-weight:600">${esc(a.label)}</text>`; }).join('');
     if (typeof requestAnimationFrame !== 'undefined' && !radar.pending) { radar.pending = true; requestAnimationFrame(() => { radar.pending = false; fitRadars(); }); }
-    return `<svg class="radar-svg" data-c="${c}" viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
+    return `<svg class="radar-svg" data-c="${c}" viewBox="${-pad} 0 ${size + 2 * pad} ${size}" width="100%" style="max-width:${size + 2 * pad}px;height:auto;margin:0 auto;display:block" role="img" aria-label="Score-Radar">${[0.25, 0.5, 0.75, 1].map(ringP).join('')}${spokes}<polygon points="${area}" fill="${rc}" fill-opacity=".22" stroke="${rc}" stroke-width="2" stroke-linejoin="round"/>${dots}${labels}</svg>`;
   }
   /* Beschriftungen können nach der Übersetzung länger sein: Sichtbereich symmetrisch so weit öffnen, dass nichts abgeschnitten wird */
   function fitRadars() {

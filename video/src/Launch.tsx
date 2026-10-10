@@ -1,7 +1,7 @@
 /* Launch-Video nach dem Vorbild „Numtera“ (ObiN Studio). Die App-Szenen sind eigene, helle Karten mit echten Werten aus Journalyst.
    Schnitte liegen auf einem 120-BPM-Raster (alle 0,5 s), damit Musik in diesem Tempo später direkt passt. */
 import React from 'react';
-import { AbsoluteFill, Sequence, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame } from 'remotion';
 import { IN, lerp, OUT, prog, sec } from './anim';
 import './fonts';
 import { Problem } from './scenes/Problem';
@@ -46,6 +46,8 @@ const Wrap: React.FC<{ tr: Tr; inDur: number; outTr?: Tr; outAt: number; outDur:
 
 export const Launch: React.FC = () => (
   <AbsoluteFill style={{ background: '#fff' }}>
+    {/* Eigener Beat und Effekte (scripts/sound.py), synthetisch erzeugt, ohne fremde Lizenz */}
+    <Audio src={staticFile('audio/sound.wav')} />
     {SHOTS.map((s, i) => {
       const next = SHOTS[i + 1]; const extend = next && next.in && next.in !== 'cut' ? next.inDur ?? 0 : 0;
       return (

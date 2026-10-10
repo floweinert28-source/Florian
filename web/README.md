@@ -223,7 +223,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   „Vorschlag übernehmen“ unter den Schaltern, damit beim ersten Einschalten nichts darüber verrutscht.
   Zahlenfelder ohne Browser-Pfeile: das Feld ist so breit wie die Zahl, die Einheit rückt heran, rechts zwei ruhige Pfeile
   (ganze Zahlen in 1er-Schritten, R und % in 0,5er, Beträge in 10er, nie unter 0); Tippen geht weiter.
-- **Blind-Replay** (Taste 0): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“
+- **Blind-Replay** (zurückgestellt, siehe unten): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“
   (eigenes Feld in der Trade-Ansicht) kommen vor. Zehn Karten je Session: Chart, Instrument, Uhrzeit, Setup
   optional, dann „Nehmen“ oder „Skippen“ mit Sicherheit 1–3, Auflösung mit Ergebnis in R. Richtig heißt Gewinner
   genommen oder Verlierer geskippt. Karteikasten mit drei Fächern (`js/replay.js`): falsch eingeschätzte Trades
@@ -271,6 +271,15 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Zahlen sind Beispieldaten aus `js/affiliatedata.js` (Marke „Beispieldaten“); Planpreise (29/249 €) und Link-Adresse sind
   Platzhalter, unverifiziert. Echte Daten brauchen später eine Quelle (Zahlungsanbieter/Server). Am Handy blendet die Tabelle
   Nebenspalten aus, damit nichts seitlich scrollt.
+
+## Zurückgestellt: Blind-Replay
+
+Blind-Replay ist fertig gebaut, aber noch nicht veröffentlicht. Der Code bleibt vollständig (`js/replay.js`, `js/screens/replay.js`,
+die Widgets `replay_quote` und `blind_replay`, Beispieldaten, Tests); versteckt sind nur der Eintrag in der Navigation, die Route
+(`#/replay` führt zum Dashboard), die beiden Widgets (bleiben in gespeicherten Vorlagen, werden nicht gezeigt) und die Karte
+„Screenshot vor Entry“ in der Trade-Ansicht. Schalter: `FEATURES = { replay: false }` oben in `js/app.js`; zum Freischalten auf
+`true` setzen. Zum Ausprobieren ohne Code-Änderung: `localStorage.setItem('jy_features', '{"replay":true}')` und neu laden; die
+Testsuiten (replaytest, sampletest, fwtest, mobiletest) schalten es so frei.
 
 ## Aufbau
 

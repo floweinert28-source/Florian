@@ -5,6 +5,12 @@
   const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
 
   /* Seitenleiste in Gruppen: was ist los, was habe ich gehandelt, woran arbeite ich, welche Konten */
+  /* Zurückgestellte Bereiche: fertig gebaut, aber noch nicht veröffentlicht. Blind-Replay bleibt im Code (js/replay.js,
+     js/screens/replay.js, Widgets, Beispieldaten, Tests) und wird hier mit true wieder freigeschaltet; zum Ausprobieren
+     vorher: localStorage.setItem('jy_features', '{"replay":true}') und neu laden. */
+  const FEATURES = { replay: false };
+  try { Object.assign(FEATURES, JSON.parse(localStorage.getItem('jy_features') || '{}')); } catch (e) { /* kein Speicher: Standard */ }
+  const on = key => FEATURES[key] !== false;
   const NAV_GROUPS = [
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal'], ['news', 'News', 'news']]],
@@ -35,6 +41,7 @@
     },
     navDot(key, fn) { this.dots[key] = fn; },
     TREND_LABELS, TREND_OPTIONS: [['up', 'Aufwärts'], ['down', 'Abwärts'], ['ranging', 'Seitwärts']],
+    FEATURES, on,
     screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
     /* ---------- Daten ---------- */
     allTrades() { const acc = S.settings.accountId; return C.deriveAll(S.trades().filter(t => acc === 'all' || !acc || t.accountId === acc)); },
@@ -62,7 +69,7 @@
     /* R-Einheit für den Geld-blind-Modus: Einstellung, sonst Median des Risikos aller Trades mit Stop; null, wenn nichts bekannt */
     rUnit(all) { const set = Number(S.settings.blindRUnit); if (set > 0) return set; const risks = (all || this.allTrades()).filter(t => t.risk > 0).map(t => t.risk).sort((a, b) => a - b); if (!risks.length) return null; const m = Math.floor(risks.length / 2); return risks.length % 2 ? risks[m] : (risks[m - 1] + risks[m]) / 2; },
     navigate(hash) { if (location.hash === hash) this.render(); else location.hash = hash; },
-    parseRoute() { const h = location.hash.replace(/^#\/?/, ''); if (h.startsWith('share_')) { this.state.route = 'share'; this.state.params = [h.slice(6)]; return; } const parts = h.split('/').filter(Boolean); if (parts[0] === 'journal') parts[0] = 'notebook'; const route = parts[0] && this.screens[parts[0]] ? parts[0] : 'dashboard'; this.state.route = route; this.state.params = parts.slice(1).map(decodeURIComponent); },
+    parseRoute() { const h = location.hash.replace(/^#\/?/, ''); if (h.startsWith('share_')) { this.state.route = 'share'; this.state.params = [h.slice(6)]; return; } const parts = h.split('/').filter(Boolean); if (parts[0] === 'journal') parts[0] = 'notebook'; const route = parts[0] && this.screens[parts[0]] && on(parts[0]) ? parts[0] : 'dashboard'; /* zurückgestellte Bereiche führen zum Dashboard */ this.state.route = route; this.state.params = parts.slice(1).map(decodeURIComponent); },
     /* ---------- Rendern ---------- */
     render(o) {
       const enter = !o || o.enter !== false; /* neue Seite: Inhalte gleiten ein; Neuaufbau nach Eingaben: nur, was noch unter dem Fenster liegt */
@@ -198,7 +205,7 @@
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
-      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
+      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));

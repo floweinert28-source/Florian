@@ -322,7 +322,7 @@
   const FEATURE_TOP = [
     { typ: 'disziplin_kosten', name: 'Disziplin-Kosten', gruppe: 'bereiche', preview: 'num', desc: 'Schatten-Ich: was Regelbrüche dich im Zeitraum gekostet oder gebracht haben.', info: 'Schatten-Ich minus echt im gewählten Zeitraum. Dein Schatten-Ich handelt wie du, hält aber dein Regelwerk zu 100 % ein.',
       render(d, inst, e) { const r = shadowRange(d); if (!r) return tile(e, noData()); if (!r.active) return tile(e, '<span class="nodata">Keine Regel aktiv</span>', { foot: '<a href="#/shadow">Regelwerk festlegen</a>' }); if (!r.n) return tile(e, noData()); return tile(e, `<span class="${r.view.cls}">${r.view.text}</span>`, { n: r.violations === 1 ? '1 Verstoß' : `${fmt.int(r.violations)} Verstöße`, foot: r.view.foot }); } },
-    { typ: 'replay_quote', name: 'Blind-Replay', gruppe: 'bereiche', preview: 'num', desc: 'Wie oft du im Blind-Replay richtig eingeschätzt hast, mit den letzten 20 Trades.', info: 'Anteil richtig eingeschätzter Trades im Blind-Replay (Gewinner genommen, Verlierer geskippt). Rechts die letzten 20.',
+    { typ: 'replay_quote', feature: 'replay', name: 'Blind-Replay', gruppe: 'bereiche', preview: 'num', desc: 'Wie oft du im Blind-Replay richtig eingeschätzt hast, mit den letzten 20 Trades.', info: 'Anteil richtig eingeschätzter Trades im Blind-Replay (Gewinner genommen, Verlierer geskippt). Rechts die letzten 20.',
       render(d, inst, e) { const R = root.Replay; if (!R) return tile(e, noData()); const st = R.stats(S.replayHistory(), d.all); if (!st.n) return tile(e, '<span class="nodata">Noch keine Runde</span>', { foot: '<a href="#/replay">Jetzt üben</a>' }); return tile(e, fmt.pct(st.hitRate, 0), { n: `Letzte 20: ${fmt.pct(st.recent, 0)}`, foot: `${fmt.int(st.correct)} von ${fmt.int(st.n)} richtig` }); } },
     { typ: 'prop_status', name: 'Prop-Konten', gruppe: 'bereiche', preview: 'num', desc: 'Aktive Prop-Konten mit Ampel: wie viele im grünen, gelben oder roten Bereich sind.', info: 'Aktive Prop-Konten und ihre Ampel aus dem Prop-Firm-Bereich. Rot heißt: wenig Puffer bis zur nächsten Regel oder Regel verletzt.',
       render(d, inst, e) { const list = propActive(); if (!list) return tile(e, noData()); if (!list.length) return tile(e, '<span class="nodata">Kein aktives Konto</span>', { foot: '<a href="#/prop/konten">Konto anlegen</a>' }); const cnt = { gruen: 0, gelb: 0, rot: 0 }; for (const x of list) { const k = x.ev.status === 'breached' ? 'rot' : x.ev.buffer.ampel; if (cnt[k] != null) cnt[k]++; } return tile(e, fmt.int(list.length), { n: 'aktiv', foot: `<span class="fw-ampels">${['gruen', 'gelb', 'rot'].map(k => `<span>${ampelDot(k)}${cnt[k]}</span>`).join('')}</span>` }); } },
@@ -336,7 +336,7 @@
         U.chartData['dash-schatten'] = { points: r.curve.map(p => ({ date: p.date, v: { real: p.real, shadow: p.shadow } })), series: [{ key: 'real', label: 'Echt', unit: 'cur', color: 'var(--text-2)' }, { key: 'shadow', label: 'Schatten-Ich', unit: 'cur', color: 'var(--accent)' }], periodLabel: dt => fmt.dateTime(dt) };
         return card(e, `<div class="fw-stats"><div><span>Disziplin-Kosten</span><b class="${r.view.cls}">${r.view.text}</b></div><div><span>Echt</span><b>${U.pnl(r.real)}</b></div><div><span>Schatten-Ich</span><b>${U.pnl(r.shadow)}</b></div><div><span>Verstöße</span><b>${fmt.int(r.violations)}</b></div></div><div class="chart fw-chart" data-chart="lines" data-id="dash-schatten"></div>`, { trailing: more('#/shadow') });
       } },
-    { typ: 'blind_replay', name: 'Blind-Replay', gruppe: 'bereiche', preview: 'bars', groesse: 'klein', desc: 'Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Session.', info: 'Du siehst alte Trades ohne Ergebnis und entscheidest: nehmen oder skippen. Richtig ist, Gewinner zu nehmen und Verlierer zu skippen.',
+    { typ: 'blind_replay', feature: 'replay', name: 'Blind-Replay', gruppe: 'bereiche', preview: 'bars', groesse: 'klein', desc: 'Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Session.', info: 'Du siehst alte Trades ohne Ergebnis und entscheidest: nehmen oder skippen. Richtig ist, Gewinner zu nehmen und Verlierer zu skippen.',
       render(d, inst, e) {
         const R = root.Replay; if (!R) return missing(e, 'Das Blind-Replay');
         const st = R.stats(S.replayHistory(), d.all); const ready = R.eligible(d.all).length;
@@ -381,11 +381,13 @@
 
   const ALL = {}; for (const e of TOP) ALL[e.typ] = Object.assign(e, { area: 'oben' }); for (const e of MAIN) ALL[e.typ] = Object.assign(e, { area: 'unten' });
 
+  const visible = e => !e.feature || !root.App || root.App.on(e.feature);
   root.Widgets = {
     SIZES, MAX_TOP, REPORT_GROUPS, REPORT_ALL, REPORT_COLORS, REPORT_DEFAULT, reportConfig, reportPanelHTML: reportPanel, ALL,
-    list(area) { return (area === 'oben' ? TOP : MAIN).slice(); },
-    get(typ) { return ALL[typ] || null; },
+    /* Widgets zurückgestellter Bereiche (feature: 'replay' …) tauchen weder in der Bibliothek noch auf dem Dashboard auf */
+    list(area) { return (area === 'oben' ? TOP : MAIN).filter(visible); },
+    get(typ) { const e = ALL[typ]; return e && visible(e) ? e : null; },
     data: makeData, preview, calendarHTML,
-    render(inst, d, App) { const e = ALL[inst.typ]; if (!e) return U.card('Unbekanntes Widget', `<div class="small muted">Der Widget-Typ „${esc(inst.typ)}“ ist nicht bekannt.</div>`); try { return e.render(d, inst, e, App); } catch (err) { console.warn('Widget', inst.typ, err); return U.card(e.name, `<div class="small muted">Dieses Widget konnte nicht berechnet werden.</div>`, { info: e.info }); } },
+    render(inst, d, App) { const e = ALL[inst.typ]; if (e && !visible(e)) return null; if (!e) return U.card('Unbekanntes Widget', `<div class="small muted">Der Widget-Typ „${esc(inst.typ)}“ ist nicht bekannt.</div>`); try { return e.render(d, inst, e, App); } catch (err) { console.warn('Widget', inst.typ, err); return U.card(e.name, `<div class="small muted">Dieses Widget konnte nicht berechnet werden.</div>`, { info: e.info }); } },
   };
 })(typeof self !== 'undefined' ? self : this);

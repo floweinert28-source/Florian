@@ -43,8 +43,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Long/Short ist ein Umschalter mit zwei Hälften und rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün,
   Short rot; der Schieber gleitet weich an- und auslaufend, seine Farbe blendet schnell über; Schrift und Pfeil stehen sofort in der eigenen Farbe, Short wird nie kurz grün). Am Handy stehen Symbol und Richtung untereinander.
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
-  ↘ Short in Rot), deckend getönt wie die Kalendertage, Licht von links und kräftiger farbiger Rand (`UI.badge`). In Tabellen
-  steht das Abzeichen in einer eigenen Spalte direkt neben dem Symbol (gemeinsame Überschrift „Symbol“), so stehen alle Abzeichen untereinander.
+  ↘ Short in Rot), Licht von links und feinem farbigen Rand (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
+  neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
 - **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist eine Pille, in die von links Licht in der Akzentfarbe fällt und nach rechts ins Dunkle ausläuft; ihr Rand leuchtet links (unten etwas stärker) und geht nach rechts in Grau über, dazu ein weicher Schein und ein Balken am Rand mit dezentem Leuchten; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
@@ -178,7 +178,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   erscheinen im Farbwähler und in der Akzentreihe und lassen sich mit × löschen. **Meine Designs**: Erscheinungsbild, Schrift und alle
   Farben als Paket speichern, mit einem Klick anwenden, löschen; höchstens 6.
   Die Wahl gilt für die ganze Website inklusive Startseite.
-  Ausgewählte Knöpfe und Karten mit Rahmen (Reiter, Segmente, Chips, Schrift-/Farbkarten, Akzent-Knöpfe) sind beleuchtet:
+  Der Akzent-Knopf „Trade loggen“ hat Form und Fläche wie die anderen Knöpfe, nur einen leisen grünen Rand und einen Hauch Licht.
+  Ausgewählte Knöpfe und Karten mit Rahmen (Reiter, Segmente, Chips, Schrift-/Farbkarten) sind beleuchtet:
   Licht fällt von oben links ein, der Rand ist ein Lichtverlauf, dazu eine feine Kante oben innen und ein weicher Schein darunter
   (ein gemeinsamer Stil am Ende von `css/app.css`, Lichtfarbe über `--lc`, z. B. Rot bei Fehler-Chips).
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.

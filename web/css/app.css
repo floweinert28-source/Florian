@@ -592,7 +592,8 @@ span.info:hover { color: var(--accent); }
 /* Symbol und Long/Short-Abzeichen in zwei Spalten: die Symbol-Spalte so schmal wie das längste Symbol, alle Abzeichen stehen untereinander */
 .tbl td.sym:has(+ td.dir-cell) { width: 1%; white-space: nowrap; }
 :is(.tbl, .tbl.compact, .recent-wrap .tbl) td.sym:has(+ td.dir-cell) { padding-right: 8px; }
-:is(.tbl, .tbl.compact, .recent-wrap .tbl) td.dir-cell { padding-left: 0; white-space: nowrap; }
+:is(.tbl, .tbl.compact, .recent-wrap .tbl) td.dir-cell { padding-left: 0; white-space: nowrap; text-align: center; } /* Abzeichen mittig im freien Platz zwischen Symbol und den nächsten Spalten */
+.tbl td.dir-cell .badge { min-width: 80px; } /* LONG und SHORT gleich breit: mittig und trotzdem bündig untereinander */
 /* Letzte Trades: engere Abstände zwischen den Spalten (außen bleibt bündig), damit Symbol, Abzeichen und P&L in die Karte passen */
 .recent-wrap .tbl :is(th, td):not(:first-child):not(.dir-cell) { padding-left: 8px; }
 .recent-wrap .tbl :is(th, td):not(:last-child):not(.sym) { padding-right: 8px; }
@@ -603,8 +604,8 @@ span.info:hover { color: var(--accent); }
 .tbl.wrap td { white-space: normal; }
 
 .badge { --c: var(--accent); display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px 0 3px; border-radius: 999px; font-size: 10.5px; font-weight: 800; letter-spacing: .07em; line-height: 1; white-space: nowrap; vertical-align: middle;
-  color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 48%, var(--border));
-  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 26%, var(--surface)), color-mix(in srgb, var(--c) 13%, var(--surface)) 80%); } /* deckend getönt wie die Kalendertage */
+  color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 22%, transparent), color-mix(in srgb, var(--c) 6%, transparent) 75%); }
 .badge.s { --c: var(--loss); }
 .badge .bi { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px color-mix(in srgb, var(--c) 45%, transparent); flex: none; }
 .badge .bi svg { width: 10px; height: 10px; color: var(--bg); }
@@ -3010,7 +3011,15 @@ a.coach-name:hover { color: var(--accent); }
     linear-gradient(155deg, color-mix(in srgb, var(--lc, var(--accent)) 82%, var(--text)) 0%, color-mix(in srgb, var(--lc, var(--accent)) 38%, var(--border-2)) 30%, color-mix(in srgb, var(--lc, var(--accent)) 14%, var(--border)) 62%, color-mix(in srgb, var(--lc, var(--accent)) 34%, var(--border-2)) 100%) border-box;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 8px 22px -14px color-mix(in srgb, var(--lc, var(--accent)) 60%, transparent);
 }
-.btn.accent:hover { filter: brightness(1.1); }
+/* Akzent-Knopf (z. B. „Trade loggen“): Form und Fläche wie die anderen Knöpfe, nur ein Hauch Licht von oben links und ein
+   leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht */
+.btn.accent { --al: 8%; color: color-mix(in srgb, var(--accent) 88%, var(--text));
+  background:
+    radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) var(--al), transparent), transparent 60%) padding-box,
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(155deg, color-mix(in srgb, var(--accent) 48%, var(--border-2)) 0%, color-mix(in srgb, var(--accent) 20%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--accent) 14%, var(--border-2)) 100%) border-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); }
+.btn.accent:hover { --al: 14%; background-color: transparent; }
 .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"], .pair-card[aria-pressed="true"], .sb-user.active { color: var(--text); } /* Karten: nur das Licht, Schrift bleibt */
 :root[data-theme="light"] :is(.seg button, .swatch, .chip.sel, .rating button, .tabs button, .tabs a, .nb .tagpill, .fd-seg button, .fd-tog button, .rp-chip, .prop-tabs a)[aria-pressed="true"],
 :root[data-theme="light"] .folder.active, :root[data-theme="light"] .btn.accent { color: var(--lc, var(--accent)); }

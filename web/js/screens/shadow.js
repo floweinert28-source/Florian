@@ -37,7 +37,9 @@
       if (f.type === 'unit') return `<select class="select sr-unit" ${common(f)}>${[['r', 'R-Einheit'], ['pct', '% vom Konto'], ['money', fmt.moneyBlind() ? 'Betrag' : `Betrag (${curSym()})`]].map(([k, l]) => `<option value="${k}" ${r.unit === k ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
       if (f.type === 'time') return `<input class="input sr-time" type="time" value="${esc(r[f.key])}" ${common(f)}>`;
       const suffix = def.fields.length === 1 ? f.label : '';
-      return `<label class="sr-num"><input class="input" type="number" inputmode="decimal" min="0" step="${f.type === 'int' ? '1' : 'any'}" value="${esc(r[f.key])}" ${common(f)}>${suffix ? `<span>${esc(suffix)}</span>` : ''}</label>`;
+      /* eigene, ruhige Pfeile statt der Browser-Pfeile: ganze Zahlen in 1er-Schritten, R und % in 0,5er, Beträge in 10er */
+      const step = f.type === 'int' ? 1 : r.unit === 'money' ? 10 : 0.5;
+      return `<label class="sr-num" data-step="${step}"><input class="input" type="number" inputmode="decimal" min="0" step="${f.type === 'int' ? '1' : 'any'}" value="${esc(r[f.key])}" ${common(f)}>${suffix ? `<span class="sr-suf">${esc(suffix)}</span>` : ''}<span class="sr-step"><button type="button" data-action="sr-step" data-dir="1" tabindex="-1" aria-label="Mehr">${I.chev}</button><button type="button" data-action="sr-step" data-dir="-1" tabindex="-1" aria-label="Weniger">${I.chev}</button></span></label>`;
     };
     const plain = def.fields.filter(f => f.type !== 'setups');
     const ctrl = !plain.length ? '' : def.key === 'hours' ? `${field(plain[0])}<span class="sr-dash">–</span>${field(plain[1])}` : plain.map(field).join('');
@@ -79,6 +81,13 @@
 
   /* ---------- Aktionen ---------- */
   Object.assign(App.actions, {
+    /* Pfeile im Zahlenfeld: Wert um einen Schritt ändern (nie unter 0) und wie beim Tippen speichern */
+    'sr-step'(el) {
+      const box = el.closest('.sr-num'); const input = box && box.querySelector('input'); if (!input) return;
+      const step = Number(box.dataset.step) || 1; const cur = Number(String(input.value).replace(',', '.')) || 0;
+      input.value = String(Math.max(0, Math.round((cur + step * Number(el.dataset.dir)) * 100) / 100));
+      App.actions['shadow-rule-field'](input);
+    },
     'shadow-page-size'(el) { const pg = pageState(); pg.size = Number(el.value) || 10; pg.page = 1; App.rerender(); },
     'shadow-page'(el) { pageState().page = Number(el.value) || 1; App.rerender(); },
     'shadow-page-nav'(el) { const pg = pageState(); pg.page += Number(el.dataset.dir); App.rerender(); },

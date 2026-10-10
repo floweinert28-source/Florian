@@ -14,7 +14,7 @@ dann zur neuen Zeile im TradeLog und schließlich zur Karte bei der Regelprüfun
 | --- | --- |
 | 0–6,5 s | „Same mistake, / Different day.“ getippt, markiert und gelöscht, an derselben Stelle „Same loss… again?“, Flug durch das „o“ |
 | 6,5–8,5 s | „Stop repeating mistakes.“ |
-| 8,5–11,5 s | „Meet [J] Journalyst“ |
+| 8,5–11,5 s | „Meet Journalyst“ (das Icon-Logo ist entfernt, ein neues folgt) |
 | 11,5–14 s | „The trading journal that trains your discipline.“ |
 | 14–18 s | Dashboard schräg im Raum, Net P&L, Overall score und Cumulative P&L ragen kurz heraus, dann wird es flach |
 | 18–21,7 s | Klick auf „+ Log trade“, das Formular wächst aus dem Knopf, ES, Long, Einstieg, Ausstieg, Kontrakte, „Save trade“ |
@@ -24,7 +24,7 @@ dann zur neuen Zeile im TradeLog und schließlich zur Karte bei der Regelprüfun
 | 31,5–35,5 s | Shadow Self: Disziplin-Kosten zählen hoch, echt gegen Schatten-Ich, der Abstand als Preis |
 | 35,5–38,5 s | „Your Shadow Self shows you what discipline is worth.“ |
 | 38,5–42,5 s | „Others count trades.“ / „We build traders.“ |
-| 42,5–47,5 s | Endkarte: Logo, „The trading journal for discipline.“, Knopf „Start your journal“ |
+| 42,5–47,5 s | Endkarte: Wortmarke JOURNALYST, „The trading journal for discipline.“, Knopf „Start your journal“ |
 
 ## So entsteht es
 

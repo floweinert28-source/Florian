@@ -2,11 +2,10 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { evolvePath } from '@remotion/paths';
-import { lerp, pop, prog, sec, SIG, zoomLerp } from '../anim';
+import { lerp, prog, sec, SIG, zoomLerp } from '../anim';
 import { DashboardPanel } from './Product';
 import { big, GREEN, GREEN_D, INK } from '../theme';
 import { Bg } from '../ui/Bg';
-import { JMark } from '../ui/Logo';
 import { BlurText, ramp, useBox } from '../ui/Text';
 
 /* Weißer Grund mit feinen grünen Linien, die sich selbst zeichnen */
@@ -33,7 +32,7 @@ export const Stop: React.FC = () => {
   );
 };
 
-/* „Meet Journalyst“: Buchstaben kommen nacheinander aus der Unschärfe, dann rückt „Meet“ zur Seite und das Logo springt dazwischen */
+/* „Meet Journalyst“: Buchstaben kommen nacheinander aus der Unschärfe, dann rückt „Meet“ zur Seite (Platz für das neue Logo folgt) */
 const MEET_COLORS = ramp('#0b0f0c', '#0b9a52');
 export const Meet: React.FC = () => {
   const f = useCurrentFrame();
@@ -42,7 +41,6 @@ export const Meet: React.FC = () => {
   /* Phase 1: „Meet“ allein, groß und mittig; Phase 2: an seinem Platz in der Zeile */
   const big1 = 1.7; const meetCx = meet ? meet.x + meet.w / 2 : 0; const rowCx = row ? row.x + row.w / 2 : 0;
   const dx = lerp(rowCx - meetCx, 0, m), sc = lerp(big1, 1, m);
-  const logo = pop(f, sec(1.5), { damping: 12 });
   const push = zoomLerp(1, 1.05, prog(f, 0, sec(3.4), SIG));
   return (
     <AbsoluteFill data-root>
@@ -51,9 +49,6 @@ export const Meet: React.FC = () => {
         <div ref={rowRef} style={{ ...big(150), display: 'flex', alignItems: 'center', gap: 38, letterSpacing: '-0.045em' }}>
           <span ref={meetRef} style={{ display: 'inline-block', transform: `translateX(${dx}px) scale(${sc})` }}>
             <BlurText f={f} text="Meet" by="letter" start={sec(0.35)} stagger={0.09} dur={0.8} blur={40} scaleFrom={1.15} color={MEET_COLORS} />
-          </span>
-          <span style={{ display: 'grid', placeItems: 'center', width: 132, height: 132, borderRadius: 34, background: '#141414', boxShadow: '0 30px 60px -24px rgba(4,40,20,0.6)', opacity: Math.min(1, logo * 1.5), transform: `scale(${logo}) rotate(${lerp(-14, 0, logo)}deg)` }}>
-            <JMark size={88} />
           </span>
           <span style={{ opacity: f >= sec(1.5) ? 1 : 0 }}>
             <BlurText f={f} text="Journalyst" by="letter" start={sec(1.6)} stagger={0.045} dur={0.7} blur={34} color={MEET_COLORS} />

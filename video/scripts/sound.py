@@ -141,14 +141,15 @@ def impact():
     return np.tanh((boom + crack + sub) * 1.5) * 0.9
 
 
-def chime(freqs, d=0.9, spread=0.0):
+def chime(freqs, d=0.9, spread=0.0, soft=False):
     t = tt(d)
     out = np.zeros_like(t)
     for k, f in enumerate(freqs):
         s = int(k * spread * SR)
         tk = t[: len(t) - s]
-        tone = (np.sin(2 * np.pi * f * tk) + 0.35 * np.sin(2 * np.pi * 2 * f * tk) + 0.12 * np.sin(2 * np.pi * 3 * f * tk)) * np.exp(-tk / (d / 4))
-        out[s:] += tone * np.minimum(1, tk / 0.004)
+        h2, h3, att = (0.12, 0.0, 0.012) if soft else (0.35, 0.12, 0.004)  # weich: kaum Obertöne, sanfter Anschlag
+        tone = (np.sin(2 * np.pi * f * tk) + h2 * np.sin(2 * np.pi * 2 * f * tk) + h3 * np.sin(2 * np.pi * 3 * f * tk)) * np.exp(-tk / (d / 4))
+        out[s:] += tone * np.minimum(1, tk / att)
     return out / max(1, len(freqs)) * 0.8
 
 
@@ -309,7 +310,6 @@ put(sfx, whoosh(0.75), 5.65, 0.5)                                             # 
 put(sfx, impact(), 6.5, 0.75)                                                 # Stop
 put(sfx, whoosh(0.5), 8.3, 0.25)
 put(sfx, shimmer(0.9), 8.85, 0.18)                                            # Meet
-put(sfx, pop(1100, 600), 10.0, 0.35)                                          # Logo
 put(sfx, shimmer(0.8), 10.1, 0.14)                                            # Journalyst
 put(sfx, whoosh(0.5), 11.35, 0.22)
 put(sfx, whoosh(0.6), 13.8, 0.35)                                             # Dashboard
@@ -317,7 +317,6 @@ for at in (14.9, 15.35, 15.8):
     put(sfx, pop(620, 360, 0.16), at, 0.28)                                   # Karten ragen heraus
 put(sfx, whoosh(0.8, up=False), 17.0, 0.18)                                   # wird flach
 put(sfx, click(), 17.95, 0.42)                                                # Klick „+ Log trade“
-put(sfx, whoosh(0.55), 18.05, 0.32)                                           # Formular wächst
 for i in range(2):
     put(sfx, key(), 18.8 + i * 0.08, 0.18)
 for i in range(8):
@@ -327,13 +326,12 @@ for i in range(8):
 put(sfx, key(), 20.15, 0.18)
 put(sfx, pop(1300, 900, 0.1), 20.3, 0.18)                                     # Ergebnis
 put(sfx, click(), 21.27, 0.42)                                                # Klick „Save trade“
-put(sfx, chime([note('G5'), note('C6')], 0.7, 0.07), 21.4, 0.35)              # Saved
-put(sfx, whoosh(0.7, up=False), 21.8, 0.32)                                   # wird zur Zeile
+put(sfx, chime([note('G4'), note('C5')], 0.7, 0.07, soft=True), 21.4, 0.4)     # Saved
 put(sfx, pop(300, 160, 0.14), 22.5, 0.4)                                      # Zeile landet
 put(sfx, whoosh(0.8), 24.8, 0.32)                                             # wird zur Karte
-for at, nm in zip((26.35, 26.75, 27.15), ('C6', 'E6', 'G6')):
-    put(sfx, chime([note(nm)], 0.8), at, 0.24)                                # Regeln abgehakt
-put(sfx, chime([note('C6'), note('E6'), note('G6'), note('C7')], 1.4, 0.05), 27.6, 0.3)  # Followed your plan
+for at, nm in zip((26.35, 26.75, 27.15), ('C5', 'E5', 'G5')):
+    put(sfx, chime([note(nm)], 0.8, soft=True), at, 0.32)                                # Regeln abgehakt
+put(sfx, chime([note('C5'), note('E5'), note('G5'), note('C6')], 1.4, 0.05, soft=True), 27.6, 0.36)  # Followed your plan
 put(sfx, pop(900, 500), 27.9, 0.25)
 put(sfx, whoosh(0.5), 28.8, 0.2)
 put(sfx, low_blip(), 29.75, 0.4)                                              # price
@@ -348,7 +346,6 @@ put(sfx, impact() * 0.6, 38.5, 0.45)                                          # 
 put(sfx, impact() * 0.6, 40.5, 0.45)                                          # We build traders.
 put(sfx, riser(1.0), 41.5, 0.45)
 put(sfx, impact(), 42.5, 0.7)                                                 # Endkarte
-put(sfx, pop(1100, 600), 42.85, 0.35)
 put(sfx, shimmer(1.0), 43.0, 0.16)
 put(sfx, pop(800, 420, 0.16), 44.15, 0.4)                                     # Start your journal
 sfx = reverb(sfx, 1.4, 0.15, 7000)

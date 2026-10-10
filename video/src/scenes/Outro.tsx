@@ -4,7 +4,6 @@ import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
 import { big, DISPLAY, GREEN, INK } from '../theme';
 import { Bg, BgKind } from '../ui/Bg';
-import { JMark } from '../ui/Logo';
 import { BlurText } from '../ui/Text';
 
 /* Eine Zeile auf vollem Grund: Wörter aus der Unschärfe oder die ganze Zeile skaliert herein */
@@ -26,10 +25,9 @@ export const Statement: React.FC<{ text: string; bg: BgKind; color?: string; siz
   );
 };
 
-/* Ein einziger Schluss: Logo, Satz und Knopf bauen sich nacheinander auf, dann bleibt das Bild stehen */
+/* Ein einziger Schluss: Wortmarke, Satz und Knopf bauen sich nacheinander auf, dann bleibt das Bild stehen */
 export const EndCard: React.FC = () => {
   const f = useCurrentFrame();
-  const tile = pop(f, sec(0.35), { damping: 13 });
   const cta = pop(f, sec(1.65), { damping: 14 }); const ctaA = prog(f, sec(1.65), sec(0.3), OUT);
   const push = zoomLerp(1, 1.04, prog(f, 0, sec(5), SIG));
   return (
@@ -37,11 +35,8 @@ export const EndCard: React.FC = () => {
       <Bg f={f} kind="deep" dim={prog(f, sec(0.5), sec(4), SIG) * 0.45} />
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', transform: `scale(${push})` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          <span style={{ display: 'grid', placeItems: 'center', width: 116, height: 116, borderRadius: 30, background: '#141414', boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 30px 60px -26px rgba(0,0,0,0.7)', opacity: Math.min(1, tile * 1.5), transform: `scale(${tile}) rotate(${lerp(-14, 0, tile)}deg)` }}>
-            <JMark size={76} />
-          </span>
           <div style={{ fontFamily: DISPLAY, fontSize: 96, fontWeight: 800, letterSpacing: '0.06em', color: '#fff' }}>
-            <BlurText f={f} text="JOURNALYST" by="letter" start={sec(0.5)} stagger={0.045} dur={0.7} blur={30} />
+            <BlurText f={f} text="JOURNALYST" by="letter" start={sec(0.4)} stagger={0.045} dur={0.7} blur={30} />
           </div>
         </div>
         <div style={{ ...big(42, 'rgba(255,255,255,0.72)', 500), letterSpacing: '-0.01em', marginTop: 34 }}>

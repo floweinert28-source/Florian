@@ -62,7 +62,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
-  mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit kleinem hellem Rahmen (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
+  mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
   Performance nach Uhrzeit und Haltedauer, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
   Jedes Widget hat ein (i) mit Erklärung. **Vorlagen**: mehrere Dashboards anlegen, umbenennen,

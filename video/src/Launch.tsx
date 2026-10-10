@@ -6,34 +6,30 @@ import { IN, lerp, OUT, prog, sec } from './anim';
 import './fonts';
 import { Problem } from './scenes/Problem';
 import { Meet, Stop, Tagline } from './scenes/Intro';
-import { Dashboard, LogTrade, RuleCheck, ShadowSelf, TradeLog } from './scenes/Product';
+import { FLOW_DURATION, ProductFlow, ShadowSelf } from './scenes/Product';
 import { Price, Worth } from './scenes/Shadow';
-import { Cta, Logo, Statement, TypedLine } from './scenes/Outro';
+import { EndCard, Statement } from './scenes/Outro';
 import { GREEN } from './theme';
 
 type Tr = 'cut' | 'fade' | 'blur' | 'wipe';
 type Shot = { from: number; to: number; in?: Tr; inDur?: number; el: React.ReactNode };
 
 /* Zeitplan in Sekunden; „in“ ist der Übergang aus der vorigen Szene */
+const P0 = 14, P1 = P0 + FLOW_DURATION;
 const SHOTS: Shot[] = [
   { from: 0, to: 6.5, el: <Problem /> },                                 /* Same mistake, / Different day. → Same loss… again?  Flug durch das „o“ */
   { from: 6.5, to: 8.5, el: <Stop /> },                                  /* Stop repeating mistakes. */
   { from: 8.5, to: 11.5, in: 'fade', inDur: 0.4, el: <Meet /> },         /* Meet [J] Journalyst */
-  { from: 11.5, to: 14, in: 'fade', inDur: 0.4, el: <Tagline /> },       /* The trading journal that trains your discipline. */
-  { from: 14, to: 16.5, el: <Dashboard /> },                             /* Dashboard schräg im Raum, Karten ragen kurz heraus */
-  { from: 16.5, to: 19.5, el: <LogTrade /> },                            /* Trade loggen */
-  { from: 19.5, to: 21.5, el: <TradeLog /> },                            /* neuer Trade oben im TradeLog */
-  { from: 21.5, to: 24.5, el: <RuleCheck /> },                           /* Regeln werden abgehakt */
-  { from: 24.5, to: 26.5, in: 'fade', inDur: 0.35, el: <Price /> },      /* Every broken rule has a { price } */
-  { from: 26.5, to: 30, in: 'fade', inDur: 0.35, el: <ShadowSelf /> },   /* Disziplin-Kosten zählen hoch, Kurven zeichnen sich */
-  { from: 30, to: 33, in: 'fade', inDur: 0.4, el: <Worth /> },           /* Your Shadow Self shows you [ what discipline is worth ] */
-  { from: 33, to: 35, in: 'blur', inDur: 0.45, el: <Statement text="Others count trades." bg="white" /> },
-  { from: 35, to: 37, in: 'fade', inDur: 0.3, el: <Statement text="We build traders." bg="deep" color="#fff" accent={2} accentColor={GREEN} /> },
-  { from: 37, to: 39.5, in: 'fade', inDur: 0.3, el: <Logo /> },
-  { from: 39.5, to: 42, in: 'wipe', inDur: 0.5, el: <TypedLine /> },
-  { from: 42, to: 45.5, in: 'fade', inDur: 0.45, el: <Cta /> },
+  { from: 11.5, to: P0, in: 'fade', inDur: 0.4, el: <Tagline /> },       /* The trading journal that trains your discipline. */
+  { from: P0, to: P1, in: 'blur', inDur: 0.5, el: <ProductFlow /> },     /* Dashboard → Log trade → TradeLog → Regeln, ohne harte Schnitte */
+  { from: P1, to: P1 + 2.5, in: 'fade', inDur: 0.4, el: <Price /> },     /* Every broken rule has a price. */
+  { from: P1 + 2.5, to: P1 + 6.5, in: 'fade', inDur: 0.4, el: <ShadowSelf /> }, /* Disziplin-Kosten zählen hoch, Kurven zeichnen sich */
+  { from: P1 + 6.5, to: P1 + 9.5, in: 'fade', inDur: 0.4, el: <Worth /> },       /* Your Shadow Self shows you what discipline is worth. */
+  { from: P1 + 9.5, to: P1 + 11.5, in: 'blur', inDur: 0.45, el: <Statement text="Others count trades." bg="white" /> },
+  { from: P1 + 11.5, to: P1 + 13.5, in: 'fade', inDur: 0.35, el: <Statement text="We build traders." bg="deep" color="#fff" accent={2} accentColor={GREEN} /> },
+  { from: P1 + 13.5, to: P1 + 18.5, in: 'blur', inDur: 0.5, el: <EndCard /> },  /* Logo, Satz, Knopf – ein einziger Schluss */
 ];
-export const DURATION = sec(45.5);
+export const DURATION = sec(P1 + 18.5);
 
 /* Hülle einer Szene: blendet beim Eintritt über die vorige Szene; die vorige läuft so lange weiter */
 const Wrap: React.FC<{ tr: Tr; inDur: number; outTr?: Tr; outAt: number; outDur: number; children: React.ReactNode }> = ({ tr, inDur, outTr, outAt, outDur, children }) => {

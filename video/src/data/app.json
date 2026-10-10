@@ -114,6 +114,32 @@
     "key": "2026-09-29",
     "pnl": 591.83
    }
+  ],
+  "radar": [
+   {
+    "label": "Win-Rate",
+    "score": 0.68
+   },
+   {
+    "label": "Profit-Faktor",
+    "score": 0.43
+   },
+   {
+    "label": "Gewinn/Verlust",
+    "score": 0.58
+   },
+   {
+    "label": "Konsistenz",
+    "score": 0.69
+   },
+   {
+    "label": "Regeltreue",
+    "score": 0.94
+   },
+   {
+    "label": "Drawdown",
+    "score": 0.65
+   }
   ]
  },
  "trade": {

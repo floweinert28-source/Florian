@@ -71,7 +71,7 @@ export const Tagline: React.FC = () => {
   return (
     <AbsoluteFill>
       <Bg f={f} kind="mint" />
-      <div style={{ position: 'absolute', left: 0, top: 0, width: 1440, height: 900, opacity: 0.09, filter: 'blur(1.5px)', transformOrigin: '0 0', transform: `translate(${lerp(-150, -210, drift)}px, ${lerp(-120, -140, drift)}px) rotate(-7deg) scale(1.6)` }}><DashboardPanel f={0} still /></div>
+      <div style={{ position: 'absolute', left: 0, top: 0, width: 1440, height: 900, opacity: 0.07, filter: 'blur(1.5px) grayscale(0.4)', transformOrigin: '0 0', transform: `translate(${lerp(-150, -210, drift)}px, ${lerp(-120, -140, drift)}px) rotate(-7deg) scale(1.6)` }}><DashboardPanel f={0} still /></div>
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div style={{ ...big(92), lineHeight: 1.12 }}>
           <BlurText f={f} text="The trading journal" start={sec(0.4)} stagger={0.08} />

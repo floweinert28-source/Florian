@@ -10,7 +10,11 @@ export const dash = {
   pf: pf[1], awl: awl[1], avgWin: awl[2], avgLoss: awl[3],
   score: raw.dash.score ?? 0,
   days: raw.dash.days.map((d) => d.pnl),
+  dailyWin: tile('Daily win rate')[1],
 };
+/* Score-Radar; die Tooltips der App sind deutsch, die Achsen heißen in der englischen Oberfläche so: */
+const AXES: Record<string, string> = { 'Win-Rate': 'Win rate', 'Profit-Faktor': 'Profit factor', 'Gewinn/Verlust': 'Win/loss', Konsistenz: 'Consistency', Regeltreue: 'Rule adherence', Drawdown: 'Drawdown' };
+export const radar = raw.dash.radar.map((a) => ({ label: AXES[a.label] ?? a.label, score: a.score }));
 /* Kumulierte Tagesergebnisse für die Equity-Kurve */
 export const cumulative = dash.days.reduce<number[]>((a, v) => [...a, (a[a.length - 1] ?? 0) + v], []);
 
@@ -24,7 +28,8 @@ export const trade = {
 
 /* TradeLog: erste Zeilen nach dem Speichern */
 export const rows = raw.trades.rows.map((r: Record<string, string>) => ({
-  date: r['Opened'].replace(/^(\d\d\/\d\d)\/\d{4} (.*)$/, '$1 · $2'), symbol: r['Symbol'], side: r['Side'], status: r['Status'],
+  date: r['Opened'].replace(/^(\d\d\/\d\d)\/\d{4} (.*)$/, '$1 · $2'), day: r['Opened'].split(' ')[0], time: r['Opened'].split(' ').slice(1).join(' '),
+  closed: r['Closed'].split(' ').slice(1).join(' '), symbol: r['Symbol'], side: r['Side'] as 'LONG' | 'SHORT', status: r['Status'],
   setup: r['Setup'], pnl: r['P&L'], r: r['RR'],
 }));
 

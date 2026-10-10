@@ -30,7 +30,9 @@ const RULES = ['Max trades per day', 'Stop after consecutive losses', 'No new tr
     const tiles = [...document.querySelectorAll('.dash-top > *')].map(e => e.innerText.split('\n').map(s => s.trim()).filter(Boolean));
     const score = (() => { const c = [...document.querySelectorAll('.main .card')].find(c => /Overall score/i.test(c.innerText)); const m = c && c.innerText.match(/YOUR SCORE\s*(\d+)/i); return m ? Number(m[1]) : null; })();
     const days = UI.chartData['dash-kum_pnl'].days.map(d => ({ key: d.key, pnl: Math.round(d.pnl * 100) / 100 }));
-    return { tiles, score, days };
+    /* Score-Radar: Achsen und Teilscores aus den Tooltips der Ecken */
+    const radar = [...document.querySelectorAll('svg.radar-svg circle[data-tip]')].map(c => { const t = c.getAttribute('data-tip'); const m = t.match(/<b>(.*?)<\/b>.*?(\d+)\s*$/); return m ? { label: m[1], score: Number(m[2]) / 100 } : null; }).filter(Boolean);
+    return { tiles, score, days, radar };
   });
   console.log('ok dashboard', data.dash.tiles.length, 'Kacheln,', data.dash.days.length, 'Tage');
 

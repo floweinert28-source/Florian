@@ -1,10 +1,10 @@
 /* 8–16 s: Wendepunkt, Marke und Claim */
 import React from 'react';
-import { AbsoluteFill, Img, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { evolvePath } from '@remotion/paths';
 import { lerp, pop, prog, sec, SIG, zoomLerp } from '../anim';
-import { img } from '../cap';
-import { big, GREEN, GREEN_D, GREY, INK } from '../theme';
+import { DashboardPanel } from './Product';
+import { big, GREEN, GREEN_D, INK } from '../theme';
 import { Bg } from '../ui/Bg';
 import { JMark } from '../ui/Logo';
 import { BlurText, ramp, useBox } from '../ui/Text';
@@ -26,7 +26,7 @@ export const Stop: React.FC = () => {
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center' }}>
         <div style={big(108)}>
           <BlurText f={f} text="Stop" by="letter" start={sec(0.1)} stagger={0.05} dur={0.6} />
-          <BlurText f={f} text=" repeating mistakes." start={sec(0.5)} stagger={0.08} dur={0.7} color={GREY} />
+          <BlurText f={f} text=" repeating mistakes." start={sec(0.4)} stagger={0.08} dur={0.7} />
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
@@ -71,7 +71,7 @@ export const Tagline: React.FC = () => {
   return (
     <AbsoluteFill>
       <Bg f={f} kind="mint" />
-      <Img src={img('dash.jpg')} style={{ position: 'absolute', width: 2300, left: -190, top: -170, opacity: 0.07, filter: 'blur(2px) grayscale(0.3)', transform: `rotate(-7deg) translate(${lerp(30, -30, drift)}px, ${lerp(10, -10, drift)}px)` }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, width: 1440, height: 900, opacity: 0.09, filter: 'blur(1.5px)', transformOrigin: '0 0', transform: `translate(${lerp(-150, -210, drift)}px, ${lerp(-120, -140, drift)}px) rotate(-7deg) scale(1.6)` }}><DashboardPanel f={0} still /></div>
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div style={{ ...big(92), lineHeight: 1.12 }}>
           <BlurText f={f} text="The trading journal" start={sec(0.4)} stagger={0.08} />

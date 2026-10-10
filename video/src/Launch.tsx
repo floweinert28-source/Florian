@@ -1,4 +1,4 @@
-/* Launch-Video nach dem Vorbild „Numtera“ (ObiN Studio), mit dem echten Journalyst-Dashboard.
+/* Launch-Video nach dem Vorbild „Numtera“ (ObiN Studio). Die App-Szenen sind eigene, helle Karten mit echten Werten aus Journalyst.
    Schnitte liegen auf einem 120-BPM-Raster (alle 0,5 s), damit Musik in diesem Tempo später direkt passt. */
 import React from 'react';
 import { AbsoluteFill, Sequence, useCurrentFrame } from 'remotion';
@@ -6,10 +6,8 @@ import { IN, lerp, OUT, prog, sec } from './anim';
 import './fonts';
 import { Problem } from './scenes/Problem';
 import { Meet, Stop, Tagline } from './scenes/Intro';
-import { Dashboard3D, Prop } from './scenes/Planes';
-import { LogTrade } from './scenes/LogTrade';
-import { RuleCheck, TradeLog } from './scenes/Journal';
-import { Price, ShadowSelf, Worth } from './scenes/Shadow';
+import { Dashboard, LogTrade, RuleCheck, ShadowSelf, TradeLog } from './scenes/Product';
+import { Price, Worth } from './scenes/Shadow';
 import { Cta, Logo, Statement, TypedLine } from './scenes/Outro';
 import { GREEN } from './theme';
 
@@ -18,26 +16,24 @@ type Shot = { from: number; to: number; in?: Tr; inDur?: number; el: React.React
 
 /* Zeitplan in Sekunden; „in“ ist der Übergang aus der vorigen Szene */
 const SHOTS: Shot[] = [
-  { from: 0, to: 8, el: <Problem /> },                                   /* Same mistake … Same loss… again?  Flug durch das „o“ */
-  { from: 8, to: 10, el: <Stop /> },                                     /* Stop repeating mistakes. */
-  { from: 10, to: 13, in: 'fade', inDur: 0.4, el: <Meet /> },            /* Meet [J] Journalyst */
-  { from: 13, to: 16, in: 'fade', inDur: 0.4, el: <Tagline /> },         /* The trading journal that trains your discipline. */
-  { from: 16, to: 19.5, el: <Dashboard3D /> },                           /* Dashboard schräg im Raum, Kacheln heben sich */
-  { from: 19.5, to: 25, el: <LogTrade /> },                              /* Trade loggen */
-  { from: 25, to: 27.5, el: <TradeLog /> },                              /* neuer Trade oben im TradeLog */
-  { from: 27.5, to: 33, el: <RuleCheck /> },                             /* Regeln werden abgehakt */
-  { from: 33, to: 35, in: 'fade', inDur: 0.35, el: <Price /> },          /* Every broken rule has a { price } */
-  { from: 35, to: 41, in: 'fade', inDur: 0.35, el: <ShadowSelf /> },     /* Disziplin-Kosten zählen hoch, Kurven zeichnen sich */
-  { from: 41, to: 45, in: 'fade', inDur: 0.4, el: <Worth /> },           /* Your Shadow Self shows you [ what discipline is worth ] */
-  { from: 45, to: 48, el: <Prop /> },                                    /* Prop Firms, Topstep-Konto hebt sich */
-  { from: 48, to: 50, in: 'fade', inDur: 0.35, el: <Statement text="Every account. Every rule." bg="green" mode="scale" size={112} /> },
-  { from: 50, to: 52, in: 'blur', inDur: 0.45, el: <Statement text="Others count trades." bg="white" /> },
-  { from: 52, to: 54, in: 'fade', inDur: 0.3, el: <Statement text="We build traders." bg="deep" color="#fff" accent={2} accentColor={GREEN} /> },
-  { from: 54, to: 57, in: 'fade', inDur: 0.3, el: <Logo /> },
-  { from: 57, to: 60, in: 'wipe', inDur: 0.5, el: <TypedLine /> },
-  { from: 60, to: 64, in: 'fade', inDur: 0.45, el: <Cta /> },
+  { from: 0, to: 6.5, el: <Problem /> },                                 /* Same mistake, / Different day. → Same loss… again?  Flug durch das „o“ */
+  { from: 6.5, to: 8.5, el: <Stop /> },                                  /* Stop repeating mistakes. */
+  { from: 8.5, to: 11.5, in: 'fade', inDur: 0.4, el: <Meet /> },         /* Meet [J] Journalyst */
+  { from: 11.5, to: 14, in: 'fade', inDur: 0.4, el: <Tagline /> },       /* The trading journal that trains your discipline. */
+  { from: 14, to: 16.5, el: <Dashboard /> },                             /* Dashboard schräg im Raum, Karten ragen kurz heraus */
+  { from: 16.5, to: 19.5, el: <LogTrade /> },                            /* Trade loggen */
+  { from: 19.5, to: 21.5, el: <TradeLog /> },                            /* neuer Trade oben im TradeLog */
+  { from: 21.5, to: 24.5, el: <RuleCheck /> },                           /* Regeln werden abgehakt */
+  { from: 24.5, to: 26.5, in: 'fade', inDur: 0.35, el: <Price /> },      /* Every broken rule has a { price } */
+  { from: 26.5, to: 30, in: 'fade', inDur: 0.35, el: <ShadowSelf /> },   /* Disziplin-Kosten zählen hoch, Kurven zeichnen sich */
+  { from: 30, to: 33, in: 'fade', inDur: 0.4, el: <Worth /> },           /* Your Shadow Self shows you [ what discipline is worth ] */
+  { from: 33, to: 35, in: 'blur', inDur: 0.45, el: <Statement text="Others count trades." bg="white" /> },
+  { from: 35, to: 37, in: 'fade', inDur: 0.3, el: <Statement text="We build traders." bg="deep" color="#fff" accent={2} accentColor={GREEN} /> },
+  { from: 37, to: 39.5, in: 'fade', inDur: 0.3, el: <Logo /> },
+  { from: 39.5, to: 42, in: 'wipe', inDur: 0.5, el: <TypedLine /> },
+  { from: 42, to: 45.5, in: 'fade', inDur: 0.45, el: <Cta /> },
 ];
-export const DURATION = sec(64);
+export const DURATION = sec(45.5);
 
 /* Hülle einer Szene: blendet beim Eintritt über die vorige Szene; die vorige läuft so lange weiter */
 const Wrap: React.FC<{ tr: Tr; inDur: number; outTr?: Tr; outAt: number; outDur: number; children: React.ReactNode }> = ({ tr, inDur, outTr, outAt, outDur, children }) => {

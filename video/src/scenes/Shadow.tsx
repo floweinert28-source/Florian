@@ -1,9 +1,8 @@
-/* 33–45 s: „{ price }“, Shadow Self mit Zähler und sich zeichnenden Linien, „[ what discipline is worth ]“ */
+/* „Every broken rule has a { price }“ und „Your Shadow Self shows you [ what discipline is worth ]“ */
 import React from 'react';
-import { AbsoluteFill, Img, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { evolvePath } from '@remotion/paths';
 import { IN, lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
-import { cap, img } from '../cap';
 import { big, GREEN, GREEN_D } from '../theme';
 import { Bg } from '../ui/Bg';
 import { BlurText, useBox } from '../ui/Text';
@@ -22,44 +21,6 @@ export const Price: React.FC = () => {
         </span>
         <span style={{ display: 'inline-block', color: GREEN_D, opacity: prog(f, sec(0.6), sec(0.2)), transform: `translateX(${lerp(-half, 0, open)}px)` }}>{'}'}</span>
       </div>
-    </AbsoluteFill>
-  );
-};
-
-/* Kachel „Discipline cost“ zählt hoch, „Actual“ und „Shadow Self“ daneben, darunter zeichnen sich beide Kurven */
-const usd = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-export const ShadowSelf: React.FC = () => {
-  const f = useCurrentFrame();
-  const TS = 1.5; const tw = cap.shTile.w * TS, gap = 36; const x0 = 960 - (3 * tw + 2 * gap) / 2;
-  const ch = cap.shChart; const CS = 1.15; const cx = 960 - (ch.w * CS) / 2, cy = 410;
-  const enter = prog(f, sec(0.15), sec(0.6), OUT);
-  const draw = prog(f, sec(0.9), sec(2.6), SIG);
-  const pl = ch.plot; const crop = { x: pl.x - 12, y: pl.y - 16, w: pl.w + 24, h: pl.h + 32 };
-  const v = cap.shTile.val; const target = parseFloat(v.text.replace(/[^0-9.]/g, ''));
-  const count = target * prog(f, sec(1.0), sec(2.1), OUT);
-  const push = zoomLerp(1, 1.06, prog(f, 0, sec(5.3), SIG)) * zoomLerp(1, 1.3, prog(f, sec(5.45), sec(0.7), IN));
-  return (
-    <AbsoluteFill>
-      <Bg f={f} kind="mint" />
-      <AbsoluteFill style={{ transform: `scale(${push})` }}>
-        <div style={{ position: 'absolute', left: cx, top: cy, width: ch.w, height: ch.h, transformOrigin: '0 0', opacity: enter, transform: `translateY(${lerp(50, 0, enter)}px) scale(${CS})` }}>
-          <div style={{ position: 'absolute', left: 4, top: 4, right: 4, bottom: 4, borderRadius: 16, boxShadow: '0 60px 110px -30px rgba(6,40,20,0.5)' }} />
-          <Img src={img('sh-chart-blank.png')} style={{ position: 'absolute', width: ch.w, height: ch.h }} />
-          <div style={{ position: 'absolute', left: crop.x, top: crop.y, width: crop.w * draw, height: crop.h, overflow: 'hidden' }}>
-            <Img src={img('sh-chart.png')} style={{ position: 'absolute', left: -crop.x, top: -crop.y, width: ch.w, height: ch.h }} />
-          </div>
-        </div>
-        {[0, 1, 2].map((i) => {
-          const s = pop(f, sec(0.45 + i * 0.12), { damping: 14 }); const a = prog(f, sec(0.45 + i * 0.12), sec(0.3), OUT);
-          return (
-            <div key={i} style={{ position: 'absolute', left: x0 + i * (tw + gap), top: 175, width: cap.shTile.w, height: cap.shTile.h, transformOrigin: '0 0', opacity: a, transform: `translateY(${lerp(30, 0, s)}px) scale(${TS * lerp(0.9, 1, s)})` }}>
-              <div style={{ position: 'absolute', left: 4, top: 4, right: 4, bottom: 4, borderRadius: 14, boxShadow: '0 40px 70px -24px rgba(6,40,20,0.5)' }} />
-              <Img src={img(i === 0 ? 'sh-tile-blank.png' : `sh-tile-${i}.png`)} style={{ position: 'absolute', width: cap.shTile.w, height: cap.shTile.h }} />
-              {i === 0 ? <div style={{ position: 'absolute', left: v.x, top: v.y, height: v.h, fontFamily: v.fontFamily, fontSize: v.fontSize, fontWeight: Number(v.fontWeight), letterSpacing: v.letterSpacing, lineHeight: v.lineHeight, color: v.color, whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums' }}>{usd(count)}</div> : null}
-            </div>
-          );
-        })}
-      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

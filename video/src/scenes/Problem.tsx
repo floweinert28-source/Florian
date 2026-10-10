@@ -1,4 +1,4 @@
-/* 0–8 s: das Problem. Weißer Grund, getippter Text, verstreute Notizen und Tabellen; am Ende Flug durch das „o“ von „loss“. */
+/* 0–6,5 s: das Problem. Weißer Grund, getippter Text, verstreute Notizen und Tabellen; am Ende Flug durch das „o“ von „loss“. */
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { EXPO_IN, lerp, OUT, pop, prog, sec, SIG, zoomLerp } from '../anim';
@@ -37,13 +37,13 @@ const CARDS: C[] = [
   { x: 1370, y: 730, w: 390, rot: -3, at: 1.95, body: (<>
     <div style={{ background: '#eef1ee', borderRadius: 16, padding: '12px 16px', fontSize: 21, fontWeight: 500 }}>Why did I even take that trade?</div>
     <div style={{ ...small, fontSize: 13, marginTop: 8, textAlign: 'right' }}>4:47 PM</div></>) },
-  { x: 750, y: 70, w: 420, rot: -2, at: 6.1, body: (
+  { x: 750, y: 70, w: 420, rot: -2, at: 3.95, body: (
     <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}><span style={{ width: 14, height: 14, borderRadius: 7, background: RED, boxShadow: `0 0 0 6px ${RED}22` }} />
       <div><div style={{ fontSize: 21, fontWeight: 700 }}>Daily loss limit hit</div><div style={small}>Prop account 50K · just now</div></div></div>) },
-  { x: 770, y: 880, w: 400, rot: 2, at: 6.2, body: (
+  { x: 770, y: 880, w: 400, rot: 2, at: 4.05, body: (
     <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}><span style={{ width: 40, height: 32, borderRadius: 6, background: 'linear-gradient(135deg,#dfe7e2,#c3cfc8)' }} /><div style={{ fontSize: 17, fontWeight: 500 }}>Screenshot 2026-09-30 at 16.41.png</div></div>) },
-  { x: 30, y: 470, w: 290, rot: -6, at: 6.3, body: (<><div style={small}>Monday</div><div style={{ fontSize: 24, fontWeight: 700, marginTop: 4, letterSpacing: '-0.02em' }}>Moved my stop. Again.</div></>) },
-  { x: 1600, y: 450, w: 290, rot: 6, at: 6.4, body: (<><div style={small}>This week</div><div style={{ fontFamily: NUM, fontSize: 40, fontWeight: 700, color: RED, marginTop: 4, letterSpacing: '-0.02em' }}>−$1,284.50</div></>) },
+  { x: 30, y: 470, w: 290, rot: -6, at: 4.15, body: (<><div style={small}>Monday</div><div style={{ fontSize: 24, fontWeight: 700, marginTop: 4, letterSpacing: '-0.02em' }}>Moved my stop. Again.</div></>) },
+  { x: 1600, y: 450, w: 290, rot: 6, at: 4.25, body: (<><div style={small}>This week</div><div style={{ fontFamily: NUM, fontSize: 40, fontWeight: 700, color: RED, marginTop: 4, letterSpacing: '-0.02em' }}>−$1,284.50</div></>) },
 ];
 
 const Cards: React.FC<{ f: number }> = ({ f }) => (
@@ -65,8 +65,9 @@ export const Problem: React.FC = () => {
   /* Mitte des „o“ in „loss“: Zeile ist zentriert, also halbe Gesamtbreite abziehen, Breite bis „l“ und halbes „o“ addieren */
   const LOSS = 'Same loss… again?';
   const mt = useMetrics(`700 ${SIZE}px Satoshi`, `${(-0.035 * SIZE).toFixed(2)}px`, [LOSS, 'Same l', 'o']);
-  const A = sec(1.5), B = sec(3.0), C = sec(4.5), D = sec(6.0);
-  /* Kamera: B zieht langsam auf, E fährt auf das „o“ zu und fliegt hindurch */
+  /* A „Same mistake,“  B „Different day.“  C markiert und gelöscht  D an derselben Stelle weiter: „Same loss… again?“ */
+  const A = sec(1.5), B = sec(3.0), D = sec(3.75), FLY = sec(5.65);
+  /* Kamera: B zieht langsam auf, D fährt auf das „o“ zu und fliegt hindurch */
   let scale = 1, origin = '960px 540px';
   if (f >= A && f < D) scale = zoomLerp(1.12, 1, prog(f, A, sec(1.6), OUT));
   if (f >= D) {
@@ -76,8 +77,8 @@ export const Problem: React.FC = () => {
       ox = 960 - all.w / 2 + pre.w + o.w / 2; oy = base - (o.asc - o.desc) / 2;
     }
     origin = `${ox}px ${oy}px`;
-    scale = zoomLerp(1, 1.12, prog(f, D, sec(1.2), SIG));
-    if (f >= sec(7.2)) scale = zoomLerp(1.12, 180, prog(f, sec(7.2), sec(0.75), EXPO_IN));
+    scale = zoomLerp(1, 1.12, prog(f, D + sec(0.15), sec(1.5), SIG));
+    if (f >= FLY) scale = zoomLerp(1.12, 180, prog(f, FLY, sec(0.75), EXPO_IN));
   }
   /* Auswahl über „Different day.“, dann gelöscht */
   const sel = prog(f, sec(3.05), sec(0.4), SIG);
@@ -86,16 +87,15 @@ export const Problem: React.FC = () => {
       <AbsoluteFill style={{ transform: `scale(${scale})`, transformOrigin: origin }}>
         {f >= A ? <Cards f={f} /> : null}
         {f < A ? <div style={line}><Typed f={f} text="Same mistake," start={sec(0.15)} /></div> : null}
-        {f >= A && f < C ? (
+        {f >= A && f < D ? (
           <div style={line}>
             <span style={{ position: 'relative', display: 'inline-block' }}>
-              {f >= B && f < sec(3.95) ? <span style={{ position: 'absolute', left: -6, top: '0.06em', height: '1.02em', width: `calc(${sel * 100}% + 12px)`, background: 'rgba(52,245,138,0.38)', borderRadius: 6 }} /> : null}
-              <Typed f={f} text="Different day." start={A + 3} clearAt={sec(3.95)} />
+              {f >= B ? <span style={{ position: 'absolute', left: -6, top: '0.06em', height: '1.02em', width: `calc(${sel * 100}% + 12px)`, background: 'rgba(52,245,138,0.38)', borderRadius: 6 }} /> : null}
+              <Typed f={f} text="Different day." start={A + 3} />
             </span>
           </div>
         ) : null}
-        {f >= C && f < D ? <div style={line}><Typed f={f} text="Same mistake," start={0} /></div> : null}
-        {f >= D ? <div style={line}><Typed f={f} text={LOSS} start={D + 3} cps={20} caret={f < sec(7.2)} /></div> : null}
+        {f >= D ? <div style={line}><Typed f={f} text={LOSS} start={D + sec(0.15)} cps={20} caret={f < FLY} /></div> : null}
       </AbsoluteFill>
     </AbsoluteFill>
   );

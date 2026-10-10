@@ -44,7 +44,7 @@
   --radius-xs: 7px;
   /* Bewegung: eine Dauer- und Easing-Skala für alle Übergänge (js/motion.js liest sie mit) */
   --dur-1: 150ms; --dur-2: 240ms; --dur-3: 380ms;
-  --ease: cubic-bezier(.2, .8, .2, 1); --ease-in: cubic-bezier(.4, 0, 1, 1);
+  --ease: cubic-bezier(.2, .8, .2, 1); --ease-in: cubic-bezier(.4, 0, 1, 1); --ease-io: cubic-bezier(.4, 0, .2, 1); /* weich an- und auslaufend, z. B. für Schieber */
   --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .7);
   --sidebar-w: 232px;
   --topbar-h: 72px;
@@ -761,19 +761,20 @@ span.info:hover { color: var(--accent); }
 .tf-main .tf-row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .tf-main .tf-row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 /* Richtung im Trade-Fenster: zwei Hälften mit rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün, Short rot) */
-.dir-switch { --c: var(--accent); position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr 1fr; min-width: 210px; height: 42px; padding: 3px; border-radius: 11px; background: var(--field); border: 1px solid var(--border-2); }
-.dir-switch[data-dir="-1"] { --c: var(--loss); }
-.dir-switch::before { content: ''; position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 9px; transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 26%, var(--surface-2)), color-mix(in srgb, var(--c) 7%, var(--surface-2)) 85%);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 42%, transparent), -6px 4px 18px -10px color-mix(in srgb, var(--c) 60%, transparent); }
+@property --dir-c { syntax: '<color>'; inherits: true; initial-value: #34f58a; } /* registriert: die Farbe blendet mit dem Schieber über statt zu springen */
+.dir-switch { --dir-c: var(--accent); transition: --dir-c 260ms var(--ease-io); position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr 1fr; min-width: 210px; height: 42px; padding: 3px; border-radius: 11px; background: var(--field); border: 1px solid var(--border-2); }
+.dir-switch[data-dir="-1"] { --dir-c: var(--loss); }
+.dir-switch::before { content: ''; position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 9px; transition: transform 260ms var(--ease-io);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--dir-c) 26%, var(--surface-2)), color-mix(in srgb, var(--dir-c) 7%, var(--surface-2)) 85%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dir-c) 42%, transparent), -6px 4px 18px -10px color-mix(in srgb, var(--dir-c) 60%, transparent); }
 .dir-switch[data-dir="-1"]::before { transform: translateX(100%); }
 .dir-opt { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; border: 0; border-radius: 9px; background: none; color: var(--muted); font: inherit; font-size: 13.5px; font-weight: 700; letter-spacing: .02em; cursor: pointer; transition: color var(--dur-2) var(--ease); }
 .dir-opt:hover { color: var(--text-2); }
-.dir-opt:focus-visible { outline: 2px solid var(--c); outline-offset: -2px; }
+.dir-opt:focus-visible { outline: 2px solid var(--dir-c); outline-offset: -2px; }
 .dir-opt .bi { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-3); flex: none; transition: background var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
 .dir-opt .bi svg { width: 11px; height: 11px; color: var(--muted); transition: color var(--dur-2) var(--ease); }
-.dir-opt[aria-pressed="true"] { color: var(--c); }
-.dir-opt[aria-pressed="true"] .bi { background: var(--c); box-shadow: 0 0 10px color-mix(in srgb, var(--c) 50%, transparent); }
+.dir-opt[aria-pressed="true"] { color: var(--dir-c); }
+.dir-opt[aria-pressed="true"] .bi { background: var(--dir-c); box-shadow: 0 0 10px color-mix(in srgb, var(--dir-c) 50%, transparent); }
 .dir-opt[aria-pressed="true"] .bi svg { color: var(--bg); }
 :root[data-theme="light"] .dir-opt[aria-pressed="true"] .bi svg { color: #fff; }
 .tf-main .tf-wide { grid-column: 1 / -1; }

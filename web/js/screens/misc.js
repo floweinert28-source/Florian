@@ -71,21 +71,70 @@
 
   /* ---------- Design: Erscheinungsbild, Schrift, Farben ---------- */
   const HUE = h => { const [r, g, b] = h.replace('#', '').match(/../g).map(x => parseInt(x, 16) / 255); const max = Math.max(r, g, b), min = Math.min(r, g, b); const d = max - min; if (!max || d / max < 0.12) return 999; let hue = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4; return hue * 60; };
+  /* ---------- Design: Hilfen für Erscheinungsbild, eigene Farben und gespeicherte Designs ---------- */
+  const DESIGN_MAX = 6;
+  const X_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>';
+  const TC_WIN = '<span class="tc-win"><span class="tc-dots"><i></i><i></i><i></i></span><span class="tc-side"><i></i><i></i><i></i><i></i></span><span class="tc-user"><i></i><i></i></span><span class="tc-main"><i class="h"></i><i class="h2"></i><span class="tc-tiles"><i></i><i></i><i></i></span><i class="f"></i></span></span>';
+  const lookOf = st => (st.customLook && root.Theme.valid(st.customBg) ? 'custom' : st.theme === 'light' ? 'light' : st.darkStyle === 'schwarz' ? 'schwarz' : 'graphit');
+  /* Vorschaufarben der Karte „Eigenes“ aus der Grundfarbe (gleiche Stufen wie in Theme.surfaces) */
+  function customVars(hex) {
+    const T = root.Theme; if (!T.valid(hex)) return ''; const v = T.surfaces(hex); const lt = T.isLightBase(hex);
+    return `--c1:${v['--surface-2']};--c0:${v['--bg']};--cw:${v['--bg-2']};--cp:${v['--surface']};--cb:${v['--border-2']};--cl:${T.shade(hex, lt ? -0.16 : 0.2)};--ct:${v['--surface-3']}`;
+  }
+  function customCard(st, look) {
+    const cb = root.Theme.valid(st.customBg) ? st.customBg : '';
+    return `<button type="button" class="theme-card t-custom${cb ? '' : ' is-new'}" data-action="appearance" data-value="custom" aria-pressed="${look === 'custom'}" style="${customVars(cb)}"><span class="tc-prev" aria-hidden="true">${cb ? TC_WIN : I.plus}<i class="tc-edit">${I.edit}</i></span><b>Eigenes</b></button>`
+      + `<input type="color" id="custom-bg" value="${cb || '#1d2433'}" data-input="custom-bg" data-change="custom-bg-done" data-cp-nosave hidden tabindex="-1" aria-label="Eigene Grundfarbe">`;
+  }
+  /* eigene Farben (aus dem Farbwähler) in der Akzentreihe, ohne Dopplung mit den Vorgaben, höchstens so viele wie der Farbwähler merkt */
+  function savedDots(accent, presetSet) {
+    const T = root.Theme; const max = root.ColorPicker ? root.ColorPicker.MAX : 8;
+    const list = (S.settings.savedColors || []).filter(c => T.valid(c) && !presetSet.has(c.toLowerCase())).slice(0, max);
+    return list.length ? `<i class="dots-sep" aria-hidden="true"></i>${list.map(c => `<span class="dot-wrap"><button type="button" class="dot" data-action="color-preset" data-key="accent" data-value="${c}" aria-pressed="${accent.toLowerCase() === c.toLowerCase()}" data-tip="Eigene Farbe" style="--c:${c}"></button><button type="button" class="dot-x" data-action="saved-color-del" data-value="${c}" aria-label="Farbe löschen">${X_SVG}</button></span>`).join('')}` : '';
+  }
+  App.refreshSavedColors = () => { const g = document.getElementById('saved-colors'); if (!g) return; const T = root.Theme; const st = S.settings; const acc = (st.colors || {}).accent || T.DEFAULTS[st.theme === 'light' ? 'light' : 'dark'].accent; g.innerHTML = savedDots(acc, new Set(T.PRESETS_ACCENT.map(a => a[1]))); };
+  /* Design = Erscheinungsbild + Schrift + Farben; die Signatur vergleicht ein gespeichertes Design mit den aktuellen Einstellungen */
+  const designOf = st => ({ theme: st.theme === 'light' ? 'light' : 'dark', darkStyle: st.darkStyle === 'schwarz' ? 'schwarz' : 'graphit', customLook: !!(st.customLook && root.Theme.valid(st.customBg)), customBg: st.customLook && root.Theme.valid(st.customBg) ? st.customBg.toLowerCase() : '', font: root.Theme.fontKey(st.font), colors: ['accent', 'profit', 'loss', 'be'].reduce((o, k) => (o[k] = ((st.colors || {})[k] || '').toLowerCase(), o), {}) });
+  const sigOf = d => JSON.stringify([d.theme, d.darkStyle, d.customLook, d.customBg, d.font, d.colors.accent, d.colors.profit, d.colors.loss, d.colors.be]);
+  function designVars(d) {
+    const T = root.Theme; const light = d.theme === 'light'; const defs = T.DEFAULTS[light ? 'light' : 'dark'];
+    const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#f5f7f5', '--surface': '#ffffff', '--border-2': '#cfd6d1' } : d.darkStyle === 'schwarz' ? { '--bg': '#000000', '--surface': '#0b0d0c', '--border-2': '#2b332e' } : { '--bg': '#0e0d0b', '--surface': '#1a1917', '--border-2': '#34322e' };
+    const c = k => (T.valid(d.colors[k]) ? d.colors[k] : defs[k]);
+    return `--db:${base['--bg']};--ds:${base['--surface']};--dd:${base['--border-2']};--da:${c('accent')};--dp:${c('profit')};--dl:${c('loss')}`;
+  }
+  function designsBlock(st) {
+    const list = st.designs || []; const full = list.length >= DESIGN_MAX; const cur = sigOf(designOf(st));
+    const cards = list.map(d => `<span class="design-wrap"><button type="button" class="design-card" data-action="design-apply" data-id="${esc(d.id)}" aria-pressed="${sigOf(d) === cur}"><span class="dc-prev" style="${designVars(d)}" aria-hidden="true"><i></i><i></i><i></i></span><b class="no-i18n">${esc(d.name)}</b></button><button type="button" class="dot-x" data-action="design-del" data-id="${esc(d.id)}" aria-label="Design löschen">${X_SVG}</button></span>`).join('');
+    return `<div class="set-block"><div class="set-head-row"><h3>Meine Designs</h3><button type="button" class="btn sm" data-action="design-save"${full ? ' disabled' : ''}>${I.plus} Aktuelles speichern</button></div>
+      <div class="small muted" style="margin-bottom:${list.length ? 14 : 0}px">${full ? `Höchstens ${DESIGN_MAX} Designs. Lösche eins, um ein neues zu speichern.` : 'Erscheinungsbild, Schrift und Farben zusammen speichern und mit einem Klick wieder anwenden.'}</div>${list.length ? `<div class="design-grid">${cards}</div>` : ''}</div>`;
+  }
+  function applyCustom(hex) { const T = root.Theme; S.setSetting('customBg', hex.toLowerCase()); S.setSetting('customLook', true); S.setSetting('theme', T.isLightBase(hex) ? 'light' : 'dark'); T.apply(S.settings); }
+  /* Klick auf „Eigenes“: ohne Grundfarbe oder schon gewählt → Farbwähler; sonst die gespeicherte Grundfarbe anwenden */
+  App.openCustomLook = card => {
+    const st = S.settings; const T = root.Theme; const inp = document.getElementById('custom-bg');
+    if (T.valid(st.customBg) && !st.customLook) { applyCustom(st.customBg); App.rerender(); return; }
+    if (inp && root.ColorPicker) root.ColorPicker.open(inp, card.querySelector('.tc-prev'));
+  };
+
   function design() {
     const st = S.settings; const T = root.Theme; const col = st.colors || {}; const defs = T.DEFAULTS[st.theme === 'light' ? 'light' : 'dark']; const cur = { accent: col.accent || defs.accent, profit: col.profit || defs.profit, loss: col.loss || defs.loss, be: col.be || defs.be };
     Object.keys(T.FONTS).forEach(T.loadFont); const fontKey = T.fontKey(st.font);
     const accents = T.PRESETS_ACCENT.slice().sort((a, b) => HUE(a[1]) - HUE(b[1]));
     const fonts = Object.entries(T.FONTS).map(([k, f]) => `<button type="button" class="font-card" data-action="font-set" data-value="${k}" aria-pressed="${fontKey === k}" style="font-family:${f.text.replace(/"/g, '&quot;')}"><span class="sample">Aa</span><span class="nums" style="${f.num ? `font-family:${f.num.replace(/"/g, '&quot;')}` : ''}">${fmt.cur(1234.5, { money: true })}</span><b>${f.name}</b><small>${f.desc}</small></button>`).join('');
     const pairs = T.PRESETS_PAIR.map(([n, p, l]) => `<button type="button" class="pair-card" data-action="color-pair" data-profit="${p}" data-loss="${l}" aria-pressed="${cur.profit.toLowerCase() === p && cur.loss.toLowerCase() === l}"><span class="pv"><i style="background:${p}">${fmt.cur(240, { money: true, signed: true, compact: true })}</i><i style="background:${l}">${fmt.cur(-120, { money: true, compact: true })}</i></span><b>${n}</b></button>`).join('');
-    /* Erscheinungsbild als kleine Vorschau der App (Fenster mit Seitenleiste, Kopf und Kacheln) in den Farben des jeweiligen Designs */
-    const look = st.theme === 'light' ? 'light' : st.darkStyle === 'schwarz' ? 'schwarz' : 'graphit';
-    const themes = [['graphit', 'Graphit'], ['schwarz', 'Schwarz'], ['light', 'Weiß']].map(([k, n]) => `<button type="button" class="theme-card t-${k}" data-action="appearance" data-value="${k}" aria-pressed="${look === k}"><span class="tc-prev" aria-hidden="true"><span class="tc-win"><span class="tc-dots"><i></i><i></i><i></i></span><span class="tc-side"><i></i><i></i><i></i><i></i></span><span class="tc-user"><i></i><i></i></span><span class="tc-main"><i class="h"></i><i class="h2"></i><span class="tc-tiles"><i></i><i></i><i></i></span><i class="f"></i></span></span></span><b>${n}</b></button>`).join('');
+    /* Erscheinungsbild als kleine Vorschau der App (Fenster mit Seitenleiste, Kopf und Kacheln) in den Farben des jeweiligen Designs;
+       „Eigenes“ zeigt die eigene Grundfarbe (ohne gewählte Farbe ein Plus), ein Klick auf die gewählte Karte öffnet den Farbwähler */
+    const look = lookOf(st);
+    const themes = [['graphit', 'Graphit'], ['schwarz', 'Schwarz'], ['light', 'Weiß']].map(([k, n]) => `<button type="button" class="theme-card t-${k}" data-action="appearance" data-value="${k}" aria-pressed="${look === k}"><span class="tc-prev" aria-hidden="true">${TC_WIN}</span><b>${n}</b></button>`).join('')
+      + customCard(st, look);
+    const presetSet = new Set(T.PRESETS_ACCENT.map(a => a[1]));
     const picker = (key, label, val) => `<label class="cpick"><input type="color" value="${val}" data-input="color-set" data-key="${key}" aria-label="${label}"><i style="background:${val}"></i><span>${label}</span></label>`;
     return head('Design', 'Erscheinungsbild, Schrift und Farben. Wirkt sofort auf die ganze Website.') + `
       <div class="set-block"><h3>Erscheinungsbild</h3><div class="theme-grid">${themes}</div></div>
       <div class="set-block"><h3>Schriftart</h3><div class="small muted" style="margin-bottom:12px">Gilt für Text und Zahlen auf der ganzen Website.</div><div class="font-grid">${fonts}</div></div>
-      <div class="set-block"><h3>Akzentfarbe</h3><div class="small muted" style="margin-bottom:12px">Buttons, aktive Einträge und Diagramme.</div><div class="dots">${accents.map(([n, c]) => `<button type="button" class="dot" data-action="color-preset" data-key="accent" data-value="${c}" aria-pressed="${cur.accent.toLowerCase() === c}" data-tip="${n}" style="--c:${c}"></button>`).join('')}<label class="dot custom" data-tip="Eigene Farbe wählen"><input type="color" value="${cur.accent}" data-input="color-set" data-key="accent" aria-label="Eigene Akzentfarbe">${I.plus}</label></div></div>
+      <div class="set-block"><h3>Akzentfarbe</h3><div class="small muted" style="margin-bottom:12px">Buttons, aktive Einträge und Diagramme.</div><div class="dots">${accents.map(([n, c]) => `<button type="button" class="dot" data-action="color-preset" data-key="accent" data-value="${c}" aria-pressed="${cur.accent.toLowerCase() === c}" data-tip="${n}" style="--c:${c}"></button>`).join('')}<span id="saved-colors" class="dots-saved">${savedDots(cur.accent, presetSet)}</span><label class="dot custom" data-tip="Eigene Farbe wählen"><input type="color" value="${cur.accent}" data-input="color-set" data-key="accent" aria-label="Eigene Akzentfarbe">${I.plus}</label></div></div>
       <div class="set-block"><h3>Gewinn, Verlust und Break-even</h3><div class="small muted" style="margin-bottom:12px">Farben für Plus, Minus und Break-even in Zahlen, Kalendern und Diagrammen.</div><div class="pair-grid">${pairs}</div><div class="cpick-row">${picker('profit', 'Gewinn', cur.profit)}${picker('loss', 'Verlust', cur.loss)}${picker('be', 'Break-even', cur.be)}<button type="button" class="btn sm ghost" data-action="color-reset" style="margin-left:auto">${I.close} Standardfarben</button></div></div>
+      ${designsBlock(st)}
       `;
   }
 
@@ -234,6 +283,28 @@
     'color-pair'(el) { setColors({ profit: el.dataset.profit, loss: el.dataset.loss }); rerender(); },
     'color-set'(el) { setColors({ [el.dataset.key]: el.value }); const i = el.parentElement.querySelector('i'); if (i) i.style.background = el.value; document.querySelectorAll('.dot[data-key="' + el.dataset.key + '"], .pair-card').forEach(b => b.setAttribute('aria-pressed', 'false')); },
     'color-reset'() { S.setSetting('colors', { accent: '', profit: '', loss: '', be: '' }); root.Theme.apply(S.settings); rerender(); },
+    /* eigene Grundfarbe: beim Ziehen sofort anwenden, nur die Karte nachführen (der Farbwähler bleibt am Feld); beim Schließen neu aufbauen */
+    'custom-bg'(el) {
+      applyCustom(el.value); const card = document.querySelector('.theme-card.t-custom'); if (!card) return;
+      if (card.classList.contains('is-new')) { card.classList.remove('is-new'); card.querySelector('.tc-prev').innerHTML = TC_WIN + `<i class="tc-edit">${I.edit}</i>`; }
+      card.setAttribute('style', customVars(el.value)); document.querySelectorAll('.theme-card').forEach(b => b.setAttribute('aria-pressed', String(b === card)));
+    },
+    'custom-bg-done'() { rerender(); },
+    'saved-color-del'(el) { S.setSetting('savedColors', (S.settings.savedColors || []).filter(c => c.toLowerCase() !== String(el.dataset.value).toLowerCase())); App.refreshSavedColors(); },
+    'design-save'() {
+      const n = (S.settings.designs || []).length; if (n >= DESIGN_MAX) return;
+      U.modal(`<form data-action="design-save-name"><div class="modal-head"><h2>Design speichern</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><div class="field"><label for="design-name">Name</label><input class="input" id="design-name" name="name" maxlength="28" value="Design ${n + 1}" required autocomplete="off"></div><div class="small muted" style="margin-top:8px">Erscheinungsbild, Schrift und alle Farben.</div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { onMount(m) { const i = m.querySelector('#design-name'); if (i) setTimeout(() => i.select(), 40); } });
+    },
+    'design-save-name'(form) {
+      const list = (S.settings.designs || []).slice(); if (list.length >= DESIGN_MAX) return; const name = String(new FormData(form).get('name') || '').trim().slice(0, 28) || `Design ${list.length + 1}`;
+      list.push(Object.assign({ id: 'd' + Date.now().toString(36), name }, designOf(S.settings))); S.setSetting('designs', list); U.closeModal(); U.toast('Design gespeichert', 'ok'); rerender();
+    },
+    'design-apply'(el) {
+      const d = (S.settings.designs || []).find(x => x.id === el.dataset.id); if (!d) return;
+      S.setSetting('theme', d.theme); S.setSetting('darkStyle', d.darkStyle); S.setSetting('customLook', !!d.customLook); if (d.customLook && d.customBg) S.setSetting('customBg', d.customBg);
+      S.setSetting('font', d.font); S.setSetting('colors', Object.assign({ accent: '', profit: '', loss: '', be: '' }, d.colors)); root.Theme.apply(S.settings); rerender();
+    },
+    'design-del'(el) { S.setSetting('designs', (S.settings.designs || []).filter(x => x.id !== el.dataset.id)); U.toast('Design gelöscht', 'ok'); rerender(); },
     /* Benachrichtigungen */
     'navdot-toggle'(el) { const d = Object.assign({ on: true }, S.settings.navDots || {}); const k = el.dataset.key; d[k] = d[k] === false; S.setSetting('navDots', d); rerender(); },
     /* Begrüßung in der Seitenleiste: sofort übernehmen, ohne das Profil-Formular neu aufzubauen (ungespeicherte Eingaben bleiben) */

@@ -119,7 +119,7 @@
     const inp = input; input = null; anchor = null; if (raf) { cancelAnimationFrame(raf); raf = 0; }
     if (inp && !gone) {
       if (revert) { if (inp.value.toLowerCase() !== start) { inp.value = start; inp.dispatchEvent(new Event('input', { bubbles: true })); } }
-      else if (hsv) { const hex = hexOf(); if (inp.value.toLowerCase() !== hex) { inp.value = hex; inp.dispatchEvent(new Event('input', { bubbles: true })); } if (hex !== start) { inp.dispatchEvent(new Event('change', { bubbles: true })); remember(hex); } }
+      else if (hsv) { const hex = hexOf(); if (inp.value.toLowerCase() !== hex) { inp.value = hex; inp.dispatchEvent(new Event('input', { bubbles: true })); } if (hex !== start) { inp.dispatchEvent(new Event('change', { bubbles: true })); if (!('cpNosave' in inp.dataset)) remember(hex); } /* data-cp-nosave: Farbe nicht in „Eigene Farben“ (z. B. Grundfarbe) */ }
     }
     if (!el || !el.classList.contains('open')) return;
     const M = root.Motion; if (!silent && M && M.enabled && M.leave) M.leave(el, 'closing', '--dur-1', () => el.classList.remove('open', 'closing')); else el.classList.remove('open', 'closing');

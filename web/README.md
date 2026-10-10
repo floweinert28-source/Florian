@@ -154,7 +154,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   alle (Text, optional Fälligkeit); der Schüler hakt sie in der Coach-Übersicht ab, der Mentor sieht den Stand.
   **Gruppen-Statistik** (nur Mentoren): aktive Schüler, Trades, Ø Winrate, Ø Profit-Faktor, Ø Gewinn/Verlust in R,
   Ø Max. Drawdown, Journal-Einträge, Notizen und offene Aufgaben im Zeitraum; Durchschnitte, keine Rangliste.
-- **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Erscheinungsbild als drei Vorschaukarten mit kleinem App-Fenster in den jeweiligen Farben, die gewählte mit hellem Ring: Graphit (Standard, warmes dunkles Grau), Schwarz (tiefschwarz) oder Weiß (hell); der Schalter im Konto-Menü wechselt Dunkel/Hell und behält die gewählte dunkle Variante; vier Schriftarten: Standard „Modern“ (Text in Satoshi, Zahlen in Onest), „Geschwungen“ (Quicksand, Zahlen in Onest), „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
+- **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Erscheinungsbild als Vorschaukarten mit kleinem App-Fenster in den jeweiligen Farben, die gewählte mit hellem Ring: Graphit (Standard, warmes dunkles Grau), Schwarz (tiefschwarz), Weiß (hell) oder Eigenes (eine Grundfarbe im Farbwähler; Hintergrund, Karten und Ränder werden daraus abgeleitet, helle Grundfarbe ergibt ein helles Design; bleibt gespeichert, auch wenn man zu den festen Designs wechselt); der Schalter im Konto-Menü wechselt Dunkel/Hell und behält die gewählte dunkle Variante; vier Schriftarten: Standard „Modern“ (Text in Satoshi, Zahlen in Onest), „Geschwungen“ (Quicksand, Zahlen in Onest), „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
 - **Schrift**: Text in **Satoshi** (Fontshare, Indian Type Foundry), Zahlen in **Onest** (Google Fonts). Beide sind geometrisch
   mit ähnlicher x-Höhe, deshalb passen Text und Zahlen nebeneinander. Satoshi steht unter der ITF Free Font License: freie
   Nutzung auch kommerziell, Selbst-Hosting auf der eigenen Website erlaubt, Weitergabe der Schriftdateien nicht. Darum liegen
@@ -171,6 +171,10 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Screenreader-Texte aus dem Wörterbuch der Sprache (`js/lang/<code>.js`, deutscher Text → Übersetzung, `{0}` für Zahlen,
   Beträge und Namen). Eigene Inhalte (Notizen, Eingabefelder) werden nie verändert, gespeicherte Daten bleiben unverändert.
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
+  Eigener **Farbwähler** im App-Design statt des System-Fensters (für alle Farbfelder der App, `js/colorpicker.js`): Fläche für Sättigung
+  und Helligkeit, Farbton-Regler, Hex-Feld, Escape nimmt zurück. Selbst gewählte Farben werden gemerkt (höchstens 8, neueste vorne),
+  erscheinen im Farbwähler und in der Akzentreihe und lassen sich mit × löschen. **Meine Designs**: Erscheinungsbild, Schrift und alle
+  Farben als Paket speichern, mit einem Klick anwenden, löschen; höchstens 6.
   Die Wahl gilt für die ganze Website inklusive Startseite.
   Ausgewählte Knöpfe und Karten mit Rahmen (Reiter, Segmente, Chips, Schrift-/Farbkarten, Akzent-Knöpfe) sind beleuchtet:
   Licht fällt von oben links ein, der Rand ist ein Lichtverlauf, dazu eine feine Kante oben innen und ein weicher Schein darunter
@@ -259,6 +263,7 @@ web/
   js/editor.js          Notiz-Editor (Quill 2): Toolbar, Blots, Slash-Befehle, Emojis, Bilder
   vendor/quill/         Quill 2.0.3 (BSD-3-Clause)
   js/app.js             Router, Seitenleiste, Kopfzeile und Kopfreihe unter dem Titel, Trade-Editor, Session, CSV-Import
+  js/colorpicker.js     Farbwähler im App-Design für alle Farbfelder, merkt eigene Farben (höchstens 8)
   js/datepicker.js      Kalender im App-Design für Datumsfelder (Datum, Datum mit Uhrzeit samt Stunden-/Minuten-Spalten, Monat), auf Touch-Geräten bleibt der System-Kalender
   js/screens/*.js       Die einzelnen Seiten
   tests/core.test.mjs   Tests für die Analytik

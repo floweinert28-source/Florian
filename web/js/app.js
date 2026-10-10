@@ -67,6 +67,7 @@
     render(o) {
       const enter = !o || o.enter !== false; /* neue Seite: Inhalte gleiten ein; Neuaufbau nach Eingaben: nur, was noch unter dem Fenster liegt */
       if (root.DatePicker) root.DatePicker.close(true);
+      if (root.ColorPicker) root.ColorPicker.close(true, true);
       if (this._screen && this._screen.unmount) { try { this._screen.unmount(); } catch (e) { console.warn(e); } }
       this.parseRoute(); fmt.setCurrency(S.currency()); root.Theme.apply(S.settings); C.setBreakEven(S.settings.beOffset);
       /* gleiche Seite, andere Parameter (Tag vor/zurück, Reiter): kein gestaffelter Einzug der Karten, nur ein kurzes ruhiges Einblenden
@@ -277,6 +278,7 @@
       window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
       if (root.RangePicker) root.RangePicker.init(); /* Zeitraum „Benutzerdefiniert“ mit zwei Monaten */
       if (root.DatePicker) root.DatePicker.init(); /* eigener Kalender für Datumsfelder, nach dem Klick-Handler oben registriert */
+      if (root.ColorPicker) root.ColorPicker.init({ get: () => S.settings.savedColors || [], set: l => S.setSetting('savedColors', l), changed: () => { if (App.refreshSavedColors) App.refreshSavedColors(); } }); /* eigener Farbwähler; selbst gewählte Farben werden gemerkt */
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) { this.noteAnchor(el); fn.call(this, el, e); } } });
       /* Seitenwechsel mit Überblendung der ganzen Seite; innerhalb derselben Seite (Tag vor/zurück, Reiter) ohne – dort blendet nur der
@@ -301,8 +303,8 @@
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     /* Erscheinungsbild in den Einstellungen: Graphit oder Schwarz (beide dunkel) oder Weiß (hell); der Schalter im Konto-Menü wechselt nur Dunkel/Hell und behält die dunkle Variante */
-    appearance(el) { const v = el.dataset.value; if (v !== 'light') S.setSetting('darkStyle', v === 'schwarz' ? 'schwarz' : 'graphit'); this.actions.theme.call(this, { dataset: { value: v === 'light' ? 'light' : 'dark' } }); },
-    theme(el) { S.setSetting('theme', el.dataset.value); root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
+    appearance(el) { const v = el.dataset.value; if (v === 'custom') { if (App.openCustomLook) App.openCustomLook(el); return; } if (v !== 'light') S.setSetting('darkStyle', v === 'schwarz' ? 'schwarz' : 'graphit'); this.actions.theme.call(this, { dataset: { value: v === 'light' ? 'light' : 'dark' } }); },
+    theme(el) { S.setSetting('customLook', false); S.setSetting('theme', el.dataset.value); /* Hell/Dunkel wählt die festen Designs, das eigene bleibt gespeichert */ root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     /* Vorgabe links nur markieren und im Kalender zeigen; übernommen wird erst mit „Anwenden“ */
     range(el) { const pop = el.closest('.range-pop'); if (!pop || !root.RangePicker) return; pop.querySelectorAll('.rr-presets [data-action="range"]').forEach(b => b.setAttribute('aria-checked', String(b === el))); root.RangePicker.setPreset(pop.querySelector('[data-rr-root]'), this.presetPick(el.dataset.value)); },
     'range-custom'() { const v = root.RangePicker ? root.RangePicker.value() : { from: '' }; if (v.preset) S.setSetting('range', { preset: v.preset, from: null, to: null }); else if (!v.from) return U.toast('Bitte ein Startdatum wählen', 'err'); else S.setSetting('range', { preset: 'custom', from: v.from, to: v.to || v.from }); this.closePopovers(); this.rerender(); },

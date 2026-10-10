@@ -407,6 +407,7 @@
   }
   function closeModal(all) {
     if (root.DatePicker) root.DatePicker.close(true);
+    if (root.ColorPicker) root.ColorPicker.close(true, true);
     const m = all ? modals.splice(0) : [modals.pop()].filter(Boolean);
     for (const x of m) { const bg = x.bg; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(bg, 'out', '--dur-1', () => bg.remove()); else bg.remove(); if (x.o.onClose) x.o.onClose(); }
     if (!modals.length) document.body.style.overflow = '';

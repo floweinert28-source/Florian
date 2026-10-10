@@ -33,7 +33,7 @@ dann zur neuen Zeile im TradeLog und schließlich zur Karte bei der Regelprüfun
 
 Zweites Launch-Video mit Aufbau und Bewegungen der Vorlage https://youtu.be/SgmuplXU2iY, im selben dunklen
 Journalyst-Design und mit echten Werten aus der App: `journalyst-2.mp4` (quer) und `journalyst-2-vertical.mp4` (hochkant),
-60 fps, 35 Sekunden. Nur Sound-Effekte (`scripts/sound2.py`), keine Musik. Code in `src/v2/`.
+60 fps, 34,4 Sekunden. Nur Sound-Effekte (`scripts/sound2.py`), keine Musik. Code in `src/v2/`.
 
 | Zeit | Szene | Entspricht in der Vorlage |
 | --- | --- | --- |
@@ -47,7 +47,7 @@ Journalyst-Design und mit echten Werten aus der App: `journalyst-2.mp4` (quer) u
 | 18,3–21 s | Die Karte teilt sich in vier Kacheln (Net P&L, Trefferquote, Score, Shadow Self), „Know your edge.“ | „Multiple Languages“ |
 | 21–25,6 s | TradeLog als Liste, Klick auf „Create certificate“, der Knopf wird zum Häkchen-Abzeichen | „Distribute To Youtube“ → Stern |
 | 25,6–29 s | Das Abzeichen hüpft über „Log.“ „Review.“ „Improve.“ | „Translate. Dub. Distribute“ |
-| 29–35 s | Wortmarke JOURNALYST, darunter getippt „The trading journal for discipline.“ | Logo und Adresse |
+| 29–34,4 s | Wortmarke JOURNALYST, darunter getippt „The trading journal for discipline.“ | Logo und Adresse |
 
 ## So entsteht es
 

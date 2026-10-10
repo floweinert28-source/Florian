@@ -174,7 +174,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
   Rote Flächen (Verlusttage im Kalender und in der Jahresübersicht, Fläche unter der Kurve im Minus) sind etwas kräftiger getönt als grüne,
   damit sie auf dem dunklen Grund gleich stark wirken.
-  Im Kalender stehen die Tages-P&L in Weiß (am PC kräftiger, Onest 800), Gewinn/Verlust zeigt die getönte Fläche; am Handy in Kurzform
+  Im Kalender stehen die Tages-P&L in Gewinn- bzw. Verlustfarbe (am PC kräftiger, Onest 800); am Handy in Kurzform
   mit Währungszeichen („+$722“, „−$5.8k“), mittig im Feld. Diagramme beschriften die Zeitachse mit
   kurzem Datum (ohne Jahr, wenn alles im selben Jahr liegt), gleichmäßig verteilt und ohne Überlappung (`UI.dateAxis`).
   Im Dashboard-Filter leuchtet die gewählte Richtung bzw. das Ergebnis in seiner Farbe (Long Akzent, Short/Verlust rot, Gewinn grün, Break-even BE-Farbe).

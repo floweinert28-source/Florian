@@ -172,6 +172,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Beträge und Namen). Eigene Inhalte (Notizen, Eingabefelder) werden nie verändert, gespeicherte Daten bleiben unverändert.
 - **Farben**: Akzentfarbe sowie Gewinn- und Verlustfarbe frei wählbar (Vorlagen oder eigene Farbe), dunkel oder hell.
   Die Wahl gilt für die ganze Website inklusive Startseite.
+  Ausgewählte Knöpfe und Karten mit Rahmen (Reiter, Segmente, Chips, Schrift-/Farbkarten, Akzent-Knöpfe) sind beleuchtet:
+  Licht fällt von oben links ein, der Rand ist ein Lichtverlauf, dazu eine feine Kante oben innen und ein weicher Schein darunter
+  (ein gemeinsamer Stil am Ende von `css/app.css`, Lichtfarbe über `--lc`, z. B. Rot bei Fehler-Chips).
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.
   Trades zeigen ihr exaktes R, ohne Stop „– R“; Summen werden über eine R-Einheit umgerechnet (Median des Risikos
   deiner Trades mit Stop oder ein fester Wert). Der Kontostand wird komplett ausgeblendet, das Zertifikat erzwingt

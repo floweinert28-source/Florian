@@ -338,9 +338,9 @@ gleitet (App-Start ohne Logo-Zeichen, Auswertung von Sprachnotizen); `U.spin()` 
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
 
-**Kurven:** `UI.smooth` verbindet die Punkte mit geraden Stücken und ist nur um die Datenpunkte herum weich (Radius 12 px). Die Kurve
-läuft exakt durch jeden Punkt, die Markierungen sitzen auf der Linie; an Hoch- und Tiefpunkten ist die Tangente waagerecht, darum
-schwingt nichts über den Punkt hinaus und es entstehen keine erfundenen Zwischenwerte. Trotzdem wirkt sie nicht hart gezackt. Auch das Mehrlinien-Diagramm (Schatten-Ich) nutzt diese Rundung je zusammenhängendem Stück. Die Datumsachse (`UI.dateAxis`) beschriftet je Tag höchstens einmal, auch wenn mehrere
+**Kurven:** `UI.smooth` legt eine monotone kubische Kurve durch die Punkte (wie d3 `curveMonotoneX`): exakt durch jeden Datenpunkt
+(die Markierungen sitzen auf der Linie), zwischen zwei Punkten nie über den höheren oder unter den tieferen hinaus, gleiche Werte
+nebeneinander bleiben eine gerade Linie. Gerade Stücke oder nur gerundete Ecken wirkten bei engen Punktabständen (Handy) zackig. Auch das Mehrlinien-Diagramm (Schatten-Ich) nutzt diese Rundung je zusammenhängendem Stück. Die Datumsachse (`UI.dateAxis`) beschriftet je Tag höchstens einmal, auch wenn mehrere
 Punkte (einzelne Trades) auf denselben Tag fallen.
 
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden

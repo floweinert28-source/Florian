@@ -188,25 +188,21 @@
   const NS = 'http://www.w3.org/2000/svg';
   function niceTicks(min, max, n = 4) { const span = max - min || 1; const raw = span / n; const p = 10 ** Math.floor(Math.log10(raw)); const s = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= n + 1) || raw; const t = []; for (let v = Math.ceil(min / s) * s; v <= max + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
   /* Weiche Kurve durch alle Punkte, monoton zwischen Nachbarpunkten (wie d3 curveMonotoneX): schießt nie über den höchsten oder unter den tiefsten Wert hinaus, wird also oben und unten nicht abgeschnitten */
-  /* Linien zwischen den Punkten: gerade Stücke, nur um die Datenpunkte herum weich (Radius 12 px). Die Kurve läuft exakt durch
-     jeden Punkt (die Markierungen sitzen auf der Linie); an Hoch- und Tiefpunkten ist die Tangente waagerecht, darum schwingt
-     nichts über den Punkt hinaus und es entstehen keine erfundenen Zwischenwerte */
-  const smooth = (pts, R = 12) => {
-    const r = v => Math.round(v * 100) / 100; const n = pts.length; const P = p => `${r(p[0])},${r(p[1])}`;
-    if (n < 3) return 'M' + pts.map(P).join('L');
-    const unit = (a, b) => { const l = Math.hypot(b[0] - a[0], b[1] - a[1]); return l ? [(b[0] - a[0]) / l, (b[1] - a[1]) / l, l] : [1, 0, 0]; };
-    let d = `M${P(pts[0])}`;
-    for (let i = 1; i < n - 1; i++) {
-      const p0 = pts[i - 1], p1 = pts[i], p2 = pts[i + 1];
-      const [ux1, uy1, l1] = unit(p0, p1), [ux2, uy2, l2] = unit(p1, p2);
-      if (!l1 || !l2) { d += `L${P(p1)}`; continue; }
-      const t1 = Math.min(R, l1 / 2), t2 = Math.min(R, l2 / 2), h1 = t1 / 2, h2 = t2 / 2;
-      let tx = ux1 + ux2, ty = (p1[1] - p0[1]) * (p2[1] - p1[1]) < 0 ? 0 : uy1 + uy2; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
-      const a = [p1[0] - ux1 * t1, p1[1] - uy1 * t1], b = [p1[0] + ux2 * t2, p1[1] + uy2 * t2];
-      d += `L${P(a)}C${P([a[0] + ux1 * h1, a[1] + uy1 * h1])} ${P([p1[0] - tx * h1, p1[1] - ty * h1])} ${P(p1)}`;
-      d += `C${P([p1[0] + tx * h2, p1[1] + ty * h2])} ${P([b[0] - ux2 * h2, b[1] - uy2 * h2])} ${P(b)}`;
-    }
-    return d + `L${P(pts[n - 1])}`;
+  /* Kurve durch die Punkte: monotone kubische Glättung (wie d3 curveMonotoneX). Sie läuft exakt durch jeden Datenpunkt,
+     schwingt zwischen zwei Punkten nie über den höheren oder unter den tieferen hinaus, und gleiche Werte nebeneinander
+     bleiben eine gerade Linie. Gerade Stücke oder nur gerundete Ecken wirken bei engen Punktabständen (Handy) zackig. */
+  const smooth = pts => {
+    const n = pts.length; if (n < 3) return 'M' + pts.map(p => p.join(',')).join('L');
+    const sgn = v => v > 0 ? 1 : v < 0 ? -1 : 0; const h = [], s = [], m = new Array(n);
+    for (let i = 0; i < n - 1; i++) { h[i] = pts[i + 1][0] - pts[i][0]; s[i] = h[i] ? (pts[i + 1][1] - pts[i][1]) / h[i] : 0; }
+    for (let i = 1; i < n - 1; i++) { const p = (s[i - 1] * h[i] + s[i] * h[i - 1]) / ((h[i - 1] + h[i]) || 1); m[i] = (sgn(s[i - 1]) + sgn(s[i])) * Math.min(Math.abs(s[i - 1]), Math.abs(s[i]), 0.5 * Math.abs(p)) || 0; }
+    m[0] = h[0] ? (3 * s[0] - m[1]) / 2 : m[1]; m[n - 1] = h[n - 2] ? (3 * s[n - 2] - m[n - 2]) / 2 : m[n - 2];
+    /* Enden ebenfalls begrenzen, damit auch das erste und letzte Stück nicht ausschlägt */
+    if (sgn(m[0]) !== sgn(s[0])) m[0] = 0; else if (Math.abs(m[0]) > 3 * Math.abs(s[0])) m[0] = 3 * s[0];
+    if (sgn(m[n - 1]) !== sgn(s[n - 2])) m[n - 1] = 0; else if (Math.abs(m[n - 1]) > 3 * Math.abs(s[n - 2])) m[n - 1] = 3 * s[n - 2];
+    const r = v => Math.round(v * 100) / 100; let d = `M${r(pts[0][0])},${r(pts[0][1])}`;
+    for (let i = 0; i < n - 1; i++) { const [x0, y0] = pts[i], [x1, y1] = pts[i + 1], dx = h[i] / 3; d += `C${r(x0 + dx)},${r(y0 + dx * m[i])} ${r(x1 - dx)},${r(y1 - dx * m[i + 1])} ${r(x1)},${r(y1)}`; }
+    return d;
   };
   const curShort = v => { const a = Math.abs(v); const s = a >= 1000 ? fmt.kilo(a, a >= 10000 ? 0 : 1) : String(Math.round(a)); return (v < 0 ? '−' : '') + s; };
   const gid = () => 'g' + Math.random().toString(36).slice(2, 8);

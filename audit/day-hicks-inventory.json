@@ -1,0 +1,1260 @@
+{
+ "1440-mit_trades": {
+  "measure": {
+   "doc": 900,
+   "main": 900,
+   "content": 398,
+   "scroller": "visible"
+  },
+  "height": 940,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "account",
+    "text": "Hauptkonto",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   }
+  ]
+ },
+ "1440-heute": {
+  "measure": {
+   "doc": 1470,
+   "main": 1470,
+   "content": 1470,
+   "scroller": "visible"
+  },
+  "height": 1510,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "account",
+    "text": "Hauptkonto",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Voriger Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Nächster Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "cert-open",
+    "text": "Zertifikat",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm accent",
+    "action": "new-trade-day",
+    "text": "Trade für diesen Tag",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in nachtragen",
+    "label": "",
+    "visible": true,
+    "card": "Check-in"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nur mit vollständigem Plan handeln",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Stop niemals verschieben",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Maximal 1 % Risiko pro Trade",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nach zwei Verlusten in Folge Pause mache",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Keine Trades in den ersten fünf Minuten",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm primary",
+    "action": "nb-day-note",
+    "text": "Tagesnotiz anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Tagesnotiz"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Aufwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Abwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Seitwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "niedrig",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "normal",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "hoch",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   }
+  ]
+ },
+ "1440-gestern_ohne": {
+  "measure": {
+   "doc": 1470,
+   "main": 1470,
+   "content": 1470,
+   "scroller": "visible"
+  },
+  "height": 1510,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "account",
+    "text": "Hauptkonto",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Voriger Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Nächster Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn sm ghost",
+    "action": "",
+    "text": "Heute",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "cert-open",
+    "text": "Zertifikat",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm accent",
+    "action": "new-trade-day",
+    "text": "Trade für diesen Tag",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in nachtragen",
+    "label": "",
+    "visible": true,
+    "card": "Check-in"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nur mit vollständigem Plan handeln",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Stop niemals verschieben",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Maximal 1 % Risiko pro Trade",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nach zwei Verlusten in Folge Pause mache",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Keine Trades in den ersten fünf Minuten",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm primary",
+    "action": "nb-day-note",
+    "text": "Tagesnotiz anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Tagesnotiz"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Aufwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Abwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Seitwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "niedrig",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "normal",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "hoch",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   }
+  ]
+ },
+ "1440-leer": {
+  "measure": {
+   "doc": 1442,
+   "main": 1442,
+   "content": 1442,
+   "scroller": "visible"
+  },
+  "height": 1482,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "account",
+    "text": "Hauptkonto",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Voriger Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Nächster Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "cert-open",
+    "text": "Zertifikat",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm accent",
+    "action": "new-trade-day",
+    "text": "Trade für diesen Tag",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in nachtragen",
+    "label": "",
+    "visible": true,
+    "card": "Check-in"
+   },
+   {
+    "tag": "a",
+    "cls": "btn sm",
+    "action": "",
+    "text": "Regeln anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm primary",
+    "action": "nb-day-note",
+    "text": "Tagesnotiz anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Tagesnotiz"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Aufwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Abwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Seitwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "niedrig",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "normal",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "hoch",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   }
+  ]
+ },
+ "390-mit_trades": {
+  "measure": {
+   "doc": 844,
+   "main": 844,
+   "content": 424,
+   "scroller": "visible"
+  },
+  "height": 884,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   }
+  ]
+ },
+ "390-heute": {
+  "measure": {
+   "doc": 2273,
+   "main": 2273,
+   "content": 2273,
+   "scroller": "visible"
+  },
+  "height": 2313,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Voriger Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Nächster Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "cert-open",
+    "text": "Zertifikat",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm accent",
+    "action": "new-trade-day",
+    "text": "Trade für diesen Tag",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in nachtragen",
+    "label": "",
+    "visible": true,
+    "card": "Check-in"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nur mit vollständigem Plan handeln",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Stop niemals verschieben",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Maximal 1 % Risiko pro Trade",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nach zwei Verlusten in Folge Pause mache",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Keine Trades in den ersten fünf Minuten",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm primary",
+    "action": "nb-day-note",
+    "text": "Tagesnotiz anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Tagesnotiz"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Aufwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Abwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Seitwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "niedrig",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "normal",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "hoch",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   }
+  ]
+ },
+ "390-gestern_ohne": {
+  "measure": {
+   "doc": 2241,
+   "main": 2241,
+   "content": 2241,
+   "scroller": "visible"
+  },
+  "height": 2281,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Voriger Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Nächster Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn sm ghost",
+    "action": "",
+    "text": "Heute",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "cert-open",
+    "text": "Zertifikat",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm accent",
+    "action": "new-trade-day",
+    "text": "Trade für diesen Tag",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in nachtragen",
+    "label": "",
+    "visible": true,
+    "card": "Check-in"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nur mit vollständigem Plan handeln",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Stop niemals verschieben",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Maximal 1 % Risiko pro Trade",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Nach zwei Verlusten in Folge Pause mache",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "div",
+    "cls": "it toggle ",
+    "action": "day-rule",
+    "text": "Keine Trades in den ersten fünf Minuten",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm primary",
+    "action": "nb-day-note",
+    "text": "Tagesnotiz anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Tagesnotiz"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Aufwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Abwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Seitwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "niedrig",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "normal",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "hoch",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   }
+  ]
+ },
+ "390-leer": {
+  "measure": {
+   "doc": 2245,
+   "main": 2245,
+   "content": 2245,
+   "scroller": "visible"
+  },
+  "height": 2285,
+  "inventory": [
+   {
+    "tag": "button",
+    "cls": "btn",
+    "action": "range",
+    "text": "Oktober 2026",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn icon-only",
+    "action": "start-session",
+    "text": "Session starten",
+    "label": "Session starten",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn accent tl",
+    "action": "new-trade",
+    "text": "Trade loggen",
+    "label": "",
+    "visible": true,
+    "card": "[Kopfreihe]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Voriger Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "a",
+    "cls": "btn round",
+    "action": "",
+    "text": "",
+    "label": "Nächster Tag",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "cert-open",
+    "text": "Zertifikat",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm accent",
+    "action": "new-trade-day",
+    "text": "Trade für diesen Tag",
+    "label": "",
+    "visible": true,
+    "card": "[Tagesnav]"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm",
+    "action": "check-in",
+    "text": "Check-in nachtragen",
+    "label": "",
+    "visible": true,
+    "card": "Check-in"
+   },
+   {
+    "tag": "a",
+    "cls": "btn sm",
+    "action": "",
+    "text": "Regeln anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Regeln des Tages"
+   },
+   {
+    "tag": "button",
+    "cls": "btn sm primary",
+    "action": "nb-day-note",
+    "text": "Tagesnotiz anlegen",
+    "label": "",
+    "visible": true,
+    "card": "Tagesnotiz"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Aufwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Abwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "Seitwärts",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "niedrig",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "normal",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   },
+   {
+    "tag": "button",
+    "cls": "",
+    "action": "day-regime",
+    "text": "hoch",
+    "label": "",
+    "visible": true,
+    "card": "Marktphase"
+   }
+  ]
+ }
+}

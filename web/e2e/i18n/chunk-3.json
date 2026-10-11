@@ -1,0 +1,1183 @@
+[
+ {
+  "de": "Indian/Chagos",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Christmas",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Cocos",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Comoro",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Kerguelen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Mahe",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Maldives",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Mauritius",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Mayotte",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Indian/Reunion",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Apia",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Auckland",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Bougainville",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Chatham",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Easter",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Efate",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Enderbury",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Fakaofo",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Fiji",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Funafuti",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Galapagos",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Gambier",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Guadalcanal",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Guam",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Honolulu",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Kiritimati",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Kosrae",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Kwajalein",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Majuro",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Marquesas",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Midway",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Nauru",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Niue",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Norfolk",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Noumea",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Pago Pago",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Palau",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Pitcairn",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Ponape",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Port Moresby",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Rarotonga",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Saipan",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Tahiti",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Tarawa",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Tongatapu",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Truk",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Wake",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Pacific/Wallis",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Standardwährung",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "CHF",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "GBP",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Passwort zurücksetzen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Privatsphäre",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "So gehen wir mit deinen Daten um.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Support-Team Zugriff auf mein Konto erlauben",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Wenn aktiviert, kann das Support-Team auf dein Konto zugreifen, um dir besser zu helfen und Fehler zu finden.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Christlicher Impuls",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Zeigt in den Ruhepunkt-Sessions Bibelverse, Gebete und Atemgebete statt neutraler Leitsätze. Der Mentor-Chat nutzt diese Einstellung ebenfalls.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Zwei-Faktor-Authentifizierung",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Zusätzliche Sicherheit für dein Konto über eine Authenticator-App (z. B. Google Authenticator, Authy).",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "2FA ist nicht aktiviert",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "2FA aktivieren",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Daten und Sicherung",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Sicherung exportieren",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Alle Trades, Notizen und Einstellungen als JSON. Optional mit Bildern und Audio.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Ohne Anhänge",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Mit Anhängen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Sicherung einspielen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "JSON-Datei aus einem Export. „Zusammenführen“ behält vorhandene Daten.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Zusammenführen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Ersetzen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Rund {0} Trades über vier Monate (vor allem NQ und ES) mit Check-ins, Notizen und Regeln, dazu vier Prop-Konten mit Ausgaben, Payouts und einem geplatzten Konto, Replay-Screenshots mit zwei Sessions und Sprachnotizen. Ist noch keine Regel im Schatten-Ich aktiv, werden die drei Vorschlagsregeln eingeschaltet. Jederzeit entfernbar: Eigene Trades, Check-ins und Regeln bleiben erhalten, die Vorschlagsregeln gehen wieder aus, sofern du das Regelwerk nicht verändert hast.",
+  "wo": "Trade-Detail: Menü",
+  "beispiel": "Rund 170 Trades über vier Monate (vor allem NQ und ES) mit Check-ins, Notizen und Regeln, dazu vier Prop-Konten mit Ausgaben, Payouts und einem geplatzten Konto, Replay-Screenshots mit zwei Sessions und Sprachnotizen. Ist noch keine Regel im Schatten-Ich aktiv, werden die drei Vorschlagsregeln eingeschaltet. Jederzeit entfernbar: Eigene Trades, Check-ins und Regeln bleiben erhalten, die Vorschlagsregeln gehen wieder aus, sofern du das Regelwerk nicht verändert hast."
+ },
+ {
+  "de": "Alles löschen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Entfernt alle Daten aus diesem Browser. Vorher exportieren!",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Speicherort: dieser Browser (localStorage und IndexedDB). Tastatur:",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "neuer Trade ·",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Bereiche ·",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Esc",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "schließt Dialoge.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Erscheinungsbild, Schrift und Farben. Wirkt sofort auf die ganze Website.",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Schriftart",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Gilt für Text und Zahlen auf der ganzen Website.",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Aa",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Geschwungen",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Standard: leicht und geschwungen, Zahlen in Onest",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Rund",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Weiche, runde Formen",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Klassisch",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Klar und neutral, Zahlen in Roboto",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Akzentfarbe",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Buttons, aktive Einträge und Diagramme.",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Eigene Akzentfarbe",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Gewinn, Verlust und Break-even",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Farben für Plus, Minus und Break-even in Zahlen, Kalendern und Diagrammen.",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Grün / Rot",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Blau / Orange",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Türkis / Pink",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Violett / Gelb",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Grün / Grau",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Weiß / Rot",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Standardfarben",
+  "wo": "Einstellungen: profil"
+ },
+ {
+  "de": "Orange",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Gelb",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Neongrün",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Türkis",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Blau",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Violett",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Pink",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Weiß",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Eigene Farbe wählen",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Sprache der Oberfläche. Zahlen, Währungen und Daten werden im Format der Sprache angezeigt.",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Deutsch",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Englisch",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Spanisch",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Chinesisch",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Hindi",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Portugiesisch",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Die Übersetzung kommt in Etappen: Bereiche, die noch nicht übersetzt sind, bleiben vorerst deutsch. Deine eigenen Einträge wie Notizen, Setups und Tags werden nicht übersetzt.",
+  "wo": "Einstellungen: design"
+ },
+ {
+  "de": "Zusammenfassungen deiner Performance. Sie erscheinen als Hinweis oben auf dem Dashboard.",
+  "wo": "Einstellungen: sprache"
+ },
+ {
+  "de": "Wöchentlicher Performance-Recap",
+  "wo": "Einstellungen: sprache"
+ },
+ {
+  "de": "Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens {0} geschlossene Trades geloggt wurden.",
+  "wo": "Einstellungen: sprache",
+  "beispiel": "Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens 4 geschlossene Trades geloggt wurden."
+ },
+ {
+  "de": "Monatlicher Performance-Recap",
+  "wo": "Einstellungen: sprache"
+ },
+ {
+  "de": "Am {0}. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum {1}. des Monats mindestens {2} geschlossene Trades geloggt wurden.",
+  "wo": "Einstellungen: sprache",
+  "beispiel": "Am 2. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum 1. des Monats mindestens 4 geschlossene Trades geloggt wurden."
+ },
+ {
+  "de": "Verwaltung deines Plans.",
+  "wo": "Einstellungen: benachrichtigungen"
+ },
+ {
+  "de": "Kostenlos, alle Funktionen enthalten",
+  "wo": "Einstellungen: benachrichtigungen"
+ },
+ {
+  "de": "Es gibt derzeit kein Abo. Dieser Bereich wird später ergänzt.",
+  "wo": "Einstellungen: benachrichtigungen"
+ },
+ {
+  "de": "Alle angelegten Handelskonten. Die Kontogröße bestimmt Tageslimit, Score-Drawdown und Monte Carlo.",
+  "wo": "Einstellungen: abo"
+ },
+ {
+  "de": "Konto hinzufügen",
+  "wo": "Einstellungen: abo"
+ },
+ {
+  "de": "Name",
+  "wo": "Einstellungen: abo"
+ },
+ {
+  "de": "Kontogröße",
+  "wo": "Einstellungen: abo"
+ },
+ {
+  "de": "Währung",
+  "wo": "Einstellungen: abo"
+ },
+ {
+  "de": "Passe dein Trading-Erlebnis an.",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Was handelst du?",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Aktien",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Forex",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Futures",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Optionen",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Krypto",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Sonstiges",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Break-even-Bereich",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Ergebnisse in diesem Bereich zählen als Break-even, nicht als Gewinn oder Verlust.",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Einheit",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Auf Standard zurücksetzen",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Geld-blind-Modus",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Blendet überall alle Geldbeträge aus und zeigt stattdessen R-Multiples (z. B. „{0}“). Der Kontostand wird komplett ausgeblendet. Trades ohne Stop zeigen „– R“.",
+  "wo": "Einstellungen: konten",
+  "beispiel": "Blendet überall alle Geldbeträge aus und zeigt stattdessen R-Multiples (z. B. „+2,1 R“). Der Kontostand wird komplett ausgeblendet. Trades ohne Stop zeigen „– R“."
+ },
+ {
+  "de": "{0} entspricht (optional)",
+  "wo": "Einstellungen: konten",
+  "beispiel": "1 R entspricht (optional)"
+ },
+ {
+  "de": "automatisch",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Für Summen wie Tages-P&L oder Drawdown. Leer: Median des Risikos deiner Trades mit Stop (aktuell {0}).",
+  "wo": "Einstellungen: konten",
+  "beispiel": "Für Summen wie Tages-P&L oder Drawdown. Leer: Median des Risikos deiner Trades mit Stop (aktuell 283,00 €)."
+ },
+ {
+  "de": "Risiko und Warnungen",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Tagesverlustlimit (% vom Konto)",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Ruin-Schwelle Monte Carlo (% Drawdown)",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Monte-Carlo-Durchläufe",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Tilt-Warnungen",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tageslimit.",
+  "wo": "Einstellungen: konten"
+ },
+ {
+  "de": "Deine Handelsregeln. Sie erscheinen im Trade-Editor, beim Session-Ende, im Fortschritt und im Regel-Tracker.",
+  "wo": "Einstellungen: trading"
+ },
+ {
+  "de": "Aktiv",
+  "wo": "Einstellungen: trading"
+ },
+ {
+  "de": "Neue Regel, z. B. „Maximal {0} Trades pro Tag“",
+  "wo": "Einstellungen: trading",
+  "beispiel": "Neue Regel, z. B. „Maximal 3 Trades pro Tag“"
+ },
+ {
+  "de": "Neue Regel",
+  "wo": "Einstellungen: trading"
+ },
+ {
+  "de": "Schriftgrößen im Notiz-Editor und in Tagesnotizen.",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Überschrift {0}",
+  "wo": "Einstellungen: regeln",
+  "beispiel": "Überschrift 1"
+ },
+ {
+  "de": "{0} px",
+  "wo": "Einstellungen: regeln",
+  "beispiel": "22 px"
+ },
+ {
+  "de": "Fließtext",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Erledigte Punkte durchstreichen",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Abgehakte Einträge in To-do-Listen werden durchgestrichen.",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Vorschau",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Mein Journalyst",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Wochenrückblick",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Trade-Analyse",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Text",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "So sehen deine Notizen und Tagesjournal-Einträge aus. Nutze die Vorschau, um die angenehmste Größe für deine Trade-Reviews zu finden.",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Stop vor dem Einstieg gesetzt",
+  "wo": "Einstellungen: regeln"
+ },
+ {
+  "de": "Dein Trading-Psychologie-Mentor läuft über einen eigenen Server, damit der API-Schlüssel nie im Browser landet.",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Server-Adresse",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "https://mentor.deine-domain.de",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Der Server aus",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "im Projekt. Anleitung in",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Zugangstoken",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Wert von MENTOR_APP_TOKEN",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Derselbe Wert wie auf dem Server. Nicht der API-Schlüssel des Sprachmodells, der bleibt nur auf dem Server.",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Verbindung testen",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Audio behalten",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Aufnahmen bleiben nach der Auswertung als Audio gespeichert. Aus: nach der Auswertung wird nur das Transkript behalten, die Audiodatei wird gelöscht.",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen (",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": ", siehe",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "So funktioniert es",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Vor jedem Gespräch bekommt der Mentor deinen Namen, den Glaubensmodus aus dem Ruhepunkt (Einstellungen → Profil → Christlicher Impuls) und eine kurze Zusammenfassung deiner letzten {0} Trades und des heutigen Ruhepunkt-Check-ins.",
+  "wo": "Einstellungen: notebook",
+  "beispiel": "Vor jedem Gespräch bekommt der Mentor deinen Namen, den Glaubensmodus aus dem Ruhepunkt (Einstellungen → Profil → Christlicher Impuls) und eine kurze Zusammenfassung deiner letzten 20 Trades und des heutigen Ruhepunkt-Check-ins."
+ },
+ {
+  "de": "Der Verlauf wird pro Nutzer auf dem Server gespeichert. Das Tageslimit legt der Server fest (Standard {0} Nachrichten), damit die Kosten kontrollierbar bleiben.",
+  "wo": "Einstellungen: notebook",
+  "beispiel": "Der Verlauf wird pro Nutzer auf dem Server gespeichert. Das Tageslimit legt der Server fest (Standard 30 Nachrichten), damit die Kosten kontrollierbar bleiben."
+ },
+ {
+  "de": "Nutzerkennung ist dein Benutzername aus dem Profil, aktuell:",
+  "wo": "Einstellungen: notebook"
+ },
+ {
+  "de": "Ordne deine Inhalte mit Kategorien und Tags.",
+  "wo": "Einstellungen: mentor"
+ },
+ {
+  "de": "Kategorien",
+  "wo": "Einstellungen: mentor"
+ },
+ {
+  "de": "Farbe",
+  "wo": "Einstellungen: mentor"
+ },
+ {
+  "de": "Verwendet",
+  "wo": "Einstellungen: mentor"
+ },
+ {
+  "de": "Setups",
+  "wo": "Einstellungen: mentor"
+ },
+ {
+  "de": "Die drei Kategorien sind fest: Setups beschreiben den Einstiegstyp, Fehler und Emotionen den Zustand. Die Farben folgen deinen Akzent-, Verlust- und Break-even-Farben.",
+  "wo": "Einstellungen: mentor"
+ },
+ {
+  "de": "Import- und Änderungsverlauf deines Journals.",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "Imports",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "Verlauf",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "Quelle",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "Datei",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "Hochgeladen",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "Duplikate",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "Noch keine Imports",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "CSV-Importe und eingespielte Sicherungen erscheinen hier.",
+  "wo": "Einstellungen: inhalte"
+ },
+ {
+  "de": "aktiv",
+  "wo": "Einstellungen: Konten"
+ },
+ {
+  "de": "Voriger Tag",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Nächster Tag",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Check-in",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Trade für diesen Tag",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Brutto-P&L",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Gewinner / Verlierer",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Volumen",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Trades des Tages",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Keine Trades an diesem Tag",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Ein ruhiger Tag ist auch ein guter Tag.",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Kein Check-in",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Schlaf, Stress und Stimmung vor dem Handel festhalten.",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Check-in nachtragen",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Regeln des Tages",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "{0} von {1} eingehalten",
+  "wo": "Einstellungen: Konto-Dialog",
+  "beispiel": "0 von 5 eingehalten"
+ },
+ {
+  "de": "Tagesnotiz",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Noch keine Tagesnotiz",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Halte fest, wie der Tag lief und was du mitnimmst.",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Tagesnotiz anlegen",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Marktphase",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Trend",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Aufwärts",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Abwärts",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Seitwärts",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Volatilität",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "niedrig",
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ {
+  "de": "Daily Profit Certificate",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Abhaken, welche Regeln du heute eingehalten hast. Die Quote erscheint im Fortschritt.",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Die Tagesnotiz liegt im Notebook im Ordner „Daily Journal“.",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Die Marktphase des Tages fließt in die Auswertung „Marktphase“ ein.",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Kumulierter Netto-P&L",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Zeit",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Zustand",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Edge-Check",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Monte Carlo",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Trade-Erwartungswert",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Netto-P&L pro Trade",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Tagesvolumen",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Tages-Gewinn/Verlust",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Tages-Netto-P&L",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Handelstage",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Tages-Win-Rate",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Trade-Gewinn/Verlust",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø geplantes R-Multiple",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Max. Tages-Drawdown",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Haltedauer",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø realisiertes R-Multiple",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Tages-Drawdown",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Serien",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Aktuelle Serie",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "{0} Gewinne",
+  "wo": "Seitentitel day",
+  "beispiel": "1 Gewinne"
+ },
+ {
+  "de": "Längste Gewinnserie",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Längste Verlustserie",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Größter Gewinn",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Größter Verlust",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Drawdown & Risiko",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Max. Drawdown",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Max. Drawdown vom Konto",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Erholungsfaktor",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Risiko pro Trade",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Gebühren gesamt",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Gewinner",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø Verlierer",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Ø gesamt",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Trades pro Tag",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Bester Tag",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Schlechtester Tag",
+  "wo": "Seitentitel day"
+ },
+ {
+  "de": "Summe aller abgeschlossenen Trades nach Gebühren.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Win-Rate × Ø Gewinn + Verlustrate × Ø Verlust.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Netto-P&L geteilt durch Anzahl der Trades.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Gehandelte Stückzahl pro Handelstag.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Anteil der Gewinn-Trades an allen abgeschlossenen Trades.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Durchschnittlicher Gewinntag geteilt durch durchschnittlichen Verlusttag.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Netto-P&L pro Handelstag.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Tage mit mindestens einem abgeschlossenen Trade.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Anteil der Tage mit positivem Ergebnis.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Durchschnittlicher Gewinn geteilt durch durchschnittlichen Verlust.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Geplantes Chance-Risiko-Verhältnis aus Einstieg, Stop und Ziel.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Größter Rückgang vom Tageshoch innerhalb eines Tages.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Bruttogewinn geteilt durch Bruttoverlust.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Durchschnittliche Zeit zwischen Einstieg und Ausstieg.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Erzielter Gewinn oder Verlust im Verhältnis zum geplanten Risiko.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Durchschnittlicher Rückgang vom Tageshoch.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Notizen durchsuchen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Ordner",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Alle",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Zurücksetzen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Ordner hinzufügen",
+  "wo": "Seitentitel stats"
+ }
+]

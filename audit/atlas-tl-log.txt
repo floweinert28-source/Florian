@@ -1,0 +1,20 @@
+ok 1440 trade_detail_voll
+ok 1440 trades_tage
+ok 1440 trades_verpasste
+ok 1440 modal_verpasst
+ok 1440 trades_filter_leer
+ok 1440 csv_import_zuordnung
+ok 1440 leer_trades
+ok 1440 leer_trades_tage
+ok 1440 leer_trades_verpasste
+info 1440 leer: 2 import-Knöpfe, sichtbar: 2
+ok 390 trade_detail_voll
+ok 390 trades_tage
+ok 390 trades_verpasste
+ok 390 modal_verpasst
+ok 390 trades_filter_leer
+ok 390 csv_import_zuordnung
+ok 390 leer_trades
+ok 390 leer_trades_tage
+ok 390 leer_trades_verpasste
+info 390 leer: 2 import-Knöpfe, sichtbar: 1

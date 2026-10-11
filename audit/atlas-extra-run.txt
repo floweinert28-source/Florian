@@ -1,0 +1,46 @@
+ok dark-1440 menu_konto_unten
+ok dark-1440 sidebar_mini
+FAIL dark-1440 dashboard_bearbeiten: page.click: Timeout 4000ms exceeded.
+FAIL dark-1440 panel_widget_hinzufuegen: page.click: Timeout 4000ms exceeded.
+ok dark-1440 modal_trade_loggen_long
+ok dark-1440 modal_trade_loggen_fehler
+ok dark-1440 modal_checkin
+ok dark-1440 tag_heute
+ok dark-1440 notebook_neu
+FAIL dark-1440 trades_offene: page.click: Timeout 4000ms exceeded.
+ok dark-1440 trades_suche
+ok dark-1440 settings_design_voll
+ok dark-1440 mentor_voll
+ok dark-1440 ruhepunkt_start
+ok dark-1440 ruhepunkt_schritt2
+ok light-1440 menu_konto_unten
+ok light-1440 sidebar_mini
+FAIL light-1440 dashboard_bearbeiten: page.click: Timeout 4000ms exceeded.
+FAIL light-1440 panel_widget_hinzufuegen: page.click: Timeout 4000ms exceeded.
+ok light-1440 modal_trade_loggen_long
+ok light-1440 modal_trade_loggen_fehler
+ok light-1440 modal_checkin
+ok light-1440 tag_heute
+ok light-1440 notebook_neu
+FAIL light-1440 trades_offene: page.click: Timeout 4000ms exceeded.
+ok light-1440 trades_suche
+ok light-1440 settings_design_voll
+ok light-1440 mentor_voll
+ok light-1440 ruhepunkt_start
+ok light-1440 ruhepunkt_schritt2
+FAIL dark-390 menu_konto_unten: page.click: Timeout 4000ms exceeded.
+FAIL dark-390 dashboard_bearbeiten: page.click: Timeout 4000ms exceeded.
+FAIL dark-390 panel_widget_hinzufuegen: page.click: Timeout 4000ms exceeded.
+FAIL dark-390 modal_trade_loggen_long: page.click: Timeout 4000ms exceeded.
+FAIL dark-390 modal_trade_loggen_fehler: page.click: Timeout 4000ms exceeded.
+ok dark-390 modal_checkin
+ok dark-390 tag_heute
+ok dark-390 notebook_neu
+FAIL dark-390 trades_offene: page.click: Timeout 4000ms exceeded.
+ok dark-390 trades_suche
+ok dark-390 settings_design_voll
+ok dark-390 mentor_voll
+ok dark-390 ruhepunkt_start
+ok dark-390 ruhepunkt_schritt2
+EXTRADONE
+RUNDONE

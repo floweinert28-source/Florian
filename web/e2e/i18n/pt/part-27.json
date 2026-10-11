@@ -1,0 +1,13 @@
+{
+ "Auswertung": "Análise",
+ "Puffer": "Folga",
+ "Auffällig": "Destaque",
+ "Vorlagen für neue Konten. Werte bitte auf der Website der Firma prüfen.": "Modelos para contas novas. Confira os valores no site da empresa.",
+ "Richtwerte, bitte bei deinem Broker prüfen.": "Valores de referência, confira com sua corretora.",
+ "Geschlossene Trades der Konten nach der Phase, in der sie geschlossen wurden (Phasenwechsel werden mit Datum gespeichert). Unterschied = Funded gegenüber Challenge; Grün und Rot nur bei Kennzahlen mit klarer Richtung (Trefferquote, Ø R, Profit Factor, Max. Drawdown).": "Trades fechados das contas pela fase em que foram fechados (mudanças de fase são salvas com data). Diferença = funded em relação à challenge; verde e vermelho só em métricas com direção clara (taxa de acerto, R médio, profit factor, drawdown máx.).",
+ "Handelstag ab {0} Uhr ({1}). {2} Durchläufe (Matcher {3}, Erwartungswert {4}).": "O dia de trading começa às {0} ({1}). {2} simulações (matcher {3}, valor esperado {4}).",
+ "Handelstag ab {0} Uhr ({1}). {2} Durchläufe (Matcher {3}, Erwartungswert {4}). Rechnung im Hauptthread.": "O dia de trading começa às {0} ({1}). {2} simulações (matcher {3}, valor esperado {4}). Cálculo na thread principal.",
+ "{0} Puffer / {1} je Stop-Loss": "{0} de folga / {1} por stop-loss",
+ "{0} Puffer": "{0} de folga",
+ "Werte bitte auf der Website der Firma prüfen.": "Confira os valores no site da empresa."
+}

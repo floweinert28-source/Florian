@@ -1,0 +1,91 @@
+/* Handy-Layout (390×844): Kopfreihe als Werkzeugleiste, runder „Trade loggen“-Knopf, Kacheln in zwei Spalten, kurze Kalenderzahlen, Reiter in einer Reihe, Bottom-Sheet-Dialoge, nirgends seitlicher Überlauf */
+const { chromium } = require('playwright');
+const base = 'file:///tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/sample-dev.html';
+let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; console.log('PASS ' + n); } else { fail++; console.log('FAIL ' + n + (extra ? ' · ' + extra : '')); } };
+const ROUTES = ['dashboard', 'trades', 'day', 'stats', 'notebook', 'progress', 'shadow', 'replay', 'mentor', 'ruhepunkt', 'prop', 'prop/bilanz', 'prop/friedhof', 'prop/konten', 'coupons', 'affiliate', 'affiliate/creator', 'settings'];
+(async () => {
+  const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }); await ctx.addInitScript(() => { try { localStorage.setItem('jy_features', '{"replay":true}'); } catch (e) {} }); /* Blind-Replay ist zurückgestellt: für diese Suite freischalten */ const p = await ctx.newPage();
+  const errors = []; p.on('pageerror', e => errors.push(String(e).slice(0, 200)));
+  try {
+    await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(1500);
+    const go = async h => { await p.evaluate(h => { location.hash = '#/' + h; }, h); await p.waitForTimeout(h === 'dashboard' ? 1400 : 700); };
+    const over = [];
+    for (const r of ROUTES) { await go(r); for (let i = 0; i < 8; i++) { await p.evaluate(() => { document.scrollingElement.scrollTop += 800; }); await p.waitForTimeout(120); } const m = await p.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, ms: document.getElementById('main').scrollWidth })); if (m.sw > m.cw || m.ms > m.cw) over.push(`${r}:${m.sw}/${m.ms}`); await p.evaluate(() => { document.scrollingElement.scrollTop = 0; }); }
+    ok('Kein seitlicher Überlauf auf ' + ROUTES.length + ' Routen', !over.length, over.join(' '));
+    await go('dashboard');
+    const head = await p.evaluate(() => { const t = document.querySelector('.dash-head .tl'); const r = t.getBoundingClientRect(); const cs = getComputedStyle(t); const rows = getComputedStyle(document.querySelector('.dash-head > .row')).display; const items = [...document.querySelectorAll('.dash-head .btn:not(.tl)')].filter(b => b.getBoundingClientRect().width > 0 && !b.closest('.pop, .popover, [hidden]')).map(b => Math.round(b.getBoundingClientRect().top)); return { pos: cs.position, right: Math.round(innerWidth - r.right), bottom: Math.round(innerHeight - r.bottom), w: Math.round(r.width), h: Math.round(r.height), radius: cs.borderRadius, label: getComputedStyle(t.querySelector('span')).display, rows, firstRowItems: items.filter(t => Math.abs(t - items[0]) <= 6).length, items: items.length }; });
+    ok('„Trade loggen“ als runder Knopf unten rechts (fixed, 54px, Text versteckt)', head.pos === 'fixed' && head.right === 16 && head.bottom >= 18 && head.bottom <= 60 && head.w === 54 && head.h === 54 && head.label === 'none', JSON.stringify(head));
+    ok('Kopfreihe als eine Werkzeugleiste (Zeilen ohne eigene Box, mehrere Knöpfe in der ersten Zeile)', head.rows === 'contents' && head.firstRowItems >= 3, JSON.stringify(head));
+    const top = await p.evaluate(() => { const d = document.querySelector('.dash-top'); const cs = getComputedStyle(d); const ws = [...d.querySelectorAll(':scope > .w')].map(w => Math.round(w.getBoundingClientRect().width)); return { display: cs.display, cols: cs.gridTemplateColumns.split(' ').length, ws, cw: Math.round(d.getBoundingClientRect().width), ox: cs.overflowX }; });
+    ok('Kacheln oben: Raster mit zwei Spalten statt Karussell', top.display === 'grid' && top.cols === 2 && top.ws.length >= 2 && top.ws[0] <= top.cw / 2 && top.ox !== 'auto', JSON.stringify(top));
+    const cal = await p.evaluate(() => { const full = document.querySelector('.cal .d .p'), short = document.querySelector('.cal .d .pm'); if (!full || !short) return { none: true }; const cell = short.closest('.d').getBoundingClientRect(); const r = short.getBoundingClientRect(); return { fullHidden: getComputedStyle(full).display === 'none', shortShown: getComputedStyle(short).display === 'block', fits: r.right <= cell.right + 0.5 && r.left >= cell.left - 0.5, text: short.textContent, len: short.textContent.length }; });
+    ok('Kalender: kurze Tageszahl sichtbar, Vollform versteckt, passt in die Zelle', !cal.none && cal.fullHidden && cal.shortShown && cal.fits && cal.len <= 6 && /^[+−]/.test(cal.text), JSON.stringify(cal));
+    const fw = await p.evaluate(() => { const f = document.querySelector('.fw-stats'); return f ? getComputedStyle(f).gridTemplateColumns.split(' ').length : -1; });
+    ok('Schatten-Ich-Widget: Mini-Kennzahlen in zwei Spalten', fw === 2, String(fw));
+    await go('stats');
+    const st = await p.evaluate(() => { const g = document.querySelector('.stat-tiles'); return { cols: getComputedStyle(g).gridTemplateColumns.split(' ').length, n: g.querySelectorAll('.stat-tile').length, v: getComputedStyle(g.querySelector('.stat-tile .v')).fontSize }; });
+    ok('Statistik-Kacheln in zwei Spalten (kleinere Werte)', st.cols === 2 && st.n >= 12 && st.v === '20px', JSON.stringify(st));
+    await go('trades');
+    const tabs = await p.evaluate(() => { const bs = [...document.querySelectorAll('.tabs button')]; const tops = bs.map(b => Math.round(b.getBoundingClientRect().top)); const td = document.querySelector('.tbl td'); return { n: bs.length, oneRow: tops.every(t => t === tops[0]), wrap: getComputedStyle(bs[0].parentElement).flexWrap, nowrap: td ? getComputedStyle(td).whiteSpace : '', pad: td ? getComputedStyle(td).padding : '' }; });
+    const gaps = await p.evaluate(() => { const kids = [...document.querySelector('.tl-fit').children]; return kids.slice(1).map((k, i) => Math.round(k.getBoundingClientRect().top - kids[i].getBoundingClientRect().bottom)); });
+    ok('TradeLog: 18px Abstand zwischen Kacheln, Reitern, Filtern und Tabelle (nichts klebt oder schneidet sich)', gaps.length >= 3 && gaps.every(g => g === 18), gaps.join(','));
+    const wl = await p.evaluate(() => { const t = document.querySelector('.wl-single').closest('.tile'); const head = t.querySelector('.head > span'), ico = head.querySelector('.info'), val = t.querySelector('.val'), g = t.querySelector('.gauge'), lbl = [...t.querySelectorAll('.wl-single .lbl span')]; const r = x => x.getBoundingClientRect(); return { icoInside: r(ico).top >= r(head).top && r(ico).bottom <= r(head).bottom && r(ico).left > r(head).left + 40, gaugeBelowVal: r(g).top >= r(val).bottom - 1, fullWidth: Math.abs(r(g).width - r(t.querySelector('.body')).width) <= 1, lblOneRow: lbl.length === 2 && Math.round(r(lbl[0]).top) === Math.round(r(lbl[1]).top) }; });
+    ok('Gewinn/Verlust-Kachel: Info-Symbol neben dem Titel, Balken in voller Breite unter dem Wert, Beträge in einer Zeile', wl.icoInside && wl.gaugeBelowVal && wl.fullWidth && wl.lblOneRow, JSON.stringify(wl));
+    ok('TradeLog: drei Reiter in einer Reihe, Tabellenzellen kompakt ohne Umbruch', tabs.n === 3 && tabs.oneRow && tabs.wrap === 'nowrap' && tabs.nowrap === 'nowrap' && tabs.pad === '9px 10px', JSON.stringify(tabs));
+    await p.evaluate(() => App.openTradeEditor(null)); await p.waitForTimeout(600);
+    const md = await p.evaluate(() => { const m = document.querySelector('.modal'); const r = m.getBoundingClientRect(); const cs = getComputedStyle(m); return { left: Math.round(r.left), w: Math.round(r.width), bottomGap: Math.round(innerHeight - r.bottom), radius: cs.borderTopLeftRadius + '/' + cs.borderBottomLeftRadius, maxH: Math.round(r.height) <= innerHeight - 28 }; });
+    ok('Trade-Dialog als Bottom-Sheet (volle Breite, unten bündig, oben gerundet)', md.left === 0 && md.w === 390 && md.bottomGap === 0 && md.radius === '20px/0px' && md.maxH, JSON.stringify(md));
+    await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+    await go('coupons');
+    const cp = await p.evaluate(() => { const t = document.querySelector('.dash-head .tl'); const cs = getComputedStyle(document.querySelector('.content')); return { fixed: t && getComputedStyle(t).position === 'fixed', padB: cs.paddingBottom, tiles: [...document.querySelectorAll('.cpn')].map(c => Math.round(c.getBoundingClientRect().width)) }; });
+    ok('Coupon-Codes: runder Knopf, Platz unten (104px), Kacheln in voller Breite', cp.fixed && cp.padB === '104px' && cp.tiles.length >= 2 && cp.tiles.every(w => w === cp.tiles[0] && w >= 340), JSON.stringify(cp));
+    /* Affiliate: Tabellen ohne seitliches Scrollen (Nebenspalten ausgeblendet), Link und Code untereinander */
+    for (const r of ['affiliate', 'affiliate/creator']) {
+      await go(r);
+      const af = await p.evaluate(() => ({ tbl: [...document.querySelectorAll('.aff-tbl')].map(t => [t.scrollWidth, t.closest('.tbl-wrap').clientWidth]), share: [...document.querySelectorAll('.aff-ticket')].map(x => Math.round(x.getBoundingClientRect().width)), hidden: [...document.querySelectorAll('.aff-tbl thead .ph-hide')].every(x => getComputedStyle(x).display === 'none') }));
+      ok(`Affiliate (${r}): Tabelle passt ohne Scrollen, Nebenspalten aus${r.includes('creator') ? ', Link und Code volle Breite' : ''}`, af.tbl.length === 1 && af.tbl.every(([a, b]) => a <= b + 1) && af.hidden && (!r.includes('creator') || (af.share.length === 2 && af.share.every(w => w >= 340))), JSON.stringify(af));
+    }
+    /* Notebook: Suche und Symbole in einer Reihe; Notiz-Ansicht mit einzeiliger Kopfzeile, wischbarer Werkzeugleiste und ohne runden Knopf */
+    await go('notebook');
+    const nbh = await p.evaluate(() => { const s = document.querySelector('.dash-head .nb-search'), t = document.querySelector('.dash-head .dh-tools .btn, .dash-head [data-action=start-session], .dash-head [data-action=end-session]'); const r = x => x.getBoundingClientRect(); return { sameRow: t ? Math.abs(r(t).top - r(s).top) <= 8 : null, fab: getComputedStyle(document.querySelector('.dash-head .tl')).display }; });
+    ok('Notebook-Liste: Suche, Filter und Session-Knopf in einer Reihe, runder Knopf sichtbar', nbh.sameRow !== false && nbh.fab !== 'none', JSON.stringify(nbh));
+    await p.getByText('Session-Recap KW 41').first().click(); await p.waitForTimeout(900);
+    const nbn = await p.evaluate(() => { const nb = document.querySelector('.nb'); const row = nb.querySelector('.note-head > .row'); const kids = [...row.querySelectorAll('.btn, .datebtn, .save-state')].filter(e => e.getBoundingClientRect().width > 0); const tops = kids.map(e => Math.round(e.getBoundingClientRect().top)); const tb = nb.querySelector('.nb-toolbar'); const tbs = [...tb.children].filter(e => e.getBoundingClientRect().width > 0).map(e => Math.round(e.getBoundingClientRect().top)); const cs = getComputedStyle(tb); return { view: nb.dataset.view, rowOne: tops.every(t => Math.abs(t - tops[0]) <= 6), rowH: Math.round(row.getBoundingClientRect().height), n: kids.length, share: getComputedStyle(nb.querySelector('[data-action="nb-share"]')).display, tbOne: tbs.every(t => Math.abs(t - tbs[0]) <= 8), tbScroll: cs.overflowX === 'auto' && tb.scrollWidth > tb.clientWidth, fab: getComputedStyle(document.querySelector('.dash-head .tl')).display, overflow: document.documentElement.scrollWidth <= innerWidth }; });
+    ok('Notiz-Ansicht: Kopfzeile in einer Reihe (Zurück, Datum, Speicherstand, Menü), Teilen versteckt', nbn.view === 'note' && nbn.rowOne && nbn.rowH <= 44 && nbn.n >= 4 && nbn.share === 'none', JSON.stringify(nbn));
+    ok('Notiz-Ansicht: Werkzeugleiste eine Zeile, seitlich wischbar; kein runder Knopf; kein Überlauf', nbn.tbOne && nbn.tbScroll && nbn.fab === 'none' && nbn.overflow, JSON.stringify(nbn));
+    await p.screenshot({ path: 'nb-4.png' });
+    /* Seitenleiste als Schublade: kein rechter Rand, keine sichtbare Scroll-Leiste */
+    await go('dashboard'); await p.click('[data-action=sidebar]'); await p.waitForTimeout(500);
+    const sb = await p.evaluate(() => { const s = document.querySelector('.sidebar'); const cs = getComputedStyle(s); return { open: s.classList.contains('open'), border: cs.borderRightWidth, sbw: cs.scrollbarWidth, scrolls: s.scrollHeight > s.clientHeight }; });
+    ok('Schublade: offen, ohne rechten Rand, Scroll-Leiste versteckt', sb.open && sb.border === '0px' && sb.sbw === 'none', JSON.stringify(sb));
+    await p.screenshot({ path: 'mob-sidebar.png' }); await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+    /* Dashboard-Details: Jahreskalender ohne Scroll-Leiste, Wochen-Kurzform, Letzte Trades sichtbar, kurzer Kacheltitel, Vorlagen-Menü im Bild, Bibliothek-Knopf unten links */
+    await go('dashboard');
+    const dd = await p.evaluate(() => { const r = x => x.getBoundingClientRect(); const main = document.querySelector('.dash-main') || document.getElementById('content');
+      let y = document.querySelector('.ycal'); const tmpY = !y; if (tmpY) { y = document.createElement('div'); y.className = 'ycal'; main.appendChild(y); } const ycal = { sbw: getComputedStyle(y).scrollbarWidth, ox: getComputedStyle(y).overflowX }; if (tmpY) y.remove();
+      let w = document.querySelector('.cal .w'); const tmpW = !w; let cal; if (tmpW) { cal = document.createElement('div'); cal.className = 'cal'; cal.innerHTML = '<div class="w"><span class="p">+1.583,00 €</span><span class="pm">+1,6k</span></div>'; main.appendChild(cal); w = cal.querySelector('.w'); } const week = { p: getComputedStyle(w.querySelector('.p')).display, pm: getComputedStyle(w.querySelector('.pm')).display, pmText: w.querySelector('.pm') ? w.querySelector('.pm').textContent : '', real: !tmpW }; if (tmpW) cal.remove();
+      const rc = document.querySelector('.recent-card'); const rows = rc ? [...rc.querySelectorAll('tbody tr')].filter(t => r(t).height > 0).length : -1; const wrap = rc ? r(rc.querySelector('.recent-wrap')).height : -1; const cardH = rc ? Math.round(r(rc).height) : -1; const chart = document.querySelector('.dash-main .card .chart'); const chartCardH = chart ? Math.round(r(chart.closest('.card')).height) : -1;
+      const wl = document.querySelector('.wl-single'); const t = wl ? wl.closest('.tile') : null; const head = t ? r(t.querySelector('.head > span')).height : -1; const title = t ? t.querySelector('.head > span').textContent.trim() : '';
+      return { ycal, week, rows, wrap, cardH, chartCardH, head, title }; });
+    ok('Jahreskalender: wischbar ohne sichtbare Scroll-Leiste', dd.ycal.ox === 'auto' && dd.ycal.sbw === 'none', JSON.stringify(dd.ycal));
+    ok('Kalender-Wochen: Kurzform sichtbar, Vollform versteckt', dd.week.p === 'none' && dd.week.pm === 'block' && /^[+−]/.test(dd.week.pmText) && dd.week.pmText.length <= 6, JSON.stringify(dd.week));
+    ok('Letzte Trades: Liste sichtbar, Karte so hoch wie die Diagramm-Karten (354px), nur passende Zeilen', dd.rows >= 3 && dd.rows <= 6 && dd.wrap > 60 && dd.cardH === 354 && Math.abs(dd.chartCardH - dd.cardH) <= 4, JSON.stringify({ rows: dd.rows, wrap: dd.wrap, cardH: dd.cardH, chartCardH: dd.chartCardH }));
+    ok('Kachel „Ø Gewinn/Verlust“: kurzer Titel in einer Zeile', dd.head > 0 && dd.head <= 24 && /Gewinn\/Verlust$/.test(dd.title), JSON.stringify({ head: dd.head, title: dd.title }));
+    await p.click('[data-pop=tpl]'); await p.waitForTimeout(250);
+    const tpl = await p.evaluate(() => { const r = document.getElementById('pop-tpl').getBoundingClientRect(); return { open: document.getElementById('pop-tpl').classList.contains('open'), right: Math.round(r.right), left: Math.round(r.left), w: innerWidth }; });
+    ok('Vorlagen-Menü bleibt im Bild (nicht rechts hinaus)', tpl.open && tpl.right <= tpl.w - 2 && tpl.left >= 0, JSON.stringify(tpl));
+    await p.click('#pop-tpl [data-action="dash-tpl-edit"]'); await p.waitForTimeout(500);
+    if (!(await p.$('.side-panel .sp-item'))) { const ab = await p.$('[data-action="dash-add-open"]'); if (ab) { await ab.click(); await p.waitForTimeout(500); } }
+    const lib = await p.evaluate(() => { const r = x => x.getBoundingClientRect(); return [...document.querySelectorAll('.side-panel .sp-item')].slice(0, 12).map(it => { const b = it.querySelector('.btn'), g = it.querySelector('.grow'); return { belowText: r(b).top >= r(g).bottom - 1, leftEdge: Math.round(r(b).left - r(it).left) }; }); });
+    ok('Widget-Bibliothek: Knopf bei allen Karten unten links unter dem Text', lib.length >= 5 && lib.every(x => x.belowText && x.leftEdge <= 16), JSON.stringify(lib.slice(0, 4)));
+    await p.screenshot({ path: 'mob-lib.png' });
+    await p.evaluate(() => { const cl = document.querySelector('[data-action="dash-add-close"]'); if (cl) cl.click(); }); await p.waitForTimeout(300); await p.evaluate(() => { const c = document.querySelector('[data-action="dash-cancel"]'); if (c) c.click(); }); await p.waitForTimeout(600); /* Bearbeitungsmodus wieder weg */
+    /* Großer Bildschirm: nichts davon aktiv */
+    await p.setViewportSize({ width: 1440, height: 900 }); await go('dashboard');
+    const desk = await p.evaluate(() => { const t = document.querySelector('.dash-head .tl'); const pm = document.querySelector('.cal .d .pm'); const d = document.querySelector('.dash-top'); const m = document.querySelector('.dash-head > .row'); return { pos: getComputedStyle(t).position, label: getComputedStyle(t.querySelector('span')).display, pm: pm ? getComputedStyle(pm).display : 'none', cols: getComputedStyle(d).gridTemplateColumns.split(' ').length, rows: getComputedStyle(m).display, padB: getComputedStyle(document.querySelector('.content')).paddingBottom }; });
+    ok('Großer Bildschirm unverändert: Knopf in der Kopfreihe mit Text, Vollform im Kalender, Kachelraster, 60px unten', desk.pos === 'static' && desk.label !== 'none' && desk.pm === 'none' && desk.cols >= 3 && desk.rows === 'flex' && desk.padB === '60px', JSON.stringify(desk));
+    ok('keine Seitenfehler', !errors.length, errors.join(' | '));
+  } catch (e) { console.log('CRASH ' + e.message); }
+  console.log(errors.length ? 'ERRORS: ' + errors.join(' | ') : 'no errors'); console.log(`${pass} PASS, ${fail} FAIL`);
+  await b.close();
+})();

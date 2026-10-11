@@ -1,0 +1,13 @@
+ok dark-1440 dashboard_bearbeiten
+ok dark-1440 panel_widget_hinzufuegen
+views trades,days,missed
+ok light-1440 dashboard_bearbeiten
+ok light-1440 panel_widget_hinzufuegen
+views trades,days,missed
+ok dark-390 dashboard_bearbeiten
+ok dark-390 panel_widget_hinzufuegen
+ok dark-390 mobile_menue
+ok dark-390 menu_konto_unten
+views trades,days,missed
+EXTRA2DONE
+RUNDONE

@@ -1,0 +1,1196 @@
+web/app.html:21	Journalyst lädt
+web/app.html:68	(function () { /* Startfehler sichtbar machen: statt einer weißen Seite erscheint die Meldung mit Hilfe-Knöpfen */ function startFail(e) { console.error(e); var main = document.getElementById('main'); if (!main) return; var msg = String(e && (e.stack || e.message) || e).replace(/&/g, '&amp;').replace(/
+web/app.html:7	Journalyst, dein Trading-Journal im Browser: Trades loggen, CSV importieren, Kennzahlen, Score, Fehlerkosten, Tilt-Warnungen, Edge-Check und Monte Carlo.
+web/app.html:75	Journalyst konnte nicht starten
+web/app.html:75	Bitte diese Meldung weitergeben:
+web/app.html:77	Browser: ' + String(navigator.userAgent).replace(/
+web/app.html:78	Beispieldaten entfernen und neu laden
+web/app.html:79	Alle lokalen Daten löschen und neu laden
+web/js/app.js:21	Letzte 30 Tage
+web/js/app.js:210	Trading Journal App
+web/js/app.js:210	Seitenleiste ausklappen
+web/js/app.js:210	Ausklappen
+web/js/app.js:210	${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}
+web/js/app.js:210	${mini ? 'Ausklappen' : 'Einklappen'}
+web/js/app.js:221	Trader
+web/js/app.js:228	${esc(st.avatarId)}
+web/js/app.js:249	Session beenden
+web/js/app.js:266	${esc(S.settings.avatarId)}
+web/js/app.js:285	Escape
+web/js/app.js:326	Der Trade und seine Anhänge werden dauerhaft entfernt.
+web/js/app.js:351	${Math.sign(t.direction) === v}
+web/js/app.js:366	.trim() || 'Prop-Konto')}
+web/js/app.js:391	: o.n ? (o.n === 1 ? '1 Trade' :
+web/js/app.js:458	[data-chips="propAccountIds"]
+web/js/app.js:469	· Disziplin §
+web/js/app.js:474	Name, Enter
+web/js/app.js:474	Enter
+web/js/app.js:490	z. B. Nur A-Setups, nach 2 Verlusten Schluss
+web/js/app.js:497	Deutlich zu wenig Schlaf
+web/js/app.js:497	Etwas zu wenig Schlaf
+web/js/app.js:497	Optimal, 7 bis 9 Stunden
+web/js/app.js:497	Etwas zu viel Schlaf
+web/js/app.js:497	Viel zu viel Schlaf
+web/js/app.js:513	${Number(val) === n}
+web/js/app.js:515	Stress (1 entspannt – 5 sehr gestresst)
+web/js/app.js:515	Stimmung (1 schlecht – 5 sehr gut)
+web/js/app.js:531	Marktphase heute
+web/js/app.js:531	Reflexion
+web/js/app.js:531	(wird in die Tagesnotiz im Notebook geschrieben)
+web/js/app.js:531	§ Session beenden
+web/js/app.js:531	Was lief gut, was nicht, was nimmst du mit?
+web/js/app.js:538	Stunden
+web/js/app.js:563	Ignorieren
+web/js/app.js:564	§ Zeilen, Trennzeichen „§“
+web/js/app.js:564	Dezimal
+web/js/app.js:564	Komma (1.234,56)
+web/js/app.js:564	Punkt (1,234.56)
+web/js/app.js:564	Monat/Tag/Jahr
+web/js/app.js:564	Spalten zuordnen
+web/js/app.js:564	Spalte in der Datei
+web/js/app.js:564	Beispielwert
+web/js/app.js:564	Feld im Journal
+web/js/app.js:567	, davon § bereits vorhanden (werden übersprungen)
+web/js/app.js:574	Eingefügter Text
+web/js/app.js:574	Erfolg
+web/js/app.js:89	§ · Journalyst
+web/js/certificate.js:17	of Daily Profit
+web/js/certificate.js:17	of Weekly Profit
+web/js/certificate.js:17	of Monthly Profit
+web/js/certificate.js:17	of Performance
+web/js/certificate.js:23	Win rate
+web/js/certificate.js:23	Avg RR
+web/js/certificate.js:25	Trading day
+web/js/certificate.js:25	Trading days
+web/js/certificate.js:26	Green days
+web/js/certificate.js:26	Profit factor
+web/js/certificate.js:30	Certificate
+web/js/certificate.js:35	Net result
+web/js/certificate.js:35	Issued by
+web/js/certificate.js:35	Issued §
+web/js/certificate.js:5	Quadrat
+web/js/certificate.js:5	Story
+web/js/certificate.js:5	Querformat
+web/js/certificate.js:73	${String(o[key]) === String(v)}
+web/js/certificate.js:79	Gesamter Zeitraum
+web/js/certificate.js:79	Zeitraum
+web/js/certificate.js:85	Format
+web/js/certificate.js:88	PNG in doppelter Auflösung (§×§).
+web/js/certificate.js:88	§ PNG herunterladen
+web/js/certificate.js:91	§ Wird erstellt …
+web/js/certificate.js:91	Zwischenablage nicht verfügbar. Lade das PNG stattdessen herunter.
+web/js/certificate.js:91	Teilen wird hier nicht unterstützt.
+web/js/certificate.js:91	Export fehlgeschlagen. Bitte noch einmal versuchen.
+web/js/coach.js:69	[Bild]
+web/js/coach.js:70	[Video]
+web/js/core.js:163	Einstieg nahe am Plan (§ R Abweichung)
+web/js/core.js:163	Einstieg nahe am Plan
+web/js/core.js:181	Regel:
+web/js/core.js:260	Schlecht
+web/js/core.js:260	Neutral
+web/js/core.js:260	Gut
+web/js/core.js:290	Verlustserien sind der häufigste Auslöser für Tilt. Mach eine Pause, bevor du den nächsten Trade eingehst.
+web/js/core.js:293	Risiko von § auf § erhöht (§). Das ist ein typisches Muster, um Verluste zurückzuholen.
+web/js/core.js:293	Positionsgröße nach Verlust erhöht
+web/js/core.js:295	Drei Trades in 15 Minuten
+web/js/core.js:295	Sehr schnelle Abfolge von Trades. Prüfe, ob jeder davon wirklich ein Setup nach Plan war.
+web/js/core.js:298	Sofortiger Wiedereinstieg in §
+web/js/core.js:298	Weniger als zehn Minuten nach einem Verlust wieder im selben Markt. Das sieht nach Revenge-Trading aus.
+web/js/core.js:302	Heute § Verlust, das Limit liegt bei §. Der Handelstag ist vorbei.
+web/js/core.js:302	Tagesverlustlimit erreicht
+web/js/core.js:440	Eröffnung (Datum/Zeit)
+web/js/core.js:440	eröffnet
+web/js/core.js:441	Schluss (Datum/Zeit)
+web/js/core.js:444	Stückzahl
+web/js/core.js:444	stück
+web/js/core.js:444	positionsgröße
+web/js/core.js:445	gebühren
+web/js/core.js:445	gebühr
+web/js/core.js:448	Netto-P&L (falls vorhanden)
+web/js/core.js:450	Strategie
+web/js/core.js:452	kontraktgröße
+web/js/core.js:503	Eröffnungszeit nicht lesbar: „§“
+web/js/core.js:504	Einstiegskurs nicht lesbar: „§“
+web/js/core.js:529	wütend
+web/js/core.js:529	ärger
+web/js/core.js:529	ärgerlich
+web/js/core.js:529	ängstlich
+web/js/core.js:529	nervös
+web/js/core.js:529	übermütig
+web/js/core.js:540	Noch zu wenig Daten
+web/js/core.js:540	Ab etwa 20 abgeschlossenen Trades werden Muster sichtbar. Logge weiter oder importiere eine CSV.
+web/js/core.js:544	Fehler haben dich § gekostet
+web/js/core.js:544	§ Trades mit Fehler-Tags. Ohne sie läge dein Ergebnis bei § statt §. Häufigster Kostenfaktor: §.
+web/js/core.js:546	Dein stärkstes Setup: §
+web/js/core.js:546	§ Trades, Win-Rate §, Erwartungswert § pro Trade.
+web/js/core.js:546	§ kostet dich Geld
+web/js/core.js:546	§ Trades mit § pro Trade. Prüfe, ob das Setup wirklich zu dir passt oder ob du es nur unter bestimmten Bedingungen handeln solltest.
+web/js/core.js:548	Beste Uhrzeit § Uhr, schwächste § Uhr
+web/js/core.js:548	§ Uhr: § pro Trade bei § Trades. § Uhr: § pro Trade. Überlege, ob du dich auf deine starken Stunden beschränkst.
+web/js/core.js:549	§ ist dein schwächster Tag
+web/js/core.js:549	§ Trades mit insgesamt §. Ein Handelstag weniger könnte dein Ergebnis verbessern.
+web/js/core.js:550	Ø § R pro Trade, 95-%-Intervall von § bis § R bei § Trades.
+web/js/core.js:550	Ø § R, aber das Intervall schließt Null ein. §
+web/js/core.js:550	Dein Edge ist statistisch belegt
+web/js/core.js:550	Edge noch nicht belegt
+web/js/core.js:550	Negativer Erwartungswert
+web/js/core.js:550	Dein Ansatz verliert statistisch signifikant. Reduziere die Größe und arbeite an Setups und Ausführung, bevor du weiter skalierst.
+web/js/core.js:551	Die letzten § Trades liegen bei Ø § R, deutlich unter deinem Gesamtschnitt. Marktphase geändert oder Ausführung schlechter?
+web/js/core.js:552	Verlust-Trades laufen Ø § min, Gewinner nur § min. Klassisches Zeichen für zu frühes Gewinnmitnehmen und Hoffen bei Verlusten.
+web/js/core.js:552	Verluste hältst du länger als Gewinne
+web/js/core.js:553	Nach 3 Verlusten in Folge: § von § Tagen negativ
+web/js/core.js:553	Nach der Serie hast du an diesen Tagen zusammen § gemacht. §
+web/js/core.js:555	Tage mit vielen Trades (§) bringen Ø §, ruhige Tage Ø §.
+web/js/core.js:555	Overtrading kostet
+web/js/core.js:556	Tage mit § Schlaf bringen Ø §, Tage mit § nur Ø §.
+web/js/core.js:556	Korrelation zwischen Stress und Tages-P&L: §. An gestressten Tagen kleiner handeln oder aussetzen.
+web/js/core.js:556	Schlaf zahlt sich aus
+web/js/core.js:556	Stress drückt dein Ergebnis
+web/js/core.js:557	Du verdienst in §, nicht in §
+web/js/core.js:557	§: § pro Trade. §: § pro Trade.
+web/js/core.js:557	Aufwärtsphasen
+web/js/core.js:557	Abwärtsphasen
+web/js/core.js:557	Trendphasen
+web/js/core.js:557	Seitwärtsphasen
+web/js/core.js:558	Disziplin-Score der letzten zwei Wochen: §, davor §. Weiter so.
+web/js/core.js:558	Disziplin-Score der letzten zwei Wochen: §, davor §. Lies deine Regeln vor der nächsten Session noch einmal.
+web/js/core.js:558	Disziplin steigt
+web/js/core.js:558	Disziplin sinkt
+web/js/datepicker.js:10	Mo
+web/js/datepicker.js:10	Di
+web/js/datepicker.js:10	Mi
+web/js/datepicker.js:10	Do
+web/js/datepicker.js:10	Fr
+web/js/datepicker.js:10	Sa
+web/js/datepicker.js:10	So
+web/js/datepicker.js:158	Home
+web/js/datepicker.js:159	End
+web/js/datepicker.js:58	; const sel = !!s && s.getFullYear() === view.y && s.getMonth() === m; const cur = now.getFullYear() === view.y && now.getMonth() === m; const off = (min && mk
+web/js/datepicker.js:60	${monthLabel(view.y, m)}
+web/js/datepicker.js:66	${i === Math.max(0, cur[kind]) ? '0' : '-1'}
+web/js/datepicker.js:79	Zurück zu den Tagen
+web/js/datepicker.js:79	${months ? 'Zurück zu den Tagen' : 'Monat und Jahr wählen'}
+web/js/datepicker.js:8	Januar
+web/js/datepicker.js:8	Februar
+web/js/datepicker.js:8	März
+web/js/datepicker.js:8	April
+web/js/datepicker.js:8	Juni
+web/js/datepicker.js:8	Juli
+web/js/datepicker.js:8	August
+web/js/datepicker.js:8	September
+web/js/datepicker.js:8	Oktober
+web/js/datepicker.js:8	November
+web/js/datepicker.js:8	Dezember
+web/js/datepicker.js:87	Monat wählen
+web/js/editor.js:100	Objekte
+web/js/editor.js:100	kopfhörer
+web/js/editor.js:132	Schreib los …
+web/js/editor.js:17	Bild nicht mehr vorhanden
+web/js/editor.js:180	Bild über Adresse einfügen
+web/js/editor.js:199	Bildspeicher nicht erreichbar, Bild wird direkt in die Notiz gelegt
+web/js/editor.js:20	Zeitüberschreitung
+web/js/editor.js:205	Nicht alle Dateien waren Bilder
+web/js/editor.js:205	Das war keine Bilddatei
+web/js/editor.js:224	Befehle§
+web/js/editor.js:228	Tab
+web/js/editor.js:32	Voll
+web/js/editor.js:39	Größe ändern (ziehen)
+web/js/editor.js:39	Bildgröße
+web/js/editor.js:39	Bild löschen
+web/js/editor.js:39	Bildunterschrift
+web/js/editor.js:39	Volle Breite
+web/js/editor.js:39	der Breite
+web/js/editor.js:39	${w === '100%' ? 'Volle Breite' : w + ' der Breite'}
+web/js/editor.js:6	Quill fehlt
+web/js/editor.js:72	Abschnitt
+web/js/editor.js:95	Smileys
+web/js/editor.js:95	schwitzen nervös
+web/js/editor.js:95	tränen lachen
+web/js/editor.js:95	lächeln
+web/js/editor.js:95	müde schlafen
+web/js/editor.js:95	wütend frust
+web/js/editor.js:95	übel
+web/js/editor.js:96	feuer heiß
+web/js/editor.js:96	bär short
+web/js/editor.js:96	würfel zufall
+web/js/editor.js:97	Gesten
+web/js/editor.js:98	Symbole
+web/js/editor.js:98	idee glühbirne
+web/js/editor.js:98	schlüssel
+web/js/editor.js:99	Natur
+web/js/editor.js:99	klee glück
+web/js/editor.js:99	schildkröte langsam
+web/js/prop.js:122	§ Kontrakte/Lots gehandelt, erlaubt sind §
+web/js/prop.js:124	Tagesverlust § erreicht das Limit § (Handelstag §)
+web/js/prop.js:129	Balance § unter dem Drawdown-Boden § (§)
+web/js/prop.js:209	Die Consistency Rule ist aktuell verletzt: Dein bester Tag macht § % des Gesamtgewinns aus, erlaubt sind § %.
+web/js/prop.js:210	Wenn du heute mehr als § machst, verletzt du die Consistency Rule.
+web/js/prop.js:8	HH:MM
+web/js/propsim.js:119	Keine Handelstage mit geschlossenen Trades – nichts zu simulieren.
+web/js/propsim.js:120	Kein Gewinnziel hinterlegt – ein Bestehen lässt sich nicht simulieren.
+web/js/propsim.js:123	EOD-Drawdown passt besser zu deinen Intraday-Schwankungen (Ø § Rückgabe vom Tageshoch).
+web/js/propsim.js:124	Kein Daily Loss Limit, dafür § Drawdown (§ bei schlechtestem Tag §).
+web/js/propsim.js:125	Daily Loss Limit § lässt deinem schlechtesten Tag (§) genug Luft.
+web/js/propsim.js:126	Ziel § entspricht etwa § deiner durchschnittlichen Gewinntage§
+web/js/propsim.js:127	Regeln passen zu deinem Tagesprofil.
+web/js/propsim.js:129	Daily Loss Limit § liegt § deinem schlechtesten Tag (§).
+web/js/propsim.js:130	§ von § ist eng für deine Tagesschwankungen (±§).
+web/js/propsim.js:131	Consistency Rule (max. § % an einem Tag) kollidiert mit deinen Ausreißer-Tagen (bester Tag §).
+web/js/propsim.js:132	Großes Ziel (§) bei deiner Tagesvolatilität – in § Tagen selten erreicht.
+web/js/propsim.js:133	Regeln passen nur mäßig zu deinem Tagesprofil.
+web/js/propsim.js:175	Erwartungswert netto = Bestehensquote × erwartete erste Auszahlung (Gewinn bis Payout × Split × Wahrscheinlichkeit, vorher nicht zu breachen) − Gebühren (Challenge + erwartete Resets + Aktivierung bei Bestehen). Resets zählen als Kosten, nicht als zusätzliche Chance; Monatsgebühren sind nicht enthalten. §
+web/js/propsim.js:179	Mon
+web/js/propsim.js:179	Tue
+web/js/propsim.js:179	Wed
+web/js/propsim.js:179	Thu
+web/js/propsim.js:179	Fri
+web/js/propsim.js:179	Sat
+web/js/propsim.js:179	Sun
+web/js/propsim.js:189	§ von § Breaches passierten nach 2+ Verlusttrades in Folge.
+web/js/propsim.js:192	§ von § zwischen § und § Uhr.
+web/js/propsim.js:196	§ von § mit dem Setup „§“.
+web/js/propsim.js:197	§ von § mit der Emotion „§“ rund um den Breach.
+web/js/propsim.js:234	Profit Factor
+web/js/propsim.js:234	Ø Positionsgröße
+web/js/propsim.js:234	Ø Risiko
+web/js/propsim.js:236	Funded triffst du § % §.
+web/js/propsim.js:236	Funded holst du § % § R pro Trade.
+web/js/propsim.js:236	Dein Profit Factor ist funded § % §.
+web/js/propsim.js:237	Funded handelst du § % § Positionen.
+web/js/propsim.js:237	Funded riskierst du § % § pro Trade.
+web/js/propsim.js:237	Funded machst du § % § Trades pro Tag.
+web/js/propsim.js:238	Funded hältst du Trades § % §.
+web/js/propsim.js:238	Dein maximaler Drawdown ist funded § % §.
+web/js/propsim.js:34	Schätzung auf Basis vergangener Trades, keine Garantie.
+web/js/propsim.js:35	Statischer Drawdown
+web/js/propsim.js:35	Trailing-Drawdown mit Lock
+web/js/propsim.js:36	das Daily Loss Limit
+web/js/propsim.js:36	den Drawdown
+web/js/propsim.js:36	das Kontrakt-Limit
+web/js/propsim.js:36	die Consistency Rule
+web/js/screens/affiliate.js:47	Kunde
+web/js/screens/affiliate.js:47	${y(m.v).toFixed(1)}
+web/js/screens/affiliate.js:47	${Math.max(m.v > 0 ? 2 : 0, y(0) - y(m.v)).toFixed(1)}
+web/js/screens/affiliate.js:58	Provision von ${esc(c.name)} ändern
+web/js/screens/affiliate.js:58	Ansicht von ${esc(c.name)}
+web/js/screens/coach.js:121	, { info: 'Pro Schüler: Trades, Winrate, Profit-Faktor (R), Ø Gewinn und Ø Verlust in R, größter Rückgang in Prozent der Kontogröße, letzter Journal-Eintrag und neue Einträge seit deinem letzten Besuch. Klick auf eine Zeile öffnet das Journal.', trailing:
+web/js/screens/coach.js:147	z. B. Diese Woche höchstens 3 Trades pro Tag
+web/js/screens/coach.js:249	1 Neuigkeit von deinem Mentor
+web/js/screens/coach.js:275	Kurs Herbst 2026
+web/js/screens/coach.js:47	: 'Noch nicht abgeglichen'}§
+web/js/screens/coach.js:72	Notification
+web/js/screens/coach.js:75	Neue Notizen, Antworten und Aufgaben. Höchstens 20 Mails am Tag.
+web/js/screens/coach.js:87	1 Antwort
+web/js/screens/coach.js:99	1 Aufgabe offen
+web/js/screens/dashboard.js:100	Schreib zuerst, was dich beschäftigt
+web/js/screens/dashboard.js:129	Details
+web/js/screens/dashboard.js:129	Ausblenden
+web/js/screens/dashboard.js:130	Beispieldaten laden
+web/js/screens/dashboard.js:130	Willkommen
+web/js/screens/dashboard.js:130	Dein Journal ist noch leer. Logge deinen ersten Trade, importiere eine CSV oder lade Beispieldaten, um alle Auswertungen zu sehen.
+web/js/screens/dashboard.js:182	Challenge einrichten
+web/js/screens/dashboard.js:182	Maximaler Verlust
+web/js/screens/dashboard.js:182	Tagesverlustlimit (optional)
+web/js/screens/dashboard.js:182	Startdatum (optional)
+web/js/screens/dashboard.js:182	Leer: gewählter Zeitraum des Dashboards
+web/js/screens/dashboard.js:193	Neue Vorlage
+web/js/screens/dashboard.js:193	Start
+web/js/screens/dashboard.js:193	Leer starten
+web/js/screens/dashboard.js:193	Von aktueller Vorlage kopieren („§“)
+web/js/screens/dashboard.js:193	Erstellen und bearbeiten
+web/js/screens/dashboard.js:193	z. B. Scalping-Tag
+web/js/screens/dashboard.js:198	Vorlage „§“ wirklich löschen?
+web/js/screens/dashboard.js:53	Diese Vorlage hat noch keine Widgets. Über „Vorlage bearbeiten“ fügst du welche hinzu.
+web/js/screens/dashboard.js:61	Kein Widget gefunden
+web/js/screens/day.js:12	#/day/${C.dayKey(new Date())}
+web/js/screens/day.js:15	color:${U.scoreColor(sc)}
+web/js/screens/day.js:16	: '—', ci.sleep != null ? App.sleepZone(Number(ci.sleep)).color : ''], ['Stress', ci.stress != null ? ci.stress + ' / 5' : '—', App.scaleColor(ci.stress, true)], ['Stimmung', ci.mood != null ? ci.mood + ' / 5' : '—', App.scaleColor(ci.mood, false)]].map(([k, v, col]) =>
+web/js/screens/day.js:18	Regeln anlegen
+web/js/screens/day.js:18	Keine Regeln definiert
+web/js/screens/day.js:18	Lege deine Handelsregeln in den Einstellungen an.
+web/js/screens/day.js:19	§ Im Notebook öffnen
+web/js/screens/day.js:9	Ungültiges Datum
+web/js/screens/mentor.js:11	Bearer
+web/js/screens/mentor.js:118	Verlauf löschen?
+web/js/screens/mentor.js:118	Der Mentor vergisst damit alle bisherigen Nachrichten.
+web/js/screens/mentor.js:119	Verlauf gelöscht
+web/js/screens/mentor.js:124	Prüfe …
+web/js/screens/mentor.js:127	Server antwortet mit
+web/js/screens/mentor.js:128	Verbunden. Modell §, § Nachrichten pro Tag.
+web/js/screens/mentor.js:128	Achtung: Der System-Prompt fehlt auf dem Server.
+web/js/screens/mentor.js:128	Achtung: Auf dem Server ist kein API-Schlüssel gesetzt.
+web/js/screens/mentor.js:129	Zugangstoken passt.
+web/js/screens/mentor.js:129	Zugangstoken wird abgelehnt.
+web/js/screens/mentor.js:130	Verbindung geprüft
+web/js/screens/mentor.js:131	Keine Verbindung:
+web/js/screens/mentor.js:131	Keine Verbindung
+web/js/screens/mentor.js:139	Ich habe gerade den Akut-Reset gemacht§.
+web/js/screens/mentor.js:139	Ich habe gerade die Session „§“ im Ruhepunkt abgeschlossen.
+web/js/screens/mentor.js:17	Der Mentor-Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.
+web/js/screens/mentor.js:19	Zugangstoken fehlt oder ist falsch.
+web/js/screens/mentor.js:19	Der Server antwortet mit Fehler
+web/js/screens/mentor.js:24	im Plus
+web/js/screens/mentor.js:24	im Minus
+web/js/screens/mentor.js:24	ungefähr ausgeglichen
+web/js/screens/mentor.js:24	großer Verlust
+web/js/screens/mentor.js:26	Wut
+web/js/screens/mentor.js:26	Angst
+web/js/screens/mentor.js:26	Scham
+web/js/screens/mentor.js:26	Frust
+web/js/screens/mentor.js:26	Gier
+web/js/screens/mentor.js:26	Leere
+web/js/screens/mentor.js:27	müde
+web/js/screens/mentor.js:33	Regeln eingehalten: §
+web/js/screens/mentor.js:34	Fehler:
+web/js/screens/mentor.js:35	Regelbruch:
+web/js/screens/mentor.js:36	Emotion:
+web/js/screens/mentor.js:37	Notiz:
+web/js/screens/mentor.js:42	- § (§): Ampel §, Schlaf §/10, Stress §/10, Stimmung §/10, Körper: §. Tagesregeln: max. Verlust §, max. Trades §, Stopp wenn: §.
+web/js/screens/mentor.js:43	keine Angabe
+web/js/screens/mentor.js:43	Abweichung:
+web/js/screens/mentor.js:43	für morgen:
+web/js/screens/mentor.js:44	- § (§): Gefühle §, Pause gestartet: §.
+web/js/screens/mentor.js:49	Letzte § abgeschlossene Trades (neueste zuerst):
+web/js/screens/mentor.js:50	Aktuelle Serie: § § in Folge.
+web/js/screens/mentor.js:51	Offene Positionen: §.
+web/js/screens/mentor.js:52	Trades: keine Daten vorhanden.
+web/js/screens/mentor.js:54	Ruhepunkt heute:
+web/js/screens/mentor.js:54	Ruhepunkt heute: kein Check-in.
+web/js/screens/mentor.js:55	Tages-Check-in: Schlaf §, Stress §, Stimmung §.
+web/js/screens/mentor.js:6	Journalyst
+web/js/screens/mentor.js:70	Tageslimit von § Nachrichten erreicht. Morgen geht es weiter.
+web/js/screens/mentor.js:70	Noch § von § Nachrichten heute.
+web/js/screens/mentor.js:70	Verlauf wird geladen …
+web/js/screens/mentor.js:70	Kontingent unbekannt.
+web/js/screens/mentor.js:71	Hallo, ich bin dein Trading-Psychologie-Mentor.
+web/js/screens/mentor.js:71	Ich kenne deine letzten Trades und dein heutiges Ruhepunkt-Check-in. Erzähl mir, wo du gerade stehst: vor dem Handelstag, nach einem Verlust, mitten in einer Serie.
+web/js/screens/mentor.js:76	Der Mentor sieht die letzten 20 Trades dieses Kontos.
+web/js/screens/mentor.js:79	server/README.md
+web/js/screens/mentor.js:81	§ Verlauf löschen
+web/js/screens/mentor.js:81	Neu laden
+web/js/screens/mentor.js:81	Verlauf neu laden
+web/js/screens/mentor.js:83	Der Mentor ist eine KI und ersetzt keine Therapie, Beratung oder Seelsorge. In akuten Krisen: Telefonseelsorge 0800 111 0 111, bei Gefahr 112.
+web/js/screens/mentor.js:83	Senden
+web/js/screens/misc.js:109	: 'Erscheinungsbild, Schrift und Farben zusammen speichern und mit einem Klick wieder anwenden.'}
+web/js/screens/misc.js:145	${cur.accent.toLowerCase() === c}
+web/js/screens/misc.js:154	Vor jedem Gespräch bekommt der Mentor deinen Namen, den Glaubensmodus aus dem Ruhepunkt (Einstellungen → Profil → Christlicher Impuls) und eine kurze Zusammenfassung deiner letzten 20 Trades und des heutigen Ruhepunkt-Check-ins.
+web/js/screens/misc.js:154	Der Verlauf wird pro Nutzer auf dem Server gespeichert. Das Tageslimit legt der Server fest (Standard 30 Nachrichten), damit die Kosten kontrollierbar bleiben.
+web/js/screens/misc.js:193	1 R entspricht (optional)
+web/js/screens/misc.js:198	: ' (noch kein Trade mit Stop)'; })()}.
+web/js/screens/misc.js:207	Noch keine Regeln. Lege unten deine erste Regel an.
+web/js/screens/misc.js:207	Neue Regel, z. B. „Maximal 3 Trades pro Tag“
+web/js/screens/misc.js:214	Überschrift 1
+web/js/screens/misc.js:214	Überschrift 2
+web/js/screens/misc.js:214	Überschrift 3
+web/js/screens/misc.js:231	${u.contentTab === k}
+web/js/screens/misc.js:238	Filtern nach
+web/js/screens/misc.js:238	Tags suchen
+web/js/screens/misc.js:238	Kategorie
+web/js/screens/misc.js:238	Beschreibung
+web/js/screens/misc.js:245	Beschreibung (optional)
+web/js/screens/misc.js:245	Wann verwendest du diesen Tag?
+web/js/screens/misc.js:250	${u.logTab === k}
+web/js/screens/misc.js:255	Eintrag entfernen
+web/js/screens/misc.js:257	Session
+web/js/screens/misc.js:257	Import
+web/js/screens/misc.js:259	Alle anzeigen
+web/js/screens/misc.js:259	Typ suchen
+web/js/screens/misc.js:259	Typ
+web/js/screens/misc.js:259	Aktion
+web/js/screens/misc.js:259	Kennung
+web/js/screens/misc.js:259	Feld
+web/js/screens/misc.js:259	Alter Wert
+web/js/screens/misc.js:259	Neuer Wert
+web/js/screens/misc.js:280	Dein Journal hat noch kein Benutzerkonto mit Passwort: Alle Daten liegen nur in diesem Browser. Sobald Konten mit Anmeldung verfügbar sind, kannst du hier ein neues Passwort anfordern.
+web/js/screens/misc.js:280	Verstanden
+web/js/screens/misc.js:284	2FA schützt eine Anmeldung. Da dein Journal derzeit ohne Benutzerkonto läuft und alle Daten lokal in diesem Browser liegen, gibt es noch nichts abzusichern. Der Schalter wird aktiv, sobald Konten mit Anmeldung verfügbar sind.
+web/js/screens/misc.js:330	Trades dieses Kontos werden dem ersten verbleibenden Konto zugeordnet.
+web/js/screens/misc.js:337	Geld-blind-Modus an
+web/js/screens/misc.js:337	Geld-blind-Modus aus
+web/js/screens/misc.js:353	„§“ wirklich löschen?§
+web/js/screens/misc.js:354	Alle Tags werden auf die Standardliste zurückgesetzt. Beschreibungen gehen verloren, Trades bleiben unverändert.
+web/js/screens/misc.js:360	Der gesamte Änderungsverlauf wird gelöscht. Trades und Daten bleiben erhalten.
+web/js/screens/misc.js:360	Leeren
+web/js/screens/misc.js:362	Sicherung erstellt
+web/js/screens/misc.js:362	Falls der Download nicht startet (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn als
+web/js/screens/misc.js:365	JSON-Datei hierher ziehen oder klicken
+web/js/screens/misc.js:365	Einspielen
+web/js/screens/misc.js:365	Sicherung
+web/js/screens/misc.js:366	Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser werden entfernt. Das lässt sich nicht rückgängig machen.
+web/js/screens/misc.js:41	America/New_York
+web/js/screens/misc.js:41	America/Chicago
+web/js/screens/misc.js:41	America/Los_Angeles
+web/js/screens/misc.js:54	Rund 170 Trades über vier Monate (vor allem NQ und ES) mit Check-ins, Notizen und Regeln, dazu vier Prop-Konten mit Ausgaben, Payouts und einem geplatzten Konto, Replay-Screenshots mit zwei Sessions und Sprachnotizen. Ist noch keine Regel im Schatten-Ich aktiv, werden die drei Vorschlagsregeln eingeschaltet. Jederzeit entfernbar: Eigene Trades, Check-ins und Regeln bleiben erhalten, die Vorschlagsregeln gehen wieder aus, sofern du das Regelwerk nicht verändert hast.
+web/js/screens/misc.js:93	${accent.toLowerCase() === c.toLowerCase()}
+web/js/screens/news.js:77	--lc:${IMP_COL[v]}
+web/js/screens/notebook.js:100	Speichert…
+web/js/screens/notebook.js:101	Zuletzt bearbeitet:
+web/js/screens/notebook.js:106	v ${U.cls(s.gross)}
+web/js/screens/notebook.js:116	z. B. 📈 Strategie
+web/js/screens/notebook.js:119	Inhalt
+web/js/screens/notebook.js:119	z. B. Tages-Recap
+web/js/screens/notebook.js:119	Inhalt der Vorlage …
+web/js/screens/notebook.js:121	[Bild§]
+web/js/screens/notebook.js:123	Erstellt § · Zuletzt bearbeitet §
+web/js/screens/notebook.js:123	§ Zum eigenen Notebook
+web/js/screens/notebook.js:123	Geteilte Notiz
+web/js/screens/notebook.js:123	Link ungültig
+web/js/screens/notebook.js:123	Diese geteilte Notiz konnte nicht gelesen werden.
+web/js/screens/notebook.js:141	§ Notizen verschoben
+web/js/screens/notebook.js:142	§ Notizen löschen?
+web/js/screens/notebook.js:142	Sie landen für 30 Tage im Papierkorb.
+web/js/screens/notebook.js:143	Verschoben
+web/js/screens/notebook.js:144	Kopie erstellt
+web/js/screens/notebook.js:145	Sie landet für 30 Tage im Papierkorb und kann dort wiederhergestellt werden.
+web/js/screens/notebook.js:145	In den Papierkorb verschoben
+web/js/screens/notebook.js:146	Wiederhergestellt
+web/js/screens/notebook.js:147	Endgültig löschen?
+web/js/screens/notebook.js:147	Das lässt sich nicht rückgängig machen.
+web/js/screens/notebook.js:149	§ Notizen endgültig löschen?
+web/js/screens/notebook.js:150	Papierkorb leeren?
+web/js/screens/notebook.js:150	Alle gelöschten Notizen werden endgültig entfernt.
+web/js/screens/notebook.js:160	Standard-Vorlage für „§“
+web/js/screens/notebook.js:160	Neue Notizen in diesem Ordner starten mit dieser Vorlage.
+web/js/screens/notebook.js:160	Keine
+web/js/screens/notebook.js:162	Ordner „§“ löschen?
+web/js/screens/notebook.js:162	: 'Der Ordner ist leer.'}
+web/js/screens/notebook.js:162	Ordner löschen
+web/js/screens/notebook.js:164	Vorlage löschen?
+web/js/screens/notebook.js:168	Neuer Tag
+web/js/screens/notebook.js:168	z. B. Lehre
+web/js/screens/notebook.js:168	Anlegen
+web/js/screens/notebook.js:170	Notiz teilen
+web/js/screens/notebook.js:170	Wer den Link öffnet, sieht die Notiz nur lesend. Der Inhalt steckt im Link selbst, Bilder werden als Platzhalter angezeigt. Am besten funktioniert das mit der Adresse deiner veröffentlichten Website.
+web/js/screens/notebook.js:171	Markiert, jetzt mit Strg+C kopieren
+web/js/screens/notebook.js:173	Druckdialog: dort „Als PDF speichern“ wählen
+web/js/screens/notebook.js:31	Noch keine Tags
+web/js/screens/notebook.js:45	Ordner: §
+web/js/screens/notebook.js:54	Noch keine eigenen Ordner
+web/js/screens/notebook.js:61	Tag loggen
+web/js/screens/notebook.js:61	Ordner anzeigen
+web/js/screens/notebook.js:61	${nb.selectMode}
+web/js/screens/notebook.js:62	Wiederherstellen
+web/js/screens/notebook.js:62	Endgültig löschen
+web/js/screens/notebook.js:62	gewählt
+web/js/screens/notebook.js:62	Notizen antippen
+web/js/screens/notebook.js:67	Gelöscht: §
+web/js/screens/notebook.js:67	Wird endgültig entfernt am §
+web/js/screens/notebook.js:74	${cur.folderId === x.id}
+web/js/screens/notebook.js:76	Trade öffnen
+web/js/screens/notebook.js:91	Vorlage „§“ eingefügt
+web/js/screens/notebook.js:94	Kein Notiz-Format
+web/js/screens/notebook.js:94	Notiz geladen
+web/js/screens/progress.js:63	Tagesverlustlimit eingehalten
+web/js/screens/progress.js:63	Keine drei Verluste in Folge
+web/js/screens/progress.js:63	Keine Größenerhöhung nach Verlust
+web/js/screens/progress.js:63	Kein sofortiger Wiedereinstieg nach Verlust
+web/js/screens/progress.js:63	Nicht mehr als drei Trades in 15 Minuten
+web/js/screens/progress.js:68	, { info: 'Check-in, Session, Trades, Regeln, Tagesnotiz.' })} §
+web/js/screens/progress.js:69	, { info: 'Anteil der abgehakten Regeln an den Handelstagen im gewählten Zeitraum.', cls: 'ring-card' })}
+web/js/screens/progress.js:69	Noch keine Tage mit Regel-Check
+web/js/screens/progress.js:69	Noch keine Regeln angelegt
+web/js/screens/progress.js:73	Noch keine Regeln. Lege unter Einstellungen deine Handelsregeln an, dann erscheinen sie hier als Checkliste.
+web/js/screens/progress.js:73	${todayKey}
+web/js/screens/progress.js:75	#/day/${todayKey}
+web/js/screens/progress.js:78	, { info: 'Durchschnittlicher Disziplin-Score der Trades je Woche.' })} §
+web/js/screens/progress.js:79	, { info: 'Aus deiner Historie gelernt: Wie enden Tage, an denen du drei Verluste in Folge hattest?', cls: 'fill' })}
+web/js/screens/progress.js:79	Weiterhandeln nach drei Verlusten hat dich bisher Geld gekostet. Ein hartes Tageslimit würde helfen.
+web/js/screens/progress.js:79	v ${tp.losing / tp.withStreak >= 0.6 ? 'neg' : ''}
+web/js/screens/progress.js:79	v cur ${U.cls(tp.afterStreakPnL)}
+web/js/screens/progress.js:82	, { info: 'Wie oft jede Regel abgehakt wurde und was gebrochene Regeln gekostet haben.' }) : ''}
+web/js/screens/prop-friedhof.js:11	Consistency
+web/js/screens/prop-friedhof.js:11	Max. Kontrakte/Lots
+web/js/screens/prop-friedhof.js:11	Manuell markiert
+web/js/screens/prop-friedhof.js:12	Montag
+web/js/screens/prop-friedhof.js:12	Dienstag
+web/js/screens/prop-friedhof.js:12	Mittwoch
+web/js/screens/prop-friedhof.js:12	Donnerstag
+web/js/screens/prop-friedhof.js:12	Freitag
+web/js/screens/prop-friedhof.js:12	Samstag
+web/js/screens/prop-friedhof.js:12	Sonntag
+web/js/screens/prop-friedhof.js:125	§ Trade öffnen
+web/js/screens/prop-friedhof.js:128	Lebensdauer unbekannt (§)
+web/js/screens/prop-friedhof.js:171	Noch kein Konto auf dem Friedhof
+web/js/screens/prop-friedhof.js:171	Gut so. Konten, die du im Cockpit über „Als geplatzt markieren“ beendest, landen hier als Grabstein, mit Ursache, auslösendem Trade und den Mustern dahinter.
+web/js/screens/prop-friedhof.js:30	Forex / CFD
+web/js/screens/prop-friedhof.js:56	: 'Keine Ausgabe einem geplatzten Konto zugeordnet. In der Bilanz lässt sich jede Ausgabe einem Konto zuweisen.', tint: fees.length ? 'neg' : '', info: 'Summe der Ausgaben (Challenge-Gebühr, Reset, Aktivierung …), die einem geplatzten Konto zugeordnet sind.' })}§
+web/js/screens/prop-friedhof.js:56	, { foot: !lifes.length ? 'Kein Konto mit Start- und Breach-Datum' : lifes.length
+web/js/screens/prop-friedhof.js:56	, { foot: !lifes.length ? 'Kein Konto mit Start- und Breach-Datum' : lifes.length < g.n ?
+web/js/screens/prop-friedhof.js:56	: 'vom Start bis zum Breach' })}§
+web/js/screens/prop-friedhof.js:56	: 'Keine Regel hinterlegt' })}
+web/js/screens/prop-friedhof.js:56	Firmen
+web/js/screens/prop-friedhof.js:56	Ausgabe
+web/js/screens/prop-friedhof.js:56	Ausgaben
+web/js/screens/prop-friedhof.js:62	Muster
+web/js/screens/prop-friedhof.js:62	Ein Satz je Dimension, wenn mindestens zwei und mindestens die Hälfte aller Breaches betroffen sind.
+web/js/screens/prop.js:112	Eigene Firma
+web/js/screens/prop.js:124	Kein Konto passt zum Filter
+web/js/screens/prop.js:124	Ändere Firma, Phase oder Status.
+web/js/screens/prop.js:133	Trades zuordnen · §
+web/js/screens/prop.js:133	Die letzten 50 Trades. Angehakte Trades zählen für dieses Konto; ein Trade kann mehreren Konten gehören (Copy-Trading). Ältere Trades ordnest du im Trade-Editor zu.
+web/js/screens/prop.js:135	s Konto
+web/js/screens/prop.js:143	Betrag
+web/js/screens/prop.js:143	% der Startbalance
+web/js/screens/prop.js:148	Leer oder 0 = keine Regel. Reset-Uhrzeit und Zeitzone legen fest, wann ein neuer Handelstag beginnt.
+web/js/screens/prop.js:148	Trailing mit Lock: Der Boden steigt mit, bis er Start + Lock erreicht, und bleibt dann stehen.
+web/js/screens/prop.js:148	Profit Target
+web/js/screens/prop.js:148	Weitere Regeln
+web/js/screens/prop.js:148	Für Funded-Konten. In der Challenge gelten Profit Target und Mindest-Handelstage der Regeln.
+web/js/screens/prop.js:154	Reset
+web/js/screens/prop.js:154	Aktivierung
+web/js/screens/prop.js:154	Monatlich
+web/js/screens/prop.js:154	Daten
+web/js/screens/prop.js:178	Preset unverifiziert – bitte Regeln und Preise auf der Website der Firma prüfen.
+web/js/screens/prop.js:178	Preset geprüft am §.
+web/js/screens/prop.js:178	Leeres Preset: Trage Regeln und Konto selbst ein.
+web/js/screens/prop.js:18	Challenge 1
+web/js/screens/prop.js:18	Challenge 2
+web/js/screens/prop.js:185	Firma und Kontogröße (Preset)
+web/js/screens/prop.js:185	Füllt alle Felder aus; alles bleibt editierbar.
+web/js/screens/prop.js:187	Die Regeln werden beim Speichern als Momentaufnahme in das Konto kopiert. Änderst du später ein Preset, bleibt dieses Konto unverändert.
+web/js/screens/prop.js:187	Konto (z. B. 50K)
+web/js/screens/prop.js:187	Markt
+web/js/screens/prop.js:187	Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.
+web/js/screens/prop.js:187	Phase
+web/js/screens/prop.js:187	Startdatum
+web/js/screens/prop.js:187	Startbalance
+web/js/screens/prop.js:187	Profit Split (%)
+web/js/screens/prop.js:187	Gruppe (Copy-Trading)
+web/js/screens/prop.js:187	Regeln dieses Kontos
+web/js/screens/prop.js:187	z. B. Topstep
+web/js/screens/prop.js:187	= Kontogröße
+web/js/screens/prop.js:187	z. B. Copy A
+web/js/screens/prop.js:212	Preset ansehen
+web/js/screens/prop.js:212	Preset bearbeiten
+web/js/screens/prop.js:214	Zuletzt geprüft am
+web/js/screens/prop.js:214	Ohne Datum gilt das Preset als unverifiziert.
+web/js/screens/prop.js:214	Regeln, Payout und Gebühren
+web/js/screens/prop.js:22	trailing Tagesende
+web/js/screens/prop.js:22	trailing + Lock
+web/js/screens/prop.js:226	Preset anlegen
+web/js/screens/prop.js:23	Grün
+web/js/screens/prop.js:23	Rot
+web/js/screens/prop.js:23	Inaktiv
+web/js/screens/prop.js:237	Ansehen
+web/js/screens/prop.js:239	Gelb, wenn weniger als … % des Limits übrig
+web/js/screens/prop.js:239	Rot, wenn weniger als … % übrig
+web/js/screens/prop.js:239	Leer: Median der Verlust-Trades der letzten 30 Trades je Konto. Bestimmt „noch X Stop-Losses“.
+web/js/screens/prop.js:244	Regeln sind je Konto als Momentaufnahme gespeichert. Status (geplatzt, bestanden, archiviert) setzt du im Konto-Dialog.
+web/js/screens/prop.js:25	Abgelehnt
+web/js/screens/prop.js:256	, info: 'Erhaltene und beantragte Payouts (netto) minus alle Ausgaben.' })}§
+web/js/screens/prop.js:256	, { foot: bs.pending > C.EPS ?
+web/js/screens/prop.js:256	: bs.received > C.EPS ? 'alle Payouts erhalten' : 'noch keine Payouts', info: 'Netto geteilt durch Ausgaben.' })}§
+web/js/screens/prop.js:256	: 'noch kein Konto bestanden', info: 'Alle Ausgaben geteilt durch die Zahl der bestandenen oder funded Konten.' })}§
+web/js/screens/prop.js:256	${U.cls(bs.roi)}
+web/js/screens/prop.js:257	Ausgaben kumuliert
+web/js/screens/prop.js:257	Payouts kumuliert
+web/js/screens/prop.js:257	Ausgaben vs. Payouts
+web/js/screens/prop.js:257	Ein Punkt je Ausgabe oder Payout, chronologisch. Payout-Datum: erhalten, sonst beantragt.
+web/js/screens/prop.js:258	Pro Firma
+web/js/screens/prop.js:258	Noch keine Ausgaben oder Payouts.
+web/js/screens/prop.js:262	oder über Konto
+web/js/screens/prop.js:264	Alle Kosten rund um Prop Firms. Summen fließen in Netto, ROI und Break-even.
+web/js/screens/prop.js:266	Split (%)
+web/js/screens/prop.js:266	Beantragt am
+web/js/screens/prop.js:266	Erhalten am
+web/js/screens/prop.js:266	Lege zuerst ein Prop-Konto an, dann kannst du Payouts erfassen.
+web/js/screens/prop.js:268	Payouts
+web/js/screens/prop.js:268	Netto = Brutto × Split. Abgelehnte Payouts zählen nicht in der Bilanz.
+web/js/screens/prop.js:279	Dieses Konto ist in der §. Der Planer zeigt den Weg zum Bestehen: Profit Target und Mindest-Handelstage statt Payout-Bedingungen.
+web/js/screens/prop.js:279	Für dieses Konto ist kein Payout mehr möglich.
+web/js/screens/prop.js:279	Keine Bedingungen hinterlegt
+web/js/screens/prop.js:279	Trage im Konto die Payout-Bedingungen ein (Mindest-Handelstage, Mindestgewinn oder Mindestbalance).
+web/js/screens/prop.js:279	Trage im Konto Profit Target oder Mindest-Handelstage ein, dann zeigt der Planer den Weg zum Bestehen.
+web/js/screens/prop.js:279	Bereit für den Payout
+web/js/screens/prop.js:279	Challenge bestanden
+web/js/screens/prop.js:279	Alle Bedingungen sind erfüllt.
+web/js/screens/prop.js:283	Bedingungen zum Bestehen
+web/js/screens/prop.js:283	· erfüllt
+web/js/screens/prop.js:283	· keine Vorgabe
+web/js/screens/prop.js:283	Der Gesamtgewinn ist kleiner als der beste Tag
+web/js/screens/prop.js:283	Anteil des besten Tages am Gesamtgewinn
+web/js/screens/prop.js:283	${cons.bestDayPct > 1 ? 'Der Gesamtgewinn ist kleiner als der beste Tag' : 'Anteil des besten Tages am Gesamtgewinn'}
+web/js/screens/prop.js:284	Ø Gewinn pro Tag über § Tag§. So erreichst du die fehlenden §§.
+web/js/screens/prop.js:284	Vorschlag
+web/js/screens/prop.js:284	Fehlender Gewinn gleichmäßig auf die fehlenden Tage verteilt; bei verletzter Consistency Rule zusätzlich so viel, dass der beste Tag wieder unter die Grenze fällt.
+web/js/screens/prop.js:286	Beantragt
+web/js/screens/prop.js:286	Erhalten
+web/js/screens/prop.js:286	Brutto
+web/js/screens/prop.js:286	Netto
+web/js/screens/prop.js:286	Payouts dieses Kontos
+web/js/screens/prop.js:330	Bitte Firma und Kontogröße angeben
+web/js/screens/prop.js:333	Konto gespeichert
+web/js/screens/prop.js:333	Konto angelegt
+web/js/screens/prop.js:336	„§“ wird entfernt. Die Zuordnung der Trades zu diesem Konto wird gelöst, die Trades bleiben erhalten.
+web/js/screens/prop.js:336	Konto gelöscht
+web/js/screens/prop.js:337	Status: §
+web/js/screens/prop.js:341	Konto als geplatzt markiert
+web/js/screens/prop.js:349	§ Trade§ zugeordnet
+web/js/screens/prop.js:355	§ (Kopie)
+web/js/screens/prop.js:355	Preset kopiert – bitte Werte prüfen
+web/js/screens/prop.js:357	Bitte Firma, Konto und Größe angeben
+web/js/screens/prop.js:359	Preset gespeichert
+web/js/screens/prop.js:359	Preset angelegt
+web/js/screens/prop.js:362	Preset löschen?
+web/js/screens/prop.js:362	Konten, die daraus angelegt wurden, behalten ihre Regeln (Momentaufnahme).
+web/js/screens/prop.js:365	Bitte Betrag und Datum angeben
+web/js/screens/prop.js:365	Ausgabe erfasst
+web/js/screens/prop.js:366	Ausgabe löschen?
+web/js/screens/prop.js:369	Bitte Konto und Bruttobetrag angeben
+web/js/screens/prop.js:369	Payout erfasst
+web/js/screens/prop.js:371	Payout löschen?
+web/js/screens/prop.js:50	Tagesverlust § erreicht das Limit §§
+web/js/screens/prop.js:51	§ unter dem Drawdown-Boden (§)
+web/js/screens/prop.js:52	Europe/Prague
+web/js/screens/prop.js:73	keine Bedingungen hinterlegt
+web/js/screens/prop.js:81	unverifiziert, bitte prüfen
+web/js/screens/prop.js:82	Noch keine Prop-Konten
+web/js/screens/prop.js:82	Lege ein Konto aus einem Firmen-Preset an und ordne ihm Trades zu. Dann siehst du hier Balance, Puffer, Ampel und den Weg zum Payout.
+web/js/screens/prop.js:96	Als geplatzt markieren
+web/js/screens/prop.js:97	Als bestanden markieren
+web/js/screens/prop.js:97	Profit Target, Mindesttage und Consistency sind erfüllt.
+web/js/screens/prop.js:99	<span class="prop-ampel §" data-ampel="§" title="Ampel §§
+web/js/screens/replay.js:111	Replay nicht geladen
+web/js/screens/replay.js:111	Das Modul replay.js fehlt.
+web/js/screens/replay.js:29	Runde ${stats.timeline.length - tl.length + i + 1}: ${pct(x.hitRate)}
+web/js/screens/replay.js:41	, { info: 'Wie oft du richtig lagst, je nachdem wie sicher du dir vor der Entscheidung warst.' })}
+web/js/screens/replay.js:46	Keine Trades mit „Screenshot vor Entry“
+web/js/screens/replay.js:61	Chart vor dem Einstieg
+web/js/screens/replay.js:68	Kein weiterer Screenshot zu diesem Trade.
+web/js/screens/replay.js:68	Chart nach dem Einstieg
+web/js/screens/replay.js:83	§ Trefferquote in dieser Session.
+web/js/screens/replay.js:83	§ Neue Session
+web/js/screens/replay.js:83	Zur Übersicht
+web/js/screens/ruhepunkt.js:134	Sekunden
+web/js/screens/ruhepunkt.js:136	1 Minute
+web/js/screens/ruhepunkt.js:145	Du musst das nicht allein tragen.
+web/js/screens/ruhepunkt.js:147	Akute Krise oder Gedanken, dir etwas anzutun
+web/js/screens/ruhepunkt.js:148	Telefonseelsorge Deutschland, kostenlos und rund um die Uhr:
+web/js/screens/ruhepunkt.js:149	Österreich:
+web/js/screens/ruhepunkt.js:149	. Schweiz:
+web/js/screens/ruhepunkt.js:149	. Bei akuter Gefahr:
+web/js/screens/ruhepunkt.js:150	Wenn Trading sich wie Spielsucht anfühlt
+web/js/screens/ruhepunkt.js:151	Beratungstelefon Glücksspielsucht, kostenlos und anonym:
+web/js/screens/ruhepunkt.js:152	Selbsttest und Online-Programm:
+web/js/screens/ruhepunkt.js:153	Geldsorgen oder Schulden
+web/js/screens/ruhepunkt.js:154	Hol dir Unterstützung bei einer Schuldnerberatung, zum Beispiel über die Verbraucherzentrale, Caritas oder Diakonie. Versuch nicht, Verluste durch weiteres Trading zurückzuholen.
+web/js/screens/ruhepunkt.js:210	' + RING_R + '
+web/js/screens/ruhepunkt.js:210	' + RING_C.toFixed(2) + '
+web/js/screens/ruhepunkt.js:210	' + startOffset.toFixed(2) + '
+web/js/screens/ruhepunkt.js:227	Bereit, wenn du es bist.
+web/js/screens/ruhepunkt.js:229	Dauer: etwa
+web/js/screens/ruhepunkt.js:233	Sanft
+web/js/screens/ruhepunkt.js:233	Normal
+web/js/screens/ruhepunkt.js:238	Tempo
+web/js/screens/ruhepunkt.js:24	Seid stille und erkennet, dass ich Gott bin!
+web/js/screens/ruhepunkt.js:24	Psalm 46,11
+web/js/screens/ruhepunkt.js:25	Ein Geduldiger ist besser denn ein Starker, und der seines Mutes Herr ist, denn der Städte gewinnt.
+web/js/screens/ruhepunkt.js:25	Sprüche 16,32
+web/js/screens/ruhepunkt.js:26	Denn Gott hat uns nicht gegeben den Geist der Furcht, sondern der Kraft und der Liebe und der Zucht.
+web/js/screens/ruhepunkt.js:26	2. Timotheus 1,7
+web/js/screens/ruhepunkt.js:26	„Zucht“ meint hier Besonnenheit und Selbstbeherrschung.
+web/js/screens/ruhepunkt.js:27	Darum sorget nicht für den andern Morgen; denn der morgende Tag wird für das Seine sorgen.
+web/js/screens/ruhepunkt.js:27	Matthäus 6,34
+web/js/screens/ruhepunkt.js:28	Sorget nichts! sondern in allen Dingen lasset eure Bitten im Gebet und Flehen mit Danksagung vor Gott kund werden.
+web/js/screens/ruhepunkt.js:28	Philipper 4,6
+web/js/screens/ruhepunkt.js:281	Runde
+web/js/screens/ruhepunkt.js:288	Danach:
+web/js/screens/ruhepunkt.js:296	Gleich geht’s los.
+web/js/screens/ruhepunkt.js:296	Kurz ruhen.
+web/js/screens/ruhepunkt.js:297	Setz dich bequem hin, Schultern locker. Schau auf das Licht: Es steigt, wenn du einatmest.
+web/js/screens/ruhepunkt.js:297	Locker bleiben, gleich beginnt die nächste Runde.
+web/js/screens/ruhepunkt.js:298	Zuerst:
+web/js/screens/ruhepunkt.js:306	Los in
+web/js/screens/ruhepunkt.js:31	Die Güte des HERRN ist’s, dass wir nicht gar aus sind; seine Barmherzigkeit hat noch kein Ende, sondern sie ist alle Morgen neu, und deine Treue ist groß.
+web/js/screens/ruhepunkt.js:31	Klagelieder 3,22–23
+web/js/screens/ruhepunkt.js:310	Gut gemacht.
+web/js/screens/ruhepunkt.js:314	Geh weiter, wenn du bereit bist, oder mach noch eine Runde.
+web/js/screens/ruhepunkt.js:315	Noch einmal
+web/js/screens/ruhepunkt.js:32	Ich liege und schlafe ganz mit Frieden; denn allein du, HERR, hilfst mir, dass ich sicher wohne.
+web/js/screens/ruhepunkt.js:32	Psalm 4,9
+web/js/screens/ruhepunkt.js:33	Alle eure Sorge werfet auf ihn; denn er sorgt für euch.
+web/js/screens/ruhepunkt.js:33	1. Petrus 5,7
+web/js/screens/ruhepunkt.js:34	Kommet her zu mir alle, die ihr mühselig und beladen seid; ich will euch erquicken.
+web/js/screens/ruhepunkt.js:34	Matthäus 11,28
+web/js/screens/ruhepunkt.js:341	Weiter atmen
+web/js/screens/ruhepunkt.js:343	Pausieren
+web/js/screens/ruhepunkt.js:370	Fortsetzen
+web/js/screens/ruhepunkt.js:38	Herr, ich lege diesen Handelstag in deine Hände. Schenk mir einen klaren Kopf und ein ruhiges Herz, und hilf mir, meinen Regeln treu zu bleiben, auch wenn es schwer wird. Mein Wert hängt nicht an diesem Konto, sondern an dir. Amen.
+web/js/screens/ruhepunkt.js:39	Herr, danke für diesen Tag, für das, was gelungen ist, und für das, was ich lernen darf. Was schiefging, lege ich bei dir ab. Ich muss heute nichts mehr zurückholen. Schenk mir Ruhe für den Abend und einen guten Schlaf. Amen.
+web/js/screens/ruhepunkt.js:406	Ampel
+web/js/screens/ruhepunkt.js:421	(Luther 1912)
+web/js/screens/ruhepunkt.js:43	Ich muss heute nicht gewinnen. Ich muss heute meinen Plan ausführen.
+web/js/screens/ruhepunkt.js:432	Maximale Trades
+web/js/screens/ruhepunkt.js:433	Ich höre auf, wenn
+web/js/screens/ruhepunkt.js:437	Du hast noch keine Regeln festgelegt. Geh zwei Schritte zurück, wenn du sie ergänzen willst.
+web/js/screens/ruhepunkt.js:44	Jeder Trade ist nur einer von vielen. Der einzelne entscheidet nichts.
+web/js/screens/ruhepunkt.js:447	Heute ist Schluss.
+web/js/screens/ruhepunkt.js:448	Nach einem großen Verlust läuft dein Stresssystem auf Hochtouren, und genau dann will dein Kopf den Verlust sofort zurückholen. Deshalb gilt: Plattform zu, heute keine Entscheidungen mehr über Geld. Geh raus, beweg dich, sprich mit jemandem, dem du vertraust. Morgen startest du erst nach der Vor-Trading-Session und mit reduziertem Risiko.
+web/js/screens/ruhepunkt.js:45	Mein Stop ist kein Feind. Er ist der Preis, den ich vorher akzeptiert habe.
+web/js/screens/ruhepunkt.js:451	Vorsicht: Gewinn trotz Regelbruch.
+web/js/screens/ruhepunkt.js:452	Das ist die gefährlichste Kombination. Wird ein Regelbruch mit Geld belohnt, lernt dein Gehirn genau das Falsche. Trag den Regelbruch trotzdem als Fehler ein, unabhängig vom Ergebnis.
+web/js/screens/ruhepunkt.js:453	Ein guter Tag, im Prozess und nicht nur im Konto.
+web/js/screens/ruhepunkt.js:454	Du hast deinen Plan umgesetzt. Genau das ist der Erfolg. Achte trotzdem auf Übermut: Nach Gewinnen fühlt sich mehr Risiko harmlos an. Morgen gelten dieselben Limits wie heute.
+web/js/screens/ruhepunkt.js:457	Das tut doppelt weh.
+web/js/screens/ruhepunkt.js:458	Keine Selbstverurteilung, aber Klarheit: Was war der genaue Moment, in dem du von deinem Plan abgewichen bist? Schreib ihn unten auf. Heute kein weiterer Trade.
+web/js/screens/ruhepunkt.js:459	Ein Verlust nach Plan ist kein Fehler.
+web/js/screens/ruhepunkt.js:46	Kein Setup ist auch eine Entscheidung. Warten gehört zur Arbeit.
+web/js/screens/ruhepunkt.js:460	Verluste gehören zu deinem System wie der Wareneinsatz zu einem Geschäft. Du hast getan, was du dir vorgenommen hast. Es gibt nichts zurückzuholen.
+web/js/screens/ruhepunkt.js:463	Ausgeglichen, aber nicht nach Plan.
+web/js/screens/ruhepunkt.js:464	Das Konto sieht harmlos aus, dein Verhalten war es nicht ganz. Wo bist du abgewichen, und was hat dich dazu gebracht?
+web/js/screens/ruhepunkt.js:465	Ruhiger Tag, sauber gehandelt.
+web/js/screens/ruhepunkt.js:466	Nicht jeder Tag muss etwas bringen. Die Disziplin an ruhigen Tagen ist dieselbe, die dich an wilden Tagen schützt.
+web/js/screens/ruhepunkt.js:468	Schau auf deinen Prozess.
+web/js/screens/ruhepunkt.js:469	Egal wie der Tag ausgegangen ist: Die entscheidende Frage ist, ob du nach deinem Plan gehandelt hast.
+web/js/screens/ruhepunkt.js:472	Du bist gerade noch stark aufgewühlt (
+web/js/screens/ruhepunkt.js:472	von 10). Triff heute keine weiteren Entscheidungen über Geld, bis sich das gelegt hat.
+web/js/screens/ruhepunkt.js:483	Speichern und loslegen
+web/js/screens/ruhepunkt.js:484	Ankommen, Check-in, Tagesregeln. Etwa 6 Minuten.
+web/js/screens/ruhepunkt.js:486	Erst einmal ankommen.
+web/js/screens/ruhepunkt.js:488	Nimm die Hand von der Maus. Stell beide Füße auf den Boden und lass die Schultern sinken.
+web/js/screens/ruhepunkt.js:489	Wir beginnen mit drei tiefen Seufzern: durch die Nase einatmen, kurz nachziehen, dann lange durch den Mund ausatmen. Das ist einer der schnellsten Wege, dein Nervensystem herunterzufahren.
+web/js/screens/ruhepunkt.js:49	Ich bewerte heute meine Entscheidungen, nicht mein Konto.
+web/js/screens/ruhepunkt.js:490	Tiefer Seufzer
+web/js/screens/ruhepunkt.js:492	Wie geht es dir heute wirklich?
+web/js/screens/ruhepunkt.js:497	Ehrlich einschätzen, nicht schönreden. Dein Zustand entscheidet mit, wie gut deine Entscheidungen heute werden.
+web/js/screens/ruhepunkt.js:498	Wie gut hast du geschlafen?
+web/js/screens/ruhepunkt.js:499	Wie gestresst bist du?
+web/js/screens/ruhepunkt.js:499	unter Strom
+web/js/screens/ruhepunkt.js:50	Der Markt ist morgen auch noch da. Ich muss heute nichts zurückholen.
+web/js/screens/ruhepunkt.js:500	Wie ist deine Stimmung?
+web/js/screens/ruhepunkt.js:500	am Boden
+web/js/screens/ruhepunkt.js:501	Was sagt dein Körper?
+web/js/screens/ruhepunkt.js:507	Im Viereck atmen.
+web/js/screens/ruhepunkt.js:508	Vier Sekunden ein, vier halten, vier aus, vier halten. Der gleichmäßige Takt beruhigt, ohne müde zu machen. So gehst du wach und ruhig in den Handel.
+web/js/screens/ruhepunkt.js:509	Box Breathing
+web/js/screens/ruhepunkt.js:51	Was heute war, ist Information, kein Urteil über mich.
+web/js/screens/ruhepunkt.js:511	Deine Regeln für heute.
+web/js/screens/ruhepunkt.js:514	Leg deine Grenzen jetzt fest, solange du ruhig bist. Im Stress entscheidest du schlechter. Dann gilt, was hier steht.
+web/js/screens/ruhepunkt.js:516	Deine Ampel steht heute auf
+web/js/screens/ruhepunkt.js:516	. Setz deine Limits bewusst niedriger als an einem normalen Tag.
+web/js/screens/ruhepunkt.js:518	Maximaler Verlust heute
+web/js/screens/ruhepunkt.js:518	z. B. 2R oder 150 €
+web/js/screens/ruhepunkt.js:519	Maximale Anzahl Trades
+web/js/screens/ruhepunkt.js:520	Ich höre heute sofort auf, wenn …
+web/js/screens/ruhepunkt.js:520	ich zwei Verluste in Folge habe
+web/js/screens/ruhepunkt.js:522	Den Tag einmal durchspielen.
+web/js/screens/ruhepunkt.js:524	Schließ die Augen und geh diese drei Bilder langsam durch:
+web/js/screens/ruhepunkt.js:526	Dein Setup erscheint. Du prüfst deine Checkliste, ruhig und ohne Eile, und steigst ein.
+web/js/screens/ruhepunkt.js:527	Der Trade läuft gegen dich und erreicht deinen Stop. Du atmest aus. Kein Nachlegen, kein Verschieben. Der Verlust war vorher akzeptiert.
+web/js/screens/ruhepunkt.js:528	Du notierst den Trade und wartest auf das nächste Setup. Oder du hörst auf, weil dein Limit erreicht ist.
+web/js/screens/ruhepunkt.js:529	Wer den Verlust vorher im Kopf erlebt hat, muss ihn im Ernstfall nicht bekämpfen.
+web/js/screens/ruhepunkt.js:530	60 Sekunden starten
+web/js/screens/ruhepunkt.js:530	Öffne die Augen, wenn du so weit bist.
+web/js/screens/ruhepunkt.js:532	Mit Ausrichtung in den Tag.
+web/js/screens/ruhepunkt.js:532	Dein Leitsatz für heute.
+web/js/screens/ruhepunkt.js:533	Dein Plan für heute
+web/js/screens/ruhepunkt.js:540	Speichern und abschalten
+web/js/screens/ruhepunkt.js:541	Runterfahren, einordnen, abschalten. Etwa 6 Minuten.
+web/js/screens/ruhepunkt.js:543	Wie war dein Handelstag?
+web/js/screens/ruhepunkt.js:548	Wie aufgewühlt bist du gerade?
+web/js/screens/ruhepunkt.js:548	völlig aufgewühlt
+web/js/screens/ruhepunkt.js:549	Hast du deine Regeln eingehalten?
+web/js/screens/ruhepunkt.js:556	Bevor du irgendetwas bewertest, bring deinen Körper zur Ruhe. Erst drei tiefe Seufzer, dann ruhiges Atmen mit langem Ausatmen.
+web/js/screens/ruhepunkt.js:557	Du bist gerade stark aufgewühlt. Deshalb atmen wir etwas länger.
+web/js/screens/ruhepunkt.js:56	Durch die Nase einatmen
+web/js/screens/ruhepunkt.js:561	Atemgebet
+web/js/screens/ruhepunkt.js:561	Sei still,
+web/js/screens/ruhepunkt.js:561	und erkenne, dass ich Gott bin.
+web/js/screens/ruhepunkt.js:562	Ruhiges Atmen
+web/js/screens/ruhepunkt.js:565	Einordnen, nicht verurteilen.
+web/js/screens/ruhepunkt.js:57	Kurz nachziehen
+web/js/screens/ruhepunkt.js:571	Wenn du merkst, dass du Verluste zurückholen willst, mit Geld tradest, das du eigentlich brauchst, oder nicht aufhören kannst: Das sind Warnsignale. Du musst das nicht allein lösen.
+web/js/screens/ruhepunkt.js:572	Hilfe und Beratung ansehen
+web/js/screens/ruhepunkt.js:575	Bewerte deine Entscheidungen, nicht dein Konto. Ein guter Trade kann Geld verlieren, ein schlechter kann Geld bringen.
+web/js/screens/ruhepunkt.js:576	Was habe ich heute gut gemacht, unabhängig vom Ergebnis?
+web/js/screens/ruhepunkt.js:578	Wann genau bin ich von meinem Plan abgewichen, und was habe ich in dem Moment gefühlt?
+web/js/screens/ruhepunkt.js:58	Lang durch den Mund ausatmen
+web/js/screens/ruhepunkt.js:580	Was nehme ich mit für morgen?
+web/js/screens/ruhepunkt.js:582	Den Tag in Gottes Hand legen.
+web/js/screens/ruhepunkt.js:582	Abschließen und abschalten.
+web/js/screens/ruhepunkt.js:585	Ein kurzer Rückblick, angelehnt an das Examen von Ignatius von Loyola. Nimm dir für jede Frage einen Moment Stille.
+web/js/screens/ruhepunkt.js:586	Wofür bin ich heute dankbar?
+web/js/screens/ruhepunkt.js:587	Wo war ich heute frei, und wo war ich getrieben?
+web/js/screens/ruhepunkt.js:588	Was lege ich jetzt in Gottes Hand?
+web/js/screens/ruhepunkt.js:591	Drei Dinge, für die du heute dankbar bist. Gern auch außerhalb des Tradings.
+web/js/screens/ruhepunkt.js:592	Erstens
+web/js/screens/ruhepunkt.js:593	Zweitens
+web/js/screens/ruhepunkt.js:594	Drittens
+web/js/screens/ruhepunkt.js:598	Plattform und Charts sind geschlossen.
+web/js/screens/ruhepunkt.js:599	Trading-Apps auf dem Handy sind zu.
+web/js/screens/ruhepunkt.js:600	Ich gehe jetzt zehn Minuten raus oder bewege mich.
+web/js/screens/ruhepunkt.js:604	Bewusst abschalten
+web/js/screens/ruhepunkt.js:61	Einatmen
+web/js/screens/ruhepunkt.js:616	Speichern und schließen
+web/js/screens/ruhepunkt.js:619	Stopp. Hände weg von Maus und Tastatur.
+web/js/screens/ruhepunkt.js:62	Halten
+web/js/screens/ruhepunkt.js:621	Kein neuer Trade, kein Stop verschieben, kein Nachlegen. Nicht jetzt.
+web/js/screens/ruhepunkt.js:622	Nach einem Verlust ist dein Stresssystem im Alarmmodus. Genau dann fühlt sich Zurückholen logisch an. Es ist es nicht. Atme zuerst.
+web/js/screens/ruhepunkt.js:624	Herzensgebet
+web/js/screens/ruhepunkt.js:627	Was fühlst du gerade?
+web/js/screens/ruhepunkt.js:629	Benenne es, ohne es zu bewerten.
+web/js/screens/ruhepunkt.js:63	Ausatmen
+web/js/screens/ruhepunkt.js:632	Das Gefühl ist Information, kein Befehl. Du darfst es spüren, ohne ihm zu gehorchen.
+web/js/screens/ruhepunkt.js:633	Deine Pause: 15 Minuten kein neuer Trade.
+web/js/screens/ruhepunkt.js:635	Pause starten
+web/js/screens/ruhepunkt.js:636	Die Pause ist vorbei. Entscheide jetzt in Ruhe, ob du heute weitermachst.
+web/js/screens/ruhepunkt.js:640	Passiert dir das öfter? Sprich im Mentor-Chat darüber oder schau unter
+web/js/screens/ruhepunkt.js:71	Herr Jesus Christus,
+web/js/screens/ruhepunkt.js:737	Weiter
+web/js/screens/ruhepunkt.js:747	, Schritt
+web/js/screens/ruhepunkt.js:757	Anleitung anzeigen
+web/js/screens/ruhepunkt.js:76	Angespannt
+web/js/screens/ruhepunkt.js:767	Speichert …
+web/js/screens/ruhepunkt.js:77	Unruhig
+web/js/screens/ruhepunkt.js:77	Gereizt
+web/js/screens/ruhepunkt.js:776	Speichern hat nicht geklappt. Prüf deine Verbindung und versuch es noch einmal.
+web/js/screens/ruhepunkt.js:791	Mit dem Mentor besprechen
+web/js/screens/ruhepunkt.js:80	Im Plus
+web/js/screens/ruhepunkt.js:80	Im Minus
+web/js/screens/ruhepunkt.js:802	· max. Verlust
+web/js/screens/ruhepunkt.js:803	Regeln:
+web/js/screens/ruhepunkt.js:81	Ungefähr ausgeglichen
+web/js/screens/ruhepunkt.js:81	Großer Verlust
+web/js/screens/ruhepunkt.js:810	Deine letzten Sessions
+web/js/screens/ruhepunkt.js:817	Eintrag löschen
+web/js/screens/ruhepunkt.js:83	Ja
+web/js/screens/ruhepunkt.js:83	Teilweise
+web/js/screens/ruhepunkt.js:83	Nein
+web/js/screens/ruhepunkt.js:89	Gute Voraussetzungen.
+web/js/screens/ruhepunkt.js:89	Du bist heute gut aufgestellt. Handle nach Plan, nicht nach Gefühl.
+web/js/screens/ruhepunkt.js:891	Session löschen?
+web/js/screens/ruhepunkt.js:891	Der Eintrag wird dauerhaft aus dem Journal entfernt.
+web/js/screens/ruhepunkt.js:90	Du bist heute nicht ganz bei dir.
+web/js/screens/ruhepunkt.js:90	Weniger Trades, kleineres Risiko, früher Schluss. Das ist heute Stärke, keine Schwäche.
+web/js/screens/ruhepunkt.js:91	Kein guter Tag für Entscheidungen unter Druck.
+web/js/screens/ruhepunkt.js:91	Überleg ernsthaft, heute nicht zu traden oder nur zu beobachten. Der Markt ist morgen auch noch da.
+web/js/screens/ruhepunkt.js:94	Du bist vorbereitet. Handle nach deinem Plan, nicht nach deinen Gefühlen.
+web/js/screens/ruhepunkt.js:95	Der Handelstag ist vorbei. Du darfst jetzt abschalten.
+web/js/screens/ruhepunkt.js:96	Gib dir die Pause. Der Markt ist in 15 Minuten auch noch da.
+web/js/screens/shadow.js:109	Noch keine abgeschlossenen Trades
+web/js/screens/shadow.js:109	Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.
+web/js/screens/shadow.js:49	Noch keine Setups angelegt. Lege sie unter
+web/js/screens/shadow.js:49	Einstellungen → Inhalte
+web/js/screens/shadow.js:49	an oder vergib sie beim Loggen.
+web/js/screens/shadow.js:59	} bei der Risiko-Regel nicht geprüft werden.
+web/js/screens/shadow.js:69	${esc(v.others.map(k => LABEL[k] || k).join(', '))}
+web/js/screens/shadow.js:71	Schatten
+web/js/screens/stats.js:23	Ändere den Zeitraum oder logge Trades.
+web/js/screens/stats.js:29	Keine Handelstage im Zeitraum
+web/js/screens/stats.js:31	Gewinner
+web/js/screens/stats.js:31	Verlierer
+web/js/screens/stats.js:31	Gewinntage / Verlusttage
+web/js/screens/stats.js:31	Ø Gewinntag
+web/js/screens/stats.js:31	Ø Verlusttag
+web/js/screens/stats.js:31	Ø Trades pro Tag
+web/js/screens/stats.js:34	Ø pro Trade
+web/js/screens/stats.js:36	Ohne Setup
+web/js/screens/stats.js:37	Keine Trades im Zeitraum
+web/js/screens/stats.js:39	, { info: 'Ø Netto-P&L pro Trade je Setup.' })}§
+web/js/screens/stats.js:45	Du hältst Verlierer deutlich länger als Gewinner. Prüfe, ob du bei Verlusten hoffst und bei Gewinnen zu früh aussteigst.
+web/js/screens/stats.js:45	Gewinner laufen länger als Verlierer. Das ist das gesunde Muster: Verluste klein halten, Gewinne laufen lassen.
+web/js/screens/stats.js:45	Gewinner und Verlierer laufen ähnlich lang.
+web/js/screens/stats.js:49	Ohne Angabe
+web/js/screens/stats.js:51	, { info: 'Tatsächliches Ergebnis minus Ergebnis ohne Trades mit Fehler-Tags oder gebrochenen Regeln.' })}§
+web/js/screens/stats.js:52	Keine Fehler-Tags vergeben. Sehr gut, oder ehrlich bleiben?
+web/js/screens/stats.js:52	', { info: 'Summe des Netto-P&L aller Trades mit diesem Tag.' })}§
+web/js/screens/stats.js:55	Keine Marktphasen erfasst
+web/js/screens/stats.js:55	Lege in der Tagesansicht oder beim Beenden der Session fest, ob der Tag ein Aufwärts-, Abwärts- oder Seitwärtstag war.
+web/js/screens/stats.js:58	§ von § Trades haben eine Marktphase.
+web/js/screens/stats.js:58	Noch keine Kombinationen.
+web/js/screens/stats.js:58	, s: x.s }); } return rows.length ? groupTable(rows, 'Phase · Setup') : '
+web/js/screens/stats.js:6	Vola niedrig
+web/js/screens/stats.js:6	Vola normal
+web/js/screens/stats.js:6	Vola hoch
+web/js/screens/stats.js:61	Keine Check-ins im Zeitraum
+web/js/screens/stats.js:61	Starte den Tag mit „Session starten“, dann siehst du hier, wie Schlaf, Stress und Stimmung mit deinem Ergebnis zusammenhängen.
+web/js/screens/stats.js:64	: 'Keine Tage'}">
+web/js/screens/stats.js:71	Mindestens § Trades mit R-Wert nötig, aktuell §.
+web/js/screens/stats.js:71	Zu wenig Daten
+web/js/screens/stats.js:71	Edge belegt
+web/js/screens/stats.js:71	Das 95-%-Intervall liegt komplett über Null.
+web/js/screens/stats.js:71	Negativer Edge
+web/js/screens/stats.js:71	Das 95-%-Intervall liegt komplett unter Null.
+web/js/screens/stats.js:71	Nicht belegt
+web/js/screens/stats.js:71	Das Intervall schließt Null ein. Mehr Trades oder bessere Ausführung nötig.
+web/js/screens/stats.js:72	, info: 'Mittelwert des realisierten R-Multiples.' })}§
+web/js/screens/stats.js:72	, { info: 'Konfidenzintervall des Mittelwerts (t-Verteilung).' })}§§
+web/js/screens/stats.js:72	: '—', { info: 'Anzahl Trades, ab der der Mittelwert bei gleicher Streuung signifikant von Null verschieden wäre.', foot: e.required && e.required > e.n ?
+web/js/screens/stats.js:73	Dein Edge lässt nach
+web/js/screens/stats.js:73	Die letzten § Trades liegen bei §, der Gesamtschnitt bei §.
+web/js/screens/stats.js:77	Mindestens 10 abgeschlossene Trades nötig
+web/js/screens/stats.js:77	Die Simulation zieht zufällig aus deinen bisherigen Trades.
+web/js/screens/stats.js:79	§ Durchläufe à § Trades, gezogen mit Zurücklegen aus § Trades. Startkapital §, Ruin bei § Drawdown.
+web/js/screens/stats.js:79	§ Neu simulieren
+web/js/screens/stats.js:80	, { info: 'Anteil der Durchläufe, die die Ruin-Schwelle berühren.' })}§
+web/js/screens/stats.js:80	, { info: 'Anteil der Durchläufe, die über dem Startkapital enden.' })}§
+web/js/screens/stats.js:81	, { sub: '25 von ' + mc.runs + ' Durchläufen' })}§
+web/js/screens/stats.js:81	, { info: 'Maximaler Drawdown je Durchlauf in Prozent des Startkapitals.' })}
+web/js/screens/trades.js:110	Verpassten Trade notieren
+web/js/screens/trades.js:110	Hätte gebracht (P&L)
+web/js/screens/trades.js:110	Warum nicht gehandelt?
+web/js/screens/trades.js:110	Gezögert, Angst, nicht am Rechner …
+web/js/screens/trades.js:116	Screenshot
+web/js/screens/trades.js:118	Notiz sprechen oder tippen
+web/js/screens/trades.js:118	Die Stimmung wird automatisch aus dem Text abgeleitet.
+web/js/screens/trades.js:118	Wie hast du dich während des Trades gefühlt?
+web/js/screens/trades.js:45	Keine Trades passen zum Filter
+web/js/screens/trades.js:45	Ändere die Filter oder den Zeitraum.
+web/js/screens/trades.js:45	Logge einen Trade oder importiere eine CSV-Datei.
+web/js/screens/trades.js:49	${esc(t.rulesBroken.join(', '))}
+web/js/screens/trades.js:53	Sobald Trades abgeschlossen sind, erscheinen hier Tageskarten.
+web/js/screens/trades.js:54	pnl ${U.cls(d.pnl)}
+web/js/screens/trades.js:54	v ${U.cls(gross)}
+web/js/screens/trades.js:57	Keine verpassten Trades notiert
+web/js/screens/trades.js:57	Setups, die du gesehen, aber nicht gehandelt hast. So erkennst du, ob Zögern dich Geld kostet.
+web/js/screens/trades.js:59	Entgangen
+web/js/screens/trades.js:59	Wären Gewinner gewesen
+web/js/screens/trades.js:59	Grund
+web/js/screens/trades.js:59	Hätte gebracht
+web/js/screens/trades.js:59	Trades, die du nicht genommen hast. Mit dem hypothetischen Ergebnis siehst du, was Zögern kostet.
+web/js/screens/trades.js:63	Zurück zum TradeLog
+web/js/screens/trades.js:63	Trade nicht gefunden
+web/js/screens/trades.js:63	Vielleicht wurde er gelöscht.
+web/js/screens/trades.js:67	· Vola
+web/js/screens/trades.js:68	0 ? t.fees / t.risk : null })], ['Risiko', t.risk ? fmt.cur(t.risk, { r: 1 }) : '—'], ['Haltedauer', fmt.dur(t.holdingMin)], ['Bewertung', t.rating ? '★'.repeat(t.rating) + '
+web/js/screens/trades.js:68	], ['Gebühren', fmt.cur(t.fees, { r: t.risk > 0 ? t.fees / t.risk : null })], ['Risiko', t.risk ? fmt.cur(t.risk, { r: 1 }) : '—'], ['Haltedauer', fmt.dur(t.holdingMin)], ['Bewertung', t.rating ? '★'.repeat(t.rating) + '
+web/js/screens/trades.js:70	${Math.abs(t.entryPrice - t.plannedEntry) / t.stopDist > 0.25 ? 'warn' : 'pos'}
+web/js/screens/trades.js:71	§ statt −1 R
+web/js/screens/trades.js:73	Plan ergänzen
+web/js/screens/trades.js:73	Kein Plan hinterlegt
+web/js/screens/trades.js:73	Trage geplanten Einstieg, Stop und Ziel ein, um Plan und Ausführung zu vergleichen.
+web/js/screens/trades.js:74	Plan 25, Einstieg 20, Stop 25, keine Fehler-Tags 20, Regeln 10 Punkte.
+web/js/screens/trades.js:75	0.9 && t.status === 'win' ? 'Der Trade lief fast bis zum Stop, bevor er drehte. Glück oder Geduld?' : 'Skala in R, bezogen auf den geplanten Stop-Abstand.'}
+web/js/screens/trades.js:75	: t.maeR != null && t.maeR > 0.9 && t.status === 'win' ? 'Der Trade lief fast bis zum Stop, bevor er drehte. Glück oder Geduld?' : 'Skala in R, bezogen auf den geplanten Stop-Abstand.'}
+web/js/screens/trades.js:75	Keine Exkursionsdaten
+web/js/screens/trades.js:75	Trage MAE und MFE im Editor ein.
+web/js/screens/trades.js:77	Screenshot löschen
+web/js/screens/trades.js:79	Screenshot vor Entry löschen
+web/js/screens/trades.js:83	Sprachnotiz löschen
+web/js/screens/trades.js:83	${v.blobId}
+web/js/screens/trades.js:84	§ 30 Sekunden aufnehmen
+web/js/screens/trades.js:84	Bis zu 30 Sekunden sprechen. Transkript im Browser, Auswertung über den Mentor-Server als Vorschläge für Emotion, Setup und Fehler-Tags, die du bestätigst.
+web/js/shadow.js:45	Regel „§“: §
+web/js/shadow.js:46	ungültiger Wert, Regel wird nicht angewendet.
+web/js/shadow.js:47	ungültige Minutenzahl, Regel wird nicht angewendet.
+web/js/shadow.js:51	Einheit R gewählt, aber keine R-Einheit hinterlegt – Regel nicht prüfbar.
+web/js/shadow.js:53	Uhrzeiten nicht lesbar (Format HH:MM), Regel wird nicht angewendet.
+web/js/shadow.js:54	Regel „§“: keine Setups ausgewählt – jeder Trade gilt als Verstoß.
+web/js/store.js:101	Speichern fehlgeschlagen
+web/js/store.js:132	gelöscht
+web/js/store.js:143	Stück
+web/js/store.js:143	Regeln gebrochen
+web/js/store.js:151	Schlaf / Stress / Stimmung
+web/js/store.js:166	(Kopie)
+web/js/store.js:196	Regelwerk geändert
+web/js/store.js:200	Prop Firm
+web/js/store.js:200	Preset erstellt
+web/js/store.js:205	Konto geändert
+web/js/store.js:279	Vorschlagsregeln eingeschaltet
+web/js/store.js:279	Max. Trades pro Tag, Verlustserie, Pause nach Verlust
+web/js/store.js:281	§ Trades · § Prop-Konten
+web/js/store.js:299	Vorschlagsregeln ausgeschaltet
+web/js/store.js:299	Regelwerk war seit dem Laden der Beispieldaten unverändert
+web/js/store.js:320	Keine gültige Sicherung.
+web/js/store.js:363	Willkommen im Journal
+web/js/store.js:364	So nutzt du das Journal
+web/js/store.js:365	„Trade loggen“ oben rechts: Symbol, Richtung, Zeiten, Kurse, Plan (Einstieg, Stop, Ziel), Setup und Tags. Screenshots per Drag & Drop.
+web/js/store.js:366	CSV-Import im TradeLog: Spalten werden automatisch erkannt, die Zuordnung kannst du anpassen.
+web/js/store.js:367	„Session starten“: kurzer Check-in (Schlaf, Stress, Stimmung) vor dem Handel.
+web/js/store.js:368	Dashboard, Statistiken und Fortschritt werten alles aus: Kennzahlen, Score, Fehlerkosten, Tilt-Warnungen, Edge-Check, Monte Carlo.
+web/js/store.js:370	Ordner links, Notizen in der Mitte, Editor rechts. Tippe „/“ am Zeilenanfang für Befehle und „:“ für Emojis. Vorlagen fügst du mit einem Klick ein. Notizen werden automatisch gespeichert.
+web/js/store.js:371	Alle Daten bleiben in deinem Browser. Unter Einstellungen kannst du eine Sicherung exportieren und wieder einspielen. Beispieldaten lassen sich dort jederzeit entfernen.
+web/js/store.js:387	IndexedDB nicht verfügbar
+web/js/store.js:389	IndexedDB antwortet nicht
+web/js/store.js:56	Trade Notes
+web/js/store.js:56	Daily Journal
+web/js/store.js:56	Session Recap
+web/js/store.js:63	Wie lief der Tag?
+web/js/store.js:63	Ergebnis, Stimmung, Energie … Was lief gut?
+web/js/store.js:63	Was lief schlecht?
+web/js/store.js:63	Eine Sache für morgen
+web/js/store.js:64	Setup und Plan
+web/js/store.js:64	Warum dieser Trade? Einstieg, Stop, Ziel. Ausführung
+web/js/store.js:64	Nach Plan eingestiegen?
+web/js/store.js:64	Stop eingehalten?
+web/js/store.js:64	Gewinn laufen lassen?
+web/js/store.js:64	Lehre
+web/js/store.js:65	Fokus heute
+web/js/store.js:65	Marktlage
+web/js/store.js:65	Trend oder Range? Wichtige Termine?
+web/js/store.js:65	Regeln, die ich heute besonders beachte
+web/js/store.js:65	Maximale Trades: 3 · Tageslimit: −1 %
+web/js/store.js:9	Pullback
+web/js/store.js:9	Breakout
+web/js/store.js:9	Reversal
+web/js/store.js:90	Speicher unlesbar
+web/js/store.js:96	Beispieldaten-Upgrade fehlgeschlagen
+web/js/ui.js:182	${String(current) === String(k)}
+web/js/ui.js:230	${W - mr}
+web/js/ui.js:232	Diagramm
+web/js/ui.js:261	Keine abgeschlossenen Trades im Zeitraum
+web/js/ui.js:280	${Math.min(y(p.pnl), y(0))}
+web/js/ui.js:280	${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}
+web/js/ui.js:283	${lastCol}
+web/js/ui.js:286	Kumuliert: §
+web/js/ui.js:327	pro Trade
+web/js/ui.js:327	${W - mr + 8}
+web/js/ui.js:327	: ${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}
+web/js/ui.js:335	${H - mb}
+web/js/ui.js:339	Mindestens § Trades mit R-Wert nötig
+web/js/ui.js:343	Ø der Trades § bis §
+web/js/ui.js:354	${H - mb - h}
+web/js/ui.js:354	${Math.max(1, gap - 2)}
+web/js/ui.js:354	${Math.max(h, 0)}
+web/js/ui.js:354	${b.lo >= mc.ruinPct ? 1 : .75}
+web/js/ui.js:354	Drawdown ${fmt.pct(b.lo, 0)} bis ${fmt.pct(b.hi, 0)}: ${b.n} Durchläufe
+web/js/ui.js:358	Noch keine Wochen
+web/js/ui.js:360	${scoreColor(p.score)}
+web/js/ui.js:360	Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${p.n} Trades)
+web/js/ui.js:381	<b>§</b>: §<br>Teilscore §
+web/js/ui.js:407	: 'Keine Trades'}§§" data-action="day" data-day="§">
+web/js/ui.js:462	Lädt
+web/js/voice.js:100	§ Neue Aufnahme
+web/js/voice.js:101	Aufnahme gespeichert.
+web/js/voice.js:101	Aufnahme gespeichert, dein Browser hat kein Transkript geliefert.
+web/js/voice.js:103	Transkript gespeichert. Für Vorschläge (Emotion, Setup, Fehler) richte den Mentor-Server ein.
+web/js/voice.js:104	Wird ausgewertet …
+web/js/voice.js:107	Vorschläge
+web/js/voice.js:112	Aufnahme läuft, Transkription aktiv …
+web/js/voice.js:112	Aufnahme läuft (keine Transkription in diesem Browser) …
+web/js/voice.js:123	Noch kein Trade vorhanden
+web/js/voice.js:124	Auswertung da
+web/js/voice.js:124	Fehlgeschlagen
+web/js/voice.js:18	Mentor-Server nicht eingerichtet
+web/js/voice.js:34	Auswertung fehlgeschlagen
+web/js/voice.js:45	Übernehmen
+web/js/voice.js:47	Kurz
+web/js/voice.js:58	Übernommen
+web/js/voice.js:65	§ Aufnahme starten
+web/js/voice.js:65	§ Lieber tippen
+web/js/voice.js:84	Kein Mikrofonzugriff. Erlaube das Mikrofon in den Browser-Einstellungen oder nutze die Text-Notiz.
+web/js/widgetpreviews.js:100	Woche 1
+web/js/widgetpreviews.js:100	Woche 2
+web/js/widgetpreviews.js:100	Woche 3
+web/js/widgetpreviews.js:100	Woche 4
+web/js/widgetpreviews.js:111	34 Tr.
+web/js/widgetpreviews.js:45	14 Verstöße
+web/js/widgetpreviews.js:46	Letzte 20: 55 %
+web/js/widgetpreviews.js:50	43 von 70 Trades
+web/js/widgetpreviews.js:52	Topstep 50K
+web/js/widgetpreviews.js:52	noch 7 Stop-Losses
+web/js/widgetpreviews.js:52	Apex Trader Funding 100K
+web/js/widgetpreviews.js:52	noch 43 Stop-Losses
+web/js/widgetpreviews.js:52	FTMO 100K
+web/js/widgetpreviews.js:52	noch 2 Stop-Losses
+web/js/widgetpreviews.js:53	heute 08:12 · Ampel Grün
+web/js/widgetpreviews.js:57	174 Trades
+web/js/widgetpreviews.js:57	Ø +78,23 € pro Trade
+web/js/widgetpreviews.js:64	1 Tag
+web/js/widgetpreviews.js:65	1 Trade
+web/js/widgetpreviews.js:68	Aktuell (01.10.2026):
+web/js/widgetpreviews.js:97	Ziel: +3.000 € · max. Verlust −1.500 €
+web/js/widgets.js:115	${fmt.dateFull(c.date)}
+web/js/widgets.js:115	p ${U.cls(e.pnl)}
+web/js/widgets.js:115	pm ${U.cls(e.pnl)}
+web/js/widgets.js:116	p ${U.cls(wk.pnl)}
+web/js/widgets.js:116	pm ${U.cls(wk.pnl)}
+web/js/widgets.js:121	${todayA}
+web/js/widgets.js:171	Bruttogewinn geteilt durch Bruttoverlust. Über 1,5 gilt als gut, unter 1 ist das Konto langfristig im Minus.
+web/js/widgets.js:180	Verlusttage in Folge
+web/js/widgets.js:182	Verluste in Folge
+web/js/widgets.js:186	Kein Drawdown
+web/js/widgets.js:194	Zeitanalyse
+web/js/widgets.js:195	Ø Haltedauer (kumuliert)
+web/js/widgets.js:195	Längste Haltedauer (kumuliert)
+web/js/widgets.js:195	Ø Dauer Handelstag (kumuliert)
+web/js/widgets.js:195	Max. Dauer Handelstag (kumuliert)
+web/js/widgets.js:196	Profitabilität
+web/js/widgets.js:197	Netto-P&L (kumuliert)
+web/js/widgets.js:197	Tages-Netto-P&L
+web/js/widgets.js:197	Ø Tages-Netto-P&L (kumuliert)
+web/js/widgets.js:197	Ø Tages-Gewinn/Verlust (kumuliert)
+web/js/widgets.js:198	Ø Gewinn (kumuliert)
+web/js/widgets.js:198	Ø Verlust (kumuliert)
+web/js/widgets.js:198	Ø Netto-P&L pro Trade (kumuliert)
+web/js/widgets.js:198	Ø Trade-Gewinn/Verlust (kumuliert)
+web/js/widgets.js:199	Größter Gewinn-Trade (kumuliert)
+web/js/widgets.js:199	Größter Verlust-Trade (kumuliert)
+web/js/widgets.js:199	Profit-Faktor (kumuliert)
+web/js/widgets.js:199	Erwartungswert (kumuliert)
+web/js/widgets.js:200	Risiko & Drawdown
+web/js/widgets.js:201	Drawdown (kumuliert)
+web/js/widgets.js:201	Ø Tages-Drawdown (kumuliert)
+web/js/widgets.js:201	Max. Tages-Drawdown (kumuliert)
+web/js/widgets.js:201	Ø geplantes R-Multiple (kumuliert)
+web/js/widgets.js:201	Ø realisiertes R-Multiple (kumuliert)
+web/js/widgets.js:202	Break-even-Trades (kumuliert)
+web/js/widgets.js:202	Break-even-Tage (kumuliert)
+web/js/widgets.js:202	Verlusttage (kumuliert)
+web/js/widgets.js:203	Trading-Aktivität & Volumen
+web/js/widgets.js:204	Trades (kumuliert)
+web/js/widgets.js:204	Gewinn-Trades (kumuliert)
+web/js/widgets.js:204	Verlust-Trades (kumuliert)
+web/js/widgets.js:204	Long-Trades (kumuliert)
+web/js/widgets.js:204	Short-Trades (kumuliert)
+web/js/widgets.js:205	Long-Gewinner (kumuliert)
+web/js/widgets.js:205	Short-Gewinner (kumuliert)
+web/js/widgets.js:205	Volumen (kumuliert)
+web/js/widgets.js:205	Ø Tagesvolumen (kumuliert)
+web/js/widgets.js:205	Handelstage (kumuliert)
+web/js/widgets.js:206	Serien & Konstanz
+web/js/widgets.js:207	Trefferquote (kumuliert)
+web/js/widgets.js:207	Ø Tages-Trefferquote (kumuliert)
+web/js/widgets.js:207	Long-Trefferquote (kumuliert)
+web/js/widgets.js:207	Short-Trefferquote (kumuliert)
+web/js/widgets.js:207	Gewinntage (kumuliert)
+web/js/widgets.js:208	Max. Gewinne in Folge (kumuliert)
+web/js/widgets.js:208	Max. Verluste in Folge (kumuliert)
+web/js/widgets.js:208	Max. Gewinntage in Folge (kumuliert)
+web/js/widgets.js:208	Max. Verlusttage in Folge (kumuliert)
+web/js/widgets.js:223	§ Kennzahl hinzufügen
+web/js/widgets.js:223	${esc(REPORT_ALL[r.key].label)}
+web/js/widgets.js:223	Darstellung
+web/js/widgets.js:226	Punktzahl von 0 bis 100 aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als Netz-Diagramm.
+web/js/widgets.js:226	Sechs Achsen von 0 bis 100: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert.
+web/js/widgets.js:234	Uhrzeit wählen
+web/js/widgets.js:262	Kontostand ausgeblendet
+web/js/widgets.js:262	Im Geld-blind-Modus wird der Kontostand nicht angezeigt.
+web/js/widgets.js:268	Noch kein Ziel festgelegt.
+web/js/widgets.js:268	Klicke auf das Zahnrad und trage Gewinnziel und maximalen Verlust ein.
+web/js/widgets.js:271	Verlustlimit verletzt
+web/js/widgets.js:271	Ziel erreicht
+web/js/widgets.js:271	Läuft§
+web/js/widgets.js:287	Heutiger Score §
+web/js/widgets.js:288	Noch keine Regeln angelegt.
+web/js/widgets.js:288	Regeln in den Einstellungen anlegen
+web/js/widgets.js:293	Auflösung
+web/js/widgets.js:293	Kennzahlen wählen
+web/js/widgets.js:32	Logge Trades oder ändere den Zeitraum.
+web/js/widgets.js:333	Das Schatten-Ich
+web/js/widgets.js:341	Das Blind-Replay
+web/js/widgets.js:344	: 'Noch kein Trade mit „Screenshot vor Entry“'}
+web/js/widgets.js:346	height:${Math.max(4, Math.round((x.hitRate || 0) * 100))}%
+web/js/widgets.js:346	Runde ${st.timeline.length - tl.length + i + 1}: ${fmt.pct(x.hitRate, 0)}
+web/js/widgets.js:348	Letzte 20
+web/js/widgets.js:353	Der Prop-Firm-Bereich
+web/js/widgets.js:358	: 'keine Verlustregel'}
+web/js/widgets.js:363	Der Ruhepunkt
+web/js/widgets.js:391	Der Widget-Typ „§“ ist nicht bekannt.
+web/js/widgets.js:391	Dieses Widget konnte nicht berechnet werden.
+web/js/widgets.js:391	Unbekanntes Widget
+web/js/widgets.js:391	Widget
+web/js/widgets.js:68	${(x(i) - bw * bars.length / 2 + bi * bw).toFixed(1)}
+web/js/widgets.js:68	${Math.min(yy, zero).toFixed(1)}
+web/js/widgets.js:68	${bw.toFixed(1)}
+web/js/widgets.js:68	${Math.max(1, Math.abs(yy - zero)).toFixed(1)}
+web/js/widgets.js:83	${x(t.v).toFixed(1)}
+web/js/widgets.js:83	${H - mb + 18}
+web/js/widgets.js:83	rotate(-45 ${x(t.v).toFixed(1)} ${H - mb + 18})
+web/js/widgets.js:84	${x(p.x).toFixed(1)}
+web/js/widgets.js:84	${y(p.y).toFixed(1)}
+web/js/widgets.js:9	Noch keine Daten
+web/js/widgets.js:93	${(x(i) - bw / 2).toFixed(1)}
+web/js/widgets.js:93	${Math.min(y(p.pnl), y(0)).toFixed(1)}
+web/js/widgets.js:93	${Math.max(1.5, Math.abs(y(p.pnl) - y(0))).toFixed(1)}
+web/js/widgets.js:93	${fmt.weekdayLong(p.day)}

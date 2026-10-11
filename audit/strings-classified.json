@@ -1,0 +1,4046 @@
+{
+ "toast": {
+  "Bitte ein Startdatum wählen [err]": [
+   "web/js/app.js:319"
+  ],
+  "Trade gelöscht": [
+   "web/js/app.js:326"
+  ],
+  "Beispieldaten geladen [ok]": [
+   "web/js/app.js:331",
+   "web/js/app.js:332"
+  ],
+  "Beispieldaten konnten nicht geladen werden [err]": [
+   "web/js/app.js:332"
+  ],
+  "Beispieldaten entfernt": [
+   "web/js/app.js:334"
+  ],
+  "Symbol fehlt [err]": [
+   "web/js/app.js:476"
+  ],
+  "Long oder Short wählen [err]": [
+   "web/js/app.js:476"
+  ],
+  "Einstiegskurs fehlt [err]": [
+   "web/js/app.js:476"
+  ],
+  "Ausstiegskurs fehlt für geschlossenen Trade [err]": [
+   "web/js/app.js:476"
+  ],
+  "Trade gespeichert [ok]": [
+   "web/js/app.js:478",
+   "web/js/app.js:478"
+  ],
+  "Gespeichert [ok]": [
+   "web/js/app.js:483",
+   "web/js/screens/misc.js:281",
+   "web/js/screens/misc.js:283",
+   "web/js/screens/misc.js:335",
+   "web/js/screens/misc.js:344",
+   "web/js/screens/misc.js:352",
+   "web/js/screens/notebook.js:161",
+   "web/js/screens/prop.js:363"
+  ],
+  "Session läuft. Viel Erfolg. [ok]": [
+   "web/js/app.js:548"
+  ],
+  "Session beendet [ok]": [
+   "web/js/app.js:549"
+  ],
+  "Check-in gespeichert [ok]": [
+   "web/js/app.js:550"
+  ],
+  "Datei ist leer oder unlesbar [err]": [
+   "web/js/app.js:573"
+  ],
+  "§ Trades importiert [ok]": [
+   "web/js/app.js:574"
+  ],
+  "Bitte 0 bis 100 % angeben [err]": [
+   "web/js/screens/affiliate.js:96"
+  ],
+  "Provision gespeichert [ok]": [
+   "web/js/screens/affiliate.js:98"
+  ],
+  "Gruppe erstellt. Kopiere den Einladungslink. [ok]": [
+   "web/js/screens/coach.js:276"
+  ],
+  "Neuer Einladungslink [ok]": [
+   "web/js/screens/coach.js:285"
+  ],
+  "Gruppe geschlossen": [
+   "web/js/screens/coach.js:289"
+  ],
+  "Notiz gesendet [ok]": [
+   "web/js/screens/coach.js:299"
+  ],
+  "Antwort gesendet [ok]": [
+   "web/js/screens/coach.js:319"
+  ],
+  "Aufgabe gegeben [ok]": [
+   "web/js/screens/coach.js:335"
+  ],
+  "Neuer Co-Coach-Link [ok]": [
+   "web/js/screens/coach.js:349"
+  ],
+  "§ entfernt": [
+   "web/js/screens/coach.js:351"
+  ],
+  "Als Co-Coach ausgetreten": [
+   "web/js/screens/coach.js:355"
+  ],
+  "Bitte einen Namen eingeben [err]": [
+   "web/js/screens/coach.js:358",
+   "web/js/screens/coach.js:378"
+  ],
+  "Du bist jetzt Co-Coach. [ok]": [
+   "web/js/screens/coach.js:360"
+  ],
+  "Bitte eine E-Mail-Adresse eintragen [err]": [
+   "web/js/screens/coach.js:367"
+  ],
+  "Der Browser erlaubt keine Mitteilungen für diese Seite [err]": [
+   "web/js/screens/coach.js:374"
+  ],
+  "Mitteilungen an [ok]": [
+   "web/js/screens/coach.js:375"
+  ],
+  "Du bist in der Gruppe. Dein Journal wird jetzt abgeglichen. [ok]": [
+   "web/js/screens/coach.js:380"
+  ],
+  "Gruppe verlassen": [
+   "web/js/screens/coach.js:385"
+  ],
+  "Schreib zuerst, was dich beschäftigt [err]": [
+   "web/js/screens/dashboard.js:100"
+  ],
+  "Erst speichern oder abbrechen [err]": [
+   "web/js/screens/dashboard.js:188",
+   "web/js/screens/dashboard.js:189",
+   "web/js/screens/dashboard.js:192"
+  ],
+  "Vorlage „§“ erstellt [ok]": [
+   "web/js/screens/dashboard.js:193",
+   "web/js/screens/dashboard.js:196"
+  ],
+  "Standard-Vorlage festgelegt [ok]": [
+   "web/js/screens/dashboard.js:197"
+  ],
+  "Die letzte Vorlage kann nicht gelöscht werden [err]": [
+   "web/js/screens/dashboard.js:198"
+  ],
+  "Vorlage gelöscht": [
+   "web/js/screens/dashboard.js:198"
+  ],
+  "Vorlage gespeichert [ok]": [
+   "web/js/screens/dashboard.js:201",
+   "web/js/screens/notebook.js:163"
+  ],
+  "Maximal 5 Widgets – entferne zuerst eines [err]": [
+   "web/js/screens/dashboard.js:207"
+  ],
+  "Verlauf gelöscht [ok]": [
+   "web/js/screens/mentor.js:119"
+  ],
+  "Verbindung geprüft [ok]": [
+   "web/js/screens/mentor.js:130"
+  ],
+  "Keine Verbindung [err]": [
+   "web/js/screens/mentor.js:131"
+  ],
+  "Profil gespeichert [ok]": [
+   "web/js/screens/misc.js:276"
+  ],
+  "Dieses Bildformat kann der Browser nicht lesen (z. B. HEIC). Bitte JPG oder PNG wählen. [err]": [
+   "web/js/screens/misc.js:278"
+  ],
+  "Profilbild gespeichert [ok]": [
+   "web/js/screens/misc.js:278"
+  ],
+  "Bild konnte nicht gespeichert werden [err]": [
+   "web/js/screens/misc.js:278"
+  ],
+  "Währung: § [ok]": [
+   "web/js/screens/misc.js:289"
+  ],
+  "Design gespeichert [ok]": [
+   "web/js/screens/misc.js:315"
+  ],
+  "Design gelöscht [ok]": [
+   "web/js/screens/misc.js:322"
+  ],
+  "Sicherung wird erstellt …": [
+   "web/js/screens/misc.js:362"
+  ],
+  "Kopiert [ok]": [
+   "web/js/screens/misc.js:363",
+   "web/js/screens/misc.js:364",
+   "web/js/screens/notebook.js:171"
+  ],
+  "Text markiert, jetzt mit Strg+C kopieren": [
+   "web/js/screens/misc.js:363",
+   "web/js/screens/misc.js:364"
+  ],
+  "Sicherung eingespielt (§ Trades) [ok]": [
+   "web/js/screens/misc.js:365"
+  ],
+  "Datei nicht lesbar:": [
+   "web/js/screens/misc.js:365",
+   "web/js/screens/notebook.js:94"
+  ],
+  "Alle Daten gelöscht": [
+   "web/js/screens/misc.js:366"
+  ],
+  "Vorlage „§“ eingefügt [ok]": [
+   "web/js/screens/notebook.js:91"
+  ],
+  "Notiz geladen [ok]": [
+   "web/js/screens/notebook.js:94"
+  ],
+  "§ Notizen verschoben [ok]": [
+   "web/js/screens/notebook.js:141"
+  ],
+  "Verschoben [ok]": [
+   "web/js/screens/notebook.js:143"
+  ],
+  "Kopie erstellt [ok]": [
+   "web/js/screens/notebook.js:144"
+  ],
+  "In den Papierkorb verschoben": [
+   "web/js/screens/notebook.js:145"
+  ],
+  "Wiederhergestellt [ok]": [
+   "web/js/screens/notebook.js:146"
+  ],
+  "Markiert, jetzt mit Strg+C kopieren": [
+   "web/js/screens/notebook.js:171"
+  ],
+  "Druckdialog: dort „Als PDF speichern“ wählen": [
+   "web/js/screens/notebook.js:173"
+  ],
+  "Bitte Firma und Kontogröße angeben [err]": [
+   "web/js/screens/prop.js:330"
+  ],
+  "Konto gespeichert [ok]": [
+   "web/js/screens/prop.js:333"
+  ],
+  "Konto angelegt [ok]": [
+   "web/js/screens/prop.js:333"
+  ],
+  "Konto gelöscht": [
+   "web/js/screens/prop.js:336"
+  ],
+  "Status: § [ok]": [
+   "web/js/screens/prop.js:337"
+  ],
+  "Konto als geplatzt markiert": [
+   "web/js/screens/prop.js:341"
+  ],
+  "§ Trade§ zugeordnet [ok]": [
+   "web/js/screens/prop.js:349"
+  ],
+  "Preset kopiert – bitte Werte prüfen [ok]": [
+   "web/js/screens/prop.js:355"
+  ],
+  "Bitte Firma, Konto und Größe angeben [err]": [
+   "web/js/screens/prop.js:357"
+  ],
+  "Preset gespeichert [ok]": [
+   "web/js/screens/prop.js:359"
+  ],
+  "Preset angelegt [ok]": [
+   "web/js/screens/prop.js:359"
+  ],
+  "Bitte Betrag und Datum angeben [err]": [
+   "web/js/screens/prop.js:365"
+  ],
+  "Ausgabe erfasst [ok]": [
+   "web/js/screens/prop.js:365"
+  ],
+  "Bitte Konto und Bruttobetrag angeben [err]": [
+   "web/js/screens/prop.js:369"
+  ],
+  "Payout erfasst [ok]": [
+   "web/js/screens/prop.js:369"
+  ],
+  "Keine Trades mit „Screenshot vor Entry“ [err]": [
+   "web/js/screens/replay.js:46"
+  ],
+  "Drei Regeln eingeschaltet [ok]": [
+   "web/js/screens/shadow.js:98"
+  ],
+  "Keine Bilder erkannt [err]": [
+   "web/js/screens/trades.js:92"
+  ],
+  "Kein Bild erkannt [err]": [
+   "web/js/screens/trades.js:94"
+  ],
+  "Speichern hat nicht geklappt [err]": [
+   "web/js/screens/trades.js:94"
+  ],
+  "Screenshot vor Entry gespeichert [ok]": [
+   "web/js/screens/trades.js:94"
+  ],
+  "Notiert [ok]": [
+   "web/js/screens/trades.js:112"
+  ],
+  "PNG wird heruntergeladen [ok]": [
+   "web/js/certificate.js:97"
+  ],
+  "In die Zwischenablage kopiert [ok]": [
+   "web/js/certificate.js:98"
+  ],
+  "Bitte eine vollständige Adresse angeben [err]": [
+   "web/js/editor.js:180"
+  ],
+  "Übernommen [ok]": [
+   "web/js/voice.js:58"
+  ],
+  "Trade nicht gefunden [err]": [
+   "web/js/voice.js:63"
+  ],
+  "Noch kein Trade vorhanden [err]": [
+   "web/js/voice.js:123"
+  ]
+ },
+ "bestätigen": {
+  "Trade löschen? || Der Trade und seine Anhänge werden dauerhaft entfernt. || OK=Löschen": [
+   "web/js/app.js:326"
+  ],
+  "Neuen Einladungslink erzeugen? || Der alte Link funktioniert danach nicht mehr. Wer schon in der Gruppe ist, bleibt drin. || OK=Neuen Link erzeugen": [
+   "web/js/screens/coach.js:284"
+  ],
+  "Gruppe schließen? || „§“ wird geschlossen. Alle Schüler verlassen die Gruppe, du siehst ihre Einträge nicht mehr. Ihre Mentor-Notizen behalten sie. || OK=Gruppe schließen": [
+   "web/js/screens/coach.js:288"
+  ],
+  "Notiz löschen? || Die Notiz verschwindet auch beim Schüler. || OK=Löschen": [
+   "web/js/screens/coach.js:309"
+  ],
+  "Antwort löschen? || Die Antwort verschwindet für alle. || OK=Löschen": [
+   "web/js/screens/coach.js:323"
+  ],
+  "Aufgabe löschen? || Die Aufgabe verschwindet auch beim Schüler. || OK=Löschen": [
+   "web/js/screens/coach.js:343"
+  ],
+  "Als Co-Coach austreten? || Du siehst die Schüler von „§“ danach nicht mehr. Deine Notizen bleiben bei ihnen. || OK=Austreten": [
+   "web/js/screens/coach.js:354"
+  ],
+  "Gruppe verlassen? || Du verlässt „§“. Dein Mentor sieht danach nichts mehr von dir; seine bisherigen Notizen behältst du. || OK=Verlassen": [
+   "web/js/screens/coach.js:384"
+  ],
+  "Vorlage löschen || Vorlage „§“ wirklich löschen? || OK=Löschen": [
+   "web/js/screens/dashboard.js:198"
+  ],
+  "Verlauf löschen? || Der Mentor vergisst damit alle bisherigen Nachrichten. || OK=Löschen": [
+   "web/js/screens/mentor.js:118"
+  ],
+  "Konto löschen? || Trades dieses Kontos werden dem ersten verbleibenden Konto zugeordnet. || OK=Löschen": [
+   "web/js/screens/misc.js:330"
+  ],
+  "Tag löschen || „§“ wirklich löschen?§ || OK=Löschen": [
+   "web/js/screens/misc.js:353"
+  ],
+  "Tags zurücksetzen || Alle Tags werden auf die Standardliste zurückgesetzt. Beschreibungen gehen verloren, Trades bleiben unverändert. || OK=Zurücksetzen": [
+   "web/js/screens/misc.js:354"
+  ],
+  "Verlauf leeren || Der gesamte Änderungsverlauf wird gelöscht. Trades und Daten bleiben erhalten. || OK=Leeren": [
+   "web/js/screens/misc.js:360"
+  ],
+  "Wirklich alles löschen? || Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser werden entfernt. Das lässt sich nicht rückgängig machen. || OK=Alles löschen": [
+   "web/js/screens/misc.js:366"
+  ],
+  "§ Notizen löschen? || Sie landen für 30 Tage im Papierkorb. || OK=Löschen": [
+   "web/js/screens/notebook.js:142"
+  ],
+  "Notiz löschen? || Sie landet für 30 Tage im Papierkorb und kann dort wiederhergestellt werden. || OK=Löschen": [
+   "web/js/screens/notebook.js:145"
+  ],
+  "Endgültig löschen? || Das lässt sich nicht rückgängig machen. || OK=Endgültig löschen": [
+   "web/js/screens/notebook.js:147"
+  ],
+  "§ Notizen endgültig löschen? || Das lässt sich nicht rückgängig machen. || OK=Endgültig löschen": [
+   "web/js/screens/notebook.js:149"
+  ],
+  "Papierkorb leeren? || Alle gelöschten Notizen werden endgültig entfernt. || OK=Leeren": [
+   "web/js/screens/notebook.js:150"
+  ],
+  "Ordner „§“ löschen? || Achtung: § || OK=Standard": [
+   "web/js/screens/notebook.js:162"
+  ],
+  "Vorlage löschen? || || OK=Löschen": [
+   "web/js/screens/notebook.js:164",
+   "web/js/screens/notebook.js:165"
+  ],
+  "Konto löschen? || „§“ wird entfernt. Die Zuordnung der Trades zu diesem Konto wird gelöst, die Trades bleiben erhalten. || OK=Löschen": [
+   "web/js/screens/prop.js:336"
+  ],
+  "Preset löschen? || Konten, die daraus angelegt wurden, behalten ihre Regeln (Momentaufnahme). || OK=Löschen": [
+   "web/js/screens/prop.js:362"
+  ],
+  "Ausgabe löschen? || || OK=Löschen": [
+   "web/js/screens/prop.js:366"
+  ],
+  "Payout löschen? || || OK=Löschen": [
+   "web/js/screens/prop.js:371"
+  ],
+  "Session löschen? || Der Eintrag wird dauerhaft aus dem Journal entfernt. || OK=Löschen": [
+   "web/js/screens/ruhepunkt.js:891"
+  ]
+ },
+ "info-tooltip": {
+  "P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.": [
+   "web/js/app.js:363"
+  ],
+  "Summe der Netto-Ergebnisse (nach Gebühren) aller geschlossenen Trades im gewählten Zeitraum. Rechts die Anzahl der Trades.": [
+   "web/js/widgets.js:165"
+  ],
+  "Kontogröße aus den Einstellungen plus Netto-P&L des Zeitraums. Darunter der Gesamt-P&L.": [
+   "web/js/widgets.js:167"
+  ],
+  "Gewinn-Trades geteilt durch alle geschlossenen Trades. Break-even-Trades zählen nicht als Gewinn.": [
+   "web/js/widgets.js:169"
+  ],
+  "Bruttogewinn geteilt durch Bruttoverlust. Über 1,5 gilt als gut, unter 1 ist das Konto langfristig im Minus.": [
+   "web/js/widgets.js:171"
+  ],
+  "Anteil der Handelstage mit positivem Netto-Ergebnis an allen Handelstagen im Zeitraum.": [
+   "web/js/widgets.js:173"
+  ],
+  "Durchschnittlicher Gewinn-Trade geteilt durch durchschnittlichen Verlust-Trade. Der Balken zeigt das Verhältnis.": [
+   "web/js/widgets.js:175"
+  ],
+  "Trefferquote × Ø Gewinn minus Verlustquote × Ø Verlust. Was ein Trade im Schnitt einbringt.": [
+   "web/js/widgets.js:177"
+  ],
+  "Handelstage in Folge mit gleichem Vorzeichen. Rot bei Verlusttagen, grün bei Gewinntagen. Die Pillen zeigen die längste Verlust- und Gewinnserie.": [
+   "web/js/widgets.js:179"
+  ],
+  "Geschlossene Trades in Folge mit gleichem Ergebnis. Break-even-Trades werden übersprungen. Die Pillen zeigen die längste Verlust- und Gewinnserie.": [
+   "web/js/widgets.js:181"
+  ],
+  "Links die aktuelle Tages-Serie, rechts die aktuelle Trade-Serie. Rot bei Verlusten, grün bei Gewinnen. Die Pillen zeigen jeweils die längste Verlust- und Gewinnserie.": [
+   "web/js/widgets.js:183"
+  ],
+  "Größter Rückgang der kumulierten Ergebniskurve von einem Hoch bis zum folgenden Tief, in Währung und in Prozent des Kontostands am Hoch.": [
+   "web/js/widgets.js:185"
+  ],
+  "Mittelwert aller Drawdown-Phasen (vom Hoch bis zum tiefsten Punkt) im Zeitraum. Darunter der aktuelle Abstand zum Hoch.": [
+   "web/js/widgets.js:187"
+  ],
+  "Sechs Achsen von 0 bis 100: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert.": [
+   "web/js/widgets.js:226"
+  ],
+  "Kumuliertes Netto-Tagesergebnis im Zeitraum. Grün über Null, rot darunter.": [
+   "web/js/widgets.js:228"
+  ],
+  "Laufende Werte bis zum jeweiligen Handelstag: Trefferquote (rechte Achse), Ø Gewinn und Ø Verlust (linke Achse).": [
+   "web/js/widgets.js:230"
+  ],
+  "Jeder Punkt ist ein geschlossener Trade: waagerecht die Uhrzeit (Einstieg oder Ausstieg, wählbar über das Zahnrad), senkrecht das Netto-Ergebnis. Blau sind Break-even-Trades.": [
+   "web/js/widgets.js:232"
+  ],
+  "Jeder Punkt ist ein geschlossener Trade: waagerecht die Haltedauer (logarithmisch), senkrecht das Netto-Ergebnis. Blau sind Break-even-Trades.": [
+   "web/js/widgets.js:241"
+  ],
+  "Netto-Ergebnis je Handelstag im Zeitraum. Grüne Säulen sind Gewinntage, rote Verlusttage.": [
+   "web/js/widgets.js:249"
+  ],
+  "Säulen: Netto-Ergebnis je Handelstag. Fläche und Linie: kumuliertes Ergebnis im Zeitraum.": [
+   "web/js/widgets.js:251"
+  ],
+  "Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Mehr anzeigen“ öffnet das TradeLog.": [
+   "web/js/widgets.js:253"
+  ],
+  "Ein Feld pro Tag mit Netto-Ergebnis und Anzahl Trades: grün bei Gewinn, rot bei Verlust, grau bei Break-even. Klick öffnet die Tagesansicht.": [
+   "web/js/widgets.js:259"
+  ],
+  "Kontogröße aus den Einstellungen plus kumuliertes Netto-Ergebnis je Handelstag. Die gestrichelte Linie ist das Startkapital.": [
+   "web/js/widgets.js:261"
+  ],
+  "Abstand der kumulierten Ergebniskurve zu ihrem bisherigen Hoch je Handelstag. Null heißt: neues Hoch.": [
+   "web/js/widgets.js:263"
+  ],
+  "Gewinnziel und Verlustlimit legst du über das Zahnrad fest. Der obere Balken zeigt den Weg zum Ziel, der untere, wie viel vom erlaubten Verlust verbraucht ist. Optional ab einem Startdatum.": [
+   "web/js/widgets.js:265"
+  ],
+  "Kompakter Monatsblick: grün bei Gewinntag, rot bei Verlusttag, grau bei Break-even. Beim Drüberfahren erscheint das Ergebnis.": [
+   "web/js/widgets.js:275"
+  ],
+  "Monatsansicht mit Netto-Ergebnis je Tag und rechts das Wochenergebnis mit Anzahl der Handelstage.": [
+   "web/js/widgets.js:277"
+  ],
+  "Ein Kästchen pro Tag der letzten 13 Wochen. Je mehr deiner Handelsregeln du an dem Tag abgehakt hast, desto kräftiger die Farbe. Der Tages-Score zählt die heute abgehakten Regeln. Regeln pflegst du in den Einstellungen, abhaken im Fortschritt-Tab.": [
+   "web/js/widgets.js:279"
+  ],
+  "Laufende Werte je Handelstag (oder Woche/Monat) für die gewählten Kennzahlen. Über das Zahnrad wählst du bis zu drei Kennzahlen, Farbe und Darstellung.": [
+   "web/js/widgets.js:290"
+  ],
+  "Jede Zeile ist ein Jahr, jedes Kästchen ein Monat mit Anzahl Trades. P&L: grün bei Gewinn, rot bei Verlust. Trefferquote und Trades: je kräftiger das Blau, desto höher der Wert. Rechts das Jahresergebnis.": [
+   "web/js/widgets.js:301"
+  ],
+  "Schatten-Ich minus echt im gewählten Zeitraum. Dein Schatten-Ich handelt wie du, hält aber dein Regelwerk zu 100 % ein.": [
+   "web/js/widgets.js:323"
+  ],
+  "Anteil richtig eingeschätzter Trades im Blind-Replay (Gewinner genommen, Verlierer geskippt). Rechts die letzten 20.": [
+   "web/js/widgets.js:325"
+  ],
+  "Aktive Prop-Konten und ihre Ampel aus dem Prop-Firm-Bereich. Rot heißt: wenig Puffer bis zur nächsten Regel oder Regel verletzt.": [
+   "web/js/widgets.js:327"
+  ],
+  "Dein Schatten-Ich handelt wie du, hält aber dein Regelwerk zu 100 % ein. Die Kurven zeigen echt und Schatten-Ich im gewählten Zeitraum.": [
+   "web/js/widgets.js:331"
+  ],
+  "Du siehst alte Trades ohne Ergebnis und entscheidest: nehmen oder skippen. Richtig ist, Gewinner zu nehmen und Verlierer zu skippen.": [
+   "web/js/widgets.js:339",
+   "web/js/screens/replay.js:31"
+  ],
+  "Aus dem Prop-Firm-Bereich: je aktivem Konto die Ampel, die Balance und wie viel Spielraum bis Daily Loss oder Drawdown bleibt.": [
+   "web/js/widgets.js:351"
+  ],
+  "Kurze geführte Sessions aus dem Ruhepunkt: vor dem Trading (Ampel und Limits), nach dem Trading (abschalten) und ein Akut-Reset, wenn es zu viel wird.": [
+   "web/js/widgets.js:361"
+  ],
+  "Deine Frage landet im Mentor. Er kennt deine letzten 20 Trades und deinen heutigen Check-in. Abschicken kannst du dort.": [
+   "web/js/widgets.js:370"
+  ],
+  "Heute abgehakte Regeln von allen aktiven Regeln.": [
+   "web/js/widgets.js:287"
+  ],
+  "Verdient = Umsatz × Provision. Offen = Provisionen des laufenden Monats.": [
+   "web/js/screens/affiliate.js:59"
+  ],
+  "Du siehst von jedem Schüler nur Journal-Einträge und Kurz-Stats in R und Prozent. Schüler sehen sich gegenseitig nicht.": [
+   "web/js/screens/coach.js:53"
+  ],
+  "Nur Journal-Einträge und Kurz-Stats werden geteilt. Trades, Beträge, Kontostand und private Notizen bleiben bei dir.": [
+   "web/js/screens/coach.js:54"
+  ],
+  "Dein Mentor sieht, ob du eine Aufgabe erledigt hast.": [
+   "web/js/screens/coach.js:67"
+  ],
+  "Die Adresse liegt nur auf deinem Coach-Server und wird nur für diese Benachrichtigungen benutzt. Verlässt du alle Gruppen, wird sie gelöscht.": [
+   "web/js/screens/coach.js:79"
+  ],
+  "Schüler mit mindestens einem abgeschlossenen Trade im Zeitraum.": [
+   "web/js/screens/coach.js:94"
+  ],
+  "Darunter: Ø Gewinn und Ø Verlust je Trade in R, gemittelt über die Schüler.": [
+   "web/js/screens/coach.js:97"
+  ],
+  "Journal-Einträge der Schüler im Zeitraum und Notizen aller Mentoren dieser Gruppe.": [
+   "web/js/screens/coach.js:99"
+  ],
+  "Pro Schüler: Trades, Winrate, Profit-Faktor (R), Ø Gewinn und Ø Verlust in R, größter Rückgang in Prozent der Kontogröße, letzter Journal-Eintrag und neue Einträge seit deinem letzten Besuch. Klick auf eine Zeile öffnet das Journal.": [
+   "web/js/screens/coach.js:121"
+  ],
+  "Der Schüler sieht die Aufgabe in seiner Coach-Übersicht, mit Hinweis-Punkt, und hakt sie ab.": [
+   "web/js/screens/coach.js:148"
+  ],
+  "Durchschnitt über die Schüler mit Trades im gewählten Zeitraum. Nur Mentoren sehen das, Schüler nicht. Es gibt bewusst keine Rangliste.": [
+   "web/js/screens/coach.js:101"
+  ],
+  "Die Marktphase des Tages fließt in die Auswertung „Marktphase“ ein.": [
+   "web/js/screens/day.js:17"
+  ],
+  "Abhaken, welche Regeln du heute eingehalten hast. Die Quote erscheint im Fortschritt.": [
+   "web/js/screens/day.js:18"
+  ],
+  "Die Tagesnotiz liegt im Notebook im Ordner „Daily Journal“.": [
+   "web/js/screens/day.js:19"
+  ],
+  "Werktage in Folge mit Trades, Check-in oder Notiz. Wochenenden unterbrechen die Serie nicht. Drei Stufen: ab 1, ab 5 und ab 20 Werktagen.": [
+   "web/js/screens/progress.js:67"
+  ],
+  "Check-in, Session, Trades, Regeln, Tagesnotiz.": [
+   "web/js/screens/progress.js:68"
+  ],
+  "Anteil der abgehakten Regeln an den Handelstagen im gewählten Zeitraum.": [
+   "web/js/screens/progress.js:69"
+  ],
+  "Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Grün. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.": [
+   "web/js/screens/progress.js:71"
+  ],
+  "Durchschnittlicher Disziplin-Score der Trades je Woche.": [
+   "web/js/screens/progress.js:78"
+  ],
+  "Aus deiner Historie gelernt: Wie enden Tage, an denen du drei Verluste in Folge hattest?": [
+   "web/js/screens/progress.js:79"
+  ],
+  "Wie oft jede Regel abgehakt wurde und was gebrochene Regeln gekostet haben.": [
+   "web/js/screens/progress.js:82"
+  ],
+  "Summe der Ausgaben (Challenge-Gebühr, Reset, Aktivierung …), die einem geplatzten Konto zugeordnet sind.": [
+   "web/js/screens/prop-friedhof.js:56"
+  ],
+  "Ein Satz je Dimension, wenn mindestens zwei und mindestens die Hälfte aller Breaches betroffen sind.": [
+   "web/js/screens/prop-friedhof.js:62"
+  ],
+  "Summe der geschlossenen Trades seit Start der aktiven Konten.": [
+   "web/js/screens/prop.js:87"
+  ],
+  "Regeln sind je Konto als Momentaufnahme gespeichert. Status (geplatzt, bestanden, archiviert) setzt du im Konto-Dialog.": [
+   "web/js/screens/prop.js:244"
+  ],
+  "Erhaltene und beantragte Payouts (netto) minus alle Ausgaben.": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Netto geteilt durch Ausgaben.": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Alle Ausgaben geteilt durch die Zahl der bestandenen oder funded Konten.": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Ein Punkt je Ausgabe oder Payout, chronologisch. Payout-Datum: erhalten, sonst beantragt.": [
+   "web/js/screens/prop.js:257"
+  ],
+  "Netto je Firma: Payouts minus Ausgaben.": [
+   "web/js/screens/prop.js:258"
+  ],
+  "Alle Kosten rund um Prop Firms. Summen fließen in Netto, ROI und Break-even.": [
+   "web/js/screens/prop.js:264"
+  ],
+  "Netto = Brutto × Split. Abgelehnte Payouts zählen nicht in der Bilanz.": [
+   "web/js/screens/prop.js:268"
+  ],
+  "Fehlender Gewinn gleichmäßig auf die fehlenden Tage verteilt; bei verletzter Consistency Rule zusätzlich so viel, dass der beste Tag wieder unter die Grenze fällt.": [
+   "web/js/screens/prop.js:284"
+  ],
+  "Wie oft du richtig lagst, je nachdem wie sicher du dir vor der Entscheidung warst.": [
+   "web/js/screens/replay.js:41"
+  ],
+  "Trades, die du zuletzt falsch eingeschätzt hast. Sie kommen öfter wieder, bis du sie dreimal in Folge richtig hast.": [
+   "web/js/screens/replay.js:37"
+  ],
+  "Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.": [
+   "web/js/screens/shadow.js:60"
+  ],
+  "Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": [
+   "web/js/screens/shadow.js:118"
+  ],
+  "Die erste verletzte Regel zählt als Grund. Klick auf eine Zeile öffnet den Trade.": [
+   "web/js/screens/shadow.js:120"
+  ],
+  "Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.": [
+   "web/js/screens/shadow.js:112"
+  ],
+  "Ø Netto-P&L pro Trade je Setup.": [
+   "web/js/screens/stats.js:39"
+  ],
+  "Tatsächliches Ergebnis minus Ergebnis ohne Trades mit Fehler-Tags oder gebrochenen Regeln.": [
+   "web/js/screens/stats.js:51"
+  ],
+  "Summe des Netto-P&L aller Trades mit diesem Tag.": [
+   "web/js/screens/stats.js:52"
+  ],
+  "Mittelwert des realisierten R-Multiples.": [
+   "web/js/screens/stats.js:72"
+  ],
+  "Konfidenzintervall des Mittelwerts (t-Verteilung).": [
+   "web/js/screens/stats.js:72"
+  ],
+  "Anzahl Trades, ab der der Mittelwert bei gleicher Streuung signifikant von Null verschieden wäre.": [
+   "web/js/screens/stats.js:72"
+  ],
+  "Gleitender Durchschnitt des R-Multiples über die letzten § Trades.": [
+   "web/js/screens/stats.js:73"
+  ],
+  "Anteil der Durchläufe, die die Ruin-Schwelle berühren.": [
+   "web/js/screens/stats.js:80"
+  ],
+  "Anteil der Durchläufe, die über dem Startkapital enden.": [
+   "web/js/screens/stats.js:80"
+  ],
+  "Maximaler Drawdown je Durchlauf in Prozent des Startkapitals.": [
+   "web/js/screens/stats.js:81"
+  ],
+  "Trades, die du nicht genommen hast. Mit dem hypothetischen Ergebnis siehst du, was Zögern kostet.": [
+   "web/js/screens/trades.js:59"
+  ],
+  "Vergleich von geplantem Einstieg, Stop und Ziel mit der tatsächlichen Ausführung.": [
+   "web/js/screens/trades.js:73"
+  ],
+  "Plan 25, Einstieg 20, Stop 25, keine Fehler-Tags 20, Regeln 10 Punkte.": [
+   "web/js/screens/trades.js:74"
+  ],
+  "Maximale Bewegung gegen dich (MAE) und für dich (MFE) während des Trades, gemessen in R.": [
+   "web/js/screens/trades.js:75"
+  ],
+  "Der Chart, wie er vor dem Einstieg aussah, ohne Ergebnis. Nur Trades mit diesem Bild erscheinen im Blind-Replay.": [
+   "web/js/screens/trades.js:80"
+  ],
+  "Chart-Screenshots zum Trade. Werden lokal im Browser gespeichert.": [
+   "web/js/screens/trades.js:81"
+  ],
+  "Bis zu 30 Sekunden sprechen. Transkript im Browser, Auswertung über den Mentor-Server als Vorschläge für Emotion, Setup und Fehler-Tags, die du bestätigst.": [
+   "web/js/screens/trades.js:84"
+  ],
+  "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.": [
+   "web/js/screens/trades.js:26"
+  ],
+  "Summe aller abgeschlossenen Trades nach Gebühren.": [
+   "web/js/core.js:315"
+  ],
+  "Win-Rate × Ø Gewinn + Verlustrate × Ø Verlust.": [
+   "web/js/core.js:316"
+  ],
+  "Netto-P&L geteilt durch Anzahl der Trades.": [
+   "web/js/core.js:317"
+  ],
+  "Gehandelte Stückzahl pro Handelstag.": [
+   "web/js/core.js:318"
+  ],
+  "Anteil der Gewinn-Trades an allen abgeschlossenen Trades.": [
+   "web/js/core.js:319"
+  ],
+  "Durchschnittlicher Gewinntag geteilt durch durchschnittlichen Verlusttag.": [
+   "web/js/core.js:320"
+  ],
+  "Netto-P&L pro Handelstag.": [
+   "web/js/core.js:321"
+  ],
+  "Tage mit mindestens einem abgeschlossenen Trade.": [
+   "web/js/core.js:322"
+  ],
+  "Anteil der Tage mit positivem Ergebnis.": [
+   "web/js/core.js:323"
+  ],
+  "Durchschnittlicher Gewinn geteilt durch durchschnittlichen Verlust.": [
+   "web/js/core.js:324"
+  ],
+  "Geplantes Chance-Risiko-Verhältnis aus Einstieg, Stop und Ziel.": [
+   "web/js/core.js:325"
+  ],
+  "Größter Rückgang vom Tageshoch innerhalb eines Tages.": [
+   "web/js/core.js:326"
+  ],
+  "Bruttogewinn geteilt durch Bruttoverlust.": [
+   "web/js/core.js:327"
+  ],
+  "Durchschnittliche Zeit zwischen Einstieg und Ausstieg.": [
+   "web/js/core.js:328"
+  ],
+  "Erzielter Gewinn oder Verlust im Verhältnis zum geplanten Risiko.": [
+   "web/js/core.js:329"
+  ],
+  "Durchschnittlicher Rückgang vom Tageshoch.": [
+   "web/js/core.js:330"
+  ]
+ },
+ "title-attr": {
+  "Konto und Einstellungen": [
+   "web/js/app.js:227"
+  ],
+  "Konto: §": [
+   "web/js/app.js:244"
+  ],
+  "Session beenden": [
+   "web/js/app.js:249"
+  ],
+  "Session starten": [
+   "web/js/app.js:250"
+  ],
+  "Profil": [
+   "web/js/app.js:265"
+  ],
+  "Einstellungen": [
+   "web/js/widgets.js:234",
+   "web/js/widgets.js:380"
+  ],
+  "Kennzahlen wählen": [
+   "web/js/widgets.js:293"
+  ],
+  "Ziehen zum Verschieben": [
+   "web/js/screens/dashboard.js:41"
+  ],
+  "Entfernen": [
+   "web/js/screens/dashboard.js:41"
+  ],
+  "Vorlage": [
+   "web/js/screens/dashboard.js:124"
+  ],
+  "Zertifikat erstellen": [
+   "web/js/screens/dashboard.js:124"
+  ],
+  "Foto hochladen": [
+   "web/js/screens/misc.js:45"
+  ],
+  "Feiertag": [
+   "web/js/screens/news.js:49"
+  ],
+  "Umdrehen": [
+   "web/js/screens/prop-friedhof.js:131"
+  ],
+  "Größe ändern (ziehen)": [
+   "web/js/editor.js:39"
+  ],
+  "Bild löschen": [
+   "web/js/editor.js:39"
+  ]
+ },
+ "aria-label": {
+  "Konto und Einstellungen": [
+   "web/js/app.js:227"
+  ],
+  "Erscheinungsbild": [
+   "web/js/app.js:229"
+  ],
+  "Dunkel": [
+   "web/js/app.js:229"
+  ],
+  "Hell": [
+   "web/js/app.js:229"
+  ],
+  "Session starten": [
+   "web/js/app.js:250"
+  ],
+  "Menü": [
+   "web/js/app.js:265"
+  ],
+  "Schließen": [
+   "web/js/app.js:348",
+   "web/js/app.js:416",
+   "web/js/app.js:490",
+   "web/js/app.js:524",
+   "web/js/app.js:529",
+   "web/js/app.js:574",
+   "web/js/ui.js:447",
+   "web/js/ui.js:453",
+   "web/js/ui.js:458",
+   "web/js/screens/affiliate.js:91",
+   "web/js/screens/coach.js:261",
+   "web/js/screens/coach.js:269",
+   "web/js/screens/coach.js:294",
+   "web/js/screens/dash-filter.js:145",
+   "web/js/screens/dashboard.js:78",
+   "web/js/screens/dashboard.js:182",
+   "web/js/screens/dashboard.js:193",
+   "web/js/screens/misc.js:245",
+   "web/js/screens/misc.js:268",
+   "web/js/screens/misc.js:280",
+   "web/js/screens/misc.js:284",
+   "web/js/screens/misc.js:311",
+   "web/js/screens/misc.js:362",
+   "web/js/screens/misc.js:365",
+   "web/js/screens/notebook.js:116",
+   "web/js/screens/notebook.js:119",
+   "web/js/screens/notebook.js:160",
+   "web/js/screens/notebook.js:170",
+   "web/js/screens/prop.js:133",
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:213",
+   "web/js/screens/trades.js:110",
+   "web/js/screens/trades.js:118",
+   "web/js/certificate.js:113",
+   "web/js/editor.js:208",
+   "web/js/voice.js:65"
+  ],
+  "Richtung": [
+   "web/js/app.js:348"
+  ],
+  "Anderes Symbol": [
+   "web/js/app.js:393"
+  ],
+  "Score-Radar": [
+   "web/js/ui.js:384"
+  ],
+  "Voriger Monat": [
+   "web/js/widgets.js:121",
+   "web/js/screens/notebook.js:112",
+   "web/js/rangepicker.js:43"
+  ],
+  "Nächster Monat": [
+   "web/js/widgets.js:121",
+   "web/js/screens/notebook.js:112",
+   "web/js/rangepicker.js:43"
+  ],
+  "Uhrzeit wählen": [
+   "web/js/widgets.js:234"
+  ],
+  "Auflösung": [
+   "web/js/widgets.js:293"
+  ],
+  "Kennzahlen wählen": [
+   "web/js/widgets.js:293"
+  ],
+  "Trefferquote je Runde": [
+   "web/js/widgets.js:346",
+   "web/js/screens/replay.js:29"
+  ],
+  "Widget-Einstellungen": [
+   "web/js/widgets.js:380"
+  ],
+  "Ansicht": [
+   "web/js/screens/affiliate.js:51"
+  ],
+  "§ kopieren": [
+   "web/js/screens/affiliate.js:52"
+  ],
+  "Creator wählen": [
+   "web/js/screens/affiliate.js:78"
+  ],
+  "Antworten": [
+   "web/js/screens/coach.js:36"
+  ],
+  "Mitteilung im Browser": [
+   "web/js/screens/coach.js:73"
+  ],
+  "E-Mail bei Neuigkeiten": [
+   "web/js/screens/coach.js:75"
+  ],
+  "E-Mail-Adresse": [
+   "web/js/screens/coach.js:75"
+  ],
+  "Einladungslink": [
+   "web/js/screens/coach.js:109"
+  ],
+  "Mehr": [
+   "web/js/screens/coach.js:118",
+   "web/js/screens/notebook.js:73",
+   "web/js/screens/shadow.js:42"
+  ],
+  "Notiz schreiben": [
+   "web/js/screens/coach.js:139"
+  ],
+  "Aufgabe": [
+   "web/js/screens/coach.js:147"
+  ],
+  "Fällig am": [
+   "web/js/screens/coach.js:147"
+  ],
+  "Co-Coach-Link": [
+   "web/js/screens/coach.js:261"
+  ],
+  "Code § kopieren": [
+   "web/js/screens/coupons.js:6"
+  ],
+  "Entfernen": [
+   "web/js/screens/dash-filter.js:90"
+  ],
+  "Einheit": [
+   "web/js/screens/dash-filter.js:127"
+  ],
+  "Filter": [
+   "web/js/screens/dash-filter.js:145",
+   "web/js/screens/dashboard.js:123",
+   "web/js/screens/notebook.js:46"
+  ],
+  "Verschieben": [
+   "web/js/screens/dashboard.js:41",
+   "web/js/screens/notebook.js:62"
+  ],
+  "Nach vorn": [
+   "web/js/screens/dashboard.js:41"
+  ],
+  "Nach hinten": [
+   "web/js/screens/dashboard.js:41"
+  ],
+  "Widget entfernen": [
+   "web/js/screens/dashboard.js:41"
+  ],
+  "Widget hinzufügen": [
+   "web/js/screens/dashboard.js:78"
+  ],
+  "Vorlage wählen": [
+   "web/js/screens/dashboard.js:124"
+  ],
+  "Zertifikat erstellen": [
+   "web/js/screens/dashboard.js:124",
+   "web/js/screens/stats.js:9"
+  ],
+  "Voriger Tag": [
+   "web/js/screens/day.js:12"
+  ],
+  "Nächster Tag": [
+   "web/js/screens/day.js:12"
+  ],
+  "Neu laden": [
+   "web/js/screens/mentor.js:81"
+  ],
+  "Senden": [
+   "web/js/screens/mentor.js:83"
+  ],
+  "Eigene Grundfarbe": [
+   "web/js/screens/misc.js:87"
+  ],
+  "Design löschen": [
+   "web/js/screens/misc.js:107"
+  ],
+  "Eigene Akzentfarbe": [
+   "web/js/screens/misc.js:145"
+  ],
+  "Löschen": [
+   "web/js/screens/misc.js:186",
+   "web/js/screens/notebook.js:62",
+   "web/js/screens/prop.js:263",
+   "web/js/screens/prop.js:267"
+  ],
+  "Neue Regel": [
+   "web/js/screens/misc.js:207"
+  ],
+  "Tag entfernen": [
+   "web/js/screens/notebook.js:33"
+  ],
+  "Notizen durchsuchen": [
+   "web/js/screens/notebook.js:46"
+  ],
+  "Von": [
+   "web/js/screens/notebook.js:47"
+  ],
+  "Bis": [
+   "web/js/screens/notebook.js:47"
+  ],
+  "Ordnermenü": [
+   "web/js/screens/notebook.js:51"
+  ],
+  "Spalte einklappen": [
+   "web/js/screens/notebook.js:52"
+  ],
+  "Zurück": [
+   "web/js/screens/notebook.js:61",
+   "web/js/screens/notebook.js:67",
+   "web/js/screens/notebook.js:72"
+  ],
+  "Sortieren": [
+   "web/js/screens/notebook.js:61"
+  ],
+  "Endgültig löschen": [
+   "web/js/screens/notebook.js:62"
+  ],
+  "Titel": [
+   "web/js/screens/notebook.js:74"
+  ],
+  "Tag hinzufügen": [
+   "web/js/screens/notebook.js:76"
+  ],
+  "Eigene Farbe": [
+   "web/js/screens/notebook.js:116",
+   "web/js/editor.js:112"
+  ],
+  "steigend": [
+   "web/js/screens/progress.js:20"
+  ],
+  "fallend": [
+   "web/js/screens/progress.js:20"
+  ],
+  "Umdrehen: Einzelheiten zeigen": [
+   "web/js/screens/prop-friedhof.js:136"
+  ],
+  "Zurückdrehen": [
+   "web/js/screens/prop-friedhof.js:152"
+  ],
+  "Bereiche": [
+   "web/js/screens/prop.js:304"
+  ],
+  "Ansichten": [
+   "web/js/screens/prop.js:305"
+  ],
+  "Weniger": [
+   "web/js/screens/shadow.js:42"
+  ],
+  "Verstöße pro Seite": [
+   "web/js/screens/shadow.js:73"
+  ],
+  "Seite": [
+   "web/js/screens/shadow.js:73",
+   "web/js/screens/trades.js:48"
+  ],
+  "Vorherige Seite": [
+   "web/js/screens/shadow.js:73",
+   "web/js/screens/trades.js:48"
+  ],
+  "Nächste Seite": [
+   "web/js/screens/shadow.js:73",
+   "web/js/screens/trades.js:48"
+  ],
+  "Suchen": [
+   "web/js/screens/trades.js:39"
+  ],
+  "Symbol": [
+   "web/js/screens/trades.js:39"
+  ],
+  "Setup": [
+   "web/js/screens/trades.js:40"
+  ],
+  "Status": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Fehler": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Trades pro Seite": [
+   "web/js/screens/trades.js:48"
+  ],
+  "Screenshot vor Entry löschen": [
+   "web/js/screens/trades.js:79"
+  ],
+  "Sprachnotiz löschen": [
+   "web/js/screens/trades.js:83"
+  ],
+  "Tag": [
+   "web/js/certificate.js:76"
+  ],
+  "Woche": [
+   "web/js/certificate.js:77"
+  ],
+  "Monat": [
+   "web/js/certificate.js:78"
+  ],
+  "Zeitraum": [
+   "web/js/certificate.js:79"
+  ],
+  "Bildgröße": [
+   "web/js/editor.js:39"
+  ],
+  "Bild löschen": [
+   "web/js/editor.js:39"
+  ],
+  "Einfügen": [
+   "web/js/editor.js:115"
+  ],
+  "Umwandeln in": [
+   "web/js/editor.js:117"
+  ],
+  "Kleiner": [
+   "web/js/editor.js:117"
+  ],
+  "Schriftgröße": [
+   "web/js/editor.js:117"
+  ],
+  "Größer": [
+   "web/js/editor.js:117"
+  ],
+  "Schriftfarbe": [
+   "web/js/editor.js:117"
+  ],
+  "Textmarker": [
+   "web/js/editor.js:117"
+  ],
+  "Bild": [
+   "web/js/editor.js:117"
+  ],
+  "Sättigung und Helligkeit": [
+   "web/js/colorpicker.js:40"
+  ],
+  "Farbton": [
+   "web/js/colorpicker.js:40"
+  ],
+  "Hex-Farbwert": [
+   "web/js/colorpicker.js:40"
+  ]
+ },
+ "abschnitt-label": {
+  "Benutzerdefiniert": [
+   "web/js/app.js:239"
+  ],
+  "Heute": [
+   "web/js/app.js:529"
+  ],
+  "Trades": [
+   "web/js/app.js:529",
+   "web/js/screens/day.js:14"
+  ],
+  "Win-Rate": [
+   "web/js/app.js:529",
+   "web/js/screens/day.js:14"
+  ],
+  "Dein Score": [
+   "web/js/widgets.js:227"
+  ],
+  "Heutiger Score §": [
+   "web/js/widgets.js:287"
+  ],
+  "Netto-P&L": [
+   "web/js/screens/day.js:14"
+  ],
+  "Brutto-P&L": [
+   "web/js/screens/day.js:14"
+  ],
+  "Gewinner / Verlierer": [
+   "web/js/screens/day.js:14"
+  ],
+  "Gebühren": [
+   "web/js/screens/day.js:14"
+  ],
+  "Volumen": [
+   "web/js/screens/day.js:14"
+  ],
+  "Profit-Faktor": [
+   "web/js/screens/day.js:14"
+  ],
+  "Nächste wichtige News": [
+   "web/js/screens/news.js:83"
+  ],
+  "Eigene": [
+   "web/js/screens/notebook.js:30"
+  ],
+  "In Ordner verschieben": [
+   "web/js/screens/notebook.js:73"
+  ],
+  "Balance": [
+   "web/js/screens/prop.js:100"
+  ],
+  "So ging es weiter": [
+   "web/js/screens/replay.js:68"
+  ],
+  "Session beendet": [
+   "web/js/screens/replay.js:83"
+  ],
+  "Entgangen": [
+   "web/js/screens/trades.js:59"
+  ],
+  "Wären Gewinner gewesen": [
+   "web/js/screens/trades.js:59"
+  ],
+  "Fehler": [
+   "web/js/screens/trades.js:76",
+   "web/js/voice.js:46"
+  ],
+  "Emotionen": [
+   "web/js/screens/trades.js:76"
+  ],
+  "Net result": [
+   "web/js/certificate.js:35"
+  ],
+  "Issued by": [
+   "web/js/certificate.js:35"
+  ],
+  "Issued §": [
+   "web/js/certificate.js:35"
+  ],
+  "Eigene Farben": [
+   "web/js/editor.js:112"
+  ],
+  "Standardfarben": [
+   "web/js/editor.js:112"
+  ],
+  "Grundbausteine": [
+   "web/js/editor.js:115"
+  ],
+  "Listen": [
+   "web/js/editor.js:115"
+  ],
+  "Vorlagen": [
+   "web/js/editor.js:115"
+  ],
+  "Umwandeln in": [
+   "web/js/editor.js:117"
+  ],
+  "Emotion": [
+   "web/js/voice.js:44"
+  ],
+  "Setup": [
+   "web/js/voice.js:45"
+  ],
+  "Kurz": [
+   "web/js/voice.js:47"
+  ],
+  "Vorschläge": [
+   "web/js/voice.js:107",
+   "web/js/voice.js:115"
+  ]
+ },
+ "knopf": {
+  "§Session starten": [
+   "web/js/app.js:250",
+   "web/js/app.js:251"
+  ],
+  "§Trade loggen": [
+   "web/js/app.js:253"
+  ],
+  "Abbrechen": [
+   "web/js/app.js:366",
+   "web/js/app.js:433",
+   "web/js/app.js:493",
+   "web/js/app.js:524",
+   "web/js/app.js:531",
+   "web/js/app.js:574",
+   "web/js/ui.js:447",
+   "web/js/ui.js:453",
+   "web/js/screens/affiliate.js:91",
+   "web/js/screens/coach.js:269",
+   "web/js/screens/dashboard.js:119",
+   "web/js/screens/dashboard.js:182",
+   "web/js/screens/dashboard.js:193",
+   "web/js/screens/misc.js:245",
+   "web/js/screens/misc.js:268",
+   "web/js/screens/misc.js:311",
+   "web/js/screens/notebook.js:116",
+   "web/js/screens/notebook.js:119",
+   "web/js/screens/notebook.js:160",
+   "web/js/screens/prop.js:135",
+   "web/js/screens/prop.js:204",
+   "web/js/screens/replay.js:59",
+   "web/js/screens/trades.js:110",
+   "web/js/screens/trades.js:118",
+   "web/js/editor.js:208",
+   "web/js/colorpicker.js:40"
+  ],
+  "OK": [
+   "web/js/app.js:393"
+  ],
+  "§ Neu": [
+   "web/js/app.js:415"
+  ],
+  "Speichern": [
+   "web/js/app.js:433",
+   "web/js/app.js:524",
+   "web/js/screens/affiliate.js:91",
+   "web/js/screens/coach.js:75",
+   "web/js/screens/dashboard.js:182",
+   "web/js/screens/misc.js:54",
+   "web/js/screens/misc.js:54",
+   "web/js/screens/misc.js:154",
+   "web/js/screens/misc.js:199",
+   "web/js/screens/misc.js:214",
+   "web/js/screens/misc.js:245",
+   "web/js/screens/misc.js:268",
+   "web/js/screens/misc.js:311",
+   "web/js/screens/notebook.js:116",
+   "web/js/screens/notebook.js:119",
+   "web/js/screens/notebook.js:160",
+   "web/js/screens/prop.js:135",
+   "web/js/screens/prop.js:239",
+   "web/js/screens/trades.js:110",
+   "web/js/screens/trades.js:118",
+   "web/js/colorpicker.js:40"
+  ],
+  "§ Session starten": [
+   "web/js/app.js:493",
+   "web/js/widgets.js:343",
+   "web/js/screens/replay.js:20"
+  ],
+  "§ Session beenden": [
+   "web/js/app.js:531"
+  ],
+  "Einlesen": [
+   "web/js/app.js:560"
+  ],
+  "Andere Datei": [
+   "web/js/app.js:574"
+  ],
+  "Importieren": [
+   "web/js/app.js:574"
+  ],
+  "§ Kopieren": [
+   "web/js/ui.js:458",
+   "web/js/screens/coach.js:109",
+   "web/js/screens/coach.js:261",
+   "web/js/screens/misc.js:362",
+   "web/js/certificate.js:88"
+  ],
+  "Fertig": [
+   "web/js/ui.js:458",
+   "web/js/screens/coach.js:261",
+   "web/js/screens/misc.js:362",
+   "web/js/datepicker.js:81"
+  ],
+  "Auf Standard zurücksetzen": [
+   "web/js/widgets.js:223",
+   "web/js/screens/misc.js:193",
+   "web/js/screens/misc.js:214"
+  ],
+  "§ Kennzahl hinzufügen": [
+   "web/js/widgets.js:223"
+  ],
+  "Einstiegszeit": [
+   "web/js/widgets.js:234"
+  ],
+  "Ausstiegszeit": [
+   "web/js/widgets.js:234"
+  ],
+  "§wenn es gerade zu viel wird": [
+   "web/js/widgets.js:368"
+  ],
+  "§ Zum Mentor": [
+   "web/js/widgets.js:374"
+  ],
+  "§ Antworten": [
+   "web/js/screens/coach.js:36"
+  ],
+  "§Link": [
+   "web/js/screens/coach.js:42"
+  ],
+  "§ Jetzt abgleichen": [
+   "web/js/screens/coach.js:47"
+  ],
+  "§ Umbenennen": [
+   "web/js/screens/coach.js:115",
+   "web/js/screens/notebook.js:51"
+  ],
+  "§ Neuen Einladungslink erzeugen": [
+   "web/js/screens/coach.js:115"
+  ],
+  "§ Co-Coaches": [
+   "web/js/screens/coach.js:115"
+  ],
+  "§ Gruppe schließen": [
+   "web/js/screens/coach.js:115"
+  ],
+  "§ Als Co-Coach austreten": [
+   "web/js/screens/coach.js:116"
+  ],
+  "§Aufgabe an alle": [
+   "web/js/screens/coach.js:121"
+  ],
+  "§ Notiz senden": [
+   "web/js/screens/coach.js:139"
+  ],
+  "§ Aufgabe geben": [
+   "web/js/screens/coach.js:147"
+  ],
+  "§Aktualisieren": [
+   "web/js/screens/coach.js:157"
+  ],
+  "§ Beitreten": [
+   "web/js/screens/coach.js:172"
+  ],
+  "§ Als Co-Coach beitreten": [
+   "web/js/screens/coach.js:188"
+  ],
+  "Entfernen": [
+   "web/js/screens/coach.js:259"
+  ],
+  "§ Neuen Link erzeugen": [
+   "web/js/screens/coach.js:261"
+  ],
+  "Aufgabe geben": [
+   "web/js/screens/coach.js:269"
+  ],
+  "§„§“ hinzufügen": [
+   "web/js/screens/dash-filter.js:94",
+   "web/js/screens/dash-filter.js:183"
+  ],
+  "Zurücksetzen": [
+   "web/js/screens/dash-filter.js:141",
+   "web/js/screens/misc.js:238",
+   "web/js/screens/notebook.js:47"
+  ],
+  "§Anwenden§": [
+   "web/js/screens/dash-filter.js:141"
+  ],
+  "§Widget hinzufügen": [
+   "web/js/screens/dashboard.js:26",
+   "web/js/screens/dashboard.js:46",
+   "web/js/screens/dashboard.js:52"
+  ],
+  "§Diese Vorlage bearbeiten": [
+   "web/js/screens/dashboard.js:31"
+  ],
+  "§Neue Vorlage erstellen": [
+   "web/js/screens/dashboard.js:31"
+  ],
+  "§Umbenennen": [
+   "web/js/screens/dashboard.js:33"
+  ],
+  "§Duplizieren": [
+   "web/js/screens/dashboard.js:33"
+  ],
+  "§Löschen": [
+   "web/js/screens/dashboard.js:33"
+  ],
+  "Hinzufügen§ Hinzugefügt": [
+   "web/js/screens/dashboard.js:63"
+  ],
+  "§ Speichern": [
+   "web/js/screens/dashboard.js:119"
+  ],
+  "§Zertifikat": [
+   "web/js/screens/dashboard.js:124"
+  ],
+  "Erneut versuchen": [
+   "web/js/screens/dashboard.js:129"
+  ],
+  "Ausblenden": [
+   "web/js/screens/dashboard.js:129"
+  ],
+  "§ CSV": [
+   "web/js/screens/dashboard.js:130"
+  ],
+  "Beispieldaten laden": [
+   "web/js/screens/dashboard.js:130"
+  ],
+  "Erstellen und bearbeiten": [
+   "web/js/screens/dashboard.js:193"
+  ],
+  "§ Zertifikat": [
+   "web/js/screens/day.js:12"
+  ],
+  "§ Trade für diesen Tag": [
+   "web/js/screens/day.js:12"
+  ],
+  "Check-in nachtragen": [
+   "web/js/screens/day.js:16"
+  ],
+  "§ Bearbeiten": [
+   "web/js/screens/day.js:16",
+   "web/js/screens/prop.js:104",
+   "web/js/screens/trades.js:63",
+   "web/js/screens/trades.js:85"
+  ],
+  "§ Tagesnotiz anlegen": [
+   "web/js/screens/day.js:19"
+  ],
+  "§ Verlauf löschen": [
+   "web/js/screens/mentor.js:81"
+  ],
+  "§ Hochladen": [
+   "web/js/screens/misc.js:47"
+  ],
+  "§ Entfernen": [
+   "web/js/screens/misc.js:47"
+  ],
+  "Passwort zurücksetzen": [
+   "web/js/screens/misc.js:54"
+  ],
+  "2FA aktivieren": [
+   "web/js/screens/misc.js:54"
+  ],
+  "§ Ohne Anhänge": [
+   "web/js/screens/misc.js:54"
+  ],
+  "§ Mit Anhängen": [
+   "web/js/screens/misc.js:54"
+  ],
+  "§ Zusammenführen": [
+   "web/js/screens/misc.js:54"
+  ],
+  "§ Ersetzen": [
+   "web/js/screens/misc.js:54"
+  ],
+  "§ Alles löschen": [
+   "web/js/screens/misc.js:66"
+  ],
+  "§§Eigenes": [
+   "web/js/screens/misc.js:86"
+  ],
+  "§ Aktuelles speichern": [
+   "web/js/screens/misc.js:108"
+  ],
+  "§ Standardfarben": [
+   "web/js/screens/misc.js:145"
+  ],
+  "Verbindung testen": [
+   "web/js/screens/misc.js:154"
+  ],
+  "§ Konto hinzufügen": [
+   "web/js/screens/misc.js:186"
+  ],
+  "§ Hinzufügen": [
+   "web/js/screens/misc.js:207"
+  ],
+  "§ Tag hinzufügen": [
+   "web/js/screens/misc.js:238"
+  ],
+  "Verlauf leeren": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Verstanden": [
+   "web/js/screens/misc.js:280",
+   "web/js/screens/misc.js:284"
+  ],
+  "Einspielen": [
+   "web/js/screens/misc.js:365"
+  ],
+  "§ Erneut versuchen": [
+   "web/js/screens/news.js:86"
+  ],
+  "§ Aktualisieren": [
+   "web/js/screens/news.js:94"
+  ],
+  "Anwenden": [
+   "web/js/screens/notebook.js:47",
+   "web/js/rangepicker.js:53"
+  ],
+  "§ Farbe ändern": [
+   "web/js/screens/notebook.js:51"
+  ],
+  "§ Standard-Vorlage": [
+   "web/js/screens/notebook.js:51"
+  ],
+  "§ Ordner hinzufügen": [
+   "web/js/screens/notebook.js:52"
+  ],
+  "§Ordner": [
+   "web/js/screens/notebook.js:52"
+  ],
+  "§Tags": [
+   "web/js/screens/notebook.js:54"
+  ],
+  "Leeren": [
+   "web/js/screens/notebook.js:61"
+  ],
+  "Wiederherstellen": [
+   "web/js/screens/notebook.js:62",
+   "web/js/screens/notebook.js:67"
+  ],
+  "Endgültig löschen": [
+   "web/js/screens/notebook.js:67"
+  ],
+  "§Teilen": [
+   "web/js/screens/notebook.js:73"
+  ],
+  "§ Duplizieren": [
+   "web/js/screens/notebook.js:74"
+  ],
+  "§ Aus Datei laden": [
+   "web/js/screens/notebook.js:74"
+  ],
+  "§ Exportieren (JSON)": [
+   "web/js/screens/notebook.js:74"
+  ],
+  "§ Als PDF herunterladen": [
+   "web/js/screens/notebook.js:74"
+  ],
+  "§ Löschen": [
+   "web/js/screens/notebook.js:74",
+   "web/js/screens/prop.js:226",
+   "web/js/screens/trades.js:85"
+  ],
+  "§ Tag": [
+   "web/js/screens/notebook.js:76"
+  ],
+  "§ Neuen Tag anlegen": [
+   "web/js/screens/notebook.js:76"
+  ],
+  "§§ · § Trade§": [
+   "web/js/screens/notebook.js:106"
+  ],
+  "§ Link kopieren": [
+   "web/js/screens/notebook.js:170"
+  ],
+  "§Umdrehen": [
+   "web/js/screens/prop-friedhof.js:136"
+  ],
+  "§Zurück": [
+   "web/js/screens/prop-friedhof.js:152"
+  ],
+  "§ Konto anlegen": [
+   "web/js/screens/prop.js:82",
+   "web/js/screens/prop.js:244"
+  ],
+  "Als geplatzt markieren": [
+   "web/js/screens/prop.js:96"
+  ],
+  "Als bestanden markieren": [
+   "web/js/screens/prop.js:97"
+  ],
+  "§ Trades zuordnen": [
+   "web/js/screens/prop.js:104"
+  ],
+  "§ Eigenes Preset": [
+   "web/js/screens/prop.js:238"
+  ],
+  "§ Ausgabe erfassen": [
+   "web/js/screens/prop.js:262"
+  ],
+  "§ Payout erfassen": [
+   "web/js/screens/prop.js:266"
+  ],
+  "§Prop-Konto": [
+   "web/js/screens/prop.js:294"
+  ],
+  "§ Skippen": [
+   "web/js/screens/replay.js:64"
+  ],
+  "§ Nehmen": [
+   "web/js/screens/replay.js:64"
+  ],
+  "§ Neue Session": [
+   "web/js/screens/replay.js:83"
+  ],
+  "Zur Übersicht": [
+   "web/js/screens/replay.js:83"
+  ],
+  "§ Vorschlag übernehmen": [
+   "web/js/screens/shadow.js:58"
+  ],
+  "§ Trade loggen": [
+   "web/js/screens/shadow.js:109",
+   "web/js/screens/trades.js:45"
+  ],
+  "§Zertifikat§": [
+   "web/js/screens/stats.js:9"
+  ],
+  "§ Neu simulieren": [
+   "web/js/screens/stats.js:79"
+  ],
+  "§CSV importieren": [
+   "web/js/screens/trades.js:20"
+  ],
+  "§ CSV importieren": [
+   "web/js/screens/trades.js:45"
+  ],
+  "Plan ergänzen": [
+   "web/js/screens/trades.js:73"
+  ],
+  "§ 30 Sekunden aufnehmen": [
+   "web/js/screens/trades.js:84"
+  ],
+  "§ Text-Notiz": [
+   "web/js/screens/trades.js:84"
+  ],
+  "§ PNG herunterladen": [
+   "web/js/certificate.js:88"
+  ],
+  "Farbe entfernen": [
+   "web/js/editor.js:112"
+  ],
+  "Text§": [
+   "web/js/editor.js:117"
+  ],
+  "Als Video einbetten": [
+   "web/js/editor.js:130"
+  ],
+  "Als Link lassen": [
+   "web/js/editor.js:130"
+  ],
+  "Einfügen": [
+   "web/js/editor.js:208"
+  ],
+  "Jetzt": [
+   "web/js/datepicker.js:81"
+  ],
+  "§ Aufnahme starten": [
+   "web/js/voice.js:65"
+  ],
+  "§ Lieber tippen": [
+   "web/js/voice.js:65"
+  ]
+ },
+ "feldname": {
+  "Konto": [
+   "web/js/app.js:347",
+   "web/js/app.js:564",
+   "web/js/screens/prop.js:262",
+   "web/js/screens/prop.js:266"
+  ],
+  "Symbol": [
+   "web/js/app.js:348",
+   "web/js/screens/trades.js:110"
+  ],
+  "Richtung": [
+   "web/js/app.js:348",
+   "web/js/screens/trades.js:110"
+  ],
+  "Einstieg": [
+   "web/js/app.js:351"
+  ],
+  "Ausstieg": [
+   "web/js/app.js:351"
+  ],
+  "Kontrakte": [
+   "web/js/app.js:351"
+  ],
+  "Eröffnet": [
+   "web/js/app.js:351"
+  ],
+  "Geschlossen (leer = offen)": [
+   "web/js/app.js:351"
+  ],
+  "Punktwert §": [
+   "web/js/app.js:351"
+  ],
+  "Gebühren": [
+   "web/js/app.js:351"
+  ],
+  "Stop": [
+   "web/js/app.js:416"
+  ],
+  "Ziel": [
+   "web/js/app.js:416"
+  ],
+  "Geplanter Einstieg": [
+   "web/js/app.js:416"
+  ],
+  "Begründung": [
+   "web/js/app.js:416"
+  ],
+  "Tiefster Kurs gegen dich (MAE)": [
+   "web/js/app.js:416"
+  ],
+  "Bester Kurs für dich (MFE)": [
+   "web/js/app.js:416"
+  ],
+  "Setup": [
+   "web/js/app.js:416",
+   "web/js/screens/trades.js:110"
+  ],
+  "Bewertung": [
+   "web/js/app.js:427"
+  ],
+  "Fehler-Tags": [
+   "web/js/app.js:428"
+  ],
+  "Emotionen": [
+   "web/js/app.js:428"
+  ],
+  "Fokus für heute": [
+   "web/js/app.js:490"
+  ],
+  "Schlaf (Stunden)": [
+   "web/js/app.js:515"
+  ],
+  "Notiz": [
+   "web/js/app.js:515",
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:214",
+   "web/js/screens/prop.js:262"
+  ],
+  "Stress (1 entspannt – 5 sehr gestresst)": [
+   "web/js/app.js:515"
+  ],
+  "Stimmung (1 schlecht – 5 sehr gut)": [
+   "web/js/app.js:515"
+  ],
+  "Reflexion (wird in die Tagesnotiz im Notebook geschrieben)": [
+   "web/js/app.js:531"
+  ],
+  "Trend": [
+   "web/js/app.js:531",
+   "web/js/screens/day.js:17"
+  ],
+  "Volatilität": [
+   "web/js/app.js:531",
+   "web/js/screens/day.js:17"
+  ],
+  "DezimalautomatischKomma (1.234,56)Punkt (1,234.56)": [
+   "web/js/app.js:564"
+  ],
+  "DatumTag.Monat.JahrMonat/Tag/Jahr": [
+   "web/js/app.js:564"
+  ],
+  "Dezimal": [
+   "web/js/app.js:564"
+  ],
+  "Datum": [
+   "web/js/app.js:564",
+   "web/js/screens/prop.js:262",
+   "web/js/screens/trades.js:110"
+  ],
+  "Provision in %": [
+   "web/js/screens/affiliate.js:91"
+  ],
+  "Dein Name für den Mentor": [
+   "web/js/screens/coach.js:172"
+  ],
+  "Nur ab heuteÄltere Einträge und Trades bleiben privat.": [
+   "web/js/screens/coach.js:172"
+  ],
+  "Auch ältereDer Mentor sieht auch frühere Journal-Einträge und Kurz-Stats.": [
+   "web/js/screens/coach.js:172"
+  ],
+  "Welche Einträge": [
+   "web/js/screens/coach.js:172"
+  ],
+  "Dein Name für die Gruppe": [
+   "web/js/screens/coach.js:188"
+  ],
+  "Aufgabe": [
+   "web/js/screens/coach.js:269"
+  ],
+  "Fällig am (optional)": [
+   "web/js/screens/coach.js:269"
+  ],
+  "Gewinnziel": [
+   "web/js/screens/dashboard.js:182"
+  ],
+  "Maximaler Verlust": [
+   "web/js/screens/dashboard.js:182"
+  ],
+  "Tagesverlustlimit (optional)": [
+   "web/js/screens/dashboard.js:182"
+  ],
+  "Startdatum (optional)Leer: gewählter Zeitraum des Dashboards": [
+   "web/js/screens/dashboard.js:182"
+  ],
+  "Name": [
+   "web/js/screens/dashboard.js:193",
+   "web/js/screens/misc.js:245",
+   "web/js/screens/misc.js:268",
+   "web/js/screens/misc.js:311",
+   "web/js/screens/notebook.js:116",
+   "web/js/screens/notebook.js:119"
+  ],
+  "Leer starten": [
+   "web/js/screens/dashboard.js:193"
+  ],
+  "Von aktueller Vorlage kopieren („§“)": [
+   "web/js/screens/dashboard.js:193"
+  ],
+  "Start": [
+   "web/js/screens/dashboard.js:193"
+  ],
+  "Vorname": [
+   "web/js/screens/misc.js:47"
+  ],
+  "Nachname": [
+   "web/js/screens/misc.js:47"
+  ],
+  "Benutzername": [
+   "web/js/screens/misc.js:47"
+  ],
+  "E-Mail": [
+   "web/js/screens/misc.js:47"
+  ],
+  "Adresse": [
+   "web/js/screens/misc.js:47",
+   "web/js/editor.js:208"
+  ],
+  "Zeitzone": [
+   "web/js/screens/misc.js:47"
+  ],
+  "Bio": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Standardwährung": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Support-Team Zugriff auf mein Konto erlaubenWenn aktiviert, kann das Support-Team auf dein Konto zugreifen, um dir besser zu helfen und Fehler zu finden.": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Server-Adresse": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Zugangstoken": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Von": [
+   "web/js/screens/misc.js:193"
+  ],
+  "Bis": [
+   "web/js/screens/misc.js:193"
+  ],
+  "1 R entspricht (optional)": [
+   "web/js/screens/misc.js:193"
+  ],
+  "Einheit": [
+   "web/js/screens/misc.js:193"
+  ],
+  "Tagesverlustlimit (% vom Konto)": [
+   "web/js/screens/misc.js:198"
+  ],
+  "Ruin-Schwelle Monte Carlo (% Drawdown)": [
+   "web/js/screens/misc.js:198"
+  ],
+  "Monte-Carlo-Durchläufe": [
+   "web/js/screens/misc.js:198"
+  ],
+  "Tilt-WarnungenWarnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tageslimit.": [
+   "web/js/screens/misc.js:199"
+  ],
+  "Überschrift 1": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Überschrift 2": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Überschrift 3": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Fließtext": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Erledigte Punkte durchstreichenAbgehakte Einträge in To-do-Listen werden durchgestrichen.": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Kategorie": [
+   "web/js/screens/misc.js:245"
+  ],
+  "Beschreibung (optional)": [
+   "web/js/screens/misc.js:245"
+  ],
+  "Kontogröße": [
+   "web/js/screens/misc.js:268",
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:214"
+  ],
+  "Währung": [
+   "web/js/screens/misc.js:268",
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:214"
+  ],
+  "Wichtigkeit": [
+   "web/js/screens/news.js:78"
+  ],
+  "Ordner": [
+   "web/js/screens/notebook.js:47"
+  ],
+  "Tag": [
+   "web/js/screens/notebook.js:47",
+   "web/js/screens/notebook.js:47"
+  ],
+  "Farbe": [
+   "web/js/screens/notebook.js:116"
+  ],
+  "eigene": [
+   "web/js/screens/notebook.js:116"
+  ],
+  "Inhalt": [
+   "web/js/screens/notebook.js:119"
+  ],
+  "Vorlage": [
+   "web/js/screens/notebook.js:160"
+  ],
+  "Firma und Kontogröße (Preset)": [
+   "web/js/screens/prop.js:185"
+  ],
+  "Firma": [
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:214",
+   "web/js/screens/prop.js:262"
+  ],
+  "Konto (z. B. 50K)": [
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:214"
+  ],
+  "Markt": [
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:214"
+  ],
+  "Phase": [
+   "web/js/screens/prop.js:187"
+  ],
+  "Status": [
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:266"
+  ],
+  "Startdatum": [
+   "web/js/screens/prop.js:187"
+  ],
+  "Startbalance": [
+   "web/js/screens/prop.js:187"
+  ],
+  "Profit Split (%)": [
+   "web/js/screens/prop.js:187",
+   "web/js/screens/prop.js:214"
+  ],
+  "Gruppe (Copy-Trading)": [
+   "web/js/screens/prop.js:187"
+  ],
+  "Zuletzt geprüft am": [
+   "web/js/screens/prop.js:214"
+  ],
+  "Gelb, wenn weniger als … % des Limits übrig": [
+   "web/js/screens/prop.js:239"
+  ],
+  "Rot, wenn weniger als … % übrig": [
+   "web/js/screens/prop.js:239"
+  ],
+  "Typ": [
+   "web/js/screens/prop.js:262"
+  ],
+  "&nbsp;": [
+   "web/js/screens/prop.js:262",
+   "web/js/screens/prop.js:266"
+  ],
+  "Split (%)": [
+   "web/js/screens/prop.js:266"
+  ],
+  "Beantragt am": [
+   "web/js/screens/prop.js:266"
+  ],
+  "Erhalten am": [
+   "web/js/screens/prop.js:266"
+  ],
+  "Setup anzeigen": [
+   "web/js/screens/replay.js:59"
+  ],
+  "Hätte gebracht (P&L)": [
+   "web/js/screens/trades.js:110"
+  ],
+  "R-Multiple": [
+   "web/js/screens/trades.js:110"
+  ],
+  "Warum nicht gehandelt?": [
+   "web/js/screens/trades.js:110"
+  ],
+  "Text": [
+   "web/js/screens/trades.js:118",
+   "web/js/editor.js:117"
+  ],
+  "Zeitraum": [
+   "web/js/certificate.js:85"
+  ],
+  "Format": [
+   "web/js/certificate.js:85"
+  ],
+  "§Vom Computer hochladen": [
+   "web/js/editor.js:117"
+  ]
+ },
+ "hilfstext": {
+  "(leer = offen)": [
+   "web/js/app.js:351"
+  ],
+  "Netto-P&L": [
+   "web/js/app.js:469"
+  ],
+  "· Disziplin §": [
+   "web/js/app.js:469"
+  ],
+  "Kurzer Check-in, bevor du handelst. Das Journal zeigt dir später, wie dein Zustand mit deinem Ergebnis zusammenhängt.": [
+   "web/js/app.js:490"
+  ],
+  "(wird in die Tagesnotiz im Notebook geschrieben)": [
+   "web/js/app.js:531"
+  ],
+  "Exporte von Brokern und Plattformen: Spalten werden automatisch erkannt.": [
+   "web/js/app.js:560"
+  ],
+  "§ Zeilen, Trennzeichen „§“": [
+   "web/js/app.js:564"
+  ],
+  "Kumuliert: §": [
+   "web/js/widgets.js:107"
+  ],
+  "Noch keine Regeln angelegt. Regeln in den Einstellungen anlegen.": [
+   "web/js/widgets.js:288"
+  ],
+  "wenn es gerade zu viel wird": [
+   "web/js/widgets.js:368"
+  ],
+  "Der Widget-Typ „§“ ist nicht bekannt.": [
+   "web/js/widgets.js:391"
+  ],
+  "Dieses Widget konnte nicht berechnet werden.": [
+   "web/js/widgets.js:391"
+  ],
+  "Coach Mode läuft über denselben Server wie der Mentor-Chat. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein; danach kannst du hier Gruppen anlegen oder einer Gruppe beitreten.": [
+   "web/js/screens/coach.js:22"
+  ],
+  "Co-Coach": [
+   "web/js/screens/coach.js:43"
+  ],
+  "Neue Notizen, Antworten und Aufgaben. Höchstens 20 Mails am Tag.": [
+   "web/js/screens/coach.js:75"
+  ],
+  "nur für Mentoren": [
+   "web/js/screens/coach.js:101"
+  ],
+  "Einladungslink": [
+   "web/js/screens/coach.js:109"
+  ],
+  "Gruppe": [
+   "web/js/screens/coach.js:171",
+   "web/js/screens/coach.js:187"
+  ],
+  "Du kannst die Gruppe jederzeit verlassen; dann sieht der Mentor nichts mehr von dir. Kommt ein Co-Coach dazu, erfährst du es.": [
+   "web/js/screens/coach.js:172"
+  ],
+  "Die Schüler sehen, dass du dazugekommen bist.": [
+   "web/js/screens/coach.js:188"
+  ],
+  "dabei seit": [
+   "web/js/screens/coach.js:259"
+  ],
+  "Ein Co-Coach sieht dasselbe wie du (Journal-Einträge und Kurz-Stats aller Schüler) und schreibt Notizen, Antworten und Aufgaben. Verwalten und schließen darfst nur du. Die Schüler sehen, wer dazukommt.": [
+   "web/js/screens/coach.js:261"
+  ],
+  "Co-Coach-Link": [
+   "web/js/screens/coach.js:261"
+  ],
+  "Jeder Schüler bekommt sie einzeln und hakt sie selbst ab.": [
+   "web/js/screens/coach.js:269"
+  ],
+  "Diese Liste bestätigst du beim Beitritt. Verlässt du die Gruppe, verliert der Mentor sofort jeden Zugriff.": [
+   "web/js/screens/coach.js:294"
+  ],
+  "Gilt für alle Widgets im gewählten Zeitraum": [
+   "web/js/screens/dash-filter.js:145"
+  ],
+  "Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.": [
+   "web/js/screens/mentor.js:79"
+  ],
+  "Anleitung zum Server: server/README.md im Projekt.": [
+   "web/js/screens/mentor.js:79"
+  ],
+  "Die Übersetzung kommt in Etappen: Bereiche, die noch nicht übersetzt sind, bleiben vorerst deutsch. Deine eigenen Einträge wie Notizen, Setups und Tags werden nicht übersetzt.": [
+   "web/js/screens/misc.js:32"
+  ],
+  "PNG oder JPG, wird nur in diesem Browser gespeichert.": [
+   "web/js/screens/misc.js:47"
+  ],
+  "So gehen wir mit deinen Daten um.": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Wenn aktiviert, kann das Support-Team auf dein Konto zugreifen, um dir besser zu helfen und Fehler zu finden.": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Zusätzliche Sicherheit für dein Konto über eine Authenticator-App (z. B. Google Authenticator, Authy).": [
+   "web/js/screens/misc.js:54"
+  ],
+  "2FA ist nicht aktiviert": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Alle Trades, Notizen und Einstellungen als JSON. Optional mit Bildern und Audio.": [
+   "web/js/screens/misc.js:54"
+  ],
+  "JSON-Datei aus einem Export. „Zusammenführen“ behält vorhandene Daten.": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Rund 170 Trades über vier Monate (vor allem NQ und ES) mit Check-ins, Notizen und Regeln, dazu vier Prop-Konten mit Ausgaben, Payouts und einem geplatzten Konto, Replay-Screenshots mit zwei Sessions und Sprachnotizen. Ist noch keine Regel im Schatten-Ich aktiv, werden die drei Vorschlagsregeln eingeschaltet. Jederzeit entfernbar: Eigene Trades, Check-ins und Regeln bleiben erhalten, die Vorschlagsregeln gehen wieder aus, sofern du das Regelwerk nicht verändert hast.": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Entfernt alle Daten aus diesem Browser. Vorher exportieren!": [
+   "web/js/screens/misc.js:66"
+  ],
+  "Speicherort: dieser Browser (localStorage und IndexedDB). § Tastatur: N neuer Trade · 1–6 Bereiche · Esc schließt Dialoge.": [
+   "web/js/screens/misc.js:66"
+  ],
+  "Gilt für Text und Zahlen auf der ganzen Website.": [
+   "web/js/screens/misc.js:142"
+  ],
+  "Buttons, aktive Einträge und Diagramme.": [
+   "web/js/screens/misc.js:142"
+  ],
+  "Farben für Plus, Minus und Break-even in Zahlen, Kalendern und Diagrammen.": [
+   "web/js/screens/misc.js:145"
+  ],
+  "Der Server aus server/ im Projekt. Anleitung in server/README.md.": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Derselbe Wert wie auf dem Server. Nicht der API-Schlüssel des Sprachmodells, der bleibt nur auf dem Server.": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen (VOICE_STT_URL, siehe server/README.md).": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Zusammenfassungen deiner Performance. Sie erscheinen als Hinweis oben auf dem Dashboard.": [
+   "web/js/screens/misc.js:168"
+  ],
+  "Ein kleiner Punkt neben einem Bereich zeigt, dass dort etwas auf dich wartet. Fährst du mit der Maus darauf, steht der Grund dabei.": [
+   "web/js/screens/misc.js:168"
+  ],
+  "Ergebnisse in diesem Bereich zählen als Break-even, nicht als Gewinn oder Verlust.": [
+   "web/js/screens/misc.js:193"
+  ],
+  "Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tageslimit.": [
+   "web/js/screens/misc.js:199"
+  ],
+  "Abgehakte Einträge in To-do-Listen werden durchgestrichen.": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Die drei Kategorien sind fest: Setups beschreiben den Einstiegstyp, Fehler und Emotionen den Zustand. Die Farben folgen deinen Akzent-, Verlust- und Break-even-Farben.": [
+   "web/js/screens/misc.js:234"
+  ],
+  "Filtern nach": [
+   "web/js/screens/misc.js:238",
+   "web/js/screens/misc.js:259"
+  ],
+  "Dein Journal hat noch kein Benutzerkonto mit Passwort: Alle Daten liegen nur in diesem Browser. Sobald Konten mit Anmeldung verfügbar sind, kannst du hier ein neues Passwort anfordern.": [
+   "web/js/screens/misc.js:280"
+  ],
+  "2FA schützt eine Anmeldung. Da dein Journal derzeit ohne Benutzerkonto läuft und alle Daten lokal in diesem Browser liegen, gibt es noch nichts abzusichern. Der Schalter wird aktiv, sobald Konten mit Anmeldung verfügbar sind.": [
+   "web/js/screens/misc.js:284"
+  ],
+  "Erscheinungsbild, Schrift und alle Farben.": [
+   "web/js/screens/misc.js:311"
+  ],
+  "Falls der Download nicht startet (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn als §.": [
+   "web/js/screens/misc.js:362"
+  ],
+  "Die Beispiele haben keine Prognose- oder Vorwerte.": [
+   "web/js/screens/news.js:91"
+  ],
+  "· § § · Trade öffnen": [
+   "web/js/screens/notebook.js:76"
+  ],
+  "· Tagesansicht": [
+   "web/js/screens/notebook.js:76"
+  ],
+  "eigene": [
+   "web/js/screens/notebook.js:116"
+  ],
+  "Erstellt § · Zuletzt bearbeitet §": [
+   "web/js/screens/notebook.js:123"
+  ],
+  "Neue Notizen in diesem Ordner starten mit dieser Vorlage.": [
+   "web/js/screens/notebook.js:160"
+  ],
+  "Wer den Link öffnet, sieht die Notiz nur lesend. Der Inhalt steckt im Link selbst, Bilder werden als Platzhalter angezeigt. Am besten funktioniert das mit der Adresse deiner veröffentlichten Website.": [
+   "web/js/screens/notebook.js:170"
+  ],
+  "Ø Disziplin-Score der Trades im Zeitraum: §": [
+   "web/js/screens/progress.js:78"
+  ],
+  "kein Trade hinterlegt": [
+   "web/js/screens/prop-friedhof.js:122",
+   "web/js/screens/prop-friedhof.js:147"
+  ],
+  "Lebensdauer unbekannt (§)": [
+   "web/js/screens/prop-friedhof.js:128"
+  ],
+  "von §": [
+   "web/js/screens/prop.js:93",
+   "web/js/screens/prop.js:283"
+  ],
+  "§ Trades": [
+   "web/js/screens/prop.js:100"
+  ],
+  "§ · Copy-Trading": [
+   "web/js/screens/prop.js:121"
+  ],
+  "Die letzten 50 Trades. Angehakte Trades zählen für dieses Konto; ein Trade kann mehreren Konten gehören (Copy-Trading). Ältere Trades ordnest du im Trade-Editor zu.": [
+   "web/js/screens/prop.js:133"
+  ],
+  "keine Regel": [
+   "web/js/screens/prop.js:283"
+  ],
+  "Ø Gewinn pro Tag über § Tag§. So erreichst du die fehlenden §§.": [
+   "web/js/screens/prop.js:284"
+  ],
+  "Kein weiterer Screenshot zu diesem Trade.": [
+   "web/js/screens/replay.js:68"
+  ],
+  "§ Trefferquote in dieser Session.": [
+   "web/js/screens/replay.js:83"
+  ],
+  "Was die Abweichung kostet, siehst du hier.": [
+   "web/js/screens/shadow.js:108"
+  ],
+  "Keine Fehler-Tags vergeben. Sehr gut, oder ehrlich bleiben?": [
+   "web/js/screens/stats.js:52"
+  ],
+  "§ von § Trades haben eine Marktphase.": [
+   "web/js/screens/stats.js:58"
+  ],
+  "Noch keine Kombinationen.": [
+   "web/js/screens/stats.js:58"
+  ],
+  "§ Handelstage mit Check-in.": [
+   "web/js/screens/stats.js:67"
+  ],
+  "§ Durchläufe à § Trades, gezogen mit Zurücklegen aus § Trades. Startkapital §, Ruin bei § Drawdown.": [
+   "web/js/screens/stats.js:79"
+  ],
+  "§ von § Trades": [
+   "web/js/screens/trades.js:44"
+  ],
+  "offen": [
+   "web/js/screens/trades.js:49"
+  ],
+  "' + '★'.repeat(5 - t.rating) + '": [
+   "web/js/screens/trades.js:68"
+  ],
+  "Transkript gespeichert. Für Vorschläge (Emotion, Setup, Fehler) richte den Mentor-Server ein.": [
+   "web/js/voice.js:103"
+  ],
+  "Wird ausgewertet …": [
+   "web/js/voice.js:104"
+  ]
+ },
+ "platzhalter": {
+  "Anderes Symbol, z. B. DAX": [
+   "web/js/app.js:393"
+  ],
+  "Warum dieser Trade?": [
+   "web/js/app.js:416"
+  ],
+  "Pullback, Breakout …": [
+   "web/js/app.js:416"
+  ],
+  "z. B. Nur A-Setups, nach 2 Verlusten Schluss": [
+   "web/js/app.js:490"
+  ],
+  "Wie fühlst du dich?": [
+   "web/js/app.js:515"
+  ],
+  "Was lief gut, was nicht, was nimmst du mit?": [
+   "web/js/app.js:531"
+  ],
+  "Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;Stück;Gebühren": [
+   "web/js/app.js:560"
+  ],
+  "Suchen": [
+   "web/js/widgets.js:222"
+  ],
+  "Was beschäftigt dich gerade?": [
+   "web/js/widgets.js:374"
+  ],
+  "name@beispiel.de": [
+   "web/js/screens/coach.js:75"
+  ],
+  "Notiz an den Schüler …": [
+   "web/js/screens/coach.js:139"
+  ],
+  "z. B. Diese Woche höchstens 3 Trades pro Tag": [
+   "web/js/screens/coach.js:147"
+  ],
+  "Vorname": [
+   "web/js/screens/coach.js:172",
+   "web/js/screens/coach.js:188"
+  ],
+  "z. B. Jeden Abend eine Tagesnotiz": [
+   "web/js/screens/coach.js:269"
+  ],
+  "Suchen …": [
+   "web/js/screens/dash-filter.js:95"
+  ],
+  "Widget suchen …": [
+   "web/js/screens/dashboard.js:78"
+  ],
+  "z. B. Scalping-Tag": [
+   "web/js/screens/dashboard.js:193"
+  ],
+  "Straße, PLZ Ort": [
+   "web/js/screens/misc.js:47"
+  ],
+  "Ein paar Worte zu dir und deinem Trading": [
+   "web/js/screens/misc.js:54"
+  ],
+  "https://mentor.deine-domain.de": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Wert von MENTOR_APP_TOKEN": [
+   "web/js/screens/misc.js:154"
+  ],
+  "automatisch": [
+   "web/js/screens/misc.js:193",
+   "web/js/screens/prop.js:239",
+   "web/js/screens/prop.js:266"
+  ],
+  "Neue Regel, z. B. „Maximal 3 Trades pro Tag“": [
+   "web/js/screens/misc.js:207"
+  ],
+  "Tags suchen": [
+   "web/js/screens/misc.js:238"
+  ],
+  "Wann verwendest du diesen Tag?": [
+   "web/js/screens/misc.js:245"
+  ],
+  "Typ suchen": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Notizen durchsuchen": [
+   "web/js/screens/notebook.js:46"
+  ],
+  "Neue Notiz": [
+   "web/js/screens/notebook.js:74"
+  ],
+  "z. B. 📈 Strategie": [
+   "web/js/screens/notebook.js:116"
+  ],
+  "z. B. Tages-Recap": [
+   "web/js/screens/notebook.js:119"
+  ],
+  "z. B. Topstep": [
+   "web/js/screens/prop.js:187"
+  ],
+  "= Kontogröße": [
+   "web/js/screens/prop.js:187"
+  ],
+  "z. B. Copy A": [
+   "web/js/screens/prop.js:187"
+  ],
+  "oder über Konto": [
+   "web/js/screens/prop.js:262"
+  ],
+  "Suchen: Symbol, Setup, Notiz …": [
+   "web/js/screens/trades.js:39"
+  ],
+  "Gezögert, Angst, nicht am Rechner …": [
+   "web/js/screens/trades.js:110"
+  ],
+  "Wie hast du dich während des Trades gefühlt?": [
+   "web/js/screens/trades.js:118"
+  ],
+  "Bildunterschrift": [
+   "web/js/editor.js:39"
+  ]
+ },
+ "überschrift-h2": {
+  "Plan & Bewertung §": [
+   "web/js/app.js:416"
+  ],
+  "Session starten": [
+   "web/js/app.js:490"
+  ],
+  "Check-in §": [
+   "web/js/app.js:524"
+  ],
+  "Session beenden": [
+   "web/js/app.js:529"
+  ],
+  "CSV importieren": [
+   "web/js/app.js:574"
+  ],
+  "Provision": [
+   "web/js/screens/affiliate.js:91"
+  ],
+  "Coach Mode einrichten": [
+   "web/js/screens/coach.js:22"
+  ],
+  "Einladung von §": [
+   "web/js/screens/coach.js:171"
+  ],
+  "§ lädt dich als Co-Coach ein": [
+   "web/js/screens/coach.js:187"
+  ],
+  "Co-Coaches": [
+   "web/js/screens/coach.js:261"
+  ],
+  "Aufgabe an alle": [
+   "web/js/screens/coach.js:269"
+  ],
+  "Was dein Mentor sieht": [
+   "web/js/screens/coach.js:294"
+  ],
+  "Widget hinzufügen": [
+   "web/js/screens/dashboard.js:78"
+  ],
+  "Challenge einrichten": [
+   "web/js/screens/dashboard.js:182"
+  ],
+  "Neue Vorlage": [
+   "web/js/screens/dashboard.js:193"
+  ],
+  "Mentor-Chat einrichten": [
+   "web/js/screens/mentor.js:79"
+  ],
+  "Passwort zurücksetzen": [
+   "web/js/screens/misc.js:280"
+  ],
+  "Zwei-Faktor-Authentifizierung": [
+   "web/js/screens/misc.js:284"
+  ],
+  "Design speichern": [
+   "web/js/screens/misc.js:311"
+  ],
+  "Sicherung erstellt": [
+   "web/js/screens/misc.js:362"
+  ],
+  "Sicherung §": [
+   "web/js/screens/misc.js:365"
+  ],
+  "Standard-Vorlage für „§“": [
+   "web/js/screens/notebook.js:160"
+  ],
+  "Notiz teilen": [
+   "web/js/screens/notebook.js:170"
+  ],
+  "Trades zuordnen · §": [
+   "web/js/screens/prop.js:133"
+  ],
+  "Verpassten Trade notieren": [
+   "web/js/screens/trades.js:110"
+  ],
+  "Notiz sprechen oder tippen": [
+   "web/js/screens/trades.js:118"
+  ],
+  "Zertifikat erstellen": [
+   "web/js/certificate.js:113"
+  ],
+  "Sprachnotiz": [
+   "web/js/voice.js:65"
+  ]
+ },
+ "absatz": {
+  "Kurzer Check-in, bevor du handelst. Das Journal zeigt dir später, wie dein Zustand mit deinem Ergebnis zusammenhängt.": [
+   "web/js/app.js:490"
+  ],
+  "Coach Mode läuft über denselben Server wie der Mentor-Chat. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein; danach kannst du hier Gruppen anlegen oder einer Gruppe beitreten.": [
+   "web/js/screens/coach.js:22"
+  ],
+  "Erstelle eine Gruppe und schick den Einladungslink an deine Schüler. Du siehst dann ihre Journal-Einträge und Kurz-Stats und schreibst Notizen direkt dazu.": [
+   "web/js/screens/coach.js:45"
+  ],
+  "Dein Mentor schickt dir einen Einladungslink. Öffne ihn hier in Journalyst. Vor dem Beitritt siehst du genau, was er sehen wird.": [
+   "web/js/screens/coach.js:49"
+  ],
+  "Dein Name im Coach Mode: § (aus dem Profil, beim Beitritt änderbar). §": [
+   "web/js/screens/coach.js:54"
+  ],
+  "Noch keine Aufgaben. Gibt dir dein Mentor eine, steht sie hier, und du hakst sie ab, wenn du sie geschafft hast.": [
+   "web/js/screens/coach.js:65"
+  ],
+  "Nur lesen. Deine Notizen erscheinen beim Schüler unter dem Eintrag, mit deinem Namen und der Uhrzeit. Er kann sie nicht ändern, aber darauf antworten.": [
+   "web/js/screens/coach.js:157"
+  ],
+  "Ein Co-Coach sieht dasselbe wie du (Journal-Einträge und Kurz-Stats aller Schüler) und schreibt Notizen, Antworten und Aufgaben. Verwalten und schließen darfst nur du. Die Schüler sehen, wer dazukommt.": [
+   "web/js/screens/coach.js:261"
+  ],
+  "Jeder Schüler bekommt sie einzeln und hakt sie selbst ab.": [
+   "web/js/screens/coach.js:269"
+  ],
+  "Diese Liste bestätigst du beim Beitritt. Verlässt du die Gruppe, verliert der Mentor sofort jeden Zugriff.": [
+   "web/js/screens/coach.js:294"
+  ],
+  "Hallo, ich bin dein Trading-Psychologie-Mentor.": [
+   "web/js/screens/mentor.js:71"
+  ],
+  "Ich kenne deine letzten Trades und dein heutiges Ruhepunkt-Check-in. Erzähl mir, wo du gerade stehst: vor dem Handelstag, nach einem Verlust, mitten in einer Serie.": [
+   "web/js/screens/mentor.js:71"
+  ],
+  "Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.": [
+   "web/js/screens/mentor.js:79"
+  ],
+  "Die Übersetzung kommt in Etappen: Bereiche, die noch nicht übersetzt sind, bleiben vorerst deutsch. Deine eigenen Einträge wie Notizen, Setups und Tags werden nicht übersetzt.": [
+   "web/js/screens/misc.js:32"
+  ],
+  "Dein Journal hat noch kein Benutzerkonto mit Passwort: Alle Daten liegen nur in diesem Browser. Sobald Konten mit Anmeldung verfügbar sind, kannst du hier ein neues Passwort anfordern.": [
+   "web/js/screens/misc.js:280"
+  ],
+  "2FA schützt eine Anmeldung. Da dein Journal derzeit ohne Benutzerkonto läuft und alle Daten lokal in diesem Browser liegen, gibt es noch nichts abzusichern. Der Schalter wird aktiv, sobald Konten mit Anmeldung verfügbar sind.": [
+   "web/js/screens/misc.js:284"
+  ],
+  "Falls der Download nicht startet (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn als §.": [
+   "web/js/screens/misc.js:362"
+  ],
+  "Neue Notizen in diesem Ordner starten mit dieser Vorlage.": [
+   "web/js/screens/notebook.js:160"
+  ],
+  "Wer den Link öffnet, sieht die Notiz nur lesend. Der Inhalt steckt im Link selbst, Bilder werden als Platzhalter angezeigt. Am besten funktioniert das mit der Adresse deiner veröffentlichten Website.": [
+   "web/js/screens/notebook.js:170"
+  ],
+  "Die letzten 50 Trades. Angehakte Trades zählen für dieses Konto; ein Trade kann mehreren Konten gehören (Copy-Trading). Ältere Trades ordnest du im Trade-Editor zu.": [
+   "web/js/screens/prop.js:133"
+  ],
+  "Deine Regeln je Firma und Kontogröße, beim Anlegen eines Kontos auswählbar.": [
+   "web/js/screens/prop.js:238"
+  ],
+  "Die Ampel vergleicht den kleinsten verbleibenden Spielraum (Daily Loss oder Drawdown) mit dem jeweiligen Limit.": [
+   "web/js/screens/prop.js:239"
+  ]
+ },
+ "feldgruppe": {
+  "Marktphase heute": [
+   "web/js/app.js:531"
+  ],
+  "Spalten zuordnen": [
+   "web/js/app.js:564"
+  ],
+  "Ausgaben kumuliertPayouts kumuliert": [
+   "web/js/screens/prop.js:257"
+  ],
+  "Kumulierter Netto-P&L": [
+   "web/js/screens/stats.js:14"
+  ]
+ },
+ "fett": {
+  "CSV-Datei hierher ziehen": [
+   "web/js/app.js:560"
+  ],
+  "Einstiegszeit": [
+   "web/js/widgets.js:234"
+  ],
+  "Ausstiegszeit": [
+   "web/js/widgets.js:234"
+  ],
+  "Kontostand ausgeblendet": [
+   "web/js/widgets.js:262"
+  ],
+  "Noch keine Regel aktiv": [
+   "web/js/widgets.js:334"
+  ],
+  "Trainiere dein Bauchgefühl": [
+   "web/js/widgets.js:344"
+  ],
+  "Kein aktives Prop-Konto": [
+   "web/js/widgets.js:354"
+  ],
+  "Mentor noch nicht eingerichtet": [
+   "web/js/widgets.js:373"
+  ],
+  "Mitteilung im Browser": [
+   "web/js/screens/coach.js:73"
+  ],
+  "E-Mail bei Neuigkeiten": [
+   "web/js/screens/coach.js:75"
+  ],
+  "Nur ab heute": [
+   "web/js/screens/coach.js:172"
+  ],
+  "Auch ältere": [
+   "web/js/screens/coach.js:172"
+  ],
+  "Kein Widget gefunden": [
+   "web/js/screens/dashboard.js:61"
+  ],
+  "Bearbeitungsmodus": [
+   "web/js/screens/dashboard.js:119"
+  ],
+  "Hallo, ich bin dein Trading-Psychologie-Mentor.": [
+   "web/js/screens/mentor.js:71"
+  ],
+  "Trading-Psychologie-Mentor": [
+   "web/js/screens/mentor.js:81"
+  ],
+  "Profilbild": [
+   "web/js/screens/misc.js:47"
+  ],
+  "Support-Team Zugriff auf mein Konto erlauben": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Sicherung exportieren": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Sicherung einspielen": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Beispieldaten": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Esc": [
+   "web/js/screens/misc.js:66"
+  ],
+  "Eigenes": [
+   "web/js/screens/misc.js:86"
+  ],
+  "Tilt-Warnungen": [
+   "web/js/screens/misc.js:199"
+  ],
+  "Erledigte Punkte durchstreichen": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Beispielansicht.": [
+   "web/js/screens/news.js:91"
+  ],
+  "§ von §": [
+   "web/js/screens/prop.js:93"
+  ],
+  "Daily Loss": [
+   "web/js/screens/prop.js:148"
+  ],
+  "Max. Drawdown": [
+   "web/js/screens/prop.js:148"
+  ],
+  "Profit Target": [
+   "web/js/screens/prop.js:148"
+  ],
+  "Weitere Regeln": [
+   "web/js/screens/prop.js:148"
+  ],
+  "Payout-Bedingungen": [
+   "web/js/screens/prop.js:148"
+  ],
+  "Dein Schatten-Ich handelt wie du – nur ohne Regelbrüche.": [
+   "web/js/screens/shadow.js:108"
+  ],
+  "Dein Edge lässt nach": [
+   "web/js/screens/stats.js:73"
+  ]
+ },
+ "option": {
+  "Ignorieren": [
+   "web/js/app.js:563"
+  ],
+  "automatisch": [
+   "web/js/app.js:564"
+  ],
+  "Komma (1.234,56)": [
+   "web/js/app.js:564"
+  ],
+  "Punkt (1,234.56)": [
+   "web/js/app.js:564"
+  ],
+  "Tag.Monat.Jahr": [
+   "web/js/app.js:564"
+  ],
+  "Monat/Tag/Jahr": [
+   "web/js/app.js:564"
+  ],
+  "Alle": [
+   "web/js/screens/misc.js:238",
+   "web/js/screens/notebook.js:47",
+   "web/js/screens/notebook.js:47"
+  ],
+  "Alle anzeigen": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Keine": [
+   "web/js/screens/notebook.js:160"
+  ],
+  "Ohne Preset": [
+   "web/js/screens/prop.js:185"
+  ],
+  "Alle Symbole": [
+   "web/js/screens/trades.js:39"
+  ],
+  "Alle Setups": [
+   "web/js/screens/trades.js:40"
+  ],
+  "Alle Ergebnisse": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Gewinn": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Verlust": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Break-even": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Offen": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Fehler: alle": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Nur mit Fehler": [
+   "web/js/screens/trades.js:41"
+  ],
+  "Gesamter Zeitraum": [
+   "web/js/certificate.js:79"
+  ]
+ },
+ "data-tip": {
+  "<b>§</b>: §<br>Teilscore §": [
+   "web/js/ui.js:381"
+  ],
+  "Kopieren": [
+   "web/js/screens/affiliate.js:52",
+   "web/js/screens/coupons.js:6"
+  ],
+  "Einladungslink kopieren": [
+   "web/js/screens/coach.js:42"
+  ],
+  "Daily Profit Certificate": [
+   "web/js/screens/day.js:12"
+  ],
+  "Verlauf neu laden": [
+   "web/js/screens/mentor.js:81"
+  ],
+  "Eigene Farbe wählen": [
+   "web/js/screens/misc.js:145",
+   "web/js/editor.js:112"
+  ],
+  "Filtern nach Ordner, Tag und Zeitraum": [
+   "web/js/screens/notebook.js:46"
+  ],
+  "Spalte einklappen": [
+   "web/js/screens/notebook.js:52"
+  ],
+  "Sortieren: §": [
+   "web/js/screens/notebook.js:61"
+  ],
+  "Endgültig löschen": [
+   "web/js/screens/notebook.js:62"
+  ],
+  "In Ordner verschieben": [
+   "web/js/screens/notebook.js:62"
+  ],
+  "Löschen": [
+   "web/js/screens/notebook.js:62"
+  ],
+  "Nur-Lese-Link erzeugen": [
+   "web/js/screens/notebook.js:73"
+  ],
+  "Unverifiziert, bitte prüfen": [
+   "web/js/screens/prop.js:236"
+  ],
+  "Geprüft am §": [
+   "web/js/screens/prop.js:236"
+  ],
+  "Einfügen": [
+   "web/js/editor.js:115"
+  ],
+  "Umwandeln in": [
+   "web/js/editor.js:117"
+  ],
+  "Kleiner": [
+   "web/js/editor.js:117"
+  ],
+  "Größer": [
+   "web/js/editor.js:117"
+  ],
+  "Schriftfarbe": [
+   "web/js/editor.js:117"
+  ],
+  "Textmarker": [
+   "web/js/editor.js:117"
+  ],
+  "Bild": [
+   "web/js/editor.js:117"
+  ]
+ },
+ "karte/kachel/kv-card": {
+  "Unbekanntes Widget": [
+   "web/js/widgets.js:391"
+  ],
+  "Creator": [
+   "web/js/screens/affiliate.js:59"
+  ],
+  "Kunden": [
+   "web/js/screens/affiliate.js:68"
+  ],
+  "Als Mentor": [
+   "web/js/screens/coach.js:53"
+  ],
+  "Als Schüler": [
+   "web/js/screens/coach.js:54"
+  ],
+  "Aufgaben von deinem Mentor": [
+   "web/js/screens/coach.js:67"
+  ],
+  "Benachrichtigungen": [
+   "web/js/screens/coach.js:75"
+  ],
+  "Schüler": [
+   "web/js/screens/coach.js:121"
+  ],
+  "Aufgaben": [
+   "web/js/screens/coach.js:147"
+  ],
+  "Einladung": [
+   "web/js/screens/coach.js:168",
+   "web/js/screens/coach.js:169"
+  ],
+  "Co-Coach-Einladung": [
+   "web/js/screens/coach.js:186"
+  ],
+  "Trades des Tages": [
+   "web/js/screens/day.js:15"
+  ],
+  "Check-in": [
+   "web/js/screens/day.js:16"
+  ],
+  "Marktphase": [
+   "web/js/screens/day.js:17"
+  ],
+  "Regeln des Tages": [
+   "web/js/screens/day.js:18"
+  ],
+  "Tagesnotiz": [
+   "web/js/screens/day.js:19"
+  ],
+  "Aktuelle Serie": [
+   "web/js/screens/progress.js:67"
+  ],
+  "Heutiger Fortschritt": [
+   "web/js/screens/progress.js:68"
+  ],
+  "% Regeln eingehalten": [
+   "web/js/screens/progress.js:69"
+  ],
+  "Trading-Aktivität": [
+   "web/js/screens/progress.js:71"
+  ],
+  "Tages-Checkliste": [
+   "web/js/screens/progress.js:73"
+  ],
+  "Aktuelle Regeln": [
+   "web/js/screens/progress.js:77"
+  ],
+  "Disziplin pro Woche": [
+   "web/js/screens/progress.js:78"
+  ],
+  "Dein Tilt-Profil": [
+   "web/js/screens/progress.js:79"
+  ],
+  "Regeln im Detail": [
+   "web/js/screens/progress.js:82"
+  ],
+  "Muster": [
+   "web/js/screens/prop-friedhof.js:62"
+  ],
+  "Deine Konten": [
+   "web/js/screens/prop.js:244"
+  ],
+  "Ausgaben vs. Payouts": [
+   "web/js/screens/prop.js:257"
+  ],
+  "Pro Firma": [
+   "web/js/screens/prop.js:258"
+  ],
+  "Ausgaben": [
+   "web/js/screens/prop.js:264"
+  ],
+  "Payouts": [
+   "web/js/screens/prop.js:268"
+  ],
+  "Vorschlag": [
+   "web/js/screens/prop.js:284"
+  ],
+  "Payouts dieses Kontos": [
+   "web/js/screens/prop.js:286"
+  ],
+  "Treffer je Setup": [
+   "web/js/screens/replay.js:41"
+  ],
+  "Treffer je Gefühl": [
+   "web/js/screens/replay.js:41"
+  ],
+  "Mein Regelwerk": [
+   "web/js/screens/shadow.js:60"
+  ],
+  "Equity: echt vs. Schatten-Ich": [
+   "web/js/screens/shadow.js:118"
+  ],
+  "Regelverstöße": [
+   "web/js/screens/shadow.js:120"
+  ],
+  "Welche Regel kostet am meisten": [
+   "web/js/screens/shadow.js:120"
+  ],
+  "Serien": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Drawdown & Risiko": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Haltedauer": [
+   "web/js/screens/stats.js:26"
+  ],
+  "P&L nach Wochentag": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Tage im Überblick": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Erwartungswert je Setup": [
+   "web/js/screens/stats.js:39"
+  ],
+  "Netto-P&L je Symbol": [
+   "web/js/screens/stats.js:39"
+  ],
+  "Setups": [
+   "web/js/screens/stats.js:39"
+  ],
+  "Richtung": [
+   "web/js/screens/stats.js:39"
+  ],
+  "Ø pro Trade nach Wochentag": [
+   "web/js/screens/stats.js:45"
+  ],
+  "Netto-P&L nach Uhrzeit": [
+   "web/js/screens/stats.js:45"
+  ],
+  "Ø pro Trade nach Haltedauer": [
+   "web/js/screens/stats.js:45"
+  ],
+  "Haltedauer Gewinner vs. Verlierer": [
+   "web/js/screens/stats.js:45"
+  ],
+  "Uhrzeiten im Detail": [
+   "web/js/screens/stats.js:45"
+  ],
+  "Kosten je Fehler": [
+   "web/js/screens/stats.js:52"
+  ],
+  "Erwartungswert nach Emotion": [
+   "web/js/screens/stats.js:52"
+  ],
+  "Ø pro Trade je Marktphase": [
+   "web/js/screens/stats.js:58"
+  ],
+  "Ø pro Trade nach Volatilität": [
+   "web/js/screens/stats.js:58"
+  ],
+  "Kombinationen": [
+   "web/js/screens/stats.js:58"
+  ],
+  "Setups je Marktphase": [
+   "web/js/screens/stats.js:58"
+  ],
+  "Rollierender Edge": [
+   "web/js/screens/stats.js:73"
+  ],
+  "Beispielpfade": [
+   "web/js/screens/stats.js:81"
+  ],
+  "Verteilung der Drawdowns": [
+   "web/js/screens/stats.js:81"
+  ],
+  "Verpasste Trades": [
+   "web/js/screens/trades.js:59"
+  ],
+  "Plan vs. Ausführung": [
+   "web/js/screens/trades.js:69"
+  ],
+  "Disziplin": [
+   "web/js/screens/trades.js:74"
+  ],
+  "MAE / MFE": [
+   "web/js/screens/trades.js:75"
+  ],
+  "Tags & Notizen": [
+   "web/js/screens/trades.js:76"
+  ],
+  "Screenshot vor Entry": [
+   "web/js/screens/trades.js:80"
+  ],
+  "Screenshots": [
+   "web/js/screens/trades.js:81"
+  ],
+  "Sprachjournal": [
+   "web/js/screens/trades.js:84"
+  ]
+ },
+ "fußtext": {
+  "<a href=\"#/shadow\">Regelwerk festlegen</a>": [
+   "web/js/widgets.js:324"
+  ],
+  "<a href=\"#/replay\">Jetzt üben</a>": [
+   "web/js/widgets.js:326"
+  ],
+  "§ von § richtig": [
+   "web/js/widgets.js:326"
+  ],
+  "<a href=\"#/prop/konten\">Konto anlegen</a>": [
+   "web/js/widgets.js:328"
+  ],
+  "<span class=\"fw-ampels\">§": [
+   "web/js/widgets.js:328"
+  ],
+  "Dieser Monat": [
+   "web/js/screens/affiliate.js:57",
+   "web/js/screens/affiliate.js:65"
+  ],
+  "Gesamt": [
+   "web/js/screens/affiliate.js:65"
+  ],
+  "Link § · Code §": [
+   "web/js/screens/affiliate.js:65"
+  ],
+  "vom Umsatz": [
+   "web/js/screens/affiliate.js:65"
+  ],
+  "Schüler mit Trades": [
+   "web/js/screens/coach.js:94"
+  ],
+  "zusammen": [
+   "web/js/screens/coach.js:95"
+  ],
+  "Durchschnitt der Schüler": [
+   "web/js/screens/coach.js:96"
+  ],
+  "der Kontogröße": [
+   "web/js/screens/coach.js:98"
+  ],
+  "<span>§": [
+   "web/js/screens/coach.js:99"
+  ],
+  "bei §": [
+   "web/js/screens/prop-friedhof.js:56"
+  ],
+  "§ Payouts − § Ausgaben": [
+   "web/js/screens/prop.js:256"
+  ],
+  "§ bestanden · § geplatzt": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Regelbrüche haben dich das gekostet": [
+   "web/js/screens/shadow.js:25"
+  ],
+  "Regelbrüche haben dir das gebracht": [
+   "web/js/screens/shadow.js:25"
+  ],
+  "Alles nach Regeln": [
+   "web/js/screens/shadow.js:25"
+  ],
+  "Mit allen Regeln eingehalten": [
+   "web/js/screens/shadow.js:114"
+  ],
+  "§ aller Trades": [
+   "web/js/screens/stats.js:51"
+  ],
+  "95 %: § · schlimmster §": [
+   "web/js/screens/stats.js:80"
+  ]
+ },
+ "tabellenkopf": {
+  "Symbol": [
+   "web/js/widgets.js:256",
+   "web/js/screens/day.js:15",
+   "web/js/screens/shadow.js:71",
+   "web/js/screens/trades.js:59"
+  ],
+  "Creator": [
+   "web/js/screens/affiliate.js:58"
+  ],
+  "Code": [
+   "web/js/screens/affiliate.js:58"
+  ],
+  "Kunden": [
+   "web/js/screens/affiliate.js:58"
+  ],
+  "Umsatz": [
+   "web/js/screens/affiliate.js:58",
+   "web/js/screens/affiliate.js:67"
+  ],
+  "Provision": [
+   "web/js/screens/affiliate.js:58",
+   "web/js/screens/affiliate.js:67"
+  ],
+  "Verdient": [
+   "web/js/screens/affiliate.js:58"
+  ],
+  "Offen": [
+   "web/js/screens/affiliate.js:58"
+  ],
+  "Datum": [
+   "web/js/screens/affiliate.js:67",
+   "web/js/screens/shadow.js:71",
+   "web/js/screens/trades.js:59"
+  ],
+  "Plan": [
+   "web/js/screens/affiliate.js:67"
+  ],
+  "Über": [
+   "web/js/screens/affiliate.js:67"
+  ],
+  "Status": [
+   "web/js/screens/affiliate.js:67",
+   "web/js/screens/day.js:15",
+   "web/js/screens/misc.js:255",
+   "web/js/screens/prop.js:233",
+   "web/js/screens/prop.js:286"
+  ],
+  "Bereich": [
+   "web/js/screens/coach.js:25"
+  ],
+  "Dein Mentor": [
+   "web/js/screens/coach.js:25"
+  ],
+  "Schüler": [
+   "web/js/screens/coach.js:113"
+  ],
+  "Trades": [
+   "web/js/screens/coach.js:113",
+   "web/js/screens/misc.js:186",
+   "web/js/screens/misc.js:255",
+   "web/js/screens/prop.js:233",
+   "web/js/screens/stats.js:31",
+   "web/js/screens/stats.js:34"
+  ],
+  "Winrate": [
+   "web/js/screens/coach.js:113"
+  ],
+  "Profit-Faktor": [
+   "web/js/screens/coach.js:113",
+   "web/js/screens/stats.js:34"
+  ],
+  "Ø Gewinn": [
+   "web/js/screens/coach.js:113"
+  ],
+  "Ø Verlust": [
+   "web/js/screens/coach.js:113"
+  ],
+  "Max. Drawdown": [
+   "web/js/screens/coach.js:113"
+  ],
+  "Letzter Eintrag": [
+   "web/js/screens/coach.js:113"
+  ],
+  "Aufgaben": [
+   "web/js/screens/coach.js:113"
+  ],
+  "Zeit": [
+   "web/js/screens/day.js:15",
+   "web/js/screens/misc.js:259"
+  ],
+  "Setup": [
+   "web/js/screens/day.js:15",
+   "web/js/screens/trades.js:59"
+  ],
+  "Netto-P&L": [
+   "web/js/screens/day.js:15",
+   "web/js/screens/misc.js:186",
+   "web/js/screens/stats.js:31",
+   "web/js/screens/stats.js:34"
+  ],
+  "Score": [
+   "web/js/screens/day.js:15"
+  ],
+  "Name": [
+   "web/js/screens/misc.js:186",
+   "web/js/screens/misc.js:234",
+   "web/js/screens/misc.js:238"
+  ],
+  "Kontogröße": [
+   "web/js/screens/misc.js:186"
+  ],
+  "Währung": [
+   "web/js/screens/misc.js:186"
+  ],
+  "Farbe": [
+   "web/js/screens/misc.js:234"
+  ],
+  "Tags": [
+   "web/js/screens/misc.js:234"
+  ],
+  "Verwendet": [
+   "web/js/screens/misc.js:234",
+   "web/js/screens/misc.js:238"
+  ],
+  "Kategorie": [
+   "web/js/screens/misc.js:238"
+  ],
+  "Beschreibung": [
+   "web/js/screens/misc.js:238"
+  ],
+  "Konto": [
+   "web/js/screens/misc.js:255",
+   "web/js/screens/prop.js:233"
+  ],
+  "Quelle": [
+   "web/js/screens/misc.js:255",
+   "web/js/screens/misc.js:259"
+  ],
+  "Datei": [
+   "web/js/screens/misc.js:255"
+  ],
+  "Hochgeladen": [
+   "web/js/screens/misc.js:255"
+  ],
+  "Duplikate": [
+   "web/js/screens/misc.js:255"
+  ],
+  "Typ": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Aktion": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Kennung": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Feld": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Alter Wert": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Neuer Wert": [
+   "web/js/screens/misc.js:259"
+  ],
+  "Phase": [
+   "web/js/screens/prop.js:233"
+  ],
+  "Start": [
+   "web/js/screens/prop.js:233"
+  ],
+  "Gruppe": [
+   "web/js/screens/prop.js:233"
+  ],
+  "Beantragt": [
+   "web/js/screens/prop.js:286"
+  ],
+  "Erhalten": [
+   "web/js/screens/prop.js:286"
+  ],
+  "Brutto": [
+   "web/js/screens/prop.js:286",
+   "web/js/screens/stats.js:31"
+  ],
+  "Netto": [
+   "web/js/screens/prop.js:286"
+  ],
+  "Regel": [
+   "web/js/screens/shadow.js:71"
+  ],
+  "Echt": [
+   "web/js/screens/shadow.js:71"
+  ],
+  "Schatten": [
+   "web/js/screens/shadow.js:71"
+  ],
+  "Kosten": [
+   "web/js/screens/shadow.js:71"
+  ],
+  "Tag": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Gewinner": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Verlierer": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Win-Rate": [
+   "web/js/screens/stats.js:31",
+   "web/js/screens/stats.js:34"
+  ],
+  "Gebühren": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Drawdown": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Ø pro Trade": [
+   "web/js/screens/stats.js:34"
+  ],
+  "Grund": [
+   "web/js/screens/trades.js:59"
+  ],
+  "Hätte gebracht": [
+   "web/js/screens/trades.js:59"
+  ],
+  "Geplant": [
+   "web/js/screens/trades.js:69"
+  ],
+  "Tatsächlich": [
+   "web/js/screens/trades.js:69"
+  ],
+  "Abweichung": [
+   "web/js/screens/trades.js:69"
+  ]
+ },
+ "knopf-link": {
+  "Tages-Checkliste": [
+   "web/js/widgets.js:287"
+  ],
+  "Regelwerk festlegen": [
+   "web/js/widgets.js:334"
+  ],
+  "Konto anlegen": [
+   "web/js/widgets.js:354"
+  ],
+  "Einrichten": [
+   "web/js/widgets.js:373"
+  ],
+  "§ Zu den Einstellungen": [
+   "web/js/screens/coach.js:22"
+  ],
+  "Öffnen": [
+   "web/js/screens/coach.js:42",
+   "web/js/screens/coach.js:43"
+  ],
+  "Abbrechen": [
+   "web/js/screens/coach.js:172",
+   "web/js/screens/coach.js:188"
+  ],
+  "Zur Statistik": [
+   "web/js/screens/dashboard.js:128"
+  ],
+  "Regeln anlegen": [
+   "web/js/screens/day.js:18"
+  ],
+  "§ Im Notebook öffnen": [
+   "web/js/screens/day.js:19"
+  ],
+  "Zu den Einstellungen": [
+   "web/js/screens/mentor.js:79"
+  ],
+  "Server einrichten": [
+   "web/js/screens/news.js:91"
+  ],
+  "§ Zum eigenen Notebook": [
+   "web/js/screens/notebook.js:123"
+  ],
+  "§ Öffnen": [
+   "web/js/screens/notebook.js:170"
+  ],
+  "§ Trade öffnen": [
+   "web/js/screens/prop-friedhof.js:125"
+  ],
+  "Zurück zum TradeLog": [
+   "web/js/screens/trades.js:63"
+  ],
+  "§ TradeLog": [
+   "web/js/screens/trades.js:66"
+  ]
+ },
+ "leer-titel": {
+  "Affiliate nicht verfügbar": [
+   "web/js/screens/affiliate.js:75"
+  ],
+  "Noch kein Schüler": [
+   "web/js/screens/coach.js:112"
+  ],
+  "Noch keine Einträge": [
+   "web/js/screens/coach.js:154"
+  ],
+  "Noch keine Codes hinterlegt": [
+   "web/js/screens/coupons.js:13"
+  ],
+  "Ungültiges Datum": [
+   "web/js/screens/day.js:9"
+  ],
+  "Keine Trades an diesem Tag": [
+   "web/js/screens/day.js:15"
+  ],
+  "Kein Check-in": [
+   "web/js/screens/day.js:16"
+  ],
+  "Keine Regeln definiert": [
+   "web/js/screens/day.js:18",
+   "web/js/screens/progress.js:77"
+  ],
+  "Noch keine Tagesnotiz": [
+   "web/js/screens/day.js:19"
+  ],
+  "News konnten nicht geladen werden": [
+   "web/js/screens/news.js:86"
+  ],
+  "Keine Termine für diese Auswahl": [
+   "web/js/screens/news.js:88"
+  ],
+  "Link ungültig": [
+   "web/js/screens/notebook.js:123"
+  ],
+  "Noch kein Konto auf dem Friedhof": [
+   "web/js/screens/prop-friedhof.js:171"
+  ],
+  "Noch keine Prop-Konten": [
+   "web/js/screens/prop.js:82"
+  ],
+  "Kein Konto passt zum Filter": [
+   "web/js/screens/prop.js:124"
+  ],
+  "Keine Trades im Journal": [
+   "web/js/screens/prop.js:134"
+  ],
+  "Replay nicht geladen": [
+   "web/js/screens/replay.js:111"
+  ],
+  "Keine Verstöße": [
+   "web/js/screens/shadow.js:67"
+  ],
+  "Keine Regel aktiv": [
+   "web/js/screens/shadow.js:77"
+  ],
+  "Noch keine abgeschlossenen Trades": [
+   "web/js/screens/shadow.js:109"
+  ],
+  "Keine abgeschlossenen Trades im Zeitraum": [
+   "web/js/screens/stats.js:23"
+  ],
+  "Keine Handelstage im Zeitraum": [
+   "web/js/screens/stats.js:29",
+   "web/js/screens/trades.js:53"
+  ],
+  "Keine Trades im Zeitraum": [
+   "web/js/screens/stats.js:37",
+   "web/js/screens/stats.js:42",
+   "web/js/screens/stats.js:48"
+  ],
+  "Keine Marktphasen erfasst": [
+   "web/js/screens/stats.js:55"
+  ],
+  "Keine Check-ins im Zeitraum": [
+   "web/js/screens/stats.js:61"
+  ],
+  "Mindestens 10 abgeschlossene Trades nötig": [
+   "web/js/screens/stats.js:77"
+  ],
+  "Keine verpassten Trades notiert": [
+   "web/js/screens/trades.js:57"
+  ],
+  "Trade nicht gefunden": [
+   "web/js/screens/trades.js:63"
+  ],
+  "Kein Plan hinterlegt": [
+   "web/js/screens/trades.js:73"
+  ],
+  "Keine Exkursionsdaten": [
+   "web/js/screens/trades.js:75"
+  ],
+  "Keine Trades in diesem Zeitraum": [
+   "web/js/certificate.js:84"
+  ]
+ },
+ "leer-text": {
+  "Die Affiliate-Daten konnten nicht geladen werden.": [
+   "web/js/screens/affiliate.js:75"
+  ],
+  "Rabatt-Codes für Prop Firms erscheinen hier.": [
+   "web/js/screens/coupons.js:13"
+  ],
+  "Schlaf, Stress und Stimmung vor dem Handel festhalten.": [
+   "web/js/screens/day.js:16"
+  ],
+  "Lege deine Handelsregeln in den Einstellungen an.": [
+   "web/js/screens/day.js:18",
+   "web/js/screens/progress.js:77"
+  ],
+  "Halte fest, wie der Tag lief und was du mitnimmst.": [
+   "web/js/screens/day.js:19"
+  ],
+  "Diese geteilte Notiz konnte nicht gelesen werden.": [
+   "web/js/screens/notebook.js:123"
+  ],
+  "Gut so. Konten, die du im Cockpit über „Als geplatzt markieren“ beendest, landen hier als Grabstein, mit Ursache, auslösendem Trade und den Mustern dahinter.": [
+   "web/js/screens/prop-friedhof.js:171"
+  ],
+  "Lege ein Konto aus einem Firmen-Preset an und ordne ihm Trades zu. Dann siehst du hier Balance, Puffer, Ampel und den Weg zum Payout.": [
+   "web/js/screens/prop.js:82"
+  ],
+  "Ändere Firma, Phase oder Status.": [
+   "web/js/screens/prop.js:124"
+  ],
+  "Logge zuerst Trades, dann kannst du sie hier zuordnen.": [
+   "web/js/screens/prop.js:134"
+  ],
+  "Das Modul replay.js fehlt.": [
+   "web/js/screens/replay.js:111"
+  ],
+  "In diesem Zeitraum hast du dich an deine Regeln gehalten.": [
+   "web/js/screens/shadow.js:67"
+  ],
+  "Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.": [
+   "web/js/screens/shadow.js:109"
+  ],
+  "Ändere den Zeitraum oder logge Trades.": [
+   "web/js/screens/stats.js:23"
+  ],
+  "Lege in der Tagesansicht oder beim Beenden der Session fest, ob der Tag ein Aufwärts-, Abwärts- oder Seitwärtstag war.": [
+   "web/js/screens/stats.js:55"
+  ],
+  "Starte den Tag mit „Session starten“, dann siehst du hier, wie Schlaf, Stress und Stimmung mit deinem Ergebnis zusammenhängen.": [
+   "web/js/screens/stats.js:61"
+  ],
+  "Die Simulation zieht zufällig aus deinen bisherigen Trades.": [
+   "web/js/screens/stats.js:77"
+  ],
+  "Sobald Trades abgeschlossen sind, erscheinen hier Tageskarten.": [
+   "web/js/screens/trades.js:53"
+  ],
+  "Setups, die du gesehen, aber nicht gehandelt hast. So erkennst du, ob Zögern dich Geld kostet.": [
+   "web/js/screens/trades.js:57"
+  ],
+  "Vielleicht wurde er gelöscht.": [
+   "web/js/screens/trades.js:63"
+  ],
+  "Trage geplanten Einstieg, Stop und Ziel ein, um Plan und Ausführung zu vergleichen.": [
+   "web/js/screens/trades.js:73"
+  ],
+  "Trage MAE und MFE im Editor ein.": [
+   "web/js/screens/trades.js:75"
+  ],
+  "Wähle einen anderen Zeitraum, um ein Zertifikat zu erstellen.": [
+   "web/js/certificate.js:84"
+  ]
+ },
+ "karte/kachel/kv-tile": {
+  "Creator": [
+   "web/js/screens/affiliate.js:57"
+  ],
+  "Kunden": [
+   "web/js/screens/affiliate.js:57",
+   "web/js/screens/affiliate.js:65"
+  ],
+  "Umsatz": [
+   "web/js/screens/affiliate.js:57"
+  ],
+  "Provisionen": [
+   "web/js/screens/affiliate.js:57"
+  ],
+  "Offen": [
+   "web/js/screens/affiliate.js:57",
+   "web/js/screens/affiliate.js:65"
+  ],
+  "Verdient": [
+   "web/js/screens/affiliate.js:65"
+  ],
+  "Provision": [
+   "web/js/screens/affiliate.js:65"
+  ],
+  "Aktiv": [
+   "web/js/screens/coach.js:94"
+  ],
+  "Trades": [
+   "web/js/screens/coach.js:95"
+  ],
+  "Ø Winrate": [
+   "web/js/screens/coach.js:96"
+  ],
+  "Ø Profit-Faktor": [
+   "web/js/screens/coach.js:97"
+  ],
+  "Ø Max. Drawdown": [
+   "web/js/screens/coach.js:98"
+  ],
+  "Journal": [
+   "web/js/screens/coach.js:99"
+  ],
+  "Geplatzte Konten": [
+   "web/js/screens/prop-friedhof.js:56"
+  ],
+  "Verlorene Gebühren": [
+   "web/js/screens/prop-friedhof.js:56"
+  ],
+  "Ø Lebensdauer": [
+   "web/js/screens/prop-friedhof.js:56"
+  ],
+  "Häufigste Regel": [
+   "web/js/screens/prop-friedhof.js:56"
+  ],
+  "Aktive Konten": [
+   "web/js/screens/prop.js:87"
+  ],
+  "P&L aktive Konten": [
+   "web/js/screens/prop.js:87"
+  ],
+  "Bestanden": [
+   "web/js/screens/prop.js:87"
+  ],
+  "Geplatzt": [
+   "web/js/screens/prop.js:87"
+  ],
+  "Netto": [
+   "web/js/screens/prop.js:256"
+  ],
+  "ROI": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Kosten je Bestehen": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Bestehensquote": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Bis Break-even": [
+   "web/js/screens/prop.js:256"
+  ],
+  "Echt": [
+   "web/js/screens/shadow.js:113"
+  ],
+  "Schatten-Ich": [
+   "web/js/screens/shadow.js:114"
+  ],
+  "Verstöße": [
+   "web/js/screens/shadow.js:115"
+  ],
+  "Fehler haben gekostet": [
+   "web/js/screens/stats.js:51"
+  ],
+  "Ergebnis ohne Fehler": [
+   "web/js/screens/stats.js:51"
+  ],
+  "Trades mit Fehlern": [
+   "web/js/screens/stats.js:51"
+  ],
+  "Win-Rate mit / ohne Fehler": [
+   "web/js/screens/stats.js:51"
+  ],
+  "Ø R pro Trade": [
+   "web/js/screens/stats.js:72"
+  ],
+  "95-%-Intervall": [
+   "web/js/screens/stats.js:72"
+  ],
+  "Urteil": [
+   "web/js/screens/stats.js:72"
+  ],
+  "Nötige Stichprobe": [
+   "web/js/screens/stats.js:72"
+  ],
+  "Ruin-Wahrscheinlichkeit": [
+   "web/js/screens/stats.js:80"
+  ],
+  "Gewinnwahrscheinlichkeit": [
+   "web/js/screens/stats.js:80"
+  ],
+  "Median-Drawdown": [
+   "web/js/screens/stats.js:80"
+  ],
+  "Endkapital (Median)": [
+   "web/js/screens/stats.js:80"
+  ]
+ },
+ "seitentitel": {
+  "Affiliate": [
+   "web/js/screens/affiliate.js:72"
+  ],
+  "Coach": [
+   "web/js/screens/coach.js:218"
+  ],
+  "Coupon-Codes": [
+   "web/js/screens/coupons.js:9"
+  ],
+  "Dashboard": [
+   "web/js/screens/dashboard.js:115"
+  ],
+  "Tagesansicht": [
+   "web/js/screens/day.js:7"
+  ],
+  "Mentor": [
+   "web/js/screens/mentor.js:74"
+  ],
+  "Einstellungen": [
+   "web/js/screens/misc.js:18"
+  ],
+  "News": [
+   "web/js/screens/news.js:64"
+  ],
+  "Notebook": [
+   "web/js/screens/notebook.js:38"
+  ],
+  "Titel A–Z": [
+   "web/js/screens/notebook.js:59"
+  ],
+  "Geteilte Notiz": [
+   "web/js/screens/notebook.js:123"
+  ],
+  "Fortschritt": [
+   "web/js/screens/progress.js:37"
+  ],
+  "Prop Firms": [
+   "web/js/screens/prop.js:292"
+  ],
+  "Blind-Replay": [
+   "web/js/screens/replay.js:109"
+  ],
+  "Ruhepunkt": [
+   "web/js/screens/ruhepunkt.js:873"
+  ],
+  "Schatten-Ich": [
+   "web/js/screens/shadow.js:103"
+  ],
+  "Statistiken": [
+   "web/js/screens/stats.js:8"
+  ],
+  "Willkommen im Journal": [
+   "web/js/store.js:363"
+  ],
+  "Positionsgröße nach Verlust erhöht": [
+   "web/js/core.js:293"
+  ],
+  "Drei Trades in 15 Minuten": [
+   "web/js/core.js:295"
+  ],
+  "Tagesverlustlimit erreicht": [
+   "web/js/core.js:302"
+  ],
+  "Noch zu wenig Daten": [
+   "web/js/core.js:540"
+  ],
+  "Dein Edge ist statistisch belegt": [
+   "web/js/core.js:550"
+  ],
+  "Edge noch nicht belegt": [
+   "web/js/core.js:550"
+  ],
+  "Negativer Erwartungswert": [
+   "web/js/core.js:550"
+  ],
+  "Dein Edge lässt nach": [
+   "web/js/core.js:551"
+  ],
+  "Verluste hältst du länger als Gewinne": [
+   "web/js/core.js:552"
+  ],
+  "Overtrading kostet": [
+   "web/js/core.js:555"
+  ],
+  "Schlaf zahlt sich aus": [
+   "web/js/core.js:556"
+  ],
+  "Stress drückt dein Ergebnis": [
+   "web/js/core.js:556"
+  ],
+  "Disziplin steigt": [
+   "web/js/core.js:558"
+  ],
+  "Disziplin sinkt": [
+   "web/js/core.js:558"
+  ]
+ },
+ "einstellungen-kopf": {
+  "Sprache || Sprache der Oberfläche. Beim Wechsel stellt sich die Währung passend mit um; ändern kannst du sie jederzeit unter Profil. Zahlen und Daten erscheinen im Format der Sprache.": [
+   "web/js/screens/misc.js:32"
+  ],
+  "Profil || Deine persönlichen Angaben.": [
+   "web/js/screens/misc.js:45"
+  ],
+  "Design || Erscheinungsbild, Schrift und Farben. Wirkt sofort auf die ganze Website.": [
+   "web/js/screens/misc.js:142"
+  ],
+  "Mentor || Dein Trading-Psychologie-Mentor läuft über einen eigenen Server, damit der API-Schlüssel nie im Browser landet.": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Benachrichtigungen || Hinweise auf dem Dashboard und in der Seitenleiste.": [
+   "web/js/screens/misc.js:168"
+  ],
+  "Abo || Verwaltung deines Plans.": [
+   "web/js/screens/misc.js:181"
+  ],
+  "Konten || Alle angelegten Handelskonten. Die Kontogröße bestimmt Tageslimit, Score-Drawdown und Monte Carlo.": [
+   "web/js/screens/misc.js:186"
+  ],
+  "Trading || Passe dein Trading-Erlebnis an.": [
+   "web/js/screens/misc.js:192"
+  ],
+  "Regeln || Deine Handelsregeln. Sie erscheinen im Trade-Editor, beim Session-Ende, im Fortschritt und im Regel-Tracker.": [
+   "web/js/screens/misc.js:207"
+  ],
+  "Notebook || Schriftgrößen im Notiz-Editor und in Tagesnotizen.": [
+   "web/js/screens/misc.js:214"
+  ],
+  "Inhalte || Ordne deine Inhalte mit Kategorien und Tags.": [
+   "web/js/screens/misc.js:241"
+  ],
+  "Logs || Import- und Änderungsverlauf deines Journals.": [
+   "web/js/screens/misc.js:262"
+  ]
+ },
+ "schalter": {
+  "Christlicher Impuls || Zeigt in den Ruhepunkt-Sessions Bibelverse, Gebete und Atemgebete statt neutraler Leitsätze. Der Mentor-Chat nutzt diese Einstellung ebenfalls.": [
+   "web/js/screens/misc.js:61"
+  ],
+  "Audio behalten || Aufnahmen bleiben nach der Auswertung als Audio gespeichert. Aus: nach der Auswertung wird nur das Transkript behalten, die Audiodatei wird gelöscht.": [
+   "web/js/screens/misc.js:160"
+  ],
+  "Wöchentlicher Performance-Recap || Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens 4 geschlossene Trades geloggt wurden.": [
+   "web/js/screens/misc.js:170"
+  ],
+  "Monatlicher Performance-Recap || Am 2. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum 1. des Monats mindestens 4 geschlossene Trades geloggt wurden.": [
+   "web/js/screens/misc.js:171"
+  ],
+  "Hinweis-Punkte anzeigen || Alle Punkte auf einmal ein- oder ausschalten.": [
+   "web/js/screens/misc.js:175"
+  ],
+  "Geld-blind-Modus || Blendet überall alle Geldbeträge aus und zeigt stattdessen R-Multiples (z. B. „+2,1 R“). Der Kontostand wird komplett ausgeblendet. Trades ohne Stop zeigen „– R“.": [
+   "web/js/screens/misc.js:197"
+  ]
+ },
+ "überschrift-h3": {
+  "Privatsphäre": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Ruhepunkt": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Zwei-Faktor-Authentifizierung": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Daten und Sicherung": [
+   "web/js/screens/misc.js:54"
+  ],
+  "Meine Designs": [
+   "web/js/screens/misc.js:108"
+  ],
+  "Erscheinungsbild": [
+   "web/js/screens/misc.js:142"
+  ],
+  "Schriftart": [
+   "web/js/screens/misc.js:142"
+  ],
+  "Akzentfarbe": [
+   "web/js/screens/misc.js:142"
+  ],
+  "Gewinn, Verlust und Break-even": [
+   "web/js/screens/misc.js:145"
+  ],
+  "Sprachjournal": [
+   "web/js/screens/misc.js:154"
+  ],
+  "So funktioniert es": [
+   "web/js/screens/misc.js:154"
+  ],
+  "Performance-Recaps": [
+   "web/js/screens/misc.js:168"
+  ],
+  "Hinweis-Punkte in der Seitenleiste": [
+   "web/js/screens/misc.js:168"
+  ],
+  "Was handelst du?": [
+   "web/js/screens/misc.js:192"
+  ],
+  "Break-even-Bereich": [
+   "web/js/screens/misc.js:193"
+  ],
+  "Geld-blind-Modus": [
+   "web/js/screens/misc.js:193"
+  ],
+  "Risiko und Warnungen": [
+   "web/js/screens/misc.js:198"
+  ],
+  "Regeln dieses Kontos": [
+   "web/js/screens/prop.js:187"
+  ],
+  "Regeln, Payout und Gebühren": [
+   "web/js/screens/prop.js:214"
+  ]
+ },
+ "karte/kachel/kv-kv": {
+  "Puffer": [
+   "web/js/screens/prop.js:104"
+  ],
+  "Handelstage": [
+   "web/js/screens/prop.js:283",
+   "web/js/screens/stats.js:31"
+  ],
+  "Mindestbalance": [
+   "web/js/screens/prop.js:283"
+  ],
+  "Consistency Rule": [
+   "web/js/screens/prop.js:283"
+  ],
+  "Profit Split": [
+   "web/js/screens/prop.js:283"
+  ],
+  "Netto bei Auszahlung des Gewinns": [
+   "web/js/screens/prop.js:283"
+  ],
+  "Aktuelle Serie": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Längste Gewinnserie": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Längste Verlustserie": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Größter Gewinn": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Größter Verlust": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Max. Drawdown": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Max. Drawdown vom Konto": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Erholungsfaktor": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Ø Risiko pro Trade": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Gebühren gesamt": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Ø Gewinner": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Ø Verlierer": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Ø gesamt": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Trades pro Tag": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Bester Tag": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Schlechtester Tag": [
+   "web/js/screens/stats.js:26"
+  ],
+  "Gewinntage / Verlusttage": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Ø Gewinntag": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Ø Verlusttag": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Tages-Profit-Faktor": [
+   "web/js/screens/stats.js:31"
+  ],
+  "Ø Trades pro Tag": [
+   "web/js/screens/stats.js:31"
+  ]
+ },
+ "banner": {
+  "§ Die Regeln werden beim Speichern als Momentaufnahme in das Konto kopiert. Änderst du später ein Preset, bleibt dieses Konto unverändert.": [
+   "web/js/screens/prop.js:187"
+  ],
+  "§ Dein Edge lässt nach Die letzten § Trades liegen bei §, der Gesamtschnitt bei §.": [
+   "web/js/screens/stats.js:73"
+  ]
+ },
+ "überschrift-h1": {
+  "Certificate§": [
+   "web/js/certificate.js:30"
+  ]
+ }
+}

@@ -1,0 +1,22 @@
+const { chromium } = require('playwright');
+const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`);
+(async () => { const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1600, height: 1000 } }); const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+  await p.goto('file:///home/user/Florian/web/app.html#/notebook', { waitUntil: 'load' }); await p.waitForTimeout(900);
+  const st = () => p.evaluate(() => ({ u: document.querySelector('.nb-toolbar [data-ed="undo"]').disabled, r: document.querySelector('.nb-toolbar [data-ed="redo"]').disabled, t: document.querySelector('.nb-editor .ql-editor').innerText.trim() }));
+  let s = await st(); ok('Pfeile vorne in der Werkzeugleiste, anfangs aus', s.u && s.r && await p.evaluate(() => document.querySelector('.nb-toolbar').firstElementChild.dataset.ed === 'undo'));
+  const before = s.t;
+  await p.click('.nb-editor .ql-editor'); await p.keyboard.press('Control+End'); await p.keyboard.type(' Wichtiger Satz.'); await p.waitForTimeout(600);
+  s = await st(); ok('Nach dem Schreiben: Rückgängig aktiv', !s.u && s.r);
+  await p.keyboard.press('Control+a'); await p.keyboard.press('Backspace'); await p.waitForTimeout(300);
+  ok('Versehentlich alles gelöscht', (await st()).t === '');
+  await p.click('.nb-toolbar [data-ed="undo"]'); await p.waitForTimeout(300);
+  s = await st(); ok('Rückgängig holt den Text zurück', s.t.includes('Wichtiger Satz') && s.t.startsWith(before.slice(0, 20)), s.t.slice(0, 60));
+  ok('Wiederholen jetzt aktiv', !s.r);
+  await p.click('.nb-toolbar [data-ed="redo"]'); await p.waitForTimeout(300); ok('Wiederholen löscht wieder', (await st()).t === '');
+  await p.click('.nb-toolbar [data-ed="undo"]'); await p.waitForTimeout(300); ok('Und nochmal zurück', (await st()).t.includes('Wichtiger Satz'));
+  await p.waitForTimeout(1500); await p.reload(); await p.waitForTimeout(1200); s = await st(); ok('Gespeichert ist der wiederhergestellte Stand, Pfeile nach Neuladen aus', s.t.includes('Wichtiger Satz') && s.u && s.r);
+  /* andere Notiz öffnen: kein Zurück in die vorherige Notiz */
+  await p.click('.nb-editor .ql-editor'); await p.keyboard.type('x'); await p.waitForTimeout(300);
+  await p.click('.nb .col.mid .note-item:nth-child(2)'); await p.waitForTimeout(600); s = await st(); ok('Andere Notiz: Pfeile wieder aus', s.u && s.r);
+  ok('Keine Fehler', errs.length === 0, errs.join(' | '));
+  console.log(out.join('\n')); console.log(`${out.filter(x => x.startsWith('PASS')).length}/${out.length} bestanden`); await b.close(); })();

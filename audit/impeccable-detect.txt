@@ -1,0 +1,143 @@
+
+/home/user/Florian/web/app.html
+  [gradient-text] background-clip: text + gradient
+    → Gradient text is decorative rather than meaningful — a common AI tell, especially on headings and metrics. Use solid colors for text.
+  [side-tab] .mentor-note::before — absolute 3px pseudo-element stripe (left: 0)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  [pulsing-dot] .dstreak-flame .ember — 5x5px dot with infinite "streak-ember" animation
+    → Small pulsing status dots simulate liveness decoratively. Reserve pulse animation for indicators tied to genuinely live, changing data; a static indicator with clear labeling is honest and calmer.
+  [pulsing-dot] .dot-live — 9x9px dot with infinite "pulse" animation
+    → Small pulsing status dots simulate liveness decoratively. Reserve pulse animation for indicators tied to genuinely live, changing data; a static indicator with clear labeling is honest and calmer.
+  [pulsing-dot] .msg.typing i — 6x6px dot with infinite "mentor-dot" animation
+    → Small pulsing status dots simulate liveness decoratively. Reserve pulse animation for indicators tied to genuinely live, changing data; a static indicator with clear labeling is honest and calmer.
+  [marquee] /* Platzhalter beim Laden: ein weicher Glanz wandert langsam darüber (nur transform), statt zu blinken */
+.skel::after — infinite horizontal loop animation "skel-sheen"
+    → Continuously auto-scrolling content demands attention it has not earned and hides half its content at any moment. Reserve motion for content that changes; let readers move at their own pace.
+  [dark-glow] Zero-offset box-shadow glow (#34f58a)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+/home/user/Florian/web/css/app.css
+  line 978: [side-tab] border-left: 3px solid var(--fc, transparent)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 1137: [side-tab] border-left: 3px solid var(--accent)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 2251: [side-tab] border-left: 2px solid var(--phase)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 2531: [side-tab] border-left: 3px solid var(--profit)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 1704: [side-tab] border-left-width: 4px
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  line 1244: [gradient-text] background-clip: text + gradient
+    → Gradient text is decorative rather than meaningful — a common AI tell, especially on headings and metrics. Use solid colors for text.
+  line 1267: [gradient-text] background-clip: text + gradient
+    → Gradient text is decorative rather than meaningful — a common AI tell, especially on headings and metrics. Use solid colors for text.
+  line 2003: [gradient-text] background-clip: text + gradient
+    → Gradient text is decorative rather than meaningful — a common AI tell, especially on headings and metrics. Use solid colors for text.
+  line 2010: [gradient-text] background-clip: text + gradient
+    → Gradient text is decorative rather than meaningful — a common AI tell, especially on headings and metrics. Use solid colors for text.
+  line 2885: [side-tab] .mentor-note::before — absolute 3px pseudo-element stripe (left: 0)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+
+/home/user/Florian/web/index.html
+  [low-contrast] 1.4:1 (need 4.5:1) — text #34f58a on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #bcb8b1 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 4.5:1) — text #ededed on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #bcb8b1 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #8a867f on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #bcb8b1 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 4.5:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 4.5:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 4.5:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 4.5:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 4.5:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 4.5:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.3:1 (need 4.5:1) — text #000000 on #22211f
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.3:1 (need 4.5:1) — text #000000 on #22211f
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.3:1 (need 4.5:1) — text #000000 on #22211f
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #8a867f on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "shot": children flush against border+bg on top/bottom (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [tight-leading] line-height 1.19x (need >=1.3)
+    → Line height below 1.3x the font size makes multi-line text hard to read. Use 1.5 to 1.7 for body text so lines have room to breathe.
+  [gradient-text] background-clip: text + gradient
+    → Gradient text is decorative rather than meaningful — a common AI tell, especially on headings and metrics. Use solid colors for text.
+  [side-tab] .mentor-note::before — absolute 3px pseudo-element stripe (left: 0)
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  [pulsing-dot] .dstreak-flame .ember — 5x5px dot with infinite "streak-ember" animation
+    → Small pulsing status dots simulate liveness decoratively. Reserve pulse animation for indicators tied to genuinely live, changing data; a static indicator with clear labeling is honest and calmer.
+  [pulsing-dot] .dot-live — 9x9px dot with infinite "pulse" animation
+    → Small pulsing status dots simulate liveness decoratively. Reserve pulse animation for indicators tied to genuinely live, changing data; a static indicator with clear labeling is honest and calmer.
+  [pulsing-dot] .msg.typing i — 6x6px dot with infinite "mentor-dot" animation
+    → Small pulsing status dots simulate liveness decoratively. Reserve pulse animation for indicators tied to genuinely live, changing data; a static indicator with clear labeling is honest and calmer.
+  [marquee] /* Platzhalter beim Laden: ein weicher Glanz wandert langsam darüber (nur transform), statt zu blinken */
+.skel::after — infinite horizontal loop animation "skel-sheen"
+    → Continuously auto-scrolling content demands attention it has not earned and hides half its content at any moment. Reserve motion for content that changes; let readers move at their own pace.
+  [dark-glow] Zero-offset box-shadow glow (#34f58a)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+/home/user/Florian/web/js/app.js
+  line 228: [broken-image] <img data-blob="${esc(st.avatarId)}" alt="">
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+  line 266: [broken-image] <img data-blob="${esc(S.settings.avatarId)}" alt="">
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+
+/home/user/Florian/web/js/editor.js
+  line 39: [broken-image] <img alt="">
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+
+/home/user/Florian/web/js/screens/misc.js
+  line 47: [broken-image] <img data-blob="${esc(st.avatarId)}" alt="Profilbild">
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+
+/home/user/Florian/web/js/screens/replay.js
+  line 61: [broken-image] <img data-blob="${esc(t.screenshotPre)}" alt="Chart vor dem Einstieg" data-action="lightbox" data-bl
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+  line 68: [broken-image] <img data-blob="${id}" alt="Chart nach dem Einstieg" data-action="lightbox" data-blob-id="${id}">
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+
+/home/user/Florian/web/js/screens/trades.js
+  line 77: [broken-image] <img data-blob="${id}" alt="Screenshot" data-action="lightbox" data-blob-id="${id}">
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+  line 79: [broken-image] <img data-blob="${t.screenshotPre}" alt="Screenshot vor Entry" data-action="lightbox" data-blob-id="
+    → <img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.
+
+/home/user/Florian/web/vendor/quill/quill.snow.css
+  line 8: [overused-font] font-family:Helvetica
+    → Inter, Roboto, Fraunces, Geist, Plus Jakarta Sans, and Space Grotesk are used on so many sites they no longer feel distinctive. Each new wave of AI-generated UIs converges on the same handful of faces. Choose a face that gives your interface personality.
+  line 8: [overused-font] font-family:'Helvetica
+    → Inter, Roboto, Fraunces, Geist, Plus Jakarta Sans, and Space Grotesk are used on so many sites they no longer feel distinctive. Each new wave of AI-generated UIs converges on the same handful of faces. Choose a face that gives your interface personality.
+
+52 anti-patterns found.
+
+── Advisory (not counted as failures) ──
+
+/home/user/Florian/web/css/app.css
+  line 306: [bounce-easing] cubic-bezier(.34, 1.36, .64, 1)
+    → Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly — use exponential easing (ease-out-quart/quint/expo) instead.
+
+/home/user/Florian/web/index.html
+  [low-contrast] 1.2:1 (need 3:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.2:1 (need 3:1) — text #000000 on #1a1917
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.2:1 (need 4.5:1) — text #8b7cf6 on #2c293b
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+
+4 advisory notes. Suppress with --no-advisory.
+EXIT 2

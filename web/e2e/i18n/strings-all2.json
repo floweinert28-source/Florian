@@ -1,0 +1,3754 @@
+{
+ "Navigation": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Journal": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "yst": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Einklappen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Seitenleiste einklappen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Übersicht": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Dashboard": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Statistiken": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Fortschritt": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "TradeLog": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Tagesansicht": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Training": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Blind-Replay": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Mentor": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Ruhepunkt": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Konten": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Prop Firms": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Einstellungen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Erscheinungsbild": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Dunkel": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Hell": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Menü": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Beispieldaten entfernen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Entfernen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Profil": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Heute": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Diese Woche": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Dieser Monat": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Letzte {0} Tage": {
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "Letzte 30 Tage"
+ },
+ "Dieses Quartal": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Dieses Jahr": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Gesamt": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Benutzerdefiniert": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Von": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Bis": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Anwenden": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Konto: Hauptkonto": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Konten verwalten": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Filter": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Symbol": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Richtung": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Long": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Short": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Status": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Gewinn": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Verlust": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Break-even": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Offen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Tags": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Vorlage": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Vorlage wählen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Diese Vorlage bearbeiten": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Neue Vorlage erstellen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Standard-Vorlage": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Bearbeiten": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Vorlage bearbeiten": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Mehr": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Sprachnotiz zum letzten Trade": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Sprachnotiz": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Zertifikat erstellen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Zertifikat": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Daily Profit": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Tag": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Weekly Profit": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Woche": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Monthly Profit": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Monat": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Performance": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Stats": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Session starten": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Trade loggen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Wochen-Recap: {0} bis {1}": {
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "Wochen-Recap: 21.09.26 bis 27.09.26"
+ },
+ "{0} Trades · Netto {1} · Trefferquote {2} · Profit-Faktor {3} · bester Tag {4} mit {5}": {
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "12 Trades · Netto +1.916,66 € · Trefferquote 58 % · Profit-Faktor 2,1 · bester Tag 25.09.26 mit +2.068,62 €"
+ },
+ "Schließen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Zur Statistik": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Monats-Recap: September {0}": {
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "Monats-Recap: September 2026"
+ },
+ "Netto P&L": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "{0} Trades": {
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "2 Trades"
+ },
+ "Ø {0} pro Trade": {
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "Ø +295,92 € pro Trade"
+ },
+ "Trade-Trefferquote": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Profit-Faktor": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Tages-Trefferquote": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Gewinn/Verlust pro Trade": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Gesamt-Score": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Score-Radar": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Win-Rate": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Gewinn/Verlust": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Konsistenz": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Regeltreue": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Drawdown": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Dein Score": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Kumulierter Tages-P&L": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Netto-P&L pro Tag": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Letzte Trades & offene Positionen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Letzte Trades": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Offene Positionen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Geschlossen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Netto-P&L": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "LONG": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "SHORT": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Mehr anzeigen": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Kalender": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Voriger Monat": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "Nächster Monat": {
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ "· {0} Handelstage": {
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "· 1 Handelstage"
+ },
+ "Summe der Netto-Ergebnisse (nach Gebühren) aller geschlossenen Trades im gewählten Zeitraum. Rechts die Anzahl der Trades.": {
+  "wo": "Dashboard"
+ },
+ "Gewinn-Trades geteilt durch alle geschlossenen Trades. Break-even-Trades zählen nicht als Gewinn.": {
+  "wo": "Dashboard"
+ },
+ "Bruttogewinn geteilt durch Bruttoverlust. Über {0} gilt als gut, unter {1} ist das Konto langfristig im Minus.": {
+  "wo": "Dashboard",
+  "beispiel": "Bruttogewinn geteilt durch Bruttoverlust. Über 1,5 gilt als gut, unter 1 ist das Konto langfristig im Minus."
+ },
+ "Anteil der Handelstage mit positivem Netto-Ergebnis an allen Handelstagen im Zeitraum.": {
+  "wo": "Dashboard"
+ },
+ "Durchschnittlicher Gewinn-Trade geteilt durch durchschnittlichen Verlust-Trade. Der Balken zeigt das Verhältnis.": {
+  "wo": "Dashboard"
+ },
+ "Sechs Achsen von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert.": {
+  "wo": "Dashboard",
+  "beispiel": "Sechs Achsen von 0 bis 100: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert."
+ },
+ "Teilscore {0}": {
+  "wo": "Dashboard",
+  "beispiel": "Teilscore 75"
+ },
+ "Kumuliertes Netto-Tagesergebnis im Zeitraum. Grün über Null, rot darunter.": {
+  "wo": "Dashboard"
+ },
+ "Netto-Ergebnis je Handelstag im Zeitraum. Grüne Säulen sind Gewinntage, rote Verlusttage.": {
+  "wo": "Dashboard"
+ },
+ "{0} · {1} Trades": {
+  "wo": "Dashboard",
+  "beispiel": "+736,39 € · 3 Trades"
+ },
+ "{0} · {1} Trade": {
+  "wo": "Dashboard",
+  "beispiel": "+321,85 € · 1 Trade"
+ },
+ "Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Mehr anzeigen“ öffnet das TradeLog.": {
+  "wo": "Dashboard"
+ },
+ "Ein Feld pro Tag mit Netto-Ergebnis und Anzahl Trades: grün bei Gewinn, rot bei Verlust, grau bei Break-even. Klick öffnet die Tagesansicht.": {
+  "wo": "Dashboard"
+ },
+ "Datum wählen": {
+  "wo": "Dashboard: Menü cert"
+ },
+ "Monat und Jahr wählen": {
+  "wo": "Dashboard: Menü cert"
+ },
+ "Vorheriger Monat": {
+  "wo": "Dashboard: Menü cert"
+ },
+ "Löschen": {
+  "wo": "Dashboard: Menü cert"
+ },
+ "Bearbeitungsmodus": {
+  "wo": "Kalender"
+ },
+ "Abbrechen": {
+  "wo": "Kalender"
+ },
+ "Speichern": {
+  "wo": "Kalender"
+ },
+ "Ziehen zum Verschieben": {
+  "wo": "Kalender"
+ },
+ "Verschieben": {
+  "wo": "Kalender"
+ },
+ "Nach vorn": {
+  "wo": "Kalender"
+ },
+ "Nach hinten": {
+  "wo": "Kalender"
+ },
+ "Widget entfernen": {
+  "wo": "Kalender"
+ },
+ "Klein": {
+  "wo": "Kalender"
+ },
+ "Mittel": {
+  "wo": "Kalender"
+ },
+ "Groß": {
+  "wo": "Kalender"
+ },
+ "Widget hinzufügen": {
+  "wo": "Kalender"
+ },
+ "Diagramme, Kalender und Listen für den unteren Bereich": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Widget suchen …": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als Netz-Diagramm.": {
+  "wo": "Dashboard: Bearbeiten",
+  "beispiel": "Punktzahl von 0 bis 100 aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als Netz-Diagramm."
+ },
+ "Hinzugefügt": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Wie sich der Netto-P&L über die Zeit aufsummiert, als Flächendiagramm.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Trefferquote – Ø Gewinn – Ø Verlust": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Wie sich Trefferquote, Ø Gewinn und Ø Verlust über die Handelstage entwickeln.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Hinzufügen": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Performance nach Uhrzeit": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Punktdiagramm: Uhrzeit des Einstiegs oder Ausstiegs gegen P&L.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Performance nach Haltedauer": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Punktdiagramm: Haltedauer gegen P&L.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Säulendiagramm mit grünen und roten Säulen je Handelstag.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Täglicher & kumulierter P&L": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Säulen für den Tages-P&L und Fläche für den kumulierten P&L in einem Diagramm.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Tabelle mit Datum, Symbol und P&L. Tabs für letzte Trades und offene Positionen.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Monatsansicht: Tage grün, rot oder grau mit P&L und Anzahl Trades. Pfeile zum Monatswechsel.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Kontostand-Verlauf": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Linie: Startkapital plus Netto-P&L über die Zeit.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Drawdown-Verlauf": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Flächendiagramm des Rückgangs vom Höchststand über die Handelstage.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Challenge": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Fortschrittsbalken zu einem eigenen Ziel, z. B. Gewinnziel und maximaler Verlust einer Prop-Firm-Challenge.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Mini-Kalender": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Kompakte Monatsansicht, nur grün und rot ohne Zahlen.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Erweiterter Kalender": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Wie Kalender, mit einer zusätzlichen Spalte rechts mit dem P&L jeder Woche.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Regel-Tracker": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Heatmap wie bei GitHub: je kräftiger, desto mehr Regeln an dem Tag eingehalten. Mit Tages-Score und Link zur Checkliste.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Report": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Bis zu drei Kennzahlen nach Wahl als Linie oder Balken im Zeitverlauf, nach Tag, Woche oder Monat.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Jahreskalender": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "Eine Zeile pro Jahr mit allen zwölf Monaten und Gesamt, umschaltbar zwischen Trefferquote, P&L und Trades.": {
+  "wo": "Dashboard: Bearbeiten"
+ },
+ "z. B. DAX, NQ, EURUSD": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Konto": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Prop-Konten": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "(Copy-Trading: mehrere möglich)": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Topstep {0}0K": {
+  "wo": "Dashboard: Widget-Ansicht",
+  "beispiel": "Topstep 50K"
+ },
+ "Apex Trader Funding {0}0K": {
+  "wo": "Dashboard: Widget-Ansicht",
+  "beispiel": "Apex Trader Funding 100K"
+ },
+ "FTMO {0}0K": {
+  "wo": "Dashboard: Widget-Ansicht",
+  "beispiel": "FTMO 100K"
+ },
+ "Eröffnung": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Schluss": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "(leer = offen)": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Einstiegskurs": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Ausstiegskurs": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Stückzahl / Kontrakte": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Punktwert": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "P&L = (Ausstieg − Einstieg) × Stück × Punktwert": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Gebühren": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Plan": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Geplanter Einstieg": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Stop": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Ziel": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Begründung": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Warum dieser Trade?": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Tiefster Kurs gegen dich (MAE)": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Bester Kurs für dich (MFE)": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Pullback, Breakout …": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Bewertung": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Fehler-Tags": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Neu": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Emotionen": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Gebrochene Regeln": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Notizen": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Was ist passiert, was hast du gelernt?": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Offener Trade · Risiko —": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Trade speichern": {
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ "Trade bearbeiten": {
+  "wo": "Trade-Editor (neu)"
+ },
+ "Kurzer Check-in, bevor du handelst. Das Journal zeigt dir später, wie dein Zustand mit deinem Ergebnis zusammenhängt.": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "Schlaf (Stunden)": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "Optimal, {0} bis {1} Stunden": {
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "Optimal, 7 bis 9 Stunden"
+ },
+ "Stress ({0} entspannt – {1} sehr gestresst)": {
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "Stress (1 entspannt – 5 sehr gestresst)"
+ },
+ "entspannt": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "leicht": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "hoch": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "sehr hoch": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "Stimmung ({0} schlecht – {1} sehr gut)": {
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "Stimmung (1 schlecht – 5 sehr gut)"
+ },
+ "schlecht": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "mäßig": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "gut": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "sehr gut": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "Notiz": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "Wie fühlst du dich?": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "Fokus für heute": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "z. B. Nur A-Setups, nach {0} Verlusten Schluss": {
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "z. B. Nur A-Setups, nach 2 Verlusten Schluss"
+ },
+ "Deine Regeln": {
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ "CSV importieren": {
+  "wo": "Session starten"
+ },
+ "Trades": {
+  "wo": "Session starten"
+ },
+ "Tage": {
+  "wo": "Session starten"
+ },
+ "Verpasste Trades": {
+  "wo": "Session starten"
+ },
+ "Suchen: Symbol, Setup, Notiz …": {
+  "wo": "Session starten"
+ },
+ "Suchen": {
+  "wo": "Session starten"
+ },
+ "Alle Symbole": {
+  "wo": "Session starten"
+ },
+ "Alle Setups": {
+  "wo": "Session starten"
+ },
+ "Alle Ergebnisse": {
+  "wo": "Session starten"
+ },
+ "Fehler": {
+  "wo": "Session starten"
+ },
+ "Fehler: alle": {
+  "wo": "Session starten"
+ },
+ "Nur mit Fehler": {
+  "wo": "Session starten"
+ },
+ "{0} von {1} Trades": {
+  "wo": "Session starten",
+  "beispiel": "174 von 174 Trades"
+ },
+ "Eröffnet": {
+  "wo": "Session starten"
+ },
+ "Einstiegspreis": {
+  "wo": "Session starten"
+ },
+ "Ausstiegspreis": {
+  "wo": "Session starten"
+ },
+ "RR": {
+  "wo": "Session starten"
+ },
+ "Regeln": {
+  "wo": "Session starten"
+ },
+ "Score": {
+  "wo": "Session starten"
+ },
+ "Trades pro Seite:": {
+  "wo": "Session starten"
+ },
+ "Trades pro Seite": {
+  "wo": "Session starten"
+ },
+ "{0} – {1} von {2} Trades": {
+  "wo": "Session starten",
+  "beispiel": "1 – 50 von 174 Trades"
+ },
+ "Seite": {
+  "wo": "Session starten"
+ },
+ "von {0} Seiten": {
+  "wo": "Session starten",
+  "beispiel": "von 4 Seiten"
+ },
+ "Vorherige Seite": {
+  "wo": "Session starten"
+ },
+ "Nächste Seite": {
+  "wo": "Session starten"
+ },
+ "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Darunter der Verlauf je Handelstag.": {
+  "wo": "TradeLog"
+ },
+ "Stop niemals verschieben, Maximal {0} Risiko pro Trade, Nach zwei Verlusten in Folge Pause machen": {
+  "wo": "TradeLog",
+  "beispiel": "Stop niemals verschieben, Maximal 1 % Risiko pro Trade, Nach zwei Verlusten in Folge Pause machen"
+ },
+ "Stop niemals verschieben, Maximal {0} Risiko pro Trade": {
+  "wo": "TradeLog",
+  "beispiel": "Stop niemals verschieben, Maximal 1 % Risiko pro Trade"
+ },
+ "CSV-Datei hierher ziehen": {
+  "wo": "TradeLog: Menü"
+ },
+ "oder klicken zum Auswählen": {
+  "wo": "TradeLog: Menü"
+ },
+ "Exporte von Brokern und Plattformen: Spalten werden automatisch erkannt.": {
+  "wo": "TradeLog: Menü"
+ },
+ "Oder Text einfügen": {
+  "wo": "TradeLog: Menü"
+ },
+ "Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;Stück;Gebühren": {
+  "wo": "TradeLog: Menü"
+ },
+ "Einlesen": {
+  "wo": "TradeLog: Menü"
+ },
+ "Andere Datei": {
+  "wo": "TradeLog: Menü"
+ },
+ "Importieren": {
+  "wo": "TradeLog: Menü"
+ },
+ "Trade": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Seitwärts · Vola normal": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Einstieg": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Ausstieg": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Stück × Punktwert": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Risiko": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Haltedauer": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Plan vs. Ausführung": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Geplant": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Tatsächlich": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Abweichung": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "geplant {0}, erreicht {1}": {
+  "wo": "TradeLog: Verpasster Trade",
+  "beispiel": "geplant 2,00 R, erreicht +0,75 R"
+ },
+ "Disziplin": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Plan vollständig (Einstieg, Stop, Ziel)": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Einstieg nahe am Plan ({0} Abweichung)": {
+  "wo": "TradeLog: Verpasster Trade",
+  "beispiel": "Einstieg nahe am Plan (0,15 R Abweichung)"
+ },
+ "Stop eingehalten": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Keine Fehler-Tags": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Regeln eingehalten": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "MAE / MFE": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Maximal gegen dich (MAE)": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Maximal für dich (MFE)": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Realisiert": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Skala in R, bezogen auf den geplanten Stop-Abstand.": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Tags & Notizen": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Keine Fehler markiert": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Screenshots": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Bilder hierher ziehen, einfügen (Strg+V) oder klicken": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Screenshot vor Entry": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Für das Blind-Replay": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Chart vor dem Einstieg hierher ziehen oder klicken": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Sprachjournal": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Noch keine Sprachnotizen.": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "{0} Sekunden aufnehmen": {
+  "wo": "TradeLog: Verpasster Trade",
+  "beispiel": "30 Sekunden aufnehmen"
+ },
+ "Text-Notiz": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Notiz im Notebook": {
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ "Vergleich von geplantem Einstieg, Stop und Ziel mit der tatsächlichen Ausführung.": {
+  "wo": "Trade-Detail"
+ },
+ "Plan {0}, Einstieg {1}, Stop {2}, keine Fehler-Tags {3}, Regeln {4} Punkte.": {
+  "wo": "Trade-Detail",
+  "beispiel": "Plan 25, Einstieg 20, Stop 25, keine Fehler-Tags 20, Regeln 10 Punkte."
+ },
+ "Maximale Bewegung gegen dich (MAE) und für dich (MFE) während des Trades, gemessen in R.": {
+  "wo": "Trade-Detail"
+ },
+ "Chart-Screenshots zum Trade. Werden lokal im Browser gespeichert.": {
+  "wo": "Trade-Detail"
+ },
+ "Der Chart, wie er vor dem Einstieg aussah, ohne Ergebnis. Nur Trades mit diesem Bild erscheinen im Blind-Replay.": {
+  "wo": "Trade-Detail"
+ },
+ "Bis zu {0} Sekunden sprechen. Transkript im Browser, Auswertung über den Mentor-Server als Vorschläge für Emotion, Setup und Fehler-Tags, die du bestätigst.": {
+  "wo": "Trade-Detail",
+  "beispiel": "Bis zu 30 Sekunden sprechen. Transkript im Browser, Auswertung über den Mentor-Server als Vorschläge für Emotion, Setup und Fehler-Tags, die du bestätigst."
+ },
+ "Design": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Sprache": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Benachrichtigungen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Abo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Trading": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Inhalte": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Logs": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Deine persönlichen Angaben.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Foto hochladen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Profilbild": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "PNG oder JPG, wird nur in diesem Browser gespeichert.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Hochladen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Vorname": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Nachname": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Benutzername": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "E-Mail": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Adresse": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Straße, PLZ Ort": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Bio": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Ein paar Worte zu dir und deinem Trading": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Zeitzone": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Abidjan": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Accra": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Addis Ababa": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Algiers": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Asmera": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Bamako": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Bangui": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Banjul": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Bissau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Blantyre": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Brazzaville": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Bujumbura": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Cairo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Casablanca": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Ceuta": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Conakry": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Dakar": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Dar es Salaam": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Djibouti": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Douala": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/El Aaiun": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Freetown": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Gaborone": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Harare": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Johannesburg": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Juba": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Kampala": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Khartoum": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Kigali": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Kinshasa": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Lagos": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Libreville": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Lome": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Luanda": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Lubumbashi": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Lusaka": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Malabo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Maputo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Maseru": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Mbabane": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Mogadishu": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Monrovia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Nairobi": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Ndjamena": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Niamey": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Nouakchott": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Ouagadougou": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Porto-Novo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Sao Tome": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Tripoli": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Tunis": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Africa/Windhoek": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Adak": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Anchorage": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Anguilla": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Antigua": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Araguaina": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Argentina/La Rioja": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Argentina/Rio Gallegos": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Argentina/Salta": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Argentina/San Juan": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Argentina/San Luis": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Argentina/Tucuman": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Argentina/Ushuaia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Aruba": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Asuncion": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Bahia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Bahia Banderas": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Barbados": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Belem": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Belize": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Blanc-Sablon": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Boa Vista": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Bogota": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Boise": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Buenos Aires": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Cambridge Bay": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Campo Grande": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Cancun": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Caracas": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Catamarca": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Cayenne": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Cayman": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Chihuahua": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Ciudad Juarez": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Coral Harbour": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Cordoba": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Costa Rica": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Coyhaique": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Creston": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Cuiaba": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Curacao": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Danmarkshavn": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Dawson": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Dawson Creek": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Denver": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Detroit": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Dominica": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Edmonton": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Eirunepe": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/El Salvador": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Fort Nelson": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Fortaleza": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Glace Bay": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Godthab": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Goose Bay": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Grand Turk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Grenada": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Guadeloupe": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Guatemala": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Guayaquil": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Guyana": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Halifax": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Havana": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Hermosillo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indiana/Knox": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indiana/Marengo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indiana/Petersburg": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indiana/Tell City": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indiana/Vevay": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indiana/Vincennes": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indiana/Winamac": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Indianapolis": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Inuvik": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Iqaluit": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Jamaica": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Jujuy": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Juneau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Kentucky/Monticello": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Kralendijk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/La Paz": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Lima": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Los Angeles": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Louisville": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Lower Princes": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Maceio": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Managua": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Manaus": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Marigot": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Martinique": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Matamoros": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Mazatlan": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Mendoza": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Menominee": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Merida": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Metlakatla": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Mexico City": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Miquelon": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Moncton": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Monterrey": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Montevideo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Montserrat": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Nassau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/New York": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Nome": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Noronha": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/North Dakota/Beulah": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/North Dakota/Center": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/North Dakota/New Salem": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Ojinaga": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Panama": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Paramaribo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Phoenix": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Port-au-Prince": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Port of Spain": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Porto Velho": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Puerto Rico": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Punta Arenas": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Rankin Inlet": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Recife": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Regina": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Resolute": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Rio Branco": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Santarem": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Santiago": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Santo Domingo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Sao Paulo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Scoresbysund": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Sitka": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/St Barthelemy": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/St Johns": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/St Kitts": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/St Lucia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/St Thomas": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/St Vincent": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Swift Current": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Tegucigalpa": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Thule": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Tijuana": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Toronto": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Tortola": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Vancouver": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Whitehorse": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Winnipeg": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "America/Yakutat": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Casey": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Davis": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/DumontDUrville": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Macquarie": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Mawson": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/McMurdo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Palmer": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Rothera": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Syowa": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Troll": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Antarctica/Vostok": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Arctic/Longyearbyen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Aden": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Almaty": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Amman": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Anadyr": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Aqtau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Aqtobe": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Ashgabat": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Atyrau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Baghdad": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Bahrain": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Baku": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Bangkok": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Barnaul": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Beirut": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Bishkek": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Brunei": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Calcutta": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Chita": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Colombo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Damascus": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Dhaka": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Dili": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Dubai": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Dushanbe": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Famagusta": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Gaza": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Hebron": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Hong Kong": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Hovd": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Irkutsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Jakarta": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Jayapura": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Jerusalem": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Kabul": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Kamchatka": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Karachi": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Katmandu": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Khandyga": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Krasnoyarsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Kuala Lumpur": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Kuching": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Kuwait": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Macau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Magadan": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Makassar": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Manila": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Muscat": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Nicosia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Novokuznetsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Novosibirsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Omsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Oral": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Phnom Penh": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Pontianak": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Pyongyang": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Qatar": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Qostanay": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Qyzylorda": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Rangoon": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Riyadh": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Saigon": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Sakhalin": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Samarkand": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Seoul": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Shanghai": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Singapore": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Srednekolymsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Taipei": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Tashkent": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Tbilisi": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Tehran": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Thimphu": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Tokyo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Tomsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Ulaanbaatar": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Urumqi": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Ust-Nera": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Vientiane": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Vladivostok": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Yakutsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Yekaterinburg": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Asia/Yerevan": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Azores": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Bermuda": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Canary": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Cape Verde": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Faeroe": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Madeira": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Reykjavik": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/South Georgia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/St Helena": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Atlantic/Stanley": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Adelaide": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Brisbane": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Broken Hill": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Darwin": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Eucla": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Hobart": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Lindeman": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Lord Howe": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Melbourne": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Perth": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Australia/Sydney": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Amsterdam": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Andorra": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Astrakhan": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Athens": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Belgrade": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Berlin": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Bratislava": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Brussels": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Bucharest": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Budapest": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Busingen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Chisinau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Copenhagen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Dublin": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Gibraltar": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Guernsey": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Helsinki": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Isle of Man": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Istanbul": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Jersey": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Kaliningrad": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Kiev": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Kirov": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Lisbon": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Ljubljana": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/London": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Luxembourg": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Madrid": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Malta": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Mariehamn": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Minsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Monaco": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Moscow": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Oslo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Paris": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Podgorica": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Riga": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Rome": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Samara": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/San Marino": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Sarajevo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Saratov": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Simferopol": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Skopje": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Sofia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Stockholm": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Tallinn": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Tirane": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Ulyanovsk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Vaduz": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Vatican": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Vienna": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Vilnius": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Volgograd": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Warsaw": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Zagreb": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Europe/Zurich": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Antananarivo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Chagos": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Christmas": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Cocos": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Comoro": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Kerguelen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Mahe": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Maldives": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Mauritius": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Mayotte": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Indian/Reunion": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Apia": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Auckland": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Bougainville": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Chatham": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Easter": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Efate": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Enderbury": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Fakaofo": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Fiji": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Funafuti": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Galapagos": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Gambier": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Guadalcanal": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Guam": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Honolulu": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Kiritimati": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Kosrae": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Kwajalein": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Majuro": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Marquesas": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Midway": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Nauru": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Niue": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Norfolk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Noumea": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Pago Pago": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Palau": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Pitcairn": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Ponape": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Port Moresby": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Rarotonga": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Saipan": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Tahiti": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Tarawa": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Tongatapu": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Truk": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Wake": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Pacific/Wallis": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Standardwährung": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "CHF": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "GBP": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Passwort zurücksetzen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Privatsphäre": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "So gehen wir mit deinen Daten um.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Support-Team Zugriff auf mein Konto erlauben": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Wenn aktiviert, kann das Support-Team auf dein Konto zugreifen, um dir besser zu helfen und Fehler zu finden.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Christlicher Impuls": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Zeigt in den Ruhepunkt-Sessions Bibelverse, Gebete und Atemgebete statt neutraler Leitsätze. Der Mentor-Chat nutzt diese Einstellung ebenfalls.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Zwei-Faktor-Authentifizierung": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Zusätzliche Sicherheit für dein Konto über eine Authenticator-App (z. B. Google Authenticator, Authy).": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "2FA ist nicht aktiviert": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "2FA aktivieren": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Daten und Sicherung": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Sicherung exportieren": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Alle Trades, Notizen und Einstellungen als JSON. Optional mit Bildern und Audio.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Ohne Anhänge": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Mit Anhängen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Sicherung einspielen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "JSON-Datei aus einem Export. „Zusammenführen“ behält vorhandene Daten.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Zusammenführen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Ersetzen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Rund {0} Trades über vier Monate (vor allem NQ und ES) mit Check-ins, Notizen und Regeln, dazu vier Prop-Konten mit Ausgaben, Payouts und einem geplatzten Konto, Replay-Screenshots mit zwei Sessions und Sprachnotizen. Ist noch keine Regel im Schatten-Ich aktiv, werden die drei Vorschlagsregeln eingeschaltet. Jederzeit entfernbar: Eigene Trades, Check-ins und Regeln bleiben erhalten, die Vorschlagsregeln gehen wieder aus, sofern du das Regelwerk nicht verändert hast.": {
+  "wo": "Trade-Detail: Menü",
+  "beispiel": "Rund 170 Trades über vier Monate (vor allem NQ und ES) mit Check-ins, Notizen und Regeln, dazu vier Prop-Konten mit Ausgaben, Payouts und einem geplatzten Konto, Replay-Screenshots mit zwei Sessions und Sprachnotizen. Ist noch keine Regel im Schatten-Ich aktiv, werden die drei Vorschlagsregeln eingeschaltet. Jederzeit entfernbar: Eigene Trades, Check-ins und Regeln bleiben erhalten, die Vorschlagsregeln gehen wieder aus, sofern du das Regelwerk nicht verändert hast."
+ },
+ "Alles löschen": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Entfernt alle Daten aus diesem Browser. Vorher exportieren!": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Speicherort: dieser Browser (localStorage und IndexedDB). Tastatur:": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "neuer Trade ·": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Bereiche ·": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Esc": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "schließt Dialoge.": {
+  "wo": "Trade-Detail: Menü"
+ },
+ "Erscheinungsbild, Schrift und Farben. Wirkt sofort auf die ganze Website.": {
+  "wo": "Einstellungen: profil"
+ },
+ "Schriftart": {
+  "wo": "Einstellungen: profil"
+ },
+ "Gilt für Text und Zahlen auf der ganzen Website.": {
+  "wo": "Einstellungen: profil"
+ },
+ "Aa": {
+  "wo": "Einstellungen: profil"
+ },
+ "Geschwungen": {
+  "wo": "Einstellungen: profil"
+ },
+ "Standard: leicht und geschwungen, Zahlen in Onest": {
+  "wo": "Einstellungen: profil"
+ },
+ "Rund": {
+  "wo": "Einstellungen: profil"
+ },
+ "Weiche, runde Formen": {
+  "wo": "Einstellungen: profil"
+ },
+ "Klassisch": {
+  "wo": "Einstellungen: profil"
+ },
+ "Klar und neutral, Zahlen in Roboto": {
+  "wo": "Einstellungen: profil"
+ },
+ "Akzentfarbe": {
+  "wo": "Einstellungen: profil"
+ },
+ "Buttons, aktive Einträge und Diagramme.": {
+  "wo": "Einstellungen: profil"
+ },
+ "Eigene Akzentfarbe": {
+  "wo": "Einstellungen: profil"
+ },
+ "Gewinn, Verlust und Break-even": {
+  "wo": "Einstellungen: profil"
+ },
+ "Farben für Plus, Minus und Break-even in Zahlen, Kalendern und Diagrammen.": {
+  "wo": "Einstellungen: profil"
+ },
+ "Grün / Rot": {
+  "wo": "Einstellungen: profil"
+ },
+ "Blau / Orange": {
+  "wo": "Einstellungen: profil"
+ },
+ "Türkis / Pink": {
+  "wo": "Einstellungen: profil"
+ },
+ "Violett / Gelb": {
+  "wo": "Einstellungen: profil"
+ },
+ "Grün / Grau": {
+  "wo": "Einstellungen: profil"
+ },
+ "Weiß / Rot": {
+  "wo": "Einstellungen: profil"
+ },
+ "Standardfarben": {
+  "wo": "Einstellungen: profil"
+ },
+ "Orange": {
+  "wo": "Einstellungen: design"
+ },
+ "Gelb": {
+  "wo": "Einstellungen: design"
+ },
+ "Neongrün": {
+  "wo": "Einstellungen: design"
+ },
+ "Türkis": {
+  "wo": "Einstellungen: design"
+ },
+ "Blau": {
+  "wo": "Einstellungen: design"
+ },
+ "Violett": {
+  "wo": "Einstellungen: design"
+ },
+ "Pink": {
+  "wo": "Einstellungen: design"
+ },
+ "Weiß": {
+  "wo": "Einstellungen: design"
+ },
+ "Eigene Farbe wählen": {
+  "wo": "Einstellungen: design"
+ },
+ "Sprache der Oberfläche. Zahlen, Währungen und Daten werden im Format der Sprache angezeigt.": {
+  "wo": "Einstellungen: design"
+ },
+ "Deutsch": {
+  "wo": "Einstellungen: design"
+ },
+ "Englisch": {
+  "wo": "Einstellungen: design"
+ },
+ "Spanisch": {
+  "wo": "Einstellungen: design"
+ },
+ "Chinesisch": {
+  "wo": "Einstellungen: design"
+ },
+ "Hindi": {
+  "wo": "Einstellungen: design"
+ },
+ "Portugiesisch": {
+  "wo": "Einstellungen: design"
+ },
+ "Die Übersetzung kommt in Etappen: Bereiche, die noch nicht übersetzt sind, bleiben vorerst deutsch. Deine eigenen Einträge wie Notizen, Setups und Tags werden nicht übersetzt.": {
+  "wo": "Einstellungen: design"
+ },
+ "Zusammenfassungen deiner Performance. Sie erscheinen als Hinweis oben auf dem Dashboard.": {
+  "wo": "Einstellungen: sprache"
+ },
+ "Wöchentlicher Performance-Recap": {
+  "wo": "Einstellungen: sprache"
+ },
+ "Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens {0} geschlossene Trades geloggt wurden.": {
+  "wo": "Einstellungen: sprache",
+  "beispiel": "Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens 4 geschlossene Trades geloggt wurden."
+ },
+ "Monatlicher Performance-Recap": {
+  "wo": "Einstellungen: sprache"
+ },
+ "Am {0}. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum {1}. des Monats mindestens {2} geschlossene Trades geloggt wurden.": {
+  "wo": "Einstellungen: sprache",
+  "beispiel": "Am 2. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum 1. des Monats mindestens 4 geschlossene Trades geloggt wurden."
+ },
+ "Verwaltung deines Plans.": {
+  "wo": "Einstellungen: benachrichtigungen"
+ },
+ "Kostenlos, alle Funktionen enthalten": {
+  "wo": "Einstellungen: benachrichtigungen"
+ },
+ "Es gibt derzeit kein Abo. Dieser Bereich wird später ergänzt.": {
+  "wo": "Einstellungen: benachrichtigungen"
+ },
+ "Alle angelegten Handelskonten. Die Kontogröße bestimmt Tageslimit, Score-Drawdown und Monte Carlo.": {
+  "wo": "Einstellungen: abo"
+ },
+ "Konto hinzufügen": {
+  "wo": "Einstellungen: abo"
+ },
+ "Name": {
+  "wo": "Einstellungen: abo"
+ },
+ "Kontogröße": {
+  "wo": "Einstellungen: abo"
+ },
+ "Währung": {
+  "wo": "Einstellungen: abo"
+ },
+ "Passe dein Trading-Erlebnis an.": {
+  "wo": "Einstellungen: konten"
+ },
+ "Was handelst du?": {
+  "wo": "Einstellungen: konten"
+ },
+ "Aktien": {
+  "wo": "Einstellungen: konten"
+ },
+ "Forex": {
+  "wo": "Einstellungen: konten"
+ },
+ "Futures": {
+  "wo": "Einstellungen: konten"
+ },
+ "Optionen": {
+  "wo": "Einstellungen: konten"
+ },
+ "Krypto": {
+  "wo": "Einstellungen: konten"
+ },
+ "Sonstiges": {
+  "wo": "Einstellungen: konten"
+ },
+ "Break-even-Bereich": {
+  "wo": "Einstellungen: konten"
+ },
+ "Ergebnisse in diesem Bereich zählen als Break-even, nicht als Gewinn oder Verlust.": {
+  "wo": "Einstellungen: konten"
+ },
+ "Einheit": {
+  "wo": "Einstellungen: konten"
+ },
+ "Auf Standard zurücksetzen": {
+  "wo": "Einstellungen: konten"
+ },
+ "Geld-blind-Modus": {
+  "wo": "Einstellungen: konten"
+ },
+ "Blendet überall alle Geldbeträge aus und zeigt stattdessen R-Multiples (z. B. „{0}“). Der Kontostand wird komplett ausgeblendet. Trades ohne Stop zeigen „– R“.": {
+  "wo": "Einstellungen: konten",
+  "beispiel": "Blendet überall alle Geldbeträge aus und zeigt stattdessen R-Multiples (z. B. „+2,1 R“). Der Kontostand wird komplett ausgeblendet. Trades ohne Stop zeigen „– R“."
+ },
+ "{0} entspricht (optional)": {
+  "wo": "Einstellungen: konten",
+  "beispiel": "1 R entspricht (optional)"
+ },
+ "automatisch": {
+  "wo": "Einstellungen: konten"
+ },
+ "Für Summen wie Tages-P&L oder Drawdown. Leer: Median des Risikos deiner Trades mit Stop (aktuell {0}).": {
+  "wo": "Einstellungen: konten",
+  "beispiel": "Für Summen wie Tages-P&L oder Drawdown. Leer: Median des Risikos deiner Trades mit Stop (aktuell 283,00 €)."
+ },
+ "Risiko und Warnungen": {
+  "wo": "Einstellungen: konten"
+ },
+ "Tagesverlustlimit (% vom Konto)": {
+  "wo": "Einstellungen: konten"
+ },
+ "Ruin-Schwelle Monte Carlo (% Drawdown)": {
+  "wo": "Einstellungen: konten"
+ },
+ "Monte-Carlo-Durchläufe": {
+  "wo": "Einstellungen: konten"
+ },
+ "Tilt-Warnungen": {
+  "wo": "Einstellungen: konten"
+ },
+ "Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tageslimit.": {
+  "wo": "Einstellungen: konten"
+ },
+ "Deine Handelsregeln. Sie erscheinen im Trade-Editor, beim Session-Ende, im Fortschritt und im Regel-Tracker.": {
+  "wo": "Einstellungen: trading"
+ },
+ "Aktiv": {
+  "wo": "Einstellungen: trading"
+ },
+ "Neue Regel, z. B. „Maximal {0} Trades pro Tag“": {
+  "wo": "Einstellungen: trading",
+  "beispiel": "Neue Regel, z. B. „Maximal 3 Trades pro Tag“"
+ },
+ "Neue Regel": {
+  "wo": "Einstellungen: trading"
+ },
+ "Schriftgrößen im Notiz-Editor und in Tagesnotizen.": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Überschrift {0}": {
+  "wo": "Einstellungen: regeln",
+  "beispiel": "Überschrift 1"
+ },
+ "{0} px": {
+  "wo": "Einstellungen: regeln",
+  "beispiel": "22 px"
+ },
+ "Fließtext": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Erledigte Punkte durchstreichen": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Abgehakte Einträge in To-do-Listen werden durchgestrichen.": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Vorschau": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Mein Journalyst": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Wochenrückblick": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Trade-Analyse": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Text": {
+  "wo": "Einstellungen: regeln"
+ },
+ "So sehen deine Notizen und Tagesjournal-Einträge aus. Nutze die Vorschau, um die angenehmste Größe für deine Trade-Reviews zu finden.": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Stop vor dem Einstieg gesetzt": {
+  "wo": "Einstellungen: regeln"
+ },
+ "Dein Trading-Psychologie-Mentor läuft über einen eigenen Server, damit der API-Schlüssel nie im Browser landet.": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Server-Adresse": {
+  "wo": "Einstellungen: notebook"
+ },
+ "https://mentor.deine-domain.de": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Der Server aus": {
+  "wo": "Einstellungen: notebook"
+ },
+ "im Projekt. Anleitung in": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Zugangstoken": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Wert von MENTOR_APP_TOKEN": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Derselbe Wert wie auf dem Server. Nicht der API-Schlüssel des Sprachmodells, der bleibt nur auf dem Server.": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Verbindung testen": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Audio behalten": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Aufnahmen bleiben nach der Auswertung als Audio gespeichert. Aus: nach der Auswertung wird nur das Transkript behalten, die Audiodatei wird gelöscht.": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen (": {
+  "wo": "Einstellungen: notebook"
+ },
+ ", siehe": {
+  "wo": "Einstellungen: notebook"
+ },
+ "So funktioniert es": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Vor jedem Gespräch bekommt der Mentor deinen Namen, den Glaubensmodus aus dem Ruhepunkt (Einstellungen → Profil → Christlicher Impuls) und eine kurze Zusammenfassung deiner letzten {0} Trades und des heutigen Ruhepunkt-Check-ins.": {
+  "wo": "Einstellungen: notebook",
+  "beispiel": "Vor jedem Gespräch bekommt der Mentor deinen Namen, den Glaubensmodus aus dem Ruhepunkt (Einstellungen → Profil → Christlicher Impuls) und eine kurze Zusammenfassung deiner letzten 20 Trades und des heutigen Ruhepunkt-Check-ins."
+ },
+ "Der Verlauf wird pro Nutzer auf dem Server gespeichert. Das Tageslimit legt der Server fest (Standard {0} Nachrichten), damit die Kosten kontrollierbar bleiben.": {
+  "wo": "Einstellungen: notebook",
+  "beispiel": "Der Verlauf wird pro Nutzer auf dem Server gespeichert. Das Tageslimit legt der Server fest (Standard 30 Nachrichten), damit die Kosten kontrollierbar bleiben."
+ },
+ "Nutzerkennung ist dein Benutzername aus dem Profil, aktuell:": {
+  "wo": "Einstellungen: notebook"
+ },
+ "Ordne deine Inhalte mit Kategorien und Tags.": {
+  "wo": "Einstellungen: mentor"
+ },
+ "Kategorien": {
+  "wo": "Einstellungen: mentor"
+ },
+ "Farbe": {
+  "wo": "Einstellungen: mentor"
+ },
+ "Verwendet": {
+  "wo": "Einstellungen: mentor"
+ },
+ "Setups": {
+  "wo": "Einstellungen: mentor"
+ },
+ "Die drei Kategorien sind fest: Setups beschreiben den Einstiegstyp, Fehler und Emotionen den Zustand. Die Farben folgen deinen Akzent-, Verlust- und Break-even-Farben.": {
+  "wo": "Einstellungen: mentor"
+ },
+ "Import- und Änderungsverlauf deines Journals.": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "Imports": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "Verlauf": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "Quelle": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "Datei": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "Hochgeladen": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "Duplikate": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "Noch keine Imports": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "CSV-Importe und eingespielte Sicherungen erscheinen hier.": {
+  "wo": "Einstellungen: inhalte"
+ },
+ "aktiv": {
+  "wo": "Einstellungen: Konten"
+ },
+ "Voriger Tag": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Nächster Tag": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Check-in": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Trade für diesen Tag": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Brutto-P&L": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Gewinner / Verlierer": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Volumen": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Trades des Tages": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Keine Trades an diesem Tag": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Ein ruhiger Tag ist auch ein guter Tag.": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Kein Check-in": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Schlaf, Stress und Stimmung vor dem Handel festhalten.": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Check-in nachtragen": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Regeln des Tages": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "{0} von {1} eingehalten": {
+  "wo": "Einstellungen: Konto-Dialog",
+  "beispiel": "0 von 5 eingehalten"
+ },
+ "Tagesnotiz": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Noch keine Tagesnotiz": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Halte fest, wie der Tag lief und was du mitnimmst.": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Tagesnotiz anlegen": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Marktphase": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Trend": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Aufwärts": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Abwärts": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Seitwärts": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Volatilität": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "niedrig": {
+  "wo": "Einstellungen: Konto-Dialog"
+ },
+ "Daily Profit Certificate": {
+  "wo": "Seitentitel day"
+ },
+ "Abhaken, welche Regeln du heute eingehalten hast. Die Quote erscheint im Fortschritt.": {
+  "wo": "Seitentitel day"
+ },
+ "Die Tagesnotiz liegt im Notebook im Ordner „Daily Journal“.": {
+  "wo": "Seitentitel day"
+ },
+ "Die Marktphase des Tages fließt in die Auswertung „Marktphase“ ein.": {
+  "wo": "Seitentitel day"
+ },
+ "Kumulierter Netto-P&L": {
+  "wo": "Seitentitel day"
+ },
+ "Zeit": {
+  "wo": "Seitentitel day"
+ },
+ "Zustand": {
+  "wo": "Seitentitel day"
+ },
+ "Edge-Check": {
+  "wo": "Seitentitel day"
+ },
+ "Monte Carlo": {
+  "wo": "Seitentitel day"
+ },
+ "Trade-Erwartungswert": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Netto-P&L pro Trade": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Tagesvolumen": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Tages-Gewinn/Verlust": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Tages-Netto-P&L": {
+  "wo": "Seitentitel day"
+ },
+ "Handelstage": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Tages-Win-Rate": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Trade-Gewinn/Verlust": {
+  "wo": "Seitentitel day"
+ },
+ "Ø geplantes R-Multiple": {
+  "wo": "Seitentitel day"
+ },
+ "Max. Tages-Drawdown": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Haltedauer": {
+  "wo": "Seitentitel day"
+ },
+ "Ø realisiertes R-Multiple": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Tages-Drawdown": {
+  "wo": "Seitentitel day"
+ },
+ "Serien": {
+  "wo": "Seitentitel day"
+ },
+ "Aktuelle Serie": {
+  "wo": "Seitentitel day"
+ },
+ "{0} Gewinne": {
+  "wo": "Seitentitel day",
+  "beispiel": "1 Gewinne"
+ },
+ "Längste Gewinnserie": {
+  "wo": "Seitentitel day"
+ },
+ "Längste Verlustserie": {
+  "wo": "Seitentitel day"
+ },
+ "Größter Gewinn": {
+  "wo": "Seitentitel day"
+ },
+ "Größter Verlust": {
+  "wo": "Seitentitel day"
+ },
+ "Drawdown & Risiko": {
+  "wo": "Seitentitel day"
+ },
+ "Max. Drawdown": {
+  "wo": "Seitentitel day"
+ },
+ "Max. Drawdown vom Konto": {
+  "wo": "Seitentitel day"
+ },
+ "Erholungsfaktor": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Risiko pro Trade": {
+  "wo": "Seitentitel day"
+ },
+ "Gebühren gesamt": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Gewinner": {
+  "wo": "Seitentitel day"
+ },
+ "Ø Verlierer": {
+  "wo": "Seitentitel day"
+ },
+ "Ø gesamt": {
+  "wo": "Seitentitel day"
+ },
+ "Trades pro Tag": {
+  "wo": "Seitentitel day"
+ },
+ "Bester Tag": {
+  "wo": "Seitentitel day"
+ },
+ "Schlechtester Tag": {
+  "wo": "Seitentitel day"
+ },
+ "Summe aller abgeschlossenen Trades nach Gebühren.": {
+  "wo": "Seitentitel stats"
+ },
+ "Win-Rate × Ø Gewinn + Verlustrate × Ø Verlust.": {
+  "wo": "Seitentitel stats"
+ },
+ "Netto-P&L geteilt durch Anzahl der Trades.": {
+  "wo": "Seitentitel stats"
+ },
+ "Gehandelte Stückzahl pro Handelstag.": {
+  "wo": "Seitentitel stats"
+ },
+ "Anteil der Gewinn-Trades an allen abgeschlossenen Trades.": {
+  "wo": "Seitentitel stats"
+ },
+ "Durchschnittlicher Gewinntag geteilt durch durchschnittlichen Verlusttag.": {
+  "wo": "Seitentitel stats"
+ },
+ "Netto-P&L pro Handelstag.": {
+  "wo": "Seitentitel stats"
+ },
+ "Tage mit mindestens einem abgeschlossenen Trade.": {
+  "wo": "Seitentitel stats"
+ },
+ "Anteil der Tage mit positivem Ergebnis.": {
+  "wo": "Seitentitel stats"
+ },
+ "Durchschnittlicher Gewinn geteilt durch durchschnittlichen Verlust.": {
+  "wo": "Seitentitel stats"
+ },
+ "Geplantes Chance-Risiko-Verhältnis aus Einstieg, Stop und Ziel.": {
+  "wo": "Seitentitel stats"
+ },
+ "Größter Rückgang vom Tageshoch innerhalb eines Tages.": {
+  "wo": "Seitentitel stats"
+ },
+ "Bruttogewinn geteilt durch Bruttoverlust.": {
+  "wo": "Seitentitel stats"
+ },
+ "Durchschnittliche Zeit zwischen Einstieg und Ausstieg.": {
+  "wo": "Seitentitel stats"
+ },
+ "Erzielter Gewinn oder Verlust im Verhältnis zum geplanten Risiko.": {
+  "wo": "Seitentitel stats"
+ },
+ "Durchschnittlicher Rückgang vom Tageshoch.": {
+  "wo": "Seitentitel stats"
+ },
+ "Notizen durchsuchen": {
+  "wo": "Seitentitel stats"
+ },
+ "Ordner": {
+  "wo": "Seitentitel stats"
+ },
+ "Alle": {
+  "wo": "Seitentitel stats"
+ },
+ "Zurücksetzen": {
+  "wo": "Seitentitel stats"
+ },
+ "Ordner hinzufügen": {
+  "wo": "Seitentitel stats"
+ },
+ "Spalte einklappen": {
+  "wo": "Seitentitel stats"
+ },
+ "Alle Notizen": {
+  "wo": "Seitentitel stats"
+ },
+ "Ordnermenü": {
+  "wo": "Seitentitel stats"
+ },
+ "Umbenennen": {
+  "wo": "Seitentitel stats"
+ },
+ "Farbe ändern": {
+  "wo": "Seitentitel stats"
+ },
+ "Kürzlich gelöscht": {
+  "wo": "Seitentitel stats"
+ },
+ "Zurück": {
+  "wo": "Seitentitel stats"
+ },
+ "Neue Notiz": {
+  "wo": "Seitentitel stats"
+ },
+ "Notizen auswählen": {
+  "wo": "Seitentitel stats"
+ },
+ "Sortieren": {
+  "wo": "Seitentitel stats"
+ },
+ "Zuletzt bearbeitet": {
+  "wo": "Seitentitel stats"
+ },
+ "Neueste zuerst": {
+  "wo": "Seitentitel stats"
+ },
+ "Älteste zuerst": {
+  "wo": "Seitentitel stats"
+ },
+ "Titel A–Z": {
+  "wo": "Seitentitel stats"
+ },
+ "Gespeichert": {
+  "wo": "Seitentitel stats"
+ },
+ "Teilen": {
+  "wo": "Seitentitel stats"
+ },
+ "In Ordner verschieben": {
+  "wo": "Seitentitel stats"
+ },
+ "Duplizieren": {
+  "wo": "Seitentitel stats"
+ },
+ "Aus Datei laden": {
+  "wo": "Seitentitel stats"
+ },
+ "Exportieren (JSON)": {
+  "wo": "Seitentitel stats"
+ },
+ "Als PDF herunterladen": {
+  "wo": "Seitentitel stats"
+ },
+ "Titel": {
+  "wo": "Seitentitel stats"
+ },
+ "Erstellt: {0}, {1}": {
+  "wo": "Seitentitel stats",
+  "beispiel": "Erstellt: 03.10.2026, 01:55"
+ },
+ "Zuletzt bearbeitet: {0}, {1}": {
+  "wo": "Seitentitel stats",
+  "beispiel": "Zuletzt bearbeitet: 03.10.2026, 01:55"
+ },
+ "Tag hinzufügen": {
+  "wo": "Seitentitel stats"
+ },
+ "Eigene": {
+  "wo": "Seitentitel stats"
+ },
+ "Neuen Tag anlegen": {
+  "wo": "Seitentitel stats"
+ },
+ "Rückgängig (Strg+Z)": {
+  "wo": "Seitentitel stats"
+ },
+ "Wiederholen (Strg+Umschalt+Z)": {
+  "wo": "Seitentitel stats"
+ },
+ "Einfügen": {
+  "wo": "Seitentitel stats"
+ },
+ "Grundbausteine": {
+  "wo": "Seitentitel stats"
+ },
+ "Absatz": {
+  "wo": "Seitentitel stats"
+ },
+ "Tabelle": {
+  "wo": "Seitentitel stats"
+ },
+ "Code": {
+  "wo": "Seitentitel stats"
+ },
+ "Zitat": {
+  "wo": "Seitentitel stats"
+ },
+ "Trennlinie": {
+  "wo": "Seitentitel stats"
+ },
+ "Emoji": {
+  "wo": "Seitentitel stats"
+ },
+ "Listen": {
+  "wo": "Seitentitel stats"
+ },
+ "Aufzählung": {
+  "wo": "Seitentitel stats"
+ },
+ "Nummerierte Liste": {
+  "wo": "Seitentitel stats"
+ },
+ "To-do-Liste": {
+  "wo": "Seitentitel stats"
+ },
+ "Aufklappbare Liste": {
+  "wo": "Seitentitel stats"
+ },
+ "Vorlagen": {
+  "wo": "Seitentitel stats"
+ },
+ "Neue Vorlage …": {
+  "wo": "Seitentitel stats"
+ },
+ "Umwandeln in": {
+  "wo": "Seitentitel stats"
+ },
+ "Kleiner": {
+  "wo": "Seitentitel stats"
+ },
+ "Schriftgröße": {
+  "wo": "Seitentitel stats"
+ },
+ "Größer": {
+  "wo": "Seitentitel stats"
+ },
+ "Fett (Strg+B)": {
+  "wo": "Seitentitel stats"
+ },
+ "Kursiv (Strg+I)": {
+  "wo": "Seitentitel stats"
+ },
+ "Unterstrichen (Strg+U)": {
+  "wo": "Seitentitel stats"
+ },
+ "Durchgestrichen (Strg+Umschalt+M)": {
+  "wo": "Seitentitel stats"
+ },
+ "Schriftfarbe": {
+  "wo": "Seitentitel stats"
+ },
+ "Eigene Farben": {
+  "wo": "Seitentitel stats"
+ },
+ "Eigene Farbe": {
+  "wo": "Seitentitel stats"
+ },
+ "Farbe entfernen": {
+  "wo": "Seitentitel stats"
+ },
+ "Textmarker": {
+  "wo": "Seitentitel stats"
+ },
+ "Bild": {
+  "wo": "Seitentitel stats"
+ },
+ "Vom Computer hochladen": {
+  "wo": "Seitentitel stats"
+ },
+ "Über Adresse einfügen": {
+  "wo": "Seitentitel stats"
+ },
+ "Oder ein Bild mit Strg+V einfügen oder in die Notiz ziehen.": {
+  "wo": "Seitentitel stats"
+ },
+ "YouTube-Link erkannt": {
+  "wo": "Seitentitel stats"
+ },
+ "Als Video einbetten": {
+  "wo": "Seitentitel stats"
+ },
+ "Als Link lassen": {
+  "wo": "Seitentitel stats"
+ },
+ "Filtern nach Ordner, Tag und Zeitraum": {
+  "wo": "Seitentitel notebook"
+ },
+ "Sortieren: Zuletzt bearbeitet": {
+  "wo": "Seitentitel notebook"
+ },
+ "Datum der Notiz ändern": {
+  "wo": "Seitentitel notebook"
+ },
+ "Nur-Lese-Link erzeugen": {
+  "wo": "Seitentitel notebook"
+ },
+ "{0} Tage": {
+  "wo": "Seitentitel notebook",
+  "beispiel": "3 Tage"
+ },
+ "steigend": {
+  "wo": "Seitentitel notebook"
+ },
+ "Werktage in Folge mit Trades, Check-in oder Notiz": {
+  "wo": "Seitentitel notebook"
+ },
+ "Heutiger Fortschritt": {
+  "wo": "Seitentitel notebook"
+ },
+ "Keine Daten": {
+  "wo": "Seitentitel notebook"
+ },
+ "{0} von {1} Schritten erledigt": {
+  "wo": "Seitentitel notebook",
+  "beispiel": "0 von 5 Schritten erledigt"
+ },
+ "% Regeln eingehalten": {
+  "wo": "Seitentitel notebook"
+ },
+ "{0} Tage mit Regel-Check im Zeitraum": {
+  "wo": "Seitentitel notebook",
+  "beispiel": "81 Tage mit Regel-Check im Zeitraum"
+ },
+ "Trading-Aktivität": {
+  "wo": "Seitentitel notebook"
+ },
+ "Vor": {
+  "wo": "Seitentitel notebook"
+ },
+ "Weniger": {
+  "wo": "Seitentitel notebook"
+ },
+ "Tages-Checkliste": {
+  "wo": "Seitentitel notebook"
+ },
+ "Tag ansehen": {
+  "wo": "Seitentitel notebook"
+ },
+ "Automatische Regeln": {
+  "wo": "Seitentitel notebook"
+ },
+ "Noch keine Trades heute.": {
+  "wo": "Seitentitel notebook"
+ },
+ "Dein Tag": {
+  "wo": "Seitentitel notebook"
+ },
+ "Check-in gemacht": {
+  "wo": "Seitentitel notebook"
+ },
+ "Session gestartet": {
+  "wo": "Seitentitel notebook"
+ },
+ "Trades geloggt": {
+  "wo": "Seitentitel notebook"
+ },
+ "Regeln abgehakt": {
+  "wo": "Seitentitel notebook"
+ },
+ "Tagesnotiz geschrieben": {
+  "wo": "Seitentitel notebook"
+ },
+ "Aktuelle Regeln": {
+  "wo": "Seitentitel notebook"
+ },
+ "Regeln bearbeiten": {
+  "wo": "Seitentitel notebook"
+ },
+ "Disziplin pro Woche": {
+  "wo": "Seitentitel notebook"
+ },
+ "Ø Disziplin-Score der Trades im Zeitraum:": {
+  "wo": "Seitentitel notebook"
+ },
+ "Dein Tilt-Profil": {
+  "wo": "Seitentitel notebook"
+ },
+ "Tage mit {0} Verlusten in Folge": {
+  "wo": "Seitentitel notebook",
+  "beispiel": "Tage mit 3 Verlusten in Folge"
+ },
+ "Davon negativ beendet": {
+  "wo": "Seitentitel notebook"
+ },
+ "P&L nach der Serie": {
+  "wo": "Seitentitel notebook"
+ },
+ "Nach Verlustserien hast du dich bisher gefangen. Bleib trotzdem wachsam.": {
+  "wo": "Seitentitel notebook"
+ },
+ "Regeln im Detail": {
+  "wo": "Seitentitel notebook"
+ },
+ "Regel": {
+  "wo": "Seitentitel notebook"
+ },
+ "Eingehalten (Tage)": {
+  "wo": "Seitentitel notebook"
+ },
+ "Gebrochen (Trades)": {
+  "wo": "Seitentitel notebook"
+ },
+ "Kosten": {
+  "wo": "Seitentitel notebook"
+ },
+ "Keine Trades": {
+  "wo": "Seitentitel notebook"
+ },
+ "Wochenenden unterbrechen die Serie nicht.": {
+  "wo": "Seitentitel progress"
+ },
+ "Check-in, Session, Trades, Regeln, Tagesnotiz.": {
+  "wo": "Seitentitel progress"
+ },
+ "Anteil der abgehakten Regeln an den Handelstagen im gewählten Zeitraum.": {
+  "wo": "Seitentitel progress"
+ },
+ "Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Grün. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.": {
+  "wo": "Seitentitel progress"
+ },
+ "Check-in ✓": {
+  "wo": "Seitentitel progress"
+ },
+ "{0} Trade · {1}": {
+  "wo": "Seitentitel progress",
+  "beispiel": "1 Trade · −429,27 €"
+ },
+ "{0} Trades · {1}": {
+  "wo": "Seitentitel progress",
+  "beispiel": "2 Trades · +680,17 €"
+ },
+ "Notiz ✓": {
+  "wo": "Seitentitel progress"
+ },
+ "Durchschnittlicher Disziplin-Score der Trades je Woche.": {
+  "wo": "Seitentitel progress"
+ },
+ "Woche ab {0}: Score {1} ({2} Trades)": {
+  "wo": "Seitentitel progress",
+  "beispiel": "Woche ab 27. Juli: Score 95 (11 Trades)"
+ },
+ "Woche ab {0}t.: Score {1} ({2} Trades)": {
+  "wo": "Seitentitel progress",
+  "beispiel": "Woche ab 07. Sept.: Score 94 (12 Trades)"
+ },
+ "Aus deiner Historie gelernt: Wie enden Tage, an denen du drei Verluste in Folge hattest?": {
+  "wo": "Seitentitel progress"
+ },
+ "Wie oft jede Regel abgehakt wurde und was gebrochene Regeln gekostet haben.": {
+  "wo": "Seitentitel progress"
+ },
+ "Dein Schatten-Ich handelt wie du – nur ohne Regelbrüche.": {
+  "wo": "Seitentitel progress"
+ },
+ "Was die Abweichung kostet, siehst du hier.": {
+  "wo": "Seitentitel progress"
+ },
+ "Bildkarte": {
+  "wo": "Seitentitel progress"
+ },
+ "Disziplin-Kosten": {
+  "wo": "Seitentitel progress"
+ },
+ "Alles nach Regeln": {
+  "wo": "Seitentitel progress"
+ },
+ "Echt": {
+  "wo": "Seitentitel progress"
+ },
+ "Mit allen Regeln eingehalten": {
+  "wo": "Seitentitel progress"
+ },
+ "Verstöße": {
+  "wo": "Seitentitel progress"
+ },
+ "{0} der Trades": {
+  "wo": "Seitentitel progress",
+  "beispiel": "0 % der Trades"
+ },
+ "Equity: echt vs. Schatten-Ich": {
+  "wo": "Seitentitel progress"
+ },
+ "Mein Regelwerk": {
+  "wo": "Seitentitel progress"
+ },
+ "Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Trades pro Tag": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Trades pro Tag: Trades": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Tagesverlust": {
+  "wo": "Seitentitel progress"
+ },
+ "Wert": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Tagesverlust: Wert": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Tagesverlust: Einheit": {
+  "wo": "Seitentitel progress"
+ },
+ "R-Einheit": {
+  "wo": "Seitentitel progress"
+ },
+ "% vom Konto": {
+  "wo": "Seitentitel progress"
+ },
+ "Betrag (€)": {
+  "wo": "Seitentitel progress"
+ },
+ "Stopp nach Verlusten in Folge": {
+  "wo": "Seitentitel progress"
+ },
+ "Verluste": {
+  "wo": "Seitentitel progress"
+ },
+ "Stopp nach Verlusten in Folge: Verluste": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Risiko pro Trade": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Risiko pro Trade: Wert": {
+  "wo": "Seitentitel progress"
+ },
+ "Max. Risiko pro Trade: Einheit": {
+  "wo": "Seitentitel progress"
+ },
+ "Erlaubte Handelszeiten": {
+  "wo": "Seitentitel progress"
+ },
+ "Erlaubte Handelszeiten: Von": {
+  "wo": "Seitentitel progress"
+ },
+ "Erlaubte Handelszeiten: Bis": {
+  "wo": "Seitentitel progress"
+ },
+ "Nur bestimmte Setups": {
+  "wo": "Seitentitel progress"
+ },
+ "Kein neuer Trade nach Verlust": {
+  "wo": "Seitentitel progress"
+ },
+ "Minuten": {
+  "wo": "Seitentitel progress"
+ },
+ "Kein neuer Trade nach Verlust: Minuten": {
+  "wo": "Seitentitel progress"
+ },
+ "Regelverstöße": {
+  "wo": "Seitentitel progress"
+ },
+ "Keine Verstöße": {
+  "wo": "Seitentitel progress"
+ },
+ "In diesem Zeitraum hast du dich an deine Regeln gehalten.": {
+  "wo": "Seitentitel progress"
+ },
+ "Welche Regel kostet am meisten": {
+  "wo": "Seitentitel progress"
+ },
+ "Netto-Effekt der Verstöße auf dein Konto": {
+  "wo": "Seitentitel progress"
+ },
+ "Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.": {
+  "wo": "Seitentitel shadow"
+ },
+ "Kumuliert über alle abgeschlossenen Trades. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.": {
+  "wo": "Seitentitel shadow"
+ },
+ "Die erste verletzte Regel zählt als Grund. Klick auf eine Zeile öffnet den Trade.": {
+  "wo": "Seitentitel shadow"
+ },
+ "Du siehst den Chart vor dem Einstieg, Instrument und Uhrzeit, aber nicht das Ergebnis. Entscheide, ob du den Trade nehmen würdest. Richtig heißt: Gewinner genommen oder Verlierer geskippt. Falsch eingeschätzte Trades kommen öfter wieder.": {
+  "wo": "Seitentitel shadow"
+ },
+ "({0} Karten)": {
+  "wo": "Seitentitel shadow",
+  "beispiel": "(10 Karten)"
+ },
+ "{0} Trades mit „Screenshot vor Entry“": {
+  "wo": "Seitentitel shadow",
+  "beispiel": "35 Trades mit „Screenshot vor Entry“"
+ },
+ "Trefferquote": {
+  "wo": "Seitentitel shadow"
+ },
+ "{0} Karten": {
+  "wo": "Seitentitel shadow",
+  "beispiel": "20 Karten"
+ },
+ "Letzte {0}": {
+  "wo": "Seitentitel shadow",
+  "beispiel": "Letzte 20"
+ },
+ "Sessions": {
+  "wo": "Seitentitel shadow"
+ },
+ "Karteikasten": {
+  "wo": "Seitentitel shadow"
+ },
+ "Fach {0}": {
+  "wo": "Seitentitel shadow",
+  "beispiel": "Fach 1"
+ },
+ "Trefferquote je Setup": {
+  "wo": "Seitentitel shadow"
+ },
+ "Karten": {
+  "wo": "Seitentitel shadow"
+ },
+ "Richtig": {
+  "wo": "Seitentitel shadow"
+ },
+ "Quote": {
+  "wo": "Seitentitel shadow"
+ },
+ "Sicherheit vs. Treffer": {
+  "wo": "Seitentitel shadow"
+ },
+ "Sicherheit {0}": {
+  "wo": "Seitentitel shadow",
+  "beispiel": "Sicherheit 1"
+ },
+ "Trefferquote je Session in Prozent, älteste links.": {
+  "wo": "Seitentitel shadow"
+ },
+ "Fach {0}: zuletzt falsch eingeschätzt, kommt am häufigsten. Fach {1}: dreimal in Folge richtig.": {
+  "wo": "Seitentitel replay",
+  "beispiel": "Fach 1: zuletzt falsch eingeschätzt, kommt am häufigsten. Fach 3: dreimal in Folge richtig."
+ },
+ "Wie oft du richtig lagst, je nachdem wie sicher du dir warst.": {
+  "wo": "Seitentitel replay"
+ },
+ "Der Mentor sieht die letzten {0} Trades dieses Kontos.": {
+  "wo": "Seitentitel replay",
+  "beispiel": "Der Mentor sieht die letzten 20 Trades dieses Kontos."
+ },
+ "Mentor-Chat einrichten": {
+  "wo": "Seitentitel replay"
+ },
+ "Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.": {
+  "wo": "Seitentitel replay"
+ },
+ "Zu den Einstellungen": {
+  "wo": "Seitentitel replay"
+ },
+ "Anleitung zum Server:": {
+  "wo": "Seitentitel replay"
+ },
+ "im Projekt.": {
+  "wo": "Seitentitel replay"
+ },
+ "Prop-Konto": {
+  "wo": "Seitentitel mentor"
+ },
+ "Cockpit": {
+  "wo": "Seitentitel mentor"
+ },
+ "Bilanz": {
+  "wo": "Seitentitel mentor"
+ },
+ "Rechner": {
+  "wo": "Seitentitel mentor"
+ },
+ "Payout": {
+  "wo": "Seitentitel mentor"
+ },
+ "Friedhof": {
+  "wo": "Seitentitel mentor"
+ },
+ "Challenge vs. Funded": {
+  "wo": "Seitentitel mentor"
+ },
+ "Simulation": {
+  "wo": "Seitentitel mentor"
+ },
+ "Aktive Konten": {
+  "wo": "Seitentitel mentor"
+ },
+ "alle im grünen oder gelben Bereich": {
+  "wo": "Seitentitel mentor"
+ },
+ "P&L aktive Konten": {
+  "wo": "Seitentitel mentor"
+ },
+ "Summe der geschlossenen Trades seit Start": {
+  "wo": "Seitentitel mentor"
+ },
+ "Bestanden": {
+  "wo": "Seitentitel mentor"
+ },
+ "{0} Funded-Konto": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "1 Funded-Konto"
+ },
+ "Geplatzt": {
+  "wo": "Seitentitel mentor"
+ },
+ "{0} archiviert": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "1 archiviert"
+ },
+ "Alle Firmen": {
+  "wo": "Seitentitel mentor"
+ },
+ "Alle Phasen": {
+  "wo": "Seitentitel mentor"
+ },
+ "Challenge {0}": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "Challenge 1"
+ },
+ "Funded": {
+  "wo": "Seitentitel mentor"
+ },
+ "Alle Status": {
+  "wo": "Seitentitel mentor"
+ },
+ "Archiviert": {
+  "wo": "Seitentitel mentor"
+ },
+ "Ampel Inaktiv · {0} des Limits übrig": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "Ampel Inaktiv · 61 % des Limits übrig"
+ },
+ "{0}0K · Forex / CFD": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "100K · Forex / CFD"
+ },
+ "Balance": {
+  "wo": "Seitentitel mentor"
+ },
+ "{0} Trades · {1} Handelstage": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "21 Trades · 11 Handelstage"
+ },
+ "Daily Loss übrig": {
+  "wo": "Seitentitel mentor"
+ },
+ "von {0}": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "von 5.000,00 $"
+ },
+ "Max. Drawdown übrig": {
+  "wo": "Seitentitel mentor"
+ },
+ "Fortschritt zum Ziel": {
+  "wo": "Seitentitel mentor"
+ },
+ "· {0} fehlen": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "· 13.890 $ fehlen"
+ },
+ "Bestehen": {
+  "wo": "Seitentitel mentor"
+ },
+ "Konto geplatzt": {
+  "wo": "Seitentitel mentor"
+ },
+ "Puffer in Stops": {
+  "wo": "Seitentitel mentor"
+ },
+ "noch {0} Stop-Losses": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "noch 20 Stop-Losses"
+ },
+ "Trades zuordnen": {
+  "wo": "Seitentitel mentor"
+ },
+ "{0}0K Starter · Futures": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "50K Starter · Futures"
+ },
+ "Daily Loss": {
+  "wo": "Seitentitel mentor"
+ },
+ "keine Regel": {
+  "wo": "Seitentitel mentor"
+ },
+ "in {0} Handelstag · Gewinn fehlt: {1}": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "in 1 Handelstag · Gewinn fehlt: 3.000,00 €"
+ },
+ "Stop-Größe unbekannt": {
+  "wo": "Seitentitel mentor"
+ },
+ "{0} Konten · Copy-Trading": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "2 Konten · Copy-Trading"
+ },
+ "Ampel Grün · {0} des Limits übrig": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "Ampel Grün · 372 % des Limits übrig"
+ },
+ "{0}0K · Futures · Copy NQ": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "100K · Futures · Copy NQ"
+ },
+ "· erreicht": {
+  "wo": "Seitentitel mentor"
+ },
+ "Nächster Payout": {
+  "wo": "Seitentitel mentor"
+ },
+ "bereit": {
+  "wo": "Seitentitel mentor"
+ },
+ "Gewinn fehlt: {0} ·": {
+  "wo": "Seitentitel mentor",
+  "beispiel": "Gewinn fehlt: 1.946,15 € ·"
+ },
+ "Consistency verletzt": {
+  "wo": "Seitentitel mentor"
+ },
+ "Wo stehst du gerade?": {
+  "wo": "Seitentitel prop"
+ },
+ "Ein paar Minuten, um klar in den Handel zu gehen und sauber wieder herauszukommen.": {
+  "wo": "Seitentitel prop"
+ },
+ "Vor dem Trading": {
+  "wo": "Seitentitel prop"
+ },
+ "Ankommen, Check-in, Tagesregeln. Etwa {0} Minuten.": {
+  "wo": "Seitentitel prop",
+  "beispiel": "Ankommen, Check-in, Tagesregeln. Etwa 6 Minuten."
+ },
+ "Nach dem Trading": {
+  "wo": "Seitentitel prop"
+ },
+ "Runterfahren, einordnen, abschalten. Etwa {0} Minuten.": {
+  "wo": "Seitentitel prop",
+  "beispiel": "Runterfahren, einordnen, abschalten. Etwa 6 Minuten."
+ },
+ "Akut-Reset": {
+  "wo": "Seitentitel prop"
+ },
+ "Gerade aufgewühlt? Eine Minute, bevor du irgendetwas klickst.": {
+  "wo": "Seitentitel prop"
+ },
+ "Christlicher Impuls ausschalten": {
+  "wo": "Seitentitel prop"
+ },
+ "an · Bibelvers, Gebet, Atemgebet": {
+  "wo": "Seitentitel prop"
+ },
+ "Hilfe und Beratung": {
+  "wo": "Seitentitel prop"
+ },
+ "Menü schließen": {
+  "wo": "Handy: Kopfzeile und Dashboard"
+ },
+ "von {0} Seite": {
+  "wo": "Handy: Dashboard",
+  "beispiel": "von 1 Seite"
+ }
+}

@@ -1,0 +1,1195 @@
+[
+ {
+  "de": "{0} Trades",
+  "wo": "start",
+  "beispiel": "174 Trades"
+ },
+ {
+  "de": "Ø {0} pro Trade",
+  "wo": "start",
+  "beispiel": "Ø +78,23 € pro Trade"
+ },
+ {
+  "de": "Summe der Netto-Ergebnisse (nach Gebühren) aller geschlossenen Trades im gewählten Zeitraum. Rechts die Anzahl der Trades.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "Gewinn-Trades geteilt durch alle geschlossenen Trades. Break-even-Trades zählen nicht als Gewinn.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "Bruttogewinn geteilt durch Bruttoverlust. Über {0} gilt als gut, unter {1} ist das Konto langfristig im Minus.",
+  "wo": "Dashboard",
+  "beispiel": "Bruttogewinn geteilt durch Bruttoverlust. Über 1,5 gilt als gut, unter 1 ist das Konto langfristig im Minus."
+ },
+ {
+  "de": "Anteil der Handelstage mit positivem Netto-Ergebnis an allen Handelstagen im Zeitraum.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "Durchschnittlicher Gewinn-Trade geteilt durch durchschnittlichen Verlust-Trade. Der Balken zeigt das Verhältnis.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "Sechs Achsen von {0} bis {1}: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert.",
+  "wo": "Dashboard",
+  "beispiel": "Sechs Achsen von 0 bis 100: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert."
+ },
+ {
+  "de": "Teilscore {0}",
+  "wo": "Dashboard",
+  "beispiel": "Teilscore 75"
+ },
+ {
+  "de": "Kumuliertes Netto-Tagesergebnis im Zeitraum. Grün über Null, rot darunter.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "Netto-Ergebnis je Handelstag im Zeitraum. Grüne Säulen sind Gewinntage, rote Verlusttage.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "{0} · {1} Trades",
+  "wo": "Dashboard",
+  "beispiel": "+736,39 € · 3 Trades"
+ },
+ {
+  "de": "{0} · {1} Trade",
+  "wo": "Dashboard",
+  "beispiel": "+321,85 € · 1 Trade"
+ },
+ {
+  "de": "Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Mehr anzeigen“ öffnet das TradeLog.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "Ein Feld pro Tag mit Netto-Ergebnis und Anzahl Trades: grün bei Gewinn, rot bei Verlust, grau bei Break-even. Klick öffnet die Tagesansicht.",
+  "wo": "Dashboard"
+ },
+ {
+  "de": "Datum wählen",
+  "wo": "Dashboard: Menü cert"
+ },
+ {
+  "de": "Monat und Jahr wählen",
+  "wo": "Dashboard: Menü cert"
+ },
+ {
+  "de": "Vorheriger Monat",
+  "wo": "Dashboard: Menü cert"
+ },
+ {
+  "de": "Löschen",
+  "wo": "Dashboard: Menü cert"
+ },
+ {
+  "de": "Bearbeitungsmodus",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Abbrechen",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Speichern",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Ziehen zum Verschieben",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Verschieben",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Nach vorn",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Nach hinten",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Widget entfernen",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Klein",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Mittel",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Groß",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Widget hinzufügen",
+  "wo": "Kalender"
+ },
+ {
+  "de": "Diagramme, Kalender und Listen für den unteren Bereich",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Widget suchen …",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Punktzahl von {0} bis {1} aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als Netz-Diagramm.",
+  "wo": "Dashboard: Bearbeiten",
+  "beispiel": "Punktzahl von 0 bis 100 aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als Netz-Diagramm."
+ },
+ {
+  "de": "Hinzugefügt",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Wie sich der Netto-P&L über die Zeit aufsummiert, als Flächendiagramm.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Trefferquote – Ø Gewinn – Ø Verlust",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Wie sich Trefferquote, Ø Gewinn und Ø Verlust über die Handelstage entwickeln.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Hinzufügen",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Performance nach Uhrzeit",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Punktdiagramm: Uhrzeit des Einstiegs oder Ausstiegs gegen P&L.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Performance nach Haltedauer",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Punktdiagramm: Haltedauer gegen P&L.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Säulendiagramm mit grünen und roten Säulen je Handelstag.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Täglicher & kumulierter P&L",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Säulen für den Tages-P&L und Fläche für den kumulierten P&L in einem Diagramm.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Tabelle mit Datum, Symbol und P&L. Tabs für letzte Trades und offene Positionen.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Monatsansicht: Tage grün, rot oder grau mit P&L und Anzahl Trades. Pfeile zum Monatswechsel.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Kontostand-Verlauf",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Linie: Startkapital plus Netto-P&L über die Zeit.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Drawdown-Verlauf",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Flächendiagramm des Rückgangs vom Höchststand über die Handelstage.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Challenge",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Fortschrittsbalken zu einem eigenen Ziel, z. B. Gewinnziel und maximaler Verlust einer Prop-Firm-Challenge.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Mini-Kalender",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Kompakte Monatsansicht, nur grün und rot ohne Zahlen.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Erweiterter Kalender",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Wie Kalender, mit einer zusätzlichen Spalte rechts mit dem P&L jeder Woche.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Regel-Tracker",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Heatmap wie bei GitHub: je kräftiger, desto mehr Regeln an dem Tag eingehalten. Mit Tages-Score und Link zur Checkliste.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Report",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Bis zu drei Kennzahlen nach Wahl als Linie oder Balken im Zeitverlauf, nach Tag, Woche oder Monat.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Jahreskalender",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "Eine Zeile pro Jahr mit allen zwölf Monaten und Gesamt, umschaltbar zwischen Trefferquote, P&L und Trades.",
+  "wo": "Dashboard: Bearbeiten"
+ },
+ {
+  "de": "z. B. DAX, NQ, EURUSD",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Konto",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Prop-Konten",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "(Copy-Trading: mehrere möglich)",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Topstep {0}0K",
+  "wo": "Dashboard: Widget-Ansicht",
+  "beispiel": "Topstep 50K"
+ },
+ {
+  "de": "Apex Trader Funding {0}0K",
+  "wo": "Dashboard: Widget-Ansicht",
+  "beispiel": "Apex Trader Funding 100K"
+ },
+ {
+  "de": "FTMO {0}0K",
+  "wo": "Dashboard: Widget-Ansicht",
+  "beispiel": "FTMO 100K"
+ },
+ {
+  "de": "Eröffnung",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Schluss",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "(leer = offen)",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Einstiegskurs",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Ausstiegskurs",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Stückzahl / Kontrakte",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Punktwert",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "P&L = (Ausstieg − Einstieg) × Stück × Punktwert",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Gebühren",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Plan",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Geplanter Einstieg",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Stop",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Ziel",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Begründung",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Warum dieser Trade?",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Tiefster Kurs gegen dich (MAE)",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Bester Kurs für dich (MFE)",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Pullback, Breakout …",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Bewertung",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Fehler-Tags",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Neu",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Emotionen",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Gebrochene Regeln",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Notizen",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Was ist passiert, was hast du gelernt?",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Offener Trade · Risiko —",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Trade speichern",
+  "wo": "Dashboard: Widget-Ansicht"
+ },
+ {
+  "de": "Trade bearbeiten",
+  "wo": "Trade-Editor (neu)"
+ },
+ {
+  "de": "Kurzer Check-in, bevor du handelst. Das Journal zeigt dir später, wie dein Zustand mit deinem Ergebnis zusammenhängt.",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "Schlaf (Stunden)",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "Optimal, {0} bis {1} Stunden",
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "Optimal, 7 bis 9 Stunden"
+ },
+ {
+  "de": "Stress ({0} entspannt – {1} sehr gestresst)",
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "Stress (1 entspannt – 5 sehr gestresst)"
+ },
+ {
+  "de": "entspannt",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "leicht",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "hoch",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "sehr hoch",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "Stimmung ({0} schlecht – {1} sehr gut)",
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "Stimmung (1 schlecht – 5 sehr gut)"
+ },
+ {
+  "de": "schlecht",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "mäßig",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "gut",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "sehr gut",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "Notiz",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "Wie fühlst du dich?",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "Fokus für heute",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "z. B. Nur A-Setups, nach {0} Verlusten Schluss",
+  "wo": "Trade-Editor (bearbeiten)",
+  "beispiel": "z. B. Nur A-Setups, nach 2 Verlusten Schluss"
+ },
+ {
+  "de": "Deine Regeln",
+  "wo": "Trade-Editor (bearbeiten)"
+ },
+ {
+  "de": "CSV importieren",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Trades",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Tage",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Verpasste Trades",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Suchen: Symbol, Setup, Notiz …",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Suchen",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Alle Symbole",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Alle Setups",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Alle Ergebnisse",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Fehler",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Fehler: alle",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Nur mit Fehler",
+  "wo": "Session starten"
+ },
+ {
+  "de": "{0} von {1} Trades",
+  "wo": "Session starten",
+  "beispiel": "174 von 174 Trades"
+ },
+ {
+  "de": "Eröffnet",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Einstiegspreis",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Ausstiegspreis",
+  "wo": "Session starten"
+ },
+ {
+  "de": "RR",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Regeln",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Score",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Trades pro Seite:",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Trades pro Seite",
+  "wo": "Session starten"
+ },
+ {
+  "de": "{0} – {1} von {2} Trades",
+  "wo": "Session starten",
+  "beispiel": "1 – 50 von 174 Trades"
+ },
+ {
+  "de": "Seite",
+  "wo": "Session starten"
+ },
+ {
+  "de": "von {0} Seiten",
+  "wo": "Session starten",
+  "beispiel": "von 4 Seiten"
+ },
+ {
+  "de": "Vorherige Seite",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Nächste Seite",
+  "wo": "Session starten"
+ },
+ {
+  "de": "Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Darunter der Verlauf je Handelstag.",
+  "wo": "TradeLog"
+ },
+ {
+  "de": "Stop niemals verschieben, Maximal {0} Risiko pro Trade, Nach zwei Verlusten in Folge Pause machen",
+  "wo": "TradeLog",
+  "beispiel": "Stop niemals verschieben, Maximal 1 % Risiko pro Trade, Nach zwei Verlusten in Folge Pause machen"
+ },
+ {
+  "de": "Stop niemals verschieben, Maximal {0} Risiko pro Trade",
+  "wo": "TradeLog",
+  "beispiel": "Stop niemals verschieben, Maximal 1 % Risiko pro Trade"
+ },
+ {
+  "de": "CSV-Datei hierher ziehen",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "oder klicken zum Auswählen",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "Exporte von Brokern und Plattformen: Spalten werden automatisch erkannt.",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "Oder Text einfügen",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;Stück;Gebühren",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "Einlesen",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "Andere Datei",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "Importieren",
+  "wo": "TradeLog: Menü"
+ },
+ {
+  "de": "Trade",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Seitwärts · Vola normal",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Einstieg",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Ausstieg",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Stück × Punktwert",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Risiko",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Haltedauer",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Plan vs. Ausführung",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Geplant",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Tatsächlich",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Abweichung",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "geplant {0}, erreicht {1}",
+  "wo": "TradeLog: Verpasster Trade",
+  "beispiel": "geplant 2,00 R, erreicht +0,75 R"
+ },
+ {
+  "de": "Disziplin",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Plan vollständig (Einstieg, Stop, Ziel)",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Einstieg nahe am Plan ({0} Abweichung)",
+  "wo": "TradeLog: Verpasster Trade",
+  "beispiel": "Einstieg nahe am Plan (0,15 R Abweichung)"
+ },
+ {
+  "de": "Stop eingehalten",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Keine Fehler-Tags",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Regeln eingehalten",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "MAE / MFE",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Maximal gegen dich (MAE)",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Maximal für dich (MFE)",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Realisiert",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Skala in R, bezogen auf den geplanten Stop-Abstand.",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Tags & Notizen",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Keine Fehler markiert",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Screenshots",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Bilder hierher ziehen, einfügen (Strg+V) oder klicken",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Screenshot vor Entry",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Für das Blind-Replay",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Chart vor dem Einstieg hierher ziehen oder klicken",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Sprachjournal",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Noch keine Sprachnotizen.",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "{0} Sekunden aufnehmen",
+  "wo": "TradeLog: Verpasster Trade",
+  "beispiel": "30 Sekunden aufnehmen"
+ },
+ {
+  "de": "Text-Notiz",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Notiz im Notebook",
+  "wo": "TradeLog: Verpasster Trade"
+ },
+ {
+  "de": "Vergleich von geplantem Einstieg, Stop und Ziel mit der tatsächlichen Ausführung.",
+  "wo": "Trade-Detail"
+ },
+ {
+  "de": "Plan {0}, Einstieg {1}, Stop {2}, keine Fehler-Tags {3}, Regeln {4} Punkte.",
+  "wo": "Trade-Detail",
+  "beispiel": "Plan 25, Einstieg 20, Stop 25, keine Fehler-Tags 20, Regeln 10 Punkte."
+ },
+ {
+  "de": "Maximale Bewegung gegen dich (MAE) und für dich (MFE) während des Trades, gemessen in R.",
+  "wo": "Trade-Detail"
+ },
+ {
+  "de": "Chart-Screenshots zum Trade. Werden lokal im Browser gespeichert.",
+  "wo": "Trade-Detail"
+ },
+ {
+  "de": "Der Chart, wie er vor dem Einstieg aussah, ohne Ergebnis. Nur Trades mit diesem Bild erscheinen im Blind-Replay.",
+  "wo": "Trade-Detail"
+ },
+ {
+  "de": "Bis zu {0} Sekunden sprechen. Transkript im Browser, Auswertung über den Mentor-Server als Vorschläge für Emotion, Setup und Fehler-Tags, die du bestätigst.",
+  "wo": "Trade-Detail",
+  "beispiel": "Bis zu 30 Sekunden sprechen. Transkript im Browser, Auswertung über den Mentor-Server als Vorschläge für Emotion, Setup und Fehler-Tags, die du bestätigst."
+ },
+ {
+  "de": "Design",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Sprache",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Benachrichtigungen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Abo",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Trading",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Inhalte",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Logs",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Deine persönlichen Angaben.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Foto hochladen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Profilbild",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "PNG oder JPG, wird nur in diesem Browser gespeichert.",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Hochladen",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Vorname",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Nachname",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Benutzername",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "E-Mail",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Adresse",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Straße, PLZ Ort",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Bio",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Ein paar Worte zu dir und deinem Trading",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Zeitzone",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Abidjan",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Accra",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Addis Ababa",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Algiers",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Asmera",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Bamako",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Bangui",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Banjul",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Bissau",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Blantyre",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Brazzaville",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Bujumbura",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Cairo",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Casablanca",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Ceuta",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Conakry",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Dakar",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Dar es Salaam",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Djibouti",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Douala",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/El Aaiun",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Freetown",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Gaborone",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Harare",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Johannesburg",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Juba",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Kampala",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Khartoum",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Kigali",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Kinshasa",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Lagos",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Libreville",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Lome",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Luanda",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Lubumbashi",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Lusaka",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Malabo",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Maputo",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Maseru",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Mbabane",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Mogadishu",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Monrovia",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Nairobi",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Ndjamena",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Niamey",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Nouakchott",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Ouagadougou",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Porto-Novo",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Sao Tome",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Tripoli",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Tunis",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "Africa/Windhoek",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Adak",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Anchorage",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Anguilla",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Antigua",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Araguaina",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Argentina/La Rioja",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Argentina/Rio Gallegos",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Argentina/Salta",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Argentina/San Juan",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Argentina/San Luis",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Argentina/Tucuman",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Argentina/Ushuaia",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Aruba",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Asuncion",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Bahia",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Bahia Banderas",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Barbados",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Belem",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Belize",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Blanc-Sablon",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Boa Vista",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Bogota",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Boise",
+  "wo": "Trade-Detail: Menü"
+ },
+ {
+  "de": "America/Buenos Aires",
+  "wo": "Trade-Detail: Menü"
+ }
+]

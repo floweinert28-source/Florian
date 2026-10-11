@@ -1,0 +1,53 @@
+const { chromium } = require('playwright');
+const base = 'file:///home/user/Florian/web/app.html';
+const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${n}${x ? ' · ' + x : ''}`);
+(async () => {
+  const browser = await chromium.launch(); const errs = [];
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message)); await require('./localfonts.js')(p);
+  await p.goto(base + '#/settings/profil', { waitUntil: 'load' }); await p.waitForTimeout(500);
+  ok('12 Bereiche inkl. Design, Sprache und Mentor', await p.$$eval('.set-nav a', a => a.length) === 12);
+  await p.fill('#pf-first', 'Florian'); await p.fill('#pf-last', 'Weinert'); await p.fill('#pf-user', 'flo'); await p.fill('#pf-mail', 'flo@example.com'); await p.fill('#pf-addr', 'Musterstraße 1, 12345 Berlin'); await p.fill('#pf-bio', 'Daytrader seit 2024.'); await p.selectOption('#pf-tz', 'Europe/Berlin'); await p.click('form[data-action="save-profile"] button[type=submit]'); await p.waitForTimeout(300);
+  ok('Profil gespeichert, Name abgeleitet', await p.evaluate(() => Store.settings.profile.email === 'flo@example.com' && Store.settings.profile.timezone === 'Europe/Berlin' && Store.settings.name === 'Florian Weinert') && (await p.textContent('.topbar .avatar')).trim() === 'FW');
+  // Foto
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
+  await p.setInputFiles('form[data-action="save-profile"] input[type=file]', { name: 'me.png', mimeType: 'image/png', buffer: png }); await p.waitForTimeout(600);
+  ok('Profilbild gespeichert + in Kopfzeile', !!(await p.evaluate(() => Store.settings.avatarId)) && !!(await p.$('.topbar .avatar img')) && !!(await p.$('.avatar-big img')));
+  await p.click('[data-action="avatar-remove"]'); await p.waitForTimeout(400); ok('Profilbild entfernt', await p.evaluate(() => !Store.settings.avatarId) && !(await p.$('.topbar .avatar img')));
+  await p.click('form[data-action="save-privacy"] input[name=support]'); await p.click('form[data-action="save-privacy"] button[type=submit]'); await p.waitForTimeout(200); ok('Privatsphäre gespeichert', await p.evaluate(() => Store.settings.privacy.support === true));
+  await p.click('[data-action="pw-reset"]'); await p.waitForTimeout(200); ok('Passwort-Dialog', !!(await p.$('.modal'))); await p.keyboard.press('Escape'); await p.click('[data-action="twofa"]'); await p.waitForTimeout(200); ok('2FA-Dialog', (await p.textContent('.modal')).includes('Zwei-Faktor')); await p.keyboard.press('Escape');
+  await p.screenshot({ path: 's2-profil.png', fullPage: true });
+  // Design
+  await p.evaluate(() => { location.hash = '#/settings/design'; }); await p.waitForTimeout(400);
+  ok('4 Schriftarten, Standard Modern', await p.$$eval('.font-card', e => e.length) === 4 && await p.$eval('.font-card[aria-pressed="true"]', e => e.dataset.value) === 'modern');
+  ok('Modern (Standard): Satoshi-Text, Onest-Zahlen, Satoshi geladen', await p.evaluate(async () => { const cs = getComputedStyle(document.documentElement); await document.fonts.load('500 14px Satoshi'); return document.documentElement.style.getPropertyValue('--font') === '' && cs.getPropertyValue('--font').trim().startsWith('"Satoshi"') && cs.getPropertyValue('--font-num').includes('Onest') && document.fonts.check('500 14px Satoshi') && [...document.fonts].some(f => f.family.replace(/"/g, '') === 'Satoshi' && f.status === 'loaded'); }));
+  await p.click('.font-card[data-value="rund"]'); await p.waitForTimeout(400);
+  ok('Schriftart Rund aktiv + geladen', await p.evaluate(() => Store.settings.font === 'rund' && document.documentElement.style.getPropertyValue('--font').includes('Nunito') && !!document.querySelector('link[id^="font-nunito"]')));
+  await p.click('.font-card[data-value="geschwungen"]'); await p.waitForTimeout(300); ok('Geschwungen (wählbar): Quicksand-Text, Onest-Zahlen', await p.evaluate(() => { const cs = getComputedStyle(document.documentElement); return document.documentElement.style.getPropertyValue('--font').includes('Quicksand') && cs.getPropertyValue('--font-num').includes('Onest') && Store.settings.font === 'geschwungen' && !!document.querySelector('link[id^="font-quicksand"]'); }));
+  await p.click('.font-card[data-value="klassisch"]'); await p.waitForTimeout(300); ok('Klassisch: frühere Schrift mit Roboto-Zahlen', await p.evaluate(() => document.documentElement.style.getPropertyValue('--font-num').includes('Roboto') && document.documentElement.style.getPropertyValue('--font').includes('Inter') && Store.settings.font === 'klassisch'));
+  await p.evaluate(() => { const k = 'trading-journal-web-v1'; Store.saveNow(); const d = JSON.parse(localStorage.getItem(k)); d.settings.font = 'standard'; localStorage.setItem(k, JSON.stringify(d)); }); await p.reload(); await p.waitForTimeout(400);
+  ok('Alte Einstellung „standard“ wird zu Modern', await p.evaluate(() => Store.settings.font === 'modern' && document.documentElement.dataset.font === 'modern' && document.documentElement.style.getPropertyValue('--font') === ''));
+  /* Erscheinungsbild: Graphit (Standard), Schwarz, Weiß, Eigenes */
+  const bg = () => p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bg').trim());
+  ok('Erscheinungsbild: vier Wahlen (mit Eigenes), Graphit aktiv', await p.$$eval('[data-action="appearance"]', e => e.map(x => x.dataset.value).join(',')) === 'graphit,schwarz,light,custom' && await p.$eval('[data-action="appearance"][aria-pressed="true"]', e => e.dataset.value) === 'graphit' && await bg() === '#0e0d0b');
+  await p.click('[data-action="appearance"][data-value="schwarz"]'); await p.waitForTimeout(300);
+  ok('Schwarz: tiefschwarzer Grund', await bg() === '#000000' && await p.evaluate(() => document.documentElement.dataset.dark === 'schwarz' && Store.settings.theme === 'dark' && Store.settings.darkStyle === 'schwarz'));
+  await p.click('[data-action="appearance"][data-value="light"]'); await p.waitForTimeout(300);
+  ok('Weiß: helles Design', await bg() === '#f5f7f5' && await p.evaluate(() => Store.settings.theme === 'light' && Store.settings.darkStyle === 'schwarz'));
+  await p.evaluate(() => App.actions.theme.call(App, { dataset: { value: 'dark' } })); await p.waitForTimeout(300);
+  ok('Schalter im Konto-Menü auf Dunkel behält Schwarz', await bg() === '#000000');
+  await p.click('[data-action="appearance"][data-value="graphit"]'); await p.waitForTimeout(300);
+  await p.reload(); await p.waitForTimeout(500);
+  ok('Graphit bleibt nach Neuladen', await bg() === '#0e0d0b' && await p.evaluate(() => document.documentElement.dataset.dark === 'graphit' && Store.settings.darkStyle === 'graphit'));
+  const order = await p.$$eval('.dots .dot[data-key=accent]', d => d.map(x => x.dataset.tip).join(',')); ok('Akzentfarben sortiert', order.startsWith('Gelb') || order.startsWith('Orange'), order);
+  ok('Keine Hex-Codes sichtbar', !(await p.$('.set-body code')));
+  await p.click('.dot[data-value="#3b82f6"]'); await p.waitForTimeout(300); ok('Akzent Blau', await p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() === '#3b82f6'));
+  await p.$eval('.cpick input[data-key="be"]', e => { e.value = '#00aaff'; e.dispatchEvent(new Event('input', { bubbles: true })); }); await p.waitForTimeout(200);
+  ok('Break-even-Farbe wählbar', await p.evaluate(() => Store.settings.colors.be === '#00aaff' && getComputedStyle(document.documentElement).getPropertyValue('--be').trim() === '#00aaff'));
+  ok('Farbpaare als Karten', await p.$$eval('.pair-card', e => e.length) === 6); ok('Euro bleibt in einer Zeile', await p.$$eval('.pair-card .pv i', els => els.every(i => i.getBoundingClientRect().height < 34)));
+  await p.click('[data-action="color-reset"]'); await p.waitForTimeout(300); ok('Standardfarben', await p.evaluate(() => Store.settings.colors.be === '' && Store.settings.colors.accent === ''));
+  await p.screenshot({ path: 's2-design.png', fullPage: true });
+  await p.evaluate(() => { location.hash = '#/settings/inhalte'; }); await p.waitForTimeout(300);
+  ok('Kategorien: Spalten mittig', await p.$eval('.set-body th.c', th => getComputedStyle(th).textAlign === 'center') && await p.$eval('.set-body td.c', td => getComputedStyle(td).textAlign === 'center'));
+  await p.screenshot({ path: 's2-inhalte.png', clip: { x: 232, y: 72, width: 1208, height: 420 } });
+  console.log(out.join('\n')); console.log(errs.length ? 'ERRORS:\n' + errs.join('\n') : 'no errors'); await browser.close();
+})().catch(e => { console.log(out.join('\n')); console.error('CRASH', e.message); process.exit(1); });

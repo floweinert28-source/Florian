@@ -1,0 +1,437 @@
+[
+ {
+  "de": "Navigation",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Journal",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "hinweis": "Navigationsgruppe (Journal-Bereiche), nicht der Markenname"
+ },
+ {
+  "de": "Einklappen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Seitenleiste einklappen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Übersicht",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Dashboard",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Statistiken",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Fortschritt",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "TradeLog",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Tagesansicht",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Training",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Blind-Replay",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Mentor",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Ruhepunkt",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Konten",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Prop Firms",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Einstellungen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Erscheinungsbild",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Dunkel",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Hell",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Menü",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Beispieldaten entfernen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Entfernen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Profil",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Heute",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Diese Woche",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Dieser Monat",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Letzte {0} Tage",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "Letzte 30 Tage"
+ },
+ {
+  "de": "Dieses Quartal",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Dieses Jahr",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Gesamt",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Benutzerdefiniert",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Von",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Bis",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Anwenden",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Konten verwalten",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Filter",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Symbol",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Richtung",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Long",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Short",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Status",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Gewinn",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Verlust",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Break-even",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Offen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Tags",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Vorlage",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Vorlage wählen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Diese Vorlage bearbeiten",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Neue Vorlage erstellen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Standard-Vorlage",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Bearbeiten",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Vorlage bearbeiten",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Mehr",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Sprachnotiz zum letzten Trade",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Sprachnotiz",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Zertifikat erstellen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Zertifikat",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Daily Profit",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "hinweis": "Zertifikat-Art, Name kann englisch bleiben"
+ },
+ {
+  "de": "Tag",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Weekly Profit",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "hinweis": "Zertifikat-Art, Name kann englisch bleiben"
+ },
+ {
+  "de": "Woche",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Monthly Profit",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "hinweis": "Zertifikat-Art, Name kann englisch bleiben"
+ },
+ {
+  "de": "Monat",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Performance",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Stats",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Session starten",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Trade loggen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Wochen-Recap: {0} bis {1}",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "Wochen-Recap: 21.09.26 bis 27.09.26"
+ },
+ {
+  "de": "{0} Trades · Netto {1} · Trefferquote {2} · Profit-Faktor {3} · bester Tag {4} mit {5}",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "12 Trades · Netto +1.916,66 € · Trefferquote 58 % · Profit-Faktor 2,1 · bester Tag 25.09.26 mit +2.068,62 €"
+ },
+ {
+  "de": "Schließen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Zur Statistik",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Netto P&L",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Trade-Trefferquote",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Profit-Faktor",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Tages-Trefferquote",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Gewinn/Verlust pro Trade",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Gesamt-Score",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Score-Radar",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Win-Rate",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Gewinn/Verlust",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Konsistenz",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Regeltreue",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Drawdown",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Dein Score",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Kumulierter Tages-P&L",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Netto-P&L pro Tag",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Letzte Trades & offene Positionen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Letzte Trades",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Offene Positionen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Geschlossen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Netto-P&L",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "LONG",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "hinweis": "Richtungs-Etikett in Großbuchstaben"
+ },
+ {
+  "de": "SHORT",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "hinweis": "Richtungs-Etikett in Großbuchstaben"
+ },
+ {
+  "de": "Mehr anzeigen",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Kalender",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Voriger Monat",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "Nächster Monat",
+  "wo": "Navigation und Dashboard (Startansicht)"
+ },
+ {
+  "de": "· {0} Handelstage",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "· 1 Handelstage"
+ },
+ {
+  "de": "Menü schließen",
+  "wo": "Handy: Kopfzeile und Dashboard"
+ },
+ {
+  "de": "von {0} Seite",
+  "wo": "Handy: Dashboard",
+  "beispiel": "von 1 Seite",
+  "hinweis": "Seitenzähler, Einzahl: „von 1 Seite“"
+ },
+ {
+  "de": "Konto: {0}",
+  "wo": "Navigation und Dashboard (Startansicht)",
+  "beispiel": "Konto: Hauptkonto"
+ },
+ {
+  "de": "Monats-Recap: {0}",
+  "wo": "Dashboard: Recap-Karte",
+  "beispiel": "Monats-Recap: September 2026"
+ },
+ {
+  "de": "{0} Trades · Netto {1} · Trefferquote {2} · Profit-Faktor {3}",
+  "wo": "Dashboard: Recap-Karte",
+  "beispiel": "12 Trades · Netto +1.240,00 € · Trefferquote 58 % · Profit-Faktor 1,8"
+ }
+]

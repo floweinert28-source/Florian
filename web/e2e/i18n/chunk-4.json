@@ -1,0 +1,1202 @@
+[
+ {
+  "de": "Spalte einklappen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Alle Notizen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Ordnermenü",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Umbenennen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Farbe ändern",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Kürzlich gelöscht",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Zurück",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Neue Notiz",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Notizen auswählen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Sortieren",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Zuletzt bearbeitet",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Neueste zuerst",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Älteste zuerst",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Titel A–Z",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Gespeichert",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Teilen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "In Ordner verschieben",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Duplizieren",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Aus Datei laden",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Exportieren (JSON)",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Als PDF herunterladen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Titel",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Erstellt: {0}, {1}",
+  "wo": "Seitentitel stats",
+  "beispiel": "Erstellt: 03.10.2026, 01:45"
+ },
+ {
+  "de": "Zuletzt bearbeitet: {0}, {1}",
+  "wo": "Seitentitel stats",
+  "beispiel": "Zuletzt bearbeitet: 03.10.2026, 01:45"
+ },
+ {
+  "de": "Tag hinzufügen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Eigene",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Neuen Tag anlegen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Rückgängig (Strg+Z)",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Wiederholen (Strg+Umschalt+Z)",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Einfügen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Grundbausteine",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Absatz",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Tabelle",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Code",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Zitat",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Trennlinie",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Emoji",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Listen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Aufzählung",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Nummerierte Liste",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "To-do-Liste",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Aufklappbare Liste",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Vorlagen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Neue Vorlage …",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Umwandeln in",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Kleiner",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Schriftgröße",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Größer",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Fett (Strg+B)",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Kursiv (Strg+I)",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Unterstrichen (Strg+U)",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Durchgestrichen (Strg+Umschalt+M)",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Schriftfarbe",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Eigene Farben",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Eigene Farbe",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Farbe entfernen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Textmarker",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Bild",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Vom Computer hochladen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Über Adresse einfügen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Oder ein Bild mit Strg+V einfügen oder in die Notiz ziehen.",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "YouTube-Link erkannt",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Als Video einbetten",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Als Link lassen",
+  "wo": "Seitentitel stats"
+ },
+ {
+  "de": "Filtern nach Ordner, Tag und Zeitraum",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Sortieren: Zuletzt bearbeitet",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Datum der Notiz ändern",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Nur-Lese-Link erzeugen",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "{0} Tage",
+  "wo": "Seitentitel notebook",
+  "beispiel": "3 Tage"
+ },
+ {
+  "de": "steigend",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Werktage in Folge mit Trades, Check-in oder Notiz",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Heutiger Fortschritt",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Keine Daten",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "{0} von {1} Schritten erledigt",
+  "wo": "Seitentitel notebook",
+  "beispiel": "0 von 5 Schritten erledigt"
+ },
+ {
+  "de": "% Regeln eingehalten",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "{0} Tage mit Regel-Check im Zeitraum",
+  "wo": "Seitentitel notebook",
+  "beispiel": "81 Tage mit Regel-Check im Zeitraum"
+ },
+ {
+  "de": "Trading-Aktivität",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Vor",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Weniger",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Tages-Checkliste",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Tag ansehen",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Automatische Regeln",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Noch keine Trades heute.",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Dein Tag",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Check-in gemacht",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Session gestartet",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Trades geloggt",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Regeln abgehakt",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Tagesnotiz geschrieben",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Aktuelle Regeln",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Regeln bearbeiten",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Disziplin pro Woche",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Ø Disziplin-Score der Trades im Zeitraum:",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Dein Tilt-Profil",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Tage mit {0} Verlusten in Folge",
+  "wo": "Seitentitel notebook",
+  "beispiel": "Tage mit 3 Verlusten in Folge"
+ },
+ {
+  "de": "Davon negativ beendet",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "P&L nach der Serie",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Nach Verlustserien hast du dich bisher gefangen. Bleib trotzdem wachsam.",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Regeln im Detail",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Regel",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Eingehalten (Tage)",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Gebrochen (Trades)",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Kosten",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Keine Trades",
+  "wo": "Seitentitel notebook"
+ },
+ {
+  "de": "Wochenenden unterbrechen die Serie nicht.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Check-in, Session, Trades, Regeln, Tagesnotiz.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Anteil der abgehakten Regeln an den Handelstagen im gewählten Zeitraum.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Grün. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Check-in ✓",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "{0} Trade · {1}",
+  "wo": "Seitentitel progress",
+  "beispiel": "1 Trade · −429,27 €"
+ },
+ {
+  "de": "{0} Trades · {1}",
+  "wo": "Seitentitel progress",
+  "beispiel": "2 Trades · +680,17 €"
+ },
+ {
+  "de": "Notiz ✓",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Durchschnittlicher Disziplin-Score der Trades je Woche.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Woche ab {0}: Score {1} ({2} Trades)",
+  "wo": "Seitentitel progress",
+  "beispiel": "Woche ab 27. Juli: Score 95 (11 Trades)"
+ },
+ {
+  "de": "Woche ab {0}t.: Score {1} ({2} Trades)",
+  "wo": "Seitentitel progress",
+  "beispiel": "Woche ab 07. Sept.: Score 94 (12 Trades)"
+ },
+ {
+  "de": "Aus deiner Historie gelernt: Wie enden Tage, an denen du drei Verluste in Folge hattest?",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Wie oft jede Regel abgehakt wurde und was gebrochene Regeln gekostet haben.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Dein Schatten-Ich handelt wie du – nur ohne Regelbrüche.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Was die Abweichung kostet, siehst du hier.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Bildkarte",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Disziplin-Kosten",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Alles nach Regeln",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Echt",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Mit allen Regeln eingehalten",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Verstöße",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "{0} der Trades",
+  "wo": "Seitentitel progress",
+  "beispiel": "0 % der Trades"
+ },
+ {
+  "de": "Equity: echt vs. Schatten-Ich",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Mein Regelwerk",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Trades pro Tag",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Trades pro Tag: Trades",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Tagesverlust",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Wert",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Tagesverlust: Wert",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Tagesverlust: Einheit",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "R-Einheit",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "% vom Konto",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Betrag (€)",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Stopp nach Verlusten in Folge",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Verluste",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Stopp nach Verlusten in Folge: Verluste",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Risiko pro Trade",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Risiko pro Trade: Wert",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Max. Risiko pro Trade: Einheit",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Erlaubte Handelszeiten",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Erlaubte Handelszeiten: Von",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Erlaubte Handelszeiten: Bis",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Nur bestimmte Setups",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Kein neuer Trade nach Verlust",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Minuten",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Kein neuer Trade nach Verlust: Minuten",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Regelverstöße",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Keine Verstöße",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "In diesem Zeitraum hast du dich an deine Regeln gehalten.",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Welche Regel kostet am meisten",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Netto-Effekt der Verstöße auf dein Konto",
+  "wo": "Seitentitel progress"
+ },
+ {
+  "de": "Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Kumuliert über alle abgeschlossenen Trades. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Die erste verletzte Regel zählt als Grund. Klick auf eine Zeile öffnet den Trade.",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Du siehst den Chart vor dem Einstieg, Instrument und Uhrzeit, aber nicht das Ergebnis. Entscheide, ob du den Trade nehmen würdest. Richtig heißt: Gewinner genommen oder Verlierer geskippt. Falsch eingeschätzte Trades kommen öfter wieder.",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "({0} Karten)",
+  "wo": "Seitentitel shadow",
+  "beispiel": "(10 Karten)"
+ },
+ {
+  "de": "{0} Trades mit „Screenshot vor Entry“",
+  "wo": "Seitentitel shadow",
+  "beispiel": "35 Trades mit „Screenshot vor Entry“"
+ },
+ {
+  "de": "Trefferquote",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "{0} Karten",
+  "wo": "Seitentitel shadow",
+  "beispiel": "20 Karten"
+ },
+ {
+  "de": "Letzte {0}",
+  "wo": "Seitentitel shadow",
+  "beispiel": "Letzte 20"
+ },
+ {
+  "de": "Sessions",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Karteikasten",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Fach {0}",
+  "wo": "Seitentitel shadow",
+  "beispiel": "Fach 1"
+ },
+ {
+  "de": "Trefferquote je Setup",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Karten",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Richtig",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Quote",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Sicherheit vs. Treffer",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Sicherheit {0}",
+  "wo": "Seitentitel shadow",
+  "beispiel": "Sicherheit 1"
+ },
+ {
+  "de": "Trefferquote je Session in Prozent, älteste links.",
+  "wo": "Seitentitel shadow"
+ },
+ {
+  "de": "Fach {0}: zuletzt falsch eingeschätzt, kommt am häufigsten. Fach {1}: dreimal in Folge richtig.",
+  "wo": "Seitentitel replay",
+  "beispiel": "Fach 1: zuletzt falsch eingeschätzt, kommt am häufigsten. Fach 3: dreimal in Folge richtig."
+ },
+ {
+  "de": "Wie oft du richtig lagst, je nachdem wie sicher du dir warst.",
+  "wo": "Seitentitel replay"
+ },
+ {
+  "de": "Der Mentor sieht die letzten {0} Trades dieses Kontos.",
+  "wo": "Seitentitel replay",
+  "beispiel": "Der Mentor sieht die letzten 20 Trades dieses Kontos."
+ },
+ {
+  "de": "Mentor-Chat einrichten",
+  "wo": "Seitentitel replay"
+ },
+ {
+  "de": "Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.",
+  "wo": "Seitentitel replay"
+ },
+ {
+  "de": "Zu den Einstellungen",
+  "wo": "Seitentitel replay"
+ },
+ {
+  "de": "Anleitung zum Server:",
+  "wo": "Seitentitel replay"
+ },
+ {
+  "de": "im Projekt.",
+  "wo": "Seitentitel replay"
+ },
+ {
+  "de": "Prop-Konto",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Cockpit",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Bilanz",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Rechner",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Payout",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Friedhof",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Challenge vs. Funded",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Simulation",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Aktive Konten",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "alle im grünen oder gelben Bereich",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "P&L aktive Konten",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Summe der geschlossenen Trades seit Start",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Bestanden",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "{0} Funded-Konto",
+  "wo": "Seitentitel mentor",
+  "beispiel": "1 Funded-Konto"
+ },
+ {
+  "de": "Geplatzt",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "{0} archiviert",
+  "wo": "Seitentitel mentor",
+  "beispiel": "1 archiviert"
+ },
+ {
+  "de": "Alle Firmen",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Alle Phasen",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Challenge {0}",
+  "wo": "Seitentitel mentor",
+  "beispiel": "Challenge 1"
+ },
+ {
+  "de": "Funded",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Alle Status",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Archiviert",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Ampel Inaktiv · {0} des Limits übrig",
+  "wo": "Seitentitel mentor",
+  "beispiel": "Ampel Inaktiv · 61 % des Limits übrig"
+ },
+ {
+  "de": "{0}0K · Forex / CFD",
+  "wo": "Seitentitel mentor",
+  "beispiel": "100K · Forex / CFD"
+ },
+ {
+  "de": "Balance",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "{0} Trades · {1} Handelstage",
+  "wo": "Seitentitel mentor",
+  "beispiel": "21 Trades · 11 Handelstage"
+ },
+ {
+  "de": "Daily Loss übrig",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "von {0}",
+  "wo": "Seitentitel mentor",
+  "beispiel": "von 5.000,00 $"
+ },
+ {
+  "de": "Max. Drawdown übrig",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Fortschritt zum Ziel",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "· {0} fehlen",
+  "wo": "Seitentitel mentor",
+  "beispiel": "· 13.890 $ fehlen"
+ },
+ {
+  "de": "Bestehen",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Konto geplatzt",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Puffer in Stops",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "noch {0} Stop-Losses",
+  "wo": "Seitentitel mentor",
+  "beispiel": "noch 20 Stop-Losses"
+ },
+ {
+  "de": "Trades zuordnen",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "{0}0K Starter · Futures",
+  "wo": "Seitentitel mentor",
+  "beispiel": "50K Starter · Futures"
+ },
+ {
+  "de": "Daily Loss",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "keine Regel",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "in {0} Handelstag · Gewinn fehlt: {1}",
+  "wo": "Seitentitel mentor",
+  "beispiel": "in 1 Handelstag · Gewinn fehlt: 3.000,00 €"
+ },
+ {
+  "de": "Stop-Größe unbekannt",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "{0} Konten · Copy-Trading",
+  "wo": "Seitentitel mentor",
+  "beispiel": "2 Konten · Copy-Trading"
+ },
+ {
+  "de": "Ampel Grün · {0} des Limits übrig",
+  "wo": "Seitentitel mentor",
+  "beispiel": "Ampel Grün · 372 % des Limits übrig"
+ },
+ {
+  "de": "{0}0K · Futures · Copy NQ",
+  "wo": "Seitentitel mentor",
+  "beispiel": "100K · Futures · Copy NQ"
+ },
+ {
+  "de": "· erreicht",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Nächster Payout",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "bereit",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Gewinn fehlt: {0} ·",
+  "wo": "Seitentitel mentor",
+  "beispiel": "Gewinn fehlt: 1.946,15 € ·"
+ },
+ {
+  "de": "Consistency verletzt",
+  "wo": "Seitentitel mentor"
+ },
+ {
+  "de": "Wo stehst du gerade?",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Ein paar Minuten, um klar in den Handel zu gehen und sauber wieder herauszukommen.",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Vor dem Trading",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Ankommen, Check-in, Tagesregeln. Etwa {0} Minuten.",
+  "wo": "Seitentitel prop",
+  "beispiel": "Ankommen, Check-in, Tagesregeln. Etwa 6 Minuten."
+ },
+ {
+  "de": "Nach dem Trading",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Runterfahren, einordnen, abschalten. Etwa {0} Minuten.",
+  "wo": "Seitentitel prop",
+  "beispiel": "Runterfahren, einordnen, abschalten. Etwa 6 Minuten."
+ },
+ {
+  "de": "Akut-Reset",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Gerade aufgewühlt? Eine Minute, bevor du irgendetwas klickst.",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Christlicher Impuls ausschalten",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "an · Bibelvers, Gebet, Atemgebet",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Hilfe und Beratung",
+  "wo": "Seitentitel prop"
+ },
+ {
+  "de": "Bitte ein Startdatum wählen",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Trade löschen?",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Trade gelöscht",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Beispieldaten geladen",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Beispieldaten konnten nicht geladen werden",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Beispieldaten entfernt",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Symbol fehlt",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Einstiegskurs fehlt",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Ausstiegskurs fehlt für geschlossenen Trade",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Trade gespeichert",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Session läuft. Viel Erfolg.",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Session beendet",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Check-in gespeichert",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Datei ist leer oder unlesbar",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "{0} Trades importiert",
+  "wo": "Meldung (app.js)"
+ },
+ {
+  "de": "Erst speichern oder abbrechen",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Vorlage „{0}“ erstellt",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Vorlage umbenennen",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Standard-Vorlage festgelegt",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Die letzte Vorlage kann nicht gelöscht werden",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Vorlage löschen",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Vorlage gelöscht",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Vorlage gespeichert",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "Maximal 5 Widgets – entferne zuerst eines",
+  "wo": "Meldung (screens/dashboard.js)"
+ },
+ {
+  "de": "{0} Bild{1} gespeichert",
+  "wo": "Meldung (screens/trades.js)"
+ },
+ {
+  "de": "Keine Bilder erkannt",
+  "wo": "Meldung (screens/trades.js)"
+ },
+ {
+  "de": "Kein Bild erkannt",
+  "wo": "Meldung (screens/trades.js)"
+ },
+ {
+  "de": "Speichern hat nicht geklappt",
+  "wo": "Meldung (screens/trades.js)"
+ },
+ {
+  "de": "Screenshot vor Entry gespeichert",
+  "wo": "Meldung (screens/trades.js)"
+ },
+ {
+  "de": "Notiert",
+  "wo": "Meldung (screens/trades.js)"
+ },
+ {
+  "de": "Profil gespeichert",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Dieses Bildformat kann der Browser nicht lesen (z. B. HEIC). Bitte JPG oder PNG wählen.",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Profilbild gespeichert",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Bild konnte nicht gespeichert werden",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Konto löschen?",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Tag löschen",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Tags zurücksetzen",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Verlauf leeren",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Sicherung wird erstellt …",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Kopiert",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Text markiert, jetzt mit Strg+C kopieren",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Sicherung eingespielt ({0} Trades)",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Datei nicht lesbar:",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Wirklich alles löschen?",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Alle Daten gelöscht",
+  "wo": "Meldung (screens/misc.js)"
+ },
+ {
+  "de": "Bitte eine vollständige Adresse angeben",
+  "wo": "Meldung (editor.js)"
+ },
+ {
+  "de": "PNG wird heruntergeladen",
+  "wo": "Meldung (certificate.js)"
+ },
+ {
+  "de": "In die Zwischenablage kopiert",
+  "wo": "Meldung (certificate.js)"
+ }
+]

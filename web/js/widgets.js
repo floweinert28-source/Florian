@@ -65,7 +65,7 @@
     const xt = U.xTicks(n, iw); const dots = n <= 120;
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${U.axisLeft(scale[u0].ticks, v => y(u0, v), ml, W, mr, v => unitFmt(u0, v, true))}
       ${u1 ? `<g class="grid">${scale[u1].ticks.map(t => `<text x="${W - mr + 8}" y="${y(u1, t) + 3.5}">${unitFmt(u1, t, true)}</text>`).join('')}</g>` : ''}
-      ${bars.map((s, bi) => pts.map((p, i) => { const v = p.v[s.key]; if (v == null || !isFinite(v)) return ''; const zero = y(s.unit, Math.max(scale[s.unit].y0, Math.min(scale[s.unit].y1, 0))); const yy = y(s.unit, v); return `<rect x="${(x(i) - bw * bars.length / 2 + bi * bw).toFixed(1)}" y="${Math.min(yy, zero).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, Math.abs(yy - zero)).toFixed(1)}" rx="2" fill="${s.color}" fill-opacity=".8"/>`; }).join('')).join('')}
+      ${bars.map((s, bi) => pts.map((p, i) => { const v = p.v[s.key]; if (v == null || !isFinite(v)) return ''; const zero = y(s.unit, Math.max(scale[s.unit].y0, Math.min(scale[s.unit].y1, 0))); const yy = y(s.unit, v); return `<rect x="${(x(i) - bw * bars.length / 2 + bi * bw).toFixed(1)}" y="${Math.min(yy, zero).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, Math.abs(yy - zero)).toFixed(1)}" rx="2" class="br${v >= 0 ? '' : ' dn'}" fill="${s.color}" fill-opacity=".8"/>`; }).join('')).join('')}
       ${series.filter(s => s.type !== 'bar').map(s => `<path d="${path(s)}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots ? pts.map((p, i) => { const v = p.v[s.key]; return v == null || !isFinite(v) ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(s.unit, v).toFixed(1)}" r="1.8" fill="${s.color}"/>`; }).join('') : ''}`).join('')}
       ${U.dateAxis(n, x, i => pts[i].date, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
@@ -90,7 +90,7 @@
     const ml = U.axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 12, mb = 30; const iw = W - ml - mr, ih = H - mt - mb;
     const n = days.length; const gap = iw / n; const bw = Math.max(2, Math.min(18, gap * 0.62)); const x = i => ml + i * gap + gap / 2, y = v => mt + (y1 - v) / (y1 - y0 || 1) * ih; const xt = U.xTicks(n, iw);
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${U.axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}<line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>
-      ${days.map((p, i) => `<rect x="${(x(i) - bw / 2).toFixed(1)}" y="${Math.min(y(p.pnl), y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0))).toFixed(1)}" rx="2" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".85" data-tip="<b>${fmt.weekdayLong(p.day)}</b><br>${fmt.cur(p.pnl, { signed: true })} · ${p.n} Trade${p.n === 1 ? '' : 's'}"></rect>`).join('')}
+      ${days.map((p, i) => `<rect x="${(x(i) - bw / 2).toFixed(1)}" y="${Math.min(y(p.pnl), y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0))).toFixed(1)}" rx="2" class="br${p.pnl >= 0 ? '' : ' dn'}" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".85" data-tip="<b>${fmt.weekdayLong(p.day)}</b><br>${fmt.cur(p.pnl, { signed: true })} · ${p.n} Trade${p.n === 1 ? '' : 's'}"></rect>`).join('')}
       ${U.dateAxis(n, x, i => days[i].day, ml, W, mr, H)}</svg>`;
   };
   /* Drawdown-Fläche */

@@ -37,7 +37,10 @@
     title: 'Fortschritt',
     mount(main) {
       const a = main.querySelector('.activity'); if (a) { if (!a.dataset.scrollKept) a.scrollLeft = a.scrollWidth; /* beim Öffnen das Ende, beim Neuaufbau die alte Stelle */ let drag = null; a.addEventListener('mousedown', e => { if (e.button !== 0) return; drag = { x: e.clientX, left: a.scrollLeft, moved: false }; a.classList.add('dragging'); }); window.addEventListener('mousemove', e => { if (!drag) return; const dx = e.clientX - drag.x; if (Math.abs(dx) > 3) drag.moved = true; a.scrollLeft = drag.left - dx; }); window.addEventListener('mouseup', () => { if (drag && drag.moved) a.dataset.dragged = '1'; drag = null; a.classList.remove('dragging'); setTimeout(() => { delete a.dataset.dragged; }, 50); }); a.addEventListener('click', e => { if (a.dataset.dragged) { e.stopPropagation(); e.preventDefault(); } }, true); }
-      requestAnimationFrame(() => main.querySelectorAll('.ring-arc .arc').forEach(c => { c.style.strokeDashoffset = c.dataset.target; }));
+      /* Ringe füllen sich nur beim Öffnen der Seite; beim Neuaufbau (Eingabe, Reiter) stehen sie sofort */
+      const arcs = main.querySelectorAll('.ring-arc .arc');
+      if (main.querySelector('#content.enter')) requestAnimationFrame(() => arcs.forEach(c => { c.style.strokeDashoffset = c.dataset.target; }));
+      else arcs.forEach(c => { c.style.transition = 'none'; c.style.strokeDashoffset = c.dataset.target; });
     },
     render(ctx) {
       const all = ctx.all, list = ctx.inRange; const account = App.account(); const todayKey = C.dayKey(new Date()); const today = S.day(todayKey) || {}; const rules = S.data.rules.filter(r => r.active !== false);

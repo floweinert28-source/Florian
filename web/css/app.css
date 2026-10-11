@@ -105,7 +105,8 @@ svg { display: block; }
    Balken blenden ein, der Endpunkt springt zuletzt auf */
 .chart svg.enter path.ln { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: ch-draw 1.25s cubic-bezier(.3, .7, .2, 1) .05s forwards; }
 .chart svg.enter path.ar { animation: ch-fade 1s ease .35s both; }
-.chart svg.enter rect.br { animation: ch-fade .7s ease .15s both; }
+.chart svg.enter rect.br { transform-box: fill-box; transform-origin: 50% 100%; animation: ch-grow .75s cubic-bezier(.2, .7, .2, 1) calc(.1s + var(--bd, 0ms)) both; } /* wächst von der Nulllinie */
+.chart svg.enter rect.br.dn { transform-origin: 50% 0; } /* Verlust-Balken wachsen nach unten */
 .chart svg.enter circle.dt { transform-box: fill-box; transform-origin: center; animation: ch-pop .45s cubic-bezier(.2, .8, .2, 1) var(--dt-delay, 1.1s) both; }
 .chart svg.enter polyline.ln { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: ch-draw 1.25s cubic-bezier(.3, .7, .2, 1) .05s forwards; }
 .chart svg.enter polygon.ar { animation: ch-fade 1s ease .35s both; }
@@ -117,6 +118,7 @@ svg { display: block; }
 @keyframes swap-in { from { opacity: .35; } }
 @keyframes ch-draw { to { stroke-dashoffset: 0; } }
 @keyframes ch-fade { from { opacity: 0; } }
+@keyframes ch-grow { from { transform: scaleY(0); } }
 @keyframes ch-pop { from { opacity: 0; transform: scale(.3); } }
 /* Scrollbalken überall dünn und zurückhaltend: keine Spur, nur ein schmaler, runder Griff in einem halbtransparenten Ton der
    Textfarbe (passt sich hell/dunkel an). Bereiche, die ihren Balken verstecken (prop-tabs), behalten das */
@@ -174,7 +176,7 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
 /* aktiver Eintrag flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein; der kleine Balken links ist der einzige Akzent */
-.nav a.active { overflow: visible; color: var(--text); font-weight: 600; background: var(--surface-2); border-color: var(--border); }
+.nav a.active { overflow: visible; color: var(--text); font-weight: 500; background: var(--surface-2); border-color: var(--border); } /* gleiche Stärke wie die anderen Einträge */
 .nav a.active svg { opacity: 1; color: var(--text); }
 .nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); box-shadow: var(--dot-glow); } /* Balken mit sanftem Leuchten; alle Hinweis-Punkte leuchten genauso (--dot-glow) */
 .nav a.active:hover { transform: none; }
@@ -211,7 +213,14 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
   padding: 12px var(--gutter); background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border);
 }
 .topbar h1 { font-size: 21px; font-weight: 600; white-space: nowrap; }
-.topbar .actions { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.topbar .actions { position: relative; margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; justify-content: flex-end; }
+/* Platz für Seiten-Werkzeuge in der Titelzeile (Dashboard: Zeitraum, Konto, Filter), auf Höhe des Avatars */
+.topbar .tb-tools { display: flex; align-items: center; gap: 8px; }
+.topbar .tb-tools:empty { display: none; }
+.topbar .tb-tools .row { gap: 8px; flex-wrap: nowrap; }
+.topbar .tb-tools .popwrap:has(> .range-pop) { position: static; } /* das breite Zeitraum-Menü richtet sich am rechten Rand der Titelzeile (Avatar) aus */
+/* knapp über Tablet-Breite passt neben die Seitenleiste nur ein Monat */
+@media (min-width: 961px) and (max-width: 1000px) { .tb-tools .rr-months { grid-template-columns: 252px; } .tb-tools .rr-months > .rr-m:nth-child(2) { display: none; } .tb-tools .rr-months > .rr-m:first-child .rr-next { visibility: visible; } }
 .menu-btn { display: none; }
 .menu-btn svg path { transform-box: view-box; transition: transform var(--dur-2) var(--ease), opacity var(--dur-1) var(--ease); }
 .menu-btn svg path:nth-child(1) { transform-origin: 12px 7px; }
@@ -308,7 +317,7 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .seg { display: inline-flex; gap: 6px; flex-wrap: wrap; }
 .seg button { padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 500; font-size: 13px; cursor: pointer; }
 .seg button:hover { color: var(--text); background: var(--surface-2); }
-.seg button[aria-pressed="true"] { font-weight: 600; }
+.seg button[aria-pressed="true"] { font-weight: 500; }
 #f-dir button[data-value="-1"][aria-pressed="true"] { border-color: var(--loss); color: var(--loss); background: var(--loss-soft); box-shadow: inset 0 0 0 1px var(--loss); }
 .seg.pill button { border-radius: 999px; padding: 6px 12px; font-size: 12.5px; }
 .rating { display: inline-flex; gap: 4px; }
@@ -555,7 +564,8 @@ span.info:hover { color: var(--text-2); }
 /* Score-Skala: blasser Verlauf über die ganze Breite, kräftige Füllung bis zum Score, dort ein runder Punkt in der Farbe
    der Skala an dieser Stelle (ohne Rahmen). Beim Erscheinen läuft der Score einmal von 0 hoch (registrierte Zahl --pv), sonst ruhig. */
 @property --pv { syntax: '<number>'; inherits: true; initial-value: 0; }
-.score-scale { position: relative; height: 26px; margin: 8px 6px 0; container-type: inline-size; --pv: var(--p, 0); --sx: clamp(7px, var(--pv) * 1cqw, 100cqw - 7px); animation: score-run 1.3s cubic-bezier(.22, .9, .25, 1) .2s backwards; }
+.score-scale { position: relative; height: 26px; margin: 8px 6px 0; container-type: inline-size; --pv: var(--p, 0); --sx: clamp(7px, var(--pv) * 1cqw, 100cqw - 7px); }
+.content.enter .score-scale { animation: score-run 1.3s cubic-bezier(.22, .9, .25, 1) .2s backwards; } /* nur beim Öffnen der Seite, nicht beim Neuaufbau (Reiter, Eingaben) */
 .rv .score-scale { animation-play-state: paused; } /* startet erst, wenn die Karte ins Bild kommt */
 @keyframes score-run { from { --pv: 0; } }
 .score-scale .track { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 3px; background-image: linear-gradient(90deg, color-mix(in srgb, var(--loss) 26%, var(--surface)), color-mix(in srgb, var(--warn) 26%, var(--surface)), color-mix(in srgb, var(--accent) 26%, var(--surface))); }
@@ -974,7 +984,7 @@ span.info:hover { color: var(--text-2); }
 .nb .folder svg.ico { width: 16px; height: 16px; flex: 0 0 auto; color: var(--muted); }
 .nb .folder.active svg.ico { color: var(--text); }
 /* gewählter Ordner: ruhig grau hinterlegt, Schrift hell, kein grüner Rahmen; eigene Ordner behalten ihren Farbbalken links (--fc) */
-.nb .folder.active { background: var(--surface-2); color: var(--text); font-weight: 600; }
+.nb .folder.active { background: var(--surface-2); color: var(--text); font-weight: 500; }
 .nb .folder hr { margin: 0; }
 .nb .folder .sp { width: 24px; flex: 0 0 auto; }
 .nb .fsep { border-top: 1px solid var(--border); margin: 6px 8px; }
@@ -1318,9 +1328,8 @@ span.info:hover { color: var(--text-2); }
 .btn.icon-only { width: 40px; padding-left: 0; padding-right: 0; justify-content: center; }
 .btn.icon-only svg { margin: 0; }
 .vh { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-@media (max-width: 1320px) { .dash-head .tpl-name { display: none; } }
 /* Zwischen Tablet und großem Desktop: Konto und Filter nur als Symbol, damit die Kopfzeile in einer Reihe bleibt (Name steht im Tooltip/Menü) */
-@media (min-width: 961px) and (max-width: 1180px) { .dash-head [data-pop="account"] > span, .dash-head [data-pop="dfilter"] > span { display: none; } }
+@media (min-width: 961px) and (max-width: 1180px) { .tb-tools [data-pop="account"] > span, .tb-tools [data-action="dash-f-open"] > span { display: none; } }
 @media (max-width: 560px) { .dash-head > .row.dh-tools { margin-left: 0; width: 100%; } .dash-head > .row.dh-tools .tl { margin-left: auto; } .dash-head .dh-sep { display: none; } }
 @media (max-width: 560px) { :root { --page-head-h: 115px; } }
 /* Kopfreihe ohne Werkzeuge rechts (Mentor) bleibt auch auf dem Handy einzeilig */
@@ -1520,9 +1529,29 @@ span.info:hover { color: var(--text-2); }
 .spin { display: inline-block; width: 14px; height: 14px; flex: 0 0 auto; vertical-align: -2px; border-radius: 50%; background: conic-gradient(from 90deg, transparent 0 20%, currentColor 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px)); animation: spin-turn .75s linear infinite; }
 @keyframes spin-turn { to { transform: rotate(360deg); } }
 .ld-row { display: inline-flex; align-items: center; gap: 10px; }
-/* App-Start: Kurslinie mittig, erscheint erst nach kurzer Zeit (schneller Start blitzt nicht) */
-.boot { flex: 1; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; animation: boot-in .5s var(--ease, ease) .2s both; }
-.boot > div { display: flex; flex-direction: column; align-items: center; gap: 18px; color: var(--text); }
+/* App-Start: Skelett der Seite (Titelzeile, Kopfreihe, Kacheln, Karten) statt Ladesymbol – man sieht schon, wo alles steht;
+   erscheint erst nach kurzer Zeit (schneller Start blitzt nicht) */
+.boot { flex: 1; min-height: 100vh; min-height: 100dvh; animation: boot-in .5s var(--ease, ease) .2s both; }
+.boot .skel { display: block; }
+.boot-top { display: flex; align-items: center; gap: 8px; min-height: var(--topbar-h); padding: 12px var(--gutter); border-bottom: 1px solid var(--border); }
+.boot-top .skel { border: 0; border-radius: 9px; height: 36px; width: 128px; }
+.boot-top .skel.t { height: 22px; width: 150px; border-radius: 6px; margin-right: auto; }
+.boot-top .skel.av { width: 36px; border-radius: 50%; }
+.boot-body { padding: 22px var(--gutter) 60px; display: flex; flex-direction: column; gap: 18px; }
+.boot-head { display: flex; justify-content: flex-end; align-items: center; gap: 8px; min-height: 40px; }
+.boot-head .skel { border: 0; border-radius: 9px; height: 36px; width: 40px; }
+.boot-head .skel.tl { width: 128px; margin-left: 8px; }
+.boot-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
+.boot-tiles .skel { height: 112px; }
+.boot-main { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.boot-main .skel { height: 330px; }
+.boot-sb { display: flex; flex-direction: column; gap: 16px; padding: 6px 10px; }
+.boot-sb .skel { border: 0; border-radius: 6px; height: 14px; width: 62%; }
+.boot-sb .skel.l { height: 20px; width: 54%; margin-bottom: 18px; }
+.boot-sb .skel.g { height: 10px; width: 34%; margin-top: 10px; }
+html.sb-mini .boot-sb .skel { width: 24px; }
+@media (max-width: 1180px) { .boot-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } .boot-tiles .skel:nth-child(n + 4) { display: none; } .boot-main { grid-template-columns: 1fr 1fr; } .boot-main .skel:nth-child(3) { display: none; } }
+@media (max-width: 960px) { .boot-top { padding: 12px 16px; } .boot-top .skel:not(.t):not(.av) { display: none; } .boot-body { padding: 16px 16px 60px; } .boot-head { display: none; } .boot-tiles { grid-template-columns: 1fr 1fr; gap: 12px; } .boot-tiles .skel { height: 96px; } .boot-main { grid-template-columns: 1fr; } .boot-main .skel { height: 260px; } }
 @keyframes boot-in { from { opacity: 0; transform: translateY(4px); } }
 @media (prefers-reduced-motion: reduce) {
   .skel::after { animation: none; display: none; }
@@ -1778,7 +1807,7 @@ span.info:hover { color: var(--text-2); }
 .set-nav a { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; color: var(--text-2); font-size: 14px; font-weight: 500; text-decoration: none; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .set-nav a svg { width: 19px; height: 19px; color: var(--muted); flex: 0 0 auto; }
 .set-nav a:hover { background: var(--surface-2); color: var(--text); }
-.set-nav a.active { background: var(--surface-2); color: var(--text); font-weight: 600; }
+.set-nav a.active { background: var(--surface-2); color: var(--text); font-weight: 500; }
 .set-nav a.active svg { color: var(--text); }
 .set-nav hr { border: 0; border-top: 1px solid var(--border); margin: 8px 6px; }
 .set-body { min-width: 0; display: flex; flex-direction: column; gap: 22px; }

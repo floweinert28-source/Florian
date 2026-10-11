@@ -249,6 +249,9 @@
     svg.querySelectorAll('path, polyline, polygon').forEach(el => { if (skip(el) || el.classList.contains('ln') || el.classList.contains('ar')) return; const f = el.getAttribute('fill'); if ((f === 'none' || f == null && el.tagName === 'polyline') && el.getAttribute('stroke')) el.classList.add('ln'); else if (f && f !== 'none' && f !== 'transparent') el.classList.add('ar'); });
     svg.querySelectorAll('rect').forEach(el => { if (!skip(el) && !el.classList.contains('br') && el.getAttribute('fill') !== 'transparent') el.classList.add('br'); });
     svg.querySelectorAll('circle').forEach(el => { if (!skip(el)) el.classList.add('dt'); });
+    /* Balken wachsen nacheinander von der Nulllinie hoch (Klasse dn: nach unten); die Staffelung bleibt insgesamt unter 0,4 s */
+    const bars = svg.querySelectorAll('rect.br'); const step = bars.length ? Math.min(14, 400 / bars.length) : 0;
+    bars.forEach((el, i) => el.style.setProperty('--bd', Math.round(i * step) + 'ms'));
     let hasLine = false;
     svg.querySelectorAll('.ln').forEach(p => { let L = 0; try { L = p.getTotalLength(); } catch (e) { L = 0; } if (L) { p.style.setProperty('--len', L.toFixed(1)); hasLine = true; } else p.classList.remove('ln'); });
     svg.style.setProperty('--dt-delay', hasLine ? '1.1s' : '.15s'); /* Punkte erst nach der Linie, sonst gleich */
@@ -274,7 +277,7 @@
       <clipPath id="${cp}"><rect x="0" y="0" width="${W}" height="${Math.max(0, y(0))}"/></clipPath><clipPath id="${cn}"><rect x="0" y="${y(0)}" width="${W}" height="${Math.max(0, H - y(0))}"/></clipPath></defs>
       ${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
       <line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>
-      ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" class="br" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
+      ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" class="br${p.pnl >= 0 ? '' : ' dn'}" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
       <path class="ar" d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path class="ar" d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
       <path class="ln" d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path class="ln" d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
       ${dots ? pts.map((p, i) => `<circle class="dt" cx="${x(i)}" cy="${y(p.cum)}" r="2.2" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle class="dt" cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}

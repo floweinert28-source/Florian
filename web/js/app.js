@@ -81,6 +81,8 @@
          des Inhalts; Diagramme zeichnen sich nur beim echten Seitenwechsel */
       const routeChanged = this._lastRoute !== this.state.route || !!(o && o.first); const prevParam = this._lastParam; this._lastRoute = this.state.route; const scr0 = this.screens[this.state.route]; this._lastParam = this.state.params[0] || (scr0 && scr0.defaultParam ? scr0.defaultParam() : '');
       const swap = enter && !routeChanged && !(o && o.keep) ? 'swap' : '';
+      /* Eingangs-Animationen (Diagramme, Score-Skala, Ringe) nur beim echten Seitenwechsel; nie bei „Bewegung reduzieren“ */
+      const anim = enter && routeChanged && M.enabled !== false && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
       const screen = this.screens[this.state.route]; this._screen = screen; const ctx = { params: this.state.params, all: this.allTrades() }; ctx.inRange = this.tradesInRange(ctx.all);
       fmt.setMoneyBlind(S.settings.moneyBlind, this.rUnit(ctx.all));
       const main = document.getElementById('main'); const title = typeof screen.title === 'function' ? screen.title(ctx) : screen.title;
@@ -91,7 +93,7 @@
       main.style.minHeight = hold ? hold + 'px' : '';
       /* Reiterwechsel in derselben Seite (Statistik-Reiter, Prop-Bereiche, Einstellungen …): Seite und Reiterleiste bleiben, wo sie sind */
       const stayY = swap ? window.scrollY : null; const subX = swap ? [...main.querySelectorAll('#content [data-subnav]')].map(e => e.scrollLeft) : [];
-      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content${swap ? ' ' + swap : ''}" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
+      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content${anim ? ' enter' : ''}${swap ? ' ' + swap : ''}" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
       this.translateNow(main); /* sofort übersetzen: Scrollstand und Höhen gelten für den übersetzten Text, nicht für das deutsche Zwischenbild */
       /* Sichtbares erscheint sofort (die Seite wird als Ganzes überblendet, kein Einzug Karte für Karte, nichts rutscht);
          nur was unter dem Fenster liegt, blendet beim Reinscrollen ein. Dafür vorher oben sein, wenn die Seite oben beginnt */
@@ -101,7 +103,7 @@
       M.scan(main.querySelector('#content'), false);
       this.renderSidebar();
       /* Diagramme zeichnen sich nur beim Seitenwechsel ein (nicht beim Neuaufbau nach Eingaben); bei „Bewegung reduzieren“ nie */
-      U.enterCharts(enter && routeChanged && M.enabled !== false && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)); U.drawCharts(main); U.enterCharts(false); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
+      U.enterCharts(anim); U.drawCharts(main); U.enterCharts(false); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
       window.scrollTo({ top: keep ? keep.y : stay ? stayY : 0 });
       if (keep && keep.anchor) this.keepAnchor(main, keep.anchor);
       if (hold) this.releaseHeight(main, imgs, tok, short);
@@ -260,7 +262,7 @@
     },
     topbar(title, screen, ctx) {
       const initials = (S.settings.name || 'T').split(/\s+/).map(s => s[0]).join('').slice(0, 2).toUpperCase();
-      return `<header class="topbar"><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1>${screen.titleBadge ? screen.titleBadge(ctx) : ''}<div class="actions">
+      return `<header class="topbar"><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1>${screen.titleBadge ? screen.titleBadge(ctx) : ''}<div class="actions"><div class="tb-tools" id="tb-tools"></div>
         <a class="avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(initials)}</a></div></header>`;
     },
     async loadBlobImages(scope) { const imgs = scope.querySelectorAll('img[data-blob]'); for (const img of imgs) { const u = await root.Blobs.url(img.dataset.blob).catch(() => null); if (u) { img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); img.src = u; if (img.complete && img.naturalWidth) img.classList.add('loaded'); } else img.closest('.shot, .thumb, .lib-card')?.classList.add('missing'); } const auds = scope.querySelectorAll('audio[data-blob]'); for (const a of auds) { const u = await root.Blobs.url(a.dataset.blob).catch(() => null); if (u) a.src = u; } },

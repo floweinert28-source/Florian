@@ -47,7 +47,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
-- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein; der kleine Balken am Rand mit dezentem Leuchten ist der einzige Akzent; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein, gleiche Schriftstärke wie die anderen Einträge (500, ebenso Einstellungs-Menü, Notebook-Ordner und Segmente); der kleine Balken am Rand mit dezentem Leuchten ist der einzige Akzent; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
@@ -59,7 +59,10 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   und Importe über `settings.recapsOffV1`); einschalten unter Einstellungen → Benachrichtigungen.
   Unten die **Konto-Karte** (Profilbild oder Initialen, Name, E-Mail): Klick öffnet ein Menü mit Profil, Coach, Einstellungen,
   Benachrichtigungen, Sprache und dem Hell/Dunkel-Schalter; eingeklappt nur das Profilbild, Menü rechts daneben.
-- **Dashboard** (Aufbau nach TradeZella): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
+- **Dashboard** (Aufbau nach TradeZella; Zeitraum, Konto und Filter stehen ab Tablet-Breite oben rechts in der Titelzeile auf Höhe
+  des Avatars (Platz `#tb-tools`, `mount()` verschiebt den Block `.dh-context` dorthin und bei Größenwechsel zurück; auf dem Handy in
+  der Kopfreihe), die Kopfreihe rechts hat nur Vorlage und Zertifikat als Symbole und „Trade loggen“, kein Mikrofon- und kein
+  Session-Knopf; das Filter-Fenster und das breite Zeitraum-Menü öffnen rechtsbündig, zwischen 961 und 1000px mit einem Monat): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
   mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
@@ -332,8 +335,9 @@ Notiz-Spalten, Listen) scrollt nur dieser Bereich; an seinem Ende scrollt die Se
 Dauer `--dur-2` und Kurve, die Deckkraft ergibt zusammen immer 1, nichts wird kurz dunkler); Seitenleiste und Kopfzeile stehen still
 (nur während des Wechsels, Klasse `vt-on` auf `<html>`, eigene Namen `jy-sidebar`/`jy-topbar` ohne Animation); was sichtbar ist,
 steht sofort da (kein Einzug Karte für Karte); das Dashboard zeigt kein Skelett mehr vorab.
-**Laden** hat eine gemeinsame Bildsprache: `U.loader('sm'|''|'lg')` zeichnet eine kleine Kurslinie, über die ein grünes Stück
-gleitet (App-Start ohne Logo-Zeichen, Auswertung von Sprachnotizen); `U.spin()` ist ein feiner Ring für Knöpfe
+**Laden** hat eine gemeinsame Bildsprache: beim App-Start steht ein Skelett der Seite (`.boot` in `app.html`: Titelzeile mit
+Werkzeugen und Avatar, Kopfreihe, fünf Kacheln, drei Karten, dazu Zeilen in der Seitenleiste `.boot-sb`), man sieht schon, wo alles
+steht, nur ohne Daten; `U.loader('sm'|''|'lg')` zeichnet eine kleine Kurslinie, über die ein grünes Stück gleitet (Auswertung von Sprachnotizen); `U.spin()` ist ein feiner Ring für Knöpfe
 („Wird erstellt …“); Platzhalter (`.skel`) bekommen einen weichen Glanz, der darüberwandert, statt zu blinken.
 Bei „weniger Bewegung“ im System (`prefers-reduced-motion`) ist alles aus. Abschalten: die drei Dauer-Variablen auf `0ms` setzen
 oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar.
@@ -344,8 +348,11 @@ nebeneinander bleiben eine gerade Linie. Gerade Stücke oder nur gerundete Ecken
 Punkte (einzelne Trades) auf denselben Tag fallen.
 
 **Diagramm-Einzug und Seitenwechsel:** beim echten Seitenwechsel zeichnen sich alle Diagramme (`UI.enterCharts`, allgemein für jeden
-Zeichner): Linien von links nach rechts, Flächen und Balken blenden ein, Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,
-bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Wechselt nur ein Parameter derselben Seite (Tag vor/zurück, Statistik-Reiter),
+Zeichner): Linien von links nach rechts, Flächen blenden ein, Balken wachsen nacheinander von der Nulllinie (Gewinn nach oben, Verlust
+nach unten; Klasse `dn`, Staffelung `--bd` insgesamt unter 0,4 s), Punkte springen zuletzt auf; beim Neuaufbau nach Eingaben,
+bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Dasselbe gilt für alle anderen Eingangs-Animationen (Score-Skala im Gesamt-Score,
+Ringe im Fortschritt): sie laufen nur, wenn `#content` die Klasse `enter` trägt (echter Seitenwechsel), nicht beim Reiterwechsel
+(„Offene Positionen“) oder nach Eingaben. Wechselt nur ein Parameter derselben Seite (Tag vor/zurück, Statistik-Reiter),
 gibt es keine Überblendung der Seite und keinen gestaffelten Einzug. Kopfreihe und Unter-Navigation (Elemente mit `data-subnav`:
 Einstellungs-Menü, Statistik-Reiter, Prop-Unterreiter, Affiliate-Umschalter) bleiben stehen; nur der Teil darunter blendet kurz ein
 (`.content.swap`, nur Deckkraft ab 0,35 – kein Aufblitzen, keine Verschiebung, keine Schnappschüsse). Ohne `data-subnav` blendet

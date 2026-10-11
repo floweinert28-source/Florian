@@ -1,0 +1,207 @@
+{
+ "found_keys": [
+  "barrierefreiheit",
+  "responsiv"
+ ],
+ "raw_n": 96,
+ "uniq_n": 96,
+ "batches": [
+  {
+   "n": "late-1",
+   "area": "global",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-001.json",
+   "count": 20
+  },
+  {
+   "n": "late-2",
+   "area": "global",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-002.json",
+   "count": 1
+  },
+  {
+   "n": "late-3",
+   "area": "trades",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-003.json",
+   "count": 11
+  },
+  {
+   "n": "late-4",
+   "area": "dashboard",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-004.json",
+   "count": 10
+  },
+  {
+   "n": "late-5",
+   "area": "settings",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-005.json",
+   "count": 8
+  },
+  {
+   "n": "late-6",
+   "area": "menues",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-006.json",
+   "count": 8
+  },
+  {
+   "n": "late-7",
+   "area": "dialoge",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-007.json",
+   "count": 7
+  },
+  {
+   "n": "late-8",
+   "area": "stats",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-008.json",
+   "count": 5
+  },
+  {
+   "n": "late-9",
+   "area": "prop",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-009.json",
+   "count": 4
+  },
+  {
+   "n": "late-10",
+   "area": "shell",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-010.json",
+   "count": 4
+  },
+  {
+   "n": "late-11",
+   "area": "day",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-011.json",
+   "count": 3
+  },
+  {
+   "n": "late-12",
+   "area": "progress",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-012.json",
+   "count": 3
+  },
+  {
+   "n": "late-13",
+   "area": "notebook",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-013.json",
+   "count": 3
+  },
+  {
+   "n": "late-14",
+   "area": "shadow",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-014.json",
+   "count": 3
+  },
+  {
+   "n": "late-15",
+   "area": "runder",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-015.json",
+   "count": 2
+  },
+  {
+   "n": "late-16",
+   "area": "mentor",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-016.json",
+   "count": 2
+  },
+  {
+   "n": "late-17",
+   "area": "responsiv",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-017.json",
+   "count": 1
+  },
+  {
+   "n": "late-18",
+   "area": "news",
+   "file": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/batches/late-018.json",
+   "count": 1
+  }
+ ],
+ "coverage": {
+  "responsiv": {
+   "geprueft": [
+    "audit/BRIEF.md",
+    "audit/inventar-css.md (Abschnitte 0, 1.2, 5.1–5.8, A-Liste)",
+    "audit/impeccable-detect.txt (Kopf, Suche nach responsiven Regeln)",
+    "audit/atlas-log.txt, atlas-extra-log.txt, atlas-extra2-log.txt",
+    "web/README.md Z. 60–110",
+    "web/css/app.css (Shell 136–265, Responsiv 905–960, 1060–1075, 1320–1340, 1720–1800, 1894–1900, 2735–2750, 2975–3144, Eingaben 289–316, Popover 340–392)",
+    "web/js/app.js:236–262",
+    "web/js/screens/dashboard.js:8–18, 124",
+    "web/js/screens/stats.js:1–40",
+    "web/js/screens/progress.js:60–84",
+    "web/js/screens/day.js:5–12",
+    "web/js/ui.js:300–383",
+    "web/js/editor.js:115–123",
+    "web/js/screens/notebook.js:6, 52, 81",
+    "adapt.md und web-design-guidelines/rules.md (Touch, Layout)",
+    "audit/shots/dark-390/dashboard.png",
+    "audit/shots/dark-390/stats.png",
+    "audit/shots/dark-390/stats_days.png",
+    "audit/shots/dark-390/trades.png",
+    "audit/shots/dark-390/notebook.png",
+    "audit/shots/dark-390/notebook_notiz.png",
+    "audit/shots/dark-390/prop.png",
+    "audit/shots/dark-390/shadow.png",
+    "audit/shots/dark-390/settings.png",
+    "audit/shots/dark-390/settings_profil.png",
+    "audit/shots/dark-390/settings_trading.png",
+    "audit/shots/dark-390/modal_trade_loggen.png",
+    "audit/shots/dark-390/pop_zeitraum.png",
+    "audit/shots/dark-390/pop_filter.png",
+    "audit/shots/dark-390/pop_vorlage.png",
+    "audit/shots/dark-390/coach.png",
+    "audit/shots/dark-390/affiliate.png",
+    "audit/shots/dark-390/trade_detail.png",
+    "audit/shots/extra-dark-390/mobile_menue.png",
+    "audit/shots/extra-dark-390/menu_konto_unten.png",
+    "audit/shots/extra-dark-390/dashboard_bearbeiten.png",
+    "audit/shots/extra/hick_dashboard_full_390.png",
+    "audit/shots/extra/hicks2-day-390-mit_trades.png (Ersatz für dark-390/day_mit_trades.png)",
+    "audit/shots/dark-1024/dashboard.png",
+    "audit/shots/dark-1024/stats.png",
+    "audit/shots/dark-1024/trades.png",
+    "audit/shots/dark-1024/settings.png",
+    "audit/shots/dark-1024/prop.png",
+    "audit/shots/dark-1024/notebook.png",
+    "audit/shots/dark-1024/shadow.png",
+    "audit/shots/dark-1024/pop_zeitraum.png",
+    "audit/shots/dark-1440/dashboard.png (Kopf, Vergleich)",
+    "Eigene Aufnahmen audit/shots/extra/resp/: full-390-{stats,stats_days,trades,notebook,news,progress,shadow,prop,prop_bilanz,settings,settings_trading,affiliate,coach}.png (nach Durchscrollen), vp-1024x768-{trades,notebook,stats,dashboard,settings,prop,shadow}.png, vp-768x1024-{dashboard,trades,stats}.png, vp-390x844-{trades_gesamt,modal_tl_unten,drawer}.png, vp-1024-trades-nach-drehen.png, Ausschnitte c_*.png und p390_*.png",
+    "Messungen audit/resp/out/measure-390.json und measure-1024.json (24 Routen: Überlauf, Trefferflächen < 44px, Schriften < 12px, SVG-Text, Überdeckung durch den runden Knopf), audit/resp/stale.js"
+   ],
+   "hinweise": "Was gut ist: Bei 390px gibt es auf keiner der 24 geprüften Routen seitlichen Seitenüberlauf (scrollWidth = 390). Der Seitenrand liegt überall bei 16px. Dialoge sind am Handy echte Bottom-Sheets mit Safe-Area-Abstand unten, erreichbarer Fußzeile (Abbrechen / Trade speichern im Daumenbereich) und overscroll-behavior: contain. Die Affiliate-Tabelle ist vorbildlich ans Handy angepasst: Spalten reduziert, passt ohne Scrollen. Die Tabelle „Letzte Trades“ im Dashboard passt bei 390px. Toasts rutschen über den runden Knopf. Info-Symbole sind bei hover: none sichtbar, sonst gäbe es am Touch-Gerät keinen Zugang. Die Kopfreihe am Handy ist eine einzige umbrechende Werkzeugleiste. Datumsfelder nutzen am Touch-Gerät bewusst den nativen Picker (datepicker.js nur bei pointer: fine). Dass dort „10/11/2026, 12:43 PM“ steht, liegt an der en-US-Sprache des Testbrowsers und ist kein Befund.\n\nFehlende Pflicht-Aufnahmen (ersetzt): dark-390/day_mit_trades.png fehlt (Atlas lief mit falschem Tagesschlüssel, „Ungültiges Datum“), ersetzt durch extra/hicks2-day-390-mit_trades.png. dark-390/news.png, dark-390/progress.png und dark-390/prop_bilanz.png fehlen, ersetzt durch eigene Aufnahmen extra/resp/full-390-news/progress/prop_bilanz.png. extra-dark-390/modal_trade_loggen_long.png fehlt (Atlas-Klick mit Zeitüberschreitung), ersetzt durch extra/resp/vp-390x844-modal_tl_unten.png. Hinweis zum Atlas: Ganzseiten-Aufnahmen bei 390px zeigen nur den ersten Bildschirm mit Inhalt (Einblendung erst beim Scrollen), der Rest ist schwarz. Ich habe deshalb nach Durchscrollen neu aufgenommen. Die dark-1024-Aufnahmen von Statistiken, Prop, Einstellungen und Schatten-Ich zeigen den Zeitraum in der Titelzeile, das ist eine Folge des Listener-Fehlers (eigener Befund), nicht das normale Layout.\n\nNicht geprüft: echte Geräte und iOS Safari (alles in Chromium emuliert; Safe-Area, iOS-Zoom und Bildschirmtastatur über dem Bottom-Sheet sind Code-Befunde), Handy quer, Gesten (Wischen in Karussell und Leisten), helles Design. Am Rand bemerkt, aber nicht mein Blickwinkel (Farbe): Im Zeitraum- und Vorlage-Menü ist die Auswahl grün markiert („Dieser Monat“, „✓ Standard“), obwohl der Nutzer grüne Auswahlmarkierung abgelehnt hat. Und „Starten“, „Einrichten“, „Ausgabe erfassen“ und „Payout erfassen“ sind grün gefüllt."
+  },
+  "barrierefreiheit": {
+   "geprueft": [
+    "audit/BRIEF.md",
+    "audit/inventar-css.md (Abschnitte 0, 1, 3.3, 4.4, 5, A1–A22 per Suche)",
+    "audit/impeccable-detect.txt",
+    "web/README.md (Trade loggen, Tastatur, Bewegung, Scrollen)",
+    ".claude/skills/impeccable/reference/audit.md",
+    ".claude/skills/web-design-guidelines/rules.md",
+    "shots/dark-1440/modal_trade_loggen.png",
+    "shots/dark-1440/pop_filter.png",
+    "shots/dark-1440/pop_zeitraum.png",
+    "shots/dark-1440/settings_profil.png",
+    "shots/dark-1440/settings_trading.png",
+    "shots/dark-1440/trades.png",
+    "shots/dark-1440/dashboard.png",
+    "shots/extra-dark-1440/modal_trade_loggen_fehler.png",
+    "shots/extra-dark-1440/modal_checkin.png",
+    "shots/extra-dark-390/modal_checkin.png",
+    "shots/extra-dark-390/mobile_menue.png",
+    "shots/light-1440/modal_trade_loggen.png",
+    "shots/light-1440/trades.png",
+    "shots/extra/shell_focus_nav.png",
+    "eigene Aufnahmen: shots/extra/a11y/fokus_schalter_aus.png, fokus_slider_checkin.png, fokus_skala_checkin.png, trade_fehler_symbol.png",
+    "eigene Sonden: audit/a11y-probe.js (Ergebnis shots/extra/a11y/scan.json), audit/a11y-probe2.js",
+    "web/css/app.css (Tokens 1–105, Fokus-/outline-Regeln, Schalter, Segmente, Rating, Popover, Toast, Sidebar mobil, reduced-motion 97/1556/2132/2333/2385/2528)",
+    "web/app.html (Shell, Tastenkürzel)",
+    "web/js/ui.js (info, card, seg, tabs, Tooltips, modal, closeModal, toast, confirm/prompt, loader)",
+    "web/js/app.js (Sidebar, Konto-Menü, Kopfzeile, Popover-Logik, Escape, Trade-Editor, Symbol-Liste, Check-in, Session, Validierung)",
+    "web/js/screens/trades.js, dash-filter.js, misc.js, day.js, progress.js, notebook.js, shadow.js, mentor.js, dashboard.js, prop.js, prop-friedhof.js, stats.js",
+    "web/js/widgets.js (Kalender), web/js/rangepicker.js, web/js/datepicker.js, web/js/motion.js, web/js/i18n.js"
+   ],
+   "hinweise": "Zur Frage, wie lange das Ganze ungefähr dauert: Diese Teilprüfung (Barrierefreiheit und Bedienung) ist abgeschlossen. Wie lange die übrigen Prüfer und die Umsetzung noch brauchen, lässt sich von hier aus nicht sagen. Bei den Befunden selbst ist die Umsetzung meist klein: Der Großteil ist mit S bewertet (eine Stelle, wenige Zeilen), fünf mit M (Dialog-Fokus, Filter-Fokus, Fehlerzustand im Trade-Dialog, Menü-Zustände und Kontrast im hellen Design, Diagramm-Texte, Zeitraum-Kalender).\n\nDas ist schon gut gelöst:\n- Der globale :focus-visible-Ring (2 px Akzent, Abstand 2) ist im dunklen Design deutlich zu sehen (extra/shell_focus_nav.png, 13,5:1).\n- Fast alle Symbol-Knöpfe haben aria-label; die Sonde fand über 11 Seiten nur die Farbpunkte ohne Namen.\n- Die Datumsauswahl (datepicker.js) hat wandernden tabindex, Tagesnamen als aria-label und eine saubere Escape-Kette. Die Symbol-Liste ist eine listbox mit Pfeiltasten und gibt den Fokus zurück.\n- Das Filter-Fenster hat role=dialog und aria-label. Die Hinweis-Punkte der Seitenleiste sind role=img mit Text.\n- Die Profilfelder haben autocomplete. html lang folgt der gewählten Sprache (i18n.js:111). document.title wird bei jedem Seitenwechsel gesetzt.\n- prefers-reduced-motion ist vorbildlich durchgezogen (motion.js, Diagramm-Einzug, Scroll-Trägheit, Ruhepunkt mit eigenem Zweig) bis auf den einen Spinner-Befund. Der Ruhepunkt nutzt aria-live.\n\nAbgrenzung zu den Inventaren: A12 (Fokusringe vereinheitlichen) und A15 (Hinweise in --faint) aus inventar-css.md überschneiden sich teilweise mit meinen Befunden zum Schalter-Fokus und zur .faint-Textfarbe. Meine Befunde ergänzen sie um gemessene Kontraste und die konkreten JS-Stellen. Die README-Entscheidung „Klick auf Beschriftung fokussiert das Feld nicht“ (App.noLabelFocus) habe ich nicht angetastet. Der Vorschlag zu den Info-Symbolen berührt die Vorgabe „Info-Symbole nur beim Darüberfahren“ nur so weit, dass sie zusätzlich bei Tastaturfokus erscheinen; mit der Maus bleibt alles wie bisher. Beim hellen Design bleibt der Farbton gleich, nur die Helligkeit der Textfarben ändert sich. Damit wird die Vorgabe „helles Design gleichwertig“ umgesetzt.\n\nNicht geprüft: echte Screenreader (NVDA, VoiceOver), Safari und Firefox, echte Touch-Gesten auf einem Gerät (nur Ansichten in 390 px). Die native Fehlerblase im Trade-Dialog erscheint in der Sprache des Browsers; in den Aufnahmen ist das Englisch, weil Playwright ein englisches Gebietsschema nutzt. Das Problem bleibt bei jeder Abweichung zwischen App- und Browsersprache bestehen.\n\nBelege aus eigener Messung: audit/a11y-probe.js und audit/a11y-probe2.js (lauffähig mit `node -r ./de-default.js`), Ergebnisse in audit/shots/extra/a11y/scan.json, dazu vier Fokus-Aufnahmen im selben Ordner."
+  }
+ }
+}

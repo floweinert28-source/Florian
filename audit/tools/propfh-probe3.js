@@ -1,0 +1,24 @@
+const { chromium } = require('playwright'); const path = require('path');
+const base = 'file:///home/user/Florian/web/app.html';
+(async () => { const b = await chromium.launch();
+  const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } }); const p = await ctx.newPage();
+  await p.goto(base, { waitUntil: 'load' });
+  await p.evaluate(() => { Store.installSample(); Store.setSetting('theme', 'dark'); Store.saveNow(); });
+  await p.goto(base + '#/prop/cockpit'); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(900);
+  const r = await p.evaluate(() => [...document.querySelectorAll('.prop-meta .kv b span')].map(s => ({ cls: s.className, text: s.textContent.trim().slice(0, 30), color: getComputedStyle(s).color })));
+  console.log(JSON.stringify(r));
+  const amp = await p.evaluate(() => [...document.querySelectorAll('.prop-card')].map(c => ({ firm: c.querySelector('.prop-title b').textContent, ampel: c.querySelector('.prop-ampel').dataset.ampel, title: c.querySelector('.prop-ampel').title })));
+  console.log(JSON.stringify(amp));
+  const pv = await p.evaluate(() => { const c = getComputedStyle(document.querySelector('.prop-balance .val')); return c.fontFamily; });
+  console.log('balance font', pv);
+  /* Bilanz: Planer-Link, Kachel-Höhen */
+  await p.goto(base + '#/prop/payout'); await p.waitForTimeout(900);
+  const pl = await p.evaluate(() => { const d = document.querySelector('[data-fold="planer"]'); const r = d.getBoundingClientRect(); return { open: d.open, top: r.top, vh: innerHeight, scrollY }; });
+  console.log('planer', JSON.stringify(pl));
+  const tv = await p.evaluate(() => [...document.querySelectorAll('.prop-tiles .tile .val')].map(v => Math.round(v.getBoundingClientRect().top)));
+  console.log('tile val tops', JSON.stringify(tv));
+  const btn = await p.evaluate(() => [...document.querySelectorAll('.card-head .btn.primary, .prop-entry .btn.primary')].map(b => ({ t: b.textContent.trim(), bg: getComputedStyle(b).backgroundColor, fw: getComputedStyle(b).fontWeight })));
+  console.log(JSON.stringify(btn));
+  const ch = await p.evaluate(() => { const svg = document.querySelector('[data-id="prop-balance"] svg'); if (!svg) return null; return [...svg.querySelectorAll('text')].map(t => t.textContent + '@' + Math.round(+t.getAttribute('x'))).join(' '); });
+  console.log('chart', ch);
+  await b.close(); })();

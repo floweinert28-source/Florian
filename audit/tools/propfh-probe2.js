@@ -1,0 +1,15 @@
+const { chromium } = require('playwright'); const path = require('path');
+const base = 'file:///home/user/Florian/web/app.html';
+(async () => { const b = await chromium.launch();
+  const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } }); const p = await ctx.newPage();
+  await p.goto(base, { waitUntil: 'load' });
+  await p.evaluate(() => { Store.installSample(); Store.setSetting('theme', 'dark'); Store.saveNow(); });
+  await p.goto(base + '#/dashboard'); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(800);
+  const where = async (label) => { const r = await p.evaluate(() => { const t = document.querySelector('.dh-context'); return t ? (t.closest('#tb-tools') ? 'topbar' : 'kopfreihe') + ' / ' + (t.querySelector('.prop-tabs') ? 'prop-tabs' : t.textContent.trim().slice(0, 30)) : 'fehlt'; }); console.log(label, r); };
+  await where('dashboard');
+  await p.goto(base + '#/prop/friedhof'); await p.waitForTimeout(700); await where('friedhof 1440');
+  await p.setViewportSize({ width: 900, height: 900 }); await p.waitForTimeout(300); await where('friedhof 900');
+  await p.setViewportSize({ width: 1440, height: 900 }); await p.waitForTimeout(300); await where('friedhof 1440 nach Resize');
+  await p.goto(base + '#/stats'); await p.waitForTimeout(700); await where('stats 1440');
+  await p.setViewportSize({ width: 900, height: 900 }); await p.waitForTimeout(300); await p.setViewportSize({ width: 1440, height: 900 }); await p.waitForTimeout(300); await where('stats nach Resize');
+  await b.close(); })();

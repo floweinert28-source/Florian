@@ -2,7 +2,7 @@
 # Alle Regressions-Suiten plus sampletest: je Suite PASS/FAIL-Zählung, FAIL-Zeilen und Fehlerstatus
 cd /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad
 export NODE_PATH=$(npm root -g)
-for s in sampletest dashtest rptest blindtest settest sixtest shadowtest replaytest proptest friedhoftest voicetest certtest nbsel motiontest settest2 dptest calmtest imgtest figtest figdel undotest mentortest langtest lazytest filtertest gaptest rangetest switchtest scrolltest sidebartest navdottest usercardtest loadtest tiptest anchortest recapmig fwtest coachtest coachlang coachlang2 coupontest affiliatetest tradeformtest colorpickertest scrollareatest notechecktest calmnavtest mobiletest scorestatetest streaktest glidetest tlfittest chartanimtest newstest headtest; do
+for s in sampletest dashtest rptest blindtest settest sixtest shadowtest replaytest proptest friedhoftest voicetest certtest nbsel motiontest settest2 dptest calmtest imgtest figtest figdel undotest mentortest langtest lazytest filtertest gaptest rangetest switchtest scrolltest sidebartest navdottest usercardtest loadtest tiptest anchortest recapmig fwtest coachtest coachlang coachlang2 coupontest affiliatetest tradeformtest colorpickertest scrollareatest notechecktest calmnavtest mobiletest scorestatetest streaktest glidetest tlfittest chartanimtest newstest headtest leaktest; do
   timeout 600 node -r ./de-default.js $s.js > run_$s.log 2>&1
   pass=$(grep -c '^PASS' run_$s.log); fail=$(grep -c '^FAIL' run_$s.log); total=$((pass + fail))
   err=$(grep -E '^(no errors|ERRORS)' run_$s.log | head -1)

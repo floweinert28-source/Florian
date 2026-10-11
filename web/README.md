@@ -60,7 +60,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Unten die **Konto-Karte** (Profilbild oder Initialen, Name, E-Mail): Klick öffnet ein Menü mit Profil, Coach, Einstellungen,
   Benachrichtigungen, Sprache und dem Hell/Dunkel-Schalter; eingeklappt nur das Profilbild, Menü rechts daneben.
 - **Dashboard** (Aufbau nach TradeZella; Zeitraum, Konto und Filter stehen ab Tablet-Breite oben rechts in der Titelzeile auf Höhe
-  des Avatars (Platz `#tb-tools`, `mount()` verschiebt den Block `.dh-context` dorthin und bei Größenwechsel zurück; auf dem Handy in
+  des Avatars (Platz `#tb-tools`, `mount()` verschiebt den Block `.dh-context` dorthin und bei Größenwechsel zurück, `unmount()` hängt den Größen-Listener beim Verlassen ab; auf dem Handy in
   der Kopfreihe), die Kopfreihe rechts hat nur Vorlage und Zertifikat als Symbole und „Trade loggen“, kein Mikrofon- und kein
   Session-Knopf; das Filter-Fenster und das breite Zeitraum-Menü öffnen rechtsbündig, zwischen 961 und 1000px mit einem Monat): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,

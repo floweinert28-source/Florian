@@ -134,6 +134,8 @@
       if (s.panel && s.editing) parts.push(addPanel(s.panel, lay, s.q));
       return parts.join('');
     },
+    /* beim Verlassen der Seite den Größen-Listener abhängen, sonst verschiebt er auf anderen Seiten deren Kopfreihe */
+    unmount() { const s = st(); if (s.mqPlace && s.mq) s.mq.removeEventListener('change', s.mqPlace); s.mq = s.mqPlace = null; },
     mount(main) {
       const s = st();
       placeContext(main, s);

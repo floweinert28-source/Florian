@@ -1,0 +1,764 @@
+bereich_prop-36 [Prop-Dialoge (Konto, Preset, Trades zuordnen)/abstaende/S1] Dialog-Inhalte kleben aneinander, weil das Formular kein Flex-Container ist
+bereich_trades_tag-11 [Verpassten Trade notieren/komponenten/S1] Verpasst-Dialog nutzt für Richtung und Symbol andere Bauteile als „Trade loggen“
+bereich_konto-1 [coach (Einrichten, Beitritt, Co-Coach-Beitritt)/layout/S1] Symbol über zentrierter Überschrift steht links am Kartenrand
+bereich_konto-3 [coach, affiliate (hell)/kontrast/S1] Grüne und bernsteinfarbene Texte im hellen Design unter 3:1
+bereich_konto-2 [coach/beitritt/farbe/S1] Gewählte Option „Nur ab heute“ ist grün markiert (abgelehnt)
+bereich_dashboard-1 [dashboard/farbe/S1] Grün auf Links und Knöpfen in fast jeder Karte, nicht nur bei Gewinn und „Trade loggen“
+bereich_dashboard-3 [dashboard/kontrast/S1] Helles Design: Gewinn-Grün hat 2,6:1 Kontrast (Werte, Links, Knopfschrift)
+bereich_dashboard-2 [dashboard/layout/S1] Schatten-Ich-Widget schneidet Beträge ab („+893,0…“, „+1.717,0…“)
+bereich_dashboard-4 [dashboard/responsiv/S1] Bis 960 px gibt es auf dem Dashboard keinen Konto-Wechsel und keine Konto-Anzeige
+bereich_dashboard-6 [dashboard/zustaende/S1] Aktiver Filter macht den Filter-Knopf zu einem zweiten „Trade loggen“
+abstaende_layout-15 [dashboard (1024)/responsiv/S1] Bei 1024 px wird „Letzte Trades“ abgeschnitten und die Score-Skala kollidiert
+responsiv-10 [dashboard (Tablet 1024)/layout/S1] Dashboard-Raster bleibt bei 742px Inhaltsbreite dreispaltig, Karten werden unlesbar
+wording-5 [day/wording/S1] Tagesansicht: zwei grüne Knöpfe für „Trade loggen“ und zwei für den Check-in
+abstaende_layout-3 [global/komponenten/S1] Menü-Knopf (drei Striche) am PC sichtbar, ohne Funktion
+typografie-1 [global/typografie/S1] Satoshi 600 wird als Bold 700 gerendert: die Regel ‚Titel 600, nur Werte 700‘ ist unsichtbar
+barrierefreiheit-2 [global/barrierefreiheit/S1] Fokus geht nach jeder Aktion verloren (Neuaufbau setzt ihn auf <body>)
+barrierefreiheit-3 [global/barrierefreiheit/S1] role="button"-Elemente reagieren nicht auf Enter oder Leertaste
+barrierefreiheit-7 [global/kontrast/S1] Helles Design: Gewinn-Grün und Schrift im Hauptknopf unter AA
+referenz-6 [global (Knöpfe)/farbe/S1] Gefüllte grüne Primärknöpfe sind lauter als „Trade loggen“
+komponenten-1 [global (Knöpfe): notebook, prop/bilanz, settings/konten, settings/regeln, settings/trading/komponenten/S1] Grün gefüllte Standard-Hauptknöpfe sind lauter als „Trade loggen“
+responsiv-1 [global (Kopfreihe unter 961px: dashboard, stats, trades, day, progress, shadow)/responsiv/S1] Konto-Auswahl ist auf dem Handy und auf dem Tablet hochkant nicht vorhanden
+komponenten-3 [global (Kopfreihe/Titelzeile): dashboard, stats, day, trades, trade_detail, settings/aufbau/S1] Zeitraum und Konto wechseln je nach Seite zwischen Titelzeile und Kopfreihe
+zustaende-1 [global (Leerzustände: trades, shadow, prop)/komponenten/S1] Leerzustand-CSS bläst die Symbole in den Knöpfen auf 34 px auf und färbt sie blass
+aufbau-1 [global (Titelzeile)/komponenten/S1] Toter Menü-Knopf (≡) neben jedem Seitentitel auf dem Desktop
+responsiv-9 [global (alle Eingabefelder, Handy)/responsiv/S1] Eingabefelder mit 13,5px lösen auf dem iPhone beim Antippen Zoom aus
+farbe_kontrast-1 [global (helles Design)/kontrast/S1] Helles Design: Gewinngrün #0fb862 hat auf Weiß nur 2,61:1, alle grünen Zahlen fallen unter WCAG AA
+bereich_training-2 [mentor/komponenten/S1] Chat-Klasse .mentor macht Mentor-Antworten im Coach-Verlauf 674px hoch
+bereich_training-1 [mentor/komponenten/S1] KI-Hinweis unter dem Chat erbt das gelbe Coach-Notiz-Design und ragt aus der Karte
+barrierefreiheit-14 [modal_session_beenden/barrierefreiheit/S1] Regel-Häkchen in „Session beenden“ sind per Tastatur nicht bedienbar
+zustaende-3 [modal_trade_loggen/zustaende/S1] Validierung über drei Kanäle, mit englischer Browser-Blase und falscher Reihenfolge
+barrierefreiheit-1 [modal_trade_loggen/barrierefreiheit/S1] Trade-loggen-Dialog bekommt keinen Fokus und hat keine Fokusfalle
+bereich_notebook_news-2 [notebook/farbe/S1] „Neue Notiz“ ist ein vollflächig grüner Knopf und lauter als „Trade loggen“
+bereich_notebook_news-1 [notebook/responsiv/S1] Bei 1024 px bricht das Notebook mit drei Spalten: Die Notiz-Spalte ist nur 246 px breit
+responsiv-13 [notebook (Tablet 1024)/layout/S1] Notebook dreispaltig bei 1024px: Notiz-Spalte nur 244px, Titel läuft hinaus
+bereich_dashboard-5 [panel_widget_hinzufuegen/farbe/S1] Widget-Bibliothek: Spalte aus zwölf grünen Vollflächen-Knöpfen
+bereich_training-5 [progress/aufbau/S1] ‚Regeln bearbeiten‘ und ‚Regeln anlegen‘ führen zu Profil statt zu Regeln
+bereich_training-15 [progress/diagramme/S1] ‚Disziplin pro Woche‘: Datumsbeschriftung überlappt auf dem Handy
+bereich_training-6 [progress/zustaende/S1] ‚Keine Daten‘ bei 0 von 5 Schritten, aber ‚0 %‘ Regeltreue ohne jede Regel – vertauschte Leerlogik
+responsiv-34 [progress (Disziplin pro Woche, Handy)/diagramme/S1] Achsenbeschriftung „Disziplin pro Woche“ läuft am Handy zu einer Zeichenkette zusammen
+zustaende-2 [progress, day, dashboard (Widget Regel-Tracker)/zustaende/S1] „Regeln anlegen“ und „Regeln bearbeiten“ führen auf Profil statt auf Regeln
+bereich_prop-1 [prop (alle Ansichten) / global/layout/S1] Prop-Reiter springen nach einem Fenster-Größenwechsel in die Titelzeile (Listener des Dashboards bleibt aktiv)
+hierarchie-4 [prop (Übersicht, Kontokarte)/hierarchie/S1] Fehlender Gewinn steht in derselben Karte zweimal, einmal in $ und einmal in €
+diagramme-4 [prop (Übersicht/Cockpit)/sonstiges/S1] Prop-Karte: dieselbe Zahl einmal in $, einmal in €
+bereich_prop-14 [prop/bilanz/zustaende/S1] „Bis Break-even: erreicht“ in Grün, obwohl es weder Ausgaben noch Payouts gibt
+bereich_prop-21 [prop/bilanz (Handy)/responsiv/S1] Handy: In Ausgaben und Payouts liegen Betrag, Netto, Status und Löschen außerhalb des Bildes
+bereich_prop-5 [prop/cockpit/wording/S1] Kontostand in $, P&L derselben Rechnung in €
+bereich_prop-2 [prop/cockpit/zustaende/S1] Ampel steht auf Grün, obwohl die Karte „Regel verletzt“ meldet
+bereich_prop-34 [prop/konten, Prop-Dialoge (global .hint)/kontrast/S1] Hilfstexte mit Kontrast 1,9:1 kaum lesbar
+aufbau-9 [ruhepunkt / day / progress/aufbau/S1] Zwei Check-ins mit verschiedenen Skalen – der Check-in im Ruhepunkt zählt nicht als Check-in
+bereich_shell-2 [seitenleiste/layout/S1] Die dichte Seitenleiste für niedrige Fenster greift nie: Bei 1366×768 liegt die Konto-Karte außerhalb des Bildes
+bereich_einstellungen-1 [settings (Profil, Trading, Mentor)/zustaende/S1] Getippte, ungespeicherte Eingaben verschwinden, sobald man auf derselben Seite einen Schalter umlegt
+bereich_training-3 [shadow/farbe/S1] Dieselben Disziplin-Kosten erscheinen dreimal verschieden: rot ohne Vorzeichen, grün mit +, rot mit −
+bereich_training-4 [shadow/farbe/S1] Eingeschaltete Regeln im ‚Mein Regelwerk‘ sind grün getönt und grün umrandet
+bereich_shell-3 [start-skelett/zustaende/S1] Das Start-Skelett ignoriert gespeichertes Hell-Design und eingeklappte Leiste: dunkler Blitz und ein Sprung um 152 px
+ki_look-2 [startseite (index.html)/kontrast/S1] Hero-Überschrift im hellen Design praktisch unsichtbar (#ededed auf #f5f7f5)
+ki_look-3 [startseite (index.html)/layout/S1] Klassenkollision `.shot` erzeugt einen leeren grauen 16:10-Kasten unter dem Demo-Fenster
+typografie-2 [stats/days, prop/farbe/S1] `.kv span` überschreibt Gewinn-, Verlust- und Warnfarbe in allen Schlüssel/Wert-Zeilen
+bereich_statistik-1 [stats/state/zustaende/S1] Leere Zustand-Spalte erbt die globale Leerzustands-Klasse .empty – Spalte rutscht ab, alle drei Karten werden 260 px hoch
+diagramme-5 [stats/state/zustaende/S1] Zustand-Karten: Klasse „empty“ kollidiert mit dem globalen Leerzustand
+bereich_statistik-3 [stats/summary/aufbau/S1] Zwei Kacheln zeigen dieselbe Kennzahl: „Trade-Erwartungswert“ = „Ø Netto-P&L pro Trade“
+zustaende-4 [stats/summary/zustaende/S1] „Ø Tages-Gewinn/Verlust“ zeigt ∞ bei einem Trader mit nur Verlusttagen
+diagramme-1 [stats/time, stats/setups, stats/mistakes/diagramme/S1] Waagerechte Balken: Anzahl „n×“ überschreibt die Kategorie-Beschriftung
+bereich_shell-1 [titelzeile/komponenten/S1] Hamburger-Knopf ist am Desktop sichtbar, tut nichts und verschiebt den Seitentitel
+bereich_trades_tag-1 [trade_detail (Karte Screenshots)/komponenten/S1] Bild-Symbol in der Screenshot-Dropzone ist rund 240 px groß
+bereich_trades_tag-3 [trade_detail (Plan vs. Ausführung)/layout/S1] Plan-Tabelle wird abgeschnitten, weil „grid two“ drei Spalten erzeugt
+barrierefreiheit-4 [trades/barrierefreiheit/S1] Trade-Zeilen lassen sich per Tastatur nicht öffnen
+responsiv-4 [trades (Handy 390)/responsiv/S1] Netto-P&L ist in der TradeLog-Tabelle am Handy nicht sichtbar
+responsiv-3 [trades (Handy 390)/responsiv/S1] TradeLog-Tabelle ist am Handy eine 530px hohe Scrollbox in der scrollenden Seite
+bereich_trades_tag-2 [trades (Leerzustand), day (Leerzustände mit Knopf)/komponenten/S1] Knopf-Symbole in Leerzuständen werden auf 34 px aufgeblasen
+responsiv-2 [trades (Tablet quer 1024×768)/responsiv/S1] TradeLog zeigt auf dem iPad quer genau eine Tabellenzeile, die Seite scrollt nicht
+bereich_trades_tag-5 [trades, day (Handy 390)/responsiv/S1] Am Handy fehlt in beiden Trade-Tabellen der P&L
+typografie-29 [Diagramme (dashboard, stats/days)/diagramme/S2] Achsen-Beschriftung doppelt definiert und in zwei Zahlenformaten
+bereich_prop-37 [Dialog Konto anlegen/bearbeiten/layout/S2] Dreizeiliger Hinweis unter „Währung“ reißt die erste Feldreihe auf, „Gruppe“ steht allein
+bereich_prop-38 [Dialog Konto anlegen/bearbeiten/wording/S2] Modus „Betrag (€)“ bei einem USD-Konto
+bereich_prop-40 [Dialog Trades zuordnen/farbe/S2] Angehakte Trades mit grün gefüllten Checkboxen
+komponenten-18 [Dialoge und Formulare (Challenge, Neue Vorlage, Prompt-Dialoge, Prop-Regeln, Filter, Zertifikat)/komponenten/S2] Feld-Beschriftungen in vier Stilen
+komponenten-11 [Kopfreihen (notebook, dashboard), modal_zertifikat/komponenten/S2] Symbolknöpfe in drei Größen stehen neben 42-px-Knöpfen
+bereich_prop-39 [Prop-Dialoge/barrierefreiheit/S2] Beim Öffnen hat der Schließen-Knopf den Fokus mit grünem Ring
+bereich_konto-29 [affiliate/aufbau/S2] Fünf Kennzahlen brechen mit einer verwaisten Kachel um, „Creator“ steht dreimal
+hierarchie-45 [affiliate/aufbau/S2] Zwei Steuerreihen vor dem Inhalt, „Trade loggen“ ohne Bezug
+bereich_konto-7 [affiliate/diagramme/S2] Balken „Provisionen je Monat“ in Akzentgrün
+bereich_konto-30 [affiliate/wording/S2] „Provision“ steht mal für den Satz in %, mal für den Betrag in €
+bereich_konto-32 [affiliate (Handy)/barrierefreiheit/S2] Provisionssatz am Handy ohne Bearbeiten-Hinweis und mit 29×17px Zielfläche
+bereich_konto-28 [affiliate (hell), auch Prop/komponenten/S2] Kennzahlen-Leiste im hellen Design mit weichen Schatten statt Haarlinien
+bereich_konto-27 [affiliate, coach/gruppe/layout/S2] Kennzahlen stehen nicht auf einer Linie, wenn eine Kachel eine Fußzeile hat
+bereich_konto-31 [affiliate/creator (Handy)/typografie/S2] Link im Ticket gesperrt gesetzt, am Handy fehlt genau der Ref-Code
+komponenten-20 [alle Dialoge mit <form> (Check-in, Trade, Konto, Ordner, Prop …)/abstaende/S2] Dialoge mit Formular verlieren den 16-px-Abstand
+bereich_konto-10 [coach/komponenten/S2] Replay-Symbol für „Aktualisieren“, „Jetzt abgleichen“ und „Neuen Link erzeugen“
+bereich_konto-24 [coach/layout/S2] Seitenbreite springt zwischen Coach-Ansichten und weicht vom Rest ab
+bereich_konto-11 [coach (Handy)/barrierefreiheit/S2] Knöpfe ohne Beschriftung am Handy haben keinen zugänglichen Namen
+bereich_konto-5 [coach (alle Ansichten)/komponenten/S2] Gefüllte grüne Primärknöpfe sind lauter als „Trade loggen“
+bereich_konto-9 [coach (Übersicht, Gruppe, Journal, Co-Coach-Fenster)/komponenten/S2] Klasse `.input.sm` existiert nicht: Felder sind 40–42px hoch neben 34px-Knöpfen
+bereich_konto-35 [coach/beitritt (Handy)/responsiv/S2] Beitrittsformular ragt rechts aus der Karte
+bereich_konto-12 [coach/gruppe/barrierefreiheit/S2] Schülerzeile lässt sich nur mit der Maus öffnen
+bereich_konto-13 [coach/gruppe/responsiv/S2] Schülertabelle scrollt am Handy und bei 1024px seitlich
+bereich_konto-19 [coach/journal/aufbau/S2] 28 Einträge mit offenem Schreibfeld und 28 deaktivierten grünen Knöpfen, 8037px hoch
+bereich_konto-20 [coach/journal/hierarchie/S2] Überschriften im Eintrag sind größer als der Eintragstitel
+bereich_konto-4 [coach/journal, coach/gruppe/farbe/S2] „Neu“-Markierung grün und beim ersten Besuch auf allen 28 Einträgen
+bereich_konto-17 [coach/journal, notebook (Mentor-Notiz)/ki-look/S2] Mentor-Notiz als bernsteinfarbene Box mit 3-px-Seitenstreifen
+bereich_konto-16 [coach/übersicht/wording/S2] Entwicklersprache im Mail-Hinweis, dazu orange
+bereich_konto-15 [coach/übersicht (Benachrichtigungen)/zustaende/S2] Zwei gleich aussehende Schalter verhalten sich unterschiedlich
+bereich_konto-14 [coach/übersicht (Schüler)/zustaende/S2] „Wird abgeglichen …“ bleibt nach dem Abgleich stehen
+bereich_konto-37 [coupons, affiliate/aufbau/S2] Session-Knopf ▷ ohne Bezug, am Handy in einer eigenen Zeile
+zustaende-9 [dashboard/abstaende/S2] Leerzustand „Gesamt-Score“ sitzt 30 px höher als in den Nachbarkarten
+bereich_dashboard-23 [dashboard/aufbau/S2] Kopfreihe links leer, aktive Vorlage nirgends sichtbar, Schild als Zertifikat-Symbol
+bereich_dashboard-33 [dashboard/aufbau/S2] Vier Muster für „mehr dazu“, zwei Links mit falschem Ziel
+bereich_dashboard-21 [dashboard/barrierefreiheit/S2] Info-Symbole sind per Tastatur nicht erreichbar und auf Touch zu klein und zu blass
+bereich_dashboard-22 [dashboard/barrierefreiheit/S2] Menü-Knöpfe ohne aria-expanded; Filter-Fenster übernimmt den Fokus nicht
+bereich_dashboard-36 [dashboard/diagramme/S2] Break-even einmal lila, einmal blau; Trefferquote-Linie in der BE-Farbe
+bereich_dashboard-35 [dashboard/diagramme/S2] Uhrzeit- und Haltedauer-Achse: krumme Werte, schräg gestellt, eigenes Format
+bereich_dashboard-39 [dashboard/diagramme/S2] Zwei Linienstile: weiche Kurven neben eckigen Polylinien
+bereich_dashboard-24 [dashboard/layout/S2] Bereichs-Karten (Prop, Ruhepunkt, Mentor) zu rund 40 % leer
+bereich_dashboard-10 [dashboard/layout/S2] Kachelwerte stehen auf drei verschiedenen Höhen
+bereich_dashboard-25 [dashboard/responsiv/S2] Handy: fünfte Kachel steht allein, daneben 173 px leer
+bereich_dashboard-44 [dashboard/typografie/S2] Vier Stile für „Kennzahl-Beschriftung“ allein auf dem Dashboard
+bereich_dashboard-17 [dashboard/wording/S2] Kalenderbeträge mal mit, mal ohne Cent; Kurzform mal mit, mal ohne Leerzeichen
+wording-7 [dashboard/wording/S2] Netto-P&L auf dem Dashboard ohne Vorzeichen, überall sonst mit
+barrierefreiheit-19 [dashboard/diagramme/S2] Diagramme ohne Textalternative, Werte nur per Maus-Tooltip
+abstaende_layout-16 [dashboard (1024)/responsiv/S2] KPI-Reihe bricht 3+2 um, die dritte Zelle bleibt leer
+referenz-7 [dashboard (Filter)/farbe/S2] Aktiver Filter färbt den Filter-Knopf grün
+responsiv-31 [dashboard (Kacheln, Handy)/layout/S2] Fünfte Kachel steht am Handy allein in halber Breite
+ki_look-11 [dashboard (Kalender)/komponenten/S2] Kalender: 7 umrandete Wochentag-Kästen, 31 Tageszahlen als Kreis-Abzeichen, „heute“ grün gefüllt
+farbe_kontrast-12 [dashboard (Kalender)/kontrast/S2] Kalender-Kacheln: Text auf den getönten Gewinn- und Verlustflächen ist zu schwach
+responsiv-33 [dashboard (Kalender-Widget, Handy)/typografie/S2] Kalender am Handy: Tagesbeträge 9,5px, Tageszahl 10px, Wochentage als volle Kästen
+diagramme-15 [dashboard (Kontostand-Verlauf)/diagramme/S2] Startkapital als dicke rote Linie, obwohl die Info von einer gestrichelten spricht
+responsiv-42 [dashboard (Tablet hochkant 768)/layout/S2] Tablet hochkant: Kacheln als Karussell mit angeschnittener dritter Kachel, Diagramme einspaltig über 736px
+diagramme-6 [dashboard (Trefferquote – Ø Gewinn – Ø Verlust, Report)/diagramme/S2] Diagramm mit zwei y-Achsen (€ links, % rechts); Trefferquote in der Break-even-Farbe
+diagramme-18 [dashboard (Täglicher & kumulierter P&L)/diagramme/S2] Erster und letzter Balken halb außerhalb der Fläche, Balken unter der Fläche verdeckt
+zustaende-32 [dashboard (Widget Letzte Trades)/responsiv/S2] Langes Symbol schneidet den P&L-Wert am Kartenrand ab
+zustaende-8 [dashboard (Widget Letzte Trades)/zustaende/S2] „Mehr anzeigen“ steht auch unter einer leeren Liste
+zustaende-7 [dashboard (Willkommen-Banner)/farbe/S2] Willkommen-Banner komplett grün, weil .banner.accent mit der globalen Klasse .accent kollidiert
+diagramme-13 [dashboard vs. stats/diagramme/S2] Kumulierter P&L mit zwei verschiedenen Zeitachsen und Namen
+farbe_kontrast-24 [dashboard, day, progress (Heute)/farbe/S2] ‚Heute‘ ist an vier Stellen grün markiert, ohne Gewinn-Bedeutung
+bewegung-18 [dashboard, stats (Kennzahl-Kacheln)/bewegung/S2] Nicht klickbare Kennzahl-Kacheln heben sich beim Überfahren wie Knöpfe
+wording-3 [dashboard, stats, day, trades, coach/wording/S2] Eine Kennzahl, vier Namen: Trefferquote, Win-Rate, Winrate, Ø Tages-Win-Rate
+typografie-4 [dashboard, stats, prop, stats/days, Widgets/hierarchie/S2] KPI-Label in sechs Ausprägungen für dieselbe Rolle
+wording-46 [dashboard, stats, trades (leer)/zustaende/S2] Leerzustände raten bei leerem Journal, den Zeitraum zu ändern
+wording-9 [dashboard, stats/summary/wording/S2] Gewinn-Verlust-Verhältnis mit fünf Namen und einem irreführenden Ø
+wording-47 [dashboard, trades (leer)/zustaende/S2] „Noch keine Daten“ als Wert in jeder Kennzahl-Kachel
+ki_look-13 [dashboard_bearbeiten/aufbau/S2] Drei verschachtelte Rahmen pro Widget, Widget-Titel steht doppelt
+bereich_dashboard-9 [dashboard_bearbeiten/bewegung/S2] Bearbeiten-Leiste: grüner Rand, grüne Fläche, pulsierender grüner Punkt
+ki_look-12 [dashboard_bearbeiten/ki-look/S2] Bearbeiten-Leiste grün umrandet, grün getönt, mit endlos pulsierendem Punkt
+bereich_dashboard-8 [dashboard_bearbeiten/layout/S2] Bearbeitungsmodus: Titel doppelt, drei Rahmen ineinander, Raster springt um 48 px
+responsiv-41 [dashboard_bearbeiten (Handy)/responsiv/S2] Bearbeitungsleiste der Kacheln: Titel auf „Netto P…“ gekürzt, Pfeile und × nur 28px
+aufbau-5 [day/aufbau/S2] Tagesansicht zeigt den Monats-Zeitraum über einem einzelnen Tag
+referenz-17 [day/layout/S2] Zwei Aktionszeilen übereinander, bevor der Tag beginnt
+barrierefreiheit-15 [day/barrierefreiheit/S2] Regel-Checklisten in Tagesansicht und Fortschritt sind <div> ohne Rolle und ohne Fokus
+bereich_trades_tag-37 [day (Check-in, Zertifikat, Regeln)/wording/S2] „Check-in nachtragen“ am heutigen Tag, englischer Tooltip, „definiert“
+responsiv-7 [day (Handy 390)/responsiv/S2] „Trades des Tages“: Setup abgeschnitten, P&L unsichtbar, runder Knopf liegt darüber
+responsiv-22 [day (Handy)/aufbau/S2] Tagesansicht: Zeitraum „Oktober 2026“ steht über „Montag, 17. August 2026“, Aktionen in drei Reihen
+bereich_trades_tag-13 [day (Regeln des Tages)/komponenten/S2] Eingehaltene Regeln werden durchgestrichen und abgeblendet
+bereich_trades_tag-41 [day (Regeln), trade_detail (Dropzone, Lightbox)/barrierefreiheit/S2] Regel-Häkchen, Dropzone und Bildansicht nur mit der Maus bedienbar
+hierarchie-18 [day (Tag ohne Trades)/zustaende/S2] Tag ohne Trades zeigt eine große Kennzahlenkarte voller Striche
+hierarchie-15 [day (Tagesansicht)/hierarchie/S2] Check-in-Aktion doppelt: Kopfreihe und Karte
+hierarchie-16 [day (Tagesansicht)/hierarchie/S2] Status-Spalte wiederholt Vorzeichen und Farbe des P&L; Fehler stehen unter „Setup“
+hierarchie-7 [day (Tagesansicht)/hierarchie/S2] Zwei grüne Trade-Knöpfe 60 px übereinander
+aufbau-10 [day / progress / dashboard (Widget Regel-Tracker) / Konto-Menü/aufbau/S2] „Regeln anlegen/bearbeiten“ und „Konten verwalten“ landen im Profil statt im passenden Bereich
+komponenten-25 [day, dashboard (Kalender-Widget), modal_zertifikat, pop_zeitraum, trades (Seitenwechsel)/komponenten/S2] Vor/Zurück-Pfeile in drei Bauarten
+hierarchie-19 [day, settings, progress/aufbau/S2] Zeitraum-Menü auf Seiten ohne Wirkung
+komponenten-8 [day, settings/konten, prop, coach/farbe/S2] Die grüne Gewinn-Pille wird für Status ohne Gewinnbedeutung benutzt
+wording-45 [day, stats (Zertifikat-Menü)/wording/S2] Zertifikat englisch: Tooltip „Daily Profit Certificate“, Menü „Daily/Weekly/Monthly Profit · Stats“
+abstaende_layout-32 [global/abstaende/S2] Abstand zwischen Karten in neun Werten (10–28 px), auch innerhalb einer Seite gemischt
+abstaende_layout-1 [global/abstaende/S2] Keine Abstandsskala: zwei gleich starke Raster (4er und 2er-versetzt) plus ungerade Werte
+abstaende_layout-31 [global/abstaende/S2] Neun verschiedene Innenabstände für Karten und Kacheln; Textkanten einer Spalte springen
+bereich_dashboard-12 [global/bewegung/S2] Einblenden beim Scrollen ist eine Eingangs-Animation ohne Seitenwechsel
+typografie-3 [global/typografie/S2] Ziel-Skala: 11 feste Stufen mit Rollen statt 25 gerenderter Größen (37 im CSS)
+zustaende-28 [global/wording/S2] Einzahl fehlt: „1 Trades“, „1 von 1 Trades“, „1 Notizen verschoben“
+barrierefreiheit-41 [global/aufbau/S2] Kartentitel sind <div>: keine Überschriftenstruktur auf Dashboard und Statistiken
+barrierefreiheit-8 [global/barrierefreiheit/S2] Dialoge setzen den Anfangsfokus auf das Schließen-×
+barrierefreiheit-11 [global/barrierefreiheit/S2] Formular-Dialoge schließen ohne Rückfrage, Eingaben gehen verloren
+barrierefreiheit-31 [global/barrierefreiheit/S2] Kein Sprunglink: 19 Tab-Schritte bis zum Seiteninhalt
+barrierefreiheit-9 [global/barrierefreiheit/S2] Nach dem Schließen eines Dialogs springt der Fokus nicht zurück
+barrierefreiheit-39 [global/barrierefreiheit/S2] Session-Knopf heißt für Screenreader nur „01:23“
+barrierefreiheit-24 [global/kontrast/S2] Helles Design: Fokusring #0fb862 auf Weiß nur 2,61:1
+barrierefreiheit-25 [global/kontrast/S2] Lesbare Sätze in --faint (2,06:1), darunter KI-Hinweis und Tastenkürzel
+barrierefreiheit-20 [global/zustaende/S2] Toasts ohne Live-Region, nur 2,4 s sichtbar, Erfolg und Fehler nur an der Randfarbe erkennbar
+farbe_kontrast-19 [global (Bewertungs-Ampel)/farbe/S2] Die Bewertungs-Ampel nutzt --accent statt --profit und bricht bei gelbem oder orangem Akzent
+farbe_kontrast-10 [global (Eingabefelder)/kontrast/S2] Platzhalter in --faint (2,2:1 dunkel, 2,0:1 hell): Suchfelder haben keine lesbare Beschriftung
+farbe_kontrast-14 [global (Fokus)/barrierefreiheit/S2] Der Fokusring ist grün und erreicht im hellen Design nur 2,4:1
+farbe_kontrast-11 [global (Hinweistexte)/kontrast/S2] --faint wird als Lesetext benutzt: Feld-Hinweise und ‚small faint‘ bei etwa 2:1
+farbe_kontrast-8 [global (Info-Farbe)/farbe/S2] Info-Blau wird kaum genutzt, ist im hellen Design zu schwach, und Info-Banner zeigen Grün
+hierarchie-10 [global (KPI-Kacheln: dashboard, shadow, affiliate, prop)/layout/S2] Kachelwerte einer Reihe stehen auf verschiedenen Höhen
+zustaende-34 [global (Kacheln)/zustaende/S2] Nicht klickbare Kacheln heben sich beim Darüberfahren an
+referenz-8 [global (Kalender, Datumswähler, Tagesansicht)/farbe/S2] „Heute“ ist überall grün markiert
+referenz-43 [global (Kennzahl-Labels)/typografie/S2] Eyebrows in Versalien über Werten: „NETTO-P&L“, „BALANCE“, „P&L“, „DEIN SCORE“
+hierarchie-13 [global (Kennzahl-Namen: dashboard, stats, day)/wording/S2] Eine Kennzahl, mehrere Namen: Trefferquote, Win-Rate, Ø Tages-Win-Rate
+komponenten-13 [global (Knöpfe, Kacheln, Seitenleiste, Design-Karten)/bewegung/S2] Knöpfe, Kacheln und Navigation bewegen sich beim Darüberfahren
+aufbau-2 [global (Kopfreihe aller Seiten außer Dashboard)/layout/S2] Ein Listener des Dashboards verschiebt auf anderen Seiten Zeitraum/Konto bzw. die Prop-Bereichsleiste in die Titelzeile
+ki_look-22 [global (Kopfreihe)/aufbau/S2] „Session starten“ und „Trade loggen“ (sogar Zeitraum/Konto) auf Einstellungen, Coupons, Affiliate, News
+aufbau-6 [global (Kopfreihe)/hierarchie/S2] „Session starten“ (▷) steht auch auf Seiten ohne Handelsbezug
+referenz-5 [global (Kopfzeile)/komponenten/S2] „Session starten“ ist nur ein ▷-Symbol, auf dem Dashboard fehlt es
+zustaende-29 [global (Kopfzeile/Kopfreihe: Konto-Knopf)/responsiv/S2] Langer Kontoname macht den Konto-Knopf 385 px breit
+diagramme-38 [global (Leerzustände der Diagramme)/zustaende/S2] Vier Varianten für „Diagramm ohne Daten“, Edge-Karte 280 px leer
+hierarchie-38 [global (Lesebreite: news, mentor, coach)/layout/S2] Drei Breitenregeln, die Kanten fluchten nicht mit der Kopfreihe
+referenz-23 [global (Reiter)/komponenten/S2] Fünf verschiedene Reiter-Stile für dieselbe Aufgabe
+farbe_kontrast-13 [global (Schalter)/barrierefreiheit/S2] Der Tastatur-Fokus auf Schaltern ist unsichtbar (1,3:1 dunkel, 1,1:1 hell)
+bewegung-1 [global (Seitenwechsel: dashboard, stats, progress)/bewegung/S2] Seitenwechsel-Einzug dauert bis 1,85 s – Diagramm-, Score- und Ring-Animationen weit über der Dauer-Skala
+ki_look-17 [global (Symbole)/ki-look/S2] Funkel-Symbol (KI-Klischee) steht für vier verschiedene Dinge
+bewegung-32 [global (Toast)/barrierefreiheit/S2] Toasts werden Screenreadern nicht angesagt
+zustaende-19 [global (Toasts)/zustaende/S2] Alle Toasts verschwinden nach 2,4 s, auch Fehler; keine Live-Region für Screenreader
+responsiv-43 [global (Wechsel über 961px, z. B. Tablet drehen)/zustaende/S2] Abgehängter Dashboard-Listener verschiebt auf anderen Seiten Zeitraum und Konto in die Titelzeile
+zustaende-35 [global (deaktivierte Knöpfe)/zustaende/S2] Deaktivierte Knöpfe reagieren auf Hover; sieben verschiedene Deckkraftwerte
+diagramme-32 [global (fmt.cur)/sonstiges/S2] Cent fallen ab 10.000 automatisch weg: gemischte Genauigkeit in einer Zeile
+zustaende-23 [global (fmt.cur)/zustaende/S2] Beträge ab 10.000 verlieren die Cents und stehen so neben Beträgen mit Cents
+farbe_kontrast-6 [global (helles Design)/kontrast/S2] Helles Design: Warn-Gelb #d99a12 ist mit 2,45:1 als Textfarbe nicht lesbar
+diagramme-8 [global (niceTicks)/diagramme/S2] Achsenbereich nicht auf runde Werte erweitert: Balken stoßen oben an, Minusbereich ohne Teilstrich
+bereich_konto-54 [global Kopfzeile (sichtbar in coach)/komponenten/S2] Zwei Profilbilder mit unterschiedlichen Initialen
+bereich_shell-15 [handy-menue/barrierefreiheit/S2] Handy-Menü: Fokus bleibt draußen, Tab springt hinter die Abdunklung
+bereich_shell-16 [handy-menue/responsiv/S2] Handy-Menü läuft über: Die Konto-Karte ist bei 390×844 halb abgeschnitten
+responsiv-15 [handy-menü (Schublade 390)/responsiv/S2] Handy-Menü: Konto-Karte unten halb abgeschnitten, keine Safe-Area
+bereich_shell-12 [konto-menue/barrierefreiheit/S2] Konto-Menü: ARIA-Menürolle ohne Menü-Verhalten, Fokus geht nach Escape verloren
+bereich_shell-28 [konto-menue/ki-look/S2] Coach (menschlicher Mentor) trägt das KI-Funkelsymbol
+bereich_dashboard-14 [leer_dashboard/farbe/S2] Willkommens-Banner grün mit Funkel-Symbol und zweitem grünen Hauptknopf
+bereich_dashboard-13 [leer_dashboard/zustaende/S2] Leeres Dashboard: neunmal „Noch keine Daten“, Leerflächen auf verschiedenen Höhen
+bereich_training-36 [mentor/farbe/S2] Grün ohne Gewinn-Bedeutung an vier Stellen im Mentor
+bereich_training-35 [mentor/wording/S2] Einrichten-Text in Entwicklersprache, Repo-Pfad mit 2:1-Kontrast
+aufbau-29 [mentor / coach / settings/mentor/wording/S2] „Mentor“ meint zwei verschiedene Dinge: den KI-Chat und den menschlichen Coach
+zustaende-15 [mentor, coach/layout/S2] Einrichten-Karte: Symbol steht links, Text mittig; beide Karten unterschiedlich breit
+wording-14 [mentor, coach, news, settings/wording/S2] Ein Server, drei Namen, und eingerichtet wird er unter „Mentor“
+barrierefreiheit-27 [menu_konto_unten/barrierefreiheit/S2] Konto-Menü behauptet role=menu, verhält sich aber nicht wie ein Menü
+typografie-26 [mobile (alle Formulare)/responsiv/S2] Eingabefelder am Handy unter 16 px: iOS Safari zoomt beim Antippen hinein
+typografie-28 [mobile (dashboard, trades, stats, prop)/responsiv/S2] Handy: Kachelwerte in 20, 21 und 28 px, Seitentitel 17 px
+typografie-27 [mobile Dashboard (Kalender)/barrierefreiheit/S2] Kalender-Beträge am Handy in 9.5 px Satoshi, Tageszahl 10 px
+bereich_trades_tag-45 [modal_checkin/farbe/S2] Schlaf-Schieber grün gefüllt mit Schein, Rohfarbe in der Stress-Skala
+barrierefreiheit-22 [modal_checkin/barrierefreiheit/S2] Schieberegler Schlaf zeigt keinen erkennbaren Fokus
+barrierefreiheit-12 [modal_checkin/barrierefreiheit/S2] Skalen Stress und Stimmung: Knöpfe heißen nur „1“ bis „5“, Gruppe ohne Namen, 31×32 px
+barrierefreiheit-13 [modal_plan_bewertung/barrierefreiheit/S2] Bewertungssterne ohne Namen und nur 26×26 px
+wording-1 [modal_trade_loggen/barrierefreiheit/S2] Pflichtfeld-Meldung im Trade-Dialog kommt englisch vom Browser („Please fill out this field.“)
+wording-2 [modal_trade_loggen/wording/S2] Datum und Uhrzeit im Trade-Dialog im US-Format („10/11/2026, 12:40 PM“, „mm/dd/yyyy, --:-- --“)
+barrierefreiheit-23 [modal_trade_loggen/barrierefreiheit/S2] Symbol-Liste: fokussierte Option kaum zu erkennen (1,1:1)
+barrierefreiheit-6 [modal_trade_loggen/zustaende/S2] Fehler beim Speichern: drei Kanäle in falscher Reihenfolge, Browserblase in Browsersprache
+bereich_trades_tag-12 [modal_trade_loggen (Richtung)/farbe/S2] Long/Short-Umschalter mit Lichtverlauf und farbigem Schein
+komponenten-16 [modal_trade_loggen, settings/trading (Zahlenfelder)/komponenten/S2] Zahlenfelder zeigen Browser-Pfeile, obwohl die README sie ausschließt
+komponenten-17 [modal_trade_loggen, settings/trading, shadow (Regelwerk)/komponenten/S2] Einheit im Feld gibt es in drei Bauarten
+bereich_dashboard-28 [modal_zertifikat/wording/S2] Datum „10/11/2026“ und Uhrzeit „--:-- --“ im Browserformat statt App-Sprache
+bereich_dashboard-30 [modal_zertifikat/zustaende/S2] Zertifikat öffnet standardmäßig einen leeren Tag; das Menü bleibt hinter dem Dialog offen
+bereich_notebook_news-39 [news/aufbau/S2] Die Kopfreihe ist links leer, die Filter stehen in einer eigenen Zeile darunter
+bereich_notebook_news-42 [news/farbe/S2] Gewählte Wichtigkeits-Chips sind rot und gelb, im hellen Design hat „Mittel“ nur 2,25:1
+bereich_notebook_news-40 [news/zustaende/S2] Countdown rechnet in Stunden statt Kalendertagen: „morgen“ klein, teils falsch, teils „in 23 Std. 59 Min.“
+zustaende-40 [news/zustaende/S2] „morgen“ im Kopf gegen „Morgen“ am Tag; Stunden statt Tag für morgige Termine
+responsiv-19 [news, affiliate, coupons (Handy)/aufbau/S2] Kopfreihe besteht am Handy nur aus einem Session-Symbol, dazu der runde Knopf auf Nicht-Trading-Seiten
+zustaende-17 [news, coach/zustaende/S2] Bereiche laden mit Spinner bzw. Kurslinie statt mit Skelett
+zustaende-18 [news, coach, mentor/zustaende/S2] „Server nicht erreichbar“ in drei Darstellungen und drei Wortlauten
+bereich_notebook_news-10 [notebook/aufbau/S2] Bei eingeklappter Ordner-Spalte und auf dem Handy ist der aktuelle Ordner unsichtbar
+bereich_notebook_news-9 [notebook/aufbau/S2] Der Filter-Popover doppelt die Ordner- und Tag-Auswahl der linken Spalte mit eigenem Zustand
+bereich_notebook_news-6 [notebook/aufbau/S2] „Neue Notiz“ legt in „Alle Notizen“ eine Tagesnotiz an, jeder weitere Klick eine Doublette
+bereich_notebook_news-32 [notebook/komponenten/S2] Farbbalken eigener Ordner gebogen, Ordnernamen ohne Emoji springen nach links
+bereich_notebook_news-3 [notebook/kontrast/S2] Hell: Weiß auf Grün (Neue Notiz) und grüne Links im Notizkopf haben nur 2,6:1
+bereich_notebook_news-26 [notebook/kontrast/S2] Leertexte und Editor-Platzhalter in --faint haben nur 2,06:1
+bereich_notebook_news-5 [notebook/layout/S2] Die Kopfreihe wird gestaucht, beim Ordnerwechsel springen alle drei Spalten um bis zu 6 px
+bereich_notebook_news-15 [notebook/typografie/S2] Schriftgewichte im Notebook verstoßen gegen die eigene Regel (500 für Steuerelemente, 600 für Titel)
+bereich_notebook_news-27 [notebook/wording/S2] Papierkorb heißt zweimal anders, „Tag loggen“, „Notizen antippen“ am Desktop
+typografie-22 [notebook (Editor), settings/notebook/zustaende/S2] Notebook-Überschriftsgrößen aus den Einstellungen wirken nicht (Quill überschreibt sie)
+bereich_konto-18 [notebook (Mentor-Notizen beim Schüler)/layout/S2] Mentor-Notizen stehen bündig am Spaltenrand statt an der Textkante
+farbe_kontrast-29 [notebook (Notizliste)/zustaende/S2] Notizliste: Verlustbetrag erscheint grau statt rot (Spezifitätsfehler)
+bereich_notebook_news-16 [notebook + editor/farbe/S2] Grün markiert im Notebook und im Editor Auswahl und Zustände (nicht nur Gewinn)
+bereich_notebook_news-21 [notebook/editor/farbe/S2] Farbraster mit 100 festen Hex-Farben, die im Wechsel zwischen hell und dunkel unlesbar werden
+bereich_notebook_news-13 [notebook/editor/layout/S2] Werkzeugleiste bricht bei 1440 px um, das Bild-Symbol steht allein in Zeile 2
+bereich_notebook_news-12 [notebook/editor (Handy)/responsiv/S2] Handy: Fett, Kursiv und Farbe liegen unsichtbar rechts außerhalb der Werkzeugleiste
+bereich_notebook_news-18 [notebook/notiz/diagramme/S2] Statistik der Trade-Notiz zeigt Summen über einen einzigen Trade und eine rote Dreiecksfläche
+bereich_notebook_news-17 [notebook/notiz/farbe/S2] P&L-Zeile im Notizkopf: grüne Links und fettes Label
+bereich_notebook_news-7 [notebook/notiz/hierarchie/S2] Das Datum steht im Notizkopf bis zu viermal, bei Trade-Notizen widersprüchlich
+bereich_notebook_news-20 [notebook/notiz/komponenten/S2] Tag-Menü: läuft über die Spalte, bunte Spaltenköpfe, halb abgeschnittene Einträge, keine Suche
+bereich_notebook_news-11 [notebook/notiz (Handy)/responsiv/S2] „Teilen“ ist auf dem Handy nicht erreichbar
+bereich_notebook_news-19 [notebook/notiz + day/diagramme/S2] Spark-Fläche füllt bis zum unteren Rand statt bis zur Nulllinie, der Verlauf ist schwer
+bereich_notebook_news-25 [notebook/papierkorb/layout/S2] Kopf einer gelöschten Notiz bricht um, „Endgültig löschen“ steht allein in Zeile 2
+responsiv-40 [notebook_notiz (Handy)/responsiv/S2] Editor-Werkzeugleiste: Fett, Kursiv und Unterstrichen liegen außerhalb des Bildschirms
+bereich_dashboard-31 [pop_filter/wording/S2] Filter: „Reviewed/Unreviewed“, „Multiday“, Einheiten „Min.“ neben „Min“
+barrierefreiheit-5 [pop_filter/barrierefreiheit/S2] Dashboard-Filter ist per Tastatur praktisch nicht erreichbar
+responsiv-25 [pop_filter (Handy)/barrierefreiheit/S2] Filter-Fenster: Segmentknöpfe nur 27–28px hoch
+komponenten-2 [pop_vorlage, pop_zeitraum, pop_konto, Symbol-Menü im Trade-Fenster/komponenten/S2] Gewählter Menüeintrag ist grün und teils fett, in drei Varianten
+bereich_dashboard-27 [pop_zeitraum/responsiv/S2] Handy: Zeitraum-Menü zeigt September, obwohl Oktober gewählt ist
+barrierefreiheit-26 [pop_zeitraum/barrierefreiheit/S2] Menü-Auslöser ohne aria-expanded/aria-haspopup; Auswahl nur über die Farbe und mit ungültigem aria-checked
+barrierefreiheit-42 [pop_zeitraum/barrierefreiheit/S2] Zeitraum-Kalender: jeder Tag ist ein Tab-Schritt, bis „Anwenden“ sind es über 70
+responsiv-23 [pop_zeitraum (Handy und 961–1000px)/komponenten/S2] Zeitraum-Menü am Handy zeigt den Vormonat statt des gewählten Zeitraums
+farbe_kontrast-23 [pop_zeitraum, Datumswähler/zustaende/S2] Zeitraum-Menü und Datumswähler markieren die Auswahl grün (Band, Start und Ende, Vorgabe, Heute)
+komponenten-21 [pop_zeitraum, pop_filter/komponenten/S2] Zwei Filter-Popover mit zwei verschiedenen Fußzeilen
+bereich_dashboard-29 [pop_zertifikat/wording/S2] Zertifikat-Menü englisch („Daily Profit · Tag“), „Username anzeigen“
+bereich_training-10 [progress/aufbau/S2] Die fünf Regeln stehen dreimal auf derselben Seite
+bereich_training-20 [progress/barrierefreiheit/S2] Checklisten-Zeilen, Heatmap-Zellen und Verstoß-Zeilen sind per Tastatur nicht bedienbar
+bereich_training-7 [progress/diagramme/S2] Regeltreue-Ring: grüner Punkt ohne Wert, Schein am Bogen, 116px Ring ohne Zusatzinformation
+bereich_training-8 [progress/farbe/S2] Heatmap färbt Aktivität in Gewinn-Grün – Verlusttage erscheinen kräftig grün
+hierarchie-20 [progress/hierarchie/S2] „Keine Daten“ in Wertgröße, obwohl der Wert bekannt ist
+bereich_training-24 [progress/responsiv/S2] ‚Regeln im Detail‘ zeigt auf dem Handy nur die Regelspalte
+bereich_training-19 [progress/zustaende/S2] Drei verschiedene Leerzustände auf einer Seite
+ki_look-6 [progress (% Regeln eingehalten)/ki-look/S2] 116-px-Fortschrittsring mit grünem Glow; ohne Regeln „0 %“ plus Ring
+responsiv-8 [progress (Handy 390)/responsiv/S2] „Regeln im Detail“ zeigt am Handy nur die Regelnamen
+zustaende-12 [progress (Tages-Checkliste), day/zustaende/S2] Erfüllte Checklisten-Punkte werden durchgestrichen und lesen sich wie verletzt
+abstaende_layout-27 [progress (Tilt-Profil)/layout/S2] Werte im Tilt-Profil stehen auf drei Höhen, weil die Labels unterschiedlich umbrechen
+responsiv-35 [progress (Tilt-Profil, Handy)/layout/S2] Tilt-Profil: drei Spalten mit dreizeiligen Großbuchstaben-Labels, Werte auf verschiedenen Höhen
+farbe_kontrast-21 [progress (Trading-Aktivität)/diagramme/S2] Die Aktivitäts-Heatmap färbt die Zahl der Trades grün, Grün ohne Gewinn-Bedeutung
+abstaende_layout-11 [progress, prop/bilanz, alle Karten mit Kopf-Knopf/abstaende/S2] Kartentitel sitzt 6–7 px über der Mitte des Knopfs daneben
+aufbau-16 [prop/aufbau/S2] Prop Firms: zweite Reiterebene „Auswertung“ für nur zwei Ansichten
+wording-35 [prop/wording/S2] Prop-Leertext verweist auf Firmen-Presets, die es nicht mehr gibt
+wording-34 [prop/wording/S2] „Prop-Konto“ (nur Nomen) und „Konto anlegen“ für dieselbe Aktion auf einem Bildschirm
+wording-30 [prop/zustaende/S2] „Max. Drawdown übrig 11.162 $ von 3.000,00 $“: übrig größer als das Limit
+bereich_prop-12 [prop (Kennzahlen-Leisten)/layout/S2] Werte in der Kennzahlen-Leiste springen in der Höhe, sobald ein Fußtext umbricht
+bereich_prop-13 [prop (Kennzahlen-Leisten, 1024 px)/responsiv/S2] Vier Kacheln brechen bei 1024 px als 3 + 1 um
+hierarchie-28 [prop (Konten)/komponenten/S2] „Konto anlegen“ zweimal, mit zwei Namen und zwei Gewichten
+bereich_prop-11 [prop (Kopfreihe Handy)/barrierefreiheit/S2] „+“-Knopf ohne zugänglichen Namen, zweites „+“ neben dem FAB
+responsiv-46 [prop (Kopfreihe, Handy)/komponenten/S2] Prop Firms am Handy: „+“ ohne Text für „Prop-Konto“ neben dem runden „+“ für Trades
+bereich_prop-42 [prop (Leerzustand) / global .empty/komponenten/S2] Plus-Symbol im Leerzustand-Knopf auf 34 px aufgeblasen
+diagramme-39 [prop (Übersicht/Cockpit)/diagramme/S2] „11.162 $ von 3.000,00 $ übrig“: der Puffer ist größer als das Limit, der Balken steht voll
+typografie-11 [prop, dashboard (Widgets), day, mobile Kalender/typografie/S2] Geldwerte in Satoshi statt Onest (Prop-Saldo, Widget-Werte, Tagesleiste, Gewinn/Verlust-Beträge)
+typografie-19 [prop, settings, Filter, Kalender/typografie/S2] Steuerelemente in 600 statt 500 (Prop-Reiter, Einstellungs-Reiter, Segmente, Links, Toasts)
+komponenten-30 [prop, settings/konten, settings/regeln, notebook (Anlegen-Aktionen)/komponenten/S2] Der Anlegen-Knopf hat sechs Größen- und Tonvarianten
+farbe_kontrast-32 [prop, stats (Kennzahlen-Leiste, hell)/farbe/S2] Hell: Die Kennzahlen-Leiste zeigt verwischte Schattenstreifen statt feiner Trennlinien
+typografie-14 [prop, stats, global/typografie/S2] Geldbeträge verlieren ab 10.000 die Nachkommastellen: „11.162 $ von 3.000,00 $“
+diagramme-40 [prop/auswertung (Bilanz)/diagramme/S2] „Ausgaben vs. Payouts“: Stufen werden geglättet, Zeitachse gestaucht
+bereich_prop-19 [prop/bilanz/aufbau/S2] Ausgaben-Tabelle: Spalten „Firma“ und „Konto“ wiederholen sich
+bereich_prop-23 [prop/bilanz/diagramme/S2] „Ausgaben vs. Payouts“: Zeitachse nach Index statt nach Datum
+bereich_prop-18 [prop/bilanz/komponenten/S2] Tabellen Ausgaben und Payouts doppelt gerahmt (Karte in Karte)
+abstaende_layout-13 [prop/bilanz/layout/S2] Doppelter Rahmen: Ausgaben- und Payout-Tabelle mit eigenem Kasten in der Karte
+responsiv-6 [prop/bilanz (Handy 390)/responsiv/S2] Ausgaben- und Payout-Tabelle zeigen am Handy die Beträge nicht
+bereich_prop-28 [prop/bilanz (Payout-Planer)/aufbau/S2] Planer: drei Ebenen Kasten in Kasten und zwei Banner, die den Inhalt vorwegnehmen
+bereich_prop-30 [prop/bilanz (Payout-Planer)/hierarchie/S2] Vorschlag „973,07 €“ in 44 px ist die größte Zahl der Bilanz
+bereich_prop-29 [prop/bilanz (Payout-Planer)/layout/S2] Zeile „Consistency Rule“ bricht um, Label zweizeilig, Wert dreiteilig
+bereich_prop-15 [prop/bilanz (leer)/zustaende/S2] Leere Bilanz: riesige Diagramm-Grafik mit Legende und eine halbleere „Pro Firma“-Karte
+bereich_prop-43 [prop/bilanz, prop/friedhof (Unterreiter)/farbe/S2] Gewählter Unterreiter mit grünem Unterstrich
+bereich_prop-16 [prop/bilanz, prop/konten, prop (leer)/farbe/S2] Vollgrüne Knöpfe im Seiteninhalt überstrahlen „Trade loggen“
+bereich_prop-7 [prop/cockpit/hierarchie/S2] Zwei gleich große Überschriften übereinander, eine davon wiederholt die Kachel
+bereich_prop-4 [prop/cockpit/wording/S2] Breach-Banner mischt ISO-Datum und deutsches Datum
+bereich_prop-6 [prop/cockpit/zustaende/S2] Gesperrter Trailing-Drawdown: „11.162 $ von 3.000,00 $“ und Tooltip „372 % des Limits übrig“
+bereich_prop-3 [prop/cockpit/zustaende/S2] Verletztes Konto zeigt volle grüne Puffer-Balken und „0 % Ziel“
+bereich_prop-10 [prop/cockpit (Handy)/responsiv/S2] Zeile „Bestehen“ bricht auf dem Handy als einzige um und steht linksbündig
+bereich_prop-9 [prop/cockpit, prop/bilanz (Planer)/farbe/S2] Statusfarben in Kennwert-Zeilen werden von `.kv span` grau überschrieben
+bereich_prop-44 [prop/friedhof/farbe/S2] Anzahl „Geplatzte Konten 1“ in Rot
+bereich_prop-47 [prop/friedhof (Grabstein Rückseite)/abstaende/S2] Rückseite: Text klebt mit 5 px am Rand der Schrifttafel
+bereich_prop-48 [prop/friedhof (Grabstein)/barrierefreiheit/S2] Umdrehen: Der Fokus bleibt auf der verdeckten Seite, und deren Knöpfe sind per Tab erreichbar
+bereich_prop-46 [prop/friedhof (Grabstein)/wording/S2] Grabstein zeigt „100.000 €“ für ein USD-Konto und wiederholt die Größe
+bereich_prop-33 [prop/konten (Ampel und Stop-Größe)/layout/S2] Eingabefelder versetzt, weil ein Label zweizeilig ist
+bereich_prop-22 [prop/konten (Handy)/responsiv/S2] Handy: In „Deine Konten“ sind Status, Trades und Bearbeiten/Löschen nicht sichtbar
+bereich_training-44 [ruhepunkt/farbe/S2] Hauptknöpfe in Blau, Violett und Verlust-Rot; im Akut-Reset zwei rote Hauptknöpfe
+bereich_training-45 [ruhepunkt/ki-look/S2] Startkarten mit Hover-Lift, Farbschein und endlos animierten Symbolen
+bereich_training-41 [ruhepunkt/komponenten/S2] Rhythmus-Zeile kürzt Phasen ab (‚Durch die Nase einat…‘, ‚Kurz nachz…‘)
+bereich_training-46 [ruhepunkt/typografie/S2] Zwei h1, Titel in 700 und 17 Schriftgrößen im Ruhepunkt-Modul
+bereich_training-42 [ruhepunkt/zustaende/S2] ‚← Übersicht‘ verwirft eine laufende Session ohne Rückfrage; im Fertig-Bildschirm doppelt
+responsiv-17 [runder „Trade loggen“-Knopf (Handy)/komponenten/S2] Gestaltung des runden Knopfs wird von .btn.accent überschrieben: dunkle Scheibe ohne Abhebung
+bereich_shell-13 [seitenleiste/barrierefreiheit/S2] Aktiver Navigationseintrag ohne aria-current
+bereich_shell-17 [seitenleiste/kontrast/S2] Helles Design: Gruppentitel und Untertitel der Marke unter 4,5:1
+bereich_shell-34 [seitenleiste/wording/S2] „Profil vervollständigen“ in der Konto-Karte auf jeder Seite abgeschnitten
+barrierefreiheit-30 [seitenleiste/responsiv/S2] Geschlossene Handy-Schublade bleibt in der Tab-Reihenfolge, geöffnete fängt den Fokus nicht
+responsiv-14 [seitenleiste (Desktop/Tablet quer, Fensterhöhe ≤ 940px)/responsiv/S2] Verdichtungsregeln für niedrige Fenster greifen nie, die Konto-Karte liegt unter dem Rand
+referenz-32 [settings/typografie/S2] Abschnittstitel „Profil“ ist größer und fetter als der Seitentitel „Einstellungen“
+referenz-35 [settings (Daten und Sicherung)/typografie/S2] Abschnittstitel und Zeilentitel gleich groß, Fließtext 850 px breit
+bereich_einstellungen-22 [settings (Handy)/responsiv/S2] Am Handy werden zwölf Abschnitte zu einer waagerechten Leiste, neun davon außerhalb des Bildschirms
+bereich_einstellungen-9 [settings (Konten, Regeln, Inhalte, Profil)/farbe/S2] Grün gefüllte Knöpfe für Nebenaktionen, „Konto hinzufügen“ ist kräftiger als „Trade loggen“
+bereich_einstellungen-16 [settings (Navigation, hell)/kontrast/S2] Im hellen Design ist der gewählte Abschnitt im Einstellungsmenü fast nicht zu erkennen
+bereich_einstellungen-11 [settings (Profil, Trading, Notebook)/komponenten/S2] Ja/Nein-Optionen mal als Schalter, mal als native Checkbox mit grünem Haken
+farbe_kontrast-4 [settings (Unter-Navigation)/zustaende/S2] Einstellungen, hell: Aktiver und überfahrener Bereich in der Unter-Navigation sind unsichtbar (1,02:1)
+bereich_einstellungen-3 [settings (alle Abschnitte, Handy)/aufbau/S2] Zeitraum, Konto, Session und „Trade loggen“ stehen über den Einstellungen, ohne dort etwas zu bewirken
+typografie-7 [settings (alle Bereiche)/hierarchie/S2] Bereichs-Überschrift (24/700) größer als der Seitentitel (21/600)
+typografie-9 [settings (alle Bereiche)/typografie/S2] Beschreibungstexte laufen über die volle Blockbreite (~150 Zeichen pro Zeile bei 12 px)
+responsiv-18 [settings (alle Bereiche, Handy und Desktop)/aufbau/S2] Einstellungen haben Zeitraum, Session und „Trade loggen“; am Handy liegt der runde Knopf über den Formularfeldern
+bereich_einstellungen-2 [settings (alle Formular-Abschnitte)/komponenten/S2] Drei Arten zu speichern, in Trading sogar beide in einem Formular
+bereich_einstellungen-7 [settings/abo/aufbau/S2] Ein eigener Navigationspunkt für „Es gibt derzeit kein Abo“
+bereich_einstellungen-20 [settings/design/barrierefreiheit/S2] Farbpunkte haben keinen zugänglichen Namen
+bereich_einstellungen-18 [settings/design/farbe/S2] Farbpaar „Violett / Gelb“ gibt Gewinn dieselbe Farbe wie Break-even
+bereich_einstellungen-17 [settings/design/farbe/S2] Farbvorschau im hellen Design: Weiß ist unsichtbar, und die Vorschau zeigt eine andere Farbe als die App
+abstaende_layout-21 [settings/design/layout/S2] Vier Rastermodelle für Auswahlkarten auf einer Seite, Spaltenkanten laufen nicht durch
+bereich_einstellungen-36 [settings/inhalte/aufbau/S2] Ein eigener Reiter nur für eine feste Tabelle mit drei Zeilen
+bereich_einstellungen-37 [settings/inhalte/farbe/S2] Die Kategorie Setups ist grün, Setup-Chips sind überall sonst neutral
+bereich_einstellungen-38 [settings/inhalte (Tags)/zustaende/S2] „Zurücksetzen“ in der Filterleiste setzt alle Tags zurück, nicht den Filter
+bereich_einstellungen-12 [settings/notebook/layout/S2] Notebook ist der einzige Abschnitt ohne Karte, mit vier 360 px breiten Auswahlfeldern
+bereich_einstellungen-5 [settings/profil/aufbau/S2] Adresse, Bio und Zeitzone haben keine Wirkung, und die Zeitzone steht bei UTC auf „Africa/Abidjan“
+aufbau-25 [settings/profil/aufbau/S2] Einstellungen → Profil sammelt Fremdes: Ruhepunkt-Schalter, 2FA, Sicherung, Beispieldaten, „Alles löschen“
+bereich_einstellungen-13 [settings/profil (Daten und Sicherung)/layout/S2] Beispieldaten: Knopf rutscht links unter einen 70-Wort-Text, harmloses „Entfernen“ ist rot wie „Alles löschen“
+bereich_einstellungen-8 [settings/sprache/farbe/S2] Sprach-Karten markieren Auswahl und Hover in Grün
+bereich_einstellungen-6 [settings/trading/aufbau/S2] „Was handelst du?“ speichert eine Auswahl, die nirgends verwendet wird
+komponenten-5 [settings/trading (auch Profil → Privatsphäre, Einstellungen → Notebook)/zustaende/S2] Zwei Speicherarten im selben Formular
+komponenten-26 [settings/trading, modal_zertifikat, Trade-Formular (Marktphase), Filter, Prop/komponenten/S2] Einzelauswahl einmal als lose Kästen, einmal als Schiene
+wording-12 [settings_benachrichtigungen/wording/S2] Auslöser der Recaps passiv und sachlich falsch beschrieben
+farbe_kontrast-17 [settings_design/zustaende/S2] Im hellen Design ist weder Akzentfarbe noch Farbpaar als gewählt markiert
+barrierefreiheit-36 [settings_design/barrierefreiheit/S2] Farbpunkte für Akzent- und Editorfarben ohne zugänglichen Namen
+farbe_kontrast-15 [settings_design (eigene Akzentfarbe)/kontrast/S2] theme.js wählt die Schriftfarbe auf dem Akzent falsch: Bei Orange 2,8:1, bei Pink 3,5:1, bei Blau 3,7:1
+farbe_kontrast-25 [settings_inhalte, prop (Unterreiter), settings_sprache/zustaende/S2] Unterstrich-Reiter und Sprach-Chip zeigen die Auswahl in Grün
+farbe_kontrast-26 [settings_konten, coach, prop/farbe/S2] Gewinn-Pillen werden für reine Status benutzt: ‚aktiv‘, ‚Neu‘, ‚geprüft‘
+wording-21 [settings_profil/wording/S2] Beispieldaten-Text verrät das versteckte Blind-Replay und ist 60 Wörter lang
+wording-17 [settings_profil/wording/S2] Privatsphäre-Abschnitt spricht von „wir“ und einem Support-Team, das es nicht gibt
+wording-18 [settings_profil/wording/S2] „2FA aktivieren“ und „Passwort zurücksetzen“ versprechen Funktionen, die es nicht gibt
+typografie-8 [settings_profil, settings_trading/hierarchie/S2] Block-Titel und Unterpunkt-Titel sind gleich (14/700)
+barrierefreiheit-35 [settings_regeln/barrierefreiheit/S2] Gleichlautende Namen in Listen: jeder Schalter „Aktiv“, jeder Knopf „Löschen“ oder „Bearbeiten“
+barrierefreiheit-21 [settings_trading/barrierefreiheit/S2] Fokusring der Schalter praktisch unsichtbar (1,3:1)
+barrierefreiheit-29 [settings_trading/barrierefreiheit/S2] Schalter-Zeilen: Trefferfläche 36×20 px, Titel nicht klickbar, Beschreibung nicht verknüpft
+typografie-10 [settings_trading, settings_profil, modal_trade_loggen, pop_filter/kontrast/S2] Feld-Hinweise in --faint bei 11–12 px: Kontrast 2,06:1
+bereich_training-28 [shadow/diagramme/S2] Equity-Diagramm: das echte Konto ist die blasse Linie, die hypothetische Linie ist Gewinn-Grün
+bereich_training-31 [shadow/komponenten/S2] Leerzustand: 34px-Plus im kleinen Knopf ‚Trade loggen‘
+bereich_training-25 [shadow/layout/S2] Kachelwerte stehen auf verschiedenen Höhen, Zusatzinfos mal oben, mal unten
+bereich_training-27 [shadow/responsiv/S2] Verstoß-Tabelle auf dem Handy: die Beträge liegen außerhalb des Bildes
+wording-41 [shadow/wording/S2] Regel „Stopp nach Verlusten in Folge“ sagt „Pause“, sperrt aber den ganzen Tag
+wording-38 [shadow/wording/S2] Schatten-Ich: „Regelbrüche“ und „Verstöße“ für dasselbe auf einem Bildschirm, dazu Gedankenstrich
+wording-39 [shadow/wording/S2] „Mit allen Regeln eingehalten“ ist kein deutscher Satz
+farbe_kontrast-30 [shadow (Mein Regelwerk)/zustaende/S2] Eingeschaltete Regelkarten sind grün getönt und grün umrandet, eine doppelte grüne Markierung neben dem Schalter
+aufbau-8 [shadow / progress / settings/regeln / settings/trading / ruhepunkt/aufbau/S2] Handelsregeln gibt es an vier Stellen, mit sich widersprechenden Werten
+abstaende_layout-4 [shadow, coach, mentor, settings/abstaende/S2] Leere Kopfreihe reserviert 62 px Leerraum über dem Inhalt
+bereich_shell-5 [start-skelett/responsiv/S2] Handy-Skelett: Titelzeile zu hoch, Menüknopf und Kopfreihe fehlen, nur 3 von 5 Kacheln
+bereich_shell-4 [start-skelett/zustaende/S2] Skelett-Maße am Desktop passen nicht zur fertigen Seite: Alles springt beim Erscheinen
+ki_look-43 [startseite (Demo-Fenster)/ki-look/S2] Nachgebautes Fake-Browserfenster mit Ampelpunkten, grün markiertem aktivem Eintrag und veralteten Labels
+ki_look-42 [startseite (Funktionen, Ablauf)/ki-look/S2] Sechs gleiche Symbol-Karten und „SCHRITT 1/2/3“-Kicker: die Standard-KI-Landingpage
+ki_look-44 [startseite (Kopf)/ki-look/S2] Vollgrüne „Neu:“-Leiste und CTAs in Großbuchstaben
+zustaende-5 [stats/diagramme/S2] Statistik-Kopfdiagramm zeichnet ohne Trades eine grüne Nulllinie
+aufbau-19 [stats/hierarchie/S2] Statistiken: Die Equity-Kurve steht über allen 9 Reitern und schiebt sie auf y≈480
+barrierefreiheit-18 [stats/barrierefreiheit/S2] Info-Symbole und Tooltips nur mit der Maus erreichbar
+bereich_statistik-16 [stats (Diagramm-Titel, Tabellenköpfe)/wording/S2] Eine Kennzahl, zwei Namen; „je“ und „nach“ gemischt
+bereich_statistik-31 [stats (Info-Symbole)/barrierefreiheit/S2] Erklärungen der 16 Kennzahlen sind nur mit der Maus erreichbar
+responsiv-36 [stats (Kennzahl-Kacheln, Handy)/layout/S2] Kennzahl-Werte stehen am Handy nicht auf einer Linie, weil Labels unterschiedlich umbrechen
+bereich_statistik-34 [stats (Kopfreihe, global)/layout/S2] Zeitraum und Konto springen nach Fenstergrößenänderung in die Titelzeile (Dashboard-Listener bleibt aktiv)
+bereich_statistik-6 [stats (Reiterleiste)/komponenten/S2] Neun freistehende Rahmen-Knöpfe als Reiter; Prop nutzt für dieselbe Rolle eine Schiene
+bereich_statistik-47 [stats (Reiterleiste, Handy)/responsiv/S2] Handy: Reiterleiste ohne Hinweis auf weitere Reiter
+bereich_statistik-33 [stats (alle Diagramme)/barrierefreiheit/S2] Diagramme ohne Textalternative, Werte nur im Hover-Tooltip
+bereich_statistik-29 [stats (alle Kacheln)/bewegung/S2] Nicht klickbare Kacheln heben sich beim Darüberfahren an
+bereich_statistik-5 [stats (alle Reiter)/aufbau/S2] Kumulierte Kurve steht über den Reitern und ist auf allen 9 Reitern gleich; der Reiter-Inhalt beginnt erst bei y = 540
+responsiv-37 [stats (alle Reiter)/aufbau/S2] Großes P&L-Diagramm steht auf jedem Reiter vor der Reiterleiste
+diagramme-9 [stats (alle Reiter), dashboard/diagramme/S2] Zwei Achsensysteme: links mit Währung, rechts gekürzt ohne Währung
+aufbau-20 [stats (Übersicht)/aufbau/S2] Statistiken → Übersicht: 16 Kacheln ohne Ordnung, zwei zeigen denselben Wert
+hierarchie-14 [stats ↔ dashboard/diagramme/S2] Derselbe kumulierte P&L mit zwei verschiedenen Zeitachsen
+bereich_statistik-32 [stats/days/barrierefreiheit/S2] Tageszeilen nur per Maus klickbar
+responsiv-5 [stats/days (Handy 390)/responsiv/S2] Tage-Tabelle: langes Datum frisst die Breite, Netto-P&L liegt außerhalb
+bereich_statistik-20 [stats/days (Handy) und alle Gruppentabellen/responsiv/S2] Handy: Netto-P&L liegt außerhalb des Bildschirms
+diagramme-12 [stats/days, stats/time/diagramme/S2] Leere Kategorien auf geordneten Achsen fallen weg
+bereich_statistik-24 [stats/edge/zustaende/S2] „Rollierender Edge“ bleibt bei unter 20 Trades eine 370 px leere Karte und wiederholt den Hinweis aus „Urteil“
+bereich_statistik-23 [stats/edge (leer)/zustaende/S2] Edge-Check ohne Trades zeigt Scheinwerte und „erreicht“
+bereich_statistik-25 [stats/mc/farbe/S2] Monte Carlo: Pfade und Drawdown-Verteilung in Gewinngrün
+bereich_statistik-26 [stats/mc/wording/S2] Monte Carlo: Zahlenformate und Fußzeilen uneinheitlich bzw. kryptisch
+bereich_statistik-17 [stats/mistakes/typografie/S2] „Kosten je Fehler“: Zahl in Textschrift, alles fett, Kürzel „WR“ und „2×“
+bereich_statistik-9 [stats/mistakes, stats/edge, stats/mc, stats/summary (Handy)/layout/S2] Kachelwerte einer Reihe stehen auf unterschiedlicher Höhe
+bereich_statistik-19 [stats/setups, stats/time, stats/regime, stats/days/komponenten/S2] Rahmen im Rahmen: Tabellen-Box steckt in der Karte; die Tagestabelle hat dagegen gar keine Karte
+bereich_statistik-18 [stats/setups, stats/time, stats/regime, stats/days/typografie/S2] Tabellen: Namen fett (700) und in der Zahlenschrift
+bereich_statistik-27 [stats/state/farbe/S2] Zustand: Symbol-Kästchen grün getönt, Grün ohne Bedeutung
+bereich_statistik-28 [stats/summary/wording/S2] Grammatik: „1 Gewinne“
+bereich_statistik-10 [stats/summary/wording/S2] Kachel-Beschriftungen sagen etwas anderes als die Zahl darunter
+wording-8 [stats/summary/wording/S2] Zwei Statistik-Kacheln mit derselben Zahl: „Trade-Erwartungswert“ und „Ø Netto-P&L pro Trade“
+bereich_statistik-22 [stats/summary (leer)/zustaende/S2] Ohne Trades: 300 px Diagramm mit grüner Nulllinie über dem Leerzustand
+bereich_statistik-21 [stats/summary bei 1024 px/responsiv/S2] 1024 px: 16 Kacheln in 8 Reihen, Karte „Haltedauer“ allein in der letzten Reihe
+bereich_statistik-8 [stats/summary vs. mistakes/edge/mc/komponenten/S2] Zwei Kachel-Bausteine für dieselbe Rolle innerhalb der Statistiken
+bereich_statistik-2 [stats/summary, stats/days/farbe/S2] Gefärbte Werte in Schlüssel-Wert-Listen erscheinen grau (wirken deaktiviert)
+bereich_statistik-12 [stats/summary, stats/time/aufbau/S2] Karte „Haltedauer“ enthält Tageswerte; Haltedauer und Trades pro Tag stehen doppelt
+bereich_shell-8 [titelzeile/aufbau/S2] Zeitraum und Konto stehen je nach Seite oben rechts oder links in der zweiten Reihe
+bereich_shell-7 [titelzeile/zustaende/S2] Ein liegengebliebener Dashboard-Listener schiebt nach einer Größenänderung auf jeder Seite die Kopfreihe in die Titelzeile
+bereich_trades_tag-22 [trade_detail/wording/S2] Drei Knöpfe „Bearbeiten“ mit zwei verschiedenen Zielen
+barrierefreiheit-16 [trade_detail/barrierefreiheit/S2] Dropzonen für Screenshots, CSV-Import und Sicherung gehen nur mit der Maus
+barrierefreiheit-17 [trade_detail/barrierefreiheit/S2] Screenshots lassen sich nur per Mausklick vergrößern; Alt-Text generisch
+bereich_trades_tag-23 [trade_detail (Kennzahlen-Raster)/layout/S2] Neun Zellen im 4er-Raster: „Bewertung“ steht allein mit drei leeren Zellen
+komponenten-22 [trade_detail, prop/bilanz (Kartenkopf)/layout/S2] Die Aktion im Kartenkopf sitzt tiefer als der Titel
+bereich_trades_tag-21 [trade_detail, trades (leer), day/farbe/S2] Gefüllte grüne Knöpfe außerhalb von „Trade loggen“
+zustaende-27 [trades/zustaende/S2] Kacheln im TradeLog ignorieren Suche und Filter; zwei verschiedene Trade-Zahlen
+barrierefreiheit-33 [trades/barrierefreiheit/S2] Sortierbare Spaltenköpfe nicht per Tastatur, ohne aria-sort, Pfeil als Text
+bereich_trades_tag-32 [trades (1024 px)/responsiv/S2] Bei 1024 px steht die vierte Kachel allein und die Tabelle schrumpft auf drei Zeilen
+zustaende-30 [trades (Filterzeile)/responsiv/S2] Setup-Filter wächst mit dem längsten Setup-Namen, der Zähler rutscht in eine eigene Zeile
+bereich_trades_tag-31 [trades (Kacheln)/typografie/S2] Netto-P&L-Kachel 28 px neben 25 px in derselben Reihe, „Noch keine Daten“ versetzt
+bereich_trades_tag-33 [trades (Suche/Filter)/aufbau/S2] Kacheln ignorieren Suche und Filter
+zustaende-31 [trades (Tabelle)/responsiv/S2] Langer Setup-Chip schiebt Regeln und Score aus dem sichtbaren Bereich
+zustaende-22 [trades (Tabelle), day, trade_detail/zustaende/S2] Kurse in derselben Spalte mit 1 oder 2 Nachkommastellen
+bereich_trades_tag-27 [trades (Verpasste Trades)/aufbau/S2] Verpasste Trades ignorieren Zeitraum und Konto
+bereich_trades_tag-29 [trades (Verpasste Trades)/farbe/S2] „Entgangen +1.168,00 €“ in Gewinngrün, Kartentitel wiederholt den Reiter
+bereich_trades_tag-28 [trades (Verpasste Trades), trade_detail, Check-in/zustaende/S2] Löschen ohne Rückfrage bei verpassten Trades, Screenshots, Sprachnotizen und Check-in
+zustaende-36 [trades, dashboard (Tabellen)/barrierefreiheit/S2] Klickbare Tabellenzeilen und Sortierköpfe sind per Tastatur nicht erreichbar
+bereich_trades_tag-18 [trades, day (Tabellen)/aufbau/S2] Ergebnis dreifach kodiert, „Geschlossen“ steht weit weg von „Eröffnet“
+bereich_trades_tag-17 [trades, day, trade_detail (Richtung)/farbe/S2] Rotes SHORT neben grünem Gewinn: die Richtung nutzt die Ergebnisfarben
+bereich_trades_tag-19 [trades, day, trade_detail (Score, Regeln, Disziplin)/farbe/S2] Grüne Wand aus Score „100“, Häkchen und „25 / 25“
+typografie-6 [trades, shadow/hierarchie/S2] Gleiche Kachelreihe, verschiedene Wertgrößen (28 neben 25, 34 neben 25 px)
+responsiv-32 [trades, shadow, prop, dashboard (Tablet 1024)/layout/S2] Kachelreihen brechen bei 1024px zu 3 + 1 bzw. 3 + 2 um
+komponenten-27 [trades, stats, prop, prop/bilanz, settings, dashboard-Karten/komponenten/S2] Bereichs-Reiter in drei Formen und zwei Gewichten
+typografie-12 [trades, stats/days, prop/bilanz, dashboard/typografie/S2] Text in Tabellen und Pillen steht in Onest; der Tabellenkopf mischt beide Schriften
+bereich_trades_tag-36 [trades, trade_detail, day/wording/S2] Gleiche Größen heißen in Tabelle, Detail und Dialog verschieden
+bereich_trades_tag-20 [trades, trade_detail, day (helles Design)/kontrast/S2] Grüne Beträge im hellen Design nur 2,6:1
+komponenten-43 [Bestätigungs- und Hinweisdialoge (confirmModal, downloadText)/barrierefreiheit/S3] Dialoge ohne Eingabefeld fokussieren das × im Kopf
+bereich_prop-52 [Dialog Konto anlegen/komponenten/S3] „Reset-Uhrzeit“ öffnet den System-Zeitwähler statt des App-Kalenders
+bereich_prop-53 [Dialog Konto anlegen / Preset/wording/S3] Beispiel mal im Label, mal im Platzhalter
+bereich_prop-41 [Dialog Trades zuordnen/layout/S3] Datumsspalte springt, weil LONG und SHORT verschieden breit sind
+komponenten-35 [Menüs (Popover, Konto-Menü unten, Symbol-Menü, Vorlagen-Untermenü, Filter-Suche)/komponenten/S3] Menüeinträge in fünf Größen
+komponenten-34 [Popover/Menüs, Tooltip/komponenten/S3] Schwebende Ebenen mit drei Radien und einem grünen Rand
+bereich_konto-55 [affiliate/diagramme/S3] Höchster Balken ragt über die oberste Achsenlinie hinaus
+wording-53 [affiliate/wording/S3] Kachelreihe mischt „12.652 €“ und „3.141,25 €“
+bereich_konto-47 [affiliate (Fenster Provision)/abstaende/S3] Untertitel klebt am Feldlabel, Zahlenfeld zeigt Browser-Pfeile
+bereich_konto-33 [affiliate, coach/typografie/S3] Schriftgewichte außerhalb der festgelegten Stufen
+bereich_konto-8 [affiliate/creator/farbe/S3] Grüne Pille „Ausgezahlt“ in 7 von 10 Zeilen
+bewegung-29 [alle Dialoge am Handy (390)/responsiv/S3] Bottom-Sheet am Handy schrumpft und hebt sich 8 px, statt von unten hereinzugleiten
+bereich_konto-25 [coach/aufbau/S3] Leere Kopfreihe über jeder Coach-Ansicht, Zurück und Titel stehen darunter
+bereich_konto-46 [coach (Fenster Co-Coaches)/layout/S3] Co-Coach-Fenster ist breit und fast leer
+bereich_konto-42 [coach (nicht eingerichtet)/wording/S3] Einrichten-Seite erklärt den Server statt den Nutzen
+bereich_konto-6 [coach, affiliate/farbe/S3] Dekoratives Grün an Symbolen, Haken, Hover und Status-Texten
+bereich_konto-36 [coach/beitritt, Sichtbarkeits-Fenster/komponenten/S3] Haken in der Zeile „Kurz-Stats“ schrumpft
+bereich_konto-34 [coach/beitritt, affiliate/typografie/S3] Text in Tabellenzellen in der Zahlenschrift Onest
+bereich_konto-53 [coach/co-coach-beitritt/layout/S3] Zentrierte Infobox über einem linksbündigen Formular
+bereich_konto-43 [coach/gruppe/wording/S3] Doppelte Hinweise und holprige Kurztexte in der Gruppenansicht
+bereich_konto-45 [coach/gruppe (Menü)/komponenten/S3] Menüeintrag „Neuen Einladungslink erzeugen“ bricht zweizeilig um
+bereich_konto-44 [coach/gruppe (leer)/zustaende/S3] Leere Gruppe zeigt Zeitraum-Umschalter und Hinweis ohne Funktion
+bereich_konto-21 [coach/journal/wording/S3] Zwei Daten je Eintrag ohne Beschriftung, am Handy wird der Titel gequetscht
+bereich_konto-23 [coach/journal (Aufgaben des Mentors)/komponenten/S3] Leere Kästchen wirken anklickbar, sind es aber nicht
+bereich_konto-22 [coach/journal, notebook/komponenten/S3] Einzeilige Antwortfelder mit Größen-Griff
+bereich_konto-40 [coach/übersicht/hierarchie/S3] Schüler sehen zuerst „Als Mentor“, ihre einzige sichtbare Aktion ist „Verlassen“
+bereich_konto-50 [coach/übersicht (Aufgaben)/komponenten/S3] „1 erledigt“ klappt mit Textzeichen ▸/▾ statt App-Pfeil auf
+bereich_konto-48 [coupons/hierarchie/S3] Rabatt schwächer gesetzt als der überall gleiche Code
+wording-55 [coupons/wording/S3] Bereich „Coupon-Codes“, Leertext „Rabatt-Codes“
+bereich_konto-49 [coupons, coach/übersicht/komponenten/S3] Links sehen aus wie Hinweistext und stehen nicht auf einer Linie
+bereich_dashboard-42 [dashboard/abstaende/S3] Kacheln und Karten haben verschiedene Einzüge (15 px vs. 20 px)
+bereich_dashboard-40 [dashboard/barrierefreiheit/S3] Zahlen-Pillen ohne Beschriftung, Bedeutung nur über Farbe
+bereich_dashboard-16 [dashboard/farbe/S3] Kalender: 31 graue Kreise um die Tageszahlen, „heute“ als grüner Vollkreis
+bereich_dashboard-38 [dashboard/farbe/S3] Report mit festen Bunt-Farben; Regel-Tracker als vollgrüner Block, Legende passt nicht
+bereich_dashboard-41 [dashboard/ki-look/S3] Auslaufende Verlaufslinie unter jedem Kacheltitel
+bereich_dashboard-45 [dashboard/komponenten/S3] Gestaltung per Inline-Style in Widgets
+bereich_dashboard-11 [dashboard/komponenten/S3] Kacheln und Kalendertage heben sich beim Darüberfahren, obwohl sie nichts tun
+bereich_dashboard-26 [dashboard/komponenten/S3] Steuerelement-Höhen in einer Reihe: 38/42 px (Kopf), 34/36 px (Kalender)
+bereich_dashboard-32 [dashboard/wording/S3] Gleiche Kennzahl, verschiedene Namen auf einem Bildschirm
+wording-48 [dashboard/wording/S3] „Mehr anzeigen“ führt in einen anderen Bereich und steht auch unter leerer Liste
+wording-6 [dashboard/wording/S3] „Netto P&L“ ohne Bindestrich neben „Netto-P&L pro Tag“
+bewegung-21 [dashboard (Kalender)/bewegung/S3] Kalendertage heben sich im engen Raster beim Überfahren
+typografie-32 [dashboard (Kalender)/hierarchie/S3] Kalender-Wochentage schwerer als die Tagesinhalte
+diagramme-31 [dashboard (Kalender)/sonstiges/S3] Kalender-Beträge mit gemischten Nachkommastellen
+diagramme-45 [dashboard (Kalender, hell)/farbe/S3] Rote Kalendertage im hellen Design deutlich kräftiger als grüne
+referenz-9 [dashboard (Letzte Trades)/farbe/S3] „Mehr anzeigen“ ist ein grüner Link, auch im leeren Zustand
+referenz-28 [dashboard (Letzte Trades), trades/typografie/S3] Volles Datum mit Jahr in jeder Zeile, obwohl der Zeitraum ein Monat ist
+diagramme-42 [dashboard (Maximaler Drawdown)/typografie/S3] Prozentzusatz bricht um und steht in der Textschrift
+diagramme-24 [dashboard (Regel-Tracker)/diagramme/S3] Legende des Regel-Trackers zeigt andere Stufen als die Zellen
+diagramme-44 [dashboard (Report)/farbe/S3] Report-Serienfarben roh und mit Status-Farben verwechselbar
+ki_look-35 [dashboard (Report-Widget, Panel)/komponenten/S3] Kennzahl-Auswahl mit 4-px-Farbstreifen links, obwohl daneben ein Farbfeld steht
+farbe_kontrast-38 [dashboard (Widget Bericht)/diagramme/S3] Der Bericht nutzt Rohfarben, die wie Gewinn- und Warnfarbe aussehen
+responsiv-11 [dashboard (Widget Gesamt-Score, 390 und 1024)/diagramme/S3] Radar-Beschriftung schrumpft mit der Kartenbreite auf 9,7px bzw. 6px
+responsiv-29 [dashboard (Widget-Karten)/barrierefreiheit/S3] Textlinks „Öffnen“ und „Mehr anzeigen“ sind nur 16–19px hoch
+wording-49 [dashboard (leer)/wording/S3] Banner-Knopf „CSV“ ohne Verb
+abstaende_layout-12 [dashboard, affiliate, prop/bilanz/abstaende/S3] Tabellen in Karten sind 12 px gegenüber dem Kartentitel eingerückt
+diagramme-46 [dashboard, stats (Tooltips)/barrierefreiheit/S3] Tooltips nur auf der Marke selbst: kleine Balken und Punkte kaum zu treffen
+bewegung-2 [dashboard, stats (alle Linien-/Flächen-Diagramme)/diagramme/S3] Fläche blendet über die volle Breite ein, während die Linie noch von links zeichnet
+diagramme-17 [dashboard, stats, trades, day/diagramme/S3] Flächen unter Kurven zu kräftig
+diagramme-29 [dashboard, trades (Kennzahl-Kacheln)/diagramme/S3] Drei Diagrammformen für denselben Gewinn-/Verlust-Anteil in einer Reihe
+diagramme-35 [dashboard, trades vs. stats/sonstiges/S3] Netto-P&L mal mit, mal ohne Vorzeichen
+typografie-30 [dashboard, trades, day/barrierefreiheit/S3] Long/Short-Abzeichen in 10.5 px, Sortierpfeil als Textzeichen in 10 px
+aufbau-33 [dashboard_bearbeiten/hierarchie/S3] Bearbeitungsmodus: Der Widget-Name steht doppelt (Leiste und Karte), teils unter zwei Namen
+barrierefreiheit-48 [dashboard_bearbeiten/barrierefreiheit/S3] Ziehgriff „Verschieben“ ist ein fokussierbarer Knopf ohne Tastaturfunktion
+wording-44 [day/wording/S3] „0 von 5 eingehalten“ unter einer noch nicht abgehakten Checkliste
+referenz-20 [day (Check-in, Regeln)/komponenten/S3] Kästen in Karten: Check-in-Werte und Regelzeilen als gefüllte Unterkarten
+bereich_trades_tag-38 [day (Datumszeile)/komponenten/S3] „Heute“ als grüne Pille, als Knopf sieht es aus wie Beschriftung
+bereich_trades_tag-39 [day (Kennzahlen, Check-in-Karte)/typografie/S3] 11-px-Beschriftungen und ein anderes Label für „Netto-P&L“ als im TradeLog
+bereich_trades_tag-48 [day (Tagesnotiz)/zustaende/S3] Notiz-Vorschau verliert Überschriften
+bereich_trades_tag-44 [day (leere Route)/zustaende/S3] „Ungültiges Datum“ ist eine Sackgasse
+bereich_trades_tag-25 [day, trades (Tage)/farbe/S3] Nullen bei Gewinner / Verlierer in Grün und Rot
+bereich_shell-35 [global/sonstiges/S3] Tote Shell-Regeln und Markup aus früheren Fassungen
+bereich_shell-32 [global/wording/S3] Tastaturkürzel: Hinweis nennt 1–6, belegt sind 1–9 und 0 (0 führt bei verstecktem Replay stumm aufs Dashboard)
+barrierefreiheit-40 [global/barrierefreiheit/S3] Avatar-Link oben rechts heißt „T“ bzw. ohne Bild gar nichts
+barrierefreiheit-10 [global/barrierefreiheit/S3] Dialoge haben keinen zugänglichen Namen
+barrierefreiheit-43 [global/bedienung/S3] Tastenkürzel passen nicht zur Seitenleiste und zur Doku und lassen sich nicht abschalten
+barrierefreiheit-44 [global/bewegung/S3] „Weniger Bewegung“ stoppt den Lade-Ring in Knöpfen ganz, gegen die eigene Absicht
+diagramme-37 [global (Achsentext)/kontrast/S3] Achsenbeschriftung zu hell und doppelt definiert
+diagramme-11 [global (Balken)/diagramme/S3] Balken an der Nulllinie abgerundet statt gerade
+zustaende-39 [global (Dauer)/zustaende/S3] Drei Formate für Dauern: „30 min“, „1h:05m“, „in 3 Std. 20 Min.“
+bewegung-34 [global (Dauern)/bewegung/S3] Feste Dauern neben --dur-1/2/3 – „Bewegung über die Variablen abschalten“ greift dort nicht
+bewegung-33 [global (Easing)/bewegung/S3] 12 verschiedene cubic-bezier-Kurven und 34 Schlüsselwort-Easings neben den drei Tokens
+farbe_kontrast-20 [global (Gewinn-Elemente)/farbe/S3] Gewinn-Darstellungen hängen an --accent statt an --profit (P&L-Heatmap, Pille ‚Gewinn‘, Affiliate-Balken, Legende)
+bewegung-20 [global (Hauptknopf „Trade loggen“)/bewegung/S3] Hauptknopf bekommt beim Überfahren einen grünen Schein
+farbe_kontrast-40 [global (Hintergrundstufen)/farbe/S3] Hintergrundstufen: --bg-2 kaum vom Grund zu unterscheiden, hell ist surface-2 gleich bg, dunkel verschwinden Rahmen auf surface-2
+abstaende_layout-34 [global (JS-Vorlagen)/abstaende/S3] 139 Abstände als Inline-Style in den JS-Vorlagen, meist außerhalb jeder Skala
+ki_look-10 [global (Kacheln)/ki-look/S3] Ausblendende Verlaufs-Haarlinie unter jedem Kachel-Titel
+ki_look-36 [global (Kicker über Werten)/ki-look/S3] Großbuchstaben-Kicker über Kennzahlen: „DEIN SCORE“, „NETTO-P&L“, „BALANCE“, Tilt-Labels
+bewegung-13 [global (Knöpfe mit Ladezustand, Sprachnotiz-Auswertung)/zustaende/S3] Bei „Bewegung reduzieren“ steht der Lade-Ring still – die geplante langsame Drehung ist wirkungslos
+komponenten-12 [global (Knöpfe)/komponenten/S3] Zwölf Knopf-Ausprägungen, davon fünf Einzelfälle
+hierarchie-8 [global (Kopfreihe unter der Titelzeile)/layout/S3] Leere Kopfreihe kostet oben 60–80 px
+hierarchie-47 [global (Kopfzeile und Seitenleiste)/komponenten/S3] Kontozugang doppelt; Untertitel der Konto-Karte abgeschnitten
+bewegung-44 [global (Lade-Kurslinie U.loader)/farbe/S3] Ladeanimation: grünes, leuchtendes Stück gleitet über die Kurslinie
+typografie-33 [global (Laden der Schriften)/sonstiges/S3] Inter wird in fünf Schnitten immer geladen, obwohl nur die Schriftart „Klassisch“ sie nutzt
+zustaende-14 [global (Leerzustände)/komponenten/S3] Aktionsknöpfe in Leerzuständen in drei Größen und zwei Farben
+diagramme-14 [global (Legenden)/diagramme/S3] Drei Legendenstile an drei Positionen
+farbe_kontrast-7 [global (Pillen, Zähler)/kontrast/S3] Break-even-Violett erreicht in Pillen nur 4,2:1 (dunkel und hell)
+bewegung-41 [global (Schalter)/komponenten/S3] Zweite, tote Schalter-Implementierung mit eigener Bewegung
+bewegung-25 [global (Segment-Umschalter .seg)/komponenten/S3] Segment-Umschalter wechseln Fläche ohne Übergang, Reiter mit 150 ms
+typografie-17 [global (Seitenleiste, Popover, Notebook, Widget-Bibliothek)/typografie/S3] Abschnitts-Eyebrow in acht Varianten (Größe, Gewicht, Laufweite)
+farbe_kontrast-9 [global (Sekundärtext)/kontrast/S3] --muted fällt auf surface-2, surface-3 und gewählten Karten unter 4,5:1
+aufbau-21 [global (Tastatur)/aufbau/S3] Tastenkürzel 1–0 folgen nicht der Seitenleiste; „0“ führt zum versteckten Blind-Replay, der Hinweis nennt „1–6“
+aufbau-7 [global (Titelzeile)/aufbau/S3] Profil ist doppelt erreichbar: Avatar in der Titelzeile und Konto-Karte in der Seitenleiste
+responsiv-16 [global (Titelzeile, Handy hoch und quer)/responsiv/S3] Safe-Area: Titelzeile klebt unter der Notch, im Querformat keine seitlichen Insets
+responsiv-28 [global (Titelzeile, Handy-Menü)/barrierefreiheit/S3] Menüknopf 36px, Avatar 34px und Schließen-Knopf der Schublade 30px
+diagramme-7 [global (alle SVG-Diagramme)/diagramme/S3] Gitterlinien und Nulllinie gestrichelt
+farbe_kontrast-5 [global (helles Design)/kontrast/S3] Helles Design: Verlust-Rot #e03e3e liegt bei kleinen Beträgen unter 4,5:1
+bewegung-15 [global (scroll.js)/bewegung/S3] Weiches Scrollen hängt von der Bildrate ab und läuft bei 60 Hz über eine Sekunde nach
+bereich_konto-26 [global .card-head (sichtbar in coach)/layout/S3] Kartentitel steht 6px über der Mitte des Knopfs daneben
+bereich_shell-27 [konto-menue/aufbau/S3] Konto-Menü: Konto-Einträge durch Coach und Affiliate getrennt, Markierung lückenhaft, „Design“ statt „Erscheinungsbild“
+bereich_shell-30 [konto-menue/barrierefreiheit/S3] Hell/Dunkel-Schalter mit 26×22 px unter der Mindest-Trefferfläche
+bereich_training-37 [mentor/komponenten/S3] ‚Verlauf neu laden‘ mit Uhr-Symbol
+bereich_training-38 [mentor/responsiv/S3] Handy: Kopf-Knöpfe in eigener Zeile, Tastaturhinweis im Platzhalter bricht um
+zustaende-16 [mentor/zustaende/S3] Ohne Server zeigt der Mentor trotzdem Kontowahl und „sieht die letzten 20 Trades“
+barrierefreiheit-37 [mentor/barrierefreiheit/S3] Eingabefelder nur mit Platzhalter beschriftet
+barrierefreiheit-38 [mentor/barrierefreiheit/S3] Neue Mentor-Antworten werden nicht angesagt
+barrierefreiheit-28 [menu_konto_unten/barrierefreiheit/S3] Hell/Dunkel-Knöpfe im Konto-Menü nur 26×22 px
+komponenten-44 [modal_checkin, Trade-Formular, Filter (1–5-Skalen)/komponenten/S3] Drei Bauarten für 1–5-Skalen
+bereich_trades_tag-10 [modal_trade_loggen/komponenten/S3] Zahlenfelder zeigen Browser-Pfeile, das €-Zeichen schwebt mitten im Feld
+bereich_trades_tag-9 [modal_trade_loggen/layout/S3] Trade-Dialog nutzt drei Spaltenraster: Kanten springen von Reihe zu Reihe
+wording-63 [modal_trade_loggen/wording/S3] Dialogknopf „Trade speichern“, Titel und Hauptknopf „Trade loggen“
+wording-62 [modal_trade_loggen/wording/S3] „Geschlossen (leer = offen)“ als Kürzel im Label
+komponenten-15 [modal_trade_loggen (Datumsfelder)/zustaende/S3] Ein leeres Datumsfeld sieht aus wie ein ausgefülltes
+farbe_kontrast-33 [modal_trade_loggen (hell)/farbe/S3] Hell: Die Abdunklung hinter Dialogen ist 60 % Schwarz und macht die Seite dunkelgrau
+komponenten-14 [modal_trade_loggen (und alle Eingabefelder)/komponenten/S3] Felder im Trade-Fenster sind 41, 42 und 44 px hoch
+komponenten-36 [modal_trade_loggen, settings/trading, pop_filter, notebook (Chips)/komponenten/S3] Wählbare Chips in vier Größen
+ki_look-31 [modal_zertifikat (CSS)/sonstiges/S3] Tote „Navy/Hell“-Grundregeln mit Verlaufstext (Scanner-Treffer 2003/2010)
+komponenten-33 [modal_zertifikat, settings, day (Regeln des Tages), Notebook-Checklisten/komponenten/S3] Drei Häkchen-Bauarten in drei Größen
+bereich_notebook_news-47 [news/barrierefreiheit/S3] Wichtigkeit nur per title-Attribut, vergangene Termine per Deckkraft nur 3,2:1
+bereich_notebook_news-44 [news/hierarchie/S3] Tageskopf ist kleiner als die Zeilen, der Zähler rechts ist eine Pille ohne Nutzen
+bereich_notebook_news-41 [news/ki-look/S3] Hero-Karte: dekorative Glocken-Kachel, die auf dem Handy allein in einer Zeile steht
+bereich_notebook_news-48 [news/typografie/S3] Uhrzeiten und Werte ohne Tabellenziffern
+bereich_notebook_news-46 [news/wording/S3] Fehlertexte verweisen auf „Einstellungen → Mentor“ und sagen „Prüf“
+bereich_notebook_news-45 [news/wording/S3] „Beispiel:“ vor jedem Termin, Banner in drei Sätzen
+abstaende_layout-28 [notebook/abstaende/S3] Datumsknopf im Notizkopf 11 px gegenüber Titel und Metadaten eingerückt
+bereich_notebook_news-8 [notebook/hierarchie/S3] Tagesnotizen in der Liste nennen das Datum zweimal, die zweite Zeile mit Kunstzeit 22:00
+bereich_notebook_news-37 [notebook/komponenten/S3] Symbol in „Ordner hinzufügen“ schrumpft bei schmaler Spalte auf etwa 6 px
+bereich_notebook_news-34 [notebook/komponenten/S3] Symbole für Sortieren (Pfeil nach unten) und Auswählen (Haken) sind mehrdeutig
+bereich_notebook_news-23 [notebook/layout/S3] Die Kopfzeilen der drei Spalten stehen nicht auf einer Linie
+bereich_notebook_news-36 [notebook/sonstiges/S3] Doppelte und tote CSS-Regeln im Notebook-Block
+bereich_notebook_news-29 [notebook/wording/S3] •••-Menü und Ordner-Knopf mischen drei Verb-Muster
+bereich_notebook_news-33 [notebook/zustaende/S3] „Farbe ändern“ bei Standardordnern ohne sichtbare Wirkung
+bereich_notebook_news-30 [notebook (Dialog Notiz teilen)/komponenten/S3] Teilen-Dialog: Rohlink als Block aus Zeichen, die Hauptaktion liegt auf „Öffnen“
+bereich_notebook_news-31 [notebook (Dialog Ordner)/komponenten/S3] Ordner-Dialog: eigene Farbe als Rechteck mit Wort „eigene“, ungleiche Abstände, Akzentgrün als Ordnerfarbe
+ki_look-34 [notebook (Editor)/farbe/S3] Zitatblock mit 3-px-Balken in Akzentgrün
+typografie-23 [notebook (Editor)/typografie/S3] Editor-Überschriften erben die Fließtext-Zeilenhöhe 1.65
+referenz-39 [notebook (Ordner)/komponenten/S3] Emoji als Ordnersymbol neben gezeichneten Linien-Icons
+ki_look-33 [notebook, coach (Mentor-Notiz)/ki-look/S3] Mentor-Notiz mit drei Signalen: 3-px-Seitenstreifen, getönte Fläche, getönter Rand
+typografie-20 [notebook, dashboard (Widgets), prop, shadow, trades/typografie/S3] Listen- und Gruppentitel über `<b>` in 700 statt 600
+bereich_notebook_news-22 [notebook/editor/abstaende/S3] Zwischen Werkzeugleiste und erstem Absatz liegen 41 px Luft
+bereich_notebook_news-35 [notebook/editor/barrierefreiheit/S3] Bilder ohne Alt-Text, 100 Farbknöpfe ohne Namen, Fokusrahmen entfernt
+bereich_notebook_news-14 [notebook/editor/typografie/S3] „Text“ und „16“ in der Werkzeugleiste sind lauter als der Notiztext
+bereich_notebook_news-28 [notebook/editor/wording/S3] Derselbe Block heißt „Absatz“ und „Text“, „Aufklappbare Liste“ ist keine Liste
+bereich_notebook_news-24 [notebook/notiz/zustaende/S3] Speicherstand während des Tippens gelb („Speichert…“)
+bewegung-26 [panel_widget_hinzufuegen (Dashboard)/bewegung/S3] „Widget hinzufügen“ gleitet herein, verschwindet aber schlagartig; Hintergrund ohne Überblendung
+typografie-18 [pop_filter/hierarchie/S3] Filter-Fenster: vier Schriftstufen innerhalb 3,5 px, anders als Zeitraum- und Konto-Menü
+komponenten-31 [pop_filter (Filter-Chips)/farbe/S3] Setup-Chip im Filter grün umrandet, Hinzufügen-Hover grün
+bewegung-27 [pop_filter, Trade-loggen (Symbol-Auswahl)/bewegung/S3] Filter-Fenster und Symbol-Auswahl blenden ein, verschwinden aber sofort
+bereich_dashboard-34 [pop_konto/zustaende/S3] Konto-Menü markiert das aktive Konto nicht; Betrag ohne Beschriftung
+bereich_dashboard-47 [pop_vorlage/komponenten/S3] Vorlagen-Menü: Bearbeiten doppelt, gelber Stern, rotes deaktiviertes „Löschen“
+responsiv-24 [pop_zeitraum, pop_filter, pop_vorlage (Handy)/responsiv/S3] Drei Menüs der Kopfreihe öffnen am Handy mit drei verschiedenen Breiten und Rändern
+bewegung-28 [pop_zeitraum, pop_konto, pop_filter, pop_vorlage, Kalender, Farbwähler/bewegung/S3] Menüs unter einem Knopf steigen von unten zum Knopf hinauf statt von ihm herab aufzuklappen
+bereich_training-11 [progress/aufbau/S3] Tägliche Checkliste liegt unter der Jahres-Heatmap und damit unter der Falz
+bereich_training-22 [progress/hierarchie/S3] Pfeil-Symbol mit drei Bedeutungen in den Kennzahlen
+bereich_training-21 [progress/typografie/S3] Drei Stile für Mini-Überschriften und grüne 700er-Listenziffern
+wording-43 [progress/wording/S3] Kartentitel beginnt mit Symbol: „% Regeln eingehalten“
+bereich_training-14 [progress/wording/S3] Tilt-Text sagt ‚hast dich gefangen‘, obwohl 100 % der Serien-Tage im Minus endeten
+zustaende-13 [progress/zustaende/S3] Leere Regel-Karte hat zwei Knöpfe für dieselbe Aktion
+zustaende-11 [progress/zustaende/S3] „% Regeln eingehalten“ zeigt 0 % und einen grünen Punkt, obwohl es keine Regeln gibt
+farbe_kontrast-22 [progress (Aktuelle Regeln)/farbe/S3] Die Nummern der Regelliste sind fett grün, eine reine Zierde
+diagramme-25 [progress (Disziplin pro Woche)/diagramme/S3] Wochen-Säulen ohne Achse und ohne Werte
+diagramme-27 [progress (Kennzahl-Karten)/zustaende/S3] „Keine Daten“ als 44-px-Wert, „0 %“ statt fehlender Daten, Pfeil ohne Vergleich
+bewegung-22 [progress, dashboard (Heatmaps)/bewegung/S3] Drei Heatmaps, drei Hover-Vergrößerungen, alle ohne Übergang
+typografie-15 [progress, prop/bilanz/zustaende/S3] „Keine Daten“ und „erreicht“ im Hero- bzw. Kachelwert-Stil
+wording-36 [prop/wording/S3] Kachel „P&L aktive Konten“ grammatisch unvollständig
+wording-37 [prop/wording/S3] Untertitel „bestanden, geplatzt oder archiviert“ klein geschrieben
+wording-31 [prop/wording/S3] Zeile „Bestehen: Gewinn fehlt: 1.946,15 € · Consistency verletzt“ doppelt den Ziel-Balken
+wording-32 [prop/wording/S3] „BALANCE“ als einziges englisches Feldlabel auf der Prop-Karte
+wording-33 [prop/wording/S3] „noch 43 Stop-Losses“ mit englischem Plural
+bereich_prop-51 [prop (Code)/sonstiges/S3] Toter Code und veraltete Kommentare aus früheren Prop-Ständen
+abstaende_layout-36 [prop (Übersicht)/abstaende/S3] Abschnittstitel „Aktive Konten“ schwebt gleich weit zwischen Leiste und Konten
+bewegung-40 [prop, progress, prop-Unterreiter/bewegung/S3] Übergänge auf frisch gerenderten Elementen laufen nie (und animieren width)
+bereich_prop-54 [prop/bilanz (Ausgabe-Formular)/layout/S3] Absenden-Knopf über Leer-Label ausgerichtet, „Notiz“ allein in Reihe 2
+bereich_prop-25 [prop/bilanz (Ausgaben)/farbe/S3] Ganze Betragsspalte der Ausgaben in Rot
+bereich_prop-31 [prop/bilanz (Payout-Planer)/wording/S3] „13 von 2 · erfüllt“
+bereich_prop-27 [prop/bilanz (Payout-Planer)/zustaende/S3] #/prop/payout öffnet den Planer ganz unten außerhalb des Bildes
+bereich_prop-20 [prop/bilanz (Payouts)/wording/S3] „Erhalten“ steht dreimal mit drei Bedeutungen in einer Zeile
+bereich_prop-24 [prop/bilanz (Pro Firma)/wording/S3] „0,00 € Payouts · ROI −100 %“ dreimal hintereinander
+bereich_prop-32 [prop/bilanz, prop/cockpit/aufbau/S3] Payout-Planer liegt am Ende der Bilanz statt beim Konto, um das es geht
+responsiv-30 [prop/bilanz, prop/konten, settings/konten, settings/regeln, trades (Seitenwähler)/barrierefreiheit/S3] Löschen-Symbole in Tabellenzeilen 30 × 30px, Seitenwähler 36 × 32px
+bereich_prop-45 [prop/friedhof/zustaende/S3] Volle Karte „Muster“, die nur sagt, dass es noch keine Muster gibt
+bereich_prop-49 [prop/friedhof (Grabstein Rückseite)/typografie/S3] Trenn-Punkt bleibt am Zeilenende hängen („Frustriert ·“ / „Fokussiert“)
+bereich_prop-50 [prop/friedhof (Kerzen)/bewegung/S3] Kerzen: Filter-Definitionen pro Haufen doppelt (doppelte IDs), Flammen flackern auch außerhalb des Bildes
+bereich_prop-35 [prop/konten, prop/bilanz/farbe/S3] Normalzustände in Blau: „Aktiv“ und „Beantragt“
+ki_look-41 [prop_friedhof (Muster)/aufbau/S3] Ganze Karte „Muster“ nur für einen Erklärsatz
+bewegung-9 [ruhepunkt/bewegung/S3] Ruhepunkt: bis zu vier Eingangs-Animationen übereinander auf denselben Karten
+bereich_training-50 [ruhepunkt/hierarchie/S3] Krisenhilfe-Link als 12px graue Fußnote rechts außen
+bereich_training-48 [ruhepunkt/komponenten/S3] ‚Bewusst abschalten‘ nutzt native System-Checkboxen
+bereich_training-47 [ruhepunkt/layout/S3] ‚Dein Plan für heute‘: Trennlinien mit Lücke zwischen Label und Wert
+bereich_training-49 [ruhepunkt/sonstiges/S3] Reste des entfernten Schalters ‚Christlicher Impuls‘
+responsiv-21 [runder „Trade loggen“-Knopf (dashboard, trades, stats, prop, progress)/responsiv/S3] Der runde Knopf deckt beim Scrollen Tabellenzellen, Kalendertage und Knöpfe ab
+aufbau-14 [seitenleiste/aufbau/S3] Navigationsgruppen passen nicht zum Inhalt: „Übersicht“ enthält Auswertungen, Schatten-Ich steht unter „Training“, „Konten“ enthält kein Konto
+bereich_shell-14 [seitenleiste/barrierefreiheit/S3] Navigation als „ergänzender Bereich“ mit vier eigenen nav-Landmarken, ohne Sprunglink zum Inhalt
+bewegung-17 [seitenleiste/bewegung/S3] Navigations-Einträge rutschen beim Überfahren 2 px nach rechts und springen beim Klick zurück
+bereich_shell-18 [seitenleiste/farbe/S3] Helles Design: Fläche des aktiven Eintrags praktisch unsichtbar (1,04:1)
+bereich_shell-20 [seitenleiste/komponenten/S3] System-Tooltips wiederholen sichtbare Beschriftungen; eingeklappt fehlt der App-Tooltip
+abstaende_layout-7 [seitenleiste/layout/S3] Trennlinie unter der Marke liegt 14 px unter der Linie der Titelzeile
+bereich_shell-22 [seitenleiste/typografie/S3] Gruppentitel weichen vom gemeinsamen Abschnittslabel ab
+typografie-31 [seitenleiste/typografie/S3] Navigation in 14.5 px, größer als Grundschrift, Einstellungs-Navigation und Menüs
+bereich_shell-33 [seitenleiste/wording/S3] Gruppe „Konten“ enthält kein Konto, nur Prop Firms und Coupon-Codes
+barrierefreiheit-32 [seitenleiste/barrierefreiheit/S3] Aktiver Navigationspunkt ohne aria-current; Prop-Unterreiter mit aria-pressed an Links
+barrierefreiheit-49 [seitenleiste/barrierefreiheit/S3] Vier nav-Landmarken in einem aside und doppelte title-Tooltips
+wording-60 [settings/wording/S3] Einstellungs-Reiter „Logs“ mit Unterreiter „Imports“
+bereich_einstellungen-24 [settings (Design, Sprache)/layout/S3] Raster mit verwaister zweiter Zeile (4 + 2)
+bereich_einstellungen-28 [settings (Design, Sprache, Optionen)/typografie/S3] Beschriftungen von Optionen in fünf Größen und zwei Gewichten
+bereich_einstellungen-30 [settings (Konten, Logs)/typografie/S3] Ein Tabellenkopf in zwei Schriften
+referenz-36 [settings (Profil)/zustaende/S3] Zeitzone springt auf „Africa/Abidjan“, wenn die Browser-Zeitzone nicht in der Liste steht
+bereich_einstellungen-27 [settings (Profil, Trading, Mentor, Notebook)/layout/S3] Jeder Abschnitt hat eigene Feldbreiten
+bereich_einstellungen-21 [settings (Regeln, Konten, Inhalte, Logs, Navigation)/barrierefreiheit/S3] Schalter und Symbolknöpfe in Listen heißen alle gleich, der aktive Abschnitt hat kein aria-current
+bereich_einstellungen-31 [settings (alle Blöcke)/abstaende/S3] Blockbeschreibungen mit drei Abständen über Inline-Stile, ein Block ganz ohne Beschreibung
+bereich_einstellungen-33 [settings/benachrichtigungen/hierarchie/S3] Hinweis-Punkte: Hauptschalter und Unterschalter stehen gleichrangig, beim Ausschalten springt der Block
+bereich_einstellungen-43 [settings/design/barrierefreiheit/S3] Das Löschen-× an eigenen Farben und Designs ist nur 16 px groß
+bereich_einstellungen-42 [settings/design/bewegung/S3] Hover bewegt Karten und Punkte auf vier verschiedene Arten
+bereich_einstellungen-19 [settings/design/komponenten/S3] Vier verschiedene Auswahl-Stile auf einer Seite, einer davon mit Schlagschatten
+bereich_einstellungen-47 [settings/design/kontrast/S3] Die Karte „Eigenes“ ist im dunklen Design kaum zu sehen
+bereich_einstellungen-29 [settings/design/typografie/S3] Die Farbpaar-Vorschau zeigt Beträge in Satoshi statt in Onest
+bereich_einstellungen-45 [settings/design/wording/S3] Die vier Schrift-Beschreibungen folgen keinem Schema
+bereich_einstellungen-40 [settings/logs/komponenten/S3] Logs: roter Papierkorb in jeder Zeile, Spaltenköpfe über dem Leerzustand, Suchfeld nur für den Typ beschriftet
+bereich_einstellungen-46 [settings/mentor/wording/S3] „Nutzerkennung ist dein Benutzername“, angezeigt wird aber die Gerätekennung; vier dichte Erklärabsätze
+abstaende_layout-23 [settings/profil (Daten und Sicherung)/abstaende/S3] Unterabschnitte in „Daten und Sicherung“ nur 12 px auseinander
+bereich_einstellungen-26 [settings/regeln/layout/S3] Der Knopf „Hinzufügen“ bricht unter das Eingabefeld für neue Regeln
+bereich_einstellungen-39 [settings/regeln/zustaende/S3] Regeln werden ohne Rückfrage gelöscht, Konten und Tags nicht
+bereich_einstellungen-35 [settings/trading/komponenten/S3] Prozentfelder ohne Einheit im Feld, andere Felder mit
+bereich_einstellungen-25 [settings/trading/layout/S3] Break-even-Zeile: Labels versetzt, „Bis“ bricht am Handy allein um, Zurücksetzen-Knopf eingerückt
+bereich_einstellungen-34 [settings/trading/wording/S3] „Geld-blind-Modus“ steht zweimal übereinander
+responsiv-45 [settings/trading (Break-even-Bereich, Handy)/layout/S3] Break-even-Felder: Einheit und „Von“ nebeneinander, „Bis“ allein darunter, feste 160px
+wording-11 [settings_benachrichtigungen, dashboard/wording/S3] Recap heißt „Performance-Recap“, „Wochen-Recap“ und „Wöchentlicher Performance-Recap“
+wording-23 [settings_design/wording/S3] Design-Einstellungen sprechen von „Website“ und „Buttons“
+wording-24 [settings_design/wording/S3] „Standardfarben“ mit ×-Symbol und „Aktuelles speichern“ ohne Objekt
+barrierefreiheit-46 [settings_design/barrierefreiheit/S3] Löschen-× an gespeicherten Farben und Designs: 16×16 px und nur beim Darüberfahren
+farbe_kontrast-16 [settings_design (eigene Farben, hell)/kontrast/S3] forLight dunkelt eigene Farben im hellen Design nur bis 3:1 ab, Gewinn- und Verlustzahlen bleiben unter 4,5:1
+wording-20 [settings_profil/wording/S3] Fußzeile mit Entwicklerbegriffen und „neuer Trade“ statt „Trade loggen“
+wording-22 [settings_profil/wording/S3] „Sicherung einspielen“ neben „Sicherung exportieren“
+wording-19 [settings_profil/wording/S3] „Vorher exportieren!“ als einziges Ausrufezeichen der App
+hierarchie-33 [settings_profil (Daten und Sicherung)/hierarchie/S3] Gefahrenzone: roter Titel wiederholt den roten Knopf
+wording-61 [settings_regeln, prop, trade_detail/wording/S3] „Trade-Editor“ verweist auf einen Dialog, der so nicht heißt und die Regeln nicht zeigt
+wording-28 [settings_trading/wording/S3] Geld-blind-Modus: Titel doppelt, Füllwörter, falscher Strich bei „— R“
+wording-27 [settings_trading/wording/S3] Kartentitel als Frage („Was handelst du?“) zwischen Nomen-Titeln
+wording-29 [settings_trading/wording/S3] Monte-Carlo-Durchläufe ohne Tausenderpunkt („1000“)
+wording-26 [settings_trading/wording/S3] Untertitel „Passe dein Trading-Erlebnis an.“ ist eine Floskel
+wording-10 [settings_trading, shadow/wording/S3] „Tagesverlustlimit“ und „Tageslimit“ für dieselbe Einstellung
+bereich_training-30 [shadow/diagramme/S3] Ranking: Nullzeilen und eine andere Zahlenschrift als die Tabelle
+bereich_training-33 [shadow/typografie/S3] Titel in 700 statt 600: Intro-Satz und Leerzustands-Titel
+wording-40 [shadow/wording/S3] Diagrammtitel „Equity: echt vs. Schatten-Ich“ englisch und mit „vs.“
+wording-25 [shadow, settings_design, settings_profil/wording/S3] Perspektive wechselt zwischen „Mein …“ und „Dein …“
+abstaende_layout-19 [stats/abstaende/S3] Reiterleiste steht gleich weit von Diagramm und Inhalt entfernt
+bereich_statistik-36 [stats (Diagrammhöhen)/layout/S3] Vier Diagrammhöhen; der Reiter-Inhalt springt beim Wechsel
+bereich_statistik-46 [stats (Leerzustände)/zustaende/S3] Leerzustände uneinheitlich: vier ohne Erklärung, Zustand mit Funkel-Symbol
+bereich_statistik-7 [stats (Reiterleiste)/barrierefreiheit/S3] Reiter-Links tragen aria-pressed und eine Inline-Farbe statt aria-current
+bereich_statistik-42 [stats (Zahlenformate)/typografie/S3] Nachkommastellen springen: PF „0“ neben „0,08“, Win-Rate „40,0 %“ neben „50 %“, Standardfehler 3 Stellen
+bereich_statistik-35 [stats (alle Kacheln/Diagramme)/diagramme/S3] Balken: voller Neon-Ton und Radius 4 an beiden Enden, abweichend von Kurve und Histogramm
+bereich_statistik-37 [stats (hbars)/diagramme/S3] Waagerechte Balken: nach Summe sortiert, aber Erwartungswert gezeigt; „Ohne Angabe“ mitten in der Liste; Namen ohne Auslassungszeichen gekürzt
+farbe_kontrast-42 [stats, day/farbe/S3] Positive Werte werden uneinheitlich gefärbt: realisiertes R einmal neutral, einmal grün; ‚0 / 0‘ farbig
+hierarchie-50 [stats/days/diagramme/S3] Zählspalten eingefärbt (auch die 0); Achse „2k/1k“ rechts statt „1.000 €“ links
+bereich_statistik-39 [stats/days/farbe/S3] Tagestabelle: Zähler grün/rot (auch „0“), Platzhalter „–“ rot
+bereich_statistik-40 [stats/days/typografie/S3] Datum „Donnerstag, 8. Oktober 2026“ in jeder Zeile
+typografie-21 [stats/days, prop, Diagramme/typografie/S3] Proportionale Ziffern in rechtsbündigen Wertspalten außerhalb von Tabellen
+bereich_statistik-13 [stats/days, stats/time/aufbau/S3] Wochentag-Auswertung doppelt in zwei Reitern
+bereich_statistik-41 [stats/edge/typografie/S3] „95-%-Intervall“: Wert per Inline-Stil 20 px statt Kachelgröße
+bereich_statistik-44 [stats/mc/diagramme/S3] Drawdown-Histogramm: krumme Achsenwerte, Ruin-Schwelle nicht markiert; Pfad-Achse wiederholt „Trades“
+diagramme-21 [stats/mc/diagramme/S3] Monte-Carlo-Pfade grün und ohne Median
+bereich_statistik-45 [stats/mistakes/wording/S3] „Fehler haben gekostet −1.281,39 €“: doppelte Verneinung; Win-Rate-Paar nach Kategorie statt Bedeutung gefärbt
+bereich_statistik-43 [stats/regime, stats/state, stats/mc/hierarchie/S3] Lose Hinweiszeilen zwischen Reitern und Karten gehören zu keiner Gruppe
+ki_look-39 [stats/state (Zustand)/farbe/S3] Grün getönte Symbol-Kacheln vor Schlaf, Stress, Stimmung
+bereich_statistik-48 [stats/summary/diagramme/S3] Einzige Legende der Seite: grüner Punkt für eine Linie, die unter Null rot ist; Karte ohne Titel
+bereich_statistik-38 [stats/time/wording/S3] Bucket-Beschriftungen in drei Schreibweisen, ein 2-h-Bucket zwischen 1-h-Buckets
+farbe_kontrast-37 [stats_edge (Rollierender Edge)/diagramme/S3] Rollierender Edge: Linie und Fläche grün, egal ob der Wert positiv oder negativ ist
+bereich_shell-11 [titelzeile/aufbau/S3] Zwei Profil-Avatare am Desktop, mit verschiedener Größe und verschiedenem Verhalten
+bereich_shell-31 [titelzeile/responsiv/S3] Handy-Titelzeile 4 px gegen die Inhaltskante versetzt, Schließen-Knopf nur 30 px
+bereich_shell-10 [titelzeile/zustaende/S3] Avatar oben zeigt andere Initialen als die Konto-Karte
+bereich_trades_tag-47 [trade_detail/wording/S3] Fachjargon und falsche Verweise im Trade-Detail
+responsiv-44 [trade_detail (Handy)/layout/S3] Trade-Detail am Handy einspaltig: zehn kurze Werte untereinander à 71px
+bereich_trades_tag-16 [trade_detail (Kopf)/aufbau/S3] Trade-Ansicht zeigt Zeitraum, Konto und Session, obwohl sie nichts beeinflussen
+bereich_trades_tag-49 [trade_detail (Screenshots)/bewegung/S3] Screenshots zoomen beim Darüberfahren
+wording-51 [trades/wording/S3] Suchfeld-Platzhalter „Suchen: Symbol, Setup, Notiz …“
+barrierefreiheit-34 [trades/barrierefreiheit/S3] Spalte „Regeln“: Haken und Kreuz ohne Text, gebrochene Regeln nur im Maus-Tooltip
+barrierefreiheit-50 [trades/barrierefreiheit/S3] Tabelle im eigenen Scrollbereich ist nicht in jedem Browser per Tastatur scrollbar
+bereich_trades_tag-35 [trades (Filterzeile)/wording/S3] „Fehler: alle“ bricht das Muster, die Filter belegen am Handy drei Zeilen
+diagramme-43 [trades (Kachel Netto-P&L mit Sparkline)/komponenten/S3] Sparkline-Kachel: größerer Wert und ohne Trennlinie
+ki_look-19 [trades (Tabelle)/komponenten/S3] Zu viele Abzeichen pro Zeile: Status-Pille doppelt zur P&L-Farbe
+zustaende-24 [trades (Tabelle)/zustaende/S3] Platzhalter in einer Zeile mal hell, mal blass; „offen“ mit 2,1:1 Kontrast
+zustaende-37 [trades (Tabelle, Seitenwähler)/zustaende/S3] Bei wenigen Trades steht eine leere Tabellenfläche, der Seitenwähler ist ohne Funktion
+bereich_trades_tag-43 [trades (Tage)/komponenten/S3] Tageskarten: „Netto“ mit eingefärbt, Kennzahlen weichen von der Tagesansicht ab
+bereich_trades_tag-30 [trades (Verpasste Trades)/komponenten/S3] Long/Short-Abzeichen in der Verpasst-Tabelle stehen nicht bündig
+bereich_trades_tag-34 [trades (Zähler und Seitenwahl)/komponenten/S3] Zähler doppelt, Seitenwahl auch bei einer Seite
+bereich_trades_tag-42 [trades (offene Trades), modal_trade_loggen/kontrast/S3] Zustandstext „offen“ in `--faint` (≈ 2,1:1)
+zustaende-26 [trades, dashboard (Kachel Ø Gewinn/Verlust)/farbe/S3] Ø-Gewinn-Beschriftung ist immer grün, auch bei 0,00 €
+komponenten-45 [trades, trade_detail, dashboard (Letzte Trades)/komponenten/S3] Drei Etikett-Rezepte in einer Tabellenzeile

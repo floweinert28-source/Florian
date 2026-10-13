@@ -8,15 +8,6 @@
   function active() { const s = st(); if (!s.booted) { s.booted = true; S.data.settings.dashboardId = S.defaultDashboard().id; } return S.activeDashboard(); }
   const layout = () => { const s = st(); return s.editing && s.draft ? s.draft : active().layout; };
   const caret = I.chev.replace('<svg', '<svg class="caret"');
-  /* Zeitraum, Konto und Filter: ab Tablet-Breite oben rechts in der Titelzeile (Platz #tb-tools neben dem Avatar), auf dem Handy in der Kopfreihe.
-     Bei Größenwechsel wandert der Block mit; ein alter Listener wird vorher abgehängt (jeder Neuaufbau ruft mount) */
-  const DESKTOP = '(min-width: 961px)';
-  function placeContext(main, s) {
-    const place = () => { const el = main.querySelector('.dash-head .dh-context, #tb-tools .dh-context'), slot = main.querySelector('#tb-tools'), head = main.querySelector('.dash-head'); if (!el || !slot || !head) return; const wide = !window.matchMedia || window.matchMedia(DESKTOP).matches; if (wide) { if (el.parentNode !== slot) slot.appendChild(el); } else if (el.parentNode !== head) head.insertBefore(el, head.firstChild); };
-    place();
-    if (!window.matchMedia) return; const mq = window.matchMedia(DESKTOP);
-    if (s.mqPlace) s.mq.removeEventListener('change', s.mqPlace); s.mq = mq; s.mqPlace = place; mq.addEventListener('change', place);
-  }
   /* Lücken im Bearbeitungsmodus: ein entferntes Widget hinterlässt einen freien Platz gleicher Größe, damit nichts nachrutscht.
      Beim Speichern werden die Lücken geschlossen (Widgets von unten rücken auf) */
   const GAP = '_luecke';
@@ -118,16 +109,15 @@
       const s = st(); const tpl = active(); const rawAll = ctx.all; const f = filterState(); const fN = filterCount(f); if (fN) ctx = Object.assign({}, ctx, { all: applyFilter(ctx.all, f), inRange: applyFilter(ctx.inRange, f) }); const d = W.data(ctx, App); const all = ctx.all; const parts = []; const todayKey = C.dayKey(new Date());
       if (s.editing) parts.push(`<div class="edit-bar"><div class="row"><span class="dot-live"></span><b>Bearbeitungsmodus</b><span class="muted">–</span><span>${esc(tpl.name)}</span></div><div class="row"><button type="button" class="btn" data-action="dash-cancel">Abbrechen</button><button type="button" class="btn primary" data-action="dash-save">${I.check} Speichern</button></div></div>`);
       else {
-        /* Kopfzeile: der Kontext (Zeitraum, Konto, Filter) steht ab Tablet-Breite oben rechts in der Titelzeile neben dem Avatar (mount() verschiebt ihn dorthin),
-           auf dem Handy bleibt er hier; rechts die Werkzeuge als Symbole (Vorlage, Zertifikat) und „Trade loggen“ */
+        /* Kopfzeile: links Zeitraum und Konto, rechts die Werkzeuge als Symbole (Vorlage, Zertifikat, Filter) und „Trade loggen“ */
         parts.push(`<div class="dash-head">
-          <div class="row dh-context">${App.rangeControl()}${App.accountControl()}<button type="button" class="btn ${fN ? 'is-on' : ''}" data-action="dash-f-open" aria-label="Filter">${I.filter}<span class="hide-m">Filter</span>${fN ? `<b class="cntb">${fN}</b>` : ''}</button></div>
-          <div class="row dh-tools"><div class="popwrap"><button type="button" class="btn icon-only" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="vh tpl-name">${esc(tpl.name)}</span></button><div class="popover tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div><div class="popwrap"><button type="button" class="btn icon-only" data-pop="cert" title="Zertifikat erstellen" aria-label="Zertifikat erstellen">${I.shield}<span class="vh">Zertifikat</span></button><div class="popover" id="pop-cert">${root.Certificate.menuHTML({ day: todayKey })}</div></div><span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}</div>
+          <div class="row dh-context">${App.rangeControl()}${App.accountControl()}</div>
+          <div class="row dh-tools"><div class="popwrap"><button type="button" class="btn icon-only" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="vh tpl-name">${esc(tpl.name)}</span></button><div class="popover tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div><div class="popwrap"><button type="button" class="btn icon-only" data-pop="cert" title="Zertifikat erstellen" aria-label="Zertifikat erstellen">${I.shield}<span class="vh">Zertifikat</span></button><div class="popover" id="pop-cert">${root.Certificate.menuHTML({ day: todayKey })}</div></div><button type="button" class="btn icon-only ${fN ? 'accent' : ''}" data-action="dash-f-open" aria-label="Filter" title="Filter">${I.filter}${fN ? `<b class="cntb">${fN}</b>` : ''}</button><span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}</div>
         </div>`);
         if (S.settings.tiltWarnings) { const tilt = C.tiltCheck(App.todayTrades(all), { account: d.account, dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); for (const wn of tilt.warnings) { if (S.data.dismissed[wn.kind] === todayKey) continue; parts.push(U.banner(wn.severity === 'critical' ? 'loss' : 'warn', wn.title, wn.text, { close: 'x' }).replace('data-action="x"', `data-action="dismiss" data-key="${wn.kind}"`)); } }
         for (const r of recaps(all)) parts.push(U.banner('info', r.title, r.text, { icon: 'bell', close: 'x', trailing: `<a class="btn sm" href="#/stats">Zur Statistik</a>` }).replace('data-action="x"', `data-action="recap-dismiss" data-kind="${r.kind}" data-key="${r.key}"`));
         if (S.settings.sampleError) parts.push(U.banner('warn', 'Beispieldaten konnten nicht geladen werden', `${esc(S.settings.sampleError.message || '')}<details class="small muted" style="margin-top:6px"><summary>Details</summary><pre style="white-space:pre-wrap;word-break:break-word;font-size:11px">${esc((S.settings.sampleError.stack || '') + '\n' + (S.settings.sampleError.ua || ''))}</pre></details>`, { icon: 'bell', trailing: `<button type="button" class="btn sm" data-action="sample-retry">Erneut versuchen</button><button type="button" class="btn sm ghost" data-action="sample-error-dismiss">Ausblenden</button>` }));
-        if (!rawAll.length) parts.push(U.banner('info', 'Willkommen', 'Dein Journal ist noch leer. Logge deinen ersten Trade, importiere eine CSV oder lade Beispieldaten, um alle Auswertungen zu sehen.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="import">${I.upload} CSV</button><button type="button" class="btn sm primary" data-action="install-sample">Beispieldaten laden</button>` }));
+        if (!rawAll.length) parts.push(U.banner('accent', 'Willkommen', 'Dein Journal ist noch leer. Logge deinen ersten Trade, importiere eine CSV oder lade Beispieldaten, um alle Auswertungen zu sehen.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="import">${I.upload} CSV</button><button type="button" class="btn sm primary" data-action="install-sample">Beispieldaten laden</button>` }));
       }
       const lay = layout();
       parts.push(topArea(lay.oben, d)); parts.push(mainArea(lay.unten, d));
@@ -135,10 +125,8 @@
       return parts.join('');
     },
     /* beim Verlassen der Seite den Größen-Listener abhängen, sonst verschiebt er auf anderen Seiten deren Kopfreihe */
-    unmount() { const s = st(); if (s.mqPlace && s.mq) s.mq.removeEventListener('change', s.mqPlace); s.mq = s.mqPlace = null; },
     mount(main) {
       const s = st();
-      placeContext(main, s);
       if (s.editing) bindDnD(main);
       fitRecent(main);
       const list = main.querySelector('#dash-add-list'); if (list && s.listScroll) { list.scrollTop = s.listScroll; s.listScroll = 0; }

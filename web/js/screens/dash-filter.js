@@ -150,7 +150,7 @@
   function place() {
     const pop = document.getElementById('fd-pop'), btn = document.querySelector('[data-action="dash-f-open"]'); if (!pop || !btn) return;
     const r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight, phone = vw <= 560;
-    const w = phone ? vw - 16 : Math.min(320, vw - 16), inTop = !!btn.closest('.tb-tools'); /* in der Titelzeile (rechts) rechtsbündig unter dem Knopf, sonst linksbündig */
+    const w = phone ? vw - 16 : Math.min(320, vw - 16), inTop = !!btn.closest('.tb-tools, .dh-tools'); /* Knopf rechts (Werkzeuge): rechtsbündig unter dem Knopf, sonst linksbündig */
     const left = phone ? 8 : Math.min(Math.max(8, inTop ? r.right - w : r.left), vw - w - 8), top = r.bottom + 8;
     Object.assign(pop.style, { left: `${Math.round(left + window.scrollX)}px`, top: `${Math.round(top + window.scrollY)}px`, width: `${Math.round(w)}px`, maxHeight: `${Math.round(Math.max(300, Math.min(phone ? 560 : 460, vh - top - 16)))}px` });
   }

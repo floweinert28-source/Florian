@@ -39,7 +39,7 @@
       const suffix = def.fields.length === 1 ? f.label : '';
       /* eigene, ruhige Pfeile statt der Browser-Pfeile: ganze Zahlen in 1er-Schritten, R und % in 0,5er, Beträge in 10er */
       const step = f.type === 'int' ? 1 : r.unit === 'money' ? 10 : 0.5;
-      return `<label class="sr-num" data-step="${step}"><input class="input" type="number" inputmode="decimal" min="0" step="${f.type === 'int' ? '1' : 'any'}" value="${esc(r[f.key])}" ${common(f)}>${suffix ? `<span class="sr-suf">${esc(suffix)}</span>` : ''}<span class="sr-step"><button type="button" data-action="sr-step" data-dir="1" tabindex="-1" aria-label="Mehr">${I.chev}</button><button type="button" data-action="sr-step" data-dir="-1" tabindex="-1" aria-label="Weniger">${I.chev}</button></span></label>`;
+      return `<label class="sr-num" data-step="${step}"><button type="button" class="sr-btn" data-action="sr-step" data-dir="-1" tabindex="-1" aria-label="Weniger">${I.minus}</button><input class="input" type="number" inputmode="decimal" min="0" step="${f.type === 'int' ? '1' : 'any'}" value="${esc(r[f.key])}" ${common(f)}>${suffix ? `<span class="sr-suf">${esc(suffix)}</span>` : ''}<button type="button" class="sr-btn" data-action="sr-step" data-dir="1" tabindex="-1" aria-label="Mehr">${I.plus}</button></label>`;
     };
     const plain = def.fields.filter(f => f.type !== 'setups');
     const ctrl = !plain.length ? '' : def.key === 'hours' ? `${field(plain[0])}<span class="sr-dash">–</span>${field(plain[1])}` : plain.map(field).join('');

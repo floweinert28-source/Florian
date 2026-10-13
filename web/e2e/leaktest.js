@@ -13,5 +13,5 @@ let pass = 0, fail = 0; const ok = (c, n) => { c ? pass++ : fail++; console.log(
   await p.goto(base + '#/dashboard'); await p.waitForTimeout(500); await p.setViewportSize({ width: 900, height: 900 }); await p.waitForTimeout(300);
   ok(await p.evaluate(() => !!document.querySelector('.dash-head .dh-context')), 'Dashboard 900px: Kontext in der Kopfreihe');
   await p.setViewportSize({ width: 1440, height: 900 }); await p.waitForTimeout(300);
-  ok(await p.evaluate(() => !!document.querySelector('#tb-tools .dh-context')), 'Dashboard 1440px: Kontext wieder oben rechts');
+  ok(await p.evaluate(() => !!document.querySelector('.dash-head .dh-context') && !document.querySelector('#tb-tools').children.length), 'Dashboard 1440px: Kontext in der Kopfreihe, Titelzeile leer');
   ok(!errs.length, 'keine Fehler ' + errs.join(' | ')); console.log(`${pass}/${pass + fail} bestanden`); await b.close(); process.exit(fail ? 1 : 0); })();

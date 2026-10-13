@@ -46,10 +46,10 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   ↘ Short in Rot), bewusst ruhig: zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis ohne Leuchten (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **Abstände** folgen einem 4-px-Raster (`--sp-1` … `--sp-10` in `:root`): Karten und Einstellungsblöcke 20 px innen, Kartenkopf 16 px über dem Inhalt, Abschnitte einer Seite 24 px, Raster (Dashboard) 16 px, nach der Kopfreihe 16 px, Tabellenzellen 12/16 px, Dialoge mit Formular 16 px zwischen Kopf, Feldern und Fuß. Eine Seite ohne Steuerelemente in der Kopfreihe zeigt keine leere Kopfreihe; die Einstellungen haben keine (Zeitraum und Konto wirken dort nicht).
-- **Bedienelemente** haben feste Höhen: kleine Knöpfe (`.btn.sm`), runde Pfeil-Knöpfe (`.btn.round`, 34 × 34) und kleine Felder (`.input.sm`, `.select.sm`) sind alle 34 px hoch. Reiter (`.tabs`) und Umschalter (`.seg`) sind eine Schiene mit 34 px hohen Einträgen; der gewählte Eintrag ist hell hinterlegt, nicht farbig. Zahlenfelder zeigen keine Pfeile.
+- **Bedienelemente** haben feste Höhen: kleine Knöpfe (`.btn.sm`), runde Pfeil-Knöpfe (`.btn.round`, 34 × 34) und kleine Felder (`.input.sm`, `.select.sm`) sind alle 34 px hoch. Reiter (`.tabs`) und Umschalter (`.seg`) sind eine Schiene mit 34 px hohen Einträgen; der gewählte Eintrag ist hell hinterlegt, bei Auswahl mit Bedeutung in seiner Farbe (siehe **Farbe**). Zahlenfelder zeigen keine Browser-Pfeile.
 - **Texte:** Die Quote gewonnener Trades heißt überall „Trefferquote“ (nicht Win-Rate/Winrate), die der verlorenen „Verlustquote“. Zähler laufen über `U.count(n, Einzahl, Mehrzahl)` („1 Trade“, „2 Trades“, „1 Notiz“); jede Einzahlform hat in allen fünf Wörterbüchern ein eigenes Muster (`"{0} Trade"`, `"{0} von {1} Trade"` …).
 - **Fehler und Löschen:** Eingabefehler stehen direkt am Feld (roter Rand, Satz darunter, `aria-invalid`), alle zugleich, Fokus aufs erste Feld; sie verschwinden bei der nächsten Eingabe (`U.fieldErrors`). Das Trade-Formular prüft selbst („Symbol wählen“, „Einstieg eintragen“ …), alle anderen Formulare nutzen die eingebaute Prüfung, aber ohne Browser-Blase („Pflichtfeld“, „Mindestens {0}“ …). Wer Daten endgültig löscht (Screenshot, Sprachnotiz, Regel, Check-in, verpasster Trade, Design, Konto, Vorlage …), bestätigt vorher in einem Fenster mit rotem „Löschen“.
-- **Bedienung:** Ein Fokus-Ring für alles: 2 px in Textfarbe (`--focus`), nie Grün; Felder zeigen Fokus mit hellerem Rand. Das erste Tab zeigt „Zum Inhalt springen“. Nach einem Seitenwechsel landet der Fokus am Seitenanfang (`#content`), wenn er im ersetzten Inhalt lag. Abhakzeilen der Regeln sind Checkboxen (Enter/Leertaste), Grabsteine Knöpfe. Auf Touch-Geräten sind kleine Knöpfe, Reiter und Umschalter mindestens 40 px hoch, Menüeinträge und Abhakzeilen 44 px.
+- **Bedienung:** Ein Fokus-Ring für alles: 2 px in der Akzentfarbe (`--focus`); Felder zeigen Fokus mit grünem Rand. Das erste Tab zeigt „Zum Inhalt springen“. Nach einem Seitenwechsel landet der Fokus am Seitenanfang (`#content`), wenn er im ersetzten Inhalt lag. Abhakzeilen der Regeln sind Checkboxen (Enter/Leertaste), Grabsteine Knöpfe. Auf Touch-Geräten sind kleine Knöpfe, Reiter und Umschalter mindestens 40 px hoch, Menüeinträge und Abhakzeilen 44 px.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz. Das Beispielformat im Dialog
   (Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;…) wird richtig erkannt; Kennungsspalten („Order ID“, „_…“) werden nie
@@ -70,10 +70,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   und Importe über `settings.recapsOffV1`); einschalten unter Einstellungen → Benachrichtigungen.
   Unten die **Konto-Karte** (Profilbild oder Initialen, Name, E-Mail): Klick öffnet ein Menü mit Profil, Coach, Einstellungen,
   Benachrichtigungen, Sprache und dem Hell/Dunkel-Schalter; eingeklappt nur das Profilbild, Menü rechts daneben.
-- **Dashboard** (Aufbau nach TradeZella; Zeitraum, Konto und Filter stehen ab Tablet-Breite oben rechts in der Titelzeile auf Höhe
-  des Avatars (Platz `#tb-tools`, `mount()` verschiebt den Block `.dh-context` dorthin und bei Größenwechsel zurück, `unmount()` hängt den Größen-Listener beim Verlassen ab; auf dem Handy in
-  der Kopfreihe), die Kopfreihe rechts hat nur Vorlage und Zertifikat als Symbole und „Trade loggen“, kein Mikrofon- und kein
-  Session-Knopf; das Filter-Fenster und das breite Zeitraum-Menü öffnen rechtsbündig, zwischen 961 und 1000px mit einem Monat): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
+- **Dashboard** (Aufbau nach TradeZella; Kopfreihe links Zeitraum und Konto, rechts Vorlage, Zertifikat und Filter als kleine Symbole
+  und „Trade loggen“, kein Mikrofon- und kein Session-Knopf; die Titelzeile trägt nur Titel und Avatar; das Filter-Fenster öffnet
+  rechtsbündig unter dem Filter-Symbol, ein aktiver Filter zeigt die Anzahl als kleines Abzeichen): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
   mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
@@ -218,12 +217,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Im hellen Design sind die Signalfarben abgedunkelt (Gewinn und Akzent `#077a41`, Verlust `#c62e2e`, Break-even `#5f4fcf`, Info `#1d6db5`,
   Warntext `#8f5f00`), damit Zahlen mindestens 4,5:1 erreichen; eigene Farben werden dafür automatisch abgedunkelt (`Theme.forLight`), die Schrift
   auf Farbflächen wählt `Theme.inkFor` nach dem höheren Kontrast.
-  **Grün nur für Gewinn und „Trade loggen“** (dazu Schalter „an“, der Balken am aktiven Menüpunkt, Hinweis-Punkte, Fokusrahmen, Score und Serien). Neutral sind: gewählte Einträge in Menüs, Kalendern und Datumswählern (gewählt = Textfarbe als Fläche, Heute unterstrichen bzw. als Kreis in Textfarbe), Links („Zum TradeLog“, Notiz-Links), Häkchen, Ablageflächen, Kartensymbole, die Aktivitäts-Heatmap (Graustufen), Chat-Blasen, ein aktiver Dashboard-Filter (`.btn.is-on`) und die Willkommen-Meldung. ausgewählte Reiter, Segmente, Chips und Karten mit Rahmen sind flach und ruhig: eine leicht
-  angehobene Fläche mit feinem Rand, ohne Licht, Verlauf oder Schein (ein gemeinsamer Stil am Ende von `css/app.css`). `--lc` setzt eine
-  bewusste Farbe nur dort, wo sie etwas bedeutet (Gewinn/Verlust, Long/Short, Bewertung, Fehler-/Emotions-Chips): Schrift in der Farbe,
-  Fläche leicht getönt, Rand leise gefärbt. Nur „Trade loggen“ behält sein Licht. Setup-Chips, Avatare, der aktive Seitenleisten-Eintrag
-  (flach, feiner Rand), die gewählte Notiz, der Zähler im Filter-Knopf und die News-Karte sind neutral; Grün bleibt für Gewinne, den
-  Akzent-Knopf, Schalter und den kleinen Balken am aktiven Eintrag.
+  **Farbe:** Grün steht für Gewinn, „Trade loggen“ und Auswahl (gewählte Einträge in Menüs, Kalendern und Datumswählern, Links, Häkchen,
+  aktive Regel-Karten, Schieberegler, Aktivitäts-Heatmap, Fokusrahmen, aktiver Filter). Auswahlknöpfe mit Bedeutung tragen ihre eigene Farbe
+  über `--lc` (Schrift farbig, Fläche leicht getönt, Rand leise gefärbt): Trend Aufwärts grün, Abwärts rot, Seitwärts violett; Volatilität
+  niedrig violett, normal grün, hoch gelb; Stress 1–2 grün, 3 gelb, 4–5 rot; Stimmung umgekehrt; dazu Gewinn/Verlust, Long/Short, Bewertung,
+  Fehler- und Emotions-Chips. Ohne `--lc` ist eine Auswahl flach und neutral (ein gemeinsamer Stil am Ende von `css/app.css`).
   **Schriftgewichte abgestuft:** Steuerelemente (Knöpfe, Reiter, Segmente, Chips, Tabellenköpfe, Kachel-Titel) 500, Titel 600, nur Werte und
   Hauptknöpfe („Trade loggen“, Speichern) fett. **Info-Symbole** in Karten und Kacheln erscheinen erst beim Darüberfahren (auf Touch immer).
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.
@@ -242,7 +240,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   „Mein Regelwerk“: jede Regel ist eine ruhige Kachel mit Namen, kurzer Erklärung und Schalter (zwei bis drei Spalten, auf dem Handy eine); eingeschaltet ist sie leicht getönt, die Eingaben erscheinen darunter. Schalter in der ganzen App: schlanke Spur (36×20), kleiner Knopf, aus = grau, an = Akzentfarbe mit weißem Knopf; der Knopf gleitet mit leichtem Nachfedern und streckt sich beim Drücken, auch wenn die Seite danach neu aufgebaut wird (`App.glideSwitch`); die Eingaben erscheinen nur bei
   eingeschalteten Regeln, die Einheit steht im Feld, die Erklärung im (i). Ohne aktive Regel steht der Hinweis mit
   „Vorschlag übernehmen“ unter den Schaltern, damit beim ersten Einschalten nichts darüber verrutscht.
-  Zahlenfelder ohne Browser-Pfeile: das Feld ist so breit wie die Zahl, die Einheit rückt heran, rechts zwei ruhige Pfeile
+  Zahlenfelder als ruhige Leiste in der Kartenfläche: [−] Zahl Einheit [+], kein schwarzes Feld; das Feld ist so breit wie die Zahl
   (ganze Zahlen in 1er-Schritten, R und % in 0,5er, Beträge in 10er, nie unter 0); Tippen geht weiter.
 - **Blind-Replay** (zurückgestellt, siehe unten): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“
   (eigenes Feld in der Trade-Ansicht) kommen vor. Zehn Karten je Session: Chart, Instrument, Uhrzeit, Setup

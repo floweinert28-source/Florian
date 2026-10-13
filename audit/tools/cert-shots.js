@@ -1,5 +1,5 @@
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path');
-const base = 'file:///home/user/Florian/web/app.html'; const OUT = path.join(__dirname, 'shots', 'extra', 'cert'); fs.mkdirSync(OUT, { recursive: true });
+const base = process.env.BASE || 'file:///home/user/Florian/web/app.html'; const OUT = path.join(__dirname, 'shots', 'extra', 'cert'); fs.mkdirSync(OUT, { recursive: true });
 const LOG = []; const log = m => { LOG.push(m); console.log(m); };
 async function savePng(p, sel, fmtKey, name) {
   const data = await p.evaluate(async ([sel, fmtKey]) => { const card = document.querySelector(sel); if (!card) throw new Error('keine Karte ' + sel); const blob = await Certificate.toBlob(card, Certificate.FORMATS[fmtKey]); return await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); }); }, [sel, fmtKey]);
@@ -14,7 +14,8 @@ async function savePng(p, sel, fmtKey, name) {
   log('fonts ' + JSON.stringify(await p.evaluate(async () => { await document.fonts.ready; return { sat: document.fonts.check('700 20px Satoshi'), onest: document.fonts.check('700 20px Onest') }; })));
   const refs = await p.evaluate(() => { const all = App.allTrades().filter(t => t.close); const byDay = new Map(); for (const t of all) byDay.set(t.dayKey, (byDay.get(t.dayKey) || 0) + (t.pnl || 0)); const days = [...byDay.entries()].sort((a, b) => a[0] < b[0] ? 1 : -1); const win = days.find(d => d[1] > 0), loss = days.find(d => d[1] < 0); const lastDay = days[0][0]; return { win: win && win[0], winP: win && win[1], loss: loss && loss[0], lossP: loss && loss[1], lastDay, month: lastDay.slice(0, 7), months: [...new Set(days.map(d => d[0].slice(0, 7)))], n: all.length, days: days.slice(0, 40) }; });
   log('refs ' + JSON.stringify(refs).slice(0, 1500));
-  const open = async (kind, ref) => { await p.evaluate(([k, r]) => Certificate.open(k, r), [kind, ref]); await p.waitForTimeout(700); };
+  const sink = async (pg) => pg.evaluate(() => { if (true && !document.getElementById('probe')) { const st = document.createElement('style'); st.id = 'probe'; document.head.prepend(st); } });
+  const open = async (kind, ref) => { await sink(p); await p.evaluate(([k, r]) => Certificate.open(k, r), [kind, ref]); await p.waitForTimeout(700); };
   const close = async () => { await p.evaluate(() => { const c = document.querySelector('.modal [data-close]'); if (c) c.click(); }); await p.waitForTimeout(400); };
   const setFormat = async f => { await p.click(`[data-c="format"][data-v="${f}"]`); await p.waitForTimeout(500); };
   const variants = [['day', refs.win], ['week', refs.win], ['month', refs.month], ['stats', 'range']];
@@ -35,7 +36,7 @@ async function savePng(p, sel, fmtKey, name) {
   // Konstruierte Fälle direkt über cardHTML
   const synth = async (name, kind, f, mOver, o) => {
     await p.evaluate(([kind, f, mOver, o, ref]) => { const D = CertData; const p0 = D.period(kind, kind === 'month' ? ref.slice(0, 7) : kind === 'stats' ? null : ref); const m = Object.assign(D.compute(kind, D.select(App.allTrades(), p0), p0), mOver); let host = document.getElementById('synth'); if (!host) { host = document.createElement('div'); host.id = 'synth'; host.style.cssText = 'position:fixed;left:0;top:0;z-index:9999'; document.body.appendChild(host); } host.innerHTML = Certificate.cardHTML(m, p0, Object.assign({ format: f, hide: false, user: true, account: App.account() }, o)); }, [kind, f, mOver, o, refs.win]);
-    await p.waitForTimeout(250); await savePng(p, '#synth .cert', f, name);
+    await sink(p); await p.waitForTimeout(250); await savePng(p, '#synth .cert', f, name);
   };
   await synth('null_day_square', 'day', 'square', { pnl: 0, winRate: 0.5 }, {});
   await synth('gross_month_square', 'month', 'square', { pnl: 1234567.89 }, {});

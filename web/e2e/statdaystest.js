@@ -47,6 +47,12 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await p.setViewportSize({ width: 390, height: 844 }); await p.waitForTimeout(400);
   const m = await p.evaluate(() => { const s = document.querySelector('#content .kstrip'); return { cols: getComputedStyle(s).gridTemplateColumns.split(' ').length, over: document.documentElement.scrollWidth > innerWidth + 1 }; });
   ok(m.cols === 2 && !m.over, 'Tage 390 px: Leiste zweispaltig, kein Querscrollen · ' + JSON.stringify(m));
+  /* Tablet: 3 × 2 auch bei 1200, 1024 und 800 px (auto-fit allein ergäbe 4 + 2 bzw. unter 961 px zwei Spalten) */
+  for (const w of [1200, 1024, 800]) {
+    await p.setViewportSize({ width: w, height: 900 }); await p.waitForTimeout(400);
+    const tb = await p.evaluate(() => { const s = document.querySelector('#content .kstrip'); const t = [...s.children]; return { cols: getComputedStyle(s).gridTemplateColumns.split(' ').length, rows: new Set(t.map(x => Math.round(x.getBoundingClientRect().top))).size, over: document.documentElement.scrollWidth > innerWidth + 1 }; });
+    ok(tb.cols === 3 && tb.rows === 2 && !tb.over, `Tage ${w} px: Leiste als 3 × 2, kein Querscrollen · ` + JSON.stringify(tb));
+  }
   await p.setViewportSize({ width: 1440, height: 900 }); await p.waitForTimeout(300);
 
   /* Balken-Tooltip: bei Ø pro Trade zusätzlich die Summe (vbars und hbars), bei Summen-Diagrammen nicht */
@@ -60,6 +66,10 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await go('#/stats/setups');
   const hs = await p.evaluate(() => [...document.querySelectorAll('[data-id="st-setups"] svg [data-tip]')].map(e => e.getAttribute('data-tip')));
   ok(hs.length > 0 && hs.every(s => /pro Trade<br>Summe /.test(s)), 'Erwartungswert je Setup (hbars): gleicher Tooltip mit Summe · ' + (hs[0] || ''));
+  /* Gemeinsamer Baustein: leeres Fach „<b>Name</b>: Keine Trades“, sonst Wert, Summe, Trades und Win-Rate, in vbars und hbars gleich */
+  const gt = await p.evaluate(() => { const g = [{ key: 'Sa', s: { n: 0, expectancy: 0, total: 0, winRate: 0 } }, { key: 'So', s: { n: 2, expectancy: 10, total: 20, winRate: 0.5 } }]; const out = {};
+    for (const k of ['vbars', 'hbars']) { const el = document.createElement('div'); UI.drawers[k](el, { groups: g, metric: 'expectancy' }, 400, 200); out[k] = [...el.querySelectorAll('[data-tip]')].map(e => e.getAttribute('data-tip')); } return out; });
+  ok(['vbars', 'hbars'].every(k => gt[k].length === 2 && gt[k][0] === '<b>Sa</b>: Keine Trades' && /^<b>So<\/b>: \+10,00\s€ pro Trade<br>Summe \+20,00\s€ · 2 Trades · Win-Rate 50\s%$/.test(gt[k][1])), 'Balken-Tooltip: leeres Fach „Keine Trades“, vbars und hbars gleich · ' + JSON.stringify(gt));
 
   /* Englisch: Tooltip übersetzt */
   await p.evaluate(async () => { Store.setLanguage('en'); I18N.setLang('en'); await new Promise(r => setTimeout(r, 900)); location.hash = '#/stats/time'; }); await p.waitForTimeout(900);

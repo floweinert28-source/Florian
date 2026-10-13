@@ -1,0 +1,257 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/aufbau.md",
+ "ids_abgedeckt": [
+  "bereich_training-5",
+  "hierarchie-4",
+  "bereich_statistik-3",
+  "bereich_konto-29",
+  "hierarchie-45",
+  "bereich_konto-19",
+  "bereich_konto-20",
+  "bereich_konto-37",
+  "bereich_dashboard-23",
+  "bereich_dashboard-33",
+  "typografie-4",
+  "ki_look-13",
+  "aufbau-5",
+  "responsiv-22",
+  "hierarchie-15",
+  "hierarchie-16",
+  "hierarchie-7",
+  "aufbau-10",
+  "hierarchie-19",
+  "barrierefreiheit-41",
+  "ki_look-22",
+  "aufbau-6",
+  "bereich_notebook_news-39",
+  "responsiv-19",
+  "bereich_notebook_news-10",
+  "bereich_notebook_news-9",
+  "bereich_notebook_news-6",
+  "bereich_notebook_news-7",
+  "bereich_training-10",
+  "hierarchie-20",
+  "bereich_prop-19",
+  "bereich_prop-28",
+  "bereich_prop-30",
+  "bereich_prop-7",
+  "bereich_einstellungen-3",
+  "typografie-7",
+  "responsiv-18",
+  "bereich_einstellungen-36",
+  "bereich_einstellungen-5",
+  "typografie-8",
+  "aufbau-8",
+  "aufbau-19",
+  "bereich_statistik-5",
+  "responsiv-37",
+  "aufbau-20",
+  "bereich_statistik-12",
+  "bereich_trades_tag-33",
+  "bereich_trades_tag-27",
+  "bereich_trades_tag-18",
+  "typografie-6",
+  "bereich_konto-25",
+  "bereich_konto-40",
+  "bereich_konto-48",
+  "typografie-32",
+  "aufbau-33",
+  "aufbau-21",
+  "aufbau-7",
+  "bereich_shell-27",
+  "bereich_notebook_news-44",
+  "bereich_notebook_news-8",
+  "typografie-18",
+  "bereich_training-11",
+  "bereich_training-22",
+  "bereich_prop-32",
+  "ki_look-41",
+  "bereich_training-50",
+  "bereich_einstellungen-33",
+  "hierarchie-33",
+  "bereich_statistik-13",
+  "bereich_statistik-43",
+  "bereich_shell-11",
+  "bereich_trades_tag-16"
+ ],
+ "ids_zurueckgestellt": [
+  {
+   "id": "hierarchie-4",
+   "grund": "Nur der Teil mit P&L und „Gewinn fehlt“ in der Kontowährung ist zurückgestellt. Das ist eine bestehende Entscheidung (prop.js:194, proptest.js:55–56). Der doppelte Betrag wird entfernt."
+  },
+  {
+   "id": "typografie-7",
+   "grund": "Nur die Ausweitung auf Dialog-, Coach- und Mentor-Titel ist zurückgestellt. Sie betrifft Dialoge in der ganzen App und gehört in die Typografie-Spezifikation."
+  },
+  {
+   "id": "hierarchie-19",
+   "grund": "Nur der Fortschritts-Teil ist zurückgestellt. Der Befund ist dort faktisch falsch (52 Wochen, verschiebbar), die Info erklärt es schon."
+  },
+  {
+   "id": "ki_look-22",
+   "grund": "Nur der Teil „Trade loggen auf Coupons und News entfernen“ ist zurückgestellt. Der Hauptknopf bleibt auf Seiten der Navigation, mobiletest.js:39–40."
+  },
+  {
+   "id": "responsiv-19",
+   "grund": "Nur „trade:false“ auf News und Coupons ist zurückgestellt (Hauptknopf auf Navigationsseiten, mobiletest.js:39–40)."
+  },
+  {
+   "id": "aufbau-6",
+   "grund": "Nur der Notebook-Teil ist zurückgestellt. README:95 legt dort den Session-Knopf fest, dazu der Ordner Session Recap."
+  },
+  {
+   "id": "bereich_dashboard-23",
+   "grund": "Nur die Vorlage als Textknopf links ist zurückgestellt (README:64). Ersatz: Tooltip mit Vorlagennamen."
+  },
+  {
+   "id": "aufbau-21",
+   "grund": "Nur die Neubelegung 1–0 nach der Seitenleiste ist zurückgestellt. Sie bricht rptest.js:10, mentortest.js:21 und README:215."
+  },
+  {
+   "id": "bereich_shell-27",
+   "grund": "Nur die Umbenennung „Design“ → „Erscheinungsbild“ ist zurückgestellt. Der Einstellungsbereich heißt „Design“."
+  },
+  {
+   "id": "bereich_konto-40",
+   "grund": "Nur das „…“-Menü für „Verlassen“ ist zurückgestellt. Es bricht coachtest.js:194."
+  },
+  {
+   "id": "bereich_konto-29",
+   "grund": "Nur die Anzahl im Kartentitel ist zurückgestellt (i18n-Schlüssel, Zeilen sind sichtbar)."
+  },
+  {
+   "id": "bereich_statistik-12",
+   "grund": "Nur der Umbau der Karte im Reiter Zeit ist zurückgestellt. Es ist ein bestehendes Muster und gäbe mehr Leerraum."
+  },
+  {
+   "id": "bereich_statistik-43",
+   "grund": "Nur die Teile Zustand und Monte Carlo sind zurückgestellt. Der Basis-Satz gilt für drei Karten, die MC-Zeile ist eine Werkzeugleiste."
+  },
+  {
+   "id": "bereich_notebook_news-6",
+   "grund": "Nur das Auswahlmenü in „Alle Notizen“ ist zurückgestellt. Es bricht figtest.js, figdel.js und scrolltest.js."
+  },
+  {
+   "id": "bereich_notebook_news-7",
+   "grund": "Nur „Erstellt nur im Tooltip“ ist zurückgestellt (README:121–122)."
+  },
+  {
+   "id": "aufbau-33",
+   "grund": "Nur das Überlagern der Leiste über den Kartenkopf ist zurückgestellt. Es würde Kopfsteuerungen verdecken."
+  },
+  {
+   "id": "responsiv-22",
+   "grund": "Nur das Ausblenden des runden Knopfs und das Zertifikat als reines Symbol sind zurückgestellt. Beides ist durch hierarchie-7 überflüssig."
+  },
+  {
+   "id": "typografie-18",
+   "grund": "Nur der Titel mit 15px ist zurückgestellt. 14.5px ist die Titelgröße aller schwebenden Ebenen."
+  },
+  {
+   "id": "hierarchie-16",
+   "grund": "Nur die eigene Spalte „Fehler“ ist zurückgestellt, weil die Tabelle bei 1440 px schon überläuft."
+  },
+  {
+   "id": "typografie-6",
+   "grund": "Nur .prop-balance .val (26px) und .coach-gs-tiles (21px) sind zurückgestellt. Es sind keine Kachelreihen mit gleicher Rolle."
+  },
+  {
+   "id": "aufbau-14",
+   "grund": "Nur die Neugruppierung der Seitenleiste ist zurückgestellt. News im Journal ist eine Nutzerentscheidung, eine fünfte Gruppe sprengt 1366×768, und Tests würden brechen. Die Umbenennung steht als Frage F10."
+  },
+  {
+   "id": "aufbau-8",
+   "grund": "Nur die Teile a–c (Regelquellen zusammenlegen) sind zurückgestellt. Das ist eine Produktentscheidung (F4); die Klarstellung wird umgesetzt."
+  }
+ ],
+ "konflikte": [
+  "K1 Leere Kopfreihe: pageHead gibt einen Leerstring zurück statt ownActions oder :empty; löst Einstellungen und Coach mit einer Zeile.",
+  "K2 Session/Trade loggen je Seite: Session nur auf TradeLog, Tagesansicht, Fortschritt und Notebook. Trade loggen auf allen Navigationsseiten außer Schatten-Ich, Mentor und Ruhepunkt, nicht im Konto-Menü (Coach, Affiliate, Einstellungen). Coupons und News behalten Trade loggen.",
+  "K3 Titelzeile auf allen Seiten (komponenten-3, bereich_shell-8): Das Listener-Leck ist seit aa9f1c6 behoben, die Grundsatzfrage geht an den Nutzer (F1).",
+  "K4 Tagesansicht: hierarchie-7 statt ki_look-23, trades_tag-14 und responsiv-22; Kopf-Knopf und Taste N auf den Tag vorbelegt; Tagesnavigation bleibt in eigener Zeile.",
+  "K5 Statistik-Kurve: Variante bereich_statistik-5 (Reiter zuerst, betitelte Karte nur in Übersicht, ohne Legende).",
+  "K6 16 statt 15 Kacheln: Doppelung durch „Trades“ ersetzt (gegen W-41), Label „Erwartungswert“.",
+  "K7 Wochentag doppelt: bereich_statistik-13 statt aufbau-17/-18 (beide verworfen); Tabelle bleibt als „Tage im Detail“.",
+  "K8 Handy-Kopfreihe nur mit rundem Knopf: CSS-Regel aus bereich_konto-37.",
+  "K9 Bearbeitungsmodus: ki_look-13 schließt aufbau-33 ein; .w-name wird .grow, kein Überlagern.",
+  "K10 Einstellungs-h2 18/600 (bis 960 px 16px) statt 19 oder 20; Schaltertitel „Beträge ausblenden“ wie im Zertifikat.",
+  "K11 Filter-Fenster: Titel bleibt 14.5px, Labels 12/600 muted wie .field>label, Eyebrows 11/600, .popover .sec 700→600.",
+  "K12 KPI-Label-Werte sind verbindlich; Tokens einer Typografie-Spezifikation werden darauf gemappt.",
+  "K13 Coupons: Code 600 und .08em (Gewichtsregel), Rabatt 13.5/400 text-2.",
+  "K14 Kalender-Tageszahl nur Größe und Gewicht (12/500); Kreis und Fläche regelt die Farbe-Spezifikation (bereich_dashboard-16).",
+  "K15 Notiz-Kopf: eine Zeile „Erstellt · Bearbeitet“ (README:121–122) statt Tooltip-Variante.",
+  "K16 News-Filter am Handy: Beschriftungen bleiben sichtbar.",
+  "K17 Payout-Planer-CSS auf das Planer-Fold begrenzt, damit die Karten in „Abgeschlossen“ ihren Rahmen behalten.",
+  "K18 Link Karte→Planer mit href #/prop/bilanz (proptest.js:95), Scroll per requestAnimationFrame.",
+  "K19 Friedhof: vorhandenen Satz und Klasse prop-patterns-empty behalten (friedhoftest.js:47).",
+  "K20 Fortschritt: „Aktuelle Regeln“ entfällt, „Regeln bearbeiten“ in den Kopf der Checkliste (nur mit Regeln), Leerzustand mit Knopf.",
+  "K22 Prop „Gewinn fehlt“: Bedingung plan.funded || !ev.target, damit Challenges ohne Ziel-Balken nichts verlieren.",
+  "K23 kstrip: gezielte :has-Regeln für 4 und 6 Kacheln statt minmax(170px).",
+  "K24/K25 Inhalte und Notebook-Filter: sofort nur die verlustfreien Teile (Standard-Reiter Tags, Labels); Streichungen als Nutzerfragen.",
+  "K26 Wortwahl: „Gruppe anlegen“, „Tagesnotiz öffnen/anlegen“ nach dem Glossar aus inventar-wording.",
+  "K27 TradeLog: Sortierung nach Status und Richtung entfällt; Symbol-Sortierung ordnet Long vor Short, Status deckt der Filter ab."
+ ],
+ "kurz": "Ich habe die Spezifikation für alle 80 Befunde der Gruppe „Aufbau, Informationsarchitektur und Hierarchie“ geschrieben. Die meisten werden ganz oder teilweise umgesetzt; acht hängen vollständig an einer der 11 Fragen an den Nutzer.\n\nKern der Spezifikation ist eine feste Belegung der Kopfreihe je Seite: Session starten nur dort, wo gehandelt wird, „Trade loggen“ auf allen Seiten der Navigation, aber nicht im Konto-Menü. Leere Kopfreihen werden nicht mehr gerendert. Dazu kommen eine verbindliche Überschriften-Treppe, ein eigener Stil für KPI-Beschriftungen und ein Token für Kachelwerte (24/22/20 px). Rund 25 doppelte Anzeigen fallen weg, zum Beispiel die Status-Spalte, die Statistik-Kurve über allen Reitern, die Doppelkachel „Erwartungswert“, die Karte „Aktuelle Regeln“ und das mehrfache Datum im Notiz-Kopf. Außerdem korrigiert die Spezifikation fünf Links, die bisher im Profil statt im richtigen Bereich landen.\n\nDas Springen von Zeitraum und Konto zwischen Titelzeile und Kopfreihe ist seit Commit aa9f1c6 behoben. Offen bleibt die Grundsatzfrage, ob Zeitraum und Konto auf allen Seiten oben rechts stehen sollen (Frage F1, Empfehlung Ja).\n\nDie Umsetzungsschritte stehen in der Reihenfolge Tokens/Skalen (A), Komponenten (B), Einzelstellen je Datei (C), dann Übersetzungen, README und betroffene e2e-Tests (D). Dazu kommen prüfbare Akzeptanzkriterien (grep, DOM, Handy, Zensus, Screenshots, Tests), 22 zurückgestellte Teilaspekte mit Grund und 11 Fragen mit Empfehlung.",
+ "nutzer_fragen": [
+  {
+   "id": "komponenten-3",
+   "frage": "Sollen Zeitraum und Konto ab 961 px auf allen Seiten oben rechts in der Titelzeile stehen wie auf dem Dashboard (am Handy weiter in der Kopfreihe)?",
+   "empfehlung": "Ja. Das führt deine Titelzeilen-Entscheidung überall fort, die Filter springen nicht mehr und bleiben beim Scrollen sichtbar. Die Umsetzung ist in F1 vorbereitet; dabei ändern sich leaktest.js, sixtest.js, shadowtest.js, motiontest.js, headtest.js und README:62–65/144/221."
+  },
+  {
+   "id": "bereich_shell-8",
+   "frage": "Gleiche Frage wie komponenten-3: Zeitraum und Konto auf allen Seiten oben rechts?",
+   "empfehlung": "Ja, zusammen mit komponenten-3 umsetzen (F1)."
+  },
+  {
+   "id": "aufbau-16",
+   "frage": "Prop Firms: Eine Leiste „Übersicht · Bilanz · Friedhof · Konten“ statt „Auswertung“ mit zweiter Unterleiste?",
+   "empfehlung": "Ja. „Auswertung“ trägt nur noch zwei Ansichten und kostet eine zweite Leiste und einen Klick. Vier Segmente passen auch bei 390 px."
+  },
+  {
+   "id": "aufbau-9",
+   "frage": "Soll der Check-in im Ruhepunkt (Schritt 2) dieselben Skalen wie der Tages-Check-in nutzen und als Check-in des Tages zählen? Dadurch ändern sich Texte aus docs/ruhepunkt.html.",
+   "empfehlung": "Ja. Heute steht danach „Kein Check-in“ in der Tagesansicht, die Kernroutine verlangt doppelte Arbeit. mentor.js:42 und rptest.js werden mitgezogen."
+  },
+  {
+   "id": "aufbau-8",
+   "frage": "Sollen die messbaren Regeln aus einer Quelle kommen (Schatten-Ich-Regelwerk), statt aus vier Stellen?",
+   "empfehlung": "Teilweise: den Ruhepunkt-Schritt „Deine Regeln für heute“ mit den Regelwerk-Werten vorbelegen. Die „Automatischen Regeln“ und das Tagesverlustlimit bleiben, weil sie die Tilt-Warnungen speisen. Die Klarstellung ist schon in der Spezifikation."
+  },
+  {
+   "id": "aufbau-25",
+   "frage": "Einstellungen: Privatsphäre, Zwei-Faktor sowie Daten und Sicherung (mit „Alles löschen“) aus „Profil“ in einen neuen Bereich „Sicherheit und Daten“ verschieben?",
+   "empfehlung": "Ja, direkt nach Profil, Symbol download. Der Schalter „Christlicher Impuls“ bleibt im Profil."
+  },
+  {
+   "id": "bereich_einstellungen-7",
+   "frage": "Den Einstellungsbereich „Abo“ streichen, solange es kein Abo gibt?",
+   "empfehlung": "Ja, ohne Ersatztext. #/settings/abo fällt auf Profil zurück, settest.js wird angepasst."
+  },
+  {
+   "id": "bereich_einstellungen-36",
+   "frage": "Den Reiter „Kategorien“ unter Inhalte streichen und die drei Kategorien als Filter-Chips über der Tag-Liste zeigen?",
+   "empfehlung": "Ja. Chips ohne Farbpunkt, gewählter Chip flach. Vorab wird schon „Tags“ zum Standard-Reiter."
+  },
+  {
+   "id": "bereich_einstellungen-6",
+   "frage": "Den Block „Was handelst du?“ in Einstellungen → Trading streichen? Die Auswahl wird nirgends verwendet.",
+   "empfehlung": "Ja. Der gespeicherte Wert bleibt; mit einer echten Funktion kehrt er später als „Märkte“ zurück."
+  },
+  {
+   "id": "bereich_einstellungen-5",
+   "frage": "Adresse, Bio und Zeitzone im Profil wirken nirgends. Sollen sie raus? Der Fehler „Africa/Abidjan“ ist bereits behoben.",
+   "empfehlung": "Adresse und Bio streichen, Zeitzone behalten."
+  },
+  {
+   "id": "aufbau-14",
+   "frage": "Die Gruppe „Konten“ in der Seitenleiste (Prop Firms, Coupon-Codes) in „Prop Trading“ umbenennen, um die Verwechslung mit Einstellungen → Konten zu vermeiden?",
+   "empfehlung": "Ja, nur der Name. Gruppen und Reihenfolge bleiben."
+  },
+  {
+   "id": "bereich_notebook_news-9",
+   "frage": "Im Notebook-Filter Ordner und Tag streichen (gibt es links schon) und nur „Zuletzt bearbeitet von–bis“ lassen? Dann lässt sich eine Suche nicht mehr auf einen Ordner eingrenzen.",
+   "empfehlung": "Ja. Zwei Orte für denselben Filter führen zu leeren Listen. Vorab bekommen die Datumsfelder sichtbare Labels."
+  }
+ ]
+}

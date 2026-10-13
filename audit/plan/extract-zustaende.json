@@ -1,0 +1,2872 @@
+{
+ "regeln": "Z1 Leerzustände. A Seite/Reiter U.empty: Symbol 34px --faint, Titel 15px/600 --text, Satz .small 13px --muted max. 360px (nie ''), max. 2 Knöpfe .btn.sm; .empty min-height 180px, padding 40px 20px, gap 8px. B Karte/Diagramm U.chartEmpty/U.chartEmptyHTML → .empty.chart-empty: Symbol 24px --faint, .ce-t 13px/500 --text-2, Hinweis 12px --muted, padding 16px, gap 6px; in .chart height 100%; emptyBox flex 1 1 auto, min-height 220/280/300px; Dashboard-Karten nur Titel. C .dashed (13px --muted, 1px dashed --border-2, Radius 10px, 12/14px, ein Satz, kein Knopf). D Kennzahl ohne Wert: „—“ in Wertgröße, 500, --muted + .vh „Noch keine Daten“ (.nodata.dash). Keine leere Diagrammfläche/wirkungslosen Bedienelemente/Schein-Null; .empty nur für Leerzustände, sonst is-none. Leeres Journal = App.allTrades()/rawAll, nie S.data.trades.\nGlossar (Titel / Satz): leeres Konto „Noch keine Trades“ / „Logge deinen ersten Trade oder importiere eine CSV-Datei.“; Zeitraum (abgeschlossene) „Keine abgeschlossenen Trades im Zeitraum“ / „Ändere den Zeitraum oder logge Trades.“; TradeLog „Keine Trades im Zeitraum“; Statistik Tage „Keine Handelstage im Zeitraum“; Filter „Keine Trades passen zum Filter“ / „Ändere die Filter oder den Zeitraum.“; Letzte Trades „Noch keine abgeschlossenen Trades“; „Keine offenen Positionen“; Teilreihe „Noch keine Daten“; Edge-Check „Keine Trades mit R im Zeitraum“ / „Trage in der Trade-Ansicht unter „Plan & Bewertung“ einen Stop ein, dann wird das R-Multiple berechnet.“ Nie „Logge Trades oder ändere den Zeitraum.“, „Keine Daten“.\nZ2 Fehlend „—“ (Tabelle .faint), Wörter mind. .muted. Echte Null ist Zahl, „noch nichts“ .muted, nie grün/rot. ∞ (= null) nur Gewinne ohne Verluste, sonst 0. Tooltip-Anteile ≤ 100 %. Geld immer 2 Stellen, 0 nur compact (fmt.axisCur, Kalender, curShort/curCompact). Kurse ≥ 10: 2, < 10: 4–5 Stellen. fmt.dur „45 s“, „12 min“, „1 h 5 min“, „2 T“; Haltedauer-Achse eine Einheit („1,5 h“). Countdown „Jetzt“, „In 12 Min.“, „In 3 Std. 20 Min.“, „In 3 Std.“, „Morgen“, „In 3 Tagen“; Kalendertage, < 6 h relativ.\nZ3 Ein Ausgewählt-Stil: color-mix(in srgb, var(--text) 10%, var(--surface)), Rand color-mix(in srgb, var(--text) 22%, var(--border-2)), --text, kein Schatten; + .btn.is-on. Grün nie für Auswahl: Kalender Band --surface-3, Start/Ende/gewählt invertiert (bg --text, color --bg, 600), Heute unterstrichen (1.5px, offset 4px, --muted; invertiert currentColor), Vorschau --surface-3 + inset 0 0 0 1.5px var(--muted); Reiter-Unterstrich --text; Sprach-Chip --text-2 + Ring --border-2; Schatten-Regel an --surface-2 + --border-2; Filter-Zähler neutral. Grün nur Gewinn, „Trade loggen“, Schalter, Leistenbalken, Hinweis-Punkte, Ringbogen. Einstellungen-Nav aktiv --surface + 1px solid --border, Hover color-mix(in srgb, var(--text) 5%, transparent), 500; .set-tabs/.prop-sub 500. Konto-Menü: „Alle Konten“ bei leer/'all', ein Konto → dieses. Ohne eigene Farbe gilt die dunkle Standardvorlage als gewählt. Kein Hover auf .tile/.stat-tile/.card.\nZ4 --disabled-o: .4; opacity var(--disabled-o), cursor not-allowed (Kalendertage default); kein Hover/Anheben/Schrumpf; .btn.primary:disabled neutral; Pager-Pfeile nur --faint.\nZ5 Skelett: Kopfreihe 46px, Kacheln 131px, Karten 396px, Seitenleiste (Marke, Untertitel, Trennlinie, 4 Gruppen im 42-px-Raster, Konto-Karte); Theme und sb-mini im <head>. News/Coach .skel-Skelett. U.spin() nur in Knöpfen neben Text; U.loader() nur Sprachnotizen/Coach-Fuß mit „Wird geladen …“. „Wird <Partizip> …“; Notebook-Speicherstand 12px --muted.\nZ6 Feldfehler: .field.invalid (Rand --loss an .input/.select/.sym-btn/.dir-switch), aria-invalid=\"true\", aria-describedby=\"<id>-err\", .field-err 12px --loss; alle zugleich, Fokus aufs erste, keine Blase/Toast; weg bei Eingabe. Trade: „Symbol wählen“, „Long oder Short wählen“, „Einstieg eintragen“, „Kontrakte eintragen“, „Datum eintragen“, „Ausstieg eintragen oder Geschlossen leeren“. Nativ: „Pflichtfeld“, „Mindestens {0}“, „Höchstens {0}“, „Gültige E-Mail-Adresse eintragen“, „Ungültiger Wert“; nie validationMessage. Nur Trade-Formular novalidate, sonst globaler invalid-Listener. Systemfehler Warn-Optik (--warn-soft, 1px solid --warn, --text): U.banner('warn'), Leerzustand Symbol warning, .mentor-err. Offline „Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.“; HTTP „Der Server antwortet mit Fehler {0}.“; „Erneut versuchen“ .btn.sm + refresh im trailing.\nZ7 Ein .toast-wrap role=status aria-live=polite beim Start; kein alert, kein Symbol; Dauer min(7000, max(err ? 4500 : 2400, 1200 + Länge*55)) ms; Hover hält, Verlassen 1500 ms.\nZ8 Endgültiges Löschen: U.confirmModal „<Objekt> löschen?“, OK „Löschen“ danger. Ruhepunkt ab Schritt 2: „Session verwerfen?“ / „Deine Eingaben aus dieser Session gehen verloren.“ / „Verwerfen“. „Auf Standard zurücksetzen“ .btn.ghost.sm --muted unter dem Inhalt. Löschen = Daten weg, Entfernen = aus Ansicht.\nZ9 Trading speichert bei change ohne Knopf, „Gespeichert“ 2 s (12px --muted, aria-live); Profil/Mentor/Notebook behalten „Speichern“. Schalter/Segmente sofort, ohne Neuaufbau. Coach-Mail-Schalter sofort, ohne Adresse Toast „Trage zuerst eine E-Mail-Adresse ein“ + Fokus; Knopf „Adresse speichern“.\nZ10 Prop verletzt → Ampel Rot „· Regel verletzt“, verletzt/geplatzt ohne Balken/Ziel/Meta; Rest > Limit nur Rest (+ „· Boden fest“ bei x.locked); Bilanz ohne Ausgaben „—“ + „noch keine Ausgaben“, ohne Ausgaben und Payouts kein Diagramm/„Pro Firma“; #/prop/payout → #/prop/bilanz, Planer offen, 16px unter Titelzeile; Friedhof < 2 ohne „Muster“; Tages-PF/-Payoff nur Verluste/nichts → 0, nur Gewinne → ∞; Zertifikat: letzter Handelstag ≤ heute; TradeLog-Kacheln folgen Suche/Filter („{n} abgeschlossen“), Seitenwähler bei 1 Seite reduziert; Zeitzone ergänzen, UTC immer; Initialen aus App.userInfo(); Checklisten ohne Durchstreichen (--text-2); Trendpfeil nur mit Vorzeitraum; Ring ohne Bogen bei 0; Notiz-Überschriften 600 --text, 8px davor; Mentor ohne Server leere Kopfreihe; leere Coach-Gruppe ohne Umschalter. Neue Texte in web/js/lang/{en,es,hi,pt,zh}.js.",
+ "schritte": [
+  {
+   "nr": "zustaende-S-C1",
+   "titel": "Token --disabled-o: .4 in :root anlegen",
+   "von": 231,
+   "bis": 241,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root",
+    "--disabled-o"
+   ],
+   "befund_ids": [
+    "zustaende-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C2",
+   "titel": "Knöpfe und Menüeinträge: kein Hover/Anheben auf Deaktiviertem, Deckkraft über --disabled-o, neutraler .btn.primary:disabled",
+   "von": 242,
+   "bis": 259,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn:hover",
+    ".btn:active",
+    ".btn.primary:hover",
+    ".btn.danger:hover",
+    ".btn.ghost:hover",
+    ".btn:disabled",
+    ".btn.primary:disabled",
+    ".tpl-menu .item:disabled",
+    ".dp-day:disabled",
+    ".dp-month:disabled",
+    ".nb-toolbar .tb:disabled",
+    ".w-bar .mv .btn:disabled",
+    ".sp-item .btn:disabled:not(.added)",
+    ".sp-item .btn.added",
+    ".rp-btn:disabled",
+    ".rp-chip.rp-chip-sm:disabled",
+    ".pager .pg-nav button:disabled",
+    "--disabled-o"
+   ],
+   "befund_ids": [
+    "zustaende-35",
+    "komponenten-42"
+   ],
+   "abhaengig": [
+    "zustaende-S-C1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C3",
+   "titel": "Feldfehler-Stile: .field.invalid, aria-invalid-Rand, .field-err",
+   "von": 260,
+   "bis": 267,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".field.invalid",
+    ".field .hint",
+    ".input[aria-invalid=\"true\"]",
+    ".select[aria-invalid=\"true\"]",
+    ".field-err",
+    ".sym-btn",
+    ".dir-switch",
+    "--loss",
+    "--loss-soft"
+   ],
+   "befund_ids": [
+    "zustaende-3",
+    "barrierefreiheit-6"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C4",
+   "titel": "Leerzustand-Stile: .empty b 600, .empty.chart-empty, Karten-Füllung im Widget, .tile .nodata.dash",
+   "von": 268,
+   "bis": 280,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".empty",
+    ".empty b",
+    ".empty.chart-empty",
+    ".chart > .empty.chart-empty",
+    ".chart-empty svg",
+    ".chart-empty .ce-t",
+    ".chart-empty .small",
+    ".w-body > .card > .chart",
+    ".w-body > .card > .empty",
+    ".tile .nodata",
+    ".tile .nodata.dash"
+   ],
+   "befund_ids": [
+    "bereich_training-19",
+    "diagramme-38",
+    "bereich_dashboard-13",
+    "wording-47"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C5",
+   "titel": "Kacheln und Karten ohne Hover (kein Anheben, kein Schatten, kein Randwechsel)",
+   "von": 281,
+   "bis": 289,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card",
+    ".card:hover",
+    ".tile",
+    ".tile:hover",
+    ".stat-tile",
+    ".stat-tile:hover",
+    ".kstrip .tile:hover",
+    "--dur-1",
+    "--dur-2",
+    "--lift-shadow",
+    ".cal .d:hover"
+   ],
+   "befund_ids": [
+    "zustaende-34"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/motiontest.js: „Kachel hebt sich beim Überfahren“ umkehren (Schritt zustaende-S-TE3)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-C6",
+   "titel": "Toast nimmt Zeiger an (Anhalten beim Darüberfahren)",
+   "von": 290,
+   "bis": 292,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".toast",
+    ".toast-wrap"
+   ],
+   "befund_ids": [
+    "zustaende-19",
+    "barrierefreiheit-20"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C7",
+   "titel": "Aktiver Filter-Knopf .btn.is-on im gemeinsamen Ausgewählt-Stil, Zähler .cntb neutral",
+   "von": 293,
+   "bis": 297,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn.is-on",
+    ".sb-user.active",
+    "Ausgewählt-Block app.css:3120–3131",
+    ".btn .cntb",
+    ".fd-panel .cntb"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-6"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C8",
+   "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+   "von": 298,
+   "bis": 318,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rr-day.today",
+    ".rr-day.start.today",
+    ".rr-day.end.today",
+    ".rr-day.in::before",
+    ".rr-day.start::after",
+    ".rr-day.end::after",
+    ".rr-day.pv-end::after",
+    "button.rr-day.in:hover::after",
+    ".rr-day.start",
+    ".rr-day.end",
+    ".dp-day.in",
+    ".dp-day.today",
+    ".dp-day.edge",
+    ".dp-day.sel",
+    ".dp-day.sel.today",
+    ".dp-month.today",
+    ".dp-month.sel",
+    ".dp-link.accent",
+    ".dp-t.sel",
+    ".datepick .dp.today",
+    "--accent",
+    "--accent-soft",
+    "--accent-ink",
+    "--surface-3"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-23",
+    "bereich_dashboard-7",
+    "komponenten-7"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C9a",
+   "titel": "Einstellungen-Unternavigation: gewählter Eintrag Fläche --surface mit Rand, Hover 5 %, Gewicht 500",
+   "von": 319,
+   "bis": 322,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-nav a",
+    ".set-nav a:hover",
+    ".set-nav a.active"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C9b",
+   "titel": "Reiter .set-tabs und Unterreiter .prop-sub: Gewicht 500, Unterstrich in --text statt Akzent",
+   "von": 323,
+   "bis": 326,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-tabs button",
+    ".set-tabs button[aria-pressed=\"true\"]",
+    ".prop-sub a",
+    ".prop-sub a::after",
+    "--accent"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C9c",
+   "titel": "Sprachkarte: Hover --text-2, Sprach-Chip neutral mit Ring --border-2",
+   "von": 327,
+   "bis": 329,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".lang-card:hover",
+    ".lang-card[aria-pressed=\"true\"] .lang-cur",
+    "--text-2",
+    "--border-2"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-25"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C10",
+   "titel": "Checkliste: erledigt ohne Durchstreichen, Text --text-2",
+   "von": 330,
+   "bis": 332,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".checklist .it.done span"
+   ],
+   "befund_ids": [
+    "zustaende-12"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C11",
+   "titel": "Schatten-Ich-Regelkarte: aus transparent, an surface-2 mit Rand border-2 (kein Grün)",
+   "von": 333,
+   "bis": 337,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".shadow-rule",
+    ".shadow-rule.on"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C12",
+   "titel": "Mentor-Fehlerzeile .mentor-err in Warn-Optik statt Rot",
+   "von": 338,
+   "bis": 340,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor-err",
+    "--warn-soft",
+    "--warn",
+    "--loss-soft"
+   ],
+   "befund_ids": [
+    "zustaende-18"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C13",
+   "titel": "Laden: tote .spin-Regel löschen, .coach-loading/.nw-loading durch Skelett-Stile .coach-skel/.nw-skel ersetzen",
+   "von": 341,
+   "bis": 345,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".spin",
+    ".coach-loading",
+    ".coach-skel",
+    ".coach-skel .skel",
+    ".nw-loading",
+    ".nw-skel",
+    ".nw-skel .skel"
+   ],
+   "befund_ids": [
+    "zustaende-17",
+    "bereich_notebook_news-38",
+    "bewegung-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C14",
+   "titel": "Speicherstand: Notebook 12 px ohne Gelb, neue Regel .set-head .save-state",
+   "von": 346,
+   "bis": 350,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .save-state",
+    ".nb .save-state.saving",
+    ".set-head .save-state"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-24",
+    "komponenten-5"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C15",
+   "titel": "Zustand-Spalte: CSS-Klasse .is-none statt .empty",
+   "von": 351,
+   "bis": 355,
+   "cluster": "statistik",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stc-col.empty > b",
+    ".stc-col.is-none > b"
+   ],
+   "befund_ids": [
+    "bereich_statistik-1",
+    "diagramme-5"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/scorestatetest.js:22 muss ohne Anpassung grün sein (Schritt zustaende-S-TE8)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-C16",
+   "titel": "Notizliste: Verlust wieder rot (.note-item span löschen), Trade-Zeile .tr b 12 px/600",
+   "von": 356,
+   "bis": 359,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".note-item span",
+    ".nb .note-item .tr b"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-29",
+    "bereich_notebook_news-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C17",
+   "titel": "Notebook-Überschriftgrößen aus den Einstellungen wirken im Editor (Spezifität .ql-snow, em-Größen entfernen)",
+   "von": 360,
+   "bis": 363,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ql-editor h1",
+    ".ql-editor h2",
+    ".ql-editor h3",
+    ".ql-snow .ql-editor h1",
+    ".ql-snow .ql-editor h2",
+    ".ql-snow .ql-editor h3",
+    "--nb-h1",
+    "--nb-h2",
+    "--nb-h3"
+   ],
+   "befund_ids": [
+    "typografie-22"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C18",
+   "titel": "Tagesnotiz-Vorschau: Stile .nv und .nv-h",
+   "von": 364,
+   "bis": 366,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nv > div",
+    ".nv-h",
+    ".nv-h:first-child"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-48"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-C19",
+   "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+   "von": 367,
+   "bis": 389,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".boot-head",
+    ".boot-head .skel",
+    ".boot-head .skel.tl",
+    ".boot-tiles .skel",
+    ".boot-main .skel",
+    ".boot-sb",
+    ".boot-sb .skel",
+    ".boot-sb .skel.l",
+    ".boot-sb .skel.l2",
+    ".boot-sb .sep",
+    ".boot-sb .skel.g",
+    ".boot-sb .skel.g.first",
+    ".boot-sb .skel.card",
+    "html.sb-mini .boot-sb",
+    "html.sb-mini .boot-sb .skel",
+    "html.sb-mini .boot-sb .skel.g",
+    "html.sb-mini .boot-sb .sep",
+    "html.sb-mini .boot-sb .skel.card",
+    ".nav a"
+   ],
+   "befund_ids": [
+    "bereich_shell-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-U1",
+   "titel": "Geldbeträge immer mit zwei Nachkommastellen (fmt.cur ohne 10.000-Schwelle), Überlauf prüfen",
+   "von": 390,
+   "bis": 394,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/ui.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "fmt.cur",
+    "o.compact",
+    "@container (max-width: 164px)"
+   ],
+   "befund_ids": [
+    "zustaende-23",
+    "wording-30",
+    "bereich_prop-6"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-U2",
+   "titel": "Kurse: ab 10 genau zwei Nachkommastellen (fmt.price)",
+   "von": 395,
+   "bis": 397,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.price",
+    "minimumFractionDigits",
+    "maximumFractionDigits"
+   ],
+   "befund_ids": [
+    "zustaende-22",
+    "typografie-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-U3",
+   "titel": "fmt.dur: Sekunden unter einer Minute („45 s“)",
+   "von": 398,
+   "bis": 400,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.dur",
+    "t:{0} s"
+   ],
+   "befund_ids": [
+    "zustaende-39"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-U4a",
+   "titel": "Baustein U.chartEmpty / U.chartEmptyHTML anlegen und in root.UI exportieren",
+   "von": 401,
+   "bis": 407,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.chartEmpty",
+    "U.chartEmptyHTML",
+    "root.UI",
+    ".empty.chart-empty",
+    ".ce-t",
+    "t:Noch keine Daten"
+   ],
+   "befund_ids": [
+    "diagramme-38"
+   ],
+   "abhaengig": [
+    "zustaende-S-C4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-U4b",
+   "titel": "Leerzweige der Diagramm-Zeichner auf U.chartEmpty umstellen (pnl, line, vbars, hbars, rolling, mc, hist, weeks; equity/spark bleiben leer)",
+   "von": 408,
+   "bis": 414,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "drawers.pnl",
+    "drawers.line",
+    "drawers.vbars",
+    "drawers.hbars",
+    "drawers.rolling",
+    "drawers.mc",
+    "drawers.hist",
+    "drawers.weeks",
+    "drawers.equity",
+    "drawers.spark",
+    "U.chartEmpty",
+    "t:Keine abgeschlossenen Trades im Zeitraum",
+    "t:Zu wenig Trades",
+    "t:Mindestens {0} Trades mit R-Wert nötig",
+    "t:Noch keine Wochen"
+   ],
+   "befund_ids": [
+    "diagramme-38"
+   ],
+   "abhaengig": [
+    "zustaende-S-U4a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-U5",
+   "titel": "Feldfehler-Helfer U.fieldErrors, U.clearFieldError, U.clearFieldErrors",
+   "von": 415,
+   "bis": 437,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.fieldErrors",
+    "U.clearFieldError",
+    "U.clearFieldErrors",
+    "root.UI",
+    ".field.invalid",
+    ".field-err",
+    "aria-invalid",
+    "aria-describedby"
+   ],
+   "befund_ids": [
+    "zustaende-3",
+    "barrierefreiheit-6"
+   ],
+   "abhaengig": [
+    "zustaende-S-C3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-U6",
+   "titel": "Toast: ein Container als Live-Region (toastWrap/U.toast.init), Längenformel für die Dauer, Anhalten beim Darüberfahren",
+   "von": 438,
+   "bis": 453,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.toast",
+    "U.toast.init",
+    "toastWrap",
+    ".toast-wrap",
+    ".toast",
+    "role=\"status\"",
+    "aria-live=\"polite\"",
+    "Motion.leave"
+   ],
+   "befund_ids": [
+    "zustaende-19",
+    "barrierefreiheit-20",
+    "bewegung-30"
+   ],
+   "abhaengig": [
+    "zustaende-S-C6"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/motiontest.js:49 (Toast „Hallo“ nach 2500 ms aus) bleibt gültig, nur prüfen"
+   ]
+  },
+  {
+   "nr": "zustaende-S-K1",
+   "titel": "Tages-Payoff und Tages-Profit-Faktor: nur Verluste oder nichts → 0, nur Gewinne → null (∞)",
+   "von": 454,
+   "bis": 460,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "C.daySummary",
+    "dayPayoff",
+    "dayPF"
+   ],
+   "befund_ids": [
+    "zustaende-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/tests/core.test.mjs: neue daySummary-Fälle (Schritt zustaende-S-TE1)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-W1",
+   "titel": "Widgets: Leerlage je Render (EMPTY/EMPTY_T, gesetzt in makeData)",
+   "von": 461,
+   "bis": 470,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "EMPTY",
+    "EMPTY_T",
+    "NO_DATA",
+    "makeData",
+    "ctx.raw",
+    "ctx.filtered",
+    "ctx.all",
+    "t:Noch keine Trades",
+    "t:Keine Trades passen zum Filter",
+    "t:Keine abgeschlossenen Trades im Zeitraum"
+   ],
+   "befund_ids": [
+    "wording-46",
+    "bereich_dashboard-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:143–144 (Schritt zustaende-S-TE2)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-W2",
+   "titel": "Kachelwert ohne Daten: „—“ mit .vh-Text (noData → .nodata.dash)",
+   "von": 471,
+   "bis": 474,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "noData",
+    ".nodata",
+    ".nodata.dash",
+    ".vh",
+    "t:Noch keine Daten"
+   ],
+   "befund_ids": [
+    "wording-47",
+    "bereich_dashboard-13"
+   ],
+   "abhaengig": [
+    "zustaende-S-C4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:143–144 (Schritt zustaende-S-TE2)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-W3",
+   "titel": "emptyBox nur mit Titel nach Leerlage; chartEmpty delegiert an U.chartEmpty",
+   "von": 475,
+   "bis": 478,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "emptyBox",
+    "chartEmpty",
+    "U.chartEmpty",
+    ".empty.chart-empty",
+    ".ce-t",
+    "EMPTY_T"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-13",
+    "wording-46",
+    "diagramme-38"
+   ],
+   "abhaengig": [
+    "zustaende-S-W1",
+    "zustaende-S-U4a",
+    "zustaende-S-C4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:143–144 (Schritt zustaende-S-TE2)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-W4",
+   "titel": "Letzte Trades: Leertitel nach Lage, „Mehr anzeigen“ nur mit Zeilen",
+   "von": 479,
+   "bis": 482,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    ".recent-wrap",
+    ".empty.chart-empty",
+    ".more-row",
+    ".more-link",
+    "EMPTY",
+    "t:Keine offenen Positionen",
+    "t:Noch keine Trades",
+    "t:Keine Trades passen zum Filter",
+    "t:Noch keine abgeschlossenen Trades",
+    "t:Mehr anzeigen"
+   ],
+   "befund_ids": [
+    "zustaende-8",
+    "bereich_dashboard-13"
+   ],
+   "abhaengig": [
+    "zustaende-S-W1",
+    "zustaende-S-C4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:143–144: kein .recent-card .more-link (Schritt zustaende-S-TE2)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-W5",
+   "titel": "Regel-Tracker-Widget: Link auf #/settings/regeln",
+   "von": 483,
+   "bis": 485,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "href=\"#/settings\"",
+    "#/settings/regeln",
+    "t:Regeln in den Einstellungen anlegen"
+   ],
+   "befund_ids": [
+    "zustaende-2"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-W6",
+   "titel": "Haltedauer-Widget: Achse mit genau einer Einheit (durLabel), Tooltip über fmt.dur",
+   "von": 486,
+   "bis": 492,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "durLabel",
+    "fmt.dur",
+    "fmt.dec",
+    "t:{0} s",
+    "t:{0} T"
+   ],
+   "befund_ids": [
+    "zustaende-39"
+   ],
+   "abhaengig": [
+    "zustaende-S-U3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-D1",
+   "titel": "Dashboard reicht raw und filtered im ctx an die Widgets",
+   "von": 493,
+   "bis": 497,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "applyFilter",
+    "rawAll",
+    "ctx.raw",
+    "ctx.filtered",
+    "ctx.all",
+    "ctx.inRange"
+   ],
+   "befund_ids": [
+    "wording-46",
+    "bereich_dashboard-13"
+   ],
+   "abhaengig": [
+    "zustaende-S-W1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:143–144 (Schritt zustaende-S-TE2)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-D2",
+   "titel": "Dashboard-Filter-Knopf: Klasse is-on statt accent",
+   "von": 498,
+   "bis": 500,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".btn.is-on",
+    ".btn.accent"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-6"
+   ],
+   "abhaengig": [
+    "zustaende-S-C7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-D3",
+   "titel": "Dashboard: Zertifikat-Menü ohne festen Tag aufrufen",
+   "von": 501,
+   "bis": 503,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "Certificate.menuHTML",
+    "todayKey"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-30"
+   ],
+   "abhaengig": [
+    "zustaende-S-Z1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-D4",
+   "titel": "Größen-Listener im Dashboard: bereits erledigt (Commit aa9f1c6), nur prüfen",
+   "von": 504,
+   "bis": 506,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "unmount",
+    "App.render",
+    "#tb-tools"
+   ],
+   "befund_ids": [
+    "responsiv-43",
+    "bereich_shell-7"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/leaktest.js (nur Prüfung, Akzeptanz 35)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-Z1",
+   "titel": "Zertifikat-Standardtag zentral: letzter Tag mit abgeschlossenem Trade ≤ heute",
+   "von": 507,
+   "bis": 511,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/certificate.js"
+   ],
+   "anker": [
+    "Certificate.menuHTML",
+    "C.closedOnly",
+    "App.allTrades",
+    "C.dayKey",
+    "t.dayKey"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-Z2",
+   "titel": "Zertifikat: Menü schließen, bevor der Dialog öffnet",
+   "von": 512,
+   "bis": 514,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/certificate.js"
+   ],
+   "anker": [
+    "action:cert-open",
+    "App.closePopovers"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-A1",
+   "titel": "Start: Toast-Container anlegen; globaler invalid-Listener mit Feldmeldungen und Löschen der Meldung bei Eingabe",
+   "von": 515,
+   "bis": 531,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.bind",
+    "U.toast.init",
+    "invalid-Listener (document, capture)",
+    "U.fieldErrors",
+    "U.clearFieldError",
+    "validity",
+    "form.noValidate",
+    "t:Pflichtfeld",
+    "t:Mindestens {0}",
+    "t:Höchstens {0}",
+    "t:Gültige E-Mail-Adresse eintragen",
+    "t:Ungültiger Wert"
+   ],
+   "befund_ids": [
+    "zustaende-19",
+    "barrierefreiheit-20",
+    "zustaende-3"
+   ],
+   "abhaengig": [
+    "zustaende-S-U5",
+    "zustaende-S-U6",
+    "zustaende-S-C3"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-A2",
+   "titel": "Konto-Menü: aktuelle Wahl immer markiert, title „Kontogröße“, Link #/settings/konten",
+   "von": 532,
+   "bis": 539,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.accountControl",
+    ".popover .item[aria-checked=\"true\"]",
+    "aria-checked",
+    "#/settings/konten",
+    "t:Alle Konten",
+    "t:Konten verwalten",
+    "t:Kontogröße"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-34",
+    "zustaende-2"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-A3",
+   "titel": "App.userInfo(): eine Namens-/Initialenquelle für Avatar oben und Konto-Karte",
+   "von": 540,
+   "bis": 552,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.userInfo",
+    "App.userCard",
+    "App.topbar",
+    "S.settings.profile",
+    "S.settings.name"
+   ],
+   "befund_ids": [
+    "bereich_shell-10"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-A4",
+   "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+   "von": 553,
+   "bis": 569,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "#trade-form",
+    "novalidate",
+    "action:save-trade",
+    "App.readTradeForm",
+    "#f-symbol-btn",
+    "#f-dir .dir-opt",
+    "#f-entry",
+    "#f-qty",
+    "#f-open",
+    "#f-exit",
+    ".dir-switch.need",
+    "#trade-preview",
+    "action:set-dir",
+    "openSymbolMenu",
+    "U.fieldErrors",
+    "U.clearFieldError",
+    "t:Symbol wählen",
+    "t:Long oder Short wählen",
+    "t:Einstieg eintragen",
+    "t:Kontrakte eintragen",
+    "t:Datum eintragen",
+    "t:Ausstieg eintragen oder Geschlossen leeren",
+    "t:Symbol fehlt",
+    "t:Einstiegskurs fehlt",
+    "t:Ausstiegskurs fehlt für geschlossenen Trade"
+   ],
+   "befund_ids": [
+    "zustaende-3",
+    "barrierefreiheit-6"
+   ],
+   "abhaengig": [
+    "zustaende-S-U5",
+    "zustaende-S-C3",
+    "zustaende-S-A1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-A5",
+   "titel": "Check-in-Dialog: Knopf „Löschen“ mit Rückfrage „Check-in löschen?“",
+   "von": 570,
+   "bis": 573,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "action:delete-checkin",
+    "U.confirmModal",
+    "t:Entfernen",
+    "t:Löschen",
+    "t:Check-in löschen?",
+    "t:Die Angaben dieses Check-ins werden gelöscht."
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-28"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-A6",
+   "titel": "CSV-Import-Vorschau: „offen“ in .muted, fehlende Werte als „—“ in .faint",
+   "von": 574,
+   "bis": 576,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "CSV-Import-Vorschau (preview.trades)",
+    ".faint",
+    ".muted",
+    "t:offen"
+   ],
+   "befund_ids": [
+    "zustaende-24"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-H1",
+   "titel": "app.html: Theme und sb-mini im <head> vor dem ersten Zeichnen setzen",
+   "von": 577,
+   "bis": 587,
+   "cluster": "shell",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    "js/theme.js",
+    "Theme.apply",
+    "html.sb-mini",
+    "localStorage trading-journal-web-v1",
+    "<head>"
+   ],
+   "befund_ids": [
+    "bereich_shell-3"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-H2",
+   "titel": "app.html: Seitenleisten-Skelett mit Marke, Untertitel, Trennlinie, vier Gruppen und Konto-Karte",
+   "von": 588,
+   "bis": 598,
+   "cluster": "shell",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    ".boot-sb",
+    ".boot-sb .skel.l",
+    ".boot-sb .skel.l2",
+    ".boot-sb .sep",
+    ".boot-sb .skel.g",
+    ".boot-sb .skel.g.first",
+    ".boot-sb .skel.card"
+   ],
+   "befund_ids": [
+    "bereich_shell-4"
+   ],
+   "abhaengig": [
+    "zustaende-S-C19"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-CO1",
+   "titel": "Coach-Abgleich: Neuzeichnen im finally von runSync (Status verschwindet nach jedem Abgleich)",
+   "von": 599,
+   "bis": 603,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/coach.js"
+   ],
+   "anker": [
+    "runSync",
+    "takeNotes",
+    "announce",
+    "refreshView",
+    "state.syncing",
+    "App.state.route"
+   ],
+   "befund_ids": [
+    "bereich_konto-14"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-CO2",
+   "titel": "Coach-Health: HTTP-Wortlaut „Der Server antwortet mit Fehler {0}.“",
+   "von": 604,
+   "bis": 606,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/coach.js"
+   ],
+   "anker": [
+    "t:Der Server antwortet mit Fehler {0}.",
+    "t:Server antwortet mit {0}"
+   ],
+   "befund_ids": [
+    "zustaende-18"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-ST1",
+   "titel": "Statistik: Kopfdiagramm nur mit abgeschlossenen Trades ausgeben",
+   "von": 607,
+   "bis": 611,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats-top",
+    "fillDays",
+    "U.chartData",
+    "U.card"
+   ],
+   "befund_ids": [
+    "bereich_statistik-22"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-ST2",
+   "titel": "Statistik: einheitliche Seiten-Leerzustände über noTrades() (leeres Journal mit CSV-Import)",
+   "von": 612,
+   "bis": 625,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "noTrades",
+    "tabSummary",
+    "U.empty",
+    "App.allTrades",
+    "action:import",
+    "t:Noch keine Trades",
+    "t:Logge deinen ersten Trade oder importiere eine CSV-Datei.",
+    "t:Ändere den Zeitraum oder logge Trades.",
+    "t:Keine abgeschlossenen Trades im Zeitraum",
+    "t:Keine Handelstage im Zeitraum",
+    "t:Keine Trades im Zeitraum",
+    "t:CSV importieren"
+   ],
+   "befund_ids": [
+    "bereich_statistik-46",
+    "wording-46"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-ST3",
+   "titel": "Statistik: Zustand-Spalte mit Klasse is-none statt empty",
+   "von": 626,
+   "bis": 628,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    ".stc-col",
+    ".stc-col.is-none",
+    ".stc-col.empty"
+   ],
+   "befund_ids": [
+    "bereich_statistik-1",
+    "diagramme-5"
+   ],
+   "abhaengig": [
+    "zustaende-S-C15"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/scorestatetest.js:22 muss ohne Anpassung grün sein (Schritt zustaende-S-TE8)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-ST4",
+   "titel": "Edge-Check: Leerzustand ohne R, „Nötige Stichprobe“ ohne Schein-„erreicht“, Rollierender Edge erst ab Mindestzahl (Textzeile)",
+   "von": 629,
+   "bis": 633,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "C.edge",
+    "e.n",
+    "e.required",
+    "e.rolling",
+    "e.window",
+    "e.deteriorating",
+    "data-chart=\"rolling\"",
+    "noTrades",
+    "t:Keine Trades mit R im Zeitraum",
+    "t:Trage in der Trade-Ansicht unter „Plan & Bewertung“ einen Stop ein, dann wird das R-Multiple berechnet.",
+    "t:Der gleitende Durchschnitt erscheint ab {0} Trades mit R-Wert.",
+    "t:erreicht",
+    "t:noch {0} Trades"
+   ],
+   "befund_ids": [
+    "bereich_statistik-23",
+    "bereich_statistik-24"
+   ],
+   "abhaengig": [
+    "zustaende-S-ST2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-T1",
+   "titel": "TradeLog-Kacheln folgen Suche und Filter, Zähler „{n} abgeschlossen“, leerer Wert „—“",
+   "von": 634,
+   "bis": 641,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "filtered",
+    "C.summary",
+    "W.data",
+    "ctx.inRange",
+    "renderTable",
+    "renderDays",
+    "renderMissed",
+    ".nodata.dash",
+    ".vh",
+    "t:Summe aller abgeschlossenen Trades im Zeitraum, bei aktiver Suche oder aktivem Filter nur der gefilterten. Daneben der Verlauf je Handelstag.",
+    "t:{0} abgeschlossen",
+    "t:{0} Trades",
+    "t:Noch keine Daten"
+   ],
+   "befund_ids": [
+    "zustaende-27",
+    "wording-47"
+   ],
+   "abhaengig": [
+    "zustaende-S-C4"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-T2",
+   "titel": "TradeLog: Zähler „{x} von {y} Trades“ nur bei aktivem Filter, Seitenwähler bei einer Seite reduziert",
+   "von": 642,
+   "bis": 647,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "renderTable",
+    "App.state.tradeFilter",
+    "pager",
+    ".pager",
+    ".pg-sep",
+    ".pg-info",
+    ".pg-nav",
+    "t:{0} von {1} Trades",
+    "t:Trades pro Seite",
+    "t:{0} Trades"
+   ],
+   "befund_ids": [
+    "zustaende-37"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-T3",
+   "titel": "TradeLog: Leerzustand der Liste nach Lage (leeres Journal / Zeitraum / Filter)",
+   "von": 648,
+   "bis": 650,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "U.empty",
+    "App.allTrades",
+    "t:Keine Trades passen zum Filter",
+    "t:Keine Trades im Zeitraum",
+    "t:Noch keine Trades",
+    "t:Ändere die Filter oder den Zeitraum.",
+    "t:Ändere den Zeitraum oder logge Trades.",
+    "t:Logge deinen ersten Trade oder importiere eine CSV-Datei.",
+    "t:Logge einen Trade oder importiere eine CSV-Datei."
+   ],
+   "befund_ids": [
+    "wording-46"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-T4",
+   "titel": "TradeLog-Tabelle: fehlende Werte (Geschlossen, Ausstieg, Setup) als „—“ in .faint",
+   "von": 651,
+   "bis": 654,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "renderTable",
+    ".faint",
+    "U.chip",
+    "fmt.price",
+    "t:offen"
+   ],
+   "befund_ids": [
+    "zustaende-24"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-T5",
+   "titel": "Löschen mit Rückfrage: verpasster Trade, Screenshot vor Entry, Screenshot, Sprachnotiz",
+   "von": 655,
+   "bis": 661,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "action:delete-missed",
+    "action:delete-pre-shot",
+    "action:delete-shot",
+    "action:delete-voice",
+    "U.confirmModal",
+    "S.deleteMissed",
+    "t:Verpassten Trade löschen?",
+    "t:Der Eintrag wird dauerhaft entfernt.",
+    "t:Screenshot vor Entry löschen?",
+    "t:Screenshot löschen?",
+    "t:Das Bild wird dauerhaft entfernt.",
+    "t:Sprachnotiz löschen?",
+    "t:Aufnahme und Transkript werden dauerhaft entfernt."
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-28"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-DY1",
+   "titel": "Tagesansicht ungültige Adresse: Satz und Weg „Zum heutigen Tag“",
+   "von": 662,
+   "bis": 666,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "U.empty",
+    "#/day",
+    "t:Ungültiges Datum",
+    "t:Die Adresse enthält kein gültiges Datum.",
+    "t:Zum heutigen Tag"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-44"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-DY2",
+   "titel": "Tagesansicht: Kennzahlen-Karte nur mit Trades, Spark nur mit abgeschlossenen, Null ohne Grün/Rot",
+   "von": 667,
+   "bis": 669,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "U.card",
+    "data-chart=\"spark\"",
+    ".pos",
+    ".neg",
+    "s.wins",
+    "s.losses"
+   ],
+   "befund_ids": [
+    "hierarchie-18",
+    "zustaende-25"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-DY3",
+   "titel": "Tagesansicht: Regel-Link auf #/settings/regeln",
+   "von": 670,
+   "bis": 672,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "href=\"#/settings\"",
+    "#/settings/regeln",
+    "t:Regeln anlegen"
+   ],
+   "befund_ids": [
+    "zustaende-2"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-DY4",
+   "titel": "Tagesnotiz-Vorschau mit Überschriften als eigene Zeilen (notePreview)",
+   "von": 673,
+   "bis": 694,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "notePreview",
+    "S.deltaText",
+    ".nv",
+    ".nv-h",
+    "t:Noch leer."
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-48"
+   ],
+   "abhaengig": [
+    "zustaende-S-C18"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-PR1",
+   "titel": "Fortschritt-Hero: „0 %“ in muted, Regeltreue ohne Daten „—“, Trendpfeil nur mit Vorzeitraum und Tooltip",
+   "von": 695,
+   "bis": 702,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "arrow",
+    "rateDir",
+    ".trend",
+    ".trend.up",
+    "data-tip",
+    "fmt.pct",
+    "t:Keine Daten",
+    "t:Vorzeitraum: {0}"
+   ],
+   "befund_ids": [
+    "bereich_training-6",
+    "wording-42",
+    "zustaende-10",
+    "ki_look-7",
+    "diagramme-27",
+    "typografie-15"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-PR2",
+   "titel": "Fortschritt-Ring: kein Bogen bei 0 oder null",
+   "von": 703,
+   "bis": 705,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "ringArc",
+    ".ring-arc .arc",
+    "circle.arc"
+   ],
+   "befund_ids": [
+    "zustaende-11"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-PR3",
+   "titel": "Fortschritt: Regel-Karte als .dashed mit einem Kopf-Knopf (anlegen/bearbeiten), Wochen-Diagramm nur mit Daten",
+   "von": 706,
+   "bis": 709,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    ".dashed",
+    "U.empty",
+    "trailing",
+    "#/settings/regeln",
+    "data-chart=\"weeks\"",
+    "prog-weeks",
+    "t:Noch keine Regeln angelegt.",
+    "t:Regeln anlegen",
+    "t:Regeln bearbeiten",
+    "t:Keine Regeln definiert",
+    "t:Noch keine abgeschlossenen Trades.",
+    "t:Noch keine Wochen"
+   ],
+   "befund_ids": [
+    "bereich_training-19",
+    "zustaende-13",
+    "zustaende-2"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-P1",
+   "titel": "Prop-Konto-Karte: Ampel Rot bei Verletzung, tote Konten ohne Balken/Meta, Balken ohne „von“ bei Rest > Limit, Tooltip gekappt",
+   "von": 710,
+   "bis": 723,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "ampel",
+    "AMPEL",
+    "dead",
+    "bar",
+    ".prop-bar",
+    ".prop-bars",
+    ".prop-meta",
+    "x.locked",
+    "x.remaining",
+    "x.limit",
+    "b.ratio",
+    "C.EPS",
+    "t:Boden fest",
+    "t:{0} übrig",
+    "t:Regel verletzt"
+   ],
+   "befund_ids": [
+    "bereich_prop-2",
+    "bereich_prop-3",
+    "bereich_prop-6",
+    "wording-30"
+   ],
+   "abhaengig": [
+    "zustaende-S-U1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-P2",
+   "titel": "Prop-Bilanz ohne Buchungen: „—“ statt „erreicht“, kein Diagramm, keine „Pro Firma“, Legende nur mit Daten",
+   "von": 724,
+   "bis": 730,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "tabBilanz",
+    "bs.spent",
+    "bs.toBreakEven",
+    "bs.costPerPassed",
+    "bs.series",
+    ".legend",
+    "byFirm",
+    ".grid.main-side",
+    "t:noch keine Ausgaben",
+    "t:erreicht",
+    "t:fehlende Payouts (netto)",
+    "t:Payouts decken alle Ausgaben"
+   ],
+   "befund_ids": [
+    "bereich_prop-14",
+    "bereich_prop-15"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-P3",
+   "titel": "#/prop/payout: Bilanz mit offenem Planer, Adresse auf #/prop/bilanz umschreiben, Planer unter die Titelzeile scrollen",
+   "von": 731,
+   "bis": 734,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "#/prop/payout",
+    "#/prop/bilanz",
+    "history.replaceState",
+    "s.fold.planer",
+    "s.scrollTo",
+    "mount",
+    "[data-fold=\"planer\"]",
+    ".topbar"
+   ],
+   "befund_ids": [
+    "bereich_prop-27"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-F1",
+   "titel": "Friedhof: Muster-Karte erst ab zwei Grabsteinen, Hinweis als Info an „Häufigste Regel“",
+   "von": 735,
+   "bis": 741,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "patternsCard",
+    "tiles",
+    "g.n",
+    ".prop-patterns",
+    ".prop-patterns-empty",
+    "t:Ab zwei Grabsteinen erscheinen Muster: Uhrzeit, Wochentag, Symbol, Setup, Verlustserie oder Emotion, wenn sie sich wiederholen."
+   ],
+   "befund_ids": [
+    "bereich_prop-45"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/friedhoftest.js:47 (Schritt zustaende-S-TE7)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-M1a",
+   "titel": "Einstellungen: Schalter Christlicher Impuls, Audio behalten, Geld-blind ohne Neuaufbau",
+   "von": 742,
+   "bis": 747,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "action:faith-toggle",
+    "action:voice-audio-toggle",
+    "action:blind-toggle",
+    "S.setSetting",
+    "fmt.setMoneyBlind",
+    "App.rUnit",
+    "aria-checked",
+    "rerender",
+    "t:Geld-blind-Modus an",
+    "t:Geld-blind-Modus aus"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-1"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-M1b",
+   "titel": "Einstellungen: Break-even-Segment und -Zurücksetzen sofort wirksam (C.setBreakEven) ohne Neuaufbau",
+   "von": 748,
+   "bis": 761,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "action:be-mode",
+    "action:be-reset",
+    "C.setBreakEven",
+    "#be-from",
+    "#be-to",
+    ".input-unit span",
+    ".set-block",
+    "S.currency",
+    "App.glideSwitch"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-1"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/settest.js:26 bleibt (be-reset setzt C.setBreakEven), nur prüfen"
+   ]
+  },
+  {
+   "nr": "zustaende-S-M2",
+   "titel": "Einstellungen → Trading speichert sofort bei change, „Gespeichert“ im Kopf, kein Speichern-Knopf",
+   "von": 762,
+   "bis": 770,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "head",
+    ".set-head",
+    "action:save-trading",
+    "action:save-trading-auto",
+    "data-change",
+    "readTrading",
+    "#set-save",
+    ".save-state",
+    "form.reportValidity",
+    "t:Gespeichert",
+    "t:Speichern"
+   ],
+   "befund_ids": [
+    "komponenten-5"
+   ],
+   "abhaengig": [
+    "zustaende-S-C14",
+    "zustaende-S-A1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/settest.js:22 (Schritt zustaende-S-TE6)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-M3",
+   "titel": "Regel löschen mit Rückfrage",
+   "von": 771,
+   "bis": 773,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "action:delete-rule",
+    "S.deleteRule",
+    "U.confirmModal",
+    "t:Regel löschen?",
+    "t:„{0}“ wird gelöscht. Zum Pausieren reicht der Schalter."
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-39"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-M4",
+   "titel": "Tags zurücksetzen: Knopf aus der Filterleiste unter die Tabelle, eindeutige Rückfrage",
+   "von": 774,
+   "bis": 778,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "action:tags-reset",
+    ".tbl-wrap",
+    ".btn.ghost.sm",
+    "U.confirmModal",
+    "t:Zurücksetzen",
+    "t:Tags zurücksetzen",
+    "t:Tags auf Standard zurücksetzen",
+    "t:Tags auf Standard zurücksetzen?",
+    "t:Alle Tags werden auf die Standardliste zurückgesetzt. Beschreibungen gehen verloren, Trades bleiben unverändert.",
+    "t:Auf Standard zurücksetzen"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-38"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-M5",
+   "titel": "Design-Einstellungen: Standardfarben gelten ohne eigene Farbe als gewählt (auch im hellen Design)",
+   "von": 779,
+   "bis": 783,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "isDef",
+    "T.DEFAULTS.dark",
+    "PRESETS_ACCENT",
+    "PRESETS_PAIR",
+    ".swatch[aria-pressed=\"true\"]",
+    ".pair-card[aria-pressed=\"true\"]"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-17"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-M6",
+   "titel": "Profil-Zeitzone: Browser-Zeitzone ergänzen und wählen, UTC immer in der Liste",
+   "von": 784,
+   "bis": 786,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "timezones",
+    "tz"
+   ],
+   "befund_ids": [
+    "referenz-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-NW1",
+   "titel": "News-Countdown in Kalendertagen, großgeschrieben (inText mit Datum und now)",
+   "von": 787,
+   "bis": 803,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    "inText",
+    "el.dataset.newsIn",
+    "t:Jetzt",
+    "t:In {0} Min.",
+    "t:In {0} Std. {1} Min.",
+    "t:In {0} Std.",
+    "t:Morgen",
+    "t:In {0} Tagen",
+    "t:jetzt",
+    "t:morgen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-40",
+    "zustaende-40"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/newstest.js:54 (Schritt zustaende-S-TE4)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-NW2",
+   "titel": "News: Skelett beim Laden statt Ring/Text",
+   "von": 804,
+   "bis": 806,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    ".nw-skel",
+    ".skel",
+    ".nw-loading",
+    "role=\"status\"",
+    "t:Termine werden geladen"
+   ],
+   "befund_ids": [
+    "zustaende-17",
+    "bereich_notebook_news-38"
+   ],
+   "abhaengig": [
+    "zustaende-S-C13"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-NW3",
+   "titel": "News: Offline-Wortlaut mit „und deine Verbindung“",
+   "von": 807,
+   "bis": 809,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    "t:Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.",
+    "t:Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor."
+   ],
+   "befund_ids": [
+    "zustaende-18"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-CS1",
+   "titel": "Coach: Fehlerbanner in Warn-Optik mit „Erneut versuchen“ im trailing",
+   "von": 810,
+   "bis": 814,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "errorBox",
+    "U.banner",
+    "trailing",
+    "I.refresh",
+    ".btn.sm",
+    "t:Erneut versuchen"
+   ],
+   "befund_ids": [
+    "zustaende-18"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-CS2",
+   "titel": "Coach: Skelett beim Laden statt Kurslinie",
+   "von": 815,
+   "bis": 817,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "loading",
+    ".coach-skel",
+    ".coach-loading",
+    ".skel",
+    "t:Wird geladen"
+   ],
+   "befund_ids": [
+    "zustaende-17"
+   ],
+   "abhaengig": [
+    "zustaende-S-C13"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-CS3",
+   "titel": "Coach-Fuß: sichtbarer Text „Wird geladen …“ neben der Hintergrund-Ladeanzeige",
+   "von": 818,
+   "bis": 820,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "U.loader",
+    ".ld-row",
+    "t:Wird geladen …",
+    "t:Lädt"
+   ],
+   "befund_ids": [
+    "bewegung-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-CS4",
+   "titel": "Coach-Benachrichtigungen: E-Mail-Schalter speichert sofort, ohne Adresse Toast und Fokus, Knopf „Adresse speichern“",
+   "von": 821,
+   "bis": 832,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "action:coach-mail-toggle",
+    "action:coach-notify-save",
+    "Co.saveNotify",
+    "input[name=email]",
+    "t:Trage zuerst eine E-Mail-Adresse ein",
+    "t:E-Mail-Benachrichtigung an",
+    "t:E-Mail-Benachrichtigung aus",
+    "t:Gespeichert. Der Server verschickt noch keine Mails.",
+    "t:Adresse speichern",
+    "t:Bitte eine E-Mail-Adresse eintragen",
+    "t:Speichern"
+   ],
+   "befund_ids": [
+    "bereich_konto-15"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/coachtest.js:169–170 (Schritt zustaende-S-TE5)"
+   ]
+  },
+  {
+   "nr": "zustaende-S-CS5",
+   "titel": "Coach: leere Gruppe ohne Zeitraum-Umschalter, Leertext nennt den Einladungslink",
+   "von": 833,
+   "bis": 836,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".coach-ctl",
+    "rows",
+    "t:Schick den Einladungslink oben an deine Schüler. Wer beitritt, erscheint hier mit Kurz-Stats."
+   ],
+   "befund_ids": [
+    "bereich_konto-44"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-MT1",
+   "titel": "Mentor ohne Server: leere Kopfreihe (head als Getter)",
+   "von": 837,
+   "bis": 841,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    "head",
+    "configured",
+    "App.pageHead",
+    "screen.head",
+    "t:Der Mentor sieht die letzten 20 Trades dieses Kontos."
+   ],
+   "befund_ids": [
+    "zustaende-16",
+    "hierarchie-34"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-MT2",
+   "titel": "Mentor: einheitlicher Offline- und HTTP-Wortlaut",
+   "von": 842,
+   "bis": 845,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    "t:Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.",
+    "t:Der Server antwortet mit Fehler {0}.",
+    "t:Der Mentor-Server ist nicht erreichbar. …",
+    "t:Server antwortet mit {0}"
+   ],
+   "befund_ids": [
+    "zustaende-18"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-NB1",
+   "titel": "Notizliste: Trade-P&L mit Klasse num (Verlust rot)",
+   "von": 846,
+   "bis": 850,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "U.pnl"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-29"
+   ],
+   "abhaengig": [
+    "zustaende-S-C16"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-NB2",
+   "titel": "Notebook: „Farbe ändern“ nur für eigene Ordner, Standardordner mit Symbol in Verschieben-Menüs",
+   "von": 851,
+   "bis": 854,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "action:nb-folder-edit",
+    "action:nb-move-sel",
+    "action:nb-move",
+    "folderIcon",
+    "x.isDefault",
+    "t:Farbe ändern"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-NB3",
+   "titel": "Notebook-Speicherstand „Wird gespeichert …“",
+   "von": 855,
+   "bis": 857,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    ".save-state",
+    ".saving",
+    "t:Wird gespeichert …",
+    "t:Speichert…"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-24"
+   ],
+   "abhaengig": [
+    "zustaende-S-C14"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-RP1",
+   "titel": "Ruhepunkt: laufende Session nur mit Rückfrage verwerfen",
+   "von": 858,
+   "bis": 864,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    "renderDone",
+    "homeBtn",
+    "action:rp-home",
+    "renderHome",
+    "cleanup",
+    "U.confirmModal",
+    "t:Session verwerfen?",
+    "t:Deine Eingaben aus dieser Session gehen verloren.",
+    "t:Verwerfen"
+   ],
+   "befund_ids": [
+    "bereich_training-42"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-DP",
+   "titel": "Leeres Datumsfeld in --faint (nur Fallback, falls wording-2 nicht umgesetzt ist)",
+   "von": 865,
+   "bis": 869,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/datepicker.js",
+    "web/js/app.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "DatePicker.init",
+    ".input.is-empty",
+    ".input.is-empty::-webkit-datetime-edit",
+    "#f-close",
+    "input.input[type=\"date\"]",
+    "--faint"
+   ],
+   "befund_ids": [
+    "komponenten-15"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-L",
+   "titel": "Sprachdateien en/es/hi/pt/zh: alle neuen Schlüssel ergänzen, alte kleingeschriebene Countdown-Schlüssel entfernen",
+   "von": 870,
+   "bis": 874,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Noch keine Trades",
+    "t:Logge deinen ersten Trade oder importiere eine CSV-Datei.",
+    "t:Keine abgeschlossenen Trades im Zeitraum",
+    "t:Ändere den Zeitraum oder logge Trades.",
+    "t:Keine Trades im Zeitraum",
+    "t:Keine Handelstage im Zeitraum",
+    "t:Keine Trades passen zum Filter",
+    "t:Ändere die Filter oder den Zeitraum.",
+    "t:Noch keine abgeschlossenen Trades",
+    "t:Noch keine abgeschlossenen Trades.",
+    "t:Noch keine Daten",
+    "t:Noch keine Wochen",
+    "t:Zu wenig Trades",
+    "t:Mindestens {0} Trades mit R-Wert nötig",
+    "t:Der gleitende Durchschnitt erscheint ab {0} Trades mit R-Wert.",
+    "t:Keine Trades mit R im Zeitraum",
+    "t:Trage in der Trade-Ansicht unter „Plan & Bewertung“ einen Stop ein, dann wird das R-Multiple berechnet.",
+    "t:Noch keine Regeln angelegt.",
+    "t:Regeln anlegen",
+    "t:Vorzeitraum: {0}",
+    "t:Symbol wählen",
+    "t:Long oder Short wählen",
+    "t:Einstieg eintragen",
+    "t:Kontrakte eintragen",
+    "t:Datum eintragen",
+    "t:Ausstieg eintragen oder Geschlossen leeren",
+    "t:Pflichtfeld",
+    "t:Mindestens {0}",
+    "t:Höchstens {0}",
+    "t:Gültige E-Mail-Adresse eintragen",
+    "t:Ungültiger Wert",
+    "t:In {0} Min.",
+    "t:In {0} Std. {1} Min.",
+    "t:In {0} Std.",
+    "t:In {0} Tagen",
+    "t:jetzt",
+    "t:morgen",
+    "t:Wird gespeichert …",
+    "t:Wird geladen …",
+    "t:{0} abgeschlossen",
+    "t:Summe aller abgeschlossenen Trades im Zeitraum, bei aktiver Suche oder aktivem Filter nur der gefilterten. Daneben der Verlauf je Handelstag.",
+    "t:Ungültiges Datum",
+    "t:Die Adresse enthält kein gültiges Datum.",
+    "t:Zum heutigen Tag",
+    "t:Verpassten Trade löschen?",
+    "t:Der Eintrag wird dauerhaft entfernt.",
+    "t:Screenshot löschen?",
+    "t:Screenshot vor Entry löschen?",
+    "t:Das Bild wird dauerhaft entfernt.",
+    "t:Sprachnotiz löschen?",
+    "t:Aufnahme und Transkript werden dauerhaft entfernt.",
+    "t:Check-in löschen?",
+    "t:Die Angaben dieses Check-ins werden gelöscht.",
+    "t:Regel löschen?",
+    "t:„{0}“ wird gelöscht. Zum Pausieren reicht der Schalter.",
+    "t:Session verwerfen?",
+    "t:Deine Eingaben aus dieser Session gehen verloren.",
+    "t:Verwerfen",
+    "t:Tags auf Standard zurücksetzen",
+    "t:Tags auf Standard zurücksetzen?",
+    "t:Adresse speichern",
+    "t:Trage zuerst eine E-Mail-Adresse ein",
+    "t:E-Mail-Benachrichtigung aus",
+    "t:Schick den Einladungslink oben an deine Schüler. Wer beitritt, erscheint hier mit Kurz-Stats.",
+    "t:Boden fest",
+    "t:Ab zwei Grabsteinen erscheinen Muster: Uhrzeit, Wochentag, Symbol, Setup, Verlustserie oder Emotion, wenn sie sich wiederholen.",
+    "t:{0} T",
+    "t:{0} s"
+   ],
+   "befund_ids": [],
+   "abhaengig": [],
+   "aufwand": "L",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-TE1",
+   "titel": "Test core.test.mjs: daySummary mit Verlusttag, Gewinntag, nur Break-even-Tagen",
+   "von": 875,
+   "bis": 877,
+   "cluster": "statistik",
+   "dateien": [
+    "web/tests/core.test.mjs"
+   ],
+   "anker": [
+    "C.daySummary",
+    "dayPayoff",
+    "dayPF"
+   ],
+   "befund_ids": [
+    "zustaende-4"
+   ],
+   "abhaengig": [
+    "zustaende-S-K1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/tests/core.test.mjs"
+   ]
+  },
+  {
+   "nr": "zustaende-S-TE2",
+   "titel": "Test dashtest.js:143–144: leeres Dashboard mit „—“-Kacheln, Karten-Titel „Noch keine Trades“, ohne „Mehr anzeigen“",
+   "von": 878,
+   "bis": 878,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/e2e/dashtest.js"
+   ],
+   "anker": [
+    ".dash-top .tile .nodata.dash",
+    ".chart-empty .ce-t",
+    ".recent-card .more-link",
+    "#content"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-13",
+    "wording-46",
+    "wording-47",
+    "zustaende-8"
+   ],
+   "abhaengig": [
+    "zustaende-S-W1",
+    "zustaende-S-W2",
+    "zustaende-S-W3",
+    "zustaende-S-W4",
+    "zustaende-S-D1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:143–144"
+   ]
+  },
+  {
+   "nr": "zustaende-S-TE3",
+   "titel": "Test motiontest.js: „Kachel bleibt beim Überfahren ruhig“ (transform none)",
+   "von": 879,
+   "bis": 879,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/e2e/motiontest.js"
+   ],
+   "anker": [
+    ".tile",
+    "transform"
+   ],
+   "befund_ids": [
+    "zustaende-34"
+   ],
+   "abhaengig": [
+    "zustaende-S-C5"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/motiontest.js"
+   ]
+  },
+  {
+   "nr": "zustaende-S-TE4",
+   "titel": "Test newstest.js:54: Countdown großgeschrieben (/^In 2 Std\\./)",
+   "von": 880,
+   "bis": 880,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/e2e/newstest.js"
+   ],
+   "anker": [
+    "inText"
+   ],
+   "befund_ids": [
+    "zustaende-40",
+    "bereich_notebook_news-40"
+   ],
+   "abhaengig": [
+    "zustaende-S-NW1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/newstest.js:54"
+   ]
+  },
+  {
+   "nr": "zustaende-S-TE5",
+   "titel": "Test coachtest.js:169–170: nur E-Mail-Schalter klicken, Toast „E-Mail-Benachrichtigung an“",
+   "von": 881,
+   "bis": 881,
+   "cluster": "konto",
+   "dateien": [
+    "web/e2e/coachtest.js"
+   ],
+   "anker": [
+    "action:coach-mail-toggle"
+   ],
+   "befund_ids": [
+    "bereich_konto-15"
+   ],
+   "abhaengig": [
+    "zustaende-S-CS4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/coachtest.js:169–170"
+   ]
+  },
+  {
+   "nr": "zustaende-S-TE6",
+   "titel": "Test settest.js:22: Break-even-Felder füllen und mit Tab verlassen statt Submit",
+   "von": 882,
+   "bis": 882,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/e2e/settest.js"
+   ],
+   "anker": [
+    "#be-from",
+    "#be-to",
+    "action:save-trading-auto"
+   ],
+   "befund_ids": [
+    "komponenten-5"
+   ],
+   "abhaengig": [
+    "zustaende-S-M2",
+    "zustaende-S-M1b"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/settest.js:22",
+    "web/e2e/settest.js:26"
+   ]
+  },
+  {
+   "nr": "zustaende-S-TE7",
+   "titel": "Test friedhoftest.js:47: bei einem Grabstein keine Muster-Karte, Info an „Häufigste Regel“",
+   "von": 883,
+   "bis": 883,
+   "cluster": "prop",
+   "dateien": [
+    "web/e2e/friedhoftest.js"
+   ],
+   "anker": [
+    ".prop-patterns",
+    ".prop-patterns-empty"
+   ],
+   "befund_ids": [
+    "bereich_prop-45"
+   ],
+   "abhaengig": [
+    "zustaende-S-F1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/friedhoftest.js:47"
+   ]
+  },
+  {
+   "nr": "zustaende-S-TE8",
+   "titel": "Test scorestatetest.js:22 („Karte flach“) muss ohne Anpassung grün sein",
+   "von": 884,
+   "bis": 885,
+   "cluster": "statistik",
+   "dateien": [
+    "web/e2e/scorestatetest.js"
+   ],
+   "anker": [
+    ".stc-col"
+   ],
+   "befund_ids": [
+    "bereich_statistik-1",
+    "diagramme-5"
+   ],
+   "abhaengig": [
+    "zustaende-S-C15",
+    "zustaende-S-ST3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/scorestatetest.js:22"
+   ]
+  },
+  {
+   "nr": "zustaende-S-R1",
+   "titel": "README Z. 77: Zeitraum-Kalender ohne grüne Auswahl beschreiben",
+   "von": 886,
+   "bis": 888,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 77"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "zustaende-S-C8"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-R2",
+   "titel": "README Z. 144: Mentor ohne Server zeigt keine Kopfreihe",
+   "von": 889,
+   "bis": 889,
+   "cluster": "training",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 144"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "zustaende-S-MT1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-R3",
+   "titel": "README Z. 224: Schatten-Ich-Regelkarte „leicht angehoben“, Grün nur im Schalter",
+   "von": 890,
+   "bis": 890,
+   "cluster": "training",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 224"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "zustaende-S-C11"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-R4",
+   "titel": "README Z. 338–340: Start-Skelett mit Design und Leiste, Skelette für News/Coach, Regeln für U.spin/U.loader",
+   "von": 891,
+   "bis": 891,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 338–340"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "zustaende-S-H1",
+    "zustaende-S-NW2",
+    "zustaende-S-CS2",
+    "zustaende-S-CS3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "zustaende-S-R5",
+   "titel": "README: neuer Abschnitt „Zustände“ nach „Bewegung und Übergänge“",
+   "von": 892,
+   "bis": 893,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Abschnitt „Zustände“ (nach „Bewegung und Übergänge“)"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "zustaende-S-C1",
+    "zustaende-S-C4",
+    "zustaende-S-A1",
+    "zustaende-S-U6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 896,
+  "bis": 939
+ },
+ "querbezuege": [
+  "komponenten-2 (Spec Komponenten): Optik des gewählten Menüeintrags .popover .item[aria-checked=\"true\"] (color --text, background --surface-2, Haken links in 16-px-Spalte bei Konto und Vorlage) wird dort umgesetzt; S-A2 setzt nur aria-checked in App.accountControl, S-C8 lässt app.css:337 bewusst aus (Spec Z. 6, 317, 538).",
+  "wording-2 / zustaende-20 (Spec Wortwahl): Datumsfelder samt Leerzustand in --faint; deckt komponenten-15 ab. S-DP (DatePicker.init, .input.is-empty, app.js:360 #f-close) nur als Fallback, falls wording-2 bei Umsetzung fehlt (Z. 7, 865–868).",
+  "bereich_shell-5 (Spec Responsiv): Handy-Skelett ändert dieselben Regeln .boot-head, .boot-tiles, .boot-main und die Media-Query app.css:1554; erst S-C19, dann bereich_shell-5. Kopfzeile Z. 8 nennt den Schritt „S-C21“, gemeint ist S-C19 (Z. 367–368).",
+  "bereich_notebook_news-36 (Spec KI-Look): löscht den Block app.css:779–788; damit entfällt der erste Teil von S-C16 (.note-item span, Z. 783). Kopfzeile Z. 9 nennt „S-C25“, gemeint ist S-C16 (Z. 357).",
+  "bereich_notebook_news-39 (Spec Aufbau): News-Filter in die Kopfreihe; verträgt sich laut Z. 10 mit S-NW1–S-NW3 (news.js inText, .nw-skel).",
+  "Befunde anderer Gruppen, die hier mit erledigt werden (in den Schritten genannt, aber nicht in ids_abgedeckt dieser Gruppe): komponenten-42 (S-C2, .rp-btn:disabled/.rp-chip.rp-chip-sm:disabled, K21), bereich_dashboard-7 und komponenten-7 (S-C8, .rr-day/.dp-day), bereich_notebook_news-38 (S-C13/S-NW2, .nw-skel), bereich_notebook_news-4 (S-C16, .nb .note-item .tr b), typografie-13 (S-U2, fmt.price), bewegung-30 (S-U6, U.toast/Motion.leave), zustaende-25 (S-DY2, .pos/.neg bei 0), wording-42, zustaende-10 und ki_look-7 (S-PR1, Fortschritt-Hero), hierarchie-34 (S-MT1, Mentor-Kopfreihe). Dort nicht doppelt umsetzen.",
+  "Barrierefreiheit-Spec: barrierefreiheit-6 (= zustaende-3, Feldfehler) und barrierefreiheit-20 (= zustaende-19, Toast-Live-Region) sind hier umgesetzt (S-C3, S-U5, S-A1, S-A4; S-C6, S-U6); zweiter Container role=alert und Toast-Symbol abgelehnt (K10, K27).",
+  "Gemeinsamer Ausgewählt-Block app.css:3120–3131 (.seg button[aria-pressed=\"true\"] … .sb-user.active): S-C7 hängt .btn.is-on an; Komponenten-/Farb-Specs ändern dieselbe Selektorliste. widgets.js:223 nutzt schon .btn.primary.sm.on („Kennzahl hinzufügen“), deshalb .is-on statt .on (K19).",
+  "Kachel-Hover (S-C5, .tile:hover/.stat-tile:hover/.card:hover, web/e2e/motiontest.js) überschneidet sich mit farbe_kontrast-43, ki_look-9 und bewegung-43 (K22); --lift-shadow bleibt wegen landing.css:56.",
+  "fmt.cur (S-U1, ui.js:122) wirkt auf Dashboard-, TradeLog-, Affiliate-, Prop- und Zertifikat-Kacheln; ggf. Container-Schwelle app.css:533 @container (max-width: 164px) → 190px – Überschneidung mit Kachel-/Typografie-Specs (U.tile, .tile .val). Prop-Balken (S-P1, bar) stützen sich darauf (K14, wording-30/bereich_prop-6: Label „{lbl} übrig“ bleibt).",
+  "Start-Skelett .boot-sb (S-C19/S-H2) spiegelt die Seitenleiste .nav a (app.css:164/169, 39-px-Zeile, 42-px-Raster); Maße gemeinsam mit Shell-/Seitenleisten-Spec pflegen. Rest von bereich_shell-4 (.menu-btn wird von .btn { display: inline-flex } überschrieben, Skelett zeigt immer das Dashboard) bleibt eigener Befund (Abschnitt 5).",
+  "Kopfreihe App.pageHead/screen.head (app.js:257): S-MT1 macht mentor.js head zum Getter; Shell-/Aufbau-Specs können dieselbe Kopfreihe ändern (README Z. 144, S-R2).",
+  "Trade-Formular (#trade-form, app.js:348–476, .dir-switch.need, #trade-preview): Trades/Tag- und Komponenten-Specs berühren dieselbe Stelle; komponenten-4 (Fußzeile „2 Angaben fehlen“) und bereich_trades_tag-6 sind laut K8 zugunsten der Vorschau „Long oder Short wählen“ (README Z. 44) entschieden.",
+  "TradeLog-Pager (.pager .pg-nav, .tl-fit > .tbl-wrap.paged): zustaende-37 Teil 3 ist Nutzerfrage (Abschnitt 6, app.css nach Z. 967, README Z. 103–107), nicht Teil von Abschnitt 3; S-T2 setzt nur Teile 1 und 2 um.",
+  "Schatten-Ich/Training-Spec: .shadow-rule (S-C11, README Z. 224 in S-R3); leeres Schatten-Ich (shadow.js:109, bereich_training-19-Teil) gehört dorthin (Abschnitt 5).",
+  "Einstellungen/Wortwahl: wording-17 regelt den Wortlaut der Privatsphäre; Sofort-Speichern nur für Trading (S-M2, K18), Notebook/Privatsphäre behalten „Speichern“. „Tags auf Standard zurücksetzen“ (S-M4, K17) folgt dem Muster „Auf Standard zurücksetzen“ (misc.js:196/221, be-reset).",
+  "Fehleroptik: Feldfehler --loss wie .dir-switch.need (app.css:860), Systemfehler Warn-Optik (.mentor-err, U.banner('warn')) – Farb-/Kontrast-Spec darf --loss nicht für Serverfehler nutzen (K9). Abgelehnte Teile von zustaende-18 (errorState, Co.OFFLINE) siehe Abschnitt 5.",
+  "Sprachschlüssel S-L (web/js/lang/{en,es,hi,pt,zh}.js) decken Texte aus S-U4b, S-W*, S-A1, S-A4, S-A5, S-ST2, S-ST4, S-T1–S-T5, S-DY1, S-PR1, S-PR3, S-P1, S-F1, S-M3, S-M4, S-NW1, S-CS3–S-CS5, S-NB3, S-RP1 ab; Überschneidung mit der Wortwahl-Spec bei gleichen Schlüsseln. „Jetzt“, „Morgen“, „Kontogröße“, „Regel verletzt“, „Termine werden geladen“ und der Satz der Tags-Rückfrage stehen nicht in der S-L-Liste (bei Umsetzung prüfen).",
+  "README-Zeilen 77, 144, 224, 338–340 und der neue Abschnitt „Zustände“ (S-R1–S-R5) können auch von Farb-, Shell- und Bewegungs-Specs geändert werden; K26 hält fest, dass README Z. 77/224 dem BRIEF angepasst werden.",
+  "Zeilenangaben der Spec beziehen sich auf Commit 677b630 (Z. 3); aktueller HEAD ist 683c45e – bei jeder Änderung Selektor bzw. zitierten Code suchen, nicht die Zeilennummer."
+ ]
+}

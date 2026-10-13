@@ -1,0 +1,625 @@
+{
+ "fakten": {
+  "urteile": [
+   {
+    "id": "konto-1-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Der Befund stimmt. coupons.js:10 schaltet nur range und account ab, app.js:257 setzt session und trade standardmäßig auf an. Auf shots/dark-1440/coupons.png stehen oben rechts ▷ und „Trade loggen“. „Trade loggen“ ist grün getönt (.btn.accent, app.css:3137) und das einzige farbige Element. Die Präzedenzfälle stimmen: README:223 und shadow.js:104 für das Schatten-Ich, coach.js:219 und mentor.js:76. Wirkung 1 ist aber übertrieben. Im Inhalt ist das Code-Ticket schon das stärkste Element, die Kopfknöpfe stehen abgesetzt als globale Werkzeuge. Nach dem Abschalten bleibt eine leere Kopfreihe von 40 px stehen (.dash-head min-height:40px, app.css:1324), wie heute beim Coach. Das ist unschädlich."
+   },
+   {
+    "id": "konto-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: Alle drei Einträge in propdata.js:99-103 haben example: true, und tile() (coupons.js:6) setzt die Pille je Kachel. Die Lösung mit einer Pille für die ganze Seite übernimmt das Muster von affiliate.js:79. Das ist Feinschliff."
+   },
+   {
+    "id": "konto-2-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Änderung ist richtig, zwei Aussagen sind aber falsch. (1) Der runde Knopf ist nicht grün gefüllt. Die Regel .btn.accent (app.css:3137) steht nach der Handy-Regel app.css:3019 und überschreibt deren background, color und border bei gleicher Spezifität. Zu sehen ist eine dunkle Fläche mit grünem Randverlauf und grünem Plus (shots/dark-390/coupons.png). Er bleibt trotzdem das einzige farbige Element. (2) Die erste Kachel rückt nicht nach oben. pageHead rendert auch mit allem aus ein leeres .dash-head.page-head.compact (app.js:261) mit min-height 40px (app.css:1324). Beim Coach, wo alles aus ist, beginnt die Karte auf derselben Höhe wie die Coupon-Kacheln heute (dark-390/coach.png y≈268 gegenüber coupons.png y≈272).",
+    "beschreibung_neu": "coupons.js:10: head → { range: false, account: false, session: false, trade: false }. Auf dem Handy verschwinden damit das einzelne ▷ und der runde „Trade loggen“-Knopf unten rechts (getönt, nicht gefüllt: .btn.accent app.css:3137 überschreibt app.css:3019). Er ist heute das einzige farbige Element des Screens. Die Kacheln rücken nicht nach oben, weil die leere Kopfreihe ihre Mindesthöhe von 40px behält (app.css:1324, wie beim Coach). Auf Dashboard, TradeLog und Tagesansicht bleibt der runde Knopf. Das Polster unten (app.css:2998) bleibt unverändert."
+   },
+   {
+    "id": "konto-3-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Code stimmt: U.empty hat einen vierten Parameter action (ui.js:178), und coupons.js:13 übergibt keinen. Praktisch ist der Zustand aber kaum erreichbar. PropData.COUPONS ist fest mit drei Einträgen belegt (propdata.js:99-103), leer wird die Liste nur, wenn propdata.js nicht lädt. Deshalb nur Feinschliff."
+   },
+   {
+    "id": "konto-4-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: affiliate.js:73 schaltet nur range und account ab. ▷ und „Trade loggen“ (getönt) stehen über den Reitern (shots/dark-1440/affiliate.png). Wirkung wie bei den Coupons: mittel, nicht groß. Die leere Kopfreihe von 40px bleibt bestehen."
+   },
+   {
+    "id": "konto-4-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: fünf Stifte, 13px und gedämpft (app.css:2672). Auf dem Handy sind sie schon ausgeblendet (app.css:2997). Die Stifte sind optisch schwach und konkurrieren kaum, darum Wirkung 3 statt 2. Die Hover-Regel passt zur Vorgabe des Nutzers „Info-Symbole nur beim Darüberfahren“ (README:210)."
+   },
+   {
+    "id": "konto-4-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Name-Knopf und Chevron lösen beide aff-view aus (affiliate.js:58), tr.link gibt es schon (app.css:599-600). Ein Punkt in der Begründung ist falsch: data-stop braucht es nicht. Der Klick-Handler nimmt das innerste [data-action] (app.js:277-282), ein Klick auf „30 %“ öffnet also auch ohne data-stop nur den Dialog. Wenn der Name-Knopf wegfällt, bleibt am Desktop der Chevron das einzige fokussierbare Ziel. Am Handy ist er heute ausgeblendet, deshalb zusammen mit konto-5-2 umsetzen.",
+    "beschreibung_neu": "affiliate.js:58: <tr class='link' data-action='aff-view' data-id='…'>. Der Name wird zu <b class='no-i18n'>…</b> statt <button class='aff-name'>. Der Chevron (btn ghost icon sm) bleibt als einzige sichtbare Andeutung und als Tastatur-Ziel. Die Provisionszelle braucht kein data-stop, weil der Klick-Handler das innerste data-action nimmt (app.js:277-282) und der Knopf .aff-pct damit gewinnt. Zusammen mit konto-5-2 umsetzen, damit der Chevron auch am Handy fokussierbar ist."
+   },
+   {
+    "id": "konto-4-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: U.tile('Creator') in affiliate.js:57. U.card kennt die Option sub (ui.js:170). Auf dem Handy steht „Offen“ allein in Reihe 3 (shots/dark-390/affiliate.png). Mit vier Kacheln werden es zwei volle Reihen."
+   },
+   {
+    "id": "konto-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt. Der runde Knopf liegt auf dark-390/affiliate.png über dem rechten Rand der Creator-Karte, weil er position:fixed ist und beim Scrollen über wechselnden Inhalt wandert. Er ist getönt, nicht gefüllt (app.css:3137). Die Kacheln rücken nicht nach oben, die 40px der leeren Kopfreihe bleiben."
+   },
+   {
+    "id": "konto-5-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Auf dem Handy sind Chevron (th und td mit ph-hide, affiliate.js:58), @handle (.aff-tbl .sub, app.css:2995) und Stift (app.css:2997) ausgeblendet. Der Name sieht aus wie fetter Text, und nichts deutet das Öffnen an. Die zusätzliche Spalte (~28px) passt in die vier sichtbaren Spalten mit 12px Schrift (app.css:2994). Den Kopf der leeren th-Spalte ebenfalls ohne ph-hide lassen."
+   },
+   {
+    "id": "konto-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: aff-1440-creator.png zeigt ▷ und „Trade loggen“ über den Reitern. Dieselbe Zeile (affiliate.js:73) wirkt für beide Ansichten."
+   },
+   {
+    "id": "konto-6-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Tickets sind gleich gestaltet (.cpn-code), aber nicht gleich groß. Am Desktop ist die Link-Karte schon 1.6fr gegenüber 1fr (app.css:2666) und steht links, der Link führt also bereits. Daher Wirkung 3 am Desktop. Fachlich gilt: Der Code wird real genutzt (Beispiel „Link 29 · Code 14“). Er darf nicht tiefer als eine Zeile mit Kopier-Symbol rutschen. Der Vorschlag hält das ein."
+   },
+   {
+    "id": "konto-7-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: aff-390-creator.png zeigt ▷ allein oben und den runden Knopf über „Verdient je Monat“. Der Knopf ist getönt, nicht gefüllt."
+   },
+   {
+    "id": "konto-7-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Der Link ist auf „…?ref=LE…“ abgeschnitten, der Code steht voll da und wirkt dadurch klarer. Auf dem Handy ist das Problem also echt. Die Ersparnis liegt bei etwa 110 CSS-px (Karte ~96px plus Abstand), nicht 130, das ändert aber nichts am Urteil."
+   },
+   {
+    "id": "konto-8-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Logik stimmt: Bei s.n === 0 bleiben Kacheln mit 0, ein Diagramm mit acht Null-Monaten und „Noch keine Kunden.“ (affiliate.js:65-68). Der Zustand ist heute aber nicht erreichbar. Affiliate ist reine Oberfläche mit Beispieldaten (affiliate.js:4), und alle fünf Creator haben Kunden. Daher Wirkung 3 statt 2."
+   },
+   {
+    "id": "konto-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: coach.js:22 hat zwei Sätze mit Technik, am Desktop drei Zeilen. Der vorgeschlagene Text spricht aber von „Coach-Server“, während Knopf und Ziel „Einstellungen → Mentor“ heißen. Der Hinweis, dass es derselbe Server wie beim Mentor ist, sollte bleiben, sonst sucht der Nutzer eine Coach-Einstellung, die es nicht gibt. Adresse und Token sind in misc.js:157 erklärt.",
+    "beschreibung_neu": "coach.js:22: Text → „Coach Mode nutzt deinen Mentor-Server. Verbinde ihn in den Einstellungen, dann legst du hier Gruppen an oder trittst einer bei.“ Der Knopf „Zu den Einstellungen“ (.btn primary, #/settings/mentor) bleibt. Adresse und Zugangstoken stehen dort (misc.js:157)."
+   },
+   {
+    "id": "konto-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: fünf Zeilen auf dark-390/coach.png. Gleiche Textkorrektur wie bei konto-10-1 („Mentor-Server“ statt „Coach-Server“)."
+   },
+   {
+    "id": "konto-12-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Ohne Gruppe ist die Karte die größte des Screens (scratchpad/coach-hub.png). E-Mails gelten nur für Notizen, Antworten und Aufgaben, und die gibt es ohne Gruppe nicht. Die Hauptaktion „+ Gruppe“ ist heute aber schon der einzige gefüllte Knopf und eindeutig. Die Karte ist Ballast, kein gleichwertiger Konkurrent. Daher Wirkung 2 statt 1."
+   },
+   {
+    "id": "konto-13-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: „+ Gruppe“ ist 'btn sm primary' (coach.js:53) und auf mentor-1440-hub.png der einzige gefüllte Knopf über zwei Gruppen. Die Bedingung sollte auch reine Co-Coaches und Schüler einschließen (siehe konto-14-1). Primary also nur, wenn c.own, c.coached und c.groups alle leer sind."
+   },
+   {
+    "id": "konto-13-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Beschreibung stimmt: 'btn sm' „Öffnen“ je Zeile (coach.js:42-43), „Link“ ist ghost. Aber „Öffnen“ IST die Hauptaktion dieses Zustands. Wird es zum Ghost-Chevron, ohne dass die Zeile klickbar wird, sinkt die Hauptaktion auf die tertiäre Stufe. Der Titel verspricht „ganze Zeile als Ziel“, die Beschreibung setzt das nicht um. Der Gruppenname ist zwar ein Link, sieht aber aus wie fetter Text.",
+    "beschreibung_neu": "coach.js:42-43: Die .coach-row bekommt data-action='coach-open-group' und data-id. Die neue Aktion macht App.navigate('#/coach/g/'+id), analog zu coach-open-student (coach.js:292), dazu cursor und hover wie bei .tbl tr.link. „Öffnen“ wird <a class='btn ghost icon sm' href='#/coach/g/…' aria-label='Öffnen'>I.chevR</a>. Der Kopier-Knopf behält sein eigenes data-action und gewinnt den Klick, weil der Handler das innerste data-action nimmt. Erst mit der klickbaren Zeile verliert die Hauptaktion durch das Herabstufen nichts."
+   },
+   {
+    "id": "konto-13-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Feld und „Speichern“ stehen auch bei ausgeschaltetem Schalter da (mentor-1440-hub.png, coach.js:76-77). Zeilenkorrektur: Die Aktion coach-mail-toggle steht in coach.js:364, nicht 357. Den Hinweis mailHint (coach.js:74) ebenfalls nur bei eingeschaltetem Schalter zeigen."
+   },
+   {
+    "id": "konto-13-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Idee passt, denn das Muster .ct-done gibt es (coach.js:66). Es fehlt aber etwas: coach-browser-toggle und coach-notify-save rufen App.rerender() auf (coach.js:368-375). Ein <details> ohne gemerkten Zustand klappt nach jedem Schalten wieder zu. Der Offen-Zustand muss in st() gemerkt werden, z. B. st().notifyOpen über das toggle-Ereignis, und beim Rendern als open-Attribut gesetzt werden."
+   },
+   {
+    "id": "konto-14-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt: Auf student-1440-hub.png ist der grüne „+ Gruppe“ links oben das einzige gefüllte Element, die Aufgaben stehen darunter. Die Wirkung kommt vor allem vom Herabstufen von „+ Gruppe“. Am Desktop sind die Aufgaben schon heute im ersten Bildschirm (y≈360)."
+   },
+   {
+    "id": "konto-14-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt: „Im Notebook ansehen“ ist ein kleiner Textlink (coach.js:48). Der Vorschlag hat aber zwei Fehler. (1) Co.unread() zählt Notizen UND Mentor-Antworten (js/coach.js:176), „2 neue Notizen“ wäre also oft falsch. (2) Ein gefüllter Knopf konkurriert mit der eigentlichen Hauptaktion des Schülers hier, dem Abhaken der offenen Aufgabe. Damit gäbe es wieder zwei Hauptaktionen. Zu den Neuigkeiten führen schon der Hinweis-Punkt am Notebook und der Toast „N Neuigkeiten von deinem Mentor“ (coach.js:249).",
+    "beschreibung_neu": "coach.js:48: Bei unread > 0 wird aus dem Textlink ein umrandeter Knopf <a class='btn sm' href='#/notebook'>Neuigkeiten ansehen</a>. Die Zahl steht schon davor („1 ungelesen“), die Wortwahl folgt dem Hinweis-Punkt in coach.js:249. Kein primary, damit die offene Aufgabe das Wichtigste bleibt. Ohne Ungelesenes bleibt der Textlink."
+   },
+   {
+    "id": "konto-14-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Knöpfe gibt es: „Verlassen“ als btn sm ghost (coach.js:46) und „Jetzt abgleichen“ als btn xs ghost (coach.js:47). Beide sind schon tertiär, daher Wirkung 3. Korrektur: „Jetzt abgleichen“ gehört nicht zu einer Gruppe, sondern ist ein Abgleich für alle (Co.sync). In einem Menü je Gruppenzeile stünde es bei mehreren Gruppen mehrfach. Der Abgleich läuft automatisch alle 2 Minuten und nach Änderungen (js/coach.js:171, 206).",
+    "beschreibung_neu": "coach.js:46: Je Gruppenzeile ersetzt ein „…“-Menü (popwrap, btn ghost icon sm, I.more, data-pop='coachrow-<gid>') den Knopf „Verlassen“. Darin steht nur „Gruppe verlassen“ als item danger (data-action='coach-leave'). coach.js:47: Die Abgleich-Zeile erscheint nur bei Co.state.syncing („Wird abgeglichen …“) oder Co.state.lastError. Im Fehlerfall steht dort der Knopf „Erneut abgleichen“ (btn xs, data-action='coach-sync-now'). Sonst bleibt der Abgleich automatisch (js/coach.js:171, 206) und erreichbar über einen Eintrag „Jetzt abgleichen“ einmal unter der Gruppenliste als Textlink, nicht je Zeile."
+   },
+   {
+    "id": "konto-14-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt (student-1440-hub.png: leeres Feld und „Speichern“ bei ausgeschaltetem Schalter). Es gelten dieselben Ergänzungen wie bei konto-13-3 und konto-13-4: Zeile coach.js:364, Offen-Zustand des <details> über das Neuzeichnen hinweg merken."
+   },
+   {
+    "id": "konto-15-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Änderung ist dieselbe wie bei konto-14-1, die Behauptung ist übertrieben. Auf student-390-hub.png (780x2276) beginnt die Aufgaben-Karte bei y≈1000 und der Haken liegt bei ≈1175 Geräte-px, also ≈590 CSS-px. Das ist bei 844px Höhe schon heute im ersten Bildschirm. Der Agent hat die Werte aus der verkleinerten Vorschau abgelesen. Gewonnen wird die Rangfolge (Aufgabe zuerst, kein grüner „+ Gruppe“ obenauf), nicht die Sichtbarkeit."
+   },
+   {
+    "id": "konto-15-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Richtung stimmt, die Zahlen sind übertrieben. Die Karte ist auf mentor-390-hub.png ≈577 Geräte-px hoch, das sind ≈290 CSS-px, nicht „rund 580 px“. Mit Gruppen wird sie nur eingeklappt, nicht ausgeblendet, und spart damit ≈220 CSS-px. „So hoch wie beide Rollenkarten zusammen“ stimmt nur ungefähr: 577 gegenüber 662 Geräte-px."
+   },
+   {
+    "id": "konto-15-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Am Handy steht der gefüllte „+ Gruppe“ ganz oben, dazu umrandetes „Öffnen“ je Zeile (mentor-390-hub.png). Für „Öffnen“ als Chevron gilt dieselbe Bedingung wie bei konto-13-2: Die Zeile muss klickbar werden."
+   },
+   {
+    "id": "konto-16-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Die Einladungsleiste steht in coach.js:109 und 119 über allem, auch bei drei Schülern (mentor-1440-gruppe_voll.png). Das Besitzer-Menü steht in coach.js:115. Die Bedingung sollte g && !rows.length lauten, damit die Leiste beim Laden nicht kurz verschwindet und wieder auftaucht. Zum Einladen bleibt der Knopf „Link“ je Gruppe in der Übersicht (coach.js:42)."
+   },
+   {
+    "id": "konto-16-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: Der Name ist <span class='sym'> (coach.js:87, nicht 85). Ein <a> in der tr mit data-action funktioniert, weil der Handler e.preventDefault() aufruft und dann navigiert (app.js:282). Öffnen in neuem Tab geht trotzdem."
+   },
+   {
+    "id": "konto-16-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: „Aktualisieren“ ist ghost (coach.js:121). Beim Betreten lädt mount frisch (coach.js:234-235). Es fehlt ein Punkt: Co-Coaches haben ein eigenes Menü mit nur „Als Co-Coach austreten“ (coach.js:116). „Aktualisieren“ muss auch dort eingetragen werden, sonst ist es für Co-Coaches nicht mehr erreichbar."
+   },
+   {
+    "id": "konto-17-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Der Befund stimmt: Der Leerzustand hat keinen Knopf (coach.js:112), „Kopieren“ in der Leiste ist nur umrandet (coach.js:109). Der Vorschlag erzeugt aber zwei Knöpfe für dieselbe Aktion: einen gefüllten im Leerzustand und den umrandeten „Kopieren“ in der Leiste darüber. Das ist doppelt und widerspricht dem Ziel „ein Knopf“.",
+    "beschreibung_neu": "coach.js:109: Ist die Gruppe geladen und leer (g && !rows.length), bekommt „Kopieren“ in der Einladungsleiste die Klasse 'btn sm primary' statt 'btn sm'. Damit gibt es genau einen gefüllten Knopf, und er tut, was der Leertext sagt („Schick den Einladungslink“). Das Feld mit dem Link bleibt sichtbar, für den Fall, dass Kopieren scheitert (Toast „bitte den Link markieren“). U.empty (coach.js:112) bleibt ohne Knopf. Für Co-Coaches (kein Token, keine Leiste) ändert sich nichts. Sobald ein Schüler da ist, gilt konto-16-1."
+   },
+   {
+    "id": "konto-17-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Auf mentor-1440-gruppe_leer.png stehen Woche/Monat/Gesamt und „Kurz-Stats nur in R und Prozent · ab …“ über der leeren Fläche (coach.js:121). Die Gruppen-Statistik fällt ohne Schüler schon weg (coach.js:91)."
+   },
+   {
+    "id": "konto-18-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Menüinhalt stimmt mit coach.js:115 und mentor-1440-gruppe_menue.png überein. Es gilt die Ergänzung aus konto-16-3: „Aktualisieren“ und am Handy „Aufgabe an alle“ dürfen Co-Coaches auch, also gehören sie auch in deren Menü (coach.js:116)."
+   },
+   {
+    "id": "konto-19-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt: Auf mentor-390-gruppe_voll.png beginnt die Schüler-Karte bei ≈1545 von 2480 Geräte-px, also ≈770 CSS-px. Am Rand des ersten Bildschirms sind die Zeilen nicht mehr zu sehen. Die Hauptaktion steht damit unter sechs Kacheln."
+   },
+   {
+    "id": "konto-19-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt, die Ersparnis ist aber kleiner: Die Einladungskarte ist ≈275 Geräte-px hoch, also ≈140 CSS-px, nicht ~220. Allein bringt sie die Tabelle noch nicht in den ersten Bildschirm, das schafft erst konto-19-1. Deshalb Wirkung 2."
+   },
+   {
+    "id": "konto-19-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: hide-m blendet die Texte aus, übrig bleiben ✓ und ⟳ (coach.js:121, mentor-390-gruppe_voll.png). ✓ liest sich wie „erledigt“. Es gilt dieselbe Ergänzung wie bei konto-16-3: Co-Coaches dürfen Aufgaben geben, also gehören beide Einträge auch in deren Menü (coach.js:116)."
+   },
+   {
+    "id": "konto-20-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt: 'btn sm primary' unter jedem Eintrag, auch wenn er deaktiviert ist, und weiter grün (coach.js:140, coach-journal-top.png, mentor-390-journal.png). Zeilenkorrektur: coach-note-draft steht in coach.js:296, nicht 286. Als Alternative passt das Beispiel aus dem Auftrag („Publish von grau zu auffällig“): leer 'btn sm' (umrandet), mit Text 'btn sm primary'. Das vermeidet den Layoutsprung beim ersten Zeichen. Auf dem Handy, wo der Knopf als volle Zeile darunter steht, ist hidden die stärkere Ersparnis."
+   },
+   {
+    "id": "konto-20-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Das offene Formular mit dem grünen „Aufgabe geben“ steht über allen Einträgen (coach.js:148, coach-journal-top.png). Am Desktop ist es eine Zeile von ≈60px, daher Wirkung 2. Nach konto-20-1 wäre es aber der einzige gefüllte Knopf, und das ist nicht die Hauptaktion. Zeilenkorrektur: Der POST mit student_id steht in coach.js:335 (Aktion ab 333). taskAllModal (coach.js:268-272) lässt sich um ein optionales sid erweitern. Neu ist dann nur die Aktion coach-task-one, Aufwand S."
+   },
+   {
+    "id": "konto-20-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: .mr-write ist immer offen (coach.js:36), auch unter eigenen Notizen ohne Antwort. Es fehlt ein Punkt: Für das aufgeklappte Feld ohne Entwurf braucht es einen Zustand (z. B. st().ropen[n.id]). Sonst schließt es sich beim nächsten Neuzeichnen, etwa durch Sync oder Toast. Das Feld beim Öffnen fokussieren."
+   },
+   {
+    "id": "konto-20-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: In coach.js:128 stehen „Bearbeiten“ und „Löschen“ mit Text. Korrektur zum Muster: In coach.js:35 heißt es 'btn xs ghost' nur mit I.trash und aria-label, ohne Klasse icon. Genau so übernehmen (data-tip „Bearbeiten“ bzw. „Löschen“), damit keine neue Größenvariante entsteht."
+   },
+   {
+    "id": "konto-20-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Absatz steht in coach.js:159, nicht 160. Der Lösungsweg ist ungünstig: Der Nutzer hat (i)-Zeichen bewusst reduziert (Entvibecoden 5, README:210). Ein neues U.info am Titel läuft dem entgegen.",
+    "beschreibung_neu": "coach.js:159: Den Hinweis „Nur lesen. Deine Notizen erscheinen …“ nur zeigen, solange es von dir noch keine Notiz an diesen Schüler gibt (!j.notes.some(n => n.mentor_id === myId)). Danach ist er bekannt und entfällt. Kein neues (i)-Symbol."
+   },
+   {
+    "id": "konto-21-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt: Auf mentor-390-journal.png steht unter jedem Eintrag ein grüner Balken über die volle Breite (.ce-write column, app.css:2910). Hier ist hidden die richtige Variante, weil sie je Eintrag ≈40 CSS-px spart."
+   },
+   {
+    "id": "konto-21-2",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt: Am Handy belegt das Formular mit Text- und Datumsfeld und dem gefüllten Knopf den oberen Bildschirm (≈170 CSS-px). Nach konto-21-1 wäre es dort der einzige gefüllte Knopf. Das „mm/dd/yyyy“ kommt vom englischen Locale des Aufnahme-Browsers und ist kein App-Fehler."
+   },
+   {
+    "id": "konto-21-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: „Antworten“ steht als Balken über die volle Breite (app.css:2957). Für den Offen-Zustand gilt dieselbe Ergänzung wie bei konto-20-3."
+   },
+   {
+    "id": "konto-24-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Der Dialog hat keinen gefüllten Knopf. „Kopieren“ ist 'btn sm' (coach.js:263), „Fertig“ ist 'btn' (coach.js:265), „Neuen Link erzeugen“ und „Entfernen“ sind ghost. Der Punkt „genau ein gefüllter Hauptknopf je Dialog“ steht ausdrücklich im Prüfauftrag, darum Wirkung 2 trotz seltener Nutzung."
+   },
+   {
+    "id": "konto-25-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: zwei Felder, das Datum ist als „(optional)“ beschriftet (coach.js:270). Der Dialog ist schon klar, das hier ist Feinschliff."
+   },
+   {
+    "id": "konto-28-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: notesBlock nutzt thread(n, 'student') für Notizen, die nicht lokal sind (coach.js:243, nicht 236). Das Antwortfeld steht als zweites Textfeld unter dem Editor (coach-student-note.png). Für den Offen-Zustand gilt die Ergänzung aus konto-20-3."
+   }
+  ],
+  "screen_korrekturen": "Wichtigste Korrekturen: Der runde Knopf am Handy ist getönt, nicht gefüllt. Ohne Kopfreihe rückt nichts nach oben. Beim Schüler gibt es eine Hauptaktion, nicht zwei.\n\nkonto-2, konto-5, konto-7, konto-15 (Handy): Der runde „Trade loggen“-Knopf ist NICHT grün gefüllt. app.css:3137 (.btn.accent) steht nach der Handy-Regel app.css:3019. Bei gleicher Spezifität überschreibt sie background, color, border und box-shadow. Sichtbar ist eine dunkle Fläche mit grünem Randverlauf und grünem Plus (dark-390/coupons.png). Er bleibt das einzige farbige Element, der Befund trägt also. Auch die Angabe im HICKS-BRIEF „.btn.accent, grün gefüllt“ trifft so nicht zu: Der Knopf ist getönt. Nur .btn.primary ist voll gefüllt (z. B. „Zu den Einstellungen“, „+ Gruppe“).\n\nkonto-1, konto-2, konto-4 bis konto-7 (Kopfreihe aus): Es rückt nichts nach oben. pageHead rendert auch mit allem aus ein leeres .dash-head.page-head.compact (app.js:261) mit min-height 40px (app.css:1324). Beim Coach sieht man das schon: Die Karte beginnt auf derselben Höhe wie heute die Coupon-Kacheln.\n\nkonto-3: Der Leerzustand ist praktisch nicht erreichbar, weil COUPONS fest drei Einträge hat (propdata.js:99-103).\n\nkonto-6: Die Link-Karte ist am Desktop schon breiter (1.6fr gegenüber 1fr, app.css:2666). „Gleich wichtig“ trifft nur am Handy voll zu.\n\nkonto-8: Der Zustand ist mit den heutigen Beispieldaten nicht erreichbar (affiliate.js:4, alle Creator haben Kunden).\n\nkonto-13: „Öffnen“ ist hier selbst die Hauptaktion und kein Konkurrent. Konkurrent ist der gefüllte „+ Gruppe“. Herabstufen geht nur, wenn die ganze Zeile klickbar wird.\n\nkonto-14: Die Hauptaktion ist EINE: „Offene Aufgabe abhaken“. Aufgaben gibt es nur hier (Co.markTasksSeen beim Öffnen der Übersicht, coach.js:236). Notizen liest der Schüler im Notebook, dorthin führen schon der Hinweis-Punkt und der Toast (coach.js:249). Gibt es keine offene Aufgabe, hat die Übersicht für Schüler keine eigene Hauptaktion. „+ Gruppe“ darf dann trotzdem nicht primary sein.\n\nkonto-15: Hauptaktion des Schülers wie bei konto-14. Die Angabe „Aufgaben erst ab y≈880 von 2276“ stammt aus der verkleinerten Vorschau. Real liegt die Karte bei ≈1000 Geräte-px und der Haken bei ≈590 CSS-px, also schon heute im ersten Bildschirm (844px). Die Benachrichtigungen-Karte ist ≈290 CSS-px hoch, nicht 580.\n\nkonto-19: Die Schülertabelle beginnt bei ≈770 CSS-px, die Einladungskarte ist ≈140 CSS-px hoch, nicht 220.\n\nkonto-21: „mm/dd/yyyy“ ist das Locale des Aufnahme-Browsers und kein App-Befund.\n\nZeilenkorrekturen in coach.js:\n- coach-note-draft: 296 statt 286\n- coach-mail-toggle: 364 statt 357\n- POST mit student_id: 335 statt 333\n- Absatz „Nur lesen …“: 159 statt 160\n- statsRow-Zeile: 87 statt 85\n- notesBlock: 241-243 statt 236\n- cojoin-Formular: 188-197 statt 192-201\n\nAlle anderen Screen-Bewertungen (konto-9, 10, 11, 12, 16, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28) stimmen mit Code und Aufnahmen überein: welche Knöpfe gefüllt, umrandet, ghost oder Symbol sind, und dass alle genannten Knöpfe existieren."
+ },
+ "vorgaben": {
+  "urteile": [
+   {
+    "id": "konto-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Hält alle Vorgaben ein. Vorbild sind Schatten-Ich (README:223, shadow.js:104), Coach (coach.js:219) und Mentor (mentor.js:76). Es ist dieselbe Änderung wie konto-2-1, also eine Zeile in coupons.js:10. README-Abschnitt Coupon-Codes (README:264-266) ergänzen: „Die Kopfreihe hat hier kein „Trade loggen“ und kein „Session starten“.“ Die leere .dash-head.page-head.compact bleibt wie beim Coach. Hinweis für die Gesamtsicht: news.js:65 und prop.js:293 behalten den Knopf heute. Das sollte bereichsübergreifend einheitlich entschieden werden."
+   },
+   {
+    "id": "konto-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "coupons.js: In render() gilt `const allEx = cps.length && cps.every(c => c.example)`. tile(c, allEx) lässt U.pill('Beispiel') weg, wenn allEx stimmt. Über dem Raster steht dann einmal `<div class=\"row\"><span class=\"grow\"></span>${U.pill('Beispiel', 'neutral')}</div>`. Dafür die globalen Klassen .row und .grow nehmen (app.css:127,130), nicht die Affiliate-Klasse aff-top. Bei gemischten Listen bleibt die Pille an jeder Beispiel-Kachel. README:266 anpassen: „Platzhalter tragen die Marke „Beispiel“ (einmal über dem Raster, wenn alle Einträge Platzhalter sind)“.",
+    "anmerkung": "Keine Information geht verloren. Der Text „Beispiel“ ist schon übersetzt. Das Muster entspricht „Beispieldaten“ bei Affiliate. Es ist kein Knopf-Konkurrent, sondern reine Reduktion, deshalb nur Wirkung 3."
+   },
+   {
+    "id": "konto-2-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Änderung wie konto-1-1 (coupons.js:10), nur einmal umsetzen. Das padding-bottom von 104px (app.css:2998) kann bleiben, weil es nur Leerraum ist."
+   },
+   {
+    "id": "konto-3-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Den Zustand gibt es praktisch nicht: PD.COUPONS steht fest im Code (3 Einträge), und der Nutzer kann keine Codes anlegen. Der Knopf „Zu den Prop Firms“ löst den Leerzustand nicht, er führt nur in einen anderen Bereich. Prop Firms steht in der Seitenleiste ohnehin direkt über Coupon-Codes. Als einziger Knopf wäre er außerdem umrandet und damit uneinheitlich zu anderen Leerzuständen (dort ist der eine helfende Knopf primär, z. B. coach.js:22). Den Lärm im Leerzustand (Trade loggen, ▷) beseitigt schon konto-1-1. Zusätzlich müssten neue Texte in allen fünf Sprachdateien nachgetragen werden."
+   },
+   {
+    "id": "konto-4-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "affiliate.js:73 gilt für beide Ansichten (Alle Creator und Creator-Ansicht), damit sind konto-5-1, 6-1 und 7-1 dieselbe Zeile. README-Abschnitt Affiliate (README:267ff.) um den Satz zur Kopfreihe ergänzen."
+   },
+   {
+    "id": "konto-4-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Gleiches Muster wie die Info-Symbole (app.css:496-498), mit opacity statt visibility: `.aff-tbl .aff-pct svg { opacity: 0; transition: opacity var(--dur-1) var(--ease); }` `.aff-tbl tr:is(:hover, :focus-within) .aff-pct svg { opacity: 1; }` `@media (hover: none) { .aff-tbl .aff-pct svg { opacity: 1; } }`. Klick auf die Prozentzahl, data-tip „Provision ändern“ und aria-label bleiben. Am Handy bleibt der Stift wie heute ausgeblendet (app.css:2997).",
+    "anmerkung": "Ohne den Schutz für Touch-Geräte (hover: none) hätte ein Tablet mit 1024 px gar keinen Hinweis mehr, dass sich die Zahl ändern lässt. README:210 legt fest: „auf Touch immer“. Die Stifte sind 13px groß und gedämpft und konkurrieren kaum, deshalb Wirkung 3 statt 2."
+   },
+   {
+    "id": "konto-4-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "affiliate.js:58: `<tr class=\"link\" data-action=\"aff-view\" data-id=\"${c.id}\">` mit der vorhandenen Regel .tbl tbody tr.link (app.css:599-600). Der Name BLEIBT `<button class=\"aff-name\">`. Am Handy ist er das einzige fokussierbare Ziel, weil der Chevron dort ph-hide hat, und ein <tr> ist per Tastatur nicht erreichbar. Der Chevron bleibt (Desktop). Die Provisionszelle wird `<td class=\"r nowrap\" data-stop>`, damit ein Klick in den Rand der Zelle nicht zur Creator-Ansicht springt. Korrektur: Ein Klick auf die Prozentzahl selbst öffnet schon heute nur den Dialog, weil der Handler das nächste [data-action] nimmt (app.js:276-283). data-stop schützt nur die Umgebung des Knopfs.",
+    "anmerkung": "Der Gewinn ist ein großes Ziel und der Hover über die ganze Zeile, wie in der Coach-Tabelle. „Zwei Ziele mit derselben Aktion“ sind keine Hick-Konkurrenz. Den Namen zu Text zu machen, bringt nichts und kostet Barrierefreiheit."
+   },
+   {
+    "id": "konto-4-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Information bleibt (Kartenkopf-Zusatz über U.card o.sub, ui.js:170). Das Handy verliert die halbleere dritte Kachelreihe. README:268 (Kennzahlen-Liste „Creator, Kunden, …“) anpassen. Den Zusatz „5 Creator“ als Text in js/lang/*.js nachtragen. Die Übersetzung hängt am deutschen Text, deshalb Zahl und Wort getrennt halten, z. B. `${n} <span>Creator</span>`."
+   },
+   {
+    "id": "konto-5-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Zeile wie konto-4-1 (affiliate.js:73). Am Handy fällt damit auch der runde Knopf über der Creator-Tabelle weg (dark-390/affiliate.png)."
+   },
+   {
+    "id": "konto-5-2",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Das Tippen auf die ganze Zeile ist schon in konto-4-3 enthalten. Den Chevron am Handy einblenden verstößt gegen README:275 („Am Handy blendet die Tabelle Nebenspalten aus, damit nichts seitlich scrollt“). Bei 390 px nutzt die Tabelle schon etwa 310 px mit rund 33 px Luft (dark-390/affiliate.png). Ein Knopf von 28 px plus 6 px Rand löst bei 360 px seitliches Scrollen aus. Der Name ist am Handy schon heute antippbar (aff-name). Coach-Tabelle und TradeLog haben am Handy ebenfalls keinen Chevron, so bleibt es einheitlich."
+   },
+   {
+    "id": "konto-6-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Zeile wie konto-4-1."
+   },
+   {
+    "id": "konto-6-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "affiliate.js:64: `share` wird eine Karte: `<div class=\"aff-ticket\"><span class=\"aff-label\">Dein Link</span>${Link-Ticket .cpn-code wie heute, data-kind=\"link\"}<div class=\"row\"><span class=\"aff-label\">oder Code</span><span class=\"aff-code no-i18n\">${esc(c.code)}</span><button type=\"button\" class=\"btn ghost icon sm\" data-action=\"aff-copy\" data-kind=\"code\" data-text=\"${esc(c.code)}\" data-tip=\"Kopieren\" aria-label=\"Dein Code kopieren\">${I.copy}</button></div></div>`. Das Raster .aff-share mit 1.6fr/1fr entfällt (die Karte nimmt die volle Breite wie heute am Handy). Abstand der Code-Zeile über `.aff-ticket .row { margin-top: 8px; }`. Die Klasse .copied hat auf dem Ghost-Knopf keine Wirkung, der Toast „Code kopiert“ reicht. Neuer Text „oder Code“ in js/lang/*.js.",
+    "anmerkung": "Keine Funktion fällt weg: Den Code kopiert man weiter mit einem Klick, README:270 („Link und Code zum Kopieren“) bleibt richtig. Am Desktop ist der Link heute schon breiter (1.6fr), der Gewinn ist dort klein. Am Handy ist er größer, siehe konto-7-2."
+   },
+   {
+    "id": "konto-7-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Zeile wie konto-4-1."
+   },
+   {
+    "id": "konto-7-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Dieselbe Änderung wie konto-6-2 (nur einmal umsetzen). Am Handy spart sie eine ganze Karte, und der Code steht nicht mehr gleich groß neben dem abgeschnittenen Link."
+   },
+   {
+    "id": "konto-8-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "creator() (affiliate.js:62-69): Bei `!s.n` nur `${share}` und darunter `<p class=\"muted small\">Teile deinen Link: Sobald jemand darüber ein Abo abschließt, erscheinen hier Verdienst und Kunden (Provision ${pctText(pctOf(c))} vom Umsatz).</p>` rendern. Kacheln, chart('aff-one') und die Karte „Kunden“ erst ab dem ersten Kunden. Den neuen Satz in js/lang/*.js nachtragen, die Zahl als Platzhalter halten.",
+    "anmerkung": "Entspricht Regel 5. Mit den Beispieldaten ist der Zustand aber nicht erreichbar (alle Creator haben Kunden, Affiliate ist „nur Oberfläche“, README:273), deshalb Wirkung 3 statt 2."
+   },
+   {
+    "id": "konto-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "coach.js:22: Text → „Verbinde in den Einstellungen den Server des Mentor-Chats, dann legst du hier Gruppen an oder trittst einer bei.“ Knopf unverändert (#/settings/mentor). Den alten Schlüssel „Coach Mode läuft über denselben Server …“ in allen fünf Sprachdateien (js/lang/en, es, hi, pt, zh) durch den neuen Satz ersetzen. Die Übersetzung hängt am deutschen Text, ohne neuen Eintrag stünde der Satz in jeder anderen Sprache auf Deutsch.",
+    "anmerkung": "Der vorgeschlagene Begriff „Coach-Server“ kommt sonst nirgends vor. Die Einstellungsseite heißt „Mentor“, und laut README:156 ist es derselbe Server. Ohne diesen Bezug landet man auf „Mentor“ und weiß nicht, warum. Der neue Satz bleibt ein einziger Satz ohne Adresse und Token."
+   },
+   {
+    "id": "konto-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Dieselbe Änderung wie konto-10-1 (mit dem korrigierten Text)."
+   },
+   {
+    "id": "konto-12-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Genau Regel 5. Bedingung: `c.own.length || c.coached.length || c.groups.length`. Passt zu README:163: Adresse und Einwilligung stehen in der Coach-Übersicht, sobald es etwas zu melden gibt. Die Adresse wird beim Verlassen aller Gruppen ohnehin gelöscht. Gespeicherte Werte bleiben."
+   },
+   {
+    "id": "konto-13-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Eine Regel für konto-13-1, 14-1 und 15-3 (coach.js:53): `const anyGroup = c.own.length + c.coached.length + c.groups.length > 0`. Klasse von „+ Gruppe“ = anyGroup ? 'btn sm' : 'btn sm primary'. Gefüllt ist der Knopf also nur in der wirklich leeren Übersicht (in keiner Rolle eine Gruppe), sonst umrandet. Das gilt auch für Co-Coaches und reine Schüler.",
+    "anmerkung": "Damit ist die Stufe für dieselbe Aktion in allen Rollen einheitlich."
+   },
+   {
+    "id": "konto-13-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "coach.js:42 und 43 (eigene Gruppen und Co-Coach-Gruppen): `<a class=\"btn sm\" href=\"#/coach/g/ID\">Öffnen</a>` → `<a class=\"btn ghost icon sm\" href=\"#/coach/g/${esc(g.id)}\" aria-label=\"Öffnen\" data-tip=\"Öffnen\">${I.chevR}</a>`. Der Name bleibt Link (a.coach-name). „Link“ bleibt ghost. KEINE klickbare ganze Zeile: .coach-row ist ein div ohne Hover-Stil, dafür bräuchte es neues Styling.",
+    "anmerkung": "Der Titel verspricht „ganze Zeile als Ziel“, die Beschreibung setzt das aber nicht um. Korrigiert auf den reinen Tausch des Knopfs, der allein die Reihe umrandeter Knöpfe auflöst."
+   },
+   {
+    "id": "konto-13-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "coach.js:77: .coach-mailrow und mailHint mit `hidden` rendern, wenn `!n.notify_email` ([hidden] ist global display:none !important, app.css:103). Aktion 'coach-mail-toggle' steht in coach.js:364, nicht in 357. Nach dem Setzen von aria-checked: `const row = f.querySelector('.coach-mailrow'); row.hidden = !on; if (on) row.querySelector('input').focus();`. Beim Ausschalten, wenn der gespeicherte Stand an war (Co.data().notify.notify_email), direkt `Co.saveNotify(email, false)` mit Toast „Gespeichert“. Ohne Neuaufbau, damit der Schalter gleitet (glideSwitch).",
+    "anmerkung": "Vorbild ist das Regelwerk im Schatten-Ich (README:225f.: „die Eingaben erscheinen nur bei eingeschalteten Regeln“). Die Einwilligung bleibt der Schalter."
+   },
+   {
+    "id": "konto-13-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notifyCard (coach.js:70-80): Der Kartentitel „Benachrichtigungen“ bleibt. Der Zustand steht als Zusatz (o.sub): „E-Mail an/aus · Browser an/aus“. Das Formular steckt in `<details class=\"ct-done\" ${s.notifyOpen ? 'open' : ''}><summary class=\"small muted\">Ändern</summary>…</details>` (Muster coach.js:66, app.css:2934-2938). Wichtig: 'coach-browser-toggle' und 'coach-notify-save' rufen App.rerender() auf und würden das Fenster wieder zuklappen. Beide setzen deshalb vorher `st().notifyOpen = true`. Neue Texte „Ändern“, „E-Mail an/aus“, „Browser an/aus“ in js/lang/*.js.",
+    "anmerkung": "Zusätzlich zu konto-13-3. Ohne den gemerkten Offen-Zustand klappt der Abschnitt bei jedem Schalter zu, das wäre ein Fehler."
+   },
+   {
+    "id": "konto-14-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "hub() (coach.js:50-57): Für reine Schüler (c.groups.length > 0, c.own.length + c.coached.length === 0) gilt: Mit offenen Aufgaben steht zuerst tasksCard() (volle Breite), dann das Raster mit „Als Schüler“ links und „Als Mentor“ rechts. Ohne offene Aufgaben steht zuerst das Raster (Schüler, Mentor), danach tasksCard(). „+ Gruppe“ ist nach der Regel aus konto-13-1 umrandet. Mentoren und gemischte Rollen bleiben wie heute.",
+    "anmerkung": "Ergänzt, dass eine leere Aufgabenkarte („Noch keine Aufgaben“) nicht ganz oben stehen soll. tasksCard wird für Schüler immer gerendert (coach.js:56)."
+   },
+   {
+    "id": "konto-14-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "coach.js:48: Bei unread > 0 wird aus dem Textlink `<a class=\"btn sm\" href=\"#/notebook\">Im Notebook ansehen</a>`, also SEKUNDÄR (umrandet), nicht primär. Ohne ungelesene bleibt der Textlink. Der vorhandene Text wird weiter genutzt, es braucht keine neue Übersetzung.",
+    "anmerkung": "Ein gefüllter grüner Knopf, der ins Notebook wegführt, wäre neben der offenen Aufgabe (nach konto-14-1 erste Karte, der Coach-Punkt meldet Aufgaben, coach.js:249) eine zweite Hauptaktion (Regel 1). Grün ist außerdem für Gewinn und Trade loggen reserviert. „2 neue Notizen“ wäre zudem ungenau, weil Co.unread() auch Antworten zählt."
+   },
+   {
+    "id": "konto-14-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "coach.js:46: „Verlassen“ wird ersetzt durch `<div class=\"popwrap\"><button type=\"button\" class=\"btn ghost icon sm\" data-pop=\"coachrow-${esc(m.group_id)}\" aria-label=\"Mehr\">${I.more}</button><div class=\"popover right\" id=\"pop-coachrow-${esc(m.group_id)}\"><button class=\"item\" data-action=\"coach-sync-now\">${I.replay} Jetzt abgleichen</button><hr><button class=\"item danger\" data-action=\"coach-leave\" data-id=… data-name=…>${I.close} Gruppe verlassen</button></div></div>`. Die Zeile coach.js:47 erscheint nur bei Co.state.syncing oder Co.state.lastError. Bei einem Fehler bleibt der Ghost-Knopf „Jetzt abgleichen“ dort sichtbar, weil man ihn genau dann braucht. 'coach-leave' und 'coach-sync-now' rufen zuerst App.closePopovers() auf: Ein Klick im Popover schließt es nicht (app.js:276), sonst bleibt das Menü hinter dem Bestätigungsdialog offen. Neuer Text „Gruppe verlassen“ in js/lang/*.js.",
+    "anmerkung": "Der Abgleich läuft automatisch alle 2 Minuten (README:164), der Knopf ist also wirklich selten nötig. Verlassen bleibt mit Bestätigung erreichbar."
+   },
+   {
+    "id": "konto-14-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Nur die Zusammenfassung von konto-13-3 und 13-4, keine eigene Umsetzung."
+   },
+   {
+    "id": "konto-15-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Änderung wie konto-14-1 (mit der Bedingung „offene Aufgaben zuerst“)."
+   },
+   {
+    "id": "konto-15-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Zusammenfassung von konto-12-1, 13-3 und 13-4. Die „~580 px“ gelten nur für die leere Übersicht (Karte ganz weg). Mit Gruppen ist die Ersparnis kleiner."
+   },
+   {
+    "id": "konto-15-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Wie konto-13-1 (einheitliche Regel) und konto-13-2 (nur Chevron, keine klickbare Zeile)."
+   },
+   {
+    "id": "konto-16-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "group() coach.js:109: `invite` nur rendern, wenn `token && g && !g.students.length`. Nicht schon während des Ladens, sonst blitzt die Leiste bei vollen Gruppen auf. Im Besitzer-Menü (coach.js:115) als erster Eintrag `<button type=\"button\" class=\"item\" data-action=\"coach-copy-link\" data-token=\"${esc(token)}\">${I.copy} Einladungslink kopieren</button>`. 'coach-copy-link' (coach.js:278) ruft zuerst App.closePopovers() auf. Schlägt das Kopieren in der Gruppenansicht fehl, setzt es `st().showInvite = true; App.rerender()`, und die Leiste mit dem markierbaren Link erscheint. Sonst verweist der Toast „bitte den Link markieren“ ins Leere. Der Ghost-Knopf „Link“ je Gruppe in der Übersicht bleibt.",
+    "anmerkung": "Die Funktion bleibt mit einem Klick mehr erreichbar. Gut für laufende Kurse mit Nachzüglern."
+   },
+   {
+    "id": "konto-16-2",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt, weil es keine Verbesserung nach den 5 Regeln ist. a.coach-name sieht im Ruhezustand aus wie Text (Farbe --text) und färbt sich erst beim Darüberfahren. Den Hover hat die Zeile über tr.link schon heute (app.css:599-600). Zudem ändert sich das Gewicht von 700 (.tbl .sym, Onest) auf 600 (.coach-name), also ein Stilwechsel. Einziger Gewinn wäre ein fokussierbares Ziel für die Tastatur, das gehört in ein Barrierefreiheits-Audit."
+   },
+   {
+    "id": "konto-16-3",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. „Aktualisieren“ ist schon tertiär (ghost). Die Gruppenansicht lädt nur beim Betreten frisch und fragt danach nicht selbst nach. Man braucht den Knopf also, um zu sehen, ob neue Einträge da sind oder jemand beigetreten ist (konto-17-2 behält ihn deshalb selbst). Ins Menü verschoben stünde dieselbe Aktion in der Gruppe im Menü, in der Journal-Ansicht (coach.js:155) aber im Kopf, und im Leerzustand wieder im Kartenkopf. Das widerspricht „gleiche Aktion = gleiche Stufe“. Ein deaktivierter Ladezustand wäre im Menü außerdem kaum sichtbar."
+   },
+   {
+    "id": "konto-17-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "coach.js:109: Im Leerzustand (Besitzer, g geladen, g.students.length === 0) bekommt der vorhandene Knopf „Kopieren“ der Einladungsleiste die Klasse 'btn sm primary' statt 'btn sm'. Mit Schülern verschwindet die Leiste ganz (konto-16-1). Der Leerzustand (coach.js:112) bekommt KEINEN zweiten Kopieren-Knopf, sein Satz verweist schon auf den Link. Co-Coaches (kein Token) haben weder Leiste noch Knopf.",
+    "anmerkung": "Der Vorschlag erzeugte zwei Knöpfe für dieselbe Aktion (gefüllt unten, umrandet oben), das ist Regel 4. Die Leiste muss bleiben, weil der markierbare Link der Ausweg ist, wenn das Kopieren scheitert. Also wird ihr Knopf zum Hauptknopf. Er passt zur Stufe in konto-24-1 (Kopieren des Links im Co-Coach-Dialog primär)."
+   },
+   {
+    "id": "konto-17-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Genau Regel 5 (keine Filter bei leerer Liste). Bedingung: `rows && rows.length`. Die Gruppen-Statistik ist ohne Schüler schon heute leer (groupStats, coach.js:91). „Aktualisieren“ bleibt im Kartenkopf."
+   },
+   {
+    "id": "konto-18-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Besitzer-Menü (coach.js:115) in dieser Reihenfolge: Einladungslink kopieren (neu, aus konto-16-1), Neuen Einladungslink erzeugen, Co-Coaches, Umbenennen, Trennlinie, Gruppe schließen. KEIN „Aktualisieren“ und kein „Aufgabe an alle“ (siehe Ablehnung von konto-16-3 und konto-19-3). Co-Coach-Menü unverändert.",
+    "anmerkung": "Nur der Teil, der zu konto-16-1 gehört, wird bestätigt. Die Einladungs-Einträge stehen zusammen oben."
+   },
+   {
+    "id": "konto-19-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Nur am Handy: In der Handy-Regel (max-width 560px) `.coach-gstats { order: 1; }`. .coach-wrap ist flex column (app.css:2849), die Statistik rückt damit hinter die Schüler-Karte. Am Desktop bleibt „Gruppe im Überblick“ über der Tabelle.",
+    "anmerkung": "Am Desktop gilt in der ganzen App das Muster „Kennzahlen, dann Tabelle“ (Affiliate, Dashboard, Prop), und bei 1440 px sind beide sichtbar. Der Vorschlag ließ offen, ob das nur am Handy gilt, jetzt ist das festgelegt. Der Zeitraum-Schalter steht in der Schüler-Karte und damit weiter über der Statistik, die von ihm abhängt."
+   },
+   {
+    "id": "konto-19-2",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Änderung wie konto-16-1 (mit dem Ausweg beim Kopierfehler). Am Handy ist sie am wirksamsten."
+   },
+   {
+    "id": "konto-19-3",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. „Aufgabe an alle“ ist eine echte, häufige Mentor-Aktion, und „Aktualisieren“ bleibt (siehe konto-16-3). Nur am Handy ins Menü verschoben, hinge die Stufe derselben Aktion von der Breite ab. Das eigentliche Problem ist das mehrdeutige ✓ ohne Text. Das ist eine Frage der Verständlichkeit, nicht von Hick: Am Handy könnte „Aufgabe an alle“ seinen Text behalten (hide-m nur am ⟳-Text). Das gehört aber nicht zu diesem Audit."
+   },
+   {
+    "id": "konto-20-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "entryHTML (coach.js:140): Den Knopf „Notiz senden“ mit `hidden` rendern, wenn `!(s.draft[e.id] || '').trim()` ([hidden] ist global display:none !important, app.css:103). 'coach-note-draft' (coach.js:296, nicht 286) setzt zusätzlich zu disabled `btn.hidden = !el.value.trim()`. Nach dem Senden baut sich die Seite ohnehin neu auf, der Entwurf ist leer und der Knopf wieder versteckt.",
+    "anmerkung": "Damit ist immer nur der gefüllte Knopf sichtbar, an dem man gerade schreibt. Funktion und Ablauf bleiben."
+   },
+   {
+    "id": "konto-20-2",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "studentTasks (coach.js:148): Das Formular coach-taskform entfällt. Im Kartenkopf (trailing) steht stattdessen `<button type=\"button\" class=\"btn sm ghost\" data-action=\"coach-task-one\" data-gid data-sid data-name>${I.check}<span>Aufgabe geben</span></button>`, in derselben Stufe und mit demselben Symbol wie „Aufgabe an alle“ (coach.js:121). taskAllModal (coach.js:268) wird zu taskModal(gid, sid, name) verallgemeinert: Titel sid ? `Aufgabe an <span class=\"no-i18n\">${esc(name)}</span>` : 'Aufgabe an alle'. Das Formular bekommt data-action sid ? 'coach-task-add' : 'coach-task-all-save' samt data-gid/data-sid. Der Satz „Jeder Schüler bekommt sie einzeln …“ steht nur bei „an alle“. 'coach-task-add' (coach.js:333) ruft nach Erfolg zusätzlich U.closeModal() auf. Neuer Text „Aufgabe an“ in js/lang/*.js.",
+    "anmerkung": "Präzisiert: Stufe ghost statt umrandet, damit dieselbe Aktion in Gruppe und Journal gleich aussieht. Wiederverwendet wird die vorhandene Aktion statt eines neuen Endpunkts. Die Aufgabenliste bleibt sichtbar."
+   },
+   {
+    "id": "konto-20-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "thread() (coach.js:32-36): Die Zeile .mr-write wird mit `hidden` gerendert, wenn `!list.length && !d.trim()`. Davor steht dann `<button type=\"button\" class=\"btn xs ghost\" data-action=\"coach-reply-open\">${I.chat} Antworten</button>`. Die neue Aktion 'coach-reply-open' schaltet nur im DOM um, OHNE Neuaufbau: `const w = el.nextElementSibling; w.hidden = false; el.hidden = true; w.querySelector('textarea').focus();`. Das ist wichtig, weil notesBlock im Notebook unter dem Editor steht und ein Neuaufbau ihn stören würde. Gilt für beide Kontexte (mentor und student).",
+    "anmerkung": "Ergänzt um den Umbau ohne Neuaufbau und den genauen Auslöser."
+   },
+   {
+    "id": "konto-20-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "noteHTML (coach.js:128): „Bearbeiten“ und „Löschen“ werden zu `<button type=\"button\" class=\"btn xs ghost\" data-action=… aria-label=\"Bearbeiten\" data-tip=\"Bearbeiten\">${I.edit}</button>` bzw. dasselbe mit I.trash und „Löschen“. Klassen exakt wie beim Löschen einer Antwort (coach.js:35), dort ohne die Klasse 'icon'.",
+    "anmerkung": "Nach vorhandenem Muster, eine kleine Wirkung."
+   },
+   {
+    "id": "konto-20-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "U.info(text) (ui.js:169) hinter dem Schülernamen in .coach-head (coach.js:155). Außerhalb von Karten ist das Symbol dauerhaft dezent sichtbar (app.css:492, 496), der Text bleibt also auffindbar. Den Absatz coach.js:160 entfernen."
+   },
+   {
+    "id": "konto-21-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Änderung wie konto-20-1 (coach.js:140, 296)."
+   },
+   {
+    "id": "konto-21-2",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Änderung wie konto-20-2 (Ghost-Knopf, taskModal mit sid)."
+   },
+   {
+    "id": "konto-21-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Dieselbe Änderung wie konto-20-3 (Umschalten im DOM ohne Neuaufbau)."
+   },
+   {
+    "id": "konto-24-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Erfüllt die Vorgabe „alle Dialoge: genau ein gefüllter Hauptknopf“. Gleiche Stufe wie der Kopieren-Knopf der Einladungsleiste im Leerzustand (konto-17-1). „Fertig“ bleibt umrandet, „Neuen Link erzeugen“ und „Entfernen“ bleiben ghost."
+   },
+   {
+    "id": "konto-25-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "taskAllModal bzw. taskModal (coach.js:270): Das Feld ct-all-due steckt in `<details class=\"ct-done\"><summary class=\"small muted\">Fällig am (optional)</summary><div class=\"field\"><input class=\"input\" id=\"ct-all-due\" type=\"date\" name=\"due\" aria-label=\"Fällig am\"></div></details>`. Das ist das vorhandene Muster aus coach.js:66 und app.css:2934-2938, und der vorhandene Text wird weiter genutzt, ohne neue Übersetzung. Das gilt auch für den Einzel-Aufgaben-Dialog aus konto-20-2.",
+    "anmerkung": "Statt eines neuen Texts „+ Fälligkeit“ dient die vorhandene Beschriftung als Zusammenfassung (das ▸ setzt das CSS davor). Der Dialog fragt dann genau eine Sache."
+   },
+   {
+    "id": "konto-28-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Kommt automatisch mit konto-20-3. Wichtig ist dort das Umschalten im DOM ohne App.rerender(), weil notesBlock (coach.js:241-243) im Notebook unter dem Editor steht."
+   }
+  ],
+  "screen_korrekturen": "konto-3 (Coupons leer): Den Zustand gibt es praktisch nicht. PD.COUPONS steht fest im Code (3 Einträge), der Nutzer kann keine Codes anlegen. Also ohne eigene Hauptaktion lassen, nur die Kopfreihe bereinigen (konto-1-1).\nkonto-4 (Affiliate, Alle Creator): „Name-Knopf und Chevron, die dasselbe tun“ ist keine Hick-Konkurrenz, weil beide dieselbe Aktion auslösen. Die echten Konkurrenten sind „Trade loggen“ (Akzent) und ▷.\nkonto-5 (Affiliate, Handy): Das Öffnen funktioniert schon heute durch Antippen des Namens (aff-name), es ist nur schlecht erkennbar. Der Chevron bleibt aus Platzgründen verborgen (README:275).\nkonto-8 (Creator ohne Kunden): Mit den Beispieldaten nicht erreichbar, Affiliate ist „nur Oberfläche“.\nkonto-13 (Mentor, Übersicht voll): optisch_klar=false stimmt. Nach den Änderungen hat der Bildschirm keinen gefüllten Knopf mehr, Hauptziel sind die Gruppenzeilen (Name oder Chevron). Das ist für eine Liste so gewollt.\nkonto-14 (Schüler, Übersicht voll): Es darf nur EINE Hauptaktion geben, nämlich „Offene Aufgabe abhaken“. Der Coach-Punkt meldet Aufgaben (coach.js:249), neue Notizen haben ihren eigenen Punkt am Notebook. „Neue Notizen lesen“ ist nur Nebenweg (sekundär).\nkonto-16 (Gruppe voll): „Aktualisieren“ ist nicht überflüssig. Die Gruppenansicht lädt nur beim Betreten frisch und fragt danach nicht selbst nach. Der Abgleich alle 2 Minuten gilt nur für die Schülerseite.\nkonto-17 (Gruppe leer): Die Hauptaktion „Einladungslink kopieren“ ist der vorhandene Knopf der Einladungsleiste, kein zweiter Knopf im Leerzustand.\nQuerschnitt: (1) Jede Textänderung (konto-4-4, 6-2, 8-1, 10-1, 13-4, 14-3, 20-2) braucht Einträge in js/lang/en, es, hi, pt und zh.js, weil die Übersetzung am deutschen Text hängt. (2) Menü-Einträge in Popovers (konto-14-3, 16-1) müssen App.closePopovers() aufrufen, weil ein Klick im Popover es nicht schließt (app.js:276). (3) README nachziehen: Kopfreihe von Coupons und Affiliate, die „Beispiel“-Marke, Kennzahlen bei Affiliate und Benachrichtigungen beim Coach. (4) Die Zeilenangaben der Analyse zu coach.js sind teils verschoben: coach-note-draft steht in Zeile 296, coach-mail-toggle in Zeile 364."
+ }
+}

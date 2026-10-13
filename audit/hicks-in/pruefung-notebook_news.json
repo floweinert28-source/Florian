@@ -1,0 +1,407 @@
+{
+ "fakten": {
+  "urteile": [
+   {
+    "id": "notebook_news-1-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Richtung stimmt, aber eine Begründung ist falsch. „Kehrt sich auf dem Handy um (FAB voll grün)“ trifft nicht zu. `.btn.accent` (app.css:3137, steht weiter unten, gleiche Spezifität) überschreibt Hintergrund und Rand von `.dash-head .tl` (app.css:3019). Der FAB erscheint deshalb als dunkler Kreis mit grünem Ring und grünem „+“ (dark-390/notebook.png, Ausschnitt geprüft). Auch auf dem Desktop ist „Trade loggen“ nicht gefüllt: Fläche `--surface`, grüner Verlaufsrand, grüne Schrift. „Neue Notiz“ ist also auf beiden Breiten schon heute der einzige gefüllte Knopf. Der Vorschlag ist eine Rahmenentscheidung ohne Codeänderung, deshalb Wirkung 2 statt 1.",
+    "beschreibung_neu": "Entscheidung ohne Codeänderung: „Neue Notiz“ (`.btn.sm.primary`, notebook.js:61) bleibt der einzige gefüllte Knopf im Notebook. „Trade loggen“ (`.btn.accent`) ist auf Desktop und Handy schon heute nur umrandet mit grünem Licht (app.css:3137; der FAB-Füllstil in app.css:3019 greift nicht) und konkurriert nur über die Farbe, nicht über die Füllung. Daraus folgt: kein zweiter gefüllter Knopf (siehe 4-1) und kein zweites grünes „+“ mit anderer Bedeutung (siehe 5-1). Der Nutzer muss nur bestätigen, dass ein gefüllter `.btn.primary` je Bereich neben „Trade loggen“ mit der Vorgabe „Grün nur für Gewinn und Trade loggen“ vereinbar ist (README:203)."
+   },
+   {
+    "id": "notebook_news-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Auf dem Desktop übertrieben. „Ordner hinzufügen“ ist `.btn.sm` mit grauem Rahmen, also schon sekundär, und Regel 4 ist erfüllt. Von „spiegelt exakt Form, Breite und Position“ stimmen nur Größe und Lage, die Füllung nicht. Es ist dieselbe Änderung wie 7-1, wo die Wirkung größer ist; bitte nur einmal zählen. Technisch ist `.sec-h` selbst ein `<button>` (notebook.js:53). Das „+“ darf darum nicht hinein, sondern muss als Geschwister in eine gemeinsame Zeile (Flex-Wrapper).",
+    "beschreibung_neu": "notebook.js:52: den Knopf „Ordner hinzufügen“ aus `.col-head` entfernen. notebook.js:53: den Abschnittskopf `.sec-h` „Ordner“ zusammen mit einem `.btn.ghost.icon.sm` (`I.plus`, `data-action=\"nb-folder-add\"`, `data-tip=\"Ordner hinzufügen\"`) in eine Flex-Zeile legen (Geschwister, nicht verschachtelt, denn `.sec-h` ist ein button). Im Spaltenkopf bleibt nur das Einklappen."
+   },
+   {
+    "id": "notebook_news-1-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Bei 1440 bricht die Werkzeugleiste um, „Bild“ steht allein in Zeile 2 (dark-1440/notebook.png, flex-wrap in app.css:1079). Es sind 14 Bedienelemente, nicht 15: ↶ ↷ + Text −/16/+ B I U S Farbe Marker Bild. Der Vorschlag berührt die bewusst nach TradePath gebaute Leiste (editor.js:1-3, README:123), der Nutzer muss also zustimmen. Den Zustand in localStorage zu speichern ist nach BRIEF erlaubt (Komfort pro Betrachter, mit try/catch)."
+   },
+   {
+    "id": "notebook_news-1-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (notebook.js:47, `tags` ist in :45 schon vorhanden). Überschneidet sich mit 4-2 (Filter ab 2 Notizen) und 15-1 (Tag-Feld). Bitte nur einmal umsetzen."
+   },
+   {
+    "id": "notebook_news-2-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Funktionslücke ist echt, aber nur bis 560 px: app.css:3009 liegt im Block `@media (max-width: 560px)`. Zwischen 561 und 960 px bleibt der Knopf als reines Symbol (`.hide-m`). README:96 dokumentiert „Teilen nur ab 561px“ als Absicht, einen Ersatz im …-Menü gibt es aber nicht (notebook.js:74). Dieselbe Änderung wie 6-3 und Teil von 10-1."
+   },
+   {
+    "id": "notebook_news-2-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt: 5 Ordner, dann Duplizieren, Aus Datei laden, Export und PDF, dann Löschen, also 10 Einträge. Der Umsetzungsweg ist so aber nicht möglich. `closePopovers(except)` (app.js:172) schließt beim Öffnen eines Popovers alle anderen. Ein `#pop-nbmove`-Popover, das aus `#pop-nbmenu` heraus geöffnet wird, schließt also das Elternmenü, in dem es steckt. Aufwand eher S–M.",
+    "beschreibung_neu": "notebook.js:74: statt der Ordnerliste ein Eintrag „In Ordner verschieben …“ (`data-action=\"nb-menu-move\"`). Die Aktion setzt `nb.menuMove = true` und `nb._openPop = 'nbmenu'` und baut neu auf; das Muster gibt es schon bei nb-date-nav, :95/:152. Das Menü zeigt dann dieselbe Fläche mit „← Zurück“ und den Ordnern (`data-action=\"nb-move\"`). Kein verschachteltes Popover, weil closePopovers (app.js:172) das Elternmenü schließen würde."
+   },
+   {
+    "id": "notebook_news-3-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Vorschlag ist richtig, die Bedingung im Vorschlag aber falsch. Eine neue Notiz unter „Alle“ ist eine Tagesnotiz mit Datumstitel (notebook.js:136, extra-dark-1440/notebook_neu.png: Titel „So, 11. Okt 2026“). `cur.title || …` wäre dort also wahr, und nichts würde ausgeblendet. Außerdem baut `flush` die Kopfzeile nicht neu auf (:101). Teilen würde nach dem Tippen erst beim nächsten Notizwechsel erscheinen.",
+    "beschreibung_neu": "notebook.js:74: `const hasContent = !!S.deltaText(cur.content).trim();` (nur der Inhalt, nicht der Titel, weil Tagesnotizen automatisch einen Datumstitel tragen). Ohne Inhalt: kein Teilen (bzw. Menüeintrag), keine Einträge Duplizieren, Exportieren (JSON), Als PDF. Verschieben, Aus Datei laden und Löschen bleiben. Im `onChange` des Editors (:90) beim ersten Inhalt die Klasse an `.note-head` umschalten (z. B. `.empty-note` mit `display:none` für die markierten Einträge), damit die Einträge sofort erscheinen und nicht erst beim nächsten Neuaufbau."
+   },
+   {
+    "id": "notebook_news-3-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt (notebook.js:136, notebook_neu.png). Zusätzlich verwirrend: Gibt es die heutige Tagesnotiz schon, legt „Neue Notiz“ eine zweite Notiz mit demselben Datumstitel an (`S.addNote({type:'day', title: S.dayTitle(key)})`)."
+   },
+   {
+    "id": "notebook_news-4-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Bestätigt (notebook.js:61 und :66). Der Zustand ist aber häufiger als beschrieben: `cur` ist null, sobald die aktuelle Liste leer ist und keine Notiz gewählt ist. Das passiert bei jedem leeren Ordner und vor allem direkt nach „Ordner hinzufügen“, weil nb-folder-save in den neuen, leeren Ordner wechselt und `note = null` setzt (:159). Bei 0 Notizen insgesamt tritt der Fall natürlich auch ein.",
+    "beschreibung_neu": "notebook.js:66: im leeren Zustand der rechten Spalte den Knopf von `.btn.sm.primary` auf `.btn.sm` (Rahmen) setzen. Tritt auf in jedem leeren Ordner, besonders direkt nach dem Anlegen eines Ordners (:159 wechselt in den neuen leeren Ordner), nicht nur bei 0 Notizen. Der gefüllte „Neue Notiz“ bleibt allein im Spaltenkopf (:61)."
+   },
+   {
+    "id": "notebook_news-4-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Bestätigt (extra-dark-1440/leer_notebook.png: Haken und Pfeil neben „Neue Notiz“ bei einer einzigen Notiz). Sortieren wird sogar bei 0 Notizen gezeigt (:61, ohne Bedingung). `notes` ist die gefilterte Liste; bei genau einem Suchtreffer verschwinden Auswählen und Sortieren also auch, das ist vertretbar. Überschneidet sich mit 1-4."
+   },
+   {
+    "id": "notebook_news-4-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt, die Wirkung ist kleiner als angegeben: Kopf und „Noch keine Tags“ stehen klein und blass da (leer_notebook.png). Die Umsetzung hat eine Lücke: refreshTags (:36) aktualisiert `.nb .tagpills` nur, wenn das Element existiert, und nb-tag-toggle, nb-tag-new und nb-tag-remove (:167-169) bauen nicht neu auf. Der Tags-Abschnitt würde beim ersten Tag also nicht erscheinen.",
+    "beschreibung_neu": "notebook.js:55-56: `.sec-h` „Tags“ und `.tagpills` nur rendern, wenn `tags.length > 0`. In nb-tag-toggle, nb-tag-new und nb-tag-remove (:167-169) zusätzlich `App.rerender()` aufrufen, wenn die Tag-Anzahl von 0 auf 1 (oder von 1 auf 0) wechselt, weil refreshTags (:36) den Abschnitt sonst nicht anlegt bzw. nicht entfernt."
+   },
+   {
+    "id": "notebook_news-4-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt (notebook.js:54, :57). Der Platzhalter kann auch ohne 1-2 wegfallen, weil „Ordner hinzufügen“ dann weiter im Spaltenkopf steht. Beim Mehrfach-Löschen (:142) fehlt der Toast; den Papierkorb nennt nur der Bestätigungsdialog. Das reicht, ist aber kein Hinweis „nach dem Löschen“."
+   },
+   {
+    "id": "notebook_news-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Änderung ist sinnvoll, die Begründung aber sachlich falsch. Der FAB ist nicht „voll grün“ und nicht „der kräftigste Punkt“. Er erscheint als dunkler Kreis mit grünem Ring, weil `.btn.accent` (app.css:3137) `background` und `border-color` aus `.dash-head .tl` (3019) überschreibt (gleiche Spezifität, steht später). „Neue Notiz“ (gefüllt, volle Breite) ist klar das Stärkste. Problem ist ein zweites grünes „+“ mit anderer Bedeutung, kein gleich gewichteter Primärknopf. In der Aufnahme liegt der FAB über dem leeren rechten Teil der Zeile „Mi, 16. Sep 2026“ und verdeckt keinen Text. Deshalb Wirkung 2 statt 1.",
+    "beschreibung_neu": "app.css:3017: `.content:has(.nb[data-view=\"note\"]) .dash-head .tl { display:none; }` auf `.content:has(.nb) .dash-head .tl { display:none; }` erweitern (Ordner-, Listen- und Notiz-Ansicht). Begründung: Der (heute umrandet dargestellte) FAB ist ein zweites grünes „+“ mit anderer Bedeutung als „+ Neue Notiz“. „Trade loggen“ bleibt auf allen anderen Screens erreichbar."
+   },
+   {
+    "id": "notebook_news-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Der Befund stimmt (dark-390/notebook_notiz.png: ↶ ↷ | + | Text | −16+, danach ist Schluss). Weil die Bildlaufleiste ausgeblendet ist (`scrollbar-width:none`), merkt man kaum, dass B/I/U existieren. Zwei Korrekturen: Die Regel steht in `@media (max-width: 560px)` (app.css:2978–…, Zeile 3014), nicht in 960. Und Rückgängig ganz ans Ende zu schieben ist auf dem Handy fragwürdig, weil dort Strg+Z fehlt und der Knopf der einzige Weg ist.",
+    "beschreibung_neu": "Im Block `@media (max-width: 560px)` (app.css:3014) per `order` umsortieren: Einfügen-Popwrap (`.popwrap:has([data-pop$=\"insert\"])`), `.popwrap:has(.turn)`, `[data-ed=bold|italic|underline]`, Bild-Popwrap → order 0; `[data-ed=undo]`, `[data-ed=redo]` → order 1 (auf dem Handy ohne Tastenkürzel nötig, darum nicht ganz ans Ende); `.size`, `[data-ed=strike]`, Farbe- und Marker-Popwraps → order 2; `.sep` entsprechend zuordnen oder ausblenden. Desktop bleibt unverändert."
+   },
+   {
+    "id": "notebook_news-6-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt (Zeile Suche/Filter/▷ über der Notizkarte). Der Gewinn beschränkt sich auf etwa 50 px Höhe beim Schreiben; die drei Elemente sind ruhig. Achtung: Bei laufender Session steht in `.page-head` auch der Session-Timer mit „Session beenden“ (app.js:249). Mit `.page-head` verschwände er beim Schreiben. Dann besser nur `.dh-context` ausblenden."
+   },
+   {
+    "id": "notebook_news-6-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Dublette von 2-1 (und Teil von 10-1), nur einmal zählen. Gilt für Breiten bis 560 px."
+   },
+   {
+    "id": "notebook_news-7-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Bestätigt aus dem Code: Bis 960 px ist `.collapse-left` ausgeblendet (app.css:1071). In der Ordneransicht ist „Ordner hinzufügen“ dann der einzige Knopf im Spaltenkopf und das erste Element. Dieselbe Code-Änderung wie 1-2 (dort Hinweis zu `.sec-h` als button)."
+   },
+   {
+    "id": "notebook_news-8-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt, die vorgeschlagene Klasse funktioniert aber nicht. `.btn.ghost` (app.css:278) überschreibt `.btn.danger` (276), weil beide gleich spezifisch sind und ghost später steht. Rot bleibt `.btn.ghost.danger` nur in `.nb .sel-row` (app.css:1011). Im Spaltenkopf würde „Leeren“ grau (`--text-2`) und verlöre das Warnsignal.",
+    "beschreibung_neu": "notebook.js:61: „Leeren“ als `.btn.sm.ghost` mit `<span class=\"neg\">Leeren</span>` (Muster aus :74), alternativ den Selektor app.css:1011 um `.nb .col-head .btn.danger.ghost` ergänzen (kein neuer Stil, nur Wiederverwendung). notebook.js:67: „Endgültig löschen“ ebenso `.btn.sm.ghost` + `.neg`. „Wiederherstellen“ bleibt der einzige gefüllte Knopf; die Bestätigungen (:147, :150) bleiben."
+   },
+   {
+    "id": "notebook_news-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Beschreibung stimmt (:61-62: „Fertig“ ist `.btn.xs` mit Rahmen, Verschieben und Löschen sind Ghost-Symbole, Löschen rot über app.css:1011). Der Modus wird selten benutzt, darum Wirkung 3. Nebeneffekt: Der gedrückte Auswählen-Umschalter wird heute grün (`color: var(--accent); background: var(--accent-soft)`, app.css:1012). Das ist eine grüne Auswahlmarkierung, die der Nutzer abgelehnt hat; ersetzt die Auswahlzeile den Spaltenkopf, verschwindet sie."
+   },
+   {
+    "id": "notebook_news-10-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Fasst 2-1, 2-2 und 6-3 zusammen; bitte nur diese Fassung umsetzen. Für den zweiten Schritt gilt dieselbe Einschränkung wie bei 2-2: Kein verschachteltes Popover (app.js:172 schließt das Elternmenü), sondern den Inhalt des Menüs an Ort und Stelle tauschen (Muster `nb._openPop`, notebook.js:95/152)."
+   },
+   {
+    "id": "notebook_news-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt: Beide Einträge rufen folderModal auf (:51, :156); „Farbe ändern“ setzt nur `colorOnly`, sodass der Name schreibgeschützt ist."
+   },
+   {
+    "id": "notebook_news-12-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt, die Umsetzung hat aber eine Falle. Ohne Namensfeld liefert `fd.get('name')` nichts, und nb-folder-save bricht still ab (`if (!name) return;`, notebook.js:159). Entfällt, wenn 11-1 umgesetzt wird.",
+    "beschreibung_neu": "notebook.js:116: bei `colorOnly` das sichtbare Namensfeld durch `<input type=\"hidden\" name=\"name\" value=\"…\">` ersetzen (der Name wird zum Speichern gebraucht, :159). Der Name steht in der Überschrift („Farbe für „Strategie““). Entfällt mit 11-1."
+   },
+   {
+    "id": "notebook_news-14-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt (notebook.js:170: „Link kopieren“ `.btn`, „Öffnen“ `.btn.primary`). Die Gewichtung ist vertauscht, der Dialog wird aber selten geöffnet, darum Wirkung 3 statt 2."
+   },
+   {
+    "id": "notebook_news-15-1",
+    "bestaetigt": false,
+    "wirkung": 3,
+    "anmerkung": "Im Kern falsch. Das Ordner-Feld im Filter doppelt die linke Spalte nicht. Die Suche ignoriert den gewählten Ordner (`nb.folder … && !q`, notebook.js:12; Hinweis „Suche über alle Ordner“, :63). Nur der Filter-Ordner (:13) wirkt auch bei der Suche, er ist der einzige Weg, innerhalb eines Ordners zu suchen. Ihn auszublenden entfernt eine Funktion. Das Tag-Feld doppelt dagegen die Tag-Pillen (`nb.tag || f.tag`, :14), dafür reicht der Teil aus 1-4.",
+    "beschreibung_neu": "notebook.js:47: nur das Feld „Tag“ ausblenden, wenn `tags.length === 0` (= Teil von 1-4). Das Feld „Ordner“ bleibt, weil es als Einziges die Suche (die über alle Ordner läuft, :12/:63) auf einen Ordner eingrenzt."
+   },
+   {
+    "id": "notebook_news-17-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt und sogar größer als angegeben: Es gibt 10 Dubletten, nicht 8 (Absatz/Text, Ü1–Ü3, 3 Listen, Aufklappbar, Code, Zitat). Beide Menüs rufen dieselben Handler auf (editor.js:172-175); „Einfügen → Überschrift“ fügt also nichts ein, sondern wandelt die Zeile um. Zwei Kleinigkeiten: In der Analyse soll „Aufklappbar“ im „+“ bleiben, der Vorschlag streicht die ganze Spalte Listen samt Aufklappbar (bleibt über „Text ▾“ und „/“ erreichbar). „+ Bild als Eintrag“ ist unnötig, weil Bild einen eigenen Knopf hat. Berührt die TradePath-Aufteilung (README:123), nur mit Zustimmung."
+   },
+   {
+    "id": "notebook_news-18-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Fakten stimmen: „Server einrichten“ ist ein `.btn.sm` mit Rahmen (news.js:91), dazu Hero mit „morgen“ für einen Beispieltermin (:83) und 8 Chips (:78). Wirkung 2 statt 1, weil News ein Nebenbereich ist und „Server einrichten“ einen eigenen Server verlangt. Empfehlung: `.btn` (Rahmen) statt `.btn.primary`, weil „Trade loggen“ in derselben Kopfreihe steht und die Vorgabe Grün begrenzt; als einziger Knopf im leeren Zustand ist er trotzdem eindeutig. Dass die Filter `newsFilter` speichern, ist Absicht (news.js:5) und kein Fehler."
+   },
+   {
+    "id": "notebook_news-19-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Dieselbe Änderung wie 18-1, nur einmal zählen. Die Begründung „rückt in den sichtbaren Bereich“ ist falsch: „Server einrichten“ ist schon heute im ersten Bildschirm (dark-390/news.png, etwa 250 CSS-px von oben). Der Gewinn auf dem Handy: Die Liste rückt etwa 250 px nach oben (Hero etwa 145 px, zwei Chip-Reihen etwa 100 px)."
+   },
+   {
+    "id": "notebook_news-19-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Mit Beispieldaten passen die Währungen in eine Reihe (Alle, EUR, GBP, USD). Nutzen gibt es erst mit echten Daten (ForexFactory: bis zu etwa 9 Währungen + ALL), die dann auf 2–3 Reihen umbrechen."
+   },
+   {
+    "id": "notebook_news-19-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt (dark-390/news.png: ▷ allein in der ersten Zeile; app.js:258-261; app.css:3000-3002, `display:contents`, „Trade loggen“ wird zum fixierten FAB). Die Änderung ist global und betrifft jeden Screen ohne Zeitraum, Konto und headLeft. In der Topbar gibt es schon `#tb-tools` (app.js, topbar) als Ziel."
+   },
+   {
+    "id": "notebook_news-21-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt (news.js:28-29 verweisen auf Einstellungen → Mentor, :86 bietet nur „Erneut versuchen“)."
+   },
+   {
+    "id": "notebook_news-21-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Grundsätzlich bestätigt; „muss die Chips durchprobieren“ ist übertrieben, denn die Chips stehen direkt über dem leeren Zustand (:88). Die Aktion `news-f-reset` existiert noch nicht und muss angelegt werden (Standard aus :17: impact high+medium, cur leer)."
+   }
+  ],
+  "screen_korrekturen": "ÜBERGREIFEND (wichtig für alle Agenten): Der Handy-FAB „Trade loggen“ ist NICHT grün gefüllt. app.css:3019 setzt zwar `background: var(--accent)`, aber `.btn.accent` (app.css:3137, gleiche Spezifität, steht später) überschreibt Hintergrund und Rand. Er erscheint als dunkler Kreis mit grünem Verlaufsring und grünem „+“ (dark-390/notebook.png und news.png, Ausschnitt geprüft). Auch auf dem Desktop ist „Trade loggen“ umrandet (Fläche --surface, grüner Rand, grüne Schrift) und nicht gefüllt. Ob der ungefüllte FAB gewollt ist, ist offen (README:89 „runder Knopf“, 3019 will Füllung). Das sollte geklärt werden, bevor Vorschläge auf einem „vollen grünen FAB“ aufbauen.\nnotebook_news-1 (voll): Die Hauptaktion stimmt. Korrekturen: „kehrt sich auf dem Handy um“ ist falsch, „Neue Notiz“ ist auf beiden Breiten der einzige gefüllte Knopf. Die …-Menüs der Ordnerzeilen sind unsichtbar (opacity 0) außer beim Darüberfahren oder am aktiven Ordner (app.css:982-983). „Alle Notizen“ hat keins, es gibt also 5 Menüs, nicht 6, und ~30 sichtbare Elemente sind zu hoch gegriffen (eher ~24). Die Werkzeugleiste hat 14 Bedienelemente, nicht 15. Das Ordner-Feld im Filter ist keine Dublette (siehe 15-1).\nnotebook_news-2: Teilen fehlt nur bis 560 px (app.css:3009 im Block max-width 560px; README:96 nennt das als Absicht); von 561 bis 960 px bleibt es als Symbol.\nnotebook_news-3: Die Hauptaktion „Losschreiben“ stimmt. Der Fokus liegt im Editor, weil die Tagesnotiz schon einen Datumstitel hat.\nnotebook_news-4: Der zweite gefüllte „Neue Notiz“ (:66) erscheint in jedem leeren Ordner, vor allem direkt nach „Ordner hinzufügen“ (:159), nicht nur bei 0 Notizen. Sortieren wird auch bei 0 Notizen gezeigt.\nnotebook_news-5 (Handy-Liste): optisch_klar sollte TRUE sein. „+ Neue Notiz“ (gefüllt, volle Breite) ist klar der stärkste Knopf. Der FAB ist umrandet und nicht „der kräftigste Punkt“. Es bleibt ein zweites grünes „+“ mit anderer Bedeutung (Wirkung 2). In der Aufnahme verdeckt der FAB keinen Text.\nnotebook_news-6: Die Regel für die einzeilige Werkzeugleiste steht in @media (max-width: 560px), nicht 960.\nnotebook_news-9: Nebenbefund: Der gedrückte Auswählen-Umschalter wird grün (app.css:1012). Das ist eine grüne Auswahlmarkierung und widerspricht einer abgelehnten Vorgabe.\nnotebook_news-15: Ordner und Tag doppeln die linke Spalte nicht beide. Das Ordner-Feld ist der einzige Weg, die Suche auf einen Ordner zu begrenzen (notebook.js:12-13, :63). Nur das Tag-Feld ist doppelt.\nnotebook_news-17: 10 statt 8 doppelte Einträge zwischen „+“ und „Text ▾“, mit identischen Handlern (editor.js:172-175).\nnotebook_news-18 (News, Beispielansicht): Die Hauptaktion „Server einrichten“ ist plausibel. „Trade loggen“ ist aber nicht das optisch stärkste Element: Die Hero-Karte (größte Fläche) und die roten und gelben Chips Hoch/Mittel ziehen mehr Blick; „Trade loggen“ ist umrandet.\nnotebook_news-19 (News Handy): Der FAB ist umrandet, nicht voll grün. „Server einrichten“ steht schon im ersten Bildschirm (etwa 250 px).\nDoppelte Vorschläge (nur einmal umsetzen und zählen): 1-2 = 7-1; 2-1 = 6-3, beide plus 2-2 stecken in 10-1; 1-4 überschneidet sich mit 4-2 (Filter) und 15-1 (Tag-Feld); 18-1 = 19-1."
+ },
+ "vorgaben": {
+  "urteile": [
+   {
+    "id": "notebook_news-1-1",
+    "bestaetigt": false,
+    "wirkung": 3,
+    "anmerkung": "Kein Änderungsvorschlag, der Zustand bleibt, wie er ist. Die Begründung stimmt außerdem nicht ganz: „Trade loggen“ (`.btn.accent`, app.css:3137-3142) ist nicht gefüllt, sondern eine Fläche mit grünem Rand und grüner Schrift. Auch der Handy-FAB ist nicht „voll grün“, weil `.btn.accent` bei gleicher Spezifität später in der Datei steht und Hintergrund, Rand und Schatten aus app.css:3019 überschreibt (sichtbar in dark-390/notebook.png: dunkler Kreis mit grünem Ring). Auf dem Desktop ist „Neue Notiz“ damit schon heute der einzige gefüllte Knopf, Regel 4 ist erfüllt. Die Grün-Vorgabe ist ebenfalls nicht berührt: `.btn.primary` ist die vorhandene Primärstufe (Speichern, Mentor- und Coach-Einrichtung). Die eigentlichen Folgen stecken in 4-1 (zweiter gefüllter Knopf) und 5-1 (FAB) und werden dort umgesetzt."
+   },
+   {
+    "id": "notebook_news-1-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "notebook.js:52: Den Knopf `.btn.sm.grow` „Ordner hinzufügen“ aus dem linken `.col-head` entfernen. Auf dem Desktop behält der `.col-head` nur das Einklappen (`collapse-left`), damit die drei Spaltenköpfe auf einer Höhe bleiben. notebook.js:53: Den Abschnittskopf in `<div class=\"row\" style=\"gap:0\">` einpacken: `.sec-h` bekommt zusätzlich `grow`, daneben (nicht darin, sonst steckt ein Knopf im Knopf) `<button type=\"button\" class=\"btn ghost icon sm\" data-action=\"nb-folder-add\" aria-label=\"Ordner hinzufügen\" data-tip=\"Ordner hinzufügen\">${I.plus}</button>`. Der „+“ ist auch bei eingeklapptem Abschnitt sichtbar. Handy und Tablet (≤960 px, Block app.css:1062-1072): `.nb .col.left .col-head { display: none; }`. Das Einklappen ist dort ohnehin versteckt (:1071), die Ordneransicht beginnt dann direkt mit „Ordner“ und „Alle Notizen“. Deckt 7-1 mit ab.",
+    "anmerkung": "Echte Verbesserung: Heute spiegelt der Knopf Form, Breite und Position von „Neue Notiz“, und in der Handy-Ordneransicht wirkt er wie die Hauptaktion. Die Funktion bleibt erhalten, sie steht als kleines Ghost-„+“ im Abschnittskopf."
+   },
+   {
+    "id": "notebook_news-1-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "editor.js:113-124: Ans Ende der Werkzeugleiste kommt ein Umschalter `<button type=\"button\" class=\"tb\" data-ed=\"more\" aria-expanded=\"…\" data-tip=\"Weitere Formate\" aria-label=\"Weitere Formate\">` mit dem vorhandenen Symbol `I.more`. Eingeklappt werden nur die selten gebrauchten Werkzeuge: der Größen-Stepper `.size` und „Durchgestrichen“ (`data-ed=\"strike\"`, das Kürzel Strg+Umschalt+M bleibt). Schriftfarbe und Textmarker bleiben sichtbar, weil sie im Journal zum Markieren gebraucht werden und in der README ausdrücklich genannt sind. Umsetzung: Die Elemente bleiben an ihrer Stelle im DOM. `.nb-toolbar[data-more=\"0\"] .size, .nb-toolbar[data-more=\"0\"] [data-ed=\"strike\"] { display: none; }` blendet sie aus, die Reihenfolge bleibt beim Aufklappen also wie im TradePath-Vorbild. Den Zustand in `S.settings.editorMore` speichern (`S.setSetting`, wie `editorColors`), Standard eingeklappt. Es gibt keine neuen Stile, der Umschalter ist ein normaler `.tb`. Bei 1440 passt die Leiste dann in eine Zeile („Bild“ bricht nicht mehr um). Gilt auch für den Vorlagen-Editor.",
+    "anmerkung": "Berührt die README-Entscheidung „Editor nach TradePath-Vorbild“ (Werkzeugleiste mit Schriftgröße …), deshalb vor der Umsetzung die Zustimmung des Nutzers einholen. Ich habe den Umfang verkleinert: Farbe und Textmarker auch noch zu verstecken bringt wenig und weicht stärker vom Vorbild ab."
+   },
+   {
+    "id": "notebook_news-1-4",
+    "bestaetigt": false,
+    "anmerkung": "Dublette: Der Filter-Knopf erst ab zwei Notizen steht vollständig in 4-2, das Tag-Feld nur mit Tags in 15-1. Nur dort umsetzen, damit dieselbe Bedingung nicht zweimal unterschiedlich gebaut wird."
+   },
+   {
+    "id": "notebook_news-2-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "notebook.js:74: Den Knopf `[data-action=\"nb-share\"]` aus der Kopfreihe entfernen und als `<button type=\"button\" class=\"item\" data-action=\"nb-share\" data-id=\"${cur.id}\">${I.external} Teilen</button>` ins Notiz-Menü `#pop-nbmenu` aufnehmen (Reihenfolge siehe 2-2). Die Regel app.css:3009 (`[data-action=\"nb-share\"] { display: none }` im 560-px-Block) wird gelöscht. Die Kopfreihe rechts zeigt dann auf allen Breiten nur „Gespeichert“ und „…“. In der README die Stelle „„Teilen“ nur ab 561px“ anpassen. Deckt 6-3 mit ab.",
+    "anmerkung": "Schließt eine echte Funktionslücke: Auf dem Handy ist Teilen heute nirgends erreichbar. Gleichzeitig wird die Kopfreihe ruhiger (Regel 3)."
+   },
+   {
+    "id": "notebook_news-2-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:74, `#pop-nbmenu`: Ein Popover im Popover funktioniert nicht, weil `closePopovers(id)` (app.js:172/275) beim Öffnen alle anderen Popover schließt, auch das Menü selbst. `#pop-nbmove` gibt es außerdem nur im Auswahlmodus. Deshalb wird der zweite Schritt direkt im selben Menü gebaut: Das Menü bekommt zwei Gruppen, `<div data-step=\"main\">` und `<div data-step=\"move\" hidden>`. In der Hauptgruppe stehen in dieser Reihenfolge: „In Ordner verschieben …“ (`data-action=\"nb-menu-step\" data-step-to=\"move\"`, Symbol `I.folder`), „Teilen“, „Duplizieren“, hr, „Aus Datei laden“, „Exportieren (JSON)“, „Als PDF herunterladen“, hr, „Löschen“ (rot). Die Gruppe „move“ enthält ein `.item` „← Zurück“ und darunter die heutigen Ordner-Einträge (`data-action=\"nb-move\"` mit Haken für den aktuellen Ordner). Die neue Aktion `nb-menu-step` schaltet nur `hidden` an beiden Gruppen um, ohne Neuaufbau. Klicks auf `.item` schließen das Popover nicht (app.js:276). Nach „nb-move“ baut die Seite ohnehin neu auf, die Ansicht steht also wieder auf „main“. Das Menü schrumpft von 12 auf 7 Einträge. Deckt 10-1 mit ab.",
+    "anmerkung": "Der Vorschlag ist richtig, war aber so nicht umsetzbar. Ich habe den Mechanismus konkretisiert."
+   },
+   {
+    "id": "notebook_news-3-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Erstens greift die Bedingung `cur.title || deltaText` gerade beim Beleg-Fall nicht: Die neue Tagesnotiz hat sofort einen Datumstitel (notebook_neu.png: „So, 11. Okt 2026“). Zweitens baut die Seite beim Tippen nicht neu auf: `onChange` und `flush` (notebook.js:90/101) rufen kein `rerender` auf. Duplizieren, Exportieren und PDF würden also auch nach dem Tippen im Menü fehlen, bis man die Seite wechselt, und das sieht aus wie eine entfernte Funktion. Drittens ist nach 2-1 nichts davon mehr sichtbar, weil Teilen ins Menü wandert. Einträge in einem geschlossenen Menü zu verstecken bringt keinen Hick-Gewinn."
+   },
+   {
+    "id": "notebook_news-3-2",
+    "bestaetigt": false,
+    "anmerkung": "Kein Hierarchie-Thema, und keine der beiden Varianten ist klar besser. Mit „Tag loggen“ unter „Alle Notizen“ stünden „Tag loggen“ (Tag = Datum), der Abschnitt „Tags“, „+ Tag“ und „Trade loggen“ auf einem Screen, das ist missverständlich. Notizen standardmäßig in einen anderen Ordner zu legen ändert gewolltes Verhalten (Daily Journal als Standard, Hinweis-Punkt „heute keine Tagesnotiz“, README:55/137). Höchstens als Nebenbefund an den Nutzer weitergeben."
+   },
+   {
+    "id": "notebook_news-4-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "notebook.js:66: Im leeren Zustand der rechten Spalte (keine Notiz, nicht Papierkorb) den Knopf „Neue Notiz“ von `.btn.sm.primary` auf `.btn.sm` (Rahmen) setzen. Text und Aktion bleiben gleich. Der Knopf darf NICHT wegfallen: Auf dem Handy erscheint diese Spalte nach dem Löschen einer Notiz (`nb-delete` lässt `view = 'note'`) ohne Zurück-Pfeil, dort ist er die einzige Bedienung. Auf dem Desktop bleibt der gefüllte „Neue Notiz“ im Spaltenkopf (:61) der einzige gefüllte Knopf.",
+    "anmerkung": "Die Variante „ganz weglassen“ ist verworfen, weil man sonst auf dem Handy festhängt. Nebenbefund: In dieser Handy-Ansicht fehlt ein Zurück-Pfeil."
+   },
+   {
+    "id": "notebook_news-4-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "notebook.js:61: Vorab `const baseN = S.notes({ trash: nb.folder === 'trash' }).length;` berechnen, also ohne Suche und Filter. So springen die Knöpfe beim Tippen in der Suche nicht weg. Den Auswählen-Knopf und das Sortier-`.popwrap` nur bei `baseN > 1` rendern. Das betrifft auch den leeren Papierkorb, wo heute „Sortieren“ ohne Inhalt steht. notebook.js:47: Das Filter-`.popwrap` nur bei `S.notes().length > 1 || activeFilters.length` rendern. Aktive Filter bleiben so immer sichtbar und lassen sich aufheben, die Chips in :48 bleiben unverändert. Die Suche bleibt immer.",
+    "anmerkung": "Entspricht wörtlich dem Beispiel aus Regel 5. Neue Nutzer haben genau eine Notiz (die Willkommens-Notiz), deshalb ist `> 1` richtig."
+   },
+   {
+    "id": "notebook_news-4-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:55-56: Den Abschnitt „Tags“ (`.sec-h` und `.tagpills`) in einen Wrapper `<div class=\"nb-tagsec\" ${tags.length ? '' : 'hidden'}>` einpacken. Er wird also immer gerendert, ist ohne Tags aber versteckt. Der Platzhalter „Noch keine Tags“ in `tagPillsHTML` (:34) entfällt, an seine Stelle tritt ein leerer String. `refreshTags` (:36) setzt zusätzlich `wrapper.hidden = !S.tagCounts().length`. Sonst erscheint der Abschnitt nach dem ersten „+ Tag“ erst beim nächsten Neuaufbau, weil `refreshTags` ohne `rerender` arbeitet. Der Einstieg „+ Tag“ in der Notiz (:77) bleibt.",
+    "anmerkung": "Die Ergänzung zu `refreshTags` ist nötig, sonst taucht der erste Tag links nicht auf."
+   },
+   {
+    "id": "notebook_news-4-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:54: Den Platzhalter `|| '<div class=\"small faint\">Noch keine eigenen Ordner</div>'` streichen und `<div class=\"fsep\"></div>` nur rendern, wenn es eigene Ordner gibt. Sonst bleibt ein verwaister Trennstrich stehen. notebook.js:57: `.trash-link` „Kürzlich gelöscht“ nur bei `trashN > 0 || nb.folder === 'trash'` rendern. Nach „Leeren“ kann man also im Papierkorb stehen, ohne dass der aktive Eintrag verschwindet. Der Lösch-Toast (:145) nennt den Papierkorb.",
+    "anmerkung": "Ohne 1-2 bliebe „Ordner hinzufügen“ der Einstieg. Mit 1-2 ist es das „+“ im Abschnittskopf."
+   },
+   {
+    "id": "notebook_news-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "app.css:3017 (Block `@media (max-width: 560px)`): Den Selektor auf `.content:has(.nb) .dash-head .tl { display: none; }` erweitern, damit es in allen drei Notebook-Ansichten (Ordner, Liste, Notiz) keinen runden „Trade loggen“-Knopf mehr gibt. Optional `.content:has(.nb) { padding-bottom: … }` auf den normalen Wert zurücksetzen, denn die 104 px aus :2998 sind nur Platz für den FAB. Hinweis zum Beleg: Der FAB ist nicht voll grün, weil `.btn.accent` (app.css:3137) den Hintergrund aus :3019 überschreibt. Er ist ein dunkler Kreis mit grünem Ring und grünem „+“, als schwebendes Element aber trotzdem der auffälligste Punkt und ein zweites „+“ mit anderer Bedeutung als „+ Neue Notiz“. „Trade loggen“ bleibt auf dem Desktop in der Kopfreihe und auf dem Handy auf allen anderen Screens erreichbar.",
+    "anmerkung": "Berührt die README-Regel „Handy: „Trade loggen“ als runder Knopf unten rechts“. Diese hat schon heute die Ausnahme „kein runder Knopf über dem Text“, und Schatten-Ich zeigt den Knopf auch nicht. Den Nutzer bestätigen lassen und die README anpassen."
+   },
+   {
+    "id": "notebook_news-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Korrektur: app.css:3014 liegt im Block `@media (max-width: 560px)` (ab :2978), nicht 960 px, und dort gehören die Regeln hin. Per `order` umsortieren, das DOM bleibt gleich, Tablet und Desktop bleiben unverändert. Mit `order: 0` (zuerst): Einfügen-Popwrap (`.popwrap:has([data-pop$=\"insert\"])`), „Text ▾“ (`.popwrap:has(.turn)`), `[data-ed=\"bold\"]`, `[data-ed=\"italic\"]`, `[data-ed=\"underline\"]`, Bild-Popwrap (`.popwrap:has([data-pop$=\"image\"])`). Mit `order: 1`: Farbe- und Textmarker-Popwrap, `.size`, `[data-ed=\"strike\"]` und, falls 1-3 umgesetzt ist, der Umschalter `[data-ed=\"more\"]`. Mit `order: 2`: `[data-ed=\"undo\"]`, `[data-ed=\"redo\"]`. Die drei `.sep` so zuordnen, dass keiner am Anfang oder Ende der Zeile steht, also je einen vor die order-1- und die order-2-Gruppe. Ergebnis bei 390 px: + ▾ · Text ▾ · B I U · Bild sind ohne Wischen sichtbar, die deaktivierten Rückgängig- und Wiederholen-Knöpfe stehen am Ende.",
+    "anmerkung": "Echte Verbesserung der Reihenfolge, beleg dark-390/notebook_notiz.png: B, I und U sind abgeschnitten. Nur die Angabe zur Media-Query war falsch."
+   },
+   {
+    "id": "notebook_news-6-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Im Block `@media (max-width: 560px)` (app.css, neben :3017): `.content:has(.nb[data-view=\"note\"]) > .page-head { display: none; }`. Damit entfällt beim Schreiben die ganze Zeile mit Suche, Filter und Session. Die Suche wäre hier ohnehin wirkungslos, weil in der Notiz-Ansicht auf dem Handy keine Liste sichtbar ist (app.css:1064-1065). Der FAB steckt in derselben Kopfreihe und war in dieser Ansicht schon ausgeblendet, :3017 wird also für die Notiz-Ansicht überflüssig. „←“ führt zur Liste, dort ist die Kopfreihe wieder da. Bei laufender Session ist der Timer in der Notiz-Ansicht nicht zu sehen. „Session beenden“ erreicht man über „←“ oder jeden anderen Screen.",
+    "anmerkung": "Passt zur README-Ausnahme „kein runder Knopf über dem Text“. Die Regel „Suche, Filter, Session in einer Reihe“ gilt weiter für die Listenansicht."
+   },
+   {
+    "id": "notebook_news-6-3",
+    "bestaetigt": false,
+    "anmerkung": "Dublette von 2-1 (Teilen ins Menü, Regel app.css:3009 löschen). Nur dort umsetzen."
+   },
+   {
+    "id": "notebook_news-7-1",
+    "bestaetigt": false,
+    "anmerkung": "In 1-2 aufgegangen. Der Handy-Teil (linken `.col-head` ≤960 px ganz ausblenden) steht jetzt in der Beschreibung von 1-2. Eine eigene Umsetzung ist nicht nötig. Die Begründung (Regel 2: in der Ordneransicht wirkt „Ordner hinzufügen“ wie die Hauptaktion) bleibt gültig."
+   },
+   {
+    "id": "notebook_news-8-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:61: „Leeren“ wird `.btn.sm.ghost.danger`. notebook.js:67: „Endgültig löschen“ wird ebenfalls `.btn.sm.ghost.danger`, damit beide zerstörerischen Aktionen dieselbe Stufe haben (statt eines `<span class=\"neg\">`). Wichtig: `.btn.ghost` (app.css:278) steht nach `.btn.danger` (:276) und überschreibt die rote Schrift. Rot ist für Ghost-Knöpfe nur innerhalb `.sel-row` gesetzt (:1011). Deshalb den Selektor in :1011 von `.nb .sel-row .btn.danger.ghost` auf `.nb .btn.danger.ghost` erweitern, damit wird eine vorhandene Regel wiederverwendet, ohne neuen Stil. „Wiederherstellen“ bleibt der einzige gefüllte Knopf. Die Bestätigungsdialoge (:147, :150) bleiben.",
+    "anmerkung": "Sinnvoll, weil im Papierkorb keine Notiz automatisch geöffnet wird (notebook.js:43). Beim Betreten ist das rot umrandete „Leeren“ heute der einzige und damit auffälligste Knopf. Ohne die CSS-Korrektur wäre „Leeren“ grau statt rot."
+   },
+   {
+    "id": "notebook_news-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:61-62: Bei `nb.selectMode` wird der Inhalt des mittleren `.col-head` ersetzt, und die separate `.sel-row` entfällt. Neuer Inhalt des `.col-head`: Zurück-Pfeil (`.back`, Handy) und gegebenenfalls `nb-left-toggle` (wenn `!nb.leftOpen`), dann „Alle/Keine“ (`.btn.xs.ghost`), der Zähler `.cnt` und `grow`. Danach im Normalfall Verschieben (Popwrap `#pop-nbmove`) und Löschen (`.btn.ghost.icon.sm.danger`), im Papierkorb „Wiederherstellen“ (`.btn.xs`) und Endgültig löschen. Zum Schluss „Fertig“ als `.btn.xs.ghost`. „Neue Notiz“, Sortieren und der Auswählen-Umschalter fehlen im Modus, nach „Fertig“ sind sie sofort wieder da. Das Rot der Lösch-Symbole kommt über den erweiterten Selektor aus 8-1 (`.nb .btn.danger.ghost`).",
+    "anmerkung": "Nebeneffekt: Der heute grün markierte, gedrückte Auswählen-Knopf (app.css:1012, `--accent-soft`) ist im Modus nicht mehr zu sehen. Das passt zu „keine grüne Markierung von Auswahl“. Die Wirkung ist klein, weil der Modus selten genutzt wird."
+   },
+   {
+    "id": "notebook_news-10-1",
+    "bestaetigt": false,
+    "anmerkung": "Dublette: Teilen ins Menü steht in 2-1, Verschieben als zweiter Schritt in 2-2. Die endgültige Menü-Reihenfolge habe ich in die Beschreibung von 2-2 übernommen. Der Verweis „Ordner-Popover wie `#pop-nbmove`“ funktioniert so nicht (siehe 2-2)."
+   },
+   {
+    "id": "notebook_news-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:51: Die beiden Einträge `nb-folder-edit` („Umbenennen“, „Farbe ändern“ mit `data-color`) zu einem Eintrag `${I.edit} Bearbeiten` ohne `data-color` zusammenlegen. notebook.js:114-116: Den Parameter `colorOnly` und den `readonly`-Zweig entfernen. Der Titel lautet immer „Ordner bearbeiten“ bzw. „Ordner hinzufügen“. notebook.js:156: `folderModal(S.getFolder(el.dataset.id))`. Das Menü enthält dann Bearbeiten, Standard-Vorlage und [hr, Löschen].",
+    "anmerkung": "Zwei Einträge für denselben Dialog sind eine echte Dublette. Mit dieser Änderung wird 12-1 überflüssig."
+   },
+   {
+    "id": "notebook_news-12-1",
+    "bestaetigt": false,
+    "anmerkung": "Wird durch 11-1 überflüssig, weil die Variante „Farbe ändern“ dort entfällt. Nicht zusätzlich umsetzen."
+   },
+   {
+    "id": "notebook_news-14-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:170, Fuß des Teilen-Dialogs: Links `<a class=\"btn\" href=\"…\" target=\"_blank\" rel=\"noopener\">${I.external} Öffnen</a>` (Rahmen), rechts `<button type=\"button\" class=\"btn primary\" data-action=\"nb-copy\" data-target=\"share-link\">${I.copy} Link kopieren</button>`. Das entspricht der Dialog-Konvention „sekundär links, primär rechts“. Die Texte bleiben.",
+    "anmerkung": "Heute ist der falsche Knopf gefüllt: Wer teilen will, landet mit dem grünen Knopf in einem neuen Tab. Die Wirkung ist klein, weil der Dialog selten gebraucht wird."
+   },
+   {
+    "id": "notebook_news-15-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "notebook.js:47: Das Feld „Tag“ (`.field` mit `#nbf-tag`) nur bei `tags.length` rendern, ein Auswahlfeld, das nur „Alle“ enthält, entfällt also. Das Feld „Ordner“ bleibt IMMER. Es ist keine Dublette der linken Spalte: Die Suche ignoriert den gewählten Ordner (notebook.js:12, `&& !q`), der Filter-Ordner (:13) gilt dagegen auch beim Suchen. Er ist der einzige Weg, innerhalb eines Ordners zu suchen. Die aktiven Filter-Chips (:48) bleiben.",
+    "anmerkung": "Den Teil „Ordner-Feld nur bei eingeklappter Spalte oder auf dem Handy“ habe ich abgelehnt. Er würde eine Funktion entfernen (Suche innerhalb eines Ordners) und bräuchte zusätzlich eine Breitenabfrage beim Rendern."
+   },
+   {
+    "id": "notebook_news-17-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Die README hält den Inhalt des „+“-Menüs ausdrücklich als Nutzerentscheidung fest: „nach TradePath-Vorbild: „+“ (Bausteine, Listen, Vorlagen), Absatzformat …“. Die Analyse selbst sagt „nur umsetzen, wenn der Nutzer das will“. Die Einträge liegen ohnehin schon im Menü (Stufe „Menü“), der Hick-Gewinn innerhalb eines nach Spalten gegliederten Popovers ist klein. Höchstens als offene Frage an den Nutzer."
+   },
+   {
+    "id": "notebook_news-18-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "news.js:88-91: Bei `sample` werden das Band `.nw-banner`, `hero` und `filters` nicht gerendert. Stattdessen kommt oben ein Einrichtungsblock: `U.empty('calendar', 'News brauchen deinen Journalyst-Server', 'Echte Termine kommen über denselben Server wie der Mentor.', '<a class=\"btn primary\" href=\"#/settings/mentor\">Server einrichten</a>')`. Die Stufe `.btn.primary` ist wie bei der Mentor- und Coach-Einrichtung (mentor.js:79, coach.js:22), also gleiche Aktion, gleiche Stufe. Darunter die Beispieltermine als gedämpfte Vorschau: Jede Zeile bekommt die vorhandene Klasse `past` (app.css:3090, Opazität .5). Darüber eine kleine Überschrift `<div class=\"caption\">Beispiel: so sieht es mit Server aus</div>`. Die Präfixe „Beispiel:“ in den Titeln bleiben, die Ansicht ist also weiterhin klar als Beispiel markiert (README:119). Die Filter-Chips schreiben dann keine `newsFilter` mehr aus Beispieldaten. Mit Server bleibt alles wie heute. Die neuen deutschen Texte in `js/lang/*.js` nachtragen.",
+    "anmerkung": "Echte Verbesserung nach Regel 1, 2 und 5: Der einzige hilfreiche Knopf ist heute der leiseste. Pro Screen bleibt genau ein gefüllter Knopf, „Trade loggen“ (Akzent, nicht gefüllt) steht daneben wie im Notebook. Deckt 19-1 mit ab."
+   },
+   {
+    "id": "notebook_news-19-1",
+    "bestaetigt": false,
+    "anmerkung": "Dublette von 18-1, gleicher Code (news.js:88-91). Die Wirkung auf dem Handy ergibt sich daraus automatisch."
+   },
+   {
+    "id": "notebook_news-19-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "news.js:78: Die Gruppe „Währung“ wird doppelt gerendert. Erstens wie heute als Chip-Reihe, die Gruppe bekommt die Klasse `nw-fg cur`. Zweitens zusätzlich als `<div class=\"popwrap nw-cur-pop\"><button type=\"button\" class=\"chip sel\" data-pop=\"nwcur\" aria-pressed=\"${!!f.cur.length}\">Währung: ${f.cur.length ? (f.cur.length === 1 ? f.cur[0] : f.cur.length + ' gewählt') : 'Alle'} ${I.chev}</button><div class=\"popover\" id=\"pop-nwcur\">…dieselben Chips mit data-action=\"news-f\"…</div></div>`. CSS: `.nw-cur-pop { display: none; }` und im Block `@media (max-width: 560px)` `.nw-fg.cur { display: none; } .nw-cur-pop { display: block; }`. Desktop und Tablet bleiben unverändert, „Wichtigkeit“ bleibt auf allen Breiten als Chip-Reihe. Nur relevant mit Server, in der Beispielansicht gibt es nach 18-1 keine Filter.",
+    "anmerkung": "Mit echten Daten gibt es etwa 10 Währungen plus „Alle“, das sind auf 390 px drei bis vier Chip-Reihen vor der Liste. Der zweite Schritt ist sinnvoll, die Wirkung klein."
+   },
+   {
+    "id": "notebook_news-19-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Global, app.js:256-261 und Mount. Die Variante „`.page-head` ausblenden“ ist verworfen, weil der FAB „Trade loggen“ in der Kopfreihe steckt und dann ebenfalls verschwinden würde. Stattdessen nach dem Muster dashboard.js:15 (`place()` schiebt `.dh-context` per `matchMedia` in `#tb-tools`): Wenn die Kopfreihe weder `.dh-context` noch eigene Knöpfe hat (`!left && !own`), bekommt sie die Klasse `ph-solo`. Nach dem Rendern verschiebt das Skript auf `(max-width: 560px)` den Session-Knopf (`[data-action=\"start-session\"], [data-action=\"end-session\"]`) in `#tb-tools` (Titelzeile neben dem Avatar). Dazu im 560-px-Block `.page-head.ph-solo { display: contents; }` oder `margin: 0`, damit keine leere Zeile bleibt, denn der FAB ist ohnehin fixiert. Betrifft News, Coupons, Affiliate und Prop Firms, auf dem Desktop ändert sich nichts.",
+    "anmerkung": "Liegt außerhalb dieses Bereichs. Mit den Prüfern der anderen Screens abstimmen, damit die Lösung einmal und überall gleich gebaut wird."
+   },
+   {
+    "id": "notebook_news-21-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "news.js:28-29: Beim Fehler auch die Art merken, also `s.errorKind = 'config'` für „nicht erreichbar“ und 401, sonst `'retry'`. Die Art in :25 zurücksetzen. news.js:86: Bei `config` ist der Knopf `<a class=\"btn sm\" href=\"#/settings/mentor\">Zu den Einstellungen</a>` (vorhandener, schon übersetzter Text aus mentor.js:79 und coach.js:22), dazu „Erneut versuchen“ als `.btn.sm.ghost`. Sonst bleibt es wie heute bei „Erneut versuchen“ (`.btn.sm`).",
+    "anmerkung": "Ich habe die Beschriftung angepasst: Der Server ist in diesem Zustand schon eingerichtet, „Server einrichten“ wäre deshalb irreführend."
+   },
+   {
+    "id": "notebook_news-21-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "news.js:88: Wenn `upcoming.length && !shown.length`, bekommt `U.empty` einen Knopf `<button type=\"button\" class=\"btn sm\" data-action=\"news-f-all\">Alle Termine zeigen</button>`. Die neue Aktion setzt `S.setSetting('newsFilter', { impact: ['high', 'medium', 'low', 'holiday'], cur: [] })` und baut neu auf. Ein Zurücksetzen auf den Standard (Hoch und Mittel) reicht nicht, denn wenn die Woche nur niedrige Termine hat, bliebe die Liste nach dem Klick leer. So zeigt der eine Knopf garantiert wieder Termine. Text: „Ändere die Filter oder zeig alle Termine.“",
+    "anmerkung": "Ich habe die Aktion korrigiert, damit der Knopf in jedem Fall hilft."
+   }
+  ],
+  "screen_korrekturen": "notebook_news-1 (notebook voll): „Trade loggen“ ist `.btn.accent` und damit NICHT gefüllt. Es ist eine Fläche mit grünem Rand und grüner Schrift (app.css:3137-3142). Auf dem Desktop ist „Neue Notiz“ also schon heute der einzige gefüllte Knopf. „Zwei Primärknöpfe in zwei Grüntönen“ ist überzeichnet, optisch_klar=true stimmt.\nnotebook_news-5 (Handy Liste): Der FAB ist nicht „voll grün“. `.btn.accent` steht später in der Datei als app.css:3019 und überschreibt Hintergrund, Rand und Schatten, zu sehen ist ein dunkler Kreis mit grünem Ring (dark-390/notebook.png). optisch_klar=false bleibt richtig, weil es zwei „+“ mit unterschiedlicher Bedeutung gibt.\nnotebook_news-6 (Handy Notiz): Die Regeln stehen im Block `@media (max-width: 560px)` (ab app.css:2978), nicht in 960 px. „Teilen nur ab 561px“ ist in README:96 dokumentiert. Trotzdem ist es eine Funktionslücke, weil Teilen auf dem Handy nirgends erreichbar ist.\nnotebook_news-8 (Papierkorb): Im Papierkorb öffnet sich keine Notiz automatisch (notebook.js:43, `nb.folder !== 'trash'`). Beim Betreten ist das rot umrandete „Leeren“ der einzige Knopf, „Wiederherstellen“ erscheint erst nach Auswahl einer Notiz. Für den Einstiegszustand gilt deshalb optisch_klar=false.\nnotebook_news-15 (Filter): Das Ordner-Feld ist keine Dublette der linken Spalte. Die Suche ignoriert den gewählten Ordner (notebook.js:12), der Filter-Ordner gilt auch beim Suchen.\nnotebook_news-4 (leer): Bei 0 Notizen auf dem Handy (z. B. nach dem Löschen, `view` bleibt 'note') hat die rechte Spalte keinen Zurück-Pfeil. „Neue Notiz“ ist dort die einzige Bedienung und darf nicht wegfallen.\nnotebook_news-3 (neu): Die neue Notiz unter „Alle“ ist eine Tagesnotiz mit Datumstitel. Eine Bedingung „Titel oder Inhalt“ ist deshalb nie leer."
+ }
+}

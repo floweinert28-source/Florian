@@ -1,0 +1,1563 @@
+{
+ "anker": [
+  {
+   "anker": ".big-stat",
+   "schritte": [
+    {
+     "nr": "aufbau-C11a",
+     "gruppe": "aufbau",
+     "titel": "Fortschritt: Pfeil mit Tooltip in Prozentpunkten, „0 / 5 Schritte erledigt“",
+     "von": 543,
+     "bis": 549,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C12e",
+     "gruppe": "aufbau",
+     "titel": "Payout-Planer: ohne Banner, Vorschlag auf --tile-val, Karten rahmenlos",
+     "von": 568,
+     "bis": 574,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C18",
+     "gruppe": "kilook",
+     "titel": "„% Regeln eingehalten“ ohne Grundlage: „—“, kein Ring/ring-card; Bogen nur bei rate > 0",
+     "von": 653,
+     "bis": 660,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "komponenten-W5",
+     "gruppe": "komponenten",
+     "titel": "Challenge-Widget mit Klassen statt Inline-Stil",
+     "von": 594,
+     "bis": 596,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2h",
+     "gruppe": "typografie",
+     "titel": "font-family: var(--font-display) aus Wert-Regeln löschen (Pflicht bei .prop-balance .val und .rh-big)",
+     "von": 227,
+     "bis": 228,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv32",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-32 (.score-big, Tilt-Werte, Sprach-Timer, Replay)",
+     "von": 315,
+     "bis": 320,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv44",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-44 (Hero: .streak .big, .fw-big, .rh-big, .big-stat)",
+     "von": 321,
+     "bis": 324,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.5c",
+     "gruppe": "typografie",
+     "titel": "Challenge-Widget: Inline-Größe 30px ersetzen durch Klasse score-big (K27)",
+     "von": 399,
+     "bis": 399,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile .val",
+   "schritte": [
+    {
+     "nr": "aufbau-A2",
+     "gruppe": "aufbau",
+     "titel": "Kachelwerte auf --tile-val umstellen, Sondergrößen löschen",
+     "von": 256,
+     "bis": 262,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25b",
+     "gruppe": "komponenten",
+     "titel": "Spark-Kachel: Trennlinie unter dem Titel, Wert aus .tile .val",
+     "von": 406,
+     "bis": 406,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-C1",
+     "gruppe": "responsiv",
+     "titel": "Handy-Dashboard: ungerade letzte Kachel volle Breite, Kachelwerte 20 px, Spark ohne 28 px, Bearbeitungsleiste 40×40",
+     "von": 381,
+     "bis": 388,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2h",
+     "gruppe": "typografie",
+     "titel": "font-family: var(--font-display) aus Wert-Regeln löschen (Pflicht bei .prop-balance .val und .rh-big)",
+     "von": 227,
+     "bis": 228,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv20",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-20 (Kachelwerte in schmalen Containern, ≤960 px und am Handy)",
+     "von": 300,
+     "bis": 304,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-24 (Kachelwert, Prop-Saldo, Trade-Detail-Kopf, Schatten-Ich, Coach)",
+     "von": 305,
+     "bis": 314,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.5a",
+     "gruppe": "typografie",
+     "titel": "Kachelwert .tile .val auf --fv-24/--ls-val/--lh-val ohne --font-display",
+     "von": 353,
+     "bis": 357,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile.spark-tile .val",
+   "schritte": [
+    {
+     "nr": "aufbau-A2",
+     "gruppe": "aufbau",
+     "titel": "Kachelwerte auf --tile-val umstellen, Sondergrößen löschen",
+     "von": 256,
+     "bis": 262,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25b",
+     "gruppe": "komponenten",
+     "titel": "Spark-Kachel: Trennlinie unter dem Titel, Wert aus .tile .val",
+     "von": 406,
+     "bis": 406,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-C1",
+     "gruppe": "responsiv",
+     "titel": "Handy-Dashboard: ungerade letzte Kachel volle Breite, Kachelwerte 20 px, Spark ohne 28 px, Bearbeitungsleiste 40×40",
+     "von": 381,
+     "bis": 388,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2f",
+     "gruppe": "typografie",
+     "titel": "Onest-Sammelregel neu fassen: Tabellenzellen standardmäßig Satoshi, nur td.r/td.c/.num und Wert-Selektoren in Onest",
+     "von": 225,
+     "bis": 225,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2h",
+     "gruppe": "typografie",
+     "titel": "font-family: var(--font-display) aus Wert-Regeln löschen (Pflicht bei .prop-balance .val und .rh-big)",
+     "von": 227,
+     "bis": 228,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.5b",
+     "gruppe": "typografie",
+     "titel": "Spark-Kachel: gap-Regel löschen, .spark-body nowrap, Typo-Dubletten in .tile.spark-tile .val löschen (K26)",
+     "von": 358,
+     "bis": 360,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.banner",
+   "schritte": [
+    {
+     "nr": "aufbau-C12e",
+     "gruppe": "aufbau",
+     "titel": "Payout-Planer: ohne Banner, Vorschlag auf --tile-val, Karten rahmenlos",
+     "von": 568,
+     "bis": 574,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C19c",
+     "gruppe": "farbe",
+     "titel": "Willkommen-Banner: info ohne sparkle, Knöpfe neutral, „CSV importieren“",
+     "von": 472,
+     "bis": 473,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "farbe-C26b",
+     "gruppe": "farbe",
+     "titel": "Prop: Anlegen-/Erfassen-Öffner ohne primary, Banner „Ziel erreicht“ als ok",
+     "von": 515,
+     "bis": 517,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C12",
+     "gruppe": "kilook",
+     "titel": "Dashboard: Bearbeiten-Leiste ohne Pulspunkt mit „·“, Willkommen-Banner ohne icon: 'sparkle'",
+     "von": 620,
+     "bis": 624,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "kilook-C15",
+     "gruppe": "kilook",
+     "titel": "Schatten-Ich: Banner „Noch keine Regel aktiv“ ohne icon: 'sparkle'",
+     "von": 642,
+     "bis": 644,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-CS1",
+     "gruppe": "zustaende",
+     "titel": "Coach: Fehlerbanner in Warn-Optik mit „Erneut versuchen“ im trailing",
+     "von": 810,
+     "bis": 814,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fw-stats b",
+   "schritte": [
+    {
+     "nr": "abstaende-C3",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich-Widget: .fw-stats zwei Spalten, ab 520 px Container (.card.fw-shadow) vier; Ellipse in .fw-stats b weg; Handy-Regel löschen",
+     "von": 352,
+     "bis": 352,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2f",
+     "gruppe": "typografie",
+     "titel": "Onest-Sammelregel neu fassen: Tabellenzellen standardmäßig Satoshi, nur td.r/td.c/.num und Wert-Selektoren in Onest",
+     "von": 225,
+     "bis": 225,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2h",
+     "gruppe": "typografie",
+     "titel": "font-family: var(--font-display) aus Wert-Regeln löschen (Pflicht bei .prop-balance .val und .rh-big)",
+     "von": 227,
+     "bis": 228,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv16",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-16 (Widget-Kleinwerte, Schieberegler, News-Countdown)",
+     "von": 294,
+     "bis": 299,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "ringArc",
+   "schritte": [
+    {
+     "nr": "diagramme-H1",
+     "gruppe": "diagramme",
+     "titel": "Regeltreue-Ring 64/6 px in scoreColor, kein Bogen bei 0",
+     "von": 626,
+     "bis": 635,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "kilook-C18",
+     "gruppe": "kilook",
+     "titel": "„% Regeln eingehalten“ ohne Grundlage: „—“, kein Ring/ring-card; Bogen nur bei rate > 0",
+     "von": 653,
+     "bis": 660,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR2",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt-Ring: kein Bogen bei 0 oder null",
+     "von": 703,
+     "bis": 705,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tilt-stats .v.cur",
+   "schritte": [
+    {
+     "nr": "abstaende-D4",
+     "gruppe": "abstaende",
+     "titel": "Tilt-Profil: .tilt-wrap gap, .tilt-stats als Subgrid (Werte auf einer Linie), Labels 12/500 --muted, Werte 32/24, .v.cur löschen; Handy Zeilen „Label | Wert“ (20 px)",
+     "von": 371,
+     "bis": 371,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-24 (Kachelwert, Prop-Saldo, Trade-Detail-Kopf, Schatten-Ich, Coach)",
+     "von": 305,
+     "bis": 314,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv32",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-32 (.score-big, Tilt-Werte, Sprach-Timer, Replay)",
+     "von": 315,
+     "bis": 320,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tilt-stats .v",
+   "schritte": [
+    {
+     "nr": "abstaende-D4",
+     "gruppe": "abstaende",
+     "titel": "Tilt-Profil: .tilt-wrap gap, .tilt-stats als Subgrid (Werte auf einer Linie), Labels 12/500 --muted, Werte 32/24, .v.cur löschen; Handy Zeilen „Label | Wert“ (20 px)",
+     "von": 371,
+     "bis": 371,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-24 (Kachelwert, Prop-Saldo, Trade-Detail-Kopf, Schatten-Ich, Coach)",
+     "von": 305,
+     "bis": 314,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv32",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-32 (.score-big, Tilt-Werte, Sprach-Timer, Replay)",
+     "von": 315,
+     "bis": 320,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "widget:challenge",
+   "schritte": [
+    {
+     "nr": "komponenten-W5",
+     "gruppe": "komponenten",
+     "titel": "Challenge-Widget mit Klassen statt Inline-Stil",
+     "von": 594,
+     "bis": 596,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.5c",
+     "gruppe": "typografie",
+     "titel": "Challenge-Widget: Inline-Größe 30px ersetzen durch Klasse score-big (K27)",
+     "von": 399,
+     "bis": 399,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "prop.payoutPlanner",
+   "schritte": [
+    {
+     "nr": "aufbau-C12e",
+     "gruppe": "aufbau",
+     "titel": "Payout-Planer: ohne Banner, Vorschlag auf --tile-val, Karten rahmenlos",
+     "von": 568,
+     "bis": 574,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C26c",
+     "gruppe": "farbe",
+     "titel": "Prop-Bilanz: Ausgaben- und Payout-Spalten neutral",
+     "von": 518,
+     "bis": 519,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".stat-tile .v",
+   "schritte": [
+    {
+     "nr": "abstaende-B15",
+     "gruppe": "abstaende",
+     "titel": "Statistik-Übersicht: .stat-tile padding var(--sp-4) var(--sp-5) als Flex-Spalte, .stat-tile .v unten bündig (margin-top auto, padding-top var(--sp-2))",
+     "von": 331,
+     "bis": 331,
+     "cluster": "statistik",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-A2",
+     "gruppe": "aufbau",
+     "titel": "Kachelwerte auf --tile-val umstellen, Sondergrößen löschen",
+     "von": 256,
+     "bis": 262,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25a",
+     "gruppe": "komponenten",
+     "titel": "Kacheln: Hover nur Rand, .stat-tile übernimmt .tile-Maße (Padding, 13.5/500, 25px/700), Handy 22 px, heller Schatten",
+     "von": 398,
+     "bis": 405,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-E1h",
+     "gruppe": "komponenten",
+     "titel": "e2e mobiletest.js: Handy-Kachelwert 22px",
+     "von": 764,
+     "bis": 766,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/e2e/mobiletest.js"
+     ]
+    },
+    {
+     "nr": "responsiv-B7",
+     "gruppe": "responsiv",
+     "titel": "Statistik-Übersicht: 4 Spalten bis 761 px, Werte unten bündig, Kartenreihe st-cards",
+     "von": 315,
+     "bis": 326,
+     "cluster": "statistik",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv20",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-20 (Kachelwerte in schmalen Containern, ≤960 px und am Handy)",
+     "von": 300,
+     "bis": 304,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-24 (Kachelwert, Prop-Saldo, Trade-Detail-Kopf, Schatten-Ich, Coach)",
+     "von": 305,
+     "bis": 314,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile.spark-tile",
+   "schritte": [
+    {
+     "nr": "abstaende-B13",
+     "gruppe": "abstaende",
+     "titel": "Verlaufskachel (TradeLog) auf die Wertlinie: .tile.spark-tile gap-Regel löschen, .spark-body flex-start + padding-top var(--sp-3), .chart margin-block -14px, Abfrage 190 → 180 mit margin-block 0",
+     "von": 329,
+     "bis": 329,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25b",
+     "gruppe": "komponenten",
+     "titel": "Spark-Kachel: Trennlinie unter dem Titel, Wert aus .tile .val",
+     "von": 406,
+     "bis": 406,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.5b",
+     "gruppe": "typografie",
+     "titel": "Spark-Kachel: gap-Regel löschen, .spark-body nowrap, Typo-Dubletten in .tile.spark-tile .val löschen (K26)",
+     "von": 358,
+     "bis": 360,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile.spark-tile .spark-body",
+   "schritte": [
+    {
+     "nr": "abstaende-B13",
+     "gruppe": "abstaende",
+     "titel": "Verlaufskachel (TradeLog) auf die Wertlinie: .tile.spark-tile gap-Regel löschen, .spark-body flex-start + padding-top var(--sp-3), .chart margin-block -14px, Abfrage 190 → 180 mit margin-block 0",
+     "von": 329,
+     "bis": 329,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25b",
+     "gruppe": "komponenten",
+     "titel": "Spark-Kachel: Trennlinie unter dem Titel, Wert aus .tile .val",
+     "von": 406,
+     "bis": 406,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.5b",
+     "gruppe": "typografie",
+     "titel": "Spark-Kachel: gap-Regel löschen, .spark-body nowrap, Typo-Dubletten in .tile.spark-tile .val löschen (K26)",
+     "von": 358,
+     "bis": 360,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-tiles .tile .val",
+   "schritte": [
+    {
+     "nr": "aufbau-A2",
+     "gruppe": "aufbau",
+     "titel": "Kachelwerte auf --tile-val umstellen, Sondergrößen löschen",
+     "von": 256,
+     "bis": 262,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv20",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-20 (Kachelwerte in schmalen Containern, ≤960 px und am Handy)",
+     "von": 300,
+     "bis": 304,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-24 (Kachelwert, Prop-Saldo, Trade-Detail-Kopf, Schatten-Ich, Coach)",
+     "von": 305,
+     "bis": 314,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".shadow-tiles .tile.shadow-main .val",
+   "schritte": [
+    {
+     "nr": "aufbau-A2",
+     "gruppe": "aufbau",
+     "titel": "Kachelwerte auf --tile-val umstellen, Sondergrößen löschen",
+     "von": 256,
+     "bis": 262,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-24 (Kachelwert, Prop-Saldo, Trade-Detail-Kopf, Schatten-Ich, Coach)",
+     "von": 305,
+     "bis": 314,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal .d .pm",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B14",
+     "gruppe": "barrierefreiheit",
+     "titel": "Kalender am Handy: Kurzbetrag 10,5/700 Onest, Tageszahl 11 px im 20-px-Kreis",
+     "von": 390,
+     "bis": 396,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2f",
+     "gruppe": "typografie",
+     "titel": "Onest-Sammelregel neu fassen: Tabellenzellen standardmäßig Satoshi, nur td.r/td.c/.num und Wert-Selektoren in Onest",
+     "von": 225,
+     "bis": 225,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3b",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 9.5/10 px → 11 (Handy-Kalender, Sortierpfeil, Ring, News, Tageszahl im 20-px-Kreis)",
+     "von": 238,
+     "bis": 240,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tbl td",
+   "schritte": [
+    {
+     "nr": "abstaende-B20",
+     "gruppe": "abstaende",
+     "titel": "Tabellenzellen: .tbl th/td var(--sp-3) var(--sp-4), .tbl.compact var(--sp-2) var(--sp-3); Ausnahmen TradeLog und Handy bleiben",
+     "von": 336,
+     "bis": 336,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2f",
+     "gruppe": "typografie",
+     "titel": "Onest-Sammelregel neu fassen: Tabellenzellen standardmäßig Satoshi, nur td.r/td.c/.num und Wert-Selektoren in Onest",
+     "von": 225,
+     "bis": 225,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal .w .pm",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B14",
+     "gruppe": "barrierefreiheit",
+     "titel": "Kalender am Handy: Kurzbetrag 10,5/700 Onest, Tageszahl 11 px im 20-px-Kreis",
+     "von": 390,
+     "bis": 396,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2f",
+     "gruppe": "typografie",
+     "titel": "Onest-Sammelregel neu fassen: Tabellenzellen standardmäßig Satoshi, nur td.r/td.c/.num und Wert-Selektoren in Onest",
+     "von": 225,
+     "bis": 225,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--font-num",
+   "schritte": [
+    {
+     "nr": "diagramme-A8a",
+     "gruppe": "diagramme",
+     "titel": "Beträge in Balkenzeilen: .bar-row .bl > b Onest/tabular-nums, Zusatz .muted 400",
+     "von": 334,
+     "bis": 335,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2f",
+     "gruppe": "typografie",
+     "titel": "Onest-Sammelregel neu fassen: Tabellenzellen standardmäßig Satoshi, nur td.r/td.c/.num und Wert-Selektoren in Onest",
+     "von": 225,
+     "bis": 225,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".edit-bar",
+   "schritte": [
+    {
+     "nr": "bewegung-C4",
+     "gruppe": "bewegung",
+     "titel": "Bearbeiten-Leiste neutral (--border-2, --surface-2), .dot-live und @keyframes pulse löschen (CSS)",
+     "von": 256,
+     "bis": 260,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-3.7a",
+     "gruppe": "bewegung",
+     "titel": "Dashboard: Punkt .dot-live aus der Bearbeiten-Leiste entfernen (Trennzeichen bleibt)",
+     "von": 323,
+     "bis": 324,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "kilook-B2",
+     "gruppe": "kilook",
+     "titel": "Bearbeiten-Leiste neutral (surface-2, border-2), .dot-live und @keyframes pulse löschen",
+     "von": 416,
+     "bis": 420,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C12",
+     "gruppe": "kilook",
+     "titel": "Dashboard: Bearbeiten-Leiste ohne Pulspunkt mit „·“, Willkommen-Banner ohne icon: 'sparkle'",
+     "von": 620,
+     "bis": 624,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dot-live",
+   "schritte": [
+    {
+     "nr": "bewegung-C4",
+     "gruppe": "bewegung",
+     "titel": "Bearbeiten-Leiste neutral (--border-2, --surface-2), .dot-live und @keyframes pulse löschen (CSS)",
+     "von": 256,
+     "bis": 260,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-3.7a",
+     "gruppe": "bewegung",
+     "titel": "Dashboard: Punkt .dot-live aus der Bearbeiten-Leiste entfernen (Trennzeichen bleibt)",
+     "von": 323,
+     "bis": 324,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "kilook-B2",
+     "gruppe": "kilook",
+     "titel": "Bearbeiten-Leiste neutral (surface-2, border-2), .dot-live und @keyframes pulse löschen",
+     "von": 416,
+     "bis": 420,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C12",
+     "gruppe": "kilook",
+     "titel": "Dashboard: Bearbeiten-Leiste ohne Pulspunkt mit „·“, Willkommen-Banner ohne icon: 'sparkle'",
+     "von": 620,
+     "bis": 624,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "I.refresh",
+   "schritte": [
+    {
+     "nr": "komponenten-S-coach-a",
+     "gruppe": "komponenten",
+     "titel": "Coach: Aktualisieren/Abgleichen/Link erneuern mit I.refresh, „Aufgabe an alle“ mit I.plus",
+     "von": 628,
+     "bis": 631,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-mentor-a",
+     "gruppe": "komponenten",
+     "titel": "Mentor-Chat: .mentor-chat, .mentor-disclaimer, Neu-laden mit I.refresh",
+     "von": 663,
+     "bis": 666,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-CS1",
+     "gruppe": "zustaende",
+     "titel": "Coach: Fehlerbanner in Warn-Optik mit „Erneut versuchen“ im trailing",
+     "von": 810,
+     "bis": 814,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn.sm",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-CS1",
+     "gruppe": "zustaende",
+     "titel": "Coach: Fehlerbanner in Warn-Optik mit „Erneut versuchen“ im trailing",
+     "von": 810,
+     "bis": 814,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fw-stats",
+   "schritte": [
+    {
+     "nr": "abstaende-C3",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich-Widget: .fw-stats zwei Spalten, ab 520 px Container (.card.fw-shadow) vier; Ellipse in .fw-stats b weg; Handy-Regel löschen",
+     "von": 352,
+     "bis": 352,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-A3c",
+     "gruppe": "aufbau",
+     "titel": "Beschriftungen dichter Raster 12px/500 --muted, .fw-lbl 13/500",
+     "von": 272,
+     "bis": 277,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".slider .sv",
+   "schritte": [
+    {
+     "nr": "farbe-B16",
+     "gruppe": "farbe",
+     "titel": "Schieberegler (Schlaf): Spur --text-2, Knopf --text ohne Glow, Wert linksbündig",
+     "von": 298,
+     "bis": 303,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3-fv16",
+     "gruppe": "typografie",
+     "titel": "Werte-Skala --fv-16 (Widget-Kleinwerte, Schieberegler, News-Countdown)",
+     "von": 294,
+     "bis": 299,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.scoreColor",
+   "schritte": [
+    {
+     "nr": "diagramme-C18",
+     "gruppe": "diagramme",
+     "titel": "drawers.weeks: Pfad-Säulen, Score über Säule, Wochenlabels ausgedünnt ab jüngster Woche",
+     "von": 518,
+     "bis": 527,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-H1",
+     "gruppe": "diagramme",
+     "titel": "Regeltreue-Ring 64/6 px in scoreColor, kein Bogen bei 0",
+     "von": 626,
+     "bis": 635,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "farbe-B27a",
+     "gruppe": "farbe",
+     "titel": "ui.js: Ring und scoreColor auf --profit, neue Funktion scoreText exportieren",
+     "von": 348,
+     "bis": 350,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tilt-stats .k",
+   "schritte": [
+    {
+     "nr": "abstaende-D4",
+     "gruppe": "abstaende",
+     "titel": "Tilt-Profil: .tilt-wrap gap, .tilt-stats als Subgrid (Werte auf einer Linie), Labels 12/500 --muted, Werte 32/24, .v.cur löschen; Handy Zeilen „Label | Wert“ (20 px)",
+     "von": 371,
+     "bis": 371,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-B6",
+     "gruppe": "kilook",
+     "titel": "Tilt-Labels 12px/500 ohne Versalien",
+     "von": 460,
+     "bis": 463,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".stat-tile",
+   "schritte": [
+    {
+     "nr": "abstaende-B15",
+     "gruppe": "abstaende",
+     "titel": "Statistik-Übersicht: .stat-tile padding var(--sp-4) var(--sp-5) als Flex-Spalte, .stat-tile .v unten bündig (margin-top auto, padding-top var(--sp-2))",
+     "von": 331,
+     "bis": 331,
+     "cluster": "statistik",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-C7",
+     "gruppe": "abstaende",
+     "titel": "Handy-Block: ungerade letzte Kachel über volle Breite; .stat-tiles gap var(--sp-3); .stat-tile und .kstrip .tile padding var(--sp-4) var(--sp-3) (kstrip-Regel aus 960er- in 560er-Block)",
+     "von": 356,
+     "bis": 356,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-B5",
+     "gruppe": "bewegung",
+     "titel": "Kacheln: Hover nur Rand --border-2, .kstrip .tile:hover löschen",
+     "von": 197,
+     "bis": 202,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25a",
+     "gruppe": "komponenten",
+     "titel": "Kacheln: Hover nur Rand, .stat-tile übernimmt .tile-Maße (Padding, 13.5/500, 25px/700), Handy 22 px, heller Schatten",
+     "von": 398,
+     "bis": 405,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B7",
+     "gruppe": "responsiv",
+     "titel": "Statistik-Übersicht: 4 Spalten bis 761 px, Werte unten bündig, Kartenreihe st-cards",
+     "von": 315,
+     "bis": 326,
+     "cluster": "statistik",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C5",
+     "gruppe": "zustaende",
+     "titel": "Kacheln und Karten ohne Hover (kein Anheben, kein Schatten, kein Randwechsel)",
+     "von": 281,
+     "bis": 289,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile",
+   "schritte": [
+    {
+     "nr": "abstaende-B7",
+     "gruppe": "abstaende",
+     "titel": ".tile: padding var(--sp-4) var(--sp-5), gap var(--sp-2)",
+     "von": 323,
+     "bis": 323,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-B5",
+     "gruppe": "bewegung",
+     "titel": "Kacheln: Hover nur Rand --border-2, .kstrip .tile:hover löschen",
+     "von": 197,
+     "bis": 202,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25a",
+     "gruppe": "komponenten",
+     "titel": "Kacheln: Hover nur Rand, .stat-tile übernimmt .tile-Maße (Padding, 13.5/500, 25px/700), Handy 22 px, heller Schatten",
+     "von": 398,
+     "bis": 405,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C5",
+     "gruppe": "zustaende",
+     "titel": "Kacheln und Karten ohne Hover (kein Anheben, kein Schatten, kein Randwechsel)",
+     "von": 281,
+     "bis": 289,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-TE3",
+     "gruppe": "zustaende",
+     "titel": "Test motiontest.js: „Kachel bleibt beim Überfahren ruhig“ (transform none)",
+     "von": 879,
+     "bis": 879,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/e2e/motiontest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile:hover",
+   "schritte": [
+    {
+     "nr": "bewegung-B5",
+     "gruppe": "bewegung",
+     "titel": "Kacheln: Hover nur Rand --border-2, .kstrip .tile:hover löschen",
+     "von": 197,
+     "bis": 202,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-3.11a",
+     "gruppe": "bewegung",
+     "titel": "motiontest: „Kachel bleibt beim Überfahren stehen“ statt Anheben",
+     "von": 343,
+     "bis": 344,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/e2e/motiontest.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C25a",
+     "gruppe": "komponenten",
+     "titel": "Kacheln: Hover nur Rand, .stat-tile übernimmt .tile-Maße (Padding, 13.5/500, 25px/700), Handy 22 px, heller Schatten",
+     "von": 398,
+     "bis": 405,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C5",
+     "gruppe": "zustaende",
+     "titel": "Kacheln und Karten ohne Hover (kein Anheben, kein Schatten, kein Randwechsel)",
+     "von": 281,
+     "bis": 289,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".stat-tiles",
+   "schritte": [
+    {
+     "nr": "abstaende-B14",
+     "gruppe": "abstaende",
+     "titel": ".stat-tiles: gap 14px → var(--grid-gap)",
+     "von": 330,
+     "bis": 330,
+     "cluster": "statistik",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-C7",
+     "gruppe": "abstaende",
+     "titel": "Handy-Block: ungerade letzte Kachel über volle Breite; .stat-tiles gap var(--sp-3); .stat-tile und .kstrip .tile padding var(--sp-4) var(--sp-3) (kstrip-Regel aus 960er- in 560er-Block)",
+     "von": 356,
+     "bis": 356,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B7",
+     "gruppe": "responsiv",
+     "titel": "Statistik-Übersicht: 4 Spalten bis 761 px, Werte unten bündig, Kartenreihe st-cards",
+     "von": 315,
+     "bis": 326,
+     "cluster": "statistik",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".stat-tile:hover",
+   "schritte": [
+    {
+     "nr": "bewegung-B5",
+     "gruppe": "bewegung",
+     "titel": "Kacheln: Hover nur Rand --border-2, .kstrip .tile:hover löschen",
+     "von": 197,
+     "bis": 202,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25a",
+     "gruppe": "komponenten",
+     "titel": "Kacheln: Hover nur Rand, .stat-tile übernimmt .tile-Maße (Padding, 13.5/500, 25px/700), Handy 22 px, heller Schatten",
+     "von": 398,
+     "bis": 405,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C5",
+     "gruppe": "zustaende",
+     "titel": "Kacheln und Karten ohne Hover (kein Anheben, kein Schatten, kein Randwechsel)",
+     "von": 281,
+     "bis": 289,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal .d .n",
+   "schritte": [
+    {
+     "nr": "aufbau-A4g",
+     "gruppe": "aufbau",
+     "titel": "Kalender-Wochentage und Tageszahl 12px/500",
+     "von": 296,
+     "bis": 299,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-B14",
+     "gruppe": "barrierefreiheit",
+     "titel": "Kalender am Handy: Kurzbetrag 10,5/700 Onest, Tageszahl 11 px im 20-px-Kreis",
+     "von": 390,
+     "bis": 396,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B14",
+     "gruppe": "farbe",
+     "titel": "Kalender und Jahresübersicht: Heute-Kreis neutral, Tageszahl ohne Kreis, Rot 18 %, Auswahl --text-2, Kleintext --text-2, helle 10-%-Tönung, Mini-Kalender",
+     "von": 284,
+     "bis": 293,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26a",
+     "gruppe": "komponenten",
+     "titel": "Kalender: Wochentage als Beschriftung, Tageszahl ohne Kreis, nur „heute“ gefüllt (--text/--bg)",
+     "von": 411,
+     "bis": 416,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3b",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 9.5/10 px → 11 (Handy-Kalender, Sortierpfeil, Ring, News, Tageszahl im 20-px-Kreis)",
+     "von": 238,
+     "bis": 240,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tbl th",
+   "schritte": [
+    {
+     "nr": "abstaende-B20",
+     "gruppe": "abstaende",
+     "titel": "Tabellenzellen: .tbl th/td var(--sp-3) var(--sp-4), .tbl.compact var(--sp-2) var(--sp-3); Ausnahmen TradeLog und Handy bleiben",
+     "von": 336,
+     "bis": 336,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

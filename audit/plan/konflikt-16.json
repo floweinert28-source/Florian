@@ -1,0 +1,1243 @@
+{
+ "anker": [
+  {
+   "anker": "App.accountControl",
+   "schritte": [
+    {
+     "nr": "aufbau-B5",
+     "gruppe": "aufbau",
+     "titel": "„Konten verwalten“ auf #/settings/konten",
+     "von": 344,
+     "bis": 346,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P11",
+     "gruppe": "barrierefreiheit",
+     "titel": "Zeitraum- und Konto-Menü als Radiogruppen (role=radiogroup/radio)",
+     "von": 640,
+     "bis": 644,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A3",
+     "gruppe": "komponenten",
+     "titel": "Konto-Menü der Kopfreihe mit Haken-Spalte",
+     "von": 553,
+     "bis": 555,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3a",
+     "gruppe": "responsiv",
+     "titel": "Konto-Knopf: Sichtbarkeit bei mehr als einem Konto, Option iconM, aria-label (accountControl, pageHead)",
+     "von": 419,
+     "bis": 429,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.6",
+     "gruppe": "responsiv",
+     "titel": "Dashboard: Konto-Knopf mit iconM",
+     "von": 473,
+     "bis": 476,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A2",
+     "gruppe": "zustaende",
+     "titel": "Konto-Menü: aktuelle Wahl immer markiert, title „Kontogröße“, Link #/settings/konten",
+     "von": 532,
+     "bis": 539,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "aria-checked",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P13",
+     "gruppe": "barrierefreiheit",
+     "titel": "Plan & Bewertung: Sterne als Radiogruppe mit Klasse .on und Namen „{0} von 5 Sternen“, guard",
+     "von": 664,
+     "bis": 670,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P14a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Check-in-Skalen als Radiogruppen mit Namen „1 – entspannt“ …, seg-set setzt aria-checked",
+     "von": 671,
+     "bis": 675,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-day-18",
+     "gruppe": "barrierefreiheit",
+     "titel": "Tages-Regelliste als <button role=\"checkbox\" aria-checked>",
+     "von": 762,
+     "bis": 767,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-progress-73",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fortschritt: Tages-Checkliste als <button role=\"checkbox\"> (wie day.js:18)",
+     "von": 768,
+     "bis": 770,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A2",
+     "gruppe": "zustaende",
+     "titel": "Konto-Menü: aktuelle Wahl immer markiert, title „Kontogröße“, Link #/settings/konten",
+     "von": 532,
+     "bis": 539,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M1a",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen: Schalter Christlicher Impuls, Audio behalten, Geld-blind ohne Neuaufbau",
+     "von": 742,
+     "bis": 747,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.pageHead",
+   "schritte": [
+    {
+     "nr": "abstaende-E1",
+     "gruppe": "abstaende",
+     "titel": "App.pageHead: leere Kopfreihe nicht rendern (return '' wenn links und rechts leer)",
+     "von": 379,
+     "bis": 383,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "abstaende-E-day2",
+     "gruppe": "abstaende",
+     "titel": "Tagesansicht: Datumsnavigation als ctx.headLeft in die Kopfreihe, Kopfknöpfe Zertifikat/Check-in/„Trade für diesen Tag“ entfallen, .day-title in app.css",
+     "von": 437,
+     "bis": 437,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-A4",
+     "gruppe": "komponenten",
+     "titel": "„Session starten“ mit Text ab 1181 px (sessionControl ohne iconOnly)",
+     "von": 556,
+     "bis": 560,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3a",
+     "gruppe": "responsiv",
+     "titel": "Konto-Knopf: Sichtbarkeit bei mehr als einem Konto, Option iconM, aria-label (accountControl, pageHead)",
+     "von": 419,
+     "bis": 429,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-MT1",
+     "gruppe": "zustaende",
+     "titel": "Mentor ohne Server: leere Kopfreihe (head als Getter)",
+     "von": 837,
+     "bis": 841,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".popover .item[aria-checked=\"true\"]",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B6",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gewählter Menüeintrag flach statt grün (Popover, Notebook-Setup-Tag, Vorlagen-Menü)",
+     "von": 317,
+     "bis": 325,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B4",
+     "gruppe": "farbe",
+     "titel": "Gewählter Menüeintrag .popover .item[aria-checked] mit flachem Auswahlstil (inset-Rand)",
+     "von": 249,
+     "bis": 251,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C21a",
+     "gruppe": "komponenten",
+     "titel": "Menüeinträge: .popover .item (min. 36, 13px/500), gewählt neutral, Haken-Spalte .chk, .popover .sec",
+     "von": 362,
+     "bis": 366,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A2",
+     "gruppe": "zustaende",
+     "titel": "Konto-Menü: aktuelle Wahl immer markiert, title „Kontogröße“, Link #/settings/konten",
+     "von": 532,
+     "bis": 539,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#pop-range",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P11",
+     "gruppe": "barrierefreiheit",
+     "titel": "Zeitraum- und Konto-Menü als Radiogruppen (role=radiogroup/radio)",
+     "von": 640,
+     "bis": 644,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-D2",
+     "gruppe": "komponenten",
+     "titel": "rangepicker.js: einzelner Monat zeigt das Zeitraumende (oneMonth)",
+     "von": 613,
+     "bis": 616,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/rangepicker.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3b",
+     "gruppe": "responsiv",
+     "titel": "App.fitPopover: RangePicker.fit-Aufruf und 16-px-Randabstand am Handy",
+     "von": 430,
+     "bis": 431,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#/settings/konten",
+   "schritte": [
+    {
+     "nr": "aufbau-B5",
+     "gruppe": "aufbau",
+     "titel": "„Konten verwalten“ auf #/settings/konten",
+     "von": 344,
+     "bis": 346,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A2",
+     "gruppe": "zustaende",
+     "titel": "Konto-Menü: aktuelle Wahl immer markiert, title „Kontogröße“, Link #/settings/konten",
+     "von": 532,
+     "bis": 539,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rating",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P13",
+     "gruppe": "barrierefreiheit",
+     "titel": "Plan & Bewertung: Sterne als Radiogruppe mit Klasse .on und Namen „{0} von 5 Sternen“, guard",
+     "von": 664,
+     "bis": 670,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C15",
+     "gruppe": "komponenten",
+     "titel": "1–5-Skala .scale5 (CSS) inkl. gemeinsamer Auswahlregel",
+     "von": 292,
+     "bis": 303,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-A6",
+     "gruppe": "komponenten",
+     "titel": "Check-in und Bewertung als .scale5 (Markup)",
+     "von": 570,
+     "bis": 573,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-rating",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P13",
+     "gruppe": "barrierefreiheit",
+     "titel": "Plan & Bewertung: Sterne als Radiogruppe mit Klasse .on und Namen „{0} von 5 Sternen“, guard",
+     "von": 664,
+     "bis": 670,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A6",
+     "gruppe": "komponenten",
+     "titel": "Check-in und Bewertung als .scale5 (Markup)",
+     "von": 570,
+     "bis": 573,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.checkInFields",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P14a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Check-in-Skalen als Radiogruppen mit Namen „1 – entspannt“ …, seg-set setzt aria-checked",
+     "von": 671,
+     "bis": 675,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A6",
+     "gruppe": "komponenten",
+     "titel": "Check-in und Bewertung als .scale5 (Markup)",
+     "von": 570,
+     "bis": 573,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.rerender",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-day-18",
+     "gruppe": "barrierefreiheit",
+     "titel": "Tages-Regelliste als <button role=\"checkbox\" aria-checked>",
+     "von": 762,
+     "bis": 767,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "bewegung-3.11b",
+     "gruppe": "bewegung",
+     "titel": "motiontest: neuer Test „Neuaufbau bereitet nichts erneut vor“",
+     "von": 345,
+     "bis": 345,
+     "cluster": "bewegung",
+     "dateien": [
+      "web/e2e/motiontest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".seg.pill",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P14a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Check-in-Skalen als Radiogruppen mit Namen „1 – entspannt“ …, seg-set setzt aria-checked",
+     "von": 671,
+     "bis": 675,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A6",
+     "gruppe": "komponenten",
+     "titel": "Check-in und Bewertung als .scale5 (Markup)",
+     "von": 570,
+     "bis": 573,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".day-title",
+   "schritte": [
+    {
+     "nr": "abstaende-E-day2",
+     "gruppe": "abstaende",
+     "titel": "Tagesansicht: Datumsnavigation als ctx.headLeft in die Kopfreihe, Kopfknöpfe Zertifikat/Check-in/„Trade für diesen Tag“ entfallen, .day-title in app.css",
+     "von": 437,
+     "bis": 437,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C36",
+     "gruppe": "komponenten",
+     "titel": "Klassen statt Inline-Stil für Widgets und Tagesansicht (CSS)",
+     "von": 489,
+     "bis": 504,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-day-a",
+     "gruppe": "komponenten",
+     "titel": "Tagesansicht-Kopf: .btn.nav, .day-title, „Heute“ als btn sm",
+     "von": 657,
+     "bis": 658,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.sessionControl",
+   "schritte": [
+    {
+     "nr": "aufbau-B1",
+     "gruppe": "aufbau",
+     "titel": "pageHead: leere Kopfreihe nicht rendern, newTradeButton mit Tooltip, head als Funktion",
+     "von": 300,
+     "bis": 316,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P9",
+     "gruppe": "barrierefreiheit",
+     "titel": "Session-Knopf: Name „Session beenden“, Zeit als Beschreibung (aria-describedby)",
+     "von": 630,
+     "bis": 634,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A4",
+     "gruppe": "komponenten",
+     "titel": "„Session starten“ mit Text ab 1181 px (sessionControl ohne iconOnly)",
+     "von": 556,
+     "bis": 560,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "screen.head",
+   "schritte": [
+    {
+     "nr": "aufbau-B1",
+     "gruppe": "aufbau",
+     "titel": "pageHead: leere Kopfreihe nicht rendern, newTradeButton mit Tooltip, head als Funktion",
+     "von": 300,
+     "bis": 316,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-MT1",
+     "gruppe": "zustaende",
+     "titel": "Mentor ohne Server: leere Kopfreihe (head als Getter)",
+     "von": 837,
+     "bis": 841,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpop .item.k-setup[aria-checked=\"true\"]",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B6",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gewählter Menüeintrag flach statt grün (Popover, Notebook-Setup-Tag, Vorlagen-Menü)",
+     "von": 317,
+     "bis": 325,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C1b",
+     "gruppe": "farbe",
+     "titel": "Notizkopf (.pnl-line, .lbl-pnl, Links), Speicherstatus --warn-text, Tag-Menü ohne Grün",
+     "von": 360,
+     "bis": 363,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C29b",
+     "gruppe": "komponenten",
+     "titel": "Notebook-Tag-Menü (CSS): eine Spalte, 280 px, Suchfeld, keine farbigen Köpfe",
+     "von": 435,
+     "bis": 441,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpop .sec.k-setup",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B6",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gewählter Menüeintrag flach statt grün (Popover, Notebook-Setup-Tag, Vorlagen-Menü)",
+     "von": 317,
+     "bis": 325,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C1b",
+     "gruppe": "farbe",
+     "titel": "Notizkopf (.pnl-line, .lbl-pnl, Links), Speicherstatus --warn-text, Tag-Menü ohne Grün",
+     "von": 360,
+     "bis": 363,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C29b",
+     "gruppe": "komponenten",
+     "titel": "Notebook-Tag-Menü (CSS): eine Spalte, 280 px, Suchfeld, keine farbigen Köpfe",
+     "von": 435,
+     "bis": 441,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tpl-row .chk",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B6",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gewählter Menüeintrag flach statt grün (Popover, Notebook-Setup-Tag, Vorlagen-Menü)",
+     "von": 317,
+     "bis": 325,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C23",
+     "gruppe": "komponenten",
+     "titel": "Vorlagen-Menü (CSS): neutral, Stern gedämpft, Untermenü als eingerückte Gruppe",
+     "von": 378,
+     "bis": 387,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tpl-row.on .item.name",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B6",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gewählter Menüeintrag flach statt grün (Popover, Notebook-Setup-Tag, Vorlagen-Menü)",
+     "von": 317,
+     "bis": 325,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C23",
+     "gruppe": "komponenten",
+     "titel": "Vorlagen-Menü (CSS): neutral, Stern gedämpft, Untermenü als eingerückte Gruppe",
+     "von": 378,
+     "bis": 387,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "RangePicker.oneMonth",
+   "schritte": [
+    {
+     "nr": "komponenten-D2",
+     "gruppe": "komponenten",
+     "titel": "rangepicker.js: einzelner Monat zeigt das Zeitraumende (oneMonth)",
+     "von": 613,
+     "bis": 616,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/rangepicker.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.4",
+     "gruppe": "responsiv",
+     "titel": "RangePicker: bei Vorgabe und nur einem sichtbaren Monat den aktuellen Monat zeigen (oneMonth, presetView, pick, setPreset, fit)",
+     "von": 454,
+     "bis": 466,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/rangepicker.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "RangePicker.pick",
+   "schritte": [
+    {
+     "nr": "komponenten-D2",
+     "gruppe": "komponenten",
+     "titel": "rangepicker.js: einzelner Monat zeigt das Zeitraumende (oneMonth)",
+     "von": 613,
+     "bis": 616,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/rangepicker.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.4",
+     "gruppe": "responsiv",
+     "titel": "RangePicker: bei Vorgabe und nur einem sichtbaren Monat den aktuellen Monat zeigen (oneMonth, presetView, pick, setPreset, fit)",
+     "von": 454,
+     "bis": 466,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/rangepicker.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.fitPopover",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P2",
+     "gruppe": "barrierefreiheit",
+     "titel": "Menüs: aria-expanded beim Öffnen/Schließen, Öffnen per Tastatur fokussiert Eintrag",
+     "von": 565,
+     "bis": 572,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3b",
+     "gruppe": "responsiv",
+     "titel": "App.fitPopover: RangePicker.fit-Aufruf und 16-px-Randabstand am Handy",
+     "von": 430,
+     "bis": 431,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rating button[aria-pressed=\"true\"]",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B9a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Bewertungssterne 32 px mit Klasse .on, .seg mit aria-checked, Check-in-Skala min. 36 px (Handy 44 px)",
+     "von": 344,
+     "bis": 349,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B3a",
+     "gruppe": "farbe",
+     "titel": "Formfelder: Platzhalter und .field .hint in --muted, neue .lbl-hint, Häkchen neutral, Bewertung --muted/--warn-text",
+     "von": 237,
+     "bis": 243,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C15",
+     "gruppe": "komponenten",
+     "titel": "1–5-Skala .scale5 (CSS) inkl. gemeinsamer Auswahlregel",
+     "von": 292,
+     "bis": 303,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--lc",
+   "schritte": [
+    {
+     "nr": "farbe-C23",
+     "gruppe": "farbe",
+     "titel": "News: IMP_COL löschen, Wichtigkeits-Chips ohne --lc",
+     "von": 500,
+     "bis": 501,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/news.js"
+     ]
+    },
+    {
+     "nr": "farbe-D2b",
+     "gruppe": "farbe",
+     "titel": "newstest: Prüfung auf neutrale Wichtigkeits-Chips (kein --lc) umdrehen",
+     "von": 563,
+     "bis": 564,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/e2e/newstest.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C15",
+     "gruppe": "komponenten",
+     "titel": "1–5-Skala .scale5 (CSS) inkl. gemeinsamer Auswahlregel",
+     "von": 292,
+     "bis": 303,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-tog.stars button",
+   "schritte": [
+    {
+     "nr": "farbe-B19",
+     "gruppe": "farbe",
+     "titel": "Filter-Popover: Sterne --warn-text, .fd-chip.setup löschen, .fd-add neutral",
+     "von": 314,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C15",
+     "gruppe": "komponenten",
+     "titel": "1–5-Skala .scale5 (CSS) inkl. gemeinsamer Auswahlregel",
+     "von": 292,
+     "bis": 303,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .save-state.saving",
+   "schritte": [
+    {
+     "nr": "farbe-C1b",
+     "gruppe": "farbe",
+     "titel": "Notizkopf (.pnl-line, .lbl-pnl, Links), Speicherstatus --warn-text, Tag-Menü ohne Grün",
+     "von": 360,
+     "bis": 363,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C37a",
+     "gruppe": "komponenten",
+     "titel": "„Gespeichert“-Hinweis: .save-state allgemein und im Bereichskopf",
+     "von": 505,
+     "bis": 507,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C14",
+     "gruppe": "zustaende",
+     "titel": "Speicherstand: Notebook 12 px ohne Gelb, neue Regel .set-head .save-state",
+     "von": 346,
+     "bis": 350,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpop .chk",
+   "schritte": [
+    {
+     "nr": "farbe-C1b",
+     "gruppe": "farbe",
+     "titel": "Notizkopf (.pnl-line, .lbl-pnl, Links), Speicherstatus --warn-text, Tag-Menü ohne Grün",
+     "von": 360,
+     "bis": 363,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C21d",
+     "gruppe": "komponenten",
+     "titel": "Haken in Notebook-Tags und Editor-Menüs 16 px in --text-2",
+     "von": 372,
+     "bis": 373,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tpl-row .item.name",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-dashboard-30-32",
+     "gruppe": "barrierefreiheit",
+     "titel": "Vorlagen-Menü: aktive Vorlage aria-current=\"true\"",
+     "von": 802,
+     "bis": 804,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C23",
+     "gruppe": "komponenten",
+     "titel": "Vorlagen-Menü (CSS): neutral, Stern gedämpft, Untermenü als eingerückte Gruppe",
+     "von": 378,
+     "bis": 387,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.closePopovers",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P2",
+     "gruppe": "barrierefreiheit",
+     "titel": "Menüs: aria-expanded beim Öffnen/Schließen, Öffnen per Tastatur fokussiert Eintrag",
+     "von": 565,
+     "bis": 572,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P3",
+     "gruppe": "barrierefreiheit",
+     "titel": "Globaler Tastatur-Handler: Escape (requestClose, Menü-Rücksprung, closeSidebar), Enter/Leertaste auf role=button/checkbox, Pfeiltasten in Radiogruppen",
+     "von": 573,
+     "bis": 590,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.13",
+     "gruppe": "responsiv",
+     "titel": "Notebook: Teilen am Handy im •••-Menü, Ordner-Ansicht öffnet linke Spalte, nb-share schließt Menüs",
+     "von": 524,
+     "bis": 530,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-Z2",
+     "gruppe": "zustaende",
+     "titel": "Zertifikat: Menü schließen, bevor der Dialog öffnet",
+     "von": 512,
+     "bis": 514,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/certificate.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".field .hint",
+   "schritte": [
+    {
+     "nr": "farbe-B3a",
+     "gruppe": "farbe",
+     "titel": "Formfelder: Platzhalter und .field .hint in --muted, neue .lbl-hint, Häkchen neutral, Bewertung --muted/--warn-text",
+     "von": 237,
+     "bis": 243,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C3",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Stile: .field.invalid, aria-invalid-Rand, .field-err",
+     "von": 260,
+     "bis": 267,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".check input",
+   "schritte": [
+    {
+     "nr": "farbe-B3a",
+     "gruppe": "farbe",
+     "titel": "Formfelder: Platzhalter und .field .hint in --muted, neue .lbl-hint, Häkchen neutral, Bewertung --muted/--warn-text",
+     "von": 237,
+     "bis": 243,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C17a",
+     "gruppe": "komponenten",
+     "titel": "Native Häkchen (accent-color: var(--text)) und Quill-Checklisten neutral",
+     "von": 312,
+     "bis": 316,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".save-state",
+   "schritte": [
+    {
+     "nr": "komponenten-C37a",
+     "gruppe": "komponenten",
+     "titel": "„Gespeichert“-Hinweis: .save-state allgemein und im Bereichskopf",
+     "von": 505,
+     "bis": 507,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-a",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen-Kopf mit .save-state",
+     "von": 669,
+     "bis": 670,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M2",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen → Trading speichert sofort bei change, „Gespeichert“ im Kopf, kein Speichern-Knopf",
+     "von": 762,
+     "bis": 770,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-NB3",
+     "gruppe": "zustaende",
+     "titel": "Notebook-Speicherstand „Wird gespeichert …“",
+     "von": 855,
+     "bis": 857,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-head .save-state",
+   "schritte": [
+    {
+     "nr": "komponenten-C37a",
+     "gruppe": "komponenten",
+     "titel": "„Gespeichert“-Hinweis: .save-state allgemein und im Bereichskopf",
+     "von": 505,
+     "bis": 507,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-A7",
+     "gruppe": "komponenten",
+     "titel": "Helfer App.savedHint() für „Gespeichert“ (1,5 s)",
+     "von": 574,
+     "bis": 576,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C14",
+     "gruppe": "zustaende",
+     "titel": "Speicherstand: Notebook 12 px ohne Gelb, neue Regel .set-head .save-state",
+     "von": 346,
+     "bis": 350,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .save-state",
+   "schritte": [
+    {
+     "nr": "komponenten-C37a",
+     "gruppe": "komponenten",
+     "titel": "„Gespeichert“-Hinweis: .save-state allgemein und im Bereichskopf",
+     "von": 505,
+     "bis": 507,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C14",
+     "gruppe": "zustaende",
+     "titel": "Speicherstand: Notebook 12 px ohne Gelb, neue Regel .set-head .save-state",
+     "von": 346,
+     "bis": 350,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ed-pop .item .chk",
+   "schritte": [
+    {
+     "nr": "farbe-C1c",
+     "gruppe": "farbe",
+     "titel": "Editor-Werkzeuge: Toolbar gedrückt, Haken im Editor-Popover, Palettenrand, Notebook-Menü und YouTube-Popover neutral",
+     "von": 364,
+     "bis": 369,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C21d",
+     "gruppe": "komponenten",
+     "titel": "Haken in Notebook-Tags und Editor-Menüs 16 px in --text-2",
+     "von": 372,
+     "bis": 373,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

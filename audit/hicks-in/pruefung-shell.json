@@ -1,0 +1,266 @@
+{
+ "fakten": {
+  "urteile": [
+   {
+    "id": "shell-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Grundlage stimmt: pageHead-Standard ist { range, account, session, trade: true } (app.js:257); misc.js:17 hat kein head. Eigene Playwright-Messung bei 1440 px: Einstellungen zeigen Zeitraum, Konto, ▶ und „Trade loggen“; Prop, Stats, Fortschritt und Coupons haben „Trade loggen“ als einzigen grünen Knopf. Der Nutzer hat die Regel schon für Schatten-Ich (shadow.js:104) und Mentor (mentor.js:76) so entschieden. Zwei Behauptungen sind aber falsch: (1) In der Tagesansicht bleibt „Trade für diesen Tag“ NICHT der einzige grüne Knopf. „Tagesnotiz anlegen“ ist .btn.sm.primary (gefüllt, day.js:19) und steht da, solange es keine Tagesnotiz gibt; dann wirkt er sogar stärker. (2) Einstellungen zeigen danach nicht „nur Speichern“: „2FA aktivieren“ ist ebenfalls .btn.primary. Beides gehört zu den Bereichen Tagesansicht und Einstellungen. Unerwähnte Folge: Der runde „+“-Knopf auf dem Handy ist dasselbe Element (.dash-head .tl) und verschwindet mit. Die Taste N (app.html:96) hilft auf dem Telefon nicht. Ohne shell-1-2 verschwindet außerdem eine laufende Session aus den meisten Kopfreihen.",
+    "beschreibung_neu": "pageHead (app.js:257): Standard auf { session: false, trade: false } drehen und gezielt einschalten. trades: { trade: true, session: true }. day: { range: false, session: true } (day.js liest keinen Zeitraum). settings (misc.js:17): { range: false, account: false }. Stats, Fortschritt, Notebook, News, Prop, Coupons und Affiliate übernehmen den neuen Standard. Ergebnis: Prop Firms zeigt in der Kopfreihe nur „+ Prop-Konto“ (.btn), Notebook nur die Suche. Coupon-Codes, Affiliate, News und Einstellungen bekommen eine leere, kompakte Kopfreihe. Auf dem Handy entfällt auf diesen Seiten der runde „+“-Knopf (.dash-head .tl). „Trade loggen“ bleibt erreichbar über Dashboard, TradeLog, Tagesansicht („Trade für diesen Tag“) und auf dem Desktop über die Taste N (app.html:96). Hinweis: Die Tagesansicht behält zwei grüne Knöpfe, „Trade für diesen Tag“ (.btn.sm.accent) und, ohne Tagesnotiz, „Tagesnotiz anlegen“ (.btn.sm.primary, day.js:19). Die Einstellungen behalten zwei gefüllte („Speichern“, „2FA aktivieren“). Beides ist ein eigener Befund der Bereiche. Nur zusammen mit shell-1-2 umsetzen, damit eine laufende Session sichtbar bleibt."
+   },
+   {
+    "id": "shell-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fakten stimmen: ▶ ist .btn.icon-only (sessionControl(true), app.js:247-252), erscheint auf allen pageHead-Seiten außer Schatten-Ich, Mentor und Coach, und Fortschritt startet die Session über die Checkliste (progress.js:51). Der Teil „▶ nur auf TradeLog und Tagesansicht“ ist aber identisch mit shell-1-1 (trades/day: session true). Eigenständig ist nur die laufende Session auf allen Seiten, und die ist Voraussetzung für shell-1-1, keine eigene Verbesserung. Deshalb Wirkung 3 statt 2.",
+    "beschreibung_neu": "Ergänzung zu shell-1-1, nicht eigenständig: sessionControl (app.js:247-252) rendert bei laufender Session den Timer-Knopf mit Stopp in jeder pageHead-Kopfreihe, unabhängig von head.session. Ohne laufende Session gibt es ▶ nur dort, wo head.session gesetzt ist (trades, day). Fortschritt startet die Session weiter über die Checkliste (progress.js:51). Für Schatten-Ich und Mentor (head.session false nach Nutzer-Entscheidung, shadow.js:104) vorher klären, ob der laufende Timer dort erscheinen soll."
+   },
+   {
+    "id": "shell-2-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "leer_trades.png bestätigt alles: Oben stehen Zeitraum, Konto, „CSV importieren“ (.btn, trades.js:20), ▶ und „Trade loggen“ (.btn.accent). Im Leerzustand folgen noch einmal „CSV importieren“ (.btn.sm) und „Trade loggen“ (.btn.sm.primary, gefüllt, trades.js:45). Das Konto-Menü hat bei einem Konto nur „Hauptkonto“ und „Konten verwalten“ (gemessen). Einschränkung: Beim ersten Start installiert app.html:88 automatisch Beispieldaten. Den echten Leerzustand sieht man also erst nach „Beispieldaten entfernen“. Das ist der Moment, in dem das eigene Journal beginnt, und der Nutzer hat ihn ausdrücklich angefragt. Wirkung 2 bleibt.",
+    "beschreibung_neu": "pageHead (app.js:256-262) prüft ctx.all.length === 0. Dann werden range und session nicht gerendert, account nur bei mehr als einem Konto. Setzt der Screen ctx.emptyCta = true (TradeLog, wenn es überhaupt keine Trades gibt), blendet pageHead seine Knöpfe „CSV importieren“ (trades.js:20) und „Trade loggen“ aus. Damit entfällt auf dem Handy auch der runde „+“-Knopf, und der Leerzustand (trades.js:45) bleibt der einzige Weg. Gibt es Trades, nur nicht im Zeitraum, bleibt der Zeitraum sichtbar. Mit dem ersten Trade erscheint alles wieder."
+   },
+   {
+    "id": "shell-4-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Hierarchie stimmt: modal_zertifikat.png (1440 und 390) zeigt im Leerzustand Format, 2 Häkchen, den Auflösungs-Hinweis, „Kopieren“ (.btn, disabled) und „PNG herunterladen“ (.btn.primary, disabled, .btn:disabled opacity .5, app.css:286), weiterhin die auffälligste Fläche (certificate.js:83-88). „Standardweg“ ist übertrieben: Der Leerzustand entsteht über „Daily Profit“ nur, wenn heute keine Trades hat (Wochenende, vor dem ersten Trade). Weekly führte am So 11.10. zu Trades. Wirkung 1 ist zu hoch: Das Zertifikat ist eine gelegentliche Teilen-Funktion, und shell-5-1 verhindert die meisten Einstiege in den Leerzustand schon. Danach greift dieser Vorschlag vor allem beim Blättern mit ‹ ›. Für die Art „stats“ fehlt eine Variante.",
+    "beschreibung_neu": "In render() (certificate.js:83-88), wenn empty: Die Seitenspalte zeigt nur das Feld „Zeitraum“. Format, Häkchen, Auflösungs-Hinweis, „Kopieren“, „Teilen“ und „PNG herunterladen“ werden nicht gerendert. Der Leerzustand der Vorschau bekommt genau einen .btn.primary: „Zum letzten Handelstag“, „Zur letzten Woche mit Trades“ oder „Zum letzten Monat mit Trades“. Er setzt state.ref auf den Zeitraum des jüngsten Trades ≤ heute (größter dayKey aus App.allTrades(), umgerechnet mit D.monthKey/D.period) und ruft render(). Bei der Art „stats“ (Performance) heißt der Knopf „Gesamter Zeitraum“ (state.ref = null). Hat das Konto gar keine Trades, steht nur ein Satz ohne Knopf. Sobald der Zeitraum Trades hat, erscheinen Format, Optionen und Export wieder. Zusammen mit shell-5-1 umsetzen; shell-5-1 ist der stärkere Hebel."
+   },
+   {
+    "id": "shell-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: menuHTML (certificate.js:58-60) nimmt ctx.day oder heute. Das Dashboard übergibt todayKey (dashboard.js:125), Statistiken übergeben {} (stats.js:9). Die rechte Spalte wiederholt nur „Tag/Woche/Monat/Stats“ (pop_zertifikat.png, 1440 und 390). Nur „Daily Profit“ führt an handelsfreien Tagen ins Leere, Weekly und Monthly nur an Wochen- bzw. Monatsanfängen vor dem ersten Trade. Für einen Daytrader passt „letzter Handelstag“ gut: Montag früh liefert Freitag. Wirkung 1 ist zu hoch für einen gelegentlich genutzten Teilen-Dialog, deshalb 2."
+   },
+   {
+    "id": "shell-5-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fakten stimmen: leer_stats.png zeigt „Zertifikat“ (.btn) ohne einen einzigen Trade. Das Schild im Dashboard wird ohne Bedingung gerendert (dashboard.js:125). Wirkung nur 3: ein Nebenknopf bzw. ein kleines Symbol, und der Zustand ist selten, weil der Erststart Beispieldaten installiert (app.html:88). Regel 5 trifft aber zu."
+   },
+   {
+    "id": "shell-5-3",
+    "bestaetigt": false,
+    "wirkung": 3,
+    "anmerkung": "Nicht übernehmen. (1) .popover .item[aria-checked=\"true\"] färbt die Schrift grün (app.css:337). Das ergibt eine grüne Markierung im Menü, und genau die hat der Nutzer abgelehnt (BRIEF: „grüne Markierung von Auswahl“; README:203: Grün nur für Gewinn und „Trade loggen“). „Kein neuer Stil“ heißt hier also neues Grün. (2) Das Zertifikat-Menü ist ein Aktionsmenü ohne Auswahlzustand. aria-checked würde eine aktuelle Einstellung vortäuschen. (3) Die zugrunde liegende Hauptaktion („Monthly bei Monats-Zeitraum“) ist nicht belegt. Für einen Daytrader ist eher Daily Profit des letzten Handelstags typisch. (4) Nach shell-5-1 zeigt die rechte Spalte „Okt 2026“, passend zum Zeitraum-Knopf „Oktober 2026“. Die Zuordnung ist dann ohne Markierung sichtbar."
+   },
+   {
+    "id": "shell-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: dashboard.js:124 setzt bei aktivem Filter class=\"btn accent\". Laut hicks_titelzeile_filter_aktiv_1440.png stehen dann zwei grüne Knöpfe untereinander (Filter, „Trade loggen“). README:203-207 sagt ausdrücklich: Grün nur für Gewinn und „Trade loggen“, der Zähler im Filter-Knopf ist neutral. Der Vorschlag setzt eine schon dokumentierte Nutzer-Entscheidung um."
+   },
+   {
+    "id": "shell-6-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Selbst gemessen: getComputedStyle(.menu-btn).display = flex bei 1440 px. Ursache bestätigt: .menu-btn{display:none} (app.css:224, 0,1,0) verliert gegen .btn{display:inline-flex} (app.css:267, gleiche Spezifität, später). Klick: Die Aktion „sidebar“ setzt nur state.sidebarOpen, und .sidebar.open/.scrim wirken nur im Block max-width 960px (app.css:917-923). Sichtbar passiert also nichts. Zu sehen in dashboard.png und sidebar_mini.png (eingeklappt zusammen mit dem Ausklapp-Symbol). Der Lösungsweg ist richtig: Weil die Desktop-Regel auf 0,2,0 steigt, muss auch die Handy-Regel (app.css:923) zu .topbar .menu-btn werden. Die README nennt keine Absicht für ☰ auf dem Desktop."
+   },
+   {
+    "id": "shell-6-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Selbst gemessen: Auch mit Beispieldaten gibt es nur ein Konto („Hauptkonto“). Das Konto-Menü enthält nur „Hauptkonto 25.000 €“ und „Konten verwalten“, ist also eine Wahl ohne Alternative. Zu beachten: Der Vorschlag berührt Nutzer-Entscheidungen. Für die Mentor-Kopfreihe hat der Nutzer ausdrücklich „nur mit Konto“ gewählt (Aufgabe #8, mentor.js:76), und der Hinweis „Der Mentor sieht die letzten 20 Trades dieses Kontos“ verliert ohne Knopf seinen Bezug. Die Titelzeile des Dashboards ist in README:62 festgelegt. Den Mentor-Hinweis bei einem Konto umformulieren oder dort den Knopf behalten; Zustimmung einholen."
+   },
+   {
+    "id": "shell-6-4",
+    "bestaetigt": false,
+    "wirkung": 3,
+    "anmerkung": "Schon umgesetzt, der Befund ist veraltet. Commit aa9f1c6 („Dashboard: Größen-Listener beim Verlassen der Seite abhängen“, 11.10. 15:16) fügte App.screens.dashboard.unmount() hinzu (dashboard.js:138: removeEventListener). app.js:78 ruft unmount bei jedem render() auf, e2e/leaktest.js prüft das, README:63 dokumentiert es. day.png und settings.png (11.10. 12:39) und die Proben des Analysten (hicks-shell/probe*.js, 13:54–14:01) stammen von vor diesem Commit. Eigene Playwright-Messung am aktuellen Code: Dashboard → #/day bzw. #/settings, dann 1440→900→1440 px. Danach #tb-tools .dh-context = false, Zeitraum und Konto stehen in der Kopfreihe wie bei TradeLog. Höchstens die zusätzliche Bedingung route === 'dashboard' in placeContext wäre noch neu, ist aber ohne Wirkung."
+   },
+   {
+    "id": "shell-6-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: In sidebar_mini.png stehen zwei identische „T“. Das obere führt direkt zu #/settings/profil (app.js:266), das untere öffnet das Konto-Menü (app.js:226-231). Der Vorschlag berührt README:62 (Zeitraum, Konto und Filter „auf Höhe des Avatars“) und braucht, wie die Analyse richtig sagt, die Zustimmung des Nutzers. Auf dem Desktop kostet Profil danach 2 Klicks statt 1."
+   },
+   {
+    "id": "shell-7-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "leer_dashboard.png zeigt „Oktober 2026“, „Hauptkonto“ und „Filter“ ohne Daten. „Beispieldaten laden“ ist .btn.sm.primary (gefüllt, dashboard.js:130) und damit stärker als „Trade loggen“ (.btn.accent, nicht gefüllt, app.css:3137). In der Aufnahme ist die Kopfreihe mit „Trade loggen“ verrutscht und liegt unter der Titelzeile. Einschränkung wie bei shell-2-1: Den Zustand sieht man erst nach dem Entfernen der automatisch geladenen Beispieldaten (app.html:88). Kleine Unschärfe: Die Beschreibung prüft S.trades() über alle Konten, sagt aber zugleich, nur die Konto-Wahl bleibe. Bei S.trades().length > 0 bleiben alle drei Knöpfe."
+   },
+   {
+    "id": "shell-8-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Maße stimmen (eigene Messung bei 390×844: Schublade scrollHeight 892 bei clientHeight 844, Konto-Karte 815,5–874 px). Falsch ist „zu den Einstellungen braucht man 4 Schritte“: Der Avatar oben rechts ist immer sichtbar und führt mit 1 Tipp zu Einstellungen → Profil. Von dort erreicht man jeden Bereich über die Seitennavigation. 3 Schritte (☰, Karte, Eintrag) brauchen nur Coach, Affiliate und der Design-Schalter. Die Karte ist oben mit 28 px angeschnitten sichtbar und ohne Scrollen antippbar. Mit dem Vorschlag werden die Einstellungen 2 Tipps (vorher 1), Coach, Affiliate und Design 2 Tipps (vorher 3). Das bündelt die Wege, ist aber kein klarer Gewinn, deshalb Wirkung 3.",
+    "beschreibung_neu": "In topbar() (app.js:266) wird der Avatar unter 961 px zu einem Knopf data-pop=\"user-top\" mit demselben Popover-Inhalt wie userCard (gemeinsame Funktion). Das Popover öffnet nach unten, rechtsbündig. Damit gibt es auf dem Handy einen Ort für „mich“: Coach, Affiliate und Design sind 2 Tipps entfernt statt 3 (☰, angeschnittene Karte, Eintrag). Die Einstellungen kosten 2 statt bisher 1 Tipp (heute führt der Avatar direkt zu Einstellungen → Profil). Auf dem Desktop bleibt alles wie es ist."
+   },
+   {
+    "id": "shell-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Rechnung bestätigt: 892 − ~69 px (Karte und Abstand) ≈ 823 < 844. mobile_menue.png zeigt die angeschnittene Karte. Nur zusammen mit shell-8-1 sinnvoll, sonst wären Coach, Affiliate und der Design-Schalter auf dem Handy nicht mehr erreichbar. Diese Abhängigkeit nennt die Beschreibung selbst."
+   },
+   {
+    "id": "shell-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fakten stimmen: extra-dark-1440/menu_konto_unten.png zeigt Profil, Coach, Affiliate, Einstellungen, Benachrichtigungen, Sprache und die Design-Zeile. „Einstellungen“ steht an 4. Stelle (app.js:231). #/settings öffnet wegen sec = 'profil' (misc.js:20) dieselbe Seite wie „Profil“. Benachrichtigungen und Sprache sind Unterseiten der Einstellungen. Wirkung 3 statt 2: Das Menü wird selten geöffnet und verlangt nichts von der Hauptaufgabe. Außerdem hat der Nutzer genau diesen Inhalt bestellt (Aufgaben #30 und #48, README:60-61). Das braucht ausdrücklich seine Zustimmung."
+   },
+   {
+    "id": "shell-12-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Logik stimmt: canShare() (certificate.js:55) blendet „Teilen“ als .btn ein (certificate.js:88), dann gibt es zwei gleich umrandete Nebenknöpfe. Das gilt auch auf Desktop-Browsern mit Share-API (Safari macOS, Edge/Chrome Windows), deshalb ist die Bedingung pointer: coarse richtig. Die Beschreibung des Umbruchs ist ungenau: In hicks_modal_zertifikat_voll_390.png (Systemschrift) steht der Hinweis allein, „Kopieren“ und „PNG herunterladen“ stehen nebeneinander darunter. Nur in dark-390/modal_zertifikat.png (Satoshi, leer) stehen Hinweis und „Kopieren“ in einer Zeile. Wirkung 3: selten genutzter Dialog, nur Touch-Geräte mit Share-API."
+   },
+   {
+    "id": "shell-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fakten stimmen: 8 Bedienelemente in der Seitenspalte (certificate.js:85-87), Auflösungs-Hinweis in der Fußzeile (certificate.js:88), PNG ist der einzige gefüllte Knopf (hicks_modal_zertifikat_voll_1440.png). Fundstelle korrigieren: Das <details>-Muster steht in js/screens/coach.js:66 (details.ct-done, Stil app.css:2934-2938), nicht in js/coach.js. Risiko gering: „Beträge ausblenden“ ist eine Datenschutz-Wahl vor dem Teilen. Weil die Vorschau die Beträge groß zeigt, bleibt der Zustand sichtbar. Das automatische Aufklappen bei Abweichung vom Standard ist richtig."
+   },
+   {
+    "id": "shell-14-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fakten stimmen: NAV_GROUPS „Konten“ = Prop Firms und Coupon-Codes (app.js:18). coupons.js:1 beschreibt die Codes als „Rabatt-Codes für Prop Firms“, nennt aber auch bewusst „eigener Bereich in der Gruppe Konten“. Prop hat die Bereiche Übersicht, Auswertung und Konten (prop.js:12). Auf Coupons stehen ▶ und „Trade loggen“ (eigene Messung). Abwägung: Die Leiste verliert 1 Eintrag, Prop gewinnt 1 Reiter. Für Hick's Law ist das fast neutral, der Gewinn liegt in der Zuordnung. Prop Firms wurde gerade auf Wunsch verschlankt (Aufgaben #37 und #51), deshalb braucht es die Zustimmung des Nutzers."
+   },
+   {
+    "id": "shell-16-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "dots.day (app.js:38) prüft nur Wochentag und Check-in, keine Trades. Das stimmt. Falsch ist „die übrigen Punkte setzen Trades voraus“: Coach („neue Aufgabe“, coach.js:250), Notebook („Neuigkeit von deinem Mentor“, coach.js:249) und Prop (Konto auf Rot/verletzt, prop.js:63) brauchen keine Journal-Trades. Der Vorschlag (dctx nur bei all.length > 0) würde diese berechtigten Hinweise bei einem Nutzer ohne Trades mit unterdrücken, z. B. eine neue Coach-Aufgabe vor dem ersten Trade. Nur den Tagesansicht-Punkt einschränken. Nebenbei: Der Check-in ist ein Ritual vor dem Handel und auch ohne Trades nicht sinnlos. Wirkung 3 passt. leer_dashboard.png ist ein Sonntag und zeigt den Punkt deshalb nicht.",
+    "beschreibung_neu": "Nur den Tagesansicht-Punkt an Trades binden: dots.day (app.js:38) gibt null zurück, wenn c.all.length === 0. dctx in renderSidebar (app.js:203-205) bleibt unverändert, damit die Punkte für Coach (coach.js:250), Mentor-Neuigkeiten im Notebook (coach.js:249) und Prop (prop.js:63) weiter auch ohne Journal-Trades erscheinen. Der Schalter unter Einstellungen → Benachrichtigungen bleibt. Mit dem ersten Trade erscheint der Check-in-Punkt wie bisher."
+   }
+  ],
+  "screen_korrekturen": "shell-1 (Kopfreihe voll): Beschreibung der Hierarchie stimmt, eigene Messung bestätigt sie (Einstellungen: Zeitraum, Konto, ▶ als .btn.icon-only, „Trade loggen“ als .btn.accent). Ergänzung: In der Tagesansicht ist „Tagesnotiz anlegen“ .btn.sm.primary (gefüllt, day.js:19) und, solange keine Tagesnotiz existiert, der optisch stärkste Knopf. Er ist stärker als „Trade für diesen Tag“ (.btn.sm.accent, nur Rand und Schrift grün). Die Einstellungen haben zwei gefüllte Knöpfe („Speichern“, „2FA aktivieren“).\n\nshell-4 (Zertifikat leer): Hauptaktion richtig. „Standardweg“ ist übertrieben: Leer wird es über „Daily Profit“ nur an Tagen ohne Trades (Wochenende, vor dem ersten Trade). „Weekly“ hatte am So 11.10. Trades.\n\nshell-5 (Zertifikat-Popover): Die Hauptaktion „Zertifikat zum gewählten Zeitraum (Monthly)“ ist eine Annahme ohne Beleg. Für einen Daytrader liegt eher „Daily Profit des letzten Handelstags“ nahe (einen grünen Tag teilen). Die Beschreibung der 4 gleichrangigen Zeilen mit doppelter Benennung stimmt (certificate.js:58-60).\n\nshell-6 (Titelzeile voll): Das Leck des Listeners ist behoben (Commit aa9f1c6 vom 11.10. 15:16; dashboard.js:138 unmount, aufgerufen in app.js:78; README:63; e2e/leaktest.js). day.png und settings.png (12:39) und die Proben des Analysten (13:54–14:01) sind älter. Heute stehen Zeitraum und Konto auf Tagesansicht und Einstellungen in der Kopfreihe, nicht in der Titelzeile (eigene Messung nach 1440→900→1440: #tb-tools .dh-context = false). Den Punkt „Zeitraum und Konto in der Titelzeile von Tagesansicht und Einstellungen (Leck aus dem Dashboard)“ unter irrelevant streichen. Alles andere stimmt: ☰ sichtbar und ohne Wirkung (display flex gemessen), Filter aktiv = .btn.accent (dashboard.js:124), ein einziges Konto (gemessen).\n\nshell-8 (Titelzeile Handy): „Zu den Einstellungen 4 Schritte“ ist falsch. Der Avatar führt mit 1 Tipp zu Einstellungen → Profil. 3 Schritte (☰, Karte, Eintrag) gelten nur für Coach, Affiliate und Design. Die Konto-Karte ist mit 28 px angeschnitten sichtbar (815,5–874 bei 844 px) und ohne Scrollen antippbar. Ihr Menü enthält außerdem Profil und Benachrichtigungen.\n\nshell-11 (Konto-Menü Handy): Der Auslöser liegt nicht ganz unterhalb des Fensters. Er ist oben angeschnitten sichtbar und antippbar, nur abgeschnitten.\n\nshell-12 (Zertifikat Handy): Der Umbruch hängt von der Schrift ab. In hicks_modal_zertifikat_voll_390.png (Systemschrift) steht der Hinweis allein, „Kopieren“ und „PNG herunterladen“ stehen nebeneinander. Hinweis und „Kopieren“ in einer Zeile gibt es nur in dark-390/modal_zertifikat.png (Satoshi, leerer Zustand).\n\nshell-13: Fundstelle coach.js:66 heißt richtig js/screens/coach.js:66.\n\nshell-16 (Seitenleiste leer): „Die übrigen Punkte setzen Trades voraus“ ist falsch. Coach (coach.js:250), Mentor-Neuigkeiten am Notebook (coach.js:249) und Prop (prop.js:63) kommen ohne Journal-Trades aus.\n\nAllgemein für alle leeren Zustände (shell-2, shell-7, shell-16, shell-5-2): Der Erststart installiert automatisch Beispieldaten (app.html:88). Den echten Leerzustand sieht ein Nutzer erst nach „Beispieldaten entfernen“.\n\nBestätigt ohne Korrektur: shell-3 (runder „+“-Knopf nicht gefüllt, gemessen: background transparent mit Verlauf, weil .btn.accent in app.css:3137 die Handy-Regel aus app.css:3019 überschreibt), shell-9, shell-10, shell-14, shell-15 (12 Symbole, zwei „T“, ☰ neben dem Ausklapp-Symbol, sidebar_mini.png).\n\nEigene Prüfskripte: /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/hicks-shell-pruef/p1.js"
+ },
+ "vorgaben": {
+  "urteile": [
+   {
+    "id": "shell-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Echte Verbesserung nach Regel 1 und 4: Auf Prop Firms, Notebook, Tagesansicht und Einstellungen konkurriert der grüne Akzent-Knopf heute mit der eigenen Hauptaktion der Seite. Der Vorschlag passt zur Entscheidung des Nutzers für Schatten-Ich (shadow.js:104, README:223) und ändert keine Klasse und keinen Stil. Geprüft: Die Taste N funktioniert auf jeder Seite (app.html:96), der Hinweis darauf stimmt also. Nicht genannt war bisher eine Nebenwirkung: Der runde „+“-Knopf am Handy ist derselbe Knopf (.dash-head .tl, app.css:3019) und verschwindet dann auf allen übrigen Seiten. Das berührt README:89 und braucht die Zustimmung des Nutzers.",
+    "beschreibung_neu": "Den Standard in pageHead (app.js:257) auf { range: true, account: true, session: false, trade: false } ändern und gezielt einschalten. trades.js: head { trade: true, session: true }. day.js: head { range: false, session: true }; day.js benutzt den Zeitraum nicht, und „Trade für diesen Tag“ (.btn.sm.accent, day.js:12) ist dort der Weg zum Loggen. misc.js:17 (Einstellungen): head { range: false, account: false }. Statistiken, Fortschritt, Notebook, News, Prop Firms, Coupon-Codes und Affiliate übernehmen den neuen Standard. Schatten-Ich, Mentor und Coach setzen ihn schon selbst. pageHead gibt '' zurück, wenn links und rechts nichts steht (News, Coupon-Codes, Affiliate, Einstellungen); sonst bleibt ein leeres .page-head.compact samt 18 px Abstand stehen. „+ Prop-Konto“ bleibt .btn. Erreichbar bleibt „Trade loggen“ über die Taste N auf jeder Seite (app.html:96), über Dashboard und TradeLog und auf der Tagesansicht über „Trade für diesen Tag“. Handy: Der runde „+“-Knopf ist dieser Knopf und erscheint danach nur noch auf Dashboard und TradeLog. Den Satz in README:89 dann entsprechend ergänzen, nach Zustimmung des Nutzers."
+   },
+   {
+    "id": "shell-1-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Der ▶-Teil steckt schon in shell-1-1 (neuer Standard session: false). Neu und sinnvoll ist nur, dass eine laufende Session sichtbar bleibt. Dabei darf sie nicht auf Seiten erscheinen, auf denen der Nutzer die Session ausdrücklich ausgeschlossen hat.",
+    "beschreibung_neu": "Ergänzung zu shell-1-1, gemeinsam umsetzen. Ohne laufende Session steht ▶ nur auf TradeLog und Tagesansicht. Fortschritt startet die Session weiter über die Checkliste (progress.js:51). Mit laufender Session (S.activeSession()) rendert pageHead den Timer-Knopf aus sessionControl (app.js:247-252: .btn mit Stopp und #session-timer) auf jeder Seite mit Kopfreihe, außer dort, wo der Screen ausdrücklich session: false setzt. Das betrifft Schatten-Ich, Mentor und Coach; für Schatten-Ich steht diese Entscheidung des Nutzers in README:223. Die Prüfung lautet (screen.head || {}).session !== false und wird vor dem Object.assign in pageHead (app.js:257) gemacht. Das Dashboard (ownActions, README:64 „kein Session-Knopf“) bleibt unverändert."
+   },
+   {
+    "id": "shell-2-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Regel 5, genau der Fall aus dem Auftrag. Präzisiert habe ich zwei Dinge: Der CSV-Knopf kommt aus trades.js:20, nicht aus pageHead. Außerdem muss die Bedingung dieselbe sein wie bei shell-7-1, sonst zeigt das Dashboard bei einem leeren Konto etwas anderes als die übrigen Seiten.",
+    "beschreibung_neu": "In pageHead (app.js:256-262) gilt: Hat das gewählte Konto keinen einzigen Trade (ctx.all.length === 0), werden Zeitraum und Session nicht gerendert. Die Konto-Wahl folgt shell-6-3 (ab 2 Konten immer sichtbar), damit man zu einem Konto mit Trades zurückkommt. Auf dem TradeLog liefert actions(ctx) (trades.js:20) in diesem Fall '', und der Screen setzt ctx.emptyCta = true. pageHead lässt dann „Trade loggen“ weg, auf dem Handy auch den runden Knopf. Es bleibt nur der Leerzustand (trades.js:45) mit „CSV importieren“ (.btn) und „Trade loggen“ (.btn.primary), also genau ein gefüllter Knopf. Gibt es Trades, nur nicht im gewählten Zeitraum, bleibt alles wie heute, denn dann hilft der Zeitraum weiter. Dieselbe Bedingung gilt in shell-7-1 für die Titelzeile des Dashboards: ungefilterte Trades des gewählten Kontos, Konto-Wahl ab 2 Konten."
+   },
+   {
+    "id": "shell-4-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Richtig nach Regel 5: Heute ist ein deaktivierter, gefüllter Knopf das auffälligste Element. Wirkung 2 statt 1, weil shell-5-1 den häufigsten Weg in den leeren Dialog schon beseitigt. Der Leerzustand bleibt trotzdem häufig, sobald man mit ‹ › über Wochenenden blättert. Korrigiert habe ich das Sprungziel: „jüngster Trade ≤ heute“ würde beim Rückwärtsblättern nach vorn springen. Ergänzt habe ich den Hinweistext in der Fußzeile und die Art „Performance“.",
+    "beschreibung_neu": "certificate.js, render() (Zeile 83-88), wenn empty: Die Seitenspalte zeigt nur das Feld „Zeitraum“ (‹, Datumsfeld, ›, Zeile darunter). Format-Segmente und Häkchen werden nicht gerendert. Die Fußzeile bleibt leer, also auch ohne den Hinweis „PNG in doppelter Auflösung“ und ohne „Teilen“, „Kopieren“ und „PNG herunterladen“ (heute ohnehin deaktiviert). In den Leerzustand der Vorschau (dritter Parameter von U.empty) kommt genau ein .btn.primary. Beschriftung je Art: day „Zum letzten Handelstag“, week „Zur letzten Woche mit Trades“, month „Zum letzten Monat mit Trades“, stats „Gesamten Zeitraum zeigen“ (setzt state.ref = null). Ziel bei day, week und month ist der jüngste dayKey aus App.allTrades() vor dem Beginn des gezeigten Zeitraums; gibt es keinen, der jüngste ≤ heute. Dann state.ref auf diesen dayKey setzen (bei month auf D.monthKey davon) und render() aufrufen. Hat das Konto gar keine Trades (Weg über die Tagesansicht), erscheint nur der Satz „Noch keine Trades. Logge zuerst einen Trade.“ ohne Knopf. Sobald der Zeitraum Trades hat, erscheinen Format, Häkchen und Export wieder. Die Klassen bleiben unverändert."
+   },
+   {
+    "id": "shell-5-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Beseitigt die Ursache des leeren Dialogs: Heute führt der oberste Eintrag am Wochenende und vor dem Handel ins Leere (modal_zertifikat.png). Die rechte Spalte ändert nur ihren Text, nicht den Stil. Konsistent mit der Tagesansicht, die ihren Tag schon mitgibt.",
+    "beschreibung_neu": "menuHTML (certificate.js:58-60) bekommt als day den jüngsten Tag mit Trades ≤ heute: der größte dayKey aus App.allTrades(), also dasselbe Konto wie das Zertifikat. Ohne Trades bleibt es heute. Die Aufrufer dashboard.js:125 und stats.js:9 geben ihn mit. Woche und Monat richten sich nach diesem Tag. Die rechte graue Spalte zeigt statt „Tag/Woche/Monat/Stats“ den konkreten Zeitraum: Kurzdatum mit Wochentag (z. B. „Do 08.10.“), „KW 41“ (C.isoWeek), „Okt 2026“ und für Performance App.range().label. Diese Texte laufen über fmt und I18N, damit die Übersetzungen greifen. Die Hilfsfunktion für den letzten Handelstag in certificate.js gemeinsam mit shell-4-1 nutzen. Die Tagesansicht bleibt beim gewählten Tag (day.js:12)."
+   },
+   {
+    "id": "shell-5-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Regel 5, im leeren Zustand richtig. Wichtig für die Umsetzung auf dem Dashboard: ctx wird in dashboard.js:118 durch den Filter ersetzt. Prüft man das gefilterte ctx.all, verschwindet das Zertifikat schon dann, wenn ein Filter nichts findet.",
+    "beschreibung_neu": "Dashboard (dashboard.js:125): Den popwrap mit dem Schild nur rendern, wenn rawAll.length > 0. Gemeint ist die ungefilterte Liste aus dashboard.js:118, nicht das gefilterte ctx.all. Statistiken (stats.js:9): actions(ctx) liefert den Knopf nur bei ctx.all.length > 0. Mit dem ersten Trade oder Import erscheint er wieder an derselben Stelle. Die Tagesansicht (day.js:12) bleibt unverändert; dort greift der Leerzustand aus shell-4-1."
+   },
+   {
+    "id": "shell-5-3",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Ein Eintrag mit aria-checked=\"true\" bekommt im Popover grüne Schrift (app.css:337 .popover .item[aria-checked=\"true\"] { color: var(--accent) }). Das ist eine grüne Markierung einer Auswahl, die der Nutzer abgelehnt hat (BRIEF.md), und widerspricht README:203 (Grün nur für Gewinn und „Trade loggen“). Außerdem ist es semantisch falsch: Im Zeitraum- und Konto-Menü bedeutet aria-checked „ist gewählt“, hier wäre es eine Empfehlung in einem Aktionsmenü. Nach shell-5-1 steht in jeder Zeile rechts der konkrete Zeitraum. Das reicht zur Orientierung."
+   },
+   {
+    "id": "shell-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Bestätigt durch hicks_titelzeile_filter_aktiv_1440.png: Der aktive Filter sieht aus wie „Trade loggen“. Das verstößt gegen README:203-207 (Grün nur für Gewinn und „Trade loggen“, Zähler im Filter-Knopf neutral). Der neutrale Zähler .cntb (app.css:1341) zeigt den Zustand weiter an. Konkret genug."
+   },
+   {
+    "id": "shell-6-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Mit Playwright am 13.10. bei 1440 px nachgeprüft: .menu-btn hat display:flex. data-action \"sidebar\" (app.js:308) schaltet auf dem Desktop nur eine Klasse ohne sichtbare Wirkung. Das Einklappen läuft über sb-toggle in der Leiste. Die Ursache ist die Reihenfolge der CSS-Regeln (app.css:224 gegen 267). Der Vorschlag ist eine reine Sichtbarkeitskorrektur und konkret genug; die Regel in @media (max-width: 960px) mit gleicher Spezifität ist nötig und genannt."
+   },
+   {
+    "id": "shell-6-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Regel 5: eine Wahl ohne Alternative. Der Nutzer hat dasselbe Muster bei Prop Firms schon so entschieden: „Filter erst ab fünf Konten“ (README:249). Allerdings beschreiben README:62 (Titelzeile Dashboard) und README:144 (Mentor: nur das Konto in der Kopfreihe) den Konto-Knopf als immer vorhanden. Diese Stellen müssen angepasst werden, und der Nutzer sollte zustimmen. „Konten verwalten“ bleibt unter Einstellungen → Konten erreichbar.",
+    "beschreibung_neu": "accountControl() (app.js:242-245) gibt '' zurück, wenn S.data.accounts.length < 2. Das wirkt auf die Titelzeile des Dashboards (dashboard.js:124) und alle Kopfreihen (Statistiken, Fortschritt, Schatten-Ich, TradeLog, Tagesansicht, Mentor). Beim Mentor bleibt nur der Hinweis „Der Mentor sieht die letzten 20 Trades dieses Kontos.“; die Kopfreihe ist dann .compact mit .ph-note, die Höhe stimmt über app.css:1336-1337. Ab dem zweiten Konto erscheint der Knopf wieder mit „Alle Konten“. Danach README:62 und README:144 entsprechend ergänzen."
+   },
+   {
+    "id": "shell-6-4",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt, weil bereits umgesetzt. Commit aa9f1c6 („Dashboard: Größen-Listener beim Verlassen der Seite abhängen“, 11.10. 15:16) hat dashboard.js:138 unmount() hinzugefügt, und App.render ruft es auf (app.js:78). Die Belege day.png und settings.png stammen aus dem Atlas vom 11.10. um 12:39, also von vor dem Fix. Nachgeprüft mit Playwright am 13.10.: Nach 1440→900→1440 px auf trades, day und settings und nach dem direkten Wechsel Dashboard → Einstellungen steht .dh-context nicht in #tb-tools. Die zusätzliche Abfrage der Route wäre überflüssig."
+   },
+   {
+    "id": "shell-6-5",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. README:62 („auf Höhe des Avatars“) und README:339 (Skelett mit Avatar) beschreiben den Avatar als festen Teil der Titelzeile, und die Wirkung ist klein (W3). Der Avatar konkurriert nicht mit der Hauptaktion der Seite. Das eigentliche Problem, zwei gleiche „T“ mit verschiedenem Verhalten (sidebar_mini.png), löst shell-8-1 in der korrigierten Fassung einheitlicher: Der Avatar öffnet auf allen Breiten dasselbe Konto-Menü wie die Karte."
+   },
+   {
+    "id": "shell-7-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Regel 5 und im Auftrag ausdrücklich gewollt (Filter im leeren Zustand weg, im vollen bleibt er). Der Platz nach README:62 bleibt. Angepasst habe ich drei Punkte: dieselbe Bedingung wie in shell-2-1, die ungefilterte Liste und ein aktiver Filter, der immer zurückgesetzt werden kann.",
+    "beschreibung_neu": "dashboard.js:124: Zeitraum und Filter nur rendern, wenn rawAll.length > 0 (ungefilterte Trades des gewählten Kontos, dashboard.js:118) oder ein Filter aktiv ist (fN > 0). So bleibt ein gesetzter Filter immer zurücksetzbar. Die Konto-Wahl folgt shell-6-3: ab 2 Konten immer sichtbar, damit man von einem leeren Konto zu einem mit Trades wechseln kann. Bleibt nichts übrig, wird .dh-context nicht gerendert. In der Titelzeile stehen dann nur „Dashboard“ und der Avatar. Der Platz #tb-tools (README:62) bleibt; mit dem ersten Trade oder Import erscheinen die Knöpfe dort wieder. Es gilt dieselbe Bedingung wie in shell-2-1 für die Kopfreihen der anderen Seiten."
+   },
+   {
+    "id": "shell-8-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Sinnvoll, denn am Handy liegt das Konto-Menü heute 4 Schritte entfernt. In der ursprünglichen Fassung (nur Handy) täte derselbe Avatar am Handy aber etwas anderes als am PC (Link auf Profil). Das verstößt gegen „gleiche Aktion, gleiche Stufe“. Außerdem ging der Coach-Hinweis verloren, sobald shell-9-1 die Karte ausblendet. Beides habe ich korrigiert. Der Avatar bleibt sichtbar, README:62 bleibt gültig.",
+    "beschreibung_neu": "In topbar() (app.js:264-266) wird der Avatar zu einem Knopf mit data-pop=\"user-top\" und einem Popover id=\"pop-user-top\". Inhalt wie das Konto-Menü der Karte: Die Einträge aus userCard (app.js:231) in eine gemeinsame Funktion auslagern, damit beide Menüs gleich bleiben; zwei verschiedene ids. Das gilt auf allen Breiten, damit derselbe Avatar überall dasselbe tut und die zwei „T“ in der eingeklappten Leiste gleich reagieren. Das Popover öffnet nach unten und rechtsbündig (fitPopover). Hat Coach neue Aufgaben, trägt auch der Avatar der Titelzeile den bestehenden Punkt (sb-av-dot, app.js:224). Profil liegt damit 2 Klicks entfernt statt 1; Coach, Affiliate, Einstellungen, Sprache und Design sind am Handy 1 Tipp entfernt statt 4."
+   },
+   {
+    "id": "shell-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Nur zusammen mit shell-8-1 in der korrigierten Fassung (mit Coach-Punkt am Avatar), sonst gehen Konto-Menü und Coach-Hinweis am Handy verloren. Danach erfüllt es Regel 5: Die Schublade dient nur der Navigation und passt ohne Scrollen (mobile_menue.png: Karte abgeschnitten).",
+    "beschreibung_neu": "Setzt shell-8-1 voraus (Avatar öffnet das Konto-Menü und trägt den Coach-Punkt). Im Block @media (max-width: 960px) kommt .sidebar .sb-userwrap { display: none; } dazu. Die Schublade enthält dann nur die Bereiche und passt ohne Scrollen; heute liegt die Karte bei 816–874 px, das Fenster ist 844 px hoch. Konto, Einstellungen, Sprache und Design liegen hinter dem Avatar oben rechts. Auf dem Desktop bleibt die Karte unverändert."
+   },
+   {
+    "id": "shell-10-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Inhalt und Reihenfolge des Menüs hat der Nutzer festgelegt: README:60-61 (Profil, Coach, Einstellungen, Benachrichtigungen, Sprache, Hell/Dunkel), README:267 (Affiliate unter Coach) und Aufgabe #30. Das Menü ist bereits die versteckte Stufe aus Regel 3; die Einträge konkurrieren mit keiner Hauptaktion. „Sprache“ direkt im Menü ist der schnellste Ausweg, wenn jemand versehentlich die Sprache gewechselt hat. Höchstens als Rückfrage an den Nutzer: ob „Profil“ wegfallen darf, weil es dieselbe Seite öffnet wie „Einstellungen“ (misc.js:20)."
+   },
+   {
+    "id": "shell-12-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Auf Telefonen ist Teilen der natürliche Weg; in jedem Zustand bleibt genau ein gefüllter Knopf. Ergänzt habe ich einen Pflicht-Check: Das heutige canShare() (certificate.js:52) prüft nur, ob die Funktionen existieren, nicht ob Dateien geteilt werden können. Ein Hauptknopf „Teilen“ würde sonst nur die Meldung „Teilen wird hier nicht unterstützt“ zeigen.",
+    "beschreibung_neu": "In foot.innerHTML (certificate.js:88) gilt auf Touch-Geräten mit Datei-Teilen eine eigene Reihenfolge. Bedingung: matchMedia('(pointer: coarse)').matches und navigator.canShare({ files: [new File([''], 'x.png', { type: 'image/png' })] }). Dann ist „Teilen“ .btn.primary, „PNG herunterladen“ .btn und „Kopieren“ .btn.ghost; das Teilen-Menü von iOS und Android enthält auch „Bild sichern“. Sonst ist „PNG herunterladen“ .btn.primary und „Kopieren“ .btn. Ein vorhandenes „Teilen“ wird dann .btn.ghost (z. B. Safari auf dem Mac). In jedem Fall gibt es genau einen gefüllten und höchstens einen umrandeten Knopf."
+   },
+   {
+    "id": "shell-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Nur teilweise bestätigt. Der Auflösungs-Hinweis gehört nicht in die Fußzeile (Regel 5; am Handy schiebt er „PNG herunterladen“ an den unteren Rand, hicks_modal_zertifikat_voll_390.png). Die zwei Häkchen sind aber keine Technik-Optionen wie beim „Export video“-Beispiel: Sie bestimmen, was im öffentlich geteilten Bild steht. „Beträge ausblenden“ ist ein Datenschutz-Schalter (README:140). Hinter „Mehr Optionen“ würde man eher versehentlich Beträge teilen. Bei nur zwei Häkchen lohnt ein Aufklapp-Abschnitt nicht.",
+    "beschreibung_neu": "Nur den Hinweis „PNG in doppelter Auflösung (2160×2160)“ aus der Fußzeile (certificate.js:88) nehmen. Er kommt als <div class=\"small muted\"> unter die Format-Segmente (certificate.js:86), wo die Pixelmaße schon stehen. Die Fußzeile enthält dann nur noch die Knöpfe. „Beträge ausblenden“ und „Username anzeigen“ bleiben sichtbar wie heute."
+   },
+   {
+    "id": "shell-14-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt, widerspricht zwei dokumentierten Entscheidungen des Nutzers. README:264: Coupon-Codes sind ein „eigener Bereich in der Gruppe Konten, direkt unter Prop Firms“. README:241: Prop Firms wurde „für den Einstieg auf drei Bereiche … reduziert: Übersicht · Auswertung · Konten“; ein vierter Reiter „Coupons“ würde genau diese Reduktion zurücknehmen. Der Gewinn ist klein (12 statt 11 Einträge in der Navigation). Dass auf Coupon-Codes „Trade loggen“ steht, löst bereits shell-1-1."
+   },
+   {
+    "id": "shell-16-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Absicht stimmt (Regel 5), die Begründung „die übrigen Punkte setzen Trades voraus“ aber nicht. Coach (neue Aufgaben, coach.js:250), Notebook (Neuigkeiten vom Mentor, coach.js:249) und Prop Firms (prop.js:63) hängen nicht an Journal-Trades. In der vorgeschlagenen Form sähe ein Schüler ohne eigene Trades die Nachricht seines Mentors nicht mehr, und bei einem leeren gewählten Konto verschwänden alle Punkte. Darauf eingeschränkt, dass nur der Check-in-Punkt ausfällt.",
+    "beschreibung_neu": "Nicht alle Punkte abschalten, nur den Check-in-Punkt der Tagesansicht. Er ist der einzige, der heute ohne Trades erscheint. In App.dots.day (app.js:38) als erste Prüfung: if (!S.trades().length) return null; geprüft über alle Konten, nicht über das gefilterte c.all. Die Punkte für Coach, Notebook (Mentor), Prop Firms und die übrigen bleiben unverändert. Der Schalter unter Einstellungen → Benachrichtigungen bleibt; mit dem ersten Trade erscheint der Punkt wie bisher."
+   }
+  ],
+  "screen_korrekturen": "shell-6 (Titelzeile voll): In der Begründung und unter „irrelevant“ steht noch das Leck („Zeitraum und Konto in der Titelzeile von Tagesansicht und Einstellungen“). Das ist seit Commit aa9f1c6 (11.10. 15:16, dashboard.js:138 unmount) behoben. Die Atlas-Aufnahmen day.png und settings.png (11.10. 12:39) sind älter. Nachgeprüft mit Playwright am 13.10.: Kein Leck mehr. Den Punkt streichen und beide Aufnahmen neu machen, bevor sie als Beleg dienen. Gleiches gilt für shell-1 („Zeitraum und Konto auf Einstellungen“): Sie stehen dort heute in der Kopfreihe (Standard range/account true), nicht in der Titelzeile; das Urteil „irrelevant“ bleibt richtig.\n\nshell-16 (Seitenleiste leer): „Die übrigen Punkte setzen Trades voraus“ ist falsch. Coach (coach.js:250), Notebook (Mentor-Neuigkeiten, coach.js:249) und Prop Firms (prop.js:63) erscheinen auch ohne Journal-Trades.\n\nshell-3 (Kopfreihe Handy): Nach shell-1-1 erscheint der runde „+“-Knopf nur noch auf Dashboard und TradeLog (nicht mehr auf der Tagesansicht); README:89 muss angepasst werden.\n\nshell-15 (Seitenleiste eingeklappt): Für die zwei „T“ gilt nun shell-8-1 in der korrigierten Fassung (Avatar öffnet überall dasselbe Menü), nicht shell-6-5. Für den ☰ gilt shell-6-2.\n\nQuerschnitt zu „pro Screen genau ein gefüllter Knopf“: Wie die Analyse richtig anmerkt, ist .btn.accent („Trade loggen“) nicht gefüllt. Gefüllt ist nur .btn.primary (app.css:274). Wer zählt, muss .btn.primary zählen. Folge für andere Bereiche: Auf der Tagesansicht ist nach shell-1-1 das gefüllte „Tagesnotiz anlegen“ (.btn.sm.primary) stärker als „Trade für diesen Tag“ (.btn.sm.accent), und auf Einstellungen stehen „Speichern“ und „2FA aktivieren“ beide gefüllt (settings.png). Das gehört in die Bereiche Tagesansicht und Einstellungen. Ebenso ist „Trade loggen“ in der Kopfreihe .btn.accent, im Leerzustand des TradeLog aber .btn.primary. Mit shell-2-1 steht im leeren Zustand nur noch der gefüllte, im vollen nur der Akzent-Knopf; das ist je Zustand eindeutig."
+ }
+}

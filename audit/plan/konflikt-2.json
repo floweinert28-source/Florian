@@ -1,0 +1,984 @@
+{
+ "anker": [
+  {
+   "anker": "folderIcon",
+   "schritte": [
+    {
+     "nr": "komponenten-S-notebook-a",
+     "gruppe": "komponenten",
+     "titel": "Notebook: eigene Ordner mit Ordner-Symbol",
+     "von": 683,
+     "bis": 684,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-NB2",
+     "gruppe": "zustaende",
+     "titel": "Notebook: „Farbe ändern“ nur für eigene Ordner, Standardordner mit Symbol in Verschieben-Menüs",
+     "von": 851,
+     "bis": 854,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fmt.weekdayLong",
+   "schritte": [
+    {
+     "nr": "responsiv-3.9b",
+     "gruppe": "responsiv",
+     "titel": "Statistik: Tage- und Gruppentabellen mit Kernspalten am Handy",
+     "von": 500,
+     "bis": 502,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8e",
+     "gruppe": "typografie",
+     "titel": "Statistik → Tage: Datum „Do., 08.10.“ mit multiYear und Klasse num",
+     "von": 428,
+     "bis": 429,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".hide-m",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B1",
+     "gruppe": "barrierefreiheit",
+     "titel": "Klasse .vh-m (nur optisch versteckt am Handy) im 960-px-Block",
+     "von": 279,
+     "bis": 286,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-coach-42-157",
+     "gruppe": "barrierefreiheit",
+     "titel": "Coach: .hide-m → .vh-m (Namen am Handy behalten)",
+     "von": 789,
+     "bis": 791,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-notebook-74-teilen",
+     "gruppe": "barrierefreiheit",
+     "titel": "Notebook „Teilen“: .hide-m → .vh-m",
+     "von": 800,
+     "bis": 801,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-prop-294",
+     "gruppe": "barrierefreiheit",
+     "titel": "„+ Prop-Konto“ auf allen Breiten mit Text (hide-m entfernen)",
+     "von": 860,
+     "bis": 860,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-prop-f",
+     "gruppe": "komponenten",
+     "titel": "Prop-Kopfknopf „+ Konto anlegen“ mit Text auch am Handy",
+     "von": 702,
+     "bis": 703,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.27",
+     "gruppe": "wording",
+     "titel": "Prop-Kopfreihe: Knopf „Prop-Konto anlegen“ mit aria-label",
+     "von": 508,
+     "bis": 508,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "[data-action=\"nb-share\"]",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-notebook-74-teilen",
+     "gruppe": "barrierefreiheit",
+     "titel": "Notebook „Teilen“: .hide-m → .vh-m",
+     "von": 800,
+     "bis": 801,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.13",
+     "gruppe": "responsiv",
+     "titel": "Notebook: Teilen am Handy im •••-Menü, Ordner-Ansicht öffnet linke Spalte, nb-share schließt Menüs",
+     "von": 524,
+     "bis": 530,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tbl th .dir",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B7",
+     "gruppe": "barrierefreiheit",
+     "titel": "Tabellen-CSS: Sortierknopf .th-sort mit 12-px-Chevron, Zeilen-Fokus :focus-within, Scrollbox-Fokus",
+     "von": 326,
+     "bis": 338,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-trades-46",
+     "gruppe": "barrierefreiheit",
+     "titel": "TradeLog-Sortierköpfe mit Knopf .th-sort, aria-sort und Chevron",
+     "von": 742,
+     "bis": 747,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3b",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 9.5/10 px → 11 (Handy-Kalender, Sortierpfeil, Ring, News, Tageszahl im 20-px-Kreis)",
+     "von": 238,
+     "bis": 240,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tbl-wrap.paged .tbl-scroll",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B7",
+     "gruppe": "barrierefreiheit",
+     "titel": "Tabellen-CSS: Sortierknopf .th-sort mit 12-px-Chevron, Zeilen-Fokus :focus-within, Scrollbox-Fokus",
+     "von": 326,
+     "bis": 338,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B5d",
+     "gruppe": "responsiv",
+     "titel": "Unter 961 px keine eigene Scrollbox für TradeLog/Verstöße",
+     "von": 290,
+     "bis": 291,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".muted",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-E-newstest-52",
+     "gruppe": "barrierefreiheit",
+     "titel": "newstest.js:52: vergangene Termine über --muted-Farbe statt Deckkraft prüfen",
+     "von": 904,
+     "bis": 904,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/e2e/newstest.js"
+     ]
+    },
+    {
+     "nr": "wording-S15.6-15.9",
+     "gruppe": "wording",
+     "titel": "Coach: „Coach einrichten“ + „Server einrichten“, „Was dein Mentor sieht“, „Dein Name in Gruppen:“, Mailhinweis grau ohne Variablen",
+     "von": 550,
+     "bis": 553,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A6",
+     "gruppe": "zustaende",
+     "titel": "CSV-Import-Vorschau: „offen“ in .muted, fehlende Werte als „—“ in .faint",
+     "von": 574,
+     "bis": 576,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".warn",
+   "schritte": [
+    {
+     "nr": "farbe-B1",
+     "gruppe": "farbe",
+     "titel": "Hilfsklasse .warn auf --warn-text",
+     "von": 228,
+     "bis": 231,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S15.6-15.9",
+     "gruppe": "wording",
+     "titel": "Coach: „Coach einrichten“ + „Server einrichten“, „Was dein Mentor sieht“, „Dein Name in Gruppen:“, Mailhinweis grau ohne Variablen",
+     "von": 550,
+     "bis": 553,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "widgetpreviews.BLUE",
+   "schritte": [
+    {
+     "nr": "diagramme-F2",
+     "gruppe": "diagramme",
+     "titel": "Vorschauen: BLUE/ORANGE → #2f80d0/#b4549f, ORANGE in MAGENTA umbenennen",
+     "von": 693,
+     "bis": 693,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgetpreviews.js"
+     ]
+    },
+    {
+     "nr": "diagramme-F8",
+     "gruppe": "diagramme",
+     "titel": "Vorschau report: zwei Spuren mit linken Achsen, Legende oben links, keine rechte Achse",
+     "von": 707,
+     "bis": 710,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgetpreviews.js"
+     ]
+    },
+    {
+     "nr": "farbe-C15",
+     "gruppe": "farbe",
+     "titel": "Widget-Vorschauen: Report-Farben angleichen, Disziplin-Kosten mit Minus",
+     "von": 448,
+     "bis": 451,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgetpreviews.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "widgetpreviews.ORANGE",
+   "schritte": [
+    {
+     "nr": "diagramme-F2",
+     "gruppe": "diagramme",
+     "titel": "Vorschauen: BLUE/ORANGE → #2f80d0/#b4549f, ORANGE in MAGENTA umbenennen",
+     "von": 693,
+     "bis": 693,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgetpreviews.js"
+     ]
+    },
+    {
+     "nr": "farbe-C15",
+     "gruppe": "farbe",
+     "titel": "Widget-Vorschauen: Report-Farben angleichen, Disziplin-Kosten mit Minus",
+     "von": 448,
+     "bis": 451,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgetpreviews.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".lp .step .k",
+   "schritte": [
+    {
+     "nr": "kilook-B8d",
+     "gruppe": "kilook",
+     "titel": "Startseite: Funktionen als 2-spaltige Liste, Ablauf ohne Karten, Ziffer statt Kicker (CSS)",
+     "von": 475,
+     "bis": 488,
+     "cluster": "aufbau",
+     "dateien": [
+      "web/css/landing.css"
+     ]
+    },
+    {
+     "nr": "kilook-C7d",
+     "gruppe": "kilook",
+     "titel": "Startseite: Symbole aus den Funktionen, „Trefferquote, Profit-Faktor …“, Ablauf mit Ziffer statt „SCHRITT n“",
+     "von": 596,
+     "bis": 599,
+     "cluster": "aufbau",
+     "dateien": [
+      "web/index.html"
+     ]
+    },
+    {
+     "nr": "typografie-3.3",
+     "gruppe": "typografie",
+     "titel": "Startseite landing.css: Hero-Titel und Schritt-Nummern 800 → 900",
+     "von": 377,
+     "bis": 382,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/landing.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".lp .hero h1",
+   "schritte": [
+    {
+     "nr": "farbe-C11",
+     "gruppe": "farbe",
+     "titel": "Landing: Hero-Überschrift in var(--text) statt #ededed",
+     "von": 428,
+     "bis": 429,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/landing.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.3",
+     "gruppe": "typografie",
+     "titel": "Startseite landing.css: Hero-Titel und Schritt-Nummern 800 → 900",
+     "von": 377,
+     "bis": 382,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/landing.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dash-head",
+   "schritte": [
+    {
+     "nr": "aufbau-C6a",
+     "gruppe": "aufbau",
+     "titel": "Dashboard: Vorlagen-Tooltip mit Namen, Zertifikat-Symbol award",
+     "von": 463,
+     "bis": 467,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "responsiv-B4",
+     "gruppe": "responsiv",
+     "titel": "Menüs am Handy: 16-px-Rand, Menüs der Kopfreihe in voller Breite der .dash-head",
+     "von": 276,
+     "bis": 285,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".popover",
+   "schritte": [
+    {
+     "nr": "bewegung-B4a",
+     "gruppe": "bewegung",
+     "titel": "Popover-Richtung über --pop-y/--pop-y-out, Keyframes pop-in/pop-out mit Custom Properties",
+     "von": 185,
+     "bis": 191,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B4",
+     "gruppe": "responsiv",
+     "titel": "Menüs am Handy: 16-px-Rand, Menüs der Kopfreihe in voller Breite der .dash-head",
+     "von": 276,
+     "bis": 285,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb-details summary:focus",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Restliche Fokusregeln: Notiz-Details, Theme-Karte, Zahlenfeld, Prop/Coupon/Affiliate (Z. 1186–1187, 1842, 2411, 2516–2679); .rp bleibt unverändert",
+     "von": 273,
+     "bis": 278,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C1e",
+     "gruppe": "farbe",
+     "titel": "Bilder in Notizen (Griff, Rahmen, Größenleiste) neutral, grüner Fokus im aufklappbaren Abschnitt löschen",
+     "von": 376,
+     "bis": 380,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb-details summary",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Restliche Fokusregeln: Notiz-Details, Theme-Karte, Zahlenfeld, Prop/Coupon/Affiliate (Z. 1186–1187, 1842, 2411, 2516–2679); .rp bleibt unverändert",
+     "von": 273,
+     "bis": 278,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4e",
+     "gruppe": "typografie",
+     "titel": "Notebook: Tag-Pillen 500 (Zähler Onest 500), .nb-details summary 600",
+     "von": 338,
+     "bis": 340,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "stats-top",
+   "schritte": [
+    {
+     "nr": "diagramme-G1",
+     "gruppe": "diagramme",
+     "titel": "Statistik-Kopfkarte: Titel „Kumulierter Netto-P&L“, nur Handelstage, nur mit abgeschlossenen Trades",
+     "von": 600,
+     "bis": 610,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-ST1",
+     "gruppe": "zustaende",
+     "titel": "Statistik: Kopfdiagramm nur mit abgeschlossenen Trades ausgeben",
+     "von": 607,
+     "bis": 611,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fillDays",
+   "schritte": [
+    {
+     "nr": "diagramme-G2",
+     "gruppe": "diagramme",
+     "titel": "stats.js: fillDays löschen",
+     "von": 611,
+     "bis": 612,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-ST1",
+     "gruppe": "zustaende",
+     "titel": "Statistik: Kopfdiagramm nur mit abgeschlossenen Trades ausgeben",
+     "von": 607,
+     "bis": 611,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".empty > svg",
+   "schritte": [
+    {
+     "nr": "farbe-B12",
+     "gruppe": "farbe",
+     "titel": "Leerzustand: Symbolregel nur für direktes Kind (.empty > svg)",
+     "von": 278,
+     "bis": 279,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C11",
+     "gruppe": "komponenten",
+     "titel": "Leerzustand: Symbol und Titel nur als direkte Kinder, Abstand zur Aktion",
+     "von": 260,
+     "bis": 264,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".empty svg",
+   "schritte": [
+    {
+     "nr": "farbe-B12",
+     "gruppe": "farbe",
+     "titel": "Leerzustand: Symbolregel nur für direktes Kind (.empty > svg)",
+     "von": 278,
+     "bis": 279,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C11",
+     "gruppe": "komponenten",
+     "titel": "Leerzustand: Symbol und Titel nur als direkte Kinder, Abstand zur Aktion",
+     "von": 260,
+     "bis": 264,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "drawers.mc",
+   "schritte": [
+    {
+     "nr": "farbe-B27b",
+     "gruppe": "farbe",
+     "titel": "ui.js: Monte-Carlo-Pfade und Drawdown-Histogramm neutral, Ruin-Bereich --loss .9",
+     "von": 351,
+     "bis": 353,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U4b",
+     "gruppe": "zustaende",
+     "titel": "Leerzweige der Diagramm-Zeichner auf U.chartEmpty umstellen (pnl, line, vbars, hbars, rolling, mc, hist, weeks; equity/spark bleiben leer)",
+     "von": 408,
+     "bis": 414,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "drawers.hist",
+   "schritte": [
+    {
+     "nr": "farbe-B27b",
+     "gruppe": "farbe",
+     "titel": "ui.js: Monte-Carlo-Pfade und Drawdown-Histogramm neutral, Ruin-Bereich --loss .9",
+     "von": 351,
+     "bis": 353,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U4b",
+     "gruppe": "zustaende",
+     "titel": "Leerzweige der Diagramm-Zeichner auf U.chartEmpty umstellen (pnl, line, vbars, hbars, rolling, mc, hist, weeks; equity/spark bleiben leer)",
+     "von": 408,
+     "bis": 414,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "DatePicker.TYPES",
+   "schritte": [
+    {
+     "nr": "komponenten-D1",
+     "gruppe": "komponenten",
+     "titel": "datepicker.js: Uhrzeit (type=time) im App-Wähler",
+     "von": 603,
+     "bis": 612,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S4.1-4.5",
+     "gruppe": "wording",
+     "titel": "datepicker.js: Anzeige-Overlay für native Datumsfelder mit Maus (decorate, sync, value-Setter, Tippen sichtbar, MutationObserver in init)",
+     "von": 335,
+     "bis": 345,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "input.input",
+   "schritte": [
+    {
+     "nr": "responsiv-A3",
+     "gruppe": "responsiv",
+     "titel": "Eingabefelder am Handy 16 px, .input/.select bleiben 42 px",
+     "von": 238,
+     "bis": 246,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S4.1-4.5",
+     "gruppe": "wording",
+     "titel": "datepicker.js: Anzeige-Overlay für native Datumsfelder mit Maus (decorate, sync, value-Setter, Tippen sichtbar, MutationObserver in init)",
+     "von": 335,
+     "bis": 345,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".theme-toggle",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Hell/Dunkel-Trefferfläche 26 × 34 und toten sb-mini-Code (Z. 207–208) löschen",
+     "von": 377,
+     "bis": 378,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C1b",
+     "gruppe": "kilook",
+     "titel": "Hell/Dunkel-Schalter: Grundwert margin 0, Sonderregeln und .menu-btn-Reste löschen",
+     "von": 515,
+     "bis": 523,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "html.sb-mini .theme-toggle",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Hell/Dunkel-Trefferfläche 26 × 34 und toten sb-mini-Code (Z. 207–208) löschen",
+     "von": 377,
+     "bis": 378,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C1b",
+     "gruppe": "kilook",
+     "titel": "Hell/Dunkel-Schalter: Grundwert margin 0, Sonderregeln und .menu-btn-Reste löschen",
+     "von": 515,
+     "bis": 523,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "html.sb-mini[data-theme=\"light\"] .theme-toggle::before",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Hell/Dunkel-Trefferfläche 26 × 34 und toten sb-mini-Code (Z. 207–208) löschen",
+     "von": 377,
+     "bis": 378,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C1b",
+     "gruppe": "kilook",
+     "titel": "Hell/Dunkel-Schalter: Grundwert margin 0, Sonderregeln und .menu-btn-Reste löschen",
+     "von": 515,
+     "bis": 523,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.drawers.vbars",
+   "schritte": [
+    {
+     "nr": "diagramme-C13",
+     "gruppe": "diagramme",
+     "titel": "drawers.vbars: Achse links fmt.axisCur, Pfad-Balken .85, Kategorien ausdünnen, leere Fächer",
+     "von": 452,
+     "bis": 467,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S1.4-1.7",
+     "gruppe": "wording",
+     "titel": "ui.js Diagramm-Tooltips: Zähler über U.count, „Trefferquote“, Ruin-Schwelle kompakt",
+     "von": 299,
+     "bis": 303,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.drawers.weeks",
+   "schritte": [
+    {
+     "nr": "diagramme-C18",
+     "gruppe": "diagramme",
+     "titel": "drawers.weeks: Pfad-Säulen, Score über Säule, Wochenlabels ausgedünnt ab jüngster Woche",
+     "von": 518,
+     "bis": 527,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S1.4-1.7",
+     "gruppe": "wording",
+     "titel": "ui.js Diagramm-Tooltips: Zähler über U.count, „Trefferquote“, Ruin-Schwelle kompakt",
+     "von": 299,
+     "bis": 303,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.drawers.mc",
+   "schritte": [
+    {
+     "nr": "diagramme-C16",
+     "gruppe": "diagramme",
+     "titel": "drawers.mc: linke Achse fmt.axisCur, Median-Linie mit Label, Ruin-Schwelle voller Betrag, Achse „0 · 25 · 50 Trades“",
+     "von": 493,
+     "bis": 505,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S1.4-1.7",
+     "gruppe": "wording",
+     "titel": "ui.js Diagramm-Tooltips: Zähler über U.count, „Trefferquote“, Ruin-Schwelle kompakt",
+     "von": 299,
+     "bis": 303,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal.mini .d.today",
+   "schritte": [
+    {
+     "nr": "farbe-B14",
+     "gruppe": "farbe",
+     "titel": "Kalender und Jahresübersicht: Heute-Kreis neutral, Tageszahl ohne Kreis, Rot 18 %, Auswahl --text-2, Kleintext --text-2, helle 10-%-Tönung, Mini-Kalender",
+     "von": 284,
+     "bis": 293,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26a",
+     "gruppe": "komponenten",
+     "titel": "Kalender: Wochentage als Beschriftung, Tageszahl ohne Kreis, nur „heute“ gefüllt (--text/--bg)",
+     "von": 411,
+     "bis": 416,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal.mini .d.today .n",
+   "schritte": [
+    {
+     "nr": "farbe-B14",
+     "gruppe": "farbe",
+     "titel": "Kalender und Jahresübersicht: Heute-Kreis neutral, Tageszahl ohne Kreis, Rot 18 %, Auswahl --text-2, Kleintext --text-2, helle 10-%-Tönung, Mini-Kalender",
+     "von": 284,
+     "bis": 293,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26a",
+     "gruppe": "komponenten",
+     "titel": "Kalender: Wochentage als Beschriftung, Tageszahl ohne Kreis, nur „heute“ gefüllt (--text/--bg)",
+     "von": 411,
+     "bis": 416,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal .d.today .n",
+   "schritte": [
+    {
+     "nr": "farbe-B14",
+     "gruppe": "farbe",
+     "titel": "Kalender und Jahresübersicht: Heute-Kreis neutral, Tageszahl ohne Kreis, Rot 18 %, Auswahl --text-2, Kleintext --text-2, helle 10-%-Tönung, Mini-Kalender",
+     "von": 284,
+     "bis": 293,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26a",
+     "gruppe": "komponenten",
+     "titel": "Kalender: Wochentage als Beschriftung, Tageszahl ohne Kreis, nur „heute“ gefüllt (--text/--bg)",
+     "von": 411,
+     "bis": 416,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

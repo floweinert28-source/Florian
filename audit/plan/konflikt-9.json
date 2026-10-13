@@ -1,0 +1,2205 @@
+{
+ "anker": [
+  {
+   "anker": ".caption",
+   "schritte": [
+    {
+     "nr": "aufbau-C2b",
+     "gruppe": "aufbau",
+     "titel": "Widgets: Beschriftungen über Werten als .kpi-label",
+     "von": 428,
+     "bis": 431,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C14e",
+     "gruppe": "aufbau",
+     "titel": "Reiter Zeit: Beschriftungen als .kpi-label",
+     "von": 607,
+     "bis": 607,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C15c",
+     "gruppe": "aufbau",
+     "titel": "Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label",
+     "von": 618,
+     "bis": 625,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "kilook-A4",
+     "gruppe": "kilook",
+     "titel": "Neue Typo-Rolle .kpi-label hinter .caption",
+     "von": 398,
+     "bis": 401,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C8c",
+     "gruppe": "kilook",
+     "titel": "Session-Ende-Dialog: Heute/Trades/Win-Rate als .kpi-label",
+     "von": 603,
+     "bis": 604,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "kilook-C9b",
+     "gruppe": "kilook",
+     "titel": "Dashboard-Widgets: Netto-P&L mit Vorzeichen; Serien, „Dein Score“, „Heutiger Score“ als .kpi-label",
+     "von": 608,
+     "bis": 612,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "kilook-C13",
+     "gruppe": "kilook",
+     "titel": "Tagesansicht: Check-in mit I.mood (Knopf und Leerzustand), Netto-P&L als .kpi-label",
+     "von": 625,
+     "bis": 629,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "kilook-C14",
+     "gruppe": "kilook",
+     "titel": "Statistik: Gewinner/Verlierer als .kpi-label, Check-in-Leerzustand mit I.mood, Monte Carlo ganzzahlig",
+     "von": 630,
+     "bis": 641,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "kilook-C16",
+     "gruppe": "kilook",
+     "titel": "TradeLog: Netto-P&L mit Vorzeichen, Verpasste-Trades-Labels als .kpi-label",
+     "von": 645,
+     "bis": 649,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "kilook-C17",
+     "gruppe": "kilook",
+     "titel": "Blind-Replay: „Session beendet“ als .kpi-label",
+     "von": 650,
+     "bis": 652,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/replay.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "komponenten-W6",
+     "gruppe": "komponenten",
+     "titel": "Regel-Tracker mit Klassen, Knopf als btn sm",
+     "von": 597,
+     "bis": 599,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2b",
+     "gruppe": "typografie",
+     "titel": "Eyebrow-Sammelregel (11/600/.06em, 'case', --muted) und Typo-Angaben aus den Einzelregeln entfernen",
+     "von": 220,
+     "bis": 221,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.5d",
+     "gruppe": "typografie",
+     "titel": "Regel-Tracker: „Heutiger Score“ als .val-label; „Dein Score“ (Z. 227) bleibt bis zur Nutzerantwort",
+     "von": 400,
+     "bis": 402,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.7a",
+     "gruppe": "typografie",
+     "titel": "Session beenden: Beschriftungen „Heute/Trades/Win-Rate“ als .val-label",
+     "von": 411,
+     "bis": 415,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8j",
+     "gruppe": "typografie",
+     "titel": "Prop-Kontokarte: „Balance“/„P&L“ als .val-label",
+     "von": 435,
+     "bis": 435,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.empty",
+   "schritte": [
+    {
+     "nr": "aufbau-C15c",
+     "gruppe": "aufbau",
+     "titel": "Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label",
+     "von": 618,
+     "bis": 625,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "diagramme-I1",
+     "gruppe": "diagramme",
+     "titel": "Schatten-Ich-Ranking: Balken nur bei Verstoß, Zeile „Ohne Verstöße“, Leerzustand",
+     "von": 640,
+     "bis": 652,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "kilook-C13",
+     "gruppe": "kilook",
+     "titel": "Tagesansicht: Check-in mit I.mood (Knopf und Leerzustand), Netto-P&L als .kpi-label",
+     "von": 625,
+     "bis": 629,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "kilook-C14",
+     "gruppe": "kilook",
+     "titel": "Statistik: Gewinner/Verlierer als .kpi-label, Check-in-Leerzustand mit I.mood, Monte Carlo ganzzahlig",
+     "von": 630,
+     "bis": 641,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "wording-S8.3-8.5",
+     "gruppe": "wording",
+     "titel": "Tagesansicht-Karten: „Trefferquote“, „Check-in machen“/„Check-in nachtragen“, „abgehakt“, „Noch keine Regeln angelegt“",
+     "von": 412,
+     "bis": 414,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "wording-S8.6-8.9",
+     "gruppe": "wording",
+     "titel": "Fortschritt: Kartentitel „Regeltreue“, Leerzustand Regeln, Tilt-Text mit drittem Fall, Zähler über U.count",
+     "von": 415,
+     "bis": 419,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "wording-S9.3-9.7",
+     "gruppe": "wording",
+     "titel": "TradeLog-Filterzeile: Klassen tl-filters/tl-search/tl-sel/tl-count, „Trades durchsuchen“, Fehler-Filter, Filterzeile nur mit Trades",
+     "von": 426,
+     "bis": 430,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "wording-S9.10-9.16",
+     "gruppe": "wording",
+     "titel": "Trade-Detail: „Plan bearbeiten“/„Tags bearbeiten“, „Löschen“ und „Trade bearbeiten“ (neutral) in die Brotkrumen-Zeile, Fuß streichen, Raster-Namen, MAE/MFE-Leerzustand, Journalyst-Server",
+     "von": 433,
+     "bis": 439,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.6-12.7",
+     "gruppe": "wording",
+     "titel": "Prop: Leerzustand „Prop-Konto anlegen“ ohne Firmen-Preset, Kachel „P&L der aktiven Konten“ je Währung",
+     "von": 487,
+     "bis": 488,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.30",
+     "gruppe": "wording",
+     "titel": "Coupons-Leerzustand „Coupon-Codes für Prop Firms erscheinen hier.“",
+     "von": 511,
+     "bis": 512,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/coupons.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-ST2",
+     "gruppe": "zustaende",
+     "titel": "Statistik: einheitliche Seiten-Leerzustände über noTrades() (leeres Journal mit CSV-Import)",
+     "von": 612,
+     "bis": 625,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T3",
+     "gruppe": "zustaende",
+     "titel": "TradeLog: Leerzustand der Liste nach Lage (leeres Journal / Zeitraum / Filter)",
+     "von": 648,
+     "bis": 650,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DY1",
+     "gruppe": "zustaende",
+     "titel": "Tagesansicht ungültige Adresse: Satz und Weg „Zum heutigen Tag“",
+     "von": 662,
+     "bis": 666,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR3",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt: Regel-Karte als .dashed mit einem Kopf-Knopf (anlegen/bearbeiten), Wochen-Diagramm nur mit Daten",
+     "von": 706,
+     "bis": 709,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.pnl",
+   "schritte": [
+    {
+     "nr": "aufbau-C7c",
+     "gruppe": "aufbau",
+     "titel": "Tagesansicht: Tabelle ohne Status-Spalte, Check-in-Text, Regeln-Link, alte Aktion löschen, Breitenprüfung",
+     "von": 479,
+     "bis": 484,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C10d",
+     "gruppe": "aufbau",
+     "titel": "Notizliste: Tagesnotiz mit „{0} Trades · P&L“ statt Datum",
+     "von": 540,
+     "bis": 540,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C15a",
+     "gruppe": "aufbau",
+     "titel": "TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status",
+     "von": 610,
+     "bis": 616,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "farbe-C24c",
+     "gruppe": "farbe",
+     "titel": "Notizkopf: P&L-Zeile mit .pnl-line/.lbl-pnl, Links ohne accent, „Tagesansicht öffnen“",
+     "von": 508,
+     "bis": 509,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "farbe-C29",
+     "gruppe": "farbe",
+     "titel": "Schatten-Ich: Kosten mit Vorzeichen (costView, Tabelle), Spaltenkopf „Effekt“",
+     "von": 527,
+     "bis": 532,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "kilook-A3",
+     "gruppe": "kilook",
+     "titel": "Regel-Kommentar über U.pnl (Ergebnisse immer mit Vorzeichen, kein signed: false)",
+     "von": 394,
+     "bis": 397,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "kilook-C9b",
+     "gruppe": "kilook",
+     "titel": "Dashboard-Widgets: Netto-P&L mit Vorzeichen; Serien, „Dein Score“, „Heutiger Score“ als .kpi-label",
+     "von": 608,
+     "bis": 612,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "kilook-C16",
+     "gruppe": "kilook",
+     "titel": "TradeLog: Netto-P&L mit Vorzeichen, Verpasste-Trades-Labels als .kpi-label",
+     "von": 645,
+     "bis": 649,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19c",
+     "gruppe": "kilook",
+     "titel": "Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“",
+     "von": 682,
+     "bis": 694,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C20",
+     "gruppe": "kilook",
+     "titel": "Friedhof: tote Helfer (kv, when, tradeHtml) löschen, Grabstein-Beträge in Kontowährung",
+     "von": 695,
+     "bis": 701,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.10",
+     "gruppe": "responsiv",
+     "titel": "Fortschritt: Regeln im Detail mit Kernspalten und Handy-Unterzeile „{0}× gebrochen · Kosten“",
+     "von": 503,
+     "bis": 508,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8h",
+     "gruppe": "typografie",
+     "titel": "„Kosten je Fehler“: Betrag über U.pnl, Zusatz gedämpft, „WR“ → „Win-Rate“",
+     "von": 432,
+     "bis": 432,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-NB1",
+     "gruppe": "zustaende",
+     "titel": "Notizliste: Trade-P&L mit Klasse num (Verlust rot)",
+     "von": 846,
+     "bis": 850,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.tile",
+   "schritte": [
+    {
+     "nr": "abstaende-I2",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich: Trade-Zahl als Fußzeile „{0} Trades im Zeitraum“ statt Kopfzusatz",
+     "von": 422,
+     "bis": 422,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C3",
+     "gruppe": "aufbau",
+     "titel": "Affiliate: Steuerung in die Kopfreihe, Marke „Beispieldaten“, ohne Trade/Session, Kachel „Creator“ weg",
+     "von": 432,
+     "bis": 440,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C14d",
+     "gruppe": "aufbau",
+     "titel": "Reiter Tage: Kennzahl-Leiste mit 6 Kacheln, Karte „Tage im Detail“, Wochentag-Balken weg",
+     "von": 602,
+     "bis": 606,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "farbe-C27",
+     "gruppe": "farbe",
+     "titel": "Friedhof: Kachel „Geplatzte Konten“ ohne tint neg",
+     "von": 520,
+     "bis": 521,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S10.8-10.12",
+     "gruppe": "wording",
+     "titel": "Statistik: Fehler-Kacheln (Kosten in Verlustfarbe ohne Minus, Trefferquote mit/ohne Fehler ohne Farbe), Regime-Titel und Einzel-Labels, Edge-Zähler",
+     "von": 453,
+     "bis": 457,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "wording-S10.13-10.15",
+     "gruppe": "wording",
+     "titel": "Monte Carlo: Durchläufe mit fmt.int, Kacheln kompakt ohne Cent, ausgeschriebene Fußzeilen",
+     "von": 458,
+     "bis": 461,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "wording-S11.6-11.11",
+     "gruppe": "wording",
+     "titel": "Schatten-Ich-Karten: „Regelwerk“, Intro, Info-Texte, Kachel-Fuß „Ohne Verstöße“, Diagramm „Kumulierter Netto-P&L“",
+     "von": 471,
+     "bis": 477,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.6-12.7",
+     "gruppe": "wording",
+     "titel": "Prop: Leerzustand „Prop-Konto anlegen“ ohne Firmen-Preset, Kachel „P&L der aktiven Konten“ je Währung",
+     "von": 487,
+     "bis": 488,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S13.1-13.2",
+     "gruppe": "wording",
+     "titel": "Affiliate: Kachelreihe kompakt ohne Cent (moneyK)",
+     "von": 513,
+     "bis": 518,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    },
+    {
+     "nr": "wording-S13.3-13.7",
+     "gruppe": "wording",
+     "titel": "Affiliate-Begriffe: „Satz“/„Provisionssatz“ = Prozent, „Provision“ = Betrag, „Quelle“, Dialog und Toasts",
+     "von": 519,
+     "bis": 524,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    },
+    {
+     "nr": "wording-S15.10-15.15",
+     "gruppe": "wording",
+     "titel": "Coach-Gruppe und Journal: „1 von 2 offen“, „Ø Trefferquote“, „Mentor-Notizen“, Pille „nur für Mentoren“ weg, „Daten ab …“, „bearbeitet …“ nur bei späterer Bearbeitung",
+     "von": 554,
+     "bis": 559,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".kpi-label",
+   "schritte": [
+    {
+     "nr": "aufbau-A3a",
+     "gruppe": "aufbau",
+     "titel": "Neue Klasse .kpi-label und .kpi-label.sm",
+     "von": 263,
+     "bis": 268,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C2b",
+     "gruppe": "aufbau",
+     "titel": "Widgets: Beschriftungen über Werten als .kpi-label",
+     "von": 428,
+     "bis": 431,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C14e",
+     "gruppe": "aufbau",
+     "titel": "Reiter Zeit: Beschriftungen als .kpi-label",
+     "von": 607,
+     "bis": 607,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C15c",
+     "gruppe": "aufbau",
+     "titel": "Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label",
+     "von": 618,
+     "bis": 625,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "kilook-A4",
+     "gruppe": "kilook",
+     "titel": "Neue Typo-Rolle .kpi-label hinter .caption",
+     "von": 398,
+     "bis": 401,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C8c",
+     "gruppe": "kilook",
+     "titel": "Session-Ende-Dialog: Heute/Trades/Win-Rate als .kpi-label",
+     "von": 603,
+     "bis": 604,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "kilook-C9b",
+     "gruppe": "kilook",
+     "titel": "Dashboard-Widgets: Netto-P&L mit Vorzeichen; Serien, „Dein Score“, „Heutiger Score“ als .kpi-label",
+     "von": 608,
+     "bis": 612,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "kilook-C13",
+     "gruppe": "kilook",
+     "titel": "Tagesansicht: Check-in mit I.mood (Knopf und Leerzustand), Netto-P&L als .kpi-label",
+     "von": 625,
+     "bis": 629,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "kilook-C14",
+     "gruppe": "kilook",
+     "titel": "Statistik: Gewinner/Verlierer als .kpi-label, Check-in-Leerzustand mit I.mood, Monte Carlo ganzzahlig",
+     "von": 630,
+     "bis": 641,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "kilook-C16",
+     "gruppe": "kilook",
+     "titel": "TradeLog: Netto-P&L mit Vorzeichen, Verpasste-Trades-Labels als .kpi-label",
+     "von": 645,
+     "bis": 649,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "kilook-C17",
+     "gruppe": "kilook",
+     "titel": "Blind-Replay: „Session beendet“ als .kpi-label",
+     "von": 650,
+     "bis": 652,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/replay.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fmt.cur",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U6a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Diagramme: Textalternative chartLabel und role=img in drawCharts",
+     "von": 488,
+     "bis": 508,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "kilook-A1",
+     "gruppe": "kilook",
+     "titel": "fmt.cur ohne Größenschwelle (Cent auch ab 10.000); Bereich enthält die Reihenfolge-Vorbemerkung von Abschnitt 3",
+     "von": 366,
+     "bis": 380,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "kilook-A2",
+     "gruppe": "kilook",
+     "titel": "fmt.balance: Bestände ganzzahlig (compact: true als Standard)",
+     "von": 381,
+     "bis": 393,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "kilook-C9a",
+     "gruppe": "kilook",
+     "titel": "Kalender-Monatsraster: Tages- und Wochenbeträge immer compact (ohne Cent)",
+     "von": 605,
+     "bis": 607,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "kilook-C14",
+     "gruppe": "kilook",
+     "titel": "Statistik: Gewinner/Verlierer als .kpi-label, Check-in-Leerzustand mit I.mood, Monte Carlo ganzzahlig",
+     "von": 630,
+     "bis": 641,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19c",
+     "gruppe": "kilook",
+     "titel": "Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“",
+     "von": 682,
+     "bis": 694,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.4a",
+     "gruppe": "typografie",
+     "titel": "fmt.cur: immer zwei Nachkommastellen (Sonderfall ≥ 10.000 entfällt)",
+     "von": 383,
+     "bis": 387,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U1",
+     "gruppe": "zustaende",
+     "titel": "Geldbeträge immer mit zwei Nachkommastellen (fmt.cur ohne 10.000-Schwelle), Überlauf prüfen",
+     "von": 390,
+     "bis": 394,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/ui.js",
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fmt.balance",
+   "schritte": [
+    {
+     "nr": "kilook-A2",
+     "gruppe": "kilook",
+     "titel": "fmt.balance: Bestände ganzzahlig (compact: true als Standard)",
+     "von": 381,
+     "bis": 393,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19c",
+     "gruppe": "kilook",
+     "titel": "Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“",
+     "von": 682,
+     "bis": 694,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C20",
+     "gruppe": "kilook",
+     "titel": "Friedhof: tote Helfer (kv, when, tradeHtml) löschen, Grabstein-Beträge in Kontowährung",
+     "von": 695,
+     "bis": 701,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.24-12.26",
+     "gruppe": "wording",
+     "titel": "Prop-Planer: „Mindest-Kontostand“, Bedingungen „(mind. …) · erfüllt“, alle Beträge in Kontowährung",
+     "von": 505,
+     "bis": 507,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.28-12.29",
+     "gruppe": "wording",
+     "titel": "Friedhof: Lebensdauer über U.count, Grabstein-Unterzeile ohne Geldbetrag („100K“ nur ohne Namen)",
+     "von": 509,
+     "bis": 510,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "wording-S19-prop",
+     "gruppe": "wording",
+     "titel": "Tests anpassen: proptest, friedhoftest",
+     "von": 630,
+     "bis": 635,
+     "cluster": "prop",
+     "dateien": [
+      "web/e2e/proptest.js",
+      "web/e2e/friedhoftest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "money",
+   "schritte": [
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19c",
+     "gruppe": "kilook",
+     "titel": "Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“",
+     "von": 682,
+     "bis": 694,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.12a",
+     "gruppe": "responsiv",
+     "titel": "Prop-Karte: „Bis zum Bestehen“, Betrag ohne Dopplung in Kontowährung (planText)",
+     "von": 514,
+     "bis": 517,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.1-12.3",
+     "gruppe": "wording",
+     "titel": "Prop: Währungssymbol je Konto (curSym/unitLabel), Breach-Banner ohne ISO-Datum mit „überschreitet“, fmtMoney in Kontowährung",
+     "von": 478,
+     "bis": 484,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.8-12.12",
+     "gruppe": "wording",
+     "titel": "Prop-Karte: „reicht für N Stops“, „Kontostand“, P&L in Kontowährung, Bestehen-Zeile nur wenn nicht leer, Tooltip „je Stop“, Archiv-Untertitel, Verweis „Trade bearbeiten“",
+     "von": 489,
+     "bis": 493,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.24-12.26",
+     "gruppe": "wording",
+     "titel": "Prop-Planer: „Mindest-Kontostand“, Bedingungen „(mind. …) · erfüllt“, alle Beträge in Kontowährung",
+     "von": 505,
+     "bis": 507,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.openSessionEnd",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P14b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Rückfrage (guard: true) für Session starten, Check-in, Session beenden",
+     "von": 676,
+     "bis": 678,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P14c",
+     "gruppe": "barrierefreiheit",
+     "titel": "Regel-Checkliste in „Session beenden“: Checkbox .vh statt .hidden, done vorbelegt",
+     "von": 679,
+     "bis": 682,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "farbe-C12c",
+     "gruppe": "farbe",
+     "titel": "Session-Ende und Import: Hinweise .lbl-hint bzw. muted statt faint",
+     "von": 434,
+     "bis": 437,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "kilook-C8c",
+     "gruppe": "kilook",
+     "titel": "Session-Ende-Dialog: Heute/Trades/Win-Rate als .kpi-label",
+     "von": 603,
+     "bis": 604,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.7a",
+     "gruppe": "typografie",
+     "titel": "Session beenden: Beschriftungen „Heute/Trades/Win-Rate“ als .val-label",
+     "von": 411,
+     "bis": 415,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.6-5.8",
+     "gruppe": "wording",
+     "titel": "app.js: Zähler über U.count (Symbol-Liste, CSV-Import) und „Trefferquote“ im Session-Ende",
+     "von": 358,
+     "bis": 360,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "widget:regel_tracker",
+   "schritte": [
+    {
+     "nr": "aufbau-C2a",
+     "gruppe": "aufbau",
+     "titel": "Widgets: „Alle Trades“ als Kopf-Link, Regel-Tracker ohne Fußlink, Regeln-Link korrigiert",
+     "von": 422,
+     "bis": 427,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C2b",
+     "gruppe": "aufbau",
+     "titel": "Widgets: Beschriftungen über Werten als .kpi-label",
+     "von": 428,
+     "bis": 431,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "komponenten-W6",
+     "gruppe": "komponenten",
+     "titel": "Regel-Tracker mit Klassen, Knopf als btn sm",
+     "von": 597,
+     "bis": 599,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.5d",
+     "gruppe": "typografie",
+     "titel": "Regel-Tracker: „Heutiger Score“ als .val-label; „Dein Score“ (Z. 227) bleibt bis zur Nutzerantwort",
+     "von": 400,
+     "bis": 402,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "planText",
+   "schritte": [
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.4-12.5",
+     "gruppe": "wording",
+     "titel": "Prop: planText mit skipProfit, „{0} Gewinn fehlen“, „Consistency Rule verletzt“; limText/ddText/lockAt in Kontowährung",
+     "von": 485,
+     "bis": 486,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "wording-S12.8-12.12",
+     "gruppe": "wording",
+     "titel": "Prop-Karte: „reicht für N Stops“, „Kontostand“, P&L in Kontowährung, Bestehen-Zeile nur wenn nicht leer, Tooltip „je Stop“, Archiv-Untertitel, Verweis „Trade bearbeiten“",
+     "von": 489,
+     "bis": 493,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".popover .sec",
+   "schritte": [
+    {
+     "nr": "aufbau-A4f",
+     "gruppe": "aufbau",
+     "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+     "von": 292,
+     "bis": 295,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C21a",
+     "gruppe": "komponenten",
+     "titel": "Menüeinträge: .popover .item (min. 36, 13px/500), gewählt neutral, Haken-Spalte .chk, .popover .sec",
+     "von": 362,
+     "bis": 366,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2b",
+     "gruppe": "typografie",
+     "titel": "Eyebrow-Sammelregel (11/600/.06em, 'case', --muted) und Typo-Angaben aus den Einzelregeln entfernen",
+     "von": 220,
+     "bis": 221,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tracker-foot > .btn",
+   "schritte": [
+    {
+     "nr": "komponenten-C09",
+     "gruppe": "komponenten",
+     "titel": "Einzelfälle der Knöpfe auf die Stufen zurückführen",
+     "von": 248,
+     "bis": 255,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-W6",
+     "gruppe": "komponenten",
+     "titel": "Regel-Tracker mit Klassen, Knopf als btn sm",
+     "von": 597,
+     "bis": 599,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "widget:score",
+   "schritte": [
+    {
+     "nr": "aufbau-C2b",
+     "gruppe": "aufbau",
+     "titel": "Widgets: Beschriftungen über Werten als .kpi-label",
+     "von": 428,
+     "bis": 431,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "komponenten-W3",
+     "gruppe": "komponenten",
+     "titel": "Score-Reihe mit Klassen statt Inline-Stil",
+     "von": 588,
+     "bis": 590,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "trades.renderMissed",
+   "schritte": [
+    {
+     "nr": "aufbau-C15c",
+     "gruppe": "aufbau",
+     "titel": "Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label",
+     "von": 618,
+     "bis": 625,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "farbe-C31b",
+     "gruppe": "farbe",
+     "titel": "Tageskarten-Zähler nur > 0 gefärbt; Verpasste Trades „Entgangen“/„Verlust vermieden“ ohne Vorzeichen und Farbe",
+     "von": 542,
+     "bis": 543,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "summaryTiles",
+   "schritte": [
+    {
+     "nr": "abstaende-M1",
+     "gruppe": "abstaende",
+     "titel": "Prop-Übersicht: Kopf, Gruppen und Leerhinweis in <section class=\"prop-sec\">",
+     "von": 466,
+     "bis": 470,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C19b",
+     "gruppe": "kilook",
+     "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+     "von": 664,
+     "bis": 681,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.range",
+   "schritte": [
+    {
+     "nr": "aufbau-C15c",
+     "gruppe": "aufbau",
+     "titel": "Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label",
+     "von": 618,
+     "bis": 625,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "diagramme-G1",
+     "gruppe": "diagramme",
+     "titel": "Statistik-Kopfkarte: Titel „Kumulierter Netto-P&L“, nur Handelstage, nur mit abgeschlossenen Trades",
+     "von": 600,
+     "bis": 610,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nav-title",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P5",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+     "von": 596,
+     "bis": 607,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2b",
+     "gruppe": "typografie",
+     "titel": "Eyebrow-Sammelregel (11/600/.06em, 'case', --muted) und Typo-Angaben aus den Einzelregeln entfernen",
+     "von": 220,
+     "bis": 221,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "renderMissed",
+   "schritte": [
+    {
+     "nr": "kilook-C16",
+     "gruppe": "kilook",
+     "titel": "TradeLog: Netto-P&L mit Vorzeichen, Verpasste-Trades-Labels als .kpi-label",
+     "von": 645,
+     "bis": 649,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T1",
+     "gruppe": "zustaende",
+     "titel": "TradeLog-Kacheln folgen Suche und Filter, Zähler „{n} abgeschlossen“, leerer Wert „—“",
+     "von": 634,
+     "bis": 641,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.card",
+   "schritte": [
+    {
+     "nr": "abstaende-I3",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich: Untertitel (Zeitraum) an der Karte „Regelverstöße“ streichen",
+     "von": 423,
+     "bis": 424,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "aufbau-B8",
+     "gruppe": "aufbau",
+     "titel": "U.card: Kartentitel als <h2 class=\"card-title\">",
+     "von": 360,
+     "bis": 362,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C14b",
+     "gruppe": "aufbau",
+     "titel": "Statistiken: Reiter zuerst, Kurve als Karte „Kumulierter Netto-P&L“ nur in der Übersicht",
+     "von": 588,
+     "bis": 597,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "diagramme-G1",
+     "gruppe": "diagramme",
+     "titel": "Statistik-Kopfkarte: Titel „Kumulierter Netto-P&L“, nur Handelstage, nur mit abgeschlossenen Trades",
+     "von": 600,
+     "bis": 610,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "kilook-C18",
+     "gruppe": "kilook",
+     "titel": "„% Regeln eingehalten“ ohne Grundlage: „—“, kein Ring/ring-card; Bogen nur bei rate > 0",
+     "von": 653,
+     "bis": 660,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-prop-c",
+     "gruppe": "komponenten",
+     "titel": "Karte „Deine Konten“ ohne Kopfknopf",
+     "von": 698,
+     "bis": 698,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-stats-b",
+     "gruppe": "komponenten",
+     "titel": "Statistik: Tabellen inset, Tage in Karte „Alle Handelstage“",
+     "von": 714,
+     "bis": 716,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "wording-S8.6-8.9",
+     "gruppe": "wording",
+     "titel": "Fortschritt: Kartentitel „Regeltreue“, Leerzustand Regeln, Tilt-Text mit drittem Fall, Zähler über U.count",
+     "von": 415,
+     "bis": 419,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "wording-S10.1-10.7",
+     "gruppe": "wording",
+     "titel": "Statistik: REG_VS, Serien-Einzahl, Titel „… nach …“, Spalten „Trefferquote“/„Erwartungswert“, Uhrzeit-Tabelle mit „ Uhr“",
+     "von": 442,
+     "bis": 452,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "wording-S11.6-11.11",
+     "gruppe": "wording",
+     "titel": "Schatten-Ich-Karten: „Regelwerk“, Intro, Info-Texte, Kachel-Fuß „Ohne Verstöße“, Diagramm „Kumulierter Netto-P&L“",
+     "von": 471,
+     "bis": 477,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-ST1",
+     "gruppe": "zustaende",
+     "titel": "Statistik: Kopfdiagramm nur mit abgeschlossenen Trades ausgeben",
+     "von": 607,
+     "bis": 611,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DY2",
+     "gruppe": "zustaende",
+     "titel": "Tagesansicht: Kennzahlen-Karte nur mit Trades, Spark nur mit abgeschlossenen, Null ohne Grün/Rot",
+     "von": 667,
+     "bis": 669,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#/settings/regeln",
+   "schritte": [
+    {
+     "nr": "aufbau-C2a",
+     "gruppe": "aufbau",
+     "titel": "Widgets: „Alle Trades“ als Kopf-Link, Regel-Tracker ohne Fußlink, Regeln-Link korrigiert",
+     "von": 422,
+     "bis": 427,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C7c",
+     "gruppe": "aufbau",
+     "titel": "Tagesansicht: Tabelle ohne Status-Spalte, Check-in-Text, Regeln-Link, alte Aktion löschen, Breitenprüfung",
+     "von": 479,
+     "bis": 484,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C11b",
+     "gruppe": "aufbau",
+     "titel": "Fortschritt: Checkliste mit „Regeln anlegen/bearbeiten“, Karte „Aktuelle Regeln“ weg",
+     "von": 550,
+     "bis": 552,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W5",
+     "gruppe": "zustaende",
+     "titel": "Regel-Tracker-Widget: Link auf #/settings/regeln",
+     "von": 483,
+     "bis": 485,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DY3",
+     "gruppe": "zustaende",
+     "titel": "Tagesansicht: Regel-Link auf #/settings/regeln",
+     "von": 670,
+     "bis": 672,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR3",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt: Regel-Karte als .dashed mit einem Kopf-Knopf (anlegen/bearbeiten), Wochen-Diagramm nur mit Daten",
+     "von": 706,
+     "bis": 709,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dashed",
+   "schritte": [
+    {
+     "nr": "abstaende-F3",
+     "gruppe": "abstaende",
+     "titel": "Leere Dashboard-Vorlage: Inline-Stil → Klasse center, padding 32px",
+     "von": 398,
+     "bis": 399,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C11b",
+     "gruppe": "aufbau",
+     "titel": "Fortschritt: Checkliste mit „Regeln anlegen/bearbeiten“, Karte „Aktuelle Regeln“ weg",
+     "von": 550,
+     "bis": 552,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-dashboard-b",
+     "gruppe": "komponenten",
+     "titel": "Leere Widget-Fläche als .dash-empty",
+     "von": 652,
+     "bis": 652,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR3",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt: Regel-Karte als .dashed mit einem Kopf-Knopf (anlegen/bearbeiten), Wochen-Diagramm nur mit Daten",
+     "von": 706,
+     "bis": 709,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.allTrades",
+   "schritte": [
+    {
+     "nr": "aufbau-C10d",
+     "gruppe": "aufbau",
+     "titel": "Notizliste: Tagesnotiz mit „{0} Trades · P&L“ statt Datum",
+     "von": 540,
+     "bis": 540,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-Z1",
+     "gruppe": "zustaende",
+     "titel": "Zertifikat-Standardtag zentral: letzter Tag mit abgeschlossenem Trade ≤ heute",
+     "von": 507,
+     "bis": 511,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/certificate.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-ST2",
+     "gruppe": "zustaende",
+     "titel": "Statistik: einheitliche Seiten-Leerzustände über noTrades() (leeres Journal mit CSV-Import)",
+     "von": 612,
+     "bis": 625,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T3",
+     "gruppe": "zustaende",
+     "titel": "TradeLog: Leerzustand der Liste nach Lage (leeres Journal / Zeitraum / Filter)",
+     "von": 648,
+     "bis": 650,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.barRow",
+   "schritte": [
+    {
+     "nr": "diagramme-A8a",
+     "gruppe": "diagramme",
+     "titel": "Beträge in Balkenzeilen: .bar-row .bl > b Onest/tabular-nums, Zusatz .muted 400",
+     "von": 334,
+     "bis": 335,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-I1",
+     "gruppe": "diagramme",
+     "titel": "Schatten-Ich-Ranking: Balken nur bei Verstoß, Zeile „Ohne Verstöße“, Leerzustand",
+     "von": 640,
+     "bis": 652,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8h",
+     "gruppe": "typografie",
+     "titel": "„Kosten je Fehler“: Betrag über U.pnl, Zusatz gedämpft, „WR“ → „Win-Rate“",
+     "von": 432,
+     "bis": 432,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tl-count",
+   "schritte": [
+    {
+     "nr": "responsiv-C2",
+     "gruppe": "responsiv",
+     "titel": "TradeLog-Filterzeile: Auswahlfelder max. 200 px, Zähler bricht nicht allein um",
+     "von": 389,
+     "bis": 391,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.7",
+     "gruppe": "responsiv",
+     "titel": "TradeLog: Kernspalten am Handy (PH), Filterzeile tl-filters/tl-count, Setup-Chip mit Tooltip",
+     "von": 477,
+     "bis": 489,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "wording-S9.3-9.7",
+     "gruppe": "wording",
+     "titel": "TradeLog-Filterzeile: Klassen tl-filters/tl-search/tl-sel/tl-count, „Trades durchsuchen“, Fehler-Filter, Filterzeile nur mit Trades",
+     "von": 426,
+     "bis": 430,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "activityGrid",
+   "schritte": [
+    {
+     "nr": "diagramme-H2",
+     "gruppe": "diagramme",
+     "titel": "Heatmap-Container role=img aria-label „Trading-Aktivität“",
+     "von": 636,
+     "bis": 637,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "wording-S8.6-8.9",
+     "gruppe": "wording",
+     "titel": "Fortschritt: Kartentitel „Regeltreue“, Leerzustand Regeln, Tilt-Text mit drittem Fall, Zähler über U.count",
+     "von": 415,
+     "bis": 419,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tl-filters",
+   "schritte": [
+    {
+     "nr": "responsiv-3.7",
+     "gruppe": "responsiv",
+     "titel": "TradeLog: Kernspalten am Handy (PH), Filterzeile tl-filters/tl-count, Setup-Chip mit Tooltip",
+     "von": 477,
+     "bis": 489,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "wording-S9.3-9.7",
+     "gruppe": "wording",
+     "titel": "TradeLog-Filterzeile: Klassen tl-filters/tl-search/tl-sel/tl-count, „Trades durchsuchen“, Fehler-Filter, Filterzeile nur mit Trades",
+     "von": 426,
+     "bis": 430,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.badge",
+   "schritte": [
+    {
+     "nr": "aufbau-C15a",
+     "gruppe": "aufbau",
+     "titel": "TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status",
+     "von": 610,
+     "bis": 616,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-e",
+     "gruppe": "komponenten",
+     "titel": "Verpasste Trades: Symbol und Richtung in zwei Zellen unter einer Überschrift",
+     "von": 722,
+     "bis": 722,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.2b",
+     "gruppe": "responsiv",
+     "titel": "Richtungs-Abzeichen: Text in span.bl (für Pfeil-only am Handy)",
+     "von": 415,
+     "bis": 415,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "td.sym",
+   "schritte": [
+    {
+     "nr": "aufbau-C15a",
+     "gruppe": "aufbau",
+     "titel": "TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status",
+     "von": 610,
+     "bis": 616,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-e",
+     "gruppe": "komponenten",
+     "titel": "Verpasste Trades: Symbol und Richtung in zwei Zellen unter einer Überschrift",
+     "von": 722,
+     "bis": 722,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.rText",
+   "schritte": [
+    {
+     "nr": "aufbau-C15a",
+     "gruppe": "aufbau",
+     "titel": "TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status",
+     "von": 610,
+     "bis": 616,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "farbe-C30",
+     "gruppe": "farbe",
+     "titel": "Statistik: Legendenpunkt --profit, statVal rSigned, Zähler neutral bzw. nur > 0, Tages-DD-Strich faint",
+     "von": 533,
+     "bis": 538,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "td.dir-cell",
+   "schritte": [
+    {
+     "nr": "aufbau-C15a",
+     "gruppe": "aufbau",
+     "titel": "TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status",
+     "von": 610,
+     "bis": 616,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-e",
+     "gruppe": "komponenten",
+     "titel": "Verpasste Trades: Symbol und Richtung in zwei Zellen unter einer Überschrift",
+     "von": 722,
+     "bis": 722,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.pill",
+   "schritte": [
+    {
+     "nr": "abstaende-E-day2",
+     "gruppe": "abstaende",
+     "titel": "Tagesansicht: Datumsnavigation als ctx.headLeft in die Kopfreihe, Kopfknöpfe Zertifikat/Check-in/„Trade für diesen Tag“ entfallen, .day-title in app.css",
+     "von": 437,
+     "bis": 437,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C3",
+     "gruppe": "aufbau",
+     "titel": "Affiliate: Steuerung in die Kopfreihe, Marke „Beispieldaten“, ohne Trade/Session, Kachel „Creator“ weg",
+     "von": 432,
+     "bis": 440,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C16",
+     "gruppe": "farbe",
+     "titel": "Affiliate: Balken --profit, „Ausgezahlt“ als ruhiger Text",
+     "von": 452,
+     "bis": 455,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    },
+    {
+     "nr": "farbe-C17a",
+     "gruppe": "farbe",
+     "titel": "Coach: Knöpfe ohne primary, Pillen „Neu“/„{n} neu“ neutral, kein .accent, Haken muted, „0“ muted",
+     "von": 456,
+     "bis": 462,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    },
+    {
+     "nr": "farbe-C20",
+     "gruppe": "farbe",
+     "titel": "Tagesansicht: Pille „Heute“ neutral, Zähler nur > 0 gefärbt, Score mit scoreText, Leertext muted, Knopf neutral",
+     "von": 474,
+     "bis": 479,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "farbe-C22b",
+     "gruppe": "farbe",
+     "titel": "Einstellungen: Neben-Knöpfe ohne primary, Speicherort muted, Pille „Aktiv“, Kategorien-Satz",
+     "von": 487,
+     "bis": 492,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "farbe-C26a",
+     "gruppe": "farbe",
+     "titel": "Prop: Status „Aktiv“ neutral, „geprüft“-Pillen neutral",
+     "von": 512,
+     "bis": 514,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "kilook-C21",
+     "gruppe": "kilook",
+     "titel": "Coach: Pillen „Mentor“ und „1 Antwort“ neutral statt warn",
+     "von": 702,
+     "bis": 705,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.12c",
+     "gruppe": "responsiv",
+     "titel": "Prop → Ausgaben und Payouts: Kernspalten am Handy mit Unterzeile",
+     "von": 519,
+     "bis": 523,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "ctx.headLeft",
+   "schritte": [
+    {
+     "nr": "abstaende-E-day2",
+     "gruppe": "abstaende",
+     "titel": "Tagesansicht: Datumsnavigation als ctx.headLeft in die Kopfreihe, Kopfknöpfe Zertifikat/Check-in/„Trade für diesen Tag“ entfallen, .day-title in app.css",
+     "von": 437,
+     "bis": 437,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-B1",
+     "gruppe": "aufbau",
+     "titel": "pageHead: leere Kopfreihe nicht rendern, newTradeButton mit Tooltip, head als Funktion",
+     "von": 300,
+     "bis": 316,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C3",
+     "gruppe": "aufbau",
+     "titel": "Affiliate: Steuerung in die Kopfreihe, Marke „Beispieldaten“, ohne Trade/Session, Kachel „Creator“ weg",
+     "von": 432,
+     "bis": 440,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C9a",
+     "gruppe": "aufbau",
+     "titel": "News: Filter in die Kopfreihe (ctx.headLeft), kein Session-Knopf",
+     "von": 498,
+     "bis": 504,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/news.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C15d",
+     "gruppe": "aufbau",
+     "titel": "Trade-Ansicht: Kopfreihe nur mit Rückweg und Trade loggen",
+     "von": 626,
+     "bis": 628,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tbl-wrap.inset",
+   "schritte": [
+    {
+     "nr": "abstaende-M5",
+     "gruppe": "abstaende",
+     "titel": "Prop-Bilanz-Tabellen als .tbl-wrap.inset",
+     "von": 474,
+     "bis": 474,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C14d",
+     "gruppe": "aufbau",
+     "titel": "Reiter Tage: Kennzahl-Leiste mit 6 Kacheln, Karte „Tage im Detail“, Wochentag-Balken weg",
+     "von": 602,
+     "bis": 606,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-prop-e",
+     "gruppe": "komponenten",
+     "titel": "Prop-Bilanz: Tabellen als tbl-wrap inset",
+     "von": 701,
+     "bis": 701,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-stats-b",
+     "gruppe": "komponenten",
+     "titel": "Statistik: Tabellen inset, Tage in Karte „Alle Handelstage“",
+     "von": 714,
+     "bis": 716,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,678 @@
+{
+ "screens": [
+  {
+   "screen": "progress",
+   "zustand": "voll (1440)",
+   "hauptaktion": "Den heutigen Tag abhaken: den nächsten offenen Schritt der Tages-Checkliste erledigen (Check-in, Regeln abhaken, Tagesnotiz). „Trade loggen“ ist nur einer dieser fünf Schritte.",
+   "optisch_klar": false,
+   "begruendung": "Die Tages-Checkliste ist der einzige Teil der Seite, mit dem man etwas tut. Sie beginnt aber erst bei y≈840 unter der 52-Wochen-Heatmap, also unterhalb der Falz von 1440×900 (extra/hicks-tr-1440-progress_voll.png, extra/crit-progress.png). Oben stehen nur Kennzahlen. Am auffälligsten ist in der Kopfreihe „Trade loggen“ (.btn.accent, app.js:252), daneben das Session-Symbol (.btn.icon-only, app.js:250). In den Kartenköpfen stehen „Tag ansehen“ (progress.js:75) und „Regeln bearbeiten“ (progress.js:77), beide .btn.sm umrandet und damit gleich gewichtet. Dazu kommen die beiden runden Pfeilknöpfe der Heatmap (.btn.round, progress.js:71). Die Einträge der Checkliste sind flache, gleich wichtige Zeilen.",
+   "konkurrenten": [
+    "„Trade loggen“ (.btn.accent, Kopfreihe)",
+    "„Session starten“ (Symbol-Knopf, Kopfreihe; doppelt zum Checklisten-Eintrag „Session gestartet“)",
+    "„Tag ansehen“ (.btn.sm umrandet)",
+    "„Regeln bearbeiten“ (.btn.sm umrandet mit Stift)",
+    "Heatmap-Pfeile zurück/vor (.btn.round ×2)",
+    "Zeitraum und Konto (umrandete Knöpfe links)"
+   ],
+   "verstecken": [
+    "Session-Symbol in der Kopfreihe: auf Fortschritt weglassen (head.session=false). Erreichbar bleibt es über „Dein Tag → Session gestartet“ (data-action start-session), auf Dashboard und im TradeLog",
+    "Abschnitt „Automatische Regeln“, solange es heute keine Trades gibt"
+   ],
+   "irrelevant": [
+    "„Automatische Regeln: Noch keine Trades heute.“ als gestrichelter Kasten, obwohl heute nichts zu prüfen ist (progress.js:74)",
+    "„Heutiger Fortschritt: Keine Daten“, obwohl der Zustand 0 von 5 bekannt ist"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Tages-Checkliste nach oben, Heatmap darunter",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "In progress.js die Reihenfolge der Blöcke tauschen: zuerst grid.three (Kennzahlen), dann div.grid.two.prog-split (Tages-Checkliste links; Regeln, Disziplin und Tilt rechts), danach die Karte „Trading-Aktivität“, zum Schluss „Regeln im Detail“. So ist die Checkliste bei 1440×900 ab y≈340 im ersten Bildschirm. Es fällt nichts weg, nur die Reihenfolge ändert sich. Achtung: Das weicht von der Reihenfolge „nach TradePath“ ab (progress.js:1), deshalb vorher den Nutzer fragen.",
+     "beleg": "extra/hicks-tr-1440-progress_voll.png (Checkliste ab y≈840); progress.js:66-82",
+     "id": "training-1-1"
+    },
+    {
+     "titel": "„Nächster Schritt“ direkt in der Kachel „Heutiger Fortschritt“",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Unter „x von 5 Schritten erledigt“ einen Textlink .btn.ghost.sm „Nächster Schritt: <Label>“ anzeigen. Er löst die Aktion des ersten offenen Eintrags aus items aus (check-in, start-session, new-trade, day-note-check). Bei „Regeln abgehakt“ scrollt er zur Regel-Checkliste. Sind alle fünf Schritte erledigt, verschwindet der Link. Das ist tertiär und konkurriert nicht mit „Trade loggen“.",
+     "beleg": "progress.js:49-57, 68",
+     "id": "training-1-2"
+    },
+    {
+     "titel": "Kartenkopf-Knöpfe auf Tertiär stufen",
+     "regel": 4,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "„Tag ansehen“ (progress.js:75) und „Regeln bearbeiten“ (progress.js:77) von .btn.sm auf .btn.sm.ghost umstellen. Beide führen von der Seite weg und sollen nicht wie Arbeitsknöpfe aussehen. Die Heatmap-Pfeile (.btn.round) bleiben, weil sie Werkzeuge sind.",
+     "beleg": "extra/crit-progress.png (Kartenköpfe y≈870)",
+     "id": "training-1-3"
+    },
+    {
+     "titel": "Session-Symbol aus der Kopfreihe auf Fortschritt",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In App.screens.progress head: { session: false } setzen, wie es Schatten-Ich schon macht. Session starten bleibt über den Checklisten-Eintrag „Session gestartet“ erreichbar. In der Kopfreihe bleibt „Trade loggen“ als einziger Knopf.",
+     "beleg": "app.js:257-259; shadow.js:104 (Vorbild)",
+     "id": "training-1-4"
+    },
+    {
+     "titel": "„Automatische Regeln“ erst ab dem ersten Trade des Tages",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Caption und Liste der automatischen Regeln nur rendern, wenn todayTrades.length > 0. Den gestrichelten Kasten „Noch keine Trades heute.“ ganz weglassen.",
+     "beleg": "progress.js:74",
+     "id": "training-1-5"
+    }
+   ],
+   "sid": "training-1",
+   "gruppe": "training"
+  },
+  {
+   "screen": "progress",
+   "zustand": "leer (keine Trades, keine Regeln)",
+   "hauptaktion": "Ersten Trade loggen („Trade loggen“ in der Kopfreihe). Erst dadurch füllen sich Serie, Aktivität, Disziplin und Tilt-Profil. Regeln anlegen ist der zweite, sekundäre Weg.",
+   "optisch_klar": false,
+   "begruendung": "„Trade loggen“ (.btn.accent) steht oben rechts klar hervorgehoben. Darunter folgen aber acht leere Karten mit weiteren Knöpfen. In der Karte „Aktuelle Regeln“ führen zwei gleich aussehende umrandete Knöpfe zum selben Ziel: „Regeln anlegen“ und „Regeln bearbeiten“, beide auf #/settings statt #/settings/regeln. Dazu kommen „Tag ansehen“, zwei Heatmap-Pfeile ohne etwas zum Verschieben und das Session-Symbol. „Keine Regeln“ steht dreimal auf der Seite (dark-1440/leer_progress.png).",
+   "konkurrenten": [
+    "„Regeln anlegen“ und „Regeln bearbeiten“ in derselben Karte, gleich gestaltet, gleiches Ziel",
+    "„Tag ansehen“ (.btn.sm)",
+    "Heatmap-Pfeile ×2",
+    "Session-Symbol"
+   ],
+   "verstecken": [
+    "„Regeln bearbeiten“ im Kartenkopf, solange keine Regel existiert (bleibt über „Regeln anlegen“ und Einstellungen → Regeln erreichbar)",
+    "Heatmap-Pfeile, solange es keinen aktiven Tag gibt"
+   ],
+   "irrelevant": [
+    "„% Regeln eingehalten: 0 %“ mit leerem Ring, obwohl es keine Regeln gibt (progress.js:69)",
+    "Karte „Disziplin pro Woche“: 200 px leere Diagrammfläche „Noch keine Wochen“",
+    "„Dein Tilt-Profil: Noch keine Tage mit drei Verlusten in Folge. Gut so.“ ohne einen einzigen Trade",
+    "Gestrichelter Hinweis „Noch keine Regeln…“ in der Tages-Checkliste, doppelt zur Karte „Aktuelle Regeln“",
+    "„Automatische Regeln: Noch keine Trades heute.“",
+    "52 leere Heatmap-Wochen mit Scroll-Pfeilen"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leere Auswertungskarten erst mit Daten zeigen",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Ohne abgeschlossene Trades (C.closedOnly(all).length === 0) die Karten „Disziplin pro Woche“ und „Dein Tilt-Profil“ nicht rendern; prog-side enthält dann nur „Aktuelle Regeln“. Die Heatmap-Pfeile (trailing) nur rendern, wenn activity mindestens einen Tag mit n, checkIn oder note hat. Mit dem ersten Trade erscheint alles automatisch wieder, es wird keine Funktion entfernt.",
+     "beleg": "dark-1440/leer_progress.png; progress.js:71, 78-79",
+     "id": "training-2-1"
+    },
+    {
+     "titel": "Eine einzige Regel-Aufforderung mit dem richtigen Ziel",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In „Aktuelle Regeln“ den trailing-Knopf „Regeln bearbeiten“ nur bei rules.length > 0 rendern. Im leeren Zustand bleibt nur „Regeln anlegen“ (.btn.sm, sekundär, weil „Trade loggen“ primär ist). Beide Links von #/settings auf #/settings/regeln ändern.",
+     "beleg": "progress.js:77; screens/misc.js:8 (Reiter „regeln“)",
+     "id": "training-2-2"
+    },
+    {
+     "titel": "Tages-Checkliste im leeren Zustand nur mit „Dein Tag“",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Den Regelblock der Checkliste nur bei rules.length > 0 rendern; der gestrichelte Hinweis entfällt, weil „Aktuelle Regeln“ ihn schon zeigt. „Automatische Regeln“ nur bei Trades von heute zeigen. Übrig bleiben Datum und die fünf Schritte „Dein Tag“, die alle anklickbar sind.",
+     "beleg": "progress.js:73-75",
+     "id": "training-2-3"
+    },
+    {
+     "titel": "Kein falsches „0 %“ ohne Regeln",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In „% Regeln eingehalten“ „—“ statt „0 %“ zeigen und den Ring weglassen, wenn rules.length === 0 oder cur.rate == null. So macht es Schatten-Ich mit „—“ auch. Die Zeile „Noch keine Regeln angelegt“ bleibt.",
+     "beleg": "progress.js:69; dark-1440/leer_progress.png (0 % mit leerem Ring)",
+     "id": "training-2-4"
+    }
+   ],
+   "sid": "training-2",
+   "gruppe": "training"
+  },
+  {
+   "screen": "progress",
+   "zustand": "handy (390)",
+   "hauptaktion": "Wie auf dem Desktop: den Tag abhaken. Sichtbar primär ist der schwebende Knopf „Trade loggen“ (FAB).",
+   "optisch_klar": false,
+   "begruendung": "Der FAB (.dash-head .tl, app.css:3019) ist klar der Hauptknopf. Die Tages-Checkliste folgt aber erst nach drei gestapelten Kacheln (der Ring in „% Regeln eingehalten“ bekommt eine eigene Zeile) und der Heatmap, also nach etwa 1,5 Bildschirmhöhen (extra/hicks-tr2-390-progress_lang.png). In der Kopfreihe stehen nur Zeitraum und das Session-Symbol; das Konto ist auf dem Handy ausgeblendet (accountControl hide-m, app.js:243).",
+   "konkurrenten": [
+    "Session-Symbol neben dem Zeitraum",
+    "Heatmap-Pfeile",
+    "„Tag ansehen“ / „Regeln bearbeiten“ (umrandet)"
+   ],
+   "verstecken": [
+    "Session-Symbol (wie auf dem Desktop, über die Checkliste erreichbar)"
+   ],
+   "irrelevant": [
+    "Im leeren Zustand dieselben leeren Karten wie auf dem Desktop (dark-390/leer_progress.png)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Neue Reihenfolge wirkt auf dem Handy am stärksten",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Dieselbe Änderung wie bei „voll“: prog-split vor die Heatmap. Auf 390 rückt die Checkliste damit von ≈1,5 auf ≈0,8 Bildschirmhöhen nach oben. Keine eigene Handy-Regel nötig.",
+     "beleg": "extra/hicks-tr2-390-progress_lang.png",
+     "id": "training-3-1"
+    },
+    {
+     "titel": "Session-Symbol aus der Handy-Kopfreihe",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Fällt mit head.session=false weg. In der Kopfreihe bleibt nur der Zeitraum, und der FAB „Trade loggen“ ist der einzige auffällige Knopf.",
+     "beleg": "extra/hicks-tr-390-progress_voll.png (Kopfreihe)",
+     "id": "training-3-2"
+    }
+   ],
+   "sid": "training-3",
+   "gruppe": "training"
+  },
+  {
+   "screen": "shadow",
+   "zustand": "voll (Trades und aktive Regeln)",
+   "hauptaktion": "Erkennen, welcher Regelbruch am meisten kostet, und den betroffenen Trade öffnen (Ranking und Verstöße-Tabelle; ein Klick auf die Zeile öffnet den Trade).",
+   "optisch_klar": false,
+   "begruendung": "Die Karten „Regelverstöße“ und „Welche Regel kostet am meisten“ stehen erst nach dem kompletten Regelwerk mit 7 Kacheln, Schaltern und Zahlenfeldern mit Pfeilen. Sie beginnen bei y≈1190 und liegen damit unter der Falz (extra/hicks-tr2-1440-shadow_lang.png; Reihenfolge shadow.js:121: head + tiles + chart + rulesCard + detail). Die interaktivsten Elemente der Seite sind die Schalter der Einstellungen, die man selten ändert. Seitenknöpfe gibt es nicht; die Kopfreihe hat nur Zeitraum und Konto (shadow.js:104).",
+   "konkurrenten": [
+    "7 Regel-Schalter mit Zahlenfeldern und Pfeilen (Regelwerk)",
+    "Setup-Chips bei „Nur bestimmte Setups“",
+    "Zeitraum und Konto",
+    "Seitenwahl der Verstöße (ab 10 Einträgen)"
+   ],
+   "verstecken": [
+    "Regelwerk-Einstellungen (Zahlenfelder, Setup-Chips, Schalter der inaktiven Regeln) hinter „Regeln bearbeiten“, sobald mindestens eine Regel aktiv ist"
+   ],
+   "irrelevant": [
+    "Setup-Warnung doppelt: in der Regelkachel (shadow.js:50) und noch einmal als gelbes Banner aus res.warnings (shadow.js:56; Engine js/shadow.js:54), siehe extra/hicks-tr-1440-shadow_setups_an.png"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ergebnis vor Einstellung: Details nach oben, Regelwerk eingeklappt",
+     "regel": 3,
+     "wirkung": 1,
+     "aufwand": "M",
+     "beschreibung": "Neue Reihenfolge in render(): head, tiles, chart, detail (Ranking und Verstöße), rulesCard. Ist res.active wahr, rendert rulesCard eingeklappt: eine Zeile „3 Regeln aktiv: Max. Trades pro Tag (3) · Stopp nach 2 Verlusten · Kein neuer Trade nach Verlust (15 Min)“ und im trailing ein sekundärer Knopf .btn.sm „Regeln bearbeiten“, der st().rulesOpen umschaltet und dann das volle Raster zeigt. Automatisch offen bleibt es, wenn keine Regel aktiv ist oder res.warnings nicht leer ist. Alle Schalter bleiben so mit einem Klick erreichbar.",
+     "beleg": "extra/hicks-tr2-1440-shadow_lang.png (Verstöße ab y≈1190); shadow.js:54-61, 120-121",
+     "id": "training-4-1"
+    },
+    {
+     "titel": "Setup-Warnung nur einmal, und zwar dort, wo man sie beheben kann",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In rulesCard die Engine-Warnung zur Regel „Nur bestimmte Setups“ aus notes herausfiltern, wenn die Regel an ist und der Hinweis in der Kachel schon steht (shadow.js:50). Andere Warnungen bleiben Banner.",
+     "beleg": "extra/hicks-tr-1440-shadow_setups_an.png (Hinweis in der Kachel und Banner darunter); shadow.js:50, 56",
+     "id": "training-4-2"
+    }
+   ],
+   "sid": "training-4",
+   "gruppe": "training"
+  },
+  {
+   "screen": "shadow",
+   "zustand": "Trades vorhanden, keine Regel aktiv (aus dem Code, keine Aufnahme)",
+   "hauptaktion": "Regeln einschalten, am schnellsten mit „Vorschlag übernehmen“.",
+   "optisch_klar": false,
+   "begruendung": "Laut Code zeigen alle vier Kacheln „—“ und „Keine Regel aktiv“ (shadow.js:110-115). Das Equity-Diagramm zeigt zwei deckungsgleiche Linien, weil das Schatten-Ich ohne Regeln dem echten Konto entspricht. Erst darunter steht das Regelwerk mit dem Banner „Noch keine Regel aktiv“ und dem einzigen hilfreichen Knopf „Vorschlag übernehmen“ (.btn.sm, shadow.js:58).",
+   "konkurrenten": [
+    "7 Regel-Schalter",
+    "„Vorschlag übernehmen“ ist nur .btn.sm am Ende der Liste"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Vier Kacheln mit „—“",
+    "Equity-Diagramm mit zwei identischen Linien"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ohne aktive Regel nur Intro und Regelwerk zeigen",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Wenn !res.active: tiles und chart nicht rendern (return head + rulesCard(res, r)). Das Banner mit „Vorschlag übernehmen“ wandert über das Regelraster, damit dieser eine Knopf zuerst gesehen wird; die Schalter bleiben darunter. Mit dem ersten Einschalten erscheinen Kacheln und Diagramm wieder.",
+     "beleg": "shadow.js:57-58, 110-121",
+     "id": "training-5-1"
+    }
+   ],
+   "sid": "training-5",
+   "gruppe": "training"
+  },
+  {
+   "screen": "shadow",
+   "zustand": "leer (keine abgeschlossenen Trades)",
+   "hauptaktion": "Ersten Trade loggen. Ohne geschlossene Trades kann das Schatten-Ich nichts rechnen.",
+   "optisch_klar": false,
+   "begruendung": "Der Leerzustand hat „Trade loggen“ (.btn.sm umrandet mit Plus, shadow.js:109). Darunter hat das Banner „Vorschlag übernehmen“ (.btn.sm umrandet mit Blitz, shadow.js:58). Beide sehen gleich aus, dazu kommen 7 Schalter (dark-1440/leer_shadow.png). „Trade loggen“ und „Session“ wurden für diese Seite bewusst aus der Kopfreihe genommen (shadow.js:104), deshalb ist der Knopf im Leerzustand der einzige Weg zum ersten Trade.",
+   "konkurrenten": [
+    "„Trade loggen“ (.btn.sm) und „Vorschlag übernehmen“ (.btn.sm), gleich gestaltet",
+    "7 Regel-Schalter",
+    "Zeitraum und Konto in der Kopfreihe"
+   ],
+   "verstecken": [
+    "Regelraster (7 Kacheln) eingeklappt hinter „Regeln einzeln wählen“ (Mechanismus wie bei „voll“). Sichtbar bleibt „Noch keine Regel aktiv“ mit „Vorschlag übernehmen“"
+   ],
+   "irrelevant": [
+    "Zeitraum und Konto: ohne Trades ohne Wirkung"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Trade loggen“ im Leerzustand als einziger Hauptknopf",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Im U.empty-Aufruf (shadow.js:109) den Knopf von .btn.sm auf .btn.accent.sm stellen. Das ist der eingeführte Hauptknopf-Stil, und Grün ist für „Trade loggen“ erlaubt. „Vorschlag übernehmen“ bleibt .btn.sm (sekundär). Damit sehen nie zwei Knöpfe gleich wichtig aus.",
+     "beleg": "dark-1440/leer_shadow.png (zwei gleiche umrandete Knöpfe); shadow.js:58, 109",
+     "id": "training-6-1"
+    },
+    {
+     "titel": "Regelwerk im Leerzustand eingeklappt",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Dieselbe Einklapp-Logik wie bei „voll“ nutzen: Karte „Mein Regelwerk“ mit einer Zeile „Noch keine Regel aktiv – du kannst sie schon vor dem ersten Trade festlegen.“, darin „Vorschlag übernehmen“ (.btn.sm) und „Regeln einzeln wählen“ (.btn.sm.ghost), das das Raster aufklappt. Hat der Nutzer schon Regeln, steht die Zusammenfassungszeile da.",
+     "beleg": "dark-1440/leer_shadow.png, dark-390/leer_shadow.png (7 Kacheln ≈1150 px auf dem Handy)",
+     "id": "training-6-2"
+    },
+    {
+     "titel": "Zeitraum und Konto ohne Trades ausblenden",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "App.screens.shadow.head als Getter: ohne abgeschlossene Trades { range:false, account:false, session:false, trade:false }. pageHead rendert dann nichts. Mit dem ersten Trade sind beide wieder da.",
+     "beleg": "app.js:257 (Object.assign mit screen.head); shadow.js:104",
+     "id": "training-6-3"
+    }
+   ],
+   "sid": "training-6",
+   "gruppe": "training"
+  },
+  {
+   "screen": "shadow",
+   "zustand": "handy (390)",
+   "hauptaktion": "Wie bei „voll“: teuersten Regelbruch erkennen und den Trade öffnen.",
+   "optisch_klar": false,
+   "begruendung": "Auf 390 ist das Regelwerk ≈840 CSS-px hoch (7 Kacheln untereinander). „Regelverstöße“ beginnt erst bei ≈1810 CSS-px, also nach mehr als zwei Bildschirmhöhen (extra/hicks-tr2-390-shadow_lang.png). In der Verstöße-Tabelle sind nur Datum, Symbol und Regel sichtbar. Die entscheidende Spalte „Kosten“ liegt rechts außerhalb und ist nur seitlich erreichbar.",
+   "konkurrenten": [
+    "7 Regel-Schalter",
+    "Zeitraum"
+   ],
+   "verstecken": [
+    "Regelwerk eingeklappt (wie bei „voll“)",
+    "In der Tabelle unter 560 px die Spalten „Echt“ und „Schatten“ (über den Trade-Klick weiter erreichbar)"
+   ],
+   "irrelevant": [
+    "Spalten „Echt“, „Schatten“ und „Symbol“ verdrängen auf dem Handy „Kosten“"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ranking vor Tabelle, Regelwerk eingeklappt",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Mit der Umstellung bei „voll“ (detail vor rulesCard, Regelwerk eingeklappt) rückt das Ranking auf dem Handy direkt unter das Diagramm. Zusätzlich in .shadow-detail auf dem Handy die Karte „Welche Regel kostet am meisten“ vor „Regelverstöße“ stellen (Reihenfolge im Template tauschen; auf dem Desktop greift das Raster weiter).",
+     "beleg": "extra/hicks-tr2-390-shadow_lang.png",
+     "id": "training-7-1"
+    },
+    {
+     "titel": "Verstöße-Tabelle auf dem Handy auf Datum · Regel · Kosten",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In .shadow-tbl unter 560 px die Spalten Symbol (2), Echt (4) und Schatten (5) ausblenden, damit „Kosten“ sichtbar ist. Die Zeile öffnet weiter den Trade mit allen Werten. Das ändert nur die Sichtbarkeit, nicht das Aussehen.",
+     "beleg": "extra/hicks-tr2-390-shadow_lang.png (Tabelle abgeschnitten); shadow.js:71",
+     "id": "training-7-2"
+    }
+   ],
+   "sid": "training-7",
+   "gruppe": "training"
+  },
+  {
+   "screen": "mentor",
+   "zustand": "nicht eingerichtet",
+   "hauptaktion": "Mentor einrichten: „Zu den Einstellungen“.",
+   "optisch_klar": true,
+   "begruendung": "„Zu den Einstellungen“ ist der einzige gefüllte Knopf (.btn.primary, mentor.js:79), mittig in der Karte. Daneben gibt es nur den blassen Hinweis auf server/README.md. Darüber steht aber die Kopfreihe mit Kontowahl und dem Satz „Der Mentor sieht die letzten 20 Trades dieses Kontos.“ (mentor.js:76). Beides hat vor der Einrichtung keine Wirkung (dark-1440/mentor.png, dark-390/mentor.png).",
+   "konkurrenten": [
+    "Kontowahl in der Kopfreihe"
+   ],
+   "verstecken": [
+    "Kontowahl und Hinweis, bis der Mentor eingerichtet ist"
+   ],
+   "irrelevant": [
+    "„Der Mentor sieht die letzten 20 Trades dieses Kontos.“ ohne eingerichteten Mentor"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe erst nach der Einrichtung",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "App.screens.mentor.head als Getter: configured() ? { range:false, session:false, trade:false, note:'…' } : { range:false, account:false, session:false, trade:false }. Die Seite zeigt dann nur die Einrichtungskarte mit dem einen Knopf.",
+     "beleg": "dark-1440/mentor.png; mentor.js:76, 79; app.js:257",
+     "id": "training-8-1"
+    }
+   ],
+   "sid": "training-8",
+   "gruppe": "training"
+  },
+  {
+   "screen": "mentor",
+   "zustand": "voll (Chat mit Verlauf)",
+   "hauptaktion": "Dem Mentor schreiben und senden.",
+   "optisch_klar": true,
+   "begruendung": "Der Sende-Knopf ist der einzige gefüllte Knopf (.btn.primary.icon, mentor.js:84), daneben das Eingabefeld. Im Kopf der Karte stehen aber dauerhaft zwei Werkzeuge: „Verlauf neu laden“ (ghost, Uhr-Symbol) und „Verlauf löschen“ (ghost mit Mülleimer und Text, mentor.js:82). Eine zerstörende, selten gebrauchte Aktion ist also immer mit Text sichtbar und auffälliger als das Neuladen (extra/hicks-tr-1440-mentor_chat.png). Ohne Nachrichten bleibt „Verlauf löschen“ deaktiviert sichtbar.",
+   "konkurrenten": [
+    "„Verlauf löschen“ (ghost mit Text)",
+    "„Verlauf neu laden“ (ghost, Uhr-Symbol)",
+    "Kontowahl in der Kopfreihe"
+   ],
+   "verstecken": [
+    "„Verlauf neu laden“ und „Verlauf löschen“ in ein Menü „…“ (Symbol-Knopf mit Popover) im Kartenkopf"
+   ],
+   "irrelevant": [
+    "Deaktiviertes „Verlauf löschen“, wenn noch keine Nachricht existiert"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Verlaufswerkzeuge in ein „…“-Menü",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In .mentor-head die beiden Knöpfe durch einen .btn.ghost.icon-only „Mehr“ ersetzen (bestehendes Popover-Muster wie data-pop/.popover mit .item). Darin „Verlauf neu laden“ (mentor-reload) und „Verlauf löschen“ (mentor-clear, bleibt mit Bestätigung). Im Kopf bleiben Titel und Kontingent, im Fuß nur Eingabe und Senden.",
+     "beleg": "extra/hicks-tr-1440-mentor_chat.png; mentor.js:82",
+     "id": "training-9-1"
+    },
+    {
+     "titel": "„Verlauf löschen“ ohne Nachrichten ausblenden statt deaktivieren",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Menüeintrag (oder heute den Knopf) nur rendern, wenn msgs.length > 0, statt disabled.",
+     "beleg": "mentor.js:82 (${msgs.length ? '' : 'disabled'})",
+     "id": "training-9-2"
+    }
+   ],
+   "sid": "training-9",
+   "gruppe": "training"
+  },
+  {
+   "screen": "mentor",
+   "zustand": "handy (390)",
+   "hauptaktion": "Dem Mentor schreiben und senden.",
+   "optisch_klar": true,
+   "begruendung": "Der grüne Sende-Knopf ist klar der Hauptknopf. Der Kartenkopf bricht aber um: Uhr-Symbol und „Verlauf löschen“ bekommen eine eigene Zeile. Mit der Kopfreihe (Konto plus Hinweis über zwei Zeilen) bleiben für den Chatverlauf nur ≈250 CSS-px (extra/hicks-tr-390-mentor_chat.png).",
+   "konkurrenten": [
+    "„Verlauf löschen“ mit Text in eigener Zeile",
+    "Uhr-Symbol"
+   ],
+   "verstecken": [
+    "Verlaufswerkzeuge im „…“-Menü (siehe voll)",
+    "Hinweis „Der Mentor sieht die letzten 20 Trades dieses Kontos.“ als Zusatzzeile im Konto-Popover statt als eigene Zeile"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Kartenkopf auf eine Zeile bringen",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Mit dem „…“-Menü passt der Kartenkopf auf dem Handy wieder in eine Zeile (Titel/Kontingent links, „…“ rechts). Der Chat gewinnt ≈60 px.",
+     "beleg": "extra/hicks-tr-390-mentor_chat.png (Werkzeuge in eigener Zeile)",
+     "id": "training-10-1"
+    },
+    {
+     "titel": "Konto-Hinweis auf dem Handy in das Konto-Popover",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Unter 560 px die .ph-note der Kopfreihe nicht als eigene Zeile zeigen, sondern als kleine Zeile oben im Popover #pop-account (nur auf der Mentor-Seite). Auf dem Desktop bleibt der Hinweis neben dem Knopf.",
+     "beleg": "dark-390/mentor.png (Hinweis in eigener Zeile); app.js:258",
+     "id": "training-10-2"
+    }
+   ],
+   "sid": "training-10",
+   "gruppe": "training"
+  },
+  {
+   "screen": "ruhepunkt",
+   "zustand": "Start (Übersicht mit Verlauf)",
+   "hauptaktion": "Die passende Session starten (Vor dem Trading, Nach dem Trading oder Akut-Reset).",
+   "optisch_klar": false,
+   "begruendung": "Die drei Auswahlkarten (.rp-choice, ruhepunkt.js:711-717) sind gleich groß und gleich gestaltet und stehen immer in derselben Reihenfolge, auch wenn die Lage eindeutig ist (morgens ohne Trades, nach einem Handelstag). Im Verlauf hat jede Zeile ein dauerhaft sichtbares „×“ zum Löschen (ruhepunkt.js:817), bei bis zu 8 Zeilen also 8 Löschknöpfe (extra/hicks-tr-1440-rp_home_verlauf.png). Die Absicht, eine echte Wahl zu lassen, ist richtig. Es fehlt aber eine Vorauswahl nach der Lage.",
+   "konkurrenten": [
+    "Drei gleichwertige Auswahlkarten",
+    "„×“ in jeder Verlaufszeile",
+    "„Hilfe und Beratung“ (rp-quiet, Fuß; bleibt aus Sicherheitsgründen)"
+   ],
+   "verstecken": [
+    "„×“ im Verlauf: auf dem Desktop nur bei Hover/Fokus der Zeile, auf Touch über einen Textknopf „Bearbeiten“ in der Überschrift „Deine letzten Sessions“"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Empfohlene Session nach der Lage zuerst",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "In renderHome die Reihenfolge von ['vor','nach','akut'] nach der Lage bestimmen: Gibt es heute weder einen Ruhepunkt-Eintrag 'vor' noch Trades, steht „Vor dem Trading“ zuerst. Gibt es heute Trades oder schon eine 'vor'-Session, steht „Nach dem Trading“ zuerst. „Akut-Reset“ bleibt immer in der Liste. Gestaltung unverändert. Weil die Position wechselt und das gewohnte Antippen stören kann, gibt es eine Alternative: feste Reihenfolge, und nur die rp-desc der empfohlenen Karte beginnt mit „Passt jetzt:“.",
+     "beleg": "dark-1440/ruhepunkt.png; ruhepunkt.js:711-717",
+     "id": "training-11-1"
+    },
+    {
+     "titel": "Löschen im Verlauf erst bei Bedarf",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": ".rp-x nur bei .rp-list li:hover/:focus-within sichtbar machen (Sichtbarkeit, kein neuer Stil). Auf Touch-Geräten (hover:none) in die h3 „Deine letzten Sessions“ einen rp-quiet-Knopf „Bearbeiten“ setzen, der die ×-Knöpfe ein- und ausblendet. Löschen bleibt mit Bestätigung erreichbar.",
+     "beleg": "extra/hicks-tr-1440-rp_home_verlauf.png, extra/hicks-tr-390-rp_home_verlauf.png; ruhepunkt.js:806-818",
+     "id": "training-11-2"
+    }
+   ],
+   "sid": "training-11",
+   "gruppe": "training"
+  },
+  {
+   "screen": "ruhepunkt",
+   "zustand": "Atem- und Countdown-Schritte (vor 1, vor 3, vor 5, nach 2, akut 1, akut 2)",
+   "hauptaktion": "Die Übung starten („Starten“, „60 Sekunden starten“, „Pause starten“) und erst danach weitergehen.",
+   "optisch_klar": false,
+   "begruendung": "Zwei gefüllte Hauptknöpfe in derselben Phasenfarbe: Der Übungsknopf (.rp-btn.rp-primary, ruhepunkt.js:232 und :366) und „Weiter“ bzw. der Abschlussknopf (.rp-primary, ruhepunkt.js:737) sehen gleich wichtig aus (extra-dark-1440/ruhepunkt_schritt2.png: „Starten“ und „Weiter“ blau gefüllt; extra/hicks-tr-1440-rp_akut_2.png: „Pause starten“ und „Speichern und schließen“ rot gefüllt). Beim Akut-Reset kommt hinzu: „Speichern und schließen“ während der laufenden Pause beendet still den 15-Minuten-Timer, weil renderDone() cleanup() aufruft. In Schritt 1 führen „Abbrechen“ unten und „← Übersicht“ oben zum selben Ziel.",
+   "konkurrenten": [
+    "„Weiter“ bzw. „Speichern und schließen“ (gefüllt, gleich wie der Übungsknopf)",
+    "„← Übersicht“ oben und „Abbrechen“ unten (Schritt 1, gleiches Ziel)",
+    "Tempo-Chips „Sanft/Normal“ direkt unter dem Start-Knopf"
+   ],
+   "verstecken": [
+    "Tempo-Zeile nur im Ruhezustand vor dem Start zeigen (beim Laufen ist sie ohnehin deaktiviert, ruhepunkt.js:351). Alternativ in das bestehende „Anleitung anzeigen“-Aufklappfeld"
+   ],
+   "irrelevant": [
+    "„← Übersicht“ in Schritt 1 neben „Abbrechen“"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Nur ein gefüllter Knopf: erst Übung, dann Weiter",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "In renderStep: Enthält der Schritt .rp-breath oder .rp-timer, wird next ohne rp-primary angelegt (nur .rp-btn, umrandet, sekundär). breather.finish() und der Countdown im Zustand 'done' lösen auf dem Container ein CustomEvent 'rp:done' aus. renderStep hört darauf, setzt next.classList.add('rp-primary') und stuft den Übungsknopf („Noch einmal“) auf .rp-ghost herab. „Weiter“ bleibt jederzeit klickbar, Überspringen ist also weiter möglich. Akut 2: „Pause starten“ ist primär, „Speichern und schließen“ sekundär, bis die Pause läuft oder vorbei ist.",
+     "beleg": "extra-dark-1440/ruhepunkt_schritt2.png; extra/hicks-tr-1440-rp_vor_5_visual.png; extra/hicks-tr-1440-rp_akut_2.png; ruhepunkt.js:232, 308-318, 366, 380-384, 737",
+     "id": "training-12-1"
+    },
+    {
+     "titel": "Tempo erst bei Bedarf",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "tempoRow.hidden = state !== 'idle' im Klick-Handler des Start-Knopfs (ruhepunkt.js:335-351). Damit ist unter dem laufenden Atemkreis nur noch „Pausieren“ zu sehen. Vor dem Start bleibt das Tempo wählbar, außerdem unter Einstellungen (ruhepunktTempo).",
+     "beleg": "extra-dark-1440/ruhepunkt_schritt2.png (Tempo-Zeile unter „Starten“); ruhepunkt.js:238, 351, 355",
+     "id": "training-12-2"
+    },
+    {
+     "titel": "Doppelten Ausstieg in Schritt 1 entfernen",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In renderStep homeBtn(stepIdx > 0) statt homeBtn(true). In Schritt 1 bleibt „Abbrechen“ unten der einzige Ausstieg, ab Schritt 2 gibt es „← Übersicht“ oben und „Zurück“ unten wie bisher.",
+     "beleg": "ruhepunkt.js:728, 736",
+     "id": "training-12-3"
+    }
+   ],
+   "sid": "training-12",
+   "gruppe": "training"
+  },
+  {
+   "screen": "ruhepunkt",
+   "zustand": "Formular-Schritte (vor 2, vor 4, vor 6, nach 1, nach 3, nach 4)",
+   "hauptaktion": "Ausfüllen und „Weiter“ (im letzten Schritt „Speichern und loslegen/abschalten“).",
+   "optisch_klar": true,
+   "begruendung": "Je Schritt gibt es genau einen gefüllten Knopf (rp-primary rechts), „Zurück“ ist umrandet, „← Übersicht“ und „Hilfe und Beratung“ sind Textknöpfe (extra/hicks-tr-1440-rp_vor_2_checkin.png, rp_vor_4_regeln.png, rp_nach_4_abschluss.png). Der Hilfe-Knopf im Warnkasten bei nach 3 ist umrandet und gehört bewusst dazu (Sicherheit). Einzige Schwäche: In vor 6 erscheinen ohne Tagesregeln drei Zeilen „nicht festgelegt“ und die Anweisung „Geh zwei Schritte zurück“.",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [
+    "Drei Zeilen „nicht festgelegt“ in „Dein Plan für heute“, wenn keine Tagesregel eingetragen wurde (ruhepunkt.js:427-439)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leerer Tagesplan: eine Zeile und ein Sprung statt drei Leerzeilen",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In summaryVor: Sind maxVerlust, maxTrades und stoppWenn leer, nur die Zeile „Zustand“ zeigen. Der Hinweis bekommt einen rp-quiet-Knopf „Regeln ergänzen“, der stepIdx = 3 setzt und renderStep() aufruft, statt „Geh zwei Schritte zurück“. „Speichern und loslegen“ bleibt der einzige Hauptknopf.",
+     "beleg": "extra/hicks-tr-1440-rp_vor_6_impuls.png; ruhepunkt.js:427-439",
+     "id": "training-13-1"
+    }
+   ],
+   "sid": "training-13",
+   "gruppe": "training"
+  },
+  {
+   "screen": "ruhepunkt",
+   "zustand": "fertig (Gespeichert)",
+   "hauptaktion": "„Mit dem Mentor besprechen“, wenn der Mentor eingerichtet ist, sonst zurück zur Übersicht.",
+   "optisch_klar": true,
+   "begruendung": "„Mit dem Mentor besprechen“ ist der einzige gefüllte Knopf (rp-primary), „Zur Übersicht“ ist umrandet (ruhepunkt.js:784-792). Darüber steht aber noch „← Übersicht“ (homeBtn(true), ruhepunkt.js:781), zweimal dasselbe Ziel (extra/hicks-tr-1440-rp_fertig.png). Der Mentor-Knopf erscheint immer (CONFIG.onMentor ist immer eine Funktion), auch wenn der Mentor nicht eingerichtet ist. Dann führt der Hauptknopf zur Einrichtungsseite statt in ein Gespräch.",
+   "konkurrenten": [
+    "„← Übersicht“ oben und „Zur Übersicht“ unten"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "„← Übersicht“ oben im Abschluss-Zustand",
+    "„Mit dem Mentor besprechen“ als Hauptknopf, solange der Mentor nicht eingerichtet ist"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Hauptknopf nur, wenn er wirklich weiterführt",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In renderDone den Mentor-Knopf nur rendern, wenn root.Mentor && root.Mentor.configured(). Sonst wird „Zur Übersicht“ zum einzigen Knopf mit rp-primary. Der Mentor bleibt über die Seitenleiste erreichbar.",
+     "beleg": "ruhepunkt.js:16, 784-792; mentor.js:10, 141",
+     "id": "training-14-1"
+    },
+    {
+     "titel": "Doppelten Übersicht-Knopf im Abschluss entfernen",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In renderDone homeBtn(false) statt homeBtn(true). „Zur Übersicht“ unten bleibt.",
+     "beleg": "extra/hicks-tr-1440-rp_fertig.png; ruhepunkt.js:781",
+     "id": "training-14-2"
+    }
+   ],
+   "sid": "training-14",
+   "gruppe": "training"
+  },
+  {
+   "screen": "ruhepunkt/dialog_hilfe",
+   "zustand": "dialog",
+   "hauptaktion": "Hilfe-Nummern lesen und „Schließen“.",
+   "optisch_klar": false,
+   "begruendung": "„Schließen“ ist gefüllt (.btn.primary, ruhepunkt.js:155). Beim Öffnen bekommt aber das X oben rechts den Fokus und trägt einen grünen Fokusring. Es ist damit das auffälligste Element im Dialog (extra/hicks-tr-1440-rp_hilfe_modal.png). Ursache: U.modal fokussiert den ersten button im Dialog, und das ist das X im Kopf (ui.js:434). Das trifft jeden Dialog ohne Eingabefeld.",
+   "konkurrenten": [
+    "X-Knopf mit Fokusring"
+   ],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Anfangsfokus auf den Hauptknopf statt auf das X",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In U.modal (ui.js:434) beim Suchen des ersten Fokusziels .modal-head [data-close] überspringen. Reihenfolge: [data-autofocus], erstes Eingabefeld, .modal-foot .btn.primary, sonst der erste Knopf im Fuß. Gilt global, also mit dem Prüfer für Dialoge abstimmen.",
+     "beleg": "extra/hicks-tr-1440-rp_hilfe_modal.png; ui.js:434",
+     "id": "training-15-1"
+    }
+   ],
+   "sid": "training-15",
+   "gruppe": "training"
+  },
+  {
+   "screen": "ruhepunkt/dialog_session_loeschen",
+   "zustand": "dialog (gilt auch für Mentor „Verlauf löschen?“)",
+   "hauptaktion": "Löschen bestätigen (oder bewusst abbrechen).",
+   "optisch_klar": false,
+   "begruendung": "„Abbrechen“ (.btn umrandet) und „Löschen“ (.btn.danger umrandet rot) haben dieselbe Form und Füllung, sie unterscheiden sich nur in der Farbe. Das X oben hat den Fokusring und ist das auffälligste Element (extra/hicks-tr-1440-rp_loeschen_modal.png; ui.js:447 und 434).",
+   "konkurrenten": [
+    "„Abbrechen“ (umrandet) gleich gewichtet wie „Löschen“ (umrandet)",
+    "X mit Fokusring"
+   ],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "„Abbrechen“ als Textknopf, Fokus auf „Abbrechen“",
+     "regel": 4,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In U.confirmModal „Abbrechen“ von .btn auf .btn.ghost stellen (tertiär). „Löschen“ bzw. „Bestätigen“ bleibt der einzige umrandete oder gefüllte Knopf. Bei danger:true den Anfangsfokus auf „Abbrechen“ legen (data-autofocus), damit Enter nicht versehentlich löscht. Gilt global für alle Bestätigungen.",
+     "beleg": "extra/hicks-tr-1440-rp_loeschen_modal.png; ui.js:445-449",
+     "id": "training-16-1"
+    }
+   ],
+   "sid": "training-16",
+   "gruppe": "training"
+  },
+  {
+   "screen": "ruhepunkt",
+   "zustand": "handy (390)",
+   "hauptaktion": "Start: passende Session wählen. In den Schritten: Übung starten, dann „Weiter“.",
+   "optisch_klar": false,
+   "begruendung": "Dieselben Muster wie auf dem Desktop, auf kleinem Raum deutlicher: In vor 1 stehen „Starten“ und „Weiter“ beide gefüllt blau auf einem Bildschirm (extra/hicks-tr-390-rp_vor_1_atmen.png). In akut 2 sind „Pause starten“ und „Speichern und schließen“ beide gefüllt rot (extra/hicks-tr-390-rp_akut_2.png). Im Verlauf ist das „×“ in jeder Zeile immer sichtbar, und ohne Hover lässt es sich auf Touch nicht verbergen (extra/hicks-tr-390-rp_home_verlauf.png).",
+   "konkurrenten": [
+    "Zwei gefüllte Knöpfe je Atem- oder Countdown-Schritt",
+    "„×“ in jeder Verlaufszeile",
+    "„← Übersicht“ und „Abbrechen“ in Schritt 1"
+   ],
+   "verstecken": [
+    "„×“ hinter „Bearbeiten“ (Touch)",
+    "Tempo-Zeile nach dem Start"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Gleiche Änderungen, auf dem Handy mit größter Wirkung",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Keine eigenen Handy-Regeln nötig: „Weiter“ sekundär bis die Übung fertig ist (Event 'rp:done'), homeBtn(stepIdx > 0), Tempo nur vor dem Start, „Bearbeiten“-Knopf für den Verlauf auf Touch (hover:none). Danach hat jeder Handy-Bildschirm genau einen gefüllten Knopf.",
+     "beleg": "extra/hicks-tr-390-rp_vor_1_atmen.png; extra/hicks-tr-390-rp_akut_2.png; extra/hicks-tr-390-rp_home_verlauf.png",
+     "id": "training-17-1"
+    }
+   ],
+   "sid": "training-17",
+   "gruppe": "training"
+  }
+ ],
+ "hinweise": "Fehlende oder unpassende Aufnahmen: dark-1440/progress.png und dark-390/progress.png fehlen; atlas-log.txt hat nur leer_progress. Für Fortschritt voll habe ich stattdessen extra/hicks-tr-1440-progress_voll.png, extra/crit-progress.png, extra/hicks-tr-390-progress_voll.png und extra/hicks-tr2-390-progress_lang.png verwendet. extra-dark-1440/mentor_voll.png zeigt den nicht eingerichteten Zustand, ist also identisch mit mentor.png; den Chat habe ich mit extra/hicks-tr-1440-mentor_chat.png und extra/hicks-tr-390-mentor_chat.png bewertet. dark-1440/shadow.png und dark-390/shadow.png enden vor den Detailkarten; ergänzt mit extra/hicks-tr2-1440-shadow_lang.png und extra/hicks-tr2-390-shadow_lang.png. Für den Zustand „Schatten-Ich mit Trades, aber ohne aktive Regel“ gibt es keine Aufnahme; die Bewertung stützt sich nur auf den Code (shadow.js:110-121). In den Handy-Ganzseitenaufnahmen steht der schwebende Knopf „Trade loggen“ mitten auf der Seite; das liegt an der Aufnahmetechnik, nicht an der App.\n\nAbstimmung nötig: Zwei Vorschläge ändern gemeinsame Bausteine und betreffen damit alle Dialoge (ui.js:434 Anfangsfokus von U.modal, ui.js:447 „Abbrechen“ in U.confirmModal). Bitte mit dem Prüfer für Dialoge abgleichen. Die neue Reihenfolge auf Fortschritt (Checkliste vor der Heatmap) weicht vom gewollten Aufbau „nach TradePath“ ab (progress.js:1) und braucht die Zustimmung des Nutzers. Neues Grün kommt nirgends dazu: Nur „Trade loggen“ im Leerzustand von Schatten-Ich wird .btn.accent, und das ist der erlaubte Hauptknopf. Alle anderen Vorschläge nutzen vorhandene Stufen (.btn, .btn.ghost, .rp-primary, .rp-ghost, .rp-quiet, Popover).\n\nNebenbei aufgefallen, außerhalb von Hick's Law:\n- Ruhepunkt Akut-Reset: „Speichern und schließen“ während der laufenden 15-Minuten-Pause beendet den Timer still (renderDone → cleanup, ruhepunkt.js:781 und 389). Ein weiterer Grund, den Knopf bis zum Ende der Pause sekundär zu machen.\n- „Regeln anlegen“ und „Regeln bearbeiten“ auf Fortschritt verlinken auf #/settings statt auf #/settings/regeln (progress.js:77).\n- Der Knopf „Verlauf neu laden“ im Mentor nutzt das Uhr-Symbol (I.clock) und sieht deshalb wie „Verlauf“ aus (mentor.js:82).\n- Auf 390 zeigt „Regeln im Detail“ (Fortschritt) nur die erste Spalte (extra/hicks-tr2-390-progress_lang.png).\n- Der Ruhepunkt-Verlauf in den Beispieldaten steht aufsteigend (ältester zuerst). Echte Einträge kommen per unshift neueste zuerst (store.js:131), die Beispieldaten sind also vermutlich in umgekehrter Reihenfolge angelegt.\n\nZur weitergeleiteten Nutzerbitte (das Wechseln automatisch machen): Sie betrifft den Ablauf des Workflows, nicht diesen Prüfbereich. Hier war nichts umzustellen.\n\nCode: /home/user/Florian/web/js/screens/progress.js, /home/user/Florian/web/js/screens/shadow.js, /home/user/Florian/web/js/screens/mentor.js, /home/user/Florian/web/js/screens/ruhepunkt.js, /home/user/Florian/web/js/app.js, /home/user/Florian/web/js/ui.js, /home/user/Florian/web/css/app.css. Aufnahmen: /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/shots/"
+}

@@ -1,0 +1,1244 @@
+{
+ "regeln": "SKALA (:root): --dur-1 150ms (Farbwechsel Hover/Fokus, Schließen jeder Ebene, Öffnen Popover/Menüs/Filter-Fenster, Einblenden beim Reiterwechsel); --dur-2 240ms (Zustandswechsel mit Bewegung: Schalter, Long/Short-Schieber; Seitenüberblendung; Abdunkler einblenden; Ruhepunkt-Schrittwechsel; Endpunkt-Aufspringen); --dur-3 380ms (Seitenpanel hereingleiten, Reinscrollen, Diagramm-Fläche und Balken, Bild nach Laden); --dur-4 640ms NEU (nur Einzug Linien, Score-Skala, Ringe beim echten Seitenwechsel); --stagger 40ms NEU (jede Staffelung in CSS und JS); --ease cubic-bezier(.2, .8, .2, 1) (erscheinen/auslaufen); --ease-in cubic-bezier(.4, 0, 1, 1) (schließen/verschwinden); --ease-io cubic-bezier(.4, 0, .2, 1) (Schieber Long/Short, Wackeln); --ease-sym cubic-bezier(.45, 0, .55, 1) NEU (Skelett-Glanz, Kurslinie, Tipp-Punkte, Atem-Kugel). --lift-shadow bleibt definiert (app.css Z. 48/59/69, genutzt von landing.css:56), in app.css nicht mehr benutzt.\nT1 Dauern: jede Dauer/Verzögerung in transition/animation = Token oder calc() aus Token. Schalter-Knopf und Long/Short-Wackeln calc(var(--dur-2) * 4 / 3) = 320ms; Knopf-Druck calc(var(--dur-1) * .4) = 60ms. Abschließende Ausnahmen mit festen Zeiten: Endlos-Animationen inkl. ihrer Verzögerungen (.dstreak*, .pg-candles, .msg.typing, Ruhepunkt-Symbole), Ruhepunkt-Raum (calm-content 900ms, .rp-ambient 1600ms, Blüten, var(--dur, 1s) Atemtakt), Start-Skelett .boot .5s, Grabstein .pg-inner .75s, .voice-clock .prog .2s linear.\nT2 Kurven: rohe cubic-bezier() nur in :root (4 Tokens), --sw-ease, sakura-fall (= 6 in app.css, 0 in ruhepunkt.js). Schlüsselwörter ease/ease-out/ease-in-out nur in Endlos-Animationen, .rp-ambient, Rückfall in .boot. linear für Drehung, Fortschritt, --dir-c.\nHOVER H1: beim Darüberfahren bewegt sich nichts (kein transform, kein dazukommender Schatten, kein Zoom/Versatz); Rückmeldung nur über Rand, Fläche, Textfarbe oder feinen Umriss. H2: Druck nur .btn:active { transform: scale(.97); transition-duration: calc(var(--dur-1) * .4) }; Navigation, Karten, Zellen ohne Druckzustand. H3: .tile:hover und .stat-tile:hover folgen immer .card:hover.\nZielwerte: .btn Fläche --surface-2, Rand --border-2 (ohne -1px); .btn.primary kein box-shadow (Fläche/Rand laut Farbe-Spez., sonst background/border-color var(--accent-2)); .nav a/.nav button Fläche --surface-2, Schrift --text, kein Versatz, kein :active; .tile/.stat-tile Rand --border-2, (i) erscheint; .cal .d Rand --border-2, Gewinntag color-mix(in srgb, var(--profit) 70%, var(--border)), Verlusttag color-mix(in srgb, var(--loss) 75%, var(--border)); .activity i/.tracker i/.ym-grid i outline: 1px solid var(--text-2); outline-offset: 1px, ohne Übergang; .shots .shot Rand --border-2, Bild bleibt stehen, cursor: zoom-in auf img[data-action=\"lightbox\"]; .design-card/.theme-card nur Name --text; .theme-card.t-custom.is-new Symbolfarbe --text ohne Vergrößerung; .pair-card Rand --text-2; .dot Ring 0 0 0 1px var(--text-2), gewählt 0 0 0 2px var(--text) ohne scale; .dot.custom Rand --text-2, Symbol --text; .cp-c Ring 0 0 0 2px var(--surface), 0 0 0 3.5px var(--border-2); .ed-palette .c Rand --text-2; .rp-choice hier nicht anfassen.\nEBENEN E1: jede einblendende Ebene blendet vor dem Entfernen aus (Motion.leave): Popover (Zeitraum, Konto, Vorlage, Konto-Menü), Datums-/Farbwähler, .fd-pop, .sym-menu, Seitenpanel \"Widget hinzufügen\" samt Abdunkler, Dialoge, Toasts. E2: Popover/Filter/Symbol-Liste öffnen --dur-1 --ease; Abdunkler (Dialog, Seitenpanel) --dur-2 --ease; Seitenpanel gleitet --dur-3 --ease herein; Schließen immer --dur-1 --ease-in. E3: unter dem Auslöser --pop-y: -4px, --pop-y-out: -4px; nach oben öffnend (.up: Konto-Menü unten links, .dp.up, .cp.up, .sym-menu.up) 8px/4px; transform-origin an Auslöserkante (rechtsbündig top right, linksbündig top left, nach oben bottom left bzw. bottom center); Dialoge (.modal) behalten pop-in/pop-out mit 8px/4px; Keyframe-Namen pop-in/pop-out bleiben, Richtung nur über Custom Properties (kein Neustart beim .up-Wechsel). E4: Neuaufbau bei offener Ebene blendet Panel/Abdunkler nicht erneut ein (.settled).\nEINGANG I1: nur beim echten Seitenwechsel (App.render mit anim === true, #content.enter); nach App.rerender(), Reiterwechsel, Filter kein Einzug; Reiterwechsel nur .content.swap (Deckkraft ab .35, --dur-1 --ease). I2: .rv nur beim Seitenwechsel an Elemente unter dem Fenster; Neuaufbau bereitet nichts vor; im Druck alles sichtbar. I3 Budget Verzögerung+Dauer <= 740ms: .ln ch-draw var(--dur-4) var(--ease) forwards (Ende 640); .ar ch-fade var(--dur-3) var(--ease) calc(var(--dur-4) - var(--dur-3)) both (260-640, endet mit Linie); .br ch-grow var(--dur-3) var(--ease) var(--bd, 0ms) both, Staffel gesamt <= --dur-2 (<= 620); .dt ch-pop var(--dur-2) var(--ease) var(--dt-delay, var(--dur-1)) both, mit Linie --dt-delay calc(var(--dur-4) * .7) = 448 (Ende 688); Score-Skala score-run var(--dur-4) var(--ease) calc(var(--stagger) * 2) backwards (Ende 720); Ringe transition: stroke-dashoffset var(--dur-4) var(--ease) (~660). Reihenfolge: Linie, Fläche, Balken, Punkte zuletzt. I4 Ruhepunkt: beim Betreten genau eine Bewegung (calm-content auf .rp > *, 900ms); .rp-stage-Kinder dabei ohne eigene Bewegung; Schrittwechsel rp-in --dur-2 --ease, Staffel --stagger; .rp-choice ohne eigene Eingangs-Animation.\nDAUERBEWEGUNG D1: keine Endlos-Animation als Zustandsdekoration (kein Pulspunkt); erlaubt .skel, .ld, .spin, Mentor-Tipp-Punkte, Serie, Kerzen, Ruhepunkt-Raum. D2: .pg-base.off setzt Flammen und Lichthöfe auf animation-play-state: paused. D3: keine Übergänge auf beim Rendern feststehenden Werten, keine width-Übergänge (Ausnahmen .switch::after, Atem-Füllung ruhepunkt.js:262).\nG1: Leiste \"Bearbeitungsmodus\" neutral: Rand --border-2, Fläche --surface-2, box-shadow var(--shadow) (sticky); kein Punkt, kein Puls; \"Speichern\" bleibt btn primary. G2: kein Hauptknopf mit Hover-Schein; .btn.accent (\"Trade loggen\") behält sein Licht.\nR1: prefers-reduced-motion: reduce -> alles aus, nur .spin dreht (2,4s je Umdrehung). R2: --dur-1 bis --dur-4 und --stagger = 0ms -> alle einmaligen Übergänge sofort, inkl. Diagramm-Staffeln (außer T1-Liste). R3: @media print -> .rv sichtbar. R4: SVG-Filter/Verläufe der Kerzen einmal pro Seite, keine doppelten IDs.",
+ "schritte": [
+  {
+   "nr": "bewegung-A1",
+   "titel": "Tokens --dur-4, --stagger und --ease-sym in :root ergänzen (--lift-shadow bleibt)",
+   "von": 155,
+   "bis": 164,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root",
+    "--dur-4",
+    "--stagger",
+    "--ease-sym",
+    "--lift-shadow"
+   ],
+   "befund_ids": [
+    "bewegung-1",
+    "bewegung-33",
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/motiontest.js:8 (Schritt bewegung-3.11c)"
+   ]
+  },
+  {
+   "nr": "bewegung-A2",
+   "titel": "Kommentar im Bewegungsblock: Abschalten über --dur-1 bis --dur-4 und --stagger",
+   "von": 165,
+   "bis": 166,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "app.css Kommentar Bewegungsblock (Abschalten)"
+   ],
+   "befund_ids": [
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B1",
+   "titel": "Knöpfe: kein Anheben, kein Schein an .btn.primary, Druckdauer aus Token",
+   "von": 167,
+   "bis": 174,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn",
+    ".btn:hover",
+    ".btn:active",
+    ".btn.primary:hover"
+   ],
+   "befund_ids": [
+    "komponenten-13",
+    "bewegung-19",
+    "bewegung-20",
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B2",
+   "titel": "Schalter: Übergangszeiten auf Tokens (Knopf 320 ms über calc)",
+   "von": 175,
+   "bis": 178,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".switch",
+    ".switch::after"
+   ],
+   "befund_ids": [
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B3",
+   "titel": "Navigation: kein Versatz beim Darüberfahren, kein :active",
+   "von": 179,
+   "bis": 184,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nav a",
+    ".nav button",
+    ".nav a:hover",
+    ".nav button:hover",
+    ".nav a:active",
+    ".nav button:active",
+    ".nav a.active:hover"
+   ],
+   "befund_ids": [
+    "bewegung-17",
+    "bereich_shell-19",
+    "komponenten-13"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B4a",
+   "titel": "Popover-Richtung über --pop-y/--pop-y-out, Keyframes pop-in/pop-out mit Custom Properties",
+   "von": 185,
+   "bis": 191,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".popover",
+    ".popover.up",
+    ".sym-menu",
+    ".fd-pop",
+    "--pop-y",
+    "--pop-y-out",
+    "@keyframes pop-in",
+    "@keyframes pop-out"
+   ],
+   "befund_ids": [
+    "bewegung-27",
+    "bewegung-28"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/motiontest.js:31 (animationName === 'pop-in' bleibt gültig)"
+   ]
+  },
+  {
+   "nr": "bewegung-B4b",
+   "titel": "Symbol-Liste (CSS): Ursprung top left, .sym-menu.up und .sym-menu.closing",
+   "von": 192,
+   "bis": 194,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sym-menu",
+    ".sym-menu.up",
+    ".sym-menu.closing"
+   ],
+   "befund_ids": [
+    "bewegung-27",
+    "bewegung-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B4a"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B4c",
+   "titel": "Filter-Fenster (CSS): Schließ-Animation .fd-pop.closing",
+   "von": 195,
+   "bis": 196,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".fd-pop",
+    ".fd-pop.closing"
+   ],
+   "befund_ids": [
+    "bewegung-27",
+    "bewegung-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B4a"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B5",
+   "titel": "Kacheln: Hover nur Rand --border-2, .kstrip .tile:hover löschen",
+   "von": 197,
+   "bis": 202,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile",
+    ".stat-tile",
+    ".tile:hover",
+    ".stat-tile:hover",
+    ".kstrip .tile:hover"
+   ],
+   "befund_ids": [
+    "bewegung-18",
+    "bereich_statistik-29",
+    "komponenten-13",
+    "referenz-24"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/motiontest.js:52–53 (Schritt bewegung-3.11a)"
+   ]
+  },
+  {
+   "nr": "bewegung-B6",
+   "titel": "Diagramm-Einzug (CSS) auf --dur-4/--dur-3/--dur-2 und --ease, Budget 740 ms",
+   "von": 203,
+   "bis": 209,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chart svg.enter path.ln",
+    ".chart svg.enter polyline.ln",
+    ".chart svg.enter path.ar",
+    ".chart svg.enter polygon.ar",
+    ".chart svg.enter rect.br",
+    ".chart svg.enter circle.dt",
+    "--bd",
+    "--dt-delay"
+   ],
+   "befund_ids": [
+    "bewegung-1",
+    "bewegung-33"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": [
+    "web/e2e/chartanimtest.js:10–11 (Schritt bewegung-3.11d)"
+   ]
+  },
+  {
+   "nr": "bewegung-B7",
+   "titel": "Reiterwechsel: swap-in auf --dur-1 --ease",
+   "von": 210,
+   "bis": 211,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".content.swap [data-subnav] ~ *"
+   ],
+   "befund_ids": [
+    "bewegung-34",
+    "bewegung-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B8",
+   "titel": "Score-Skala und Fortschritts-Ring auf --dur-4 --ease",
+   "von": 212,
+   "bis": 215,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".content.enter .score-scale",
+    ".ring-arc .arc"
+   ],
+   "befund_ids": [
+    "bewegung-1",
+    "bewegung-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B9",
+   "titel": "Seitenpanel „Widget hinzufügen“ (CSS): Abdunkler ein-/ausblenden, Panel gleitet hinaus",
+   "von": 216,
+   "bis": 222,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".panel-bg",
+    ".panel-bg.settled",
+    ".panel-bg.out",
+    ".side-panel.out",
+    "@keyframes slide-out"
+   ],
+   "befund_ids": [
+    "bewegung-26"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B10",
+   "titel": "Reinscroll-Staffel aus --stagger, .rv im Druck sichtbar",
+   "von": 223,
+   "bis": 226,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".js-motion .rv",
+    "@media print"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-12",
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B11",
+   "titel": "Weniger Bewegung: Lade-Ring .spin dreht weiter (2,4 s)",
+   "von": 227,
+   "bis": 228,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".spin",
+    "@media (prefers-reduced-motion: reduce)",
+    "spin-turn"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-B12",
+   "titel": "Lade-Kurven (.skel, .ld, Tipp-Punkte) auf --ease-sym",
+   "von": 229,
+   "bis": 233,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".skel::after",
+    ".ld .ld-line",
+    ".msg.typing i"
+   ],
+   "befund_ids": [
+    "bewegung-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C1",
+   "titel": "Kalendertage: kein Anheben, eigene Hover-Ränder für Gewinn- und Verlusttage",
+   "von": 234,
+   "bis": 242,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cal .d",
+    ".cal .d:hover",
+    ".cal .d.win:hover",
+    ".cal .d.loss:hover"
+   ],
+   "befund_ids": [
+    "bewegung-21",
+    "komponenten-13"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C2",
+   "titel": "Screenshots im Trade: kein Zoom, Rand-Hover auf .shots .shot, zoom-in-Cursor",
+   "von": 243,
+   "bis": 249,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".shot img",
+    ".shot:hover img",
+    ".shots .shot",
+    ".shots .shot:hover",
+    ".shot img[data-action=\"lightbox\"]"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-49",
+    "bewegung-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C3",
+   "titel": "Long/Short-Schalter: Zeiten auf Tokens (Wackeln 320 ms über calc)",
+   "von": 250,
+   "bis": 255,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dir-switch",
+    ".dir-switch::before",
+    ".dir-switch.first",
+    ".dir-switch.first::before",
+    ".dir-switch.need",
+    "--dir-c"
+   ],
+   "befund_ids": [
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C4",
+   "titel": "Bearbeiten-Leiste neutral (--border-2, --surface-2), .dot-live und @keyframes pulse löschen (CSS)",
+   "von": 256,
+   "bis": 260,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".edit-bar",
+    ".dot-live",
+    "@keyframes pulse"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-9",
+    "bewegung-37"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C5",
+   "titel": "Heatmaps: feiner Umriss statt Vergrößerung beim Darüberfahren",
+   "von": 261,
+   "bis": 265,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".activity i:hover",
+    ".tracker i:hover",
+    ".ym-grid i:hover"
+   ],
+   "befund_ids": [
+    "bewegung-22"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C6ab",
+   "titel": "Tote Übergänge der Serie streichen (.dstreak-track em, .dstreak-track i)",
+   "von": 266,
+   "bis": 268,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dstreak-track em",
+    ".dstreak-track i"
+   ],
+   "befund_ids": [
+    "bewegung-40"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C6cd",
+   "titel": "Tote Übergänge im Prop-Bereich streichen (.prop-sub a::after, .prop-bar .track i)",
+   "von": 269,
+   "bis": 271,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-sub a::after",
+    ".prop-bar .track i"
+   ],
+   "befund_ids": [
+    "bewegung-40"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C7a",
+   "titel": "Design- und Theme-Karten: kein Anheben, Plus-Symbol ohne Vergrößerung",
+   "von": 272,
+   "bis": 278,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dc-prev",
+    ".design-card:hover .dc-prev",
+    ".tc-prev",
+    ".theme-card:hover .tc-prev",
+    ".theme-card.t-custom.is-new .tc-prev > svg",
+    ".theme-card.t-custom.is-new:hover .tc-prev > svg"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C7b",
+   "titel": "Akzentpunkte und Farbpaar-Karten: Ring bzw. Rand statt Vergrößerung",
+   "von": 279,
+   "bis": 284,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dot",
+    ".dot:hover",
+    ".dot[aria-pressed=\"true\"]",
+    ".dot.custom:hover",
+    ".pair-card",
+    ".pair-card:hover"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C7c",
+   "titel": "Farbwähler-Punkte .cp-c: Auswahl-Ring in leiser Farbe statt Vergrößerung",
+   "von": 285,
+   "bis": 286,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cp-c",
+    ".cp-c:hover"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C7d",
+   "titel": "Notebook-Palette: Rand statt Vergrößerung, eigene Hover-Regel für den Plus-Knopf",
+   "von": 287,
+   "bis": 290,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ed-palette .c",
+    ".ed-palette .c:hover",
+    ".ed-palette .c.add:hover"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C8a",
+   "titel": "Ruhepunkt: Betreten nur mit calm-content, Schrittwechsel rp-in auf Tokens, Auswahlkarten ohne Eigen-Animation",
+   "von": 291,
+   "bis": 296,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "html.calm-enter .rp > *",
+    "html.calm-enter .rp-stage > *",
+    ".rp-stage > *",
+    ".rp-stage > *:nth-child(2)",
+    ".rp-stage > *:nth-child(3)",
+    ".rp-stage > *:nth-child(4)",
+    ".rp-stage > *:nth-child(5)",
+    ".rp-choices .rp-choice",
+    ".rp-choices .rp-choice:nth-child(2)",
+    ".rp-choices .rp-choice:nth-child(3)"
+   ],
+   "befund_ids": [
+    "bewegung-9",
+    "bewegung-33",
+    "bewegung-34"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C8b",
+   "titel": "Ruhepunkt: Atem-Kugel auf --ease-sym, .rp-swap auf --dur-3 --ease",
+   "von": 297,
+   "bis": 300,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-tide",
+    ".rp-tide-glow",
+    ".rp-swap"
+   ],
+   "befund_ids": [
+    "bewegung-33",
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C9",
+   "titel": "Konfidenz-Balken (Replay): Staffel aus --stagger",
+   "von": 301,
+   "bis": 302,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".conf-bar:nth-child(2) i",
+    ".conf-bar:nth-child(3) i"
+   ],
+   "befund_ids": [
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C10a",
+   "titel": "Grabstein-Drehung .pg-inner auf --ease (.75s bleibt)",
+   "von": 303,
+   "bis": 304,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".pg-inner"
+   ],
+   "befund_ids": [
+    "bewegung-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-C10b",
+   "titel": "Kerzen (CSS): Flammen und Lichthöfe pausieren über .pg-base.off",
+   "von": 305,
+   "bis": 306,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".pg-base.off .pg-candles .flame",
+    ".pg-base.off .pg-candles .halo"
+   ],
+   "befund_ids": [
+    "bereich_prop-50",
+    "bewegung-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.4",
+   "titel": "motion.js: Reinscroll-Staffel aus --stagger statt STEP",
+   "von": 307,
+   "bis": 311,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/js/motion.js"
+   ],
+   "anker": [
+    "STEP (motion.js)",
+    "Motion.scan",
+    "Motion.ms"
+   ],
+   "befund_ids": [
+    "bewegung-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.5a",
+   "titel": "App.render: M.scan nur beim echten Seitenwechsel, Kommentare Z. 75 und 98–99 anpassen",
+   "von": 312,
+   "bis": 314,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.render",
+    "M.scan"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-12",
+    "bewegung-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/motiontest.js nach Z. 28 neu (Schritt bewegung-3.11b)"
+   ]
+  },
+  {
+   "nr": "bewegung-3.5b",
+   "titel": "App.closeSymbolMenu: Symbol-Liste blendet über M.leave aus, ID sofort entfernen",
+   "von": 315,
+   "bis": 315,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.closeSymbolMenu",
+    "#sym-menu",
+    ".sym-menu.closing",
+    "Motion.leave"
+   ],
+   "befund_ids": [
+    "bewegung-27"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B4b"
+   ],
+   "tests": [
+    "web/e2e/tradeformtest.js:24/26/28 (müssen grün bleiben)"
+   ]
+  },
+  {
+   "nr": "bewegung-3.5c",
+   "titel": "App.openSymbolMenu place(): Klasse .up je Öffnungsrichtung setzen",
+   "von": 316,
+   "bis": 317,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openSymbolMenu",
+    ".sym-menu.up"
+   ],
+   "befund_ids": [
+    "bewegung-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B4b"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.6",
+   "titel": "ui.js enterAnim: Balken-Staffel aus --dur-2, Punkt-Verzögerung aus --dur-4/--dur-1",
+   "von": 318,
+   "bis": 322,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "UI.enterCharts",
+    "enterAnim (ui.js)",
+    "--bd",
+    "--dt-delay"
+   ],
+   "befund_ids": [
+    "bewegung-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1",
+    "bewegung-B6"
+   ],
+   "tests": [
+    "web/e2e/chartanimtest.js:10–11 (Schritt bewegung-3.11d)"
+   ]
+  },
+  {
+   "nr": "bewegung-3.7a",
+   "titel": "Dashboard: Punkt .dot-live aus der Bearbeiten-Leiste entfernen (Trennzeichen bleibt)",
+   "von": 323,
+   "bis": 324,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".edit-bar",
+    ".dot-live"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-9",
+    "bewegung-37"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-C4"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.7b",
+   "titel": "Seitenpanel (JS): neuer Abdunkler .settled in keepPanel, Ausblenden in 'dash-add-close' mit Doppel-Schutz",
+   "von": 325,
+   "bis": 327,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "keepPanel",
+    "'dash-add-close'",
+    ".panel-bg.settled",
+    ".panel-bg.out",
+    ".side-panel.out",
+    "Motion.leave"
+   ],
+   "befund_ids": [
+    "bewegung-26"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "bewegung-B9"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.8a",
+   "titel": "Filter-Fenster place(): transform-origin je Lage (Titelzeile rechts, sonst links)",
+   "von": 328,
+   "bis": 329,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "place (dash-filter.js)",
+    ".fd-pop"
+   ],
+   "befund_ids": [
+    "bewegung-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B4a"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.8b",
+   "titel": "Filter-Fenster close(): nur das eigene Fenster ausblenden und entfernen",
+   "von": 330,
+   "bis": 332,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "DashFilter.close",
+    "#fd-pop",
+    "#fd-layer",
+    ".fd-pop.closing",
+    "Motion.leave"
+   ],
+   "befund_ids": [
+    "bewegung-27"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "bewegung-B4c"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.9a",
+   "titel": "Friedhof: Kerzen-Definitionen einmal pro Seite (cluster als Objekt, .pg-defs in tabFriedhof)",
+   "von": 333,
+   "bis": 337,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "cluster (prop-friedhof.js)",
+    "CANDLES_L",
+    "CANDLES_R",
+    "CANDLE_DEFS",
+    "tabFriedhof",
+    ".pg-defs",
+    "#pgc-wax3d"
+   ],
+   "befund_ids": [
+    "bereich_prop-50",
+    "bewegung-6"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.9b",
+   "titel": "Friedhof: IntersectionObserver setzt .off an .pg-base (mount/unmount)",
+   "von": 338,
+   "bis": 339,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "PS.register('friedhof')",
+    "mount (prop-friedhof.js)",
+    "unmount (prop-friedhof.js)",
+    ".pg-base.off"
+   ],
+   "befund_ids": [
+    "bereich_prop-50",
+    "bewegung-6"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "bewegung-C10b"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.10",
+   "titel": "ruhepunkt.js place(): Atem-Füllung mit var(--ease-sym)",
+   "von": 340,
+   "bis": 342,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    "place (ruhepunkt.js)"
+   ],
+   "befund_ids": [
+    "bewegung-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.11a",
+   "titel": "motiontest: „Kachel bleibt beim Überfahren stehen“ statt Anheben",
+   "von": 343,
+   "bis": 344,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/e2e/motiontest.js"
+   ],
+   "anker": [
+    "motiontest.js:52–53",
+    ".tile:hover"
+   ],
+   "befund_ids": [
+    "bereich_statistik-29"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B5"
+   ],
+   "tests": [
+    "web/e2e/motiontest.js:52–53"
+   ]
+  },
+  {
+   "nr": "bewegung-3.11b",
+   "titel": "motiontest: neuer Test „Neuaufbau bereitet nichts erneut vor“",
+   "von": 345,
+   "bis": 345,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/e2e/motiontest.js"
+   ],
+   "anker": [
+    "motiontest.js nach Z. 28",
+    "App.rerender",
+    "#content .rv"
+   ],
+   "befund_ids": [
+    "bewegung-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-3.5a"
+   ],
+   "tests": [
+    "web/e2e/motiontest.js nach Z. 28 (neu)"
+   ]
+  },
+  {
+   "nr": "bewegung-3.11c",
+   "titel": "motiontest: Prüfung von --dur-4 (640) und --stagger (40)",
+   "von": 346,
+   "bis": 346,
+   "cluster": "tokens",
+   "dateien": [
+    "web/e2e/motiontest.js"
+   ],
+   "anker": [
+    "motiontest.js:8"
+   ],
+   "befund_ids": [],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1"
+   ],
+   "tests": [
+    "web/e2e/motiontest.js:8"
+   ]
+  },
+  {
+   "nr": "bewegung-3.11d",
+   "titel": "chartanimtest: frühe Messung nach 120 ms, Prüfung off > 0",
+   "von": 347,
+   "bis": 348,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/e2e/chartanimtest.js"
+   ],
+   "anker": [
+    "chartanimtest.js:10–11"
+   ],
+   "befund_ids": [],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B6",
+    "bewegung-3.6"
+   ],
+   "tests": [
+    "web/e2e/chartanimtest.js:10–11"
+   ]
+  },
+  {
+   "nr": "bewegung-3.12a",
+   "titel": "README „Bewegung und Übergänge“ Z. 329–331: Skala, Hover-Regel, Ebenen und Reinscrollen neu beschreiben",
+   "von": 349,
+   "bis": 350,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README.md Z. 329–331"
+   ],
+   "befund_ids": [],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1",
+    "bewegung-B1",
+    "bewegung-B3",
+    "bewegung-B4a",
+    "bewegung-B5",
+    "bewegung-3.5a",
+    "bewegung-3.5b",
+    "bewegung-3.7b",
+    "bewegung-3.8b"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.12b",
+   "titel": "README Z. 342–343: weniger Bewegung (Ring dreht weiter) und Abschalten über --dur-1 bis --dur-4 und --stagger",
+   "von": 351,
+   "bis": 351,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README.md Z. 342–343"
+   ],
+   "befund_ids": [],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-A1",
+    "bewegung-B11"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.12c",
+   "titel": "README Z. 352: Balken-Staffel höchstens --dur-2, Einzug nach gut 0,7 s fertig",
+   "von": 352,
+   "bis": 352,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README.md Z. 352"
+   ],
+   "befund_ids": [],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-B6",
+    "bewegung-3.6"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "bewegung-3.12d",
+   "titel": "README Z. 260 (Friedhof): Flammen ruhen, solange der Sockel nicht im Bild ist",
+   "von": 353,
+   "bis": 354,
+   "cluster": "prop",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README.md Z. 260"
+   ],
+   "befund_ids": [],
+   "aufwand": "S",
+   "abhaengig": [
+    "bewegung-C10b",
+    "bewegung-3.9b"
+   ],
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 357,
+  "bis": 389
+ },
+ "querbezuege": [
+  "Farbe (referenz-6) und Komponenten (komponenten-1) schreiben .btn.primary und .btn.primary:hover neu (Fläche/Rand); hier wird in B1 nur box-shadow aus .btn.primary:hover und aus der .btn-transition entfernt (K12). Ohne Farbe-Spez. bleibt background/border-color var(--accent-2).",
+  "Farbe/KI-Look: .btn.accent bzw. .btn.accent.tl („Trade loggen“, app.css:3135–3144, app.js:253) behält sein Licht und wird hier nicht angefasst (G2, K12).",
+  "Zustände (zustaende-34) will .card:hover streichen: dann folgen .tile:hover und .stat-tile:hover genauso (H3, K1, Schritt B5). zustaende-34 will außerdem --lift-shadow löschen und .kstrip .tile:hover löschen: Token bleibt (K2), .kstrip .tile:hover wird hier gelöscht (K3).",
+  "Komponenten (bereich_dashboard-11) will --lift-shadow und das Anheben von .cal .d behalten: --lift-shadow bleibt (K2, Anker --lift-shadow, landing.css:56), das Anheben von .cal .d entfällt (K4, Schritt C1).",
+  "Farbe/Kontrast (farbe_kontrast-32) und Konto (bereich_konto-28): die Hell-Korrektur der Trennlinien an .kstrip .tile trägt einen eigenen :hover-Selektor an derselben Stelle; .kstrip .tile:hover (app.css:2603) wird hier gelöscht (K3, Schritt B5).",
+  "KI-Look (ki_look-12): .edit-bar mit --surface wird durch C4 (--surface-2, --border-2) miterledigt und darf nicht ein zweites Mal umgesetzt werden (K11).",
+  "Wording (bereich_dashboard-9): Trennzeichen „–“ → „·“ in der Bearbeiten-Leiste (dashboard.js:119, .edit-bar) gehört der Wortwahl-Gruppe; Schritt 3.7a lässt „–“ stehen (K11).",
+  "Diagramme (bewegung-2): Fläche darf der Linie nicht vorauslaufen; .ar läuft mit calc(var(--dur-4) - var(--dur-3)). Setzt die Diagramme-Spez. den Wisch über g.wipe um, muss ch-wipe mit var(--dur-4) var(--ease) laufen, nicht 1.1s; die Regel für ch-fade gilt weiter (K7, Schritt B6).",
+  "KI-Look/Diagramme (ki_look-6, bereich_training-7): filter: drop-shadow an .ring-arc .arc (app.css:1317) regeln diese Gruppen; hier ändert sich in derselben Zeile nur die transition (K23, Schritt B8).",
+  "Responsiv (bewegung-29): Handy-Dialoge als Bottom-Sheet überschreiben pop-in im Block @media (max-width: 560px); an .modal wird hier nichts geändert, Dialoge behalten pop-in/pop-out mit 8px/4px (E3, K23, Schritt B4a).",
+  "KI-Look (bereich_training-45): .rp-choice:hover und .rp-choice:hover .rp-icon werden hier nicht angefasst (Tabelle 1.2, Akzeptanz 4.1 Nr. 2); Schritt C8a entfernt nur die Eingangs-Animation .rp-choices .rp-choice.",
+  "KI-Look (ki_look-3): Klassenkollision .lp .shot (css/landing.css:19) – der neue Hover gilt darum nur für .shots .shot (K20, Schritt C2).",
+  "Aufbau (aufbau-16) löscht .prop-sub ganz: dann entfällt Schritt C6c (.prop-sub a::after, in K19 als „C13c“ bezeichnet, gemeint ist C6c).",
+  "Zustände: die neutrale Bearbeiten-Leiste (.edit-bar, --surface-2 + --border-2) entspricht genau der Vorgabe für Zustände (K11).",
+  "Nutzerfrage N1 (bereich_dashboard-12): bei „Ja“ entfallen zusätzlich der M.scan-Aufruf in App.render (app.js:103, Schritt 3.5a), .rv .score-scale (app.css:569), README Z. 330 wird gekürzt (Schritt 3.12a) und motiontest.js Z. 9–13 und 20–24 werden auf „keine .rv in #content“ umgestellt.",
+  "Nutzerfrage N2 (bewegung-15): weiches Scrollen zeitbasiert (scroll.js:9/13/38, stop(), README Z. 364) – nicht Teil von Abschnitt 3."
+ ]
+}

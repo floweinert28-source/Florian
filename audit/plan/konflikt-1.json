@@ -1,0 +1,1047 @@
+{
+ "anker": [
+  {
+   "anker": ".prop-patterns-empty",
+   "schritte": [
+    {
+     "nr": "aufbau-C13",
+     "gruppe": "aufbau",
+     "titel": "Friedhof: Muster-Satz als Textzeile statt Karte",
+     "von": 577,
+     "bis": 582,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "kilook-C5",
+     "gruppe": "kilook",
+     "titel": "Prop-CSS: veraltete Kommentare, .prop-unv/.prop-highlights/Gravur-Variablen/wirkungslose text-shadow/.prop-grave-kv löschen",
+     "von": 557,
+     "bis": 578,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-F1",
+     "gruppe": "zustaende",
+     "titel": "Friedhof: Muster-Karte erst ab zwei Grabsteinen, Hinweis als Info an „Häufigste Regel“",
+     "von": 735,
+     "bis": 741,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-TE7",
+     "gruppe": "zustaende",
+     "titel": "Test friedhoftest.js:47: bei einem Grabstein keine Muster-Karte, Info an „Häufigste Regel“",
+     "von": 883,
+     "bis": 883,
+     "cluster": "prop",
+     "dateien": [
+      "web/e2e/friedhoftest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.openImport",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P15",
+     "gruppe": "barrierefreiheit",
+     "titel": "CSV-Import: Dropzone role=button tabindex=0, Textfeld „CSV-Text einfügen“",
+     "von": 683,
+     "bis": 687,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "farbe-C12c",
+     "gruppe": "farbe",
+     "titel": "Session-Ende und Import: Hinweise .lbl-hint bzw. muted statt faint",
+     "von": 434,
+     "bis": 437,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.7b",
+     "gruppe": "typografie",
+     "titel": "CSV-Vorschau: Datumszellen mit Klasse num",
+     "von": 416,
+     "bis": 417,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.6-5.8",
+     "gruppe": "wording",
+     "titel": "app.js: Zähler über U.count (Symbol-Liste, CSV-Import) und „Trefferquote“ im Session-Ende",
+     "von": 358,
+     "bis": 360,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.radar",
+   "schritte": [
+    {
+     "nr": "abstaende-UI",
+     "gruppe": "abstaende",
+     "titel": "ui.js: keine Strukturänderung (U.tile bleibt), einen Inline-Abstand nach 1.16 ersetzen",
+     "von": 388,
+     "bis": 391,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C19",
+     "gruppe": "diagramme",
+     "titel": "Radar-Schrift: data-vb und Skalierung in fitRadars",
+     "von": 528,
+     "bis": 535,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S2.1",
+     "gruppe": "wording",
+     "titel": "core.js: Radar-Achse in SCORE_AXES „Win-Rate“ → „Trefferquote“",
+     "von": 304,
+     "bis": 308,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/core.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".shot",
+   "schritte": [
+    {
+     "nr": "abstaende-P1-P3",
+     "gruppe": "abstaende",
+     "titel": "Startseite: Demo-Fenster-Klasse .shot → .lp-shot in index.html (Markup und Reveal-Selektor) und landing.css; app.css-.shot bleibt",
+     "von": 498,
+     "bis": 505,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/index.html",
+      "web/css/landing.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-B10",
+     "gruppe": "barrierefreiheit",
+     "titel": "Dropzone-Fokus und Screenshot-Knopf .shot-open",
+     "von": 359,
+     "bis": 367,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-trades-77-116",
+     "gruppe": "barrierefreiheit",
+     "titel": "Screenshots als Knopf .shot-open, Dropzonen role=button, Aktion lightbox über U.lightbox",
+     "von": 754,
+     "bis": 758,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cpn-code",
+   "schritte": [
+    {
+     "nr": "aufbau-C5b",
+     "gruppe": "aufbau",
+     "titel": "Coupon: Rabatt 13.5px --text-2, Code 600/.08em",
+     "von": 459,
+     "bis": 462,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.5e",
+     "gruppe": "typografie",
+     "titel": "Kopier-Link im Ticket: .cpn-code.is-link 13/500 ohne Sperrung",
+     "von": 363,
+     "bis": 363,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.8r",
+     "gruppe": "typografie",
+     "titel": "Affiliate-Ticket: Link-Ticket bekommt Klasse is-link",
+     "von": 443,
+     "bis": 443,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rules-list li::marker",
+   "schritte": [
+    {
+     "nr": "aufbau-C11c",
+     "gruppe": "aufbau",
+     "titel": "Fortschritt: Trading-Aktivität unter die Checkliste, Kommentare, .rules-list löschen",
+     "von": 553,
+     "bis": 556,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C2",
+     "gruppe": "farbe",
+     "titel": "Fortschritt: Listenmarker „Aktuelle Regeln“ neutral (entfällt, falls Aufbau die Karte löscht)",
+     "von": 381,
+     "bis": 383,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4m",
+     "gruppe": "typografie",
+     "titel": "Serie-Stufenwort 600/.06em (Farben bleiben) und Regel-Ziffern gedämpft 500 Onest (K19)",
+     "von": 350,
+     "bis": 352,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.bind",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P3",
+     "gruppe": "barrierefreiheit",
+     "titel": "Globaler Tastatur-Handler: Escape (requestClose, Menü-Rücksprung, closeSidebar), Enter/Leertaste auf role=button/checkbox, Pfeiltasten in Radiogruppen",
+     "von": 573,
+     "bis": 590,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P10",
+     "gruppe": "barrierefreiheit",
+     "titel": "Aktion skip-content und Live-Regionen beim Start (bind) anlegen",
+     "von": 635,
+     "bis": 639,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A1",
+     "gruppe": "zustaende",
+     "titel": "Start: Toast-Container anlegen; globaler invalid-Listener mit Feldmeldungen und Löschen der Meldung bei Eingabe",
+     "von": 515,
+     "bis": 531,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "groupTable",
+   "schritte": [
+    {
+     "nr": "diagramme-G4",
+     "gruppe": "diagramme",
+     "titel": "groupTable ohne leere Fächer",
+     "von": 617,
+     "bis": 618,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-stats-b",
+     "gruppe": "komponenten",
+     "titel": "Statistik: Tabellen inset, Tage in Karte „Alle Handelstage“",
+     "von": 714,
+     "bis": 716,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "wording-S10.1-10.7",
+     "gruppe": "wording",
+     "titel": "Statistik: REG_VS, Serien-Einzahl, Titel „… nach …“, Spalten „Trefferquote“/„Erwartungswert“, Uhrzeit-Tabelle mit „ Uhr“",
+     "von": 442,
+     "bis": 452,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pg-nav",
+   "schritte": [
+    {
+     "nr": "komponenten-S-shadow",
+     "gruppe": "komponenten",
+     "titel": "Schatten-Ich-Seitenwahl: .btn.nav, nur bei mehreren Seiten, „1–10“",
+     "von": 709,
+     "bis": 711,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-c",
+     "gruppe": "komponenten",
+     "titel": "TradeLog-Seitenwahl: .btn.nav, Auswahl/Pfeile nur bei mehreren Seiten, „1–10“",
+     "von": 720,
+     "bis": 720,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T2",
+     "gruppe": "zustaende",
+     "titel": "TradeLog: Zähler „{x} von {y} Trades“ nur bei aktivem Filter, Seitenwähler bei einer Seite reduziert",
+     "von": 642,
+     "bis": 647,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile .body",
+   "schritte": [
+    {
+     "nr": "abstaende-B9",
+     "gruppe": "abstaende",
+     "titel": "Wertlinie: .tile .body align-items flex-start, padding-top var(--sp-3)",
+     "von": 325,
+     "bis": 325,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.8b",
+     "gruppe": "typografie",
+     "titel": "TradeLog-Spark-Kachel: spark-body bekommt Klasse body",
+     "von": 424,
+     "bis": 424,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "@container (max-width: 164px)",
+   "schritte": [
+    {
+     "nr": "abstaende-B11",
+     "gruppe": "abstaende",
+     "titel": "Kachel-Container-Abfragen 178 → 168 und 164 → 154; 150er-Abfrage bleibt und erhält .tile.side .gauge:has(> .gauge-stack) margin-block -3px",
+     "von": 327,
+     "bis": 327,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U1",
+     "gruppe": "zustaende",
+     "titel": "Geldbeträge immer mit zwei Nachkommastellen (fmt.cur ohne 10.000-Schwelle), Überlauf prüfen",
+     "von": 390,
+     "bis": 394,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/ui.js",
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".grid",
+   "schritte": [
+    {
+     "nr": "abstaende-C1",
+     "gruppe": "abstaende",
+     "titel": ".grid gap var(--grid-gap); neu .grid.detail-grid (zwei Spalten, unter 1280 px eine)",
+     "von": 346,
+     "bis": 350,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-O3",
+     "gruppe": "diagramme",
+     "titel": "Test dashtest.js:95: „Report: zwei Spuren“, keine Achsenbeschriftung rechts",
+     "von": 748,
+     "bis": 748,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/e2e/dashtest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.state.route",
+   "schritte": [
+    {
+     "nr": "abstaende-F1",
+     "gruppe": "abstaende",
+     "titel": "Dashboard: Routen-Sperre als erste Anweisung in place() (zweite Sicherung des Größen-Listeners, unmount() bleibt)",
+     "von": 392,
+     "bis": 396,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-CO1",
+     "gruppe": "zustaende",
+     "titel": "Coach-Abgleich: Neuzeichnen im finally von runSync (Status verschwindet nach jedem Abgleich)",
+     "von": 599,
+     "bis": 603,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/coach.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "emptyBox",
+   "schritte": [
+    {
+     "nr": "abstaende-G1",
+     "gruppe": "abstaende",
+     "titel": "Gesamt-Score-Leerzustand mit emptyBox(280) (gleiche Höhe in der Reihe)",
+     "von": 400,
+     "bis": 404,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W3",
+     "gruppe": "zustaende",
+     "titel": "emptyBox nur mit Titel nach Leerlage; chartEmpty delegiert an U.chartEmpty",
+     "von": 475,
+     "bis": 478,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".grid.two",
+   "schritte": [
+    {
+     "nr": "abstaende-H1",
+     "gruppe": "abstaende",
+     "titel": "Trade-Ansicht: Detailkarten .grid two → .grid detail-grid",
+     "von": 409,
+     "bis": 413,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "responsiv-C5",
+     "gruppe": "responsiv",
+     "titel": "Formular-Raster .grid.two läuft nie über den Container",
+     "von": 400,
+     "bis": 402,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".chart.h240",
+   "schritte": [
+    {
+     "nr": "abstaende-J1",
+     "gruppe": "abstaende",
+     "titel": "Statistik: Diagramme r-t und r-v chart h220 → h240",
+     "von": 425,
+     "bis": 429,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C14b",
+     "gruppe": "aufbau",
+     "titel": "Statistiken: Reiter zuerst, Kurve als Karte „Kumulierter Netto-P&L“ nur in der Übersicht",
+     "von": 588,
+     "bis": 597,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "m-emo",
+   "schritte": [
+    {
+     "nr": "abstaende-J2",
+     "gruppe": "abstaende",
+     "titel": "Statistik Emotion: Diagrammhöhe aus der Datenzahl (max(240, n · 34) px) statt h280",
+     "von": 430,
+     "bis": 431,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "diagramme-G5",
+     "gruppe": "diagramme",
+     "titel": "Setups und Emotion nach Erwartungswert sortieren (byExp)",
+     "von": 619,
+     "bis": 625,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.screens.day.head",
+   "schritte": [
+    {
+     "nr": "abstaende-E-day1",
+     "gruppe": "abstaende",
+     "titel": "Tagesansicht: Screen-Objekt mit head { range: false } und actions(ctx) (Zertifikat-Knopf)",
+     "von": 432,
+     "bis": 436,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C7a",
+     "gruppe": "aufbau",
+     "titel": "Tagesansicht: head-Funktion ohne Zeitraum, Tooltip „Trade für {0} loggen“",
+     "von": 470,
+     "bis": 477,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "C.stats16",
+   "schritte": [
+    {
+     "nr": "aufbau-C1",
+     "gruppe": "aufbau",
+     "titel": "stats16: Erwartungswert statt Doppelkachel, neue Kachel Trades, Reihenfolge in 4 Themenreihen",
+     "von": 397,
+     "bis": 421,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/core.js"
+     ]
+    },
+    {
+     "nr": "wording-S2.5-2.13",
+     "gruppe": "wording",
+     "titel": "core.js stats16: „Erwartungswert pro Trade“, neue Kachel „Trades“ statt Ø pro Trade, Trefferquoten, Ø Gewinn/Verlust, R- und Kontrakt-Namen",
+     "von": 312,
+     "bis": 320,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/core.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "trades.renderDetail",
+   "schritte": [
+    {
+     "nr": "aufbau-C15d",
+     "gruppe": "aufbau",
+     "titel": "Trade-Ansicht: Kopfreihe nur mit Rückweg und Trade loggen",
+     "von": 626,
+     "bis": 628,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "farbe-C31c",
+     "gruppe": "farbe",
+     "titel": "Trade-Ansicht: Disziplin-Teilwerte, „Keine Fehler markiert“, Sprachnotiz muted, Knöpfe neutral",
+     "von": 544,
+     "bis": 548,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".recent-card .more-link",
+   "schritte": [
+    {
+     "nr": "aufbau-D3i",
+     "gruppe": "aufbau",
+     "titel": "Unveränderte Tests bestätigen (dashtest.js, leaktest.js)",
+     "von": 713,
+     "bis": 715,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/e2e/dashtest.js",
+      "web/e2e/leaktest.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-TE2",
+     "gruppe": "zustaende",
+     "titel": "Test dashtest.js:143–144: leeres Dashboard mit „—“-Kacheln, Karten-Titel „Noch keine Trades“, ohne „Mehr anzeigen“",
+     "von": 878,
+     "bis": 878,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/e2e/dashtest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pager .pg-nav button",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12f",
+     "gruppe": "barrierefreiheit",
+     "titel": "Touch: Symbolknöpfe in Tabellen/Listen 40 px, Seitenwähler 44 × 40, .select.sm (Dateiende)",
+     "von": 382,
+     "bis": 382,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C07",
+     "gruppe": "komponenten",
+     "titel": "Ein Pfeilknopf .btn.nav (34×34), .rr-nav 32×32, Seitenwahl-Pfeile ohne Verbund",
+     "von": 226,
+     "bis": 233,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".aff-pct",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12g",
+     "gruppe": "barrierefreiheit",
+     "titel": "Provisionssatz .aff-pct am Handy ≈ 33 px hoch mit Stift",
+     "von": 383,
+     "bis": 384,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S13.3-13.7",
+     "gruppe": "wording",
+     "titel": "Affiliate-Begriffe: „Satz“/„Provisionssatz“ = Prozent, „Provision“ = Betrag, „Quelle“, Dialog und Toasts",
+     "von": 519,
+     "bis": 524,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "[data-subnav]",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-stats-15",
+     "gruppe": "barrierefreiheit",
+     "titel": "Statistik-Reiter als <nav aria-label=\"Statistik-Bereiche\"> mit aria-current, ohne Inline-Farbe",
+     "von": 777,
+     "bis": 782,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-stats-a",
+     "gruppe": "komponenten",
+     "titel": "Statistik-Reiter ohne .btn und Inline-Farbe (Schiene)",
+     "von": 712,
+     "bis": 713,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".spin",
+   "schritte": [
+    {
+     "nr": "bewegung-B11",
+     "gruppe": "bewegung",
+     "titel": "Weniger Bewegung: Lade-Ring .spin dreht weiter (2,4 s)",
+     "von": 227,
+     "bis": 228,
+     "cluster": "bewegung",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C13",
+     "gruppe": "zustaende",
+     "titel": "Laden: tote .spin-Regel löschen, .coach-loading/.nw-loading durch Skelett-Stile .coach-skel/.nw-skel ersetzen",
+     "von": 341,
+     "bis": 345,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "@keyframes pulse",
+   "schritte": [
+    {
+     "nr": "bewegung-C4",
+     "gruppe": "bewegung",
+     "titel": "Bearbeiten-Leiste neutral (--border-2, --surface-2), .dot-live und @keyframes pulse löschen (CSS)",
+     "von": 256,
+     "bis": 260,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-B2",
+     "gruppe": "kilook",
+     "titel": "Bearbeiten-Leiste neutral (surface-2, border-2), .dot-live und @keyframes pulse löschen",
+     "von": 416,
+     "bis": 420,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dot[aria-pressed=\"true\"]",
+   "schritte": [
+    {
+     "nr": "bewegung-C7b",
+     "gruppe": "bewegung",
+     "titel": "Akzentpunkte und Farbpaar-Karten: Ring bzw. Rand statt Vergrößerung",
+     "von": 279,
+     "bis": 284,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C27",
+     "gruppe": "komponenten",
+     "titel": "Auswahl in Einstellungen → Design ohne Schlagschatten und Skalierung",
+     "von": 422,
+     "bis": 427,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ed-palette .c",
+   "schritte": [
+    {
+     "nr": "bewegung-C7d",
+     "gruppe": "bewegung",
+     "titel": "Notebook-Palette: Rand statt Vergrößerung, eigene Hover-Regel für den Plus-Knopf",
+     "von": 287,
+     "bis": 290,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C1c",
+     "gruppe": "farbe",
+     "titel": "Editor-Werkzeuge: Toolbar gedrückt, Haken im Editor-Popover, Palettenrand, Notebook-Menü und YouTube-Popover neutral",
+     "von": 364,
+     "bis": 369,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-bar",
+   "schritte": [
+    {
+     "nr": "diagramme-J1",
+     "gruppe": "diagramme",
+     "titel": "Prop-Puffer über Limit: „über dem Boden“ mit Boden-Tooltip",
+     "von": 657,
+     "bis": 665,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-P1",
+     "gruppe": "zustaende",
+     "titel": "Prop-Konto-Karte: Ampel Rot bei Verletzung, tote Konten ohne Balken/Meta, Balken ohne „von“ bei Rest > Limit, Tooltip gekappt",
+     "von": 710,
+     "bis": 723,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-nav a.active",
+   "schritte": [
+    {
+     "nr": "farbe-B22",
+     "gruppe": "farbe",
+     "titel": "Aktive Navigationseinträge: helle Seitenleiste mit --surface/--border-2, Einstellungs-Menü mit inset-Rand",
+     "von": 328,
+     "bis": 331,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9a",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen-Unternavigation: gewählter Eintrag Fläche --surface mit Rand, Hover 5 %, Gewicht 500",
+     "von": 319,
+     "bis": 322,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ql-editor.ql-blank::before",
+   "schritte": [
+    {
+     "nr": "farbe-C1d",
+     "gruppe": "farbe",
+     "titel": "Quill-Editor: Platzhalter --muted ohne 18 px, Zitat, Code, Links (auch .nb-tweet a), Checklisten-Haken und Tooltip-Links neutral",
+     "von": 370,
+     "bis": 375,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3w",
+     "gruppe": "typografie",
+     "titel": "--fs-18: vorhandene 18-px-Regeln auf das Token (.ql-editor.ql-blank::before, .rp-x lh 1 bleibt)",
+     "von": 279,
+     "bis": 280,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rep-sel.on",
+   "schritte": [
+    {
+     "nr": "farbe-C3c",
+     "gruppe": "farbe",
+     "titel": "Report-Panel: gewählte Zeile flach, Zurücksetzen --text-2, Schriftgröße über .rep-add",
+     "von": 389,
+     "bis": 392,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C28",
+     "gruppe": "komponenten",
+     "titel": "Kennzahl-Auswahl im Report-Widget ohne Farbstreifen (CSS)",
+     "von": 428,
+     "bis": 431,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "README Z. 224",
+   "schritte": [
+    {
+     "nr": "farbe-D3f",
+     "gruppe": "farbe",
+     "titel": "README Z. 224: Regelwerk-Kachel „leicht angehoben (neutral, feiner Rand)“",
+     "von": 571,
+     "bis": 571,
+     "cluster": "training",
+     "dateien": [
+      "web/README.md"
+     ]
+    },
+    {
+     "nr": "zustaende-S-R3",
+     "gruppe": "zustaende",
+     "titel": "README Z. 224: Schatten-Ich-Regelkarte „leicht angehoben“, Grün nur im Schalter",
+     "von": 890,
+     "bis": 890,
+     "cluster": "training",
+     "dateien": [
+      "web/README.md"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "calendarHTML",
+   "schritte": [
+    {
+     "nr": "kilook-C9a",
+     "gruppe": "kilook",
+     "titel": "Kalender-Monatsraster: Tages- und Wochenbeträge immer compact (ohne Cent)",
+     "von": 605,
+     "bis": 607,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "wording-S6.1-6.4",
+     "gruppe": "wording",
+     "titel": "Kalender-Widgets: Tages- und Wochenbeträge kompakt ohne Cent, leerer Monat „—“, „Trefferquote“-Tooltip, Zähler über U.count",
+     "von": 363,
+     "bis": 370,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  }
+ ]
+}

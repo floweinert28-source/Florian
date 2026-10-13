@@ -1,0 +1,622 @@
+{
+ "fakten": {
+  "urteile": [
+   {
+    "id": "settings-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt im Kern: misc.js:17–25 setzt kein head, pageHead (app.js:256–261) zeigt Zeitraum, Konto, Session (.btn.icon-only) und „Trade loggen“ (.btn.accent, also nur umrandet mit grünem Text, nicht gefüllt; erst auf dem Handy ein gefüllter runder Knopf, app.css:3019 in @media max-width 560px). Coach macht es schon so (coach.js:219), ein leerer dash-head funktioniert also. Zwei Fehler in der Begründung: (1) Eine Taste N gibt es nicht. Der einzige globale Tastatur-Handler ist Escape (app.js:285), und auch die Git-Historie hat nie einen N- oder 1–6-Handler enthalten. Der Fuß in Profil (misc.js:69) und README.md:318 versprechen also Kürzel, die nicht existieren. (2) Die Konto-Auswahl ist nicht ganz ohne Wirkung: Trading zeigt die Einheit über S.currency() (store.js:147) und den 1-R-Hinweis über App.rUnit() aus allTrades (app.js:47, :70), beide hängen vom gewählten Konto ab. Gespeichert werden die Werte trotzdem global, die Abschaltung ist also vertretbar.",
+    "beschreibung_neu": "In App.screens.settings (misc.js:17–19) `head: { range: false, account: false, session: false, trade: false }` setzen, wie bei Coach (coach.js:219). Dann verschwinden Zeitraum, Konto, Session und „Trade loggen“ in allen 12 Einstellungsbereichen, und auf dem Handy fällt der schwebende runde „+“-Knopf weg. Erreichbar bleibt alles: „Trade loggen“ über Dashboard, TradeLog, Tagesansicht, Statistik, Notebook und die anderen Journal-Seiten mit Kopfreihe; Session über Dashboard und TradeLog; Zeitraum und Konto auf allen Journal-Seiten. Eine Taste N gibt es nicht, sie darf hier nicht als Ersatzweg genannt werden. Hinweis: Trading zeigt dann die Währung und den 1-R-Wert des Kontos, das zuletzt woanders gewählt wurde (S.currency(), App.rUnit()). Das ist heute auch schon so, man sieht es nur nicht mehr. Minimalvariante: nur `range: false, account: false` (wie notebook.js:39, news.js:65, coupons.js:10)."
+   },
+   {
+    "id": "settings-1-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Sinnvoll, Belege stimmen (misc.js:63–69; README.md:23 und :171 nennen „Profil → Daten und Sicherung“). Die Wirkung ist aber eher mittel: Der Datenblock beginnt erst bei y≈1290, also unter dem Falz, und konkurriert im ersten Bild nicht mit „Speichern“. Der Gewinn liegt in der Ordnung, weniger in der Entscheidungszeit. Nebeneffekt: Profil wird kürzer, und es werden weniger ungespeicherte Profileingaben durch Neuaufbau verloren (siehe 2-2). Der neue Menütext „Daten“ hat noch keinen Eintrag in js/lang/{en,es,pt,zh,hi}.js und muss übersetzt werden, sonst erscheint er deutsch."
+   },
+   {
+    "id": "settings-1-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: abo() (misc.js:181) ist ein reiner Platzhalter, und kein Link führt sonst auf #/settings/abo (die Seitenleiste verlinkt nur profil, sprache und benachrichtigungen). Die Prüfung in misc.js:20 hält die Route gültig. Es geht keine Funktion verloren."
+   },
+   {
+    "id": "settings-2-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Bestätigt per Code und settings_profil.png: „Speichern“ (.btn.primary, misc.js:58) und „2FA aktivieren“ (.btn.primary.sm, misc.js:62) sind beide grün gefüllt (y≈742 und y≈1229). 2FA öffnet nur den Hinweis (misc.js:284), „Passwort zurücksetzen“ (.btn, umrandet) ebenso (misc.js:280, nicht :281). Profil ist der Startbereich der Einstellungen (Avatar oben rechts und das Konto-Menü verlinken #/settings/profil), deshalb große Wirkung. Für die neue Überschrift „Sicherheit“ fehlen Übersetzungen."
+   },
+   {
+    "id": "settings-2-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: zweites „Speichern“ (.btn sm, misc.js:60), 'save-privacy' steht in misc.js:283. Wichtig für die Umsetzung: faith-toggle (misc.js:282) ruft rerender() auf, und App.rerender (app.js:180) baut die Seite ohne Feldwerte neu auf. Wer schon heute Vorname oder E-Mail tippt und dann „Christlicher Impuls“ umschaltet, verliert die ungespeicherten Eingaben. Ein neuer Privatsphäre-Schalter darf deshalb nicht neu aufbauen. Die Einstellung privacy.support wird übrigens nirgends gelesen (nur misc.js:60/283 und der store-Default).",
+    "beschreibung_neu": "Die Checkbox „Support-Team Zugriff auf mein Konto erlauben“ (misc.js:60) als switchRow(...) bauen. Die Aktion 'privacy-toggle' speichert sofort mit S.setSetting('privacy', …) und setzt danach nur aria-checked am Schalter, ohne rerender(). Sonst gehen ungespeicherte Eingaben im Profilformular darüber verloren. Dasselbe gilt für faith-toggle (misc.js:282), das heute neu aufbaut. Das zweite „Speichern“ entfällt, die Funktion bleibt erhalten."
+   },
+   {
+    "id": "settings-2-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fakten stimmen: address und bio werden nur in misc.js gelesen. userCard (app.js:219), coach.js:34, mentor.js:12, certificate.js:9 und S.userId (store.js:129) nutzen nur Vorname, Nachname, Benutzername und E-Mail. Felder in einem geschlossenen <details> gehen weiter per FormData mit. Die Wirkung ist aber klein: Die zwei Felder konkurrieren nicht mit dem Hauptknopf, sie machen das Formular nur etwa 170 px länger. Für „Weitere Angaben“ fehlen Übersetzungen."
+   },
+   {
+    "id": "settings-2-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Knöpfe stimmen: 4 × .btn sm (misc.js:64–65), „Entfernen“ (.btn sm danger, misc.js:66), „Alles löschen“ (.btn sm danger, misc.js:68). remove-sample (app.js:334) fragt nicht nach. Den roten Rahmen wegzunehmen ist trotzdem vertretbar, weil eigene Daten bleiben und „Laden“ alles wiederherstellt. Der Vorschlag hängt von 1-2 (eigener Bereich) und 20-1 (Modus im Dialog) ab und sollte mit ihnen zusammen umgesetzt werden. Für „Bilder und Audio einschließen“ fehlen Übersetzungen."
+   },
+   {
+    "id": "settings-2-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: misc.js:47 rendert „Entfernen“ (.btn sm ghost) ohne Bild als disabled. Das ist im Screenshot bei y≈322 ausgegraut sichtbar."
+   },
+   {
+    "id": "settings-2-6",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Fußzeile gibt es (misc.js:69), aber ihr Tastatur-Teil ist falsch: Es gibt keinen Handler für N oder 1–6, nur für Esc (app.js:285). Den Text in den Bereich „Daten“ zu verschieben würde die falsche Angabe nur umziehen.",
+    "beschreibung_neu": "Den Speicherort-Hinweis aus misc.js:69 (inklusive der Warnung bei !S.storageOK) in den neuen Bereich „Daten“ verschieben. Den Teil „Tastatur: N neuer Trade · 1–6 Bereiche · Esc schließt Dialoge“ streichen, weil N und 1–6 nicht umgesetzt sind (nur Esc, app.js:285). README.md:318 entsprechend korrigieren. Soll es die Kürzel geben, ist das eine eigene Aufgabe. Profil endet danach mit den eigenen Angaben."
+   },
+   {
+    "id": "settings-3-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Ausgangslage stimmt: „Laden“ ist ein kleiner umrandeter .btn sm (misc.js:66, hicks-settings-1440-leer_profil.png y≈1538). Die Wirkung ist aber gering: Neue Nutzer bekommen „Beispieldaten laden“ schon im Willkommens-Banner des Dashboards (dashboard.js:130), dem eigentlichen Einstieg. Ohne den eigenen Bereich „Daten“ (1-2) würde der Vorschlag auf Profil einen zweiten gefüllten Knopf erzeugen. Er gehört also nur zusammen mit 1-2 umgesetzt."
+   },
+   {
+    "id": "settings-3-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: Der Text in misc.js:66 läuft auf 1440 px über drei Zeilen und auf dem Handy über neun. Für „Was passiert genau?“ fehlt eine Übersetzung."
+   },
+   {
+    "id": "settings-4-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fakten stimmen (misc.js:146, .cpick-row mit drei Farbwählern). Gewinn und Verlust lassen sich doppelt setzen. Aber: Break-even geht nur über den Einzelwähler, denn die Paare setzen nur Gewinn und Verlust (color-pair, misc.js:293). Die Bedingung „offen, wenn be abweicht“ ist deshalb nötig. Die Wirkung ist klein: eine Zeile mit drei Kreisen, die nicht mit dem Hauptblock „Erscheinungsbild“ konkurriert."
+   },
+   {
+    "id": "settings-4-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: misc.js:146 rendert „Standardfarben“ (.btn sm ghost) immer, auch im Standardzustand (settings_design.png y≈1215). Die Bedingung über col (misc.js:130) passt, weil leere Strings der Standard sind."
+   },
+   {
+    "id": "settings-4-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Lässt sich mit den vorhandenen sigOf/designOf umsetzen (misc.js:97–98, :106). Der Fall tritt selten auf. Ohne gespeicherte Designs (Standard, Screenshot) ändert sich nichts."
+   },
+   {
+    "id": "settings-4-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Plausibel und auf den Fall „Designs vorhanden“ beschränkt. Belegen lässt es sich mit den Aufnahmen nicht, dort gibt es keine gespeicherten Designs."
+   },
+   {
+    "id": "settings-5-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: Der Untertitel (misc.js:32) läuft auf 1440 px über zwei Zeilen (settings_sprache.png y≈206–226). Die Zeilenangabe ist :32, nicht :33. Den neuen Satz in den lang-Dateien nachziehen."
+   },
+   {
+    "id": "settings-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: zehn Schalter (misc.js:170–176). Die acht Hinweis-Punkt-Schalter leuchten grün, die zwei Recap-Schalter sind aus (settings_benachrichtigungen.png). Die Liste fehlt schon heute, wenn der Hauptschalter aus ist (misc.js:176). Die Hauptaktion „Recaps einschalten“ ist plausibel, weil beide standardmäßig aus sind (store.js:48)."
+   },
+   {
+    "id": "settings-6-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (misc.js:170–171, je zwei Zeilen). Die Kurzfassung behält die Bedingung „ab 4 Trades“ korrekt bei."
+   },
+   {
+    "id": "settings-7-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Doppelt mit settings-1-3. Nur einmal umsetzen und zählen."
+   },
+   {
+    "id": "settings-8-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Knöpfe stimmen (Stift immer, Papierkorb erst ab zwei Konten, misc.js:186; delete-account mit Bestätigung, misc.js:330). Übertrieben ist „wird Bearbeiten damit erst erreichbar“: Die Tabelle steckt in .tbl-wrap und lässt sich seitlich wischen, Bearbeiten ist also heute schon erreichbar, nur versteckt. Technisch: Der innere Stift hat eigenes data-action, und closest('[data-action]') (app.js:277) trifft dann zuerst den Knopf. Das passt.",
+    "beschreibung_neu": "Das <tr> erhält data-action='edit-account' und data-id, der Stift bleibt als sichtbarer Hinweis. Der Papierkorb (misc.js:186, nur bei mehr als einem Konto) fällt in der Tabelle weg und erscheint in accountEditor (misc.js:268) links im modal-foot als .btn ghost „Konto löschen“, nur beim Bearbeiten und nur bei mehr als einem Konto. Er ruft dieselbe Aktion delete-account mit Bestätigung (misc.js:330). Auf dem Handy, wo die Aktionsspalte heute erst nach seitlichem Wischen sichtbar wird, genügt dann ein Tipp auf die Zeile."
+   },
+   {
+    "id": "settings-8-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die zwei „+“ übereinander gibt es wirklich (settings_konten.png y≈115 und y≈175). Ein eigener Arbeitsschritt ist das aber nicht, es folgt aus 1-1. Falsch ist die Begründung „das aktive Konto zeigt die Tabelle schon (Pille aktiv)“: Standard ist accountId 'all' (store.js:48), dann erscheint keine Pille. Im Screenshot steht bei Hauptkonto auch keine.",
+    "beschreibung_neu": "Folgt aus der Abschaltung der Kopfreihe (1-1): „+ Trade loggen“ und der Konto-Picker über der Tabelle verschwinden, „Konto hinzufügen“ (.btn sm primary, misc.js:186) steht allein oben rechts. Die Pille „aktiv“ in der Tabelle erscheint nur, wenn auf einer Journal-Seite gezielt ein Konto gewählt wurde. Bei „Alle Konten“, dem Standard, zeigt die Tabelle kein aktives Konto, was hier aber auch nicht nötig ist."
+   },
+   {
+    "id": "settings-9-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die gemischten Speicherwege stimmen (misc.js:332–337 sofort, :335 mit Speichern), ebenso „Speichern“ unter dem Falz (y≈1156). Wirkung auf mittel gesenkt, weil Trading selten besucht wird. Wichtiger als ein deaktivierter Knopf: be-mode, be-reset und blind-toggle rufen rerender() auf, und App.rerender (app.js:180) übernimmt keine Feldwerte. Wer das Tageslimit ändert und dann Geld-blind umschaltet, verliert die Änderung still (be-mode rettet nur Von und Bis, misc.js:333). Ein disabled-„Speichern“ behebt das nicht, deshalb sollte die Alternative zur Hauptvariante werden.",
+    "beschreibung_neu": "Ein einziges Speichermodell: Alle Felder im Formular 'save-trading' speichern beim change-Ereignis sofort, so wie heute schon Chips, Einheit und Geld-blind. Der Toast „Gespeichert“ bleibt. „Speichern“ (misc.js:201) entfällt, ohne dass eine Funktion verloren geht. Grund: be-mode, be-reset und blind-toggle bauen die Seite neu auf (rerender) und verwerfen dabei heute ungespeicherte Eingaben in Tageslimit, Ruin-Schwelle, Durchläufen, Tilt und 1 R. Falls „Speichern“ bleiben soll: disabled, bis sich etwas ändert, mit dem Hinweis „Ungespeicherte Änderungen“ (.small.muted). Dann müssen die sofort wirkenden Aktionen die offenen Feldwerte vor dem Neuaufbau mitspeichern oder ohne Neuaufbau arbeiten."
+   },
+   {
+    "id": "settings-9-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: Ruin-Schwelle und Durchläufe (misc.js:199) sowie 1 R (misc.js:198) sind Expertenwerte. 1 R wird auch vom Schatten-Ich genutzt (shadow.js:13 über App.rUnit) und darf nicht an Geld-blind hängen, wie der Vorschlag richtig sagt. Felder in einem geschlossenen <details> gehen per FormData mit. Für „Mehr Optionen“ fehlen Übersetzungen."
+   },
+   {
+    "id": "settings-9-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: be-reset (misc.js:196, .btn ghost sm) steht auch bei Von 0, Bis 0 und Einheit abs (settings_trading.png y≈533). Die Bedingung passt zu be-reset (misc.js:334)."
+   },
+   {
+    "id": "settings-9-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: settings.instruments wird nur in misc.js:191/332 und im store-Default gelesen und nirgends ausgewertet. Die h3 „Geld-blind-Modus“ und der gleichnamige Schaltertitel stehen direkt untereinander (y≈620/651)."
+   },
+   {
+    "id": "settings-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Fünf Papierkorb-Symbole (.btn ghost icon sm, misc.js:207) bestätigt. Ein Vorbild gibt es: dot-x bei gespeicherten Farben und Designs wird schon nur beim Darüberfahren oder per :focus-visible gezeigt (app.css:466). Eine neue Optik ist das also nicht."
+   },
+   {
+    "id": "settings-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (misc.js:207, hicks-settings-1440-leer_regeln.png). Den Autofokus nur bei feinem Zeiger setzen (matchMedia('(pointer: fine)')), sonst öffnet das Handy beim Betreten des Bereichs sofort die Tastatur."
+   },
+   {
+    "id": "settings-12-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: „Auf Standard zurücksetzen“ ist .btn ghost (misc.js:221) und auch bei Standardwerten sichtbar (settings_notebook.png y≈639). nb-preview (misc.js:343) hängt an allen Selects und an der Checkbox und kann den Knopf freischalten."
+   },
+   {
+    "id": "settings-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Blöcke stimmen (misc.js:160–161, settings_mentor.png y≈587–905). Wirkung auf klein gesenkt: Das ist Lesetext unter dem Formular, keine konkurrierenden Bedienelemente. Die Hauptaktion ist schon heute klar (der Screen steht selbst auf optisch_klar true). Im Aufklappfeld steht auch die Nutzerkennung und der Link zu Coach Mode, das ist vertretbar."
+   },
+   {
+    "id": "settings-13-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Aktion steht in screens/mentor.js:122–126 und liest die Feldwerte direkt. Bei leerer Adresse gibt sie heute schon die Rückmeldung „Bitte eine Adresse mit https:// eintragen.“, der Knopf ist also nicht ganz ohne Sinn. Die Wirkung ist klein."
+   },
+   {
+    "id": "settings-14-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: contentTab startet mit 'kategorien' (misc.js:13), und der Reiter enthält keine einzige Aktion (misc.js:234, settings_inhalte.png). Wirkung auf mittel gesenkt, weil Inhalte selten besucht wird. Für diesen Screen ist es trotzdem die wichtigste Änderung."
+   },
+   {
+    "id": "settings-15-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: „Zurücksetzen“ (.btn sm) steht direkt neben dem Filter und links vom Hauptknopf (hicks-settings-1440-inhalte_tags.png y≈323) und liest sich wie „Filter zurücksetzen“. tags-reset (misc.js:354) fragt aber mit rotem Knopf nach. Ein Fehlklick löscht also nicht sofort, deshalb mittel statt groß."
+   },
+   {
+    "id": "settings-15-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Technisch passend: tag-delete (misc.js:353) samt Nutzungshinweis kann aus dem Dialog aufgerufen werden. Zahl korrigieren: Es gibt 25 Tags (7 Setups, 9 Fehler, 9 Emotionen; store.js:8–11, auch im Screenshot), also 50 Symbolknöpfe statt 52."
+   },
+   {
+    "id": "settings-15-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Wirkung ist fast null: Die Standardliste hat schon 25 Tags (store.js:8–11). Der Zustand „unter 10 Tags“ entsteht nur, wenn jemand Tags gezielt löscht."
+   },
+   {
+    "id": "settings-16-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: Der volle Tabellenkopf (8 th, das letzte ohne Text) steht über dem Leerzustand (misc.js:255, settings_logs.png), ohne Knopf, obwohl die Aktion import existiert (app.js:335). „CSV importieren“ hat schon Übersetzungen. Wirkung auf klein gesenkt, weil Logs selten besucht wird."
+   },
+   {
+    "id": "settings-17-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: „Verlauf leeren“ (.btn sm ghost) steht in der Filterleiste (misc.js:259). Zeilenangabe korrigieren: Die Bestätigung von logs-clear steht in misc.js:360, nicht :363 (dort steht copy-export)."
+   },
+   {
+    "id": "settings-18-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Der Kern stimmt: ui.js:434 nimmt das erste passende Element in Dokument-Reihenfolge, also das X im modal-head. Enter auf dem X schließt den Dialog. In der Aufnahme ist der Ring zu sehen (:focus-visible, app.css:95); mit der Maus zeigt Chrome ihn nach einem Klick meist nicht. Falsch ist „wirkt auf … Trade loggen“: Trade-Editor (app.js:369) und Sprachnotiz (voice.js:74) öffnen mit noFocus: true und sind nicht betroffen.",
+    "beschreibung_neu": "In U.modal (ui.js:434) zuerst das erste sichtbare Feld fokussieren (input:not([type=hidden]):not([type=file]), select, textarea, gefiltert auf offsetParent !== null), sonst `.modal-foot .btn.primary`. Bei Bestätigungen mit .btn.danger im Fuß den [data-close]-Knopf im Fuß, das X nur als letzte Möglichkeit. Felder nur bei feinem Zeiger fokussieren (matchMedia('(pointer: fine)')), sonst springt auf dem Handy im Bottom-Sheet sofort die Tastatur auf. Betroffen sind die Dialoge Konto, Tag, Sicherung einspielen und erstellt, Passwort, 2FA und Bestätigungen. Nicht betroffen sind Trade loggen und Sprachnotiz (noFocus, app.js:369, voice.js:74) sowie „Design speichern“ (eigener Fokus per onMount, misc.js:311)."
+   },
+   {
+    "id": "settings-18-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Doppelt mit settings-8-1 (Löschen im Dialog). Zusammen umsetzen und nicht doppelt zählen."
+   },
+   {
+    "id": "settings-19-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: tag-new ruft tagEditor('setups', null) auf (misc.js:350), die Kategorie ist also immer „Setups“ vorbelegt (hicks-settings-1440-dialog_tag.png). ui().tagFilter enthält genau die KINDS-Schlüssel."
+   },
+   {
+    "id": "settings-19-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Doppelt mit settings-15-2. Zusammen umsetzen."
+   },
+   {
+    "id": "settings-20-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Ausgangslage stimmt: Der Modus wird auf der Seite gewählt (misc.js:65), der Dialog kennt ihn nur über den Titel und das Banner (misc.js:365). Umsetzungshinweis: U.seg erzeugt Knöpfe mit globalem data-action. Für den Dialog braucht es entweder einen lokalen Click-Listener in onMount oder eine registrierte Aktion, die eine Modusvariable setzt. Der Titel wird dann „Sicherung einspielen“, das Banner erscheint erst bei „Ersetzen“. Nebenbefund siehe screen_korrekturen: Das Upload-Symbol in der Ablagefläche hat keine Größe."
+   },
+   {
+    "id": "settings-21-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: Das Textfeld #export-text und „Kopieren“ (.btn) stehen immer sichtbar neben „Fertig“ (.btn.primary, misc.js:362), obwohl sie nur als Notlösung gedacht sind. Für „Download startet nicht?“ fehlt eine Übersetzung."
+   },
+   {
+    "id": "settings-22-1",
+    "bestaetigt": false,
+    "wirkung": 3,
+    "anmerkung": "Die Begründung „damit Enter nichts löscht“ beschreibt kein heutiges Problem: In confirmModal (ui.js:447) liegt der Startfokus auf dem X, das einen [data-close]-Listener mit res(false) hat. Enter bricht also schon heute ab, nichts wird gelöscht. Allein geändert würde nur der Fokusring vom X auf „Abbrechen“ wandern. Als Schutzregel gehört es in 18-1 und ist dort schon enthalten.",
+    "beschreibung_neu": "Kein eigener Vorschlag, sondern Teil von 18-1: Wenn U.modal künftig ohne Feld den primären Fußknopf fokussiert, müssen Bestätigungen mit .btn.danger ausgenommen werden und „Abbrechen“ fokussieren. Sonst würde Enter dann tatsächlich löschen."
+   },
+   {
+    "id": "settings-23-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Dieselbe Änderung wie settings-1-1 (dort ist sie gezählt), nicht getrennt umsetzen. „Überdeckt das E-Mail-Feld“ ist teils ein Effekt der Ganzseiten-Aufnahme: Der Knopf ist position: fixed (app.css:3019, nur ≤560px) und liegt im echten Gebrauch immer über der rechten unteren Ecke des Fensters, also über allem, was dort gerade vorbeiscrollt. Das Problem ist echt, nur der Ort im Screenshot ist zufällig."
+   },
+   {
+    "id": "settings-23-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Bestätigt: In app.js:100 ist stay false, wenn es nur die Seitennavigation (data-subnav='side') gibt. Dann ruft app.js:102 revealActive nicht auf, und die neu aufgebaute Leiste beginnt bei scrollLeft 0 (dark-390/settings_konten.png zeigt Profil, Design, Sprache, Be…, aber nicht Konten). revealActive (app.js:112–116) prüft die Scrollbreite schon selbst, die Zusatzbedingung im Vorschlag ist also überflüssig, schadet aber nicht. Die Seite beginnt weiter oben, wie README.md:360 festlegt."
+   },
+   {
+    "id": "settings-24-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Doppelt mit settings-8-1 (Handy-Fall). Die abgeschnittene Tabelle nach „Währung“ ist bestätigt (dark-390/settings_konten.png). Bearbeiten geht heute nach seitlichem Wischen, unmöglich ist es nicht."
+   },
+   {
+    "id": "settings-25-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Bestätigt: Auf 390 px bricht die Werkzeugleiste in drei Zeilen um (Suche / Filtern nach + Zurücksetzen / Tag hinzufügen), hicks-settings-390-inhalte_tags.png. head() hat schon einen trailing-Parameter (misc.js:14), so wie bei Konten (misc.js:186). Nur im Reiter Tags übergeben."
+   },
+   {
+    "id": "settings-25-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Doppelt mit settings-15-2 (Handy-Fall). Die Spalte „Besch…“ und die Aktionen liegen außerhalb des Bildes, bestätigt."
+   },
+   {
+    "id": "settings-26-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Zusammenfassung von 9-1 und 9-2 für das Handy. Die Aufnahme bestätigt „Speichern“ bei y≈1487 von 1610 und den schwebenden Knopf über dem Geld-blind-Block. Mit der Korrektur aus 9-1 umsetzen (sofort speichern statt Speichern mit Änderungszustand), sonst bleibt der Verlust ungespeicherter Eingaben beim Umschalten bestehen."
+   }
+  ],
+  "screen_korrekturen": "settings-1 (Rahmen): Es gibt 12 Einstellungsbereiche, nicht 13 (SECTIONS in misc.js:6–9 hat 12 Einträge und einen Trenner). „Keines davon wirkt auf eine Einstellung“ stimmt fast. Ausnahme: Die Konto-Auswahl ändert in Trading die angezeigte Einheit (S.currency(), store.js:147) und den 1-R-Hinweis (App.rUnit über allTrades, app.js:47/70). Gespeichert wird global. „Trade loggen“ ist .btn.accent: Fläche wie die anderen Knöpfe, grüner Text und grüner Rand, nicht gefüllt (app.css:3137). Gefüllt ist er nur auf dem Handy als runder Knopf (app.css:3019). Eine Taste N oder 1–6 gibt es nicht, nur Esc (app.js:285). Der Fuß in misc.js:69 und README.md:318 behaupten das Gegenteil.\nsettings-2 (Profil voll): Der Hauptknopf steht am Ende des ersten Blocks (y≈742, im ersten Bild sichtbar), nicht in seiner Mitte. Es sind 14 Bedienelemente ohne Formularfelder (Hochladen, Entfernen, Speichern, Passwort, Checkbox, Privatsphäre-Speichern, Impuls-Schalter, 2FA, 4 Datenknöpfe, Beispieldaten-Entfernen, Alles löschen). „Passwort zurücksetzen“ steht in misc.js:280, nicht :281. Zusätzlicher Befund: faith-toggle (misc.js:282) und avatar-file bauen mit rerender() neu auf, App.rerender (app.js:180) übernimmt keine Feldwerte. Ungespeicherte Eingaben im Profilformular gehen beim Umschalten still verloren.\nsettings-3 (Profil leer): Die Hauptaktion bleibt „Speichern“. Beispieldaten werden einem neuen Nutzer schon im Willkommens-Banner des Dashboards angeboten (dashboard.js:130), hier sind sie nur ein zweiter Weg.\nsettings-5 (Sprache): Hauptaktion und Bewertung stimmen. Nebenbefund außerhalb von Hick: Die gewählte Sprachkarte markiert die Währungspille grün (Rand und Text in Akzentfarbe, app.css:1926). Das widerspricht der Vorgabe „keine grüne Markierung von Auswahl“, ist aber eine Styling-Frage und nicht Teil dieses Audits.\nsettings-8 (Konten): Eine Pille „aktiv“ erscheint nur, wenn ein bestimmtes Konto gewählt ist. Standard ist accountId 'all' (store.js:48), im Screenshot gibt es keine Pille.\nsettings-9 (Trading): Ergänzung zur Begründung: Die sofort wirkenden Aktionen be-mode, be-reset und blind-toggle bauen neu auf und verwerfen ungespeicherte Werte in Tageslimit, Ruin-Schwelle, Durchläufen, Tilt und 1 R. Das ist ein echter Datenverlust, nicht nur Unklarheit.\nsettings-13 (Mentor): „Verbindung testen“ ist bei leerer Adresse nicht wirkungslos, es meldet „Bitte eine Adresse mit https:// eintragen.“ (mentor.js:125).\nsettings-15 (Tags): 25 Tags (7/9/9, store.js:8–11), also 50 Symbolknöpfe statt 26/52.\nsettings-18/19/22 (Dialoge): Der Ring am X ist :focus-visible (app.css:95). Mit Tastatur und in der Aufnahme ist er sichtbar, nach einem Mausklick zeigt Chrome ihn meist nicht. Bei Bestätigungen bricht Enter auf dem X heute schon ab (ui.js:447, res(false)), es wird nichts gelöscht. Trade loggen und Sprachnotiz sind wegen noFocus nicht betroffen.\nsettings-20 (Sicherung einspielen): „Die Ablagefläche ist das größte Element“ stimmt, liegt aber an einem Darstellungsfehler. Für .dropzone svg ist keine Größe gesetzt (app.css:749–750 hat keine svg-Regel), deshalb füllt der Upload-Pfeil die Breite des Dialogs (hicks-settings-1440-dialog_sicherung_ersetzen.png, Pfeil etwa 320 px hoch). Behebung ohne neues Styling: dieselbe Symbolgröße wie in den Leerzuständen (.empty). Dieselbe Klasse nutzen der CSV-Import (app.js:560) und die Screenshot-Flächen im Trade (trades.js:80–81), dort kurz prüfen.\nsettings-23 (Handy): Es sind 12 waagerechte Einträge, nicht 13. Wo der schwebende Knopf im Screenshot sitzt, ist ein Effekt der Ganzseiten-Aufnahme (position: fixed). Im Gebrauch überdeckt er immer die rechte untere Ecke des Fensters.\nFür alle Vorschläge mit neuen Texten („Daten“, „Sicherheit“, „Weitere Angaben“, „Mehr Optionen“, „Download startet nicht?“, „Bilder und Audio einschließen“, „Was passiert genau?“): Die Oberfläche wird anhand der deutschen Texte übersetzt (js/lang/{en,es,pt,zh,hi}.js). Neue Texte brauchen dort Einträge, sonst erscheinen sie in den anderen Sprachen deutsch. „Eigene Farben“ und „CSV importieren“ sind schon vorhanden.\nDuplikate zum Zusammenlegen: 7-1 = 1-3; 8-2 und 23-1 folgen aus 1-1; 18-2 und 24-1 = 8-1; 19-2 und 25-2 = 15-2; 26-1 = 9-1 + 9-2; 22-1 gehört als Schutzregel in 18-1."
+ },
+ "vorgaben": {
+  "urteile": [
+   {
+    "id": "settings-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Hält die Vorgaben ein: nur Verstecken, Vorbild coach.js:219 (alle vier aus), Schatten-Ich und Mentor haben schon kein „Trade loggen“. Die Entscheidung „Zeitraum/Konto/Filter oben rechts“ gilt fürs Dashboard und ist nicht berührt. Taste N gibt es wirklich (app.html:96, nur außerhalb von Feldern und Dialogen). Nur die volle Variante umsetzen: Die Minimalvariante lässt „Trade loggen“ (.btn.accent, auf dem Handy als gefüllter runder Knopf, app.css:3019) neben jedem „Speichern“/„Konto hinzufügen“ (.btn.primary) stehen. Das wären weiter zwei hervorgehobene Knöpfe pro Bereich (Regel 4). Eine laufende Session ist in den Einstellungen dann nicht mehr sichtbar, sie bleibt aber auf Dashboard und TradeLog beendbar."
+   },
+   {
+    "id": "settings-1-2",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "Den Block misc.js:63–69 (Export, Einspielen, Beispieldaten, Alles löschen, Fußzeile) aus profil() in eine neue Funktion daten() verschieben. In SECTIONS (misc.js:8) als letzten Eintrag nach „Logs“ eintragen: ['daten', 'Daten', 'download']. Er steht dann neben den Imports, und die zerstörende Aktion steht ganz am Ende. In render (misc.js:20) daten im Objekt der Bereichsfunktionen ergänzen. Kopf: head('Daten', 'Sicherung, Beispieldaten und Speicherort.'); die h3 „Daten und Sicherung“ fällt weg. Neue Texte („Daten“ und der Untertitel) in js/lang/{en,es,hi,pt,zh}.js eintragen. README.md:23 („Einstellungen → Profil → Daten und Sicherung“) und :171 anpassen. Profil enthält danach nur Angaben, Privatsphäre, Ruhepunkt und Sicherheit.",
+    "anmerkung": "Eine Änderung am Aufbau, laut BRIEF erlaubt, wenn sie begründet ist. Begründung: Profil hat heute 5 Blöcke und rund 17 Bedienelemente. Keine Funktion fällt weg. Auf #/settings/profil verweisen nur Avatar und Konto-Menü (app.js:231, :266), beide meinen das Profil. Es gibt keinen Link auf den Datenblock, also bricht nichts. Die Einstellungen sind vollständig übersetzt, Standardsprache ist Englisch (store.js:48). Jeder neue deutsche Text braucht deshalb Einträge in allen 5 Sprachdateien. Empfehlung zu settings-2-4 und settings-3-1: Im vollen Zustand „Sicherung exportieren“ als einzigen gefüllten Knopf des Bereichs (.btn primary sm) setzen, damit auch „Daten“ eine Hauptaktion hat (Regel 1)."
+   },
+   {
+    "id": "settings-1-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Platzhalter ohne Funktion, die Route bleibt gültig. Damit wird keine Funktion entfernt. README.md:171 (Liste der Bereiche) anpassen. Das ist dieselbe Änderung wie settings-7-1 und wird nur einmal umgesetzt."
+   },
+   {
+    "id": "settings-2-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Ein echter Verstoß gegen Regel 4: Der Platzhalter „2FA aktivieren“ ist so laut wie „Speichern“ (siehe settings_profil.png). Der Vorschlag ist konkret. Neuen Block „Sicherheit“ wie die Datenzeilen bauen (row between: links Titel und Statuszeile, rechts .btn sm). Neue Texte „Sicherheit“ und „Passwort“ in die 5 Sprachdateien eintragen. Danach steht auf Profil genau ein gefüllter Knopf."
+   },
+   {
+    "id": "settings-2-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Die Checkbox „Support-Team Zugriff auf mein Konto erlauben“ (misc.js:60) durch switchRow('Support-Team Zugriff auf mein Konto erlauben', <bisheriger Erklärtext>, 'privacy-toggle', priv.support) ersetzen, im selben Block „Privatsphäre“. Neue Aktion 'privacy-toggle': S.setSetting('privacy', { support: !(S.settings.privacy || {}).support }); rerender(). Das Formular 'save-privacy' (misc.js:283) mit dem zweiten „Speichern“ entfällt. Keine Alternative: Der Schalter folgt der Regel „Schalter wirken sofort“ wie „Christlicher Impuls“ direkt darunter.",
+    "anmerkung": "Die Alternative (Checkbox ins Profilformular) gestrichen, damit der Vorschlag eindeutig ist. Texte bleiben gleich, die Übersetzungen gelten also weiter. Der grüne Schalter ist erlaubt (README.md:203–208: Grün für Schalter)."
+   },
+   {
+    "id": "settings-2-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Regel 3 ist erfüllt, keine Funktion geht verloren. Adresse und Bio werden nur in misc.js gelesen und geschrieben. Für alle neuen Aufklappfelder in den Einstellungen dieselbe vorhandene Form nehmen wie im CSV- und Sicherungsdialog: <details><summary class=\"muted small\" style=\"cursor:pointer\">…</summary> (app.js:560, misc.js:365), also keine neue Optik. Ist das Feld zu, werden die Werte trotzdem mit FormData gespeichert. Den Text „Weitere Angaben“ in die 5 Sprachdateien eintragen."
+   },
+   {
+    "id": "settings-2-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Gilt im neuen Bereich „Daten“ (settings-1-2). Export: ein Knopf „Sicherung exportieren“ (.btn sm, data-action='export'), links daneben <label class=\"check\"><input type=\"checkbox\" id=\"exp-blobs\"> Bilder und Audio einschließen</label> (standardmäßig aus). Die Aktion export (misc.js:362) liest #exp-blobs statt data-blobs. Import: ein Knopf „Sicherung einspielen …“ (.btn sm, data-action='import-backup' ohne data-mode); den Modus wählt man im Dialog (settings-20-1). Beispieldaten: „Laden“ und „Entfernen“ beide als .btn sm, denn eigene Trades, Check-ins und Regeln bleiben erhalten. Rot (.btn sm danger) bleibt allein „Alles löschen“.",
+    "anmerkung": "Die Variante „im Export-Schritt“ gestrichen: Der Download startet sofort, ein Zwischenschritt existiert nicht. Hängt von settings-1-2 und settings-20-1 ab. „Entfernen“ der Beispieldaten fragt heute nicht nach (app.js:334). Die neutrale Stufe ist trotzdem vertretbar, weil sich die Beispieldaten jederzeit neu laden lassen. Neue Texte in die 5 Sprachdateien eintragen. Empfehlung: Im vollen Zustand „Sicherung exportieren“ als .btn primary sm, damit der Bereich eine Hauptaktion hat."
+   },
+   {
+    "id": "settings-2-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Klein, sauber, ohne Risiko. Die Aktion avatar-remove prüft ohnehin, ob ein Bild da ist (misc.js:279)."
+   },
+   {
+    "id": "settings-2-6",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Folgt aus settings-1-2. Beim Verschieben fällt ein Textfehler auf: „1–6 Bereiche“ stimmt nicht mehr. app.html:95 belegt die Tasten 1–9 und 0. Text korrigieren und die Übersetzungen nachziehen, sonst lieber nur verschieben."
+   },
+   {
+    "id": "settings-3-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Einheitlich mit dem leeren Dashboard: Dort ist „Beispieldaten laden“ bereits .btn sm primary (dashboard.js:130), dieselbe Aktion bekommt also dieselbe Stufe. Wirkung gesenkt, weil neue Nutzer diesen Zustand kaum sehen: Beim ersten Start ohne Trades werden die Beispieldaten automatisch geladen (app.html:88). Leer ist die Seite praktisch nur, wenn jemand die Beispieldaten bewusst entfernt hat. „Weitere Datenaktionen“ mit derselben summary-Form wie in settings-2-3 bauen. Alles bleibt erreichbar. Setzt settings-1-2 voraus."
+   },
+   {
+    "id": "settings-3-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Den Beispieldaten-Text (misc.js:66) auf einen sichtbaren Satz kürzen: „Rund 170 Trades (NQ, ES) über vier Monate mit Prop-Konten und Notizen. Jederzeit entfernbar, deine eigenen Daten bleiben erhalten.“ Der übrige Text (Check-ins, Replay-Screenshots, Sprachnotizen, Vorschlagsregeln im Schatten-Ich und was beim Entfernen passiert) kommt unverändert in ein <details><summary class=\"muted small\" style=\"cursor:pointer\">Was passiert genau?</summary>…</details> darunter.",
+    "anmerkung": "Den Satz korrigiert: „Replays“ nicht in den sichtbaren Satz nehmen, weil Blind-Replay per Feature-Flag versteckt bleibt. Der beruhigende Hinweis „eigene Daten bleiben erhalten“ muss sichtbar bleiben, denn er trägt die Entscheidung. Neue Texte in alle 5 Sprachdateien eintragen (Einstellungen sind übersetzt, Standard ist Englisch)."
+   },
+   {
+    "id": "settings-4-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Die drei Einzel-Farbwähler (Gewinn, Verlust, Break-even; .cpick-row in misc.js:146) in ein <details><summary class=\"muted small\" style=\"cursor:pointer\">Eigene Farben</summary> unter dem Paar-Raster legen. „Standardfarben“ kommt nicht mit hinein, sondern bleibt rechtsbündig unter dem Raster außerhalb des Aufklappfelds (siehe settings-4-2). Offen ist das Feld, wenn in den gespeicherten Farben (col = st.colors, nicht cur) profit oder loss gesetzt sind und zu keinem PRESETS_PAIR passen, oder wenn col.be gesetzt ist. Der Öffnungszustand bleibt bei einem Neuaufbau erhalten (z. B. in App.state.settingsUI merken).",
+    "anmerkung": "Die Bedingung korrigiert: Mit cur wäre das Feld im hellen Design immer offen, weil die hellen Standardfarben #0fb862/#e03e3e in keinem PRESETS_PAIR stehen (theme.js:4, :19). Break-even hat kein Paar und ist nur über den Wähler einstellbar. Das ist künftig einen Klick tiefer, bleibt aber erreichbar. Wirkung gesenkt: Es fallen 3 von etwa 31 Auswahlpunkten weg."
+   },
+   {
+    "id": "settings-4-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Bedingung stimmt mit color-reset überein (misc.js:300 setzt alle vier auf ''). Mit settings-4-1 zusammen umsetzen: Der Knopf bleibt als .btn sm ghost rechts unter dem Paar-Raster und außerhalb des Aufklappfelds, weil er auch die Akzentfarbe zurücksetzt. Gemeinsame Regel für alle Bereiche: „Zurücksetzen“-Knöpfe nur bei Abweichung zeigen (4-2, 9-3, 12-1)."
+   },
+   {
+    "id": "settings-4-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "In designsBlock (misc.js:105–110) „Aktuelles speichern“ auf disabled setzen, wenn list.some(d => sigOf(d) === cur) gilt, so wie heute schon bei vollem Speicher. Nicht ausblenden. Die passende Karte ist bereits markiert (aria-pressed), ein weiterer Hinweistext ist nicht nötig.",
+    "anmerkung": "Deaktivieren statt Ausblenden, aus zwei Gründen. Erstens bleibt die Zeile ruhig: Jeder Farbklick baut die Seite neu auf, und ein ausgeblendeter Knopf würde ständig erscheinen und verschwinden. Zweitens bleibt die Regel einheitlich: Speichern-Knöpfe sind deaktiviert, wenn es nichts Neues gibt (9-1, 12-1, 4-3). Zurücksetzen-Knöpfe werden ausgeblendet (4-2, 9-3, 12-1)."
+   },
+   {
+    "id": "settings-4-4",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Die Reihenfolge der Blöcke würde vom Zustand abhängen: Wer unten „Aktuelles speichern“ drückt, sieht den Block nach dem Neuaufbau plötzlich ganz oben. Die Seite springt also genau im Moment der Handlung. README.md:171/200 beschreibt die feste Reihenfolge Erscheinungsbild, Schrift, Farben, Meine Designs. Der Gewinn nach Regel 1 ist gering."
+   },
+   {
+    "id": "settings-5-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Der Vorschlag ändert nur Text und verringert keine Auswahl; der Satz wandert bloß unter die Karten. Dazu kommt ein Risiko: Ausgerechnet auf der Sprachseite fiele der geänderte Untertitel in allen 5 Sprachen auf Deutsch zurück, bis die Sprachdateien nachgezogen sind. Standardsprache ist Englisch."
+   },
+   {
+    "id": "settings-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Unter dem Hauptschalter „Hinweis-Punkte anzeigen“ die sieben Bereichsschalter (App.NAV_DOT_AREAS.map, misc.js:176) in ein <details><summary class=\"muted small\" style=\"cursor:pointer\">Bereiche einzeln wählen</summary> legen. Standardmäßig ist es zu. Offen ist es, wenn mindestens ein Bereich aus ist ODER der Nutzer es in dieser Sitzung geöffnet hat (Zustand in App.state.settingsUI.dotsOpen über das toggle-Ereignis merken). Ist der Hauptschalter aus, fehlt die Liste wie heute.",
+    "anmerkung": "Ergänzt, damit das Feld offen bleibt: navdot-toggle baut die Seite neu auf (misc.js:324). Ohne gemerkten Zustand würde das Feld zuklappen, sobald man den letzten ausgeschalteten Bereich wieder einschaltet, also mitten in der Bedienung. Vorbild für gemerkte Aufklappzustände: prop.js:29 (fold). Den neuen Text in die 5 Sprachdateien eintragen."
+   },
+   {
+    "id": "settings-6-2",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Das ist eine reine Textänderung ohne Reduktion von Auswahl. Der vorgeschlagene Text verliert außerdem Genauigkeit: Aus „mindestens 4 geschlossene Trades bis Sonntag“ würde „ab 4 Trades“. Jede Änderung müsste zudem in 5 Sprachdateien nachgezogen werden."
+   },
+   {
+    "id": "settings-7-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Dieselbe Änderung wie settings-1-3, nur einmal umsetzen."
+   },
+   {
+    "id": "settings-8-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Das <tr> der Konten-Tabelle (misc.js:186) wird <tr class=\"link\" data-action=\"edit-account\" data-id=\"…\">, mit der vorhandenen Klasse für klickbare Zeilen wie im TradeLog (trades.js:49). Der Stift bleibt für die Tastatur, der Papierkorb fällt in der Tabelle weg. In accountEditor (misc.js:268) steht beim Bearbeiten und bei mehr als einem Konto im modal-foot vorn: <button type=\"button\" class=\"btn danger left\" data-action=\"delete-account\" data-id=\"…\">${I.trash} Löschen</button>. Das ist dasselbe Muster wie im Prop-Konto-Dialog (prop.js:204). delete-account (misc.js:330) ruft nach der Bestätigung U.closeModal(true) vor rerender() auf, so wie prop.js:336.",
+    "anmerkung": "Für die Einheitlichkeit korrigiert: In der App gibt es für „Löschen im Bearbeiten-Dialog“ schon ein Muster, nämlich .btn danger left mit Papierkorb und „Löschen“ (prop.js:204). Der vorgeschlagene .btn ghost „Konto löschen“ wäre eine zweite Form für dieselbe Aktion. Ohne closeModal(true) bliebe nach dem Löschen der Bearbeiten-Dialog mit dem gelöschten Konto offen."
+   },
+   {
+    "id": "settings-8-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Keine eigene Änderung, sondern eine Folge von settings-1-1. Zusammen umsetzen."
+   },
+   {
+    "id": "settings-9-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "„Speichern“ (misc.js:201) bleibt .btn primary, ist aber disabled, solange im Formular 'save-trading' nichts geändert wurde. Ein input-Listener am Formular, nur für die Felder from, to, blindRUnit, dailyLossLimitPct, ruinDrawdownPct, mcRuns und tiltWarnings, schaltet ihn frei. Daneben erscheint <span class=\"small muted\">Ungespeicherte Änderungen</span>. Chips, Einheit %/Währung, Geld-blind und Zurücksetzen wirken weiter sofort und schalten den Knopf nicht frei. Nach dem Speichern baut rerender die Seite neu auf, der Knopf ist dann wieder deaktiviert. Dasselbe Muster gilt für alle Formulare mit „Speichern“ in den Einstellungen: Profil, Notebook (settings-12-1) und Mentor.",
+    "anmerkung": "Die zweite Variante (alles sofort speichern, ohne Knopf) gestrichen. Sonst wäre der Vorschlag nicht eindeutig, und sie widerspräche der Regel aus den Hinweisen: Formulare mit Feldern haben „Speichern“. Wirkung gesenkt: Der Knopf bleibt unter dem Falz, gewonnen wird vor allem Klarheit über das Speichermodell. Der neue Text braucht Übersetzungen."
+   },
+   {
+    "id": "settings-9-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Im Block „Risiko und Warnungen“ (misc.js:199–200) bleiben Tagesverlustlimit und Tilt-Warnungen sichtbar. „Ruin-Schwelle Monte Carlo“, „Monte-Carlo-Durchläufe“ und „1 R entspricht (optional)“ (heute misc.js:198 im Geld-blind-Block) kommen darunter in ein <details><summary class=\"muted small\" style=\"cursor:pointer\">Mehr Optionen</summary>. Offen ist es, wenn ruinDrawdownPct ≠ 30, mcRuns ≠ 1000 oder blindRUnit > 0 (Standardwerte aus store.js:48). Am Formular einen invalid-Listener in der Capture-Phase anhängen, der das umgebende <details> öffnet (form.addEventListener('invalid', e => { const d = e.target.closest('details'); if (d) d.open = true; }, true)).",
+    "anmerkung": "Ergänzt um zwei Punkte. Erstens die Öffnungsbedingung, damit abweichende Werte nicht unsichtbar wirken. Zweitens ein Schutz vor stillen Fehlern: Die Felder haben step/min/max (z. B. se-runit step=1, se-ruin step=5). Ein ungültiger Wert in einem zugeklappten Feld würde das Absenden durch die Browser-Prüfung blockieren, ohne dass der Nutzer sieht warum (das submit-Ereignis feuert erst nach der Prüfung, app.js:284). Die Bezeichnung „Mehr Optionen“ passt zum Trade-loggen-Dialog. Der Warnhinweis zu 1 R und Schatten-Ich ist korrekt."
+   },
+   {
+    "id": "settings-9-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Bedingung stimmt mit dem Standard überein (store.js:48: mode 'abs', from 0, to 0). Das passt zur Regel „Zurücksetzen nur bei Abweichung“ (4-2, 12-1)."
+   },
+   {
+    "id": "settings-9-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Den Block „Was handelst du?“ (misc.js:193) aus dem Formular 'save-trading' herausnehmen und als eigenen set-block hinter das Formular setzen, also nach „Speichern“. Die Chips speichern weiter sofort (instrument-toggle). Die h3 „Geld-blind-Modus“ (misc.js:197) bleibt.",
+    "anmerkung": "Nur der erste Teil wird bestätigt. Die Auswahl wird nirgends ausgewertet (nur misc.js:191/332 und der Standardwert in store.js) und steht heute an erster Stelle. Ans Ende des Formulars direkt über „Speichern“ wäre falsch: Dann stünden sofort wirksame Chips unmittelbar über dem Knopf, der sie nicht betrifft. „Mehr Optionen“ im Risiko-Block passt inhaltlich nicht. Die h3 bleibt, weil jeder set-block der Einstellungen mit einer h3 beginnt, auch wenn der Schaltertitel ähnlich lautet (vgl. „Sprachjournal“/„Audio behalten“). Ohne h3 wäre dieser Block der einzige ohne Überschrift."
+   },
+   {
+    "id": "settings-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Das Muster gibt es schon und es ist einheitlich: .dot-x und .design-wrap .dot-x erscheinen bei :hover und :focus-visible, auf Touch-Geräten (hover: none) immer (app.css:463–467, :1831). Dieselbe Deckkraft und denselben Übergang verwenden. Bei Konten und Tags wandert Löschen in den Dialog. Regeln haben keinen Bearbeiten-Dialog, deshalb ist das Einblenden beim Darüberfahren hier die passende Entsprechung. Optional dasselbe für den Papierkorb in Logs/Imports (misc.js:255)."
+   },
+   {
+    "id": "settings-11-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Der Leerzustand besteht heute schon aus einem Satz, einem Feld und einem Knopf, und die gestrichelte Box ist das übliche Leer-Muster der App (z. B. Abo). Der neue Satz wiederholt den Platzhalter des Felds. Den automatischen Fokus beim Seitenaufbau nicht umsetzen: Auf dem Handy würde beim Öffnen von „Regeln“ sofort die Tastatur aufspringen. Außerdem bräuchte der neue Text Übersetzungen."
+   },
+   {
+    "id": "settings-12-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Einheitlich mit 9-1 und 4-2/9-3: Speichern ist deaktiviert bis zur Änderung, Zurücksetzen erscheint nur bei Abweichung. Abweichung lässt sich so prüfen: ['h1','h2','h3','body','strike'].some(k => nb[k] !== NB_DEFAULT[k]). nb-preview hängt schon an allen Selects und an der Checkbox (misc.js:213, :220) und kann den Knopf freischalten."
+   },
+   {
+    "id": "settings-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Texte stehen unter dem Formular und konkurrieren kaum mit der Hauptaktion, daher Wirkung gesenkt. Für das Aufklappfeld dieselbe summary-Form wie in settings-2-3 nehmen. Die Nutzerkennung und der Link zum Coach Mode bleiben im Aufklappfeld erreichbar. Texte bleiben gleich, die Übersetzungen gelten weiter."
+   },
+   {
+    "id": "settings-13-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "mentor-test liest die Feldwerte direkt (screens/mentor.js:123). Ohne Adresse käme heute nur die Fehlermeldung „Bitte eine Adresse mit https:// eintragen“. Deaktivieren ist einheitlich mit dem Speichern-Muster aus 9-1."
+   },
+   {
+    "id": "settings-14-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Regel 1 ist richtig angewendet: Die Aktion des Bereichs liegt heute hinter einem Klick, der Standardreiter dient nur zum Lesen. Wirkung auf 2 gesenkt, weil es nur ein Unterbereich ist. Der Reiterzustand bleibt in App.state.settingsUI erhalten. Keine neuen Texte."
+   },
+   {
+    "id": "settings-15-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Einheitlich mit settings-17-1: Massenaktionen, die etwas zerstören, stehen unter der Tabelle als .btn ghost sm, mit der vorhandenen Bestätigung (misc.js:354). Wirkung auf 2 gesenkt: Der Knopf ist schon umrandet, Regel 4 ist also nur schwach verletzt. Das eigentliche Problem ist die missverständliche Lage neben dem Filter. Den neuen Text „Tags auf Standardliste zurücksetzen“ in die 5 Sprachdateien eintragen."
+   },
+   {
+    "id": "settings-15-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Das <tr> der Tag-Tabelle (misc.js:239) wird <tr class=\"link\" data-action=\"tag-edit\" data-kind=\"…\" data-value=\"…\">, mit der vorhandenen Klasse für klickbare Zeilen. Der Stift bleibt, der Papierkorb fällt in der Tabelle weg. In tagEditor (misc.js:245) steht beim Bearbeiten (name gesetzt) im modal-foot vorn: <button type=\"button\" class=\"btn danger left\" data-action=\"tag-delete\" data-kind=\"…\" data-value=\"…\">${I.trash} Löschen</button>, wie prop.js:204. tag-delete (misc.js:353) ruft nach der Bestätigung U.closeModal(true) vor rerender() auf.",
+    "anmerkung": "Für die Einheitlichkeit an das vorhandene Lösch-Muster in Dialogen angeglichen (.btn danger left statt .btn ghost) und an tr.link (trades.js:49). closeModal(true) ist nötig, sonst bleibt der Bearbeiten-Dialog des gelöschten Tags offen."
+   },
+   {
+    "id": "settings-15-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Suche und „Filtern nach“ (misc.js:238) nur weglassen, wenn es gar keine Tags gibt (alle drei Listen leer) und weder Suche noch Filter aktiv ist. Dann zeigt der Reiter nur U.empty('tag', 'Noch keine Tags', <ein Satz>) mit „+ Tag hinzufügen“. Sonst bleibt die Werkzeugleiste wie sie ist.",
+    "anmerkung": "Die Schwelle „mehr als etwa 10“ gestrichen. Sie ist willkürlich, und eine Werkzeugleiste, die beim 11. Tag erscheint, wirkt unruhig. Die Standardliste hat ohnehin 25 Tags (store.js:9–11). Übrig bleibt die Regel für leere Listen, einheitlich mit TradeLog leer. Neue Texte übersetzen."
+   },
+   {
+    "id": "settings-16-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Einheitlich: „CSV importieren“ ist überall .btn sm (TradeLog leer trades.js:45, Dashboard-Banner dashboard.js:130). U.empty nimmt den Knopf als viertes Argument an (ui.js:178). Wirkung gesenkt: Logs ist ein selten besuchter Bereich."
+   },
+   {
+    "id": "settings-17-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Einheitlich mit settings-15-1. Kleine Korrektur am Beleg: Die Bestätigung von logs-clear steht in misc.js:360, nicht in :363."
+   },
+   {
+    "id": "settings-18-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "In U.modal (ui.js:434) das X im Kopf beim Startfokus überspringen. Reihenfolge: (1) bei feiner Zeigersteuerung (matchMedia('(pointer: fine)')) das erste sichtbare Feld (.modal input:not([type=hidden]):not([type=file]), select, textarea mit offsetParent !== null); (2) gibt es im Fuß einen .btn.danger, dann den [data-close]-Knopf im .modal-foot („Abbrechen“); (3) sonst .modal-foot .btn.primary; (4) erst zuletzt den ersten Knopf. o.noFocus und eigene Fokussierung per onMount bleiben vorrangig. Auf Touch-Geräten also keine Textfelder fokussieren, damit die Tastatur nicht über dem Bottom-Sheet aufspringt.",
+    "anmerkung": "Den Beleg korrigiert: „Trade loggen“ und der Sprachnotiz-Dialog setzen noFocus: true (app.js:369, voice.js:74), sie sind also NICHT betroffen. Betroffen sind Konto, Tag, Sicherung, Bestätigungen, Hinweise und CSV-Import. Die Ausnahme für Touch ergänzt. Ohne sie würde auf dem Handy jeder Formulardialog sofort die Tastatur öffnen. Mit dem Dialog-Agenten abstimmen, die Änderung wirkt in der ganzen App."
+   },
+   {
+    "id": "settings-18-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Wie settings-8-1: beim Bearbeiten und bei mehr als einem Konto im modal-foot vorn <button type=\"button\" class=\"btn danger left\" data-action=\"delete-account\" data-id=\"…\">${I.trash} Löschen</button> (Muster prop.js:204). Nach der Bestätigung U.closeModal(true).",
+    "anmerkung": "Gleiche Änderung wie settings-8-1 und settings-24-1. Die Stufe ist an das vorhandene Lösch-Muster in Dialogen angeglichen."
+   },
+   {
+    "id": "settings-19-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Spart eine unnötige Entscheidung, keine Risiken. ui().tagFilter ist '' oder ein gültiger KINDS-Schlüssel."
+   },
+   {
+    "id": "settings-19-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Wie settings-15-2: beim Bearbeiten (name gesetzt) im modal-foot von tagEditor vorn <button type=\"button\" class=\"btn danger left\" data-action=\"tag-delete\" data-kind=\"…\" data-value=\"…\">${I.trash} Löschen</button> (Muster prop.js:204). Nach der Bestätigung U.closeModal(true).",
+    "anmerkung": "Gleiche Änderung wie settings-15-2 und settings-25-2."
+   },
+   {
+    "id": "settings-20-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Auf der Seite gibt es nur noch „Sicherung einspielen …“ (.btn sm, data-action='import-backup' ohne data-mode). Der Dialog heißt „Sicherung einspielen“. Über der Ablagefläche steht U.seg([['merge','Zusammenführen'],['replace','Ersetzen']], 'merge', 'bk-mode'). Die neue Aktion 'bk-mode' setzt el.closest('.modal').dataset.mode, aktualisiert aria-pressed im Segment und blendet das vorhandene Warnbanner („Alle vorhandenen Daten werden ersetzt“) nur bei 'replace' ein (Banner immer rendern, mit der Klasse hidden umschalten). run() liest den Modus erst beim Einspielen aus m.dataset.mode (Standard 'merge').",
+    "anmerkung": "Konkretisiert, wie das Segment im Dialog angeschlossen wird: U.seg löst globale Aktionen aus, und der Modus wird erst beim Einspielen gelesen. „Zusammenführen“ als sichere Vorgabe ist richtig. Der Fehler mit dem rund 300 px großen Upload-Symbol (.dropzone svg ohne Größe) wird getrennt behoben. Neue Texte übersetzen."
+   },
+   {
+    "id": "settings-21-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Für die Einheitlichkeit dasselbe in U.downloadText (ui.js:459) umsetzen. Dieser Dialog hat dieselbe Notlösung mit Textfeld und Kopieren-Knopf. Sonst verhalten sich die beiden Download-Dialoge unterschiedlich. Für das Aufklappfeld die summary-Form aus misc.js:365 nehmen. Den neuen Text „Download startet nicht?“ übersetzen."
+   },
+   {
+    "id": "settings-22-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von settings-18-1, zusammen umsetzen. Kleine Korrektur am Beleg: pw-reset steht in misc.js:280, nicht in :281."
+   },
+   {
+    "id": "settings-23-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Folgt direkt aus settings-1-1, keine eigene Umsetzung. Auf dem Handy ist der runde Knopf gefüllt (app.css:3019), damit stehen heute zwei gefüllte grüne Knöpfe auf jeder Formularseite. Belegt durch dark-390/settings_profil.png: Der Knopf liegt über dem E-Mail-Feld."
+   },
+   {
+    "id": "settings-23-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Eigentlich eine Fehlerbehebung für die Orientierung, kein Thema der 5 Regeln. Sie widerspricht README.md:360 nicht, denn dort geht es um den Seiten-Scroll, nicht um die Leiste. Ohne Risiko: revealActive tut nichts, wenn die Leiste nicht waagerecht scrollt (app.js:112). Auf dem Desktop bleibt das Menü also unverändert. Den Aufruf für data-subnav='side' unabhängig von stay einbauen."
+   },
+   {
+    "id": "settings-24-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Gleiche Änderung wie settings-8-1 (tr.link, Löschen als .btn danger left im Dialog). Auf dem Handy der größte Gewinn, weil die Aktionsspalte heute außerhalb des Bildes liegt."
+   },
+   {
+    "id": "settings-25-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "„+ Tag hinzufügen“ (.btn sm primary, data-action='tag-new') als trailing an head('Inhalte', …) übergeben (misc.js:241), auf beiden Reitern, wie „Konto hinzufügen“ (misc.js:186). In der Werkzeugleiste (misc.js:238) bleiben nur Suche und Filter. „Zurücksetzen“ kommt unter die Tabelle (settings-15-1). Das gilt für Desktop und Handy.",
+    "anmerkung": "Einheitlich gemacht: Die Hauptaktion eines Bereichs steht immer im Bereichskopf, wie bei Konten. Auf beiden Reitern, damit der Kopf beim Reiterwechsel gleich bleibt. Der Beleg nennt misc.js:248, der Kopf steht aber in :241."
+   },
+   {
+    "id": "settings-25-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Gleiche Änderung wie settings-15-2 (tr.link, Löschen als .btn danger left im Dialog)."
+   },
+   {
+    "id": "settings-26-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Fasst settings-9-1, settings-9-2 und settings-1-1 für das Handy zusammen. Mit deren präzisierten Beschreibungen umsetzen: Speichern deaktiviert bis zur Änderung (eine Variante), Öffnungsbedingung und invalid-Listener für „Mehr Optionen“."
+   }
+  ],
+  "screen_korrekturen": "settings-3 (Profil leer): Neue Nutzer sehen diesen Zustand praktisch nie. Beim ersten Start ohne Trades werden die Beispieldaten automatisch geladen (app.html:88). Der Zustand entsteht nur, wenn jemand die Beispieldaten bewusst entfernt hat. Deshalb ist die Wirkung hier klein.\nsettings-18 (modal_konto): Laut Begründung und Hinweis 1 trifft die Fokus-Korrektur auch „Trade loggen“. Das stimmt nicht: Der Trade-Dialog (app.js:369) und der Sprachnotiz-Dialog (voice.js:74) setzen noFocus: true. Betroffen sind Konto, Tag, Sicherung, Bestätigungen, Hinweise und CSV-Import.\nsettings-1 (Rahmen): Die Aufnahmen sind uneinheitlich. Auf settings_profil.png und settings_trading.png stehen Zeitraum und Konto oben in der Titelzeile, auf settings_konten.png und inhalte_tags in der Kopfreihe. Mit settings-1-1 erledigt sich das.\nFür alle Bereiche: In den Einstellungen gibt es noch keine bindende Regel, wie man Löschen im Dialog darstellt. Es gibt aber schon ein Muster: .btn danger left mit Papierkorb und „Löschen“ (prop.js:204), Schließen mit closeModal(true) (prop.js:336). Konto- und Tag-Dialoge sollen es übernehmen. Klickbare Zeilen nutzen tr.link (trades.js:49).\nRegel für Speichern und Zurücksetzen in allen Bereichen: Speichern-Knöpfe sind deaktiviert, wenn es nichts zu speichern gibt (9-1, 12-1, 4-3, 13-2). Zurücksetzen-Knöpfe erscheinen nur bei Abweichung (4-2, 9-3, 12-1).\nAufklappfelder: Alle neuen Aufklappfelder in den Einstellungen nutzen die vorhandene Form <details><summary class=\"muted small\" style=\"cursor:pointer\"> (app.js:560, misc.js:365). Der Öffnungszustand bleibt über App.state.settingsUI erhalten, denn viele Aktionen bauen die Seite neu auf.\nÜbersetzungen: Die Einstellungen sind vollständig übersetzt (README.md:183), Standardsprache ist Englisch (store.js:48). Jeder neue oder geänderte deutsche Text braucht Einträge in js/lang/{en,es,hi,pt,zh}.js, sonst erscheint er deutsch.\nKleine Fehler in den Belegen: logs-clear steht in misc.js:360 (nicht :363), pw-reset in :280 (nicht :281), head('Inhalte') in :241 (nicht :248)."
+ }
+}

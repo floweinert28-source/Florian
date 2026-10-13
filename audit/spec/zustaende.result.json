@@ -1,0 +1,194 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/zustaende.md",
+ "ids_abgedeckt": [
+  "bereich_dashboard-6",
+  "zustaende-3",
+  "bereich_training-6",
+  "zustaende-2",
+  "bereich_prop-14",
+  "bereich_prop-2",
+  "bereich_einstellungen-1",
+  "bereich_shell-3",
+  "bereich_statistik-1",
+  "diagramme-5",
+  "zustaende-4",
+  "bereich_konto-15",
+  "bereich_konto-14",
+  "zustaende-8",
+  "wording-46",
+  "wording-47",
+  "hierarchie-18",
+  "barrierefreiheit-20",
+  "zustaende-34",
+  "diagramme-38",
+  "zustaende-19",
+  "responsiv-43",
+  "zustaende-35",
+  "zustaende-23",
+  "bereich_dashboard-13",
+  "barrierefreiheit-6",
+  "bereich_dashboard-30",
+  "bereich_notebook_news-40",
+  "zustaende-40",
+  "zustaende-17",
+  "zustaende-18",
+  "typografie-22",
+  "farbe_kontrast-29",
+  "farbe_kontrast-23",
+  "bereich_training-19",
+  "zustaende-12",
+  "wording-30",
+  "bereich_prop-15",
+  "bereich_prop-6",
+  "bereich_prop-3",
+  "bereich_training-42",
+  "farbe_kontrast-4",
+  "bereich_einstellungen-38",
+  "komponenten-5",
+  "farbe_kontrast-17",
+  "farbe_kontrast-25",
+  "farbe_kontrast-30",
+  "bereich_shell-4",
+  "bereich_statistik-24",
+  "bereich_statistik-23",
+  "bereich_statistik-22",
+  "bereich_shell-7",
+  "zustaende-27",
+  "zustaende-22",
+  "bereich_trades_tag-28",
+  "bereich_konto-44",
+  "bereich_trades_tag-48",
+  "bereich_trades_tag-44",
+  "zustaende-39",
+  "bewegung-13",
+  "zustaende-16",
+  "komponenten-15",
+  "bereich_notebook_news-33",
+  "bereich_notebook_news-24",
+  "bereich_dashboard-34",
+  "zustaende-13",
+  "zustaende-11",
+  "diagramme-27",
+  "typografie-15",
+  "bereich_prop-27",
+  "bereich_prop-45",
+  "referenz-36",
+  "bereich_einstellungen-39",
+  "bereich_statistik-46",
+  "bereich_shell-10",
+  "zustaende-24",
+  "zustaende-37"
+ ],
+ "ids_zurueckgestellt": [
+  {
+   "id": "typografie-15",
+   "grund": "Nur Teilvorschlag: prop.js:256 „erreicht“ → „0,00 €“ und die Regel „in Wertfeldern nur Zahlen“ entfallen. „Erreicht“ in Grün ist ein echter positiver Zustand; den Fall ohne Ausgaben löst bereich_prop-14. Der Fortschritt-Teil wird umgesetzt."
+  },
+  {
+   "id": "zustaende-4",
+   "grund": "Nur Teilvorschlag: Kein Umbau von null auf Infinity. Das würde Verlaufsdiagramme, JSON/Coach-Sync, Score und certdata brechen. Die Einzeilen-Korrektur in core.js:131/134 wird umgesetzt."
+  },
+  {
+   "id": "diagramme-38",
+   "grund": "Nur Teilvorschlag: spark (ui.js:316) und equity mit einem Punkt (ui.js:290) bleiben ohne Text, ein Satz in Tabellenzeilen wäre Rauschen. h120 für den rollierenden Edge entfällt, ersetzt durch bereich_statistik-24."
+  },
+  {
+   "id": "zustaende-18",
+   "grund": "Nur Teilvorschlag: Gemeinsames errorState mit festem Titel, Co.OFFLINE/HTTP_ERR, Statuscode nur in der Konsole und Erneut-Knopf in .mentor-err werden nicht umgesetzt (falsch bei 401/404, falsch über sichtbaren Coach-Karten, mentor-reload irreführend, Abhängigkeit der Ladereihenfolge)."
+  },
+  {
+   "id": "barrierefreiheit-20",
+   "grund": "Nur Teilvorschlag: Kein zweiter Container role=alert (würde den ersten überdecken und doppelt ansagen) und kein Symbol im Toast (Zusatzschmuck, der Text trägt den Zustand)."
+  },
+  {
+   "id": "komponenten-5",
+   "grund": "Nur Teilvorschlag: Sofort-Speichern nur für Trading. Notebook (Vorschau, dann Speichern) und Privatsphäre sind in sich einheitlich."
+  },
+  {
+   "id": "zustaende-39",
+   "grund": "Nur Teilvorschlag: Der News-Countdown wird nicht auf fmt.dur umgestellt. Er ist ein Satz mit eigenen Übersetzungsmustern, und zwei Prüfer haben das abgelehnt."
+  },
+  {
+   "id": "bereich_notebook_news-40",
+   "grund": "Nur Teilvorschlag: Keine Anzeige „Heute, 14:30“ ab 6 h, weil README Z. 114 einen Countdown festlegt. Die Kalendertag-Rechnung wird umgesetzt."
+  },
+  {
+   "id": "bereich_dashboard-34",
+   "grund": "Nur Teilvorschlag: Kein Präfix „Größe“ (Geschmack). Stattdessen title=„Kontogröße“."
+  },
+  {
+   "id": "bewegung-13",
+   "grund": "Nur Teilvorschlag: Keine Animation bei „Bewegung reduzieren“ (README Z. 342). Die Kurslinie an coach.js:28 wird durch ein Skelett ersetzt (zustaende-17)."
+  },
+  {
+   "id": "bereich_statistik-46",
+   "grund": "Nur Teilvorschlag: Das Symbol sparkle bleibt, weil es das Check-in-Symbol der App ist (day.js:12, 16)."
+  },
+  {
+   "id": "bereich_shell-4",
+   "grund": "Nur Teilvorschlag: Der Titel-Versatz durch den sichtbaren Menüknopf und „Skelett zeigt immer Dashboard“ bleiben hier offen (eigener Befund bzw. bewusst offen)."
+  },
+  {
+   "id": "wording-30",
+   "grund": "Nur Teilvorschlag: Kein Label „Abstand zum Boden“, keine eigene compact-Regel und kein „· Limit …“ in bar(). Die Stellenzahl regelt zustaende-23 global."
+  },
+  {
+   "id": "hierarchie-18",
+   "grund": "Nur Teilvorschlag: Kein zusätzlicher „Trade loggen“-Knopf im Leerzustand, das wäre doppelt."
+  },
+  {
+   "id": "bereich_konto-44",
+   "grund": "Nur Teilvorschlag: Kein zweiter Kopieren-Knopf im Leerzustand, der Einladungslink steht direkt darüber."
+  },
+  {
+   "id": "zustaende-35",
+   "grund": "Nur Teilvorschlag: Die Pager-Pfeile im TradeLog bleiben nur farblich deaktiviert, weil sie in einer gemeinsamen Knopfgruppe stehen."
+  },
+  {
+   "id": "zustaende-34",
+   "grund": "Nur Teilvorschlag: Das Token --lift-shadow bleibt, landing.css:56 nutzt es."
+  },
+  {
+   "id": "zustaende-3",
+   "grund": "Nur Teilvorschlag: Kein novalidate an allen Formularen und keine Fußzeile „2 Angaben fehlen“ (komponenten-4, widerspricht README Z. 44). Andere Formulare behalten die native Prüfung mit unterdrückter Blase."
+  }
+ ],
+ "konflikte": [
+  "K1 Dashboard-Leerzustand (wording-46/bereich_dashboard-13/ki_look-15): Karten zeigen nur einen Titel je Lage (leeres Journal, Filter, Zeitraum), keinen Satz. Seiten-Leerzustände tragen den Satz.",
+  "K2 Leerer Kachelwert (wording-47/bereich_dashboard-13): neue Variante .nodata.dash mit „—“ und .vh-Text, .tile .nodata bleibt für Textmeldungen, Gewicht 500.",
+  "K3 Bedingung leeres Journal: App.allTrades()/rawAll statt S.data.trades. Das Dashboard reicht raw und filtered an die Widgets.",
+  "K4 Diagramm-Leerzustand: eine Komponente U.chartEmpty; spark und equity mit einem Punkt bleiben leer.",
+  "K5 Rollierender Edge: bereich_statistik-24 (Textzeile statt Diagramm) statt diagramme-38 (h120).",
+  "K6 Fortschritt-Hero (7 Befunde): „0 %“ in muted, Regeltreue ohne Daten „—“, kein Pfeil ohne Vergleich, kein Bogen bei 0.",
+  "K7 Regel-Karte Fortschritt: .dashed ohne Link plus ein Kopf-Knopf mit wechselnder Beschriftung (zustaende-13 + bereich_training-19).",
+  "K8 Formularprüfung: nur das Trade-Formular bekommt novalidate, die übrigen behalten die native Prüfung über einen globalen invalid-Listener.",
+  "K9 Fehlerfarbe: Feldfehler --loss, Systemfehler in Warn-Optik; .mentor-err wechselt von Rot auf Warn.",
+  "K10 Toasts: ein Container beim Start, Längenformel aus zustaende-19, Pause beim Darüberfahren, kein Symbol.",
+  "K11 Coach lädt: Skelett (zustaende-17) statt Kurslinie mit Text (bewegung-13); Text nur im Coach-Fuß.",
+  "K12 News-Countdown: Kalendertage, unter 6 h relativ, am selben Tag Stunden, Großschreibung; kleine Datumszeile bleibt.",
+  "K13 Dauer: fmt.dur für Messwerte, Satzform für den Countdown; „T“ bleibt.",
+  "K14 Prop-Balken: keine eigene compact-Regel, Label bleibt; bei Rest > Limit ohne „von“, „Boden fest“ nur bei locked.",
+  "K15 Zertifikat-Standardtag zentral in certificate.js menuHTML statt lokal im Dashboard.",
+  "K16 Coach-Abgleich: Neuzeichnen im finally von runSync statt .then in sync().",
+  "K17 Tags: „Tags auf Standard zurücksetzen“ statt „Standard-Tags wiederherstellen“ („Wiederherstellen“ ist schon Papierkorb).",
+  "K18 Speicherart: Sofort-Speichern nur für Trading (Fakten-Fassung); bereich_einstellungen-1 zusätzlich für Profil und Mentor.",
+  "K19 Filter-Knopf: Klasse .btn.is-on statt .btn.on (Kollision mit widgets.js:223).",
+  "K20 „Heute“ im Kalender: Unterstreichung statt Ring (das Band verdeckt den Ring).",
+  "K21 Deaktiviert: Pager bleibt farblich, Ruhepunkt bekommt das Token.",
+  "K22 Kachel-Hover: wird entfernt, motiontest wird umgekehrt (nicht dokumentiert, Commit 970d7b1).",
+  "K23 Hover der Sprachkarte: --text-2 wie font-card/pair-card statt --muted.",
+  "K24 TradeLog „offen“: Strich in .faint (Status-Pille sagt Offen); in der CSV-Vorschau das Wort in .muted.",
+  "K25 Check-in: „Löschen“ statt „Entfernen“, spezifische Rückfragetexte.",
+  "K26 README Z. 77 und Z. 224 widersprechen BRIEF (grüne Auswahl); BRIEF gilt, die README wird angepasst.",
+  "K27 Duplikate zusammengeführt; responsiv-43/bereich_shell-7 schon durch Commit aa9f1c6 behoben (nur Prüfung).",
+  "K28 Bilanz „erreicht“ bleibt grün bei echtem Erfolg; nur der Fall ohne Ausgaben wird „—“ (bereich_prop-14)."
+ ],
+ "kurz": "Ich habe die Zielspezifikation für „Zustände und Randfälle“ geschrieben. Sie deckt alle 77 Befunde ab, in Abschnitt 3 nach Datei geordnet (app.css Tokens → Komponenten → Einzelstellen, dann ui.js, core.js, widgets.js, app.js, app.html, Screens, lang, Tests, README).\n\nKern:\n- Leerzustände in vier Stufen mit Wortlaut-Glossar; „—“ als leerer Kennzahlwert.\n- Keine grüne Auswahl mehr: Kalender, Reiter, Filter-Knopf, Regelkarten, Sprach-Chip.\n- Ein Token für Deaktiviert (--disabled-o: .4), kein Hover auf deaktivierten Knöpfen.\n- Feldfehler am Feld statt englischer Browser-Blase und Toast-Kette.\n- Toast-Container als Live-Region, längere Anzeige bei langen Meldungen und Fehlern.\n- Skelette statt Spinner; das Start-Skelett übernimmt Hell-Design und eingeklappte Leiste.\n- Rückfrage vor jedem endgültigen Löschen.\n- Kein Datenverlust beim Umschalten in den Einstellungen; Trading speichert sofort.\n- Logik-Randfälle korrigiert: Prop-Ampel und tote Konten, ∞ bei nur Verlusttagen, Zertifikat-Standardtag, News in Kalendertagen, Zeitzone, Kacheln folgen Suche und Filter.\n\n28 Konflikte sind entschieden. Die beiden Größen-Listener-Befunde (responsiv-43, bereich_shell-7) sind schon durch Commit aa9f1c6 behoben. Mehrere Teilvorschläge sind mit Grund zurückgestellt. Eine Frage an dich: Die TradeLog-Tabelle soll bei wenigen Trades kürzer sein dürfen; das ändert README Z. 103–107.",
+ "nutzer_fragen": [
+  {
+   "id": "zustaende-37",
+   "frage": "Darf die Trade-Tabelle im TradeLog bei wenigen Trades kürzer sein als das Fenster (`.tl-fit > .tbl-wrap.paged { flex: 0 1 auto }`), sodass der Seitenwähler direkt unter der letzten Zeile steht? README Z. 103–107 legt heute fest: „füllt genau das Fenster“.",
+   "empfehlung": "Ja. Der Kern bleibt: Die Seite scrollt nicht, der Seitenwähler ist immer sichtbar, lange Listen füllen weiter das Fenster. Danach README Z. 103–107 ergänzen. Seitenwähler nur bei mehreren Seiten und Zähler nur bei aktivem Filter werden ohnehin umgesetzt."
+  }
+ ]
+}

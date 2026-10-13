@@ -1,0 +1,1324 @@
+{
+ "anker": [
+  {
+   "anker": "App.userCard",
+   "schritte": [
+    {
+     "nr": "aufbau-B3",
+     "gruppe": "aufbau",
+     "titel": "Avatar nur bis 960 px, Initialen aus App.userName()",
+     "von": 322,
+     "bis": 328,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-B4",
+     "gruppe": "aufbau",
+     "titel": "Konto-Menü: neue Reihenfolge und Markierung",
+     "von": 329,
+     "bis": 343,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P5",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+     "von": 596,
+     "bis": 607,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P7",
+     "gruppe": "barrierefreiheit",
+     "titel": "Konto-Karte: Disclosure statt role=menu, Label/title nur eingeklappt, Avatar aria-hidden",
+     "von": 616,
+     "bis": 624,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A1",
+     "gruppe": "komponenten",
+     "titel": "Seitenleiste ohne doppelte System-Tooltips; eingeklappt App-Tooltip rechts",
+     "von": 529,
+     "bis": 537,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A2",
+     "gruppe": "komponenten",
+     "titel": "Ein Anzeigename App.displayName() für Avatar und Konto-Karte; „Profil ergänzen“",
+     "von": 538,
+     "bis": 552,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.1-5.2",
+     "gruppe": "wording",
+     "titel": "app.js: Navigationsgruppe „Prop Trading“, Konto-Karte „Profil ergänzen“",
+     "von": 349,
+     "bis": 354,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A3",
+     "gruppe": "zustaende",
+     "titel": "App.userInfo(): eine Namens-/Initialenquelle für Avatar oben und Konto-Karte",
+     "von": 540,
+     "bis": 552,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "data-tip",
+   "schritte": [
+    {
+     "nr": "aufbau-B10",
+     "gruppe": "aufbau",
+     "titel": "Balken-Tooltip (vbars) mit Summe bei Ø pro Trade",
+     "von": 366,
+     "bis": 369,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-U1",
+     "gruppe": "barrierefreiheit",
+     "titel": "U.info rendert <button type=\"button\" class=\"info\"> mit aria-label",
+     "von": 397,
+     "bis": 403,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-U6b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Balken-Tooltips über transparente .tip-hit-Flächen über den Balken (vbars, hbars)",
+     "von": 509,
+     "bis": 515,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-widgets-84-93",
+     "gruppe": "barrierefreiheit",
+     "titel": "Streupunkte-Strich 16 px, dbars-Tooltips über .tip-hit-Flächen",
+     "von": 724,
+     "bis": 725,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C14",
+     "gruppe": "diagramme",
+     "titel": "drawers.hbars: Wertachse unten mit xLabels, Namen kürzen, Anzahl in rechter Spalte, Pfad-Balken, leere Fächer",
+     "von": 468,
+     "bis": 481,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A1",
+     "gruppe": "komponenten",
+     "titel": "Seitenleiste ohne doppelte System-Tooltips; eingeklappt App-Tooltip rechts",
+     "von": 529,
+     "bis": 537,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.2c",
+     "gruppe": "responsiv",
+     "titel": "U.chip mit optionalem data-tip",
+     "von": 416,
+     "bis": 416,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR1",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt-Hero: „0 %“ in muted, Regeltreue ohne Daten „—“, Trendpfeil nur mit Vorzeitraum und Tooltip",
+     "von": 695,
+     "bis": 702,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.topbar",
+   "schritte": [
+    {
+     "nr": "aufbau-B3",
+     "gruppe": "aufbau",
+     "titel": "Avatar nur bis 960 px, Initialen aus App.userName()",
+     "von": 322,
+     "bis": 328,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P8",
+     "gruppe": "barrierefreiheit",
+     "titel": "Titelzeile: Menüknopf aria-controls, Avatar aria-label „Profil“, Initialen aria-hidden",
+     "von": 625,
+     "bis": 629,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A2",
+     "gruppe": "komponenten",
+     "titel": "Ein Anzeigename App.displayName() für Avatar und Konto-Karte; „Profil ergänzen“",
+     "von": 538,
+     "bis": 552,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A3",
+     "gruppe": "zustaende",
+     "titel": "App.userInfo(): eine Namens-/Initialenquelle für Avatar oben und Konto-Karte",
+     "von": 540,
+     "bis": 552,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#sidebar",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-H2",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste als <nav aria-label=\"Hauptnavigation\"> statt <aside>",
+     "von": 525,
+     "bis": 529,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P1",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)",
+     "von": 530,
+     "bis": 564,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P5",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+     "von": 596,
+     "bis": 607,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3c",
+     "gruppe": "responsiv",
+     "titel": "Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)",
+     "von": 432,
+     "bis": 440,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#tb-tools",
+   "schritte": [
+    {
+     "nr": "abstaende-R4",
+     "gruppe": "abstaende",
+     "titel": "headtest: neuer Fall Dashboard → Statistik → 800 → 1440, Kontext-Leiste in der Kopfreihe, #tb-tools leer",
+     "von": 523,
+     "bis": 523,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/e2e/headtest.js"
+     ]
+    },
+    {
+     "nr": "aufbau-B3",
+     "gruppe": "aufbau",
+     "titel": "Avatar nur bis 960 px, Initialen aus App.userName()",
+     "von": 322,
+     "bis": 328,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-D4",
+     "gruppe": "zustaende",
+     "titel": "Größen-Listener im Dashboard: bereits erledigt (Commit aa9f1c6), nur prüfen",
+     "von": 504,
+     "bis": 506,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.renderSidebar",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P5",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+     "von": 596,
+     "bis": 607,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A1",
+     "gruppe": "komponenten",
+     "titel": "Seitenleiste ohne doppelte System-Tooltips; eingeklappt App-Tooltip rechts",
+     "von": 529,
+     "bis": 537,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3c",
+     "gruppe": "responsiv",
+     "titel": "Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)",
+     "von": 432,
+     "bis": 440,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#main",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P1",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)",
+     "von": 530,
+     "bis": 564,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P5",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+     "von": 596,
+     "bis": 607,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3c",
+     "gruppe": "responsiv",
+     "titel": "Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)",
+     "von": 432,
+     "bis": 440,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "inert",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P5",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+     "von": 596,
+     "bis": 607,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-prop-friedhof-132-166",
+     "gruppe": "barrierefreiheit",
+     "titel": "Grabstein: verdeckte Seite inert, Fokus auf Umdrehen-Knopf bei Tastatur",
+     "von": 863,
+     "bis": 872,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3c",
+     "gruppe": "responsiv",
+     "titel": "Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)",
+     "von": 432,
+     "bis": 440,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".boot-top .skel.av",
+   "schritte": [
+    {
+     "nr": "aufbau-B3",
+     "gruppe": "aufbau",
+     "titel": "Avatar nur bis 960 px, Initialen aus App.userName()",
+     "von": 322,
+     "bis": 328,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B11",
+     "gruppe": "responsiv",
+     "titel": "Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)",
+     "von": 372,
+     "bis": 380,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "NAV_GROUPS",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P5",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+     "von": 596,
+     "bis": 607,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.1-5.2",
+     "gruppe": "wording",
+     "titel": "app.js: Navigationsgruppe „Prop Trading“, Konto-Karte „Profil ergänzen“",
+     "von": 349,
+     "bis": 354,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".avatar",
+   "schritte": [
+    {
+     "nr": "komponenten-A2",
+     "gruppe": "komponenten",
+     "titel": "Ein Anzeigename App.displayName() für Avatar und Konto-Karte; „Profil ergänzen“",
+     "von": 538,
+     "bis": 552,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sb-who span",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S5.1-5.2",
+     "gruppe": "wording",
+     "titel": "app.js: Navigationsgruppe „Prop Trading“, Konto-Karte „Profil ergänzen“",
+     "von": 349,
+     "bis": 354,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sb-av",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P7",
+     "gruppe": "barrierefreiheit",
+     "titel": "Konto-Karte: Disclosure statt role=menu, Label/title nur eingeklappt, Avatar aria-hidden",
+     "von": 616,
+     "bis": 624,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sb-av-dot",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P7",
+     "gruppe": "barrierefreiheit",
+     "titel": "Konto-Karte: Disclosure statt role=menu, Label/title nur eingeklappt, Avatar aria-hidden",
+     "von": 616,
+     "bis": 624,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-E1f",
+     "gruppe": "komponenten",
+     "titel": "e2e: Hinweis-Punkte über aria-label statt title prüfen",
+     "von": 762,
+     "bis": 762,
+     "cluster": "shell",
+     "dateien": [
+      "web/e2e/navdottest.js",
+      "web/e2e/coachtest.js",
+      "web/e2e/sidebartest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "S.settings.profile",
+   "schritte": [
+    {
+     "nr": "wording-S17.11-17.12",
+     "gruppe": "wording",
+     "titel": "Server-Reiter: Kopf „Server“ mit neuem Untertitel, Nutzerkennung mit Herkunft, Absatz 4 gekürzt",
+     "von": 590,
+     "bis": 591,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A3",
+     "gruppe": "zustaende",
+     "titel": "App.userInfo(): eine Namens-/Initialenquelle für Avatar oben und Konto-Karte",
+     "von": 540,
+     "bis": 552,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sb-user",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P7",
+     "gruppe": "barrierefreiheit",
+     "titel": "Konto-Karte: Disclosure statt role=menu, Label/title nur eingeklappt, Avatar aria-hidden",
+     "von": 616,
+     "bis": 624,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A1",
+     "gruppe": "komponenten",
+     "titel": "Seitenleiste ohne doppelte System-Tooltips; eingeklappt App-Tooltip rechts",
+     "von": 529,
+     "bis": 537,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.chip",
+   "schritte": [
+    {
+     "nr": "responsiv-3.2c",
+     "gruppe": "responsiv",
+     "titel": "U.chip mit optionalem data-tip",
+     "von": 416,
+     "bis": 416,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.7",
+     "gruppe": "responsiv",
+     "titel": "TradeLog: Kernspalten am Handy (PH), Filterzeile tl-filters/tl-count, Setup-Chip mit Tooltip",
+     "von": 477,
+     "bis": 489,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.8",
+     "gruppe": "responsiv",
+     "titel": "Trades des Tages: Kernspalten am Handy, day-tbl statt Inline-Mindestbreite",
+     "von": 490,
+     "bis": 496,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8l",
+     "gruppe": "typografie",
+     "titel": "Friedhof: Chips mit join(' ') verbinden (K23)",
+     "von": 437,
+     "bis": 437,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T4",
+     "gruppe": "zustaende",
+     "titel": "TradeLog-Tabelle: fehlende Werte (Geschlossen, Ausstieg, Setup) als „—“ in .faint",
+     "von": 651,
+     "bis": 654,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "hoverLine",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U6b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Balken-Tooltips über transparente .tip-hit-Flächen über den Balken (vbars, hbars)",
+     "von": 509,
+     "bis": 515,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C8",
+     "gruppe": "diagramme",
+     "titel": "hoverLine mit Bandskala (Parameter band)",
+     "von": 404,
+     "bis": 407,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C9",
+     "gruppe": "diagramme",
+     "titel": "drawers.pnl: Bandskala bei Säulen, keine Gradienten, Pfad-Balken .55, flache Flächen nur ohne Säulen",
+     "von": 408,
+     "bis": 420,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C11",
+     "gruppe": "diagramme",
+     "titel": "drawers.line (Kontostand): weich, zweifarbig an Startkapital, Bezugslinie 4 3 mit Beschriftung",
+     "von": 426,
+     "bis": 439,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "drawers.vbars",
+   "schritte": [
+    {
+     "nr": "aufbau-B10",
+     "gruppe": "aufbau",
+     "titel": "Balken-Tooltip (vbars) mit Summe bei Ø pro Trade",
+     "von": 366,
+     "bis": 369,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-U6b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Balken-Tooltips über transparente .tip-hit-Flächen über den Balken (vbars, hbars)",
+     "von": 509,
+     "bis": 515,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U4b",
+     "gruppe": "zustaende",
+     "titel": "Leerzweige der Diagramm-Zeichner auf U.chartEmpty umstellen (pnl, line, vbars, hbars, rolling, mc, hist, weeks; equity/spark bleiben leer)",
+     "von": 408,
+     "bis": 414,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "enterAnim",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U6b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Balken-Tooltips über transparente .tip-hit-Flächen über den Balken (vbars, hbars)",
+     "von": 509,
+     "bis": 515,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C6",
+     "gruppe": "diagramme",
+     "titel": "Einzug: Pfad-Balken nicht zeichnen, gestrichelte Linien einblenden, Staffel auf .br",
+     "von": 391,
+     "bis": 394,
+     "cluster": "bewegung",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fmt.pct",
+   "schritte": [
+    {
+     "nr": "typografie-3.8g",
+     "gruppe": "typografie",
+     "titel": "Kachel „Win-Rate mit / ohne Fehler“ mit einer Nachkommastelle (K20)",
+     "von": 431,
+     "bis": 431,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR1",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt-Hero: „0 %“ in muted, Regeltreue ohne Daten „—“, Trendpfeil nur mit Vorzeitraum und Tooltip",
+     "von": 695,
+     "bis": 702,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".trend",
+   "schritte": [
+    {
+     "nr": "aufbau-C11a",
+     "gruppe": "aufbau",
+     "titel": "Fortschritt: Pfeil mit Tooltip in Prozentpunkten, „0 / 5 Schritte erledigt“",
+     "von": 543,
+     "bis": 549,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR1",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt-Hero: „0 %“ in muted, Regeltreue ohne Daten „—“, Trendpfeil nur mit Vorzeitraum und Tooltip",
+     "von": 695,
+     "bis": 702,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "drawers.hbars",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U6b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Balken-Tooltips über transparente .tip-hit-Flächen über den Balken (vbars, hbars)",
+     "von": 509,
+     "bis": 515,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U4b",
+     "gruppe": "zustaende",
+     "titel": "Leerzweige der Diagramm-Zeichner auf U.chartEmpty umstellen (pnl, line, vbars, hbars, rolling, mc, hist, weeks; equity/spark bleiben leer)",
+     "von": 408,
+     "bis": 414,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.drawers.hbars",
+   "schritte": [
+    {
+     "nr": "diagramme-C14",
+     "gruppe": "diagramme",
+     "titel": "drawers.hbars: Wertachse unten mit xLabels, Namen kürzen, Anzahl in rechter Spalte, Pfad-Balken, leere Fächer",
+     "von": 468,
+     "bis": 481,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S1.4-1.7",
+     "gruppe": "wording",
+     "titel": "ui.js Diagramm-Tooltips: Zähler über U.count, „Trefferquote“, Ruin-Schwelle kompakt",
+     "von": 299,
+     "bis": 303,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".menu-btn",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Handy: Menüknopf, Avatar, Schubladen-× unsichtbar auf 44 px (::after)",
+     "von": 372,
+     "bis": 376,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P6",
+     "gruppe": "barrierefreiheit",
+     "titel": "Schublade: Fokus auf „Menü schließen“ beim Öffnen, closeSidebar mit Fokus-Rückgabe an den Menüknopf",
+     "von": 608,
+     "bis": 615,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P8",
+     "gruppe": "barrierefreiheit",
+     "titel": "Titelzeile: Menüknopf aria-controls, Avatar aria-label „Profil“, Initialen aria-hidden",
+     "von": 625,
+     "bis": 629,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C10",
+     "gruppe": "komponenten",
+     "titel": "Menü-Knopf nur am Handy",
+     "von": 256,
+     "bis": 259,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3c",
+     "gruppe": "responsiv",
+     "titel": "Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)",
+     "von": 432,
+     "bis": 440,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.render",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P1",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)",
+     "von": 530,
+     "bis": 564,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "bewegung-3.5a",
+     "gruppe": "bewegung",
+     "titel": "App.render: M.scan nur beim echten Seitenwechsel, Kommentare Z. 75 und 98–99 anpassen",
+     "von": 312,
+     "bis": 314,
+     "cluster": "bewegung",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3d",
+     "gruppe": "responsiv",
+     "titel": "App.edgeFade für Wischleisten, Aufrufe in render() und im Resize-Listener",
+     "von": 441,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-D4",
+     "gruppe": "zustaende",
+     "titel": "Größen-Listener im Dashboard: bereits erledigt (Commit aa9f1c6), nur prüfen",
+     "von": 504,
+     "bis": 506,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#content",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-H1",
+     "gruppe": "barrierefreiheit",
+     "titel": "Sprunglink „Zum Inhalt springen“ als erstes Kind von .shell",
+     "von": 519,
+     "bis": 524,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P1",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)",
+     "von": 530,
+     "bis": 564,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P10",
+     "gruppe": "barrierefreiheit",
+     "titel": "Aktion skip-content und Live-Regionen beim Start (bind) anlegen",
+     "von": 635,
+     "bis": 639,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-TE2",
+     "gruppe": "zustaende",
+     "titel": "Test dashtest.js:143–144: leeres Dashboard mit „—“-Kacheln, Karten-Titel „Noch keine Trades“, ohne „Mehr anzeigen“",
+     "von": 878,
+     "bis": 878,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/e2e/dashtest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sidebar",
+   "schritte": [
+    {
+     "nr": "abstaende-D1",
+     "gruppe": "abstaende",
+     "titel": "Seitenleiste: Dichte-@media hinter .sidebar .spacer verschieben, .sidebar ohne Polster oben, .brand so hoch wie die Titelzeile, Trennlinie .sb-sep bei y = 71 über volle Breite (auch mini), Konto-Karte .sb-userwrap sticky",
+     "von": 364,
+     "bis": 368,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-H2",
+     "gruppe": "barrierefreiheit",
+     "titel": "Seitenleiste als <nav aria-label=\"Hauptnavigation\"> statt <aside>",
+     "von": 525,
+     "bis": 529,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    },
+    {
+     "nr": "responsiv-B1",
+     "gruppe": "responsiv",
+     "titel": "Seitenleiste Desktop: Dichte-Blöcke hinter die Grundregeln, klebende Konto-Karte",
+     "von": 254,
+     "bis": 260,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B2",
+     "gruppe": "responsiv",
+     "titel": "Schublade ≤ 960 px: Safe Area, visibility nach Animation, Schließen-Knopf 40×40, Dichte bei niedriger Höhe",
+     "von": 261,
+     "bis": 268,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nav a.active",
+   "schritte": [
+    {
+     "nr": "farbe-B22",
+     "gruppe": "farbe",
+     "titel": "Aktive Navigationseinträge: helle Seitenleiste mit --surface/--border-2, Einstellungs-Menü mit inset-Rand",
+     "von": 328,
+     "bis": 331,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3c",
+     "gruppe": "responsiv",
+     "titel": "Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)",
+     "von": 432,
+     "bis": 440,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "unmount",
+   "schritte": [
+    {
+     "nr": "abstaende-F1",
+     "gruppe": "abstaende",
+     "titel": "Dashboard: Routen-Sperre als erste Anweisung in place() (zweite Sicherung des Größen-Listeners, unmount() bleibt)",
+     "von": 392,
+     "bis": 396,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-D4",
+     "gruppe": "zustaende",
+     "titel": "Größen-Listener im Dashboard: bereits erledigt (Commit aa9f1c6), nur prüfen",
+     "von": 504,
+     "bis": 506,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "aria-hidden",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-prop-friedhof-132-166",
+     "gruppe": "barrierefreiheit",
+     "titel": "Grabstein: verdeckte Seite inert, Fokus auf Umdrehen-Knopf bei Tastatur",
+     "von": 863,
+     "bis": 872,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C7",
+     "gruppe": "diagramme",
+     "titel": "nameChart: role=img und aria-label (data-label oder Kartentitel) nach jedem Zeichnen",
+     "von": 395,
+     "bis": 403,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pg-stone",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-prop-friedhof-132-166",
+     "gruppe": "barrierefreiheit",
+     "titel": "Grabstein: verdeckte Seite inert, Fokus auf Umdrehen-Knopf bei Tastatur",
+     "von": 863,
+     "bis": 872,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "kilook-C5",
+     "gruppe": "kilook",
+     "titel": "Prop-CSS: veraltete Kommentare, .prop-unv/.prop-highlights/Gravur-Variablen/wirkungslose text-shadow/.prop-grave-kv löschen",
+     "von": 557,
+     "bis": 578,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pg-back",
+   "schritte": [
+    {
+     "nr": "abstaende-D7",
+     "gruppe": "abstaende",
+     "titel": "Grabstein-Rückseite: padding-inline var(--sp-8)",
+     "von": 374,
+     "bis": 374,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-prop-friedhof-132-166",
+     "gruppe": "barrierefreiheit",
+     "titel": "Grabstein: verdeckte Seite inert, Fokus auf Umdrehen-Knopf bei Tastatur",
+     "von": 863,
+     "bis": 872,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".boot-head",
+   "schritte": [
+    {
+     "nr": "responsiv-B11",
+     "gruppe": "responsiv",
+     "titel": "Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)",
+     "von": 372,
+     "bis": 380,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.17",
+     "gruppe": "responsiv",
+     "titel": "Skelett im HTML: Platzhalter für Menüknopf (skel mb) und viertes Kopfreihen-Symbol (skel m)",
+     "von": 545,
+     "bis": 549,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/app.html"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "gruppe": "zustaende",
+     "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+     "von": 367,
+     "bis": 389,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

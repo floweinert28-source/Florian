@@ -1,0 +1,2289 @@
+{
+ "regeln": "A-1 Werteachse links über U.axisLeft(ticks, y, ml, W, mr, fmtFn): Geld fmt.axisCur (voller Betrag ohne Nachkommastellen, „2.000 €“, Geld-blind R), R fmt.r, % fmt.pct(v, 0). Keine Kurzformen („2k“, „−250“ ohne Einheit); curShort in ui.js entfällt (widgets.js:41 bleibt). ml = axisWidth(Beschriftungen), mr = 12, hbars mr = 44.\nA-2 niceTicks: erster Strich floor(min/s)·s, letzter ceil(max/s)·s; nichts ragt darüber.\nA-3 Senkrecht: Beschriftung entfällt bei < 14px Abstand (Gitterlinie bleibt). Waagerecht: Breite = Zeichen × 6,2 + 4px, entfällt bei < 10px Abstand zur vorigen, Rand nach innen. vbars: jede step-te Kategorie, step = ceil((längster Name × 6,6 + 8) / Fachbreite). Wochen: every = ceil(44 / Fachbreite) ab jüngster (immer beschriftet). Kein rotate(.\nA-4 Uhrzeit: Schritt = kleinster aus [15, 30, 60, 120, 180, 240, 360] min mit ≤ 6 Strichen, „09:00“. Haltedauer: HOLD_TICKS; < 2 im Bereich → 3 Striche (Anfang/Mitte/Ende) mit fmt.dur, < 1 min „{n} s“; Tooltip behält durLabel.\nA-5 Mo–Fr immer, Sa/So bis zum letzten belegten; Uhrzeit/Haltedauer alle Fächer zwischen erstem und letztem belegten; Uhrzeit-Fächer 1 h („18–19“, „19–20“). Leeres Fach: kein Balken, Name --faint, transparentes Trefferfeld „<b>{Name}</b>: Keine Trades“. groupTable ohne leere Fächer.\nA-6 Achsenwerte/„n×“ 11px/400 --muted, Onest (Sammelregel app.css:1800), tabular-nums, eine .chart text-Regel (app.css:1648 weg). hbars-Namen 12px/400 --text-2, „Ohne …“ --muted, leer --faint, gekürzt maxCh = max(6, floor((ml − 14) / 6,8)) + „…“ + data-tip. .chart text.bv 11px --text-2. .chart text.lbl 11px in Linienfarbe, paint-order: stroke; stroke: var(--surface); stroke-width: 3px. „n×“ bei x = W − 4 rechtsbündig. Legende 12px/400 --text-2 Satoshi.\nA-7 Gitter 1px durchgezogen --border, crispEdges; Nulllinie 1px --border-2. Gestrichelt nur Bezugslinien (1px \"4 3\") und Schatten-Ich (2,2px \"5 4\"). Alle Verlaufslinien über U.smooth (auch Kontostand, Drawdown). Stärken: 2,2 Haupt, 2 Spark/Drawdown/Rolling, 1 MC-Pfade, 2 Median.\nA-8 pnl, spark, Kontostand (Bezug Startkapital) per clipPath geteilt: oben --profit, unten --loss; End-/Hover-Punkt in Abschnittsfarbe. Neutral (Anzahlen, Provisionen, Trefferquote-Reihe, Rolling, MC-Pfade, Schatten-Ich): Haupt --text, Neben --text-2; Mengenbalken --text-2 .45. Score: U.scoreColor. Break-even immer --be, nie Serienfarbe. --accent nur Score-Netz und Regel-Tracker. MC laut Farbe: Pfade --text-2 .22, Histogramm --text-2 .45, ab Ruin --loss .9. Report-Standard ['#2f80d0', '#b4549f', '#c0702f'], alte Standards beim Lesen ersetzt (#3d6bff→#2f80d0, #f5a53a→#b4549f, #4fd1a5→#c0702f), nur #rrggbb. Heatmap color-mix(in srgb, var(--text) 14/26/38/50/62 %, var(--surface-2)), Heute 0 0 0 2px var(--text-2). Tracker-Legende = Zellen-Selektoren (25/45/70/100 % bleiben). Info-Texte ohne Farbnamen.\nA-9 Fläche nur zwischen Linie und Nulllinie, flach: Gewinn .12, Verlust .16 (auch Drawdown). Kein linearGradient in ui.js/widgets.js. Keine Fläche bei Säulen im Diagramm und beim Rolling.\nA-10 Balken <path class=\"br\"> via U.vbarPath/U.hbarPath, Nulllinie gerade, Wertende r = min(3, Breite/2, Länge), kein <rect rx>. Deckkraft .85 allein, .55 unter Linie, Score .85, Menge --text-2 .45. Mittig im Fach, nie über den Plotrand. Mindestlänge vbars/hbars/Affiliate 2px, pnl/dbars 1,5px, Report 1px. Wochen: text.bv über Säule ab Fachbreite ≥ 22px, oben 16px.\nA-11 Nie zwei y-Achsen: Spuren übereinander, 100 % | 62/38 % | 50/25/25 %, 14px Abstand; je Spur niceTicks (< 100px: 3, sonst 5) und eigene linke Achse, mit Balken eigene Nulllinie; Datumsachse nur unten; Hover über volle Höhe; erste Einheit oben.\nA-12 .chart-legend oben links über .chart: 12px/400 --text-2, Punkt 8px rund, 6px Abstand, gap 16px, margin 0 0 8px; i.dash 14px, 2px dashed --text-2. Nur ab 2 Reihen; Bezugslinien direkt beschriftet. .legend nur für Fieldsets.\nA-13 Zählerpaare nur bei > 0 pos/neg; Tabellen-Zählspalten nie. .bar-row .bl > b Onest, tabular-nums, 700, „· n×“ 400. Prop Rest > Limit: „{Rest} über dem Boden“, Tooltip „Boden bei {Betrag}“/„Boden fest bei {Betrag}“, Balken voll. Trade-Notiz „Trade-Details“ mit .kv „Einstieg → Ausstieg“, „Kontrakte“, „R-Multiple“, „Brutto-P&L“, „Gebühren“; Tagesnotiz Sparkline ab 3 abgeschlossenen Trades, sonst Kennzahlen volle Breite. Ring 64×64px, Strich 6px, U.scoreColor(rate·100), kein Schein, kein Bogen bei 0/ohne Wert, Rand 96px. Ranking: Balken nur bei Verstoß, sonst „Ohne Verstöße: A, B“, keiner → „Keine Verstöße“.\nA-14 „Kumulierter Netto-P&L“ überall; ein Punkt je Handelstag; Statistik-Karte mit Titel, ohne Legende, nur mit abgeschlossenen Trades.\nA-15 MC: Median --text 2px, „Median {fmt.axisCur}“ = mc.final.p50; „0 · 25 · 50 Trades“; Histogramm niceTicks(0, maxP, 4) %; Ruin-Linie gestrichelt bei ruinPct ≤ maxP, „Ruin ab 30 %“; „Ruin-Schwelle 17.500 €“.\nA-16 Radar-Schrift 11 × k, k = clamp(viewBox-Breite / gerenderte Breite, 1, 1,4), bei Zeichnen und Resize.\nA-17 .chart svg role=\"img\" + aria-label (data-label/Kartentitel), sonst aria-hidden=\"true\"; Heatmap role=\"img\" aria-label=\"Trading-Aktivität\".\nA-18 Fläche endet mit der Linie (Zeiten Bewegung B6/K7); gestrichelte Linien blenden ein (ar); .br wachsen von der Nulllinie; text.bv nach dem Wachsen.\nGlossar: „Boden“ (Prop), „Ruin-Schwelle“ nur MC, „Startkapital“, „Median“, „R-Multiple“, „Trefferquote“. Neue Texte in js/lang/{en,es,pt,hi,zh}.js, alter Schlüssel ersetzt. Vorher→nachher: Z. 147–165.",
+ "schritte": [
+  {
+   "nr": "diagramme-A1",
+   "titel": "Diagrammtext: eine .chart text-Definition, neu .chart text.bv und .chart text.lbl, alte Regel Z. 1647–1648 löschen (inkl. Abschnittskopf 3 und Reihenfolge)",
+   "von": 279,
+   "bis": 293,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chart text",
+    ".chart text.bv",
+    ".chart text.lbl",
+    "--muted",
+    "--text-2",
+    "--surface"
+   ],
+   "befund_ids": [
+    "typografie-29",
+    "diagramme-9",
+    "diagramme-25"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 2: grep -c '^\\.chart text {' web/css/app.css → 1"
+   ]
+  },
+  {
+   "nr": "diagramme-A2",
+   "titel": "Gitter und Nulllinie durchgezogen, crispEdges; Strichelung Z. 1323 löschen",
+   "von": 294,
+   "bis": 298,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chart .grid line",
+    ".chart .zero",
+    "--border",
+    "--border-2"
+   ],
+   "befund_ids": [
+    "diagramme-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 2: grep -n 'stroke-dasharray: 3' web/css/app.css → leer"
+   ]
+  },
+  {
+   "nr": "diagramme-A3",
+   "titel": "Einzug-Selektoren rect.br → .br, neu text.bv nach dem Wachsen (Zeiten aus Bewegung B6)",
+   "von": 299,
+   "bis": 304,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chart svg.enter rect.br",
+    ".chart svg.enter .br",
+    ".chart svg.enter .br.dn",
+    ".chart svg.enter text.bv",
+    ".chart svg.enter path.ar",
+    ".chart svg.enter polygon.ar",
+    "--dur-2",
+    "--dur-3",
+    "--ease"
+   ],
+   "befund_ids": [
+    "diagramme-11",
+    "diagramme-25",
+    "bewegung-2"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/headtest.js:48 (O4)",
+    "web/e2e/headtest.js:52 nutzt ebenfalls rect.br (in der Spezifikation nicht genannt, prüfen)",
+    "web/e2e/chartanimtest.js"
+   ]
+  },
+  {
+   "nr": "diagramme-A4",
+   "titel": "Neue Legendenklasse .chart-legend; .legend.top/.legend.rep (Z. 1649–1651) löschen",
+   "von": 305,
+   "bis": 315,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chart-legend",
+    ".chart-legend span",
+    ".chart-legend i",
+    ".chart-legend i.dash",
+    ".legend.top",
+    ".legend.rep",
+    ".legend.rep i",
+    ".legend"
+   ],
+   "befund_ids": [
+    "diagramme-14",
+    "bereich_training-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 4"
+   ]
+  },
+  {
+   "nr": "diagramme-A5",
+   "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+   "von": 316,
+   "bis": 320,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".activity i.l1",
+    ".activity i.l2",
+    ".activity i.l3",
+    ".activity i.l4",
+    ".activity i.l5",
+    ".heat-legend i.l1",
+    ".heat-legend i.l2",
+    ".heat-legend i.l3",
+    ".heat-legend i.l4",
+    ".heat-legend i.l5",
+    ".activity i.today",
+    "--text",
+    "--surface-2",
+    "--accent"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-21",
+    "diagramme-23"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 11, Sonde 20"
+   ]
+  },
+  {
+   "nr": "diagramme-A6",
+   "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+   "von": 321,
+   "bis": 328,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tracker i.l1",
+    ".tracker i.l2",
+    ".tracker i.l3",
+    ".tracker i.l4",
+    ".heat-legend.right i.l1",
+    ".heat-legend.right i.l2",
+    ".heat-legend.right i.l3",
+    ".heat-legend.right i.l4",
+    "--accent"
+   ],
+   "befund_ids": [
+    "diagramme-24"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A5"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-A7",
+   "titel": "Regeltreue-Ring CSS: Rand 96px, drop-shadow streichen, Handy-Regel kürzen",
+   "von": 329,
+   "bis": 333,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card.ring-card > .big-stat",
+    ".card.ring-card > .small",
+    ".ring-arc .arc",
+    ".card.ring-card",
+    ".ring-abs",
+    "--accent-glow"
+   ],
+   "befund_ids": [
+    "bereich_training-7",
+    "diagramme-26"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 9",
+    "web/e2e/headtest.js:55, :57 (.ring-arc .arc) prüfen"
+   ]
+  },
+  {
+   "nr": "diagramme-A8a",
+   "titel": "Beträge in Balkenzeilen: .bar-row .bl > b Onest/tabular-nums, Zusatz .muted 400",
+   "von": 334,
+   "bis": 335,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".bar-row .bl > b",
+    ".bar-row .bl > b .muted",
+    "--font-num",
+    "U.barRow"
+   ],
+   "befund_ids": [
+    "bereich_training-30"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-A8b",
+   "titel": "Neue Klasse .shadow-clean (Abstand der Zeile „Ohne Verstöße“)",
+   "von": 336,
+   "bis": 337,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".shadow-clean"
+   ],
+   "befund_ids": [
+    "bereich_training-30"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-A9",
+   "titel": "Notiz-Statistik ohne Diagramm: .nb .stats-grid.solo einspaltig",
+   "von": 338,
+   "bis": 340,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .stats-grid.solo",
+    ".nb .stats-grid"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-B1",
+   "titel": "core.js: Uhrzeit-Fächer 1 h (18–19, 19–20), padGroups, timeAnalysis lückenlos",
+   "von": 341,
+   "bis": 352,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "HOUR_BUCKETS",
+    "hourBucket",
+    "padGroups",
+    "C.timeAnalysis",
+    "C.groupBy",
+    "C.regimeAnalysis",
+    "WEEKDAYS",
+    "HOLD_BUCKETS"
+   ],
+   "befund_ids": [
+    "diagramme-12",
+    "bereich_statistik-15"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": [
+    "node --test web/tests/core.test.mjs",
+    "Akzeptanz grep 8, Sonde 19"
+   ]
+  },
+  {
+   "nr": "diagramme-B2",
+   "titel": "core.js: Monte-Carlo-Median je Schritt (mc.median)",
+   "von": 353,
+   "bis": 357,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "C.monteCarlo",
+    "mc.median",
+    "percentile"
+   ],
+   "befund_ids": [
+    "diagramme-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/tests/core.test.mjs:57 (O6)"
+   ]
+  },
+  {
+   "nr": "diagramme-C1",
+   "titel": "niceTicks mit rundem Bereich (floor/ceil auf Schritt)",
+   "von": 358,
+   "bis": 366,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.niceTicks"
+   ],
+   "befund_ids": [
+    "diagramme-8",
+    "bereich_konto-55"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Sonde 15 (Balken innerhalb der Gitterlinien)"
+   ]
+  },
+  {
+   "nr": "diagramme-C2",
+   "titel": "curShort in ui.js entfernen",
+   "von": 367,
+   "bis": 368,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "curShort"
+   ],
+   "befund_ids": [
+    "typografie-29",
+    "diagramme-9"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-C13",
+    "diagramme-C14",
+    "diagramme-C16"
+   ],
+   "tests": [
+    "Akzeptanz grep 1",
+    "Sonde 18 (Geld-blind)"
+   ]
+  },
+  {
+   "nr": "diagramme-C3",
+   "titel": "axisLeft ohne Überlappung (14px), Kommentar durchgezogene Haarlinien",
+   "von": 369,
+   "bis": 375,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.axisLeft"
+   ],
+   "befund_ids": [
+    "diagramme-8",
+    "diagramme-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Sonde 14"
+   ]
+  },
+  {
+   "nr": "diagramme-C4",
+   "titel": "Neuer Baustein xLabels für waagerechte Achsen ohne Überlappung",
+   "von": 376,
+   "bis": 381,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.xLabels"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-35",
+    "diagramme-9"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-C5",
+   "titel": "Balken-Pfade vbarPath/hbarPath, Export in root.UI (inkl. xLabels, fitRadars)",
+   "von": 382,
+   "bis": 390,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.vbarPath",
+    "U.hbarPath",
+    "root.UI",
+    "U.xLabels",
+    "U.fitRadars"
+   ],
+   "befund_ids": [
+    "diagramme-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-C4"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-C6",
+   "titel": "Einzug: Pfad-Balken nicht zeichnen, gestrichelte Linien einblenden, Staffel auf .br",
+   "von": 391,
+   "bis": 394,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "enterAnim",
+    ".br",
+    "rect.br",
+    "ar",
+    "stroke-dasharray"
+   ],
+   "befund_ids": [
+    "diagramme-11",
+    "bereich_training-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A3"
+   ],
+   "tests": [
+    "web/e2e/headtest.js:48 (O4)",
+    "web/e2e/chartanimtest.js"
+   ]
+  },
+  {
+   "nr": "diagramme-C7",
+   "titel": "nameChart: role=img und aria-label (data-label oder Kartentitel) nach jedem Zeichnen",
+   "von": 395,
+   "bis": 403,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawCharts",
+    "nameChart",
+    "role=img",
+    "aria-label",
+    "aria-hidden",
+    ".card-title",
+    "data-label"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-19"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Sonde 13"
+   ]
+  },
+  {
+   "nr": "diagramme-C8",
+   "titel": "hoverLine mit Bandskala (Parameter band)",
+   "von": 404,
+   "bis": 407,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "hoverLine"
+   ],
+   "befund_ids": [
+    "diagramme-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-C9",
+   "titel": "drawers.pnl: Bandskala bei Säulen, keine Gradienten, Pfad-Balken .55, flache Flächen nur ohne Säulen",
+   "von": 408,
+   "bis": 420,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.pnl",
+    "linearGradient",
+    "clipPath",
+    "U.vbarPath",
+    "hoverLine"
+   ],
+   "befund_ids": [
+    "diagramme-18",
+    "diagramme-17",
+    "diagramme-11"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-C5",
+    "diagramme-C8"
+   ],
+   "tests": [
+    "Akzeptanz grep 5"
+   ]
+  },
+  {
+   "nr": "diagramme-C10",
+   "titel": "drawers.equity: Gradient durch flache Fläche ersetzen",
+   "von": 421,
+   "bis": 425,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.equity",
+    "linearGradient"
+   ],
+   "befund_ids": [
+    "diagramme-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 5"
+   ]
+  },
+  {
+   "nr": "diagramme-C11",
+   "titel": "drawers.line (Kontostand): weich, zweifarbig an Startkapital, Bezugslinie 4 3 mit Beschriftung",
+   "von": 426,
+   "bis": 439,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.line",
+    "U.smooth",
+    "U.axisLeft",
+    "fmt.axisCur",
+    "clipPath",
+    "text.lbl",
+    "hoverLine",
+    "t:Startkapital {0}"
+   ],
+   "befund_ids": [
+    "diagramme-15",
+    "bereich_dashboard-37",
+    "bereich_dashboard-39",
+    "diagramme-16"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-C12",
+   "titel": "drawers.spark: Fläche bis Nulllinie, zweifarbig per clipPath, Nulllinie",
+   "value_hint": "",
+   "von": 440,
+   "bis": 451,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.spark",
+    "U.smooth",
+    "clipPath",
+    ".zero"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-19",
+    "diagramme-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/chartanimtest.js:23 (Sparkline) prüfen"
+   ]
+  },
+  {
+   "nr": "diagramme-C13",
+   "titel": "drawers.vbars: Achse links fmt.axisCur, Pfad-Balken .85, Kategorien ausdünnen, leere Fächer",
+   "von": 452,
+   "bis": 467,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.vbars",
+    "U.axisLeft",
+    "U.vbarPath",
+    "U.niceTicks",
+    "fmt.axisCur",
+    "--faint",
+    "t:Keine Trades"
+   ],
+   "befund_ids": [
+    "diagramme-9",
+    "typografie-29",
+    "hierarchie-50",
+    "bereich_statistik-35",
+    "diagramme-11",
+    "diagramme-12"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-C5",
+    "diagramme-B1"
+   ],
+   "tests": [
+    "Sonde 15, 18, 19"
+   ]
+  },
+  {
+   "nr": "diagramme-C14",
+   "titel": "drawers.hbars: Wertachse unten mit xLabels, Namen kürzen, Anzahl in rechter Spalte, Pfad-Balken, leere Fächer",
+   "von": 468,
+   "bis": 481,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.hbars",
+    "U.xLabels",
+    "U.hbarPath",
+    "U.niceTicks",
+    "fmt.axisCur",
+    "data-tip",
+    "t:Keine Trades"
+   ],
+   "befund_ids": [
+    "diagramme-1",
+    "bereich_statistik-4",
+    "bereich_statistik-37",
+    "diagramme-9",
+    "typografie-29",
+    "bereich_statistik-35",
+    "diagramme-11",
+    "diagramme-12"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-C4",
+    "diagramme-C5",
+    "diagramme-B1"
+   ],
+   "tests": [
+    "Sonde 14"
+   ]
+  },
+  {
+   "nr": "diagramme-C15",
+   "titel": "drawers.rolling: linke Achse fmt.r, keine Fläche, Linie --text, Mittelwert-Label .lbl",
+   "von": 482,
+   "bis": 492,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.rolling",
+    "U.axisLeft",
+    "U.axisWidth",
+    "fmt.r",
+    "text.lbl",
+    "linearGradient",
+    "--accent",
+    "--text"
+   ],
+   "befund_ids": [
+    "diagramme-9",
+    "farbe_kontrast-37",
+    "diagramme-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A1"
+   ],
+   "tests": [
+    "Akzeptanz grep 5"
+   ]
+  },
+  {
+   "nr": "diagramme-C16",
+   "titel": "drawers.mc: linke Achse fmt.axisCur, Median-Linie mit Label, Ruin-Schwelle voller Betrag, Achse „0 · 25 · 50 Trades“",
+   "von": 493,
+   "bis": 505,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.mc",
+    "mc.median",
+    "U.axisLeft",
+    "fmt.axisCur",
+    "curShort",
+    "text.lbl",
+    "t:Median {0}",
+    "t:Ruin-Schwelle {0}"
+   ],
+   "befund_ids": [
+    "diagramme-9",
+    "typografie-29",
+    "bereich_statistik-44",
+    "diagramme-21"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-B2",
+    "diagramme-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-C17",
+   "titel": "drawers.hist: Pfad-Balken, Prozent-Achse über niceTicks, Ruin-Linie gestrichelt mit „Ruin ab …“",
+   "von": 506,
+   "bis": 517,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.hist",
+    "U.niceTicks",
+    "U.vbarPath",
+    "text.lbl",
+    "t:Ruin ab {0}"
+   ],
+   "befund_ids": [
+    "bereich_statistik-44",
+    "diagramme-22",
+    "diagramme-11"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-C1",
+    "diagramme-C5",
+    "diagramme-A1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-C18",
+   "titel": "drawers.weeks: Pfad-Säulen, Score über Säule, Wochenlabels ausgedünnt ab jüngster Woche",
+   "von": 518,
+   "bis": 527,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.weeks",
+    "U.vbarPath",
+    "U.scoreColor",
+    "text.bv",
+    "fmt.date"
+   ],
+   "befund_ids": [
+    "bereich_training-15",
+    "responsiv-34",
+    "diagramme-25",
+    "bereich_training-16",
+    "diagramme-11"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-C5",
+    "diagramme-A1"
+   ],
+   "tests": [
+    "Sonde 20 (390px Wochenlabels)"
+   ]
+  },
+  {
+   "nr": "diagramme-C19",
+   "titel": "Radar-Schrift: data-vb und Skalierung in fitRadars",
+   "von": 528,
+   "bis": 535,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.radar",
+    ".radar-svg",
+    "data-vb",
+    "U.fitRadars"
+   ],
+   "befund_ids": [
+    "responsiv-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "abstaende-C5"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-D1",
+   "titel": "app.js: fitRadars im Resize-Timeout aufrufen",
+   "von": 536,
+   "bis": 539,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "U.drawCharts",
+    "U.fitRadars"
+   ],
+   "befund_ids": [
+    "responsiv-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-C5",
+    "diagramme-C19"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-E1",
+   "titel": "drawers.lines: je Einheit eine Spur übereinander, linke Achsen, Pfad-Balken, gestrichelte Reihen",
+   "von": 540,
+   "bis": 556,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "U.drawers.lines",
+    "U.axisLeft",
+    "U.axisWidth",
+    "U.niceTicks",
+    "U.vbarPath",
+    "unitFmt",
+    "bindHover",
+    ".zero",
+    "stroke-dasharray"
+   ],
+   "befund_ids": [
+    "diagramme-6",
+    "bereich_training-28",
+    "diagramme-11",
+    "bereich_statistik-35"
+   ],
+   "aufwand": "L",
+   "abhaengig": [
+    "diagramme-C5"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:92 (O2)",
+    "web/e2e/dashtest.js:95 (O3)",
+    "web/e2e/shadowtest.js:30 (O5)"
+   ]
+  },
+  {
+   "nr": "diagramme-E2",
+   "titel": "drawers.scatter: Beschriftung waagerecht über xLabels, mb 30, Break-even --be statt --info",
+   "von": 557,
+   "bis": 562,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "U.drawers.scatter",
+    "U.xLabels",
+    "--info",
+    "--be"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-35",
+    "diagramme-19",
+    "bereich_dashboard-36",
+    "diagramme-20"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-C4",
+    "diagramme-C5"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:69 (O1)",
+    "Akzeptanz grep 3, 6"
+   ]
+  },
+  {
+   "nr": "diagramme-E3",
+   "titel": "drawers.dbars: Säulen je Tag als Pfad-Balken",
+   "von": 563,
+   "bis": 564,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "U.drawers.dbars",
+    "U.vbarPath"
+   ],
+   "befund_ids": [
+    "diagramme-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-C5"
+   ],
+   "tests": [
+    "Akzeptanz grep 12"
+   ]
+  },
+  {
+   "nr": "diagramme-E4",
+   "titel": "drawers.dd (Drawdown): weich über U.smooth, flache Verlustfläche .16",
+   "von": 565,
+   "bis": 568,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "U.drawers.dd",
+    "U.smooth",
+    "linearGradient"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-39",
+    "diagramme-16",
+    "diagramme-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 5"
+   ]
+  },
+  {
+   "nr": "diagramme-E5",
+   "titel": "Fallback-Vorschauen PV.scatter ohne Strichelung, PV.line ohne --be",
+   "von": 569,
+   "bis": 572,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "PV.scatter",
+    "PV.line",
+    "--be",
+    "--text-2"
+   ],
+   "befund_ids": [
+    "diagramme-7",
+    "bereich_dashboard-36"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 6"
+   ]
+  },
+  {
+   "nr": "diagramme-E6",
+   "titel": "Achsenstriche Uhrzeit (runde Schritte) und Haltedauer (HOLD_TICKS mit Rückfall)",
+   "von": 573,
+   "bis": 583,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:perf_uhrzeit",
+    "widget:perf_haltedauer",
+    "HOLD_TICKS",
+    "hhmm",
+    "durLabel",
+    "fmt.dur",
+    "t:1 T",
+    "t:3 T",
+    "t:1 W",
+    "t:{0} s"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-35"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E2"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:69 (O1)"
+   ]
+  },
+  {
+   "nr": "diagramme-E7",
+   "titel": "Report-Standardfarben Blau/Magenta/Kupfer, alte Standardwerte beim Lesen ersetzen",
+   "von": 584,
+   "bis": 587,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "REPORT_COLORS",
+    "REPORT_OLD",
+    "reportConfig",
+    "REPORT_DEFAULT"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-38"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 10"
+   ]
+  },
+  {
+   "nr": "diagramme-E8a",
+   "titel": "Widget-Name kum_pnl → „Kumulierter Netto-P&L“",
+   "von": 588,
+   "bis": 589,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:kum_pnl",
+    "t:Kumulierter Tages-P&L",
+    "t:Kumulierter Netto-P&L"
+   ],
+   "befund_ids": [
+    "diagramme-13"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 7"
+   ]
+  },
+  {
+   "nr": "diagramme-E8b",
+   "titel": "verlauf_trefferquote: neuer Info-Text, Trefferquote --text-2, .chart-legend über dem Diagramm",
+   "von": 590,
+   "bis": 593,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:verlauf_trefferquote",
+    ".chart-legend",
+    "dash-verlauf",
+    "--be",
+    "--text-2",
+    "t:Laufende Werte bis zum jeweiligen Handelstag: oben Ø Gewinn und Ø Verlust, unten die Trefferquote."
+   ],
+   "befund_ids": [
+    "bereich_dashboard-36",
+    "diagramme-6",
+    "diagramme-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A4",
+    "diagramme-E1"
+   ],
+   "tests": [
+    "Akzeptanz grep 6, Sonde 17"
+   ]
+  },
+  {
+   "nr": "diagramme-E8c",
+   "titel": "Info perf_uhrzeit/perf_haltedauer: „Break-even-Trades liegen auf der Nulllinie.“",
+   "von": 594,
+   "bis": 594,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:perf_uhrzeit",
+    "widget:perf_haltedauer",
+    "t:Jeder Punkt ist ein geschlossener Trade: waagerecht die Uhrzeit (Einstieg oder Ausstieg, wählbar über das Zahnrad), senkrecht das Netto-Ergebnis. Break-even-Trades liegen auf der Nulllinie.",
+    "t:Jeder Punkt ist ein geschlossener Trade: waagerecht die Haltedauer (logarithmisch), senkrecht das Netto-Ergebnis. Break-even-Trades liegen auf der Nulllinie."
+   ],
+   "befund_ids": [
+    "bereich_dashboard-36"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-E8d",
+   "titel": "taeglich_kumuliert: desc und info (Linie statt Fläche)",
+   "von": 595,
+   "bis": 595,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:taeglich_kumuliert",
+    "t:Säulen für den Tages-P&L und eine Linie für den kumulierten P&L in einem Diagramm.",
+    "t:Säulen: Netto-Ergebnis je Handelstag. Linie: kumuliertes Ergebnis im Zeitraum."
+   ],
+   "befund_ids": [
+    "diagramme-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-E8e",
+   "titel": "Kontostand-Widget: Legende (legend top) löschen",
+   "von": 596,
+   "bis": 596,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:kontostand",
+    ".legend.top"
+   ],
+   "befund_ids": [
+    "diagramme-15",
+    "diagramme-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-C11"
+   ],
+   "tests": [
+    "Akzeptanz grep 4"
+   ]
+  },
+  {
+   "nr": "diagramme-E8f",
+   "titel": "Report-Widget: .chart-legend vor dem Diagramm statt legend rep",
+   "von": 597,
+   "bis": 597,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:report",
+    ".legend.rep",
+    ".chart-legend",
+    "dash-report"
+   ],
+   "befund_ids": [
+    "diagramme-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A4"
+   ],
+   "tests": [
+    "Akzeptanz grep 4, Sonde 17"
+   ]
+  },
+  {
+   "nr": "diagramme-E8g",
+   "titel": "Schatten-Ich-Widget: Serien Echt --text, Schatten-Ich --text-2 gestrichelt 5 4",
+   "von": 598,
+   "bis": 599,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:schatten_ich",
+    "dash-schatten",
+    "stroke-dasharray"
+   ],
+   "befund_ids": [
+    "bereich_training-28",
+    "farbe_kontrast-35"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-G1",
+   "titel": "Statistik-Kopfkarte: Titel „Kumulierter Netto-P&L“, nur Handelstage, nur mit abgeschlossenen Trades",
+   "von": 600,
+   "bis": 610,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats-top",
+    "C.dailyAggregation",
+    "U.card",
+    "App.range",
+    "t:Kumulierter Netto-P&L"
+   ],
+   "befund_ids": [
+    "diagramme-13",
+    "hierarchie-14",
+    "zustaende-5",
+    "bereich_statistik-48"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-G2",
+   "titel": "stats.js: fillDays löschen",
+   "von": 611,
+   "bis": 612,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "fillDays"
+   ],
+   "befund_ids": [
+    "diagramme-13",
+    "hierarchie-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-G1"
+   ],
+   "tests": [
+    "Akzeptanz grep 7"
+   ]
+  },
+  {
+   "nr": "diagramme-G3",
+   "titel": "Zähler: Tabellenspalten Gewinner/Verlierer neutral, Gewinntage/Verlusttage nur bei > 0 gefärbt",
+   "von": 613,
+   "bis": 616,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "tabDays",
+    ".pos",
+    ".neg"
+   ],
+   "befund_ids": [
+    "hierarchie-50",
+    "bereich_notebook_news-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-G4",
+   "titel": "groupTable ohne leere Fächer",
+   "von": 617,
+   "bis": 618,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "groupTable"
+   ],
+   "befund_ids": [
+    "diagramme-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-B1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-G5",
+   "titel": "Setups und Emotion nach Erwartungswert sortieren (byExp)",
+   "von": 619,
+   "bis": 625,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "byExp",
+    "tabSetups",
+    "tabMistakes",
+    "m-emo"
+   ],
+   "befund_ids": [
+    "bereich_statistik-37"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-H1",
+   "titel": "Regeltreue-Ring 64/6 px in scoreColor, kein Bogen bei 0",
+   "von": 626,
+   "bis": 635,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "ringArc",
+    ".ring-arc .arc",
+    "U.scoreColor"
+   ],
+   "befund_ids": [
+    "bereich_training-7",
+    "diagramme-26"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A7"
+   ],
+   "tests": [
+    "Sonde 20",
+    "web/e2e/headtest.js:55, :57 (.ring-arc .arc) prüfen"
+   ]
+  },
+  {
+   "nr": "diagramme-H2",
+   "titel": "Heatmap-Container role=img aria-label „Trading-Aktivität“",
+   "von": 636,
+   "bis": 637,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    ".activity",
+    "activityGrid",
+    "role=img",
+    "aria-label",
+    "t:Trading-Aktivität"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-19"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-H3",
+   "titel": "Info Trading-Aktivität: „desto kräftiger das Kästchen“",
+   "von": 638,
+   "bis": 639,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "t:Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Kästchen. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht."
+   ],
+   "befund_ids": [
+    "farbe_kontrast-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-I1",
+   "titel": "Schatten-Ich-Ranking: Balken nur bei Verstoß, Zeile „Ohne Verstöße“, Leerzustand",
+   "von": 640,
+   "bis": 652,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "rankingRows",
+    ".shadow-rank",
+    ".shadow-clean",
+    "U.barRow",
+    "U.empty",
+    "t:Ohne Verstöße: {0}",
+    "t:Keine Verstöße",
+    "t:Im Zeitraum wurde keine Regel gebrochen.",
+    "t:Keine Regel aktiv"
+   ],
+   "befund_ids": [
+    "bereich_training-30"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A8b"
+   ],
+   "tests": [
+    "web/e2e/shadowtest.js:57 (O5)",
+    "web/tests/shadow.test.mjs:163 bleibt"
+   ]
+  },
+  {
+   "nr": "diagramme-I2",
+   "titel": "Schatten-Ich-Diagramm: Serien wie E8g, .chart-legend mit Strich-Symbol",
+   "von": 653,
+   "bis": 656,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "shadow-curve",
+    ".chart-legend",
+    ".chart-legend i.dash",
+    ".legend.top"
+   ],
+   "befund_ids": [
+    "bereich_training-28",
+    "diagramme-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A4",
+    "diagramme-E1"
+   ],
+   "tests": [
+    "web/e2e/shadowtest.js:30 (O5)",
+    "Sonde 21"
+   ]
+  },
+  {
+   "nr": "diagramme-J1",
+   "titel": "Prop-Puffer über Limit: „über dem Boden“ mit Boden-Tooltip",
+   "von": 657,
+   "bis": 665,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "bar (prop.js)",
+    ".prop-bar",
+    "t:über dem Boden",
+    "t:Boden bei {0}",
+    "t:Boden fest bei {0}"
+   ],
+   "befund_ids": [
+    "diagramme-39"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Sonde 22",
+    "web/e2e/proptest.js"
+   ]
+  },
+  {
+   "nr": "diagramme-J2",
+   "titel": "Prop „Ausgaben vs. Payouts“: .chart-legend vor dem Diagramm",
+   "von": 666,
+   "bis": 667,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop-balance",
+    ".chart-legend",
+    ".legend"
+   ],
+   "befund_ids": [
+    "diagramme-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A4"
+   ],
+   "tests": [
+    "Akzeptanz grep 4"
+   ]
+  },
+  {
+   "nr": "diagramme-K1",
+   "titel": "Affiliate-Balken neutral --text-2 .45 als Pfad-Balken",
+   "von": 668,
+   "bis": 673,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js"
+   ],
+   "anker": [
+    "U.drawers.affbars",
+    "U.vbarPath",
+    "--accent",
+    "--text-2"
+   ],
+   "befund_ids": [
+    "bereich_konto-7",
+    "diagramme-11",
+    "bereich_konto-55"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-C1",
+    "diagramme-C5"
+   ],
+   "tests": [
+    "web/e2e/affiliatetest.js:25 (O4)",
+    "Akzeptanz grep 12, Sonde 15"
+   ]
+  },
+  {
+   "nr": "diagramme-L1",
+   "titel": "Notiz-Statistik: Trade-Notiz als „Trade-Details“ (.kv), Tagesnotiz Sparkline ab 3 Trades, Zähler nur > 0",
+   "von": 674,
+   "bis": 685,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "statsHTML",
+    ".stats-box",
+    ".stats-grid",
+    ".stats-grid.solo",
+    ".trade-facts",
+    "U.kv",
+    "t:Trade-Details",
+    "t:Trade-Statistik",
+    "t:Tagesstatistik",
+    "t:Einstieg → Ausstieg",
+    "t:Kontrakte",
+    "t:R-Multiple",
+    "t:Brutto-P&L",
+    "t:Gebühren"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-18"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-A9"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-M1",
+   "titel": "Zähler Gewinner/Verlierer in Tagesansicht und TradeLog nur bei > 0 gefärbt",
+   "von": 686,
+   "bis": 689,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js",
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "day.js:14",
+    "trades.js:54",
+    ".pos",
+    ".neg"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-F1",
+   "titel": "Vorschauen: Gitter ohne Strichelung",
+   "von": 690,
+   "bis": 692,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "widgetpreviews.grid"
+   ],
+   "befund_ids": [
+    "diagramme-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-F2",
+   "titel": "Vorschauen: BLUE/ORANGE → #2f80d0/#b4549f, ORANGE in MAGENTA umbenennen",
+   "von": 693,
+   "bis": 693,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "widgetpreviews.BLUE",
+    "widgetpreviews.ORANGE",
+    "widgetpreviews.MAGENTA"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-38"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E7"
+   ],
+   "tests": [
+    "Akzeptanz grep 10"
+   ]
+  },
+  {
+   "nr": "diagramme-F3",
+   "titel": "Vorschau kum_pnl: Titel „Kumulierter Netto-P&L“, flache Fläche statt Verlauf",
+   "von": 694,
+   "bis": 696,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:kum_pnl",
+    "pvkg",
+    "widgetpreviews.area",
+    "t:Kumulierter Netto-P&L"
+   ],
+   "befund_ids": [
+    "diagramme-13",
+    "diagramme-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz grep 7"
+   ]
+  },
+  {
+   "nr": "diagramme-F4",
+   "titel": "Vorschau verlauf_trefferquote: Legende oben links, zwei Spuren, keine rechte Achse",
+   "von": 697,
+   "bis": 700,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:verlauf_trefferquote",
+    "widgetpreviews.legend",
+    "widgetpreviews.B"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-36",
+    "diagramme-6",
+    "diagramme-14"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-F5",
+   "titel": "Vorschau taeglich_kumuliert: Fläche streichen",
+   "von": 701,
+   "bis": 701,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:taeglich_kumuliert",
+    "widgetpreviews.area"
+   ],
+   "befund_ids": [
+    "diagramme-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-F6",
+   "titel": "Vorschau kontostand: keine Legende, Startkapital-Linie gestrichelt mit Beschriftung",
+   "von": 702,
+   "bis": 705,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:kontostand",
+    "widgetpreviews.legend",
+    "t:Startkapital"
+   ],
+   "befund_ids": [
+    "diagramme-15"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-F7",
+   "titel": "Vorschau drawdown_verlauf: Fläche .16",
+   "von": 706,
+   "bis": 706,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:drawdown_verlauf",
+    "widgetpreviews.area"
+   ],
+   "befund_ids": [
+    "diagramme-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-F8",
+   "titel": "Vorschau report: zwei Spuren mit linken Achsen, Legende oben links, keine rechte Achse",
+   "von": 707,
+   "bis": 710,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:report",
+    "widgetpreviews.yl",
+    "widgetpreviews.BLUE",
+    "widgetpreviews.MAGENTA"
+   ],
+   "befund_ids": [
+    "diagramme-6",
+    "diagramme-14",
+    "farbe_kontrast-38"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-F2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-F9",
+   "titel": "Vorschauen Haltedauer und Uhrzeit: runde Achsenbeschriftungen",
+   "von": 711,
+   "bis": 712,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:perf_haltedauer",
+    "preview:perf_uhrzeit",
+    "widgetpreviews.xl"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-35"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-3.14a",
+   "titel": "Sprachdateien: ersetzte Info-/Beschreibungssätze (Trefferquote-Verlauf, Uhrzeit, Haltedauer, Täglich & kumuliert, Trading-Aktivität)",
+   "von": 713,
+   "bis": 724,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Laufende Werte bis zum jeweiligen Handelstag: oben Ø Gewinn und Ø Verlust, unten die Trefferquote.",
+    "t:Jeder Punkt ist ein geschlossener Trade: waagerecht die Uhrzeit (Einstieg oder Ausstieg, wählbar über das Zahnrad), senkrecht das Netto-Ergebnis. Break-even-Trades liegen auf der Nulllinie.",
+    "t:Jeder Punkt ist ein geschlossener Trade: waagerecht die Haltedauer (logarithmisch), senkrecht das Netto-Ergebnis. Break-even-Trades liegen auf der Nulllinie.",
+    "t:Säulen für den Tages-P&L und eine Linie für den kumulierten P&L in einem Diagramm.",
+    "t:Säulen: Netto-Ergebnis je Handelstag. Linie: kumuliertes Ergebnis im Zeitraum.",
+    "t:Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Kästchen. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht."
+   ],
+   "befund_ids": [
+    "bereich_dashboard-36",
+    "diagramme-6",
+    "diagramme-18",
+    "farbe_kontrast-21"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-E8b",
+    "diagramme-E8c",
+    "diagramme-E8d",
+    "diagramme-H3"
+   ],
+   "tests": [
+    "web/e2e/langtest.js"
+   ]
+  },
+  {
+   "nr": "diagramme-3.14b",
+   "titel": "Sprachdateien: neue Beschriftungen (Startkapital, Median, Ruin, Zeiteinheiten, Verstöße, Boden, Trade-Details)",
+   "von": 725,
+   "bis": 741,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Startkapital {0}",
+    "t:Median {0}",
+    "t:Ruin-Schwelle {0}",
+    "t:Ruin ab {0}",
+    "t:1 T",
+    "t:3 T",
+    "t:1 W",
+    "t:{0} s",
+    "t:Keine Trades",
+    "t:Ohne Verstöße: {0}",
+    "t:Keine Verstöße",
+    "t:Im Zeitraum wurde keine Regel gebrochen.",
+    "t:über dem Boden",
+    "t:Boden bei {0}",
+    "t:Boden fest bei {0}",
+    "t:Trade-Details",
+    "t:Einstieg → Ausstieg",
+    "t:R-Multiple"
+   ],
+   "befund_ids": [
+    "diagramme-15",
+    "diagramme-21",
+    "bereich_statistik-44",
+    "bereich_dashboard-35",
+    "diagramme-12",
+    "bereich_training-30",
+    "diagramme-39",
+    "bereich_notebook_news-18"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "diagramme-C11",
+    "diagramme-C16",
+    "diagramme-C17",
+    "diagramme-E6",
+    "diagramme-I1",
+    "diagramme-J1",
+    "diagramme-L1"
+   ],
+   "tests": [
+    "web/e2e/langtest.js"
+   ]
+  },
+  {
+   "nr": "diagramme-3.14c",
+   "titel": "Sprachdateien: alte Schlüssel entfernen („Kumulierter Tages-P&L“, alte Satzfassungen en.js:48, 534, 868–871)",
+   "von": 742,
+   "bis": 743,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Kumulierter Tages-P&L",
+    "t:Kumulierter Netto-P&L",
+    "t:Blau sind Break-even-Trades."
+   ],
+   "befund_ids": [
+    "diagramme-13",
+    "bereich_dashboard-36",
+    "diagramme-6",
+    "diagramme-18",
+    "farbe_kontrast-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-3.14a",
+    "diagramme-E8a",
+    "diagramme-F3"
+   ],
+   "tests": [
+    "web/e2e/langtest.js"
+   ]
+  },
+  {
+   "nr": "diagramme-O1",
+   "titel": "Test dashtest.js:69: Uhrzeit-Achse waagerecht mit vollen Zeiten (inkl. Hinweis: geänderte Dateien in den Scratchpad kopieren)",
+   "von": 744,
+   "bis": 746,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/e2e/dashtest.js"
+   ],
+   "anker": [
+    "widget:perf_uhrzeit",
+    "rotate("
+   ],
+   "befund_ids": [
+    "bereich_dashboard-35"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E2",
+    "diagramme-E6"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:69"
+   ]
+  },
+  {
+   "nr": "diagramme-O2",
+   "titel": "Test dashtest.js:92: Report-Balken über .chart .br",
+   "von": 747,
+   "bis": 747,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/e2e/dashtest.js"
+   ],
+   "anker": [
+    ".br",
+    "widget:report"
+   ],
+   "befund_ids": [
+    "diagramme-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E1"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:92"
+   ]
+  },
+  {
+   "nr": "diagramme-O3",
+   "titel": "Test dashtest.js:95: „Report: zwei Spuren“, keine Achsenbeschriftung rechts",
+   "von": 748,
+   "bis": 748,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/e2e/dashtest.js"
+   ],
+   "anker": [
+    ".grid",
+    "widget:report"
+   ],
+   "befund_ids": [
+    "diagramme-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E1"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:95"
+   ]
+  },
+  {
+   "nr": "diagramme-O4",
+   "titel": "Tests headtest.js:48 und affiliatetest.js:25 auf .br umstellen",
+   "von": 749,
+   "bis": 749,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/e2e/headtest.js",
+    "web/e2e/affiliatetest.js"
+   ],
+   "anker": [
+    ".chart svg.enter .br",
+    ".br",
+    "U.drawers.affbars"
+   ],
+   "befund_ids": [
+    "diagramme-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A3",
+    "diagramme-C6",
+    "diagramme-K1"
+   ],
+   "tests": [
+    "web/e2e/headtest.js:48",
+    "web/e2e/headtest.js:52 (rect.br, in der Spezifikation nicht genannt, prüfen)",
+    "web/e2e/affiliatetest.js:25"
+   ]
+  },
+  {
+   "nr": "diagramme-O5",
+   "titel": "Tests shadowtest.js:30 (zwei Pfade, einer gestrichelt) und :57 (Ranking inkl. Ohne-Verstöße-Zeile)",
+   "von": 750,
+   "bis": 750,
+   "cluster": "training",
+   "dateien": [
+    "web/e2e/shadowtest.js"
+   ],
+   "anker": [
+    "shadow-curve",
+    ".shadow-rank .bar-row",
+    ".shadow-clean"
+   ],
+   "befund_ids": [
+    "bereich_training-28",
+    "bereich_training-30"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E1",
+    "diagramme-I1",
+    "diagramme-I2"
+   ],
+   "tests": [
+    "web/e2e/shadowtest.js:30",
+    "web/e2e/shadowtest.js:57"
+   ]
+  },
+  {
+   "nr": "diagramme-O6",
+   "titel": "Unit-Test core.test.mjs:57: Länge und Endwert von mc.median",
+   "von": 751,
+   "bis": 752,
+   "cluster": "statistik",
+   "dateien": [
+    "web/tests/core.test.mjs"
+   ],
+   "anker": [
+    "C.monteCarlo",
+    "mc.median"
+   ],
+   "befund_ids": [
+    "diagramme-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-B2"
+   ],
+   "tests": [
+    "web/tests/core.test.mjs:57"
+   ]
+  },
+  {
+   "nr": "diagramme-P1",
+   "titel": "README Statistiken (Z. 109–111): Kurve, leere Fächer, Median-Linie",
+   "von": 753,
+   "bis": 758,
+   "cluster": "statistik",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:Statistiken"
+   ],
+   "befund_ids": [
+    "diagramme-13",
+    "diagramme-12",
+    "diagramme-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-G1",
+    "diagramme-B1",
+    "diagramme-C16"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-P2",
+   "titel": "README Fortschritt (Z. 129/136): Heatmap neutral, Ring 64px, Wochen-Säulen",
+   "von": 759,
+   "bis": 762,
+   "cluster": "training",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:Fortschritt"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-21",
+    "bereich_training-7",
+    "bereich_training-15",
+    "responsiv-34",
+    "diagramme-25"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A5",
+    "diagramme-H1",
+    "diagramme-C18"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-P3",
+   "titel": "README Farben/Achsen (Z. 187–195): Achsen, Gitter, Flächen, Balken, Legenden, Report-Farben",
+   "von": 763,
+   "bis": 769,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:Farben"
+   ],
+   "befund_ids": [
+    "typografie-29",
+    "diagramme-9",
+    "diagramme-8",
+    "diagramme-7",
+    "diagramme-17",
+    "diagramme-11",
+    "diagramme-14",
+    "farbe_kontrast-38"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-P4",
+   "titel": "README Schatten-Ich (Z. 219): Kurven-Darstellung und Ranking",
+   "von": 770,
+   "bis": 770,
+   "cluster": "training",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:Schatten-Ich"
+   ],
+   "befund_ids": [
+    "bereich_training-28",
+    "bereich_training-30"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-I1",
+    "diagramme-I2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-P5",
+   "titel": "README Kurven (Z. 345–348): Kontostand/Drawdown weich, Spuren statt rechter Achse",
+   "von": 771,
+   "bis": 771,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:Kurven"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-39",
+    "diagramme-16",
+    "diagramme-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-E1",
+    "diagramme-E4",
+    "diagramme-C11"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "diagramme-P6",
+   "titel": "README Einzug (Z. 350–352): gestrichelte Linien blenden ein, Werte nach dem Wachsen",
+   "von": 772,
+   "bis": 773,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:Einzug"
+   ],
+   "befund_ids": [
+    "bereich_training-28",
+    "diagramme-25"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "diagramme-A3",
+    "diagramme-C6"
+   ],
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 774,
+  "bis": 832
+ },
+ "querbezuege": [
+  "Bewegung B6/K7 (bewegung.md): app.css Z. 106–112 `.chart svg.enter path.ar`, `.chart svg.enter .br`, `.chart svg.enter polygon.ar`. Die Zeiten kommen von dort, hier werden nur die Selektoren rect.br → .br geändert und text.bv ergänzt (A3, K20)",
+  "Bewegung 3.6: ui.js Z. 253 `enterAnim`, Staffel-Rechnung von dort, hier nur 'rect.br' → '.br' (C6, K20)",
+  "Bewegung B8 und KI-Look B4 (ki_look-6): app.css Z. 1317 `.ring-arc .arc`. Die transition regelt Bewegung, das Entfernen von filter ist identisch mit A7 und wird nur einmal umgesetzt (K14)",
+  "KI-Look K10 (ki_look-6: 88/7 px, Rand 116–120) gegen hier 64/6 px, Rand 96 px: `ringArc`, `.card.ring-card > .big-stat` (A7, H1, K14)",
+  "Zustände S-PR1 (bereich_training-6): Wert „—“ statt „0 %“ in der Ring-Karte progress.js; „kein Bogen bei 0“ deckt zustaende-11 (H1)",
+  "Farbe B13 (diagramme-37): `.chart text` app.css Z. 683/1647–1648 identisch mit A1, nur einmal umsetzen",
+  "Typografie 3.2: `.chart text` Z. 1648 und tabular-nums-Liste nach Z. 94 überschneiden sich mit A1; die neue Regel `.bar-row .bl b` nach Z. 656 mit font-weight 600 widerspricht A8a/K25 (700 bleibt)",
+  "Farbe B23: `.activity i.lN`/`.heat-legend:not(.right) i.lN` 8/16/28/42/58 % gegen A5 (14/26/38/50/62 %, K11); `.tracker i.lN` 18/32/50/70 % und eigene `.heat-legend.right i.lN` gegen A6 (gemeinsame Selektoren `.tracker i.lN, .heat-legend.right i.lN`, Prozentwerte entscheidet Farbe, K12)",
+  "Farbe K5/B23: Heute-Markierung `.activity i.today` 2px --text-2 (deckungsgleich mit A5)",
+  "Farbe B27 (bereich_statistik-25): ui.js Z. 350/354 `U.drawers.mc`/`U.drawers.hist`, Pfad- und Histogrammfarben werden in C16/C17 vorausgesetzt; dort wird zudem `U.scoreColor` auf --profit statt --accent geändert (wirkt auf H1, C18)",
+  "Farbe C14/C15 (diagramme-44): `REPORT_COLORS` und `widgetpreviews.BLUE/ORANGE` = #4a6fe3 gegen E7/F2 (#2f80d0, K13); nur einmal umsetzen",
+  "Farbe C16 (farbe_kontrast-20): affiliate.js Z. 47 `U.drawers.affbars` fill --profit gegen K1 (--text-2 .45, K22)",
+  "Farbe farbe_kontrast-20: Legendenpunkt der Statistik-Kurve auf --profit entfällt, weil G1 die Legende entfernt (K3)",
+  "Aufbau C14/K5 (aufbau-19, bereich_statistik-5, responsiv-37): Die Statistik-Kopfkarte `stats-top` steht nur im Reiter Übersicht. Den Ort legt Aufbau fest, den Inhalt G1 (K3)",
+  "Zustände S-ST1 (bereich_statistik-22 = zustaende-5): stats.js Z. 13–14 mit `fillDays` ist durch G1/G2 überholt (K3)",
+  "Zustände S-U4 (diagramme-38): Leerzweig `chartEmpty` in `U.drawers.vbars`/`U.drawers.hbars`, dieselben Funktionen wie C13/C14 (deren Rumpf ersetzt nur den Teil nach der Leer-Prüfung)",
+  "Zustände S-P1/K14 (bereich_prop-6, wording-30): prop.js `bar`/.prop-bar ist derselbe Fall wie J1; Stellenzahl und Kappen „372 % des Limits“ regelt Zustände (K15)",
+  "Bewegung C6 (bewegung-40): app.css Z. 2708 `.prop-bar .track i` transition, gleiche Komponente wie J1",
+  "Barrierefreiheit U6 (bereich_statistik-33): `chartLabel(k, data)` steht in `nameChart` vor dem Kartentitel (C7, K21); Trefferflächen `tip-hit` (diagramme-46) in `U.drawers.vbars`/`U.drawers.hbars` vertragen sich mit den transparenten Fach-Rechtecken (C13/C14, K17)",
+  "Aufbau B10 (bereich_statistik-13): Tooltip-Text in `U.drawers.vbars` Z. 327; C13/C14 übernehmen den Tooltip wörtlich",
+  "Wording 1.5 (bereich_statistik-26): Ruin-Label in `U.drawers.mc` (`fmt.cur(…, { compact: true })` = `fmt.axisCur`) deckt sich mit C16 (K23); Wording 2.2/2.3 (bereich_statistik-38): `HOUR_BUCKETS`/`hourBucket` identisch mit B1",
+  "Wording wording-3: „Win-Rate“ in den Tooltips von `U.drawers.vbars`/`U.drawers.hbars`; wording-40: Kartentitel „Equity: echt vs. Schatten-Ich“ (shadow.js Z. 118). Laut Wording wird er zu „Kumulierter Netto-P&L“, was den Namen aus A-14 doppeln würde. Hier bleibt er unverändert (I2, K19)",
+  "Abstände C5 (responsiv-10): Das 2-Spalten-Raster 961–1240 px muss vor C19 (`U.fitRadars`) stehen",
+  "Abstände J2: stats.js Z. 52 Höhe des hbars-Diagramms `m-emo` (betrifft C14/G5)",
+  "Komponenten: `.legend` für Fieldset-Überschriften in Dialogen (app.js:493, 531, 532, 565) bleibt; die Ausrichtung entscheidet Komponenten (A4, K10)",
+  "Abschnitt 6 N1 (diagramme-29: widgets.js:171–172, widgetpreviews.js:60, mobiletest.js:32/68) und N2 (diagramme-40/bereich_prop-23: widgets.js:47/61/63, prop.js:254/256, README Z. 345–347) nur nach Nutzerentscheidung umsetzen"
+ ]
+}

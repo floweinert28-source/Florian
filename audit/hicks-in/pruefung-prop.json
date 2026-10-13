@@ -1,0 +1,333 @@
+{
+ "fakten": {
+  "urteile": [
+   {
+    "id": "prop-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt. pageHead (app.js:256-261) setzt rechts zuerst actions() = „+ Prop-Konto“ (.btn, prop.js:294), dann Session ▷ (.btn.icon-only, app.js:250), dann „Trade loggen“ (.btn.accent, app.js:253). .btn.accent ist nicht gefüllt, sondern nur grüne Schrift und ein grüner Verlaufsrand (app.css:3137-3142). Das HICKS-BRIEF nennt ihn fälschlich „grün gefüllt“; gefüllt ist nur .btn.primary (app.css:274). Ein Getter funktioniert, weil pageHead screen.head über Object.assign liest (app.js:257) und render vorher läuft (app.js:90 vor 96). Session auf der Übersicht ließe sich als Vor-Handels-Check verteidigen, das Entfernen entspricht aber dem abgenommenen Schatten-Ich (shadow.js:104). Folge: Auch der Handy-FAB „Trade loggen“ fehlt dann auf Bilanz, Konten und Friedhof. Das ist gewollt, sollte dem Nutzer aber gesagt werden."
+   },
+   {
+    "id": "prop-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt. Zwei .btn.sm.ghost im Fuß (prop.js:105); auf dem Handy sind sie vollbreit (app.css:2756, ≤560px). Der FAB liegt in dark-390/prop.png über „Bearbeiten“ der ersten Karte. Der Stiftknopf in der Konten-Tabelle ist .btn.ghost.icon.sm (prop.js:233), das Vorbild passt."
+   },
+   {
+    "id": "prop-2-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "In accountCard (prop.js:89-107) bei `ev.status === 'breached' && active` die Blöcke .prop-bars und .prop-meta weglassen. Sichtbar bleiben Kopf, das Banner mit „Als geplatzt markieren“, Balance/P&L und der Fuß (Trades zuordnen, Bearbeiten). Den Fuß braucht man, um eine falsche Zuordnung oder falsche Regeln zu korrigieren, die den Breach ausgelöst haben. a.status ist in diesem Zustand noch 'active', der Breach kommt aus der Engine (ev.status). Die Balken erscheinen also nur wieder, wenn Regeln oder Trade-Zuordnung so geändert werden, dass die Engine keinen Breach mehr findet; einen Status zum „Zurücksetzen“ gibt es hier nicht. Die Einzelheiten stehen nach dem Markieren im Friedhof (prop-mark-breached legt einen Breach-Datensatz an, prop.js:340).",
+    "anmerkung": "Befund stimmt (extra/hicks-prop-1440-cockpit_breach.png): Der volle Daily-Loss-Balken (5.000 von 5.000 übrig, neuer Handelstag), „Bestehen: Konto geplatzt“ und „Puffer: noch 20 Stop-Losses“ stehen unter dem roten Banner. Die Formulierung „oder setzt den Status zurück“ war sachlich falsch."
+   },
+   {
+    "id": "prop-3-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Befund stimmt (extra/hicks-prop-1440-cockpit_abgeschlossen.png: Das archivierte Konto zeigt „in 1 Handelstag · Gewinn fehlt: 3.000,00 €“ und „Stop-Größe unbekannt“). Die Wirkung ist aber kleiner als angegeben, weil der Abschnitt „Abgeschlossen“ standardmäßig eingeklappt ist (fold ohne open, prop.js:123) und nur auf Wunsch erscheint. Übertrieben ist „wiederholt den Grabstein“: Die Karte zeigt Balken und Balance, der Grabstein dagegen Todesursache, Lebensdauer und Serie. Der Link „Zum Grabstein“ ist ein neues tertiäres Element; das ist vertretbar, aber kein Muss."
+   },
+   {
+    "id": "prop-4-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Befund stimmt (dark-1440/leer_prop.png: „+ Prop-Konto“, ▷ und „Trade loggen“ über dem gefüllten „Konto anlegen“). Der Hinweis auf „Firmen-Preset“ ist irreführend, denn die Preset-Auswahl gibt es nur bei eigenen Presets (prop.js:189, README). Die Wirkung habe ich auf 2 gesenkt: Den Kern liefert schon prop-1-1, und „Konto anlegen“ ist heute schon klar dominant (einziger gefüllter, großer Knopf). Eigener Anteil dieses Vorschlags ist nur der kürzere Text."
+   },
+   {
+    "id": "prop-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt (dark-390/prop.png, dark-390/leer_prop.png: Kopf-„+“ und ▷ ohne Text, FAB-„+“, im leeren Zustand dazu „+ Konto anlegen“). hide-m greift bis 960px (app.css:1062/1070), also auch auf Tablets im Hochformat. Wirkung 2 statt 1: Es ist eine Aufräumarbeit nur auf dem Handy, und ▷ entfällt schon mit prop-1-1."
+   },
+   {
+    "id": "prop-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: entryBtn ist .btn.sm.primary für beide Arten (prop.js:251), und beide sind gefüllt und damit stärker als das nicht gefüllte „Trade loggen“. Bei 8 Ausgaben stehen die beiden Knöpfe in 1440 aber nicht gleichzeitig im Bild (bilanz-s0 zeigt nur Ausgabe, -s1 nur Payout). Die Konkurrenz besteht auf der ganzen Seite, nicht auf einen Blick, daher Wirkung 2. Die Code-Änderung in prop-entry (prop.js:324) ist korrekt beschrieben."
+   },
+   {
+    "id": "prop-6-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Technisch richtig. Beide Formulare stehen aber nur dann gleichzeitig offen, wenn (a) die Listen leer sind und sich automatisch öffnen (prop.js:261; diesen Fall löst prop-8-1) oder (b) der Nutzer beide selbst öffnet. Der Beleg zeigt nur Fall (a). Für den verbleibenden Fall (b) ist die Wirkung klein."
+   },
+   {
+    "id": "prop-6-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (extra/hicks-prop-1440-bilanz-s0/-s1: 8 Ausgabenzeilen schieben Payouts und Planer unter den Bildrand). Ich ergänze: Die 5 neuesten müssen nach Datum absteigend sortiert sein; das ist schon so (prop.js:263)."
+   },
+   {
+    "id": "prop-7-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "Ausgabe (expForm, prop.js:262): sichtbar sind Typ, Betrag, Datum, Konto und der Submit. Firma und Notiz liegen immer in einem geschlossenen `<details>` „Mehr Optionen“ (Summary als .btn.ghost.sm). Firma ist kein Pflichtfeld (prop-expense-add verlangt nur Betrag und Datum, prop.js:365), und das Konto steht standardmäßig auf „—“ (accOpts('')). Ein „automatisch offen bei Konto —“ würde das details also fast immer öffnen und den Vorschlag aushebeln. Payout (poForm, prop.js:266): sichtbar sind Konto, Brutto, Beantragt am und der Submit. Split, Netto (automatisch), Erhalten am und Status liegen hinter „Mehr Optionen“; die Rechenlogik bleibt (prop-payout-net/-add). Felder in einem geschlossenen details werden weiter mit FormData übertragen.",
+    "anmerkung": "Die Feldzählung (6 bzw. 7) und die Ableitungen stimmen: Firma kommt aus dem Konto, Status wird bei Erhalten-Datum auf 'received' gesetzt (prop.js:365, 369). Die automatische Öffnung bei „—“ war ein Denkfehler. Wirkung 3, weil die Formulare nur auf Wunsch aufgehen und in 1440 zweizeilig sind."
+   },
+   {
+    "id": "prop-8-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "In tabBilanz (prop.js:252) bei `!ex.length && !po.length` statt Kacheln, Diagramm, „Pro Firma“, Ausgaben und Payouts nur einen leeren Zustand rendern: `U.empty('stats', 'Noch keine Ausgaben oder Payouts', 'Erfasse deine erste Challenge-Gebühr, dann zeigt die Bilanz Netto, ROI und Break-even.', …)`. Ein Icon 'chart' gibt es in UI.I nicht; vorhanden sind 'stats' und 'trend'. Darin stehen `.btn.primary` „Ausgabe erfassen“ (data-action=\"prop-entry\" data-value=\"expense\") und, nur bei accs.length, `.btn.ghost` „oder Payout erfassen“ (data-value=\"payout\"). Beide Formulare werden darunter mit `hidden` gerendert, damit prop-entry sie über #prop-entry-<kind> einblenden kann. Die Auto-Öffnung (prop.js:261) entfällt. Der Payout-Planer bleibt bei accs.length eingeklappt darunter. Ab der ersten Buchung erscheint die volle Bilanz. Offen ist eine Abstimmung mit prop-12-1: Ganz ohne Konten zeigt der Friedhof dort „Konto anlegen“. Für die Bilanz ohne Konten bleibt „Ausgabe erfassen“ vertretbar (eine Ausgabe geht auch nur mit Firma), sollte aber bewusst entschieden werden.",
+    "anmerkung": "Befund stimmt (extra/hicks-prop-1440-bilanz_ohne_buchungen-s1.png: zwei gefüllte Submits und zwei „× Schließen“ gleichzeitig im Bild; leer_bilanz-s1: zwei gestrichelte Hinweise in Payouts). Nur eine Kleinigkeit in der Begründung: Nicht alle Kacheln zeigen 0 oder —; „Bestehensquote 50 %“ und „1 bestanden · 1 geplatzt“ kommen aus echten Kontodaten. Irreführend sind „Kosten je Bestehen 0,00 €“ und das grüne „erreicht“."
+   },
+   {
+    "id": "prop-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (extra/hicks-prop-1440-bilanz_planer-s2.png). Der Info-Banner wiederholt nicht nur den Kartentitel, sondern nennt auch die Phase; die steht aber schon in der Kontoauswahl („Topstep 50K · Challenge 1 · Aktiv“). Er ist also tatsächlich doppelt. Zu beachten: prop.js:287 setzt `${sugg || history}` in grid two. Fehlen Vorschlag und Historie, bliebe die Bedingungen-Karte halbbreit neben einer leeren Spalte; dann sollte sie ohne grid two gerendert werden."
+   },
+   {
+    "id": "prop-10-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Mit der vorhandenen Klasse `hide-m` (wirkt bis 960px, app.css:1062/1070) an th und td. Payouts (prop.js:267-268): auf dem Handy Konto, Netto, Status und „Erhalten“/Papierkorb; Brutto, Split, Beantragt und Erhalten-Datum werden ausgeblendet. Ausgaben (prop.js:263-264): auf dem Handy Datum, Typ, Firma, Betrag und Papierkorb; Konto und Notiz werden ausgeblendet. Firma bleibt sichtbar, sonst ist auf dem Handy nirgends mehr zu sehen, wofür eine Ausgabe war, denn es gibt keine Detailansicht. Am Desktop bleibt alles sichtbar. Der Kopfreihen-Getter (prop-1-1) nimmt zusätzlich Kopf-„+“, ▷ und FAB von der Bilanz.",
+    "anmerkung": "Befund stimmt (extra/hicks-prop-390-bilanz-s2.png: Die Payout-Tabelle endet bei „Split“, „Erhalten“ liegt rechts außerhalb). Ich korrigiere nur eine Sache: Firma und Konto zusammen auszublenden würde auf dem Handy eine Information ganz unerreichbar machen."
+   },
+   {
+    "id": "prop-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (dark-1440/prop_friedhof.png: Die Karte „Muster“ zeigt bei 1 Grabstein nur den Platzhalter, prop-friedhof.js:61). Die Änderung an prop-friedhof.js:172 ist korrekt. Ab 2 Grabsteinen bleibt auch der Text „Kein wiederkehrendes Muster“ erhalten."
+   },
+   {
+    "id": "prop-12-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: emptyAccounts wird exportiert (prop.js:316), und der Leertext sagt „im Cockpit“, obwohl der Reiter „Übersicht“ heißt (AREAS, prop.js:12). Den Text „Gut so“ ohne Knopf, wenn es Konten gibt, beizubehalten ist richtig."
+   },
+   {
+    "id": "prop-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: Stift und Papierkorb stehen gleich gewichtet in jeder Zeile, also 8 Symbolknöpfe bei 4 Konten (prop.js:233, dark-1440/prop_konten.png). Löschen gibt es im Dialog mit Rückfrage (prop.js:204, 336). Eine klickbare <tr> funktioniert, weil die Aktionen über closest('[data-action]') verteilt werden (app.js:277). Der Stift bleibt als Ziel für die Tastatur nötig, weil eine <tr> nicht fokussierbar ist."
+   },
+   {
+    "id": "prop-13-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (extra/hicks-prop-1440-konten_offen.png: gefülltes „Speichern“ im Ampel-Abschnitt, prop.js:243). Der Knopf ist nur bei aufgeklapptem Abschnitt sichtbar, daher kleine Wirkung."
+   },
+   {
+    "id": "prop-14-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt (extra/hicks-prop-1440-leer_konten.png: zwei gefüllte „Konto anlegen“ untereinander plus „+ Prop-Konto“ in der Kopfreihe). Wirkung 2 statt 1: Alle drei Knöpfe tun dasselbe, eine Fehlentscheidung ist also nicht möglich, und den leeren Konten-Reiter sieht man seltener als die leere Übersicht. Die Ampel-Schwellen sind global (S.settings.propThresholds); sie erst ab dem ersten Konto zu zeigen ist vertretbar, weil sie vorher keine Wirkung haben."
+   },
+   {
+    "id": "prop-15-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt (dark-390/prop_konten.png: nur die Spalten Konto und Phase sichtbar; Status, Stift und Papierkorb liegen rechts außerhalb). Die Stiftspalte aus prop-13-1 kann auf 390 trotzdem noch rechts hinausragen; nötig ist das nicht, weil die Zeile selbst den Dialog öffnet. Hängt von prop-13-1 ab."
+   },
+   {
+    "id": "prop-16-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Befund stimmt im Kern: „Konto anlegen“ steht erst nach dem Scrollen im Bild (extra/hicks-prop-1440-modal_konto_neu.png und _unten.png), der Fuß ist nicht fixiert (app.css:832), und Pflicht sind nur Firma und Kontogröße (prop.js:330). Die Feldzahl ist falsch: 12 Stammfelder plus 18 Regelfelder (Daily Loss 5, Drawdown 5, Target 2, Weitere 3, Payout 3) = 30, mit Preset 31; angegeben waren „rund 33“ bzw. „21 Regelfelder“. Felder in einem geschlossenen details werden mit FormData übertragen, readRules bleibt also gültig. Einschränkung: „steht beim Öffnen im Bild“ gilt am Desktop, auf 390 bei etwa 9 einspaltigen Feldern wohl nicht ganz. Achtung beim Ausblenden von Reset-Uhrzeit und Zeitzone: Der Standard ist die Systemzeitzone, Firmen wie Topstep setzen den Handelstag aber um 17:00 CT zurück. Ein Preset sollte diese Werte füllen."
+   },
+   {
+    "id": "prop-16-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Sinnvoll, denn alle Regelgruppen sind immer sichtbar (prop.js:149-153). Zwei Dinge sind zu präzisieren. (1) rulesFields wird auch im Preset-Dialog benutzt, und der hat keine Phase. Dort müssen Profit Target und Payout-Bedingungen beide erreichbar bleiben, daher die Phasen-Logik nur im Konto-Dialog. (2) Die Beschreibung widerspricht sich: Profit Target soll einmal in „Mehr Optionen“ wandern und dann nur „hidden“ gesetzt werden. Eindeutig ist: per hidden ausblenden, die Werte bleiben im Formular und werden gespeichert."
+   },
+   {
+    "id": "prop-16-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "U.modal fokussiert das erste Element aus input, select, textarea und button, beim Konto-, Preset- und Zuordnen-Dialog also das Schließen-X (ui.js:434). Den sichtbaren grünen Rahmen (:focus-visible, app.css:95) sehen nur Tastaturnutzer. Nachgeprüft mit Playwright: Nach echtem Mausklick auf „+ Prop-Konto“ ist das X fokussiert, aber :focus-visible = false; beim Öffnen per Enter ist es true. Vorschlag: Im Konto-, Preset- und Zuordnen-Dialog per onMount den Fokus auf das erste Eingabefeld setzen, aber nur bei `matchMedia('(pointer: fine)')`. Auf dem Handy würde ein fokussiertes Textfeld sofort die Bildschirmtastatur öffnen und den halben Dialog verdecken. Eine globale Lösung in ui.js:434 (`[data-close]` überspringen) braucht dieselbe Einschränkung.",
+    "anmerkung": "Die Screenshots zeigen den grünen Rahmen nur, weil das Aufnahme-Skript per el.click() im evaluate geklickt hat (audit/hicks-prop.js:13). Für Mausnutzer ist das X nicht auffällig. Das gilt ebenso für die Begründungen zu prop-17, prop-18 und prop-19."
+   },
+   {
+    "id": "prop-17-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Nur per Code bestätigt: „Löschen“ ist .btn.danger.left im Fuß (prop.js:204). Der genannte Beleg extra/hicks-prop-1440-modal_konto_edit_unten.png zeigt den Fuß gar nicht, sondern den oberen Teil, weil das Skript nur Kindelemente scrollt und nicht .modal (hicks-prop.js:21). Ein Ghost-„Entfernen“ links im Fuß gibt es schon beim Check-in (app.js:524), das Muster passt also. Wirkung 3: Neben dem gefüllten „Speichern“ ist der rot umrandete Knopf zwar auffällig, aber klar sekundär, und der Teil „Rest hinter Mehr Optionen“ ist schon in prop-16-1 gezählt."
+   },
+   {
+    "id": "prop-18-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt: „Alle“ und „Keine“ sind umrandete .btn.xs (prop.js:134, extra/hicks-prop-1440-modal_assign.png). Ohne Trades zeigt der Dialog trotzdem „Abbrechen“ und „Speichern“ (prop.js:134-136). Zwei Korrekturen. (1) Der gekürzte Text verliert „Die letzten 50 Trades“, damit ist „ältere“ ohne Bezug. Besser: „Die letzten 50 Trades; ältere ordnest du im Trade-Editor zu.“ (2) „Trade loggen“ im leeren Dialog sollte vorher U.closeModal() aufrufen, sonst stapelt sich der Trade-Dialog über dem Zuordnen-Dialog. Der Autofokus-Rahmen auf dem X ist ein Effekt der Aufnahme (siehe prop-16-3)."
+   },
+   {
+    "id": "prop-19-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Befund stimmt: 8 Stammfelder, 5 Regelgruppen und 5 Gebührenfelder (prop.js:216-225); „Löschen“ ist .btn.danger beim Bearbeiten (prop.js:226). Pflicht sind hier Firma, Konto und Kontogröße (prop.js:357), der Vorschlag lässt sie sichtbar. Wirkung 3 statt 2: Eigene Presets sind optional, und der Dialog wird selten geöffnet. Hängt von prop-16-1 ab (gemeinsames details über rulesFields); die Phasen-Logik aus prop-16-2 darf hier nicht greifen."
+   }
+  ],
+  "screen_korrekturen": "Allgemein: Einige der genannten Aufnahmen gibt es nicht (dark-1440/prop_analyse, prop_auswertung, prop_bilanz, prop_finanzen, prop_payout; dark-390/prop_bilanz). Im Atlas liegen nur prop, prop_cockpit, prop_friedhof, prop_konten und leer_prop (atlas-log.txt). Das ist auch richtig so: #/prop/analyse, /finanzen und /auswertung leiten auf Bilanz oder Friedhof um, #/prop/payout führt auf die Bilanz mit offenem Planer (prop.js:299-300). Es sind also keine eigenen Screens. Die Analyse stützt sich zu Recht auf extra/hicks-prop-*.\n\nIch korrigiere außerdem das HICKS-BRIEF: .btn.accent („Trade loggen“) ist nicht grün gefüllt, sondern hat nur grüne Schrift und einen Verlaufsrand (app.css:3137). Gefüllt ist nur .btn.primary. Die Aussage der Analyse dazu stimmt.\n\nprop-1 (Übersicht voll): Hauptaktion „Trade loggen“ ist plausibel, Hierarchie richtig beschrieben.\n\nprop-2 (Breach): richtig beschrieben, der Zustand ist allerdings in der Aufnahme nachgestellt (hicks-prop.js:25).\n\nprop-3: „wiederholt den Grabstein“ ist übertrieben, Karte und Grabstein zeigen verschiedene Inhalte.\n\nprop-6 (Bilanz): Hauptaktion „Ausgabe erfassen“ ist plausibel. Die beiden gefüllten „erfassen“-Knöpfe stehen in 1440 bei 8 Ausgaben aber nicht gleichzeitig im Bild (s0 und s1).\n\nprop-8: Nicht alle Kacheln zeigen 0 oder —; „Bestehensquote 50 %“ und „1 bestanden · 1 geplatzt“ sind echte Kontodaten. Irreführend sind „Kosten je Bestehen 0,00 €“ und das grüne „erreicht“.\n\nprop-16: Der Dialog hat 30 Felder (12 + 18 Regelfelder), mit Preset 31, nicht „rund 33“ bzw. „21 Regelfelder“. Der grüne Fokusrahmen auf dem X erscheint nur bei Bedienung per Tastatur (mit Playwright geprüft: Mausklick ergibt :focus-visible false). In der Aufnahme kommt er vom synthetischen el.click(). Das gilt ebenso für prop-17, prop-18 und prop-19.\n\nprop-17: Die Hauptaktion „Speichern“ stimmt. „Häufigster Anlass Statuswechsel“ ist zweifelhaft, denn geplatzt und bestanden haben eigene Banner-Knöpfe (prop.js:96-97). Der Dialog dient eher für Regeln, Phasenwechsel und Archivieren. Der Beleg modal_konto_edit_unten.png zeigt den Fuß nicht; „Löschen“ ist nur per Code bestätigt (prop.js:204).\n\nprop-20: Die Zeilenangaben sind falsch. Die leeren Bestätigungstexte stehen in prop.js:366 (Ausgabe) und 371 (Payout), nicht in 347/352. Die Bewertung selbst stimmt."
+ },
+ "vorgaben": {
+  "screen_korrekturen": "prop-1 (Übersicht voll): Falsch ist „Session bleibt über Dashboard erreichbar“. Laut README hat das Dashboard keinen Session-Knopf. Session starten oder beenden bleibt über die Kopfreihe von TradeLog, Tagesansicht, Statistiken, Notebook und News erreichbar (pageHead, app.js:257-260). Außerdem ist `.btn.accent` am Desktop nicht grün gefüllt (app.css:3137: Fläche wie andere Knöpfe, grüne Schrift, leiser grüner Rand). Gefüllt ist nur der FAB auf dem Handy (app.css:3019). Der HICKS-BRIEF nennt ihn ungenau „grün gefüllt“. Die Bewertung „nicht klar“ für die Übersicht bleibt deshalb richtig.\nprop-5, prop-10, prop-15 (Handy): `.hide-m` gilt nicht nur auf dem Handy, sondern bis 960px (app.css:1062/1070), also auch auf Tablets im Hochformat. Alle Vorschläge mit hide-m wirken dort mit.\nprop-6 und prop-8: In der Bilanz ohne Buchungen ist die Kachel „Bestehensquote“ echte Information (sie kommt aus den Konten, nicht aus den Buchungen). Sie fällt im leeren Zustand weg, aber „Bestanden“ und „Geplatzt“ stehen weiter in den Kacheln der Übersicht. Das ist vertretbar.\nprop-16 (Autofokus): Der grüne Fokusrahmen auf dem X erscheint nur bei :focus-visible (app.css:95). Nach einem Mausklick zeigt Chrome ihn bei programmatischem Fokus nicht. Sichtbar ist er bei Tastaturbedienung und in den Playwright-Aufnahmen. Die Wirkung ist deshalb klein.\nprop-20: richtig, kein Vorschlag nötig.",
+  "urteile": [
+   {
+    "id": "prop-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Geprüft: Der Getter funktioniert. screen.head wird nur in pageHead gelesen (app.js:257), und das passiert nach screen.render (app.js:90 vor 96), st().tab ist dann also gesetzt. Vorbild sind die abgenommenen Kopfreihen von Schatten-Ich, Mentor und Coach (shadow.js:104, mentor.js:76, coach.js:219). Die Erreichbarkeit ist im Original falsch beschrieben: Session gibt es nicht auf dem Dashboard, sondern auf TradeLog, Tagesansicht, Statistiken, Notebook und News. Konsistenz: Dieselbe Aktion heißt sonst überall „Konto anlegen“ (prop.js:82, 244), deshalb sollte der Kopfknopf denselben Text tragen. Ein laufender Session-Timer ist auf den Prop-Seiten dann nicht mehr zu sehen; das ist wie beim Schatten-Ich hingenommen. Der README-Abschnitt Prop Firms muss ergänzt werden.",
+    "beschreibung_neu": "prop.js:293: `head` als Getter: `get head() { const has = accounts().length > 0; return { range: false, account: false, session: false, trade: st().tab === 'cockpit' && has }; }`. prop.js:294: actions() gibt nur bei st().tab === 'cockpit' und mindestens einem Konto `<button type=\"button\" class=\"btn ghost\" data-action=\"prop-account-new\">${I.plus}<span class=\"hide-m\">Konto anlegen</span></button>` zurück, sonst ''. Ergebnis: In der vollen Übersicht ist „Trade loggen“ (.btn.accent bzw. FAB) der einzige gerahmte Knopf, daneben tertiär „Konto anlegen“. Die Reiter Bilanz, Friedhof und Konten sowie alle leeren Zustände haben keine Kopf-Werkzeuge mehr, dort zählt der Primärknopf der Ansicht. Erreichbar bleibt alles: Konto anlegen über den Reiter Konten (prop.js:244) und die leeren Zustände (prop.js:82), Trade loggen über Dashboard, TradeLog und Tagesansicht, Session über TradeLog, Tagesansicht, Statistiken, Notebook und News. In der README unter Prop Firms festhalten: „Kopfreihe: Trade loggen nur in der Übersicht mit Konten, kein Session-Knopf (wie Schatten-Ich).“"
+   },
+   {
+    "id": "prop-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Wirkung ist klein, weil beide Knöpfe schon ghost (tertiär) sind und nicht mit der Hauptaktion konkurrieren. Auf dem Handy hilft der Vorschlag aber: Der zweite vollbreite Knopf je Karte entfällt (app.css:2756), und der FAB liegt nicht mehr über „Bearbeiten“. Der Stift ist konsistent mit der Konten-Tabelle (prop.js:233).",
+    "beschreibung_neu": "prop.js:105: „Bearbeiten“ aus .prop-foot entfernen. Stattdessen kommt in den Container `.pills` im Kartenkopf (prop.js:93), hinter die Phasen- und Status-Pille, `<button type=\"button\" class=\"btn ghost icon sm\" data-action=\"prop-account-edit\" data-id=\"${a.id}\" aria-label=\"Bearbeiten\" title=\"Bearbeiten\">${I.edit}</button>`. In `.pills` bricht der Knopf auf dem Handy mit den Pillen um. Im Fuß bleibt nur „Trades zuordnen“ (.btn.sm.ghost)."
+   },
+   {
+    "id": "prop-2-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Richtig: Nach dem Breach zeigen die Balken Werte, die nichts mehr bedeuten (im Beleg „Daily Loss übrig 5.000 von 5.000“, „noch 20 Stop-Losses“). Banner und Detailtext erklären die Ursache, und der Status-Knopf bleibt. Nichts geht verloren: Bei geänderten Regeln rechnet evalOf neu, und die Balken kommen zurück. Die Bedingung `ev.status === 'breached' && active` ist korrekt; nicht aktive Konten deckt prop-3-1 ab."
+   },
+   {
+    "id": "prop-3-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Wirkung ist klein, weil „Abgeschlossen“ standardmäßig eingeklappt ist (prop.js:123). Der Link „Zum Grabstein“ darf nur erscheinen, wenn es den Stein auch gibt. Ein Konto, das im Dialog auf „Geplatzt“ gesetzt wurde, hat weder Breach-Datensatz noch breachedAt und damit keinen Grabstein (prop-friedhof.js:37-40).",
+    "beschreibung_neu": "accountCard (prop.js:89-107) bekommt für `a.status !== 'active'` eine kompakte Form: Kopf mit Status-Pille (und Stift nach prop-1-2), Balance und P&L. Die Blöcke .prop-bars und .prop-meta entfallen. Der Fuß bleibt mit „Trades zuordnen“ (.btn.sm.ghost). Geplatzte Konten bekommen nur dann einen tertiären Textlink `<a class=\"small\" href=\"#/prop/friedhof\">Zum Grabstein</a>`, wenn es für die Konto-ID einen Breach-Datensatz gibt (S.propBreaches()) oder a.breachedAt gesetzt ist, also dieselbe Bedingung wie breachesOf in prop-friedhof.js:37-40."
+   },
+   {
+    "id": "prop-4-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Richtig: Die Preset-Auswahl erscheint nur, wenn es eigene Presets gibt (prop.js:189, README:254), der Verweis auf „Firmen-Preset“ ist also irreführend. emptyAccounts() wird von Übersicht, Konten und (nach prop-12-1) Friedhof genutzt, der neue Satz gilt dann überall gleich. Die Kopfreihe ohne Werkzeuge folgt aus prop-1-1."
+   },
+   {
+    "id": "prop-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Wirkung ist geringer als angegeben, weil prop-1-1 ▷ schon entfernt und „+“ tertiär macht. Übrig bleibt nur das unbeschriftete „+“ neben dem FAB-„+“. Achtung: hide-m wirkt bis 960px (app.css:1062/1070), also auch auf Tablets im Hochformat. Das ist vertretbar, weil Konto anlegen über den Reiter Konten erreichbar bleibt.",
+    "beschreibung_neu": "Zusätzlich zu prop-1-1: Der tertiäre Kopfknopf „Konto anlegen“ in der Übersicht bekommt `hide-m` am ganzen Knopf statt nur am Label (`<button class=\"btn ghost hide-m\" …>`). Unter 960px bleibt dann voll nur der FAB „Trade loggen“ und leer nur der große Knopf „Konto anlegen“. Konto anlegen bleibt über den Reiter Konten (Primärknopf im Kartenkopf, prop.js:244) erreichbar."
+   },
+   {
+    "id": "prop-6-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Rangfolge Ausgabe vor Payout ist plausibel (Gebühren sind die häufigste Buchung) und passt zu prop-8-1 („oder Payout erfassen“ tertiär). Am Desktop stehen die beiden gefüllten Knöpfe nie gleichzeitig im Bild (s0 und s1), deshalb Wirkung 2 statt 1. Die Änderung im Toggle (prop.js:324) ist nötig, sonst bekommt der Payout-Knopf beim Schließen wieder `primary`."
+   },
+   {
+    "id": "prop-6-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Nach prop-8-1 entfällt die automatische Öffnung (prop.js:261). Zwei offene Formulare gibt es dann nur noch, wenn der Nutzer beide öffnet, deshalb Wirkung 3. Beim Zurücksetzen des anderen Knopfs muss die Stufe aus prop-6-1 gelten.",
+    "beschreibung_neu": "'prop-entry' (prop.js:324): Wird ein Formular geöffnet (e[kind] wird true), dann für other = kind === 'expense' ? 'payout' : 'expense': e[other] = false, #prop-entry-<other>.hidden = true, und dessen Knopf ([data-action=\"prop-entry\"][data-value=\"<other>\"]) zurücksetzen. Dazu gehören Text „+ Ausgabe erfassen“ bzw. „+ Payout erfassen“, aria-expanded=\"false\" und die Klasse primary nur bei other === 'expense' (prop-6-1)."
+   },
+   {
+    "id": "prop-6-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Das ist eher Reduktion (Regel 5) als Regel 3. Nützlich, weil so die Payout-Zeile mit „Erhalten“ (eine echte Handlung) näher rückt. Es geht nichts verloren. Der Zustand bleibt in st().fold erhalten, wie bei den anderen aufklappbaren Abschnitten.",
+    "beschreibung_neu": "tabBilanz (prop.js:263-264): Gibt es mehr als 5 Ausgaben und st().fold.expAll ist nicht true, nur die 5 neuesten Zeilen rendern. Darunter steht `<button type=\"button\" class=\"btn ghost sm\" data-action=\"prop-exp-all\">Alle ${ex.length} anzeigen</button>`, aufgeklappt „Weniger anzeigen“. Die Aktion 'prop-exp-all' schaltet st().fold.expAll um und ruft App.rerender() (Scrollstand bleibt über den vorhandenen keep-Mechanismus)."
+   },
+   {
+    "id": "prop-7-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Für Payout richtig (7 Felder werden zu 3). Für Ausgabe greift der Vorschlag so nicht: Das Konto steht standardmäßig auf „—“ (accOpts(''), prop.js:259), das details wäre also fast immer offen und nichts würde reduziert. Die Firma gehört als bedingtes Feld neben das Konto, nicht hinter „Mehr Optionen“. Ein Konto sollte nicht automatisch vorausgewählt werden (Gebühren entstehen oft vor dem Anlegen des Kontos). Alle Pflichtfelder (amount, date, accountId, gross, requestedAt) bleiben sichtbar, kein Pflichtfeld steckt im geschlossenen details. „Mehr Optionen“ sollte derselbe Baustein sein wie in prop-16-1 und prop-19-1.",
+    "beschreibung_neu": "Ein gemeinsamer Helfer in prop.js: `const more = (body, open) => <details class=\"prop-more\"${open ? ' open' : ''}><summary class=\"btn ghost sm\">Mehr Optionen</summary><div class=\"form-grid\">${body}</div></details>`. Er gilt auch für die Dialoge (prop-16-1, prop-19-1). Ausgabe (expForm, prop.js:262): sichtbar sind Typ, Betrag, Datum, Konto und Submit. Das Feld Firma steht nur, solange das Konto „—“ ist: data-change auf #pe-acc schaltet `hidden` am Firma-Feld, denn prop-expense-add übernimmt die Firma sonst aus dem Konto. Notiz kommt in more(). Payout (poForm, prop.js:266): sichtbar sind Konto, Brutto, Beantragt am und Submit. Split, Netto (automatisch), Erhalten am und Status kommen in more(). Die Rechenlogik bleibt (prop-payout-net, prop-payout-add setzen den Status bei „Erhalten am“ auf received). Der Submit bleibt .btn.primary."
+   },
+   {
+    "id": "prop-8-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Richtig, aber der Mechanismus muss genauer sein. Mit 'prop-entry' würde der ghost-Knopf „oder Payout erfassen“ beim Umschalten `primary` bekommen und sein Text verloren gehen (prop.js:324). Außerdem stehen die Formulare in den Karten, die im leeren Zustand nicht gerendert werden. Die README-Entscheidung „Eingabeformulare öffnen sich über den Knopf im Kartenkopf“ (README:249-251) wird dadurch eingehalten (keine Auto-Öffnung mehr), muss aber um den leeren Zustand ergänzt werden. #/prop/payout funktioniert weiter, weil der Planer bei accs.length bleibt.",
+    "beschreibung_neu": "tabBilanz (prop.js:252): Die Auto-Öffnung in prop.js:261 entfällt. Neue Aktion 'prop-entry-open'(el): st().entry = { [el.dataset.value]: true }; App.rerender(). Bei `!ex.length && !po.length` wird statt tiles, chart, byFirm, expenses und payouts gerendert: (a) Ist kein Formular offen, `U.empty('chart', 'Noch keine Ausgaben oder Payouts', 'Erfasse deine erste Challenge-Gebühr, dann zeigt die Bilanz Netto, ROI und Break-even.', …)` mit `.btn.primary` „Ausgabe erfassen“ (data-action=\"prop-entry-open\" data-value=\"expense\") und, nur bei accs.length, `.btn.ghost` „oder Payout erfassen“ (data-value=\"payout\"). (b) Ist ein Formular offen, nur die Karte dazu (Ausgaben- bzw. Payouts-Karte mit offenem Formular und „× Schließen“ im Kopf). In 'prop-entry' gilt: Gibt es keine Buchungen, nach dem Schließen App.rerender() aufrufen, damit wieder der leere Zustand erscheint. Bei accs.length steht der Payout-Planer weiter eingeklappt darunter. Ab der ersten Buchung erscheint die volle Bilanz. README: „ohne Buchungen zeigt die Bilanz nur einen Satz und „Ausgabe erfassen“ (Payout tertiär)“."
+   },
+   {
+    "id": "prop-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Vorschlag hat eine Layout-Lücke. Ohne Vorschlag und ohne eigene Payouts (z. B. geplatztes Konto: sugg ist leer, prop.js:284) stünde „Bedingungen“ allein in `grid two`, also halb breit neben einer leeren Spalte (prop.js:287). U.card unterstützt `sub` (ui.js:170).",
+    "beschreibung_neu": "prop.js:279: Den letzten Zweig von `intro` (Info-Banner für die Challenge) streichen. Sein Satz („Der Planer zeigt den Weg zum Bestehen: Profit Target und Mindest-Handelstage statt Payout-Bedingungen.“) wird `sub` der Karte „Bedingungen zum Bestehen“. prop.js:283: U.kv('Profit Split', …) nur bei plan.funded. prop.js:286-287: Die Karte „Payouts dieses Kontos“ nur bei hist.length rendern. Die rechte Spalte ist `sugg || (hist.length ? history : '')`. Ist sie leer, conds ohne `grid two` in voller Breite rendern."
+   },
+   {
+    "id": "prop-10-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Der Befund stimmt (390-s1/s2: Betrag, Netto, Status und „Erhalten“ sind nicht zu sehen). hide-m wirkt bis 960px. Damit Werte auf dem Handy nicht ganz verschwinden: Brutto, Beantragt und Erhalten-Datum stehen weiter in der Planer-Tabelle „Payouts dieses Kontos“ (prop.js:286). Die Notiz einer Ausgabe kommt als vorhandene `.sub`-Zeile (app.css:611) unter den Typ, statt nur ausgeblendet zu werden.",
+    "beschreibung_neu": "Payouts (prop.js:267-268): th und td für Brutto, Split, Beantragt und Erhalten-Datum bekommen `hide-m`. Unter 960px bleiben Konto, Netto, Status und die Aktionsspalte („Erhalten“ und Papierkorb). Ausgaben (prop.js:263-264): Die eigene Spalte Notiz entfällt, die Notiz steht als `<div class=\"sub\">` unter dem Typ (in allen Breiten, Muster wie prop.js:233). th und td für Firma und Konto bekommen `hide-m`. Unter 960px bleiben Datum, Typ (mit Notiz), Betrag und Papierkorb. Am Desktop bleibt alles sichtbar. Kopf-„+“, ▷ und FAB verschwinden über prop-1-1 von der Bilanz."
+   },
+   {
+    "id": "prop-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Richtig. Die Musteranalyse (README:260) bleibt erhalten und erscheint, sobald es etwas zu vergleichen gibt. Ab zwei Steinen ohne Muster bleibt der Text „Kein wiederkehrendes Muster“ (prop-friedhof.js:61), denn das ist ein Ergebnis."
+   },
+   {
+    "id": "prop-12-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "PS.emptyAccounts ist exportiert (prop.js:316). Mit prop-4-1 gilt derselbe kurze Satz und derselbe eine Knopf in Übersicht, Konten und Friedhof. Die Korrektur „im Cockpit“ → „in der Übersicht“ passt zum Reiternamen (prop.js:12)."
+   },
+   {
+    "id": "prop-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Löschen bleibt im Konto-Dialog mit Rückfrage erreichbar (prop.js:204, 336), also als zweiter Schritt. Für klickbare Zeilen gibt es das Muster `tr.link` (trades.js:49, day.js:15, shadow.js:69). Der Klick auf den Stift trifft zuerst den Knopf (closest, app.js:277), das ist unkritisch. Konsistenz: Die Zeilen der eigenen Presets (prop.js:238, Stift und Papierkorb) sollten genauso behandelt werden, denn der Preset-Dialog hat beim Bearbeiten einen Löschen-Knopf (prop.js:226).",
+    "beschreibung_neu": "prop.js:233: Den Papierkorb je Zeile entfernen. `<tr class=\"link\" data-action=\"prop-account-edit\" data-id=\"${a.id}\">`, der Stift bleibt als sichtbarer Hinweis. Ebenso in den Zeilen der eigenen Presets (prop.js:238): `tr.link` mit data-action=\"prop-preset-edit\", Papierkorb weg, Löschen nur noch im Preset-Dialog. Beide Löschwege behalten die bestehende Rückfrage (prop.js:336, 359)."
+   },
+   {
+    "id": "prop-13-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Richtig. In konten_offen stehen zwei gefüllte Knöpfe („Konto anlegen“ und „Speichern“). Das Speichern im Abschnitt Ampel ist eine Nebeneinstellung und wird nur aufgeklappt sichtbar. `btn sm` ist die vorhandene sekundäre Stufe."
+   },
+   {
+    "id": "prop-14-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Richtig: Im Beleg stehen zwei gleich gefüllte „Konto anlegen“ untereinander. Wirkung 2 statt 1, weil neue Nutzer zuerst auf der Übersicht landen (dafür prop-4-1). Ampel und Stop-Größe haben ohne Konto keine Wirkung. Der Abschnitt erscheint mit dem ersten Konto, also geht nichts verloren. Die eigenen Presets bleiben eingeklappt erreichbar (Vorlagen für das erste Konto)."
+   },
+   {
+    "id": "prop-15-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Richtig: Auf 390 sieht man nur Konto und Phase, Bearbeiten ist praktisch unerreichbar (dark-390/prop_konten.png). Die klickbare Zeile (prop-13-1) behebt das. hide-m wirkt bis 960px. Start, Gruppe und Trades stehen weiter im Konto-Dialog (Startdatum, Gruppe) bzw. auf der Karte in der Übersicht (Trades), es geht also nichts verloren."
+   },
+   {
+    "id": "prop-16-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Die größte Verbesserung im Bereich: rund 33 gleichrangige Felder, und der Hauptknopf ist beim Öffnen nicht zu sehen. Präzisieren muss man (1) das Zusammenspiel mit prop-16-2: Die Lock-Felder gehören bei „Trailing mit Lock“ sichtbar in die Drawdown-Zeile, nicht hinter „Mehr Optionen“; (2) „Mehr Optionen“ ist derselbe Baustein wie in prop-7-1 und prop-19-1; (3) Pflichtfelder (Firma, Kontogröße) dürfen nie im geschlossenen details stehen. Status wirkt nicht auf die Bewertung, die Trades werden nicht nach dem Startdatum gefiltert (store.js:218), Startbalance ist standardmäßig gleich der Kontogröße. Die Standardwerte im Hintergrund sind also unkritisch.",
+    "beschreibung_neu": "accountEditor (prop.js:182-206) und rulesFields (prop.js:140-156). Sichtbar beim Anlegen: Preset (nur bei eigenen Presets), Firma, Konto, Kontogröße, Phase. Bei den Regeln: Daily-Loss-Wert, Max.-Drawdown-Wert und -Typ (bei Typ trailing_lock zusätzlich „Lock bei Start +“ und „Peak-Basis“, siehe prop-16-2), dazu Profit-Target-Wert (Challenge) bzw. die drei Payout-Bedingungen (Funded). Alles andere steht im gemeinsamen Helfer more() aus prop-7-1 vor dem Fuß: Markt, Währung, Status (beim Bearbeiten sichtbar, siehe prop-17-1), Startdatum, Startbalance, Profit Split, Gruppe, Notiz, die Modi von Daily Loss, Drawdown und Profit Target, Basis, Reset-Uhrzeit, Zeitzone und „Weitere Regeln“. Die Standardwerte bleiben (Futures, USD, Aktiv, heute, Startbalance = Kontogröße, 90 %, Betrag, Balance, 00:00, System-Zeitzone, intraday). readRules und fillAccountForm lesen bzw. füllen weiter alle Felder, auch die versteckten. Pflichtfelder (firm, size) liegen nie im details. Den Info-Banner (prop.js:188) als `<span class=\"hint\">` unter „Regeln dieses Kontos“ setzen. Danach steht „Konto anlegen“ beim Öffnen bei 1440 im Bild."
+   },
+   {
+    "id": "prop-16-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Phasen-Abhängigkeit gilt nur im Konto-Dialog. Ein Preset hat keine Phase und braucht Profit Target und Payout-Bedingungen gleichzeitig. Felder nicht verschieben, sondern nur `hidden` setzen, sonst gibt es Doppelungen mit demselben name in FormData. Die Werte bleiben gespeichert, und die Gruppe erscheint wieder, sobald die Phase wechselt. Das ist der einzige Zeitpunkt, an dem sie gebraucht wird.",
+    "beschreibung_neu": "rulesFields bekommt o.phase. Die Gruppen Profit Target und Payout-Bedingungen bekommen data-rule=\"pt\" bzw. data-rule=\"po\". Im Konto-Dialog ist bei Phase funded die PT-Gruppe `hidden`, bei challenge1/challenge2 die PO-Gruppe. Umschalten über data-change=\"prop-phase-fields\" auf #pa-phase. In beiden Dialogen stehen „Lock bei Start +“ und „Peak-Basis (Lock)“ in der sichtbaren Drawdown-Zeile, aber nur bei dd_type = trailing_lock. Umschalten über data-change=\"prop-dd-fields\" am Typ-Select (sel() in rulesFields bekommt dafür ein optionales Attribut); den Anfangszustand beim Rendern setzen. Nur `hidden`, die Werte bleiben im Formular und werden gespeichert."
+   },
+   {
+    "id": "prop-16-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die globale Variante ist gefährlich. Überspringt ui.js:434 alle [data-close], fokussiert confirmModal (ui.js:447: X und „Abbrechen“ tragen data-close) den roten „Löschen“-Knopf, und Enter löscht sofort. Ein Fokus in onMount reicht auch nicht, denn U.modal setzt danach per setTimeout(30) den eigenen Fokus und überschreibt ihn. Auf dem Handy kann ein Fokus im Bottom-Sheet die Tastatur öffnen. Der Trade-Dialog nutzt deshalb noFocus (app.js:369).",
+    "beschreibung_neu": "U.modal (ui.js:434) bekommt eine Option `focus` (Selektor): `const f = o.focus ? bg.querySelector(o.focus) : bg.querySelector('input:not([type=hidden]),select,textarea,button');`. Sonst bleibt alles wie bisher, confirmModal ändert sich nicht. accountEditor übergibt `focus: '#pa-preset, #pa-firm'`, presetEditor `focus: '#pp-firm'` (im Ansehen-Modus nicht), assignModal `focus: '.prop-assign input[type=checkbox]'`. Auf dem Handy (matchMedia('(max-width: 560px)')) zusätzlich `noFocus: true` wie im Trade-Dialog."
+   },
+   {
+    "id": "prop-17-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die rote Rückfrage (prop.js:336) bleibt die Sicherung. Rot erscheint dann erst im Bestätigungsschritt. Konsistenz: Dieselbe Stufe gilt für „Preset löschen“ (prop-19-1). Mit prop-13-1 ist der Dialog der einzige Löschweg, er bleibt aber klar erreichbar (Fuß links). Status nach vorn passt zur Info im Kartenkopf (prop.js:244: „Status setzt du im Konto-Dialog“)."
+   },
+   {
+    "id": "prop-18-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Zwei Korrekturen. (1) Der gekürzte Text verliert „die letzten 50“, und damit die Erklärung, warum ältere Trades fehlen. (2) Ein Knopf mit data-close und data-action führt die Aktion nicht aus, weil data-close Vorrang hat (app.js:280). Nur 'new-trade' würde den Trade-Dialog über dem veralteten Zuordnen-Dialog stapeln. In Dialogen ist die Primärstufe `.btn.primary` (HICKS-BRIEF).",
+    "beschreibung_neu": "prop.js:134: „Alle“ und „Keine“ werden `btn xs ghost` und erscheinen nur bei all.length >= 2. Ohne Trades (!all.length) besteht der Fuß nur aus `<button type=\"button\" class=\"btn primary\" data-action=\"prop-assign-log\">${I.plus} Trade loggen</button>`. Neue Aktion: 'prop-assign-log'() { U.closeModal(); App.openTradeEditor(null); }. Dort kann das Prop-Konto direkt per Chip gewählt werden (app.js:366). Das X schließt weiterhin. Erklärtext: „Die letzten 50 Trades. Angehakte zählen für dieses Konto; ältere ordnest du im Trade-Editor zu.“"
+   },
+   {
+    "id": "prop-19-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Das ist eine seltene Aufgabe (eigene Presets, eingeklappt), deshalb Wirkung 3. Der Ansehen-Modus ist eine reine Leseansicht, dort müssen alle Werte sichtbar bleiben. Er ist praktisch nur noch für Altpresets erreichbar (README:252-254).",
+    "beschreibung_neu": "presetEditor (prop.js:208-228): sichtbar sind Firma, Konto, Kontogröße, Daily-Loss-Wert, Max.-Drawdown-Wert und -Typ (Lock-Felder nach prop-16-2), Profit-Target-Wert und Challenge-Gebühr. Alles andere (Markt, Währung, Profit Split, Zuletzt geprüft am, Notiz, die Modi, Basis, Reset, Zeitzone, Weitere Regeln, Payout-Bedingungen, übrige Gebühren) kommt in denselben Helfer more() wie im Konto-Dialog. Pflichtfelder (firm, name, size) bleiben sichtbar. Im Ansehen-Modus ist more() offen (`open`). Beim Bearbeiten wird „Löschen“ zu `btn ghost left` mit Text „Preset löschen“, die Rückfrage (prop.js:359) bleibt. Der Fuß im Ansehen-Modus bleibt unverändert."
+   }
+  ]
+ }
+}

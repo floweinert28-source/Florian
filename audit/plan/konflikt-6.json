@@ -1,0 +1,831 @@
+{
+ "anker": [
+  {
+   "anker": "U.kv",
+   "schritte": [
+    {
+     "nr": "abstaende-M6",
+     "gruppe": "abstaende",
+     "titel": "Consistency-Zeile zweizeilig: Wert ohne „heute noch … erlaubt“ und title, eigene kv-Zeile „Heute noch erlaubt“, Karte cls prop-conds",
+     "von": 475,
+     "bis": 476,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C12b",
+     "gruppe": "aufbau",
+     "titel": "Prop-Karte: Wert verlinkt in den Payout-Planer des Kontos",
+     "von": 561,
+     "bis": 564,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C14c",
+     "gruppe": "aufbau",
+     "titel": "tabSummary: Karten „Serien“, „Extreme“, „Drawdown & Risiko“; Karte „Haltedauer“ entfällt",
+     "von": 598,
+     "bis": 601,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "diagramme-L1",
+     "gruppe": "diagramme",
+     "titel": "Notiz-Statistik: Trade-Notiz als „Trade-Details“ (.kv), Tagesnotiz Sparkline ab 3 Trades, Zähler nur > 0",
+     "von": 674,
+     "bis": 685,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "farbe-C30",
+     "gruppe": "farbe",
+     "titel": "Statistik: Legendenpunkt --profit, statVal rSigned, Zähler neutral bzw. nur > 0, Tages-DD-Strich faint",
+     "von": 533,
+     "bis": 538,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.12a",
+     "gruppe": "responsiv",
+     "titel": "Prop-Karte: „Bis zum Bestehen“, Betrag ohne Dopplung in Kontowährung (planText)",
+     "von": 514,
+     "bis": 517,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "[data-fold=\"planer\"]",
+   "schritte": [
+    {
+     "nr": "aufbau-C12b",
+     "gruppe": "aufbau",
+     "titel": "Prop-Karte: Wert verlinkt in den Payout-Planer des Kontos",
+     "von": 561,
+     "bis": 564,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-P3",
+     "gruppe": "zustaende",
+     "titel": "#/prop/payout: Bilanz mit offenem Planer, Adresse auf #/prop/bilanz umschreiben, Planer unter die Titelzeile scrollen",
+     "von": 731,
+     "bis": 734,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#/prop/bilanz",
+   "schritte": [
+    {
+     "nr": "aufbau-C12b",
+     "gruppe": "aufbau",
+     "titel": "Prop-Karte: Wert verlinkt in den Payout-Planer des Kontos",
+     "von": 561,
+     "bis": 564,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-P3",
+     "gruppe": "zustaende",
+     "titel": "#/prop/payout: Bilanz mit offenem Planer, Adresse auf #/prop/bilanz umschreiben, Planer unter die Titelzeile scrollen",
+     "von": 731,
+     "bis": 734,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "stats.tabDays",
+   "schritte": [
+    {
+     "nr": "aufbau-C14d",
+     "gruppe": "aufbau",
+     "titel": "Reiter Tage: Kennzahl-Leiste mit 6 Kacheln, Karte „Tage im Detail“, Wochentag-Balken weg",
+     "von": 602,
+     "bis": 606,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "farbe-C30",
+     "gruppe": "farbe",
+     "titel": "Statistik: Legendenpunkt --profit, statVal rSigned, Zähler neutral bzw. nur > 0, Tages-DD-Strich faint",
+     "von": 533,
+     "bis": 538,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".topbar",
+   "schritte": [
+    {
+     "nr": "responsiv-A4",
+     "gruppe": "responsiv",
+     "titel": "Safe Area und Seitenränder: Titelzeile, Inhalt, runder Knopf",
+     "von": 247,
+     "bis": 253,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-P3",
+     "gruppe": "zustaende",
+     "titel": "#/prop/payout: Bilanz mit offenem Planer, Adresse auf #/prop/bilanz umschreiben, Planer unter die Titelzeile scrollen",
+     "von": 731,
+     "bis": 734,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".grid.tiles.kstrip",
+   "schritte": [
+    {
+     "nr": "aufbau-B11",
+     "gruppe": "aufbau",
+     "titel": "Kachelleisten mit 4 bzw. 6 Kacheln (kstrip, ab 961 px)",
+     "von": 370,
+     "bis": 378,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C14d",
+     "gruppe": "aufbau",
+     "titel": "Reiter Tage: Kennzahl-Leiste mit 6 Kacheln, Karte „Tage im Detail“, Wochentag-Balken weg",
+     "von": 602,
+     "bis": 606,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "responsiv-B6a",
+     "gruppe": "responsiv",
+     "titel": "Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px",
+     "von": 292,
+     "bis": 310,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--gutter",
+   "schritte": [
+    {
+     "nr": "abstaende-A1",
+     "gruppe": "abstaende",
+     "titel": "Abstands-Token in :root nach --gutter einfügen (--sp-1 … --sp-10, --content-gap, --grid-gap, --pad-card, --w-chat/--w-news/--w-read/--w-single); Abschnitt-3-Vorspann mit Reihenfolge und Prüfablauf",
+     "von": 293,
+     "bis": 303,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A4",
+     "gruppe": "responsiv",
+     "titel": "Safe Area und Seitenränder: Titelzeile, Inhalt, runder Knopf",
+     "von": 247,
+     "bis": 253,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".content",
+   "schritte": [
+    {
+     "nr": "abstaende-A4",
+     "gruppe": "abstaende",
+     "titel": ".content auf Token (padding-top var(--sp-6), gap var(--content-gap)); neu: Kopfreihe 16 px über negativen Rand, .page-head:empty ausblenden, Dashboard-Lücke 16 über --content-gap",
+     "von": 306,
+     "bis": 306,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A4",
+     "gruppe": "responsiv",
+     "titel": "Safe Area und Seitenränder: Titelzeile, Inhalt, runder Knopf",
+     "von": 247,
+     "bis": 253,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".topbar .menu-btn",
+   "schritte": [
+    {
+     "nr": "komponenten-C10",
+     "gruppe": "komponenten",
+     "titel": "Menü-Knopf nur am Handy",
+     "von": 256,
+     "bis": 259,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A4",
+     "gruppe": "responsiv",
+     "titel": "Safe Area und Seitenränder: Titelzeile, Inhalt, runder Knopf",
+     "von": 247,
+     "bis": 253,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dash-main",
+   "schritte": [
+    {
+     "nr": "abstaende-C2",
+     "gruppe": "abstaende",
+     "titel": "Dashboard-Raster: .dash-top/.dash-main gap var(--grid-gap), Rasterhöhen mit --grid-gap, flache Bereichskarten wachsen mit (.w.flat), Leerzustand oben, .btn.fw-reset margin-top",
+     "von": 351,
+     "bis": 351,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-C5",
+     "gruppe": "abstaende",
+     "titel": "Dashboard 961–1240 px: zwei Widget-Spalten (groß span 2); Score-Skala im Container ≤ 150 px nur erste/letzte Beschriftung",
+     "von": 354,
+     "bis": 354,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-C6",
+     "gruppe": "abstaende",
+     "titel": "Tablet: Karussell-Zeilen im 960er-Block löschen; 721–960 zwei Widget-Spalten; 561–1240 fünf Kacheln als 3 + 2; vier Kacheln (.dash-top, .grid.tiles) vier Spalten bei 1000–1240 und 800–960",
+     "von": 355,
+     "bis": 355,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-E-dashtest-15",
+     "gruppe": "barrierefreiheit",
+     "titel": "dashtest.js:15 auf button.info umstellen",
+     "von": 896,
+     "bis": 902,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/e2e/dashtest.js"
+     ]
+    },
+    {
+     "nr": "responsiv-B6a",
+     "gruppe": "responsiv",
+     "titel": "Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px",
+     "von": 292,
+     "bis": 310,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dash-top",
+   "schritte": [
+    {
+     "nr": "abstaende-C2",
+     "gruppe": "abstaende",
+     "titel": "Dashboard-Raster: .dash-top/.dash-main gap var(--grid-gap), Rasterhöhen mit --grid-gap, flache Bereichskarten wachsen mit (.w.flat), Leerzustand oben, .btn.fw-reset margin-top",
+     "von": 351,
+     "bis": 351,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-C6",
+     "gruppe": "abstaende",
+     "titel": "Tablet: Karussell-Zeilen im 960er-Block löschen; 721–960 zwei Widget-Spalten; 561–1240 fünf Kacheln als 3 + 2; vier Kacheln (.dash-top, .grid.tiles) vier Spalten bei 1000–1240 und 800–960",
+     "von": 355,
+     "bis": 355,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-E-dashtest-15",
+     "gruppe": "barrierefreiheit",
+     "titel": "dashtest.js:15 auf button.info umstellen",
+     "von": 896,
+     "bis": 902,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/e2e/dashtest.js"
+     ]
+    },
+    {
+     "nr": "responsiv-B6a",
+     "gruppe": "responsiv",
+     "titel": "Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px",
+     "von": 292,
+     "bis": 310,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dash-main > .add-slot.gap.sz-gross",
+   "schritte": [
+    {
+     "nr": "abstaende-C5",
+     "gruppe": "abstaende",
+     "titel": "Dashboard 961–1240 px: zwei Widget-Spalten (groß span 2); Score-Skala im Container ≤ 150 px nur erste/letzte Beschriftung",
+     "von": 354,
+     "bis": 354,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-C6",
+     "gruppe": "abstaende",
+     "titel": "Tablet: Karussell-Zeilen im 960er-Block löschen; 721–960 zwei Widget-Spalten; 561–1240 fünf Kacheln als 3 + 2; vier Kacheln (.dash-top, .grid.tiles) vier Spalten bei 1000–1240 und 800–960",
+     "von": 355,
+     "bis": 355,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B6a",
+     "gruppe": "responsiv",
+     "titel": "Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px",
+     "von": 292,
+     "bis": 310,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dash-main > .skel.sz-gross",
+   "schritte": [
+    {
+     "nr": "abstaende-C6",
+     "gruppe": "abstaende",
+     "titel": "Tablet: Karussell-Zeilen im 960er-Block löschen; 721–960 zwei Widget-Spalten; 561–1240 fünf Kacheln als 3 + 2; vier Kacheln (.dash-top, .grid.tiles) vier Spalten bei 1000–1240 und 800–960",
+     "von": 355,
+     "bis": 355,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B6a",
+     "gruppe": "responsiv",
+     "titel": "Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px",
+     "von": 292,
+     "bis": 310,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".kstrip",
+   "schritte": [
+    {
+     "nr": "abstaende-C6",
+     "gruppe": "abstaende",
+     "titel": "Tablet: Karussell-Zeilen im 960er-Block löschen; 721–960 zwei Widget-Spalten; 561–1240 fünf Kacheln als 3 + 2; vier Kacheln (.dash-top, .grid.tiles) vier Spalten bei 1000–1240 und 800–960",
+     "von": 355,
+     "bis": 355,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-B11",
+     "gruppe": "aufbau",
+     "titel": "Kachelleisten mit 4 bzw. 6 Kacheln (kstrip, ab 961 px)",
+     "von": 370,
+     "bis": 378,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dash-main > .w.sz-gross",
+   "schritte": [
+    {
+     "nr": "abstaende-C6",
+     "gruppe": "abstaende",
+     "titel": "Tablet: Karussell-Zeilen im 960er-Block löschen; 721–960 zwei Widget-Spalten; 561–1240 fünf Kacheln als 3 + 2; vier Kacheln (.dash-top, .grid.tiles) vier Spalten bei 1000–1240 und 800–960",
+     "von": 355,
+     "bis": 355,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B6a",
+     "gruppe": "responsiv",
+     "titel": "Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px",
+     "von": 292,
+     "bis": 310,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn.fw-reset",
+   "schritte": [
+    {
+     "nr": "abstaende-C2",
+     "gruppe": "abstaende",
+     "titel": "Dashboard-Raster: .dash-top/.dash-main gap var(--grid-gap), Rasterhöhen mit --grid-gap, flache Bereichskarten wachsen mit (.w.flat), Leerzustand oben, .btn.fw-reset margin-top",
+     "von": 351,
+     "bis": 351,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C09",
+     "gruppe": "komponenten",
+     "titel": "Einzelfälle der Knöpfe auf die Stufen zurückführen",
+     "von": 248,
+     "bis": 255,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".replay-decide .btn.big",
+   "schritte": [
+    {
+     "nr": "komponenten-C09",
+     "gruppe": "komponenten",
+     "titel": "Einzelfälle der Knöpfe auf die Stufen zurückführen",
+     "von": 248,
+     "bis": 255,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fw-go",
+   "schritte": [
+    {
+     "nr": "farbe-C14e",
+     "gruppe": "farbe",
+     "titel": "Feature-Widgets (Schatten-Ich, Blind-Replay, Prop, Ruhepunkt, Mentor-Link): primary entfernen, Mentor-Fragen bleibt primary",
+     "von": 446,
+     "bis": 447,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C09",
+     "gruppe": "komponenten",
+     "titel": "Einzelfälle der Knöpfe auf die Stufen zurückführen",
+     "von": 248,
+     "bis": 255,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".voice-actions .btn.big",
+   "schritte": [
+    {
+     "nr": "komponenten-C09",
+     "gruppe": "komponenten",
+     "titel": "Einzelfälle der Knöpfe auf die Stufen zurückführen",
+     "von": 248,
+     "bis": 255,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".card-title",
+   "schritte": [
+    {
+     "nr": "aufbau-A4a",
+     "gruppe": "aufbau",
+     "titel": "CSS für Kartentitel als h2 (.card-title letter-spacing/text-wrap)",
+     "von": 278,
+     "bis": 279,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-B8",
+     "gruppe": "aufbau",
+     "titel": "U.card: Kartentitel als <h2 class=\"card-title\">",
+     "von": 360,
+     "bis": 362,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C7",
+     "gruppe": "diagramme",
+     "titel": "nameChart: role=img und aria-label (data-label oder Kartentitel) nach jedem Zeichnen",
+     "von": 395,
+     "bis": 403,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-group-title b",
+   "schritte": [
+    {
+     "nr": "aufbau-A4e",
+     "gruppe": "aufbau",
+     "titel": "Prop-Gruppentitel 13px/600 --text-2",
+     "von": 291,
+     "bis": 291,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4f",
+     "gruppe": "typografie",
+     "titel": "Listen-Titel explizit auf 600 (statt geerbtem Bold)",
+     "von": 341,
+     "bis": 341,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-gh",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-dash-filter-168-189",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster: Fokus beim Öffnen, Tab-Falle, Rücksprung nur nach ×/Escape/Anwenden, hashchange gekapselt",
+     "von": 822,
+     "bis": 833,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-h",
+   "schritte": [
+    {
+     "nr": "aufbau-C12c",
+     "gruppe": "aufbau",
+     "titel": "Prop-Übersicht: Überschrift nur zusammen mit den Filtern",
+     "von": 565,
+     "bis": 565,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#fd-layer",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-dash-filter-158",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster: Fokus beim Umschalten halten (refresh)",
+     "von": 819,
+     "bis": 821,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-dash-filter-168-189",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster: Fokus beim Öffnen, Tab-Falle, Rücksprung nur nach ×/Escape/Anwenden, hashchange gekapselt",
+     "von": 822,
+     "bis": 833,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    },
+    {
+     "nr": "bewegung-3.8b",
+     "gruppe": "bewegung",
+     "titel": "Filter-Fenster close(): nur das eigene Fenster ausblenden und entfernen",
+     "von": 330,
+     "bis": 332,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.5",
+     "gruppe": "responsiv",
+     "titel": "Dashboard-Filterfenster am Handy mit 16 px Rand",
+     "von": 467,
+     "bis": 472,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    }
+   ]
+  }
+ ]
+}

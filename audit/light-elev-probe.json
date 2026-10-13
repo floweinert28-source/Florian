@@ -1,0 +1,4316 @@
+{
+ "light dashboard": {
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "div.tile.side": {
+   "n": 3,
+   "shadow": 3,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "div.tile.wide": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "section.card": {
+   "n": 8,
+   "shadow": 8,
+   "border": 8,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "section.card.recent-card": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "button.": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.wd": {
+   "n": 7,
+   "shadow": 0,
+   "border": 7,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d.win": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.849412 0.955451 0.90149)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d.loss": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "color(srgb 0.972039 0.825922 0.825922)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d": {
+   "n": 23,
+   "shadow": 0,
+   "border": 23,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d.today": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.fw-rp": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light stats": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.stat-tile": {
+   "n": 16,
+   "shadow": 0,
+   "border": 16,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 3,
+   "shadow": 3,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light stats/days": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 3,
+   "shadow": 3,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light stats/setups": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light stats/time": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 5,
+   "shadow": 5,
+   "border": 5,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "div.tbl-wrap": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light stats/mistakes": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 3,
+   "shadow": 3,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light stats/regime": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light stats/state": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light stats/edge": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 2,
+   "shadow": 2,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light stats/mc": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 3,
+   "shadow": 3,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light trades": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.hide-m": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.spark-tile": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "div.tile.side": {
+   "n": 2,
+   "shadow": 2,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "div.tile.wide": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "button.": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap.paged": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light day": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "section.card.rv": {
+   "n": 2,
+   "shadow": 2,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "button.": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light notebook": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "input.input": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.col.left": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.folder.active": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.col.mid": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.note-item.active": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.col.right": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light progress": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 6,
+   "border": 6,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "section.card.ring-card": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "i.l0": {
+   "n": 272,
+   "shadow": 0,
+   "border": 272,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l2": {
+   "n": 20,
+   "shadow": 0,
+   "border": 20,
+   "bg": "color(srgb 0.595294 0.865098 0.72549)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l3": {
+   "n": 54,
+   "shadow": 0,
+   "border": 54,
+   "bg": "color(srgb 0.416471 0.817255 0.611765)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l4": {
+   "n": 7,
+   "shadow": 0,
+   "border": 7,
+   "bg": "color(srgb 0.237647 0.769412 0.498039)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l1": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "color(srgb 0.756235 0.908157 0.827843)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l1.today": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "color(srgb 0.756235 0.908157 0.827843)",
+   "nestedIn": {
+    "section.card": 1
+   },
+   "shadowVal": "rgb(15, 184, 98) 0px 0px 0px 2px"
+  },
+  "a.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.fill": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light shadow": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.shadow-main": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "div.tile": {
+   "n": 3,
+   "shadow": 3,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "section.card": {
+   "n": 2,
+   "shadow": 2,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "div.shadow-rule.on": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.908235 0.948824 0.92451)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "label.sr-num": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.shadow-rule": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 2,
+   "shadow": 2,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light prop": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.prop-card": {
+   "n": 4,
+   "shadow": 4,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "details.prop-fold": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light prop/analyse": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 6,
+   "border": 6,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "details.prop-fold.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.info": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.warn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgba(217, 154, 18, 0.14)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light prop/auswertung": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 6,
+   "border": 6,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "details.prop-fold.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.info": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.warn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgba(217, 154, 18, 0.14)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light prop/bilanz": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 6,
+   "border": 6,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "details.prop-fold.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.info": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.warn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgba(217, 154, 18, 0.14)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light prop/konten": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "details.prop-fold": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light prop/friedhof": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light settings/profil": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "form.set-block.stack": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "label.avatar-big": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px inset"
+  },
+  "button.btn.sm": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "textarea.input": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light settings/design": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "span.tc-win": {
+   "n": 3,
+   "shadow": 3,
+   "border": 0,
+   "bg": "rgb(21, 20, 18)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.55) 0px 12px 24px -12px"
+  },
+  "button.font-card": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.pair-card": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light settings/trading": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.chip.sel": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light settings/regeln": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input.grow": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light settings/notebook": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.nb-preview": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light settings/konten": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light coupons": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.cpn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.cpn-code.no-i18n": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(243, 245, 243)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light affiliate": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.905098 0.907451 0.905882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 2,
+   "shadow": 2,
+   "border": 2,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  }
+ },
+ "light news": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.nw-banner": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.nw-next": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.nw-day": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light mentor": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.mentor-setup": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px, rgba(20, 30, 24, 0.06) 0px 6px 18px 0px"
+  },
+  "a.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(15, 184, 98)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "light ruhepunkt": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(233, 237, 233)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px"
+  },
+  "button.rp-choice": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(255, 255, 255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "span.rp-icon": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.858353 0.897725 0.925177)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark dashboard": {
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.side": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.wide": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 8,
+   "shadow": 0,
+   "border": 8,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.recent-card": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.wd": {
+   "n": 7,
+   "shadow": 0,
+   "border": 7,
+   "bg": "rgb(34, 33, 31)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d.win": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.118275 0.236078 0.162353)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d.loss": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "color(srgb 0.30851 0.158471 0.152431)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d": {
+   "n": 23,
+   "shadow": 0,
+   "border": 23,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.d.today": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.fw-rp": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(34, 33, 31)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.stat-tile": {
+   "n": 16,
+   "shadow": 0,
+   "border": 16,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/days": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/setups": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/time": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/mistakes": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/regime": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/state": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/edge": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark stats/mc": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn": {
+   "n": 9,
+   "shadow": 0,
+   "border": 9,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark trades": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.hide-m": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.spark-tile": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.side": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.wide": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap.paged": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark day": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark notebook": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "input.input": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.col.left": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.folder.active": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(34, 33, 31)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.col.mid": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.note-item.active": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.col.right": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark progress": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.ring-card": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l0": {
+   "n": 272,
+   "shadow": 0,
+   "border": 272,
+   "bg": "rgb(34, 33, 31)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l2": {
+   "n": 20,
+   "shadow": 0,
+   "border": 20,
+   "bg": "color(srgb 0.161569 0.461961 0.289412)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l3": {
+   "n": 54,
+   "shadow": 0,
+   "border": 54,
+   "bg": "color(srgb 0.175686 0.628235 0.373333)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l4": {
+   "n": 7,
+   "shadow": 0,
+   "border": 7,
+   "bg": "color(srgb 0.189804 0.79451 0.457255)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l1": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "color(srgb 0.148863 0.312314 0.213882)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "i.l1.today": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "color(srgb 0.148863 0.312314 0.213882)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 245, 138) 0px 0px 0px 2px"
+  },
+  "a.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.fill": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark shadow": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile.shadow-main": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tile": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.shadow-rule.on": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.136863 0.17098 0.142549)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "label.sr-num": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.shadow-rule": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(34, 33, 31)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark prop": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.prop-card": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "details.prop-fold": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark prop/analyse": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "details.prop-fold.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.info": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.warn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgba(245, 185, 58, 0.14)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark prop/auswertung": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "details.prop-fold.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.info": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.warn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgba(245, 185, 58, 0.14)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark prop/bilanz": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "details.prop-fold.rv": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.info": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.banner.warn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgba(245, 185, 58, 0.14)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark prop/konten": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "details.prop-fold": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark prop/friedhof": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark settings/profil": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "form.set-block.stack": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "label.avatar-big": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px inset"
+  },
+  "button.btn.sm": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "textarea.input": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark settings/design": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "span.tc-win": {
+   "n": 3,
+   "shadow": 3,
+   "border": 0,
+   "bg": "rgb(21, 20, 18)",
+   "nestedIn": {},
+   "shadowVal": "rgb(207, 214, 209) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.55) 0px 12px 24px -12px"
+  },
+  "button.font-card": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.dot": {
+   "n": 1,
+   "shadow": 1,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": "rgb(242, 240, 236) 0px 0px 0px 2px"
+  },
+  "button.pair-card": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark settings/trading": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.chip.sel": {
+   "n": 6,
+   "shadow": 0,
+   "border": 6,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark settings/regeln": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.set-block": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "input.input.grow": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark settings/notebook": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "select.select": {
+   "n": 4,
+   "shadow": 0,
+   "border": 4,
+   "bg": "rgb(18, 17, 16)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.nb-preview": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(34, 33, 31)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark settings/konten": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.tbl-wrap": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark coupons": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.cpn": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "button.cpn-code.no-i18n": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(34, 33, 31)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark affiliate": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "nav.prop-tabs": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "color(srgb 0.186667 0.182353 0.173726)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.grid.tiles": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card": {
+   "n": 2,
+   "shadow": 0,
+   "border": 2,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark news": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn.icon-only": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.nw-banner": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn.sm": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "div.nw-next": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.nw-day": {
+   "n": 5,
+   "shadow": 0,
+   "border": 5,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark mentor": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.btn": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "section.card.mentor-setup": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "a.btn.primary": {
+   "n": 1,
+   "shadow": 0,
+   "border": 1,
+   "bg": "rgb(52, 245, 138)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ },
+ "dark ruhepunkt": {
+  "a.avatar": {
+   "n": 1,
+   "shadow": 1,
+   "border": 0,
+   "bg": "rgb(43, 42, 38)",
+   "nestedIn": {},
+   "shadowVal": "rgb(52, 50, 46) 0px 0px 0px 1px"
+  },
+  "button.rp-choice": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "rgb(26, 25, 23)",
+   "nestedIn": {},
+   "shadowVal": ""
+  },
+  "span.rp-icon": {
+   "n": 3,
+   "shadow": 0,
+   "border": 3,
+   "bg": "color(srgb 0.160627 0.200471 0.22698)",
+   "nestedIn": {},
+   "shadowVal": ""
+  }
+ }
+}

@@ -1,0 +1,319 @@
+{
+ "fakten": {
+  "urteile": [
+   {
+    "id": "dashboard-1-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: app.js:243-244, „Alle Konten“ hängt schon an accounts.length > 1. Mit Beispieldaten gibt es genau ein Konto. Eine Kleinigkeit: In pop_konto.png ist „Hauptkonto“ nicht als gewählt markiert, weil settings.accountId = 'all' ist und deshalb kein aria-checked gesetzt wird. Es ist einfach der einzige Eintrag. Einstellungen → Konten (misc.js:186, „Konto hinzufügen“) bleibt als Weg erhalten."
+   },
+   {
+    "id": "dashboard-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "dashboard.js:124: Beim Filter-Knopf den Text-Span „Filter“ auf allen Breiten weglassen, dazu aria-label und title=\"Filter\". Die Klasse bleibt `btn`, NICHT `btn icon-only`: .btn.icon-only hat eine feste Breite von 40px (css 1328), und der Zähler .cntb (18px) neben dem Symbol hätte darin keinen Platz. Genau so verhält sich schon heute die Regel bei 961–1180px (css 1332), die nur den Span ausblendet. Ergebnis in der Titelzeile: Zeitraum mit Text, Konto (siehe 1-1) und Filter als Symbol.",
+    "anmerkung": "Stimmt, aber übertrieben. Die drei Textknöpfe stehen in der Titelzeile, nicht neben „Trade loggen“. Der Filter ist für Trader ein häufig benutztes Werkzeug. Der Gewinn ist klein. Außerdem ist die Formulierung „einziger farbiger Textknopf außer dem Zeitraum“ falsch: Der Zeitraum ist nicht farbig."
+   },
+   {
+    "id": "dashboard-1-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "dashboard.js:124: `class=\"btn ${fN ? 'accent' : ''}\"` wird zu `class=\"btn\"`. Der aktive Filter ist dann allein am neutralen Zähler .cntb (css 1341) zu erkennen, den README 207 ausdrücklich als neutral festlegt. aria-pressed=\"true\" kann für Screenreader dazukommen. Achtung: Einen eigenen Stil für .btn[aria-pressed=\"true\"] gibt es nicht. Die gemeinsame flache Auswahl-Regel (css ~3123) gilt nur für Reiter, Segmente, Chips und Karten, nicht für .btn. Neues Styling ist also nicht nötig und auch nicht vorgesehen.",
+    "anmerkung": "Der Code-Befund stimmt (dashboard.js:124). Zugleich verletzt das die Vorgabe des Nutzers „Grün nur für Gewinn und Trade loggen“ (README 202-207). Der Hinweis „den flachen gewählten Zustand gibt es schon“ trifft für .btn nicht zu."
+   },
+   {
+    "id": "dashboard-1-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt: `btn icon-only` hat Rahmen und Fläche, laut Computed Style bg rgb(26,25,23). `btn ghost icon` gibt es (css 278/282). Zur Einheitlichkeit sollten die Symbol-Werkzeuge in pageHead auf den anderen Seiten dieselbe Stufe bekommen (sessionControl(true), app.js:250). Sonst sind die Symbole auf dem Dashboard ghost und überall sonst gerahmt."
+   },
+   {
+    "id": "dashboard-1-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt. calNav steht allerdings in widgets.js:121, nicht in 117. Den Monat vergleichen und nicht nur auf null prüfen, denn nach Zurück- und Vorblättern ist calMonth wieder der aktuelle Monat, aber ungleich null. Die Pfeile übergeben „Heute“ nur bei kalender (260) und kalender_erweitert (278), beim Mini-Kalender nicht. Auf dem Handy ist „Heute“ ohnehin ausgeblendet (hide-m)."
+   },
+   {
+    "id": "dashboard-1-6",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "widgets.js:255-257: Die Reiterleiste (.tabs.sm) nur ausgeben, wenn open.length > 0. Ohne offene Positionen zusätzlich `tab` auf 'recent' zwingen (oder App.state.recentTab zurücksetzen). Sonst bleibt jemand, der auf „Offene Positionen“ stand und dessen letzte Position geschlossen wurde, bei „Keine offenen Positionen“ hängen, ohne Reiter zum Zurückwechseln. Mit der ersten offenen Position erscheint die Leiste wieder, mit Zähler.",
+    "anmerkung": "Der Befund stimmt: Der Reiter hat keinen Zähler, also gibt es 0 offene Positionen (widgets.js:257). Im Vorschlag fehlte der Sonderfall, dass der Reiter-Zustand 'open' hängen bleibt."
+   },
+   {
+    "id": "dashboard-1-7",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "css/app.css:1659 `.more-link { color: var(--accent) }` wird zu `color: var(--text-2)`; die Unterstreichung beim Darüberfahren bleibt. Die Klasse steckt in „Mehr anzeigen“ (widgets.js:257), im Regel-Tracker (288) und in der Hilfsfunktion more() (widgets.js:307). more() erzeugt die vier grünen „Öffnen“-Links der Bereichs-Widgets Schatten-Ich, Prop-Konten, Ruhepunkt und Mentor, die zum Standard-Layout gehören. Zeile 349 (Blind-Replay) ist per Feature-Flag ohnehin nicht sichtbar. Eine CSS-Zeile beruhigt damit 5 grüne Links auf dem vollen Dashboard.",
+    "anmerkung": "Wirkung von 3 auf 2 angehoben. Auf dem vollen Dashboard sind es mit Beispieldaten fünf grüne Links, nicht einer (eigene Aufnahme audit/shots/extra/hick_dashboard_unten_1440.png). Die vier „Öffnen“ fehlen in dashboard.png, weil die Widgets unterhalb von 900px wegen der Scroll-Einblendung (motion.js:25) nicht gezeichnet wurden. Grüne Links widersprechen außerdem README 202."
+   },
+   {
+    "id": "dashboard-2-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt und ist sogar untertrieben. Im leeren Zustand zeigt das Raster laut eigener Aufnahme mit leerem Store zusätzlich vier GEFÜLLTE Knöpfe in den Bereichs-Widgets: „Regelwerk festlegen“ (widgets.js:334), „Konto anlegen“ (354), Ruhepunkt „Starten“ (365) und Mentor „Einrichten“ (373). Zusammen mit „Beispieldaten laden“ sind das fünf gefüllte grüne Knöpfe gegen ein nur getöntes „Trade loggen“. Der Vorschlag nimmt sie mit dem Raster weg; sie bleiben über die Seitenleiste erreichbar (Schatten-Ich, Prop Firms, Ruhepunkt, Mentor). U.empty mit action-Parameter gibt es (ui.js:178). S.trades() liefert alle Konten (store.js:139), die Bedingung ist also richtig."
+   },
+   {
+    "id": "dashboard-2-2",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "dashboard.js:130: „Beispieldaten laden“ von `btn sm primary` auf `btn sm ghost`; „CSV“ bleibt `btn sm` und heißt „CSV importieren“. Damit gibt es im Willkommens-Banner keinen gefüllten Knopf mehr, der „Trade loggen“ (nur getönt, css 3137) überstrahlt. „Trade loggen“ ist danach aber NUR DANN der einzige farbige Knopf auf dem Bildschirm, wenn auch das Raster weicht (2-1) oder die gefüllten Knöpfe der Bereichs-Widgets zurückgestuft werden (widgets.js:334, 354, 365, 373: primary → `btn sm`).",
+    "anmerkung": "Die Rangfolge ist tatsächlich umgekehrt. Der Beleg „Trade loggen am oberen Rand nur als leise Kante“ ist ein Fehler der Aufnahme (leer_dashboard.png ist verschoben). In Wirklichkeit steht „Trade loggen“ vollständig über dem Banner (eigene Aufnahme audit/shots/extra/hick_leer_kopf_1440.png), ist aber nur getönt."
+   },
+   {
+    "id": "dashboard-2-3",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Das ist genau das Beispiel des Nutzers („bei leeren Listen keine Filter“). placeContext verträgt fehlende Elemente (dashboard.js:15). Eine Einschränkung: Wird auch das Vorlage-Symbol ausgeblendet, kann man die Vorlage im leeren Zustand nirgends bearbeiten, denn sonst gibt es keinen Weg dorthin. Entweder bewusst so annehmen (ohne Daten ist das wenig sinnvoll) oder das Vorlage-Symbol als einziges Werkzeug stehen lassen. Zertifikat (stats.js:9) und Konten (Einstellungen) bleiben erreichbar."
+   },
+   {
+    "id": "dashboard-2-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Nur als Ausweichlösung, falls 2-1 abgelehnt wird. Die Zahlen stimmen fast: In der eigenen Aufnahme steht „Noch keine Daten“ 9 Mal, nicht 10, und „ändere den Zeitraum“ 3 Mal. emptyBox (widgets.js:32) braucht dafür einen Parameter, weil es heute keinen Zugriff auf d hat. Die vier gefüllten Knöpfe der Bereichs-Widgets im leeren Raster deckt der Vorschlag nicht ab."
+   },
+   {
+    "id": "dashboard-2-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt, siehe den Text in dashboard.js:130."
+   },
+   {
+    "id": "dashboard-3-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "beschreibung_neu": "css/app.css:3019-3020 (im Block @media max-width:560px ab Zeile 2978) verliert gegen .btn.accent (3137-3143: gleiche Spezifität, steht später). Gemessen bei 390px: .tl background transparent, border transparent. Zur Behebung die Handy-Regel hinter Zeile 3144 setzen (eigener @media-Block) oder den Selektor so erhöhen, dass er auch `:root[data-theme=\"light\"] .btn.accent` (3144, Spezifität 0,4,0) schlägt, zum Beispiel `.content .dash-head .btn.accent.tl`. Sonst setzt das helle Design die Schrift auf var(--accent), und das Plus ist auf der grünen Fläche unsichtbar. Hover (3020) ebenso. Beim Wiederherstellen den grünen Schatten `0 14px 30px -8px var(--accent-glow)` aus 3019 weglassen und nur den neutralen Schatten `0 6px 18px rgba(0,0,0,.35)` behalten: Der Nutzer will bei „Trade loggen“ keinen Schein darunter (css 3135, README 202).",
+    "anmerkung": "Per Computed Style und pop_filter.png (390) belegt. Laut git ist die Handy-Regel (82ef4ee, 08.10.) älter als die heutige .btn.accent-Regel (0b52757, 10.10.). Die Überschreibung ist also ein Versehen und kein neues Styling."
+   },
+   {
+    "id": "dashboard-3-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Dieselbe Code-Zeile wie 1-4 (dashboard.js:125), also kein eigener Umbau. Die Kopfreihe aus vier gerahmten Knöpfen ist bestätigt (dark-390/dashboard.png). Sobald 3-1 umgesetzt ist, dominiert der gefüllte runde Knopf ohnehin, deshalb ist die zusätzliche Wirkung klein."
+   },
+   {
+    "id": "dashboard-4-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "beschreibung_neu": "dashboard.js:42: `.w.editing .w-body { pointer-events: none; }` (oder inert) legt Reiter, Kalender-Pfeile, „Heute“, Links und Trade-Zeilen still, solange bearbeitet wird. Ausnahme: Die Widget-Einstellungen in .w-body (Zahnrad .w-cfg für Challenge/Report, widgets.js:293; Report-Auflösung; Jahreskalender-Segment) sind im Bearbeitungsmodus eine echte Bearbeiten-Aktion (dash-w-settings schreibt in den Entwurf, dashboard.js:225). Diese mit `.w.editing .w-body .w-cfg, .w.editing .w-body [data-change=\"dash-w-opt\"] { pointer-events: auto; }` freigeben. Drag & Drop hängt am Griff bzw. am .w selbst und funktioniert weiter.",
+    "anmerkung": "Grundsätzlich richtig. Ohne die Ausnahme würden die Widget-Einstellungen gerade im Bearbeitungsmodus nicht mehr gehen."
+   },
+   {
+    "id": "dashboard-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt (panel_widget_hinzufuegen.png: vier grüne „Hinzugefügt“ über dem Falz). Pflicht ist die Änderung an css 1618: `.sp-item .btn.added` (0,3,0) schlägt `.btn.ghost` (0,2,0), ein Klassenwechsel allein reicht also nicht. Grün für einen Zustand widerspricht außerdem README 202."
+   },
+   {
+    "id": "dashboard-5-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "beschreibung_neu": "Der wirksamere Hebel: dashboard.js:62-63 sortiert innerhalb jeder Gruppe die bereits hinzugefügten Widgets ans Ende, nur beim Öffnen des Panels (s.panel wechselt) und nicht nach einem Klick, damit keepPanel (67-75) stabile Positionen behält. Zusätzlich, optional, die Gruppenreihenfolge in dashboard.js:60 drehen (Auswertungen zuerst, passend zur Unterzeile „Diagramme, Kalender und Listen“, dashboard.js:78). Mit dem Drehen allein wären die ersten zwei Zeilen wieder „Hinzugefügt“ (score, kum_pnl stehen im Standard-Layout), erst die dritte wäre wählbar.",
+    "anmerkung": "Die Reihenfolge „Bereiche zuerst“ ist im Code bewusst so kommentiert (dashboard.js:59, Aufgabe #32 „Eigene Features als Dashboard-Widgets“). README 81 legt sie aber nicht fest. Vor dem Umsetzen kurz mit dem Nutzer abstimmen."
+   },
+   {
+    "id": "dashboard-6-1",
+    "bestaetigt": false,
+    "wirkung": 3,
+    "anmerkung": "Nicht übernehmen. Der Befund stimmt (zwei Monatskalender immer offen, app.js:239), aber der Vorschlag widerspricht einer festgelegten Entscheidung des Nutzers: README 76-77 / #35 sagt, dass die Vorgaben links nur markiert und im Kalender gezeigt werden und erst „Anwenden“ übernimmt. Ohne sichtbaren Kalender fiele diese Vorschau weg, und das wäre eine entfernte Funktion. Der Agent markiert das selbst als optional, deshalb kein Vorschlag für diese Runde. Kleinigkeit: „Zurücksetzen nur wenn etwas zurückzusetzen ist“ (rangepicker.js:52) gilt praktisch immer, weil beim Öffnen stets eine Vorgabe markiert ist."
+   },
+   {
+    "id": "dashboard-7-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Doppelt mit 1-1 (gleiche Änderung), nur einmal umsetzen. Korrektur zur Begründung: Der einzige Eintrag ist im Menü nicht als gewählt markiert (accountId 'all', kein aria-checked, pop_konto.png zeigt „Hauptkonto“ in normaler Schrift). Es gibt schlicht nichts zu wählen."
+   },
+   {
+    "id": "dashboard-8-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt (dash-filter.js:114-121; Desktop: 320×460px, die fünfte Zeile ist angeschnitten). Für die Umsetzung muss die neue Gruppe 'status' auch in GROUP_KEYS (dash-filter.js:167) eingetragen werden. Nur dann klappt open() (168) sie bei aktiven Werten auf; activeIn für 'trade' anpassen. Die Gruppenstruktur ist in README 77-80 beschrieben (Trade/Zeit/Werte/Tags) und muss mit geändert werden."
+   },
+   {
+    "id": "dashboard-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Gruppierung ist derselbe Code wie 8-1 (keine eigene Wirkung). Neu ist nur, dass „Zurücksetzen“ erst bei count(f) > 0 erscheint (dash-filter.js:141). Das ist ein kleiner Gewinn; „Anwenden“ (flex 1 1 auto) wird dann im Grundzustand breiter."
+   },
+   {
+    "id": "dashboard-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt (pop_vorlage.png: Stift oben als Eintrag und in der Zeile; dashboard.js:31-32). Das Vorlage-Menü wird aber selten geöffnet, daher Wirkung 3 statt 2. Andere Vorlagen zu bearbeiten kostet dann einen Klick mehr."
+   },
+   {
+    "id": "dashboard-10-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt (dashboard.js:33: „Ist Standard“ und „Löschen“ werden als disabled ausgegeben)."
+   },
+   {
+    "id": "dashboard-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von 2-3. Die Bedingung rawAll.length > 0 (je Konto) passt hier sogar besser als S.trades(), weil der Zertifikat-Dialog selbst App.allTrades() nutzt (certificate.js:82). Menü und Dialog sind bestätigt (certificate.js:58-61, 84)."
+   }
+  ],
+  "screen_korrekturen": "dashboard-1 (voll): Die Hauptaktion „Trade loggen“ stimmt. Aber die Analyse übersieht die stärksten Konkurrenten. Die Atlas-Aufnahme dashboard.png zeichnet nichts unterhalb von etwa 900px, weil die Widgets per Scroll-Einblendung erscheinen (IntersectionObserver, motion.js:25). Dasselbe gilt für dark-390/dashboard.png (ab dem Gesamt-Score schwarz) und dashboard_bearbeiten.png (dort fehlt der Platz „Widget hinzufügen“). Das Standard-Layout enthält zusätzlich die Bereichs-Widgets Schatten-Ich, Prop-Konten, Ruhepunkt und Mentor (Migration dashboardsVersion 4). Mit Beispieldaten stehen dort zwei GEFÜLLTE grüne Knöpfe: Ruhepunkt „Starten“ (`btn sm primary`, widgets.js:365) und Mentor „Einrichten“ (`btn sm primary`, widgets.js:373; mit Server „Zum Mentor“ `btn primary`, 374). Dazu kommen vier grüne „Öffnen“-Links (widgets.js:307). Das sind die einzigen gefüllten Knöpfe des ganzen Dashboards, also optisch stärker als „Trade loggen“. Eigene Aufnahmen mit reducedMotion: audit/shots/extra/hick_dashboard_full_1440.png und hick_dashboard_unten_1440.png. Zusätzlicher Vorschlag (Regel 4, Wirkung 2, Aufwand S): In den Bereichs-Widgets auf dem Dashboard primary → `btn sm` (sekundär), betrifft widgets.js:334 „Regelwerk festlegen“, 354 „Konto anlegen“, 365 Ruhepunkt „Starten“, 373/374 Mentor. Die Funktionen bleiben, nur die Stufe sinkt; auf den eigenen Seiten bleiben die Knöpfe primär.\n\nHierarchie-Annahme im Auftrag: `.btn.accent` ist NICHT grün gefüllt (css 3137-3142: Fläche wie andere Knöpfe, 8 % Tönung, Verlaufsrand; README 202 „Nur Trade loggen behält sein Licht“). Gefüllt ist nur `.btn.primary` (css 274). Am Desktop lässt sich Regel 2 für „Trade loggen“ deshalb nur durch Weglassen und Zurückstufen der Konkurrenten erreichen, und genau so geht der Agent richtig vor. Ein gefüllter Desktop-Knopf (`.btn.primary`) wäre eine Designentscheidung, die die Festlegungen #61/#72 berührt. Das wäre eine offene Frage an den Nutzer, kein Vorschlag.\n\ndashboard-2 (leer): In der Begründung stehen „10× Noch keine Daten“ und „rund 15 Bedienelemente“. Gemessen sind es 9× „Noch keine Daten“, 3× „ändere den Zeitraum“ und 22 Bedienelemente, darunter 5 gefüllte Knöpfe: „Beispieldaten laden“ plus die 4 der Bereichs-Widgets (Regelwerk festlegen, Konto anlegen, Starten, Einrichten). Der Beleg „Trade loggen nur als leise Kante“ ist ein Fehler der Aufnahme (leer_dashboard.png verschoben). Richtig ist: „Trade loggen“ steht vollständig über dem Banner und ist nur getönt (hick_leer_kopf_1440.png).\n\ndashboard-3 (Handy): Bestätigt per Computed Style (.tl background und border transparent, 54px, fixed).\n\ndashboard-4: Der Platz „Widget hinzufügen“ und die vier Bereichs-Widgets fehlen im Screenshot nur wegen der Scroll-Einblendung; im Code sind sie vorhanden.\n\ndashboard-5: „Hinzugefügt“ bei den vier Bereichs-Widgets ist korrekt. Sie liegen im Standard-Layout, auch wenn sie in den Atlas-Aufnahmen nicht zu sehen sind.\n\ndashboard-6: Die Bewertung „optisch klar“ stimmt. Der Vorschlag 6-1 kollidiert mit README 76-77 (#35).\n\ndashboard-7: Der einzige Konto-Eintrag ist nicht als gewählt markiert (accountId 'all').\n\nZeilenangaben: calNav steht in widgets.js:121 (nicht 117); GROUP_KEYS/open() in dash-filter.js:167-168 (nicht 166); die Zeile 349 bei 1-7 betrifft das versteckte Blind-Replay, relevant ist more() in widgets.js:307.\n\ndashboard-8/9/10/11/12: Die Hauptaktionen sind plausibel und die Bewertungen stimmen. dashboard-12 ist nur per Code geprüft (dashboard.js:182, 193), keine Einwände."
+ },
+ "vorgaben": {
+  "urteile": [
+   {
+    "id": "dashboard-1-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Echte Reduktion nach Regel 5, kein Funktionsverlust: Bei einem Konto gibt es nichts umzuschalten, und „Konten verwalten“ bleibt unter Einstellungen → Konten. Das widerspricht README 63 nicht, denn der Platz in der Titelzeile bleibt. Dasselbe Muster hat der Nutzer schon abgenommen: Im Trade-Formular steht „Konto nur bei mehreren Konten“ (README 34), bei Prop steht „Filter erst ab fünf Konten“. Das „oder“ im letzten Satz ist zu unbestimmt, die Mentor-Seite muss ausgenommen werden (Entscheidung #8: dort steht nur das Konto).",
+    "beschreibung_neu": "app.js:242 `accountControl(o)`: Wenn `S.data.accounts.length < 2` und nicht `o.always`, wird '' zurückgegeben. Das gilt einheitlich für das Dashboard (dashboard.js:124) und alle Seiten über pageHead (app.js:259: TradeLog, Tagesansicht, Statistiken, Fortschritt, Schatten-Ich), damit dieselbe Steuerung überall gleich erscheint. Die Mentor-Seite behält den Knopf (pageHead übergibt `always: true`, wenn `!h.range`; Entscheidung #8 „Mentor-Kopfreihe nur mit Konto“). Bei `accounts.length >= 2` bleiben Knopf und Menü (Alle Konten, Konten, Trenner, Konten verwalten) unverändert und erscheinen von selbst. Danach README 63 um „Konto erst ab zwei Konten“ ergänzen."
+   },
+   {
+    "id": "dashboard-1-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Vorschlag passt, aber die angegebene Umsetzung bricht: `.btn.icon-only` hat eine feste Breite von 40px (css 1328), der Zähler `.cntb` (min. 18px) passt dann neben dem Symbol nicht mehr hinein. Die Wirkung ist klein, weil „Trade loggen“ in einer anderen Zeile steht als die Titelzeile. Der Satz „einziger farbige Textknopf außer dem Zeitraum“ stimmt nicht, der Zeitraum ist nicht farbig.",
+    "beschreibung_neu": "dashboard.js:124: Der Filter-Knopf bleibt `class=\"btn\"`, das sichtbare `<span class=\"hide-m\">Filter</span>` wird zu `<span class=\"vh\">Filter</span>` (nur für Screenreader). Dazu kommt `title=\"Filter\"`, `aria-label` bleibt. Der Zähler `.cntb` erscheint wie bisher nur bei aktivem Filter, der Knopf wächst dann mit. Die Filter-Hälfte der Regel css 1332 wird überflüssig und kann weg. Ergebnis ab 1181px: Titelzeile mit „Oktober 2026“ (Text), dem Filter-Symbol und dem Avatar (mit 1-1 ohne Konto-Knopf)."
+   },
+   {
+    "id": "dashboard-1-3",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Richtig und von README 203-208 gedeckt („Grün nur für Gewinn und ‚Trade loggen‘“, der Zähler im Filter-Knopf ist bewusst neutral). Außer „Trade loggen“ ist der aktive Filter die einzige Stelle in der App mit `btn accent` (grep). Falsch ist die Annahme, `aria-pressed=\"true\"` habe für `.btn` schon einen flachen gewählten Stil: Der gemeinsame Stil (css 3124ff.) gilt nur für Reiter, Segmente, Chips und Karten, nicht für `.btn`.",
+    "beschreibung_neu": "dashboard.js:124: `class=\"btn ${fN ? 'accent' : ''}\"` → immer `class=\"btn\"`, dazu nur zur Semantik `aria-pressed=\"${fN > 0}\"`, ohne neues CSS. Den aktiven Zustand zeigt allein der vorhandene neutrale Zähler `.cntb` (css 1341, README 207). Danach steht am Bildschirm bei jedem Filterzustand genau ein Akzentknopf: „Trade loggen“."
+   },
+   {
+    "id": "dashboard-1-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Nur die Ghost-Variante bestätigt. Das ⋯-Menü ändert README 64 („Vorlage und Zertifikat als Symbole“) und kostet für den Vorlagenwechsel einen Klick mehr, deshalb abgelehnt. `btn ghost icon` (Abstand 9px) wäre niedriger als die Nachbarknöpfe, darum `icon-only` behalten. Zur Einheitlichkeit gehört, dass der Session-Symbolknopf auf den anderen Seiten dieselbe Stufe bekommt.",
+    "beschreibung_neu": "dashboard.js:125: Vorlage und Zertifikat werden von `btn icon-only` zu `btn ghost icon-only` (vorhandene Stufen: ohne Rahmen und Fläche, gleiche 40px, gleiche Symbole, Hover-Fläche wie bei ghost). In der Werkzeugreihe bleibt so nur „Trade loggen“ umrandet und getönt. Einheitlich über die Seiten: app.js:250 `sessionControl(true)` (Symbol „Session starten“ in pageHead) ebenfalls `btn ghost icon-only`. Dann sind alle Symbol-Werkzeuge links des Trenners `.dh-sep` überall tertiär. Kein ⋯-Menü, Anzahl und Reihenfolge bleiben."
+   },
+   {
+    "id": "dashboard-1-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Echter Fall von Regel 5. Die Tagesansicht macht es schon so: day.js:12 zeigt „Heute“ nur, wenn ein anderer Tag offen ist, und zwar als `btn sm ghost`. Gleiche Aktion, gleiche Stufe: Das Dashboard übernimmt beides. Die Zeilenangabe stimmt nicht, `calNav` steht in widgets.js:121, nicht 117.",
+    "beschreibung_neu": "widgets.js:121 `calNav`: Den „Heute“-Knopf nur ausgeben, wenn `App.state.calMonth` gesetzt ist und Jahr oder Monat vom aktuellen abweichen. Nach ‹ und › zurück zum aktuellen Monat ist `calMonth` gesetzt, deshalb Jahr und Monat vergleichen statt auf null prüfen. Klasse `btn sm hide-m` → `btn sm ghost hide-m` wie in der Tagesansicht (day.js:12). Betrifft die Kalender in widgets.js:260 und 278, der Mini-Kalender (276) übergibt schon kein todayA."
+   },
+   {
+    "id": "dashboard-1-6",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Richtig nach Regel 5, aber unvollständig: Steht `App.state.recentTab` auf 'open' und schließt die letzte offene Position, verschwindet die Reiterleiste. Die Karte zeigt dann „Keine offenen Positionen“, und es gibt keinen Weg zurück zu „Letzte Trades“.",
+    "beschreibung_neu": "widgets.js:255-257: `const tab = open.length ? (App.state.recentTab || 'recent') : 'recent';`. Die Reiterleiste `.tabs.sm` wird nur bei `open.length > 0` ausgegeben, dann immer mit Zähler „Offene Positionen (n)“. Ohne offene Positionen steht die Tabelle „Letzte Trades“ direkt unter dem Kartentitel, der Titel bleibt. Die Zahl der Zeilen passt fitRecent (dashboard.js:174) automatisch an. Offene Positionen bleiben im TradeLog und über den Hinweis-Punkt an TradeLog erreichbar."
+   },
+   {
+    "id": "dashboard-1-7",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Setzt nur die Regel des Nutzers durch (README 207-208: Grün bleibt für Gewinne, den Akzent-Knopf, Schalter und den Balken am aktiven Eintrag). Das ist eine Stufen- und keine Stiländerung, denn es wird ein vorhandenes Token verwendet. Die Klasse wirkt bewusst überall: widgets.js:257 (Letzte Trades), 288 (Regel-Tracker) und 307 (Helfer `more()`, „Öffnen“ in Schatten-Ich- und Prop-Karten), nicht 349. Weitere Nutzungen außerhalb der Widgets gibt es nicht (grep)."
+   },
+   {
+    "id": "dashboard-2-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stärkster Vorschlag für den leeren Zustand und genau der Wunsch des Nutzers („ein Satz Erklärung und ein Knopf“). Die Bedingung `S.trades().length` beseitigt nebenbei einen Fehler: Heute meldet das Banner über `rawAll` (nach Konto gefiltert, app.js:47) „Dein Journal ist noch leer“, auch wenn nur das gewählte Konto leer ist. Offen bleibt, wo „Trade loggen“ steht. Mit dem Knopf in der Kopfreihe gäbe es ihn zweimal. Auch die Bereichs-Karten (Ruhepunkt, Mentor, Prop, Schatten-Ich) verschwinden im leeren Zustand vom Dashboard, bleiben aber über die Seitenleiste erreichbar. Beispieldaten lassen sich zusätzlich unter Einstellungen → Profil laden (misc.js:66).",
+    "beschreibung_neu": "dashboard.js:117-135: Bei `!s.editing && S.trades().length === 0` statt Willkommens-Banner, Kopfreihe und Raster genau einen Block rendern: `U.card('', U.empty('tradelog', 'Willkommen', 'Dein Journal ist noch leer – logge deinen ersten Trade.', '<div class=\"row\">' + App.newTradeButton() + '<button class=\"btn\" data-action=\"import\">' + I.upload + ' CSV importieren</button><button class=\"btn ghost\" data-action=\"install-sample\">Beispieldaten laden</button></div>'))` (vorhandene Komponente ui.js:178, wie der leere Zustand bei Prop, prop.js:82). Der Hinweis zum Fehler beim Laden der Beispieldaten (dashboard.js:129) bleibt sichtbar. `.dash-head` wird dann gar nicht gerendert (siehe 2-3), damit es genau einen „Trade loggen“ gibt. Auf dem Handy wird der Knopf im Block nicht zum runden Knopf, weil `.dash-head .tl` nur in der Kopfreihe greift. Kacheln, Raster und Vorlage bleiben gespeichert und kommen mit dem ersten Trade, Import oder Beispieldaten zurück. Wer Trades in einem anderen Konto hat, sieht das normale Dashboard."
+   },
+   {
+    "id": "dashboard-2-2",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Klarer Verstoß gegen Regel 4 mit umgekehrter Rangfolge: Der einzige gefüllte Knopf ist „Beispieldaten laden“. Der leere Zustand entsteht meist erst nach dem Entfernen der Beispieldaten (README 22: sie werden beim ersten Start geladen), dort ist dieser Knopf das am wenigsten Gewollte. Schnelle Lösung, falls 2-1 nicht kommt; mit 2-1 erledigt sie sich. „CSV importieren“ hat schon Übersetzungen (trades.js:20)."
+   },
+   {
+    "id": "dashboard-2-3",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Richtig: Im leeren Zustand Filter, Zeitraum und Konto auszublenden ist ausdrücklich erwünscht. placeContext verträgt fehlende Elemente (dashboard.js:15, `if (!el || !slot || !head) return`). Die Formulierung „nur App.newTradeButton() (bzw. der Block aus dem ersten Vorschlag)“ muss eindeutig werden, sonst steht „Trade loggen“ zweimal da.",
+    "beschreibung_neu": "dashboard.js:123-125, gleiche Bedingung wie in 2-1 (`!s.editing && S.trades().length === 0`). Mit 2-1 wird `.dash-head` gar nicht gerendert: kein Zeitraum, Konto, Filter, keine Vorlage, kein Zertifikat und kein zweites „Trade loggen“, der einzige steht im Block. Ohne 2-1 (Banner bleibt) enthält `.dash-head` nur `App.newTradeButton()`, auf dem Handy ist das der runde Knopf. Alles erscheint mit dem ersten Trade wieder. Zertifikat bleibt auf Statistiken (stats.js:9) und in der Tagesansicht, Konten unter Einstellungen → Konten, die Taste N bleibt."
+   },
+   {
+    "id": "dashboard-2-4",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Nur als Ausweichlösung sinnvoll, falls 2-1 nicht umgesetzt wird. Mit 1-6 entfällt die Reiterleiste ohne offene Positionen ohnehin. Die Bedingung muss dieselbe sein wie in 2-1 und 2-3: global leer per `S.trades().length === 0`, nicht `d.daysAll` (nach Konto und Filter gefiltert). Sonst verschwinden bei einem Filter mit 0 Treffern auch die Kalenderpfeile und die Erklärung, obwohl dort „ändere den Zeitraum“ der richtige Hinweis ist."
+   },
+   {
+    "id": "dashboard-2-5",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Mit 2-1 erledigt, dort steht der Satz schon. Nur nötig, falls das Banner bleibt. Ein neuer Text braucht Einträge in js/lang/{en,es,zh,hi,pt}.js, weil i18n.js nach dem deutschen Text übersetzt. Die Formulierung mit 2-1 abgleichen, damit es nur einen Willkommens-Satz gibt."
+   },
+   {
+    "id": "dashboard-3-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Ursache ist richtig erkannt (gleiche Spezifität 0,2,0, `.btn.accent` steht später). Der Beleg README:89 trägt aber nicht: Dort steht nur „runder Knopf unten rechts“, nichts von gefüllt. Dass der Knopf nicht gefüllt ist, geht auf die Entscheidung des Nutzers in Commit 96b165b zurück („Trade loggen ruhiger: Form und Fläche wie die anderen Knöpfe, … kein Schein darunter“, siehe auch CSS-Kommentar 3135). Wer css 3019 einfach wieder wirken lässt, holt auch `0 14px 30px -8px var(--accent-glow)` zurück, also einen grünen Schein, den der Nutzer abgelehnt hat. Bestätigt nur ohne Schein und als ausdrückliche Rückfrage an den Nutzer, weil es von 96b165b abweicht. Für Regel 2 spricht: Die Füllung steht in Regel 2 ausdrücklich als Mittel, das Grün gehört zu „Trade loggen“, und die Regel existiert im Code schon.",
+    "beschreibung_neu": "Nur Handy (≤560px). css 3019/3020: Selektor auf `.dash-head .btn.accent.tl` erhöhen (Spezifität 0,4,0 schlägt `.btn.accent`) und `background: var(--accent); border-color: var(--accent); color: var(--accent-ink);` setzen. Im Schatten den Teil mit `--accent-glow` streichen, nur `0 6px 18px rgba(0,0,0,.35)` bleibt (kein grüner Schein, wie in 96b165b festgelegt). Hover: `.dash-head .btn.accent.tl:hover { background: var(--accent); }`. Desktop bleibt unverändert. Erst nach Rückfrage umsetzen, weil der Knopf seit 96b165b bewusst ruhig ist."
+   },
+   {
+    "id": "dashboard-3-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Dieselbe Codezeile wie 1-4 (dashboard.js:125), nur einmal umsetzen. Gilt in der Ghost-Variante (`btn ghost icon-only`), ⋯-Menü abgelehnt (README 64). Filter bleibt ein umrandetes Symbol, aktiv mit neutralem Zähler (1-3)."
+   },
+   {
+    "id": "dashboard-4-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Richtig nach Regel 5. Ziehen und Ablegen funktioniert weiter, denn ohne pointer-events am Inhalt fallen dragover und drop auf das Elternelement `.w` (dashboard.js:155-157). Nicht bedacht: In `.w-body` liegen auch Widget-Einstellungen, die im Bearbeitungsmodus heute ins Entwurfs-Layout schreiben: Zahnrad `.w-cfg` (Report, Uhrzeit, Challenge), Auflösungs-Auswahl im Kartenkopf, Segment im Jahreskalender und `.rep-panel`. Ein pauschales `inert` würde sie im Bearbeitungsmodus sperren.",
+    "beschreibung_neu": "css: `.w.editing .w-body { pointer-events: none; }` und als Ausnahme `.w.editing .w-body :is(.w-cfg, .card-head select, .card-head .seg, .rep-panel) { pointer-events: auto; }`. So ruhen Reiter, Kalendernavigation, „Heute“, „Mehr anzeigen“/„Öffnen“, Trade-Zeilen und die Knöpfe der Bereichs-Karten (Starten, Zum Mentor), während die Widget-Einstellungen bedienbar bleiben. Kein `inert`, nichts wird ausgeblendet, mit „Speichern“ oder „Abbrechen“ ist alles wieder da."
+   },
+   {
+    "id": "dashboard-5-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Bestätigt, auch mit Blick auf die Vorgaben: Grüne Markierung von Auswahl hat der Nutzer abgelehnt (BRIEF), und README 207 behält Grün für Gewinn und „Trade loggen“. Für die Umsetzung: Die Klasse `ghost` allein ändert nichts, weil css 1618 `.sp-item .btn.added` (0,3,0) stärker ist als `.btn.ghost`. Entscheidend ist die Änderung in 1618: `color: var(--muted); border-color: transparent; background: transparent; opacity: 1;`. Gleiche Breite bleibt über css 1613-1617 erhalten (Commit 985c356)."
+   },
+   {
+    "id": "dashboard-5-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Reihenfolge der Gruppen hat der Nutzer nicht festgelegt, nur ein Kommentar im Code (Commit ab90c5b). Die größere Wirkung bringt das Umsortieren der schon hinzugefügten Einträge, nicht das Tauschen der Gruppen: Durch die Migration auf Version 4 (store.js:42) sind Schatten-Ich, Prop, Ruhepunkt und Mentor bei fast allen Nutzern schon hinzugefügt. Das „nur beim Öffnen sortieren“ ist richtig gedacht, aber nicht umsetzbar, wenn die Sortierung in panelListHTML am aktuellen `have` hängt: keepPanel (dashboard.js:70) übernimmt nach jedem Hinzufügen die neu erzeugte Liste.",
+    "beschreibung_neu": "dashboard.js:205 'dash-add-open': die Menge der beim Öffnen schon vorhandenen Typen merken (`s.addedAtOpen = new Set(real(layout()[area]).map(x => x.typ))`). panelListHTML (56-63) sortiert innerhalb jeder Gruppe nach dieser gespeicherten Menge (nicht nach `have`): noch wählbare zuerst, beim Öffnen schon hinzugefügte ans Ende. Ein Klick auf „Hinzufügen“ verschiebt damit nichts, keepPanel bleibt stabil. Gruppenreihenfolge in Zeile 60 drehen: „Auswertungen“ vor „Bereiche der App“ (passt zur Unterzeile „Diagramme, Kalender und Listen“, Zeile 78). Die Suche (dash-add-q) nutzt dieselbe gespeicherte Menge."
+   },
+   {
+    "id": "dashboard-6-1",
+    "bestaetigt": false,
+    "anmerkung": "Widerspricht einer dokumentierten Entscheidung des Nutzers: README 70 („die Vorgaben links … werden nur markiert und im Kalender gezeigt, übernommen wird erst mit ‚Anwenden‘“), Aufgaben #18 (zwei Kalender nebeneinander) und #35. Ohne Kalender verliert der Zwischenschritt „markieren, dann Anwenden“ seinen Sinn (Vorschau der Tage), eine Vorgabe kostet dann zwei Klicks ohne Gegenwert. Das Menü hat außerdem genau einen gefüllten Knopf und ein bedingtes „Zurücksetzen“, Regel 4 und 5 sind erfüllt. Allenfalls als Frage an den Nutzer, nicht als Vorschlag."
+   },
+   {
+    "id": "dashboard-7-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Doppelt mit dashboard-1-1 (gleiche Änderung in app.js:242), dort zusammenführen und nur einmal zählen. Es gilt die präzisierte Fassung von 1-1: einheitlich für Dashboard und pageHead, Mentor ausgenommen."
+   },
+   {
+    "id": "dashboard-8-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Echte Anwendung von Regel 3. README 72 beschreibt die Gruppen, eine bewusste Festlegung „alles offen“ gibt es nicht. Die Mechanik für eingeklappte Gruppen existiert schon. Zur Umsetzung: Gruppen öffnen sich per `GROUP_KEYS` in `open()` (dash-filter.js:167-168) automatisch, die neue Gruppe muss dort eingetragen werden. Die Gruppen-ID darf nicht `status` heißen, weil `f.status` schon das Ergebnis (Gewinn/Verlust/BE) ist.",
+    "beschreibung_neu": "dash-filter.js:114-121: Gruppe `trade` behält Symbol, Richtung, Ergebnis (`activeIn(f, ['symbols','dir','status'])`). Neue Gruppe `group('extra', 'Status', activeIn(f, ['state','span','reviewed','ratings']), …)` mit Offen/Geschlossen, Intraday/Multiday, Reviewed und Trade-Bewertung, direkt unter „Trade“. Zeile 167: `GROUP_KEYS.extra = ['state','span','reviewed','ratings']`, damit sie beim Öffnen zu ist und mit aktiven Werten von selbst aufgeht. Der Zähler im Gruppenkopf (`.cntb`, Zeile 108) zeigt gesetzte Werte. Gilt für Desktop und Handy gleich. Neues Wort „Status“ in js/lang/*.js prüfen."
+   },
+   {
+    "id": "dashboard-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Gruppierung ist dieselbe Änderung wie 8-1, nicht doppelt zählen. Neu ist nur: „Zurücksetzen“ in dash-filter.js:141 erst bei `count(f) > 0` ausgeben, statt es deaktiviert anzuzeigen. Das ist dasselbe Verhalten wie im Zeitraum-Menü (rangepicker.js:54, `can`), also gleiche Aktion, gleiche Logik. Der Fuß wird bei jeder Änderung neu erzeugt (Zeilen 162 und 187), „Anwenden“ ist flexibel (css 1369), dadurch springt nichts unter dem Mauszeiger, weil geklickt wird im Inhalt."
+   },
+   {
+    "id": "dashboard-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Richtig, zwei Wege zu derselben Aktion stehen direkt untereinander. Die Wirkung ist klein, das Menü wird selten geöffnet. Hinweis zur Umsetzung: „Umbenennen“ trägt im ⋯-Menü schon das Stift-Symbol (I.edit). Damit nicht zwei gleiche Symbole für verschiedene Aktionen dastehen, bekommt „Bearbeiten“ das Stift-Symbol wie oben „Diese Vorlage bearbeiten“, und „Umbenennen“ steht ohne Symbol (keine neuen Symbole erfinden)."
+   },
+   {
+    "id": "dashboard-10-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Richtig nach Regel 5. Die Schutzmeldung in 'dash-tpl-delete' (dashboard.js:198) bleibt als Absicherung im Code. „Als Standard festlegen“ nur bei Vorlagen, die nicht Standard sind, der Stern in der Zeile zeigt den Standard."
+   },
+   {
+    "id": "dashboard-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von 2-3, nicht getrennt zählen. Die Bedingung muss dieselbe wie in 2-1 und 2-3 sein (`S.trades().length === 0`), nicht `rawAll.length > 0` wie hier angegeben. Sonst verhalten sich Kopfreihe und Zertifikat bei einem leeren Zweitkonto unterschiedlich. Statistiken (stats.js:9) und Tagesansicht (day.js:12) behalten ihren Zertifikat-Knopf."
+   }
+  ],
+  "screen_korrekturen": "Allgemein: Die HICKS-BRIEF nennt „Trade loggen“ (`.btn.accent`) einen grün gefüllten Knopf. Das stimmt nicht. Seit Commit 96b165b ist er auf ausdrücklichen Wunsch des Nutzers „ruhiger: Form und Fläche wie die anderen Knöpfe, nur ein leiser grüner Rand und ein Hauch Licht, kein Schein darunter“ (css 3135-3143). Regel 2 muss am Desktop deshalb über weniger Konkurrenz erreicht werden, nicht über eine Füllung. Die Vorschläge 1-x tun das richtig.\n\ndashboard-1 (voll): Ein großer Konkurrent fehlt in der Analyse. Durch die Migration auf Version 4 (store.js:42, greift auch bei neuen Nutzern) hängen am Standard-Dashboard die Bereichs-Karten, und die tragen gefüllte `.btn.primary`-Knöpfe: Ruhepunkt „Starten“ (widgets.js:365, `btn sm primary` für „vor“), Mentor „Zum Mentor“ bzw. „Einrichten“ (373-374), Prop-Konten „Konto anlegen“ (354), Schatten-Ich „Regelwerk festlegen“ (334), Blind-Replay „Session starten“ (343, über Feature-Flag versteckt). Das sind die einzigen gefüllten Knöpfe auf dem Dashboard, sie schlagen das nur getönte „Trade loggen“ deutlich. Das verletzt Regel 2 und 4 und README 207 („Grün … für Gewinne, den Akzent-Knopf, Schalter“). In dashboard.png fehlen diese Karten, in panel_widget_hinzufuegen.png ist das grüne „Starten“ im Hintergrund zu sehen. Zusätzlicher Vorschlag (Wirkung 1, Aufwand S, keine Funktion entfällt): Alle genannten Knöpfe in widgets.js 334, 343, 354, 365, 373 und 374 von `primary` auf sekundär setzen (`btn sm` bzw. `btn`). Innerhalb der Karte bleiben sie die einzige Aktion, auf dem Bildschirm ist „Trade loggen“ dann wieder die stärkste. Zeilenangaben korrigiert: `calNav` steht in widgets.js:121 (nicht 117), `.more-link` in 257, 288 und 307 (Helfer `more()`), nicht 349.\n\ndashboard-2 (leer): Der leere Zustand entsteht meist erst nach dem Entfernen der Beispieldaten (README 22). Die heutige Bedingung `rawAll` (nach Konto gefiltert) zeigt außerdem „Dein Journal ist noch leer“ fälschlich an, wenn nur das gewählte Konto leer ist.\n\ndashboard-3 (Handy): Der Beleg README:89 sagt nichts über eine Füllung. Der runde Knopf ist ungefüllt, weil der Nutzer „Trade loggen“ in 96b165b bewusst ruhig haben wollte, nicht nur durch einen Fehler in der CSS-Reihenfolge.\n\ndashboard-4 (Bearbeiten): Nur bedingt klar. Die gefüllten Knöpfe der Bereichs-Karten (Ruhepunkt „Starten“, Mentor) bleiben neben „Speichern“ sichtbar. Das löst der Zusatzvorschlag unter dashboard-1.\n\ndashboard-5 (Widget-Panel): Die Bewertung „richtig“ für `btn sm primary` je Zeile ist zu hinterfragen. Nach Suche oder Umsortieren stehen bis zu rund 15 gefüllte grüne „Hinzufügen“ untereinander. Das widerspricht „pro Screen genau ein gefüllter Knopf“ und README 207, und gleich viele gefüllte Knöpfe schaffen keine Rangordnung. Zur Abwägung (Wirkung 3): „Hinzufügen“ als `btn sm` (sekundär, umrandet), „Hinzugefügt“ still (5-1). Den Unterschied tragen dann Rahmen gegen keinen Rahmen."
+ }
+}

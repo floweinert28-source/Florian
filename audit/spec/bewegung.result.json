@@ -1,0 +1,61 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/bewegung.md",
+ "ids_abgedeckt": [
+  "bewegung-1",
+  "bewegung-9",
+  "bewegung-17",
+  "bewegung-18",
+  "bewegung-20",
+  "bewegung-21",
+  "bewegung-22",
+  "bewegung-26",
+  "bewegung-27",
+  "bewegung-28",
+  "bewegung-33",
+  "bewegung-34",
+  "bewegung-40",
+  "komponenten-13",
+  "bereich_statistik-29",
+  "bereich_dashboard-9",
+  "bereich_dashboard-12",
+  "barrierefreiheit-44",
+  "bereich_prop-50",
+  "bereich_einstellungen-42",
+  "bereich_trades_tag-49"
+ ],
+ "ids_zurueckgestellt": [],
+ "konflikte": [
+  "K1 Kachel-Hover (bewegung-18, bereich_statistik-29, komponenten-13 + bereich_dashboard-11, zustaende-34): nur Rand --border-2 wie .card:hover; Kacheln folgen immer der Karten-Regel",
+  "K2 --lift-shadow wird NICHT gelöscht: css/landing.css:56 nutzt es (nachgeprüft)",
+  "K3 .kstrip .tile:hover (2603) ganz löschen; Hell-Trennlinien regelt farbe_kontrast-32/bereich_konto-28",
+  "K4 Kalendertage verlieren das Anheben (gegen bereich_dashboard-11), dafür eigene Hover-Ränder für Gewinn-/Verlusttage",
+  "K5 Navigation ohne :active (bewegung-17 statt komponenten-13): Leiste wird nach Klick sofort neu gebaut",
+  "K6/K7/K8 Diagramm-Einzug: neues --dur-4 640ms; Fläche mit Verzögerung --dur-4 minus --dur-3, endet mit der Linie (löst auch bewegung-2 der Diagramme-Gruppe); Punkte bei calc(var(--dur-4)*.7); Budget ≤ 740 ms",
+  "K9 neues Token --ease-sym, weil --ease-io nicht symmetrisch ist (Atemtakt, Schleifen)",
+  "K10 Schalter und Long/Short-Wackeln behalten 320 ms über calc(var(--dur-2)*4/3); 273 (60ms) ergänzt",
+  "K11 Bearbeiten-Leiste --surface-2/--border-2 (bereich_dashboard-9 vor ki_look-12); Trennzeichen bleibt (Wording)",
+  "K12 bewegung-20 entfernt nur den box-shadow; Fläche von .btn.primary regelt Farbe (referenz-6/komponenten-1); keine Rückfrage, da README Z. 206 es deckt",
+  "K13 Menü-Richtung über --pop-y statt neuer Keyframes: Namenswechsel bei umschaltendem .up würde Animation neu starten; motiontest bleibt gültig",
+  "K14/K15 Filter-Fenster: transform-origin je Ausrichtung in place(); Callback entfernt nur das eigene Fenster",
+  "K16 Seitenpanel: neuer Abdunkler bekommt .settled (sonst Aufblitzen bei jedem Widget), Schutz gegen doppeltes Schließen",
+  "K17 Ruhepunkt: Vorschlag 'animation: none' während calm-enter würde nach 1,4 s einen zweiten Einzug auslösen; stattdessen animation-duration/-delay 0s",
+  "K18 Kerzen pausieren über .pg-base.off (bereich_prop-50) statt .live (bewegung-6): fail-safe ohne IntersectionObserver",
+  "K19 .prop-sub-Übergang entfällt ganz, falls aufbau-16 die Unterleiste löscht",
+  "K20 Screenshot-Hover auf .shots .shot begrenzt wegen Klassenkollision .lp .shot (ki_look-3)",
+  "K22 bereich_dashboard-12: Fehler (Neu-Scharfschalten, Druck) behoben; vollständige Entfernung des Reinscroll-Einblendens geht an den Nutzer",
+  "K23 Ring-Schein (1317 filter) und Handy-Bottom-Sheet bleiben bei KI-Look/Diagramme bzw. Responsiv"
+ ],
+ "kurz": "Ich habe die Spezifikation für die Gruppe „Bewegung und Übergänge“ geschrieben. Sie deckt 21 der 22 Befunde in den Umsetzungsschritten ab, bewegung-15 steht nur unter „Nutzer fragen“.\n\nKern der Spezifikation:\n- **Skala:** Eine Dauer-Skala, erweitert um --dur-4 640ms (nur Einzug beim Seitenwechsel) und --stagger 40ms, dazu die neue Kurve --ease-sym. Es bleiben keine rohen Zeiten oder Kurven außerhalb einer abschließenden Ausnahmeliste.\n- **Hover:** Beim Darüberfahren bewegt sich nichts mehr. Das betrifft Knöpfe, Kacheln, Navigation, Kalender, Heatmaps, Screenshots und die Design-Einstellungen; Rückmeldung nur noch über Farbe. Nur Knöpfe geben beim Drücken nach.\n- **Ebenen:** Popover, Filter-Fenster, Symbol-Liste und Seitenpanel blenden auch aus. Menüs unter einem Knopf klappen von ihm herab auf; gesteuert über Custom Properties, damit nichts neu startet.\n- **Einzug:** Der Diagramm-, Score- und Ring-Einzug endet nach höchstens 740 ms statt nach bis zu 1,85 s.\n- **Bearbeiten-Leiste:** Neutral, ohne grünen Rand und ohne pulsierenden Punkt.\n\nFehler behoben:\n- **Einblenden beim Scrollen:** wird nach einem Neuaufbau nicht mehr neu scharf geschaltet, und im Druck ist alles sichtbar.\n- **Weniger Bewegung:** Der Lade-Ring dreht weiter.\n- **Kerzen im Friedhof:** Filter und Verläufe stehen nur noch einmal im Dokument (keine doppelten IDs), und die Flammen ruhen außerhalb des Fensters.\n\nZwei Vorschläge aus den Befunden hätten Fehler erzeugt und sind geändert:\n- **Ruhepunkt:** Der Vorschlag hätte den Einzug nach 1,4 s ein zweites Mal abgespielt.\n- **--lift-shadow:** Das Token sollte gelöscht werden, wird aber von der Startseite benutzt und bleibt deshalb.\n\nZwei Fragen an den Nutzer:\n- **N1:** Soll das Einblenden beim Reinscrollen in der App ganz wegfallen? Empfehlung: ja, auf der Startseite behalten.\n- **N2:** Soll das weiche Scrollen unabhängig von der Bildwiederholrate werden? Die Zeitkonstante würde auf seinen Bildschirm geeicht (60 Hz → 214 ms).",
+ "nutzer_fragen": [
+  {
+   "id": "bereich_dashboard-12",
+   "frage": "Soll das Einblenden beim Reinscrollen (Karten unter dem Fenster blenden beim Scrollen gestaffelt ein, README Z. 330) in der App ganz wegfallen? Der Fehler beim Neuaufbau und das Drucken werden ohnehin behoben.",
+   "empfehlung": "Ja, in der App abschalten (app.js M.scan-Aufruf löschen, app.css:569 löschen, README Z. 330 kürzen, motiontest.js Z. 9–13 und 20–24 umstellen). Auf der Startseite behalten. Das ist ruhiger, folgt der Vorgabe „Eingangs-Animationen nur beim Seitenwechsel“ wörtlich, und kein Inhalt ist mehr kurz unsichtbar."
+  },
+  {
+   "id": "bewegung-15",
+   "frage": "Soll das weiche Scrollen (scroll.js, heute 7,5 % des Restwegs pro Bild, README Z. 363–364) unabhängig von der Bildwiederholrate werden? Und auf welchem Bildschirm (60/120/144 Hz) fühlt es sich heute richtig an?",
+   "empfehlung": "Ja, zeitbasiert mit Zeitkonstante TAU, geeicht auf den Bildschirm des Nutzers, damit sich für ihn nichts ändert: 60 Hz → 214 ms, 120 Hz → 107 ms, 144 Hz → 89 ms. Code: current += (target - current) * (1 - Math.exp(-dt / TAU)); dt aus performance.now(), höchstens 50 ms."
+  }
+ ]
+}

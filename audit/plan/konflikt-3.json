@@ -1,0 +1,1079 @@
+{
+ "anker": [
+  {
+   "anker": ".ql-editor h1",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.5g",
+     "gruppe": "typografie",
+     "titel": "Editor-Überschriften .ql-editor h1–h3 line-height 1.25",
+     "von": 366,
+     "bis": 366,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C17",
+     "gruppe": "zustaende",
+     "titel": "Notebook-Überschriftgrößen aus den Einstellungen wirken im Editor (Spezifität .ql-snow, em-Größen entfernen)",
+     "von": 360,
+     "bis": 363,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ql-editor h3",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.5g",
+     "gruppe": "typografie",
+     "titel": "Editor-Überschriften .ql-editor h1–h3 line-height 1.25",
+     "von": 366,
+     "bis": 366,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C17",
+     "gruppe": "zustaende",
+     "titel": "Notebook-Überschriftgrößen aus den Einstellungen wirken im Editor (Spezifität .ql-snow, em-Größen entfernen)",
+     "von": 360,
+     "bis": 363,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ql-editor h2",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.5g",
+     "gruppe": "typografie",
+     "titel": "Editor-Überschriften .ql-editor h1–h3 line-height 1.25",
+     "von": 366,
+     "bis": 366,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C17",
+     "gruppe": "zustaende",
+     "titel": "Notebook-Überschriftgrößen aus den Einstellungen wirken im Editor (Spezifität .ql-snow, em-Größen entfernen)",
+     "von": 360,
+     "bis": 363,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--text-2",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fokus an Eingabefeldern, Schalter, Datums- und Farbwähler neutral (Z. 293, 314–315, 437, 447, 451)",
+     "von": 265,
+     "bis": 269,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-A1",
+     "gruppe": "diagramme",
+     "titel": "Diagrammtext: eine .chart text-Definition, neu .chart text.bv und .chart text.lbl, alte Regel Z. 1647–1648 löschen (inkl. Abschnittskopf 3 und Reihenfolge)",
+     "von": 279,
+     "bis": 293,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-E5",
+     "gruppe": "diagramme",
+     "titel": "Fallback-Vorschauen PV.scatter ohne Strichelung, PV.line ohne --be",
+     "von": 569,
+     "bis": 572,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "diagramme-E8b",
+     "gruppe": "diagramme",
+     "titel": "verlauf_trefferquote: neuer Info-Text, Trefferquote --text-2, .chart-legend über dem Diagramm",
+     "von": 590,
+     "bis": 593,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "diagramme-K1",
+     "gruppe": "diagramme",
+     "titel": "Affiliate-Balken neutral --text-2 .45 als Pfad-Balken",
+     "von": 668,
+     "bis": 673,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9c",
+     "gruppe": "zustaende",
+     "titel": "Sprachkarte: Hover --text-2, Sprach-Chip neutral mit Ring --border-2",
+     "von": 327,
+     "bis": 329,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--border-2",
+   "schritte": [
+    {
+     "nr": "diagramme-A2",
+     "gruppe": "diagramme",
+     "titel": "Gitter und Nulllinie durchgezogen, crispEdges; Strichelung Z. 1323 löschen",
+     "von": 294,
+     "bis": 298,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9c",
+     "gruppe": "zustaende",
+     "titel": "Sprachkarte: Hover --text-2, Sprach-Chip neutral mit Ring --border-2",
+     "von": 327,
+     "bis": 329,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".lang-card:hover",
+   "schritte": [
+    {
+     "nr": "farbe-C4",
+     "gruppe": "farbe",
+     "titel": "Einstellungen: Karte „Eigenes“ sichtbarer Rand, Sprach-Karten Hover und Währung neutral",
+     "von": 393,
+     "bis": 397,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9c",
+     "gruppe": "zustaende",
+     "titel": "Sprachkarte: Hover --text-2, Sprach-Chip neutral mit Ring --border-2",
+     "von": 327,
+     "bis": 329,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".lang-card[aria-pressed=\"true\"] .lang-cur",
+   "schritte": [
+    {
+     "nr": "farbe-C4",
+     "gruppe": "farbe",
+     "titel": "Einstellungen: Karte „Eigenes“ sichtbarer Rand, Sprach-Karten Hover und Währung neutral",
+     "von": 393,
+     "bis": 397,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9c",
+     "gruppe": "zustaende",
+     "titel": "Sprachkarte: Hover --text-2, Sprach-Chip neutral mit Ring --border-2",
+     "von": 327,
+     "bis": 329,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".more-row",
+   "schritte": [
+    {
+     "nr": "aufbau-B12",
+     "gruppe": "aufbau",
+     "titel": "Ein Muster für „mehr dazu“: .more-link neutral, .more-row löschen",
+     "von": 379,
+     "bis": 383,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C2a",
+     "gruppe": "aufbau",
+     "titel": "Widgets: „Alle Trades“ als Kopf-Link, Regel-Tracker ohne Fußlink, Regeln-Link korrigiert",
+     "von": 422,
+     "bis": 427,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "farbe-C14d",
+     "gruppe": "farbe",
+     "titel": "Letzte Trades: „Mehr anzeigen“ nur bei rows.length",
+     "von": 445,
+     "bis": 445,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "wording-S6.11-6.15",
+     "gruppe": "wording",
+     "titel": "Letzte Trades: „Zum TradeLog“ nur mit Zeilen; Challenge-Zähler; Regel-Tracker „abgehakt“ und ohne Kopf-Link",
+     "von": 377,
+     "bis": 381,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W4",
+     "gruppe": "zustaende",
+     "titel": "Letzte Trades: Leertitel nach Lage, „Mehr anzeigen“ nur mit Zeilen",
+     "von": 479,
+     "bis": 482,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "widget:letzte_trades",
+   "schritte": [
+    {
+     "nr": "aufbau-C2a",
+     "gruppe": "aufbau",
+     "titel": "Widgets: „Alle Trades“ als Kopf-Link, Regel-Tracker ohne Fußlink, Regeln-Link korrigiert",
+     "von": 422,
+     "bis": 427,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "komponenten-W4",
+     "gruppe": "komponenten",
+     "titel": "Umschalter „Letzte Trades / Offene Positionen“ als Unterstrich (.subtabs)",
+     "von": 591,
+     "bis": 593,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.5b",
+     "gruppe": "typografie",
+     "titel": "Letzte Trades: Datumszelle mit fmt.dateRow und Klasse num",
+     "von": 398,
+     "bis": 398,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".more-link:hover",
+   "schritte": [
+    {
+     "nr": "aufbau-B12",
+     "gruppe": "aufbau",
+     "titel": "Ein Muster für „mehr dazu“: .more-link neutral, .more-row löschen",
+     "von": 379,
+     "bis": 383,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C3b",
+     "gruppe": "farbe",
+     "titel": "„Mehr anzeigen“-Link neutral (--text-2, 500, Hover --text)",
+     "von": 387,
+     "bis": 388,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".recent-card",
+   "schritte": [
+    {
+     "nr": "abstaende-R2",
+     "gruppe": "abstaende",
+     "titel": "mobiletest: Kartenhöhe „Letzte Trades“ 354 → 360 (Wert und Text)",
+     "von": 521,
+     "bis": 521,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/e2e/mobiletest.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C2a",
+     "gruppe": "aufbau",
+     "titel": "Widgets: „Alle Trades“ als Kopf-Link, Regel-Tracker ohne Fußlink, Regeln-Link korrigiert",
+     "von": 422,
+     "bis": 427,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".neg",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-trades-49",
+     "gruppe": "barrierefreiheit",
+     "titel": "TradeLog-Zeile: Link in der ersten Zelle, Regeln-Spalte als role=img",
+     "von": 748,
+     "bis": 751,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "diagramme-G3",
+     "gruppe": "diagramme",
+     "titel": "Zähler: Tabellenspalten Gewinner/Verlierer neutral, Gewinntage/Verlusttage nur bei > 0 gefärbt",
+     "von": 613,
+     "bis": 616,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "diagramme-M1",
+     "gruppe": "diagramme",
+     "titel": "Zähler Gewinner/Verlierer in Tagesansicht und TradeLog nur bei > 0 gefärbt",
+     "von": 686,
+     "bis": 689,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js",
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DY2",
+     "gruppe": "zustaende",
+     "titel": "Tagesansicht: Kennzahlen-Karte nur mit Trades, Spark nur mit abgeschlossenen, Null ohne Grün/Rot",
+     "von": 667,
+     "bis": 669,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pos",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-trades-49",
+     "gruppe": "barrierefreiheit",
+     "titel": "TradeLog-Zeile: Link in der ersten Zelle, Regeln-Spalte als role=img",
+     "von": 748,
+     "bis": 751,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "diagramme-G3",
+     "gruppe": "diagramme",
+     "titel": "Zähler: Tabellenspalten Gewinner/Verlierer neutral, Gewinntage/Verlusttage nur bei > 0 gefärbt",
+     "von": 613,
+     "bis": 616,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "diagramme-M1",
+     "gruppe": "diagramme",
+     "titel": "Zähler Gewinner/Verlierer in Tagesansicht und TradeLog nur bei > 0 gefärbt",
+     "von": 686,
+     "bis": 689,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js",
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DY2",
+     "gruppe": "zustaende",
+     "titel": "Tagesansicht: Kennzahlen-Karte nur mit Trades, Spark nur mit abgeschlossenen, Null ohne Grün/Rot",
+     "von": 667,
+     "bis": 669,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "day.js:14",
+   "schritte": [
+    {
+     "nr": "diagramme-M1",
+     "gruppe": "diagramme",
+     "titel": "Zähler Gewinner/Verlierer in Tagesansicht und TradeLog nur bei > 0 gefärbt",
+     "von": 686,
+     "bis": 689,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js",
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8a",
+     "gruppe": "typografie",
+     "titel": "Tagesansicht day.js: „Netto-P&L“ als .val-label, Zeitzelle num",
+     "von": 418,
+     "bis": 423,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "day.js:15",
+   "schritte": [
+    {
+     "nr": "responsiv-3.8",
+     "gruppe": "responsiv",
+     "titel": "Trades des Tages: Kernspalten am Handy, day-tbl statt Inline-Mindestbreite",
+     "von": 490,
+     "bis": 496,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8a",
+     "gruppe": "typografie",
+     "titel": "Tagesansicht day.js: „Netto-P&L“ als .val-label, Zeitzelle num",
+     "von": 418,
+     "bis": 423,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dir-switch",
+   "schritte": [
+    {
+     "nr": "abstaende-B23",
+     "gruppe": "abstaende",
+     "titel": "Trade-Formular als 6-Spalten-Raster .tf-main (Desktop und Handy), .tf-row2/.tf-row3-Regeln ersetzen, .dir-switch ohne min-width, .tf-wide volle Breite",
+     "von": 339,
+     "bis": 339,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-C3",
+     "gruppe": "bewegung",
+     "titel": "Long/Short-Schalter: Zeiten auf Tokens (Wackeln 320 ms über calc)",
+     "von": 250,
+     "bis": 255,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C3",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Stile: .field.invalid, aria-invalid-Rand, .field-err",
+     "von": 260,
+     "bis": 267,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".input[aria-invalid=\"true\"]",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B11",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fehlerzustand .input[aria-invalid=\"true\"] mit Rand --loss",
+     "von": 368,
+     "bis": 371,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C3",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Stile: .field.invalid, aria-invalid-Rand, .field-err",
+     "von": 260,
+     "bis": 267,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dir-switch::before",
+   "schritte": [
+    {
+     "nr": "bewegung-C3",
+     "gruppe": "bewegung",
+     "titel": "Long/Short-Schalter: Zeiten auf Tokens (Wackeln 320 ms über calc)",
+     "von": 250,
+     "bis": 255,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B17",
+     "gruppe": "farbe",
+     "titel": "Long/Short-Schalter im Trade-Dialog flach getönt, Pfeilkreis ohne Glow",
+     "von": 304,
+     "bis": 308,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--dir-c",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2c",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fokus an Schieberegler (Offset 6px), Richtungs- und Symbol-Option (Z. 814, 864, 885)",
+     "von": 270,
+     "bis": 272,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-C3",
+     "gruppe": "bewegung",
+     "titel": "Long/Short-Schalter: Zeiten auf Tokens (Wackeln 320 ms über calc)",
+     "von": 250,
+     "bis": 255,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dp-month.today",
+   "schritte": [
+    {
+     "nr": "farbe-B5",
+     "gruppe": "farbe",
+     "titel": "„Heute“ in Zeitraum-Kalender und Datumswählern neutral (--text, Ring --muted)",
+     "von": 252,
+     "bis": 257,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "gruppe": "zustaende",
+     "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+     "von": 298,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rr-day.today",
+   "schritte": [
+    {
+     "nr": "farbe-B5",
+     "gruppe": "farbe",
+     "titel": "„Heute“ in Zeitraum-Kalender und Datumswählern neutral (--text, Ring --muted)",
+     "von": 252,
+     "bis": 257,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "gruppe": "zustaende",
+     "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+     "von": 298,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dp-day.today",
+   "schritte": [
+    {
+     "nr": "farbe-B5",
+     "gruppe": "farbe",
+     "titel": "„Heute“ in Zeitraum-Kalender und Datumswählern neutral (--text, Ring --muted)",
+     "von": 252,
+     "bis": 257,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "gruppe": "zustaende",
+     "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+     "von": 298,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".datepick .dp.today",
+   "schritte": [
+    {
+     "nr": "farbe-B5",
+     "gruppe": "farbe",
+     "titel": "„Heute“ in Zeitraum-Kalender und Datumswählern neutral (--text, Ring --muted)",
+     "von": 252,
+     "bis": 257,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "gruppe": "zustaende",
+     "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+     "von": 298,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sidebar .spacer",
+   "schritte": [
+    {
+     "nr": "abstaende-D1",
+     "gruppe": "abstaende",
+     "titel": "Seitenleiste: Dichte-@media hinter .sidebar .spacer verschieben, .sidebar ohne Polster oben, .brand so hoch wie die Titelzeile, Trennlinie .sb-sep bei y = 71 über volle Breite (auch mini), Konto-Karte .sb-userwrap sticky",
+     "von": 364,
+     "bis": 368,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B1",
+     "gruppe": "responsiv",
+     "titel": "Seitenleiste Desktop: Dichte-Blöcke hinter die Grundregeln, klebende Konto-Karte",
+     "von": 254,
+     "bis": 260,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sidebar .sb-userwrap",
+   "schritte": [
+    {
+     "nr": "abstaende-D1",
+     "gruppe": "abstaende",
+     "titel": "Seitenleiste: Dichte-@media hinter .sidebar .spacer verschieben, .sidebar ohne Polster oben, .brand so hoch wie die Titelzeile, Trennlinie .sb-sep bei y = 71 über volle Breite (auch mini), Konto-Karte .sb-userwrap sticky",
+     "von": 364,
+     "bis": 368,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B2",
+     "gruppe": "responsiv",
+     "titel": "Schublade ≤ 960 px: Safe Area, visibility nach Animation, Schließen-Knopf 40×40, Dichte bei niedriger Höhe",
+     "von": 261,
+     "bis": 268,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sb-userwrap",
+   "schritte": [
+    {
+     "nr": "abstaende-D1",
+     "gruppe": "abstaende",
+     "titel": "Seitenleiste: Dichte-@media hinter .sidebar .spacer verschieben, .sidebar ohne Polster oben, .brand so hoch wie die Titelzeile, Trennlinie .sb-sep bei y = 71 über volle Breite (auch mini), Konto-Karte .sb-userwrap sticky",
+     "von": 364,
+     "bis": 368,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B1",
+     "gruppe": "responsiv",
+     "titel": "Seitenleiste Desktop: Dichte-Blöcke hinter die Grundregeln, klebende Konto-Karte",
+     "von": 254,
+     "bis": 260,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".brand",
+   "schritte": [
+    {
+     "nr": "abstaende-D1",
+     "gruppe": "abstaende",
+     "titel": "Seitenleiste: Dichte-@media hinter .sidebar .spacer verschieben, .sidebar ohne Polster oben, .brand so hoch wie die Titelzeile, Trennlinie .sb-sep bei y = 71 über volle Breite (auch mini), Konto-Karte .sb-userwrap sticky",
+     "von": 364,
+     "bis": 368,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4a",
+     "gruppe": "typografie",
+     "titel": "Marke 800 → 900 (.brand, Zertifikat .cert-brand .name)",
+     "von": 325,
+     "bis": 330,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".brand .sb-toggle",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Handy: Menüknopf, Avatar, Schubladen-× unsichtbar auf 44 px (::after)",
+     "von": 372,
+     "bis": 376,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B2",
+     "gruppe": "responsiv",
+     "titel": "Schublade ≤ 960 px: Safe Area, visibility nach Animation, Schließen-Knopf 40×40, Dichte bei niedriger Höhe",
+     "von": 261,
+     "bis": 268,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp-choice",
+   "schritte": [
+    {
+     "nr": "abstaende-B28",
+     "gruppe": "abstaende",
+     "titel": "Container-Innenabstände auf Skala: .cpn, .aff-ticket, .coach-entry, .nw-next, .rp-choice, .shadow-rule, .coach-invite, .prop-entry",
+     "von": 344,
+     "bis": 345,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-B5",
+     "gruppe": "kilook",
+     "titel": "Ruhepunkt-Startkarten: Hover nur Rand/Fläche, kein Lichtkegel/Lift/Skalierung, keine Dauer-Änderung; Schein an Ampelpunkt und Rhythmus-Balken weg",
+     "von": 441,
+     "bis": 459,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C4",
+     "gruppe": "kilook",
+     "titel": "Ruhepunkt-CSS: Reste des Schalters „Christlicher Impuls“ (.rp-switch) löschen",
+     "von": 553,
+     "bis": 556,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp-switch input",
+   "schritte": [
+    {
+     "nr": "kilook-C4",
+     "gruppe": "kilook",
+     "titel": "Ruhepunkt-CSS: Reste des Schalters „Christlicher Impuls“ (.rp-switch) löschen",
+     "von": 553,
+     "bis": 556,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C34a",
+     "gruppe": "komponenten",
+     "titel": "Ruhepunkt: tote .rp-switch-Regeln löschen",
+     "von": 473,
+     "bis": 474,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nw-next",
+   "schritte": [
+    {
+     "nr": "abstaende-B28",
+     "gruppe": "abstaende",
+     "titel": "Container-Innenabstände auf Skala: .cpn, .aff-ticket, .coach-entry, .nw-next, .rp-choice, .shadow-rule, .coach-invite, .prop-entry",
+     "von": 344,
+     "bis": 345,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C22",
+     "gruppe": "kilook",
+     "titel": "News-Hero-Markup ohne Glocke",
+     "von": 706,
+     "bis": 708,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/news.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp-switch input::after",
+   "schritte": [
+    {
+     "nr": "kilook-C4",
+     "gruppe": "kilook",
+     "titel": "Ruhepunkt-CSS: Reste des Schalters „Christlicher Impuls“ (.rp-switch) löschen",
+     "von": 553,
+     "bis": 556,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C34a",
+     "gruppe": "komponenten",
+     "titel": "Ruhepunkt: tote .rp-switch-Regeln löschen",
+     "von": 473,
+     "bis": 474,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".shadow-rule",
+   "schritte": [
+    {
+     "nr": "abstaende-B28",
+     "gruppe": "abstaende",
+     "titel": "Container-Innenabstände auf Skala: .cpn, .aff-ticket, .coach-entry, .nw-next, .rp-choice, .shadow-rule, .coach-invite, .prop-entry",
+     "von": 344,
+     "bis": 345,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C11",
+     "gruppe": "zustaende",
+     "titel": "Schatten-Ich-Regelkarte: aus transparent, an surface-2 mit Rand border-2 (kein Grün)",
+     "von": 333,
+     "bis": 337,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".shadow-rule.on",
+   "schritte": [
+    {
+     "nr": "farbe-C7",
+     "gruppe": "farbe",
+     "titel": "Schatten-Ich: eingeschaltete Regel neutral angehoben statt grün getönt",
+     "von": 409,
+     "bis": 412,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C11",
+     "gruppe": "zustaende",
+     "titel": "Schatten-Ich-Regelkarte: aus transparent, an surface-2 mit Rand border-2 (kein Grün)",
+     "von": 333,
+     "bis": 337,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

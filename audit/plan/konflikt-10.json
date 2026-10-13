@@ -1,0 +1,1516 @@
+{
+ "anker": [
+  {
+   "anker": ".btn.primary",
+   "schritte": [
+    {
+     "nr": "farbe-B2",
+     "gruppe": "farbe",
+     "titel": ".btn.primary global neutral angehoben (Fläche, Hover) und Trennstrich .fd-foot .fd-n auf currentColor",
+     "von": 232,
+     "bis": 236,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-D3e",
+     "gruppe": "farbe",
+     "titel": "README Z. 203–208: Absatz „Grün nur für Gewinn und „Trade loggen““ ersetzen",
+     "von": 570,
+     "bis": 570,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/README.md"
+     ]
+    },
+    {
+     "nr": "komponenten-W7",
+     "gruppe": "komponenten",
+     "titel": "Auslöser in Feature-Widgets neutral (Schatten-Ich, Prop, Ruhepunkt, Mentor)",
+     "von": 600,
+     "bis": 602,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-coach-b",
+     "gruppe": "komponenten",
+     "titel": "Coach: Auslöser und Inline-Absenden neutral",
+     "von": 632,
+     "bis": 632,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coach.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-dashboard-c",
+     "gruppe": "komponenten",
+     "titel": "„Beispieldaten laden“ neutral",
+     "von": 653,
+     "bis": 653,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-day-d",
+     "gruppe": "komponenten",
+     "titel": "„Tagesnotiz anlegen“ im Leerzustand neutral",
+     "von": 661,
+     "bis": 662,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-d",
+     "gruppe": "komponenten",
+     "titel": "Konten: „Konto hinzufügen“ als btn",
+     "von": 674,
+     "bis": 674,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-h",
+     "gruppe": "komponenten",
+     "titel": "Inhalte: „Tag hinzufügen“ neutral",
+     "von": 678,
+     "bis": 678,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-notebook-b",
+     "gruppe": "komponenten",
+     "titel": "Notebook: „Neue Notiz“/„Wiederherstellen“ neutral, Symbole Auswählen/Sortieren",
+     "von": 685,
+     "bis": 686,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-prop-a",
+     "gruppe": "komponenten",
+     "titel": "Prop: Leerzustand-Aktion btn sm, „Als bestanden markieren“ neutral",
+     "von": 694,
+     "bis": 696,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-b",
+     "gruppe": "komponenten",
+     "titel": "TradeLog-Leerzustand „Trade loggen“ neutral",
+     "von": 719,
+     "bis": 719,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-f",
+     "gruppe": "komponenten",
+     "titel": "Trade-Ansicht: „30 Sekunden aufnehmen“ und „Bearbeiten“ neutral",
+     "von": 723,
+     "bis": 723,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "komponenten-R1f",
+     "gruppe": "komponenten",
+     "titel": "README nach Antwort auf N1/N2 nachziehen (Z. 191, 207–208)",
+     "von": 752,
+     "bis": 753,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/README.md"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4b",
+     "gruppe": "typografie",
+     "titel": "Knöpfe: .btn.primary 700, .btn.accent 500 (aktiver Filter nicht fetter), neu .btn.accent.tl 700 (K8)",
+     "von": 331,
+     "bis": 333,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn.accent",
+   "schritte": [
+    {
+     "nr": "farbe-C31a",
+     "gruppe": "farbe",
+     "titel": "TradeLog: Leerzustand „Trade loggen“ accent, Score über scoreText, Regeln-Symbol .rule-ic, „offen“ muted",
+     "von": 539,
+     "bis": 541,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "farbe-D3e",
+     "gruppe": "farbe",
+     "titel": "README Z. 203–208: Absatz „Grün nur für Gewinn und „Trade loggen““ ersetzen",
+     "von": 570,
+     "bis": 570,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/README.md"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4b",
+     "gruppe": "typografie",
+     "titel": "Knöpfe: .btn.primary 700, .btn.accent 500 (aktiver Filter nicht fetter), neu .btn.accent.tl 700 (K8)",
+     "von": 331,
+     "bis": 333,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S8.1-8.2",
+     "gruppe": "wording",
+     "titel": "Tagesansicht-Kopf: „Check-in“ und „Trade für diesen Tag“ streichen, Aktion new-trade-day entfernen, Tooltip „Tageszertifikat erstellen“",
+     "von": 406,
+     "bis": 411,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/day.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-D2",
+     "gruppe": "zustaende",
+     "titel": "Dashboard-Filter-Knopf: Klasse is-on statt accent",
+     "von": 498,
+     "bis": 500,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn.primary:hover",
+   "schritte": [
+    {
+     "nr": "bewegung-B1",
+     "gruppe": "bewegung",
+     "titel": "Knöpfe: kein Anheben, kein Schein an .btn.primary, Druckdauer aus Token",
+     "von": 167,
+     "bis": 174,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B2",
+     "gruppe": "farbe",
+     "titel": ".btn.primary global neutral angehoben (Fläche, Hover) und Trennstrich .fd-foot .fd-n auf currentColor",
+     "von": 232,
+     "bis": 236,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C06",
+     "gruppe": "komponenten",
+     "titel": "Hauptknopf ohne Schein beim Darüberfahren (Füllfarbe erst nach N1)",
+     "von": 220,
+     "bis": 225,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C2",
+     "gruppe": "zustaende",
+     "titel": "Knöpfe und Menüeinträge: kein Hover/Anheben auf Deaktiviertem, Deckkraft über --disabled-o, neutraler .btn.primary:disabled",
+     "von": 242,
+     "bis": 259,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".empty",
+   "schritte": [
+    {
+     "nr": "komponenten-S-misc-i",
+     "gruppe": "komponenten",
+     "titel": "Logs: Papierkorb neutral, Leerzustände statt leerer Tabellen, Suche „Verlauf durchsuchen“",
+     "von": 679,
+     "bis": 679,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-b",
+     "gruppe": "komponenten",
+     "titel": "TradeLog-Leerzustand „Trade loggen“ neutral",
+     "von": 719,
+     "bis": 719,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C4",
+     "gruppe": "zustaende",
+     "titel": "Leerzustand-Stile: .empty b 600, .empty.chart-empty, Karten-Füllung im Widget, .tile .nodata.dash",
+     "von": 268,
+     "bis": 280,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal .d .p",
+   "schritte": [
+    {
+     "nr": "komponenten-C26c",
+     "gruppe": "komponenten",
+     "titel": "Kalender-Titel als Klasse .cal-title; Handy-Regel und Tagesbetrag 800 bleiben (N2)",
+     "von": 419,
+     "bis": 421,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-R1f",
+     "gruppe": "komponenten",
+     "titel": "README nach Antwort auf N1/N2 nachziehen (Z. 191, 207–208)",
+     "von": 752,
+     "bis": 753,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/README.md"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3c",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 10.5/11.5 px → 11 (Abzeichen, Pillen, Atemsegmente, .pf-n, .chart text)",
+     "von": 241,
+     "bis": 242,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-foot .fd-n",
+   "schritte": [
+    {
+     "nr": "farbe-B2",
+     "gruppe": "farbe",
+     "titel": ".btn.primary global neutral angehoben (Fläche, Hover) und Trennstrich .fd-foot .fd-n auf currentColor",
+     "von": 232,
+     "bis": 236,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C24",
+     "gruppe": "komponenten",
+     "titel": "Filter-Fuß wie Zeitraum-Fuß (CSS)",
+     "von": 388,
+     "bis": 397,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "widget:schatten_ich",
+   "schritte": [
+    {
+     "nr": "diagramme-E8g",
+     "gruppe": "diagramme",
+     "titel": "Schatten-Ich-Widget: Serien Echt --text, Schatten-Ich --text-2 gestrichelt 5 4",
+     "von": 598,
+     "bis": 599,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "komponenten-W7",
+     "gruppe": "komponenten",
+     "titel": "Auslöser in Feature-Widgets neutral (Schatten-Ich, Prop, Ruhepunkt, Mentor)",
+     "von": 600,
+     "bis": 602,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--accent-glow",
+   "schritte": [
+    {
+     "nr": "diagramme-A7",
+     "gruppe": "diagramme",
+     "titel": "Regeltreue-Ring CSS: Rand 96px, drop-shadow streichen, Handy-Regel kürzen",
+     "von": 329,
+     "bis": 333,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C06",
+     "gruppe": "komponenten",
+     "titel": "Hauptknopf ohne Schein beim Darüberfahren (Füllfarbe erst nach N1)",
+     "von": 220,
+     "bis": 225,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C35",
+     "gruppe": "komponenten",
+     "titel": "Runder „Trade loggen“-Knopf am Handy mit neutralem Schatten",
+     "von": 478,
+     "bis": 488,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn",
+   "schritte": [
+    {
+     "nr": "bewegung-B1",
+     "gruppe": "bewegung",
+     "titel": "Knöpfe: kein Anheben, kein Schein an .btn.primary, Druckdauer aus Token",
+     "von": 167,
+     "bis": 174,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-stats-a",
+     "gruppe": "komponenten",
+     "titel": "Statistik-Reiter ohne .btn und Inline-Farbe (Schiene)",
+     "von": 712,
+     "bis": 713,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn:hover",
+   "schritte": [
+    {
+     "nr": "bewegung-B1",
+     "gruppe": "bewegung",
+     "titel": "Knöpfe: kein Anheben, kein Schein an .btn.primary, Druckdauer aus Token",
+     "von": 167,
+     "bis": 174,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C2",
+     "gruppe": "zustaende",
+     "titel": "Knöpfe und Menüeinträge: kein Hover/Anheben auf Deaktiviertem, Deckkraft über --disabled-o, neutraler .btn.primary:disabled",
+     "von": 242,
+     "bis": 259,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sp-item .btn.added",
+   "schritte": [
+    {
+     "nr": "farbe-C3a",
+     "gruppe": "farbe",
+     "titel": "Widget-Bibliothek: Knopfgewicht entfernen, „Hinzugefügt“ grau ohne Fläche",
+     "von": 384,
+     "bis": 386,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C2",
+     "gruppe": "zustaende",
+     "titel": "Knöpfe und Menüeinträge: kein Hover/Anheben auf Deaktiviertem, Deckkraft über --disabled-o, neutraler .btn.primary:disabled",
+     "von": 242,
+     "bis": 259,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pager .pg-nav button:disabled",
+   "schritte": [
+    {
+     "nr": "komponenten-C07",
+     "gruppe": "komponenten",
+     "titel": "Ein Pfeilknopf .btn.nav (34×34), .rr-nav 32×32, Seitenwahl-Pfeile ohne Verbund",
+     "von": 226,
+     "bis": 233,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C2",
+     "gruppe": "zustaende",
+     "titel": "Knöpfe und Menüeinträge: kein Hover/Anheben auf Deaktiviertem, Deckkraft über --disabled-o, neutraler .btn.primary:disabled",
+     "von": 242,
+     "bis": 259,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn:active",
+   "schritte": [
+    {
+     "nr": "bewegung-B1",
+     "gruppe": "bewegung",
+     "titel": "Knöpfe: kein Anheben, kein Schein an .btn.primary, Druckdauer aus Token",
+     "von": 167,
+     "bis": 174,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C2",
+     "gruppe": "zustaende",
+     "titel": "Knöpfe und Menüeinträge: kein Hover/Anheben auf Deaktiviertem, Deckkraft über --disabled-o, neutraler .btn.primary:disabled",
+     "von": 242,
+     "bis": 259,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".empty b",
+   "schritte": [
+    {
+     "nr": "komponenten-C11",
+     "gruppe": "komponenten",
+     "titel": "Leerzustand: Symbol und Titel nur als direkte Kinder, Abstand zur Aktion",
+     "von": 260,
+     "bis": 264,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4h",
+     "gruppe": "typografie",
+     "titel": "Leer-Titel .empty b auf 600",
+     "von": 343,
+     "bis": 343,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C4",
+     "gruppe": "zustaende",
+     "titel": "Leerzustand-Stile: .empty b 600, .empty.chart-empty, Karten-Füllung im Widget, .tile .nodata.dash",
+     "von": 268,
+     "bis": 280,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tbl-wrap",
+   "schritte": [
+    {
+     "nr": "abstaende-M5",
+     "gruppe": "abstaende",
+     "titel": "Prop-Bilanz-Tabellen als .tbl-wrap.inset",
+     "von": 474,
+     "bis": 474,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-i",
+     "gruppe": "komponenten",
+     "titel": "Logs: Papierkorb neutral, Leerzustände statt leerer Tabellen, Suche „Verlauf durchsuchen“",
+     "von": 679,
+     "bis": 679,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-prop-e",
+     "gruppe": "komponenten",
+     "titel": "Prop-Bilanz: Tabellen als tbl-wrap inset",
+     "von": 701,
+     "bis": 701,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M4",
+     "gruppe": "zustaende",
+     "titel": "Tags zurücksetzen: Knopf aus der Filterleiste unter die Tabelle, eindeutige Rückfrage",
+     "von": 774,
+     "bis": 778,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile .nodata",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3s",
+     "gruppe": "typografie",
+     "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+     "von": 271,
+     "bis": 272,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C4",
+     "gruppe": "zustaende",
+     "titel": "Leerzustand-Stile: .empty b 600, .empty.chart-empty, Karten-Füllung im Widget, .tile .nodata.dash",
+     "von": 268,
+     "bis": 280,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".chart text",
+   "schritte": [
+    {
+     "nr": "diagramme-A1",
+     "gruppe": "diagramme",
+     "titel": "Diagrammtext: eine .chart text-Definition, neu .chart text.bv und .chart text.lbl, alte Regel Z. 1647–1648 löschen (inkl. Abschnittskopf 3 und Reihenfolge)",
+     "von": 279,
+     "bis": 293,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B13",
+     "gruppe": "farbe",
+     "titel": "Diagramm-Achsen: eine .chart text-Regel in --muted, Doppelregel Z. 1647–1648 löschen",
+     "von": 280,
+     "bis": 283,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2e",
+     "gruppe": "typografie",
+     "titel": "tabular-nums-Sammelregel für Listenwerte und laufende Zahlen",
+     "von": 224,
+     "bis": 224,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3c",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 10.5/11.5 px → 11 (Abzeichen, Pillen, Atemsegmente, .pf-n, .chart text)",
+     "von": 241,
+     "bis": 242,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal .p",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B14",
+     "gruppe": "barrierefreiheit",
+     "titel": "Kalender am Handy: Kurzbetrag 10,5/700 Onest, Tageszahl 11 px im 20-px-Kreis",
+     "von": 390,
+     "bis": 396,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C9a",
+     "gruppe": "kilook",
+     "titel": "Kalender-Monatsraster: Tages- und Wochenbeträge immer compact (ohne Cent)",
+     "von": 605,
+     "bis": 607,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3c",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 10.5/11.5 px → 11 (Abzeichen, Pillen, Atemsegmente, .pf-n, .chart text)",
+     "von": 241,
+     "bis": 242,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".badge",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B8",
+     "gruppe": "barrierefreiheit",
+     "titel": "LONG/SHORT-Abzeichen 11 px / 600 / .04em / Satoshi",
+     "von": 339,
+     "bis": 343,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3c",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 10.5/11.5 px → 11 (Abzeichen, Pillen, Atemsegmente, .pf-n, .chart text)",
+     "von": 241,
+     "bis": 242,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pf-n",
+   "schritte": [
+    {
+     "nr": "aufbau-C12c",
+     "gruppe": "aufbau",
+     "titel": "Prop-Übersicht: Überschrift nur zusammen mit den Filtern",
+     "von": 565,
+     "bis": 565,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3c",
+     "gruppe": "typografie",
+     "titel": "--fs-11: 10.5/11.5 px → 11 (Abzeichen, Pillen, Atemsegmente, .pf-n, .chart text)",
+     "von": 241,
+     "bis": 242,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-foot .btn",
+   "schritte": [
+    {
+     "nr": "komponenten-C24",
+     "gruppe": "komponenten",
+     "titel": "Filter-Fuß wie Zeitraum-Fuß (CSS)",
+     "von": 388,
+     "bis": 397,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--accent",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Globale Fokusregel und Shell-Fokusringe auf --focus (app.css Z. 95, 206, 235)",
+     "von": 258,
+     "bis": 264,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-B6",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gewählter Menüeintrag flach statt grün (Popover, Notebook-Setup-Tag, Vorlagen-Menü)",
+     "von": 317,
+     "bis": 325,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-C15",
+     "gruppe": "diagramme",
+     "titel": "drawers.rolling: linke Achse fmt.r, keine Fläche, Linie --text, Mittelwert-Label .lbl",
+     "von": 482,
+     "bis": 492,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-K1",
+     "gruppe": "diagramme",
+     "titel": "Affiliate-Balken neutral --text-2 .45 als Pfad-Balken",
+     "von": 668,
+     "bis": 673,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    },
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "gruppe": "zustaende",
+     "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+     "von": 298,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "gruppe": "zustaende",
+     "titel": "Reiter .set-tabs und Unterreiter .prop-sub: Gewicht 500, Unterstrich in --text statt Akzent",
+     "von": 323,
+     "bis": 326,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ring-arc .arc",
+   "schritte": [
+    {
+     "nr": "bewegung-B8",
+     "gruppe": "bewegung",
+     "titel": "Score-Skala und Fortschritts-Ring auf --dur-4 --ease",
+     "von": 212,
+     "bis": 215,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-A7",
+     "gruppe": "diagramme",
+     "titel": "Regeltreue-Ring CSS: Rand 96px, drop-shadow streichen, Handy-Regel kürzen",
+     "von": 329,
+     "bis": 333,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-H1",
+     "gruppe": "diagramme",
+     "titel": "Regeltreue-Ring 64/6 px in scoreColor, kein Bogen bei 0",
+     "von": 626,
+     "bis": 635,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "kilook-B4",
+     "gruppe": "kilook",
+     "titel": "Fortschrittsring ohne drop-shadow",
+     "von": 436,
+     "bis": 440,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C18",
+     "gruppe": "kilook",
+     "titel": "„% Regeln eingehalten“ ohne Grundlage: „—“, kein Ring/ring-card; Bogen nur bei rate > 0",
+     "von": 653,
+     "bis": 660,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-PR2",
+     "gruppe": "zustaende",
+     "titel": "Fortschritt-Ring: kein Bogen bei 0 oder null",
+     "von": 703,
+     "bis": 705,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--be",
+   "schritte": [
+    {
+     "nr": "diagramme-E2",
+     "gruppe": "diagramme",
+     "titel": "drawers.scatter: Beschriftung waagerecht über xLabels, mb 30, Break-even --be statt --info",
+     "von": 557,
+     "bis": 562,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "diagramme-E5",
+     "gruppe": "diagramme",
+     "titel": "Fallback-Vorschauen PV.scatter ohne Strichelung, PV.line ohne --be",
+     "von": 569,
+     "bis": 572,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "diagramme-E8b",
+     "gruppe": "diagramme",
+     "titel": "verlauf_trefferquote: neuer Info-Text, Trefferquote --text-2, .chart-legend über dem Diagramm",
+     "von": 590,
+     "bis": 593,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "farbe-A1",
+     "gruppe": "farbe",
+     "titel": "Dunkle Tokens in :root: --muted anheben, --profit-soft, --be/--be-soft, --warn-text und --imp-mid neu",
+     "von": 200,
+     "bis": 211,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--muted",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B13",
+     "gruppe": "barrierefreiheit",
+     "titel": "Vergangene News: Text in --muted statt Deckkraft .5, Balken .6",
+     "von": 385,
+     "bis": 389,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-A1",
+     "gruppe": "diagramme",
+     "titel": "Diagrammtext: eine .chart text-Definition, neu .chart text.bv und .chart text.lbl, alte Regel Z. 1647–1648 löschen (inkl. Abschnittskopf 3 und Reihenfolge)",
+     "von": 279,
+     "bis": 293,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A1",
+     "gruppe": "farbe",
+     "titel": "Dunkle Tokens in :root: --muted anheben, --profit-soft, --be/--be-soft, --warn-text und --imp-mid neu",
+     "von": 200,
+     "bis": 211,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S17.8-17.10",
+     "gruppe": "wording",
+     "titel": "Design-Reiter: „Design speichern“, Texte ohne „Website“/„Buttons“, Reset-Knopf „Auf Standard zurücksetzen“ ohne Symbol",
+     "von": 587,
+     "bis": 589,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--accent-soft",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fokus an Eingabefeldern, Schalter, Datums- und Farbwähler neutral (Z. 293, 314–315, 437, 447, 451)",
+     "von": 265,
+     "bis": 269,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A3c",
+     "gruppe": "farbe",
+     "titel": "theme.js: forLight (0,18, 8-%-Schritte), ratio/inkFor neu, apply mit hellen Soft-Werten und --profit-soft, Export",
+     "von": 222,
+     "bis": 227,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/theme.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "gruppe": "zustaende",
+     "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+     "von": 298,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--loss-soft",
+   "schritte": [
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A3c",
+     "gruppe": "farbe",
+     "titel": "theme.js: forLight (0,18, 8-%-Schritte), ratio/inkFor neu, apply mit hellen Soft-Werten und --profit-soft, Export",
+     "von": 222,
+     "bis": 227,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/theme.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C3",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Stile: .field.invalid, aria-invalid-Rand, .field-err",
+     "von": 260,
+     "bis": 267,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C12",
+     "gruppe": "zustaende",
+     "titel": "Mentor-Fehlerzeile .mentor-err in Warn-Optik statt Rot",
+     "von": 338,
+     "bis": 340,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--accent-ink",
+   "schritte": [
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A3c",
+     "gruppe": "farbe",
+     "titel": "theme.js: forLight (0,18, 8-%-Schritte), ratio/inkFor neu, apply mit hellen Soft-Werten und --profit-soft, Export",
+     "von": 222,
+     "bis": 227,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/theme.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "gruppe": "zustaende",
+     "titel": "Zeitraum-Kalender, Datumswähler und Notebook-Kalender ohne Grün (Band grau, invertierte Kacheln, Heute unterstrichen)",
+     "von": 298,
+     "bis": 318,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--loss",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B11",
+     "gruppe": "barrierefreiheit",
+     "titel": "Fehlerzustand .input[aria-invalid=\"true\"] mit Rand --loss",
+     "von": 368,
+     "bis": 371,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C3",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Stile: .field.invalid, aria-invalid-Rand, .field-err",
+     "von": 260,
+     "bis": 267,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--info",
+   "schritte": [
+    {
+     "nr": "diagramme-E2",
+     "gruppe": "diagramme",
+     "titel": "drawers.scatter: Beschriftung waagerecht über xLabels, mb 30, Break-even --be statt --info",
+     "von": 557,
+     "bis": 562,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ring-abs",
+   "schritte": [
+    {
+     "nr": "diagramme-A7",
+     "gruppe": "diagramme",
+     "titel": "Regeltreue-Ring CSS: Rand 96px, drop-shadow streichen, Handy-Regel kürzen",
+     "von": 329,
+     "bis": 333,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C18",
+     "gruppe": "kilook",
+     "titel": "„% Regeln eingehalten“ ohne Grundlage: „—“, kein Ring/ring-card; Bogen nur bei rate > 0",
+     "von": 653,
+     "bis": 660,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/progress.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--warn",
+   "schritte": [
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C12",
+     "gruppe": "zustaende",
+     "titel": "Mentor-Fehlerzeile .mentor-err in Warn-Optik statt Rot",
+     "von": 338,
+     "bis": 340,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--warn-soft",
+   "schritte": [
+    {
+     "nr": "farbe-A2",
+     "gruppe": "farbe",
+     "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+     "von": 212,
+     "bis": 218,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C12",
+     "gruppe": "zustaende",
+     "titel": "Mentor-Fehlerzeile .mentor-err in Warn-Optik statt Rot",
+     "von": 338,
+     "bis": 340,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dash-head .tl",
+   "schritte": [
+    {
+     "nr": "komponenten-C35",
+     "gruppe": "komponenten",
+     "titel": "Runder „Trade loggen“-Knopf am Handy mit neutralem Schatten",
+     "von": 478,
+     "bis": 488,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A4",
+     "gruppe": "responsiv",
+     "titel": "Safe Area und Seitenränder: Titelzeile, Inhalt, runder Knopf",
+     "von": 247,
+     "bis": 253,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

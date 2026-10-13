@@ -1,0 +1,3423 @@
+{
+ "regeln": "SKALA (:root nach --gutter): --sp-1 4px, --sp-2 8, --sp-3 12, --sp-4 16, --sp-5 20, --sp-6 24, --sp-8 32, --sp-10 40; --content-gap: var(--sp-6) (Abschnitte), --grid-gap: var(--sp-4) (Raster), --pad-card: var(--sp-5); --w-chat 800, --w-news 1040, --w-read 920, --w-single 680. Abstände nur als var(--sp-n)/Token; außerhalb nur 1–3 px (Haarlinie, Rahmenausgleich, Schienen), negative calc()-Ausgleiche, Ausnahmen. Steuerelement-Innenmaße = Komponenten-Spez; hier nur .nav a gap 12, .field gap 8.\nZUORDNUNG: Titel↔Untertitel 4; Label↔Feld 8; Reihe (.row, Knopfgruppen, .modal-foot) 8; Kachel Kopf↔Körper 8; .kv/.bar-row 8; .nav a 12; .stack 12; Kachel Trennlinie↔Wert 12; Zeilen-/Auswahlkarten (.shadow-rules, Auswahlraster, .prop-rules, .prop-group, .prop-rule-f) 12; Reiter↔Inhalt 12; Titel↔Inhalt (.card-head, .set-block h3, .set-desc, .set-head-row) 16; Kopfreihe↔Inhalt 16; Raster (.grid, .dash-top, .dash-main, .stat-tiles, .nb, .cpn-grid, .nw-list, .coach-entries) 16; .form-grid/.tf-main 16; Dialog Kopf/Inhalt/Fuß/Knöpfe 16; Abschnitte (.content, .aff, .nw-wrap, .coach-wrap, .set-body) 24, Dashboard/TradeLog 16; --gutter 24 (≤960: 16); Einstellungen Nav↔Inhalt 32 (≤960: 16).\nPOLSTER: .card/.set-block/.cpn 20 (Textkante 21); .tile/.stat-tile/.stat/.kstrip .tile 16/20, Handy ≤560 16/12; .aff-ticket/.coach-entry/.nw-next/.rp-choice 16/20; .banner/.shadow-rule/.nw-banner/.coach-invite/.prop-rule 12/16; .prop-entry 16; .modal 24 (≤960: 20/16); .content 24 oben, --gutter, 60 unten. .card.tight löschen, .card.flush 0.\nSEITE: .content gap var(--content-gap), padding-top var(--sp-6); .content > .page-head {flex-shrink:0; margin-bottom: calc(var(--sp-4) - var(--content-gap))}; --page-head-h bleibt 64; .content:has(> .dash-top, > .dash-main) {--content-gap: var(--grid-gap)}; .content > .tl-fit gap 16 (vorher 18); App.pageHead gibt '' wenn leer, .page-head:empty {display:none}; Statistik-Reiter margin-bottom calc(var(--sp-3) - 4px - var(--content-gap)); .aff gap 24, .aff > .aff-top margin-bottom calc(var(--sp-3) - var(--content-gap)); Abschnittstitel näher am Inhalt (Prop: Kennzahlen 24 „Aktive Konten\" 12 Gruppen; Gruppen 24).\nRASTER: .grid gap 16, zwei Zeilen calc(var(--card-h) * 2 + var(--grid-gap)); .dash-main ≥1241 3 Sp., 721–1240 2 (groß/mittel span 2), ≤720 1; .dash-top ≥1241 nebeneinander, 561–1240 bei 5 Kacheln 6 Spuren 3+2, bei 4 Kacheln 4 Sp. (1000–1240, 800–960), Handy 2 Sp., ungerade letzte voll, kein Karussell; .grid.tiles mit 4 ebenso; .grid.detail-grid 2 Sp., <1280 1; Auswahlraster Einstellungen volle Blockbreite, gap 12, Theme/Schrift/Designs 4, Farbpaare/Sprachen 3, Container .set-body <720 → 2.\nKACHELN (Variante F, alle .tile): .tile padding var(--sp-4) var(--sp-5), gap var(--sp-2); .tile .body align-items flex-start, padding-top var(--sp-3); .tile.side .gauge margin-right var(--sp-3), margin-block -14px; .tile.side .body padding-bottom var(--sp-2); Container ≤150 .gauge:has(> .gauge-stack) margin-block -3px; .spark-body flex-start + padding-top 12, .spark-tile .chart margin-block -14px (≤180: 0); Abfragen 220→210, 178→168, 164→154, 250→240, 190→180, 150 bleibt. Werte je Reihe ±1 px auf einer Linie, dashtest.js:19 grün, Dashboard-Kachel 131→144. .stat-tile flex column, .v margin-top auto + padding-top 8. Keine Ellipse an Kacheltiteln.\nKARTENKOPF: margin-bottom 16; ohne .card-sub align-items center; .card-head > .row margin-block -7px (Kopf 21,75); .card-sub margin-top 4.\nTABELLEN: .tbl-wrap.inset bis Kartenrand über --pad-x (.card --pad-card, .card.flush 0px, .pf-body), nie eigener Rahmen; .tbl th/td 12/16, .compact 8/12.\nDIALOGE: .modal gap 16; .modal > form {display:flex; flex-direction:column; gap:var(--sp-4); min-width:0} für alle 18 Formulardialoge inkl. form.stack; .modal-foot gap 8, padding-top 16; .prop-h3 margin-top 8.\nFORMULARE: .form-grid gap 16, .form-grid .span4 (≥961 span 4, sonst volle Zeile); kein Absende-Knopf über &nbsp;-Label → .prop-entry-foot rechtsbündig; .tf-main 6 Spuren (Symbol 4/Richtung 2; mit Konto 2/2/2; Einstieg/Ausstieg/Kontrakte 2; Eröffnet/Geschlossen/Punktwert/Gebühren 3; Prop-Konten voll; Handy Symbol/Richtung/Konto/Eröffnet/Geschlossen voll, gap 12). Einstellungen: .set-block .form-grid max 560, 2 Sp. (Handy 1); .set-field max 560; Einheitenfeld 160 (Handy voll); h3→16→Inhalt bzw. h3→4→.set-desc→16; Beschreibung immer div.set-desc (12px, --muted, 68ch); .set-item minmax(0,1fr) auto, Linie, 16 Polster, Handy Knopf darunter.\nBREITEN: Arbeitsseiten voll links; News 1040 links + Kopfreihe 1040; Mentor 800 (width:100%) mittig + Kopfreihe 800 mittig; Coach-Journal 920 links ohne Kopfreihe; Einrichten-Karten 800 mittig; Beitrittskarten 680; Ruhepunkt 720. Einrichten-/Beitrittssymbole 34 px, --faint, mittig.\nAUSNAHMEN: .tl-fit .tbl 10 seitlich; Handy-Tabellen 9px 10px, Affiliate-Handy 6; .recent-wrap 8; .nb .col-head 12/12/10 (57 px); Seitenleisten-Schiene/Dichte 6/5; Handy-Kachel 12 seitlich; Notiz-Textkante 28.\nSEITENLEISTE: Linie unter Marke y=71 (--topbar-h − 1) volle Breite, voll und mini; .brand min-height var(--topbar-h); Dichte-Regeln wirken; Konto-Karte sticky bei innerHeight − 18.\nNOTEBOOK: drei Spaltenköpfe 57 px auf einer Linie (.col-head.note-bar); Titel 16 darunter; Kalender-Symbol x=28; Werkzeugleiste→erster Block 16; Mentor-Notizen ab 28; 961–1180 Ordner eingeklappt; Papierkorb-Notiz gleicher Kopf (btn sm / btn sm danger).\nLEERRÄUME: keine leere Kopfreihe; flache Bereichskarten (Prop-Konten, Ruhepunkt, Mentor) Höhe nach Inhalt; emptyBox 280.\nINLINE: 139 → ≤35 Inline-Abstände in JS; Hilfsklassen .s-1/2/3/4/6, .mt-1/2/3/4/6, .mb-1/2/3/4, .ml-auto am Ende von app.css; Rundung 3–5→4, 6–9→8, 10–13→12, 14–18→16, 20–22→20, 24–26→24, 28–34→32.\nSONST: .kv b rechtsbündig; Consistency-Label nowrap; Grabstein-Rückseite padding-inline 32; Tilt-Profil Subgrid ab 561, Werte 32/24/20, Labels 12/500 --muted; .be-grid auto 160px 160px, align-items start; Bearbeitungsmodus: Name nur .vh, Karte gestrichelt.",
+ "schritte": [
+  {
+   "nr": "abstaende-A1",
+   "titel": "Abstands-Token in :root nach --gutter einfügen (--sp-1 … --sp-10, --content-gap, --grid-gap, --pad-card, --w-chat/--w-news/--w-read/--w-single); Abschnitt-3-Vorspann mit Reihenfolge und Prüfablauf",
+   "von": 293,
+   "bis": 303,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root",
+    "--gutter",
+    "--sp-1",
+    "--sp-2",
+    "--sp-3",
+    "--sp-4",
+    "--sp-5",
+    "--sp-6",
+    "--sp-8",
+    "--sp-10",
+    "--content-gap",
+    "--grid-gap",
+    "--pad-card",
+    "--w-chat",
+    "--w-news",
+    "--w-read",
+    "--w-single"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-A2",
+   "titel": ".row: gap 10px → var(--sp-2)",
+   "von": 304,
+   "bis": 304,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".row"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1",
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-A3",
+   "titel": ".stack: gap 10px → var(--sp-3)",
+   "von": 305,
+   "bis": 305,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stack"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1",
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-A4",
+   "titel": ".content auf Token (padding-top var(--sp-6), gap var(--content-gap)); neu: Kopfreihe 16 px über negativen Rand, .page-head:empty ausblenden, Dashboard-Lücke 16 über --content-gap",
+   "von": 306,
+   "bis": 306,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".content",
+    ".content > .page-head",
+    ".page-head:empty",
+    ".content:has(> .dash-top, > .dash-main)",
+    "--content-gap",
+    "--page-head-h"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32",
+    "bereich_notebook_news-5",
+    "abstaende_layout-4",
+    "hierarchie-8"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:85-86 (.content padding-bottom 60px muss bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-A5",
+   "titel": "Fenster-Layouts Notebook/TradeLog: padding-bottom 22px → var(--sp-6)",
+   "von": 307,
+   "bis": 307,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".main:has(> .content > .nb) > .content",
+    ".main:has(> .content > .tl-fit) > .content"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/tlfittest.js (muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-A6",
+   "titel": "Hilfsklassen der Abstandsskala am Dateiende anfügen (.s-*, .mt-*, .mb-*, .ml-auto) mit Kommentar",
+   "von": 308,
+   "bis": 308,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".s-1",
+    ".s-2",
+    ".s-3",
+    ".s-4",
+    ".s-6",
+    ".mt-1",
+    ".mt-2",
+    ".mt-3",
+    ".mt-4",
+    ".mt-6",
+    ".mb-1",
+    ".mb-2",
+    ".mb-3",
+    ".mb-4",
+    ".ml-auto"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-A7",
+   "titel": ".field: gap 6px → var(--sp-2)",
+   "von": 309,
+   "bis": 309,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".field"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-A8",
+   "titel": ".form-grid: gap → var(--sp-4); neue Hilfsklasse .form-grid .span4 (ab 961 px vier Spuren, darunter volle Zeile)",
+   "von": 310,
+   "bis": 310,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".form-grid",
+    ".form-grid .span4"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32",
+    "bereich_prop-37"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-A9",
+   "titel": ".nav a, .nav button: gap 14px → var(--sp-3)",
+   "von": 311,
+   "bis": 312,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nav a",
+    ".nav button"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B1",
+   "titel": ".card: padding var(--pad-card) und --pad-x: var(--pad-card)",
+   "von": 313,
+   "bis": 317,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card",
+    "--pad-x",
+    "--pad-card"
+   ],
+   "befund_ids": [
+    "abstaende_layout-31",
+    "abstaende_layout-12"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B2",
+   "titel": ".card.tight löschen (im JS unbenutzt)",
+   "von": 318,
+   "bis": 318,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card.tight"
+   ],
+   "befund_ids": [
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B3",
+   "titel": ".card.flush: zusätzlich --pad-x: 0px",
+   "von": 319,
+   "bis": 319,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card.flush",
+    "--pad-x"
+   ],
+   "befund_ids": [
+    "abstaende_layout-12"
+   ],
+   "abhaengig": [
+    "abstaende-B1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B4",
+   "titel": "Kartenkopf: .card-head margin-bottom var(--sp-4); Titel und Knopfreihe auf einer Mittellinie (:not(:has(.card-sub)) center, .card-head > .row margin-block -7px)",
+   "von": 320,
+   "bis": 320,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card-head",
+    ".card-head:not(:has(.card-sub))",
+    ".card-head > .row"
+   ],
+   "befund_ids": [
+    "abstaende_layout-11",
+    "komponenten-22",
+    "bereich_konto-26"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B5",
+   "titel": ".card-sub: margin-top 3px → var(--sp-1)",
+   "von": 321,
+   "bis": 321,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card-sub"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B6",
+   "titel": "Trenner auch in Einstellungsblöcken sichtbar: .card .divider → :is(.card, .set-block) .divider",
+   "von": 322,
+   "bis": 322,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card .divider",
+    ":is(.card, .set-block) .divider"
+   ],
+   "befund_ids": [
+    "abstaende_layout-23"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B7",
+   "titel": ".tile: padding var(--sp-4) var(--sp-5), gap var(--sp-2)",
+   "von": 323,
+   "bis": 323,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile"
+   ],
+   "befund_ids": [
+    "abstaende_layout-31",
+    "bereich_dashboard-42"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:19 (muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-B8",
+   "titel": "Kachel-Container-Abfrage 220px → 210px",
+   "von": 324,
+   "bis": 324,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@container (max-width: 220px)",
+    ".tile .body:has(> .gauge > .wl-single)"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-42"
+   ],
+   "abhaengig": [
+    "abstaende-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B9",
+   "titel": "Wertlinie: .tile .body align-items flex-start, padding-top var(--sp-3)",
+   "von": 325,
+   "bis": 325,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile .body"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-10",
+    "hierarchie-10",
+    "bereich_konto-27",
+    "bereich_prop-12",
+    "bereich_training-25",
+    "bereich_statistik-9",
+    "responsiv-36"
+   ],
+   "abhaengig": [
+    "abstaende-A1",
+    "abstaende-B7"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:19 (muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-B10",
+   "titel": "Kachel-Diagramm im Fluss nur so hoch wie die Wertzeile: .tile.side .gauge margin-block -14px, .tile.side .body padding-bottom var(--sp-2), Kommentar neu",
+   "von": 326,
+   "bis": 326,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile.side .gauge",
+    ".tile.side .body"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-10",
+    "hierarchie-10",
+    "bereich_konto-27",
+    "bereich_prop-12",
+    "bereich_training-25",
+    "bereich_statistik-9",
+    "responsiv-36"
+   ],
+   "abhaengig": [
+    "abstaende-B9"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:19 (muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-B11",
+   "titel": "Kachel-Container-Abfragen 178 → 168 und 164 → 154; 150er-Abfrage bleibt und erhält .tile.side .gauge:has(> .gauge-stack) margin-block -3px",
+   "von": 327,
+   "bis": 327,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@container (max-width: 178px)",
+    "@container (max-width: 164px)",
+    "@container (max-width: 150px)",
+    ".tile.side .gauge:has(> .gauge-stack)"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-42",
+    "bereich_dashboard-10",
+    "hierarchie-10",
+    "bereich_konto-27",
+    "bereich_prop-12",
+    "bereich_training-25",
+    "bereich_statistik-9",
+    "responsiv-36"
+   ],
+   "abhaengig": [
+    "abstaende-B7",
+    "abstaende-B10"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:19 (muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-B12",
+   "titel": "Container-Abfrage 250px → 240px (Serien-/Pillen-Kachel)",
+   "von": 328,
+   "bis": 328,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@container (max-width: 250px)"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-42"
+   ],
+   "abhaengig": [
+    "abstaende-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B13",
+   "titel": "Verlaufskachel (TradeLog) auf die Wertlinie: .tile.spark-tile gap-Regel löschen, .spark-body flex-start + padding-top var(--sp-3), .chart margin-block -14px, Abfrage 190 → 180 mit margin-block 0",
+   "von": 329,
+   "bis": 329,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile.spark-tile",
+    ".tile.spark-tile .spark-body",
+    ".tile.spark-tile .chart",
+    "@container (max-width: 190px)"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-10"
+   ],
+   "abhaengig": [
+    "abstaende-B7",
+    "abstaende-B9"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B14",
+   "titel": ".stat-tiles: gap 14px → var(--grid-gap)",
+   "von": 330,
+   "bis": 330,
+   "cluster": "statistik",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stat-tiles"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B15",
+   "titel": "Statistik-Übersicht: .stat-tile padding var(--sp-4) var(--sp-5) als Flex-Spalte, .stat-tile .v unten bündig (margin-top auto, padding-top var(--sp-2))",
+   "von": 331,
+   "bis": 331,
+   "cluster": "statistik",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stat-tile",
+    ".stat-tile .v"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-10",
+    "responsiv-36",
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B16",
+   "titel": "Kennzahlen-Raster: Handy-Einspaltigkeit (560er) löschen, .stat-Polster auf Skala, neu .stat-grid.detail (Trade-Ansicht), .detail-head .stars, 359er-Regel einspaltig",
+   "von": 332,
+   "bis": 332,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stat-grid",
+    ".stat",
+    ".stat-grid.detail .stat",
+    ".stat-grid.detail .v",
+    ".detail-head .stars",
+    ".stat-grid > .stat"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-23",
+    "responsiv-44",
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B17",
+   "titel": ".kv b: zusätzlich text-align: right (global)",
+   "von": 333,
+   "bis": 333,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".kv b"
+   ],
+   "befund_ids": [
+    "bereich_prop-29"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B18",
+   "titel": ".bar-row: gap var(--sp-1), padding var(--sp-2) 0",
+   "von": 334,
+   "bis": 334,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".bar-row"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B19",
+   "titel": ".banner: padding var(--sp-3) var(--sp-4)",
+   "von": 335,
+   "bis": 335,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".banner"
+   ],
+   "befund_ids": [
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B20",
+   "titel": "Tabellenzellen: .tbl th/td var(--sp-3) var(--sp-4), .tbl.compact var(--sp-2) var(--sp-3); Ausnahmen TradeLog und Handy bleiben",
+   "von": 336,
+   "bis": 336,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl th",
+    ".tbl td",
+    ".tbl.compact td",
+    ".tbl.compact th"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/tlfittest.js (muss grün bleiben)",
+    "web/e2e/mobiletest.js:34 (Handy-Ausnahme bleibt)"
+   ]
+  },
+  {
+   "nr": "abstaende-B21",
+   "titel": "Tabellen in Karten bis an den Kartenrand: .tbl-wrap.inset mit --pad-x-Ausgleich, .pf-body als Karte, Pager-Polster, Handy-Regeln löschen, .tbl.wrap th",
+   "von": 337,
+   "bis": 337,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":is(.card, .pf-body) .tbl-wrap.inset",
+    ":is(.card, .pf-body) .tbl-wrap.inset .tbl :is(th, td):first-child",
+    ":is(.card, .pf-body) .tbl-wrap.inset .tbl :is(th, td):last-child",
+    ".pf-body",
+    ".tbl-wrap.inset .pager",
+    ".tbl.wrap th",
+    "--pad-x"
+   ],
+   "befund_ids": [
+    "abstaende_layout-12",
+    "bereich_trades_tag-3"
+   ],
+   "abhaengig": [
+    "abstaende-B1",
+    "abstaende-B3"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B22",
+   "titel": "Dialoge: .modal padding var(--sp-6), neu .modal > form als Flex-Spalte (gap var(--sp-4)), .modal-foot gap var(--sp-2) + padding-top var(--sp-4), 960er-Polster var(--sp-5) var(--sp-4)",
+   "von": 338,
+   "bis": 338,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".modal",
+    ".modal > form",
+    ".modal-foot"
+   ],
+   "befund_ids": [
+    "bereich_prop-36",
+    "komponenten-20",
+    "bereich_konto-47"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/tradeformtest.js:63 (Fußzeile/Handy, muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-B23",
+   "titel": "Trade-Formular als 6-Spalten-Raster .tf-main (Desktop und Handy), .tf-row2/.tf-row3-Regeln ersetzen, .dir-switch ohne min-width, .tf-wide volle Breite",
+   "von": 339,
+   "bis": 339,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tf-main",
+    ".tf-main:has(#f-account)",
+    ".tf-main .tf-row3",
+    ".tf-main .tf-row2",
+    ".tf-main > .field",
+    ".tf-main > .tf-sym",
+    ".tf-main:has(#f-account) > .tf-sym",
+    ".tf-main > .tf-c3",
+    ".dir-switch",
+    ".tf-main .tf-wide",
+    ".tf-main > .tf-wide",
+    ".tf-main .field:has(#f-account)",
+    ".tf-main > :is(.tf-sym, .tf-dir, .tf-dt, .field:has(#f-account))"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-9",
+    "abstaende_layout-32"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/tradeformtest.js (Handy 390×844 ohne Scrollen, muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-B24",
+   "titel": "Prop-Dialog: .prop-form löschen, .prop-h3 mit margin-top var(--sp-2)",
+   "von": 340,
+   "bis": 340,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-form",
+    ".prop-h3"
+   ],
+   "befund_ids": [
+    "bereich_prop-36"
+   ],
+   "abhaengig": [
+    "abstaende-B22"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B25",
+   "titel": "Prop-Regeln: .prop-rules gap, .prop-rule padding, .prop-rule-f gap auf Skala",
+   "von": 341,
+   "bis": 341,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-rules",
+    ".prop-rule",
+    ".prop-rule-f"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B26",
+   "titel": "Einstellungsblöcke: .set-body (gap, container-type), .set-block, h3, .set-head-row auf Skala; neu .set-desc, .set-item, .set-block .form-grid, .set-block .set-field, .set-addrow",
+   "von": 342,
+   "bis": 342,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-body",
+    ".set-block",
+    ".set-block h3",
+    ".set-head-row",
+    ".set-block h3:has(+ .set-desc)",
+    ".set-head-row:has(+ .set-desc)",
+    ".set-desc",
+    ".set-desc:last-child",
+    ".set-item",
+    ".set-item:first-child",
+    ".set-block .form-grid",
+    ".set-block .set-field",
+    ".set-addrow"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-31",
+    "bereich_einstellungen-27",
+    "bereich_einstellungen-26",
+    "bereich_einstellungen-13",
+    "abstaende_layout-23",
+    "abstaende_layout-34",
+    "abstaende_layout-21"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "L",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B27",
+   "titel": "Break-even-Raster .be-grid neu (auto 160px 160px, align-items start)",
+   "von": 343,
+   "bis": 343,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".be-grid"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-25",
+    "responsiv-45"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-B28",
+   "titel": "Container-Innenabstände auf Skala: .cpn, .aff-ticket, .coach-entry, .nw-next, .rp-choice, .shadow-rule, .coach-invite, .prop-entry",
+   "von": 344,
+   "bis": 345,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cpn",
+    ".aff-ticket",
+    ".coach-entry",
+    ".nw-next",
+    ".rp-choice",
+    ".shadow-rule",
+    ".coach-invite",
+    ".prop-entry"
+   ],
+   "befund_ids": [
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-C1",
+   "titel": ".grid gap var(--grid-gap); neu .grid.detail-grid (zwei Spalten, unter 1280 px eine)",
+   "von": 346,
+   "bis": 350,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".grid",
+    ".grid.detail-grid"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32",
+    "bereich_trades_tag-3"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-C2",
+   "titel": "Dashboard-Raster: .dash-top/.dash-main gap var(--grid-gap), Rasterhöhen mit --grid-gap, flache Bereichskarten wachsen mit (.w.flat), Leerzustand oben, .btn.fw-reset margin-top",
+   "von": 351,
+   "bis": 351,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-top",
+    ".dash-main",
+    "--card-h",
+    ".dash-main > .w.flat",
+    ".dash-main > .w.flat .fw-empty",
+    ".btn.fw-reset"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32",
+    "bereich_dashboard-24"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-C3",
+   "titel": "Schatten-Ich-Widget: .fw-stats zwei Spalten, ab 520 px Container (.card.fw-shadow) vier; Ellipse in .fw-stats b weg; Handy-Regel löschen",
+   "von": 352,
+   "bis": 352,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".fw-stats",
+    ".card.fw-shadow",
+    "@container (min-width: 520px)",
+    ".fw-stats b"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-2"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:23-24 (Handy zwei Spalten, muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-C4",
+   "titel": "Bearbeitungsmodus: gestrichelte Karte statt Außenlinie (.w.editing), .w-bar .w-name löschen",
+   "von": 353,
+   "bis": 353,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".w.editing",
+    ".w.editing .w-body > :is(.card, .tile)",
+    ".w-bar .w-name"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-8"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-C5",
+   "titel": "Dashboard 961–1240 px: zwei Widget-Spalten (groß span 2); Score-Skala im Container ≤ 150 px nur erste/letzte Beschriftung",
+   "von": 354,
+   "bis": 354,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-main",
+    ".w.sz-gross",
+    ".skel.sz-gross",
+    ".dash-main > .add-slot.gap.sz-gross",
+    ".score-scale .lbls span:not(:first-child):not(:last-child)"
+   ],
+   "befund_ids": [
+    "responsiv-10"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-C6",
+   "titel": "Tablet: Karussell-Zeilen im 960er-Block löschen; 721–960 zwei Widget-Spalten; 561–1240 fünf Kacheln als 3 + 2; vier Kacheln (.dash-top, .grid.tiles) vier Spalten bei 1000–1240 und 800–960",
+   "von": 355,
+   "bis": 355,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-main",
+    ".dash-main.editing",
+    ".dash-main > .w.sz-mittel",
+    ".dash-main > .w.sz-gross",
+    ".dash-main.editing > .w.tall.sz-mittel",
+    ".dash-main.editing > .w.tall.sz-gross",
+    ".dash-main > .skel.sz-mittel",
+    ".dash-main > .skel.sz-gross",
+    ".dash-main > .add-slot.gap.sz-mittel",
+    ".dash-main > .add-slot.gap.sz-gross",
+    ".dash-top",
+    ".dash-top:has(> :nth-child(5):last-child)",
+    ".dash-top:has(> :nth-child(4):last-child)",
+    ".grid.tiles:has(> :nth-child(4):last-child)",
+    ".kstrip"
+   ],
+   "befund_ids": [
+    "responsiv-42",
+    "responsiv-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "L",
+   "tests": [
+    "web/e2e/dashtest.js:151 (Handy zwei Spalten, kein Karussell)",
+    "web/e2e/mobiletest.js:19-20 und 85-86 (Kachelraster, müssen grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-C7",
+   "titel": "Handy-Block: ungerade letzte Kachel über volle Breite; .stat-tiles gap var(--sp-3); .stat-tile und .kstrip .tile padding var(--sp-4) var(--sp-3) (kstrip-Regel aus 960er- in 560er-Block)",
+   "von": 356,
+   "bis": 356,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-top > .w:last-child:nth-child(odd)",
+    ".dash-top > .add-slot:last-child:nth-child(odd)",
+    ".stat-tiles",
+    ".stat-tile",
+    ".kstrip .tile"
+   ],
+   "befund_ids": [
+    "responsiv-31",
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:151",
+    "web/e2e/mobiletest.js:19-20 (müssen grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-C8",
+   "titel": "Statistik-Reiter 12 px über ihrem Inhalt (negativer Rand mit Scroll-Polster-Ausgleich)",
+   "von": 357,
+   "bis": 357,
+   "cluster": "statistik",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".content > .tabs.scroll-x[data-subnav]"
+   ],
+   "befund_ids": [
+    "abstaende_layout-19"
+   ],
+   "abhaengig": [
+    "abstaende-A4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-C9",
+   "titel": "Auswahlkarten-Raster der Einstellungen vereinheitlichen: eigene Spalten/Lücken/max-width streichen, gap var(--sp-3), 4 bzw. 3 Spalten, Container ≤ 720 px zwei Spalten",
+   "von": 358,
+   "bis": 358,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".design-grid",
+    ".theme-grid",
+    ".lang-grid",
+    ".font-grid",
+    ".pair-grid",
+    ".pair-card .pv i",
+    "@container (max-width: 720px)"
+   ],
+   "befund_ids": [
+    "abstaende_layout-21",
+    "bereich_einstellungen-24"
+   ],
+   "abhaengig": [
+    "abstaende-B26"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/settest2.js (Euro in einer Zeile)",
+    "web/e2e/colorpickertest.js:102 (.design-grid, prüfen)"
+   ]
+  },
+  {
+   "nr": "abstaende-C10",
+   "titel": ".settings: gap 28px → var(--sp-8), im 960er-Block 14px → var(--sp-4)",
+   "von": 359,
+   "bis": 359,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".settings"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-C11",
+   "titel": "Abschnitts- und Raster-Wrapper auf Token: .aff (+ .aff > .aff-top), .nw-wrap, .nw-list, .cpn-grid, .coach-entries, .shadow-rules, .nb, .content > .tl-fit (18 → 16)",
+   "von": 360,
+   "bis": 360,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".aff",
+    ".aff > .aff-top",
+    ".nw-wrap",
+    ".nw-list",
+    ".cpn-grid",
+    ".coach-entries",
+    ".shadow-rules",
+    ".nb",
+    ".content > .tl-fit",
+    "--w-news"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32"
+   ],
+   "abhaengig": [
+    "abstaende-A1",
+    "abstaende-A4"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:31 (18 → 16, Schritt R1)"
+   ]
+  },
+  {
+   "nr": "abstaende-C12",
+   "titel": "Breiten: .mentor-wrap stabil 800 (width 100%), .coach-wrap volle Breite mit Varianten .read (920) und .narrow (800 mittig) statt .wide; Kopfreihe an Mentor- und News-Kante binden",
+   "von": 361,
+   "bis": 361,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor-wrap",
+    ".coach-wrap",
+    ".coach-wrap.wide",
+    ".coach-wrap.read",
+    ".coach-wrap.narrow",
+    ".content:has(> .mentor-wrap) > .page-head",
+    ".content:has(> .nw-wrap) > .page-head",
+    "--w-chat",
+    "--w-news",
+    "--w-read"
+   ],
+   "befund_ids": [
+    "bereich_konto-24",
+    "hierarchie-38",
+    "zustaende-15"
+   ],
+   "abhaengig": [
+    "abstaende-A1",
+    "abstaende-A4"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/coachtest.js (muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-C13",
+   "titel": "Lade-Skelett an Seitenebene und Seitenleiste angleichen: .boot-body, .boot-tiles, .boot-main, .boot-sb",
+   "von": 362,
+   "bis": 363,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".boot-body",
+    ".boot-tiles",
+    ".boot-main",
+    ".boot-sb"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32",
+    "abstaende_layout-7"
+   ],
+   "abhaengig": [
+    "abstaende-A1",
+    "abstaende-D1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-D1",
+   "titel": "Seitenleiste: Dichte-@media hinter .sidebar .spacer verschieben, .sidebar ohne Polster oben, .brand so hoch wie die Titelzeile, Trennlinie .sb-sep bei y = 71 über volle Breite (auch mini), Konto-Karte .sb-userwrap sticky",
+   "von": 364,
+   "bis": 368,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sidebar",
+    ".sidebar .spacer",
+    ".brand",
+    ".sidebar .sb-sep",
+    "html.sb-mini .sidebar .sb-sep",
+    "html.sb-mini .brand",
+    ".sb-userwrap",
+    ".sidebar .sb-userwrap",
+    "--topbar-h"
+   ],
+   "befund_ids": [
+    "bereich_shell-2",
+    "abstaende_layout-7"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "L",
+   "tests": [
+    "web/e2e/sidebartest.js",
+    "web/e2e/usercardtest.js (müssen grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-D2",
+   "titel": "Notebook-CSS: Notizkopf-Polster, neuer Spaltenkopf .nb .note-bar (Datumsknopf bündig), Ordnerspalte 240 px + Titel 28 px bei 961–1180, Werkzeugleiste ohne Unterrand, .ql-editor oben 16, Druck- und Handy-Selektoren auf .note-bar",
+   "von": 369,
+   "bis": 369,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .note-head",
+    ".nb .note-bar",
+    ".nb .note-bar .datebtn",
+    ".nb.no-left",
+    ".nb .note-title",
+    ".nb-toolbar",
+    ".ql-editor",
+    ".ql-editor > :first-child",
+    ".nb .note-head .row .btn",
+    ".nb .note-bar .btn",
+    ".nb .note-head > .row",
+    ".nb .note-bar > .row",
+    ".nb .note-bar > .row:first-child",
+    ".nb .note-bar .popwrap:has(> .datebtn)",
+    ".nb .note-bar [data-action=\"nb-share\"]"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-23",
+    "abstaende_layout-28",
+    "bereich_notebook_news-22",
+    "responsiv-13"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "L",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-D3",
+   "titel": "Mentor-Notizen in der Notiz auf der Textkante 28 px",
+   "von": 370,
+   "bis": 370,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor-notes.in-note"
+   ],
+   "befund_ids": [
+    "bereich_konto-18"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-D4",
+   "titel": "Tilt-Profil: .tilt-wrap gap, .tilt-stats als Subgrid (Werte auf einer Linie), Labels 12/500 --muted, Werte 32/24, .v.cur löschen; Handy Zeilen „Label | Wert“ (20 px)",
+   "von": 371,
+   "bis": 371,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tilt-wrap",
+    ".tilt-stats",
+    ".tilt-stats > div",
+    ".tilt-stats > div:last-child",
+    ".tilt-stats .k",
+    ".tilt-stats .v",
+    ".tilt-stats .v.cur",
+    ".tilt-stats .v small"
+   ],
+   "befund_ids": [
+    "abstaende_layout-27",
+    "responsiv-35"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-D5",
+   "titel": "Ruhepunkt „Dein Plan für heute“: durchgehende Zeilenlinien (dl.rp-summary gap 0, dd padding-left var(--sp-6))",
+   "von": 372,
+   "bis": 372,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "dl.rp-summary",
+    "dl.rp-summary dd"
+   ],
+   "befund_ids": [
+    "bereich_training-47"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-D6",
+   "titel": "Prop-CSS: .prop-group gap 12, neu .prop-sec, Badge-Mindestbreite in .prop-assign-row, .prop-entry-foot (Handy Knopf breit), .prop-entry .field button löschen, Consistency-Label nowrap",
+   "von": 373,
+   "bis": 373,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-group",
+    ".prop-sec",
+    ".prop-sec > .prop-group + .prop-group",
+    ".prop-sec > .prop-cards + .prop-group",
+    ".prop-assign-row .badge",
+    ".prop-entry-foot",
+    ".prop-entry-foot .btn",
+    ".prop-entry .field button",
+    ".prop-conds .kv > span"
+   ],
+   "befund_ids": [
+    "abstaende_layout-36",
+    "bereich_prop-41",
+    "bereich_prop-54",
+    "bereich_prop-29"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-D7",
+   "titel": "Grabstein-Rückseite: padding-inline var(--sp-8)",
+   "von": 374,
+   "bis": 374,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".pg-back"
+   ],
+   "befund_ids": [
+    "bereich_prop-47"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/friedhoftest.js:80 (Stein < 560 px, danach laufen lassen)"
+   ]
+  },
+  {
+   "nr": "abstaende-D8",
+   "titel": "Einrichten- und Beitrittskarten: .mentor-setup-Polster, Symbole mittig 34 px --faint (Mentor und Coach), .coach-join 680 mittig, .coach-co-what ohne eigene Breite, Einladungshinweis im Dialog volle Zeile",
+   "von": 375,
+   "bis": 375,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor-setup",
+    ".mentor-setup .ico",
+    ".coach-join-head .ico",
+    ".mentor-setup .ico svg",
+    ".coach-join",
+    ".coach-join-head .ico svg",
+    ".coach-co-what",
+    ".modal .coach-invite > .small",
+    "--w-single"
+   ],
+   "befund_ids": [
+    "bereich_konto-1",
+    "zustaende-15",
+    "bereich_konto-53",
+    "bereich_konto-46"
+   ],
+   "abhaengig": [
+    "abstaende-A1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/coachtest.js (Beitritt, Handy ohne Querscrollen)"
+   ]
+  },
+  {
+   "nr": "abstaende-D9",
+   "titel": "Einstellungen am Handy (560er-Block): .set-item einspaltig, .set-block .form-grid einspaltig, .be-grid Einheit oben + Von|Bis, Einheitenfelder volle Breite",
+   "von": 376,
+   "bis": 376,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-item",
+    ".set-block .form-grid",
+    ".be-grid",
+    ".be-grid > .field:first-child",
+    ".set-block .input-unit .input"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-13",
+    "bereich_einstellungen-27",
+    "bereich_einstellungen-25",
+    "responsiv-45"
+   ],
+   "abhaengig": [
+    "abstaende-B26",
+    "abstaende-B27"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/settest.js:65 (kein Überlauf am Handy)"
+   ]
+  },
+  {
+   "nr": "abstaende-D10",
+   "titel": "Handy-Kartenhöhe „Letzte Trades“: calc(280px + 74px) → calc(280px + 80px)",
+   "von": 377,
+   "bis": 378,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-main .w-body > .card.recent-card"
+   ],
+   "befund_ids": [
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [
+    "abstaende-B1",
+    "abstaende-B4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:72 (354 → 360, Schritt R2)"
+   ]
+  },
+  {
+   "nr": "abstaende-E1",
+   "titel": "App.pageHead: leere Kopfreihe nicht rendern (return '' wenn links und rechts leer)",
+   "von": 379,
+   "bis": 383,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.pageHead"
+   ],
+   "befund_ids": [
+    "abstaende_layout-4",
+    "hierarchie-8"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-E2",
+   "titel": "Trade-Formular-Markup: Wrapper .tf-row3/.tf-row2 entfernen, Felder direkte Kinder von .tf-main mit Klassen tf-dir, tf-c3, tf-dt",
+   "von": 384,
+   "bis": 384,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openTradeEditor",
+    ".tf-main",
+    ".tf-row3",
+    ".tf-row2",
+    ".tf-dir",
+    ".tf-c3",
+    ".tf-dt",
+    ".tf-sym",
+    ".tf-wide"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-9"
+   ],
+   "abhaengig": [
+    "abstaende-B23"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/tradeformtest.js (muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "abstaende-E3",
+   "titel": "Aktion 'new-trade' übernimmt in der Tagesansicht das Datum des angezeigten Tages (wie new-trade-day)",
+   "von": 385,
+   "bis": 385,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.actions['new-trade']",
+    "App.openTradeEditor",
+    "C.parseDayKey"
+   ],
+   "befund_ids": [
+    "referenz-17"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-E4",
+   "titel": "Inline-Abstände in app.js (9) durch Hilfsklassen ersetzen; CSV-Import-Labels als .field.inline (neue Regel nach .field)",
+   "von": 386,
+   "bis": 387,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/app.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".field.inline",
+    ".ml-auto",
+    ".s-4",
+    ".mt-2"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6",
+    "abstaende-A7"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-UI",
+   "titel": "ui.js: keine Strukturänderung (U.tile bleibt), einen Inline-Abstand nach 1.16 ersetzen",
+   "von": 388,
+   "bis": 391,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.radar"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-F1",
+   "titel": "Dashboard: Routen-Sperre als erste Anweisung in place() (zweite Sicherung des Größen-Listeners, unmount() bleibt)",
+   "von": 392,
+   "bis": 396,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "placeContext",
+    "place",
+    "unmount",
+    "App.state.route"
+   ],
+   "befund_ids": [
+    "bereich_prop-1",
+    "aufbau-2",
+    "bereich_statistik-34",
+    "abstaende_layout-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/leaktest.js (muss grün bleiben)",
+    "web/e2e/headtest.js (neuer Fall, Schritt R4)"
+   ]
+  },
+  {
+   "nr": "abstaende-F2",
+   "titel": "Bearbeitungsleiste: Widget-Name nur für Screenreader (.vh) plus .grow statt .w-name",
+   "von": 397,
+   "bis": 397,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "wrap",
+    ".w-name",
+    ".vh",
+    ".grow",
+    ".w-bar"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-8"
+   ],
+   "abhaengig": [
+    "abstaende-C4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-F3",
+   "titel": "Leere Dashboard-Vorlage: Inline-Stil → Klasse center, padding 32px",
+   "von": 398,
+   "bis": 399,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".dashed",
+    ".center"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-G1",
+   "titel": "Gesamt-Score-Leerzustand mit emptyBox(280) (gleiche Höhe in der Reihe)",
+   "von": 400,
+   "bis": 404,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "emptyBox",
+    "score.render"
+   ],
+   "befund_ids": [
+    "zustaende-9"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-G2",
+   "titel": "Widgets prop_konten, ruhepunkt und mentor als flach: true markieren",
+   "von": 405,
+   "bis": 405,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "prop_konten",
+    "ruhepunkt",
+    "mentor",
+    "flach",
+    ".w.flat"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-24"
+   ],
+   "abhaengig": [
+    "abstaende-C2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-G3",
+   "titel": "Schatten-Ich-Widget: Karte bekommt cls 'fw-shadow'",
+   "von": 406,
+   "bis": 406,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "schatten_ich",
+    ".card.fw-shadow"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-2"
+   ],
+   "abhaengig": [
+    "abstaende-C3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-G4",
+   "titel": "14 Inline-Abstände in widgets.js nach 1.16 ersetzen",
+   "von": 407,
+   "bis": 408,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    ".s-1",
+    ".s-2",
+    ".s-3",
+    ".s-4",
+    ".s-6",
+    ".mt-1",
+    ".mt-2",
+    ".mt-3",
+    ".mt-4",
+    ".mt-6",
+    ".mb-1",
+    ".mb-2",
+    ".mb-3",
+    ".mb-4",
+    ".ml-auto"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-H1",
+   "titel": "Trade-Ansicht: Detailkarten .grid two → .grid detail-grid",
+   "von": 409,
+   "bis": 413,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".grid.two",
+    ".grid.detail-grid"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-3"
+   ],
+   "abhaengig": [
+    "abstaende-C1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-H2",
+   "titel": "Trade-Kennzahlen: Eintrag „Bewertung“ aus dem Raster, Sterne im Kopf, .stat-grid.detail ohne Inline-Stile",
+   "von": 414,
+   "bis": 414,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".stat-grid",
+    ".stat-grid.detail",
+    ".stat",
+    ".stars",
+    ".detail-head .stars",
+    "t:Bewertung",
+    "t:Bewertung {0} von 5"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-23",
+    "responsiv-44"
+   ],
+   "abhaengig": [
+    "abstaende-B16"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-H3",
+   "titel": "Weitere Inline-Abstände in trades.js (zusammen 20) nach 1.16 ersetzen",
+   "von": 415,
+   "bis": 416,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".s-1",
+    ".s-2",
+    ".s-3",
+    ".s-4",
+    ".s-6",
+    ".mt-1",
+    ".mt-2",
+    ".mt-3",
+    ".mt-4",
+    ".mt-6",
+    ".mb-1",
+    ".mb-2",
+    ".mb-3",
+    ".mb-4",
+    ".ml-auto"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-I1",
+   "titel": "Schatten-Ich: Zeitraum-Label aus dem Kachelkopf streichen",
+   "von": 417,
+   "bis": 421,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "App.screens.shadow.render",
+    ".tile .head .n"
+   ],
+   "befund_ids": [
+    "bereich_training-25",
+    "responsiv-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/shadowtest.js:68, 74 (Schritt R3)"
+   ]
+  },
+  {
+   "nr": "abstaende-I2",
+   "titel": "Schatten-Ich: Trade-Zahl als Fußzeile „{0} Trades im Zeitraum“ statt Kopfzusatz",
+   "von": 422,
+   "bis": 422,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "U.tile",
+    ".tile .foot",
+    ".tile .head .n",
+    "t:{0} Trades im Zeitraum",
+    "t:{0} Trade im Zeitraum"
+   ],
+   "befund_ids": [
+    "bereich_training-25"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/shadowtest.js:69, 71 (Schritt R3)"
+   ]
+  },
+  {
+   "nr": "abstaende-I3",
+   "titel": "Schatten-Ich: Untertitel (Zeitraum) an der Karte „Regelverstöße“ streichen",
+   "von": 423,
+   "bis": 424,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "U.card",
+    ".card-sub",
+    "t:Regelverstöße"
+   ],
+   "befund_ids": [
+    "bereich_training-25"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-J1",
+   "titel": "Statistik: Diagramme r-t und r-v chart h220 → h240",
+   "von": 425,
+   "bis": 429,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    ".chart.h220",
+    ".chart.h240"
+   ],
+   "befund_ids": [
+    "bereich_statistik-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-J2",
+   "titel": "Statistik Emotion: Diagrammhöhe aus der Datenzahl (max(240, n · 34) px) statt h280",
+   "von": 430,
+   "bis": 431,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    ".chart.h280",
+    "m-emo"
+   ],
+   "befund_ids": [
+    "bereich_statistik-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-E-day1",
+   "titel": "Tagesansicht: Screen-Objekt mit head { range: false } und actions(ctx) (Zertifikat-Knopf)",
+   "von": 432,
+   "bis": 436,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "App.screens.day.head",
+    "App.screens.day.actions",
+    "data-action=cert-open"
+   ],
+   "befund_ids": [
+    "referenz-17"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/certtest.js:54 (Zertifikat-Knopf in der Tagesansicht bleibt)"
+   ]
+  },
+  {
+   "nr": "abstaende-E-day2",
+   "titel": "Tagesansicht: Datumsnavigation als ctx.headLeft in die Kopfreihe, Kopfknöpfe Zertifikat/Check-in/„Trade für diesen Tag“ entfallen, .day-title in app.css",
+   "von": 437,
+   "bis": 437,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "App.screens.day.render",
+    "ctx.headLeft",
+    "App.pageHead",
+    ".day-title",
+    "U.pill",
+    "t:Voriger Tag",
+    "t:Nächster Tag",
+    "t:Heute",
+    "t:Trade für diesen Tag",
+    "t:Check-in"
+   ],
+   "befund_ids": [
+    "referenz-17"
+   ],
+   "abhaengig": [
+    "abstaende-E-day1",
+    "abstaende-E3",
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/certtest.js:54"
+   ]
+  },
+  {
+   "nr": "abstaende-E-day3",
+   "titel": "Aktion new-trade-day entfernen, sobald grep sie nicht mehr findet",
+   "von": 438,
+   "bis": 438,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "App.actions['new-trade-day']"
+   ],
+   "befund_ids": [
+    "referenz-17"
+   ],
+   "abhaengig": [
+    "abstaende-E-day2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-E-day4",
+   "titel": "Inline-Abstände in day.js (10) nach 1.16 ersetzen",
+   "von": 439,
+   "bis": 440,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    ".s-1",
+    ".s-2",
+    ".s-3",
+    ".s-4",
+    ".s-6",
+    ".mt-1",
+    ".mt-2",
+    ".mt-3",
+    ".mt-4",
+    ".mt-6",
+    ".mb-1",
+    ".mb-2",
+    ".mb-3",
+    ".mb-4",
+    ".ml-auto"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-K1",
+   "titel": "Notebook: leftOpen bei 961–1180 px zunächst false (Ordnerspalte eingeklappt)",
+   "von": 441,
+   "bis": 445,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "leftOpen",
+    "App.screens.notebook"
+   ],
+   "befund_ids": [
+    "responsiv-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-K2",
+   "titel": "Normale Notiz: erste Zeile aus .note-head als eigener Spaltenkopf .col-head.note-bar, inneres row → row s-2",
+   "von": 446,
+   "bis": 446,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    ".note-head",
+    ".col-head.note-bar",
+    ".note-bar",
+    ".row.s-2",
+    "App.screens.notebook.render"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-23",
+    "abstaende_layout-28"
+   ],
+   "abhaengig": [
+    "abstaende-D2",
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:53-55 (sucht .note-head > .row; auf .note-bar umstellen, rowH-Grenze prüfen)"
+   ]
+  },
+  {
+   "nr": "abstaende-K3",
+   "titel": "Notiz im Papierkorb: gleicher Kopf wie normale Notiz (.note-bar mit Zurück, Wiederherstellen btn sm, Endgültig löschen btn sm danger; Titel, Meta-Zeilen)",
+   "von": 447,
+   "bis": 447,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    ".col-head.note-bar",
+    ".note-head",
+    ".note-title",
+    "nb-trash-restore",
+    "nb-trash-purge",
+    "t:Wiederherstellen",
+    "t:Endgültig löschen",
+    "t:Gelöscht am {0}",
+    "t:Wird am {0} endgültig entfernt"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-25"
+   ],
+   "abhaengig": [
+    "abstaende-K2",
+    "abstaende-D2"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-K4",
+   "titel": "Papierkorb-Liste: 'Gelöscht ' → 'Gelöscht am '",
+   "von": 448,
+   "bis": 448,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "t:Gelöscht am {0}"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-25"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-K5",
+   "titel": "14 Inline-Abstände in notebook.js nach 1.16 ersetzen (z. B. col-body padding-top als Klasse)",
+   "von": 449,
+   "bis": 450,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".s-1",
+    ".s-2",
+    ".s-3",
+    ".s-4",
+    ".s-6",
+    ".mt-1",
+    ".mt-2",
+    ".mt-3",
+    ".mt-4",
+    ".mt-6",
+    ".mb-1",
+    ".mb-2",
+    ".mb-3",
+    ".mb-4",
+    ".ml-auto",
+    ".col-body"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-L1",
+   "titel": "Profil: form-grid ohne Inline-max-width (zweispaltig über .set-block .form-grid)",
+   "von": 451,
+   "bis": 455,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".form-grid",
+    ".set-block .form-grid"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-27"
+   ],
+   "abhaengig": [
+    "abstaende-B26"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-L2",
+   "titel": "Beschreibungen unter Blocktiteln als <div class=\"set-desc\"> (auch Meine Designs ohne dynamischen Rand)",
+   "von": 456,
+   "bis": 456,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".set-desc",
+    ".small.muted"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-31",
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-B26"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-L3",
+   "titel": "Daten und Sicherung: Zeilen als .set-item, Trenner weg, „Entfernen“ neutral, „Alles löschen“ ohne .neg",
+   "von": 457,
+   "bis": 457,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".set-item",
+    ".divider",
+    ".row.between",
+    "b.neg",
+    "t:Alles löschen",
+    "t:Entfernen"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-13",
+    "abstaende_layout-23"
+   ],
+   "abhaengig": [
+    "abstaende-B26"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/sampletest.js:118 (Text bleibt unverändert)"
+   ]
+  },
+  {
+   "nr": "abstaende-L4",
+   "titel": "Benachrichtigungen: Blöcke als set-block mit h3, .set-desc und stack s-4",
+   "von": 458,
+   "bis": 458,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".set-block",
+    ".set-desc",
+    ".stack.s-4",
+    "t:Performance-Recaps",
+    "t:Hinweis-Punkte in der Seitenleiste"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-31"
+   ],
+   "abhaengig": [
+    "abstaende-B26",
+    "abstaende-A6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-L5",
+   "titel": "Mentor-Einstellungen: set-block stack s-4, Felder .set-field, Hinweise mt-2",
+   "von": 459,
+   "bis": 459,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".set-block.stack",
+    ".s-4",
+    ".set-field",
+    ".mt-2"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-27"
+   ],
+   "abhaengig": [
+    "abstaende-B26",
+    "abstaende-A6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-L6",
+   "titel": "Trading-Block: stack s-6, chips s-2, Break-even mit Zurücksetzen in .set-head-row und Feldern in .be-grid, Feld .set-field mt-3, Häkchen .check.top (neue Regel in app.css)",
+   "von": 460,
+   "bis": 460,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stack.s-6",
+    ".chips.s-2",
+    ".set-head-row",
+    "be-reset",
+    ".be-grid",
+    ".set-field",
+    ".mt-3",
+    ".form-grid",
+    ".set-block .check.top",
+    "t:Break-even-Bereich",
+    "t:Auf Standard zurücksetzen"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-25",
+    "bereich_einstellungen-27",
+    "responsiv-45"
+   ],
+   "abhaengig": [
+    "abstaende-B26",
+    "abstaende-B27",
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/settest.js:26 (be-reset bleibt)",
+    "web/e2e/settest.js:65"
+   ]
+  },
+  {
+   "nr": "abstaende-L7",
+   "titel": "Regeln: Hinzufügen-Formular als .set-addrow, Feld ohne grow, Knopf neutral (btn), stack s-1",
+   "von": 461,
+   "bis": 461,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".set-addrow",
+    "add-rule",
+    ".stack.s-1"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-26"
+   ],
+   "abhaengig": [
+    "abstaende-B26",
+    "abstaende-A6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-L8",
+   "titel": "Notebook-Einstellungen: .set-block.nb-settings, stack s-4, Zurücksetzen ohne Inline-Farbe, Vorschau als .field mit .lbl",
+   "von": 462,
+   "bis": 462,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".nb-settings",
+    ".set-block.nb-settings",
+    ".stack.s-4",
+    ".field",
+    ".lbl",
+    ".nb-preview",
+    "t:Vorschau"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-12"
+   ],
+   "abhaengig": [
+    "abstaende-B26",
+    "abstaende-A6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-L9",
+   "titel": "Sprache: Hinweis <p class=\"small muted mt-4\"> statt Inline-Rand/-Breite",
+   "von": 463,
+   "bis": 463,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".mt-4"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-L10",
+   "titel": "Übrige Inline-Abstände in misc.js (zusammen 50) nach 1.16 ersetzen",
+   "von": 464,
+   "bis": 465,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".s-1",
+    ".s-2",
+    ".s-3",
+    ".s-4",
+    ".s-6",
+    ".mt-1",
+    ".mt-2",
+    ".mt-3",
+    ".mt-4",
+    ".mt-6",
+    ".mb-1",
+    ".mb-2",
+    ".mb-3",
+    ".mb-4",
+    ".ml-auto"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6",
+    "abstaende-L1",
+    "abstaende-L2",
+    "abstaende-L3",
+    "abstaende-L4",
+    "abstaende-L5",
+    "abstaende-L6",
+    "abstaende-L7",
+    "abstaende-L8",
+    "abstaende-L9"
+   ],
+   "aufwand": "L",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-M1",
+   "titel": "Prop-Übersicht: Kopf, Gruppen und Leerhinweis in <section class=\"prop-sec\">",
+   "von": 466,
+   "bis": 470,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".prop-sec",
+    "summaryTiles"
+   ],
+   "befund_ids": [
+    "abstaende_layout-36"
+   ],
+   "abhaengig": [
+    "abstaende-D6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-M2",
+   "titel": "Prop-Konto-Dialog: Währungshinweis als eigene Rasterzeile (span2, #pa-cur-hint, aria-describedby), Notiz span4",
+   "von": 471,
+   "bis": 471,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".hint.span2",
+    "#pa-cur-hint",
+    "aria-describedby",
+    ".field.span4",
+    ".form-grid .span4"
+   ],
+   "befund_ids": [
+    "bereich_prop-37"
+   ],
+   "abhaengig": [
+    "abstaende-A8"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-M3",
+   "titel": "Warnschwellen-Labels kürzen: „Gelb unter (% übrig)“, „Rot unter (% übrig)“",
+   "von": 472,
+   "bis": 472,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "t:Gelb unter (% übrig)",
+    "t:Rot unter (% übrig)"
+   ],
+   "befund_ids": [
+    "bereich_prop-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-M4",
+   "titel": "Ausgabe/Payout erfassen: Absende-Knopf in .prop-entry-foot statt über &nbsp;-Label, Notiz span2",
+   "von": 473,
+   "bis": 473,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".prop-entry-foot",
+    ".field.span2",
+    "t:Ausgabe erfassen",
+    "t:Payout erfassen"
+   ],
+   "befund_ids": [
+    "bereich_prop-54"
+   ],
+   "abhaengig": [
+    "abstaende-D6"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:130 (keine implizite Spalte am Handy)"
+   ]
+  },
+  {
+   "nr": "abstaende-M5",
+   "titel": "Prop-Bilanz-Tabellen als .tbl-wrap.inset",
+   "von": 474,
+   "bis": 474,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".tbl-wrap",
+    ".tbl-wrap.inset"
+   ],
+   "befund_ids": [
+    "abstaende_layout-13"
+   ],
+   "abhaengig": [
+    "abstaende-B21"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-M6",
+   "titel": "Consistency-Zeile zweizeilig: Wert ohne „heute noch … erlaubt“ und title, eigene kv-Zeile „Heute noch erlaubt“, Karte cls prop-conds",
+   "von": 475,
+   "bis": 476,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "U.kv",
+    ".prop-conds",
+    "t:Consistency Rule",
+    "t:Heute noch erlaubt",
+    "t:bester Tag {0} von max. {1} %"
+   ],
+   "befund_ids": [
+    "bereich_prop-29"
+   ],
+   "abhaengig": [
+    "abstaende-D6",
+    "abstaende-B17"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:102 („Consistency Rule“ bleibt)"
+   ]
+  },
+  {
+   "nr": "abstaende-N1",
+   "titel": "Coach-Einrichtung: coach-wrap narrow, Knopf „Zu den Einstellungen“ ohne Symbol",
+   "von": 477,
+   "bis": 481,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".coach-wrap.narrow",
+    "t:Zu den Einstellungen"
+   ],
+   "befund_ids": [
+    "zustaende-15",
+    "bereich_konto-24"
+   ],
+   "abhaengig": [
+    "abstaende-C12",
+    "abstaende-D8"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-N2",
+   "titel": "Coach-Übersicht: coach-wrap wide → coach-wrap (volle Breite links)",
+   "von": 482,
+   "bis": 482,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".coach-wrap.wide",
+    ".coach-wrap"
+   ],
+   "befund_ids": [
+    "bereich_konto-24"
+   ],
+   "abhaengig": [
+    "abstaende-C12"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-N3",
+   "titel": "Coach-Journal: coach-wrap read (Lesespalte 920)",
+   "von": 483,
+   "bis": 483,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".coach-wrap.read"
+   ],
+   "befund_ids": [
+    "bereich_konto-24"
+   ],
+   "abhaengig": [
+    "abstaende-C12"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-N4",
+   "titel": "Coach-Beitritts- und Zustandsansichten (Z. 167–187): coach-wrap narrow",
+   "von": 484,
+   "bis": 484,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".coach-wrap.narrow"
+   ],
+   "befund_ids": [
+    "bereich_konto-24",
+    "bereich_konto-53"
+   ],
+   "abhaengig": [
+    "abstaende-C12"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-N5",
+   "titel": "Beitrittskarte: Inline margin-top/max-width → Klasse mt-4",
+   "von": 485,
+   "bis": 485,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".mt-4"
+   ],
+   "befund_ids": [
+    "bereich_konto-53"
+   ],
+   "abhaengig": [
+    "abstaende-A6",
+    "abstaende-D8"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-N6",
+   "titel": "Co-Coach-Einladungsdialog: { cls: 'wide' } → { cls: 'narrow' }",
+   "von": 486,
+   "bis": 487,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".modal.wide",
+    ".modal.narrow"
+   ],
+   "befund_ids": [
+    "bereich_konto-46"
+   ],
+   "abhaengig": [
+    "abstaende-D8"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-O1",
+   "titel": "Provisions-Dialog: Untertitel und Feld in .stack (12 px); Zahlenpfeile über globale Regel aus komponenten-16 (anlegen, falls noch nicht vorhanden)",
+   "von": 488,
+   "bis": 493,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stack",
+    "#aff-pct-in",
+    "input[type=number]",
+    "::-webkit-inner-spin-button"
+   ],
+   "befund_ids": [
+    "bereich_konto-47"
+   ],
+   "abhaengig": [
+    "abstaende-A3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-MENTOR",
+   "titel": "mentor.js: keine Strukturänderung (Breiten in C12, Symbol in D8), einen Inline-Abstand nach 1.16 ersetzen",
+   "von": 494,
+   "bis": 497,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    "App.screens.mentor.render",
+    ".mentor-setup",
+    ".mt-4"
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A6"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+   ]
+  },
+  {
+   "nr": "abstaende-P1-P3",
+   "titel": "Startseite: Demo-Fenster-Klasse .shot → .lp-shot in index.html (Markup und Reveal-Selektor) und landing.css; app.css-.shot bleibt",
+   "von": 498,
+   "bis": 505,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/index.html",
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".shot",
+    ".lp-shot",
+    ".lp .shot",
+    ".lp .lp-shot",
+    ".rv"
+   ],
+   "befund_ids": [
+    "ki_look-3"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-Q1",
+   "titel": "Sprachschlüssel „{0} Trades im Zeitraum“ und „{0} Trade im Zeitraum“ in en/es/zh/hi/pt",
+   "von": 506,
+   "bis": 510,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:{0} Trades im Zeitraum",
+    "t:{0} Trade im Zeitraum"
+   ],
+   "befund_ids": [
+    "bereich_training-25"
+   ],
+   "abhaengig": [
+    "abstaende-I2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-Q2",
+   "titel": "Sprachschlüssel „Bewertung {0} von 5“",
+   "von": 511,
+   "bis": 511,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Bewertung {0} von 5"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-23"
+   ],
+   "abhaengig": [
+    "abstaende-H2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-Q3",
+   "titel": "Sprachschlüssel „Gelöscht am {0}“, „Wird am {0} endgültig entfernt“; alte „Gelöscht: {0}“, „Wird endgültig entfernt am {0}“ entfernen",
+   "von": 512,
+   "bis": 512,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Gelöscht am {0}",
+    "t:Wird am {0} endgültig entfernt",
+    "t:Gelöscht: {0}",
+    "t:Wird endgültig entfernt am {0}"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-25"
+   ],
+   "abhaengig": [
+    "abstaende-K3",
+    "abstaende-K4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-Q4",
+   "titel": "Sprachschlüssel „Gelb unter (% übrig)“, „Rot unter (% übrig)“; alte zwei Schlüssel entfernen",
+   "von": 513,
+   "bis": 513,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Gelb unter (% übrig)",
+    "t:Rot unter (% übrig)"
+   ],
+   "befund_ids": [
+    "bereich_prop-33"
+   ],
+   "abhaengig": [
+    "abstaende-M3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-Q5",
+   "titel": "Sprachschlüssel „Heute noch erlaubt“ und ggf. „bester Tag {0} von max. {1} %“",
+   "von": 514,
+   "bis": 515,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Heute noch erlaubt",
+    "t:bester Tag {0} von max. {1} %"
+   ],
+   "befund_ids": [
+    "bereich_prop-29"
+   ],
+   "abhaengig": [
+    "abstaende-M6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-R1",
+   "titel": "mobiletest: TradeLog-Abstand 18 → 16 (Wert und Text)",
+   "von": 516,
+   "bis": 520,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/e2e/mobiletest.js"
+   ],
+   "anker": [
+    ".tl-fit",
+    ".content > .tl-fit"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32"
+   ],
+   "abhaengig": [
+    "abstaende-C11"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:31"
+   ]
+  },
+  {
+   "nr": "abstaende-R2",
+   "titel": "mobiletest: Kartenhöhe „Letzte Trades“ 354 → 360 (Wert und Text)",
+   "von": 521,
+   "bis": 521,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/e2e/mobiletest.js"
+   ],
+   "anker": [
+    ".recent-card"
+   ],
+   "befund_ids": [
+    "abstaende_layout-31"
+   ],
+   "abhaengig": [
+    "abstaende-D10"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:72"
+   ]
+  },
+  {
+   "nr": "abstaende-R3",
+   "titel": "shadowtest: Zeitraum aus [data-pop=range] span, Trade-Zahl aus .tile:nth-child(2) .foot",
+   "von": 522,
+   "bis": 522,
+   "cluster": "training",
+   "dateien": [
+    "web/e2e/shadowtest.js"
+   ],
+   "anker": [
+    ".shadow-main .head .n",
+    "[data-pop=range]",
+    ".tile .foot"
+   ],
+   "befund_ids": [
+    "bereich_training-25"
+   ],
+   "abhaengig": [
+    "abstaende-I1",
+    "abstaende-I2"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/shadowtest.js:68, 69, 71, 74"
+   ]
+  },
+  {
+   "nr": "abstaende-R4",
+   "titel": "headtest: neuer Fall Dashboard → Statistik → 800 → 1440, Kontext-Leiste in der Kopfreihe, #tb-tools leer",
+   "von": 523,
+   "bis": 523,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/e2e/headtest.js"
+   ],
+   "anker": [
+    "#content > .page-head .dh-context [data-pop=range]",
+    "#tb-tools",
+    ".dh-context"
+   ],
+   "befund_ids": [
+    "bereich_statistik-34"
+   ],
+   "abhaengig": [
+    "abstaende-F1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/headtest.js"
+   ]
+  },
+  {
+   "nr": "abstaende-R5",
+   "titel": "Neuer Unit-Test web/tests/inline-style.test.mjs: zählt Inline-Abstände in JS-Vorlagen, Obergrenze = Stand nach Umstellung (≤ 35)",
+   "von": 524,
+   "bis": 525,
+   "cluster": "tokens",
+   "dateien": [
+    "web/tests/inline-style.test.mjs"
+   ],
+   "anker": [
+    "style=\"…(margin|gap|padding)\""
+   ],
+   "befund_ids": [
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-E4",
+    "abstaende-UI",
+    "abstaende-F3",
+    "abstaende-G4",
+    "abstaende-H2",
+    "abstaende-H3",
+    "abstaende-E-day2",
+    "abstaende-E-day4",
+    "abstaende-K2",
+    "abstaende-K5",
+    "abstaende-L2",
+    "abstaende-L4",
+    "abstaende-L5",
+    "abstaende-L6",
+    "abstaende-L7",
+    "abstaende-L8",
+    "abstaende-L9",
+    "abstaende-L10",
+    "abstaende-N5",
+    "abstaende-MENTOR"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/tests/inline-style.test.mjs (neu)"
+   ]
+  },
+  {
+   "nr": "abstaende-S1",
+   "titel": "README: neuer Abschnitt „Abstände“ nach „Bewegung und Übergänge“ (Skala, Zuordnung, Container, Breiten, Ausnahmen, Inline-Regel, Wertlinie)",
+   "von": 526,
+   "bis": 530,
+   "cluster": "tokens",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README: Abstände"
+   ],
+   "befund_ids": [
+    "abstaende_layout-1",
+    "abstaende_layout-34"
+   ],
+   "abhaengig": [
+    "abstaende-A1",
+    "abstaende-A6"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-S2",
+   "titel": "README Z. 67: Dashboard-Raster 721–1240 zwei Spalten, darunter eine",
+   "von": 531,
+   "bis": 531,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README: Dashboard"
+   ],
+   "befund_ids": [
+    "responsiv-10",
+    "responsiv-42"
+   ],
+   "abhaengig": [
+    "abstaende-C5",
+    "abstaende-C6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-S3",
+   "titel": "README Z. 73: Handy-Kacheln (ungerade letzte voll, Tablet 3 + 2 ohne Karussell)",
+   "von": 532,
+   "bis": 532,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README: Dashboard"
+   ],
+   "befund_ids": [
+    "responsiv-31",
+    "responsiv-42"
+   ],
+   "abhaengig": [
+    "abstaende-C6",
+    "abstaende-C7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-S4",
+   "titel": "README Z. 93: TradeLog-Blöcke 16 px statt 18 px",
+   "von": 533,
+   "bis": 533,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README: TradeLog"
+   ],
+   "befund_ids": [
+    "abstaende_layout-32"
+   ],
+   "abhaengig": [
+    "abstaende-C11"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-S5",
+   "titel": "README Z. 51: Seitenleiste (Konto-Karte immer sichtbar, Linie auf Titelzeilen-Linie)",
+   "von": 534,
+   "bis": 534,
+   "cluster": "shell",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README: Seitenleiste"
+   ],
+   "befund_ids": [
+    "bereich_shell-2",
+    "abstaende_layout-7"
+   ],
+   "abhaengig": [
+    "abstaende-D1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-S6",
+   "titel": "README Z. 120: Notebook 961–1180 px Ordner zunächst eingeklappt",
+   "von": 535,
+   "bis": 535,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README: Notebook"
+   ],
+   "befund_ids": [
+    "responsiv-13"
+   ],
+   "abhaengig": [
+    "abstaende-K1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "abstaende-S7",
+   "titel": "README Z. 108: Tagesansicht mit Datum ‹ › in der Kopfreihe, „Trade loggen“ übernimmt das Datum",
+   "von": 536,
+   "bis": 539,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README: Tagesansicht"
+   ],
+   "befund_ids": [
+    "referenz-17"
+   ],
+   "abhaengig": [
+    "abstaende-E3",
+    "abstaende-E-day2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 540,
+  "bis": 588
+ },
+ "querbezuege": [
+  "Komponenten-Spezifikation: Innenmaße von Steuerelementen (Knopf, Feld, Segment, Reiter, Chip, Pille, Abzeichen, Menüeintrag, Popover) legt die Komponenten-Gruppe fest, Werte aus derselben Skala; diese Gruppe ändert nur .nav a (gap, A9) und .field (gap, A7). Anker: .nav a, .field, .btn.sm (Spez. Z. 37, 262, 605)",
+  "Komponenten (komponenten-22, Teil 2): rechtsbündiger Ausgleich für Geisterknöpfe im Kartenkopf ist zurückgestellt; nach dem neuen .btn.sm-Polster als .card-head > .row > .btn.ghost:last-child:not(.icon) { margin-right: calc(-1 * <Polster>) } nachziehen. Der Kartenkopf-Ausgleich .card-head > .row { margin-block: -7px } (B4) ist auf 34 px Knopfhöhe ausgelegt (Z. 237, 599)",
+  "Komponenten (bereich_notebook_news-31): dialogeigene .modal-foot { margin-top: 20px; padding-top: 14px } im Ordner-Dialog müssen entfallen, sonst doppelt mit .modal > form / .modal-foot aus B22 (Z. 238)",
+  "Komponenten (komponenten-16): globale Regel blendet Pfeile aller Zahlenfelder aus (input[type=number], ::-webkit-inner-spin-button); deckt den Provisions-Dialog ab, O1 legt sie an, falls noch nicht vorhanden (Z. 260, 492)",
+  "Komponenten (bereich_statistik-8): wird die Statistik-Übersicht auf U.tile umgestellt, gilt die Unten-bündig-Regel als .st-kpis .tile .body { flex: 0 0 auto; margin-top: auto; } statt an .stat-tile (B15) (Z. 257)",
+  "Komponenten (diagramme-43) und Typografie (bereich_trades_tag-31): Linie für die Verlaufskachel und Klasse .body spark-body vertragen sich mit B13, weil .tile.spark-tile .spark-body spezifischer ist (Z. 256)",
+  "KI-Look (ki_look-10, bereich_dashboard-41): darf die Verlaufslinie über .tile .body streichen, padding-top bleibt aber 12 (var(--sp-3), B9), sonst ragt das Diagramm in den Titel (Z. 255)",
+  "Typografie: Größen/Gewichte .prop-h3 600, .tilt-stats 32/24, .set-block h3 15/600 kommen aus der Typografie-Gruppe; Abstände setzt diese Gruppe (h3 margin-bottom 16 statt 12 aus typografie-8/referenz-35); .set-desc übernimmt max-width 68ch aus typografie-9 (.set-block .small) (Z. 244, 261; B24, B26, D4)",
+  "Responsiv (bereich_prop-13 Klassen kstrip n4/n5, responsiv-32): die 4er-Regel .grid.tiles:has(> :nth-child(4):last-child) in C6 deckt .kstrip mit vier Kacheln ab; aus bereich_prop-13 bleibt nur der n5-Teil (Z. 258)",
+  "Responsiv (abstaende_layout-15 = Duplikat von responsiv-10) wird hier in C5 umgesetzt (.dash-main 961–1240) (Z. 259)",
+  "Wortwahl (wording-5): entfernt ebenfalls „Trade für diesen Tag“ und Kopf-Knopf „Check-in“ der Tagesansicht; diese Spezifikation beschreibt den Endzustand (E-day1–E-day3, E3: App.screens.day, App.actions['new-trade']); wird wording-5 zuerst umgesetzt, entfallen doppelte Teile (Z. 253)",
+  "Wortwahl-Gruppe: Textkürzungen aus bereich_trades_tag-3 („geplant …, erreicht …“), bereich_prop-12 („Verlorene Gebühren“, friedhoftest.js:49) und bereich_einstellungen-13 (Beispieldaten-Text; „Prop-Konten“, „Replay-Screenshots“, „Sprachnotizen“, „Vorschlagsregeln“ müssen wegen sampletest.js:118 bleiben) liegen dort (Z. 272–276, 601–604)",
+  "Farbe: Pillenfarbe von „Heute“ in der Tagesansicht (U.pill in E-day2) entscheidet die Farb-Gruppe; Einrichten-Symbol ohne Grün (--faint statt --accent, D8), BRIEF „Grün nur mit Bedeutung“ (Z. 242, 437)",
+  "Aufbau-Gruppe: README Z. 245 („Leiste ohne Fußtexte“) gehört zur Aufbau-Gruppe (Z. 602)",
+  "Hierarchie (hierarchie-38): Vereinheitlichung aller Lesebreiten auf 960 px zentriert wird nicht umgesetzt; nur Kopfreihe an Inhaltskante gebunden (C12: .content:has(> .mentor-wrap) > .page-head, .content:has(> .nw-wrap) > .page-head) (Z. 241, 600)",
+  "Fremd-IDs, die diese Gruppe umsetzt (andere Gruppen nicht erneut): komponenten-20, komponenten-22 (Teil 1), ki_look-3, zustaende-9, zustaende-15, responsiv-10/-13/-31/-32/-35/-36/-42/-44/-45, hierarchie-8/-10/-38, referenz-17, aufbau-2 (Duplikatliste Z. 277–289)",
+  "Kachel-Mechanik ist global für alle .tile (Dashboard, TradeLog, Schatten-Ich, Prop/.kstrip, Affiliate, Statistik, Friedhof); Bereichsklassen .st-tiles/.st-kpis und Sonderregeln für .kstrip/.coach-gs-tiles entfallen; Gruppen, die U.tile, .tile .body oder .tile .foot anfassen, müssen B7–B13 und dashtest.js:19 respektieren (Z. 235)",
+  "Dashboard-Listener (bereich_prop-1, aufbau-2, bereich_statistik-34): unmount() ist seit Commit aa9f1c6 erledigt; hier nur Routen-Sperre in place() (F1) und Test R4; Selektor-Einschränkung .dash-head:not(.page-head) entfällt (Z. 6, 252)",
+  "Barrierefreiheit: F2 (.vh für Widget-Name), M2 (aria-describedby=\"pa-cur-hint\"), H2 (aria-label „Bewertung {0} von 5“ an .stars), E-day2 (aria-label „Voriger Tag“/„Nächster Tag“) berühren Screenreader-Texte (Z. 397, 414, 437, 471)",
+  "Nutzer-Frage (bereich_notebook_news-13 mit abstaende_layout-29, referenz-38, hierarchie-49, Abschnitt 6, Z. 613): bei Zustimmung Bild-Einträge ins „+“-Menü, app.css .nb-toolbar gap 3 → 2px, .sep, .tb.turn 116px, imgtest.js/figtest.js, README Z. 123–125; überschneidet sich mit D2 (5) (.nb-toolbar margin)"
+ ]
+}

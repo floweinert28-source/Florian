@@ -1,0 +1,999 @@
+{
+ "screens": [
+  {
+   "screen": "settings (Rahmen aller Bereiche: Kopfreihe + Bereichsmenü)",
+   "zustand": "voll (Desktop 1440)",
+   "hauptaktion": "Im gewählten Bereich eine Einstellung ändern. Die Kopfreihe hat in den Einstellungen keine Aufgabe.",
+   "optisch_klar": false,
+   "begruendung": "App.screens.settings (misc.js:17–25) setzt kein `head`. Deshalb rendert pageHead (app.js:256–261) über jedem der 13 Bereiche die volle Kopfreihe: links Zeitraum „Oktober 2026“ und Konto „Hauptkonto“ (je `.btn`), rechts „Session starten“ (`.btn.icon-only`) und „+ Trade loggen“ (`.btn.accent`). Keines davon wirkt auf eine Einstellung. Konten rechnet über alle Trades (misc.js:186), kein Bereich nutzt den Zeitraum. So beginnt jeder Bereich mit vier fremden Bedienelementen in der auffälligsten Zone, noch vor Titel und eigentlicher Aktion. Auf Konten stehen zwei „+“-Knöpfe direkt übereinander („Trade loggen“, „Konto hinzufügen“), siehe settings_konten.png.",
+   "konkurrenten": [
+    "Zeitraum „Oktober 2026“ (.btn, Kopfreihe links)",
+    "Konto „Hauptkonto“ (.btn, Kopfreihe links)",
+    "Session starten (.btn.icon-only)",
+    "„+ Trade loggen“ (.btn.accent, rechts oben)"
+   ],
+   "verstecken": [
+    "Daten und Sicherung: eigener Bereich „Daten“ statt Teil von Profil",
+    "Menüeintrag „Abo“ (Platzhalter ohne Funktion) aus dem Bereichsmenü nehmen; die Route bleibt gültig"
+   ],
+   "irrelevant": [
+    "Zeitraum-Auswahl",
+    "Konto-Auswahl",
+    "Session starten",
+    "Trade loggen (bleibt über Taste N, Dashboard, TradeLog und Tagesansicht erreichbar)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe in den Einstellungen abschalten",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "In App.screens.settings (misc.js:17–19) `head: { range: false, account: false, session: false, trade: false }` setzen, genau wie bei Coach (coach.js:219). Dann verschwinden Zeitraum, Konto, Session und „Trade loggen“ in allen Einstellungsbereichen. Titel und Bereichsmenü rücken etwa 60 px nach oben. Auf dem Handy fällt der schwebende „+“-Knopf weg, der heute Formularfelder überdeckt. Alles bleibt erreichbar: „Trade loggen“ über Taste N (steht im Fuß von Profil), Dashboard, TradeLog und Tagesansicht; Session über Dashboard und TradeLog; Zeitraum und Konto auf allen Journal-Seiten. Minimalvariante, falls „Trade loggen“ überall sichtbar bleiben soll: nur `range: false, account: false` (wie notebook.js:39, news.js:65, coupons.js:10).",
+     "beleg": "settings_profil.png, settings_konten.png (zwei „+“ übereinander), dark-390/settings_profil.png (runder Knopf über dem E-Mail-Feld); misc.js:17–19; app.js:256–261; coach.js:219",
+     "id": "settings-1-1"
+    },
+    {
+     "titel": "Daten und Sicherung als eigener Bereich „Daten“",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "M",
+     "beschreibung": "Den Block misc.js:63–69 (Sicherung exportieren/einspielen, Beispieldaten, Alles löschen, Speicherort/Tastatur-Fuß) aus profil() in eine neue Funktion daten() verschieben. In SECTIONS (misc.js:6–9) als ['daten', 'Daten', 'download'] in der zweiten Gruppe direkt vor oder nach „Logs“ eintragen, denn Logs zeigt die Imports. Profil will danach nur noch eins: Angaben ausfüllen und speichern. Texte in README.md:23 und :171 („Einstellungen → Profil → Daten und Sicherung“) anpassen.",
+     "beleg": "settings_profil.png (5 Blöcke, ~1700 px, Datenblock ab y≈1290); misc.js:63–69; README.md:23, :171",
+     "id": "settings-1-2"
+    },
+    {
+     "titel": "„Abo“ aus dem Bereichsmenü nehmen, solange es kein Abo gibt",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den SECTIONS-Eintrag 'abo' (misc.js:7) mit einem Merker versehen (z. B. viertes Feld `true` = nicht im Menü) und ihn beim Aufbau der nav (misc.js:21) überspringen. Die Prüfung in misc.js:20 nutzt weiter SECTIONS, #/settings/abo bleibt also gültig. Sobald es einen Plan gibt, den Merker entfernen.",
+     "beleg": "settings_abo.png; misc.js:7, :20–21, :181",
+     "id": "settings-1-3"
+    }
+   ],
+   "sid": "settings-1",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/profil",
+   "zustand": "voll",
+   "hauptaktion": "Profilangaben eintragen und „Speichern“ (misc.js:58).",
+   "optisch_klar": false,
+   "begruendung": "Die Seite hat zwei gefüllte Hauptknöpfe: „Speichern“ (`.btn.primary`, misc.js:58) und „2FA aktivieren“ (`.btn.primary.sm`, misc.js:62). Letzterer ist ein Platzhalter und öffnet nur den Hinweis „gibt es noch nicht“ (misc.js:284). Direkt neben „Speichern“ steht „Passwort zurücksetzen“ (`.btn`), ebenfalls nur ein Hinweis-Dialog. Dazu kommen ein zweites „Speichern“ für Privatsphäre (`.btn sm`, misc.js:60), vier gleich umrandete Datenknöpfe (Ohne Anhänge, Mit Anhängen, Zusammenführen, Ersetzen), zwei gleich rote Knöpfe (Beispieldaten „Entfernen“, „Alles löschen“) und ein Schalter. Insgesamt sind das 13 Bedienelemente plus 4 in der Kopfreihe auf etwa 1700 px Höhe. Der Hauptknopf steht in der Mitte des ersten von fünf Blöcken.",
+   "konkurrenten": [
+    "„2FA aktivieren“ (gefüllt, gleich laut wie Speichern)",
+    "„Passwort zurücksetzen“ (umrandet, direkt neben Speichern)",
+    "Privatsphäre-„Speichern“ (zweiter Speichern-Knopf)",
+    "Ohne Anhänge / Mit Anhängen / Zusammenführen / Ersetzen (4 × .btn sm, gleichwertig)",
+    "Beispieldaten „Entfernen“ und „Alles löschen“ (beide .btn.danger)",
+    "Kopfreihe: Zeitraum, Konto, Session, Trade loggen"
+   ],
+   "verstecken": [
+    "Adresse und Bio: hinter „Weitere Angaben“ (aufklappbar, offen wenn befüllt)",
+    "Passwort zurücksetzen und 2FA: gemeinsamer Block „Sicherheit“ mit sekundären Knöpfen",
+    "Export-Variante „Mit Anhängen“: Option im Export-Schritt",
+    "Import-Modus „Ersetzen“: Auswahl im Einspiel-Dialog",
+    "langer Beispieldaten-Text: aufklappbar „Was ist enthalten?“"
+   ],
+   "irrelevant": [
+    "Profilbild-„Entfernen“ (wird ausgegraut gezeigt, solange kein Bild da ist)",
+    "Tastatur-Hinweis „N neuer Trade · 1–6 Bereiche · Esc“ im Datenblock",
+    "Kopfreihe"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "2FA und Passwort in einen ruhigen Block „Sicherheit“",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "„2FA aktivieren“ von `.btn primary sm` auf `.btn sm` (sekundär) umstellen (misc.js:62). „Passwort zurücksetzen“ aus der Speichern-Zeile (misc.js:58) in denselben Block verschieben, ebenfalls `.btn sm`. Den Block „Sicherheit“ nennen, mit den Zeilen „Passwort“ und „Zwei-Faktor-Authentifizierung“; der Statustext „2FA ist nicht aktiviert“ bleibt. Die Speichern-Zeile enthält danach nur noch „Speichern“, und auf der Seite gibt es genau einen gefüllten Knopf.",
+     "beleg": "settings_profil.png (zwei grüne Flächen bei y≈742 und y≈1229); misc.js:58, :62, :284",
+     "id": "settings-2-1"
+    },
+    {
+     "titel": "Privatsphäre ohne eigenen Speichern-Knopf",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Die Checkbox „Support-Team Zugriff auf mein Konto erlauben“ (misc.js:60) als `switchRow(...)` bauen. Die Aktion 'privacy-toggle' speichert sofort, so wie der Schalter „Christlicher Impuls“ direkt darunter (misc.js:61). Das zweite „Speichern“ (`.btn sm`) entfällt, die Funktion bleibt: 'save-privacy' (misc.js:283) wird zur Umschalt-Aktion. Alternative: die Checkbox ins Profilformular ziehen, damit ein einziges „Speichern“ alles sichert.",
+     "beleg": "settings_profil.png y≈946; misc.js:60, :61, :283",
+     "id": "settings-2-2"
+    },
+    {
+     "titel": "Adresse und Bio hinter „Weitere Angaben“",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Die Felder pf-addr und pf-bio (misc.js:53, :55) in ein `<details>` „Weitere Angaben“ unter dem Raster legen; es ist offen, wenn eines der beiden Felder befüllt ist. Beide Werte werden nirgends sonst verwendet (Suche nach profile.address/bio findet nur misc.js). Sichtbar bleiben Vorname, Nachname, Benutzername (dient als Mentor-Kennung), E-Mail, Zeitzone und Standardwährung. Das Formular wird etwa 170 px kürzer.",
+     "beleg": "settings_profil.png y≈445–626; misc.js:53, :55; grep ohne weitere Treffer",
+     "id": "settings-2-3"
+    },
+    {
+     "titel": "Datenknöpfe zusammenfassen (im neuen Bereich „Daten“)",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Export: ein Knopf „Sicherung exportieren“ (`.btn sm`) mit der Checkbox „Bilder und Audio einschließen“ daneben oder im Export-Schritt; die Aktion export (misc.js:362) liest dann die Checkbox statt data-blobs. Import: ein Knopf „Sicherung einspielen …“ (`.btn sm`), der Modus Zusammenführen/Ersetzen wird im Dialog gewählt (siehe modal_sicherung_einspielen). Beispieldaten-„Entfernen“ von `.btn.danger` auf `.btn sm`, weil eigene Trades, Check-ins und Regeln erhalten bleiben (misc.js:66). Rot bleibt allein „Alles löschen“. Aus 7 Knöpfen werden 4, davon nur einer rot.",
+     "beleg": "settings_profil.png y≈1356–1598; misc.js:64–68, :362, :365",
+     "id": "settings-2-4"
+    },
+    {
+     "titel": "Profilbild-„Entfernen“ nur mit Bild",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Knopf `.btn sm ghost` „Entfernen“ (misc.js:47) nur rendern, wenn `st.avatarId` gesetzt ist, statt ihn ausgegraut zu zeigen.",
+     "beleg": "settings_profil.png y≈322; misc.js:47",
+     "id": "settings-2-5"
+    },
+    {
+     "titel": "Fußzeile mit Tastatur-Hinweis aus dem Profil nehmen",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Die Zeile misc.js:69 („Speicherort … Tastatur: N neuer Trade · 1–6 Bereiche · Esc“) mit in den neuen Bereich „Daten“ nehmen. Dort passt der Speicherort, und das Profil endet mit den eigenen Angaben.",
+     "beleg": "settings_profil.png y≈1638; misc.js:69",
+     "id": "settings-2-6"
+    }
+   ],
+   "sid": "settings-2",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/profil",
+   "zustand": "leer (keine Trades, Beispieldaten nicht geladen)",
+   "hauptaktion": "Profil speichern; im Datenblock hilft einem neuen Nutzer am meisten „Beispieldaten laden“.",
+   "optisch_klar": false,
+   "begruendung": "Ohne Daten steht „Laden“ (Beispieldaten) als kleiner umrandeter `.btn sm` (misc.js:66) unter einem dreizeiligen Fließtext und ist genauso gewichtet wie die Export- und Import-Knöpfe. „Ohne Anhänge/Mit Anhängen“ exportieren nur Einstellungen, „Alles löschen“ (rot) hat praktisch nichts zu löschen. Der einzige gefüllte Knopf neben „Speichern“ ist wieder der Platzhalter „2FA aktivieren“.",
+   "konkurrenten": [
+    "Ohne Anhänge / Mit Anhängen",
+    "Zusammenführen / Ersetzen",
+    "„Alles löschen“ (rot)",
+    "„2FA aktivieren“ (gefüllt)"
+   ],
+   "verstecken": [
+    "Export und „Alles löschen“ ohne Daten: hinter „Weitere Datenaktionen“ (aufklappbar)"
+   ],
+   "irrelevant": [
+    "Export ohne Trades",
+    "„Alles löschen“ ohne Daten",
+    "Import-Modus „Ersetzen“ (es gibt nichts zu ersetzen)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leer: „Beispieldaten laden“ als einzige hervorgehobene Datenaktion",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Gilt im Bereich „Daten“ (bzw. heute im Block misc.js:63–69). Wenn `!S.trades().length && !st.sampleInstalled`, zeigt der Block oben „Beispieldaten laden“ als `.btn primary sm` und „Sicherung einspielen …“ als `.btn sm`. Export und „Alles löschen“ rücken in ein `<details>` „Weitere Datenaktionen“ und bleiben so erreichbar. Sobald Trades existieren, gilt wieder die normale Reihenfolge: Export oben, Beispieldaten „Laden/Entfernen“ sekundär. Voraussetzung ist der eigene Bereich „Daten“, sonst stünden auf Profil wieder zwei gefüllte Knöpfe.",
+     "beleg": "extra/hicks-settings-1440-leer_profil.png (y≈1538 „Laden“); misc.js:66",
+     "id": "settings-3-1"
+    },
+    {
+     "titel": "Beispieldaten-Text auf einen Satz",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Text (misc.js:66, drei Zeilen) kürzen auf: „Rund 170 Trades (NQ, ES) mit Prop-Konten, Notizen und Replays, jederzeit wieder entfernbar.“ Den Rest (Vorschlagsregeln im Schatten-Ich, was beim Entfernen erhalten bleibt) in ein `<details>` „Was passiert genau?“ legen.",
+     "beleg": "extra/hicks-settings-1440-leer_profil.png y≈1465–1500; misc.js:66",
+     "id": "settings-3-2"
+    }
+   ],
+   "sid": "settings-3",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/design",
+   "zustand": "voll",
+   "hauptaktion": "Erscheinungsbild wählen (Graphit, Schwarz, Weiß, Eigenes); wirkt sofort, kein Speichern nötig.",
+   "optisch_klar": true,
+   "begruendung": "Der Block steht oben und hat die größten Vorschaukarten. Kein gefüllter Knopf konkurriert: „Aktuelles speichern“ ist umrandet (`.btn sm`, misc.js:108), „Standardfarben“ nur Text (`.btn sm ghost`, misc.js:146). Allerdings bietet die Seite etwa 31 gleichrangige Auswahlpunkte untereinander: 4 Erscheinungsbilder, 4 gleich große Schriftkarten, 8 Akzentpunkte plus „+“, 6 Farbpaare, 3 Einzel-Farbwähler, Reset und Designs. Das sind 1366 px Höhe auf dem Desktop und 2359 px auf dem Handy. Gewinn- und Verlustfarbe lassen sich auf zwei Wegen setzen (Paar oder Einzelwähler).",
+   "konkurrenten": [
+    "Schriftkarten (gleich groß wie die Erscheinungsbild-Karten)",
+    "3 Einzel-Farbwähler Gewinn/Verlust/Break-even neben 6 Farbpaaren",
+    "„Aktuelles speichern“ (.btn sm)",
+    "Kopfreihe"
+   ],
+   "verstecken": [
+    "Einzel-Farbwähler Gewinn/Verlust/Break-even: „Eigene Farben“ (aufklappbar) unter den Paaren",
+    "„Standardfarben“ nur bei abweichenden Farben"
+   ],
+   "irrelevant": [
+    "„Standardfarben“, solange die Standardfarben aktiv sind",
+    "„Aktuelles speichern“, wenn das aktuelle Design schon gespeichert ist (die Karte ist dann ohnehin markiert)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Einzel-Farbwähler hinter „Eigene Farben“",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Die Zeile `.cpick-row` (misc.js:146: Gewinn, Verlust, Break-even) in ein `<details>` „Eigene Farben“ unter das Paar-Raster legen. Es ist offen, wenn Gewinn/Verlust zu keinem PRESETS_PAIR passen oder Break-even vom Standard abweicht. Die sechs Paare decken den Normalfall mit einem Klick ab.",
+     "beleg": "settings_design.png y≈1214; extra/hicks-settings-390-design.png; misc.js:146",
+     "id": "settings-4-1"
+    },
+    {
+     "titel": "„Standardfarben“ nur bei Abweichung",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Knopf „Standardfarben“ (misc.js:146) nur rendern, wenn `col.accent || col.profit || col.loss || col.be` gesetzt ist (Variable col in misc.js:130). Er bleibt neben den Paaren, damit er auch die Akzentfarbe zurücksetzt.",
+     "beleg": "settings_design.png y≈1215 (Standardfarben aktiv, Reset trotzdem sichtbar); misc.js:130, :146",
+     "id": "settings-4-2"
+    },
+    {
+     "titel": "„Aktuelles speichern“ nur, wenn es etwas Neues gibt",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In designsBlock (misc.js:105–110) den Knopf ausblenden, wenn `list.some(d => sigOf(d) === cur)`; die passende Karte ist dann bereits markiert. Bei vollem Speicher (6) bleibt der vorhandene Hinweistext.",
+     "beleg": "misc.js:105–110",
+     "id": "settings-4-3"
+    },
+    {
+     "titel": "Gespeicherte Designs zuerst, wenn vorhanden",
+     "regel": 1,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Ist `st.designs.length > 0`, den Block „Meine Designs“ vor „Erscheinungsbild“ setzen; ein Klick wendet dann Erscheinungsbild, Schrift und Farben zusammen an. Ohne gespeicherte Designs bleibt der Block unten.",
+     "beleg": "settings_design.png y≈1309; misc.js:147",
+     "id": "settings-4-4"
+    }
+   ],
+   "sid": "settings-4",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/sprache",
+   "zustand": "voll",
+   "hauptaktion": "Sprache wählen (Karte anklicken).",
+   "optisch_klar": true,
+   "begruendung": "Sechs gleichartige Karten, die gewählte ist markiert (aria-pressed). Außer der Kopfreihe gibt es keine weiteren Knöpfe (misc.js:31–35). Länger als nötig ist nur der zweizeilige Untertitel.",
+   "konkurrenten": [
+    "Kopfreihe (Zeitraum, Konto, Session, Trade loggen)"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Kopfreihe"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Untertitel auf einen Satz",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Untertitel (misc.js:33) kürzen auf „Sprache der Oberfläche. Die Währung wechselt mit und lässt sich unter Profil ändern.“ Den Satz „Zahlen und Daten erscheinen im Format der Sprache“ in den Hinweis unter den Karten (misc.js:34) verschieben.",
+     "beleg": "settings_sprache.png y≈206–226; misc.js:33–34",
+     "id": "settings-5-1"
+    }
+   ],
+   "sid": "settings-5",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/benachrichtigungen",
+   "zustand": "voll",
+   "hauptaktion": "Performance-Recaps einschalten (beide stehen standardmäßig aus).",
+   "optisch_klar": false,
+   "begruendung": "Zehn gleich große Schalter stehen untereinander (misc.js:170–176). Die acht Hinweis-Punkt-Schalter sind an und leuchten grün. Die zwei Recap-Schalter, also die eigentliche Entscheidung, sind aus und grau. Das Auge landet deshalb auf dem unteren Block.",
+   "konkurrenten": [
+    "Hauptschalter „Hinweis-Punkte anzeigen“",
+    "7 Bereichsschalter (Dashboard, TradeLog, Tagesansicht, Notebook, Fortschritt, Prop Firms, Coach)",
+    "Kopfreihe"
+   ],
+   "verstecken": [
+    "7 Bereichsschalter: „Bereiche einzeln wählen“ (aufklappbar)"
+   ],
+   "irrelevant": [
+    "Kopfreihe"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Bereichsschalter hinter „Bereiche einzeln wählen“",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Unter dem Hauptschalter „Hinweis-Punkte anzeigen“ die Liste `App.NAV_DOT_AREAS.map(...)` (misc.js:176) in ein `<details>` „Bereiche einzeln wählen“ legen. Es ist standardmäßig zu und offen, wenn mindestens ein Bereich abgeschaltet ist. Ist der Hauptschalter aus, fehlt die Liste wie heute ganz. Sichtbar sind dann drei Schalter statt zehn.",
+     "beleg": "settings_benachrichtigungen.png y≈561–986; misc.js:176",
+     "id": "settings-6-1"
+    },
+    {
+     "titel": "Recap-Beschreibungen kürzen",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Die Beschreibungen (misc.js:170–171, je zwei Zeilen) auf einen Satz kürzen: „Jeden Montag eine Zusammenfassung der Vorwoche (ab 4 Trades).“ und „Am 2. jedes Monats eine Zusammenfassung des Vormonats (ab 4 Trades).“",
+     "beleg": "settings_benachrichtigungen.png y≈327–423; misc.js:170–171",
+     "id": "settings-6-2"
+    }
+   ],
+   "sid": "settings-6",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/abo",
+   "zustand": "leer (Platzhalter)",
+   "hauptaktion": "Keine; der Bereich hat keine Funktion.",
+   "optisch_klar": false,
+   "begruendung": "Es gibt nur eine gestrichelte Box „Kostenlos, alle Funktionen enthalten … wird später ergänzt“ (misc.js:181). Die einzigen Knöpfe sind die der Kopfreihe. Der Eintrag verlängert das Bereichsmenü um eine Wahl ohne Ergebnis.",
+   "konkurrenten": [
+    "Kopfreihe"
+   ],
+   "verstecken": [
+    "ganzer Bereich im Menü, bis es ein Abo gibt"
+   ],
+   "irrelevant": [
+    "der Bereich selbst",
+    "Kopfreihe"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Menüeintrag ausblenden, Route behalten",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Siehe Rahmen: SECTIONS-Eintrag 'abo' (misc.js:7) nicht mehr in der nav (misc.js:21) zeigen; #/settings/abo bleibt aufrufbar.",
+     "beleg": "settings_abo.png; misc.js:7, :181",
+     "id": "settings-7-1"
+    }
+   ],
+   "sid": "settings-7",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/konten",
+   "zustand": "voll (1 Konto)",
+   "hauptaktion": "„+ Konto hinzufügen“",
+   "optisch_klar": true,
+   "begruendung": "„+ Konto hinzufügen“ ist der einzige gefüllte Knopf (`.btn sm primary` als trailing im Kopf, misc.js:186). Störend: genau darüber steht „+ Trade loggen“ (`.btn.accent`), also zwei „+“-Knöpfe übereinander, und links der Konto-Picker „Hauptkonto“, der dasselbe Konto noch einmal zeigt. Jede Zeile hat einen Stift und ab zwei Konten einen Papierkorb als Symbolknopf.",
+   "konkurrenten": [
+    "„+ Trade loggen“ direkt darüber",
+    "Konto-Picker „Hauptkonto“ in der Kopfreihe",
+    "Stift/Papierkorb je Zeile"
+   ],
+   "verstecken": [
+    "Konto löschen: in den Dialog „Konto bearbeiten“"
+   ],
+   "irrelevant": [
+    "Zeitraum-Picker",
+    "Session starten"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Zeile öffnet „Konto bearbeiten“, Löschen wandert in den Dialog",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Das `<tr>` erhält data-action='edit-account' und data-id. Der Stift bleibt als sichtbarer Hinweis. Der Papierkorb (misc.js:186, nur bei mehr als einem Konto) entfällt in der Tabelle und erscheint im Dialog (accountEditor, misc.js:268) links im modal-foot als `.btn ghost` „Konto löschen“, nur beim Bearbeiten und nur bei mehr als einem Konto. Er ruft dieselbe Aktion delete-account samt Bestätigung (misc.js:330). Auf dem Handy, wo die Aktionsspalte heute außerhalb des Bildes liegt, wird Bearbeiten damit erst erreichbar.",
+     "beleg": "settings_konten.png y≈309; dark-390/settings_konten.png (Spalten ab „Währung“ abgeschnitten); misc.js:186, :268, :330",
+     "id": "settings-8-1"
+    },
+    {
+     "titel": "Doppeltes „+“ durch die Kopfreihen-Abschaltung lösen",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Mit `head`-Abschaltung (siehe Rahmen) verschwinden „+ Trade loggen“ und der Konto-Picker über der Tabelle. „Konto hinzufügen“ ist dann allein oben rechts, und das aktive Konto zeigt die Tabelle schon (Pille „aktiv“, misc.js:186).",
+     "beleg": "settings_konten.png y≈115 und y≈175; misc.js:186",
+     "id": "settings-8-2"
+    }
+   ],
+   "sid": "settings-8",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/trading",
+   "zustand": "voll",
+   "hauptaktion": "Werte anpassen und „Speichern“ (misc.js:201).",
+   "optisch_klar": false,
+   "begruendung": "„Speichern“ ist gefüllt, liegt aber unter dem Falz (y≈1156 bei 900 px Fensterhöhe) und gilt nur für einen Teil der Felder. Die Instrument-Chips, die Break-even-Einheit %/EUR, der Geld-blind-Schalter und „Auf Standard zurücksetzen“ speichern sofort (misc.js:332–334, :337). Von/Bis, 1 R, Tagesverlustlimit, Ruin-Schwelle, Monte-Carlo-Läufe und Tilt-Warnungen speichern erst mit „Speichern“ (misc.js:335). Der Nutzer sieht nicht, was wofür gilt. Außerdem stehen Experten-Parameter (Ruin-Schwelle, Monte-Carlo-Durchläufe) gleichrangig neben dem Tageslimit.",
+   "konkurrenten": [
+    "6 Instrument-Chips (sofort wirksam)",
+    "Segment %/EUR (sofort wirksam)",
+    "„Auf Standard zurücksetzen“ (.btn ghost sm)",
+    "Schalter Geld-blind (sofort wirksam)",
+    "Kopfreihe"
+   ],
+   "verstecken": [
+    "Ruin-Schwelle Monte Carlo und Monte-Carlo-Durchläufe: „Mehr Optionen“ im Block Risiko",
+    "„1 R entspricht (optional)“: ebenfalls „Mehr Optionen“ (hat einen automatischen Wert)"
+   ],
+   "irrelevant": [
+    "„Auf Standard zurücksetzen“, solange Von/Bis = 0",
+    "„Was handelst du?“: die Auswahl wird gespeichert, aber nirgends ausgewertet (settings.instruments nur in misc.js:191/332 und store.js-Default)",
+    "doppelte Überschrift „Geld-blind-Modus“ (h3 und Schaltertitel)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Speichern“ zeigt an, wann es etwas zu speichern gibt",
+     "regel": 2,
+     "wirkung": 1,
+     "aufwand": "M",
+     "beschreibung": "„Speichern“ bleibt `.btn.primary`, ist aber `disabled`, solange im Formular nichts geändert wurde. Ein input-Listener am form 'save-trading' aktiviert ihn; daneben steht als `.small.muted` „Ungespeicherte Änderungen“. Die sofort wirkenden Elemente (Chips, Einheit, Geld-blind, Zurücksetzen) bleiben sofort wirksam. Alternative mit einem einzigen Modell: alle Felder speichern beim change-Ereignis wie die Chips, „Speichern“ entfällt, der Toast „Gespeichert“ bleibt. Dasselbe Muster passt auf Notebook und Profil.",
+     "beleg": "settings_trading.png y≈1156; extra/hicks-settings-390-trading.png (Speichern bei y≈1487 von 1610); misc.js:201, :332–337",
+     "id": "settings-9-1"
+    },
+    {
+     "titel": "Monte-Carlo-Parameter und 1 R hinter „Mehr Optionen“",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Im Block „Risiko und Warnungen“ (misc.js:199–200) bleiben Tagesverlustlimit und Tilt-Warnungen sichtbar. „Ruin-Schwelle Monte Carlo“, „Monte-Carlo-Durchläufe“ und das Feld „1 R entspricht (optional)“ (heute misc.js:198 im Geld-blind-Block) kommen in ein `<details>` „Mehr Optionen“. Achtung: 1 R nicht an den Geld-blind-Schalter koppeln, denn der Wert wird auch vom Schatten-Ich für Regeln in R genutzt (screens/shadow.js:13, shadow.js:36).",
+     "beleg": "settings_trading.png y≈719–1046; misc.js:198–200; screens/shadow.js:13",
+     "id": "settings-9-2"
+    },
+    {
+     "titel": "„Auf Standard zurücksetzen“ nur bei Abweichung",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Knopf (misc.js:196) nur rendern, wenn `be.from || be.to` ungleich 0 ist oder die Einheit nicht 'abs' ist.",
+     "beleg": "settings_trading.png y≈533 (Von 0, Bis 0, Reset trotzdem sichtbar); misc.js:196, :334",
+     "id": "settings-9-3"
+    },
+    {
+     "titel": "„Was handelst du?“ ans Ende, Geld-blind ohne doppelte Überschrift",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Chip-Block (misc.js:193) ans Ende des Formulars oder in „Mehr Optionen“ verschieben, solange die Auswahl nirgends ausgewertet wird. Im Geld-blind-Block die h3 (misc.js:197) weglassen, denn der Schaltertitel sagt dasselbe.",
+     "beleg": "settings_trading.png y≈267, y≈620/651; misc.js:193, :197",
+     "id": "settings-9-4"
+    }
+   ],
+   "sid": "settings-9",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/regeln",
+   "zustand": "voll (5 Regeln)",
+   "hauptaktion": "Neue Regel eintippen und „+ Hinzufügen“.",
+   "optisch_klar": true,
+   "begruendung": "„Hinzufügen“ ist der einzige gefüllte Knopf (`.btn sm primary`, misc.js:207). Die fünf Schalter und fünf Papierkorb-Symbole (`.btn ghost icon sm`) sind leiser und erwartbar.",
+   "konkurrenten": [
+    "5 Papierkorb-Symbole (dauerhaft sichtbar)",
+    "Kopfreihe"
+   ],
+   "verstecken": [
+    "Papierkorb je Regel: erst beim Darüberfahren oder bei Fokus der Zeile (auf Touch immer sichtbar)"
+   ],
+   "irrelevant": [
+    "Kopfreihe"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Löschen-Symbol erst bei Bedarf",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Papierkorb (misc.js:207, data-action='delete-rule') per `.set-row:hover`/`:focus-within` einblenden, auf Touch-Geräten (`@media (hover: none)`) dauerhaft sichtbar lassen. Das gleiche Muster wie die Info-Symbole, die schon nur beim Darüberfahren erscheinen; keine neue Optik.",
+     "beleg": "settings_regeln.png x≈1380; misc.js:207",
+     "id": "settings-10-1"
+    }
+   ],
+   "sid": "settings-10",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/regeln",
+   "zustand": "leer",
+   "hauptaktion": "Erste Regel anlegen.",
+   "optisch_klar": true,
+   "begruendung": "Es gibt eine gestrichelte Box „Noch keine Regeln. Lege unten deine erste Regel an.“, darunter das Eingabefeld und „+ Hinzufügen“ (gefüllt). Das ist im Kern ein Satz und ein Knopf; die Box verweist nur auf das Feld darunter.",
+   "konkurrenten": [
+    "Kopfreihe"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "gestrichelte Hinweisbox (wiederholt, was Feld und Knopf schon sagen)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leerzustand = Feld + Knopf",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Bei `!rules.length` die gestrichelte Box (misc.js:207) weglassen und den Satz als `.small.muted` über das Feld setzen: „Noch keine Regeln. Schreib deine erste, z. B. ‚Maximal 3 Trades pro Tag‘.“ Das Eingabefeld bekommt den Fokus.",
+     "beleg": "extra/hicks-settings-1440-leer_regeln.png; misc.js:207",
+     "id": "settings-11-1"
+    }
+   ],
+   "sid": "settings-11",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/notebook",
+   "zustand": "voll",
+   "hauptaktion": "Schriftgrößen wählen und „Speichern“.",
+   "optisch_klar": true,
+   "begruendung": "„Speichern“ ist gefüllt, „Auf Standard zurücksetzen“ ist ein `.btn ghost` (nur Text, misc.js:221). Die Vorschau rechts zeigt die Wirkung sofort. Regeln 2 und 4 sind erfüllt.",
+   "konkurrenten": [
+    "Kopfreihe"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "„Auf Standard zurücksetzen“, wenn die Standardwerte (30/24/19/16, durchstreichen an) aktiv sind",
+    "Kopfreihe"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Zurücksetzen nur bei Abweichung, Speichern nur bei Änderung",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "„Auf Standard zurücksetzen“ (misc.js:221) nur rendern, wenn nb von NB_DEFAULT (misc.js:12) abweicht. „Speichern“ bleibt `disabled`, bis ein Select oder die Checkbox geändert wird; die Aktion nb-preview (misc.js:343) kann den Knopf freischalten. Dasselbe Muster wie bei Trading.",
+     "beleg": "settings_notebook.png y≈639; misc.js:12, :221, :343",
+     "id": "settings-12-1"
+    }
+   ],
+   "sid": "settings-12",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/mentor",
+   "zustand": "leer (kein Server eingetragen)",
+   "hauptaktion": "Server-Adresse und Zugangstoken eintragen und „Speichern“.",
+   "optisch_klar": true,
+   "begruendung": "„Speichern“ ist gefüllt, „Verbindung testen“ umrandet (misc.js:158); Regel 4 ist erfüllt. Unter dem Formular folgen aber zwei Erklärblöcke: die Sprachjournal-Erklärung mit VOICE_STT_URL und server/README.md sowie „So funktioniert es“ mit vier Absätzen (misc.js:160–161). Dazu kommt der grüne, eingeschaltete Schalter „Audio behalten“, der optisch lauter ist als die leeren Pflichtfelder.",
+   "konkurrenten": [
+    "„Verbindung testen“ (ohne Adresse sinnlos)",
+    "Schalter „Audio behalten“ (grün an)",
+    "Kopfreihe"
+   ],
+   "verstecken": [
+    "„So funktioniert es“: aufklappbar",
+    "Technik-Hinweis VOICE_STT_URL / server/README.md: ins selbe Aufklappfeld"
+   ],
+   "irrelevant": [
+    "„Verbindung testen“, solange die Adresse leer ist"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Erklärtexte einklappen",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Den Block „So funktioniert es“ (misc.js:161) als `<details>` mit dieser Überschrift, standardmäßig zu. Den zweiten Absatz im Sprachjournal-Block (misc.js:160, Auswertung, Transkript, VOICE_STT_URL) in dieses Aufklappfeld verschieben. Sichtbar bleiben Formular, Schalter „Audio behalten“ mit seinem Satz und die Aufklappzeile.",
+     "beleg": "settings_mentor.png y≈587–905; misc.js:160–161",
+     "id": "settings-13-1"
+    },
+    {
+     "titel": "„Verbindung testen“ erst mit Adresse",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Knopf `disabled` setzen, solange #mentor-url leer ist (input-Listener am Feld). mentor-test (screens/mentor.js:122) liest die Feldwerte direkt und funktioniert deshalb auch vor dem Speichern.",
+     "beleg": "settings_mentor.png y≈497; misc.js:158; screens/mentor.js:122–126",
+     "id": "settings-13-2"
+    }
+   ],
+   "sid": "settings-13",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/inhalte",
+   "zustand": "Reiter Kategorien (Standard)",
+   "hauptaktion": "Keine; der Standardreiter ist eine reine Lese-Tabelle. Die Aktion des Bereichs („Tag hinzufügen“) liegt im zweiten Reiter.",
+   "optisch_klar": false,
+   "begruendung": "ui() startet mit contentTab 'kategorien' (misc.js:13). Dieser Reiter zeigt drei feste Zeilen mit Farbe, Tag-Zahl und Nutzung und einen Erklärsatz, aber keine Aktion (misc.js:234). Wer Tags verwalten will, braucht erst einen Klick auf „Tags“.",
+   "konkurrenten": [
+    "Reiter „Tags“",
+    "Kopfreihe"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Kategorien-Tabelle als Startansicht (die Kategorien sind fest und nicht änderbar)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Tags“ als ersten und Standard-Reiter",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "In misc.js:13 `contentTab: 'tags'` setzen und in misc.js:231 die Reihenfolge der Reiter tauschen ([['tags','Tags'],['kategorien','Kategorien']]). Kategorien bleibt als zweiter Reiter erreichbar. Der Bereich öffnet dann direkt mit der Liste und „+ Tag hinzufügen“.",
+     "beleg": "settings_inhalte.png; misc.js:13, :231, :234",
+     "id": "settings-14-1"
+    }
+   ],
+   "sid": "settings-14",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/inhalte",
+   "zustand": "Reiter Tags, voll (26 Tags)",
+   "hauptaktion": "„+ Tag hinzufügen“",
+   "optisch_klar": true,
+   "begruendung": "„+ Tag hinzufügen“ ist der einzige gefüllte Knopf (misc.js:238). Direkt daneben steht aber „Zurücksetzen“ (`.btn sm`, umrandet). Neben Suche und „Filtern nach“ liest er sich wie „Filter zurücksetzen“, setzt aber alle Tags auf die Standardliste zurück, inklusive Beschreibungen (tags-reset, misc.js:354). Jede der 26 Zeilen trägt Stift und Papierkorb: 52 Symbolknöpfe.",
+   "konkurrenten": [
+    "„Zurücksetzen“ (alle Tags, destruktiv, umrandet neben dem Hauptknopf)",
+    "Suche + „Filtern nach“",
+    "52 Stift/Papierkorb-Symbole",
+    "Kopfreihe"
+   ],
+   "verstecken": [
+    "„Zurücksetzen“: unter die Tabelle als Textlink „Tags auf Standardliste zurücksetzen“",
+    "Löschen je Tag: in den Dialog „Tag bearbeiten“"
+   ],
+   "irrelevant": [
+    "Suche und Filter bei sehr wenigen oder keinen Tags"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Zurücksetzen“ aus der Werkzeugleiste nehmen",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Den Knopf data-action='tags-reset' (misc.js:238) aus der Werkzeugleiste entfernen und unter der Tabelle als `.btn ghost sm` mit klarem Text „Tags auf Standardliste zurücksetzen“ zeigen. Die Bestätigung (misc.js:354) bleibt. In der Werkzeugleiste stehen dann nur Suche, Filter und „+ Tag hinzufügen“.",
+     "beleg": "extra/hicks-settings-1440-inhalte_tags.png y≈323; misc.js:238, :354",
+     "id": "settings-15-1"
+    },
+    {
+     "titel": "Zeile öffnet „Tag bearbeiten“, Löschen in den Dialog",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Das `<tr>` erhält data-action='tag-edit' mit data-kind/data-value; der Stift bleibt. Der Papierkorb (misc.js:239) wandert in tagEditor (misc.js:245) als `.btn ghost` „Tag löschen“ links im modal-foot, nur beim Bearbeiten. Er ruft tag-delete mit der bestehenden Bestätigung samt Hinweis auf die Nutzung.",
+     "beleg": "extra/hicks-settings-1440-inhalte_tags.png (Spalte x≈1355–1386); misc.js:239, :245, :353",
+     "id": "settings-15-2"
+    },
+    {
+     "titel": "Suche und Filter nur bei vielen Tags",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Suche und „Filtern nach“ (misc.js:238) nur rendern, wenn es mehr als etwa 10 Tags gibt oder eine Suche bzw. ein Filter aktiv ist. Bei 0 Tags zeigt die Tabelle nur den Satz „Noch keine Tags.“ und den Knopf „+ Tag hinzufügen“.",
+     "beleg": "misc.js:236–239",
+     "id": "settings-15-3"
+    }
+   ],
+   "sid": "settings-15",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/logs",
+   "zustand": "Reiter Imports, leer",
+   "hauptaktion": "Nichts Pflichtiges. Weiter hilft „CSV importieren“.",
+   "optisch_klar": false,
+   "begruendung": "Über dem Leerzustand steht der volle Tabellenkopf mit 8 Spalten (Konto, Quelle, Datei, Hochgeladen, Trades, Duplikate, Status, Aktion), misc.js:255. Der Leerzustand erklärt, dass CSV-Importe hier erscheinen, bietet aber keinen Knopf, obwohl die Aktion import (app.js:335, App.openImport) existiert.",
+   "konkurrenten": [
+    "Kopfreihe"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Tabellenkopf mit 8 Spalten ohne Zeilen"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leer: ein Satz und „CSV importieren“",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Bei `!imps.length` statt der Tabelle (misc.js:255) nur den Leerzustand rendern (Symbol, „Noch keine Imports“, ein Satz) mit einem Knopf `.btn sm` „CSV importieren“ (data-action='import'). Der Tabellenkopf erscheint erst mit dem ersten Eintrag.",
+     "beleg": "settings_logs.png; misc.js:255; app.js:335",
+     "id": "settings-16-1"
+    }
+   ],
+   "sid": "settings-16",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/logs",
+   "zustand": "Reiter Verlauf, voll",
+   "hauptaktion": "Verlauf durchsehen (lesen, filtern).",
+   "optisch_klar": true,
+   "begruendung": "Es gibt keinen gefüllten Knopf; Suche, Filter und „Verlauf leeren“ (`.btn sm ghost`) sind leise. Die destruktive Aktion steht aber in derselben Werkzeugleiste wie die Filter (misc.js:259).",
+   "konkurrenten": [
+    "„Verlauf leeren“ (in der Filterleiste)"
+   ],
+   "verstecken": [
+    "„Verlauf leeren“: unter die Tabelle"
+   ],
+   "irrelevant": [
+    "Suche, Filter und Leeren bei leerem Verlauf"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Verlauf leeren“ unter die Tabelle, leer ohne Werkzeuge",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Den Knopf logs-clear (misc.js:259) unter die Tabelle als `.btn ghost sm` setzen; die Bestätigung bleibt (misc.js:363). Ist `S.data.logs` leer, Suche, Filter und Leeren ganz weglassen und nur den Leerzustand zeigen.",
+     "beleg": "extra/hicks-settings-1440-logs_verlauf.png y≈323; misc.js:259",
+     "id": "settings-17-1"
+    }
+   ],
+   "sid": "settings-17",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "modal_konto (Konto hinzufügen/bearbeiten)",
+   "zustand": "dialog",
+   "hauptaktion": "„Speichern“",
+   "optisch_klar": false,
+   "begruendung": "„Speichern“ ist `.btn.primary`, „Abbrechen“ `.btn` (misc.js:268); Regel 4 ist erfüllt. Beim Öffnen springt der Fokus aber auf den Schließen-Knopf oben rechts. ui.js:434 sucht mit `querySelector('input…,select,textarea,button')` das erste passende Element in Dokument-Reihenfolge, und das ist das X im Kopf. Bei Tastaturbedienung und in der Aufnahme trägt das X den grünen Fokusring und ist damit das auffälligste Element. Tippen landet nicht im Namensfeld, Enter schließt den Dialog.",
+   "konkurrenten": [
+    "Schließen-X mit Fokusring"
+   ],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Startfokus aufs erste Feld (alle Dialoge)",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In U.modal (ui.js:434) zuerst das erste sichtbare Feld fokussieren (`input:not([type=hidden]):not([type=file]), select, textarea`, gefiltert auf `offsetParent !== null`), sonst `.modal-foot .btn.primary`. Bei Bestätigungen mit `danger` „Abbrechen“ fokussieren, das X nur als letzte Möglichkeit. Das wirkt auf alle Dialoge der App (Konto, Tag, Sicherung, Trade loggen …). Design speichern fokussiert schon per onMount.",
+     "beleg": "extra/hicks-settings-390-dialog_konto.png (grüner Ring am X); ui.js:434; misc.js:268",
+     "id": "settings-18-1"
+    },
+    {
+     "titel": "„Konto löschen“ als tertiärer Knopf im Dialog",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Siehe Konten: beim Bearbeiten und bei mehr als einem Konto links im modal-foot ein `.btn ghost` „Konto löschen“ (Aktion delete-account mit Bestätigung).",
+     "beleg": "misc.js:268, :330",
+     "id": "settings-18-2"
+    }
+   ],
+   "sid": "settings-18",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "modal_tag (Tag hinzufügen/bearbeiten)",
+   "zustand": "dialog",
+   "hauptaktion": "„Speichern“",
+   "optisch_klar": true,
+   "begruendung": "„Speichern“ ist `.btn.primary`, „Abbrechen“ `.btn` (misc.js:245); Regel 4 ist erfüllt. Gleiches Fokusproblem wie beim Konto-Dialog (ui.js:434). Beim Neuanlegen ist die Kategorie immer „Setups“ vorbelegt (tag-new, misc.js:350), auch wenn die Liste gerade auf „Fehler“ gefiltert ist; das erzwingt eine unnötige Entscheidung.",
+   "konkurrenten": [
+    "Schließen-X mit Fokus"
+   ],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Kategorie aus dem aktiven Filter vorbelegen",
+     "regel": 1,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In tag-new (misc.js:350) `tagEditor(ui().tagFilter || 'setups', null)` aufrufen. Ist die Liste auf Fehler oder Emotionen gefiltert, muss der Nutzer im Dialog nur noch den Namen tippen.",
+     "beleg": "extra/hicks-settings-1440-dialog_tag.png; misc.js:245, :350",
+     "id": "settings-19-1"
+    },
+    {
+     "titel": "„Tag löschen“ als tertiärer Knopf beim Bearbeiten",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Siehe Inhalte/Tags: links im modal-foot ein `.btn ghost` „Tag löschen“, nur wenn name gesetzt ist (Bearbeiten).",
+     "beleg": "misc.js:245, :353",
+     "id": "settings-19-2"
+    }
+   ],
+   "sid": "settings-19",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "modal_sicherung_einspielen",
+   "zustand": "dialog",
+   "hauptaktion": "JSON-Datei ablegen oder auswählen.",
+   "optisch_klar": true,
+   "begruendung": "Die Ablagefläche ist das größte Element, Text-Einfügen ist schon eingeklappt (`<details>`, misc.js:365); Regel 3 ist dort erfüllt. Die Entscheidung Zusammenführen/Ersetzen wird aber vorher auf der Seite über zwei gleich gestaltete Knöpfe erzwungen (misc.js:65), und für „Ersetzen“ gibt es keinen Weg zurück im Dialog.",
+   "konkurrenten": [
+    "vorgelagerte Wahl Zusammenführen/Ersetzen auf der Seite"
+   ],
+   "verstecken": [
+    "„Ersetzen“: als zweite Option im Dialog statt eigenem Knopf auf der Seite"
+   ],
+   "irrelevant": [
+    "Warnbanner, solange nicht „Ersetzen“ gewählt ist"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ein Einstieg, Modus im Dialog",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Auf der Seite nur noch „Sicherung einspielen …“ (`.btn sm`). Im Dialog über der Ablagefläche ein `U.seg([['merge','Zusammenführen'],['replace','Ersetzen']], 'merge', …)` mit „Zusammenführen“ als Vorgabe. Das Warnbanner „Alle vorhandenen Daten werden ersetzt“ erscheint erst, wenn „Ersetzen“ gewählt ist. run() in misc.js:365 liest den Modus aus dem Segment.",
+     "beleg": "extra/hicks-settings-1440-dialog_sicherung_ersetzen.png; misc.js:65, :365",
+     "id": "settings-20-1"
+    }
+   ],
+   "sid": "settings-20",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "modal_sicherung_erstellt",
+   "zustand": "dialog",
+   "hauptaktion": "„Fertig“ (der Download läuft bereits).",
+   "optisch_klar": true,
+   "begruendung": "„Fertig“ ist `.btn.primary`, „Kopieren“ `.btn` (misc.js:362); Regel 4 ist erfüllt. Den meisten Platz belegt aber ein Textfeld mit der kompletten JSON-Sicherung, das nur als Notlösung gedacht ist, falls der Download nicht startet.",
+   "konkurrenten": [
+    "Textfeld mit JSON (großflächig)",
+    "„Kopieren“"
+   ],
+   "verstecken": [
+    "Textfeld und „Kopieren“: hinter „Download startet nicht?“"
+   ],
+   "irrelevant": [
+    "JSON-Text im Normalfall"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Notlösung einklappen",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Textfeld #export-text und „Kopieren“ (misc.js:362) in ein `<details>` „Download startet nicht?“ legen. Sichtbar bleiben ein Satz (Dateiname) und „Fertig“.",
+     "beleg": "misc.js:362",
+     "id": "settings-21-1"
+    }
+   ],
+   "sid": "settings-21",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "modal_bestaetigen und modal_hinweis (Konto/Tag löschen, Tags zurücksetzen, Verlauf leeren, Alles löschen; Passwort, 2FA)",
+   "zustand": "dialog",
+   "hauptaktion": "Bestätigen bzw. „Verstanden“",
+   "optisch_klar": true,
+   "begruendung": "In confirmModal (ui.js:445–449) ist „Abbrechen“ ein `.btn`, Bestätigen `.btn.danger` (rot umrandet) bzw. `.btn.primary`; die Knöpfe sind klar unterscheidbar. Die Hinweis-Dialoge zu Passwort und 2FA (misc.js:281, :284) haben nur „Verstanden“ (primary). Das erfüllt die Regeln. Einziger Punkt: Der Startfokus liegt auch hier auf dem X statt auf „Abbrechen“ (ui.js:434).",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Bei zerstörenden Bestätigungen Fokus auf „Abbrechen“",
+     "regel": 2,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Teil der Fokus-Korrektur in U.modal (siehe modal_konto): Ohne Eingabefeld und mit `.btn.danger` im Fuß den `[data-close].btn` im Fuß fokussieren, damit Enter nichts löscht.",
+     "beleg": "ui.js:434, :445–449",
+     "id": "settings-22-1"
+    }
+   ],
+   "sid": "settings-22",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings (alle Bereiche)",
+   "zustand": "handy (390)",
+   "hauptaktion": "Bereich wählen und dort die Einstellung ändern.",
+   "optisch_klar": false,
+   "begruendung": "Oben stehen Zeitraum und Session (das Konto ist per hide-m weg), darunter die Bereichsleiste mit 13 waagerechten Einträgen (app.css:1896), von denen 3½ sichtbar sind. Rechts unten schwebt der runde „+“-Knopf (app.css:3019) und überdeckt Inhalte: das E-Mail-Feld (Profil), eine Schriftkarte (Design), den Geld-blind-Block (Trading) und die Tag-Tabelle. Beim Wechsel in einen hinteren Bereich springt die Leiste an den Anfang zurück, und der aktive Eintrag ist nicht sichtbar: auf Konten zeigt die Leiste Profil, Design, Sprache, „Be…“. Ursache: app.js:100–102 ruft revealActive für data-subnav='side' nicht auf (README.md:360).",
+   "konkurrenten": [
+    "Zeitraum-Knopf",
+    "Session-Knopf",
+    "runder „+ Trade loggen“-Knopf über dem Inhalt"
+   ],
+   "verstecken": [
+    "Abo-Eintrag (siehe Rahmen)"
+   ],
+   "irrelevant": [
+    "Zeitraum",
+    "Session",
+    "schwebender Trade-Knopf"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe und schwebenden Knopf in den Einstellungen weglassen",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Folgt direkt aus `head: { range:false, account:false, session:false, trade:false }` (siehe Rahmen): Ohne `.dash-head .tl` gibt es keinen schwebenden Knopf mehr. Der Bereichstitel steht dann direkt unter der Bereichsleiste.",
+     "beleg": "dark-390/settings_profil.png (Knopf über E-Mail), extra/hicks-settings-390-design.png, -trading.png, -inhalte_tags.png; app.css:3019",
+     "id": "settings-23-1"
+    },
+    {
+     "titel": "Aktiven Bereich in der Leiste ins Bild schieben",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In app.js:100–102 nach dem Neuaufbau auch für data-subnav='side' `this.revealActive(e)` aufrufen, wenn die Leiste waagerecht scrollt (`e.scrollWidth > e.clientWidth`). Der Seiten-Scroll beginnt weiterhin oben, wie in README.md:360 festgelegt.",
+     "beleg": "dark-390/settings_konten.png (aktiver Eintrag „Konten“ nicht sichtbar); app.js:100–102, :112",
+     "id": "settings-23-2"
+    }
+   ],
+   "sid": "settings-23",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/konten",
+   "zustand": "handy (390)",
+   "hauptaktion": "„+ Konto hinzufügen“",
+   "optisch_klar": true,
+   "begruendung": "„Konto hinzufügen“ steht gefüllt in voller Breite unter dem Titel und ist klar. Die Tabelle ist aber nach „Währung“ abgeschnitten: Trades, Netto-P&L und der Stift liegen außerhalb des Bildes, Bearbeiten geht nur nach seitlichem Wischen. Unten rechts sitzt ein zweiter „+“-Knopf (Trade loggen).",
+   "konkurrenten": [
+    "schwebender „+“-Knopf (Trade loggen)"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Zeitraum, Session"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Zeile antippen = bearbeiten",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Wie auf dem Desktop: `<tr data-action='edit-account'>`, Löschen im Dialog. Die abgeschnittene Aktionsspalte ist dann nicht mehr nötig, um ein Konto zu ändern.",
+     "beleg": "dark-390/settings_konten.png; misc.js:186, :268",
+     "id": "settings-24-1"
+    }
+   ],
+   "sid": "settings-24",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/inhalte (Tags)",
+   "zustand": "handy (390)",
+   "hauptaktion": "„+ Tag hinzufügen“",
+   "optisch_klar": false,
+   "begruendung": "Die Werkzeugleiste bricht in drei Zeilen um: Suche, dann „Filtern nach“ + „Zurücksetzen“, dann „+ Tag hinzufügen“. Der zerstörende „Zurücksetzen“ (alle Tags) steht damit über dem Hauptknopf. Die Spalten Beschreibung und Aktionen liegen außerhalb des Bildes, der schwebende „+“-Knopf überdeckt die Tabelle.",
+   "konkurrenten": [
+    "„Zurücksetzen“ (über dem Hauptknopf)",
+    "Suche + Filter",
+    "schwebender „+“-Knopf"
+   ],
+   "verstecken": [
+    "„Zurücksetzen“: unter die Tabelle"
+   ],
+   "irrelevant": [
+    "Zeitraum, Session"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„+ Tag hinzufügen“ in den Bereichskopf",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Im Reiter Tags den Knopf als trailing an head('Inhalte', …) übergeben (wie „Konto hinzufügen“, misc.js:186), statt ihn ans Ende der Werkzeugleiste zu stellen (misc.js:238). Auf dem Handy steht er dann direkt unter dem Titel, vor Suche und Filter. „Zurücksetzen“ kommt unter die Tabelle (siehe Tags, Desktop).",
+     "beleg": "extra/hicks-settings-390-inhalte_tags.png y≈340–468; misc.js:238, :248",
+     "id": "settings-25-1"
+    },
+    {
+     "titel": "Zeile antippen = bearbeiten",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Wie auf dem Desktop: `<tr data-action='tag-edit'>`, Löschen im Dialog. Die abgeschnittene Aktionsspalte ist dann nicht mehr nötig.",
+     "beleg": "extra/hicks-settings-390-inhalte_tags.png (Spalte „Besch…“ abgeschnitten); misc.js:239",
+     "id": "settings-25-2"
+    }
+   ],
+   "sid": "settings-25",
+   "gruppe": "settings"
+  },
+  {
+   "screen": "settings/trading",
+   "zustand": "handy (390)",
+   "hauptaktion": "Werte ändern und „Speichern“.",
+   "optisch_klar": false,
+   "begruendung": "„Speichern“ steht am Ende einer 1610 px hohen Seite. Dazwischen liegen sofort wirkende Elemente (Chips, Einheit, Geld-blind), und der schwebende „+“-Knopf liegt über dem Geld-blind-Block. Ob eine Änderung schon gespeichert ist, sieht man nicht.",
+   "konkurrenten": [
+    "schwebender „+“-Knopf",
+    "sofort wirkende Chips und Schalter"
+   ],
+   "verstecken": [
+    "Monte-Carlo-Parameter und 1 R: „Mehr Optionen“"
+   ],
+   "irrelevant": [
+    "Zeitraum, Session"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Speichern mit Änderungszustand, kürzere Seite",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Gleiche Umsetzung wie auf dem Desktop: „Speichern“ erst bei Änderungen aktiv, mit dem Hinweis „Ungespeicherte Änderungen“. Ruin-Schwelle, Durchläufe und 1 R kommen hinter „Mehr Optionen“ (etwa 300 px kürzer). Ohne Kopfreihe und schwebenden Knopf rückt alles weitere 60 px nach oben.",
+     "beleg": "extra/hicks-settings-390-trading.png; misc.js:198–201",
+     "id": "settings-26-1"
+    }
+   ],
+   "sid": "settings-26",
+   "gruppe": "settings"
+  }
+ ],
+ "hinweise": "Material: Alle 15 vorgegebenen Aufnahmen sind vorhanden und angesehen. Zusätzlich angesehen: dark-1440/settings_logs.png, weil Logs zu „alle Abschnitte“ gehört. Eigene Aufnahmen für Zustände, die im Atlas fehlten (Reiter Tags, Logs/Verlauf, Dialoge Konto/Tag/Sicherung, Leerzustände Profil/Regeln/Konten/Tags/Verlauf, Handy Design/Trading/Benachrichtigungen/Mentor): /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/shots/extra/hicks-settings-<1440|390>-*.png, erzeugt mit audit/atlas-hicks-settings.js (Log: audit/atlas-hicks-settings-log.txt, alle ok). Der Verlauf ist nie ganz leer, weil schon das Entfernen der Beispieldaten einen Eintrag schreibt.\n\nBereichsübergreifend, gefunden beim Prüfen (außerhalb von misc.js oder kein Hick-Thema):\n1) U.modal (ui.js:434) fokussiert in jedem Dialog der App zuerst das Schließen-X. querySelector mit einer Selektorliste liefert das erste Element in Dokument-Reihenfolge, und das X steht im modal-head vor den Feldern. Folge: Bei Tastaturbedienung trägt das X den grünen Ring, und Enter schließt den Dialog. Die Korrektur ist im Eintrag modal_konto beschrieben; sie betrifft auch „Trade loggen“ und CSV-Import, also bitte mit dem Dialog-Agenten abstimmen.\n2) Fehler, kein Hick-Thema: Im Dialog „Sicherung zusammenführen/ersetzen“ ist das Upload-Symbol etwa 300 px groß. Für `.dropzone svg` fehlt eine Größenregel (app.css:749 setzt nur die Fläche). Getrennt beheben (Symbolgröße wie in der CSV-Ablage), das ist kein Styling-Umbau.\n3) settings.instruments („Was handelst du?“) wird gespeichert, aber nirgends ausgewertet (nur misc.js:191/332 und store.js-Default).\n4) „1 R entspricht“ (blindRUnit) wirkt nicht nur im Geld-blind-Modus, sondern auch bei Schatten-Ich-Regeln in R (screens/shadow.js:13, shadow.js:36). Das Feld also nicht an den Geld-blind-Schalter koppeln.\n5) In den Einstellungen gibt es zwei Speichermodelle nebeneinander. Sofort wirksam sind Design, Sprache, Benachrichtigungen, alle Schalter, Chips und Zurücksetzen-Knöpfe. Erst mit „Speichern“ wirksam sind Profil, Privatsphäre, Trading-Felder, Notebook und Mentor. Auf Trading sind beide auf einer Seite gemischt. Empfehlung als Regel: Schalter und Karten wirken sofort; Formulare mit Eingabefeldern haben ein „Speichern“, das erst bei Änderungen aktiv wird.\n6) „Trade loggen“ ist `.btn.accent` (getönte Fläche, kein Vollton, app.css:3137). Jede `.btn.primary` in den Einstellungen ist lauter (Speichern, 2FA, Konto hinzufügen, Hinzufügen). Gefüllte Knöpfe sind dort also automatisch die Hauptaktion; deshalb ist Wirkung 1 bei „2FA aktivieren“ (zweiter gefüllter Knopf) begründet.\n7) Bei Umsetzung README.md:23 und :171 anpassen (Daten-Bereich, Abo aus dem Menü), dazu README.md:360 (Bereichsleiste auf dem Handy).\nEin Vorschlag ist eine Informationsarchitektur-Änderung: der eigene Bereich „Daten“ (erlaubt laut BRIEF, Begründung im Rahmen-Eintrag). Keine Styling-Änderungen, keine Funktion entfernt: Alles Ausgeblendete bleibt über Aufklappfelder, Dialoge, Zeilenklick, Taste N oder andere Seiten erreichbar. Die weitergeleitete Nutzernachricht („automatisch wechseln“) betrifft die Ablaufsteuerung des Workflows, nicht diesen Prüfbereich."
+}

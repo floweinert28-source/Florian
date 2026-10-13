@@ -1,0 +1,134 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/typografie.md",
+ "ids_abgedeckt": [
+  "typografie-1",
+  "bereich_konto-31",
+  "bereich_dashboard-44",
+  "responsiv-33",
+  "typografie-3",
+  "referenz-43",
+  "bereich_notebook_news-15",
+  "typografie-11",
+  "typografie-19",
+  "typografie-14",
+  "bereich_training-46",
+  "referenz-32",
+  "referenz-35",
+  "typografie-9",
+  "bereich_statistik-17",
+  "bereich_statistik-18",
+  "bereich_trades_tag-31",
+  "typografie-12",
+  "bereich_konto-33",
+  "bereich_konto-34",
+  "referenz-28",
+  "diagramme-42",
+  "bereich_trades_tag-39",
+  "typografie-17",
+  "bereich_notebook_news-48",
+  "typografie-23",
+  "typografie-20",
+  "bereich_notebook_news-14",
+  "bereich_training-21",
+  "bereich_prop-49",
+  "bereich_shell-22",
+  "typografie-31",
+  "bereich_einstellungen-28",
+  "bereich_einstellungen-30",
+  "bereich_einstellungen-29",
+  "bereich_training-33",
+  "bereich_statistik-42",
+  "bereich_statistik-40",
+  "typografie-21",
+  "bereich_statistik-41"
+ ],
+ "ids_zurueckgestellt": [
+  {
+   "id": "bereich_training-46",
+   "grund": "Nur ein Teil: .rp-seq-i b 11 → 12 px wird zurückgestellt, weil es die Kürzung in der Rhythmus-Zeile verschärft. Erst zusammen mit der Mindestbreite aus bereich_training-41 umsetzen. Der Rest ist umgesetzt."
+  },
+  {
+   "id": "bereich_statistik-42",
+   "grund": "Nur ein Teil: Win-Rate in Kacheln auf 0 Stellen hat der Prüfer abgelehnt (Dashboard zeigt eine Stelle). Es gilt: Kacheln eine Stelle, Tabellen keine."
+  },
+  {
+   "id": "responsiv-33",
+   "grund": "Nur ein Teil: Wochentagszeile am Handy umgestalten und Kurzform ohne € entfallen (Bruch zwischen Breakpoints; € laut README Z. 194 gewollt)."
+  },
+  {
+   "id": "typografie-14",
+   "grund": "Nur die Ergänzung hierarchie-27 (Balance ganzzahlig) wird nicht übernommen, weil sie eine zweite Formatregel wäre. Der Kernvorschlag ist umgesetzt."
+  },
+  {
+   "id": "bereich_konto-31",
+   "grund": "Nur der Teil direction: rtl als Fallback entfällt, weil die Bidi-Umordnung die URL verfälschen kann."
+  },
+  {
+   "id": "referenz-35",
+   "grund": "Nur ein Teil: Abstand 10 → 12/14 px (gehört zur Gruppe Abstände) und flex-wrap: nowrap (würde den Text am Handy quetschen) entfallen."
+  },
+  {
+   "id": "bereich_dashboard-44",
+   "grund": "Nur ein Teil: .fw-stats span auf 13/500 abgelehnt, weil es die Kürzung verschlimmert. Umgesetzt wird stattdessen 12/400."
+  },
+  {
+   "id": "bereich_konto-34",
+   "grund": "Die Klasse .tbl td.txt wird nicht eingeführt. typografie-12 ersetzt sie, indem Zahlenzellen markiert werden. Das Ziel des Befunds ist damit erreicht."
+  },
+  {
+   "id": "typografie-17",
+   "grund": "Nur ein Teil: .dstreak-steps b (eigene Stufenfarben, README 129–133) und .pg-cause span (Grabstein) kommen nicht in die Eyebrow-Sammelregel."
+  },
+  {
+   "id": "bereich_notebook_news-15",
+   "grund": "Nur ein Teil: Die Notiz-Titel-Stufen 26/24 px (Z. 1069, 3012) bleiben, weil sie bewusste Breakpoints sind."
+  },
+  {
+   "id": "typografie-3",
+   "grund": "Nur ein Teil: Zertifikat, Grabstein, Editor-Inhalt und Ruhepunkt-Vers bleiben als dokumentierte Ausnahmen außerhalb der Skala."
+  }
+ ],
+ "konflikte": [
+  "K1 typografie-3 ↔ typografie-31: Menüs 13 px (auch Konto-Menü), Navigation 14 px. Grund: feste Popover-Breiten (README Z. 77).",
+  "K2 typografie-3 ↔ referenz-32: .set-head h2 18/600 statt 19. Die Dialog- und Panel-Titel gehen ebenfalls auf 18.",
+  "K3 typografie-3 ↔ bereich_training-46: .rp-q und .rp-title beide 21/600 (Handy 18), .rp-q als h2. Keine 26/700-Ausnahme und keine neue 22-Stufe.",
+  "K4 Ruhepunkt-Kartentitel (.rp-callout h3, .rp-sub) 15/600 statt 16 bzw. 14.5.",
+  "K5 typografie-3 ↔ bereich_einstellungen-28: .lang-card b 14/600 (Optionskarte, kein Kartentitel).",
+  "K6 referenz-43 ↔ bereich_dashboard-44 ↔ bereich_trades_tag-39 ↔ typografie-17: .val-label (13/500, normale Schreibung) gleichzeitig an allen Wert-Beschriftungen inkl. widgets.js:287. Nur „Dein Score“ (widgets.js:227) geht an den Nutzer.",
+  "K7 typografie-20/bereich_konto-33 ↔ referenz-35/bereich_einstellungen-28: Zeilentitel in Einstellungen und Coach 14/500 ohne Farbe, damit b.neg rot bleibt.",
+  "K8 typografie-1 ↔ typografie-19: .btn.accent 500 (aktiver Filter nicht fetter), nur .btn.accent.tl („Trade loggen“) 700.",
+  "K9 typografie-3 ↔ bereich_einstellungen-29: Etiketten (Pille, Abzeichen, Zähler) 600, Chips 500.",
+  "K10 typografie-3-Mapping ↔ Prüfer ↔ responsiv-33: Handy-Kalender 9.5/10 → 11 (gemessen), @container-Notstufen → neues Token --fs-10 (nicht größer).",
+  "K11 typografie-3-Mapping: .stc-col > b in Containern 14 bzw. 13 statt 16 (Notstufe darf nur verkleinern).",
+  "K12 typografie-3-Mapping: Handy-Tabelle (Z. 3056) 12 statt 13 (kompakt, ohne Überlauf).",
+  "K13 typografie-3 ↔ bereich_dashboard-44: .fw-stats span 12/400. Die Kürzung ist ein Layoutthema.",
+  "K14 bereich_notebook_news-15 ↔ typografie-3: Listentitel 14/600, Notiz-Titel 32/600 (über der Editor-H1 mit 30 px).",
+  "K15 typografie-12 ↔ bereich_konto-34 ↔ bereich_einstellungen-30: Zahlenzellen bekommen r/c/num, Text ist Standard. Keine Klasse txt.",
+  "K16 typografie-12 ↔ bereich_statistik-18/-40: Tagestabelle „Do., 08.10.“ bekommt num (Onest).",
+  "K17 bereich_statistik-18 ↔ typografie-20/bereich_konto-33: Zeilenkennung in Tabellen einheitlich 600 (td.lbl, .tbl .sym, .aff-name).",
+  "K18 typografie-11: Im Grabstein nur die Betrags-Spans in Onest, nicht ganz .pg-facts dd.",
+  "K19 bereich_training-21 ↔ typografie-17: .dstreak-steps b nur 600/.06em, Farbe und Stufenfarben bleiben. Das Löschen geht an den Nutzer.",
+  "K20 bereich_statistik-42: stats.js:51 Win-Rate-Kachel mit einer Stelle, nach der Regel des Prüfers.",
+  "K21 referenz-28: Helfer fmt.dateRow, auch für die Zelle „Geschlossen“ und für Verpasste Trades.",
+  "K22 bereich_statistik-41: &nbsp; vor R statt des wirkungslosen replace.",
+  "K23 bereich_prop-49: join(' ') + '· ' + nowrap (Fassung des Prüfers).",
+  "K24 typografie-14 ↔ hierarchie-27: zwei Nachkommastellen überall, compact nur paarweise.",
+  "K25 referenz-35: Abstand bleibt 10 px, kein nowrap.",
+  "K26 bereich_trades_tag-31: Typo-Dubletten streichen + .body an spark-body + gap-Regel löschen + nowrap.",
+  "K27 typografie-3: Inline-Größe widgets.js:273 (30 px) → Klasse score-big (32).",
+  "K28 Schnittstellen: Farbe (.more-link, .aff-name:hover, .btn.accent-Rand), Komponenten (feste Höhen haben Vorrang) und Abstände bleiben bei den anderen Gruppen."
+ ],
+ "kurz": "Die Spezifikation für die Typografie liegt in audit/spec/typografie.md und deckt alle 40 Befunde ab. Kern: Satoshi wird als variable Schrift geladen (satoshi@1), damit 500, 600 und 700 sichtbar verschieden sind; die Marke steht auf 900. Die Gewichtsregel ist verbindlich: Steuerelemente, Tabellenkopf, Kachel-Titel und Zeilentitel 500; Titel, Eyebrows, Etiketten und Listenwerte 600; Werte und Hauptknöpfe 700. Die Größen laufen über eine Token-Skala: Text --fs-11/12/13/14/15/18/21 mit Zeilenhöhen als Verhältnis (16/16/18/20/20/24/28 px), Werte --fv-14/16/20/24/32/44; --fs-10 ist nur in @container-Notstufen erlaubt. Dazu gibt es eine vollständige Zuordnung nach Selektor (auch Stellen, die das Mapping von typografie-3 nicht erfasst hat). Onest steht nur für Ziffern: Tabellenzellen sind standardmäßig Satoshi, Zahlenzellen tragen r, c oder num. Eine Eyebrow-Sammelregel (11/600/.06em) und eine neue Klasse .val-label (13/500, normale Schreibung) ersetzen die Versal-Beschriftungen über Werten. Zahlenformate: Beträge immer mit zwei Nachkommastellen, Profit-Faktor zwei Stellen, Datum in Trade-Listen ohne Jahr, Tagestabelle „Do., 08.10.“. Die Umsetzung ist in fünf Etappen nach Datei gegliedert, mit grep-, Zensus- und Screenshot-Kriterien. 28 Konfliktentscheidungen sind begründet. Zwei Fragen gehen an den Nutzer: „Dein Score“ und die Stufenfarben der Serie.",
+ "nutzer_fragen": [
+  {
+   "id": "referenz-43",
+   "frage": "Das Gesamt-Score-Widget hast du „wieder wie am Anfang“ herstellen lassen. Soll „Dein Score“ trotzdem wie alle anderen Wert-Beschriftungen normal geschrieben werden (13/500 statt 11/600 in Versalien)? Radar, Skala und Zahl bleiben unverändert.",
+   "empfehlung": "Ja. Sonst bleibt es die einzige Versal-Beschriftung über einem Wert in der App."
+  },
+  {
+   "id": "bereich_training-21",
+   "frage": "Der Prüfvorschlag will die eigenen Farben des Serie-Stufenworts („Im Flow“ in Akzent, „Unaufhaltsam“ mit Verlauf, app.css Z. 1266–1267) löschen und alles grau setzen. Sollen die Stufenfarben entfallen?",
+   "empfehlung": "Nein. Die Stufenfarben bleiben (README Z. 129–133). Umgesetzt wird nur Gewicht 700 → 600 und Laufweite .08em → .06em."
+  }
+ ]
+}

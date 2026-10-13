@@ -1,0 +1,1705 @@
+{
+ "regeln": "STUFEN (keine neuen Grenzwerte): Handy ≤560px (@media (max-width: 560px) am Dateiende: Kopfreihe umbrechend, runder „Trade loggen“-Knopf, Tabellen nur Kernspalten, Dialoge als Bottom-Sheet); Tablet 561–960px (@media (max-width: 960px): Schublade, Titelzeile 60px, Seitenrand 16px); 961–1240px (@media (min-width: 961px) and (max-width: 1240px): Dashboard 2 Spalten, 5 Kacheln 3+2); ≥1241px wie heute. Ausnahmen: Notebook nach Inhaltsbreite (Container nbc), Statistik-Kennzahlen 2 Spalten erst ≤760px, Coach-Tabelle ≤1180px.\nRÄNDER: <961px .content/.topbar seitlich max(16px, env(safe-area-inset-left/right, 0px)). .topbar top:0, padding-top calc(12px + env(safe-area-inset-top, 0px)), <961px calc(10px + …); Menü-Glyphe x=16, Avatar endet vw−16, Titel x=51. Runder Knopf right calc(16px + env(safe-area-inset-right, 0px)); .content unten calc(104px + env(safe-area-inset-bottom, 0px)); Knopf schwebt, kein Ein-/Ausblenden. Schublade oben calc(22px+inset-top), links calc(14px+inset-left), unten calc(18px+inset-bottom) im .sb-userwrap.\nKONTO-KNOPF: <961px sichtbar bei o.mobile || accounts.length > 1 (ein Konto: Handy wie heute). Handy mit Zeitraum: 40×40-Symbolknopf (Option iconM, Klasse acc-iconm, kein Name/Pfeil), aria-label=\"Konto: {Name}\" + title. Name max. 180px, Ellipse.\nMENÜS HANDY: Menüs in .dash-head volle Breite der Kopfreihe (x=16…vw−16) direkt darunter; #fd-layer-Filter Breite vw−32, links 16; übrige .popover max-width calc(100vw - 32px); App.fitPopover Rand 16px (Desktop 8px). Ein sichtbarer Monat (Handy ≤700px, Titelzeile 961–1000px): Vorgabe → aktueller Monat, eigener Zeitraum → Startmonat.\nTABELLEN HANDY: kein seitliches Scrollen; max. 4 Spalten (Hauptspalte links, Kernwert rechts, Aktionen ganz rechts); Rest in Unterzeile der Hauptspalte (12px, --muted, „ · “, keine Spaltenköpfe) oder über die Zeile; Löschen/„Erhalten“/Bearbeiten immer sichtbar. Zehn Tabellen laut Tabelle 1.5 (TradeLog, Trades des Tages, Statistik Tage/Gruppen, Regeln im Detail „2× gebrochen · −120,00 €“, Verstöße „08.10. 15:39 · NQ“, Ausgaben „08.10.2026 · {Konto oder Firma}“, Payouts „{Status-Pille} · Beantragt 01.10.2026“, Deine Konten „ · {Phase}“, Coach; ≤1180px ohne Ø Gewinn/Ø Verlust). Mechanik: .tbl.ph-fit, ph-hide, ph-only, ph-wrap; Zellen 9px 8px, Schrift 12,5px; Richtung nur Pfeil (Text .bl visuell versteckt); Kurzdatum. <961px .tbl-wrap.paged .tbl-scroll ohne max-height.\nWISCHLEISTEN (.tabs, .prop-tabs, .prop-sub, .set-nav <961px, .nb-toolbar Handy): kein Scrollbalken, 28px Auslauf an jedem Rand mit Fortsetzung (fade-l/fade-r via App.edgeFade, mask-image; .nb-toolbar klebender Verlauf in --surface); App.revealActive bleibt; kein Umbruch.\nKACHELN: Handy 2 Spalten, ungerade letzte volle Breite. 961–1240px: 4 Kacheln eine Reihe, 5 als 3+2 (6er-Raster: 1–3 span 2, 4–5 span 3) für .dash-top, .kstrip, TradeLog; ab 1241px eine Reihe; TradeLog <961px 2×2. .dash-main 961–1240px 2 Spalten (sz-gross und mittel span 2, klein 1), ab 1241px 3. Statistik-Übersicht 4 Spalten bis 761px, darunter 2; Werte unten bündig (Spalte, margin-top:auto); Kachel ≤175px → 20px; Karten Serien/Drawdown & Risiko/Haltedauer ≥1101px 3, 561–1100px 2 (Haltedauer volle Breite), Handy 1. Kachelwerte Handy 20px (.tile .val, Spark, Prop-Leiste, .stat-tile .v); Spark ohne eigene 28px (Desktop 25px, Tablet 22px); .kstrip-Kacheln ≤200px → 20px.\nNOTEBOOK ab 961px (nbc = .content): ≥1160px 236/300/Rest; 1000–1159px 210/260/Rest; 700–999px Liste 260/Notiz, Ordner über Zurück; <700px eine Spalte; <961px wie heute.\nTRADELOG DESKTOP: füllt Fenster, Tabellen-Box min. 256px (44 + 3 Zeilen + 55), sonst scrollt die Seite.\nSEITENLEISTE: Dichte-Regeln (≥961px, Höhe ≤1060/≤940px) stehen nach den Grundregeln; Konto-Karte sticky bottom:0, Hintergrund --bg-2, 10px darüber/18px darunter. Schublade: Höhe ≤940px Gruppenabstand 16px statt 26px, Marke unten 14px; Einträge 39px; Schließen-Knopf 40×40; geschlossen visibility:hidden; offen Fokus auf aktiven Eintrag, #main inert; Schließen → Fokus an .menu-btn, wenn er in der Schublade war.\nFELDER HANDY: Text/Zahl/Datum/Auswahl/Textbereich 16px (nicht Checkbox, Radio, Regler, Farbe, Datei, .note-title); .input/.select 42px (line-height 20px); kein maximum-scale/user-scalable=no.\nDIALOGE HANDY: sheet-in (--dur-3, --ease) / sheet-out (--dur-2, --ease-in), Hintergrund gleich lang; Desktop pop-in/pop-out; reduzierte Bewegung schaltet ab (app.css:97).\nLANGE INHALTE: Kontoname 180px; TradeLog-Filter-Selects 200px, „x von y Trades“ nowrap rechts; Setup-Chip 150px, data-tip nur bei >20 Zeichen; Symbol „Letzte Trades“ 7.5em + title.\nEINZELREGELN: Editor-Leiste Handy B, I, U, S, Einfügen, Text, Farbe, Marker, Bild, Rückgängig, Wiederholen, Schriftgröße; nichts ausgeblendet, keine Trenner, Abstand 4px, „Text“ 84px. Teilen Handy im •••-Menü nach „Duplizieren“, Kopfzeilen-Knopf ab 561px. Mentor Handy: Kopf einzeilig, Löschen nur Symbol, Touch-Platzhalter kurz. Prop-Karte: Zeilen ohne Umbruch, Wert rechtsbündig. Bearbeitungsmodus Handy: obere Leiste ohne Namen, Pfeile/× 40×40. Skelett Handy: Titelzeile 60px mit Menü-Platzhalter, Kopfreihe 46px (Zeitraum 166px + 3 Symbole), 5 Kacheln à 111px (5. volle Breite), Karte 339px. .grid.two minmax(min(340px, 100%), 1fr).\nTEXTE: Unterzeilen nur Werte mit „ · “; fmt.dateFull TT.MM.JJJJ, fmt.dateDM TT.MM., fmt.weekdayShort neu „Do., 08.10.“; neue Texte in js/lang/{en,es,zh,hi,pt}.js mit {0}. „Bestehen“ → „Bis zum Bestehen“; „Gewinn fehlt: …“ entfällt mit Ziel-Balken, sonst „{0} fehlen“ in Kontowährung (money(a, …)); „{0}× gebrochen“; „Beantragt {0}“; „Teilen“; aria-label „Konto: {Name}“; Touch „Schreib dem Mentor …“; aria-label „Verlauf löschen“.\nHILFSKLASSEN: ph-hide ≤560px display:none !important (global); ph-only nur ≤560px (revert; .popover .item.ph-only flex); ph-fit (.tbl); ph-wrap (td); acc-iconm; fade-l/fade-r; tb-hide (Coach ≤1180px). hide-m (≤960px) bleibt für Bestehendes.",
+ "schritte": [
+  {
+   "nr": "responsiv-A1",
+   "titel": "Handy-Hilfsklassen ph-only/ph-hide und Kernspalten-Grundregeln für .tbl.ph-fit (inkl. Vorspann Abschnitt 3)",
+   "von": 200,
+   "bis": 226,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ph-only",
+    ".popover .item.ph-only",
+    ".ph-hide",
+    ".tbl.ph-fit",
+    ".tbl.ph-fit th",
+    ".tbl.ph-fit td",
+    ".tbl.ph-fit td.ph-wrap",
+    ".tbl.ph-fit .sub.ph-only",
+    ".tbl.ph-fit .badge",
+    ".tbl.ph-fit td.dir-cell .badge",
+    ".tbl.ph-fit .badge .bl"
+   ],
+   "befund_ids": [
+    "bereich_prop-21",
+    "responsiv-6",
+    "bereich_prop-22",
+    "responsiv-4",
+    "responsiv-7",
+    "bereich_trades_tag-5",
+    "responsiv-5",
+    "bereich_statistik-20",
+    "bereich_training-24",
+    "responsiv-8",
+    "bereich_training-27",
+    "bereich_konto-13",
+    "bereich_notebook_news-11",
+    "bereich_training-38"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-A2",
+   "titel": "Wischleisten: 28-px-Auslauf per Maske (fade-l/fade-r) und .set-nav ohne Scrollbalken",
+   "von": 227,
+   "bis": 237,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":is(.tabs, .prop-tabs, .prop-sub, .set-nav).fade-r",
+    ":is(.tabs, .prop-tabs, .prop-sub, .set-nav).fade-l",
+    ":is(.tabs, .prop-tabs, .prop-sub, .set-nav).fade-l.fade-r",
+    ".tabs",
+    ".prop-tabs",
+    ".prop-sub",
+    ".set-nav",
+    ".set-nav::-webkit-scrollbar",
+    ".fade-l",
+    ".fade-r"
+   ],
+   "befund_ids": [
+    "bereich_statistik-47",
+    "responsiv-40",
+    "bereich_notebook_news-12"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/calmnavtest.js:49 (scrollbarWidth der .tabs, muss grün bleiben)",
+    "web/e2e/settest.js, web/e2e/settest2.js (.set-nav, muss grün bleiben)"
+   ]
+  },
+  {
+   "nr": "responsiv-A3",
+   "titel": "Eingabefelder am Handy 16 px, .input/.select bleiben 42 px",
+   "von": 238,
+   "bis": 246,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "input",
+    "select",
+    "textarea",
+    "input.input",
+    "select.select",
+    ".note-title"
+   ],
+   "befund_ids": [
+    "responsiv-9",
+    "typografie-26"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:51 (Notebook-Liste: Suche, Filter, Session-Knopf in einer Reihe)",
+    "web/e2e/mobiletest.js: neue Prüfung A5 (Schritt responsiv-3.20a)"
+   ]
+  },
+  {
+   "nr": "responsiv-A4",
+   "titel": "Safe Area und Seitenränder: Titelzeile, Inhalt, runder Knopf",
+   "von": 247,
+   "bis": 253,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".topbar",
+    ".topbar .menu-btn",
+    ".content",
+    "--gutter",
+    ".dash-head .tl",
+    "env(safe-area-inset-top)",
+    "env(safe-area-inset-left)",
+    "env(safe-area-inset-right)",
+    "env(safe-area-inset-bottom)"
+   ],
+   "befund_ids": [
+    "responsiv-16",
+    "responsiv-21",
+    "responsiv-15",
+    "bereich_shell-31"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:17 (runder Knopf right 16)",
+    "web/e2e/mobiletest.js:41 (padding-bottom 104px)",
+    "web/e2e/headtest.js (Titelzeile Desktop/1000 px)"
+   ]
+  },
+  {
+   "nr": "responsiv-B1",
+   "titel": "Seitenleiste Desktop: Dichte-Blöcke hinter die Grundregeln, klebende Konto-Karte",
+   "von": 254,
+   "bis": 260,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sidebar",
+    ".sidebar .spacer",
+    ".sb-userwrap",
+    "@media (min-width: 961px) and (max-height: 1060px)",
+    "@media (min-width: 961px) and (max-height: 940px)"
+   ],
+   "befund_ids": [
+    "responsiv-14",
+    "bereich_shell-16"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/sidebartest.js (1440×1000 grün)",
+    "web/e2e/usercardtest.js:21 (Konto-Menü relativ zur Karte)",
+    "web/e2e/mobiletest.js:59-60 (Schublade)"
+   ]
+  },
+  {
+   "nr": "responsiv-B2",
+   "titel": "Schublade ≤ 960 px: Safe Area, visibility nach Animation, Schließen-Knopf 40×40, Dichte bei niedriger Höhe",
+   "von": 261,
+   "bis": 268,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sidebar",
+    ".sidebar.open",
+    ".sidebar .sb-userwrap",
+    ".brand .sb-toggle",
+    "@media (max-width: 960px) and (max-height: 940px)",
+    ".sidebar .nav.nav-group + .nav.nav-group",
+    ".sidebar .brand"
+   ],
+   "befund_ids": [
+    "bereich_shell-16",
+    "responsiv-15",
+    "barrierefreiheit-30",
+    "bereich_shell-31"
+   ],
+   "abhaengig": [
+    "responsiv-B1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/sidebartest.js:44-45 (Handy: nichts ragt rechts über die Schublade)",
+    "web/e2e/usercardtest.js:55-58 (Handy: Karte nach Scrollen klickbar)",
+    "web/e2e/motiontest.js:62-66 (Schublade öffnen/schließen)",
+    "web/e2e/mobiletest.js:59-60"
+   ]
+  },
+  {
+   "nr": "responsiv-B3",
+   "titel": "Konto-Knopf: Name max. 180 px, Handy-Symbolknopf über .acc-iconm",
+   "von": 269,
+   "bis": 275,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "[data-pop=\"account\"] > span",
+    ".acc-iconm > [data-pop=\"account\"]",
+    ".acc-iconm > [data-pop=\"account\"] > span",
+    ".acc-iconm > [data-pop=\"account\"] .caret"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-4",
+    "responsiv-1",
+    "zustaende-29"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/headtest.js:30-31 (1000 px: Konto nur Symbol)"
+   ]
+  },
+  {
+   "nr": "responsiv-B4",
+   "titel": "Menüs am Handy: 16-px-Rand, Menüs der Kopfreihe in voller Breite der .dash-head",
+   "von": 276,
+   "bis": 285,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".popover",
+    ".dash-head",
+    ".dash-head .popwrap",
+    ".dash-head .popover",
+    ".dash-head .popover.range-pop"
+   ],
+   "befund_ids": [
+    "responsiv-24",
+    "bereich_dashboard-27"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:74-76 (Vorlagen-Menü im Bild)",
+    "web/e2e/headtest.js:69 (Handy-Kopfreihe)",
+    "web/e2e/rangetest.js (mob)"
+   ]
+  },
+  {
+   "nr": "responsiv-B5a",
+   "titel": "Trades des Tages: Mindestbreite als Klasse .tbl.day-tbl",
+   "von": 286,
+   "bis": 287,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl.day-tbl"
+   ],
+   "befund_ids": [
+    "responsiv-7"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-B5b",
+   "titel": "Letzte Trades: Symbol mit Ellipse (.sym-t, 7.5em)",
+   "von": 288,
+   "bis": 288,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".recent-wrap td.sym .sym-t"
+   ],
+   "befund_ids": [
+    "zustaende-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:72 (Letzte Trades)"
+   ]
+  },
+  {
+   "nr": "responsiv-B5c",
+   "titel": "Setup-Chip in Tabellen max. 150 px mit Ellipse",
+   "von": 289,
+   "bis": 289,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl .chip.setup"
+   ],
+   "befund_ids": [
+    "zustaende-31"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-B5d",
+   "titel": "Unter 961 px keine eigene Scrollbox für TradeLog/Verstöße",
+   "von": 290,
+   "bis": 291,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl-wrap.paged .tbl-scroll"
+   ],
+   "befund_ids": [
+    "responsiv-3"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/tlfittest.js (nur Desktop, muss grün bleiben)",
+    "web/e2e/shadowtest.js:37-41 (Verstöße seitenweise)"
+   ]
+  },
+  {
+   "nr": "responsiv-B6a",
+   "titel": "Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px",
+   "von": 292,
+   "bis": 310,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-top",
+    ".grid.tiles.kstrip",
+    ".tl-fit > .grid.tiles",
+    ".dash-main",
+    ".dash-main > .w.sz-gross",
+    ".dash-main > .skel.sz-gross",
+    ".dash-main > .add-slot.gap.sz-gross",
+    "@media (max-width: 1240px)",
+    "@media (min-width: 961px) and (max-width: 1240px)"
+   ],
+   "befund_ids": [
+    "abstaende_layout-15",
+    "abstaende_layout-16",
+    "bereich_prop-13",
+    "bereich_trades_tag-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/dashtest.js",
+    "web/e2e/gaptest.js",
+    "web/e2e/fwtest.js",
+    "web/e2e/affiliatetest.js (.kstrip)",
+    "web/e2e/tlfittest.js (muss grün bleiben)",
+    "neue Suite web/e2e/tablettest.js (Schritt responsiv-3.20c)"
+   ]
+  },
+  {
+   "nr": "responsiv-B6b",
+   "titel": "TradeLog-Kacheln unter 961 px als 2 × 2",
+   "von": 311,
+   "bis": 311,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tl-fit > .grid.tiles"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:30-31 (TradeLog-Abstände 18px)"
+   ]
+  },
+  {
+   "nr": "responsiv-B6c",
+   "titel": "TradeLog-Tabellenbox am Desktop mindestens 256 px hoch",
+   "von": 312,
+   "bis": 312,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tl-fit > .tbl-wrap.paged"
+   ],
+   "befund_ids": [
+    "responsiv-2"
+   ],
+   "abhaengig": [
+    "responsiv-B6a"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/tlfittest.js (1440×900, 1280×720, 1100×800 unverändert grün)"
+   ]
+  },
+  {
+   "nr": "responsiv-B6d",
+   "titel": "Kennzahlen-Leisten: Kachelwert 20 px bei Kacheln ≤ 200 px (Container-Abfrage)",
+   "von": 313,
+   "bis": 314,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".kstrip .tile .val",
+    "@container (max-width: 200px)"
+   ],
+   "befund_ids": [
+    "bereich_prop-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js",
+    "web/e2e/affiliatetest.js",
+    "web/e2e/friedhoftest.js"
+   ]
+  },
+  {
+   "nr": "responsiv-B7",
+   "titel": "Statistik-Übersicht: 4 Spalten bis 761 px, Werte unten bündig, Kartenreihe st-cards",
+   "von": 315,
+   "bis": 326,
+   "cluster": "statistik",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stat-tile",
+    ".stat-tile .v",
+    ".stat-tiles",
+    "@container (max-width: 175px)",
+    ".grid.three.st-cards",
+    ".grid.three.st-cards > :nth-child(3)"
+   ],
+   "befund_ids": [
+    "bereich_statistik-21"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:26-27 (.stat-tile .v 20px, zwei Spalten)",
+    "web/e2e/filtertest.js"
+   ]
+  },
+  {
+   "nr": "responsiv-B8",
+   "titel": "Notebook-Spalten nach Inhaltsbreite (Container nbc, Grenzen 1160/1000/700 px)",
+   "von": 327,
+   "bis": 348,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb",
+    ".nb.no-left",
+    ".content:has(> .nb)",
+    "@container nbc",
+    ".nb > .col.left",
+    ".nb[data-view=\"folders\"] > .col.mid",
+    ".nb[data-view=\"folders\"] > .col.left",
+    ".nb .col.mid .back",
+    ".nb .collapse-left",
+    ".nb .col.mid [data-action=\"nb-left-toggle\"]",
+    ".nb > .col",
+    ".nb .back",
+    "@media (max-width: 1180px)"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-1"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/nbsel.js, figtest.js, figdel.js, imgtest.js, undotest.js, tiptest.js, scrolltest.js (Spalten .col.left/.col.mid)",
+    "web/e2e/mobiletest.js:51-55 (Handy unverändert)",
+    "neue Suite web/e2e/tablettest.js"
+   ]
+  },
+  {
+   "nr": "responsiv-B9",
+   "titel": "Bottom-Sheet am Handy: sheet-in/sheet-out",
+   "von": 349,
+   "bis": 355,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@keyframes sheet-in",
+    "@keyframes sheet-out",
+    ".modal",
+    ".modal-bg.out",
+    ".modal-bg.out .modal"
+   ],
+   "befund_ids": [
+    "bewegung-29"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/motiontest.js:43-47, :58 (Desktop pop-in, reduzierte Bewegung)",
+    "web/e2e/mobiletest.js:37 (Bottom-Sheet-Lage)"
+   ]
+  },
+  {
+   "nr": "responsiv-B10",
+   "titel": "Editor-Werkzeugleiste am Handy: umsortieren, Trenner weg, klebender Verlauf statt Maske",
+   "von": 356,
+   "bis": 371,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb-toolbar",
+    ".nb-toolbar > .sep",
+    ".nb-toolbar > [data-ed=\"bold\"]",
+    ".nb-toolbar > [data-ed=\"italic\"]",
+    ".nb-toolbar > [data-ed=\"underline\"]",
+    ".nb-toolbar > [data-ed=\"strike\"]",
+    ".nb-toolbar > .size",
+    ".nb-toolbar > [data-ed=\"undo\"]",
+    ".nb-toolbar > [data-ed=\"redo\"]",
+    ".nb-toolbar .tb.turn",
+    ".nb-toolbar::before",
+    ".nb-toolbar::after",
+    ".nb-toolbar.fade-l::before",
+    ".nb-toolbar.fade-r::after"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-12",
+    "responsiv-40"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:55 (Werkzeugleiste eine Zeile, seitlich wischbar)",
+    "web/e2e/figtest.js, figdel.js, imgtest.js, undotest.js (.nb-toolbar)"
+   ]
+  },
+  {
+   "nr": "responsiv-B11",
+   "titel": "Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)",
+   "von": 372,
+   "bis": 380,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".boot-top",
+    ".boot-top .skel.mb",
+    ".boot-top .skel:not(.t):not(.av)",
+    ".boot-top .skel.av",
+    ".boot-head",
+    ".boot-head .skel",
+    ".boot-head .skel.tl",
+    ".boot-head .skel.m",
+    ".boot-tiles .skel",
+    ".boot-main .skel"
+   ],
+   "befund_ids": [
+    "bereich_shell-5"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/loadtest.js:10-11 (Skelett: 5 Kacheln, 3 Karten, topH ≥ 60)"
+   ]
+  },
+  {
+   "nr": "responsiv-C1",
+   "titel": "Handy-Dashboard: ungerade letzte Kachel volle Breite, Kachelwerte 20 px, Spark ohne 28 px, Bearbeitungsleiste 40×40",
+   "von": 381,
+   "bis": 388,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-top > :last-child:nth-child(odd)",
+    ".tile .val",
+    ".tile.spark-tile .val",
+    ".dash-top .w-bar .w-name",
+    ".dash-top .w-bar",
+    ".w-bar .mv .btn",
+    ".w-bar .rm"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-25",
+    "typografie-28",
+    "responsiv-41"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:20 (Kacheln zwei Spalten)",
+    "web/e2e/mobiletest.js:33 (Gewinn/Verlust-Kachel)",
+    "web/e2e/dashtest.js (Bearbeitungsmodus)"
+   ]
+  },
+  {
+   "nr": "responsiv-C2",
+   "titel": "TradeLog-Filterzeile: Auswahlfelder max. 200 px, Zähler bricht nicht allein um",
+   "von": 389,
+   "bis": 391,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tl-filters .select",
+    ".tl-count"
+   ],
+   "befund_ids": [
+    "zustaende-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-C3",
+   "titel": "Prop-Karte: Zeilen ohne Umbruch, Wert rechtsbündig",
+   "von": 392,
+   "bis": 395,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-meta .kv",
+    ".prop-meta .kv > span",
+    ".prop-meta .kv > b",
+    ".prop-meta .kv b"
+   ],
+   "befund_ids": [
+    "bereich_prop-10"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:103, :116, :125 (.prop-meta)"
+   ]
+  },
+  {
+   "nr": "responsiv-C4",
+   "titel": "Coach-Tabelle ≤ 1180 px: tb-hide und engere Zellen",
+   "von": 396,
+   "bis": 399,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".coach-tbl .tb-hide",
+    ".tbl.coach-tbl th",
+    ".tbl.coach-tbl td",
+    "@media (max-width: 1180px)"
+   ],
+   "befund_ids": [
+    "bereich_konto-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/coachtest.js (Server nötig)"
+   ]
+  },
+  {
+   "nr": "responsiv-C5",
+   "titel": "Formular-Raster .grid.two läuft nie über den Container",
+   "von": 400,
+   "bis": 402,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".grid.two"
+   ],
+   "befund_ids": [
+    "bereich_konto-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-C6",
+   "titel": "Mentor-Kopf am Handy einzeilig",
+   "von": 403,
+   "bis": 405,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor-head",
+    ".mentor-head > div:first-child"
+   ],
+   "befund_ids": [
+    "bereich_training-38"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mentortest.js",
+    "web/e2e/sixtest.js:36 (Mentor-Kopfreihe)"
+   ]
+  },
+  {
+   "nr": "responsiv-C7",
+   "titel": "Notebook „Teilen“: alte Handy-Ausblendregel streichen, Kommentar anpassen",
+   "von": 406,
+   "bis": 408,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .note-head .row [data-action=\"nb-share\"]"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-11"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-3.13"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:53-54 (Teilen versteckt, Kopfzeile eine Reihe)"
+   ]
+  },
+  {
+   "nr": "responsiv-C8",
+   "titel": "Schatten-Ich-Tabelle: prüfen, dass .tbl.ph-fit die Mindestbreite der .shadow-tbl schlägt (keine eigene Regel)",
+   "von": 409,
+   "bis": 411,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".shadow-tbl",
+    ".tbl.ph-fit"
+   ],
+   "befund_ids": [
+    "bereich_training-27"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-3.11"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.2a",
+   "titel": "fmt.weekdayShort neu („Do., 08.10.“)",
+   "von": 412,
+   "bis": 414,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.weekdayShort"
+   ],
+   "befund_ids": [
+    "responsiv-5",
+    "bereich_statistik-20"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.2b",
+   "titel": "Richtungs-Abzeichen: Text in span.bl (für Pfeil-only am Handy)",
+   "von": 415,
+   "bis": 415,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.badge",
+    ".badge .bl"
+   ],
+   "befund_ids": [
+    "responsiv-4",
+    "responsiv-7",
+    "bereich_trades_tag-5"
+   ],
+   "abhaengig": [
+    "responsiv-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.2c",
+   "titel": "U.chip mit optionalem data-tip",
+   "von": 416,
+   "bis": 416,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.chip",
+    "data-tip"
+   ],
+   "befund_ids": [
+    "zustaende-31"
+   ],
+   "abhaengig": [
+    "responsiv-B5c"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/tiptest.js (data-tip)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.2d",
+   "titel": "closeModal am Handy mit --dur-2 (Bottom-Sheet gleitet hinaus)",
+   "von": 417,
+   "bis": 418,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.closeModal",
+    "Mo.leave",
+    "--dur-1",
+    "--dur-2"
+   ],
+   "befund_ids": [
+    "bewegung-29"
+   ],
+   "abhaengig": [
+    "responsiv-B9"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/motiontest.js:43-47, :58"
+   ]
+  },
+  {
+   "nr": "responsiv-3.3a",
+   "titel": "Konto-Knopf: Sichtbarkeit bei mehr als einem Konto, Option iconM, aria-label (accountControl, pageHead)",
+   "von": 419,
+   "bis": 429,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.accountControl",
+    "App.pageHead",
+    ".acc-iconm",
+    "[data-pop=\"account\"]",
+    "t:Konto: {0}"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-4",
+    "responsiv-1"
+   ],
+   "abhaengig": [
+    "responsiv-B3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/headtest.js:11-31, :69 (Konto oben rechts, Handy-Kopfreihe ≤ 80 px)",
+    "web/e2e/sixtest.js:10, :36 (Mentor-Kopfreihe nur mit Konto)",
+    "web/e2e/scrolltest.js:8",
+    "web/e2e/motiontest.js:38-39",
+    "web/e2e/proptest.js:19 (kein Zeitraum/Konto)",
+    "web/e2e/mobiletest.js:18 (Kopfreihe)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.3b",
+   "titel": "App.fitPopover: RangePicker.fit-Aufruf und 16-px-Randabstand am Handy",
+   "von": 430,
+   "bis": 431,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.fitPopover",
+    "RangePicker.fit",
+    "#pop-range"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-27",
+    "responsiv-24"
+   ],
+   "abhaengig": [
+    "responsiv-3.4",
+    "responsiv-B4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/rangetest.js (mob: ein Monat)",
+    "web/e2e/headtest.js:19-32 (Menüs im Bild)",
+    "web/e2e/mobiletest.js:74-76",
+    "web/e2e/usercardtest.js:21, :58 (#pop-user)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.3c",
+   "titel": "Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)",
+   "von": 432,
+   "bis": 440,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.renderSidebar",
+    "#main",
+    "#sidebar",
+    ".menu-btn",
+    ".nav a.active",
+    "inert"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-30"
+   ],
+   "abhaengig": [
+    "responsiv-B2"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/sidebartest.js:44-45",
+    "web/e2e/usercardtest.js:55-58",
+    "web/e2e/motiontest.js:62-66"
+   ]
+  },
+  {
+   "nr": "responsiv-3.3d",
+   "titel": "App.edgeFade für Wischleisten, Aufrufe in render() und im Resize-Listener",
+   "von": 441,
+   "bis": 453,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.edgeFade",
+    "App.render",
+    "window resize (app.js:301)",
+    ".fade-l",
+    ".fade-r",
+    ".tabs",
+    ".prop-tabs",
+    ".prop-sub",
+    ".set-nav",
+    ".nb-toolbar"
+   ],
+   "befund_ids": [
+    "bereich_statistik-47",
+    "responsiv-40",
+    "bereich_notebook_news-12"
+   ],
+   "abhaengig": [
+    "responsiv-A2"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/calmnavtest.js:49 (scrollLeft der Reiter)",
+    "web/e2e/scrolltest.js (Scrollstände)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.4",
+   "titel": "RangePicker: bei Vorgabe und nur einem sichtbaren Monat den aktuellen Monat zeigen (oneMonth, presetView, pick, setPreset, fit)",
+   "von": 454,
+   "bis": 466,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/rangepicker.js"
+   ],
+   "anker": [
+    "RangePicker.fit",
+    "RangePicker.setPreset",
+    "RangePicker.pick",
+    "RangePicker.presetView",
+    "RangePicker.oneMonth",
+    ".rr-m"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-27"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/rangetest.js:10-20 (mob: sichtbarer Monat)",
+    "web/e2e/dptest.js:63",
+    "web/e2e/langtest.js (.rr-m)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.5",
+   "titel": "Dashboard-Filterfenster am Handy mit 16 px Rand",
+   "von": 467,
+   "bis": 472,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "#fd-layer",
+    "#fd-pop",
+    ".fd-panel.fd-pop"
+   ],
+   "befund_ids": [
+    "responsiv-24",
+    "bereich_dashboard-27"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/filtertest.js:11",
+    "web/e2e/headtest.js:24-25 (Desktop unverändert)",
+    "web/e2e/scrollareatest.js:17-19"
+   ]
+  },
+  {
+   "nr": "responsiv-3.6",
+   "titel": "Dashboard: Konto-Knopf mit iconM",
+   "von": 473,
+   "bis": 476,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "App.accountControl",
+    "dashboard.js:124"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-4"
+   ],
+   "abhaengig": [
+    "responsiv-3.3a",
+    "responsiv-B3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/headtest.js:69",
+    "web/e2e/mobiletest.js:18"
+   ]
+  },
+  {
+   "nr": "responsiv-3.7",
+   "titel": "TradeLog: Kernspalten am Handy (PH), Filterzeile tl-filters/tl-count, Setup-Chip mit Tooltip",
+   "von": 477,
+   "bis": 489,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.js PH",
+    ".tl-filters",
+    ".tl-count",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    ".ph-only",
+    "U.chip",
+    "fmt.dateDM"
+   ],
+   "befund_ids": [
+    "responsiv-4",
+    "bereich_trades_tag-5",
+    "zustaende-30",
+    "zustaende-31",
+    "responsiv-3"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-C2",
+    "responsiv-3.2b",
+    "responsiv-3.2c",
+    "responsiv-B5c"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:34 (pad '9px 10px' → '9px 8px', Schritt responsiv-3.20a)",
+    "web/e2e/tlfittest.js (Desktop unverändert)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.8",
+   "titel": "Trades des Tages: Kernspalten am Handy, day-tbl statt Inline-Mindestbreite",
+   "von": 490,
+   "bis": 496,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    ".tbl.day-tbl",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    "U.chip",
+    "day.js:15"
+   ],
+   "befund_ids": [
+    "responsiv-7",
+    "bereich_trades_tag-5",
+    "zustaende-31"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-B5a",
+    "responsiv-3.2b",
+    "responsiv-3.2c"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.9a",
+   "titel": "Statistik: Kartenreihe bekommt Klasse st-cards",
+   "von": 497,
+   "bis": 499,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    ".grid.three.st-cards"
+   ],
+   "befund_ids": [
+    "bereich_statistik-21"
+   ],
+   "abhaengig": [
+    "responsiv-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.9b",
+   "titel": "Statistik: Tage- und Gruppentabellen mit Kernspalten am Handy",
+   "von": 500,
+   "bis": 502,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.js tabDays",
+    "stats.js groupTable",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    ".ph-only",
+    ".ph-wrap",
+    "fmt.weekdayShort",
+    "fmt.weekdayLong"
+   ],
+   "befund_ids": [
+    "responsiv-5",
+    "bereich_statistik-20"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-3.2a"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.10",
+   "titel": "Fortschritt: Regeln im Detail mit Kernspalten und Handy-Unterzeile „{0}× gebrochen · Kosten“",
+   "von": 503,
+   "bis": 508,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "progress.js:82",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    ".sub.ph-only",
+    "U.pnl",
+    "t:{0}× gebrochen"
+   ],
+   "befund_ids": [
+    "bereich_training-24",
+    "responsiv-8"
+   ],
+   "abhaengig": [
+    "responsiv-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.11",
+   "titel": "Schatten-Ich: Verstöße-Tabelle mit Kernspalten, Unterzeile Datum · Symbol",
+   "von": 509,
+   "bis": 513,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    ".shadow-tbl",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    ".ph-wrap",
+    ".sub.ph-only",
+    "fmt.dateDM",
+    "fmt.time"
+   ],
+   "befund_ids": [
+    "bereich_training-27"
+   ],
+   "abhaengig": [
+    "responsiv-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/shadowtest.js:28, :56, :62 (Tabelleninhalt)",
+    "web/e2e/sampletest.js:105"
+   ]
+  },
+  {
+   "nr": "responsiv-3.12a",
+   "titel": "Prop-Karte: „Bis zum Bestehen“, Betrag ohne Dopplung in Kontowährung (planText)",
+   "von": 514,
+   "bis": 517,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.js planText",
+    "U.kv",
+    "money",
+    "t:Bis zum Bestehen",
+    "t:{0} fehlen",
+    "t:Gewinn fehlt: {0}",
+    "t:Bestehen"
+   ],
+   "befund_ids": [
+    "bereich_prop-10"
+   ],
+   "abhaengig": [
+    "responsiv-C3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:103 (Regex „Gewinn fehlt“ → „fehlen“, Schritt responsiv-3.20b)",
+    "web/e2e/proptest.js:98"
+   ]
+  },
+  {
+   "nr": "responsiv-3.12b",
+   "titel": "Prop → Deine Konten: Kernspalten am Handy, Phase in der Unterzeile, Aktionen bleiben",
+   "von": 518,
+   "bis": 518,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".prop-acc-tbl",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    ".ph-wrap",
+    ".ph-only"
+   ],
+   "befund_ids": [
+    "bereich_prop-22"
+   ],
+   "abhaengig": [
+    "responsiv-A1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js"
+   ]
+  },
+  {
+   "nr": "responsiv-3.12c",
+   "titel": "Prop → Ausgaben und Payouts: Kernspalten am Handy mit Unterzeile",
+   "von": 519,
+   "bis": 523,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.js exRows",
+    "prop.js poRows",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    ".ph-wrap",
+    ".sub.ph-only",
+    "U.pill",
+    "fmt.dateFull",
+    "t:Beantragt {0}"
+   ],
+   "befund_ids": [
+    "bereich_prop-21",
+    "responsiv-6"
+   ],
+   "abhaengig": [
+    "responsiv-A1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/proptest.js"
+   ]
+  },
+  {
+   "nr": "responsiv-3.13",
+   "titel": "Notebook: Teilen am Handy im •••-Menü, Ordner-Ansicht öffnet linke Spalte, nb-share schließt Menüs",
+   "von": 524,
+   "bis": 530,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "[data-action=\"nb-share\"]",
+    ".popover .item.ph-only",
+    "nb-view",
+    "nb-share",
+    "App.closePopovers",
+    "nb.leftOpen",
+    "t:Teilen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-1",
+    "bereich_notebook_news-11"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-B8"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:53-54",
+    "web/e2e/nbsel.js"
+   ]
+  },
+  {
+   "nr": "responsiv-3.14",
+   "titel": "Coach-Schülertabelle: Kernspalten am Handy, tb-hide ≤ 1180 px",
+   "von": 531,
+   "bis": 535,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".coach-tbl",
+    "coach.js statsRow",
+    ".tbl.ph-fit",
+    ".ph-hide",
+    ".tb-hide",
+    ".ph-wrap"
+   ],
+   "befund_ids": [
+    "bereich_konto-13"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-C4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/coachtest.js:69, :73, :134 (Zellen per textContent/nth-child, Server nötig)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.15",
+   "titel": "Mentor: Löschen-Knopf am Handy nur Symbol, kurzer Platzhalter auf Touch",
+   "von": 536,
+   "bis": 540,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    "[data-action=\"mentor-clear\"]",
+    ".ph-hide",
+    "t:Verlauf löschen",
+    "t:Schreib dem Mentor …",
+    "t:Schreib dem Mentor … (Enter sendet, Shift+Enter neue Zeile)"
+   ],
+   "befund_ids": [
+    "bereich_training-38"
+   ],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-C6"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mentortest.js:41"
+   ]
+  },
+  {
+   "nr": "responsiv-3.16",
+   "titel": "Letzte Trades: Symbol in span.sym-t mit title",
+   "von": 541,
+   "bis": 544,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widgets.js:256",
+    ".recent-wrap td.sym .sym-t"
+   ],
+   "befund_ids": [
+    "zustaende-32"
+   ],
+   "abhaengig": [
+    "responsiv-B5b"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:72",
+    "web/e2e/dashtest.js"
+   ]
+  },
+  {
+   "nr": "responsiv-3.17",
+   "titel": "Skelett im HTML: Platzhalter für Menüknopf (skel mb) und viertes Kopfreihen-Symbol (skel m)",
+   "von": 545,
+   "bis": 549,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    "app.html:21",
+    ".boot-top",
+    ".boot-head",
+    ".skel.mb",
+    ".skel.m"
+   ],
+   "befund_ids": [
+    "bereich_shell-5"
+   ],
+   "abhaengig": [
+    "responsiv-B11"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/loadtest.js:10-11"
+   ]
+  },
+  {
+   "nr": "responsiv-3.18",
+   "titel": "Sprachdateien: neue Texte eintragen, Prop-Kartenwert auf Englisch prüfen",
+   "von": 550,
+   "bis": 553,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "t:Bis zum Bestehen",
+    "t:{0} fehlen",
+    "t:{0}× gebrochen",
+    "t:Beantragt {0}",
+    "t:Schreib dem Mentor …",
+    "t:Teilen",
+    "t:Konto: {0}",
+    "t:Verlauf löschen",
+    "prop.js planText"
+   ],
+   "befund_ids": [
+    "bereich_prop-10",
+    "bereich_training-24",
+    "responsiv-6",
+    "bereich_notebook_news-11",
+    "bereich_dashboard-4",
+    "bereich_training-38"
+   ],
+   "abhaengig": [
+    "responsiv-3.3a",
+    "responsiv-3.10",
+    "responsiv-3.12a",
+    "responsiv-3.12c",
+    "responsiv-3.13",
+    "responsiv-3.15"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/langtest.js (Übersetzung)"
+   ]
+  },
+  {
+   "nr": "responsiv-3.19",
+   "titel": "README an den Zielzustand anpassen",
+   "von": 554,
+   "bis": 566,
+   "cluster": "wording",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 51",
+    "README Z. 62-64",
+    "README Z. 67",
+    "README Z. 76-77",
+    "README Z. 92",
+    "README Z. 96",
+    "README Z. 101",
+    "README Z. 106-107",
+    "README Z. 120",
+    "README Z. 361"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "responsiv-B1",
+    "responsiv-3.3a",
+    "responsiv-B6a",
+    "responsiv-3.4",
+    "responsiv-B4",
+    "responsiv-A1",
+    "responsiv-A3",
+    "responsiv-B9",
+    "responsiv-3.13",
+    "responsiv-B10",
+    "responsiv-B6c",
+    "responsiv-B5d",
+    "responsiv-B8",
+    "responsiv-3.3d"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "responsiv-3.20a",
+   "titel": "mobiletest anpassen (Zellabstand 9px 8px, Kernspalten-Prüfung) und um Handy-Kriterien aus Abschnitt 4 A erweitern",
+   "von": 567,
+   "bis": 570,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/e2e/mobiletest.js"
+   ],
+   "anker": [
+    "mobiletest.js:34",
+    ".tl-fit .tbl-scroll"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "responsiv-A1",
+    "responsiv-A3",
+    "responsiv-A4",
+    "responsiv-B2",
+    "responsiv-B3",
+    "responsiv-B4",
+    "responsiv-B9",
+    "responsiv-B10",
+    "responsiv-B11",
+    "responsiv-C1",
+    "responsiv-3.3a",
+    "responsiv-3.3c",
+    "responsiv-3.3d",
+    "responsiv-3.7",
+    "responsiv-3.13",
+    "responsiv-3.15",
+    "responsiv-3.17"
+   ],
+   "aufwand": "L",
+   "tests": [
+    "web/e2e/mobiletest.js"
+   ]
+  },
+  {
+   "nr": "responsiv-3.20b",
+   "titel": "proptest: Regex „Gewinn fehlt“ → „fehlen“",
+   "von": 571,
+   "bis": 571,
+   "cluster": "prop",
+   "dateien": [
+    "web/e2e/proptest.js"
+   ],
+   "anker": [
+    "proptest.js:103"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "responsiv-3.12a"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:103"
+   ]
+  },
+  {
+   "nr": "responsiv-3.20c",
+   "titel": "Neue Suite tablettest.js (1024 × 768, Abschnitt 4 B) in runall.sh; tlfittest unverändert grün",
+   "von": 572,
+   "bis": 573,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/e2e/tablettest.js",
+    "web/e2e/runall.sh"
+   ],
+   "anker": [
+    "tablettest.js",
+    "runall.sh"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "responsiv-B1",
+    "responsiv-B6a",
+    "responsiv-B6c",
+    "responsiv-B7",
+    "responsiv-B8",
+    "responsiv-A2",
+    "responsiv-3.3d",
+    "responsiv-3.9a",
+    "responsiv-3.13",
+    "responsiv-C4",
+    "responsiv-3.14"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/tlfittest.js (unverändert grün)",
+    "web/e2e/sidebartest.js (grün)"
+   ]
+  }
+ ],
+ "akzeptanz": {
+  "von": 576,
+  "bis": 631
+ },
+ "querbezuege": [
+  "K7 (Z. 170) – Gruppe Abstände, responsiv-32: generische .grid.tiles-Regel dort mit 4 Spalten erst ab 1000 px; Werte müssen übereinstimmen, hier gilt 961 px. Wer zuerst umsetzt, setzt die Regel (.grid.tiles, .grid.tiles.kstrip, .dash-top, .tl-fit > .grid.tiles), die andere Gruppe gilt dann als erledigt.",
+  "K2 (Z. 160) – Gruppe Typografie (typografie-26) und Gruppe Barrierefreiheit (responsiv-30, größere Fingerziele): Felder am Handy 16 px, line-height 20px hält .input/.select bei 42 px (.select.sm 32 → 34 px); Anker input, select, textarea, .input, .select.",
+  "K10 (Z. 176) – Gruppe Komponenten/Zustände: Das Menü „Einfügen“ der .nb-toolbar wird am Handy schon heute von der wischbaren Leiste abgeschnitten (overflow-y auto). Das ist ein eigener Planungspunkt, nicht Teil dieser Abnahme; deshalb an .nb-toolbar keine Maske.",
+  "K12 (Z. 180) – Gruppe Typografie: Desktop-Kachelwerte (25/24 px) gehören Typografie; hier wird nur die 28-px-Ausnahme .tile.spark-tile .val entfernt. .prop-balance .val und .topbar h1 (17 px) bleiben.",
+  "K18 (Z. 192) – Gruppe Zustände, bereich_shell-4: dieselben Regeln .boot-head und .boot-tiles .skel und dieselbe Zeile app.html:21. Hier nur der Block ≤ 960 px und zwei Platzhalter (.skel.mb, .skel.m); die Desktop-Maße setzt Zustände. Der Menü-Platzhalter ist auf die Titelzeile aus bereich_shell-31 abgestimmt (Titel x = 51).",
+  "K19 (Z. 194) – Gruppe Wortwahl, bereich_trades_tag-35: .tl-selects sitzt innerhalb der neuen .tl-filters, .tl-filters .select greift auch dort (verträglich).",
+  "K19 (Z. 194) – Gruppe Wortwahl: „Bis zum Bestehen“ (t:Bis zum Bestehen, prop.js U.kv) mit deren Glossar abgleichen; gibt das Glossar einen anderen Begriff vor, gilt dieser, die Layout-Regel bleibt.",
+  "K20 (Z. 196) – ki_look-19: Die Spalte „Status“ im TradeLog wird anderswo entschieden; hier wird sie am Handy nur per ph-hide ausgeblendet (trades.js).",
+  "K20 (Z. 196) – bereich_training-3: Der Spaltenname „Effekt“ im Schatten-Ich wird anderswo entschieden; hier gilt nur „die letzte Spalte“ (shadow.js, .shadow-tbl).",
+  "K20 (Z. 196) – Gruppe Farbe: grüne Markierung gedrückter Werkzeugknöpfe .nb-toolbar .tb[aria-pressed=\"true\"] (app.css:1090).",
+  "K3 (Z. 162) – Gruppe Barrierefreiheit, barrierefreiheit-30: Fokusführung und inert der Schublade (App.renderSidebar, #main, .menu-btn, #sidebar) werden hier umgesetzt; mit Fokus-Regeln der Gruppe Barrierefreiheit abgleichen.",
+  "K1/K5/K6 (Z. 158, 166, 168) – Dashboard-Befunde bereich_dashboard-4 und bereich_dashboard-27 werden hier gelöst: App.accountControl, dashboard.js:124, .dash-head .popover, #fd-layer, RangePicker.fit; Überschneidung mit der Gruppe Dashboard/Shell (Kopfreihe pageHead).",
+  "Abschnitt 6 (Z. 655–660) – Gruppe Einstellungen, bereich_einstellungen-22 (Nutzerfrage offen): Einstellungen am Handy als Liste mit Unterseiten (Klasse is-index, misc.js render, CSS im 560er-Block, .set-nav). Bis zur Antwort gilt nur der Auslauf aus A2 an .set-nav.",
+  "Abschnitt 6 (Z. 661) – eigenes Thema außerhalb der Gruppe: vier Links „Regeln anlegen/bearbeiten“ zeigen auf #/settings und landen auf „Profil“ statt „Regeln“ (progress.js:77 zweimal, day.js:18, widgets.js:288).",
+  "Abschnitt 5 (Z. 641) – responsiv-21: Der runde Knopf (.dash-head .tl) überdeckt im Ruhezustand den Monatspfeil auf „Fortschritt“. Das wäre ein eigener Befund, nicht in dieser Liste.",
+  "Abschnitt 5 / K11 (Z. 643, 178) – abstaende_layout-18 (Gruppe Abstände): Umbruch der Reiterleiste ab 961 px wird abgelehnt; .tabs bleibt einzeilig, mit Auslauf.",
+  "Abschnitt 5 (Z. 650) – Gruppe Typografie, typografie-28 (Original): Seitentitel am Handy 17 → 18 px und Angleichen von .prop-balance .val werden nicht übernommen.",
+  "Abschnitt 5 (Z. 651): Die TradeLog-Tabelle scrollt bei 961–1279 px weiter seitlich (README: „passt ab 1280 px“); keine Änderung durch diese Gruppe.",
+  "3.2 (Z. 415–417) – alle Gruppen: Die Signatur von U.chip(text, kind, tip) und das Markup von U.badge (span.bl) ändern sich, ebenso die Dauer von closeModal am Handy (Mo.leave --dur-2). Das betrifft Komponenten und Bewegung.",
+  "A1 (Z. 225) – Gruppen Abstände/Typografie: .tbl th, .tbl td { padding: 9px 10px } (app.css:3056) bleibt für Tabellen ohne ph-fit.",
+  "3.18 (Z. 550–552) – alle Gruppen: Die Sprachdateien js/lang/{en,es,zh,hi,pt}.js werden von mehreren Gruppen ergänzt (t:Bis zum Bestehen, t:{0} fehlen, t:{0}× gebrochen, t:Beantragt {0}, t:Schreib dem Mentor …, t:Teilen, t:Konto: {0}, t:Verlauf löschen).",
+  "3.19 (Z. 554–565) – alle Gruppen: README-Zeilen 51, 62–64, 67, 76–77, 92, 96, 101, 106–107, 120 und 361 werden geändert; Überschneidung mit README-Änderungen anderer Gruppen möglich.",
+  "K9 / 3.20 (Z. 174, 572): e2e/tlfittest.js muss unverändert grün bleiben; mobiletest.js:34 und proptest.js:103 werden angepasst; die neue Suite tablettest.js kommt in runall.sh."
+ ]
+}

@@ -1,0 +1,729 @@
+{
+ "anker": [
+  {
+   "anker": ".legend",
+   "schritte": [
+    {
+     "nr": "diagramme-A4",
+     "gruppe": "diagramme",
+     "titel": "Neue Legendenklasse .chart-legend; .legend.top/.legend.rep (Z. 1649–1651) löschen",
+     "von": 305,
+     "bis": 315,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-J2",
+     "gruppe": "diagramme",
+     "titel": "Prop „Ausgaben vs. Payouts“: .chart-legend vor dem Diagramm",
+     "von": 666,
+     "bis": 667,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-P2",
+     "gruppe": "zustaende",
+     "titel": "Prop-Bilanz ohne Buchungen: „—“ statt „erreicht“, kein Diagramm, keine „Pro Firma“, Legende nur mit Daten",
+     "von": 724,
+     "bis": 730,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile .foot",
+   "schritte": [
+    {
+     "nr": "abstaende-I2",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich: Trade-Zahl als Fußzeile „{0} Trades im Zeitraum“ statt Kopfzusatz",
+     "von": 422,
+     "bis": 422,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "abstaende-R3",
+     "gruppe": "abstaende",
+     "titel": "shadowtest: Zeitraum aus [data-pop=range] span, Trade-Zahl aus .tile:nth-child(2) .foot",
+     "von": 522,
+     "bis": 522,
+     "cluster": "training",
+     "dateien": [
+      "web/e2e/shadowtest.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile .head",
+   "schritte": [
+    {
+     "nr": "aufbau-A3b",
+     "gruppe": "aufbau",
+     "titel": "Kachel- und Statistik-Titel 13px/500",
+     "von": 269,
+     "bis": 271,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3i",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 13.5 → 13 für Kachel-Titel, .set-head p und Konto-Menü (.sb-menu .item erbt 13 von .popover .item)",
+     "von": 255,
+     "bis": 255,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-tog button",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster auf Touch 40 px (pointer: coarse)",
+     "von": 380,
+     "bis": 380,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#tip",
+   "schritte": [
+    {
+     "nr": "komponenten-U3",
+     "gruppe": "komponenten",
+     "titel": "App-Tooltip rechts neben einem Element (data-tip-side=\"right\")",
+     "von": 522,
+     "bis": 528,
+     "cluster": "shell",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-chip",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster auf Touch 40 px (pointer: coarse)",
+     "von": 380,
+     "bis": 380,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cert-opts .lbl",
+   "schritte": [
+    {
+     "nr": "komponenten-C05",
+     "gruppe": "komponenten",
+     "titel": "Eine Feld-Beschriftung (CSS-Teil; JS-Teil in U2, D3, S-prop-b, S-dashboard-d)",
+     "von": 213,
+     "bis": 219,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp-foot .rp-btn.rp-quiet",
+   "schritte": [
+    {
+     "nr": "aufbau-C16",
+     "gruppe": "aufbau",
+     "titel": "Ruhepunkt-Fuß: Hilfe-Link links und unterstrichen; Telefonnummern unterstrichen",
+     "von": 629,
+     "bis": 636,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-seg button",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster auf Touch 40 px (pointer: coarse)",
+     "von": 380,
+     "bis": 380,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-add",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster auf Touch 40 px (pointer: coarse)",
+     "von": 380,
+     "bis": 380,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-head p",
+   "schritte": [
+    {
+     "nr": "aufbau-A4b",
+     "gruppe": "aufbau",
+     "titel": "Überschriften-Treppe Einstellungen (.set-head, .set-block h3, Optionstitel)",
+     "von": 280,
+     "bis": 284,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3i",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 13.5 → 13 für Kachel-Titel, .set-head p und Konto-Menü (.sb-menu .item erbt 13 von .popover .item)",
+     "von": 255,
+     "bis": 255,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.5f",
+     "gruppe": "typografie",
+     "titel": "Einstellungen: Beschreibungen max. 68ch und Knopf rechts halten (flex: 1 1 320px)",
+     "von": 364,
+     "bis": 365,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sb-menu .item",
+   "schritte": [
+    {
+     "nr": "komponenten-C21b",
+     "gruppe": "komponenten",
+     "titel": "Konto-Menü unten (.sb-menu): Einträge erben die Menügröße",
+     "von": 367,
+     "bis": 368,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3i",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 13.5 → 13 für Kachel-Titel, .set-head p und Konto-Menü (.sb-menu .item erbt 13 von .popover .item)",
+     "von": 255,
+     "bis": 255,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sb-menu-row",
+   "schritte": [
+    {
+     "nr": "komponenten-C21b",
+     "gruppe": "komponenten",
+     "titel": "Konto-Menü unten (.sb-menu): Einträge erben die Menügröße",
+     "von": 367,
+     "bis": 368,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3i",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 13.5 → 13 für Kachel-Titel, .set-head p und Konto-Menü (.sb-menu .item erbt 13 von .popover .item)",
+     "von": 255,
+     "bis": 255,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-rule-f .field span",
+   "schritte": [
+    {
+     "nr": "komponenten-C05",
+     "gruppe": "komponenten",
+     "titel": "Eine Feld-Beschriftung (CSS-Teil; JS-Teil in U2, D3, S-prop-b, S-dashboard-d)",
+     "von": 213,
+     "bis": 219,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-prop-b",
+     "gruppe": "komponenten",
+     "titel": "Prop-Regelfelder: Beschriftung als .lbl",
+     "von": 697,
+     "bis": 697,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-l",
+   "schritte": [
+    {
+     "nr": "aufbau-A4f",
+     "gruppe": "aufbau",
+     "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+     "von": 292,
+     "bis": 295,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C05",
+     "gruppe": "komponenten",
+     "titel": "Eine Feld-Beschriftung (CSS-Teil; JS-Teil in U2, D3, S-prop-b, S-dashboard-d)",
+     "von": 213,
+     "bis": 219,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-head h2",
+   "schritte": [
+    {
+     "nr": "aufbau-A4b",
+     "gruppe": "aufbau",
+     "titel": "Überschriften-Treppe Einstellungen (.set-head, .set-block h3, Optionstitel)",
+     "von": 280,
+     "bis": 284,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3u",
+     "gruppe": "typografie",
+     "titel": "Einstellungs-Bereichstitel .set-head h2 24/700 → 18/600 (K2)",
+     "von": 277,
+     "bis": 277,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-row b",
+   "schritte": [
+    {
+     "nr": "aufbau-A4b",
+     "gruppe": "aufbau",
+     "titel": "Überschriften-Treppe Einstellungen (.set-head, .set-block h3, Optionstitel)",
+     "von": 280,
+     "bis": 284,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4k",
+     "gruppe": "typografie",
+     "titel": "Zeilentitel in Einstellungen und Coach: neue Regel 14/500 ohne Farbe, Einzelregel .coach-nrow b 13.5px löschen (K7)",
+     "von": 347,
+     "bis": 347,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .stats-grid .k",
+   "schritte": [
+    {
+     "nr": "aufbau-A3c",
+     "gruppe": "aufbau",
+     "titel": "Beschriftungen dichter Raster 12px/500 --muted, .fw-lbl 13/500",
+     "von": 272,
+     "bis": 277,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fw-stats > div > span",
+   "schritte": [
+    {
+     "nr": "aufbau-A3c",
+     "gruppe": "aufbau",
+     "titel": "Beschriftungen dichter Raster 12px/500 --muted, .fw-lbl 13/500",
+     "von": 272,
+     "bis": 277,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".seg.mini button",
+   "schritte": [
+    {
+     "nr": "komponenten-C14b",
+     "gruppe": "komponenten",
+     "titel": "Segment-Varianten angleichen (.seg.mini, .fd-seg) und toten Code löschen (.cert-opts .seg.sm, .seg.segc)",
+     "von": 287,
+     "bis": 291,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-rule .hint",
+   "schritte": [
+    {
+     "nr": "farbe-B3b",
+     "gruppe": "farbe",
+     "titel": "Weitere Hinweistexte von --faint auf --muted (Symbol wählen, Filter-Hinweis, Prop-Regel, Zustand-Spalten)",
+     "von": 244,
+     "bis": 248,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".day-card .stats .k",
+   "schritte": [
+    {
+     "nr": "aufbau-A3c",
+     "gruppe": "aufbau",
+     "titel": "Beschriftungen dichter Raster 12px/500 --muted, .fw-lbl 13/500",
+     "von": 272,
+     "bis": 277,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".stc-l small",
+   "schritte": [
+    {
+     "nr": "farbe-B3b",
+     "gruppe": "farbe",
+     "titel": "Weitere Hinweistexte von --faint auf --muted (Symbol wählen, Filter-Hinweis, Prop-Regel, Zustand-Spalten)",
+     "von": 244,
+     "bis": 248,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".strat-stats .k",
+   "schritte": [
+    {
+     "nr": "aufbau-A3c",
+     "gruppe": "aufbau",
+     "titel": "Beschriftungen dichter Raster 12px/500 --muted, .fw-lbl 13/500",
+     "von": 272,
+     "bis": 277,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+     "von": 245,
+     "bis": 248,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

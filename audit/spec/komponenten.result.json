@@ -1,0 +1,225 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/komponenten.md",
+ "ids_abgedeckt": [
+  "bereich_trades_tag-11",
+  "abstaende_layout-3",
+  "komponenten-1",
+  "zustaende-1",
+  "aufbau-1",
+  "bereich_training-2",
+  "bereich_training-1",
+  "bereich_shell-1",
+  "bereich_trades_tag-1",
+  "bereich_trades_tag-2",
+  "komponenten-18",
+  "komponenten-11",
+  "bereich_konto-28",
+  "bereich_konto-10",
+  "bereich_konto-5",
+  "bereich_konto-9",
+  "ki_look-11",
+  "bereich_trades_tag-13",
+  "komponenten-25",
+  "referenz-5",
+  "referenz-23",
+  "bereich_konto-54",
+  "komponenten-16",
+  "komponenten-17",
+  "bereich_notebook_news-32",
+  "bereich_notebook_news-20",
+  "komponenten-2",
+  "responsiv-23",
+  "komponenten-21",
+  "hierarchie-28",
+  "responsiv-46",
+  "bereich_prop-42",
+  "komponenten-30",
+  "bereich_prop-18",
+  "bereich_training-41",
+  "responsiv-17",
+  "bereich_einstellungen-11",
+  "bereich_einstellungen-2",
+  "komponenten-26",
+  "bereich_training-31",
+  "bereich_statistik-6",
+  "bereich_statistik-19",
+  "bereich_statistik-8",
+  "komponenten-27",
+  "bereich_prop-52",
+  "komponenten-35",
+  "komponenten-34",
+  "bereich_konto-36",
+  "bereich_konto-45",
+  "bereich_konto-23",
+  "bereich_konto-22",
+  "bereich_konto-50",
+  "bereich_konto-49",
+  "bereich_dashboard-45",
+  "bereich_dashboard-11",
+  "bereich_dashboard-26",
+  "ki_look-35",
+  "referenz-20",
+  "bereich_trades_tag-38",
+  "komponenten-12",
+  "hierarchie-47",
+  "zustaende-14",
+  "bewegung-41",
+  "bewegung-25",
+  "bereich_training-37",
+  "komponenten-44",
+  "bereich_trades_tag-10",
+  "komponenten-14",
+  "komponenten-36",
+  "komponenten-33",
+  "bereich_notebook_news-37",
+  "bereich_notebook_news-34",
+  "bereich_notebook_news-30",
+  "bereich_notebook_news-31",
+  "referenz-39",
+  "bereich_dashboard-47",
+  "bereich_training-48",
+  "bereich_shell-20",
+  "bereich_einstellungen-19",
+  "bereich_einstellungen-40",
+  "bereich_einstellungen-35",
+  "diagramme-43",
+  "bereich_trades_tag-43",
+  "bereich_trades_tag-30",
+  "bereich_trades_tag-34",
+  "komponenten-45"
+ ],
+ "kurz": "Ich habe die Spezifikation für die Gruppe „Komponenten“ geschrieben. Die Datei liegt unter /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/komponenten.md. Sie deckt alle 87 Befunde ab: 86 haben Umsetzungsschritte. ki_look-19 (Statusspalte entfernen) steht nur bei den Nutzerfragen, weil das Sortieren nach Status wegfallen würde.\n\nDie wichtigsten Festlegungen:\n- **Höhen:** Steuerelemente haben feste Stufen. Normal sind 41,6 px, in der Kopfreihe genau 42 px. Kleine Elemente haben 34 px, dazu gehören `.btn.sm`, das neue `.input.sm`, `.select.sm` und `.btn.nav`. Chips sind 28 px hoch, Etiketten in Tabellen 22 px.\n- **Hauptknopf:** `.btn.primary` steht nur noch im Fuß von Dialogen und Popovern und beim Absenden des Hauptformulars einer Seite. Alle Anlegen-Knöpfe, Inline-Formulare und Leerzustand-Aktionen werden neutral. Der grüne Schein beim Darüberfahren fällt jetzt weg. Die Füllfarbe selbst ist Frage N1.\n- **Reiter:** Es gibt nur noch zwei Formen. Bereichs-Navigation ist eine Schiene, außen 42 px, mit Einträgen von 34 px. Unteransichten und Umschalter in Karten bekommen einen Unterstrich in Textfarbe. Die bestehenden Klassen bleiben, damit die e2e-Tests weiterlaufen.\n- **Pfeile:** Ein einziger Baustein `.btn.nav` (34×34) ersetzt `.btn.round`, die runden Pfeile und das verbundene Pfeilpaar der Seitenwahl.\n- **Segmente und Skalen:** `.seg` wird eine Schiene, die umbrechen darf. 1–5-Skalen laufen über einen gemeinsamen Baustein `.scale5`.\n- **Menüs:** Einträge sind mindestens 36 px hoch, 13px/500. Der gewählte Eintrag ist neutral grau hinterlegt, ein Haken steht nur in Listen mit Einzelwahl.\n- **Grün entfernt:** Grün verschwindet an zwölf Stellen, unter anderem bei Menüs, Tag-Menü, Unterstrich-Reitern, „Heute“ im Kalender, Häkchen, Dropzone, Report-Auswahl und Ordnerfarbe.\n- **Einstellungen:** Alle Einstellungen außer Mentor speichern sofort und zeigen kurz „Gespeichert“. Ja/Nein-Optionen sind durchgehend Schalter.\n- **Einzelfixes:** Verpasst-Dialog mit denselben Bausteinen wie „Trade loggen“ (behebt die falsch angezeigte Richtung), toter Menü-Knopf am PC, 34-px-Symbole in Leerzustand-Knöpfen und die übrigen kleinen Befunde.\n\nFür jeden Schritt stehen Selektor, Zeile, vorher → nachher und die Befund-ids da. Dazu kommen Sprachschlüssel mit englischen Werten, README-Änderungen und e2e-Anpassungen. Die Akzeptanzkriterien sind grep-Prüfungen, gerenderte Messwerte, Screenshot-Prüfpunkte und Testläufe.\n\nFünf Fragen gehen an dich:\n- **N1:** Füllfarbe von `.btn.primary`. Empfehlung: neutral in Textfarbe.\n- **N2:** Kalenderbetrag in 700 statt 800. Empfehlung: ja.\n- **N3:** Statusspalte entfernen. Empfehlung: ja.\n- **N4:** Avatar oben rechts behalten. Empfehlung: ja.\n- **N5:** Kein Session-Knopf auf dem Dashboard. Empfehlung: so lassen.",
+ "konflikte": [
+  "K1 Hauptknopf (komponenten-1, bereich_konto-5, Gruppe Farbe referenz-6): Die Regel, wo primary erlaubt ist, und das Herabstufen der Auslöser werden jetzt umgesetzt, der Glow fällt weg. Die Füllfarbe ist Frage N1.",
+  "K2 Inline-Absenden (komponenten-30, bereich_konto-5, komponenten-1, Farbe bereich_prop-16): Inline-Formulare in Karten senden neutral ab, damit nicht viele primäre Knöpfe auf einer Seite stehen (28× ‚Notiz senden‘).",
+  "K3 Pfeile (komponenten-25 vs. komponenten-12/-11, bereich_dashboard-26): ein eckiger Baustein .btn.nav 34×34 r9, .round entfällt. Die runde Form ist nicht in der README festgelegt.",
+  "K4 Reiter (referenz-23, komponenten-27, bereich_statistik-6): zwei Formen nach Ebene, Klassen bleiben wegen e2e. Neue Klasse .subtabs nur für Karten. Einträge 34 px mit 0 12px, damit 9 Statistik-Reiter bei 1024 px passen.",
+  "K5 Leerzustand ‚Trade loggen‘ (zustaende-14 vs. Farbe bereich_trades_tag-21): immer btn sm neutral, beide Knöpfe im TradeLog bleiben.",
+  "K6 Heute im Kalender (ki_look-11 vs. Farbe referenz-8): Fläche --text, Schrift --bg, 600, wie Gruppe Farbe. Der 24-px-Kreis bleibt wegen der Winrate-Flucht.",
+  "K7 Kalenderbetrag 800→700 widerspricht README Z.191: Frage N2.",
+  "K8 Ruhepunkt-Kurzlabels: ‚Einatmen/Nachziehen/Ausatmen‘ plus min-width max-content statt ‚Ein/Aus‘ plus 72 px.",
+  "K9 Uhrzeitfeld (bereich_prop-52): Zeit-Modus im App-Datepicker für alle type=time statt eigenem Textfeld. Die 24-h-Anzeige kommt aus wording-2/zustaende-20.",
+  "K10 stat-tile (bereich_statistik-8): nur Maße angleichen statt Baustein zu tauschen (Tests). Handy-Wert 22 px, mobiletest.js:27 wird angepasst.",
+  "K11 Ordnerfarben (bereich_notebook_news-31): Grün streichen statt #2bb3a3, neue Ordner fest #8b7cf6 (sonst wird der Standard Rot).",
+  "K12 Vorlagen-Stift (bereich_dashboard-47): ins Untermenü verschieben statt streichen, weil er auch nicht aktive Vorlagen bearbeitet.",
+  "K13 Währungszeichen: 12 px vom Rand auf beiden Seiten ($ heute 14).",
+  "K14 Session-Knopf (referenz-5): Variante .lbl-wide ohne hide-m, weil hide-m den Knopf am Handy ganz ausblendet.",
+  "K15 Zeitraum am Handy (responsiv-23): JS-Wahl des Monats statt CSS-Anker, sonst kippt der Fehler bei eigenen Zeiträumen.",
+  "K16 Filter-Fuß (komponenten-21): das × bleibt (Handy, filtertest). Die Titelgröße regelt Typografie (typografie-18).",
+  "K17 %-Felder (bereich_einstellungen-35 vs. komponenten-17): .inp-cur mit % dahinter in Rasterbreite. Nur Von/Bis/1 R behalten 160 px (.inp-cur.w160).",
+  "K18 Häkchen (komponenten-33): Checklisten-Box bleibt 20 px, kein .cbx-Nachbau, native Häkchen mit accent-color: var(--text).",
+  "K19 KI-Hinweis im Mentor (bereich_training-1 vs. hierarchie-37): linksbündig statt zentriert.",
+  "K20 --lift-shadow (bereich_dashboard-11 vs. Gruppe Bewegung bewegung-18): das Token bleibt, landing.css:56 nutzt es. Kalendertage und Tracker behalten den Hover.",
+  "K21 Chip-Höhe (komponenten-36 vs. komponenten-45): 28 px nur für .chip.sel, Tabellen- und Detailkopf-Chips 22 px.",
+  "K22 Regel-Tracker-Beschriftung: 500 statt 600.",
+  "K23 Checklisten (referenz-20, bereich_trades_tag-13, Barrierefreiheit bereich_trades_tag-41): erst die Knopf-Umstellung, dann die Linien-Regel C18.",
+  "K24 .seg.pill entfällt (Check-in nutzt .scale5), .seg.segc ist toter Code und wird gelöscht.",
+  "K25 Tag-Menü: gewählter Text --text, Haken --text-2 wie alle Menü-Haken.",
+  "Dubletten zusammengelegt: Menü-Knopf (3 Befunde), Leerzustand-Symbole (4), Zahlenfelder (2), Prop-Kopfknopf (2), Reiter (3), Kopfreihe (2), Segment (2), Einstellungen (2)."
+ ],
+ "ids_zurueckgestellt": [
+  {
+   "id": "komponenten-14",
+   "grund": "Teil zurückgestellt: feste 40-px-Höhe für .input/.select. Knöpfe sind auch 41,6 px, nur Felder zu ändern schafft neue Abweichungen. Ein Höhen-Token gehört zur Abstände-Spezifikation (A5). Datumsfelder und .select.sm werden angeglichen."
+  },
+  {
+   "id": "bereich_statistik-8",
+   "grund": "Teil zurückgestellt: .stat-tile gegen U.tile tauschen. Das bricht sixtest, motiontest und mobiletest, .stat-grid ist schon belegt, und die Verlaufslinie wäre neue Dekoration. Die Maße werden angeglichen."
+  },
+  {
+   "id": "komponenten-45",
+   "grund": "Teil zurückgestellt: .pill-Umbau (≈50 Stellen) und ‚Long/Short‘ statt ‚LONG/SHORT‘. Das Abzeichen ist in README Z.45–47 dokumentiert, die Änderung wäre Geschmack. Nur die Höhen werden angeglichen."
+  },
+  {
+   "id": "komponenten-12",
+   "grund": "Teil zurückgestellt: .rp-btn bleibt eigenes System (Ruhepunkt, README). .big kommt nur im versteckten Blind-Replay vor und wird dort nur gekürzt."
+  },
+  {
+   "id": "komponenten-11",
+   "grund": "Teil zurückgestellt: das 28-px-× im Filterkopf bleibt. Es ist der Kopf eines Popovers, ein anderer Kontext."
+  },
+  {
+   "id": "bereich_einstellungen-11",
+   "grund": "Ergänzung referenz-33 zurückgestellt: .set-block als flache Abschnitte ist Geschmack und schafft neue Brüche."
+  },
+  {
+   "id": "ki_look-11",
+   "grund": "Ergänzung hierarchie-42 zurückgestellt: leere Zukunftstage ohne Rand machen das Raster ungleich. Der Teil 800→700 ist Frage N2."
+  },
+  {
+   "id": "bereich_konto-10",
+   "grund": "Teil zurückgestellt: I.replay im Friedhof (‚Umdrehen‘) liegt außerhalb des Bereichs und hat eine eigene Bedeutung."
+  },
+  {
+   "id": "bereich_einstellungen-35",
+   "grund": "Teil zurückgestellt: feste 160 px für die %-Felder. Im .form-grid wären sie dann kürzer als das Nachbar-Select."
+  },
+  {
+   "id": "responsiv-17",
+   "grund": "Teil zurückgestellt: eine voll grüne runde Scheibe widerspricht der Entscheidung ‚Trade loggen ruhiger‘ (Commit 96b165b). Umgesetzt wird nur ein neutraler Schatten."
+  },
+  {
+   "id": "bereich_trades_tag-38",
+   "grund": "Teil zurückgestellt: ‚Heute‘ zwischen Pfeile und Datum zu verschieben ließe das Datum beim Wechsel springen."
+  },
+  {
+   "id": "referenz-39",
+   "grund": "Teil zurückgestellt: schon installierte Beispieldaten werden nicht umbenannt, es gibt keine Migration fremder Daten."
+  },
+  {
+   "id": "bereich_dashboard-11",
+   "grund": "Teil zurückgestellt: Kalendertage und Tracker-Zellen sind klickbar und behalten den Hover. --lift-shadow bleibt, landing.css:56 nutzt es."
+  },
+  {
+   "id": "komponenten-21",
+   "grund": "Teil zurückgestellt: das × im Filter bleibt (Handy, filtertest.js:39). Die Titelgröße regelt Typografie."
+  },
+  {
+   "id": "bereich_notebook_news-20",
+   "grund": "Teil zurückgestellt: 6-px-Farbpunkte vor den Tag-Gruppen wären neue Dekoration."
+  },
+  {
+   "id": "komponenten-44",
+   "grund": "Teil zurückgestellt: die Filter-Sterne bleiben Mehrfachauswahl. Die Check-in-Auswahl wird nicht farbig, grüne Auswahl ist abgelehnt."
+  },
+  {
+   "id": "bereich_training-41",
+   "grund": "Teil zurückgestellt: Kurzlabels ‚Ein/Aus‘ sind mehrdeutig, ‚Aus‘ ist als Übersetzungsschlüssel schon ‚Off‘."
+  },
+  {
+   "id": "bereich_prop-52",
+   "grund": "Teil zurückgestellt: ein eigenes Textfeld wäre ein drittes Bedienmuster für Uhrzeiten. Umgesetzt wird der Zeit-Modus im App-Wähler."
+  },
+  {
+   "id": "komponenten-33",
+   "grund": "Teil zurückgestellt: eigener .cbx-Nachbau und Checklisten-Box 16 px. accent-color: var(--text) reicht, die Box ist ein Zeilen-Schalter."
+  }
+ ],
+ "nutzer_fragen": [
+  {
+   "id": "komponenten-1",
+   "frage": "Die gefüllten Bestätigen-Knöpfe (Speichern, Anwenden, Konto anlegen …) sind heute vollflächig grün, obwohl Grün nur Gewinn und ‚Trade loggen‘ zeigen soll. Welche Füllung sollen sie bekommen: (A) bleibt grün, (B) neutrale Vollfläche in Textfarbe (dunkel fast weiß, hell fast schwarz) oder (C) ruhige graue Fläche? Und soll ‚Trade speichern‘ im Trade-Dialog wie ‚Trade loggen‘ aussehen? (betrifft auch bereich_konto-5 und referenz-6 der Gruppe Farbe)",
+   "empfehlung": "B (app.css Z.274: background/border var(--text), color var(--bg), 600; Hover color-mix 86 %, ohne Schatten). primary steht danach nur noch in Dialogen, Popovern und Hauptformularen, also fast nie neben ‚Trade loggen‘. Zusatzfrage: nein, alle Dialog-Bestätigungen sollen gleich aussehen."
+  },
+  {
+   "id": "ki_look-11",
+   "frage": "In der README steht für den Kalender-Tagesbetrag ‚am PC kräftiger, Onest 800‘. Deine allgemeine Regel lautet ‚nur Werte 700‘. Soll der Betrag auf 700 wie alle anderen Werte?",
+   "empfehlung": "Ja, 700: app.css Z.721 font-weight 800 → 700, README Z.191 anpassen."
+  },
+  {
+   "id": "ki_look-19",
+   "frage": "Jede Trade-Zeile zeigt eine Pille ‚Gewinn/Verlust‘, obwohl P&L und RR schon eingefärbt sind. Soll die Spalte ‚Status‘ in TradeLog und Tagesansicht wegfallen? Der Ergebnis-Filter bleibt, Break-even wird neutral eingefärbt, das Sortieren nach Status entfällt.",
+   "empfehlung": "Ja: trades.js:7/49 und day.js:15 ohne Statusspalte; P&L und RR bei status 'be' mit Klasse 'neu'. Die Pille in der Trade-Ansicht bleibt."
+  },
+  {
+   "id": "hierarchie-47",
+   "frage": "Oben rechts führt das Profilbild zum Profil, unten links öffnet die Konto-Karte dasselbe und mehr. Soll das Profilbild oben rechts am PC wegfallen?",
+   "empfehlung": "Nein, behalten. Zeitraum, Konto und Filter richten sich laut README am Avatar aus, und das Start-Skelett zeigt ihn. Umgesetzt wird nur ‚Profil ergänzen‘ statt des abgeschnittenen ‚Profil vervollständi…‘."
+  },
+  {
+   "id": "referenz-5",
+   "frage": "Du hattest festgelegt, dass das Dashboard keinen ‚Session starten‘-Knopf hat, alle anderen Seiten schon. Soll das so bleiben?",
+   "empfehlung": "Ja, so lassen (README Z.64–65, sixtest und voicetest prüfen das). Umgesetzt wird nur die Beschriftung ‚Session starten‘ ab 1181 px auf den anderen Seiten."
+  }
+ ]
+}

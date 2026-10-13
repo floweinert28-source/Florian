@@ -1,0 +1,1462 @@
+{
+ "anker": [
+  {
+   "anker": "switchRow",
+   "schritte": [
+    {
+     "nr": "aufbau-C8b",
+     "gruppe": "aufbau",
+     "titel": "Trading: Schalter „Beträge ausblenden“, Hinweis unter Tagesverlustlimit",
+     "von": 489,
+     "bis": 490,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C8d",
+     "gruppe": "aufbau",
+     "titel": "Benachrichtigungen: Unterschalter eingerückt und bei aus deaktiviert",
+     "von": 494,
+     "bis": 494,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-misc-15",
+     "gruppe": "barrierefreiheit",
+     "titel": "Einstellungen switchRow: stabile id je Aufbau, Name aus Label, Beschreibung per aria-describedby",
+     "von": 834,
+     "bis": 842,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "kilook-C24",
+     "gruppe": "kilook",
+     "titel": "Einstellungen → Profil: Block „Bedienung“ mit Schalter „Tastenkürzel“, Fußzeile ohne Tastatur-Teil, Aktion 'shortcuts-toggle'",
+     "von": 715,
+     "bis": 722,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-c",
+     "gruppe": "komponenten",
+     "titel": "Privatsphäre als Schalter (privacy-toggle); „2FA aktivieren“ neutral",
+     "von": 672,
+     "bis": 673,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-e",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen → Trading: sofort speichern, Einheiten im Feld (App.unitField), Tilt-Schalter, neue Labels",
+     "von": 675,
+     "bis": 675,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-g",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen → Notebook: sofort speichern, „Erledigte Punkte durchstreichen“ als Schalter",
+     "von": 677,
+     "bis": 677,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "wording-S17.13-17.15",
+     "gruppe": "wording",
+     "titel": "Benachrichtigungen: „Recaps“, „Wochen-Recap“, „Monats-Recap“ mit neuen Auslöser-Sätzen",
+     "von": 592,
+     "bis": 594,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "wording-S17.19-17.21",
+     "gruppe": "wording",
+     "titel": "Trading: Schalter „Beträge als R zeigen“, Monte-Carlo-Durchläufe mit fmt.int und value-Attribut, „Tagesverlustlimit“ im Tilt-Text",
+     "von": 598,
+     "bis": 600,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#be-to",
+   "schritte": [
+    {
+     "nr": "komponenten-S-misc-e",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen → Trading: sofort speichern, Einheiten im Feld (App.unitField), Tilt-Schalter, neue Labels",
+     "von": 675,
+     "bis": 675,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-E1a",
+     "gruppe": "komponenten",
+     "titel": "e2e settest.js: Trading per Tab statt Submit, Notebook ohne Speichern-Klick",
+     "von": 754,
+     "bis": 757,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/e2e/settest.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M1b",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen: Break-even-Segment und -Zurücksetzen sofort wirksam (C.setBreakEven) ohne Neuaufbau",
+     "von": 748,
+     "bis": 761,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-TE6",
+     "gruppe": "zustaende",
+     "titel": "Test settest.js:22: Break-even-Felder füllen und mit Tab verlassen statt Submit",
+     "von": 882,
+     "bis": 882,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/e2e/settest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".switch",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B4",
+     "gruppe": "barrierefreiheit",
+     "titel": "Schalter-Trefferfläche 52 × 38 (.switch::before) und klickbares Zeilenlabel .set-row-l",
+     "von": 303,
+     "bis": 307,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-misc-15",
+     "gruppe": "barrierefreiheit",
+     "titel": "Einstellungen switchRow: stabile id je Aufbau, Name aus Label, Beschreibung per aria-describedby",
+     "von": 834,
+     "bis": 842,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-misc-186-207",
+     "gruppe": "barrierefreiheit",
+     "titel": "Konten- und Regel-Liste: eindeutige Namen (Konto/Regel „{0}“ …)",
+     "von": 846,
+     "bis": 847,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "bewegung-B2",
+     "gruppe": "bewegung",
+     "titel": "Schalter: Übergangszeiten auf Tokens (Knopf 320 ms über calc)",
+     "von": 175,
+     "bis": 178,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-block",
+   "schritte": [
+    {
+     "nr": "abstaende-B26",
+     "gruppe": "abstaende",
+     "titel": "Einstellungsblöcke: .set-body (gap, container-type), .set-block, h3, .set-head-row auf Skala; neu .set-desc, .set-item, .set-block .form-grid, .set-block .set-field, .set-addrow",
+     "von": 342,
+     "bis": 342,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-L4",
+     "gruppe": "abstaende",
+     "titel": "Benachrichtigungen: Blöcke als set-block mit h3, .set-desc und stack s-4",
+     "von": 458,
+     "bis": 458,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "kilook-C24",
+     "gruppe": "kilook",
+     "titel": "Einstellungen → Profil: Block „Bedienung“ mit Schalter „Tastenkürzel“, Fußzeile ohne Tastatur-Teil, Aktion 'shortcuts-toggle'",
+     "von": 715,
+     "bis": 722,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M1b",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen: Break-even-Segment und -Zurücksetzen sofort wirksam (C.setBreakEven) ohne Neuaufbau",
+     "von": 748,
+     "bis": 761,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "Theme.apply",
+   "schritte": [
+    {
+     "nr": "farbe-A3c",
+     "gruppe": "farbe",
+     "titel": "theme.js: forLight (0,18, 8-%-Schritte), ratio/inkFor neu, apply mit hellen Soft-Werten und --profit-soft, Export",
+     "von": 222,
+     "bis": 227,
+     "cluster": "tokens",
+     "dateien": [
+      "web/js/theme.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-g",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen → Notebook: sofort speichern, „Erledigte Punkte durchstreichen“ als Schalter",
+     "von": 677,
+     "bis": 677,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-H1",
+     "gruppe": "zustaende",
+     "titel": "app.html: Theme und sb-mini im <head> vor dem ersten Zeichnen setzen",
+     "von": 577,
+     "bis": 587,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#be-from",
+   "schritte": [
+    {
+     "nr": "komponenten-S-misc-e",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen → Trading: sofort speichern, Einheiten im Feld (App.unitField), Tilt-Schalter, neue Labels",
+     "von": 675,
+     "bis": 675,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M1b",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen: Break-even-Segment und -Zurücksetzen sofort wirksam (C.setBreakEven) ohne Neuaufbau",
+     "von": 748,
+     "bis": 761,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-TE6",
+     "gruppe": "zustaende",
+     "titel": "Test settest.js:22: Break-even-Felder füllen und mit Tab verlassen statt Submit",
+     "von": 882,
+     "bis": 882,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/e2e/settest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".chip.sel.big",
+   "schritte": [
+    {
+     "nr": "komponenten-C16",
+     "gruppe": "komponenten",
+     "titel": "Chips: wählbar 28 px, in Tabellen/Detailkopf 22 px, Filter- und Notebook-Chips angleichen",
+     "von": 304,
+     "bis": 311,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-e",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen → Trading: sofort speichern, Einheiten im Feld (App.unitField), Tilt-Schalter, neue Labels",
+     "von": 675,
+     "bis": 675,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3p",
+     "gruppe": "typografie",
+     "titel": "--fs-14: übrige 14-px-Regeln auf das Token",
+     "von": 264,
+     "bis": 265,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".hint",
+   "schritte": [
+    {
+     "nr": "aufbau-C8b",
+     "gruppe": "aufbau",
+     "titel": "Trading: Schalter „Beträge ausblenden“, Hinweis unter Tagesverlustlimit",
+     "von": 489,
+     "bis": 490,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-D3",
+     "gruppe": "komponenten",
+     "titel": "certificate.js: Format-Segment ohne .sm, eckige Pfeile, Größenhinweis",
+     "von": 617,
+     "bis": 621,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/certificate.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "C.setBreakEven",
+   "schritte": [
+    {
+     "nr": "komponenten-S-misc-e",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen → Trading: sofort speichern, Einheiten im Feld (App.unitField), Tilt-Schalter, neue Labels",
+     "von": 675,
+     "bis": 675,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M1b",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen: Break-even-Segment und -Zurücksetzen sofort wirksam (C.setBreakEven) ohne Neuaufbau",
+     "von": 748,
+     "bis": 761,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".input-unit span",
+   "schritte": [
+    {
+     "nr": "komponenten-C13",
+     "gruppe": "komponenten",
+     "titel": "Einheit im Feld (.inp-cur 12 px vom Rand, 13px/500, .w160) und .input-unit entfernen",
+     "von": 270,
+     "bis": 278,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M1b",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen: Break-even-Segment und -Zurücksetzen sofort wirksam (C.setBreakEven) ohne Neuaufbau",
+     "von": 748,
+     "bis": 761,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".switch::after",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B4",
+     "gruppe": "barrierefreiheit",
+     "titel": "Schalter-Trefferfläche 52 × 38 (.switch::before) und klickbares Zeilenlabel .set-row-l",
+     "von": 303,
+     "bis": 307,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-B2",
+     "gruppe": "bewegung",
+     "titel": "Schalter: Übergangszeiten auf Tokens (Knopf 320 ms über calc)",
+     "von": 175,
+     "bis": 178,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-block h3",
+   "schritte": [
+    {
+     "nr": "abstaende-B26",
+     "gruppe": "abstaende",
+     "titel": "Einstellungsblöcke: .set-body (gap, container-type), .set-block, h3, .set-head-row auf Skala; neu .set-desc, .set-item, .set-block .form-grid, .set-block .set-field, .set-addrow",
+     "von": 342,
+     "bis": 342,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-A4b",
+     "gruppe": "aufbau",
+     "titel": "Überschriften-Treppe Einstellungen (.set-head, .set-block h3, Optionstitel)",
+     "von": 280,
+     "bis": 284,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3r",
+     "gruppe": "typografie",
+     "titel": "Einstellungs-Blocktitel .set-block h3 14/700 → 15/600 (margin-bottom 10px bleibt)",
+     "von": 270,
+     "bis": 270,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-chip",
+   "schritte": [
+    {
+     "nr": "aufbau-A4f",
+     "gruppe": "aufbau",
+     "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+     "von": 292,
+     "bis": 295,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C16",
+     "gruppe": "komponenten",
+     "titel": "Chips: wählbar 28 px, in Tabellen/Detailkopf 22 px, Filter- und Notebook-Chips angleichen",
+     "von": 304,
+     "bis": 311,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-add",
+   "schritte": [
+    {
+     "nr": "aufbau-A4f",
+     "gruppe": "aufbau",
+     "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+     "von": 292,
+     "bis": 295,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C16",
+     "gruppe": "komponenten",
+     "titel": "Chips: wählbar 28 px, in Tabellen/Detailkopf 22 px, Filter- und Notebook-Chips angleichen",
+     "von": 304,
+     "bis": 311,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-tabs button",
+   "schritte": [
+    {
+     "nr": "komponenten-C20",
+     "gruppe": "komponenten",
+     "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+     "von": 349,
+     "bis": 361,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3p",
+     "gruppe": "typografie",
+     "titel": "--fs-14: übrige 14-px-Regeln auf das Token",
+     "von": 264,
+     "bis": 265,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "gruppe": "zustaende",
+     "titel": "Reiter .set-tabs und Unterreiter .prop-sub: Gewicht 500, Unterstrich in --text statt Akzent",
+     "von": 323,
+     "bis": 326,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-nav a",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3p",
+     "gruppe": "typografie",
+     "titel": "--fs-14: übrige 14-px-Regeln auf das Token",
+     "von": 264,
+     "bis": 265,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9a",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen-Unternavigation: gewählter Eintrag Fläche --surface mit Rand, Hover 5 %, Gewicht 500",
+     "von": 319,
+     "bis": 322,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tpl-row .star",
+   "schritte": [
+    {
+     "nr": "komponenten-C23",
+     "gruppe": "komponenten",
+     "titel": "Vorlagen-Menü (CSS): neutral, Stern gedämpft, Untermenü als eingerückte Gruppe",
+     "von": 378,
+     "bis": 387,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3p",
+     "gruppe": "typografie",
+     "titel": "--fs-14: übrige 14-px-Regeln auf das Token",
+     "von": 264,
+     "bis": 265,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rules-list",
+   "schritte": [
+    {
+     "nr": "aufbau-C11c",
+     "gruppe": "aufbau",
+     "titel": "Fortschritt: Trading-Aktivität unter die Checkliste, Kommentare, .rules-list löschen",
+     "von": 553,
+     "bis": 556,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/progress.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3p",
+     "gruppe": "typografie",
+     "titel": "--fs-14: übrige 14-px-Regeln auf das Token",
+     "von": 264,
+     "bis": 265,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpill b",
+   "schritte": [
+    {
+     "nr": "komponenten-C16",
+     "gruppe": "komponenten",
+     "titel": "Chips: wählbar 28 px, in Tabellen/Detailkopf 22 px, Filter- und Notebook-Chips angleichen",
+     "von": 304,
+     "bis": 311,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4e",
+     "gruppe": "typografie",
+     "titel": "Notebook: Tag-Pillen 500 (Zähler Onest 500), .nb-details summary 600",
+     "von": 338,
+     "bis": 340,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mentor-note .mn-text",
+   "schritte": [
+    {
+     "nr": "kilook-B3",
+     "gruppe": "kilook",
+     "titel": "Mentor-Notiz im Coach Mode neutral ohne Streifen, Selektor .mentor-notes > .mentor-note, Trennlinien durchgezogen",
+     "von": 421,
+     "bis": 435,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3p",
+     "gruppe": "typografie",
+     "titel": "--fs-14: übrige 14-px-Regeln auf das Token",
+     "von": 264,
+     "bis": 265,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpill",
+   "schritte": [
+    {
+     "nr": "komponenten-C16",
+     "gruppe": "komponenten",
+     "titel": "Chips: wählbar 28 px, in Tabellen/Detailkopf 22 px, Filter- und Notebook-Chips angleichen",
+     "von": 304,
+     "bis": 311,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4e",
+     "gruppe": "typografie",
+     "titel": "Notebook: Tag-Pillen 500 (Zähler Onest 500), .nb-details summary 600",
+     "von": 338,
+     "bis": 340,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".more-link",
+   "schritte": [
+    {
+     "nr": "aufbau-B12",
+     "gruppe": "aufbau",
+     "titel": "Ein Muster für „mehr dazu“: .more-link neutral, .more-row löschen",
+     "von": 379,
+     "bis": 383,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C2a",
+     "gruppe": "aufbau",
+     "titel": "Widgets: „Alle Trades“ als Kopf-Link, Regel-Tracker ohne Fußlink, Regeln-Link korrigiert",
+     "von": 422,
+     "bis": 427,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-B12e",
+     "gruppe": "barrierefreiheit",
+     "titel": ".more-link auf Touch 44 px hoch",
+     "von": 381,
+     "bis": 381,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C3b",
+     "gruppe": "farbe",
+     "titel": "„Mehr anzeigen“-Link neutral (--text-2, 500, Hover --text)",
+     "von": 387,
+     "bis": 388,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S6.11-6.15",
+     "gruppe": "wording",
+     "titel": "Letzte Trades: „Zum TradeLog“ nur mit Zeilen; Challenge-Zähler; Regel-Tracker „abgehakt“ und ohne Kopf-Link",
+     "von": 377,
+     "bis": 381,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W4",
+     "gruppe": "zustaende",
+     "titel": "Letzte Trades: Leertitel nach Lage, „Mehr anzeigen“ nur mit Zeilen",
+     "von": 479,
+     "bis": 482,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dropzone",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P15",
+     "gruppe": "barrierefreiheit",
+     "titel": "CSV-Import: Dropzone role=button tabindex=0, Textfeld „CSV-Text einfügen“",
+     "von": 683,
+     "bis": 687,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-trades-77-116",
+     "gruppe": "barrierefreiheit",
+     "titel": "Screenshots als Knopf .shot-open, Dropzonen role=button, Aktion lightbox über U.lightbox",
+     "von": 754,
+     "bis": 758,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-misc-365",
+     "gruppe": "barrierefreiheit",
+     "titel": "Sicherung: Dropzone role=button tabindex=0, Textfeld „Sicherung als Text einfügen“",
+     "von": 852,
+     "bis": 853,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C12",
+     "gruppe": "komponenten",
+     "titel": "Dropzone: Symbol 24 px, Padding 20/16, neutraler Hover",
+     "von": 265,
+     "bis": 269,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pager",
+   "schritte": [
+    {
+     "nr": "komponenten-S-shadow",
+     "gruppe": "komponenten",
+     "titel": "Schatten-Ich-Seitenwahl: .btn.nav, nur bei mehreren Seiten, „1–10“",
+     "von": 709,
+     "bis": 711,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-c",
+     "gruppe": "komponenten",
+     "titel": "TradeLog-Seitenwahl: .btn.nav, Auswahl/Pfeile nur bei mehreren Seiten, „1–10“",
+     "von": 720,
+     "bis": 720,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T2",
+     "gruppe": "zustaende",
+     "titel": "TradeLog: Zähler „{x} von {y} Trades“ nur bei aktivem Filter, Seitenwähler bei einer Seite reduziert",
+     "von": 642,
+     "bis": 647,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nw-time",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B13",
+     "gruppe": "barrierefreiheit",
+     "titel": "Vergangene News: Text in --muted statt Deckkraft .5, Balken .6",
+     "von": 385,
+     "bis": 389,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2e",
+     "gruppe": "typografie",
+     "titel": "tabular-nums-Sammelregel für Listenwerte und laufende Zahlen",
+     "von": 224,
+     "bis": 224,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.6b",
+     "gruppe": "typografie",
+     "titel": "News-Ziffern: tabular-nums kommt aus der Sammelregel (nur prüfen, keine Einzeländerung)",
+     "von": 375,
+     "bis": 376,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rating button",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B9a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Bewertungssterne 32 px mit Klasse .on, .seg mit aria-checked, Check-in-Skala min. 36 px (Handy 44 px)",
+     "von": 344,
+     "bis": 349,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B3a",
+     "gruppe": "farbe",
+     "titel": "Formfelder: Platzhalter und .field .hint in --muted, neue .lbl-hint, Häkchen neutral, Bewertung --muted/--warn-text",
+     "von": 237,
+     "bis": 243,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C15",
+     "gruppe": "komponenten",
+     "titel": "1–5-Skala .scale5 (CSS) inkl. gemeinsamer Auswahlregel",
+     "von": 292,
+     "bis": 303,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".stat-tile .k",
+   "schritte": [
+    {
+     "nr": "aufbau-A3b",
+     "gruppe": "aufbau",
+     "titel": "Kachel- und Statistik-Titel 13px/500",
+     "von": 269,
+     "bis": 271,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C25a",
+     "gruppe": "komponenten",
+     "titel": "Kacheln: Hover nur Rand, .stat-tile übernimmt .tile-Maße (Padding, 13.5/500, 25px/700), Handy 22 px, heller Schatten",
+     "von": 398,
+     "bis": 405,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4l",
+     "gruppe": "typografie",
+     "titel": "Kachel-Titel .stat-tile .k/.stat .k auf 500, Zähler .cntb 700 → 600",
+     "von": 348,
+     "bis": 349,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp-switch",
+   "schritte": [
+    {
+     "nr": "kilook-C4",
+     "gruppe": "kilook",
+     "titel": "Ruhepunkt-CSS: Reste des Schalters „Christlicher Impuls“ (.rp-switch) löschen",
+     "von": 553,
+     "bis": 556,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C34a",
+     "gruppe": "komponenten",
+     "titel": "Ruhepunkt: tote .rp-switch-Regeln löschen",
+     "von": 473,
+     "bis": 474,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".popover .item",
+   "schritte": [
+    {
+     "nr": "komponenten-C21a",
+     "gruppe": "komponenten",
+     "titel": "Menüeinträge: .popover .item (min. 36, 13px/500), gewählt neutral, Haken-Spalte .chk, .popover .sec",
+     "von": 362,
+     "bis": 366,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3i",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 13.5 → 13 für Kachel-Titel, .set-head p und Konto-Menü (.sb-menu .item erbt 13 von .popover .item)",
+     "von": 255,
+     "bis": 255,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".legend.rep",
+   "schritte": [
+    {
+     "nr": "diagramme-A4",
+     "gruppe": "diagramme",
+     "titel": "Neue Legendenklasse .chart-legend; .legend.top/.legend.rep (Z. 1649–1651) löschen",
+     "von": 305,
+     "bis": 315,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-E8f",
+     "gruppe": "diagramme",
+     "titel": "Report-Widget: .chart-legend vor dem Diagramm statt legend rep",
+     "von": 597,
+     "bis": 597,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pair .input",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S3.1-3.3",
+     "gruppe": "wording",
+     "titel": "app.css: Regeln für Datumsfeld-Overlay (.dp-wrap, .dp-display, .dp-coarse), Touch-Leerzustand, Filter-Datumspaare",
+     "von": 323,
+     "bis": 329,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "wording-S7.4-7.6",
+     "gruppe": "wording",
+     "titel": "Dashboard-Filter: Platzhalter „Von“/„Bis“, „Intraday / Mehrtägig“, „Nachbereitet: Alle · Ja · Nein“",
+     "von": 402,
+     "bis": 405,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tabs button",
+   "schritte": [
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".stat .k",
+   "schritte": [
+    {
+     "nr": "aufbau-A3b",
+     "gruppe": "aufbau",
+     "titel": "Kachel- und Statistik-Titel 13px/500",
+     "von": 269,
+     "bis": 271,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4l",
+     "gruppe": "typografie",
+     "titel": "Kachel-Titel .stat-tile .k/.stat .k auf 500, Zähler .cntb 700 → 600",
+     "von": 348,
+     "bis": 349,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nw-loading",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C13",
+     "gruppe": "zustaende",
+     "titel": "Laden: tote .spin-Regel löschen, .coach-loading/.nw-loading durch Skelett-Stile .coach-skel/.nw-skel ersetzen",
+     "von": 341,
+     "bis": 345,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-NW2",
+     "gruppe": "zustaende",
+     "titel": "News: Skelett beim Laden statt Ring/Text",
+     "von": 804,
+     "bis": 806,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/news.js"
+     ]
+    }
+   ]
+  }
+ ]
+}

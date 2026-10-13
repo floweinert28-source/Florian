@@ -1,0 +1,1032 @@
+{
+ "anker": [
+  {
+   "anker": ".mentor-setup",
+   "schritte": [
+    {
+     "nr": "abstaende-D8",
+     "gruppe": "abstaende",
+     "titel": "Einrichten- und Beitrittskarten: .mentor-setup-Polster, Symbole mittig 34 px --faint (Mentor und Coach), .coach-join 680 mittig, .coach-co-what ohne eigene Breite, Einladungshinweis im Dialog volle Zeile",
+     "von": 375,
+     "bis": 375,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-MENTOR",
+     "gruppe": "abstaende",
+     "titel": "mentor.js: keine Strukturänderung (Breiten in C12, Symbol in D8), einen Inline-Abstand nach 1.16 ersetzen",
+     "von": 494,
+     "bis": 497,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    },
+    {
+     "nr": "farbe-C21",
+     "gruppe": "farbe",
+     "titel": "Mentor-Seite: Hinweise muted, „Zu den Einstellungen“ normaler Knopf",
+     "von": 480,
+     "bis": 484,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    },
+    {
+     "nr": "wording-S15.4-15.5",
+     "gruppe": "wording",
+     "titel": "Mentor: Fehler- und Einrichten-Text, Knopf „Server einrichten“, Repo-Pfad streichen",
+     "von": 548,
+     "bis": 549,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mentor-note",
+   "schritte": [
+    {
+     "nr": "farbe-C21",
+     "gruppe": "farbe",
+     "titel": "Mentor-Seite: Hinweise muted, „Zu den Einstellungen“ normaler Knopf",
+     "von": 480,
+     "bis": 484,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    },
+    {
+     "nr": "kilook-B3",
+     "gruppe": "kilook",
+     "titel": "Mentor-Notiz im Coach Mode neutral ohne Streifen, Selektor .mentor-notes > .mentor-note, Trennlinien durchgezogen",
+     "von": 421,
+     "bis": 435,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C31",
+     "gruppe": "komponenten",
+     "titel": "Mentor-Chat (CSS): .mentor → .mentor-chat, KI-Hinweis .mentor-disclaimer",
+     "von": 453,
+     "bis": 458,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-mentor-a",
+     "gruppe": "komponenten",
+     "titel": "Mentor-Chat: .mentor-chat, .mentor-disclaimer, Neu-laden mit I.refresh",
+     "von": 663,
+     "bis": 666,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/mentor.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".coach-join-head .ico svg",
+   "schritte": [
+    {
+     "nr": "abstaende-D8",
+     "gruppe": "abstaende",
+     "titel": "Einrichten- und Beitrittskarten: .mentor-setup-Polster, Symbole mittig 34 px --faint (Mentor und Coach), .coach-join 680 mittig, .coach-co-what ohne eigene Breite, Einladungshinweis im Dialog volle Zeile",
+     "von": 375,
+     "bis": 375,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C9",
+     "gruppe": "farbe",
+     "titel": "Coach: Namens-Hover, Symbole, gewählte Option, Häkchen neutral; „Neu“-Rand und -Streifen löschen",
+     "von": 417,
+     "bis": 425,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mentor-setup .ico svg",
+   "schritte": [
+    {
+     "nr": "abstaende-D8",
+     "gruppe": "abstaende",
+     "titel": "Einrichten- und Beitrittskarten: .mentor-setup-Polster, Symbole mittig 34 px --faint (Mentor und Coach), .coach-join 680 mittig, .coach-co-what ohne eigene Breite, Einladungshinweis im Dialog volle Zeile",
+     "von": 375,
+     "bis": 375,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C6",
+     "gruppe": "farbe",
+     "titel": "Mentor: Einrichtungs-Symbol, eigene Nachricht und Tipp-Punkte neutral",
+     "von": 404,
+     "bis": 408,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mentor-note .mn-head",
+   "schritte": [
+    {
+     "nr": "kilook-B3",
+     "gruppe": "kilook",
+     "titel": "Mentor-Notiz im Coach Mode neutral ohne Streifen, Selektor .mentor-notes > .mentor-note, Trennlinien durchgezogen",
+     "von": 421,
+     "bis": 435,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mentor-note .mn-head b",
+   "schritte": [
+    {
+     "nr": "kilook-B3",
+     "gruppe": "kilook",
+     "titel": "Mentor-Notiz im Coach Mode neutral ohne Streifen, Selektor .mentor-notes > .mentor-note, Trennlinien durchgezogen",
+     "von": 421,
+     "bis": 435,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mentor-notes.in-note",
+   "schritte": [
+    {
+     "nr": "abstaende-D3",
+     "gruppe": "abstaende",
+     "titel": "Mentor-Notizen in der Notiz auf der Textkante 28 px",
+     "von": 370,
+     "bis": 370,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-B3",
+     "gruppe": "kilook",
+     "titel": "Mentor-Notiz im Coach Mode neutral ohne Streifen, Selektor .mentor-notes > .mentor-note, Trennlinien durchgezogen",
+     "von": 421,
+     "bis": 435,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".coach-radio input",
+   "schritte": [
+    {
+     "nr": "farbe-C9",
+     "gruppe": "farbe",
+     "titel": "Coach: Namens-Hover, Symbole, gewählte Option, Häkchen neutral; „Neu“-Rand und -Streifen löschen",
+     "von": 417,
+     "bis": 425,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C17a",
+     "gruppe": "komponenten",
+     "titel": "Native Häkchen (accent-color: var(--text)) und Quill-Checklisten neutral",
+     "von": 312,
+     "bis": 316,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".coach-yes svg",
+   "schritte": [
+    {
+     "nr": "farbe-C9",
+     "gruppe": "farbe",
+     "titel": "Coach: Namens-Hover, Symbole, gewählte Option, Häkchen neutral; „Neu“-Rand und -Streifen löschen",
+     "von": 417,
+     "bis": 425,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C32a",
+     "gruppe": "komponenten",
+     "titel": "Coach: Haken in „Kurz-Stats“ schrumpft nicht",
+     "von": 459,
+     "bis": 460,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".msg.typing i",
+   "schritte": [
+    {
+     "nr": "bewegung-B12",
+     "gruppe": "bewegung",
+     "titel": "Lade-Kurven (.skel, .ld, Tipp-Punkte) auf --ease-sym",
+     "von": 229,
+     "bis": 233,
+     "cluster": "bewegung",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C6",
+     "gruppe": "farbe",
+     "titel": "Mentor: Einrichtungs-Symbol, eigene Nachricht und Tipp-Punkte neutral",
+     "von": 404,
+     "bis": 408,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ycal-head span",
+   "schritte": [
+    {
+     "nr": "aufbau-A4g",
+     "gruppe": "aufbau",
+     "titel": "Kalender-Wochentage und Tageszahl 12px/500",
+     "von": 296,
+     "bis": 299,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26b",
+     "gruppe": "komponenten",
+     "titel": "Heute-Ring in Rastern (Aktivität, Tracker, Jahresübersicht) und Jahreskalender-Kopf",
+     "von": 417,
+     "bis": 418,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cpn-link",
+   "schritte": [
+    {
+     "nr": "komponenten-C33b",
+     "gruppe": "komponenten",
+     "titel": "Coupon-Link in --text-2, unten bündig",
+     "von": 471,
+     "bis": 472,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-coupons",
+     "gruppe": "komponenten",
+     "titel": "Coupons: Link-Darstellung kommt aus C33b, Markup bleibt (nur prüfen)",
+     "von": 639,
+     "bis": 641,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/coupons.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".card-sub",
+   "schritte": [
+    {
+     "nr": "abstaende-B5",
+     "gruppe": "abstaende",
+     "titel": ".card-sub: margin-top 3px → var(--sp-1)",
+     "von": 321,
+     "bis": 321,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "abstaende-I3",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich: Untertitel (Zeitraum) an der Karte „Regelverstöße“ streichen",
+     "von": 423,
+     "bis": 424,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cal .wd",
+   "schritte": [
+    {
+     "nr": "aufbau-A4g",
+     "gruppe": "aufbau",
+     "titel": "Kalender-Wochentage und Tageszahl 12px/500",
+     "von": 296,
+     "bis": 299,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26a",
+     "gruppe": "komponenten",
+     "titel": "Kalender: Wochentage als Beschriftung, Tageszahl ohne Kreis, nur „heute“ gefüllt (--text/--bg)",
+     "von": 411,
+     "bis": 416,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-pair .fd-unit",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster auf Touch 40 px (pointer: coarse)",
+     "von": 380,
+     "bis": 380,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fw-lbl",
+   "schritte": [
+    {
+     "nr": "aufbau-A3c",
+     "gruppe": "aufbau",
+     "titel": "Beschriftungen dichter Raster 12px/500 --muted, .fw-lbl 13/500",
+     "von": 272,
+     "bis": 277,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-l",
+   "schritte": [
+    {
+     "nr": "komponenten-C05",
+     "gruppe": "komponenten",
+     "titel": "Eine Feld-Beschriftung (CSS-Teil; JS-Teil in U2, D3, S-prop-b, S-dashboard-d)",
+     "von": 213,
+     "bis": 219,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-pair .input",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster auf Touch 40 px (pointer: coarse)",
+     "von": 380,
+     "bis": 380,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pair-card .pv i",
+   "schritte": [
+    {
+     "nr": "abstaende-C9",
+     "gruppe": "abstaende",
+     "titel": "Auswahlkarten-Raster der Einstellungen vereinheitlichen: eigene Spalten/Lücken/max-width streichen, gap var(--sp-3), 4 bzw. 3 Spalten, Container ≤ 720 px zwei Spalten",
+     "von": 358,
+     "bis": 358,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3f",
+     "gruppe": "typografie",
+     "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+     "von": 249,
+     "bis": 249,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rep-sel",
+   "schritte": [
+    {
+     "nr": "komponenten-C28",
+     "gruppe": "komponenten",
+     "titel": "Kennzahl-Auswahl im Report-Widget ohne Farbstreifen (CSS)",
+     "von": 428,
+     "bis": 431,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-W2",
+     "gruppe": "komponenten",
+     "titel": "Report-Auswahl ohne Farbstreifen, „Kennzahl“ neutral",
+     "von": 585,
+     "bis": 587,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-opts .item",
+   "schritte": [
+    {
+     "nr": "komponenten-C21c",
+     "gruppe": "komponenten",
+     "titel": "Symbol-Liste und Filter-Optionen auf Menümaß, gewählt neutral",
+     "von": 369,
+     "bis": 371,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rep-foot .rep-reset",
+   "schritte": [
+    {
+     "nr": "farbe-C3c",
+     "gruppe": "farbe",
+     "titel": "Report-Panel: gewählte Zeile flach, Zurücksetzen --text-2, Schriftgröße über .rep-add",
+     "von": 389,
+     "bis": 392,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-gh",
+   "schritte": [
+    {
+     "nr": "aufbau-A4f",
+     "gruppe": "aufbau",
+     "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+     "von": 292,
+     "bis": 295,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".banner",
+   "schritte": [
+    {
+     "nr": "abstaende-B19",
+     "gruppe": "abstaende",
+     "titel": ".banner: padding var(--sp-3) var(--sp-4)",
+     "von": 335,
+     "bis": 335,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rr-day",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-rangepicker",
+     "gruppe": "barrierefreiheit",
+     "titel": "Zeitraum-Kalender: wandernder tabindex (st.fk), Pfeil-/Bildtasten, Fokus nach Klick halten (Z. 717: Hinweis .shell-Grid/Sprunglink)",
+     "von": 688,
+     "bis": 718,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/rangepicker.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".seg button",
+   "schritte": [
+    {
+     "nr": "komponenten-C14a",
+     "gruppe": "komponenten",
+     "titel": "Segment als Schiene: Grundregel .seg/.seg button, Hover, .seg.pill löschen",
+     "von": 279,
+     "bis": 286,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mr-write textarea",
+   "schritte": [
+    {
+     "nr": "komponenten-C32c",
+     "gruppe": "komponenten",
+     "titel": "Coach-Antwortfelder ohne Größen-Griff, wachsen bis 160 px (CSS)",
+     "von": 462,
+     "bis": 462,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nw-dh",
+   "schritte": [
+    {
+     "nr": "aufbau-A4d",
+     "gruppe": "aufbau",
+     "titel": "News-Tageskopf .nw-dh 14px",
+     "von": 290,
+     "bis": 290,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cpn-off",
+   "schritte": [
+    {
+     "nr": "aufbau-C5b",
+     "gruppe": "aufbau",
+     "titel": "Coupon: Rabatt 13.5px --text-2, Code 600/.08em",
+     "von": 459,
+     "bis": 462,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ql-editor li[data-list=unchecked] > .ql-ui",
+   "schritte": [
+    {
+     "nr": "farbe-C1d",
+     "gruppe": "farbe",
+     "titel": "Quill-Editor: Platzhalter --muted ohne 18 px, Zitat, Code, Links (auch .nb-tweet a), Checklisten-Haken und Tooltip-Links neutral",
+     "von": 370,
+     "bis": 375,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C17a",
+     "gruppe": "komponenten",
+     "titel": "Native Häkchen (accent-color: var(--text)) und Quill-Checklisten neutral",
+     "von": 312,
+     "bis": 316,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-assign-row input",
+   "schritte": [
+    {
+     "nr": "farbe-C8a",
+     "gruppe": "farbe",
+     "titel": "Prop: Trade-Zuordnung mit neutralen Häkchen",
+     "von": 413,
+     "bis": 414,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C17a",
+     "gruppe": "komponenten",
+     "titel": "Native Häkchen (accent-color: var(--text)) und Quill-Checklisten neutral",
+     "von": 312,
+     "bis": 316,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ql-editor li[data-list=checked] > .ql-ui",
+   "schritte": [
+    {
+     "nr": "farbe-C1d",
+     "gruppe": "farbe",
+     "titel": "Quill-Editor: Platzhalter --muted ohne 18 px, Zitat, Code, Links (auch .nb-tweet a), Checklisten-Haken und Tooltip-Links neutral",
+     "von": 370,
+     "bis": 375,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C17a",
+     "gruppe": "komponenten",
+     "titel": "Native Häkchen (accent-color: var(--text)) und Quill-Checklisten neutral",
+     "von": 312,
+     "bis": 316,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ld .ld-line",
+   "schritte": [
+    {
+     "nr": "bewegung-B12",
+     "gruppe": "bewegung",
+     "titel": "Lade-Kurven (.skel, .ld, Tipp-Punkte) auf --ease-sym",
+     "von": 229,
+     "bis": 233,
+     "cluster": "bewegung",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B20",
+     "gruppe": "farbe",
+     "titel": "Ladelinie .ld in --text-2 ohne drop-shadow",
+     "von": 319,
+     "bis": 322,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".activity i.today",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23a",
+     "gruppe": "farbe",
+     "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+     "von": 332,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26b",
+     "gruppe": "komponenten",
+     "titel": "Heute-Ring in Rastern (Aktivität, Tracker, Jahresübersicht) und Jahreskalender-Kopf",
+     "von": 417,
+     "bis": 418,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

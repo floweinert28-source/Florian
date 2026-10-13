@@ -1,0 +1,184 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/farbe.md",
+ "ids_abgedeckt": [
+  "bereich_konto-3",
+  "bereich_konto-2",
+  "bereich_dashboard-1",
+  "bereich_dashboard-3",
+  "barrierefreiheit-7",
+  "referenz-6",
+  "farbe_kontrast-1",
+  "bereich_notebook_news-2",
+  "bereich_dashboard-5",
+  "bereich_prop-34",
+  "bereich_training-3",
+  "bereich_training-4",
+  "ki_look-2",
+  "typografie-2",
+  "bereich_prop-40",
+  "bereich_konto-4",
+  "referenz-7",
+  "farbe_kontrast-12",
+  "zustaende-7",
+  "farbe_kontrast-24",
+  "komponenten-8",
+  "barrierefreiheit-24",
+  "barrierefreiheit-25",
+  "farbe_kontrast-19",
+  "farbe_kontrast-10",
+  "farbe_kontrast-11",
+  "farbe_kontrast-8",
+  "referenz-8",
+  "farbe_kontrast-6",
+  "bereich_dashboard-14",
+  "bereich_training-36",
+  "bereich_trades_tag-45",
+  "bereich_trades_tag-12",
+  "bereich_notebook_news-42",
+  "bereich_notebook_news-3",
+  "bereich_notebook_news-26",
+  "bereich_notebook_news-16",
+  "bereich_notebook_news-21",
+  "bereich_notebook_news-17",
+  "bereich_training-8",
+  "farbe_kontrast-32",
+  "bereich_prop-43",
+  "bereich_prop-16",
+  "bereich_prop-9",
+  "bereich_prop-44",
+  "bereich_training-44",
+  "bereich_shell-17",
+  "bereich_einstellungen-9",
+  "bereich_einstellungen-16",
+  "bereich_einstellungen-18",
+  "bereich_einstellungen-17",
+  "bereich_einstellungen-37",
+  "bereich_einstellungen-8",
+  "farbe_kontrast-15",
+  "farbe_kontrast-26",
+  "typografie-10",
+  "bereich_statistik-25",
+  "bereich_statistik-27",
+  "bereich_statistik-2",
+  "bereich_trades_tag-21",
+  "bereich_trades_tag-29",
+  "bereich_trades_tag-19",
+  "bereich_trades_tag-20",
+  "bereich_konto-8",
+  "bereich_konto-6",
+  "bereich_dashboard-16",
+  "bereich_dashboard-38",
+  "diagramme-45",
+  "referenz-9",
+  "diagramme-44",
+  "bereich_trades_tag-25",
+  "diagramme-37",
+  "farbe_kontrast-20",
+  "farbe_kontrast-40",
+  "bewegung-44",
+  "farbe_kontrast-7",
+  "farbe_kontrast-9",
+  "farbe_kontrast-5",
+  "farbe_kontrast-33",
+  "ki_look-34",
+  "komponenten-31",
+  "farbe_kontrast-22",
+  "bereich_prop-25",
+  "bereich_prop-35",
+  "bereich_shell-18",
+  "bereich_einstellungen-47",
+  "farbe_kontrast-16",
+  "farbe_kontrast-42",
+  "bereich_statistik-39",
+  "ki_look-39",
+  "bereich_trades_tag-42",
+  "zustaende-26"
+ ],
+ "ids_zurueckgestellt": [
+  {
+   "id": "farbe_kontrast-40",
+   "grund": "Teilaspekt: Die Verschiebung der hellen Flächen (surface-2/-3, Vorschau-Karte), die Seitenleiste von --bg-2 auf --bg und die dunklen Ränder an .cal .wd/.shadow-rule werden nicht umgesetzt. Das sichtbare Problem lösen gezielte Regeln (B22) und das angehobene --muted. Eine globale Flächenänderung wäre riskant, überschneidet sich mit Inventar A14, und zusätzliche Linien sind Geschmack."
+  },
+  {
+   "id": "typografie-10",
+   "grund": "Teilaspekt: Die Schriftgrößen 11,5/11 → 12 px gehören zur Typo-Skala (Typografie-Spezifikation). Hier wird nur die Farbe auf --muted gesetzt."
+  },
+  {
+   "id": "bereich_dashboard-16",
+   "grund": "Teilaspekt: Größe und Gewicht der Tageszahl regelt die Typografie-Spezifikation. Fläche und Heute-Farbe sind hier geregelt."
+  },
+  {
+   "id": "diagramme-37",
+   "grund": "Teilaspekt: Die endgültige Achsen-Schriftgröße entscheidet die Typografie. Die Farbe --muted und das Entfernen der Doppelregel sind hier geregelt."
+  },
+  {
+   "id": "bereich_trades_tag-29",
+   "grund": "Teilaspekt: Kartentitel weglassen (Aufbau-Gruppe) und .score-big 30 → 25 px (Typografie, die Klasse wird an fünf Stellen genutzt). Die Farbe ist hier geregelt."
+  },
+  {
+   "id": "bereich_trades_tag-12",
+   "grund": "Teilaspekt: Das Timing 260 ms → var(--dur-2) bleibt. Das ist Bewegung, und die Nutzer-Aufgabe „Long/Short-Wechsel ruckelt“ ist abgeschlossen."
+  },
+  {
+   "id": "farbe_kontrast-20",
+   "grund": "Teilaspekt: U.heatmap und .heat (toter Code) werden nur umgefärbt, nicht gelöscht. Aufräumen ist kein Farbthema."
+  },
+  {
+   "id": "farbe_kontrast-26",
+   "grund": "Teilaspekt: verifiedPill (exportiert, ungenutzt) wird neutral gesetzt statt gelöscht."
+  },
+  {
+   "id": "bereich_notebook_news-21",
+   "grund": "Teilaspekt: Das Farbraster bleibt (README Z. 124 nennt es als Funktion). Es wird nur um Designfarben ergänzt."
+  },
+  {
+   "id": "bereich_notebook_news-16",
+   "grund": "Teilaspekt: Den Fokus-Stil für .nb-details summary (Z. 1187) regelt bereich_notebook_news-35 (Barrierefreiheit). Hier wird nur das Grün entfernt."
+  },
+  {
+   "id": "bereich_prop-16",
+   "grund": "Teilaspekt: Die Absenden-Knöpfe sichtbarer Formulare (prop.js:243/262/266) bleiben .btn.primary, das jetzt neutral ist (Knopf-Regel 1.4, K4)."
+  },
+  {
+   "id": "bereich_dashboard-1",
+   "grund": "Teilaspekt: widgets.js:374 (Absenden im Mentor-Formular) bleibt .btn.primary, das jetzt neutral ist (K4)."
+  }
+ ],
+ "konflikte": [
+  "K1 Helles Grün: ein dunkleres Token #077a41 für --accent und --profit statt eigener Text-Tokens (--accent-text, --profit-text, --focus, dunkles --accent-ink). Auch Grafiken brauchen ≥3:1, nur #077a41 hält auf Pille und surface-3 ≥4,5, weiße Schrift erreicht 5,43.",
+  "K2 Helles Rot #c62e2e statt #c92f2f/#c93434, weil nur dieser Wert Pille und Kalenderkachel ≥4,5 hält.",
+  "K3 Gelb: --warn-text (#8f5f00) statt --warn global abzudunkeln, damit Ampel, Skala und Flamme nicht braun werden.",
+  "K4 .btn.primary global neutral (surface-3, Rand border-2, Schrift --text, 600) nach BRIEF. Ruhepunkt bekommt denselben Stil. Die Variante „weiße Fläche“ und weitergehende Vorschläge (Absenden neutral) werden nicht übernommen.",
+  "K5 Heute: Kalender-Kreis in --text, in Wählern ein Innenring in --muted, Raster mit 2px --text-2, Mini-Kalender mit Zellrand. Kein Gewicht 700 neu eingeführt.",
+  "K6 Aktivitäts-Heatmap neutral, Regel-Tracker gedämpft grün mit eigener Legende .heat-legend.right.",
+  "K7 Kalendertönung: hell 10/10 % mit Rand 35 %, dunkel Rot 18 %, Kleintext --text-2. Gilt auch für .yc.",
+  "K8 forLight mit Schwelle 0,18 in 8-%-Schritten; Schriftfarbe auf Akzent über Kontrastfunktion inkFor.",
+  "K9 Platzhalter in --muted statt color-mix 80 %, weil Suchfelder keine andere Beschriftung haben.",
+  "K10 card-ico ohne Kachel (ki_look-39) statt neutralem Quadrat (bereich_statistik-27).",
+  "K11 Willkommen-Banner: info ohne Funkel-Symbol; .banner.accent wird zu .banner.ok umbenannt (mit --profit); Info-Symbol in --text-2.",
+  "K12 Report-Farben als feste, validierte Hex-Palette statt Tokens (der Farbwähler braucht #rrggbb); alte Standardfarben werden migriert.",
+  "K13 Disziplin-Kosten überall mit Vorzeichen (Kachel, Tabelle „Effekt“, Ranking).",
+  "K14 Coach „Neu“: Rand-Regel und Seitenstreifen löschen; Klasse is-new bleibt (Test).",
+  "K15 Zähler: in Tabellen neutral, in X/Y-Paaren nur > 0 gefärbt.",
+  "K16 Prop-Bilanz: Ausgaben- und Payout-Spalte beide neutral.",
+  "K17 .kv > span:first-child als sicherster Selektor.",
+  "K18 Gewählte Notiz surface-3 und kein active im Auswahlmodus; Menüeintrag [aria-checked] mit flachem Auswahlstil (inset).",
+  "K19 Long/Short-Schieber flach trotz README Z. 43 (neuere README Z. 203–206 und BRIEF gehen vor); README wird nachgezogen, das Timing bleibt.",
+  "K20 News-Chips ohne Mini-Balken, neutral.",
+  "K21 Editor-Raster bleibt und wird um Designfarben ergänzt.",
+  "K22 Toter Code wird umgefärbt statt gelöscht.",
+  "K23 Schlaf-Schieber text-align left statt min-width 44px.",
+  "K24 Helles --muted #5f6862 statt #626b65.",
+  "K25 „Mehr anzeigen“ nur bei rows.length.",
+  "K26 Größen und Gewichte, Kartentitel, Fokus in Notizen und Knopfsystem überschneiden sich mit den Gruppen Typografie, Aufbau, Barrierefreiheit und Komponenten; hier wird nur Farbe festgelegt.",
+  "K27 Offene Grünstellen ohne Befund (Datumswähler-Auswahl, Vorlagen- und Symbol-Menü, Bearbeitungsmodus, Checklisten usw.) bewusst nicht angefasst; sie stehen in der Erlaubt-Liste des Prüfskripts und sind für die Lückenrunde vorgemerkt."
+ ],
+ "kurz": "Ich habe die Spezifikation für „Farbe und Kontrast“ geschrieben: 92 von 93 Befunden sind in konkrete Umsetzungsschritte nach Datei überführt (Tokens → Komponenten → Einzelstellen → Texte, Tests, README). Ein Befund (Long/Short-Abzeichen) ist eine Frage an den Nutzer, weil README Z. 45–46 ihn ausdrücklich festlegt.\n\nDie wichtigsten Entscheidungen:\n- **Helles Design:** Grün, Rot, Violett und Blau werden insgesamt abgedunkelt (#077a41, #c62e2e, #5f4fcf, #1d6db5). Gelb bekommt ein eigenes Text-Token (#8f5f00). --muted wird angehoben, dunkel #948f88 und hell #5f6862.\n- **Hauptknopf „Speichern“** (`.btn.primary`) wird global neutral statt grün gefüllt. Grün tragen nur noch Gewinn und Positives, „Trade loggen“, Schalter, Balken und Punkte in der Seitenleiste und der Fokusring.\n- **„Heute“, Status-Pillen, Häkchen, Links, Symbole, Heatmap und Monte Carlo** werden neutral.\n- **--faint** ist keine Textfarbe mehr.\n- **Eigene Farben:** forLight dunkelt sie stärker ab, die Schriftfarbe auf Farbflächen wird nach Kontrast gewählt (inkFor).\n\n27 Konflikte zwischen Befunden sind mit Begründung entschieden. Größen- und Timing-Teilaspekte sind an die Gruppen Typografie, Aufbau und Bewegung zurückgestellt. Die Akzeptanzkriterien enthalten nachgerechnete Kontrastwerte, ein DOM-Prüfskript, grep-Prüfungen, Zensus-Erwartungen, Screenshot-Prüfpunkte und die Regression.",
+ "nutzer_fragen": [
+  {
+   "id": "bereich_trades_tag-17",
+   "frage": "Die Long/Short-Abzeichen sind heute grün bzw. rot (README Z. 45–46). Dadurch steht oft ein rotes „SHORT“ neben einem grünen Gewinn. Sollen Fläche, Rand und Schrift der Abzeichen neutral werden, sodass nur der kleine Pfeil im Kreis die Richtungsfarbe behält?",
+   "empfehlung": "Ja. In .badge (app.css:618–619) Schrift auf --text-2, Rand auf --border und Fläche auf --surface-2 setzen. Der Pfeil-Kreis (--c, .badge .bi) bleibt grün bzw. rot, Schreibweise LONG/SHORT und Größe bleiben. README Z. 45–46 und den Kommentar Z. 617 anpassen. Long/Short-Umschalter im Trade-Dialog und Dashboard-Filter bleiben farbig. Die Variante „auch der Pfeil grau“ empfehle ich nicht."
+  }
+ ]
+}

@@ -1,0 +1,988 @@
+{
+ "screens": [
+  {
+   "screen": "coupons",
+   "zustand": "voll (Desktop)",
+   "hauptaktion": "Einen Rabatt-Code kopieren (Klick auf das gestrichelte Code-Ticket .cpn-code, data-action='coupon-copy')",
+   "optisch_klar": false,
+   "begruendung": "Innerhalb der Kachel ist das Code-Ticket zwar das stärkste Element (Onest 700, 14px, Sperrung .12em, gestrichelter Rahmen; app.css:2649). Auf der Seite fällt aber zuerst der grün getönte Akzentknopf „Trade loggen“ (.btn.accent.tl, app.js:253) oben rechts auf. Er ist das einzige farbige Element. Daneben steht das Symbol ▷ „Session starten“ (.btn.icon-only, app.js:250). Beide erscheinen, weil coupons.js:10 nur range und account abschaltet. Laut pageHead (app.js:257) sind session und trade standardmäßig an.",
+   "konkurrenten": [
+    "„Trade loggen“ (.btn.accent, oben rechts)",
+    "▷ „Session starten“ (.btn.icon-only)"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "„Trade loggen“ und „Session starten“ in der Kopfreihe (auf einer Seite mit Rabatt-Codes ohne Bezug zum Trade)",
+    "Marke „Beispiel“ dreimal, je Kachel (alle drei Einträge sind Beispiele)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe ohne „Trade loggen“ und „Session starten“",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "coupons.js:10: head → { range: false, account: false, session: false, trade: false }, wie bei coach.js:219 und shadow.js:104. pageHead (app.js:256-262) zeigt dann keine Knöpfe mehr, und das Code-Ticket ist das Einzige, was auf der Seite handeln lässt. „Trade loggen“ und „Session starten“ bleiben auf Dashboard, TradeLog und Tagesansicht erreichbar, auf dem Handy dort als runder Knopf. Der Nutzer hat dasselbe beim Schatten-Ich schon so festgelegt (README:223).",
+     "beleg": "shots/dark-1440/coupons.png (grüner „Trade loggen“ oben rechts, ▷ daneben); coupons.js:10; app.js:250-262; README.md:223",
+     "id": "konto-1-1"
+    },
+    {
+     "titel": "Marke „Beispiel“ einmal für die Seite statt je Kachel",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Haben alle Einträge example: true (heute 3 von 3), lässt tile() (coupons.js:6) die Pille weg. Sie steht dann einmal rechts über dem Raster, im selben Muster wie „Beispieldaten“ bei Affiliate: <div class='aff-top'><span class='grow'></span>U.pill('Beispiel','neutral')</div> (affiliate.js:79). Bei gemischten Listen bleibt die Pille an jeder Beispiel-Kachel. So rahmt nichts den Firmennamen ein, und die Kachel liest sich: Firma, Rabatt, Code.",
+     "beleg": "shots/dark-1440/coupons.png (3× „Beispiel“); coupons.js:6,13; affiliate.js:79",
+     "id": "konto-1-2"
+    }
+   ],
+   "sid": "konto-1",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coupons",
+   "zustand": "handy (390)",
+   "hauptaktion": "Einen Rabatt-Code kopieren (Tipp auf das Code-Ticket)",
+   "optisch_klar": false,
+   "begruendung": "Die erste Zeile unter dem Titel enthält nur das Symbol ▷ „Session starten“, ein einzelner Knopf in einer eigenen Reihe von etwa 75 px. Unten rechts schwebt der gefüllte grüne runde „Trade loggen“-Knopf (app.css:3018-3020). Er ist das einzige gefüllte und farbige Element des Screens. Die Code-Tickets sind neutral grau gestrichelt.",
+   "konkurrenten": [
+    "▷ „Session starten“ in eigener Zeile ganz oben",
+    "runder gefüllter „Trade loggen“-Knopf unten rechts"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Session-Zeile oben",
+    "runder Trade-loggen-Knopf",
+    "„Beispiel“ je Kachel"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe abschalten: Session-Zeile und runder Trade-Knopf entfallen hier",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Dieselbe Änderung wie am Desktop (coupons.js:10, session: false, trade: false). Auf dem Handy fällt damit die Reihe mit dem einzelnen ▷ weg, und die erste Coupon-Kachel rückt nach oben. Auch der schwebende grüne Knopf verschwindet. Auf Dashboard, TradeLog und Tagesansicht bleibt er. Der Leerraum unten (app.css:2998, padding-bottom 104px) kann unverändert bleiben.",
+     "beleg": "shots/dark-390/coupons.png (▷ allein in Zeile 1, grüner Rundknopf unten rechts); app.css:2998, 3018-3020",
+     "id": "konto-2-1"
+    }
+   ],
+   "sid": "konto-2",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coupons",
+   "zustand": "leer (keine Codes hinterlegt)",
+   "hauptaktion": "Keine eigene: Die Codes kommen fest aus PropData.COUPONS. Höchstens: weiter zu Prop Firms",
+   "optisch_klar": false,
+   "begruendung": "U.empty('coupon', 'Noch keine Codes hinterlegt', …) hat keinen Knopf (coupons.js:13). Der stärkste Knopf der Seite bleibt deshalb der Akzentknopf „Trade loggen“ aus der Kopfreihe, der hier nichts weiterbringt. Dieser Zustand wurde nicht aufgenommen; die Bewertung beruht auf dem Code.",
+   "konkurrenten": [
+    "„Trade loggen“ und ▷ aus der Kopfreihe"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "„Trade loggen“ und „Session starten“"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leerzustand: ein Satz und ein sekundärer Weg weiter",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Mit der Kopfreihen-Änderung oben verschwindet „Trade loggen“. Als einzigen Knopf bekommt U.empty den vierten Parameter: <a class='btn' href='#/prop'>Zu den Prop Firms</a> (sekundär, umrandet). Satz: „Rabatt-Codes für Prop Firms erscheinen hier.“ (bleibt).",
+     "beleg": "coupons.js:13; ui.js:178 (U.empty mit action-Parameter)",
+     "id": "konto-3-1"
+    }
+   ],
+   "sid": "konto-3",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "affiliate (Alle Creator, #/affiliate)",
+   "zustand": "voll (Desktop)",
+   "hauptaktion": "Einen Creator öffnen, um Verdienst und Kunden zu prüfen (Zeile → Creator-Ansicht)",
+   "optisch_klar": false,
+   "begruendung": "Kein Element zeigt das Öffnen als Hauptaktion. Jede Zeile hat drei Ziele mit gleichem Gewicht. Der Name ist ein Knopf (aff-name) und führt zu „aff-view“, der Chevron am Ende (.btn ghost icon sm) ebenfalls. Dazu kommt „30 % ✎“ (aff-pct) mit Stift, fünfmal untereinander. Als Knopf sticht nur „Trade loggen“ (.btn.accent) heraus. Optisch dominieren die fünf großen Kennzahl-Kacheln und die grünen Balken.",
+   "konkurrenten": [
+    "„Trade loggen“ (.btn.accent) und ▷ „Session starten“",
+    "5× Stift „Provision ändern“ (aff-pct)",
+    "Name-Knopf und Chevron, die dasselbe tun (zwei Ziele je Zeile)",
+    "Reiter „Alle Creator / Creator-Ansicht“"
+   ],
+   "verstecken": [
+    "Stift-Symbol an der Provision: erst bei Hover oder Fokus der Zeile (Klick auf die Prozentzahl öffnet weiterhin den Dialog)"
+   ],
+   "irrelevant": [
+    "„Trade loggen“ und „Session starten“ in der Kopfreihe (affiliate.js:73)",
+    "Kachel „Creator: 5“: entspricht der Zeilenzahl der Tabelle direkt darunter"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe ohne „Trade loggen“ und „Session starten“",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "affiliate.js:73: head → { range: false, account: false, session: false, trade: false }. Danach stehen oben nur noch die Reiter und „Beispieldaten“. Trade loggen und Session bleiben auf Dashboard, TradeLog und Tagesansicht. Präzedenz: Schatten-Ich (README:223) und Coach (coach.js:219).",
+     "beleg": "shots/dark-1440/affiliate.png (▷ und grüner „Trade loggen“ über den Reitern); affiliate.js:73; app.js:257",
+     "id": "konto-4-1"
+    },
+    {
+     "titel": "Stift „Provision ändern“ erst bei Bedarf zeigen",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Die Funktion bleibt: Klick oder Tipp auf die Prozentzahl öffnet wie heute den Dialog. Das Symbol I.edit in .aff-pct (affiliate.js:58) ist nur sichtbar, wenn die Zeile gehovert wird oder Fokus hat. Regel: .aff-tbl tr:not(:hover):not(:focus-within) .aff-pct svg { visibility: hidden }. Das ist kein neues Styling, nur Ein- und Ausblenden. Auf dem Handy ist der Stift heute schon ausgeblendet (app.css:2997). data-tip='Provision ändern' bleibt.",
+     "beleg": "shots/dark-1440/affiliate.png (5 Stifte in der Spalte Provision); affiliate.js:58; app.css:2671-2672, 2997",
+     "id": "konto-4-2"
+    },
+    {
+     "titel": "Ein Ziel je Zeile: ganze Zeile öffnet die Creator-Ansicht",
+     "regel": 4,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Das <tr> bekommt class='link' data-action='aff-view' data-id, wie in der Coach-Tabelle (coach.js:85, CSS .tbl tbody tr.link, app.css:599-600). Der Name wird normaler Text statt <button class='aff-name'>. Der Chevron bleibt als einzige sichtbare Andeutung (tertiär, ghost). Die Provisionszelle bekommt data-stop, damit ein Klick auf die Prozentzahl nur den Dialog öffnet (Mechanik: app.js, Klick-Handler mit data-stop).",
+     "beleg": "affiliate.js:58 (aff-name und Chevron beide data-action='aff-view'); coach.js:85",
+     "id": "konto-4-3"
+    },
+    {
+     "titel": "Kachel „Creator“ in den Kartenkopf verlegen",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "U.tile('Creator', …) entfällt (affiliate.js:57). Die Zahl steht als Zusatz am Kartenkopf der Tabelle: U.card('Creator', table, { sub: '5 Creator', info: … }) (affiliate.js:59). Es bleiben vier gleich wichtige Kacheln: Kunden, Umsatz, Provisionen, Offen. Auf dem Handy entfällt die halbleere dritte Kachelreihe.",
+     "beleg": "shots/dark-1440/affiliate.png; shots/dark-390/affiliate.png („Offen“ allein in Reihe 3); affiliate.js:57,59",
+     "id": "konto-4-4"
+    }
+   ],
+   "sid": "konto-4",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "affiliate (Alle Creator)",
+   "zustand": "handy (390)",
+   "hauptaktion": "Einen Creator öffnen",
+   "optisch_klar": false,
+   "begruendung": "Auf dem Handy gibt es keine sichtbare Andeutung mehr zum Öffnen. Der Chevron ist ph-hide (affiliate.js:58), der Name-Knopf sieht aus wie fetter Text, und der Stift ist ausgeblendet (app.css:2997). Ganz oben steht das ▷ allein in einer Zeile. Der schwebende grüne „Trade loggen“-Knopf liegt über der letzten Tabellenzeile bzw. dem Rand der Karte.",
+   "konkurrenten": [
+    "runder „Trade loggen“-Knopf über der Tabelle",
+    "▷-Zeile oben"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Session-Zeile",
+    "runder Trade-loggen-Knopf",
+    "Kachel „Creator“ (eigene Halbzeile)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe abschalten (Session-Zeile und runder Knopf weg)",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Wie oben (affiliate.js:73). Auf dem Handy entfallen die ▷-Zeile und der schwebende Knopf, der heute über der Creator-Tabelle liegt.",
+     "beleg": "shots/dark-390/affiliate.png (Rundknopf bei y≈1300 über der Karte „Creator“)",
+     "id": "konto-5-1"
+    },
+    {
+     "titel": "Zeile tippbar machen, damit das Öffnen am Handy überhaupt erkennbar ist",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Mit der ganzen Zeile als Ziel (tr.link, siehe Desktop-Vorschlag) öffnet ein Tipp irgendwo in der Zeile die Creator-Ansicht. Damit ist das Öffnen die eine Handlung der Tabelle. Den Chevron auf dem Handy nicht mehr verstecken: class 'ph-hide' an der letzten Spalte entfernen. Er braucht etwa 28 px und ersetzt keine Information.",
+     "beleg": "affiliate.js:58 (th/td class='ph-hide' für den Chevron); app.css:2989",
+     "id": "konto-5-2"
+    }
+   ],
+   "sid": "konto-5",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "affiliate/creator (Creator-Ansicht)",
+   "zustand": "voll (Desktop)",
+   "hauptaktion": "„Dein Link“ kopieren (teilen)",
+   "optisch_klar": false,
+   "begruendung": "Link und Code stehen als zwei gleich gestaltete gestrichelte Tickets nebeneinander in zwei Karten (.aff-share, Raster 1.6fr/1fr, affiliate.js:64, app.css:2666). Damit stehen zwei gleich wichtig aussehende Knöpfe nebeneinander (Regel 4). Oben rechts konkurriert dazu „Trade loggen“ (.btn.accent).",
+   "konkurrenten": [
+    "Code-Ticket „Dein Code“ (gleiches .cpn-code wie der Link)",
+    "„Trade loggen“ und ▷",
+    "Creator-Auswahl (select) und Reiter"
+   ],
+   "verstecken": [
+    "Code als Nebenweg: kleiner Code-Chip mit Kopier-Symbol unter dem Link statt eigener Karte"
+   ],
+   "irrelevant": [
+    "„Trade loggen“ und „Session starten“"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe ohne „Trade loggen“ und „Session starten“",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Gleiche Zeile wie in Alle Creator (affiliate.js:73, gilt für beide Ansichten).",
+     "beleg": "scratchpad/affiliate-creator.png; shots/extra/hicks-kac/aff-1440-creator.png",
+     "id": "konto-6-1"
+    },
+    {
+     "titel": "Link primär, Code sekundär in derselben Karte",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "affiliate.js:64: Statt zweier ticket()-Karten gibt es eine Karte „Dein Link“ mit dem großen Link-Ticket (.cpn-code, unverändert, das Hauptziel). Darunter eine Zeile <span class='aff-label'>oder Code</span> mit dem vorhandenen kleinen Chip <span class='aff-code'>LENA</span> (app.css:2670) und einem .btn ghost icon sm mit I.copy (data-action='aff-copy' data-kind='code' data-text=Code). Kopieren des Codes bleibt mit einem Klick möglich, ist aber tertiär. .aff-share wird einspaltig (nur Raster, kein Styling).",
+     "beleg": "scratchpad/affiliate-creator.png (zwei gleiche Tickets nebeneinander); affiliate.js:52,64; app.css:2666-2670",
+     "id": "konto-6-2"
+    }
+   ],
+   "sid": "konto-6",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "affiliate/creator",
+   "zustand": "handy (390)",
+   "hauptaktion": "„Dein Link“ kopieren",
+   "optisch_klar": false,
+   "begruendung": "Link und Code stehen als zwei gleich große Karten untereinander. Der Link ist abgeschnitten („https://journalyst.app/?ref=LE…“), der Code daneben vollständig, deshalb wirkt der Code sogar klarer. Oben steht die ▷-Zeile. Der runde grüne „Trade loggen“-Knopf liegt über dem Diagramm.",
+   "konkurrenten": [
+    "Code-Karte (gleich groß wie die Link-Karte)",
+    "runder „Trade loggen“-Knopf",
+    "▷-Zeile"
+   ],
+   "verstecken": [
+    "Code als Zeile unter dem Link"
+   ],
+   "irrelevant": [
+    "▷-Zeile",
+    "runder Trade-loggen-Knopf"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Kopfreihe abschalten",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "affiliate.js:73 (session: false, trade: false). Damit entfallen die ▷-Zeile und der schwebende Knopf über „Verdient je Monat“.",
+     "beleg": "shots/extra/hicks-kac/aff-390-creator.png (▷ oben, Rundknopf über dem Diagramm)",
+     "id": "konto-7-1"
+    },
+    {
+     "titel": "Eine Teilen-Karte: Link groß, Code als Zeile darunter",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Wie am Desktop. Auf dem Handy spart das eine ganze Karte (~130 px), und der Link steht als einziges großes Ticket oben.",
+     "beleg": "shots/extra/hicks-kac/aff-390-creator.png; affiliate.js:64; app.css:2986",
+     "id": "konto-7-2"
+    }
+   ],
+   "sid": "konto-7",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "affiliate/creator",
+   "zustand": "leer (Creator ohne Kunden)",
+   "hauptaktion": "Link kopieren und teilen",
+   "optisch_klar": false,
+   "begruendung": "Laut Code bleiben bei s.n === 0 alle Kacheln (0 €, 0 Kunden), das Diagramm „Verdient je Monat“ mit acht Null-Monaten und die Karte „Kunden“ mit „Noch keine Kunden.“ stehen (affiliate.js:65-68). Der eine nützliche Schritt (Link teilen) geht darin unter. Nicht aufgenommen: Die Beispieldaten haben für jeden Creator Kunden.",
+   "konkurrenten": [
+    "Kennzahl-Kacheln mit Nullen",
+    "leeres Diagramm",
+    "„Trade loggen“"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Kacheln Verdient, Offen, Kunden mit 0",
+    "Diagramm ohne Werte",
+    "Karte „Kunden“ mit Leer-Text"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ohne Kunden: nur Link-Karte und ein Satz",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In creator() (affiliate.js:62-69): Bei !s.n nur ${share} rendern, darunter <p class='muted small'>Teil deinen Link. Sobald jemand darüber ein Abo abschließt, siehst du hier Kunden und Verdienst (Provision: 25 % vom Umsatz).</p>. Kacheln, chart('aff-one', …) und U.card('Kunden', …) erscheinen erst mit dem ersten Kunden. Die Provisionszahl bleibt im Satz sichtbar.",
+     "beleg": "affiliate.js:65-68",
+     "id": "konto-8-1"
+    }
+   ],
+   "sid": "konto-8",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "modal_affiliate_provision (Provision ändern)",
+   "zustand": "dialog",
+   "hauptaktion": "Speichern",
+   "optisch_klar": true,
+   "begruendung": "„Speichern“ ist .btn.primary (gefüllt), „Abbrechen“ ist .btn (umrandet), dazu das X (.btn ghost icon). Das Feld ist vorausgewählt und hat den Fokus. Das entspricht den Regeln 2 und 4.",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [],
+   "sid": "konto-9",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach (nicht eingerichtet)",
+   "zustand": "leer (Desktop; Atlas coach.png = leer_coach.png)",
+   "hauptaktion": "Zu den Einstellungen gehen und den Server verbinden",
+   "optisch_klar": true,
+   "begruendung": "Der einzige Knopf ist „Zu den Einstellungen“ (.btn.primary, gefüllt). Die Kopfreihe ist abgeschaltet (coach.js:219). Störend ist nur der Text: zwei Sätze mit Technik (Mentor-Chat-Server, Server-Adresse, Zugangstoken, Pfad Einstellungen → Mentor) über drei Zeilen.",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [
+    "zweiter Satz mit Technik-Details (Server-Adresse, Zugangstoken); steht auf der Einstellungsseite ohnehin"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ein Satz statt zwei",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "coach.js:22: Text → „Verbinde Journalyst mit deinem Coach-Server, dann legst du hier Gruppen an oder trittst einer bei.“ Der Knopf bleibt wie er ist und führt zu #/settings/mentor, wo Adresse und Token erklärt sind.",
+     "beleg": "shots/dark-1440/coach.png, shots/extra-dark-1440/leer_coach.png; coach.js:22",
+     "id": "konto-10-1"
+    }
+   ],
+   "sid": "konto-10",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach (nicht eingerichtet)",
+   "zustand": "handy (390)",
+   "hauptaktion": "Zu den Einstellungen",
+   "optisch_klar": true,
+   "begruendung": "Ein gefüllter Knopf, zentriert, ohne Konkurrenz. Der Erklärtext läuft hier über fünf Zeilen.",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [
+    "Technik-Satz (5 Zeilen auf dem Handy)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ein Satz statt zwei (wie Desktop)",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Gleiche Textkürzung (coach.js:22). Auf dem Handy rückt der Knopf damit rund zwei Zeilen nach oben.",
+     "beleg": "shots/dark-390/coach.png",
+     "id": "konto-11-1"
+    }
+   ],
+   "sid": "konto-11",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach (Übersicht)",
+   "zustand": "leer (eingerichtet, noch keine Gruppe)",
+   "hauptaktion": "Gruppe erstellen („+ Gruppe“)",
+   "optisch_klar": true,
+   "begruendung": "„+ Gruppe“ ist der einzige gefüllte Knopf (.btn sm primary, coach.js:53). „Was der Mentor sieht“ ist ghost. Darunter steht trotzdem die größte Karte des Screens, „Benachrichtigungen“, mit zwei Schaltern, E-Mail-Feld und umrandetem „Speichern“ (coach.js:57, 70-81). Ohne Gruppe gibt es aber nichts, worüber benachrichtigt werden könnte.",
+   "konkurrenten": [
+    "„Speichern“ (.btn sm, umrandet) samt E-Mail-Feld und zwei Schaltern in „Benachrichtigungen“"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Karte „Benachrichtigungen“ (ohne Gruppe gibt es keine Notizen, Antworten oder Aufgaben)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Benachrichtigungen erst zeigen, wenn es eine Gruppe gibt",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "coach.js:57: ${notifyCard()} nur rendern, wenn c.own.length || c.coached.length || c.groups.length. Sobald man eine Gruppe erstellt oder beitritt, erscheint die Karte von selbst. Die gespeicherten Werte (Co.data().notify) bleiben unberührt. Im leeren Zustand bleiben dann zwei Karten: „Als Mentor“ mit „+ Gruppe“ und „Als Schüler“ mit Erklärung.",
+     "beleg": "scratchpad/coach-hub.png (Max ohne Gruppe: Benachrichtigungen-Karte unter den zwei Rollen-Karten); coach.js:57,70-81",
+     "id": "konto-12-1"
+    }
+   ],
+   "sid": "konto-12",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach (Übersicht, als Mentor mit Gruppen)",
+   "zustand": "voll (Desktop)",
+   "hauptaktion": "Eine eigene Gruppe öffnen",
+   "optisch_klar": false,
+   "begruendung": "Am stärksten wirkt der gefüllte grüne „+ Gruppe“ (.btn sm primary), obwohl eine weitere Gruppe selten angelegt wird. Jede Gruppenzeile trägt „Link“ (ghost) und „Öffnen“ (.btn sm, umrandet), bei N Gruppen also N gleich umrandete Knöpfe. Der Gruppenname ist selbst schon ein Link (coach.js:42-43). Die Benachrichtigungen-Karte zeigt das E-Mail-Feld mit „Speichern“ auch bei ausgeschaltetem Schalter.",
+   "konkurrenten": [
+    "„+ Gruppe“ (gefüllt)",
+    "„Öffnen“ ×N (umrandet)",
+    "„Speichern“ (umrandet) und E-Mail-Feld",
+    "„Was der Mentor sieht“ (ghost)"
+   ],
+   "verstecken": [
+    "E-Mail-Feld und „Speichern“ erst bei eingeschaltetem E-Mail-Schalter",
+    "Benachrichtigungen als eingeklappte Zeile mit Zustand („E-Mail aus · Browser aus“)"
+   ],
+   "irrelevant": [
+    "E-Mail-Feld und „Speichern“ bei ausgeschalteter E-Mail-Benachrichtigung"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„+ Gruppe“ sekundär, sobald es eigene Gruppen gibt",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "coach.js:53 trailing: Klasse abhängig vom Zustand. Ohne eigene Gruppe bleibt 'btn sm primary' (Hauptaktion des Leerzustands). Mit c.own.length > 0 wird daraus 'btn sm' (umrandet). Hauptziel sind dann die Gruppenzeilen.",
+     "beleg": "shots/extra/hicks-kac/mentor-1440-hub.png (grüner „+ Gruppe“ über zwei Gruppen); coach.js:53",
+     "id": "konto-13-1"
+    },
+    {
+     "titel": "„Öffnen“ als Chevron, ganze Zeile als Ziel",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "coach.js:42-43: <a class='btn sm' …>Öffnen</a> → <a class='btn ghost icon sm' href='#/coach/g/…' aria-label='Öffnen'>I.chevR</a>, gleiches Muster wie der Chevron in der Affiliate-Tabelle. Der Name bleibt Link (a.coach-name). „Link kopieren“ bleibt ein ghost-Symbol. So entsteht keine Reihe umrandeter Knöpfe mehr.",
+     "beleg": "shots/extra/hicks-kac/mentor-1440-hub.png (2× „Öffnen“ umrandet); coach.js:42-43",
+     "id": "konto-13-2"
+    },
+    {
+     "titel": "E-Mail-Feld nur bei eingeschaltetem Schalter",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "coach.js:77: .coach-mailrow (Feld und „Speichern“) und den Hinweis nur rendern, wenn n.notify_email an ist. Die Aktion 'coach-mail-toggle' (coach.js:357) blendet die Zeile beim Einschalten ein, statt nur aria-checked zu setzen. Beim Ausschalten speichert sie direkt (Co.saveNotify(email, false)). Dann gibt es nur noch zwei Schalter, und „Speichern“ erscheint erst, wenn eine Adresse gebraucht wird.",
+     "beleg": "scratchpad/coach-hub.png (leeres Feld und „Speichern“ bei Schalter aus); coach.js:74-81, 357-362",
+     "id": "konto-13-3"
+    },
+    {
+     "titel": "Benachrichtigungen eingeklappt mit Zustandszeile",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "notifyCard (coach.js:80) als <details> mit <summary>Benachrichtigungen · E-Mail an/aus · Browser an/aus</summary>, standardmäßig zu. Aufgeklappt sieht sie aus wie heute. Muster: .ct-done in tasksCard (coach.js:66).",
+     "beleg": "coach.js:66,80",
+     "id": "konto-13-4"
+    }
+   ],
+   "sid": "konto-13",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach (Übersicht, als Schüler in einer Gruppe)",
+   "zustand": "voll (Desktop)",
+   "hauptaktion": "Offene Aufgabe abhaken bzw. neue Mentor-Notizen lesen",
+   "optisch_klar": false,
+   "begruendung": "Der auffälligste Knopf ist der gefüllte grüne „+ Gruppe“ in der Karte „Als Mentor“ oben links. Für einen Schüler ist das nicht die Aufgabe. Die Aufgaben-Karte steht erst an dritter Stelle. Der Weg zu den neuen Notizen ist ein winziger Textlink „Im Notebook ansehen“ in einer grauen Zeile (coach.js:48). „Verlassen“ (destruktiv, ghost) steht gleichrangig neben dem Gruppennamen, ebenso „Jetzt abgleichen“ (ghost xs), obwohl der Abgleich automatisch läuft.",
+   "konkurrenten": [
+    "„+ Gruppe“ (gefüllt)",
+    "„Verlassen“ (ghost, je Gruppe)",
+    "„Jetzt abgleichen“ (ghost)",
+    "„Was der Mentor sieht“ (ghost)",
+    "Benachrichtigungen-Formular mit „Speichern“"
+   ],
+   "verstecken": [
+    "„Verlassen“ und „Jetzt abgleichen“ in ein „…“-Menü je Gruppenzeile",
+    "Abgleich-Zeile nur bei Fehler oder während des Abgleichs"
+   ],
+   "irrelevant": [
+    "Mentor-Karte in voller Größe mit gefülltem Knopf (Rolle wird nicht genutzt)",
+    "„Zuletzt abgeglichen …“ im Normalfall"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Reihenfolge nach Rolle: Schüler sieht zuerst Aufgaben und Notizen",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "hub() (coach.js:51-56): Ist c.groups.length > 0 und c.own.length + c.coached.length = 0, lautet die Reihenfolge: tasksCard(), dann Karte „Als Schüler“, dann „Als Mentor“. „+ Gruppe“ ist dort 'btn sm' (umrandet) statt primary. Für Mentoren bleibt die heutige Reihenfolge.",
+     "beleg": "shots/extra/hicks-kac/student-1440-hub.png, scratchpad/coach-student-hub.png (grüner „+ Gruppe“ links oben, Aufgaben erst darunter); coach.js:51-56",
+     "id": "konto-14-1"
+    },
+    {
+     "titel": "Neue Notizen als Knopf statt Textlink",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "coach.js:48: Bei unread > 0 wird aus <a href='#/notebook'>Im Notebook ansehen</a> ein <a class='btn sm primary' href='#/notebook'>2 neue Notizen ansehen</a>. Weil „+ Gruppe“ dann umrandet ist (Vorschlag oben), ist das der einzige gefüllte Knopf. Ohne ungelesene Notizen bleibt der Textlink.",
+     "beleg": "shots/extra/hicks-kac/student-1440-hub.png („1 ungelesen · Im Notebook ansehen“ klein und grau); coach.js:48",
+     "id": "konto-14-2"
+    },
+    {
+     "titel": "„Verlassen“ und „Jetzt abgleichen“ ins Menü der Gruppenzeile",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "coach.js:46-47: Der Ghost-Knopf „Verlassen“ wird ersetzt durch <div class='popwrap'><button class='btn ghost icon sm' data-pop='coachrow-ID' aria-label='Mehr'>I.more</button><div class='popover right'>…</div></div>. Darin „Jetzt abgleichen“ (data-action='coach-sync-now') und nach <hr> „Gruppe verlassen“ als item danger (data-action='coach-leave'). Muster: Gruppenmenü coach.js:114-116. Die Zeile „Zuletzt abgeglichen …“ erscheint nur bei Co.state.syncing oder Co.state.lastError.",
+     "beleg": "shots/extra/hicks-kac/student-1440-hub.png (Verlassen / Jetzt abgleichen gleichrangig); coach.js:46-47,114-116",
+     "id": "konto-14-3"
+    },
+    {
+     "titel": "Benachrichtigungen kompakter",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Wie bei Mentor voll: E-Mail-Feld und „Speichern“ nur bei eingeschaltetem Schalter, Karte als eingeklappte Zustandszeile (coach.js:70-81).",
+     "beleg": "shots/extra/hicks-kac/student-1440-hub.png",
+     "id": "konto-14-4"
+    }
+   ],
+   "sid": "konto-14",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach (Übersicht)",
+   "zustand": "handy (390, Mentor und Schüler)",
+   "hauptaktion": "Mentor: Gruppe öffnen; Schüler: Aufgabe abhaken bzw. Notizen lesen",
+   "optisch_klar": false,
+   "begruendung": "Auf dem Handy steht für beide Rollen oben zuerst „Als Mentor“ mit dem gefüllten grünen „+ Gruppe“. Beim Schüler liegt die Aufgaben-Karte erst ab etwa der Hälfte des ersten Bildschirms. Die Benachrichtigungen-Karte (Schalter, Feld, „Speichern“ unter dem Feld) ist so hoch wie beide Rollenkarten zusammen (mentor-390-hub.png y≈1000-1580). Beim Mentor stehen je Gruppe ein Kopier-Symbol und das umrandete „Öffnen“.",
+   "konkurrenten": [
+    "„+ Gruppe“ (gefüllt, ganz oben)",
+    "„Öffnen“ ×N",
+    "Benachrichtigungen-Formular",
+    "„Verlassen“, „Jetzt abgleichen“"
+   ],
+   "verstecken": [
+    "Benachrichtigungen eingeklappt",
+    "„Verlassen“ und „Jetzt abgleichen“ im Zeilenmenü"
+   ],
+   "irrelevant": [
+    "Mentor-Karte an erster Stelle für reine Schüler",
+    "E-Mail-Feld bei ausgeschaltetem Schalter"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Rollenabhängige Reihenfolge wirkt am Handy am stärksten",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Gleiche Änderung wie in „Schüler voll“ (coach.js:51-56). Am Handy steht die Aufgabe mit Haken dann im ersten Bildschirm statt unter der Mentor-Karte.",
+     "beleg": "shots/extra/hicks-kac/student-390-hub.png (Aufgaben erst ab y≈880 von 2276)",
+     "id": "konto-15-1"
+    },
+    {
+     "titel": "Benachrichtigungen eingeklappt bzw. ohne Gruppe ausgeblendet",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Ohne Gruppe ausblenden (coach.js:57), mit Gruppe als eingeklappte Zustandszeile und E-Mail-Feld nur bei eingeschaltetem Schalter (coach.js:70-81, 357). Das spart am Handy rund 580 px.",
+     "beleg": "shots/extra/hicks-kac/mentor-390-hub.png",
+     "id": "konto-15-2"
+    },
+    {
+     "titel": "„+ Gruppe“ umranden, „Öffnen“ als Chevron",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Wie bei Mentor voll (coach.js:42-43, 53).",
+     "beleg": "shots/extra/hicks-kac/mentor-390-hub.png",
+     "id": "konto-15-3"
+    }
+   ],
+   "sid": "konto-15",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/g/<id> (Gruppe, Mentor)",
+   "zustand": "voll (Desktop, mit Schülern)",
+   "hauptaktion": "Das Journal eines Schülers öffnen (Zeile anklicken)",
+   "optisch_klar": false,
+   "begruendung": "Die Zeilen sind anklickbar (tr.link, coach.js:85), zeigen das aber nur per Hover und im Info-Tooltip. Als erster Block unter dem Titel steht die Einladungslink-Leiste: volles Eingabefeld und umrandeter „Kopieren“-Knopf (coach.js:109), obwohl schon Schüler da sind. Darunter folgen sechs Kennzahl-Kacheln. Im Kartenkopf stehen „Aufgabe an alle“ und „Aktualisieren“ (beide ghost), dazu das Zeitraum-Segment.",
+   "konkurrenten": [
+    "„Kopieren“ (umrandet) und Einladungslink-Feld",
+    "„Aufgabe an alle“ (ghost)",
+    "„Aktualisieren“ (ghost)",
+    "Zeitraum Woche/Monat/Gesamt"
+   ],
+   "verstecken": [
+    "Einladungslink-Leiste → Eintrag „Einladungslink kopieren“ im „…“-Menü, sobald Schüler da sind",
+    "„Aktualisieren“ → „…“-Menü (Daten laden beim Öffnen ohnehin frisch)"
+   ],
+   "irrelevant": [
+    "Einladungslink in voller Breite, wenn die Gruppe schon Schüler hat"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Einladungslink bei vorhandenen Schülern ins Menü",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "group() (coach.js:109, 119): ${invite} nur rendern, wenn rows.length === 0. Im Besitzer-Menü (coach.js:115) steht als erster Eintrag <button class='item' data-action='coach-copy-link' data-token=…>I.copy Einladungslink kopieren</button>, vor „Neuen Einladungslink erzeugen“. Erste Sicht ist dann Gruppe im Überblick plus Schüler.",
+     "beleg": "scratchpad/coach-group.png, shots/extra/hicks-kac/mentor-1440-gruppe_voll.png; coach.js:109,115,119",
+     "id": "konto-16-1"
+    },
+    {
+     "titel": "Schülername als Link, damit das Öffnen sichtbar ist",
+     "regel": 2,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "statsRow (coach.js:85): <span class='sym'>Name</span> → <a class='coach-name no-i18n' href='#/coach/g/GID/s/SID'>Name</a> (vorhandene Klasse aus der Übersicht, coach.js:42). Die Zeile bleibt als Ganzes klickbar. Kein neues Styling.",
+     "beleg": "coach.js:42,85; shots/extra/hicks-kac/mentor-1440-gruppe_voll.png",
+     "id": "konto-16-2"
+    },
+    {
+     "titel": "„Aktualisieren“ ins „…“-Menü",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Trailing des Schüler-Karten-Kopfs (coach.js:121): „Aktualisieren“ wird ein Menüeintrag (item, I.replay) im Gruppenmenü. Im Kartenkopf bleibt nur „Aufgabe an alle“ (ghost).",
+     "beleg": "coach.js:121",
+     "id": "konto-16-3"
+    }
+   ],
+   "sid": "konto-16",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/g/<id> (Gruppe, Mentor)",
+   "zustand": "leer (noch kein Schüler)",
+   "hauptaktion": "Einladungslink kopieren",
+   "optisch_klar": false,
+   "begruendung": "Der Knopf, der jetzt weiterhilft („Kopieren“), ist nur umrandet (.btn sm, coach.js:109) und steht in der Leiste oben. Der Leerzustand („Noch kein Schüler – Schick den Einladungslink …“) hat keinen Knopf (coach.js:112). Zeitraum Woche/Monat/Gesamt und „Kurz-Stats nur in R und Prozent · ab …“ stehen trotzdem über der leeren Fläche.",
+   "konkurrenten": [
+    "Zeitraum-Segment (3 Knöpfe)",
+    "„Aktualisieren“"
+   ],
+   "verstecken": [],
+   "irrelevant": [
+    "Zeitraum Woche/Monat/Gesamt ohne Schüler",
+    "Hinweis „Kurz-Stats nur in R und Prozent · ab …“"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Einladungslink kopieren“ als gefüllter Hauptknopf im Leerzustand",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "coach.js:112: U.empty('coach', 'Noch kein Schüler', …, action) bekommt für den Besitzer als vierten Parameter <button class='btn primary' data-action='coach-copy-link' data-token=TOKEN>I.copy Einladungslink kopieren</button>. Die Link-Leiste oben bleibt zum Ansehen, ihr „Kopieren“ bleibt umrandet. Für Co-Coaches (kein Token) bleibt der Leerzustand ohne Knopf.",
+     "beleg": "shots/extra/hicks-kac/mentor-1440-gruppe_leer.png; coach.js:109,112",
+     "id": "konto-17-1"
+    },
+    {
+     "titel": "Zeitraum und Stat-Hinweis ohne Schüler ausblenden",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "coach.js:121: Die Zeile .coach-ctl (U.seg(PERIODS…) und Hinweis) nur rendern, wenn rows && rows.length. „Aktualisieren“ bleibt, weil man damit prüft, ob jemand beigetreten ist.",
+     "beleg": "shots/extra/hicks-kac/mentor-1440-gruppe_leer.png; coach.js:121",
+     "id": "konto-17-2"
+    }
+   ],
+   "sid": "konto-17",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/g/<id> „…“-Menü (pop-coachmenu)",
+   "zustand": "menue",
+   "hauptaktion": "Keine (Sammelstelle für seltene Optionen)",
+   "optisch_klar": true,
+   "begruendung": "Das Menü erfüllt Regel 3 schon: Umbenennen, Neuen Einladungslink erzeugen, Co-Coaches, Trennlinie, „Gruppe schließen“ (danger). Co-Coaches sehen nur „Als Co-Coach austreten“.",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "„Einladungslink kopieren“ als ersten Eintrag aufnehmen",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Gehört zum Vorschlag „Einladungslink bei vorhandenen Schülern ins Menü“. Dazu „Aktualisieren“ (und am Handy „Aufgabe an alle“). Reihenfolge: Einladungslink kopieren, Neuen Einladungslink erzeugen, Co-Coaches, Umbenennen, Aktualisieren, Trennlinie, Gruppe schließen.",
+     "beleg": "shots/extra/hicks-kac/mentor-1440-gruppe_menue.png; coach.js:114-116",
+     "id": "konto-18-1"
+    }
+   ],
+   "sid": "konto-18",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/g/<id> (Gruppe, Mentor)",
+   "zustand": "handy (390)",
+   "hauptaktion": "Schüler öffnen",
+   "optisch_klar": false,
+   "begruendung": "Oben nimmt die Einladungslink-Karte mit Feld und „Kopieren“ die volle Breite ein. Danach kommen sechs Kacheln in drei Reihen. Die Schülertabelle beginnt erst im zweiten Bildschirm (mentor-390-gruppe_voll.png ab y≈1480 von 2480). Im Kartenkopf stehen nur ein ✓-Symbol und ein ⟳-Symbol ohne Text (hide-m, coach.js:121). Das ✓ liest sich wie „erledigt“, nicht wie „Aufgabe an alle“.",
+   "konkurrenten": [
+    "Einladungslink-Karte mit „Kopieren“",
+    "sechs Kacheln vor der Tabelle",
+    "✓ und ⟳ als Symbolknöpfe"
+   ],
+   "verstecken": [
+    "Einladungslink ins Menü",
+    "„Aufgabe an alle“ und „Aktualisieren“ am Handy ins „…“-Menü"
+   ],
+   "irrelevant": [
+    "Einladungslink-Karte bei vorhandenen Schülern"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Schülertabelle vor „Gruppe im Überblick“",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "group() (coach.js:118-122): Reihenfolge ${U.card('Schüler', …)} vor ${groupStats(…)}. Die Handlung (Schüler öffnen) steht dann im ersten Bildschirm, der Gruppen-Durchschnitt folgt als Kontext. Am Desktop sind beide ohnehin sichtbar. Falls das nur am Handy gelten soll, reicht order in der Handy-Regel.",
+     "beleg": "shots/extra/hicks-kac/mentor-390-gruppe_voll.png",
+     "id": "konto-19-1"
+    },
+    {
+     "titel": "Einladungslink-Karte bei vorhandenen Schülern weg (ins Menü)",
+     "regel": 3,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Siehe Desktop (coach.js:109,115,119). Am Handy spart das ~220 px ganz oben.",
+     "beleg": "shots/extra/hicks-kac/mentor-390-gruppe_voll.png",
+     "id": "konto-19-2"
+    },
+    {
+     "titel": "Symbolknöpfe ✓ und ⟳ am Handy ins Menü",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Auf dem Handy erscheinen „Aufgabe an alle“ und „Aktualisieren“ als Einträge im Gruppenmenü statt als beschriftungslose Symbole im Kartenkopf (Desktop unverändert bzw. siehe Vorschlag „Aktualisieren ins Menü“).",
+     "beleg": "shots/extra/hicks-kac/mentor-390-gruppe_voll.png (✓ und ⟳ im Kopf der Schüler-Karte); coach.js:121",
+     "id": "konto-19-3"
+    }
+   ],
+   "sid": "konto-19",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/g/<gid>/s/<sid> (Journal eines Schülers, Mentor)",
+   "zustand": "voll (Desktop)",
+   "hauptaktion": "Unter einem Eintrag eine Notiz an den Schüler schreiben und senden",
+   "optisch_klar": false,
+   "begruendung": "Auf dem Screen stehen N+1 gefüllte grüne Knöpfe. Ganz oben kommt „Aufgabe geben“ (.btn sm primary, coach.js:148) mit stets offenem Formular (Text, Datum). Unter jedem Eintrag steht „Notiz senden“ (.btn sm primary, coach.js:140), auch leer, nur deaktiviert und weiterhin grün gefüllt. Bei 30 Einträgen sind das 30 grüne Knöpfe (scratchpad/coach-journal.png). Unter jeder Mentor-Notiz ist zusätzlich ein offenes Antwortfeld mit „Antworten“ (.btn xs). Eigene Notizen tragen die beschrifteten Knöpfe „Bearbeiten“ und „Löschen“.",
+   "konkurrenten": [
+    "„Aufgabe geben“ (gefüllt) mit offenem Formular",
+    "„Notiz senden“ ×N (gefüllt, auch deaktiviert)",
+    "„Antworten“ je Mentor-Notiz",
+    "„Bearbeiten“ / „Löschen“ mit Text",
+    "„Aktualisieren“"
+   ],
+   "verstecken": [
+    "Aufgaben-Formular hinter „+ Aufgabe“",
+    "Antwortfeld unter der Mentor-Notiz hinter „Antworten“",
+    "„Bearbeiten“/„Löschen“ als Symbole"
+   ],
+   "irrelevant": [
+    "„Notiz senden“ solange das Feld leer ist",
+    "offenes Datumsfeld für eine optionale Fälligkeit",
+    "Hinweistext „Nur lesen. Deine Notizen erscheinen …“ bei jedem Besuch"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Notiz senden“ erst zeigen, wenn Text da ist",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "entryHTML (coach.js:140): Den Knopf mit hidden rendern, wenn (s.draft[e.id]||'').trim() leer ist. Die Aktion 'coach-note-draft' (coach.js:286) schaltet heute schon disabled um, künftig zusätzlich hidden. Dann ist immer nur der Senden-Knopf gefüllt, an dem man gerade schreibt.",
+     "beleg": "scratchpad/coach-journal.png (grüner Knopf unter jedem Eintrag); shots/extra/hicks-kac/coach-journal-top.png; coach.js:140,286",
+     "id": "konto-20-1"
+    },
+    {
+     "titel": "Aufgabe geben als zweiter Schritt",
+     "regel": 3,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "studentTasks (coach.js:148): Das immer offene Formular wird durch einen umrandeten Knopf <button class='btn sm' data-action='coach-task-one' data-gid data-sid>I.plus Aufgabe</button> im Kartenkopf ersetzt. Er öffnet denselben kleinen Dialog wie „Aufgabe an alle“ (taskAllModal, coach.js:268-272), erweitert um sid: Titel „Aufgabe an Anna“, Feld Aufgabe, Fällig am (optional), primär „Aufgabe geben“, „Abbrechen“ umrandet. Gespeichert wird über denselben Endpunkt wie heute mit student_id (coach.js:333). Die Aufgabenliste bleibt sichtbar.",
+     "beleg": "shots/extra/hicks-kac/coach-journal-top.png (Formular mit grünem „Aufgabe geben“ über allen Einträgen); coach.js:148,268-272,333",
+     "id": "konto-20-2"
+    },
+    {
+     "titel": "Antwortfeld unter Mentor-Notizen erst auf Klick",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "thread() (coach.js:36): Die Schreibzeile .mr-write steht nur offen, wenn schon Antworten im Thread sind oder ein Entwurf existiert (s.rdraft[n.id]). Sonst gibt es einen Textknopf <button class='btn xs ghost'>I.chat Antworten</button>, der sie aufklappt. Das gilt für beide Kontexte (mentor/student).",
+     "beleg": "shots/extra/hicks-kac/coach-journal-top.png (Antwortfeld unter der eigenen Notiz); coach.js:36",
+     "id": "konto-20-3"
+    },
+    {
+     "titel": "„Bearbeiten“/„Löschen“ an eigenen Notizen als Symbole",
+     "regel": 4,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "noteHTML (coach.js:128): 'btn xs ghost' mit Text → 'btn xs ghost icon' nur mit I.edit bzw. I.trash, aria-label und data-tip „Bearbeiten“/„Löschen“. Das Muster gibt es bei Antworten schon (coach.js:35).",
+     "beleg": "coach.js:35,128",
+     "id": "konto-20-4"
+    },
+    {
+     "titel": "Hinweis „Nur lesen …“ als Info am Titel",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Der Absatz coach.js:160 wandert als U.info(…) hinter den Schülernamen in .coach-head. Der Text ist nur beim ersten Mal neu und kostet sonst eine Zeile (am Handy drei).",
+     "beleg": "coach.js:157-160",
+     "id": "konto-20-5"
+    }
+   ],
+   "sid": "konto-20",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/g/<gid>/s/<sid> (Journal eines Schülers)",
+   "zustand": "handy (390)",
+   "hauptaktion": "Notiz an den Schüler senden",
+   "optisch_klar": false,
+   "begruendung": "Am Handy sind alle Knöpfe volle Breite. Unter jedem Eintrag steht ein grüner gefüllter Balken „Notiz senden“. „Aufgabe geben“ ist gefüllt, „Antworten“ läuft als Balken über die volle Breite. Das Bild besteht aus abwechselnden Text- und Knopfblöcken. Das Datumsfeld zeigt ‚mm/dd/yyyy‘.",
+   "konkurrenten": [
+    "„Notiz senden“ ×N (volle Breite, gefüllt)",
+    "„Aufgabe geben“ (gefüllt)",
+    "„Antworten“ (volle Breite)"
+   ],
+   "verstecken": [
+    "Aufgaben-Formular",
+    "Antwortfeld"
+   ],
+   "irrelevant": [
+    "Senden-Knöpfe ohne Text"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Senden-Knopf nur bei Text",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Wie Desktop (coach.js:140,286). Am Handy fällt dadurch je Eintrag ein ~40 px hoher grüner Balken weg.",
+     "beleg": "shots/extra/hicks-kac/mentor-390-journal.png",
+     "id": "konto-21-1"
+    },
+    {
+     "titel": "Aufgabe als Dialog statt offenes Formular",
+     "regel": 3,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Wie Desktop (coach.js:148 → Dialog analog coach.js:268-272).",
+     "beleg": "shots/extra/hicks-kac/mentor-390-journal.png (Formular mit grünem Knopf ganz oben)",
+     "id": "konto-21-2"
+    },
+    {
+     "titel": "Antwortfeld auf Klick",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Wie Desktop (coach.js:36).",
+     "beleg": "shots/extra/hicks-kac/mentor-390-journal.png",
+     "id": "konto-21-3"
+    }
+   ],
+   "sid": "konto-21",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/join/<token> (Einladung annehmen, Schüler)",
+   "zustand": "dialog (Beitritts-Seite, Desktop und Handy)",
+   "hauptaktion": "Beitreten",
+   "optisch_klar": true,
+   "begruendung": "„Beitreten“ ist der einzige gefüllte Knopf (.btn primary), „Abbrechen“ ist ghost (coach.js:178). Die lange Sichtbarkeitstabelle ist hier gewollt: Der Schüler stimmt genau dem zu, was der Mentor sieht. Die Vorauswahl „Nur ab heute“ ist die sichere Wahl. Am Handy liegt „Beitreten“ unter der Tabelle. Das ist für eine Einwilligung richtig.",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [],
+   "sid": "konto-22",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "coach/cojoin/<token> (Einladung als Co-Coach)",
+   "zustand": "dialog",
+   "hauptaktion": "Als Co-Coach beitreten",
+   "optisch_klar": true,
+   "begruendung": "Bewertet nach Code (nicht aufgenommen): ein gefüllter Knopf „Als Co-Coach beitreten“ (.btn primary), „Abbrechen“ ghost, ein Namensfeld, vier Zeilen „was du siehst / nicht siehst“ (coach.js:192-201).",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [],
+   "sid": "konto-23",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "modal_co_coaches (Gruppe → … → Co-Coaches)",
+   "zustand": "dialog",
+   "hauptaktion": "Co-Coach-Link kopieren",
+   "optisch_klar": false,
+   "begruendung": "Bewertet nach Code (nicht aufgenommen, braucht Server). Der Dialog hat keinen gefüllten Knopf. „Kopieren“ (.btn sm, umrandet) und „Fertig“ (.btn, umrandet, größer) stehen gleichrangig nebeneinander. „Neuen Link erzeugen“ ist ghost links unten, „Entfernen“ ghost je Co-Coach (coach.js:258-265).",
+   "konkurrenten": [
+    "„Fertig“ (umrandet, gleich gewichtet)",
+    "„Neuen Link erzeugen“ (ghost)"
+   ],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "„Kopieren“ gefüllt, „Fertig“ bleibt umrandet",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "coach.js:263: <button class='btn sm' data-action='coach-coach-copy'> → 'btn sm primary'. „Fertig“ (coach.js:265) bleibt .btn (sekundär), „Neuen Link erzeugen“ bleibt ghost. Dann gibt es genau einen gefüllten Knopf für das, wofür man den Dialog öffnet.",
+     "beleg": "coach.js:258-265",
+     "id": "konto-24-1"
+    }
+   ],
+   "sid": "konto-24",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "modal_aufgabe_an_alle (Gruppe → Aufgabe an alle)",
+   "zustand": "dialog",
+   "hauptaktion": "Aufgabe geben",
+   "optisch_klar": true,
+   "begruendung": "Primär ist „Aufgabe geben“ (.btn primary), sekundär „Abbrechen“ (.btn), dazu X. Zwei Felder: Aufgabe (Pflicht) und Fällig am (optional) (coach.js:268-272).",
+   "konkurrenten": [],
+   "verstecken": [
+    "„Fällig am (optional)“ hinter einem Textknopf „+ Fälligkeit“"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Optionales Datum hinter „+ Fälligkeit“",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "coach.js:270: Das Feld ct-all-due steckt in <details><summary class='small muted'>+ Fälligkeit</summary>…</details>. Der Dialog zeigt dann nur das eine Pflichtfeld. Dasselbe gilt für den vorgeschlagenen Einzel-Aufgaben-Dialog.",
+     "beleg": "coach.js:270",
+     "id": "konto-25-1"
+    }
+   ],
+   "sid": "konto-25",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "Dialoge „Neue Gruppe“, „Gruppe umbenennen“ und Bestätigungen (Gruppe schließen, verlassen, Notiz/Antwort/Aufgabe löschen, neuen Einladungslink)",
+   "zustand": "dialog",
+   "hauptaktion": "Erstellen / Speichern / Bestätigen",
+   "optisch_klar": true,
+   "begruendung": "U.promptModal und U.confirmModal (ui.js:445-462) zeigen genau einen gefüllten Knopf (.btn primary bzw. .btn danger) und „Abbrechen“ als .btn (umrandet).",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [],
+   "sid": "konto-26",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "modal_was_der_mentor_sieht (Übersicht → Was der Mentor sieht)",
+   "zustand": "dialog",
+   "hauptaktion": "Lesen und schließen",
+   "optisch_klar": true,
+   "begruendung": "Reiner Info-Dialog: Tabelle, ein Satz, X (coach.js:280). Keine konkurrierenden Knöpfe.",
+   "konkurrenten": [],
+   "verstecken": [],
+   "irrelevant": [],
+   "vorschlaege": [],
+   "sid": "konto-27",
+   "gruppe": "konto"
+  },
+  {
+   "screen": "notebook (Mentor-Notiz unter dem Eintrag, Sicht des Schülers; CoachUI.notesBlock)",
+   "zustand": "voll",
+   "hauptaktion": "Notiz lesen und ggf. antworten",
+   "optisch_klar": true,
+   "begruendung": "Unter der Notiz stehen ein Antwortfeld und „Antworten“ (.btn xs, umrandet, deaktiviert bis Text). Das ist der einzige Knopf des Blocks. Die Hauptaktion des Notebooks („Neue Notiz“, gefüllt) bleibt unberührt.",
+   "konkurrenten": [],
+   "verstecken": [
+    "Antwortfeld hinter „Antworten“, solange es keinen Verlauf gibt (gleiche thread()-Änderung wie in der Journal-Ansicht)"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Gleiche Logik wie beim Mentor: Antwortfeld auf Klick",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Kommt automatisch mit der Änderung an thread() (coach.js:36), weil notesBlock (coach.js:236) dieselbe Funktion mit ctx 'student' nutzt.",
+     "beleg": "scratchpad/coach-student-note.png; coach.js:36,236",
+     "id": "konto-28-1"
+    }
+   ],
+   "sid": "konto-28",
+   "gruppe": "konto"
+  }
+ ],
+ "hinweise": "Material: Alle 7 vorgegebenen Aufnahmen sind vorhanden und angesehen. Wichtig: shots/dark-1440/coach.png und shots/extra-dark-1440/leer_coach.png zeigen beide nur „Coach Mode einrichten“ (kein Server eingestellt). Auch shots/dark-390/coach.png zeigt diesen Zustand. Den eigentlichen vollen Coach-Zustand enthält der Atlas nicht.\n\nEigene Aufnahmen, damit ich die vollen Zustände bewerten konnte: Die Server-Antworten habe ich mit Playwright nachgestellt (Route auf http://coach.test, Skripte /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/hicks-kac/coachstub.js und affstub.js).\n- Ablage: /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/shots/extra/hicks-kac/\n- Mentor (1440 und 390): mentor-1440-hub.png, mentor-1440-gruppe_voll.png, mentor-1440-gruppe_leer.png, mentor-1440-gruppe_menue.png, mentor-1440-journal.png, dazu die mentor-390-*-Gegenstücke.\n- Schüler: student-1440-hub.png, student-390-hub.png.\n- Affiliate: aff-1440-creator.png, aff-390-creator.png, aff-1440-modal_provision.png, aff-390-modal_provision.png.\n- Ausschnitt: coach-journal-top.png.\n\nZusätzlich genutzt: vorhandene Entwickler-Aufnahmen vom 11.10. 11:32 im Scratchpad. Sie sind jünger als die letzte Änderung an coach.js und app.css und damit aktuell: coach-hub.png, coach-group.png, coach-student-hub.png, coach-journal.png (30 Einträge), coach-join-phone.png, coach-student-note.png, affiliate-creator.png.\n\nNicht aufgenommen, nur nach Code bewertet:\n- Coupons leer (COUPONS ist fest hinterlegt)\n- Affiliate-Creator ohne Kunden (alle Beispiel-Creator haben Kunden)\n- Co-Coach-Dialog, „Aufgabe an alle“-Dialog und Co-Coach-Beitritt (brauchen echten Server)\n\nWichtigste Hebel (Wirkung 1):\n1. Coupons und Affiliate: head um session: false, trade: false ergänzen. Das ist eine Zeile je Datei; es entfernen sich „Trade loggen“, „Session starten“ und auf dem Handy der runde Knopf. Präzedenz: Schatten-Ich (README:223) und Coach.\n2. Coach-Journal: „Notiz senden“ nur bei Text zeigen und das Aufgaben-Formular in einen Dialog legen. Heute stehen dort N+1 gefüllte grüne Knöpfe.\n3. Coach-Übersicht: Reihenfolge nach Rolle. Schüler sehen zuerst Aufgaben und Notizen, „+ Gruppe“ ist dort nur umrandet. Benachrichtigungen ohne Gruppe ausblenden.\n4. Coach-Gruppe leer: „Einladungslink kopieren“ wird der gefüllte Knopf. Am Handy steht die Schülertabelle vor den Kacheln.\n\nKeine Funktion fällt weg:\n- Einladungslink, Aktualisieren, Verlassen, Jetzt abgleichen landen im jeweiligen „…“-Menü.\n- Der Provision-Stift bleibt per Klick auf die Prozentzahl erreichbar.\n- Der Code bleibt mit einem Klick kopierbar.\n\nNebenbefunde außerhalb dieses Auftrags:\n- affiliate.js:77-78: Bei leerer Creator-Liste (künftige echte Daten) ist c undefined, und c.id wirft beim Rendern der Creator-Ansicht einen Fehler.\n- Das Datumsfeld im Aufgaben-Formular der Journal-Ansicht zeigt in der deutschen Oberfläche den Platzhalter ‚mm/dd/yyyy‘ (mentor-390-journal.png, coach-journal-top.png).\n- Im Co-Coach-Dialog erzeugt „Neuen Link erzeugen“ den Link ohne Rückfrage neu. Beim Einladungslink der Gruppe fragt die App vorher nach (coach.js:276 vs. 345).\n\nDie relayed Nutzeranfrage („automatisch wechseln“) betrifft diesen Prüfauftrag nicht. Es wurden keine Dateien im Projekt geändert, nur Aufnahmen und Skripte im Scratchpad angelegt."
+}

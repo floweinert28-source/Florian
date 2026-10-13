@@ -1,0 +1,707 @@
+{
+ "anker": [
+  {
+   "anker": "b.neg",
+   "schritte": [
+    {
+     "nr": "abstaende-L3",
+     "gruppe": "abstaende",
+     "titel": "Daten und Sicherung: Zeilen als .set-item, Trenner weg, „Entfernen“ neutral, „Alles löschen“ ohne .neg",
+     "von": 457,
+     "bis": 457,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C8c",
+     "gruppe": "aufbau",
+     "titel": "Profil: „Alle Daten löschen“ neutral, „1–9 Bereiche“, Zeitzone des Systems",
+     "von": 491,
+     "bis": 493,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "misc.profil",
+   "schritte": [
+    {
+     "nr": "aufbau-C8c",
+     "gruppe": "aufbau",
+     "titel": "Profil: „Alle Daten löschen“ neutral, „1–9 Bereiche“, Zeitzone des Systems",
+     "von": 491,
+     "bis": 493,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "farbe-C22b",
+     "gruppe": "farbe",
+     "titel": "Einstellungen: Neben-Knöpfe ohne primary, Speicherort muted, Pille „Aktiv“, Kategorien-Satz",
+     "von": 487,
+     "bis": 492,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "misc.regeln",
+   "schritte": [
+    {
+     "nr": "aufbau-C8e",
+     "gruppe": "aufbau",
+     "titel": "Regeln: neuer Untertitel mit Link aufs Regelwerk",
+     "von": 495,
+     "bis": 495,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "farbe-C22b",
+     "gruppe": "farbe",
+     "titel": "Einstellungen: Neben-Knöpfe ohne primary, Speicherort muted, Pille „Aktiv“, Kategorien-Satz",
+     "von": 487,
+     "bis": 492,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "misc.inhalte",
+   "schritte": [
+    {
+     "nr": "aufbau-C8f",
+     "gruppe": "aufbau",
+     "titel": "Inhalte: Standard-Reiter „Tags“, Reihenfolge Tags · Kategorien",
+     "von": 496,
+     "bis": 497,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "farbe-C22b",
+     "gruppe": "farbe",
+     "titel": "Einstellungen: Neben-Knöpfe ohne primary, Speicherort muted, Pille „Aktiv“, Kategorien-Satz",
+     "von": 487,
+     "bis": 492,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "misc.head",
+   "schritte": [
+    {
+     "nr": "aufbau-C8e",
+     "gruppe": "aufbau",
+     "titel": "Regeln: neuer Untertitel mit Link aufs Regelwerk",
+     "von": 495,
+     "bis": 495,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-misc-a",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen-Kopf mit .save-state",
+     "von": 669,
+     "bis": 670,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-head",
+   "schritte": [
+    {
+     "nr": "komponenten-S-misc-a",
+     "gruppe": "komponenten",
+     "titel": "Einstellungen-Kopf mit .save-state",
+     "von": 669,
+     "bis": 670,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-M2",
+     "gruppe": "zustaende",
+     "titel": "Einstellungen → Trading speichert sofort bei change, „Gespeichert“ im Kopf, kein Speichern-Knopf",
+     "von": 762,
+     "bis": 770,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-sub a::after",
+   "schritte": [
+    {
+     "nr": "bewegung-C6cd",
+     "gruppe": "bewegung",
+     "titel": "Tote Übergänge im Prop-Bereich streichen (.prop-sub a::after, .prop-bar .track i)",
+     "von": 269,
+     "bis": 271,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B21",
+     "gruppe": "farbe",
+     "titel": "Unterstrich-Reiter (.prop-sub, .set-tabs) und Prop-Filter .prop-fsel.on neutral",
+     "von": 323,
+     "bis": 327,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C20",
+     "gruppe": "komponenten",
+     "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+     "von": 349,
+     "bis": 361,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "gruppe": "zustaende",
+     "titel": "Reiter .set-tabs und Unterreiter .prop-sub: Gewicht 500, Unterstrich in --text statt Akzent",
+     "von": 323,
+     "bis": 326,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-sub",
+   "schritte": [
+    {
+     "nr": "komponenten-C20",
+     "gruppe": "komponenten",
+     "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+     "von": 349,
+     "bis": 361,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A2",
+     "gruppe": "responsiv",
+     "titel": "Wischleisten: 28-px-Auslauf per Maske (fade-l/fade-r) und .set-nav ohne Scrollbalken",
+     "von": 227,
+     "bis": 237,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3d",
+     "gruppe": "responsiv",
+     "titel": "App.edgeFade für Wischleisten, Aufrufe in render() und im Resize-Listener",
+     "von": 441,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".set-tabs button[aria-pressed=\"true\"]",
+   "schritte": [
+    {
+     "nr": "farbe-B21",
+     "gruppe": "farbe",
+     "titel": "Unterstrich-Reiter (.prop-sub, .set-tabs) und Prop-Filter .prop-fsel.on neutral",
+     "von": 323,
+     "bis": 327,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C20",
+     "gruppe": "komponenten",
+     "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+     "von": 349,
+     "bis": 361,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "gruppe": "zustaende",
+     "titel": "Reiter .set-tabs und Unterreiter .prop-sub: Gewicht 500, Unterstrich in --text statt Akzent",
+     "von": 323,
+     "bis": 326,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-sub a[aria-pressed=\"true\"]",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B9b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gemeinsamer Gewählt-Stil (Z. 3125–3128), .prop-sub und Statistik-Reiter auf aria-current=\"page\"",
+     "von": 350,
+     "bis": 358,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C20",
+     "gruppe": "komponenten",
+     "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+     "von": 349,
+     "bis": 361,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb-toolbar",
+   "schritte": [
+    {
+     "nr": "abstaende-D2",
+     "gruppe": "abstaende",
+     "titel": "Notebook-CSS: Notizkopf-Polster, neuer Spaltenkopf .nb .note-bar (Datumsknopf bündig), Ordnerspalte 240 px + Titel 28 px bei 961–1180, Werkzeugleiste ohne Unterrand, .ql-editor oben 16, Druck- und Handy-Selektoren auf .note-bar",
+     "von": 369,
+     "bis": 369,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B10",
+     "gruppe": "responsiv",
+     "titel": "Editor-Werkzeugleiste am Handy: umsortieren, Trenner weg, klebender Verlauf statt Maske",
+     "von": 356,
+     "bis": 371,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3d",
+     "gruppe": "responsiv",
+     "titel": "App.edgeFade für Wischleisten, Aufrufe in render() und im Resize-Listener",
+     "von": 441,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb.no-left",
+   "schritte": [
+    {
+     "nr": "abstaende-D2",
+     "gruppe": "abstaende",
+     "titel": "Notebook-CSS: Notizkopf-Polster, neuer Spaltenkopf .nb .note-bar (Datumsknopf bündig), Ordnerspalte 240 px + Titel 28 px bei 961–1180, Werkzeugleiste ohne Unterrand, .ql-editor oben 16, Druck- und Handy-Selektoren auf .note-bar",
+     "von": 369,
+     "bis": 369,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B8",
+     "gruppe": "responsiv",
+     "titel": "Notebook-Spalten nach Inhaltsbreite (Container nbc, Grenzen 1160/1000/700 px)",
+     "von": 327,
+     "bis": 348,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .note-title",
+   "schritte": [
+    {
+     "nr": "abstaende-D2",
+     "gruppe": "abstaende",
+     "titel": "Notebook-CSS: Notizkopf-Polster, neuer Spaltenkopf .nb .note-bar (Datumsknopf bündig), Ordnerspalte 240 px + Titel 28 px bei 961–1180, Werkzeugleiste ohne Unterrand, .ql-editor oben 16, Druck- und Handy-Selektoren auf .note-bar",
+     "von": 369,
+     "bis": 369,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3z",
+     "gruppe": "typografie",
+     "titel": "Notiz-Titel .nb .note-title 34/700 → 32/600, lh 1.2 (Stufen 26/24 bleiben)",
+     "von": 286,
+     "bis": 288,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb",
+   "schritte": [
+    {
+     "nr": "abstaende-C11",
+     "gruppe": "abstaende",
+     "titel": "Abschnitts- und Raster-Wrapper auf Token: .aff (+ .aff > .aff-top), .nw-wrap, .nw-list, .cpn-grid, .coach-entries, .shadow-rules, .nb, .content > .tl-fit (18 → 16)",
+     "von": 360,
+     "bis": 360,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-B8",
+     "gruppe": "responsiv",
+     "titel": "Notebook-Spalten nach Inhaltsbreite (Container nbc, Grenzen 1160/1000/700 px)",
+     "von": 327,
+     "bis": 348,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tracker i.l2",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".heat-legend.right i.l2",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".heat-legend.right i.l4",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tracker i.today",
+   "schritte": [
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26b",
+     "gruppe": "komponenten",
+     "titel": "Heute-Ring in Rastern (Aktivität, Tracker, Jahresübersicht) und Jahreskalender-Kopf",
+     "von": 417,
+     "bis": 418,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tracker i.l3",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tracker i.l4",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tracker i.l1",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".heat-legend.right i.l1",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".heat-legend.right i.l3",
+   "schritte": [
+    {
+     "nr": "diagramme-A6",
+     "gruppe": "diagramme",
+     "titel": "Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren",
+     "von": 321,
+     "bis": 328,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23b",
+     "gruppe": "farbe",
+     "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+     "von": 336,
+     "bis": 338,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".ym-grid i.today",
+   "schritte": [
+    {
+     "nr": "farbe-B23c",
+     "gruppe": "farbe",
+     "titel": "Jahres-Monatsraster: Heute-Ring --text-2",
+     "von": 339,
+     "bis": 340,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C26b",
+     "gruppe": "komponenten",
+     "titel": "Heute-Ring in Rastern (Aktivität, Tracker, Jahresübersicht) und Jahreskalender-Kopf",
+     "von": 417,
+     "bis": 418,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

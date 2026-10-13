@@ -1,0 +1,1450 @@
+{
+ "regeln": "Z1 Kein KI-Look: kein farbiger box-shadow mit Null-Versatz, kein farbiges drop-shadow, kein farbiger Schatten unter Karten (--shadow/--lift-shadow erlaubt). Ausnahmen: .btn.accent, --dot-glow (Hinweis-Punkte, aktiver Seitenleisten-Balken), Serie „Im Flow“/„Unaufhaltsam“, Ergebnis-Pille Zertifikat, .rp-tide/.rp-tide-glow, Ruhepunkt-Farbflächen, Ruhepunkt-Symbole bis N3. Keine farbigen Seitenstreifen (::before/border-left ≥ 2px farbig) an Karten/Notizen, außer Notebook-Ordner-Farbbalken und Editor-Zitat. background-clip: text nur Serie „Unaufhaltsam“ (app.css genau 2×). Keine Pulspunkte/Endlosschleifen als Schmuck (endlos nur Laden/Skelett, Serie, Ruhepunkt-Atmosphäre, Ruhepunkt-Symbole bis N3). Keine Deko-Symbolkacheln (News-Hero, Startseiten-Funktionen), keine Fenster-Chrome, keine Versal-Kicker über Werten.\nZ2 --warn nur Warnung. Mentor-Notiz (Coach): background var(--surface-2), border 1px solid var(--border), kein Streifen; Trennlinien Notebook/Antwortverlauf 1px solid var(--border); Mentor-Antwort color-mix(in srgb, var(--text) 4%, transparent); Pillen „Mentor“/„1 Antwort“ U.pill(…, 'neutral'). --accent nie als Modus/Auswahl (Bearbeiten-Leiste, Demo-Eintrag, Startseiten-Leiste, Symbolkacheln, „SCHRITT“); Grün nur Gewinn, „Trade loggen“, .btn.primary, Schalter, Hinweis-Punkte, Demo-Kurve. Schwebende Modus-Leiste: background var(--surface-2), border 1px solid var(--border-2), box-shadow var(--shadow). Gewählter Eintrag: var(--surface-2), Rand var(--border), Schrift var(--text) wie .nav a.active.\nZ3 .kpi-label (neu, hinter .caption): 13px/18px, 500, var(--text-2), Satzschreibung, keine Laufweite; direkt über/neben einem Wert (Wert der Rolle „KPI-Label“ aus spec/typografie.md hat Vorrang, Klassenname bleibt). .caption unverändert (11px/600/Versalien/.06em/--muted) für Abschnittslabels; bleibt an .nav-title, trades.js:76 (4×), progress.js:74–75, news.js:83, replay.js:68, voice.js:107/115 (genau 10× in web/js). .tilt-stats .k: 12px, 500, var(--muted), ohne Versalien/Laufweite. Texte bleiben, nur Versalien entfallen.\nZ4 I.coach = Doktorhut sv('<path d=\"M2 9.5L12 5l10 4.5L12 14z\"/><path d=\"M6 11.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.5\"/><path d=\"M22 9.5V15\"/>'); KI-Mentor behält I.chat; Check-in = I.mood überall; Info-Banner = Standard I.info von U.banner ohne icon-Option; I.sparkle gelöscht.\nZ5a fmt.cur ohne Größenschwelle (d = o.compact ? 0 : 2), compact: true nur ausdrücklich. 2 Stellen: Ergebnisse (P&L, Netto-P&L, Erwartungswert, Ø Gewinn/Verlust, Disziplin-Kosten), Gebühren, Ausgaben, Payouts, Provisionen, Umsätze. 0 Stellen: Bestände über fmt.balance (Kontostand, Balance, Startkapital, Kontogröße, Mindestbalance), Regelgrößen (Daily Loss, Max. DD, Profit Target, Puffer, „… fehlen“, „heute noch … erlaubt“, Vorschlag, Consistency-Warnung), Monte Carlo, Kalender-Monatsraster (.p, Wochensumme). fmt.axisCur und .pm unverändert. „X von Y“ beidseitig gleich genau.\nZ5b Ergebnisse immer „+“/„−“ (U.pnl-Standard), Bestände nie; signed: false an U.pnl verboten.\nZ5c Kontowährung a.currency für alles eines Prop-Kontos (Balance, P&L, Limits, Ziel, Puffer, Payout-Planer inkl. Netto bei Auszahlung, Vorschlag, Consistency-Warnung, Grabstein Größe/Ergebnis/Trade-P&L). Journal-Währung: Journal-Seiten, Prop-Bilanz, „Payouts dieses Kontos“, Friedhof-Kacheln, Stop-Größe im Puffer-Tooltip. Summe über Konten je Währung, verbunden mit „ · “. Konto-Dialog-Hinweis: „Balance, P&L, Limits und Puffer des Kontos in Kontowährung. Trade-Listen zeigen die Journal-Währung.“\nZ6 Bearbeiten-Leiste ohne Animation. .rp-choice:hover nur border-color var(--border-2); background var(--surface-2); Symbolkachel 20 % Phasenfarbe ohne Skalierung; kein Anheben/Farbschatten/Lichtkegel; Hover ändert nie animation-duration. Ampelpunkt, Rhythmus-Balken, Fortschrittsring ohne Schein (Füll-Animation bleibt). Startseite: Funktionen/Ablauf ohne Hover.\nZ7 „% Regeln eingehalten“ bei cur.rate == null: <span class=\"muted\">—</span>, kein Ring, kein Trend-Pfeil, ohne ring-card; Bogen nur bei rate > 0; Ring bleibt 116px.\nZ8 Startseite: keine Ankündigungsleiste; große Knöpfe Satzschreibung 15px; Demo ohne Fensterleiste, aktiver Eintrag neutral, Einträge Dashboard, Statistiken, Fortschritt, TradeLog, Tagesansicht, Notebook, News, monotone Kurve. Funktionen: Liste 2 Spalten (column-gap 48px, unter 900px 1 Spalte), border-top 1px solid var(--border), ohne Symbol/Kartenfläche; .feats und 6 × .feat-card bleiben. Ablauf: Ziffer (--font-num, --muted, 500) vor dem Titel, kein Kicker; section.steps > .step bleibt.\nZ9 Belegung unverändert: N Trade loggen, 1 Dashboard, 2 TradeLog, 3 Tagesansicht, 4 Statistiken, 5 Notebook, 6 Fortschritt, 7 Ruhepunkt, 8 Mentor, 9 Schatten-Ich, 0 Blind-Replay nur bei App.on('replay'). Abschaltbar über settings.shortcuts (!== false = an); Esc schließt immer. „Trade loggen“ mit aria-keyshortcuts=\"N\". Doku „1–9“.\nZ10 Global nur Onest (family=Onest:wght@400..800) und Satoshi; Inter/Roboto nur über Theme.loadFont („Klassisch“); sample.js-Canvas: Onest.\nZ11 Kein toter Code, keine wirkungslosen Deklarationen. Kommentare aktuell: Prop drei Bereiche (Übersicht, Auswertung mit Bilanz und Friedhof, Konten); Zertifikat ein Design (app); Friedhof flach.\nZ12 (maßgeblich spec/wording.md): Netto-P&L mit Bindestrich; Startseite „Trefferquote“ statt „Win-Rate“; „Bearbeitungsmodus · Standard“; „1 Session starten“; Profil-Block „Bedienung“, Schalter „Tastenkürzel“, Text „N Trade loggen · 1–9 Bereich wechseln“; Fußzeile ohne Tastatur-Teil; README „1–9 Bereiche (0 = Blind-Replay, nur wenn freigeschaltet)“.\nReihenfolge: Phase A → B → C; C25 nach C12–C15; C1 (.brand em) nach Schriftzug in C7/C8; C3 nach C11. Offen (Abschnitt 6, nicht umsetzen): N1 .tile .body-Linie, N2 Ringgröße, N3 Ruhepunkt-Symbole.",
+ "schritte": [
+  {
+   "nr": "kilook-A1",
+   "titel": "fmt.cur ohne Größenschwelle (Cent auch ab 10.000); Bereich enthält die Reihenfolge-Vorbemerkung von Abschnitt 3",
+   "von": 366,
+   "bis": 380,
+   "cluster": "tokens",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.cur"
+   ],
+   "befund_ids": [
+    "diagramme-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/mobiletest.js (Kacheln bei Zeitraum „Gesamt“ mit P&L ≥ 10.000 bei 1024/390 px ohne Überlauf)"
+   ]
+  },
+  {
+   "nr": "kilook-A2",
+   "titel": "fmt.balance: Bestände ganzzahlig (compact: true als Standard)",
+   "von": 381,
+   "bis": 393,
+   "cluster": "tokens",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.balance",
+    "fmt.cur"
+   ],
+   "befund_ids": [
+    "diagramme-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "anpassen in kilook-C27: e2e/proptest.js:55 (Erwartung baut Balance über UI.fmt.cur)",
+    "prüfen: e2e/friedhoftest.js:122 (Konto ohne Größe „—“)"
+   ]
+  },
+  {
+   "nr": "kilook-A3",
+   "titel": "Regel-Kommentar über U.pnl (Ergebnisse immer mit Vorzeichen, kein signed: false)",
+   "von": 394,
+   "bis": 397,
+   "cluster": "tokens",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.pnl"
+   ],
+   "befund_ids": [
+    "diagramme-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-A4",
+   "titel": "Neue Typo-Rolle .kpi-label hinter .caption",
+   "von": 398,
+   "bis": 401,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".kpi-label",
+    ".caption"
+   ],
+   "befund_ids": [
+    "ki_look-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-A5",
+   "titel": "Google-Fonts-Link nur noch Onest (wght@400..800), Inter raus",
+   "von": 402,
+   "bis": 405,
+   "cluster": "tokens",
+   "dateien": [
+    "web/app.html",
+    "web/index.html"
+   ],
+   "anker": [
+    "fonts.googleapis.com/css2",
+    "family=Onest",
+    "family=Inter"
+   ],
+   "befund_ids": [
+    "typografie-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/settest2.js:22–26 („Klassisch“ lädt Inter/Roboto über Theme.loadFont)"
+   ]
+  },
+  {
+   "nr": "kilook-A6",
+   "titel": "Canvas-Schrift der Beispielbilder (sample.js) auf Onest",
+   "von": 406,
+   "bis": 408,
+   "cluster": "tokens",
+   "dateien": [
+    "web/js/sample.js"
+   ],
+   "anker": [
+    "g.font (sample.js)",
+    "Inter, Roboto, sans-serif"
+   ],
+   "befund_ids": [
+    "typografie-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-B1",
+   "titel": "I.coach als Doktorhut statt Funkelform",
+   "von": 409,
+   "bis": 415,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "I.coach"
+   ],
+   "befund_ids": [
+    "bereich_shell-28",
+    "ki_look-17"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/usercardtest.js (Konto-Menü)",
+    "prüfen: e2e/coachtest.js (mit Server)"
+   ]
+  },
+  {
+   "nr": "kilook-B2",
+   "titel": "Bearbeiten-Leiste neutral (surface-2, border-2), .dot-live und @keyframes pulse löschen",
+   "von": 416,
+   "bis": 420,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".edit-bar",
+    ".dot-live",
+    "@keyframes pulse"
+   ],
+   "befund_ids": [
+    "ki_look-12"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/dashtest.js:23, :59, :110 (.edit-bar mit Vorlagenname)"
+   ]
+  },
+  {
+   "nr": "kilook-B3",
+   "titel": "Mentor-Notiz im Coach Mode neutral ohne Streifen, Selektor .mentor-notes > .mentor-note, Trennlinien durchgezogen",
+   "von": 421,
+   "bis": 435,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor-notes.in-note",
+    ".mentor-note",
+    ".mentor-notes > .mentor-note",
+    ".mentor-note::before",
+    ".mentor-note .mn-head",
+    ".mentor-note .mn-head b",
+    ".mentor-note .mn-text",
+    ".mentor-note .mn-edit",
+    ".mn-thread",
+    ".mn-reply.mentor"
+   ],
+   "befund_ids": [
+    "bereich_konto-17",
+    "ki_look-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "prüfen: e2e/coachtest.js:84, :96, :153 (.mentor-note, .pill, .mn-head b, .mn-text)",
+    "prüfen: e2e/mentortest.js (KI-Hinweis .mentor-note, app.css:2363 unverändert)"
+   ]
+  },
+  {
+   "nr": "kilook-B4",
+   "titel": "Fortschrittsring ohne drop-shadow",
+   "von": 436,
+   "bis": 440,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ring-arc .arc"
+   ],
+   "befund_ids": [
+    "ki_look-6"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/headtest.js:55–57 (Füll-Animation .ring-arc .arc)"
+   ]
+  },
+  {
+   "nr": "kilook-B5",
+   "titel": "Ruhepunkt-Startkarten: Hover nur Rand/Fläche, kein Lichtkegel/Lift/Skalierung, keine Dauer-Änderung; Schein an Ampelpunkt und Rhythmus-Balken weg",
+   "von": 441,
+   "bis": 459,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-choice",
+    ".rp-choice::before",
+    ".rp-choice:hover",
+    ".rp-choice:hover::before",
+    ".rp-choice:focus-visible::before",
+    ".rp-choice:active",
+    ".rp-choice .rp-icon",
+    ".rp-choice:hover .rp-icon",
+    ".rp-choice:hover .rp-i-sun",
+    ".rp-choice:hover .rp-i-rays",
+    ".rp-choice:hover .rp-i-ring",
+    ".rp-choice:hover .rp-i-ring2",
+    ".rp-choice:hover .rp-i-pause",
+    ".rp-ampel .rp-dot",
+    ".rp-seq-i i"
+   ],
+   "befund_ids": [
+    "bereich_training-45"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "prüfen: e2e/rptest.js (.rp-choice, .rp-seq-i)",
+    "prüfen: e2e/mentortest.js:44"
+   ]
+  },
+  {
+   "nr": "kilook-B6",
+   "titel": "Tilt-Labels 12px/500 ohne Versalien",
+   "von": 460,
+   "bis": 463,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tilt-stats .k"
+   ],
+   "befund_ids": [
+    "ki_look-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-B7",
+   "titel": "News-Hero: Glockenkachel-CSS löschen, Countdown am Handy in eigener Zeile",
+   "von": 464,
+   "bis": 467,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nw-next-ico",
+    ".nw-next-ico svg",
+    ".nw-next-when"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-41"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/newstest.js:53, :93 (.nw-next-t b, .nw-next .caption)"
+   ]
+  },
+  {
+   "nr": "kilook-B8a",
+   "titel": "Startseite: CSS der Ankündigungsleiste löschen",
+   "von": 468,
+   "bis": 469,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".lp .ribbon"
+   ],
+   "befund_ids": [
+    "ki_look-44"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-B8b",
+   "titel": "Startseite: große Knöpfe 15px in Satzschreibung",
+   "von": 470,
+   "bis": 471,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".lp .btn.big"
+   ],
+   "befund_ids": [
+    "ki_look-44"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-B8c",
+   "titel": "Startseiten-Demo: Fensterleiste/Ampelpunkte löschen, aktiver Eintrag neutral",
+   "von": 472,
+   "bis": 474,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".lp .shot .frame .bar",
+    ".lp .shot .frame .bar i",
+    ".lp .demo .side div.on"
+   ],
+   "befund_ids": [
+    "ki_look-43"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-B8d",
+   "titel": "Startseite: Funktionen als 2-spaltige Liste, Ablauf ohne Karten, Ziffer statt Kicker (CSS)",
+   "von": 475,
+   "bis": 488,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".lp .feats",
+    ".lp .feat-card",
+    ".lp .feat-card .ico",
+    ".lp .feat-card .ico svg",
+    ".lp .feat-card b",
+    ".lp .step b",
+    ".lp .steps",
+    ".lp .step",
+    ".lp .step .k",
+    ".lp .step p"
+   ],
+   "befund_ids": [
+    "ki_look-42"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "prüfen: e2e/motiontest.js:72–74 (6 × .feat-card.rv, sichtbar nach Scrollen)"
+   ]
+  },
+  {
+   "nr": "kilook-B8e",
+   "titel": "Startseite: Hover-Effekte der Funktions-/Ablauf-Einträge löschen, Bewegungs-Kommentar",
+   "von": 489,
+   "bis": 496,
+   "cluster": "bewegung",
+   "dateien": [
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".lp .feat-card",
+    ".lp .step",
+    ".lp .feat-card:hover",
+    ".lp .step:hover",
+    ".lp .feat-card .ico",
+    ".lp .feat-card:hover .ico"
+   ],
+   "befund_ids": [
+    "ki_look-42"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/motiontest.js:72–74"
+   ]
+  },
+  {
+   "nr": "kilook-C1a",
+   "titel": "Shell-CSS: .nav button aus Selektoren, tote Regeln (.nav-sec, .brand em, .sidebar hr, .badge-n) löschen",
+   "von": 497,
+   "bis": 514,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nav a",
+    ".nav button",
+    ".nav a svg",
+    ".nav a:hover",
+    ".nav a:active",
+    "html.sb-mini .nav a",
+    "html.sb-mini .nav a span",
+    ".nav.nav-sec",
+    ".brand em",
+    ".sidebar hr",
+    ".nav .badge-n"
+   ],
+   "befund_ids": [
+    "bereich_shell-35"
+   ],
+   "abhaengig": [
+    "kilook-C7b",
+    "kilook-C8a"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "prüfen: e2e/usercardtest.js:12",
+    "prüfen: e2e/sidebartest.js"
+   ]
+  },
+  {
+   "nr": "kilook-C1b",
+   "titel": "Hell/Dunkel-Schalter: Grundwert margin 0, Sonderregeln und .menu-btn-Reste löschen",
+   "von": 515,
+   "bis": 523,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".theme-toggle",
+    "html.sb-mini .theme-toggle",
+    "html.sb-mini[data-theme=\"light\"] .theme-toggle::before",
+    ".menu-btn svg path",
+    ".sb-menu .theme-toggle",
+    "html.sb-mini .sb-menu .theme-toggle",
+    "html.sb-mini[data-theme=\"light\"] .sb-menu .theme-toggle::before"
+   ],
+   "befund_ids": [
+    "bereich_shell-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/usercardtest.js:21–28 (#pop-user .theme-toggle)",
+    "prüfen: e2e/sidebartest.js:44, e2e/motiontest.js:62–66 (.menu-btn)"
+   ]
+  },
+  {
+   "nr": "kilook-C2",
+   "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+   "von": 524,
+   "bis": 534,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".journal",
+    ".folder",
+    ".note-item",
+    ".note-title",
+    ".note-body",
+    ".nb .tags-row input",
+    ".nb-toolbar .tb.turn .lbl",
+    ".nb-toolbar .tb .lbl",
+    ".nb .note-title:focus"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C3",
+   "titel": "Zertifikat-CSS: tote Navy/Hell-Variablen, Verlaufstext, Kurslinie entfernen",
+   "von": 535,
+   "bis": 552,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cert",
+    "--c-line",
+    "--c-glow",
+    "--c-glow2",
+    "--c-bar",
+    "--c-band",
+    "--c-band2",
+    "--g1",
+    "--g2",
+    "--gn1",
+    "--gn2",
+    ".cert-brand",
+    ".cert-title .ct-big",
+    ".cert-value span",
+    ".cert[data-sign=\"neg\"] .cert-value span",
+    ".cert-foot .issue .line",
+    ".cert[data-theme=\"app\"] .cert-brand .name em",
+    ".cert[data-theme=\"app\"] .cert-title .ct-big",
+    ".cert[data-theme=\"app\"] .cert-foot .issue .line"
+   ],
+   "befund_ids": [
+    "ki_look-31"
+   ],
+   "abhaengig": [
+    "kilook-C11"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "prüfen: e2e/certtest.js:17 (-webkit-text-fill-color: var(--c-acc) bleibt), :24",
+    "prüfen: PNG-Export pixelgleich (6 Paare, Abschnitt 4)"
+   ]
+  },
+  {
+   "nr": "kilook-C4",
+   "titel": "Ruhepunkt-CSS: Reste des Schalters „Christlicher Impuls“ (.rp-switch) löschen",
+   "von": 553,
+   "bis": 556,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-switch",
+    ".rp-switch input",
+    ".rp-switch input::after",
+    ".rp-choice"
+   ],
+   "befund_ids": [
+    "bereich_training-49"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/rptest.js:11"
+   ]
+  },
+  {
+   "nr": "kilook-C5",
+   "titel": "Prop-CSS: veraltete Kommentare, .prop-unv/.prop-highlights/Gravur-Variablen/wirkungslose text-shadow/.prop-grave-kv löschen",
+   "von": 557,
+   "bis": 578,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-unv",
+    ".prop-highlights",
+    ".prop-patterns",
+    ".prop-patterns li::marker",
+    ".prop-patterns-empty",
+    ".prop-grave",
+    "--eng-hi",
+    "--eng-lo",
+    "--grain",
+    ".pg-rip",
+    ".prop-grave-head b",
+    ".pg-dates",
+    ".pg-cause b",
+    ".prop-grave-kv",
+    ".prop-grave .kv",
+    ".prop-grave .kv > b",
+    ".prop-grave-trade",
+    ".pg-stone"
+   ],
+   "befund_ids": [
+    "bereich_prop-51"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "prüfen: e2e/friedhoftest.js:46 (flacher Grabstein)"
+   ]
+  },
+  {
+   "nr": "kilook-C6",
+   "titel": "Tastenkürzel abschaltbar (settings.shortcuts), „0“ nur bei App.on('replay')",
+   "von": 579,
+   "bis": 583,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    "app.html keydown-Listener",
+    "Store.settings.shortcuts",
+    "App.on('replay')"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-43"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/rptest.js:10 (Taste 7), e2e/mentortest.js:21 (Taste 8)",
+    "neu (Abschnitt 4, Verhalten): Taste 0 ohne FEATURES.replay ändert location.hash nicht; shortcuts=false sperrt N und 1–9, Esc wirkt weiter"
+   ]
+  },
+  {
+   "nr": "kilook-C7a",
+   "titel": "Startseite: Ankündigungsleiste aus dem HTML löschen",
+   "von": 584,
+   "bis": 585,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/index.html"
+   ],
+   "anker": [
+    ".lp .ribbon"
+   ],
+   "befund_ids": [
+    "ki_look-44"
+   ],
+   "abhaengig": [
+    "kilook-B8a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C7b",
+   "titel": "Startseite: Schriftzug Journalyst ohne <em>",
+   "von": 586,
+   "bis": 586,
+   "cluster": "shell",
+   "dateien": [
+    "web/index.html"
+   ],
+   "anker": [
+    "Journal<em>yst</em>",
+    ".brand em"
+   ],
+   "befund_ids": [
+    "bereich_shell-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C7c",
+   "titel": "Startseiten-Demo: ohne Fensterleiste, Einträge in App-Reihenfolge, „Trade-Trefferquote“, monotone Kurve",
+   "von": 587,
+   "bis": 595,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/index.html"
+   ],
+   "anker": [
+    ".lp .shot .frame .bar",
+    ".lp .demo .side",
+    ".lp .demo .side div.on",
+    "t:Trade-Win-Rate",
+    "t:Netto-P&L",
+    "Demo-Kurve path d"
+   ],
+   "befund_ids": [
+    "ki_look-43"
+   ],
+   "abhaengig": [
+    "kilook-B8c"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C7d",
+   "titel": "Startseite: Symbole aus den Funktionen, „Trefferquote, Profit-Faktor …“, Ablauf mit Ziffer statt „SCHRITT n“",
+   "von": 596,
+   "bis": 599,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/index.html"
+   ],
+   "anker": [
+    ".lp .feat-card",
+    ".lp .feat-card .ico",
+    ".lp .step .k",
+    ".lp .step b",
+    "t:Win-Rate, Profit-Faktor, Erwartungswert",
+    "t:SCHRITT 1"
+   ],
+   "befund_ids": [
+    "ki_look-42",
+    "ki_look-43"
+   ],
+   "abhaengig": [
+    "kilook-B8d"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/motiontest.js:72–74 (weiter 6 × .feat-card)"
+   ]
+  },
+  {
+   "nr": "kilook-C8a",
+   "titel": "Seitenleiste (app.js): Schriftzug Journalyst ohne <em>",
+   "von": 600,
+   "bis": 601,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "Journal<em>yst</em>",
+    ".brand em"
+   ],
+   "befund_ids": [
+    "bereich_shell-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C8b",
+   "titel": "Knopf „Trade loggen“ mit aria-keyshortcuts=\"N\"",
+   "von": 602,
+   "bis": 602,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "newTradeButton",
+    "aria-keyshortcuts",
+    "[data-action=new-trade]"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-43"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C8c",
+   "titel": "Session-Ende-Dialog: Heute/Trades/Win-Rate als .kpi-label",
+   "von": 603,
+   "bis": 604,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openSessionEnd",
+    ".caption",
+    ".kpi-label"
+   ],
+   "befund_ids": [
+    "ki_look-36"
+   ],
+   "abhaengig": [
+    "kilook-A4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C9a",
+   "titel": "Kalender-Monatsraster: Tages- und Wochenbeträge immer compact (ohne Cent)",
+   "von": 605,
+   "bis": 607,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "calendarHTML",
+    "fmt.cur",
+    ".cal .p"
+   ],
+   "befund_ids": [
+    "diagramme-31"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/mobiletest.js:66 (.cal .w .p/.pm)",
+    "neu (Abschnitt 4): .cal .p ohne /,\\d\\d\\s?[€$]/"
+   ]
+  },
+  {
+   "nr": "kilook-C9b",
+   "titel": "Dashboard-Widgets: Netto-P&L mit Vorzeichen; Serien, „Dein Score“, „Heutiger Score“ als .kpi-label",
+   "von": 608,
+   "bis": 612,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "U.pnl",
+    ".caption",
+    ".kpi-label",
+    ".tracker-foot",
+    ".sg"
+   ],
+   "befund_ids": [
+    "diagramme-35",
+    "ki_look-36"
+   ],
+   "abhaengig": [
+    "kilook-A4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/scorestatetest.js (Score-Karte)"
+   ]
+  },
+  {
+   "nr": "kilook-C10",
+   "titel": "Widget-Vorschaubild „Dein Score“ in Satzschreibung",
+   "von": 613,
+   "bis": 615,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "WidgetPreviews.svg",
+    "t:DEIN SCORE"
+   ],
+   "befund_ids": [
+    "ki_look-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C11",
+   "titel": "Zertifikat-Markup: Schriftzug ohne <em>, .issue .line löschen",
+   "von": 616,
+   "bis": 619,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/certificate.js"
+   ],
+   "anker": [
+    "Journal<em>yst</em>",
+    ".cert-brand .name em",
+    ".cert-foot .issue .line"
+   ],
+   "befund_ids": [
+    "ki_look-31",
+    "bereich_shell-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/certtest.js, web/tests/cert.test.mjs"
+   ]
+  },
+  {
+   "nr": "kilook-C12",
+   "titel": "Dashboard: Bearbeiten-Leiste ohne Pulspunkt mit „·“, Willkommen-Banner ohne icon: 'sparkle'",
+   "von": 620,
+   "bis": 624,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".edit-bar",
+    ".dot-live",
+    "U.banner",
+    "I.sparkle",
+    "t:Bearbeitungsmodus"
+   ],
+   "befund_ids": [
+    "ki_look-12",
+    "ki_look-17"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/dashtest.js:23, :110"
+   ]
+  },
+  {
+   "nr": "kilook-C13",
+   "titel": "Tagesansicht: Check-in mit I.mood (Knopf und Leerzustand), Netto-P&L als .kpi-label",
+   "von": 625,
+   "bis": 629,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "I.sparkle",
+    "I.mood",
+    "U.empty",
+    ".caption",
+    ".kpi-label"
+   ],
+   "befund_ids": [
+    "ki_look-17",
+    "ki_look-36"
+   ],
+   "abhaengig": [
+    "kilook-A4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C14",
+   "titel": "Statistik: Gewinner/Verlierer als .kpi-label, Check-in-Leerzustand mit I.mood, Monte Carlo ganzzahlig",
+   "von": 630,
+   "bis": 641,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    ".caption",
+    ".kpi-label",
+    "U.empty",
+    "I.sparkle",
+    "I.mood",
+    "fmt.cur",
+    "Monte Carlo (mc.start, mc.dd, mc.final)"
+   ],
+   "befund_ids": [
+    "ki_look-17",
+    "ki_look-36",
+    "diagramme-32"
+   ],
+   "abhaengig": [
+    "kilook-A4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C15",
+   "titel": "Schatten-Ich: Banner „Noch keine Regel aktiv“ ohne icon: 'sparkle'",
+   "von": 642,
+   "bis": 644,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "U.banner",
+    "I.sparkle"
+   ],
+   "befund_ids": [
+    "ki_look-17"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/shadowtest.js"
+   ]
+  },
+  {
+   "nr": "kilook-C16",
+   "titel": "TradeLog: Netto-P&L mit Vorzeichen, Verpasste-Trades-Labels als .kpi-label",
+   "von": 645,
+   "bis": 649,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "U.pnl",
+    ".caption",
+    ".kpi-label",
+    "renderMissed"
+   ],
+   "befund_ids": [
+    "diagramme-35",
+    "ki_look-36"
+   ],
+   "abhaengig": [
+    "kilook-A4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C17",
+   "titel": "Blind-Replay: „Session beendet“ als .kpi-label",
+   "von": 650,
+   "bis": 652,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/replay.js"
+   ],
+   "anker": [
+    ".caption",
+    ".kpi-label"
+   ],
+   "befund_ids": [
+    "ki_look-36"
+   ],
+   "abhaengig": [
+    "kilook-A4"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/replaytest.js"
+   ]
+  },
+  {
+   "nr": "kilook-C18",
+   "titel": "„% Regeln eingehalten“ ohne Grundlage: „—“, kein Ring/ring-card; Bogen nur bei rate > 0",
+   "von": 653,
+   "bis": 660,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "ringArc",
+    ".ring-arc .arc",
+    ".ring-abs",
+    ".ring-card",
+    "U.card",
+    ".big-stat"
+   ],
+   "befund_ids": [
+    "ki_look-6"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/headtest.js:55–57 (Ring kann ohne .arc sein)"
+   ]
+  },
+  {
+   "nr": "kilook-C19a",
+   "titel": "Prop: Kopfkommentar aktualisieren (nur Friedhof, keine fünf Bereiche)",
+   "von": 661,
+   "bis": 663,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "PropScreen.register (Kommentar prop.js:7–8)"
+   ],
+   "befund_ids": [
+    "bereich_prop-51"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C19b",
+   "titel": "Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis",
+   "von": 664,
+   "bis": 681,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "planOpts (fmtMoney)",
+    "planText",
+    "summaryTiles",
+    "accountCard",
+    "money",
+    "U.pnl",
+    "U.tile",
+    "fmt.balance",
+    ".caption",
+    ".kpi-label",
+    "t:Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung."
+   ],
+   "befund_ids": [
+    "diagramme-4",
+    "diagramme-32",
+    "ki_look-36"
+   ],
+   "abhaengig": [
+    "kilook-A4"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "anpassen in kilook-C27: e2e/proptest.js:55–56, :101",
+    "prüfen: e2e/proptest.js:116 („/ 150,00 € je Stop-Loss“ bleibt), :122–125 (Geld-blind)",
+    "prüfen: e2e/sampletest.js:60 (Cockpit-Karten)"
+   ]
+  },
+  {
+   "nr": "kilook-C19c",
+   "titel": "Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“",
+   "von": 682,
+   "bis": 694,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "payoutPlanner",
+    "money",
+    "U.pnl",
+    "fmt.balance",
+    "fmt.cur"
+   ],
+   "befund_ids": [
+    "diagramme-4",
+    "diagramme-32",
+    "bereich_prop-51"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "prüfen: e2e/proptest.js:94–102 (Payout-Planer Challenge/Funded)"
+   ]
+  },
+  {
+   "nr": "kilook-C20",
+   "titel": "Friedhof: tote Helfer (kv, when, tradeHtml) löschen, Grabstein-Beträge in Kontowährung",
+   "von": 695,
+   "bis": 701,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "kv (prop-friedhof.js)",
+    "when",
+    "tradeHtml",
+    "grave",
+    "fmt.balance",
+    "U.pnl"
+   ],
+   "befund_ids": [
+    "diagramme-4",
+    "bereich_prop-51"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/friedhoftest.js:46, :73, :88–89, :122, :129"
+   ]
+  },
+  {
+   "nr": "kilook-C21",
+   "titel": "Coach: Pillen „Mentor“ und „1 Antwort“ neutral statt warn",
+   "von": 702,
+   "bis": 705,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "U.pill",
+    "t:Mentor",
+    "t:1 Antwort"
+   ],
+   "befund_ids": [
+    "bereich_konto-17",
+    "ki_look-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/coachtest.js:84 (.pill-Text „Mentor“)"
+   ]
+  },
+  {
+   "nr": "kilook-C22",
+   "titel": "News-Hero-Markup ohne Glocke",
+   "von": 706,
+   "bis": 708,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    ".nw-next",
+    ".nw-next-ico",
+    "I.bell"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-41"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/newstest.js:93 (.nw-next .caption)"
+   ]
+  },
+  {
+   "nr": "kilook-C23",
+   "titel": "Ruhepunkt-JS: syncFaithUI und Aktion 'rp-faith' löschen, Kommentar anpassen",
+   "von": 709,
+   "bis": 714,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    "syncFaithUI",
+    "setFaith",
+    "App.actions['rp-faith']",
+    "root.Ruhepunkt"
+   ],
+   "befund_ids": [
+    "bereich_training-49"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/rptest.js:11"
+   ]
+  },
+  {
+   "nr": "kilook-C24",
+   "titel": "Einstellungen → Profil: Block „Bedienung“ mit Schalter „Tastenkürzel“, Fußzeile ohne Tastatur-Teil, Aktion 'shortcuts-toggle'",
+   "von": 715,
+   "bis": 722,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "switchRow",
+    ".set-block",
+    "App.actions['shortcuts-toggle']",
+    "settings.shortcuts",
+    "t:Bedienung",
+    "t:Tastenkürzel",
+    "t:Speicherort: dieser Browser (localStorage und IndexedDB)."
+   ],
+   "befund_ids": [
+    "barrierefreiheit-43"
+   ],
+   "abhaengig": [
+    "kilook-C6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C25",
+   "titel": "I.sparkle aus dem Symbolsatz löschen",
+   "von": 723,
+   "bis": 726,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "I.sparkle"
+   ],
+   "befund_ids": [
+    "ki_look-17"
+   ],
+   "abhaengig": [
+    "kilook-C12",
+    "kilook-C13",
+    "kilook-C14",
+    "kilook-C15"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "kilook-C26",
+   "titel": "Wörterbücher en/es/pt/zh/hi: neue Schlüssel (Bedienung, Tastenkürzel …), alte Tastatur-Schlüssel löschen",
+   "von": 727,
+   "bis": 744,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js"
+   ],
+   "anker": [
+    "t:Bedienung",
+    "t:Tastenkürzel",
+    "t:Trade loggen ·",
+    "t:Bereich wechseln",
+    "t:Speicherort: dieser Browser (localStorage und IndexedDB).",
+    "t:Speicherort: dieser Browser (localStorage und IndexedDB). Tastatur:",
+    "t:neuer Trade ·",
+    "t:Bereiche ·",
+    "t:schließt Dialoge."
+   ],
+   "befund_ids": [
+    "barrierefreiheit-43",
+    "diagramme-4"
+   ],
+   "abhaengig": [
+    "kilook-C24"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "prüfen: e2e/langtest.js"
+   ]
+  },
+  {
+   "nr": "kilook-C27",
+   "titel": "e2e/proptest.js an Kontowährung und Genauigkeit anpassen",
+   "von": 745,
+   "bis": 750,
+   "cluster": "prop",
+   "dateien": [
+    "web/e2e/proptest.js"
+   ],
+   "anker": [
+    "UI.fmt.balance",
+    "UI.fmt.cur",
+    "Prop.payoutPlan (fmtMoney)"
+   ],
+   "befund_ids": [
+    "diagramme-4",
+    "diagramme-32"
+   ],
+   "abhaengig": [
+    "kilook-A2",
+    "kilook-C19b"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "anpassen: e2e/proptest.js:55, :56, :101; :116 unverändert"
+   ]
+  },
+  {
+   "nr": "kilook-C28",
+   "titel": "README: Tastatur, Mentor-Notiz, Fortschritt, Kalender, Schrift, Geldformat, Prop-Währung",
+   "von": 751,
+   "bis": 762,
+   "cluster": "wording",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:318 Tastatur",
+    "README:153 Mentor-Notiz",
+    "README:129 Fortschritt",
+    "README:190 Kalender",
+    "README:172 Schrift",
+    "README:211 fmt.cur",
+    "README:241 Prop Firms"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-43",
+    "bereich_konto-17",
+    "ki_look-33",
+    "ki_look-6",
+    "diagramme-31",
+    "typografie-33",
+    "diagramme-32",
+    "diagramme-35",
+    "diagramme-4"
+   ],
+   "abhaengig": [
+    "kilook-A1",
+    "kilook-A2",
+    "kilook-A5",
+    "kilook-B3",
+    "kilook-B4",
+    "kilook-C6",
+    "kilook-C9a",
+    "kilook-C18",
+    "kilook-C19b",
+    "kilook-C19c",
+    "kilook-C20",
+    "kilook-C24"
+   ],
+   "aufwand": "S",
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 763,
+  "bis": 864
+ },
+ "querbezuege": [
+  "fmt.cur (ui.js:122): typografie-14 und zustaende-23 ändern dieselbe Zeile gleich, wer zuerst kommt, ändert, der andere überspringt; wording-53 (Affiliate-Kacheln ganzzahlig) abgelehnt, Cent bleiben (K5, kilook-A1)",
+  ".kpi-label: Werte der Rolle „KPI-Label“ in spec/typografie.md haben Vorrang; Klassenname wie typografie-4, 13px passend zur Typo-Skala typografie-3; referenz-43 stellt dieselben Stellen um (Z3, K8, kilook-A4)",
+  "widgets.js:287 „Heutiger Score“ (.tracker-foot): bereich_dashboard-44 (als .caption in Versalien) abgelehnt, wird .kpi-label (K8, kilook-C9b)",
+  "day.js:14 .caption → .kpi-label: bereich_trades_tag-39 (bleibt .caption) abgelehnt; typografie-4 und referenz-43 stellen dieselbe Stelle um (K8, kilook-C13)",
+  ".tilt-stats .k: 12px/500 wie bereich_training-21 und abstaende_layout-27 (K8, kilook-B6)",
+  "Zensus textTransform.uppercase: ändert die Typografie-Gruppe die Gruppentitel (.nav-title/.caption), gelten deren neue Werte minus dieselbe Differenz (Abschnitt 4)",
+  ".edit-bar / dashboard.js:119: bewegung/bereich_dashboard-9 ist derselbe Befund; Fläche --surface-2 und Trenner „·“ von dort, Markup C12 ist gemeinsame Endfassung (K9, kilook-B2, kilook-C12)",
+  ".mentor-note (mentor.js:85, app.css:2363): komponenten/bereich_training-1 benennt den KI-Hinweis in .mentor-disclaimer um, verträglich mit Selektor .mentor-notes > .mentor-note (K3, kilook-B3)",
+  "U.pill('Mentor') coach.js:35/128/243: wording/aufbau-29 ändert den Pillentext „Mentor“ → „Coach“ (spec/wording.md); hier nur Ton neutral (K3, kilook-C21)",
+  ".ring-arc .arc / ringArc: Ringfarbe --text-2 bleibt bei der Diagramm-Gruppe (diagramme/bereich_training-7); zustaende-11 („Bogen nur bei rate > 0“) hier erledigt; Größe 116 → 88px ist Nutzerfrage N2 (K10, kilook-B4, kilook-C18)",
+  ".rp-choice: bewegung/komponenten-13 (eigene Bildsprache) und bewegung-36 (Anheben wie .tile:hover) entschieden zugunsten Hover nur Rand/Fläche; bewegung-8 hier mit behoben; bewegung-7 und ki_look-27 (Pausieren, drop-shadow in @keyframes rp-sun/rp-moon, app.css:2164–2180) offen unter N3 (K11, kilook-B5)",
+  ".rp-switch (app.css:2147–2151, 2333): komponenten/bewegung-41 ist dieselbe Löschung, nur einmal ausführen (K12, kilook-C4)",
+  ".journal / .note-* (app.css:769–788), .nb-toolbar .tb.turn .lbl: typografie-17 (löscht .journal ebenfalls), zustaende/farbe_kontrast-29 (Zeile 783), typografie/bereich_notebook_news-14 (13px/500) verträglich; .folder und .nb .note-title:focus bleiben (K13, kilook-C2)",
+  ".lp .shot: ki_look-3 (Abstände-Gruppe) benennt .shot eventuell um, Schritte B8 gelten dann unter neuem Namen (K14, kilook-B8c)",
+  "landing.css:8–10 grüner aktiver Navigationslink der Startseite gehört zur Farbe-Gruppe, nicht hierher (K14)",
+  "index.html „Netto-P&L“ bleibt mit Bindestrich gemäß Glossar, wording-6 ändert die App-Kachel gleich; Glossar maßgeblich spec/wording.md bzw. audit/inventar-wording.md Abschnitt 1 (K14, Z12, kilook-C7c)",
+  "app.css:146–157 (@media-Blöcke mit .nav a, .nav.nav-sec): abstaende/bereich_shell-2 verschiebt sie hinter Zeile 187; Änderungen aus C1 gelten unabhängig von der Position (K18, kilook-C1a)",
+  "U.banner icon-Option (dashboard.js:130, shadow.js:58) und U.empty stats.js:61: gleiches Vorgehen wie farbe/zustaende-7 und bereich_dashboard-14 (Standard-Info-Symbol, kein icon:false); zustaende/bereich_statistik-46 ('sparkle' behalten) abgelehnt → 'mood' (K19, kilook-C12, kilook-C14, kilook-C15)",
+  "Tastenkürzel (app.html keydown, misc.js Fußzeile): aufbau-21 gleiche Linie; wording/bereich_shell-32 (neue Methode feature()) ersetzt durch App.on('replay'); wording-20 schreibt Fußzeile mit Legende, hier Legende am Schalter, Speicherort-Satz formuliert die Wortwahl-Gruppe; aufbau-25 baut „Profil“ um, Block „Bedienung“ wandert mit (K16, kilook-C6, kilook-C24)",
+  "U.pnl signed (widgets.js:166, trades.js:26): wording-7 gleicher Inhalt (dort signed: true, hier Option entfernt) (K6, kilook-C9b, kilook-C16)",
+  "calendarHTML (widgets.js:115–116): wording/bereich_dashboard-17 gleiche Änderung; Strich `--` → `—` (widgets.js:127) bleibt bei der Wortwahl-Gruppe (K7, kilook-C9a)",
+  "prop.js Kontowährung: aufbau/hierarchie-4 nannte „Balance in Kontowährung, P&L in Journal-Währung“ Nutzerentscheidung, wird hier überstimmt; der Teil „Gewinn fehlt nur bei Funded“ (prop.js:75) ist eigener Schritt der Aufbau-Gruppe und verträglich (K4, kilook-C19b)",
+  "prop.js:194 Hinweistext: wording/bereich_prop-5 („Kontostand, …“) wird übernommen, sobald „Balance“ app-weit umbenannt ist; „Balance“ → „Kontostand“ ist Sache von wording-32 (Z5c, K4, R4, kilook-C19b)",
+  "prop-friedhof.js:136 fmt.balance(t.size): ersetzt wording/bereich_prop-46 die Unterzeile, entfällt dieser Teil (kilook-C20)",
+  ".mentor-setup .ico svg { color: var(--accent) } (app.css:2341, 2893): grüne Farbe des großen Coach-Symbols gehört in spec/farbe.md; hier nur die Form I.coach (R5, kilook-B1)",
+  ".tile .body (app.css:524–525) auslaufende Linie: ki_look-10, bereich_dashboard-41 mit referenz-25 und hierarchie-43, nicht umsetzen bis Nutzerantwort N1 (K1)",
+  ".nw-next .caption „Nächste wichtige News“ bleibt, ki_look-37 ist verworfen (findings-dropped.json); nur .nw-next-ico entfällt (K17, kilook-B7, kilook-C22)"
+ ]
+}

@@ -1,0 +1,276 @@
+{
+ "screens": [
+  {
+   "screen": "modal_trade_loggen",
+   "zustand": "leer (neuer Trade, Desktop 1440)",
+   "hauptaktion": "„Trade speichern“ – davor in dieser Reihenfolge: Symbol wählen, Long/Short, Einstieg (Ausstieg, Kontrakte).",
+   "optisch_klar": true,
+   "begruendung": "Ja, auf Knopf-Ebene: „Trade speichern“ ist der einzige gefüllte Akzentknopf (`.btn.primary`, app.css:274), „Abbrechen“ ist umrandet (`.btn`, app.css:268), das X oben ist `.btn.ghost.icon` (app.js:348, app.css:278); Fuß-Reihenfolge Hinweis → Abbrechen → Trade speichern (app.js:368). Nein auf Screen-Ebene: der Dialog zeigt zehn Eingaben plus drei Prop-Chips gleichzeitig (Screenshot dark-1440/modal_trade_loggen.png), obwohl für den typischen Trade fünf reichen. Punktwert wird bei der Symbolwahl automatisch gesetzt (app.js:401, README.md:37), Gebühren stehen auf 0, Prop-Konten betreffen nur Copy-Trading (app.js:366). Die Prop-Chips sind `.chip.sel` (umrandete Pillen, app.css:628) und sitzen direkt über dem Fuß – drei knopfartige Elemente neben den zwei echten Knöpfen. Der Hinweis links im Fuß sagt „Long oder Short wählen“, obwohl das erste Feld (Symbol) noch leer ist (app.js:469) – der Screen nennt also den falschen nächsten Schritt. Eröffnet/Geschlossen müssen sichtbar bleiben: ein Trade gilt nur als geschlossen, wenn Geschlossen gesetzt ist (core.js:44 `closed = !!close && exit != null`).",
+   "konkurrenten": [
+    "Prop-Konten-Chips (3 umrandete `.chip.sel`, app.js:366, app.css:628) – einzige weiteren knopfartigen Elemente, direkt über dem Fuß",
+    "„Abbrechen“ (`.btn`, app.js:368) – korrekt sekundär, kein echter Konkurrent",
+    "X „Schließen“ (`.btn.ghost.icon`, app.js:348) – tertiär, zweiter Ausstieg neben Abbrechen (bleibt, Vorgabe des Nutzers: Abbrechen sekundär)"
+   ],
+   "verstecken": [
+    "Punktwert (mit (i)) → „Mehr Optionen“ (app.js:363)",
+    "Gebühren → „Mehr Optionen“ (app.js:364, App.feeField app.js:440-443)",
+    "Prop-Konten (Copy-Trading) → „Mehr Optionen“ (app.js:366)",
+    "Konto-Auswahl bleibt sichtbar (nur bei mehreren Konten, app.js:347) – falsches Konto wäre ein Datenfehler"
+   ],
+   "irrelevant": [
+    "Punktwert, solange das Symbol einen bekannten Punktwert mitbringt (app.js:401)",
+    "Gebühren mit Standard 0 (app.js:364)",
+    "Prop-Konten-Chips, wenn kein Copy-Trading (alle unmarkiert, app.js:366)",
+    "Fuß-Hinweis „Long oder Short wählen“, während Symbol leer ist (app.js:469)",
+    "(i)-Symbol am Punktwert dauerhaft sichtbar (app.js:363; die Hover-Regel app.css:496-498 gilt nur in Karten/Kacheln)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Mehr Optionen“ für Punktwert, Gebühren und Prop-Konten",
+     "regel": 3,
+     "wirkung": 1,
+     "beschreibung": "In App.openTradeEditor die zweite `tf-row2` (Punktwert/Gebühren, app.js:362-365) und den Prop-Konten-Block (app.js:366) in ein aufklappbares `<details class=\"tf-wide\"><summary class=\"muted small\">Mehr Optionen</summary>…</details>` legen – dasselbe Muster wie „Oder Text einfügen“ im CSV-Import (app.js:560, misc.js:365), optional mit der vorhandenen Summary-Form `.rp-more` (app.css:2308-2311). `.tf-wide` (app.css:872) spannt es über die ganze Rasterbreite. Sichtbar bleiben: Symbol, Richtung, (Konto), Einstieg/Ausstieg/Kontrakte, Eröffnet/Geschlossen, Fuß. Zugeklappt zeigt die Summary die aktuellen Werte als muted-Text („Punktwert 20 · Gebühren 0 € · keine Prop-Konten“), damit nichts still verschwindet. Automatisch offen (`open`-Attribut): wenn der Nutzer „Anderes Symbol“ ohne bekannten Punktwert wählt (pick ohne mult, app.js:401), wenn beim Bearbeiten Gebühren ≠ 0, Prop-Konten gesetzt oder Punktwert ≠ Symbol-Standard sind. Die Felder bleiben im DOM, FormData/readTradeForm (app.js:448) und der `input`-Listener für die Vorschau (app.js:370) funktionieren unverändert. Keine neuen Farben/Schriften.",
+     "beleg": "dark-1440/modal_trade_loggen.png; app.js:362-366, 401, 560; app.css:872, 2308; README.md:33-37",
+     "aufwand": "M",
+     "id": "trade_dialog-1-1"
+    },
+    {
+     "titel": "Fuß-Hinweis nennt immer nur den nächsten Schritt",
+     "regel": 1,
+     "wirkung": 2,
+     "beschreibung": "App.updateTradePreview (app.js:469) zeigt genau eine Zeile in Formular-Reihenfolge: Symbol leer → „Symbol wählen“; Richtung leer → „Long oder Short wählen“; Einstieg leer → „Einstieg eintragen“; erst danach die Vorschau (Offener Trade / Netto-P&L). Heute steht „Long oder Short wählen“, obwohl Symbol das erste leere Feld ist. Dadurch will der Dialog in jedem Moment sichtbar genau eine Sache. Nur Text im vorhandenen `#trade-preview`-Slot, kein Styling.",
+     "beleg": "dark-1440/modal_trade_loggen.png (Fuß links „Long oder Short wählen“, Symbol leer); app.js:469, 368",
+     "aufwand": "S",
+     "id": "trade_dialog-1-2"
+    },
+    {
+     "titel": "Beim Öffnen das Symbol-Feld fokussieren statt nichts",
+     "regel": 1,
+     "wirkung": 3,
+     "beschreibung": "Der Dialog öffnet mit `noFocus: true` (app.js:369), weil U.modal sonst das erste `button` – das X „Schließen“ im Kopf – fokussieren würde (ui.js:434). Stattdessen im `onMount` (app.js:370-372) gezielt `#f-symbol-btn` fokussieren: der erste Schritt ist dann mit Enter erreichbar, die Reihenfolge Symbol → Richtung → Einstieg stimmt mit der Tab-Reihenfolge überein. Keine Styling-Änderung.",
+     "beleg": "app.js:369-372; ui.js:434",
+     "aufwand": "S",
+     "id": "trade_dialog-1-3"
+    },
+    {
+     "titel": "Ausstieg und Geschlossen als ein Schritt (Trade schließen braucht heute zwei Felder)",
+     "regel": 1,
+     "wirkung": 2,
+     "beschreibung": "Ein Trade zählt nur als geschlossen, wenn Geschlossen gesetzt ist (core.js:44); mit ausgefülltem Ausstieg, aber leerem Geschlossen bleibt er offen, die Vorschau meldet „Offener Trade · Risiko —“ (app.js:469) und im TradeLog fehlt der P&L. Vorschlag: sobald Ausstieg einen Wert bekommt und `#f-close` leer und unberührt ist, Geschlossen mit „jetzt“ vorbelegen (`data-auto=\"1\"`; wird Ausstieg wieder geleert, Feld wieder leeren); zusätzlich im Fuß-Hinweis „Schlusszeit fehlt – Trade bleibt offen“, falls der Nutzer die Vorbelegung löscht. Mindestvariante ohne Datenänderung: nur der Hinweis. Achtung: die Vorbelegung ändert den Standardwert von closedAt – nur mit ausdrücklicher Zustimmung umsetzen.",
+     "beleg": "core.js:44; app.js:355, 360, 469, 476",
+     "aufwand": "S",
+     "id": "trade_dialog-1-4"
+    }
+   ],
+   "sid": "trade_dialog-1",
+   "gruppe": "trade_dialog"
+  },
+  {
+   "screen": "modal_trade_loggen",
+   "zustand": "Long gewählt (Desktop 1440)",
+   "hauptaktion": "Nächster Schritt Einstieg eintragen; Ziel bleibt „Trade speichern“.",
+   "optisch_klar": true,
+   "begruendung": "„Trade speichern“ ist weiterhin der einzige gefüllte Knopf (app.js:368, app.css:274). Mit der Wahl „Long“ bekommt die linke Hälfte des Richtungsschalters aber grüne Schrift, einen grün gefüllten Kreis mit Schein und eine grün getönte Fläche (app.css:852-854, 866-868; Screenshot extra-dark-1440/modal_trade_loggen_long.png) – damit gibt es zwei grüne Objekte im Dialog. Die Farbe trägt Bedeutung (Long/Short, README.md:203-206, bewusst mit `--lc`), deshalb kein Styling-Vorschlag, nur Hinweis. Der Fuß-Hinweis wechselt auf „Offener Trade · Risiko —“ (app.js:469): ein Status statt des nächsten Schritts, obwohl noch kein Kurs eingetragen ist.",
+   "konkurrenten": [
+    "Long-Hälfte des `.dir-switch` (grüne Schrift, grüner Kreis mit Schein, app.css:852-854, 868) – farblich auf Augenhöhe mit „Trade speichern“; Bedeutungsfarbe, bleibt",
+    "Prop-Konten-Chips (app.js:366)"
+   ],
+   "verstecken": [
+    "Punktwert, Gebühren, Prop-Konten → „Mehr Optionen“ (wie im leeren Zustand)"
+   ],
+   "irrelevant": [
+    "„Risiko —“ im Fuß, solange kein Einstieg/Stop da ist (app.js:469)",
+    "Punktwert, Gebühren, Prop-Konten (s. leer)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Nach der Richtungswahl direkt zum Einstieg",
+     "regel": 1,
+     "wirkung": 3,
+     "beschreibung": "In der Aktion `set-dir` (app.js:471) nach dem Setzen der Richtung `#f-entry` fokussieren, wenn es leer ist; der Fuß-Hinweis zeigt dann „Einstieg eintragen“ (siehe Vorschlag „Fuß-Hinweis“ im leeren Zustand) statt „Offener Trade · Risiko —“. Nutzer mit Maus bleiben frei, Tastatur-Nutzer sparen einen Schritt. Kein Styling.",
+     "beleg": "extra-dark-1440/modal_trade_loggen_long.png (Fuß „Offener Trade · Risiko —“ ohne Kurse); app.js:469, 471",
+     "aufwand": "S",
+     "id": "trade_dialog-2-1"
+    },
+    {
+     "titel": "„Mehr Optionen“ gilt auch hier",
+     "regel": 3,
+     "wirkung": 1,
+     "beschreibung": "Derselbe Vorschlag wie im leeren Zustand (Punktwert, Gebühren, Prop-Konten einklappen). Nach der Long-Wahl sind weiterhin nur Einstieg, Ausstieg, Kontrakte und Zeiten relevant.",
+     "beleg": "extra-dark-1440/modal_trade_loggen_long.png; app.js:362-366",
+     "aufwand": "M",
+     "id": "trade_dialog-2-2"
+    }
+   ],
+   "sid": "trade_dialog-2",
+   "gruppe": "trade_dialog"
+  },
+  {
+   "screen": "modal_trade_loggen",
+   "zustand": "Fehler (Speichern ohne Symbol, Richtung und Einstieg)",
+   "hauptaktion": "Das eine fehlende Feld ausfüllen – in Formular-Reihenfolge zuerst Symbol.",
+   "optisch_klar": false,
+   "begruendung": "Der Screen nennt zwei verschiedene Dinge gleichzeitig: die Browser-Blase „Please fill out this field.“ am Einstieg (kommt vom `required` an `#f-entry`, app.js:354) und der Fuß-Hinweis „Long oder Short wählen“ (app.js:469) – Screenshot extra-dark-1440/modal_trade_loggen_fehler.png. Die eigene Prüfung in `save-trade` (app.js:476: Symbol → Richtung → Einstieg → Ausstieg) läuft gar nicht, weil die native Prüfung den Submit vorher stoppt. Über mehrere Versuche entstehen drei Meldungsarten in anderer Reihenfolge als das Formular: Browser-Blase (Einstieg) → Toast „Symbol fehlt“ → Toast + rotes Wackeln am Richtungsschalter (`.need`, app.css:860) → Toast „Einstiegskurs fehlt“. Die Blase ist vom Browser gestaltet und hier englisch.",
+   "konkurrenten": [
+    "Browser-Blase am Einstieg (native `required`-Prüfung, app.js:354) vs. Fuß-Hinweis (app.js:469) vs. Toasts (app.js:476)"
+   ],
+   "verstecken": [
+    "Alle Fehlermeldungen in einen Ort: den vorhandenen `#trade-preview`-Slot im Fuß (app.js:368)"
+   ],
+   "irrelevant": [
+    "Fuß-Hinweis „Long oder Short wählen“, während die Blase den Einstieg verlangt",
+    "Browser-Blase (fremdes Styling, fremde Sprache) in einem Dialog, der eigene Meldungen hat"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Eine Prüfung, eine Meldung, ein Fokus – in Formular-Reihenfolge",
+     "regel": 1,
+     "wirkung": 1,
+     "beschreibung": "`novalidate` auf `#trade-form` (app.js:348) setzen, die `required`-Attribute für Semantik behalten. Die Prüfung komplett in `save-trade` (app.js:476) in Formular-Reihenfolge: Symbol → Richtung → Einstieg → Kontrakte → Eröffnet → Ausstieg bei gesetztem Geschlossen. Beim ersten Treffer: genau eine Meldung im `#trade-preview`-Slot (statt Toast), betroffenes Feld fokussieren und in Sicht scrollen (`scrollIntoView` im Bottom-Sheet), für die Richtung das vorhandene `.need`-Wackeln behalten (app.css:860). Toast nur noch für Erfolg („Trade gespeichert“). Keine neue Gestaltung, nur Reihenfolge und Ort.",
+     "beleg": "extra-dark-1440/modal_trade_loggen_fehler.png; app.js:348, 354, 356, 359, 469, 476; app.css:860",
+     "aufwand": "M",
+     "id": "trade_dialog-3-1"
+    }
+   ],
+   "sid": "trade_dialog-3",
+   "gruppe": "trade_dialog"
+  },
+  {
+   "screen": "modal_trade_loggen",
+   "zustand": "handy (390, Bottom-Sheet)",
+   "hauptaktion": "„Trade speichern“.",
+   "optisch_klar": false,
+   "begruendung": "Auf dem Handy wird der Dialog zum Bottom-Sheet (app.css:3058-3059), alle Zeilen fallen untereinander (app.css:2979-2982). Der Screenshot dark-390/modal_trade_loggen.png ist 1688 px hoch (2×) – der Inhalt ist rund 760 CSS-px hoch, bei max-height calc(100dvh − 28px) steht „Trade speichern“ beim Öffnen unterhalb des sichtbaren Bereichs; der Nutzer scrollt an Punktwert, Gebühren und Prop-Chips vorbei, bevor er den Hauptknopf sieht. Im Fuß sind „Abbrechen“ und „Trade speichern“ gleich breit und gleich hoch (`.tf-modal .modal-foot .btn { flex: 1 }`, app.css:2985): nur die Füllung unterscheidet sie, Regel 2 („Größe“) greift nicht.",
+   "konkurrenten": [
+    "„Abbrechen“ – gleiche Breite/Höhe wie „Trade speichern“ (app.css:2985)",
+    "Prop-Konten-Chips – drei umrandete Pillen direkt über dem Fuß (app.js:366)"
+   ],
+   "verstecken": [
+    "Punktwert, Gebühren, Prop-Konten → „Mehr Optionen“ (spart auf dem Handy etwa drei gestapelte Blöcke, rund 300 CSS-px)"
+   ],
+   "irrelevant": [
+    "Punktwert, Gebühren, Prop-Konten (wie Desktop)",
+    "Fuß-Hinweis in eigener Zeile (app.css:2984) – in Ordnung, wenn er den nächsten Schritt nennt"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Mehr Optionen“ bringt auf dem Handy den Hauptknopf in Sicht",
+     "regel": 3,
+     "wirkung": 1,
+     "beschreibung": "Derselbe `<details>`-Block wie am Desktop (Punktwert, Gebühren, Prop-Konten). Eingeklappt verschwinden drei gestapelte Blöcke; der Fuß mit „Trade speichern“ rückt beim Öffnen in den sichtbaren Bereich oder fast dorthin. Keine zusätzlichen Handy-Regeln nötig, `.tf-wide` greift (app.css:872).",
+     "beleg": "dark-390/modal_trade_loggen.png (Punktwert, Gebühren, Prop-Konten füllen das untere Drittel); app.css:2979-2985, 3058-3059",
+     "aufwand": "M",
+     "id": "trade_dialog-4-1"
+    },
+    {
+     "titel": "Fuß auf dem Handy: Hauptknopf breit, Abbrechen schmal",
+     "regel": 2,
+     "wirkung": 2,
+     "beschreibung": "In app.css:2985 statt `.tf-modal .modal-foot .btn { flex: 1 }`: `.tf-modal .modal-foot .btn.primary { flex: 1 1 auto }` und `.tf-modal .modal-foot .btn:not(.primary) { flex: 0 0 auto }`. „Trade speichern“ nimmt den Rest der Zeile, „Abbrechen“ bleibt als umrandeter Knopf in natürlicher Breite links daneben (Hinweis-Zeile darüber bleibt, app.css:2984). Nur Größe/Anordnung, keine Farbe, Rundung oder Schrift.",
+     "beleg": "dark-390/modal_trade_loggen.png (zwei gleich große Knöpfe unten); app.css:2983-2985",
+     "aufwand": "S",
+     "id": "trade_dialog-4-2"
+    }
+   ],
+   "sid": "trade_dialog-4",
+   "gruppe": "trade_dialog"
+  },
+  {
+   "screen": "modal_trade_loggen",
+   "zustand": "menue (Symbol-Auswahl geöffnet; keine Aufnahme, aus dem Code)",
+   "hauptaktion": "Ein Symbol aus der Liste wählen.",
+   "optisch_klar": false,
+   "begruendung": "Die schwebende Liste (`#sym-menu`, app.js:390-409) endet mit „Anderes Symbol, z. B. DAX“ und einem Knopf `OK` der Klasse `.btn.sm.primary` (app.js:393). Solange die Liste offen ist, sind zwei gefüllte grüne Knöpfe sichtbar: „OK“ in der Liste und „Trade speichern“ im Fuß darunter. „OK“ gehört zum seltenen Freitext-Fall (README.md:37), Enter löst das Formular ohnehin aus (app.js:403).",
+   "konkurrenten": [
+    "„OK“ (`.btn.sm.primary`, app.js:393) vs. „Trade speichern“ (`.btn.primary`, app.js:368)"
+   ],
+   "verstecken": [
+    "„Anderes Symbol“ bleibt unten in der Liste (Vorgabe README.md:37); nur die Knopf-Stufe ändern"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "„OK“ in der Symbol-Liste sekundär",
+     "regel": 4,
+     "wirkung": 3,
+     "beschreibung": "In App.openSymbolMenu (app.js:393) `class=\"btn sm primary\"` → `class=\"btn sm\"` (umrandet). Die Liste hat dann keinen gefüllten Knopf mehr; Enter im Feld bleibt der Hauptweg (Submit-Listener app.js:403). Keine Funktion entfällt.",
+     "beleg": "app.js:393, 403, 368",
+     "aufwand": "S",
+     "id": "trade_dialog-5-1"
+    }
+   ],
+   "sid": "trade_dialog-5",
+   "gruppe": "trade_dialog"
+  },
+  {
+   "screen": "modal_trade_loggen",
+   "zustand": "bearbeiten („Trade bearbeiten“; keine Aufnahme, aus dem Code)",
+   "hauptaktion": "„Speichern“.",
+   "optisch_klar": true,
+   "begruendung": "Gleicher Fuß wie beim Loggen, Beschriftung „Speichern“ (`.btn.primary`, app.js:368), „Abbrechen“ umrandet. Dieselben Felder wie beim neuen Trade (README.md:38); Punktwert gilt als „berührt“ und wird nicht still geändert (app.js:371). Mit „Mehr Optionen“ dürfen gesetzte Werte beim Bearbeiten nicht verschwinden.",
+   "konkurrenten": [
+    "keine auf Knopf-Ebene"
+   ],
+   "verstecken": [
+    "Punktwert, Gebühren, Prop-Konten → „Mehr Optionen“, aber automatisch aufgeklappt, sobald einer der Werte vom Standard abweicht"
+   ],
+   "irrelevant": [
+    "Prop-Konten-Chips, wenn der Trade keinem Prop-Konto zugeordnet ist"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Mehr Optionen“ beim Bearbeiten automatisch offen, wenn Werte gesetzt sind",
+     "regel": 3,
+     "wirkung": 2,
+     "beschreibung": "In App.openTradeEditor das `open`-Attribut des `<details>` setzen, wenn `trade` übergeben ist und (fees ≠ 0 oder propAccountIds nicht leer oder multiplier ≠ Punktwert des Symbols aus App.symbolOptions, app.js:379-385). Sonst zugeklappt mit Werte-Summary. So bleibt beim Bearbeiten alles Gesetzte sichtbar, ohne dass der Standardfall voll ist.",
+     "beleg": "app.js:343-347, 362-366, 371, 379-385",
+     "aufwand": "S",
+     "id": "trade_dialog-6-1"
+    }
+   ],
+   "sid": "trade_dialog-6",
+   "gruppe": "trade_dialog"
+  },
+  {
+   "screen": "modal_checkin",
+   "zustand": "dialog, leer (noch kein Check-in für den Tag; Desktop 1440)",
+   "hauptaktion": "„Speichern“ nach Schlaf, Stress und Stimmung.",
+   "optisch_klar": true,
+   "begruendung": "„Speichern“ ist der einzige gefüllte Knopf (`.btn.primary`, app.js:524), „Abbrechen“ umrandet (`.btn`), X oben `.btn.ghost.icon`; „Entfernen“ (`.btn.ghost.left`) erscheint nur, wenn schon ein Check-in existiert (app.js:524) – Regel 5 ist hier schon erfüllt. Dialog ist `.narrow` (app.css:828), Felder: Schlaf-Slider (Standard 7 h), zwei 1–5-Skalen als `.seg.pill` (app.css:322), Notiz-Feld (app.js:512-519); Screenshot extra-dark-1440/modal_checkin.png. Einziger Nebenpunkt: Die Notiz ist optional und meist leer, wird aber immer als volle Zeile gezeigt. Das große grüne Schlafgesicht (84 px, app.css:818) und der grüne Zonentext sind optisch schwerer als der Speichern-Knopf; das ist Bedeutungsfarbe der Schlafzone (app.js:497) und Gestaltung, daher kein Vorschlag. Beim Öffnen fokussiert U.modal das erste `button` im DOM – das X „Schließen“ (ui.js:434), nicht den Slider.",
+   "konkurrenten": [
+    "keine auf Knopf-Ebene (Speichern gefüllt, Abbrechen umrandet, X tertiär)",
+    "Schlafgesicht + Zonentext in Grün (app.css:818, app.js:497) – Bedeutungsfarbe, nur Hinweis"
+   ],
+   "verstecken": [
+    "Notiz → tertiärer Textknopf „Notiz hinzufügen“ (`.btn.ghost.sm`), der das Feld einblendet; offen, wenn schon eine Notiz existiert (app.js:519)"
+   ],
+   "irrelevant": [
+    "Leeres Notiz-Feld als volle Zeile (app.js:519)",
+    "Fokus beim Öffnen auf dem X „Schließen“ statt auf dem ersten Feld (ui.js:434)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Notiz erst auf Wunsch einblenden",
+     "regel": 3,
+     "wirkung": 3,
+     "beschreibung": "In App.checkInFields (app.js:519) das Notiz-Feld in ein `<details><summary class=\"muted small\">Notiz hinzufügen</summary>…</details>` legen (Muster app.js:560), `open` wenn `ci.note` nicht leer ist. Der Dialog endet dann mit den drei Zustandsfragen und „Speichern“. Gilt automatisch auch für „Session starten“, das dieselben Felder nutzt (app.js:491). readCheckIn (app.js:521) bleibt unverändert, weil das Feld im DOM bleibt.",
+     "beleg": "extra-dark-1440/modal_checkin.png; app.js:491, 512-521",
+     "aufwand": "S",
+     "id": "trade_dialog-7-1"
+    },
+    {
+     "titel": "Fokus beim Öffnen auf das erste Feld statt auf das X",
+     "regel": 1,
+     "wirkung": 3,
+     "beschreibung": "U.modal (ui.js:434) wählt für den Startfokus das erste `input:not([type=hidden]),select,textarea,button` im DOM – im Check-in ist das der X-Knopf im Kopf. Selektor um `:not([data-close])` ergänzen, damit der Schlaf-Slider (`#ci-sleep`, app.js:516) den Fokus bekommt. Globale Kleinigkeit, die alle Dialoge mit X betrifft (auch Trade-Dialog, dort heute mit `noFocus` umgangen, app.js:369).",
+     "beleg": "ui.js:434; app.js:516, 524, 369",
+     "aufwand": "S",
+     "id": "trade_dialog-7-2"
+    }
+   ],
+   "sid": "trade_dialog-7",
+   "gruppe": "trade_dialog"
+  }
+ ],
+ "hinweise": "Alle fünf genannten Aufnahmen vorhanden und angesehen. Fehlende Zustände: Check-in gibt es nur als extra-dark-1440; die Atlas-Aufnahmen dark-1440/1024/390 modal_checkin sind fehlgeschlagen (atlas-log: page.click Timeout) – Handy-Check-in daher nur aus dem Code bewertet (`.narrow`-Dialog, die Handy-Regel `flex: 1` in app.css:2985 gilt nur für `.tf-modal`, der Fuß bleibt dort Abbrechen schmal / Speichern schmal; Bottom-Sheet app.css:3058). Keine Aufnahmen für „Trade bearbeiten“ und für die geöffnete Symbol-Liste – beide aus dem Code bewertet. Die Zusatzfelder Stop, Ziel, Setup, Notizen, Screenshots sind bereits außerhalb des Dialogs (Plan & Bewertung, app.js:414-436; README.md:33-40), die Forderung des Briefs ist dafür schon erfüllt; im Dialog bleiben als Zusatz nur Punktwert, Gebühren, Prop-Konten. Eröffnet/Geschlossen bewusst nicht versteckt: core.js:44 macht Geschlossen zur Bedingung für „geschlossen“. Außerhalb des Auftrags (Styling, nur notiert): die gewählte Long/Short-Hälfte hat Lichtverlauf und Schein (app.css:852-854, 868), was BRIEF.md „kein Glow auf gewählten Elementen“ widerspricht, laut README.md:203-206 aber als Bedeutungsfarbe gewollt ist; das (i) am Punktwert ist im Dialog dauerhaft sichtbar (Hover-Regel app.css:496 gilt nur in Karten). Die englische Browser-Blase im Fehler-Screenshot folgt der Browser-Sprache (Playwright en-US); im deutschen Browser wäre sie deutsch, bleibt aber ein zweites Meldungssystem. Der Vorschlag „Geschlossen bei Ausstieg vorbelegen“ ändert einen Datenstandard (closedAt) und braucht ausdrückliche Zustimmung; die Minimalvariante (nur Hinweis) nicht. Alle Vorschläge nutzen vorhandene Stufen (`.btn.primary`, `.btn`, `.btn.ghost`, `<details><summary class=\\\"muted small\\\">`), keine neuen Farben, Schriften oder Rundungen; nichts wird entfernt."
+}

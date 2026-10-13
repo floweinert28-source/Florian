@@ -1,0 +1,1078 @@
+{
+ "anker": [
+  {
+   "anker": ".nav a",
+   "schritte": [
+    {
+     "nr": "abstaende-A9",
+     "gruppe": "abstaende",
+     "titel": ".nav a, .nav button: gap 14px → var(--sp-3)",
+     "von": 311,
+     "bis": 312,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-B3",
+     "gruppe": "bewegung",
+     "titel": "Navigation: kein Versatz beim Darüberfahren, kein :active",
+     "von": 179,
+     "bis": 184,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C1a",
+     "gruppe": "kilook",
+     "titel": "Shell-CSS: .nav button aus Selektoren, tote Regeln (.nav-sec, .brand em, .sidebar hr, .badge-n) löschen",
+     "von": 497,
+     "bis": 514,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3n",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)",
+     "von": 262,
+     "bis": 262,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "gruppe": "zustaende",
+     "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+     "von": 367,
+     "bis": 389,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nav button",
+   "schritte": [
+    {
+     "nr": "abstaende-A9",
+     "gruppe": "abstaende",
+     "titel": ".nav a, .nav button: gap 14px → var(--sp-3)",
+     "von": 311,
+     "bis": 312,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "bewegung-B3",
+     "gruppe": "bewegung",
+     "titel": "Navigation: kein Versatz beim Darüberfahren, kein :active",
+     "von": 179,
+     "bis": 184,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C1a",
+     "gruppe": "kilook",
+     "titel": "Shell-CSS: .nav button aus Selektoren, tote Regeln (.nav-sec, .brand em, .sidebar hr, .badge-n) löschen",
+     "von": 497,
+     "bis": 514,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3n",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)",
+     "von": 262,
+     "bis": 262,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".boot-sb",
+   "schritte": [
+    {
+     "nr": "abstaende-C13",
+     "gruppe": "abstaende",
+     "titel": "Lade-Skelett an Seitenebene und Seitenleiste angleichen: .boot-body, .boot-tiles, .boot-main, .boot-sb",
+     "von": 362,
+     "bis": 363,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "gruppe": "zustaende",
+     "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+     "von": 367,
+     "bis": 389,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-H2",
+     "gruppe": "zustaende",
+     "titel": "app.html: Seitenleisten-Skelett mit Marke, Untertitel, Trennlinie, vier Gruppen und Konto-Karte",
+     "von": 588,
+     "bis": 598,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp input[type=number]",
+   "schritte": [
+    {
+     "nr": "komponenten-C02",
+     "gruppe": "komponenten",
+     "titel": "Zahlenfelder ohne Browser-Pfeile, global",
+     "von": 198,
+     "bis": 205,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3n",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)",
+     "von": 262,
+     "bis": 262,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".boot-tiles .skel",
+   "schritte": [
+    {
+     "nr": "responsiv-B11",
+     "gruppe": "responsiv",
+     "titel": "Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)",
+     "von": 372,
+     "bis": 380,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "gruppe": "zustaende",
+     "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+     "von": 367,
+     "bis": 389,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nav a:hover",
+   "schritte": [
+    {
+     "nr": "bewegung-B3",
+     "gruppe": "bewegung",
+     "titel": "Navigation: kein Versatz beim Darüberfahren, kein :active",
+     "von": 179,
+     "bis": 184,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C1a",
+     "gruppe": "kilook",
+     "titel": "Shell-CSS: .nav button aus Selektoren, tote Regeln (.nav-sec, .brand em, .sidebar hr, .badge-n) löschen",
+     "von": 497,
+     "bis": 514,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".boot-head .skel.tl",
+   "schritte": [
+    {
+     "nr": "responsiv-B11",
+     "gruppe": "responsiv",
+     "titel": "Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)",
+     "von": 372,
+     "bis": 380,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "gruppe": "zustaende",
+     "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+     "von": 367,
+     "bis": 389,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".boot-main .skel",
+   "schritte": [
+    {
+     "nr": "responsiv-B11",
+     "gruppe": "responsiv",
+     "titel": "Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)",
+     "von": 372,
+     "bis": 380,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "gruppe": "zustaende",
+     "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+     "von": 367,
+     "bis": 389,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp",
+   "schritte": [
+    {
+     "nr": "farbe-C5",
+     "gruppe": "farbe",
+     "titel": "Ruhepunkt: --rp-dawn = --info, Hauptknopf .rp-primary neutral wie .btn.primary",
+     "von": 398,
+     "bis": 403,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3n",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)",
+     "von": 262,
+     "bis": 262,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nav .badge-n",
+   "schritte": [
+    {
+     "nr": "kilook-C1a",
+     "gruppe": "kilook",
+     "titel": "Shell-CSS: .nav button aus Selektoren, tote Regeln (.nav-sec, .brand em, .sidebar hr, .badge-n) löschen",
+     "von": 497,
+     "bis": 514,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp-checks label",
+   "schritte": [
+    {
+     "nr": "komponenten-E1e",
+     "gruppe": "komponenten",
+     "titel": "e2e rptest.js: Abhak-Zeile über das Label klicken",
+     "von": 761,
+     "bis": 761,
+     "cluster": "training",
+     "dateien": [
+      "web/e2e/rptest.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3n",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)",
+     "von": 262,
+     "bis": 262,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".note-body",
+   "schritte": [
+    {
+     "nr": "kilook-C2",
+     "gruppe": "kilook",
+     "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+     "von": 524,
+     "bis": 534,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3n",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)",
+     "von": 262,
+     "bis": 262,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nav a:active",
+   "schritte": [
+    {
+     "nr": "bewegung-B3",
+     "gruppe": "bewegung",
+     "titel": "Navigation: kein Versatz beim Darüberfahren, kein :active",
+     "von": 179,
+     "bis": 184,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "kilook-C1a",
+     "gruppe": "kilook",
+     "titel": "Shell-CSS: .nav button aus Selektoren, tote Regeln (.nav-sec, .brand em, .sidebar hr, .badge-n) löschen",
+     "von": 497,
+     "bis": 514,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".boot-head .skel",
+   "schritte": [
+    {
+     "nr": "responsiv-B11",
+     "gruppe": "responsiv",
+     "titel": "Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)",
+     "von": 372,
+     "bis": 380,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "gruppe": "zustaende",
+     "titel": "Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)",
+     "von": 367,
+     "bis": 389,
+     "cluster": "shell",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb-toolbar .sz",
+   "schritte": [
+    {
+     "nr": "komponenten-C02",
+     "gruppe": "komponenten",
+     "titel": "Zahlenfelder ohne Browser-Pfeile, global",
+     "von": 198,
+     "bis": 205,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2e",
+     "gruppe": "typografie",
+     "titel": "tabular-nums-Sammelregel für Listenwerte und laufende Zahlen",
+     "von": 224,
+     "bis": 224,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3j",
+     "gruppe": "typografie",
+     "titel": "Notebook-Toolbar: „Text“-Label und Größenanzeige auf 13/500, .sz in Onest",
+     "von": 256,
+     "bis": 256,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sr-num .input",
+   "schritte": [
+    {
+     "nr": "komponenten-C02",
+     "gruppe": "komponenten",
+     "titel": "Zahlenfelder ohne Browser-Pfeile, global",
+     "von": 198,
+     "bis": 205,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "input[type=number]",
+   "schritte": [
+    {
+     "nr": "abstaende-O1",
+     "gruppe": "abstaende",
+     "titel": "Provisions-Dialog: Untertitel und Feld in .stack (12 px); Zahlenpfeile über globale Regel aus komponenten-16 (anlegen, falls noch nicht vorhanden)",
+     "von": 488,
+     "bis": 493,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C02",
+     "gruppe": "komponenten",
+     "titel": "Zahlenfelder ohne Browser-Pfeile, global",
+     "von": 198,
+     "bis": 205,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rp-btn.rp-primary",
+   "schritte": [
+    {
+     "nr": "farbe-C5",
+     "gruppe": "farbe",
+     "titel": "Ruhepunkt: --rp-dawn = --info, Hauptknopf .rp-primary neutral wie .btn.primary",
+     "von": 398,
+     "bis": 403,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-C28",
+     "gruppe": "farbe",
+     "titel": "Ruhepunkt: Schließen und Bühnen-Knöpfe ohne Hauptknopf-Stil",
+     "von": 522,
+     "bis": 526,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/ruhepunkt.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4c",
+     "gruppe": "typografie",
+     "titel": "Ruhepunkt-Knöpfe: .rp-btn 500, .rp-btn.rp-primary 700",
+     "von": 334,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tile .head .n",
+   "schritte": [
+    {
+     "nr": "abstaende-I1",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich: Zeitraum-Label aus dem Kachelkopf streichen",
+     "von": 417,
+     "bis": 421,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "abstaende-I2",
+     "gruppe": "abstaende",
+     "titel": "Schatten-Ich: Trade-Zahl als Fußzeile „{0} Trades im Zeitraum“ statt Kopfzusatz",
+     "von": 422,
+     "bis": 422,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/shadow.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "gruppe": "typografie",
+     "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+     "von": 250,
+     "bis": 251,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".btn .cntb",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4l",
+     "gruppe": "typografie",
+     "titel": "Kachel-Titel .stat-tile .k/.stat .k auf 500, Zähler .cntb 700 → 600",
+     "von": 348,
+     "bis": 349,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C7",
+     "gruppe": "zustaende",
+     "titel": "Aktiver Filter-Knopf .btn.is-on im gemeinsamen Ausgewählt-Stil, Zähler .cntb neutral",
+     "von": 293,
+     "bis": 297,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-panel .cntb",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4l",
+     "gruppe": "typografie",
+     "titel": "Kachel-Titel .stat-tile .k/.stat .k auf 500, Zähler .cntb 700 → 600",
+     "von": 348,
+     "bis": 349,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C7",
+     "gruppe": "zustaende",
+     "titel": "Aktiver Filter-Knopf .btn.is-on im gemeinsamen Ausgewählt-Stil, Zähler .cntb neutral",
+     "von": 293,
+     "bis": 297,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nw-cur",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B13",
+     "gruppe": "barrierefreiheit",
+     "titel": "Vergangene News: Text in --muted statt Deckkraft .5, Balken .6",
+     "von": 385,
+     "bis": 389,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-hint",
+   "schritte": [
+    {
+     "nr": "farbe-B3b",
+     "gruppe": "farbe",
+     "titel": "Weitere Hinweistexte von --faint auf --muted (Symbol wählen, Filter-Hinweis, Prop-Regel, Zustand-Spalten)",
+     "von": 244,
+     "bis": 248,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nw-n",
+   "schritte": [
+    {
+     "nr": "aufbau-C9b",
+     "gruppe": "aufbau",
+     "titel": "News: Zähler-Pille im Tageskopf entfernen",
+     "von": 505,
+     "bis": 505,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/news.js",
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3d",
+     "gruppe": "typografie",
+     "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+     "von": 243,
+     "bis": 244,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".note-title",
+   "schritte": [
+    {
+     "nr": "abstaende-K3",
+     "gruppe": "abstaende",
+     "titel": "Notiz im Papierkorb: gleicher Kopf wie normale Notiz (.note-bar mit Zurück, Wiederherstellen btn sm, Endgültig löschen btn sm danger; Titel, Meta-Zeilen)",
+     "von": 447,
+     "bis": 447,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "kilook-C2",
+     "gruppe": "kilook",
+     "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+     "von": 524,
+     "bis": 534,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A3",
+     "gruppe": "responsiv",
+     "titel": "Eingabefelder am Handy 16 px, .input/.select bleiben 42 px",
+     "von": 238,
+     "bis": 246,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb-toolbar .tb .lbl",
+   "schritte": [
+    {
+     "nr": "kilook-C2",
+     "gruppe": "kilook",
+     "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+     "von": 524,
+     "bis": 534,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3j",
+     "gruppe": "typografie",
+     "titel": "Notebook-Toolbar: „Text“-Label und Größenanzeige auf 13/500, .sz in Onest",
+     "von": 256,
+     "bis": 256,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb-toolbar .tb.turn .lbl",
+   "schritte": [
+    {
+     "nr": "kilook-C2",
+     "gruppe": "kilook",
+     "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+     "von": 524,
+     "bis": 534,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3j",
+     "gruppe": "typografie",
+     "titel": "Notebook-Toolbar: „Text“-Label und Größenanzeige auf 13/500, .sz in Onest",
+     "von": 256,
+     "bis": 256,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".note-item",
+   "schritte": [
+    {
+     "nr": "farbe-C24a",
+     "gruppe": "farbe",
+     "titel": "Notebook: Leertexte muted, active nicht im Auswahlmodus",
+     "von": 502,
+     "bis": 505,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "kilook-C2",
+     "gruppe": "kilook",
+     "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+     "von": 524,
+     "bis": 534,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".journal",
+   "schritte": [
+    {
+     "nr": "kilook-C2",
+     "gruppe": "kilook",
+     "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+     "von": 524,
+     "bis": 534,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2d",
+     "gruppe": "typografie",
+     "titel": "Toten .journal-Code löschen (Z. 770–774 und .journal-Teil in Z. 788)",
+     "von": 223,
+     "bis": 223,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".pg-info",
+   "schritte": [
+    {
+     "nr": "komponenten-S-trades-c",
+     "gruppe": "komponenten",
+     "titel": "TradeLog-Seitenwahl: .btn.nav, Auswahl/Pfeile nur bei mehreren Seiten, „1–10“",
+     "von": 720,
+     "bis": 720,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2e",
+     "gruppe": "typografie",
+     "titel": "tabular-nums-Sammelregel für Listenwerte und laufende Zahlen",
+     "von": 224,
+     "bis": 224,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T2",
+     "gruppe": "zustaende",
+     "titel": "TradeLog: Zähler „{x} von {y} Trades“ nur bei aktivem Filter, Seitenwähler bei einer Seite reduziert",
+     "von": 642,
+     "bis": 647,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".kv b",
+   "schritte": [
+    {
+     "nr": "abstaende-B17",
+     "gruppe": "abstaende",
+     "titel": ".kv b: zusätzlich text-align: right (global)",
+     "von": 333,
+     "bis": 333,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2e",
+     "gruppe": "typografie",
+     "titel": "tabular-nums-Sammelregel für Listenwerte und laufende Zahlen",
+     "von": 224,
+     "bis": 224,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-highlights",
+   "schritte": [
+    {
+     "nr": "kilook-C5",
+     "gruppe": "kilook",
+     "titel": "Prop-CSS: veraltete Kommentare, .prop-unv/.prop-highlights/Gravur-Variablen/wirkungslose text-shadow/.prop-grave-kv löschen",
+     "von": 557,
+     "bis": 578,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".inp-cur .cur-sym",
+   "schritte": [
+    {
+     "nr": "komponenten-C13",
+     "gruppe": "komponenten",
+     "titel": "Einheit im Feld (.inp-cur 12 px vom Rand, 13px/500, .w160) und .input-unit entfernen",
+     "von": 270,
+     "bis": 278,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".mentor-err",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C12",
+     "gruppe": "zustaende",
+     "titel": "Mentor-Fehlerzeile .mentor-err in Warn-Optik statt Rot",
+     "von": 338,
+     "bis": 340,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

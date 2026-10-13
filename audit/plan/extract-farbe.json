@@ -1,0 +1,2598 @@
+{
+ "regeln": "GRUNDREGEL: Grün (--profit/--accent) nur für (a) Gewinn/Positives: .pos, .pill.win (nur ui.js:177, widgets.js:36/170/174), Gewinntage, Gewinnbalken/-kurven, .banner.ok, .prop-card.passed, grüne Ampel, Regel-Tracker, Score ≥75 (Ring, Skala, Wochenbalken); (b) „Trade loggen“ = nur .btn.accent; (c) Schalter an, Balken aktiver Seitenleisten-Eintrag, --dot-glow, :focus-visible, Score-Netz, --dir-c Long. Sonst neutral (Auswahl, Heute, Status, Links, Symbole, Häkchen, Hover, Laden). Gewinn nutzt --profit/--profit-soft, nie --accent. --loss nur Verlust/Fehler/geplatzt; --warn nur Warnung/mittel; --be nur BE/Emotion; --info nur .pill.open + Kalender Trefferquote/Trades. Kein Licht/Schein/Verlauf auf Gewähltem (außer .btn.accent, Serien-Stufen, Ruhepunkt-Hintergrund).\nTOKENS dunkel / hell (beide hellen Blöcke): --muted #948f88 / #5f6862; --accent #34f58a / #077a41; --accent-2 bleibt / #06663a; --accent-ink #04140a / #ffffff; --accent-soft bleibt / rgba(7,122,65,.10); --accent-glow bleibt / rgba(7,122,65,.20); --profit #34f58a / #077a41; --profit-soft NEU rgba(52,245,138,.12) / rgba(7,122,65,.10); --loss #ff5c5c / #c62e2e; --loss-soft bleibt / rgba(198,46,46,.10); --be #9a8cf8 / #5f4fcf; --be-soft rgba(154,140,248,.16) / rgba(95,79,207,.14); --warn bleibt (nur Flächen/Symbole); --warn-text NEU var(--warn) / #8f5f00; --imp-mid NEU var(--warn) / #b8820c; --info #5cb8ff / #1d6db5; --faint, --bg…--border-2, Variante Schwarz, --c-*, --warn-soft unverändert. theme.js DEFAULTS dark {accent/profit #34f58a, loss #ff5c5c, be #9a8cf8}, light {accent/profit #077a41, loss #c62e2e, be #5f4fcf}.\nTEXT: lesbarer Text ≥4,5:1 auf echter Fläche, beide Designs. --faint nie für Wörter/Zahlen (nur „—“, „--:--“, leere/inaktive Symbole, Vorschau-Formen, :disabled, .dp-day.out, Erledigt-Linie). --muted für Feld-Hinweise (.field .hint, .prop-rule .hint, .fd-hint, .stc-l small), Platzhalter, Leertexte, Fußnoten, Achsen. Label-Hinweise .lbl-hint (--muted, 500). Gelbe Schrift immer --warn-text. Kleintext auf getönten Kalenderkacheln (.wr, .c) --text-2.\nKNÖPFE: .btn.accent nur „Trade loggen“. .btn.primary neutral: background var(--surface-3); border-color var(--border-2); color var(--text); font-weight 600; Hover background color-mix(in srgb, var(--text) 8%, var(--surface-3)), border-color color-mix(in srgb, var(--text) 18%, var(--border-2)), box-shadow none; nur die eine abschließende Aktion eines sichtbaren Formulars/Dialogs (Speichern, Anwenden, Senden, Erfassen, Importieren, Beitreten, Bestätigen). .btn für Öffnen/Anlegen/Hinzufügen/Starten/Navigieren und Schließen in Info-Dialogen. .rp-btn.rp-primary wie .btn.primary, genau einer je Bildschirm.\nAUSWAHL: gemeinsamer flacher Stil (Ende app.css): Fläche color-mix(in srgb, var(--text) 10%, var(--surface)), Rand color-mix(in srgb, var(--text) 22%, var(--border-2)), kein Schatten; neu .dh-context .btn.is-set; eigene Regeln mit gleichen Werten für .coach-radio:has(input:checked) und .popover .item[aria-checked=\"true\"] (Rand inset). Aktiver Nav-Eintrag: angehobene Fläche + feiner Rand, hell --surface + --border-2. Unterstrich-Reiter (.prop-sub, .set-tabs): Schrift und Linie 2px --text. Gedrückte Werkzeuge --surface-3/--text (Rand --border-2). accent-color var(--text). HEUTE: Dashboard-Kalender Kreis 24px --text, Ziffer --bg, andere Tage background none + --text-2; Mini-Kalender Zellrand --text-2, Ziffer --text; Datumswähler Schrift --text + inset 0 0 0 1px var(--muted); .rr-day --text ohne Ring; Raster 0 0 0 2px var(--text-2); Tagesansicht U.pill('Heute','neutral'). Status-Pillen ohne Gewinn neutral (Heute, Aktiv, geprüft, Neu, {n} neu), „Ausgezahlt“ .muted. Coach „Neu“ neutral ohne Rand/Streifen; alle neu (>1) → keine Einzelpillen, Kopf „{n} neue Einträge“, Klasse is-new bleibt. Long/Short-Schieber 10 % --dir-c auf --surface, inset-Rand 22 %, ohne Glow; Schlaf-Schieber Spur --text-2, Knopf --text; Ladelinie --text-2 ohne drop-shadow.\nZAHLEN: Disziplin-Kosten überall mit Vorzeichen, Spalte „Effekt“. Zähler in Tabellen neutral, in X/Y nur >0 gefärbt. Spalten mit einheitlichem Vorzeichen (Prop-Ausgaben, Payout-Netto) neutral. Ø-Gewinn/Ø-Verlust über U.cls(), ein Kompakt-Kriterium. Realisiertes R gefärbt (U.rText), geplantes neutral. Score-Tabellen: ≥75 Schriftfarbe, 50–74 --warn-text, <50 --loss, <span>. Disziplin-Teilpunkte voll --text-2, teilweise --warn-text, 0 --loss; „Keine Fehler markiert“ --muted. Regeln-Spalte ✓ --muted, × --loss. Verpasste Trades: Summe ohne Vorzeichen in Schriftfarbe, „Entgangen“ (≥0)/„Verlust vermieden“ (<0). Zählungen neutral. Kalender-Tönung (.cal .d, .yc): dunkel Gewinn 16 %, Verlust 18 %; hell beide 10 % auf --surface, Rand 35 %.\nHELL: Abdunklung Dialog rgba(13,19,15,.32), Handy-Menü .28, Seitenpanel .24; .kstrip Haarlinien statt Kachelschatten.\nEIGENE FARBEN: forLight 8-%-Schritte bis Luminanz ≤0,18 (max. 24); inkFor = #ffffff oder #04140a nach höherem Kontrast; Theme setzt --profit-soft (.10 hell/.12 dunkel), --loss-soft (.10/.14), --accent-soft (.10/.13). Vorschauen zeigen Anzeigefarbe (hell forLight), Paar-Chip-Schrift inkFor, Gewählt-Vergleich mit Rohwerten (Standard DEFAULTS.dark). Paare „Blau / Gelb“ (#3b82f6, #facc15), „Neutral / Rot“.\nDIAGRAMME: Achsentext eine Regel fill var(--muted); Monte Carlo Pfade --text-2 .22, Histogramm --text-2 .45, ab Ruin --loss .9; Aktivität color-mix(--text 8/16/28/42/58 %, --surface-2); Regel-Tracker color-mix(--accent 18/32/50/70 %, --surface-2) + Legende .heat-legend.right; Report-Serien #4a6fe3, #b4549f, #c0702f; Gewinn-Legendenpunkte und Affiliate-Balken --profit.\nTEXTE (js/lang/{en,es,hi,pt,zh}.js): Effekt; CSV importieren; Tagesansicht öffnen; Verlust vermieden; Aktiv; {0} neue Einträge; Kategorien-Satz; Akzent-Hinweis „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“; „desto kräftiger das Feld“; Blau / Gelb, Neutral / Rot; Filter ({0} aktiv); Designfarben, Grau, Gewinn, Verlust, Warnung, Break-even, Info, Farbe {0}.",
+ "schritte": [
+  {
+   "nr": "farbe-A1",
+   "titel": "Dunkle Tokens in :root: --muted anheben, --profit-soft, --be/--be-soft, --warn-text und --imp-mid neu",
+   "von": 200,
+   "bis": 211,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root",
+    "--muted",
+    "--profit-soft",
+    "--be",
+    "--be-soft",
+    "--warn-text",
+    "--imp-mid"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-9",
+    "farbe_kontrast-20",
+    "komponenten-8",
+    "farbe_kontrast-7",
+    "farbe_kontrast-6",
+    "bereich_notebook_news-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-A2",
+   "titel": "Helle Token-Blöcke (Media-Query und data-theme=light) identisch abdunkeln und ergänzen",
+   "von": 212,
+   "bis": 218,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@media (prefers-color-scheme: light) :root",
+    ":root[data-theme=\"light\"]",
+    "--muted",
+    "--accent",
+    "--accent-2",
+    "--accent-ink",
+    "--accent-soft",
+    "--accent-glow",
+    "--profit",
+    "--profit-soft",
+    "--loss",
+    "--loss-soft",
+    "--be",
+    "--be-soft",
+    "--warn",
+    "--warn-soft",
+    "--warn-text",
+    "--imp-mid",
+    "--info"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-1",
+    "bereich_dashboard-3",
+    "barrierefreiheit-7",
+    "barrierefreiheit-24",
+    "bereich_konto-3",
+    "bereich_notebook_news-3",
+    "bereich_trades_tag-20",
+    "farbe_kontrast-5",
+    "farbe_kontrast-6",
+    "farbe_kontrast-7",
+    "farbe_kontrast-8",
+    "farbe_kontrast-9",
+    "farbe_kontrast-40",
+    "bereich_shell-17",
+    "bereich_notebook_news-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-A3a",
+   "titel": "theme.js: DEFAULTS auf neue Standardfarben (dunkel be #9a8cf8, hell #077a41/#c62e2e/#5f4fcf)",
+   "von": 219,
+   "bis": 220,
+   "cluster": "tokens",
+   "dateien": [
+    "web/js/theme.js"
+   ],
+   "anker": [
+    "Theme.DEFAULTS"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-1",
+    "bereich_dashboard-3",
+    "farbe_kontrast-5",
+    "farbe_kontrast-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": [
+    "web/e2e/settest2.js:47 (Standardfarben zurücksetzen, prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-A3b",
+   "titel": "theme.js: Farbpaare „Blau / Gelb“ (#3b82f6) und „Neutral / Rot“ in PRESETS_PAIR",
+   "von": 221,
+   "bis": 221,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/theme.js"
+   ],
+   "anker": [
+    "Theme.PRESETS_PAIR",
+    "t:Blau / Gelb",
+    "t:Neutral / Rot",
+    "t:Violett / Gelb",
+    "t:Weiß / Rot"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-18",
+    "bereich_einstellungen-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/settest2.js:46 (6 .pair-card, bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-A3c",
+   "titel": "theme.js: forLight (0,18, 8-%-Schritte), ratio/inkFor neu, apply mit hellen Soft-Werten und --profit-soft, Export",
+   "von": 222,
+   "bis": 227,
+   "cluster": "tokens",
+   "dateien": [
+    "web/js/theme.js"
+   ],
+   "anker": [
+    "Theme.forLight",
+    "Theme.inkFor",
+    "ratio",
+    "Theme.apply",
+    "--accent-soft",
+    "--accent-ink",
+    "--loss-soft",
+    "--profit-soft",
+    "root.Theme"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-16",
+    "farbe_kontrast-15",
+    "bereich_konto-3",
+    "bereich_notebook_news-3",
+    "farbe_kontrast-20",
+    "bereich_einstellungen-17"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": [
+    "web/e2e/colorpickertest.js (prüfen)",
+    "web/e2e/settest2.js:43–47 (prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-B1",
+   "titel": "Hilfsklasse .warn auf --warn-text",
+   "von": 228,
+   "bis": 231,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".warn"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-6",
+    "bereich_konto-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B2",
+   "titel": ".btn.primary global neutral angehoben (Fläche, Hover) und Trennstrich .fd-foot .fd-n auf currentColor",
+   "von": 232,
+   "bis": 236,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn.primary",
+    ".btn.primary:hover",
+    ".fd-foot .fd-n"
+   ],
+   "befund_ids": [
+    "referenz-6",
+    "bereich_notebook_news-2",
+    "bereich_einstellungen-9",
+    "bereich_prop-16",
+    "bereich_trades_tag-21",
+    "bereich_dashboard-1",
+    "bereich_training-36",
+    "bereich_konto-3",
+    "barrierefreiheit-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B3a",
+   "titel": "Formfelder: Platzhalter und .field .hint in --muted, neue .lbl-hint, Häkchen neutral, Bewertung --muted/--warn-text",
+   "von": 237,
+   "bis": 243,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".input::placeholder",
+    ".field .hint",
+    ".field > label .lbl-hint",
+    ".check input",
+    ".rating button",
+    ".rating button[aria-pressed=\"true\"]"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-10",
+    "farbe_kontrast-11",
+    "typografie-10",
+    "bereich_prop-34",
+    "barrierefreiheit-25",
+    "bereich_trades_tag-42",
+    "bereich_prop-40",
+    "farbe_kontrast-6",
+    "bereich_notebook_news-26"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B3b",
+   "titel": "Weitere Hinweistexte von --faint auf --muted (Symbol wählen, Filter-Hinweis, Prop-Regel, Zustand-Spalten)",
+   "von": 244,
+   "bis": 248,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sym-btn.sym-none .sym-v",
+    ".fd-hint",
+    ".prop-rule .hint",
+    ".stc-l small"
+   ],
+   "befund_ids": [
+    "typografie-10",
+    "bereich_prop-34",
+    "farbe_kontrast-11",
+    "farbe_kontrast-10"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B4",
+   "titel": "Gewählter Menüeintrag .popover .item[aria-checked] mit flachem Auswahlstil (inset-Rand)",
+   "von": 249,
+   "bis": 251,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".popover .item[aria-checked=\"true\"]"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-16",
+    "barrierefreiheit-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B5",
+   "titel": "„Heute“ in Zeitraum-Kalender und Datumswählern neutral (--text, Ring --muted)",
+   "von": 252,
+   "bis": 257,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rr-day.today",
+    ".dp-day.today",
+    ".dp-month.today",
+    ".datepick .dp.today"
+   ],
+   "befund_ids": [
+    "referenz-8",
+    "farbe_kontrast-24",
+    "bereich_notebook_news-16"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/dptest.js:24 (.dp-day.today bleibt genau einmal)"
+   ]
+  },
+  {
+   "nr": "farbe-B6",
+   "titel": "Kartensymbol .card-ico ohne Fläche, --muted, 16 px",
+   "von": 258,
+   "bis": 262,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card-ico",
+    ".card-ico svg"
+   ],
+   "befund_ids": [
+    "bereich_statistik-27",
+    "ki_look-39"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/scorestatetest.js:20 (Symbol > 10 px, bleibt grün)"
+   ]
+  },
+  {
+   "nr": "farbe-B7",
+   "titel": "Pillen: .pill.win auf --profit/--profit-soft, .pill.warn auf --warn-text",
+   "von": 263,
+   "bis": 266,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".pill.win",
+    ".pill.warn"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-20",
+    "komponenten-8",
+    "farbe_kontrast-26",
+    "bereich_trades_tag-20",
+    "bereich_konto-3",
+    "farbe_kontrast-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B8",
+   "titel": "Score-Skala: Verläufe von --accent auf --profit",
+   "von": 267,
+   "bis": 268,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".score-scale .track",
+    ".score-scale .fill",
+    ".score-scale .knob"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-19"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B9",
+   "titel": "Regel-Chip .chip.rule Schrift --warn-text",
+   "von": 269,
+   "bis": 270,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chip.rule"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B10",
+   "titel": "Schlüssel-Wert-Zeilen: Selektor .kv > span:first-child",
+   "von": 271,
+   "bis": 272,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".kv span",
+    ".kv > span:first-child"
+   ],
+   "befund_ids": [
+    "typografie-2",
+    "bereich_prop-9",
+    "bereich_statistik-2"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B11",
+   "titel": "Banner: Info-Symbol --text-2, .banner.accent wird .banner.ok mit --profit/--profit-soft",
+   "von": 273,
+   "bis": 277,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".banner.info svg",
+    ".banner.accent",
+    ".banner.accent svg",
+    ".banner.ok",
+    ".banner.ok svg"
+   ],
+   "befund_ids": [
+    "zustaende-7",
+    "bereich_dashboard-14",
+    "farbe_kontrast-8"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B12",
+   "titel": "Leerzustand: Symbolregel nur für direktes Kind (.empty > svg)",
+   "von": 278,
+   "bis": 279,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".empty svg",
+    ".empty > svg"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B13",
+   "titel": "Diagramm-Achsen: eine .chart text-Regel in --muted, Doppelregel Z. 1647–1648 löschen",
+   "von": 280,
+   "bis": 283,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chart text"
+   ],
+   "befund_ids": [
+    "diagramme-37"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B14",
+   "titel": "Kalender und Jahresübersicht: Heute-Kreis neutral, Tageszahl ohne Kreis, Rot 18 %, Auswahl --text-2, Kleintext --text-2, helle 10-%-Tönung, Mini-Kalender",
+   "von": 284,
+   "bis": 293,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cal .d .n",
+    ".cal .d.today .n",
+    ".cal .d.loss",
+    ".yc.loss",
+    ".cal .d.sel",
+    ".cal .d:is(.win, .loss, .be) :is(.c, .wr)",
+    ":root[data-theme=\"light\"] .cal .d.win",
+    ":root[data-theme=\"light\"] .yc.win",
+    ":root[data-theme=\"light\"] .cal .d.loss",
+    ":root[data-theme=\"light\"] .yc.loss",
+    ".cal.mini .d.today",
+    ".cal.mini .d.today .n"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-16",
+    "farbe_kontrast-24",
+    "referenz-8",
+    "farbe_kontrast-12",
+    "bereich_dashboard-3",
+    "diagramme-45"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/mobiletest.js:21/85 (Kalender, prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-B15",
+   "titel": "Ungenutzte Gewinn-Heatmap .heat: l1 neutral, l2–l4 auf --profit",
+   "von": 294,
+   "bis": 297,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".heat i.l1",
+    ".heat i.l2",
+    ".heat i.l3",
+    ".heat i.l4"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-20"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B16",
+   "titel": "Schieberegler (Schlaf): Spur --text-2, Knopf --text ohne Glow, Wert linksbündig",
+   "von": 298,
+   "bis": 303,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".slider input[type=range]",
+    ".slider input[type=range]::-webkit-slider-thumb",
+    ".slider input[type=range]::-moz-range-thumb",
+    ".slider .sv"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-45"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B17",
+   "titel": "Long/Short-Schalter im Trade-Dialog flach getönt, Pfeilkreis ohne Glow",
+   "von": 304,
+   "bis": 308,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dir-switch::before",
+    ".dir-opt[aria-pressed=\"true\"] .bi"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B18",
+   "titel": "Helle Abdunklungen für Dialog, Handy-Menü und Seitenpanel",
+   "von": 309,
+   "bis": 313,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root[data-theme=\"light\"] .modal-bg",
+    ":root[data-theme=\"light\"] .scrim",
+    ":root[data-theme=\"light\"] .panel-bg",
+    ".modal-bg",
+    ".scrim",
+    ".panel-bg"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B19",
+   "titel": "Filter-Popover: Sterne --warn-text, .fd-chip.setup löschen, .fd-add neutral",
+   "von": 314,
+   "bis": 318,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".fd-tog.stars button",
+    ".fd-tog.stars button[aria-pressed=\"true\"]",
+    ".fd-chip.setup",
+    ".fd-add:hover",
+    ".fd-add.on"
+   ],
+   "befund_ids": [
+    "komponenten-31",
+    "farbe_kontrast-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B20",
+   "titel": "Ladelinie .ld in --text-2 ohne drop-shadow",
+   "von": 319,
+   "bis": 322,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ld",
+    ".ld .ld-line"
+   ],
+   "befund_ids": [
+    "bewegung-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B21",
+   "titel": "Unterstrich-Reiter (.prop-sub, .set-tabs) und Prop-Filter .prop-fsel.on neutral",
+   "von": 323,
+   "bis": 327,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-sub a::after",
+    ".set-tabs button[aria-pressed=\"true\"]",
+    ".select.prop-fsel.on"
+   ],
+   "befund_ids": [
+    "bereich_prop-43"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B22",
+   "titel": "Aktive Navigationseinträge: helle Seitenleiste mit --surface/--border-2, Einstellungs-Menü mit inset-Rand",
+   "von": 328,
+   "bis": 331,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root[data-theme=\"light\"] .nav a.active",
+    ".nav a.active",
+    ".set-nav a.active",
+    ":root[data-theme=\"light\"] .set-nav a.active"
+   ],
+   "befund_ids": [
+    "bereich_shell-18",
+    "bereich_einstellungen-16",
+    "farbe_kontrast-40"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/headtest.js:60–64 (Gewicht 500 der aktiven Einträge bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-B23a",
+   "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+   "von": 332,
+   "bis": 335,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".activity i.l1",
+    ".activity i.l2",
+    ".activity i.l3",
+    ".activity i.l4",
+    ".activity i.l5",
+    ".heat-legend i.l1",
+    ".heat-legend:not(.right) i.l1",
+    ".heat-legend:not(.right) i.l2",
+    ".heat-legend:not(.right) i.l3",
+    ".heat-legend:not(.right) i.l4",
+    ".heat-legend:not(.right) i.l5",
+    ".activity i.today"
+   ],
+   "befund_ids": [
+    "bereich_training-8",
+    "farbe_kontrast-24",
+    "referenz-8"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B23b",
+   "titel": "Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right",
+   "von": 336,
+   "bis": 338,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tracker i.l1",
+    ".tracker i.l2",
+    ".tracker i.l3",
+    ".tracker i.l4",
+    ".tracker i.today",
+    ".heat-legend.right i.l1",
+    ".heat-legend.right i.l2",
+    ".heat-legend.right i.l3",
+    ".heat-legend.right i.l4"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-38",
+    "farbe_kontrast-24"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/dashtest.js:72 (Tracker-Raster, prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-B23c",
+   "titel": "Jahres-Monatsraster: Heute-Ring --text-2",
+   "von": 339,
+   "bis": 340,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ym-grid i.today"
+   ],
+   "befund_ids": [
+    "referenz-8"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B24",
+   "titel": "Kennzahlen-Leiste .kstrip hell: Haarlinien an Kacheln, Schatten an der Leiste",
+   "von": 341,
+   "bis": 343,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root[data-theme=\"light\"] .kstrip .tile",
+    ":root[data-theme=\"light\"] .grid.tiles.kstrip"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-32"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B25",
+   "titel": "Gemeinsamen flachen Auswahlstil um .dh-context .btn.is-set erweitern",
+   "von": 344,
+   "bis": 345,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dh-context .btn.is-set"
+   ],
+   "befund_ids": [
+    "referenz-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B26",
+   "titel": "Neue Regel .tbl .rule-ic für Regeln-Symbol in Tabellen",
+   "von": 346,
+   "bis": 347,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl .rule-ic",
+    ".tbl .rule-ic svg"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-19"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B27a",
+   "titel": "ui.js: Ring und scoreColor auf --profit, neue Funktion scoreText exportieren",
+   "von": 348,
+   "bis": 350,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.ring",
+    "U.scoreColor",
+    "U.scoreText",
+    "root.UI"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-19",
+    "bereich_trades_tag-19",
+    "farbe_kontrast-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-B27b",
+   "titel": "ui.js: Monte-Carlo-Pfade und Drawdown-Histogramm neutral, Ruin-Bereich --loss .9",
+   "von": 351,
+   "bis": 353,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "drawers.mc",
+    "drawers.hist"
+   ],
+   "befund_ids": [
+    "bereich_statistik-25"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C1a",
+   "titel": "Notebook-Liste: Auswahl-Kästchen, gewählte Notiz und gedrückter Kopf-Knopf neutral",
+   "von": 354,
+   "bis": 359,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .note-item .sel.on",
+    ".nb .note-item.selected",
+    ".nb .col-head .btn[aria-pressed=\"true\"]"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-16"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/nbsel.js:34 (.sel.on bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-C1b",
+   "titel": "Notizkopf (.pnl-line, .lbl-pnl, Links), Speicherstatus --warn-text, Tag-Menü ohne Grün",
+   "von": 360,
+   "bis": 363,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .meta .pnl-line",
+    ".nb .meta .lbl-pnl",
+    ".nb .meta a",
+    ".nb .meta a:hover",
+    ".nb .save-state.saving",
+    ".nb .tagpop .sec.k-setup",
+    ".nb .tagpop .item.k-setup[aria-checked=\"true\"]",
+    ".nb .tagpop .chk"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-17",
+    "bereich_notebook_news-3",
+    "farbe_kontrast-6",
+    "bereich_notebook_news-16"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C1c",
+   "titel": "Editor-Werkzeuge: Toolbar gedrückt, Haken im Editor-Popover, Palettenrand, Notebook-Menü und YouTube-Popover neutral",
+   "von": 364,
+   "bis": 369,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb-toolbar .tb[aria-pressed=\"true\"]",
+    ".ed-pop .item .chk",
+    ".ed-palette .c",
+    ".nb-menu .row-item.on",
+    ".nb-menu .row-item:hover",
+    ".nb-menu .grid-em button.on",
+    ".nb-menu .grid-em button:hover",
+    ".nb-ytpop"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-16",
+    "bereich_notebook_news-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C1d",
+   "titel": "Quill-Editor: Platzhalter --muted ohne 18 px, Zitat, Code, Links (auch .nb-tweet a), Checklisten-Haken und Tooltip-Links neutral",
+   "von": 370,
+   "bis": 375,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ql-editor.ql-blank::before",
+    ".ql-editor blockquote",
+    ".ql-snow .ql-editor blockquote",
+    ".ql-editor code",
+    ".ql-snow .ql-editor code",
+    ".ql-editor a",
+    ".nb-tweet a",
+    ".ql-editor li[data-list=checked] > .ql-ui",
+    ".ql-editor li[data-list=unchecked] > .ql-ui",
+    ".ql-snow .ql-tooltip a.ql-action::after",
+    ".ql-snow .ql-tooltip a.ql-remove::before",
+    ".ql-snow .ql-tooltip a.ql-preview"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-26",
+    "ki_look-34",
+    "bereich_notebook_news-16"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C1e",
+   "titel": "Bilder in Notizen (Griff, Rahmen, Größenleiste) neutral, grüner Fokus im aufklappbaren Abschnitt löschen",
+   "von": 376,
+   "bis": 380,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb-figure .rs::before",
+    ".nb-figure.resizing img",
+    ".nb-figure.selected img",
+    ".nb-figure .fig-bar button[aria-pressed=\"true\"]",
+    ".nb-details summary:focus"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-16"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C2",
+   "titel": "Fortschritt: Listenmarker „Aktuelle Regeln“ neutral (entfällt, falls Aufbau die Karte löscht)",
+   "von": 381,
+   "bis": 383,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rules-list li::marker"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-22"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C3a",
+   "titel": "Widget-Bibliothek: Knopfgewicht entfernen, „Hinzugefügt“ grau ohne Fläche",
+   "von": 384,
+   "bis": 386,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sp-item .btn",
+    ".sp-item .btn.added"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-5"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/dashtest.js:34/39 (.btn.added, :not(.added), prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-C3b",
+   "titel": "„Mehr anzeigen“-Link neutral (--text-2, 500, Hover --text)",
+   "von": 387,
+   "bis": 388,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".more-link",
+    ".more-link:hover"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C3c",
+   "titel": "Report-Panel: gewählte Zeile flach, Zurücksetzen --text-2, Schriftgröße über .rep-add",
+   "von": 389,
+   "bis": 392,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rep-sel.on",
+    ".rep-foot .rep-reset",
+    ".rep-foot .btn.primary",
+    ".rep-foot .rep-add"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C4",
+   "titel": "Einstellungen: Karte „Eigenes“ sichtbarer Rand, Sprach-Karten Hover und Währung neutral",
+   "von": 393,
+   "bis": 397,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".theme-card.t-custom.is-new .tc-prev",
+    ".lang-card:hover",
+    ".lang-card[aria-pressed=\"true\"] .lang-cur"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-47",
+    "bereich_einstellungen-8"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/switchtest.js:11 (Text .lang-cur bleibt)",
+    "web/e2e/colorpickertest.js:67/71 (is-new bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-C5",
+   "titel": "Ruhepunkt: --rp-dawn = --info, Hauptknopf .rp-primary neutral wie .btn.primary",
+   "von": 398,
+   "bis": 403,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp",
+    "--rp-dawn",
+    "html[data-theme=\"light\"] .rp",
+    ":root[data-theme=\"light\"] .rp",
+    ".rp-btn.rp-primary",
+    ".rp-btn.rp-primary:hover"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-8",
+    "bereich_training-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/rptest.js (.rp-nav .rp-primary bleibt)",
+    "web/e2e/mentortest.js:44–45"
+   ]
+  },
+  {
+   "nr": "farbe-C6",
+   "titel": "Mentor: Einrichtungs-Symbol, eigene Nachricht und Tipp-Punkte neutral",
+   "von": 404,
+   "bis": 408,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor-setup .ico svg",
+    ".msg.user",
+    ".msg.typing i"
+   ],
+   "befund_ids": [
+    "bereich_konto-6",
+    "bereich_training-36"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C7",
+   "titel": "Schatten-Ich: eingeschaltete Regel neutral angehoben statt grün getönt",
+   "von": 409,
+   "bis": 412,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".shadow-rule.on"
+   ],
+   "befund_ids": [
+    "bereich_training-4"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C8a",
+   "titel": "Prop: Trade-Zuordnung mit neutralen Häkchen",
+   "von": 413,
+   "bis": 414,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-assign-row input"
+   ],
+   "befund_ids": [
+    "bereich_prop-40"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C8b",
+   "titel": "Affiliate: Namens-Hover neutral mit Unterstrich",
+   "von": 415,
+   "bis": 416,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".aff-name:hover"
+   ],
+   "befund_ids": [
+    "bereich_konto-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C9",
+   "titel": "Coach: Namens-Hover, Symbole, gewählte Option, Häkchen neutral; „Neu“-Rand und -Streifen löschen",
+   "von": 417,
+   "bis": 425,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "a.coach-name:hover",
+    ".coach-entry.is-new",
+    ".coach-join-head .ico svg",
+    ".coach-yes svg",
+    ".coach-radio:has(input:checked)",
+    ".coach-radio input",
+    ".mn-reply.is-new"
+   ],
+   "befund_ids": [
+    "bereich_konto-2",
+    "bereich_konto-4",
+    "bereich_konto-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/coachtest.js:81, :110 (Klasse is-new bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-C10",
+   "titel": "News: mittlerer Wichtigkeits-Balken auf --imp-mid",
+   "von": 426,
+   "bis": 427,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nw-imp.l2 i:nth-child(-n+2)"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C11",
+   "titel": "Landing: Hero-Überschrift in var(--text) statt #ededed",
+   "von": 428,
+   "bis": 429,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".lp .hero h1"
+   ],
+   "befund_ids": [
+    "ki_look-2"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C12a",
+   "titel": "Trade-Dialog: Hinweis „(leer = offen)“ als .lbl-hint",
+   "von": 430,
+   "bis": 431,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openTradeEditor",
+    ".lbl-hint",
+    "t:(leer = offen)"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-25",
+    "typografie-10",
+    "bereich_trades_tag-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B3a"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C12b",
+   "titel": "Check-in: sleepZone „fit“ und scaleColor auf --profit (Zwischenstufe aus --loss/--warn)",
+   "von": 432,
+   "bis": 433,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.sleepZone",
+    "App.scaleColor"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-19",
+    "bereich_trades_tag-45"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C12c",
+   "titel": "Session-Ende und Import: Hinweise .lbl-hint bzw. muted statt faint",
+   "von": 434,
+   "bis": 437,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openSessionEnd",
+    "App.openImport",
+    ".lbl-hint"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-25",
+    "farbe_kontrast-11",
+    "bereich_trades_tag-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B3a"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C13",
+   "titel": "core.js: realisiertes R als Typ rSigned (gefärbt)",
+   "von": 438,
+   "bis": 439,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "core.stats16",
+    "realizedR",
+    "rSigned"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C30"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C14a",
+   "titel": "Widget Ø Gewinn/Verlust: Farbe über U.cls, gemeinsames Kompakt-Kriterium",
+   "von": 440,
+   "bis": 441,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widgets.avg_gewinn_verlust"
+   ],
+   "befund_ids": [
+    "zustaende-26"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C14b",
+   "titel": "Report: neue Palette REPORT_COLORS und Umschreiben alter Standardfarben in reportConfig",
+   "von": 442,
+   "bis": 443,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widgets.REPORT_COLORS",
+    "widgets.reportConfig"
+   ],
+   "befund_ids": [
+    "diagramme-44",
+    "bereich_dashboard-38"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": [
+    "4.6: gespeicherter Report mit alten Standardfarben zeigt neue, eigene Farbe bleibt",
+    "web/e2e/dashtest.js:81–100 (Report-Panel, prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-C14c",
+   "titel": "Report-Panel: „Hinzufügen“-Knopf ohne primary, Klasse rep-add",
+   "von": 444,
+   "bis": 444,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widgets.reportPanel",
+    ".rep-add"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C3c"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:82/89 ([data-i=\"new\"] bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-C14d",
+   "titel": "Letzte Trades: „Mehr anzeigen“ nur bei rows.length",
+   "von": 445,
+   "bis": 445,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widgets.letzte_trades",
+    ".more-row"
+   ],
+   "befund_ids": [
+    "referenz-9"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/dashtest.js:67 (.recent-card .more-link mit Trades)"
+   ]
+  },
+  {
+   "nr": "farbe-C14e",
+   "titel": "Feature-Widgets (Schatten-Ich, Blind-Replay, Prop, Ruhepunkt, Mentor-Link): primary entfernen, Mentor-Fragen bleibt primary",
+   "von": 446,
+   "bis": 447,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widgets.schatten_ich",
+    "widgets.blind_replay",
+    "widgets.prop_konten",
+    "widgets.ruhepunkt",
+    "widgets.mentor",
+    ".fw-go"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C15",
+   "titel": "Widget-Vorschauen: Report-Farben angleichen, Disziplin-Kosten mit Minus",
+   "von": 448,
+   "bis": 451,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "widgetpreviews.BLUE",
+    "widgetpreviews.ORANGE",
+    "widgetpreviews.disziplin_kosten"
+   ],
+   "befund_ids": [
+    "diagramme-44",
+    "bereich_training-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C16",
+   "titel": "Affiliate: Balken --profit, „Ausgezahlt“ als ruhiger Text",
+   "von": 452,
+   "bis": 455,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js"
+   ],
+   "anker": [
+    "affiliate.months",
+    "affiliate.creator",
+    "U.pill",
+    "t:Ausgezahlt"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-20",
+    "bereich_konto-8"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/affiliatetest.js:51 (Texte „Offen“/„Ausgezahlt“ bleiben)"
+   ]
+  },
+  {
+   "nr": "farbe-C17a",
+   "titel": "Coach: Knöpfe ohne primary, Pillen „Neu“/„{n} neu“ neutral, kein .accent, Haken muted, „0“ muted",
+   "von": 456,
+   "bis": 462,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "coach.setup",
+    "coach.thread",
+    "coach.hub",
+    "coach.statsRow",
+    "U.pill",
+    "t:Neu",
+    "t:{0} neu"
+   ],
+   "befund_ids": [
+    "bereich_konto-3",
+    "bereich_konto-4",
+    "bereich_konto-6",
+    "komponenten-8",
+    "farbe_kontrast-26",
+    "farbe_kontrast-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C17b",
+   "titel": "Coach-Journal: allNew (keine Einzelpillen, Kopf „{n} neue Einträge“), „erledigt“ ohne .accent",
+   "von": 463,
+   "bis": 466,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "coach.entryHTML",
+    "coach.journal",
+    ".coach-entry.is-new",
+    "t:{0} neue Einträge",
+    "t:erledigt"
+   ],
+   "befund_ids": [
+    "bereich_konto-4",
+    "bereich_konto-6",
+    "komponenten-8",
+    "farbe_kontrast-26"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/coachtest.js:81 (zählt .coach-entry.is-new, bleibt)",
+    "web/e2e/coachlang2.js (neuer Text)"
+   ]
+  },
+  {
+   "nr": "farbe-C18",
+   "titel": "Dashboard-Filter: „Nichts gefunden“ in muted",
+   "von": 467,
+   "bis": 468,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "dash-filter.pickerHTML",
+    "dash-f-q",
+    "t:Nichts gefunden"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-25",
+    "farbe_kontrast-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C19a",
+   "titel": "Widget-Bibliothek: sp-add ohne primary",
+   "von": 469,
+   "bis": 470,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "dashboard.itemsHTML",
+    ".sp-add"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-5"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C3a"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:38, 49, 111 (siehe farbe-D2a)"
+   ]
+  },
+  {
+   "nr": "farbe-C19b",
+   "titel": "Filter-Knopf: Klasse is-set statt accent, aria-label „Filter ({0} aktiv)“",
+   "von": 471,
+   "bis": 471,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "dash-f-open",
+    ".dh-context .btn.is-set",
+    "t:Filter ({0} aktiv)"
+   ],
+   "befund_ids": [
+    "referenz-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B25"
+   ],
+   "tests": [
+    "web/e2e/filtertest.js, web/e2e/headtest.js (data-action bleibt, prüfen)",
+    "web/e2e/langtest.js (aria-label)"
+   ]
+  },
+  {
+   "nr": "farbe-C19c",
+   "titel": "Willkommen-Banner: info ohne sparkle, Knöpfe neutral, „CSV importieren“",
+   "von": 472,
+   "bis": 473,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "U.banner",
+    "install-sample",
+    "t:Willkommen",
+    "t:CSV importieren"
+   ],
+   "befund_ids": [
+    "zustaende-7",
+    "bereich_dashboard-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B11"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C20",
+   "titel": "Tagesansicht: Pille „Heute“ neutral, Zähler nur > 0 gefärbt, Score mit scoreText, Leertext muted, Knopf neutral",
+   "von": 474,
+   "bis": 479,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "U.pill",
+    "U.scoreText",
+    "nb-day-note",
+    "t:Heute",
+    "t:Noch leer."
+   ],
+   "befund_ids": [
+    "farbe_kontrast-24",
+    "referenz-8",
+    "komponenten-8",
+    "bereich_trades_tag-25",
+    "farbe_kontrast-42",
+    "bereich_trades_tag-19",
+    "barrierefreiheit-25",
+    "bereich_trades_tag-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B27a"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C21",
+   "titel": "Mentor-Seite: Hinweise muted, „Zu den Einstellungen“ normaler Knopf",
+   "von": 480,
+   "bis": 484,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    ".mentor-note",
+    ".mentor-setup",
+    "t:Zu den Einstellungen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-25",
+    "farbe_kontrast-11",
+    "bereich_training-36"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C22a",
+   "titel": "Kategorien: Setups-Farbe --text-2",
+   "von": 485,
+   "bis": 486,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.KINDS"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-37"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C22b",
+   "titel": "Einstellungen: Neben-Knöpfe ohne primary, Speicherort muted, Pille „Aktiv“, Kategorien-Satz",
+   "von": 487,
+   "bis": 492,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.profil",
+    "misc.konten",
+    "misc.regeln",
+    "misc.inhalte",
+    "U.pill",
+    "t:Aktiv",
+    "t:Die drei Kategorien sind fest: Setups beschreiben den Einstiegstyp, Fehler und Emotionen den Zustand. Setups sind neutral, Fehler stehen in der Verlustfarbe, Emotionen in der Break-even-Farbe."
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-9",
+    "barrierefreiheit-25",
+    "farbe_kontrast-26",
+    "komponenten-8",
+    "bereich_einstellungen-37",
+    "referenz-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C22c",
+   "titel": "Design-Seite: Vorschauen mit Anzeigefarbe (forLight), Paar-Schrift inkFor, Gewählt-Vergleich mit Rohwerten, Akzent-Hinweis",
+   "von": 493,
+   "bis": 499,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "App.refreshSavedColors",
+    "misc.savedDots",
+    "misc.design",
+    "Theme.forLight",
+    "Theme.inkFor",
+    "Theme.DEFAULTS",
+    "t:„Trade loggen“, Schalter, aktive Einträge und Diagramme."
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-17"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "farbe-A3a",
+    "farbe-A3c"
+   ],
+   "tests": [
+    "web/e2e/settest2.js:43–47 (prüfen)",
+    "web/e2e/colorpickertest.js (prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-C23",
+   "titel": "News: IMP_COL löschen, Wichtigkeits-Chips ohne --lc",
+   "von": 500,
+   "bis": 501,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    "news.IMP_COL",
+    "news.chip",
+    "--lc"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-42",
+    "farbe_kontrast-6"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/newstest.js:67 (siehe farbe-D2b)"
+   ]
+  },
+  {
+   "nr": "farbe-C24a",
+   "titel": "Notebook: Leertexte muted, active nicht im Auswahlmodus",
+   "von": 502,
+   "bis": 505,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "notebook.tagPillsHTML",
+    ".note-item",
+    "nb.selectMode",
+    "t:Noch keine Tags",
+    "t:Noch keine eigenen Ordner"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-26",
+    "barrierefreiheit-25",
+    "bereich_notebook_news-16"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/nbsel.js (prüfen)"
+   ]
+  },
+  {
+   "nr": "farbe-C24b",
+   "titel": "Notebook: „Neue Notiz“-Knöpfe neutral",
+   "von": 506,
+   "bis": 507,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "nb-new"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-2"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/imgtest.js:5 ([data-action=nb-new] greift weiter)"
+   ]
+  },
+  {
+   "nr": "farbe-C24c",
+   "titel": "Notizkopf: P&L-Zeile mit .pnl-line/.lbl-pnl, Links ohne accent, „Tagesansicht öffnen“",
+   "von": 508,
+   "bis": 509,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    ".pnl-line",
+    ".lbl-pnl",
+    "U.pnl",
+    "t:Tagesansicht öffnen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-17",
+    "bereich_notebook_news-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C1b"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C25",
+   "titel": "Fortschritt: Info-Text „desto kräftiger das Feld“",
+   "von": 510,
+   "bis": 511,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "progress (Karte Trading-Aktivität)",
+    "t:Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Feld. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht."
+   ],
+   "befund_ids": [
+    "bereich_training-8"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C26a",
+   "titel": "Prop: Status „Aktiv“ neutral, „geprüft“-Pillen neutral",
+   "von": 512,
+   "bis": 514,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.STATUS_KIND",
+    "prop.verifiedPill",
+    "prop.tabKonten",
+    "U.pill",
+    "t:geprüft"
+   ],
+   "befund_ids": [
+    "bereich_prop-35",
+    "komponenten-8",
+    "farbe_kontrast-26"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/proptest.js:112 (zählt .prop-presets .pill.win === 1, muss angepasst werden, in D2 nicht genannt)"
+   ]
+  },
+  {
+   "nr": "farbe-C26b",
+   "titel": "Prop: Anlegen-/Erfassen-Öffner ohne primary, Banner „Ziel erreicht“ als ok",
+   "von": 515,
+   "bis": 517,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.emptyAccounts",
+    "prop.tabKonten",
+    "prop.entryBtn",
+    "prop.accountCard",
+    "U.banner",
+    "prop-account-new"
+   ],
+   "befund_ids": [
+    "bereich_prop-16",
+    "zustaende-7"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B11"
+   ],
+   "tests": [
+    "web/e2e/proptest.js:20/23/27/133 (data-action bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-C26c",
+   "titel": "Prop-Bilanz: Ausgaben- und Payout-Spalten neutral",
+   "von": 518,
+   "bis": 519,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.tabBilanz",
+    "prop.payoutPlanner"
+   ],
+   "befund_ids": [
+    "bereich_prop-25"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C27",
+   "titel": "Friedhof: Kachel „Geplatzte Konten“ ohne tint neg",
+   "von": 520,
+   "bis": 521,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "prop-friedhof.tiles",
+    "U.tile"
+   ],
+   "befund_ids": [
+    "bereich_prop-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C28",
+   "titel": "Ruhepunkt: Schließen und Bühnen-Knöpfe ohne Hauptknopf-Stil",
+   "von": 522,
+   "bis": 526,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    ".rp-btn.rp-primary",
+    "data-close"
+   ],
+   "befund_ids": [
+    "bereich_training-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/rptest.js:51 (.rp-timer .rp-btn), :18–63 (.rp-nav .rp-primary bleibt)"
+   ]
+  },
+  {
+   "nr": "farbe-C29",
+   "titel": "Schatten-Ich: Kosten mit Vorzeichen (costView, Tabelle), Spaltenkopf „Effekt“",
+   "von": 527,
+   "bis": 532,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "shadow.costView",
+    "U.pnl",
+    "t:Effekt",
+    "t:Kosten"
+   ],
+   "befund_ids": [
+    "bereich_training-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/fwtest.js:23–24 (Widget = Seite über costView)"
+   ]
+  },
+  {
+   "nr": "farbe-C30",
+   "titel": "Statistik: Legendenpunkt --profit, statVal rSigned, Zähler neutral bzw. nur > 0, Tages-DD-Strich faint",
+   "von": 533,
+   "bis": 538,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.statVal",
+    "stats.tabDays",
+    "U.rText",
+    "U.kv"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-20",
+    "farbe_kontrast-42",
+    "bereich_statistik-39",
+    "typografie-2"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C31a",
+   "titel": "TradeLog: Leerzustand „Trade loggen“ accent, Score über scoreText, Regeln-Symbol .rule-ic, „offen“ muted",
+   "von": 539,
+   "bis": 541,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.renderTable",
+    "U.scoreText",
+    ".rule-ic",
+    ".btn.accent"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-21",
+    "bereich_trades_tag-19",
+    "bereich_trades_tag-42",
+    "barrierefreiheit-25",
+    "farbe_kontrast-11"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "farbe-B26",
+    "farbe-B27a"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C31b",
+   "titel": "Tageskarten-Zähler nur > 0 gefärbt; Verpasste Trades „Entgangen“/„Verlust vermieden“ ohne Vorzeichen und Farbe",
+   "von": 542,
+   "bis": 543,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.renderDays",
+    "trades.renderMissed",
+    "t:Entgangen",
+    "t:Verlust vermieden"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-25",
+    "bereich_trades_tag-29"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C31c",
+   "titel": "Trade-Ansicht: Disziplin-Teilwerte, „Keine Fehler markiert“, Sprachnotiz muted, Knöpfe neutral",
+   "von": 544,
+   "bis": 548,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.renderDetail",
+    "voice-open",
+    "edit-trade",
+    "t:Keine Fehler markiert"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-19",
+    "bereich_trades_tag-21",
+    "farbe_kontrast-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-C32",
+   "titel": "Editor-Farbpalette: Abschnitt „Designfarben“ mit Token-Farben, „Eigene Farben“ nur bei Bedarf, aria-labels",
+   "von": 549,
+   "bis": 556,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/editor.js"
+   ],
+   "anker": [
+    "editor.THEME_COLORS",
+    "editor.palette",
+    ".ed-palette",
+    "t:Designfarben",
+    "t:Grau",
+    "t:Gewinn",
+    "t:Verlust",
+    "t:Warnung",
+    "t:Break-even",
+    "t:Info",
+    "t:Farbe {0}",
+    "t:Eigene Farben"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-21"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-D1",
+   "titel": "Sprachdateien: neue und geänderte Texte in en/es/hi/pt/zh",
+   "von": 557,
+   "bis": 560,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Effekt",
+    "t:Tagesansicht öffnen",
+    "t:Verlust vermieden",
+    "t:{0} neue Einträge",
+    "t:Filter ({0} aktiv)",
+    "t:Blau / Gelb",
+    "t:Neutral / Rot",
+    "t:Designfarben",
+    "t:Grau",
+    "t:Warnung",
+    "t:Info",
+    "t:Farbe {0}",
+    "t:Gewinn",
+    "t:Verlust",
+    "t:Break-even",
+    "t:Aktiv",
+    "t:CSV importieren",
+    "t:„Trade loggen“, Schalter, aktive Einträge und Diagramme.",
+    "t:Die drei Kategorien sind fest: Setups beschreiben den Einstiegstyp, Fehler und Emotionen den Zustand. Setups sind neutral, Fehler stehen in der Verlustfarbe, Emotionen in der Break-even-Farbe.",
+    "t:Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Feld. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht."
+   ],
+   "befund_ids": [
+    "bereich_training-3",
+    "bereich_notebook_news-17",
+    "bereich_trades_tag-29",
+    "bereich_konto-4",
+    "referenz-7",
+    "bereich_einstellungen-18",
+    "bereich_einstellungen-17",
+    "bereich_einstellungen-37",
+    "bereich_training-8",
+    "bereich_notebook_news-21",
+    "farbe_kontrast-26"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "farbe-A3b",
+    "farbe-C17b",
+    "farbe-C19b",
+    "farbe-C19c",
+    "farbe-C22b",
+    "farbe-C22c",
+    "farbe-C24c",
+    "farbe-C25",
+    "farbe-C29",
+    "farbe-C31b",
+    "farbe-C32"
+   ],
+   "tests": [
+    "web/e2e/langtest.js",
+    "web/e2e/coachlang2.js"
+   ]
+  },
+  {
+   "nr": "farbe-D2a",
+   "titel": "dashtest: Selektor .sp-item .btn.primary auf .sp-add:not(.added)",
+   "von": 561,
+   "bis": 562,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/e2e/dashtest.js"
+   ],
+   "anker": [
+    ".side-panel .sp-item .sp-add:not(.added)",
+    ".side-panel .sp-item .btn.primary"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-5"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C19a"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:38, 49, 111"
+   ]
+  },
+  {
+   "nr": "farbe-D2b",
+   "titel": "newstest: Prüfung auf neutrale Wichtigkeits-Chips (kein --lc) umdrehen",
+   "von": 563,
+   "bis": 564,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/e2e/newstest.js"
+   ],
+   "anker": [
+    "--lc",
+    "news-f"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C23"
+   ],
+   "tests": [
+    "web/e2e/newstest.js:67"
+   ]
+  },
+  {
+   "nr": "farbe-D3a",
+   "titel": "README Z. 43: Long/Short-Fläche „flach, leicht getönt“",
+   "von": 565,
+   "bis": 566,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 43"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B17"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-D3b",
+   "titel": "README Z. 113: Wichtigkeits-Chips neutral",
+   "von": 567,
+   "bis": 567,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 113"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C23"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-D3c",
+   "titel": "README Z. 188–189: Kalender-Tönung 18/16 % dunkel, 10 % hell, Kleintext --text-2",
+   "von": 568,
+   "bis": 568,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 188–189"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-12",
+    "diagramme-45",
+    "bereich_dashboard-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B14"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-D3d",
+   "titel": "README nach Z. 201: abgedunkelte Signalfarben hell, forLight/inkFor, Report-Palette",
+   "von": 569,
+   "bis": 569,
+   "cluster": "tokens",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 201",
+    "Theme.forLight",
+    "Theme.inkFor"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-1",
+    "farbe_kontrast-5",
+    "farbe_kontrast-7",
+    "farbe_kontrast-8",
+    "farbe_kontrast-15",
+    "farbe_kontrast-16",
+    "diagramme-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-A2",
+    "farbe-A3c",
+    "farbe-C14b"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-D3e",
+   "titel": "README Z. 203–208: Absatz „Grün nur für Gewinn und „Trade loggen““ ersetzen",
+   "von": 570,
+   "bis": 570,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 203–208",
+    ".btn.primary",
+    ".btn.accent"
+   ],
+   "befund_ids": [
+    "referenz-6",
+    "bereich_dashboard-1",
+    "komponenten-8",
+    "farbe_kontrast-8",
+    "farbe_kontrast-24",
+    "bereich_prop-40",
+    "farbe_kontrast-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B2",
+    "farbe-B25"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-D3f",
+   "titel": "README Z. 224: Regelwerk-Kachel „leicht angehoben (neutral, feiner Rand)“",
+   "von": 571,
+   "bis": 571,
+   "cluster": "training",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 224"
+   ],
+   "befund_ids": [
+    "bereich_training-4"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-C7"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "farbe-D3g",
+   "titel": "README Z. 340: Ladelinie „helles Stück“",
+   "von": 572,
+   "bis": 574,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z. 340"
+   ],
+   "befund_ids": [
+    "bewegung-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "farbe-B20"
+   ],
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 576,
+  "bis": 647
+ },
+ "querbezuege": [
+  "Typografie (K26, Abschnitt 5): Schriftgrößen/-gewichte bleiben bei der Typografie-Spezifikation: .field .hint/.fd-hint/.stc-l small/.ed-pop .ed-hint 11,5→12 px (typografie-10), Tageszahl .cal .d .n 12 px/500 (bereich_dashboard-16), .chart text font-size (diagramme-37), .rr-day.today Gewicht 700, .score-big 30→25 px (bereich_trades_tag-29). Hier wird nur Farbe gesetzt (farbe-B3a, farbe-B3b, farbe-B13, farbe-B14, farbe-B5).",
+  "Typografie-Überschneidungen, die diese Gruppe trotzdem ändert: .ql-editor.ql-blank::before verliert font-size 18px (farbe-C1d), .more-link 600→500 (farbe-C3b), .rules-list li::marker 700→500 + var(--font-num) (farbe-C2), .sp-item .btn ohne font-weight 600 (farbe-C3a), Score-Zellen <b>→<span> (farbe-C20, farbe-C31a), .chart text ohne font-family, mit tabular-nums (farbe-B13, Sammelregel app.css Z. 1800), .kv > span:first-child (farbe-B10, typografie-2).",
+  "Barrierefreiheit: .nb-details summary:focus (app.css Z. 1187) wird hier nur gelöscht; Fokus-Stil regelt bereich_notebook_news-35 (farbe-C1e).",
+  "Barrierefreiheit: Fokusring :focus-visible bleibt --accent (hell jetzt #077a41); kein eigenes --focus/--accent-text (K1, barrierefreiheit-24) (farbe-A2).",
+  "Barrierefreiheit/ARIA: aria-label „Filter ({0} aktiv)“ am Filter-Knopf dash-f-open (farbe-C19b) und aria-label „Farbe {0}“ bzw. Namen an den Editor-Farbkreisen .ed-palette (farbe-C32).",
+  "Aufbau: Karte „Aktuelle Regeln“ (.rules-list, Fortschritt) kann durch hierarchie-21 entfallen; dann entfällt farbe-C2 (K26).",
+  "Aufbau: Kartentitel „Verpasste Trades“ (trades.renderMissed, bereich_trades_tag-29) regelt die Aufbau-Gruppe; farbe-C31b ändert nur Beschriftung und Farbe.",
+  "Aufbau: Knopf „Konto anlegen“ prop.js:244 (prop.tabKonten, data-action prop-account-new) entfällt evtl. durch die Aufbau-Gruppe; dann entfällt dieser Teil von farbe-C26b.",
+  "Komponenten: Ein Knopfsystem der Komponenten-Gruppe muss die Farbwerte aus 1.4 übernehmen (.btn.primary neutral angehoben, .btn.accent nur „Trade loggen“, .rp-btn.rp-primary wie .btn.primary) (K26; farbe-B2, farbe-C5).",
+  "Komponenten: gemeinsamer flacher Auswahlstil am Ende von app.css (Z. 3125–3128, Liste endet mit .sb-user.active) wird um .dh-context .btn.is-set erweitert (farbe-B25); .coach-radio:has(input:checked) (farbe-C9) und .popover .item[aria-checked=\"true\"] (farbe-B4) bekommen bewusst eigene Regeln mit denselben Werten.",
+  "Bewegung: .dir-switch::before transition 260ms (--ease-io) bleibt unangetastet (bereich_trades_tag-12 Teil, zurückgestellt); farbe-B17 ändert nur Fläche und Schatten. Ladelinie .ld (bewegung-44) nur Farbe/Schein, Animation unverändert (farbe-B20).",
+  "Shell: .nav a.active (farbe-B22, bereich_shell-18) und Seitenleisten-Balken/--dot-glow bleiben grün; Gruppentitel Seitenleiste --muted auf --bg-2 muss ≥4,5 erreichen; headtest.js:60–64 prüft Gewicht 500 aktiver Einträge.",
+  "Zustände: Willkommen-Banner (dashboard.js:130, U.banner('info')) und „Mehr anzeigen“ nur bei rows.length (widgets.letzte_trades) überschneiden sich mit der Zustände-Gruppe (zustaende-7, zustaende-26, K11, K25; farbe-C19c, farbe-C14d).",
+  "Wording/Sprache: neue Texte in js/lang/{en,es,hi,pt,zh}.js (farbe-D1); README-Absätze Z. 43, 113, 188–189, nach 201, 203–208, 224, 340 (farbe-D3a–g) können auch von anderen Gruppen berührt werden.",
+  "Offene Nutzerfrage bereich_trades_tag-17 (Abschnitt 6): Long/Short-Abzeichen .badge (app.css Z. 617–622) neutral, nur Pfeil .badge .bi farbig; README Z. 45–46. Nicht Teil der Schritte.",
+  "Zurückgestellt farbe_kontrast-40 (Teil): helle Flächen --surface-2/--surface-3, --bg-2 der Seitenleiste, Ränder .cal .wd/.shadow-rule; überschneidet Inventarpunkt A14 (warmes Hell).",
+  "Lückenrunde (K27): bewusst unverändert grün und in der Erlaubt-Liste von 4.2: .dp-day.sel, .dp-month.sel, .dp-t.sel, .dp-day.in/.edge, .dp-link.accent, .sym-opt[aria-selected], .tpl-row .chk, .tpl-row.on .item.name, .edit-bar, .dot-live, .add-slot, .rep-g, .w-cfg, .dropzone, .checklist, .coach-task.done, .fw-rp.done, .logtbl, .nb-preview, .sr-step, .shadow-hint, .prop-patterns, .voice-clock, .toast.",
+  "Toter Code (K22): U.heatmap/.heat (farbe-B15) und prop.verifiedPill (farbe-C26a) werden nur umgefärbt; Löschen gehört in eine Aufräum-Gruppe.",
+  "Diagramme: feste Report-Palette #4a6fe3/#b4549f/#c0702f statt Tokens (K12, farbe-C14b, farbe-C15); Monte Carlo drawers.mc/drawers.hist (farbe-B27b) und Achsen .chart text (farbe-B13) überschneiden die Diagramme-Gruppe (diagramme-37, -44, -45).",
+  "Training/Dashboard: Disziplin-Kosten mit Vorzeichen in shadow.costView (farbe-C29), Widget schatten_ich und Vorschau widgetpreviews.disziplin_kosten (farbe-C15); fwtest.js:24 vergleicht Widget und Seite über costView.",
+  "Tests außerhalb von D2: e2e/proptest.js:112 erwartet genau eine .prop-presets .pill.win („geprüft“, prop.js:236) und muss nach farbe-C26a angepasst werden; die Spezifikation nennt das nicht.",
+  "Statistik/Prop: .kv > span:first-child (farbe-B10) trifft U.kv (ui.js:180) und prop-friedhof.js:32 (K17)."
+ ]
+}

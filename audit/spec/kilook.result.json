@@ -1,0 +1,99 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/kilook.md",
+ "ids_abgedeckt": [
+  "diagramme-4",
+  "bereich_konto-17",
+  "ki_look-12",
+  "ki_look-17",
+  "diagramme-32",
+  "bereich_shell-28",
+  "ki_look-6",
+  "bereich_training-45",
+  "ki_look-43",
+  "ki_look-42",
+  "ki_look-44",
+  "diagramme-31",
+  "diagramme-35",
+  "bereich_shell-35",
+  "ki_look-36",
+  "typografie-33",
+  "ki_look-31",
+  "bereich_notebook_news-41",
+  "bereich_notebook_news-36",
+  "ki_look-33",
+  "bereich_prop-51",
+  "bereich_training-49",
+  "barrierefreiheit-43"
+ ],
+ "kurz": "Die Spezifikation für die Gruppe „KI-Look und Sonstiges“ liegt in spec/kilook.md. Alle 25 Befunde sind abgedeckt: 23 werden umgesetzt (6 davon mit einem zurückgestellten Teil), 3 Fragen gehen an den Nutzer.\n\nSie legt zwölf Regeln fest (Z1–Z12):\n- kein Schein, keine farbigen Seitenstreifen, kein Verlaufstext, keine Pulspunkte; die erlaubten Ausnahmen stehen im README\n- Bernstein nur für Warnungen, Grün nie als Modus- oder Auswahlanzeige\n- eigene Klasse .kpi-label (13px/500/--text-2, Satzschreibung) für Beschriftungen über Werten; .caption bleibt für Abschnittslabels\n- Coach bekommt einen Doktorhut statt Funkelsymbol, Check-in ein Gesicht; I.sparkle wird gelöscht\n- Geldbeträge: Genauigkeit nach Bedeutung statt Größe (Ergebnisse immer mit Cent und Vorzeichen; Bestände, Limits, Monte Carlo und Kalender ganzzahlig)\n- Prop-Kontobeträge in Kontowährung\n- Startseite ohne grüne Leiste, Ampelpunkte, Symbolkarten und „SCHRITT“-Kicker\n- Tastenkürzel abschaltbar, „0“ nur bei freigeschaltetem Blind-Replay\n- nur Onest global laden, toten Code entfernen\n\nEs gibt 46 Umsetzungsschritte in drei Phasen: Skalen (A1–A6), Komponenten (B1–B8), Einzelstellen nach Datei (C1–C28). Dazu gehören Wörterbuch-Einträge in fünf Sprachen, Anpassungen an e2e/proptest.js und README.\n\nDie Akzeptanzkriterien umfassen 20 grep-Prüfungen, Zensus-Zahlen (Versalien auf dem Dashboard von 7 auf 6, Tagesansicht von 7 auf 6, Prop-Übersicht von 14 auf 6), Screenshot-Prüfpunkte und Tests.\n\nIn der Sitzungsmitschrift stehen drei frühere ausdrückliche Wünsche des Nutzers. Sie stehen deshalb unter „Nutzer fragen“ statt in den Schritten:\n- die auslaufende Kachel-Linie (02.10.)\n- „Ring größer“ (28.09.)\n- die Ruhepunkt-Symbole mit ihrer Bewegung (30.09.)\n\nPer Playwright gemessen: Das Anheben der Ruhepunkt-Karten beim Darüberfahren wirkt heute gar nicht, sichtbar ist nur der farbige Schatten.",
+ "ids_zurueckgestellt": [
+  {
+   "id": "ki_look-43",
+   "grund": "Nur der Teil „echte Screenshots statt HTML-Demo“: widerspricht README:202 (die Design-Wahl gilt auch für die Startseite, gesetzt über data-theme). Ein Bild übernimmt außerdem keine eigenen Akzent-, Gewinn- und Verlustfarben. Die HTML-Demo wird stattdessen angeglichen."
+  },
+  {
+   "id": "barrierefreiheit-43",
+   "grund": "Nur der Teil „Belegung an die Reihenfolge der Seitenleiste anpassen“: bricht rptest.js:10 und mentortest.js:21, widerspricht README:215 (Schatten-Ich Taste 9) und nimmt dem Ruhepunkt sein Kürzel. Doku-Korrektur, Taste „0“ und der Abschalter werden umgesetzt."
+  },
+  {
+   "id": "diagramme-31",
+   "grund": "Nur der Zusatz „title-Attribut mit Cent am Kalendertag“: ein natives title passt nicht zum Tooltip-System der App (data-tip). Die Cent stehen einen Klick weiter in der Tagesansicht."
+  },
+  {
+   "id": "ki_look-36",
+   "grund": "Nur die Textänderungen („Balance“ → „Kontostand“, neue Tilt-Texte): Sache der Wortwahl-Gruppe (wording-32); prop.js nutzt „Balance“ 16-mal. Umgesetzt wird nur die Schreibweise."
+  },
+  {
+   "id": "bereich_shell-28",
+   "grund": "Nur die grüne Farbe des großen Coach-Symbols im Leerzustand (app.css:2341, 2893): eigener Farb-Befund, gehört zur Farbe-Gruppe. Umgesetzt wird nur die Form des Symbols."
+  },
+  {
+   "id": "diagramme-4",
+   "grund": "Nur die Stop-Größe im Puffer-Tooltip: bleibt in Journal-Währung, weil sie eine globale Einstellung in Journal-Währung ist (prop.js:242) und proptest.js:116 „/ 150,00 € je Stop-Loss“ erwartet."
+  }
+ ],
+ "konflikte": [
+  "K1 ki_look-10 und bereich_dashboard-41 (dazu referenz-25, hierarchie-43): dieselbe Kachel-Linie, uneinig nur bei padding-top 4 oder 8 px. Die auslaufende Linie wollte der Nutzer am 02.10. selbst (Commit 86a71e9), deshalb Frage an den Nutzer (N1) mit Empfehlung: ganz weglassen, 4 px.",
+  "K2 ki_look-17 gegen bereich_shell-28: Doktorhut statt Personen-Symbol für Coach, weil sonst Profil, Coach und Affiliate drei kaum unterscheidbare Personen-Symbole hätten.",
+  "K3 bereich_konto-17 und ki_look-33 sind doppelt: Rand --border wie der flache Auswahlstil der App, Selektor .mentor-notes > .mentor-note, damit der KI-Hinweis im Mentor-Chat (mentor.js:85) nicht betroffen ist, Pillen neutral. Verträgt sich mit komponenten/bereich_training-1 und wording/aufbau-29.",
+  "K4 diagramme-4 gegen aufbau/hierarchie-4: Dort gilt „Balance in Kontowährung, P&L in Journal-Währung“ als Nutzer-Entscheidung. Laut Mitschrift kam sie aber aus einer Claude-Prüfung (Commit ee2c2af), nicht vom Nutzer. Wird umgesetzt, Tests werden angepasst.",
+  "K5 diagramme-32, typografie-14 und zustaende-23 ändern ui.js:122 gleich; Regel nach Bedeutung kommt hier dazu. Gegen wording-53 bleiben die Cent in den Affiliate-Kacheln, weil Umsatz und Provisionen Geldflüsse sind.",
+  "K6 diagramme-35 und wording-7 sind gleich; signed:false fällt auch in trades.js:26 weg.",
+  "K7 diagramme-31 und wording/bereich_dashboard-17 sind gleich; der Strich „--“ → „—“ bleibt bei der Wortwahl-Gruppe.",
+  "K8 ki_look-36, typografie-4 und referenz-43: eine Klasse .kpi-label mit 13 px statt 13,5 px. Abgelehnt sind bereich_dashboard-44 („Heutiger Score“ als .caption) und bereich_trades_tag-39 (day.js:14 bleibt .caption). Tilt-Labels 12px/500.",
+  "K9 ki_look-12 und bewegung/bereich_dashboard-9: Fläche --surface-2, Trenner „·“, gemeinsame Endfassung des Markups.",
+  "K10 ki_look-6, bereich_training-7 und zustaende-11: Bogen nur bei rate > 0 wird übernommen, die Ringfarbe bleibt bei der Diagramm-Gruppe, die Größe ist Frage N2 (Nutzer wollte den Ring am 28.09. größer).",
+  "K11 bereich_training-45 gegen komponenten-13 und bewegung-36: Hover nur über Rand und Fläche, weil das Anheben gemessen wirkungslos ist (rp-in mit fill-mode both). Pausieren der Symbole und Glühen in den Keyframes sind Frage N3.",
+  "K12 bereich_training-49 und komponenten/bewegung-41 sind doppelt; die Löschung wird nur einmal ausgeführt.",
+  "K13 bereich_notebook_news-36 mit typografie-17, farbe_kontrast-29 und bereich_notebook_news-14: verträglich. .folder (775–778) und 1028 bleiben; Größe 13px/500 aus bereich_notebook_news-14.",
+  "K14 ki_look-43 gegen das Wortwahl-Glossar: „Netto-P&L“ behält den Bindestrich, „Win-Rate“ wird „Trefferquote“. Der grüne aktive Navigationslink der Startseite liegt außerhalb dieser Gruppe.",
+  "K15 ki_look-44: 15 px statt 16 px, weil die großen Knöpfe der App ebenfalls 15 px sind (app.css:2530, 2576).",
+  "K16 barrierefreiheit-43 mit aufbau-21, bereich_shell-32 und wording-20: App.on('replay') statt neuer Methode; die Kürzel-Legende wandert an den neuen Schalter, die Fußzeile verliert den Tastatur-Teil.",
+  "K17 bereich_notebook_news-41 gegen ki_look-37 (verworfen): die Beschriftung „Nächste wichtige News“ bleibt.",
+  "K18 bereich_shell-35 und abstaende/bereich_shell-2: die Löschungen gelten für die @media-Blöcke, egal wohin sie verschoben werden.",
+  "K19 ki_look-17 gegen bereich_statistik-46: auch stats.js:61 bekommt 'mood'. Bei den Bannern fällt die icon-Option ersatzlos weg (Standard-Info-Symbol), kein icon:false.",
+  "K20 ki_look-42: Mit dem Umbau zur Liste entfallen die Hover-Effekte der Funktions- und Ablauf-Karten. Das ist keine Nutzer-Entscheidung; der Animations-Auftrag vom 30.09. war allgemein gehalten."
+ ],
+ "nutzer_fragen": [
+  {
+   "id": "ki_look-10",
+   "frage": "Am 2.10. wolltest du, dass die Linie in den Kacheln nicht durchgezogen ist, damit sie nicht durchs Diagramm läuft. Jetzt läuft sie unter dem Titel nach der Hälfte aus. Sollen wir sie ganz weglassen? Titel und Wert wären dann nur durch Abstand getrennt.",
+   "empfehlung": "Ja, ganz weglassen (reine Zierde, dein Ziel „nicht durchs Diagramm“ bleibt erfüllt), ohne Ersatzlinie. padding-top 8 → 4 px, damit Titel und Wert 11 px auseinander stehen. Vorher/Nachher zeigen (shots/extra/dash/crop-tiles2x.png)."
+  },
+  {
+   "id": "bereich_dashboard-41",
+   "frage": "Gleiche Frage wie bei ki_look-10 (auslaufende Linie unter dem Kacheltitel, app.css:524–525).",
+   "empfehlung": "Wie bei ki_look-10: ganz weglassen, padding-top 4 px."
+  },
+  {
+   "id": "ki_look-6",
+   "frage": "Den Ring bei „% Regeln eingehalten“ wolltest du am 28.9. größer und mittig. Das Audit schlägt 88 px statt 116 px vor, weil er nur die Prozentzahl daneben wiederholt. Soll er kleiner werden?",
+   "empfehlung": "Größe lassen (116 px), weil es dein ausdrücklicher Wunsch war. Der grüne Schein und das erfundene „0 %“ mit grünem Punkt ohne Regeln werden ohnehin behoben."
+  },
+  {
+   "id": "bereich_training-45",
+   "frage": "Die drei Symbole im Ruhepunkt bewegen sich ständig: Die Sonne steigt und glüht, der Mond schaukelt und glüht, Sterne blinken, der Ring pulsiert. Am 30.9. fandest du sie stark. Sollen sie im Ruhezustand stillstehen und sich nur bewegen, wenn man mit der Maus darüberfährt oder sie per Tastatur anwählt, und Sonne und Mond ohne Glühen?",
+   "empfehlung": "Ja: animation-play-state paused im Ruhezustand, running bei :hover und :focus-visible, drop-shadow aus den Keyframes rp-sun und rp-moon entfernen. Atemlicht, Blütenblätter und Farbflächen bleiben. Schon umgesetzt sind: kein farbiger Schatten, kein Lichtkegel, kein Springen des Symbols beim Überfahren, kein Schein an Ampelpunkt und Rhythmus-Balken."
+  }
+ ]
+}

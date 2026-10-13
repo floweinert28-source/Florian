@@ -1,0 +1,2585 @@
+{
+ "regeln": "GRUNDSÄTZE: (1) Eine Information pro Bildschirm an genau einer Stelle (Ausnahme: Kachel und Tabelle auf verschiedenen Reitern). (2) Steuerelemente nur, wo sie wirken. (3) Keine leeren Rahmen: leere Kopfreihe nicht rendern (pageHead() liefert ''); Karte nur für einen Erklärsatz → Textzeile. (4) Unterüberschrift nie größer/schwerer als die übergeordnete; Beschriftung nie schwerer als ihr Wert. (5) Links direkt ans Ziel (kein #/settings ohne Unterbereich).\nTITELZEILE: .topbar h1 21px/600 (≤960px 17px). Ab 961px rechts #tb-tools (Dashboard: Zeitraum, Konto, Filter), kein Avatar (.topbar .avatar, .boot-top .skel.av aus). ≤960px: Menüknopf, Titel, Avatar 34px → #/settings/profil, Initialen aus App.userName() wie Konto-Karte. F1 offen.\nKOPFREIHE .page-head: links Steuerung (Zeitraum/Konto nur wo wirksam, Seitennavigation, Suche, Filter, Rückweg); rechts Seitenaktionen → Session → .dh-sep → „Trade loggen“. Handy ≤560px: nur runder .tl (fixed) → Höhe 0. Belegung (Z Zeitraum, K Konto, S Session, T Trade): Dashboard eigene Kopfreihe, Z/K in Titelzeile, T, Aktionen Vorlage + Zertifikat (Symbol award); TradeLog Z K S T + „CSV importieren“; Trade-Ansicht T, links „← TradeLog · <Datum>“; Tagesansicht K S T (anderer Tag: Trade auf diesen Tag 09:00), kein Z; Statistiken Z K T + Zertifikat award; Fortschritt Z K S T; Notebook S T + Suche; News T + Filter Wichtigkeit/Währung; Schatten-Ich Z K; Mentor K + Hinweis; Ruhepunkt keine (ownActions); Blind-Replay K S T; Prop Firms T + Bereichsreiter, rechts „Prop-Konto“; Coupon-Codes T; Affiliate links Umschalter „Alle Creator · Creator-Ansicht“ (+Auswahl), rechts Pille „Beispieldaten“, kein S/T; Coach, Einstellungen: keine Kopfreihe. Session nur TradeLog, Tag, Fortschritt, Notebook (+Blind-Replay). Trade loggen auf allen Navigationsseiten außer Schatten-Ich, Mentor, Ruhepunkt; nie im Konto-Menü. Taste N überall.\nWEGE: Regeln anlegen/bearbeiten, Regel-Tracker → #/settings/regeln; Konten verwalten → #/settings/konten. „Mehr dazu“: Link rechts im Kartenkopf (U.card trailing), .more-link 13px/500 --text-2, hover --text, kein Grün/Unterstrich; „Öffnen“ bzw. „Alle Trades“; .more-row entfällt. „Mehr anzeigen“ nur Nachladen: btn sm ghost in .aff-more, Schritte zu 10. Konto-Menü: Profil · Einstellungen · Benachrichtigungen · Sprache | Coach · Affiliate | Design; .on aktiv (profil/benachrichtigungen/sprache eigen, sonst Einstellungen). Tasten 1–9 wie bisher, 0 nur bei freigeschaltetem Blind-Replay; Hinweis „1–9 Bereiche“. Prop-Karte: Wert „Nächster Payout“/„Bestehen“ verlinkt in den Planer dieses Kontos (Bilanz, Fold offen, gescrollt).\nÜBERSCHRIFTEN: .card-title als h2 15px/600, letter-spacing normal, text-wrap wrap. .set-head h2 18px/600 lh 24px ls 0 (≤960px 16px/22px); .set-head p 13px --muted; .set-block h3 15px/600 mb 10px; .set-row b, .set-body .check b, .set-body .row.between > div > b, .set-body .avatar-row b 14px/500 --text. .ce-title 17/600 > .ce-body .ql-editor h1 16, h2 15, h3 14.5px, alle 600, margin 10px 0 4px. .prop-h 15/600 nur mit Filtern (ab 5 Konten); .prop-group-title b 13px/600 --text-2. .nw-dh 14px/600, kein Zähler. .popover .sec und .fd-pop .fd-gh 11px/600 Versal ls .06em --muted. .field > label, .fd-pop .fd-l 12px/600 --muted. .fd-seg button, .fd-tog button, .fd-chip, .fd-add 500. .cal .wd, .ycal-head span 12px/500 --muted (Kasten bleibt); .cal .d .n 12px/500 --text-2.\nKENNZAHLEN: .kpi-label (neu) 13px/500 --text-2 lh 18px, flex, center, gap 6px; .kpi-label.sm und dichte Raster (.day-card .stats .k, .nb .stats-grid .k, .strat-stats .k, .fw-stats > div > span) 12px/500 --muted. .tile .head 13px/500 --text-2 (Handy 12px). .stat-tile .k, .stat .k 13px/500. .caption (11/600 Versal) nur über Abschnitten, nie direkt über einem Wert. --tile-val 24px (≤960 22px, ≤560 20px), 700, Zahlenschrift, lh 1.1, ls -0.02em: .tile .val, .stat-tile .v, Spark-Kachel, Schatten-Ich-Hauptkachel, Prop-Leiste, Payout-Vorschlag. Bleiben: .prop-balance .val 26px, @container ≤164px 22px, .coach-gs-tiles 21px. .big-stat 44px nur Fortschritt und Serien-Widget.\nSEITEN: Statistiken: Kopfreihe → Reiter → Inhalt; Übersicht: Karte „Kumulierter Netto-P&L“ (h240, ohne Legende) → 16 Kacheln in 4 Reihen (Netto-P&L, Erwartungswert, Ø Tages-Netto-P&L, Profit-Faktor | Win-Rate, Ø Tages-Win-Rate, Ø Trade-Gewinn/Verlust, Ø Tages-Gewinn/Verlust | Ø geplantes R, Ø realisiertes R, Max. Tages-Drawdown, Ø Tages-Drawdown | Trades, Handelstage, Ø Tagesvolumen, Ø Haltedauer) → Serien · Extreme · Drawdown & Risiko; Wochentag nur in „Zeit“ (Summe im Tooltip); Tage: kstrip 6 Kacheln 3×2 → „Tage im Detail“. Tagesansicht: Datumszeile → Tageskarte → Trades | Check-in + Regeln → Tagesnotiz | Marktphase; Tabelle Zeit · Symbol (2) · Setup · Fehler · Netto-P&L · R · Score. TradeLog: Kacheln folgen Suche/Filter → Reiter → Filter → Eröffnet · Geschlossen · Symbol (2, td.dir-cell) · Setup · Einstieg · Ausstieg · P&L · R · Regeln · Score; keine Status-Spalte (offen: Pille „Offen“ in P&L, Break-even .neu); Verpasste folgen Zeitraum/Konto. Fortschritt: Serie · Heutiger Fortschritt („0 / 5“ + „Schritte erledigt“) · % Regeln → Tages-Checkliste | (Disziplin pro Woche, Tilt-Profil) → Trading-Aktivität → Regeln im Detail; ohne „Aktuelle Regeln“. Prop: „Gewinn fehlt“ nur bei plan.funded || !ev.target; Bilanz eine Spalte „Konto“ (Firma fett + Größe); Planer ohne Banner, Karten rahmenlos. Notebook: Datum im Kopf einmal, Meta „Erstellt … · Bearbeitet …“; Liste „3 Trades · +412,00 €“; Zeile „wo bin ich“ (eingeklappt, ≤960px). Coach: Journal 10 Einträge + „Mehr anzeigen“, Schreibfeld nach „Notiz schreiben“, reine Schüler „Als Schüler“ links. Benachrichtigungen: 7 Schalter 50px eingerückt, bei aus disabled, opacity .5. Ruhepunkt: „Hilfe und Beratung“ links, unterstrichen 13px --text-2.\nGLOSSAR: Aktionen mit Verb; „anlegen“ für neue Datensätze; Erwartungswert, Regelwerk (Schatten-Ich), Regeln (Checkliste), Tagesnotiz, Check-in, „Beträge ausblenden“, „Gruppe anlegen“; jeder neue Text als Schlüssel in alle fünf Sprachdateien.",
+ "schritte": [
+  {
+   "nr": "aufbau-A1",
+   "titel": "Token --tile-val anlegen (24/22/20 px)",
+   "von": 245,
+   "bis": 255,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--tile-val",
+    ":root"
+   ],
+   "befund_ids": [
+    "typografie-6",
+    "bereich_prop-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A2",
+   "titel": "Kachelwerte auf --tile-val umstellen, Sondergrößen löschen",
+   "von": 256,
+   "bis": 262,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile .val",
+    ".stat-tile .v",
+    ".tile.spark-tile .val",
+    ".shadow-tiles .tile.shadow-main .val",
+    ".prop-tiles .tile .val",
+    "--tile-val"
+   ],
+   "befund_ids": [
+    "typografie-6"
+   ],
+   "abhaengig": [
+    "aufbau-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A3a",
+   "titel": "Neue Klasse .kpi-label und .kpi-label.sm",
+   "von": 263,
+   "bis": 268,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".kpi-label",
+    ".kpi-label.sm"
+   ],
+   "befund_ids": [
+    "typografie-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A3b",
+   "titel": "Kachel- und Statistik-Titel 13px/500",
+   "von": 269,
+   "bis": 271,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile .head",
+    ".stat-tile .k",
+    ".stat .k"
+   ],
+   "befund_ids": [
+    "typografie-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A3c",
+   "titel": "Beschriftungen dichter Raster 12px/500 --muted, .fw-lbl 13/500",
+   "von": 272,
+   "bis": 277,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".strat-stats .k",
+    ".day-card .stats .k",
+    ".nb .stats-grid .k",
+    ".fw-stats > div > span",
+    ".fw-stats",
+    ".fw-lbl"
+   ],
+   "befund_ids": [
+    "typografie-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A4a",
+   "titel": "CSS für Kartentitel als h2 (.card-title letter-spacing/text-wrap)",
+   "von": 278,
+   "bis": 279,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card-title"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-41"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A4b",
+   "titel": "Überschriften-Treppe Einstellungen (.set-head, .set-block h3, Optionstitel)",
+   "von": 280,
+   "bis": 284,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-head h2",
+    ".set-head p",
+    ".set-block h3",
+    ".set-row b",
+    ".set-body .check b",
+    ".set-body .row.between > div > b",
+    ".set-body .avatar-row b"
+   ],
+   "befund_ids": [
+    "typografie-7",
+    "typografie-8",
+    "hierarchie-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A4c",
+   "titel": "Coach-Eintrag: Editor-Überschriften kleiner als .ce-title",
+   "von": 285,
+   "bis": 289,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ce-body .ql-editor h1",
+    ".ce-body .ql-editor h2",
+    ".ce-body .ql-editor h3",
+    ".ce-title"
+   ],
+   "befund_ids": [
+    "bereich_konto-20"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A4d",
+   "titel": "News-Tageskopf .nw-dh 14px",
+   "von": 290,
+   "bis": 290,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nw-dh"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-44"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A4e",
+   "titel": "Prop-Gruppentitel 13px/600 --text-2",
+   "von": 291,
+   "bis": 291,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-group-title b"
+   ],
+   "befund_ids": [
+    "bereich_prop-7"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A4f",
+   "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+   "von": 292,
+   "bis": 295,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".popover .sec",
+    ".fd-pop .fd-gh",
+    ".fd-pop .fd-l",
+    ".fd-seg button",
+    ".fd-tog button",
+    ".fd-chip",
+    ".fd-add"
+   ],
+   "befund_ids": [
+    "typografie-18"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-A4g",
+   "titel": "Kalender-Wochentage und Tageszahl 12px/500",
+   "von": 296,
+   "bis": 299,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cal .wd",
+    ".cal .d .n",
+    ".ycal-head span"
+   ],
+   "befund_ids": [
+    "typografie-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B1",
+   "titel": "pageHead: leere Kopfreihe nicht rendern, newTradeButton mit Tooltip, head als Funktion",
+   "von": 300,
+   "bis": 316,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "pageHead",
+    "App.newTradeButton",
+    "App.sessionControl",
+    "screen.head",
+    "screen.actions",
+    "ctx.headLeft",
+    ".page-head",
+    ".dh-sep",
+    ".tl"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-3",
+    "responsiv-18",
+    "ki_look-22",
+    "bereich_konto-25",
+    "responsiv-19",
+    "bereich_trades_tag-16",
+    "hierarchie-7",
+    "hierarchie-19"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:39-40 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-B2",
+   "titel": "Handy: Kopfreihe nur mit rundem Knopf ohne Höhe",
+   "von": 317,
+   "bis": 321,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".page-head:not(:has(> .dh-context)):has(> .dh-tools > .tl:only-child)",
+    ".page-head",
+    ".dh-tools",
+    ".tl"
+   ],
+   "befund_ids": [
+    "bereich_konto-37",
+    "responsiv-19"
+   ],
+   "abhaengig": [
+    "aufbau-B1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B3",
+   "titel": "Avatar nur bis 960 px, Initialen aus App.userName()",
+   "von": 322,
+   "bis": 328,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "App.userName",
+    "App.userCard",
+    "App.topbar",
+    ".topbar .avatar",
+    ".boot-top .skel.av",
+    "#tb-tools",
+    ".tb-tools",
+    "@media (min-width: 961px) and (max-width: 1180px)"
+   ],
+   "befund_ids": [
+    "aufbau-7",
+    "bereich_shell-11"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/headtest.js:11",
+    "web/e2e/sixtest.js:11"
+   ]
+  },
+  {
+   "nr": "aufbau-B4",
+   "titel": "Konto-Menü: neue Reihenfolge und Markierung",
+   "von": 329,
+   "bis": 343,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.userCard",
+    ".sb-menu-sep",
+    ".item.on",
+    "#/settings/profil",
+    "#/settings/benachrichtigungen",
+    "#/settings/sprache"
+   ],
+   "befund_ids": [
+    "bereich_shell-27"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B5",
+   "titel": "„Konten verwalten“ auf #/settings/konten",
+   "von": 344,
+   "bis": 346,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.accountControl",
+    "#/settings/konten",
+    "t:Konten verwalten"
+   ],
+   "befund_ids": [
+    "aufbau-10",
+    "bereich_dashboard-33",
+    "bereich_training-5"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B6",
+   "titel": "Aktion new-trade auf der Tagesansicht mit Datum 09:00 vorbelegen",
+   "von": 347,
+   "bis": 355,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "action:new-trade",
+    "App.openTradeEditor",
+    "C.parseDayKey",
+    "C.dayKey"
+   ],
+   "befund_ids": [
+    "hierarchie-7"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B7",
+   "titel": "Tastatur: Bereichstaste nur bei freigeschaltetem Bereich, N über Aktion new-trade",
+   "von": 356,
+   "bis": 359,
+   "cluster": "shell",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    "app.html keydown",
+    "App.on",
+    "action:new-trade"
+   ],
+   "befund_ids": [
+    "aufbau-21",
+    "hierarchie-7"
+   ],
+   "abhaengig": [
+    "aufbau-B6"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/rptest.js:10 (bleibt grün)",
+    "web/e2e/mentortest.js:21 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-B8",
+   "titel": "U.card: Kartentitel als <h2 class=\"card-title\">",
+   "von": 360,
+   "bis": 362,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.card",
+    ".card-title",
+    "h2.card-title"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-41"
+   ],
+   "abhaengig": [
+    "aufbau-A4a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B9",
+   "titel": "Symbol I.award ergänzen",
+   "von": 363,
+   "bis": 365,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "I.award",
+    "I.shield"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-23"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B10",
+   "titel": "Balken-Tooltip (vbars) mit Summe bei Ø pro Trade",
+   "von": 366,
+   "bis": 369,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "drawers.vbars",
+    "data-tip"
+   ],
+   "befund_ids": [
+    "bereich_statistik-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B11",
+   "titel": "Kachelleisten mit 4 bzw. 6 Kacheln (kstrip, ab 961 px)",
+   "von": 370,
+   "bis": 378,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".grid.tiles.kstrip",
+    ".kstrip"
+   ],
+   "befund_ids": [
+    "bereich_konto-29",
+    "bereich_statistik-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B12",
+   "titel": "Ein Muster für „mehr dazu“: .more-link neutral, .more-row löschen",
+   "von": 379,
+   "bis": 383,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".more-row",
+    ".more-link",
+    ".more-link:hover"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-33"
+   ],
+   "abhaengig": [
+    "aufbau-C2a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B13",
+   "titel": "Bearbeitungsmodus flach: keine Kontur, Leiste ohne Rahmen, .w-name weg",
+   "von": 384,
+   "bis": 389,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".w.editing",
+    ".w-bar",
+    ".w-bar .w-name"
+   ],
+   "befund_ids": [
+    "ki_look-13",
+    "aufbau-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-B14",
+   "titel": "CSS für eingerückte Unterschalter (.set-sub)",
+   "von": 390,
+   "bis": 396,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-sub",
+    ".set-sub[aria-disabled=\"true\"]",
+    ".switch:disabled"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C1",
+   "titel": "stats16: Erwartungswert statt Doppelkachel, neue Kachel Trades, Reihenfolge in 4 Themenreihen",
+   "von": 397,
+   "bis": 421,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "C.stats16",
+    "s.tradeExpectancy",
+    "t:Erwartungswert",
+    "t:Trades",
+    "t:Trade-Erwartungswert"
+   ],
+   "befund_ids": [
+    "bereich_statistik-3",
+    "aufbau-20"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/tests/core.test.mjs:100 (bleibt gültig)",
+    "web/e2e/sixtest.js:39 (bleibt gültig)"
+   ]
+  },
+  {
+   "nr": "aufbau-C2a",
+   "titel": "Widgets: „Alle Trades“ als Kopf-Link, Regel-Tracker ohne Fußlink, Regeln-Link korrigiert",
+   "von": 422,
+   "bis": 427,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:letzte_trades",
+    "widget:regel_tracker",
+    "widgets.more",
+    "U.card trailing",
+    ".more-row",
+    ".more-link",
+    ".recent-card",
+    "#/settings/regeln",
+    "t:Alle Trades",
+    "t:Mehr anzeigen"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-33",
+    "aufbau-10",
+    "bereich_training-5"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:67 (bleibt grün)",
+    "web/e2e/dashtest.js:72 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-C2b",
+   "titel": "Widgets: Beschriftungen über Werten als .kpi-label",
+   "von": 428,
+   "bis": 431,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:serie",
+    "widget:score",
+    "widget:regel_tracker",
+    ".caption",
+    ".kpi-label",
+    "t:Dein Score",
+    "t:Heutiger Score"
+   ],
+   "befund_ids": [
+    "typografie-4"
+   ],
+   "abhaengig": [
+    "aufbau-A3a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C3",
+   "titel": "Affiliate: Steuerung in die Kopfreihe, Marke „Beispieldaten“, ohne Trade/Session, Kachel „Creator“ weg",
+   "von": 432,
+   "bis": 440,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "App.screens.affiliate.head",
+    "App.screens.affiliate.actions",
+    "affiliate.render",
+    "affiliate.admin",
+    "ctx.headLeft",
+    "U.pill",
+    "U.tile",
+    "data-subnav",
+    ".aff-top",
+    ".aff-top .grow",
+    ".aff-top .aff-pick",
+    ".page-head .aff-pick",
+    "t:Beispieldaten"
+   ],
+   "befund_ids": [
+    "hierarchie-45",
+    "bereich_konto-37",
+    "bereich_konto-29",
+    "responsiv-19",
+    "aufbau-6",
+    "ki_look-22"
+   ],
+   "abhaengig": [
+    "aufbau-B11"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/affiliatetest.js:15-16",
+    "web/e2e/calmnavtest.js:44"
+   ]
+  },
+  {
+   "nr": "aufbau-C4a",
+   "titel": "Coach-Journal: Schreibfeld erst über „Notiz schreiben“",
+   "von": 441,
+   "bis": 448,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "coach.st",
+    "coach.entryHTML",
+    "action:coach-note-open",
+    "action:coach-note-send",
+    ".ce-write.closed",
+    ".ce-write",
+    "t:Notiz schreiben"
+   ],
+   "befund_ids": [
+    "bereich_konto-19"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/coachtest.js:83",
+    "web/e2e/coachtest.js:154",
+    "web/e2e/coachtest.js:178"
+   ]
+  },
+  {
+   "nr": "aufbau-C4b",
+   "titel": "Coach-Journal: 10 Einträge, dann „Mehr anzeigen“",
+   "von": 449,
+   "bis": 450,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "coach.journal",
+    "coach.mount",
+    "action:coach-more",
+    ".aff-more",
+    "t:Mehr anzeigen"
+   ],
+   "befund_ids": [
+    "bereich_konto-19"
+   ],
+   "abhaengig": [
+    "aufbau-C4a"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/coachtest.js:80-81"
+   ]
+  },
+  {
+   "nr": "aufbau-C4c",
+   "titel": "Coach: Journalkopf mit Unterzeile, Schüler-Karte zuerst, „Gruppe anlegen“, keine Kopfreihe",
+   "von": 451,
+   "bis": 454,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "coach.journal",
+    "coach.hub",
+    ".coach-title",
+    "App.screens.coach.head",
+    "t:Gruppe anlegen",
+    "t:Gruppe"
+   ],
+   "befund_ids": [
+    "bereich_konto-25",
+    "bereich_konto-40"
+   ],
+   "abhaengig": [
+    "aufbau-B1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/coachtest.js:194 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-C5a",
+   "titel": "Coupon-Codes: kein Session-Knopf",
+   "von": 455,
+   "bis": 458,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coupons.js"
+   ],
+   "anker": [
+    "App.screens.coupons.head"
+   ],
+   "befund_ids": [
+    "bereich_konto-37",
+    "responsiv-19",
+    "aufbau-6",
+    "ki_look-22"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/mobiletest.js:39-40 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-C5b",
+   "titel": "Coupon: Rabatt 13.5px --text-2, Code 600/.08em",
+   "von": 459,
+   "bis": 462,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cpn-off",
+    ".cpn-code"
+   ],
+   "befund_ids": [
+    "bereich_konto-48"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C6a",
+   "titel": "Dashboard: Vorlagen-Tooltip mit Namen, Zertifikat-Symbol award",
+   "von": 463,
+   "bis": 467,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".dash-head",
+    "data-pop=tpl",
+    "I.award",
+    "I.shield",
+    "t:Vorlage: {0}"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-23"
+   ],
+   "abhaengig": [
+    "aufbau-B9"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C6b",
+   "titel": "Dashboard bearbeiten: Leiste ohne Namen, aria mit Widget-Namen",
+   "von": 468,
+   "bis": 469,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "dashboard.wrap",
+    ".w-bar",
+    ".w-name",
+    ".grow",
+    "t:{0} verschieben",
+    "t:{0} entfernen",
+    "t:Verschieben",
+    "t:Widget entfernen"
+   ],
+   "befund_ids": [
+    "ki_look-13",
+    "aufbau-33"
+   ],
+   "abhaengig": [
+    "aufbau-B13"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C7a",
+   "titel": "Tagesansicht: head-Funktion ohne Zeitraum, Tooltip „Trade für {0} loggen“",
+   "von": 470,
+   "bis": 477,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "App.screens.day.head",
+    "pageHead",
+    "t:Trade für {0} loggen"
+   ],
+   "befund_ids": [
+    "aufbau-5",
+    "hierarchie-19",
+    "hierarchie-7",
+    "responsiv-22"
+   ],
+   "abhaengig": [
+    "aufbau-B1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C7b",
+   "titel": "Tagesansicht: Datumszeile ohne Check-in- und Tagestrade-Knopf, Zertifikat award",
+   "von": 478,
+   "bis": 478,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "day.nav",
+    "action:check-in",
+    "action:new-trade-day",
+    "I.award",
+    "I.shield",
+    "t:Trade für diesen Tag",
+    "t:Check-in bearbeiten"
+   ],
+   "befund_ids": [
+    "hierarchie-15",
+    "hierarchie-7",
+    "responsiv-22",
+    "bereich_dashboard-23"
+   ],
+   "abhaengig": [
+    "aufbau-B6",
+    "aufbau-B9"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C7c",
+   "titel": "Tagesansicht: Tabelle ohne Status-Spalte, Check-in-Text, Regeln-Link, alte Aktion löschen, Breitenprüfung",
+   "von": 479,
+   "bis": 484,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "day.js Tabelle",
+    "U.statusPill",
+    "U.pnl",
+    ".neu",
+    "action:new-trade-day",
+    "#/settings/regeln",
+    "t:Setup · Fehler",
+    "t:Status",
+    "t:Check-in machen",
+    "t:Check-in nachtragen"
+   ],
+   "befund_ids": [
+    "hierarchie-16",
+    "bereich_trades_tag-18",
+    "hierarchie-15",
+    "aufbau-10",
+    "bereich_training-5",
+    "hierarchie-7"
+   ],
+   "abhaengig": [
+    "aufbau-C7b"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/sampletest.js:39-40"
+   ]
+  },
+  {
+   "nr": "aufbau-C8a",
+   "titel": "Einstellungen ohne Kopfreihe (head alles false)",
+   "von": 485,
+   "bis": 488,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "App.screens.settings.head"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-3",
+    "responsiv-18",
+    "ki_look-22",
+    "aufbau-6",
+    "hierarchie-19"
+   ],
+   "abhaengig": [
+    "aufbau-B1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C8b",
+   "titel": "Trading: Schalter „Beträge ausblenden“, Hinweis unter Tagesverlustlimit",
+   "von": 489,
+   "bis": 490,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.trading",
+    "switchRow",
+    "#se-loss",
+    ".hint",
+    "t:Beträge ausblenden",
+    "t:Geld-blind-Modus",
+    "t:Für Tilt-Warnungen und die automatischen Regeln im Fortschritt."
+   ],
+   "befund_ids": [
+    "typografie-8",
+    "aufbau-8"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C8c",
+   "titel": "Profil: „Alle Daten löschen“ neutral, „1–9 Bereiche“, Zeitzone des Systems",
+   "von": 491,
+   "bis": 493,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.profil",
+    "misc.timezones",
+    "b.neg",
+    "t:Alle Daten löschen",
+    "t:Alles löschen",
+    "t:1–9 Bereiche"
+   ],
+   "befund_ids": [
+    "hierarchie-33",
+    "aufbau-21",
+    "bereich_einstellungen-5"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C8d",
+   "titel": "Benachrichtigungen: Unterschalter eingerückt und bei aus deaktiviert",
+   "von": 494,
+   "bis": 494,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.benachrichtigungen",
+    "App.NAV_DOT_AREAS",
+    "action:navdot-toggle",
+    ".set-sub",
+    "switchRow"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-33"
+   ],
+   "abhaengig": [
+    "aufbau-B14"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/navdottest.js:37"
+   ]
+  },
+  {
+   "nr": "aufbau-C8e",
+   "titel": "Regeln: neuer Untertitel mit Link aufs Regelwerk",
+   "von": 495,
+   "bis": 495,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.regeln",
+    "misc.head",
+    "#/shadow",
+    "t:Deine Regeln zum Abhaken. …",
+    "t:Deine Handelsregeln. Sie erscheinen …"
+   ],
+   "befund_ids": [
+    "aufbau-8"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C8f",
+   "titel": "Inhalte: Standard-Reiter „Tags“, Reihenfolge Tags · Kategorien",
+   "von": 496,
+   "bis": 497,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.ui",
+    "contentTab",
+    "misc.inhalte",
+    "action:content-tab"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/settest.js:36"
+   ]
+  },
+  {
+   "nr": "aufbau-C9a",
+   "titel": "News: Filter in die Kopfreihe (ctx.headLeft), kein Session-Knopf",
+   "von": 498,
+   "bis": 504,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    "App.screens.news.head",
+    "news.render",
+    "ctx.headLeft",
+    ".nw-filters"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-39",
+    "aufbau-6",
+    "ki_look-22",
+    "responsiv-19"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C9b",
+   "titel": "News: Zähler-Pille im Tageskopf entfernen",
+   "von": 505,
+   "bis": 505,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/news.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nw-n"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-44"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C9c",
+   "titel": "News: Filter-Kontext in der Kopfreihe dehnbar (Desktop-CSS)",
+   "von": 506,
+   "bis": 509,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".page-head .dh-context:has(> .nw-filters)"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-39"
+   ],
+   "abhaengig": [
+    "aufbau-C9a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C9d",
+   "titel": "News am Handy: Filter in einer wischbaren Zeile, Beschriftungen sichtbar",
+   "von": 510,
+   "bis": 517,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".page-head .nw-filters",
+    ".page-head .nw-filters::-webkit-scrollbar",
+    ".page-head .nw-fg",
+    ".page-head .nw-fg .chips"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-39",
+    "responsiv-19"
+   ],
+   "abhaengig": [
+    "aufbau-C9a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C10a",
+   "titel": "Notebook: Zeile „wo bin ich“ über der mittleren Spalte",
+   "von": 518,
+   "bis": 534,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "notebook.render",
+    ".nb-where",
+    ".nb .nb-where",
+    ".nb .nb-where .grow",
+    ".nb.no-left .nb-where",
+    ".col-head",
+    "action:nb-left-toggle",
+    "action:nb-view",
+    "action:nb-tag",
+    "t:Suche in allen Ordnern",
+    "t:Alle Notizen",
+    "t:Zu den Ordnern",
+    "t:Tag-Filter aufheben",
+    "t:Ordner anzeigen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-10"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C10b",
+   "titel": "Notebook: Hauptknopf „Tagesnotiz öffnen/anlegen“, keine Doublette",
+   "von": 535,
+   "bis": 536,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "notebook.render",
+    "action:nb-new",
+    "S.dayNote",
+    "t:Tagesnotiz öffnen",
+    "t:Tagesnotiz anlegen",
+    "t:Tagesnotiz für heute öffnen oder anlegen",
+    "t:Neue Notiz",
+    "t:Tag loggen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-6"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/figtest.js:5, web/e2e/figdel.js:5, web/e2e/scrolltest.js:30 (in Abschnitt 5 genannt, müssen grün bleiben)"
+   ]
+  },
+  {
+   "nr": "aufbau-C10c",
+   "titel": "Notiz-Kopf: eine Meta-Zeile, Datumsknopf als Symbol bzw. „Trade vom {0}“",
+   "von": 537,
+   "bis": 539,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "#nb-updated",
+    "notebook.flush",
+    ".datebtn",
+    "data-pop=nbdate",
+    "S.dayTitle",
+    "t:Erstellt {0}",
+    "t:· Bearbeitet {0}",
+    "t:Zuletzt bearbeitet: ",
+    "t:Datum ändern",
+    "t:Trade vom {0}"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-7"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/mobiletest.js:53 (.datebtn bleibt)"
+   ]
+  },
+  {
+   "nr": "aufbau-C10d",
+   "titel": "Notizliste: Tagesnotiz mit „{0} Trades · P&L“ statt Datum",
+   "von": 540,
+   "bis": 540,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "notebook.render",
+    "data-nb-date",
+    "App.allTrades",
+    "U.pnl",
+    "C.sum",
+    "t:Keine Trades"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-8"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C10e",
+   "titel": "Notebook-Filter: Abschnitt „Zuletzt bearbeitet“ mit Labels Von/Bis",
+   "von": 541,
+   "bis": 542,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "notebook.activeFilters",
+    "#nbf-from",
+    "#nbf-to",
+    ".sec",
+    "data-dp-group=nbrange",
+    "t:Zuletzt bearbeitet",
+    "t:Von",
+    "t:Bis",
+    "t:Bearbeitet: {0} – {1}",
+    "t:Zeitraum: "
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-9"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dptest.js:104 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-C11a",
+   "titel": "Fortschritt: Pfeil mit Tooltip in Prozentpunkten, „0 / 5 Schritte erledigt“",
+   "von": 543,
+   "bis": 549,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "progress.arrow",
+    ".trend",
+    ".big-stat",
+    "t:{0} Prozentpunkte zum Vorzeitraum",
+    "t:Schritte erledigt",
+    "t:Keine Daten",
+    "t:{0} von {1} Schritten erledigt"
+   ],
+   "befund_ids": [
+    "bereich_training-22",
+    "hierarchie-20"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C11b",
+   "titel": "Fortschritt: Checkliste mit „Regeln anlegen/bearbeiten“, Karte „Aktuelle Regeln“ weg",
+   "von": 550,
+   "bis": 552,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    ".dashed",
+    "U.card trailing",
+    ".prog-side",
+    "#/settings/regeln",
+    "t:Noch keine Regeln.",
+    "t:Regeln anlegen",
+    "t:Regeln bearbeiten",
+    "t:Aktuelle Regeln"
+   ],
+   "befund_ids": [
+    "bereich_training-10",
+    "bereich_training-5",
+    "aufbau-10"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C11c",
+   "titel": "Fortschritt: Trading-Aktivität unter die Checkliste, Kommentare, .rules-list löschen",
+   "von": 553,
+   "bis": 556,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".grid.two.prog-split",
+    "t:Trading-Aktivität",
+    "t:Regeln im Detail",
+    ".rules-list",
+    ".rules-list li::marker"
+   ],
+   "befund_ids": [
+    "bereich_training-11",
+    "bereich_training-10"
+   ],
+   "abhaengig": [
+    "aufbau-C11b"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C12a",
+   "titel": "Prop-Karte: „Gewinn fehlt“ nur bei Funded oder ohne Ziel-Balken",
+   "von": 557,
+   "bis": 560,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.planText",
+    "t:nur noch das Ziel",
+    "t:Gewinn fehlt"
+   ],
+   "befund_ids": [
+    "hierarchie-4"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:55-56 (Kontowährung bleibt)"
+   ]
+  },
+  {
+   "nr": "aufbau-C12b",
+   "titel": "Prop-Karte: Wert verlinkt in den Payout-Planer des Kontos",
+   "von": 561,
+   "bis": 564,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "U.kv",
+    "prop.mount",
+    "action:prop-plan-open",
+    ".prop-plan-link",
+    ".prop-plan-link:hover",
+    "[data-fold=\"planer\"]",
+    "#/prop/bilanz"
+   ],
+   "befund_ids": [
+    "bereich_prop-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/proptest.js:95 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-C12c",
+   "titel": "Prop-Übersicht: Überschrift nur zusammen mit den Filtern",
+   "von": 565,
+   "bis": 565,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".prop-toolbar",
+    ".prop-h",
+    ".pf-n",
+    "t:Aktive Konten",
+    "t:Konten"
+   ],
+   "befund_ids": [
+    "bereich_prop-7"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C12d",
+   "titel": "Bilanz: Spalten „Firma“ und „Konto“ zu einer Spalte „Konto“",
+   "von": 566,
+   "bis": 567,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.exRows",
+    "prop.poRows",
+    "t:Firma",
+    "t:Eigene Firma"
+   ],
+   "befund_ids": [
+    "bereich_prop-19"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C12e",
+   "titel": "Payout-Planer: ohne Banner, Vorschlag auf --tile-val, Karten rahmenlos",
+   "von": 568,
+   "bis": 574,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "prop.payoutPlanner",
+    "U.banner",
+    ".big-stat",
+    ".prop-sugg-val",
+    "--tile-val",
+    ".prop-fold[data-fold=\"planer\"] > .pf-body .card",
+    ".prop-fold[data-fold=\"planer\"] > .pf-body > .grid.two + .card"
+   ],
+   "befund_ids": [
+    "bereich_prop-28",
+    "bereich_prop-30"
+   ],
+   "abhaengig": [
+    "aufbau-A1"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/proptest.js:98",
+    "web/e2e/proptest.js:102"
+   ]
+  },
+  {
+   "nr": "aufbau-C12f",
+   "titel": "Prop Firms: kein Session-Knopf",
+   "von": 575,
+   "bis": 576,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "App.screens.prop.head"
+   ],
+   "befund_ids": [
+    "aufbau-6",
+    "ki_look-22"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C13",
+   "titel": "Friedhof: Muster-Satz als Textzeile statt Karte",
+   "von": 577,
+   "bis": 582,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "prop-friedhof.patternsCard",
+    ".prop-patterns-empty"
+   ],
+   "befund_ids": [
+    "ki_look-41"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/friedhoftest.js:47 (bleibt grün)"
+   ]
+  },
+  {
+   "nr": "aufbau-C14a",
+   "titel": "Statistiken: kein Session-Knopf, Zertifikat-Symbol award",
+   "von": 583,
+   "bis": 587,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "App.screens.stats.head",
+    "App.screens.stats.actions",
+    "I.award",
+    "I.shield"
+   ],
+   "befund_ids": [
+    "aufbau-6",
+    "ki_look-22",
+    "bereich_dashboard-23"
+   ],
+   "abhaengig": [
+    "aufbau-B9"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C14b",
+   "titel": "Statistiken: Reiter zuerst, Kurve als Karte „Kumulierter Netto-P&L“ nur in der Übersicht",
+   "von": 588,
+   "bis": 597,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.render",
+    "stats.tabSummary",
+    "U.chartData['stats-top']",
+    ".chart.h240",
+    "U.card",
+    "t:Kumulierter Netto-P&L"
+   ],
+   "befund_ids": [
+    "aufbau-19",
+    "bereich_statistik-5",
+    "responsiv-37"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/calmnavtest.js:40",
+    "web/e2e/calmnavtest.js:47-48",
+    "web/e2e/chartanimtest.js:35"
+   ]
+  },
+  {
+   "nr": "aufbau-C14c",
+   "titel": "tabSummary: Karten „Serien“, „Extreme“, „Drawdown & Risiko“; Karte „Haltedauer“ entfällt",
+   "von": 598,
+   "bis": 601,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.tabSummary",
+    "U.kv",
+    "t:Serien",
+    "t:Extreme",
+    "t:Drawdown & Risiko",
+    "t:Haltedauer"
+   ],
+   "befund_ids": [
+    "bereich_statistik-12"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C14d",
+   "titel": "Reiter Tage: Kennzahl-Leiste mit 6 Kacheln, Karte „Tage im Detail“, Wochentag-Balken weg",
+   "von": 602,
+   "bis": 606,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.tabDays",
+    "U.chartData['stats-wd']",
+    ".grid.tiles.kstrip",
+    "U.tile",
+    ".tbl-wrap.inset",
+    "t:Tage im Detail",
+    "t:P&L nach Wochentag",
+    "t:Tage im Überblick"
+   ],
+   "befund_ids": [
+    "bereich_statistik-13"
+   ],
+   "abhaengig": [
+    "aufbau-B10",
+    "aufbau-B11"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C14e",
+   "titel": "Reiter Zeit: Beschriftungen als .kpi-label",
+   "von": 607,
+   "bis": 607,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.tabTime",
+    ".caption",
+    ".kpi-label"
+   ],
+   "befund_ids": [
+    "typografie-4"
+   ],
+   "abhaengig": [
+    "aufbau-A3a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C14f",
+   "titel": "Reiter Marktphase: Abdeckung nur bei Teilabdeckung als sub",
+   "von": 608,
+   "bis": 609,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.tabRegime",
+    "U.card sub",
+    "t:Basis: {0} von {1} Trades"
+   ],
+   "befund_ids": [
+    "bereich_statistik-43"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C15a",
+   "titel": "TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status",
+   "von": 610,
+   "bis": 616,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.COLS",
+    "trades.sorted",
+    "td.sym",
+    "td.dir-cell",
+    "U.statusPill",
+    "U.badge",
+    "U.pnl",
+    "U.rText",
+    ".neu",
+    "t:Einstieg",
+    "t:Ausstieg",
+    "t:R",
+    "t:Einstiegspreis",
+    "t:Ausstiegspreis",
+    "t:RR",
+    "t:Status",
+    "t:Richtung"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-18"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/sampletest.js:39-40"
+   ]
+  },
+  {
+   "nr": "aufbau-C15b",
+   "titel": "TradeLog: Kacheln folgen Suche und Filter („Gefiltert · {0} Trades“)",
+   "von": 617,
+   "bis": 617,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.render",
+    "trades.filtered",
+    "W.data",
+    "C.summary",
+    "t:Gefiltert · {0} Trades"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C15c",
+   "titel": "Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label",
+   "von": 618,
+   "bis": 625,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.renderMissed",
+    "action:save-missed",
+    "S.defaultAccountId",
+    "App.range",
+    "U.empty",
+    ".caption",
+    ".kpi-label",
+    "t:Keine verpassten Trades im Zeitraum",
+    "t:Ändere den Zeitraum oder das Konto.",
+    "t:Entgangen",
+    "t:Wären Gewinner gewesen"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-27",
+    "typografie-4"
+   ],
+   "abhaengig": [
+    "aufbau-A3a"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C15d",
+   "titel": "Trade-Ansicht: Kopfreihe nur mit Rückweg und Trade loggen",
+   "von": 626,
+   "bis": 628,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "App.screens.trades.head",
+    "trades.renderDetail",
+    "ctx.headLeft"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-16"
+   ],
+   "abhaengig": [
+    "aufbau-B1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-C16",
+   "titel": "Ruhepunkt-Fuß: Hilfe-Link links und unterstrichen; Telefonnummern unterstrichen",
+   "von": 629,
+   "bis": 636,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-foot",
+    ".rp-foot .rp-btn.rp-quiet",
+    ".rp-foot .rp-btn.rp-quiet:hover",
+    ".rp-dlg a"
+   ],
+   "befund_ids": [
+    "bereich_training-50"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D1a",
+   "titel": "Sprachdateien: Schlüssel Statistiken",
+   "von": 637,
+   "bis": 650,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Erwartungswert",
+    "t:Ø Netto-P&L pro Trade: Netto-P&L geteilt durch Anzahl der Trades.",
+    "t:Trades",
+    "t:Abgeschlossene Trades im Zeitraum.",
+    "t:Extreme",
+    "t:Kumulierter Netto-P&L",
+    "t:Tage im Detail",
+    "t:Basis: {0} von {1} Trades"
+   ],
+   "befund_ids": [
+    "bereich_statistik-3",
+    "aufbau-20",
+    "bereich_statistik-5",
+    "bereich_statistik-12",
+    "bereich_statistik-13",
+    "bereich_statistik-43"
+   ],
+   "abhaengig": [
+    "aufbau-C1",
+    "aufbau-C14b",
+    "aufbau-C14c",
+    "aufbau-C14d",
+    "aufbau-C14f"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D1b",
+   "titel": "Sprachdateien: Schlüssel Tagesansicht und TradeLog",
+   "von": 651,
+   "bis": 657,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Trade für {0} loggen",
+    "t:Check-in machen",
+    "t:Setup · Fehler",
+    "t:Einstieg",
+    "t:Ausstieg",
+    "t:R",
+    "t:Gefiltert · {0} Trades",
+    "t:Keine verpassten Trades im Zeitraum",
+    "t:Ändere den Zeitraum oder das Konto."
+   ],
+   "befund_ids": [
+    "hierarchie-7",
+    "hierarchie-15",
+    "hierarchie-16",
+    "bereich_trades_tag-18",
+    "bereich_trades_tag-33",
+    "bereich_trades_tag-27"
+   ],
+   "abhaengig": [
+    "aufbau-C7a",
+    "aufbau-C7c",
+    "aufbau-C15a",
+    "aufbau-C15b",
+    "aufbau-C15c"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D1c",
+   "titel": "Sprachdateien: Schlüssel Dashboard",
+   "von": 658,
+   "bis": 662,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Alle Trades",
+    "t:… „Alle Trades“ öffnet das TradeLog.",
+    "t:Vorlage: {0}",
+    "t:{0} verschieben",
+    "t:{0} entfernen"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-33",
+    "bereich_dashboard-23",
+    "ki_look-13"
+   ],
+   "abhaengig": [
+    "aufbau-C2a",
+    "aufbau-C6a",
+    "aufbau-C6b"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D1d",
+   "titel": "Sprachdateien: Schlüssel Fortschritt",
+   "von": 663,
+   "bis": 665,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Schritte erledigt",
+    "t:{0} Prozentpunkte zum Vorzeitraum",
+    "t:Noch keine Regeln."
+   ],
+   "befund_ids": [
+    "hierarchie-20",
+    "bereich_training-22",
+    "bereich_training-5"
+   ],
+   "abhaengig": [
+    "aufbau-C11a",
+    "aufbau-C11b"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D1e",
+   "titel": "Sprachdateien: Schlüssel Notebook",
+   "von": 666,
+   "bis": 675,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Tagesnotiz öffnen",
+    "t:Tagesnotiz für heute öffnen oder anlegen",
+    "t:Erstellt {0}",
+    "t:· Bearbeitet {0}",
+    "t:Trade vom {0}",
+    "t:Datum ändern",
+    "t:Suche in allen Ordnern",
+    "t:Zu den Ordnern",
+    "t:Tag-Filter aufheben",
+    "t:Bearbeitet: {0} – {1}"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-6",
+    "bereich_notebook_news-7",
+    "bereich_notebook_news-10",
+    "bereich_notebook_news-9"
+   ],
+   "abhaengig": [
+    "aufbau-C10a",
+    "aufbau-C10b",
+    "aufbau-C10c",
+    "aufbau-C10e"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D1f",
+   "titel": "Sprachdateien: Schlüssel Coach, Prop, Einstellungen; alte Schlüssel dürfen bleiben",
+   "von": 676,
+   "bis": 684,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "t:Gruppe anlegen",
+    "t:nur noch das Ziel",
+    "t:Beträge ausblenden",
+    "t:Für Tilt-Warnungen und die automatischen Regeln im Fortschritt.",
+    "t:Deine Regeln zum Abhaken. …",
+    "t:Alle Daten löschen"
+   ],
+   "befund_ids": [
+    "bereich_konto-40",
+    "hierarchie-4",
+    "typografie-8",
+    "aufbau-8",
+    "hierarchie-33"
+   ],
+   "abhaengig": [
+    "aufbau-C4c",
+    "aufbau-C12a",
+    "aufbau-C8b",
+    "aufbau-C8c",
+    "aufbau-C8e"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D2a",
+   "titel": "README: Konto-Menü, Titelzeile/Avatar, neue Regel „Kopfreihe“",
+   "von": 685,
+   "bis": 688,
+   "cluster": "shell",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:60-64",
+    "README Kopfreihe"
+   ],
+   "befund_ids": [
+    "bereich_shell-27",
+    "aufbau-7",
+    "bereich_shell-11",
+    "ki_look-22",
+    "aufbau-6",
+    "bereich_einstellungen-3",
+    "responsiv-19",
+    "bereich_dashboard-23"
+   ],
+   "abhaengig": [
+    "aufbau-B1",
+    "aufbau-B2",
+    "aufbau-B3",
+    "aufbau-B4",
+    "aufbau-B9"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D2b",
+   "titel": "README: TradeLog, Tagesansicht, Statistiken, News, Fortschritt",
+   "von": 689,
+   "bis": 693,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:84",
+    "README:108",
+    "README:109",
+    "README News",
+    "README:135"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-18",
+    "bereich_trades_tag-33",
+    "bereich_trades_tag-27",
+    "hierarchie-7",
+    "aufbau-5",
+    "aufbau-19",
+    "bereich_statistik-5",
+    "aufbau-20",
+    "bereich_notebook_news-39",
+    "bereich_training-11",
+    "bereich_training-10"
+   ],
+   "abhaengig": [
+    "aufbau-C15a",
+    "aufbau-C15b",
+    "aufbau-C15c",
+    "aufbau-C7a",
+    "aufbau-B6",
+    "aufbau-B7",
+    "aufbau-C14b",
+    "aufbau-C1",
+    "aufbau-C9a",
+    "aufbau-C11c"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D2c",
+   "titel": "README: Einstellungen, Prop, Coupon-Codes, Affiliate, Coach",
+   "von": 694,
+   "bis": 698,
+   "cluster": "aufbau",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:171",
+    "README:260",
+    "README:264",
+    "README:267",
+    "README Coach"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-3",
+    "bereich_einstellungen-36",
+    "bereich_prop-32",
+    "bereich_prop-28",
+    "bereich_konto-37",
+    "hierarchie-45",
+    "bereich_konto-29",
+    "bereich_konto-25",
+    "bereich_konto-19"
+   ],
+   "abhaengig": [
+    "aufbau-C8a",
+    "aufbau-C8f",
+    "aufbau-C12b",
+    "aufbau-C12e",
+    "aufbau-C5a",
+    "aufbau-C3",
+    "aufbau-C4a",
+    "aufbau-C4b",
+    "aufbau-C4c"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D2d",
+   "titel": "README: Tastenkürzel und Start-Skelett",
+   "von": 699,
+   "bis": 701,
+   "cluster": "shell",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:318",
+    "README:339"
+   ],
+   "befund_ids": [
+    "aufbau-21",
+    "aufbau-7"
+   ],
+   "abhaengig": [
+    "aufbau-B7",
+    "aufbau-B3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "aufbau-D3a",
+   "titel": "Test affiliatetest.js anpassen",
+   "von": 702,
+   "bis": 703,
+   "cluster": "konto",
+   "dateien": [
+    "web/e2e/affiliatetest.js"
+   ],
+   "anker": [
+    "affiliatetest.js:15-16",
+    ".page-head .pill",
+    ".page-head .prop-tabs a"
+   ],
+   "befund_ids": [
+    "hierarchie-45",
+    "bereich_konto-29"
+   ],
+   "abhaengig": [
+    "aufbau-C3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/affiliatetest.js:15-16"
+   ]
+  },
+  {
+   "nr": "aufbau-D3b",
+   "titel": "Tests calmnavtest.js und chartanimtest.js anpassen",
+   "von": 704,
+   "bis": 706,
+   "cluster": "statistik",
+   "dateien": [
+    "web/e2e/calmnavtest.js",
+    "web/e2e/chartanimtest.js"
+   ],
+   "anker": [
+    "calmnavtest.js:40",
+    "calmnavtest.js:44",
+    "calmnavtest.js:47-48",
+    "chartanimtest.js:35"
+   ],
+   "befund_ids": [
+    "aufbau-19",
+    "bereich_statistik-5",
+    "hierarchie-45"
+   ],
+   "abhaengig": [
+    "aufbau-C14b",
+    "aufbau-C3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/calmnavtest.js:40",
+    "web/e2e/calmnavtest.js:44",
+    "web/e2e/calmnavtest.js:47-48",
+    "web/e2e/chartanimtest.js:35"
+   ]
+  },
+  {
+   "nr": "aufbau-D3c",
+   "titel": "Test coachtest.js anpassen",
+   "von": 707,
+   "bis": 707,
+   "cluster": "konto",
+   "dateien": [
+    "web/e2e/coachtest.js"
+   ],
+   "anker": [
+    "coachtest.js:80-81",
+    "coachtest.js:83",
+    "coachtest.js:154",
+    "coachtest.js:178",
+    "action:coach-note-open"
+   ],
+   "befund_ids": [
+    "bereich_konto-19"
+   ],
+   "abhaengig": [
+    "aufbau-C4a",
+    "aufbau-C4b"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/coachtest.js:80-81",
+    "web/e2e/coachtest.js:83",
+    "web/e2e/coachtest.js:154",
+    "web/e2e/coachtest.js:178"
+   ]
+  },
+  {
+   "nr": "aufbau-D3d",
+   "titel": "Tests headtest.js und sixtest.js: Bezug ohne Avatar",
+   "von": 708,
+   "bis": 708,
+   "cluster": "shell",
+   "dateien": [
+    "web/e2e/headtest.js",
+    "web/e2e/sixtest.js"
+   ],
+   "anker": [
+    "headtest.js:11",
+    "sixtest.js:11",
+    ".topbar .actions",
+    ".topbar h1",
+    ".topbar .avatar"
+   ],
+   "befund_ids": [
+    "aufbau-7",
+    "bereich_shell-11"
+   ],
+   "abhaengig": [
+    "aufbau-B3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/headtest.js:11",
+    "web/e2e/sixtest.js:11"
+   ]
+  },
+  {
+   "nr": "aufbau-D3e",
+   "titel": "Test navdottest.js: Unterschalter deaktiviert statt ausgeblendet",
+   "von": 709,
+   "bis": 709,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/e2e/navdottest.js"
+   ],
+   "anker": [
+    "navdottest.js:37",
+    "action:navdot-toggle"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-33"
+   ],
+   "abhaengig": [
+    "aufbau-C8d"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/navdottest.js:37"
+   ]
+  },
+  {
+   "nr": "aufbau-D3f",
+   "titel": "Test proptest.js: Planer ohne Banner",
+   "von": 710,
+   "bis": 710,
+   "cluster": "prop",
+   "dateien": [
+    "web/e2e/proptest.js"
+   ],
+   "anker": [
+    "proptest.js:98",
+    "proptest.js:102",
+    "plan.consistencyWarning"
+   ],
+   "befund_ids": [
+    "bereich_prop-28"
+   ],
+   "abhaengig": [
+    "aufbau-C12e"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:98",
+    "web/e2e/proptest.js:102"
+   ]
+  },
+  {
+   "nr": "aufbau-D3g",
+   "titel": "Test sampletest.js: Ergebnis über P&L-Farbe statt Status-Pille",
+   "von": 711,
+   "bis": 711,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/e2e/sampletest.js"
+   ],
+   "anker": [
+    "sampletest.js:39-40",
+    "td.r .pos",
+    "td.r .neg",
+    "td.r .neu",
+    ".pill.open"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-18",
+    "hierarchie-16"
+   ],
+   "abhaengig": [
+    "aufbau-C15a",
+    "aufbau-C7c"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/sampletest.js:39-40"
+   ]
+  },
+  {
+   "nr": "aufbau-D3h",
+   "titel": "Test settest.js: Reiter „Kategorien“ zuerst anklicken",
+   "von": 712,
+   "bis": 712,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/e2e/settest.js"
+   ],
+   "anker": [
+    "settest.js:36",
+    "action:content-tab"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-36"
+   ],
+   "abhaengig": [
+    "aufbau-C8f"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/settest.js:36"
+   ]
+  },
+  {
+   "nr": "aufbau-D3i",
+   "titel": "Unveränderte Tests bestätigen (dashtest.js, leaktest.js)",
+   "von": 713,
+   "bis": 715,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/e2e/dashtest.js",
+    "web/e2e/leaktest.js"
+   ],
+   "anker": [
+    "dashtest.js:67",
+    "dashtest.js:72",
+    "leaktest.js",
+    ".recent-card .more-link"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-33"
+   ],
+   "abhaengig": [
+    "aufbau-C2a",
+    "aufbau-B12"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:67 (bleibt grün)",
+    "web/e2e/leaktest.js (unverändert)"
+   ]
+  }
+ ],
+ "akzeptanz": {
+  "von": 718,
+  "bis": 782
+ },
+ "querbezuege": [
+  "Abschnitt 3, Vorbemerkung (Z. 247): Die Zeilennummern beziehen sich auf HEAD 677b630. Verschieben andere Spezifikationen vorher Zeilen, gelten die genannten Selektoren und Funktionen. Das betrifft alle Schritte, besonders web/css/app.css und web/js/app.js.",
+  "K12 / 1.6 (Z. 209, 88–101): Führt die Typografie-Spezifikation Größen-Tokens ein, werden .kpi-label, .kpi-label.sm, .tile .head, .stat-tile .k und --tile-val darauf gemappt. Die Werte hier bleiben verbindlich (aufbau-A1, A2, A3a–c).",
+  "K10 / Abschnitt 5 (Z. 205, 791): Die Ausweitung der Stufe 18/600 auf .modal-head h2, .sp-head h2, .coach-title, .mentor-setup h2, .coach-join-head h2 und den Datumstitel der Tagesansicht gehört in die Typografie-Spezifikation (typografie-7). Überschneidung mit aufbau-A4b (.set-head h2).",
+  "K14 (Z. 213) / A4 (Z. 297): Bei .cal .d .n regelt diese Gruppe nur Größe und Gewicht. Kreis und Fläche regelt die Farbe-Spezifikation (bereich_dashboard-16), siehe aufbau-A4g.",
+  "1.8 (Z. 136) / C1 (Z. 420): Die Beschriftungen der Statistik-Kacheln (z. B. „Win-Rate“) richten sich nach dem Glossar der Wording-Spezifikation. K6 (Z. 197) entscheidet 16 Kacheln gegen W-41 der Wording-Spezifikation (C.stats16, t:Erwartungswert), siehe aufbau-C1 und D1a.",
+  "1.9 Regel 2–4 (Z. 148) / K26 (Z. 237): „anlegen“ nach Glossar inventar-wording 3.1 (t:Gruppe anlegen, t:Tagesnotiz anlegen, t:Regeln anlegen). Überschneidung mit der Wording-Spezifikation in web/js/lang/*.js (aufbau-D1a–f).",
+  "C4 (Z. 452): Die Klasse des Knopfs „Gruppe anlegen“ in coach.hub regelt die Komponenten-Spezifikation (bereich_konto-5), siehe aufbau-C4c.",
+  "K11 (Z. 207) / A4 (Z. 292–295): .popover .sec von 700 auf 600, Filter-Fenster (.fd-pop .fd-gh, .fd-pop .fd-l, .fd-seg button, .fd-tog button, .fd-chip, .fd-add). Die Gewichtsregel „700 nur für Werte“ überschneidet sich mit der Typografie-Spezifikation. Die Titel schwebender Ebenen (.fd-pop .sp-head h2, .rr-m-title, .dp-title) bleiben 14.5px.",
+  "K13 (Z. 211) / C5 (Z. 460–461): Die Änderung an .cpn-code und .cpn-off wirkt bewusst auch auf das Affiliate-Ticket. 700 bleibt nach BRIEF Werten und Hauptknöpfen vorbehalten (Typografie).",
+  "B12 (Z. 379–382): .more-link wechselt von --accent auf --text-2. Überschneidung mit der Farbe-Spezifikation (Grün nur für Gewinn und Hauptknopf) und den Komponenten (Link-Muster).",
+  "B8 (Z. 360–361): Kartentitel als h2 in U.card. Überschneidung mit der Barrierefreiheit (Überschriftenstruktur, 4.2 „H1, dann nur H2“) und den Komponenten (U.card). Die von Hand geschriebenen div.card-title in coach.js:101 und replay.js:23 bleiben.",
+  "B10, C14b, C14d (Z. 366–368, 588–606): Tooltip von drawers.vbars, Kurvenkarte .chart.h240 ohne Legende, U.chartData['stats-top'] nur für die Übersicht, U.chartData['stats-wd'] entfällt. Überschneidung mit der Diagramme-Spezifikation.",
+  "A2 (Z. 259): .tile.spark-tile .val erbt die Schrift von .tile .val (Spark-Kachel). Überschneidung mit Diagramme und Kachel-Komponente.",
+  "B2, C9d (Z. 317–320, 510–516): Handy-Regeln im 560-Block (.page-head:not(:has(> .dh-context)):has(> .dh-tools > .tl:only-child), .page-head .nw-filters). Überschneidung mit der Responsiv-Spezifikation. K16: Die Beschriftungen bleiben sichtbar.",
+  "B3 (Z. 327): Bedingte Änderung des Breakpoints @media (min-width: 961px) and (max-width: 1180px) auf 1100px. Überschneidung mit der Responsiv-Spezifikation (Titelzeile, #tb-tools).",
+  "F1 / K3 (Z. 191, 818–821): Ob Zeitraum und Konto auf allen Seiten in #tb-tools stehen (komponenten-3, bereich_shell-8), ist offen. Bei Ja ändern sich pageHead (dh-global), App.placeGlobal, dashboard.placeContext/unmount sowie leaktest.js, sixtest.js:34, shadowtest.js:16, motiontest.js:30/36/38, headtest.js und README:62–65/144/221. Die Schritte hängen nicht davon ab.",
+  "K2 (Z. 189): mobiletest.js:39–40 verlangt den runden Knopf auf Coupons. Das begrenzt aufbau-B1 und aufbau-C5a (trade bleibt auf Coupons und News).",
+  "F2–F11 (Z. 823–869): Die offenen Nutzerfragen berühren prop.js AREAS/.prop-sub (F2), den Ruhepunkt-Check-in und mentor.js:42 (F3), Regelquellen (F4, nur die Klarstellung in aufbau-C8b/C8e), misc.js SECTIONS daten/abo (F5/F6), den Reiter Kategorien (F7, aufbau-C8f), INSTRUMENTS (F8), #pf-addr/#pf-bio (F9), die Seitenleisten-Gruppe „Konten“ in app.js:17 (F10) und den Notebook-Filter (F11, aufbau-C10e). Nicht Teil der Schritte.",
+  "4.4 Zensus (Z. 773–776) und 4.6 (Z. 780–782): census.json muss neu erzeugt werden, web/e2e/runall.sh und node --test web/tests/ müssen grün sein. Andere Gruppen ändern dieselben Dateien (app.css, ui.js, lang/*.js); die i18n-Prüfung gilt für alle D1-Schlüssel in fünf Sprachdateien."
+ ]
+}

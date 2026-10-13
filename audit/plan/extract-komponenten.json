@@ -1,0 +1,3855 @@
+{
+ "regeln": "GRUNDSÄTZE: eine Bauart je Rolle. Grün nur für Gewinn, positiv/eingehalten und „Trade loggen“ (.btn.accent), nie für Auswahl/Hover/Rahmen. Gewählt = flach (angehobene Fläche, feiner Rand, Regel app.css:3125; kein Schein/Schatten/Fett). Gewichte: Steuerelemente 500, Feldbeschriftung 600, Titel 600, Werte/Hauptknöpfe 700 bzw. heutiges Gewicht von .btn.primary/.btn.accent. Kein Inline-Style außer dynamischen Werten (--p, %-Breiten, Datenfarben).\nHÖHEN: md 41,6 (.btn 10/16, .input 10/12, Zeilenhöhe 1,45; auch .select, Datum/Zeit). Kopfreihe 42 fest (alle Knöpfe in .dash-head > .row, .btn.icon-only 42×42, Reiter-/Segment-Schiene außen 42, .dir-switch 42). sm 34 (.btn.sm, .input.sm, .select.sm, .btn.nav 34×34). xs 27,4. Tabellen-Etikett 22 (.badge, .pill, Chips in .tbl/.detail-head). Menüeintrag ≥ 36. In Karten/Listen/Dialogköpfen .btn.icon 36, .btn.icon.sm 30. Knopf-SVG 16×16, flex: 0 0 auto.\nKNÖPFE: nur .btn, .btn.ghost, .btn.danger, .btn.accent (nur „Trade loggen“ Kopfreihe + runder Handy-Knopf), .btn.primary. primary nur: (1) .modal-foot, Zertifikat „PNG herunterladen“, Sprachjournal; (2) Popover-/Panel-Fuß (.rr-foot, .fd-foot, Farbwähler, Notebook-Filter, „OK“ Symbol-Menü, „Als Video einbetten“, „Hinzufügen“ Widget-Bibliothek); (3) Hauptformular (Coach „Beitreten“/„Als Co-Coach beitreten“, Mentor „Speichern“, Mentor-Chat „Senden“, Bearbeitungsleiste „Speichern“); (4) Blind-Replay unverändert. Auslöser und Inline-Formulare in Karten neutral. Anlegen = Plus; Seitenebene btn, Karten-/Spaltenkopf btn sm; Inline-Anlegen Feld + btn in einer Zeile. Leerzustand-Aktion immer btn sm. Füllfarbe offen (N1), bis dahin grün ohne Hover-Schein. Pfeile nur .btn.nav (Rahmen wie .btn, Radius 9); .rr-nav randlos 32×32; .btn.round entfällt. „Session starten“ ab 1181 px mit Text, darunter nur Symbol; Dashboard ohne Session-Knopf.\nFELDER: Beschriftung <label> oder <span class=\"lbl\"> direkt in .field, 12px/600 --muted. Kein input[type=number] mit Browser-Pfeilen (eigene nur .sr-step). Einheit nur .inp-cur (App.unitField): Währung je Sprache davor ($)/dahinter (€), % dahinter; Zeichen 13px/500 --muted, 12 px vom Rand, Text rückt 18px + Zeichenbreite ein (Ausnahme .sr-num/.sr-unit). type=time öffnet App-Wähler (Stunden/Minuten). .input.sm/.select.sm 34, 12.5px, Radius 9. Einzeilige Textareas ohne Griff, bis 160 px wachsend.\nAUSWAHL: Ja/Nein = .switch via switchRow, speichert sofort. Native Häkchen/Radios 16 px, accent-color: var(--text). Abhak-Box 20×20, Radius 6, Rand 1,5 px --border-2, erledigt gefüllt --accent (Ruhepunkt --phase), Text nie durchgestrichen, Nur-Anzeige ohne Rand; Quill-Checklisten --text-2. .seg-Schiene: --surface-2, Rand --border, Radius 12, Innenabstand 3, Lücke 2; Tasten 34, Padding 0 14px, Radius 9, 13px/500 --text-2, transparenter Rand, 150 ms, flex-wrap: wrap; Varianten .seg.mini (24), .fd-seg. .scale5: 32×32, Radius 8, Rand --border, --surface, 13px/500 --text-2, Lücke 6; Check-in neutral; .scale5.rating ★ kumulativ, gewählt --warn; .fd-tog.stars bleibt. Wählbare Chips (.chip.sel, .fd-chip, .fd-add, .nb .tagpill) 28, Padding 0 10px, Radius 999, 12px/500.\nREITER: Schiene .tabs/.prop-tabs (Seitenebene): Lücke 2, Innenabstand 3, Rand --border, Radius 12, --surface, außen 42; Einträge 34, Padding 0 12px, Radius 9, 13.5px/500 --text-2, Hover --text auf --surface-2, kein Scrollbalken. Unterstrich .subtabs/.set-tabs/.prop-sub (Unterebene, Karten): Linie 1 px --border, Lücke 22, Padding 2px 1px 11px, 13.5px/500 --muted, Hover/gewählt --text, Linie 2 px var(--text) per scaleX. Kein .btn als Reiter, kein Grün, kein 600.\nMENÜS: Eintrag min. 36, Padding 0 10px, Lücke 10, 13px/500 --text, Radius 8, Symbol 16 --muted; .popover .sec links 10. Gewählt: --text auf --surface-2. Haken nur in Einzelwahl-Listen (Vorlagen, Konto, Notebook-Tags, Editor): Spalte 16, Haken --text-2. Ebenen Radius 12, Rand --border-2, --shadow, Innenabstand 6 (Werkzeuge 12), kein Kasten im Kasten. Popover-Fuß: links Meta 13px --muted, rechts btn sm ghost „Zurücksetzen“ (nur wenn gesetzt) + btn sm primary „Anwenden“.\nKACHELN/KARTEN: Kacheln Hover nur Rand --border-2. .stat-tile = .tile (Padding 12px 15px, Titel 13.5px/500 --text-2, Wert 25px/700, −0,02em, 1,1; Handy 22 px; hell Schatten wie .tile); .spark-tile gleiche Trennlinie/Wertgröße; .kstrip hell nur Haarlinien. Keine Unterkarten. Tabellen in Karten tbl-wrap inset; Symbol/Richtung zwei Zellen. Kalender: Wochentage und Tageszahl 12px/500 --muted ohne Kasten/Kreis (Handelstage --text-2); nur heute Kreis --text/--bg/600 (24 px); Heute in Rastern Ring 1,5 px --text-2. Tageskarten = Tagesansicht: acht Kennzahlen aus App.dayStatsHTML, „Netto“ gedämpft.\nLEER: Symbol 34 --faint (direktes Kind), Titel 15px, ein Satz, Aktion btn sm 16 px darunter. Dropzone: Symbol 24 --muted, Padding 20px 16px, Hover Rand --text-2, Fläche --surface-2. Leere Tabellen ohne Köpfe.\nLINKS/SYMBOLE: .tlink --text-2, Unterstreichung --border-2 (3 px), Hover --text. I.refresh für Aktualisieren/Abgleichen/Link erneuern, I.replay nur Blind-Replay, I.plus, I.sort, I.checkSquare; Chevron per CSS statt ▸/▾. Seitenleiste ohne title-Dubletten, eingeklappt #tip rechts, Punkte mit data-tip. Initialen aus App.displayName().\nEINSTELLUNGEN: alle außer Mentor speichern bei change, „Gespeichert“ 1,5 s in .set-head (12px --muted); kein Speichern in Profil, Privatsphäre, Trading, Notebook.\nWORTWAHL: gleicher Name überall, Menüeintrag ≤ 28 Zeichen, „1–10“ ohne Leerzeichen, Einheit im Feld. Neu: „+ Konto anlegen“, „R“, „Hätte gebracht“, „Einladungslink erneuern(?)/erneuert“, „Erneuern“, „Link erneuern“, „Co-Coach-Link erneuert“, „Profil ergänzen“, „Tagesverlustlimit“, „Ruin-Schwelle (Drawdown)“, „% / €“, „Verlauf durchsuchen“, „Keine Einträge gefunden“, „Alle Handelstage“, „z. B. Strategie“, „Eigene Farbe“, Ordner „Strategie“/„Ideen“, „Tags suchen“, „„{Name}“ als Tag anlegen“, Teilen-Satz „Wer den Link öffnet, sieht die Notiz nur lesend. Bilder erscheinen als Platzhalter.“, Vorlagen „Bearbeiten“ (kein „Ist Standard“), „Einatmen/Nachziehen/Ausatmen“, Toasts „Symbol fehlt“/„Long oder Short wählen“. Übersetzung in js/lang/{en,es,zh,hi,pt}.js.",
+ "schritte": [
+  {
+   "nr": "komponenten-C01",
+   "titel": "Symbole in Knöpfen schrumpfen nicht (inkl. Einleitung Abschnitt 3)",
+   "von": 187,
+   "bis": 197,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn svg"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-37"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C02",
+   "titel": "Zahlenfelder ohne Browser-Pfeile, global",
+   "von": 198,
+   "bis": 205,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "input[type=number]",
+    "input[type=number]::-webkit-inner-spin-button",
+    "input[type=number]::-webkit-outer-spin-button",
+    ".nb-toolbar .sz",
+    ".nb-toolbar .sz::-webkit-outer-spin-button",
+    ".nb-toolbar .sz::-webkit-inner-spin-button",
+    ".rp input[type=number]",
+    ".rp input[type=number]::-webkit-inner-spin-button",
+    ".sr-num .input",
+    ".sr-num .input::-webkit-inner-spin-button",
+    ".sr-step"
+   ],
+   "befund_ids": [
+    "komponenten-16",
+    "bereich_trades_tag-10"
+   ],
+   "tests": [
+    "e2e/tradeformtest.js (Zahlenfelder im Trade-Dialog)",
+    "e2e/shadowtest.js (Regelwerk .sr-num/.sr-step)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C03",
+   "titel": "sm-Stufe 34 px für Felder (.input.sm neu, .select.sm angleichen)",
+   "von": 206,
+   "bis": 209,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".input.sm",
+    ".select.sm"
+   ],
+   "befund_ids": [
+    "bereich_konto-9",
+    "komponenten-14"
+   ],
+   "tests": [
+    "e2e/coachtest.js (Coach-Felder .input.sm neben btn sm, 4.2)",
+    "e2e/shadowtest.js:37–46 und e2e/tlfittest.js (Seitenwahl mit .select.sm)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C04",
+   "titel": "Datums- und Zeitfelder so hoch wie Textfelder",
+   "von": 210,
+   "bis": 212,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".input::-webkit-datetime-edit-fields-wrapper"
+   ],
+   "befund_ids": [
+    "komponenten-14"
+   ],
+   "tests": [
+    "e2e/dptest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C05",
+   "titel": "Eine Feld-Beschriftung (CSS-Teil; JS-Teil in U2, D3, S-prop-b, S-dashboard-d)",
+   "von": 213,
+   "bis": 219,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".fd-l",
+    ".fd-pop .fd-l",
+    ".cert-opts .lbl",
+    ".prop-rule-f .field span"
+   ],
+   "befund_ids": [
+    "komponenten-18"
+   ],
+   "tests": [
+    "e2e/filtertest.js",
+    "e2e/certtest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C06",
+   "titel": "Hauptknopf ohne Schein beim Darüberfahren (Füllfarbe erst nach N1)",
+   "von": 220,
+   "bis": 225,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn.primary:hover",
+    "--accent-glow"
+   ],
+   "befund_ids": [
+    "komponenten-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C07",
+   "titel": "Ein Pfeilknopf .btn.nav (34×34), .rr-nav 32×32, Seitenwahl-Pfeile ohne Verbund",
+   "von": 226,
+   "bis": 233,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn.nav",
+    ".btn.round",
+    ".btn.round.accent",
+    ".rr-nav",
+    ".pager .pg-nav",
+    ".pager .pg-nav button",
+    ".pager .pg-nav button + button",
+    ".pager .pg-nav button:hover:not(:disabled)",
+    ".pager .pg-nav button:disabled",
+    ".pager .pg-nav svg"
+   ],
+   "befund_ids": [
+    "komponenten-25",
+    "bereich_dashboard-26",
+    "komponenten-12"
+   ],
+   "tests": [
+    "e2e/shadowtest.js:37–46 (Seitenwahl)",
+    "e2e/tlfittest.js:8–9 (Pager sichtbar)",
+    "e2e/rangetest.js (.rr-nav)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C08",
+   "titel": "Kopfreihe 42 px (Knöpfe, .btn.icon-only, Filter am Handy) und Session-Label ab 1181 px",
+   "von": 234,
+   "bis": 247,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-head > .row > .btn",
+    ".dash-head > .row > .popwrap > .btn",
+    ".dash-head > .row > .btn.icon",
+    ".dash-head > .row > .popwrap > .btn.icon",
+    ".btn.icon-only",
+    ".btn > .lbl-wide",
+    ".btn:has(> .lbl-wide)",
+    ".dash-head [data-action=\"dash-f-open\"]"
+   ],
+   "befund_ids": [
+    "komponenten-11",
+    "bereich_dashboard-26",
+    "referenz-5"
+   ],
+   "tests": [
+    "e2e/headtest.js:11 (Vorlage icon-only)",
+    "e2e/sixtest.js:12",
+    "e2e/mobiletest.js:16, :50"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-C09",
+   "titel": "Einzelfälle der Knöpfe auf die Stufen zurückführen",
+   "von": 248,
+   "bis": 255,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tracker-foot > .btn",
+    ".fw-go",
+    ".btn.fw-reset",
+    ".voice-actions .btn.big",
+    ".replay-decide .btn.big"
+   ],
+   "befund_ids": [
+    "komponenten-12"
+   ],
+   "tests": [
+    "e2e/dashtest.js:72 (.tracker-foot)",
+    "e2e/fwtest.js",
+    "e2e/voicetest.js",
+    "e2e/replaytest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C10",
+   "titel": "Menü-Knopf nur am Handy",
+   "von": 256,
+   "bis": 259,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".menu-btn",
+    ".topbar .menu-btn"
+   ],
+   "befund_ids": [
+    "abstaende_layout-3",
+    "aufbau-1",
+    "bereich_shell-1"
+   ],
+   "tests": [
+    "e2e/motiontest.js:62–66",
+    "e2e/sidebartest.js:44",
+    "e2e/usercardtest.js:55"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C11",
+   "titel": "Leerzustand: Symbol und Titel nur als direkte Kinder, Abstand zur Aktion",
+   "von": 260,
+   "bis": 264,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".empty svg",
+    ".empty > svg",
+    ".empty b",
+    ".empty > b",
+    ".empty > .btn",
+    ".empty > .row"
+   ],
+   "befund_ids": [
+    "zustaende-1",
+    "bereich_trades_tag-2",
+    "bereich_prop-42",
+    "bereich_training-31",
+    "zustaende-14"
+   ],
+   "tests": [
+    "e2e/coachtest.js:50, :197 (.coach-wrap .empty b)",
+    "e2e/friedhoftest.js:22",
+    "e2e/proptest.js:20",
+    "e2e/dashtest.js:143"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C12",
+   "titel": "Dropzone: Symbol 24 px, Padding 20/16, neutraler Hover",
+   "von": 265,
+   "bis": 269,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dropzone",
+    ".dropzone.over",
+    ".dropzone:hover",
+    ".dropzone > svg"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C13",
+   "titel": "Einheit im Feld (.inp-cur 12 px vom Rand, 13px/500, .w160) und .input-unit entfernen",
+   "von": 270,
+   "bis": 278,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".inp-cur .cur-sym",
+    ".inp-cur.pre .cur-sym",
+    ".inp-cur.pre .input",
+    ".inp-cur.post .cur-sym",
+    ".inp-cur.post .input",
+    ".inp-cur.w160",
+    ".input-unit",
+    ".input-unit span",
+    ".input-unit .input",
+    "--sl"
+   ],
+   "befund_ids": [
+    "komponenten-17",
+    "komponenten-16",
+    "bereich_trades_tag-10",
+    "bereich_einstellungen-35"
+   ],
+   "tests": [
+    "e2e/tradeformtest.js:30, :47 (#f-fees)",
+    "e2e/settest.js:22 (#be-from/#be-to; .input-unit fällt erst mit S-misc-e weg)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C14a",
+   "titel": "Segment als Schiene: Grundregel .seg/.seg button, Hover, .seg.pill löschen",
+   "von": 279,
+   "bis": 286,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".seg",
+    ".seg button",
+    ".seg button:hover",
+    ".seg.pill button"
+   ],
+   "befund_ids": [
+    "komponenten-26",
+    "bewegung-25",
+    "komponenten-44"
+   ],
+   "tests": [
+    "e2e/headtest.js:63–64 (.seg gewählt 500)",
+    "e2e/langtest.js:33 (keine abgeschnittenen .seg-Tasten)"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-C14b",
+   "titel": "Segment-Varianten angleichen (.seg.mini, .fd-seg) und toten Code löschen (.cert-opts .seg.sm, .seg.segc)",
+   "von": 287,
+   "bis": 291,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".seg.mini",
+    ".seg.mini button",
+    ".fd-seg",
+    ".fd-seg button",
+    ".cert-opts .seg.sm button",
+    ".cert-opts .seg.sm button small",
+    ".seg.segc",
+    ".seg.segc button",
+    ".seg.segc button:hover",
+    ".seg.segc button[aria-pressed=\"true\"]"
+   ],
+   "befund_ids": [
+    "komponenten-26"
+   ],
+   "abhaengig": [
+    "komponenten-C14a"
+   ],
+   "tests": [
+    "e2e/dashtest.js:25, :42 (.seg.mini)",
+    "e2e/filtertest.js (.fd-seg)",
+    "e2e/certtest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C15",
+   "titel": "1–5-Skala .scale5 (CSS) inkl. gemeinsamer Auswahlregel",
+   "von": 292,
+   "bis": 303,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".scale5",
+    ".scale5 button",
+    ".scale5 button:hover",
+    ".scale5.rating button",
+    ".rating",
+    ".rating button",
+    ".rating button[aria-pressed=\"true\"]",
+    ".scale5 button[aria-pressed=\"true\"]",
+    ".fd-tog.stars button",
+    "--lc"
+   ],
+   "befund_ids": [
+    "komponenten-44"
+   ],
+   "tests": [
+    "e2e/tradeformtest.js:11 (#f-rating)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C16",
+   "titel": "Chips: wählbar 28 px, in Tabellen/Detailkopf 22 px, Filter- und Notebook-Chips angleichen",
+   "von": 304,
+   "bis": 311,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".chip.sel",
+    ".chip.sel.big",
+    ".tbl .chip",
+    ".detail-head .chip",
+    ".fd-chip",
+    ".fd-add",
+    ".nb .tagpill",
+    ".nb .tagpill b"
+   ],
+   "befund_ids": [
+    "komponenten-36",
+    "komponenten-45"
+   ],
+   "tests": [
+    "e2e/filtertest.js:13–24 (.fd-chip/.fd-add)",
+    "e2e/sixtest.js:53–55 (.nb .tags-row .chip)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C17a",
+   "titel": "Native Häkchen (accent-color: var(--text)) und Quill-Checklisten neutral",
+   "von": 312,
+   "bis": 316,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".check input",
+    ".prop-assign-row input",
+    ".coach-radio input",
+    ".ql-editor li[data-list=checked] > .ql-ui",
+    ".ql-editor li[data-list=unchecked] > .ql-ui"
+   ],
+   "befund_ids": [
+    "komponenten-33"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C17b",
+   "titel": "Coach-Aufgaben: Nur-Anzeige-Kästchen ohne Rand und Füllung",
+   "von": 317,
+   "bis": 318,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ct-check[aria-checked=\"true\"]",
+    ".coach-task.done .ct-check.static",
+    ".ct-check.static",
+    ".ct-check.static:hover"
+   ],
+   "befund_ids": [
+    "bereich_konto-23"
+   ],
+   "tests": [
+    "e2e/coachtest.js:127–131"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C17c",
+   "titel": "Ruhepunkt „Bewusst abschalten“: eigene 20-px-Box statt nativer Checkbox (CSS)",
+   "von": 319,
+   "bis": 326,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-checks input",
+    ".rp-checks .rp-box",
+    ".rp-checks .rp-box svg",
+    ".rp-checks input:checked + .rp-box",
+    ".rp-checks input:focus-visible + .rp-box",
+    "--phase",
+    "--rp-on-phase"
+   ],
+   "befund_ids": [
+    "bereich_training-48"
+   ],
+   "tests": [
+    "e2e/rptest.js:46 (siehe E1e)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C18",
+   "titel": "Checklisten-Zeilen flach mit Haarlinie, nicht durchgestrichen",
+   "von": 327,
+   "bis": 333,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".checklist",
+    ".checklist .it",
+    ".checklist .it:last-child",
+    ".checklist .it.toggle:hover .box",
+    ".checklist .it.done span"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-13",
+    "referenz-20"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B5"
+   ],
+   "tests": [
+    "e2e/notechecktest.js:12 (.checklist .it)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C19",
+   "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+   "von": 334,
+   "bis": 348,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tabs",
+    ".prop-tabs",
+    ".tabs::-webkit-scrollbar",
+    ".prop-tabs::-webkit-scrollbar",
+    ".tabs > button",
+    ".tabs > a",
+    ".prop-tabs a",
+    ".tabs > button:hover",
+    ".tabs > a:hover",
+    ".prop-tabs a:hover",
+    ".tabs > button:focus-visible",
+    ".tabs > a:focus-visible",
+    ".prop-tabs a:focus-visible",
+    ".tabs button",
+    ".tabs button:hover",
+    ".tabs.sm button",
+    ".tabs.scroll-x",
+    ".tabs.scroll-x::-webkit-scrollbar",
+    ".prop-sub a:focus-visible"
+   ],
+   "befund_ids": [
+    "referenz-23",
+    "bereich_statistik-6",
+    "komponenten-27"
+   ],
+   "tests": [
+    "e2e/mobiletest.js:29 (TradeLog .tabs button einreihig, flexWrap)",
+    "e2e/calmnavtest.js:40–51 (.tabs[data-subnav] scrollLeft)",
+    "e2e/affiliatetest.js:16",
+    "e2e/friedhoftest.js:19–21",
+    "e2e/proptest.js:19, :91, :95",
+    "e2e/langtest.js:33"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-C20",
+   "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+   "von": 349,
+   "bis": 361,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".subtabs",
+    ".set-tabs",
+    ".prop-sub",
+    ".subtabs::-webkit-scrollbar",
+    ".set-tabs::-webkit-scrollbar",
+    ".prop-sub::-webkit-scrollbar",
+    ".subtabs > button",
+    ".set-tabs > button",
+    ".prop-sub a",
+    ".set-tabs button",
+    ".set-tabs button:hover",
+    ".set-tabs button[aria-pressed=\"true\"]",
+    ".subtabs > button[aria-pressed=\"true\"]",
+    ".set-tabs > button[aria-pressed=\"true\"]",
+    ".prop-sub a[aria-pressed=\"true\"]",
+    ".subtabs > button::after",
+    ".set-tabs > button::after",
+    ".prop-sub a::after",
+    ".prop-sub a[aria-pressed=\"true\"]::after",
+    ".prop-sub a:focus-visible"
+   ],
+   "befund_ids": [
+    "komponenten-27",
+    "referenz-23"
+   ],
+   "abhaengig": [
+    "komponenten-C19"
+   ],
+   "tests": [
+    "e2e/friedhoftest.js:20",
+    "e2e/sampletest.js:81",
+    "e2e/headtest.js:63–64"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-C21a",
+   "titel": "Menüeinträge: .popover .item (min. 36, 13px/500), gewählt neutral, Haken-Spalte .chk, .popover .sec",
+   "von": 362,
+   "bis": 366,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".popover .item",
+    ".popover .item[aria-checked=\"true\"]",
+    ".popover .item svg",
+    ".popover .item.danger svg",
+    ".popover .item .chk",
+    ".popover .item .chk svg",
+    ".popover .sec"
+   ],
+   "befund_ids": [
+    "komponenten-35",
+    "komponenten-2"
+   ],
+   "tests": [
+    "e2e/sixtest.js:54–56 (#pop-nbtags .item[aria-checked])",
+    "e2e/rangetest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C21b",
+   "titel": "Konto-Menü unten (.sb-menu): Einträge erben die Menügröße",
+   "von": 367,
+   "bis": 368,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sb-menu .item",
+    ".sb-menu .item:hover",
+    ".sb-menu-row"
+   ],
+   "befund_ids": [
+    "komponenten-35"
+   ],
+   "abhaengig": [
+    "komponenten-C21a"
+   ],
+   "tests": [
+    "e2e/usercardtest.js",
+    "e2e/sidebartest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C21c",
+   "titel": "Symbol-Liste und Filter-Optionen auf Menümaß, gewählt neutral",
+   "von": 369,
+   "bis": 371,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sym-opt",
+    ".sym-opt[aria-selected=\"true\"]",
+    ".fd-opts .item",
+    ".fd-opts .item svg"
+   ],
+   "befund_ids": [
+    "komponenten-35",
+    "komponenten-2"
+   ],
+   "tests": [
+    "e2e/tradeformtest.js:21–29 (#sym-menu .sym-opt)",
+    "e2e/filtertest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C21d",
+   "titel": "Haken in Notebook-Tags und Editor-Menüs 16 px in --text-2",
+   "von": 372,
+   "bis": 373,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .tagpop .chk",
+    ".nb .tagpop .chk svg",
+    ".ed-pop .item .chk"
+   ],
+   "befund_ids": [
+    "komponenten-2"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C22",
+   "titel": "Schwebende Ebenen Radius 12, kein grüner Rand",
+   "von": 374,
+   "bis": 377,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".popover.dp",
+    ".popover.cp",
+    ".nb-ytpop"
+   ],
+   "befund_ids": [
+    "komponenten-34"
+   ],
+   "tests": [
+    "e2e/dptest.js",
+    "e2e/colorpickertest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C23",
+   "titel": "Vorlagen-Menü (CSS): neutral, Stern gedämpft, Untermenü als eingerückte Gruppe",
+   "von": 378,
+   "bis": 387,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tpl-row .item.name",
+    ".tpl-row .chk",
+    ".tpl-row .chk svg",
+    ".tpl-row .star",
+    ".tpl-row.on",
+    ".tpl-row.on .item.name",
+    ".tpl-menu",
+    ".tpl-menu .item",
+    ".tpl-menu .item.danger:disabled",
+    ".tpl-menu .star-i"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-47",
+    "komponenten-2",
+    "komponenten-34",
+    "komponenten-35"
+   ],
+   "abhaengig": [
+    "komponenten-C21a"
+   ],
+   "tests": [
+    "e2e/dashtest.js:106 (.tpl-row .star, .tpl-row.on .chk svg)",
+    "e2e/dashtest.js:123"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C24",
+   "titel": "Filter-Fuß wie Zeitraum-Fuß (CSS)",
+   "von": 388,
+   "bis": 397,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".fd-pop .fd-foot",
+    ".fd-pop .fd-foot .btn",
+    ".fd-pop .fd-foot .btn.ghost",
+    ".fd-pop .fd-foot .btn.primary",
+    ".fd-pop .fd-foot .fd-n",
+    ".fd-pop .fd-foot .btn svg",
+    ".fd-foot .fd-n",
+    ".fd-btns",
+    ".fd-foot .btn.primary"
+   ],
+   "befund_ids": [
+    "komponenten-21",
+    "komponenten-12"
+   ],
+   "tests": [
+    "e2e/filtertest.js:9, :49, :56",
+    "e2e/sixtest.js:26–31"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C25a",
+   "titel": "Kacheln: Hover nur Rand, .stat-tile übernimmt .tile-Maße (Padding, 13.5/500, 25px/700), Handy 22 px, heller Schatten",
+   "von": 398,
+   "bis": 405,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile",
+    ".tile:hover",
+    ".stat-tile:hover",
+    ".stat-tile",
+    ".stat-tile .k",
+    ".stat-tile .v",
+    ":root[data-theme=\"light\"] .card",
+    ":root[data-theme=\"light\"] .tile",
+    ":root[data-theme=\"light\"] .stat-tile"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-11",
+    "bereich_statistik-8"
+   ],
+   "tests": [
+    "e2e/mobiletest.js:26–27 (Handy-Wert, siehe E1h)",
+    "e2e/motiontest.js:18, :57",
+    "e2e/sixtest.js:39–40"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C25b",
+   "titel": "Spark-Kachel: Trennlinie unter dem Titel, Wert aus .tile .val",
+   "von": 406,
+   "bis": 406,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile.spark-tile",
+    ".tile.spark-tile .spark-body",
+    ".tile.spark-tile .val",
+    ".tile .val"
+   ],
+   "befund_ids": [
+    "diagramme-43"
+   ],
+   "tests": [
+    "e2e/tlfittest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C25c",
+   "titel": "Kennzahlen-Leisten im hellen Design nur Haarlinien; Hinweise (--lift-shadow bleibt, Werte aus Typografie/Abstände gelten auch für .stat-tile)",
+   "von": 407,
+   "bis": 410,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root[data-theme=\"light\"] .kstrip .tile",
+    ":root[data-theme=\"light\"] .kstrip .tile:hover",
+    ".kstrip .tile:hover",
+    "--lift-shadow"
+   ],
+   "befund_ids": [
+    "bereich_konto-28",
+    "bereich_dashboard-11",
+    "bereich_statistik-8"
+   ],
+   "tests": [
+    "e2e/affiliatetest.js:19, :45"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C26a",
+   "titel": "Kalender: Wochentage als Beschriftung, Tageszahl ohne Kreis, nur „heute“ gefüllt (--text/--bg)",
+   "von": 411,
+   "bis": 416,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cal .wd",
+    ".cal .wd.wk",
+    ".cal .d .n",
+    ".cal .d.today .n",
+    ".cal .d:is(.win, .loss, .be) .n",
+    ".cal.mini .d.today .n",
+    ".cal.mini .d.today"
+   ],
+   "befund_ids": [
+    "ki_look-11"
+   ],
+   "tests": [
+    "e2e/mobiletest.js:21, :85 (.cal .d .p/.pm)",
+    "e2e/dashtest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C26b",
+   "titel": "Heute-Ring in Rastern (Aktivität, Tracker, Jahresübersicht) und Jahreskalender-Kopf",
+   "von": 417,
+   "bis": 418,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".activity i.today",
+    ".tracker i.today",
+    ".ym-grid i.today",
+    ".ycal-head span"
+   ],
+   "befund_ids": [
+    "ki_look-11"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C26c",
+   "titel": "Kalender-Titel als Klasse .cal-title; Handy-Regel und Tagesbetrag 800 bleiben (N2)",
+   "von": 419,
+   "bis": 421,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cal-nav .cal-title",
+    ".cal .d .p"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-45",
+    "ki_look-11"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C27",
+   "titel": "Auswahl in Einstellungen → Design ohne Schlagschatten und Skalierung",
+   "von": 422,
+   "bis": 427,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".design-card[aria-pressed=\"true\"] .dc-prev",
+    ".theme-card[aria-pressed=\"true\"] .tc-prev",
+    ".dot[aria-pressed=\"true\"]"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-19"
+   ],
+   "tests": [
+    "e2e/colorpickertest.js:27–92",
+    "e2e/settest2.js:31–38"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C28",
+   "titel": "Kennzahl-Auswahl im Report-Widget ohne Farbstreifen (CSS)",
+   "von": 428,
+   "bis": 431,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rep-sel",
+    ".rep-sel.on"
+   ],
+   "befund_ids": [
+    "ki_look-35"
+   ],
+   "tests": [
+    "e2e/dashtest.js:82"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C29a",
+   "titel": "Notebook-Ordner: gerader Farbbalken als ::before, Namen bündig",
+   "von": 432,
+   "bis": 434,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .folder",
+    ".nb .folder::before",
+    "--fc"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-32"
+   ],
+   "tests": [
+    "e2e/headtest.js:62–64 (.nb .folder.active)",
+    "e2e/nbsel.js:12–17"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C29b",
+   "titel": "Notebook-Tag-Menü (CSS): eine Spalte, 280 px, Suchfeld, keine farbigen Köpfe",
+   "von": 435,
+   "bis": 441,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .tagpop",
+    ".nb .tagcols",
+    ".nb .tagpop .sec.k-setup",
+    ".nb .tagpop .item.k-setup[aria-checked=\"true\"]",
+    ".nb .tagpop .sec.k-mistake",
+    ".nb .tagpop .item.k-mistake[aria-checked=\"true\"]",
+    ".nb .tagpop .sec.k-emotion",
+    ".nb .tagpop .item.k-emotion[aria-checked=\"true\"]",
+    ".nb .tagpop .item[aria-checked=\"true\"]",
+    ".nb .tagcol",
+    ".nb .tagpop-q",
+    ".nb .tagpop-q .input"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-20",
+    "komponenten-2"
+   ],
+   "tests": [
+    "e2e/sixtest.js:52–57"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C30",
+   "titel": "Ordner-Dialog (CSS): Plus-Farbkreis .swatch.add, gleichmäßige Abstände",
+   "von": 442,
+   "bis": 452,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".swatch.add",
+    ".swatch.add i",
+    ".swatch.add i svg",
+    ".swatch.add input",
+    "form[data-action=\"nb-folder-save\"] .stack",
+    "form[data-action=\"nb-folder-save\"] .modal-foot"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-31"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C31",
+   "titel": "Mentor-Chat (CSS): .mentor → .mentor-chat, KI-Hinweis .mentor-disclaimer",
+   "von": 453,
+   "bis": 458,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".mentor",
+    ".mentor-chat",
+    ".mentor-note",
+    ".mentor-disclaimer"
+   ],
+   "befund_ids": [
+    "bereich_training-2",
+    "bereich_training-1"
+   ],
+   "tests": [
+    "e2e/mentortest.js",
+    "e2e/coachtest.js:84, :96 (Coach-.mentor-note bleibt)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C32a",
+   "titel": "Coach: Haken in „Kurz-Stats“ schrumpft nicht",
+   "von": 459,
+   "bis": 460,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".coach-yes",
+    ".coach-no",
+    ".coach-yes svg",
+    ".coach-no svg"
+   ],
+   "befund_ids": [
+    "bereich_konto-36"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C32b",
+   "titel": "Coach „1 erledigt“ mit CSS-Chevron statt ▸/▾",
+   "von": 461,
+   "bis": 461,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ct-done summary::before",
+    ".ct-done[open] summary::before",
+    ".ct-done summary",
+    ".rp-more summary::after",
+    ".ct-done summary::after",
+    ".rp-more[open] summary::after",
+    ".ct-done[open] summary::after"
+   ],
+   "befund_ids": [
+    "bereich_konto-50"
+   ],
+   "tests": [
+    "e2e/coachtest.js:131 (.ct-done summary „1 erledigt“)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C32c",
+   "titel": "Coach-Antwortfelder ohne Größen-Griff, wachsen bis 160 px (CSS)",
+   "von": 462,
+   "bis": 462,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ce-write textarea",
+    ".mr-write textarea",
+    ".mn-edit"
+   ],
+   "befund_ids": [
+    "bereich_konto-22"
+   ],
+   "tests": [
+    "e2e/coachtest.js:111, :154, :178"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C32d",
+   "titel": "Coach-Gruppenmenü einzeilig",
+   "von": 463,
+   "bis": 464,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "#pop-coachmenu .item"
+   ],
+   "befund_ids": [
+    "bereich_konto-45"
+   ],
+   "tests": [
+    "e2e/coachtest.js:150"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C33a",
+   "titel": "Textlink-Baustein .tlink",
+   "von": 465,
+   "bis": 470,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tlink",
+    ".tlink:hover"
+   ],
+   "befund_ids": [
+    "bereich_konto-49"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C33b",
+   "titel": "Coupon-Link in --text-2, unten bündig",
+   "von": 471,
+   "bis": 472,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cpn-link"
+   ],
+   "befund_ids": [
+    "bereich_konto-49"
+   ],
+   "tests": [
+    "e2e/coupontest.js:14"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C34a",
+   "titel": "Ruhepunkt: tote .rp-switch-Regeln löschen",
+   "von": 473,
+   "bis": 474,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-switch",
+    ".rp-switch input",
+    ".rp-switch input::after",
+    ".rp-switch input:checked",
+    ".rp-switch input:checked::after"
+   ],
+   "befund_ids": [
+    "bewegung-41"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C34b",
+   "titel": "Ruhepunkt-Rhythmusleiste ohne Abschneiden (min-width: max-content)",
+   "von": 475,
+   "bis": 477,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-seq-i",
+    ".rp-seq-i b"
+   ],
+   "befund_ids": [
+    "bereich_training-41"
+   ],
+   "tests": [
+    "e2e/rptest.js:17"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C35",
+   "titel": "Runder „Trade loggen“-Knopf am Handy mit neutralem Schatten",
+   "von": 478,
+   "bis": 488,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dash-head .tl",
+    ".dash-head .tl:hover",
+    ".dash-head .btn.accent.tl",
+    ":root[data-theme=\"light\"] .dash-head .btn.accent.tl",
+    "--accent-glow"
+   ],
+   "befund_ids": [
+    "responsiv-17"
+   ],
+   "abhaengig": [
+    "komponenten-C08"
+   ],
+   "tests": [
+    "e2e/mobiletest.js:16, :40, :50, :85 (.dash-head .tl)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C36",
+   "titel": "Klassen statt Inline-Stil für Widgets und Tagesansicht (CSS)",
+   "von": 489,
+   "bis": 504,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".score-row",
+    ".score-row .score-scale",
+    ".chal-head",
+    ".chal-head .big-stat",
+    ".chal-foot",
+    ".tracker-cap",
+    ".tracker-score",
+    ".dash-empty",
+    ".day-title"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-45",
+    "bereich_trades_tag-38"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C37a",
+   "titel": "„Gespeichert“-Hinweis: .save-state allgemein und im Bereichskopf",
+   "von": 505,
+   "bis": 507,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .save-state",
+    ".save-state",
+    ".nb .save-state.saving",
+    ".save-state.saving",
+    ".set-head .save-state"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-C37b",
+   "titel": "Inline-Anlegen-Zeile .add-row",
+   "von": 508,
+   "bis": 509,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".add-row"
+   ],
+   "befund_ids": [
+    "komponenten-30"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-U1",
+   "titel": "Neue Symbole I.sort und I.checkSquare",
+   "von": 510,
+   "bis": 518,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "I.sort",
+    "I.checkSquare"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-34"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-U2",
+   "titel": "Feldbeschriftung im Eingabe-Dialog als .lbl",
+   "von": 519,
+   "bis": 521,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.promptModal",
+    ".field .lbl"
+   ],
+   "befund_ids": [
+    "komponenten-18"
+   ],
+   "abhaengig": [
+    "komponenten-C05"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-U3",
+   "titel": "App-Tooltip rechts neben einem Element (data-tip-side=\"right\")",
+   "von": 522,
+   "bis": 528,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.bindTips",
+    "data-tip-side",
+    "#tip"
+   ],
+   "befund_ids": [
+    "bereich_shell-20"
+   ],
+   "tests": [
+    "e2e/tiptest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-A1",
+   "titel": "Seitenleiste ohne doppelte System-Tooltips; eingeklappt App-Tooltip rechts",
+   "von": 529,
+   "bis": 537,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.renderSidebar",
+    "App.userCard",
+    ".sidebar .nav a",
+    ".nav-dot",
+    ".sb-user",
+    "data-tip",
+    "data-tip-side",
+    "sb-mini"
+   ],
+   "befund_ids": [
+    "bereich_shell-20"
+   ],
+   "abhaengig": [
+    "komponenten-U3"
+   ],
+   "tests": [
+    "e2e/navdottest.js:8, :53",
+    "e2e/coachtest.js:30, :94, :98, :127",
+    "e2e/sidebartest.js:27",
+    "e2e/langtest.js:30 (title-Attribute)"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-A2",
+   "titel": "Ein Anzeigename App.displayName() für Avatar und Konto-Karte; „Profil ergänzen“",
+   "von": 538,
+   "bis": 552,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.displayName",
+    "App.userCard",
+    "App.topbar",
+    ".avatar",
+    "t:Profil vervollständigen",
+    "t:Profil ergänzen"
+   ],
+   "befund_ids": [
+    "bereich_konto-54",
+    "hierarchie-47"
+   ],
+   "tests": [
+    "e2e/usercardtest.js:11 (siehe E1g)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-A3",
+   "titel": "Konto-Menü der Kopfreihe mit Haken-Spalte",
+   "von": 553,
+   "bis": 555,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.accountControl",
+    ".popover .item .chk",
+    "I.check"
+   ],
+   "befund_ids": [
+    "komponenten-2"
+   ],
+   "abhaengig": [
+    "komponenten-C21a"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-A4",
+   "titel": "„Session starten“ mit Text ab 1181 px (sessionControl ohne iconOnly)",
+   "von": 556,
+   "bis": 560,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.sessionControl",
+    "App.pageHead",
+    ".lbl-wide",
+    "[data-action=\"start-session\"]",
+    ".btn.icon-only",
+    "t:Session starten"
+   ],
+   "befund_ids": [
+    "referenz-5"
+   ],
+   "abhaengig": [
+    "komponenten-C08"
+   ],
+   "tests": [
+    "e2e/sixtest.js:12, :36",
+    "e2e/coachtest.js:38",
+    "e2e/voicetest.js:21",
+    "e2e/mobiletest.js:50",
+    "e2e/shadowtest.js:16"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-A5a",
+   "titel": "Gemeinsame Feld-Helfer App.unitField, App.curField, App.feeField",
+   "von": 561,
+   "bis": 567,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.unitField",
+    "App.curField",
+    "App.feeField",
+    "feeSym",
+    ".inp-cur",
+    ".cur-sym"
+   ],
+   "befund_ids": [
+    "komponenten-17",
+    "bereich_einstellungen-35",
+    "bereich_trades_tag-11"
+   ],
+   "abhaengig": [
+    "komponenten-C13"
+   ],
+   "tests": [
+    "e2e/tradeformtest.js:11, :30, :47 (#f-fees)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-A5b",
+   "titel": "Symbol- und Richtungsfeld aus openTradeEditor herauslösen (App.symbolField, App.dirField)",
+   "von": 568,
+   "bis": 569,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.symbolField",
+    "App.dirField",
+    "App.openTradeEditor",
+    "#f-symbol-btn",
+    "#f-symbol",
+    "#f-symbol-l",
+    "#f-dir",
+    "#f-mult",
+    "[data-action=\"set-dir\"]",
+    "App.updateTradePreview"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-11"
+   ],
+   "tests": [
+    "e2e/tradeformtest.js",
+    "e2e/blindtest.js:23 (#f-dir)"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-A6",
+   "titel": "Check-in und Bewertung als .scale5 (Markup)",
+   "von": 570,
+   "bis": 573,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.checkInFields",
+    "#f-rating",
+    ".scale5",
+    ".scale5.rating",
+    ".seg.pill",
+    ".rating",
+    "[data-action=\"seg-set\"]"
+   ],
+   "befund_ids": [
+    "komponenten-44"
+   ],
+   "abhaengig": [
+    "komponenten-C14a",
+    "komponenten-C15"
+   ],
+   "tests": [
+    "e2e/tradeformtest.js:11"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-A7",
+   "titel": "Helfer App.savedHint() für „Gespeichert“ (1,5 s)",
+   "von": 574,
+   "bis": 576,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.savedHint",
+    ".set-head .save-state",
+    "t:Gespeichert"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2"
+   ],
+   "abhaengig": [
+    "komponenten-C37a"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-A8",
+   "titel": "Gemeinsame Tages-Kennzahlen App.dayStatsHTML()",
+   "von": 577,
+   "bis": 579,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.dayStatsHTML",
+    ".day-card .stats",
+    "U.cls"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-43"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-W1",
+   "titel": "Kalender-Navigation: .btn.nav und .cal-title",
+   "von": 580,
+   "bis": 584,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "calNav",
+    ".btn.round",
+    ".btn.nav",
+    ".cal-title"
+   ],
+   "befund_ids": [
+    "komponenten-25",
+    "bereich_dashboard-45"
+   ],
+   "abhaengig": [
+    "komponenten-C07",
+    "komponenten-C26c"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-W2",
+   "titel": "Report-Auswahl ohne Farbstreifen, „Kennzahl“ neutral",
+   "von": 585,
+   "bis": 587,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "reportPanel",
+    ".rep-sel",
+    "[data-action=\"dash-rep-pick\"]"
+   ],
+   "befund_ids": [
+    "ki_look-35",
+    "komponenten-1"
+   ],
+   "abhaengig": [
+    "komponenten-C28"
+   ],
+   "tests": [
+    "e2e/dashtest.js:82"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-W3",
+   "titel": "Score-Reihe mit Klassen statt Inline-Stil",
+   "von": 588,
+   "bis": 590,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:score",
+    ".score-row",
+    ".score-scale",
+    "--p"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-45"
+   ],
+   "abhaengig": [
+    "komponenten-C36"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-W4",
+   "titel": "Umschalter „Letzte Trades / Offene Positionen“ als Unterstrich (.subtabs)",
+   "von": 591,
+   "bis": 593,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:letzte_trades",
+    ".subtabs",
+    ".tabs.sm"
+   ],
+   "befund_ids": [
+    "komponenten-27",
+    "referenz-23"
+   ],
+   "abhaengig": [
+    "komponenten-C19",
+    "komponenten-C20"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-W5",
+   "titel": "Challenge-Widget mit Klassen statt Inline-Stil",
+   "von": 594,
+   "bis": 596,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:challenge",
+    ".chal-head",
+    ".big-stat",
+    ".chal-foot"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-45"
+   ],
+   "abhaengig": [
+    "komponenten-C36"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-W6",
+   "titel": "Regel-Tracker mit Klassen, Knopf als btn sm",
+   "von": 597,
+   "bis": 599,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:regel_tracker",
+    ".tracker-cap",
+    ".tracker-score",
+    ".tracker-foot > .btn",
+    ".caption"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-45",
+    "komponenten-12"
+   ],
+   "abhaengig": [
+    "komponenten-C36",
+    "komponenten-C09"
+   ],
+   "tests": [
+    "e2e/dashtest.js:72"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-W7",
+   "titel": "Auslöser in Feature-Widgets neutral (Schatten-Ich, Prop, Ruhepunkt, Mentor)",
+   "von": 600,
+   "bis": 602,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:schatten_ich",
+    "widget:prop_konten",
+    "widget:ruhepunkt",
+    "widget:mentor",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "komponenten-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-D1",
+   "titel": "datepicker.js: Uhrzeit (type=time) im App-Wähler",
+   "von": 603,
+   "bis": 612,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/datepicker.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    "DatePicker.TYPES",
+    "DatePicker.render",
+    "DatePicker.timeHTML",
+    "DatePicker.setTime",
+    "DatePicker.open",
+    ".popover.dp.time",
+    ".input[type=\"time\"]",
+    "input[type=time]"
+   ],
+   "befund_ids": [
+    "bereich_prop-52"
+   ],
+   "tests": [
+    "e2e/dptest.js",
+    "e2e/shadowtest.js:53 (fill auf input[type=time])",
+    "e2e/proptest.js",
+    "e2e/filtertest.js"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-D2",
+   "titel": "rangepicker.js: einzelner Monat zeigt das Zeitraumende (oneMonth)",
+   "von": 613,
+   "bis": 616,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/js/rangepicker.js"
+   ],
+   "anker": [
+    "RangePicker.oneMonth",
+    "RangePicker.pick",
+    "RangePicker.reset",
+    "#pop-range"
+   ],
+   "befund_ids": [
+    "responsiv-23"
+   ],
+   "tests": [
+    "e2e/rangetest.js:18 (siehe E1d)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-D3",
+   "titel": "certificate.js: Format-Segment ohne .sm, eckige Pfeile, Größenhinweis",
+   "von": 617,
+   "bis": 621,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/certificate.js"
+   ],
+   "anker": [
+    "Certificate.open",
+    ".seg.sm",
+    ".btn.round",
+    ".btn.nav",
+    ".hint",
+    "FORMATS"
+   ],
+   "befund_ids": [
+    "komponenten-26",
+    "komponenten-25",
+    "komponenten-18"
+   ],
+   "abhaengig": [
+    "komponenten-C07",
+    "komponenten-C14b",
+    "komponenten-C05"
+   ],
+   "tests": [
+    "e2e/certtest.js:36 ([data-c=prev], .cert-opts .small.muted)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-D4",
+   "titel": "store.js: „Daily Journal“ nicht grün, einmalige Umfärbung",
+   "von": 622,
+   "bis": 624,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/store.js"
+   ],
+   "anker": [
+    "DEFAULT_FOLDERS",
+    "Store.load",
+    "#34f58a",
+    "#9aa3a0"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-31"
+   ],
+   "tests": [
+    "web/tests/core.test.mjs",
+    "web/tests/sample.test.mjs"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-D5",
+   "titel": "sample.js: Beispiel-Ordner ohne Emoji",
+   "von": 625,
+   "bis": 627,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/sample.js"
+   ],
+   "anker": [
+    "smpf-strategie",
+    "t:📈 Strategie",
+    "t:💡 Ideen",
+    "t:Strategie",
+    "t:Ideen"
+   ],
+   "befund_ids": [
+    "referenz-39"
+   ],
+   "tests": [
+    "web/tests/sample.test.mjs",
+    "e2e/sampletest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-coach-a",
+   "titel": "Coach: Aktualisieren/Abgleichen/Link erneuern mit I.refresh, „Aufgabe an alle“ mit I.plus",
+   "von": 628,
+   "bis": 631,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "I.replay",
+    "I.refresh",
+    "I.check",
+    "I.plus",
+    "[data-action=\"coach-sync-now\"]",
+    "[data-action=\"coach-rotate\"]",
+    "[data-action=\"coach-refresh\"]",
+    "[data-action=\"coach-coach-rotate\"]",
+    "[data-action=\"coach-task-all\"]"
+   ],
+   "befund_ids": [
+    "bereich_konto-10"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-coach-b",
+   "titel": "Coach: Auslöser und Inline-Absenden neutral",
+   "von": 632,
+   "bis": 632,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "a.btn[href=\"#/settings/mentor\"]",
+    "[data-action=\"coach-create-group\"]",
+    "[data-action=\"coach-note-save\"]",
+    "[data-action=\"coach-note-send\"]",
+    "[data-action=\"coach-task-add\"]",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "bereich_konto-5",
+    "komponenten-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-coach-c",
+   "titel": "Coach: Wortwahl „Einladungslink erneuern“ / „Link erneuern“",
+   "von": 633,
+   "bis": 633,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "t:Neuen Einladungslink erzeugen",
+    "t:Einladungslink erneuern",
+    "t:Neuen Einladungslink erzeugen?",
+    "t:Einladungslink erneuern?",
+    "t:Neuen Link erzeugen",
+    "t:Erneuern",
+    "t:Link erneuern",
+    "t:Neuer Einladungslink",
+    "t:Einladungslink erneuert",
+    "t:Neuer Co-Coach-Link",
+    "t:Co-Coach-Link erneuert"
+   ],
+   "befund_ids": [
+    "bereich_konto-45"
+   ],
+   "tests": [
+    "e2e/coachtest.js:204–206",
+    "e2e/coachlang.js",
+    "e2e/coachlang2.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-coach-d",
+   "titel": "Coach: „Im Notebook ansehen“ als .tlink",
+   "von": 634,
+   "bis": 634,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".tlink",
+    "a[href=\"#/notebook\"]"
+   ],
+   "befund_ids": [
+    "bereich_konto-49"
+   ],
+   "abhaengig": [
+    "komponenten-C33a"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-coach-e",
+   "titel": "Coach: Antwortfelder wachsen (Fallback ohne field-sizing); .input.sm und Zählung bleiben",
+   "von": 635,
+   "bis": 638,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "coach-note-draft",
+    "coach-reply-draft",
+    "field-sizing",
+    ".input.sm"
+   ],
+   "befund_ids": [
+    "bereich_konto-22",
+    "bereich_konto-9"
+   ],
+   "abhaengig": [
+    "komponenten-C32c",
+    "komponenten-C03"
+   ],
+   "tests": [
+    "e2e/coachtest.js:111, :154, :178"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-coupons",
+   "titel": "Coupons: Link-Darstellung kommt aus C33b, Markup bleibt (nur prüfen)",
+   "von": 639,
+   "bis": 641,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coupons.js"
+   ],
+   "anker": [
+    ".cpn-link"
+   ],
+   "befund_ids": [
+    "bereich_konto-49"
+   ],
+   "abhaengig": [
+    "komponenten-C33b"
+   ],
+   "tests": [
+    "e2e/coupontest.js:14"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-dash-filter",
+   "titel": "Filter-Popover: Fuß mit Trade-Zahl links, „Zurücksetzen“/„Anwenden“ rechts",
+   "von": 642,
+   "bis": 648,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "footHTML",
+    ".fd-n",
+    ".fd-btns",
+    "[data-action=\"dash-f-reset\"]",
+    "[data-action=\"dash-f-apply\"]"
+   ],
+   "befund_ids": [
+    "komponenten-21"
+   ],
+   "abhaengig": [
+    "komponenten-C24"
+   ],
+   "tests": [
+    "e2e/filtertest.js:9, :49, :56",
+    "e2e/sixtest.js:26–31"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-dashboard-a",
+   "titel": "Vorlagen-Menü: Stift ins Untermenü („Bearbeiten“), „Als Standard festlegen“ nur bei Nicht-Standard",
+   "von": 649,
+   "bis": 651,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "tplPopHTML",
+    ".tpl-row",
+    ".tpl-menu",
+    "[data-action=\"dash-tpl-edit\"]",
+    "[data-action=\"dash-tpl-default\"]",
+    "t:Ist Standard",
+    "t:Als Standard festlegen",
+    "t:Bearbeiten"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-47"
+   ],
+   "abhaengig": [
+    "komponenten-C23"
+   ],
+   "tests": [
+    "e2e/dashtest.js:22, :102 (#pop-tpl [data-action=dash-tpl-edit], erster Treffer)",
+    "e2e/dashtest.js:123 (erwartet 4 Einträge im ···-Menü, danach 5 bei Nicht-Standard-Vorlage; nicht in E1 genannt)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-dashboard-b",
+   "titel": "Leere Widget-Fläche als .dash-empty",
+   "von": 652,
+   "bis": 652,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".dashed",
+    ".dash-empty"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-45"
+   ],
+   "abhaengig": [
+    "komponenten-C36"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-dashboard-c",
+   "titel": "„Beispieldaten laden“ neutral",
+   "von": 653,
+   "bis": 653,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "[data-action=\"install-sample\"]",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "komponenten-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-dashboard-d",
+   "titel": "Dialog-Beschriftungen (Challenge, Neue Vorlage) als .lbl; Bibliothek/Bearbeitungsleiste bleiben primary",
+   "von": 654,
+   "bis": 656,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".field .lbl",
+    "[data-action=\"dash-w-settings-save\"]",
+    "[data-action=\"dash-add\"]",
+    "[data-action=\"dash-save\"]"
+   ],
+   "befund_ids": [
+    "komponenten-18"
+   ],
+   "abhaengig": [
+    "komponenten-C05"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-day-a",
+   "titel": "Tagesansicht-Kopf: .btn.nav, .day-title, „Heute“ als btn sm",
+   "von": 657,
+   "bis": 658,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    ".btn.round",
+    ".btn.nav",
+    ".day-title",
+    "t:Heute"
+   ],
+   "befund_ids": [
+    "komponenten-25",
+    "bereich_trades_tag-38"
+   ],
+   "abhaengig": [
+    "komponenten-C07",
+    "komponenten-C36"
+   ],
+   "tests": [
+    "e2e/chartanimtest.js:28"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-day-b",
+   "titel": "Tagesansicht: Kennzahlen aus App.dayStatsHTML",
+   "von": 659,
+   "bis": 659,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "App.dayStatsHTML",
+    ".day-card .stats"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-43"
+   ],
+   "abhaengig": [
+    "komponenten-A8"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-day-c",
+   "titel": "Tagesansicht Check-in: Werte flach in .day-card .stats statt Unterkarten",
+   "von": 660,
+   "bis": 660,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    ".strat-stats",
+    ".day-card .stats",
+    "[data-action=\"check-in\"]"
+   ],
+   "befund_ids": [
+    "referenz-20"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-day-d",
+   "titel": "„Tagesnotiz anlegen“ im Leerzustand neutral",
+   "von": 661,
+   "bis": 662,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "[data-action=\"nb-day-note\"]",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "zustaende-14"
+   ],
+   "abhaengig": [
+    "komponenten-C11"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-mentor-a",
+   "titel": "Mentor-Chat: .mentor-chat, .mentor-disclaimer, Neu-laden mit I.refresh",
+   "von": 663,
+   "bis": 666,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    ".mentor",
+    ".mentor-chat",
+    ".mentor-note",
+    ".mentor-disclaimer",
+    "I.clock",
+    "I.refresh",
+    "[data-action=\"mentor-reload\"]"
+   ],
+   "befund_ids": [
+    "bereich_training-2",
+    "bereich_training-1",
+    "bereich_training-37"
+   ],
+   "abhaengig": [
+    "komponenten-C31"
+   ],
+   "tests": [
+    "e2e/mentortest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-mentor-b",
+   "titel": "Mentor: Link zu Einstellungen neutral, „Senden“ bleibt primary",
+   "von": 667,
+   "bis": 668,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    "a.btn[href=\"#/settings/mentor\"]",
+    "[data-action=\"mentor-send\"]"
+   ],
+   "befund_ids": [
+    "komponenten-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-misc-a",
+   "titel": "Einstellungen-Kopf mit .save-state",
+   "von": 669,
+   "bis": 670,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.head",
+    ".set-head",
+    ".save-state"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2"
+   ],
+   "abhaengig": [
+    "komponenten-C37a"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-misc-b",
+   "titel": "Profil speichert sofort (change), kein „Speichern“-Knopf",
+   "von": 671,
+   "bis": 671,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "form[data-action=\"save-profile\"]",
+    "[data-change=\"save-profile\"]",
+    "save-profile",
+    "[data-change=\"avatar-file\"]",
+    "App.savedHint"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2"
+   ],
+   "abhaengig": [
+    "komponenten-S-misc-a",
+    "komponenten-A7"
+   ],
+   "tests": [
+    "e2e/settest2.js:9–13 (siehe E1b)",
+    "e2e/sixtest.js:63, :67 (Avatar über form[data-action=save-profile] input[type=file])"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-S-misc-c",
+   "titel": "Privatsphäre als Schalter (privacy-toggle); „2FA aktivieren“ neutral",
+   "von": 672,
+   "bis": 673,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "form[data-action=\"save-privacy\"]",
+    "save-privacy",
+    "switchRow",
+    "privacy-toggle",
+    "[data-action=\"twofa\"]"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-11",
+    "bereich_einstellungen-2",
+    "komponenten-1"
+   ],
+   "abhaengig": [
+    "komponenten-S-misc-a",
+    "komponenten-A7"
+   ],
+   "tests": [
+    "e2e/settest2.js:16 (siehe E1b)",
+    "e2e/switchtest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-misc-d",
+   "titel": "Konten: „Konto hinzufügen“ als btn",
+   "von": 674,
+   "bis": 674,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "t:Konto hinzufügen",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "komponenten-30"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-misc-e",
+   "titel": "Einstellungen → Trading: sofort speichern, Einheiten im Feld (App.unitField), Tilt-Schalter, neue Labels",
+   "von": 675,
+   "bis": 675,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "form[data-action=\"save-trading\"]",
+    "[data-change=\"save-trading\"]",
+    "save-trading",
+    "tilt-toggle",
+    "switchRow",
+    "App.unitField",
+    "#be-from",
+    "#be-to",
+    "#se-runit",
+    "dailyLossLimitPct",
+    "ruinDrawdownPct",
+    ".input-unit",
+    ".chip.sel.big",
+    "fmt.curSym",
+    "C.setBreakEven",
+    "t:Tagesverlustlimit (% vom Konto)",
+    "t:Tagesverlustlimit",
+    "t:Ruin-Schwelle Monte Carlo (% Drawdown)",
+    "t:Ruin-Schwelle (Drawdown)",
+    "t:Tilt-Warnungen"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2",
+    "bereich_einstellungen-11",
+    "komponenten-17",
+    "bereich_einstellungen-35",
+    "komponenten-36"
+   ],
+   "abhaengig": [
+    "komponenten-S-misc-a",
+    "komponenten-A7",
+    "komponenten-A5a",
+    "komponenten-C13",
+    "komponenten-C16"
+   ],
+   "tests": [
+    "e2e/settest.js:22 (siehe E1a)"
+   ],
+   "aufwand": "L"
+  },
+  {
+   "nr": "komponenten-S-misc-f",
+   "titel": "Regeln: Inline-Anlegen in einer Zeile (.add-row), Knopf btn",
+   "von": 676,
+   "bis": 676,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "form[data-action=\"add-rule\"]",
+    ".add-row"
+   ],
+   "befund_ids": [
+    "komponenten-30"
+   ],
+   "abhaengig": [
+    "komponenten-C37b"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-misc-g",
+   "titel": "Einstellungen → Notebook: sofort speichern, „Erledigte Punkte durchstreichen“ als Schalter",
+   "von": 677,
+   "bis": 677,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "form[data-action=\"save-notebook\"]",
+    "[data-change=\"save-notebook\"]",
+    "save-notebook",
+    "nb-preview",
+    "nb-strike-toggle",
+    "switchRow",
+    "#nb-preview .pv-check",
+    "Theme.apply",
+    "t:Erledigte Punkte durchstreichen"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2",
+    "bereich_einstellungen-11"
+   ],
+   "abhaengig": [
+    "komponenten-S-misc-a",
+    "komponenten-A7"
+   ],
+   "tests": [
+    "e2e/settest.js:31 (siehe E1a)"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-S-misc-h",
+   "titel": "Inhalte: „Tag hinzufügen“ neutral",
+   "von": 678,
+   "bis": 678,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "[data-action=\"tag-new\"]",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "komponenten-30",
+    "komponenten-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-misc-i",
+   "titel": "Logs: Papierkorb neutral, Leerzustände statt leerer Tabellen, Suche „Verlauf durchsuchen“",
+   "von": 679,
+   "bis": 679,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "[data-action=\"import-delete\"]",
+    "#log-q",
+    ".tbl-wrap",
+    ".empty",
+    "I.upload",
+    "I.clock",
+    "t:Noch keine Imports",
+    "t:CSV-Importe und eingespielte Sicherungen erscheinen hier.",
+    "t:Noch kein Verlauf",
+    "t:Keine Einträge gefunden",
+    "t:Typ suchen",
+    "t:Verlauf durchsuchen"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-40"
+   ],
+   "abhaengig": [
+    "komponenten-C11"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-S-misc-j",
+   "titel": "Einstellungen: .set-tabs-Markup und Mentor-Formular bleiben (nur prüfen)",
+   "von": 680,
+   "bis": 682,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".set-tabs"
+   ],
+   "befund_ids": [
+    "komponenten-27"
+   ],
+   "abhaengig": [
+    "komponenten-C20"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-notebook-a",
+   "titel": "Notebook: eigene Ordner mit Ordner-Symbol",
+   "von": 683,
+   "bis": 684,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "folderIcon",
+    "I.folder",
+    ".nb .folder .ico"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-32"
+   ],
+   "abhaengig": [
+    "komponenten-C29a"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-notebook-b",
+   "titel": "Notebook: „Neue Notiz“/„Wiederherstellen“ neutral, Symbole Auswählen/Sortieren",
+   "von": 685,
+   "bis": 686,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "[data-action=\"nb-new\"]",
+    "[data-action=\"nb-select-mode\"]",
+    "[data-action=\"nb-sort\"]",
+    "[data-action=\"nb-trash-restore\"]",
+    "I.check",
+    "I.checkSquare",
+    "I.arrowDown",
+    "I.sort",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "komponenten-1",
+    "bereich_notebook_news-34",
+    "zustaende-14",
+    "komponenten-30"
+   ],
+   "abhaengig": [
+    "komponenten-U1"
+   ],
+   "tests": [
+    "e2e/imgtest.js:5 (.nb .col.mid .btn.primary nur Ausweich-Selektor)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-notebook-c",
+   "titel": "Notebook-Tag-Menü mit Suchfeld, neuer Tag direkt aus der Suche",
+   "von": 687,
+   "bis": 687,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "#pop-nbtags",
+    ".tagcols",
+    ".tagpop-q",
+    "#nb-tag-q",
+    "[data-input=\"nb-tag-q\"]",
+    "[data-action=\"nb-tag-new\"]",
+    "S.ensureTag",
+    "refreshTags",
+    "t:Tags suchen",
+    "t:Neuen Tag anlegen",
+    "t:„{0}“ als Tag anlegen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-20",
+    "komponenten-2"
+   ],
+   "abhaengig": [
+    "komponenten-C29b"
+   ],
+   "tests": [
+    "e2e/sixtest.js:52–57 (siehe E1c)"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-S-notebook-d",
+   "titel": "Ordner-Dialog: 8 Farben ohne Grün, Standard #8b7cf6, Plus-Kreis „Eigene Farbe“",
+   "von": 688,
+   "bis": 688,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "FOLDER_COLORS",
+    "#34f58a",
+    "#8b7cf6",
+    ".swatch.add",
+    ".color-field",
+    "[data-input=\"fo-color-custom\"]",
+    "t:z. B. 📈 Strategie",
+    "t:z. B. Strategie",
+    "t:eigene",
+    "t:Eigene Farbe"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-31",
+    "referenz-39"
+   ],
+   "abhaengig": [
+    "komponenten-C30"
+   ],
+   "tests": [
+    "e2e/nbsel.js:11–17",
+    "e2e/colorpickertest.js"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-S-notebook-e",
+   "titel": "Teilen-Dialog: einzeiliges Linkfeld, kurzer Hinweis, „Link kopieren“ als Hauptaktion",
+   "von": 689,
+   "bis": 690,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "#share-link",
+    "[data-action=\"nb-copy\"]",
+    "I.external",
+    "I.copy",
+    "t:Wer den Link öffnet, sieht die Notiz nur lesend. Bilder erscheinen als Platzhalter.",
+    "t:Der Link funktioniert für andere erst mit der Adresse deiner veröffentlichten Website.",
+    "t:Link kopieren",
+    "t:Öffnen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-30"
+   ],
+   "tests": [
+    "e2e/mobiletest.js:53 (nb-share)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-progress",
+   "titel": "Fortschritt: Aktivitäts-Pfeile als .btn.nav",
+   "von": 691,
+   "bis": 693,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "[data-action=\"act-scroll\"]",
+    ".btn.round",
+    ".btn.nav"
+   ],
+   "befund_ids": [
+    "komponenten-25"
+   ],
+   "abhaengig": [
+    "komponenten-C07"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-prop-a",
+   "titel": "Prop: Leerzustand-Aktion btn sm, „Als bestanden markieren“ neutral",
+   "von": 694,
+   "bis": 696,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "[data-action=\"prop-account-new\"]",
+    "[data-action=\"prop-account-status\"]",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "zustaende-14",
+    "komponenten-1"
+   ],
+   "abhaengig": [
+    "komponenten-C11"
+   ],
+   "tests": [
+    "e2e/proptest.js:20, :23, :27"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-prop-b",
+   "titel": "Prop-Regelfelder: Beschriftung als .lbl",
+   "von": 697,
+   "bis": 697,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".prop-rule-f .field span",
+    ".field .lbl"
+   ],
+   "befund_ids": [
+    "komponenten-18"
+   ],
+   "abhaengig": [
+    "komponenten-C05"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-prop-c",
+   "titel": "Karte „Deine Konten“ ohne Kopfknopf",
+   "von": 698,
+   "bis": 698,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "U.card",
+    "t:Deine Konten",
+    "[data-action=\"prop-account-new\"]"
+   ],
+   "befund_ids": [
+    "hierarchie-28"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-prop-d",
+   "titel": "Prop: Eintrag-Knöpfe und Inline-Absenden (Ausgabe/Payout erfassen) neutral",
+   "von": 699,
+   "bis": 700,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "entryBtn",
+    "[data-action=\"prop-entry\"]",
+    "[data-action=\"prop-expense-add\"]",
+    "[data-action=\"prop-payout-add\"]"
+   ],
+   "befund_ids": [
+    "komponenten-1",
+    "komponenten-30"
+   ],
+   "tests": [
+    "e2e/proptest.js:79",
+    "e2e/sampletest.js:69"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-prop-e",
+   "titel": "Prop-Bilanz: Tabellen als tbl-wrap inset",
+   "von": 701,
+   "bis": 701,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".tbl-wrap",
+    ".tbl-wrap.inset"
+   ],
+   "befund_ids": [
+    "bereich_prop-18"
+   ],
+   "tests": [
+    "e2e/proptest.js:79",
+    "e2e/sampletest.js:69, :73"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-prop-f",
+   "titel": "Prop-Kopfknopf „+ Konto anlegen“ mit Text auch am Handy",
+   "von": 702,
+   "bis": 703,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "[data-action=\"prop-account-new\"]",
+    ".hide-m",
+    "t:Prop-Konto",
+    "t:Konto anlegen"
+   ],
+   "befund_ids": [
+    "hierarchie-28",
+    "responsiv-46"
+   ],
+   "abhaengig": [
+    "komponenten-C08"
+   ],
+   "tests": [
+    "e2e/proptest.js:19"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-ruhepunkt-a",
+   "titel": "Ruhepunkt-Rhythmus: Kurzlabels „Einatmen/Nachziehen/Ausatmen“ in der Leiste",
+   "von": 704,
+   "bis": 706,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    "P.seufzer",
+    ".rp-seq-i b",
+    ".rp-phase",
+    "t:Einatmen",
+    "t:Nachziehen",
+    "t:Ausatmen"
+   ],
+   "befund_ids": [
+    "bereich_training-41"
+   ],
+   "abhaengig": [
+    "komponenten-C34b"
+   ],
+   "tests": [
+    "e2e/rptest.js:17"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-ruhepunkt-b",
+   "titel": "„Bewusst abschalten“: versteckte Checkbox plus eigene .rp-box",
+   "von": 707,
+   "bis": 708,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    ".rp-checks",
+    ".rp-checks input",
+    ".rp-box",
+    ".vh",
+    "I.check"
+   ],
+   "befund_ids": [
+    "bereich_training-48"
+   ],
+   "abhaengig": [
+    "komponenten-C17c"
+   ],
+   "tests": [
+    "e2e/rptest.js:46 (siehe E1e)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-shadow",
+   "titel": "Schatten-Ich-Seitenwahl: .btn.nav, nur bei mehreren Seiten, „1–10“",
+   "von": 709,
+   "bis": 711,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    ".pager",
+    ".pg-nav",
+    "[data-action=\"shadow-page-nav\"]",
+    "[data-change=\"shadow-page\"]",
+    ".btn.nav",
+    "t:{0} – {1} von {2} Verstößen",
+    "t:{0}–{1} von {2} Verstößen"
+   ],
+   "befund_ids": [
+    "komponenten-25",
+    "bereich_trades_tag-34"
+   ],
+   "abhaengig": [
+    "komponenten-C07"
+   ],
+   "tests": [
+    "e2e/shadowtest.js:38, :41, :43 (prüfen „1 – 10 von … Verstößen“ bzw. „11 – “/„1 – “ mit Leerzeichen; nicht in E1 genannt, mitändern)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-stats-a",
+   "titel": "Statistik-Reiter ohne .btn und Inline-Farbe (Schiene)",
+   "von": 712,
+   "bis": 713,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    ".tabs.scroll-x",
+    "[data-subnav]",
+    ".tabs > a",
+    ".btn"
+   ],
+   "befund_ids": [
+    "bereich_statistik-6",
+    "referenz-23",
+    "komponenten-27"
+   ],
+   "abhaengig": [
+    "komponenten-C19"
+   ],
+   "tests": [
+    "e2e/calmnavtest.js:40–51",
+    "e2e/chartanimtest.js:33"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-stats-b",
+   "titel": "Statistik: Tabellen inset, Tage in Karte „Alle Handelstage“",
+   "von": 714,
+   "bis": 716,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "groupTable",
+    ".tbl-wrap.inset",
+    "U.card",
+    "t:Alle Handelstage",
+    "[data-action=\"day\"]"
+   ],
+   "befund_ids": [
+    "bereich_statistik-19"
+   ],
+   "tests": [
+    "e2e/chartanimtest.js:33–35"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-trades-a",
+   "titel": "TradeLog: Trefferzähler nur bei aktivem Filter",
+   "von": 717,
+   "bis": 718,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "[data-action=\"trade-filter-reset\"]",
+    "t:{0} von {1} Trades"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-34"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-trades-b",
+   "titel": "TradeLog-Leerzustand „Trade loggen“ neutral",
+   "von": 719,
+   "bis": 719,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "[data-action=\"new-trade\"]",
+    ".empty",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "zustaende-14"
+   ],
+   "abhaengig": [
+    "komponenten-C11"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-trades-c",
+   "titel": "TradeLog-Seitenwahl: .btn.nav, Auswahl/Pfeile nur bei mehreren Seiten, „1–10“",
+   "von": 720,
+   "bis": 720,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".pager",
+    ".pg-l",
+    ".pg-nav",
+    ".pg-info",
+    "[data-action=\"trade-page-nav\"]",
+    "[data-change=\"trade-page\"]",
+    "[data-change=\"trade-page-size\"]",
+    ".btn.nav",
+    "t:{0} – {1} von {2} Trades",
+    "t:{0}–{1} von {2} Trades"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-34",
+    "komponenten-25"
+   ],
+   "abhaengig": [
+    "komponenten-C07"
+   ],
+   "tests": [
+    "e2e/tlfittest.js:8–9 (Pager sichtbar)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-trades-d",
+   "titel": "Tageskarten: „Netto“ gedämpft, Kennzahlen aus App.dayStatsHTML",
+   "von": 721,
+   "bis": 721,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".pnl",
+    "App.dayStatsHTML",
+    "C.summary",
+    "t:Netto"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-43"
+   ],
+   "abhaengig": [
+    "komponenten-A8"
+   ],
+   "tests": [
+    "e2e/tlfittest.js:13 (Ansicht days)"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-trades-e",
+   "titel": "Verpasste Trades: Symbol und Richtung in zwei Zellen unter einer Überschrift",
+   "von": 722,
+   "bis": 722,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "td.sym",
+    "td.dir-cell",
+    "U.badge"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-30"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-trades-f",
+   "titel": "Trade-Ansicht: „30 Sekunden aufnehmen“ und „Bearbeiten“ neutral",
+   "von": 723,
+   "bis": 723,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "[data-action=\"voice-open\"]",
+    "[data-action=\"edit-trade\"]",
+    ".btn.primary"
+   ],
+   "befund_ids": [
+    "komponenten-1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-S-trades-g",
+   "titel": "Verpasst-Dialog mit den Bausteinen aus „Trade loggen“ (3er-Raster, Symbol, Richtung, Währungsfeld, R)",
+   "von": 724,
+   "bis": 724,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js",
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".form-grid.cols3",
+    ".form-grid",
+    "App.symbolField",
+    "App.dirField",
+    "App.curField",
+    "#m-symbol",
+    "#m-pnl",
+    "#f-symbol",
+    "U.modal",
+    "App.closeSymbolMenu",
+    "App.noLabelFocus",
+    "U.seg",
+    "t:Hätte gebracht (P&L)",
+    "t:Hätte gebracht",
+    "t:R-Multiple",
+    "t:R"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-11"
+   ],
+   "abhaengig": [
+    "komponenten-A5a",
+    "komponenten-A5b"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "komponenten-S-trades-h",
+   "titel": "Verpasst-Dialog: Prüfung „Symbol fehlt“ / „Long oder Short wählen“ vor dem Speichern",
+   "von": 725,
+   "bis": 726,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "save-missed",
+    "#f-dir",
+    ".dir-switch.need",
+    "U.toast",
+    "t:Symbol fehlt",
+    "t:Long oder Short wählen"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-11"
+   ],
+   "abhaengig": [
+    "komponenten-S-trades-g"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-L1a",
+   "titel": "Übersetzungen: Verpasst-Dialog, „Konto anlegen“, Coach-Einladungslink",
+   "von": 727,
+   "bis": 733,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Hätte gebracht",
+    "t:Konto anlegen",
+    "t:Einladungslink erneuern",
+    "t:Einladungslink erneuern?",
+    "t:Erneuern",
+    "t:Link erneuern",
+    "t:Einladungslink erneuert",
+    "t:Co-Coach-Link erneuert"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-11",
+    "hierarchie-28",
+    "bereich_konto-45"
+   ],
+   "abhaengig": [
+    "komponenten-S-trades-g",
+    "komponenten-S-prop-f",
+    "komponenten-S-coach-c"
+   ],
+   "tests": [
+    "e2e/langtest.js",
+    "e2e/coachlang.js",
+    "e2e/coachlang2.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-L1b",
+   "titel": "Übersetzungen: „Profil ergänzen“ (Schlüssel umbenennen), Trading-Labels, Logs",
+   "von": 734,
+   "bis": 736,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Profil vervollständigen",
+    "t:Profil ergänzen",
+    "t:Tagesverlustlimit",
+    "t:Ruin-Schwelle (Drawdown)",
+    "t:Verlauf durchsuchen",
+    "t:Keine Einträge gefunden",
+    "t:Noch kein Verlauf",
+    "t:CSV-Importe und eingespielte Sicherungen erscheinen hier."
+   ],
+   "befund_ids": [
+    "hierarchie-47",
+    "bereich_einstellungen-35",
+    "bereich_einstellungen-40"
+   ],
+   "abhaengig": [
+    "komponenten-A2",
+    "komponenten-S-misc-e",
+    "komponenten-S-misc-i"
+   ],
+   "tests": [
+    "e2e/langtest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-L1c",
+   "titel": "Übersetzungen: „Alle Handelstage“, „Netto“, Seitenwahl-Schlüssel ohne Leerzeichen",
+   "von": 737,
+   "bis": 738,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Alle Handelstage",
+    "t:Netto",
+    "t:{0} – {1} von {2} Trades",
+    "t:{0}–{1} von {2} Trades",
+    "t:{0} – {1} von {2} Verstößen",
+    "t:{0}–{1} von {2} Verstößen"
+   ],
+   "befund_ids": [
+    "bereich_statistik-19",
+    "bereich_trades_tag-43",
+    "bereich_trades_tag-34"
+   ],
+   "abhaengig": [
+    "komponenten-S-stats-b",
+    "komponenten-S-trades-d",
+    "komponenten-S-trades-c",
+    "komponenten-S-shadow"
+   ],
+   "tests": [
+    "e2e/langtest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-L1d",
+   "titel": "Übersetzungen: Tag-Suche, Vorlagen-Menü; Ruhepunkt/Teilen nur bei vorhandenen Einträgen",
+   "von": 739,
+   "bis": 742,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js"
+   ],
+   "anker": [
+    "t:Tags suchen",
+    "t:„{0}“ als Tag anlegen",
+    "t:Neuen Tag anlegen",
+    "t:Bearbeiten",
+    "t:Als Standard festlegen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-20",
+    "bereich_dashboard-47"
+   ],
+   "abhaengig": [
+    "komponenten-S-notebook-c",
+    "komponenten-S-dashboard-a"
+   ],
+   "tests": [
+    "e2e/langtest.js"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-R1a",
+   "titel": "README: Filter-Fuß (Trade-Zahl unten links)",
+   "von": 743,
+   "bis": 746,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z.80"
+   ],
+   "befund_ids": [
+    "komponenten-21"
+   ],
+   "abhaengig": [
+    "komponenten-S-dash-filter"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-R1b",
+   "titel": "README: Notebook-Ordner und Tag-Menü mit Suche",
+   "von": 747,
+   "bis": 747,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z.120"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-32",
+    "bereich_notebook_news-20"
+   ],
+   "abhaengig": [
+    "komponenten-S-notebook-a",
+    "komponenten-S-notebook-c"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-R1c",
+   "titel": "README: Einstellungen speichern sofort, Ja/Nein als Schalter",
+   "von": 748,
+   "bis": 748,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z.171"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2",
+    "bereich_einstellungen-11"
+   ],
+   "abhaengig": [
+    "komponenten-S-misc-b",
+    "komponenten-S-misc-c",
+    "komponenten-S-misc-e",
+    "komponenten-S-misc-g"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-R1d",
+   "titel": "README: Kalender – „heute“ einziger gefüllter Kreis, Wochentage ohne Kästen",
+   "von": 749,
+   "bis": 749,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z.190"
+   ],
+   "befund_ids": [
+    "ki_look-11"
+   ],
+   "abhaengig": [
+    "komponenten-C26a"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-R1e",
+   "titel": "README: neuer Absatz „Bausteine“; Zahlenfelder global ohne Pfeile",
+   "von": 750,
+   "bis": 751,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z.210",
+    "README Z.227"
+   ],
+   "befund_ids": [
+    "komponenten-1",
+    "komponenten-27",
+    "zustaende-14",
+    "komponenten-16"
+   ],
+   "abhaengig": [
+    "komponenten-C02",
+    "komponenten-C07",
+    "komponenten-C19",
+    "komponenten-C20",
+    "komponenten-C21a"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-R1f",
+   "titel": "README nach Antwort auf N1/N2 nachziehen (Z. 191, 207–208)",
+   "von": 752,
+   "bis": 753,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README Z.191",
+    "README Z.207",
+    ".btn.primary",
+    ".cal .d .p"
+   ],
+   "befund_ids": [
+    "komponenten-1",
+    "ki_look-11"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1a",
+   "titel": "e2e settest.js: Trading per Tab statt Submit, Notebook ohne Speichern-Klick",
+   "von": 754,
+   "bis": 757,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/e2e/settest.js"
+   ],
+   "anker": [
+    "#be-to",
+    "form[data-action=\"save-trading\"]",
+    "form[data-action=\"save-notebook\"]"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2",
+    "bereich_einstellungen-11"
+   ],
+   "abhaengig": [
+    "komponenten-S-misc-e",
+    "komponenten-S-misc-g"
+   ],
+   "tests": [
+    "e2e/settest.js:22",
+    "e2e/settest.js:31"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1b",
+   "titel": "e2e settest2.js: Profil per Tab, Privatsphäre über Schalter",
+   "von": 758,
+   "bis": 758,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/e2e/settest2.js"
+   ],
+   "anker": [
+    "#pf-addr",
+    "[data-action=\"privacy-toggle\"]"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-2",
+    "bereich_einstellungen-11"
+   ],
+   "abhaengig": [
+    "komponenten-S-misc-b",
+    "komponenten-S-misc-c"
+   ],
+   "tests": [
+    "e2e/settest2.js:9–16"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1c",
+   "titel": "e2e sixtest.js: neuer Tag über die Tag-Suche",
+   "von": 759,
+   "bis": 759,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/e2e/sixtest.js"
+   ],
+   "anker": [
+    "#nb-tag-q",
+    "#pop-nbtags [data-action=nb-tag-new]"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-20"
+   ],
+   "abhaengig": [
+    "komponenten-S-notebook-c"
+   ],
+   "tests": [
+    "e2e/sixtest.js:57"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1d",
+   "titel": "e2e rangetest.js: nur den sichtbaren Vormonat-Pfeil klicken",
+   "von": 760,
+   "bis": 760,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/e2e/rangetest.js"
+   ],
+   "anker": [
+    "#pop-range [data-rr=\"prev\"]"
+   ],
+   "befund_ids": [
+    "responsiv-23"
+   ],
+   "abhaengig": [
+    "komponenten-D2"
+   ],
+   "tests": [
+    "e2e/rangetest.js:18"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1e",
+   "titel": "e2e rptest.js: Abhak-Zeile über das Label klicken",
+   "von": 761,
+   "bis": 761,
+   "cluster": "training",
+   "dateien": [
+    "web/e2e/rptest.js"
+   ],
+   "anker": [
+    ".rp-checks label"
+   ],
+   "befund_ids": [
+    "bereich_training-48"
+   ],
+   "abhaengig": [
+    "komponenten-S-ruhepunkt-b"
+   ],
+   "tests": [
+    "e2e/rptest.js:46"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1f",
+   "titel": "e2e: Hinweis-Punkte über aria-label statt title prüfen",
+   "von": 762,
+   "bis": 762,
+   "cluster": "shell",
+   "dateien": [
+    "web/e2e/navdottest.js",
+    "web/e2e/coachtest.js",
+    "web/e2e/sidebartest.js"
+   ],
+   "anker": [
+    ".nav-dot",
+    ".sb-av-dot"
+   ],
+   "befund_ids": [
+    "bereich_shell-20"
+   ],
+   "abhaengig": [
+    "komponenten-A1"
+   ],
+   "tests": [
+    "e2e/navdottest.js:8, :53",
+    "e2e/coachtest.js:94, :98, :127",
+    "e2e/sidebartest.js:27"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1g",
+   "titel": "e2e usercardtest.js: „Profil ergänzen“",
+   "von": 763,
+   "bis": 763,
+   "cluster": "shell",
+   "dateien": [
+    "web/e2e/usercardtest.js"
+   ],
+   "anker": [
+    "t:Profil ergänzen"
+   ],
+   "befund_ids": [
+    "hierarchie-47"
+   ],
+   "abhaengig": [
+    "komponenten-A2"
+   ],
+   "tests": [
+    "e2e/usercardtest.js:11"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "komponenten-E1h",
+   "titel": "e2e mobiletest.js: Handy-Kachelwert 22px",
+   "von": 764,
+   "bis": 766,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/e2e/mobiletest.js"
+   ],
+   "anker": [
+    ".stat-tile .v"
+   ],
+   "befund_ids": [
+    "bereich_statistik-8"
+   ],
+   "abhaengig": [
+    "komponenten-C25a"
+   ],
+   "tests": [
+    "e2e/mobiletest.js:27"
+   ],
+   "aufwand": "S"
+  }
+ ],
+ "akzeptanz": {
+  "von": 768,
+  "bis": 817
+ },
+ "querbezuege": [
+  "K1/N1 – .btn.primary (app.css Z.274–275, C06): Füllfarbe ist eine gemeinsame Frage mit Gruppe Farbe (referenz-6). Farbe B2 setzt .btn.primary auf --surface-3 (Variante C), Komponenten empfiehlt B. Den Hover ohne Schein ändern auch Bewegung B1/K12 und Zustände S-C2 (.btn.primary:hover:not(:disabled)), deshalb nur einmal umsetzen.",
+  "K2/K5 – Farbe bereich_prop-16 und bereich_trades_tag-21: Inline-Absenden (S-prop-d) und „Trade loggen“ im Leerzustand (S-trades-b, Schatten-Ich) neutral. Mit Farbe C26 (prop.js) und C31 (trades.js) abgleichen.",
+  "W7 deckt sich mit Gruppe Farbe bereich_dashboard-1 (Farbe C14, widgets.js), Auslöser in Feature-Widgets nur einmal umsetzen.",
+  "K6/C26a – .cal .d.today .n (--text/--bg/600) ist identisch mit Farbe B14/K5 (referenz-8, farbe_kontrast-24). Die i.today-Ringe (C26b) ändert auch Farbe B23. .cal .wd/.ycal-head span 12px/500 --muted setzt auch Aufbau Z.86. Die Tageszahl behandeln auch Aufbau K14 und Typografie, den Hover der Kalendertage Bewegung C1.",
+  "K7/N2 – .cal .d .p 800→700 (README Z.191): Typografie Z.36 führt Onest 800 als Ausnahme. R1f erst nach der Antwort.",
+  "K9/D1 – Die 24-h-Anzeige in type=time-Feldern liefert die Anzeige-Überlagerung der Gruppe Wortwahl (wording-2) bzw. Zustände (zustaende-20).",
+  "K10/C25a/E1h – .stat-tile .v am Handy 22 px widerspricht Responsiv K12 (20 px, mobiletest.js:27 bleibt dort '20px'). Vor der Umsetzung klären.",
+  "C25a – .tile:hover, .stat-tile:hover behält den Rand --border-2. Zustände S-C5/K22 löscht Z.516 (und .card:hover) ganz. Bewegung B5/K1 setzt dieselbe Rand-Regel wie C25a.",
+  "C25c – :root[data-theme=\"light\"] .kstrip .tile nach Z.2603 überschneidet sich mit Farbe B24 (ebenfalls nach Z.2603). Bewegung K3 und Zustände S-C5 löschen .kstrip .tile:hover (Z.2603).",
+  "C25 (Z.409) – .stat-tile .k/.v/Padding folgen Typografie und Abstände. Typografie Z.83 (Kachel-Titel 13/500) und Aufbau Z.95 (.stat-tile .k 13px/500) widersprechen den 13.5px hier, Abstände Z.69 (Kachel 16/20) widerspricht 12px 15px.",
+  "C25b – .tile.spark-tile .val/.spark-body ändern auch Typografie Z.182/225–227, Abstände Z.111 (padding-top var(--sp-3)) und Responsiv Z.386.",
+  "K20 – --lift-shadow bleibt (landing.css:56). Das allgemeine Knopf-Anheben regelt Gruppe Bewegung (bewegung-18/komponenten-13, Bewegung B1).",
+  "K23/C18 – .checklist .it: zuerst Barrierefreiheit B5 (bereich_trades_tag-41, .checklist button.it), dann C18. Zustände S-C10 ändert Z.805 auf color --text-2, statt sie zu löschen (Konflikt).",
+  "C21a – .popover .item[aria-checked=\"true\"]: Hintergrund hier --surface-2, in Farbe B4 und Barrierefreiheit B6 (Z.318–319) ein color-mix-Hintergrund. Zustände Z.6 verweist auf komponenten-2.",
+  "C23 – .tpl-row .chk und .tpl-row.on .item.name stehen auch in Barrierefreiheit Z.322–323 und in Farbe.",
+  "C28 – .rep-sel.on: Farbe C3 setzt border-color --border-2 statt --text-2.",
+  "C29b/C21d – .nb .tagpop .sec.k-* wird hier gelöscht, Farbe C1 (Z.362) färbt sie --muted. .nb .tagpop .chk ist hier --text-2, in Farbe currentColor.",
+  "C15/A6 – .scale5 statt .rating: Barrierefreiheit Z.345–352 (.rating button 32 px, .rating button.on) und Z.665–666 (role=radio, aria-checked) ändern denselben Baustein. Die gemeinsame Auswahlregel app.css:3125 ändert auch Farbe B25.",
+  "C19/S-stats-a – .tabs a hat hier aria-pressed, Barrierefreiheit Z.353–356 stellt auf aria-current=\"page\" um. Dieselbe Leiste betreffen der Wischleisten-Auslauf .fade-l/.fade-r (Responsiv A2) und der Abstand von .content > .tabs.scroll-x (Abstände Z.88).",
+  "C20 – Die Unterstrich-Reiter .set-tabs/.prop-sub ändern auch Farbe B21, Zustände S-C9 und Bewegung (K19: aufbau-16 könnte .prop-sub ganz entfernen).",
+  "C07 – .btn.nav ist 34 px. Barrierefreiheit Z.382 vergrößert am Handy .pager .pg-nav button (44×40) und .select.sm.",
+  "C10 – .topbar .menu-btn ändern auch Responsiv Z.249 (margin-left -9px) und Barrierefreiheit Z.376/610 (Trefferfläche, Fokus-Rückgabe). Die Dubletten abstaende_layout-3 (Abstände) und aufbau-1 (Aufbau) werden hier umgesetzt.",
+  "C35 – .dash-head .tl ändern auch Responsiv Z.252 (right: calc(…)) und Farbe Z.13.",
+  "A4 – App.sessionControl: Aufbau K2/Z.57 (Session nur auf TradeLog, Tagesansicht, Fortschritt, Notebook) und Barrierefreiheit P9 (Z.630) ändern denselben Knopf. Dazu N5 (Dashboard ohne Session).",
+  "A1 – .sb-user: Barrierefreiheit Z.181 (aria-label „Konto und Einstellungen“).",
+  "A2 – „Profil ergänzen“ steht auch im Glossar der Gruppe Wortwahl (Z.137, bereich_shell-34).",
+  "S-misc-b/-c/-g – Sofort-Speichern für Profil, Privatsphäre und Notebook widerspricht Zustände K18 (nur Trading speichert sofort). Farbe C22 ändert misc.js ebenfalls.",
+  "D2 – oneMonth() per matchMedia widerspricht Responsiv K6 (RangePicker prüft das gerenderte Menü per getComputedStyle).",
+  "C11 – .empty > svg ist identisch mit Farbe B12. Zustände S-C4 und Typografie (.empty b 15/600) ändern .empty b.",
+  "C24/S-dash-filter – Den Filter-Fuß ändert auch Farbe B19. Die Titelgröße des Filters regelt Typografie (typografie-18, K16).",
+  "C31/S-mentor-a – .mentor-disclaimer ist verträglich mit KI-Look Z.263–268 (.mentor-notes > .mentor-note).",
+  "S-day-a – Die Pille „Heute“ regelt Gruppe Farbe (komponenten-8, Farbe C20 day.js).",
+  "N3 (ki_look-19, Statusspalte) – Aufbau K27 und Responsiv K20 berühren die TradeLog-Spalten Status/Richtung.",
+  "C03 – Das Höhen-Token für Felder gehört zur Abstände-Spezifikation (komponenten-14, Inventar A5).",
+  "C27 – Einstellungen → Design (.dc-prev/.tc-prev/.dot) ändert auch Bewegung C7/K21.",
+  "C21b – Dass .sb-menu .item 13 px erbt, deckt sich mit Typografie Z.157.",
+  "S-coach – coach.js ändert auch Farbe C17, Zustände Z.162 ändert den Leertext mit „Einladungslink“.",
+  "L1 – Die Sprachschlüssel in js/lang/*.js überschneiden sich mit Gruppe Wortwahl und Farbe D1.",
+  "C14a – .seg button[aria-pressed]: Barrierefreiheit Z.347 ergänzt .seg button[aria-checked=\"true\"]. bewegung-25 (Gruppe Bewegung) wird hier umgesetzt."
+ ]
+}

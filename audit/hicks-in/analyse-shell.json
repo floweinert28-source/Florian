@@ -1,0 +1,527 @@
+{
+ "screens": [
+  {
+   "screen": "kopfreihe (pageHead, alle Seiten ohne eigene Kopfreihe)",
+   "zustand": "voll (Desktop 1440)",
+   "hauptaktion": "Die eigene Hauptaktion der jeweiligen Seite: TradeLog „Trade loggen“, Prop Firms „+ Prop-Konto“, Notebook „Neue Notiz“, Einstellungen „Speichern“, Tagesansicht „Trade für diesen Tag“. Coupon-Codes, Affiliate und News haben keine Aktion in der Kopfreihe.",
+   "optisch_klar": false,
+   "begruendung": "pageHead setzt standardmäßig { session: true, trade: true } (app.js:257). Damit steht auf jeder Seite ohne eigene head-Angabe „Trade loggen“ (.btn.accent, grüne Schrift mit grünem Rand) rechts außen, dazu „Session starten“ als ▶ ohne Text (.btn.icon-only). Messung mit Playwright bei 1440 px: Einstellungen zeigen Zeitraum, Konto, ▶ und „Trade loggen“ (misc.js:17 hat kein head), außerdem auf der Seite das gefüllte „Speichern“ und „2FA aktivieren“ (settings.png). Prop Firms: die eigene Hauptaktion „+ Prop-Konto“ ist nur .btn und steht neben dem grünen „Trade loggen“ (prop.png). Tagesansicht hat drei grüne Knöpfe: „Trade loggen“, „Trade für diesen Tag“ und „Tagesnotiz anlegen“ (day.png, day.js:12). Notebook hat zwei: „Trade loggen“ und „Neue Notiz“. Coupon-Codes, Affiliate und News zeigen nur ▶ und „Trade loggen“ (coupons.png). Für Schatten-Ich hat der Nutzer diese Regel schon selbst festgelegt (shadow.js:104: „Trade loggen und Session starten gibt es auf Dashboard und TradeLog“).",
+   "konkurrenten": [
+    "„Trade loggen“ (.btn.accent) auf Seiten mit anderer Aufgabe: Prop Firms, Notebook, Tagesansicht, Einstellungen",
+    "„Session starten“ ▶ (.btn.icon-only) auf 9 Seiten",
+    "Zeitraum und Konto (.btn) auf Einstellungen und Tagesansicht"
+   ],
+   "verstecken": [
+    "„Session starten“: nur noch auf TradeLog und Tagesansicht und in der Fortschritt-Checkliste (progress.js:51). Eine laufende Session (Timer und Stopp) bleibt überall sichtbar",
+    "„Trade loggen“: nur auf Dashboard und TradeLog, dazu die Taste N (settings.png, Fußzeile „Tastatur: N neuer Trade“)"
+   ],
+   "irrelevant": [
+    "„Trade loggen“ und ▶ auf Coupon-Codes, Affiliate, News und Einstellungen",
+    "Zeitraum und Konto auf Einstellungen",
+    "Zeitraum auf Tagesansicht: day.js benutzt den Zeitraum nirgends (0 Treffer für range/inRange); der Tag wird über ‹ › gewählt"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Trade loggen“ und Session nur dort, wo sie die Hauptaktion sind",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Den Standard in pageHead (app.js:257) von { session: true, trade: true } auf { session: false, trade: false } drehen und gezielt einschalten. trades: { trade: true, session: true }. day: { range: false, session: true }; dort bleibt „Trade für diesen Tag“ der einzige grüne Knopf. settings (misc.js:17): { range: false, account: false }. Stats, Fortschritt, Notebook, News, Prop, Coupons und Affiliate übernehmen den neuen Standard. Ergebnis: Prop Firms zeigt nur „+ Prop-Konto“. Es bleibt .btn, steht aber allein und ist damit klar die Hauptaktion; Grün bleibt nach README:203 „Trade loggen“ vorbehalten. Notebook zeigt nur „Neue Notiz“, Einstellungen nur „Speichern“. Bei Coupon-Codes, Affiliate und News wird die Kopfreihe .compact oder fällt weg. „Trade loggen“ bleibt erreichbar über Dashboard, TradeLog, Tagesansicht („Trade für diesen Tag“) und die Taste N.",
+     "beleg": "app.js:256-262; Playwright-Messung der Kopfreihen bei 1440 px; settings.png, prop.png, day.png, coupons.png; shadow.js:104 (die gleiche Regel, vom Nutzer schon so entschieden)",
+     "id": "shell-1-1"
+    },
+    {
+     "titel": "„Session starten“ nur auf TradeLog und Tagesansicht, laufende Session überall",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "sessionControl (app.js:247-252) zeigt den ▶-Knopf ohne laufende Session nur, wenn die Seite head.session setzt (trades, day). Fortschritt startet die Session schon über die Checkliste (progress.js:51). Läuft eine Session, rendert pageHead den Timer-Knopf mit Stopp auf allen Seiten mit Kopfreihe, damit der laufende Zustand sichtbar bleibt. So verschwindet das unklarste Element der Reihe: ein ▶ ohne Text, der auch als „Abspielen“ oder Replay gelesen werden kann.",
+     "beleg": "app.js:247-252; trades.png (▶ zwischen „CSV importieren“ und „Trade loggen“); Playwright-Messung: ▶ auf trades, day, stats, progress, notebook, news, prop, coupons, affiliate und settings",
+     "id": "shell-1-2"
+    }
+   ],
+   "sid": "shell-1",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "kopfreihe (pageHead)",
+   "zustand": "leer (Konto ohne einen einzigen Trade)",
+   "hauptaktion": "Den ersten Trade loggen oder eine CSV importieren",
+   "optisch_klar": false,
+   "begruendung": "leer_trades.png: Oben stehen Zeitraum, Konto, „CSV importieren“ (.btn), ▶ und „Trade loggen“ (.btn.accent). Darunter folgen Filterleiste und Leerzustand mit noch einmal „CSV importieren“ und „Trade loggen“, dort gefüllt. Dieselben zwei Aktionen stehen also doppelt da, und der gefüllte Knopf unten ist stärker als der in der Kopfreihe. Zeitraum und Konto haben ohne Trades nichts zu filtern; das Konto-Menü enthält bei einem Konto nur dieses eine Konto (pop_konto.png).",
+   "konkurrenten": [
+    "„Trade loggen“ in der Kopfreihe gegen das gefüllte „Trade loggen“ im Leerzustand",
+    "„CSV importieren“ doppelt",
+    "Zeitraum, Konto und ▶"
+   ],
+   "verstecken": [
+    "Zeitraum und Session, bis der erste Trade existiert",
+    "Konto, solange es nur ein Konto gibt (siehe Titelzeile)"
+   ],
+   "irrelevant": [
+    "Zeitraum ohne jeden Trade",
+    "▶ Session ohne Trades",
+    "doppelte Import- und Log-Knöpfe"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leeres Konto: Kopfreihe ohne Zeitraum, Session und doppelte Knöpfe",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "pageHead (app.js:256-262) prüft ctx.all.length === 0. Dann werden range und session nicht gerendert, account nur bei mehr als einem Konto. Zeigt die Seite selbst einen Leerzustand mit Knöpfen (TradeLog: „CSV importieren“ und „Trade loggen“), setzt der Screen ctx.emptyCta = true. pageHead blendet dann seine eigenen Knöpfe „CSV importieren“ und „Trade loggen“ aus, und es bleibt genau ein Weg: der Leerzustand mit einem Satz Erklärung und den Knöpfen. Wichtig ist die Unterscheidung: Gibt es Trades, nur nicht im gewählten Zeitraum, bleibt der Zeitraum sichtbar, weil er dann der Knopf ist, der weiterhilft. Mit dem ersten Trade erscheinen alle Knöpfe wieder an ihrem Platz.",
+     "beleg": "leer_trades.png; app.js:256-262; trades.js:20 (CSV-Knopf in der Kopfreihe)",
+     "id": "shell-2-1"
+    }
+   ],
+   "sid": "shell-2",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "kopfreihe (pageHead)",
+   "zustand": "handy (390)",
+   "hauptaktion": "„Trade loggen“ als runder Knopf (54 px, fest unten rechts)",
+   "optisch_klar": true,
+   "begruendung": "Größe und feste Position machen den runden Knopf klar zur Hauptaktion. Er ist aber nicht gefüllt: .btn.accent (app.css:3137) steht später in der Datei als die Handy-Regel (app.css:3019) und überschreibt deren Hintergrund. Gemessen: background transparent mit Verlauf, nur das grüne Plus (pop_zertifikat.png 390). Weil er an pageHead hängt, erscheint er auch auf Einstellungen, Coupon-Codes, Affiliate und News. In der Kopfreihe steht auf dem Handy zusätzlich der ▶ (gemessen auf trades, stats, settings, coupons, prop).",
+   "konkurrenten": [
+    "▶ Session in der Kopfreihe neben dem Zeitraum",
+    "runder „+“-Knopf auf Seiten ohne Trade-Bezug"
+   ],
+   "verstecken": [
+    "▶ wie bei „voll“ (nur TradeLog und Tagesansicht)"
+   ],
+   "irrelevant": [
+    "runder „+“-Knopf auf Einstellungen, Coupon-Codes, Affiliate und News"
+   ],
+   "vorschlaege": [],
+   "sid": "shell-3",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "zertifikat-dialog",
+   "zustand": "leer (Zeitraum ohne Trades)",
+   "hauptaktion": "Zu einem Zeitraum mit Trades wechseln",
+   "optisch_klar": false,
+   "begruendung": "modal_zertifikat.png (dark-1440 und dark-390): Der Leerzustand sagt „Wähle einen anderen Zeitraum“. Der Weg dorthin sind nur die kleinen runden ‹ › (.btn.round.sm) und ein Datumsfeld rechts. Trotzdem bleiben sichtbar: Format (3 Segmente), 2 Häkchen, der Hinweis „PNG in doppelter Auflösung“, „Kopieren“ (.btn, deaktiviert) und „PNG herunterladen“ (.btn.primary, deaktiviert, mit 50 % Deckkraft immer noch die auffälligste Fläche). Der stärkste Knopf zeigt also auf eine Aktion, die gerade nicht möglich ist (certificate.js:83-88). Dieser Zustand ist der Standardweg: Dashboard → Schild → „Daily Profit“ öffnet heute (So, 11.10., keine Trades).",
+   "konkurrenten": [
+    "deaktiviertes „PNG herunterladen“ (gefüllt, 50 %)",
+    "deaktiviertes „Kopieren“",
+    "Format-Segmente und Häkchen"
+   ],
+   "verstecken": [
+    "Format, „Beträge ausblenden“, „Username anzeigen“, Auflösungs-Hinweis, „Kopieren“, „PNG herunterladen“: erst zeigen, wenn der Zeitraum Trades hat"
+   ],
+   "irrelevant": [
+    "Export-Knöpfe und Formatwahl ohne Vorschau"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leerer Zeitraum: ein Satz und ein Knopf „Zum letzten Handelstag“",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "In render() (certificate.js:83-88), wenn empty: Seitenspalte nur mit dem Feld „Zeitraum“, Format und Häkchen nicht rendern, Fußzeile ohne „Kopieren“ und „PNG herunterladen“. Im Leerzustand der Vorschau genau ein Knopf als .btn.primary, je nach Art „Zum letzten Handelstag“, „…zur letzten Woche mit Trades“ oder „…zum letzten Monat mit Trades“. Er setzt state.ref auf den Zeitraum des jüngsten Trades ≤ heute (aus App.allTrades() den größten dayKey, mit D.period/D.monthKey umrechnen) und ruft render(). Hat das Konto gar keine Trades, nur der Satz „Noch keine Trades – logge zuerst einen Trade.“ ohne Knopf. Sobald der Zeitraum Trades hat, erscheinen Format, Optionen und Export wieder.",
+     "beleg": "modal_zertifikat.png (1440 und 390); certificate.js:83-88; certdata.js:66 (defaultRef = heute)",
+     "id": "shell-4-1"
+    }
+   ],
+   "sid": "shell-4",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "zertifikat-popover (Dashboard-Schild, Statistiken „Zertifikat“)",
+   "zustand": "menü (Desktop und Handy)",
+   "hauptaktion": "Das Zertifikat zum gerade gewählten Zeitraum öffnen (Dashboard „Oktober 2026“ → Monthly Profit)",
+   "optisch_klar": false,
+   "begruendung": "pop_zertifikat.png (1440 und 390): Vier gleichrangige Zeilen, jede mit zwei Namen für dasselbe: links „Daily Profit“, rechts grau „Tag“ (certificate.js:58-60). Keine Zeile ist als naheliegend erkennbar. Die oberste Zeile „Daily Profit“ öffnet immer heute: Das Dashboard gibt todayKey mit (dashboard.js:125), Statistiken gar nichts (stats.js:9) → heute. An Tagen ohne Trades (Wochenende, vor dem Handel) führt der erste Eintrag damit in den leeren Dialog (modal_zertifikat.png). In leer_stats.png ist der Auslöser „Zertifikat“ auch ohne einen einzigen Trade da.",
+   "konkurrenten": [
+    "4 gleich aussehende Einträge",
+    "rechte Spalte „Tag/Woche/Monat/Stats“ wiederholt die linke"
+   ],
+   "verstecken": [
+    "den ganzen Zertifikat-Auslöser, solange das Konto keine Trades hat (Dashboard und Statistiken)"
+   ],
+   "irrelevant": [
+    "rechte Spalte als reine Wiederholung",
+    "Einträge, deren Zeitraum heute leer ist"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Tag und Woche auf den letzten Handelstag beziehen, rechts den echten Zeitraum zeigen",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "menuHTML (certificate.js:58-60) bekommt als day den letzten Tag mit Trades ≤ heute (größter dayKey aus App.allTrades()), nicht heute. Die Aufrufer dashboard.js:125 und stats.js:9 geben ihn mit. Die rechte graue Spalte zeigt statt „Tag/Woche/Monat/Stats“ den konkreten Zeitraum, z. B. „Do 08.10.“, „KW 41“, „Okt 2026“ und das Label des Zeitraums (App.range().label). Der Nutzer sieht dann vor dem Klick, was er bekommt, und kein Eintrag führt in einen leeren Dialog. In der Tagesansicht bleibt der gewählte Tag (day.js:12).",
+     "beleg": "pop_zertifikat.png, modal_zertifikat.png (So 11.10., leer); certificate.js:58-62; certdata.js:66",
+     "id": "shell-5-1"
+    },
+    {
+     "titel": "Zertifikat-Auslöser ausblenden, solange es keine Trades gibt",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Dashboard (dashboard.js:125, Schild .btn.icon-only) und Statistiken (stats.js:9, .btn „Zertifikat“): Den popwrap nur rendern, wenn ctx.all.length > 0. Mit dem ersten Trade oder Import erscheint er wieder an derselben Stelle. Die Tagesansicht ist davon nicht betroffen.",
+     "beleg": "leer_stats.png (Zertifikat-Knopf ohne Daten); dashboard.js:125; stats.js:9",
+     "id": "shell-5-2"
+    },
+    {
+     "titel": "Passenden Eintrag zum gewählten Zeitraum markieren",
+     "regel": 1,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In menuHTML den Eintrag, der zum Zeitraum-Preset passt (month → Monthly, week → Weekly, today → Daily, sonst Performance), mit dem bestehenden Auswahlzustand der Popover-Einträge (.item[aria-checked=\"true\"], wie im Zeitraum- und Konto-Menü) kennzeichnen. Die Reihenfolge bleibt fest, damit das Muskelgedächtnis erhalten bleibt. Es kommt kein neuer Stil dazu.",
+     "beleg": "certificate.js:58-60; app.js:239 und 244 (aria-checked in Zeitraum- und Konto-Popover)",
+     "id": "shell-5-3"
+    }
+   ],
+   "sid": "shell-5",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "titelzeile",
+   "zustand": "voll (Desktop 1440)",
+   "hauptaktion": "Orientierung über den Seitentitel. Auf dem Dashboard trägt sie nach Nutzer-Entscheidung Zeitraum, Konto und Filter (README:62); die Hauptaktion „Trade loggen“ steht eine Reihe tiefer.",
+   "optisch_klar": false,
+   "begruendung": "dashboard.png: Das erste Element oben links ist ein ☰ (.btn.ghost.icon), der auf dem Desktop nichts tut. .menu-btn{display:none} (app.css:224) wird von .btn{display:inline-flex} (app.css:267, gleiche Spezifität, später in der Datei) überschrieben. Gemessen: display flex bei 1440 px; ein Klick setzt nur .open und aria-expanded, sichtbar ändert sich nichts. Rechts folgen „Oktober 2026“, „Hauptkonto“ und „Filter“ (alle .btn, 40 px) sowie der Avatar „T“ (40 px). Das Konto-Menü enthält bei einem Konto nur „Hauptkonto“ und „Konten verwalten“ (pop_konto.png), ist also eine Wahl ohne Alternative. Mit aktivem Filter wird der Filter-Knopf zu .btn.accent (dashboard.js:124), sieht also genauso grün aus wie „Trade loggen“ (hicks_titelzeile_filter_aktiv_1440.png). Laut README:207 soll der Zähler im Filter-Knopf neutral sein. Außerdem landen Zeitraum und Konto auf Tagesansicht und Einstellungen in der Titelzeile (day.png, settings.png), auf TradeLog nicht (trades.png). Ursache: Der Listener aus dashboard.js:14-19 bleibt nach dem Verlassen des Dashboards aktiv und verschiebt bei jedem Wechsel über 961 px die .dh-context der aktuellen Seite. Gemessen: nach 1440→900→1440 auf #/trades steht .dh-context in #tb-tools.",
+   "konkurrenten": [
+    "☰ ohne Funktion",
+    "Zeitraum, Konto, Filter (3 gleich große .btn)",
+    "aktiver Filter in Akzent-Optik, gleichwertig mit „Trade loggen“",
+    "Avatar „T“ (doppelt zur Konto-Karte unten links)"
+   ],
+   "verstecken": [
+    "Konto-Wahl bei nur einem Konto (bleibt unter Einstellungen → Konten)",
+    "Avatar auf dem Desktop (Profil über Konto-Karte → Profil)"
+   ],
+   "irrelevant": [
+    "☰ auf dem Desktop",
+    "Konto-Knopf mit einem einzigen Konto",
+    "Zeitraum und Konto in der Titelzeile von Tagesansicht und Einstellungen (Leck aus dem Dashboard)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Aktiver Filter ohne Akzent: nur der Zähler zeigt den Zustand",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "dashboard.js:124: class=\"btn ${fN ? 'accent' : ''}\" → immer class=\"btn\". Der aktive Zustand bleibt über den neutralen Zähler <b class=\"cntb\"> sichtbar, der schon im Knopf steht. Dann ist „Trade loggen“ wieder der einzige grüne Knopf, wie in README:203-207 festgelegt („Grün nur für Gewinn und Trade loggen“, „der Zähler im Filter-Knopf … neutral“).",
+     "beleg": "extra/hicks_titelzeile_filter_aktiv_1440.png; dashboard.js:124; README.md:203-207",
+     "id": "shell-6-1"
+    },
+    {
+     "titel": "☰ auf dem Desktop wirklich ausblenden",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Die Regel auf .topbar .menu-btn { display: none; } heben (Spezifität 0,2,0) und im Block @media (max-width: 960px) ebenso .topbar .menu-btn { display: inline-flex; }. Desktop-Einklappen bleibt über das Symbol neben dem Schriftzug (sb-toggle), auf dem Handy bleibt der ☰. Das ist keine Stiländerung, nur die beabsichtigte Sichtbarkeit.",
+     "beleg": "app.css:224 gegen app.css:267 und 923; dashboard.png und sidebar_mini.png (☰ links neben dem Titel); Playwright: computed display=flex bei 1440, Klick ohne sichtbare Wirkung",
+     "id": "shell-6-2"
+    },
+    {
+     "titel": "Konto-Wahl nur bei mehr als einem Konto",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "accountControl() (app.js:242-245) gibt '' zurück, wenn S.data.accounts.length < 2. Das gilt für die Titelzeile des Dashboards und für alle Kopfreihen (Statistiken, Fortschritt, Schatten-Ich, Mentor). Beim Mentor bleibt der Hinweis-Text. „Konten verwalten“ bleibt unter Einstellungen → Konten erreichbar. Sobald ein zweites Konto angelegt ist, erscheint der Knopf wieder mit „Alle Konten“.",
+     "beleg": "pop_konto.png (einziger Eintrag „Hauptkonto“); app.js:242-245",
+     "id": "shell-6-3"
+    },
+    {
+     "titel": "Dashboard-Platzierung nicht auf andere Seiten übertragen",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In placeContext (dashboard.js:14-19) nur verschieben, wenn App.state.route === 'dashboard'. Außerdem bekommt App.screens.dashboard ein unmount(), das s.mq.removeEventListener('change', s.mqPlace) aufruft. Dann stehen Zeitraum und Konto auf jeder anderen Seite immer in der Kopfreihe wie bei TradeLog, und der Nutzer muss sie nicht je nach Vorgeschichte an zwei Orten suchen.",
+     "beleg": "day.png und settings.png (Zeitraum und Konto oben) gegen trades.png (unten); dashboard.js:14-19; Playwright-Nachweis nach Größenwechsel",
+     "id": "shell-6-4"
+    },
+    {
+     "titel": "Avatar in der Titelzeile nur auf dem Handy",
+     "regel": 4,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Auf dem Desktop (ab 961 px) wird .topbar .avatar nicht gezeigt, denn die Konto-Karte unten links führt schon zu Profil und Einstellungen. Zeitraum, Konto und Filter rücken dann an den rechten Rand; das Skelett .boot-head in app.html wird angeglichen. Das berührt README:62 („auf Höhe des Avatars“) und braucht deshalb die Zustimmung des Nutzers. Auf dem Handy bleibt der Avatar (siehe Titelzeile, handy).",
+     "beleg": "sidebar_mini.png (zwei identische „T“: unten links und oben rechts); app.js:266; app.js:226-231",
+     "id": "shell-6-5"
+    }
+   ],
+   "sid": "shell-6",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "titelzeile (Dashboard)",
+   "zustand": "leer (keine Trades)",
+   "hauptaktion": "Den ersten Trade loggen oder importieren (kommt aus der Seite)",
+   "optisch_klar": false,
+   "begruendung": "leer_dashboard.png: Die Titelzeile zeigt weiter „Oktober 2026“, „Hauptkonto“ und „Filter“ (3 umrandete .btn), obwohl es nichts zu filtern gibt. Der stärkste Knopf auf der Seite ist „Beispieldaten laden“ (.btn.primary, gefüllt) im Willkommen-Banner, nicht „Trade loggen“ (.btn.accent, nicht gefüllt).",
+   "konkurrenten": [
+    "Zeitraum, Konto, Filter",
+    "gefülltes „Beispieldaten laden“ im Banner (Bereich Dashboard)"
+   ],
+   "verstecken": [
+    "Zeitraum, Konto und Filter bis zum ersten Trade"
+   ],
+   "irrelevant": [
+    "Filter und Zeitraum ohne Daten",
+    "Konto-Wahl bei einem Konto"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Zeitraum, Konto und Filter erst ab dem ersten Trade",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "dashboard.js:124: Den Block .dh-context nur rendern, wenn S.trades().length > 0 (über alle Konten). Ohne Trades steht in der Titelzeile nur „Dashboard“. Mit dem ersten Trade oder Import erscheinen die drei Knöpfe an ihrem gewohnten Platz (README:62 bleibt gültig). Haben andere Konten Trades und nur das gewählte nicht, bleibt die Konto-Wahl, damit man zurückkommt.",
+     "beleg": "leer_dashboard.png; dashboard.js:123-124",
+     "id": "shell-7-1"
+    }
+   ],
+   "sid": "shell-7",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "titelzeile",
+   "zustand": "handy (390)",
+   "hauptaktion": "Menü öffnen (☰); die Seitenaktion ist der runde „+“-Knopf",
+   "optisch_klar": true,
+   "begruendung": "Die Titelzeile enthält nur ☰ (.btn.ghost), den Titel und den Avatar (34 px), das ist ruhig. Aber es gibt zwei Wege zu „mir“ mit unterschiedlichem Verhalten. Der Avatar führt direkt zu Einstellungen → Profil (app.js:266). Die Konto-Karte in der Schublade öffnet ein Menü mit Coach, Affiliate, Einstellungen, Sprache und Design (app.js:226-231). Zu den Einstellungen braucht man so 4 Schritte: ☰, in der Schublade scrollen (die Karte liegt bei 816–874 px, das Fenster ist 844 px hoch), Karte, Einstellungen.",
+   "konkurrenten": [
+    "Avatar (→ Profil) und Konto-Karte (→ Menü) mit unterschiedlichem Verhalten"
+   ],
+   "verstecken": [
+    "Konto-Karte in der Handy-Schublade, wenn der Avatar das Menü übernimmt"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Avatar öffnet auf dem Handy das Konto-Menü",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "In topbar() (app.js:266) wird der Avatar unter 961 px zu einem Knopf data-pop=\"user-top\" mit demselben Popover-Inhalt wie userCard (Profil, Coach, Affiliate, Einstellungen, Design-Schalter; Inhalt in eine gemeinsame Funktion auslagern). Das Popover öffnet nach unten, rechtsbündig. Damit ist das Konto-Menü auf dem Handy 1 Tipp entfernt statt 4. Auf dem Desktop bleibt die Konto-Karte der einzige Weg (siehe Titelzeile voll, Avatar).",
+     "beleg": "extra-dark-390/mobile_menue.png (Karte abgeschnitten); Playwright 390×844: Schublade scrollHeight 892 bei clientHeight 844, Karte 816–874 px; app.js:226-231 und 266",
+     "id": "shell-8-1"
+    }
+   ],
+   "sid": "shell-8",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "handy-menü (Schublade)",
+   "zustand": "handy (390)",
+   "hauptaktion": "Einen Bereich wählen",
+   "optisch_klar": true,
+   "begruendung": "extra-dark-390/mobile_menue.png: Der aktive Eintrag ist die einzige angehobene Fläche, Schließen ist ein ghost-X, kein Knopf konkurriert. 12 Einträge und 4 Gruppentitel füllen aber die ganze Höhe, und die Konto-Karte ist unten abgeschnitten (endet bei 874 px, das Fenster ist 844 px hoch). Das Konto-Menü öffnet nach oben über die Gruppe TRAINING (extra-dark-390/menu_konto_unten.png). Der runde „+“-Knopf scheint gedämpft durch die Abdunklung (z-index 40 < 45), das ist in Ordnung.",
+   "konkurrenten": [
+    "Konto-Karte (abgeschnitten) als zweites Ziel neben der Navigation"
+   ],
+   "verstecken": [
+    "Coupon-Codes (siehe Seitenleiste voll)",
+    "Konto-Karte, wenn der Avatar das Konto-Menü übernimmt"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [
+    {
+     "titel": "Schublade nur für die Navigation",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "Setzt den Vorschlag „Avatar öffnet auf dem Handy das Konto-Menü“ voraus. Dann im Block @media (max-width: 960px) .sidebar .sb-userwrap { display: none; } setzen. Die Schublade passt danach ohne Scrollen (etwa 892 − 69 ≈ 823 px < 844 px) und enthält nur noch Bereiche. Konto, Einstellungen und Design liegen hinter dem Avatar oben rechts.",
+     "beleg": "extra-dark-390/mobile_menue.png; Playwright: Karte 816–874 px bei 844 px Höhe",
+     "id": "shell-9-1"
+    }
+   ],
+   "sid": "shell-9",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "konto-menü unten links",
+   "zustand": "menü (Desktop 1440, ausgeklappt und eingeklappt)",
+   "hauptaktion": "Einstellungen öffnen (häufigster Grund für dieses Menü)",
+   "optisch_klar": false,
+   "begruendung": "menu_konto_unten.png: 6 gleichrangige Einträge und der Design-Schalter. „Einstellungen“ steht erst an 4. Stelle, hinter Profil, Coach und Affiliate (app.js:231). Vier der sechs Einträge führen auf dieselbe Seite. „Profil“ (#/settings/profil) und „Einstellungen“ (#/settings) öffnen beide Einstellungen → Profil, weil der Standardbereich 'profil' ist (misc.js:20). „Benachrichtigungen“ und „Sprache“ sind Unterseiten, die in der Seitenleiste der Einstellungen ohnehin stehen (settings.png). Auch der Avatar oben rechts führt auf #/settings/profil, das ergibt drei Wege zur identischen Seite. Die Karte selbst zeigt „Profil vervollständigen“, öffnet aber das Menü.",
+   "konkurrenten": [
+    "Profil und Einstellungen (gleiches Ziel)",
+    "Benachrichtigungen und Sprache (Unterseiten von Einstellungen)",
+    "Coach und Affiliate stehen vor Einstellungen"
+   ],
+   "verstecken": [
+    "Profil, Benachrichtigungen, Sprache: nur noch über die Seitenleiste der Einstellungen (Profil ist dort der erste Bereich und wird automatisch geöffnet)"
+   ],
+   "irrelevant": [
+    "doppelte Wege zur selben Seite"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Konto-Menü auf 4 Zeilen kürzen, Einstellungen zuerst",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "userCard (app.js:231) bekommt die Reihenfolge: „Einstellungen“ (#/settings, öffnet Profil), Trennlinie, „Coach“ (mit Hinweis-Punkt) und „Affiliate“, Trennlinie, „Design“ mit Schalter. „Profil“, „Benachrichtigungen“ und „Sprache“ entfallen im Menü und bleiben über die Seitenleiste der Einstellungen erreichbar (je 1 Klick). Die Unterzeile „Profil vervollständigen“ bleibt als Hinweis. Aus 7 Zeilen werden 4; das gilt für Desktop, eingeklappte Leiste und Handy.",
+     "beleg": "extra-dark-1440/menu_konto_unten.png; app.js:231; misc.js:20 (sec-Standard 'profil'); settings.png (Seitenmenü mit Profil, Sprache, Benachrichtigungen)",
+     "id": "shell-10-1"
+    }
+   ],
+   "sid": "shell-10",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "konto-menü unten links",
+   "zustand": "handy (390)",
+   "hauptaktion": "Einstellungen öffnen",
+   "optisch_klar": false,
+   "begruendung": "extra-dark-390/menu_konto_unten.png: Dieselben 7 Zeilen mit 37 px Höhe öffnen nach oben über die Navigation. Der Auslöser (Konto-Karte) liegt beim Öffnen der Schublade unterhalb des Fensters und muss erst ins Bild gescrollt werden.",
+   "konkurrenten": [
+    "wie Desktop"
+   ],
+   "verstecken": [
+    "wie Desktop"
+   ],
+   "irrelevant": [],
+   "vorschlaege": [],
+   "sid": "shell-11",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "zertifikat-dialog",
+   "zustand": "handy (390)",
+   "hauptaktion": "PNG herunterladen, auf Telefonen eigentlich Teilen",
+   "optisch_klar": false,
+   "begruendung": "hicks_modal_zertifikat_voll_390.png: Das Sheet zeigt Vorschau, Zeitraum, Format, 2 Häkchen und den Auflösungs-Hinweis. „PNG herunterladen“ (gefüllt) liegt am unteren Rand bei etwa 830 px von 844 px, die Fußzeile bricht um: Hinweis und „Kopieren“ in einer Zeile, PNG in der nächsten. Auf echten Telefonen ist navigator.share vorhanden, dann kommt ein drittes .btn „Teilen“ dazu (certificate.js:88). Das ergibt drei Knöpfe, davon zwei gleich umrandet.",
+   "konkurrenten": [
+    "„Kopieren“ (.btn)",
+    "„Teilen“ (.btn, nur mit Share-API)"
+   ],
+   "verstecken": [
+    "Häkchen und Auflösungs-Hinweis hinter „Mehr Optionen“ (siehe voll)"
+   ],
+   "irrelevant": [
+    "„PNG in doppelter Auflösung (2160×2160)“ als eigene Zeile über den Knöpfen"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Touch-Geräte: „Teilen“ als Hauptknopf, PNG sekundär, Kopieren tertiär",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In foot.innerHTML (certificate.js:88): Wenn canShare() und matchMedia('(pointer: coarse)'), lautet die Reihenfolge „Teilen“ .btn.primary, „PNG herunterladen“ .btn und „Kopieren“ .btn.ghost. Das Teilen-Menü von iOS und Android enthält auch „Bild sichern“. Auf dem Desktop bleibt „PNG herunterladen“ .btn.primary und „Kopieren“ .btn; „Teilen“ wird dort, falls vorhanden, .btn.ghost. In jedem Zustand gibt es so genau einen gefüllten und höchstens einen umrandeten Knopf.",
+     "beleg": "extra/hicks_modal_zertifikat_voll_390.png; dark-390/modal_zertifikat.png; certificate.js:52 und 88",
+     "id": "shell-12-1"
+    }
+   ],
+   "sid": "shell-12",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "zertifikat-dialog",
+   "zustand": "voll (Zeitraum mit Trades, Desktop 1440)",
+   "hauptaktion": "PNG herunterladen",
+   "optisch_klar": true,
+   "begruendung": "hicks_modal_zertifikat_voll_1440.png: „PNG herunterladen“ ist der einzige gefüllte Knopf (.btn.primary), „Kopieren“ ist umrandet (.btn), Schließen ein ghost-X. Die Hierarchie stimmt. In der Seitenspalte stehen aber 8 Bedienelemente gleichzeitig: ‹, Datum, ›, 3 Formate, 2 Häkchen (certificate.js:85-87). Dazu kommt der technische Hinweis „PNG in doppelter Auflösung (2160×2160)“ links in der Fußzeile. Ist die Share-API vorhanden, gibt es zwei gleich umrandete Nebenknöpfe (Teilen, Kopieren).",
+   "konkurrenten": [
+    "„Kopieren“ und „Teilen“ gleich umrandet (nur mit Share-API)"
+   ],
+   "verstecken": [
+    "„Beträge ausblenden“, „Username anzeigen“, Auflösungs-Hinweis → „Mehr Optionen“"
+   ],
+   "irrelevant": [
+    "Auflösungs-Hinweis als dauerhafte Fußzeile"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Mehr Optionen“ für Beträge, Username und Auflösung",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In side.innerHTML (certificate.js:85-87) bleiben sichtbar: Zeitraum und Format. Darunter ein eingeklapptes <details> mit <summary class=\"small muted\">Mehr Optionen</summary>; das ist das bestehende Muster aus coach.js:66 (details.ct-done), also kein neuer Stil. Darin stehen die beiden Häkchen und der Hinweis „PNG in doppelter Auflösung“, der aus der Fußzeile dorthin wandert. Das Element öffnet sich von selbst, wenn ein Wert vom Standard abweicht (hide = true, user = false oder Geld-blind-Modus erzwingt hide), damit kein gesetzter Schutz unsichtbar wird. Der Auf/Zu-Zustand wird in App.state.cert gemerkt.",
+     "beleg": "extra/hicks_modal_zertifikat_voll_1440.png; certificate.js:80-88; coach.js:66",
+     "id": "shell-13-1"
+    }
+   ],
+   "sid": "shell-13",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "seitenleiste",
+   "zustand": "voll (Desktop 1440, ausgeklappt)",
+   "hauptaktion": "In einen Bereich wechseln. Die Leiste soll keine eigene Aktion verlangen und der Seite den Vortritt lassen.",
+   "optisch_klar": true,
+   "begruendung": "dashboard.png und trades.png: Der aktive Eintrag ist die einzige angehobene Fläche (surface-2, feiner Rand, 3-px-Balken, app.css:181-183). Kein Knopf der Leiste ist gefüllt, nichts konkurriert mit „Trade loggen“. Es gibt aber 12 gleichrangige Einträge in 4 Gruppen (NAV_GROUPS app.js:14-19). Darunter ist Coupon-Codes eine selten gebrauchte Hilfsseite mit Rabatt-Codes für Prop Firms (coupons.js:1). Sie ist neben Prop Firms der einzige Eintrag der Gruppe Konten, bei der Kopfreihe steht aber trotzdem „Trade loggen“ (coupons.png). Die Konto-Karte unten (Rand border-2, Fläche surface, app.css:233) ist das schwerste Objekt der Leiste und doppelt sich mit dem Avatar oben rechts.",
+   "konkurrenten": [
+    "12 gleichrangige Einträge",
+    "Konto-Karte unten (umrandete Karte)",
+    "Avatar oben rechts mit demselben Zweck",
+    "Einklapp-Symbol in der Leiste und der wirkungslose ☰ in der Titelzeile"
+   ],
+   "verstecken": [
+    "Coupon-Codes → als Reiter „Coupons“ in Prop Firms (Route #/coupons bleibt)"
+   ],
+   "irrelevant": [
+    "☰ in der Titelzeile (siehe Titelzeile)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Coupon-Codes aus der Navigation in Prop Firms verlegen",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "M",
+     "beschreibung": "NAV_GROUPS (app.js:18): Die Gruppe Konten enthält nur noch Prop Firms. In prop.js wird die Reiterleiste (Übersicht, Auswertung, Konten) um „Coupons“ ergänzt, der Inhalt kommt aus App.screens.coupons.render. Die Route #/coupons bleibt (Lesezeichen) und markiert in der Leiste Prop Firms als aktiv. Damit hat die Leiste 11 statt 12 Einträge, und die Codes stehen dort, wo man sie braucht: beim Anlegen eines Prop-Kontos.",
+     "beleg": "app.js:18; coupons.js:1-2 (Kommentar „Rabatt-Codes für Prop Firms“); coupons.png; prop.png (Reiterleiste)",
+     "id": "shell-14-1"
+    }
+   ],
+   "sid": "shell-14",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "seitenleiste",
+   "zustand": "eingeklappt (Desktop 1440, nur Symbole)",
+   "hauptaktion": "Bereich per Symbol wechseln",
+   "optisch_klar": true,
+   "begruendung": "extra-dark-1440/sidebar_mini.png: 12 Symbole, die Gruppentitel werden zu 1-px-Linien (app.css:168), der aktive Eintrag ist das einzige angehobene Quadrat. Dafür sind zwei Dinge doppelt zu sehen: zwei identische „T“-Kreise, unten links (öffnet das Menü) und oben rechts (öffnet direkt Profil). Außerdem stehen zwei Leisten-Schalter nebeneinander: das Ausklapp-Symbol oben in der Leiste und der wirkungslose ☰ links vom Titel.",
+   "konkurrenten": [
+    "zwei „T“-Avatare mit unterschiedlichem Verhalten",
+    "☰ gegen Ausklapp-Symbol"
+   ],
+   "verstecken": [
+    "Avatar oben rechts (siehe Titelzeile voll)"
+   ],
+   "irrelevant": [
+    "☰ auf dem Desktop (siehe Titelzeile voll)"
+   ],
+   "vorschlaege": [],
+   "sid": "shell-15",
+   "gruppe": "shell"
+  },
+  {
+   "screen": "seitenleiste",
+   "zustand": "leer (keine Trades)",
+   "hauptaktion": "Navigation; für Neue sollte die Seite (erster Trade) führen",
+   "optisch_klar": true,
+   "begruendung": "leer_dashboard.png und leer_trades.png: Die Leiste sieht aus wie im vollen Zustand. Das ist richtig, denn Einträge im Leerzustand auszublenden würde Funktionen verstecken und die Positionen verschieben. Einziges Störsignal: Der Hinweis-Punkt „Check-in für heute fehlt“ (dots.day, app.js:38) erscheint montags bis freitags auch ohne einen einzigen Trade. Er zieht bei einem neuen Nutzer den Blick auf Tagesansicht statt auf den ersten Trade. Die übrigen Punkte setzen Trades voraus.",
+   "konkurrenten": [
+    "grüner Hinweis-Punkt an Tagesansicht (nur Mo–Fr)"
+   ],
+   "verstecken": [
+    "Hinweis-Punkte bis zum ersten Trade"
+   ],
+   "irrelevant": [
+    "Check-in-Erinnerung, bevor es überhaupt Trades gibt"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Hinweis-Punkte erst ab dem ersten Trade",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In renderSidebar (app.js:203-205) dctx nur bilden, wenn all.length > 0; sonst keine Punkte. Der Schalter unter Einstellungen → Benachrichtigungen bleibt unverändert. Mit dem ersten Trade erscheinen die Punkte wie bisher.",
+     "beleg": "app.js:38 und 203-206; leer_dashboard.png",
+     "id": "shell-16-1"
+    }
+   ],
+   "sid": "shell-16",
+   "gruppe": "shell"
+  }
+ ],
+ "hinweise": "Zur Nachricht des Nutzers („kannst du das nicht automatisch machen … ich bin später nicht da“): Dieser Teil lief ohne Rückfrage durch. Laut Auftrag wird erst nach Zustimmung umgesetzt.\n\nMaterial: Alle 8 Aufnahmen waren da und wurden angesehen. Das Atlas-Protokoll meldet FAIL für dark-1440/menu_konto_unten und dark-1440/sidebar_mini (atlas-log.txt:53-54); dafür gibt es die extra-dark-1440-Fassungen, und die habe ich benutzt.\n\nEigene Aufnahmen, mit Systemschrift statt Satoshi/Onest:\n- audit/shots/extra/hicks_modal_zertifikat_voll_1440.png\n- audit/shots/extra/hicks_modal_zertifikat_voll_390.png\n- audit/shots/extra/hicks_titelzeile_filter_aktiv_1440.png\n\nPrüfskripte liegen unter scratchpad/hicks-shell/ (probe.js, probe2.js, certshot.js, filtershot.js).\n\nAbweichung vom Brief: HICKS-BRIEF beschreibt `.btn.accent` als „grün gefüllt“. Tatsächlich ist der Knopf nicht gefüllt (app.css:3137): Fläche wie andere Knöpfe, grüne Schrift, leiser grüner Rand, ein Hauch Licht. Der Nutzer hat das so gewollt (README:203-207). Auch der runde „+“-Knopf auf dem Handy sollte laut app.css:3019 gefüllt sein, wird aber von `.btn.accent` überschrieben, das später in der Datei steht. Ich habe das bewusst nicht als Vorschlag aufgenommen, denn es wäre eine Stiländerung, und die Regel 3019 bringt zusätzlich Schein mit, den der Nutzer abgelehnt hat. Die Vorrangstellung von „Trade loggen“ entsteht deshalb vor allem durch weniger Konkurrenz. Darauf zielen die Vorschläge.\n\nFür andere Bereiche:\n- Dashboard leer: „Beispieldaten laden“ (.btn.primary, gefüllt) im Willkommen-Banner ist der stärkste Knopf, stärker als „Trade loggen“.\n- Tagesansicht: drei grüne Knöpfe (Trade loggen, Trade für diesen Tag, Tagesnotiz anlegen). Der pageHead-Vorschlag nimmt einen davon weg.\n- TradeLog leer: Der Leerzustand sagt „Keine Trades im Zeitraum“, auch wenn es überhaupt keine Trades gibt.\n\nZwei Befunde sind Fehler im Ablauf, keine Geschmacksfragen:\n- Der ☰-Knopf ist auf dem Desktop sichtbar, tut aber nichts. Das liegt an der Reihenfolge der CSS-Regeln (app.css:224 gegen 267).\n- Der Listener zur Platzierung aus dashboard.js:14-19 bleibt nach dem Verlassen des Dashboards aktiv. Er verschiebt dann Zeitraum und Konto anderer Seiten in die Titelzeile; das ist in day.png und settings.png zu sehen.\n\nReihenfolge nach Wirkung:\n1. pageHead-Standard ohne „Trade loggen“ und Session (W1)\n2. Zertifikat-Leerzustand mit einem Knopf (W1)\n3. Zertifikat-Menü auf den letzten Handelstag beziehen (W1)\n4. Mit Wirkung 2: aktiver Filter ohne Akzent, ☰ ausblenden, Konto-Wahl nur bei mehreren Konten, Platzierung nur auf dem Dashboard, Session nur auf TradeLog und Tagesansicht, leeres Konto in der Kopfreihe, leere Titelzeile, Konto-Menü kürzen, Avatar öffnet auf dem Handy das Menü, Teilen auf Touch-Geräten, Zertifikat-Auslöser ohne Trades ausblenden\n5. Der Rest hat Wirkung 3.\n\nDiese Vorschläge berühren dokumentierte Entscheidungen und brauchen die Zustimmung des Nutzers:\n- Avatar auf dem Desktop ausblenden (README:62 „auf Höhe des Avatars“)\n- Konto-Menü kürzen (Aufgabe #30, README:60-61)\n- Coupon-Codes verlegen"
+}

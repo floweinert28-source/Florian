@@ -1,0 +1,1241 @@
+{
+ "anker": [
+  {
+   "anker": ".vh",
+   "schritte": [
+    {
+     "nr": "abstaende-F2",
+     "gruppe": "abstaende",
+     "titel": "Bearbeitungsleiste: Widget-Name nur für Screenreader (.vh) plus .grow statt .w-name",
+     "von": 397,
+     "bis": 397,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-B2",
+     "gruppe": "barrierefreiheit",
+     "titel": "Sprunglink-Stil .skip und programmatische Fokusflächen ohne Ring (#content, .modal, .lightbox)",
+     "von": 287,
+     "bis": 295,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P14c",
+     "gruppe": "barrierefreiheit",
+     "titel": "Regel-Checkliste in „Session beenden“: Checkbox .vh statt .hidden, done vorbelegt",
+     "von": 679,
+     "bis": 682,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-ruhepunkt-b",
+     "gruppe": "komponenten",
+     "titel": "„Bewusst abschalten“: versteckte Checkbox plus eigene .rp-box",
+     "von": 707,
+     "bis": 708,
+     "cluster": "training",
+     "dateien": [
+      "web/js/screens/ruhepunkt.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W2",
+     "gruppe": "zustaende",
+     "titel": "Kachelwert ohne Daten: „—“ mit .vh-Text (noData → .nodata.dash)",
+     "von": 471,
+     "bis": 474,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T1",
+     "gruppe": "zustaende",
+     "titel": "TradeLog-Kacheln folgen Suche und Filter, Zähler „{n} abgeschlossen“, leerer Wert „—“",
+     "von": 634,
+     "bis": 641,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".w-bar",
+   "schritte": [
+    {
+     "nr": "abstaende-F2",
+     "gruppe": "abstaende",
+     "titel": "Bearbeitungsleiste: Widget-Name nur für Screenreader (.vh) plus .grow statt .w-name",
+     "von": 397,
+     "bis": 397,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "aufbau-B13",
+     "gruppe": "aufbau",
+     "titel": "Bearbeitungsmodus flach: keine Kontur, Leiste ohne Rahmen, .w-name weg",
+     "von": 384,
+     "bis": 389,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-C6b",
+     "gruppe": "aufbau",
+     "titel": "Dashboard bearbeiten: Leiste ohne Namen, aria mit Widget-Namen",
+     "von": 468,
+     "bis": 469,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "C.summary",
+   "schritte": [
+    {
+     "nr": "aufbau-C15b",
+     "gruppe": "aufbau",
+     "titel": "TradeLog: Kacheln folgen Suche und Filter („Gefiltert · {0} Trades“)",
+     "von": 617,
+     "bis": 617,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-d",
+     "gruppe": "komponenten",
+     "titel": "Tageskarten: „Netto“ gedämpft, Kennzahlen aus App.dayStatsHTML",
+     "von": 721,
+     "bis": 721,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T1",
+     "gruppe": "zustaende",
+     "titel": "TradeLog-Kacheln folgen Suche und Filter, Zähler „{n} abgeschlossen“, leerer Wert „—“",
+     "von": 634,
+     "bis": 641,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".checklist",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P14c",
+     "gruppe": "barrierefreiheit",
+     "titel": "Regel-Checkliste in „Session beenden“: Checkbox .vh statt .hidden, done vorbelegt",
+     "von": 679,
+     "bis": 682,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C18",
+     "gruppe": "komponenten",
+     "titel": "Checklisten-Zeilen flach mit Haarlinie, nicht durchgestrichen",
+     "von": 327,
+     "bis": 333,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "W.data",
+   "schritte": [
+    {
+     "nr": "aufbau-C15b",
+     "gruppe": "aufbau",
+     "titel": "TradeLog: Kacheln folgen Suche und Filter („Gefiltert · {0} Trades“)",
+     "von": 617,
+     "bis": 617,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-T1",
+     "gruppe": "zustaende",
+     "titel": "TradeLog-Kacheln folgen Suche und Filter, Zähler „{n} abgeschlossen“, leerer Wert „—“",
+     "von": 634,
+     "bis": 641,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".grow",
+   "schritte": [
+    {
+     "nr": "abstaende-F2",
+     "gruppe": "abstaende",
+     "titel": "Bearbeitungsleiste: Widget-Name nur für Screenreader (.vh) plus .grow statt .w-name",
+     "von": 397,
+     "bis": 397,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C6b",
+     "gruppe": "aufbau",
+     "titel": "Dashboard bearbeiten: Leiste ohne Namen, aria mit Widget-Namen",
+     "von": 468,
+     "bis": 469,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".w-name",
+   "schritte": [
+    {
+     "nr": "abstaende-F2",
+     "gruppe": "abstaende",
+     "titel": "Bearbeitungsleiste: Widget-Name nur für Screenreader (.vh) plus .grow statt .w-name",
+     "von": 397,
+     "bis": 397,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "aufbau-C6b",
+     "gruppe": "aufbau",
+     "titel": "Dashboard bearbeiten: Leiste ohne Namen, aria mit Widget-Namen",
+     "von": 468,
+     "bis": 469,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-tabs a",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-prop-304-305",
+     "gruppe": "barrierefreiheit",
+     "titel": "Prop-Reiter: aria-pressed an <a> streichen, aria-current bleibt",
+     "von": 861,
+     "bis": 862,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-affiliate-51",
+     "gruppe": "barrierefreiheit",
+     "titel": "Affiliate-Reiter: aria-pressed an <a> streichen",
+     "von": 873,
+     "bis": 876,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/screens/affiliate.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nw-v b",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B13",
+     "gruppe": "barrierefreiheit",
+     "titel": "Vergangene News: Text in --muted statt Deckkraft .5, Balken .6",
+     "von": 385,
+     "bis": 389,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.2e",
+     "gruppe": "typografie",
+     "titel": "tabular-nums-Sammelregel für Listenwerte und laufende Zahlen",
+     "von": 224,
+     "bis": 224,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.6b",
+     "gruppe": "typografie",
+     "titel": "News-Ziffern: tabular-nums kommt aus der Sammelregel (nur prüfen, keine Einzeländerung)",
+     "von": 375,
+     "bis": 376,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-seg button",
+   "schritte": [
+    {
+     "nr": "aufbau-A4f",
+     "gruppe": "aufbau",
+     "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+     "von": 292,
+     "bis": 295,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C14b",
+     "gruppe": "komponenten",
+     "titel": "Segment-Varianten angleichen (.seg.mini, .fd-seg) und toten Code löschen (.cert-opts .seg.sm, .seg.segc)",
+     "von": 287,
+     "bis": 291,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb-ytpop",
+   "schritte": [
+    {
+     "nr": "farbe-C1c",
+     "gruppe": "farbe",
+     "titel": "Editor-Werkzeuge: Toolbar gedrückt, Haken im Editor-Popover, Palettenrand, Notebook-Menü und YouTube-Popover neutral",
+     "von": 364,
+     "bis": 369,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C22",
+     "gruppe": "komponenten",
+     "titel": "Schwebende Ebenen Radius 12, kein grüner Rand",
+     "von": 374,
+     "bis": 377,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".fd-tog button",
+   "schritte": [
+    {
+     "nr": "aufbau-A4f",
+     "gruppe": "aufbau",
+     "titel": "Eyebrows, Labels und Steuerelemente im Filter-Fenster angleichen",
+     "von": 292,
+     "bis": 295,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".seg.pill button",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B9a",
+     "gruppe": "barrierefreiheit",
+     "titel": "Bewertungssterne 32 px mit Klasse .on, .seg mit aria-checked, Check-in-Skala min. 36 px (Handy 44 px)",
+     "von": 344,
+     "bis": 349,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C14a",
+     "gruppe": "komponenten",
+     "titel": "Segment als Schiene: Grundregel .seg/.seg button, Hover, .seg.pill löschen",
+     "von": 279,
+     "bis": 286,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".select.sm",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B12f",
+     "gruppe": "barrierefreiheit",
+     "titel": "Touch: Symbolknöpfe in Tabellen/Listen 40 px, Seitenwähler 44 × 40, .select.sm (Dateiende)",
+     "von": 382,
+     "bis": 382,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C03",
+     "gruppe": "komponenten",
+     "titel": "sm-Stufe 34 px für Felder (.input.sm neu, .select.sm angleichen)",
+     "von": 206,
+     "bis": 209,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".seg.segc button",
+   "schritte": [
+    {
+     "nr": "komponenten-C14b",
+     "gruppe": "komponenten",
+     "titel": "Segment-Varianten angleichen (.seg.mini, .fd-seg) und toten Code löschen (.cert-opts .seg.sm, .seg.segc)",
+     "von": 287,
+     "bis": 291,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".w-bar .w-name",
+   "schritte": [
+    {
+     "nr": "abstaende-C4",
+     "gruppe": "abstaende",
+     "titel": "Bearbeitungsmodus: gestrichelte Karte statt Außenlinie (.w.editing), .w-bar .w-name löschen",
+     "von": 353,
+     "bis": 353,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-B13",
+     "gruppe": "aufbau",
+     "titel": "Bearbeitungsmodus flach: keine Kontur, Leiste ohne Rahmen, .w-name weg",
+     "von": 384,
+     "bis": 389,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".w.editing",
+   "schritte": [
+    {
+     "nr": "abstaende-C4",
+     "gruppe": "abstaende",
+     "titel": "Bearbeitungsmodus: gestrichelte Karte statt Außenlinie (.w.editing), .w-bar .w-name löschen",
+     "von": 353,
+     "bis": 353,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "aufbau-B13",
+     "gruppe": "aufbau",
+     "titel": "Bearbeitungsmodus flach: keine Kontur, Leiste ohne Rahmen, .w-name weg",
+     "von": 384,
+     "bis": 389,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".cert-opts .seg.sm button",
+   "schritte": [
+    {
+     "nr": "komponenten-C14b",
+     "gruppe": "komponenten",
+     "titel": "Segment-Varianten angleichen (.seg.mini, .fd-seg) und toten Code löschen (.cert-opts .seg.sm, .seg.segc)",
+     "von": 287,
+     "bis": 291,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".rep-foot .btn.primary",
+   "schritte": [
+    {
+     "nr": "farbe-C3c",
+     "gruppe": "farbe",
+     "titel": "Report-Panel: gewählte Zeile flach, Zurücksetzen --text-2, Schriftgröße über .rep-add",
+     "von": 389,
+     "bis": 392,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tags-row input",
+   "schritte": [
+    {
+     "nr": "kilook-C2",
+     "gruppe": "kilook",
+     "titel": "Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500",
+     "von": 524,
+     "bis": 534,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tabs.sm button",
+   "schritte": [
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tpl-menu .item",
+   "schritte": [
+    {
+     "nr": "komponenten-C23",
+     "gruppe": "komponenten",
+     "titel": "Vorlagen-Menü (CSS): neutral, Stern gedämpft, Untermenü als eingerückte Gruppe",
+     "von": 378,
+     "bis": 387,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "gruppe": "typografie",
+     "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+     "von": 252,
+     "bis": 254,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".checklist .it",
+   "schritte": [
+    {
+     "nr": "komponenten-C18",
+     "gruppe": "komponenten",
+     "titel": "Checklisten-Zeilen flach mit Haarlinie, nicht durchgestrichen",
+     "von": 327,
+     "bis": 333,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".checklist .it.done span",
+   "schritte": [
+    {
+     "nr": "komponenten-C18",
+     "gruppe": "komponenten",
+     "titel": "Checklisten-Zeilen flach mit Haarlinie, nicht durchgestrichen",
+     "von": 327,
+     "bis": 333,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C10",
+     "gruppe": "zustaende",
+     "titel": "Checkliste: erledigt ohne Durchstreichen, Text --text-2",
+     "von": 330,
+     "bis": 332,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-sub a",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-prop-304-305",
+     "gruppe": "barrierefreiheit",
+     "titel": "Prop-Reiter: aria-pressed an <a> streichen, aria-current bleibt",
+     "von": 861,
+     "bis": 862,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C20",
+     "gruppe": "komponenten",
+     "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+     "von": 349,
+     "bis": 361,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "gruppe": "zustaende",
+     "titel": "Reiter .set-tabs und Unterreiter .prop-sub: Gewicht 500, Unterstrich in --text statt Akzent",
+     "von": 323,
+     "bis": 326,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-patterns",
+   "schritte": [
+    {
+     "nr": "kilook-C5",
+     "gruppe": "kilook",
+     "titel": "Prop-CSS: veraltete Kommentare, .prop-unv/.prop-highlights/Gravur-Variablen/wirkungslose text-shadow/.prop-grave-kv löschen",
+     "von": 557,
+     "bis": 578,
+     "cluster": "prop",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-F1",
+     "gruppe": "zustaende",
+     "titel": "Friedhof: Muster-Karte erst ab zwei Grabsteinen, Hinweis als Info an „Häufigste Regel“",
+     "von": 735,
+     "bis": 741,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop-friedhof.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-TE7",
+     "gruppe": "zustaende",
+     "titel": "Test friedhoftest.js:47: bei einem Grabstein keine Muster-Karte, Info an „Häufigste Regel“",
+     "von": 883,
+     "bis": 883,
+     "cluster": "prop",
+     "dateien": [
+      "web/e2e/friedhoftest.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tabs.scroll-x",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B9b",
+     "gruppe": "barrierefreiheit",
+     "titel": "Gemeinsamer Gewählt-Stil (Z. 3125–3128), .prop-sub und Statistik-Reiter auf aria-current=\"page\"",
+     "von": 350,
+     "bis": 358,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-stats-15",
+     "gruppe": "barrierefreiheit",
+     "titel": "Statistik-Reiter als <nav aria-label=\"Statistik-Bereiche\"> mit aria-current, ohne Inline-Farbe",
+     "von": 777,
+     "bis": 782,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-stats-a",
+     "gruppe": "komponenten",
+     "titel": "Statistik-Reiter ohne .btn und Inline-Farbe (Schiene)",
+     "von": 712,
+     "bis": 713,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-sub a:focus-visible",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Restliche Fokusregeln: Notiz-Details, Theme-Karte, Zahlenfeld, Prop/Coupon/Affiliate (Z. 1186–1187, 1842, 2411, 2516–2679); .rp bleibt unverändert",
+     "von": 273,
+     "bis": 278,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C20",
+     "gruppe": "komponenten",
+     "titel": "Unterstrich-Reiter: gemeinsame Fassung für .subtabs (neu), .set-tabs, .prop-sub",
+     "von": 349,
+     "bis": 361,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-tabs",
+   "schritte": [
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A2",
+     "gruppe": "responsiv",
+     "titel": "Wischleisten: 28-px-Auslauf per Maske (fade-l/fade-r) und .set-nav ohne Scrollbalken",
+     "von": 227,
+     "bis": 237,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3d",
+     "gruppe": "responsiv",
+     "titel": "App.edgeFade für Wischleisten, Aufrufe in render() und im Resize-Listener",
+     "von": 441,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".tabs",
+   "schritte": [
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-A2",
+     "gruppe": "responsiv",
+     "titel": "Wischleisten: 28-px-Auslauf per Maske (fade-l/fade-r) und .set-nav ohne Scrollbalken",
+     "von": 227,
+     "bis": 237,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "responsiv-3.3d",
+     "gruppe": "responsiv",
+     "titel": "App.edgeFade für Wischleisten, Aufrufe in render() und im Resize-Listener",
+     "von": 441,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".prop-tabs a:focus-visible",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-A2d",
+     "gruppe": "barrierefreiheit",
+     "titel": "Restliche Fokusregeln: Notiz-Details, Theme-Karte, Zahlenfeld, Prop/Coupon/Affiliate (Z. 1186–1187, 1842, 2411, 2516–2679); .rp bleibt unverändert",
+     "von": 273,
+     "bis": 278,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-C19",
+     "gruppe": "komponenten",
+     "titel": "Reiter-Schiene für .tabs und .prop-tabs (außen 42, Einträge 34), alte Reiter-Regeln löschen",
+     "von": 334,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".coach-co-what",
+   "schritte": [
+    {
+     "nr": "abstaende-D8",
+     "gruppe": "abstaende",
+     "titel": "Einrichten- und Beitrittskarten: .mentor-setup-Polster, Symbole mittig 34 px --faint (Mentor und Coach), .coach-join 680 mittig, .coach-co-what ohne eigene Breite, Einladungshinweis im Dialog volle Zeile",
+     "von": 375,
+     "bis": 375,
+     "cluster": "konto",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".nb .folder",
+   "schritte": [
+    {
+     "nr": "komponenten-C29a",
+     "gruppe": "komponenten",
+     "titel": "Notebook-Ordner: gerader Farbbalken als ::before, Namen bündig",
+     "von": 432,
+     "bis": 434,
+     "cluster": "notebook_news",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".sym-opt",
+   "schritte": [
+    {
+     "nr": "komponenten-C21c",
+     "gruppe": "komponenten",
+     "titel": "Symbol-Liste und Filter-Optionen auf Menümaß, gewählt neutral",
+     "von": 369,
+     "bis": 371,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "gruppe": "typografie",
+     "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+     "von": 260,
+     "bis": 261,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  }
+ ]
+}

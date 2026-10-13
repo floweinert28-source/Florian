@@ -1,0 +1,2655 @@
+{
+ "regeln": "Grundregeln: W1 Du-Form, aktiv, wahr; nie „wir“, keine Floskeln, keine rhetorischen Fragen in Titeln; Hilfetexte sagen, was der Code tut. W2 Ein Begriff pro Sache (Glossar). W3 Englisch nur als Fachwort/Produktname (abschließende Liste Z. 29, u. a. Prop-Regelnamen Daily Loss, Profit Target, Consistency Rule, Payout); Zertifikat-Dokument bleibt englisch. W4 Knöpfe = Objekt + Verb im Infinitiv; Nomen nur für Menü-Öffner (Filter, Zertifikat, Vorlage). W5 Verben: loggen nur Trade; anlegen = neuer Datensatz; hinzufügen = in Sammlung/Ansicht; importieren/exportieren = Datei; drucken; einrichten = Server („Server einrichten“); bearbeiten = Dialog; ergänzen = Leerzustand; Check-in machen (heute)/nachtragen; erstellen = Datei/Link; „Zum TradeLog“ = Navigation aus Widget. W6 Ein Bedienelement je Aktion/Ziel pro Bildschirm, Kopfreihe trägt die Hauptaktion. W7 Imperativ Vollform (Trage, Lege, Prüfe, Versuche), Kurzform nur in Ruhepunkt-Texten. W8 Satzschreibung groß; Titel beginnen mit Wort; Kartentitel ohne „:“ und „vs.“; kein Gedankenstrich als Satzzeichen, kein „!“; fehlender Wert „—“ (U+2014), nie „--“; „– R“ (U+2013) bleibt; Ellipse nur für laufende Vorgänge/Dialog-Menüpunkte; Suchfelder „Trades/Widgets/Notizen durchsuchen“; „Netto-P&L“, „Support-Team-Zugriff“, „Mindest-Kontostand“. W9 Ergebnisse immer mit +/−, Kontostände/Größen/Limits/Sätze nie; Prop-Beträge in Kontowährung, Summen je Währung („+11.262 $ · +1.054 €“); Grabstein höchstens „100K“, nie Geldbetrag; Zähler nur über U.count(n, one, many); ganze Zahlen ≥ 1.000 über fmt.int; gleiche Reihe gleiche Stellen (Kalender, Affiliate-, Monte-Carlo-Kacheln ohne Cent); Datum/Zeit nur im fmt-Format der App-Sprache („11.10.2026“, „11.10.2026, 12:40“), nie ISO; Uhrzeit „vor 8“, „8–9“ … „19–20“, „ab 20“; Haltedauer „unter 5 min“ … „über 4 h“. W10 Verweise = sichtbarer Name („Plan & Bewertung“, „Trade bearbeiten“, „Einstellungen → Server“). W11 Pfade/Env-Variablen/Speichertechnik nur in Einstellungen → Server. W12 Blind-Replay nur mit App.on('replay'); Taste 0 sonst wirkungslos. W13 Leerzustand „Noch keine …“ + ein Satz + max. ein Knopf; „mehr“-Link nur mit Inhalt; Filterzeile nur mit Trades. W14 Deutscher Text = i18n-Schlüssel.\nGlossar: Trefferquote (neben Tagesgröße „Trade-Trefferquote“; nie Win-Rate/Winrate/WR, auch Radar-Achse); „Tages-Trefferquote“ ohne Ø; „Ø Gewinn/Verlust“ / „Ø Tages-Gewinn/Verlust“ ohne short (Radar „Gewinn/Verlust“, Info „Ø Gewinn geteilt durch Ø Verlust.“); Netto-P&L; „Kumulierter Netto-P&L“; Kachel „Erwartungswert pro Trade“, Titel „Erwartungswert nach …“, Statistik-Titel „… nach …“ („Kosten je Fehler“ bleibt); Spalte „R“, „Ø R pro Trade“, „Ø geplantes R pro Trade“; Kontrakte („Ø Kontrakte pro Tag“); Einstieg/Ausstieg; Eröffnet/Geschlossen; Regeln: „3 von 5 abgehakt“, „Regeltreue“, „Noch keine Regeln angelegt“; Schatten-Ich: „Regelwerk“, Verstoß/Verstöße („Regelbruch“ nur für frei formulierte gebrochene Regeln), „Schluss nach Verlustserie“; Tagesverlustlimit (Einstellung) / Max. Tagesverlust (Schatten) / Daily Loss (Prop), „Tageslimit“ nur Mentor-Kontingent; „Journalyst-Server“, Reiter „Server“ (Route #/settings/mentor, S.settings.mentor bleiben); „Coach“ statt „Coach Mode“, Coach-Rolle bleibt „Mentor“ bis F1; „Prop-Konto“ mit Präfix; Navigationsgruppe „Prop Trading“; Kontostand/Startkapital/Mindest-Kontostand („Balance / Equity“ als Regel bleibt); „reicht für 43 Stops“, „je Stop“; „Consistency Rule“; Affiliate: Provision = Betrag, Satz/Provisionssatz = Prozent, „Verdient“ nur Creator-Ansicht, „Quelle“; Notebook: Papierkorb, Tagesnotiz/Ordner/Vorlage anlegen, Block „Text“, „Aufklappbarer Abschnitt“; Recaps, Wochen-Recap, Monats-Recap; Sicherung exportieren/importieren; Reiter „Verlauf“ mit „Importe · Änderungen“ (Route #/settings/logs bleibt); Filter „Intraday / Mehrtägig“, „Nachbereitet: Alle · Ja · Nein“, Platzhalter „Von“/„Bis“; TradeLog „Alle Fehler“, „Mit Fehler“; Zertifikat-Menü Tag · Woche · Monat · Zeitraum + konkreter Zeitraum; Trading: „Märkte“, Schalter „Beträge als R zeigen“ unter „Geld-blind-Modus“; Design „überall“/„Hauptknöpfe“; „Profil ergänzen“.\nFormate: Kalender .p fmt.cur(v, {signed: true, compact: true}), .pm unverändert, leerer Monat „—“; Netto-P&L-Kacheln U.pnl(v); Prop-Karte U.pnl(ev.pnl, '', {currency: a.currency}); Affiliate fmt.cur(v, {money: true, compact: true, currency: AD.CURRENCY}); Monte Carlo fmt.cur(v, {compact: true}), Läufe fmt.int; Breach-Banner in Kontowährung, Handelstag nur abweichend als fmt.dateFull; Datumsfeld mit Maus: Overlay .dp-display (fmt.dateFull/fmt.dateTime/Monatsname, leer „Offen“ in --faint, 13.5px, im Filter 12.5px); Uhrzeit-Tabelle „9–10 Uhr“.\nKerntexte wörtlich (Z. 157–169): Server-Untertitel „Mentor, Coach, News und die Auswertung von Sprachnotizen laufen über deinen Journalyst-Server. Der API-Schlüssel bleibt dort und nie im Browser.“; „Der Journalyst-Server ist nicht erreichbar. Prüfe deine Verbindung und die Adresse unter Einstellungen → Server.“; „Zugangstoken fehlt oder ist falsch. Prüfe es unter Einstellungen → Server.“; Profil-Fuß „Deine Daten liegen nur in diesem Browser.“ + „Tastenkürzel: N Trade loggen · 1–9 Bereich wechseln · Esc Dialog schließen“; „Löscht alle Daten in diesem Browser. Exportiere vorher eine Sicherung.“; „Dein Schatten-Ich handelt wie du, hält sich aber an jede aktive Regel.“; „Ohne Verstöße“.\nÜbersetzung (1.5): Schlüssel umbenennen, verwaiste löschen; neue Etappe-1-Texte (Navigation, Dashboard, TradeLog, Trade-Detail, Trade-Dialog, Kopfreihen, Einstellungen) in allen fünf js/lang/{en,es,hi,pt,zh}.js und e2e/i18n/<lang>/part-audit-wording.json; Muster mit {0}/{1}, je Einzahlform eigenes Muster; en-Werte Z. 178–204 („From“/„To“ für Von/Bis).",
+ "schritte": [
+  {
+   "nr": "wording-S1.1-1.3",
+   "titel": "ui.js: Helfer U.count anlegen und exportieren, Druckersymbol I.printer ergänzen (inkl. Reihenfolge- und Übersetzungshinweis Abschnitt 3)",
+   "von": 288,
+   "bis": 298,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.count",
+    "root.UI",
+    "U.I.printer"
+   ],
+   "befund_ids": [
+    "zustaende-28",
+    "bereich_notebook_news-29"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S1.4-1.7",
+   "titel": "ui.js Diagramm-Tooltips: Zähler über U.count, „Trefferquote“, Ruin-Schwelle kompakt",
+   "von": 299,
+   "bis": 303,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.drawers.vbars",
+    "U.drawers.hbars",
+    "U.drawers.mc",
+    "U.drawers.weeks",
+    "U.heatmap",
+    "t:Trefferquote",
+    "t:Win-Rate",
+    "t:Ruin-Schwelle"
+   ],
+   "befund_ids": [
+    "wording-3",
+    "zustaende-28",
+    "bereich_statistik-26"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S2.1",
+   "titel": "core.js: Radar-Achse in SCORE_AXES „Win-Rate“ → „Trefferquote“",
+   "von": 304,
+   "bis": 308,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "C.SCORE_AXES",
+    "U.radar",
+    "t:Trefferquote",
+    "t:Win-Rate"
+   ],
+   "befund_ids": [
+    "wording-3",
+    "bereich_dashboard-32"
+   ],
+   "tests": [
+    "web/e2e/scorestatetest.js:10"
+   ],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S2.2-2.4",
+   "titel": "core.js: Uhrzeit-Gruppen gleich breit bis „19–20“, Haltedauer „unter 5 min“/„über 4 h“",
+   "von": 309,
+   "bis": 311,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "C.HOUR_BUCKETS",
+    "C.hourBucket",
+    "C.HOLD_BUCKETS",
+    "C.holdBucket",
+    "t:18–20",
+    "t:< 5 min",
+    "t:> 4 h",
+    "t:unter 5 min",
+    "t:über 4 h"
+   ],
+   "befund_ids": [
+    "bereich_statistik-38"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S2.5-2.13",
+   "titel": "core.js stats16: „Erwartungswert pro Trade“, neue Kachel „Trades“ statt Ø pro Trade, Trefferquoten, Ø Gewinn/Verlust, R- und Kontrakt-Namen",
+   "von": 312,
+   "bis": 320,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "C.stats16",
+    "t:Erwartungswert pro Trade",
+    "t:Trade-Erwartungswert",
+    "t:Trades",
+    "t:Abgeschlossene Trades im Zeitraum.",
+    "t:Ø Kontrakte pro Tag",
+    "t:Ø Tagesvolumen",
+    "t:Gehandelte Kontrakte pro Handelstag.",
+    "t:Trade-Trefferquote",
+    "t:Tages-Trefferquote",
+    "t:Ø Tages-Win-Rate",
+    "t:Ø Gewinn/Verlust",
+    "t:Ø Trade-Gewinn/Verlust",
+    "t:Ø Tages-Gewinn/Verlust",
+    "t:Ø Gewinn geteilt durch Ø Verlust.",
+    "t:Ø Gewinntag geteilt durch Ø Verlusttag.",
+    "t:Ø geplantes R pro Trade",
+    "t:Ø geplantes R-Multiple",
+    "t:Ø R pro Trade",
+    "t:Ø realisiertes R-Multiple"
+   ],
+   "befund_ids": [
+    "wording-8",
+    "wording-3",
+    "wording-9",
+    "hierarchie-13",
+    "bereich_statistik-10"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S2.14",
+   "titel": "core.js insights(): Einzahl „1 Trade“ und „Trefferquote“ in den Insight-Sätzen",
+   "von": 321,
+   "bis": 322,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/core.js"
+   ],
+   "anker": [
+    "C.insights",
+    "t:Trefferquote",
+    "t:Win-Rate"
+   ],
+   "befund_ids": [
+    "wording-3",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S3.1-3.3",
+   "titel": "app.css: Regeln für Datumsfeld-Overlay (.dp-wrap, .dp-display, .dp-coarse), Touch-Leerzustand, Filter-Datumspaare",
+   "von": 323,
+   "bis": 329,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@media (pointer: fine)",
+    ".dp-wrap",
+    ".dp-wrap:not(.typing) > .input",
+    ".dp-display",
+    ".dp-display.empty",
+    ".dp-wrap.typing .dp-display",
+    ".dp-coarse",
+    ".input.is-empty::-webkit-datetime-edit",
+    ".fd-pop .fd-pair .dp-display",
+    ".fd-pair .input",
+    "--faint",
+    "--text"
+   ],
+   "befund_ids": [
+    "wording-2",
+    "bereich_dashboard-28",
+    "wording-62"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S3.4",
+   "titel": "app.css: .ce-edited für den Bearbeitet-Vermerk im Coach-Journal",
+   "von": 330,
+   "bis": 330,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ce-edited",
+    ".ce-head"
+   ],
+   "befund_ids": [
+    "bereich_konto-21"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S3.5",
+   "titel": "app.css Handy (≤ 560px): .ce-head untereinander",
+   "von": 331,
+   "bis": 331,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@media (max-width: 560px)",
+    ".ce-head"
+   ],
+   "befund_ids": [
+    "bereich_konto-21"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S3.6",
+   "titel": "app.css: TradeLog-Filter am Desktop (.tl-search, .tl-sel display: contents)",
+   "von": 332,
+   "bis": 332,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tl-search",
+    ".tl-sel"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-35"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S3.7",
+   "titel": "app.css Handy (≤ 560px): Suche volle Breite, Auswahlfelder als wischbare Zeile",
+   "von": 333,
+   "bis": 334,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "@media (max-width: 560px)",
+    ".tl-search",
+    ".tl-sel",
+    ".tl-sel::-webkit-scrollbar",
+    ".tl-sel > *"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-35"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S4.1-4.5",
+   "titel": "datepicker.js: Anzeige-Overlay für native Datumsfelder mit Maus (decorate, sync, value-Setter, Tippen sichtbar, MutationObserver in init)",
+   "von": 335,
+   "bis": 345,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/datepicker.js"
+   ],
+   "anker": [
+    "DatePicker.init",
+    "DatePicker.decorate",
+    "DatePicker.sync",
+    "DatePicker.TYPES",
+    "input.input",
+    ".dp-wrap",
+    ".dp-display",
+    ".dp-wrap.typing",
+    "[data-empty]"
+   ],
+   "befund_ids": [
+    "wording-2",
+    "bereich_dashboard-28",
+    "wording-62"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S3.1-3.3"
+   ],
+   "aufwand": "L"
+  },
+  {
+   "nr": "wording-S4.6-4.7",
+   "titel": "datepicker.js: Touch-Leerzustand .is-empty setzen; type=week bleibt nativ",
+   "von": 346,
+   "bis": 348,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/datepicker.js"
+   ],
+   "anker": [
+    "DatePicker.init",
+    ".input.is-empty",
+    "input[type=week]"
+   ],
+   "befund_ids": [
+    "wording-2",
+    "bereich_dashboard-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S3.1-3.3",
+    "wording-S4.1-4.5"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S5.1-5.2",
+   "titel": "app.js: Navigationsgruppe „Prop Trading“, Konto-Karte „Profil ergänzen“",
+   "von": 349,
+   "bis": 354,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "NAV_GROUPS",
+    "App.userCard",
+    ".sb-who span",
+    "t:Prop Trading",
+    "t:Konten",
+    "t:Profil ergänzen",
+    "t:Profil vervollständigen"
+   ],
+   "befund_ids": [
+    "bereich_shell-33",
+    "bereich_shell-34"
+   ],
+   "tests": [
+    "web/e2e/usercardtest.js:11",
+    "web/e2e/rptest.js:9"
+   ],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S5.3",
+   "titel": "app.js: Aktion new-trade übernimmt in der Tagesansicht das Datum des Tages (09:00)",
+   "von": 355,
+   "bis": 355,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.actions['new-trade']",
+    "App.openTradeEditor",
+    "[data-action=new-trade]"
+   ],
+   "befund_ids": [
+    "wording-5"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S5.4-5.5",
+   "titel": "Trade-Dialog: „Geschlossen“ mit Leertext „Offen“ und Touch-Hinweis, Bestätigungsknopf „Trade loggen“",
+   "von": 356,
+   "bis": 357,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openTradeEditor",
+    "#f-close",
+    "label[for=f-close]",
+    ".dp-coarse",
+    "[data-empty]",
+    "t:Offen",
+    "t:(leer lassen, solange offen)",
+    "t:(leer = offen)",
+    "t:Trade loggen",
+    "t:Trade speichern"
+   ],
+   "befund_ids": [
+    "wording-62",
+    "wording-2",
+    "wording-63"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S3.1-3.3",
+    "wording-S4.1-4.5"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S5.6-5.8",
+   "titel": "app.js: Zähler über U.count (Symbol-Liste, CSV-Import) und „Trefferquote“ im Session-Ende",
+   "von": 358,
+   "bis": 360,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.symbolOptions",
+    "App.openSessionEnd",
+    "App.openImport",
+    "t:Trefferquote",
+    "t:Win-Rate",
+    "t:{0} Trades erkannt",
+    "t:{0} Trades importiert"
+   ],
+   "befund_ids": [
+    "zustaende-28",
+    "wording-3",
+    "bereich_trades_tag-36"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S5.9",
+   "titel": "app.html Tastatur: Taste 0 nur mit Replay, N über App.actions['new-trade']",
+   "von": 361,
+   "bis": 362,
+   "cluster": "shell",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    "app.html keydown",
+    "App.on",
+    "App.actions['new-trade']",
+    "App.openTradeEditor"
+   ],
+   "befund_ids": [
+    "bereich_shell-32",
+    "wording-5"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S5.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S6.1-6.4",
+   "titel": "Kalender-Widgets: Tages- und Wochenbeträge kompakt ohne Cent, leerer Monat „—“, „Trefferquote“-Tooltip, Zähler über U.count",
+   "von": 363,
+   "bis": 370,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "calendarHTML",
+    "yearRows",
+    "t:Trefferquote",
+    "t:Winrate"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-17",
+    "wording-3",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S6.5-6.10",
+   "titel": "Kennzahl-Widgets: „Netto-P&L“ mit Vorzeichen, „Ø Gewinn/Verlust“ ohne short, Report-Namen, Score-Texte, „Kumulierter Netto-P&L“",
+   "von": 371,
+   "bis": 376,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "Widget:netto_pnl",
+    "Widget:avg_gewinn_verlust",
+    "Widget:score",
+    "Widget:kum_pnl",
+    "REPORT_GROUPS",
+    "t:Netto-P&L",
+    "t:Netto P&L",
+    "t:Ø Gewinn/Verlust",
+    "t:Gewinn/Verlust pro Trade",
+    "t:Kumulierter Netto-P&L",
+    "t:Kumulierter Tages-P&L",
+    "t:Ø Gewinn/Verlust (kumuliert)",
+    "t:Ø R pro Trade (kumuliert)",
+    "t:Ø geplantes R pro Trade (kumuliert)",
+    "t:Ø Kontrakte pro Tag (kumuliert)"
+   ],
+   "befund_ids": [
+    "wording-6",
+    "hierarchie-13",
+    "bereich_dashboard-32",
+    "wording-7",
+    "zustaende-28",
+    "wording-9",
+    "bereich_statistik-10",
+    "wording-3"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S6.11-6.15",
+   "titel": "Letzte Trades: „Zum TradeLog“ nur mit Zeilen; Challenge-Zähler; Regel-Tracker „abgehakt“ und ohne Kopf-Link",
+   "von": 377,
+   "bis": 381,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "Widget:letzte_trades",
+    "Widget:challenge",
+    "Widget:regel_tracker",
+    ".more-row",
+    ".more-link",
+    "t:Zum TradeLog",
+    "t:Mehr anzeigen",
+    "t:{0} von {1} Regeln abgehakt",
+    "t:{0} von {1} Regeln eingehalten"
+   ],
+   "befund_ids": [
+    "wording-48",
+    "zustaende-28",
+    "wording-44"
+   ],
+   "tests": [
+    "web/e2e/dashtest.js:67"
+   ],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S6.16-6.18",
+   "titel": "Disziplin-Kosten-, Schatten-Ich- und Blind-Replay-Widget: „Verstöße“, „Lege fest“, Zähler",
+   "von": 382,
+   "bis": 384,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "Widget:disziplin_kosten",
+    "Widget:schatten_ich",
+    "Widget:blind_replay",
+    "t:Verstöße",
+    "t:Regelbrüche",
+    "t:Lege fest, was für dich gilt. Dann rechnet dein Schatten-Ich, was Verstöße kosten."
+   ],
+   "befund_ids": [
+    "wording-38",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S6.19-6.22",
+   "titel": "Prop-Konten- und Mentor-Widget: „Kontostand“, „Prop-Konto anlegen“, „reicht für N Stops“, „Journalyst-Server“",
+   "von": 385,
+   "bis": 388,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "Widget:prop_konten",
+    "Widget:mentor",
+    "t:Kontostand",
+    "t:Balance",
+    "t:Prop-Konto anlegen",
+    "t:Konto anlegen",
+    "t:reicht für {0} Stops",
+    "t:noch {0} Stop-Losses",
+    "t:Der Mentor läuft über deinen Journalyst-Server."
+   ],
+   "befund_ids": [
+    "wording-32",
+    "wording-34",
+    "wording-33",
+    "wording-14"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S6.23-6.27",
+   "titel": "Widget-Vorschaubilder an die neuen Texte angleichen",
+   "von": 389,
+   "bis": 394,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "WidgetPreviews.PV",
+    "t:So viel haben dich Verstöße gekostet",
+    "t:reicht für {0} Stops",
+    "t:Netto-P&L",
+    "t:Ø Gewinn/Verlust",
+    "t:Kumulierter Netto-P&L",
+    "t:Trefferquote",
+    "t:Zum TradeLog",
+    "t:Mehr anzeigen"
+   ],
+   "befund_ids": [
+    "wording-38",
+    "wording-33",
+    "wording-6",
+    "wording-9",
+    "bereich_dashboard-32",
+    "wording-3",
+    "wording-48"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S7.1-7.3",
+   "titel": "Dashboard: Widget-Suche „Widgets durchsuchen“ mit aria-label, „Neuer Recap“, Banner-Knopf „CSV importieren“",
+   "von": 395,
+   "bis": 401,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "t:Widgets durchsuchen",
+    "t:Widget suchen …",
+    "t:Neuer Recap",
+    "t:Neuer Performance-Recap",
+    "t:CSV importieren"
+   ],
+   "befund_ids": [
+    "wording-51",
+    "wording-11",
+    "wording-49"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S7.4-7.6",
+   "titel": "Dashboard-Filter: Platzhalter „Von“/„Bis“, „Intraday / Mehrtägig“, „Nachbereitet: Alle · Ja · Nein“",
+   "von": 402,
+   "bis": 405,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "DashFilter",
+    ".fd-pair .input",
+    "t:Von",
+    "t:Bis",
+    "t:Min",
+    "t:Max",
+    "t:Intraday / Mehrtägig",
+    "t:Intraday / Multiday",
+    "t:Mehrtägig",
+    "t:Multiday",
+    "t:Nachbereitet",
+    "t:Reviewed",
+    "t:Unreviewed",
+    "t:Ja",
+    "t:Nein"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-31"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S8.1-8.2",
+   "titel": "Tagesansicht-Kopf: „Check-in“ und „Trade für diesen Tag“ streichen, Aktion new-trade-day entfernen, Tooltip „Tageszertifikat erstellen“",
+   "von": 406,
+   "bis": 411,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "[data-action=check-in]",
+    "[data-action=new-trade-day]",
+    "[data-action=cert-open]",
+    ".btn.accent",
+    "t:Tageszertifikat erstellen",
+    "t:Daily Profit Certificate",
+    "t:Trade für diesen Tag",
+    "t:Check-in",
+    "t:Check-in bearbeiten"
+   ],
+   "befund_ids": [
+    "wording-5",
+    "wording-45",
+    "bereich_trades_tag-37"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S5.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S8.3-8.5",
+   "titel": "Tagesansicht-Karten: „Trefferquote“, „Check-in machen“/„Check-in nachtragen“, „abgehakt“, „Noch keine Regeln angelegt“",
+   "von": 412,
+   "bis": 414,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "U.empty",
+    "t:Trefferquote",
+    "t:Win-Rate",
+    "t:Check-in machen",
+    "t:Check-in nachtragen",
+    "t:{0} von {1} abgehakt",
+    "t:{0} von {1} eingehalten",
+    "t:Noch keine Regeln angelegt",
+    "t:Keine Regeln definiert"
+   ],
+   "befund_ids": [
+    "wording-3",
+    "bereich_trades_tag-36",
+    "wording-5",
+    "bereich_trades_tag-37",
+    "wording-44"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S8.6-8.9",
+   "titel": "Fortschritt: Kartentitel „Regeltreue“, Leerzustand Regeln, Tilt-Text mit drittem Fall, Zähler über U.count",
+   "von": 415,
+   "bis": 419,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "U.card",
+    "U.empty",
+    "activityGrid",
+    "t:Regeltreue",
+    "t:% Regeln eingehalten",
+    "t:Noch keine Regeln angelegt",
+    "t:Keine Regeln definiert",
+    "t:Nach der Serie hast du Geld zurückgeholt, die meisten dieser Tage endeten trotzdem im Minus.",
+    "t:Nach Verlustserien hast du dich bisher gefangen.",
+    "t:Nach Verlustserien hast du dich bisher gefangen. Bleib trotzdem wachsam."
+   ],
+   "befund_ids": [
+    "wording-43",
+    "zustaende-28",
+    "bereich_trades_tag-37",
+    "bereich_training-14"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S9.1-9.2",
+   "titel": "TradeLog: Spalten „Einstieg“, „Ausstieg“, „Netto-P&L“, „R“; Netto-P&L-Kachel mit Vorzeichen und U.count",
+   "von": 420,
+   "bis": 425,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "COLS",
+    "t:Einstieg",
+    "t:Einstiegspreis",
+    "t:Ausstieg",
+    "t:Ausstiegspreis",
+    "t:Netto-P&L",
+    "t:P&L",
+    "t:R",
+    "t:RR"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-36",
+    "wording-7",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S9.3-9.7",
+   "titel": "TradeLog-Filterzeile: Klassen tl-filters/tl-search/tl-sel/tl-count, „Trades durchsuchen“, Fehler-Filter, Filterzeile nur mit Trades",
+   "von": 426,
+   "bis": 430,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".tl-filters",
+    ".tl-search",
+    ".tl-sel",
+    ".tl-count",
+    "U.empty",
+    "t:Trades durchsuchen",
+    "t:Suchen: Symbol, Setup, Notiz …",
+    "t:Suchen",
+    "t:Sucht in Symbol, Setup, Notizen, Fehler-Tags und Emotionen",
+    "t:Alle Fehler",
+    "t:Fehler: alle",
+    "t:Mit Fehler",
+    "t:Nur mit Fehler"
+   ],
+   "befund_ids": [
+    "wording-51",
+    "bereich_trades_tag-35",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S3.6",
+    "wording-S3.7"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S9.8-9.9",
+   "titel": "TradeLog: Seitenwähler-Zähler über U.count, „Trefferquote“ in den Tageskarten",
+   "von": 431,
+   "bis": 432,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "t:Trefferquote",
+    "t:Win-Rate",
+    "t:{0} – {1} von {2} Trades"
+   ],
+   "befund_ids": [
+    "zustaende-28",
+    "wording-3",
+    "bereich_trades_tag-36"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S9.10-9.16",
+   "titel": "Trade-Detail: „Plan bearbeiten“/„Tags bearbeiten“, „Löschen“ und „Trade bearbeiten“ (neutral) in die Brotkrumen-Zeile, Fuß streichen, Raster-Namen, MAE/MFE-Leerzustand, Journalyst-Server",
+   "von": 433,
+   "bis": 439,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "jBtn",
+    "foot",
+    "[data-action=trade-journal]",
+    "[data-action=edit-trade]",
+    "[data-action=delete-trade]",
+    ".btn.danger.sm",
+    ".btn.sm.ghost",
+    "U.empty",
+    "t:Plan bearbeiten",
+    "t:Tags bearbeiten",
+    "t:Trade bearbeiten",
+    "t:Bearbeiten",
+    "t:Löschen",
+    "t:Eröffnet",
+    "t:Eröffnung",
+    "t:Geschlossen",
+    "t:Schluss",
+    "t:Kontrakte × Punktwert",
+    "t:Stück × Punktwert",
+    "t:Kein MAE/MFE erfasst",
+    "t:Keine Exkursionsdaten",
+    "t:Trage MAE und MFE im Editor ein.",
+    "t:Plan ergänzen",
+    "t:Auswertung über deinen Journalyst-Server"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-22",
+    "bereich_trades_tag-36",
+    "bereich_trades_tag-47",
+    "wording-61",
+    "wording-14"
+   ],
+   "tests": [
+    "web/e2e/tradeformtest.js:52",
+    "web/e2e/tradeformtest.js:54"
+   ],
+   "abhaengig": [],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S9.17",
+   "titel": "Dialogtitel „Text-Notiz“ statt „Notiz sprechen oder tippen“",
+   "von": 440,
+   "bis": 441,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "t:Text-Notiz",
+    "t:Notiz sprechen oder tippen"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-47"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S10.1-10.7",
+   "titel": "Statistik: REG_VS, Serien-Einzahl, Titel „… nach …“, Spalten „Trefferquote“/„Erwartungswert“, Uhrzeit-Tabelle mit „ Uhr“",
+   "von": 442,
+   "bis": 452,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "REG_VS",
+    "groupTable",
+    "U.card",
+    "t:Netto-P&L nach Wochentag",
+    "t:P&L nach Wochentag",
+    "t:Trefferquote",
+    "t:Win-Rate",
+    "t:Erwartungswert",
+    "t:Ø pro Trade",
+    "t:Erwartungswert nach Setup",
+    "t:Erwartungswert je Setup",
+    "t:Netto-P&L nach Symbol",
+    "t:Netto-P&L je Symbol",
+    "t:Ø Netto-P&L pro Trade nach Setup.",
+    "t:Erwartungswert nach Wochentag",
+    "t:Erwartungswert nach Haltedauer",
+    "t:{0} Gewinn",
+    "t:{0} Verlust"
+   ],
+   "befund_ids": [
+    "bereich_statistik-16",
+    "bereich_statistik-28",
+    "zustaende-28",
+    "wording-3",
+    "bereich_statistik-38"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S2.2-2.4"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S10.8-10.12",
+   "titel": "Statistik: Fehler-Kacheln (Kosten in Verlustfarbe ohne Minus, Trefferquote mit/ohne Fehler ohne Farbe), Regime-Titel und Einzel-Labels, Edge-Zähler",
+   "von": 453,
+   "bis": 457,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "U.tile",
+    "lab",
+    "REG_VS",
+    "REG_V",
+    "t:Fehler haben gekostet",
+    "t:Fehler haben eingebracht",
+    "t:Trefferquote mit / ohne Fehler",
+    "t:Win-Rate mit / ohne Fehler",
+    "t:Erwartungswert nach Marktphase",
+    "t:Ø pro Trade je Marktphase",
+    "t:Erwartungswert nach Volatilität",
+    "t:Ø pro Trade nach Volatilität"
+   ],
+   "befund_ids": [
+    "bereich_statistik-45",
+    "wording-3",
+    "zustaende-28",
+    "bereich_statistik-16"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S10.1-10.7"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S10.13-10.15",
+   "titel": "Monte Carlo: Durchläufe mit fmt.int, Kacheln kompakt ohne Cent, ausgeschriebene Fußzeilen",
+   "von": 458,
+   "bis": 461,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "U.tile",
+    "t:Drawdown (Median)",
+    "t:Median-Drawdown",
+    "t:Endkapital (Median)",
+    "t:In 95 % der Durchläufe unter {0} · schlimmster {1}",
+    "t:90 % der Durchläufe zwischen {0} und {1}",
+    "t:{0} Durchläufe"
+   ],
+   "befund_ids": [
+    "bereich_statistik-26",
+    "wording-29"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S11.1-11.5",
+   "titel": "Schatten-Ich: Regel „Schluss nach Verlustserie“, Kosten-Texte mit „Verstöße“, DESC-Texte, Banner ohne Gedankenstrich, Zähler",
+   "von": 462,
+   "bis": 470,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/shadow.js",
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "Shadow.RULES",
+    "costView",
+    "DESC",
+    "t:Schluss nach Verlustserie",
+    "t:Stopp nach Verlusten in Folge",
+    "t:So viel haben dich Verstöße gekostet",
+    "t:So viel haben dir Verstöße gebracht",
+    "t:Regelbrüche haben dich das gekostet",
+    "t:Ist der maximale Tagesverlust erreicht, ist für heute Schluss.",
+    "t:Nach so vielen Verlusten hintereinander ist für heute Schluss.",
+    "t:Schalte oben mindestens eine Regel ein. Dann rechnet dein Schatten-Ich, was Verstöße kosten."
+   ],
+   "befund_ids": [
+    "wording-41",
+    "wording-38",
+    "wording-10",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S11.6-11.11",
+   "titel": "Schatten-Ich-Karten: „Regelwerk“, Intro, Info-Texte, Kachel-Fuß „Ohne Verstöße“, Diagramm „Kumulierter Netto-P&L“",
+   "von": 471,
+   "bis": 477,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "rulesCard",
+    "U.card",
+    "U.tile",
+    "t:Regelwerk",
+    "t:Mein Regelwerk",
+    "t:Dein Schatten-Ich handelt wie du, hält sich aber an jede aktive Regel.",
+    "t:Ohne Verstöße",
+    "t:Mit allen Regeln eingehalten",
+    "t:Kumulierter Netto-P&L",
+    "t:Equity: echt vs. Schatten-Ich"
+   ],
+   "befund_ids": [
+    "wording-25",
+    "wording-38",
+    "wording-39",
+    "wording-40"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S12.1-12.3",
+   "titel": "Prop: Währungssymbol je Konto (curSym/unitLabel), Breach-Banner ohne ISO-Datum mit „überschreitet“, fmtMoney in Kontowährung",
+   "von": 478,
+   "bis": 484,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "curSym",
+    "unitLabel",
+    "detailOf",
+    "fmtMoney",
+    "money",
+    "t:Tagesverlust {0} überschreitet das Limit von {1}",
+    "t:Handelstag {0}"
+   ],
+   "befund_ids": [
+    "bereich_prop-38",
+    "bereich_prop-4",
+    "bereich_prop-5"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S12.4-12.5",
+   "titel": "Prop: planText mit skipProfit, „{0} Gewinn fehlen“, „Consistency Rule verletzt“; limText/ddText/lockAt in Kontowährung",
+   "von": 485,
+   "bis": 486,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "planText",
+    "limText",
+    "ddText",
+    "lockAt",
+    "t:{0} Gewinn fehlen",
+    "t:Gewinn fehlt: {0}",
+    "t:Consistency Rule verletzt",
+    "t:Consistency verletzt"
+   ],
+   "befund_ids": [
+    "wording-31",
+    "bereich_prop-5",
+    "bereich_prop-38"
+   ],
+   "tests": [
+    "web/e2e/proptest.js:103"
+   ],
+   "abhaengig": [],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S12.6-12.7",
+   "titel": "Prop: Leerzustand „Prop-Konto anlegen“ ohne Firmen-Preset, Kachel „P&L der aktiven Konten“ je Währung",
+   "von": 487,
+   "bis": 488,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "U.empty",
+    "U.tile",
+    "t:Prop-Konto anlegen",
+    "t:Konto anlegen",
+    "t:Lege ein Prop-Konto an (Firma, Größe, Regeln) und ordne ihm Trades zu. Dann siehst du hier Kontostand, Puffer, Ampel und den Weg zum Payout.",
+    "t:P&L der aktiven Konten",
+    "t:P&L aktive Konten"
+   ],
+   "befund_ids": [
+    "wording-35",
+    "wording-34",
+    "wording-32",
+    "bereich_prop-5",
+    "wording-36"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S12.8-12.12",
+   "titel": "Prop-Karte: „reicht für N Stops“, „Kontostand“, P&L in Kontowährung, Bestehen-Zeile nur wenn nicht leer, Tooltip „je Stop“, Archiv-Untertitel, Verweis „Trade bearbeiten“",
+   "von": 489,
+   "bis": 493,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "planText",
+    "money",
+    "t:reicht für {0} Stops",
+    "t:noch {0} Stop-Losses",
+    "t:Kontostand",
+    "t:Balance",
+    "t:{0} Puffer / {1} je Stop",
+    "t:{0} Puffer / {1} je Stop-Loss",
+    "t:Bestanden, geplatzt oder archiviert",
+    "t:Ältere Trades ordnest du über „Trade bearbeiten“ zu.",
+    "t:Ältere Trades ordnest du im Trade-Editor zu."
+   ],
+   "befund_ids": [
+    "wording-33",
+    "wording-32",
+    "bereich_prop-5",
+    "zustaende-28",
+    "wording-31",
+    "wording-37",
+    "wording-61"
+   ],
+   "tests": [
+    "web/e2e/proptest.js:55",
+    "web/e2e/proptest.js:56",
+    "web/e2e/proptest.js:57",
+    "web/e2e/proptest.js:116"
+   ],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S12.4-12.5"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S12.13-12.16",
+   "titel": "Prop-Konto-Dialog: Betrag-Option mit Kontowährung, „% des Startkapitals“, „Mindest-Kontostand“, Platzhalter „z. B. 50K“/„z. B. Topstep“, Währungshinweis",
+   "von": 494,
+   "bis": 497,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "modeSel",
+    "unitLabel",
+    "#pa-name",
+    "#pp-name",
+    "label[for=pa-name]",
+    "t:% des Startkapitals",
+    "t:% der Startbalance",
+    "t:Mindest-Kontostand",
+    "t:Mindestbalance",
+    "t:Konto",
+    "t:Konto (z. B. 50K)",
+    "t:z. B. 50K",
+    "t:z. B. Topstep",
+    "t:Kontostand, P&L, Limits und Puffer in Kontowährung. In Trade-Listen bleibt die Journal-Währung."
+   ],
+   "befund_ids": [
+    "bereich_prop-38",
+    "wording-32",
+    "bereich_prop-53",
+    "bereich_prop-5"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S12.1-12.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S12.17-12.20",
+   "titel": "Prop-Konto-Dialog: Aktion prop-cur beim Währungswechsel, „Startkapital“, Währung an rulesFields, Stop-Größe-Hinweis",
+   "von": 498,
+   "bis": 501,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "#pa-cur",
+    "#pp-cur",
+    "[data-change=prop-cur]",
+    "App.actions['prop-cur']",
+    "fillAccountForm",
+    "rulesFields",
+    "label[for=pa-sb]",
+    "t:Startkapital",
+    "t:Startbalance",
+    "t:Bestimmt, für wie viele Stops der Puffer reicht."
+   ],
+   "befund_ids": [
+    "bereich_prop-38",
+    "wording-32",
+    "wording-33"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S12.1-12.3",
+    "wording-S12.13-12.16"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S12.21-12.23",
+   "titel": "Prop-Bilanz: Pro Firma ohne ROI bei fehlenden Payouts, Symbolknopf „Als erhalten markieren“, Spalten „Beantragt am“/„Erhalten am“",
+   "von": 502,
+   "bis": 504,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "[data-action=prop-payout-received]",
+    ".btn.ghost.icon.sm",
+    "t:Als erhalten markieren",
+    "t:Erhalten",
+    "t:Beantragt",
+    "t:Beantragt am",
+    "t:Erhalten am",
+    "t:noch keine Payouts"
+   ],
+   "befund_ids": [
+    "bereich_prop-24",
+    "bereich_prop-20"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S12.24-12.26",
+   "titel": "Prop-Planer: „Mindest-Kontostand“, Bedingungen „(mind. …) · erfüllt“, alle Beträge in Kontowährung",
+   "von": 505,
+   "bis": 507,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "money",
+    "fmt.balance",
+    "t:Mindest-Kontostand",
+    "t:Mindestbalance",
+    "t:erfüllt",
+    "t:(mind. {0})"
+   ],
+   "befund_ids": [
+    "wording-32",
+    "bereich_prop-31",
+    "bereich_prop-5"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S12.27",
+   "titel": "Prop-Kopfreihe: Knopf „Prop-Konto anlegen“ mit aria-label",
+   "von": 508,
+   "bis": 508,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "[data-action=prop-account-new]",
+    ".hide-m",
+    "t:Prop-Konto anlegen",
+    "t:Prop-Konto"
+   ],
+   "befund_ids": [
+    "wording-34"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S12.28-12.29",
+   "titel": "Friedhof: Lebensdauer über U.count, Grabstein-Unterzeile ohne Geldbetrag („100K“ nur ohne Namen)",
+   "von": 509,
+   "bis": 510,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "fmt.balance",
+    "marketLabel",
+    "t:{0} Tage"
+   ],
+   "befund_ids": [
+    "zustaende-28",
+    "bereich_prop-46"
+   ],
+   "tests": [
+    "web/e2e/friedhoftest.js:122",
+    "web/e2e/friedhoftest.js:129"
+   ],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S12.30",
+   "titel": "Coupons-Leerzustand „Coupon-Codes für Prop Firms erscheinen hier.“",
+   "von": 511,
+   "bis": 512,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/coupons.js"
+   ],
+   "anker": [
+    "U.empty",
+    "t:Coupon-Codes für Prop Firms erscheinen hier.",
+    "t:Rabatt-Codes für Prop Firms erscheinen hier."
+   ],
+   "befund_ids": [
+    "wording-55"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S13.1-13.2",
+   "titel": "Affiliate: Kachelreihe kompakt ohne Cent (moneyK)",
+   "von": 513,
+   "bis": 518,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js"
+   ],
+   "anker": [
+    "moneyK",
+    "U.tile"
+   ],
+   "befund_ids": [
+    "wording-53"
+   ],
+   "tests": [
+    "web/e2e/affiliatetest.js:20"
+   ],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S13.3-13.7",
+   "titel": "Affiliate-Begriffe: „Satz“/„Provisionssatz“ = Prozent, „Provision“ = Betrag, „Quelle“, Dialog und Toasts",
+   "von": 519,
+   "bis": 524,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js"
+   ],
+   "anker": [
+    ".aff-pct",
+    "[data-action=aff-pct]",
+    "U.tile",
+    "t:Satz",
+    "t:Provision",
+    "t:Verdient",
+    "t:Satz ändern",
+    "t:Provision ändern",
+    "t:Satz von {0} ändern",
+    "t:Provision von {0} ändern",
+    "t:Provision = Umsatz × Satz. Offen = Provisionen des laufenden Monats.",
+    "t:Provisionssatz",
+    "t:Quelle",
+    "t:Über",
+    "t:Satz in %",
+    "t:Provision in %",
+    "t:Bitte einen Satz von 0 bis 100 % angeben",
+    "t:Provisionssatz gespeichert",
+    "t:Provision gespeichert"
+   ],
+   "befund_ids": [
+    "bereich_konto-30",
+    "wording-53"
+   ],
+   "tests": [
+    "web/e2e/affiliatetest.js:23",
+    "web/e2e/affiliatetest.js:46"
+   ],
+   "abhaengig": [
+    "wording-S13.1-13.2"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S14.1-14.7",
+   "titel": "Notebook: „Ordner anlegen“, „Papierkorb“, „Tagesnotiz anlegen“, „Notizen auswählen“, •••-Menü (JSON, Drucken mit Druckersymbol, Link zum Lesen), Dialogtitel",
+   "von": 525,
+   "bis": 535,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "U.I.printer",
+    "t:Ordner anlegen",
+    "t:Ordner hinzufügen",
+    "t:Papierkorb",
+    "t:Kürzlich gelöscht",
+    "t:Tagesnotiz anlegen",
+    "t:Tag loggen",
+    "t:Notizen auswählen",
+    "t:Notizen antippen",
+    "t:Aus JSON importieren",
+    "t:Aus Datei laden",
+    "t:Als JSON exportieren",
+    "t:Exportieren (JSON)",
+    "t:Als PDF drucken",
+    "t:Als PDF herunterladen",
+    "t:Link zum Lesen erstellen",
+    "t:Nur-Lese-Link erzeugen",
+    "t:Vorlage anlegen",
+    "t:Vorlage hinzufügen"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-29",
+    "bereich_notebook_news-27",
+    "bereich_notebook_news-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S14.8-14.9",
+   "titel": "Notebook: Zähler über U.count, Toast „Notiz verschoben“",
+   "von": 536,
+   "bis": 537,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "U.toast",
+    "t:{0} Notizen verschoben",
+    "t:{0} Notiz verschoben",
+    "t:Notiz verschoben",
+    "t:Verschoben"
+   ],
+   "befund_ids": [
+    "zustaende-28",
+    "bereich_notebook_news-27"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S14.10-14.11",
+   "titel": "Editor-„+“-Menü: Block „Text“, „Aufklappbarer Abschnitt“ nach „Grundbausteine“ verschieben",
+   "von": 538,
+   "bis": 540,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/editor.js"
+   ],
+   "anker": [
+    "NoteEditor item",
+    "E.para",
+    "E.toggle",
+    "t:Text",
+    "t:Absatz",
+    "t:Aufklappbarer Abschnitt",
+    "t:Aufklappbare Liste",
+    "t:Grundbausteine"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-28"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S15.1-15.3",
+   "titel": "News: Fehlertexte auf „Journalyst-Server“ und „Einstellungen → Server“, Banner gekürzt",
+   "von": 541,
+   "bis": 547,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    "t:Der Journalyst-Server ist nicht erreichbar. Prüfe deine Verbindung und die Adresse unter Einstellungen → Server.",
+    "t:Zugangstoken fehlt oder ist falsch. Prüfe es unter Einstellungen → Server.",
+    "t:Echte Termine kommen über deinen Journalyst-Server.",
+    "t:Server einrichten"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-46",
+    "wording-14",
+    "bereich_notebook_news-45"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S15.4-15.5",
+   "titel": "Mentor: Fehler- und Einrichten-Text, Knopf „Server einrichten“, Repo-Pfad streichen",
+   "von": 548,
+   "bis": 549,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    ".mentor-setup",
+    "t:Der Mentor läuft über deinen Journalyst-Server, damit der API-Schlüssel nie im Browser liegt. Trage unter Einstellungen → Server die Adresse und das Zugangstoken ein.",
+    "t:Server einrichten",
+    "t:Zu den Einstellungen",
+    "t:Der Journalyst-Server ist nicht erreichbar. Prüfe deine Verbindung und die Adresse unter Einstellungen → Server."
+   ],
+   "befund_ids": [
+    "wording-14",
+    "bereich_notebook_news-46",
+    "bereich_training-35"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S15.6-15.9",
+   "titel": "Coach: „Coach einrichten“ + „Server einrichten“, „Was dein Mentor sieht“, „Dein Name in Gruppen:“, Mailhinweis grau ohne Variablen",
+   "von": 550,
+   "bis": 553,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".coach-mailhint",
+    ".warn",
+    ".muted",
+    "t:Coach einrichten",
+    "t:Coach Mode einrichten",
+    "t:Server einrichten",
+    "t:Was dein Mentor sieht",
+    "t:Dein Name in Gruppen:",
+    "t:Dein Name im Coach Mode:",
+    "t:Dein Journalyst-Server verschickt noch keine E-Mails. Die Adresse wird gespeichert, Mails kommen, sobald der Versand eingerichtet ist."
+   ],
+   "befund_ids": [
+    "bereich_konto-42",
+    "bereich_training-35",
+    "wording-14",
+    "bereich_konto-16"
+   ],
+   "tests": [
+    "web/e2e/coachtest.js:37",
+    "web/e2e/coachlang.js:14"
+   ],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S15.10-15.15",
+   "titel": "Coach-Gruppe und Journal: „1 von 2 offen“, „Ø Trefferquote“, „Mentor-Notizen“, Pille „nur für Mentoren“ weg, „Daten ab …“, „bearbeitet …“ nur bei späterer Bearbeitung",
+   "von": 554,
+   "bis": 559,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".ce-edited",
+    ".ce-head",
+    "U.tile",
+    "t:{0} von {1} offen",
+    "t:Ø Trefferquote",
+    "t:Ø Winrate",
+    "t:Trefferquote",
+    "t:Winrate",
+    "t:{0} Mentor-Notizen",
+    "t:{0} Notizen von euch",
+    "t:nur für Mentoren",
+    "t:Daten ab {0}",
+    "t:Kurz-Stats nur in R und Prozent · ab {0}",
+    "t:bearbeitet"
+   ],
+   "befund_ids": [
+    "bereich_konto-43",
+    "wording-3",
+    "zustaende-28",
+    "bereich_konto-21"
+   ],
+   "tests": [
+    "web/e2e/coachtest.js:135",
+    "web/e2e/coachlang.js:11",
+    "web/e2e/coachlang.js:12"
+   ],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S3.4",
+    "wording-S3.5"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S15.16-15.21",
+   "titel": "Server-Texte in js/coach.js, voice.js, ruhepunkt.js: „Journalyst-Server“, „Prüfe“/„versuche“, Kommentare",
+   "von": 560,
+   "bis": 566,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/coach.js",
+    "web/js/voice.js",
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    "t:Der Journalyst-Server ist nicht erreichbar. Prüfe deine Verbindung und die Adresse unter Einstellungen → Server.",
+    "t:Journalyst-Server nicht eingerichtet",
+    "t:Mentor-Server nicht eingerichtet",
+    "t:Ohne Journalyst-Server wird nur das Transkript gespeichert. Die Adresse trägst du unter Einstellungen → Server ein.",
+    "t:Speichern hat nicht geklappt. Prüfe deine Verbindung und versuche es noch einmal."
+   ],
+   "befund_ids": [
+    "wording-14",
+    "bereich_notebook_news-46"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S16.1-16.4",
+   "titel": "Zertifikat-Menü: Tag · Woche · Monat · Zeitraum mit konkretem Zeitraum rechts, Zähler, „Benutzername anzeigen“",
+   "von": 567,
+   "bis": 575,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/certificate.js"
+   ],
+   "anker": [
+    "Certificate.menuHTML",
+    "resolveRef",
+    "D.period",
+    "[data-action=cert-open]",
+    "t:Tag",
+    "t:Woche",
+    "t:Monat",
+    "t:Zeitraum",
+    "t:Stats",
+    "t:Benutzername anzeigen",
+    "t:Username anzeigen"
+   ],
+   "befund_ids": [
+    "wording-45",
+    "bereich_dashboard-29",
+    "zustaende-28",
+    "bereich_dashboard-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S4.1-4.5"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.1",
+   "titel": "Einstellungs-Reiter „Server“ und „Verlauf“ (Schlüssel und Routen bleiben)",
+   "von": 576,
+   "bis": 580,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "SECTIONS",
+    "t:Server",
+    "t:Mentor",
+    "t:Verlauf",
+    "t:Logs"
+   ],
+   "befund_ids": [
+    "wording-14",
+    "wording-60"
+   ],
+   "tests": [
+    "web/e2e/settest.js:10"
+   ],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.2-17.3",
+   "titel": "Profil: Privatsphäre-Texte („Support-Team-Zugriff erlauben“), 2FA-Text ehrlich, 2FA-Knopf neutral",
+   "von": 581,
+   "bis": 582,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "[data-action=twofa]",
+    ".btn.primary.sm",
+    "[data-action=save-privacy]",
+    "t:Wer außer dir dein Journal sehen darf.",
+    "t:So gehen wir mit deinen Daten um.",
+    "t:Support-Team-Zugriff erlauben",
+    "t:Support-Team Zugriff auf mein Konto erlauben",
+    "t:Ist das an, darf das Support-Team dein Journal einsehen, um dir zu helfen und Fehler zu finden.",
+    "t:Schützt die Anmeldung mit einer Authenticator-App (z. B. Google Authenticator, Authy). Verfügbar, sobald es Benutzerkonten gibt."
+   ],
+   "befund_ids": [
+    "wording-17",
+    "wording-25",
+    "wording-18"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.4-17.7",
+   "titel": "Profil-Daten: „Sicherung importieren“, Beispieldaten-Text mit Replay nur bei App.on('replay'), „Löscht alle Daten …“, zweizeiliger Fuß mit Tastenkürzeln",
+   "von": 583,
+   "bis": 586,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "App.on",
+    "S.storageOK",
+    "t:Sicherung importieren",
+    "t:Sicherung einspielen",
+    "t:JSON-Datei aus einem Export. „Zusammenführen“ behält deine vorhandenen Daten, „Ersetzen“ überschreibt sie.",
+    "t:Löscht alle Daten in diesem Browser. Exportiere vorher eine Sicherung.",
+    "t:Entfernt alle Daten aus diesem Browser. Vorher exportieren!",
+    "t:Deine Daten liegen nur in diesem Browser.",
+    "t:Tastenkürzel"
+   ],
+   "befund_ids": [
+    "wording-22",
+    "wording-21",
+    "wording-19",
+    "wording-20",
+    "bereich_shell-32"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.8-17.10",
+   "titel": "Design-Reiter: „Design speichern“, Texte ohne „Website“/„Buttons“, Reset-Knopf „Auf Standard zurücksetzen“ ohne Symbol",
+   "von": 587,
+   "bis": 589,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "[data-action=color-reset]",
+    "--muted",
+    "t:Design speichern",
+    "t:Aktuelles speichern",
+    "t:Erscheinungsbild, Schrift und Farben. Gilt sofort überall, auch auf der Startseite.",
+    "t:Gilt für Text und Zahlen.",
+    "t:Hauptknöpfe, Schalter, Markierungen und Diagramme.",
+    "t:Auf Standard zurücksetzen",
+    "t:Standardfarben"
+   ],
+   "befund_ids": [
+    "wording-24",
+    "wording-23"
+   ],
+   "tests": [
+    "web/e2e/settest2.js:47"
+   ],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.11-17.12",
+   "titel": "Server-Reiter: Kopf „Server“ mit neuem Untertitel, Nutzerkennung mit Herkunft, Absatz 4 gekürzt",
+   "von": 590,
+   "bis": 591,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "S.userId",
+    "S.settings.profile",
+    "t:Server",
+    "t:Mentor, Coach, News und die Auswertung von Sprachnotizen laufen über deinen Journalyst-Server. Der API-Schlüssel bleibt dort und nie im Browser.",
+    "t:Nutzerkennung: {0} (Benutzername aus dem Profil).",
+    "t:Für Coach legt Journalyst zusätzlich einen geheimen Schlüssel an, der nur auf diesem Gerät liegt."
+   ],
+   "befund_ids": [
+    "wording-14",
+    "bereich_einstellungen-46"
+   ],
+   "tests": [
+    "web/e2e/mentortest.js:24"
+   ],
+   "abhaengig": [],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S17.13-17.15",
+   "titel": "Benachrichtigungen: „Recaps“, „Wochen-Recap“, „Monats-Recap“ mit neuen Auslöser-Sätzen",
+   "von": 592,
+   "bis": 594,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "switchRow",
+    "t:Recaps",
+    "t:Performance-Recaps",
+    "t:Wochen-Recap",
+    "t:Wöchentlicher Performance-Recap",
+    "t:Monats-Recap",
+    "t:Monatlicher Performance-Recap",
+    "t:Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard."
+   ],
+   "befund_ids": [
+    "wording-11",
+    "wording-12"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.16-17.18",
+   "titel": "Konten/Trading: „Tagesverlustlimit“, Trading-Untertitel nennt die Blöcke, Blocktitel „Märkte“",
+   "von": 595,
+   "bis": 597,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "t:Die Kontogröße bestimmt Tagesverlustlimit, Score-Drawdown und Monte Carlo.",
+    "t:Märkte, Break-even-Bereich, Geld-blind-Modus, Risiko und Warnungen.",
+    "t:Passe dein Trading-Erlebnis an.",
+    "t:Märkte",
+    "t:Was handelst du?"
+   ],
+   "befund_ids": [
+    "wording-10",
+    "wording-26",
+    "wording-27"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.19-17.21",
+   "titel": "Trading: Schalter „Beträge als R zeigen“, Monte-Carlo-Durchläufe mit fmt.int und value-Attribut, „Tagesverlustlimit“ im Tilt-Text",
+   "von": 598,
+   "bis": 600,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "switchRow",
+    "[data-action=blind-toggle]",
+    "st.mcRuns",
+    "option[value]",
+    "t:Beträge als R zeigen",
+    "t:Geld-blind-Modus",
+    "t:Ruin-Schwelle für Monte Carlo (% Drawdown)",
+    "t:Ruin-Schwelle Monte Carlo (% Drawdown)"
+   ],
+   "befund_ids": [
+    "wording-28",
+    "bereich_einstellungen-34",
+    "wording-29",
+    "wording-10"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.22",
+   "titel": "Regeln-Untertitel verweist auf „Plan & Bewertung“",
+   "von": 601,
+   "bis": 601,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "t:Deine Handelsregeln. Sie erscheinen in „Plan & Bewertung“ eines Trades, beim Session-Ende, im Fortschritt und im Regel-Tracker."
+   ],
+   "befund_ids": [
+    "wording-61"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.23-17.27",
+   "titel": "Verlauf-Reiter: Unterreiter „Importe · Änderungen“, Leerzustände, Kopf; Sicherung-Dialog „Importieren“ mit Zähler",
+   "von": 602,
+   "bis": 606,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "t:Importe",
+    "t:Imports",
+    "t:Änderungen",
+    "t:Noch keine Importe",
+    "t:Noch keine Imports",
+    "t:Noch keine Änderungen",
+    "t:Noch kein Verlauf",
+    "t:Importe und Änderungen in deinem Journal.",
+    "t:Importieren",
+    "t:Einspielen",
+    "t:Sicherung importiert ({0})"
+   ],
+   "befund_ids": [
+    "wording-60",
+    "wording-22",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.28",
+   "titel": "Schrift-Beschreibungen in FONTS.desc",
+   "von": 607,
+   "bis": 607,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/theme.js"
+   ],
+   "anker": [
+    "Theme.FONTS",
+    "t:Satoshi · Zahlen in Onest",
+    "t:Quicksand · Zahlen in Onest",
+    "t:Nunito · auch für Zahlen",
+    "t:Systemschrift · Zahlen in Roboto"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-45"
+   ],
+   "tests": [],
+   "abhaengig": [],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S17.29-17.30",
+   "titel": "store.js: Willkommensnotiz „importieren“, Verlaufseinträge mit U.count (wenn root.UI geladen)",
+   "von": 608,
+   "bis": 610,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/store.js"
+   ],
+   "anker": [
+    "Store",
+    "t:{0} · {1} Trades"
+   ],
+   "befund_ids": [
+    "wording-22",
+    "zustaende-28"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S1.1-1.3"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S18.1",
+   "titel": "Wörterbücher: geänderte Schlüssel nach Regel 1.5 umbenennen bzw. löschen (Schritte 1–17)",
+   "von": 611,
+   "bis": 613,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "I18N",
+    "t:Win-Rate",
+    "t:Winrate",
+    "t:Ø Winrate",
+    "t:Ø Tages-Win-Rate",
+    "t:Ø Trade-Gewinn/Verlust",
+    "t:Netto P&L",
+    "t:Profil vervollständigen",
+    "t:{0} von {1} eingehalten",
+    "t:% Regeln eingehalten",
+    "t:Mit allen Regeln eingehalten",
+    "t:Equity: echt vs. Schatten-Ich",
+    "t:Mein Regelwerk",
+    "t:Stopp nach Verlusten in Folge",
+    "t:P&L aktive Konten",
+    "t:Bestanden, geplatzt oder archiviert",
+    "t:noch {0} Stop-Losses",
+    "t:noch 1 Stop-Loss",
+    "t:{0} Puffer / {1} je Stop-Loss",
+    "t:Coach Mode einrichten",
+    "t:Rabatt-Codes für Prop Firms erscheinen hier.",
+    "t:Kürzlich gelöscht",
+    "t:Aufklappbare Liste",
+    "t:Check-in nachtragen",
+    "t:Wochen-Recap",
+    "t:Neuer Performance-Recap",
+    "t:Trade speichern",
+    "t:Standardfarben",
+    "t:{0} Notiz von euch",
+    "t:{0} Notizen von euch",
+    "t:Kurz-Stats nur in R und Prozent · ab {0}"
+   ],
+   "befund_ids": [
+    "wording-3",
+    "wording-9",
+    "wording-6",
+    "bereich_shell-34",
+    "wording-44",
+    "wording-43",
+    "wording-39",
+    "wording-40",
+    "wording-25",
+    "wording-41",
+    "wording-36",
+    "wording-37",
+    "wording-33",
+    "bereich_konto-42",
+    "wording-55",
+    "bereich_notebook_news-27",
+    "bereich_notebook_news-28",
+    "wording-5",
+    "wording-11",
+    "wording-63",
+    "wording-24",
+    "bereich_konto-43"
+   ],
+   "tests": [
+    "web/e2e/langtest.js"
+   ],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S1.4-1.7",
+    "wording-S2.1",
+    "wording-S2.2-2.4",
+    "wording-S2.5-2.13",
+    "wording-S2.14",
+    "wording-S5.1-5.2",
+    "wording-S5.4-5.5",
+    "wording-S5.6-5.8",
+    "wording-S6.1-6.4",
+    "wording-S6.5-6.10",
+    "wording-S6.11-6.15",
+    "wording-S6.16-6.18",
+    "wording-S6.19-6.22",
+    "wording-S7.1-7.3",
+    "wording-S7.4-7.6",
+    "wording-S8.1-8.2",
+    "wording-S8.3-8.5",
+    "wording-S8.6-8.9",
+    "wording-S9.1-9.2",
+    "wording-S9.3-9.7",
+    "wording-S9.8-9.9",
+    "wording-S9.10-9.16",
+    "wording-S9.17",
+    "wording-S10.1-10.7",
+    "wording-S10.8-10.12",
+    "wording-S10.13-10.15",
+    "wording-S11.1-11.5",
+    "wording-S11.6-11.11",
+    "wording-S12.1-12.3",
+    "wording-S12.4-12.5",
+    "wording-S12.6-12.7",
+    "wording-S12.8-12.12",
+    "wording-S12.13-12.16",
+    "wording-S12.17-12.20",
+    "wording-S12.21-12.23",
+    "wording-S12.24-12.26",
+    "wording-S12.27",
+    "wording-S12.28-12.29",
+    "wording-S12.30",
+    "wording-S13.3-13.7",
+    "wording-S14.1-14.7",
+    "wording-S14.8-14.9",
+    "wording-S14.10-14.11",
+    "wording-S15.1-15.3",
+    "wording-S15.4-15.5",
+    "wording-S15.6-15.9",
+    "wording-S15.10-15.15",
+    "wording-S15.16-15.21",
+    "wording-S16.1-16.4",
+    "wording-S17.1",
+    "wording-S17.2-17.3",
+    "wording-S17.4-17.7",
+    "wording-S17.8-17.10",
+    "wording-S17.11-17.12",
+    "wording-S17.13-17.15",
+    "wording-S17.16-17.18",
+    "wording-S17.19-17.21",
+    "wording-S17.22",
+    "wording-S17.23-17.27",
+    "wording-S17.28",
+    "wording-S17.29-17.30"
+   ],
+   "aufwand": "L"
+  },
+  {
+   "nr": "wording-S18.2",
+   "titel": "Wörterbücher: neue Einzahl-Muster und zusammengesetzte Zählmuster für U.count",
+   "von": 614,
+   "bis": 614,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "anker": [
+    "U.count",
+    "t:{0} Trade",
+    "t:{0} Tag",
+    "t:{0} Handelstag",
+    "t:{0} Notiz",
+    "t:{0} Gewinn",
+    "t:{0} Verlust",
+    "t:{0} Mentor-Notiz",
+    "t:{0} von {1} Trade",
+    "t:{0} – {1} von {2} Trade",
+    "t:{0} Trade · {1} Handelstag"
+   ],
+   "befund_ids": [
+    "zustaende-28"
+   ],
+   "tests": [
+    "web/e2e/langtest.js"
+   ],
+   "abhaengig": [
+    "wording-S1.1-1.3",
+    "wording-S1.4-1.7",
+    "wording-S2.14",
+    "wording-S5.6-5.8",
+    "wording-S6.1-6.4",
+    "wording-S6.5-6.10",
+    "wording-S6.11-6.15",
+    "wording-S6.16-6.18",
+    "wording-S8.6-8.9",
+    "wording-S9.1-9.2",
+    "wording-S9.3-9.7",
+    "wording-S9.8-9.9",
+    "wording-S10.1-10.7",
+    "wording-S10.8-10.12",
+    "wording-S11.1-11.5",
+    "wording-S12.8-12.12",
+    "wording-S12.28-12.29",
+    "wording-S14.8-14.9",
+    "wording-S15.10-15.15",
+    "wording-S16.1-16.4",
+    "wording-S17.23-17.27",
+    "wording-S17.29-17.30"
+   ],
+   "aufwand": "M"
+  },
+  {
+   "nr": "wording-S18.3",
+   "titel": "Neue Etappe-1-Schlüssel in e2e/i18n/<lang>/part-audit-wording.json eintragen",
+   "von": 615,
+   "bis": 616,
+   "cluster": "wording",
+   "dateien": [
+    "web/e2e/i18n/en/part-audit-wording.json",
+    "web/e2e/i18n/es/part-audit-wording.json",
+    "web/e2e/i18n/hi/part-audit-wording.json",
+    "web/e2e/i18n/pt/part-audit-wording.json",
+    "web/e2e/i18n/zh/part-audit-wording.json"
+   ],
+   "anker": [
+    "part-audit-wording.json",
+    "langtest.js"
+   ],
+   "befund_ids": [],
+   "tests": [
+    "web/e2e/langtest.js"
+   ],
+   "abhaengig": [
+    "wording-S18.1",
+    "wording-S18.2"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S19-shell",
+   "titel": "Tests anpassen: scorestatetest, usercardtest, rptest, settest, mentortest",
+   "von": 617,
+   "bis": 625,
+   "cluster": "wording",
+   "dateien": [
+    "web/e2e/scorestatetest.js",
+    "web/e2e/usercardtest.js",
+    "web/e2e/rptest.js",
+    "web/e2e/settest.js",
+    "web/e2e/mentortest.js"
+   ],
+   "anker": [
+    "t:Trefferquote",
+    "t:Profil ergänzen",
+    "t:Prop Trading",
+    "t:Verlauf",
+    "t:Server"
+   ],
+   "befund_ids": [
+    "wording-3",
+    "bereich_shell-34",
+    "bereich_shell-33",
+    "wording-60",
+    "wording-14"
+   ],
+   "tests": [
+    "web/e2e/scorestatetest.js:10",
+    "web/e2e/usercardtest.js:11",
+    "web/e2e/rptest.js:9",
+    "web/e2e/settest.js:10",
+    "web/e2e/mentortest.js:24"
+   ],
+   "abhaengig": [
+    "wording-S2.1",
+    "wording-S5.1-5.2",
+    "wording-S17.1",
+    "wording-S17.11-17.12"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S19-coach",
+   "titel": "Tests anpassen: coachtest, coachlang",
+   "von": 626,
+   "bis": 629,
+   "cluster": "konto",
+   "dateien": [
+    "web/e2e/coachtest.js",
+    "web/e2e/coachlang.js"
+   ],
+   "anker": [
+    "t:Coach einrichten",
+    "t:{0} von {1} offen",
+    "t:Daten ab {0}"
+   ],
+   "befund_ids": [
+    "bereich_konto-42",
+    "bereich_konto-43"
+   ],
+   "tests": [
+    "web/e2e/coachtest.js:37",
+    "web/e2e/coachtest.js:135",
+    "web/e2e/coachlang.js:11",
+    "web/e2e/coachlang.js:12",
+    "web/e2e/coachlang.js:14"
+   ],
+   "abhaengig": [
+    "wording-S15.6-15.9",
+    "wording-S15.10-15.15",
+    "wording-S18.1"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S19-prop",
+   "titel": "Tests anpassen: proptest, friedhoftest",
+   "von": 630,
+   "bis": 635,
+   "cluster": "prop",
+   "dateien": [
+    "web/e2e/proptest.js",
+    "web/e2e/friedhoftest.js"
+   ],
+   "anker": [
+    "t:reicht für {0} Stops",
+    "t:{0} Gewinn fehlen",
+    "t:je Stop",
+    "fmt.balance"
+   ],
+   "befund_ids": [
+    "bereich_prop-5",
+    "wording-33",
+    "wording-31",
+    "bereich_prop-46"
+   ],
+   "tests": [
+    "web/e2e/proptest.js:55",
+    "web/e2e/proptest.js:56",
+    "web/e2e/proptest.js:57",
+    "web/e2e/proptest.js:103",
+    "web/e2e/proptest.js:116",
+    "web/e2e/friedhoftest.js:122",
+    "web/e2e/friedhoftest.js:129"
+   ],
+   "abhaengig": [
+    "wording-S12.4-12.5",
+    "wording-S12.8-12.12",
+    "wording-S12.28-12.29"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S19-affiliate",
+   "titel": "Tests anpassen: affiliatetest",
+   "von": 636,
+   "bis": 638,
+   "cluster": "konto",
+   "dateien": [
+    "web/e2e/affiliatetest.js"
+   ],
+   "anker": [
+    "t:Satz",
+    "t:Provision",
+    "t:Provisionssatz",
+    "moneyK"
+   ],
+   "befund_ids": [
+    "wording-53",
+    "bereich_konto-30"
+   ],
+   "tests": [
+    "web/e2e/affiliatetest.js:20",
+    "web/e2e/affiliatetest.js:23",
+    "web/e2e/affiliatetest.js:46"
+   ],
+   "abhaengig": [
+    "wording-S13.1-13.2",
+    "wording-S13.3-13.7"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S19-rest",
+   "titel": "Tests anpassen: tradeformtest, dashtest, settest2; sampletest, core.test, certtest bleiben unverändert",
+   "von": 639,
+   "bis": 645,
+   "cluster": "wording",
+   "dateien": [
+    "web/e2e/tradeformtest.js",
+    "web/e2e/dashtest.js",
+    "web/e2e/settest2.js"
+   ],
+   "anker": [
+    ".card-head [data-action=trade-journal]",
+    "t:Zum TradeLog",
+    "t:Auf Standard zurücksetzen"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-47",
+    "bereich_trades_tag-22",
+    "wording-48",
+    "wording-24",
+    "wording-21",
+    "wording-8",
+    "wording-45",
+    "bereich_dashboard-29"
+   ],
+   "tests": [
+    "web/e2e/tradeformtest.js:52",
+    "web/e2e/tradeformtest.js:54",
+    "web/e2e/dashtest.js:67",
+    "web/e2e/settest2.js:47"
+   ],
+   "abhaengig": [
+    "wording-S9.10-9.16",
+    "wording-S6.11-6.15",
+    "wording-S17.8-17.10",
+    "wording-S17.4-17.7",
+    "wording-S2.5-2.13",
+    "wording-S16.1-16.4",
+    "wording-S8.1-8.2"
+   ],
+   "aufwand": "S"
+  },
+  {
+   "nr": "wording-S20",
+   "titel": "web/README.md an neue Begriffe und Bedienung anpassen (Zeilen 39–318)",
+   "von": 646,
+   "bis": 663,
+   "cluster": "wording",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "web/README.md",
+    "t:Plan bearbeiten",
+    "t:Tags bearbeiten",
+    "t:Netto-P&L",
+    "t:Intraday/Mehrtägig, Nachbereitet",
+    "t:Kontostand",
+    "t:Einstellungen → Server",
+    "t:Verlauf (Importe und Änderungen)",
+    "t:Trefferquote",
+    "t:Schluss nach Verlustserie",
+    "t:Kumulierter Netto-P&L (echt und Schatten-Ich)",
+    "t:Regelwerk",
+    "t:Puffer in Stops",
+    "t:Prop Trading",
+    "t:Coupon-Codes",
+    "t:Satz, Provision",
+    "t:Quelle",
+    "t:Provisionssatz"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-22",
+    "wording-6",
+    "bereich_dashboard-31",
+    "wording-32",
+    "wording-9",
+    "wording-5",
+    "wording-14",
+    "wording-60",
+    "wording-3",
+    "wording-41",
+    "wording-40",
+    "wording-25",
+    "wording-33",
+    "bereich_shell-33",
+    "wording-55",
+    "bereich_konto-30",
+    "wording-20",
+    "bereich_shell-32"
+   ],
+   "tests": [],
+   "abhaengig": [
+    "wording-S9.10-9.16",
+    "wording-S6.5-6.10",
+    "wording-S7.4-7.6",
+    "wording-S6.19-6.22",
+    "wording-S5.3",
+    "wording-S17.1",
+    "wording-S17.11-17.12",
+    "wording-S15.4-15.5",
+    "wording-S15.6-15.9",
+    "wording-S15.10-15.15",
+    "wording-S11.1-11.5",
+    "wording-S11.6-11.11",
+    "wording-S12.8-12.12",
+    "wording-S5.1-5.2",
+    "wording-S12.30",
+    "wording-S13.3-13.7",
+    "wording-S5.9",
+    "wording-S17.4-17.7"
+   ],
+   "aufwand": "M"
+  }
+ ],
+ "akzeptanz": {
+  "von": 666,
+  "bis": 789
+ },
+ "querbezuege": [
+  "referenz-17 (Abstände): verlegt Datumszeile und Zertifikat-Knopf der Tagesansicht in die Kopfreihe; Schritt 8.1/8.2 (kein „Check-in“, kein „Trade für diesen Tag“, Tooltip „Tageszertifikat erstellen“) gilt am neuen Ort | Anker: web/js/screens/day.js Kopfzeile, [data-action=cert-open], [data-action=check-in], [data-action=new-trade-day] | Spez Z. 7, 268 (K29), 410",
+  "bereich_prop-52 (Komponenten): App-Kalender für type=time baut auf dem Overlay aus Schritt 4 auf; DatePicker.TYPES erst dann um time erweitern; löst auch die Filter-Uhrzeiten dash-filter.js:125–126 | Anker: DatePicker.TYPES, .dp-display, input[type=time] | Spez Z. 8, 341, 797",
+  "zustaende-3 (Zustände): Feldprüfung mit novalidate; das Overlay lässt required und alle Ereignisse am nativen Feld unverändert | Anker: .dp-wrap, input.input[required], form[novalidate] | Spez Z. 9, 218 (K4)",
+  "zustaende-20 / komponenten-15: Overlay-Lösung für Datumsfelder stammt aus zustaende-20 (statt Feldknopf aus wording-2) | Anker: DatePicker.decorate, DatePicker.sync, .dp-display | Spez Z. 218 (K4)",
+  "zustaende-30 (Responsiv): setzt .tl-filters/.tl-count an die TradeLog-Filterzeile; Schritte 3.6/3.7 und 9.3/9.4 nutzen dieselben Klassen plus .tl-search/.tl-sel | Anker: .tl-filters, .tl-count, .tl-search, .tl-sel, @media (max-width: 560px) | Spez Z. 10, 266 (K28), 332–333, 426–427",
+  "bereich_konto-29 (Aufbau): streicht die Kachel „Creator“ im Affiliate-Bereich; danach Kachel-Indizes in e2e/affiliatetest.js (Schritt 19) anpassen | Anker: web/js/screens/affiliate.js Kacheln (Z. 57/65), U.tile, moneyK | Spez Z. 11, 636",
+  "Farbe-Spezifikation: grüne Knöpfe außerhalb „Trade loggen“ (Leerzustand Prop, Coach-Einrichten, Willkommen-Banner) regelt Farbe, hier nur deren Texte; hier neutral gemacht werden 2FA-Knopf (17.3) und „Trade bearbeiten“ im Trade-Detail (9.11); Tagesansicht verliert den .btn.accent „Trade für diesen Tag“ (8.1, K30) | Anker: .btn.primary, .btn.accent, [data-action=twofa], [data-action=edit-trade], [data-action=new-trade-day], [data-action=prop-account-new] | Spez Z. 12, 270, 410, 434, 582",
+  "hierarchie-13 (Hierarchie): wollte überall „Win-Rate“; hier entschieden: „Trefferquote“ überall inkl. Radar-Achse, „Netto-P&L“, „Ø Gewinn/Verlust“ (K1/K2) | Anker: C.SCORE_AXES, C.stats16, Widget:netto_pnl, Widget:avg_gewinn_verlust | Spez Z. 212, 214",
+  "ki_look-45 (KI-Look): wollte die zweite Zeile der Konto-Karte streichen; hier „Profil ergänzen“ (K36), muss in .sb-who span ohne Abschneiden passen (de/en) | Anker: App.userCard, .sb-who span | Spez Z. 282, 354, 748",
+  "bereich_einstellungen-44: Website vs. App im Design-Reiter; hier „Gilt sofort überall, auch auf der Startseite.“ (K14) | Anker: web/js/screens/misc.js head('Design', …) | Spez Z. 238, 588",
+  "bereich_konto-41 / F1 (aufbau-29, Nutzerentscheidung): Umbenennung der Coach-Rolle „Mentor“ → „Coach“ offen; betrifft 15.7, 15.12 („Mentor-Notiz“ → ggf. „Coach-Notiz“), README Z. 145–170, coachtest.js:42/84/96, Server-Mails | Anker: web/js/screens/coach.js, web/js/coach.js | Spez Z. 250 (K20), 556, 810–812",
+  "F2/F3 (Nutzerentscheidung): Entfernen des Privatsphäre-Schalters ([data-action=save-privacy], settest2.js:16) und Ausblenden von 2FA/Passwort ([data-action=twofa], settest2.js:17); bis dahin ändern 17.2/17.3 nur Wortlaut und Knopfklasse | Spez Z. 270, 581–582, 814–820",
+  "Shell/Kopfreihe: Kopfreihen-Knopf „Trade loggen“ übernimmt in der Tagesansicht das Datum (5.3), Taste N läuft über App.actions['new-trade'], Taste 0 nur mit App.on('replay') (5.9); Navigationsgruppe „Prop Trading“ (5.1) | Anker: App.actions['new-trade'], App.pageHead, app.html keydown, NAV_GROUPS | Spez Z. 353, 355, 361",
+  "Responsiv-Gruppe: neue Handy-Regeln in @media (max-width: 560px) für .ce-head (Coach-Journal) und .tl-search/.tl-sel (TradeLog) | Anker: @media (max-width: 560px), .ce-head, .tl-sel, .tl-search | Spez Z. 331, 333",
+  "Statistik/Diagramme: C.HOUR_BUCKETS ändert die Uhrzeit-Gruppen (18–19 und 19–20 getrennt, 14 Gruppen), wirkt auf Statistik-Diagramme und -Tabellen; MC-Kacheln und Ruin-Linie kompakt | Anker: C.HOUR_BUCKETS, C.hourBucket, C.HOLD_BUCKETS, U.drawers.mc | Spez Z. 300, 309–311, 452, 458–460",
+  "Farben/Kontrast: .dp-display.empty nutzt --faint, Reset-Knopf bekommt inline color:var(--muted) (17.10), Coach-Mailhinweis .warn → .muted (15.9), Fehler-Kacheln-Farblogik in stats.js (10.8) | Anker: --faint, --muted, .coach-mailhint, .dp-display.empty, [data-action=color-reset] | Spez Z. 327, 453, 553, 589",
+  "Barrierefreiheit: neue aria-labels/Tooltips (Widgets durchsuchen 7.1, Trades durchsuchen 9.3, Als erhalten markieren 12.22, Prop-Konto anlegen 12.27), .dp-display aria-hidden (4.1) | Anker: aria-label, .dp-display, [data-action=prop-payout-received], [data-action=prop-account-new] | Spez Z. 341, 399, 426, 503, 508",
+  "Zustände-Gruppe: geänderte Leerzustände (U.empty in day.js/progress.js „Noch keine Regeln angelegt“, MAE/MFE „Kein MAE/MFE erfasst“ mit Knopf, Prop-Leerzustand, Coupons) und Filterzeile nur mit Trades (9.7), „Zum TradeLog“ nur mit Zeilen (6.12) | Anker: U.empty, .more-row, .tl-filters | Spez Z. 378, 414, 416, 430, 437, 487, 511",
+  "Komponenten-Gruppe: neues Icon U.I.printer und neuer Helfer U.count im ui.js-Export, die andere Gruppen mitbenutzen können | Anker: U.count, U.I.printer, root.UI | Spez Z. 296–298",
+  "README: Schritt 20 ändert web/README.md Z. 39–318; andere Gruppen, die README ändern, abgleichen | Anker: web/README.md | Spez Z. 646–662"
+ ]
+}

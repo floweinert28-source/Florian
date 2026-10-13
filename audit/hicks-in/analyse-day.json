@@ -1,0 +1,326 @@
+{
+ "screens": [
+  {
+   "screen": "day (Tag mit Trades, 1440)",
+   "zustand": "voll",
+   "hauptaktion": "Einen weiteren Trade für diesen Tag loggen (data-action=\"new-trade-day\", öffnet den Trade-Editor mit dem Datum des Tages).",
+   "optisch_klar": false,
+   "begruendung": "Nein. Es gibt zwei grüne Akzentknöpfe mit demselben Zweck und demselben Symbol direkt übereinander: „+ Trade loggen“ (app.js:253, `.btn.accent.tl`, Kopfreihe rechts) und „+ Trade für diesen Tag“ (day.js:12, `.btn.sm.accent`, Datumszeile rechts). Beide tragen denselben Stil (`.btn.accent`, app.css:3137), der Tagesknopf ist nur in `sm`. Daneben stehen in derselben Zeile zwei umrandete Knöpfe gleicher Größe („Zertifikat“, „Check-in bearbeiten“, `.btn.sm`), die genauso viel Fläche einnehmen wie der Hauptknopf. Beleg: shots/extra/hicks2-day-1440-mit_trades.png (eigene Aufnahme), day.js:12.",
+   "konkurrenten": [
+    "„+ Trade loggen“ in der Kopfreihe (app.js:253) – gleicher Stil, gleiche Funktion wie „+ Trade für diesen Tag“ (day.js:12)",
+    "„Zertifikat“ (`.btn.sm`, day.js:12) – gleiche Größe und Zeile wie der Hauptknopf",
+    "„Check-in bearbeiten“ (`.btn.sm`, day.js:12) – gleiche Größe und Zeile; dieselbe Aktion steht zusätzlich als „Bearbeiten“ im Kopf der Check-in-Karte (day.js:16, `trailing`)",
+    "Session-Start-Symbolknopf ▷ (app.js:250) neben „Trade loggen“"
+   ],
+   "verstecken": [
+    "„Zertifikat“ → tertiär (`.btn.sm.ghost`) oder als `trailing`-Knopf in den Kopf der Karte „Trades des Tages“ (es zertifiziert das Ergebnis dieses Tages)",
+    "„Check-in bearbeiten“ aus der Datumszeile entfernen → bleibt als „Bearbeiten“ im Kopf der Check-in-Karte (day.js:16) erreichbar",
+    "Zeitraum-Menü („Oktober 2026“) der Kopfreihe → per `head: { range: false }` abschalten; es hat auf dieser Seite keine Wirkung (day.js nutzt nur `ctx.all`, nie `ctx.inRange`; app.js:86)"
+   ],
+   "irrelevant": [
+    "Zeitraum-Menü „Oktober 2026“: filtert hier nichts (day.js:10 filtert nach `dayKey`, `ctx.inRange` wird in day.js nicht verwendet)",
+    "Session-Start ▷ auf einem vergangenen Tag (eine Session startet immer jetzt, nicht für den 17. August)",
+    "Zweiter „Trade loggen“-Knopf (Kopfreihe), der den Tag nicht vorbelegt, obwohl man gerade auf diesem Tag steht"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ein grüner Hauptknopf statt zwei: Tagesknopf ersetzt den globalen „Trade loggen“",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "In `App.screens.day` (day.js:5–7) `head: { range: false, trade: false }` setzen (Präzedenz mentor.js:76, coach.js:219) und `actions(ctx)` ergänzen, das den Tagesknopf in die Kopfreihe rechts liefert: `<button type=\"button\" class=\"btn accent tl\" data-action=\"new-trade-day\" data-day=\"${key}\">${I.plus}<span>Trade loggen</span></button>` (Beschriftung wahlweise „Trade für diesen Tag“). Den bisherigen `.btn.sm.accent` aus der Datumszeile (day.js:12) streichen. Ergebnis: genau ein Akzentknopf, an derselben Stelle wie auf allen anderen Seiten, und er belegt das Datum des Tages vor (day.js:24). Auf dem Handy wird durch die Klasse `tl` genau dieser Knopf per app.css:3019 (`.dash-head .tl { position: fixed … }`) zum runden Knopf unten rechts – der zweite grüne „+“ verschwindet automatisch. Kein Styling-Umbau nötig.",
+     "beleg": "shots/extra/hicks2-day-1440-mit_trades.png (zwei grüne „+“-Knöpfe übereinander); day.js:12; app.js:253; app.css:3137",
+     "id": "day-1-1"
+    },
+    {
+     "titel": "Check-in nur noch in der Check-in-Karte, nicht zusätzlich in der Datumszeile",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Den Knopf `data-action=\"check-in\"` aus `nav` (day.js:12) entfernen. Die Aktion bleibt in beiden Zuständen in der Karte erreichbar: leer → „Check-in nachtragen“ (`.btn.sm`, day.js:16, `U.empty`-Aktion), gefüllt → „Bearbeiten“ (`.btn.sm`, day.js:16, `trailing`). Die Datumszeile verliert damit einen von drei gleich großen Knöpfen.",
+     "beleg": "shots/extra/hicks2-day-1440-mit_trades.png: „Check-in bearbeiten“ oben rechts und „Bearbeiten“ im Kartenkopf gleichzeitig; day.js:12 und day.js:16",
+     "id": "day-1-2"
+    },
+    {
+     "titel": "Zertifikat tertiär und nur bei abgeschlossenen Trades",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "In day.js:12 den Zertifikat-Knopf nur rendern, wenn `closed.length > 0`, und als `btn sm ghost` (nur Symbol+Text, kein Rahmen) statt `btn sm`. Alternativ als `trailing` in den Kopf der Karte „Trades des Tages“ (`U.card('Trades des Tages', …, { trailing: … })`), weil er das Ergebnis genau dieser Liste zertifiziert. Bleibt so jederzeit erreichbar, konkurriert aber nicht mehr mit dem Hauptknopf.",
+     "beleg": "day.js:12 (`btn sm`, immer sichtbar, auch bei 0 Trades: shots/dark-1440/day.png); certificate.js:115",
+     "id": "day-1-3"
+    },
+    {
+     "titel": "Zeitraum-Menü in der Tagesansicht abschalten",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "`head: { range: false }` in `App.screens.day` (zusammen mit Vorschlag 1). Begründung: Die Tagesansicht filtert nach `t.dayKey === key` aus `ctx.all` (day.js:10); `ctx.inRange` kommt in day.js nicht vor – der Zeitraum ändert nichts. Konto bleibt (app.js:47 `allTrades()` filtert nach Konto, das wirkt). Durch `range: false` erscheint das Konto-Menü per `accountControl({ mobile: !h.range })` (app.js:259) auch auf dem Handy, wie beim Mentor.",
+     "beleg": "app.js:86 (`ctx.all`/`ctx.inRange`), day.js:10, app.js:256–262; shots/extra-dark-1440/tag_heute.png („Oktober 2026“ links in der Kopfreihe)",
+     "id": "day-1-4"
+    },
+    {
+     "titel": "Session-Start ▷ nur für heute",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "In `pageHead` (app.js:257) `screen.head` auch als Funktion zulassen: `const h = Object.assign({…}, typeof screen.head === 'function' ? screen.head(ctx) : screen.head)`; in day.js `head: ctx => ({ range: false, trade: false, session: (ctx.params[0] || C.dayKey(new Date())) === C.dayKey(new Date()) })`. Auf vergangenen Tagen entfällt der ▷-Knopf; er bleibt auf Dashboard, TradeLog und am heutigen Tag erreichbar.",
+     "beleg": "app.js:250–262; shots/extra/hicks2-day-1440-mit_trades.png (▷ neben „Trade loggen“ am 17. August)",
+     "id": "day-1-5"
+    }
+   ],
+   "sid": "day-1",
+   "gruppe": "day"
+  },
+  {
+   "screen": "day (heute, ohne Trades, 1440)",
+   "zustand": "leer",
+   "hauptaktion": "Den ersten Trade des Tages loggen (new-trade-day). Das Check-in ist die wichtigste Vorbereitung, bleibt aber die klare Nummer zwei in seiner Karte.",
+   "optisch_klar": false,
+   "begruendung": "Nein. Oben stehen wieder zwei grüne Akzentknöpfe („Trade loggen“ app.js:253, „Trade für diesen Tag“ day.js:12) plus „Zertifikat“ und „Check-in“ (`.btn.sm`) in gleicher Größe. Zusätzlich ist laut Code (day.js:19) der Knopf „Tagesnotiz anlegen“ als `.btn.sm.primary` (voll gefüllt grün, app.css:274) gesetzt – der einzige voll gefüllte Knopf der Seite und damit optisch wichtiger als beide Trade-Knöpfe, die nur den leichten Akzentstil (`.btn.accent`, 8 % Fläche) tragen. Beleg: shots/dark-1440/day.png, shots/extra-dark-1440/tag_heute.png, day.js:12/19.",
+   "konkurrenten": [
+    "„+ Trade loggen“ (Kopfreihe) vs. „+ Trade für diesen Tag“ (Datumszeile) – gleiches Aussehen, gleiche Funktion",
+    "„Tagesnotiz anlegen“ (`.btn.sm.primary`, day.js:19) – gefüllt grün, schwerer als der Hauptknopf",
+    "„Zertifikat“ und „Check-in“ (`.btn.sm`, day.js:12) gleich groß neben dem Hauptknopf",
+    "„Check-in nachtragen“ in der Karte (day.js:16) + „Check-in“ in der Datumszeile – dieselbe Aktion zweimal"
+   ],
+   "verstecken": [
+    "Kennzahlen-Karte (Netto-P&L „—“, leere Sparkline-Fläche h80, acht Werte „0/—/0,00 €“) → bei `trades.length === 0` nicht rendern; erscheint mit dem ersten Trade",
+    "„Regeln des Tages“ (5 Kästchen, „0 von 5 eingehalten“) und „Marktphase“ (6 Segment-Knöpfe) → bis zum ersten Trade einklappen, erreichbar über einen tertiären Knopf „Mehr zu diesem Tag“",
+    "„Zertifikat“ → bei 0 Trades ausblenden (nichts zu zertifizieren)",
+    "„Check-in“ in der Datumszeile → entfällt, bleibt in der Check-in-Karte"
+   ],
+   "irrelevant": [
+    "Kennzahlen-Karte mit acht Platzhaltern und leerer Diagrammfläche (day.js:14) über der eigentlichen Botschaft „Keine Trades an diesem Tag“",
+    "„Zertifikat“ (Daily Profit Certificate) ohne einen einzigen Trade",
+    "Regel-Checkliste „0 von 5 eingehalten“, bevor gehandelt wurde",
+    "Marktphase-Formular (Trend/Volatilität), bevor etwas zu bewerten ist",
+    "Zeitraum-Menü „Oktober 2026“ (ohne Wirkung auf der Seite)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Tagesnotiz anlegen“ von primär auf sekundär",
+     "regel": 2,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "day.js:19: `class=\"btn sm primary\"` → `class=\"btn sm\"` (Rahmen, keine Füllung; gleicher Stil wie „Check-in nachtragen“ und „Regeln anlegen“ in den Nachbarkarten). Damit bleibt der voll gefüllte Grünton dem Hauptknopf vorbehalten, wie vom Nutzer festgelegt („Grün nur mit Bedeutung: Gewinn und Trade loggen“).",
+     "beleg": "day.js:19; shots/extra/hicks-day-1440-gestern_ohne.png (einziger gefüllter grüner Knopf der Seite ist „Tagesnotiz anlegen“); app.css:274 (`.btn.primary` = Vollfläche Akzent) vs. app.css:3137 (`.btn.accent` = 8 % Akzentfläche)",
+     "id": "day-2-1"
+    },
+    {
+     "titel": "Kennzahlen-Karte ohne Trades nicht zeigen",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "day.js:20: `${trades.length ? stats : ''}` statt `${stats}`. Ohne Trades steht sonst eine ganze Karte mit Netto-P&L „—“, leerer Sparkline (`.chart.h80`) und acht Nullwerten über dem Leerzustand. Die Karte kehrt mit dem ersten Trade zurück; nichts geht verloren.",
+     "beleg": "shots/dark-1440/day.png und shots/extra-dark-1440/tag_heute.png (Kennzahlen-Karte komplett leer); day.js:14",
+     "id": "day-2-2"
+    },
+    {
+     "titel": "Ein Hauptknopf, Check-in und Zertifikat raus aus der Datumszeile",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Wie beim vollen Zustand: `head: { range: false, trade: false }` + `actions(ctx)` mit dem Tagesknopf `btn accent tl` (new-trade-day); Datumszeile ohne Check-in-Knopf (Aktion bleibt als „Check-in nachtragen“ in der Karte, day.js:16); Zertifikat bei `closed.length === 0` nicht rendern. Die Datumszeile besteht dann nur aus `[<][>] Datum [Heute-Pille]`.",
+     "beleg": "day.js:12; app.js:253–262; shots/dark-1440/day.png",
+     "id": "day-2-3"
+    },
+    {
+     "titel": "Regeln und Marktphase bis zum ersten Trade einklappen",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "In day.js:20 für `trades.length === 0`: Check-in-Karte bleibt sichtbar (ist heute die Vorbereitung), `rulesCard` und `regimeCard` nur rendern, wenn sie Daten tragen (`followed.length` bzw. `reg.trend || reg.vol`); sonst statt beider Karten ein tertiärer Knopf `<button class=\"btn sm ghost\" data-action=\"day-more\" data-day=\"${key}\">Mehr zu diesem Tag</button>` unter der Trades-Karte, der über ein Flag (`App.state.dayMore = key`) die Karten aufklappt (`App.rerender()`). Alles bleibt erreichbar, aber der leere Tag zeigt nur Trades-Leerzustand, Check-in und Tagesnotiz.",
+     "beleg": "day.js:17–20; shots/extra/hicks-day-1440-gestern_ohne.png (fünf Leerzustände/Formulare für einen Tag ohne Handel)",
+     "id": "day-2-4"
+    }
+   ],
+   "sid": "day-2",
+   "gruppe": "day"
+  },
+  {
+   "screen": "day (vergangener Tag ohne Trades, 1440)",
+   "zustand": "leer",
+   "hauptaktion": "Nachträglich einen Trade für diesen Tag loggen – oder, wenn nicht gehandelt wurde, kurz festhalten warum (Tagesnotiz). Der eine Knopf sollte „Trade für diesen Tag“ sein; die Tagesnotiz ist die sekundäre Option.",
+   "optisch_klar": false,
+   "begruendung": "Nein. Der stärkste Knopf der Seite ist „Tagesnotiz anlegen“ (`.btn.sm.primary`, day.js:19, voll gefüllt), nicht der Trade-Knopf. Darüber stehen zwei Akzentknöpfe mit gleichem Zweck, dazu „Heute“ (ghost), „Zertifikat“, „Check-in“ (`.btn.sm`). Die Seite zeigt sechs Karten, davon drei Leerzustände mit je eigenem Knopf („Check-in nachtragen“, „Tagesnotiz anlegen“, ggf. „Regeln anlegen“) und ein Formular (Marktphase, 6 Knöpfe) – für einen Tag, an dem nichts passiert ist. Beleg: shots/extra/hicks-day-1440-gestern_ohne.png.",
+   "konkurrenten": [
+    "„Tagesnotiz anlegen“ (`.btn.sm.primary`) – optisch das schwerste Element",
+    "„+ Trade loggen“ (Kopfreihe) und „+ Trade für diesen Tag“ (Datumszeile)",
+    "„Zertifikat“, „Check-in“ (`.btn.sm`) in der Datumszeile",
+    "„Check-in nachtragen“, „Regeln anlegen“ (`.btn.sm`) in den Karten",
+    "Marktphase: Aufwärts/Abwärts/Seitwärts + niedrig/normal/hoch (6 gleichwertige Segment-Knöpfe, day.js:17)"
+   ],
+   "verstecken": [
+    "Kennzahlen-Karte (alle Werte leer) → nicht rendern",
+    "Regeln des Tages, Marktphase, Check-in ohne Daten → hinter „Mehr zu diesem Tag“ (tertiär) aufklappbar",
+    "Zertifikat → bei 0 Trades weg",
+    "Check-in-Knopf in der Datumszeile → in der Karte belassen",
+    "Session-Start ▷ → nur heute"
+   ],
+   "irrelevant": [
+    "Kennzahlen-Karte: Netto-P&L „—“, leere Sparkline, acht Platzhalter",
+    "Zertifikat ohne Trades",
+    "Regel-Checkliste „0 von 5 eingehalten“ ohne Handel (die Quote fließt in den Fortschritt ein, day.js:18 info)",
+    "Marktphase-Formular ohne Trades",
+    "Session-Start ▷ für einen vergangenen Tag",
+    "Zeitraum-Menü „Oktober 2026“ ohne Wirkung"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Tagesnotiz-Knopf sekundär, Trade-Knopf der einzige Akzent",
+     "regel": 2,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "day.js:19 `btn sm primary` → `btn sm`; day.js:12/`head`: nur ein Akzentknopf (`btn accent tl`, new-trade-day) in der Kopfreihe. Reihenfolge der Gewichte danach: Akzent = Trade loggen, Rahmen = Tagesnotiz anlegen / Check-in nachtragen, Text = Heute, Zertifikat.",
+     "beleg": "shots/extra/hicks-day-1440-gestern_ohne.png; day.js:12, 19",
+     "id": "day-3-1"
+    },
+    {
+     "titel": "Leerer Tag: nur Leerzustand + Tagesnotiz, Rest hinter „Mehr zu diesem Tag“",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "Für `trades.length === 0 && !isToday`: Kennzahlen-Karte nicht rendern (day.js:20); Check-in-, Regeln- und Marktphase-Karte nur, wenn sie Daten haben (`ci`, `followed.length`, `reg.trend||reg.vol`); sonst ein tertiärer Knopf `btn sm ghost` „Mehr zu diesem Tag“ unter der Trades-Karte, der die drei Karten aufklappt (Flag in `App.state`, `App.rerender()`). Die Tagesnotiz-Karte bleibt sichtbar (ein Satz, ein Knopf: „Halte fest, wie der Tag lief“ passt auch für einen Tag ohne Trades).",
+     "beleg": "day.js:14–20; shots/extra/hicks-day-1440-gestern_ohne.png (sechs Karten, davon vier ohne Inhalt)",
+     "id": "day-3-2"
+    },
+    {
+     "titel": "Leerzustand „Keine Regeln definiert“ nicht in der Tagesansicht bewerben",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "day.js:18: Wenn `rules.length === 0`, die Regeln-Karte in der Tagesansicht gar nicht rendern (statt Leerzustand mit „Regeln anlegen“-Knopf). Regeln werden in den Einstellungen angelegt und erscheinen hier automatisch, sobald es welche gibt; der Link „Regeln anlegen“ bleibt in Einstellungen → Regeln und im Schatten-Ich erreichbar.",
+     "beleg": "shots/extra-dark-1440/tag_heute.png (Karte „Regeln des Tages“ nur mit Leerzustand und Knopf); day.js:18",
+     "id": "day-3-3"
+    }
+   ],
+   "sid": "day-3",
+   "gruppe": "day"
+  },
+  {
+   "screen": "day (Tag mit Trades, 390)",
+   "zustand": "handy",
+   "hauptaktion": "Einen weiteren Trade für diesen Tag loggen.",
+   "optisch_klar": false,
+   "begruendung": "Nein. Auf dem Handy sind zwei grüne „+“-Knöpfe gleichzeitig sichtbar: der runde, voll gefüllte Fix-Knopf unten rechts (app.css:3019, `.dash-head .tl` = globales „Trade loggen“ ohne Tagesvorbelegung) und „+ Trade für diesen Tag“ (`.btn.sm.accent`) als eigene Zeile in der Datumszeile. Der Fix-Knopf überlappt dabei die Trade-Tabelle. Über dem Inhalt stapeln sich vier Zeilen Steuerung: `[Oktober 2026 ▾][▷]`, `[<][>] Datum`, `[Heute][Zertifikat][Check-in bearbeiten]`, `[+ Trade für diesen Tag]` – erst dann beginnt der Inhalt. Beleg: shots/extra/hicks2-day-390-mit_trades.png.",
+   "konkurrenten": [
+    "Runder „+“-Fix-Knopf unten rechts (Trade loggen, app.css:3019) vs. „+ Trade für diesen Tag“ (day.js:12)",
+    "„Zertifikat“, „Check-in bearbeiten“ (`.btn.sm`) als eigene Zeile über dem Inhalt",
+    "„Bearbeiten“ im Check-in-Kartenkopf (zweiter Einstieg derselben Aktion)",
+    "Session ▷ neben dem Zeitraum-Menü"
+   ],
+   "verstecken": [
+    "Zeitraum-Menü → `head: { range: false }` (wirkungslos auf dieser Seite)",
+    "Zertifikat → tertiär/Kartenkopf „Trades des Tages“, nur mit abgeschlossenen Trades",
+    "Check-in-Knopf der Datumszeile → nur in der Karte",
+    "Akzentknopf der Datumszeile → entfällt; der Fix-Knopf übernimmt mit Tagesvorbelegung"
+   ],
+   "irrelevant": [
+    "Zeitraum-Menü „Oktober 2026“ (ohne Wirkung)",
+    "Session ▷ auf dem 17. August",
+    "Zweiter grüner „+“ (Fix-Knopf) ohne Tagesbezug, obwohl man auf dem Tag steht"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Fix-Knopf wird zum Tagesknopf; Datumszeile verliert den zweiten Akzent",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Folge von Vorschlag 1 (1440): `head: { trade: false }` + `actions(ctx)` liefert `<button class=\"btn accent tl\" data-action=\"new-trade-day\" data-day=\"${key}\">`. Da app.css:3019 auf `.dash-head .tl` greift, wird genau dieser Knopf auf dem Handy der runde Knopf unten rechts – mit Datum des Tages vorbelegt (day.js:24). Der Akzentknopf in `nav` (day.js:12) entfällt. Ergebnis: ein grüner „+“ statt zwei, eine Steuerzeile weniger.",
+     "beleg": "shots/extra/hicks2-day-390-mit_trades.png (FAB über der Tabelle + „Trade für diesen Tag“ darüber); app.css:3019; day.js:12",
+     "id": "day-4-1"
+    },
+    {
+     "titel": "Datumszeile auf dem Handy auf eine Zeile bringen",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Nach Entfernen von Check-in (→ Karte) und Zertifikat (→ `btn sm ghost`, nur bei abgeschlossenen Trades, oder `trailing` im Kopf „Trades des Tages“) bleibt in `nav` (day.js:12) links `[<][>] Datum` und rechts höchstens „Heute“ (ghost). Mit `range: false` schrumpft auch die Kopfreihe auf `[Hauptkonto ▾][▷]`. Von vier Steuerzeilen bleiben zwei; keine Funktion verschwindet.",
+     "beleg": "shots/extra/hicks2-day-390-mit_trades.png (Zeilen 2–4 vor dem Inhalt); day.js:12; app.css:1333 (`dh-tools` auf 100 % Breite ≤560px)",
+     "id": "day-4-2"
+    }
+   ],
+   "sid": "day-4",
+   "gruppe": "day"
+  },
+  {
+   "screen": "day (heute ohne Trades, 390)",
+   "zustand": "handy leer",
+   "hauptaktion": "Den ersten Trade des Tages loggen (Check-in als klare Nummer zwei in seiner Karte).",
+   "optisch_klar": false,
+   "begruendung": "Nein. Drei Steuerzeilen plus Fix-Knopf vor dem Inhalt: `[Oktober 2026 ▾][▷]`, `[<][>] Datum [Heute]`, `[Zertifikat][Check-in]`, `[+ Trade für diesen Tag]`; dazu der runde grüne „+“ unten rechts, der in der Aufnahme mitten in der Karte „Trades des Tages“ liegt. Danach eine Kennzahlen-Karte mit acht Platzhaltern und leerer Diagrammfläche, erst dann „Keine Trades an diesem Tag“. Laut Code (day.js:20) folgen darunter noch Check-in, Regeln, Tagesnotiz (mit gefülltem `.btn.sm.primary`) und Marktphase. Beleg: shots/extra-dark-390/tag_heute.png, shots/extra-dark-390/leer_day.png, shots/dark-390/day.png.",
+   "konkurrenten": [
+    "Runder „+“ (Fix-Knopf) vs. „+ Trade für diesen Tag“",
+    "„Zertifikat“ und „Check-in“ als eigene Knopfzeile",
+    "„Tagesnotiz anlegen“ (`.btn.sm.primary`, voll gefüllt, day.js:19) weiter unten",
+    "„Check-in nachtragen“ in der Karte + „Check-in“ in der Datumszeile"
+   ],
+   "verstecken": [
+    "Kennzahlen-Karte ohne Trades → nicht rendern (spart auf dem Handy eine ganze Bildschirmhöhe)",
+    "Zeitraum-Menü → abschalten",
+    "Zertifikat → weg bei 0 Trades",
+    "Regeln + Marktphase → hinter „Mehr zu diesem Tag“",
+    "Check-in-Knopf der Datumszeile → nur in der Karte"
+   ],
+   "irrelevant": [
+    "Kennzahlen-Karte (Trades 0, Brutto 0,00 €, 0/0, Win-Rate —, Volumen 0, Profit-Faktor —, Ø R —) und leere Sparkline",
+    "Zertifikat ohne Trades",
+    "Zeitraum „Oktober 2026“",
+    "Regel-Checkliste und Marktphase-Formular vor dem ersten Trade"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leerer Tag auf dem Handy: ein Knopf, ein Satz, dann die Vorbereitung",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Kombination der Einzelvorschläge: Kennzahlen-Karte bei `trades.length === 0` nicht rendern (day.js:20); `head: { range: false, trade: false }` + Tagesknopf `btn accent tl` als Fix-Knopf; Zertifikat und Check-in aus `nav` (day.js:12). Sichtbar bleibt oben `[Hauptkonto ▾][▷]`, `[<][>] Datum [Heute]`, dann sofort „Keine Trades an diesem Tag – Ein ruhiger Tag ist auch ein guter Tag.“ mit dem runden „+“ als einzigem Akzent, darunter die Check-in-Karte mit ihrem einen Rahmen-Knopf.",
+     "beleg": "shots/extra-dark-390/tag_heute.png (vier Steuerzeilen + leere Kennzahlen vor der Botschaft); day.js:12, 14, 20; app.css:3019",
+     "id": "day-5-1"
+    },
+    {
+     "titel": "Tagesnotiz-Knopf sekundär (gilt auch hier)",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "day.js:19 `btn sm primary` → `btn sm`, damit auf dem Handy nicht beim Scrollen ein zweiter voll gefüllter grüner Knopf neben dem Fix-Knopf auftaucht.",
+     "beleg": "day.js:19; app.css:274",
+     "id": "day-5-2"
+    }
+   ],
+   "sid": "day-5",
+   "gruppe": "day"
+  },
+  {
+   "screen": "day/<ungültiges Datum>",
+   "zustand": "leer (Fehlerzustand)",
+   "hauptaktion": "Zurück zum heutigen Tag.",
+   "optisch_klar": false,
+   "begruendung": "Nein – es gibt gar keine Aktion. `U.empty('day', 'Ungültiges Datum', '')` (day.js:9) zeigt nur Symbol und Titel; der Nutzer muss selbst in die Seitenleiste. Oben stehen trotzdem Zeitraum, Konto, ▷ und „Trade loggen“ (Kopfreihe, app.js:256–262). Beleg: shots/extra/hicks-day-1440-mit_trades.png und shots/extra/hicks-day-390-mit_trades.png (beide zeigen genau diesen Zustand).",
+   "konkurrenten": [
+    "Kopfreihe: Zeitraum, Konto, ▷, „Trade loggen“ – alles außer der sinnvollen Aktion"
+   ],
+   "verstecken": [
+    "Kopfreihe im Fehlerzustand nicht relevant (bleibt über die Seitenleiste erreichbar)"
+   ],
+   "irrelevant": [
+    "„Trade loggen“, Session ▷, Zeitraum und Konto für ein Datum, das es nicht gibt"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Fehlerzustand mit genau einem Knopf",
+     "regel": 1,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "day.js:9: `U.empty('day', 'Ungültiges Datum', 'Dieses Datum gibt es nicht.', '<a class=\"btn sm\" href=\"#/day\">Zu heute</a>')` – ein Satz, ein Knopf (sekundär reicht, da die Kopfreihe den Akzent trägt; mit `trade: false` wäre hier `btn sm primary` vertretbar, aber nicht nötig).",
+     "beleg": "day.js:9; shots/extra/hicks-day-1440-mit_trades.png",
+     "id": "day-6-1"
+    }
+   ],
+   "sid": "day-6",
+   "gruppe": "day"
+  }
+ ],
+ "hinweise": "Fehlende/unbrauchbare Aufnahmen: shots/dark-1440/day_mit_trades.png und shots/dark-390/day_mit_trades.png existieren nicht (auch nicht im Atlas-Log). shots/extra/hicks-day-1440-mit_trades.png und hicks-day-390-mit_trades.png zeigen nur „Ungültiges Datum“ (falscher Tagesschlüssel bei der Aufnahme) – dadurch aber als Beleg für den Fehlerzustand brauchbar. Ersatz: eigene Aufnahmen mit Beispieldaten (Tag 2026-08-17, 5 Trades, Check-in, Marktphase und Tagesnotiz gesetzt) unter shots/extra/hicks2-day-1440-mit_trades.png und shots/extra/hicks2-day-390-mit_trades.png, erzeugt mit scratchpad/hicks2-day.js (installSample, dann Store.setDay/dayNote; keine Änderung am Code). Die Aufnahmen dark-1440/day.png, extra-dark-1440/tag_heute.png und alle 390er-Aufnahmen des leeren Tages zeigen die unteren Karten (Tagesnotiz, Marktphase; auf 390 auch Check-in und Regeln) nicht, obwohl day.js:20 sie immer rendert – vermutlich Eingangs-Animation noch nicht abgeschlossen; die Bewertung folgt dem Code. dark-1440/day.png (Atlas) zeigt Zeitraum/Konto noch in der Kopfzeile oben, die extra-Aufnahmen in der Kopfreihe unter dem Titel; bewertet wurde der aktuelle Code (app.js:256–262, pageHead). Wichtigste Querschnittsbefunde: (1) zwei grüne Trade-Knöpfe mit gleicher Funktion auf jedem Zustand (app.js:253 + day.js:12), auf dem Handy als Fix-Knopf + Zeile; (2) „Tagesnotiz anlegen“ ist mit `.btn.sm.primary` der einzige voll gefüllte Knopf und damit schwerer als der Hauptknopf (day.js:19); (3) das Zeitraum-Menü hat in der Tagesansicht keine Wirkung (day.js nutzt nur ctx.all); (4) im leeren Zustand stehen Kennzahlen-Karte, Zertifikat, Regel-Checkliste und Marktphase-Formular ohne Bezug. Alle Vorschläge nutzen vorhandene Stufen (`.btn.accent`, `.btn`, `.btn.ghost`, `head`-Option, `trailing`) und entfernen keine Funktion. Die weitergereichte Nutzernachricht („kannst du das nicht automatisch machen? also das wechseln“) betrifft keinen Punkt dieses Teilaudits; es wurde nur geprüft, nichts umgesetzt."
+}

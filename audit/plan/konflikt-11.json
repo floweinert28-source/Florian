@@ -1,0 +1,1284 @@
+{
+ "anker": [
+  {
+   "anker": "App.openTradeEditor",
+   "schritte": [
+    {
+     "nr": "abstaende-E2",
+     "gruppe": "abstaende",
+     "titel": "Trade-Formular-Markup: Wrapper .tf-row3/.tf-row2 entfernen, Felder direkte Kinder von .tf-main mit Klassen tf-dir, tf-c3, tf-dt",
+     "von": 384,
+     "bis": 384,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "abstaende-E3",
+     "gruppe": "abstaende",
+     "titel": "Aktion 'new-trade' übernimmt in der Tagesansicht das Datum des angezeigten Tages (wie new-trade-day)",
+     "von": 385,
+     "bis": 385,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "aufbau-B6",
+     "gruppe": "aufbau",
+     "titel": "Aktion new-trade auf der Tagesansicht mit Datum 09:00 vorbelegen",
+     "von": 347,
+     "bis": 355,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "farbe-C12a",
+     "gruppe": "farbe",
+     "titel": "Trade-Dialog: Hinweis „(leer = offen)“ als .lbl-hint",
+     "von": 430,
+     "bis": 431,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A5b",
+     "gruppe": "komponenten",
+     "titel": "Symbol- und Richtungsfeld aus openTradeEditor herauslösen (App.symbolField, App.dirField)",
+     "von": 568,
+     "bis": 569,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.3",
+     "gruppe": "wording",
+     "titel": "app.js: Aktion new-trade übernimmt in der Tagesansicht das Datum des Tages (09:00)",
+     "von": 355,
+     "bis": 355,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.4-5.5",
+     "gruppe": "wording",
+     "titel": "Trade-Dialog: „Geschlossen“ mit Leertext „Offen“ und Touch-Hinweis, Bestätigungsknopf „Trade loggen“",
+     "von": 356,
+     "bis": 357,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.9",
+     "gruppe": "wording",
+     "titel": "app.html Tastatur: Taste 0 nur mit Replay, N über App.actions['new-trade']",
+     "von": 361,
+     "bis": 362,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "U.toast",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U4",
+     "gruppe": "barrierefreiheit",
+     "titel": "Live-Regionen: .toast-wrap role=status (toastWrap), #sr-live mit U.announce",
+     "von": 464,
+     "bis": 473,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-h",
+     "gruppe": "komponenten",
+     "titel": "Verpasst-Dialog: Prüfung „Symbol fehlt“ / „Long oder Short wählen“ vor dem Speichern",
+     "von": 725,
+     "bis": 726,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "wording-S14.8-14.9",
+     "gruppe": "wording",
+     "titel": "Notebook: Zähler über U.count, Toast „Notiz verschoben“",
+     "von": 536,
+     "bis": 537,
+     "cluster": "wording",
+     "dateien": [
+      "web/js/screens/notebook.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U6",
+     "gruppe": "zustaende",
+     "titel": "Toast: ein Container als Live-Region (toastWrap/U.toast.init), Längenformel für die Dauer, Anhalten beim Darüberfahren",
+     "von": 438,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "C.parseDayKey",
+   "schritte": [
+    {
+     "nr": "abstaende-E3",
+     "gruppe": "abstaende",
+     "titel": "Aktion 'new-trade' übernimmt in der Tagesansicht das Datum des angezeigten Tages (wie new-trade-day)",
+     "von": 385,
+     "bis": 385,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "aufbau-B6",
+     "gruppe": "aufbau",
+     "titel": "Aktion new-trade auf der Tagesansicht mit Datum 09:00 vorbelegen",
+     "von": 347,
+     "bis": 355,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-trades-59",
+     "gruppe": "barrierefreiheit",
+     "titel": "Verpasste Trades: eindeutiger Lösch-Name",
+     "von": 753,
+     "bis": 753,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-symbol-btn",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A5b",
+     "gruppe": "komponenten",
+     "titel": "Symbol- und Richtungsfeld aus openTradeEditor herauslösen (App.symbolField, App.dirField)",
+     "von": 568,
+     "bis": 569,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.actions['new-trade']",
+   "schritte": [
+    {
+     "nr": "abstaende-E3",
+     "gruppe": "abstaende",
+     "titel": "Aktion 'new-trade' übernimmt in der Tagesansicht das Datum des angezeigten Tages (wie new-trade-day)",
+     "von": 385,
+     "bis": 385,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.3",
+     "gruppe": "wording",
+     "titel": "app.js: Aktion new-trade übernimmt in der Tagesansicht das Datum des Tages (09:00)",
+     "von": 355,
+     "bis": 355,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.9",
+     "gruppe": "wording",
+     "titel": "app.html Tastatur: Taste 0 nur mit Replay, N über App.actions['new-trade']",
+     "von": 361,
+     "bis": 362,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-dir",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A5b",
+     "gruppe": "komponenten",
+     "titel": "Symbol- und Richtungsfeld aus openTradeEditor herauslösen (App.symbolField, App.dirField)",
+     "von": 568,
+     "bis": 569,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-h",
+     "gruppe": "komponenten",
+     "titel": "Verpasst-Dialog: Prüfung „Symbol fehlt“ / „Long oder Short wählen“ vor dem Speichern",
+     "von": 725,
+     "bis": 726,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.on",
+   "schritte": [
+    {
+     "nr": "aufbau-B7",
+     "gruppe": "aufbau",
+     "titel": "Tastatur: Bereichstaste nur bei freigeschaltetem Bereich, N über Aktion new-trade",
+     "von": 356,
+     "bis": 359,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    },
+    {
+     "nr": "wording-S5.9",
+     "gruppe": "wording",
+     "titel": "app.html Tastatur: Taste 0 nur mit Replay, N über App.actions['new-trade']",
+     "von": 361,
+     "bis": 362,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    },
+    {
+     "nr": "wording-S17.4-17.7",
+     "gruppe": "wording",
+     "titel": "Profil-Daten: „Sicherung importieren“, Beispieldaten-Text mit Replay nur bei App.on('replay'), „Löscht alle Daten …“, zweizeiliger Fuß mit Tastenkürzeln",
+     "von": 583,
+     "bis": 586,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "app.html keydown",
+   "schritte": [
+    {
+     "nr": "aufbau-B7",
+     "gruppe": "aufbau",
+     "titel": "Tastatur: Bereichstaste nur bei freigeschaltetem Bereich, N über Aktion new-trade",
+     "von": 356,
+     "bis": 359,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    },
+    {
+     "nr": "wording-S5.9",
+     "gruppe": "wording",
+     "titel": "app.html Tastatur: Taste 0 nur mit Replay, N über App.actions['new-trade']",
+     "von": 361,
+     "bis": 362,
+     "cluster": "shell",
+     "dateien": [
+      "web/app.html"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-qty",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.openSymbolMenu",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "bewegung-3.5c",
+     "gruppe": "bewegung",
+     "titel": "App.openSymbolMenu place(): Klasse .up je Öffnungsrichtung setzen",
+     "von": 316,
+     "bis": 317,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-open",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-close",
+   "schritte": [
+    {
+     "nr": "wording-S5.4-5.5",
+     "gruppe": "wording",
+     "titel": "Trade-Dialog: „Geschlossen“ mit Leertext „Offen“ und Touch-Hinweis, Bestätigungsknopf „Trade loggen“",
+     "von": 356,
+     "bis": 357,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DP",
+     "gruppe": "zustaende",
+     "titel": "Leeres Datumsfeld in --faint (nur Fallback, falls wording-2 nicht umgesetzt ist)",
+     "von": 865,
+     "bis": 869,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js",
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "aria-invalid",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U5",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Helfer U.fieldErrors, U.clearFieldError, U.clearFieldErrors",
+     "von": 415,
+     "bis": 437,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "App.readTradeForm",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "[data-action=new-trade]",
+   "schritte": [
+    {
+     "nr": "kilook-C8b",
+     "gruppe": "kilook",
+     "titel": "Knopf „Trade loggen“ mit aria-keyshortcuts=\"N\"",
+     "von": 602,
+     "bis": 602,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "wording-S5.3",
+     "gruppe": "wording",
+     "titel": "app.js: Aktion new-trade übernimmt in der Tagesansicht das Datum des Tages (09:00)",
+     "von": 355,
+     "bis": 355,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "C.dayKey",
+   "schritte": [
+    {
+     "nr": "aufbau-B6",
+     "gruppe": "aufbau",
+     "titel": "Aktion new-trade auf der Tagesansicht mit Datum 09:00 vorbelegen",
+     "von": 347,
+     "bis": 355,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-Z1",
+     "gruppe": "zustaende",
+     "titel": "Zertifikat-Standardtag zentral: letzter Tag mit abgeschlossenem Trade ≤ heute",
+     "von": 507,
+     "bis": 511,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/certificate.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#trade-form",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-entry",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-exit",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#f-mult",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-P12",
+     "gruppe": "barrierefreiheit",
+     "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+     "von": 645,
+     "bis": 663,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "komponenten-A5b",
+     "gruppe": "komponenten",
+     "titel": "Symbol- und Richtungsfeld aus openTradeEditor herauslösen (App.symbolField, App.dirField)",
+     "von": 568,
+     "bis": 569,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "Motion.leave",
+   "schritte": [
+    {
+     "nr": "bewegung-3.5b",
+     "gruppe": "bewegung",
+     "titel": "App.closeSymbolMenu: Symbol-Liste blendet über M.leave aus, ID sofort entfernen",
+     "von": 315,
+     "bis": 315,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    },
+    {
+     "nr": "bewegung-3.7b",
+     "gruppe": "bewegung",
+     "titel": "Seitenpanel (JS): neuer Abdunkler .settled in keepPanel, Ausblenden in 'dash-add-close' mit Doppel-Schutz",
+     "von": 325,
+     "bis": 327,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "bewegung-3.8b",
+     "gruppe": "bewegung",
+     "titel": "Filter-Fenster close(): nur das eigene Fenster ausblenden und entfernen",
+     "von": 330,
+     "bis": 332,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U6",
+     "gruppe": "zustaende",
+     "titel": "Toast: ein Container als Live-Region (toastWrap/U.toast.init), Längenformel für die Dauer, Anhalten beim Darüberfahren",
+     "von": 438,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".toast",
+   "schritte": [
+    {
+     "nr": "typografie-3.2.3l",
+     "gruppe": "typografie",
+     "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+     "von": 258,
+     "bis": 259,
+     "cluster": "tokens",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "gruppe": "typografie",
+     "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+     "von": 336,
+     "bis": 337,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C6",
+     "gruppe": "zustaende",
+     "titel": "Toast nimmt Zeiger an (Anhalten beim Darüberfahren)",
+     "von": 290,
+     "bis": 292,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U6",
+     "gruppe": "zustaende",
+     "titel": "Toast: ein Container als Live-Region (toastWrap/U.toast.init), Längenformel für die Dauer, Anhalten beim Darüberfahren",
+     "von": 438,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".dir-switch.need",
+   "schritte": [
+    {
+     "nr": "bewegung-C3",
+     "gruppe": "bewegung",
+     "titel": "Long/Short-Schalter: Zeiten auf Tokens (Wackeln 320 ms über calc)",
+     "von": 250,
+     "bis": 255,
+     "cluster": "trades_tag",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "komponenten-S-trades-h",
+     "gruppe": "komponenten",
+     "titel": "Verpasst-Dialog: Prüfung „Symbol fehlt“ / „Long oder Short wählen“ vor dem Speichern",
+     "von": 725,
+     "bis": 726,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/screens/trades.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-A4",
+     "gruppe": "zustaende",
+     "titel": "Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl",
+     "von": 553,
+     "bis": 569,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".toast-wrap",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U4",
+     "gruppe": "barrierefreiheit",
+     "titel": "Live-Regionen: .toast-wrap role=status (toastWrap), #sr-live mit U.announce",
+     "von": 464,
+     "bis": 473,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-C6",
+     "gruppe": "zustaende",
+     "titel": "Toast nimmt Zeiger an (Anhalten beim Darüberfahren)",
+     "von": 290,
+     "bis": 292,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U6",
+     "gruppe": "zustaende",
+     "titel": "Toast: ein Container als Live-Region (toastWrap/U.toast.init), Längenformel für die Dauer, Anhalten beim Darüberfahren",
+     "von": 438,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "toastWrap",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U4",
+     "gruppe": "barrierefreiheit",
+     "titel": "Live-Regionen: .toast-wrap role=status (toastWrap), #sr-live mit U.announce",
+     "von": 464,
+     "bis": 473,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U6",
+     "gruppe": "zustaende",
+     "titel": "Toast: ein Container als Live-Region (toastWrap/U.toast.init), Längenformel für die Dauer, Anhalten beim Darüberfahren",
+     "von": 438,
+     "bis": 453,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "--faint",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-B3",
+     "gruppe": "barrierefreiheit",
+     "titel": "Info-Symbol-CSS auf button.info, Touch-Fläche 24 px über ::before, Zeile .lbl-row",
+     "von": 296,
+     "bis": 302,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-C13",
+     "gruppe": "diagramme",
+     "titel": "drawers.vbars: Achse links fmt.axisCur, Pfad-Balken .85, Kategorien ausdünnen, leere Fächer",
+     "von": 452,
+     "bis": 467,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S3.1-3.3",
+     "gruppe": "wording",
+     "titel": "app.css: Regeln für Datumsfeld-Overlay (.dp-wrap, .dp-display, .dp-coarse), Touch-Leerzustand, Filter-Datumspaare",
+     "von": 323,
+     "bis": 329,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DP",
+     "gruppe": "zustaende",
+     "titel": "Leeres Datumsfeld in --faint (nur Fallback, falls wording-2 nicht umgesetzt ist)",
+     "von": 865,
+     "bis": 869,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js",
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "DatePicker.init",
+   "schritte": [
+    {
+     "nr": "wording-S4.1-4.5",
+     "gruppe": "wording",
+     "titel": "datepicker.js: Anzeige-Overlay für native Datumsfelder mit Maus (decorate, sync, value-Setter, Tippen sichtbar, MutationObserver in init)",
+     "von": 335,
+     "bis": 345,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js"
+     ]
+    },
+    {
+     "nr": "wording-S4.6-4.7",
+     "gruppe": "wording",
+     "titel": "datepicker.js: Touch-Leerzustand .is-empty setzen; type=week bleibt nativ",
+     "von": 346,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DP",
+     "gruppe": "zustaende",
+     "titel": "Leeres Datumsfeld in --faint (nur Fallback, falls wording-2 nicht umgesetzt ist)",
+     "von": 865,
+     "bis": 869,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js",
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".input.is-empty",
+   "schritte": [
+    {
+     "nr": "wording-S4.6-4.7",
+     "gruppe": "wording",
+     "titel": "datepicker.js: Touch-Leerzustand .is-empty setzen; type=week bleibt nativ",
+     "von": 346,
+     "bis": 348,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DP",
+     "gruppe": "zustaende",
+     "titel": "Leeres Datumsfeld in --faint (nur Fallback, falls wording-2 nicht umgesetzt ist)",
+     "von": 865,
+     "bis": 869,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js",
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".input.is-empty::-webkit-datetime-edit",
+   "schritte": [
+    {
+     "nr": "wording-S3.1-3.3",
+     "gruppe": "wording",
+     "titel": "app.css: Regeln für Datumsfeld-Overlay (.dp-wrap, .dp-display, .dp-coarse), Touch-Leerzustand, Filter-Datumspaare",
+     "von": 323,
+     "bis": 329,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "zustaende-S-DP",
+     "gruppe": "zustaende",
+     "titel": "Leeres Datumsfeld in --faint (nur Fallback, falls wording-2 nicht umgesetzt ist)",
+     "von": 865,
+     "bis": 869,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/datepicker.js",
+      "web/js/app.js",
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "root.UI",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-U7",
+     "gruppe": "barrierefreiheit",
+     "titel": "root.UI um toastWrap, announce, lightbox, requestClose ergänzen",
+     "von": 516,
+     "bis": 518,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "diagramme-C5",
+     "gruppe": "diagramme",
+     "titel": "Balken-Pfade vbarPath/hbarPath, Export in root.UI (inkl. xLabels, fitRadars)",
+     "von": 382,
+     "bis": 390,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "farbe-B27a",
+     "gruppe": "farbe",
+     "titel": "ui.js: Ring und scoreColor auf --profit, neue Funktion scoreText exportieren",
+     "von": 348,
+     "bis": 350,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S1.1-1.3",
+     "gruppe": "wording",
+     "titel": "ui.js: Helfer U.count anlegen und exportieren, Druckersymbol I.printer ergänzen (inkl. Reihenfolge- und Übersetzungshinweis Abschnitt 3)",
+     "von": 288,
+     "bis": 298,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U4a",
+     "gruppe": "zustaende",
+     "titel": "Baustein U.chartEmpty / U.chartEmptyHTML anlegen und in root.UI exportieren",
+     "von": 401,
+     "bis": 407,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U5",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Helfer U.fieldErrors, U.clearFieldError, U.clearFieldErrors",
+     "von": 415,
+     "bis": 437,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "aria-describedby",
+   "schritte": [
+    {
+     "nr": "abstaende-M2",
+     "gruppe": "abstaende",
+     "titel": "Prop-Konto-Dialog: Währungshinweis als eigene Rasterzeile (span2, #pa-cur-hint, aria-describedby), Notiz span4",
+     "von": 471,
+     "bis": 471,
+     "cluster": "prop",
+     "dateien": [
+      "web/js/screens/prop.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-misc-15",
+     "gruppe": "barrierefreiheit",
+     "titel": "Einstellungen switchRow: stabile id je Aufbau, Name aus Label, Beschreibung per aria-describedby",
+     "von": 834,
+     "bis": 842,
+     "cluster": "einstellungen",
+     "dateien": [
+      "web/js/screens/misc.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U5",
+     "gruppe": "zustaende",
+     "titel": "Feldfehler-Helfer U.fieldErrors, U.clearFieldError, U.clearFieldErrors",
+     "von": 415,
+     "bis": 437,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "aria-keyshortcuts",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-dashboard-41",
+     "gruppe": "barrierefreiheit",
+     "titel": "Ziehgriff: aria-keyshortcuts für Pfeiltasten",
+     "von": 805,
+     "bis": 805,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "kilook-C8b",
+     "gruppe": "kilook",
+     "titel": "Knopf „Trade loggen“ mit aria-keyshortcuts=\"N\"",
+     "von": 602,
+     "bis": 602,
+     "cluster": "barrierefreiheit",
+     "dateien": [
+      "web/js/app.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "Certificate.menuHTML",
+   "schritte": [
+    {
+     "nr": "wording-S16.1-16.4",
+     "gruppe": "wording",
+     "titel": "Zertifikat-Menü: Tag · Woche · Monat · Zeitraum mit konkretem Zeitraum rechts, Zähler, „Benutzername anzeigen“",
+     "von": 567,
+     "bis": 575,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/certificate.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-D3",
+     "gruppe": "zustaende",
+     "titel": "Dashboard: Zertifikat-Menü ohne festen Tag aufrufen",
+     "von": 501,
+     "bis": 503,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-Z1",
+     "gruppe": "zustaende",
+     "titel": "Zertifikat-Standardtag zentral: letzter Tag mit abgeschlossenem Trade ≤ heute",
+     "von": 507,
+     "bis": 511,
+     "cluster": "konto",
+     "dateien": [
+      "web/js/certificate.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "#fd-pop",
+   "schritte": [
+    {
+     "nr": "barrierefreiheit-C-dashboard-124",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Knopf: aria-expanded und aria-controls=\"fd-pop\"",
+     "von": 807,
+     "bis": 807,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dashboard.js"
+     ]
+    },
+    {
+     "nr": "barrierefreiheit-C-dash-filter-168-189",
+     "gruppe": "barrierefreiheit",
+     "titel": "Filter-Fenster: Fokus beim Öffnen, Tab-Falle, Rücksprung nur nach ×/Escape/Anwenden, hashchange gekapselt",
+     "von": 822,
+     "bis": 833,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    },
+    {
+     "nr": "bewegung-3.8b",
+     "gruppe": "bewegung",
+     "titel": "Filter-Fenster close(): nur das eigene Fenster ausblenden und entfernen",
+     "von": 330,
+     "bis": 332,
+     "cluster": "dashboard",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    },
+    {
+     "nr": "responsiv-3.5",
+     "gruppe": "responsiv",
+     "titel": "Dashboard-Filterfenster am Handy mit 16 px Rand",
+     "von": 467,
+     "bis": 472,
+     "cluster": "responsiv",
+     "dateien": [
+      "web/js/screens/dash-filter.js"
+     ]
+    }
+   ]
+  }
+ ]
+}

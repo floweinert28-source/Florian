@@ -1,0 +1,82 @@
+{
+ "datei": "/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/spec/diagramme.md",
+ "ids_abgedeckt": [
+  "bereich_training-15",
+  "responsiv-34",
+  "diagramme-1",
+  "typografie-29",
+  "bereich_konto-7",
+  "bereich_dashboard-36",
+  "bereich_dashboard-35",
+  "bereich_dashboard-39",
+  "barrierefreiheit-19",
+  "diagramme-15",
+  "diagramme-6",
+  "diagramme-18",
+  "diagramme-13",
+  "diagramme-8",
+  "bereich_notebook_news-18",
+  "bereich_notebook_news-19",
+  "bereich_training-7",
+  "farbe_kontrast-21",
+  "diagramme-39",
+  "bereich_training-28",
+  "zustaende-5",
+  "diagramme-9",
+  "hierarchie-14",
+  "diagramme-12",
+  "bereich_konto-55",
+  "diagramme-24",
+  "farbe_kontrast-38",
+  "responsiv-11",
+  "bewegung-2",
+  "diagramme-17",
+  "diagramme-11",
+  "diagramme-14",
+  "diagramme-7",
+  "diagramme-25",
+  "bereich_training-30",
+  "bereich_statistik-35",
+  "bereich_statistik-37",
+  "hierarchie-50",
+  "bereich_statistik-44",
+  "diagramme-21",
+  "bereich_statistik-48",
+  "farbe_kontrast-37"
+ ],
+ "ids_zurueckgestellt": [],
+ "konflikte": [
+  "Report-Standardfarben: diese Spezifikation nimmt ['#2f80d0','#b4549f','#c0702f'] statt Farbe/diagramme-44 ['#4a6fe3',…]. Beide bestehen den dataviz-Validator, aber #4a6fe3 hat zu --be nur ΔE 6,0 (hell). Alte Standardwerte werden nur exakt umgeschrieben. Die Report-Farbe nur einmal umsetzen.",
+  "Aktivitäts-Heatmap: Stufen 14/26/38/50/62 % (--text) statt Farbe/bereich_training-8 (8–58 %), weil 8 % hell nur 1,25:1 erreicht. Die Heute-Markierung (2px --text-2) folgt einer gemeinsamen Heute-Regel aus Farbe/farbe_kontrast-24, falls es eine gibt.",
+  "Regel-Tracker: Gemeinsame Selektoren .tracker i.lN / .heat-legend.right i.lN kommen von hier. Die Prozentwerte (heute 25/45/70/100, Farbe/bereich_dashboard-38 will 18/32/50/70) entscheidet die Farb-Spezifikation, die Legende folgt automatisch.",
+  "Regeltreue-Ring: 64/6 px, Rand 96 px, scoreColor, kein Schein, kein Bogen bei 0. Das weicht von KI-Look/ki_look-6 ab (88/7). Den Wert „—“ statt „0 %“ regelt Zustände/bereich_training-6, die transition in app.css:1317 Bewegung B8.",
+  "Prop-Puffer über Limit: Text „über dem Boden“ (App-Begriff Drawdown-Boden) plus Tooltip „Boden (fest) bei …“ statt „· Boden fest“ aus Zustände/bereich_prop-6. Gleiche Nachkommastellen und das Kappen „372 % des Limits“ bleiben bei bereich_prop-6. Derselbe Fall, nur einmal umsetzen.",
+  "Affiliate-Balken: neutral --text-2 .45 statt --profit aus Farbe/farbe_kontrast-20. Den Legendenpunkt der Statistik-Kurve aus farbe_kontrast-20 gibt es nicht mehr, weil die Legende entfällt.",
+  "Diagramm-Einzug app.css:106–112 und ui.js:253: Zeiten kommen aus Bewegung B6/K7/3.6 (Fläche endet mit der Linie, erledigt bewegung-2). Diese Spezifikation ändert in denselben Zeilen nur die Selektoren rect.br → .br und ergänzt text.bv.",
+  "Statistik-Kopfkarte: den Ort (nur Reiter Übersicht) legt Aufbau fest (aufbau-19/bereich_statistik-5/responsiv-37), den Inhalt diese Spezifikation (Titel, Handelstage, nur mit abgeschlossenen Trades). Zustände/bereich_statistik-22 ist ein Duplikat von zustaende-5.",
+  "Textalternative: Hier wird nameChart mit Kartentitel als Rückfall gebaut. Die Inhaltssätze aus Barrierefreiheit/bereich_statistik-33 (chartLabel) stehen davor.",
+  "Monte Carlo: Die neutralen Pfad- und Histogramm-Farben aus Farbe/bereich_statistik-25 werden vorausgesetzt. Die Median-Linie kommt von hier.",
+  ".chart text (11px --muted, Z. 1648 löschen) ist identisch mit Farbe/diagramme-37. Nur einmal umsetzen.",
+  "Fieldset-Überschriften in Dialogen erben heute justify-content:center von .legend. Diese Spezifikation weicht auf die neue Klasse .chart-legend aus und lässt die Dialoge unverändert. Die Ausrichtung entscheidet Komponenten.",
+  "Tooltip-Wortlaut „Win-Rate“ in vbars/hbars regelt Wording/wording-3, den Kartentitel „Equity: echt vs. Schatten-Ich“ Wording/wording-40. Hier bleiben beide wörtlich.",
+  "Radar-Schrift (responsiv-11) erst nach Abstände/responsiv-10 (2-Spalten-Raster 961–1240px) umsetzen."
+ ],
+ "kurz": "Zielspezifikation für 45 Diagramm- und Kennzahl-Befunde geschrieben. 42 werden umgesetzt, 3 (diagramme-29, diagramme-40, bereich_prop-23) gehen als Frage an den Nutzer. Kern:\n- Werteachsen links mit vollen Beträgen (curShort entfällt, Geld-blind dadurch korrekt); niceTicks auf runde Grenzen; keine überlappenden oder gedrehten Beschriftungen.\n- Gitter durchgezogen; eine Textdefinition 11px --muted; Legende einheitlich als .chart-legend oben links.\n- Flächen flach .12/.16 bis zur Nulllinie; Balken als Pfade, nur das Wertende gerundet.\n- Zwei Einheiten als übereinanderliegende Spuren statt rechter Achse.\n- Grün nur mit Bedeutung: Heatmap, Affiliate, Rolling und Trefferquote neutral; Kontostand und Spark an Null bzw. Startkapital zweifarbig; Break-even überall --be.\n- Monte-Carlo-Median; leere Kategorien sichtbar; Trade-Notiz als Faktenliste; Regeltreue-Ring 64px ohne Schein.\nTeilweise nicht übernommen: Rolling-Fläche .10, Affiliate-Hover, Onest-Teil von notebook-18, Palette aus farbe_kontrast-38 (fällt durch den Validator), Start-Label im Monte-Carlo-Diagramm. Die Einzug-Zeiten sind mit der vorliegenden Bewegungs-Spezifikation (B6/K7) abgestimmt. Tests und README-Stellen sind konkret aufgeführt.",
+ "nutzer_fragen": [
+  {
+   "id": "diagramme-29",
+   "frage": "Die Profit-Faktor-Kachel zeigt einen Ring, „Ø Gewinn/Verlust“ daneben einen waagerechten Zweiteil-Balken, obwohl beide ein Verhältnis zweier Beträge sind. Sollen beide gleich aussehen (Balken)? Du hattest den Ring früher bewusst größer gemacht (Commit e2bec1b), der Aufbau folgt TradeZella.",
+   "empfehlung": "Ja: gleiche Kennzahl-Art, gleiche Form. Am Handy ist der Ring lauter als der Wert und macht die Kachel höher. Die Halbkreise der Trefferquoten bleiben. Die Umsetzung bei Ja steht fertig in Abschnitt 6 (widgets.js:171–172, widgetpreviews.js:60, mobiletest prüfen)."
+  },
+  {
+   "id": "diagramme-40",
+   "frage": "Darf „Ausgaben vs. Payouts“ als einziges Diagramm eine echte Zeitachse und eine Treppe bekommen (flach bis zur Buchung, dann senkrecht)? Bisher gilt laut README „Kurven“: alle Kurven weich.",
+   "empfehlung": "Ja, nur für dieses Diagramm. Buchungen sind Sprünge, die Treppe ist monoton und ehrlich. Die Zeitachse allein ohne Treppe nicht umsetzen, denn eine 26-Tage-Lücke sähe dann wie gleichmäßiges Wachstum aus. Bei Nein bleibt alles wie heute. Die Umsetzung über die Optionen timeX/step, bindHover nach dem nächsten Punkt und die README-Ausnahme steht in Abschnitt 6."
+  },
+  {
+   "id": "bereich_prop-23",
+   "frage": "Gleiche Frage wie bei diagramme-40: echte Zeitachse für „Ausgaben vs. Payouts“, nur zusammen mit der Treppenform, weil die Zeitachse allein die Darstellung irreführender macht.",
+   "empfehlung": "Zusammen mit diagramme-40 als ein Paket entscheiden. Empfehlung: Ja (Zeitachse plus Treppe nur in diesem Diagramm)."
+  }
+ ]
+}

@@ -1,0 +1,323 @@
+{
+ "anker": [
+  {
+   "anker": "--text",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "diagramme-C15",
+     "gruppe": "diagramme",
+     "titel": "drawers.rolling: linke Achse fmt.r, keine Fläche, Linie --text, Mittelwert-Label .lbl",
+     "von": 482,
+     "bis": 492,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "wording-S3.1-3.3",
+     "gruppe": "wording",
+     "titel": "app.css: Regeln für Datumsfeld-Overlay (.dp-wrap, .dp-display, .dp-coarse), Touch-Leerzustand, Filter-Datumspaare",
+     "von": 323,
+     "bis": 329,
+     "cluster": "komponenten",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".heat-legend i.l1",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23a",
+     "gruppe": "farbe",
+     "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+     "von": 332,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".activity i.l2",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23a",
+     "gruppe": "farbe",
+     "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+     "von": 332,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".activity i.l1",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23a",
+     "gruppe": "farbe",
+     "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+     "von": 332,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".activity i.l3",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23a",
+     "gruppe": "farbe",
+     "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+     "von": 332,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".activity i.l5",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23a",
+     "gruppe": "farbe",
+     "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+     "von": 332,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": ".activity i.l4",
+   "schritte": [
+    {
+     "nr": "diagramme-A5",
+     "gruppe": "diagramme",
+     "titel": "Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2",
+     "von": 316,
+     "bis": 320,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    },
+    {
+     "nr": "farbe-B23a",
+     "gruppe": "farbe",
+     "titel": "Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2",
+     "von": 332,
+     "bis": 335,
+     "cluster": "training",
+     "dateien": [
+      "web/css/app.css"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fmt.r",
+   "schritte": [
+    {
+     "nr": "diagramme-C15",
+     "gruppe": "diagramme",
+     "titel": "drawers.rolling: linke Achse fmt.r, keine Fläche, Linie --text, Mittelwert-Label .lbl",
+     "von": 482,
+     "bis": 492,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "typografie-3.8i",
+     "gruppe": "typografie",
+     "titel": "Edge-Kachel: Spanne ohne Inline-Größe mit &nbsp;R (K22), Streuungsmaße zwei Stellen",
+     "von": 433,
+     "bis": 434,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fmt.dec",
+   "schritte": [
+    {
+     "nr": "typografie-3.8i",
+     "gruppe": "typografie",
+     "titel": "Edge-Kachel: Spanne ohne Inline-Größe mit &nbsp;R (K22), Streuungsmaße zwei Stellen",
+     "von": 433,
+     "bis": 434,
+     "cluster": "statistik",
+     "dateien": [
+      "web/js/screens/stats.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W6",
+     "gruppe": "zustaende",
+     "titel": "Haltedauer-Widget: Achse mit genau einer Einheit (durLabel), Tooltip über fmt.dur",
+     "von": 486,
+     "bis": 492,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "fmt.dur",
+   "schritte": [
+    {
+     "nr": "diagramme-E6",
+     "gruppe": "diagramme",
+     "titel": "Achsenstriche Uhrzeit (runde Schritte) und Haltedauer (HOLD_TICKS mit Rückfall)",
+     "von": 573,
+     "bis": 583,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-U3",
+     "gruppe": "zustaende",
+     "titel": "fmt.dur: Sekunden unter einer Minute („45 s“)",
+     "von": 398,
+     "bis": 400,
+     "cluster": "zustaende",
+     "dateien": [
+      "web/js/ui.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W6",
+     "gruppe": "zustaende",
+     "titel": "Haltedauer-Widget: Achse mit genau einer Einheit (durLabel), Tooltip über fmt.dur",
+     "von": 486,
+     "bis": 492,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  },
+  {
+   "anker": "durLabel",
+   "schritte": [
+    {
+     "nr": "diagramme-E6",
+     "gruppe": "diagramme",
+     "titel": "Achsenstriche Uhrzeit (runde Schritte) und Haltedauer (HOLD_TICKS mit Rückfall)",
+     "von": 573,
+     "bis": 583,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    },
+    {
+     "nr": "zustaende-S-W6",
+     "gruppe": "zustaende",
+     "titel": "Haltedauer-Widget: Achse mit genau einer Einheit (durLabel), Tooltip über fmt.dur",
+     "von": 486,
+     "bis": 492,
+     "cluster": "diagramme",
+     "dateien": [
+      "web/js/widgets.js"
+     ]
+    }
+   ]
+  }
+ ]
+}

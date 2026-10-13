@@ -1,0 +1,297 @@
+{
+ "fakten": {
+  "urteile": [
+   {
+    "id": "stats-1-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt. stats.js:15 rendert alle Reiter als `a.btn` mit Inline-Farbe text-2. `.btn.ghost` (app.css:278) setzt Rand und Fläche transparent und die Farbe text-2. Der aktive Reiter behält über `.tabs a[aria-pressed=\"true\"]` (app.css:3126-3131, Spezifität 0,2,1) seine getönte Fläche. Es braucht keine neue CSS-Regel; ein ähnlich textartiges Muster gibt es schon (`.prop-sub`, app.css:2593-2598). Kleine Korrektur am Beleg: app.css:659-661 gilt nur für `.tabs button`, nicht für die `a`-Reiter. Diese sind reine `.btn` (app.css:266-269). Hinweis: Nach Hick's Law bleibt die Zahl der Wahlmöglichkeiten bei 9; der Vorschlag ändert nur das Gewicht. Wirkung 1 bleibt trotzdem berechtigt: Die Änderung betrifft jeden der 9 Reiter auf Desktop und Handy, ist risikolos und macht aus 14 Pillen 6."
+   },
+   {
+    "id": "stats-1-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt. dashboard.js:125 nutzt genau `class=\"btn icon-only\" data-pop=\"cert\" title=\"Zertifikat erstellen\"` mit `${I.shield}<span class=\"vh\">Zertifikat</span>` und ohne Caret. Auf Stats (stats.js:9) ist es ein beschrifteter `.btn` mit Caret. Mit der Änderung ist „Trade loggen“ rechts der einzige beschriftete Knopf. Kleine Korrektur: Im normalen Layout (leer_stats.png, stats_state.png) stehen Zeitraum und Konto links in der Kopfreihe und das Zertifikat rechts. Die drei Caret-Knöpfe stehen also in derselben Zeile und sehen gleich aus, aber nicht direkt nebeneinander."
+   },
+   {
+    "id": "stats-1-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Mechanismus stimmt: pageHead liest `screen.head` per Object.assign (app.js:257), ein Getter funktioniert, und bei laufender Session bleiben Timer und „Session beenden“ (app.js:248-249). FALSCH ist aber die Angabe „bleibt auf Dashboard“: Das Dashboard hat `ownActions: true` und in seiner Kopfreihe nur Vorlage, Zertifikat und Trade loggen (dashboard.js:125), also keinen Session-Knopf. Der Kommentar in shadow.js:104 ist in diesem Punkt veraltet.",
+    "beschreibung_neu": "In `App.screens.stats` einen Getter `get head() { return { session: !!S.activeSession() }; }` ergänzen (pageHead liest `screen.head`, app.js:257). Ohne laufende Session fehlt dann der „▷“-Knopf auf Stats. Er bleibt über die Kopfreihe von TradeLog, Tagesansicht, Fortschritt, Notebook, News, Prop Firms, Coupons, Affiliate und Replay erreichbar, dazu über die Checkliste im Fortschritt (progress.js:51). Auf dem Dashboard gibt es ihn schon heute nicht. Läuft eine Session, zeigt die Kopfzeile wie bisher Timer und „Session beenden“ (app.js:248-249). Der Leerzustand des Reiters „Zustand“ bekommt dafür einen eigenen Knopf (stats-16-1)."
+   },
+   {
+    "id": "stats-1-4",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Im Kern stimmt der Vorschlag: Auf dem Handy liegen 4 von 9 Reitern ohne Scrollbalken außerhalb des Bilds (dark-390/stats.png, app.css:1511-1513). Der Bauplan hat aber einen Fehler: Ein `popwrap` mit `.popover` (position:absolute, app.css:329) INNERHALB von `.tabs.scroll-x` würde abgeschnitten. `overflow-x:auto` macht auch die Senkrechte zu einem Scrollbereich, und fitPopover (app.js:161ff.) begrenzt nur waagerecht. Außerdem steht „Reiter in einer Reihe, seitlich scrollbar“ als dokumentierte Entscheidung in der README (Z. 92, 359-361). Der Nutzer muss also entscheiden; der Vorschlag weist schon darauf hin.",
+    "beschreibung_neu": "Die fünf alltäglichen Reiter (Übersicht, Tage, Setups, Zeit, Fehler) bleiben sichtbar. Marktphase, Zustand, Edge-Check und Monte Carlo wandern in „Mehr ▾“, gebaut mit dem vorhandenen `popwrap`/`popover`/`.item`-Muster (wie `#pop-account`, app.js:244). WICHTIG: Der „Mehr“-popwrap darf nicht innerhalb von `.tabs.scroll-x` stehen, sonst schneidet der Scrollbereich das Popover ab. Stattdessen eine Zeile bauen: links die Reiterleiste mit den 5 Reitern, rechts daneben (außerhalb des Scrollbereichs) der „Mehr ▾“-Knopf als `.btn` mit `aria-pressed`. Ist einer der vier aktiv, trägt „Mehr“ dessen Namen und `aria-pressed=\"true\"`. Alle neun Routen `#/stats/<tab>` bleiben (stats.js:11). Das ändert die in der README festgehaltene Reiterleiste (Z. 92, 359-361), daher zuerst den Nutzer entscheiden lassen."
+   },
+   {
+    "id": "stats-1-5",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Die Beobachtung stimmt: Die Kurve steht auf jedem Reiter (stats.js:17), auch bei Zustand, Edge-Check und Monte Carlo, wo sie nichts mit dem Inhalt zu tun hat. Die vorgeschlagene Umsetzung hat aber eine Nebenwirkung: Lässt man die Kurve nur OBERHALB der Reiter weg, springt die Reiterleiste beim Wechsel Übersicht↔Setups um etwa 300 px. Die README (Z. 359-361) legt fest, dass die Reiterleiste beim Reiterwechsel ihre Position behält und der Scrollstand bleibt. Lösung: Die Kurve unter die Reiterleiste verschieben.",
+    "beschreibung_neu": "stats.js:17: `return top + tabs + body` → `return tabs + (tab === 'summary' || tab === 'days' ? top : '') + body`. Die Reiterleiste steht dann auf allen neun Reitern direkt unter der Kopfreihe und springt beim Wechsel nicht (README Z. 359-361: Reiterleiste behält ihre Position). Die Kumulativ-Kurve erscheint nur noch auf Übersicht und Tage, dort als erster Block unter den Reitern. Auf Setups, Zeit, Fehler, Marktphase, Zustand, Edge-Check und Monte Carlo beginnt der Inhalt direkt unter den Reitern (heute bei y≈540 px, auf dem Handy erst nach einer Bildschirmhöhe). Keine neue CSS-Regel."
+   },
+   {
+    "id": "stats-2-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Stimmt. In leer_stats.png steht unter der Kopfreihe eine flache 0-€-Kurve, darunter neun Reiter, dann die Botschaft ohne Knopf. `U.empty` hat ein 4. Argument `action` (ui.js:178), das stats.js:23 nicht nutzt. Die Vorbilder existieren: trades.js:45 (`btn sm primary` Trade loggen) und shadow.js. `range-preset` folgt dem Speicherweg von `range-custom` (app.js:319); die vorhandene `range`-Aktion markiert tatsächlich nur im Popover (app.js:318). `all` = „Gesamt“ (app.js:21). `App.allTrades()` ist schon nach Konto gefiltert (app.js:47); alternativ `ctx.all`. Das ist genau der Fall, den der Auftrag hervorhebt („leere Zustände: ein Satz, ein Knopf“)."
+   },
+   {
+    "id": "stats-2-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Technisch richtig: Tag/Woche/Monat nutzen `menuHTML({})` und damit „heute“ (certificate.js:59), und der Dialog zeigt ohne Trades nur einen eigenen Leerzustand (certificate.js:84). Die Wirkung ist aber klein: Es geht um einen Knopf neben dem großen Seiten-Leerzustand aus stats-2-1, und auf dem Dashboard bleibt das Zertifikat-Symbol auch ohne Trades sichtbar. Daher Wirkung 3 statt 2. `actions(ctx)` kann statt `App.allTrades()` direkt `ctx.all` nutzen."
+   },
+   {
+    "id": "stats-3-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Dieselbe Änderung wie stats-1-1 (eine Zeile in stats.js:15), auf dem Handy nur sichtbar. Sie bringt keinen eigenen Aufwand und keine zusätzliche Wirkung, daher als Doppelung Wirkung 2. Die Beschreibung stimmt: Die Leiste bricht in dark-390/stats.png bei „Feh…“ ab; `.tabs a` sind auf dem Handy nicht eigens gestaltet (app.css:3052-3054 betrifft nur `button`)."
+   },
+   {
+    "id": "stats-3-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Das ist nur die Folge von stats-1-3 auf dem Handy, keine eigene Änderung. Wirkung 3 statt 2, um nicht doppelt zu zählen. Die Beschreibung stimmt: Auf dem Handy stehen oben „Oktober 2026 ▾“, „🛡 ▾“ und „▷“; das Konto ist `hide-m` (app.js:244 ohne `mobile`)."
+   },
+   {
+    "id": "stats-4-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Doppelung von stats-2-1. Die Wirkung ist auf dem Handy kleiner als auf dem Desktop: In dark-390/leer_stats.png steht die Botschaft heute schon im ersten Bildschirm (y≈620 CSS-px bei 844 px Höhe), und der „+“-Knopf ist klar. Die Verbesserung liegt also vor allem im fehlenden Knopf und im Wegfall von leerer Kurve und Reitern, daher Wirkung 2. Nebenbei: Die Aussage in der Bewertung, Session starten bewirke ohne Trades nichts, stimmt nicht. Der Start-Check-in ist gerade vor dem ersten Trade sinnvoll (app.js:488-494)."
+   },
+   {
+    "id": "stats-5-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Der Befund stimmt: certificate.js:58-61 rendert vier gleich gestaltete `.item` in fester Reihenfolge, und Stats ruft `menuHTML({})` auf (stats.js:9), sodass Tag/Woche/Monat sich auf heute beziehen. `<hr>` im Popover ist vorhandenes Muster (app.css:340, app.js:244). Die Wirkung ist klein: Es ist ein selten geöffnetes Menü mit 4 Einträgen, daher 3 statt 2. Korrektur an der Beschriftung: Die anderen Einträge entfernen „ Certificate“ (`D.KINDS[k].title.replace(' Certificate','')`, certificate.js:60). Der erste Eintrag sollte deshalb „Performance“ mit dem leisen Zusatz „Zeitraum“ heißen, nicht „Performance Certificate · Zeitraum“.",
+    "beschreibung_neu": "`menuHTML(ctx)` um `ctx.primary` erweitern. Bei `primary: 'stats'` (Aufruf in stats.js:9 → `menuHTML({ primary: 'stats' })`) zuerst den Eintrag `data-kind=\"stats\" data-ref=\"range\"` rendern, im bestehenden Schema „Performance“ + `<span class=\"muted small\" style=\"margin-left:auto\">Zeitraum</span>`. Danach `<hr>` (vorhandenes Popover-Muster, app.css:340), dann Tag/Woche/Monat unverändert. Das Dashboard-Menü bleibt wie es ist. Keine neue Komponente, kein neues Styling; alle vier Arten bleiben erreichbar."
+   },
+   {
+    "id": "stats-6-1",
+    "bestaetigt": false,
+    "anmerkung": "Nicht bestätigt. Die App hat keine Link-Darstellung: `a { color: inherit; text-decoration: none; }` (app.css:89), in Tabellen auch nicht. Ein `<a>` in der Tageszelle sähe genauso aus wie heute. Nach der Bedingung im Vorschlag selbst („wenn die App keine Link-Darstellung in Tabellen hat, den Punkt auslassen“) entfällt er. Klickbare Zeilen mit Zeiger und Hover-Fläche (`tr.link`, app.css:599-600) sind zudem das durchgängige Muster der App (TradeLog trades.js:49, Tagesansicht day.js:15, Coach coach.js:87). Ein Tastatur-Zugang wäre ein Thema für Barrierefreiheit, nicht für Hick's Law."
+   },
+   {
+    "id": "stats-7-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5, kein eigener Schritt. Gilt in der korrigierten Form: Die Kurve wandert unter die Reiter und erscheint nur auf Übersicht und Tage, damit die Reiterleiste nicht springt."
+   },
+   {
+    "id": "stats-8-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 (korrigierte Form: Kurve unter die Reiter, nur auf Übersicht und Tage)."
+   },
+   {
+    "id": "stats-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 (korrigierte Form: Kurve unter die Reiter, nur auf Übersicht und Tage)."
+   },
+   {
+    "id": "stats-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 (korrigierte Form: Kurve unter die Reiter, nur auf Übersicht und Tage)."
+   },
+   {
+    "id": "stats-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 (korrigierte Form). Auf diesem Reiter ist der fehlende Bezug am deutlichsten: Check-in-Werte gegen eine kumulierte P&L-Kurve (stats_state.png)."
+   },
+   {
+    "id": "stats-12-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt. stats.js:73 rendert die Karte unabhängig vom Urteil. `edge()` nutzt window=20 und minSample=20 (core.js:218-222), und der Zeichner zeigt bei leerem `rolling` nur den Text (ui.js:339). „Zu wenig Daten“ und leere Karte treten also immer zusammen auf, die Bedingung `e.verdict !== 'insufficient'` ist richtig. Korrektur an der Begründung: Nicht „dreimal dieselbe Botschaft“. „Mindestens 20 Trades mit R-Wert“ steht zweimal (Fuß der Urteil-Kachel und Karte). „Nötige Stichprobe 361 / noch 351“ ist eine andere Aussage, nämlich die Zahl der Trades bis zur Signifikanz. Auch die Kachel „95-%-Intervall“ wird bei 10 Trades gezeigt; das ist aber ein eigener Punkt, kein Teil dieses Vorschlags."
+   },
+   {
+    "id": "stats-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt. `U.card` unterstützt `o.trailing` (ui.js:170), und `.btn.ghost` ist die vorhandene Tertiär-Stufe. Auf dem Handy steht „Neu simulieren“ heute allein unter dem Parametersatz, vor den Kacheln (dark-390/stats_mc.png). Einschränkung: Neu simulieren würfelt auch die vier Kacheln neu, nicht nur die Beispielpfade. Am Diagramm ist der Knopf vertretbar, sollte aber nicht so beschrieben werden, als ändere er nur die Pfade."
+   },
+   {
+    "id": "stats-14-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Die Begründung stimmt: stats.js:29/37/42/48 übergeben einen leeren Text und keine Aktion. Mit stats-2-1 werden diese vier Zweige aber unerreichbar. Auch das „Sicherheitsnetz“ ist unnötig, denn `dailyAggregation` arbeitet nur mit `closedOnly` (core.js:109-111), also ist `days` genau dann leer, wenn `closed` leer ist. Ein Fall „nur offene Trades, Tage leer“ kommt nicht vor. Neben stats-2-1 hat der Vorschlag keine eigene Wirkung, daher 3.",
+    "beschreibung_neu": "Mit stats-2-1 („Ein Leerzustand für die ganze Seite“) wird bei `!closed.length` kein Reiter mehr gerendert. Damit sind die vier Leerzweige in tabDays, tabSetups, tabTime und tabMistakes (stats.js:29, 37, 42, 48) nicht mehr erreichbar, denn `days` leer ⇔ `closed` leer (core.js:109-111). Keine weitere Änderung nötig. Die vier Zeilen können als stille Absicherung stehen bleiben."
+   },
+   {
+    "id": "stats-15-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Ein Satz und ein Knopf sind richtig, aber das Ziel des Links ist falsch gewählt. `#/day` öffnet heute (day.js:6/9). Die Abdeckung zählt aber nur Trades, deren Tag eine Marktphase hat (`regimeAnalysis`, core.js:206-210). Legt der Nutzer die Phase für heute fest und hat heute nicht gehandelt, bleibt der Reiter leer. Der Knopf muss zum letzten Handelstag im Zeitraum führen. Die Marktphase wird in der Tagesansicht tatsächlich gesetzt (day.js:17, Aktion day-regime day.js:25).",
+    "beschreibung_neu": "stats.js:55: Den Schlüssel des letzten Handelstags im Zeitraum bestimmen, z. B. `const lastDay = closed.reduce((k, t) => t.dayKey > k ? t.dayKey : k, '')`. Dann `U.empty('trend', 'Keine Marktphasen erfasst', 'Lege in der Tagesansicht fest, ob ein Handelstag ein Aufwärts-, Abwärts- oder Seitwärtstag war.', `<a class=\"btn sm\" href=\"#/day/${lastDay}\">${I.calendar} Letzten Handelstag öffnen</a>`)`. Sekundär (`.btn sm`), weil „Trade loggen“ in der Kopfzeile der einzige Hauptknopf bleibt. Ziel ist der letzte Handelstag, nicht `#/day` (heute): Nur Phasen an Tagen mit Trades füllen den Reiter (core.js:206-210). Das Festlegen beim Session-Ende (app.js:526ff.) bleibt als Funktion, wird im Satz aber nicht mehr als zweiter Weg genannt."
+   },
+   {
+    "id": "stats-16-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Stimmt. Der Satz in stats.js:61 verweist auf „Session starten“, und das gibt es in der Kopfreihe nur als unbeschriftetes Symbol (app.js:250). Der Start-Dialog enthält den Check-in (app.js:488-494, `checkInFields`). Hinweis 1: `stateAnalysis` zählt nur Handelstage mit Check-in (core.js:249-250). Ein heute gestarteter Check-in erscheint hier also erst, wenn heute auch Trades geloggt sind. Hinweis 2: Läuft schon eine Session ohne Trades heute, zeigt der Vorschlag keinen Knopf, der Satz fordert aber weiter zum Session-Start auf. In diesem Fall sollte der Satz zu „Sobald du heute Trades loggst, erscheint hier dein Check-in.“ wechseln. Eine Alternative für vergangene Tage ist `data-action=\"check-in\" data-day=\"<letzter Handelstag>\"` (app.js:329 → openCheckIn). Für das Tagesritual bleibt Session starten aber der passende eine Knopf."
+   },
+   {
+    "id": "stats-17-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Stimmt. `monteCarlo` gibt bei weniger als 10 abgeschlossenen Trades null zurück (core.js:233). `closed.length` liegt in tabMC vor. Der Methodensatz steht im Vollzustand schon im Parametersatz (stats.js:79). Ein eigener Knopf ist nicht nötig, weil „Trade loggen“ in der Kopfreihe bzw. als „+“ auf dem Handy steht."
+   }
+  ],
+  "screen_korrekturen": "stats-1 (Übersicht voll): Die Hauptaktion „Kennzahlen lesen, einzige Entscheidung ist der Reiter“ ist plausibel. Drei Korrekturen an der Begründung: (a) In stats.png, stats_days.png, stats_mc.png, stats_setups.png und stats_edge.png stehen Zeitraum und Konto oben rechts in der Titelzeile. Das ist nicht das normale Layout der Seite, sondern ein Rest des Dashboards: `placeContext` (dashboard.js:14-18) hängt einen Media-Query-Listener an, der beim Verlassen des Dashboards nicht entfernt wird. Beim Überschreiten von 961 px verschiebt er `.dash-head .dh-context` jeder Seite in `#tb-tools`; pageHead nutzt dieselben Klassen (app.js:261). Das normale Layout zeigen leer_stats.png und stats_state.png: Zeitraum und Konto links in der Kopfreihe, Zertifikat, ▷ und Trade loggen rechts. (b) app.css:659-661 gilt für `.tabs button`, nicht für die `a.btn`-Reiter; diese sind reine `.btn` (app.css:266-269). (c) Die Aussage `.btn.accent` sei nicht gefüllt, stimmt (app.css:3137-3143) und widerspricht der Annahme in HICKS-BRIEF.md, „Trade loggen“ sei grün gefüllt. Das gilt auch auf dem Handy: `.btn.accent` (app.css:3137) überschreibt bei gleicher Spezifität die Füllung von `.dash-head .tl` (app.css:3019), deshalb ist der „+“-Knopf in dark-390 dunkel mit grünem Rand und grünem Symbol, nicht grün gefüllt. Er bleibt trotzdem klar der Hauptknopf (stats-3 optisch_klar=true stimmt).\n\nstats-2 / stats-4 (leer): Die Hauptaktion stimmt. „Session starten“ als irrelevant zu führen bzw. zu sagen, es bewirke „ohne Trades nichts“, stimmt nicht ganz: Der Start-Check-in ist gerade vor dem ersten Trade sinnvoll (app.js:488-494). Auf Stats bleibt er trotzdem verzichtbar (stats-1-3). In stats-2 sind „alle neun Reiter leer“ nicht alle über `closed.length` geprüft: Edge-Check rendert ohne Trades Kacheln mit „Zu wenig Daten“ und eine leere Karte, ist aber im Ergebnis ebenfalls leer.\n\nstats-6 (Tage): Die Hauptaktion „einen Tag anklicken“ passt nicht. Der Reiter will gelesen werden (Tage vergleichen: Wochentag-Diagramm, Überblick, Tabelle); der Sprung in die Tagesansicht ist eine Zweitaktion. Klickbare Zeilen mit Hover sind das App-weite Muster (trades.js:49, day.js:15). Im Inhalt konkurriert nichts, daher optisch_klar = true (wie bei Setups und Zeit).\n\nstats-7 (Setups): Die Karte „Richtung“ (stats.js:39) liegt nicht „unter dem Bildrand“. Sie fehlt in stats_setups.png, obwohl darunter Platz ist; die Aufnahme entstand vermutlich während des gestaffelten Einzugs (ähnlich zeigt dark-390/stats.png nur 6 von 16 Kacheln). Am Ergebnis ändert das nichts.\n\nstats-12 (Edge): Nicht „dreimal dieselbe Botschaft“. „Mindestens 20 Trades mit R-Wert“ steht zweimal (Fuß der Urteil-Kachel und leere Karte). „Nötige Stichprobe 361 / noch 351“ ist eine andere Aussage, nämlich die Zahl der Trades bis zur Signifikanz. Die Hauptaktion „verstehen, dass Trades fehlen, weiter loggen“ ist plausibel.\n\nstats-15 (Marktphase leer): Die Hauptaktion präzisieren: Die Marktphase für einen HANDELSTAG im Zeitraum festlegen. Heute ohne Trades zählt nicht (core.js:206-210), deshalb muss der Knopf zum letzten Handelstag führen, nicht zu `#/day`.\n\nstats-16 (Zustand leer): Die Hauptaktion „Session starten (Check-in)“ passt als Tagesritual. Einschränkung: Der Reiter füllt sich erst, wenn am Check-in-Tag auch Trades vorliegen (core.js:249-250)."
+ },
+ "vorgaben": {
+  "urteile": [
+   {
+    "id": "stats-1-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Hält die Design-Vorgabe ein: `.btn.ghost` ist die vorhandene Tertiärstufe (app.css:278), der aktive Reiter behält die flache Auswahlfläche (app.css:3126-3131, README:203). Es geht keine Funktion verloren. Wirkung 2 statt 1, weil es weiter neun Wahlmöglichkeiten gibt; nur ihr Gewicht sinkt. Risiko Konsistenz: Reiterleisten gibt es auch im TradeLog (U.tabs, ui.js:183, trades.js:31) und im Widget „Letzte Trades“ (widgets.js:257). Dort tragen sie Rahmen und Fläche über `.tabs button` (app.css:660). Wird nur Stats umgestellt, sieht dieselbe Rolle „Reiter“ an zwei Stellen verschieden aus.",
+    "beschreibung_neu": "stats.js:15: `<a class=\"btn${tab === k ? '' : ' ghost'}\" href=\"#/stats/${k}\" aria-pressed=\"${tab === k}\">` rendern; das Inline-`style=\"color:var(--text-2)\"` entfällt, weil `.btn.ghost` diese Farbe schon setzt. Der aktive Reiter bleibt `.btn` mit `aria-pressed=\"true\"` und behält damit die flache Auswahlfläche. Damit es konsistent bleibt, bekommen die beiden anderen Reiterleisten dieselbe Stufe: In U.tabs (ui.js:183) und widgets.js:257 die nicht aktiven `<button>` mit `class=\"btn ghost\"` rendern. `.btn.ghost` (0,2,0) überstimmt dort Rand und Fläche von `.tabs button` (0,1,1); Abstände und Schriftgröße bleiben von `.tabs button`. Es braucht keine neue CSS-Regel."
+   },
+   {
+    "id": "stats-1-2",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Gleiche Aktion, gleiche Stufe wie auf dem Dashboard (dashboard.js:125: `btn icon-only`, title, `vh`). Das Popover #pop-cert bleibt unverändert. In der Tagesansicht steht das Zertifikat als `.btn sm` mit Text im Inhalt (day.js:12); das ist ein anderer Ort und deshalb in Ordnung. Korrektur der Begründung: Im regulären Seitenkopf (leer_stats.png) stehen Zeitraum und Konto links und das Zertifikat rechts, also nicht „drei nebeneinander“. Der Vorschlag gilt trotzdem: Das Zertifikat ist rechts der einzige beschriftete Konkurrent von „Trade loggen“."
+   },
+   {
+    "id": "stats-1-3",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Sachfehler in der Beschreibung: Das Dashboard hat bewusst keinen Session-Knopf (README:64-65, dashboard.js:125). Sonst ist der Vorschlag richtig und konsistent mit dem Schatten-Ich, das als Analyse-Seite ebenfalls ohne Session auskommt (shadow.js:104). Er ist nur zusammen mit stats-16-1 umzusetzen.",
+    "beschreibung_neu": "In `App.screens.stats` (stats.js:7) `get head() { return { session: !!S.activeSession() }; }` ergänzen. pageHead übernimmt `screen.head` per Object.assign (app.js:257), deshalb wirkt der Getter. Ohne laufende Session fehlt „▷ Session starten“ auf Stats. Läuft eine Session, bleiben Timer und „Session beenden“ wie bisher (app.js:248-249). „Session starten“ bleibt in der Kopfreihe von TradeLog, Tagesansicht, Notebook, News und Fortschritt erreichbar, im Fortschritt zusätzlich als Punkt der Checkliste (progress.js:51). Auf dem Dashboard gibt es diesen Knopf nicht. Voraussetzung ist stats-16-1, weil der Leerzustand von „Zustand“ auf „Session starten“ verweist. Ohne Session und ohne Zertifikat (stats-2-2) fällt der Trenner automatisch weg (app.js:260)."
+   },
+   {
+    "id": "stats-1-4",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. (1) Technisch: Das Popover ist `position:absolute` (app.css:329). Innerhalb von `.tabs.scroll-x` (`overflow-x:auto`, app.css:1511, damit wird auch vertikal abgeschnitten) würde „Mehr ▾“ abgeschnitten. Ein vorhandenes Muster für ein Popover außerhalb einer scrollenden Leiste gibt es nicht. (2) Handy: Bei 390 px passen heute etwa 4,5 Reiter (dark-390/stats.png). Auch fünf Reiter plus „Mehr“ passen nicht, „Mehr“ läge also selbst hinter dem Scrollrand. Das Hauptargument trägt damit nicht. (3) Die Reiter sind Navigation zwischen Auswertungen, die der Nutzer bewusst gebaut hat (README:109-111), keine Optionen. Edge-Check und Monte Carlo würden schlechter auffindbar und bräuchten einen Klick mehr. Wenn „Mehr“ den Namen des aktiven Reiters trägt, ändert sich außerdem seine Breite, und die Leiste verschiebt sich, was README:359 widerspricht. Die Beruhigung erreicht stats-1-1 billiger."
+   },
+   {
+    "id": "stats-1-5",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Der Kern stimmt (Regel 5). Die vorgeschlagene Umsetzung widerspricht aber README:359: Beim Reiterwechsel soll die Reiterleiste ihre Position behalten. Steht die Kurve nur auf zwei Reitern ÜBER der Leiste, springt die Leiste beim Wechsel von Übersicht zu Setups um etwa 320 px. Deshalb die Reihenfolge ändern: Reiter oben, Kurve als Teil des Inhalts.",
+    "beschreibung_neu": "stats.js:17: `return top + tabs + body` wird zu `return tabs + (tab === 'summary' || tab === 'days' ? top : '') + body`. Die Reiterleiste (`data-subnav`) steht dann auf jedem Reiter an derselben Stelle direkt unter der Kopfreihe, wie README:359 es verlangt. Auf Übersicht und Tage ist die Kumulativ-Kurve das erste Element unter den Reitern. Auf Setups, Zeit, Fehler, Marktphase, Zustand, Edge-Check und Monte Carlo beginnt der Inhalt direkt unter der Leiste. Optional `U.chartData['stats-top']` nur auf diesen beiden Reitern setzen. Die Alternative „Kurve nur im Leerzustand weg“ entfällt, weil stats-2-1 diesen Fall abdeckt."
+   },
+   {
+    "id": "stats-2-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Echte Verbesserung nach Regel 5 und hält alle Vorgaben ein. Die Kopfreihe mit Zeitraum und Konto bleibt; das ist richtig, weil im Fall b der Zeitraum die Lösung ist und README Zeitraum und Konto fest oben verortet. Stufe: `.btn sm primary` wie im TradeLog (trades.js:45). Das ist dann der einzige gefüllte Knopf, denn „Trade loggen“ in der Kopfreihe und der runde Knopf auf dem Handy sind `.btn.accent` und damit ungefüllt (app.css:3137). Konsistenz: Das Schatten-Ich zeigt in derselben Lage „Trade loggen“ nur als `.btn sm` (shadow.js:109). Der Orchestrator sollte beide angleichen.",
+    "beschreibung_neu": "In `render` (stats.js:11), nach der Berechnung von `closed` und vor Kurve und Reitern: `if (!closed.length) { const n = C.closedOnly(ctx.all).length; return n ? U.empty('stats', 'Keine abgeschlossenen Trades im Zeitraum', `Außerhalb von „${esc(r.label)}“ liegen ${n} abgeschlossene Trades.`, `<button type=\"button\" class=\"btn sm\" data-action=\"range-preset\" data-value=\"all\">${I.calendar} Gesamten Zeitraum anzeigen</button>`) : U.empty('stats', 'Noch keine abgeschlossenen Trades', 'Sobald du Trades geloggt hast, siehst du hier deine Statistik.', `<button type=\"button\" class=\"btn sm primary\" data-action=\"new-trade\">${I.plus} Trade loggen</button>`); }`. `ctx.all` ist bereits nach Konto gefiltert (app.js:47, 86). Kurve, Reiterleiste und Reiterinhalt werden in diesem Fall nicht gerendert. Jede Route #/stats/<reiter> zeigt dieselbe Botschaft, und die Reiter erscheinen, sobald Daten da sind. Die neue Aktion gehört nach app.js neben 'range-custom' (app.js:319), damit auch andere Bereiche sie nutzen können, etwa der TradeLog bei „Keine Trades im Zeitraum“: `'range-preset'(el) { S.setSetting('range', { preset: el.dataset.value, from: null, to: null }); this.closePopovers(); this.rerender(); }`. Die neuen Texte in die Sprachdateien aufnehmen."
+   },
+   {
+    "id": "stats-2-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Regel 5, es geht keine Funktion verloren. Der Knopf erscheint, sobald ein abgeschlossener Trade existiert. Für die Umsetzung `ctx` nutzen, das pageHead übergibt (app.js:258): `actions(ctx) { if (!C.closedOnly(ctx.all).length) return ''; return …; }`. Konsistenz: Das Dashboard zeigt das Zertifikat auch ohne Trades (dashboard.js:125). Der Dashboard-Bereich sollte das gleich entscheiden, sonst bleibt die Abweichung als bewusste Ausnahme stehen. Wirkung 3: Es fällt nur ein Symbolknopf weg."
+   },
+   {
+    "id": "stats-3-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Ist identisch mit stats-1-1 und kein eigener Umsetzungsschritt. Die Anmerkung zu den anderen Reiterleisten gilt hier genauso."
+   },
+   {
+    "id": "stats-3-2",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Ergibt sich aus stats-1-3 und ist kein eigener Schritt. Korrektur zur Begründung von stats-3: Der runde „+“-Knopf ist nicht gefüllt. app.css:3019 setzt zwar `background: var(--accent)`, die spätere `.btn.accent`-Regel mit gleicher Spezifität überschreibt das aber (app.css:3137). In dark-390/stats.png ist er ein dunkler Kreis mit grünem Ring."
+   },
+   {
+    "id": "stats-4-1",
+    "bestaetigt": true,
+    "wirkung": 1,
+    "anmerkung": "Wird mit stats-2-1 umgesetzt, in der dort präzisierten Fassung. `.btn sm primary` im Fall a ist auch auf dem Handy der einzige gefüllte Knopf, weil der runde „+“-Knopf ungefüllt ist (siehe stats-3-2). Damit ist Regel 2 erfüllt, und es konkurrieren keine zwei gefüllten Knöpfe."
+   },
+   {
+    "id": "stats-5-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Nur Reihenfolge und Trennlinie, kein neues Styling, alle vier Arten bleiben erreichbar. Die vorgeschlagene neue Beschriftung „Performance Certificate · Zeitraum“ weicht vom bestehenden Aufbau der Einträge ab (Titel ohne „ Certificate“ plus leise Kurzbezeichnung, certificate.js:60). Deshalb Beschriftung beibehalten. Wirkung klein: Das Menü hat vier Einträge.",
+    "beschreibung_neu": "`menuHTML(ctx)` (certificate.js:58-61): die vier Einträge wie bisher als Array bauen. Bei `ctx && ctx.primary === 'stats'` zuerst den Eintrag `stats` (`data-ref=\"range\"`) rendern, dann `<hr>` (Muster aus dem Konto-Menü, app.js:244), dann Tag, Woche und Monat. Die Beschriftung bleibt wie bisher; nur die leise Kurzbezeichnung rechts darf auf dieser Seite „Zeitraum“ statt „Stats“ lauten. Aufruf in stats.js:9: `menuHTML({ primary: 'stats' })`. Das Dashboard (dashboard.js:125) bleibt unverändert."
+   },
+   {
+    "id": "stats-6-1",
+    "bestaetigt": false,
+    "anmerkung": "Abgelehnt. Die App hat keine Link-Darstellung: `a { color: inherit; text-decoration: none; }` (app.css:89). Damit greift die Bedingung des Analysten selbst („dann den Punkt auslassen“), sichtbar ändert sich nichts. Klickbare Tabellenzeilen ohne Link-Hinweis sind außerdem ein app-weites Muster (trades.js:49, day.js:15, coach.js:87, shadow.js:69). Eine Änderung nur hier wäre inkonsistent. Tastatur-Zugänglichkeit wäre ein eigener Barrierefreiheits-Punkt außerhalb dieses Audits."
+   },
+   {
+    "id": "stats-7-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 in der korrigierten Fassung (Reiter oben, Kurve nur auf Übersicht und Tage). Kein eigener Schritt."
+   },
+   {
+    "id": "stats-8-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 in der korrigierten Fassung. Kein eigener Schritt."
+   },
+   {
+    "id": "stats-9-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 in der korrigierten Fassung. Kein eigener Schritt."
+   },
+   {
+    "id": "stats-10-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 in der korrigierten Fassung. Kein eigener Schritt."
+   },
+   {
+    "id": "stats-11-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Teil von stats-1-5 in der korrigierten Fassung. Kein eigener Schritt."
+   },
+   {
+    "id": "stats-12-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Regel 5: Eine leere Karte von 370 px fällt weg, und es geht nichts verloren, weil die Karte erscheint, sobald Daten da sind. Den optionalen Teil streichen: „Nötige Stichprobe 361 / noch 351“ ist eine andere Zahl (Stichprobe bis zur Signifikanz) als „mindestens 20, aktuell 10“, also keine Wiederholung.",
+    "beschreibung_neu": "stats.js:73: Die Karte „Rollierender Edge“ samt Untertitel nur rendern, wenn `e.rolling.length` gilt: `${e.rolling.length ? U.card('Rollierender Edge', …) : ''}`. Die Kurve braucht `window` = 20 Trades mit R (core.js:218-224). Mit den Standardwerten ist das gleichbedeutend mit `e.verdict !== 'insufficient'`, aber direkt an den Inhalt der Karte gebunden. Ohne Kurve endet der Reiter nach der Kachelreihe, und die Kachel „Urteil“ trägt die Botschaft. Die Füße der Kacheln bleiben unverändert."
+   },
+   {
+    "id": "stats-13-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Bestätigt, aber mit korrigierter Begründung: „Neu simulieren“ setzt einen neuen Seed (stats.js:83) und ändert alle vier Kacheln und beide Diagramme, nicht nur die Pfade. Der Platz im Kopf von „Beispielpfade“ ist trotzdem richtig. Zuerst kommen die Ergebnisse, dann die Zweitaktion. Mit stats-1-1 und stats-1-5 stünden sonst Reiter als reiner Text und ein Knopf direkt untereinander, und der Knopf läse sich wieder wie ein Reiter. `.btn sm ghost` im Kartenkopf ist ein vorhandenes Muster (trades.js:63), und `U.card` unterstützt `trailing` (ui.js:170)."
+   },
+   {
+    "id": "stats-14-1",
+    "bestaetigt": false,
+    "anmerkung": "Wird durch stats-2-1 gegenstandslos. `dailyAggregation` zählt nur abgeschlossene Trades (core.js:111). Ist `closed` nicht leer, sind auch `days` nicht leer, und die vier Leerzustände (stats.js:29, 37, 42, 48) sind dann nicht mehr erreichbar. Code für unerreichbare Zustände zu ändern verbessert nichts. Relevant wird der Vorschlag nur, wenn der Nutzer stats-2-1 ablehnt. Dann gilt die Fassung des Analysten: Satz „Logge einen Trade oder erweitere den Zeitraum.“ und derselbe eine Knopf."
+   },
+   {
+    "id": "stats-15-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Ein Satz und ein Knopf, Stufe sekundär, es geht keine Funktion verloren; die Marktphase lässt sich beim Session-Ende weiter festlegen (app.js:529). `#/day` ohne Parameter öffnet aber heute, und heute ist oft kein Handelstag. Die Marktphase gehört zu Tagen mit Trades. Deshalb auf den letzten Handelstag im Zeitraum verlinken. Die Tagesansicht hat für jeden Tag die Karte „Marktphase“ (day.js:17).",
+    "beschreibung_neu": "stats.js:54-55: `tabRegime(list, closed, days)`; render übergibt `days` bereits als dritten Parameter (stats.js:16), aufsteigend sortiert (core.js:115). Leerzustand: `U.empty('trend', 'Keine Marktphasen erfasst', 'Lege in der Tagesansicht fest, ob ein Tag ein Aufwärts-, Abwärts- oder Seitwärtstag war.', days.length ? `<a class=\"btn sm\" href=\"#/day/${days[days.length - 1].key}\">${I.calendar} Letzten Handelstag öffnen</a>` : '')`. Der Knopf ist sekundär (`.btn sm`); „Trade loggen“ bleibt der einzige Hauptknopf."
+   },
+   {
+    "id": "stats-16-1",
+    "bestaetigt": true,
+    "wirkung": 2,
+    "anmerkung": "Ist Pflicht, wenn stats-1-3 umgesetzt wird, weil der Text sonst auf einen Knopf verweist, den es auf der Seite nicht mehr gibt. Der Vorschlag nutzt die bestehende Aktion `start-session` (app.js:327). Die Stufe `.btn sm` ist sekundär und passt zur Stufe des Kopfreihen-Knopfs (▷, ebenfalls umrandet). Bei laufender Session erscheint kein Knopf; das ist richtig. Konkret genug."
+   },
+   {
+    "id": "stats-17-1",
+    "bestaetigt": true,
+    "wirkung": 3,
+    "anmerkung": "Kleiner Textvorschlag und konsistent mit dem Edge-Check („aktuell 10“). Der Satz zur Methode steht im Vollzustand bereits im Satz zu den Parametern (stats.js:79). Nach stats-2-1 ist `closed.length` hier mindestens 1. Ein Knopf ist nicht nötig, weil „Trade loggen“ in der Kopfreihe steht. Schwelle 10 bestätigt (core.js:233)."
+   }
+  ],
+  "screen_korrekturen": "stats-1 (Übersicht voll): „Drei identische Dropdown-Knöpfe nebeneinander“ stimmt nur für die Aufnahme. Im regulären Seitenkopf (leer_stats.png) stehen Zeitraum und Konto links, Zertifikat, ▷ und „Trade loggen“ rechts. In stats.png, stats_edge.png und stats_mc.png sitzen Zeitraum und Konto in der Titelzeile. Wahrscheinlich ist das ein Nebeneffekt von placeContext aus dashboard.js:14-18: Der Breakpoint-Listener wird ohne unmount nie abgemeldet und verschiebt nach dem Verlassen des Dashboards bei einem Breitenwechsel über 961 px den `.dh-context` jeder Seite nach #tb-tools. Das ist ein eigener Fehler, die Aufnahmen sind in diesem Punkt nicht repräsentativ. Die übrige Bewertung (optisch_klar: false) bleibt richtig.\nstats-1 und stats-3: „Trade loggen“ (`.btn.accent`) ist nirgends gefüllt (app.css:3137-3143), auch der runde Knopf auf dem Handy nicht. app.css:3019 setzt zwar `background: var(--accent)`, wird aber von der späteren `.btn.accent`-Regel mit gleicher Spezifität überschrieben; in dark-390/stats.png ist er ein dunkler Kreis mit grünem Ring. „Als einziger mit Akzent“ stimmt, „gefüllt“ nicht. Folge: In keinem Stats-Zustand gibt es heute einen gefüllten Knopf. Ein `.btn sm primary` im Seiten-Leerzustand wäre der einzige.\nstats-1 und stats-1-3: Das Dashboard hat keinen Session-Knopf (README:64-65, dashboard.js:125). „Session starten“ steht in der Kopfreihe von TradeLog, Tagesansicht, Notebook, News, Fortschritt und Stats.\nstats-12 (Edge-Check): „Dieselbe Botschaft dreimal“ stimmt nur zweimal, für die Kachel „Urteil“ und den Platzhalter der Karte (beide: 20 Trades mit R-Wert nötig). „Nötige Stichprobe 361 / noch 351“ ist eine andere Aussage, nämlich die Stichprobe bis zur Signifikanz.\nstats-13 (Monte Carlo): „Neu simulieren“ ändert alle vier Kacheln und beide Diagramme (neuer Seed, stats.js:83), nicht nur die Beispielpfade.\nstats-14: Die vier Reiter-Leerzustände sind nach stats-2-1 nicht mehr erreichbar, weil `dailyAggregation` nur abgeschlossene Trades zählt (core.js:111)."
+ }
+}

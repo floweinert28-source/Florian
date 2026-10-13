@@ -1,0 +1,656 @@
+{
+ "screens": [
+  {
+   "screen": "trades (Reiter „Trades“)",
+   "zustand": "voll (Desktop 1440)",
+   "hauptaktion": "Trade loggen (neuen Trade erfassen); im Inhalt: eine Zeile öffnen",
+   "optisch_klar": true,
+   "begruendung": "Ja, knapp: „Trade loggen“ ist der einzige Akzentknopf (.btn.accent, grün getönt, app.js:253) und steht rechts außen (dark-1440/trades.png). Direkt daneben steht aber „CSV importieren“ als voller .btn in derselben Größe wie Zeitraum und Konto (trades.js:20), und darunter folgen rund 20 gleich gewichtete Bedienelemente ohne Hierarchie: Suchfeld, 4 Selects (Symbol, Setup, Ergebnis, Fehler; trades.js:39-43), 12 sortierbare Spaltenköpfe, Seitenwähler mit 2 Selects und 2 Pfeilen (trades.js:48). Die Seite will damit nicht „eine Sache“, sie bietet ein Werkzeugbrett.",
+   "konkurrenten": [
+    "„CSV importieren“ (.btn, gleiche Größe/Umrandung wie Zeitraum/Konto, direkt neben Trade loggen)",
+    "Zeitraum und Konto (.btn, gleiche Größe) links",
+    "4 Filter-Selects in einer Reihe mit dem Suchfeld, alle gleich groß",
+    "Seitenwähler: „Trades pro Seite“-Select, Seiten-Select, zwei Pfeile"
+   ],
+   "verstecken": [
+    "Die 4 Filter-Selects hinter einen „Filter“-Knopf mit Zähler (Popover wie der Dashboard-Filter, dashboard.js:124, .cntb app.css:1341); das Suchfeld bleibt",
+    "„CSV importieren“ als Symbolknopf (.btn.icon-only mit title) wie „Session starten“ (app.js:250) oder in ein „Mehr“-Popover",
+    "Seitenwähler erst ab mehr als einer Seite"
+   ],
+   "irrelevant": [
+    "Bei 10 Trades und Seitengröße 50: „1 ▾ von 1 Seite“, zwei deaktivierte Pfeile und „Trades pro Seite: 50“ (trades.png unten, trades.js:48)",
+    "„10 von 10 Trades“ doppelt: im Filterbalken und im Seitenwähler („1 – 10 von 10 Trades“)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Filter hinter einen Knopf mit Zähler",
+     "regel": 3,
+     "wirkung": 1,
+     "aufwand": "M",
+     "beschreibung": "Filterzeile = Suchfeld + ein .btn „Filter“ (I.filter) mit .cntb-Zähler der aktiven Filter + rechts die Trefferzahl. Die 4 Selects (Symbol, Setup, Ergebnis, Fehler) wandern in ein Popover (popwrap/popover wie Zeitraum und Dashboard-Filter) mit „Zurücksetzen“ unten; „Zurücksetzen“ bleibt zusätzlich als .btn.ghost neben dem Knopf, sobald ein Filter aktiv ist. Keine neue Optik: nur vorhandene Bausteine. Datei: trades.js:39-44 (filters), Aktionen trade-filter / trade-filter-reset (trades.js:104,108) bleiben.",
+     "beleg": "dark-1440/trades.png (Filterzeile), trades.js:39-44, Muster dashboard.js:124 (dash-f-open, .cntb)",
+     "id": "trades-1-1"
+    },
+    {
+     "titel": "„CSV importieren“ als Symbolknopf neben Session",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:20: class „btn hide-m“ → „btn icon-only“ mit title=\"CSV importieren\" und <span class=\"vh\">CSV importieren</span>, exakt wie sessionControl(true) (app.js:250). Dadurch bleibt rechts nur noch ein Textknopf: „Trade loggen“. Nebeneffekt: ohne hide-m ist der Import auch auf dem Handy wieder erreichbar (heute dort unerreichbar, s. Handy-Screen). Der Text „CSV importieren“ bleibt im Leerzustand als Knopf erhalten.",
+     "beleg": "dark-1440/trades.png (Kopfreihe), trades.js:20, app.js:250-253",
+     "id": "trades-1-2"
+    },
+    {
+     "titel": "Seitenwähler nur zeigen, wenn es Seiten gibt",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:48: pager nur rendern, wenn rows.length > 10 (kleinste Seitengröße). Bei einer einzigen Seite mit mehr als 10 Zeilen nur „Trades pro Seite“ + Info zeigen, Seiten-Select und Pfeile weglassen (pages === 1). Die Trefferzahl steht ohnehin rechts im Filterbalken („10 von 10 Trades“). Erreichbar: erscheint automatisch ab der 11. Zeile.",
+     "beleg": "dark-1440/trades.png (unten: „1 ▾ von 1 Seite“, Pfeile deaktiviert), trades.js:48",
+     "id": "trades-1-3"
+    }
+   ],
+   "sid": "trades-1",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Trades“)",
+   "zustand": "leer (Desktop 1440, keine Trades)",
+   "hauptaktion": "Ersten Trade loggen (Nebenweg: CSV importieren)",
+   "optisch_klar": true,
+   "begruendung": "In der Leer-Karte stimmt die Stufung (Trade loggen .btn.sm.primary gefüllt, CSV importieren .btn.sm umrandet; trades.js:45, leer_trades.png). Der Screen als Ganzes verstößt aber gegen Regel 5: Beide Aktionen stehen doppelt (Kopfreihe und Leer-Karte), darüber vier Kacheln mit „Noch keine Daten“, drei Reiter, ein Suchfeld, vier Filter-Selects und „0 von 0 Trades“ – alles ohne Funktion, solange kein Trade existiert. Das Reel-Beispiel „leerer Ordner: nur Upload“ ist hier genau nicht umgesetzt.",
+   "konkurrenten": [
+    "Kopfreihe: zweites „CSV importieren“ (.btn) und zweites „Trade loggen“ (.btn.accent)",
+    "Filterzeile: Suchfeld + 4 Selects",
+    "Reiter „Tage“ / „Verpasste Trades“ (führen in weitere Leerzustände)"
+   ],
+   "verstecken": [
+    "Filterzeile komplett, bis der erste Trade da ist",
+    "Kachelreihe (4× „Noch keine Daten“), bis Daten da sind",
+    "Kopfreihen-„CSV importieren“ im Leerzustand (die Leer-Karte bietet es)",
+    "Reiter „Tage“ ohne Trades"
+   ],
+   "irrelevant": [
+    "Suchfeld und 4 Filter-Selects bei 0 Trades (leer_trades.png, trades.js:45 hängt filters vor U.empty)",
+    "„0 von 0 Trades“",
+    "4 Kacheln „Noch keine Daten“ (trades.js:25-30)",
+    "Reiter „Tage“ (zeigt dann „Keine Handelstage“)",
+    "Leer-Text nennt beide Wege gleichwertig („Logge einen Trade oder importiere eine CSV-Datei.“)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Filterzeile im Leerzustand weglassen",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "trades.js:45: wenn list.length === 0 nur U.empty(...) zurückgeben, ohne „filters +“ davor. Filter erscheinen mit dem ersten Trade. (Bei „Keine Trades passen zum Filter“ bleibt die Filterzeile, dort braucht man sie.)",
+     "beleg": "dark-1440/leer_trades.png (Filterzeile über „Keine Trades im Zeitraum“), trades.js:45",
+     "id": "trades-2-1"
+    },
+    {
+     "titel": "Kacheln „Noch keine Daten“ erst mit Daten",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:25-33: head (grid tiles) nur rendern, wenn list.length > 0; im Leerzustand beginnt der Inhalt direkt mit Reitern und Leer-Karte (ein Satz, ein Knopf). Die Kacheln kommen automatisch mit dem ersten Trade zurück.",
+     "beleg": "dark-1440/leer_trades.png (4× „Noch keine Daten“), trades.js:25-30",
+     "id": "trades-2-2"
+    },
+    {
+     "titel": "Ein gefüllter Knopf, Import als Textlink, keine Dopplung in der Kopfreihe",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Leer-Karte (trades.js:45): „Trade loggen“ als .btn.primary in voller Größe (statt sm), darunter „CSV importieren“ als .btn.ghost (Textknopf). Gleichzeitig actions(ctx) in trades.js:20 im Leerzustand (ctx.all.length === 0) leer zurückgeben, damit „CSV importieren“ nur einmal auf dem Screen steht. Das globale „Trade loggen“ der Kopfreihe bleibt (dieselbe Aktion, keine zusätzliche Wahl).",
+     "beleg": "dark-1440/leer_trades.png (CSV importieren 2×, Trade loggen 2×), trades.js:20,45",
+     "id": "trades-2-3"
+    },
+    {
+     "titel": "Drei Leerfälle mit je einem passenden Knopf",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:45 unterscheidet heute nur „im Zeitraum leer“ vs. „Filter leer“. Besser drei Fälle: (1) ctx.all.length === 0 → „Noch keine Trades“ + Trade loggen / CSV; (2) Trades vorhanden, aber keine im Zeitraum → „Keine Trades im Zeitraum“ + ein Knopf „Zeitraum ändern“ (.btn.sm, öffnet das Zeitraum-Popover, data-pop=\"range\", app.js:239) statt Trade loggen/CSV; (3) Filter leer → ein Knopf „Filter zurücksetzen“ (s. Suche).",
+     "beleg": "trades.js:45 (list.length ? … : …), app.js:239 (data-pop=\"range\")",
+     "id": "trades-2-4"
+    },
+    {
+     "titel": "Reiter „Tage“ ohne Trades ausblenden",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "trades.js:31: U.tabs ohne ['days','Tage'], solange ctx.all.length === 0 (der Reiter führt nur in einen weiteren Leerzustand). „Verpasste Trades“ bleibt, weil er unabhängig von Trades Einträge haben kann. Optional.",
+     "beleg": "dark-1440/leer_trades.png, extra/tl-1440-leer_trades_tage.png, trades.js:31,53",
+     "id": "trades-2-5"
+    }
+   ],
+   "sid": "trades-2",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Trades“)",
+   "zustand": "gefiltert / Suche (Desktop 1440)",
+   "hauptaktion": "Mit Treffern: eine Zeile öffnen; ohne Treffer: Filter zurücksetzen",
+   "optisch_klar": false,
+   "begruendung": "Mit Treffern passt es: „Zurücksetzen“ erscheint als .btn.ghost neben den Selects, rechts „5 von 10 Trades“ (extra-dark-1440/trades_suche.png, trades.js:44). Ohne Treffer zeigt die Leer-Karte „Keine Trades passen zum Filter“ nur den Satz „Ändere die Filter oder den Zeitraum.“ ohne Knopf (trades.js:45, 4. Argument leer) – die einzige sinnvolle Aktion steht nur klein und ghost in der Filterzeile darüber.",
+   "konkurrenten": [
+    "Suchfeld + 4 Selects (alle gleich gewichtet) als einzige Bedienelemente über der leeren Karte",
+    "Kopfreihe: CSV importieren, Session, Trade loggen"
+   ],
+   "verstecken": [
+    "Selects im Filter-Popover (siehe Vollzustand), damit bei aktiver Suche nur Suchfeld, Filter-Knopf mit Zähler und „Zurücksetzen“ bleiben"
+   ],
+   "irrelevant": [
+    "Nichts Zusätzliches; der Seitenwähler ist bereits aus"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leer-Karte „Keine Trades passen zum Filter“ bekommt den einen Knopf",
+     "regel": 1,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:45: im Fall list.length > 0 als 4. Argument `<button class=\"btn sm\" data-action=\"trade-filter-reset\">Filter zurücksetzen</button>` übergeben (Aktion existiert: trades.js:108). Umrandet reicht, weil er allein steht; Grün bleibt „Trade loggen“ vorbehalten.",
+     "beleg": "extra/tl-1440-trades_filter_leer.png (Leer-Karte ohne Knopf), trades.js:45,108",
+     "id": "trades-3-1"
+    }
+   ],
+   "sid": "trades-3",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Tage“)",
+   "zustand": "voll (Desktop 1440)",
+   "hauptaktion": "Einen Handelstag öffnen (Tagesansicht)",
+   "optisch_klar": true,
+   "begruendung": "Je Tageskarte gibt es genau einen Knopf „Tagesansicht ›“ als .btn.sm.ghost (trades.js:54, extra/tl-1440-trades_tage.png); nichts konkurriert innerhalb des Inhalts. Die Karte selbst ist aber nicht klickbar, nur der kleine Link oben rechts – die eine Aktion ist vorhanden, aber zurückhaltend. Kopfreihe wie im Vollzustand.",
+   "konkurrenten": [
+    "Keine im Inhalt; Kopfreihe: CSV importieren (.btn) neben Trade loggen"
+   ],
+   "verstecken": [
+    "Nichts Zusätzliches"
+   ],
+   "irrelevant": [
+    "Nichts; Kacheln und Reiter sind hier Kontext"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ganze Tageskarte als Link, „Tagesansicht ›“ bleibt als Hinweis",
+     "regel": 1,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "trades.js:54: section.card.day-card bekommt data-action-Navigation (z. B. class=\"link\" + data-href=\"#/day/<key>\" oder Hülle als <a>), der ghost-Link bleibt als sichtbares Ziel. Keine Optikänderung, nur größere Trefferfläche für die eine Aktion.",
+     "beleg": "extra/tl-1440-trades_tage.png, trades.js:54",
+     "id": "trades-4-1"
+    }
+   ],
+   "sid": "trades-4",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Tage“)",
+   "zustand": "leer (Desktop 1440)",
+   "hauptaktion": "Ersten Trade loggen bzw. Zeitraum ändern",
+   "optisch_klar": false,
+   "begruendung": "Die Leer-Karte „Keine Handelstage im Zeitraum“ hat einen Satz und keinen Knopf (trades.js:53, extra/tl-1440-leer_trades_tage.png); darüber stehen vier Kacheln „Noch keine Daten“ und die Kopfreihe mit CSV importieren und Trade loggen. Regel „ein Satz, ein Knopf“ ist nur zur Hälfte erfüllt.",
+   "konkurrenten": [
+    "Kopfreihe: CSV importieren (.btn), Trade loggen (.btn.accent)"
+   ],
+   "verstecken": [
+    "Kachelreihe (siehe Trades leer)"
+   ],
+   "irrelevant": [
+    "4 Kacheln „Noch keine Daten“",
+    "Reiter „Tage“ selbst, solange es keine Trades gibt"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ein Knopf in der Leer-Karte, abhängig vom Fall",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "trades.js:53: U.empty 4. Argument: ohne jegliche Trades → „Trade loggen“ (.btn.sm.primary, data-action=\"new-trade\"); mit Trades außerhalb des Zeitraums → „Zeitraum ändern“ (.btn.sm, öffnet data-pop=\"range\"). Kacheln im Leerzustand weglassen wie beim Reiter Trades.",
+     "beleg": "extra/tl-1440-leer_trades_tage.png, trades.js:53",
+     "id": "trades-5-1"
+    }
+   ],
+   "sid": "trades-5",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Verpasste Trades“)",
+   "zustand": "voll (Desktop 1440)",
+   "hauptaktion": "Verpassten Trade notieren",
+   "optisch_klar": false,
+   "begruendung": "Die Aktion des Reiters ist ein kleiner umrandeter Knopf (.btn.sm) rechts neben den Reitern (trades.js:33, extra/tl-1440-trades_verpasste.png). Darüber stehen „CSV importieren“ (voller .btn) und „Trade loggen“ (.btn.accent) größer und prominenter – beide haben mit verpassten Trades nichts zu tun. Je Zeile ein Papierkorb (.btn.ghost.icon.sm, trades.js:59) ist korrekt tertiär. Der Kartentitel „Verpasste Trades“ wiederholt den Reiternamen.",
+   "konkurrenten": [
+    "„Trade loggen“ (.btn.accent, größer, rechts oben)",
+    "„CSV importieren“ (.btn, größer)",
+    "Zeitraum/Konto (.btn)"
+   ],
+   "verstecken": [
+    "„CSV importieren“ in diesem Reiter (importiert Trades, nicht verpasste Trades)"
+   ],
+   "irrelevant": [
+    "Kopfreihen-„CSV importieren“ im Reiter Verpasste",
+    "Kartentitel „Verpasste Trades“ (Dopplung mit Reiter, trades.js:59 U.card-Titel)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Verpassten Trade notieren“ als einziger voller Knopf des Inhalts",
+     "regel": 2,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:33: class „btn sm“ → „btn“ (volle Größe wie die Kopfknöpfe). Hervorhebung durch Alleinstellung und Größe, nicht durch Grün (Grün bleibt laut Vorgabe „Trade loggen“ und Speichern). Im Inhalt sonst kein weiterer Knopf außer den Papierkörben.",
+     "beleg": "extra/tl-1440-trades_verpasste.png, trades.js:33",
+     "id": "trades-6-1"
+    },
+    {
+     "titel": "Kopfreihen-„CSV importieren“ im Reiter Verpasste ausblenden",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "trades.js:20: actions(ctx) gibt '' zurück, wenn App.state.tradeFilter.view === 'missed' (Import gehört zu Trades). Erreichbar über Reiter Trades.",
+     "beleg": "extra/tl-1440-trades_verpasste.png (Kopfreihe), trades.js:20,33",
+     "id": "trades-6-2"
+    }
+   ],
+   "sid": "trades-6",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Verpasste Trades“)",
+   "zustand": "leer (Desktop 1440)",
+   "hauptaktion": "Ersten verpassten Trade notieren",
+   "optisch_klar": false,
+   "begruendung": "Die Leer-Karte „Keine verpassten Trades notiert“ hat zwei Sätze und keinen Knopf (trades.js:57, extra/tl-1440-leer_trades_verpasste.png). Der einzige Knopf dafür steht klein (.btn.sm) oben rechts neben den Reitern, während Kopfreihe und Kacheln „Noch keine Daten“ den Blick binden.",
+   "konkurrenten": [
+    "„Trade loggen“ (.btn.accent), „CSV importieren“ (.btn)"
+   ],
+   "verstecken": [
+    "Kachelreihe",
+    "Kopfreihen-„CSV importieren“"
+   ],
+   "irrelevant": [
+    "4 Kacheln „Noch keine Daten“",
+    "Zweiter Erklärsatz („So erkennst du, ob Zögern dich Geld kostet.“) – ein Satz reicht"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Knopf in die Leer-Karte, oben rechts in diesem Zustand weglassen",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:57: U.empty 4. Argument = `<button class=\"btn sm\" data-action=\"new-missed\">Verpassten Trade notieren</button>`; trades.js:33: den Knopf neben den Reitern nur rendern, wenn S.data.missed.length > 0. Ergebnis: ein Satz, ein Knopf.",
+     "beleg": "extra/tl-1440-leer_trades_verpasste.png, trades.js:33,57",
+     "id": "trades-7-1"
+    }
+   ],
+   "sid": "trades-7",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Trades“)",
+   "zustand": "handy voll (390)",
+   "hauptaktion": "Trade loggen (runder Knopf unten rechts)",
+   "optisch_klar": true,
+   "begruendung": "Der runde grüne Knopf (.dash-head .tl als FAB, app.css ~3020) ist eindeutig (dark-390/trades.png), überdeckt aber die Spalte „Richtung“ der Tabelle. Bis zur ersten Trade-Zeile liegen rund zwei Bildschirme: Kopfreihe, 4 Kacheln (2×2), 3 Reiter, Suchfeld + 4 Selects in drei Zeilen, „10 von 10 Trades“. Die Filterzeile ist hier der größte Hick's-Posten. „CSV importieren“ ist auf dem Handy nicht versteckt, sondern weg (hide-m, trades.js:20, app.css:1070) – verstößt gegen „alles bleibt erreichbar“.",
+   "konkurrenten": [
+    "Keine gleichwertigen Knöpfe; aber 5 Filter-Elemente in 3 Zeilen vor der Liste",
+    "Seitenwähler in 2 Zeilen unter der Tabelle (Select, Info, Select, Pfeile)"
+   ],
+   "verstecken": [
+    "4 Filter-Selects im Filter-Popover (Suchfeld + Filter-Knopf in einer Zeile)",
+    "Seitenwähler bei einer Seite",
+    "CSV importieren als Symbolknopf (statt hide-m)"
+   ],
+   "irrelevant": [
+    "Seitenwähler „1 ▾ von 1 Seite“ bei 10 Trades",
+    "Konto-Knopf fehlt mobil (hide-m, app.js:244) – nicht mein Bereich, nur notiert"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Filter-Popover (wirkt mobil am stärksten)",
+     "regel": 3,
+     "wirkung": 1,
+     "aufwand": "M",
+     "beschreibung": "Gleicher Umbau wie Desktop (trades.js:39-44): eine Zeile Suchfeld + .btn „Filter“ mit .cntb-Zähler; Selects im Popover (.popover { max-width: calc(100vw - 16px) } ist mobil schon vorgesehen, app.css ~3050). Spart zwei Zeilen vor der Liste.",
+     "beleg": "dark-390/trades.png (Filter in 3 Zeilen), trades.js:39-44",
+     "id": "trades-8-1"
+    },
+    {
+     "titel": "CSV importieren mobil erreichbar als Symbolknopf",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:20: „btn hide-m“ → „btn icon-only“ mit title und .vh-Text (wie Session). Mobil steht er dann neben Zeitraum und Session in der Werkzeugleiste; heute ist der Import mit Daten auf dem Handy nirgends erreichbar (Prüfung: 0 sichtbare [data-action=\"import\"] im Vollzustand bei 390 px).",
+     "beleg": "dark-390/trades.png (Kopfreihe ohne Import), trades.js:20, app.css:1070 (.hide-m)",
+     "id": "trades-8-2"
+    },
+    {
+     "titel": "Seitenwähler nur bei mehr als 10 Zeilen",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Wie Desktop (trades.js:48); mobil spart das zwei Zeilen unter der Tabelle.",
+     "beleg": "dark-390/trades.png (unten), trades.js:48",
+     "id": "trades-8-3"
+    }
+   ],
+   "sid": "trades-8",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades (Reiter „Trades“)",
+   "zustand": "handy leer (390)",
+   "hauptaktion": "Ersten Trade loggen",
+   "optisch_klar": true,
+   "begruendung": "In der Leer-Karte ist „Trade loggen“ gefüllt, „CSV importieren“ umrandet – richtig gestuft. Aber die Karte kommt erst nach ~1,5 Bildschirmen (4 Kacheln „Noch keine Daten“, 3 Reiter, Suchfeld + 4 Selects, „0 von 0 Trades“), und direkt unter ihr liegt der runde „+“-Knopf: dieselbe Aktion dreimal (Kopf-FAB, Leer-Karte, Textsatz) bei null Inhalt (extra/tl-390-leer_trades.png).",
+   "konkurrenten": [
+    "Runder „+“-Knopf (FAB) direkt neben dem gefüllten „Trade loggen“ der Leer-Karte",
+    "Filterzeile (3 Zeilen) über der Leer-Karte"
+   ],
+   "verstecken": [
+    "Filterzeile und Kacheln bis zum ersten Trade (wie Desktop)",
+    "„CSV importieren“ als .btn.ghost unter dem Hauptknopf"
+   ],
+   "irrelevant": [
+    "Suchfeld + 4 Selects bei 0 Trades",
+    "4 Kacheln „Noch keine Daten“ (ein ganzer Bildschirm)",
+    "„0 von 0 Trades“"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Leerzustand auf einen Bildschirm: Kacheln und Filter weg",
+     "regel": 5,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Dieselben Änderungen wie Desktop-leer (trades.js:25-33 head nur mit Daten; trades.js:45 ohne filters). Mobil ist die Leer-Karte dann direkt unter den Reitern sichtbar, der FAB liegt nicht mehr neben einem zweiten gefüllten Knopf, weil die Karte in voller Breite oben steht.",
+     "beleg": "extra/tl-390-leer_trades.png, trades.js:25-33,45",
+     "id": "trades-9-1"
+    },
+    {
+     "titel": "Ein gefüllter Knopf in der Leer-Karte",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Leer-Karte: „Trade loggen“ .btn.primary, „CSV importieren“ .btn.ghost darunter (trades.js:45). Der FAB bleibt (global, gleiche Aktion).",
+     "beleg": "extra/tl-390-leer_trades.png, trades.js:45",
+     "id": "trades-9-2"
+    }
+   ],
+   "sid": "trades-9",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades/:id (Trade-Detail)",
+   "zustand": "voll (Desktop 1440)",
+   "hauptaktion": "Diesen Trade bearbeiten bzw. das Journal dazu vervollständigen (Plan, Bewertung, Tags, Notizen)",
+   "optisch_klar": false,
+   "begruendung": "Drei gefüllte/akzentuierte Knöpfe und zweimal „Bearbeiten“ in Ghost-Form (Knopfliste per DOM-Abfrage bei 1440: Zeitraum, Konto, Session, Trade loggen [accent], TradeLog [ghost], Datum [ghost], Bearbeiten [ghost, Plan-Karte], Bearbeiten [ghost, Tags-Karte], 30 Sekunden aufnehmen [sm primary, grün gefüllt], Text-Notiz [ghost], Notiz im Notebook [sm], Löschen [danger sm], Bearbeiten [primary sm]). Der eigentliche Hauptknopf „Bearbeiten“ (Trade-Editor) steht ganz unten im Fuß, bei 1440×900 unter der Falz (dark-1440/trade_detail.png zeigt ihn nicht; extra/tl-1440-trade_detail_fuss.png), während „30 Sekunden aufnehmen“ gleich gefüllt in der Mitte und „Trade loggen“ als Akzent oben rechts stehen. „Bearbeiten“ kommt dreimal vor mit zwei Bedeutungen (Trade-Editor vs. „Plan & Bewertung“, trades.js:63 jBtn, :85).",
+   "konkurrenten": [
+    "„30 Sekunden aufnehmen“ (.btn.sm.primary, grün gefüllt, trades.js:84)",
+    "„Trade loggen“ (.btn.accent, prominenteste Stelle oben rechts)",
+    "„Löschen“ (.btn.danger.sm, gleich groß direkt neben „Bearbeiten“, trades.js:85)",
+    "2× „Bearbeiten“ ghost in Plan- und Tags-Karte (gleicher Name, anderes Ziel als der Fuß-Knopf)"
+   ],
+   "verstecken": [
+    "„Löschen“ als Ghost ans Ende oder in ein „⋯“-Popover",
+    "Zeitraum und Konto in der Kopfreihe (steuern auf dieser Seite nichts)",
+    "„Screenshot vor Entry“ bleibt hinter dem Replay-Flag (ok)"
+   ],
+   "irrelevant": [
+    "Zeitraum/Konto-Knöpfe (ohne Wirkung auf die Detailseite; Muster: Notebook/Mentor schalten sie ab, notebook.js:39, mentor.js:76)",
+    "Session-Knopf",
+    "Leerfläche „Noch keine Sprachnotizen.“ plus gefüllter Aufnahmeknopf als auffälligstes Element im unteren Drittel"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Ein Hauptknopf, oben sichtbar: „Bearbeiten“ in die Kopfkarte",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "trades.js:85-86: den Fuß-Knopf „Bearbeiten“ (.btn.primary, data-action=\"edit-trade\") aus foot in die Zeile „← TradeLog · Datum“ rechts (margin-left:auto) oder in .detail-head neben dem P&L verschieben. Fuß behält „Notiz im Notebook“ (.btn.sm, sekundär) und „Löschen“ als .btn.ghost.sm (tertiär, rot über .danger.ghost wie app.css:1011) rechts außen. Ergebnis: ein gefüllter Knopf, ohne Scrollen erreichbar.",
+     "beleg": "dark-1440/trade_detail.png (kein Hauptknopf im sichtbaren Bereich), extra/tl-1440-trade_detail_fuss.png, trades.js:85-86",
+     "id": "trades-10-1"
+    },
+    {
+     "titel": "„30 Sekunden aufnehmen“ von gefüllt auf umrandet",
+     "regel": 4,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "trades.js:84: class „btn sm primary“ → „btn sm“; „Text-Notiz“ bleibt .btn.sm.ghost. Damit gibt es auf der Seite nur noch einen gefüllten Knopf (Bearbeiten) und Grün ist nicht mehr auf einer Nebenaktion.",
+     "beleg": "extra/tl-1440-trade_detail_fuss.png (zwei grün gefüllte Knöpfe), trades.js:84",
+     "id": "trades-10-2"
+    },
+    {
+     "titel": "Kopfreihe der Detailseite ohne Zeitraum und Konto",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "M",
+     "beschreibung": "app.js:257 pageHead: `screen.head` auch als Funktion erlauben (`typeof screen.head === 'function' ? screen.head(ctx) : screen.head`); in trades.js: head(ctx) → ctx.params[0] ? { range:false, account:false } : {}. Session und „Trade loggen“ bleiben (global). Zeitraum/Konto bleiben auf jeder Listen-Seite erreichbar.",
+     "beleg": "dark-1440/trade_detail.png (Zeitraum, Konto ohne Wirkung), app.js:254-262, Muster notebook.js:39",
+     "id": "trades-10-3"
+    },
+    {
+     "titel": "„Löschen“ tertiär statt gleich groß neben „Bearbeiten“",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "trades.js:85: „btn danger sm“ → „btn ghost danger sm“ (rote Textfarbe bleibt über .danger, kein Rahmen) und ans Ende des Fußes; alternativ in ein „⋯“-Popover (popwrap/popover) zusammen mit „Notiz im Notebook“. Der Bestätigungsdialog bleibt.",
+     "beleg": "extra/tl-1440-trade_detail_fuss.png („Löschen“ und „Bearbeiten“ gleich groß nebeneinander), trades.js:85",
+     "id": "trades-10-4"
+    },
+    {
+     "titel": "Karten-„Bearbeiten“ eindeutig benennen",
+     "regel": 1,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "trades.js:63 jBtn: Beschriftung „Plan bearbeiten“ (Plan-Karte) bzw. „Tags bearbeiten“ (Tags-Karte) – beide öffnen „Plan & Bewertung“, der Fuß-/Kopfknopf „Bearbeiten“ öffnet den Trade-Editor. Nur Text, keine Optik; die Nutzer sehen sofort, welches „Bearbeiten“ was tut.",
+     "beleg": "dark-1440/trade_detail.png (Plan-Karte „Bearbeiten“), extra/tl-1440-trade_detail_fuss.png (Tags-Karte „Bearbeiten“), trades.js:63,73,76",
+     "id": "trades-10-5"
+    }
+   ],
+   "sid": "trades-10",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "trades/:id (Trade-Detail)",
+   "zustand": "handy (390)",
+   "hauptaktion": "Diesen Trade bearbeiten / Journal vervollständigen",
+   "optisch_klar": false,
+   "begruendung": "Der runde „Trade loggen“-Knopf liegt über den Kennzahlen (Gebühren/Risiko, extra/tl-390-trade_detail_voll.png) und über dem Fuß; „Bearbeiten“ (grün gefüllt) steht erst nach ~3 Bildschirmen ganz unten, direkt neben „Löschen“ (rot umrandet, gleich groß) und unter „30 Sekunden aufnehmen“ (ebenfalls grün gefüllt) (extra/tl-390-trade_detail_fuss.png). Auf der Detailseite ist das Loggen eines neuen Trades nicht die Aufgabe des Nutzers.",
+   "konkurrenten": [
+    "Runder „+“-Knopf (FAB), immer sichtbar, überdeckt Inhalt",
+    "„30 Sekunden aufnehmen“ (grün gefüllt)",
+    "„Löschen“ (rot umrandet, gleich groß neben Bearbeiten)"
+   ],
+   "verstecken": [
+    "FAB auf der Detailseite (Muster Notebook-Notiz: `.content:has(.nb[data-view=\"note\"]) .dash-head .tl { display:none }`, app.css ~3018); erreichbar über TradeLog/Dashboard",
+    "Zeitraum-Knopf (ohne Wirkung)"
+   ],
+   "irrelevant": [
+    "Zeitraum-Knopf und Session in der Kopfreihe",
+    "FAB „Trade loggen“ über den Kennzahlen"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Bearbeiten“ nach oben, nur ein gefüllter Knopf",
+     "regel": 1,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "Wie Desktop: Bearbeiten in die Kopfkarte (trades.js:66-67 bzw. 85), Aufnahmeknopf umrandet (trades.js:84), Löschen ghost (trades.js:85). Mobil ist der Hauptknopf dann im ersten Bildschirm.",
+     "beleg": "extra/tl-390-trade_detail_voll.png, extra/tl-390-trade_detail_fuss.png, trades.js:84-86",
+     "id": "trades-11-1"
+    },
+    {
+     "titel": "Runden „Trade loggen“-Knopf auf der Detailseite ausblenden",
+     "regel": 5,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "Im Handy-Block von app.css (bei ~3018, neben der Notebook-Regel): `.content:has(.detail-head) .dash-head .tl { display: none; }` – gleiche Technik wie beim Schreiben einer Notiz. Der Knopf bleibt auf allen Listen-Seiten; die Detailseite will nur „diesen Trade vervollständigen“.",
+     "beleg": "extra/tl-390-trade_detail_voll.png (FAB über „Gebühren/Risiko“), app.css ~3018 (Notebook-Regel)",
+     "id": "trades-11-2"
+    }
+   ],
+   "sid": "trades-11",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "modal_csv_import (Schritt 1: Datei)",
+   "zustand": "dialog (Desktop 1440 / Handy 390)",
+   "hauptaktion": "CSV-Datei ablegen oder auswählen",
+   "optisch_klar": false,
+   "begruendung": "Strukturell richtig: Die Ablagefläche ist der einzige Inhalt, „Oder Text einfügen“ ist eingeklappt (<details>, Regel 3 erfüllt), im Fuß steht nur „Abbrechen“ (.btn); „Importieren“ und „Andere Datei“ sind bis zum Einlesen hidden (Regel 5 erfüllt, app.js:574). Optisch aber nicht klar: Das Symbol in der Ablagefläche hat keine Größe (ui.js:8 sv() ohne width/height, app.css:749 keine .dropzone svg-Regel) und rendert mit 287×287 px (gemessen) – es füllt den Dialog, der Text „CSV-Datei hierher ziehen“ und die Fläche sind nicht mehr als Ablagefläche erkennbar (extra-dark-1440/csv_import.png). Gleicher Fehler bei der Screenshot-Ablage im Trade-Detail (extra/tl-1440-trade_detail_fuss.png).",
+   "konkurrenten": [
+    "Keine (Fuß: nur „Abbrechen“)"
+   ],
+   "verstecken": [
+    "Nichts weiter; „Oder Text einfügen“ ist bereits eingeklappt"
+   ],
+   "irrelevant": [
+    "Nichts"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Symbol der Ablagefläche auf Symbolgröße begrenzen (Fehlerbehebung)",
+     "regel": 2,
+     "wirkung": 1,
+     "aufwand": "S",
+     "beschreibung": "app.css bei 749: `.dropzone svg { width: 28px; height: 28px; margin: 0 auto 8px; }` (analog .empty svg 34px, app.css:676). Keine neue Optik, nur die fehlende Größe; wirkt zugleich auf die Screenshot-Ablage und „Screenshot vor Entry“ im Trade-Detail (trades.js:80-81).",
+     "beleg": "extra-dark-1440/csv_import.png (Symbol füllt den Dialog), extra/tl-390-trade_detail_fuss.png, Messung 286,7×286,7 px, app.css:749, ui.js:8",
+     "id": "trades-12-1"
+    }
+   ],
+   "sid": "trades-12",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "modal_csv_import (Schritt 2: Spalten zuordnen)",
+   "zustand": "dialog (Desktop 1440 / Handy 390)",
+   "hauptaktion": "Importieren",
+   "optisch_klar": true,
+   "begruendung": "Fuß in drei Stufen korrekt: „Andere Datei“ .btn.ghost links, „Abbrechen“ .btn, „Importieren“ .btn.primary rechts, deaktiviert solange kein Trade erkannt ist (app.js:571,574; extra/tl-1440-csv_import_zuordnung.png). Oberhalb aber drei immer sichtbare Selects (Dezimal, Datum, Konto) in der Kopfzeile, obwohl Dezimal und Datum „automatisch“ erkannt werden und Konto bei einem Konto keine Wahl ist (app.js:563). Die Zuordnungs-Selects je Spalte sind nötig.",
+   "konkurrenten": [
+    "Keine im Fuß; drei Einstell-Selects oben konkurrieren mit der Zuordnung um Aufmerksamkeit"
+   ],
+   "verstecken": [
+    "Dezimal- und Datumsformat hinter „Mehr Optionen“ (<details> wie „Oder Text einfügen“), sichtbar nur wenn die Vorschau Fehler zeigt",
+    "Konto-Select nur bei mehr als einem Konto"
+   ],
+   "irrelevant": [
+    "Konto-Select bei genau einem Konto (S.data.accounts.length === 1)",
+    "Mobil: die Kopfzeile „Spalte in der Datei / Beispielwert / Feld im Journal“ steht untereinander, weil .map-row mobil einspaltig ist (app.css:943) – als Spaltenkopf ohne Spalten sinnlos (extra/tl-390-csv_import_zuordnung.png)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Dezimal/Datum hinter „Mehr Optionen“, Konto nur bei mehreren Konten",
+     "regel": 3,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "app.js:563: die beiden Format-Selects in ein <details><summary class=\"muted small\">Mehr Optionen</summary>…</details> (gleiches Muster wie app.js:560 „Oder Text einfügen“); <details> automatisch geöffnet (open), wenn preview.errors.length > 0. Konto-Select nur rendern, wenn S.data.accounts.length > 1 (Standard bleibt S.defaultAccountId()).",
+     "beleg": "extra/tl-1440-csv_import_zuordnung.png (Kopfzeile mit 3 Selects), app.js:560,563",
+     "id": "trades-13-1"
+    },
+    {
+     "titel": "Spaltenkopf-Zeile mobil weglassen",
+     "regel": 5,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "app.css:943 im Handy-Block ergänzen: `.map-row.caption { display: none; }` – die Beschriftungen stehen mobil ohnehin je Zeile (fett = Spalte, grau = Beispiel, Select = Feld).",
+     "beleg": "extra/tl-390-csv_import_zuordnung.png, app.css:943, app.js:564",
+     "id": "trades-13-2"
+    }
+   ],
+   "sid": "trades-13",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "modal_verpassten_trade_notieren",
+   "zustand": "dialog (Desktop 1440 / Handy 390)",
+   "hauptaktion": "Speichern",
+   "optisch_klar": true,
+   "begruendung": "„Speichern“ .btn.primary (gefüllt), „Abbrechen“ .btn (umrandet), Schließen-X ghost – genau eine Hauptaktion (trades.js:110, extra/tl-1440-modal_verpasst.png). Sieben Felder, davon Pflicht Datum, Symbol, Richtung; „Warum nicht gehandelt?“ ist der Kern der Funktion. Setup und R-Multiple sind Zusatz.",
+   "konkurrenten": [
+    "Keine"
+   ],
+   "verstecken": [
+    "Optional: „Setup“ und „R-Multiple“ hinter „Mehr Optionen“ (Pflicht + P&L + Grund bleiben sichtbar)"
+   ],
+   "irrelevant": [
+    "Nichts Zwingendes; mobil füllt das Formular als Bottom-Sheet den Bildschirm (7 Felder untereinander, extra/tl-390-modal_verpasst.png)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Setup und R-Multiple hinter „Mehr Optionen“",
+     "regel": 3,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "trades.js:110: die Felder m-setup und m-r in ein <details class=\"span2\"><summary class=\"muted small\">Mehr Optionen</summary>…</details> innerhalb der form-grid; Reihenfolge der sichtbaren Felder: Datum, Symbol, Richtung, Hätte gebracht, Warum nicht gehandelt. Optional, da der Dialog bereits regelkonform ist.",
+     "beleg": "extra/tl-1440-modal_verpasst.png, extra/tl-390-modal_verpasst.png, trades.js:110",
+     "id": "trades-14-1"
+    }
+   ],
+   "sid": "trades-14",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "modal_trade_loeschen (Bestätigung, U.confirmModal)",
+   "zustand": "dialog",
+   "hauptaktion": "Löschen bestätigen",
+   "optisch_klar": false,
+   "begruendung": "„Abbrechen“ ist .btn (umrandet) und „Löschen“ .btn.danger (umrandet rot, ohne Füllung, app.css:276): gleiche Form, gleiche Größe, nur die Farbe unterscheidet sie – zwei gleich schwere Knöpfe (ui.js:447, Aufruf app.js:326 mit danger:true). Regel 4 verlangt, dass der zweite leichter wirkt.",
+   "konkurrenten": [
+    "„Abbrechen“ (.btn, gleich groß und gleich umrandet wie „Löschen“)"
+   ],
+   "verstecken": [
+    "Nichts"
+   ],
+   "irrelevant": [
+    "Nichts"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "„Abbrechen“ im Bestätigungsdialog als Textknopf",
+     "regel": 4,
+     "wirkung": 2,
+     "aufwand": "S",
+     "beschreibung": "ui.js:447: `<button class=\"btn\" data-close>Abbrechen</button>` → `class=\"btn ghost\"`; „Löschen“ bleibt .btn.danger (rot umrandet – keine neue rote Füllung, also kein neues Styling). Achtung: gemeinsame Komponente, wirkt auf alle Bestätigungen (Konto löschen, Notiz löschen …) – mit den anderen Bereichen abstimmen.",
+     "beleg": "ui.js:445-447, app.css:276 (.btn.danger), app.js:326 (delete-trade)",
+     "id": "trades-15-1"
+    }
+   ],
+   "sid": "trades-15",
+   "gruppe": "trades"
+  },
+  {
+   "screen": "modal_text_notiz (Sprachjournal → „Text-Notiz“)",
+   "zustand": "dialog",
+   "hauptaktion": "Speichern",
+   "optisch_klar": true,
+   "begruendung": "„Speichern“ .btn.primary, „Abbrechen“ .btn, ein Textfeld – regelkonform (trades.js:118). Der Titel „Notiz sprechen oder tippen“ verspricht zwei Wege, der Dialog bietet nur das Tippen; das Sprechen läuft über den anderen Knopf („30 Sekunden aufnehmen“).",
+   "konkurrenten": [
+    "Keine"
+   ],
+   "verstecken": [
+    "Nichts"
+   ],
+   "irrelevant": [
+    "Titelhälfte „sprechen“ (nicht Teil dieses Dialogs)"
+   ],
+   "vorschlaege": [
+    {
+     "titel": "Titel auf die eine Aktion zuschneiden",
+     "regel": 1,
+     "wirkung": 3,
+     "aufwand": "S",
+     "beschreibung": "trades.js:118: <h2>Notiz sprechen oder tippen</h2> → <h2>Text-Notiz</h2> (passend zum Knopf, der ihn öffnet). Nur Text.",
+     "beleg": "trades.js:118 (voice-text), trades.js:84 (Knopf „Text-Notiz“)",
+     "id": "trades-16-1"
+    }
+   ],
+   "sid": "trades-16",
+   "gruppe": "trades"
+  }
+ ],
+ "hinweise": "Vorgehen: Alle sechs vorgegebenen Aufnahmen angesehen (keine fehlt). Zusätzlich eigene Aufnahmen für Zustände ohne Atlas-Bild unter /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/audit/shots/extra/ (Dateien tl-1440-* und tl-390-*: trade_detail_voll, trade_detail_fuss, trades_tage, trades_verpasste, modal_verpasst, trades_filter_leer, csv_import_zuordnung, leer_trades, leer_trades_tage, leer_trades_verpasste; Skripte audit/atlas-tl.js, atlas-tl2.js, atlas-tl3.js). Knopfbestand der Detailseite per DOM-Abfrage geprüft (Desktop und Handy identisch, 13 Knöpfe, davon 2 grün gefüllt + 1 Akzent).\n\nWichtigste Befunde quer über den Bereich, nach Wirkung: (1) Trade-Detail hat keinen klaren Hauptknopf im sichtbaren Bereich; „Bearbeiten“ liegt unter der Falz, „30 Sekunden aufnehmen“ ist gleich gefüllt, „Löschen“ gleich groß daneben. (2) Filterzeile (Suchfeld + 4 Selects) auf allen TradeLog-Zuständen, auch bei 0 Trades; mobil drei Zeilen. (3) Leerzustand TradeLog zeigt Kacheln, Filter, Reiter und beide Aktionen doppelt. (4) Seitenwähler bei einer Seite.\n\nZwei Fehler, die keine Hierarchiefragen sind, aber sofort auffallen: (a) Das Symbol in jeder Ablagefläche (.dropzone: CSV-Import, Screenshots, Screenshot vor Entry) hat keine Größe und rendert 287×287 px (gemessen); Ursache ui.js:8 sv() ohne width/height, app.css:749 ohne .dropzone svg-Regel. Fix: eine Zeile CSS (im Vorschlag zum CSV-Dialog). (b) „CSV importieren“ ist mit Daten auf dem Handy nicht erreichbar (hide-m, trades.js:20; app.css:1070 display:none !important) – nur der Leerzustand bietet ihn; Fix im Vorschlag „Symbolknopf“.\n\nSpannungsfeld Grün: Regel 2 („Hauptknopf durch Farbe/Füllung“) kollidiert mit der Vorgabe „Grün nur für Gewinn und Trade loggen“. Ich habe daher für Unterbereiche (Verpasste Trades notieren, Filter zurücksetzen, Zeitraum ändern) Hervorhebung durch Alleinstellung und Größe (.btn statt .btn.sm) vorgeschlagen, nicht durch Füllung; gefüllt bleiben nur „Trade loggen“, „Speichern/Importieren“ in Dialogen und ein „Bearbeiten“ auf der Detailseite. Falls der Nutzer auch letzteres nicht grün will: als .btn (umrandet) allein in der Kopfkarte platzieren.\n\nÜbergreifende Komponenten, die andere Bereiche berühren: U.confirmModal (ui.js:447) für alle Bestätigungen; pageHead/screen.head (app.js:254-262) für die Detailseite; die Filter-Popover-Idee nutzt das Dashboard-Muster (dashboard.js:124) – dort ist der Filter-Knopf bei aktiven Filtern .btn.accent (grün), das sollte der Dashboard-Agent gegen die Grün-Regel prüfen; ich habe für den TradeLog nur den .cntb-Zähler vorgeschlagen. „Plan & Bewertung“ (app.js:413-430, Felder Stop, Ziel, Geplanter Einstieg, Begründung, MAE, MFE, Setup …) hat im Fuß korrekt Abbrechen (.btn) + Speichern (.btn.primary); die Feldmenge habe ich nicht bewertet, das gehört zum Trade-Formular-Bereich.\n\nTechnischer Hinweis für die Atlas-Aufnahmen: Ganzseiten-Screenshots der Detailseite sind unterhalb der ersten Kartenreihe schwarz, weil motion.js Karten erst per IntersectionObserver einblendet (motion.js:9-25); für untere Bereiche vor der Aufnahme durchscrollen (so in atlas-tl3.js). Das Datumsfeld im Dialog „Verpassten Trade notieren“ zeigt in der Aufnahme „10/11/2026“ (US-Format) – das ist das native type=date im Headless-Browser mit en-US-Locale, kein App-Fehler."
+}

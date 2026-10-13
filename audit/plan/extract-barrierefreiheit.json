@@ -1,0 +1,3092 @@
+{
+ "regeln": "Leitlinie: Maus unverändert; Tastatur/Screenreader/Touch bedienen alles; nichts Dekoratives; Grün nie Fokus-/Auswahlfarbe.\nZ1 Fokus: `:root{--focus:var(--text)}` (dunkel ≈17,6:1, auf --surface 15,6:1, hell ≈17:1; Soll ≥3:1). Ein Ring: `:focus-visible{outline:2px solid var(--focus);outline-offset:2px}`; nur Offset weicht ab: −2px in overflow:hidden (Prop-Reiter, Symbol-Liste, Screenshot-Kachel, Tabellen-Scrollbox), 6px Schieberegler, 4px Theme-Karten. Verboten: --accent, --accent-soft, --border-2, --dir-c, box-shadow-Ringe; Ausnahme nur `.rp` (unberührt). Felder `:focus`: Rand --text-2, box-shadow none; `aria-invalid=\"true\"` → Rand --loss. `outline:none` ohne Ersatz nur #content, .modal, .lightbox (tabindex=-1), .ql-editor, Titelfelder. Auswahl ≠ Fokus: flacher Gewählt-Stil (angehobene Fläche, feiner Rand); Theme-Karte: Fokus um ganze Karte, Auswahlring um Vorschau.\nZ2: App.render stellt Fokus in #main/#sidebar wieder her (App.anchorKey → [data-pop] → a[href] → #id; nur bei genau 1 sichtbarem Treffer; preventScroll; Cursor bleibt; sonst #content; Fokus aus screen.mount hat Vorrang). Routenwechsel (nicht Erstaufbau), Fokus im Rahmen/auf body → #content (tabindex=-1). Sprunglink „Zum Inhalt springen“ erstes Element in .shell, nur bei Fokus sichtbar (16/12 px, --surface-2, Rand --border-2, 13,5/500), fokussiert #content ohne Routenwechsel. U.modal: Dialog selbst fokussiert, nie ×, kein Feld; Ausnahmen [data-autofocus] (Bestätigung: „Abbrechen“ bei danger, sonst Bestätigung; Download „Fertig“), promptModal. Offen → .shell inert; danach Fokus an Auslöser/Nachfolger gleichen anchorKey, sonst #content; aria-labelledby auf h2. „Änderungen verwerfen?“ nur bei geänderten Eingaben + Escape/Klick daneben in Trade loggen/bearbeiten, Plan & Bewertung, Session starten, Check-in, Session beenden; ×/„Abbrechen“ ohne Rückfrage. Menüs [data-pop] Disclosure: aria-expanded + aria-controls=\"pop-…\", kein aria-haspopup/role=menu; Tastatur-Öffnen (detail 0) fokussiert [aria-checked=true] sonst ersten Eintrag; Escape → Fokus an Auslöser; Klick daneben ohne Rücksprung. Filter-Fenster: Fokus erste Gruppenüberschrift, Tab-Kreis, Fokus bleibt beim Umschalten, Rücksprung nur nach ×/Escape/Anwenden. Schublade ≤960: zu → #sidebar inert; offen → #main inert, Fokus „Menü schließen“; Schließen → Fokus Menüknopf. Lightbox role=dialog, Escape/Klick schließt, Fokus zurück. Grabstein-Rückseite inert.\nZ3: Klickbares per Tab + Enter/Leertaste; Aktion <button type=button>, Navigation <a href>; div nur role=button|checkbox + tabindex=0 (globaler Handler). tr.link: erste Zelle <a class=\"row-link\">, data-action bleibt, kein Overlay, :focus-within wie Hover. th: <button class=\"th-sort\">, data-action an beiden, aria-sort nur sortierte Spalte, Chevron 12 px. Abhakzeilen <button role=checkbox aria-checked>; Checkboxen .vh nie .hidden. Einfachauswahl (Zeitraum, Konto, Uhrzeit, Sortieren, In Ordner verschieben, Umwandeln in, Check-in, Bewertung) radiogroup+radio+aria-checked; Notebook-Tags checkbox; Pfeiltasten mit Umlauf. Kalender: ein Tab-Stopp, ←/→ ±1, ↑/↓ ±7, Bild ±1 Monat. Ziehgriff: Pfeile ±1, Fokus folgt. Scrollbereich ohne Fokusziel: tabindex=0 role=region + Name („Trades“).\nZ4: Name = sichtbarer Text oder dessen Anfang (WCAG 2.5.3); Handy-versteckter Text .vh-m statt .hide-m; Symbolknöpfe aria-label; Listen <Objekt> „<Name>“ <Verb>. aria-current=\"page\" (nie aria-pressed an Links), aria-pressed nur an button. Seitenleiste <nav aria-label=\"Hauptnavigation\">, Gruppen <div role=group aria-labelledby>; Statistik-Reiter <nav aria-label=\"Statistik-Bereiche\">; title an Nav-Links nur eingeklappt. Pillen, Regeln-Spalte, Wichtigkeitsbalken, Diagramme: role=img + aria-label. (i) = <button type=button class=\"info\" data-tip aria-label>, Tooltip bei Hover und :focus-visible, nie in <label>. Notizbild-alt = Bildunterschrift/„Bild in der Notiz“; Bilder in Knöpfen alt=\"\". Live-Regionen ab Start: .toast-wrap role=status aria-live=polite; #sr-live (vh no-i18n). Diagramme: .tip-hit transparent über ganze Spalte/Zeile, über den Balken; Streupunkte r 2,6, Strich 16 px.\nZ5: ≥24×24 oder Abstandsausnahme 2.5.8 (außer .cp-x). Touch: Menüknopf/Avatar/Schubladen-× 44; Filter-Fenster 40; Symbolknöpfe in Tabellen/Listen 40; Seitenwähler 44×40; „Öffnen“/„Mehr anzeigen“ 44 hoch; Check-in 44; Provisionssatz ≈33 hoch. Unsichtbar (::before/::after): Schalter 36×20→52×38; Hell/Dunkel 26×22→26×34; Kopfzeilen-Knöpfe 44; Lösch-× 16→24 nur nach außen; (i) Touch 14→24. Sichtbar größer nur Check-in 36 (Handy 44), Sterne 32, Filter Touch 40, Symbolknöpfe/Seitenwähler Touch. Keine Überlappung.\nZ6 Trade-Dialog: novalidate, required bleibt; Prüfung Symbol → Richtung → Einstieg → Kontrakte → Eröffnet → Ausstieg (nur geschlossen); erster Fehler: Toast + aria-invalid + Fokus (Richtung .need + Fokus „Long“); Eingabe entfernt aria-invalid.\nZ7: Kalender ≤560: Kurzbetrag Onest 10,5/700, −0,02em; Tageszahl 11 px im 20-px-Kreis; Wochenbetrag 12,5/700 Onest. LONG/SHORT 11/600, .04em, Satoshi. Vergangene News: --muted statt opacity .5, Balken opacity .6.\nZ8: aria-label nur ohne sichtbaren Text, beginnt/endet mit dem sichtbaren Wort; Datum „vom“; kein „Knopf/klicken“; Namen ohne Punkt, Rückfrage-Titel „?“, Texte ganze Sätze; Du-Form; Fehler „<Feld> fehlt/fehlen“, kein „Bitte“/„-kurs“. Neue Texte in alle 5 Wörterbücher web/js/lang/{en,es,pt,zh,hi}.js, Werte {0},{1}; Diagramm-Labels/Pillen via root.I18N.t(muster,[werte]). Glossar Z. 184–206 (u. a. Zum Inhalt springen, Hauptnavigation, Session beenden, Änderungen verwerfen?/Verwerfen, Einstieg fehlt, Kontrakte fehlen, Eröffnet fehlt, Ausstieg fehlt, {0} von 5 Sternen, Regel „{0}“ löschen, Mentor schreibt …).",
+ "schritte": [
+  {
+   "nr": "barrierefreiheit-A1",
+   "titel": "Token --focus in :root anlegen (inkl. Einleitung Abschnitt 3)",
+   "von": 245,
+   "bis": 257,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root",
+    "--focus"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-14"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-A2a",
+   "titel": "Globale Fokusregel und Shell-Fokusringe auf --focus (app.css Z. 95, 206, 235)",
+   "von": 258,
+   "bis": 264,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":focus-visible",
+    ".theme-toggle button:focus-visible",
+    ".sb-user:focus-visible",
+    "--focus",
+    "--accent"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-14"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-A2b",
+   "titel": "Fokus an Eingabefeldern, Schalter, Datums- und Farbwähler neutral (Z. 293, 314–315, 437, 447, 451)",
+   "von": 265,
+   "bis": 269,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".input:focus",
+    ".select:focus",
+    "textarea.input:focus",
+    ".switch:focus-visible",
+    ".switch[aria-checked=\"true\"]:focus-visible",
+    ".dp button:focus-visible",
+    ".cp-sv:focus-visible",
+    ".cp-hue:focus-visible",
+    ".cp-sv:focus-visible .cp-knob",
+    ".cp-hue:focus-visible .cp-knob",
+    ".cp-hex:focus-within",
+    "--accent-soft",
+    "--text-2"
+   ],
+   "befund_ids": [
+    "farbe_kontrast-14",
+    "farbe_kontrast-13",
+    "barrierefreiheit-21"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-A2c",
+   "titel": "Fokus an Schieberegler (Offset 6px), Richtungs- und Symbol-Option (Z. 814, 864, 885)",
+   "von": 270,
+   "bis": 272,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".slider input[type=range]:focus-visible",
+    ".dir-opt:focus-visible",
+    ".sym-opt:hover",
+    ".sym-opt:focus-visible",
+    "--dir-c"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-22",
+    "farbe_kontrast-14",
+    "barrierefreiheit-23"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-A2d",
+   "titel": "Restliche Fokusregeln: Notiz-Details, Theme-Karte, Zahlenfeld, Prop/Coupon/Affiliate (Z. 1186–1187, 1842, 2411, 2516–2679); .rp bleibt unverändert",
+   "von": 273,
+   "bis": 278,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb-details summary",
+    ".nb-details summary:focus",
+    ".nb-details summary:focus-visible",
+    ".theme-card:focus-visible",
+    ".theme-card:focus-visible .tc-prev",
+    ".sr-num:focus-within",
+    ".conf-bar:focus-visible",
+    ".prop-tabs a:focus-visible",
+    ".prop-sub a:focus-visible",
+    ".prop-fold > summary:focus-visible",
+    ".cpn-code:focus-visible",
+    ".aff-pct:focus-visible",
+    ".aff-name:focus-visible",
+    ".rp :focus-visible"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-35",
+    "farbe_kontrast-14"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B1",
+   "titel": "Klasse .vh-m (nur optisch versteckt am Handy) im 960-px-Block",
+   "von": 279,
+   "bis": 286,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".vh-m",
+    ".hide-m"
+   ],
+   "befund_ids": [
+    "bereich_konto-11"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B2",
+   "titel": "Sprunglink-Stil .skip und programmatische Fokusflächen ohne Ring (#content, .modal, .lightbox)",
+   "von": 287,
+   "bis": 295,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".skip",
+    ".skip:focus",
+    "#content:focus",
+    ".modal:focus",
+    ".lightbox:focus",
+    ".vh"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-31",
+    "bereich_shell-14",
+    "barrierefreiheit-2",
+    "barrierefreiheit-1",
+    "barrierefreiheit-8",
+    "barrierefreiheit-17"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B3",
+   "titel": "Info-Symbol-CSS auf button.info, Touch-Fläche 24 px über ::before, Zeile .lbl-row",
+   "von": 296,
+   "bis": 302,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "span.info",
+    "button.info",
+    "button.info::before",
+    ".stat-tile .k span.info",
+    ".stat .k span.info",
+    ".field > .lbl-row",
+    ".field > .lbl-row > label",
+    "--faint"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-18",
+    "bereich_statistik-31",
+    "bereich_dashboard-21"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B4",
+   "titel": "Schalter-Trefferfläche 52 × 38 (.switch::before) und klickbares Zeilenlabel .set-row-l",
+   "von": 303,
+   "bis": 307,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".switch",
+    ".switch::before",
+    ".switch::after",
+    ".set-row-l",
+    ".set-row"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-29"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B5",
+   "titel": "Checklisten-CSS für Knopf-Zeilen und Fokus bei versteckter Checkbox",
+   "von": 308,
+   "bis": 316,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".checklist button.it",
+    ".checklist .it.toggle",
+    ".checklist .it.toggle:has(input:focus-visible)"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-15",
+    "bereich_trades_tag-41",
+    "bereich_training-20",
+    "barrierefreiheit-14"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B6",
+   "titel": "Gewählter Menüeintrag flach statt grün (Popover, Notebook-Setup-Tag, Vorlagen-Menü)",
+   "von": 317,
+   "bis": 325,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".popover .item[aria-checked=\"true\"]",
+    ".nb .tagpop .sec.k-setup",
+    ".nb .tagpop .item.k-setup[aria-checked=\"true\"]",
+    ".tpl-row .chk",
+    ".tpl-row.on .item.name",
+    "--accent"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-26"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B7",
+   "titel": "Tabellen-CSS: Sortierknopf .th-sort mit 12-px-Chevron, Zeilen-Fokus :focus-within, Scrollbox-Fokus",
+   "von": 326,
+   "bis": 338,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl th .dir",
+    ".tbl th .dir svg",
+    ".tbl th .dir.up svg",
+    ".th-sort",
+    ".tbl tbody tr.link:hover td",
+    ".tbl tbody tr.link:focus-within td",
+    ".tbl .row-link:focus-visible",
+    ".tbl-scroll:focus-visible",
+    ".tbl-wrap.paged .tbl-scroll"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-33",
+    "zustaende-36",
+    "typografie-30",
+    "barrierefreiheit-4",
+    "bereich_konto-12",
+    "bereich_statistik-32",
+    "bereich_training-20",
+    "barrierefreiheit-50"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-A1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B8",
+   "titel": "LONG/SHORT-Abzeichen 11 px / 600 / .04em / Satoshi",
+   "von": 339,
+   "bis": 343,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".badge",
+    ".tbl td.dir-cell .badge",
+    "--font"
+   ],
+   "befund_ids": [
+    "typografie-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B9a",
+   "titel": "Bewertungssterne 32 px mit Klasse .on, .seg mit aria-checked, Check-in-Skala min. 36 px (Handy 44 px)",
+   "von": 344,
+   "bis": 349,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rating button",
+    ".rating button[aria-pressed=\"true\"]",
+    ".rating button.on",
+    ".seg button[aria-pressed=\"true\"]",
+    ".seg button[aria-checked=\"true\"]",
+    ".seg.pill button"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-12",
+    "barrierefreiheit-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B9b",
+   "titel": "Gemeinsamer Gewählt-Stil (Z. 3125–3128), .prop-sub und Statistik-Reiter auf aria-current=\"page\"",
+   "von": 350,
+   "bis": 358,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rating button.on",
+    ".seg button[aria-checked=\"true\"]",
+    ".tabs a[aria-pressed=\"true\"]",
+    ".tabs a[aria-current=\"page\"]",
+    ".prop-tabs a[aria-pressed=\"true\"]",
+    ".prop-tabs a[aria-current=\"page\"]",
+    ".prop-sub a[aria-pressed=\"true\"]",
+    ".prop-sub a[aria-current=\"page\"]",
+    ".prop-sub a[aria-current=\"page\"]::after",
+    ".tabs a:not([aria-current=\"page\"])",
+    ".tabs.scroll-x"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-12",
+    "barrierefreiheit-13",
+    "barrierefreiheit-32",
+    "bereich_statistik-7"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B9a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B10",
+   "titel": "Dropzone-Fokus und Screenshot-Knopf .shot-open",
+   "von": 359,
+   "bis": 367,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dropzone:focus-visible",
+    ".shot-open",
+    ".shot-open:focus-visible",
+    ".shot"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-16",
+    "barrierefreiheit-17",
+    "bereich_trades_tag-41"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B11",
+   "titel": "Fehlerzustand .input[aria-invalid=\"true\"] mit Rand --loss",
+   "von": 368,
+   "bis": 371,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".input[aria-invalid=\"true\"]",
+    "--loss"
+   ],
+   "befund_ids": [
+    "wording-1"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B12a",
+   "titel": "Handy: Menüknopf, Avatar, Schubladen-× unsichtbar auf 44 px (::after)",
+   "von": 372,
+   "bis": 376,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".menu-btn",
+    ".menu-btn::after",
+    ".topbar .actions .avatar",
+    ".topbar .actions .avatar::after",
+    ".brand .sb-toggle",
+    ".brand .sb-toggle::after"
+   ],
+   "befund_ids": [
+    "responsiv-28"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B12b",
+   "titel": "Hell/Dunkel-Trefferfläche 26 × 34 und toten sb-mini-Code (Z. 207–208) löschen",
+   "von": 377,
+   "bis": 378,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sb-menu .theme-toggle button",
+    ".sb-menu .theme-toggle button::after",
+    ".theme-toggle",
+    "html.sb-mini .theme-toggle",
+    "html.sb-mini[data-theme=\"light\"] .theme-toggle::before"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-28",
+    "bereich_shell-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B12c",
+   "titel": "Lösch-× an Farbpunkten und Designs nach außen auf 24 px (.dot-x::before, .cp-x bleibt)",
+   "von": 379,
+   "bis": 379,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dot-x",
+    ".dot-x::before",
+    ".cp-x"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-43",
+    "barrierefreiheit-46"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B12d",
+   "titel": "Filter-Fenster auf Touch 40 px (pointer: coarse)",
+   "von": 380,
+   "bis": 380,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".fd-pop .fd-seg button",
+    ".fd-pop .fd-tog button",
+    ".fd-pop .fd-add",
+    ".fd-pop .fd-chip",
+    ".fd-pop .fd-pair .input",
+    ".fd-pop .fd-pair .fd-unit",
+    ".fd-tog.mon button",
+    ".fd-tog.wd button"
+   ],
+   "befund_ids": [
+    "responsiv-25"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B12e",
+   "titel": ".more-link auf Touch 44 px hoch",
+   "von": 381,
+   "bis": 381,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".more-link"
+   ],
+   "befund_ids": [
+    "responsiv-29"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B12f",
+   "titel": "Touch: Symbolknöpfe in Tabellen/Listen 40 px, Seitenwähler 44 × 40, .select.sm (Dateiende)",
+   "von": 382,
+   "bis": 382,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl .btn.icon.sm",
+    ".set-row .btn.icon.sm",
+    ".pager .pg-nav button",
+    ".select.sm"
+   ],
+   "befund_ids": [
+    "responsiv-30"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B12g",
+   "titel": "Provisionssatz .aff-pct am Handy ≈ 33 px hoch mit Stift",
+   "von": 383,
+   "bis": 384,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".aff-pct",
+    ".aff-pct svg"
+   ],
+   "befund_ids": [
+    "bereich_konto-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-B13",
+   "titel": "Vergangene News: Text in --muted statt Deckkraft .5, Balken .6",
+   "von": 385,
+   "bis": 389,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nw-row.past",
+    ".nw-row.past .nw-imp",
+    ".nw-time",
+    ".nw-title",
+    ".nw-cur",
+    ".nw-v b",
+    "--muted"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-47"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/newstest.js:52"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-B14",
+   "titel": "Kalender am Handy: Kurzbetrag 10,5/700 Onest, Tageszahl 11 px im 20-px-Kreis",
+   "von": 390,
+   "bis": 396,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cal .p",
+    ".cal .pm",
+    ".cal .d .n",
+    ".cal .d .pm",
+    ".cal .w .pm"
+   ],
+   "befund_ids": [
+    "typografie-27"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U1",
+   "titel": "U.info rendert <button type=\"button\" class=\"info\"> mit aria-label",
+   "von": 397,
+   "bis": 403,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.info",
+    "button.info",
+    "span.info",
+    "data-tip"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-18",
+    "bereich_statistik-31",
+    "bereich_dashboard-21"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B3"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:15"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-U2",
+   "titel": "Tooltip auch bei Tastaturfokus (bindTips: focusin/focusout, nur :focus-visible)",
+   "von": 404,
+   "bis": 412,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "bindTips",
+    "tipShowAt",
+    "tipHide",
+    "tipFor",
+    "button.info[data-tip]"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-18",
+    "bereich_statistik-31",
+    "bereich_dashboard-21"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U3a",
+   "titel": "Dialog-Gerüst: Selbstfokus, .shell inert, aria-labelledby, Fokus-Rückgabe (restoreAfterModal), guard/requestClose",
+   "von": 413,
+   "bis": 454,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.modal",
+    "U.closeModal",
+    "restoreAfterModal",
+    "U.requestClose",
+    "U.confirmModal",
+    "modals",
+    ".modal",
+    ".modal-bg",
+    ".modal-bg.out",
+    ".modal-head h2",
+    ".shell",
+    "[data-autofocus]",
+    "o.guard",
+    "o.noFocus",
+    "o.locked",
+    "App.anchorKey",
+    "t:Änderungen verwerfen?",
+    "t:Deine Eingaben in diesem Fenster gehen verloren.",
+    "t:Verwerfen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-1",
+    "barrierefreiheit-8",
+    "barrierefreiheit-9",
+    "barrierefreiheit-10",
+    "barrierefreiheit-11",
+    "bereich_prop-39"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B2"
+   ],
+   "aufwand": "L",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U3b",
+   "titel": "Bestätigung und Download: data-autofocus auf sicherer Wahl bzw. „Fertig“",
+   "von": 455,
+   "bis": 463,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.confirmModal",
+    "U.downloadText",
+    "[data-autofocus]",
+    "[data-confirm]",
+    "[data-close]"
+   ],
+   "befund_ids": [
+    "komponenten-43",
+    "barrierefreiheit-1",
+    "barrierefreiheit-8"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U3a"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U4",
+   "titel": "Live-Regionen: .toast-wrap role=status (toastWrap), #sr-live mit U.announce",
+   "von": 464,
+   "bis": 473,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.toast",
+    "toastWrap",
+    "U.announce",
+    ".toast-wrap",
+    "#sr-live"
+   ],
+   "befund_ids": [
+    "bewegung-32",
+    "barrierefreiheit-38"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U5",
+   "titel": "Gemeinsame Bildansicht U.lightbox (role=dialog, Fokus, Escape, Fokus-Rückgabe)",
+   "von": 474,
+   "bis": 487,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "U.lightbox",
+    ".lightbox"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-17",
+    "bereich_trades_tag-41",
+    "bereich_notebook_news-35"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U6a",
+   "titel": "Diagramme: Textalternative chartLabel und role=img in drawCharts",
+   "von": 488,
+   "bis": 508,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "drawCharts",
+    "chartLabel",
+    "tr",
+    "drawers",
+    "fmt.cur",
+    "root.I18N.t",
+    "t:{0} pro Trade",
+    "t:Kumulierter Netto-P&L: Endstand {0}, tiefster Stand {1}",
+    "t:Rollierender Edge: Gesamtschnitt {0} aus {1} Trades",
+    "t:Monte-Carlo-Simulation: Ruin-Wahrscheinlichkeit {0}, Median-Drawdown {1}"
+   ],
+   "befund_ids": [
+    "bereich_statistik-33"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U6b",
+   "titel": "Balken-Tooltips über transparente .tip-hit-Flächen über den Balken (vbars, hbars)",
+   "von": 509,
+   "bis": 515,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "drawers.vbars",
+    "drawers.hbars",
+    ".tip-hit",
+    "data-tip",
+    "hoverLine",
+    "enterAnim"
+   ],
+   "befund_ids": [
+    "diagramme-46"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-U7",
+   "titel": "root.UI um toastWrap, announce, lightbox, requestClose ergänzen",
+   "von": 516,
+   "bis": 518,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "root.UI",
+    "U.toastWrap",
+    "U.announce",
+    "U.lightbox",
+    "U.requestClose"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-U4",
+    "barrierefreiheit-U5"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-H1",
+   "titel": "Sprunglink „Zum Inhalt springen“ als erstes Kind von .shell",
+   "von": 519,
+   "bis": 524,
+   "cluster": "shell",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    ".shell",
+    ".skip",
+    "[data-action=\"skip-content\"]",
+    "#content",
+    "t:Zum Inhalt springen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-31",
+    "bereich_shell-14"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-H2",
+   "titel": "Seitenleiste als <nav aria-label=\"Hauptnavigation\"> statt <aside>",
+   "von": 525,
+   "bis": 529,
+   "cluster": "shell",
+   "dateien": [
+    "web/app.html"
+   ],
+   "anker": [
+    "#sidebar",
+    ".sidebar",
+    "aside.sidebar",
+    "nav.sidebar",
+    "t:Hauptnavigation"
+   ],
+   "befund_ids": [
+    "bereich_shell-14",
+    "barrierefreiheit-49"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P1",
+   "titel": "Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)",
+   "von": 530,
+   "bis": 564,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.render",
+    "App.focusSnapshot",
+    "App.restoreFocus",
+    "App.popInit",
+    "App.anchorKey",
+    "App._rendered",
+    "#content",
+    "#main",
+    "#sidebar",
+    "main.innerHTML",
+    "screen.mount",
+    "translateNow",
+    "[data-pop]",
+    "aria-expanded",
+    "aria-controls"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-2",
+    "barrierefreiheit-31",
+    "bereich_dashboard-22",
+    "barrierefreiheit-26"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B2"
+   ],
+   "aufwand": "L",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P2",
+   "titel": "Menüs: aria-expanded beim Öffnen/Schließen, Öffnen per Tastatur fokussiert Eintrag",
+   "von": 565,
+   "bis": 572,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.closePopovers",
+    "App.fitPopover",
+    "[data-pop]",
+    ".popover.open",
+    "aria-expanded",
+    "M.leave"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-22",
+    "barrierefreiheit-26",
+    "barrierefreiheit-27",
+    "bereich_shell-12"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P3",
+   "titel": "Globaler Tastatur-Handler: Escape (requestClose, Menü-Rücksprung, closeSidebar), Enter/Leertaste auf role=button/checkbox, Pfeiltasten in Radiogruppen",
+   "von": 573,
+   "bis": 590,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.bind",
+    "keydown",
+    "U.requestClose",
+    "App.closePopovers",
+    "App.closeSidebar",
+    ".popover.open:not(.closing)",
+    "[role=\"button\"]",
+    "[role=\"checkbox\"]",
+    "[role=\"radio\"]",
+    "[role=\"radiogroup\"]"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-3",
+    "barrierefreiheit-16",
+    "barrierefreiheit-12",
+    "barrierefreiheit-13",
+    "barrierefreiheit-26",
+    "barrierefreiheit-11",
+    "bereich_shell-12",
+    "barrierefreiheit-27",
+    "bereich_shell-15"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-U7",
+    "barrierefreiheit-P6"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P4",
+   "titel": "Doppel-Schluss verhindern: [data-close] ignoriert ausblendende Dialoge (.modal-bg.out)",
+   "von": 591,
+   "bis": 595,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "[data-close]",
+    ".modal-bg.out",
+    "U.closeModal"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-11"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P5",
+   "titel": "Seitenleiste: aria-current, title nur eingeklappt, Gruppen role=group, inert-Logik der Schublade",
+   "von": 596,
+   "bis": 607,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.renderSidebar",
+    "NAV_GROUPS",
+    ".nav-group",
+    ".nav-title",
+    "App.userCard",
+    "App.popInit",
+    "#sidebar",
+    "#main",
+    "#scrim",
+    "aria-current",
+    "inert"
+   ],
+   "befund_ids": [
+    "bereich_shell-13",
+    "barrierefreiheit-32",
+    "barrierefreiheit-49",
+    "bereich_shell-14",
+    "bereich_shell-15"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-H2",
+    "barrierefreiheit-P1"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P6",
+   "titel": "Schublade: Fokus auf „Menü schließen“ beim Öffnen, closeSidebar mit Fokus-Rückgabe an den Menüknopf",
+   "von": 608,
+   "bis": 615,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.actions.sidebar",
+    "App.closeSidebar",
+    "App.actions['sb-toggle']",
+    "App.actions.scrim",
+    "App.actions['nav-close']",
+    "#sidebar .sb-toggle",
+    ".menu-btn"
+   ],
+   "befund_ids": [
+    "bereich_shell-15"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P5"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P7",
+   "titel": "Konto-Karte: Disclosure statt role=menu, Label/title nur eingeklappt, Avatar aria-hidden",
+   "von": 616,
+   "bis": 624,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.userCard",
+    ".sb-user",
+    "[data-pop=\"user\"]",
+    "#pop-user",
+    ".sb-menu",
+    ".sb-av",
+    ".sb-av-dot",
+    "role=\"menu\"",
+    "role=\"menuitem\"",
+    "aria-haspopup",
+    "t:Konto und Einstellungen"
+   ],
+   "befund_ids": [
+    "bereich_shell-12",
+    "barrierefreiheit-27"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P5",
+    "barrierefreiheit-P2"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P8",
+   "titel": "Titelzeile: Menüknopf aria-controls, Avatar aria-label „Profil“, Initialen aria-hidden",
+   "von": 625,
+   "bis": 629,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.topbar",
+    ".menu-btn",
+    ".topbar .actions .avatar",
+    "aria-controls",
+    "t:Profil",
+    "t:Menü"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-40",
+    "bereich_shell-15"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P9",
+   "titel": "Session-Knopf: Name „Session beenden“, Zeit als Beschreibung (aria-describedby)",
+   "von": 630,
+   "bis": 634,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.sessionControl",
+    "[data-action=\"end-session\"]",
+    "#session-timer",
+    "t:Session beenden"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-39"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P10",
+   "titel": "Aktion skip-content und Live-Regionen beim Start (bind) anlegen",
+   "von": 635,
+   "bis": 639,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.actions['skip-content']",
+    "App.bind",
+    "U.toastWrap",
+    "U.announce",
+    "#content"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-31",
+    "bewegung-32",
+    "barrierefreiheit-38"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U4",
+    "barrierefreiheit-U7",
+    "barrierefreiheit-H1",
+    "barrierefreiheit-P1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P11",
+   "titel": "Zeitraum- und Konto-Menü als Radiogruppen (role=radiogroup/radio)",
+   "von": 640,
+   "bis": 644,
+   "cluster": "shell",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.rangeControl",
+    "App.accountControl",
+    ".rr-presets",
+    "#pop-range",
+    "#pop-account",
+    "role=\"radiogroup\"",
+    "role=\"radio\"",
+    "t:Zeitraum",
+    "t:Konto"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-26"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P3",
+    "barrierefreiheit-B6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P12",
+   "titel": "Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard",
+   "von": 645,
+   "bis": 663,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openTradeEditor",
+    "App.openSymbolMenu",
+    "App.readTradeForm",
+    "App.actions['save-trade']",
+    "#trade-form",
+    "#f-mult",
+    ".lbl-row",
+    "U.info",
+    "#f-symbol-btn",
+    ".sym-none",
+    "#f-dir",
+    ".need",
+    "#f-entry",
+    "#f-qty",
+    "#f-open",
+    "#f-exit",
+    "aria-invalid",
+    "U.toast",
+    "o.guard",
+    "t:Symbol fehlt",
+    "t:Long oder Short wählen",
+    "t:Einstieg fehlt",
+    "t:Kontrakte fehlen",
+    "t:Eröffnet fehlt",
+    "t:Ausstieg fehlt",
+    "t:Einstiegskurs fehlt",
+    "t:Ausstiegskurs fehlt für geschlossenen Trade"
+   ],
+   "befund_ids": [
+    "wording-1",
+    "barrierefreiheit-11",
+    "barrierefreiheit-18",
+    "bereich_statistik-31"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B3",
+    "barrierefreiheit-B11",
+    "barrierefreiheit-U1",
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-P4"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/dptest.js:92"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-P13",
+   "titel": "Plan & Bewertung: Sterne als Radiogruppe mit Klasse .on und Namen „{0} von 5 Sternen“, guard",
+   "von": 664,
+   "bis": 670,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openTradeJournal",
+    "App.actions['set-rating']",
+    "#f-rating",
+    "#f-rating-l",
+    ".rating",
+    ".rating button.on",
+    "aria-pressed",
+    "aria-checked",
+    "o.guard",
+    "t:{0} von 5 Sternen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-13",
+    "barrierefreiheit-11"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B9a",
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-P4",
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P14a",
+   "titel": "Check-in-Skalen als Radiogruppen mit Namen „1 – entspannt“ …, seg-set setzt aria-checked",
+   "von": 671,
+   "bis": 675,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.checkInFields",
+    "scale",
+    ".seg.pill",
+    "#lbl-stress",
+    "#lbl-mood",
+    "App.actions['seg-set']",
+    "[data-chips]",
+    "aria-checked",
+    "aria-pressed",
+    "t:1 – entspannt",
+    "t:5 – sehr hoch",
+    "t:1 – schlecht",
+    "t:5 – sehr gut"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-12"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B9a",
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P14b",
+   "titel": "Rückfrage (guard: true) für Session starten, Check-in, Session beenden",
+   "von": 676,
+   "bis": 678,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openSessionStart",
+    "App.openCheckIn",
+    "App.openSessionEnd",
+    "U.modal",
+    "o.guard"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-11"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-P4"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P14c",
+   "titel": "Regel-Checkliste in „Session beenden“: Checkbox .vh statt .hidden, done vorbelegt",
+   "von": 679,
+   "bis": 682,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openSessionEnd",
+    ".checklist",
+    ".it.toggle",
+    ".done",
+    ".hidden",
+    ".vh",
+    "input[type=checkbox]"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-14"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B5"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-P15",
+   "titel": "CSV-Import: Dropzone role=button tabindex=0, Textfeld „CSV-Text einfügen“",
+   "von": 683,
+   "bis": 687,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openImport",
+    "#import-drop",
+    ".dropzone",
+    "#import-text",
+    "t:CSV-Text einfügen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-16",
+    "barrierefreiheit-37"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B10",
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-rangepicker",
+   "titel": "Zeitraum-Kalender: wandernder tabindex (st.fk), Pfeil-/Bildtasten, Fokus nach Klick halten (Z. 717: Hinweis .shell-Grid/Sprunglink)",
+   "von": 688,
+   "bis": 718,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/rangepicker.js"
+   ],
+   "anker": [
+    "rangepicker.st",
+    "rangepicker.visible",
+    "rangepicker.ensureFk",
+    "rangepicker.monthHTML",
+    "rangepicker.inner",
+    "rangepicker.reset",
+    "rangepicker.pick",
+    "rangepicker.refresh",
+    "rangepicker.init",
+    ".rr-day",
+    "[data-rr-root]",
+    "[data-rr]"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-42"
+   ],
+   "abhaengig": [],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-widgets-36",
+   "titel": "Serien-Pillen (streakPills) mit role=img, aria-label und Tooltip",
+   "von": 719,
+   "bis": 723,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "streakPills",
+    ".pills.col",
+    "root.I18N.t",
+    "t:Längste Verlustserie: {0} · Längste Gewinnserie: {1}"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-40"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-widgets-84-93",
+   "titel": "Streupunkte-Strich 16 px, dbars-Tooltips über .tip-hit-Flächen",
+   "von": 724,
+   "bis": 725,
+   "cluster": "diagramme",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widgets.scatter stroke-width",
+    "dbars",
+    ".tip-hit",
+    "U.dateAxis",
+    "data-tip"
+   ],
+   "befund_ids": [
+    "diagramme-46"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-widgets-115",
+   "titel": "Kalendertag mit zugänglichem Namen (Datum · Betrag · Trades)",
+   "von": 726,
+   "bis": 726,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    ".cal .d",
+    "role=\"button\"",
+    "fmt.dateFull",
+    "t:{0} · {1} · 1 Trade",
+    "t:{0} · {1} · {2} Trades"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-3"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-widgets-170-174",
+   "titel": "Trefferquote-Pillen (Trades und Tage) mit role=img, aria-label und Tooltip",
+   "von": 727,
+   "bis": 728,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    ".pills",
+    "t:{0} Gewinner · {1} Break-even · {2} Verlierer",
+    "t:{0} Gewinntage · {1} Break-even-Tage · {2} Verlusttage"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-40"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-widgets-222-234",
+   "titel": "Kennzahl-Suche benennen, Uhrzeit-Menü als Radiogruppe",
+   "von": 729,
+   "bis": 730,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "#rep-q",
+    "#pop-uhrzeit",
+    "[data-pop=\"uhrzeit\"]",
+    "role=\"radiogroup\"",
+    "role=\"radio\"",
+    "t:Kennzahl suchen",
+    "t:Uhrzeit"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-37",
+    "barrierefreiheit-26"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-widgets-256",
+   "titel": "Widget „Letzte Trades“: Link in der ersten Zelle",
+   "von": 731,
+   "bis": 731,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "tr.link",
+    "a.row-link"
+   ],
+   "befund_ids": [
+    "zustaende-36",
+    "barrierefreiheit-4"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-widgets-374",
+   "titel": "Mentor-Widget: Eingabe „Frage an den Mentor“ benennen",
+   "von": 732,
+   "bis": 733,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "textarea[name=q]",
+    "t:Frage an den Mentor"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-37"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-editor-41-42",
+   "titel": "Notizbild: Alt-Text aus Bildunterschrift, Doppelklick öffnet U.lightbox",
+   "von": 734,
+   "bis": 737,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/editor.js"
+   ],
+   "anker": [
+    "editor.cap",
+    "img.alt",
+    "U.lightbox",
+    ".lightbox",
+    "t:Bild in der Notiz"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-35",
+    "barrierefreiheit-17"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U5",
+    "barrierefreiheit-U7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-editor-112",
+   "titel": "Farbknöpfe im Editor benennen (Schriftfarbe/Textmarker {0})",
+   "von": 738,
+   "bis": 738,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/editor.js"
+   ],
+   "anker": [
+    "button.c",
+    "t:Schriftfarbe {0}",
+    "t:Textmarker {0}"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-editor-118-164",
+   "titel": "„Umwandeln in“-Menü als Radiogruppe",
+   "von": 739,
+   "bis": 741,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/editor.js"
+   ],
+   "anker": [
+    "#pop-*turn",
+    "role=\"radiogroup\"",
+    "role=\"radio\"",
+    "t:Umwandeln in"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-26"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P1",
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-trades-46",
+   "titel": "TradeLog-Sortierköpfe mit Knopf .th-sort, aria-sort und Chevron",
+   "von": 742,
+   "bis": 747,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "th.sortable",
+    ".th-sort",
+    "[data-action=\"trade-sort\"]",
+    "aria-sort",
+    ".tbl th .dir",
+    "I.chev"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-33",
+    "zustaende-36",
+    "typografie-30"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-trades-49",
+   "titel": "TradeLog-Zeile: Link in der ersten Zelle, Regeln-Spalte als role=img",
+   "von": 748,
+   "bis": 751,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "tr.link",
+    "a.row-link",
+    ".neg",
+    ".pos",
+    "t:Gebrochen: {0}",
+    "t:Alle Regeln eingehalten"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-4",
+    "zustaende-36",
+    "barrierefreiheit-34"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-trades-50",
+   "titel": "TradeLog-Scrollbox als benannte Region „Trades“",
+   "von": 752,
+   "bis": 752,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".tbl-scroll",
+    "role=\"region\"",
+    "t:Trades"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-50"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-trades-59",
+   "titel": "Verpasste Trades: eindeutiger Lösch-Name",
+   "von": 753,
+   "bis": 753,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "C.parseDayKey",
+    "t:Verpassten Trade {0} vom {1} löschen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-trades-77-116",
+   "titel": "Screenshots als Knopf .shot-open, Dropzonen role=button, Aktion lightbox über U.lightbox",
+   "von": 754,
+   "bis": 758,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    ".shot",
+    ".shot-open",
+    "[data-action=\"lightbox\"]",
+    "trades.actions.lightbox",
+    "#pre-drop",
+    "#shot-drop",
+    ".dropzone",
+    "U.lightbox",
+    "root.Blobs.url",
+    "t:Screenshot {0} von {1} vergrößern",
+    "t:Screenshot vor Entry vergrößern",
+    "t:Screenshot"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-17",
+    "bereich_trades_tag-41",
+    "barrierefreiheit-16"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B10",
+    "barrierefreiheit-U5",
+    "barrierefreiheit-U7",
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-day-15",
+   "titel": "Tagesansicht-Zeile: Link in der ersten Zelle",
+   "von": 759,
+   "bis": 761,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "tr.link",
+    "a.row-link"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-4",
+    "zustaende-36"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-day-18",
+   "titel": "Tages-Regelliste als <button role=\"checkbox\" aria-checked>",
+   "von": 762,
+   "bis": 767,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "[data-action=\"day-rule\"]",
+    ".it.toggle",
+    ".checklist button.it",
+    "role=\"checkbox\"",
+    "aria-checked",
+    "App.rerender"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-15",
+    "bereich_trades_tag-41",
+    "bereich_training-20"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B5",
+    "barrierefreiheit-P1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-progress-73",
+   "titel": "Fortschritt: Tages-Checkliste als <button role=\"checkbox\"> (wie day.js:18)",
+   "von": 768,
+   "bis": 770,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "[data-action=\"day-rule\"]",
+    ".it.toggle",
+    "role=\"checkbox\"",
+    "aria-checked"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-15",
+    "bereich_training-20"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B5",
+    "barrierefreiheit-P1",
+    "barrierefreiheit-C-day-18"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-progress-75",
+   "titel": "„Dein Tag“: Aktionszeilen als Knopf, Tagesnotiz als role=checkbox; Heatmap bleibt",
+   "von": 771,
+   "bis": 776,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/progress.js"
+   ],
+   "anker": [
+    "[data-action=\"day-note-check\"]",
+    "it.action",
+    ".it.toggle",
+    "role=\"checkbox\""
+   ],
+   "befund_ids": [
+    "bereich_training-20",
+    "barrierefreiheit-15"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B5",
+    "barrierefreiheit-P1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/notechecktest.js:14"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-C-stats-15",
+   "titel": "Statistik-Reiter als <nav aria-label=\"Statistik-Bereiche\"> mit aria-current, ohne Inline-Farbe",
+   "von": 777,
+   "bis": 782,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    ".tabs.scroll-x",
+    "[data-subnav]",
+    ".tabs a[aria-current=\"page\"]",
+    "aria-pressed",
+    "t:Statistik-Bereiche"
+   ],
+   "befund_ids": [
+    "bereich_statistik-7",
+    "barrierefreiheit-32"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B9b"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/calmnavtest.js:51"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-C-stats-32",
+   "titel": "Wochentag-Tabelle: Link in der ersten Zelle",
+   "von": 783,
+   "bis": 784,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "tr.link",
+    "a.row-link"
+   ],
+   "befund_ids": [
+    "bereich_statistik-32",
+    "barrierefreiheit-4"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-shadow-69",
+   "titel": "Schatten-Ich-Verstöße: Link in der ersten Zelle",
+   "von": 785,
+   "bis": 788,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "tr.link",
+    "a.row-link"
+   ],
+   "befund_ids": [
+    "bereich_training-20",
+    "barrierefreiheit-4"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-coach-42-157",
+   "titel": "Coach: .hide-m → .vh-m (Namen am Handy behalten)",
+   "von": 789,
+   "bis": 791,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    ".hide-m",
+    ".vh-m"
+   ],
+   "befund_ids": [
+    "bereich_konto-11"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-coach-87",
+   "titel": "Coach-Schülerliste: Name als Link .row-link",
+   "von": 792,
+   "bis": 793,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "tr.link",
+    "a.row-link",
+    ".sym",
+    "[data-action=\"coach-open-student\"]"
+   ],
+   "befund_ids": [
+    "bereich_konto-12",
+    "barrierefreiheit-4"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B7"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-notebook-28-74",
+   "titel": "Notebook-Menüs: Tags role=checkbox, Sortieren und In Ordner verschieben als Radiogruppen",
+   "von": 794,
+   "bis": 799,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "#pop-nbtags .item",
+    "[data-action=\"nb-tag-toggle\"]",
+    "#pop-nbsort",
+    "role=\"radiogroup\"",
+    "role=\"radio\"",
+    "role=\"checkbox\"",
+    "t:Sortieren",
+    "t:In Ordner verschieben"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-26"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-notebook-74-teilen",
+   "titel": "Notebook „Teilen“: .hide-m → .vh-m",
+   "von": 800,
+   "bis": 801,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    ".hide-m",
+    ".vh-m",
+    "[data-action=\"nb-share\"]"
+   ],
+   "befund_ids": [
+    "bereich_konto-11"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dashboard-30-32",
+   "titel": "Vorlagen-Menü: aktive Vorlage aria-current=\"true\"",
+   "von": 802,
+   "bis": 804,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".tpl-row .item.name",
+    "[data-action=\"dash-tpl-select\"]",
+    "aria-current"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-26"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B6"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dashboard-41",
+   "titel": "Ziehgriff: aria-keyshortcuts für Pfeiltasten",
+   "von": 805,
+   "bis": 805,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".handle",
+    "aria-keyshortcuts"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-48"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-C-dashboard-154"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dashboard-78",
+   "titel": "Widget-Suche „Widget suchen“ benennen",
+   "von": 806,
+   "bis": 806,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    ".side-panel",
+    "t:Widget suchen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-37"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dashboard-124",
+   "titel": "Filter-Knopf: aria-expanded und aria-controls=\"fd-pop\"",
+   "von": 807,
+   "bis": 807,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "[data-action=\"dash-f-open\"]",
+    "#fd-pop",
+    "aria-expanded",
+    "aria-controls"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-22",
+    "barrierefreiheit-5"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dashboard-154",
+   "titel": "Ziehgriff per Pfeiltasten verschieben (bindDnD), Fokus auf neuen Griff",
+   "von": 808,
+   "bis": 813,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dashboard.js"
+   ],
+   "anker": [
+    "bindDnD",
+    ".handle",
+    ".mv [data-dir]",
+    "dash-move",
+    ".w[data-area][data-idx]"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-48"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dash-filter-95-121",
+   "titel": "Filter-Fenster: Suchfeld-, Umschalter- und Sterne-Namen",
+   "von": 814,
+   "bis": 818,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "#fd-q",
+    "PICK_LABEL",
+    "toggles",
+    "t:1 Stern",
+    "t:{0} Sterne",
+    "t:Symbol suchen",
+    "t:Setup suchen",
+    "t:Fehler suchen",
+    "t:Emotion suchen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-37",
+    "barrierefreiheit-13"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dash-filter-158",
+   "titel": "Filter-Fenster: Fokus beim Umschalten halten (refresh)",
+   "von": 819,
+   "bis": 821,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "dashFilter.refresh",
+    "App.anchorKey",
+    "[data-action=\"dash-f-pick\"]",
+    "#fd-layer"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-5",
+    "bereich_dashboard-22"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-dash-filter-168-189",
+   "titel": "Filter-Fenster: Fokus beim Öffnen, Tab-Falle, Rücksprung nur nach ×/Escape/Anwenden, hashchange gekapselt",
+   "von": 822,
+   "bis": 833,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/screens/dash-filter.js"
+   ],
+   "anker": [
+    "dashFilter.open",
+    "dashFilter.close",
+    "dashFilter.layer",
+    "#fd-layer",
+    "#fd-pop",
+    ".fd-gh",
+    "[data-action=\"dash-f-open\"]",
+    "dash-f-close",
+    "dash-f-apply",
+    "hashchange",
+    "aria-expanded"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-5",
+    "bereich_dashboard-22"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-C-dashboard-124"
+   ],
+   "aufwand": "M",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-misc-15",
+   "titel": "Einstellungen switchRow: stabile id je Aufbau, Name aus Label, Beschreibung per aria-describedby",
+   "von": 834,
+   "bis": 842,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "switchRow",
+    "swN",
+    "App.screens.settings.render",
+    ".switch",
+    "role=\"switch\"",
+    ".set-row",
+    ".set-row-l",
+    "aria-describedby",
+    "[data-action=\"notif-toggle\"]",
+    "[data-action=\"navdot-toggle\"]"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-29"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B4",
+    "barrierefreiheit-P1"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-misc-21",
+   "titel": "Einstellungs-Menü: aria-current=\"page\" am aktiven Bereich",
+   "von": 843,
+   "bis": 843,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "App.screens.settings.render",
+    "aria-current"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-21",
+    "barrierefreiheit-32"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-misc-93-145",
+   "titel": "Farbpunkte benennen („Eigene Farbe {0}“, „Farbe {0} löschen“), Gruppe „Akzentfarbe“",
+   "von": 844,
+   "bis": 845,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".dots",
+    ".dot-x",
+    "role=\"group\"",
+    "t:Eigene Farbe {0}",
+    "t:Farbe {0} löschen",
+    "t:Farbe löschen",
+    "t:Akzentfarbe"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-20",
+    "barrierefreiheit-36"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-misc-186-207",
+   "titel": "Konten- und Regel-Liste: eindeutige Namen (Konto/Regel „{0}“ …)",
+   "von": 846,
+   "bis": 847,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    ".switch",
+    "t:Konto „{0}“ bearbeiten",
+    "t:Konto „{0}“ löschen",
+    "t:Regel „{0}“ aktiv",
+    "t:Regel „{0}“ löschen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-35",
+    "bereich_einstellungen-21"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-misc-238-259",
+   "titel": "Tags, Importe, Log: Suchfeld- und Listen-Namen",
+   "von": 848,
+   "bis": 851,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "t:Tags suchen",
+    "t:Tag „{0}“ bearbeiten",
+    "t:Tag „{0}“ löschen",
+    "t:Import {0} entfernen",
+    "t:Eintrag entfernen",
+    "t:Log-Typ suchen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-37",
+    "barrierefreiheit-35",
+    "bereich_einstellungen-21"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-misc-365",
+   "titel": "Sicherung: Dropzone role=button tabindex=0, Textfeld „Sicherung als Text einfügen“",
+   "von": 852,
+   "bis": 853,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "#bk-drop",
+    ".dropzone",
+    "#bk-text",
+    "t:Sicherung als Text einfügen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-16",
+    "barrierefreiheit-37"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B10",
+    "barrierefreiheit-P3"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-prop-233-267",
+   "titel": "Prop-Listen: eindeutige Namen (Konto, Preset, Ausgabe, Payout)",
+   "von": 854,
+   "bis": 859,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "accName",
+    "t:Konto „{0}“ bearbeiten",
+    "t:Konto „{0}“ löschen",
+    "t:Preset „{0}“ bearbeiten",
+    "t:Preset „{0}“ löschen",
+    "t:Preset „{0}“ ansehen",
+    "t:Preset „{0}“ kopieren",
+    "t:Ausgabe vom {0} löschen",
+    "t:Payout vom {0} löschen"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-35"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-prop-294",
+   "titel": "„+ Prop-Konto“ auf allen Breiten mit Text (hide-m entfernen)",
+   "von": 860,
+   "bis": 860,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".hide-m",
+    "t:Prop-Konto"
+   ],
+   "befund_ids": [
+    "bereich_prop-11"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-prop-304-305",
+   "titel": "Prop-Reiter: aria-pressed an <a> streichen, aria-current bleibt",
+   "von": 861,
+   "bis": 862,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    ".prop-tabs a",
+    ".prop-sub a",
+    "aria-pressed",
+    "aria-current"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-32"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B9b"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:19",
+    "web/e2e/proptest.js:91",
+    "web/e2e/proptest.js:95",
+    "web/e2e/friedhoftest.js:21"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-C-prop-friedhof-132-166",
+   "titel": "Grabstein: verdeckte Seite inert, Fokus auf Umdrehen-Knopf bei Tastatur",
+   "von": 863,
+   "bis": 872,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    ".pg-stone",
+    ".pg-face",
+    ".pg-front",
+    ".pg-back",
+    ".pg-turn",
+    "inert",
+    "aria-hidden"
+   ],
+   "befund_ids": [
+    "bereich_prop-48"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-affiliate-51",
+   "titel": "Affiliate-Reiter: aria-pressed an <a> streichen",
+   "von": 873,
+   "bis": 876,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js"
+   ],
+   "anker": [
+    ".prop-tabs a",
+    "aria-pressed",
+    "aria-current"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-32"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B9b"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/affiliatetest.js:16"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-C-mentor-83-111",
+   "titel": "Mentor: role=log, Eingabe-Name, Ansagen über U.announce",
+   "von": 877,
+   "bis": 883,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/mentor.js"
+   ],
+   "anker": [
+    "#mentor-log",
+    "role=\"log\"",
+    "U.announce",
+    "#sr-live",
+    "t:Nachricht an den Mentor",
+    "t:Mentor schreibt …"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-38",
+    "barrierefreiheit-37"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U4",
+    "barrierefreiheit-U7",
+    "barrierefreiheit-P10"
+   ],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-C-news-49",
+   "titel": "News-Wichtigkeitsbalken role=img mit aria-label wie title",
+   "von": 884,
+   "bis": 887,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/news.js"
+   ],
+   "anker": [
+    ".nw-imp",
+    ".nw-imp.hol",
+    "t:Hohe Wichtigkeit",
+    "t:Mittlere Wichtigkeit",
+    "t:Niedrige Wichtigkeit",
+    "t:Feiertag"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-47"
+   ],
+   "abhaengig": [],
+   "aufwand": "S",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-D1",
+   "titel": "Wörterbücher: alle Glossar-Schlüssel aus Z8 in en/es/pt/zh/hi, alte Toast-Schlüssel entfernen, „Session beenden“ nachtragen, Muster-Schlüssel (D1+D2)",
+   "von": 888,
+   "bis": 895,
+   "cluster": "wording",
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js",
+    "web/js/lang/hi.js"
+   ],
+   "anker": [
+    "t:Zum Inhalt springen",
+    "t:Hauptnavigation",
+    "t:Session beenden",
+    "t:Änderungen verwerfen?",
+    "t:Deine Eingaben in diesem Fenster gehen verloren.",
+    "t:Verwerfen",
+    "t:Statistik-Bereiche",
+    "t:Zeitraum",
+    "t:Konto",
+    "t:Uhrzeit",
+    "t:Sortieren",
+    "t:In Ordner verschieben",
+    "t:Umwandeln in",
+    "t:Einstieg fehlt",
+    "t:Kontrakte fehlen",
+    "t:Eröffnet fehlt",
+    "t:Ausstieg fehlt",
+    "t:Einstiegskurs fehlt",
+    "t:Ausstiegskurs fehlt für geschlossenen Trade",
+    "t:{0} von 5 Sternen",
+    "t:1 Stern",
+    "t:{0} Sterne",
+    "t:1 – entspannt",
+    "t:2 – leicht",
+    "t:3 – mittel",
+    "t:4 – hoch",
+    "t:5 – sehr hoch",
+    "t:1 – schlecht",
+    "t:2 – mäßig",
+    "t:3 – neutral",
+    "t:4 – gut",
+    "t:5 – sehr gut",
+    "t:{0} · {1} · 1 Trade",
+    "t:{0} · {1} · {2} Trades",
+    "t:Alle Regeln eingehalten",
+    "t:Gebrochen: {0}",
+    "t:Trades",
+    "t:Screenshot {0} von {1} vergrößern",
+    "t:Screenshot vor Entry vergrößern",
+    "t:Screenshot",
+    "t:Regel „{0}“ aktiv",
+    "t:Regel „{0}“ löschen",
+    "t:Konto „{0}“ bearbeiten",
+    "t:Konto „{0}“ löschen",
+    "t:Tag „{0}“ bearbeiten",
+    "t:Tag „{0}“ löschen",
+    "t:Import {0} entfernen",
+    "t:Preset „{0}“ bearbeiten",
+    "t:Preset „{0}“ löschen",
+    "t:Preset „{0}“ ansehen",
+    "t:Preset „{0}“ kopieren",
+    "t:Ausgabe vom {0} löschen",
+    "t:Payout vom {0} löschen",
+    "t:Verpassten Trade {0} vom {1} löschen",
+    "t:Eigene Farbe {0}",
+    "t:Farbe {0} löschen",
+    "t:Schriftfarbe {0}",
+    "t:Textmarker {0}",
+    "t:Nachricht an den Mentor",
+    "t:Frage an den Mentor",
+    "t:Kennzahl suchen",
+    "t:Tags suchen",
+    "t:Log-Typ suchen",
+    "t:Widget suchen",
+    "t:Symbol suchen",
+    "t:Setup suchen",
+    "t:Fehler suchen",
+    "t:Emotion suchen",
+    "t:CSV-Text einfügen",
+    "t:Sicherung als Text einfügen",
+    "t:{0} Gewinner · {1} Break-even · {2} Verlierer",
+    "t:{0} Gewinntage · {1} Break-even-Tage · {2} Verlusttage",
+    "t:Längste Verlustserie: {0} · Längste Gewinnserie: {1}",
+    "t:{0} pro Trade",
+    "t:Kumulierter Netto-P&L: Endstand {0}, tiefster Stand {1}",
+    "t:Rollierender Edge: Gesamtschnitt {0} aus {1} Trades",
+    "t:Monte-Carlo-Simulation: Ruin-Wahrscheinlichkeit {0}, Median-Drawdown {1}",
+    "t:Mentor schreibt …",
+    "t:Bild in der Notiz"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-40",
+    "barrierefreiheit-12",
+    "barrierefreiheit-13",
+    "barrierefreiheit-17",
+    "barrierefreiheit-31",
+    "barrierefreiheit-34",
+    "barrierefreiheit-35",
+    "barrierefreiheit-36",
+    "barrierefreiheit-37",
+    "barrierefreiheit-38",
+    "barrierefreiheit-39",
+    "bereich_einstellungen-20",
+    "bereich_einstellungen-21",
+    "bereich_statistik-33",
+    "wording-1",
+    "bereich_shell-14",
+    "barrierefreiheit-49",
+    "barrierefreiheit-11",
+    "bereich_notebook_news-35"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-U6a",
+    "barrierefreiheit-H1",
+    "barrierefreiheit-H2",
+    "barrierefreiheit-P9",
+    "barrierefreiheit-P11",
+    "barrierefreiheit-P12",
+    "barrierefreiheit-P13",
+    "barrierefreiheit-P14a",
+    "barrierefreiheit-P15",
+    "barrierefreiheit-C-widgets-36",
+    "barrierefreiheit-C-widgets-115",
+    "barrierefreiheit-C-widgets-170-174",
+    "barrierefreiheit-C-widgets-222-234",
+    "barrierefreiheit-C-widgets-374",
+    "barrierefreiheit-C-editor-41-42",
+    "barrierefreiheit-C-editor-112",
+    "barrierefreiheit-C-editor-118-164",
+    "barrierefreiheit-C-trades-49",
+    "barrierefreiheit-C-trades-50",
+    "barrierefreiheit-C-trades-59",
+    "barrierefreiheit-C-trades-77-116",
+    "barrierefreiheit-C-stats-15",
+    "barrierefreiheit-C-notebook-28-74",
+    "barrierefreiheit-C-dashboard-78",
+    "barrierefreiheit-C-dash-filter-95-121",
+    "barrierefreiheit-C-misc-93-145",
+    "barrierefreiheit-C-misc-186-207",
+    "barrierefreiheit-C-misc-238-259",
+    "barrierefreiheit-C-misc-365",
+    "barrierefreiheit-C-prop-233-267",
+    "barrierefreiheit-C-mentor-83-111"
+   ],
+   "aufwand": "L",
+   "tests": []
+  },
+  {
+   "nr": "barrierefreiheit-E-dashtest-15",
+   "titel": "dashtest.js:15 auf button.info umstellen",
+   "von": 896,
+   "bis": 902,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/e2e/dashtest.js"
+   ],
+   "anker": [
+    "span.info",
+    "button.info",
+    ".dash-top",
+    ".dash-main"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-18"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U1"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dashtest.js:15"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-E-notechecktest-14",
+   "titel": "notechecktest.js:14: Tagesnotiz-Zeile ist BUTTON mit role=checkbox",
+   "von": 903,
+   "bis": 903,
+   "cluster": "training",
+   "dateien": [
+    "web/e2e/notechecktest.js"
+   ],
+   "anker": [
+    "[data-action=\"day-note-check\"]",
+    "role=\"checkbox\""
+   ],
+   "befund_ids": [
+    "bereich_training-20"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-C-progress-75"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/notechecktest.js:14"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-E-newstest-52",
+   "titel": "newstest.js:52: vergangene Termine über --muted-Farbe statt Deckkraft prüfen",
+   "von": 904,
+   "bis": 904,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/e2e/newstest.js"
+   ],
+   "anker": [
+    ".nw-row.past",
+    ".nw-title",
+    ".muted"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-47"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-B13"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/newstest.js:52"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-E-aria-current",
+   "titel": "Tests auf aria-current=\"page\" umstellen (proptest, friedhoftest, affiliatetest, calmnavtest)",
+   "von": 905,
+   "bis": 907,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/e2e/proptest.js",
+    "web/e2e/friedhoftest.js",
+    "web/e2e/affiliatetest.js",
+    "web/e2e/calmnavtest.js"
+   ],
+   "anker": [
+    ".prop-tabs a[aria-current=page]",
+    ".tabs[data-subnav]",
+    "aria-pressed",
+    "aria-current"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-32",
+    "bereich_statistik-7"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-C-prop-304-305",
+    "barrierefreiheit-C-affiliate-51",
+    "barrierefreiheit-C-stats-15"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/proptest.js:19",
+    "web/e2e/proptest.js:91",
+    "web/e2e/proptest.js:95",
+    "web/e2e/friedhoftest.js:21",
+    "web/e2e/affiliatetest.js:16",
+    "web/e2e/calmnavtest.js:51"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-E-dptest-92",
+   "titel": "dptest.js:92: zweites Escape zeigt „Änderungen verwerfen?“, dann [data-confirm]",
+   "von": 908,
+   "bis": 908,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/e2e/dptest.js"
+   ],
+   "anker": [
+    "U.requestClose",
+    "[data-confirm]",
+    ".modal-bg",
+    "t:Änderungen verwerfen?"
+   ],
+   "befund_ids": [
+    "barrierefreiheit-11"
+   ],
+   "abhaengig": [
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-U3b",
+    "barrierefreiheit-P4",
+    "barrierefreiheit-P12"
+   ],
+   "aufwand": "S",
+   "tests": [
+    "web/e2e/dptest.js:92"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-E-runall",
+   "titel": "web/e2e/runall.sh vollständig ausführen, besonders die genannten Suiten",
+   "von": 909,
+   "bis": 911,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/e2e/runall.sh"
+   ],
+   "anker": [],
+   "befund_ids": [],
+   "abhaengig": [
+    "barrierefreiheit-D1",
+    "barrierefreiheit-E-dashtest-15",
+    "barrierefreiheit-E-notechecktest-14",
+    "barrierefreiheit-E-newstest-52",
+    "barrierefreiheit-E-aria-current",
+    "barrierefreiheit-E-dptest-92"
+   ],
+   "aufwand": "M",
+   "tests": [
+    "web/e2e/tradeformtest.js",
+    "web/e2e/mobiletest.js",
+    "web/e2e/rangetest.js",
+    "web/e2e/sixtest.js",
+    "web/e2e/filtertest.js",
+    "web/e2e/coachtest.js",
+    "web/e2e/usercardtest.js",
+    "web/e2e/sidebartest.js",
+    "web/e2e/motiontest.js",
+    "web/e2e/switchtest.js",
+    "web/e2e/glidetest.js",
+    "web/e2e/tiptest.js"
+   ]
+  },
+  {
+   "nr": "barrierefreiheit-E-README",
+   "titel": "README: Tastatur-Zeile (Z. 318) erweitern, Absatz Fokusführung unter „Neuaufbau ohne Springen“",
+   "von": 912,
+   "bis": 916,
+   "cluster": "barrierefreiheit",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "README:Tastatur",
+    "README:Neuaufbau ohne Springen",
+    "App.focusSnapshot",
+    "App.restoreFocus",
+    "--focus"
+   ],
+   "befund_ids": [],
+   "abhaengig": [
+    "barrierefreiheit-A1",
+    "barrierefreiheit-P1",
+    "barrierefreiheit-P3",
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-C-rangepicker",
+    "barrierefreiheit-C-dashboard-154"
+   ],
+   "aufwand": "S",
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 919,
+  "bis": 1003
+ },
+ "querbezuege": [
+  "Gruppe Farbe (K28, Z. 241): Grün an .sym-opt[aria-selected] (app.css:886), Schein am Reglerknopf (app.css:812) und .more-link grün/600 regelt die Gruppe Farbe; hier nur Fokus (A2c: .sym-opt:focus-visible, .slider input[type=range]:focus-visible) und Trefferfläche (B12e: .more-link)",
+  "Gruppe Farbe / Inventar A12 (K1, Z. 214): --focus: var(--text) ersetzt alle grünen und --border-2-Fokusringe; farbe_kontrast-13/-14 werden hier umgesetzt, A12 „Akzent bleibt bei Fokus“ ist überholt (Anker --focus, :focus-visible, --accent, --accent-soft)",
+  "Gruppe Farbe/Komponenten (K11, Z. 224; B6, B9b): flacher Gewählt-Stil statt Grün an .popover .item[aria-checked=\"true\"], .tpl-row .chk, .tpl-row.on .item.name, .nb .tagpop .item.k-setup[aria-checked=\"true\"]; gemeinsame Gewählt-Liste app.css:3125–3128 (.rating button.on, .seg button[aria-checked=\"true\"], .tabs a[aria-current=\"page\"], .prop-tabs a[aria-current=\"page\"])",
+  "Gruppe Wortwahl (K28): Beschriftung „Prop-Konto“ (prop.js:294) kann dort zu „Prop-Konto anlegen“ werden; hier wird nur .hide-m entfernt (Schritt C-prop-294)",
+  "Gruppe Wortwahl (K28, W-24a): LONG/SHORT-Schreibweise regelt die Wortwahl; hier nur Größe und Schrift von .badge (B8)",
+  "Gruppe Wortwahl (wording-1, Z8 Regel 4, D1): Fehler-Toasts „Einstieg fehlt“/„Kontrakte fehlen“/„Eröffnet fehlt“/„Ausstieg fehlt“ ersetzen „Einstiegskurs fehlt“ und „Ausstiegskurs fehlt für geschlossenen Trade“ (P12); alle neuen Texte in web/js/lang/{en,es,pt,zh,hi}.js, gemeinsame Datei mit jeder Gruppe, die Texte einführt",
+  "Gruppe Responsiv (K28, Z. 241): breitere Aktionsspalten am Touch (responsiv-30, B12f: .tbl .btn.icon.sm, .set-row .btn.icon.sm, .pager .pg-nav button, .select.sm) zusammen mit responsiv-6 bei 390 px prüfen",
+  "Gruppe Responsiv: responsiv-25 (B12d .fd-pop), responsiv-28 (B12a .menu-btn/.avatar/.sb-toggle), responsiv-29 (B12e .more-link), responsiv-30 (B12f) und responsiv-26 (Ergänzung zu B4, Schalter 52 × 38, K6) werden hier umgesetzt",
+  "Gruppe Typografie (K23, Z. 236): .cal .d .pm am Handy 10,5 px/700 Onest ist eine bewusste Ausnahme von einer etwaigen 11-px-Untergrenze; typografie-27 (B14: .cal .d .n, .cal .d .pm, .cal .pm) und typografie-30 (B8 .badge, Chevron .tbl th .dir) werden hier umgesetzt",
+  "Gruppe Diagramme (K24, Z. 237; U6a/U6b, C-widgets-84-93): Trefferflächen .tip-hit über den Balken in drawers.vbars, drawers.hbars und widgets dbars, Streupunkte stroke-width 16, chartLabel/role=img; hoverLine (ui.js:235) sucht .hit, enterAnim (ui.js:250) überspringt transparente Flächen",
+  "Gruppe Bewegung (K22, bewegung-32; U4): .toast-wrap nur role=status, kein role=alert; Toast-Ausblendung über Motion.leave bleibt unverändert",
+  "Gruppe Komponenten (K2, komponenten-43; U3b): Anfangsfokus in U.confirmModal auf der sicheren Wahl über [data-autofocus]; Dialog-Gerüst U.modal/U.closeModal betrifft alle Dialoge",
+  "Gruppe Zustände (K3/K18, zustaende-36; B7, B11): a.row-link in der ersten Zelle statt Stretched-Link, .th-sort mit aria-sort, Feld-Fehlerzustand .input[aria-invalid=\"true\"]; bereich_trades_tag-40 ist in zustaende-36 enthalten",
+  "Bereich Shell (bereich_shell-12/-13/-14/-15/-30; H1, H2, P5–P9, B12a/b): #sidebar als <nav>, App.renderSidebar, App.userCard (#pop-user ohne role=menu), App.topbar, App.sessionControl, .theme-toggle; Nutzerfrage zur sichtbaren Vergrößerung von Hell/Dunkel (Z. 1021)",
+  "Bereich Dashboard (bereich_dashboard-21/-22/-40): (i)-Farbe auf Touch bleibt --faint (Nutzerfrage Z. 1023, mobiletest.js:32 muss grün bleiben); Filter-Fenster dash-filter.js und [data-action=\"dash-f-open\"]; Zahlen-Pillen .pills role=img; dashboard.js-Zeilen seit Commit aa9f1c6 um zwei Zeilen verschoben (Z. 4)",
+  "Bereich Einstellungen (bereich_einstellungen-20/-21/-43; K8–K10): .dot-x Trefferfläche, .cp-x zurückgestellt (Z. 1011); Farbnamen aus theme.js:18; Listen-Muster „Regel „X“ löschen“",
+  "Bereich Prop (bereich_prop-11/-39/-48): Friedhof .pg-stone/.pg-back inert, aria-current an .prop-tabs/.prop-sub; Nutzerfrage Anfangsfokus der Prop-Dialoge (Z. 1022)",
+  "Bereich Konto (bereich_konto-11/-12/-32): coach.js .vh-m, Coach-Zeile a.row-link, .aff-pct am Handy; zusätzliche data-tip an „Aufgabe an alle“/„Aktualisieren“ zurückgestellt (Z. 1012)",
+  "Bereich Notebook/News (bereich_notebook_news-35/-47): .nb-details summary:focus-visible, Notizbild mit U.lightbox und Alt-Text (editor.js:41–42), .nw-row.past, .nw-imp",
+  "Bereich Training (bereich_training-20): Checklisten in progress.js/day.js, Verstoß-Zeilen in shadow.js; Heatmap-Zellen progress.js:28 zurückgestellt (Z. 1010). Blind-Replay .rp (app.css:2144, 2232, 2240) bleibt unverändert und wird erst beim Freischalten auf --focus umgestellt (Z. 1013)",
+  "Bereich Trades/Tag (bereich_trades_tag-41): Dropzonen role=button, Screenshot-Knopf .shot-open, U.lightbox, Checklisten-Knöpfe",
+  "Bereich Statistik (bereich_statistik-7/-31/-32/-33): Reiter <nav aria-label=\"Statistik-Bereiche\"> mit aria-current, (i) als button.info, Wochentag-Zeilen a.row-link, Diagramm-Textalternativen",
+  "Tests anderer Bereiche (Phase E, Z. 896–910): proptest, friedhoftest, affiliatetest, calmnavtest, dashtest, notechecktest, newstest, dptest werden angepasst; Schutz: tradeformtest.js:14 (kein Feld vorausgewählt), mobiletest.js:32 (Lage des (i)), rangetest.js:13/15/45/49 und sixtest.js:54/56 (fragen aria-checked ab)"
+ ]
+}

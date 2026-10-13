@@ -1,0 +1,2905 @@
+{
+ "regeln": "SCHRIFTEN: Satoshi als variable Schrift (Fontshare-URL https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap, Gewichtsachse 300–900) statt der festen Schnitte 400/500/700/900. Damit sind 500/600/700 echte Stufen (heute rendert 600 als 700 und 800 als 900). Onest bleibt über Google Fonts (400–800). Quicksand, Nunito, Inter und Roboto (theme.js) bleiben unverändert. Die Marke steht auf 900.\nFAMILIEN: Onest (--font-num) für alles, was überwiegend aus Ziffern besteht: Beträge, %, R, Faktoren, Zähler, Kurse, Datum/Uhrzeit in Ziffernform, Achsen. Ein Bindewort im Betragspaar („von“, „bis“, „fehlen“) darf mit in Onest stehen. Satoshi (--font) für alle Wörter. Tabellenzellen sind standardmäßig Satoshi; Onest bekommen nur .tbl td.r, .tbl td.c und .num. Tabellenköpfe stehen immer in Satoshi (th.r nicht mehr in Onest). .cpn-code bleibt Onest. --font-display bleibt nur als Alias; Wert-Regeln setzen kein font-family: var(--font-display) mehr.\nGEWICHTE: 400 = Fließtext, Hilfstext, Beschreibung, Tabellenzelle, kleine Kennzahl-Beschriftung. 500 = Steuerelemente (Knopf, auch .btn.accent/aktiver Filter; Reiter, Segment, Chip, Menüeintrag, Navigation, Datums-/Kalenderknöpfe, Toolbar, Toast), Tabellenkopf, Kachel-Titel und Wert-Beschriftung, Zeilentitel einer Option. 600 = Titel h1–h4, Karten-/Block-/Listen-Titel, Zeilenkennung in Tabellen, Eyebrow, Feld-Label, Etiketten (Pille, Abzeichen, Zähler), Listenwerte (.kv b, .bar-row .bl b). 700 = Kennzahl-Werte (--fv-*), Beträge in Kalender/Tabellen/Pillen, Hauptknöpfe (.btn.primary, .btn.accent.tl, .rp-btn.rp-primary). 800 = nur Kalender-Tages-P&L (.cal .d .p, .cal .d .pm im Container, Onest). 900 = Marke (.brand, .cert-brand .name, .lp .hero h1, .lp .step .k). Ein ausgewählter Zustand ändert das Gewicht nie.\nTEXT-SKALA (Satoshi; Zeilenhöhe als einheitenloses Verhältnis): --fs-10 10px nur in @container-Notstufen (.tile.side .gauge-stack .pill, .cal .d .c). --fs-11/--lh-11 = 11/16 (Eyebrow, Abzeichen, Zähler, Achse, Sortierpfeil). --fs-12 = 12/16 (Hilfs-, Fuß-, Legenden-, Tooltip-Text, Tabellenkopf, Feld-Label, Chip, Pille, kleine Kennzahl-Beschriftung, Handy-Tabelle). --fs-13 = 13/18 (Tabellenzelle, kv, Beschreibung, Kachel-Titel/Wert-Beschriftung, .btn.sm, Segment, alle Menüeinträge). --fs-14 = 14/20 (Grundschrift, Knopf, Eingabe, Reiter, Navigation, Listen-Titel, Zeilentitel). --fs-15 = 15/20 (Karten-, Block-, Leer-Titel). --fs-18 = 18/24 (h2, h1 am Handy, Ruhepunkt-Bühnentitel am Handy). --fs-21 = 21/28 (h1, .rp-q, .rp-title).\nWERTE (Onest 700, --lh-val 1.1): --fv-14 Leiste/Liste; --fv-16 Widget-Kleinwert, Schieberegler, News-Countdown; --fv-20 Kachelwert schmal/≤960/Handy; --fv-24 Kachelwert, Prop-Saldo, Trade-Detail-Kopf; --fv-32 Hervorhebung (.score-big, Tilt, Sprach-Timer, Replay); --fv-44 Hero (.big-stat, Serie, Replay-Widget). Laufweite: ab 20 px --ls-val −0.02em, 44 px --ls-hero −0.03em, Werte bis 16 px und Text 0, Überschriften −0.01em. Beträge in dichten Bauteilen nutzen die Text-Skala 11–14 px. Verboten (außer Ausnahmen): 9.5/10.5/11.5/12.5/13.5/14.5/17/19/22/25/26/28/30/34/40/42/46/48/56 px.\nROLLEN: h1 21/600 (Handy 18/600). h2 für Bereich, Dialog, Panel, Einstellungen, Einrichtung: 18/600. Ruhepunkt-Bühnentitel (.rp-q als h2, .rp-title) 21/600, Handy 18. Karten-/Block-Titel 15/600. Listen-Titel 14/600. Zeilentitel einer Option 14/500, Farbe geerbt (b.neg bleibt rot). Optionskarten: Vorschau 13/600, Sprachkarte 14/600, Text 12/400 --muted. Eyebrow 11/600, Versal, +0.06em, font-feature-settings 'case', --muted, als eine Sammelregel. Kachel-Titel und Wert-Beschriftung 13/500 --text-2 in normaler Schreibung (neue Klasse .val-label). Kleine Kennzahl-Beschriftung 12/400 --muted. Steuerelement 14/500, klein 13/500. Navigation 14/500. Menüeintrag 13. Tabellenkopf 12/500 --muted Satoshi. Tabellenzelle 13/400, Zeilenkennung 600. Pille 12/600, Abzeichen 11/600, Zähler 11/600. Listenwert Onest 600 tabular, Zusatz 400 gedämpft. Notiz-Titel 32/600, −0.02em, lh 1.2 (≤960: 26, ≤560: 24). Editor-Überschriften lh 1.25.\nZEILENHÖHEN: body var(--fs-14)/var(--lh-14). Jede Regel auf --fs-N bekommt --lh-N. Vorhandene Werte ≥1.5 oder ≤1.25 bleiben, 1.26–1.49 werden ersetzt. Werte nutzen --lh-val (1 bzw. 1.05 bleiben). SVG-Text bekommt keine Zeilenhöhe. Nie eine px-Zeilenhöhe an Containern (body, .tbl, .kv, .rp).\nVERSALIEN nur als Eyebrow. Ausnahmen mit eigener Laufweite: .dstreak-steps b, Grabstein, Zertifikat, .rp-breath .rp-seg. Coupon-Code +0.12em, Link im Ticket 0.\nZIFFERN: tabular-nums für Tabellenzellen und für .kv b, .bar-row .bl b, .chart text, .pfm-top span, .fw-acc-v, .pg-info, .day-card .stats .v, .nw-next-when b, .nw-time, .nw-v b, .nb-toolbar .sz. Große Einzelwerte (.tile .val, .stat-tile .v, .big-stat) bleiben proportional.\nFORMATE: Geld immer mit 2 Nachkommastellen. compact nur bewusst und dann für beide Werte eines Paares; curCompact/curShort/axisCur/Kalender bleiben. Profit-Faktor 2 Stellen, ∞ bleibt. Win-Rate in Kacheln 1 Stelle, in Tabellen/Fuß 0. Streuungsmaße 2 Stellen. Datum in Trade-Listen über fmt.dateRow: im laufenden Jahr „08.10. 19:43“, sonst „29.12.25“. Tagestabelle „Do., 08.10.“ (Jahr nur über eine Jahresgrenze). Spanne mit der Einheit nur einmal und &nbsp; davor („−1,06 bis +1,39 R“, Kachelgröße). Drawdown-% steht in der Fußzeile. „WR“ → „Win-Rate“.\nSATZ: Beschreibungen in den Einstellungen höchstens 68ch breit. Umbruch nur vor „·“. Am Handy Umbruch zwischen den Teilen, nie zwischen Zahl und Einheit. Kopier-Links ohne Sperrung.\nAUSNAHMEN (bleiben): Zertifikat (nur Marke 800→900); Grabstein .pg-*/.prop-grave-* (nur Trennpunkt und Onest für .pg-facts dd > .pos/.neg/.neu); Editor-Inhalt .ql-editor/.nb-preview (nur Zeilenhöhe der Überschriften); .rp-verse 21/500 (nur Token); .font-card .sample 30; .avatar-big 26; .nb-menu .grid-em button 20; Notiz-Titel 26/24; Kalender-Tages-P&L Onest 800.\nNICHT ANFASSEN (1.12, Lückenrunde): Gewichte von .prop-h3, .sp-item .btn, .btn.fw-reset, .rp-switch, .cpick, .sym-btn, .dir-opt, .rr-week span/.dp-week span, .sb-av/.avatar, .prop-bar .bl b; Inline-Größen notebook.js:67/:123; Notebook-h3. OFFEN BEIM NUTZER: widgets.js:227 „Dein Score“ unverändert; Stufenfarben in app.css Z. 1266/1267 bleiben.\nGLOSSAR: Eyebrow = Versal-Abschnittslabel. Etikett = Pille/Abzeichen/Zähler. Zeilenkennung = Symbol/Name/Setup/Creator in der ersten Tabellenspalte. Wert-Beschriftung = Label über einem großen Wert (.val-label).",
+ "schritte": [
+  {
+   "nr": "typografie-3.0",
+   "titel": "Etappenplan E1–E5 und Zwischenprüfungen (Reihenfolge der übrigen Schritte, keine eigene Codeänderung)",
+   "von": 188,
+   "bis": 199,
+   "cluster": "tokens",
+   "dateien": [],
+   "anker": [],
+   "befund_ids": [],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "E1: Gewichtsmessung 4.1, Screenshots dashboard/settings_profil/prop dunkel 1440, web/e2e/settest2.js",
+    "E2: Atlas dunkel 1440+390, web/e2e/mobiletest.js, web/e2e/tlfittest.js, Kopfzeile 1024",
+    "E3: Atlas dunkel 1440/1024/390, Kalender 1280 und 390",
+    "E4: web/e2e/runall.sh, node --test web/tests/*.mjs",
+    "E5: Akzeptanz 4.1–4.5"
+   ]
+  },
+  {
+   "nr": "typografie-3.1",
+   "titel": "Satoshi als variable Schrift laden (satoshi@1) in app.html und index.html",
+   "von": 200,
+   "bis": 205,
+   "cluster": "tokens",
+   "dateien": [
+    "web/app.html",
+    "web/index.html"
+   ],
+   "anker": [
+    "link[href*=\"api.fontshare.com\"]"
+   ],
+   "befund_ids": [
+    "typografie-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/settest2.js:22 (Satoshi geladen)",
+    "Akzeptanz 4.1 Nr. 1–3 (grep satoshi@, Canvas-Breiten 500/600/700, document.fonts weight \"300 900\")"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.1",
+   "titel": "Größen-, Zeilenhöhen- und Laufweiten-Tokens in :root anlegen, body auf --fs-14/--lh-14",
+   "von": 206,
+   "bis": 214,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ":root",
+    "--fs-10",
+    "--fs-11",
+    "--lh-11",
+    "--fs-12",
+    "--lh-12",
+    "--fs-13",
+    "--lh-13",
+    "--fs-14",
+    "--lh-14",
+    "--fs-15",
+    "--lh-15",
+    "--fs-18",
+    "--lh-18",
+    "--fs-21",
+    "--lh-21",
+    "--fv-14",
+    "--fv-16",
+    "--fv-20",
+    "--fv-24",
+    "--fv-32",
+    "--fv-44",
+    "--lh-val",
+    "--ls-val",
+    "--ls-hero",
+    "body"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "E1-Screenshots dashboard, settings_profil, prop (dunkel 1440)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.2a",
+   "titel": "Sammelregel .small auf --fs-12/--lh-12",
+   "von": 215,
+   "bis": 219,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".small"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.2b",
+   "titel": "Eyebrow-Sammelregel (11/600/.06em, 'case', --muted) und Typo-Angaben aus den Einzelregeln entfernen",
+   "von": 220,
+   "bis": 221,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".caption",
+    ".nav-title",
+    ".popover .sec",
+    ".cp-sec",
+    ".sym-cap",
+    ".nb .sec-h",
+    ".nb-menu .head",
+    ".sp-group"
+   ],
+   "befund_ids": [
+    "typografie-17",
+    "bereich_shell-22",
+    "bereich_notebook_news-15"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.2 Nr. 6 (letter-spacing 0.66px an .nav-title, .popover .sec, .nb .sec-h, .sp-group, .caption; kein 0.99px)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.2c",
+   "titel": "Neue Klasse .val-label (13/500, --text-2) für Wert-Beschriftungen",
+   "von": 222,
+   "bis": 222,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".val-label"
+   ],
+   "befund_ids": [
+    "referenz-43",
+    "bereich_dashboard-44"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.2d",
+   "titel": "Toten .journal-Code löschen (Z. 770–774 und .journal-Teil in Z. 788)",
+   "von": 223,
+   "bis": 223,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".journal",
+    ".journal > div",
+    ".journal .col",
+    ".journal .col:last-child",
+    ".journal .col h3"
+   ],
+   "befund_ids": [
+    "typografie-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.4: grep -n \"\\.journal\" web/css/app.css ohne Treffer"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.2e",
+   "titel": "tabular-nums-Sammelregel für Listenwerte und laufende Zahlen",
+   "von": 224,
+   "bis": 224,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".kv b",
+    ".bar-row .bl b",
+    ".chart text",
+    ".pfm-top span",
+    ".fw-acc-v",
+    ".pg-info",
+    ".day-card .stats .v",
+    ".nw-next-when b",
+    ".nw-time",
+    ".nw-v b",
+    ".nb-toolbar .sz"
+   ],
+   "befund_ids": [
+    "typografie-21",
+    "bereich_notebook_news-48",
+    "bereich_notebook_news-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Screenshot news (14:15 so breit wie 14:30), prop_bilanz (Pro Firma bündig)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.2f",
+   "titel": "Onest-Sammelregel neu fassen: Tabellenzellen standardmäßig Satoshi, nur td.r/td.c/.num und Wert-Selektoren in Onest",
+   "von": 225,
+   "bis": 225,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--font-num",
+    ".num",
+    ".tbl td",
+    ".tbl td.r",
+    ".tbl td.c",
+    ".tbl th.r",
+    ".pill",
+    ".tile.spark-tile .val",
+    ".cal .d .pm",
+    ".cal .w .pm",
+    ".tile .gauge-stack .pill",
+    ".pills.col .pill",
+    ".day-card .stats .v",
+    ".prop-balance .val",
+    ".prop-bar .bl b",
+    ".fw-stats b",
+    ".fw-acc-v",
+    ".stc-col > b",
+    ".wl-single .lbl",
+    ".pfm-top span",
+    ".pg-facts dd > .pos",
+    ".pg-facts dd > .neg",
+    ".pg-facts dd > .neu",
+    ".fw-big",
+    ".rh-big",
+    ".streak .big",
+    ".bar-row .bl b"
+   ],
+   "befund_ids": [
+    "typografie-11",
+    "typografie-12",
+    "bereich_einstellungen-30",
+    "bereich_konto-34",
+    "responsiv-33",
+    "bereich_statistik-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.4: grep -n \"tbl th.r\" web/css/app.css ohne Treffer",
+    "Screenshots trades, prop_bilanz, settings_konten, settings_logs, affiliate (Kopf Satoshi, Datum Onest)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.2g",
+   "titel": "Zeilenname .tbl td.lbl auf 600 (direkt nach der Onest-Regel)",
+   "von": 226,
+   "bis": 226,
+   "cluster": "statistik",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl td.lbl"
+   ],
+   "befund_ids": [
+    "bereich_statistik-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2f"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.2h",
+   "titel": "font-family: var(--font-display) aus Wert-Regeln löschen (Pflicht bei .prop-balance .val und .rh-big)",
+   "von": 227,
+   "bis": 228,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--font-display",
+    ".prop-balance .val",
+    ".rh-big",
+    ".tile .val",
+    ".score-big",
+    ".day-card .head .pnl",
+    ".big-stat",
+    ".fw-big",
+    ".fw-stats b",
+    ".tile.spark-tile .val"
+   ],
+   "befund_ids": [
+    "typografie-11"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "Screenshot prop: 111.262,00 $ in Onest"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3a",
+   "titel": "Skala-Schreibweise (3.2.3) und --fs-10 nur in @container-Notstufen",
+   "von": 229,
+   "bis": 237,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile.side .gauge-stack .pill",
+    ".cal .d .c"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 dashboard 1280 (Kalenderzellen ohne Überlauf)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3b",
+   "titel": "--fs-11: 9.5/10 px → 11 (Handy-Kalender, Sortierpfeil, Ring, News, Tageszahl im 20-px-Kreis)",
+   "von": 238,
+   "bis": 240,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cal .d .pm",
+    ".tbl th .dir",
+    ".ring .n small",
+    ".cal .w .t",
+    ".nw-v small",
+    ".cal .d .n"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "responsiv-33"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/mobiletest.js",
+    "Akzeptanz 4.3 dashboard 390 (Beträge 11 px mit €, Tageszahl 11 px im 20-px-Kreis, Heute-Kreis sichtbar)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3c",
+   "titel": "--fs-11: 10.5/11.5 px → 11 (Abzeichen, Pillen, Atemsegmente, .pf-n, .chart text)",
+   "von": 241,
+   "bis": 242,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".badge",
+    ".cal .d .c .wr",
+    ".cal .p",
+    ".cal .d .p",
+    ".rp-seq-i small",
+    ".prop-presets td .sub .pill",
+    ".mr-head .pill",
+    ".sp-group",
+    ".rp-breath .rp-seg",
+    ".pf-n",
+    ".chart text"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "bereich_training-46"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/rptest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3d",
+   "titel": "--fs-11: übrige 11-px-Regeln auf das Token",
+   "von": 243,
+   "bis": 244,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nav .badge-n",
+    ".rr-week span",
+    ".dp-week span",
+    ".tile .gauge-stack .pill",
+    ".score-scale .lbls",
+    ".chart text",
+    ".cal .c",
+    ".cal .w .days",
+    ".cal.mini .wd",
+    ".ticks",
+    ".nb .folder .cnt",
+    ".datepick .wd",
+    ".btn .cntb",
+    ".fd-hint",
+    ".fd-panel .cntb",
+    ".serie .pill",
+    ".yc small",
+    ".msg .t",
+    ".tbl.aff-tbl th",
+    ".tile .head .n",
+    ".nw-rel",
+    ".nw-n",
+    ".nw-cur"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.2 Nr. 1–2 (grep font-size px)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3e",
+   "titel": "--fs-12: 11/11.5 px → 12 (kleine Kennzahl-Beschriftungen, Hilfstexte, Pille) und .wl-single .lbl bereinigen",
+   "von": 245,
+   "bis": 248,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".day-card .stats .k",
+    ".strat-stats .k",
+    ".nb .stats-grid .k",
+    ".rp-scale-ends",
+    ".field .hint",
+    ".pill",
+    ".cal .d .n",
+    ".cal .w .t",
+    ".nb .note-item .d",
+    ".nb .save-state",
+    ".ed-pop .ed-hint",
+    ".nb-figure .fig-bar button",
+    ".fd-pop .fd-l",
+    ".fw-stats > div > span",
+    ".seg.mini button",
+    ".font-card small",
+    ".rp-tempo",
+    ".rp-chip.rp-chip-sm",
+    ".rh-rounds-l",
+    ".voice-sug .k",
+    ".prop-acc-tbl td .sub",
+    ".prop-presets td .sub",
+    ".prop-rule-f .field span",
+    ".prop-rule .hint",
+    ".stc-l small",
+    ".nw-next-when small",
+    ".wl-single .lbl"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "bereich_trades_tag-39",
+    "bereich_training-46",
+    "bereich_notebook_news-15",
+    "bereich_einstellungen-28",
+    "bereich_dashboard-44"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 dashboard (Schatten-Ich-Widget-Labels 12 px, Kürzung nicht schlimmer, K13), day (Kennzahl-Labels 12 px)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3f",
+   "titel": "--fs-12: 12.5 px → 12 (Hilfstext, Label, kompakt; Farbpaar-Betrag Onest 600; Handy-Tabelle 12)",
+   "von": 249,
+   "bis": 249,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card-sub",
+    ".bar-row .bl",
+    ".cal .wd",
+    ".zone",
+    ".sym-opt .nm",
+    ".nb-figure .cap",
+    ".heat-legend",
+    ".page-head .ph-note",
+    ".fd-pop .fd-pair .input",
+    ".fd-pop .fd-pair .fd-unit",
+    ".fd-l",
+    ".fw-rounds-empty",
+    ".fw-lbl",
+    ".fw-facts",
+    ".ycal-head span",
+    ".ym-head",
+    ".pair-card .pv i",
+    ".rp-where",
+    ".rp-small",
+    ".rp-verse-ref",
+    ".rp-next",
+    ".rp-meta",
+    ".rp-content:has(.rp-breath) > .rp-guide",
+    ".sr-desc",
+    ".sr-num .sr-suf",
+    ".rh-sub",
+    ".rc-count",
+    ".prop-accsel > span",
+    ".pf-sub",
+    ".cpn-link",
+    ".aff-label",
+    ".prop-bar .bl",
+    ".ce-date",
+    ".mentor-note .mn-head",
+    ".mr-head b",
+    ".stc-l",
+    ".cal .d .pm",
+    ".cal .w .pm",
+    ".tbl th",
+    ".tbl td"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "bereich_einstellungen-29"
+   ],
+   "aufwand": "L",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/mobiletest.js (Handy-Tabelle ohne Überlauf)",
+    "Akzeptanz 4.3 settings_design (+240 € in Onest 600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3g",
+   "titel": "--fs-12: übrige 12-px-Regeln auf das Token",
+   "von": 250,
+   "bis": 251,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".brand .sub",
+    ".sb-who span",
+    ".btn.xs",
+    ".field > label",
+    ".field > .lbl",
+    ".tile .head .n",
+    ".tile .foot",
+    ".tbl th",
+    ".tbl .sub",
+    ".chip",
+    ".stat .s",
+    ".legend",
+    "#tip",
+    ".cal.mini .d .n",
+    ".map-row .sample",
+    ".nb .note-item .tr",
+    ".fd-pop .fd-seg button",
+    ".fd-pop .fd-tog button",
+    ".fd-pop .fd-add",
+    ".fd-pop .fd-chip",
+    ".fw-sub",
+    ".fw-acc-n > span",
+    ".fw-rp-t > span",
+    ".tracker .tl",
+    ".tracker .ml",
+    ".tracker .wl",
+    ".heat-legend.right",
+    ".nb-preview .pv-l",
+    ".lang-card small",
+    ".cert-opts .lbl",
+    ".rp-foot .rp-btn.rp-quiet",
+    ".rh-ready",
+    ".rb-n",
+    ".pfm-sub",
+    ".cpn-note",
+    ".aff-code",
+    ".coach-radio small",
+    ".mr-head",
+    ".tbl.aff-tbl td",
+    ".tile .head",
+    ".recent-wrap .tbl th",
+    ".recent-wrap .tbl td",
+    ".nw-fg .lbl"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.2 Nr. 5 (Zeilenhöhen ganzzahlig)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3h",
+   "titel": "--fs-13: 12.5 px → 13 für Steuerelemente und Optionskarten (.design-card b, .theme-card b)",
+   "von": 252,
+   "bis": 254,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sb-av",
+    ".btn.sm",
+    ".seg.pill button",
+    ".swatch",
+    ".topbar .actions .btn",
+    ".nb .sel-row",
+    ".nb .tags-row .tag-add",
+    ".nb .tags-row input",
+    ".nb-ytpop",
+    ".fd-pop .fd-foot .btn",
+    ".fd-seg button",
+    ".fd-tog button",
+    ".fd-chip",
+    ".fd-add",
+    ".fw-chips button",
+    ".tabs.sm button",
+    ".w-bar",
+    ".tpl-menu .item",
+    ".select.sm",
+    ".tracker-foot > .btn",
+    ".rep-foot .btn.primary",
+    ".cert-opts .seg.sm button",
+    ".rp-more summary",
+    ".seg.segc button",
+    ".select.sm.prop-fsel",
+    ".prop-tabs a",
+    ".coach-invite .input",
+    ".nw-v b",
+    ".design-card b",
+    ".theme-card b"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "bereich_einstellungen-28"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 settings_design (Theme-/Designkarten 13/600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3i",
+   "titel": "--fs-13: 13.5 → 13 für Kachel-Titel, .set-head p und Konto-Menü (.sb-menu .item erbt 13 von .popover .item)",
+   "von": 255,
+   "bis": 255,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile .head",
+    ".set-head p",
+    ".sb-menu-row",
+    ".sb-menu .item",
+    ".popover .item"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-44",
+    "typografie-3",
+    "typografie-31"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 sidebar, pop_konto (Menüeinträge 13 wie andere Menüs), dashboard (Kachel-Titel 13/500)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3j",
+   "titel": "Notebook-Toolbar: „Text“-Label und Größenanzeige auf 13/500, .sz in Onest",
+   "von": 256,
+   "bis": 256,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb-toolbar .tb.turn .lbl",
+    ".nb-toolbar .tb .lbl",
+    ".nb-toolbar .sz"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 notebook_notiz (Toolbar „Text“ und „16“ 13/500, „16“ in Onest)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3k",
+   "titel": "@container (max-width: 272px): .stc-col > b 13.5 → 13 (nur verkleinern, K11)",
+   "von": 257,
+   "bis": 257,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stc-col > b"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.3l",
+   "titel": "--fs-13: übrige 13-px-Regeln auf das Token",
+   "von": 258,
+   "bis": 259,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".avatar",
+    ".check",
+    ".seg button",
+    ".rating button",
+    ".popover .item",
+    ".rr-day",
+    ".rr-sum",
+    ".dp-day",
+    ".dp-link",
+    ".dp-t",
+    ".tbl",
+    ".stat-tile .k",
+    ".stat .k",
+    ".kv",
+    ".banner",
+    ".cal .p",
+    ".dropzone",
+    ".comp",
+    ".checklist .it",
+    ".fieldset > legend",
+    ".fieldset > .legend",
+    ".map-row",
+    ".toast",
+    ".nb .trash-link",
+    ".datepick .dp",
+    ".nb .meta",
+    ".nb-menu .row-item",
+    ".dashed",
+    ".activity .months",
+    ".activity .wl",
+    ".fd-pop .fd-gh",
+    ".fd-pair .input",
+    ".fd-pair .fd-unit",
+    ".fd-opts .item",
+    ".fw-empty > span",
+    ".legend.rep",
+    ".more-link",
+    ".yc b",
+    ".rep-sel",
+    ".rep-foot .rep-reset",
+    ".pager",
+    ".input-unit span",
+    ".set-nav a",
+    ".font-card b",
+    ".pair-card b",
+    ".cpick",
+    ".rp-switch",
+    ".rp-choice .rp-desc",
+    ".rp-chip",
+    ".sr-unit",
+    ".sr-time",
+    ".rh-lbl",
+    ".rh-facts",
+    ".rb-row",
+    ".conf-q",
+    ".cpn-off",
+    ".prop-rule > b",
+    ".prop-assign-row",
+    ".mentor-note .mn-head b",
+    ".coach-radio span",
+    ".mr-write textarea",
+    ".tabs button",
+    ".nw-banner",
+    ".nw-dh",
+    ".nw-time",
+    ".nw-loading"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "L",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.2 Nr. 2 und Nr. 5"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3m",
+   "titel": "--fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)",
+   "von": 260,
+   "bis": 261,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn",
+    ".input",
+    ".select",
+    "textarea.input",
+    ".dp-month",
+    ".cp-hex",
+    ".tabs button",
+    ".inp-cur .cur-sym",
+    ".dir-opt",
+    ".sym-opt",
+    ".nb .folder",
+    ".nb .note-item b",
+    ".fw-acc-n b",
+    ".add-slot",
+    ".sp-item b",
+    ".rep-it",
+    ".rp-guide",
+    ".rp-btn",
+    ".rp-l",
+    "dl.rp-summary dt",
+    ".rp-breath .rp-hint",
+    ".rp-list .rp-li-main b",
+    ".mentor-err",
+    ".sr-num .input",
+    ".prop-tabs a",
+    ".prop-sub a",
+    ".pfm-top b",
+    ".prop-patterns",
+    ".prop-highlights",
+    ".mr-text",
+    ".coach-nrow b",
+    ".coach-co-what",
+    ".nw-row"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "L",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 Kopfzeile 1024 (Knöpfe 14 px ohne Umbruch)",
+    "web/e2e/langtest.js:33 (Überlauf .btn, .tabs button, .seg button)",
+    "web/e2e/headtest.js (Kopfreihe Handy)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3n",
+   "titel": "--fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)",
+   "von": 262,
+   "bis": 262,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nav a",
+    ".nav button",
+    ".note-body",
+    ".rp",
+    ".rp-open > .rp-guide",
+    "ol.rp-visual",
+    ".rp-sl-head .rp-l",
+    ".rp input[type=text]",
+    ".rp input[type=number]",
+    ".rp textarea",
+    ".rp-ampel strong",
+    ".rp-checks label",
+    ".msg",
+    ".ce-body.ql-container"
+   ],
+   "befund_ids": [
+    "typografie-31",
+    "typografie-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/headtest.js:60–64 (Navigation weiter 500)",
+    "web/e2e/rptest.js",
+    "Akzeptanz 4.3 sidebar (Navigation 14/500)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3o",
+   "titel": "Sprachkarte .lang-card b 16 → 14/600 (K5)",
+   "von": 263,
+   "bis": 263,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".lang-card b"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/langtest.js:33 (.lang-card ohne Überlauf)",
+    "Akzeptanz 4.3 settings_design (Sprachkarte 14/600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3p",
+   "titel": "--fs-14: übrige 14-px-Regeln auf das Token",
+   "von": 264,
+   "bis": 265,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".sb-who b",
+    ".nb .datebtn",
+    ".rules-list",
+    ".fw-rp-t b",
+    ".tpl-row .star",
+    ".rep-g",
+    ".set-nav a",
+    ".set-tabs button",
+    ".chip.sel.big",
+    ".font-card .nums",
+    ".rp-ampel",
+    ".rp-dlg h3",
+    ".sr-label",
+    ".rh-steps li",
+    ".conf-word",
+    ".voice-status",
+    ".mentor-note .mn-text",
+    ".coach-task .ct-text"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.3q",
+   "titel": "--fs-15/600: Titel von 14.5/16/18 px auf 15 (u. a. .rp-callout h3, .rp-choice .rp-name, .fw-empty b)",
+   "von": 266,
+   "bis": 269,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rr-m-title",
+    ".dp-title",
+    ".dp-tval",
+    ".fd-pop .sp-head h2",
+    ".fw-empty b",
+    ".rp-choice .rp-name",
+    ".rp-callout h3",
+    ".rh-empty .card-title"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "bereich_training-46"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/rptest.js",
+    "Akzeptanz 4.3 ruhepunkt („Vor dem Trading“ 15/600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3r",
+   "titel": "Einstellungs-Blocktitel .set-block h3 14/700 → 15/600 (margin-bottom 10px bleibt)",
+   "von": 270,
+   "bis": 270,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-block h3"
+   ],
+   "befund_ids": [
+    "referenz-35"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 settings_profil („Daten und Sicherung“ 15/600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3s",
+   "titel": "--fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)",
+   "von": 271,
+   "bis": 272,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".card-title",
+    ".empty b",
+    ".tj-sym",
+    ".day-card .head .date",
+    ".fd-gh",
+    ".tile .nodata",
+    ".rp-sub",
+    ".shadow-intro b",
+    ".replay-decide .btn.big",
+    ".replay-outcome",
+    ".voice-actions .btn.big",
+    ".prop-h",
+    ".pf-t",
+    ".cpn-head b",
+    ".prop-title b",
+    ".prop-group-title b",
+    ".nw-next-t b"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 shadow/leer_shadow/leer_progress (Intro und Leer-Titel 15/600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3t",
+   "titel": "--fs-18: h2-Titel von 17/19/20 px auf 18 (Dialog, Seitenpanel, Coach/Mentor-Einrichtung, Handy-h1)",
+   "von": 273,
+   "bis": 276,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".topbar h1",
+    ".ce-title",
+    ".modal-head h2",
+    ".side-panel .sp-head h2",
+    ".rp-breath .rp-phase",
+    ".mentor-setup h2",
+    ".coach-title",
+    ".coach-join-head h2"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "bereich_training-46"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/coachtest.js",
+    "web/e2e/mentortest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3u",
+   "titel": "Einstellungs-Bereichstitel .set-head h2 24/700 → 18/600 (K2)",
+   "von": 277,
+   "bis": 277,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-head h2"
+   ],
+   "befund_ids": [
+    "referenz-32"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 settings_profil („Profil“ 18/600 kleiner als „Einstellungen“ 21/600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3v",
+   "titel": "Ruhepunkt-Bühnentitel am Handy: .rp-q 22 und .rp-title 21 → --fs-18 (K3)",
+   "von": 278,
+   "bis": 278,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-q",
+    ".rp-title"
+   ],
+   "befund_ids": [
+    "typografie-3",
+    "bereich_training-46"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/rptest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3w",
+   "titel": "--fs-18: vorhandene 18-px-Regeln auf das Token (.ql-editor.ql-blank::before, .rp-x lh 1 bleibt)",
+   "von": 279,
+   "bis": 280,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ql-editor.ql-blank::before",
+    ".rp-x"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.3x",
+   "titel": "Ruhepunkt-Bühnentitel .rp-q (26/700) und .rp-title (24/700) → 21/600 mit --lh-21 (K3)",
+   "von": 281,
+   "bis": 283,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-q",
+    ".rp-title"
+   ],
+   "befund_ids": [
+    "bereich_training-46"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/rptest.js",
+    "Akzeptanz 4.3 ruhepunkt („Wo stehst du gerade?“ und Session-Titel 21/600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3y",
+   "titel": "--fs-21: .topbar h1 und .rp-verse (Zeilenhöhe 1.45 bleibt) auf das Token",
+   "von": 284,
+   "bis": 285,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".topbar h1",
+    ".rp-verse"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.3z",
+   "titel": "Notiz-Titel .nb .note-title 34/700 → 32/600, lh 1.2 (Stufen 26/24 bleiben)",
+   "von": 286,
+   "bis": 288,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .note-title"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-15"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 notebook_notiz (Notiztitel 32/600)",
+    "web/e2e/figtest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3-fv14",
+   "titel": "Werte-Skala --fv-14 (Leisten- und Listenwerte, .stc-col > b im 300-px-Container)",
+   "von": 289,
+   "bis": 293,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--fv-14",
+    ".nb .stats-grid .v",
+    ".stc-col > b",
+    ".strat-stats .v",
+    ".day-card .stats .v",
+    ".fw-acc-v",
+    ".pfm-top span"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.3-fv16",
+   "titel": "Werte-Skala --fv-16 (Widget-Kleinwerte, Schieberegler, News-Countdown)",
+   "von": 294,
+   "bis": 299,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--fv-16",
+    ".rp-range-val",
+    ".nw-next-when b",
+    ".slider .sv",
+    ".replay-verdict",
+    ".prop-balance .val.sm",
+    ".streak-ring",
+    ".replay-meta .sym",
+    ".day-card .head .pnl",
+    ".fw-stats b",
+    ".yc.year b",
+    ".stc-col > b"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/replaytest.js",
+    "web/e2e/newstest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3-fv20",
+   "titel": "Werte-Skala --fv-20 (Kachelwerte in schmalen Containern, ≤960 px und am Handy)",
+   "von": 300,
+   "bis": 304,
+   "cluster": "responsiv",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--fv-20",
+    ".tile .val",
+    ".prop-balance .val",
+    ".prop-tiles .tile .val",
+    ".stat-tile .v"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/mobiletest.js:26–27 (.stat-tile .v bleibt 20px)",
+    "Akzeptanz 4.3 prop bei 1024 (vier Kacheln „+12.316,00 €“ passen)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3-fv24",
+   "titel": "Werte-Skala --fv-24 (Kachelwert, Prop-Saldo, Trade-Detail-Kopf, Schatten-Ich, Coach)",
+   "von": 305,
+   "bis": 314,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--fv-24",
+    ".tile .val",
+    ".stat .v",
+    ".tracker-foot .score-n",
+    ".coach-gs-tiles .tile .val",
+    ".detail-head .sym",
+    ".detail-head .big",
+    ".shadow-tiles .tile.shadow-main .val",
+    ".prop-balance .val",
+    "ol.rp-visual li::before",
+    ".tilt-stats .v",
+    ".tilt-stats .v.cur",
+    ".stat-tile .v",
+    ".streak-tile .val",
+    ".prop-tiles .tile .val"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "M",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/shadowtest.js",
+    "web/e2e/coachtest.js",
+    "Akzeptanz 4.3 dashboard/stats_summary/trades (Kachelwerte 24)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3-fv32",
+   "titel": "Werte-Skala --fv-32 (.score-big, Tilt-Werte, Sprach-Timer, Replay)",
+   "von": 315,
+   "bis": 320,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--fv-32",
+    ".score-big",
+    ".voice-time",
+    ".big-stat",
+    ".replay-big",
+    ".tilt-stats .v",
+    ".rh-big",
+    ".tilt-stats .v.cur",
+    ".rp-bigtime"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/voicetest.js",
+    "web/e2e/replaytest.js",
+    "web/e2e/rptest.js (.rp-bigtime)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.3-fv44",
+   "titel": "Werte-Skala --fv-44 (Hero: .streak .big, .fw-big, .rh-big, .big-stat)",
+   "von": 321,
+   "bis": 324,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    "--fv-44",
+    ".streak .big",
+    ".fw-big",
+    ".rh-big",
+    ".big-stat"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/streaktest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4a",
+   "titel": "Marke 800 → 900 (.brand, Zertifikat .cert-brand .name)",
+   "von": 325,
+   "bis": 330,
+   "cluster": "shell",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".brand",
+    ".cert[data-theme=\"app\"] .cert-brand .name"
+   ],
+   "befund_ids": [
+    "typografie-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.1 Nr. 6 (font-weight 800 nur noch Kalender)",
+    "web/e2e/certtest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4b",
+   "titel": "Knöpfe: .btn.primary 700, .btn.accent 500 (aktiver Filter nicht fetter), neu .btn.accent.tl 700 (K8)",
+   "von": 331,
+   "bis": 333,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".btn.primary",
+    ".btn.accent",
+    ".btn.accent.tl"
+   ],
+   "befund_ids": [
+    "typografie-1",
+    "typografie-19"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.1 Nr. 5 („Trade loggen“ fett, „Filter“ mit aktivem Filter nicht fetter)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4c",
+   "titel": "Ruhepunkt-Knöpfe: .rp-btn 500, .rp-btn.rp-primary 700",
+   "von": 334,
+   "bis": 335,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".rp-btn",
+    ".rp-btn.rp-primary"
+   ],
+   "befund_ids": [
+    "typografie-19"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/rptest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4d",
+   "titel": "Steuerelemente 600 → 500 (Reiter, Filter-Bausteine, Datumsknöpfe, Toast, .more-link) und .datepick .dp in Onest",
+   "von": 336,
+   "bis": 337,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".prop-tabs a",
+    ".prop-sub a",
+    ".set-tabs button",
+    ".fd-seg button",
+    ".fd-tog button",
+    ".fd-chip",
+    ".fd-add",
+    ".dp-month",
+    ".dp-link",
+    ".nb .datebtn",
+    ".datepick .dp",
+    ".add-slot",
+    ".toast",
+    ".more-link"
+   ],
+   "befund_ids": [
+    "typografie-19",
+    "bereich_konto-33",
+    "bereich_notebook_news-15"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 prop (Reiter 14/500)",
+    "web/e2e/headtest.js:61 (.set-nav 500, nicht betroffen)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4e",
+   "titel": "Notebook: Tag-Pillen 500 (Zähler Onest 500), .nb-details summary 600",
+   "von": 338,
+   "bis": 340,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .tagpill",
+    ".nb .tagpill b",
+    ".nb-details summary"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-15"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 notebook (Tag-Pillen 500)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4f",
+   "titel": "Listen-Titel explizit auf 600 (statt geerbtem Bold)",
+   "von": 341,
+   "bis": 341,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .note-item b",
+    ".fw-acc-n b",
+    ".fw-rp-t b",
+    ".sp-item b",
+    ".rp-list .rp-li-main b",
+    ".pfm-top b",
+    ".prop-title b",
+    ".prop-group-title b"
+   ],
+   "befund_ids": [
+    "typografie-20",
+    "bereich_notebook_news-15"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 notebook (Listentitel 14/600), prop („Copy NQ“ und „Aktive Konten“ gleich schwer)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4g",
+   "titel": "Schatten-Ich-Intro .shadow-intro b auf 600",
+   "von": 342,
+   "bis": 342,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".shadow-intro b"
+   ],
+   "befund_ids": [
+    "typografie-20",
+    "bereich_training-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/shadowtest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4h",
+   "titel": "Leer-Titel .empty b auf 600",
+   "von": 343,
+   "bis": 343,
+   "cluster": "zustaende",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".empty b"
+   ],
+   "befund_ids": [
+    "bereich_training-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 leer_shadow, leer_progress"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4i",
+   "titel": "Zeilenkennung in Tabellen 700 → 600 (.tbl .sym inkl. Coach-Schülernamen, .aff-name)",
+   "von": 344,
+   "bis": 345,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tbl .sym",
+    ".aff-name"
+   ],
+   "befund_ids": [
+    "typografie-20",
+    "bereich_konto-33"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/affiliatetest.js",
+    "web/e2e/coachtest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4j",
+   "titel": "Optionskarten .font-card b und .pair-card b auf 600",
+   "von": 346,
+   "bis": 346,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".font-card b",
+    ".pair-card b"
+   ],
+   "befund_ids": [
+    "bereich_einstellungen-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 settings_design"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4k",
+   "titel": "Zeilentitel in Einstellungen und Coach: neue Regel 14/500 ohne Farbe, Einzelregel .coach-nrow b 13.5px löschen (K7)",
+   "von": 347,
+   "bis": 347,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-row b",
+    ".set-block .row.between > div > b",
+    ".set-block .check b",
+    ".coach-nrow b"
+   ],
+   "befund_ids": [
+    "referenz-35",
+    "bereich_einstellungen-28",
+    "bereich_konto-33",
+    "typografie-20"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/coachtest.js",
+    "Akzeptanz 4.3 settings_profil („Alles löschen“ bleibt rot), settings_benachrichtigungen/coach (Schalter-Titel 14/500 gleich)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4l",
+   "titel": "Kachel-Titel .stat-tile .k/.stat .k auf 500, Zähler .cntb 700 → 600",
+   "von": 348,
+   "bis": 349,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".stat-tile .k",
+    ".stat .k",
+    ".btn .cntb",
+    ".fd-panel .cntb"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/filtertest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.4m",
+   "titel": "Serie-Stufenwort 600/.06em (Farben bleiben) und Regel-Ziffern gedämpft 500 Onest (K19)",
+   "von": 350,
+   "bis": 352,
+   "cluster": "training",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".dstreak-steps b",
+    ".rules-list li::marker"
+   ],
+   "befund_ids": [
+    "bereich_training-21"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/streaktest.js",
+    "Akzeptanz 4.3 progress"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.5a",
+   "titel": "Kachelwert .tile .val auf --fv-24/--ls-val/--lh-val ohne --font-display",
+   "von": 353,
+   "bis": 357,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile .val"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 dashboard (Kachelwerte 24)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.5b",
+   "titel": "Spark-Kachel: gap-Regel löschen, .spark-body nowrap, Typo-Dubletten in .tile.spark-tile .val löschen (K26)",
+   "von": 358,
+   "bis": 360,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile.spark-tile",
+    ".tile.spark-tile .spark-body",
+    ".tile.spark-tile .val"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-31"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.5a"
+   ],
+   "tests": [
+    "web/e2e/tlfittest.js",
+    "Akzeptanz 4.3 trades (893,04 € gleich groß wie 1,43; leer_trades y ≈ 220)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.5c",
+   "titel": "Regel .tile .val small.sub löschen (nach Umbau des Drawdown-Widgets)",
+   "von": 361,
+   "bis": 361,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".tile .val small.sub"
+   ],
+   "befund_ids": [
+    "diagramme-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.5a"
+   ],
+   "tests": [
+    "Akzeptanz 4.4: grep small.sub ohne Treffer"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.5d",
+   "titel": "Listenwert .bar-row .bl b 600 nowrap, gedämpfter Zusatz 400",
+   "von": 362,
+   "bis": 362,
+   "cluster": "statistik",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".bar-row .bl b",
+    ".bar-row .bl b .muted"
+   ],
+   "befund_ids": [
+    "bereich_statistik-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.5e",
+   "titel": "Kopier-Link im Ticket: .cpn-code.is-link 13/500 ohne Sperrung",
+   "von": 363,
+   "bis": 363,
+   "cluster": "konto",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".cpn-code.is-link",
+    ".cpn-code"
+   ],
+   "befund_ids": [
+    "bereich_konto-31"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.1"
+   ],
+   "tests": [
+    "web/e2e/affiliatetest.js:42",
+    "web/e2e/coupontest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.5f",
+   "titel": "Einstellungen: Beschreibungen max. 68ch und Knopf rechts halten (flex: 1 1 320px)",
+   "von": 364,
+   "bis": 365,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".set-head p",
+    ".set-block .small",
+    ".set-block .row.between > div:first-child"
+   ],
+   "befund_ids": [
+    "typografie-9",
+    "referenz-35"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/settest2.js",
+    "Akzeptanz 4.3 settings_profil/settings_trading/settings_sprache (≤ 68ch, „Entfernen“ rechts)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.5g",
+   "titel": "Editor-Überschriften .ql-editor h1–h3 line-height 1.25",
+   "von": 366,
+   "bis": 366,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".ql-editor h1",
+    ".ql-editor h2",
+    ".ql-editor h3"
+   ],
+   "befund_ids": [
+    "typografie-23"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/figtest.js",
+    "Akzeptanz 4.3 notebook_notiz (Editor-h2 zweizeilig ohne Lücke)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.5h",
+   "titel": "Notebook-P&L-Zeile: neue Regel .nb .nb-pnl (500, --text-2), Betrag 700 Onest",
+   "von": 367,
+   "bis": 368,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nb .nb-pnl",
+    ".nb .nb-pnl > .pos",
+    ".nb .nb-pnl > .neg",
+    ".nb .nb-pnl > .neu"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-15"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.2.6a",
+   "titel": "Grabstein-Chips: nowrap und Trennpunkt „· “ (Umbruch nur vor dem Punkt)",
+   "von": 369,
+   "bis": 374,
+   "cluster": "prop",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".pg-facts dd.pg-tags .chip",
+    ".pg-facts dd.pg-tags .chip + .chip::before"
+   ],
+   "befund_ids": [
+    "bereich_prop-49"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/friedhoftest.js",
+    "Akzeptanz 4.3 prop_friedhof (keine Zeile endet mit „·“)"
+   ]
+  },
+  {
+   "nr": "typografie-3.2.6b",
+   "titel": "News-Ziffern: tabular-nums kommt aus der Sammelregel (nur prüfen, keine Einzeländerung)",
+   "von": 375,
+   "bis": 376,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/css/app.css"
+   ],
+   "anker": [
+    ".nw-next-when b",
+    ".nw-time",
+    ".nw-v b"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-48"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2e"
+   ],
+   "tests": [
+    "web/e2e/newstest.js",
+    "Akzeptanz 4.3 news"
+   ]
+  },
+  {
+   "nr": "typografie-3.3",
+   "titel": "Startseite landing.css: Hero-Titel und Schritt-Nummern 800 → 900",
+   "von": 377,
+   "bis": 382,
+   "cluster": "tokens",
+   "dateien": [
+    "web/css/landing.css"
+   ],
+   "anker": [
+    ".lp .hero h1",
+    ".lp .step .k"
+   ],
+   "befund_ids": [
+    "typografie-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.1"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 index.html (sieht aus wie vorher)"
+   ]
+  },
+  {
+   "nr": "typografie-3.4a",
+   "titel": "fmt.cur: immer zwei Nachkommastellen (Sonderfall ≥ 10.000 entfällt)",
+   "von": 383,
+   "bis": 387,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.cur"
+   ],
+   "befund_ids": [
+    "typografie-14"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "node --test web/tests/*.mjs",
+    "web/e2e/proptest.js:55 (UI.fmt.cur, passt sich an)",
+    "web/e2e/langtest.js:58",
+    "web/e2e/switchtest.js:9",
+    "Akzeptanz 4.4: grep \"a >= 10000\" ohne Treffer"
+   ]
+  },
+  {
+   "nr": "typografie-3.4b",
+   "titel": "fmt.factor: immer zwei Stellen (∞ bleibt)",
+   "von": 388,
+   "bis": 388,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.factor"
+   ],
+   "befund_ids": [
+    "bereich_statistik-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "node --test web/tests/*.mjs"
+   ]
+  },
+  {
+   "nr": "typografie-3.4c",
+   "titel": "Neuer Helfer fmt.dateRow (laufendes Jahr ohne Jahr)",
+   "von": 389,
+   "bis": 389,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.dateRow"
+   ],
+   "befund_ids": [
+    "referenz-28"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.4d",
+   "titel": "Neuer Helfer fmt.weekdayDM („Do., 08.10.“)",
+   "von": 390,
+   "bis": 391,
+   "cluster": "komponenten",
+   "dateien": [
+    "web/js/ui.js"
+   ],
+   "anker": [
+    "fmt.weekdayDM"
+   ],
+   "befund_ids": [
+    "bereich_statistik-40"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": []
+  },
+  {
+   "nr": "typografie-3.5a",
+   "titel": "Drawdown-Widgets: Prozent aus dem Wert in die Fußzeile (Maximal und Durchschnitt)",
+   "von": 392,
+   "bis": 397,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:max_drawdown",
+    "widget:avg_drawdown",
+    "small.sub",
+    "t:Aktuell ({0}):",
+    "t:Aktuell:"
+   ],
+   "befund_ids": [
+    "diagramme-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 dashboard (Wert einzeilig, Fuß „−4,2 % · 01.10.2026“)",
+    "Akzeptanz 4.4: grep small.sub ohne Treffer"
+   ]
+  },
+  {
+   "nr": "typografie-3.5b",
+   "titel": "Letzte Trades: Datumszelle mit fmt.dateRow und Klasse num",
+   "von": 398,
+   "bis": 398,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:letzte_trades",
+    "fmt.dateRow",
+    ".num"
+   ],
+   "befund_ids": [
+    "referenz-28",
+    "typografie-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.4c",
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "Akzeptanz 4.4: grep \"<td>\\${fmt.(date|time)\" ohne Treffer"
+   ]
+  },
+  {
+   "nr": "typografie-3.5c",
+   "titel": "Challenge-Widget: Inline-Größe 30px ersetzen durch Klasse score-big (K27)",
+   "von": 399,
+   "bis": 399,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:challenge",
+    ".big-stat",
+    ".score-big"
+   ],
+   "befund_ids": [
+    "typografie-3"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.3-fv32"
+   ],
+   "tests": [
+    "Akzeptanz 4.2 Nr. 3: grep style=\"font-size in widgets.js ohne Treffer"
+   ]
+  },
+  {
+   "nr": "typografie-3.5d",
+   "titel": "Regel-Tracker: „Heutiger Score“ als .val-label; „Dein Score“ (Z. 227) bleibt bis zur Nutzerantwort",
+   "von": 400,
+   "bis": 402,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgets.js"
+   ],
+   "anker": [
+    "widget:regel_tracker",
+    ".val-label",
+    ".caption"
+   ],
+   "befund_ids": [
+    "bereich_dashboard-44",
+    "typografie-17",
+    "referenz-43"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2c"
+   ],
+   "tests": [
+    "Akzeptanz 4.4: grep class=\"caption\" nur Abschnittsköpfe",
+    "web/e2e/scorestatetest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.6",
+   "titel": "Widget-Vorschaubilder der Drawdown-Widgets: Prozent im Fuß, x-Positionen prüfen",
+   "von": 403,
+   "bis": 410,
+   "cluster": "dashboard",
+   "dateien": [
+    "web/js/widgetpreviews.js"
+   ],
+   "anker": [
+    "preview:max_drawdown",
+    "preview:avg_drawdown"
+   ],
+   "befund_ids": [
+    "diagramme-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.5a"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 panel_widget_hinzufuegen (keine Überlappung)"
+   ]
+  },
+  {
+   "nr": "typografie-3.7a",
+   "titel": "Session beenden: Beschriftungen „Heute/Trades/Win-Rate“ als .val-label",
+   "von": 411,
+   "bis": 415,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openSessionEnd",
+    ".val-label",
+    ".caption"
+   ],
+   "befund_ids": [
+    "referenz-43"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2c"
+   ],
+   "tests": [
+    "Akzeptanz 4.4: grep class=\"caption\""
+   ]
+  },
+  {
+   "nr": "typografie-3.7b",
+   "titel": "CSV-Vorschau: Datumszellen mit Klasse num",
+   "von": 416,
+   "bis": 417,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/app.js"
+   ],
+   "anker": [
+    "App.openImport",
+    ".num"
+   ],
+   "befund_ids": [
+    "typografie-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "Akzeptanz 4.4: grep \"<td>\\${fmt.(date|time)\" ohne Treffer"
+   ]
+  },
+  {
+   "nr": "typografie-3.8a",
+   "titel": "Tagesansicht day.js: „Netto-P&L“ als .val-label, Zeitzelle num",
+   "von": 418,
+   "bis": 423,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/day.js"
+   ],
+   "anker": [
+    "day.js:14",
+    "day.js:15",
+    ".val-label",
+    ".num"
+   ],
+   "befund_ids": [
+    "referenz-43",
+    "bereich_trades_tag-39",
+    "typografie-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2c",
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 day"
+   ]
+  },
+  {
+   "nr": "typografie-3.8b",
+   "titel": "TradeLog-Spark-Kachel: spark-body bekommt Klasse body",
+   "von": 424,
+   "bis": 424,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.js:26",
+    ".spark-body",
+    ".tile .body"
+   ],
+   "befund_ids": [
+    "bereich_trades_tag-31"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.5b"
+   ],
+   "tests": [
+    "web/e2e/tlfittest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.8c",
+   "titel": "TradeLog und Verpasste Trades: fmt.dateRow mit num-Zellen, Wert-Beschriftungen als .val-label",
+   "von": 425,
+   "bis": 426,
+   "cluster": "trades_tag",
+   "dateien": [
+    "web/js/screens/trades.js"
+   ],
+   "anker": [
+    "trades.js:renderTable",
+    "trades.js:renderMissed",
+    "fmt.dateRow",
+    ".val-label",
+    ".num"
+   ],
+   "befund_ids": [
+    "referenz-28",
+    "typografie-12",
+    "referenz-43"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.4c",
+    "typografie-3.2.2c",
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "web/e2e/tlfittest.js",
+    "Akzeptanz 4.3 trades (Datumsspalte „08.10. 19:43“ in Onest)"
+   ]
+  },
+  {
+   "nr": "typografie-3.8d",
+   "titel": "stats.js statVal: Faktor über fmt.factor",
+   "von": 427,
+   "bis": 427,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.js:statVal",
+    "fmt.factor"
+   ],
+   "befund_ids": [
+    "bereich_statistik-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.4b"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 stats_setups/time/regime (Profit-Faktor „0,00“)"
+   ]
+  },
+  {
+   "nr": "typografie-3.8e",
+   "titel": "Statistik → Tage: Datum „Do., 08.10.“ mit multiYear und Klasse num",
+   "von": 428,
+   "bis": 429,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.js:tabDays",
+    "fmt.weekdayDM",
+    "fmt.weekdayLong",
+    ".num"
+   ],
+   "befund_ids": [
+    "bereich_statistik-40"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.4d",
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 stats_days"
+   ]
+  },
+  {
+   "nr": "typografie-3.8f",
+   "titel": "groupTable: erste Spalte als td.lbl statt <b>",
+   "von": 430,
+   "bis": 430,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.js:groupTable",
+    ".tbl td.lbl"
+   ],
+   "befund_ids": [
+    "bereich_statistik-18"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2g"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 stats_setups (erste Spalte Satoshi 600)"
+   ]
+  },
+  {
+   "nr": "typografie-3.8g",
+   "titel": "Kachel „Win-Rate mit / ohne Fehler“ mit einer Nachkommastelle (K20)",
+   "von": 431,
+   "bis": 431,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.js:tabMistakes",
+    "fmt.pct"
+   ],
+   "befund_ids": [
+    "bereich_statistik-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.3 stats_mistakes"
+   ]
+  },
+  {
+   "nr": "typografie-3.8h",
+   "titel": "„Kosten je Fehler“: Betrag über U.pnl, Zusatz gedämpft, „WR“ → „Win-Rate“",
+   "von": 432,
+   "bis": 432,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.js:tabMistakes",
+    "U.barRow",
+    "U.pnl",
+    "t:Win-Rate"
+   ],
+   "befund_ids": [
+    "bereich_statistik-17"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.5d"
+   ],
+   "tests": [
+    "Akzeptanz 4.4: grep \"WR \\${\" ohne Treffer",
+    "Akzeptanz 4.3 stats_mistakes"
+   ]
+  },
+  {
+   "nr": "typografie-3.8i",
+   "titel": "Edge-Kachel: Spanne ohne Inline-Größe mit &nbsp;R (K22), Streuungsmaße zwei Stellen",
+   "von": 433,
+   "bis": 434,
+   "cluster": "statistik",
+   "dateien": [
+    "web/js/screens/stats.js"
+   ],
+   "anker": [
+    "stats.js:tabEdge",
+    "fmt.r",
+    "fmt.dec"
+   ],
+   "befund_ids": [
+    "bereich_statistik-41",
+    "bereich_statistik-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "Akzeptanz 4.2 Nr. 3: grep style=\"font-size in stats.js ohne Treffer",
+    "Akzeptanz 4.3 stats_edge (1440 und 390)"
+   ]
+  },
+  {
+   "nr": "typografie-3.8j",
+   "titel": "Prop-Kontokarte: „Balance“/„P&L“ als .val-label",
+   "von": 435,
+   "bis": 435,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.js:accountCard",
+    ".val-label",
+    ".caption"
+   ],
+   "befund_ids": [
+    "referenz-43"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2c"
+   ],
+   "tests": [
+    "web/e2e/proptest.js",
+    "Akzeptanz 4.3 prop"
+   ]
+  },
+  {
+   "nr": "typografie-3.8k",
+   "titel": "Prop-Tabellen: Datumszellen mit Klasse num",
+   "von": 436,
+   "bis": 436,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop.js"
+   ],
+   "anker": [
+    "prop.js:tabKonten",
+    "prop.js:tabBilanz",
+    "prop.js:payoutPlanner",
+    ".num"
+   ],
+   "befund_ids": [
+    "typografie-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "web/e2e/proptest.js",
+    "Akzeptanz 4.3 prop_bilanz"
+   ]
+  },
+  {
+   "nr": "typografie-3.8l",
+   "titel": "Friedhof: Chips mit join(' ') verbinden (K23)",
+   "von": 437,
+   "bis": 437,
+   "cluster": "prop",
+   "dateien": [
+    "web/js/screens/prop-friedhof.js"
+   ],
+   "anker": [
+    "prop-friedhof.js:grave",
+    "U.chip"
+   ],
+   "befund_ids": [
+    "bereich_prop-49"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.6a"
+   ],
+   "tests": [
+    "web/e2e/friedhoftest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.8m",
+   "titel": "Schatten-Ich-Verstöße: Datumszelle num",
+   "von": 438,
+   "bis": 438,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/shadow.js"
+   ],
+   "anker": [
+    "shadow.js:violationsTable",
+    ".num"
+   ],
+   "befund_ids": [
+    "typografie-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "web/e2e/shadowtest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.8n",
+   "titel": "Notebook: Inline-Stil der P&L-Zeile durch Klasse nb-pnl ersetzen",
+   "von": 439,
+   "bis": 439,
+   "cluster": "notebook_news",
+   "dateien": [
+    "web/js/screens/notebook.js"
+   ],
+   "anker": [
+    "notebook.js:76",
+    ".nb-pnl"
+   ],
+   "befund_ids": [
+    "bereich_notebook_news-15"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.5h"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 notebook („Netto-P&L“ 500, Betrag 700 Onest)"
+   ]
+  },
+  {
+   "nr": "typografie-3.8o",
+   "titel": "Ruhepunkt-Startfrage .rp-q als h2 statt h1",
+   "von": 440,
+   "bis": 440,
+   "cluster": "training",
+   "dateien": [
+    "web/js/screens/ruhepunkt.js"
+   ],
+   "anker": [
+    "ruhepunkt.js:renderHome",
+    ".rp-q",
+    "h1"
+   ],
+   "befund_ids": [
+    "bereich_training-46"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.3x"
+   ],
+   "tests": [
+    "web/e2e/rptest.js:11",
+    "Akzeptanz 4.4: grep \"h('h1'\" in ruhepunkt.js ohne Treffer",
+    "Akzeptanz 4.3 ruhepunkt (document.querySelectorAll('h1').length === 1)"
+   ]
+  },
+  {
+   "nr": "typografie-3.8p",
+   "titel": "Einstellungen → Sprache: Inline-max-width 640px entfernen",
+   "von": 441,
+   "bis": 441,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.js:sprache"
+   ],
+   "befund_ids": [
+    "typografie-9"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.5f"
+   ],
+   "tests": [
+    "web/e2e/langtest.js",
+    "Akzeptanz 4.3 settings_sprache"
+   ]
+  },
+  {
+   "nr": "typografie-3.8q",
+   "titel": "Einstellungen → Logs: Zeitzellen num",
+   "von": 442,
+   "bis": 442,
+   "cluster": "einstellungen",
+   "dateien": [
+    "web/js/screens/misc.js"
+   ],
+   "anker": [
+    "misc.js:logs",
+    ".num"
+   ],
+   "befund_ids": [
+    "typografie-12"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 settings_logs"
+   ]
+  },
+  {
+   "nr": "typografie-3.8r",
+   "titel": "Affiliate-Ticket: Link-Ticket bekommt Klasse is-link",
+   "von": 443,
+   "bis": 443,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js"
+   ],
+   "anker": [
+    "affiliate.js:ticket",
+    ".cpn-code",
+    ".cpn-code.is-link"
+   ],
+   "befund_ids": [
+    "bereich_konto-31"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.5e"
+   ],
+   "tests": [
+    "web/e2e/affiliatetest.js:42–55",
+    "Akzeptanz 4.3 affiliate 390 (Ref-Code vollständig sichtbar)"
+   ]
+  },
+  {
+   "nr": "typografie-3.8s",
+   "titel": "Affiliate-Tabelle: Datumszelle num; Coach-Sichtbarkeitstabelle ohne Änderung (über 3.2.2 Satoshi)",
+   "von": 444,
+   "bis": 446,
+   "cluster": "konto",
+   "dateien": [
+    "web/js/screens/affiliate.js",
+    "web/js/screens/coach.js"
+   ],
+   "anker": [
+    "affiliate.js:creator",
+    "coach.js:25",
+    ".num"
+   ],
+   "befund_ids": [
+    "typografie-12",
+    "bereich_konto-34"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.2.2f"
+   ],
+   "tests": [
+    "web/e2e/affiliatetest.js",
+    "web/e2e/coachtest.js"
+   ]
+  },
+  {
+   "nr": "typografie-3.9",
+   "titel": "Test-Helfer localfonts.js: Satoshi als variable Schrift 300–900 einbinden (Datei nicht ins Repository)",
+   "von": 447,
+   "bis": 452,
+   "cluster": "tokens",
+   "dateien": [
+    "web/e2e/localfonts.js",
+    "scratchpad/localfonts.js"
+   ],
+   "anker": [
+    "@font-face Satoshi"
+   ],
+   "befund_ids": [
+    "typografie-1"
+   ],
+   "aufwand": "S",
+   "abhaengig": [],
+   "tests": [
+    "web/e2e/localfonts.js:5–6",
+    "web/e2e/settest2.js:22",
+    "Akzeptanz 4.1 Nr. 2–3"
+   ]
+  },
+  {
+   "nr": "typografie-3.10",
+   "titel": "README nachziehen: variable Satoshi, Kalender-Kurzform mit €, Typo-, Skalen- und Zahlenregeln",
+   "von": 453,
+   "bis": 460,
+   "cluster": "tokens",
+   "dateien": [
+    "web/README.md"
+   ],
+   "anker": [
+    "web/README.md:91",
+    "web/README.md:175",
+    "web/README.md:209"
+   ],
+   "befund_ids": [
+    "typografie-1",
+    "responsiv-33",
+    "typografie-3",
+    "typografie-11",
+    "typografie-12",
+    "typografie-14",
+    "referenz-28",
+    "referenz-43",
+    "bereich_statistik-42"
+   ],
+   "aufwand": "S",
+   "abhaengig": [
+    "typografie-3.1",
+    "typografie-3.2.1",
+    "typografie-3.2.2c",
+    "typografie-3.2.2f",
+    "typografie-3.2.3b",
+    "typografie-3.4a",
+    "typografie-3.4b",
+    "typografie-3.4c"
+   ],
+   "tests": []
+  }
+ ],
+ "akzeptanz": {
+  "von": 463,
+  "bis": 531
+ },
+ "querbezuege": [
+  "Alle Gruppen (Z. 5): Die Zeilenangaben gelten für app.css mit 3144 Zeilen. Nach Änderungen anderer Gruppen immer nach dem Selektor suchen.",
+  "Farbe (K28): .more-link (grün), .aff-name:hover (grün), Akzent-Rand an .btn.accent und .pair-card .pv i (#04140a) gehören der Farbgruppe. Typografie ändert hier nur Gewicht und Familie (typografie-3.2.4d, -3.2.4i, -3.2.4b, -3.2.3f).",
+  "Komponenten (K28): Feste Steuerelement-Höhen und Reiter-Systeme (.btn, .input, .tabs button, .prop-tabs a, .set-tabs button) haben Vorrang vor Zeilenhöhe + Innenabstand. Ohne sie ergeben sich .btn/.input 42 px statt 41,6 px (typografie-3.2.3m, -3.2.4d).",
+  "komponenten-23 (Ergänzung, K15): streicht ebenfalls .tbl th.r aus der Onest-Regel. Überschneidung mit typografie-3.2.2f. Eine Klasse .tbl td.txt (bereich_konto-34) wird nicht eingeführt.",
+  "Abstände (K28/K25): Kachel- und Block-Abstände bleiben dort. .set-block h3 margin-bottom bleibt 10 px; referenz-35 (10 → 12/14 und nowrap) ist zurückgestellt. Die Löschung .tile.spark-tile { gap: 2px } (typografie-3.2.5b) berührt Abstände.",
+  "Abstände/Komponenten (K13): Die Kürzung in .fw-stats (vier Spalten mit 16-px-Werten, .fw-stats > div > span, .fw-stats b, „Disziplin-Kost…“, „+893,0…“) gehört dorthin. Hier gilt nur 12/400 (typografie-3.2.3e).",
+  "Layout in Typo-Schritten: .cal .d .n Kreis 18 → 20 px (typografie-3.2.3b), .set-block .row.between > div:first-child { flex: 1 1 320px } (typografie-3.2.5f) und .nb .nb-pnl margin-top 4px (typografie-3.2.5h) überschneiden sich mit den Gruppen Abstände, Komponenten und Responsiv.",
+  "bereich_training-41 (andere Gruppe, Abschnitt 5): .rp-seq-i b 11 → 12 px ist zurückgestellt und wird erst zusammen mit der Mindestbreite der Rhythmus-Zeile umgesetzt.",
+  "hierarchie-27 (Ergänzung, K24): Balance/Limits ganzzahlig ist abgelehnt. fmt.cur hat überall zwei Stellen (typografie-3.4a).",
+  "bereich_dashboard-50 (K21): schlägt fmt.dateShort für „Letzte Trades“ vor. Es gilt fmt.dateRow (typografie-3.4c, -3.5b, -3.8c).",
+  "Nutzerfrage 6.1 (referenz-43): widgets.js:227 „Dein Score“ (.caption) bleibt bis zur Antwort unverändert, danach ggf. .val-label (typografie-3.5d).",
+  "Nutzerfrage 6.2 (bereich_training-21): Stufenfarben .dstreak.s2/.s3 .dstreak-steps b (app.css Z. 1266–1267) bleiben. README Z. 129–133 (typografie-3.2.4m).",
+  "Lückenrunde (1.12): Gewichte von .prop-h3, .sp-item .btn, .btn.fw-reset, .rp-switch, .cpick, .sym-btn, .dir-opt, .rr-week span, .dp-week span, .sb-av, .avatar, .prop-bar .bl b sowie die Inline-Größen notebook.js:67/:123 und die Notebook-h3 sind bewusst nicht angefasst. Ihre Größen laufen aber über die Token-Schritte (typografie-3.2.3h/-3.2.3l/-3.2.3m/-3.2.3d).",
+  "Shell: .nav a/.nav button 14/500, .nav-title (Eyebrow), .sb-menu .item/.sb-menu-row 13, .brand 900 und .topbar h1 21 bzw. 18 überschneiden sich mit der Shell-Gruppe (typografie-3.2.3n, -3.2.2b, -3.2.3i, -3.2.4a, -3.2.3t, -3.2.3y).",
+  "README Z. 77 (feste Popover-Breiten, Filter 320 px) begründet Menüs mit 13 px (K1). README Z. 191 (Kalender-Tages-P&L Onest 800) und Z. 194 (€ in der Kalender-Kurzform, Commit bd02670) bleiben gültig.",
+  "Responsiv (responsiv-33, Abschnitt 5): Die Umgestaltung der Wochentagszeile am Handy und die Kurzform ohne € sind zurückgestellt. Umgesetzt werden nur die 11-px-Stufen (typografie-3.2.3b/-3.2.3c).",
+  "Barrierefreiheit: ruhepunkt.js:707 .rp-q h1 → h2, damit es nur ein h1 pro Seite gibt (typografie-3.8o).",
+  "Diagramme: .chart text (11 px, Onest, tabular-nums) und widgetpreviews.js (Drawdown-Vorschau) überschneiden sich mit der Diagramm-Gruppe (typografie-3.2.3c, -3.2.2e, -3.6).",
+  "Sprachdateien (nicht in der Spezifikation genannt): Der Drawdown-Fuß ändert „Aktuell ({0}):“ (Schlüssel in web/js/lang/en.js:883) zu „Aktuell:“, und stats.js ersetzt „WR“ durch „Win-Rate“ (lang/en.js:767). Ob Sprachschlüssel nachzuziehen sind, klärt die Wording-Gruppe (typografie-3.5a, -3.8h).",
+  "Komponenten/Wording: .val-label ersetzt .caption an day.js:14, prop.js:102, trades.js:59, app.js:530 und widgets.js:287. Erlaubte .caption-Abschnittsköpfe bleiben: widgets.js:184, progress.js:74/75, trades.js:76, news.js:83, replay.js, voice.js (Akzeptanz 4.4)."
+ ]
+}

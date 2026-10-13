@@ -1811,4 +1811,8 @@ I18N.add('zh', {
   "Noch keine Daten": "暂无数据",
   "Zum Inhalt springen": "跳到内容",
   "Grabstein umdrehen": "翻转墓碑",
+  "Kumuliert": "累计",
+  "{0} Tag": "{0} 天",
+  "Noch kein Check": "尚未打卡",
+  "Keine Regeln": "没有规则",
 });

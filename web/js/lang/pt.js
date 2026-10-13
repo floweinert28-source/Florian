@@ -1760,4 +1760,10 @@ I18N.add('pt', {
   "Noch keine Daten": "Ainda sem dados",
   "Zum Inhalt springen": "Pular para o conteúdo",
   "Grabstein umdrehen": "Virar lápide",
+  "Kumuliert": "Acumulado",
+  "Trades": "Trades",
+  "Drawdown": "Drawdown",
+  "{0} Tag": "{0} dia",
+  "Noch kein Check": "Ainda sem check",
+  "Keine Regeln": "Sem regras",
 });

@@ -308,7 +308,7 @@
       ${dots ? pts.map((p, i) => `<circle class="dt" cx="${x(i)}" cy="${y(p.cum)}" r="2.2" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle class="dt" cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
       ${dateAxis(n, x, i => pts[i].day, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
-    hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].cum), i => { const p = pts[i]; return `<b>${fmt.weekdayLong(p.day)}</b><br>Tag: ${pnl(p.pnl)} · ${p.n} Trade${p.n === 1 ? '' : 's'}<br>Kumuliert: ${pnl(p.cum)}`; }, i => pts[i].cum >= 0 ? 'var(--profit)' : 'var(--loss)');
+    hoverLine(el, el.firstElementChild, pts, x, i => y(pts[i].cum), i => { const p = pts[i]; return tipTable(fmt.weekdayLong(p.day), [['Tag', pnl(p.pnl)], ['Trades', fmt.int(p.n)], ['Kumuliert', pnl(p.cum)]]); }, i => pts[i].cum >= 0 ? 'var(--profit)' : 'var(--loss)');
   };
   /* Equity pro Trade */
   drawers.equity = function (el, d, W, H) {
@@ -436,8 +436,10 @@
   }
 
   /* ---------- Tooltip ---------- */
+  /* Diagramm-Tooltip als ordentliche kleine Tabelle: oben das Datum, darunter Bezeichnung links und Wert rechtsbündig */
+  const tipTable = (title, rows) => `<div class="tt-h">${title}</div><div class="tt-g">${rows.map(r => `<span>${r[0]}</span><b>${r[1]}</b>`).join('')}</div>`;
   function tipEl() { let t = document.getElementById('tip'); if (!t) { t = document.createElement('div'); t.id = 'tip'; document.body.appendChild(t); } return t; }
-  function tipAt(el, lx, ly, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); const r = el.getBoundingClientRect(); const x = r.left + lx, y = r.top + ly; tip.style.left = Math.min(x + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, y - tip.offsetHeight - 14) + 'px'; }
+  function tipAt(el, lx, ly, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); const r = el.getBoundingClientRect(); const x = r.left + lx, y = r.top + ly; const w = tip.offsetWidth, h = tip.offsetHeight; const box = (el.closest('.card, .w') || el).getBoundingClientRect(); /* im Kasten bleiben: rechts zu eng → links vom Punkt, oben zu eng → unter dem Punkt */ const right = Math.min(window.innerWidth - 8, box.right - 8), lo = Math.max(8, box.left + 8); let left = x + 16; if (left + w > right) left = x - 16 - w; if (left < lo) left = Math.max(lo, Math.min(x - w / 2, right - w)); /* passt keine Seite: mittig über/unter dem Punkt */ let top = y - h - 16; if (top < Math.max(8, box.top + 8)) top = y + 16; tip.style.left = Math.max(8, left) + 'px'; tip.style.top = Math.max(8, Math.min(top, window.innerHeight - h - 8)) + 'px'; }
   function tipShowAt(clientX, clientY, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); tip.style.left = Math.min(clientX + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, clientY - tip.offsetHeight - 12) + 'px'; }
   let tipFor = null; /* Element mit data-tip, zu dem der sichtbare Tooltip gehört (Diagramm-Tooltips laufen ohne) */
   function tipHide() { tipFor = null; const t = document.getElementById('tip'); if (t) t.classList.remove('on'); }
@@ -488,5 +490,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, count, fieldErrors, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, count, fieldErrors, tipTable, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
 })(typeof self !== 'undefined' ? self : this);

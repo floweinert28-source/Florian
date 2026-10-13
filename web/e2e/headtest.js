@@ -47,12 +47,10 @@ let pass = 0, fail = 0; const ok = (c, n) => { if (c) pass++; else fail++; conso
   ok(bars && bars.dnO && /\s0px$/.test(bars.dnO) && /[\d.]+px [\d.]+px$/.test(bars.upO) && +bars.upO.split(' ')[1].replace('px', '') > 0, 'Gewinn-Balken wachsen von unten, Verlust-Balken von oben · ' + bars.upO + ' / ' + bars.dnO);
   await p.waitForTimeout(1500);
   ok(await p.evaluate(() => [...document.querySelectorAll('.chart svg.enter rect.br')].every(e => { const t = getComputedStyle(e).transform; return t === 'none' || /matrix\(1, 0, 0, 1, 0, 0\)/.test(t); })), 'nach der Animation stehen alle Balken in voller Höhe');
-  /* Fortschritt: Ringe nur beim Öffnen */
+  /* Fortschritt: keine Ringe, schlanke Leisten */
   await p.waitForTimeout(400); await p.goto(base + '#/progress'); await p.waitForTimeout(260);
-  const ring1 = await p.evaluate(() => { const a = document.querySelector('.ring-arc .arc'); return a ? { tr: a.style.transition, off: a.style.strokeDashoffset, target: a.dataset.target } : null; });
-  await p.waitForTimeout(600); await p.evaluate(() => App.rerender()); await p.waitForTimeout(60);
-  const ring2 = await p.evaluate(() => { const a = document.querySelector('.ring-arc .arc'); return a ? { tr: a.style.transition, off: a.style.strokeDashoffset, target: a.dataset.target } : null; });
-  ok(ring1 && ring1.tr === '' && ring2 && ring2.tr === 'none' && parseFloat(ring2.off) === parseFloat(ring2.target), 'Fortschritt: Ringe laufen beim Öffnen, stehen beim Neuaufbau sofort · ' + JSON.stringify({ ring1, ring2 }));
+  const pgBars = await p.evaluate(() => ({ ring: !!document.querySelector('.ring-arc'), seg: document.querySelectorAll('.pg-seg i').length, segOn: document.querySelectorAll('.pg-seg i.on').length, bar: !!document.querySelector('.pg-bar em'), flame: !!document.querySelector('.dstreak .big-stat .dstreak-flame') }));
+  ok(!pgBars.ring && pgBars.seg === 5 && pgBars.bar && pgBars.flame, 'Fortschritt: keine Ringe; Heute als 5-teilige Leiste, Regeln als Balken, Flamme neben der Serie · ' + JSON.stringify(pgBars));
   /* Schriftstärke aktiver Einträge */
   const fw = await p.evaluate(() => ({ nav: getComputedStyle(document.querySelector('.nav a.active')).fontWeight, navOther: getComputedStyle(document.querySelector('.nav a:not(.active)')).fontWeight }));
   await p.goto(base + '#/settings/profil'); await p.waitForTimeout(300); fw.set = await p.evaluate(() => getComputedStyle(document.querySelector('.set-nav a.active')).fontWeight); fw.setOther = await p.evaluate(() => getComputedStyle(document.querySelector('.set-nav a:not(.active)')).fontWeight);

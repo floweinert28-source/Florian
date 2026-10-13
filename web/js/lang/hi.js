@@ -1811,4 +1811,8 @@ I18N.add('hi', {
   "Noch keine Daten": "अभी कोई डेटा नहीं",
   "Zum Inhalt springen": "सामग्री पर जाएँ",
   "Grabstein umdrehen": "कब्र पलटें",
+  "Kumuliert": "कुल",
+  "{0} Tag": "{0} दिन",
+  "Noch kein Check": "अभी कोई चेक नहीं",
+  "Keine Regeln": "कोई नियम नहीं",
 });

@@ -1716,4 +1716,10 @@ I18N.add('en', {
   "Noch keine Daten": "No data yet",
   "Zum Inhalt springen": "Skip to content",
   "Grabstein umdrehen": "Turn tombstone over",
+  "Kumuliert": "Cumulative",
+  "Trades": "Trades",
+  "Drawdown": "Drawdown",
+  "{0} Tag": "{0} day",
+  "Noch kein Check": "No check yet",
+  "Keine Regeln": "No rules",
 });

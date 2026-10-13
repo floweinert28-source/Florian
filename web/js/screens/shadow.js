@@ -47,11 +47,11 @@
     if (def.fields.some(f => f.type === 'setups')) {
       const list = Array.isArray(r.list) ? r.list : []; const all = [...new Set([...(setups || []), ...list])];
       extra = !all.length ? `<div class="small muted shadow-hint">Noch keine Setups angelegt. Lege sie unter <a href="#/settings/inhalte">Einstellungen → Inhalte</a> an oder vergib sie beim Loggen.</div>`
-        : `<div class="chips shadow-chips">${all.map(x => `<button type="button" class="chip sel" aria-pressed="${list.includes(x)}" data-action="shadow-setup-toggle" data-value="${esc(x)}">${esc(x)}</button>`).join('')}</div>${!list.length ? `<div class="small warn shadow-hint">Kein Setup gewählt – so zählt jeder Trade als Verstoß.</div>` : ''}`;
+        : `<div class="chips shadow-chips">${all.map(x => `<button type="button" class="chip sel" aria-pressed="${list.includes(x)}" data-action="shadow-setup-toggle" data-value="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
     }
-    /* jede Regel eine gleich gebaute Karte: oben Name und Schalter, darunter der Satz (zwei Zeilen Platz), unten der Wert –
-       der Wert steht immer da (aus: blass und gesperrt), damit alle Karten gleich hoch sind und beim Einschalten nichts springt */
-    return `<div class="shadow-rule ${on ? 'on' : ''}"><div class="sr-main"><span class="sr-label">${esc(def.label)}</span><button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button></div>${DESC[def.key] ? `<span class="sr-desc">${esc(DESC[def.key])}</span>` : ''}<div class="sr-ctrl"${on ? '' : ' inert'}>${ctrl}</div>${on && extra ? `<div class="sr-extra">${extra}</div>` : ''}</div>`;
+    /* schlichte Karte, eine Zeile: Name links, rechts der Wert (nur wenn an) und der Schalter – alle Karten gleich hoch.
+       Die Erklärung steht im title (Hover) statt als Text; nur die Setup-Auswahl erscheint unter der Zeile */
+    return `<div class="shadow-rule ${on ? 'on' : ''}" title="${esc(DESC[def.key] || '')}"><div class="sr-main"><span class="sr-label">${esc(def.label)}</span>${on && ctrl ? `<div class="sr-ctrl">${ctrl}</div>` : ''}<button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button></div>${on && extra ? `<div class="sr-extra">${extra}</div>` : ''}</div>`;
   }
   function rulesCard(res, r) {
     const setups = (S.data.tags && S.data.tags.setups) || [];

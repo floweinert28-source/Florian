@@ -56,7 +56,7 @@ const ignore = m => /ERR_CERT|fonts\.googleapis|fonts\.gstatic|net::ERR|Error in
   ok('Uhrzeit gespeichert und wirkt', await p.evaluate(() => Store.shadowRules().hours.to === '11:00') && /[1-9]\d*×/.test(hoursRow) && (await p.textContent('.shadow-tbl')).includes('Erlaubte Handelszeiten'), hoursRow.replace(/\s+/g, ' '));
   ok('Ranking jetzt drei Regeln, sortiert', (await p.$$('.shadow-rank .bar-row')).length === 3);
   await p.click('[data-action=shadow-rule-toggle][data-rule=setups]'); await p.waitForTimeout(300);
-  ok('Setup-Chips + Hinweis ohne Auswahl', (await p.$$('[data-action=shadow-setup-toggle]')).length >= 5 && (await p.textContent('.shadow-rule.on .shadow-hint') || '').includes('Kein Setup gewählt'));
+  ok('Setup-Chips + ein Hinweis ohne Auswahl (nur unter den Regeln, nicht doppelt im Kasten)', (await p.$$('[data-action=shadow-setup-toggle]')).length >= 5 && /keine Setups ausgewählt/.test(await p.textContent('.shadow-notes')) && !(await p.$('.shadow-rule .shadow-hint.warn')));
   await p.click('[data-action=shadow-setup-toggle][data-value=Pullback]'); await p.waitForTimeout(300);
   ok('Setup gespeichert + Chip gedrückt', await p.evaluate(() => JSON.stringify(Store.shadowRules().setups.list) === '["Pullback"]') && await p.$eval('[data-action=shadow-setup-toggle][data-value=Pullback]', e => e.getAttribute('aria-pressed') === 'true'));
   ok('„+ n weitere“ in der Tabelle', (await p.textContent('.shadow-tbl')).includes('weitere'));

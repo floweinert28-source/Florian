@@ -3205,13 +3205,14 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .seg[data-chips="stress"] button:is([data-value="1"], [data-value="2"])[aria-pressed="true"], .seg[data-chips="mood"] button:is([data-value="4"], [data-value="5"])[aria-pressed="true"] { --lc: var(--profit); }
 .seg[data-chips="stress"] button[data-value="3"][aria-pressed="true"], .seg[data-chips="mood"] button[data-value="3"][aria-pressed="true"] { --lc: var(--warn); }
 .seg[data-chips="stress"] button:is([data-value="4"], [data-value="5"])[aria-pressed="true"], .seg[data-chips="mood"] button:is([data-value="1"], [data-value="2"])[aria-pressed="true"] { --lc: var(--loss); }
-/* Fortschritt: die drei oberen Karten gleich gebaut – links Zahl und eine Zeile darunter, rechts ein Bild in fester Größe (Flamme, Ring, Ring) */
-.kpi { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 84px; }
-.kpi-main { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-.kpi-main .big-stat { margin: 0; font-size: 40px; }
-.kpi-main .small { margin: 0; }
-.kpi-vis { flex: 0 0 76px; width: 76px; height: 76px; display: grid; place-items: center; }
-.kpi .dstreak-steps { padding: 0; min-height: 18px; }
+/* Fortschritt: Heute und Regeln wie die Serie – große Zahl, darunter eine schlanke Leiste (132 px wie die Stufenlinie) und ein kurzes Wort */
+.pg-meter { display: flex; align-items: center; gap: 12px; width: max-content; padding: 2px 0 4px; }
+.pg-meter b { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
+.pg-seg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; width: 132px; }
+.pg-seg i { height: 6px; border-radius: 3px; background: var(--surface-3); transition: background var(--dur-2) var(--ease); }
+.pg-seg i.on { background: var(--accent); }
+.pg-bar { position: relative; display: block; width: 132px; height: 6px; border-radius: 3px; background: var(--surface-3); overflow: hidden; }
+.pg-bar em { position: absolute; inset: 0 auto 0 0; border-radius: 3px; background: var(--accent); transition: width .9s var(--ease); }
 /* Schatten-Ich: Zahl einstellen als ruhige Leiste in der Kartenfläche – [−] 3 Trades [+], kein schwarzes Feld, keine Mini-Pfeile */
 .sr-num { height: 34px; gap: 2px; padding: 0 3px; background: color-mix(in srgb, var(--text) 5%, transparent); border-color: var(--border); border-radius: 10px; }
 .sr-num .input { padding: 0 4px 0 6px; text-align: center; }
@@ -3225,28 +3226,31 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 /* Uhrzeit- und Einheit-Felder im selben ruhigen Stil wie die Zahlenleiste: keine schwarzen Kästen */
 .shadow-rule .sr-time, .shadow-rule .sr-unit { height: 34px; background-color: color-mix(in srgb, var(--text) 5%, transparent); border-color: var(--border); border-radius: 10px; }
 .shadow-rule .sr-time { width: 120px; }
-/* Mein Regelwerk: gleich gebaute Karten in einem festen Raster (4 / 2 / 1 Spalten), alle gleich hoch.
-   Oben Name und Schalter, darunter der Satz mit Platz für zwei Zeilen, unten der Wert; aus = Wert blass und gesperrt */
-.shadow-rules { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.shadow-rule, .shadow-rule.on { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 16px; border-radius: 14px; }
+/* Mein Regelwerk: schlichte Karten in 2 Spalten (Handy 1), je eine Zeile: Name, Wert (nur wenn an), Schalter. Kein Erklärtext */
+.shadow-rules { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.shadow-rule, .shadow-rule.on { display: flex; flex-direction: column; gap: 12px; padding: 0 16px; border-radius: 12px; }
 .shadow-rule { border: 1px solid var(--border); background: var(--surface-2); }
-.shadow-rule.on { border-color: color-mix(in srgb, var(--accent) 34%, var(--border)); background: color-mix(in srgb, var(--accent) 4%, var(--surface-2)); }
-.shadow-rule .sr-main { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 24px; }
-.shadow-rule .sr-label { font-size: 14px; line-height: 20px; font-weight: 600; }
-.shadow-rule .sr-ctrl { margin-top: auto; padding-top: 10px; min-height: 44px; display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; transition: opacity var(--dur-2) var(--ease); }
-.shadow-rule:not(.on) .sr-ctrl { opacity: .38; }
-.shadow-rule .sr-ctrl:empty { min-height: 0; padding-top: 0; }
-@media (max-width: 1599px) { .shadow-rules { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .shadow-rules { grid-template-columns: 1fr; } }
-/* keine Lücke in der letzten Reihe: die letzte Karte nimmt den freien Platz ein */
-@media (min-width: 1600px) { .shadow-rule:last-child:nth-child(4n+3) { grid-column: span 2; } .shadow-rule:last-child:nth-child(4n+1) { grid-column: span 4; } }
-@media (min-width: 601px) and (max-width: 1599px) { .shadow-rule:last-child:nth-child(odd) { grid-column: span 2; } }
-/* Schalter: feiner und hochwertiger – weicher Track, weißer Knopf mit leichtem Schatten, an = Akzentfarbe */
-.switch { width: 40px; height: 24px; background: color-mix(in srgb, var(--text) 14%, transparent); box-shadow: none; }
-.switch:hover { background: color-mix(in srgb, var(--text) 20%, transparent); }
-.switch::after { top: 2px; left: 2px; width: 20px; height: 20px; background: #ffffff; box-shadow: 0 1px 3px rgba(0, 0, 0, .35), 0 0 0 .5px rgba(0, 0, 0, .08); }
-.switch:hover::after { background: #ffffff; }
-.switch:active::after { width: 24px; }
-.switch[aria-checked="true"] { background: var(--accent); box-shadow: none; }
-.switch[aria-checked="true"]::after { transform: translateX(16px); }
-.switch[aria-checked="true"]:active::after { transform: translateX(12px); }
+.shadow-rule.on { border-color: color-mix(in srgb, var(--accent) 30%, var(--border)); }
+.shadow-rule .sr-main { display: flex; align-items: center; gap: 12px; min-height: 58px; }
+.shadow-rule .sr-label { flex: 1 1 auto; min-width: 0; font-size: 14px; line-height: 20px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shadow-rule .sr-ctrl { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; }
+.shadow-rule .sr-extra { padding-bottom: 14px; }
+.shadow-rule:last-child:nth-child(odd) { grid-column: span 2; }
+@media (max-width: 600px) { .shadow-rules { grid-template-columns: 1fr; } .shadow-rule:last-child:nth-child(odd) { grid-column: auto; } .shadow-rule .sr-main { flex-wrap: wrap; padding: 12px 0; min-height: 0; } .shadow-rule .sr-ctrl { order: 3; flex-basis: 100%; } .shadow-rule .sr-label { white-space: normal; } }
+/* Schalter: minimalistisch – schmale Kontur-Spur, kleiner Punkt; an = Spur leicht grün gefüllt, Punkt grün. Kein Schatten, kein weißer Knopf */
+.switch { width: 34px; height: 20px; background: transparent; box-shadow: inset 0 0 0 1.5px var(--border-2); }
+.switch:hover { background: transparent; box-shadow: inset 0 0 0 1.5px var(--muted); }
+.switch::after { top: 5px; left: 5px; width: 10px; height: 10px; background: var(--muted); box-shadow: none; }
+.switch:hover::after { background: var(--text-2); }
+.switch:active::after { width: 13px; }
+.switch[aria-checked="true"] { background: color-mix(in srgb, var(--accent) 16%, transparent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.switch[aria-checked="true"]:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.switch[aria-checked="true"]::after { transform: translateX(14px); background: var(--accent); box-shadow: none; }
+.switch[aria-checked="true"]:active::after { transform: translateX(11px); }
+.shadow-rules { align-items: start; } /* eine aufgeklappte Setup-Auswahl zieht die Nachbarkarte nicht in die Länge */
+/* Diagramm-Tooltip: ruhig und geordnet – Datum oben, darunter Bezeichnung links (gedämpft) und Wert rechtsbündig mit festen Ziffern */
+#tip { padding: 10px 12px; border-radius: 10px; min-width: 168px; }
+#tip .tt-h { font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--text); padding-bottom: 7px; margin-bottom: 7px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+#tip .tt-g { display: grid; grid-template-columns: auto auto; column-gap: 18px; row-gap: 4px; align-items: center; }
+#tip .tt-g > span { color: var(--muted); white-space: nowrap; display: inline-flex; align-items: center; }
+#tip .tt-g > b { justify-self: end; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text); }

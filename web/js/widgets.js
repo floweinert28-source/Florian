@@ -69,7 +69,7 @@
       ${series.filter(s => s.type !== 'bar').map(s => `<path d="${path(s)}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots ? pts.map((p, i) => { const v = p.v[s.key]; return v == null || !isFinite(v) ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(s.unit, v).toFixed(1)}" r="1.8" fill="${s.color}"/>`; }).join('') : ''}`).join('')}
       ${U.dateAxis(n, x, i => pts[i].date, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
-    bindHover(el, el.firstElementChild, n, x, () => null, i => `<b>${d.periodLabel ? d.periodLabel(pts[i].date) : fmt.weekdayLong(pts[i].date)}</b>${series.map(s => `<br><i class="dot" style="background:${s.color}"></i>${esc(s.label)}: ${unitFmt(s.unit, pts[i].v[s.key])}`).join('')}`);
+    bindHover(el, el.firstElementChild, n, x, () => null, i => U.tipTable(d.periodLabel ? d.periodLabel(pts[i].date) : fmt.weekdayLong(pts[i].date), series.map(s => [`<i class="dot" style="background:${s.color}"></i>${esc(s.label)}`, unitFmt(s.unit, pts[i].v[s.key])])));
   };
   /* Punktdiagramm (Uhrzeit, Haltedauer): Achse links, Beschriftungen unten schräg */
   U.drawers.scatter = function (el, d, W, H) {
@@ -104,7 +104,7 @@
       <path d="${line} L${x(n - 1)},${y(0)} L${x(0)},${y(0)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="var(--loss)" stroke-width="2" stroke-linejoin="round"/>
       ${U.dateAxis(n, x, i => pts[i].date, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" fill="var(--loss)" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
-    bindHover(el, el.firstElementChild, n, x, i => y(pts[i].dd), i => `<b>${fmt.weekdayLong(pts[i].date)}</b><br>Drawdown: ${U.pnl(pts[i].dd)}<br><span class="muted">Kumuliert: ${fmt.cur(pts[i].cum, { signed: true })}</span>`);
+    bindHover(el, el.firstElementChild, n, x, i => y(pts[i].dd), i => U.tipTable(fmt.weekdayLong(pts[i].date), [['Drawdown', U.pnl(pts[i].dd)], ['Kumuliert', fmt.cur(pts[i].cum, { signed: true })]]));
   };
 
   /* ---------- Kalender-Bausteine ---------- */

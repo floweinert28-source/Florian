@@ -1763,4 +1763,10 @@ I18N.add('es', {
   "Noch keine Daten": "Aún no hay datos",
   "Zum Inhalt springen": "Saltar al contenido",
   "Grabstein umdrehen": "Girar lápida",
+  "Kumuliert": "Acumulado",
+  "Trades": "Trades",
+  "Drawdown": "Drawdown",
+  "{0} Tag": "{0} día",
+  "Noch kein Check": "Aún sin revisión",
+  "Keine Regeln": "Sin reglas",
 });

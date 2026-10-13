@@ -1,0 +1,2189 @@
+{
+ "dark-1440-bk": {
+  "export": {
+   "modal": {
+    "width": "860px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     290,
+     272,
+     860,
+     356
+    ]
+   },
+   "scrollH": 354,
+   "clientH": 354,
+   "cls": "modal ",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "150.594px",
+    "box": [
+     315,
+     299,
+     151,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "17.3906px",
+    "width": "810px",
+    "box": [
+     315,
+     347,
+     810,
+     17
+    ]
+   },
+   "pText": "Falls der Download nicht startet (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn als trading-journal-2026-10-13.json.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     315,
+     556,
+     810,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Kopieren",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 113
+    },
+    {
+     "t": "Fertig",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 70
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     315,
+     295,
+     810,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted small",
+     16
+    ],
+    [
+     "muted small",
+     "input mono",
+     16
+    ],
+    [
+     "input mono",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "dlText": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     263,
+     520,
+     373
+    ]
+   },
+   "scrollH": 371,
+   "clientH": 371,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "289.922px",
+    "box": [
+     485,
+     291,
+     290,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "34.7812px",
+    "width": "470px",
+    "box": [
+     485,
+     338,
+     470,
+     35
+    ]
+   },
+   "pText": "Der Download wurde gestartet. Falls nichts passiert (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn selbst.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     565,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Kopieren",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 113
+    },
+    {
+     "t": "Fertig",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 70
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     286,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted small",
+     16
+    ],
+    [
+     "muted small",
+     "input mono",
+     16
+    ],
+    [
+     "input mono",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "merge": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     140,
+     520,
+     620
+    ]
+   },
+   "scrollH": 618,
+   "clientH": 618,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "241.453px",
+    "box": [
+     485,
+     167,
+     241,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": null,
+   "footBtns": [],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     163,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "dropzone",
+     16
+    ],
+    [
+     "dropzone",
+     "DETAILS",
+     16
+    ]
+   ],
+   "dropzone": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "22px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "center",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(52, 50, 46)",
+    "height": "488.844px",
+    "width": "470px",
+    "box": [
+     485,
+     215,
+     470,
+     489
+    ]
+   },
+   "dzSvg": {
+    "width": "424px",
+    "height": "424px",
+    "box": [
+     508,
+     238,
+     424,
+     424
+    ]
+   },
+   "details": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     720,
+     470,
+     17
+    ]
+   },
+   "summary": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "list-item",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     720,
+     470,
+     17
+    ]
+   },
+   "banners": 0
+  },
+  "replace": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     107,
+     520,
+     685
+    ]
+   },
+   "scrollH": 683,
+   "clientH": 683,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "165.594px",
+    "box": [
+     485,
+     135,
+     166,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "16px",
+    "display": "flex",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(245, 185, 58, 0.14)",
+    "borderTopColor": "rgb(245, 185, 58)",
+    "height": "49px",
+    "width": "470px",
+    "box": [
+     485,
+     182,
+     470,
+     49
+    ]
+   },
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": null,
+   "footBtns": [],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     130,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "banner warn",
+     16
+    ],
+    [
+     "banner warn",
+     "dropzone",
+     16
+    ],
+    [
+     "dropzone",
+     "DETAILS",
+     16
+    ]
+   ],
+   "dropzone": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "22px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "center",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(52, 50, 46)",
+    "height": "488.844px",
+    "width": "470px",
+    "box": [
+     485,
+     247,
+     470,
+     489
+    ]
+   },
+   "dzSvg": {
+    "width": "424px",
+    "height": "424px",
+    "box": [
+     508,
+     270,
+     424,
+     424
+    ]
+   },
+   "details": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     752,
+     470,
+     17
+    ]
+   },
+   "summary": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "list-item",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     752,
+     470,
+     17
+    ]
+   },
+   "banners": 1
+  },
+  "errToast": [
+   "Datei nicht lesbar: Expected double-quoted property name in JSON at position 30 (line 1 column 31)"
+  ],
+  "fremdToast": [
+   "Datei nicht lesbar: Keine gültige Sicherung."
+  ],
+  "okToast": [
+   "Sicherung eingespielt (174 Trades) |toast ok"
+  ]
+ },
+ "dark-390-bk": {
+  "export": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     460,
+     390,
+     384
+    ]
+   },
+   "scrollH": 383,
+   "clientH": 383,
+   "cls": "modal ",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "150.594px",
+    "box": [
+     17,
+     483,
+     151,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "52.1719px",
+    "width": "356px",
+    "box": [
+     17,
+     531,
+     356,
+     52
+    ]
+   },
+   "pText": "Falls der Download nicht startet (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn als trading-journal-2026-10-13.json.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Kopieren",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 113
+    },
+    {
+     "t": "Fertig",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 70
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     479,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted small",
+     16
+    ],
+    [
+     "muted small",
+     "input mono",
+     16
+    ],
+    [
+     "input mono",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "dlText": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     478,
+     390,
+     366
+    ]
+   },
+   "scrollH": 365,
+   "clientH": 365,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "289.922px",
+    "box": [
+     17,
+     501,
+     290,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "34.7812px",
+    "width": "356px",
+    "box": [
+     17,
+     549,
+     356,
+     35
+    ]
+   },
+   "pText": "Der Download wurde gestartet. Falls nichts passiert (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn selbst.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Kopieren",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 113
+    },
+    {
+     "t": "Fertig",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 70
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     497,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted small",
+     16
+    ],
+    [
+     "muted small",
+     "input mono",
+     16
+    ],
+    [
+     "input mono",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "merge": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     345,
+     390,
+     499
+    ]
+   },
+   "scrollH": 498,
+   "clientH": 498,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "241.453px",
+    "box": [
+     17,
+     368,
+     241,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": null,
+   "footBtns": [],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     364,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "dropzone",
+     16
+    ],
+    [
+     "dropzone",
+     "DETAILS",
+     16
+    ]
+   ],
+   "dropzone": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "22px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "center",
+    "opacity": "1",
+    "backgroundColor": "rgba(52, 245, 138, 0.12)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "374.844px",
+    "width": "356px",
+    "box": [
+     17,
+     416,
+     356,
+     375
+    ]
+   },
+   "dzSvg": {
+    "width": "310px",
+    "height": "310px",
+    "box": [
+     40,
+     439,
+     310,
+     310
+    ]
+   },
+   "details": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "17.3906px",
+    "width": "356px",
+    "box": [
+     17,
+     807,
+     356,
+     17
+    ]
+   },
+   "summary": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "list-item",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "17.3906px",
+    "width": "356px",
+    "box": [
+     17,
+     807,
+     356,
+     17
+    ]
+   },
+   "banners": 0
+  },
+  "replace": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     230,
+     390,
+     614
+    ]
+   },
+   "scrollH": 613,
+   "clientH": 613,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "165.594px",
+    "box": [
+     17,
+     253,
+     166,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "16px",
+    "display": "flex",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(245, 185, 58, 0.14)",
+    "borderTopColor": "rgb(245, 185, 58)",
+    "height": "98.6875px",
+    "width": "356px",
+    "box": [
+     17,
+     301,
+     356,
+     99
+    ]
+   },
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": null,
+   "footBtns": [],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     249,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "banner warn",
+     16
+    ],
+    [
+     "banner warn",
+     "dropzone",
+     16
+    ],
+    [
+     "dropzone",
+     "DETAILS",
+     16
+    ]
+   ],
+   "dropzone": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "22px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "center",
+    "opacity": "1",
+    "backgroundColor": "rgba(52, 245, 138, 0.12)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "374.844px",
+    "width": "356px",
+    "box": [
+     17,
+     416,
+     356,
+     375
+    ]
+   },
+   "dzSvg": {
+    "width": "310px",
+    "height": "310px",
+    "box": [
+     40,
+     439,
+     310,
+     310
+    ]
+   },
+   "details": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "17.3906px",
+    "width": "356px",
+    "box": [
+     17,
+     807,
+     356,
+     17
+    ]
+   },
+   "summary": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "list-item",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "17.3906px",
+    "width": "356px",
+    "box": [
+     17,
+     807,
+     356,
+     17
+    ]
+   },
+   "banners": 1
+  },
+  "errToast": [
+   "Datei nicht lesbar: Expected double-quoted property name in JSON at position 30 (line 1 column 31)"
+  ],
+  "fremdToast": [
+   "Datei nicht lesbar: Keine gültige Sicherung."
+  ],
+  "okToast": [
+   "Sicherung eingespielt (174 Trades) |toast ok"
+  ]
+ },
+ "light-1440-bk": {
+  "export": {
+   "modal": {
+    "width": "860px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     290,
+     272,
+     860,
+     356
+    ]
+   },
+   "scrollH": 354,
+   "clientH": 354,
+   "cls": "modal ",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "150.594px",
+    "box": [
+     315,
+     299,
+     151,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "17.3906px",
+    "width": "810px",
+    "box": [
+     315,
+     347,
+     810,
+     17
+    ]
+   },
+   "pText": "Falls der Download nicht startet (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn als trading-journal-2026-10-13.json.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     315,
+     556,
+     810,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Kopieren",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 113
+    },
+    {
+     "t": "Fertig",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(15, 184, 98)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 70
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     315,
+     295,
+     810,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted small",
+     16
+    ],
+    [
+     "muted small",
+     "input mono",
+     16
+    ],
+    [
+     "input mono",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "dlText": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     263,
+     520,
+     373
+    ]
+   },
+   "scrollH": 371,
+   "clientH": 371,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "289.922px",
+    "box": [
+     485,
+     291,
+     290,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "34.7812px",
+    "width": "470px",
+    "box": [
+     485,
+     338,
+     470,
+     35
+    ]
+   },
+   "pText": "Der Download wurde gestartet. Falls nichts passiert (z. B. in einer eingebetteten Ansicht), kopiere den Text und speichere ihn selbst.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     565,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Kopieren",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 113
+    },
+    {
+     "t": "Fertig",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(15, 184, 98)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 70
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     286,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted small",
+     16
+    ],
+    [
+     "muted small",
+     "input mono",
+     16
+    ],
+    [
+     "input mono",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "merge": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     140,
+     520,
+     620
+    ]
+   },
+   "scrollH": 618,
+   "clientH": 618,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "241.453px",
+    "box": [
+     485,
+     167,
+     241,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": null,
+   "footBtns": [],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     163,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "dropzone",
+     16
+    ],
+    [
+     "dropzone",
+     "DETAILS",
+     16
+    ]
+   ],
+   "dropzone": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "22px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "center",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(207, 214, 209)",
+    "height": "488.844px",
+    "width": "470px",
+    "box": [
+     485,
+     215,
+     470,
+     489
+    ]
+   },
+   "dzSvg": {
+    "width": "424px",
+    "height": "424px",
+    "box": [
+     508,
+     238,
+     424,
+     424
+    ]
+   },
+   "details": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     720,
+     470,
+     17
+    ]
+   },
+   "summary": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "list-item",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     720,
+     470,
+     17
+    ]
+   },
+   "banners": 0
+  },
+  "replace": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     107,
+     520,
+     685
+    ]
+   },
+   "scrollH": 683,
+   "clientH": 683,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "165.594px",
+    "box": [
+     485,
+     135,
+     166,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "16px",
+    "display": "flex",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(217, 154, 18, 0.14)",
+    "borderTopColor": "rgb(217, 154, 18)",
+    "height": "49px",
+    "width": "470px",
+    "box": [
+     485,
+     182,
+     470,
+     49
+    ]
+   },
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": null,
+   "footBtns": [],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     130,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "banner warn",
+     16
+    ],
+    [
+     "banner warn",
+     "dropzone",
+     16
+    ],
+    [
+     "dropzone",
+     "DETAILS",
+     16
+    ]
+   ],
+   "dropzone": {
+    "fontSize": "13px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "18.85px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "22px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "center",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(207, 214, 209)",
+    "height": "488.844px",
+    "width": "470px",
+    "box": [
+     485,
+     247,
+     470,
+     489
+    ]
+   },
+   "dzSvg": {
+    "width": "424px",
+    "height": "424px",
+    "box": [
+     508,
+     270,
+     424,
+     424
+    ]
+   },
+   "details": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     752,
+     470,
+     17
+    ]
+   },
+   "summary": {
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "17.4px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "list-item",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "17.3906px",
+    "width": "470px",
+    "box": [
+     485,
+     752,
+     470,
+     17
+    ]
+   },
+   "banners": 1
+  },
+  "errToast": [
+   "Datei nicht lesbar: Expected double-quoted property name in JSON at position 30 (line 1 column 31)"
+  ],
+  "fremdToast": [
+   "Datei nicht lesbar: Keine gültige Sicherung."
+  ],
+  "okToast": [
+   "Sicherung eingespielt (174 Trades) |toast ok"
+  ]
+ }
+}

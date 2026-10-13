@@ -370,7 +370,7 @@
         let fileName = 'Eingefügter Text', pending = null; const sum = m.querySelector('#bk-sum'), go = m.querySelector('#bk-go');
         const check = (text, name) => { fileName = name; pending = null; go.disabled = true; sum.hidden = !text.trim(); if (!text.trim()) return;
           try { const parsed = JSON.parse(text); const d = parsed.data || parsed; if (!d || !Array.isArray(d.trades)) throw new Error('kein Journal');
-            pending = text; go.disabled = false; sum.className = 'small'; sum.innerHTML = `<b>${esc(name)}</b> · <span>${d.trades.length} Trades · ${(d.notes || []).length} Notizen</span>${parsed.exportedAt ? ` · <span>erstellt am ${fmt.dateFull(parsed.exportedAt)}</span>` : ''}`;
+            pending = text; go.disabled = false; sum.className = 'small'; sum.innerHTML = `<b>${esc(name)}</b> · <span>${U.count(d.trades.length, 'Trade', 'Trades')} · ${U.count((d.notes || []).length, 'Notiz', 'Notizen')}</span>${parsed.exportedAt ? ` · <span>erstellt am ${fmt.dateFull(parsed.exportedAt)}</span>` : ''}`;
           } catch (e) { sum.className = 'small neg'; sum.textContent = 'Diese Datei ist keine Journalyst-Sicherung. Wähle eine JSON-Datei aus „Sicherung exportieren“.'; } };
         const dz = m.querySelector('#bk-drop'), fi = m.querySelector('#bk-file'), ta = m.querySelector('#bk-text');
         const rf = f => { const r = new FileReader(); r.onload = () => check(String(r.result), f.name); r.readAsText(f); };
@@ -379,7 +379,7 @@
         dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); e.dataTransfer.files[0] && rf(e.dataTransfer.files[0]); });
         ta.addEventListener('input', () => check(ta.value, 'Eingefügter Text'));
         go.addEventListener('click', async () => { if (!pending) return; go.disabled = true;
-          try { const r = await S.importJSON(pending, mode); S.addImport({ source: 'Sicherung', file: fileName, accountId: S.defaultAccountId(), count: r.added, dup: r.trades - r.added, status: 'Erfolg' }); U.closeModal(); U.toast(rep ? `Sicherung eingespielt (${r.trades} Trades)` : (r.added ? `${r.added} neue Trades übernommen` : 'Keine neuen Trades in der Sicherung'), 'ok'); App.rerender(false); }
+          try { const r = await S.importJSON(pending, mode); S.addImport({ source: 'Sicherung', file: fileName, accountId: S.defaultAccountId(), count: r.added, dup: r.trades - r.added, status: 'Erfolg' }); U.closeModal(); U.toast(rep ? `Sicherung eingespielt (${U.count(r.trades, 'Trade', 'Trades')})` : (r.added ? (r.added === 1 ? '1 neuer Trade übernommen' : `${r.added} neue Trades übernommen`) : 'Keine neuen Trades in der Sicherung'), 'ok'); App.rerender(false); }
           catch (e) { S.addImport({ source: 'Sicherung', file: fileName, accountId: S.defaultAccountId(), count: 0, dup: 0, status: 'Fehler' }); go.disabled = false; sum.hidden = false; sum.className = 'small neg'; sum.textContent = 'Die Sicherung konnte nicht eingespielt werden. Prüfe, ob die Datei vollständig ist.'; } });
       } }); },
     async wipe() { if (await U.confirmModal('Wirklich alles löschen?', 'Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser werden entfernt. Das lässt sich nicht rückgängig machen.', { ok: 'Alles löschen', danger: true })) { await S.wipe(); U.toast('Alle Daten gelöscht'); App.navigate('#/dashboard'); App.rerender(false); } },

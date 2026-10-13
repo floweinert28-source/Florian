@@ -262,7 +262,7 @@
   }
 
   /* ---------- Score ---------- */
-  const SCORE_AXES = { winRate: 'Win-Rate', profitFactor: 'Profit-Faktor', payoff: 'Gewinn/Verlust', consistency: 'Konsistenz', rules: 'Regeltreue', drawdown: 'Drawdown' };
+  const SCORE_AXES = { winRate: 'Trefferquote', profitFactor: 'Profit-Faktor', payoff: 'Gewinn/Verlust', consistency: 'Konsistenz', rules: 'Regeltreue', drawdown: 'Drawdown' };
   function traderScore(list, account) {
     const s = summary(list); const acct = account > 0 ? account : 10000;
     if (!s.n) return { overall: 0, axes: Object.keys(SCORE_AXES).map(k => ({ key: k, label: SCORE_AXES[k], score: 0, text: '—' })) };
@@ -313,14 +313,14 @@
     const s = summary(list), days = dailyAggregation(list), d = daySummary(days);
     return { s, d, items: [
       { key: 'netPnL', label: 'Netto-P&L', type: 'cur', v: s.total, info: 'Summe aller abgeschlossenen Trades nach Gebühren.' },
-      { key: 'expectancy', label: 'Trade-Erwartungswert', type: 'cur', v: s.tradeExpectancy, info: 'Win-Rate × Ø Gewinn + Verlustrate × Ø Verlust.' },
+      { key: 'expectancy', label: 'Trade-Erwartungswert', type: 'cur', v: s.tradeExpectancy, info: 'Trefferquote × Ø Gewinn + Verlustquote × Ø Verlust.' },
       { key: 'avgTrade', label: 'Ø Netto-P&L pro Trade', type: 'cur', v: s.expectancy, info: 'Netto-P&L geteilt durch Anzahl der Trades.' },
       { key: 'avgVolume', label: 'Ø Tagesvolumen', type: 'num', v: d.avgVolume, info: 'Gehandelte Stückzahl pro Handelstag.' },
-      { key: 'winRate', label: 'Win-Rate', type: 'pct', v: s.winRate, info: 'Anteil der Gewinn-Trades an allen abgeschlossenen Trades.' },
+      { key: 'winRate', label: 'Trefferquote', type: 'pct', v: s.winRate, info: 'Anteil der Gewinn-Trades an allen abgeschlossenen Trades.' },
       { key: 'dayPayoff', label: 'Ø Tages-Gewinn/Verlust', type: 'factor', v: d.dayPayoff, info: 'Durchschnittlicher Gewinntag geteilt durch durchschnittlichen Verlusttag.' },
       { key: 'avgDay', label: 'Ø Tages-Netto-P&L', type: 'cur', v: d.avgDayPnL, info: 'Netto-P&L pro Handelstag.' },
       { key: 'days', label: 'Handelstage', type: 'int', v: d.days, info: 'Tage mit mindestens einem abgeschlossenen Trade.' },
-      { key: 'dayWinRate', label: 'Ø Tages-Win-Rate', type: 'pct', v: d.dayWinRate, info: 'Anteil der Tage mit positivem Ergebnis.' },
+      { key: 'dayWinRate', label: 'Ø Tages-Trefferquote', type: 'pct', v: d.dayWinRate, info: 'Anteil der Tage mit positivem Ergebnis.' },
       { key: 'payoff', label: 'Ø Trade-Gewinn/Verlust', type: 'factor', v: s.payoff, info: 'Durchschnittlicher Gewinn geteilt durch durchschnittlichen Verlust.' },
       { key: 'plannedR', label: 'Ø geplantes R-Multiple', type: 'r', v: s.avgPlannedR, info: 'Geplantes Chance-Risiko-Verhältnis aus Einstieg, Stop und Ziel.' },
       { key: 'maxDayDD', label: 'Max. Tages-Drawdown', type: 'curNeg', v: d.maxDailyDD, info: 'Größter Rückgang vom Tageshoch innerhalb eines Tages.' },
@@ -559,7 +559,7 @@
     const mr = mistakeReport(c);
     if (mr.mistakeN >= 3 && mr.cost < 0) out.push({ kind: 'loss', title: `Fehler haben dich ${cur(-mr.cost)} gekostet`, text: `${mr.mistakeN} Trades mit Fehler-Tags. Ohne sie läge dein Ergebnis bei ${cur(mr.compliant)} statt ${cur(mr.actual)}. Häufigster Kostenfaktor: ${mr.items[0] ? mr.items[0].name : '—'}.`, link: '#/stats/mistakes' });
     const setups = groupBy(c, t => t.setup || null).filter(g => g.s.n >= 5);
-    if (setups.length >= 2) { const best = setups[0], worst = setups[setups.length - 1]; out.push({ kind: 'good', title: `Dein stärkstes Setup: ${best.key}`, text: `${best.s.n} Trades, Win-Rate ${pct(best.s.winRate)}, Erwartungswert ${cur(best.s.expectancy)} pro Trade.`, link: '#/stats/setups' }); if (worst.s.expectancy < 0) out.push({ kind: 'warn', title: `${worst.key} kostet dich Geld`, text: `${worst.s.n} Trades mit ${cur(worst.s.expectancy)} pro Trade. Prüfe, ob das Setup wirklich zu dir passt oder ob du es nur unter bestimmten Bedingungen handeln solltest.`, link: '#/stats/setups' }); }
+    if (setups.length >= 2) { const best = setups[0], worst = setups[setups.length - 1]; out.push({ kind: 'good', title: `Dein stärkstes Setup: ${best.key}`, text: `${best.s.n} Trades, Trefferquote ${pct(best.s.winRate)}, Erwartungswert ${cur(best.s.expectancy)} pro Trade.`, link: '#/stats/setups' }); if (worst.s.expectancy < 0) out.push({ kind: 'warn', title: `${worst.key} kostet dich Geld`, text: `${worst.s.n} Trades mit ${cur(worst.s.expectancy)} pro Trade. Prüfe, ob das Setup wirklich zu dir passt oder ob du es nur unter bestimmten Bedingungen handeln solltest.`, link: '#/stats/setups' }); }
     const ta = timeAnalysis(c); const hours = ta.hours.filter(g => g.s.n >= 5);
     if (hours.length >= 2) { const sorted = hours.slice().sort((a, b) => b.s.expectancy - a.s.expectancy); const b = sorted[0], w = sorted[sorted.length - 1]; if (w.s.expectancy < 0 && b.s.expectancy > 0) out.push({ kind: 'info', title: `Beste Uhrzeit ${b.key} Uhr, schwächste ${w.key} Uhr`, text: `${b.key} Uhr: ${cur(b.s.expectancy)} pro Trade bei ${b.s.n} Trades. ${w.key} Uhr: ${cur(w.s.expectancy)} pro Trade. Überlege, ob du dich auf deine starken Stunden beschränkst.`, link: '#/stats/time' }); }
     const wd = ta.weekdays.filter(g => g.s.n >= 5).sort((a, b) => a.s.expectancy - b.s.expectancy); if (wd.length && wd[0].s.expectancy < 0 && wd[0].s.total < -account * 0.005) out.push({ kind: 'warn', title: `${wd[0].key === 'Fr' ? 'Freitag' : wd[0].key} ist dein schwächster Tag`, text: `${wd[0].s.n} Trades mit insgesamt ${cur(wd[0].s.total)}. Ein Handelstag weniger könnte dein Ergebnis verbessern.`, link: '#/stats/time' });

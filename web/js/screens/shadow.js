@@ -56,7 +56,7 @@
     const notes = res.warnings.map(w => U.banner('warn', '', esc(w)));
     /* Hinweis ohne aktive Regel steht unter den Schaltern: beim ersten Einschalten verschwindet er, ohne dass sich darüber etwas verschiebt */
     if (!res.active) notes.push(U.banner('info', 'Noch keine Regel aktiv', 'Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="shadow-preset">${I.bolt} Vorschlag übernehmen</button>` }));
-    if (res.unknownRisk) notes.push(U.banner('info', '', `${res.unknownRisk === 1 ? '1 Trade ohne Stop konnte' : `${res.unknownRisk} Trades ohne Stop konnten`} bei der Risiko-Regel nicht geprüft werden.`));
+    if (res.unknownRisk) notes.push(U.banner('info', '', `${U.count(res.unknownRisk, 'Trade', 'Trades')} ohne Stop ${res.unknownRisk === 1 ? 'konnte' : 'konnten'} bei der Risiko-Regel nicht geprüft werden.`));
     return U.card('Mein Regelwerk', `<div class="shadow-rules">${Sh.RULES.map(def => ruleRow(def, r[def.key], setups)).join('')}</div>${notes.length ? `<div class="stack shadow-notes">${notes.join('')}</div>` : ''}`, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' });
   }
 

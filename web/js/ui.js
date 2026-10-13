@@ -162,6 +162,8 @@
     hm(sec) { const p = n => String(n).padStart(2, '0'); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = Math.floor(sec % 60); return `${p(h)}:${p(m)}:${p(s)}`; },
   };
   const cls = v => v > C.EPS ? 'pos' : v < -C.EPS ? 'neg' : 'neu';
+  /* Zähler mit Einzahl/Mehrzahl: count(1, 'Trade', 'Trades') → „1 Trade“ */
+  const count = (n, one, many) => `${fmt.int(n)} ${Math.abs(n) === 1 ? one : many}`;
   const pnl = (v, extra = '', o = {}) => `<span class="${cls(v)} ${extra}">${fmt.cur(v, Object.assign({ signed: true }, o))}</span>`;
   const rText = (v, extra = '') => v == null ? `<span class="faint ${extra}">—</span>` : `<span class="${cls(v)} ${extra}">${fmt.r(v)}</span>`;
 
@@ -318,8 +320,8 @@
     const line = pts.length > 1 ? smooth(pts.map((v, i) => [x(i), y(v)])) : '';
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity="${last >= 0 ? .35 : .5}"/><stop offset="1" stop-color="${col}" stop-opacity="${last >= 0 ? .02 : .06}"/></linearGradient></defs><line class="zero" x1="4" x2="${W - 4}" y1="${y(0)}" y2="${y(0)}"/><path d="${line} L${x(pts.length - 1)},${y(mn)} L${x(0)},${y(mn)} Z" fill="url(#${g})"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2"/><circle cx="${x(pts.length - 1)}" cy="${y(last)}" r="3" fill="${col}"/></svg>`;
   };
-  /* Tooltip je Gruppe (vbars, hbars): Name, Wert, bei Ø pro Trade zusätzlich die Summe, dann Trades und Win-Rate */
-  const groupTip = (g, v, perTrade) => { const b = `<b>${esc(String(g.label || g.key))}</b>: `; return !g.s.n ? b + 'Keine Trades' : `${b}${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}<br>${perTrade ? `Summe ${fmt.cur(g.s.total, { signed: true })} · ` : ''}${g.s.n} Trades · Win-Rate ${fmt.pct(g.s.winRate)}`; };
+  /* Tooltip je Gruppe (vbars, hbars): Name, Wert, bei Ø pro Trade zusätzlich die Summe, dann Trades und Trefferquote */
+  const groupTip = (g, v, perTrade) => { const b = `<b>${esc(String(g.label || g.key))}</b>: `; return !g.s.n ? b + 'Keine Trades' : `${b}${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}<br>${perTrade ? `Summe ${fmt.cur(g.s.total, { signed: true })} · ` : ''}${count(g.s.n, 'Trade', 'Trades')} · Trefferquote ${fmt.pct(g.s.winRate)}`; };
   /* Senkrechte Balken je Gruppe */
   drawers.vbars = function (el, d, W, H) {
     const groups = d && d.groups || []; if (!groups.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Keine Daten</span></div>`; return; } const perTrade = d.metric === 'expectancy';
@@ -359,9 +361,9 @@
   drawers.weeks = function (el, d, W, H) {
     const w = d && d.weeks || []; if (!w.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%"><span class="small">Noch keine Wochen</span></div>`; return; } const mb = 18; const gap = W / w.length, bw = Math.min(28, gap * 0.6); /* bei wenig Platz kurze Beschriftung (03.08.), damit sich die Wochen nicht berühren */
     const lbl = d0 => gap < 66 ? new Date(d0).toLocaleDateString(LOC(), { day: '2-digit', month: '2-digit' }) : fmt.date(d0);
-    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${w.map((p, i) => { const h = Math.max(2, p.score / 100 * (H - mb - 4)); return `<rect x="${i * gap + (gap - bw) / 2}" y="${H - mb - h}" width="${bw}" height="${h}" rx="4" fill="${scoreColor(p.score)}" fill-opacity=".85" data-tip="Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${p.n} Trades)"></rect><text x="${i * gap + gap / 2}" y="${H - 4}" text-anchor="middle">${lbl(p.week)}</text>`; }).join('')}</svg>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${w.map((p, i) => { const h = Math.max(2, p.score / 100 * (H - mb - 4)); return `<rect x="${i * gap + (gap - bw) / 2}" y="${H - mb - h}" width="${bw}" height="${h}" rx="4" fill="${scoreColor(p.score)}" fill-opacity=".85" data-tip="Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${count(p.n, 'Trade', 'Trades')})"></rect><text x="${i * gap + gap / 2}" y="${H - 4}" text-anchor="middle">${lbl(p.week)}</text>`; }).join('')}</svg>`;
   };
-  /* Halbkreis-Anzeige (Win-Rate) */
+  /* Halbkreis-Anzeige (Trefferquote) */
   function semiGauge(segments, label, size = 110) {
     const r = 42, cx = 60, cy = 58, lw = 11; const total = Math.max(1e-9, segments.reduce((a, s) => a + Math.max(0, s.v), 0)); let a = Math.PI;
     const pt = ang => [cx + r * Math.cos(ang), cy - r * Math.sin(ang)];
@@ -406,7 +408,7 @@
 
   function heatmap(activity, account) {
     const ref = Math.max(1, (account || 10000) * 0.01); const lvl = a => { if (!a.n) return a.checkIn || a.note ? 'l1' : ''; const f = Math.abs(a.pnl) / ref; return a.pnl >= 0 ? (f < 0.5 ? 'l2' : f < 1.5 ? 'l3' : 'l4') : (f < 0.5 ? 'n1' : f < 1.5 ? 'n2' : 'n3'); };
-    const lead = activity.length ? (activity[0].date.getDay() + 6) % 7 : 0; const cells = Array(lead).fill('<i style="visibility:hidden"></i>').concat(activity.map(a => `<i class="${lvl(a)}" data-tip="<b>${fmt.dateFull(a.date)}</b><br>${a.n ? `${a.n} Trades · ${fmt.cur(a.pnl, { signed: true })}` : 'Keine Trades'}${a.checkIn ? '<br>Check-in ✓' : ''}${a.note ? '<br>Journal ✓' : ''}" data-action="day" data-day="${a.key}"></i>`));
+    const lead = activity.length ? (activity[0].date.getDay() + 6) % 7 : 0; const cells = Array(lead).fill('<i style="visibility:hidden"></i>').concat(activity.map(a => `<i class="${lvl(a)}" data-tip="<b>${fmt.dateFull(a.date)}</b><br>${a.n ? `${count(a.n, 'Trade', 'Trades')} · ${fmt.cur(a.pnl, { signed: true })}` : 'Keine Trades'}${a.checkIn ? '<br>Check-in ✓' : ''}${a.note ? '<br>Journal ✓' : ''}" data-action="day" data-day="${a.key}"></i>`));
     return `<div class="heat">${cells.join('')}</div>`;
   }
 
@@ -463,5 +465,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, count, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
 })(typeof self !== 'undefined' ? self : this);

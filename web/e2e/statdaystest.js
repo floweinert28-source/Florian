@@ -58,24 +58,24 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   /* Balken-Tooltip: bei Ø pro Trade zusätzlich die Summe (vbars und hbars), bei Summen-Diagrammen nicht */
   await go('#/stats/time');
   const tt = await p.evaluate(() => { const t = id => [...document.querySelectorAll(`[data-id="${id}"] svg [data-tip]`)].map(e => e.getAttribute('data-tip')); return { wd: t('t-wd'), h: t('t-h') }; });
-  ok(tt.wd.length > 0 && tt.wd.every(s => /pro Trade<br>Summe [+−]?[\d.,]+\s€ · \d+ Trades · Win-Rate/.test(s)), 'Ø pro Trade nach Wochentag: Tooltip mit Summe · ' + (tt.wd[0] || ''));
-  ok(tt.h.length > 0 && tt.h.every(s => !/Summe|pro Trade/.test(s) && /<br>\d+ Trades · Win-Rate/.test(s)), 'Netto-P&L nach Uhrzeit: Tooltip ohne Summe · ' + (tt.h[0] || ''));
+  ok(tt.wd.length > 0 && tt.wd.every(s => /pro Trade<br>Summe [+−]?[\d.,]+\s€ · \d+ Trades · Trefferquote/.test(s)), 'Ø pro Trade nach Wochentag: Tooltip mit Summe · ' + (tt.wd[0] || ''));
+  ok(tt.h.length > 0 && tt.h.every(s => !/Summe|pro Trade/.test(s) && /<br>\d+ Trades · Trefferquote/.test(s)), 'Netto-P&L nach Uhrzeit: Tooltip ohne Summe · ' + (tt.h[0] || ''));
   const bar = await p.$('[data-id="t-wd"] svg rect[data-tip]'); const bb = await bar.boundingBox();
   await p.mouse.move(bb.x + bb.width / 2, bb.y + bb.height / 2, { steps: 3 }); await p.waitForTimeout(150);
   const shown = await tip(); ok(/pro Trade/.test(shown) && /Summe/.test(shown), 'Tooltip erscheint beim Überfahren mit Summe · ' + shown);
   await go('#/stats/setups');
   const hs = await p.evaluate(() => [...document.querySelectorAll('[data-id="st-setups"] svg [data-tip]')].map(e => e.getAttribute('data-tip')));
   ok(hs.length > 0 && hs.every(s => /pro Trade<br>Summe /.test(s)), 'Erwartungswert je Setup (hbars): gleicher Tooltip mit Summe · ' + (hs[0] || ''));
-  /* Gemeinsamer Baustein: leeres Fach „<b>Name</b>: Keine Trades“, sonst Wert, Summe, Trades und Win-Rate, in vbars und hbars gleich */
+  /* Gemeinsamer Baustein: leeres Fach „<b>Name</b>: Keine Trades“, sonst Wert, Summe, Trades und Trefferquote, in vbars und hbars gleich */
   const gt = await p.evaluate(() => { const g = [{ key: 'Sa', s: { n: 0, expectancy: 0, total: 0, winRate: 0 } }, { key: 'So', s: { n: 2, expectancy: 10, total: 20, winRate: 0.5 } }]; const out = {};
     for (const k of ['vbars', 'hbars']) { const el = document.createElement('div'); UI.drawers[k](el, { groups: g, metric: 'expectancy' }, 400, 200); out[k] = [...el.querySelectorAll('[data-tip]')].map(e => e.getAttribute('data-tip')); } return out; });
-  ok(['vbars', 'hbars'].every(k => gt[k].length === 2 && gt[k][0] === '<b>Sa</b>: Keine Trades' && /^<b>So<\/b>: \+10,00\s€ pro Trade<br>Summe \+20,00\s€ · 2 Trades · Win-Rate 50\s%$/.test(gt[k][1])), 'Balken-Tooltip: leeres Fach „Keine Trades“, vbars und hbars gleich · ' + JSON.stringify(gt));
+  ok(['vbars', 'hbars'].every(k => gt[k].length === 2 && gt[k][0] === '<b>Sa</b>: Keine Trades' && /^<b>So<\/b>: \+10,00\s€ pro Trade<br>Summe \+20,00\s€ · 2 Trades · Trefferquote 50\s%$/.test(gt[k][1])), 'Balken-Tooltip: leeres Fach „Keine Trades“, vbars und hbars gleich · ' + JSON.stringify(gt));
 
   /* Englisch: Tooltip übersetzt */
   await p.evaluate(async () => { Store.setLanguage('en'); I18N.setLang('en'); await new Promise(r => setTimeout(r, 900)); location.hash = '#/stats/time'; }); await p.waitForTimeout(900);
   const bar2 = await p.$('[data-id="t-wd"] svg rect[data-tip]'); const bb2 = await bar2.boundingBox();
   await p.mouse.move(bb2.x + bb2.width / 2, bb2.y + bb2.height / 2 + 1, { steps: 3 }); await p.waitForTimeout(250);
-  const en = await tip(); ok(/per trade/.test(en) && /Total .+ · \d+ trades · Win rate/.test(en) && !/Summe|Trades · Win-Rate/.test(en), 'Englisch: Tooltip übersetzt · ' + en);
+  const en = await tip(); ok(/per trade/.test(en) && /Total .+ · \d+ trades · Win rate/.test(en) && !/Summe|Trades · Trefferquote/.test(en), 'Englisch: Tooltip übersetzt · ' + en);
   await p.evaluate(() => { Store.setLanguage('de'); I18N.setLang('de'); App.rerender(); }); await p.waitForTimeout(400);
   await p.mouse.move(5, 5);
 

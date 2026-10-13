@@ -107,11 +107,11 @@
     mount(main) { /* Enter in einem Zahlenfeld übernimmt den Wert sofort (change feuert erst beim Verlassen) */ main.querySelectorAll('.shadow-rule input').forEach(inp => inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); inp.blur(); } })); },
     render(ctx) {
       const s = st(); const all = ctx.all; const closed = C.closedOnly(all); const r = rules(); const res = evaluate(all); const range = App.range(); const pd = periodData(res, all, range);
-      const head = `<div class="shadow-head"><div class="shadow-intro"><b>Dein Schatten-Ich handelt wie du – nur ohne Regelbrüche.</b><span class="small muted">Was die Abweichung kostet, siehst du hier.</span></div></div>`;
+      const head = ''; /* kein Einleitungssatz: die Erklärung steht im (i) der Disziplin-Kosten */
       if (!closed.length) return head + U.empty('stats', 'Noch keine abgeschlossenen Trades', 'Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.', `<button type="button" class="btn sm" data-action="new-trade">${I.plus} Trade loggen</button>`) + rulesCard(res, r);
       const cv = res.active ? costView(pd.sums.cost) : null; const p = pd.sums;
       const tiles = `<div class="grid tiles shadow-tiles">
-        <div class="tile shadow-main"><div class="head"><span>Disziplin-Kosten${U.info('Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.')}</span><span class="n">${esc(range.label)}</span></div><div class="body"><div><div class="val ${cv ? cv.cls : ''}">${cv ? cv.text : '—'}</div></div></div></div>
+        <div class="tile shadow-main"><div class="head"><span>Disziplin-Kosten${U.info('Dein Schatten-Ich handelt wie du, nur ohne Regelbrüche. Disziplin-Kosten = Schatten-Ich minus echt: was Regelbrüche im Zeitraum gekostet haben.')}</span></div><div class="body"><div><div class="val ${cv ? cv.cls : ''}">${cv ? cv.text : '—'}</div></div></div></div>
         ${U.tile('Echt', res.active ? fmt.cur(p.real, { signed: true }) : '—', { n: U.count(p.n, 'Trade', 'Trades') })}
         ${U.tile('Schatten-Ich', res.active ? fmt.cur(p.shadow, { signed: true }) : '—')}
         ${U.tile('Verstöße', res.active ? String(pd.violations.length) : '—')}

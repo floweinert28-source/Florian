@@ -3271,3 +3271,20 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .switch[aria-checked="true"], .switch[aria-checked="true"]:hover { background: var(--text); box-shadow: none; }
 .switch[aria-checked="true"]::after { transform: translateX(14px); background: var(--bg); }
 .switch[aria-checked="true"]:active::after { transform: translateX(11px); }
+/* Leeres Diagramm als Skeleton: Platzhalter in Diagrammform (y-Achse, Gitter, Kurve, x-Achse), sanfter Schimmer, mittig ein leiser Hinweis */
+.chart-skel { position: relative; height: 100%; min-height: 160px; display: grid; grid-template-columns: 52px 1fr; grid-template-rows: 1fr 22px; gap: 0 10px; padding: 6px 4px 0 0; overflow: hidden; }
+.chart-skel .cs-y { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; padding: 2px 0 8px; }
+.chart-skel .cs-y i { width: 38px; height: 8px; border-radius: 4px; background: var(--surface-3); }
+.chart-skel .cs-plot { position: relative; min-height: 0; }
+.chart-skel .cs-grid { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 6px 0 12px; }
+.chart-skel .cs-grid i { height: 0; border-top: 1px dashed color-mix(in srgb, var(--text) 8%, transparent); }
+.chart-skel svg { position: absolute; inset: 14% 0 12px 0; width: 100%; height: auto; overflow: visible; }
+.chart-skel .cs-area { fill: color-mix(in srgb, var(--text) 4%, transparent); stroke: none; }
+.chart-skel .cs-line { fill: none; stroke: color-mix(in srgb, var(--text) 16%, transparent); stroke-width: 2.5; stroke-linecap: round; }
+.chart-skel .cs-x { grid-column: 2; display: flex; justify-content: space-between; align-items: center; padding: 0 2px; }
+.chart-skel .cs-x i { width: 36px; height: 8px; border-radius: 4px; background: var(--surface-3); }
+.chart-skel .cs-note { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 5px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); white-space: nowrap; }
+.chart-skel::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(100deg, transparent 25%, var(--sheen) 50%, transparent 75%); animation: skel-sheen 2.4s cubic-bezier(.45, 0, .25, 1) infinite; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .chart-skel::after { animation: none; display: none; } }
+/* Schatten-Ich: Nebenangaben in den Kacheln ganz leise (Anzahl Trades), damit nur die Zahlen auffallen */
+.shadow-tiles .tile .head .n { color: var(--faint); font-size: 11px; font-weight: 500; }

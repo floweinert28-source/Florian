@@ -29,7 +29,7 @@
 
   /* ---------- Bausteine ---------- */
   const noData = () => `<span class="nodata">${NO_DATA}</span>`;
-  const emptyBox = (h = 220) => `<div class="empty" style="min-height:${h}px">${I.stats}<b>${NO_DATA}</b><span class="small">Logge Trades oder ändere den Zeitraum.</span></div>`;
+  const emptyBox = (h = 220) => `<div class="empty" style="min-height:${h}px">${I.stats}<b>${NO_DATA}</b><span class="small">Ändere den Zeitraum oder logge Trades.</span></div>`;
   const tile = (e, value, o = {}) => U.tile(e.short || e.name, value, Object.assign({ info: e.info }, o)); /* short: kurzer Kacheltitel, der auch in engen Kacheln in eine Zeile passt */
   const card = (e, body, o = {}) => U.card(e.name, body, Object.assign({ info: e.info }, o));
   const pctText = f => (f < 0 ? '−' : '') + fmt.dec(Math.abs(f * 100), 1) + fmt.pctSuffix();

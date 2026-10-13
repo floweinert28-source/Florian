@@ -162,6 +162,29 @@
     hm(sec) { const p = n => String(n).padStart(2, '0'); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = Math.floor(sec % 60); return `${p(h)}:${p(m)}:${p(s)}`; },
   };
   const cls = v => v > C.EPS ? 'pos' : v < -C.EPS ? 'neg' : 'neu';
+  /* Feldfehler direkt am Feld: roter Rand, Satz darunter, Fokus aufs erste Feld; verschwinden bei der nächsten Eingabe im Feld */
+  function clearFieldError(f) { f.classList.remove('invalid'); f.querySelectorAll('.field-err').forEach(e => e.remove()); f.querySelectorAll('[aria-invalid]').forEach(x => { x.removeAttribute('aria-invalid'); x.removeAttribute('aria-describedby'); }); }
+  function fieldErrors(form, list) {
+    form.querySelectorAll('.field.invalid').forEach(clearFieldError);
+    list.forEach(([el, msg], i) => {
+      const f = el.closest('.field') || el.parentElement; f.classList.add('invalid');
+      const id = (el.id || 'feld-' + i) + '-err'; const e = document.createElement('div'); e.className = 'field-err'; e.id = id; e.textContent = msg; f.appendChild(e);
+      el.setAttribute('aria-invalid', 'true'); el.setAttribute('aria-describedby', id);
+    });
+    if (list[0]) list[0][0].focus({ preventScroll: false });
+  }
+  if (root.document) {
+    const off = e => { const f = e.target && e.target.closest && e.target.closest('.field.invalid'); if (f) clearFieldError(f); };
+    ['input', 'change', 'click'].forEach(t => document.addEventListener(t, off, true));
+    /* eingebaute Prüfung (required, min, max, type=email): statt Browser-Blase der Feldfehler am Feld */
+    let pend = null;
+    document.addEventListener('invalid', e => {
+      const el = e.target, form = el.form; if (!form || form.noValidate) return; e.preventDefault();
+      const v = el.validity; const msg = v.valueMissing ? 'Pflichtfeld' : v.rangeUnderflow ? `Mindestens ${el.min}` : v.rangeOverflow ? `Höchstens ${el.max}` : v.typeMismatch && el.type === 'email' ? 'Gültige E-Mail-Adresse eintragen' : 'Ungültiger Wert';
+      if (!pend || pend.form !== form) { const p = pend = { form, list: [] }; setTimeout(() => { if (pend === p) pend = null; fieldErrors(p.form, p.list); }); }
+      pend.list.push([el, msg]);
+    }, true);
+  }
   /* Zähler mit Einzahl/Mehrzahl: count(1, 'Trade', 'Trades') → „1 Trade“ */
   const count = (n, one, many) => `${fmt.int(n)} ${Math.abs(n) === 1 ? one : many}`;
   const pnl = (v, extra = '', o = {}) => `<span class="${cls(v)} ${extra}">${fmt.cur(v, Object.assign({ signed: true }, o))}</span>`;
@@ -465,5 +488,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, count, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, count, fieldErrors, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
 })(typeof self !== 'undefined' ? self : this);

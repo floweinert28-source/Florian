@@ -100,7 +100,7 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   ok('Design anwenden stellt alles wieder her (Grundfarbe, Schrift, Farben)', await p.evaluate(() => Store.settings.customLook && Store.settings.customBg === '#efe6d8' && Store.settings.font !== 'klassisch' && Store.settings.colors.accent === '#777777' && getComputedStyle(document.body).backgroundColor === 'rgb(239, 230, 216)'));
   for (let i = 0; i < 4; i++) { await p.click('[data-action="design-save"]'); await p.waitForTimeout(250); await p.click('.modal button[type=submit]'); await p.waitForTimeout(300); }
   ok('Höchstens 6 Designs: Knopf gesperrt, Hinweis', (await p.evaluate(() => Store.settings.designs.length)) === 6 && !!(await p.$('[data-action="design-save"][disabled]')) && (await p.$eval('.design-grid', e => e.parentElement.textContent)).includes('Höchstens 6'));
-  await p.hover('.design-wrap:last-child'); await p.click('.design-wrap:last-child .dot-x'); await p.waitForTimeout(400);
+  await p.hover('.design-wrap:last-child'); await p.click('.design-wrap:last-child .dot-x'); await p.waitForTimeout(300); await p.click('.modal [data-confirm]'); await p.waitForTimeout(400);
   ok('Design löschen, danach wieder speicherbar', (await p.evaluate(() => Store.settings.designs.length)) === 5 && !!(await p.$('[data-action="design-save"]:not([disabled])')));
 
   /* 8. Nach Neuladen alles noch da */

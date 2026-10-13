@@ -320,7 +320,7 @@
       S.setSetting('theme', d.theme); S.setSetting('darkStyle', d.darkStyle); S.setSetting('customLook', !!d.customLook); if (d.customLook && d.customBg) S.setSetting('customBg', d.customBg);
       S.setSetting('font', d.font); S.setSetting('colors', Object.assign({ accent: '', profit: '', loss: '', be: '' }, d.colors)); root.Theme.apply(S.settings); rerender();
     },
-    'design-del'(el) { S.setSetting('designs', (S.settings.designs || []).filter(x => x.id !== el.dataset.id)); U.toast('Design gelöscht', 'ok'); rerender(); },
+    async 'design-del'(el) { if (!(await U.confirmModal('Design löschen?', 'Das gespeicherte Design wird gelöscht.', { ok: 'Löschen', danger: true }))) return; S.setSetting('designs', (S.settings.designs || []).filter(x => x.id !== el.dataset.id)); U.toast('Design gelöscht', 'ok'); rerender(); },
     /* Benachrichtigungen */
     'navdot-toggle'(el) { const d = Object.assign({ on: true }, S.settings.navDots || {}); const k = el.dataset.key; d[k] = d[k] === false; S.setSetting('navDots', d); rerender(); },
     /* Begrüßung in der Seitenleiste: sofort übernehmen, ohne das Profil-Formular neu aufzubauen (ungespeicherte Eingaben bleiben) */
@@ -339,7 +339,7 @@
     /* Regeln */
     'add-rule'(form) { const t = String(new FormData(form).get('text') || '').trim(); if (t) S.addRule(t); rerender(); },
     'toggle-rule'(el) { const r = S.data.rules.find(x => x.id === el.dataset.id); if (r) S.updateRule(r.id, { active: r.active === false }); rerender(); },
-    'delete-rule'(el) { S.deleteRule(el.dataset.id); rerender(); },
+    async 'delete-rule'(el) { if (!(await U.confirmModal('Regel löschen?', 'Die Regel wird aus deinem Regelwerk gelöscht.', { ok: 'Löschen', danger: true }))) return; S.deleteRule(el.dataset.id); rerender(); },
     /* Notebook */
     'nb-preview'(el) { const form = el.closest('form'); const pv = form.querySelector('#nb-preview'); if (!pv) return; for (const k of ['h1', 'h2', 'h3', 'body']) pv.style.setProperty('--' + k, form.querySelector(`[name=${k}]`).value + 'px'); pv.querySelector('.pv-check').classList.toggle('strike', form.querySelector('[name=strike]').checked); },
     'save-notebook'(form) { const fd = new FormData(form); const nb = { h1: Number(fd.get('h1')), h2: Number(fd.get('h2')), h3: Number(fd.get('h3')), body: Number(fd.get('body')), strike: fd.get('strike') === 'on' }; S.setSetting('notebook', nb); root.Theme.apply(S.settings); U.toast('Gespeichert', 'ok'); rerender(); },

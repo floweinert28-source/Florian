@@ -3176,3 +3176,6 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 /* Menüeinträge mindestens 36 px hoch, wählbare Chips 28 px */
 .popover .item { min-height: 36px; }
 .chip.sel { min-height: 28px; padding: 0 10px; }
+/* Feldfehler: roter Rand am Feld, Satz darunter (U.fieldErrors) */
+.field.invalid .input, .field.invalid .select, .field.invalid .sym-btn, .field.invalid .dir-switch { border-color: var(--loss); }
+.field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }

@@ -41,7 +41,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   const tid = await p.evaluate(() => Store.trades().find(t => t.screenshotPre).id);
   await p.evaluate(i => { location.hash = '#/trades/' + i; }, tid); await p.waitForTimeout(700);
   ok('Trade-Ansicht zeigt Karte „Screenshot vor Entry“ mit Bild', !!(await p.$('#pre-drop')) && (await p.textContent('#main')).includes('Screenshot vor Entry') && !!(await p.$('[data-action=delete-pre-shot]')));
-  await p.click('[data-action=delete-pre-shot]'); await p.waitForTimeout(400);
+  await p.click('[data-action=delete-pre-shot]'); await p.waitForTimeout(300); await p.click('.modal [data-confirm]'); await p.waitForTimeout(400);
   ok('Screenshot vor Entry löschbar', await p.evaluate(i => !Store.getTrade(i).screenshotPre, tid));
   // Handy
   await p.setViewportSize({ width: 390, height: 844 }); await p.evaluate(() => { location.hash = '#/replay'; }); await p.waitForTimeout(500); await p.click('[data-action=replay-start]'); await p.waitForTimeout(500);

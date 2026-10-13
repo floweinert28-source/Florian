@@ -1,0 +1,6749 @@
+{
+ "dark-1440-dlg": {
+  "plan": {
+   "modal": {
+    "width": "680px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     380,
+     20,
+     680,
+     860
+    ]
+   },
+   "scrollH": 868,
+   "clientH": 858,
+   "cls": "modal tf-modal",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "193.219px",
+    "box": [
+     405,
+     47,
+     193,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "block",
+    "gap": "normal",
+    "box": [
+     405,
+     43,
+     630,
+     824
+    ]
+   },
+   "fieldSpan": null,
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 50, 46)",
+    "height": "41.5625px",
+    "width": "200.656px",
+    "box": [
+     405,
+     102,
+     201,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     405,
+     819,
+     630,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Speichern",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 97
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     405,
+     43,
+     630,
+     36
+    ]
+   },
+   "gaps": [],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "planExtra": {
+   "g": [
+    "200.656px 200.672px 200.672px",
+    "308px 308px 0px"
+   ],
+   "lbl": [
+    "Stop:12px/600",
+    "Ziel:12px/600",
+    "Geplanter Einstieg:12px/600",
+    "Begründung:12px/600",
+    "Tiefster Kurs gegen dich (MAE):12px/600",
+    "Bester Kurs für dich (MFE):12px/600",
+    "Setup:12px/600",
+    "Bewertung:12px/600",
+    "Fehler-Tags:12px/600",
+    "Emotionen:12px/600",
+    "Gebrochene Regeln:12px/600",
+    "Notiz zum Trade:12px/600"
+   ],
+   "fields": [
+    [
+     "Stop",
+     405,
+     79,
+     201
+    ],
+    [
+     "Ziel",
+     620,
+     79,
+     201
+    ],
+    [
+     "Geplanter Einstieg",
+     834,
+     79,
+     201
+    ],
+    [
+     "Begründung",
+     405,
+     156,
+     630
+    ],
+    [
+     "Tiefster Kurs gegen dich (MAE)",
+     405,
+     233,
+     201
+    ],
+    [
+     "Bester Kurs für dich (MFE)",
+     620,
+     233,
+     201
+    ],
+    [
+     "Setup",
+     405,
+     316,
+     308
+    ],
+    [
+     "Bewertung",
+     727,
+     316,
+     308
+    ]
+   ],
+   "chips": [
+    10,
+    10,
+    5
+   ],
+   "stack": "18px",
+   "inputs": [
+    [
+     "f-pstop",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-ptarget",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-pentry",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-reason",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-mae",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-mfe",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-setup",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-notes",
+     90,
+     "13.5px"
+    ]
+   ],
+   "h2": "Plan &amp; Bewertung <span class=\"muted tj-sym no-i18n\">DAX</span>"
+  },
+  "c_trade_loeschen": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "131.344px",
+    "box": [
+     485,
+     386,
+     131,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Der Trade und seine Anhänge werden dauerhaft entfernt.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_notiz_endgueltig": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "165.594px",
+    "box": [
+     485,
+     386,
+     166,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Das lässt sich nicht rückgängig machen.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Endgültig löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 143
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_notiz_papierkorb": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     348,
+     520,
+     203
+    ]
+   },
+   "scrollH": 201,
+   "clientH": 201,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "126.344px",
+    "box": [
+     485,
+     376,
+     126,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "40.5938px",
+    "width": "470px",
+    "box": [
+     485,
+     423,
+     470,
+     41
+    ]
+   },
+   "pText": "Sie landet für 30 Tage im Papierkorb und kann dort wiederhergestellt werden.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     480,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     371,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_ausgabe_loeschen": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     369,
+     520,
+     163
+    ]
+   },
+   "scrollH": 161,
+   "clientH": 161,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "158.969px",
+    "box": [
+     485,
+     396,
+     159,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "0px",
+    "width": "470px",
+    "box": [
+     485,
+     444,
+     470,
+     0
+    ]
+   },
+   "pText": "",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     460,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     392,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_vorlage_loeschen_dash": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "137.156px",
+    "box": [
+     485,
+     386,
+     137,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Vorlage „Standard“ wirklich löschen?",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_ordner_leer": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "215.641px",
+    "box": [
+     485,
+     386,
+     216,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Achtung: Der Ordner ist leer.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Ordner löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 128
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_einladungslink": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     348,
+     520,
+     203
+    ]
+   },
+   "scrollH": 201,
+   "clientH": 201,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "284.312px",
+    "box": [
+     485,
+     376,
+     284,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "40.5938px",
+    "width": "470px",
+    "box": [
+     485,
+     423,
+     470,
+     41
+    ]
+   },
+   "pText": "Der alte Link funktioniert danach nicht mehr. Wer schon in der Gruppe ist, bleibt drin.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     480,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Neuen Link erzeugen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 168
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     371,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_wipe": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     348,
+     520,
+     203
+    ]
+   },
+   "scrollH": 201,
+   "clientH": 201,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "197.641px",
+    "box": [
+     485,
+     376,
+     198,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "40.5938px",
+    "width": "470px",
+    "box": [
+     485,
+     423,
+     470,
+     41
+    ]
+   },
+   "pText": "Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser werden entfernt. Das lässt sich nicht rückgängig machen.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     480,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Alles löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 113
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     371,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_vorlage_umbenennen": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     338,
+     520,
+     224
+    ]
+   },
+   "scrollH": 222,
+   "clientH": 222,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "185.594px",
+    "box": [
+     485,
+     365,
+     186,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     485,
+     413,
+     470,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     413,
+     470,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "41.5625px",
+    "width": "470px",
+    "box": [
+     485,
+     439,
+     470,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     491,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Umbenennen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 120
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     361,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_neuer_tag": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     338,
+     520,
+     224
+    ]
+   },
+   "scrollH": 222,
+   "clientH": 222,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "88.2969px",
+    "box": [
+     485,
+     365,
+     88,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     485,
+     413,
+     470,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     413,
+     470,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "41.5625px",
+    "width": "470px",
+    "box": [
+     485,
+     439,
+     470,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     491,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Anlegen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 86
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     361,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_leer": "Please fill out this field.",
+  "p_neue_gruppe": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     338,
+     520,
+     224
+    ]
+   },
+   "scrollH": 222,
+   "clientH": 222,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "117.922px",
+    "box": [
+     485,
+     365,
+     118,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     485,
+     413,
+     470,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     413,
+     470,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "41.5625px",
+    "width": "470px",
+    "box": [
+     485,
+     439,
+     470,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     491,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Erstellen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(31, 216, 115)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 88
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     361,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "kontoDlg": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     314,
+     520,
+     272
+    ]
+   },
+   "scrollH": 270,
+   "clientH": 270,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "150.969px",
+    "box": [
+     485,
+     341,
+     151,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "block",
+    "gap": "normal",
+    "box": [
+     485,
+     337,
+     470,
+     226
+    ]
+   },
+   "fieldSpan": null,
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 50, 46)",
+    "height": "41.5625px",
+    "width": "228px",
+    "box": [
+     485,
+     396,
+     228,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     485,
+     515,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Speichern",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 97
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     337,
+     470,
+     36
+    ]
+   },
+   "gaps": [],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "sampleToast": [
+   "Beispieldaten entfernt |toast "
+  ]
+ },
+ "dark-390-dlg": {
+  "plan": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     28,
+     390,
+     816
+    ]
+   },
+   "scrollH": 1288,
+   "clientH": 815,
+   "cls": "modal tf-modal",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "193.219px",
+    "box": [
+     17,
+     51,
+     193,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "block",
+    "gap": "normal",
+    "box": [
+     17,
+     47,
+     356,
+     1250
+    ]
+   },
+   "fieldSpan": null,
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 50, 46)",
+    "height": "41.5625px",
+    "width": "356px",
+    "box": [
+     17,
+     106,
+     356,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     1249,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 173
+    },
+    {
+     "t": "Speichern",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 173
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     47,
+     356,
+     36
+    ]
+   },
+   "gaps": [],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "planExtra": {
+   "g": [
+    "356px",
+    "356px"
+   ],
+   "lbl": [
+    "Stop:12px/600",
+    "Ziel:12px/600",
+    "Geplanter Einstieg:12px/600",
+    "Begründung:12px/600",
+    "Tiefster Kurs gegen dich (MAE):12px/600",
+    "Bester Kurs für dich (MFE):12px/600",
+    "Setup:12px/600",
+    "Bewertung:12px/600",
+    "Fehler-Tags:12px/600",
+    "Emotionen:12px/600",
+    "Gebrochene Regeln:12px/600",
+    "Notiz zum Trade:12px/600"
+   ],
+   "fields": [
+    [
+     "Stop",
+     17,
+     83,
+     356
+    ],
+    [
+     "Ziel",
+     17,
+     160,
+     356
+    ],
+    [
+     "Geplanter Einstieg",
+     17,
+     237,
+     356
+    ],
+    [
+     "Begründung",
+     17,
+     314,
+     356
+    ],
+    [
+     "Tiefster Kurs gegen dich (MAE)",
+     17,
+     391,
+     356
+    ],
+    [
+     "Bester Kurs für dich (MFE)",
+     17,
+     468,
+     356
+    ],
+    [
+     "Setup",
+     17,
+     551,
+     356
+    ],
+    [
+     "Bewertung",
+     17,
+     628,
+     356
+    ]
+   ],
+   "chips": [
+    10,
+    10,
+    5
+   ],
+   "stack": "18px",
+   "inputs": [
+    [
+     "f-pstop",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-ptarget",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-pentry",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-reason",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-mae",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-mfe",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-setup",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-notes",
+     90,
+     "13.5px"
+    ]
+   ],
+   "h2": "Plan &amp; Bewertung <span class=\"muted tj-sym no-i18n\">DAX</span>"
+  },
+  "c_trade_loeschen": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     668,
+     390,
+     176
+    ]
+   },
+   "scrollH": 175,
+   "clientH": 175,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "131.344px",
+    "box": [
+     17,
+     691,
+     131,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "356px",
+    "box": [
+     17,
+     739,
+     356,
+     20
+    ]
+   },
+   "pText": "Der Trade und seine Anhänge werden dauerhaft entfernt.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     687,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_notiz_endgueltig": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     668,
+     390,
+     176
+    ]
+   },
+   "scrollH": 175,
+   "clientH": 175,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "165.594px",
+    "box": [
+     17,
+     691,
+     166,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "356px",
+    "box": [
+     17,
+     739,
+     356,
+     20
+    ]
+   },
+   "pText": "Das lässt sich nicht rückgängig machen.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Endgültig löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 143
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     687,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_notiz_papierkorb": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     648,
+     390,
+     196
+    ]
+   },
+   "scrollH": 195,
+   "clientH": 195,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "126.344px",
+    "box": [
+     17,
+     671,
+     126,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "40.5938px",
+    "width": "356px",
+    "box": [
+     17,
+     719,
+     356,
+     41
+    ]
+   },
+   "pText": "Sie landet für 30 Tage im Papierkorb und kann dort wiederhergestellt werden.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     667,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_ausgabe_loeschen": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     688,
+     390,
+     156
+    ]
+   },
+   "scrollH": 155,
+   "clientH": 155,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "158.969px",
+    "box": [
+     17,
+     712,
+     159,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "0px",
+    "width": "356px",
+    "box": [
+     17,
+     759,
+     356,
+     0
+    ]
+   },
+   "pText": "",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     707,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_vorlage_loeschen_dash": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     668,
+     390,
+     176
+    ]
+   },
+   "scrollH": 175,
+   "clientH": 175,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "137.156px",
+    "box": [
+     17,
+     691,
+     137,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "356px",
+    "box": [
+     17,
+     739,
+     356,
+     20
+    ]
+   },
+   "pText": "Vorlage „Standard“ wirklich löschen?",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     687,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_ordner_leer": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     668,
+     390,
+     176
+    ]
+   },
+   "scrollH": 175,
+   "clientH": 175,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "215.641px",
+    "box": [
+     17,
+     691,
+     216,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "20.2969px",
+    "width": "356px",
+    "box": [
+     17,
+     739,
+     356,
+     20
+    ]
+   },
+   "pText": "Achtung: Der Ordner ist leer.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Ordner löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 128
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     687,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_einladungslink": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     648,
+     390,
+     196
+    ]
+   },
+   "scrollH": 195,
+   "clientH": 195,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "284.312px",
+    "box": [
+     17,
+     671,
+     284,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "40.5938px",
+    "width": "356px",
+    "box": [
+     17,
+     719,
+     356,
+     41
+    ]
+   },
+   "pText": "Der alte Link funktioniert danach nicht mehr. Wer schon in der Gruppe ist, bleibt drin.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Neuen Link erzeugen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 168
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     667,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_wipe": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     628,
+     390,
+     216
+    ]
+   },
+   "scrollH": 215,
+   "clientH": 215,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "197.641px",
+    "box": [
+     17,
+     651,
+     198,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(138, 134, 127)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(138, 134, 127)",
+    "height": "60.8906px",
+    "width": "356px",
+    "box": [
+     17,
+     699,
+     356,
+     61
+    ]
+   },
+   "pText": "Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser werden entfernt. Das lässt sich nicht rückgängig machen.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Alles löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(255, 92, 92)",
+     "h": 42,
+     "w": 113
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     647,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_vorlage_umbenennen": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     627,
+     390,
+     217
+    ]
+   },
+   "scrollH": 216,
+   "clientH": 216,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "185.594px",
+    "box": [
+     17,
+     650,
+     186,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     17,
+     698,
+     356,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "20.2969px",
+    "width": "356px",
+    "box": [
+     17,
+     698,
+     356,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "41.5625px",
+    "width": "356px",
+    "box": [
+     17,
+     724,
+     356,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Umbenennen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 120
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     646,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_neuer_tag": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     627,
+     390,
+     217
+    ]
+   },
+   "scrollH": 216,
+   "clientH": 216,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "88.2969px",
+    "box": [
+     17,
+     650,
+     88,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     17,
+     698,
+     356,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "20.2969px",
+    "width": "356px",
+    "box": [
+     17,
+     698,
+     356,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "41.5625px",
+    "width": "356px",
+    "box": [
+     17,
+     724,
+     356,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Anlegen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 86
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     646,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_leer": "Please fill out this field.",
+  "p_neue_gruppe": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     627,
+     390,
+     217
+    ]
+   },
+   "scrollH": 216,
+   "clientH": 216,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "117.922px",
+    "box": [
+     17,
+     650,
+     118,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     17,
+     698,
+     356,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "20.2969px",
+    "width": "356px",
+    "box": [
+     17,
+     698,
+     356,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 245, 138)",
+    "height": "41.5625px",
+    "width": "356px",
+    "box": [
+     17,
+     724,
+     356,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Erstellen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(31, 216, 115)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 88
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     646,
+     356,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "kontoDlg": {
+   "modal": {
+    "width": "390px",
+    "paddingTop": "18px",
+    "paddingLeft": "16px",
+    "gap": "16px",
+    "maxHeight": "816px",
+    "box": [
+     0,
+     502,
+     390,
+     342
+    ]
+   },
+   "scrollH": 341,
+   "clientH": 341,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(242, 240, 236)",
+    "height": "27.5469px",
+    "width": "150.969px",
+    "box": [
+     17,
+     525,
+     151,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "block",
+    "gap": "normal",
+    "box": [
+     17,
+     521,
+     356,
+     303
+    ]
+   },
+   "fieldSpan": null,
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(242, 240, 236)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(18, 17, 16)",
+    "borderTopColor": "rgb(52, 50, 46)",
+    "height": "41.5625px",
+    "width": "356px",
+    "box": [
+     17,
+     580,
+     356,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(38, 37, 34)",
+    "box": [
+     17,
+     775,
+     356,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(26, 25, 23)",
+     "col": "rgb(242, 240, 236)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Speichern",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(52, 245, 138)",
+     "col": "rgb(4, 20, 10)",
+     "h": 42,
+     "w": 97
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     17,
+     521,
+     356,
+     36
+    ]
+   },
+   "gaps": [],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "sampleToast": [
+   "Beispieldaten entfernt |toast "
+  ]
+ },
+ "light-1440-dlg": {
+  "plan": {
+   "modal": {
+    "width": "680px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     380,
+     20,
+     680,
+     860
+    ]
+   },
+   "scrollH": 868,
+   "clientH": 858,
+   "cls": "modal tf-modal",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "193.219px",
+    "box": [
+     405,
+     47,
+     193,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "block",
+    "gap": "normal",
+    "box": [
+     405,
+     43,
+     630,
+     824
+    ]
+   },
+   "fieldSpan": null,
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "borderTopColor": "rgb(207, 214, 209)",
+    "height": "41.5625px",
+    "width": "200.656px",
+    "box": [
+     405,
+     102,
+     201,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     405,
+     819,
+     630,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Speichern",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(15, 184, 98)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 97
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     405,
+     43,
+     630,
+     36
+    ]
+   },
+   "gaps": [],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "planExtra": {
+   "g": [
+    "200.656px 200.672px 200.672px",
+    "308px 308px 0px"
+   ],
+   "lbl": [
+    "Stop:12px/600",
+    "Ziel:12px/600",
+    "Geplanter Einstieg:12px/600",
+    "Begründung:12px/600",
+    "Tiefster Kurs gegen dich (MAE):12px/600",
+    "Bester Kurs für dich (MFE):12px/600",
+    "Setup:12px/600",
+    "Bewertung:12px/600",
+    "Fehler-Tags:12px/600",
+    "Emotionen:12px/600",
+    "Gebrochene Regeln:12px/600",
+    "Notiz zum Trade:12px/600"
+   ],
+   "fields": [
+    [
+     "Stop",
+     405,
+     79,
+     201
+    ],
+    [
+     "Ziel",
+     620,
+     79,
+     201
+    ],
+    [
+     "Geplanter Einstieg",
+     834,
+     79,
+     201
+    ],
+    [
+     "Begründung",
+     405,
+     156,
+     630
+    ],
+    [
+     "Tiefster Kurs gegen dich (MAE)",
+     405,
+     233,
+     201
+    ],
+    [
+     "Bester Kurs für dich (MFE)",
+     620,
+     233,
+     201
+    ],
+    [
+     "Setup",
+     405,
+     316,
+     308
+    ],
+    [
+     "Bewertung",
+     727,
+     316,
+     308
+    ]
+   ],
+   "chips": [
+    10,
+    10,
+    5
+   ],
+   "stack": "18px",
+   "inputs": [
+    [
+     "f-pstop",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-ptarget",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-pentry",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-reason",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-mae",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-mfe",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-setup",
+     42,
+     "13.5px"
+    ],
+    [
+     "f-notes",
+     90,
+     "13.5px"
+    ]
+   ],
+   "h2": "Plan &amp; Bewertung <span class=\"muted tj-sym no-i18n\">DAX</span>"
+  },
+  "c_trade_loeschen": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "131.344px",
+    "box": [
+     485,
+     386,
+     131,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Der Trade und seine Anhänge werden dauerhaft entfernt.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(224, 62, 62)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_notiz_endgueltig": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "165.594px",
+    "box": [
+     485,
+     386,
+     166,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Das lässt sich nicht rückgängig machen.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Endgültig löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(224, 62, 62)",
+     "h": 42,
+     "w": 143
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_notiz_papierkorb": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     348,
+     520,
+     203
+    ]
+   },
+   "scrollH": 201,
+   "clientH": 201,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "126.344px",
+    "box": [
+     485,
+     376,
+     126,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "40.5938px",
+    "width": "470px",
+    "box": [
+     485,
+     423,
+     470,
+     41
+    ]
+   },
+   "pText": "Sie landet für 30 Tage im Papierkorb und kann dort wiederhergestellt werden.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     480,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(224, 62, 62)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     371,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_ausgabe_loeschen": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     369,
+     520,
+     163
+    ]
+   },
+   "scrollH": 161,
+   "clientH": 161,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "158.969px",
+    "box": [
+     485,
+     396,
+     159,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "0px",
+    "width": "470px",
+    "box": [
+     485,
+     444,
+     470,
+     0
+    ]
+   },
+   "pText": "",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     460,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(224, 62, 62)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     392,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_vorlage_loeschen_dash": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "137.156px",
+    "box": [
+     485,
+     386,
+     137,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Vorlage „Standard“ wirklich löschen?",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(224, 62, 62)",
+     "h": 42,
+     "w": 85
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_ordner_leer": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     359,
+     520,
+     183
+    ]
+   },
+   "scrollH": 181,
+   "clientH": 181,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "215.641px",
+    "box": [
+     485,
+     386,
+     216,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     434,
+     470,
+     20
+    ]
+   },
+   "pText": "Achtung: Der Ordner ist leer.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     470,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Ordner löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(224, 62, 62)",
+     "h": 42,
+     "w": 128
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     382,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_einladungslink": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     348,
+     520,
+     203
+    ]
+   },
+   "scrollH": 201,
+   "clientH": 201,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "284.312px",
+    "box": [
+     485,
+     376,
+     284,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "40.5938px",
+    "width": "470px",
+    "box": [
+     485,
+     423,
+     470,
+     41
+    ]
+   },
+   "pText": "Der alte Link funktioniert danach nicht mehr. Wer schon in der Gruppe ist, bleibt drin.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     480,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Neuen Link erzeugen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(15, 184, 98)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 168
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     371,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "c_wipe": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     348,
+     520,
+     203
+    ]
+   },
+   "scrollH": 201,
+   "clientH": 201,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "197.641px",
+    "box": [
+     485,
+     376,
+     198,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(106, 116, 109)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(106, 116, 109)",
+    "height": "40.5938px",
+    "width": "470px",
+    "box": [
+     485,
+     423,
+     470,
+     41
+    ]
+   },
+   "pText": "Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser werden entfernt. Das lässt sich nicht rückgängig machen.",
+   "form": null,
+   "fieldSpan": null,
+   "input": null,
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     480,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Alles löschen",
+     "cls": "btn danger",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgba(0, 0, 0, 0)",
+     "col": "rgb(224, 62, 62)",
+     "h": 42,
+     "w": 113
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     371,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "muted",
+     16
+    ],
+    [
+     "muted",
+     "modal-foot",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_vorlage_umbenennen": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     338,
+     520,
+     224
+    ]
+   },
+   "scrollH": 222,
+   "clientH": 222,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "185.594px",
+    "box": [
+     485,
+     365,
+     186,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     485,
+     413,
+     470,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     413,
+     470,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "borderTopColor": "rgb(15, 184, 98)",
+    "height": "41.5625px",
+    "width": "470px",
+    "box": [
+     485,
+     439,
+     470,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     491,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Umbenennen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(15, 184, 98)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 120
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     361,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_neuer_tag": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     338,
+     520,
+     224
+    ]
+   },
+   "scrollH": 222,
+   "clientH": 222,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "88.2969px",
+    "box": [
+     485,
+     365,
+     88,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     485,
+     413,
+     470,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     413,
+     470,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "borderTopColor": "rgb(15, 184, 98)",
+    "height": "41.5625px",
+    "width": "470px",
+    "box": [
+     485,
+     439,
+     470,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     491,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Anlegen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(15, 184, 98)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 86
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     361,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "p_leer": "Please fill out this field.",
+  "p_neue_gruppe": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     338,
+     520,
+     224
+    ]
+   },
+   "scrollH": 222,
+   "clientH": 222,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "117.922px",
+    "box": [
+     485,
+     365,
+     118,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "flex",
+    "gap": "10px",
+    "box": [
+     485,
+     413,
+     470,
+     126
+    ]
+   },
+   "fieldSpan": {
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "20.3px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "20.2969px",
+    "width": "470px",
+    "box": [
+     485,
+     413,
+     470,
+     20
+    ]
+   },
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "borderTopColor": "rgb(15, 184, 98)",
+    "height": "41.5625px",
+    "width": "470px",
+    "box": [
+     485,
+     439,
+     470,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     491,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Erstellen",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(10, 154, 82)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 88
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     361,
+     470,
+     36
+    ]
+   },
+   "gaps": [
+    [
+     "modal-head",
+     "stack",
+     16
+    ]
+   ],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "kontoDlg": {
+   "modal": {
+    "width": "520px",
+    "paddingTop": "22px",
+    "paddingLeft": "24px",
+    "gap": "16px",
+    "maxHeight": "860px",
+    "box": [
+     460,
+     314,
+     520,
+     272
+    ]
+   },
+   "scrollH": 270,
+   "clientH": 270,
+   "cls": "modal narrow",
+   "h2": {
+    "fontSize": "19px",
+    "fontWeight": "600",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "27.55px",
+    "textTransform": "none",
+    "letterSpacing": "-0.19px",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "0px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "borderTopColor": "rgb(13, 19, 15)",
+    "height": "27.5469px",
+    "width": "150.969px",
+    "box": [
+     485,
+     341,
+     151,
+     28
+    ]
+   },
+   "headRow": null,
+   "lbl": null,
+   "labelField": null,
+   "selDec": null,
+   "legend": null,
+   "fieldset": null,
+   "capRow": null,
+   "capSpan": null,
+   "mapB": null,
+   "sample": null,
+   "mapSel": null,
+   "mapRows": 0,
+   "banner": null,
+   "bannerSmall": [],
+   "th": null,
+   "td": null,
+   "tblWrap": null,
+   "count": null,
+   "empty": null,
+   "emptySvg": null,
+   "p": null,
+   "pText": null,
+   "form": {
+    "display": "block",
+    "gap": "normal",
+    "box": [
+     485,
+     337,
+     470,
+     226
+    ]
+   },
+   "fieldSpan": null,
+   "input": {
+    "fontSize": "13.5px",
+    "fontWeight": "400",
+    "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+    "color": "rgb(13, 19, 15)",
+    "lineHeight": "19.575px",
+    "textTransform": "none",
+    "letterSpacing": "normal",
+    "marginTop": "0px",
+    "marginBottom": "0px",
+    "paddingLeft": "12px",
+    "display": "block",
+    "justifyContent": "normal",
+    "textAlign": "start",
+    "opacity": "1",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "borderTopColor": "rgb(207, 214, 209)",
+    "height": "41.5625px",
+    "width": "228px",
+    "box": [
+     485,
+     396,
+     228,
+     42
+    ]
+   },
+   "foot": {
+    "paddingTop": "6px",
+    "marginTop": "0px",
+    "gap": "10px",
+    "borderTopColor": "rgb(225, 230, 226)",
+    "box": [
+     485,
+     515,
+     470,
+     49
+    ]
+   },
+   "footBtns": [
+    {
+     "t": "Abbrechen",
+     "cls": "btn",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(255, 255, 255)",
+     "col": "rgb(13, 19, 15)",
+     "h": 42,
+     "w": 101
+    },
+    {
+     "t": "Speichern",
+     "cls": "btn primary",
+     "dis": false,
+     "hidden": false,
+     "op": "1",
+     "bg": "rgb(15, 184, 98)",
+     "col": "rgb(255, 255, 255)",
+     "h": 42,
+     "w": 97
+    }
+   ],
+   "head": {
+    "marginBottom": "0px",
+    "height": "36px",
+    "box": [
+     485,
+     337,
+     470,
+     36
+    ]
+   },
+   "gaps": [],
+   "dropzone": null,
+   "dzSvg": null,
+   "details": null,
+   "summary": null,
+   "banners": 0
+  },
+  "sampleToast": [
+   "Beispieldaten entfernt |toast "
+  ]
+ }
+}

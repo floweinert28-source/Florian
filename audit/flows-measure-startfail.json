@@ -1,0 +1,126 @@
+{
+ "dark-1440-sf": {
+  "theme": "dark",
+  "bodyBg": "rgb(14, 13, 11)",
+  "box": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(22, 22, 22)"
+  },
+  "h2": {
+   "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   "fontSize": "20px",
+   "fontWeight": "600",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgba(0, 0, 0, 0)"
+  },
+  "btn": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(34, 34, 34)"
+  },
+  "sidebar": "boot-sb sichtbar",
+  "sbRect": [
+   0,
+   232
+  ],
+  "pre": "ReferenceError: App is not defined\n    at file:///home/user/Florian/web/app.html:90:5\n    at file:///home/user/Florian/web/app.html:98:3"
+ },
+ "light-1440-sf": {
+  "theme": "light",
+  "bodyBg": "rgb(245, 247, 245)",
+  "box": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(22, 22, 22)"
+  },
+  "h2": {
+   "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   "fontSize": "20px",
+   "fontWeight": "600",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgba(0, 0, 0, 0)"
+  },
+  "btn": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(34, 34, 34)"
+  },
+  "sidebar": "boot-sb sichtbar",
+  "sbRect": [
+   0,
+   232
+  ],
+  "pre": "ReferenceError: App is not defined\n    at file:///home/user/Florian/web/app.html:90:5\n    at file:///home/user/Florian/web/app.html:98:3"
+ },
+ "dark-390-sf": {
+  "theme": "dark",
+  "bodyBg": "rgb(14, 13, 11)",
+  "box": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(22, 22, 22)"
+  },
+  "h2": {
+   "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   "fontSize": "20px",
+   "fontWeight": "600",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgba(0, 0, 0, 0)"
+  },
+  "btn": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(34, 34, 34)"
+  },
+  "sidebar": "boot-sb sichtbar",
+  "sbRect": [
+   -285.6000061035156,
+   280
+  ],
+  "pre": "ReferenceError: App is not defined\n    at file:///home/user/Florian/web/app.html:90:5\n    at file:///home/user/Florian/web/app.html:98:3"
+ },
+ "light-390-sf": {
+  "theme": "light",
+  "bodyBg": "rgb(245, 247, 245)",
+  "box": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(22, 22, 22)"
+  },
+  "h2": {
+   "fontFamily": "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   "fontSize": "20px",
+   "fontWeight": "600",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgba(0, 0, 0, 0)"
+  },
+  "btn": {
+   "fontFamily": "Inter, Roboto, sans-serif",
+   "fontSize": "15px",
+   "fontWeight": "400",
+   "color": "rgb(238, 238, 238)",
+   "backgroundColor": "rgb(34, 34, 34)"
+  },
+  "sidebar": "boot-sb sichtbar",
+  "sbRect": [
+   -285.6000061035156,
+   280
+  ],
+  "pre": "ReferenceError: App is not defined\n    at file:///home/user/Florian/web/app.html:90:5\n    at file:///home/user/Florian/web/app.html:98:3"
+ }
+}

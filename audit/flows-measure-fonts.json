@@ -1,0 +1,1051 @@
+{
+ "dark-1440-normal": {
+  "sat": true,
+  "loaded": [
+   "Onest 400",
+   "Onest 500",
+   "Onest 600",
+   "Onest 700",
+   "Onest 800",
+   "Satoshi 400",
+   "Satoshi 500",
+   "Satoshi 700",
+   "Satoshi 900"
+  ],
+  "h1": [
+   "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   107
+  ],
+  "wraps": [
+   [
+    "active:Dashboard",
+    39,
+    203
+   ],
+   [
+    ":Statistiken",
+    39,
+    203
+   ],
+   [
+    ":Fortschritt",
+    39,
+    203
+   ],
+   [
+    ":TradeLog",
+    39,
+    203
+   ],
+   [
+    ":Tagesansicht",
+    39,
+    203
+   ],
+   [
+    ":Notebook",
+    39,
+    203
+   ],
+   [
+    ":News",
+    39,
+    203
+   ],
+   [
+    ":Schatten-Ich",
+    39,
+    203
+   ],
+   [
+    ":Mentor",
+    39,
+    203
+   ],
+   [
+    ":Ruhepunkt",
+    39,
+    203
+   ],
+   [
+    ":Prop Firms",
+    39,
+    203
+   ],
+   [
+    ":Coupon-Codes",
+    39,
+    203
+   ],
+   [
+    ":Dashboard",
+    30,
+    107
+   ],
+   [
+    "btn:Oktober 2026",
+    42,
+    166
+   ],
+   [
+    "btn:Hauptkonto",
+    42,
+    152
+   ],
+   [
+    "btn:Filter",
+    42,
+    87
+   ],
+   [
+    "btn:Standard",
+    38,
+    40
+   ],
+   [
+    "btn:Zertifikat",
+    38,
+    40
+   ],
+   [
+    "btn:Trade loggen",
+    42,
+    140
+   ],
+   [
+    "val:1.826,39 €",
+    28,
+    122
+   ],
+   [
+    "val:46,7 %",
+    28,
+    79
+   ],
+   [
+    "val:1,75",
+    28,
+    44
+   ],
+   [
+    "val:42,9 %",
+    28,
+    80
+   ],
+   [
+    "val:2",
+    28,
+    14
+   ],
+   [
+    "lbl:609,11 €−304,67 €",
+    17,
+    186
+   ],
+   [
+    "card-title:Gesamt-Score",
+    22,
+    125
+   ],
+   [
+    "card-title:Kumulierter Tages-P&L",
+    22,
+    187
+   ],
+   [
+    "card-title:Netto-P&L pro Tag",
+    22,
+    156
+   ],
+   [
+    "card-title:Letzte Trades & offene P",
+    22,
+    256
+   ],
+   [
+    "card-title:Kalender",
+    22,
+    87
+   ],
+   [
+    "btn:Heute",
+    34,
+    58
+   ],
+   [
+    "card-title:Schatten-Ich",
+    22,
+    114
+   ],
+   [
+    "card-title:Prop-Konten",
+    22,
+    115
+   ],
+   [
+    "card-title:Ruhepunkt",
+    22,
+    101
+   ],
+   [
+    "btn:Starten",
+    34,
+    65
+   ],
+   [
+    "btn:Starten",
+    34,
+    65
+   ],
+   [
+    "btn:Akut-Resetwenn es gerade",
+    44,
+    333
+   ],
+   [
+    "card-title:Mentor",
+    22,
+    75
+   ],
+   [
+    "btn:Einrichten",
+    34,
+    81
+   ]
+  ],
+  "docH": 2005,
+  "tradeDlg": {
+   "h": 500,
+   "sh": 498,
+   "labels": [
+    [
+     "Symbol",
+     17,
+     406
+    ],
+    [
+     "Richtung",
+     17,
+     210
+    ],
+    [
+     "Einstieg",
+     17,
+     201
+    ],
+    [
+     "Ausstieg",
+     17,
+     201
+    ],
+    [
+     "Kontrakte",
+     17,
+     201
+    ],
+    [
+     "Eröffnet",
+     17,
+     308
+    ],
+    [
+     "Geschlossen (leer = ",
+     17,
+     308
+    ],
+    [
+     "Punktwert",
+     17,
+     308
+    ],
+    [
+     "Gebühren",
+     17,
+     308
+    ],
+    [
+     "Prop-Konten (Copy-Tr",
+     17,
+     630
+    ]
+   ]
+  }
+ },
+ "dark-1440-ohne_satoshi": {
+  "sat": true,
+  "loaded": [
+   "Onest 400",
+   "Onest 500",
+   "Onest 600",
+   "Onest 700",
+   "Onest 800"
+  ],
+  "h1": [
+   "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   108
+  ],
+  "wraps": [
+   [
+    "active:Dashboard",
+    39,
+    203
+   ],
+   [
+    ":Statistiken",
+    39,
+    203
+   ],
+   [
+    ":Fortschritt",
+    39,
+    203
+   ],
+   [
+    ":TradeLog",
+    39,
+    203
+   ],
+   [
+    ":Tagesansicht",
+    39,
+    203
+   ],
+   [
+    ":Notebook",
+    39,
+    203
+   ],
+   [
+    ":News",
+    39,
+    203
+   ],
+   [
+    ":Schatten-Ich",
+    39,
+    203
+   ],
+   [
+    ":Mentor",
+    39,
+    203
+   ],
+   [
+    ":Ruhepunkt",
+    39,
+    203
+   ],
+   [
+    ":Prop Firms",
+    39,
+    203
+   ],
+   [
+    ":Coupon-Codes",
+    39,
+    203
+   ],
+   [
+    ":Dashboard",
+    30,
+    108
+   ],
+   [
+    "btn:Oktober 2026",
+    42,
+    168
+   ],
+   [
+    "btn:Hauptkonto",
+    42,
+    155
+   ],
+   [
+    "btn:Filter",
+    42,
+    90
+   ],
+   [
+    "btn:Standard",
+    38,
+    40
+   ],
+   [
+    "btn:Zertifikat",
+    38,
+    40
+   ],
+   [
+    "btn:Trade loggen",
+    42,
+    142
+   ],
+   [
+    "val:1.826,39 €",
+    28,
+    122
+   ],
+   [
+    "val:46,7 %",
+    28,
+    79
+   ],
+   [
+    "val:1,75",
+    28,
+    44
+   ],
+   [
+    "val:42,9 %",
+    28,
+    80
+   ],
+   [
+    "val:2",
+    28,
+    14
+   ],
+   [
+    "lbl:609,11 €−304,67 €",
+    17,
+    186
+   ],
+   [
+    "card-title:Gesamt-Score",
+    22,
+    129
+   ],
+   [
+    "card-title:Kumulierter Tages-P&L",
+    22,
+    193
+   ],
+   [
+    "card-title:Netto-P&L pro Tag",
+    22,
+    160
+   ],
+   [
+    "card-title:Letzte Trades & offene P",
+    22,
+    273
+   ],
+   [
+    "card-title:Kalender",
+    22,
+    89
+   ],
+   [
+    "btn:Heute",
+    34,
+    59
+   ],
+   [
+    "card-title:Schatten-Ich",
+    22,
+    118
+   ],
+   [
+    "card-title:Prop-Konten",
+    22,
+    118
+   ],
+   [
+    "card-title:Ruhepunkt",
+    22,
+    103
+   ],
+   [
+    "btn:Starten",
+    34,
+    69
+   ],
+   [
+    "btn:Starten",
+    34,
+    68
+   ],
+   [
+    "btn:Akut-Resetwenn es gerade",
+    44,
+    333
+   ],
+   [
+    "card-title:Mentor",
+    22,
+    77
+   ],
+   [
+    "btn:Einrichten",
+    34,
+    86
+   ]
+  ],
+  "docH": 2005,
+  "tradeDlg": {
+   "h": 500,
+   "sh": 498,
+   "labels": [
+    [
+     "Symbol",
+     17,
+     406
+    ],
+    [
+     "Richtung",
+     17,
+     210
+    ],
+    [
+     "Einstieg",
+     17,
+     201
+    ],
+    [
+     "Ausstieg",
+     17,
+     201
+    ],
+    [
+     "Kontrakte",
+     17,
+     201
+    ],
+    [
+     "Eröffnet",
+     17,
+     308
+    ],
+    [
+     "Geschlossen (leer = ",
+     17,
+     308
+    ],
+    [
+     "Punktwert",
+     17,
+     308
+    ],
+    [
+     "Gebühren",
+     17,
+     308
+    ],
+    [
+     "Prop-Konten (Copy-Tr",
+     17,
+     630
+    ]
+   ]
+  }
+ },
+ "dark-390-normal": {
+  "sat": true,
+  "loaded": [
+   "Onest 400",
+   "Onest 500",
+   "Onest 600",
+   "Onest 700",
+   "Satoshi 400",
+   "Satoshi 500",
+   "Satoshi 700",
+   "Satoshi 900"
+  ],
+  "h1": [
+   "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   280
+  ],
+  "wraps": [
+   [
+    "active:Dashboard",
+    39,
+    252
+   ],
+   [
+    ":Statistiken",
+    39,
+    252
+   ],
+   [
+    ":Fortschritt",
+    39,
+    252
+   ],
+   [
+    ":TradeLog",
+    39,
+    252
+   ],
+   [
+    ":Tagesansicht",
+    39,
+    252
+   ],
+   [
+    ":Notebook",
+    39,
+    252
+   ],
+   [
+    ":News",
+    39,
+    252
+   ],
+   [
+    ":Schatten-Ich",
+    39,
+    252
+   ],
+   [
+    ":Mentor",
+    39,
+    252
+   ],
+   [
+    ":Ruhepunkt",
+    39,
+    252
+   ],
+   [
+    ":Prop Firms",
+    39,
+    252
+   ],
+   [
+    ":Coupon-Codes",
+    39,
+    252
+   ],
+   [
+    ":Dashboard",
+    25,
+    280
+   ],
+   [
+    "btn:Oktober 2026",
+    42,
+    166
+   ],
+   [
+    "btn:Filter",
+    38,
+    50
+   ],
+   [
+    "btn:Standard",
+    38,
+    40
+   ],
+   [
+    "btn:Zertifikat",
+    38,
+    40
+   ],
+   [
+    "val:1.826,39 €",
+    23,
+    114
+   ],
+   [
+    "val:46,7 %",
+    23,
+    65
+   ],
+   [
+    "val:1,75",
+    23,
+    36
+   ],
+   [
+    "val:42,9 %",
+    23,
+    66
+   ],
+   [
+    "val:2",
+    23,
+    12
+   ],
+   [
+    "lbl:609,11 €−304,67 €",
+    17,
+    147
+   ],
+   [
+    "card-title:Gesamt-Score",
+    22,
+    125
+   ],
+   [
+    "card-title:Kumulierter Tages-P&L",
+    22,
+    187
+   ],
+   [
+    "card-title:Netto-P&L pro Tag",
+    22,
+    156
+   ],
+   [
+    "card-title:Letzte Trades & offene P",
+    22,
+    256
+   ],
+   [
+    "card-title:Kalender",
+    22,
+    87
+   ],
+   [
+    "card-title:Schatten-Ich",
+    22,
+    114
+   ],
+   [
+    "card-title:Prop-Konten",
+    22,
+    115
+   ],
+   [
+    "card-title:Ruhepunkt",
+    22,
+    101
+   ],
+   [
+    "btn:Starten",
+    34,
+    65
+   ],
+   [
+    "btn:Starten",
+    34,
+    65
+   ],
+   [
+    "btn:Akut-Resetwenn es gerade",
+    44,
+    316
+   ],
+   [
+    "card-title:Mentor",
+    22,
+    75
+   ],
+   [
+    "btn:Einrichten",
+    34,
+    81
+   ]
+  ],
+  "docH": 3691,
+  "tradeDlg": {
+   "h": 759,
+   "sh": 758,
+   "labels": [
+    [
+     "Symbol",
+     17,
+     356
+    ],
+    [
+     "Richtung",
+     17,
+     356
+    ],
+    [
+     "Einstieg",
+     17,
+     112
+    ],
+    [
+     "Ausstieg",
+     17,
+     112
+    ],
+    [
+     "Kontrakte",
+     17,
+     112
+    ],
+    [
+     "Eröffnet",
+     17,
+     356
+    ],
+    [
+     "Geschlossen (leer = ",
+     17,
+     356
+    ],
+    [
+     "Punktwert",
+     17,
+     356
+    ],
+    [
+     "Gebühren",
+     17,
+     356
+    ],
+    [
+     "Prop-Konten (Copy-Tr",
+     17,
+     356
+    ]
+   ]
+  }
+ },
+ "dark-390-ohne_satoshi": {
+  "sat": true,
+  "loaded": [
+   "Onest 400",
+   "Onest 500",
+   "Onest 600",
+   "Onest 700",
+   "Onest 800"
+  ],
+  "h1": [
+   "Satoshi, Onest, \"Segoe UI\", system-ui, -apple-system, sans-serif",
+   280
+  ],
+  "wraps": [
+   [
+    "active:Dashboard",
+    39,
+    252
+   ],
+   [
+    ":Statistiken",
+    39,
+    252
+   ],
+   [
+    ":Fortschritt",
+    39,
+    252
+   ],
+   [
+    ":TradeLog",
+    39,
+    252
+   ],
+   [
+    ":Tagesansicht",
+    39,
+    252
+   ],
+   [
+    ":Notebook",
+    39,
+    252
+   ],
+   [
+    ":News",
+    39,
+    252
+   ],
+   [
+    ":Schatten-Ich",
+    39,
+    252
+   ],
+   [
+    ":Mentor",
+    39,
+    252
+   ],
+   [
+    ":Ruhepunkt",
+    39,
+    252
+   ],
+   [
+    ":Prop Firms",
+    39,
+    252
+   ],
+   [
+    ":Coupon-Codes",
+    39,
+    252
+   ],
+   [
+    ":Dashboard",
+    25,
+    280
+   ],
+   [
+    "btn:Oktober 2026",
+    42,
+    168
+   ],
+   [
+    "btn:Filter",
+    38,
+    50
+   ],
+   [
+    "btn:Standard",
+    38,
+    40
+   ],
+   [
+    "btn:Zertifikat",
+    38,
+    40
+   ],
+   [
+    "val:1.826,39 €",
+    23,
+    117
+   ],
+   [
+    "val:46,7 %",
+    23,
+    65
+   ],
+   [
+    "val:1,75",
+    23,
+    36
+   ],
+   [
+    "val:42,9 %",
+    23,
+    66
+   ],
+   [
+    "val:2",
+    23,
+    12
+   ],
+   [
+    "lbl:609,11 €−304,67 €",
+    17,
+    147
+   ],
+   [
+    "card-title:Gesamt-Score",
+    22,
+    129
+   ],
+   [
+    "card-title:Kumulierter Tages-P&L",
+    22,
+    193
+   ],
+   [
+    "card-title:Netto-P&L pro Tag",
+    22,
+    160
+   ],
+   [
+    "card-title:Letzte Trades & offene P",
+    22,
+    273
+   ],
+   [
+    "card-title:Kalender",
+    22,
+    89
+   ],
+   [
+    "card-title:Schatten-Ich",
+    22,
+    118
+   ],
+   [
+    "card-title:Prop-Konten",
+    22,
+    118
+   ],
+   [
+    "card-title:Ruhepunkt",
+    22,
+    103
+   ],
+   [
+    "btn:Starten",
+    34,
+    69
+   ],
+   [
+    "btn:Starten",
+    34,
+    68
+   ],
+   [
+    "btn:Akut-Resetwenn es gerade",
+    44,
+    316
+   ],
+   [
+    "card-title:Mentor",
+    22,
+    77
+   ],
+   [
+    "btn:Einrichten",
+    34,
+    86
+   ]
+  ],
+  "docH": 3710,
+  "tradeDlg": {
+   "h": 792,
+   "sh": 791,
+   "labels": [
+    [
+     "Symbol",
+     17,
+     356
+    ],
+    [
+     "Richtung",
+     17,
+     356
+    ],
+    [
+     "Einstieg",
+     17,
+     112
+    ],
+    [
+     "Ausstieg",
+     17,
+     112
+    ],
+    [
+     "Kontrakte",
+     17,
+     112
+    ],
+    [
+     "Eröffnet",
+     17,
+     356
+    ],
+    [
+     "Geschlossen (leer = ",
+     17,
+     356
+    ],
+    [
+     "Punktwert",
+     17,
+     356
+    ],
+    [
+     "Gebühren",
+     17,
+     356
+    ],
+    [
+     "Prop-Konten (Copy-Tr",
+     17,
+     356
+    ]
+   ]
+  }
+ }
+}

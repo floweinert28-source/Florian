@@ -110,13 +110,13 @@ async function openImportWith(p, file) { await p.evaluate(() => App.openImport()
       await shot(p, `${t}-plan_bewertung_oben`); await modalScroll(p, 'bottom'); await shot(p, `${t}-plan_bewertung_unten`); await closeAll(p);
       /* Bestätigen: echte Aufrufer */
       const confirms = [
-        ['trade_loeschen', async () => { await p.evaluate(id => App.actions['delete-trade'].call(App, { dataset: { id } }), tid); }],
-        ['notiz_endgueltig', async () => { await p.evaluate(() => UI.confirmModal('Endgültig löschen?', 'Das lässt sich nicht rückgängig machen.', { ok: 'Endgültig löschen', danger: true })); }],
-        ['notiz_papierkorb', async () => { await p.evaluate(() => UI.confirmModal('Notiz löschen?', 'Sie landet für 30 Tage im Papierkorb und kann dort wiederhergestellt werden.', { ok: 'Löschen', danger: true })); }],
-        ['ausgabe_loeschen', async () => { await p.evaluate(() => UI.confirmModal('Ausgabe löschen?', '', { ok: 'Löschen', danger: true })); }],
+        ['trade_loeschen', async () => { await p.evaluate(id => { App.actions['delete-trade'].call(App, { dataset: { id } }); }, tid); }],
+        ['notiz_endgueltig', async () => { await p.evaluate(() => { UI.confirmModal('Endgültig löschen?', 'Das lässt sich nicht rückgängig machen.', { ok: 'Endgültig löschen', danger: true }); }); }],
+        ['notiz_papierkorb', async () => { await p.evaluate(() => { UI.confirmModal('Notiz löschen?', 'Sie landet für 30 Tage im Papierkorb und kann dort wiederhergestellt werden.', { ok: 'Löschen', danger: true }); }); }],
+        ['ausgabe_loeschen', async () => { await p.evaluate(() => { UI.confirmModal('Ausgabe löschen?', '', { ok: 'Löschen', danger: true }); }); }],
         ['vorlage_loeschen_dash', async () => { await p.evaluate(() => { const d = Store.dashboards()[0]; UI.confirmModal('Vorlage löschen', `Vorlage „${UI.esc(d.name)}“ wirklich löschen?`, { ok: 'Löschen', danger: true }); }); }],
-        ['ordner_leer', async () => { await p.evaluate(() => UI.confirmModal('Ordner „Ideen“ löschen?', 'Achtung: Der Ordner ist leer.', { ok: 'Ordner löschen', danger: true })); }],
-        ['einladungslink', async () => { await p.evaluate(() => UI.confirmModal('Neuen Einladungslink erzeugen?', 'Der alte Link funktioniert danach nicht mehr. Wer schon in der Gruppe ist, bleibt drin.', { ok: 'Neuen Link erzeugen' })); }],
+        ['ordner_leer', async () => { await p.evaluate(() => { UI.confirmModal('Ordner „Ideen“ löschen?', 'Achtung: Der Ordner ist leer.', { ok: 'Ordner löschen', danger: true }); }); }],
+        ['einladungslink', async () => { await p.evaluate(() => { UI.confirmModal('Neuen Einladungslink erzeugen?', 'Der alte Link funktioniert danach nicht mehr. Wer schon in der Gruppe ist, bleibt drin.', { ok: 'Neuen Link erzeugen' }); }); }],
       ];
       for (const [name, fn] of confirms) { try { await fn(); await p.waitForTimeout(450); M['c_' + name] = await measureModal(p); await shot(p, `${t}-confirm_${name}`); } catch (e) { log(`FAIL confirm ${name}: ${e.message.split('\n')[0]}`); } await closeAll(p); }
       /* Konto löschen (Einstellungen) und Alles löschen per Klick */

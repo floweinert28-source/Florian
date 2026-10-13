@@ -12,5 +12,5 @@ RUNNAME="$B-2" bash "$TREE/web/e2e/runtree.sh" "$TREE" $S2 > "$SP/runs/full-$B-2
 RUNNAME="$B-3" bash "$TREE/web/e2e/runtree.sh" "$TREE" $S3 > "$SP/runs/full-$B-3.out" 2>&1 &
 wait
 cat "$SP/runs/full-$B-1.out" "$SP/runs/full-$B-2.out" "$SP/runs/full-$B-3.out" | grep -vE '^(Baum:|ALLDONE)'
-echo "SUMME: $(cat "$SP"/runs/full-$B-[123].out | grep -cE '^[a-z0-9]+( \(en\))?: ') Suiten, nicht voll grün: $(cat "$SP"/runs/full-$B-[123].out | grep -E '^[a-z0-9]+( \(en\))?: ' | awk '{n=($2=="(en):")?$3:$2; split(n,a,"/"); if (a[1]!=a[2] || $0 ~ /crash=[1-9]/ || $0 ~ /ERRORS/) print $1}' | tr '\n' ' ') · Dauer $(( ($(date +%s) - T0) / 60 )) min"
+echo "SUMME: $(cat "$SP"/runs/full-$B-[123].out | grep -cE '^[a-z0-9]+( \(en\))?: ') Suiten, nicht voll grün: $(cat "$SP"/runs/full-$B-[123].out | grep -E '^[a-z0-9]+( \(en\))?: ' | awk '{n=($2=="(en):")?$3:$2; split(n,a,"/"); if (a[1]!=a[2] || a[2]==0 || $0 ~ /crash=[1-9]/ || $0 ~ /ERRORS/) print $1}' | tr '\n' ' ') · Dauer $(( ($(date +%s) - T0) / 60 )) min"
 echo ALLDONE

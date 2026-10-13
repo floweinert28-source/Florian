@@ -3325,3 +3325,6 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   .cal-nav { gap: 8px; }
 }
 .cal-nav .btn.sm { height: 28px; min-height: 28px; padding: 0 10px; border-radius: 8px; font-size: var(--fs-12); } /* „Heute“ so hoch wie die Pfeile */
+/* Kalender: Tages-P&L oben direkt unter der Tageszahl statt unten in der Zelle */
+.cal:not(.mini) .d { justify-content: flex-start; padding-top: 34px; }
+@media (max-width: 960px) { .cal:not(.mini) .d { padding-top: 26px; } }

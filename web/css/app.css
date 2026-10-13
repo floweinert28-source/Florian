@@ -3222,3 +3222,22 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 /* Schatten-Ich: vier Kacheln gleich gebaut – Zahl auf gleicher Höhe (feste Zeilenhöhe, oben ausgerichtet), darunter je ein kurzer Satz */
 .shadow-tiles .tile .body { align-items: flex-start; }
 .shadow-tiles .tile .val { min-height: 38px; display: flex; align-items: center; }
+/* Mein Regelwerk als ruhige Liste: zwei Spalten, eine Zeile je Regel mit feiner Trennlinie, keine Kästen.
+   Links Name und Satz, rechts der Wert (nur wenn an) und der Schalter – alle Schalter auf einer Linie */
+.shadow-rules { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+.shadow-rule, .shadow-rule.on { padding: 14px 0; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; background: none; gap: 10px; }
+.shadow-rules > .sr-col { min-width: 0; display: flex; flex-direction: column; }
+.sr-col > .shadow-rule:last-child { border-bottom: 0; } /* zwei unabhängige Spalten: eine lange Regel (Setups) zieht die andere Spalte nicht mit */
+.sr-main { min-height: 40px; gap: 16px; }
+.sr-txt { gap: 2px; }
+.sr-main > .sr-ctrl { flex: 0 0 auto; flex-wrap: nowrap; }
+@media (max-width: 900px) {
+  .shadow-rules { grid-template-columns: 1fr; }
+  .sr-col:first-child > .shadow-rule:last-child { border-bottom: 1px solid var(--border); }
+  .sr-main { flex-wrap: wrap; }
+  .sr-main > .sr-txt { flex: 1 1 0; }
+  .sr-main > .sr-ctrl { order: 3; flex-basis: 100%; }
+}
+/* Uhrzeit- und Einheit-Felder im selben ruhigen Stil wie die Zahlenleiste: keine schwarzen Kästen */
+.shadow-rule .sr-time, .shadow-rule .sr-unit { height: 34px; background-color: color-mix(in srgb, var(--text) 5%, transparent); border-color: var(--border); border-radius: 10px; }
+.shadow-rule .sr-time { width: 120px; }

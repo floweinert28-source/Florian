@@ -326,7 +326,7 @@
       { key: 'maxDayDD', label: 'Max. Tages-Drawdown', type: 'curNeg', v: d.maxDailyDD, info: 'Größter Rückgang vom Tageshoch innerhalb eines Tages.' },
       { key: 'pf', label: 'Profit-Faktor', type: 'factor', v: s.pf, info: 'Bruttogewinn geteilt durch Bruttoverlust.' },
       { key: 'hold', label: 'Ø Haltedauer', type: 'dur', v: s.avgHold, info: 'Durchschnittliche Zeit zwischen Einstieg und Ausstieg.' },
-      { key: 'realizedR', label: 'Ø realisiertes R-Multiple', type: 'r', v: s.avgR, info: 'Erzielter Gewinn oder Verlust im Verhältnis zum geplanten Risiko.' },
+      { key: 'realizedR', label: 'Ø realisiertes R-Multiple', type: 'rSigned', v: s.avgR, info: 'Erzielter Gewinn oder Verlust im Verhältnis zum geplanten Risiko.' },
       { key: 'avgDayDD', label: 'Ø Tages-Drawdown', type: 'curNeg', v: d.avgDailyDD, info: 'Durchschnittlicher Rückgang vom Tageshoch.' },
     ] };
   }

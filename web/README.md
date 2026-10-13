@@ -106,9 +106,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   das Fenster (wie das Notebook): Kacheln, Reiter und Filter oben, die Tabelle nimmt den Rest und scrollt in ihrer Box, der
   Seitenwähler bleibt unten sichtbar; die Seite selbst scrollt nicht. Trade-Detail und Handy scrollen wie gewohnt.
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
-- **Statistiken**: 16 Kennzahlen, Tage, Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
+- **Statistiken**: 16 Kennzahlen, Tage (Kennzahl-Leiste mit sechs Kacheln, ab 561 px als 3 × 2, darunter die Karte „Tage im Detail“;
+  Zähler nur bei > 0 gefärbt, Ø-Tage mit Vorzeichen), Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei ruhige Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-PZustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei Spalten in Skalen-Reihenfolge mit kleiner Säule an gemeinsamer Nulllinie, Betrag groß, Tage und Anteil im Plus),L, Tage und Anteil im Plus im Tooltip),
-  Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit.
+  Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit (Pfade und Drawdown-Verteilung
+  neutral grau, erst ab der Ruin-Schwelle rot). Realisiertes R ist nach Vorzeichen gefärbt, geplantes R bleibt neutral.
+  Balken-Tooltips zeigen bei Ø pro Trade (Setups, Wochentag, Haltedauer, Emotionen, Marktphase) zusätzlich die Summe; die Summe
+  je Wochentag steht damit unter „Zeit“ (die frühere Karte „P&L nach Wochentag“ unter „Tage“ entfällt).
 - **News** (Journal → News): Wirtschaftskalender der kommenden Tage, nach Tagen gruppiert (Heute, Morgen, …) mit Uhrzeit in
   der eigenen Zeitzone, Wichtigkeit als drei Balken (hoch rot, mittel gelb, niedrig grau, Feiertage mit Kalender-Symbol),
   Währung und den Werten Ist, Prognose, Vorher in festen Spalten. Oben die Karte „Nächste wichtige News“ mit Countdown.

@@ -734,10 +734,10 @@ span.info:hover { color: var(--text-2); }
 /* Heatmap */
 .heat { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 12px); gap: 3px; overflow-x: auto; padding-bottom: 6px; }
 .heat i { width: 12px; height: 12px; border-radius: 3px; background: var(--surface-3); display: block; }
-.heat i.l1 { background: color-mix(in srgb, var(--accent) 30%, var(--surface-3)); }
-.heat i.l2 { background: color-mix(in srgb, var(--accent) 55%, var(--surface-3)); }
-.heat i.l3 { background: color-mix(in srgb, var(--accent) 80%, var(--surface-3)); }
-.heat i.l4 { background: var(--accent); }
+.heat i.l1 { background: color-mix(in srgb, var(--text) 18%, var(--surface-3)); } /* nur Check-in/Notiz */
+.heat i.l2 { background: color-mix(in srgb, var(--profit) 55%, var(--surface-3)); }
+.heat i.l3 { background: color-mix(in srgb, var(--profit) 80%, var(--surface-3)); }
+.heat i.l4 { background: var(--profit); }
 .heat i.n1 { background: color-mix(in srgb, var(--loss) 35%, var(--surface-3)); }
 .heat i.n2 { background: color-mix(in srgb, var(--loss) 65%, var(--surface-3)); }
 .heat i.n3 { background: var(--loss); }
@@ -1771,6 +1771,8 @@ html.sb-mini .boot-sb .skel { width: 24px; }
 .ym-grid i.today { box-shadow: 0 0 0 2px var(--accent); }
 .ym-grid i:hover { transform: scale(1.15); }
 @media (max-width: 1240px) { .dash-top { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
+/* Kennzahl-Leiste mit sechs Kacheln (Statistik → Tage): ab 561px als 3 × 2, am Handy zwei Spalten */
+@media (min-width: 561px) { .grid.tiles.kstrip:has(> :nth-child(6):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 960px) {
   .dash-top { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-top: 4px; padding-bottom: 8px; margin: -4px calc(-1 * var(--gutter)) 0; padding-left: var(--gutter); padding-right: var(--gutter); scrollbar-width: thin; }
   .dash-top > .w, .dash-top > .skel, .dash-top > .add-slot { flex: 0 0 min(76vw, 300px); scroll-snap-align: start; }

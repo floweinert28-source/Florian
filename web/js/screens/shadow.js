@@ -112,8 +112,8 @@
       const cv = res.active ? costView(pd.sums.cost) : null; const p = pd.sums;
       const tiles = `<div class="grid tiles shadow-tiles">
         <div class="tile shadow-main"><div class="head"><span>Disziplin-Kosten${U.info('Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.')}</span><span class="n">${esc(range.label)}</span></div><div class="body"><div><div class="val ${cv ? cv.cls : ''}">${cv ? cv.text : '—'}</div></div></div></div>
-        ${U.tile('Echt', res.active ? U.pnl(p.real) : '—', { n: U.count(p.n, 'Trade', 'Trades') })}
-        ${U.tile('Schatten-Ich', res.active ? U.pnl(p.shadow) : '—')}
+        ${U.tile('Echt', res.active ? fmt.cur(p.real, { signed: true }) : '—', { n: U.count(p.n, 'Trade', 'Trades') })}
+        ${U.tile('Schatten-Ich', res.active ? fmt.cur(p.shadow, { signed: true }) : '—')}
         ${U.tile('Verstöße', res.active ? String(pd.violations.length) : '—')}
       </div>`;
       U.chartData['shadow-curve'] = { points: pd.curve.map(pt => ({ date: pt.date, v: { real: pt.real, shadow: pt.shadow } })), series: [{ key: 'real', label: 'Echt', unit: 'cur', color: 'var(--text-2)' }, { key: 'shadow', label: 'Schatten-Ich', unit: 'cur', color: 'var(--accent)' }], periodLabel: d => fmt.dateTime(d) };

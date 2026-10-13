@@ -43,9 +43,12 @@
   }
 
   /* ---------- Export ---------- */
+  /* Schrift-CSS für das Bild: einmal je Dialog einlesen und fest einbetten, sonst erscheint das PNG in Systemschrift */
+  let fontCSS = null;
   async function toBlob(card, f) {
     if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch (e) { /* ohne Font-API */ } }
-    const o = { pixelRatio: 2, width: f.w, height: f.h, cacheBust: false };
+    if (fontCSS == null) { try { fontCSS = await root.htmlToImage.getFontEmbedCSS(card); } catch (e) { fontCSS = ''; } }
+    const o = { pixelRatio: 2, width: f.w, height: f.h, cacheBust: false }; if (fontCSS) o.fontEmbedCSS = fontCSS;
     try { return await root.htmlToImage.toBlob(card, o); } catch (e) { return await root.htmlToImage.toBlob(card, Object.assign({ skipFonts: true }, o)); }
   }
   const fileName = (m, p) => `zertifikat-${m.kind}-${String(p.short).replace(/[^\w.-]+/g, '_').replace(/_+$/, '')}.png`;
@@ -62,6 +65,7 @@
   function resolveRef(kind, ref) { if (ref === 'range' || ref == null || ref === '') { if (kind !== 'stats') return D.defaultRef(kind); const r = App.range(); return r.from ? { from: r.from, to: r.to } : null; } return ref; }
 
   function open(kind, ref) {
+    fontCSS = null;
     const o = opts(); o.theme = 'app';
     const state = { kind, ref: resolveRef(kind, ref), busy: false };
     const mo = {

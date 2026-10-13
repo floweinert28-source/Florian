@@ -316,10 +316,10 @@
       return JSON.stringify(out);
     },
     async importJSON(text, mode = 'replace') {
-      const parsed = JSON.parse(text); const d = parsed.data || parsed;
+      const parsed = JSON.parse(text); const d = parsed.data || parsed; let added = mode === 'replace' ? (d && Array.isArray(d.trades) ? d.trades.length : 0) : 0;
       if (!d || !Array.isArray(d.trades)) throw new Error('Keine gültige Sicherung.');
       if (mode === 'replace') { this.data = Object.assign(defaults(), d); this.data.settings = Object.assign(defaults().settings, d.settings || {}); }
-      else { const ids = new Set(this.data.trades.map(t => t.id)); const keys = new Set(this.data.trades.map(C.dedupeKey)); for (const t of d.trades) if (!ids.has(t.id) && !keys.has(C.dedupeKey(t))) this.data.trades.push(t); for (const [k, v] of Object.entries(d.days || {})) this.data.days[k] = Object.assign({}, this.data.days[k] || {}, v); const nids = new Set(this.data.notes.map(n => n.id)); for (const n of d.notes || []) if (!nids.has(n.id)) this.data.notes.push(n); for (const s of d.strategies || []) if (!this.data.strategies.some(x => x.name === s.name)) this.data.strategies.push(s); for (const r of d.rules || []) if (!this.data.rules.some(x => x.text === r.text)) this.data.rules.push(r); for (const m of d.missed || []) if (!this.data.missed.some(x => x.id === m.id)) this.data.missed.push(m); for (const r of d.ruhepunkt || []) if (!this.ruhepunkt().some(x => x.id === r.id)) this.ruhepunkt().push(r); this.ruhepunkt().sort((a, b) => String(b.gestartet || b.createdAt || '').localeCompare(String(a.gestartet || a.createdAt || ''))); }
+      else { const ids = new Set(this.data.trades.map(t => t.id)); const keys = new Set(this.data.trades.map(C.dedupeKey)); for (const t of d.trades) if (!ids.has(t.id) && !keys.has(C.dedupeKey(t))) { this.data.trades.push(t); added++; } for (const [k, v] of Object.entries(d.days || {})) this.data.days[k] = Object.assign({}, this.data.days[k] || {}, v); const nids = new Set(this.data.notes.map(n => n.id)); for (const n of d.notes || []) if (!nids.has(n.id)) this.data.notes.push(n); for (const s of d.strategies || []) if (!this.data.strategies.some(x => x.name === s.name)) this.data.strategies.push(s); for (const r of d.rules || []) if (!this.data.rules.some(x => x.text === r.text)) this.data.rules.push(r); for (const m of d.missed || []) if (!this.data.missed.some(x => x.id === m.id)) this.data.missed.push(m); for (const r of d.ruhepunkt || []) if (!this.ruhepunkt().some(x => x.id === r.id)) this.ruhepunkt().push(r); this.ruhepunkt().sort((a, b) => String(b.gestartet || b.createdAt || '').localeCompare(String(a.gestartet || a.createdAt || ''))); }
       /* Schatten-Ich-Regelwerk und Replay-Karten: Regelwerk aus dem Import übernehmen, Karten nach Zeitpunkt und Trade zusammenführen */
       if (d.shadowRules && typeof d.shadowRules === 'object') this.data.shadowRules = Object.assign(this.shadowRules(), d.shadowRules);
       for (const key of ['propFirms', 'propAccounts', 'propExpenses', 'propPayouts', 'propBreaches']) { if (!Array.isArray(d[key])) continue; const cur = Array.isArray(this.data[key]) ? this.data[key] : (this.data[key] = []); const ids = new Set(cur.map(x => x.id)); for (const x of d[key]) if (x && !ids.has(x.id)) cur.push(x); }
@@ -327,7 +327,7 @@
       if (parsed.blobs) for (const [id, b] of Object.entries(parsed.blobs)) { const blob = await (await fetch(b.data)).blob(); await Blobs.put(blob, id).catch(() => {}); }
       migrateNotes(this.data); migrateDashboards(this.data); migrateSettings(this.data); if (!this.data.notes.some(n => n.id === 'welcome')) this.data.notes.push(welcomeNote());
       this.saveNow(); this.listeners.forEach(fn => fn());
-      return { trades: d.trades.length };
+      return { trades: d.trades.length, added };
     },
     DEFAULT_TAGS, DASHBOARD_SIZES: SIZES, newDefaultDashboard: defaultDashboard, textDelta, deltaText, hasContent, dayTitle,
   };

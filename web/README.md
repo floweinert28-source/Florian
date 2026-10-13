@@ -46,7 +46,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   ↘ Short in Rot), bewusst ruhig: zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis ohne Leuchten (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
-  Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz.
+  Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz. Das Beispielformat im Dialog
+  (Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;…) wird richtig erkannt; Kennungsspalten („Order ID“, „_…“) werden nie
+  zur Richtung. Die Datumsreihenfolge erkennt der Import aus der Datei (US-Exporte wie 10/15/2026 oder mit AM/PM → Monat/Tag),
+  im Feld „Datum“ steht dann „… (erkannt)“; von Hand umstellbar.
+- **Sicherung einspielen** (Einstellungen → Profil): Datei wählen, Inhalt prüfen (Name, Trades, Notizen, Datum der Sicherung),
+  erst dann „Zusammenführen“ bzw. das rote „Daten ersetzen“. „Ersetzen“ nennt vorher die Zahl der eigenen Trades.
+  Zusammenführen meldet nur die wirklich neuen Trades. Das Zertifikat-Bild (PNG) enthält die App-Schriften.
 - **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein, gleiche Schriftstärke wie die anderen Einträge (500, ebenso Einstellungs-Menü, Notebook-Ordner und Segmente); der kleine Balken am Rand mit dezentem Leuchten ist der einzige Akzent; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
@@ -108,7 +114,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
 - **Statistiken**: 16 Kennzahlen, Tage (Kennzahl-Leiste mit sechs Kacheln, ab 561 px als 3 × 2, darunter die Karte „Tage im Detail“;
   Zähler nur bei > 0 gefärbt, Ø-Tage mit Vorzeichen), Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
-  Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei ruhige Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-PZustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei Spalten in Skalen-Reihenfolge mit kleiner Säule an gemeinsamer Nulllinie, Betrag groß, Tage und Anteil im Plus),L, Tage und Anteil im Plus im Tooltip),
+  Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei ruhige Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-P&L, Tage und Anteil im Plus im Tooltip),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit (Pfade und Drawdown-Verteilung
   neutral grau, erst ab der Ruin-Schwelle rot). Realisiertes R ist nach Vorzeichen gefärbt, geplantes R bleibt neutral.
   Balken-Tooltips zeigen bei Ø pro Trade (Setups, Wochentag, Haltedauer, Emotionen, Marktphase) zusätzlich die Summe; die Summe

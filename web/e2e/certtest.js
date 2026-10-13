@@ -3,7 +3,7 @@ const base = 'file:///home/user/Florian/web/app.html';
 const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${n}${x ? ' · ' + x : ''}`);
 (async () => {
   const browser = await chromium.launch(); const errs = [];
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true }); await require('./localfonts.js')(ctx); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
   await p.goto(base, { waitUntil: 'load' }); await p.evaluate(() => { Store.installSample(); Store.setSetting('profile', Object.assign({}, Store.settings.profile, { username: 'flo' })); Store.saveNow(); }); await p.waitForTimeout(400); /* Speicher erst übernehmen lassen, dann neu laden */
   await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(900);
   ok('Zertifikat-Menü im Dashboard', !!(await p.$('.dash-head [data-pop=cert]')) && (await p.$$('#pop-cert [data-action=cert-open]')).length === 4);
@@ -26,6 +26,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   /* Export */
   const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 30000 }), p.click('[data-c=png]')]); const path = await dl.path(); const fs = require('fs'); const buf = fs.readFileSync(path);
   ok('PNG-Download', dl.suggestedFilename().endsWith('.png') && buf.slice(1, 4).toString() === 'PNG', dl.suggestedFilename());
+  ok('Export bettet die App-Schriften ein (Satoshi, Onest)', await p.evaluate(async () => { const css = await htmlToImage.getFontEmbedCSS(document.querySelector('.cert')); return /Satoshi/.test(css) && /Onest/.test(css); }));
   const dims = { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) }; ok('PNG in doppelter Auflösung', dims.w === 2160 && dims.h === 2160, JSON.stringify(dims)); fs.copyFileSync(path, 'cert-export.png');
   await p.keyboard.press('Escape'); await p.waitForTimeout(300);
   /* Tag / Woche / Monat */

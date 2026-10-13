@@ -138,3 +138,28 @@ test('setBreakEven: Bereich absolut und in Prozent', () => {
   C.setBreakEven({ mode: 'abs', from: 0, to: 0 });
   assert.equal(C.derive(mk({ exitPrice: 100.001 })).status, 'be'); assert.equal(C.derive(mk({ exitPrice: 100.5 })).status, 'win');
 });
+
+test('CSV: eigenes Beispielformat des Import-Dialogs wird richtig zugeordnet', () => {
+  const p = C.parseCSV('Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;Stück;Gebühren\nNQ;Long;02.03.2026 09:00;02.03.2026 09:30;18250,5;18260;1;2,4\n');
+  const m = C.guessMapping(p.headers);
+  assert.deepEqual([m.openedAt, m.closedAt, m.entryPrice, m.exitPrice, m.quantity, m.fees], ['Eröffnung', 'Schluss', 'Einstieg', 'Ausstieg', 'Stück', 'Gebühren']);
+  const r = C.mapRows(p.rows, m); assert.equal(r.errors.length, 0); assert.equal(r.trades.length, 1);
+  const q = C.guessMapping(['Symbol', 'Richtung', 'Datum', 'Einstieg', 'Ausstieg']); assert.equal(q.openedAt, 'Datum'); assert.equal(q.entryPrice, 'Einstieg'); assert.equal(q.exitPrice, 'Ausstieg');
+});
+
+test('CSV: Kennungsspalten werden nicht zur Richtung, „Market pos.“ schon', () => {
+  assert.equal(C.guessMapping(['_priceFormatType', 'symbol', 'qty', 'buyPrice', 'sellPrice', 'boughtTimestamp']).direction, undefined);
+  const n = C.guessMapping(['Instrument', 'Market pos.', 'Order ID entry', 'Quantity', 'Entry price', 'Exit price', 'Entry time', 'Exit time']);
+  assert.equal(n.direction, 'Market pos.');
+  assert.equal(C.guessMapping(['Symbol', 'Side', 'Trade Date', 'Price', 'Qty']).openedAt, 'Trade Date');
+  assert.equal(C.guessMapping(['Instrument', 'Richtung', 'Uhrzeit', 'Kurs', 'Menge']).openedAt, 'Uhrzeit');
+});
+
+test('CSV: Datumsreihenfolge wird aus der Datei erkannt', () => {
+  assert.equal(C.guessDayFirst(['10/01/2026 09:31:05', '10/15/2026 10:00:00']), false); // Monat/Tag (US)
+  assert.equal(C.guessDayFirst(['7/3/2026 9:30:00 AM']), false);                         // 12-Stunden-Uhr = US
+  assert.equal(C.guessDayFirst(['25/03/2026 09:00', '01/04/2026 10:00']), true);          // Tag/Monat
+  assert.equal(C.guessDayFirst(['02.03.2026 09:00']), null);                              // Punkt-Daten: immer Tag.Monat, keine Aussage nötig
+  assert.equal(C.guessDayFirst(['03/04/2026 09:00']), null);                              // nicht entscheidbar
+  const d = C.parseDate('10/15/2026 10:00', false); assert.equal(d.getMonth(), 9); assert.equal(d.getDate(), 15);
+});

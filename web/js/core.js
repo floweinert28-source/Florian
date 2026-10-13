@@ -436,11 +436,11 @@
   }
   const FIELDS = {
     symbol: { label: 'Symbol', required: true, syn: ['symbol', 'ticker', 'instrument', 'market', 'asset', 'wert', 'wertpapier', 'kontrakt', 'contract', 'produkt', 'product', 'underlying', 'basiswert', 'pair', 'paar'] },
-    direction: { label: 'Richtung', syn: ['direction', 'side', 'richtung', 'type', 'typ', 'longshort', 'position', 'buysell', 'bs', 'action', 'aktion', 'order'] },
-    openedAt: { label: 'Eröffnung (Datum/Zeit)', required: true, syn: ['opendate', 'opentime', 'opened', 'entrydate', 'entrytime', 'datum', 'date', 'time', 'zeit', 'eröffnet', 'einstieg', 'open', 'entrytimestamp', 'opendatetime', 'datetime', 'boughttimestamp', 'buytime', 'einstiegszeit', 'einstiegsdatum', 'opening', 'start', 'opentimestamp'] },
-    closedAt: { label: 'Schluss (Datum/Zeit)', syn: ['closedate', 'closetime', 'closed', 'exitdate', 'exittime', 'geschlossen', 'ausstieg', 'close', 'exittimestamp', 'closedatetime', 'selltime', 'soldtimestamp', 'ausstiegszeit', 'ausstiegsdatum', 'closing', 'end', 'ende', 'closetimestamp'] },
-    entryPrice: { label: 'Einstiegskurs', required: true, syn: ['entryprice', 'entry', 'openprice', 'einstiegskurs', 'einstiegspreis', 'price', 'kurs', 'preis', 'buyprice', 'avgentry', 'averageentry', 'fill', 'fillprice', 'kaufkurs', 'open price', 'openingprice'] },
-    exitPrice: { label: 'Ausstiegskurs', syn: ['exitprice', 'exit', 'closeprice', 'ausstiegskurs', 'ausstiegspreis', 'sellprice', 'avgexit', 'averageexit', 'verkaufskurs', 'closingprice'] },
+    direction: { label: 'Richtung', syn: ['direction', 'side', 'richtung', 'type', 'typ', 'longshort', 'position', 'buysell', 'bs', 'action', 'aktion', 'order', 'marketpos', 'marketposition'] },
+    openedAt: { label: 'Eröffnung (Datum/Zeit)', required: true, syn: ['opendate', 'opentime', 'opened', 'entrydate', 'entrytime', 'datum', 'date', 'time', 'zeit', 'eröffnet', 'eröffnung', 'eroeffnung', 'open', 'entrytimestamp', 'opendatetime', 'datetime', 'boughttimestamp', 'buytime', 'einstiegszeit', 'einstiegsdatum', 'opening', 'start', 'opentimestamp'] },
+    closedAt: { label: 'Schluss (Datum/Zeit)', syn: ['closedate', 'closetime', 'closed', 'exitdate', 'exittime', 'geschlossen', 'schluss', 'close', 'exittimestamp', 'closedatetime', 'selltime', 'soldtimestamp', 'ausstiegszeit', 'ausstiegsdatum', 'closing', 'end', 'ende', 'closetimestamp'] },
+    entryPrice: { label: 'Einstiegskurs', required: true, syn: ['entryprice', 'entry', 'openprice', 'einstieg', 'einstiegskurs', 'einstiegspreis', 'price', 'kurs', 'preis', 'buyprice', 'avgentry', 'averageentry', 'fill', 'fillprice', 'kaufkurs', 'open price', 'openingprice'] },
+    exitPrice: { label: 'Ausstiegskurs', syn: ['exitprice', 'exit', 'closeprice', 'ausstieg', 'ausstiegskurs', 'ausstiegspreis', 'sellprice', 'avgexit', 'averageexit', 'verkaufskurs', 'closingprice'] },
     quantity: { label: 'Stückzahl', syn: ['quantity', 'qty', 'size', 'amount', 'volume', 'menge', 'stück', 'stueck', 'anzahl', 'contracts', 'kontrakte', 'lots', 'lot', 'shares', 'units', 'positionsgröße', 'positionsgroesse', 'positionsize', 'filledqty'] },
     fees: { label: 'Gebühren', syn: ['fees', 'fee', 'commission', 'commissions', 'gebühren', 'gebuehren', 'gebühr', 'kommission', 'costs', 'kosten', 'comm', 'totalfees'] },
     plannedStop: { label: 'Stop', syn: ['stop', 'stoploss', 'sl', 'stopp', 'stopprice', 'initialstop', 'stopkurs'] },
@@ -457,7 +457,9 @@
     const norm = headers.map(h => normHeader(h));
     const synN = {}; for (const [f, def] of Object.entries(FIELDS)) synN[f] = def.syn.map(normHeader);
     for (const f of Object.keys(FIELDS)) { const idx = norm.findIndex((n, i) => !used.has(i) && synN[f].includes(n)); if (idx >= 0) { mapping[f] = headers[idx]; used.add(idx); } }
-    for (const f of Object.keys(FIELDS)) { if (mapping[f]) continue; const idx = norm.findIndex((n, i) => !used.has(i) && synN[f].some(s => s.length >= 4 && (n.includes(s) || s.includes(n)) && n.length >= 3)); if (idx >= 0) { mapping[f] = headers[idx]; used.add(idx); } }
+    /* Zweite Runde nur mit Teilwörtern: Kennungsspalten (_x, „Order ID“, „orderId“) und zu allgemeine Wörter nicht ungefähr zuordnen */
+    const skip = h => /^_/.test(h) || /(^|[^a-z])id([^a-z]|$)/i.test(h) || /[a-z]Id$/.test(h); const LOOSE_NO = new Set(['type', 'order', 'position', 'action', 'aktion']);
+    for (const f of Object.keys(FIELDS)) { if (mapping[f]) continue; const idx = norm.findIndex((n, i) => !used.has(i) && !skip(headers[i]) && synN[f].some(s => s.length >= 4 && !LOOSE_NO.has(s) && (n.includes(s) || s.includes(n)) && n.length >= 3)); if (idx >= 0) { mapping[f] = headers[idx]; used.add(idx); } }
     return mapping;
   }
   function parseNumber(str, decimal = 'auto') {
@@ -491,6 +493,20 @@
     }
     if (/^\d{13}$/.test(s)) return new Date(+s); if (/^\d{10}$/.test(s)) return new Date(+s * 1000);
     const d = new Date(s); return isNaN(d) ? null : d;
+  }
+  /* Tag zuerst oder Monat zuerst? Aus den Datumswerten einer Datei erraten (nur Schrägstrich/Strich, Punkt-Daten sind immer Tag.Monat).
+     true = Tag.Monat, false = Monat/Tag (US-Export wie Tradovate, NinjaTrader), null = nicht entscheidbar */
+  function guessDayFirst(values) {
+    let dm = false, md = false, ampm = false;
+    for (const v of values) {
+      const m = String(v || '').trim().match(/^(\d{1,2})([\/-])(\d{1,2})\2\d{2,4}(.*)$/); if (!m) continue;
+      if (+m[1] > 12) dm = true; else if (+m[3] > 12) md = true;
+      if (/\b[ap]m\b/i.test(m[4])) ampm = true;
+    }
+    if (dm !== md) return dm;
+    if (dm && md) return null;
+    if (ampm) return false;
+    return null;
   }
   function parseDirection(str) { const s = String(str || '').trim().toLowerCase(); if (!s) return 1; if (/^(short|sell|verkauf|s|sold|-1|short sell|sellshort|sell short)$/.test(s) || s.startsWith('short') || s.startsWith('sell') || s.startsWith('verk')) return -1; return 1; }
   function mapRows(rows, mapping, opts = {}) {
@@ -565,6 +581,6 @@
     discipline, avgDiscipline, weeklyDiscipline, mistakeReport, groupBy, timeAnalysis, regimeAnalysis, WEEKDAYS, HOUR_BUCKETS, HOLD_BUCKETS,
     edge, monteCarlo, pearson, stateAnalysis, traderScore, SCORE_AXES, tiltCheck, tiltProfile, stats16, activityDays, journalStreak,
     drawdownSeries, drawdownStats, dayStreaks, runningStats, reportSeries, aggregateSeries,
-    parseCSV, FIELDS, guessMapping, parseNumber, parseDate, parseDirection, mapRows, dedupeKey, sentiment, insights,
+    parseCSV, FIELDS, guessMapping, parseNumber, parseDate, guessDayFirst, parseDirection, mapRows, dedupeKey, sentiment, insights,
   };
 });

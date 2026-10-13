@@ -2,7 +2,7 @@
 
 Schritte: 32 · Dateien: web/README.md, web/css/app.css, web/e2e/dashtest.js, web/e2e/shadowtest.js, web/js/screens/shadow.js, web/js/ui.js, web/js/widgetpreviews.js, web/js/widgets.js
 Betroffene Tests laut Spezifikation: Akzeptanz grep 1; Akzeptanz grep 10; Akzeptanz grep 12; Akzeptanz grep 3, 6; Akzeptanz grep 4; Akzeptanz grep 4, Sonde 17; Akzeptanz grep 5; Akzeptanz grep 6; Akzeptanz grep 6, Sonde 17; Akzeptanz grep 7; Sonde 14; Sonde 18 (Geld-blind); Sonde 21; web/e2e/chartanimtest.js:10–11 (Schritt bewegung-3.11d); web/e2e/dashtest.js:69 (O1); web/e2e/dashtest.js:92; web/e2e/dashtest.js:95; web/e2e/shadowtest.js:30; web/e2e/shadowtest.js:30 (O5); web/e2e/shadowtest.js:57
-Baut auf Paketen auf: 3, 7, 15, 25, 45, 46, 47, 48, 49, 50
+Baut auf Paketen auf: 2, 7, 15, 25, 45, 47, 48, 49, 50
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -345,6 +345,10 @@ const svg = el.querySelector('svg'); const lab = svg && chartLabel(k, data); if 
 `fmt.cur` beachtet den Geld-blind-Modus.
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: fmt.cur] zustaende-S-U1 setzt ui.js:122 einmal um: `const d = o.compact ? 0 : 2;`, mit Überlaufprüfung und notfalls @container 164 → 190 px. Kalender-Monatsraster mit compact: true (kilook-C9a). Das ist dieselbe Änderung wie 6.1/6.2 in wording-S6.1-6.4; wer zuerst umsetzt, macht sie, der andere überspringt. Monte Carlo ohne Cent setzt wording-S10.13-10.15 einmal um, ergänzt um das Startkapital aus kilook-C14. Prop und Affiliate bekommen kein compact (siehe fmt.balance und money). chartLabel aus barrierefreiheit-U6a nutzt das Standardformat.
 
 ## barrierefreiheit-U6b · Balken-Tooltips über transparente .tip-hit-Flächen über den Balken (vbars, hbars)
 

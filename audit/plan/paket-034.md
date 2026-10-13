@@ -2,7 +2,7 @@
 
 Schritte: 16 · Dateien: web/css/app.css, web/e2e/settest2.js, web/js/app.js, web/js/screens/misc.js, web/tests/inline-style.test.mjs
 Betroffene Tests laut Spezifikation: e2e/colorpickertest.js:27–92; e2e/settest2.js:31–38; e2e/settest2.js:9–13 (siehe E1b); e2e/settest2.js:9–16; e2e/sixtest.js:63, :67 (Avatar über form[data-action=save-profile] input[type=file]); web/e2e/settest.js:36; web/tests/inline-style.test.mjs (neu)
-Baut auf Paketen auf: 2, 5, 6, 11, 13, 17, 21, 29, 32, 33
+Baut auf Paketen auf: 2, 4, 5, 9, 12, 17, 21, 29, 32, 33
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -85,10 +85,9 @@ Neu: `App.savedHint = function () { const s = document.querySelector('.set-head 
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: .set-head] Jeder Einstellungs-Kopf hat genau einen „Gespeichert“-Hinweis. head() rendert immer `<span class="save-state" aria-live="polite"></span>` vor trailing (komponenten-S-misc-a). Gefüllt wird er nur über App.savedHint() (komponenten-A7) und steht 2000 ms. Die 2 s kommen aus zustaende Z9: Der Hinweis steht oben rechts, weit vom geänderten Feld, und 1,5 s reichen dort nicht zum Lesen. Trading speichert bei change über die eine Aktion save-trading: Das Formular trägt data-action und data-change="save-trading", Enter läuft in denselben Handler. Der Handler beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (aus zustaende-S-M2), damit Werte außerhalb von min/max nicht gespeichert werden; die Meldung kommt über den globalen invalid-Listener. Danach speichern, C.setBreakEven, App.savedHint(), ohne Toast und ohne rerender. Es gibt keinen zweiten Span, keine id set-save, keine Aktion save-trading-auto und kein readTrading. Ob Profil und Notebook auch sofort speichern, entscheidet nicht dieser Anker. Wo sofort gespeichert wird, gilt derselbe Hinweis.
-- ÄNDERN: In App.savedHint setTimeout auf 2000 statt 1500 setzen und den Titel auf „Gespeichert“ 2 s ändern.
 - [konflikt: .save-state] Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class="save-state" aria-live="polite"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id="set-save"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change="save-trading"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars.
-- ÄNDERN: `App.savedHint` mit Timeout 2000 statt 1500 ms. Sonst wie spezifiziert (sucht `.set-head .save-state`).
 - [doppelt: .set-head .save-state] Beide Gruppen legen die Regel neu an. Endzustand `.set-head .save-state { align-self: center; }`, 12 px und --muted kommen aus der allgemeinen `.save-state`-Regel. Umsetzung in komponenten-C37a; S-C14 läuft mit. A7 nutzt den Selektor mit 2000 ms. Einzelheiten beim Anker .save-state.
+- VERBINDLICH (Kreuzprüfung): web/js/app.js: Helfer neu anlegen: `App.savedHint = function () { const s = document.querySelector('.set-head .save-state'); if (!s) return; s.textContent = 'Gespeichert'; clearTimeout(App._svT); App._svT = setTimeout(() => { s.textContent = ''; }, 2000); };` – Anzeigedauer 2000 ms statt 1500 ms (Schritt-Titel entsprechend „2 s“). Das ist der einzige „Gespeichert“-Hinweis der Einstellungen: Den Span `<span class="save-state" aria-live="polite"></span>` rendert head() vor trailing in jedem Einstellungs-Kopf (komponenten-S-misc-a), Größe und Farbe kommen aus der allgemeinen Regel `.save-state` (komponenten-C37a, Abhängigkeit bleibt). Kein zweiter Span, keine id `set-save`, keine eigene Timer-Logik in Handlern: Sofort-Speicherungen (u. a. `save-trading` und `tilt-toggle` aus komponenten-S-misc-e) rufen nur `App.savedHint()` auf. Der Schlüssel „Gespeichert“ besteht bereits.
 
 ## komponenten-S-misc-a · Einstellungen-Kopf mit .save-state
 
@@ -126,6 +125,10 @@ Abhängig von: —
 - Konten, Z. 186: „Konto hinzufügen“ `class="btn sm primary"` → `class="btn"`.
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+
 ## komponenten-S-misc-f · Regeln: Inline-Anlegen in einer Zeile (.add-row), Knopf btn
 
 Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: komponenten-30
@@ -145,6 +148,10 @@ Abhängig von: —
 ```text
 - Inhalte, Z. 238: „Tag hinzufügen“ `btn sm primary` → `btn sm`.
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
 
 ## komponenten-S-misc-j · Einstellungen: .set-tabs-Markup und Mentor-Formular bleiben (nur prüfen)
 

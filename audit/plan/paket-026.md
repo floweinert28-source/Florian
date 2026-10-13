@@ -1,8 +1,8 @@
 # Paket 026 · training, komponenten
 
-Schritte: 10 · Dateien: web/css/app.css, web/js/screens/progress.js, web/js/screens/replay.js, web/js/screens/ruhepunkt.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: prüfen: e2e/replaytest.js; prüfen: e2e/rptest.js:11; web/e2e/mentortest.js; web/e2e/sixtest.js:36 (Mentor-Kopfreihe)
-Baut auf Paketen auf: 3, 7, 14, 16, 19, 25
+Schritte: 9 · Dateien: web/css/app.css, web/js/screens/progress.js, web/js/screens/ruhepunkt.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: prüfen: e2e/rptest.js:11; web/e2e/mentortest.js; web/e2e/sixtest.js:36 (Mentor-Kopfreihe)
+Baut auf Paketen auf: 2, 7, 14, 19, 25
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -16,18 +16,6 @@ Abhängig von: kilook-C12, kilook-C13, kilook-C14, kilook-C15
 **C25 · web/js/ui.js:71 · `I.sparkle` löschen** (ki_look-17; erst nach C12–C15)
 - Zeile `sparkle: sv('<path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>'),` löschen.
 - Danach muss `grep -rn "sparkle" web/js web/index.html | grep -v "/lang/"` 0 Treffer ergeben.
-
-```
-
-## kilook-C17 · Blind-Replay: „Session beendet“ als .kpi-label
-
-Gruppe kilook · Cluster training · Aufwand S · Befunde: ki_look-36
-Quelle: audit/spec/kilook.md Z. 650–652 · Dateien: web/js/screens/replay.js
-Abhängig von: kilook-A4
-
-```text
-**C17 · web/js/screens/replay.js:83** (ki_look-36)
-- `<div class="caption">Session beendet</div>` → `<div class="kpi-label">Session beendet</div>`. Die Seite ist versteckt; der Schritt dient nur der Einheitlichkeit. 68 bleibt `.caption`.
 
 ```
 
@@ -71,6 +59,13 @@ Abhängig von: wording-S1.1-1.3
 | 8.9 | progress.js:28 Heatmap-Tooltip | `${a.n} Trade${a.n === 1 ? '' : 's'}` → `${U.count(a.n, 'Trade', 'Trades')}` | zustaende-28 |
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+- [konflikt: #/settings/regeln] Alle Wege zu den Regeln führen auf #/settings/regeln. Doppelt umgesetzte Stellen: Widget-Leertext → aufbau-C2a (zustaende-S-W5 siehe widget:regel_tracker), Tagesansicht day.js:18 → aufbau-C7c. Fortschritt: Die Karte „Aktuelle Regeln“ entfällt (aufbau-C11b). Die Regeln stehen schon als Tages-Checkliste daneben, und eine Information gehört an eine Stelle. Ihr Kopf-Knopf wandert in die Tages-Checkliste: `trailing: `<a class="btn sm" href="#/settings/regeln">${rules.length ? `${I.edit} Regeln bearbeiten` : `${I.plus} Regeln anlegen`}</a><a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>``. Der Leerzustand der Checkliste ist `<div class="dashed">Noch keine Regeln angelegt.</div>` ohne Knopf: zustaende verlangt für .dashed einen Satz ohne Knopf, für jede Aktion gibt es ein Bedienelement, und der Satz folgt dem Glossar. zustaende-S-PR3 Z. 78 (Wochen-Diagramm nur mit Daten) bleibt.
+- ÄNDERN: 8.7 entfällt (Karte „Aktuelle Regeln“ gelöscht). 8.6, 8.8 und 8.9 bleiben.
 
 ## bewegung-C6ab · Tote Übergänge der Serie streichen (.dstreak-track em, .dstreak-track i)
 

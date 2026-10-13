@@ -1,8 +1,8 @@
 # Paket 019 · trades_tag, shell
 
-Schritte: 34 · Dateien: web/README.md, web/app.html, web/css/app.css, web/e2e/sampletest.js, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
+Schritte: 29 · Dateien: web/README.md, web/app.html, web/css/app.css, web/e2e/sampletest.js, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
 Betroffene Tests laut Spezifikation: web/e2e/mentortest.js:21 (bleibt grün); web/e2e/rptest.js:10 (bleibt grün); web/e2e/sampletest.js:39-40
-Baut auf Paketen auf: 3, 6, 7, 11, 17, 18
+Baut auf Paketen auf: 6, 7, 9, 17, 18
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -72,6 +72,7 @@ Abhängig von: aufbau-B6, aufbau-B9
 
 - [konflikt: App.screens.day.head] head ist die Funktion aus aufbau-C7a: `range: false` und an anderen Tagen der tradeTip „Trade für {Datum} loggen“. Der Zertifikat-Knopf wandert über `actions(ctx)` rechts in die Kopfreihe (abstaende-E-day1), mit Symbol I.award wie auf Dashboard und Statistiken und mit dem data-tip „Tageszertifikat erstellen“ (wording-S8.1): `actions(ctx) { const key = ctx.params[0] || C.dayKey(new Date()); return `<button type="button" class="btn" data-action="cert-open" data-kind="day" data-ref="${key}" data-tip="Tageszertifikat erstellen">${I.award}<span class="hide-m">Zertifikat</span></button>`; }`. Die Klasse am Text-Span folgt den übrigen Kopfreihen-Knöpfen: heute hide-m, nach Barrierefreiheit Z4 vh-m. Aus der Datumszeile verschwindet der Zertifikat-Knopf. Begründung: Seitenaktionen stehen überall rechts in der Kopfreihe (Aufbau 1.3), auf Dashboard und Statistiken steht das Zertifikat schon dort, und die Datumszeile bleibt reine Navigation (referenz-17, geprüfte Fassung). certtest.js:54 findet `[data-action=cert-open][data-kind=day]` weiterhin. Ob die Datumsnavigation selbst in ctx.headLeft wandert (abstaende-E-day2), entscheidet der Anker ctx.headLeft. Diese Entscheidung gilt in beiden Fällen.
 - ÄNDERN: In day.js:12 den Zertifikat-Knopf aus der Datumszeile ganz entfernen, statt nur I.shield gegen I.award zu tauschen. Das Entfernen von Check-in- und „Trade für diesen Tag“-Knopf bleibt.
+- [konflikt: ctx.headLeft] Tagesansicht: Die Datumszeile bleibt im Inhalt, ohne ctx.headLeft. aufbau K4 hat genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden, und sie hängt an F1 (komponenten-3/bereich_shell-8). Die Knöpfe „Check-in“ und „Trade für diesen Tag“ entfallen mit aufbau-C7b, „Zertifikat“ bleibt dort mit I.award, die Pille „Heute“ ist neutral (farbe-C20). Von abstaende-E-day2 bleibt nur der Inline-Stil des Datumstitels als Klasse: `<h2 class="day-title">` mit `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }` (h2-Rolle 18/600, einzige Definition; .day-title in komponenten-C36 entfällt). Trade-Ansicht: Links steht der Rückweg per ctx.headLeft (aufbau-C15d). Die Seitenaktionen aus wording 9.11 kommen nicht in die Rückweg-Zeile, sondern als `actions(ctx)` rechts in die Kopfreihe; die Aufbau-Regel lautet „rechts Seitenaktionen → .dh-sep → Trade loggen“. Bei ctx.params[0]: Notiz-Knopf (`btn`, „Notiz öffnen“ bzw. „Notiz im Notebook“), `btn danger` „Löschen“, `btn` „Trade bearbeiten“ (Seitenebene = btn, nicht primary); ohne Trade-Datensatz ''. Ohne Parameter bleibt „CSV importieren“. pageHead (aufbau-B1), News (aufbau-C9a) und Affiliate (aufbau-C3) bleiben unverändert.
 
 ## aufbau-C7c · Tagesansicht: Tabelle ohne Status-Spalte, Check-in-Text, Regeln-Link, alte Aktion löschen, Breitenprüfung
 
@@ -87,6 +88,13 @@ Abhängig von: aufbau-C7b
 - Danach bei 1440 px prüfen: Tabelle ohne waagerechtes Scrollen (R und Score sichtbar). Sonst `style="min-width:560px"` → `min-width:520px`.
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+- [konflikt: #/settings/regeln] Alle Wege zu den Regeln führen auf #/settings/regeln. Doppelt umgesetzte Stellen: Widget-Leertext → aufbau-C2a (zustaende-S-W5 siehe widget:regel_tracker), Tagesansicht day.js:18 → aufbau-C7c. Fortschritt: Die Karte „Aktuelle Regeln“ entfällt (aufbau-C11b). Die Regeln stehen schon als Tages-Checkliste daneben, und eine Information gehört an eine Stelle. Ihr Kopf-Knopf wandert in die Tages-Checkliste: `trailing: `<a class="btn sm" href="#/settings/regeln">${rules.length ? `${I.edit} Regeln bearbeiten` : `${I.plus} Regeln anlegen`}</a><a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>``. Der Leerzustand der Checkliste ist `<div class="dashed">Noch keine Regeln angelegt.</div>` ohne Knopf: zustaende verlangt für .dashed einen Satz ohne Knopf, für jede Aktion gibt es ein Bedienelement, und der Satz folgt dem Glossar. zustaende-S-PR3 Z. 78 (Wochen-Diagramm nur mit Daten) bleibt.
+- ÜBERNIMMT zustaende-S-DY3: Gleicher Link `#/settings/regeln` in day.js:18, wird nur einmal umgesetzt.
 
 ## aufbau-C15a · TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status
 
@@ -104,22 +112,10 @@ Abhängig von: —
 - Z. 49 Zellen in dieser Reihenfolge: Eröffnet | Geschlossen (unverändert) | `<td class="sym">${esc(t.symbol)}</td><td class="dir-cell">${U.badge(t.direction)}</td>` | Setup | Einstieg | Ausstieg | P&L | R | Regeln | Score. `<td>${U.statusPill(t.status)}</td>` und `<td>${U.badge(t.direction)}</td>` entfallen. P&L-Zelle: `${!t.closed ? U.statusPill('open') : t.status === 'be' ? `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>` : U.pnl(t.pnl, '', { r: t.r })}`. R-Zelle bei `t.status === 'be'`: `<span class="neu">${t.r != null ? fmt.r(t.r) : '—'}</span>`, sonst `U.rText(t.r)`
 ```
 
-## aufbau-C15c · Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe aufbau · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-27, typografie-4
-Quelle: audit/spec/aufbau.md Z. 618–625 · Dateien: web/js/screens/trades.js
-Abhängig von: aufbau-A3a
-
-```text
-- `renderMissed` Z. 57:
-  ```js
-  const r = App.range(); const acc = S.settings.accountId; const all = S.data.missed;
-  const m = all.filter(x => (!r.from || (x.date >= C.dayKey(r.from) && x.date <= C.dayKey(r.to))) && (!x.accountId || !acc || acc === 'all' || x.accountId === acc)).sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-  if (!m.length) return all.length ? U.empty('eye', 'Keine verpassten Trades im Zeitraum', 'Ändere den Zeitraum oder das Konto.') : U.empty('eye', 'Keine verpassten Trades notiert', 'Setups, die du gesehen, aber nicht gehandelt hast. So erkennst du, ob Zögern dich Geld kostet.');
-  ```
-  Z. 59: `<div class="caption">Entgangen</div>`, `<div class="caption">Wären Gewinner gewesen</div>` → `class="kpi-label"`
-- `'save-missed'` (Z. 112): ins gespeicherte Objekt `accountId: S.defaultAccountId()` aufnehmen
-```
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+- [reihenfolge: td.dir-cell] Symbol und Richtung stehen in zwei Zellen (td.sym + td.dir-cell) unter einem Kopf „Symbol“ mit colspan 2. Im TradeLog über COLS ['symbol', 'Symbol', '', 2] (aufbau-C15a), bei Verpassten Trades über das Markup (komponenten-S-trades-e); das Richtungs-Abzeichen bekommt span.bl (responsiv-3.2b). responsiv-3.7 baut auf der neuen Spaltenfolge auf: `PH = ['openedAt', 'symbol', 'pnl']`, die Schlüssel 'direction' und 'status' gibt es nicht mehr. td.dir-cell bekommt nie ph-hide (am Handy nur der Pfeil). Es gibt keine Status-Zelle mehr; ph-hide kommt an Geschlossen, Setup, Einstieg, Ausstieg, R, Regeln und Score. Die Datumszelle „Eröffnet“ bleibt bei typografie-3.8c (fmt.dateRow ist schon kurz), es gibt kein Paar aus ph-hide und ph-only.
 
 ## aufbau-C15d · Trade-Ansicht: Kopfreihe nur mit Rückweg und Trade loggen
 
@@ -132,6 +128,10 @@ Abhängig von: aufbau-B1
 - `renderDetail` Z. 66: Die Zeile `<div class="row"><a class="btn ghost sm" href="#/trades">${I.back} TradeLog</a><span class="muted small">·</span><a … href="#/day/${t.dayKey}">${I.day} ${fmt.dateFull(t.open)}</a></div>` aus `head` entfernen. Stattdessen `ctx.headLeft = `<a class="btn ghost sm" href="#/trades">${I.back} TradeLog</a><span class="muted small">·</span><a class="btn ghost sm" href="#/day/${t.dayKey}">${I.day} ${fmt.dateFull(t.open)}</a>`;` setzen (render läuft vor pageHead, app.js:90)
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: ctx.headLeft] Tagesansicht: Die Datumszeile bleibt im Inhalt, ohne ctx.headLeft. aufbau K4 hat genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden, und sie hängt an F1 (komponenten-3/bereich_shell-8). Die Knöpfe „Check-in“ und „Trade für diesen Tag“ entfallen mit aufbau-C7b, „Zertifikat“ bleibt dort mit I.award, die Pille „Heute“ ist neutral (farbe-C20). Von abstaende-E-day2 bleibt nur der Inline-Stil des Datumstitels als Klasse: `<h2 class="day-title">` mit `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }` (h2-Rolle 18/600, einzige Definition; .day-title in komponenten-C36 entfällt). Trade-Ansicht: Links steht der Rückweg per ctx.headLeft (aufbau-C15d). Die Seitenaktionen aus wording 9.11 kommen nicht in die Rückweg-Zeile, sondern als `actions(ctx)` rechts in die Kopfreihe; die Aufbau-Regel lautet „rechts Seitenaktionen → .dh-sep → Trade loggen“. Bei ctx.params[0]: Notiz-Knopf (`btn`, „Notiz öffnen“ bzw. „Notiz im Notebook“), `btn danger` „Löschen“, `btn` „Trade bearbeiten“ (Seitenebene = btn, nicht primary); ohne Trade-Datensatz ''. Ohne Parameter bleibt „CSV importieren“. pageHead (aufbau-B1), News (aufbau-C9a) und Affiliate (aufbau-C3) bleiben unverändert.
 
 ## aufbau-D3g · Test sampletest.js: Ergebnis über P&L-Farbe statt Status-Pille
 
@@ -214,6 +214,10 @@ Z. 45 Titel `list.length ? 'Keine Trades passen zum Filter' : 'Keine Trades im Z
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+
 ## zustaende-S-T4 · TradeLog-Tabelle: fehlende Werte (Geschlossen, Ausstieg, Setup) als „—“ in .faint
 
 Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: zustaende-24
@@ -265,6 +269,10 @@ Z. 9 `U.empty('day', 'Ungültiges Datum', '')` → `U.empty('day', 'Ungültiges 
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+
 ## zustaende-S-DY2 · Tagesansicht: Kennzahlen-Karte nur mit Trades, Spark nur mit abgeschlossenen, Null ohne Grün/Rot
 
 Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: hierarchie-18, zustaende-25
@@ -280,20 +288,9 @@ Z. 14: `const stats = U.card('', …);` → `const stats = trades.length ? U.car
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
-- ÄNDERN: Nur „Kennzahlen-Karte nur bei trades.length“ und „Spark-Zelle nur bei closed.length“ umsetzen. Den Gewinner/Verlierer-Teil nicht umsetzen, das macht diagramme-M1.
 - [doppelt: .neg] Dieselben Schritte und dieselbe Entscheidung wie beim Anker .pos: Zähler einmal über diagramme-M1 (day.js:14, trades.js:54) und diagramme-G3 (stats.js:31/32). Das × in der Regeln-Spalte bekommt `rule-ic neg` (farbe-C31a) plus role="img" und aria-label „Gebrochen: …“ (barrierefreiheit-C-trades-49). Die Anpassungen stehen beim Anker .pos und werden nur einmal angewendet.
-
-## zustaende-S-DY3 · Tagesansicht: Regel-Link auf #/settings/regeln
-
-Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: zustaende-2
-Quelle: audit/spec/zustaende.md Z. 670–672 · Dateien: web/js/screens/day.js
-Abhängig von: —
-
-```text
-**S-DY3 Regel-Link** – zustaende-2
-Z. 18 `<a class="btn sm" href="#/settings">Regeln anlegen</a>` → `href="#/settings/regeln"`.
-
-```
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+- VERBINDLICH (Kreuzprüfung): web/js/screens/day.js Z. 14: `const stats = U.card('', …);` → `const stats = trades.length ? U.card('', …) : '';`. In der Karte die Spark-Zelle `<div class="grow chart h80" data-chart="spark" data-id="${id}" style="min-width:160px"></div>` nur bei `closed.length` ausgeben, sonst ''. Kein zusätzlicher Knopf im Leerzustand der Trade-Karte. Die Färbung Gewinner/Verlierer nur bei > 0 hier NICHT umsetzen; sie wird an anderer Stelle genau einmal umgesetzt (diagramme-M1 bzw. farbe-C20 mit identischem Ergebnis).
 
 ## zustaende-S-DY4 · Tagesnotiz-Vorschau mit Überschriften als eigene Zeilen (notePreview)
 
@@ -338,6 +335,10 @@ Abhängig von: barrierefreiheit-B5
 - Befunde: barrierefreiheit-12, barrierefreiheit-14, barrierefreiheit-11
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: App.openSessionEnd] kilook-C8c setzt app.js:530 einmal um: dreimal `<div class="kpi-label">` mit den Beschriftungen „Heute“, „Trades“, „Trefferquote“ (Wording-Glossar, nie „Win-Rate“). guard: true (P14b, Z. 529), die Checkbox .vh mit done (P14c, Z. 531) und der Hinweis .lbl-hint (farbe-C12c, Z. 533) betreffen andere Stellen und sind verträglich.
 
 ## barrierefreiheit-C-trades-46 · TradeLog-Sortierköpfe mit Knopf .th-sort, aria-sort und Chevron
 
@@ -413,45 +414,6 @@ Abhängig von: barrierefreiheit-B7
 - **Z. 15:** erste Zelle `<td>${fmt.time(t.open)}${…}</td>` → `` <td><a class="row-link" href="#/trades/${t.id}">${fmt.time(t.open)}${t.close ? ` – ${fmt.time(t.close)}` : ''}</a></td> `` (Befunde: barrierefreiheit-4, zustaende-36)
 ```
 
-## kilook-C8c · Session-Ende-Dialog: Heute/Trades/Win-Rate als .kpi-label
-
-Gruppe kilook · Cluster trades_tag · Aufwand S · Befunde: ki_look-36
-Quelle: audit/spec/kilook.md Z. 603–604 · Dateien: web/js/app.js
-Abhängig von: kilook-A4
-
-```text
-- **530** (Session-Ende) dreimal `<div class="caption">` → `<div class="kpi-label">` (Heute, Trades, Win-Rate).
-
-```
-
-## kilook-C13 · Tagesansicht: Check-in mit I.mood (Knopf und Leerzustand), Netto-P&L als .kpi-label
-
-Gruppe kilook · Cluster trades_tag · Aufwand S · Befunde: ki_look-17, ki_look-36
-Quelle: audit/spec/kilook.md Z. 625–629 · Dateien: web/js/screens/day.js
-Abhängig von: kilook-A4
-
-```text
-**C13 · web/js/screens/day.js** (ki_look-17, ki_look-36)
-- **12** `${I.sparkle} ${d.checkIn ? 'Check-in bearbeiten' : 'Check-in'}` → `${I.mood} ${d.checkIn ? 'Check-in bearbeiten' : 'Check-in'}`
-- **14** `<div class="caption">Netto-P&L</div>` → `<div class="kpi-label">Netto-P&L</div>`
-- **16** `U.empty('sparkle', 'Kein Check-in', …)` → `U.empty('mood', 'Kein Check-in', …)`
-
-```
-
-## kilook-C16 · TradeLog: Netto-P&L mit Vorzeichen, Verpasste-Trades-Labels als .kpi-label
-
-Gruppe kilook · Cluster trades_tag · Aufwand S · Befunde: diagramme-35, ki_look-36
-Quelle: audit/spec/kilook.md Z. 645–649 · Dateien: web/js/screens/trades.js
-Abhängig von: kilook-A4
-
-```text
-**C16 · web/js/screens/trades.js** (diagramme-35, ki_look-36)
-- **26** `U.pnl(s.total, '', { signed: false })` → `U.pnl(s.total)`
-- **59** `<div class="caption">Entgangen</div>` und `<div class="caption">Wären Gewinner gewesen</div>` → `class="kpi-label"`
-- **76** bleibt `.caption`.
-
-```
-
 ## responsiv-B5a · Trades des Tages: Mindestbreite als Klasse .tbl.day-tbl
 
 Gruppe responsiv · Cluster trades_tag · Aufwand S · Befunde: responsiv-7
@@ -474,6 +436,11 @@ Abhängig von: —
 - Nach Z. 1743 neu: `.tl-filters .select { max-width: 200px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } .tl-count { margin-left: auto; white-space: nowrap; flex: 0 0 auto; }`
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .tl-filters] wording-S9.3-9.7 setzt das Markup der Filterzeile einmal um: `row tl-filters` > `grow tl-search` + `tl-sel` (Selects und Zurücksetzen) + `muted small tl-count`, „Trades durchsuchen“, Zähler mit U.count, Filterzeile nur mit Trades. responsiv-3.7 setzt dieselben Klassen tl-filters und tl-count; dieser Teil entfällt dort. Das CSS aus responsiv-C2 bleibt (`.tl-filters .select { max-width: 200px; … }`, `.tl-count { margin-left: auto; white-space: nowrap; flex: 0 0 auto; }`). Es greift auch innerhalb von .tl-sel und muss stehen, bevor das Inline-`margin-left:auto` wegfällt.
+- [doppelt: .tl-count] Wie bei .tl-filters: Die Klasse tl-count setzt wording-S9.3-9.7, die Regel `.tl-count { margin-left: auto; white-space: nowrap; flex: 0 0 auto; }` kommt aus responsiv-C2. Der Zähler-Teil von responsiv-3.7 entfällt (Anpassung unter .tl-filters).
 
 ## wording-S3.6 · app.css: TradeLog-Filter am Desktop (.tl-search, .tl-sel display: contents)
 
@@ -517,3 +484,7 @@ Abhängig von: wording-S5.3
 | 8.1 | day.js:12 Kopfzeile | Knopf `<button … data-action="check-in" …>${I.sparkle} ${d.checkIn ? 'Check-in bearbeiten' : 'Check-in'}</button>` und Knopf `<button … class="btn sm accent" data-action="new-trade-day" …>${I.plus} Trade für diesen Tag</button>` ersatzlos streichen. Am Zertifikat-Knopf `data-tip="Daily Profit Certificate"` → `data-tip="Tageszertifikat erstellen"`. Knopf bleibt immer sichtbar. Gilt am neuen Ort, falls referenz-17 vorher umgesetzt ist | wording-5, wording-45, bereich_trades_tag-37 |
 | 8.2 | day.js:24 | Aktion `'new-trade-day'` streichen (übernommen von 5.3) | wording-5 |
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .btn.accent] .btn.accent steht nur noch für „Trade loggen“ (App.newTradeButton `.btn.accent.tl` und der runde Handy-Knopf). Aktiver Dashboard-Filter: Klasse `is-on`. So steht es in zustaende-S-D2/-S-C7, kollisionsfrei und im gemeinsamen Ausgewählt-Stil. farbe-C19b/-B25 nennen denselben Zustand `.dh-context .btn.is-set`; das entfällt. Das aria-label „Filter ({0} aktiv)“ aus farbe-C19b bleibt. TradeLog-Leerzustand „Trade loggen“: neutral `btn sm` (komponenten-S-trades-b). Gründe: Die Kopfreihe trägt „Trade loggen“ schon, die Farbe-Spezifikation selbst verlangt „1 je Ansicht“, BRIEF spricht von dem einen Hauptknopf, und Leerzustand-Aktionen sind btn sm. „Trade für diesen Tag“ entfällt (wording-S8.1-8.2). Damit ist jedes .btn.accent ein Hauptknopf: `.btn.accent` font-weight 600 → 700 direkt, ohne eigene Regel `.btn.accent.tl`; die wäre eine wirkungslose Doppelregel. Der aktive Filter (is-on) bleibt 500 wie jeder Knopf, also nicht fetter.

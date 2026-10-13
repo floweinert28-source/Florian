@@ -1,48 +1,10 @@
 # Paket 023 · notebook_news
 
-Schritte: 7 · Dateien: web/css/app.css, web/js/editor.js, web/js/screens/news.js, web/js/screens/notebook.js
+Schritte: 6 · Dateien: web/css/app.css, web/js/editor.js, web/js/screens/news.js, web/js/screens/notebook.js
 Betroffene Tests laut Spezifikation: neue Suite web/e2e/tablettest.js; prüfen: e2e/newstest.js:93 (.nw-next .caption); web/e2e/figtest.js, figdel.js, imgtest.js, undotest.js (.nb-toolbar); web/e2e/mobiletest.js:51-55 (Handy unverändert); web/e2e/mobiletest.js:55 (Werkzeugleiste eine Zeile, seitlich wischbar); web/e2e/nbsel.js, figtest.js, figdel.js, imgtest.js, undotest.js, tiptest.js, scrolltest.js (Spalten .col.left/.col.mid)
-Baut auf Paketen auf: 7, 10, 21
+Baut auf Paketen auf: 7, 8, 21
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
-
-## kilook-C2 · Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500
-
-Gruppe kilook · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-36
-Quelle: audit/spec/kilook.md Z. 524–534 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**C2 · web/css/app.css · Notebook-Reste** (bereich_notebook_news-36)
-- **769** Kommentar `/* ---------- Journal ---------- */` → `/* ---------- Notebook-Ordner ---------- */`
-- **770–774** `.journal …` (5 Regeln) löschen.
-- **775–778** `.folder …` **bleiben**.
-- **779–787** löschen: `.note-item`, `:hover`, `.active`, `b`, `span`, `.note-title`, `.note-title:focus`, `.note-body`, `.note-body:focus`.
-- **788** `@media (max-width: 960px) { .journal … }` löschen.
-- **1028** `.nb .note-title:focus { outline: none; }` **bleibt**.
-- **1057** `.nb .tags-row input { max-width: 190px; … }` und **1059** `.nb .tags-row input { max-width: none; }` löschen.
-- **1085–1086** vorher `.nb-toolbar .tb.turn .lbl { font-size: 15px; }` und `.nb-toolbar .tb .lbl { font-size: 13px; font-weight: 600; }`
-  → nachher eine Regel `.nb-toolbar .tb.turn .lbl { font-size: 13px; font-weight: 500; }`. Werte aus typografie/bereich_notebook_news-14. `.lbl` gibt es nur im Umwandeln-Knopf (editor.js:118).
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .nb .tags-row input] Toter Code (.tags-row enthält kein input, notebook.js:77): kilook-C2 löscht Z. 1057 und 1059. Nicht tokenisieren.
-- [konflikt: .note-body] Die ungebundene Regel `.note-body { … }` (Z. 786) und `.note-body:focus` (Z. 787) werden gelöscht (kilook-C2). Ganz tot sind sie aber nicht: `.nb .note-body` (notebook.js:78, Papierkorb notebook.js:67) erbt heute 14,5 px und Zeilenhöhe 1.65, und Werkzeugleiste, `.nb-menu` und `.nb-ytpop` liegen darin. Die Schriftgröße kommt danach vom body (14 px nach typografie), das ist der typografie-Zielwert. Die Zeilenhöhe, die typografie ausdrücklich behält („1.65 bleibt“), wandert in die gebundene Regel Z. 1058: `.nb .note-body { padding: 0 8px 20px; line-height: 1.65; }`. Der Editor-Text ist nicht betroffen (`.ql-container.ql-snow` setzt `--nb-body`, `.ql-editor` 1.65). Hinweis zu den übrigen C2-Löschungen (Z. 779–783): Heute schlägt `.note-item span` (0,1,1) die Klasse `.pos`/`.neg` aus U.pnl. Nach dem Löschen steht das P&L in der Notizliste in Gewinn- oder Verlustfarbe wie überall in der App. Das ist gewollt, die Notizliste per Aufnahme prüfen.
-- ÄNDERN: Z. 786–787 wie geplant löschen und `.nb .note-body` (Z. 1058) zu `padding: 0 8px 20px; line-height: 1.65;` ergänzen. Nach dem Löschen von Z. 779–783 Notizliste und Papierkorb-Notiz per Aufnahme prüfen.
-- [konflikt: .note-title] Im Code passen die drei Schritte zusammen:
-- K3 baut den Papierkorb-Kopf mit `<h2 class="note-title">` innerhalb von `.nb`. Dort greift `.nb .note-title` (Z. 1014) und nicht die ungebundene Regel, die C2 löscht. `h2` hat über Z. 90 margin 0.
-- `.nb .note-title:focus` (Z. 1028) bleibt.
-- responsiv-A3 schließt `.note-title` über die Klasse am Titelfeld aus, die Klasse bleibt im Markup.
-
-Einziger Widerspruch ist ein Wert: Die abstaende-Prüfung 14 erwartet „Titel 34 px“, typografie setzt den Notiz-Titel auf 32/600 (≤ 960: 26, ≤ 560: 24). Verbindlich: Der Papierkorb-Titel ist so groß wie der Titel einer offenen Notiz, also 32 px am Desktop.
-- [doppelt: .journal] Beide löschen denselben toten Code: Z. 770–774 und Z. 788, deren @media nur `.journal`-Regeln enthält. kilook-C2 übernimmt, inklusive Kommentar „Notebook-Ordner“. Die `.folder`-Regeln Z. 775–778 bleiben.
-- ÜBERNIMMT typografie-3.2.2d: Nicht separat umsetzen; Z. 770–774 und Z. 788 löscht kilook-C2.
-- [doppelt: .nb-toolbar .tb .lbl] Dieselbe Änderung zweimal. typografie-3.2.3j übernimmt, weil sie Tokens und Zeilenhöhe mitbringt: Z. 1086 `.nb-toolbar .tb .lbl` löschen (`.lbl` gibt es nur im Umwandeln-Knopf, editor.js:118). Z. 1085 wird `.nb-toolbar .tb.turn .lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; }`.
-- ÄNDERN: Den Punkt „1085–1086“ weglassen, ihn setzt typografie-3.2.3j um. Übrige C2-Punkte unverändert.
-- [doppelt: .nb-toolbar .tb.turn .lbl] Wie beim Anker .nb-toolbar .tb .lbl: typografie-3.2.3j übernimmt. Endstand: `.nb-toolbar .tb.turn .lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; }`, Z. 1086 gelöscht.
-- ÄNDERN: Punkt „1085–1086“ entfällt (übernimmt typografie-3.2.3j).
 
 ## kilook-C22 · News-Hero-Markup ohne Glocke
 

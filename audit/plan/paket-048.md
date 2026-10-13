@@ -1,10 +1,30 @@
-# Paket 048 · diagramme, responsiv
+# Paket 048 · diagramme, konto, responsiv
 
-Schritte: 9 · Dateien: web/js/app.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: Akzeptanz grep 5; Sonde 15, 18, 19; web/e2e/chartanimtest.js:23 (Sparkline) prüfen
+Schritte: 10 · Dateien: web/js/app.js, web/js/screens/affiliate.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: Akzeptanz grep 12, Sonde 15; Akzeptanz grep 5; Sonde 15, 18, 19; web/e2e/affiliatetest.js:25 (O4); web/e2e/chartanimtest.js:23 (Sparkline) prüfen
 Baut auf Paketen auf: 15, 38, 46, 47
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
+
+## diagramme-K1 · Affiliate-Balken neutral --text-2 .45 als Pfad-Balken
+
+Gruppe diagramme · Cluster konto · Aufwand S · Befunde: bereich_konto-7, diagramme-11, bereich_konto-55
+Quelle: audit/spec/diagramme.md Z. 668–673 · Dateien: web/js/screens/affiliate.js
+Abhängig von: diagramme-C1, diagramme-C5
+
+```text
+### 3.11 `web/js/screens/affiliate.js`
+
+**K1 Neutrale Balken** (bereich_konto-7, diagramme-11; bereich_konto-55 über C1)
+
+Z. 47: `<rect … height="${Math.max(m.v > 0 ? 2 : 0, y(0) - y(m.v))…}" rx="4" fill="var(--accent)" fill-opacity=".85" data-tip="…">` → `<path class="br" d="${U.vbarPath(x(i) - bw / 2, bw, y(0), m.v > 0 ? Math.min(y(m.v), y(0) - 2) : y(0))}" fill="var(--text-2)" fill-opacity=".45" data-tip="…unverändert…"></path>`. Das gilt für beide Ansichten. Kein Hover-Stil (K22).
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: --text-2] Affiliate-Balken (affiliate.js:47) neutral nach diagramme-K1: `<path class="br" d="${U.vbarPath(x(i) - bw / 2, bw, y(0), m.v > 0 ? Math.min(y(m.v), y(0) - 2) : y(0))}" fill="var(--text-2)" fill-opacity=".45" data-tip="…unverändert…"></path>`, in beiden Ansichten, ohne Hover-Stil. farbe-C16 wollte `fill="var(--profit)"`. Grund: Grün nur für Gewinn/positiv (BRIEF). Die Balken zeigen Beträge ohne Vorzeichen, in der Betreiber-Ansicht sind Provisionen Kosten, Grün wäre dort falsch. Mengenbalken sind app-weit --text-2 .45 (diagramme A-8). Die Zeile „Affiliate-Balken --profit“ in farbe 1.9 gilt damit nicht. Die übrigen --text-2-Stellen dieses Ankers (barrierefreiheit-A2b Fokusrand, diagramme-A1 text.bv, E5 PV.line, E8b Trefferquote-Reihe) nutzen nur das Token und sind verträglich. zustaende-S-C9c ist über die .lang-card-Anker erledigt.
+- [konflikt: --accent] Affiliate-Balken (affiliate.js Z. 47): neutral nach diagramme-K1, also `<path class="br">` mit fill var(--text-2) und fill-opacity .45. Das gilt auch gegen farbe-C16 (--profit). Gründe: Provisionen sind immer ≥ 0, Grün trüge keine Unterscheidung. Die Farbe-Regel selbst sagt „Spalten mit einheitlichem Vorzeichen neutral“, und diagramme A-8 nennt Provisionen ausdrücklich neutral. Fokusring: barrierefreiheit-A2a (--focus = Textfarbe) gilt. Der README-Satz in farbe-D3e wird unter Anker .btn.primary angepasst. Die übrigen Schritte ändern verschiedene Stellen und sind untereinander verträglich. Ihre Einzelkonflikte stehen unter eigenen Ankern (.popover .item[aria-checked], .activity/.tracker/.heat-legend, .dp-day.today/.rr-day.today, .set-tabs/.prop-sub).
 
 ## diagramme-D1 · app.js: fitRadars im Resize-Timeout aufrufen
 
@@ -174,6 +194,10 @@ Abhängig von: diagramme-A1
 - `const g = gid()` in Z. 341 streichen. Die Mittelwert-Linie in `--profit`/`--loss` bleibt.
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: --accent] Affiliate-Balken (affiliate.js Z. 47): neutral nach diagramme-K1, also `<path class="br">` mit fill var(--text-2) und fill-opacity .45. Das gilt auch gegen farbe-C16 (--profit). Gründe: Provisionen sind immer ≥ 0, Grün trüge keine Unterscheidung. Die Farbe-Regel selbst sagt „Spalten mit einheitlichem Vorzeichen neutral“, und diagramme A-8 nennt Provisionen ausdrücklich neutral. Fokusring: barrierefreiheit-A2a (--focus = Textfarbe) gilt. Der README-Satz in farbe-D3e wird unter Anker .btn.primary angepasst. Die übrigen Schritte ändern verschiedene Stellen und sind untereinander verträglich. Ihre Einzelkonflikte stehen unter eigenen Ankern (.popover .item[aria-checked], .activity/.tracker/.heat-legend, .dp-day.today/.rr-day.today, .set-tabs/.prop-sub).
 
 ## diagramme-C16 · drawers.mc: linke Achse fmt.axisCur, Median-Linie mit Label, Ruin-Schwelle voller Betrag, Achse „0 · 25 · 50 Trades“
 

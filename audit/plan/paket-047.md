@@ -1,10 +1,86 @@
-# Paket 047 · diagramme, konto
+# Paket 047 · diagramme, prop
 
-Schritte: 5 · Dateien: web/js/screens/affiliate.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: Akzeptanz grep 12, Sonde 15; Sonde 14; Sonde 15 (Balken innerhalb der Gitterlinien); web/e2e/affiliatetest.js:25 (O4)
-Baut auf Paketen auf: —
+Schritte: 8 · Dateien: web/css/app.css, web/js/screens/prop.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: Akzeptanz grep 2: grep -n 'stroke-dasharray: 3' web/css/app.css → leer; Akzeptanz grep 4; Sonde 14; Sonde 15 (Balken innerhalb der Gitterlinien)
+Baut auf Paketen auf: 1
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
+
+## diagramme-A2 · Gitter und Nulllinie durchgezogen, crispEdges; Strichelung Z. 1323 löschen
+
+Gruppe diagramme · Cluster diagramme · Aufwand S · Befunde: diagramme-7
+Quelle: audit/spec/diagramme.md Z. 294–298 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**A2 Gitter und Nulllinie durchgezogen** (diagramme-7)
+- Z. 684 → `.chart .grid line { stroke: var(--border); shape-rendering: crispEdges; }`
+- Z. 685 → `.chart .zero { stroke: var(--border-2); shape-rendering: crispEdges; }`
+- Z. 1323 (`.chart .grid line { stroke-dasharray: 3 4; }`) löschen.
+
+```
+
+## diagramme-A4 · Neue Legendenklasse .chart-legend; .legend.top/.legend.rep (Z. 1649–1651) löschen
+
+Gruppe diagramme · Cluster diagramme · Aufwand S · Befunde: diagramme-14, bereich_training-28
+Quelle: audit/spec/diagramme.md Z. 305–315 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**A4 Legende** (diagramme-14, bereich_training-28)
+- nach Z. 692 neu:
+  ```css
+  /* Diagramm-Legende: oben links über dem Diagramm, nur bei zwei und mehr Reihen (.legend bleibt für Fieldset-Überschriften) */
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: 12px; font-weight: 400; color: var(--text-2); }
+  .chart-legend span { display: inline-flex; align-items: center; }
+  .chart-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; }
+  .chart-legend i.dash { width: 14px; height: 0; border-radius: 0; background: none; border-top: 2px dashed var(--text-2); }
+  ```
+- Z. 1649–1651 (`.legend.top`, `.legend.rep i`, `.legend.rep`) löschen. Z. 691–692 bleiben unverändert.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
+- [konflikt: .legend.rep] diagramme-A4 löscht .legend.top/.legend.rep (Z. 1649–1651) und legt .chart-legend an. diagramme-E8f stellt das Report-Widget im selben Schritt um. typografie-3.2.3l setzt in Z. 1651 kein Token. Die neue Legende steht gleich in der Text-Skala (Legende 12/16): font-size: var(--fs-12); line-height: var(--lh-12).
+- VERBINDLICH (Kreuzprüfung): app.css, nach Z. 692 neu: `/* Diagramm-Legende: oben links über dem Diagramm, nur bei zwei und mehr Reihen (.legend bleibt für Fieldset-Überschriften) */ .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); } .chart-legend span { display: inline-flex; align-items: center; } .chart-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; } .chart-legend i.dash { width: 14px; height: 0; border-radius: 0; background: none; border-top: 2px dashed var(--text-2); }`. Z. 1649–1651 (`.legend.top`, `.legend.rep i`, `.legend.rep`) löschen, aber erst im selben Lieferschritt wie die Umstellung der letzten Verwender. Das sind diagramme-E8f (widgets.js:299, legend rep), diagramme-E8e (widgets.js:262, legend top) und diagramme-I2 (shadow.js:118, legend top). Danach liefert `grep -rn "legend top\|legend rep\|\.legend\.top\|\.legend\.rep" web/js web/css` keine Treffer. Z. 691–692 (`.legend`, `.legend i`) bleiben für die Fieldset-Überschriften; deren `font-size: 12px` macht typografie-3.2.3g zum Token. Umsetzen nach typografie-3.2.1.
+
+## diagramme-J2 · Prop „Ausgaben vs. Payouts“: .chart-legend vor dem Diagramm
+
+Gruppe diagramme · Cluster prop · Aufwand S · Befunde: diagramme-14
+Quelle: audit/spec/diagramme.md Z. 666–667 · Dateien: web/js/screens/prop.js
+Abhängig von: diagramme-A4
+
+```text
+**J2 Legende** (diagramme-14) Z. 257: die `<div class="legend">…</div>` hinter dem `.chart` → `<div class="chart-legend">…</div>` vor dem `.chart` (Inhalt gleich).
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
+
+## zustaende-S-P2 · Prop-Bilanz ohne Buchungen: „—“ statt „erreicht“, kein Diagramm, keine „Pro Firma“, Legende nur mit Daten
+
+Gruppe zustaende · Cluster prop · Aufwand S · Befunde: bereich_prop-14, bereich_prop-15
+Quelle: audit/spec/zustaende.md Z. 724–730 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+**S-P2 Bilanz ohne Buchungen** – bereich_prop-14, bereich_prop-15
+- In `tabBilanz` vor `const tiles` (Z. 256) neu: `const none = bs.spent <= C.EPS;`
+- Kachel „Bis Break-even“: Wert `bs.toBreakEven > C.EPS ? <neg> : '<span class="pos">erreicht</span>'` → `none ? '—' : bs.toBreakEven > C.EPS ? <neg wie bisher> : '<span class="pos">erreicht</span>'`; Fuß `bs.toBreakEven > C.EPS ? 'fehlende Payouts (netto)' : 'Payouts decken alle Ausgaben'` → `none ? 'noch keine Ausgaben' : (wie bisher)`.
+- Kachel „Kosten je Bestehen“: `bs.costPerPassed == null ? '—' : fmt.cur(bs.costPerPassed)` → `bs.costPerPassed == null || none ? '—' : fmt.cur(bs.costPerPassed)`. Fuß unverändert.
+- Z. 257 Legende `<div class="legend">…</div>` nur bei `bs.series.length`.
+- Z. 271 `${tiles}<div class="grid main-side">${chart}${byFirm}</div>${expenses}…` → `${tiles}${ex.length || po.length ? `<div class="grid main-side">${chart}${byFirm}</div>` : ''}${expenses}${payouts}${planer}`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
+- ÄNDERN: Die Bedingung „Legende nur bei bs.series.length“ gilt für die `<div class="chart-legend">…</div>`, die J2 vor `.chart` gesetzt hat. Die alte `<div class="legend">` hinter dem Diagramm nicht wiederherstellen. Endstand siehe Entscheidung (c).
 
 ## diagramme-C1 · niceTicks mit rundem Bereich (floor/ceil auf Schritt)
 
@@ -76,22 +152,3 @@ const hbarPath = (y, h, xz, xv, r = 3) => { const f = n => +n.toFixed(2), w = Ma
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [reihenfolge: root.UI] Alle Schritte ergänzen verschiedene Namen im selben Export-Objekt, ohne Überschneidung. Endstand ergänzt: toastWrap, announce, lightbox, requestClose, vbarPath, hbarPath, xLabels, fitRadars, scoreText, count, chartEmpty, chartEmptyHTML, fieldErrors, clearFieldError, clearFieldErrors. barrierefreiheit-U7 exportiert toastWrap, darum muss die Funktion vorher aus zustaende-S-U6 da sein (sonst ReferenceError beim Laden von ui.js). Jeder Export kommt erst mit seiner Funktion.
-
-## diagramme-K1 · Affiliate-Balken neutral --text-2 .45 als Pfad-Balken
-
-Gruppe diagramme · Cluster konto · Aufwand S · Befunde: bereich_konto-7, diagramme-11, bereich_konto-55
-Quelle: audit/spec/diagramme.md Z. 668–673 · Dateien: web/js/screens/affiliate.js
-Abhängig von: diagramme-C1, diagramme-C5
-
-```text
-### 3.11 `web/js/screens/affiliate.js`
-
-**K1 Neutrale Balken** (bereich_konto-7, diagramme-11; bereich_konto-55 über C1)
-
-Z. 47: `<rect … height="${Math.max(m.v > 0 ? 2 : 0, y(0) - y(m.v))…}" rx="4" fill="var(--accent)" fill-opacity=".85" data-tip="…">` → `<path class="br" d="${U.vbarPath(x(i) - bw / 2, bw, y(0), m.v > 0 ? Math.min(y(m.v), y(0) - 2) : y(0))}" fill="var(--text-2)" fill-opacity=".45" data-tip="…unverändert…"></path>`. Das gilt für beide Ansichten. Kein Hover-Stil (K22).
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: --text-2] Affiliate-Balken (affiliate.js:47) neutral nach diagramme-K1: `<path class="br" d="${U.vbarPath(x(i) - bw / 2, bw, y(0), m.v > 0 ? Math.min(y(m.v), y(0) - 2) : y(0))}" fill="var(--text-2)" fill-opacity=".45" data-tip="…unverändert…"></path>`, in beiden Ansichten, ohne Hover-Stil. farbe-C16 wollte `fill="var(--profit)"`. Grund: Grün nur für Gewinn/positiv (BRIEF). Die Balken zeigen Beträge ohne Vorzeichen, in der Betreiber-Ansicht sind Provisionen Kosten, Grün wäre dort falsch. Mengenbalken sind app-weit --text-2 .45 (diagramme A-8). Die Zeile „Affiliate-Balken --profit“ in farbe 1.9 gilt damit nicht. Die übrigen --text-2-Stellen dieses Ankers (barrierefreiheit-A2b Fokusrand, diagramme-A1 text.bv, E5 PV.line, E8b Trefferquote-Reihe) nutzen nur das Token und sind verträglich. zustaende-S-C9c ist über die .lang-card-Anker erledigt.

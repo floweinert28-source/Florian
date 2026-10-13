@@ -1,156 +1,164 @@
-# Paket 060 · komponenten, notebook_news, konto, barrierefreiheit
+# Paket 060 · barrierefreiheit
 
-Schritte: 6 · Dateien: web/css/app.css, web/js/screens/coach.js, web/js/screens/notebook.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: —
-Baut auf Paketen auf: 59
+Schritte: 10 · Dateien: web/css/app.css, web/css/landing.css, web/js/screens/progress.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: Sonde 13
+Baut auf Paketen auf: 2
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-C-notebook-74-teilen · Notebook „Teilen“: .hide-m → .vh-m
+## farbe-C11 · Landing: Hero-Überschrift in var(--text) statt #ededed
 
-Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_konto-11
-Quelle: audit/spec/barrierefreiheit.md Z. 800–801 · Dateien: web/js/screens/notebook.js
-Abhängig von: barrierefreiheit-B1
-
-```text
-  - `<span class="hide-m">Teilen</span>` → `<span class="vh-m">Teilen</span>` (Befund: bereich_konto-11, gleiches Muster)
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.
-
-## barrierefreiheit-C-coach-42-157 · Coach: .hide-m → .vh-m (Namen am Handy behalten)
-
-Gruppe barrierefreiheit · Cluster konto · Aufwand S · Befunde: bereich_konto-11
-Quelle: audit/spec/barrierefreiheit.md Z. 789–791 · Dateien: web/js/screens/coach.js
-Abhängig von: barrierefreiheit-B1
-
-```text
-#### `web/js/screens/coach.js`
-
-- **Z. 42, 121 (2×), 157:** `<span class="hide-m">…</span>` → `<span class="vh-m">…</span>` (Befund: bereich_konto-11)
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.
-
-## barrierefreiheit-B2 · Sprunglink-Stil .skip und programmatische Fokusflächen ohne Ring (#content, .modal, .lightbox)
-
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
-Quelle: audit/spec/barrierefreiheit.md Z. 287–295 · Dateien: web/css/app.css
+Gruppe farbe · Cluster barrierefreiheit · Aufwand S · Befunde: ki_look-2
+Quelle: audit/spec/farbe.md Z. 428–429 · Dateien: web/css/landing.css
 Abhängig von: —
 
 ```text
-**B2 Sprunglink und programmatische Fokusflächen** (nach `.vh`, Z. 1330)
-- nachher:
-  ```css
-  .skip { position: fixed; left: 16px; top: -48px; z-index: 200; padding: 8px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border-2); color: var(--text); font-size: 13.5px; font-weight: 500; }
-  .skip:focus { top: 12px; }
-  #content:focus, .modal:focus, .lightbox:focus { outline: none; }
+**C11 – `web/css/landing.css` Z. 14:** `.lp .hero h1 { …; color: #ededed; }` → `color: var(--text);` — ki_look-2
+
+```
+
+## aufbau-A4a · CSS für Kartentitel als h2 (.card-title letter-spacing/text-wrap)
+
+Gruppe aufbau · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-41
+Quelle: audit/spec/aufbau.md Z. 278–279 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**A4 Überschriften-Treppe** · barrierefreiheit-41, typografie-7, typografie-8, hierarchie-33, bereich_konto-20, bereich_notebook_news-44, bereich_prop-7, typografie-18, typografie-32
+- Z. 491 `.card-title { display: flex; …; font-size: 15px; }` → am Ende ergänzen `letter-spacing: normal; text-wrap: wrap;` (hebt Z. 90 für das neue `h2` auf)
+```
+
+## aufbau-B8 · U.card: Kartentitel als <h2 class="card-title">
+
+Gruppe aufbau · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-41
+Quelle: audit/spec/aufbau.md Z. 360–362 · Dateien: web/js/ui.js
+Abhängig von: aufbau-A4a
+
+```text
+**B8 Kartentitel als Überschrift** (`web/js/ui.js` Z. 170, `card`) · barrierefreiheit-41
+`<div class="card-title">…</div>` → `<h2 class="card-title">…</h2>` (CSS siehe A4). Die von Hand geschriebenen `div.card-title` (coach.js:101, replay.js:23) bleiben.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+
+## diagramme-C7 · nameChart: role=img und aria-label (data-label oder Kartentitel) nach jedem Zeichnen
+
+Gruppe diagramme · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-19
+Quelle: audit/spec/diagramme.md Z. 395–403 · Dateien: web/js/ui.js
+Abhängig von: —
+
+```text
+**C7 Name für Screenreader** (barrierefreiheit-19)
+- Z. 232 in `drawCharts`: direkt nach `drawers[k] && drawers[k](el, data, W, H);` `nameChart(el);` aufrufen.
+- neue Funktion nach `drawCharts`:
+  ```js
+  /* Name für Screenreader: data-label am .chart oder der Kartentitel (beim Zeichnen schon übersetzt); ohne Namen ausgeblendet */
+  function nameChart(el) { const svg = el.querySelector('svg'); if (!svg) return; const card = el.closest('.card'), head = card && card.querySelector('.card-title'); const t = el.dataset.label || (head ? head.textContent.trim() : ''); if (t) { svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', t); } else svg.setAttribute('aria-hidden', 'true'); }
   ```
-- Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
+  `drawCharts` schreibt das SVG bei jeder Größenänderung neu, deshalb wird der Name nach jedem Zeichnen gesetzt. Zur Erweiterung durch bereich_statistik-33 siehe K21.
 
 ```
 
-## barrierefreiheit-U3a · Dialog-Gerüst: Selbstfokus, .shell inert, aria-labelledby, Fokus-Rückgabe (restoreAfterModal), guard/requestClose
+## diagramme-H2 · Heatmap-Container role=img aria-label „Trading-Aktivität“
 
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand L · Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39
-Quelle: audit/spec/barrierefreiheit.md Z. 413–454 · Dateien: web/js/ui.js
-Abhängig von: barrierefreiheit-B2
+Gruppe diagramme · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-19
+Quelle: audit/spec/diagramme.md Z. 636–637 · Dateien: web/js/screens/progress.js
+Abhängig von: —
 
 ```text
-**U3 Dialog-Gerüst** (Z. 428–449)
+**H2 Heatmap-Name** (barrierefreiheit-19) Z. 29: `<div class="activity" data-keep-scroll …>` → `<div class="activity" role="img" aria-label="Trading-Aktivität" data-keep-scroll …>`
 
-`modal()` ersetzen:
-```js
-const modals = []; let modalSeq = 0;
-function modal(html, o = {}) {
-  const act = document.activeElement; const ret = act && act !== document.body ? act : null;
-  const retKey = ret && root.App && root.App.anchorKey ? root.App.anchorKey(ret) : null;
-  const bg = document.createElement('div'); bg.className = 'modal-bg';
-  bg.innerHTML = `<div class="modal ${o.cls || ''}" role="dialog" aria-modal="true" tabindex="-1">${html}</div>`;
-  document.body.appendChild(bg); const dlg = bg.firstElementChild; const entry = { bg, o, ret, retKey }; modals.push(entry);
-  document.body.style.overflow = 'hidden'; const sh = document.querySelector('.shell'); if (sh) sh.inert = true;
-  const h = dlg.querySelector('.modal-head h2'); if (h) { h.id = h.id || 'mh-' + (++modalSeq); dlg.setAttribute('aria-labelledby', h.id); }
-  bg.addEventListener('mousedown', e => { if (e.target === bg && !o.locked) requestClose(); });
-  if (o.onMount) o.onMount(dlg);
-  if (o.guard) { const form = dlg.querySelector('form'); const snap = () => form ? JSON.stringify([[...new FormData(form)].filter(([, v]) => typeof v === 'string'), [...form.querySelectorAll('[aria-pressed]')].map(b => b.getAttribute('aria-pressed'))]) : ''; const start = snap(); entry.dirty = () => snap() !== start; }
-  /* Anfangsfokus: [data-autofocus] oder der Dialog selbst; nie das ×, nie automatisch ein Feld (o.noFocus ist damit Standard) */
-  setTimeout(() => { if (!dlg.isConnected || dlg.contains(document.activeElement)) return; (dlg.querySelector('[data-autofocus]') || dlg).focus({ preventScroll: true }); }, 30);
-  return dlg;
-}
 ```
 
-`closeModal()` am Ende ergänzen und `restoreAfterModal()` neu:
-```js
-  if (!modals.length) { document.body.style.overflow = ''; const sh = document.querySelector('.shell'); if (sh) sh.inert = false; }
-  const x0 = m[0]; if (x0) setTimeout(() => restoreAfterModal(x0), 0); /* nach dem synchronen App.rerender() */
-}
-function restoreAfterModal(x0) {
-  const top = modals[modals.length - 1]; const a = document.activeElement;
-  if (a && a !== document.body && !a.closest('.modal-bg.out')) return; /* jemand hat den Fokus schon gesetzt (Seitenwechsel, Mentor-Eingabe) */
-  const ok = e => e && e.isConnected && e.getClientRects().length > 0 && !e.closest('[inert], .modal-bg.out');
-  let el = ok(x0.ret) ? x0.ret : null;
-  if (!el && !top && x0.retKey) { const hits = document.querySelectorAll('#main ' + x0.retKey + ', #sidebar ' + x0.retKey); if (hits.length === 1 && ok(hits[0])) el = hits[0]; }
-  if (!el) el = top ? top.bg.firstElementChild : document.getElementById('content');
-  if (el) el.focus({ preventScroll: true });
-}
-function requestClose() {
-  const top = modals[modals.length - 1]; if (!top) return;
-  if (top.o.guard && top.dirty && top.dirty()) { confirmModal('Änderungen verwerfen?', 'Deine Eingaben in diesem Fenster gehen verloren.', { ok: 'Verwerfen', danger: true }).then(ok => { if (ok) closeModal(); }); return; }
-  closeModal();
-}
-```
+## barrierefreiheit-A2a · Globale Fokusregel und Shell-Fokusringe auf --focus (app.css Z. 95, 206, 235)
+
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: farbe_kontrast-14
+Quelle: audit/spec/barrierefreiheit.md Z. 258–264 · Dateien: web/css/app.css
+Abhängig von: barrierefreiheit-A1
+
+```text
+**A2 Alle Fokusregeln auf `--focus`**
+
+| Zeile | vorher | nachher | Befunde |
+|---|---|---|---|
+| 95 | `:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }` | `… var(--focus) …` | farbe_kontrast-14 |
+| 206 | `.theme-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }` | `var(--focus)` | farbe_kontrast-14 |
+| 235 | `.sb-user:focus-visible { outline: 2px solid var(--accent); … }` | `var(--focus)` | farbe_kontrast-14 |
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+- [konflikt: --accent] Affiliate-Balken (affiliate.js Z. 47): neutral nach diagramme-K1, also `<path class="br">` mit fill var(--text-2) und fill-opacity .45. Das gilt auch gegen farbe-C16 (--profit). Gründe: Provisionen sind immer ≥ 0, Grün trüge keine Unterscheidung. Die Farbe-Regel selbst sagt „Spalten mit einheitlichem Vorzeichen neutral“, und diagramme A-8 nennt Provisionen ausdrücklich neutral. Fokusring: barrierefreiheit-A2a (--focus = Textfarbe) gilt. Der README-Satz in farbe-D3e wird unter Anker .btn.primary angepasst. Die übrigen Schritte ändern verschiedene Stellen und sind untereinander verträglich. Ihre Einzelkonflikte stehen unter eigenen Ankern (.popover .item[aria-checked], .activity/.tracker/.heat-legend, .dp-day.today/.rr-day.today, .set-tabs/.prop-sub).
 
-## barrierefreiheit-U3b · Bestätigung und Download: data-autofocus auf sicherer Wahl bzw. „Fertig“
+## barrierefreiheit-A2b · Fokus an Eingabefeldern, Schalter, Datums- und Farbwähler neutral (Z. 293, 314–315, 437, 447, 451)
 
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: komponenten-43, barrierefreiheit-1, barrierefreiheit-8
-Quelle: audit/spec/barrierefreiheit.md Z. 455–463 · Dateien: web/js/ui.js
-Abhängig von: barrierefreiheit-U3a
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: farbe_kontrast-14, farbe_kontrast-13, barrierefreiheit-21
+Quelle: audit/spec/barrierefreiheit.md Z. 265–269 · Dateien: web/css/app.css
+Abhängig von: barrierefreiheit-A1
 
 ```text
+| 293 | `.input:focus, .select:focus, textarea.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }` | `{ outline: none; border-color: var(--text-2); box-shadow: none; }` | farbe_kontrast-14 |
+| 314–315 | `.switch:focus-visible { outline: none; box-shadow: …accent-soft }` und `.switch[aria-checked="true"]:focus-visible {…}` | **beide Zeilen löschen** (der globale Ring greift, pillenförmig über `border-radius: 999px`) | farbe_kontrast-13, barrierefreiheit-21 |
+| 437 | `.dp button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }` | `var(--focus)` | farbe_kontrast-14 |
+| 447 | `.cp-sv:focus-visible .cp-knob, .cp-hue:focus-visible .cp-knob { transform: …scale(1.15); box-shadow: 0 0 0 2.5px #fff, 0 0 0 5px var(--accent-soft), … }` | `.cp-sv:focus-visible, .cp-hue:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; } .cp-sv:focus-visible .cp-knob, .cp-hue:focus-visible .cp-knob { transform: translate(-50%, -50%) scale(1.15); }` (Knopf-Schatten aus Z. 445 bleibt) | farbe_kontrast-14 (gleiches Muster wie -13) |
+| 451 | `.cp-hex:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }` | `{ border-color: var(--text-2); box-shadow: none; }` | farbe_kontrast-14 |
+```
 
-`confirmModal` (Z. 447):
-- Fuß-„Abbrechen“ → `<button type="button" class="btn" data-close${o.danger ? ' data-autofocus' : ''}>Abbrechen</button>`
-- Bestätigung → `<button type="button" class="btn …" data-confirm${o.danger ? '' : ' data-autofocus'}>`
+## barrierefreiheit-A2c · Fokus an Schieberegler (Offset 6px), Richtungs- und Symbol-Option (Z. 814, 864, 885)
 
-`downloadText` (Z. 458): Fertig → `<button type="button" class="btn primary" data-close data-autofocus>Fertig</button>`.
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-22, farbe_kontrast-14, barrierefreiheit-23
+Quelle: audit/spec/barrierefreiheit.md Z. 270–272 · Dateien: web/css/app.css
+Abhängig von: barrierefreiheit-A1
 
-Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39, komponenten-43
+```text
+| 814 | `.slider input[type=range]:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); }` | `{ outline: 2px solid var(--focus); outline-offset: 6px; box-shadow: none; }` (`outline: none` in Z. 811 bleibt für die Maus) | barrierefreiheit-22 |
+| 864 | `.dir-opt:focus-visible { outline: 2px solid var(--dir-c); outline-offset: -2px; }` | `var(--focus)` | farbe_kontrast-14 |
+| 885 | `.sym-opt:hover, .sym-opt:focus-visible { background: var(--surface-2); outline: none; }` | `.sym-opt:hover { background: var(--surface-2); } .sym-opt:focus-visible { background: var(--surface-2); outline: 2px solid var(--focus); outline-offset: -2px; }` | barrierefreiheit-23 |
+```
+
+## barrierefreiheit-A2d · Restliche Fokusregeln: Notiz-Details, Theme-Karte, Zahlenfeld, Prop/Coupon/Affiliate (Z. 1186–1187, 1842, 2411, 2516–2679); .rp bleibt unverändert
+
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: bereich_notebook_news-35, farbe_kontrast-14
+Quelle: audit/spec/barrierefreiheit.md Z. 273–278 · Dateien: web/css/app.css
+Abhängig von: barrierefreiheit-A1
+
+```text
+| 1186–1187 | `.nb-details summary { …; outline: none; }` · `.nb-details summary:focus { color: var(--accent); }` | 1186 bleibt; 1187 → `.nb-details summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }` | bereich_notebook_news-35 |
+| 1842 | `.theme-card:focus-visible { outline: none; } .theme-card:focus-visible .tc-prev { box-shadow: …, 0 0 0 5px var(--accent); }` | `.theme-card:focus-visible { outline-offset: 4px; border-radius: 16px; }` (Umriss um die ganze Karte, Z1.5) | farbe_kontrast-14 |
+| 2411 | `.sr-num:focus-within { border-color: var(--accent); }` | `var(--text-2)` | farbe_kontrast-14 |
+| 2516, 2592, 2620, 2653, 2675, 2679 | `outline: 2px solid var(--accent)` | `outline: 2px solid var(--focus)` (Offsets bleiben) | farbe_kontrast-14 |
+| 2144, 2232, 2240 (`.rp`) | – | **unverändert** (Blind-Replay, Feature-Flag aus) | – |
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+- [doppelt: .nb-details summary:focus] Z. 1187 wird genau einmal ersetzt, durch barrierefreiheit-A2d: `.nb-details summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }`. Damit fällt die grüne Fokus-Schrift weg, und der neutrale Fokusring gilt wie überall. Z. 1186 behält `outline: none`, die :focus-visible-Regel setzt sich darüber durch. Das Gewicht 600 kommt aus typografie-3.2.4e.
+- [konflikt: .prop-sub a:focus-visible] Am Ende gibt es eine einzige Fokusregel: `.subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline-offset: -2px; }` (aus komponenten-C20). Ring 2px var(--focus) aus der globalen Regel. Die alte Z. 2592 löscht komponenten-C19 vollständig. Grund: barrierefreiheit Z1 („nur der Versatz weicht ab“, −2px in Scroll-Leisten), kein Grün als Fokus (BRIEF).
+- ÄNDERN: Z. 2592 aus der Tabelle nehmen. komponenten-C19/C20 ersetzen die Zeile, und die Farbe kommt aus der globalen :focus-visible-Regel. Die Zeilen 2516, 2620, 2653, 2675, 2679 und die übrigen A2d-Punkte bleiben.
+- [konflikt: .prop-tabs a:focus-visible] `.tabs > button:focus-visible, .tabs > a:focus-visible, .prop-tabs a:focus-visible { outline-offset: -2px; }` aus komponenten-C19, ohne eigene Farbe. Der Ring kommt global (2px var(--focus) nach barrierefreiheit-A1). Gleiche Begründung wie bei .prop-sub a:focus-visible.
+- ÄNDERN: Z. 2592 nicht anfassen (siehe .prop-sub a:focus-visible).
 
-## barrierefreiheit-U5 · Gemeinsame Bildansicht U.lightbox (role=dialog, Fokus, Escape, Fokus-Rückgabe)
+## barrierefreiheit-B1 · Klasse .vh-m (nur optisch versteckt am Handy) im 960-px-Block
 
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
-Quelle: audit/spec/barrierefreiheit.md Z. 474–487 · Dateien: web/js/ui.js
-Abhängig von: barrierefreiheit-B2
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: bereich_konto-11
+Quelle: audit/spec/barrierefreiheit.md Z. 279–286 · Dateien: web/css/app.css
+Abhängig von: —
 
 ```text
-**U5 Bildansicht** (neu, nach `downloadText`)
-```js
-function lightbox(src, alt) {
-  const back = document.activeElement; const lb = document.createElement('div');
-  lb.className = 'lightbox'; lb.tabIndex = -1; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', alt || 'Screenshot');
-  lb.innerHTML = `<img src="${esc(src)}" alt="${esc(alt || '')}">`;
-  const close = () => { lb.remove(); if (back && back.isConnected) back.focus({ preventScroll: true }); };
-  lb.addEventListener('click', close);
-  lb.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); } });
-  document.body.appendChild(lb); lb.focus({ preventScroll: true }); return lb;
-}
-```
-Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
+### Phase B – Komponenten
+
+#### `web/css/app.css`
+
+**B1 Nur-optisch-versteckt am Handy** (im Block `@media (max-width: 960px)` Z. 1062–1072, nach `.hide-m`)
+- nachher: `.vh-m { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }`
+- Befunde: bereich_konto-11
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.

@@ -1,7 +1,7 @@
 # Paket 021 · notebook_news
 
-Schritte: 28 · Dateien: web/README.md, web/css/app.css, web/e2e/newstest.js, web/js/editor.js, web/js/screens/news.js, web/js/screens/notebook.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 news; Akzeptanz 4.3 notebook (Tag-Pillen 500); Akzeptanz 4.3 notebook („Netto-P&L“ 500, Betrag 700 Onest); Akzeptanz 4.3 notebook_notiz (Editor-h2 zweizeilig ohne Lücke); Akzeptanz 4.3 notebook_notiz (Notiztitel 32/600); Akzeptanz 4.3 notebook_notiz (Toolbar „Text“ und „16“ 13/500, „16“ in Onest); e2e/headtest.js:62–64 (.nb .folder.active); e2e/nbsel.js:12–17; e2e/sixtest.js:52–57; web/e2e/figtest.js; web/e2e/imgtest.js:5 ([data-action=nb-new] greift weiter); web/e2e/mobiletest.js:53-55 (sucht .note-head > .row; auf .note-bar umstellen, rowH-Grenze prüfen); web/e2e/nbsel.js (prüfen); web/e2e/nbsel.js:34 (.sel.on bleibt); web/e2e/newstest.js; web/e2e/newstest.js:67; web/e2e/newstest.js:67 (siehe farbe-D2b); web/tests/inline-style.test.mjs (Zählung, Schritt R5)
+Schritte: 28 · Dateien: web/README.md, web/css/app.css, web/e2e/newstest.js, web/js/editor.js, web/js/screens/news.js, web/js/screens/notebook.js, web/js/store.js
+Betroffene Tests laut Spezifikation: Akzeptanz 4.3 notebook (Tag-Pillen 500); Akzeptanz 4.3 notebook („Netto-P&L“ 500, Betrag 700 Onest); Akzeptanz 4.3 notebook_notiz (Editor-h2 zweizeilig ohne Lücke); Akzeptanz 4.3 notebook_notiz (Notiztitel 32/600); Akzeptanz 4.3 notebook_notiz (Toolbar „Text“ und „16“ 13/500, „16“ in Onest); e2e/headtest.js:62–64 (.nb .folder.active); e2e/nbsel.js:12–17; e2e/sixtest.js:52–57; web/e2e/figtest.js; web/e2e/mobiletest.js:53-55 (sucht .note-head > .row; auf .note-bar umstellen, rowH-Grenze prüfen); web/e2e/nbsel.js (prüfen); web/e2e/nbsel.js:34 (.sel.on bleibt); web/e2e/newstest.js:67; web/e2e/newstest.js:67 (siehe farbe-D2b); web/tests/core.test.mjs; web/tests/inline-style.test.mjs (Zählung, Schritt R5); web/tests/sample.test.mjs
 Baut auf Paketen auf: 1, 2
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
@@ -64,9 +64,8 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [doppelt: .nb-ytpop] Ergebnis `.nb-ytpop { …; border: 1px solid var(--border-2); border-radius: 12px; …; font-size: var(--fs-13); line-height: var(--lh-13); }`. Rand und Radius setzt komponenten-C22, die Größe typografie-3.2.3h.
-- ÄNDERN: Den Punkt Z. 1124 (.nb-ytpop border) nicht ausführen. komponenten-C22 setzt denselben Rand plus Radius 12. Die übrigen C1c-Punkte bleiben.
 - [konflikt: .ed-pop .item .chk] Wie bei den Notebook-Tags: Haken in `--text-2`, 16 px (komponenten-C21d), einheitlich mit allen Menü-Haken. Endzustand: `.ed-pop .item .chk { display: none; width: 16px; height: 16px; color: var(--text-2); }`. Kein Grün, damit ist auch das Ziel von farbe-C1c erfüllt.
-- ÄNDERN: Den Punkt Z. 1103 (`.ed-pop .item .chk` → --text) nicht umsetzen, das übernimmt komponenten-C21d (--text-2, 16 px). Übrige Punkte (Toolbar gedrückt, Palettenrand, `.nb-menu`, YouTube-Popover) bleiben.
+- VERBINDLICH (Kreuzprüfung): app.css. (1) Z. 1090 `.nb-toolbar .tb[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }` → `{ background: var(--surface-3); color: var(--text); border-color: var(--border-2); }`. (2) Z. 1109 `.ed-palette .c { …; border: 1px solid rgba(255,255,255,.12); … }` → `border: 1px solid var(--border-2);`. (3) Z. 1120 `.nb-menu .row-item.on, .nb-menu .row-item:hover { background: var(--accent-soft); color: var(--accent); }` → `{ background: var(--surface-2); color: var(--text); }`. (4) Z. 1123 (`.nb-menu .grid-em button.on`, `.nb-menu .grid-em button:hover`) `{ background: var(--accent-soft); }` → `{ background: var(--surface-2); }`. Folgendes entfällt: Z. 1103 `.ed-pop .item .chk`, denn komponenten-C21d setzt `display: none; width: 16px; height: 16px; color: var(--text-2);` wie bei allen Menü-Haken. Ebenso Z. 1124 `.nb-ytpop`, denn komponenten-C22 setzt `border: 1px solid var(--border-2); border-radius: 12px`.
 
 ## farbe-C1d · Quill-Editor: Platzhalter --muted ohne 18 px, Zitat, Code, Links (auch .nb-tweet a), Checklisten-Haken und Tooltip-Links neutral
 
@@ -149,17 +148,6 @@ Abhängig von: —
 - Z. 60 `class="note-item ${cur && cur.id === n.id ? 'active' : ''} …"` → `class="note-item ${!nb.selectMode && cur && cur.id === n.id ? 'active' : ''} …"`
 ```
 
-## farbe-C24b · Notebook: „Neue Notiz“-Knöpfe neutral
-
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-2
-Quelle: audit/spec/farbe.md Z. 506–507 · Dateien: web/js/screens/notebook.js
-Abhängig von: —
-
-```text
-- Z. 61 `class="btn sm primary grow" data-action="nb-new"` → `class="btn sm grow"`
-- Z. 66 `class="btn sm primary" data-action="nb-new"` → `class="btn sm"` (Z. 47 „Anwenden“, 67 „Wiederherstellen“, 116/119/160 „Speichern“, 170 „Öffnen“ bleiben `primary` und werden über B2 neutral)
-```
-
 ## farbe-C24c · Notizkopf: P&L-Zeile mit .pnl-line/.lbl-pnl, Links ohne accent, „Tagesansicht öffnen“
 
 Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-17, bereich_notebook_news-3
@@ -170,6 +158,10 @@ Abhängig von: farbe-C1b
 - Z. 76: `<div style="margin-top:4px;font-weight:700;color:var(--text)">Netto-P&L ${U.pnl(pnl, '', …)}` → `<div class="pnl-line"><span class="lbl-pnl">Netto-P&L</span> ${U.pnl(pnl, 'num', …)}` (übrige Argumente unverändert); bei den Links „Trade öffnen“ und „Tagesansicht“ `class="accent"` entfernen; Text „Tagesansicht“ → „Tagesansicht öffnen“
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
 
 ## farbe-C32 · Editor-Farbpalette: Abschnitt „Designfarben“ mit Token-Farben, „Eigene Farben“ nur bei Bedarf, aria-labels
 
@@ -281,17 +273,6 @@ Abhängig von: —
 
 ```text
 | Notebook-P&L, neu nach Z. 1029 | `.nb .nb-pnl { margin-top: 4px; font-weight: 500; color: var(--text-2); } .nb .nb-pnl > .pos, .nb .nb-pnl > .neg, .nb .nb-pnl > .neu { font-weight: 700; font-family: var(--font-num); }` | bereich_notebook_news-15 |
-
-```
-
-## typografie-3.2.6b · News-Ziffern: tabular-nums kommt aus der Sammelregel (nur prüfen, keine Einzeländerung)
-
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-48
-Quelle: audit/spec/typografie.md Z. 375–376 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.2e
-
-```text
-| `.nw-next-when b` (3077), `.nw-time` (3091), `.nw-v b` (3106) | `tabular-nums` kommt aus der Sammelregel 3.2.2 (keine Einzeländerung nötig) | bereich_notebook_news-48 |
 
 ```
 
@@ -423,3 +404,35 @@ Abhängig von: —
 - [konflikt: .nb .tagpop .item.k-setup[aria-checked="true"]] komponenten-C29b gilt: Z. 1043–1046 (farbige `.sec.k-*` und `.item.k-*[aria-checked]`) werden ersatzlos gelöscht. Die Gruppenköpfe nutzen danach die normale `.popover .sec` (--muted). Gewählte Tags sehen aus wie jeder gewählte Menüeintrag (`.popover .item[aria-checked="true"]`, farbe-B4), denn `.tagpop` ist ein `.popover`. Begründung: Der grüne Setup-Kopf (B6) verstößt gegen BRIEF (Grün nur Gewinn und „Trade loggen“). Rot oder violett gefärbte gewählte Einträge im Menü wären eine bunte Markierung der Auswahl. Die Kategorie ist durch die Gruppenüberschrift klar. Die Tag-Chips in der Notiz (`.tagpill.k-*`) bleiben unberührt. Die neue Regel `.nb .tagpop .item[aria-checked="true"] { color: var(--text); }` aus C29b wäre wirkungslos (kilook Z11) und entfällt.
 - ÄNDERN: Z. 1043–1046 ersatzlos löschen, ohne die neue Regel `.nb .tagpop .item[aria-checked="true"] { color: var(--text); }`; `.popover .item[aria-checked="true"]` (farbe-B4) setzt Schrift, Fläche und Rand. Übrige Punkte (280 px, eine Spalte, Suchfeld, `.tagcol`, Handy-Regel löschen) bleiben.
 - [konflikt: .nb .tagpop .sec.k-setup] Wie beim Anker .nb .tagpop .item.k-setup[aria-checked="true"]: Die Regel wird gelöscht (komponenten-C29b). Der Kopf „Setups“ steht neutral in `.popover .sec` (--muted). Weder Grün (B6) noch eine eigene --muted-Regel (farbe-C1b) ist nötig.
+
+## komponenten-C30 · Ordner-Dialog (CSS): Plus-Farbkreis .swatch.add, gleichmäßige Abstände
+
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-31
+Quelle: audit/spec/komponenten.md Z. 442–452 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**C30 – Ordner-Dialog** (bereich_notebook_news-31)
+Nach den `.swatch`-Regeln (Z. 580–584; `.swatch` ist die Pille mit 18-px-Farbkreis, die der Ordner-Dialog schon nutzt) einfügen:
+```css
+.swatch.add { position: relative; }
+.swatch.add i { border: 1px dashed var(--border-2); display: grid; place-items: center; color: var(--text-2); }
+.swatch.add i svg { width: 12px; height: 12px; }
+.swatch.add input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+form[data-action="nb-folder-save"] .stack { gap: 16px; }
+form[data-action="nb-folder-save"] .modal-foot { margin-top: 20px; padding-top: 14px; }
+```
+
+```
+
+## komponenten-D4 · store.js: „Daily Journal“ nicht grün, einmalige Umfärbung
+
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-31
+Quelle: audit/spec/komponenten.md Z. 622–624 · Dateien: web/js/store.js
+Abhängig von: —
+
+```text
+**D4 – store.js: Daily Journal nicht grün** (bereich_notebook_news-31)
+Z. 56 `['daily', 'Daily Journal', '#34f58a']` → `['daily', 'Daily Journal', '#9aa3a0']`. Beim Laden (dort, wo Standardordner ergänzt werden) einmalig: Ordner mit `id === 'daily'`, `isDefault` und Farbe `#34f58a` (ohne Groß-/Kleinschreibung) bekommen `#9aa3a0`.
+
+```

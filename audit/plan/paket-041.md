@@ -30,6 +30,10 @@ Abhängig von: responsiv-A1
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.
+
 ## responsiv-3.14 · Coach-Schülertabelle: Kernspalten am Handy, tb-hide ≤ 1180 px
 
 Gruppe responsiv · Cluster konto · Aufwand S · Befunde: bereich_konto-13

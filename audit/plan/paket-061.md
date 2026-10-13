@@ -1,126 +1,156 @@
-# Paket 061 · trades_tag, zustaende, komponenten
+# Paket 061 · komponenten, notebook_news, konto, barrierefreiheit
 
-Schritte: 5 · Dateien: web/e2e/dptest.js, web/js/app.js, web/js/screens/trades.js
-Betroffene Tests laut Spezifikation: web/e2e/dptest.js:92
-Baut auf Paketen auf: 7, 17, 18, 19, 55, 58, 60
+Schritte: 6 · Dateien: web/css/app.css, web/js/screens/coach.js, web/js/screens/notebook.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: —
+Baut auf Paketen auf: 60
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-P12 · Trade-Dialog: novalidate, eigene Pflichtfeld-Prüfung mit aria-invalid und Fokus, Punktwert-(i) aus dem Label, guard
+## barrierefreiheit-C-notebook-74-teilen · Notebook „Teilen“: .hide-m → .vh-m
 
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand M · Befunde: wording-1, barrierefreiheit-11, barrierefreiheit-18, bereich_statistik-31
-Quelle: audit/spec/barrierefreiheit.md Z. 645–663 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-B3, barrierefreiheit-B11, barrierefreiheit-U1, barrierefreiheit-U3a, barrierefreiheit-P4
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_konto-11
+Quelle: audit/spec/barrierefreiheit.md Z. 800–801 · Dateien: web/js/screens/notebook.js
+Abhängig von: barrierefreiheit-B1
 
 ```text
-**P12 Trade-Dialog** (Z. 348–373, 398–400, 475–479)
-- Z. 348: `<form id="trade-form" class="tf" data-action="save-trade" …>` → `<form id="trade-form" class="tf" novalidate data-action="save-trade" …>` (`required` an 354, 356, 359 bleibt als Semantik)
-- Z. 363 vorher: `<div class="field"><label for="f-mult">Punktwert ${U.info('…')}</label><input …>`
-  nachher: `<div class="field"><div class="lbl-row"><label for="f-mult">Punktwert</label>${U.info('…')}</div><input …>`
-- Z. 369: Optionen um `guard: true` ergänzen. Im `onMount` ergänzen: `el.addEventListener('input', e => { if (e.target.removeAttribute) e.target.removeAttribute('aria-invalid'); });`
-- Z. 398 (`pick`) nach `btn.classList.remove('sym-none');`: `btn.removeAttribute('aria-invalid');`
-- Z. 476 (`save-trade`) Prüfung ersetzen:
-  ```js
-  const t = App.readTradeForm(form);
-  const bad = (sel, msg) => { const f = form.querySelector(sel); if (f) { f.setAttribute('aria-invalid', 'true'); f.focus(); } return U.toast(msg, 'err'); };
-  if (!t.symbol) return bad('#f-symbol-btn', 'Symbol fehlt');
-  if ('direction' in t && !t.direction) { const sw = form.querySelector('#f-dir'); if (sw) { sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); sw.querySelector('button')?.focus(); } return U.toast('Long oder Short wählen', 'err'); }
-  if (t.entryPrice == null) return bad('#f-entry', 'Einstieg fehlt');
-  if (!(t.quantity > 0)) return bad('#f-qty', 'Kontrakte fehlen');
-  if (!form.querySelector('#f-open').value) return bad('#f-open', 'Eröffnet fehlt'); /* roh prüfen: readTradeForm setzt leer still auf „jetzt“ */
-  if (t.closedAt && t.exitPrice == null) return bad('#f-exit', 'Ausstieg fehlt');
+  - `<span class="hide-m">Teilen</span>` → `<span class="vh-m">Teilen</span>` (Befund: bereich_konto-11, gleiches Muster)
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.
+
+## barrierefreiheit-C-coach-42-157 · Coach: .hide-m → .vh-m (Namen am Handy behalten)
+
+Gruppe barrierefreiheit · Cluster konto · Aufwand S · Befunde: bereich_konto-11
+Quelle: audit/spec/barrierefreiheit.md Z. 789–791 · Dateien: web/js/screens/coach.js
+Abhängig von: barrierefreiheit-B1
+
+```text
+#### `web/js/screens/coach.js`
+
+- **Z. 42, 121 (2×), 157:** `<span class="hide-m">…</span>` → `<span class="vh-m">…</span>` (Befund: bereich_konto-11)
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.
+
+## barrierefreiheit-B2 · Sprunglink-Stil .skip und programmatische Fokusflächen ohne Ring (#content, .modal, .lightbox)
+
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
+Quelle: audit/spec/barrierefreiheit.md Z. 287–295 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**B2 Sprunglink und programmatische Fokusflächen** (nach `.vh`, Z. 1330)
+- nachher:
+  ```css
+  .skip { position: fixed; left: 16px; top: -48px; z-index: 200; padding: 8px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border-2); color: var(--text); font-size: 13.5px; font-weight: 500; }
+  .skip:focus { top: 12px; }
+  #content:focus, .modal:focus, .lightbox:focus { outline: none; }
   ```
-- Befunde: wording-1, barrierefreiheit-11, barrierefreiheit-18, bereich_statistik-31
+- Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
 
 ```
 
-**Hinweise aus der Abstimmung (verbindlich):**
+## barrierefreiheit-U3a · Dialog-Gerüst: Selbstfokus, .shell inert, aria-labelledby, Fokus-Rückgabe (restoreAfterModal), guard/requestClose
 
-- [konflikt: #trade-form] Eine Prüfung für den Trade-Dialog. Den Ablauf liefert zustaende-S-A4: novalidate nur am Trade-Formular, alle Fehler zugleich über U.fieldErrors am Feld (.field.invalid, aria-invalid, aria-describedby="<id>-err", .field-err), Fokus aufs erste fehlerhafte Feld, kein Toast und keine Browser-Blase. Die Texte kommen aus barrierefreiheit-P12 nach der Hausregel „<Feld> fehlt/fehlen“. Endgültige Prüfkette in 'save-trade': const t = App.readTradeForm(form); const errs = []; const q = s => form.querySelector(s); if (!t.symbol) errs.push({ el: q('#f-symbol-btn'), msg: 'Symbol fehlt' }); if ('direction' in t && !t.direction) { errs.push({ el: q('#f-dir .dir-opt'), msg: 'Long oder Short wählen' }); const sw = q('#f-dir'); if (sw) { sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); } } if (t.entryPrice == null) errs.push({ el: q('#f-entry'), msg: 'Einstieg fehlt' }); if (!(Number(form.elements.quantity.value) > 0)) errs.push({ el: q('#f-qty'), msg: 'Kontrakte fehlen' }); if (!form.elements.openedAt.value) errs.push({ el: q('#f-open'), msg: 'Eröffnet fehlt' }); if (t.closedAt && t.exitPrice == null) errs.push({ el: q('#f-exit'), msg: 'Ausstieg fehlt' }); if (errs.length) { U.fieldErrors(form, errs); return; } Gründe: Eine Meldung am Feld bleibt stehen und ist mit dem Feld verknüpft (WCAG 3.3.1). Laut zustaende Z7.1 melden Toasts nur Ergebnisse, und Feldmeldungen sind ruhiger als rote Toasts. Für die Texte spricht: Es ist die Fehlerregel der Barrierefreiheit (Z8), die Schlüssel „Symbol fehlt“ und „Long oder Short wählen“ sind schon übersetzt, und der Verpasst-Dialog nutzt denselben Wortlaut. „Symbol wählen“ als Fehler würde nur den Platzhalter des Symbolknopfs wiederholen.
-- ÄNDERN: Es bleiben nur zwei Teile: (1) Z. 363: Punktwert-(i) aus dem <label>, also <div class="lbl-row"><label for="f-mult">Punktwert</label>${U.info('…')}</div>; (2) Z. 369: guard: true in den U.modal-Optionen. Es entfallen: novalidate (setzt zustaende-S-A4), der input-Listener im onMount (der globale input/change-Listener aus zustaende-S-A1 entfernt Feldmeldung und aria-invalid zusammen), btn.removeAttribute('aria-invalid') in pick() (zustaende-S-A4 ruft U.clearFieldError(btn) auf) und die Prüfkette mit bad()/U.toast. Die Übersetzungen aus Z. 194 bleiben und dienen jetzt als Feldmeldung. Die alten Schlüssel 'Einstiegskurs fehlt' und 'Ausstiegskurs fehlt für geschlossenen Trade' werden entfernt. Prüfpunkt 24 neu: Absenden ohne Einstieg zeigt keine Browser-Blase und keinen Toast; unter dem Feld steht .field-err „Einstieg fehlt“, der Rand ist --loss, der Fokus liegt im ersten fehlerhaften Feld.
-- [konflikt: #f-dir] Der Verpasst-Dialog meldet fehlendes Symbol und fehlende Richtung genauso wie der Trade-Dialog: als Feldmeldung über U.fieldErrors, nicht als Toast. Gleiche Texte („Symbol fehlt“, „Long oder Short wählen“) und gleiches .need-Wackeln. Die Meldungen verschwinden über U.clearFieldError, das zustaende-S-A4 in 'set-dir' und in pick() von openSymbolMenu einbaut. Beide Stellen werden von beiden Dialogen benutzt, weil App.symbolField und App.dirField (komponenten-A5b) dieselben IDs liefern. Das Datum bleibt dort natives required und läuft über den globalen invalid-Listener. Für P12 gilt, was unter #trade-form steht.
-- [reihenfolge: App.openTradeEditor] Alle Schritte ändern dieselbe Vorlage. Darum gilt eine feste Reihenfolge, und zwei Doppelungen werden zusammengelegt. (1) komponenten-A5b löst Symbol und Richtung in App.symbolField und App.dirField heraus. (2) abstaende-E2 entfernt die Wrapper. Die Klasse tf-dir gehört in App.dirField: <div class="field tf-dir">…</div>. Im Verpasst-Dialog wirkt sie nicht, denn die CSS-Regeln greifen nur unter .tf-main >. (3) wording-S5.4-5.5 setzt das Feld Geschlossen und übernimmt dabei farbe-C12a: <div class="field tf-c3 tf-dt"><label for="f-close">Geschlossen <span class="lbl-hint dp-coarse">(leer lassen, solange offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" data-empty="Offen" value="…"></div>. Die Klasse ist lbl-hint statt faint, weil --faint nie für Wörter steht. Der Knopftext wird ${trade ? 'Speichern' : 'Trade loggen'}, die Klasse bleibt btn primary. Wie die Bestätigen-Knöpfe aussehen, ist Nutzerfrage komponenten-1 und wird hier nicht geändert. (4) barrierefreiheit-P12 (Restteil): Punktwert-(i) in .lbl-row innerhalb von <div class="field tf-c3"> und guard: true. (5) zustaende-S-A4: novalidate und Prüfung (siehe #trade-form). abstaende-E3, aufbau-B6 und wording-S5.3 sind unter App.actions['new-trade'] entschieden, wording-S5.9 unter app.html keydown.
-- [doppelt: U.toast] zustaende-S-U6 übernimmt toastWrap() und toast() ganz. Der Container hat role=status und aria-live=polite. Dauer: min(7000, max(err ? 4500 : 2400, 1200 + Länge·55)) ms. Beim Darüberfahren hält der Toast an, nach dem Verlassen bleibt er noch 1500 ms. Ausgeblendet wird über Motion.leave mit '--dur-2', passend zu .toast.out. barrierefreiheit-U4 legt nur noch announce() mit #sr-live an, denn sein toastWrap ist Wort für Wort derselbe. Es gibt nur einen Namen: U.toastWrap (Export über barrierefreiheit-U7). Die Zeile toast.init = toastWrap entfällt. Beim Start wird genau einmal U.toastWrap() aufgerufen (barrierefreiheit-P10). Wo zustaende-S-A1 U.toast.init() vorsieht, steht U.toastWrap(); die Zusammenführung von P10 und S-A1 in App.bind regelt konflikt-1. Formularfehler laufen nicht über Toasts (P12 und komponenten-S-trades-h, siehe #trade-form und #f-dir). wording-S14.8-14.9 ruft U.toast unverändert auf.
-- [konflikt: aria-invalid] aria-invalid setzt und entfernt allein U.fieldErrors bzw. U.clearFieldError (zustaende-S-U5). Die händischen setAttribute- und removeAttribute-Aufrufe aus barrierefreiheit-P12 entfallen (Anweisung unter #trade-form).
-- [konflikt: #f-symbol-btn] Fehler am Symbolknopf: Feldmeldung „Symbol fehlt“ über U.fieldErrors, aufgeräumt mit U.clearFieldError(btn) in pick() (siehe #trade-form). Die IDs f-symbol-btn, f-symbol und f-symbol-l bleiben in App.symbolField (komponenten-A5b) gleich, darum gilt das für Trade- und Verpasst-Dialog.
-- [konflikt: #f-entry] Feldmeldung „Einstieg fehlt“ über U.fieldErrors (siehe #trade-form). required bleibt als Semantik.
-- [konflikt: #f-exit] Ist Geschlossen gesetzt und fehlt der Ausstieg, erscheint die Feldmeldung „Ausstieg fehlt“ am Ausstiegsfeld (siehe #trade-form). Wie man den Trade offen lässt, zeigt das Feld Geschlossen über sein Overlay „Offen“ bzw. den Hinweis „(leer lassen, solange offen)“.
-- [konflikt: #f-qty] Geprüft wird roh mit Number(form.elements.quantity.value) > 0 (aus S-A4, fängt auch negative Eingaben ab, die readTradeForm still per abs umdreht), Meldung „Kontrakte fehlen“ (siehe #trade-form).
-- [konflikt: #f-open] Geprüft wird roh mit form.elements.openedAt.value, weil readTradeForm leer still auf „jetzt“ setzt. Meldung „Eröffnet fehlt“ (siehe #trade-form).
-- [konflikt: App.readTradeForm] readTradeForm bleibt unverändert. Die Prüfung in 'save-trade' liest Symbol, Richtung, Einstieg und Ausstieg daraus, Kontrakte und Eröffnet roh aus dem Formular (siehe #trade-form).
-
-## barrierefreiheit-E-dptest-92 · dptest.js:92: zweites Escape zeigt „Änderungen verwerfen?“, dann [data-confirm]
-
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: barrierefreiheit-11
-Quelle: audit/spec/barrierefreiheit.md Z. 908–908 · Dateien: web/e2e/dptest.js
-Abhängig von: barrierefreiheit-U3a, barrierefreiheit-U3b, barrierefreiheit-P4, barrierefreiheit-P12
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand L · Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39
+Quelle: audit/spec/barrierefreiheit.md Z. 413–454 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-B2
 
 ```text
-| dptest.js:92 | „Zweites Escape schließt den Dialog“ | Das Feld wurde geändert (Z. 70–80). Zweites Escape zeigt „Änderungen verwerfen?“, dann Klick auf `[data-confirm]`, danach `!document.querySelector('.modal-bg')` |
-```
+**U3 Dialog-Gerüst** (Z. 428–449)
 
-## barrierefreiheit-P14b · Rückfrage (guard: true) für Session starten, Check-in, Session beenden
-
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-11
-Quelle: audit/spec/barrierefreiheit.md Z. 676–678 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-U3a, barrierefreiheit-P4
-
-```text
-- Z. 490 (`openSessionStart`): `U.modal(`…`)` → `U.modal(`…`, { guard: true })`
-- Z. 524 (`openCheckIn`): `{ cls: 'narrow' }` → `{ cls: 'narrow', guard: true }`
-- Z. 529 (`openSessionEnd`): `{ guard: true }` ergänzen
-```
-
-## zustaende-S-A4 · Trade-Formular: novalidate, eigene Prüfung mit Feldmeldungen statt Toasts, Meldung weg bei Richtungs- und Symbolwahl
-
-Gruppe zustaende · Cluster zustaende · Aufwand M · Befunde: zustaende-3, barrierefreiheit-6
-Quelle: audit/spec/zustaende.md Z. 553–569 · Dateien: web/js/app.js
-Abhängig von: zustaende-S-U5, zustaende-S-C3, zustaende-S-A1
-
-```text
-**S-A4 Trade-Formular prüfen** – zustaende-3, barrierefreiheit-6
-- Z. 348 `<form id="trade-form" class="tf" data-action="save-trade" …>` → `<form id="trade-form" class="tf" data-action="save-trade" novalidate …>`. `required` an f-entry, f-qty, f-open bleibt (Semantik).
-- Z. 476 Prüfkette ersetzen durch:
+`modal()` ersetzen:
 ```js
-const t = App.readTradeForm(form); const errs = []; const q = s => form.querySelector(s);
-if (!t.symbol) errs.push({ el: q('#f-symbol-btn'), msg: 'Symbol wählen' });
-if ('direction' in t && !t.direction) { errs.push({ el: q('#f-dir .dir-opt'), msg: 'Long oder Short wählen' }); const sw = q('#f-dir'); if (sw) { sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); } }
-if (t.entryPrice == null) errs.push({ el: q('#f-entry'), msg: 'Einstieg eintragen' });
-if (!(Number(form.elements.quantity.value) > 0)) errs.push({ el: q('#f-qty'), msg: 'Kontrakte eintragen' });
-if (!form.elements.openedAt.value) errs.push({ el: q('#f-open'), msg: 'Datum eintragen' });
-if (t.closedAt && t.exitPrice == null) errs.push({ el: q('#f-exit'), msg: 'Ausstieg eintragen oder Geschlossen leeren' });
-if (errs.length) { U.fieldErrors(form, errs); return; }
+const modals = []; let modalSeq = 0;
+function modal(html, o = {}) {
+  const act = document.activeElement; const ret = act && act !== document.body ? act : null;
+  const retKey = ret && root.App && root.App.anchorKey ? root.App.anchorKey(ret) : null;
+  const bg = document.createElement('div'); bg.className = 'modal-bg';
+  bg.innerHTML = `<div class="modal ${o.cls || ''}" role="dialog" aria-modal="true" tabindex="-1">${html}</div>`;
+  document.body.appendChild(bg); const dlg = bg.firstElementChild; const entry = { bg, o, ret, retKey }; modals.push(entry);
+  document.body.style.overflow = 'hidden'; const sh = document.querySelector('.shell'); if (sh) sh.inert = true;
+  const h = dlg.querySelector('.modal-head h2'); if (h) { h.id = h.id || 'mh-' + (++modalSeq); dlg.setAttribute('aria-labelledby', h.id); }
+  bg.addEventListener('mousedown', e => { if (e.target === bg && !o.locked) requestClose(); });
+  if (o.onMount) o.onMount(dlg);
+  if (o.guard) { const form = dlg.querySelector('form'); const snap = () => form ? JSON.stringify([[...new FormData(form)].filter(([, v]) => typeof v === 'string'), [...form.querySelectorAll('[aria-pressed]')].map(b => b.getAttribute('aria-pressed'))]) : ''; const start = snap(); entry.dirty = () => snap() !== start; }
+  /* Anfangsfokus: [data-autofocus] oder der Dialog selbst; nie das ×, nie automatisch ein Feld (o.noFocus ist damit Standard) */
+  setTimeout(() => { if (!dlg.isConnected || dlg.contains(document.activeElement)) return; (dlg.querySelector('[data-autofocus]') || dlg).focus({ preventScroll: true }); }, 30);
+  return dlg;
+}
 ```
-Die Meldung „Long oder Short wählen“ hängt am `.field` der Richtung (`q('#f-dir .dir-opt').closest('.field')`). Die Fußzeilen-Vorschau (Z. 469) und `.dir-switch.need` bleiben. Der Toast „Trade gespeichert“ bleibt.
-- Z. 471 `'set-dir'`: am Ende `U.clearFieldError(f.querySelector('#f-dir .dir-opt'));` ergänzen (die Meldung hängt am ersten Richtungsknopf, auch wenn „Short“ geklickt wird).
-- Z. 398 (Symbolwahl in `openSymbolMenu`): nach dem Setzen von `#f-symbol` `U.clearFieldError(btn);` ergänzen.
 
+`closeModal()` am Ende ergänzen und `restoreAfterModal()` neu:
+```js
+  if (!modals.length) { document.body.style.overflow = ''; const sh = document.querySelector('.shell'); if (sh) sh.inert = false; }
+  const x0 = m[0]; if (x0) setTimeout(() => restoreAfterModal(x0), 0); /* nach dem synchronen App.rerender() */
+}
+function restoreAfterModal(x0) {
+  const top = modals[modals.length - 1]; const a = document.activeElement;
+  if (a && a !== document.body && !a.closest('.modal-bg.out')) return; /* jemand hat den Fokus schon gesetzt (Seitenwechsel, Mentor-Eingabe) */
+  const ok = e => e && e.isConnected && e.getClientRects().length > 0 && !e.closest('[inert], .modal-bg.out');
+  let el = ok(x0.ret) ? x0.ret : null;
+  if (!el && !top && x0.retKey) { const hits = document.querySelectorAll('#main ' + x0.retKey + ', #sidebar ' + x0.retKey); if (hits.length === 1 && ok(hits[0])) el = hits[0]; }
+  if (!el) el = top ? top.bg.firstElementChild : document.getElementById('content');
+  if (el) el.focus({ preventScroll: true });
+}
+function requestClose() {
+  const top = modals[modals.length - 1]; if (!top) return;
+  if (top.o.guard && top.dirty && top.dirty()) { confirmModal('Änderungen verwerfen?', 'Deine Eingaben in diesem Fenster gehen verloren.', { ok: 'Verwerfen', danger: true }).then(ok => { if (ok) closeModal(); }); return; }
+  closeModal();
+}
+```
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [konflikt: #trade-form] Eine Prüfung für den Trade-Dialog. Den Ablauf liefert zustaende-S-A4: novalidate nur am Trade-Formular, alle Fehler zugleich über U.fieldErrors am Feld (.field.invalid, aria-invalid, aria-describedby="<id>-err", .field-err), Fokus aufs erste fehlerhafte Feld, kein Toast und keine Browser-Blase. Die Texte kommen aus barrierefreiheit-P12 nach der Hausregel „<Feld> fehlt/fehlen“. Endgültige Prüfkette in 'save-trade': const t = App.readTradeForm(form); const errs = []; const q = s => form.querySelector(s); if (!t.symbol) errs.push({ el: q('#f-symbol-btn'), msg: 'Symbol fehlt' }); if ('direction' in t && !t.direction) { errs.push({ el: q('#f-dir .dir-opt'), msg: 'Long oder Short wählen' }); const sw = q('#f-dir'); if (sw) { sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); } } if (t.entryPrice == null) errs.push({ el: q('#f-entry'), msg: 'Einstieg fehlt' }); if (!(Number(form.elements.quantity.value) > 0)) errs.push({ el: q('#f-qty'), msg: 'Kontrakte fehlen' }); if (!form.elements.openedAt.value) errs.push({ el: q('#f-open'), msg: 'Eröffnet fehlt' }); if (t.closedAt && t.exitPrice == null) errs.push({ el: q('#f-exit'), msg: 'Ausstieg fehlt' }); if (errs.length) { U.fieldErrors(form, errs); return; } Gründe: Eine Meldung am Feld bleibt stehen und ist mit dem Feld verknüpft (WCAG 3.3.1). Laut zustaende Z7.1 melden Toasts nur Ergebnisse, und Feldmeldungen sind ruhiger als rote Toasts. Für die Texte spricht: Es ist die Fehlerregel der Barrierefreiheit (Z8), die Schlüssel „Symbol fehlt“ und „Long oder Short wählen“ sind schon übersetzt, und der Verpasst-Dialog nutzt denselben Wortlaut. „Symbol wählen“ als Fehler würde nur den Platzhalter des Symbolknopfs wiederholen.
-- ÄNDERN: Prüfkette wie im Entscheidungstext mit den Texten 'Symbol fehlt', 'Long oder Short wählen', 'Einstieg fehlt', 'Kontrakte fehlen', 'Eröffnet fehlt', 'Ausstieg fehlt' (statt 'Symbol wählen', 'Einstieg eintragen', 'Kontrakte eintragen', 'Datum eintragen', 'Ausstieg eintragen oder Geschlossen leeren'). Unverändert bleiben: novalidate an Z. 348, U.fieldErrors, U.clearFieldError am Ende von 'set-dir' und nach dem Setzen von #f-symbol in pick() von openSymbolMenu, das .need-Wackeln, die Fußzeilen-Vorschau und der Toast „Trade gespeichert“. Die Übersetzungsschlüssel 'Einstieg eintragen', 'Kontrakte eintragen', 'Datum eintragen' und 'Ausstieg eintragen oder Geschlossen leeren' (zustaende Z. 873) nicht anlegen. Stattdessen gelten die aus barrierefreiheit Z. 194 (Entry missing · Contracts missing · Open time missing · Exit missing). Prüfpunkt 23 bleibt.
-- [konflikt: #f-symbol-btn] Fehler am Symbolknopf: Feldmeldung „Symbol fehlt“ über U.fieldErrors, aufgeräumt mit U.clearFieldError(btn) in pick() (siehe #trade-form). Die IDs f-symbol-btn, f-symbol und f-symbol-l bleiben in App.symbolField (komponenten-A5b) gleich, darum gilt das für Trade- und Verpasst-Dialog.
-- [konflikt: #f-entry] Feldmeldung „Einstieg fehlt“ über U.fieldErrors (siehe #trade-form). required bleibt als Semantik.
-- [konflikt: #f-exit] Ist Geschlossen gesetzt und fehlt der Ausstieg, erscheint die Feldmeldung „Ausstieg fehlt“ am Ausstiegsfeld (siehe #trade-form). Wie man den Trade offen lässt, zeigt das Feld Geschlossen über sein Overlay „Offen“ bzw. den Hinweis „(leer lassen, solange offen)“.
-- [konflikt: #f-qty] Geprüft wird roh mit Number(form.elements.quantity.value) > 0 (aus S-A4, fängt auch negative Eingaben ab, die readTradeForm still per abs umdreht), Meldung „Kontrakte fehlen“ (siehe #trade-form).
-- [konflikt: #f-open] Geprüft wird roh mit form.elements.openedAt.value, weil readTradeForm leer still auf „jetzt“ setzt. Meldung „Eröffnet fehlt“ (siehe #trade-form).
-- [konflikt: App.readTradeForm] readTradeForm bleibt unverändert. Die Prüfung in 'save-trade' liest Symbol, Richtung, Einstieg und Ausstieg daraus, Kontrakte und Eröffnet roh aus dem Formular (siehe #trade-form).
+- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
 
-## komponenten-S-trades-h · Verpasst-Dialog: Prüfung „Symbol fehlt“ / „Long oder Short wählen“ vor dem Speichern
+## barrierefreiheit-U3b · Bestätigung und Download: data-autofocus auf sicherer Wahl bzw. „Fertig“
 
-Gruppe komponenten · Cluster zustaende · Aufwand S · Befunde: bereich_trades_tag-11
-Quelle: audit/spec/komponenten.md Z. 725–726 · Dateien: web/js/screens/trades.js
-Abhängig von: komponenten-S-trades-g
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: komponenten-43, barrierefreiheit-1, barrierefreiheit-8
+Quelle: audit/spec/barrierefreiheit.md Z. 455–463 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-U3a
 
 ```text
-- Z. 112 (`save-missed`) vor dem Speichern: `if (!fd.get('symbol')) return U.toast('Symbol fehlt', 'err'); if (!fd.get('direction')) { const sw = form.querySelector('#f-dir'); sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); return U.toast('Long oder Short wählen', 'err'); }` und `direction: Number(fd.get('direction'))`.
+
+`confirmModal` (Z. 447):
+- Fuß-„Abbrechen“ → `<button type="button" class="btn" data-close${o.danger ? ' data-autofocus' : ''}>Abbrechen</button>`
+- Bestätigung → `<button type="button" class="btn …" data-confirm${o.danger ? '' : ' data-autofocus'}>`
+
+`downloadText` (Z. 458): Fertig → `<button type="button" class="btn primary" data-close data-autofocus>Fertig</button>`.
+
+Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39, komponenten-43
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [konflikt: #f-dir] Der Verpasst-Dialog meldet fehlendes Symbol und fehlende Richtung genauso wie der Trade-Dialog: als Feldmeldung über U.fieldErrors, nicht als Toast. Gleiche Texte („Symbol fehlt“, „Long oder Short wählen“) und gleiches .need-Wackeln. Die Meldungen verschwinden über U.clearFieldError, das zustaende-S-A4 in 'set-dir' und in pick() von openSymbolMenu einbaut. Beide Stellen werden von beiden Dialogen benutzt, weil App.symbolField und App.dirField (komponenten-A5b) dieselben IDs liefern. Das Datum bleibt dort natives required und läuft über den globalen invalid-Listener. Für P12 gilt, was unter #trade-form steht.
-- ÄNDERN: In 'save-missed' (trades.js Z. 112) vor dem Speichern statt der zwei Toasts: const errs = []; if (!fd.get('symbol')) errs.push({ el: form.querySelector('#f-symbol-btn'), msg: 'Symbol fehlt' }); if (!fd.get('direction')) { errs.push({ el: form.querySelector('#f-dir .dir-opt'), msg: 'Long oder Short wählen' }); const sw = form.querySelector('#f-dir'); if (sw) { sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); } } if (errs.length) { U.fieldErrors(form, errs); return; } Danach unverändert direction: Number(fd.get('direction')). Kein U.toast für Formularfehler.
-- [doppelt: U.toast] zustaende-S-U6 übernimmt toastWrap() und toast() ganz. Der Container hat role=status und aria-live=polite. Dauer: min(7000, max(err ? 4500 : 2400, 1200 + Länge·55)) ms. Beim Darüberfahren hält der Toast an, nach dem Verlassen bleibt er noch 1500 ms. Ausgeblendet wird über Motion.leave mit '--dur-2', passend zu .toast.out. barrierefreiheit-U4 legt nur noch announce() mit #sr-live an, denn sein toastWrap ist Wort für Wort derselbe. Es gibt nur einen Namen: U.toastWrap (Export über barrierefreiheit-U7). Die Zeile toast.init = toastWrap entfällt. Beim Start wird genau einmal U.toastWrap() aufgerufen (barrierefreiheit-P10). Wo zustaende-S-A1 U.toast.init() vorsieht, steht U.toastWrap(); die Zusammenführung von P10 und S-A1 in App.bind regelt konflikt-1. Formularfehler laufen nicht über Toasts (P12 und komponenten-S-trades-h, siehe #trade-form und #f-dir). wording-S14.8-14.9 ruft U.toast unverändert auf.
+- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+
+## barrierefreiheit-U5 · Gemeinsame Bildansicht U.lightbox (role=dialog, Fokus, Escape, Fokus-Rückgabe)
+
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
+Quelle: audit/spec/barrierefreiheit.md Z. 474–487 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-B2
+
+```text
+**U5 Bildansicht** (neu, nach `downloadText`)
+```js
+function lightbox(src, alt) {
+  const back = document.activeElement; const lb = document.createElement('div');
+  lb.className = 'lightbox'; lb.tabIndex = -1; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', alt || 'Screenshot');
+  lb.innerHTML = `<img src="${esc(src)}" alt="${esc(alt || '')}">`;
+  const close = () => { lb.remove(); if (back && back.isConnected) back.focus({ preventScroll: true }); };
+  lb.addEventListener('click', close);
+  lb.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); } });
+  document.body.appendChild(lb); lb.focus({ preventScroll: true }); return lb;
+}
+```
+Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
+
+```

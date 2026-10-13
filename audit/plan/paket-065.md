@@ -1,77 +1,135 @@
-# Paket 065 · dashboard, barrierefreiheit, shell
+# Paket 065 · einstellungen
 
-Schritte: 4 · Dateien: web/js/app.js, web/js/widgets.js
-Betroffene Tests laut Spezifikation: —
-Baut auf Paketen auf: 60, 62
+Schritte: 6 · Dateien: web/README.md, web/e2e/settest.js, web/js/screens/misc.js
+Betroffene Tests laut Spezifikation: e2e/settest.js:22; e2e/settest.js:22 (siehe E1a); e2e/settest.js:31; e2e/settest.js:31 (siehe E1a); web/e2e/settest.js:26 bleibt (be-reset setzt C.setBreakEven), nur prüfen
+Baut auf Paketen auf: 5, 6, 34, 63
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-P3 · Globaler Tastatur-Handler: Escape (requestClose, Menü-Rücksprung, closeSidebar), Enter/Leertaste auf role=button/checkbox, Pfeiltasten in Radiogruppen
+## barrierefreiheit-C-misc-15 · Einstellungen switchRow: stabile id je Aufbau, Name aus Label, Beschreibung per aria-describedby
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand M · Befunde: barrierefreiheit-3, barrierefreiheit-16, barrierefreiheit-12, barrierefreiheit-13, barrierefreiheit-26, barrierefreiheit-11, bereich_shell-12, barrierefreiheit-27, bereich_shell-15
-Quelle: audit/spec/barrierefreiheit.md Z. 573–590 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-U3a, barrierefreiheit-U7, barrierefreiheit-P6
+Gruppe barrierefreiheit · Cluster einstellungen · Aufwand S · Befunde: barrierefreiheit-29
+Quelle: audit/spec/barrierefreiheit.md Z. 834–842 · Dateien: web/js/screens/misc.js
+Abhängig von: barrierefreiheit-B4, barrierefreiheit-P1
 
 ```text
-**P3 Tastatur global** (Z. 285, ersetzt den Escape-Handler)
+#### `web/js/screens/misc.js`
+
+- **Z. 15 `switchRow`** (barrierefreiheit-29):
+  - oben im Modul: `let swN = 0;`, und als erste Zeile in `App.screens.settings.render` (Z. 19) `swN = 0;` (stabile ids je Aufbau, sonst findet P1 den Schalter nicht wieder)
+  - nachher:
+    ```js
+    const switchRow = (title, text, action, on, extra = '') => { const id = 'sw' + (++swN); return `<div class="set-row"><button type="button" class="switch" role="switch" id="${id}" aria-checked="${!!on}" data-action="${action}" ${extra} aria-describedby="${id}-d"></button><div><label for="${id}" class="set-row-l"><b>${esc(title)}</b></label><div class="small muted" id="${id}-d">${text}</div></div></div>`; };
+    ```
+    Das bisherige `aria-label` entfällt, der Name kommt aus dem Label. Eindeutig auch bei mehrfach genutzten Aktionen (`notif-toggle`, `navdot-toggle`).
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: aria-describedby] U.fieldErrors darf vorhandene Beschreibungen nicht überschreiben und U.clearFieldError sie nicht löschen. Betroffen sind z. B. die Währungsauswahl im Prop-Konto-Dialog mit aria-describedby="pa-cur-hint" (abstaende-M2), deren required-Prüfung über den globalen invalid-Listener läuft. Die Fehler-ID wird angehängt, beim Aufräumen wird nur der Teil mit „-err“ entfernt. switchRow (C-misc-15, Suffix „-d“) und M2 bleiben unverändert. Den Wortlaut des Hinweises legt M2 nicht fest.
+- [konflikt: switchRow] switchRow bekommt die Fassung aus barrierefreiheit-C-misc-15: id je Aufbau über swN, <label for> mit .set-row-l, aria-describedby, kein aria-label. Die Signatur (title, text, action, on, extra) bleibt, deshalb laufen alle Aufrufer unverändert weiter, und C-misc-15 kommt zuerst. GELD-BLIND: Der Schalter heißt „Beträge als R zeigen“, Text aus wording-S17.19. Blocktitel „Geld-blind-Modus“ und Toast bleiben. Grund: Wording hat die Texthoheit (K13). Der Name sagt, was passiert (R statt Geld, Kontostand weg). Außerdem heißt im Zertifikat schon ein anderer Schalter „Beträge ausblenden (nur % bzw. R)“ (certificate.js:74), und ein Name für zwei Funktionen verletzt W2. TRADING: Markup aus komponenten-S-misc-e (Einheit im Feld, Tilt-Schalter, kein Speichern-Knopf). Labels: „Tagesverlustlimit“ und „Ruin-Schwelle für Monte Carlo (Drawdown)“, bei beiden steht „%“ im Feld. „für Monte Carlo“ kommt aus wording-29, die Einheit wandert laut komponenten ins Feld. Tilt-Schaltertext: „Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tagesverlustlimit.“ Wrapper class="mt-3" statt style="margin-top:14px". Durchläufe-Optionen mit value und fmt.int (wording 17.20). Der Hinweis aus aufbau-C8b steht als letztes Kind des .field hinter dem .inp-cur-Wrapper: „Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.“ Er trägt die Bezugsgröße, die mit „(% vom Konto)“ aus dem Label fällt. BENACHRICHTIGUNGEN, Endmarkup aus abstaende-L4, wording-S17.13-17.15 und aufbau-C8d: <div class="set-block"><h3>Recaps</h3><div class="set-desc">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div><div class="stack s-4">${switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.weekly === true, 'data-key="weekly"')}${switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.monthly === true, 'data-key="monthly"')}</div></div><div class="set-block"><h3>Hinweis-Punkte in der Seitenleiste</h3><div class="set-desc">(Satz unverändert)</div><div class="stack s-4">${switchRow('Hinweis-Punkte anzeigen', 'Alle Punkte auf einmal ein- oder ausschalten.', 'navdot-toggle', nd.on, 'data-key="on"')}<div class="set-sub"${nd.on ? '' : ' aria-disabled="true"'}>${App.NAV_DOT_AREAS.map(([k, label, desc]) => switchRow(label, desc, 'navdot-toggle', nd[k] !== false, `data-key="${k}"${nd.on ? '' : ' disabled'}`)).join('')}</div></div></div>. PROFIL: Block „Bedienung“ mit Schalter „Tastenkürzel“ (kilook-C24) direkt vor „Daten und Sicherung“. WCAG 2.1.4 verlangt abschaltbare Ein-Zeichen-Kürzel. Die Fußzeile wird einzeilig mit dem Text aus wording-17.7 und der Klasse aus farbe-C22. Die zweite Kürzel-Zeile aus wording-17.7 entfällt, weil der Schalter sie trägt; Esc wirkt immer. Neue Schalter-Aktionen setzen nur aria-checked, ohne Neuaufbau (zustaende Z9). Der Notebook-Schalter aus komponenten-S-misc-g bleibt wie spezifiziert, weil Notebook-To-dos laut zustaende das Durchstreichen behalten.
+
+## komponenten-S-misc-e · Einstellungen → Trading: sofort speichern, Einheiten im Feld (App.unitField), Tilt-Schalter, neue Labels
+
+Gruppe komponenten · Cluster einstellungen · Aufwand L · Befunde: bereich_einstellungen-2, bereich_einstellungen-11, komponenten-17, bereich_einstellungen-35, komponenten-36
+Quelle: audit/spec/komponenten.md Z. 675–675 · Dateien: web/js/screens/misc.js
+Abhängig von: komponenten-S-misc-a, komponenten-A7, komponenten-A5a, komponenten-C13, komponenten-C16
+
+```text
+- Trading, Z. 192: `<form data-action="save-trading" …>` → zusätzlich `data-change="save-trading"`. Z. 193 `class="chip sel big"` → `class="chip sel"`. Z. 195: Segment „Einheit“ `['abs', cur]` → `['abs', fmt.curSym(cur)]`; Von/Bis: `<div class="input-unit"><span>${unit}</span><input class="input" … id="be-from" …></div>` → ``${App.unitField(`<input class="input" type="number" step="0.01" max="0" id="be-from" name="from" value="${be.from}" inputmode="decimal">`, unit, 'w160')}`` (inneres Markup als Template-String mit Backticks, damit `${be.from}` eingesetzt wird), „Bis“ entsprechend mit `min="0" id="be-to" name="to" value="${be.to}"`. Z. 198 („1 R entspricht“): das bisherige `<input …id="se-runit"…>` unverändert in ``App.unitField(`…`, cur, 'w160')`` setzen. Z. 199: Labels „Tagesverlustlimit (% vom Konto)“ → „Tagesverlustlimit“, „Ruin-Schwelle Monte Carlo (% Drawdown)“ → „Ruin-Schwelle (Drawdown)“; beide bisherigen `<input …>` (Namen `dailyLossLimitPct`, `ruinDrawdownPct` bleiben) in ``App.unitField(`…`, '%')`` (Rasterbreite, kein `w160`). Z. 200 (Tilt-Checkbox) → `<div style="margin-top:14px">${switchRow('Tilt-Warnungen', 'Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tageslimit.', 'tilt-toggle', st.tiltWarnings)}</div>`. Z. 201 (`Speichern`) entfernen. Neue Aktion: `'tilt-toggle'(el) { const on = !S.settings.tiltWarnings; S.setSetting('tiltWarnings', on); el.setAttribute('aria-checked', String(on)); App.savedHint(); }`. Handler `save-trading` (Z. 335): `st.tiltWarnings = fd.get('tiltWarnings') === 'on';` streichen, `U.toast` und `rerender()` → `App.savedHint()` (`C.setBreakEven` bleibt).
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .set-head] Jeder Einstellungs-Kopf hat genau einen „Gespeichert“-Hinweis. head() rendert immer `<span class="save-state" aria-live="polite"></span>` vor trailing (komponenten-S-misc-a). Gefüllt wird er nur über App.savedHint() (komponenten-A7) und steht 2000 ms. Die 2 s kommen aus zustaende Z9: Der Hinweis steht oben rechts, weit vom geänderten Feld, und 1,5 s reichen dort nicht zum Lesen. Trading speichert bei change über die eine Aktion save-trading: Das Formular trägt data-action und data-change="save-trading", Enter läuft in denselben Handler. Der Handler beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (aus zustaende-S-M2), damit Werte außerhalb von min/max nicht gespeichert werden; die Meldung kommt über den globalen invalid-Listener. Danach speichern, C.setBreakEven, App.savedHint(), ohne Toast und ohne rerender. Es gibt keinen zweiten Span, keine id set-save, keine Aktion save-trading-auto und kein readTrading. Ob Profil und Notebook auch sofort speichern, entscheidet nicht dieser Anker. Wo sofort gespeichert wird, gilt derselbe Hinweis.
+- ÜBERNIMMT zustaende-S-M2: komponenten-S-misc-e übernimmt das Speichern bei change (Formular-data-change, Knopf in Z. 201 entfernen, Handler mit App.savedHint). Aus S-M2 bleibt nur die Gültigkeitsprüfung; sie wandert in S-misc-e. head('Trading', …) bekommt kein trailing. zustaende-S-TE6 (Felder füllen und mit Tab verlassen) bleibt gültig und prüft `.set-head .save-state`.
+- [konflikt: switchRow] switchRow bekommt die Fassung aus barrierefreiheit-C-misc-15: id je Aufbau über swN, <label for> mit .set-row-l, aria-describedby, kein aria-label. Die Signatur (title, text, action, on, extra) bleibt, deshalb laufen alle Aufrufer unverändert weiter, und C-misc-15 kommt zuerst. GELD-BLIND: Der Schalter heißt „Beträge als R zeigen“, Text aus wording-S17.19. Blocktitel „Geld-blind-Modus“ und Toast bleiben. Grund: Wording hat die Texthoheit (K13). Der Name sagt, was passiert (R statt Geld, Kontostand weg). Außerdem heißt im Zertifikat schon ein anderer Schalter „Beträge ausblenden (nur % bzw. R)“ (certificate.js:74), und ein Name für zwei Funktionen verletzt W2. TRADING: Markup aus komponenten-S-misc-e (Einheit im Feld, Tilt-Schalter, kein Speichern-Knopf). Labels: „Tagesverlustlimit“ und „Ruin-Schwelle für Monte Carlo (Drawdown)“, bei beiden steht „%“ im Feld. „für Monte Carlo“ kommt aus wording-29, die Einheit wandert laut komponenten ins Feld. Tilt-Schaltertext: „Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tagesverlustlimit.“ Wrapper class="mt-3" statt style="margin-top:14px". Durchläufe-Optionen mit value und fmt.int (wording 17.20). Der Hinweis aus aufbau-C8b steht als letztes Kind des .field hinter dem .inp-cur-Wrapper: „Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.“ Er trägt die Bezugsgröße, die mit „(% vom Konto)“ aus dem Label fällt. BENACHRICHTIGUNGEN, Endmarkup aus abstaende-L4, wording-S17.13-17.15 und aufbau-C8d: <div class="set-block"><h3>Recaps</h3><div class="set-desc">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div><div class="stack s-4">${switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.weekly === true, 'data-key="weekly"')}${switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.monthly === true, 'data-key="monthly"')}</div></div><div class="set-block"><h3>Hinweis-Punkte in der Seitenleiste</h3><div class="set-desc">(Satz unverändert)</div><div class="stack s-4">${switchRow('Hinweis-Punkte anzeigen', 'Alle Punkte auf einmal ein- oder ausschalten.', 'navdot-toggle', nd.on, 'data-key="on"')}<div class="set-sub"${nd.on ? '' : ' aria-disabled="true"'}>${App.NAV_DOT_AREAS.map(([k, label, desc]) => switchRow(label, desc, 'navdot-toggle', nd[k] !== false, `data-key="${k}"${nd.on ? '' : ' disabled'}`)).join('')}</div></div></div>. PROFIL: Block „Bedienung“ mit Schalter „Tastenkürzel“ (kilook-C24) direkt vor „Daten und Sicherung“. WCAG 2.1.4 verlangt abschaltbare Ein-Zeichen-Kürzel. Die Fußzeile wird einzeilig mit dem Text aus wording-17.7 und der Klasse aus farbe-C22. Die zweite Kürzel-Zeile aus wording-17.7 entfällt, weil der Schalter sie trägt; Esc wirkt immer. Neue Schalter-Aktionen setzen nur aria-checked, ohne Neuaufbau (zustaende Z9). Der Notebook-Schalter aus komponenten-S-misc-g bleibt wie spezifiziert, weil Notebook-To-dos laut zustaende das Durchstreichen behalten.
+- [konflikt: #be-from] Das Feld-Markup kommt aus komponenten-S-misc-e: App.unitField(…, unit, 'w160'). Es passt zu .be-grid „auto 160px 160px“ aus abstaende-L6. Die Sofort-Handler aus zustaende-S-M1b bleiben (be-mode und be-reset speichern sofort, rufen C.setBreakEven, kein Neuaufbau). Sie dürfen aber nicht mehr .input-unit span ansprechen: Das gibt es nach komponenten-C13 nicht mehr, und bei Währung ändert sich mit dem Zeichen auch die Seite (€ dahinter, $ davor) und die Einrückung --sl. Neuer Helfer in misc.js neben switchRow: const beUnit = (blk, unit) => { const t = document.createElement('div'); t.innerHTML = App.unitField('', unit, 'w160'); const n = t.firstElementChild; blk.querySelectorAll('#be-from, #be-to').forEach(inp => { const w = inp.closest('.inp-cur'); if (!w) return; w.className = n.className; w.style.setProperty('--sl', n.style.getPropertyValue('--sl')); w.querySelector('.cur-sym').textContent = n.querySelector('.cur-sym').textContent; }); }; In be-mode ersetzt beUnit(el.closest('.set-block'), be.mode === 'pct' ? '%' : S.currency()); die Zeile mit .input-unit span, in be-reset beUnit(b, S.currency());. save-trading (komponenten, bei change) liest den Modus weiter aus dem Store und ruft C.setBreakEven. Den Test regelt die Entscheidung zu #be-to.
+- [doppelt: #be-to] settest.js:22 wird einmal geändert, durch komponenten-E1a: await p.fill('#be-from', '-150'); await p.fill('#be-to', '150'); await p.press('#be-to', 'Tab'); await p.waitForTimeout(300); Die Prüfung über den Store bleibt (instruments, beOffset.from/to). Z. 25/26 (be-mode, be-reset) bleiben und prüfen weiter den Store, weil zustaende-S-M1b sofort schreibt. zustaende-S-TE6 geht darin auf. Der Test läuft erst, wenn Markup (komponenten-S-misc-e) und Handler (zustaende-S-M1b) da sind.
+- [konflikt: .chip.sel.big] Die Regel .chip.sel.big wird gelöscht (komponenten-C16), und das Markup misc.js:193 wird „chip sel“ (komponenten-S-misc-e). Damit sind alle wählbaren Chips einheitlich 28 px hoch, 12px/500. Beides gehört in einen Schritt. typografie-3.2.3p setzt in Z. 1879 kein Token. Ob der Block „Was handelst du?“ bzw. „Märkte“ bleibt, entscheidet die offene Frage bereich_einstellungen-6. Die Löschung gilt in beiden Fällen.
+- VERBINDLICH (Kreuzprüfung): web/js/screens/misc.js, Einstellungen → Trading. Reihenfolge: nach barrierefreiheit-C-misc-15 (switchRow), komponenten-S-misc-a, -A7, -A5a, -C13, -C16 und zustaende-S-A1 (globaler invalid-Listener); danach zustaende-S-M1b (Helfer beUnit) und aufbau-C8b (Hinweis hinter dem se-loss-Feld).
+1) Z. 192: `head('Trading', 'Passe dein Trading-Erlebnis an.')` ohne trailing (den Span .save-state setzt head() selbst). Formular: `<form data-action="save-trading" data-change="save-trading" class="stack" …>` – eine Aktion für Enter und change; keine Aktion save-trading-auto, kein readTrading, kein #set-save.
+2) Z. 193: `class="chip sel big"` → `class="chip sel"`.
+3) Z. 195: Segment „Einheit“ `['abs', cur]` → `['abs', fmt.curSym(cur)]`; Von/Bis: `<div class="input-unit"><span>${unit}</span><input … id="be-from" …></div>` → ``${App.unitField(`<input class="input" type="number" step="0.01" max="0" id="be-from" name="from" value="${be.from}" inputmode="decimal">`, unit, 'w160')}``, „Bis“ ebenso mit `min="0" id="be-to" name="to" value="${be.to}"`.
+4) Z. 198 („1 R entspricht“): das bisherige `<input … id="se-runit" …>` unverändert in ``App.unitField(`…`, cur, 'w160')``.
+5) Z. 199: Labels „Tagesverlustlimit (% vom Konto)“ → „Tagesverlustlimit“ und „Ruin-Schwelle Monte Carlo (% Drawdown)“ → „Ruin-Schwelle für Monte Carlo (Drawdown)“; beide `<input …>` (Namen dailyLossLimitPct und ruinDrawdownPct, min/max bleiben) in ``App.unitField(`…`, '%')`` (Rasterbreite, kein w160). Monte-Carlo-Durchläufe: `<option value="${n}" ${st.mcRuns === n ? 'selected' : ''}>${fmt.int(n)}</option>`.
+6) Z. 200 (Tilt-Checkbox) → `<div class="mt-3">${switchRow('Tilt-Warnungen', 'Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tagesverlustlimit.', 'tilt-toggle', st.tiltWarnings)}</div>` (kein Inline-Stil, keine Klasse „top“).
+7) Z. 201 (Knopf „Speichern“) entfernen.
+8) Neue Aktion: `'tilt-toggle'(el) { const on = !S.settings.tiltWarnings; S.setSetting('tiltWarnings', on); el.setAttribute('aria-checked', String(on)); App.savedHint(); }` (ohne Neuaufbau).
+9) Handler `save-trading` (Z. 335): beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (Werte außerhalb von min/max werden nicht gespeichert, die Feldmeldung kommt über den globalen invalid-Listener); `st.tiltWarnings = fd.get('tiltWarnings') === 'on';` streichen; den Break-even-Modus weiter aus dem Store lesen; nach `S.save(); C.setBreakEven(st.beOffset);` nur `App.savedHint();` – kein U.toast, kein rerender().
+Sprachschlüssel in en, es, hi, pt, zh: „Tagesverlustlimit“ (en „Daily loss limit“), „Ruin-Schwelle für Monte Carlo (Drawdown)“ (en „Monte Carlo ruin threshold (drawdown)“; Übersetzungsliste komponenten.md Z. 735 entsprechend ändern), der neue Tilt-Satz mit „Tagesverlustlimit“. Tests: zustaende-S-TE6 (Feld ändern, Tab, `.set-head .save-state` zeigt „Gespeichert“) gilt; settest.js:22 ändert einmal komponenten-E1a.
+
+## komponenten-S-misc-g · Einstellungen → Notebook: sofort speichern, „Erledigte Punkte durchstreichen“ als Schalter
+
+Gruppe komponenten · Cluster einstellungen · Aufwand M · Befunde: bereich_einstellungen-2, bereich_einstellungen-11
+Quelle: audit/spec/komponenten.md Z. 677–677 · Dateien: web/js/screens/misc.js
+Abhängig von: komponenten-S-misc-a, komponenten-A7
+
+```text
+- Notebook, Z. 214: `<form data-action="save-notebook" …>` → zusätzlich `data-change="save-notebook"`. Z. 220 (Checkbox „Erledigte Punkte durchstreichen“) → `${switchRow('Erledigte Punkte durchstreichen', 'Abgehakte Einträge in To-do-Listen werden durchgestrichen.', 'nb-strike-toggle', nb.strike)}`. Z. 221: Knopf `Speichern` entfernen, „Auf Standard zurücksetzen“ bleibt. Neue Aktion: `'nb-strike-toggle'(el) { const nb = Object.assign({}, NB_DEFAULT, S.settings.notebook || {}); nb.strike = !nb.strike; S.setSetting('notebook', nb); root.Theme.apply(S.settings); el.setAttribute('aria-checked', String(nb.strike)); const pc = document.querySelector('#nb-preview .pv-check'); if (pc) pc.classList.toggle('strike', nb.strike); App.savedHint(); }`. `nb-preview` (Z. 343): den Teil mit `[name=strike]` löschen und am Ende `App.actions['save-notebook'](form)` aufrufen. `save-notebook` (Z. 344): `strike: fd.get('strike') === 'on'` → `strike: Object.assign({}, NB_DEFAULT, S.settings.notebook || {}).strike`; `U.toast` und `rerender()` → `App.savedHint()`.
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: switchRow] switchRow bekommt die Fassung aus barrierefreiheit-C-misc-15: id je Aufbau über swN, <label for> mit .set-row-l, aria-describedby, kein aria-label. Die Signatur (title, text, action, on, extra) bleibt, deshalb laufen alle Aufrufer unverändert weiter, und C-misc-15 kommt zuerst. GELD-BLIND: Der Schalter heißt „Beträge als R zeigen“, Text aus wording-S17.19. Blocktitel „Geld-blind-Modus“ und Toast bleiben. Grund: Wording hat die Texthoheit (K13). Der Name sagt, was passiert (R statt Geld, Kontostand weg). Außerdem heißt im Zertifikat schon ein anderer Schalter „Beträge ausblenden (nur % bzw. R)“ (certificate.js:74), und ein Name für zwei Funktionen verletzt W2. TRADING: Markup aus komponenten-S-misc-e (Einheit im Feld, Tilt-Schalter, kein Speichern-Knopf). Labels: „Tagesverlustlimit“ und „Ruin-Schwelle für Monte Carlo (Drawdown)“, bei beiden steht „%“ im Feld. „für Monte Carlo“ kommt aus wording-29, die Einheit wandert laut komponenten ins Feld. Tilt-Schaltertext: „Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tagesverlustlimit.“ Wrapper class="mt-3" statt style="margin-top:14px". Durchläufe-Optionen mit value und fmt.int (wording 17.20). Der Hinweis aus aufbau-C8b steht als letztes Kind des .field hinter dem .inp-cur-Wrapper: „Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.“ Er trägt die Bezugsgröße, die mit „(% vom Konto)“ aus dem Label fällt. BENACHRICHTIGUNGEN, Endmarkup aus abstaende-L4, wording-S17.13-17.15 und aufbau-C8d: <div class="set-block"><h3>Recaps</h3><div class="set-desc">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div><div class="stack s-4">${switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.weekly === true, 'data-key="weekly"')}${switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.monthly === true, 'data-key="monthly"')}</div></div><div class="set-block"><h3>Hinweis-Punkte in der Seitenleiste</h3><div class="set-desc">(Satz unverändert)</div><div class="stack s-4">${switchRow('Hinweis-Punkte anzeigen', 'Alle Punkte auf einmal ein- oder ausschalten.', 'navdot-toggle', nd.on, 'data-key="on"')}<div class="set-sub"${nd.on ? '' : ' aria-disabled="true"'}>${App.NAV_DOT_AREAS.map(([k, label, desc]) => switchRow(label, desc, 'navdot-toggle', nd[k] !== false, `data-key="${k}"${nd.on ? '' : ' disabled'}`)).join('')}</div></div></div>. PROFIL: Block „Bedienung“ mit Schalter „Tastenkürzel“ (kilook-C24) direkt vor „Daten und Sicherung“. WCAG 2.1.4 verlangt abschaltbare Ein-Zeichen-Kürzel. Die Fußzeile wird einzeilig mit dem Text aus wording-17.7 und der Klasse aus farbe-C22. Die zweite Kürzel-Zeile aus wording-17.7 entfällt, weil der Schalter sie trägt; Esc wirkt immer. Neue Schalter-Aktionen setzen nur aria-checked, ohne Neuaufbau (zustaende Z9). Der Notebook-Schalter aus komponenten-S-misc-g bleibt wie spezifiziert, weil Notebook-To-dos laut zustaende das Durchstreichen behalten.
+
+## komponenten-R1c · README: Einstellungen speichern sofort, Ja/Nein als Schalter
+
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-2, bereich_einstellungen-11
+Quelle: audit/spec/komponenten.md Z. 748–748 · Dateien: web/README.md
+Abhängig von: komponenten-S-misc-b, komponenten-S-misc-c, komponenten-S-misc-e, komponenten-S-misc-g
+
+```text
+- Z. 171 (Einstellungen): ergänzen „Alle Einstellungen außer Mentor speichern sofort; „Gespeichert“ erscheint kurz neben dem Bereichstitel. Ja/Nein-Optionen sind Schalter.“
+```
+
+## zustaende-S-M1b · Einstellungen: Break-even-Segment und -Zurücksetzen sofort wirksam (C.setBreakEven) ohne Neuaufbau
+
+Gruppe zustaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-1
+Quelle: audit/spec/zustaende.md Z. 748–761 · Dateien: web/js/screens/misc.js
+Abhängig von: —
+
+```text
+- Z. 333 → 
 ```js
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    const op = document.querySelector('.popover.open:not(.closing)'); const trg = op && document.querySelector(`[data-pop="${CSS.escape(op.id.slice(4))}"]`); const back = !!(op && op.contains(document.activeElement));
-    U.requestClose(); this.closePopovers(); if (back && trg) trg.focus({ preventScroll: true });
-    if (this.state.sidebarOpen) this.closeSidebar();
-    return;
-  }
-  /* Enter/Leertaste auf eigenen Knöpfen (div mit role=button/checkbox) wie ein Klick */
-  if ((e.key === 'Enter' || e.key === ' ') && !e.repeat && !e.defaultPrevented) { const t = e.target; if (t && t.matches && t.matches('[role="button"], [role="checkbox"]') && !t.matches('button, a[href], input, select, textarea, summary, [contenteditable="true"]')) { e.preventDefault(); t.click(); return; } }
-  /* Pfeiltasten in Auswahlgruppen: Fokus weiter; gewählt wird mit Enter/Leertaste */
-  const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
-  if (step && e.target.matches && e.target.matches('[role="radio"]')) { const g = e.target.closest('[role="radiogroup"]'); if (!g) return; const all = [...g.querySelectorAll('[role="radio"]:not([disabled])')]; const i = all.indexOf(e.target); if (i < 0) return; e.preventDefault(); all[(i + step + all.length) % all.length].focus(); }
-});
+'be-mode'(el) { const form = el.closest('form'); const be = Object.assign({}, S.settings.beOffset || {}, { mode: el.dataset.value }); if (form) { be.from = Math.min(0, Number(form.querySelector('#be-from').value) || 0); be.to = Math.max(0, Number(form.querySelector('#be-to').value) || 0); }
+  S.setSetting('beOffset', be); C.setBreakEven(be); el.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === el)));
+  el.closest('.set-block').querySelectorAll('.input-unit span').forEach(s => { s.textContent = be.mode === 'pct' ? '%' : S.currency(); }); },
 ```
-Der Handler reagiert nur auf das Element selbst (`e.target`), nicht auf Knöpfe darin, etwa das Ordner-Menü im Notebook. Befunde: barrierefreiheit-3, barrierefreiheit-16, barrierefreiheit-12, barrierefreiheit-13, barrierefreiheit-26, barrierefreiheit-11, bereich_shell-12, barrierefreiheit-27, bereich_shell-15
+- Z. 334 →
+```js
+'be-reset'(el) { const be = { mode: 'abs', from: 0, to: 0 }; S.setSetting('beOffset', be); C.setBreakEven(be); const b = el.closest('.set-block');
+  b.querySelector('#be-from').value = '0'; b.querySelector('#be-to').value = '0'; b.querySelectorAll('[data-action="be-mode"]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.value === 'abs')));
+  b.querySelectorAll('.input-unit span').forEach(s => { s.textContent = S.currency(); }); },
+```
+Kein eigener `App.glideSwitch`-Aufruf (läuft über app.js:282).
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [doppelt: App.bind] Der Toast-Container wird genau einmal am Anfang von bind() angelegt, mit `U.toastWrap(); U.announce('');` (barrierefreiheit-P10; U.toastWrap wird laut barrierefreiheit-U7 exportiert). Die zusätzliche erste Zeile `U.toast.init();` aus zustaende-S-A1 macht dasselbe unter einem zweiten Namen und entfällt. Ob toast.init als Alias bestehen bleibt, entscheidet der Anker U.toast/toastWrap. Der invalid-Listener und clearErr aus zustaende-S-A1 kommen unverändert neben den submit-Listener. Der Tastatur-Handler aus barrierefreiheit-P3 ersetzt den alten Escape-Handler. Beide Teile stören sich nicht: Der eine hört auf keydown, der andere auf invalid, input und change.
+- [konflikt: #be-from] Das Feld-Markup kommt aus komponenten-S-misc-e: App.unitField(…, unit, 'w160'). Es passt zu .be-grid „auto 160px 160px“ aus abstaende-L6. Die Sofort-Handler aus zustaende-S-M1b bleiben (be-mode und be-reset speichern sofort, rufen C.setBreakEven, kein Neuaufbau). Sie dürfen aber nicht mehr .input-unit span ansprechen: Das gibt es nach komponenten-C13 nicht mehr, und bei Währung ändert sich mit dem Zeichen auch die Seite (€ dahinter, $ davor) und die Einrückung --sl. Neuer Helfer in misc.js neben switchRow: const beUnit = (blk, unit) => { const t = document.createElement('div'); t.innerHTML = App.unitField('', unit, 'w160'); const n = t.firstElementChild; blk.querySelectorAll('#be-from, #be-to').forEach(inp => { const w = inp.closest('.inp-cur'); if (!w) return; w.className = n.className; w.style.setProperty('--sl', n.style.getPropertyValue('--sl')); w.querySelector('.cur-sym').textContent = n.querySelector('.cur-sym').textContent; }); }; In be-mode ersetzt beUnit(el.closest('.set-block'), be.mode === 'pct' ? '%' : S.currency()); die Zeile mit .input-unit span, in be-reset beUnit(b, S.currency());. save-trading (komponenten, bei change) liest den Modus weiter aus dem Store und ruft C.setBreakEven. Den Test regelt die Entscheidung zu #be-to.
+- ÄNDERN: In be-mode und be-reset die Zeilen mit querySelectorAll('.input-unit span') durch den Helfer beUnit ersetzen (Code siehe Entscheidung). Alles andere bleibt: Speichern, C.setBreakEven, aria-pressed am Segment, Feldwerte auf 0.
+- [doppelt: #be-to] settest.js:22 wird einmal geändert, durch komponenten-E1a: await p.fill('#be-from', '-150'); await p.fill('#be-to', '150'); await p.press('#be-to', 'Tab'); await p.waitForTimeout(300); Die Prüfung über den Store bleibt (instruments, beOffset.from/to). Z. 25/26 (be-mode, be-reset) bleiben und prüfen weiter den Store, weil zustaende-S-M1b sofort schreibt. zustaende-S-TE6 geht darin auf. Der Test läuft erst, wenn Markup (komponenten-S-misc-e) und Handler (zustaende-S-M1b) da sind.
+- [konflikt: .input-unit span] komponenten-C13 löscht .input-unit, .input-unit span und .input-unit .input (Z. 1880–1882), und zwar im selben Schritt wie komponenten-S-misc-e. Das entfernt die letzten Nutzer (misc.js:195/198). Weil die Regel wegfällt, setzt typografie-3.2.3l in Z. 1881 kein Token. zustaende-S-M1b spricht statt .input-unit span das .inp-cur-Gerüst an (Helfer beUnit, siehe Entscheidung zu #be-from).
+- ÄNDERN: Wie in der Entscheidung zu #be-from: beUnit statt .input-unit span.
 
-## barrierefreiheit-P11 · Zeitraum- und Konto-Menü als Radiogruppen (role=radiogroup/radio)
+## komponenten-E1a · e2e settest.js: Trading per Tab statt Submit, Notebook ohne Speichern-Klick
 
-Gruppe barrierefreiheit · Cluster shell · Aufwand S · Befunde: barrierefreiheit-26
-Quelle: audit/spec/barrierefreiheit.md Z. 640–644 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-P3, barrierefreiheit-B6
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-2, bereich_einstellungen-11
+Quelle: audit/spec/komponenten.md Z. 754–757 · Dateien: web/e2e/settest.js
+Abhängig von: komponenten-S-misc-e, komponenten-S-misc-g
 
 ```text
-**P11 Zeitraum- und Konto-Menü** (Z. 239, 244)
-- Z. 239: `<div class="rr-presets">` → `<div class="rr-presets" role="radiogroup" aria-label="Zeitraum">`. Jeder Eintrag bekommt zusätzlich `role="radio"`.
-- Z. 244: die `.item`-Knöpfe (Alle Konten und die Konten) in `<div role="radiogroup" aria-label="Konto">…</div>` fassen, jeder mit `role="radio"`. `<hr>` und „Konten verwalten“ stehen danach außerhalb.
-- Befunde: barrierefreiheit-26
+### 3.9 web/e2e
 
+**E1 – Tests an geänderte Bedienung anpassen** (bereich_einstellungen-2, bereich_einstellungen-11, bereich_notebook_news-20, responsiv-23, bereich_training-48, bereich_shell-20, hierarchie-47, bereich_statistik-8)
+- settest.js:22: statt Klick auf `form[data-action="save-trading"] button[type=submit]` → `await p.press('#be-to', 'Tab')`; settest.js:31: Klick auf den Notebook-Speichern-Knopf entfernen (`selectOption` löst `change` aus).
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [doppelt: App.accountControl] Die Schritte ergänzen sich. Einzige Doppelung: Der Link „Konten verwalten“ → `#/settings/konten` steht in aufbau-B5 und in zustaende-S-A2, umgesetzt wird er in S-A2. Endzustand app.js:243–244: `const show = o.mobile || accounts.length > 1`; Wrapper `popwrap${show ? '' : ' hide-m'}${o.iconM ? ' acc-iconm' : ''}` (3.3a). Der Auslöser bekommt zusätzlich `aria-label="Konto: ${esc(accName)}"`; der Name endet mit dem sichtbaren Wort, damit ist WCAG 2.5.3 erfüllt. Im Popover umschließt `<div role="radiogroup" aria-label="Konto">` die Einträge „Alle Konten“ (nur bei mehr als einem Konto) und die Konten, jeder davon `role="radio"` (P11). aria-checked: für „Alle Konten“ `!acc || acc === 'all'`, für ein Konto `acc === a.id || ((!acc || acc === 'all') && accounts.length === 1)` (S-A2). So ist in jeder Lage genau ein Radio gewählt, denn „Alle Konten“ wird bei einem einzigen Konto nicht gerendert. Vor dem Namen steht `<span class="chk">${on ? I.check : ''}</span>`, `on` ist derselbe Ausdruck wie aria-checked (A3). Der Betrag bekommt `title="Kontogröße"`. Danach folgen außerhalb der Gruppe `<hr>` und `<a class="item" href="#/settings/konten">${I.settings} Konten verwalten</a>`. Das Dashboard ruft `App.accountControl({ iconM: true })` auf (3.6). Den pageHead-Teil von 3.3a regelt der Anker App.pageHead.
-
-## barrierefreiheit-C-widgets-115 · Kalendertag mit zugänglichem Namen (Datum · Betrag · Trades)
-
-Gruppe barrierefreiheit · Cluster dashboard · Aufwand S · Befunde: barrierefreiheit-3
-Quelle: audit/spec/barrierefreiheit.md Z. 726–726 · Dateien: web/js/widgets.js
-Abhängig von: barrierefreiheit-P3
-
-```text
-| 115 Kalendertag | `role="button" tabindex="0"` ohne Name | zusätzlich `` aria-label="${esc(e ? `${fmt.dateFull(c.date)} · ${fmt.cur(e.pnl, { signed: true })} · ${e.n === 1 ? '1 Trade' : e.n + ' Trades'}` : fmt.dateFull(c.date))}" `` | barrierefreiheit-3 |
-```
-
-## barrierefreiheit-C-widgets-222-234 · Kennzahl-Suche benennen, Uhrzeit-Menü als Radiogruppe
-
-Gruppe barrierefreiheit · Cluster dashboard · Aufwand S · Befunde: barrierefreiheit-37, barrierefreiheit-26
-Quelle: audit/spec/barrierefreiheit.md Z. 729–730 · Dateien: web/js/widgets.js
-Abhängig von: barrierefreiheit-P3
-
-```text
-| 222 Kennzahl-Suche | `<input class="input" id="rep-q" placeholder="Suchen" …>` | zusätzlich `aria-label="Kennzahl suchen"` | barrierefreiheit-37 |
-| 234 Uhrzeit-Menü | `<div class="popover" id="pop-uhrzeit">` mit Einträgen `aria-checked` | `<div class="popover" id="pop-uhrzeit" role="radiogroup" aria-label="Uhrzeit">`, Einträge zusätzlich `role="radio"` | barrierefreiheit-26 |
-```
+- ÄNDERN: Der settest2.js-Teil zur Privatsphäre (Klick auf [data-action="privacy-toggle"]) wartet ebenfalls auf wording-17. Die Teile zu settest.js gelten sofort.
+- ÜBERNIMMT zustaende-S-TE6: settest.js:22 wird nur einmal geändert, durch komponenten-E1a (siehe #be-to).
+- [doppelt: #be-to] settest.js:22 wird einmal geändert, durch komponenten-E1a: await p.fill('#be-from', '-150'); await p.fill('#be-to', '150'); await p.press('#be-to', 'Tab'); await p.waitForTimeout(300); Die Prüfung über den Store bleibt (instruments, beOffset.from/to). Z. 25/26 (be-mode, be-reset) bleiben und prüfen weiter den Store, weil zustaende-S-M1b sofort schreibt. zustaende-S-TE6 geht darin auf. Der Test läuft erst, wenn Markup (komponenten-S-misc-e) und Handler (zustaende-S-M1b) da sind.
+- ÜBERNIMMT zustaende-S-TE6: Gleiche Teständerung, umgesetzt in komponenten-E1a.

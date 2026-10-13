@@ -1,32 +1,10 @@
-# Paket 029 · konto, prop
+# Paket 029 · konto
 
-Schritte: 30 · Dateien: web/README.md, web/css/app.css, web/js/certificate.js, web/js/screens/affiliate.js, web/js/screens/coach.js, web/js/screens/prop-friedhof.js
+Schritte: 28 · Dateien: web/css/app.css, web/js/certificate.js, web/js/screens/affiliate.js, web/js/screens/coach.js
 Betroffene Tests laut Spezifikation: Akzeptanz 4.3 affiliate 390 (Ref-Code vollständig sichtbar); e2e/certtest.js:36 ([data-c=prev], .cert-opts .small.muted); e2e/coachtest.js:111, :154, :178; e2e/coachtest.js:127–131; e2e/coachtest.js:131 (.ct-done summary „1 erledigt“); e2e/coachtest.js:150; e2e/coupontest.js:14; web/e2e/affiliatetest.js; web/e2e/affiliatetest.js:15-16; web/e2e/affiliatetest.js:42; web/e2e/affiliatetest.js:42–55; web/e2e/affiliatetest.js:51 (Texte „Offen“/„Ausgezahlt“ bleiben); web/e2e/calmnavtest.js:44; web/e2e/coachtest.js; web/e2e/coachtest.js (Beitritt, Handy ohne Querscrollen); web/e2e/coachtest.js:81, :110 (Klasse is-new bleibt); web/e2e/coupontest.js
-Baut auf Paketen auf: 1, 2, 5, 6, 11, 28
+Baut auf Paketen auf: 1, 2, 4, 5, 6, 10
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
-
-## bewegung-3.9b · Friedhof: IntersectionObserver setzt .off an .pg-base (mount/unmount)
-
-Gruppe bewegung · Cluster prop · Aufwand M · Befunde: bereich_prop-50, bewegung-6
-Quelle: audit/spec/bewegung.md Z. 338–339 · Dateien: web/js/screens/prop-friedhof.js
-Abhängig von: bewegung-C10b
-
-```text
-- **Z. 175** `PS.register('friedhof', 'Friedhof', tabFriedhof);` → `let io = null; PS.register('friedhof', 'Friedhof', tabFriedhof, { mount(main) { if (io) io.disconnect(); io = null; if (!('IntersectionObserver' in window)) return; io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('off', !e.isIntersecting))); main.querySelectorAll('.pg-base').forEach(b => io.observe(b)); }, unmount() { if (io) { io.disconnect(); io = null; } } });` (`let io` gehört auf Modulebene über die Zeile).
-
-```
-
-## bewegung-3.12d · README Z. 260 (Friedhof): Flammen ruhen, solange der Sockel nicht im Bild ist
-
-Gruppe bewegung · Cluster prop · Aufwand S · Befunde: —
-Quelle: audit/spec/bewegung.md Z. 353–354 · Dateien: web/README.md
-Abhängig von: bewegung-C10b, bewegung-3.9b
-
-```text
-- **Z. 260** (Friedhof) nach „weicher Flamme und Lichthof“ ergänzen: „(Flammen ruhen, solange der Sockel nicht im Bild ist)“.
-
-```
 
 ## farbe-C8b · Affiliate: Namens-Hover neutral mit Unterstrich
 
@@ -80,7 +58,9 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: --text-2] Affiliate-Balken (affiliate.js:47) neutral nach diagramme-K1: `<path class="br" d="${U.vbarPath(x(i) - bw / 2, bw, y(0), m.v > 0 ? Math.min(y(m.v), y(0) - 2) : y(0))}" fill="var(--text-2)" fill-opacity=".45" data-tip="…unverändert…"></path>`, in beiden Ansichten, ohne Hover-Stil. farbe-C16 wollte `fill="var(--profit)"`. Grund: Grün nur für Gewinn/positiv (BRIEF). Die Balken zeigen Beträge ohne Vorzeichen, in der Betreiber-Ansicht sind Provisionen Kosten, Grün wäre dort falsch. Mengenbalken sind app-weit --text-2 .45 (diagramme A-8). Die Zeile „Affiliate-Balken --profit“ in farbe 1.9 gilt damit nicht. Die übrigen --text-2-Stellen dieses Ankers (barrierefreiheit-A2b Fokusrand, diagramme-A1 text.bv, E5 PV.line, E8b Trefferquote-Reihe) nutzen nur das Token und sind verträglich. zustaende-S-C9c ist über die .lang-card-Anker erledigt.
-- ÄNDERN: Nur Z. 67 (Pille „Ausgezahlt“/„Offen“) umsetzen. Z. 47 (fill → --profit) entfällt, die Balken setzt diagramme-K1 neutral um (--text-2, .45, Pfad-Balken).
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.
+- [konflikt: --accent] Affiliate-Balken (affiliate.js Z. 47): neutral nach diagramme-K1, also `<path class="br">` mit fill var(--text-2) und fill-opacity .45. Das gilt auch gegen farbe-C16 (--profit). Gründe: Provisionen sind immer ≥ 0, Grün trüge keine Unterscheidung. Die Farbe-Regel selbst sagt „Spalten mit einheitlichem Vorzeichen neutral“, und diagramme A-8 nennt Provisionen ausdrücklich neutral. Fokusring: barrierefreiheit-A2a (--focus = Textfarbe) gilt. Der README-Satz in farbe-D3e wird unter Anker .btn.primary angepasst. Die übrigen Schritte ändern verschiedene Stellen und sind untereinander verträglich. Ihre Einzelkonflikte stehen unter eigenen Ankern (.popover .item[aria-checked], .activity/.tracker/.heat-legend, .dp-day.today/.rr-day.today, .set-tabs/.prop-sub).
+- VERBINDLICH (Kreuzprüfung): affiliate.js, nur noch Z. 67: `<td>${U.pill(paid ? 'Ausgezahlt' : 'Offen', paid ? 'win' : 'neutral')}</td>` → `<td>${paid ? '<span class="muted">Ausgezahlt</span>' : U.pill('Offen', 'neutral')}</td>`. Z. 47 (`fill="var(--profit)"`) entfällt. Die Balken setzt diagramme-K1 neutral als `<path class="br">` mit `fill="var(--text-2)" fill-opacity=".45"` in beiden Ansichten. Die Zeile „Affiliate-Balken --profit“ in farbe 1.9 gilt damit nicht mehr.
 
 ## farbe-C17a · Coach: Knöpfe ohne primary, Pillen „Neu“/„{n} neu“ neutral, kein .accent, Haken muted, „0“ muted
 
@@ -97,6 +77,12 @@ Abhängig von: —
 - Z. 86 `<span class="accent">${I.check}</span>` → `<span class="muted">${I.check}</span>`
 - Z. 87 `U.pill(`${r.new} neu`, 'win')` → `U.pill(`${r.new} neu`)`; `'<span class="faint">0</span>'` → `'<span class="muted">0</span>'`
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+- ÄNDERN: Die Knopf-Teile an Z. 22 und Z. 53 entfallen (komponenten-S-coach-b). Z. 129/140/148 werden wie in S-coach-b `btn sm`. Pillen „Neu“/„{n} neu“, `.accent` → normal, Haken muted und „0“ muted bleiben.
 
 ## typografie-3.2.5e · Kopier-Link im Ticket: .cpn-code.is-link 13/500 ohne Sperrung
 
@@ -346,6 +332,10 @@ Abhängig von: —
 - Neutral: Z. 22 `<a class="btn primary" href="#/settings/mentor">` → `<a class="btn" …>`; Z. 53 „+ Gruppe“ `btn sm primary` → `btn sm`; Z. 129 „Speichern“ (Notiz bearbeiten) `btn sm primary` → `btn sm`; Z. 140 „Notiz senden“ `btn sm primary` → `btn sm`; Z. 148 „Aufgabe geben“ `btn sm primary` → `btn sm`. Z. 178, 197, 271 bleiben primary.
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+
 ## komponenten-S-coach-d · Coach: „Im Notebook ansehen“ als .tlink
 
 Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-49
@@ -405,3 +395,9 @@ Abhängig von: aufbau-B11
 - `web/css/app.css`: Z. 2663–2664 (`.aff-top`, `.aff-top .grow`) löschen; Z. 2987 `.aff-top .aff-pick { flex: 1; min-width: 0; }` → `.page-head .aff-pick { flex: 1; min-width: 0; }`
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+- [konflikt: ctx.headLeft] Tagesansicht: Die Datumszeile bleibt im Inhalt, ohne ctx.headLeft. aufbau K4 hat genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden, und sie hängt an F1 (komponenten-3/bereich_shell-8). Die Knöpfe „Check-in“ und „Trade für diesen Tag“ entfallen mit aufbau-C7b, „Zertifikat“ bleibt dort mit I.award, die Pille „Heute“ ist neutral (farbe-C20). Von abstaende-E-day2 bleibt nur der Inline-Stil des Datumstitels als Klasse: `<h2 class="day-title">` mit `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }` (h2-Rolle 18/600, einzige Definition; .day-title in komponenten-C36 entfällt). Trade-Ansicht: Links steht der Rückweg per ctx.headLeft (aufbau-C15d). Die Seitenaktionen aus wording 9.11 kommen nicht in die Rückweg-Zeile, sondern als `actions(ctx)` rechts in die Kopfreihe; die Aufbau-Regel lautet „rechts Seitenaktionen → .dh-sep → Trade loggen“. Bei ctx.params[0]: Notiz-Knopf (`btn`, „Notiz öffnen“ bzw. „Notiz im Notebook“), `btn danger` „Löschen“, `btn` „Trade bearbeiten“ (Seitenebene = btn, nicht primary); ohne Trade-Datensatz ''. Ohne Parameter bleibt „CSV importieren“. pageHead (aufbau-B1), News (aufbau-C9a) und Affiliate (aufbau-C3) bleiben unverändert.
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.

@@ -2,7 +2,7 @@
 
 Schritte: 19 · Dateien: web/README.md, web/css/app.css, web/e2e/settest.js, web/js/screens/misc.js
 Betroffene Tests laut Spezifikation: web/e2e/mentortest.js:24; web/e2e/settest.js:36; web/e2e/settest2.js:47
-Baut auf Paketen auf: 27, 28, 29, 30, 34
+Baut auf Paketen auf: 2, 27, 28, 29, 30, 34
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -96,6 +96,9 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+- [doppelt: .tbl-wrap] `.tbl-wrap inset` an prop.js Z. 264/268 setzt abstaende-M5 (Eigentümer der inset-Regel); komponenten-S-prop-e ist identisch. Logs: siehe Anker .empty. „Tags auf Standard zurücksetzen“ steht unter der Tabelle, ohne Inline-Stile: Abstand über die Hilfsklasse `mt-3` (12 px, Abstandsskala; 10 px liegt nicht auf der Skala), Farbe von `.btn.ghost` (siehe Anker --muted).
+- ÄNDERN: Nach der Tags-Tabelle einfügen: `<div class="row mt-3"><button type="button" class="btn ghost sm" data-action="tags-reset">Tags auf Standard zurücksetzen</button></div>`, ohne `style="margin-top:10px"` und ohne `style="color:var(--muted)"`. Entfernen aus der Filterleiste und Rückfrage-Dialog wie spezifiziert.
+- [konflikt: --muted] (1) Der Akzent-Hinweis in Einstellungen → Design (misc.js Z. 145) lautet „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“ (farbe-C22c). Die wording-Fassung „Hauptknöpfe, Schalter, Markierungen und Diagramme.“ wäre nach dem neutralen .btn.primary falsch und widerspräche W1 („Hilfetexte sagen, was der Code tut“). (2) „Auf Standard zurücksetzen“-Knöpfe sind einheitlich `.btn.ghost.sm`, ohne Inline-Farbe und ohne eigene --muted-Variante (Komponenten: „keine weiteren Varianten“, kein Inline-Stil; abstaende-L6/-L8 entfernen die Inline-Farbe bereits). Die Farbe ist die von .btn.ghost (--text-2, Hover --text). Das gilt für color-reset, be-reset, die Notebook-Einstellungen und tags-reset. (3) Die --muted-Werte (farbe-A1/A2) und ihre Nutzung in barrierefreiheit-B13 und diagramme-A1 sind verträglich.
 
 ## zustaende-S-M5 · Design-Einstellungen: Standardfarben gelten ohne eigene Farbe als gewählt (auch im hellen Design)
 
@@ -194,9 +197,12 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: misc.profil] aufbau-C8c und farbe-C22b ändern in profil() verschiedene Teilstrings (Z. 41/54 Zeitzone, Z. 62 2FA-Knopf, Z. 68 Titel, Z. 69 Fußzeile) und vertragen sich. Z. 69 schreiben aber wording-S17.4-17.7 (17.7) und kilook-C24 als ganze Zeile neu, beide noch mit class="small faint". Für die Endfassung jeder Fußzeile in profil() gilt verbindlich: class="small muted", denn Fußnoten sind --muted und --faint ist nie für Wörter. Wo Tasten genannt werden, steht „1–9“. Welcher Wortlaut gilt (wording zweizeilig oder kilook ohne Tastatur-Teil), entscheidet diese Liste nicht.
-- ÄNDERN: 17.7: Beide neuen Fußzeilen-`<div>` bekommen class="small muted" statt "small faint". Der Text bleibt wie spezifiziert.
 - [doppelt: App.on] B7 und S5.9 sind unter „app.html keydown“ entschieden (B7 übernimmt). wording-S17.4-17.7 liest App.on('replay') nur für den Beispieldaten-Text (17.5) und ist damit verträglich. Die Fußzeile (17.7) gegen kilook-C24 wird in der Konfliktliste zu switchRow/.set-block entschieden, nicht hier.
-- ÄNDERN: 17.7: nur die erste Zeile umsetzen, Text wie dort, Klasse small muted statt small faint. Die zweite Zeile „Tastenkürzel: N … · Esc Dialog schließen“ und ihr Schlüssel entfallen, weil kilook-C24 den Schalter „Tastenkürzel“ bringt. 17.4–17.6 unverändert.
+- VERBINDLICH (Kreuzprüfung): web/js/screens/misc.js, Profil → Daten:
+17.4 (Z. 65): `<b>Sicherung einspielen</b>` → `<b>Sicherung importieren</b>`; Hilfe → `JSON-Datei aus einem Export. „Zusammenführen“ behält deine vorhandenen Daten, „Ersetzen“ überschreibt sie.`
+17.5 (Z. 66): Hilfetext Beispieldaten → `` `Rund 170 Trades über vier Monate (vor allem NQ und ES) mit Check-ins, Notizen, Sprachnotizen und Regeln, dazu vier Prop-Konten${App.on('replay') ? ' und Replay-Screenshots' : ''}. Schaltet im Schatten-Ich drei Vorschlagsregeln ein, wenn noch keine aktiv ist. Beim Entfernen bleiben deine eigenen Trades, Check-ins und Regeln erhalten.` `` (beide Fassungen als Schlüssel).
+17.6 (Z. 68): `Entfernt alle Daten aus diesem Browser. Vorher exportieren!` → `Löscht alle Daten in diesem Browser. Exportiere vorher eine Sicherung.`
+17.7 (Z. 69): ganze Zeile → genau eine Fußzeile `<div class="small muted">Deine Daten liegen nur in diesem Browser.${S.storageOK ? '' : ' <span class="neg">Speichern ist gerade nicht möglich (privates Fenster oder blockierte Website-Daten).</span>'}</div>` (muted statt faint). Das ist wortgleich die Fußzeile aus kilook-C24; wer später läuft, findet sie vor. Die zweite Zeile „Tastenkürzel: N … · Esc Dialog schließen“ und ihr Schlüssel entfallen, weil kilook-C24 den Schalter „Tastenkürzel“ im Block „Bedienung“ bringt.
 
 ## wording-S17.8-17.10 · Design-Reiter: „Design speichern“, Texte ohne „Website“/„Buttons“, Reset-Knopf „Auf Standard zurücksetzen“ ohne Symbol
 
@@ -209,6 +215,11 @@ Abhängig von: —
 | 17.9 | misc.js:142 / 144 / 145 Design | `'Erscheinungsbild, Schrift und Farben. Wirkt sofort auf die ganze Website.'` → `'Erscheinungsbild, Schrift und Farben. Gilt sofort überall, auch auf der Startseite.'`; `Gilt für Text und Zahlen auf der ganzen Website.` → `Gilt für Text und Zahlen.`; `Buttons, aktive Einträge und Diagramme.` → `Hauptknöpfe, Schalter, Markierungen und Diagramme.` | wording-23 |
 | 17.10 | misc.js:146 | `<button type="button" class="btn sm ghost" data-action="color-reset" style="margin-left:auto">${I.close} Standardfarben</button>` → `<button type="button" class="btn sm ghost" data-action="color-reset" style="margin-left:auto;color:var(--muted)">Auf Standard zurücksetzen</button>` | wording-24 |
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: --muted] (1) Der Akzent-Hinweis in Einstellungen → Design (misc.js Z. 145) lautet „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“ (farbe-C22c). Die wording-Fassung „Hauptknöpfe, Schalter, Markierungen und Diagramme.“ wäre nach dem neutralen .btn.primary falsch und widerspräche W1 („Hilfetexte sagen, was der Code tut“). (2) „Auf Standard zurücksetzen“-Knöpfe sind einheitlich `.btn.ghost.sm`, ohne Inline-Farbe und ohne eigene --muted-Variante (Komponenten: „keine weiteren Varianten“, kein Inline-Stil; abstaende-L6/-L8 entfernen die Inline-Farbe bereits). Die Farbe ist die von .btn.ghost (--text-2, Hover --text). Das gilt für color-reset, be-reset, die Notebook-Einstellungen und tags-reset. (3) Die --muted-Werte (farbe-A1/A2) und ihre Nutzung in barrierefreiheit-B13 und diagramme-A1 sind verträglich.
+- ÄNDERN: Den Akzent-Hinweis nicht ändern; farbe-C22c setzt „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“. Erwartung im Screenshot-Abgleich (settings_design.png) und Übersetzungen entsprechend. Den Reset-Knopf als `<button type="button" class="btn sm ghost ml-auto" data-action="color-reset">Auf Standard zurücksetzen</button>` setzen, ohne Symbol und ohne `style` (kein margin-left:auto, kein color:var(--muted) inline). „Design speichern“ und die übrigen Texte bleiben.
 
 ## wording-S17.11-17.12 · Server-Reiter: Kopf „Server“ mit neuem Untertitel, Nutzerkennung mit Herkunft, Absatz 4 gekürzt
 

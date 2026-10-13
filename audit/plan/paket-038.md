@@ -2,7 +2,7 @@
 
 Schritte: 11 · Dateien: web/README.md, web/css/app.css, web/js/screens/dashboard.js, web/js/ui.js
 Betroffene Tests laut Spezifikation: web/e2e/leaktest.js (nur Prüfung, Akzeptanz 35)
-Baut auf Paketen auf: 1, 6, 10, 11, 13, 14, 22, 37
+Baut auf Paketen auf: 1, 6, 9, 12, 13, 22, 37
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 

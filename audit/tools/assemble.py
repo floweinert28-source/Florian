@@ -49,8 +49,7 @@ while heap:
     for m in succ[n]:
         indeg[m] -= 1
         if indeg[m] == 0: heapq.heappush(heap, (pri(m), m))
-cyc = [n for n in active if n not in out]
-out += sorted(cyc, key=pri)
+cyc = sorted([n for n in active if n not in out], key=pri)  # gegenseitig abhängige Schritte: am Ende als ein gemeinsames Paket
 W = {'S': 1, 'M': 2.5, 'L': 5}
 pk, cur, cw, ccl = [], [], 0, None
 BUD = 40
@@ -60,6 +59,7 @@ for n in out:
         pk.append(cur); cur, cw = [], 0
     cur.append(n); cw += w; ccl = s['cluster']
 if cur: pk.append(cur)
+if cyc: pk.append(cyc)
 pakete = []
 for i, p in enumerate(pk, 1):
     cl = collections.Counter(steps[n]['cluster'] for n in p).most_common()

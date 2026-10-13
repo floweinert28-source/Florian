@@ -1,100 +1,112 @@
-# Paket 063 · training, komponenten, shell, trades_tag
+# Paket 063 · barrierefreiheit, komponenten, notebook_news
 
-Schritte: 6 · Dateien: web/e2e/notechecktest.js, web/js/app.js, web/js/screens/day.js, web/js/screens/progress.js
-Betroffene Tests laut Spezifikation: web/e2e/notechecktest.js:14
-Baut auf Paketen auf: 7, 62
+Schritte: 4 · Dateien: web/js/app.js, web/js/editor.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: —
+Baut auf Paketen auf: 6, 61
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-P2 · Menüs: aria-expanded beim Öffnen/Schließen, Öffnen per Tastatur fokussiert Eintrag
+## barrierefreiheit-U4 · Live-Regionen: .toast-wrap role=status (toastWrap), #sr-live mit U.announce
 
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: bereich_dashboard-22, barrierefreiheit-26, barrierefreiheit-27, bereich_shell-12
-Quelle: audit/spec/barrierefreiheit.md Z. 565–572 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-P1
-
-```text
-**P2 Menüs** (Klick-Handler Z. 275, `closePopovers` Z. 172)
-- Z. 275, Zweig „öffnen“, nach `target.classList.add('open');`:
-  `pop.setAttribute('aria-expanded', 'true'); this.fitPopover(target); if (e.detail === 0) { const f = target.querySelector('[aria-checked="true"]') || target.querySelector('.item:not([disabled]), a[href], button:not([disabled])'); if (f) f.focus({ preventScroll: true }); }`
-  (das bisherige `this.fitPopover(target)` dorthin verschieben)
-- Z. 172 in der forEach-Schleife vor `M.leave(…)`:
-  `` document.querySelectorAll(`[data-pop="${CSS.escape(p.id.slice(4))}"]`).forEach(b => b.setAttribute('aria-expanded', 'false')); ``
-- Befunde: bereich_dashboard-22, barrierefreiheit-26, barrierefreiheit-27, bereich_shell-12
-
-```
-
-## barrierefreiheit-P7 · Konto-Karte: Disclosure statt role=menu, Label/title nur eingeklappt, Avatar aria-hidden
-
-Gruppe barrierefreiheit · Cluster shell · Aufwand S · Befunde: bereich_shell-12, barrierefreiheit-27
-Quelle: audit/spec/barrierefreiheit.md Z. 616–624 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-P5, barrierefreiheit-P2
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: bewegung-32, barrierefreiheit-38
+Quelle: audit/spec/barrierefreiheit.md Z. 464–473 · Dateien: web/js/ui.js
+Abhängig von: —
 
 ```text
-**P7 Konto-Karte** (`userCard` Z. 218–233)
-- Signatur `userCard(theme, coachWhy, mini)`.
-- Z. 226 `link`: `role="menuitem"` streichen.
-- Z. 227 vorher: `data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen"`
-  nachher: `data-pop="user"${mini ? ' aria-label="Konto und Einstellungen" title="Konto und Einstellungen"' : ''}`
-- Z. 228: `<span class="sb-av">` → `<span class="sb-av" aria-hidden="true">` (der Hinweis-Punkt `sb-av-dot` behält sein Label)
-- Z. 231: `<div class="popover up sb-menu" id="pop-user" role="menu">` → ohne `role`
-- Befunde: bereich_shell-12, barrierefreiheit-27
+**U4 Live-Regionen** (Z. 444)
+- vorher: `toast()` legt `.toast-wrap` beim ersten Toast an.
+- nachher:
+  ```js
+  function toastWrap() { let w = document.querySelector('.toast-wrap'); if (!w) { w = document.createElement('div'); w.className = 'toast-wrap'; w.setAttribute('role', 'status'); w.setAttribute('aria-live', 'polite'); document.body.appendChild(w); } return w; }
+  function toast(msg, kind = '') { const w = toastWrap(); /* … Rest wie bisher … */ }
+  function announce(text) { let r = document.getElementById('sr-live'); if (!r) { r = document.createElement('div'); r.id = 'sr-live'; r.className = 'vh no-i18n'; r.setAttribute('role', 'status'); r.setAttribute('aria-live', 'polite'); document.body.appendChild(r); } r.textContent = ''; if (text) setTimeout(() => { r.textContent = text; }, 50); }
+  ```
+- Befunde: bewegung-32, barrierefreiheit-38
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [doppelt: App.userCard] Drei Schritte legen dieselbe Namenslogik an (aufbau: App.userName(), komponenten: App.userInfo… nein App.displayName(), zustaende: App.userInfo()). Es gibt genau eine Quelle: App.userInfo() aus zustaende-S-A3. Sie gibt { name, initials, sub, avatarId } zurück, also alles, was userCard und topbar brauchen; die beiden anderen Fassungen liefern weniger (A2 kein sub). Sie steht im App-Objekt vor userCard. App.userName() und App.displayName() werden nicht angelegt und auch in README, regeln.md und Kommentaren nicht genannt; dort heißt es App.userInfo(). Den Text „Profil ergänzen“ setzt nur wording-S5.1-5.2 Teil 5.2 um, und zwar einmal: app.js:229, usercardtest.js:11 und die Umbenennung des Sprachschlüssels. Ebenfalls umzusetzen und verträglich: aufbau-B4 (Reihenfolge und Markierung .on im Konto-Menü), barrierefreiheit-P7 (kein role=menu/menuitem, .sb-av mit aria-hidden, Signatur userCard(theme, coachWhy, mini)) und komponenten-A1 (cdot bekommt data-tip statt title, aria-label bleibt). Endform der Hilfsfunktion: const link = (href, icon, label, extra = '', on = false) => `<a class="item${on ? ' on' : ''}" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span>${extra}</a>`; Die Attribute am Knopf .sb-user regelt der Anker .sb-user.
-- [konflikt: .sb-user] An .sb-user steht kein title, auch eingeklappt nicht. Der App-Tooltip (#tip rechts, komponenten-U3) ersetzt ihn, sonst erscheinen zwei Tooltips. Eingeklappt braucht der Knopf aber einen Namen, weil .sb-who dann ausgeblendet ist; das aria-label aus P7 bleibt deshalb. Endform: <button type="button" class="sb-user${cur === 'settings' || cur === 'coach' || cur === 'affiliate' ? ' active' : ''}" data-pop="user"${mini ? ' aria-label="Konto und Einstellungen" data-tip="Konto und Einstellungen" data-tip-side="right"' : ''}>. aria-expanded und aria-controls setzt popInit (P1/P5); kein aria-haspopup. Das ist dasselbe Muster wie bei den eingeklappten Navigationslinks (Anker App.renderSidebar). data-tip-side braucht komponenten-U3 in bindTips.
-- ÄNDERN: Z. 227 nachher: data-pop="user"${mini ? ' aria-label="Konto und Einstellungen" data-tip="Konto und Einstellungen" data-tip-side="right"' : ''}. Kein title und kein aria-haspopup. Die übrigen Punkte bleiben wie spezifiziert: Signatur mit mini, role="menuitem" und role="menu" streichen, .sb-av mit aria-hidden. Regel in barrierefreiheit.md Z. 98 und K12: statt „aria-label/title nur eingeklappt“ gilt „aria-label und App-Tooltip nur eingeklappt, kein title“.
+- [doppelt: U.toast] zustaende-S-U6 übernimmt toastWrap() und toast() ganz. Der Container hat role=status und aria-live=polite. Dauer: min(7000, max(err ? 4500 : 2400, 1200 + Länge·55)) ms. Beim Darüberfahren hält der Toast an, nach dem Verlassen bleibt er noch 1500 ms. Ausgeblendet wird über Motion.leave mit '--dur-2', passend zu .toast.out. barrierefreiheit-U4 legt nur noch announce() mit #sr-live an, denn sein toastWrap ist Wort für Wort derselbe. Es gibt nur einen Namen: U.toastWrap (Export über barrierefreiheit-U7). Die Zeile toast.init = toastWrap entfällt. Beim Start wird genau einmal U.toastWrap() aufgerufen (barrierefreiheit-P10). Wo zustaende-S-A1 U.toast.init() vorsieht, steht U.toastWrap(); die Zusammenführung von P10 und S-A1 in App.bind regelt konflikt-1. Formularfehler laufen nicht über Toasts (P12 und komponenten-S-trades-h, siehe #trade-form und #f-dir). wording-S14.8-14.9 ruft U.toast unverändert auf.
+- ÄNDERN: Nur announce(text) mit #sr-live (class "vh no-i18n", role=status, aria-live=polite) anlegen. toastWrap() und der Umbau von toast() entfallen, beides liefert zustaende-S-U6.
+- [doppelt: toastWrap] Zwei identische Fassungen von toastWrap(). zustaende-S-U6 übernimmt, U4 legt nur announce() an. Einziger öffentlicher Name ist U.toastWrap, kein toast.init (Einzelheiten unter U.toast).
+- [doppelt: .toast-wrap] Den Container legt zustaende-S-U6 an (siehe U.toast). zustaende-S-C6 setzt nur .toast { pointer-events: auto }, .toast-wrap behält pointer-events: none. Damit ist S-C6 verträglich und die Voraussetzung dafür, dass das Anhalten beim Darüberfahren in S-U6 funktioniert.
 
-## barrierefreiheit-C-day-18 · Tages-Regelliste als <button role="checkbox" aria-checked>
+## barrierefreiheit-U7 · root.UI um toastWrap, announce, lightbox, requestClose ergänzen
 
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-15, bereich_trades_tag-41, bereich_training-20
-Quelle: audit/spec/barrierefreiheit.md Z. 762–767 · Dateien: web/js/screens/day.js
-Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: —
+Quelle: audit/spec/barrierefreiheit.md Z. 516–518 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-U3a, barrierefreiheit-U4, barrierefreiheit-U5
 
 ```text
-- **Z. 18:**
-  - vorher: `<div class="it toggle ${…}" data-action="day-rule" data-day="${key}" data-rule="${r.id}">…</div>`
-  - nachher: `<button type="button" class="it toggle ${followed.includes(r.id) ? 'done' : ''}" role="checkbox" aria-checked="${followed.includes(r.id)}" data-action="day-rule" data-day="${key}" data-rule="${r.id}">…</button>`
-  - Die Fokus-Rückgabe nach `App.rerender()` übernimmt P1.
-  - Befunde: barrierefreiheit-15, bereich_trades_tag-41, bereich_training-20
+**U7 Export** (Z. 464)
+- `root.UI` um `toastWrap, announce, lightbox, requestClose` ergänzen.
 
 ```
 
-## barrierefreiheit-C-progress-73 · Fortschritt: Tages-Checkliste als <button role="checkbox"> (wie day.js:18)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: barrierefreiheit-15, bereich_training-20
-Quelle: audit/spec/barrierefreiheit.md Z. 768–770 · Dateien: web/js/screens/progress.js
-Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1, barrierefreiheit-C-day-18
+- [reihenfolge: root.UI] Alle Schritte ergänzen verschiedene Namen im selben Export-Objekt, ohne Überschneidung. Endstand ergänzt: toastWrap, announce, lightbox, requestClose, vbarPath, hbarPath, xLabels, fitRadars, scoreText, count, chartEmpty, chartEmptyHTML, fieldErrors, clearFieldError, clearFieldErrors. barrierefreiheit-U7 exportiert toastWrap, darum muss die Funktion vorher aus zustaende-S-U6 da sein (sonst ReferenceError beim Laden von ui.js). Jeder Export kommt erst mit seiner Funktion.
 
-```text
-#### `web/js/screens/progress.js`
+## barrierefreiheit-C-editor-41-42 · Notizbild: Alt-Text aus Bildunterschrift, Doppelklick öffnet U.lightbox
 
-- **Z. 73:** wie day.js:18, mit `rule.id` (Befunde: barrierefreiheit-15, bereich_training-20)
-```
-
-## barrierefreiheit-C-progress-75 · „Dein Tag“: Aktionszeilen als Knopf, Tagesnotiz als role=checkbox; Heatmap bleibt
-
-Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: bereich_training-20, barrierefreiheit-15
-Quelle: audit/spec/barrierefreiheit.md Z. 771–776 · Dateien: web/js/screens/progress.js
-Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-35, barrierefreiheit-17
+Quelle: audit/spec/barrierefreiheit.md Z. 734–737 · Dateien: web/js/editor.js
+Abhängig von: barrierefreiheit-U5, barrierefreiheit-U7
 
 ```text
-- **Z. 75 („Dein Tag“):**
-  - Zeilen mit `it.action` (ohne href) werden `<button type="button" class="it toggle ${it.done ? 'done' : ''}" data-action="${it.action}">`. Für `day-note-check` kommt zusätzlich `role="checkbox" aria-checked="${!!it.done}"` dazu.
-  - Zeilen mit href bleiben `<a>`, Zeilen ohne beides bleiben `<div class="it">` (z. B. „Regeln abgehakt“).
-  - Befunde: bereich_training-20, barrierefreiheit-15
-- **Z. 28 (Heatmap):** bleibt (siehe Zurückgestellt).
+#### `web/js/editor.js`
 
+- Z. 41 nach `cap.value = v.caption || '';`: `const altOf = () => cap.value || (root.I18N ? root.I18N.t('Bild in der Notiz') : 'Bild in der Notiz'); img.alt = altOf();`. Der input-Listener der Bildunterschrift wird zu `cap.addEventListener('input', () => { img.alt = altOf(); dirty(node); });`
+- Z. 42: `img.addEventListener('dblclick', () => { const lb = …; document.body.appendChild(lb); });` → `img.addEventListener('dblclick', () => U.lightbox(img.src, img.alt));`
 ```
 
-## barrierefreiheit-E-notechecktest-14 · notechecktest.js:14: Tagesnotiz-Zeile ist BUTTON mit role=checkbox
+## barrierefreiheit-P1 · Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)
 
-Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: bereich_training-20
-Quelle: audit/spec/barrierefreiheit.md Z. 903–903 · Dateien: web/e2e/notechecktest.js
-Abhängig von: barrierefreiheit-C-progress-75
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand L · Befunde: barrierefreiheit-2, barrierefreiheit-31, bereich_dashboard-22, barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 530–564 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-B2
 
 ```text
-| notechecktest.js:14 | `x.tagName === 'DIV'` | `x.tagName === 'BUTTON'` und `x.getAttribute('role') === 'checkbox'` |
+#### `web/js/app.js`
+
+**P1 Fokus über Neuaufbau und Seitenwechsel** (`render`, Z. 76–110)
+
+Neue Methoden im App-Objekt:
+```js
+focusSnapshot() {
+  const a = document.activeElement; if (!a || a === document.body) return { body: true };
+  const host = a.closest('#main') ? 'main' : a.closest('#sidebar') ? 'sidebar' : null; if (!host) return null;
+  const sel = this.anchorKey(a) || (a.dataset && a.dataset.pop ? `[data-pop="${CSS.escape(a.dataset.pop)}"]` : null) || (a.matches('a[href]') ? `a[href="${CSS.escape(a.getAttribute('href'))}"]` : null) || (a.id && a.id !== 'content' ? '#' + CSS.escape(a.id) : null);
+  let s = null, e = null; try { s = a.selectionStart; e = a.selectionEnd; } catch (_) { /* Feldtyp ohne Auswahl */ }
+  return { host, sel, s, e };
+},
+restoreFocus(fs, routeChanged) {
+  if (!fs || !this._rendered) return; const a = document.activeElement; if (a && a !== document.body) return; /* mount hat Vorrang */
+  const content = document.getElementById('content');
+  if (routeChanged) { if (content) content.focus({ preventScroll: true }); return; }
+  if (fs.body) return;
+  const box = document.getElementById(fs.host); const hits = box && fs.sel ? box.querySelectorAll(fs.sel) : [];
+  const el = hits.length === 1 && hits[0].getClientRects().length && !hits[0].closest('[inert]') ? hits[0] : null;
+  if (el) { el.focus({ preventScroll: true }); if (fs.s != null && el.setSelectionRange) try { el.setSelectionRange(fs.s, fs.e); } catch (_) { /* nicht unterstützt */ } }
+  else if (content && fs.host === 'main') content.focus({ preventScroll: true });
+},
+popInit(scope) { scope.querySelectorAll('[data-pop]').forEach(b => { if (!b.hasAttribute('aria-expanded')) b.setAttribute('aria-expanded', 'false'); if (!b.hasAttribute('aria-controls')) b.setAttribute('aria-controls', 'pop-' + b.dataset.pop); }); },
 ```
+
+In `render`:
+- vor Z. 96: `const fs = this.focusSnapshot();`
+- Z. 96: `id="content"` → `id="content" tabindex="-1"`
+- nach Z. 97 (`translateNow`): `this.popInit(main);`
+- Z. 106: nach `screen.mount(main, ctx)` erneut `this.popInit(main);` (Editor-Werkzeugleiste entsteht erst dort)
+- nach Z. 109: `this.restoreFocus(fs, routeChanged); this._rendered = true;`
+
+Befunde: barrierefreiheit-2, barrierefreiheit-31, bereich_dashboard-22, barrierefreiheit-26
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: #main] main.inert wird nur einmal gesetzt, durch P5 (mob && open). 3.3c hat dafür keine eigene Zeile. Festlegung und Anweisungen stehen im Anker App.renderSidebar. P1 ist verträglich: restoreFocus überspringt Treffer in [inert], und renderSidebar läuft in render() vor restoreFocus. Beim Seitenwechsel aus der Schublade ist #main dadurch schon wieder bedienbar, bevor der Fokus auf #content geht.
+- [reihenfolge: #sidebar] Inhaltlich verträglich. P5 macht die Gruppen zu div role="group", H2 macht das äußere Element zu <nav aria-label="Hauptnavigation">. H2 darf nicht vor P5 landen, sonst gibt es vorübergehend verschachtelte nav-Landmarken (am besten in einem Commit). P5 ruft this.popInit(sb) auf, das P1 anlegt, also kommt P1 zuerst. Für 3.3c gilt die Fassung aus dem Anker App.renderSidebar.
+- [reihenfolge: #content] P1 macht #content mit tabindex="-1" fokussierbar, P10 legt die Aktion skip-content an, H1 setzt den Sprunglink. Ohne P10 würde der Link mit href="#content" die Route wechseln, denn parseRoute fällt auf das Dashboard zurück. Ohne P1 bliebe c.focus() wirkungslos. Reihenfolge P1 → P10 → H1, oder alles in einem Commit. S-TE2 (dashtest) prüft nur Text in #content und hängt nicht davon ab.

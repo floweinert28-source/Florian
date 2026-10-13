@@ -1,10 +1,28 @@
-# Paket 020 · trades_tag
+# Paket 020 · trades_tag, komponenten
 
-Schritte: 8 · Dateien: web/css/app.css, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
-Betroffene Tests laut Spezifikation: web/e2e/tradeformtest.js:24/26/28 (müssen grün bleiben); web/e2e/tradeformtest.js:52; web/e2e/tradeformtest.js:54
-Baut auf Paketen auf: 7, 8
+Schritte: 9 · Dateien: web/css/app.css, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
+Betroffene Tests laut Spezifikation: Akzeptanz 4.1 Nr. 5 („Trade loggen“ fett, „Filter“ mit aktivem Filter nicht fetter); web/e2e/tradeformtest.js:24/26/28 (müssen grün bleiben); web/e2e/tradeformtest.js:52; web/e2e/tradeformtest.js:54
+Baut auf Paketen auf: 1, 7, 13, 19
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
+
+## typografie-3.2.4b · Knöpfe: .btn.primary 700, .btn.accent 500 (aktiver Filter nicht fetter), neu .btn.accent.tl 700 (K8)
+
+Gruppe typografie · Cluster komponenten · Aufwand S · Befunde: typografie-1, typografie-19
+Quelle: audit/spec/typografie.md Z. 331–333 · Dateien: web/css/app.css
+Abhängig von: typografie-3.1
+
+```text
+| `.btn.primary` (274) | 600 → 700 | typografie-1 |
+| `.btn.accent` (3137) | `font-weight: 600` → `font-weight: 500` | typografie-1, typografie-19 (K8) |
+| neu nach Z. 3144 | `.btn.accent.tl { font-weight: 700; }` („Trade loggen“, app.js:253) | typografie-1 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+- [konflikt: .btn.accent] .btn.accent steht nur noch für „Trade loggen“ (App.newTradeButton `.btn.accent.tl` und der runde Handy-Knopf). Aktiver Dashboard-Filter: Klasse `is-on`. So steht es in zustaende-S-D2/-S-C7, kollisionsfrei und im gemeinsamen Ausgewählt-Stil. farbe-C19b/-B25 nennen denselben Zustand `.dh-context .btn.is-set`; das entfällt. Das aria-label „Filter ({0} aktiv)“ aus farbe-C19b bleibt. TradeLog-Leerzustand „Trade loggen“: neutral `btn sm` (komponenten-S-trades-b). Gründe: Die Kopfreihe trägt „Trade loggen“ schon, die Farbe-Spezifikation selbst verlangt „1 je Ansicht“, BRIEF spricht von dem einen Hauptknopf, und Leerzustand-Aktionen sind btn sm. „Trade für diesen Tag“ entfällt (wording-S8.1-8.2). Damit ist jedes .btn.accent ein Hauptknopf: `.btn.accent` font-weight 600 → 700 direkt, ohne eigene Regel `.btn.accent.tl`; die wäre eine wirkungslose Doppelregel. Der aktive Filter (is-on) bleibt 500 wie jeder Knopf, also nicht fetter.
+- ÄNDERN: `.btn.accent` (Z. 3137) font-weight 600 → 700 statt → 500. Die neue Regel `.btn.accent.tl { font-weight: 700; }` entfällt. Unverändert bleiben .btn.primary 700, .rp-btn 500, .rp-btn.rp-primary 700 und die Liste 600 → 500.
 
 ## wording-S8.3-8.5 · Tagesansicht-Karten: „Trefferquote“, „Check-in machen“/„Check-in nachtragen“, „abgehakt“, „Noch keine Regeln angelegt“
 
@@ -17,6 +35,11 @@ Abhängig von: —
 | 8.4 | day.js:16 Check-in-Karte, Leerzustand | Knopftext `Check-in nachtragen` → `${isToday ? 'Check-in machen' : 'Check-in nachtragen'}`. Mit Check-in bleibt der Kartenknopf „Bearbeiten“ | wording-5, bereich_trades_tag-37 |
 | 8.5 | day.js:18 Regeln des Tages | `… von ${rules.length} eingehalten` → `… von ${rules.length} abgehakt`; `U.empty('shield', 'Keine Regeln definiert', …)` → `U.empty('shield', 'Noch keine Regeln angelegt', …)` | wording-44, bereich_trades_tag-37 |
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+- ÄNDERN: 8.4 entfällt, den Knopftext setzt aufbau-C7c mit der Bedingung key < heute. 8.3 und 8.5 bleiben.
 
 ## wording-S9.1-9.2 · TradeLog: Spalten „Einstieg“, „Ausstieg“, „Netto-P&L“, „R“; Netto-P&L-Kachel mit Vorzeichen und U.count
 
@@ -48,6 +71,12 @@ Abhängig von: —
 | 9.15 | Z. 84 Info Sprachjournal | `Auswertung über den Mentor-Server` → `Auswertung über deinen Journalyst-Server` | wording-14 |
 | 9.16 | Z. 85–86 Fuß | `const foot = …` streichen, `${foot}` aus dem Rückgabewert in Z. 86 entfernen | bereich_trades_tag-22 |
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+- [konflikt: ctx.headLeft] Tagesansicht: Die Datumszeile bleibt im Inhalt, ohne ctx.headLeft. aufbau K4 hat genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden, und sie hängt an F1 (komponenten-3/bereich_shell-8). Die Knöpfe „Check-in“ und „Trade für diesen Tag“ entfallen mit aufbau-C7b, „Zertifikat“ bleibt dort mit I.award, die Pille „Heute“ ist neutral (farbe-C20). Von abstaende-E-day2 bleibt nur der Inline-Stil des Datumstitels als Klasse: `<h2 class="day-title">` mit `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }` (h2-Rolle 18/600, einzige Definition; .day-title in komponenten-C36 entfällt). Trade-Ansicht: Links steht der Rückweg per ctx.headLeft (aufbau-C15d). Die Seitenaktionen aus wording 9.11 kommen nicht in die Rückweg-Zeile, sondern als `actions(ctx)` rechts in die Kopfreihe; die Aufbau-Regel lautet „rechts Seitenaktionen → .dh-sep → Trade loggen“. Bei ctx.params[0]: Notiz-Knopf (`btn`, „Notiz öffnen“ bzw. „Notiz im Notebook“), `btn danger` „Löschen“, `btn` „Trade bearbeiten“ (Seitenebene = btn, nicht primary); ohne Trade-Datensatz ''. Ohne Parameter bleibt „CSV importieren“. pageHead (aufbau-B1), News (aufbau-C9a) und Affiliate (aufbau-C3) bleiben unverändert.
+- ÄNDERN: 9.11: Die Knöpfe kommen nicht in die Rückweg-Zeile (die wandert mit aufbau-C15d in ctx.headLeft), sondern in `App.screens.trades.actions(ctx)`. Bei ctx.params[0] über `S.getTrade(id)` und `S.tradeNote(id)`: `<a class="btn" href="#/notebook/${tn.id}">${I.journal} Notiz öffnen</a>` bzw. `<button type="button" class="btn" data-action="nb-trade-note" data-id="${id}">${I.journal} Notiz im Notebook</button>`, dann `<button type="button" class="btn danger" data-action="delete-trade" data-id="${id}">${I.trash} Löschen</button>` und `<button type="button" class="btn" data-action="edit-trade" data-id="${id}">${I.edit} Trade bearbeiten</button>`, ohne `<span class="grow">`. 9.10 und 9.12–9.16 bleiben.
 
 ## bewegung-B4b · Symbol-Liste (CSS): Ursprung top left, .sym-menu.up und .sym-menu.closing
 

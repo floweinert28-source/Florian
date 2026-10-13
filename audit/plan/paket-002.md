@@ -1,73 +1,10 @@
 # Paket 002 · tokens
 
-Schritte: 23 · Dateien: scratchpad/localfonts.js, web/README.md, web/css/app.css, web/css/landing.css, web/e2e/localfonts.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.1 Nr. 2–3; Akzeptanz 4.2 Nr. 2 und Nr. 5; Akzeptanz 4.3 Kopfzeile 1024 (Knöpfe 14 px ohne Umbruch); Akzeptanz 4.3 dashboard/stats_summary/trades (Kachelwerte 24); Akzeptanz 4.3 index.html (sieht aus wie vorher); Akzeptanz 4.3 ruhepunkt („Vor dem Trading“ 15/600); Akzeptanz 4.3 shadow/leer_shadow/leer_progress (Intro und Leer-Titel 15/600); Akzeptanz 4.3 sidebar (Navigation 14/500); web/e2e/coachtest.js; web/e2e/headtest.js (Kopfreihe Handy); web/e2e/headtest.js:60–64 (Navigation weiter 500); web/e2e/langtest.js:33 (Überlauf .btn, .tabs button, .seg button); web/e2e/localfonts.js:5–6; web/e2e/mentortest.js; web/e2e/newstest.js; web/e2e/replaytest.js; web/e2e/rptest.js; web/e2e/rptest.js (.rp-bigtime); web/e2e/settest2.js:22; web/e2e/shadowtest.js; web/e2e/streaktest.js; web/e2e/voicetest.js
+Schritte: 27 · Dateien: scratchpad/localfonts.js, web/README.md, web/app.html, web/css/app.css, web/css/landing.css, web/e2e/localfonts.js, web/e2e/motiontest.js, web/index.html, web/js/sample.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: Akzeptanz 4.1 Nr. 2–3; Akzeptanz 4.3 dashboard/stats_summary/trades (Kachelwerte 24); Akzeptanz 4.3 index.html (sieht aus wie vorher); Akzeptanz 4.3 ruhepunkt („Vor dem Trading“ 15/600); Akzeptanz 4.3 sidebar (Navigation 14/500); anpassen in kilook-C27: e2e/proptest.js:55 (Erwartung baut Balance über UI.fmt.cur); prüfen: e2e/friedhoftest.js:122 (Konto ohne Größe „—“); prüfen: e2e/settest2.js:22–26 („Klassisch“ lädt Inter/Roboto über Theme.loadFont); web/e2e/coachtest.js; web/e2e/headtest.js:60–64 (Navigation weiter 500); web/e2e/localfonts.js:5–6; web/e2e/mentortest.js; web/e2e/motiontest.js:8; web/e2e/motiontest.js:8 (Schritt bewegung-3.11c); web/e2e/newstest.js; web/e2e/replaytest.js; web/e2e/rptest.js; web/e2e/rptest.js (.rp-bigtime); web/e2e/settest2.js:22; web/e2e/shadowtest.js; web/e2e/streaktest.js; web/e2e/voicetest.js
 Baut auf Paketen auf: 1
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
-
-## typografie-3.2.3l · --fs-13: übrige 13-px-Regeln auf das Token
-
-Gruppe typografie · Cluster tokens · Aufwand L · Befunde: typografie-3
-Quelle: audit/spec/typografie.md Z. 258–259 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
-
-```text
-- schon 13 → Token: übrige 13-px-Regeln (z. B. 264, 302, 318, 324, 334, 360, 376, 420, 434, 479, 592, 637, 647, 651, 662, 720, 749, 765, 800, 893, 894, 898, 994, 1023, 1029, 1118, 1268, 1280, 1284, 1355, 1396, 1397, 1415, 1451, 1651, 1659, 1687, 1704, 1710, 1744, 1881, 1897, 1931, 1948, 1951, 2147, 2188, 2244, 2428, 2429, 2459, 2471, 2484, 2509, 2648, 2721, 2728, 2887, 2905, 2923, 3054, 3064, 3084, 3091, 3108)
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .input-unit span] komponenten-C13 löscht .input-unit, .input-unit span und .input-unit .input (Z. 1880–1882), und zwar im selben Schritt wie komponenten-S-misc-e. Das entfernt die letzten Nutzer (misc.js:195/198). Weil die Regel wegfällt, setzt typografie-3.2.3l in Z. 1881 kein Token. zustaende-S-M1b spricht statt .input-unit span das .inp-cur-Gerüst an (Helfer beUnit, siehe Entscheidung zu #be-from).
-- ÄNDERN: Z. 1881 (.input-unit span) auslassen, die Regel wird gelöscht.
-- [konflikt: .more-link] CSS (aufbau-B12 übernimmt): .more-link { color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); text-decoration: none; } .more-link:hover { color: var(--text); }. Ohne Unterstrich beim Hover, wie in der aufbau-Regel („kein Grün, kein Unterstrich“): ruhiger, und gleich wie die übrigen Kopf-Bedienelemente. .more-row wird gelöscht. Touch-Höhe 44 px aus barrierefreiheit-B12e danach, unverändert. Letzte Trades (widgets.js:253/257): Der Link steht im Kartenkopf (aufbau-C2a, U.card trailing), nicht in einer Fußzeile, und heißt „Zum TradeLog“. Das ist laut wording W5 der feste Name für „Navigation aus Widget“ und sagt das Ziel; „Alle Trades“ und „Mehr anzeigen“ fallen weg, denn „Mehr anzeigen“ heißt laut aufbau nur Nachladen. Der Link erscheint nur mit Zeilen (wording W13, zustaende): { info: e.info, cls: 'recent-card', trailing: rows.length ? more('#/trades', 'Zum TradeLog') : '' }. Info-Satz: „Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Zum TradeLog“ öffnet die ganze Liste.“ Regel-Tracker: trailing ersatzlos streichen (aufbau-C2a = wording 6.15, aufbau übernimmt). Der Leertext-Link geht auf #/settings/regeln.
-- ÄNDERN: Z. 1659 (.more-link) auslassen, aufbau-B12 setzt das Token.
-- [konflikt: .pager] Eine Fassung für beide Seitenwähler, komponenten-S-trades-c übernimmt den TradeLog. In renderTable: const active = !!(f.q || f.symbol || f.setup || f.status || f.mistake); Zähler oben nur mit Filter: ${active ? `<span class="muted small tl-count">${rows.length} von ${U.count(list.length, 'Trade', 'Trades')}</span>` : ''}. Seitenwähler: „Trades pro Seite“ steht immer. Bei pages > 1 folgen <span class="pg-sep"></span><span class="pg-info">${from + 1}–${to} von ${U.count(rows.length, 'Trade', 'Trades')}</span><span class="grow"></span>, die Seitenauswahl „von ${pages} Seiten“ und .pg-nav mit zwei .btn.nav. Bei pages <= 1 folgt nur ohne aktiven Filter <span class="pg-sep"></span><span class="pg-info">${U.count(rows.length, 'Trade', 'Trades')}</span>, sonst nichts. Grund: Mit Filter zeigt der Zähler oben schon „x von y“; ein zweites „1–7 von 7 Trades“ unten wäre dieselbe Information zweimal (aufbau, Grundsatz 1). Bereichsstrich ohne Leerzeichen „1–10“ (komponenten WORTWAHL). Zähler über U.count (wording W9). Schatten-Ich gleich: bei einer Seite pg-info ${U.count(list.length, 'Verstoß', 'Verstöße')}, sonst „{0}–{1} von {2} Verstößen“. Teil 3 von zustaende-S-T2 (Box schrumpft) wartet weiter auf zustaende-37. typografie-3.2.3l (Z. 1744 Token) passt dazu.
-- [konflikt: .rating button] komponenten-C15 ersetzt die Grundregel .rating button (app.css:324) durch .scale5 button: 32×32, Radius 8, Rand --border, Fläche --surface, 500, --text-2, font-size: var(--fs-13); line-height: var(--lh-13). Dazu kommt .scale5.rating button { color: var(--muted); }. Damit sind barrierefreiheit-B9a (32 px) und farbe-B3a (Stern --faint → --muted) erfüllt. Der Gewählt-Zustand folgt der Radio-Semantik aus barrierefreiheit: aria-checked nur am gewählten Stern, Klasse .on kumulativ. Die Sternfarbe ist gelbe Schrift, also --warn-text (farbe): .scale5.rating button.on { --lc: var(--warn-text); }. Die Zeile .rating button[aria-pressed="true"] { --lc: var(--warn); } entfällt. In der gemeinsamen Auswahlregel (app.css:3125) stehen dafür .scale5.rating button.on und .scale5 button[aria-checked="true"]. Das muss deckungsgleich bleiben mit dem Anker .rating button[aria-pressed="true"] (Liste 16).
-- ÄNDERN: Z. 324 (.rating button) auslassen, die Regel wird durch .scale5 button mit Token ersetzt.
-- [konflikt: .stat-tile .k] Ergebnis: .stat-tile .k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }. Die 13.5 px aus komponenten-C25a gelten nicht: Der Wert ist in der Skala verboten, und .tile .head wird ebenfalls 13 (typografie-3.2.3i, aufbau-A3b). Das Ziel von C25a, „gleiche Maße wie .tile“, bleibt damit erfüllt. Gewicht 500 setzen drei Schritte; komponenten-C25a übernimmt die ganze Zeile 637.
-- ÄNDERN: Z. 637 auslassen, komponenten-C25a setzt das Token.
-- [doppelt: .stat .k] Ergebnis: .stat .k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }. Das Gewicht 500 setzt typografie-3.2.4l, das Token typografie-3.2.3l. Die gleiche Zeile in aufbau-A3b entfällt.
-- [doppelt: .rp-switch] kilook-C4 und komponenten-C34a löschen genau dasselbe: die fünf .rp-switch-Regeln (Z. 2147–2151) und den Teil „.rp-switch input, .rp-switch input::after, “ in Z. 2333. kilook-C4 übernimmt (toter Code). typografie-3.2.3l setzt in Z. 2147 kein Token.
-- ÄNDERN: Z. 2147 (.rp-switch) auslassen, die Regel wird gelöscht.
-- [konflikt: .legend.rep] diagramme-A4 löscht .legend.top/.legend.rep (Z. 1649–1651) und legt .chart-legend an. diagramme-E8f stellt das Report-Widget im selben Schritt um. typografie-3.2.3l setzt in Z. 1651 kein Token. Die neue Legende steht gleich in der Text-Skala (Legende 12/16): font-size: var(--fs-12); line-height: var(--lh-12).
-- ÄNDERN: Z. 1651 (.legend.rep) auslassen, die Regel wird gelöscht.
-- [konflikt: .fd-pair .input] .fd-pair .input bekommt das Token aus typografie-3.2.3l. Im Filter-Fenster wirkt .fd-pop .fd-pair .input mit var(--fs-12) (typografie-3.2.3f). Das neue Datums-Overlay .dp-display aus wording-S3.1-3.3 nimmt dieselben Stufen wie sein Feld statt 13.5/12.5 px, denn beide Werte sind in der Skala verboten und das Overlay muss deckungsgleich mit dem Feldtext sein: .dp-display { …; font-size: var(--fs-14); line-height: var(--lh-14); } (wie .input nach typografie-3.2.3m) und .fd-pop .fd-pair .dp-display { font-size: var(--fs-12); line-height: var(--lh-12); left: 11px; }. Der leere Zustand („Offen“) steht in Platzhalterfarbe --muted statt --faint, weil --faint laut farbe nie für Wörter gilt und Platzhalter laut farbe-B3a --muted sind: .dp-display.empty { color: var(--muted); } und .input.is-empty::-webkit-datetime-edit { color: var(--muted); }. Die Platzhalter „Von“/„Bis“ und die Filtertexte aus wording-S7.4-7.6 bleiben.
-- [konflikt: .tabs button] Die Reiter-Schiene aus komponenten-C19 gilt, die Einträge aber in der Text-Skala: .tabs > button, .tabs > a, .prop-tabs a { …; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; … } statt 13.5px. 13.5 ist verboten, Reiter haben laut typografie 14 wie .btn. Auf dem Handy (Z. 3054): .tabs > button, .tabs > a { padding: 0 12px; font-size: var(--fs-13); line-height: var(--lh-13); }. Die Fokus-Zeile in C19 setzt nur outline-offset: -2px; Farbe und Stärke kommen aus der globalen :focus-visible-Regel, --accent als Fokusfarbe ist verboten. typografie-3.2.3m (Z. 660) und typografie-3.2.3l (Z. 3054) lassen die von C19 ersetzten Zeilen aus.
-- ÄNDERN: Z. 3054 (.tabs button, Handy) auslassen, C19 ersetzt die Regel mit Token.
-- [konflikt: .nw-loading] Beim Laden zeigt News ein Skelett statt Ring und Text (BRIEF: Skelett, kein Ladesymbol). zustaende-S-C13 ersetzt .nw-loading durch .nw-skel, zustaende-S-NW2 stellt news.js:87 im selben Schritt um. typografie-3.2.3l setzt in Z. 3108 kein Token. Die Abstände des Skeletts folgen der Liste, damit nach dem Laden nichts springt: .nw-skel { display: flex; flex-direction: column; gap: var(--sp-4); } (wie .nw-list, Raster 16 laut abstaende), .coach-skel { …; gap: var(--sp-2); }.
-- ÄNDERN: Z. 3108 (.nw-loading) auslassen, die Regel wird ersetzt.
-- [konflikt: .fd-pop .fd-gh] Die Gruppenköpfe im Filter-Fenster („Trade“, „Zeit“ …) werden Eyebrows, wie `.popover .sec` in allen anderen Menüen (aufbau K11). Einheitlich heißt hier: `.fd-pop .fd-gh` kommt in die Eyebrow-Sammelregel von typografie-3.2.2b (var(--fs-11)/var(--lh-11), 600, Versal, .06em, 'case', --muted). Die Einzelregel Z. 1355 wird `.fd-pop .fd-gh { padding: 10px 2px 6px; font-family: var(--font); }`, Pfeil und Zähler bleiben. Die Sammelregel steht zwar früher in der Datei (Z. 101), gewinnt aber mit der Spezifität (0,2,0) gegen die Grundregel `.fd-gh` (Z. 1374, 15/600 --text). Nicht auf 13 px tokenisieren.
-- ÄNDERN: Z. 1355 (`.fd-pop .fd-gh`) aus der Liste der 13-px-Regeln streichen, sie wird Eyebrow (Sammelregel 11 px).
-- [konflikt: .nw-dh] Das Ergebnis lautet `.nw-dh { …; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 600; … }`. Der Rest der Regel bleibt. Begründung: Der News-Tageskopf ist ein Listen-Titel (14/600). Die Zeilen darunter (.nw-row) gehen laut typografie 3.2.3m auf 14, und eine Überschrift ist nie kleiner als ihr Inhalt (aufbau, Grundsatz 4).
-- ÄNDERN: Z. 3084 (`.nw-dh`) aus der Liste der 13-px-Regeln streichen. aufbau-A4d setzt --fs-14.
-- [konflikt: .cpn-off] Das Ergebnis lautet `.cpn-off { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); }`. Begründung: 13,5 px ist laut typografie verboten, und die Rabattzeile hat die Rolle „Beschreibung“ (13). Die gewünschte Hervorhebung leistet die Farbe --text-2 statt --muted.
-- [doppelt: .seg button] Beide wollen 13 px für die Segmenttasten. komponenten-C14a ersetzt Z. 318 vollständig und schreibt die Größe gleich als Token: `.seg button { height: 34px; padding: 0 14px; border-radius: 9px; border: 1px solid transparent; background: none; color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); white-space: nowrap; cursor: pointer; transition: …wie spezifiziert… }`. Tokenisiert typografie-3.2.3l Z. 318 vorher, ist das Ergebnis dasselbe.
-
-## typografie-3.2.3m · --fs-14: 13.5 px → 14 (Knopf, Eingabe, Reiter, Listen-Titel u. a.; .coach-nrow b entfällt später über 3.2.4 Zeilentitel)
-
-Gruppe typografie · Cluster tokens · Aufwand L · Befunde: typografie-3
-Quelle: audit/spec/typografie.md Z. 260–261 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
-
-```text
-**→ `--fs-14`**
-- 13.5 → 14: Z. 267–270 `.btn`, 289–291 `.input, .select, textarea.input` (Zeilenhöhe von `textarea.input` 1.5 bleibt), 429 `.dp-month`, 450 `.cp-hex`, 660 `.tabs button`, 845 `.inp-cur .cur-sym`, 862 `.dir-opt`, 881 `.sym-opt`, 978 `.nb .folder`, 1001 `.nb .note-item b`, 1478 `.fw-acc-n b`, 1586 `.add-slot`, 1611 `.sp-item b`, 1720 `.rep-it`, 2203 `.rp-guide` (1.7 bleibt), 2214 `.rp-btn`, 2224 `.rp-l`, 2261 `dl.rp-summary dt`, 2294 `.rp-breath .rp-hint`, 2328 `.rp-list .rp-li-main b`, 2359 `.mentor-err`, 2412 `.sr-num .input`, 2590 `.prop-tabs a`, 2595 `.prop-sub a`, 2640 `.pfm-top b`, 2763 `.prop-patterns, .prop-highlights` (1.45 → Token), 2921 `.mr-text` (1.5 bleibt), 2949 `.coach-nrow b`, 2953 `.coach-co-what`, 3088 `.nw-row`
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .tabs button] Die Reiter-Schiene aus komponenten-C19 gilt, die Einträge aber in der Text-Skala: .tabs > button, .tabs > a, .prop-tabs a { …; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; … } statt 13.5px. 13.5 ist verboten, Reiter haben laut typografie 14 wie .btn. Auf dem Handy (Z. 3054): .tabs > button, .tabs > a { padding: 0 12px; font-size: var(--fs-13); line-height: var(--lh-13); }. Die Fokus-Zeile in C19 setzt nur outline-offset: -2px; Farbe und Stärke kommen aus der globalen :focus-visible-Regel, --accent als Fokusfarbe ist verboten. typografie-3.2.3m (Z. 660) und typografie-3.2.3l (Z. 3054) lassen die von C19 ersetzten Zeilen aus.
-- ÄNDERN: Z. 660 (.tabs button) auslassen, C19 ersetzt die Regel mit Token.
-- [konflikt: .prop-tabs a] Die Schiene aus komponenten-C19 ist die einzige Regel für `.tabs > button, .tabs > a, .prop-tabs a`, mit Skalenwerten statt 13.5/12.5 px: `display: inline-flex; align-items: center; height: 34px; padding: 0 12px; border: 1px solid transparent; border-radius: 9px; background: none; color: var(--text-2); font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; …` (Rest wie C19). Fokus: `.tabs > button:focus-visible, .tabs > a:focus-visible, .prop-tabs a:focus-visible { outline-offset: -2px; }`, nur der Versatz. Farbe und Stärke kommen aus der globalen :focus-visible-Regel, nach barrierefreiheit-A1 var(--focus), nie --accent. Handy ≤560: `.prop-tabs a { flex: 1 1 auto; justify-content: center; padding: 0 4px; font-size: var(--fs-13); line-height: var(--lh-13); }`. Handy Z. 3054: `.tabs > button, .tabs > a { padding: 0 12px; font-size: var(--fs-13); line-height: var(--lh-13); }`. Gewählt über die gemeinsame Regel am Dateiende mit `.prop-tabs a[aria-current="page"]` (barrierefreiheit-B9b). Erst danach streichen prop.js 304/305 und affiliate.js 51 das aria-pressed (inkl. der Testanpassungen barrierefreiheit.md Z. 905–907). Grund: Reiter = 14/500 laut Typografie-Rollen, 12.5/13.5 sind verboten, Grün nie für Fokus (BRIEF, barrierefreiheit Z1).
-- ÄNDERN: `.tabs button` (Z. 660) und `.prop-tabs a` (Z. 2590) nicht einzeln anfassen. Die Zeilen ersetzt komponenten-C19, und die Größe var(--fs-14)/var(--lh-14) steht dort in der gemeinsamen Regel.
-- [konflikt: .prop-sub a] komponenten-C20 trägt die Unterstrich-Reiter `.subtabs > button, .set-tabs > button, .prop-sub a` mit `font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; color: var(--muted)`. Hover und gewählt in --text, Linie `::after` mit `background: var(--text)`. Gewählt bei Knöpfen `[aria-pressed="true"]`, bei den Prop-Links `.prop-sub a[aria-current="page"]` (für Farbe und `::after { transform: scaleX(1) }`), weil Links kein aria-pressed tragen (barrierefreiheit Z4). Fokus `outline-offset: -2px`, nur der Versatz. Die Farbe kommt global, nicht --accent. -2px statt 2px, weil die Leiste mit overflow-x: auto den äußeren Ring oben abschneiden würde (barrierefreiheit Z1). .set-tabs bleibt damit 14 px und wird nur 600 → 500. Grund: Typografie-Rolle Reiter 14/500, keine 13.5 px. Unterstrich in --text statt Grün (BRIEF).
-- ÄNDERN: `.prop-sub a` (Z. 2595) nicht einzeln anfassen. Die Größe steht in der gemeinsamen Regel von komponenten-C20.
-- [konflikt: .sym-opt] Die Symbol-Liste ist ein Menü. Menüeintrag = 13 (typografie 1.5 „alle Popover gleich“, komponenten Menüs). Ergebnis `.sym-opt { …; gap: 10px; min-height: 36px; padding: 0 10px; font-size: var(--fs-13); line-height: var(--lh-13); … }`, nicht 14. Die Zuordnung von .sym-opt zu 14 in typografie-3.2.3m widerspricht der eigenen Rollentabelle.
-- ÄNDERN: `.sym-opt` (Z. 881) nicht auf --fs-14 setzen. Die Größe 13 (Token) setzt komponenten-C21c.
-- [konflikt: .inp-cur .cur-sym] Das Währungs- oder Prozentzeichen im Feld wird 13 px/500, nicht 14 px. Das Zeichen ist eine leise Einheit neben dem 14-px-Wert. komponenten hat die Rolle ausdrücklich festgelegt („Zeichen 13px/500 --muted, 12 px vom Rand“) und die Einrückung darauf gerechnet. Bei typografie war 13,5 → 14 nur die pauschale Umstellung. 13 liegt auf der Skala, 500 ist das Gewicht für Steuerelemente. Endstand Z. 845: `.inp-cur .cur-sym { position: absolute; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); pointer-events: none; }`. Die übrigen C13-Werte (left/right 12, Einrückung calc(18px + var(--sl, 1) * 1ch), .w160, `.input-unit` weg) gelten unverändert.
-- ÄNDERN: „845 `.inp-cur .cur-sym`“ aus der Liste 13,5 → 14 streichen; die Zeile bekommt `var(--fs-13)`/`var(--lh-13)` mit komponenten-C13.
 
 ## typografie-3.2.3n · --fs-14: 14.5 px → 14 (Navigation, Ruhepunkt-Texte, Notiz-/Chat-Text)
 
@@ -119,26 +56,6 @@ Abhängig von: typografie-3.2.1
 - 16 → 15/600: Z. 1450 `.fw-empty b`, Z. 2187 `.rp-choice .rp-name` (700 → 600, bereich_training-46)
 - 18 → 15/600: Z. 2253 `.rp-callout h3` (700 → 600, K4), Z. 2477 `.rh-empty .card-title`
 ```
-
-## typografie-3.2.3s · --fs-15: übrige 15-px-Regeln auf das Token (dazu 600 bei .empty b, .rp-sub, .shadow-intro b, .prop-title b, .prop-group-title b)
-
-Gruppe typografie · Cluster tokens · Aufwand M · Befunde: typografie-3
-Quelle: audit/spec/typografie.md Z. 271–272 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
-
-```text
-- schon 15 → Token: 491 `.card-title`, 677 `.empty b` (dazu 600), 890, 907, 1374, 1502, 2209 `.rp-sub` (700 → 600), 2395 `.shadow-intro b` (dazu 600), 2530, 2537, 2576, 2607, 2621, 2647, 2692 (dazu 600), 2715 (dazu 600), 3075
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .replay-decide .btn.big] komponenten-C09 gilt: Der Knopf nutzt die Standardstufe .btn (14px/500, Höhe md), die Regel lautet `.replay-decide .btn.big { min-width: 132px; justify-content: center; }`. Die 15-px-Angabe, die typografie-3.2.3s in ein Token umwandeln würde, entfällt ganz. Grund: eine Bauart je Rolle. Blind-Replay bleibt hinter dem Feature-Flag.
-- ÄNDERN: Z. 2530 (.replay-decide .btn.big) aus der Liste „schon 15 → Token“ streichen.
-- [konflikt: .voice-actions .btn.big] komponenten-C09 gilt: Die Regel `.voice-actions .btn.big` wird gelöscht, „Aufnahme starten“ wird ein normaler .btn.primary der Stufe md. Damit gibt es nichts mehr in ein Token umzuwandeln.
-- ÄNDERN: Z. 2576 (.voice-actions .btn.big) aus der Liste „schon 15 → Token“ streichen.
-- [konflikt: .prop-group-title b] `.prop-group-title b { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 600; color: var(--text-2); }`: aufbau-A4e mit Typografie-Token, `font-family: var(--font-display)` entfällt. Grund: Der Gruppentitel steht unter „Aktive Konten“ (.prop-h 15/600) und über Karten, deren Titel ebenfalls 15/600 sind (.prop-title b). Eine Unterüberschrift darf nicht gleich groß sein wie die übergeordnete (aufbau Grundsatz 4 und K21; die aufbau-Prüfung Z. 751 erwartet 13px/600). 13/600 ist eine Stufe der Text-Skala, das Gewicht 600 deckt auch typografie-3.2.4f ab.
-- ÄNDERN: Z. 2715 (.prop-group-title b) aus „schon 15 → Token (dazu 600)“ streichen.
 
 ## typografie-3.2.3t · --fs-18: h2-Titel von 17/19/20 px auf 18 (Dialog, Seitenpanel, Coach/Mentor-Einrichtung, Handy-h1)
 
@@ -433,4 +350,125 @@ Reihenfolge: erst app.css (Tokens → Komponenten → Einzelstellen), dann `ui.j
 **S-C1 Token Deaktiviert** – zustaende-35
 In `:root` nach Z. 47 (`--ease: …`) neu: `--disabled-o: .4;` (gilt für alle Designs).
 
+```
+
+## barrierefreiheit-A1 · Token --focus in :root anlegen (inkl. Einleitung Abschnitt 3)
+
+Gruppe barrierefreiheit · Cluster tokens · Aufwand S · Befunde: farbe_kontrast-14
+Quelle: audit/spec/barrierefreiheit.md Z. 245–257 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+## 3. Umsetzungsschritte
+
+Reihenfolge: **A Tokens → B Komponenten → C Einzelstellen → D Wörterbücher → E Tests und README.** Innerhalb jeder Phase nach Datei. Zeilen = aktueller Stand.
+
+### Phase A – Tokens
+
+#### `web/css/app.css`
+
+**A1 Token `--focus`** (`:root`, nach Z. 28 `--accent-glow`)
+- vorher: –
+- nachher: `--focus: var(--text); /* Tastatur-Fokus: neutral, in jedem Design ≥ 3:1 (gilt auch hell, weil --text je Design gesetzt ist) */`
+- Befunde: farbe_kontrast-14
+
+```
+
+## kilook-A2 · fmt.balance: Bestände ganzzahlig (compact: true als Standard)
+
+Gruppe kilook · Cluster tokens · Aufwand S · Befunde: diagramme-32
+Quelle: audit/spec/kilook.md Z. 381–393 · Dateien: web/js/ui.js
+Abhängig von: —
+
+```text
+**A2 · web/js/ui.js:117–118 · `fmt.balance` – Bestände ganzzahlig** (diagramme-32)
+- vorher:
+  ```js
+  /* Kontostand: im Geld-blind-Modus komplett ausgeblendet */
+  balance(v, o = {}) { return blind.on ? (…) : fmt.cur(v, o); },
+  ```
+- nachher:
+  ```js
+  /* Kontostand und andere Bestände: ganzzahlig, ohne Vorzeichen; im Geld-blind-Modus komplett ausgeblendet */
+  balance(v, o = {}) { return blind.on ? (…) : fmt.cur(v, Object.assign({ compact: true }, o)); },
+  ```
+- Wirkt auf widgets.js:168 (Kontostand-Kachel), widgets.js:358 (Prop-Widget), prop.js:102, prop.js:283 und prop-friedhof.js:136.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: fmt.balance] Für Bestände und Regelgrößen gibt es keine Ganzzahl-Regel. Geld hat immer 2 Nachkommastellen (zustaende-S-U1); typografie K24 und zustaende K14 haben „Balance und Limits ganzzahlig“ ausdrücklich verworfen, nur kilook will es. fmt.balance bleibt `fmt.cur(v, o)` ohne Vorzeichen und wird im Geld-blind-Modus ausgeblendet. Ohne Cent (compact) stehen Beträge nur im Kalender-Monatsraster (.p Tageszelle, Wochensumme), an Achsen (fmt.axisCur), in Kurzformen (.pm, curShort, curCompact) und bei Monte Carlo. Damit sind Kontostand, Limits, Ziel, Puffer, „… fehlen“, „heute noch … erlaubt“, Vorschlag und die Affiliate-Kacheln so genau wie P&L, und „X von Y“ ist auf beiden Seiten gleich genau. Die Grabstein-Unterzeile zeigt keinen Geldbetrag (wording-S12.28-12.29).
+- ÄNDERN: Nur den Kommentar über fmt.balance präzisieren: `/* Kontostand und andere Bestände: ohne Vorzeichen; im Geld-blind-Modus komplett ausgeblendet */`. Kein `compact: true` als Standard.
+- [doppelt: fmt.cur] zustaende-S-U1 setzt ui.js:122 einmal um: `const d = o.compact ? 0 : 2;`, mit Überlaufprüfung und notfalls @container 164 → 190 px. Kalender-Monatsraster mit compact: true (kilook-C9a). Das ist dieselbe Änderung wie 6.1/6.2 in wording-S6.1-6.4; wer zuerst umsetzt, macht sie, der andere überspringt. Monte Carlo ohne Cent setzt wording-S10.13-10.15 einmal um, ergänzt um das Startkapital aus kilook-C14. Prop und Affiliate bekommen kein compact (siehe fmt.balance und money). chartLabel aus barrierefreiheit-U6a nutzt das Standardformat.
+
+## kilook-A3 · Regel-Kommentar über U.pnl (Ergebnisse immer mit Vorzeichen, kein signed: false)
+
+Gruppe kilook · Cluster tokens · Aufwand S · Befunde: diagramme-35
+Quelle: audit/spec/kilook.md Z. 394–397 · Dateien: web/js/ui.js
+Abhängig von: —
+
+```text
+**A3 · web/js/ui.js:165 · Regel zu `U.pnl`** (diagramme-35)
+- Direkt über `const pnl = …` einfügen:
+  `/* Ergebnisse (P&L, Erwartungswert, Ø Gewinn/Verlust) immer mit Vorzeichen; Bestände laufen über fmt.balance ohne Vorzeichen. signed: false hier nicht übergeben. */`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+
+## kilook-A5 · Google-Fonts-Link nur noch Onest (wght@400..800), Inter raus
+
+Gruppe kilook · Cluster tokens · Aufwand S · Befunde: typografie-33
+Quelle: audit/spec/kilook.md Z. 402–405 · Dateien: web/app.html, web/index.html
+Abhängig von: —
+
+```text
+**A5 · web/app.html:11 und web/index.html:11 · Schriften** (typografie-33)
+- vorher: `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap">`
+- nachher: `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&display=swap">`
+
+```
+
+## kilook-A6 · Canvas-Schrift der Beispielbilder (sample.js) auf Onest
+
+Gruppe kilook · Cluster tokens · Aufwand S · Befunde: typografie-33
+Quelle: audit/spec/kilook.md Z. 406–408 · Dateien: web/js/sample.js
+Abhängig von: —
+
+```text
+**A6 · web/js/sample.js:311, 321, 323, 324, 325 · Canvas-Schrift** (typografie-33)
+- In allen fünf `g.font`-Zeilen `Inter, Roboto, sans-serif` → `Onest, sans-serif`.
+
+```
+
+## bewegung-A1 · Tokens --dur-4, --stagger und --ease-sym in :root ergänzen (--lift-shadow bleibt)
+
+Gruppe bewegung · Cluster tokens · Aufwand S · Befunde: bewegung-1, bewegung-33, bewegung-34
+Quelle: audit/spec/bewegung.md Z. 155–164 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+## 3. Umsetzungsschritte
+
+### 3.1 `web/css/app.css` – Tokens und Skala
+
+**A1 `:root` Z. 46–47** (bewegung-1, bewegung-33, bewegung-34)
+- Vorher Z. 46: `--dur-1: 150ms; --dur-2: 240ms; --dur-3: 380ms;`
+- Nachher: `--dur-1: 150ms; --dur-2: 240ms; --dur-3: 380ms; --dur-4: 640ms; /* nur Einzug von Diagrammen, Score, Ringen */ --stagger: 40ms;`
+- Z. 47 am Ende vor dem Kommentar ergänzen: `--ease-sym: cubic-bezier(.45, 0, .55, 1); /* symmetrisch: Schleifen, Atemtakt */`
+- `--lift-shadow` (Z. 48, 59, 69) **bleibt** (K2).
+
+```
+
+## bewegung-3.11c · motiontest: Prüfung von --dur-4 (640) und --stagger (40)
+
+Gruppe bewegung · Cluster tokens · Aufwand S · Befunde: —
+Quelle: audit/spec/bewegung.md Z. 346–346 · Dateien: web/e2e/motiontest.js
+Abhängig von: bewegung-A1
+
+```text
+- **motiontest.js:8** ergänzen: `&& Motion.ms('--dur-4') === 640 && Motion.ms('--stagger') === 40`.
 ```

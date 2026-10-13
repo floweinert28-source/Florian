@@ -1,8 +1,8 @@
 # Paket 053 · zustaende
 
-Schritte: 7 · Dateien: web/README.md, web/css/app.css, web/js/screens/dash-filter.js, web/js/widgets.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 leer_shadow, leer_progress; e2e/coachtest.js:50, :197 (.coach-wrap .empty b); e2e/dashtest.js:143; e2e/friedhoftest.js:22; e2e/proptest.js:20
-Baut auf Paketen auf: 2, 10
+Schritte: 6 · Dateien: web/README.md, web/css/app.css, web/js/screens/dash-filter.js, web/js/widgets.js
+Betroffene Tests laut Spezifikation: e2e/coachtest.js:50, :197 (.coach-wrap .empty b); e2e/dashtest.js:143; e2e/friedhoftest.js:22; e2e/proptest.js:20
+Baut auf Paketen auf: 2, 9
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -40,16 +40,6 @@ Abhängig von: farbe-B20
 - Z. 340: „über die ein grünes Stück gleitet“ → „über die ein helles Stück gleitet“ — bewegung-44
 
 ---
-```
-
-## typografie-3.2.4h · Leer-Titel .empty b auf 600
-
-Gruppe typografie · Cluster zustaende · Aufwand S · Befunde: bereich_training-33
-Quelle: audit/spec/typografie.md Z. 343–343 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-| `.empty b` (677) | `font-weight: 600;` ergänzen | bereich_training-33 |
 ```
 
 ## abstaende-C13 · Lade-Skelett an Seitenebene und Seitenleiste angleichen: .boot-body, .boot-tiles, .boot-main, .boot-sb
@@ -112,3 +102,4 @@ Abhängig von: —
 - ÜBERNIMMT farbe-B12: Dieselbe Änderung an Z. 676 macht komponenten-C11.
 - [doppelt: .empty svg] Wie beim Anker .empty > svg: komponenten-C11 ersetzt `.empty svg` (Z. 676) durch `.empty > svg` mit unveränderten Werten. farbe-B12 entfällt.
 - ÜBERNIMMT farbe-B12: Dieselbe Änderung an Z. 676 macht komponenten-C11.
+- [doppelt: .empty b] Endzustand: `.empty > b { color: var(--text); font-size: var(--fs-15); line-height: var(--lh-15); font-weight: 600; }`. komponenten-C11 setzt den Kind-Selektor (`.empty > b`, `.empty > svg`). typografie-3.2.3s setzt Token und 600 in einem Zug. typografie-3.2.4h und der Z.-677-Teil von zustaende-S-C4 wären dieselbe 600.

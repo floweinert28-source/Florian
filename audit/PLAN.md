@@ -1,6 +1,6 @@
 # Umsetzungsplan Design-Audit
 
-1125 Schritte aus 12 Zielspezifikationen (audit/spec/*.md) · 314 Entscheidungen zu Überschneidungen (plan/entscheid-*.json) · 1042 aktiv, 70 entfallen (doppelt oder überstimmt), 15 warten auf eine Nutzerfrage · 77 Pakete in 36 Wellen.
+1125 Schritte aus 12 Zielspezifikationen (audit/spec/*.md) · 360 Entscheidungen zu Überschneidungen (plan/entscheid-*.json) · 1004 aktiv, 90 entfallen (doppelt oder überstimmt), 37 warten auf eine Nutzerfrage · 75 Pakete in 32 Wellen.
 
 Ablauf je Paket: Umsetzer in eigener Arbeitskopie (git-Worktree) → strenger Prüfer → Zusammenführen in den Hauptzweig mit vollem Testlauf (alle Suiten) → Push. Pakete einer Welle laufen parallel.
 
@@ -8,122 +8,116 @@ Ablauf je Paket: Umsetzer in eigener Arbeitskopie (git-Worktree) → strenger Pr
 
 | Paket | Cluster | Schritte | Baut auf | Dateien |
 |---|---|---|---|---|
-| 001 | tokens | 21 | — | README.md, app.html, css/app.css, index.html, js/theme.js |
-| 002 | tokens | 23 | 001 | scratchpad/localfonts.js, README.md, css/app.css, css/landing.css, e2e/localfonts.js |
-| 003 | tokens | 9 | — | app.html, css/app.css, e2e/motiontest.js, index.html, js/sample.js, js/ui.js |
-| 004 | komponenten | 29 | 001 | README.md, css/app.css, js/ui.js |
-| 005 | komponenten, tokens | 34 | 001, 002, 004 | README.md, css/app.css, css/landing.css, index.html, js/app.js, js/ui.js |
-| 006 | komponenten | 33 | 001, 002, 004, 005 | README.md, css/app.css, js/app.js, js/datepicker.js, js/screens/dash-filter.js, js/ui.js |
-| 007 | komponenten | 30 | 001, 003, 006 | README.md, css/app.css, css/landing.css, e2e/dashtest.js, js/app.js, js/datepicker.js … |
-| 008 | komponenten | 7 | 006, 007 | css/app.css, e2e/motiontest.js, js/datepicker.js |
-| 009 | shell | 4 | 001, 002, 004 | css/app.css, js/screens/dashboard.js |
-| 010 | shell, tokens | 27 | 001, 002, 006, 009 | README.md, app.html, css/app.css, e2e/coachtest.js, e2e/navdottest.js, e2e/sidebartest.js … |
-| 011 | aufbau, shell | 10 | 002, 009, 010 | css/app.css, css/landing.css, index.html, js/app.js, js/screens/dashboard.js |
-| 012 | dashboard | 21 | 001, 002, 004 | README.md, css/app.css, e2e/dashtest.js, js/screens/dashboard.js, js/widgetpreviews.js, js/widgets.js |
-| 013 | dashboard, komponenten | 29 | 001, 002, 005, 006, 012 | README.md, css/app.css, e2e/headtest.js, js/screens/dashboard.js, js/widgets.js |
-| 014 | dashboard, komponenten | 35 | 001, 003, 006, 007, 008, 013 | css/app.css, e2e/dashtest.js, e2e/leaktest.js, js/screens/dash-filter.js, js/screens/dashboard.js, js/widgetpreviews.js … |
-| 015 | statistik | 37 | 001, 002, 004, 005, 006, 007, 009 | css/app.css, e2e/scorestatetest.js, js/core.js, js/screens/stats.js, tests/core.test.mjs |
-| 016 | statistik | 8 | 003, 007, 015 | css/app.css, js/core.js, js/screens/stats.js |
-| 017 | trades_tag | 26 | 001, 002, 004, 005, 010 | README.md, css/app.css, e2e/mobiletest.js, js/app.js, js/screens/day.js, js/screens/trades.js |
-| 018 | trades_tag | 9 | 006, 017 | css/app.css, js/app.js, js/screens/day.js, js/screens/trades.js |
-| 019 | trades_tag, shell | 34 | 003, 006, 007, 011, 017, 018 | README.md, app.html, css/app.css, e2e/sampletest.js, js/app.js, js/screens/day.js … |
-| 020 | trades_tag | 8 | 007, 008 | css/app.css, js/app.js, js/screens/day.js, js/screens/trades.js |
-| 021 | notebook_news | 28 | 001, 002 | README.md, css/app.css, e2e/newstest.js, js/editor.js, js/screens/news.js, js/screens/notebook.js |
-| 022 | notebook_news | 32 | 001, 006, 021 | README.md, css/app.css, e2e/newstest.js, e2e/sixtest.js, js/editor.js, js/sample.js … |
-| 023 | notebook_news | 7 | 007, 010, 021 | css/app.css, js/editor.js, js/screens/news.js, js/screens/notebook.js |
-| 024 | training | 28 | 001, 002, 005, 007 | css/app.css, e2e/rptest.js, e2e/shadowtest.js, js/screens/mentor.js, js/screens/progress.js, js/screens/ruhepunkt.js … |
-| 025 | training, aufbau, dashboard | 18 | 001, 007, 011, 015, 018, 019, 022, 024 | README.md, css/app.css, js/screens/mentor.js, js/screens/progress.js, js/screens/ruhepunkt.js, js/screens/shadow.js |
-| 026 | training, komponenten | 10 | 003, 007, 014, 016, 019, 025 | css/app.css, js/screens/progress.js, js/screens/replay.js, js/screens/ruhepunkt.js, js/ui.js |
-| 027 | prop | 34 | 001, 002, 004, 005, 006, 007 | css/app.css, e2e/proptest.js, js/screens/prop-friedhof.js, js/screens/prop.js |
-| 028 | prop | 24 | 003, 007 | css/app.css, e2e/friedhoftest.js, e2e/proptest.js, js/screens/prop-friedhof.js, js/screens/prop.js |
-| 029 | konto, prop | 30 | 001, 002, 005, 006, 011, 028 | README.md, css/app.css, js/certificate.js, js/screens/affiliate.js, js/screens/coach.js, js/screens/prop-friedhof.js |
-| 030 | konto, statistik | 10 | 007, 011, 015, 029 | css/app.css, e2e/affiliatetest.js, e2e/calmnavtest.js, e2e/chartanimtest.js, e2e/coachtest.js, js/certificate.js … |
-| 031 | konto, dashboard | 21 | 006, 007, 030 | css/app.css, e2e/affiliatetest.js, e2e/coachtest.js, js/certificate.js, js/coach.js, js/screens/affiliate.js … |
+| 001 | tokens | 20 | — | README.md, app.html, css/app.css, index.html, js/theme.js |
+| 002 | tokens | 27 | 001 | scratchpad/localfonts.js, README.md, app.html, css/app.css, css/landing.css, e2e/localfonts.js … |
+| 003 | komponenten | 22 | 001 | css/app.css, js/ui.js |
+| 004 | komponenten, tokens | 34 | 001, 002, 003 | README.md, css/app.css, css/landing.css, index.html, js/app.js, js/ui.js |
+| 005 | komponenten | 14 | 001 | css/app.css |
+| 006 | komponenten, tokens | 34 | 001, 002, 004, 005 | README.md, css/app.css, e2e/dashtest.js, js/app.js, js/datepicker.js, js/rangepicker.js … |
+| 007 | komponenten | 20 | 001, 002, 005, 006 | css/app.css, css/landing.css, e2e/motiontest.js, js/app.js, js/datepicker.js, js/rangepicker.js … |
+| 008 | shell, tokens | 4 | 001, 002 | css/app.css |
+| 009 | shell | 28 | 001, 002, 005 | README.md, app.html, css/app.css, e2e/coachtest.js, e2e/navdottest.js, e2e/sidebartest.js … |
+| 010 | aufbau, shell | 8 | 002, 008 | css/app.css, css/landing.css, index.html |
+| 011 | dashboard | 17 | 001, 002, 003 | README.md, css/app.css, js/screens/dashboard.js, js/widgetpreviews.js, js/widgets.js |
+| 012 | dashboard, komponenten | 25 | 001, 002, 004, 005, 011 | README.md, css/app.css, e2e/headtest.js, js/screens/dashboard.js, js/widgets.js |
+| 013 | dashboard, komponenten | 7 | 001, 006, 012 | css/app.css, e2e/dashtest.js, e2e/leaktest.js, js/screens/dashboard.js, js/widgets.js |
+| 014 | dashboard, shell | 26 | 006, 007, 012, 013 | css/app.css, js/screens/dash-filter.js, js/screens/dashboard.js, js/widgetpreviews.js, js/widgets.js |
+| 015 | statistik | 35 | 001, 002, 003, 004, 005, 006, 008 | css/app.css, e2e/scorestatetest.js, js/core.js, js/screens/stats.js, tests/core.test.mjs |
+| 016 | statistik | 7 | 007, 015 | css/app.css, js/core.js, js/screens/stats.js |
+| 017 | trades_tag | 26 | 001, 002, 003, 004, 008 | README.md, css/app.css, e2e/mobiletest.js, js/app.js, js/screens/day.js, js/screens/trades.js |
+| 018 | trades_tag | 9 | 004, 006, 007, 017 | css/app.css, js/app.js, js/screens/day.js, js/screens/trades.js |
+| 019 | trades_tag, shell | 29 | 006, 007, 009, 017, 018 | README.md, app.html, css/app.css, e2e/sampletest.js, js/app.js, js/screens/day.js … |
+| 020 | trades_tag, komponenten | 9 | 001, 007, 013, 019 | css/app.css, js/app.js, js/screens/day.js, js/screens/trades.js |
+| 021 | notebook_news | 28 | 001, 002 | README.md, css/app.css, e2e/newstest.js, js/editor.js, js/screens/news.js, js/screens/notebook.js … |
+| 022 | notebook_news | 31 | 001, 006, 021 | README.md, css/app.css, e2e/newstest.js, e2e/sixtest.js, js/editor.js, js/sample.js … |
+| 023 | notebook_news | 6 | 007, 008, 021 | css/app.css, js/editor.js, js/screens/news.js, js/screens/notebook.js |
+| 024 | training | 28 | 001, 002, 004, 007 | css/app.css, e2e/rptest.js, e2e/shadowtest.js, js/screens/mentor.js, js/screens/progress.js, js/screens/ruhepunkt.js … |
+| 025 | training, aufbau, dashboard | 16 | 001, 006, 009, 015, 018, 019, 022, 024 | README.md, css/app.css, js/screens/mentor.js, js/screens/progress.js, js/screens/ruhepunkt.js, js/screens/shadow.js |
+| 026 | training, komponenten | 9 | 002, 007, 014, 019, 025 | css/app.css, js/screens/progress.js, js/screens/ruhepunkt.js, js/ui.js |
+| 027 | prop | 34 | 001, 002, 003, 004, 005, 006 | css/app.css, e2e/proptest.js, js/screens/prop-friedhof.js, js/screens/prop.js |
+| 028 | prop | 22 | 007 | README.md, css/app.css, e2e/friedhoftest.js, e2e/proptest.js, js/screens/prop-friedhof.js, js/screens/prop.js |
+| 029 | konto | 28 | 001, 002, 004, 005, 006, 010 | css/app.css, js/certificate.js, js/screens/affiliate.js, js/screens/coach.js |
+| 030 | konto, statistik | 10 | 007, 009, 015, 029 | css/app.css, e2e/affiliatetest.js, e2e/calmnavtest.js, e2e/chartanimtest.js, e2e/coachtest.js, js/certificate.js … |
+| 031 | konto, dashboard | 20 | 005, 006, 007, 030 | css/app.css, e2e/affiliatetest.js, e2e/coachtest.js, js/certificate.js, js/coach.js, js/screens/affiliate.js … |
 | 032 | einstellungen | 26 | 001, 002 | css/app.css, js/screens/misc.js, js/theme.js |
 | 033 | einstellungen | 1 | 002, 032 | js/screens/misc.js |
-| 034 | einstellungen, tokens | 16 | 002, 005, 006, 011, 013, 017, 021, 029, 032, 033 | css/app.css, e2e/settest2.js, js/app.js, js/screens/misc.js, tests/inline-style.test.mjs |
-| 035 | einstellungen, aufbau | 19 | 027, 028, 029, 030, 034 | README.md, css/app.css, e2e/settest.js, js/screens/misc.js |
+| 034 | einstellungen, tokens | 16 | 002, 004, 005, 009, 012, 017, 021, 029, 032, 033 | css/app.css, e2e/settest2.js, js/app.js, js/screens/misc.js, tests/inline-style.test.mjs |
+| 035 | einstellungen, aufbau | 19 | 002, 027, 028, 029, 030, 034 | README.md, css/app.css, e2e/settest.js, js/screens/misc.js |
 | 036 | responsiv | 2 | 001 | css/app.css |
-| 037 | responsiv, dashboard | 9 | 002, 005, 010, 011, 013, 032, 036 | README.md, css/app.css, e2e/mobiletest.js, e2e/rangetest.js |
-| 038 | responsiv, shell | 11 | 001, 006, 010, 011, 013, 014, 022, 037 | README.md, css/app.css, js/screens/dashboard.js, js/ui.js |
+| 037 | responsiv, dashboard | 9 | 002, 004, 009, 012, 032, 036 | README.md, css/app.css, e2e/mobiletest.js, e2e/rangetest.js |
+| 038 | responsiv, shell | 11 | 001, 006, 009, 012, 013, 022, 037 | README.md, css/app.css, js/screens/dashboard.js, js/ui.js |
 | 039 | trades_tag, komponenten, statistik | 4 | 007, 015, 019, 038 | js/screens/day.js, js/screens/stats.js, js/screens/trades.js, js/ui.js |
 | 040 | training, notebook_news | 6 | 023, 026, 038 | css/app.css, js/screens/mentor.js, js/screens/notebook.js, js/screens/progress.js, js/screens/shadow.js |
 | 041 | responsiv, prop, konto | 6 | 002, 031, 038 | css/app.css, js/screens/coach.js, js/screens/prop.js |
 | 042 | responsiv, komponenten, trades_tag | 4 | 007, 041 | css/app.css, js/app.js |
 | 043 | responsiv | 4 | 007, 016, 023, 031, 040, 041, 042 | css/app.css, e2e/runall.sh, e2e/tablettest.js, js/screens/dash-filter.js |
 | 044 | konto, responsiv, trades_tag | 3 | 007, 019, 031, 043 | css/app.css, js/screens/coach.js, js/screens/trades.js |
-| 045 | diagramme, statistik | 7 | — | css/app.css, js/core.js, js/screens/stats.js, js/ui.js |
-| 046 | diagramme, prop | 5 | 001 | css/app.css, js/screens/prop.js |
-| 047 | diagramme, konto | 5 | — | js/screens/affiliate.js, js/ui.js |
-| 048 | diagramme, responsiv | 9 | 015, 038, 046, 047 | js/app.js, js/ui.js |
+| 045 | diagramme, statistik | 6 | — | css/app.css, js/core.js, js/screens/stats.js, js/ui.js |
+| 046 | tokens, diagramme, notebook_news | 4 | 001 | css/app.css |
+| 047 | diagramme, prop | 8 | 001 | css/app.css, js/screens/prop.js, js/ui.js |
+| 048 | diagramme, konto, responsiv | 10 | 015, 038, 046, 047 | js/app.js, js/screens/affiliate.js, js/ui.js |
 | 049 | diagramme, statistik | 3 | 015, 046, 047, 048 | README.md, js/ui.js |
 | 050 | training, diagramme | 2 | 025, 047, 049 | README.md, js/widgets.js |
-| 051 | diagramme, training | 32 | 003, 007, 015, 025, 045, 046, 047, 048, 049, 050 | README.md, css/app.css, e2e/dashtest.js, e2e/shadowtest.js, js/screens/shadow.js, js/ui.js … |
-| 052 | diagramme | 5 | 003, 051 | README.md, css/app.css, e2e/chartanimtest.js, js/ui.js |
-| 053 | zustaende | 7 | 002, 010 | README.md, css/app.css, js/screens/dash-filter.js, js/widgets.js |
-| 054 | trades_tag, prop, einstellungen | 4 | 053 | js/screens/day.js, js/screens/misc.js, js/screens/prop.js, js/screens/trades.js |
-| 055 | zustaende, dashboard, trades_tag | 5 | 013, 014 | css/app.css, js/screens/trades.js, js/widgets.js |
-| 056 | zustaende, notebook_news, konto | 5 | 002, 005 | css/app.css, js/screens/coach.js, js/screens/news.js, js/ui.js |
-| 057 | diagramme, zustaende, prop | 6 | 051, 056 | e2e/dashtest.js, js/screens/prop.js, js/ui.js, js/widgets.js |
-| 058 | zustaende, dashboard, diagramme | 8 | 002, 007, 010, 014, 031, 055, 056 | README.md, e2e/dashtest.js, js/app.js, js/ui.js, js/widgets.js |
-| 059 | barrierefreiheit | 10 | 003 | css/app.css, css/landing.css, js/screens/progress.js, js/ui.js |
-| 060 | komponenten, notebook_news, konto, barrierefreiheit | 6 | 059 | css/app.css, js/screens/coach.js, js/screens/notebook.js, js/ui.js |
-| 061 | trades_tag, zustaende, komponenten | 5 | 007, 017, 018, 019, 055, 058, 060 | e2e/dptest.js, js/app.js, js/screens/trades.js |
-| 062 | barrierefreiheit, komponenten, notebook_news | 4 | 007, 060 | js/app.js, js/editor.js, js/ui.js |
-| 063 | training, komponenten, shell, trades_tag | 6 | 007, 062 | e2e/notechecktest.js, js/app.js, js/screens/day.js, js/screens/progress.js |
-| 064 | einstellungen | 6 | 006, 007, 034, 062 | README.md, e2e/settest.js, js/screens/misc.js |
-| 065 | dashboard, barrierefreiheit, shell | 4 | 060, 062 | js/app.js, js/widgets.js |
-| 066 | trades_tag | 4 | 006, 007, 060, 062, 065 | js/app.js, js/screens/trades.js |
-| 067 | barrierefreiheit, notebook_news, einstellungen | 6 | 003, 007, 014, 015, 027, 031, 060, 062, 065 | README.md, app.html, e2e/affiliatetest.js, e2e/calmnavtest.js, e2e/friedhoftest.js, e2e/proptest.js … |
-| 068 | wording, barrierefreiheit, einstellungen | 34 | 009, 010, 012, 013, 014, 015, 017, 018, 019, 021, 022, 024, 025, 027, 030, 032, 034, 045, 048, 049, 051, 054, 057, 064, 067 | js/app.js, js/coach.js, js/lang/en.js, js/lang/es.js, js/lang/hi.js, js/lang/pt.js … |
-| 069 | wording | 24 | 003, 007, 010, 025, 028, 031, 032, 040, 041, 067, 068 | README.md, js/app.js, js/coach.js, js/core.js, js/lang/en.js, js/lang/es.js … |
-| 070 | wording, einstellungen | 7 | 007, 014, 016, 019, 020, 023, 026, 028, 031, 034, 035, 044, 051, 064, 069 | e2e/navdottest.js, js/lang/en.js, js/lang/es.js, js/lang/hi.js, js/lang/pt.js, js/lang/zh.js … |
-| 071 | wording, konto | 6 | 007, 014, 016, 019, 020, 026, 028, 031, 035, 044, 051, 069, 070 | README.md, e2e/coachlang.js, e2e/coachtest.js, e2e/dashtest.js, e2e/i18n/en/part-audit-wording.json, e2e/i18n/es/part-audit-wording.json … |
-| 072 | bewegung, diagramme | 6 | 047, 051 | README.md, css/app.css, css/landing.css, e2e/affiliatetest.js, e2e/headtest.js, js/ui.js |
-| 073 | bewegung, wording | 12 | 003, 007, 008, 010, 011, 014, 020, 023, 038, 040, 041, 042, 072 | README.md, css/app.css, e2e/motiontest.js, js/app.js, js/motion.js, js/ui.js |
-| 074 | shell, komponenten | 4 | 002, 005, 010, 060, 075, 076 | app.html, css/app.css |
-| 075 | trades_tag, training, responsiv | 3 | 007, 010, 014, 023, 038, 039, 040, 041, 062, 068, 072, 074, 076 | e2e/mobiletest.js, js/screens/mentor.js, js/screens/trades.js |
-| 076 | zustaende, barrierefreiheit | 4 | 005, 007, 022, 037, 061, 062, 063, 067, 074, 077 | app.html, css/app.css, e2e/runall.sh, js/app.js |
-| 077 | wording | 1 | 010, 014, 015, 019, 022, 027, 035, 051, 060, 061, 062, 065, 066, 067, 074, 075 | js/lang/en.js, js/lang/es.js, js/lang/hi.js, js/lang/pt.js, js/lang/zh.js |
+| 051 | diagramme, training | 32 | 002, 007, 015, 025, 045, 047, 048, 049, 050 | README.md, css/app.css, e2e/dashtest.js, e2e/shadowtest.js, js/screens/shadow.js, js/ui.js … |
+| 052 | diagramme | 5 | 002, 051 | README.md, css/app.css, e2e/chartanimtest.js, js/ui.js |
+| 053 | zustaende | 6 | 002, 009 | README.md, css/app.css, js/screens/dash-filter.js, js/widgets.js |
+| 054 | trades_tag, tokens, prop | 4 | 001, 053 | css/app.css, js/screens/day.js, js/screens/prop.js, js/screens/trades.js |
+| 055 | zustaende, dashboard, einstellungen | 5 | 012, 013, 053 | css/app.css, js/screens/misc.js, js/widgets.js |
+| 056 | zustaende, trades_tag, notebook_news | 4 | 002, 055 | css/app.css, js/screens/news.js, js/screens/trades.js |
+| 057 | konto, zustaende, prop | 3 | 004, 056 | css/app.css, js/screens/coach.js, js/screens/prop.js, js/ui.js |
+| 058 | diagramme, zustaende | 5 | 051 | e2e/dashtest.js, js/ui.js, js/widgets.js |
+| 059 | zustaende, dashboard, diagramme | 8 | 002, 006, 009, 013, 031, 055, 056, 057 | README.md, e2e/dashtest.js, js/app.js, js/ui.js, js/widgets.js |
+| 060 | barrierefreiheit | 10 | 002 | css/app.css, css/landing.css, js/screens/progress.js, js/ui.js |
+| 061 | komponenten, notebook_news, konto, barrierefreiheit | 6 | 060 | css/app.css, js/screens/coach.js, js/screens/notebook.js, js/ui.js |
+| 062 | trades_tag, zustaende, komponenten | 5 | 006, 017, 018, 019, 055, 059, 061 | e2e/dptest.js, js/app.js, js/screens/trades.js |
+| 063 | barrierefreiheit, komponenten, notebook_news | 4 | 006, 061 | js/app.js, js/editor.js, js/ui.js |
+| 064 | training, komponenten, shell, trades_tag | 6 | 006, 063 | e2e/notechecktest.js, js/app.js, js/screens/day.js, js/screens/progress.js |
+| 065 | einstellungen | 6 | 005, 006, 034, 063 | README.md, e2e/settest.js, js/screens/misc.js |
+| 066 | dashboard, barrierefreiheit, shell | 4 | 061, 063 | js/app.js, js/widgets.js |
+| 067 | trades_tag | 4 | 005, 006, 061, 063, 066 | js/app.js, js/screens/trades.js |
+| 068 | barrierefreiheit, notebook_news, einstellungen | 6 | 002, 006, 014, 015, 027, 031, 061, 063, 066 | README.md, app.html, e2e/affiliatetest.js, e2e/calmnavtest.js, e2e/friedhoftest.js, e2e/proptest.js … |
+| 069 | wording, barrierefreiheit, einstellungen | 34 | 009, 011, 012, 013, 014, 015, 017, 018, 019, 021, 022, 024, 025, 027, 030, 032, 034, 045, 048, 049, 051, 055, 058, 065, 068 | js/app.js, js/coach.js, js/lang/en.js, js/lang/es.js, js/lang/hi.js, js/lang/pt.js … |
+| 070 | wording | 24 | 002, 007, 009, 027, 028, 031, 032, 040, 041, 068, 069 | README.md, js/app.js, js/coach.js, js/core.js, js/lang/en.js, js/lang/es.js … |
+| 071 | wording, einstellungen | 7 | 007, 014, 016, 019, 020, 023, 026, 028, 031, 034, 035, 044, 051, 055, 065, 070 | e2e/navdottest.js, js/lang/en.js, js/lang/es.js, js/lang/hi.js, js/lang/pt.js, js/lang/zh.js … |
+| 072 | wording, konto | 6 | 007, 014, 016, 019, 020, 026, 028, 031, 035, 044, 051, 070, 071 | README.md, e2e/coachlang.js, e2e/coachtest.js, e2e/dashtest.js, e2e/i18n/en/part-audit-wording.json, e2e/i18n/es/part-audit-wording.json … |
+| 073 | bewegung, diagramme | 6 | 048, 051 | README.md, css/app.css, css/landing.css, e2e/affiliatetest.js, e2e/headtest.js, js/ui.js |
+| 074 | bewegung, wording | 12 | 002, 007, 009, 010, 014, 020, 023, 038, 040, 041, 042, 073 | README.md, css/app.css, e2e/motiontest.js, js/app.js, js/motion.js, js/ui.js |
+| 075 | shell, dashboard, zustaende, barrierefreiheit, komponenten, trades_tag, training, responsiv, wording | 15 | 002, 004, 006, 007, 009, 014, 015, 019, 022, 023, 027, 035, 037, 038, 039, 040, 041, 051, 061, 062, 063, 064, 066, 067, 068, 069, 073 | app.html, css/app.css, e2e/dashtest.js, e2e/mobiletest.js, e2e/runall.sh, js/app.js … |
 
 ## Wellen
 
-- Welle 1: 001, 003
-- Welle 2: 002, 004, 036, 046
-- Welle 3: 005, 009, 021, 032
-- Welle 4: 006, 012, 033
-- Welle 5: 007, 013, 022
-- Welle 6: 008, 010, 015, 024
-- Welle 7: 011, 016, 023, 027
-- Welle 8: 014, 017, 028, 045
-- Welle 9: 018, 029, 037, 053
-- Welle 10: 019, 030, 038
-- Welle 11: 020, 025, 031
-- Welle 12: 026, 034, 041, 055
+- Welle 1: 001, 045
+- Welle 2: 002, 005, 036, 046
+- Welle 3: 003, 008, 021, 032
+- Welle 4: 004, 010, 011, 033
+- Welle 5: 006, 012
+- Welle 6: 007, 013, 015, 022
+- Welle 7: 009, 016, 023, 024
+- Welle 8: 014, 017, 027, 029
+- Welle 9: 018, 028, 030, 037
+- Welle 10: 019, 031, 047, 053
+- Welle 11: 020, 025, 038, 055
+- Welle 12: 026, 034, 041, 056
 - Welle 13: 035, 039, 040, 042
-- Welle 14: 043, 047, 054
-- Welle 15: 044, 048
-- Welle 16: 049
-- Welle 17: 050, 056
-- Welle 18: 051
-- Welle 19: 052
-- Welle 20: 057
-- Welle 21: 058
-- Welle 22: 059
-- Welle 23: 060
-- Welle 24: 061, 072
-- Welle 25: 062
-- Welle 26: 063, 064
-- Welle 27: 065
-- Welle 28: 066, 067
-- Welle 29: 068
-- Welle 30: 069
-- Welle 31: 070, 073
-- Welle 32: 071
-- Welle 33: 074
-- Welle 34: 075
-- Welle 35: 077
-- Welle 36: 076
+- Welle 14: 043, 048, 054
+- Welle 15: 044, 049
+- Welle 16: 050, 057
+- Welle 17: 051
+- Welle 18: 052
+- Welle 19: 058
+- Welle 20: 059
+- Welle 21: 060
+- Welle 22: 061
+- Welle 23: 062, 073
+- Welle 24: 063
+- Welle 25: 064, 065
+- Welle 26: 066
+- Welle 27: 067, 068
+- Welle 28: 069
+- Welle 29: 070
+- Welle 30: 071, 074
+- Welle 31: 072
+- Welle 32: 075
 
 ## Fragen an dich (werden bis zur Antwort nicht umgesetzt)
 
@@ -173,11 +167,15 @@ Ablauf je Paket: Umsetzer in eigener Arbeitskopie (git-Worktree) → strenger Pr
 - abstaende-E1: ENTFÄLLT (zusammen_mit aufbau-B1): Der frühe Rücksprung `if (!left && !right) return '';` ist in aufbau-B1 enthalten.
 - abstaende-E3: ENTFÄLLT (zusammen_mit aufbau-B6): Wird von aufbau-B6 umgesetzt, keine eigene Änderung.
 - abstaende-F2: ENTFÄLLT (entfaellt ): Nicht umsetzen. Die Leiste bekommt nur `<span class="grow" aria-hidden="true"></span>` aus aufbau-C6b, keinen .vh-Namen.
+- abstaende-F3: ENTFÄLLT (zusammen_mit komponenten-S-dashboard-b): Klasse .dash-empty mit padding var(--sp-8) statt `center` plus Inline-padding.
 - abstaende-K1: ENTFÄLLT (entfaellt ): leftOpen bleibt true. Die mittleren Breiten regelt der Container nbc (responsiv-B8, 3.13 öffnet die Ordner über „Zurück“). Die Abnahme „961–1180 px: Ordnerspalte beim ersten Öffnen eingeklappt“ (abstaende 1.14) entfällt.
+- abstaende-M5: ENTFÄLLT (zusammen_mit komponenten-S-prop-e): Identische Änderung an prop.js:264/268.
 - abstaende-MENTOR: ENTFÄLLT (entfaellt ): Der einzige Inline-Abstand in mentor.js (`style="margin-top:14px"` an der Anleitungszeile) verschwindet mit der Zeile (wording-S15.4-15.5). Breiten (C12) und Symbol (D8) laufen in ihren eigenen Schritten. Die Inline-Größen der Skelett-Blasen (Z. 83, width/height) sind keine Ab
 - abstaende-S6: ENTFÄLLT (entfaellt ): README Z. 120 ändert responsiv 3.19 („bei schmalem Inhalt (unter 1000px) Liste und Notiz, die Ordner über „Zurück“, unter 700px eine Spalte“).
-- aufbau-A3b: ENTFÄLLT (entfaellt ): Vollständig abgedeckt: `.tile .head` 13 durch typografie-3.2.3i (mit Token und Zeilenhöhe), `.stat-tile .k` und `.stat .k` 500 durch typografie-3.2.4l.
-- aufbau-A4b: ENTFÄLLT (entfaellt ): Alle fünf Punkte sind durch Typografie abgedeckt: `.set-head h2` → typografie-3.2.3u, `.set-head p` → typografie-3.2.3i, `.set-block h3` → typografie-3.2.3r, `.set-row b` und Optionstitel → typografie-3.2.4k (dort um `.set-block .avatar-row b` ergänzt). Die Handy-Stufe 16/22 p
+- aufbau-A3a: ENTFÄLLT (zusammen_mit kilook-A4): Keine eigene Definition. .kpi-label kommt aus kilook-A4 mit den Tokens --fs-13/--lh-13, ohne display:flex/gap und ohne .kpi-label.sm.
+- aufbau-A3b: ENTFÄLLT (Kreuzprüfung typografie-3.2.3i, komponenten-C25a, typografie-3.2.4l): Entfällt als eigener Schritt; alle drei Punkte setzen andere Schritte um. `.tile .head` (Z. 517) 13.5 px → `font-size: var(--fs-13); line-height: var(--lh-13)` setzt typografie-3.2.3i. `.stat-tile .k` (Z. 637) schreibt k
+- aufbau-A4b: ENTFÄLLT (Kreuzprüfung typografie-3.2.3u, typografie-3.2.3i, typografie-3.2.3r, typografie-3.2.4k): Entfällt als eigener Schritt; alle Punkte setzen Typografie-Schritte um. `.set-head h2` → typografie-3.2.3u: `font-size: var(--fs-18); line-height: var(--lh-18); font-weight: 600; letter-spacing: -0.0
+- aufbau-A4g: ENTFÄLLT (Kreuzprüfung komponenten-C26a, komponenten-C26b): Entfällt als eigener Schritt. `.cal .wd` (Z. 703) schreibt komponenten-C26a als `text-align: center; padding: 4px 4px 6px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); border: 0; background: non
 - aufbau-B11: ENTFÄLLT (zusammen_mit responsiv-B6a): Die 4er-Regel ist doppelt. Die 6er-Regel steht im Block von responsiv-B6a und gilt ab 561 px statt ab 961 px. Kein eigener Block nach Z. 2604.
 - aufbau-B3: ENTFÄLLT (zusammen_mit zustaende-S-A3): Teil 1 (Methode App.userName()) und Teil 2 (Initialen in topbar) entfallen. userCard und topbar nutzen App.userInfo() aus zustaende-S-A3. Im Tabellentext aufbau.md Z. 27 und in regeln.md App.userName() durch App.userInfo() ersetzen. Die übrigen Teile von B3 re
 - aufbau-B5: ENTFÄLLT (zusammen_mit zustaende-S-A2): Die href-Änderung `#/settings` → `#/settings/konten` ist in zustaende-S-A2 enthalten. Nicht doppelt umsetzen.
@@ -189,41 +187,55 @@ Ablauf je Paket: Umsetzer in eigener Arbeitskopie (git-Worktree) → strenger Pr
 - barrierefreiheit-P6: ENTFÄLLT (zusammen_mit responsiv-3.3c): Entfällt als eigener Schritt: kein Fokus-Aufruf in sidebar(), kein closeSidebar(), scrim() und sb-toggle bleiben unverändert. Fokus auf „Menü schließen“ beim Öffnen und Rückgabe an .menu-btn (auch bei Escape) setzt 3.3c in renderSidebar um.
 - bewegung-3.7a: ENTFÄLLT (zusammen_mit kilook-C12): Das Entfernen von `<span class="dot-live"></span>` in dashboard.js:119 macht kilook-C12 zusammen mit dem Trenner „·“ (nicht „–“).
 - bewegung-3.8b: ENTFÄLLT (zusammen_mit barrierefreiheit-C-dash-filter-168-189): Das Ausblenden mit ID-Entfernung steckt im gemeinsamen close(). Prüfung 6 der Bewegung (40 ms nach Escape existiert .fd-pop.closing, nach 250 ms ist #fd-layer leer) bleibt gültig.
-- bewegung-B5: ENTFÄLLT (zusammen_mit zustaende-S-C5): B5 fällt als eigener Schritt weg. Es gibt keine Regel `.tile:hover, .stat-tile:hover { border-color: var(--border-2) }`. Das Löschen von Z. 516 und 2603 und das Streichen der Übergänge übernimmt S-C5.
+- bewegung-B5: ENTFÄLLT (Kreuzprüfung zustaende-S-C5): Entfällt als eigener Schritt; zustaende-S-C5 setzt alles um. Z. 516 `.tile:hover, .stat-tile:hover` und Z. 2603 `.kstrip .tile:hover` werden ersatzlos gelöscht. Es gibt keine Regel `border-color: var(--border-2)` beim Überfahren; Kacheln reagieren gar nicht, n
 - bewegung-C4: ENTFÄLLT (zusammen_mit kilook-B2): Identische Änderung, kilook-B2 setzt sie um.
 - diagramme-A8a: ENTFÄLLT (entfaellt ): Onest übernimmt typografie-3.2.2f, tabular-nums typografie-3.2.2e, das .muted-Gewicht 400 typografie-3.2.5d (Selektor `.bar-row .bl b`, deckt `> b` ab). In diagramme A-13 „700“ als „600 (Listenwert)“ lesen.
+- diagramme-G1: ENTFÄLLT (zusammen_mit aufbau-C14b): Titel, nur Handelstage und nur mit abgeschlossenen Trades werden in aufbau-C14b umgesetzt.
 - farbe-B12: ENTFÄLLT (zusammen_mit komponenten-C11): Dieselbe Änderung an Z. 676 macht komponenten-C11.
+- farbe-B13: ENTFÄLLT (zusammen_mit diagramme-A1): Z. 683 ersetzen und Z. 1647–1648 löschen nur einmal, über diagramme-A1.
 - farbe-B23a: ENTFÄLLT (zusammen_mit diagramme-A5): Kein eigener Schritt: diagramme-A5 übernimmt die Änderung, mit dem Selektor `:not(.right)` aus B23a. Die Prozentwerte 8/16/28/42/58 % werden NICHT verwendet. Gilt jetzt: 14/26/38/50/62 %. Die Farb-Akzeptanz (progress_voll grau abgestuft, kein --accent in .activi
+- farbe-B25: ENTFÄLLT (entfaellt ): zustaende-S-C7 hängt `.btn.is-on` an den gemeinsamen Ausgewählt-Stil. `.dh-context .btn.is-set` wird nicht eingeführt.
 - farbe-B5: ENTFÄLLT (entfaellt ): Die Heute-Markierung aller vier Selektoren setzt zustaende-S-C8 um (Unterstreichung, --text, ohne Ring).
 - farbe-C12a: ENTFÄLLT (zusammen_mit wording-S5.4-5.5): Der Wechsel faint → lbl-hint geschieht in wording-S5.4. Ergebnis: <span class="lbl-hint dp-coarse">(leer lassen, solange offen)</span>.
 - farbe-C14b: ENTFÄLLT (zusammen_mit diagramme-E7): REPORT_COLORS und das Umschreiben alter Standardfarben nur einmal, in diagramme-E7 (#2f80d0 statt #4a6fe3). Der Test 4.6 aus farbe-C14b (gespeicherter Report mit alten Standardfarben zeigt die neuen, eigene Farben bleiben) wird mit den Werten aus E7 bei E7 geprü
 - farbe-C14d: ENTFÄLLT (entfaellt ): Die Fußzeile entfällt ganz. Die Inhaltsbedingung trägt der Kopf-Link aus aufbau-C2a (d.all.length).
 - farbe-C2: ENTFÄLLT (entfaellt ): aufbau-C11c löscht die Regel .rules-list li::marker samt Karte.
-- farbe-C3b: ENTFÄLLT (entfaellt ): Z. 1659 setzt aufbau-B12 wortgleich um, Z. 1660 ohne Unterstreichung nach aufbau-B12.
+- farbe-C24b: ENTFÄLLT (zusammen_mit komponenten-S-notebook-b): notebook.js Z. 61 und Z. 66 ändert komponenten-S-notebook-b. Dort wird auch Z. 67 „Wiederherstellen“ `btn sm`.
+- farbe-C3b: ENTFÄLLT (Kreuzprüfung aufbau-B12): Entfällt; aufbau-B12 setzt den Link um. Es schreibt `.more-link { color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); text-decoration: none; }` und `.more-link:hover { color: var(--text); }`. Beim Hover gibt es weder Unterst
 - farbe-C7: ENTFÄLLT (entfaellt ): Kommentar und `.shadow-rule.on` setzt zustaende-S-C11 um (Fläche --surface-2, Rand --border-2, aus transparent).
 - farbe-C8a: ENTFÄLLT (zusammen_mit komponenten-C17a): Identische Änderung. Sie wird in komponenten-C17a umgesetzt.
 - farbe-D3f: ENTFÄLLT (zusammen_mit zustaende-S-R3): Dieselbe README-Stelle, zustaende-S-R3 schreibt den Text.
+- kilook-A1: ENTFÄLLT (zusammen_mit zustaende-S-U1): Identische Änderung an ui.js:122.
 - kilook-B2: ENTFÄLLT (zusammen_mit bewegung-C4): Identische CSS-Änderung (Rand --border-2, Fläche --surface-2, .dot-live und @keyframes pulse löschen); bewegung-C4 setzt sie einmal um.
 - kilook-B6: ENTFÄLLT (zusammen_mit abstaende-D4): 12px/500/--muted ohne Versalien schreibt abstaende-D4 (mit Tokens und align-self: end).
 - kilook-C9a: ENTFÄLLT (zusammen_mit wording-S6.1-6.4): Gleiche Änderung an Z. 115/116. Die Prüfungen (mobiletest.js:66, .cal .p ohne /,\d\d\s?[€$]/) laufen im Wortwahl-Schritt.
 - komponenten-A2: ENTFÄLLT (zusammen_mit zustaende-S-A3): Keine Methode App.displayName() anlegen, userCard und topbar laufen über App.userInfo(). Der Punkt „Profil vervollständigen“ → „Profil ergänzen“ wird nur über wording-S5.1-5.2 Teil 5.2 umgesetzt (einschließlich usercardtest.js:11 und Sprachschlüssel, nicht dop
 - komponenten-A6: ENTFÄLLT (entfaellt ): Den Klassenwechsel übernehmen barrierefreiheit-P13 (Z. 428: `class="scale5 rating"`) und barrierefreiheit-P14a (Z. 513: `class="scale5"`), die dieselben Zeilen ohnehin neu schreiben.
-- komponenten-C25b: ENTFÄLLT (entfaellt ): Entfällt vollständig: Die gap-Löschung übernimmt abstaende-B13. Der Wert erbt .tile .val (aufbau-A2). Trennlinie und Abstand kommen über die Klasse body an .spark-body (typografie-3.8b), es gibt keine eigene linear-gradient-Kopie mit padding-top 8.
+- komponenten-C06: ENTFÄLLT (zusammen_mit bewegung-B1): Glow-Entfernung an .btn.primary:hover nur einmal über bewegung-B1. Die Füllfarbe kommt nach N1 aus der Füllungs-Entscheidung.
+- komponenten-C25b: ENTFÄLLT (Kreuzprüfung abstaende-B13): Entfällt vollständig. Z. 1733 `.tile.spark-tile { gap: 2px; }` löscht abstaende-B13. Z. 1734 `.tile.spark-tile .spark-body` schreibt abstaende-B13 mit den dort beschlossenen Werten (u. a. gap 18px, min-height 0, flex-wrap nowrap); Trennlinie und padding-top var
 - komponenten-C25c: ENTFÄLLT (zusammen_mit farbe-B24): Die Regel aus Z. 407 legt farbe-B24 an, ohne den Selektor `:root[data-theme="light"] .kstrip .tile:hover`. Die Hinweise aus Z. 408–409 gelten weiter: --lift-shadow bleibt, und .stat-tile übernimmt die .tile-Werte aus Typografie und Abstände.
 - komponenten-C34a: ENTFÄLLT (zusammen_mit kilook-C4): Identisch mit kilook-C4, nicht separat umsetzen.
 - komponenten-D2: ENTFÄLLT (entfaellt ): Ersetzt durch responsiv-3.4 (oneMonth(box), presetView, pick(p, box), setPreset, fit) und den fit-Aufruf in App.fitPopover (responsiv-3.3b). Kein Media-Query-Duplikat in rangepicker.js.
 - komponenten-E1h: ENTFÄLLT (entfaellt ): Der Handy-Kachelwert bleibt 20 px; mobiletest.js:27 bleibt unverändert.
 - komponenten-S-coupons: ENTFÄLLT (zusammen_mit komponenten-C33b): Nur eine Prüfung, das Markup bleibt. Wird mit C33b erledigt; coupontest.js:14 (`.cpn-link[target=_blank][rel=noopener]`) muss grün bleiben.
+- komponenten-S-dashboard-c: ENTFÄLLT (zusammen_mit farbe-C19c): Der Knopf „Beispieldaten laden“ als `btn sm` ist Teil des neu geschriebenen Banner-Aufrufs in farbe-C19c. Entfällt C19c, hier nur `btn sm primary` → `btn sm`.
 - komponenten-S-day-a: ENTFÄLLT (zusammen_mit abstaende-E-day2): Die Klassenwechsel aus Z. 12 (`btn nav`, `day-title`, „Heute“ als `btn sm`) setzt abstaende-E-day2 beim Umbau in die Kopfreihe um. Die Platzierung am Anfang der rechten Gruppe entfällt.
+- komponenten-S-prop-e: ENTFÄLLT (zusammen_mit abstaende-M5): prop.js Z. 264/268 nur einmal ändern.
 - komponenten-S-prop-f: ENTFÄLLT (zusammen_mit wording-S12.27): Text „Prop-Konto anlegen“ statt „Konto anlegen“. wording-S12.27 setzt ihn um, zusammen mit dem Entfernen von hide-m.
 - komponenten-S-stats-a: ENTFÄLLT (zusammen_mit barrierefreiheit-C-stats-15): class="btn" und Inline-Farbe entfernt barrierefreiheit-C-stats-15 im selben Durchgang.
-- komponenten-S-trades-c: ENTFÄLLT (zusammen_mit zustaende-S-T2): Das Template schreibt zustaende-S-T2. Von hier kommen die Knöpfe .btn.nav und „{0}–{1}“ ohne Leerzeichen, beides gilt für pages > 1. Die Vorgabe „.pg-info immer“ entfällt: Bei einer Seite erscheint pg-info nur ohne aktiven Filter.
 - responsiv-3.2a: ENTFÄLLT (zusammen_mit typografie-3.4d): fmt.weekdayShort nicht anlegen. Dieselbe Ausgabe liefert fmt.weekdayDM(d) aus typografie-3.4d. In den Regeln und Texten von Responsiv „fmt.weekdayShort“ durch „fmt.weekdayDM“ ersetzen.
 - responsiv-B1: ENTFÄLLT (zusammen_mit abstaende-D1): Verschieben über abstaende-D1 (1). B1 wird insgesamt nicht separat umgesetzt (siehe .sb-userwrap). Die B1-Tests (sidebartest 1440×1000, usercardtest:21, mobiletest:59–60) laufen bei D1 mit.
+- typografie-3.2.2c: ENTFÄLLT (zusammen_mit kilook-A4): Kein .val-label anlegen. Die Rolle heißt .kpi-label und bekommt dort die Typografie-Tokens.
 - typografie-3.2.2d: ENTFÄLLT (zusammen_mit kilook-C2): Nicht separat umsetzen; Z. 770–774 und Z. 788 löscht kilook-C2.
+- typografie-3.2.4h: ENTFÄLLT (zusammen_mit typografie-3.2.3s): 600 an .empty > b setzt 3.2.3s zusammen mit dem Token.
 - typografie-3.2.5a: ENTFÄLLT (zusammen_mit aufbau-A2): Gleiche Regel, aber `font-size: var(--tile-val)` statt var(--fv-24); aufbau-A2 schreibt sie.
 - typografie-3.2.5b: ENTFÄLLT (entfaellt ): Alle drei Teile sind übernommen: gap-Löschung und flex-wrap: nowrap macht abstaende-B13, die Typo-Dubletten in .tile.spark-tile .val löscht aufbau-A2.
+- typografie-3.4a: ENTFÄLLT (zusammen_mit zustaende-S-U1): Identische Änderung an ui.js:122.
 - typografie-3.5c: ENTFÄLLT (zusammen_mit komponenten-W5): Klasse score-big setzt komponenten-W5, ohne `style="margin:0"` (.score-big hat keinen Außenabstand).
+- typografie-3.5d: ENTFÄLLT (zusammen_mit aufbau-C2b): Z. 287 wird .kpi-label statt .val-label. Der Hinweis zu Z. 227 gilt weiter (wartet auf referenz-43).
+- typografie-3.7a: ENTFÄLLT (zusammen_mit kilook-C8c): Klasse .kpi-label statt .val-label.
+- typografie-3.8j: ENTFÄLLT (zusammen_mit kilook-C19b): Die Beschriftungen in prop.js:102 werden .kpi-label, nicht .val-label.
+- wording-S13.1-13.2: ENTFÄLLT (entfaellt ): Kein moneyK. Die Affiliate-Kacheln behalten money() mit Cent.
 - wording-S17.22: ENTFÄLLT (zusammen_mit aufbau-C8e): Der Verweis auf „Plan & Bewertung“ steckt im neuen Untertitel von aufbau-C8e. Kein eigener Text und kein eigener Sprachschlüssel.
 - wording-S5.3: ENTFÄLLT (zusammen_mit aufbau-B6): Wird von aufbau-B6 umgesetzt, keine eigene Änderung.
 - wording-S5.9: ENTFÄLLT (zusammen_mit aufbau-B7): Beide Teile (Taste 0 nur mit Replay, N über App.actions['new-trade']) setzt aufbau-B7 um. Die eigene Zeile if (e.key === '0' && !App.on('replay')) return; entfällt.
@@ -231,28 +243,52 @@ Ablauf je Paket: Umsetzer in eigener Arbeitskopie (git-Worktree) → strenger Pr
 - zustaende-S-C9b: ENTFÄLLT (zusammen_mit komponenten-C20): Z. 1867, 1869, 2595 und 2597 (500, --text statt Akzent) stecken in der gemeinsamen Fassung von C20. Die grep-Prüfung in zustaende.md Z. 908 bleibt gültig.
 - zustaende-S-C9c: ENTFÄLLT (zusammen_mit farbe-C4): Z. 1921 wird nicht separat geändert, farbe-C4 setzt denselben Wert.
 - zustaende-S-DP: ENTFÄLLT (entfaellt ): Erledigt durch wording-S3.1-3.3 und wording-S4.1-4.7: keine Klasse is-empty in app.js:360, kein zweiter input/change-Listener, keine CSS-Regel .input.is-empty.
+- zustaende-S-DY3: ENTFÄLLT (zusammen_mit aufbau-C7c): Gleicher Link `#/settings/regeln` in day.js:18, wird nur einmal umgesetzt.
 - zustaende-S-F1: ENTFÄLLT (entfaellt ): Z. 172 und Z. 61 setzt aufbau-C13 um (statt '' steht dort die Textzeile). Das info an der Kachel „Häufigste Regel“ (Z. 56) entfällt ersatzlos.
-- zustaende-S-M2: ENTFÄLLT (zusammen_mit komponenten-S-misc-e): komponenten-S-misc-e übernimmt das Speichern bei change (Formular-data-change, Knopf in Z. 201 entfernen, Handler mit App.savedHint). Aus S-M2 bleibt nur die Gültigkeitsprüfung; sie wandert in S-misc-e. head('Trading', …) bekommt kein trailing. zustaende
+- zustaende-S-M2: ENTFÄLLT (Kreuzprüfung komponenten-S-misc-e): Entfällt vollständig. Sofort-Speichern bei change (`data-change="save-trading"` am Formular), Wegfall des Speichern-Knopfs (Z. 201) und die Gültigkeitsprüfung `if (!form.checkValidity()) { form.reportValidity(); return; }` am Anfang des einen Handlers sa
 - zustaende-S-PR1: ENTFÄLLT (zusammen_mit aufbau-C11a): Z. 20, 59, 68 und 69 setzt aufbau-C11a in der Endfassung um; enthalten sind „—“ in .muted ohne Daten und .muted bei 0 erledigten Schritten. In zustaende.md anpassen: Prüfpunkt 18 (leer_progress) → „Heutiger Fortschritt“ = „0 / 5“ in --muted. Glossarzeile Z. 133 u
-- zustaende-S-ST1: ENTFÄLLT (zusammen_mit diagramme-G1): Die Prüfung auf closed.length steckt in diagramme-G1. Kein fillDays und kein leerer Kartentitel.
-- zustaende-S-T2: ENTFÄLLT (zusammen_mit komponenten-S-trades-c): Die Teile 1 und 2 (Zähler nur mit Filter, reduzierter Seitenwähler bei einer Seite) gehen in komponenten-S-trades-c auf. „Trade${…'s'}“ wird dort durch U.count ersetzt. Teil 3 bleibt offen bis zustaende-37.
+- zustaende-S-ST1: ENTFÄLLT (Kreuzprüfung diagramme-G1): Entfällt vollständig. Die Bedingung „Kopfdiagramm nur mit abgeschlossenen Trades“ steckt in diagramme-G1 (`let top = ''; if (closed.length) { … }` mit Titel „Kumulierter Netto-P&L“, h240, ein Punkt je Handelstag, ohne fillDays). Verschiebt aufbau-C14b die Karte 
+- zustaende-S-T2: ENTFÄLLT (Kreuzprüfung komponenten-S-trades-c): Entfällt vollständig. Teil 1 (Variable `active`, Zähler „{x} von {y} Trades“ nur bei aktivem Filter) und Teil 2 (Seitenwähler: „Trades pro Seite“ immer; bei mehreren Seiten pg-info „{from}–{to} von {n} Trades“, Seitenauswahl und .pg-nav mit .btn.nav; b
 - zustaende-S-TE3: ENTFÄLLT (zusammen_mit bewegung-3.11a): Dieselbe Testanpassung in motiontest.js:52–53; bewegung-3.11a setzt sie einmal um (Name und Prüfung siehe dort).
 - zustaende-S-TE6: ENTFÄLLT (zusammen_mit komponenten-E1a): settest.js:22 wird nur einmal geändert, durch komponenten-E1a (siehe #be-to).
 - zustaende-S-TE7: ENTFÄLLT (entfaellt ): friedhoftest.js:47 bleibt unverändert. Der Test prüft weiter .prop-patterns-empty, den Text „Ab zwei Grabsteinen“ und dass .prop-patterns fehlt.
+- zustaende-S-W5: ENTFÄLLT (zusammen_mit aufbau-C2a): Gleicher Link `#/settings/regeln`, wird nur einmal umgesetzt.
 
 ## Wartende Schritte
 
 - aufbau-B3: wartet auf komponenten: hierarchie-47 (N4, Profilbild oben rechts am PC behalten?)
+- aufbau-C14e: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- aufbau-C15c: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- aufbau-C2b: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
 - aufbau-D3d: wartet auf komponenten: hierarchie-47 (N4 – Profilbild oben rechts am PC wegfallen lassen?)
 - barrierefreiheit-P5: wartet auf aufbau: aufbau-14 (F10, Gruppe „Konten“ in „Prop Trading“ umbenennen?)
 - barrierefreiheit-P8: wartet auf komponenten: hierarchie-47 (N4, Profilbild oben rechts am PC behalten?)
+- diagramme-A7: wartet auf kilook: ki_look-6 (N2 Ringgröße „% Regeln eingehalten“)
 - diagramme-H1: wartet auf kilook ki_look-6 (nur die Ringgröße 116 vs. 64 px; Bogen-Bedingung und Bogenfarbe sind entschieden)
+- farbe-B2: wartet auf komponenten: komponenten-1 (N1, Füllung der Bestätigen-Knöpfe; betrifft auch farbe referenz-6/bereich_konto-5)
 - farbe-C28: wartet auf komponenten: komponenten-1 (N1, Füllfarbe des Hauptknopfs) – betrifft nur den Füll-Teil von farbe-C5 (Z. 2217/2218); farbe-C28 und typografie-3.2.4c laufen sofort
 - farbe-C5: wartet auf komponenten: komponenten-1 (N1, Füllfarbe des Hauptknopfs) – betrifft nur den Füll-Teil von farbe-C5 (Z. 2217/2218); farbe-C28 und typografie-3.2.4c laufen sofort
+- farbe-D3e: wartet auf komponenten: komponenten-1 (N1, Füllung der Bestätigen-Knöpfe; betrifft auch farbe referenz-6/bereich_konto-5)
+- kilook-A4: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- kilook-B4: wartet auf kilook: ki_look-6 (N2 Ringgröße „% Regeln eingehalten“)
+- kilook-C13: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- kilook-C14: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- kilook-C16: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- kilook-C17: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
 - kilook-C18: wartet auf kilook ki_look-6 (nur die Ringgröße 116 vs. 64 px; Bogen-Bedingung und Bogenfarbe sind entschieden)
+- kilook-C19b: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- kilook-C8c: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- kilook-C9b: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
 - komponenten-A2: wartet auf komponenten: hierarchie-47 (N4, Profilbild oben rechts am PC behalten?)
+- komponenten-C06: wartet auf komponenten: komponenten-1 (N1, Füllung der Bestätigen-Knöpfe; betrifft auch farbe referenz-6/bereich_konto-5)
+- komponenten-R1f: wartet auf komponenten: komponenten-1 (N1, Füllung der Bestätigen-Knöpfe; betrifft auch farbe referenz-6/bereich_konto-5)
 - komponenten-S-misc-c: wartet auf wording / wording-17 (Support-Team-Schalter streichen?) – nur der Privatsphäre-Teil
+- komponenten-W6: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- typografie-3.2.2b: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
 - typografie-3.2.4c: wartet auf komponenten: komponenten-1 (N1, Füllfarbe des Hauptknopfs) – betrifft nur den Füll-Teil von farbe-C5 (Z. 2217/2218); farbe-C28 und typografie-3.2.4c laufen sofort
+- typografie-3.5d: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- typografie-3.7a: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
+- typografie-3.8j: wartet auf typografie: referenz-43 (nur widgets.js:227 „Dein Score“)
 - wording-S17.2-17.3: wartet auf wording / wording-17 (Support-Team-Schalter streichen?) – nur der Privatsphäre-Teil
 - wording-S5.1-5.2: wartet auf aufbau: aufbau-14 (F10, Gruppe „Konten“ in „Prop Trading“ umbenennen?)
 - zustaende-S-A3: wartet auf komponenten: hierarchie-47 (N4, Profilbild oben rechts am PC behalten?)

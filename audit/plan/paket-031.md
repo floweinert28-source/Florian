@@ -1,8 +1,8 @@
 # Paket 031 · konto, dashboard
 
-Schritte: 21 · Dateien: web/css/app.css, web/e2e/affiliatetest.js, web/e2e/coachtest.js, web/js/certificate.js, web/js/coach.js, web/js/screens/affiliate.js, web/js/screens/coach.js, web/js/screens/dashboard.js
+Schritte: 20 · Dateien: web/css/app.css, web/e2e/affiliatetest.js, web/e2e/coachtest.js, web/js/certificate.js, web/js/coach.js, web/js/screens/affiliate.js, web/js/screens/coach.js, web/js/screens/dashboard.js
 Betroffene Tests laut Spezifikation: prüfen: PNG-Export pixelgleich (6 Paare, Abschnitt 4); prüfen: e2e/certtest.js, web/tests/cert.test.mjs; prüfen: e2e/certtest.js:17 (-webkit-text-fill-color: var(--c-acc) bleibt), :24; prüfen: e2e/coachtest.js:84 (.pill-Text „Mentor“); prüfen: e2e/coachtest.js:84, :96, :153 (.mentor-note, .pill, .mn-head b, .mn-text); prüfen: e2e/mentortest.js (KI-Hinweis .mentor-note, app.css:2363 unverändert); web/e2e/affiliatetest.js:16; web/e2e/affiliatetest.js:20; web/e2e/affiliatetest.js:23; web/e2e/affiliatetest.js:46; web/e2e/coachlang.js:14; web/e2e/coachtest.js (Server nötig); web/e2e/coachtest.js:169–170; web/e2e/coachtest.js:169–170 (Schritt zustaende-S-TE5); web/e2e/coachtest.js:37
-Baut auf Paketen auf: 6, 7, 30
+Baut auf Paketen auf: 5, 6, 7, 30
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -228,6 +228,10 @@ Abhängig von: —
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.
+
 ## responsiv-C4 · Coach-Tabelle ≤ 1180 px: tb-hide und engere Zellen
 
 Gruppe responsiv · Cluster konto · Aufwand S · Befunde: bereich_konto-13
@@ -251,21 +255,6 @@ Abhängig von: —
 | 3.4 | nach `.ce-head` (Z. 2872) | – → `.ce-edited { flex: 0 0 auto; white-space: nowrap; }` | bereich_konto-21 |
 ```
 
-## wording-S13.1-13.2 · Affiliate: Kachelreihe kompakt ohne Cent (moneyK)
-
-Gruppe wording · Cluster konto · Aufwand S · Befunde: wording-53
-Quelle: audit/spec/wording.md Z. 513–518 · Dateien: web/js/screens/affiliate.js
-Abhängig von: —
-
-```text
-### Schritt 13 · `web/js/screens/affiliate.js`
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 13.1 | nach Z. 16 | – → `const moneyK = v => fmt.cur(v, { money: true, compact: true, currency: AD.CURRENCY });` | wording-53 |
-| 13.2 | Z. 57 Kacheln | `money(all.revenue)`, `money(all.earned)`, `money(all.open)` → `moneyK(…)` | wording-53 |
-```
-
 ## wording-S13.3-13.7 · Affiliate-Begriffe: „Satz“/„Provisionssatz“ = Prozent, „Provision“ = Betrag, „Quelle“, Dialog und Toasts
 
 Gruppe wording · Cluster konto · Aufwand S · Befunde: bereich_konto-30, wording-53
@@ -280,6 +269,11 @@ Abhängig von: wording-S13.1-13.2
 | 13.7 | Z. 91 / 92 / 96 / 98 Dialog | `<h2>Provision</h2>` → `<h2>Provisionssatz</h2>`; Label `Provision in %` → `Satz in %`; Toast `'Bitte 0 bis 100 % angeben'` → `'Bitte einen Satz von 0 bis 100 % angeben'`; `'Provision gespeichert'` → `'Provisionssatz gespeichert'` | bereich_konto-30 |
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+- ÄNDERN: 13.5: `money(s.earned)` und `money(s.open)` bleiben (kein moneyK), nur `U.tile('Provision', …)` wird `U.tile('Provisionssatz', …)`. 13.3, 13.4, 13.6 und 13.7 bleiben.
 
 ## wording-S15.6-15.9 · Coach: „Coach einrichten“ + „Server einrichten“, „Was dein Mentor sieht“, „Dein Name in Gruppen:“, Mailhinweis grau ohne Variablen
 
@@ -323,3 +317,8 @@ Abhängig von: wording-S13.1-13.2, wording-S13.3-13.7
 | e2e/affiliatetest.js:23 | `'Creator,Code,Kunden,Umsatz,Provision,Verdient,Offen,'` → `'Creator,Code,Kunden,Umsatz,Satz,Provision,Offen,'` | bereich_konto-30 |
 | e2e/affiliatetest.js:46 | `'Verdient,Offen,Kunden,Provision'` → `'Verdient,Offen,Kunden,Provisionssatz'` | bereich_konto-30 |
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+- ÄNDERN: affiliatetest.js:20: Die Toleranz bleibt `< 0.01`, weil die Kacheln Cent zeigen. Z. 23 und Z. 46 bleiben.

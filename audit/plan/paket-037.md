@@ -2,7 +2,7 @@
 
 Schritte: 9 · Dateien: web/README.md, web/css/app.css, web/e2e/mobiletest.js, web/e2e/rangetest.js
 Betroffene Tests laut Spezifikation: e2e/mobiletest.js:16, :40, :50, :85 (.dash-head .tl); e2e/rangetest.js:18; web/e2e/dashtest.js:151; web/e2e/mobiletest.js:19-20 (müssen grün bleiben); web/e2e/mobiletest.js:72; web/e2e/mobiletest.js:72 (354 → 360, Schritt R2); web/e2e/settest.js:65 (kein Überlauf am Handy)
-Baut auf Paketen auf: 2, 5, 10, 11, 13, 32, 36
+Baut auf Paketen auf: 2, 4, 9, 12, 32, 36
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 

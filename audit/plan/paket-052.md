@@ -2,7 +2,7 @@
 
 Schritte: 5 · Dateien: web/README.md, web/css/app.css, web/e2e/chartanimtest.js, web/js/ui.js
 Betroffene Tests laut Spezifikation: web/e2e/chartanimtest.js:10–11; web/e2e/chartanimtest.js:10–11 (Schritt bewegung-3.11d)
-Baut auf Paketen auf: 3, 51
+Baut auf Paketen auf: 2, 51
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -18,6 +18,10 @@ Abhängig von: bewegung-A1
 - Z. 1317 `transition: stroke-dashoffset 1.1s cubic-bezier(.22, .61, .36, 1);` → `transition: stroke-dashoffset var(--dur-4) var(--ease);` Das `filter` in derselben Zeile regelt KI-Look/Diagramme (K23).
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .ring-arc .arc] Sofort und unabhängig von der Ringgröße: (a) Der Schein (drop-shadow) entfällt, kilook-B4 führt das aus; der gleiche Teil in diagramme-A7 ist doppelt. (b) Übergang `stroke-dashoffset var(--dur-4) var(--ease)` per bewegung-B8, nach B4, weil beide Z. 1317 ändern. (c) Kein Bogen bei 0 oder null: zustaende-S-PR2 führt `${rate > 0 ? … : ''}` aus; diagramme-H1 und kilook-C18 enthalten dasselbe. (d) Bogenfarbe `stroke: U.scoreColor(rate * 100)` inline (diagramme-H1). Dann wird `stroke: var(--accent)` in Z. 1317 wirkungslos und entfällt.
 
 ## bewegung-C5 · Heatmaps: feiner Umriss statt Vergrößerung beim Darüberfahren
 

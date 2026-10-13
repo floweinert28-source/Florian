@@ -1,8 +1,8 @@
 # Paket 015 · statistik
 
-Schritte: 37 · Dateien: web/css/app.css, web/e2e/scorestatetest.js, web/js/core.js, web/js/screens/stats.js, web/tests/core.test.mjs
+Schritte: 35 · Dateien: web/css/app.css, web/e2e/scorestatetest.js, web/js/core.js, web/js/screens/stats.js, web/tests/core.test.mjs
 Betroffene Tests laut Spezifikation: Akzeptanz 4.2 Nr. 3: grep style="font-size in stats.js ohne Treffer; Akzeptanz 4.3 stats_days; Akzeptanz 4.3 stats_edge (1440 und 390); Akzeptanz 4.3 stats_mistakes; Akzeptanz 4.3 stats_setups (erste Spalte Satoshi 600); Akzeptanz 4.3 stats_setups/time/regime (Profit-Faktor „0,00“); Akzeptanz 4.4: grep "WR \${" ohne Treffer; Akzeptanz grep 7; Akzeptanz grep 8, Sonde 19; e2e/chartanimtest.js:33–35; node --test web/tests/core.test.mjs; web/e2e/calmnavtest.js:40; web/e2e/calmnavtest.js:47-48; web/e2e/calmnavtest.js:51; web/e2e/chartanimtest.js:35; web/e2e/scorestatetest.js:22; web/e2e/scorestatetest.js:22 muss ohne Anpassung grün sein (Schritt zustaende-S-TE8); web/e2e/sixtest.js:39 (bleibt gültig); web/tests/core.test.mjs; web/tests/core.test.mjs: neue daySummary-Fälle (Schritt zustaende-S-TE1); web/tests/core.test.mjs:100 (bleibt gültig); web/tests/core.test.mjs:57; web/tests/core.test.mjs:57 (O6)
-Baut auf Paketen auf: 1, 2, 4, 5, 6, 7, 9
+Baut auf Paketen auf: 1, 2, 3, 4, 5, 6, 8
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -80,6 +80,12 @@ Abhängig von: typografie-3.2.5d
 ```text
 | stats.js:52 | Text an `U.barRow`: `` `${fmt.cur(it.total, { signed: true })} · ${it.n}× · WR ${fmt.pct(it.n ? it.wins / it.n : 0)}` `` → `` `${U.pnl(it.total)} <span class="muted">· ${it.n}× · ${fmt.pct(it.n ? it.wins / it.n : 0)} Win-Rate</span>` `` | bereich_statistik-17 |
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+- [konflikt: U.barRow] typografie-3.8h setzt „Kosten je Fehler“ (stats.js:52) einmal um, mit dem Begriff aus dem Wording-Glossar: `${U.pnl(it.total)} <span class="muted">· ${it.n}× · Trefferquote ${fmt.pct(it.n ? it.wins / it.n : 0)}</span>`. „Win-Rate“ und „WR“ kommen nicht vor. Die Struktur aus Betrag und gedämpftem Zusatz passt zu diagramme-A8a (`.bar-row .bl > b` in Onest mit tabular-nums, `.muted` in 400) und zum Ranking aus diagramme-I1.
+- ÄNDERN: Text wie in der Entscheidung: „Trefferquote {pct}“ statt „{pct} Win-Rate“.
 
 ## typografie-3.8i · Edge-Kachel: Spanne ohne Inline-Größe mit &nbsp;R (K22), Streuungsmaße zwei Stellen
 
@@ -168,6 +174,12 @@ Abhängig von: —
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+- [doppelt: .tbl-wrap.inset] komponenten-S-prop-e setzt `tbl-wrap inset` in der Prop-Bilanz (prop.js:264/268) einmal um. Statistik → Tage: aufbau-C14d setzt die Tabelle in die Karte „Tage im Detail“ mit `tbl-wrap inset`. Aufbau ist für Titel und Aufbau zuständig, der Titel folgt dem Muster „Regeln im Detail“/„Uhrzeiten im Detail“, und aufbau-D1a übersetzt ihn. groupTable inset (stats.js:34) bleibt bei komponenten-S-stats-b.
+- ÄNDERN: Z. 32 (Karte für die Tage) setzt aufbau-C14d um, Titel „Tage im Detail“ statt „Alle Handelstage“. Z. 34 (groupTable inset) bleibt.
+
 ## aufbau-C1 · stats16: Erwartungswert statt Doppelkachel, neue Kachel Trades, Reihenfolge in 4 Themenreihen
 
 Gruppe aufbau · Cluster statistik · Aufwand S · Befunde: bereich_statistik-3, aufbau-20
@@ -240,6 +252,12 @@ Abhängig von: —
 - `tabSummary` Z. 26: nach der Leer-Prüfung als erstes `${U.card('Kumulierter Netto-P&L', '<div class="chart h240" data-chart="pnl" data-id="stats-top"></div>')}`, dann die Kacheln. Die drei Karten:
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+- ÄNDERN: render: `const days = C.dailyAggregation(list);` ohne fillDays, ohne App.range() und ohne chartData. tabSummary bekommt days als dritten Parameter (der Aufruf übergibt ihn schon) und setzt nach der Leer-Prüfung `U.chartData['stats-top'] = { days, bars: false, dots: days.length <= 45 };`, danach `U.card('Kumulierter Netto-P&L', '<div class="chart h240" data-chart="pnl" data-id="stats-top"></div>')`. Der Rest bleibt wie spezifiziert (Reiter zuerst, Serien/Extreme/Drawdown & Risiko).
+- ÜBERNIMMT diagramme-G1: Titel, nur Handelstage und nur mit abgeschlossenen Trades werden in aufbau-C14b umgesetzt.
+
 ## aufbau-C14c · tabSummary: Karten „Serien“, „Extreme“, „Drawdown & Risiko“; Karte „Haltedauer“ entfällt
 
 Gruppe aufbau · Cluster statistik · Aufwand S · Befunde: bereich_statistik-12
@@ -256,16 +274,6 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: U.kv] Die sechs Schritte ändern vier verschiedene Aufrufstellen. Sie überschneiden sich nur in prop.js Z. 104 (Kontokarte) und mittelbar in planText. Verbindlich für Z. 104, innerhalb des `${dead ? '' : …}` aus zustaende-S-P1: `${U.kv(plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen', plan.hasCond && active ? `<a href="#/prop/bilanz" class="prop-plan-link" data-action="prop-plan-open" data-id="${a.id}">${planText(a, ev, plan)}</a>` : planText(a, ev, plan))}`. Die Zeile wird immer gezeigt, denn sie trägt den einzigen Link in den Planer. planText: Der Gewinn-Teil erscheint nur bei `plan.missingProfit > C.EPS && (plan.funded || !ev.target)`; aufbau-C12a und responsiv-3.12a meinen dasselbe. Sind alle Teile leer und fehlt nur noch Gewinn, liefert planText `<span class="muted">nur noch das Ziel</span>`, sonst '—', nie ''. Ein leerer Wert würde Zeile und Link verstecken, und '—' bedeutet laut Zustände Z2 „Wert fehlt“. Wortlaut und Währungsformat des Betrags entscheidet der Anker planText/money (konflikt-9). prop.js Z. 283 (abstaende-M6): eigene Zeile „Heute noch erlaubt“ als Regelgröße in Kontowährung `money(a, cons.allowedToday, { compact: true })` (KI-Look Z5a/Z5c). Damit entfällt der Teil „heute noch … erlaubt“ in kilook-C19c. Die Testanpassung proptest.js:102 prüft die Zeile „Heute noch erlaubt“ und bei verletzter Regel „verletzt“ in „Consistency Rule“, nicht mehr „heute noch“ in der Consistency-Zeile. stats.js tabSummary (aufbau-C14c) und notebook.js statsHTML (diagramme-L1, Zähler nur > 0 gefärbt, passt zu farbe-C30) sind unabhängig. stats.js tabDays: siehe Anker stats.tabDays. Hinweis: responsiv-B7 (.st-cards, dritte Karte bis 1100 px volle Breite) passt zu den drei Karten aus C14c; die dritte Karte ist dann „Drawdown & Risiko“.
-
-## aufbau-C14e · Reiter Zeit: Beschriftungen als .kpi-label
-
-Gruppe aufbau · Cluster statistik · Aufwand S · Befunde: typografie-4
-Quelle: audit/spec/aufbau.md Z. 607–607 · Dateien: web/js/screens/stats.js
-Abhängig von: aufbau-A3a
-
-```text
-- `tabTime` Z. 45: `<div class="caption">Gewinner</div>` / `<div class="caption">Verlierer</div>` → `<div class="kpi-label">…</div>`
-```
 
 ## aufbau-C14f · Reiter Marktphase: Abdeckung nur bei Teilabdeckung als sub
 
@@ -313,33 +321,6 @@ Abhängig von: —
 
 ```
 
-## diagramme-G1 · Statistik-Kopfkarte: Titel „Kumulierter Netto-P&L“, nur Handelstage, nur mit abgeschlossenen Trades
-
-Gruppe diagramme · Cluster statistik · Aufwand S · Befunde: diagramme-13, hierarchie-14, zustaende-5, bereich_statistik-48
-Quelle: audit/spec/diagramme.md Z. 600–610 · Dateien: web/js/screens/stats.js
-Abhängig von: —
-
-```text
-### 3.7 `web/js/screens/stats.js`
-
-**G1 Kopfkarte** (diagramme-13, hierarchie-14, zustaende-5, bereich_statistik-48)
-
-Z. 12–14 →
-```js
-const days = C.dailyAggregation(list);
-let top = ''; if (closed.length) { const id = 'stats-top'; U.chartData[id] = { days, bars: false, dots: days.length <= 45 }; top = U.card('Kumulierter Netto-P&L', `<div class="chart h240" data-chart="pnl" data-id="${id}"></div>`); }
-```
-`const r = App.range();` entfällt. Verschiebt Aufbau/aufbau-19 die Karte in „Übersicht“, gilt dort derselbe Inhalt.
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: stats-top] Endzustand von stats.js Z. 12–14 nach diagramme-G1: `const days = C.dailyAggregation(list); let top = ''; if (closed.length) { const id = 'stats-top'; U.chartData[id] = { days, bars: false, dots: days.length <= 45 }; top = U.card('Kumulierter Netto-P&L', `<div class="chart h240" data-chart="pnl" data-id="${id}"></div>`); }`. Die Karte hat einen Titel und keine Legende, zeigt einen Punkt je Handelstag (kein fillDays) und erscheint nur mit abgeschlossenen Trades. `const r = App.range()` entfällt. Grund: Diagramme A-14 und Aufbau („Karte „Kumulierter Netto-P&L“ (h240, ohne Legende)“). Das Ziel der Zustände-Gruppe, kein leeres Diagramm, ist in G1 schon enthalten. Verschiebt aufbau-19 die Karte in „Übersicht“, gilt dort derselbe Inhalt.
-- ÜBERNIMMT zustaende-S-ST1: Die Prüfung auf closed.length steckt in diagramme-G1. Kein fillDays und kein leerer Kartentitel.
-- [konflikt: fillDays] fillDays (stats.js Z. 20) wird gelöscht (diagramme-G2), sobald diagramme-G1 den einzigen Aufruf entfernt hat. Grund: Das Kopfdiagramm zeigt nur Handelstage (Diagramme A-14). zustaende-S-ST1 würde fillDays weiter aufrufen und entfällt.
-- ÜBERNIMMT zustaende-S-ST1: Die Prüfung auf closed.length steckt in diagramme-G1. Kein fillDays und kein leerer Kartentitel.
-
 ## diagramme-G2 · stats.js: fillDays löschen
 
 Gruppe diagramme · Cluster statistik · Aufwand S · Befunde: diagramme-13, hierarchie-14
@@ -355,6 +336,7 @@ Abhängig von: diagramme-G1
 
 - [konflikt: stats-top] Endzustand von stats.js Z. 12–14 nach diagramme-G1: `const days = C.dailyAggregation(list); let top = ''; if (closed.length) { const id = 'stats-top'; U.chartData[id] = { days, bars: false, dots: days.length <= 45 }; top = U.card('Kumulierter Netto-P&L', `<div class="chart h240" data-chart="pnl" data-id="${id}"></div>`); }`. Die Karte hat einen Titel und keine Legende, zeigt einen Punkt je Handelstag (kein fillDays) und erscheint nur mit abgeschlossenen Trades. `const r = App.range()` entfällt. Grund: Diagramme A-14 und Aufbau („Karte „Kumulierter Netto-P&L“ (h240, ohne Legende)“). Das Ziel der Zustände-Gruppe, kein leeres Diagramm, ist in G1 schon enthalten. Verschiebt aufbau-19 die Karte in „Übersicht“, gilt dort derselbe Inhalt.
 - [konflikt: fillDays] fillDays (stats.js Z. 20) wird gelöscht (diagramme-G2), sobald diagramme-G1 den einzigen Aufruf entfernt hat. Grund: Das Kopfdiagramm zeigt nur Handelstage (Diagramme A-14). zustaende-S-ST1 würde fillDays weiter aufrufen und entfällt.
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
 
 ## diagramme-G3 · Zähler: Tabellenspalten Gewinner/Verlierer neutral, Gewinntage/Verlusttage nur bei > 0 gefärbt
 
@@ -465,6 +447,11 @@ function noTrades(icon, title, hint = 'Ändere den Zeitraum oder logge Trades.')
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+- ÄNDERN: Die Bemerkung „Z. 61 Symbol sparkle bleibt“ streichen, Z. 61 bekommt 'mood' über kilook-C14. Sonst unverändert.
+
 ## zustaende-S-ST3 · Statistik: Zustand-Spalte mit Klasse is-none statt empty
 
 Gruppe zustaende · Cluster statistik · Aufwand S · Befunde: bereich_statistik-1, diagramme-5
@@ -533,10 +520,9 @@ Abhängig von: barrierefreiheit-B9b
 
 - [konflikt: [data-subnav]] stats.js:15 wird zu `<nav class="tabs scroll-x" data-subnav aria-label="Statistik-Bereiche">${TABS.map(([k, l]) => `<a href="#/stats/${k}"${tab === k ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</nav>`. Die Links haben keine Klasse btn und keine Inline-Farbe (Komponenten: kein .btn als Reiter, Schiene .tabs > a aus komponenten-C19). Statt aria-pressed tragen sie aria-current (Barrierefreiheit Z4: nie aria-pressed an Links), der Behälter wird nav mit aria-label. Der gewählte Reiter bekommt seinen Stil über `.tabs a[aria-current="page"]` in der gemeinsamen Liste (barrierefreiheit-B9b). Ohne .btn liefert .tabs > a schon --text-2 und beim Darüberfahren --text. Die beiden Zusatzregeln `.tabs a:not([aria-current="page"])` aus barrierefreiheit-B9b hätten also keine Wirkung und entfallen. calmnavtest.js:50 sucht den gewählten Reiter über [aria-current="page"], und App.revealActive (app.js:113) kennt aria-current schon.
 - ÜBERNIMMT komponenten-S-stats-a: class="btn" und Inline-Farbe entfernt barrierefreiheit-C-stats-15 im selben Durchgang.
-- ÄNDERN: Im Markup nach der Änderung `class="btn"` am <a> weglassen. Sonst wie spezifiziert, Test calmnavtest.js:50/51 auf [aria-current="page"] umstellen.
 - [konflikt: .tabs.scroll-x] Statistik-Reiter in stats.js Z. 15, genau so: `<nav class="tabs scroll-x" data-subnav aria-label="Statistik-Bereiche">${TABS.map(([k, l]) => `<a href="#/stats/${k}"${tab === k ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</nav>`. Das heißt: <nav> mit Namen, kein .btn, keine Inline-Farbe, kein aria-pressed, aria-current nur am gewählten Link. CSS: `.tabs.scroll-x { overflow-x: auto; flex-wrap: nowrap; padding: 3px; margin: 0; }` (C19). Ungewählt --text-2 und Hover --text kommen aus der Schienen-Regel `.tabs > a` (C19). Gewählt kommt aus der gemeinsamen Regel mit `.tabs a[aria-current="page"]` (B9b). Die Zusatzregel `.tabs a:not([aria-current="page"]) …` aus B9b ist überflüssig. Abstand zum Inhalt: Die Schiene hat jetzt einen sichtbaren Rand und kein Scroll-Polster mit Gegenrand mehr. Deshalb entfällt der −4px-Ausgleich in abstaende-C8. Grund: Schiene statt Rahmenknöpfe (komponenten), Navigation als <nav> mit aria-current (barrierefreiheit Z4), 12 px Reiter↔Inhalt (abstaende).
-- ÄNDERN: Im nachher-Markup `class="btn"` am <a> weglassen (siehe Entscheidung). Sonst wie spezifiziert.
 - ÜBERNIMMT komponenten-S-stats-a: Das Entfernen von .btn und der Inline-Farbe übernimmt barrierefreiheit-C-stats-15. Den Behälter behält es nicht als div mit aria-pressed, sondern als nav mit aria-current.
+- VERBINDLICH (Kreuzprüfung): stats.js Z. 15: `<div class="tabs scroll-x" data-subnav>${TABS.map(([k, l]) => `<a class="btn" href="#/stats/${k}" aria-pressed="${tab === k}" style="${tab === k ? '' : 'color:var(--text-2)'}">${l}</a>`)…}</div>` → `<nav class="tabs scroll-x" data-subnav aria-label="Statistik-Bereiche">${TABS.map(([k, l]) => `<a href="#/stats/${k}"${tab === k ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</nav>`. Das Markup hat kein `class="btn"`, keine Inline-Farbe und kein aria-pressed; aria-current steht nur am gewählten Link. Den Stil liefern die Schiene `.tabs > a` und `.tabs.scroll-x { overflow-x: auto; flex-wrap: nowrap; padding: 3px; margin: 0; }` aus komponenten-C19. Gewählt kommt über `.tabs a[aria-current="page"]` aus barrierefreiheit-B9b. Test e2e/calmnavtest.js:51: `t.querySelector('[aria-pressed="true"]')` → `t.querySelector('[aria-current="page"]')`. calmnavtest.js:40/50 und chartanimtest.js:33 (`.tabs a[href=…]`) bleiben gültig, ebenso App.revealActive (kennt aria-current).
 
 ## barrierefreiheit-C-stats-32 · Wochentag-Tabelle: Link in der ersten Zelle
 

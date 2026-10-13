@@ -1,0 +1,228 @@
+{
+ "schritte": [
+  {
+   "nr": "abstaende-B13",
+   "aktion": "aendern",
+   "anweisung": "app.css, Verlaufskachel im TradeLog (Z. 1733–1737). Zusammen mit typografie-3.8b umsetzen (trades.js:26 `<div class=\"spark-body\">` → `<div class=\"body spark-body\">`), weil die verkürzte Regel ohne die Klasse body kein display/flex mehr hätte. (1) Z. 1733 `.tile.spark-tile { gap: 2px; }` löschen. (2) Z. 1734 → `.tile.spark-tile .spark-body { gap: 18px; min-height: 0; flex-wrap: nowrap; }`. display: flex, flex: 1, align-items: flex-start, padding-top: var(--sp-3) und die Trennlinie liefert allein `.tile .body` (abstaende-B9); hier keine Kopie davon, kein eigenes padding-top und kein eigener linear-gradient. `flex-wrap: nowrap` schützt gegen die ≤960-Regel `.tile .body { flex-wrap: wrap }` (Z. 937) und ersetzt den nowrap-Teil von typografie-3.2.5b (der Schritt entfällt). (3) Z. 1736 `.tile.spark-tile .chart { … }` um `margin-block: -14px;` ergänzen. (4) Z. 1737 `@container (max-width: 190px)` → `@container (max-width: 180px)`. Darin bleibt `.tile.spark-tile .spark-body { flex-direction: column; align-items: stretch; gap: 6px; }`, und die Chart-Regel wird `.tile.spark-tile .chart { flex: 0 0 auto; height: 48px; margin-block: 0; }`. Reihenfolge: nach abstaende-B7 und B9. Prüfen bei 1440/1024/390 (dark und light): Der Wert der Verlaufskachel steht auf derselben Wertlinie wie die Nachbarkacheln, die Trennlinie ist dieselbe wie bei allen Kacheln, und bis 960 px bricht nichts um. Bei ≤180 px Kachelbreite stehen Wert und Verlauf direkt untereinander. Zieht das `justify-content: space-between` aus `.tile .body` sie auseinander, in der 180er-Regel `justify-content: flex-start` ergänzen.",
+   "grund": "Paket 1 und Paket 14 wollen beide die Klasse body und 12 px Abstand. Paket 14 wiederholte display, flex, align-items und padding-top, die `.tile .body` schon liefert. Es gilt eine Quelle je Wert (Paket 1, kilook: keine doppelten Deklarationen). Paket 1 ließ `nowrap` weg; laut Paket 14 entfällt typografie-3.2.5b, und `nowrap` wandert hierher. Mit der Klasse body ist es nötig.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "abstaende-D1",
+   "aktion": "aendern",
+   "anweisung": "app.css, Seitenleiste (enthält responsiv-B1, das nicht separat umgesetzt wird). (1) Die beiden @media-Blöcke Z. 146–157 samt Kommentar unverändert direkt hinter `.sidebar .spacer { flex: 1; }` (Z. 187) und vor „Seitenleiste eingeklappt“ verschieben. Dabei die Zeile `.brand { padding-bottom: 14px; }` streichen. (2) `.sidebar` `padding: 22px 14px 18px` → `padding: 0 14px 0`. (3) `.brand` `padding: 4px 0 18px 16px` → `min-height: var(--topbar-h); padding: 0 0 0 16px`. (4) `.sidebar .sb-sep` `margin: 0 8px 14px` → `margin: -5px -14px 14px` (−5 gleicht den gap 4 aus, die Linie liegt bei y = 71 über die volle Breite). Neu: `html.sb-mini .sidebar .sb-sep { margin: -5px -10px 14px; }`. (5) Z. 192 `html.sb-mini .brand { …; padding: 0 0 18px; … }` → `padding: 0; min-height: var(--topbar-h); justify-content: center;`. (6) Z. 232 `.sb-userwrap { margin-top: 10px; flex: 0 0 auto; }` → `.sidebar .sb-userwrap { position: sticky; bottom: 0; z-index: 1; flex: 0 0 auto; margin-top: 2px; padding: 8px 0 18px; background: var(--bg-2); } /* Konto-Karte bleibt sichtbar, die Navigation scrollt darunter */`. Kein `bottom: -18px` und kein negativer Rand. Der Selektor mit `.sidebar` ist Pflicht, weil `.popwrap { position: relative }` (Z. 328) später steht. Die Schublade ≤960 px (Polster mit Safe Area, Marke ohne Titelzeilen-Höhe) regelt responsiv-B2; das kommt danach. Prüfen bei 1440×1000, 1366×768 und 1280×720: `elementFromPoint(sidebar.left + 40, innerHeight − 4)` liegt in `.sb-userwrap`, und `.sb-user` endet bei innerHeight − 18. sidebartest.js, usercardtest.js (inkl. :21 und :55–58) und mobiletest.js:59–60 müssen grün sein.",
+   "grund": "Paket 3 und Paket 13 sind wortgleich: oben gilt das D1-Modell (Marke so hoch wie die Titelzeile), unten das Modell aus responsiv-B1 (Leiste ohne unteres Polster, die 18 px trägt die klebende Karte). Ich habe nur die Prüfpunkte beider Pakete zusammengeführt.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "abstaende-E-day2",
+   "aktion": "aendern",
+   "anweisung": "Die Datumsnavigation bleibt im Inhalt. Es gibt kein `ctx.headLeft`, und Z. 20 bleibt `return `${nav}${stats}…``. In der nav-Zeile day.js:12 werden nur die Klassen umgestellt (enthält komponenten-S-day-a): Beide `class=\"btn round\"` (Voriger/Nächster Tag) → `class=\"btn nav\"`. `<h2 style=\"font-size:18px;margin-left:6px\">` → `<h2 class=\"day-title\">`. Der Link „Heute“ (nur an anderen Tagen, bleibt an seiner Stelle in der rechten Gruppe der Datumszeile) `class=\"btn sm ghost\"` → `class=\"btn sm\"`. CSS neu in app.css (Abschnitt Tagesansicht) als einzige Definition: `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`. Das Gewicht 600 kommt von h2; die Zeile `.day-title` aus komponenten-C36 entfällt. Nicht Teil dieses Schritts: Die Pille „Heute“ wird `U.pill('Heute', 'neutral')` (farbe-C20). Die Knöpfe „Check-in“, „Trade für diesen Tag“ und „Zertifikat“ verschwinden aus der Datumszeile (aufbau-C7b). Das Zertifikat kommt als `actions(ctx)` rechts in die Kopfreihe (abstaende-E-day1). Die Datumsvorbelegung von „Trade loggen“ regeln aufbau-C7a/B6. Voraussetzungen: `.btn.nav` aus komponenten-C07, Tokens aus typografie-3.2.1 und abstaende-A1.",
+   "grund": "Konflikt: Paket 16 wollte die Datumsnavigation per `ctx.headLeft` in die Kopfreihe holen, Paket 9 nicht. Es gilt Paket 9. aufbau K4 hat als zuständige Spezifikation für den Aufbau genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden. Außerdem hängt sie an der offenen Nutzerfrage F1, und der BRIEF erlaubt einen Umbau nur, wenn er klar besser ist. Die Komponenten-Klassen aus Paket 16 (btn nav, btn sm, day-title mit Tokens) bleiben, denn komponenten-S-day-a wurde in diesen Schritt gelegt. Zum Zertifikat gilt die Entscheidung am Anker App.screens.day.head (Paket 1).",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "aufbau-A3b",
+   "aktion": "entfaellt",
+   "anweisung": "Entfällt als eigener Schritt; alle drei Punkte setzen andere Schritte um. `.tile .head` (Z. 517) 13.5 px → `font-size: var(--fs-13); line-height: var(--lh-13)` setzt typografie-3.2.3i. `.stat-tile .k` (Z. 637) schreibt komponenten-C25a als `font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2);`. `.stat .k` (Z. 647) bekommt `font-weight: 500` über typografie-3.2.4l. Die Kachel-Titel sind damit überall 13/500 in --text-2; 13.5 px wird nirgends gesetzt.",
+   "grund": "Paket 7 setzt den Schritt ganz auf entfällt. Paket 12 strich Z. 637 und Z. 647. Sein „übrig bleiben .kpi-label und .strat-stats .k“ meint Punkte der Nachbarschritte A3a und A3c, und `.tile .head` ist laut Paket 7 durch typografie-3.2.3i abgedeckt. Es bleibt also nichts übrig.",
+   "ziel_nr": "typografie-3.2.3i, komponenten-C25a, typografie-3.2.4l"
+  },
+  {
+   "nr": "aufbau-A3c",
+   "aktion": "aendern",
+   "anweisung": "Es bleibt nur Z. 1463: `.fw-lbl { font-size: 12.5px; color: var(--text-2); font-weight: 600; }` → `.fw-lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }`. Das ist die Rolle Wert-Beschriftung über `.fw-big`; typografie-3.2.3f nimmt `.fw-lbl` dafür aus seiner 12er-Liste. Umsetzen nach typografie-3.2.1 (Tokens). Folgendes entfällt: Die vier Raster-Beschriftungen `.strat-stats .k` (Z. 793), `.day-card .stats .k` (Z. 910), `.nb .stats-grid .k` (Z. 1035) und `.fw-stats > div > span` (Z. 1455) bekommen kein `font-weight: 500`. Die Größe 12 setzt typografie-3.2.3e als Token, das Gewicht bleibt 400, die Farbe --muted bleibt. Auch der bedingte Prüfschritt `.fw-stats { gap: 8px }` entfällt; das Raster ordnet abstaende-C3 (var(--sp-3), 2 bzw. 4 Spalten).",
+   "grund": "Die Pakete 7, 14 und 18 ergänzen sich. Paket 7 streicht die vier Rasterpunkte (Typografie: 12/400, 500 würde die Kürzung „Disziplin-Kost…“ verschärfen). Die Pakete 7 und 14 streichen die gap-Bedingung. Paket 18 schreibt `.fw-lbl` mit Tokens.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "aufbau-A4b",
+   "aktion": "entfaellt",
+   "anweisung": "Entfällt als eigener Schritt; alle Punkte setzen Typografie-Schritte um. `.set-head h2` → typografie-3.2.3u: `font-size: var(--fs-18); line-height: var(--lh-18); font-weight: 600; letter-spacing: -0.01em`, ohne eigene Handy-Stufe 16/22 und ohne `letter-spacing: 0`. `.set-head p` → typografie-3.2.3i mit var(--fs-13). `.set-block h3` → typografie-3.2.3r mit `font-size: var(--fs-15); line-height: var(--lh-15); font-weight: 600`; den Abstand var(--sp-4) setzt abstaende-B26, nicht 10px. `.set-row b` und die Optionstitel → typografie-3.2.4k mit `.set-row b, .set-block .row.between > div > b, .set-block .check b, .set-block .avatar-row b, .coach-nrow b { font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; }`. Diese Regel hat keine Farbe, damit „Alles löschen“ (`b.neg`) rot bleibt; Z. 2949 `.coach-nrow b` wird gelöscht.",
+   "grund": "Paket 12 nahm nur `.set-block h3` heraus („übrige bleiben“). Paket 7 wies alle übrigen Punkte Typografie-Schritten zu und nahm `.avatar-row b` aus A4b in typografie-3.2.4k auf. Zusammen bleibt an A4b nichts.",
+   "ziel_nr": "typografie-3.2.3u, typografie-3.2.3i, typografie-3.2.3r, typografie-3.2.4k"
+  },
+  {
+   "nr": "aufbau-A4f",
+   "aktion": "aendern",
+   "anweisung": "Es bleibt nur der Gruppenkopf im Filter-Fenster. (1) Z. 1355 `.fd-pop .fd-gh { padding: 9px 2px; font-size: 13px; }` → `.fd-pop .fd-gh { padding: 10px 2px 6px; font-family: var(--font); }`. Pfeil und Zähler bleiben. (2) `.fd-pop .fd-gh` an die Selektorliste der Eyebrow-Sammelregel aus typografie-3.2.2b (Z. 101) anhängen. Größe var(--fs-11)/var(--lh-11), 600, Versalien, .06em, 'case' und --muted kommen nur von dort; mit Spezifität 0,2,0 schlägt sie die Grundregel `.fd-gh` (Z. 1374). Nicht auf 13 px tokenisieren. Umsetzen nach typografie-3.2.2b. Folgendes entfällt: `.popover .sec` 700 → 600 (setzt die Sammelregel; die Einzelregel behält nur den Innenabstand aus komponenten-C21a). `.fd-pop .fd-l` (komponenten-C05 löscht die Regel, `.fd-l` wird 12/600/--muted). Das Gewicht 500 für `.fd-seg button` und `.fd-tog button` setzt typografie-3.2.4d, das für `.fd-chip` und `.fd-add` komponenten-C16.",
+   "grund": "Jedes Paket hat einen Teil abgezogen: Paket 9 `.popover .sec`, Paket 7 `.fd-l`, Paket 15 die Gewichte von `.fd-seg`/`.fd-tog`, Paket 12 `.fd-chip`/`.fd-add`. Die Pakete 9 und 18 sind sich einig, dass `.fd-gh` seine Typografie über die Sammelregel bekommt, statt die Werte ein zweites Mal zu schreiben. Ihr „Rest bleibt wie spezifiziert“ wird durch die Zuweisungen der anderen Pakete überholt; die Endwerte sind gleich.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "aufbau-A4g",
+   "aktion": "entfaellt",
+   "anweisung": "Entfällt als eigener Schritt. `.cal .wd` (Z. 703) schreibt komponenten-C26a als `text-align: center; padding: 4px 4px 6px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); border: 0; background: none;`; der Kasten entfällt, Z. 704 und Z. 1757 werden gelöscht. `.cal .d .n` (Z. 708) schreibt komponenten-C26a mit var(--fs-12)/var(--lh-12), 500, `background: none`, `color: var(--text-2)`. `.ycal-head span` (Z. 1685) schreibt komponenten-C26b als `text-align: center; padding: 0 2px 6px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); border: 0;`.",
+   "grund": "Paket 14 (`.cal .d .n`) und Paket 18 (`.cal .wd`, `.ycal-head span`) weisen alle drei Zeilen Komponenten-Schritten zu. Größe, Gewicht und Farbe stimmen überein, die Größe steht als Token. Der Satz von Paket 14, `.ycal-head` bleibe „unverändert“, verweist nur auf den Anker, den Paket 18 entschieden hat.",
+   "ziel_nr": "komponenten-C26a, komponenten-C26b"
+  },
+  {
+   "nr": "aufbau-C11a",
+   "aktion": "aendern",
+   "anweisung": "progress.js auf diese Endfassung bringen. Der Schritt enthält zustaende-S-PR1; Z. 69 teilt er sich mit kilook-C18, beide stellen dieselbe Zeile her. Z. 20: `const arrow = (dir, tip = '') => dir > 0 ? `<span class=\"trend up\" aria-label=\"steigend\"${tip ? ` data-tip=\"${esc(tip)}\"` : ''}>${I.arrowUp}</span>` : dir < 0 ? `<span class=\"trend down\" aria-label=\"fallend\"${tip ? ` data-tip=\"${esc(tip)}\"` : ''}>${I.arrowDown}</span>` : '';`. Z. 57: `const pct = Math.round(doneN / items.length * 100);` löschen; doneN bleibt. Z. 59: `const delta = cur.rate != null && prev && prev.rate != null ? Math.round((cur.rate - prev.rate) * 100) : 0; const rateDir = Math.sign(delta);`. Ohne Vorzeitraum und unter einem Prozentpunkt gibt es keinen Pfeil. Z. 68, Karte „Heutiger Fortschritt“: `<div class=\"big-stat\"><span class=\"${doneN ? '' : 'muted'}\">${doneN} / ${items.length}</span></div><div class=\"small muted\">Schritte erledigt</div>`. Dort gibt es keinen Pfeil, kein „Keine Daten“ und kein „x von y Schritten erledigt“. Z. 69 Endfassung: `${U.card('% Regeln eingehalten', `<div class=\"big-stat\"><span>${cur.rate == null ? '<span class=\"muted\">—</span>' : fmt.pct(cur.rate)}</span>${arrow(rateDir, `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${Math.abs(delta) === 1 ? 'Prozentpunkt' : 'Prozentpunkte'} zum Vorzeitraum`)}</div><div class=\"small muted\">…unverändert…</div>${cur.rate == null ? '' : `<div class=\"ring-abs\">${ringArc(cur.rate)}</div>`}`, { info: '…unverändert…', cls: cur.rate == null ? '' : 'ring-card' })}`. Das Minus ist U+2212. Die neuen Texte „Schritte erledigt“, „{0} Prozentpunkte zum Vorzeitraum“ und „{0} Prozentpunkt zum Vorzeitraum“ kommen in js/lang/{en,es,hi,pt,zh}.js. In zustaende.md anpassen: Prüfpunkt 18 (leer_progress) → „Heutiger Fortschritt“ = „0 / 5“ in --muted; Glossarzeile Z. 133 und K6 → Tooltip „{0} Prozentpunkte zum Vorzeitraum“ und „{n} / 5“.",
+   "grund": "Paket 13 (Anker .trend) legt die Inhalte von Z. 20/57/59/68 und den Tooltip fest. Paket 14 (Anker .big-stat) verlangt, Z. 69 nicht allein neu zu schreiben, sondern mit kilook-C18 zu vereinen. Beides ergänzt sich; die Endzeile enthält Pfeil mit Tooltip, „—“ und den Ring nur mit Wert.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "aufbau-C14d",
+   "aktion": "aendern",
+   "anweisung": "stats.js, `tabDays` Z. 30–32. `idw` und `U.chartData['stats-wd']` entfernen. Die Karte „P&L nach Wochentag“ entfällt und mit ihr wording 10.3. `<div class=\"grid two\">${U.card('P&L nach Wochentag', …)}${U.card('Tage im Überblick', …)}</div>` → `<div class=\"grid tiles kstrip\">${U.tile('Handelstage', fmt.int(ds.days))}${U.tile('Gewinntage / Verlusttage', `<span class=\"${ds.winDays ? 'pos' : ''}\">${ds.winDays}</span> / <span class=\"${ds.lossDays ? 'neg' : ''}\">${ds.lossDays}</span>`)}${U.tile('Ø Gewinntag', U.pnl(ds.avgWinDay))}${U.tile('Ø Verlusttag', U.pnl(ds.avgLossDay))}${U.tile('Tages-Profit-Faktor', fmt.factor(ds.dayPF))}${U.tile('Ø Trades pro Tag', fmt.num(ds.avgTrades, 1))}</div>`. Die Zähler sind nur bei > 0 gefärbt. Die Ø-Werte mit Vorzeichen über U.pnl, bei 0 neutral (Klasse neu). Die Tabelle `<div class=\"tbl-wrap\">…</div>` → `U.card('Tage im Detail', '<div class=\"tbl-wrap inset\">…</div>')`. In dieser Tabelle gelten diagramme-G3 (Spalten Gewinner/Verlierer neutral) und farbe-C30 (fehlender Drawdown als „—“ in faint). Das Raster der 6er-Leiste regelt der Anker .grid.tiles.kstrip. Der Z.-31-Teil von diagramme-G3 und farbe-C30 ist mit dieser Leiste erledigt.",
+   "grund": "Paket 6 und Paket 9 sind sich bei der Leiste und den Zählern einig. Bei den Ø-Werten wollte Paket 6 `fmt.cur` mit U.cls, Paket 9 `U.pnl`. Paket 6 verweist für Vorzeichen und Format selbst auf den Anker U.tile (Paket 9). Ergebnisse tragen laut kilook Z5b ein Vorzeichen, und U.pnl färbt 0 ebenfalls neutral, also ist auch das Ziel von Paket 6 erfüllt.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "aufbau-C2a",
+   "aktion": "aendern",
+   "anweisung": "widgets.js. (1) Z. 253, Info von `letzte_trades`: „Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Zum TradeLog“ öffnet die ganze Liste.“ (2) Z. 257: `…${table}<div class=\"more-row\"><a class=\"more-link\" href=\"#/trades\">Mehr anzeigen</a></div>` → `…${table}`. Die Optionen werden `{ info: e.info, cls: 'recent-card', trailing: d.all.length ? more('#/trades', 'Zum TradeLog') : '' }`; `more` aus Z. 307 wird zur Renderzeit aufgerufen. Der Link heißt weder „Alle Trades“ noch „Mehr anzeigen“. (3) Z. 288, Regel-Tracker: `{ trailing: `<a class=\"more-link\" href=\"#/progress\">Mehr anzeigen</a>` }` streichen; der Knopf „Tages-Checkliste“ bleibt. Im Leertext `<a href=\"#/settings\">` → `<a href=\"#/settings/regeln\">`. (4) Tests: e2e/dashtest.js:67 bekommt die Meldung „Zum TradeLog“; die Prüfung `.recent-card .more-link` → `#/trades` bleibt. In dashtest.js:72 den Teil `&& await p.$eval('.w[data-typ=\"regel_tracker\"] .card-head .more-link', …)` streichen; die Prüfung `.tracker-foot a` → `#/progress` bleibt. (5) „Zum TradeLog“ und den neuen Info-Satz in js/lang/{en,es,hi,pt,zh}.js eintragen, mit den Werten aus wording (en: „Go to TradeLog“). Das CSS (`.more-link` neutral, Löschen von `.more-row`) macht aufbau-B12.",
+   "grund": "Paket 3 und Paket 12 sind sich einig: Kopf-Link „Zum TradeLog“ (wording W5), neuer Info-Satz, Regel-Tracker ohne Kopf-Link. Strittig war nur die Bedingung: `rows.length` (Paket 12) oder `d.all.length` (Paket 3). Es gilt `d.all.length`. Das erfüllt W13 und zustaende-S-TE2 (leeres Dashboard ohne Link), und der Kopf-Link springt nicht weg, wenn man auf „Offene Positionen“ ohne offene Position umschaltet (ruhig laut BRIEF).",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "aufbau-C5b",
+   "aktion": "aendern",
+   "anweisung": "app.css. (1) Z. 2648 `.cpn-off { font-size: 13px; color: var(--muted); }`: nur die Farbe ändern, also `color: var(--text-2)`. Keine 13.5 px; die Größe bleibt 13, und typografie-3.2.3l macht daraus `font-size: var(--fs-13); line-height: var(--lh-13)`. (2) Z. 2649 `.cpn-code`: `font-weight: 700` → `font-weight: 600`, `letter-spacing: .12em` → `letter-spacing: .08em`. Onest, 14 px und der gestrichelte Rahmen bleiben. Die Link-Variante `.cpn-code.is-link` (typografie-3.8r/3.2.5e) überschreibt diese Basis und gehört nicht zu diesem Schritt. Die Festlegung „Coupon-Code +0.12em“ in Typografie 1.7 ist damit ersetzt.",
+   "grund": "Paket 1 und Paket 18 sind sich einig: 13.5 px ist in der Text-Skala verboten, die Hervorhebung leistet --text-2. Der Code bekommt 600/.08em, denn 700 gibt es nur für Werte und Hauptknöpfe (BRIEF).",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "barrierefreiheit-B9a",
+   "aktion": "aendern",
+   "anweisung": "Es bleibt nur Z. 320: `.seg button[aria-pressed=\"true\"] { font-weight: 500; }` → `.seg button[aria-pressed=\"true\"], .seg button[aria-checked=\"true\"] { font-weight: 500; }`. Folgendes entfällt: Z. 322 (`.seg.pill button` min. 36 px) und die `.seg.pill`-Regel im ≤560-Block, denn komponenten-C14a löscht `.seg.pill`, und der Check-in läuft als `.scale5`. Z. 324 (32 px) und Z. 325 (Gewählt-Farbe) übernimmt komponenten-C15: `.scale5 button` 32×32, `.scale5.rating button { color: var(--muted); }`, `.scale5.rating button.on { --lc: var(--warn-text); }`, im ≤560-Block `.scale5 button { width: 44px; height: 44px; }` für Check-in und Sterne. Keine Zusatzregel `.scale5:not(.rating) button { 36px }`. Prüfpunkt 22 der Barrierefreiheit heißt dann „Check-in-Skala 32 px (Handy 44)“; Test 19 (≥ 44 bei 390 px) bleibt.",
+   "grund": "Konflikt: Paket 15 wollte den Check-in am Desktop über `.scale5:not(.rating)` auf 36 px setzen, Paket 16 32 px für die ganze Bauart. Es gilt Paket 16: Eine Bauart hat eine Größe (komponenten K24, Einheitlichkeit). Die 36 stammten von der gelöschten Pillenform, und 32 ≥ 24 erfüllt WCAG 2.5.8. Die Touch-Vorgabe 44 bleibt am Handy erfüllt. Außerdem hätte die Desktop-Regel `.scale5:not(.rating) button` (Spezifität 0,2,1) die Handy-Regel `.scale5 button` (0,1,1) aus C15 überstimmt.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "barrierefreiheit-B9b",
+   "aktion": "aendern",
+   "anweisung": "In der gemeinsamen Gewählt-Regel app.css Z. 3125–3128 drei Änderungen: (a) `.tabs a[aria-pressed=\"true\"]` → `.tabs a[aria-current=\"page\"]`; (b) `.prop-tabs a[aria-pressed=\"true\"]` → `.prop-tabs a[aria-current=\"page\"]` (prop.js:304 setzt aria-current schon); (c) `.seg button[aria-checked=\"true\"]` ergänzen. Den Eintrag `.rating button[aria-pressed=\"true\"]` nicht anfassen und kein `.rating button.on` einsetzen. komponenten-C15 ersetzt ihn durch `.scale5 button[aria-checked=\"true\"], .scale5.rating button.on`. Folgendes entfällt: Z. 2596/2598 `.prop-sub a[aria-pressed=\"true\"]`, weil komponenten-C20 die `.prop-sub`-Selektoren direkt mit `[aria-current=\"page\"]` schreibt. Ebenso die Zusatzregeln `.tabs a:not([aria-current=\"page\"]) { color: var(--text-2); }` und `…:hover { color: var(--text); }` nach Z. 1513, denn ungewählt --text-2 und Hover --text liefert `.tabs > a` aus komponenten-C19. Umsetzen nach komponenten-C15, C19 und C20. Das Markup der Statistik-Reiter macht barrierefreiheit-C-stats-15.",
+   "grund": "Die Pakete 1, 4 und 15 lassen die Änderungen an der gemeinsamen Liste bestehen. Paket 16 legt am Anker .rating fest, dass B9b den Rating-Selektor nicht mehr anfasst (sonst gäbe es zwei Fassungen). Paket 4 wollte die `.tabs a:not(...)`-Regeln behalten, ohne C19 zu betrachten. Die Pakete 1 und 15 zeigen am zuständigen Anker, dass sie ohne Wirkung wären, deshalb entfallen sie.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "barrierefreiheit-C-dash-filter-168-189",
+   "aktion": "aendern",
+   "anweisung": "dash-filter.js. Der Schritt enthält bewegung-3.8b; das CSS `.fd-pop.closing { animation: pop-out …; pointer-events: none; }` aus bewegung-B4c muss vorher stehen. (1) Z. 168 `open()` nach `place();` ergänzen: `const b = document.querySelector('[data-action=\"dash-f-open\"]'); if (b) b.setAttribute('aria-expanded', 'true'); const l = layer(); if (!l._trap) { l._trap = true; l.addEventListener('keydown', e => { if (e.key !== 'Tab') return; const f = [...l.querySelectorAll('#fd-pop button:not([disabled]), #fd-pop input, #fd-pop select')].filter(x => x.getClientRects().length); if (!f.length) return; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }); } const g = document.querySelector('#fd-pop .fd-gh'); if (g) g.focus({ preventScroll: true });`. (2) Z. 169 → `function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); pop.inert = true; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action=\"dash-f-open\"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } }`. Hier gibt es kein `#fd-layer.innerHTML = ''`, weil es das Ausblenden abschneiden würde. Es gibt auch kein vorzeitiges return, weil aria-expanded immer zurückgesetzt werden muss. (3) Z. 170 `window.addEventListener('hashchange', close);` → `window.addEventListener('hashchange', () => close());`. (4) Z. 174 Escape: `else close();` → `else close(true);`. (5) Z. 178 `'dash-f-close'() { close(); }` → `'dash-f-close'() { close(true); }`. (6) Z. 189 `dash-f-apply`: nach `App.rerender();` ergänzen `document.querySelector('[data-action=\"dash-f-open\"]')?.focus({ preventScroll: true });`. Der Klick neben das Fenster (pointerdown) ruft weiter `close()` ohne Fokus-Rücksprung. Verträglich sind barrierefreiheit-C-dash-filter-158, C-dashboard-124 (aria-controls) und responsiv-3.5 (place). Prüfen: bewegung-Prüfpunkt 6 (40 ms nach Escape gibt es `#fd-layer .fd-pop.closing`, nach 250 ms ist `#fd-layer` leer). Nach ×, Escape und Anwenden liegt der Fokus auf dem Filter-Knopf, und aria-expanded wechselt true/false.",
+   "grund": "Paket 6 und Paket 11 vereinen beide dieselbe close()-Fassung (Ausblenden aus bewegung-3.8b plus aria-expanded und Fokus-Rücksprung). Paket 11 legt bewegung-3.8b hierher. Paket 6 ergänzt `pop.inert = true`: Es verhindert, dass ein Tastendruck im ausblendenden Fenster `dash-f-apply` mit draft = null auslöst. Das ist robuster und widerspricht nichts, deshalb ist es übernommen.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "barrierefreiheit-C-stats-15",
+   "aktion": "aendern",
+   "anweisung": "stats.js Z. 15: `<div class=\"tabs scroll-x\" data-subnav>${TABS.map(([k, l]) => `<a class=\"btn\" href=\"#/stats/${k}\" aria-pressed=\"${tab === k}\" style=\"${tab === k ? '' : 'color:var(--text-2)'}\">${l}</a>`)…}</div>` → `<nav class=\"tabs scroll-x\" data-subnav aria-label=\"Statistik-Bereiche\">${TABS.map(([k, l]) => `<a href=\"#/stats/${k}\"${tab === k ? ' aria-current=\"page\"' : ''}>${l}</a>`).join('')}</nav>`. Das Markup hat kein `class=\"btn\"`, keine Inline-Farbe und kein aria-pressed; aria-current steht nur am gewählten Link. Den Stil liefern die Schiene `.tabs > a` und `.tabs.scroll-x { overflow-x: auto; flex-wrap: nowrap; padding: 3px; margin: 0; }` aus komponenten-C19. Gewählt kommt über `.tabs a[aria-current=\"page\"]` aus barrierefreiheit-B9b. Test e2e/calmnavtest.js:51: `t.querySelector('[aria-pressed=\"true\"]')` → `t.querySelector('[aria-current=\"page\"]')`. calmnavtest.js:40/50 und chartanimtest.js:33 (`.tabs a[href=…]`) bleiben gültig, ebenso App.revealActive (kennt aria-current).",
+   "grund": "Paket 1 und Paket 15 sind sich einig: kein `.btn` als Reiter (Schiene aus komponenten-C19). Paket 1 ergänzt die Testanpassung; in calmnavtest.js:51 steht tatsächlich noch `[aria-pressed=\"true\"]`.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "bewegung-B5",
+   "aktion": "entfaellt",
+   "anweisung": "Entfällt als eigener Schritt; zustaende-S-C5 setzt alles um. Z. 516 `.tile:hover, .stat-tile:hover` und Z. 2603 `.kstrip .tile:hover` werden ersatzlos gelöscht. Es gibt keine Regel `border-color: var(--border-2)` beim Überfahren; Kacheln reagieren gar nicht, nur das (i) blendet weiter über Z. 497 ein. Die `transition` an `.tile` (Z. 515) und `.stat-tile` (Z. 636) fällt laut der Anpassung an S-C5 ganz weg, weil kein Zustand mehr wechselt. Der Test (bewegung-3.11a bzw. motiontest.js:52–53) prüft, dass beim Überfahren transform none und border-color unverändert bleiben.",
+   "grund": "Paket 8 (zusammen mit zustaende-S-C5) und Paket 14 sind sich einig: Kacheln sind nicht klickbar, also ohne Hover (BRIEF: ruhig, nichts Dekoratives). Paket 14 zitiert für die Transition noch den alten S-C5-Text (border-color var(--dur-1)). Maßgeblich ist Paket 8s Anpassung an S-C5: die Transition ganz entfernen, denn eine wirkungslose Deklaration widerspricht kilook Z11.",
+   "ziel_nr": "zustaende-S-C5"
+  },
+  {
+   "nr": "diagramme-A4",
+   "aktion": "aendern",
+   "anweisung": "app.css, nach Z. 692 neu: `/* Diagramm-Legende: oben links über dem Diagramm, nur bei zwei und mehr Reihen (.legend bleibt für Fieldset-Überschriften) */ .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); } .chart-legend span { display: inline-flex; align-items: center; } .chart-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; } .chart-legend i.dash { width: 14px; height: 0; border-radius: 0; background: none; border-top: 2px dashed var(--text-2); }`. Z. 1649–1651 (`.legend.top`, `.legend.rep i`, `.legend.rep`) löschen, aber erst im selben Lieferschritt wie die Umstellung der letzten Verwender. Das sind diagramme-E8f (widgets.js:299, legend rep), diagramme-E8e (widgets.js:262, legend top) und diagramme-I2 (shadow.js:118, legend top). Danach liefert `grep -rn \"legend top\\|legend rep\\|\\.legend\\.top\\|\\.legend\\.rep\" web/js web/css` keine Treffer. Z. 691–692 (`.legend`, `.legend i`) bleiben für die Fieldset-Überschriften; deren `font-size: 12px` macht typografie-3.2.3g zum Token. Umsetzen nach typografie-3.2.1.",
+   "grund": "Paket 7 und Paket 12 sind sich einig (Token statt 12px, Legende 12/16). Paket 12 bindet die Löschung an diagramme-E8f. Ich habe E8e und I2 ergänzt, weil laut Code auch widgets.js:262 und shadow.js:118 noch `.legend.top` nutzen; sonst bräche dort die Legende.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "diagramme-H1",
+   "aktion": "aendern",
+   "anweisung": "(1) progress.js Z. 6, `ringArc`: am `<circle class=\"arc\" …/>` `style=\"stroke:${U.scoreColor(rate * 100)}\"` ergänzen. Die Farbe folgt dem Score: <50 --loss, 50–74 --warn, ≥75 Gewinnfarbe; Grün also nur mit Bedeutung. Die Bedingung `${rate > 0 ? … : ''}` um den Bogen setzt zustaende-S-PR2. Steht sie schon, das style-Attribut innerhalb der Bedingung ergänzen und nicht doppelt einschließen. (2) app.css Z. 1317 `.ring-arc .arc`: `stroke: var(--accent);` streichen, denn es ist durch die Inline-Farbe wirkungslos. Den drop-shadow entfernt kilook-B4, die transition setzt bewegung-B8. Es ist dieselbe Zeile, also hier nur den stroke-Teil anfassen. (3) Nicht jetzt: `size = 64, lw = 6` und alles, was an der Ringgröße hängt (Rand rechts 96 px und Handy-Regel aus diagramme-A7). Das wartet auf die Nutzerantwort zu ki_look-6; bis dahin bleibt `ringArc(rate, size = 116, lw = 9)`.",
+   "grund": "Paket 10 und Paket 14 sind sich einig: Sofort kommt nur die Bogenfarbe, `rate > 0` setzt zustaende-S-PR2 einmal um, und die Größe ist eine offene Nutzerfrage (BRIEF legt sie nicht fest). Paket 10 ergänzt das Streichen von `stroke: var(--accent)` in Z. 1317.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-B14",
+   "aktion": "aendern",
+   "anweisung": "app.css, Kalender. (1) Z. 711 `.cal .d.loss { background: color-mix(in srgb, var(--loss) 23%, var(--surface)); … }` → `18%`; der Rand mit 52 % bleibt. Der Kommentar in Z. 711 wird `/* dunkel: Rot etwas kräftiger als Grün (18 % zu 16 %), hell beide 10 % */`. (2) Z. 1694 `.yc.loss` `23%` → `18%`. (3) Z. 713 `.cal .d.sel { box-shadow: 0 0 0 2px var(--accent); }` → `box-shadow: 0 0 0 2px var(--text-2);`. (4) Nach Z. 722 neu: `.cal .d:is(.win, .loss, .be) :is(.c, .wr) { color: var(--text-2); }`. (5) Nach Z. 722 neu (hell): `:root[data-theme=\"light\"] .cal .d.win, :root[data-theme=\"light\"] .yc.win { background: color-mix(in srgb, var(--profit) 10%, var(--surface)); border-color: color-mix(in srgb, var(--profit) 35%, var(--border)); }` und `:root[data-theme=\"light\"] .cal .d.loss, :root[data-theme=\"light\"] .yc.loss { background: color-mix(in srgb, var(--loss) 10%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 35%, var(--border)); }`. Folgendes entfällt, weil komponenten-C26a es schreibt: Z. 708 `.cal .d .n` (background none, color --text-2, var(--fs-12), 500). Z. 709, der Heute-Kreis: `.cal .d.today .n { background: var(--text); color: var(--bg); font-weight: 600; }` hinter der Handelstag-Regel. Z. 731, der Mini-Kalender: `.cal.mini .d.today .n { color: var(--text); font-weight: 600; } .cal.mini .d.today { border-color: var(--text-2); }`.",
+   "grund": "Paket 2 (Heute- und Mini-Regeln) und Paket 14 (Z. 708) weisen ihre Zeilen komponenten-C26a zu, mit denselben Farben plus 600. Die übrigen B14-Punkte lassen beide ausdrücklich bestehen.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-B3a",
+   "aktion": "aendern",
+   "anweisung": "app.css. (1) Z. 294 `.input::placeholder { color: var(--faint); }` → `color: var(--muted);`. (2) Z. 299 `.field .hint { font-size: 11.5px; color: var(--faint); }` → `color: var(--muted);`; die Größe bleibt hier unverändert (siehe K26). (3) Nach Z. 298 neu: `.field > label .lbl-hint { color: var(--muted); font-weight: 500; }`. Folgendes entfällt: Z. 303 `.check input` accent-color, denn komponenten-C17a setzt `accent-color: var(--text)` zusammen mit den übrigen Häkchen. Ebenso Z. 324/325 (Bewertung), denn komponenten-C15 setzt `.scale5.rating button { color: var(--muted); }` und `.scale5.rating button.on { --lc: var(--warn-text); }`; der Selektor `.rating button[aria-pressed=\"true\"]` existiert danach nicht mehr.",
+   "grund": "Paket 12 und Paket 16 weisen die Bewertungszeilen komponenten-C15 zu, mit denselben Farben. Paket 16 gibt `.check input` an komponenten-C17a mit demselben Wert. Platzhalter, Hinweis und `.lbl-hint` lassen alle bestehen.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-C16",
+   "aktion": "aendern",
+   "anweisung": "affiliate.js, nur noch Z. 67: `<td>${U.pill(paid ? 'Ausgezahlt' : 'Offen', paid ? 'win' : 'neutral')}</td>` → `<td>${paid ? '<span class=\"muted\">Ausgezahlt</span>' : U.pill('Offen', 'neutral')}</td>`. Z. 47 (`fill=\"var(--profit)\"`) entfällt. Die Balken setzt diagramme-K1 neutral als `<path class=\"br\">` mit `fill=\"var(--text-2)\" fill-opacity=\".45\"` in beiden Ansichten. Die Zeile „Affiliate-Balken --profit“ in farbe 1.9 gilt damit nicht mehr.",
+   "grund": "Paket 3 und Paket 10 sind sich einig: Provisionen sind immer ≥ 0, in der Betreiber-Ansicht sogar Kosten. Grün trüge also keine Bedeutung; laut BRIEF gibt es Grün nur für Gewinn/positiv, und Mengenbalken sind app-weit neutral.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-C1c",
+   "aktion": "aendern",
+   "anweisung": "app.css. (1) Z. 1090 `.nb-toolbar .tb[aria-pressed=\"true\"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }` → `{ background: var(--surface-3); color: var(--text); border-color: var(--border-2); }`. (2) Z. 1109 `.ed-palette .c { …; border: 1px solid rgba(255,255,255,.12); … }` → `border: 1px solid var(--border-2);`. (3) Z. 1120 `.nb-menu .row-item.on, .nb-menu .row-item:hover { background: var(--accent-soft); color: var(--accent); }` → `{ background: var(--surface-2); color: var(--text); }`. (4) Z. 1123 (`.nb-menu .grid-em button.on`, `.nb-menu .grid-em button:hover`) `{ background: var(--accent-soft); }` → `{ background: var(--surface-2); }`. Folgendes entfällt: Z. 1103 `.ed-pop .item .chk`, denn komponenten-C21d setzt `display: none; width: 16px; height: 16px; color: var(--text-2);` wie bei allen Menü-Haken. Ebenso Z. 1124 `.nb-ytpop`, denn komponenten-C22 setzt `border: 1px solid var(--border-2); border-radius: 12px`.",
+   "grund": "Paket 16 (Haken) und Paket 15 (YouTube-Popover) geben je eine Zeile an Komponenten-Schritte ab, die dasselbe Ziel ohne Grün erreichen. Die übrigen vier Punkte bleiben laut beiden Paketen.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-C20",
+   "aktion": "aendern",
+   "anweisung": "day.js. (1) Z. 12 `U.pill('Heute', 'win')` → `U.pill('Heute', 'neutral')`; die Pille bleibt in der Datumszeile (siehe abstaende-E-day2). (2) Z. 15, Trades-Tabelle: `<b style=\"color:${U.scoreColor(sc)}\">${sc}</b>` → `<span style=\"color:${U.scoreText(sc)}\">${sc}</span>`; U.scoreText kommt aus farbe-B27a. (3) Z. 19, Tagesnotiz: `<span class=\"faint\">Noch leer.</span>` → `<span class=\"muted\">Noch leer.</span>`. Folgendes entfällt: Z. 14 (Zähler Gewinner/Verlierer nur bei > 0 gefärbt) setzt diagramme-M1 mit denselben Werten um. Den Knopf „Tagesnotiz anlegen“ (`btn sm primary` → `btn sm`) übernimmt komponenten-S-day-d.",
+   "grund": "Paket 3 gibt die Zählerfärbung einmalig an diagramme-M1 ab, Paket 10 den Knopf an den Komponenten-Schritt. Die übrigen Farbteile lassen beide bestehen.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-C22b",
+   "aktion": "aendern",
+   "anweisung": "misc.js. (1) Profil-Fußzeile (Z. 69): Jedes `<div class=\"small faint\">` der Endfassung wird `<div class=\"small muted\">`, egal ob wording-S17.4-17.7 oder kilook-C24 die Zeile neu geschrieben hat. Der Suchtext „Speicherort:“ ist dafür nicht maßgeblich; nach kilook-C24 bleibt eine Zeile „Deine Daten liegen nur in diesem Browser. …“. (2) Z. 186 `U.pill('aktiv', 'win')` → `U.pill('Aktiv')`. (3) Z. 234: Der Satz `Die Farben folgen deinen Akzent-, Verlust- und Break-even-Farben.` → `Setups sind neutral, Fehler stehen in der Verlustfarbe, Emotionen in der Break-even-Farbe.`. Die Knopf-Teile entfallen, sie führen die komponenten-S-Schritte aus: Z. 62 2FA (komponenten-S-misc-c), der Knopf in Z. 186 (komponenten-S-misc-d, `btn`), Z. 207 (komponenten-S-misc-f/abstaende-L7, `btn`) und Z. 238 (komponenten-S-misc-h).",
+   "grund": "Paket 10 nimmt alle Knopf-Teile heraus (Rolle von .btn.primary nach Komponenten). Paket 4 legt fest, dass die muted-Klasse für die Endfassung der Fußzeile gilt, egal wer sie schreibt. Das verträgt sich.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-C30",
+   "aktion": "aendern",
+   "anweisung": "stats.js. (1) Z. 21, in `statVal` ergänzen: `case 'rSigned': return U.rText(v);`. (2) Tabelle der Karte „Tage im Detail“ (nach aufbau-C14d, vormals Z. 32): Die Drawdown-Zelle `<td class=\"r neg\">${d.intradayDD ? fmt.cur(-d.intradayDD) : '—'}</td>` → `${d.intradayDD ? `<td class=\"r neg\">${fmt.cur(-d.intradayDD)}</td>` : '<td class=\"r faint\">—</td>'}`. Folgendes entfällt: Z. 14 (Legendenpunkt), weil aufbau-C14b die Karte samt Legende löscht. Z. 31 (Gewinntage/Verlusttage), weil das in der Kennzahl-Leiste von aufbau-C14d steckt. Der Z.-32-Teil zu den Gewinner- und Verlierer-Spalten, weil diagramme-G3 sie mit denselben Werten neutral setzt.",
+   "grund": "Die Pakete 3, 6 und 9 sind sich bei Z. 14, Z. 21 und Z. 31 einig. Bei Z. 32 behielten Paket 6 und 9 den ganzen Punkt; Paket 3 gibt die Gewinner-/Verlierer-Spalten einmalig an diagramme-G3 ab. Das Ergebnis ist gleich, nur ohne Doppelarbeit, und so wird es auch bei day.js:14 und trades.js:54 gehandhabt.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-C31b",
+   "aktion": "aendern",
+   "anweisung": "trades.js, `renderMissed`, Kartenkopf (Z. 59). `<div class=\"caption\">Entgangen</div><div class=\"score-big ${U.cls(total)}\">${fmt.cur(total, { signed: true })}</div>` samt Nachbarblock → `<div><div class=\"kpi-label\">${total >= 0 ? 'Entgangen' : 'Verlust vermieden'}</div><div class=\"score-big\">${fmt.cur(Math.abs(total))}</div></div><div><div class=\"kpi-label\">Wären Gewinner gewesen</div><div class=\"score-big\">${wins} von ${m.length}</div></div>`. Der Wert hat kein Vorzeichen und keine Farbe. Die Klasse ist `.kpi-label` wie in aufbau-C15c, nicht `.caption` und nicht `.val-label`. total und wins werden aus der gefilterten Liste m von aufbau-C15c berechnet. Wer von farbe-C31b und aufbau-C15c zuletzt umsetzt, stellt diese Endfassung her. Folgendes entfällt: Z. 54 (Tageskarten-Zähler nur bei > 0 gefärbt), das diagramme-M1 mit denselben Werten umsetzt.",
+   "grund": "Paket 3 gab Z. 54 an diagramme-M1 und ließ Z. 59 hier. Paket 9 gab Z. 59 an aufbau-C15c und ließ Z. 54 hier. aufbau-C15c tauscht laut Spezifikation nur die Klasse und hat keine Anpassung, die den Inhalt übernimmt. Darum bleibt der Inhalt von Z. 59 hier, mit .kpi-label nach Paket 9. Z. 54 läuft einmalig über diagramme-M1, wie bei day.js:14, damit es einheitlich bleibt.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "farbe-C3b",
+   "aktion": "entfaellt",
+   "anweisung": "Entfällt; aufbau-B12 setzt den Link um. Es schreibt `.more-link { color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); text-decoration: none; }` und `.more-link:hover { color: var(--text); }`. Beim Hover gibt es weder Unterstreichung noch `text-underline-offset`: Der Kopf-Link ist ein Bedienelement, unterstrichen sind nur Fließtext-Links (.tlink). `.more-row` löscht ebenfalls aufbau-B12.",
+   "grund": "Paket 12 (zusammen mit aufbau-B12) und Paket 3 (entfällt) sind sich einig. Z. 1659 ist in beiden Spezifikationen gleich. Die Hover-Unterstreichung aus farbe-C3b entfällt nach der Aufbau-Regel „kein Grün, kein Unterstrich“ für Kopf-Bedienelemente.",
+   "ziel_nr": "aufbau-B12"
+  },
+  {
+   "nr": "farbe-C3c",
+   "aktion": "aendern",
+   "anweisung": "app.css. (1) Z. 1710 `.rep-foot .rep-reset { color: var(--accent); … }` → `color: var(--text-2);`. (2) Z. 1711 `.rep-foot .btn.primary { font-size: 12.5px; }` ersatzlos löschen. Es gibt keine Umbenennung zu `.rep-foot .rep-add` und keine Token-Variante; der Knopf `btn sm rep-add` hat über `.btn.sm` schon var(--fs-13). Damit hat auch der Listeneintrag „1711 .rep-foot .btn.primary“ in typografie-3.2.3h nichts mehr zu tun. Folgendes entfällt: Z. 1707 `.rep-sel.on`, weil komponenten-C28 sie als `border-color: var(--text-2); background: var(--surface-3);` schreibt.",
+   "grund": "Konflikt bei Z. 1711: Paket 1 wollte die Umbenennung zu `.rep-add` mit 12.5 px behalten, Paket 15 die Regel löschen. Es gilt Paket 15. 12.5 px ist in der Text-Skala verboten, und .btn.sm liefert die Größe schon. Paket 1 hat am Anker .rep-sel.on nur über Z. 1707 entschieden und Z. 1711 nicht begründet.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "kilook-C18",
+   "aktion": "aendern",
+   "anweisung": "progress.js, Z. 69 Endfassung. Es ist dieselbe Zeile wie in aufbau-C11a; wer zuletzt umsetzt, stellt sie her: `${U.card('% Regeln eingehalten', `<div class=\"big-stat\"><span>${cur.rate == null ? '<span class=\"muted\">—</span>' : fmt.pct(cur.rate)}</span>${arrow(rateDir, `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${Math.abs(delta) === 1 ? 'Prozentpunkt' : 'Prozentpunkte'} zum Vorzeitraum`)}</div><div class=\"small muted\">…unverändert…</div>${cur.rate == null ? '' : `<div class=\"ring-abs\">${ringArc(cur.rate)}</div>`}`, { info: '…unverändert…', cls: cur.rate == null ? '' : 'ring-card' })}`. Ohne Grundlage steht also „—“ gedämpft da, ohne Ring, ohne ring-card und ohne Pfeil (delta = 0). Folgendes entfällt: Z. 6 (Bogen nur bei rate > 0), das zustaende-S-PR2 einmal umsetzt. ringArc behält `size = 116, lw = 9` (N2; die Größe ist offen bis ki_look-6).",
+   "grund": "Paket 10 und Paket 14 sind sich einig: Der ringArc-Teil geht an zustaende-S-PR2, der Z.-69-Teil bleibt. Paket 14 verlangt, ihn mit aufbau-C11a in derselben Zeile zusammenzuführen. Deshalb steht hier die gemeinsame Endzeile, damit keiner den anderen überschreibt.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "kilook-C19c",
+   "aktion": "aendern",
+   "anweisung": "Es bleibt nur prop.js Z. 303: Der Kommentar „Die fünf Bereiche stehen links in der Kopfreihe …“ → „Die drei Bereiche stehen links in der Kopfreihe …“. Alle Ersetzungen in Z. 283/284 entfallen. Die Kontowährung im Payout-Planer setzt wording-S12.24-12.26 um: U.pnl und fmt.balance mit `{ currency: a.currency }`, alle `fmt.cur(…)` → `money(a, …)`, einschließlich der Auszahlung `money(a, ev.pnl * num(a.profitSplit, 0))` und des Vorschlags in Z. 284. Das geschieht ohne `{ compact: true }`, weil Beträge in prop.js laut Anker money/fmt.balance immer 2 Nachkommastellen haben. „heute noch … erlaubt“ wird mit abstaende-M6 eine eigene Zeile „Heute noch erlaubt“.",
+   "grund": "Paket 6 strich nur den Teil „heute noch … erlaubt“ (abstaende-M6) und verweist für das Währungsformat selbst auf den Anker money (Paket 9). Paket 9 legt Z. 283/284 in wording-S12.24-12.26 und schließt compact in prop.js aus. Es bleibt also nur der Kommentar. Hinweis: Die Anpassung von Paket 6 an abstaende-M6 schreibt noch `{ compact: true }`. Nach der money-Festlegung sollte dort `money(a, cons.allowedToday)` ohne compact stehen.",
+   "ziel_nr": ""
+  },
+  {
+   "nr": "kilook-C24",
+   "aktion": "aendern",
+   "anweisung": "misc.js, nach barrierefreiheit-C-misc-15 (neue switchRow mit id, label und aria-describedby; die Signatur bleibt) und nach kilook-C6. (1) Vor Z. 63 (`<div class=\"set-block\"><h3>Daten und Sicherung</h3>`) einfügen: `<div class=\"set-block\"><h3>Bedienung</h3>${switchRow('Tastenkürzel', '<b>N</b> Trade loggen · <b>1–9</b> Bereich wechseln', 'shortcuts-toggle', st.shortcuts !== false)}</div>`. Wird aufbau-25 („Sicherheit und Daten“) angenommen, bleibt „Bedienung“ im Profil direkt nach dem Block „Ruhepunkt“. (2) Z. 69, Fußzeile, eine Zeile: `<div class=\"small muted\">Deine Daten liegen nur in diesem Browser.${S.storageOK ? '' : ' <span class=\"neg\">Speichern ist gerade nicht möglich (privates Fenster oder blockierte Website-Daten).</span>'}</div>`. Es gibt keinen Tastatur-Teil und keine zweite Zeile „Tastenkürzel: …“ aus wording 17.7. (3) In `Object.assign(App.actions, { … })` hinter `'faith-toggle'() { … },` (Z. 282) einfügen: `'shortcuts-toggle'(el) { const on = S.settings.shortcuts === false; S.setSetting('shortcuts', on); el.setAttribute('aria-checked', String(on)); },`. Ohne Neuaufbau, denn der Schalter zeigt seinen Zustand über aria-checked.",
+   "grund": "Paket 4 und Paket 12 sind sich bei der Klasse muted einig. Den Wortlaut der Fußzeile lässt Paket 4 ausdrücklich offen; Paket 12 legt ihn nach wording fest (Texthoheit K13), nämlich die erste Zeile von 17.7 ohne den Tastatur-Teil, weil der Schalter ihn ersetzt. Die Aktion ohne Neuaufbau aus Paket 12 widerspricht nichts.",
+   "ziel_nr": ""
+  }
+ ]
+}

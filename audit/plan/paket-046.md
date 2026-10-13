@@ -1,7 +1,7 @@
-# Paket 046 · diagramme, prop
+# Paket 046 · tokens, diagramme, notebook_news
 
-Schritte: 5 · Dateien: web/css/app.css, web/js/screens/prop.js
-Betroffene Tests laut Spezifikation: Akzeptanz grep 2: grep -c '^\.chart text {' web/css/app.css → 1; Akzeptanz grep 2: grep -n 'stroke-dasharray: 3' web/css/app.css → leer; Akzeptanz grep 4
+Schritte: 4 · Dateien: web/css/app.css
+Betroffene Tests laut Spezifikation: Akzeptanz 4.2 Nr. 1–2 (grep font-size px); Akzeptanz 4.3 news; Akzeptanz grep 2: grep -c '^\.chart text {' web/css/app.css → 1; Screenshot news (14:15 so breit wie 14:30), prop_bilanz (Pro Firma bündig); web/e2e/newstest.js
 Baut auf Paketen auf: 1
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
@@ -30,79 +30,68 @@ Reihenfolge: Tokens und Basisstile → Skalen und Bausteine → Zeichner → Wid
 
 ```
 
-## diagramme-A2 · Gitter und Nulllinie durchgezogen, crispEdges; Strichelung Z. 1323 löschen
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe diagramme · Cluster diagramme · Aufwand S · Befunde: diagramme-7
-Quelle: audit/spec/diagramme.md Z. 294–298 · Dateien: web/css/app.css
+- [doppelt: .chart text] Es gibt eine Regel: `.chart text { fill: var(--muted); font-size: var(--fs-11); font-variant-numeric: tabular-nums; }`, ohne line-height (SVG). Dazu kommen `.chart text.bv` und `.chart text.lbl` aus diagramme-A1; Z. 1647–1648 werden gelöscht. Die Schrift Onest kommt aus der Sammelregel. diagramme-A1 führt das aus. farbe-B13 ist eine Teilmenge davon. tabular-nums steht nur hier, nicht zusätzlich in der Sammelregel von 3.2.2e. Der 11,5-px-Eintrag in 3.2.3c betrifft die gelöschte Zeile. 3.2.3d setzt anschließend `11px` → `var(--fs-11)`.
+- ÜBERNIMMT farbe-B13: Z. 683 ersetzen und Z. 1647–1648 löschen nur einmal, über diagramme-A1.
+- [konflikt: --muted] (1) Der Akzent-Hinweis in Einstellungen → Design (misc.js Z. 145) lautet „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“ (farbe-C22c). Die wording-Fassung „Hauptknöpfe, Schalter, Markierungen und Diagramme.“ wäre nach dem neutralen .btn.primary falsch und widerspräche W1 („Hilfetexte sagen, was der Code tut“). (2) „Auf Standard zurücksetzen“-Knöpfe sind einheitlich `.btn.ghost.sm`, ohne Inline-Farbe und ohne eigene --muted-Variante (Komponenten: „keine weiteren Varianten“, kein Inline-Stil; abstaende-L6/-L8 entfernen die Inline-Farbe bereits). Die Farbe ist die von .btn.ghost (--text-2, Hover --text). Das gilt für color-reset, be-reset, die Notebook-Einstellungen und tags-reset. (3) Die --muted-Werte (farbe-A1/A2) und ihre Nutzung in barrierefreiheit-B13 und diagramme-A1 sind verträglich.
+
+## typografie-3.2.2e · tabular-nums-Sammelregel für Listenwerte und laufende Zahlen
+
+Gruppe typografie · Cluster tokens · Aufwand S · Befunde: typografie-21, bereich_notebook_news-48, bereich_notebook_news-14
+Quelle: audit/spec/typografie.md Z. 224–224 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**A2 Gitter und Nulllinie durchgezogen** (diagramme-7)
-- Z. 684 → `.chart .grid line { stroke: var(--border); shape-rendering: crispEdges; }`
-- Z. 685 → `.chart .zero { stroke: var(--border-2); shape-rendering: crispEdges; }`
-- Z. 1323 (`.chart .grid line { stroke-dasharray: 3 4; }`) löschen.
-
+| Z. 94, nach `.tbl td { font-variant-numeric: tabular-nums; }` | neu: `.kv b, .bar-row .bl b, .chart text, .pfm-top span, .fw-acc-v, .pg-info, .day-card .stats .v, .nw-next-when b, .nw-time, .nw-v b, .nb-toolbar .sz { font-variant-numeric: tabular-nums; }` | typografie-21, bereich_notebook_news-48, bereich_notebook_news-14 |
 ```
 
-## diagramme-A4 · Neue Legendenklasse .chart-legend; .legend.top/.legend.rep (Z. 1649–1651) löschen
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe diagramme · Cluster diagramme · Aufwand S · Befunde: diagramme-14, bereich_training-28
-Quelle: audit/spec/diagramme.md Z. 305–315 · Dateien: web/css/app.css
-Abhängig von: —
+- [doppelt: .chart text] Es gibt eine Regel: `.chart text { fill: var(--muted); font-size: var(--fs-11); font-variant-numeric: tabular-nums; }`, ohne line-height (SVG). Dazu kommen `.chart text.bv` und `.chart text.lbl` aus diagramme-A1; Z. 1647–1648 werden gelöscht. Die Schrift Onest kommt aus der Sammelregel. diagramme-A1 führt das aus. farbe-B13 ist eine Teilmenge davon. tabular-nums steht nur hier, nicht zusätzlich in der Sammelregel von 3.2.2e. Der 11,5-px-Eintrag in 3.2.3c betrifft die gelöschte Zeile. 3.2.3d setzt anschließend `11px` → `var(--fs-11)`.
+- ÄNDERN: `.chart text` nicht in die tabular-nums-Sammelregel aufnehmen; die Eigenschaft steht in der .chart-text-Regel aus diagramme-A1.
+- [konflikt: .pg-info] komponenten will `.pg-info` immer, zustaende will es bei einer Seite nur ohne aktiven Filter. zustaende gilt (aufbau Grundsatz 1: eine Information an einer Stelle). Bei aktivem Filter steht „{x} von {y} Trades“ schon in der Filterzeile.
+
+Verbindlicher Endstand trades.js:
+- Z. 44: Zähler nur bei aktivem Filter (`active = !!(f.q || f.symbol || f.setup || f.status || f.mistake)`).
+- Z. 48: „Trades pro Seite“ steht immer.
+- Bei `pages > 1` kommen dazu: `pg-sep`, `<span class="pg-info">${from + 1}–${to} von ${n} Trades</span>`, `grow`, die Seitenwahl mit „von N Seiten“ und `.pg-nav` mit zwei `<button type="button" class="btn nav">`.
+- Bei `pages <= 1`: ohne Filter `pg-sep` + `<span class="pg-info">{n} Trade(s)</span>`, mit Filter nichts weiter.
+
+Bereichsangabe immer ohne Leerzeichen „1–10“ (komponenten-Wortwahl). Das „{from} – {to}“ in S-T2 zitiert nur den Ist-Text.
+
+Gleiches Format in shadow.js:73 („1–10 von {n} Verstößen“). Dazu shadowtest.js:38 auf `1–10 von ${n2} Verstößen` und Z. 41 auf `startsWith('11–')` anpassen. Neue Schlüssel „{0}–{1} von {2} Trades/Verstößen“ in allen fünf js/lang-Dateien.
+
+tabular-nums für `.pg-info` (3.2.2e) gilt unverändert. Weil die Pfeile einzelne `.btn.nav` werden (komponenten ersetzt Z. 1749–1753), folgt `:disabled` der globalen Regel (`--disabled-o`); die Sonderfarbe `--faint` für die Pager-Pfeile entfällt.
+
+## typografie-3.2.3d · --fs-11: übrige 11-px-Regeln auf das Token
+
+Gruppe typografie · Cluster tokens · Aufwand M · Befunde: typografie-3
+Quelle: audit/spec/typografie.md Z. 243–244 · Dateien: web/css/app.css
+Abhängig von: typografie-3.2.1
 
 ```text
-**A4 Legende** (diagramme-14, bereich_training-28)
-- nach Z. 692 neu:
-  ```css
-  /* Diagramm-Legende: oben links über dem Diagramm, nur bei zwei und mehr Reihen (.legend bleibt für Fieldset-Überschriften) */
-  .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: 12px; font-weight: 400; color: var(--text-2); }
-  .chart-legend span { display: inline-flex; align-items: center; }
-  .chart-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; }
-  .chart-legend i.dash { width: 14px; height: 0; border-radius: 0; background: none; border-top: 2px dashed var(--text-2); }
-  ```
-- Z. 1649–1651 (`.legend.top`, `.legend.rep i`, `.legend.rep`) löschen. Z. 691–692 bleiben unverändert.
+- schon 11 → Token: alle übrigen 11-px-Regeln (z. B. 186, 358, 419, 539, 576, 683, 722, 726, 728, 816, 981, 1022, 1341, 1382, 1421, 1643, 1688, 2354, 2993, 3030, 3085, 3087, 3100)
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
-- ÄNDERN: In der neuen Regel `.chart-legend` `font-size: 12px;` → `font-size: var(--fs-12); line-height: var(--lh-12);`. Alles andere bleibt wie in der Spezifikation (Löschen von Z. 1649–1651, Z. 691–692 bleiben).
-- [konflikt: .legend.rep] diagramme-A4 löscht .legend.top/.legend.rep (Z. 1649–1651) und legt .chart-legend an. diagramme-E8f stellt das Report-Widget im selben Schritt um. typografie-3.2.3l setzt in Z. 1651 kein Token. Die neue Legende steht gleich in der Text-Skala (Legende 12/16): font-size: var(--fs-12); line-height: var(--lh-12).
-- ÄNDERN: .chart-legend { …; font-size: var(--fs-12); line-height: var(--lh-12); … } statt font-size: 12px. Die Löschung von .legend.rep nur zusammen mit E8f ausliefern.
+- [doppelt: .chart text] Es gibt eine Regel: `.chart text { fill: var(--muted); font-size: var(--fs-11); font-variant-numeric: tabular-nums; }`, ohne line-height (SVG). Dazu kommen `.chart text.bv` und `.chart text.lbl` aus diagramme-A1; Z. 1647–1648 werden gelöscht. Die Schrift Onest kommt aus der Sammelregel. diagramme-A1 führt das aus. farbe-B13 ist eine Teilmenge davon. tabular-nums steht nur hier, nicht zusätzlich in der Sammelregel von 3.2.2e. Der 11,5-px-Eintrag in 3.2.3c betrifft die gelöschte Zeile. 3.2.3d setzt anschließend `11px` → `var(--fs-11)`.
+- [konflikt: .nav .badge-n] Z. 186 `.nav .badge-n { … }` wird gelöscht. Toter Code: `badge-n` kommt in web/js und web/app.html nicht vor (kilook Z11, Prüfung kilook 11). Die Umstellung von 11 px auf das Token entfällt für diese Zeile.
+- ÄNDERN: Z. 186 aus der Liste der 11-px-Regeln streichen (Regel wird von kilook-C1a gelöscht).
+- [doppelt: .btn .cntb] Das Gewicht 700 → 600 steht zweimal da (3.2.4l und S-C7). S-C7 übernimmt es zusammen mit der neutralen Farbe, 3.2.3d stellt die Größe auf das Token um. Endstand: `.btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: color-mix(in srgb, var(--text) 16%, transparent); color: var(--text); font-size: var(--fs-11); line-height: var(--lh-11); font-weight: 600; }`. Ein Zähler ist ein Etikett, daher 600, ohne Grün. Prüfung zustaende 8 (kein `var(--bg)` in `.btn .cntb`) ist damit erfüllt.
+- [doppelt: .fd-panel .cntb] Wie bei .btn .cntb: S-C7 setzt Fläche `color-mix(in srgb, var(--text) 16%, transparent)`, Schrift `var(--text)` und Gewicht 600, 3.2.3d stellt `font-size: var(--fs-11); line-height: var(--lh-11)` um. 3.2.4l ändert die Zeile nicht separat.
+- [konflikt: .nw-n] Die Zähler-Pille im News-Tageskopf entfällt (aufbau Grundsatz 1, Prüfung aufbau 727/756). news.js Z. 81 ohne `<span class="nw-n">`, Regel Z. 3087 gelöscht. Die 11-px-Token-Umstellung entfällt für diese Zeile.
+- ÄNDERN: Z. 3087 `.nw-n` aus der Liste streichen (Regel wird von aufbau-C9b gelöscht).
 
-## diagramme-J2 · Prop „Ausgaben vs. Payouts“: .chart-legend vor dem Diagramm
+## typografie-3.2.6b · News-Ziffern: tabular-nums kommt aus der Sammelregel (nur prüfen, keine Einzeländerung)
 
-Gruppe diagramme · Cluster prop · Aufwand S · Befunde: diagramme-14
-Quelle: audit/spec/diagramme.md Z. 666–667 · Dateien: web/js/screens/prop.js
-Abhängig von: diagramme-A4
-
-```text
-**J2 Legende** (diagramme-14) Z. 257: die `<div class="legend">…</div>` hinter dem `.chart` → `<div class="chart-legend">…</div>` vor dem `.chart` (Inhalt gleich).
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
-
-## zustaende-S-P2 · Prop-Bilanz ohne Buchungen: „—“ statt „erreicht“, kein Diagramm, keine „Pro Firma“, Legende nur mit Daten
-
-Gruppe zustaende · Cluster prop · Aufwand S · Befunde: bereich_prop-14, bereich_prop-15
-Quelle: audit/spec/zustaende.md Z. 724–730 · Dateien: web/js/screens/prop.js
-Abhängig von: —
+Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-48
+Quelle: audit/spec/typografie.md Z. 375–376 · Dateien: web/css/app.css
+Abhängig von: typografie-3.2.2e
 
 ```text
-**S-P2 Bilanz ohne Buchungen** – bereich_prop-14, bereich_prop-15
-- In `tabBilanz` vor `const tiles` (Z. 256) neu: `const none = bs.spent <= C.EPS;`
-- Kachel „Bis Break-even“: Wert `bs.toBreakEven > C.EPS ? <neg> : '<span class="pos">erreicht</span>'` → `none ? '—' : bs.toBreakEven > C.EPS ? <neg wie bisher> : '<span class="pos">erreicht</span>'`; Fuß `bs.toBreakEven > C.EPS ? 'fehlende Payouts (netto)' : 'Payouts decken alle Ausgaben'` → `none ? 'noch keine Ausgaben' : (wie bisher)`.
-- Kachel „Kosten je Bestehen“: `bs.costPerPassed == null ? '—' : fmt.cur(bs.costPerPassed)` → `bs.costPerPassed == null || none ? '—' : fmt.cur(bs.costPerPassed)`. Fuß unverändert.
-- Z. 257 Legende `<div class="legend">…</div>` nur bei `bs.series.length`.
-- Z. 271 `${tiles}<div class="grid main-side">${chart}${byFirm}</div>${expenses}…` → `${tiles}${ex.length || po.length ? `<div class="grid main-side">${chart}${byFirm}</div>` : ''}${expenses}${payouts}${planer}`
+| `.nw-next-when b` (3077), `.nw-time` (3091), `.nw-v b` (3106) | `tabular-nums` kommt aus der Sammelregel 3.2.2 (keine Einzeländerung nötig) | bereich_notebook_news-48 |
 
 ```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
-- ÄNDERN: Die Bedingung „Legende nur bei bs.series.length“ gilt für die `<div class="chart-legend">…</div>`, die J2 vor `.chart` gesetzt hat. Die alte `<div class="legend">` hinter dem Diagramm nicht wiederherstellen. Endstand siehe Entscheidung (c).

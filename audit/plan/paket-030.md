@@ -2,7 +2,7 @@
 
 Schritte: 10 · Dateien: web/css/app.css, web/e2e/affiliatetest.js, web/e2e/calmnavtest.js, web/e2e/chartanimtest.js, web/e2e/coachtest.js, web/js/certificate.js, web/js/screens/coach.js, web/js/screens/coupons.js
 Betroffene Tests laut Spezifikation: web/e2e/affiliatetest.js:15-16; web/e2e/calmnavtest.js:40; web/e2e/calmnavtest.js:44; web/e2e/calmnavtest.js:47-48; web/e2e/chartanimtest.js:35; web/e2e/coachlang2.js (neuer Text); web/e2e/coachtest.js:154; web/e2e/coachtest.js:178; web/e2e/coachtest.js:194 (bleibt grün); web/e2e/coachtest.js:80-81; web/e2e/coachtest.js:81 (zählt .coach-entry.is-new, bleibt); web/e2e/coachtest.js:83; web/e2e/mobiletest.js:39-40 (bleibt grün)
-Baut auf Paketen auf: 7, 11, 15, 29
+Baut auf Paketen auf: 7, 9, 15, 29
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -114,9 +114,8 @@ CSS (`web/css/app.css`) · bereich_konto-48:
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: .cpn-code] .cpn-code bekommt font-weight 600 und letter-spacing .08em (aufbau-C5b). Onest, 14px und der gestrichelte Rahmen bleiben. Das Link-Ticket erhält die Klasse is-link (typografie-3.8r) mit `.cpn-code.is-link { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; letter-spacing: 0; }` (typografie-3.2.5e), das überschreibt die Basis. Begründung: Laut Brief bekommen nur Werte und Hauptknöpfe 700, und der Code ist keins von beiden. .08em wurde mit einer Vorher/Nachher-Aufnahme geprüft (extra/cpn-review-*-1440.png) und wirkt ruhiger. Die Festlegung „Coupon-Code +0.12em (bleibt)“ in Typografie 1.7 ist damit ersetzt: Es gilt .08em. Bei .cpn-off ändert sich nur die Farbe auf --text-2. 13,5 px ist in der Text-Skala verboten, deshalb bleibt die Größe 13 px, und typografie-3.2.3l macht daraus das Token --fs-13.
-- ÄNDERN: .cpn-off: nur `color: var(--text-2)` setzen, font-size nicht auf 13.5px ändern (das Token --fs-13 setzt typografie-3.2.3l). Den .cpn-code-Teil (font-weight 600, letter-spacing .08em) unverändert umsetzen.
 - [konflikt: .cpn-off] Das Ergebnis lautet `.cpn-off { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); }`. Begründung: 13,5 px ist laut typografie verboten, und die Rabattzeile hat die Rolle „Beschreibung“ (13). Die gewünschte Hervorhebung leistet die Farbe --text-2 statt --muted.
-- ÄNDERN: In Z. 2648 nur `color: var(--muted)` → `color: var(--text-2)` ändern. Die Schriftgröße bleibt 13, typografie-3.2.3l stellt sie auf var(--fs-13)/var(--lh-13). Den Punkt zu .cpn-code (Z. 2649) regelt konflikt-1.
+- VERBINDLICH (Kreuzprüfung): app.css. (1) Z. 2648 `.cpn-off { font-size: 13px; color: var(--muted); }`: nur die Farbe ändern, also `color: var(--text-2)`. Keine 13.5 px; die Größe bleibt 13, und typografie-3.2.3l macht daraus `font-size: var(--fs-13); line-height: var(--lh-13)`. (2) Z. 2649 `.cpn-code`: `font-weight: 700` → `font-weight: 600`, `letter-spacing: .12em` → `letter-spacing: .08em`. Onest, 14 px und der gestrichelte Rahmen bleiben. Die Link-Variante `.cpn-code.is-link` (typografie-3.8r/3.2.5e) überschreibt diese Basis und gehört nicht zu diesem Schritt. Die Festlegung „Coupon-Code +0.12em“ in Typografie 1.7 ist damit ersetzt.
 
 ## aufbau-D3a · Test affiliatetest.js anpassen
 

@@ -1,8 +1,8 @@
 # Paket 017 · trades_tag
 
 Schritte: 26 · Dateien: web/README.md, web/css/app.css, web/e2e/mobiletest.js, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 day; Akzeptanz 4.3 trades (Datumsspalte „08.10. 19:43“ in Onest); Akzeptanz 4.4: grep "<td>\${fmt.(date|time)" ohne Treffer; Akzeptanz 4.4: grep class="caption"; e2e/blindtest.js:23 (#f-dir); e2e/tradeformtest.js; web/e2e/certtest.js:54; web/e2e/certtest.js:54 (Zertifikat-Knopf in der Tagesansicht bleibt); web/e2e/mobiletest.js:31; web/e2e/tlfittest.js; web/e2e/tradeformtest.js (Handy 390×844 ohne Scrollen, muss grün bleiben); web/e2e/tradeformtest.js (muss grün bleiben); web/tests/inline-style.test.mjs (Zählung, Schritt R5)
-Baut auf Paketen auf: 1, 2, 4, 5, 10
+Betroffene Tests laut Spezifikation: Akzeptanz 4.3 day; Akzeptanz 4.3 trades (Datumsspalte „08.10. 19:43“ in Onest); Akzeptanz 4.4: grep "<td>\${fmt.(date|time)" ohne Treffer; e2e/blindtest.js:23 (#f-dir); e2e/tradeformtest.js; web/e2e/certtest.js:54; web/e2e/certtest.js:54 (Zertifikat-Knopf in der Tagesansicht bleibt); web/e2e/mobiletest.js:31; web/e2e/tlfittest.js; web/e2e/tradeformtest.js (Handy 390×844 ohne Scrollen, muss grün bleiben); web/e2e/tradeformtest.js (muss grün bleiben); web/tests/inline-style.test.mjs (Zählung, Schritt R5)
+Baut auf Paketen auf: 1, 2, 3, 4, 8
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -44,6 +44,10 @@ Abhängig von: farbe-B3a
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: App.openSessionEnd] kilook-C8c setzt app.js:530 einmal um: dreimal `<div class="kpi-label">` mit den Beschriftungen „Heute“, „Trades“, „Trefferquote“ (Wording-Glossar, nie „Win-Rate“). guard: true (P14b, Z. 529), die Checkbox .vh mit done (P14c, Z. 531) und der Hinweis .lbl-hint (farbe-C12c, Z. 533) betreffen andere Stellen und sind verträglich.
+
 ## farbe-C20 · Tagesansicht: Pille „Heute“ neutral, Zähler nur > 0 gefärbt, Score mit scoreText, Leertext muted, Knopf neutral
 
 Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: farbe_kontrast-24, referenz-8, komponenten-8, bereich_trades_tag-25, farbe_kontrast-42, bereich_trades_tag-19, barrierefreiheit-25, bereich_trades_tag-21
@@ -62,7 +66,10 @@ Abhängig von: farbe-B27a
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
-- ÄNDERN: Z. 14 (Zähler) entfällt, das übernimmt diagramme-M1. Z. 12, 15 und 19 bleiben.
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+- VERBINDLICH (Kreuzprüfung): day.js. (1) Z. 12 `U.pill('Heute', 'win')` → `U.pill('Heute', 'neutral')`; die Pille bleibt in der Datumszeile (siehe abstaende-E-day2). (2) Z. 15, Trades-Tabelle: `<b style="color:${U.scoreColor(sc)}">${sc}</b>` → `<span style="color:${U.scoreText(sc)}">${sc}</span>`; U.scoreText kommt aus farbe-B27a. (3) Z. 19, Tagesnotiz: `<span class="faint">Noch leer.</span>` → `<span class="muted">Noch leer.</span>`. Folgendes entfällt: Z. 14 (Zähler Gewinner/Verlierer nur bei > 0 gefärbt) setzt diagramme-M1 mit denselben Werten um. Den Knopf „Tagesnotiz anlegen“ (`btn sm primary` → `btn sm`) übernimmt komponenten-S-day-d.
 
 ## farbe-C31a · TradeLog: Leerzustand „Trade loggen“ accent, Score über scoreText, Regeln-Symbol .rule-ic, „offen“ muted
 
@@ -79,6 +86,8 @@ Abhängig von: farbe-B26, farbe-B27a
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
+- [konflikt: .btn.accent] .btn.accent steht nur noch für „Trade loggen“ (App.newTradeButton `.btn.accent.tl` und der runde Handy-Knopf). Aktiver Dashboard-Filter: Klasse `is-on`. So steht es in zustaende-S-D2/-S-C7, kollisionsfrei und im gemeinsamen Ausgewählt-Stil. farbe-C19b/-B25 nennen denselben Zustand `.dh-context .btn.is-set`; das entfällt. Das aria-label „Filter ({0} aktiv)“ aus farbe-C19b bleibt. TradeLog-Leerzustand „Trade loggen“: neutral `btn sm` (komponenten-S-trades-b). Gründe: Die Kopfreihe trägt „Trade loggen“ schon, die Farbe-Spezifikation selbst verlangt „1 je Ansicht“, BRIEF spricht von dem einen Hauptknopf, und Leerzustand-Aktionen sind btn sm. „Trade für diesen Tag“ entfällt (wording-S8.1-8.2). Damit ist jedes .btn.accent ein Hauptknopf: `.btn.accent` font-weight 600 → 700 direkt, ohne eigene Regel `.btn.accent.tl`; die wäre eine wirkungslose Doppelregel. Der aktive Filter (is-on) bleibt 500 wie jeder Knopf, also nicht fetter.
+- ÄNDERN: Der Z.-45-Teil (Leerzustand `btn sm accent`) entfällt; der Knopf wird `btn sm` (komponenten-S-trades-b). Score über scoreText, `.rule-ic` und „offen“ muted bleiben.
 
 ## farbe-C31b · Tageskarten-Zähler nur > 0 gefärbt; Verpasste Trades „Entgangen“/„Verlust vermieden“ ohne Vorzeichen und Farbe
 
@@ -94,7 +103,8 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
-- ÄNDERN: Z. 54 (Tageskarten-Zähler) entfällt, das übernimmt diagramme-M1. Z. 59 (Verpasste Trades) bleibt.
+- [konflikt: trades.renderMissed] renderMissed folgt aufbau-C15c: Filter nach Zeitraum und Konto, zwei Leerzustände, accountId beim Speichern. Der Kartenkopf (Z. 59) wird einmal so umgesetzt: `<div><div class="kpi-label">${total >= 0 ? 'Entgangen' : 'Verlust vermieden'}</div><div class="score-big">${fmt.cur(Math.abs(total))}</div></div><div><div class="kpi-label">Wären Gewinner gewesen</div><div class="score-big">${wins} von ${m.length}</div></div>`. Der Inhalt (Beschriftungswechsel, ohne Vorzeichen und Farbe) kommt aus farbe-C31b (Farbregel „Verpasste Trades“), die Klasse aus aufbau-C15c. total und wins werden aus der gefilterten Liste m berechnet. Die Tabellenzellen derselben Zeile sind verträglich: komponenten-S-trades-e (Symbol/Richtung), responsiv-3.7 (Setup-Tooltip), typografie-3.8c (Datum num/dateRow).
+- VERBINDLICH (Kreuzprüfung): trades.js, `renderMissed`, Kartenkopf (Z. 59). `<div class="caption">Entgangen</div><div class="score-big ${U.cls(total)}">${fmt.cur(total, { signed: true })}</div>` samt Nachbarblock → `<div><div class="kpi-label">${total >= 0 ? 'Entgangen' : 'Verlust vermieden'}</div><div class="score-big">${fmt.cur(Math.abs(total))}</div></div><div><div class="kpi-label">Wären Gewinner gewesen</div><div class="score-big">${wins} von ${m.length}</div></div>`. Der Wert hat kein Vorzeichen und keine Farbe. Die Klasse ist `.kpi-label` wie in aufbau-C15c, nicht `.caption` und nicht `.val-label`. total und wins werden aus der gefilterten Liste m von aufbau-C15c berechnet. Wer von farbe-C31b und aufbau-C15c zuletzt umsetzt, stellt diese Endfassung her. Folgendes entfällt: Z. 54 (Tageskarten-Zähler nur bei > 0 gefärbt), das diagramme-M1 mit denselben Werten umsetzt.
 
 ## farbe-C31c · Trade-Ansicht: Disziplin-Teilwerte, „Keine Fehler markiert“, Sprachnotiz muted, Knöpfe neutral
 
@@ -110,6 +120,11 @@ Abhängig von: farbe-A1, farbe-A2
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+- ÄNDERN: Die Knopf-Teile an Z. 84/85 entfallen (komponenten-S-trades-f). Disziplin-Teilwerte, „Keine Fehler markiert“ und Sprachnotiz muted bleiben.
+
 ## farbe-D3a · README Z. 43: Long/Short-Fläche „flach, leicht getönt“
 
 Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-12
@@ -119,20 +134,6 @@ Abhängig von: farbe-B17
 ```text
 **D3 – `web/README.md`**
 - Z. 43: „eine leuchtende Fläche gleitet zur gewählten Seite“ → „eine flache, leicht getönte Fläche gleitet zur gewählten Seite“ — bereich_trades_tag-12
-```
-
-## typografie-3.7a · Session beenden: Beschriftungen „Heute/Trades/Win-Rate“ als .val-label
-
-Gruppe typografie · Cluster trades_tag · Aufwand S · Befunde: referenz-43
-Quelle: audit/spec/typografie.md Z. 411–415 · Dateien: web/js/app.js
-Abhängig von: typografie-3.2.2c
-
-```text
-### 3.7 `web/js/app.js`
-
-| Stelle | vorher → nachher | Befund |
-|---|---|---|
-| Z. 530 (Session beenden) | dreimal `<div class="caption">` („Heute“, „Trades“, „Win-Rate“) → `<div class="val-label">` | referenz-43 |
 ```
 
 ## typografie-3.7b · CSV-Vorschau: Datumszellen mit Klasse num
@@ -161,6 +162,11 @@ Abhängig von: typografie-3.2.2c, typografie-3.2.2f
 | day.js:15 | `<td>${fmt.time(t.open)}…</td>` → `<td class="num">${fmt.time(t.open)}…</td>` | typografie-12 |
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .kpi-label] Es gibt genau eine Klasse für Beschriftungen direkt über oder neben einem Wert: .kpi-label. Aufbau und KI-Look nutzen sie, KI-Look schließt .val-label und .tracker-cap ausdrücklich aus. Die Werte entsprechen der Typografie-Rolle „Wert-Beschriftung“. Die Klasse wird einmal hinter .caption (app.css:101) definiert, mit Tokens und ohne flex: `.kpi-label { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); } /* Beschriftung direkt über einem Wert, Satzschreibung; .caption bleibt für Abschnittslabels */`. Gründe gegen die flex-Fassung aus aufbau-A3a: Sie würde „P&L“ in `.prop-balance .r` (text-align: right) nach links ziehen. Das Info-Symbol bei „Heutiger Score“ sitzt als span.info inline wie in .tile .head. `.kpi-label.sm` wird nicht angelegt, kein Markup nutzt es (kein toter Code). Es gibt weder .val-label noch .tracker-cap. Jede Stelle setzt genau ein Schritt um: widgets.js:184/287 → aufbau-C2b (Z. 227 siehe .caption), app.js:530 → kilook-C8c, day.js:14 → kilook-C13, stats.js:45 → aufbau-C14e, trades.js:59 → aufbau-C15c, replay.js:83 → kilook-C17, prop.js:102 → kilook-C19b.
+- ÄNDERN: Den Teil day.js:14 übernimmt kilook-C13 (.kpi-label statt .val-label). day.js:15 (Zeitzelle class="num") bleibt.
+
 ## typografie-3.8c · TradeLog und Verpasste Trades: fmt.dateRow mit num-Zellen, Wert-Beschriftungen als .val-label
 
 Gruppe typografie · Cluster trades_tag · Aufwand S · Befunde: referenz-28, typografie-12, referenz-43
@@ -171,6 +177,11 @@ Abhängig von: typografie-3.4c, typografie-3.2.2c, typografie-3.2.2f
 | trades.js:49 | `<td>${fmt.dateFull(t.open)} <span class="muted">${fmt.time(t.open)}</span></td>` → `<td class="num">${fmt.dateRow(t.open)} <span class="muted">${fmt.time(t.open)}</span></td>`. Zelle „Geschlossen“: `<td>${t.close ? …` → `<td${t.close ? ' class="num"' : ''}>${t.close ? …`, darin `fmt.dateFull(t.close)` → `fmt.dateRow(t.close)` | referenz-28, typografie-12 (K21) |
 | trades.js:59 | `<div class="caption">Entgangen</div>` und `<div class="caption">Wären Gewinner gewesen</div>` → `class="val-label"`; `<td>${fmt.dateFull(C.parseDayKey(x.date))}</td>` → `<td class="num">${fmt.dateRow(C.parseDayKey(x.date))}</td>` | referenz-43, typografie-12, referenz-28 |
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: trades.renderMissed] renderMissed folgt aufbau-C15c: Filter nach Zeitraum und Konto, zwei Leerzustände, accountId beim Speichern. Der Kartenkopf (Z. 59) wird einmal so umgesetzt: `<div><div class="kpi-label">${total >= 0 ? 'Entgangen' : 'Verlust vermieden'}</div><div class="score-big">${fmt.cur(Math.abs(total))}</div></div><div><div class="kpi-label">Wären Gewinner gewesen</div><div class="score-big">${wins} von ${m.length}</div></div>`. Der Inhalt (Beschriftungswechsel, ohne Vorzeichen und Farbe) kommt aus farbe-C31b (Farbregel „Verpasste Trades“), die Klasse aus aufbau-C15c. total und wins werden aus der gefilterten Liste m berechnet. Die Tabellenzellen derselben Zeile sind verträglich: komponenten-S-trades-e (Symbol/Richtung), responsiv-3.7 (Setup-Tooltip), typografie-3.8c (Datum num/dateRow).
+- ÄNDERN: trades.js:59: Der Klassen-Teil (.val-label) entfällt, aufbau-C15c setzt dort .kpi-label. Datumszelle `<td class="num">${fmt.dateRow(…)}</td>` und trades.js:49 bleiben bei typografie-3.8c.
 
 ## abstaende-B16 · Kennzahlen-Raster: Handy-Einspaltigkeit (560er) löschen, .stat-Polster auf Skala, neu .stat-grid.detail (Trade-Ansicht), .detail-head .stars, 359er-Regel einspaltig
 
@@ -258,10 +269,12 @@ Abhängig von: abstaende-E-day1, abstaende-E3, abstaende-A6
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
+- [konflikt: ctx.headLeft] Tagesansicht: Die Datumszeile bleibt im Inhalt, ohne ctx.headLeft. aufbau K4 hat genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden, und sie hängt an F1 (komponenten-3/bereich_shell-8). Die Knöpfe „Check-in“ und „Trade für diesen Tag“ entfallen mit aufbau-C7b, „Zertifikat“ bleibt dort mit I.award, die Pille „Heute“ ist neutral (farbe-C20). Von abstaende-E-day2 bleibt nur der Inline-Stil des Datumstitels als Klasse: `<h2 class="day-title">` mit `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }` (h2-Rolle 18/600, einzige Definition; .day-title in komponenten-C36 entfällt). Trade-Ansicht: Links steht der Rückweg per ctx.headLeft (aufbau-C15d). Die Seitenaktionen aus wording 9.11 kommen nicht in die Rückweg-Zeile, sondern als `actions(ctx)` rechts in die Kopfreihe; die Aufbau-Regel lautet „rechts Seitenaktionen → .dh-sep → Trade loggen“. Bei ctx.params[0]: Notiz-Knopf (`btn`, „Notiz öffnen“ bzw. „Notiz im Notebook“), `btn danger` „Löschen“, `btn` „Trade bearbeiten“ (Seitenebene = btn, nicht primary); ohne Trade-Datensatz ''. Ohne Parameter bleibt „CSV importieren“. pageHead (aufbau-B1), News (aufbau-C9a) und Affiliate (aufbau-C3) bleiben unverändert.
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.
 - [konflikt: App.pageHead] aufbau-B1 schreibt pageHead und newTradeButton neu und nimmt die Teile der anderen Schritte auf. Endzustand: `const sh = typeof screen.head === 'function' ? screen.head(ctx) : screen.head; const h = Object.assign({ range: true, account: true, session: true, trade: true, note: '', tradeTip: '' }, sh);`. In `left` steht `this.accountControl({ mobile: !h.range, iconM: !!h.range })` (responsiv-3.3a), danach wie heute `ctx.headLeft` und der Hinweis. In `right` steht `this.sessionControl()` ohne Argument (komponenten-A4); B1 lässt dort fälschlich noch `(true)` stehen. Vor dem return kommt `if (!left && !right) return '';`; das steht in B1 und abstaende-E1 gleich, also doppelt. abstaende-E-day2 setzt nur `ctx.headLeft` und passt ohne Änderung, weil pageHead headLeft nach dem Konto einsetzt. Mentor ohne Server nutzt die Funktionsform von head (siehe Anker screen.head).
 - [konflikt: .day-title] Eine Regel in app.css (Tagesansicht): `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`, ohne Tokens 18px/4px. 20 px (komponenten-C36) gibt es auf der Typo-Skala nicht; die h2-Rolle ist 18/600. 6 px gibt es auf der Abstandsskala nicht, also 4. Das Markup kommt aus abstaende-E-day2 (Datumsnavigation als `ctx.headLeft` in der Kopfreihe) mit den Komponenten-Klassen: Pfeile `class="btn nav"` (`.btn.round` entfällt), `<h2 class="day-title">`, heute `U.pill('Heute', 'neutral')` (Farbe). An anderen Tagen steht der Link „Heute“ als `class="btn sm"` (ohne ghost) direkt nach dem Titel in der linken Gruppe. Die rechte Gruppe der Kopfreihe gehört Seitenaktionen, Session und „Trade loggen“ (aufbau). „Am Anfang der rechten Gruppe“ (S-day-a) bezog sich auf die alte Datumszeile, die E-day2 auflöst.
-- ÄNDERN: Im headLeft-Markup `class="btn nav"` statt `class="btn round"`, Link „Heute“ `class="btn sm"` statt `class="btn sm ghost"`, Pille `U.pill('Heute', 'neutral')`. CSS `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`.
 - ÜBERNIMMT komponenten-S-day-a: Die Klassenwechsel aus Z. 12 (`btn nav`, `day-title`, „Heute“ als `btn sm`) setzt abstaende-E-day2 beim Umbau in die Kopfreihe um. Die Platzierung am Anfang der rechten Gruppe entfällt.
+- VERBINDLICH (Kreuzprüfung): Die Datumsnavigation bleibt im Inhalt. Es gibt kein `ctx.headLeft`, und Z. 20 bleibt `return `${nav}${stats}…``. In der nav-Zeile day.js:12 werden nur die Klassen umgestellt (enthält komponenten-S-day-a): Beide `class="btn round"` (Voriger/Nächster Tag) → `class="btn nav"`. `<h2 style="font-size:18px;margin-left:6px">` → `<h2 class="day-title">`. Der Link „Heute“ (nur an anderen Tagen, bleibt an seiner Stelle in der rechten Gruppe der Datumszeile) `class="btn sm ghost"` → `class="btn sm"`. CSS neu in app.css (Abschnitt Tagesansicht) als einzige Definition: `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`. Das Gewicht 600 kommt von h2; die Zeile `.day-title` aus komponenten-C36 entfällt. Nicht Teil dieses Schritts: Die Pille „Heute“ wird `U.pill('Heute', 'neutral')` (farbe-C20). Die Knöpfe „Check-in“, „Trade für diesen Tag“ und „Zertifikat“ verschwinden aus der Datumszeile (aufbau-C7b). Das Zertifikat kommt als `actions(ctx)` rechts in die Kopfreihe (abstaende-E-day1). Die Datumsvorbelegung von „Trade loggen“ regeln aufbau-C7a/B6. Voraussetzungen: `.btn.nav` aus komponenten-C07, Tokens aus typografie-3.2.1 und abstaende-A1.
 
 ## abstaende-E-day3 · Aktion new-trade-day entfernen, sobald grep sie nicht mehr findet
 
@@ -352,3 +365,15 @@ Abhängig von: abstaende-B23
 
 - [reihenfolge: App.openTradeEditor] Alle Schritte ändern dieselbe Vorlage. Darum gilt eine feste Reihenfolge, und zwei Doppelungen werden zusammengelegt. (1) komponenten-A5b löst Symbol und Richtung in App.symbolField und App.dirField heraus. (2) abstaende-E2 entfernt die Wrapper. Die Klasse tf-dir gehört in App.dirField: <div class="field tf-dir">…</div>. Im Verpasst-Dialog wirkt sie nicht, denn die CSS-Regeln greifen nur unter .tf-main >. (3) wording-S5.4-5.5 setzt das Feld Geschlossen und übernimmt dabei farbe-C12a: <div class="field tf-c3 tf-dt"><label for="f-close">Geschlossen <span class="lbl-hint dp-coarse">(leer lassen, solange offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" data-empty="Offen" value="…"></div>. Die Klasse ist lbl-hint statt faint, weil --faint nie für Wörter steht. Der Knopftext wird ${trade ? 'Speichern' : 'Trade loggen'}, die Klasse bleibt btn primary. Wie die Bestätigen-Knöpfe aussehen, ist Nutzerfrage komponenten-1 und wird hier nicht geändert. (4) barrierefreiheit-P12 (Restteil): Punktwert-(i) in .lbl-row innerhalb von <div class="field tf-c3"> und guard: true. (5) zustaende-S-A4: novalidate und Prüfung (siehe #trade-form). abstaende-E3, aufbau-B6 und wording-S5.3 sind unter App.actions['new-trade'] entschieden, wording-S5.9 unter app.html keydown.
 - ÄNDERN: Die Richtungsklasse wird in App.dirField gesetzt (<div class="field tf-dir">), nicht im Markup von openTradeEditor. Das Symbolfeld kommt mit class="field tf-sym" aus App.symbolField. Alles andere bleibt wie in E2: Wrapper weg, Eröffnet und Geschlossen tf-c3 tf-dt, Punktwert und Gebühren tf-c3, Prop-Konten tf-wide.
+
+## komponenten-A8 · Gemeinsame Tages-Kennzahlen App.dayStatsHTML()
+
+Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-43
+Quelle: audit/spec/komponenten.md Z. 577–579 · Dateien: web/js/app.js
+Abhängig von: —
+
+```text
+**A8 – Gemeinsame Tages-Kennzahlen** (bereich_trades_tag-43)
+Neu: `App.dayStatsHTML(s, o = {})` gibt `<div class="stats"${o.style ? ` style="${o.style}"` : ''}>…</div>` mit acht Feldern in dieser Reihenfolge zurück: Trades (`o.n ?? s.n`, dahinter ` <span class="muted small">(x offen)</span>`, wenn `o.open`), Brutto-P&L (`U.cls`, signiert), Gewinner / Verlierer (`pos`/`neg`), Gebühren, Win-Rate, Volumen (`fmt.num(…, 2)`), Profit-Faktor, Ø R (`fmt.r(s.avgR)` oder „—“). Ohne geschlossene Trades (`o.closed === 0`) zeigen Win-Rate, Profit-Faktor und Ø R „—“, wie heute in day.js:14.
+
+```

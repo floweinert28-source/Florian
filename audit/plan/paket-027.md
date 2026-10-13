@@ -1,8 +1,8 @@
 # Paket 027 · prop
 
 Schritte: 34 · Dateien: web/css/app.css, web/e2e/proptest.js, web/js/screens/prop-friedhof.js, web/js/screens/prop.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 prop; Akzeptanz 4.3 prop_bilanz; Akzeptanz 4.3 prop_friedhof (keine Zeile endet mit „·“); Sonde 22; e2e/proptest.js:79; e2e/sampletest.js:69; e2e/sampletest.js:69, :73; prüfen: e2e/friedhoftest.js:46 (flacher Grabstein); web/e2e/friedhoftest.js; web/e2e/friedhoftest.js:21; web/e2e/friedhoftest.js:47 (bleibt grün); web/e2e/friedhoftest.js:80 (Stein < 560 px, danach laufen lassen); web/e2e/proptest.js; web/e2e/proptest.js:102; web/e2e/proptest.js:102 („Consistency Rule“ bleibt); web/e2e/proptest.js:112 (zählt .prop-presets .pill.win === 1, muss angepasst werden, in D2 nicht genannt); web/e2e/proptest.js:130 (keine implizite Spalte am Handy); web/e2e/proptest.js:19; web/e2e/proptest.js:20/23/27/133 (data-action bleibt); web/e2e/proptest.js:91; web/e2e/proptest.js:95; web/e2e/proptest.js:98
-Baut auf Paketen auf: 1, 2, 4, 5, 6, 7
+Betroffene Tests laut Spezifikation: Akzeptanz 4.3 prop_bilanz; Akzeptanz 4.3 prop_friedhof (keine Zeile endet mit „·“); Sonde 22; anpassen: e2e/proptest.js:55, :56, :101; :116 unverändert; e2e/proptest.js:79; e2e/sampletest.js:69; prüfen: e2e/friedhoftest.js:46 (flacher Grabstein); prüfen: e2e/friedhoftest.js:46, :73, :88–89, :122, :129; prüfen: e2e/proptest.js:94–102 (Payout-Planer Challenge/Funded); web/e2e/friedhoftest.js; web/e2e/friedhoftest.js:21; web/e2e/friedhoftest.js:47 (bleibt grün); web/e2e/friedhoftest.js:80 (Stein < 560 px, danach laufen lassen); web/e2e/proptest.js; web/e2e/proptest.js:102; web/e2e/proptest.js:102 („Consistency Rule“ bleibt); web/e2e/proptest.js:112 (zählt .prop-presets .pill.win === 1, muss angepasst werden, in D2 nicht genannt); web/e2e/proptest.js:130 (keine implizite Spalte am Handy); web/e2e/proptest.js:19; web/e2e/proptest.js:20/23/27/133 (data-action bleibt); web/e2e/proptest.js:91; web/e2e/proptest.js:95; web/e2e/proptest.js:98
+Baut auf Paketen auf: 1, 2, 3, 4, 5, 6
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -18,6 +18,10 @@ Abhängig von: —
 - Z. 81 `U.pill(`geprüft ${…}`, 'win')` → `U.pill(`geprüft ${…}`)`; Z. 236 `U.pill('geprüft', 'win')` → `U.pill('geprüft')`
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pill] „Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.
+
 ## farbe-C26b · Prop: Anlegen-/Erfassen-Öffner ohne primary, Banner „Ziel erreicht“ als ok
 
 Gruppe farbe · Cluster prop · Aufwand S · Befunde: bereich_prop-16, zustaende-7
@@ -32,6 +36,8 @@ Abhängig von: farbe-B11
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+- ÄNDERN: Die Knopf-Teile entfallen: Z. 82 macht komponenten-S-prop-a (`btn sm`, Leerzustand), Z. 244 fällt mit komponenten-S-prop-c weg, Z. 251 macht komponenten-S-prop-d. Den Banner „Ziel erreicht“ als `ok` setzt C26b weiterhin; der Knopf darin wird `btn sm` (S-prop-a).
 - [doppelt: U.banner] Alle sechs Änderungen gelten; doppelt ist nur dashboard.js:130 (das sparkle-Symbol). Endstand: dashboard.js:130 `U.banner('info', 'Willkommen', …, { trailing: … }` mit „CSS importieren“ und zwei neutralen `btn sm`, ohne icon (farbe-C19c). shadow.js:58 ohne `icon: 'sparkle'` (kilook-C15). prop.js:97 `U.banner('ok', 'Ziel erreicht', …)` (farbe-C26b). prop.js:279/280 ohne den letzten info-Zweig und ohne warn (aufbau-C12e). Dazu eine Lücke: Der Erfolgs-Zweig `U.banner('accent', plan.funded ? 'Bereit für den Payout' : 'Challenge bestanden', …)` in Z. 279 wird `U.banner('ok', …)`. Grund: Die Farbe-Spezifikation benennt `.banner.accent` in `.banner.ok` um; ohne diese Änderung stünde das Banner ohne Stil da. coach.js:27 errorBox wie zustaende-S-CS1. Abnahme: `grep -rnE "banner\('accent'|icon: 'sparkle'" web/js` findet nichts mehr (I.sparkle wird gelöscht).
 
 ## farbe-C26c · Prop-Bilanz: Ausgaben- und Payout-Spalten neutral
@@ -56,6 +62,10 @@ Abhängig von: —
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+
 ## typografie-3.2.6a · Grabstein-Chips: nowrap und Trennpunkt „· “ (Umbruch nur vor dem Punkt)
 
 Gruppe typografie · Cluster prop · Aufwand S · Befunde: bereich_prop-49
@@ -69,16 +79,6 @@ Abhängig von: —
 |---|---|---|
 | `.pg-facts dd.pg-tags .chip` (2814) | `white-space: nowrap;` ergänzen | bereich_prop-49 |
 | `.pg-facts dd.pg-tags .chip + .chip::before` (2815) | `content: ' · ';` → `content: '· ';` | bereich_prop-49 |
-```
-
-## typografie-3.8j · Prop-Kontokarte: „Balance“/„P&L“ als .val-label
-
-Gruppe typografie · Cluster prop · Aufwand S · Befunde: referenz-43
-Quelle: audit/spec/typografie.md Z. 435–435 · Dateien: web/js/screens/prop.js
-Abhängig von: typografie-3.2.2c
-
-```text
-| prop.js:102 | `<div class="caption">Balance</div>` und `<div class="caption">P&L</div>` → `class="val-label"` | referenz-43 |
 ```
 
 ## typografie-3.8k · Prop-Tabellen: Datumszellen mit Klasse num
@@ -159,6 +159,10 @@ Abhängig von: abstaende-D6
 | M1 | Z. 125 | `return `${summaryTiles(list)}${head}${body}${none}${endedHtml}`;` → `return `${summaryTiles(list)}<section class="prop-sec">${head}${body}${none}</section>${endedHtml}`;` | abstaende_layout-36 |
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: summaryTiles] kilook-C19b setzt die Kachel „P&L je Währung“ einmal um (Code Z. 86–87, red-Zählung in derselben Schleife), mit dem Wording-Text: Titel „P&L der aktiven Konten“, Teile verbunden mit `' <span class="muted">·</span> '`, jeder Teil `U.pnl(v, '', c ? { currency: c } : {})` mit 2 Nachkommastellen, ohne aktive Konten `U.pnl(0)`. abstaende-M1 (section.prop-sec um head, body und none) ist davon unabhängig.
+
 ## abstaende-M2 · Prop-Konto-Dialog: Währungshinweis als eigene Rasterzeile (span2, #pa-cur-hint, aria-describedby), Notiz span4
 
 Gruppe abstaende · Cluster prop · Aufwand S · Befunde: bereich_prop-37
@@ -184,15 +188,10 @@ Abhängig von: abstaende-D6
 | M4 | Z. 262, 266 | letztes Feld `<div class="field"><span class="lbl">&nbsp;</span><button type="submit" …>…</button></div>` → `<div class="prop-entry-foot"><button type="submit" class="btn primary">${I.plus} Ausgabe erfassen</button></div>` (Payout: „Payout erfassen“). Notiz in Z. 262 `class="field"` → `class="field span2"`. | bereich_prop-54 |
 ```
 
-## abstaende-M5 · Prop-Bilanz-Tabellen als .tbl-wrap.inset
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: abstaende_layout-13
-Quelle: audit/spec/abstaende.md Z. 474–474 · Dateien: web/js/screens/prop.js
-Abhängig von: abstaende-B21
-
-```text
-| M5 | Z. 264, 268 | `<div class="tbl-wrap">` → `<div class="tbl-wrap inset">` | abstaende_layout-13 |
-```
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+- ÄNDERN: Den Absende-Knopf in `.prop-entry-foot` als `class="btn"` statt `btn primary` setzen (Inline-Formular in einer Karte, wie komponenten-S-prop-d). Der Rest bleibt.
 
 ## abstaende-M6 · Consistency-Zeile zweizeilig: Wert ohne „heute noch … erlaubt“ und title, eigene kv-Zeile „Heute noch erlaubt“, Karte cls prop-conds
 
@@ -234,6 +233,10 @@ Abhängig von: —
 - Z. 244: in `U.card('Deine Konten', accTable, { trailing: …, info: … })` die Option `trailing` streichen.
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+
 ## komponenten-S-prop-d · Prop: Eintrag-Knöpfe und Inline-Absenden (Ausgabe/Payout erfassen) neutral
 
 Gruppe komponenten · Cluster prop · Aufwand S · Befunde: komponenten-1, komponenten-30
@@ -243,16 +246,6 @@ Abhängig von: —
 ```text
 - Z. 251 `entryBtn`: `class="btn sm${e[kind] ? '' : ' primary'}"` → `class="btn sm"`.
 - Z. 262 und Z. 266 (Absenden „Ausgabe erfassen“/„Payout erfassen“ im Inline-Formular) `class="btn primary"` → `class="btn"`.
-```
-
-## komponenten-S-prop-e · Prop-Bilanz: Tabellen als tbl-wrap inset
-
-Gruppe komponenten · Cluster prop · Aufwand S · Befunde: bereich_prop-18
-Quelle: audit/spec/komponenten.md Z. 701–701 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- Z. 264 und Z. 268 `<div class="tbl-wrap">` → `<div class="tbl-wrap inset">`.
 ```
 
 ## aufbau-A4e · Prop-Gruppentitel 13px/600 --text-2
@@ -477,3 +470,75 @@ Abhängig von: —
 - **7–8** vorher „Weitere Ansichten (Friedhof, Vergleich, Simulation …) registrieren sich … Oben stehen nur fünf Bereiche; Finanzen und Analyse haben einen kleinen Umschalter … Die Adressen bleiben #/prop/<ansicht>“
   → nachher `/* Weitere Ansichten (Friedhof) registrieren sich aus eigenen Dateien über root.PropScreen.register. Die Adressen bleiben #/prop/<ansicht> */`
 ```
+
+## kilook-C19c · Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“
+
+Gruppe kilook · Cluster prop · Aufwand M · Befunde: diagramme-4, diagramme-32, bereich_prop-51
+Quelle: audit/spec/kilook.md Z. 682–694 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+- **283** (Payout-Planer, Karte „Bedingungen“):
+  - `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`
+  - `von ${fmt.cur(o.minProfit)}` → `von ${money(a, o.minProfit, { compact: true })}`
+  - `${fmt.cur(missP)} fehlen` → `${money(a, missP, { compact: true })} fehlen`
+  - `fmt.balance(ev.balance)` → `fmt.balance(ev.balance, { currency: a.currency })`
+  - `von ${fmt.cur(o.minBalance)}` → `von ${money(a, o.minBalance, { compact: true })}`
+  - `${fmt.cur(missB)} fehlen` → `${money(a, missB, { compact: true })} fehlen`
+  - `heute noch ${fmt.cur(cons.allowedToday)} erlaubt` → `heute noch ${money(a, cons.allowedToday, { compact: true })} erlaubt`
+  - `fmt.cur(ev.pnl * num(a.profitSplit, 0))` → `money(a, ev.pnl * num(a.profitSplit, 0))` (Auszahlung, mit Cent)
+- **284** `fmt.cur(plan.suggestion.perDay)` → `money(a, plan.suggestion.perDay, { compact: true })`; `fmt.cur(plan.suggestion.total)` → `money(a, plan.suggestion.total, { compact: true })`
+- **286** (Payouts dieses Kontos) **unverändert**, Journal-Währung wie erfasst.
+- **303** Kommentar „Die fünf Bereiche stehen links in der Kopfreihe …“ → „Die drei Bereiche stehen links in der Kopfreihe …“
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+- [konflikt: money] Alles, was zu einem Prop-Konto gehört, steht in Kontowährung über money(a, …) bzw. U.pnl(…, { currency: a.currency }); darin sind kilook und wording einig. Beträge haben immer 2 Nachkommastellen, prop.js übergibt nirgends { compact: true } (siehe fmt.balance). Die Stop-Größe im Puffer-Tooltip steht in Kontowährung (wording 12.10): `${money(a, b.money)} Puffer${stopSize ? ` / ${money(a, stopSize)} je Stop` : ''}`. Puffer ÷ Stop-Größe wird ohne Umrechnung gerechnet; zwei verschiedene Währungszeichen würden eine Umrechnung vortäuschen. proptest.js:116 folgt wording-S19-prop. Zuständig je Stelle: Z. 50 (Breach) und Z. 68 (fmtMoney) → wording-S12.1-12.3 mit `v => money(a, v)`. Z. 75 → planText. Z. 86–87 → summaryTiles. Z. 102: Text „Kontostand“, U.pnl-Währung und U.count → wording 12.9, Klasse .kpi-label → kilook-C19b. Z. 104 → wording 12.10 plus Beschriftung aus responsiv-3.12a. Z. 194 (Hinweis) → kilook-C19b. Z. 283–284 (Planer) → wording-S12.24-12.26, einschließlich der Auszahlung `money(a, ev.pnl * num(a.profitSplit, 0))`. Z. 303 (Kommentar) → kilook-C19c.
+- [konflikt: fmt.balance] Für Bestände und Regelgrößen gibt es keine Ganzzahl-Regel. Geld hat immer 2 Nachkommastellen (zustaende-S-U1); typografie K24 und zustaende K14 haben „Balance und Limits ganzzahlig“ ausdrücklich verworfen, nur kilook will es. fmt.balance bleibt `fmt.cur(v, o)` ohne Vorzeichen und wird im Geld-blind-Modus ausgeblendet. Ohne Cent (compact) stehen Beträge nur im Kalender-Monatsraster (.p Tageszelle, Wochensumme), an Achsen (fmt.axisCur), in Kurzformen (.pm, curShort, curCompact) und bei Monte Carlo. Damit sind Kontostand, Limits, Ziel, Puffer, „… fehlen“, „heute noch … erlaubt“, Vorschlag und die Affiliate-Kacheln so genau wie P&L, und „X von Y“ ist auf beiden Seiten gleich genau. Die Grabstein-Unterzeile zeigt keinen Geldbetrag (wording-S12.28-12.29).
+- [doppelt: fmt.cur] zustaende-S-U1 setzt ui.js:122 einmal um: `const d = o.compact ? 0 : 2;`, mit Überlaufprüfung und notfalls @container 164 → 190 px. Kalender-Monatsraster mit compact: true (kilook-C9a). Das ist dieselbe Änderung wie 6.1/6.2 in wording-S6.1-6.4; wer zuerst umsetzt, macht sie, der andere überspringt. Monte Carlo ohne Cent setzt wording-S10.13-10.15 einmal um, ergänzt um das Startkapital aus kilook-C14. Prop und Affiliate bekommen kein compact (siehe fmt.balance und money). chartLabel aus barrierefreiheit-U6a nutzt das Standardformat.
+- VERBINDLICH (Kreuzprüfung): Es bleibt nur prop.js Z. 303: Der Kommentar „Die fünf Bereiche stehen links in der Kopfreihe …“ → „Die drei Bereiche stehen links in der Kopfreihe …“. Alle Ersetzungen in Z. 283/284 entfallen. Die Kontowährung im Payout-Planer setzt wording-S12.24-12.26 um: U.pnl und fmt.balance mit `{ currency: a.currency }`, alle `fmt.cur(…)` → `money(a, …)`, einschließlich der Auszahlung `money(a, ev.pnl * num(a.profitSplit, 0))` und des Vorschlags in Z. 284. Das geschieht ohne `{ compact: true }`, weil Beträge in prop.js laut Anker money/fmt.balance immer 2 Nachkommastellen haben. „heute noch … erlaubt“ wird mit abstaende-M6 eine eigene Zeile „Heute noch erlaubt“.
+
+## kilook-C20 · Friedhof: tote Helfer (kv, when, tradeHtml) löschen, Grabstein-Beträge in Kontowährung
+
+Gruppe kilook · Cluster prop · Aufwand S · Befunde: diagramme-4, bereich_prop-51
+Quelle: audit/spec/kilook.md Z. 695–701 · Dateien: web/js/screens/prop-friedhof.js
+Abhängig von: —
+
+```text
+**C20 · web/js/screens/prop-friedhof.js** (diagramme-4, bereich_prop-51)
+- **32** `const kv = (k, v) => …;` löschen.
+- **119–122** `const when = …;` und `const tradeHtml = …;` löschen. `whenShort` (123) und `WEEKDAY_LONG` bleiben.
+- **136** `fmt.balance(t.size)` → `fmt.balance(t.size, { currency: acc && acc.currency })`. Ersetzt wording/bereich_prop-46 die Unterzeile, entfällt dieser Teil.
+- **146** `U.pnl(t.result)` → `U.pnl(t.result, '', { currency: acc && acc.currency })`
+- **149** `U.pnl(c.pnl, '', { r: trade.r })` → `U.pnl(c.pnl, '', { r: trade.r, currency: acc && acc.currency })`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+- [konflikt: fmt.balance] Für Bestände und Regelgrößen gibt es keine Ganzzahl-Regel. Geld hat immer 2 Nachkommastellen (zustaende-S-U1); typografie K24 und zustaende K14 haben „Balance und Limits ganzzahlig“ ausdrücklich verworfen, nur kilook will es. fmt.balance bleibt `fmt.cur(v, o)` ohne Vorzeichen und wird im Geld-blind-Modus ausgeblendet. Ohne Cent (compact) stehen Beträge nur im Kalender-Monatsraster (.p Tageszelle, Wochensumme), an Achsen (fmt.axisCur), in Kurzformen (.pm, curShort, curCompact) und bei Monte Carlo. Damit sind Kontostand, Limits, Ziel, Puffer, „… fehlen“, „heute noch … erlaubt“, Vorschlag und die Affiliate-Kacheln so genau wie P&L, und „X von Y“ ist auf beiden Seiten gleich genau. Die Grabstein-Unterzeile zeigt keinen Geldbetrag (wording-S12.28-12.29).
+- ÄNDERN: Z. 136 entfällt, die Unterzeile ersetzt wording-S12.28-12.29. Z. 32, 119–122, 146 und 149 bleiben.
+
+## kilook-C27 · e2e/proptest.js an Kontowährung und Genauigkeit anpassen
+
+Gruppe kilook · Cluster prop · Aufwand S · Befunde: diagramme-4, diagramme-32
+Quelle: audit/spec/kilook.md Z. 745–750 · Dateien: web/e2e/proptest.js
+Abhängig von: kilook-A2, kilook-C19b
+
+```text
+**C27 · web/e2e/proptest.js** (diagramme-4, diagramme-32)
+- **55** `UI.fmt.cur(b, { currency: Store.propAccounts()[0].currency })` → `UI.fmt.balance(b, { currency: Store.propAccounts()[0].currency })`. Der Kommentar wird `/* Balance und P&L in Kontowährung (USD) */`.
+- **56** `card.pnl.includes('€')` → `card.pnl.includes('$')`
+- **101** in `Prop.payoutPlan(…, { …, fmtMoney: v => UI.fmt.cur(v) })` → `fmtMoney: v => UI.fmt.cur(v, { currency: Store.propAccounts()[2].currency, compact: true })`
+- **116** („/ 150,00 € je Stop-Loss“) **unverändert**.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: money] Alles, was zu einem Prop-Konto gehört, steht in Kontowährung über money(a, …) bzw. U.pnl(…, { currency: a.currency }); darin sind kilook und wording einig. Beträge haben immer 2 Nachkommastellen, prop.js übergibt nirgends { compact: true } (siehe fmt.balance). Die Stop-Größe im Puffer-Tooltip steht in Kontowährung (wording 12.10): `${money(a, b.money)} Puffer${stopSize ? ` / ${money(a, stopSize)} je Stop` : ''}`. Puffer ÷ Stop-Größe wird ohne Umrechnung gerechnet; zwei verschiedene Währungszeichen würden eine Umrechnung vortäuschen. proptest.js:116 folgt wording-S19-prop. Zuständig je Stelle: Z. 50 (Breach) und Z. 68 (fmtMoney) → wording-S12.1-12.3 mit `v => money(a, v)`. Z. 75 → planText. Z. 86–87 → summaryTiles. Z. 102: Text „Kontostand“, U.pnl-Währung und U.count → wording 12.9, Klasse .kpi-label → kilook-C19b. Z. 104 → wording 12.10 plus Beschriftung aus responsiv-3.12a. Z. 194 (Hinweis) → kilook-C19b. Z. 283–284 (Planer) → wording-S12.24-12.26, einschließlich der Auszahlung `money(a, ev.pnl * num(a.profitSplit, 0))`. Z. 303 (Kommentar) → kilook-C19c.
+- ÄNDERN: Z. 56 und Z. 116 nach wording-S19-prop (Z. 116: `UI.fmt.cur(150, { currency: acc.currency })` + ' je Stop'). Z. 101: `fmtMoney: v => UI.fmt.cur(v, { currency: Store.propAccounts()[2].currency })` ohne compact. Z. 55 (fmt.balance) bleibt, das ist gleich fmt.cur.

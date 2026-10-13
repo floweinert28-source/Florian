@@ -1,117 +1,68 @@
-# Paket 008 · komponenten
+# Paket 008 · shell, tokens
 
-Schritte: 7 · Dateien: web/css/app.css, web/e2e/motiontest.js, web/js/datepicker.js
-Betroffene Tests laut Spezifikation: web/e2e/motiontest.js:31 (animationName === 'pop-in' bleibt gültig); web/e2e/motiontest.js:52–53
-Baut auf Paketen auf: 6, 7
+Schritte: 4 · Dateien: web/css/app.css
+Betroffene Tests laut Spezifikation: Akzeptanz 4.1 Nr. 6 (font-weight 800 nur noch Kalender); web/e2e/certtest.js; web/e2e/headtest.js:60–64 (Gewicht 500 der aktiven Einträge bleibt); web/e2e/mobiletest.js:31 (18 → 16, Schritt R1); web/e2e/mobiletest.js:85-86 (.content padding-bottom 60px muss bleiben)
+Baut auf Paketen auf: 1, 2
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## wording-S4.6-4.7 · datepicker.js: Touch-Leerzustand .is-empty setzen; type=week bleibt nativ
+## farbe-B22 · Aktive Navigationseinträge: helle Seitenleiste mit --surface/--border-2, Einstellungs-Menü mit inset-Rand
 
-Gruppe wording · Cluster komponenten · Aufwand S · Befunde: wording-2, bereich_dashboard-28
-Quelle: audit/spec/wording.md Z. 346–348 · Dateien: web/js/datepicker.js
-Abhängig von: wording-S3.1-3.3, wording-S4.1-4.5
+Gruppe farbe · Cluster shell · Aufwand S · Befunde: bereich_shell-18, bereich_einstellungen-16, farbe_kontrast-40
+Quelle: audit/spec/farbe.md Z. 328–331 · Dateien: web/css/app.css
+Abhängig von: —
 
 ```text
-| 4.6 | Touch-Leerzustand | in `init()` ein `input`-Listener (capture) auf `document`: bei `TYPES[e.target.type]` → `e.target.classList.toggle('is-empty', !e.target.value)`; einmal beim Dekorieren bzw. für alle Felder beim Start setzen | wording-2 |
-| 4.7 | `type="week"` | bleibt nativ (Abschnitt 5) | bereich_dashboard-28 |
+**B22 – Aktive Navigationseinträge** — bereich_shell-18, bereich_einstellungen-16, farbe_kontrast-40 (Symptom)
+- nach Z. 179 neu: `:root[data-theme="light"] .nav a.active { background: var(--surface); border-color: var(--border-2); }`
+- Z. 1810 `.set-nav a.active { background: var(--surface-2); color: var(--text); font-weight: 500; }` → `.set-nav a.active { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border-2); color: var(--text); font-weight: 500; }`, darunter neu `:root[data-theme="light"] .set-nav a.active { background: var(--surface); }`
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [doppelt: DatePicker.init] wording-S4.1-4.7 übernimmt den Leerzustand der Datumsfelder. zustaende-S-DP ist laut eigener Spezifikation nur ein Ersatz für den Fall, dass wording-2 fehlt, und entfällt. Eine Lücke wird geschlossen: Laut 4.5 läuft der MutationObserver nur bei fine(). Auf Touch bekämen später eingefügte Felder (Trade-Dialog, #f-close) dann beim Öffnen nicht .is-empty. Der Observer läuft darum auf allen Geräten: Bei neuen input.input mit TYPES[type] setzt er immer is-empty (= !value), das Overlay (decorate) baut er nur bei fine(). Damit braucht es kein Sonder-is-empty in app.js.
-- ÄNDERN: Den Anfangszustand is-empty (= !value) für alle input.input mit TYPES[type] beim Start und für jedes später eingefügte Feld setzen. Dazu läuft der MutationObserver aus 4.5 auf allen Geräten, ruft aber decorate() nur bei fine() auf. Der input-Listener (capture) bleibt wie in 4.6. type=week bleibt nativ.
-- [doppelt: .input.is-empty] wording-S4.6-4.7 übernimmt mit der Ergänzung unter DatePicker.init (Anfangszustand auch für später eingefügte Felder auf Touch). zustaende-S-DP entfällt.
+- [konflikt: .set-nav a.active] Der aktive Eintrag im Einstellungs-Menü sieht aus wie der aktive Eintrag der Seitenleiste, damit es ein Muster für „aktive Navigation“ gibt. Die Regeln lauten: `.set-nav a { … border: 1px solid transparent; }`, `.set-nav a:hover { background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--text); }` und `.set-nav a.active { background: var(--surface-2); border-color: var(--border); color: var(--text); font-weight: 500; }` (dunkel, wie .nav a.active). Für hell gilt `:root[data-theme="light"] .nav a.active, :root[data-theme="light"] .set-nav a.active { background: var(--surface); border-color: var(--border-2); }`. Statt eines inset-Schattens gibt es einen echten Rand. Weil der Grundrand transparent ist, springt nichts, wie bei .nav a. Das Darüberfahren bleibt schwächer als der aktive Zustand, weil das Menü keinen Leistenbalken hat. Das Gewicht 500 bleibt (headtest.js:60–64).
+- ÄNDERN: Z. 1810: kein inset-Schatten und keine Änderung an der dunklen Regel (das macht zustaende-S-C9a). Die helle Regel für .set-nav a.active mit `background: var(--surface); border-color: var(--border-2)` als zweiten Selektor in die neue Regel `:root[data-theme="light"] .nav a.active` schreiben.
 
-## bewegung-B1 · Knöpfe: kein Anheben, kein Schein an .btn.primary, Druckdauer aus Token
+## typografie-3.2.4a · Marke 800 → 900 (.brand, Zertifikat .cert-brand .name)
 
-Gruppe bewegung · Cluster komponenten · Aufwand S · Befunde: komponenten-13, bewegung-19, bewegung-20, bewegung-34
-Quelle: audit/spec/bewegung.md Z. 167–174 · Dateien: web/css/app.css
-Abhängig von: —
+Gruppe typografie · Cluster shell · Aufwand S · Befunde: typografie-1
+Quelle: audit/spec/typografie.md Z. 325–330 · Dateien: web/css/app.css
+Abhängig von: typografie-3.1
 
 ```text
-### 3.2 `web/css/app.css` – Komponenten
+#### 3.2.4 Gewichte
 
-**B1 Knöpfe** (komponenten-13, bewegung-19, bewegung-20, bewegung-34)
-- Z. 269 `.btn { … transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), color var(--dur-1) var(--ease), box-shadow var(--dur-2) var(--ease); }` → `, box-shadow var(--dur-2) var(--ease)` streichen.
-- Z. 272 `.btn:hover { background: var(--surface-2); border-color: var(--border-2); transform: translateY(-1px); }` → `.btn:hover { background: var(--surface-2); border-color: var(--border-2); }`
-- Z. 273 `.btn:active { transform: scale(.97); transition-duration: 60ms; }` → `.btn:active { transform: scale(.97); transition-duration: calc(var(--dur-1) * .4); }`
-- Z. 275 `.btn.primary:hover { …; box-shadow: 0 8px 20px -10px var(--accent-glow); }` → `box-shadow: …` streichen. Fläche und Rand laut Farbe-Spezifikation (referenz-6/komponenten-1). Kommt die nicht, bleibt `background: var(--accent-2); border-color: var(--accent-2);`.
-
+| Selektor (Z.) | vorher → nachher | Befund |
+|---|---|---|
+| `.brand` (140) | 800 → 900 | typografie-1 |
+| `.cert[data-theme="app"] .cert-brand .name` (2048) | 800 → 900 | typografie-1 |
 ```
 
-## bewegung-B2 · Schalter: Übergangszeiten auf Tokens (Knopf 320 ms über calc)
+## abstaende-A4 · .content auf Token (padding-top var(--sp-6), gap var(--content-gap)); neu: Kopfreihe 16 px über negativen Rand, .page-head:empty ausblenden, Dashboard-Lücke 16 über --content-gap
 
-Gruppe bewegung · Cluster komponenten · Aufwand S · Befunde: bewegung-34
-Quelle: audit/spec/bewegung.md Z. 175–178 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**B2 Schalter** (bewegung-34)
-- Z. 306 `.switch { … transition: background-color .26s var(--ease), box-shadow .26s var(--ease); }` → `transition: background-color var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);`
-- Z. 307 `.switch::after { … transition: transform .32s var(--sw-ease), width .18s var(--ease), background-color .26s var(--ease), box-shadow .26s var(--ease); }` → `transition: transform calc(var(--dur-2) * 4 / 3) var(--sw-ease), width var(--dur-1) var(--ease), background-color var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);`
-
-```
-
-## bewegung-B4a · Popover-Richtung über --pop-y/--pop-y-out, Keyframes pop-in/pop-out mit Custom Properties
-
-Gruppe bewegung · Cluster komponenten · Aufwand M · Befunde: bewegung-27, bewegung-28
-Quelle: audit/spec/bewegung.md Z. 185–191 · Dateien: web/css/app.css
-Abhängig von: —
+Gruppe abstaende · Cluster shell · Aufwand M · Befunde: abstaende_layout-32, bereich_notebook_news-5, abstaende_layout-4, hierarchie-8
+Quelle: audit/spec/abstaende.md Z. 306–306 · Dateien: web/css/app.css
+Abhängig von: abstaende-A1
 
 ```text
-**B4 Popover und Menüs: Richtung und Schließen** (bewegung-27, bewegung-28)
-- Neu direkt nach Z. 328 (`.popover { … }`): `.popover, .sym-menu, .fd-pop { --pop-y: -4px; --pop-y-out: -4px; } /* unter dem Auslöser: vom Knopf herab */`
-- Z. 248 (`.popover.up.open { transform-origin: bottom center; }`) davor neu: `.popover.up { --pop-y: 8px; --pop-y-out: 4px; } /* nach oben öffnend: steigt auf */`
-- Keyframes Z. 2374–2375:
-  - vorher `@keyframes pop-in { from { opacity: 0; transform: translateY(8px) scale(.985); } }` → nachher `@keyframes pop-in { from { opacity: 0; transform: translateY(var(--pop-y, 8px)) scale(.985); } }`
-  - vorher `@keyframes pop-out { to { opacity: 0; transform: translateY(4px) scale(.99); } }` → nachher `@keyframes pop-out { to { opacity: 0; transform: translateY(var(--pop-y-out, 4px)) scale(.99); } }`
-  - Dialoge (`.modal`) tragen kein `--pop-y` und bleiben bei 8 px / 4 px.
-```
-
-## bewegung-C1 · Kalendertage: kein Anheben, eigene Hover-Ränder für Gewinn- und Verlusttage
-
-Gruppe bewegung · Cluster komponenten · Aufwand S · Befunde: bewegung-21, komponenten-13
-Quelle: audit/spec/bewegung.md Z. 234–242 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-### 3.3 `web/css/app.css` – Einzelstellen
-
-**C1 Kalendertage** (bewegung-21, komponenten-13)
-- Z. 705 `.cal .d { … transition: border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease); … }` → `transition: border-color var(--dur-1) var(--ease);`
-- Z. 706 → `.cal .d:hover { border-color: var(--border-2); }`
-- Nach Z. 711 (`.cal .d.loss { … }`) neu:
-  `.cal .d.win:hover { border-color: color-mix(in srgb, var(--profit) 70%, var(--border)); }`
-  `.cal .d.loss:hover { border-color: color-mix(in srgb, var(--loss) 75%, var(--border)); }`
-
-```
-
-## bewegung-C7c · Farbwähler-Punkte .cp-c: Auswahl-Ring in leiser Farbe statt Vergrößerung
-
-Gruppe bewegung · Cluster komponenten · Aufwand S · Befunde: bereich_einstellungen-42
-Quelle: audit/spec/bewegung.md Z. 285–286 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-- Z. 459 `.cp-c { …; transition: transform var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease); }` → `transition: box-shadow var(--dur-1) var(--ease);`
-- Z. 460 → `.cp-c:hover { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--border-2); }` (bleibt vor 461, damit die Auswahl beim Darüberfahren gewinnt).
-```
-
-## bewegung-3.11a · motiontest: „Kachel bleibt beim Überfahren stehen“ statt Anheben
-
-Gruppe bewegung · Cluster komponenten · Aufwand S · Befunde: bereich_statistik-29
-Quelle: audit/spec/bewegung.md Z. 343–344 · Dateien: web/e2e/motiontest.js
-Abhängig von: bewegung-B5
-
-```text
-### 3.11 `web/e2e` (Tests an das neue Verhalten anpassen)
-- **motiontest.js:52–53** (bereich_statistik-29): `ok('Kachel hebt sich beim Überfahren', … transform !== 'none')` → `ok('Kachel bleibt beim Überfahren stehen', await p.evaluate(() => getComputedStyle(document.querySelectorAll('.tile')[1]).transform === 'none'));`
+| A4 | `.content` (Z. 230) | `padding: 22px var(--gutter) 60px; … gap: 18px;` → `padding: var(--sp-6) var(--gutter) 60px; … gap: var(--content-gap);`. Direkt danach neu: `.content > .page-head { flex-shrink: 0; margin-bottom: calc(var(--sp-4) - var(--content-gap)); }`, `.page-head:empty { display: none; }` und `.content:has(> .dash-top, > .dash-main) { --content-gap: var(--grid-gap); }` | abstaende_layout-32, bereich_notebook_news-5, abstaende_layout-4, hierarchie-8 |
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- ÜBERNIMMT zustaende-S-TE3: Dieselbe Testanpassung in motiontest.js:52–53; bewegung-3.11a setzt sie einmal um (Name und Prüfung siehe dort).
-- [konflikt: .tile:hover] Z. 516 `.tile:hover, .stat-tile:hover { … }` wird ganz gelöscht (zustaende-S-C5), Begründung wie beim Anker .tile. Den Test passt bewegung-3.11a einmal an: Name „Kachel bleibt beim Überfahren ruhig“. Nach `p.hover('.tile >> nth=1')` prüft er `transform === 'none'` und dass `borderColor` gleich dem Wert vor dem Überfahren ist.
-- ÄNDERN: motiontest.js:52–53: borderColor von `.tile` (Index 1) vor dem Hover lesen; nach dem Hover `ok('Kachel bleibt beim Überfahren ruhig', cs.transform === 'none' && cs.borderColor === vorher)`.
+- [reihenfolge: .content] Die beiden Schritte ändern verschiedene Regeln: abstaende-A4 die Grundregel Z. 230, responsiv-A4 den ≤960-Block (Z. 934) und den ≤560-Block (Z. 2998). Bis 960 px bleiben oben 16 px. Damit es eine Abstands-Skala gibt, schreibt responsiv-A4 seine neuen Werte mit den Token aus abstaende-A1: .topbar Z. 212–213 `top: 0; padding: calc(var(--sp-3) + env(safe-area-inset-top, 0px)) var(--gutter) var(--sp-3);`. Z. 924 `.topbar { padding: calc(10px + env(safe-area-inset-top, 0px)) max(var(--sp-4), env(safe-area-inset-right, 0px)) 10px max(var(--sp-4), env(safe-area-inset-left, 0px)); min-height: 60px; gap: 8px; flex-wrap: nowrap; }`; die 10 px bleiben, weil die Titelzeile fest 60 px hoch ist. Z. 934 `.content { padding: var(--sp-4) max(var(--gutter), env(safe-area-inset-right, 0px)) 60px max(var(--gutter), env(safe-area-inset-left, 0px)); --gutter: var(--sp-4); }`. Unverändert bleiben Z. 2998 (`calc(104px + env(safe-area-inset-bottom, 0px))`, Platz für den runden Knopf), `.topbar .menu-btn { margin-left: -9px; }` (negativer Ausgleich ist erlaubt) und Z. 3019 (Anker .dash-head .tl, konflikt-10).
+
+## abstaende-C11 · Abschnitts- und Raster-Wrapper auf Token: .aff (+ .aff > .aff-top), .nw-wrap, .nw-list, .cpn-grid, .coach-entries, .shadow-rules, .nb, .content > .tl-fit (18 → 16)
+
+Gruppe abstaende · Cluster tokens · Aufwand M · Befunde: abstaende_layout-32
+Quelle: audit/spec/abstaende.md Z. 360–360 · Dateien: web/css/app.css
+Abhängig von: abstaende-A1, abstaende-A4
+
+```text
+| C11 | Abschnitts-Wrapper | `.aff` (Z. 2662) `gap: 16px` → `gap: var(--content-gap)`. Neu: `.aff > .aff-top { margin-bottom: calc(var(--sp-3) - var(--content-gap)); }`. `.nw-wrap` (Z. 3063) → `display: flex; flex-direction: column; gap: var(--content-gap); max-width: var(--w-news);`. `.nw-list` (Z. 3082) gap 14 → `var(--grid-gap)`. `.cpn-grid` (Z. 2644) gap 14 → `var(--grid-gap)`. `.coach-entries` (Z. 2869) gap 14 → `var(--grid-gap)`. `.shadow-rules` (Z. 2400) gap 10 → `var(--sp-3)`. `.nb` (Z. 954) gap 14 → `var(--grid-gap)`. `.content > .tl-fit` (Z. 955) gap 18 → `var(--grid-gap)`, Kommentar: „Kacheln, Reiter, Filter und Tabelle als eine Fläche wie das Dashboard“. | abstaende_layout-32 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: .nb] Die Schritte vertragen sich: C11 setzt .nb gap von 14 auf var(--grid-gap) (16 px), B8 legt die Spaltenbreiten fest. B8 hat seine Messwerte aber mit gap 14 gerechnet; sie verschieben sich um 2 px je Lücke. 1440×900: 236/300/592 (statt 596). 1366×768: 210/260/584 (statt 588). 1024 mit offener Seitenleiste, Liste plus Notiz: 260/468 (statt 470), mit eingeklappter Seitenleiste 620 (statt 622). Die Notizspalte bleibt ≥ 440 px, die Grenzen 1160/1000/700 bleiben.

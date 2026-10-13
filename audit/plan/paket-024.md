@@ -2,7 +2,7 @@
 
 Schritte: 28 · Dateien: web/css/app.css, web/e2e/rptest.js, web/e2e/shadowtest.js, web/js/screens/mentor.js, web/js/screens/progress.js, web/js/screens/ruhepunkt.js, web/js/screens/shadow.js
 Betroffene Tests laut Spezifikation: Akzeptanz 4.3 progress; Akzeptanz 4.3 ruhepunkt (document.querySelectorAll('h1').length === 1); Akzeptanz 4.3 ruhepunkt („Wo stehst du gerade?“ und Session-Titel 21/600); Akzeptanz 4.4: grep "h('h1'" in ruhepunkt.js ohne Treffer; e2e/coachtest.js:84, :96 (Coach-.mentor-note bleibt); e2e/mentortest.js; e2e/rptest.js:17; e2e/rptest.js:46; e2e/rptest.js:46 (siehe E1e); e2e/shadowtest.js:38, :41, :43 (prüfen „1 – 10 von … Verstößen“ bzw. „11 – “/„1 – “ mit Leerzeichen; nicht in E1 genannt, mitändern); web/e2e/fwtest.js:23–24 (Widget = Seite über costView); web/e2e/rptest.js; web/e2e/rptest.js:11; web/e2e/shadowtest.js; web/e2e/shadowtest.js:68, 69, 71, 74; web/e2e/shadowtest.js:68, 74 (Schritt R3); web/e2e/shadowtest.js:69, 71 (Schritt R3); web/e2e/streaktest.js
-Baut auf Paketen auf: 1, 2, 5, 7
+Baut auf Paketen auf: 1, 2, 4, 7
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -60,6 +60,10 @@ Abhängig von: —
 - Z. 71 `<th class="r">Kosten</th>` → `<th class="r">Effekt</th>`
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
 
 ## typografie-3.2.3v · Ruhepunkt-Bühnentitel am Handy: .rp-q 22 und .rp-title 21 → --fs-18 (K3)
 
@@ -183,6 +187,11 @@ Abhängig von: —
 | I2 | Z. 113 | `{ n: `${p.n} Trade${p.n === 1 ? '' : 's'}` }` → `{ foot: `${p.n} Trade${p.n === 1 ? '' : 's'} im Zeitraum` }` | bereich_training-25 |
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+- ÄNDERN: `{ foot: `${U.count(p.n, 'Trade', 'Trades')} im Zeitraum` }`.
+
 ## abstaende-I3 · Schatten-Ich: Untertitel (Zeitraum) an der Karte „Regelverstöße“ streichen
 
 Gruppe abstaende · Cluster training · Aufwand S · Befunde: bereich_training-25
@@ -193,6 +202,10 @@ Abhängig von: —
 | I3 | Z. 120 | in `U.card('Regelverstöße', …, { sub: esc(pd.label), info: … })` die Option `sub: esc(pd.label), ` streichen | bereich_training-25 |
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
 
 ## abstaende-R3 · shadowtest: Zeitraum aus [data-pop=range] span, Trade-Zahl aus .tile:nth-child(2) .foot
 
@@ -362,10 +375,9 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: .trend] Beide Schritte ändern dieselben Zeilen in progress.js (20, 58, 59, 68, 69). aufbau-C11a trägt, die Leerzustände kommen aus zustaende-S-PR1. Endfassung: Z. 20 const arrow = (dir, tip = '') => dir > 0 ? `<span class="trend up" aria-label="steigend"${tip ? ` data-tip="${esc(tip)}"` : ''}>${I.arrowUp}</span>` : dir < 0 ? `<span class="trend down" aria-label="fallend"${tip ? ` data-tip="${esc(tip)}"` : ''}>${I.arrowDown}</span>` : ''; · Z. 58 pct löschen · Z. 59 const delta = cur.rate != null && prev && prev.rate != null ? Math.round((cur.rate - prev.rate) * 100) : 0; const rateDir = Math.sign(delta); Ohne Vorzeitraum gibt es keinen Pfeil, unter einem Prozentpunkt auch nicht; sonst stünde ein Pfeil neben zwei gleich gerundeten Werten. · Z. 68 <div class="big-stat"><span class="${doneN ? '' : 'muted'}">${doneN} / ${items.length}</span></div><div class="small muted">Schritte erledigt</div>. Das ist eine Angabe statt Prozent plus „x von 5“ (aufbau-Grundsatz „eine Information an einer Stelle“); die 0 bleibt eine Zahl und ist gedämpft wie in zustaende K6; kein Pfeil. · Z. 69 <span>${cur.rate == null ? '<span class="muted">—</span>' : fmt.pct(cur.rate)}</span>${arrow(rateDir, `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${Math.abs(delta) === 1 ? 'Prozentpunkt' : 'Prozentpunkte'} zum Vorzeitraum`)}. Der Tooltip nennt die Änderung, die der Pfeil anzeigt, statt „Vorzeitraum: 80 %“; das Minus ist U+2212. Neue Texte „Schritte erledigt“, „{0} Prozentpunkte zum Vorzeitraum“ und „{0} Prozentpunkt zum Vorzeitraum“ kommen in alle fünf Sprachdateien.
-- ÄNDERN: Auf die Endfassung der Entscheidung bringen. Abweichungen von der Spezifikation: Z. 68 bekommt die Klasse muted bei doneN === 0. Z. 69 zeigt bei cur.rate == null „—“ in .muted. Der Tooltip schreibt das Minus als U+2212 und unterscheidet Ein- und Mehrzahl (Prozentpunkt/Prozentpunkte).
 - ÜBERNIMMT zustaende-S-PR1: Z. 20, 59, 68 und 69 setzt aufbau-C11a in der Endfassung um; enthalten sind „—“ in .muted ohne Daten und .muted bei 0 erledigten Schritten. In zustaende.md anpassen: Prüfpunkt 18 (leer_progress) → „Heutiger Fortschritt“ = „0 / 5“ in --muted. Glossarzeile Z. 133 und K6 → Tooltip „{0} Prozentpunkte zum Vorzeitraum“ und „Heutiger Fortschritt“ als „{n} / 5“.
 - [konflikt: .big-stat] `.big-stat` bleibt die Hero-Klasse und gilt nur noch im Fortschritt (Serie, Heutiger Fortschritt, % Regeln eingehalten). CSS wie in der Typografie geplant: `font-size: var(--fv-44); letter-spacing: var(--ls-hero); line-height: var(--lh-val);` ohne font-family, bei ≤960 var(--fv-32) (typografie-3.2.2h, fv44, fv32 unverändert). Das Challenge-Widget nutzt `.score-big` (32 px) statt `.big-stat` (siehe Anker widget:challenge). Der Payout-Vorschlag nutzt `.prop-sugg-val` auf --tile-val (aufbau-C12e). Grund: Die Aufbau-Regel sagt „.big-stat 44 px nur Fortschritt und Serie“; W5 hätte das Challenge-Widget ohne die Inline-Größe auf 44 px aufgeblasen. progress.js Z. 69 ändern aufbau-C11a (Pfeil mit Tooltip) und kilook-C18 („—“, Ring und ring-card nur mit Wert) gemeinsam in derselben Zeile; keiner überschreibt den anderen. Den Inhalt von Z. 68 und den Tooltip-Text des Pfeils entscheidet der Anker .trend.
-- ÄNDERN: progress.js Z. 69 nicht neu schreiben, sondern mit kilook-C18 zusammenführen: Wert `${cur.rate == null ? '<span class="muted">—</span>' : fmt.pct(cur.rate)}`, Ring und ring-card nur bei `cur.rate != null`, dazu der Pfeil mit Tooltip. Z. 68 (Wertform), Z. 59 (delta/rateDir) und der Tooltip-Text des Pfeils folgen der Entscheidung am Anker .trend.
+- VERBINDLICH (Kreuzprüfung): progress.js auf diese Endfassung bringen. Der Schritt enthält zustaende-S-PR1; Z. 69 teilt er sich mit kilook-C18, beide stellen dieselbe Zeile her. Z. 20: `const arrow = (dir, tip = '') => dir > 0 ? `<span class="trend up" aria-label="steigend"${tip ? ` data-tip="${esc(tip)}"` : ''}>${I.arrowUp}</span>` : dir < 0 ? `<span class="trend down" aria-label="fallend"${tip ? ` data-tip="${esc(tip)}"` : ''}>${I.arrowDown}</span>` : '';`. Z. 57: `const pct = Math.round(doneN / items.length * 100);` löschen; doneN bleibt. Z. 59: `const delta = cur.rate != null && prev && prev.rate != null ? Math.round((cur.rate - prev.rate) * 100) : 0; const rateDir = Math.sign(delta);`. Ohne Vorzeitraum und unter einem Prozentpunkt gibt es keinen Pfeil. Z. 68, Karte „Heutiger Fortschritt“: `<div class="big-stat"><span class="${doneN ? '' : 'muted'}">${doneN} / ${items.length}</span></div><div class="small muted">Schritte erledigt</div>`. Dort gibt es keinen Pfeil, kein „Keine Daten“ und kein „x von y Schritten erledigt“. Z. 69 Endfassung: `${U.card('% Regeln eingehalten', `<div class="big-stat"><span>${cur.rate == null ? '<span class="muted">—</span>' : fmt.pct(cur.rate)}</span>${arrow(rateDir, `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${Math.abs(delta) === 1 ? 'Prozentpunkt' : 'Prozentpunkte'} zum Vorzeitraum`)}</div><div class="small muted">…unverändert…</div>${cur.rate == null ? '' : `<div class="ring-abs">${ringArc(cur.rate)}</div>`}`, { info: '…unverändert…', cls: cur.rate == null ? '' : 'ring-card' })}`. Das Minus ist U+2212. Die neuen Texte „Schritte erledigt“, „{0} Prozentpunkte zum Vorzeitraum“ und „{0} Prozentpunkt zum Vorzeitraum“ kommen in js/lang/{en,es,hi,pt,zh}.js. In zustaende.md anpassen: Prüfpunkt 18 (leer_progress) → „Heutiger Fortschritt“ = „0 / 5“ in --muted; Glossarzeile Z. 133 und K6 → Tooltip „{0} Prozentpunkte zum Vorzeitraum“ und „{n} / 5“.
 
 ## aufbau-C11b · Fortschritt: Checkliste mit „Regeln anlegen/bearbeiten“, Karte „Aktuelle Regeln“ weg
 
@@ -378,6 +390,12 @@ Abhängig von: —
 - Z. 75 `trailing` der Tages-Checkliste: `<a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>` → `${rules.length ? '<a class="btn sm" href="#/settings/regeln">Regeln bearbeiten</a>' : ''}<a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>`
 - Z. 77 Karte „Aktuelle Regeln“ ersatzlos löschen. `.prog-side` enthält danach „Disziplin pro Woche“ und „Dein Tilt-Profil“ (`cls: 'fill'` bleibt)
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: #/settings/regeln] Alle Wege zu den Regeln führen auf #/settings/regeln. Doppelt umgesetzte Stellen: Widget-Leertext → aufbau-C2a (zustaende-S-W5 siehe widget:regel_tracker), Tagesansicht day.js:18 → aufbau-C7c. Fortschritt: Die Karte „Aktuelle Regeln“ entfällt (aufbau-C11b). Die Regeln stehen schon als Tages-Checkliste daneben, und eine Information gehört an eine Stelle. Ihr Kopf-Knopf wandert in die Tages-Checkliste: `trailing: `<a class="btn sm" href="#/settings/regeln">${rules.length ? `${I.edit} Regeln bearbeiten` : `${I.plus} Regeln anlegen`}</a><a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>``. Der Leerzustand der Checkliste ist `<div class="dashed">Noch keine Regeln angelegt.</div>` ohne Knopf: zustaende verlangt für .dashed einen Satz ohne Knopf, für jede Aktion gibt es ein Bedienelement, und der Satz folgt dem Glossar. zustaende-S-PR3 Z. 78 (Wochen-Diagramm nur mit Daten) bleibt.
+- ÄNDERN: Z. 73: Leerzustand wird `<div class="dashed">Noch keine Regeln angelegt.</div>`, ohne row between und ohne Knopf. Z. 75: trailing wie in der Entscheidung, ein Knopf für Anlegen/Bearbeiten mit I.plus bzw. I.edit plus „Tag ansehen“. Z. 77: Die Karte wird gelöscht wie spezifiziert; die dann ungenutzten .rules-list-Regeln in app.css mit löschen.
+- [doppelt: .dashed] komponenten-S-dashboard-b setzt die leere Dashboard-Vorlage (dashboard.js:53) einmal um: `<div class="dashed dash-empty">…</div>` ohne Inline-Stil, CSS `.dash-empty { text-align: center; padding: var(--sp-8); }` (32 px aus der Abstandsskala, siehe komponenten-C36 unter .kpi-label). .dashed bleibt ein Satz ohne Knopf (Fortschritt siehe #/settings/regeln). typografie-3.2.3l stellt nur die Schriftgröße auf das Token um.
 
 ## aufbau-C11c · Fortschritt: Trading-Aktivität unter die Checkliste, Kommentare, .rules-list löschen
 

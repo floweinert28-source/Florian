@@ -1,42 +1,10 @@
 # Paket 022 · notebook_news
 
-Schritte: 32 · Dateien: web/README.md, web/css/app.css, web/e2e/newstest.js, web/e2e/sixtest.js, web/js/editor.js, web/js/sample.js, web/js/screens/news.js, web/js/screens/notebook.js, web/js/store.js
-Betroffene Tests laut Spezifikation: e2e/colorpickertest.js; e2e/imgtest.js:5 (.nb .col.mid .btn.primary nur Ausweich-Selektor); e2e/mobiletest.js:53 (nb-share); e2e/nbsel.js:11–17; e2e/sampletest.js; e2e/sixtest.js:52–57 (siehe E1c); e2e/sixtest.js:57; prüfen: e2e/newstest.js:53, :93 (.nw-next-t b, .nw-next .caption); web/e2e/dptest.js:104 (bleibt grün); web/e2e/figtest.js:5, web/e2e/figdel.js:5, web/e2e/scrolltest.js:30 (in Abschnitt 5 genannt, müssen grün bleiben); web/e2e/mobiletest.js:53 (.datebtn bleibt); web/e2e/newstest.js:52; web/e2e/newstest.js:54; web/e2e/newstest.js:54 (Schritt zustaende-S-TE4); web/tests/core.test.mjs; web/tests/sample.test.mjs
+Schritte: 31 · Dateien: web/README.md, web/css/app.css, web/e2e/newstest.js, web/e2e/sixtest.js, web/js/editor.js, web/js/sample.js, web/js/screens/news.js, web/js/screens/notebook.js
+Betroffene Tests laut Spezifikation: e2e/colorpickertest.js; e2e/imgtest.js:5 (.nb .col.mid .btn.primary nur Ausweich-Selektor); e2e/mobiletest.js:53 (nb-share); e2e/nbsel.js:11–17; e2e/sampletest.js; e2e/sixtest.js:52–57 (siehe E1c); e2e/sixtest.js:57; prüfen: e2e/newstest.js:53, :93 (.nw-next-t b, .nw-next .caption); web/e2e/dptest.js:104 (bleibt grün); web/e2e/figtest.js:5, web/e2e/figdel.js:5, web/e2e/scrolltest.js:30 (in Abschnitt 5 genannt, müssen grün bleiben); web/e2e/mobiletest.js:53 (.datebtn bleibt); web/e2e/newstest.js:52; web/e2e/newstest.js:54; web/e2e/newstest.js:54 (Schritt zustaende-S-TE4); web/tests/sample.test.mjs
 Baut auf Paketen auf: 1, 6, 21
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
-
-## komponenten-C30 · Ordner-Dialog (CSS): Plus-Farbkreis .swatch.add, gleichmäßige Abstände
-
-Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-31
-Quelle: audit/spec/komponenten.md Z. 442–452 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**C30 – Ordner-Dialog** (bereich_notebook_news-31)
-Nach den `.swatch`-Regeln (Z. 580–584; `.swatch` ist die Pille mit 18-px-Farbkreis, die der Ordner-Dialog schon nutzt) einfügen:
-```css
-.swatch.add { position: relative; }
-.swatch.add i { border: 1px dashed var(--border-2); display: grid; place-items: center; color: var(--text-2); }
-.swatch.add i svg { width: 12px; height: 12px; }
-.swatch.add input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-form[data-action="nb-folder-save"] .stack { gap: 16px; }
-form[data-action="nb-folder-save"] .modal-foot { margin-top: 20px; padding-top: 14px; }
-```
-
-```
-
-## komponenten-D4 · store.js: „Daily Journal“ nicht grün, einmalige Umfärbung
-
-Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-31
-Quelle: audit/spec/komponenten.md Z. 622–624 · Dateien: web/js/store.js
-Abhängig von: —
-
-```text
-**D4 – store.js: Daily Journal nicht grün** (bereich_notebook_news-31)
-Z. 56 `['daily', 'Daily Journal', '#34f58a']` → `['daily', 'Daily Journal', '#9aa3a0']`. Beim Laden (dort, wo Standardordner ergänzt werden) einmalig: Ordner mit `id === 'daily'`, `isDefault` und Farbe `#34f58a` (ohne Groß-/Kleinschreibung) bekommen `#9aa3a0`.
-
-```
 
 ## komponenten-D5 · sample.js: Beispiel-Ordner ohne Emoji
 
@@ -71,6 +39,11 @@ Abhängig von: komponenten-U1
 - Z. 61: „Neue Notiz“/„Tag loggen“ `btn sm primary grow` → `btn sm grow`; Auswahlmodus `${I.check}` → `${I.checkSquare}`; Sortieren `${I.arrowDown}` → `${I.sort}` (Tooltips bleiben).
 - Z. 66 (Leerzustand rechts) `btn sm primary` → `btn sm`. Z. 67 „Wiederherstellen“ `btn sm primary` → `btn sm`.
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .btn.primary] (1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.
+- ÜBERNIMMT farbe-C24b: notebook.js Z. 61 und Z. 66 ändert komponenten-S-notebook-b. Dort wird auch Z. 67 „Wiederherstellen“ `btn sm`.
 
 ## komponenten-S-notebook-c · Notebook-Tag-Menü mit Suchfeld, neuer Tag direkt aus der Suche
 
@@ -153,6 +126,10 @@ Abhängig von: —
 - Vor dem `return` (Z. 99): `ctx.headLeft = ok && !s.events ? '' : filters;` (keine Filter beim Laden oder im Fehlerzustand)
 - Z. 88 `body = `${hero}${filters}${…}`` → `body = `${hero}${…}``
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: ctx.headLeft] Tagesansicht: Die Datumszeile bleibt im Inhalt, ohne ctx.headLeft. aufbau K4 hat genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden, und sie hängt an F1 (komponenten-3/bereich_shell-8). Die Knöpfe „Check-in“ und „Trade für diesen Tag“ entfallen mit aufbau-C7b, „Zertifikat“ bleibt dort mit I.award, die Pille „Heute“ ist neutral (farbe-C20). Von abstaende-E-day2 bleibt nur der Inline-Stil des Datumstitels als Klasse: `<h2 class="day-title">` mit `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }` (h2-Rolle 18/600, einzige Definition; .day-title in komponenten-C36 entfällt). Trade-Ansicht: Links steht der Rückweg per ctx.headLeft (aufbau-C15d). Die Seitenaktionen aus wording 9.11 kommen nicht in die Rückweg-Zeile, sondern als `actions(ctx)` rechts in die Kopfreihe; die Aufbau-Regel lautet „rechts Seitenaktionen → .dh-sep → Trade loggen“. Bei ctx.params[0]: Notiz-Knopf (`btn`, „Notiz öffnen“ bzw. „Notiz im Notebook“), `btn danger` „Löschen“, `btn` „Trade bearbeiten“ (Seitenebene = btn, nicht primary); ohne Trade-Datensatz ''. Ohne Parameter bleibt „CSV importieren“. pageHead (aufbau-B1), News (aufbau-C9a) und Affiliate (aufbau-C3) bleiben unverändert.
 
 ## aufbau-C9b · News: Zähler-Pille im Tageskopf entfernen
 
@@ -239,6 +216,11 @@ Abhängig von: —
 ```text
 - Notizliste Z. 60: vor `notes.map` `const byDay = new Map(); for (const t of App.allTrades()) (byDay.get(t.dayKey) || byDay.set(t.dayKey, []).get(t.dayKey)).push(t);`. Für `n.type === 'day' && !n.deletedAt` statt `<div class="d" data-nb-date="${n.id}">…</div>` ausgeben: `const ts = byDay.get(n.dateKey) || []; const cl = ts.filter(t => t.closed);` → `<div class="d">${ts.length ? `${ts.length} Trade${ts.length === 1 ? '' : 's'}${cl.length ? ` · ${U.pnl(C.sum(cl.map(t => t.pnl)))}` : ''}` : 'Keine Trades'}</div>` (**ohne** `data-nb-date`, sonst überschreiben `flush()` und `'nb-title'` die Zeile). Freie, Trade- und gelöschte Notizen bleiben unverändert.
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+- ÄNDERN: Zeile: `${ts.length ? `${U.count(ts.length, 'Trade', 'Trades')}${cl.length ? ` · ${U.pnl(C.sum(cl.map(t => t.pnl)), 'num')}` : ''}` : 'Keine Trades'}`. Zähler über U.count, Betrag mit Klasse num wie in zustaende-S-NB1. Sonst wie spezifiziert (ohne data-nb-date).
 
 ## aufbau-C10e · Notebook-Filter: Abschnitt „Zuletzt bearbeitet“ mit Labels Von/Bis
 
@@ -354,6 +336,10 @@ Z. 60 `U.pnl(pnl, '', { r: t.r })` → `U.pnl(pnl, 'num', { r: t.r })`.
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.pnl] Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).
+
 ## zustaende-S-NB2 · Notebook: „Farbe ändern“ nur für eigene Ordner, Standardordner mit Symbol in Verschieben-Menüs
 
 Gruppe zustaende · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-33
@@ -390,6 +376,10 @@ Abhängig von: —
 - Befunde: bereich_notebook_news-47
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: --muted] (1) Der Akzent-Hinweis in Einstellungen → Design (misc.js Z. 145) lautet „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“ (farbe-C22c). Die wording-Fassung „Hauptknöpfe, Schalter, Markierungen und Diagramme.“ wäre nach dem neutralen .btn.primary falsch und widerspräche W1 („Hilfetexte sagen, was der Code tut“). (2) „Auf Standard zurücksetzen“-Knöpfe sind einheitlich `.btn.ghost.sm`, ohne Inline-Farbe und ohne eigene --muted-Variante (Komponenten: „keine weiteren Varianten“, kein Inline-Stil; abstaende-L6/-L8 entfernen die Inline-Farbe bereits). Die Farbe ist die von .btn.ghost (--text-2, Hover --text). Das gilt für color-reset, be-reset, die Notebook-Einstellungen und tags-reset. (3) Die --muted-Werte (farbe-A1/A2) und ihre Nutzung in barrierefreiheit-B13 und diagramme-A1 sind verträglich.
 
 ## barrierefreiheit-C-editor-112 · Farbknöpfe im Editor benennen (Schriftfarbe/Textmarker {0})
 
@@ -436,3 +426,41 @@ Abhängig von: —
 - **3119** im Block `@media (max-width: 640px)` an die Regel `.nw-next-when { … }` `flex-basis: 100%;` anhängen. Der Countdown bricht damit am Handy immer in eine eigene zweite Zeile.
 
 ```
+
+## kilook-C2 · Notebook-CSS: .journal/.note-*-Reste und tags-row-Regeln löschen, Umwandeln-Label 13px/500
+
+Gruppe kilook · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-36
+Quelle: audit/spec/kilook.md Z. 524–534 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**C2 · web/css/app.css · Notebook-Reste** (bereich_notebook_news-36)
+- **769** Kommentar `/* ---------- Journal ---------- */` → `/* ---------- Notebook-Ordner ---------- */`
+- **770–774** `.journal …` (5 Regeln) löschen.
+- **775–778** `.folder …` **bleiben**.
+- **779–787** löschen: `.note-item`, `:hover`, `.active`, `b`, `span`, `.note-title`, `.note-title:focus`, `.note-body`, `.note-body:focus`.
+- **788** `@media (max-width: 960px) { .journal … }` löschen.
+- **1028** `.nb .note-title:focus { outline: none; }` **bleibt**.
+- **1057** `.nb .tags-row input { max-width: 190px; … }` und **1059** `.nb .tags-row input { max-width: none; }` löschen.
+- **1085–1086** vorher `.nb-toolbar .tb.turn .lbl { font-size: 15px; }` und `.nb-toolbar .tb .lbl { font-size: 13px; font-weight: 600; }`
+  → nachher eine Regel `.nb-toolbar .tb.turn .lbl { font-size: 13px; font-weight: 500; }`. Werte aus typografie/bereich_notebook_news-14. `.lbl` gibt es nur im Umwandeln-Knopf (editor.js:118).
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .nb .tags-row input] Toter Code (.tags-row enthält kein input, notebook.js:77): kilook-C2 löscht Z. 1057 und 1059. Nicht tokenisieren.
+- [konflikt: .note-body] Die ungebundene Regel `.note-body { … }` (Z. 786) und `.note-body:focus` (Z. 787) werden gelöscht (kilook-C2). Ganz tot sind sie aber nicht: `.nb .note-body` (notebook.js:78, Papierkorb notebook.js:67) erbt heute 14,5 px und Zeilenhöhe 1.65, und Werkzeugleiste, `.nb-menu` und `.nb-ytpop` liegen darin. Die Schriftgröße kommt danach vom body (14 px nach typografie), das ist der typografie-Zielwert. Die Zeilenhöhe, die typografie ausdrücklich behält („1.65 bleibt“), wandert in die gebundene Regel Z. 1058: `.nb .note-body { padding: 0 8px 20px; line-height: 1.65; }`. Der Editor-Text ist nicht betroffen (`.ql-container.ql-snow` setzt `--nb-body`, `.ql-editor` 1.65). Hinweis zu den übrigen C2-Löschungen (Z. 779–783): Heute schlägt `.note-item span` (0,1,1) die Klasse `.pos`/`.neg` aus U.pnl. Nach dem Löschen steht das P&L in der Notizliste in Gewinn- oder Verlustfarbe wie überall in der App. Das ist gewollt, die Notizliste per Aufnahme prüfen.
+- ÄNDERN: Z. 786–787 wie geplant löschen und `.nb .note-body` (Z. 1058) zu `padding: 0 8px 20px; line-height: 1.65;` ergänzen. Nach dem Löschen von Z. 779–783 Notizliste und Papierkorb-Notiz per Aufnahme prüfen.
+- [konflikt: .note-title] Im Code passen die drei Schritte zusammen:
+- K3 baut den Papierkorb-Kopf mit `<h2 class="note-title">` innerhalb von `.nb`. Dort greift `.nb .note-title` (Z. 1014) und nicht die ungebundene Regel, die C2 löscht. `h2` hat über Z. 90 margin 0.
+- `.nb .note-title:focus` (Z. 1028) bleibt.
+- responsiv-A3 schließt `.note-title` über die Klasse am Titelfeld aus, die Klasse bleibt im Markup.
+
+Einziger Widerspruch ist ein Wert: Die abstaende-Prüfung 14 erwartet „Titel 34 px“, typografie setzt den Notiz-Titel auf 32/600 (≤ 960: 26, ≤ 560: 24). Verbindlich: Der Papierkorb-Titel ist so groß wie der Titel einer offenen Notiz, also 32 px am Desktop.
+- [doppelt: .journal] Beide löschen denselben toten Code: Z. 770–774 und Z. 788, deren @media nur `.journal`-Regeln enthält. kilook-C2 übernimmt, inklusive Kommentar „Notebook-Ordner“. Die `.folder`-Regeln Z. 775–778 bleiben.
+- ÜBERNIMMT typografie-3.2.2d: Nicht separat umsetzen; Z. 770–774 und Z. 788 löscht kilook-C2.
+- [doppelt: .nb-toolbar .tb .lbl] Dieselbe Änderung zweimal. typografie-3.2.3j übernimmt, weil sie Tokens und Zeilenhöhe mitbringt: Z. 1086 `.nb-toolbar .tb .lbl` löschen (`.lbl` gibt es nur im Umwandeln-Knopf, editor.js:118). Z. 1085 wird `.nb-toolbar .tb.turn .lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; }`.
+- ÄNDERN: Den Punkt „1085–1086“ weglassen, ihn setzt typografie-3.2.3j um. Übrige C2-Punkte unverändert.
+- [doppelt: .nb-toolbar .tb.turn .lbl] Wie beim Anker .nb-toolbar .tb .lbl: typografie-3.2.3j übernimmt. Endstand: `.nb-toolbar .tb.turn .lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; }`, Z. 1086 gelöscht.
+- ÄNDERN: Punkt „1085–1086“ entfällt (übernimmt typografie-3.2.3j).

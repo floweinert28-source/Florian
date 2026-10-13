@@ -1,81 +1,77 @@
-# Paket 066 · trades_tag
+# Paket 066 · dashboard, barrierefreiheit, shell
 
-Schritte: 4 · Dateien: web/js/app.js, web/js/screens/trades.js
+Schritte: 4 · Dateien: web/js/app.js, web/js/widgets.js
 Betroffene Tests laut Spezifikation: —
-Baut auf Paketen auf: 6, 7, 60, 62, 65
+Baut auf Paketen auf: 61, 63
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-P13 · Plan & Bewertung: Sterne als Radiogruppe mit Klasse .on und Namen „{0} von 5 Sternen“, guard
+## barrierefreiheit-P3 · Globaler Tastatur-Handler: Escape (requestClose, Menü-Rücksprung, closeSidebar), Enter/Leertaste auf role=button/checkbox, Pfeiltasten in Radiogruppen
 
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-13, barrierefreiheit-11
-Quelle: audit/spec/barrierefreiheit.md Z. 664–670 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-B9a, barrierefreiheit-U3a, barrierefreiheit-P4, barrierefreiheit-P3
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand M · Befunde: barrierefreiheit-3, barrierefreiheit-16, barrierefreiheit-12, barrierefreiheit-13, barrierefreiheit-26, barrierefreiheit-11, bereich_shell-12, barrierefreiheit-27, bereich_shell-15
+Quelle: audit/spec/barrierefreiheit.md Z. 573–590 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-U3a, barrierefreiheit-U7, barrierefreiheit-P6
 
 ```text
-**P13 Plan & Bewertung** (Z. 428, 435, 472)
-- Z. 428 vorher: `` <span class="lbl">Bewertung</span><div class="rating" id="f-rating">${…`<button type="button" data-action="set-rating" data-value="${n}" aria-pressed="${t.rating >= n}">★</button>`…} ``
-  nachher: `` <span class="lbl" id="f-rating-l">Bewertung</span><div class="rating" id="f-rating" role="radiogroup" aria-labelledby="f-rating-l">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" class="${t.rating >= n ? 'on' : ''}" data-action="set-rating" data-value="${n}" aria-checked="${t.rating === n}" aria-label="${n} von 5 Sternen">★</button>`).join('')}</div> ``
-- Z. 435: Optionen `{ cls: 'tf-modal', guard: true, onMount: … }`
-- Z. 472 `set-rating` in der Schleife: `b.classList.toggle('on', Number(b.dataset.value) <= nv); b.setAttribute('aria-checked', String(Number(b.dataset.value) === nv));`
-- Befunde: barrierefreiheit-13, barrierefreiheit-11
+**P3 Tastatur global** (Z. 285, ersetzt den Escape-Handler)
+```js
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const op = document.querySelector('.popover.open:not(.closing)'); const trg = op && document.querySelector(`[data-pop="${CSS.escape(op.id.slice(4))}"]`); const back = !!(op && op.contains(document.activeElement));
+    U.requestClose(); this.closePopovers(); if (back && trg) trg.focus({ preventScroll: true });
+    if (this.state.sidebarOpen) this.closeSidebar();
+    return;
+  }
+  /* Enter/Leertaste auf eigenen Knöpfen (div mit role=button/checkbox) wie ein Klick */
+  if ((e.key === 'Enter' || e.key === ' ') && !e.repeat && !e.defaultPrevented) { const t = e.target; if (t && t.matches && t.matches('[role="button"], [role="checkbox"]') && !t.matches('button, a[href], input, select, textarea, summary, [contenteditable="true"]')) { e.preventDefault(); t.click(); return; } }
+  /* Pfeiltasten in Auswahlgruppen: Fokus weiter; gewählt wird mit Enter/Leertaste */
+  const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+  if (step && e.target.matches && e.target.matches('[role="radio"]')) { const g = e.target.closest('[role="radiogroup"]'); if (!g) return; const all = [...g.querySelectorAll('[role="radio"]:not([disabled])')]; const i = all.indexOf(e.target); if (i < 0) return; e.preventDefault(); all[(i + step + all.length) % all.length].focus(); }
+});
+```
+Der Handler reagiert nur auf das Element selbst (`e.target`), nicht auf Knöpfe darin, etwa das Ordner-Menü im Notebook. Befunde: barrierefreiheit-3, barrierefreiheit-16, barrierefreiheit-12, barrierefreiheit-13, barrierefreiheit-26, barrierefreiheit-11, bereich_shell-12, barrierefreiheit-27, bereich_shell-15
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [konflikt: .rating] Eine Bauart `.scale5` für Check-in und Bewertung (komponenten), mit der ARIA-Struktur aus barrierefreiheit. Die Zustände hängen deshalb an `aria-checked` bzw. der Klasse `.on`, nicht mehr an `aria-pressed`. Gelbe Schrift ist `--warn-text` (Farbregel). MARKUP app.js: Z. 428 `<span class="lbl" id="f-rating-l">Bewertung</span><div class="scale5 rating" id="f-rating" role="radiogroup" aria-labelledby="f-rating-l">` mit Knöpfen `role="radio" class="${t.rating >= n ? 'on' : ''}" aria-checked="${t.rating === n}" aria-label="${n} von 5 Sternen"`; set-rating schaltet `.on` kumulativ und `aria-checked` nur am n-ten Stern (P13). Z. 513 `scale()` wird `<div class="scale5" role="radiogroup" aria-labelledby="${lid}" data-chips="${name}">` mit `role="radio" aria-checked aria-label="${n} – ${label}"`; seg-set setzt aria-checked (P14a). CSS app.css statt Z. 322–325: `.scale5 { display: inline-flex; gap: 6px; } .scale5 button { width: 32px; height: 32px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: … var(--dur-1) var(--ease); } .scale5 button:hover { color: var(--text); background: var(--surface-2); } .scale5.rating button { color: var(--muted); } .scale5.rating button.on { --lc: var(--warn-text); }`. Im Handy-Block (≤560px): `.scale5 button { width: 44px; height: 44px; }`, 5 × 44 + 4 × 6 = 244 px. In der gemeinsamen Auswahlregel (~Z. 3125) wird `.rating button[aria-pressed="true"]` zu `.scale5 button[aria-checked="true"], .scale5.rating button.on`; das gilt auch für barrierefreiheit-B9b, das diesen Selektor dann nicht mehr anfasst. Größe: Desktop einheitlich 32 px für beide Skalen, denn 32 ≥ 24 erfüllt WCAG 2.5.8 und eine Bauart hat eine Größe. Die 36 px aus barrierefreiheit stammen von der alten Pillenform, die komponenten löscht. Am Handy 44 px, wie barrierefreiheit es für Touch verlangt, für die ganze Bauart. barrierefreiheit-Test 19 (≥ 44 bei 390 px) bleibt gültig; Prüfpunkt 22 heißt dann „Check-in-Skala 32 px (Handy 44)“.
-- ÄNDERN: Z. 428: Container `class="scale5 rating"` statt `class="rating"`. Sonst wie spezifiziert (radiogroup, role=radio, .on kumulativ, aria-checked am n-ten Stern, aria-label, guard, set-rating).
-- [konflikt: #f-rating] Wie beim Anker .rating: P13 schreibt Z. 428 mit `class="scale5 rating"`, role=radiogroup, Klasse `.on` und aria-checked. A6 entfällt.
-- ÄNDERN: Z. 428: Container `class="scale5 rating"` statt `class="rating"`. Sonst wie spezifiziert (radiogroup, role=radio, .on kumulativ, aria-checked am n-ten Stern, aria-label, guard, set-rating).
+- [doppelt: App.bind] Der Toast-Container wird genau einmal am Anfang von bind() angelegt, mit `U.toastWrap(); U.announce('');` (barrierefreiheit-P10; U.toastWrap wird laut barrierefreiheit-U7 exportiert). Die zusätzliche erste Zeile `U.toast.init();` aus zustaende-S-A1 macht dasselbe unter einem zweiten Namen und entfällt. Ob toast.init als Alias bestehen bleibt, entscheidet der Anker U.toast/toastWrap. Der invalid-Listener und clearErr aus zustaende-S-A1 kommen unverändert neben den submit-Listener. Der Tastatur-Handler aus barrierefreiheit-P3 ersetzt den alten Escape-Handler. Beide Teile stören sich nicht: Der eine hört auf keydown, der andere auf invalid, input und change.
 
-## barrierefreiheit-P14a · Check-in-Skalen als Radiogruppen mit Namen „1 – entspannt“ …, seg-set setzt aria-checked
+## barrierefreiheit-P11 · Zeitraum- und Konto-Menü als Radiogruppen (role=radiogroup/radio)
 
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-12
-Quelle: audit/spec/barrierefreiheit.md Z. 671–675 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-B9a, barrierefreiheit-P3
+Gruppe barrierefreiheit · Cluster shell · Aufwand S · Befunde: barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 640–644 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-P3, barrierefreiheit-B6
 
 ```text
-**P14 Check-in, Session starten und beenden** (Z. 490–553)
-- Z. 513 `scale`:
-  `` const scale = (name, val, labels, lid) => `<div class="seg pill" role="radiogroup" aria-labelledby="${lid}" data-chips="${name}">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" data-action="seg-set" data-name="${name}" data-value="${n}" aria-checked="${Number(val) === n}" aria-label="${n} – ${labels[n - 1]}" title="${labels[n - 1]}">${n}</button>`).join('')}</div><input type="hidden" name="${name}" value="${val || ''}">`; ``
-- Z. 517 / 518: `<span class="lbl">` → `<span class="lbl" id="lbl-stress">` bzw. `id="lbl-mood"`; Aufruf `scale('stress', ci.stress, […], 'lbl-stress')` bzw. `scale('mood', …, 'lbl-mood')`
-- Z. 546 `seg-set`: `b.setAttribute('aria-pressed', b === el)` → `b.setAttribute('aria-checked', String(b === el))`
+**P11 Zeitraum- und Konto-Menü** (Z. 239, 244)
+- Z. 239: `<div class="rr-presets">` → `<div class="rr-presets" role="radiogroup" aria-label="Zeitraum">`. Jeder Eintrag bekommt zusätzlich `role="radio"`.
+- Z. 244: die `.item`-Knöpfe (Alle Konten und die Konten) in `<div role="radiogroup" aria-label="Konto">…</div>` fassen, jeder mit `role="radio"`. `<hr>` und „Konten verwalten“ stehen danach außerhalb.
+- Befunde: barrierefreiheit-26
+
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [konflikt: .rating] Eine Bauart `.scale5` für Check-in und Bewertung (komponenten), mit der ARIA-Struktur aus barrierefreiheit. Die Zustände hängen deshalb an `aria-checked` bzw. der Klasse `.on`, nicht mehr an `aria-pressed`. Gelbe Schrift ist `--warn-text` (Farbregel). MARKUP app.js: Z. 428 `<span class="lbl" id="f-rating-l">Bewertung</span><div class="scale5 rating" id="f-rating" role="radiogroup" aria-labelledby="f-rating-l">` mit Knöpfen `role="radio" class="${t.rating >= n ? 'on' : ''}" aria-checked="${t.rating === n}" aria-label="${n} von 5 Sternen"`; set-rating schaltet `.on` kumulativ und `aria-checked` nur am n-ten Stern (P13). Z. 513 `scale()` wird `<div class="scale5" role="radiogroup" aria-labelledby="${lid}" data-chips="${name}">` mit `role="radio" aria-checked aria-label="${n} – ${label}"`; seg-set setzt aria-checked (P14a). CSS app.css statt Z. 322–325: `.scale5 { display: inline-flex; gap: 6px; } .scale5 button { width: 32px; height: 32px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: … var(--dur-1) var(--ease); } .scale5 button:hover { color: var(--text); background: var(--surface-2); } .scale5.rating button { color: var(--muted); } .scale5.rating button.on { --lc: var(--warn-text); }`. Im Handy-Block (≤560px): `.scale5 button { width: 44px; height: 44px; }`, 5 × 44 + 4 × 6 = 244 px. In der gemeinsamen Auswahlregel (~Z. 3125) wird `.rating button[aria-pressed="true"]` zu `.scale5 button[aria-checked="true"], .scale5.rating button.on`; das gilt auch für barrierefreiheit-B9b, das diesen Selektor dann nicht mehr anfasst. Größe: Desktop einheitlich 32 px für beide Skalen, denn 32 ≥ 24 erfüllt WCAG 2.5.8 und eine Bauart hat eine Größe. Die 36 px aus barrierefreiheit stammen von der alten Pillenform, die komponenten löscht. Am Handy 44 px, wie barrierefreiheit es für Touch verlangt, für die ganze Bauart. barrierefreiheit-Test 19 (≥ 44 bei 390 px) bleibt gültig; Prüfpunkt 22 heißt dann „Check-in-Skala 32 px (Handy 44)“.
-- ÄNDERN: Z. 513: Container `class="scale5"` statt `class="seg pill"`. Sonst wie spezifiziert (radiogroup, aria-labelledby, role=radio, aria-checked, aria-label „{n} – {Label}“, seg-set setzt aria-checked).
-- [konflikt: App.checkInFields] Wie beim Anker .rating: P14a schreibt `scale()` (Z. 513) mit `class="scale5"`, role=radiogroup/radio und aria-checked. Die Check-in-Auswahl bleibt neutral (kein --lc) über `.scale5 button[aria-checked="true"]` in der gemeinsamen Auswahlregel. A6 entfällt.
-- ÄNDERN: Z. 513: Container `class="scale5"` statt `class="seg pill"`. Sonst wie spezifiziert (radiogroup, aria-labelledby, role=radio, aria-checked, aria-label „{n} – {Label}“, seg-set setzt aria-checked).
-- [konflikt: .seg.pill] `.seg.pill` entfällt ganz (komponenten). Der Check-in nutzt `.scale5` mit der ARIA-Struktur aus P14a, Einzelheiten beim Anker .rating.
-- ÄNDERN: Z. 513: Container `class="scale5"` statt `class="seg pill"`. Sonst wie spezifiziert (radiogroup, aria-labelledby, role=radio, aria-checked, aria-label „{n} – {Label}“, seg-set setzt aria-checked).
+- [doppelt: App.accountControl] Die Schritte ergänzen sich. Einzige Doppelung: Der Link „Konten verwalten“ → `#/settings/konten` steht in aufbau-B5 und in zustaende-S-A2, umgesetzt wird er in S-A2. Endzustand app.js:243–244: `const show = o.mobile || accounts.length > 1`; Wrapper `popwrap${show ? '' : ' hide-m'}${o.iconM ? ' acc-iconm' : ''}` (3.3a). Der Auslöser bekommt zusätzlich `aria-label="Konto: ${esc(accName)}"`; der Name endet mit dem sichtbaren Wort, damit ist WCAG 2.5.3 erfüllt. Im Popover umschließt `<div role="radiogroup" aria-label="Konto">` die Einträge „Alle Konten“ (nur bei mehr als einem Konto) und die Konten, jeder davon `role="radio"` (P11). aria-checked: für „Alle Konten“ `!acc || acc === 'all'`, für ein Konto `acc === a.id || ((!acc || acc === 'all') && accounts.length === 1)` (S-A2). So ist in jeder Lage genau ein Radio gewählt, denn „Alle Konten“ wird bei einem einzigen Konto nicht gerendert. Vor dem Namen steht `<span class="chk">${on ? I.check : ''}</span>`, `on` ist derselbe Ausdruck wie aria-checked (A3). Der Betrag bekommt `title="Kontogröße"`. Danach folgen außerhalb der Gruppe `<hr>` und `<a class="item" href="#/settings/konten">${I.settings} Konten verwalten</a>`. Das Dashboard ruft `App.accountControl({ iconM: true })` auf (3.6). Den pageHead-Teil von 3.3a regelt der Anker App.pageHead.
 
-## barrierefreiheit-P15 · CSV-Import: Dropzone role=button tabindex=0, Textfeld „CSV-Text einfügen“
+## barrierefreiheit-C-widgets-115 · Kalendertag mit zugänglichem Namen (Datum · Betrag · Trades)
 
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-16, barrierefreiheit-37
-Quelle: audit/spec/barrierefreiheit.md Z. 683–687 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-B10, barrierefreiheit-P3
+Gruppe barrierefreiheit · Cluster dashboard · Aufwand S · Befunde: barrierefreiheit-3
+Quelle: audit/spec/barrierefreiheit.md Z. 726–726 · Dateien: web/js/widgets.js
+Abhängig von: barrierefreiheit-P3
 
 ```text
-**P15 CSV-Import** (Z. 560)
-- `<div class="dropzone" id="import-drop">` → `<div class="dropzone" id="import-drop" role="button" tabindex="0">`
-- `<textarea class="input" id="import-text" …>` → zusätzlich `aria-label="CSV-Text einfügen"`
-- Befunde: barrierefreiheit-16, barrierefreiheit-37
-
+| 115 Kalendertag | `role="button" tabindex="0"` ohne Name | zusätzlich `` aria-label="${esc(e ? `${fmt.dateFull(c.date)} · ${fmt.cur(e.pnl, { signed: true })} · ${e.n === 1 ? '1 Trade' : e.n + ' Trades'}` : fmt.dateFull(c.date))}" `` | barrierefreiheit-3 |
 ```
 
-## barrierefreiheit-C-trades-77-116 · Screenshots als Knopf .shot-open, Dropzonen role=button, Aktion lightbox über U.lightbox
+## barrierefreiheit-C-widgets-222-234 · Kennzahl-Suche benennen, Uhrzeit-Menü als Radiogruppe
 
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand M · Befunde: barrierefreiheit-17, bereich_trades_tag-41, barrierefreiheit-16
-Quelle: audit/spec/barrierefreiheit.md Z. 754–758 · Dateien: web/js/screens/trades.js
-Abhängig von: barrierefreiheit-B10, barrierefreiheit-U5, barrierefreiheit-U7, barrierefreiheit-P3
+Gruppe barrierefreiheit · Cluster dashboard · Aufwand S · Befunde: barrierefreiheit-37, barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 729–730 · Dateien: web/js/widgets.js
+Abhängig von: barrierefreiheit-P3
 
 ```text
-- **Z. 77 Screenshots:** `` t.screenshots.map(id => `<div class="shot"><img data-blob="${id}" alt="Screenshot" data-action="lightbox" data-blob-id="${id}"><button … del …>`) `` → `` t.screenshots.map((id, i) => `<div class="shot"><button type="button" class="shot-open" data-action="lightbox" data-blob-id="${id}" aria-label="Screenshot ${i + 1} von ${t.screenshots.length} vergrößern"><img data-blob="${id}" alt=""></button><button … del …>`) `` (Befunde: barrierefreiheit-17, bereich_trades_tag-41)
-- **Z. 79 (vor Entry):** ebenso, `aria-label="Screenshot vor Entry vergrößern"` (Befund: barrierefreiheit-17)
-- **Z. 80 und 81:** `<div class="dropzone" id="pre-drop" …>` bzw. `id="shot-drop"` bekommen zusätzlich `role="button" tabindex="0"` (Befunde: barrierefreiheit-16, bereich_trades_tag-41)
-- **Z. 116:** `async lightbox(el) { …; const lb = document.createElement('div'); …; document.body.appendChild(lb); }` → `async lightbox(el) { const u = await root.Blobs.url(el.dataset.blobId); if (u) U.lightbox(u, 'Screenshot'); },` (Befunde: barrierefreiheit-17, bereich_trades_tag-41)
-
+| 222 Kennzahl-Suche | `<input class="input" id="rep-q" placeholder="Suchen" …>` | zusätzlich `aria-label="Kennzahl suchen"` | barrierefreiheit-37 |
+| 234 Uhrzeit-Menü | `<div class="popover" id="pop-uhrzeit">` mit Einträgen `aria-checked` | `<div class="popover" id="pop-uhrzeit" role="radiogroup" aria-label="Uhrzeit">`, Einträge zusätzlich `role="radio"` | barrierefreiheit-26 |
 ```

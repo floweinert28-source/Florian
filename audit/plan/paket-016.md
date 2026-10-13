@@ -1,31 +1,10 @@
 # Paket 016 · statistik
 
-Schritte: 8 · Dateien: web/css/app.css, web/js/core.js, web/js/screens/stats.js
+Schritte: 7 · Dateien: web/css/app.css, web/js/core.js, web/js/screens/stats.js
 Betroffene Tests laut Spezifikation: web/e2e/filtertest.js; web/e2e/mobiletest.js:26-27 (.stat-tile .v 20px, zwei Spalten)
-Baut auf Paketen auf: 3, 7, 15
+Baut auf Paketen auf: 7, 15
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
-
-## kilook-C14 · Statistik: Gewinner/Verlierer als .kpi-label, Check-in-Leerzustand mit I.mood, Monte Carlo ganzzahlig
-
-Gruppe kilook · Cluster statistik · Aufwand S · Befunde: ki_look-17, ki_look-36, diagramme-32
-Quelle: audit/spec/kilook.md Z. 630–641 · Dateien: web/js/screens/stats.js
-Abhängig von: kilook-A4
-
-```text
-**C14 · web/js/screens/stats.js** (ki_look-17, ki_look-36, diagramme-32)
-- **45** `<div class="caption">Gewinner</div>` und `<div class="caption">Verlierer</div>` → `class="kpi-label"`
-- **61** `U.empty('sparkle', 'Keine Check-ins im Zeitraum', …)` → `U.empty('mood', 'Keine Check-ins im Zeitraum', …)`
-- **79–80** (Monte Carlo) jedes `fmt.cur(x)` → `fmt.cur(x, { compact: true })`:
-  - `mc.start`
-  - `-mc.dd.p50`
-  - `-mc.dd.p95`
-  - `-mc.dd.worst`
-  - `mc.final.p50`
-  - `mc.final.p5`
-  - `mc.final.p95`
-
-```
 
 ## responsiv-B7 · Statistik-Übersicht: 4 Spalten bis 761 px, Werte unten bündig, Kartenreihe st-cards
 
@@ -122,6 +101,12 @@ Abhängig von: wording-S1.1-1.3, wording-S2.2-2.4
 | 10.7 | Z. 45 | `'Ø pro Trade nach Wochentag'` → `'Erwartungswert nach Wochentag'`; `'Ø pro Trade nach Haltedauer'` → `'Erwartungswert nach Haltedauer'`; `groupTable(ta.hours, 'Uhrzeit')` → `groupTable(ta.hours.map(g => Object.assign({}, g, { label: g.key + ' Uhr' })), 'Uhrzeit')` | bereich_statistik-16, bereich_statistik-38 |
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+- ÄNDERN: 10.3 entfällt, weil aufbau-C14d die Karte „P&L nach Wochentag“ löscht. 10.1, 10.2 und 10.4–10.7 bleiben.
+- [konflikt: U.card] (1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.
+
 ## wording-S10.8-10.12 · Statistik: Fehler-Kacheln (Kosten in Verlustfarbe ohne Minus, Trefferquote mit/ohne Fehler ohne Farbe), Regime-Titel und Einzel-Labels, Edge-Zähler
 
 Gruppe wording · Cluster statistik · Aufwand M · Befunde: bereich_statistik-45, wording-3, zustaende-28, bereich_statistik-16
@@ -136,6 +121,12 @@ Abhängig von: wording-S1.1-1.3, wording-S10.1-10.7
 | 10.12 | Z. 72 Edge | `{ n: \`${e.n} Trades\` }` → `{ n: U.count(e.n, 'Trade', 'Trades') }`; `noch ${e.required - e.n} Trades` → `noch ${U.count(e.required - e.n, 'Trade', 'Trades')}` | zustaende-28 |
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.barRow] typografie-3.8h setzt „Kosten je Fehler“ (stats.js:52) einmal um, mit dem Begriff aus dem Wording-Glossar: `${U.pnl(it.total)} <span class="muted">· ${it.n}× · Trefferquote ${fmt.pct(it.n ? it.wins / it.n : 0)}</span>`. „Win-Rate“ und „WR“ kommen nicht vor. Die Struktur aus Betrag und gedämpftem Zusatz passt zu diagramme-A8a (`.bar-row .bl > b` in Onest mit tabular-nums, `.muted` in 400) und zum Ranking aus diagramme-I1.
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+- ÄNDERN: 10.8, Kachel 1: Beschriftung wechselt wie spezifiziert, der Wert ist aber `fmt.cur(mr.cost, { signed: true })` mit der Klasse `mr.cost < -C.EPS ? 'neg' : mr.cost > C.EPS ? 'pos' : 'neu'`. Die übrigen Teile von 10.8 bleiben. 10.9 entfällt, typografie-3.8h setzt den Text mit „Trefferquote“ (siehe U.barRow). 10.10–10.12 bleiben.
+
 ## wording-S10.13-10.15 · Monte Carlo: Durchläufe mit fmt.int, Kacheln kompakt ohne Cent, ausgeschriebene Fußzeilen
 
 Gruppe wording · Cluster statistik · Aufwand S · Befunde: bereich_statistik-26, wording-29
@@ -148,3 +139,9 @@ Abhängig von: —
 | 10.15 | Z. 81 | `{ sub: '25 von ' + mc.runs + ' Durchläufen' }` → `{ sub: '25 von ' + fmt.int(mc.runs) + ' Durchläufen' }` | bereich_statistik-26 |
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.tile] (1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class="${ds.winDays ? 'pos' : ''}">…</span> / <span class="${ds.lossDays ? 'neg' : ''}">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.
+- [doppelt: fmt.cur] zustaende-S-U1 setzt ui.js:122 einmal um: `const d = o.compact ? 0 : 2;`, mit Überlaufprüfung und notfalls @container 164 → 190 px. Kalender-Monatsraster mit compact: true (kilook-C9a). Das ist dieselbe Änderung wie 6.1/6.2 in wording-S6.1-6.4; wer zuerst umsetzt, macht sie, der andere überspringt. Monte Carlo ohne Cent setzt wording-S10.13-10.15 einmal um, ergänzt um das Startkapital aus kilook-C14. Prop und Affiliate bekommen kein compact (siehe fmt.balance und money). chartLabel aus barrierefreiheit-U6a nutzt das Standardformat.
+- ÄNDERN: Zusätzlich in Z. 79 `Startkapital ${fmt.cur(mc.start, { compact: true })}` (aus kilook-C14). Sonst wie spezifiziert.

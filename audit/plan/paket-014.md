@@ -1,146 +1,25 @@
-# Paket 014 · dashboard, komponenten
+# Paket 014 · dashboard, shell
 
-Schritte: 35 · Dateien: web/css/app.css, web/e2e/dashtest.js, web/e2e/leaktest.js, web/js/screens/dash-filter.js, web/js/screens/dashboard.js, web/js/widgetpreviews.js, web/js/widgets.js
-Betroffene Tests laut Spezifikation: prüfen: e2e/dashtest.js:23, :110; prüfen: e2e/scorestatetest.js (Score-Karte); web/e2e/dashtest.js; web/e2e/dashtest.js (Bearbeitungsmodus); web/e2e/dashtest.js:143–144 (Schritt zustaende-S-TE2); web/e2e/dashtest.js:67; web/e2e/dashtest.js:67 (bleibt grün); web/e2e/leaktest.js (unverändert); web/e2e/mobiletest.js:20 (Kacheln zwei Spalten); web/e2e/mobiletest.js:33 (Gewinn/Verlust-Kachel); web/e2e/mobiletest.js:72; web/e2e/mobiletest.js:72 (Letzte Trades)
-Baut auf Paketen auf: 1, 3, 6, 7, 8, 13
+Schritte: 26 · Dateien: web/css/app.css, web/js/screens/dash-filter.js, web/js/screens/dashboard.js, web/js/widgetpreviews.js, web/js/widgets.js
+Betroffene Tests laut Spezifikation: prüfen: e2e/dashtest.js:23, :110; web/e2e/dashtest.js; web/e2e/dashtest.js (Bearbeitungsmodus); web/e2e/dashtest.js:67; web/e2e/filtertest.js, web/e2e/headtest.js (data-action bleibt, prüfen); web/e2e/langtest.js (aria-label); web/e2e/mobiletest.js:20 (Kacheln zwei Spalten); web/e2e/mobiletest.js:33 (Gewinn/Verlust-Kachel); web/e2e/mobiletest.js:72; web/e2e/mobiletest.js:72 (Letzte Trades)
+Baut auf Paketen auf: 6, 7, 12, 13
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## aufbau-B12 · Ein Muster für „mehr dazu“: .more-link neutral, .more-row löschen
+## farbe-C19b · Filter-Knopf: Klasse is-set statt accent, aria-label „Filter ({0} aktiv)“
 
-Gruppe aufbau · Cluster komponenten · Aufwand S · Befunde: bereich_dashboard-33
-Quelle: audit/spec/aufbau.md Z. 379–383 · Dateien: web/css/app.css
-Abhängig von: aufbau-C2a
+Gruppe farbe · Cluster shell · Aufwand S · Befunde: referenz-7
+Quelle: audit/spec/farbe.md Z. 471–471 · Dateien: web/js/screens/dashboard.js
+Abhängig von: farbe-B25
 
 ```text
-**B12 Ein Muster für „mehr dazu“** (`web/css/app.css` Z. 1658–1660) · bereich_dashboard-33
-- Z. 1658 `.more-row { … }` löschen (nach C2 unbenutzt; mit `grep -rn more-row web/` prüfen)
-- Z. 1659 `.more-link { color: var(--accent); font-weight: 600; font-size: 13px; text-decoration: none; }` → `.more-link { color: var(--text-2); font-weight: 500; font-size: 13px; text-decoration: none; }`
-- Z. 1660 `.more-link:hover { text-decoration: underline; }` → `.more-link:hover { color: var(--text); }`
-
+- Z. 124 `<button type="button" class="btn ${fN ? 'accent' : ''}" data-action="dash-f-open" aria-label="Filter">` → `<button type="button" class="btn${fN ? ' is-set' : ''}" data-action="dash-f-open" aria-label="${fN ? `Filter (${fN} aktiv)` : 'Filter'}">` (Zähler `.cntb` unverändert)
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [konflikt: .more-row] Bindendes Ergebnis für „Letzte Trades & offene Positionen“ (widgets.js:253/257): keine Fußzeile mehr. Der Link sitzt nach dem einen App-Muster (aufbau) rechts im Kartenkopf, wie „Öffnen“ bei den Bereichs-Widgets. Z. 257 endet auf `…${table}` ohne `.more-row`, Optionen `{ info: e.info, cls: 'recent-card', trailing: d.all.length ? more('#/trades', 'Zum TradeLog') : '' }`. Beschriftung „Zum TradeLog“ (Wording-Glossar W5: „Zum/Zur + Bereich“ = Navigation aus einem Widget; Übersetzung „Go to TradeLog“ ist dort vorbereitet), also weder „Alle Trades“ noch „Mehr anzeigen“ (das bleibt fürs Nachladen reserviert). Info-Text Z. 253: „…; „Zum TradeLog“ öffnet die ganze Liste.“ Der Link erscheint nur, wenn das Widget überhaupt Trades hat (`d.all.length`). Das erfüllt W13 („mehr“-Link nur mit Inhalt) und zustaende-S-TE2 (leeres Dashboard ohne `.recent-card .more-link`). Der Kopf-Link springt aber nicht weg, wenn man auf „Offene Positionen“ ohne offene Position umschaltet (das täte die Bedingung rows.length). Regel-Tracker Z. 288 verliert den Kopf-Link (aufbau-C2a = wording 6.15, einmal umsetzen). Danach löscht aufbau-B12 `.more-row` (Z. 1658). Tests: dashtest.js:67 Meldung „Zum TradeLog“, die Prüfung `.recent-card .more-link` mit href `#/trades` bleibt. In dashtest.js:72 den Teil `&& await p.$eval('.w[data-typ="regel_tracker"] .card-head .more-link', …)` streichen, weil der Kopf-Link bewusst entfällt; die Prüfung `.tracker-foot a` → `#/progress` bleibt.
-- [konflikt: .more-link:hover] app.css:1659–1660 nach aufbau-B12: `.more-link { color: var(--text-2); font-weight: 500; font-size: 13px; text-decoration: none; }` und `.more-link:hover { color: var(--text); }`, ohne Unterstreichung. Z. 1659 ist in beiden Specs identisch. farbe-C3b wollte beim Hover zusätzlich `text-decoration: underline; text-underline-offset: 3px`. Der Kopf-Link ist ein Navigations-Steuerelement wie Reiter und Navigation. Seine Hover-Rückmeldung läuft nur über die Textfarbe (aufbau „kein Grün/Unterstrich“, bewegung H1). Unterstrichen sind nur Fließtext-Links (.tlink). Das 13-px-Token regelt typografie-3.2.3l.
-- [konflikt: .more-link] CSS (aufbau-B12 übernimmt): .more-link { color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); text-decoration: none; } .more-link:hover { color: var(--text); }. Ohne Unterstrich beim Hover, wie in der aufbau-Regel („kein Grün, kein Unterstrich“): ruhiger, und gleich wie die übrigen Kopf-Bedienelemente. .more-row wird gelöscht. Touch-Höhe 44 px aus barrierefreiheit-B12e danach, unverändert. Letzte Trades (widgets.js:253/257): Der Link steht im Kartenkopf (aufbau-C2a, U.card trailing), nicht in einer Fußzeile, und heißt „Zum TradeLog“. Das ist laut wording W5 der feste Name für „Navigation aus Widget“ und sagt das Ziel; „Alle Trades“ und „Mehr anzeigen“ fallen weg, denn „Mehr anzeigen“ heißt laut aufbau nur Nachladen. Der Link erscheint nur mit Zeilen (wording W13, zustaende): { info: e.info, cls: 'recent-card', trailing: rows.length ? more('#/trades', 'Zum TradeLog') : '' }. Info-Satz: „Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Zum TradeLog“ öffnet die ganze Liste.“ Regel-Tracker: trailing ersatzlos streichen (aufbau-C2a = wording 6.15, aufbau übernimmt). Der Leertext-Link geht auf #/settings/regeln.
-- ÄNDERN: font-size: var(--fs-13); line-height: var(--lh-13) statt 13px. Sonst wie spezifiziert, Hover nur color: var(--text). .more-row erst nach aufbau-C2a löschen (grep -rn more-row web/ leer).
-- ÜBERNIMMT farbe-C3b: Gleiche Farbe und gleiches Gewicht, ohne Hover-Unterstrich und text-underline-offset.
-
-## aufbau-C2b · Widgets: Beschriftungen über Werten als .kpi-label
-
-Gruppe aufbau · Cluster dashboard · Aufwand S · Befunde: typografie-4
-Quelle: audit/spec/aufbau.md Z. 428–431 · Dateien: web/js/widgets.js
-Abhängig von: aufbau-A3a
-
-```text
-- Z. 184 `<div class="caption">${label}</div>` → `<div class="kpi-label">${label}</div>`
-- Z. 227 `<div class="caption">Dein Score</div>` → `<div class="kpi-label">Dein Score</div>`
-- Z. 287 `<div class="caption" style="text-transform:none;letter-spacing:0;font-size:13px;font-weight:600;color:var(--text-2)">Heutiger Score …` → `<div class="kpi-label">Heutiger Score …`
-
-```
-
-## aufbau-C6a · Dashboard: Vorlagen-Tooltip mit Namen, Zertifikat-Symbol award
-
-Gruppe aufbau · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-23
-Quelle: audit/spec/aufbau.md Z. 463–467 · Dateien: web/js/screens/dashboard.js
-Abhängig von: aufbau-B9
-
-```text
-#### `web/js/screens/dashboard.js`
-
-**C6** · bereich_dashboard-23, ki_look-13, aufbau-33
-- Z. 125 Vorlagen-Knopf: `title="Vorlage"` → `title="Vorlage: ${esc(tpl.name)}"` (Position und Form bleiben, README:64)
-- Z. 125 Zertifikat-Knopf: `${I.shield}` → `${I.award}`
-```
-
-## aufbau-C6b · Dashboard bearbeiten: Leiste ohne Namen, aria mit Widget-Namen
-
-Gruppe aufbau · Cluster dashboard · Aufwand S · Befunde: ki_look-13, aufbau-33
-Quelle: audit/spec/aufbau.md Z. 468–469 · Dateien: web/js/screens/dashboard.js
-Abhängig von: aufbau-B13
-
-```text
-- `wrap` Z. 41: `<span class="w-name">${esc(e.name || inst.typ)}</span>` → `<span class="grow" aria-hidden="true"></span>`; am Griff `aria-label="Verschieben"` → `aria-label="${esc(e.name || inst.typ)} verschieben"`; am × `aria-label="Widget entfernen"` → `aria-label="${esc(e.name || inst.typ)} entfernen"`
-
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .w-name] aufbau-C6b gilt. dashboard.js wrap() Z. 41: `<span class="w-name">…</span>` → `<span class="grow" aria-hidden="true"></span>`. Kein .vh-Name in der Leiste. Der Widget-Name steht stattdessen im Namen der Steuerelemente, nach dem app-weiten Muster `<Objekt> „<Name>“ <Verb>` (barrierefreiheit Z4/Glossar): Griff `aria-label="Widget „${esc(e.name || inst.typ)}“ verschieben"`, × `aria-label="Widget „${esc(e.name || inst.typ)}“ entfernen"`, übersetzt über die Muster 'Widget „{0}“ verschieben' und 'Widget „{0}“ entfernen' in js/lang/{en,es,hi,pt,zh}.js. Grund: Ein loses .vh-Wort in der Leiste hängt an keinem Steuerelement. Ein Name im Steuerelement sagt dem Screenreader, welches Widget verschoben oder entfernt wird, und folgt der Namensregel der ganzen App statt der Kurzform „{0} verschieben“.
-- ÄNDERN: Wie spezifiziert, aber mit den aria-labels `Widget „${name}“ verschieben` und `Widget „${name}“ entfernen` (name = esc(e.name || inst.typ)), nicht „{0} verschieben“/„{0} entfernen“. Im Glossar (aufbau.md Z. 164) und in den Sprachdateien heißen die Muster 'Widget „{0}“ verschieben' und 'Widget „{0}“ entfernen'. Prüfpunkt Z. 757: Griff-aria „Widget „Netto-P&L“ verschieben“ (genauer Name aus W.CATALOG).
-- [doppelt: .grow] Ein leerer Füller `<span class="grow" aria-hidden="true"></span>` aus aufbau-C6b. Die globale Klasse .grow (app.css Z. 130) bleibt unverändert. Die Begründung steht beim Anker .w-name.
-- [konflikt: .w-bar] Die Leiste über jedem Widget ist flach: `.w-bar { display: flex; align-items: center; gap: 6px; padding: 0; margin-bottom: 6px; border: 0; background: none; }` (aufbau-B13). Das Markup kommt aus aufbau-C6b. `font-size: 12.5px` an .w-bar wird ersatzlos gestrichen und nicht tokenisiert: Ohne .w-name steht in der Leiste kein erbender Text mehr. .seg.mini und .btn.sm setzen eigene Größen, der Griff ist ein Symbol. Damit bleibt keine wirkungslose Deklaration stehen (kilook Z11).
-
-## aufbau-D3i · Unveränderte Tests bestätigen (dashtest.js, leaktest.js)
-
-Gruppe aufbau · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-33
-Quelle: audit/spec/aufbau.md Z. 713–715 · Dateien: web/e2e/dashtest.js, web/e2e/leaktest.js
-Abhängig von: aufbau-C2a, aufbau-B12
-
-```text
-- `dashtest.js:67` bleibt grün (`.recent-card .more-link` mit `href="#/trades"`); Z. 72 bleibt
-- neu `leaktest.js` bleibt unverändert (nur F1 würde ihn ändern)
-
-```
-
-## zustaende-S-W1 · Widgets: Leerlage je Render (EMPTY/EMPTY_T, gesetzt in makeData)
-
-Gruppe zustaende · Cluster dashboard · Aufwand S · Befunde: wording-46, bereich_dashboard-13
-Quelle: audit/spec/zustaende.md Z. 461–470 · Dateien: web/js/widgets.js
-Abhängig von: —
-
-```text
-### 3.4 `web/js/widgets.js`
-
-**S-W1 Leerlage je Render** – wording-46, bereich_dashboard-13
-Nach Z. 9 (`const NO_DATA = …`) neu:
-```js
-let EMPTY = 'range'; /* 'none' = Konto ohne Trade, 'filter' = Dashboard-Filter ohne Treffer, 'range' = Zeitraum leer; gesetzt in makeData */
-const EMPTY_T = { none: 'Noch keine Trades', filter: 'Keine Trades passen zum Filter', range: 'Keine abgeschlossenen Trades im Zeitraum' };
-```
-In `makeData` (Z. 12) als erste Zeile: `EMPTY = !(ctx.raw || ctx.all || []).length ? 'none' : ctx.filtered ? 'filter' : 'range';`
-
-```
-
-## zustaende-S-W5 · Regel-Tracker-Widget: Link auf #/settings/regeln
-
-Gruppe zustaende · Cluster dashboard · Aufwand S · Befunde: zustaende-2
-Quelle: audit/spec/zustaende.md Z. 483–485 · Dateien: web/js/widgets.js
-Abhängig von: —
-
-```text
-**S-W5 Regel-Tracker-Link** – zustaende-2
-Z. 288 `<a href="#/settings">Regeln in den Einstellungen anlegen</a>` → `<a href="#/settings/regeln">Regeln in den Einstellungen anlegen</a>`
-
-```
-
-## zustaende-S-D1 · Dashboard reicht raw und filtered im ctx an die Widgets
-
-Gruppe zustaende · Cluster dashboard · Aufwand S · Befunde: wording-46, bereich_dashboard-13
-Quelle: audit/spec/zustaende.md Z. 493–497 · Dateien: web/js/screens/dashboard.js
-Abhängig von: zustaende-S-W1
-
-```text
-### 3.5 `web/js/screens/dashboard.js`
-
-**S-D1 Leerlage durchreichen** – wording-46, bereich_dashboard-13
-Z. 118 `if (fN) ctx = Object.assign({}, ctx, { all: applyFilter(ctx.all, f), inRange: applyFilter(ctx.inRange, f) });` → `if (fN) ctx = Object.assign({}, ctx, { raw: rawAll, filtered: true, all: applyFilter(ctx.all, f), inRange: applyFilter(ctx.inRange, f) });`
-
-```
-
-## zustaende-S-D2 · Dashboard-Filter-Knopf: Klasse is-on statt accent
-
-Gruppe zustaende · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-6
-Quelle: audit/spec/zustaende.md Z. 498–500 · Dateien: web/js/screens/dashboard.js
-Abhängig von: zustaende-S-C7
-
-```text
-**S-D2 Filter-Knopf neutral** – bereich_dashboard-6
-Z. 124 `class="btn ${fN ? 'accent' : ''}"` → `class="btn${fN ? ' is-on' : ''}"`.
-
-```
+- [konflikt: .btn.accent] .btn.accent steht nur noch für „Trade loggen“ (App.newTradeButton `.btn.accent.tl` und der runde Handy-Knopf). Aktiver Dashboard-Filter: Klasse `is-on`. So steht es in zustaende-S-D2/-S-C7, kollisionsfrei und im gemeinsamen Ausgewählt-Stil. farbe-C19b/-B25 nennen denselben Zustand `.dh-context .btn.is-set`; das entfällt. Das aria-label „Filter ({0} aktiv)“ aus farbe-C19b bleibt. TradeLog-Leerzustand „Trade loggen“: neutral `btn sm` (komponenten-S-trades-b). Gründe: Die Kopfreihe trägt „Trade loggen“ schon, die Farbe-Spezifikation selbst verlangt „1 je Ansicht“, BRIEF spricht von dem einen Hauptknopf, und Leerzustand-Aktionen sind btn sm. „Trade für diesen Tag“ entfällt (wording-S8.1-8.2). Damit ist jedes .btn.accent ein Hauptknopf: `.btn.accent` font-weight 600 → 700 direkt, ohne eigene Regel `.btn.accent.tl`; die wäre eine wirkungslose Doppelregel. Der aktive Filter (is-on) bleibt 500 wie jeder Knopf, also nicht fetter.
+- ÄNDERN: Klasse `is-on` statt `is-set` verwenden; die Klasse setzt zustaende-S-D2. Hier nur das aria-label „Filter ({0} aktiv)“ bzw. „Filter“ ergänzen, mit Übersetzungen.
 
 ## barrierefreiheit-C-widgets-36 · Serien-Pillen (streakPills) mit role=img, aria-label und Tooltip
 
@@ -307,24 +186,9 @@ Abhängig von: barrierefreiheit-C-dashboard-124
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: #fd-layer] close() vereint beide Fassungen: `function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); pop.inert = true; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action="dash-f-open"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } }`. Die Funktion kehrt nicht vorzeitig zurück, denn aria-expanded muss immer zurückgesetzt werden. `l.innerHTML = ''` entfällt, weil es das Ausblenden abschneiden würde. `inert` verhindert, dass ein Tastendruck im ausblendenden Fenster 'dash-f-apply' mit u.draft = null auslöst; gegen Klicks schützt schon `.fd-pop.closing { pointer-events: none }`. Die übrigen Teile von 168-189 bleiben: hashchange mit `() => close()`, Escape und × mit `close(true)`, Fokus nach „Anwenden“, Tab-Falle auf #fd-layer mit `#fd-pop`-Selektoren (sie übergeht das ausblendende Fenster ohne ID). barrierefreiheit-158 ist unabhängig, weil refresh bei u.open = false abbricht. responsiv-3.5 ändert in place() nur die Handy-Breite (vw − 32) und den linken Rand (16 px) und ist ebenfalls unabhängig. Die bewegung-Prüfung „40 ms nach Escape .fd-pop.closing, nach 250 ms #fd-layer leer“ bleibt erfüllt.
-- ÄNDERN: Z. 169: close nicht durch die eigene Fassung (`l.innerHTML = ''`) ersetzen. Stattdessen die Fassung aus bewegung-3.8b zur Funktion aus der Entscheidung erweitern: Parameter ret, was, aria-expanded, Fokus-Rücksprung, pop.inert. Die übrigen Punkte (Z. 168, 170, 174, 178, 189) bleiben wie spezifiziert.
 - [konflikt: #fd-pop] Ein gemeinsames close() in dash-filter.js. Es blendet das Fenster aus (bewegung) und setzt aria-expanded, bei ×, Escape und Anwenden geht der Fokus zurück (barrierefreiheit): function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action="dash-f-open"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } } Dazu wie bei barrierefreiheit: hashchange → () => close(), Escape → close(true), 'dash-f-close' → close(true), 'dash-f-apply' → close(); App.rerender(); danach Fokus auf den Filter-Knopf. Das Ausblenden setzt kein #fd-layer.innerHTML = '' mehr. .fd-pop.closing (pointer-events: none) aus dem CSS-Teil von bewegung verhindert Klicks ins ausblendende Fenster. Die Tab-Falle (#fd-pop …) sieht das Fenster ohne ID nicht mehr. aria-controls="fd-pop" (C-dashboard-124) und der 16-px-Rand am Handy in place() (responsiv-3.5) sind verträglich.
-- ÄNDERN: close() wie im Entscheidungstext, also mit Motion.leave statt l.innerHTML = ''. Alle anderen Teile (Fokus beim Öffnen, Tab-Falle, refresh-Fokus, hashchange-Kapsel, close(true) bei Escape und ×, Fokus nach Anwenden) bleiben.
 - ÜBERNIMMT bewegung-3.8b: Das Ausblenden mit ID-Entfernung steckt im gemeinsamen close(). Prüfung 6 der Bewegung (40 ms nach Escape existiert .fd-pop.closing, nach 250 ms ist #fd-layer leer) bleibt gültig.
-
-## kilook-C9b · Dashboard-Widgets: Netto-P&L mit Vorzeichen; Serien, „Dein Score“, „Heutiger Score“ als .kpi-label
-
-Gruppe kilook · Cluster dashboard · Aufwand S · Befunde: diagramme-35, ki_look-36
-Quelle: audit/spec/kilook.md Z. 608–612 · Dateien: web/js/widgets.js
-Abhängig von: kilook-A4
-
-```text
-- **166** `U.pnl(d.s.total, '', { signed: false })` → `U.pnl(d.s.total)`
-- **184** `<div class="caption">${label}</div>` → `<div class="kpi-label">${label}</div>`
-- **227** `<div class="caption">Dein Score</div>` → `<div class="kpi-label">Dein Score</div>`
-- **287** `<div class="caption" style="text-transform:none;letter-spacing:0;font-size:13px;font-weight:600;color:var(--text-2)">Heutiger Score …` → `<div class="kpi-label">Heutiger Score …`
-
-```
+- VERBINDLICH (Kreuzprüfung): dash-filter.js. Der Schritt enthält bewegung-3.8b; das CSS `.fd-pop.closing { animation: pop-out …; pointer-events: none; }` aus bewegung-B4c muss vorher stehen. (1) Z. 168 `open()` nach `place();` ergänzen: `const b = document.querySelector('[data-action="dash-f-open"]'); if (b) b.setAttribute('aria-expanded', 'true'); const l = layer(); if (!l._trap) { l._trap = true; l.addEventListener('keydown', e => { if (e.key !== 'Tab') return; const f = [...l.querySelectorAll('#fd-pop button:not([disabled]), #fd-pop input, #fd-pop select')].filter(x => x.getClientRects().length); if (!f.length) return; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }); } const g = document.querySelector('#fd-pop .fd-gh'); if (g) g.focus({ preventScroll: true });`. (2) Z. 169 → `function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); pop.inert = true; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action="dash-f-open"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } }`. Hier gibt es kein `#fd-layer.innerHTML = ''`, weil es das Ausblenden abschneiden würde. Es gibt auch kein vorzeitiges return, weil aria-expanded immer zurückgesetzt werden muss. (3) Z. 170 `window.addEventListener('hashchange', close);` → `window.addEventListener('hashchange', () => close());`. (4) Z. 174 Escape: `else close();` → `else close(true);`. (5) Z. 178 `'dash-f-close'() { close(); }` → `'dash-f-close'() { close(true); }`. (6) Z. 189 `dash-f-apply`: nach `App.rerender();` ergänzen `document.querySelector('[data-action="dash-f-open"]')?.focus({ preventScroll: true });`. Der Klick neben das Fenster (pointerdown) ruft weiter `close()` ohne Fokus-Rücksprung. Verträglich sind barrierefreiheit-C-dash-filter-158, C-dashboard-124 (aria-controls) und responsiv-3.5 (place). Prüfen: bewegung-Prüfpunkt 6 (40 ms nach Escape gibt es `#fd-layer .fd-pop.closing`, nach 250 ms ist `#fd-layer` leer). Nach ×, Escape und Anwenden liegt der Fokus auf dem Filter-Knopf, und aria-expanded wechselt true/false.
 
 ## kilook-C10 · Widget-Vorschaubild „Dein Score“ in Satzschreibung
 
@@ -391,11 +255,12 @@ Abhängig von: —
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: .tile .val] Ein Rollen-Token für alle Kachelwerte, die Werte kommen aus der Typografie-Skala. In :root steht `--tile-val: var(--fv-24);`, im Block @media (max-width: 960px) `:root { --tile-val: var(--fv-20); }`; eine eigene 560er-Stufe gibt es nicht, das Handy erbt 20. Die Regel lautet `.tile .val { font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); }` ohne font-family (Onest kommt über die Sammelregel). In der Container-Notstufe (heute @container max-width 164px, die Schwelle legt der Anker „@container (max-width: 164px)“ fest) gilt `.tile .val { font-size: var(--fv-20); }`. Gelöscht werden Z. 936 (22px, ≤960) und Z. 3027 (21px, Handy). Die Skala gilt auch für die bisherigen „Bleiben“-Ausnahmen aus aufbau-A2: `.prop-balance .val` geht von 26 auf var(--fv-24), bei ≤960 von 22 auf var(--fv-20) (wie typografie-fv24/fv20). `.coach-gs-tiles .tile .val { font-size: 21px }` (Z. 2945) wird gelöscht und erbt --tile-val; schmale Coach-Kacheln fallen über die Container-Notstufe auf 20. Grund: 25, 22, 21 und 26 px liegen nicht auf der Werte-Skala (14/16/20/24/32/44), und die Typografie verbietet sie. Aufbau, Typografie und Responsiv sind sich bei 24 am Desktop und 20 am Handy einig. Streitig war nur der Tablet-Wert 22 (Aufbau). Dafür gibt es die Skalenstufe 20 „Kachelwert schmal, ≤960, Handy“.
-- ÄNDERN: `.tile .val { font-size: 20px }` (Z. 3027) entfällt, weil aufbau-A2 die Zeile löscht und die 20 px aus --tile-val kommen. Das Streichen von 28px in Z. 1735 entfällt, weil aufbau-A2 die Regel neu schreibt. Die Bearbeitungsleisten-Regeln (.w-bar, 40×40) bleiben. Die Regel für die ungerade letzte Kachel siehe eigener Eintrag.
 - [doppelt: .tile.spark-tile .val] Endstand: `.tile.spark-tile .val { flex: 0 0 auto; display: flex; align-items: center; margin: 0; padding: 0; min-height: 0; }`. Schrift, Größe (--tile-val, also 24/20 statt 28), Gewicht, Laufweite und Zeilenhöhe erbt die Regel von .tile .val. Geschrieben wird sie einmal, von aufbau-A2. Dass typografie-3.2.2f den Selektor aus der Onest-Liste streicht, passt dazu (.tile .val deckt ihn ab).
-- ÄNDERN: `.tile .val { font-size: 20px }` (Z. 3027) entfällt, weil aufbau-A2 die Zeile löscht und die 20 px aus --tile-val kommen. Das Streichen von 28px in Z. 1735 entfällt, weil aufbau-A2 die Regel neu schreibt. Die Bearbeitungsleisten-Regeln (.w-bar, 40×40) bleiben. Die Regel für die ungerade letzte Kachel siehe eigener Eintrag.
 - [doppelt: .dash-top > :last-child:nth-child(odd) (Handy, gefunden in abstaende-C7 und responsiv-C1)] Beide Schritte fügen im 560er-Block nach Z. 3026 eine Regel ein, damit die ungerade letzte Kachel die volle Breite bekommt. Es wird nur eine geschrieben: `.dash-top > :last-child:nth-child(odd) { grid-column: 1 / -1; }` (responsiv-C1). Sie erfasst auch das Start-Skelett (.skel), dessen fünfte Kachel laut Responsiv-Spezifikation volle Breite hat. Die Fassung von abstaende-C7 gilt nur für .w und .add-slot und entfällt.
-- ÄNDERN: Den Teil `.dash-top .w-bar .w-name { display: none; }` streichen, weil es .w-name nicht mehr gibt. Der Rest bleibt (`.dash-top .w-bar { justify-content: space-between; }`, Pfeile und × 40×40). Prüfpunkt responsiv.md Z. 591: statt „.w-name display none“ prüfen, dass kein `.w-name` im DOM steht.
+- VERBINDLICH (Kreuzprüfung): web/css/app.css, Block `@media (max-width: 560px)`:
+1) Nach Z. 3026: `.dash-top > :last-child:nth-child(odd) { grid-column: 1 / -1; }` (einzige Regel dafür; die Variante aus abstaende-C7 entfällt).
+2) Neu: `.dash-top .w-bar { justify-content: space-between; } .w-bar .mv .btn, .w-bar .rm { width: 40px; height: 40px; padding: 0; justify-content: center; }`.
+Nicht in diesem Schritt: Z. 3027 `.tile .val { font-size: 21px }` (aufbau-A2 löscht die Zeile, 20 px kommen über --tile-val ab ≤ 960), das Streichen von 28px in Z. 1735 (aufbau-A2 schreibt `.tile.spark-tile .val` ohne Schriftteil neu) und `.dash-top .w-bar .w-name { display: none; }` (es gibt kein .w-name mehr; aufbau-C6b ersetzt es durch `<span class="grow" aria-hidden="true"></span>`). Prüfpunkt responsiv.md Z. 591: statt „.w-name display none“ prüfen, dass kein `.w-name` im DOM steht; Pfeile und × bei 390 px je 40×40.
 
 ## responsiv-3.16 · Letzte Trades: Symbol in span.sym-t mit title
 
@@ -464,9 +329,11 @@ Abhängig von: wording-S1.1-1.3
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: .more-row] Bindendes Ergebnis für „Letzte Trades & offene Positionen“ (widgets.js:253/257): keine Fußzeile mehr. Der Link sitzt nach dem einen App-Muster (aufbau) rechts im Kartenkopf, wie „Öffnen“ bei den Bereichs-Widgets. Z. 257 endet auf `…${table}` ohne `.more-row`, Optionen `{ info: e.info, cls: 'recent-card', trailing: d.all.length ? more('#/trades', 'Zum TradeLog') : '' }`. Beschriftung „Zum TradeLog“ (Wording-Glossar W5: „Zum/Zur + Bereich“ = Navigation aus einem Widget; Übersetzung „Go to TradeLog“ ist dort vorbereitet), also weder „Alle Trades“ noch „Mehr anzeigen“ (das bleibt fürs Nachladen reserviert). Info-Text Z. 253: „…; „Zum TradeLog“ öffnet die ganze Liste.“ Der Link erscheint nur, wenn das Widget überhaupt Trades hat (`d.all.length`). Das erfüllt W13 („mehr“-Link nur mit Inhalt) und zustaende-S-TE2 (leeres Dashboard ohne `.recent-card .more-link`). Der Kopf-Link springt aber nicht weg, wenn man auf „Offene Positionen“ ohne offene Position umschaltet (das täte die Bedingung rows.length). Regel-Tracker Z. 288 verliert den Kopf-Link (aufbau-C2a = wording 6.15, einmal umsetzen). Danach löscht aufbau-B12 `.more-row` (Z. 1658). Tests: dashtest.js:67 Meldung „Zum TradeLog“, die Prüfung `.recent-card .more-link` mit href `#/trades` bleibt. In dashtest.js:72 den Teil `&& await p.$eval('.w[data-typ="regel_tracker"] .card-head .more-link', …)` streichen, weil der Kopf-Link bewusst entfällt; die Prüfung `.tracker-foot a` → `#/progress` bleibt.
-- ÄNDERN: 6.11 und 6.12 setzt aufbau-C2a mit dem Wording-Text um: Kopf-Link statt .more-row, Bedingung d.all.length. 6.15 ist identisch mit aufbau-C2a und wird dort umgesetzt. Nur 6.13 (U.count im Challenge-Zähler) und 6.14 („abgehakt“) hier umsetzen.
 - [konflikt: .more-link] CSS (aufbau-B12 übernimmt): .more-link { color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); text-decoration: none; } .more-link:hover { color: var(--text); }. Ohne Unterstrich beim Hover, wie in der aufbau-Regel („kein Grün, kein Unterstrich“): ruhiger, und gleich wie die übrigen Kopf-Bedienelemente. .more-row wird gelöscht. Touch-Höhe 44 px aus barrierefreiheit-B12e danach, unverändert. Letzte Trades (widgets.js:253/257): Der Link steht im Kartenkopf (aufbau-C2a, U.card trailing), nicht in einer Fußzeile, und heißt „Zum TradeLog“. Das ist laut wording W5 der feste Name für „Navigation aus Widget“ und sagt das Ziel; „Alle Trades“ und „Mehr anzeigen“ fallen weg, denn „Mehr anzeigen“ heißt laut aufbau nur Nachladen. Der Link erscheint nur mit Zeilen (wording W13, zustaende): { info: e.info, cls: 'recent-card', trailing: rows.length ? more('#/trades', 'Zum TradeLog') : '' }. Info-Satz: „Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Zum TradeLog“ öffnet die ganze Liste.“ Regel-Tracker: trailing ersatzlos streichen (aufbau-C2a = wording 6.15, aufbau übernimmt). Der Leertext-Link geht auf #/settings/regeln.
-- ÄNDERN: 6.11, 6.12 und 6.15 entfallen hier: aufbau-C2a setzt den Info-Satz, den Kopf-Link „Zum TradeLog“ ohne .more-row und das Streichen des Tracker-Links um. 6.13 (U.count) und 6.14 („abgehakt“) bleiben unverändert. Schlüssel „Zum TradeLog“ und den neuen Info-Satz weiter in den Wörterbüchern anlegen.
+- VERBINDLICH (Kreuzprüfung): web/js/widgets.js, nur noch:
+6.13 (Z. 273): `${list.length} Trades · ${days.length} Handelstage` → `${U.count(list.length, 'Trade', 'Trades')} · ${U.count(days.length, 'Handelstag', 'Handelstage')}` (nach wording-S1.1-1.3).
+6.14 (Z. 285, Tracker-Tooltip): `… von ${rules.length} Regeln eingehalten` → `… von ${rules.length} Regeln abgehakt` (Schlüssel „{0} von {1} Regeln abgehakt“).
+Entfallen hier, weil aufbau-C2a sie mit dem Wording-Text umsetzt: 6.11 (Info-Satz „…; „Zum TradeLog“ öffnet die ganze Liste.“), 6.12 („Zum TradeLog“ als Kopf-Link über U.card trailing statt .more-row, nur mit Inhalt) und 6.15 (Kopf-Link des Regel-Trackers streichen). Die Schlüssel „Zum TradeLog“ (en „Go to TradeLog“) und der neue Info-Satz bleiben im Wörterbuch-Schritt der Wortwahl.
 
 ## wording-S6.23-6.27 · Widget-Vorschaubilder an die neuen Texte angleichen
 

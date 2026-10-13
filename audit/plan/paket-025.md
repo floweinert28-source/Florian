@@ -1,8 +1,8 @@
 # Paket 025 · training, aufbau, dashboard
 
-Schritte: 18 · Dateien: web/README.md, web/css/app.css, web/js/screens/mentor.js, web/js/screens/progress.js, web/js/screens/ruhepunkt.js, web/js/screens/shadow.js
-Betroffene Tests laut Spezifikation: Akzeptanz grep 11, Sonde 20; Akzeptanz grep 9; prüfen: e2e/headtest.js:55–57 (Füll-Animation .ring-arc .arc); prüfen: e2e/mentortest.js:44; prüfen: e2e/rptest.js (.rp-choice, .rp-seq-i); prüfen: e2e/rptest.js:11; prüfen: e2e/shadowtest.js; web/e2e/headtest.js:55, :57 (.ring-arc .arc) prüfen; web/e2e/shadowtest.js:57 (O5); web/tests/shadow.test.mjs:163 bleibt
-Baut auf Paketen auf: 1, 7, 11, 15, 18, 19, 22, 24
+Schritte: 16 · Dateien: web/README.md, web/css/app.css, web/js/screens/mentor.js, web/js/screens/progress.js, web/js/screens/ruhepunkt.js, web/js/screens/shadow.js
+Betroffene Tests laut Spezifikation: Akzeptanz grep 11, Sonde 20; prüfen: e2e/mentortest.js:44; prüfen: e2e/rptest.js (.rp-choice, .rp-seq-i); prüfen: e2e/rptest.js:11; prüfen: e2e/shadowtest.js; web/e2e/shadowtest.js:57 (O5); web/tests/shadow.test.mjs:163 bleibt
+Baut auf Paketen auf: 1, 6, 9, 15, 18, 19, 22, 24
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -66,6 +66,7 @@ Abhängig von: —
 - [konflikt: .activity i.l3] Wie beim Anker `.heat-legend i.l1`: `.activity i.l3, .heat-legend:not(.right) i.l3 { background: color-mix(in srgb, var(--text) 38%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
 - [konflikt: .activity i.l4] Wie beim Anker `.heat-legend i.l1`: `.activity i.l4, .heat-legend:not(.right) i.l4 { background: color-mix(in srgb, var(--text) 50%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
 - [konflikt: .activity i.l5] Wie beim Anker `.heat-legend i.l1`: `.activity i.l5, .heat-legend:not(.right) i.l5 { background: color-mix(in srgb, var(--text) 62%, var(--surface-2)); border-color: transparent; }`, also nicht mehr var(--accent). Umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
+- [konflikt: --accent] Affiliate-Balken (affiliate.js Z. 47): neutral nach diagramme-K1, also `<path class="br">` mit fill var(--text-2) und fill-opacity .45. Das gilt auch gegen farbe-C16 (--profit). Gründe: Provisionen sind immer ≥ 0, Grün trüge keine Unterscheidung. Die Farbe-Regel selbst sagt „Spalten mit einheitlichem Vorzeichen neutral“, und diagramme A-8 nennt Provisionen ausdrücklich neutral. Fokusring: barrierefreiheit-A2a (--focus = Textfarbe) gilt. Der README-Satz in farbe-D3e wird unter Anker .btn.primary angepasst. Die übrigen Schritte ändern verschiedene Stellen und sind untereinander verträglich. Ihre Einzelkonflikte stehen unter eigenen Ankern (.popover .item[aria-checked], .activity/.tracker/.heat-legend, .dp-day.today/.rr-day.today, .set-tabs/.prop-sub).
 - [konflikt: .activity i.today] Das Ergebnis lautet `.activity i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Begründung: Die Farbregel „Raster 0 0 0 2px var(--text-2)“ und diagramme A-8 nennen beide 2 px. Ganze Pixel zeichnen auf 1×-Bildschirmen scharf, 1,5 px wird verwaschen. Der Ring hebt sich außerdem klar vom 1-px-Hover-Umriss ab (bewegung). Für die Einheitlichkeit der Raster gilt dieselbe Breite auch für .tracker i.today und .ym-grid i.today (diese Anker regelt konflikt-4). diagramme-A5 und farbe-B23a schreiben in Z. 1292 denselben Wert: Wer zuerst läuft, setzt ihn, der andere findet ihn schon vor. Die Heatmap-Stufen sind nicht Teil dieses Ankers (konflikt-5).
 
 ## diagramme-A6 · Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren
@@ -96,20 +97,7 @@ Die Spezifität (0,3,1) schlägt `.heat-legend i.lN` aus A5. Die Fortschritt-Leg
 - [doppelt: .heat-legend.right i.l2] Die Legende hängt am Zellen-Selektor von diagramme-A6 (32 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
 - [doppelt: .heat-legend.right i.l3] Die Legende hängt am Zellen-Selektor von diagramme-A6 (50 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
 - [doppelt: .heat-legend.right i.l4] Die Legende hängt am Zellen-Selektor von diagramme-A6 (70 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
-
-## diagramme-A7 · Regeltreue-Ring CSS: Rand 96px, drop-shadow streichen, Handy-Regel kürzen
-
-Gruppe diagramme · Cluster training · Aufwand S · Befunde: bereich_training-7, diagramme-26
-Quelle: audit/spec/diagramme.md Z. 329–333 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**A7 Regeltreue-Ring** (bereich_training-7, Ergänzung diagramme-26)
-- Z. 1312 `margin-right: 150px` → `margin-right: 96px`.
-- Z. 1317: `filter: drop-shadow(0 0 6px var(--accent-glow));` streichen. Die Farbe kommt künftig inline (H1). Die `transition` derselben Zeile ändert Bewegung B8.
-- Z. 1318 → `@media (max-width: 600px) { .card.ring-card { min-height: 0; } }`. Der 64-px-Ring bleibt damit auch am Handy rechts mittig.
-
-```
+- [konflikt: --accent] Affiliate-Balken (affiliate.js Z. 47): neutral nach diagramme-K1, also `<path class="br">` mit fill var(--text-2) und fill-opacity .45. Das gilt auch gegen farbe-C16 (--profit). Gründe: Provisionen sind immer ≥ 0, Grün trüge keine Unterscheidung. Die Farbe-Regel selbst sagt „Spalten mit einheitlichem Vorzeichen neutral“, und diagramme A-8 nennt Provisionen ausdrücklich neutral. Fokusring: barrierefreiheit-A2a (--focus = Textfarbe) gilt. Der README-Satz in farbe-D3e wird unter Anker .btn.primary angepasst. Die übrigen Schritte ändern verschiedene Stellen und sind untereinander verträglich. Ihre Einzelkonflikte stehen unter eigenen Ankern (.popover .item[aria-checked], .activity/.tracker/.heat-legend, .dp-day.today/.rr-day.today, .set-tabs/.prop-sub).
 
 ## diagramme-A8b · Neue Klasse .shadow-clean (Abstand der Zeile „Ohne Verstöße“)
 
@@ -144,6 +132,12 @@ Die Engine liefert Regeln ohne Verstoß weiter mit 0 (tests/shadow.test.mjs:163)
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+- ÄNDERN: `if (!ranking.length) return U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.');` und `const bars = hit.length ? `<div class="shadow-rank">…</div>` : '';` ohne U.empty 'Keine Verstöße'. Rückgabe: bars plus die Zeile „Ohne Verstöße: …“ wie spezifiziert.
+- [konflikt: U.barRow] typografie-3.8h setzt „Kosten je Fehler“ (stats.js:52) einmal um, mit dem Begriff aus dem Wording-Glossar: `${U.pnl(it.total)} <span class="muted">· ${it.n}× · Trefferquote ${fmt.pct(it.n ? it.wins / it.n : 0)}</span>`. „Win-Rate“ und „WR“ kommen nicht vor. Die Struktur aus Betrag und gedämpftem Zusatz passt zu diagramme-A8a (`.bar-row .bl > b` in Onest mit tabular-nums, `.muted` in 400) und zum Ranking aus diagramme-I1.
+
 ## zustaende-S-C11 · Schatten-Ich-Regelkarte: aus transparent, an surface-2 mit Rand border-2 (kein Grün)
 
 Gruppe zustaende · Cluster training · Aufwand S · Befunde: farbe_kontrast-30
@@ -174,6 +168,13 @@ Abhängig von: —
 - Z. 78 `<div class="chart h200" data-chart="weeks" data-id="prog-weeks"></div>` → `${weeks.length ? '<div class="chart h200" data-chart="weeks" data-id="prog-weeks"></div>' : '<div class="dashed">Noch keine abgeschlossenen Trades.</div>'}`
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.empty] (1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.
+- [konflikt: #/settings/regeln] Alle Wege zu den Regeln führen auf #/settings/regeln. Doppelt umgesetzte Stellen: Widget-Leertext → aufbau-C2a (zustaende-S-W5 siehe widget:regel_tracker), Tagesansicht day.js:18 → aufbau-C7c. Fortschritt: Die Karte „Aktuelle Regeln“ entfällt (aufbau-C11b). Die Regeln stehen schon als Tages-Checkliste daneben, und eine Information gehört an eine Stelle. Ihr Kopf-Knopf wandert in die Tages-Checkliste: `trailing: `<a class="btn sm" href="#/settings/regeln">${rules.length ? `${I.edit} Regeln bearbeiten` : `${I.plus} Regeln anlegen`}</a><a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>``. Der Leerzustand der Checkliste ist `<div class="dashed">Noch keine Regeln angelegt.</div>` ohne Knopf: zustaende verlangt für .dashed einen Satz ohne Knopf, für jede Aktion gibt es ein Bedienelement, und der Satz folgt dem Glossar. zustaende-S-PR3 Z. 78 (Wochen-Diagramm nur mit Daten) bleibt.
+- ÄNDERN: Z. 77 entfällt, weil die Karte gelöscht wird; die Logik des Kopf-Knopfs setzt aufbau-C11b in der Tages-Checkliste um. Z. 78 bleibt.
+- [doppelt: .dashed] komponenten-S-dashboard-b setzt die leere Dashboard-Vorlage (dashboard.js:53) einmal um: `<div class="dashed dash-empty">…</div>` ohne Inline-Stil, CSS `.dash-empty { text-align: center; padding: var(--sp-8); }` (32 px aus der Abstandsskala, siehe komponenten-C36 unter .kpi-label). .dashed bleibt ein Satz ohne Knopf (Fortschritt siehe #/settings/regeln). typografie-3.2.3l stellt nur die Schriftgröße auf das Token um.
 
 ## zustaende-S-MT1 · Mentor ohne Server: leere Kopfreihe (head als Getter)
 
@@ -250,20 +251,6 @@ Abhängig von: barrierefreiheit-B7
 #### `web/js/screens/shadow.js`
 
 - **Z. 69:** `<td>${fmt.dateTime(v.date)}</td>` → `<td><a class="row-link" href="#/trades/${esc(v.tradeId)}">${fmt.dateTime(v.date)}</a></td>` (Befunde: bereich_training-20, barrierefreiheit-4)
-
-```
-
-## kilook-B4 · Fortschrittsring ohne drop-shadow
-
-Gruppe kilook · Cluster training · Aufwand S · Befunde: ki_look-6
-Quelle: audit/spec/kilook.md Z. 436–440 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**B4 · web/css/app.css:1317 · Fortschrittsring ohne Schein** (ki_look-6)
-- vorher: `.ring-arc .arc { stroke: var(--accent); transition: stroke-dashoffset 1.1s cubic-bezier(.22, .61, .36, 1); filter: drop-shadow(0 0 6px var(--accent-glow)); }`
-- nachher: `.ring-arc .arc { stroke: var(--accent); transition: stroke-dashoffset 1.1s cubic-bezier(.22, .61, .36, 1); }`
-- 1312 `margin-right: 150px` bleibt, weil der Ring 116 px groß bleibt (N2).
 
 ```
 

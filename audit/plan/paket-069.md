@@ -1,371 +1,492 @@
-# Paket 069 · wording
+# Paket 069 · wording, barrierefreiheit, einstellungen
 
-Schritte: 24 · Dateien: web/README.md, web/js/app.js, web/js/coach.js, web/js/core.js, web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js, web/js/screens/coupons.js, web/js/screens/dash-filter.js, web/js/screens/dashboard.js, web/js/screens/mentor.js, web/js/screens/misc.js, web/js/screens/news.js, web/js/screens/notebook.js, web/js/screens/prop.js, web/js/screens/ruhepunkt.js, web/js/screens/shadow.js, web/js/screens/trades.js, web/js/shadow.js, web/js/voice.js, web/js/widgets.js
-Betroffene Tests laut Spezifikation: prüfen: e2e/langtest.js; web/e2e/langtest.js (Übersetzung); web/e2e/scorestatetest.js:10; web/e2e/settest.js:10
-Baut auf Paketen auf: 3, 7, 10, 25, 28, 31, 32, 40, 41, 67, 68
+Schritte: 34 · Dateien: web/js/app.js, web/js/coach.js, web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js, web/js/screens/coach.js, web/js/screens/misc.js, web/js/screens/news.js, web/js/screens/notebook.js, web/js/screens/progress.js, web/js/screens/prop.js, web/js/widgets.js
+Betroffene Tests laut Spezifikation: Akzeptanz grep 7; e2e/coachlang.js; e2e/coachlang2.js; e2e/coachtest.js:204–206; e2e/langtest.js; web/e2e/coachlang2.js; web/e2e/langtest.js; web/e2e/motiontest.js:62-66; web/e2e/sidebartest.js:44-45; web/e2e/usercardtest.js:55-58
+Baut auf Paketen auf: 9, 11, 12, 13, 14, 15, 17, 18, 19, 21, 22, 24, 25, 27, 30, 32, 34, 45, 48, 49, 51, 55, 58, 65, 68
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## zustaende-S-MT2 · Mentor: einheitlicher Offline- und HTTP-Wortlaut
+## kilook-C24 · Einstellungen → Profil: Block „Bedienung“ mit Schalter „Tastenkürzel“, Fußzeile ohne Tastatur-Teil, Aktion 'shortcuts-toggle'
 
-Gruppe zustaende · Cluster wording · Aufwand S · Befunde: zustaende-18
-Quelle: audit/spec/zustaende.md Z. 842–845 · Dateien: web/js/screens/mentor.js
-Abhängig von: —
-
-```text
-**S-MT2 Wortlaut** – zustaende-18
-- Z. 17 `'Der Mentor-Server ist nicht erreichbar. …'` → `'Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'`
-- Z. 127 `'Server antwortet mit ' + r.status` → `'Der Server antwortet mit Fehler ' + r.status + '.'`
-
-```
-
-## zustaende-S-NB3 · Notebook-Speicherstand „Wird gespeichert …“
-
-Gruppe zustaende · Cluster wording · Aufwand S · Befunde: bereich_notebook_news-24
-Quelle: audit/spec/zustaende.md Z. 855–857 · Dateien: web/js/screens/notebook.js
-Abhängig von: zustaende-S-C14
+Gruppe kilook · Cluster einstellungen · Aufwand S · Befunde: barrierefreiheit-43
+Quelle: audit/spec/kilook.md Z. 715–722 · Dateien: web/js/screens/misc.js
+Abhängig von: kilook-C6
 
 ```text
-**S-NB3 Speicherstand** – bereich_notebook_news-24
-Z. 100 `'Speichert…'` → `'Wird gespeichert …'`. Die Klasse `saving` darf bleiben (hat keine Farbe mehr).
+**C24 · web/js/screens/misc.js** (barrierefreiheit-43)
+- Vor Z. 63 (`<div class="set-block"><h3>Daten und Sicherung</h3>`) einfügen:
+  `<div class="set-block"><h3>Bedienung</h3>${switchRow('Tastenkürzel', '<b>N</b> Trade loggen · <b>1–9</b> Bereich wechseln', 'shortcuts-toggle', st.shortcuts !== false)}</div>`
+- **69** vorher `<div class="small faint">Speicherort: dieser Browser (localStorage und IndexedDB). ${S.storageOK ? '' : '<span class="neg">Achtung: …</span>'} Tastatur: <b>N</b> neuer Trade · <b>1–6</b> Bereiche · <b>Esc</b> schließt Dialoge.</div>`
+  → nachher `<div class="small faint">Speicherort: dieser Browser (localStorage und IndexedDB).${S.storageOK ? '' : ' <span class="neg">Achtung: Speichern ist derzeit nicht möglich (privates Fenster oder blockierte Website-Daten).</span>'}</div>`
+- In `Object.assign(App.actions, { … })` hinter `'faith-toggle'() { … },` (Z. 282) einfügen:
+  `'shortcuts-toggle'() { S.setSetting('shortcuts', !(S.settings.shortcuts !== false)); rerender(); },`
 
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [konflikt: .save-state] Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class="save-state" aria-live="polite"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id="set-save"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change="save-trading"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars.
-- ÄNDERN: Zusätzlich in `setSaveState` (notebook.js:100) `el.classList.toggle('saving', s === 'saving')` streichen: Die CSS-Regel entfällt, die Klasse hätte keine Wirkung mehr.
+- [konflikt: misc.profil] aufbau-C8c und farbe-C22b ändern in profil() verschiedene Teilstrings (Z. 41/54 Zeitzone, Z. 62 2FA-Knopf, Z. 68 Titel, Z. 69 Fußzeile) und vertragen sich. Z. 69 schreiben aber wording-S17.4-17.7 (17.7) und kilook-C24 als ganze Zeile neu, beide noch mit class="small faint". Für die Endfassung jeder Fußzeile in profil() gilt verbindlich: class="small muted", denn Fußnoten sind --muted und --faint ist nie für Wörter. Wo Tasten genannt werden, steht „1–9“. Welcher Wortlaut gilt (wording zweizeilig oder kilook ohne Tastatur-Teil), entscheidet diese Liste nicht.
+- [konflikt: switchRow] switchRow bekommt die Fassung aus barrierefreiheit-C-misc-15: id je Aufbau über swN, <label for> mit .set-row-l, aria-describedby, kein aria-label. Die Signatur (title, text, action, on, extra) bleibt, deshalb laufen alle Aufrufer unverändert weiter, und C-misc-15 kommt zuerst. GELD-BLIND: Der Schalter heißt „Beträge als R zeigen“, Text aus wording-S17.19. Blocktitel „Geld-blind-Modus“ und Toast bleiben. Grund: Wording hat die Texthoheit (K13). Der Name sagt, was passiert (R statt Geld, Kontostand weg). Außerdem heißt im Zertifikat schon ein anderer Schalter „Beträge ausblenden (nur % bzw. R)“ (certificate.js:74), und ein Name für zwei Funktionen verletzt W2. TRADING: Markup aus komponenten-S-misc-e (Einheit im Feld, Tilt-Schalter, kein Speichern-Knopf). Labels: „Tagesverlustlimit“ und „Ruin-Schwelle für Monte Carlo (Drawdown)“, bei beiden steht „%“ im Feld. „für Monte Carlo“ kommt aus wording-29, die Einheit wandert laut komponenten ins Feld. Tilt-Schaltertext: „Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tagesverlustlimit.“ Wrapper class="mt-3" statt style="margin-top:14px". Durchläufe-Optionen mit value und fmt.int (wording 17.20). Der Hinweis aus aufbau-C8b steht als letztes Kind des .field hinter dem .inp-cur-Wrapper: „Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.“ Er trägt die Bezugsgröße, die mit „(% vom Konto)“ aus dem Label fällt. BENACHRICHTIGUNGEN, Endmarkup aus abstaende-L4, wording-S17.13-17.15 und aufbau-C8d: <div class="set-block"><h3>Recaps</h3><div class="set-desc">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div><div class="stack s-4">${switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.weekly === true, 'data-key="weekly"')}${switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.monthly === true, 'data-key="monthly"')}</div></div><div class="set-block"><h3>Hinweis-Punkte in der Seitenleiste</h3><div class="set-desc">(Satz unverändert)</div><div class="stack s-4">${switchRow('Hinweis-Punkte anzeigen', 'Alle Punkte auf einmal ein- oder ausschalten.', 'navdot-toggle', nd.on, 'data-key="on"')}<div class="set-sub"${nd.on ? '' : ' aria-disabled="true"'}>${App.NAV_DOT_AREAS.map(([k, label, desc]) => switchRow(label, desc, 'navdot-toggle', nd[k] !== false, `data-key="${k}"${nd.on ? '' : ' disabled'}`)).join('')}</div></div></div>. PROFIL: Block „Bedienung“ mit Schalter „Tastenkürzel“ (kilook-C24) direkt vor „Daten und Sicherung“. WCAG 2.1.4 verlangt abschaltbare Ein-Zeichen-Kürzel. Die Fußzeile wird einzeilig mit dem Text aus wording-17.7 und der Klasse aus farbe-C22. Die zweite Kürzel-Zeile aus wording-17.7 entfällt, weil der Schalter sie trägt; Esc wirkt immer. Neue Schalter-Aktionen setzen nur aria-checked, ohne Neuaufbau (zustaende Z9). Der Notebook-Schalter aus komponenten-S-misc-g bleibt wie spezifiziert, weil Notebook-To-dos laut zustaende das Durchstreichen behalten.
+- VERBINDLICH (Kreuzprüfung): misc.js, nach barrierefreiheit-C-misc-15 (neue switchRow mit id, label und aria-describedby; die Signatur bleibt) und nach kilook-C6. (1) Vor Z. 63 (`<div class="set-block"><h3>Daten und Sicherung</h3>`) einfügen: `<div class="set-block"><h3>Bedienung</h3>${switchRow('Tastenkürzel', '<b>N</b> Trade loggen · <b>1–9</b> Bereich wechseln', 'shortcuts-toggle', st.shortcuts !== false)}</div>`. Wird aufbau-25 („Sicherheit und Daten“) angenommen, bleibt „Bedienung“ im Profil direkt nach dem Block „Ruhepunkt“. (2) Z. 69, Fußzeile, eine Zeile: `<div class="small muted">Deine Daten liegen nur in diesem Browser.${S.storageOK ? '' : ' <span class="neg">Speichern ist gerade nicht möglich (privates Fenster oder blockierte Website-Daten).</span>'}</div>`. Es gibt keinen Tastatur-Teil und keine zweite Zeile „Tastenkürzel: …“ aus wording 17.7. (3) In `Object.assign(App.actions, { … })` hinter `'faith-toggle'() { … },` (Z. 282) einfügen: `'shortcuts-toggle'(el) { const on = S.settings.shortcuts === false; S.setSetting('shortcuts', on); el.setAttribute('aria-checked', String(on)); },`. Ohne Neuaufbau, denn der Schalter zeigt seinen Zustand über aria-checked.
 
-## zustaende-S-L · Sprachdateien en/es/hi/pt/zh: alle neuen Schlüssel ergänzen, alte kleingeschriebene Countdown-Schlüssel entfernen
+## kilook-C8b · Knopf „Trade loggen“ mit aria-keyshortcuts="N"
 
-Gruppe zustaende · Cluster wording · Aufwand L · Befunde: —
-Quelle: audit/spec/zustaende.md Z. 870–874 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Gruppe kilook · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-43
+Quelle: audit/spec/kilook.md Z. 602–602 · Dateien: web/js/app.js
 Abhängig von: —
 
 ```text
-### 3.23 `web/js/lang/{en,es,hi,pt,zh}.js` – S-L
-
-Neue Schlüssel (deutsch → englisch; es/pt/hi/zh sinngemäß in derselben Form, Platzhalter beibehalten):
-„Noch keine Trades“ → „No trades yet“; „Logge deinen ersten Trade oder importiere eine CSV-Datei.“ → „Log your first trade or import a CSV file.“; „Keine abgeschlossenen Trades im Zeitraum“ → „No closed trades in this period“; „Ändere den Zeitraum oder logge Trades.“ → „Change the period or log trades.“; „Keine Trades im Zeitraum“ → „No trades in this period“; „Keine Handelstage im Zeitraum“ → „No trading days in this period“; „Keine Trades passen zum Filter“ → „No trades match the filter“; „Ändere die Filter oder den Zeitraum.“ → „Change the filters or the period.“; „Noch keine abgeschlossenen Trades“ → „No closed trades yet“; „Noch keine abgeschlossenen Trades.“ → „No closed trades yet.“; „Noch keine Daten“ → „No data yet“; „Noch keine Wochen“ → „No weeks yet“; „Zu wenig Trades“ → „Not enough trades“; „Mindestens {0} Trades mit R-Wert nötig“ → „At least {0} trades with an R value needed“; „Der gleitende Durchschnitt erscheint ab {0} Trades mit R-Wert.“ → „The rolling average appears after {0} trades with an R value.“; „Keine Trades mit R im Zeitraum“ → „No trades with R in this period“; „Trage in der Trade-Ansicht unter „Plan & Bewertung“ einen Stop ein, dann wird das R-Multiple berechnet.“ → „Enter a stop under “Plan & review” in the trade view to calculate the R multiple.“; „Noch keine Regeln angelegt.“ → „No rules yet.“; „Regeln anlegen“ → „Add rules“; „Vorzeitraum: {0}“ → „Previous period: {0}“; „Symbol wählen“, „Long oder Short wählen“ (falls fehlend) → „Choose a symbol“, „Choose long or short“; „Einstieg eintragen“ → „Enter the entry“; „Kontrakte eintragen“ → „Enter the contracts“; „Datum eintragen“ → „Enter the date“; „Ausstieg eintragen oder Geschlossen leeren“ → „Enter the exit or clear Closed“; „Pflichtfeld“ → „Required“; „Mindestens {0}“ → „At least {0}“; „Höchstens {0}“ → „At most {0}“; „Gültige E-Mail-Adresse eintragen“ → „Enter a valid email address“; „Ungültiger Wert“ → „Invalid value“; „In {0} Min.“ → „In {0} min“; „In {0} Std. {1} Min.“ → „In {0} h {1} min“; „In {0} Std.“ → „In {0} h“; „In {0} Tagen“ → „In {0} days“ (alte kleingeschriebene Schlüssel „jetzt“, „morgen“, „in {0} …“ entfernen, wenn grep keine weitere Nutzung findet); „Wird gespeichert …“ → „Saving …“; „Wird geladen …“ → „Loading …“; „{0} abgeschlossen“ → „{0} closed“; „Summe aller abgeschlossenen Trades im Zeitraum, bei aktiver Suche oder aktivem Filter nur der gefilterten. Daneben der Verlauf je Handelstag.“ → „Sum of all closed trades in the period; with an active search or filter, only the filtered ones. Next to it, the curve per trading day.“; „Ungültiges Datum“ → „Invalid date“; „Die Adresse enthält kein gültiges Datum.“ → „The address does not contain a valid date.“; „Zum heutigen Tag“ → „Go to today“; „Verpassten Trade löschen?“ → „Delete missed trade?“; „Der Eintrag wird dauerhaft entfernt.“ → „The entry will be removed permanently.“; „Screenshot löschen?“ → „Delete screenshot?“; „Screenshot vor Entry löschen?“ → „Delete pre-entry screenshot?“; „Das Bild wird dauerhaft entfernt.“ → „The image will be removed permanently.“; „Sprachnotiz löschen?“ → „Delete voice note?“; „Aufnahme und Transkript werden dauerhaft entfernt.“ → „The recording and transcript will be removed permanently.“; „Check-in löschen?“ → „Delete check-in?“; „Die Angaben dieses Check-ins werden gelöscht.“ → „This check-in’s entries will be deleted.“; „Regel löschen?“ → „Delete rule?“; „„{0}“ wird gelöscht. Zum Pausieren reicht der Schalter.“ → „“{0}” will be deleted. To pause it, use the switch.“; „Session verwerfen?“ → „Discard session?“; „Deine Eingaben aus dieser Session gehen verloren.“ → „Your entries from this session will be lost.“; „Verwerfen“ → „Discard“; „Tags auf Standard zurücksetzen“ → „Reset tags to default“; „Tags auf Standard zurücksetzen?“ → „Reset tags to default?“; „Adresse speichern“ → „Save address“; „Trage zuerst eine E-Mail-Adresse ein“ → „Enter an email address first“; „E-Mail-Benachrichtigung aus“ → „Email notifications off“; „Schick den Einladungslink oben an deine Schüler. Wer beitritt, erscheint hier mit Kurz-Stats.“ → „Send the invite link above to your students. Anyone who joins appears here with quick stats.“; „Boden fest“ → „floor locked“; „Ab zwei Grabsteinen erscheinen Muster: Uhrzeit, Wochentag, Symbol, Setup, Verlustserie oder Emotion, wenn sie sich wiederholen.“ → „From two tombstones on, patterns appear: time, weekday, symbol, setup, losing streak or emotion, when they repeat.“; „{0} T“ → „{0} d“; „{0} s“ → „{0} s“. Prop-Bilanz-Texte („noch keine Ausgaben“) sind wie der Rest der Bilanz noch nicht übersetzt und brauchen keinen Schlüssel.
-
+- **253** `newTradeButton()`: `<button type="button" class="btn accent tl" data-action="new-trade">` → `<button type="button" class="btn accent tl" data-action="new-trade" aria-keyshortcuts="N">`
 ```
 
-## kilook-C26 · Wörterbücher en/es/pt/zh/hi: neue Schlüssel (Bedienung, Tastenkürzel …), alte Tastatur-Schlüssel löschen
+## responsiv-3.3c · Schublade: Fokus beim Öffnen/Schließen und #main inert (renderSidebar)
 
-Gruppe kilook · Cluster wording · Aufwand S · Befunde: barrierefreiheit-43, diagramme-4
-Quelle: audit/spec/kilook.md Z. 727–744 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/pt.js, web/js/lang/zh.js, web/js/lang/hi.js
-Abhängig von: kilook-C24
-
-```text
-**C26 · web/js/lang/{en,es,pt,zh,hi}.js · neue und geänderte Schlüssel** (barrierefreiheit-43, diagramme-4)
-
-| Deutsch | en | es | pt | zh | hi |
-|---|---|---|---|---|---|
-| `Bedienung` | Controls | Controles | Controles | 操作 | नियंत्रण |
-| `Tastenkürzel` | Keyboard shortcuts | Atajos de teclado | Atalhos de teclado | 键盘快捷键 | कीबोर्ड शॉर्टकट |
-| `Trade loggen ·` | Log trade · | Registrar trade · | Registrar trade · | 记录交易 · | ट्रेड दर्ज करें · |
-| `Bereich wechseln` | switch section | cambiar sección | trocar seção | 切换区域 | सेक्शन बदलें |
-| `Speicherort: dieser Browser (localStorage und IndexedDB).` | Storage: this browser (localStorage and IndexedDB). | Almacenamiento: este navegador (localStorage e IndexedDB). | Armazenamento: este navegador (localStorage e IndexedDB). | 存储位置：此浏览器（localStorage 和 IndexedDB）。 | स्टोरेज: यह ब्राउज़र (localStorage और IndexedDB)। |
-
-- Die nicht mehr benutzten Schlüssel löschen:
-  - `"Speicherort: dieser Browser (localStorage und IndexedDB). Tastatur:"`
-  - `"neuer Trade ·"`
-  - `"Bereiche ·"`
-  - `"schließt Dialoge."`
-  Vorher mit `grep -rn` prüfen, dass kein anderer Text sie braucht.
-- Der Prop-Hinweis (prop.js:194) hat in den Wörterbüchern noch keinen Schlüssel (Prop ist nicht in Etappe 1). Nichts eintragen.
-
-```
-
-## kilook-C28 · README: Tastatur, Mentor-Notiz, Fortschritt, Kalender, Schrift, Geldformat, Prop-Währung
-
-Gruppe kilook · Cluster wording · Aufwand S · Befunde: barrierefreiheit-43, bereich_konto-17, ki_look-33, ki_look-6, diagramme-31, typografie-33, diagramme-32, diagramme-35, diagramme-4
-Quelle: audit/spec/kilook.md Z. 751–762 · Dateien: web/README.md
-Abhängig von: kilook-A1, kilook-A2, kilook-A5, kilook-B3, kilook-B4, kilook-C6, kilook-C9a, kilook-C18, kilook-C19b, kilook-C19c, kilook-C20, kilook-C24
+Gruppe responsiv · Cluster barrierefreiheit · Aufwand M · Befunde: barrierefreiheit-30
+Quelle: audit/spec/responsiv.md Z. 432–440 · Dateien: web/js/app.js
+Abhängig von: responsiv-B2
 
 ```text
-**C28 · web/README.md · Dokumentation** (alle umgesetzten Befunde)
-- **318** `Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge.`
-  → `Tastatur: **N** Trade loggen, **1–9** Bereiche (0 = Blind-Replay, nur wenn freigeschaltet), **Esc** schließt Dialoge. Die Einzeltasten lassen sich unter Einstellungen → Profil → Bedienung abschalten.`
-- **153** hinter „(Badge „Mentor“, Name, Zeit; …)“ ergänzen: „Notiz als neutrale Fläche mit feinem Rand, ohne Farbstreifen“.
-- **129** (Fortschritt) ergänzen: „„% Regeln eingehalten“ zeigt ohne Regeln oder Regel-Check „—“ und keinen Ring; der Ring leuchtet nicht.“
-- **190** (Kalender-Kacheln) ergänzen: „Im Monatsraster stehen Tages- und Wochenbeträge ohne Cent; die Cent zeigt die Tagesansicht.“
-- **172** (Schrift) ergänzen: „`app.html` und die Startseite laden von Google nur Onest; Inter und Roboto lädt `Theme.loadFont` nur für „Klassisch“.“
-- **211** (Geld-blind-Modus, Absatz zu `fmt.cur`) ergänzen: „Genauigkeit nach Bedeutung: Ergebnisse, Gebühren und Payouts immer mit Cent und Ergebnisse mit Vorzeichen; Bestände (`fmt.balance`), Limits, Ziele, Puffer und Monte Carlo ganzzahlig. Keine Größenschwelle.“
-- **241 ff.** (Prop Firms) ergänzen: „Alles, was zu einem Konto gehört (Balance, P&L, Limits, Puffer, Payout-Planer, Grabstein), steht in der Kontowährung; Bilanz und Payout-Liste in der Journal-Währung; die Kachel „P&L aktive Konten“ summiert je Währung.“
-
----
-
-```
-
-## responsiv-3.18 · Sprachdateien: neue Texte eintragen, Prop-Kartenwert auf Englisch prüfen
-
-Gruppe responsiv · Cluster wording · Aufwand M · Befunde: bereich_prop-10, bereich_training-24, responsiv-6, bereich_notebook_news-11, bereich_dashboard-4, bereich_training-38
-Quelle: audit/spec/responsiv.md Z. 550–553 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/screens/prop.js
-Abhängig von: responsiv-3.3a, responsiv-3.10, responsiv-3.12a, responsiv-3.12c, responsiv-3.13, responsiv-3.15
-
-```text
-### 3.18 web/js/lang/{en,es,zh,hi,pt}.js
-
-Neue Einträge (Muster wie vorhanden): „Bis zum Bestehen“ (en „To pass“), „{0} fehlen“ (en „{0} to go“), „{0}× gebrochen“ (en „Broken {0}×“), „Beantragt {0}“ (en „Requested {0}“), „Schreib dem Mentor …“ (en „Write to your mentor …“). „Teilen“, „Konto: {0}“, „Verlauf löschen“ prüfen und fehlende Einträge ergänzen. Der Wert der Prop-Karte ist ein einziger Textknoten („in 3 Handelstagen · 1.946,15 $ fehlen“): auf Englisch umschalten und prüfen, dass er vollständig übersetzt wird; fehlt ein Muster für die Kombination, die Teile in planText je in ein eigenes `<span>` setzen.
-
-```
-
-## wording-S2.1 · core.js: Radar-Achse in SCORE_AXES „Win-Rate“ → „Trefferquote“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-3, bereich_dashboard-32
-Quelle: audit/spec/wording.md Z. 304–308 · Dateien: web/js/core.js
-Abhängig von: —
-
-```text
-### Schritt 2 · `web/js/core.js` (zentrale Kennzahl-Namen)
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 2.1 | `SCORE_AXES` Z. 265 | `winRate: 'Win-Rate'` → `winRate: 'Trefferquote'` (übrige Achsen unverändert) | wording-3, bereich_dashboard-32 |
-```
-
-## wording-S2.14 · core.js insights(): Einzahl „1 Trade“ und „Trefferquote“ in den Insight-Sätzen
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-3, zustaende-28
-Quelle: audit/spec/wording.md Z. 321–322 · Dateien: web/js/core.js
-Abhängig von: —
-
-```text
-| 2.14 | `insights()` Z. 544–549 | neue lokale Hilfsfunktion in `insights()` direkt nach `const pct = …` (Z. 541): `const nT = n => n === 1 ? '1 Trade' : \`${n} Trades\`;`; in Z. 544 `${mr.mistakeN} Trades mit Fehler-Tags` → `${nT(mr.mistakeN)} mit Fehler-Tags`, Z. 546 `${best.s.n} Trades, Win-Rate ${pct(…)}` → `${nT(best.s.n)}, Trefferquote ${pct(…)}` und `${worst.s.n} Trades mit` → `${nT(worst.s.n)} mit`, Z. 548 `bei ${b.s.n} Trades` → `bei ${nT(b.s.n)}`, Z. 549 `${wd[0].s.n} Trades mit` → `${nT(wd[0].s.n)} mit` | wording-3, zustaende-28 |
-
-```
-
-## wording-S5.6-5.8 · app.js: Zähler über U.count (Symbol-Liste, CSV-Import) und „Trefferquote“ im Session-Ende
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: zustaende-28, wording-3, bereich_trades_tag-36
-Quelle: audit/spec/wording.md Z. 358–360 · Dateien: web/js/app.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 5.6 | app.js:391 Symbol-Liste | `(o.n === 1 ? '1 Trade' : \`${o.n} Trades\`)` → `U.count(o.n, 'Trade', 'Trades')` | zustaende-28 |
-| 5.7 | app.js:530 Session-Ende | `<div class="caption">Win-Rate</div>` → `<div class="caption">Trefferquote</div>` | wording-3, bereich_trades_tag-36 |
-| 5.8 | app.js:567 und :574 (CSV) | `${preview.trades.length} Trades erkannt` → `${U.count(preview.trades.length, 'Trade', 'Trades')} erkannt`; Toast `${fresh.length} Trades importiert` → `${U.count(fresh.length, 'Trade', 'Trades')} importiert` | zustaende-28 |
-```
-
-## wording-S6.16-6.18 · Disziplin-Kosten-, Schatten-Ich- und Blind-Replay-Widget: „Verstöße“, „Lege fest“, Zähler
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-38, zustaende-28
-Quelle: audit/spec/wording.md Z. 382–384 · Dateien: web/js/widgets.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 6.16 | widgets.js:323 / :331 desc | `'Schatten-Ich: was Regelbrüche dich im Zeitraum gekostet oder gebracht haben.'` → `'Schatten-Ich: was Verstöße dich im Zeitraum gekostet oder gebracht haben.'`; `'… was Regelbrüche gekostet haben, …'` → `'… was Verstöße gekostet haben, …'` | wording-38 |
-| 6.17 | widgets.js:334 | `Leg fest, was für dich gilt. Dann rechnet dein Schatten-Ich, was Regelbrüche kosten.` → `Lege fest, was für dich gilt. Dann rechnet dein Schatten-Ich, was Verstöße kosten.` | wording-38 |
-| 6.18 | widgets.js:344 / :348 | `${fmt.int(ready)} Trades bereit` → `${U.count(ready, 'Trade', 'Trades')} bereit`; `von ${fmt.int(st.n)} Trades` → `von ${U.count(st.n, 'Trade', 'Trades')}` | zustaende-28 |
-```
-
-## wording-S6.19-6.22 · Prop-Konten- und Mentor-Widget: „Kontostand“, „Prop-Konto anlegen“, „reicht für N Stops“, „Journalyst-Server“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-32, wording-34, wording-33, wording-14
-Quelle: audit/spec/wording.md Z. 385–388 · Dateien: web/js/widgets.js
-Abhängig von: —
-
-```text
-| 6.19 | widgets.js:351 Prop-Widget desc/info | „Ampel, Balance und Puffer“ → „Ampel, Kontostand und Puffer“; „die Ampel, die Balance und …“ → „die Ampel, den Kontostand und …“ | wording-32 |
-| 6.20 | widgets.js:354 Leerzustand | `Leg ein Konto an, dann siehst du hier Ampel, Balance und Puffer.` → `Lege ein Prop-Konto an, dann siehst du hier Ampel, Kontostand und Puffer.`; Knopftext `Konto anlegen` → `Prop-Konto anlegen` | wording-32, wording-34 |
-| 6.21 | widgets.js:358 | `noch ${b.stops} Stop-Loss${b.stops === 1 ? '' : 'es'}` → `reicht für ${b.stops} Stop${b.stops === 1 ? '' : 's'}` | wording-33 |
-| 6.22 | widgets.js:373 Mentor-Widget | `Der Mentor läuft über deinen eigenen Server.` → `Der Mentor läuft über deinen Journalyst-Server.` (Knopf und Ziel `#/mentor` bleiben, fwtest.js:46) | wording-14 |
-```
-
-## wording-S7.1-7.3 · Dashboard: Widget-Suche „Widgets durchsuchen“ mit aria-label, „Neuer Recap“, Banner-Knopf „CSV importieren“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-51, wording-11, wording-49
-Quelle: audit/spec/wording.md Z. 395–401 · Dateien: web/js/screens/dashboard.js
-Abhängig von: —
-
-```text
-### Schritt 7 · `web/js/screens/dashboard.js` und `web/js/screens/dash-filter.js`
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 7.1 | dashboard.js:78 Widget-Suche | `placeholder="Widget suchen …"` → `placeholder="Widgets durchsuchen" aria-label="Widgets durchsuchen"` | wording-51 |
-| 7.2 | dashboard.js:89 Hinweis-Punkt | `'Neuer Performance-Recap'` → `'Neuer Recap'` | wording-11 |
-| 7.3 | dashboard.js:130 Willkommen-Banner | `${I.upload} CSV</button>` → `${I.upload} CSV importieren</button>` | wording-49 |
-```
-
-## wording-S7.4-7.6 · Dashboard-Filter: Platzhalter „Von“/„Bis“, „Intraday / Mehrtägig“, „Nachbereitet: Alle · Ja · Nein“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_dashboard-31
-Quelle: audit/spec/wording.md Z. 402–405 · Dateien: web/js/screens/dash-filter.js
-Abhängig von: —
-
-```text
-| 7.4 | dash-filter.js:104 `pair()` | `placeholder="${o.ph1 \|\| 'Min'}"` → `\|\| 'Von'`; `placeholder="${o.ph2 \|\| 'Max'}"` → `\|\| 'Bis'` | bereich_dashboard-31 |
-| 7.5 | dash-filter.js:119 | `row('Intraday / Multiday', seg('span', f, [['', 'Alle'], ['intraday', 'Intraday'], ['multiday', 'Multiday']]))` → `row('Intraday / Mehrtägig', seg('span', f, [['', 'Alle'], ['intraday', 'Intraday'], ['multiday', 'Mehrtägig']]))` | bereich_dashboard-31 |
-| 7.6 | dash-filter.js:120 | `row('Reviewed', seg('reviewed', f, [['', 'Alle'], ['yes', 'Reviewed'], ['no', 'Unreviewed']]), 'Bewertung oder Notiz vorhanden')` → `row('Nachbereitet', seg('reviewed', f, [['', 'Alle'], ['yes', 'Ja'], ['no', 'Nein']]), 'Bewertung oder Notiz vorhanden')` (Werte `yes`/`no` bleiben, filtertest.js:62) | bereich_dashboard-31 |
-
+- `renderSidebar()` Z. 200–214 (barrierefreiheit-30):
+  - erste Zeile ergänzen: `const wasOpen = sb.classList.contains('open'); const hadFocus = sb.contains(document.activeElement);` (vor dem `innerHTML`-Austausch, `sb` zuerst holen)
+  - nach Z. 213 neu:
+    ```js
+    /* Schublade: offen fängt sie den Fokus, der Inhalt dahinter ist inert; geschlossen kehrt der Fokus an den Menüknopf zurück */
+    const main = document.getElementById('main'); if (main) main.inert = open && !desk;
+    if (open && !wasOpen && !desk) { const a = sb.querySelector('.nav a.active') || sb.querySelector('.nav a'); if (a) a.focus(); }
+    else if (!open && wasOpen && hadFocus) { const b = document.querySelector('.menu-btn'); if (b) b.focus(); }
+    ```
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- [konflikt: .fd-pair .input] .fd-pair .input bekommt das Token aus typografie-3.2.3l. Im Filter-Fenster wirkt .fd-pop .fd-pair .input mit var(--fs-12) (typografie-3.2.3f). Das neue Datums-Overlay .dp-display aus wording-S3.1-3.3 nimmt dieselben Stufen wie sein Feld statt 13.5/12.5 px, denn beide Werte sind in der Skala verboten und das Overlay muss deckungsgleich mit dem Feldtext sein: .dp-display { …; font-size: var(--fs-14); line-height: var(--lh-14); } (wie .input nach typografie-3.2.3m) und .fd-pop .fd-pair .dp-display { font-size: var(--fs-12); line-height: var(--lh-12); left: 11px; }. Der leere Zustand („Offen“) steht in Platzhalterfarbe --muted statt --faint, weil --faint laut farbe nie für Wörter gilt und Platzhalter laut farbe-B3a --muted sind: .dp-display.empty { color: var(--muted); } und .input.is-empty::-webkit-datetime-edit { color: var(--muted); }. Die Platzhalter „Von“/„Bis“ und die Filtertexte aus wording-S7.4-7.6 bleiben.
+- [konflikt: App.renderSidebar] (1) Die Zeile desk/mini wird einmal vor const item verschoben, durch P5 (A1 verlangt dasselbe). (2) Endform des Navigationslinks: `<a href="#/${key}" class="${cur === key ? 'active' : ''}"${cur === key ? ' aria-current="page"' : ''}${mini ? ` aria-label="${label}" data-tip="${label}" data-tip-side="right"` : ''} data-action="nav-close">`. Kein title, auch eingeklappt nicht. Grund: komponenten verlangt „keine System-Tooltip-Dubletten“; App-Tooltip rechts und aria-label decken Maus und Screenreader ab. (3) Schublade: inert setzt nur P5 (sb.inert = mob && !open; main.inert = mob && open), und zwar vor jedem focus(). Die Fokuslogik steht nach dem Muster von 3.3c (wasOpen/hadFocus am Anfang) in renderSidebar. Nur so gibt jeder Schließweg den Fokus zurück: ×, Scrim, Escape (bind-Handler), nav-close auf dieselbe Route und Breitenwechsel. responsiv-Prüfpunkt 11 verlangt „Escape → Fokus auf .menu-btn“; P6 (Logik nur in den Aktionen) deckt das nicht ab. Beim Öffnen geht der Fokus auf „Menü schließen“ (.sb-toggle), wie in barrierefreiheit Z2 und bereich_shell-15, und nicht auf den aktiven Eintrag. Gründe: Es ist das erste Element der Schublade, Tab läuft danach von oben durch die Navigation, und der Screenreader nennt sofort den Weg zum Schließen. Prüfpunkt 11 (aktives Element liegt in #sidebar) bleibt erfüllt. Beim Schließen geht der Fokus an .menu-btn, aber nur wenn er in der Schublade war und der Knopf sichtbar ist.
+- ÄNDERN: Erste Zeile wie spezifiziert: const wasOpen = sb.classList.contains('open'); const hadFocus = sb.contains(document.activeElement); Keine eigene main.inert-Zeile, die setzt P5. Direkt nach den inert-Zeilen von P5: if (!desk && open && !wasOpen) sb.querySelector('.sb-toggle')?.focus({ preventScroll: true }); else if (!open && wasOpen && hadFocus) { const b = document.querySelector('.menu-btn'); if (b && b.getClientRects().length) b.focus({ preventScroll: true }); } In responsiv.md 1.10 und in den regeln „Fokus auf den aktiven Eintrag“ → „Fokus auf „Menü schließen““.
+- [doppelt: .menu-btn] P6 und 3.3c lösen dieselbe Aufgabe: Fokus beim Öffnen und Schließen der Schublade. Umgesetzt wird sie einmal in renderSidebar über responsiv-3.3c, in der Fassung des Ankers App.renderSidebar; das Ziel beim Öffnen (.sb-toggle) kommt aus P6. Die Aktionen sidebar() und scrim() sowie der Handy-Zweig von 'sb-toggle' bleiben unverändert. Eine Methode closeSidebar() gibt es nicht. Verträglich sind P8 (aria-controls="sidebar" am Menüknopf), B12a (unsichtbare 44-px-Fläche per ::after im ≤960-Block) und C10 (Selektoren .topbar .menu-btn). Es gibt nur einen .menu-btn, document.querySelector('.menu-btn') trifft also weiter den Knopf der Titelzeile.
+- ÜBERNIMMT barrierefreiheit-P6: Entfällt als eigener Schritt: kein Fokus-Aufruf in sidebar(), kein closeSidebar(), scrim() und sb-toggle bleiben unverändert. Fokus auf „Menü schließen“ beim Öffnen und Rückgabe an .menu-btn (auch bei Escape) setzt 3.3c in renderSidebar um.
+- [doppelt: #main] main.inert wird nur einmal gesetzt, durch P5 (mob && open). 3.3c hat dafür keine eigene Zeile. Festlegung und Anweisungen stehen im Anker App.renderSidebar. P1 ist verträglich: restoreFocus überspringt Treffer in [inert], und renderSidebar läuft in render() vor restoreFocus. Beim Seitenwechsel aus der Schublade ist #main dadurch schon wieder bedienbar, bevor der Fokus auf #content geht.
+- [doppelt: inert] P5 und 3.3c setzen beide #main inert; es gilt nur P5, siehe Anker App.renderSidebar. Der Grabstein-Schritt (inert an der verdeckten Seite .pg-back/.pg-front) betrifft andere Elemente und ist verträglich.
+- [reihenfolge: #sidebar] Inhaltlich verträglich. P5 macht die Gruppen zu div role="group", H2 macht das äußere Element zu <nav aria-label="Hauptnavigation">. H2 darf nicht vor P5 landen, sonst gibt es vorübergehend verschachtelte nav-Landmarken (am besten in einem Commit). P5 ruft this.popInit(sb) auf, das P1 anlegt, also kommt P1 zuerst. Für 3.3c gilt die Fassung aus dem Anker App.renderSidebar.
 
-## wording-S9.8-9.9 · TradeLog: Seitenwähler-Zähler über U.count, „Trefferquote“ in den Tageskarten
+## farbe-C25 · Fortschritt: Info-Text „desto kräftiger das Feld“
 
-Gruppe wording · Cluster wording · Aufwand S · Befunde: zustaende-28, wording-3, bereich_trades_tag-36
-Quelle: audit/spec/wording.md Z. 431–432 · Dateien: web/js/screens/trades.js
-Abhängig von: wording-S1.1-1.3
+Gruppe farbe · Cluster wording · Aufwand S · Befunde: bereich_training-8
+Quelle: audit/spec/farbe.md Z. 510–511 · Dateien: web/js/screens/progress.js
+Abhängig von: —
 
 ```text
-| 9.8 | Z. 48 Seitenwähler | `von ${rows.length} Trades` → `von ${U.count(rows.length, 'Trade', 'Trades')}` | zustaende-28 |
-| 9.9 | Z. 54 Tageskarten | `<div class="k">Win-Rate</div>` → `<div class="k">Trefferquote</div>` | wording-3, bereich_trades_tag-36 |
+**C25 – `web/js/screens/progress.js` Z. 71:** Info `… Je mehr Trades, desto kräftiger das Grün. …` → `… Je mehr Trades, desto kräftiger das Feld. …` — bereich_training-8
+
+```
+
+## farbe-D1 · Sprachdateien: neue und geänderte Texte in en/es/hi/pt/zh
+
+Gruppe farbe · Cluster wording · Aufwand M · Befunde: bereich_training-3, bereich_notebook_news-17, bereich_trades_tag-29, bereich_konto-4, referenz-7, bereich_einstellungen-18, bereich_einstellungen-17, bereich_einstellungen-37, bereich_training-8, bereich_notebook_news-21, farbe_kontrast-26
+Quelle: audit/spec/farbe.md Z. 557–560 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Abhängig von: farbe-A3b, farbe-C17b, farbe-C19b, farbe-C19c, farbe-C22b, farbe-C22c, farbe-C24c, farbe-C25, farbe-C29, farbe-C31b, farbe-C32
+
+```text
+### D. Texte, Tests, Dokumentation
+
+**D1 – `web/js/lang/{en,es,hi,pt,zh}.js`:** für jeden Text aus 1.10 den Schlüssel anlegen bzw. den alten ersetzen (geänderte ganze Sätze: misc.js:234, misc.js:145-Hinweis, progress.js:71; neue Wörter: „Effekt“, „Tagesansicht öffnen“, „Verlust vermieden“, „{0} neue Einträge“, „Filter ({0} aktiv)“, „Blau / Gelb“, „Neutral / Rot“, „Designfarben“, „Grau“, „Warnung“, „Info“, „Farbe {0}“; vorhandene Schlüssel „Gewinn“, „Verlust“, „Break-even“, „Aktiv“, „CSV importieren“ prüfen). Englisch zum Beispiel: „Effect“, „Open day view“, „Loss avoided“, „{0} new entries“, „Filter ({0} active)“, „Blue / Yellow“, „Neutral / Red“, „Theme colors“. — betrifft bereich_training-3, bereich_notebook_news-17, bereich_trades_tag-29, bereich_konto-4, referenz-7, bereich_einstellungen-18, bereich_einstellungen-17, bereich_einstellungen-37, bereich_training-8, bereich_notebook_news-21, farbe_kontrast-26
+
+```
+
+## abstaende-K4 · Papierkorb-Liste: 'Gelöscht ' → 'Gelöscht am '
+
+Gruppe abstaende · Cluster wording · Aufwand S · Befunde: bereich_notebook_news-25
+Quelle: audit/spec/abstaende.md Z. 448–448 · Dateien: web/js/screens/notebook.js
+Abhängig von: —
+
+```text
+| K4 | Z. 60 (Liste) | `'Gelöscht ' + fmt.dateTime(n.deletedAt)` → `'Gelöscht am ' + fmt.dateTime(n.deletedAt)` | bereich_notebook_news-25 |
+```
+
+## abstaende-M3 · Warnschwellen-Labels kürzen: „Gelb unter (% übrig)“, „Rot unter (% übrig)“
+
+Gruppe abstaende · Cluster wording · Aufwand S · Befunde: bereich_prop-33
+Quelle: audit/spec/abstaende.md Z. 472–472 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+| M3 | Z. 240, 241 | Label „Gelb, wenn weniger als … % des Limits übrig“ → „Gelb unter (% übrig)“, „Rot, wenn weniger als … % übrig“ → „Rot unter (% übrig)“ | bereich_prop-33 |
+```
+
+## abstaende-Q1 · Sprachschlüssel „{0} Trades im Zeitraum“ und „{0} Trade im Zeitraum“ in en/es/zh/hi/pt
+
+Gruppe abstaende · Cluster wording · Aufwand S · Befunde: bereich_training-25
+Quelle: audit/spec/abstaende.md Z. 506–510 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: abstaende-I2
+
+```text
+### web/js/lang/*.js (en, es, zh, hi, pt)
+
+| Nr. | Neue bzw. geänderte Schlüssel | Befunde |
+|---|---|---|
+| Q1 | „{0} Trades im Zeitraum“, „{0} Trade im Zeitraum“ | bereich_training-25 |
+```
+
+## abstaende-Q2 · Sprachschlüssel „Bewertung {0} von 5“
+
+Gruppe abstaende · Cluster wording · Aufwand S · Befunde: bereich_trades_tag-23
+Quelle: audit/spec/abstaende.md Z. 511–511 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: abstaende-H2
+
+```text
+| Q2 | „Bewertung {0} von 5“ | bereich_trades_tag-23 |
+```
+
+## abstaende-Q3 · Sprachschlüssel „Gelöscht am {0}“, „Wird am {0} endgültig entfernt“; alte „Gelöscht: {0}“, „Wird endgültig entfernt am {0}“ entfernen
+
+Gruppe abstaende · Cluster wording · Aufwand S · Befunde: bereich_notebook_news-25
+Quelle: audit/spec/abstaende.md Z. 512–512 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: abstaende-K3, abstaende-K4
+
+```text
+| Q3 | „Gelöscht am {0}“, „Wird am {0} endgültig entfernt“. Alte Schlüssel „Gelöscht: {0}“ und „Wird endgültig entfernt am {0}“ entfernen. | bereich_notebook_news-25 |
+```
+
+## abstaende-Q4 · Sprachschlüssel „Gelb unter (% übrig)“, „Rot unter (% übrig)“; alte zwei Schlüssel entfernen
+
+Gruppe abstaende · Cluster wording · Aufwand S · Befunde: bereich_prop-33
+Quelle: audit/spec/abstaende.md Z. 513–513 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: abstaende-M3
+
+```text
+| Q4 | „Gelb unter (% übrig)“, „Rot unter (% übrig)“. Die alten zwei Schlüssel entfernen. | bereich_prop-33 |
+```
+
+## abstaende-Q5 · Sprachschlüssel „Heute noch erlaubt“ und ggf. „bester Tag {0} von max. {1} %“
+
+Gruppe abstaende · Cluster wording · Aufwand S · Befunde: bereich_prop-29
+Quelle: audit/spec/abstaende.md Z. 514–515 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: abstaende-M6
+
+```text
+| Q5 | „Heute noch erlaubt“, „bester Tag {0} von max. {1} %“ (falls der Wert als Muster übersetzt wird) | bereich_prop-29 |
+
+```
+
+## komponenten-S-coach-c · Coach: Wortwahl „Einladungslink erneuern“ / „Link erneuern“
+
+Gruppe komponenten · Cluster wording · Aufwand S · Befunde: bereich_konto-45
+Quelle: audit/spec/komponenten.md Z. 633–633 · Dateien: web/js/screens/coach.js
+Abhängig von: —
+
+```text
+- Wortwahl: Z. 115 „Neuen Einladungslink erzeugen“ → „Einladungslink erneuern“; Z. 284 Titel → „Einladungslink erneuern?“, `ok: 'Erneuern'`; Z. 285 Toast → „Einladungslink erneuert“; Z. 265 „Neuen Link erzeugen“ → „Link erneuern“; Z. 349 Toast → „Co-Coach-Link erneuert“.
+```
+
+## komponenten-L1a · Übersetzungen: Verpasst-Dialog, „Konto anlegen“, Coach-Einladungslink
+
+Gruppe komponenten · Cluster wording · Aufwand S · Befunde: bereich_trades_tag-11, hierarchie-28, bereich_konto-45
+Quelle: audit/spec/komponenten.md Z. 727–733 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: komponenten-S-trades-g, komponenten-S-prop-f, komponenten-S-coach-c
+
+```text
+### 3.7 web/js/lang/*.js
+
+**L1 – Übersetzungen** (alle Befunde mit Wortwahl: bereich_trades_tag-11, hierarchie-47, hierarchie-28, bereich_konto-45, bereich_einstellungen-35, bereich_einstellungen-40, bereich_statistik-19, bereich_trades_tag-43, bereich_trades_tag-34, bereich_notebook_news-20, bereich_dashboard-47)
+Neue/umbenannte Schlüssel in en, es, zh, hi, pt (englischer Wert zur Orientierung, die anderen Sprachen sinngemäß):
+- „Hätte gebracht“ → „Would have made“
+- „Konto anlegen“ (falls nicht vorhanden) → „Add account“
+- „Einladungslink erneuern“ → „Renew invite link“; „Einladungslink erneuern?“ → „Renew invite link?“; „Erneuern“ → „Renew“; „Link erneuern“ → „Renew link“; „Einladungslink erneuert“ → „Invite link renewed“; „Co-Coach-Link erneuert“ → „Co-coach link renewed“
+```
+
+## komponenten-L1b · Übersetzungen: „Profil ergänzen“ (Schlüssel umbenennen), Trading-Labels, Logs
+
+Gruppe komponenten · Cluster wording · Aufwand S · Befunde: hierarchie-47, bereich_einstellungen-35, bereich_einstellungen-40
+Quelle: audit/spec/komponenten.md Z. 734–736 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: komponenten-A2, komponenten-S-misc-e, komponenten-S-misc-i
+
+```text
+- Schlüssel „Profil vervollständigen“ umbenennen in „Profil ergänzen“ (en „Complete profile“, es/pt „Completar perfil“, hi/zh Wert unverändert)
+- „Tagesverlustlimit“ → „Daily loss limit“; „Ruin-Schwelle (Drawdown)“ → „Ruin threshold (drawdown)“
+- „Verlauf durchsuchen“ → „Search history“; „Keine Einträge gefunden“ → „No entries found“; „Noch kein Verlauf“ → „No history yet“ (falls fehlt); „CSV-Importe und eingespielte Sicherungen erscheinen hier.“ → „CSV imports and restored backups appear here.“
+```
+
+## komponenten-L1c · Übersetzungen: „Alle Handelstage“, „Netto“, Seitenwahl-Schlüssel ohne Leerzeichen
+
+Gruppe komponenten · Cluster wording · Aufwand S · Befunde: bereich_statistik-19, bereich_trades_tag-43, bereich_trades_tag-34
+Quelle: audit/spec/komponenten.md Z. 737–738 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: komponenten-S-stats-b, komponenten-S-trades-d, komponenten-S-trades-c, komponenten-S-shadow
+
+```text
+- „Alle Handelstage“ → „All trading days“; „Netto“ → „Net“
+- Schlüssel „{0} – {1} von {2} Trades“ → „{0}–{1} von {2} Trades“ (en „{0}–{1} of {2} trades“), „{0} – {1} von {2} Verstößen“ → „{0}–{1} von {2} Verstößen“ (Zielwerte ebenfalls ohne Leerzeichen um den Strich)
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
-- ÄNDERN: 9.8: Muster ohne Leerzeichen um den Strich, „{0}–{1} von {2} Trades“; U.count wie geplant. Umgesetzt wird es in komponenten-S-trades-c. 9.9 unverändert.
+- [doppelt: .tbl-wrap.inset] komponenten-S-prop-e setzt `tbl-wrap inset` in der Prop-Bilanz (prop.js:264/268) einmal um. Statistik → Tage: aufbau-C14d setzt die Tabelle in die Karte „Tage im Detail“ mit `tbl-wrap inset`. Aufbau ist für Titel und Aufbau zuständig, der Titel folgt dem Muster „Regeln im Detail“/„Uhrzeiten im Detail“, und aufbau-D1a übersetzt ihn. groupTable inset (stats.js:34) bleibt bei komponenten-S-stats-b.
+- ÄNDERN: Der Schlüssel „Alle Handelstage“ entfällt (aufbau-D1a liefert „Tage im Detail“). „Netto“ und die Seitenwahl-Schlüssel bleiben.
 
-## wording-S9.17 · Dialogtitel „Text-Notiz“ statt „Notiz sprechen oder tippen“
+## komponenten-L1d · Übersetzungen: Tag-Suche, Vorlagen-Menü; Ruhepunkt/Teilen nur bei vorhandenen Einträgen
 
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_trades_tag-47
-Quelle: audit/spec/wording.md Z. 440–441 · Dateien: web/js/screens/trades.js
+Gruppe komponenten · Cluster wording · Aufwand S · Befunde: bereich_notebook_news-20, bereich_dashboard-47
+Quelle: audit/spec/komponenten.md Z. 739–742 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js
+Abhängig von: komponenten-S-notebook-c, komponenten-S-dashboard-a
+
+```text
+- „Tags suchen“ → „Search tags“; „„{0}“ als Tag anlegen“ → „Create tag “{0}”“ (nur, weil „Neuen Tag anlegen“ dort schon übersetzt ist)
+- „Bearbeiten“, „Als Standard festlegen“ (falls fehlen) → „Edit“, „Set as default“
+- Ruhepunkt- und Teilen-Texte nur, wenn der Bereich dort Einträge hat (heute nicht).
+
+```
+
+## aufbau-C8b · Trading: Schalter „Beträge ausblenden“, Hinweis unter Tagesverlustlimit
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: typografie-8, aufbau-8
+Quelle: audit/spec/aufbau.md Z. 489–490 · Dateien: web/js/screens/misc.js
 Abhängig von: —
 
 ```text
-| 9.17 | Z. 118 Dialogtitel | `<h2>Notiz sprechen oder tippen</h2>` → `<h2>Text-Notiz</h2>` | bereich_trades_tag-47 |
-
-```
-
-## wording-S11.1-11.5 · Schatten-Ich: Regel „Schluss nach Verlustserie“, Kosten-Texte mit „Verstöße“, DESC-Texte, Banner ohne Gedankenstrich, Zähler
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-41, wording-38, wording-10, zustaende-28
-Quelle: audit/spec/wording.md Z. 462–470 · Dateien: web/js/shadow.js, web/js/screens/shadow.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-### Schritt 11 · `web/js/shadow.js` und `web/js/screens/shadow.js`
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 11.1 | js/shadow.js:14 | `label: 'Stopp nach Verlusten in Folge'` → `label: 'Schluss nach Verlustserie'` (Regel-Schlüssel `lossStreak` bleibt; das aria-label „… : Verluste“ zieht mit) | wording-41 |
-| 11.2 | screens/shadow.js:25 `costView` | `'Regelbrüche haben dich das gekostet'` → `'So viel haben dich Verstöße gekostet'`; `'Regelbrüche haben dir das gebracht'` → `'So viel haben dir Verstöße gebracht'` | wording-38 |
-| 11.3 | screens/shadow.js:32 `DESC` | `dailyLoss: 'Ist das Tageslimit erreicht, ist für heute Schluss.'` → `'Ist der maximale Tagesverlust erreicht, ist für heute Schluss.'`; `lossStreak: 'Nach so vielen Verlusten hintereinander ist Pause.'` → `'Nach so vielen Verlusten hintereinander ist für heute Schluss.'` | wording-10, wording-41 |
-| 11.4 | screens/shadow.js:58 Banner | `'Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.'` → `'Schalte oben mindestens eine Regel ein. Dann rechnet dein Schatten-Ich, was Verstöße kosten.'` | wording-38 |
-| 11.5 | screens/shadow.js:59 | `${res.unknownRisk === 1 ? '1 Trade ohne Stop konnte' : \`${…} Trades ohne Stop konnten\`}` → `${U.count(res.unknownRisk, 'Trade', 'Trades')} ohne Stop ${res.unknownRisk === 1 ? 'konnte' : 'konnten'}` | zustaende-28 |
-```
-
-## wording-S11.6-11.11 · Schatten-Ich-Karten: „Regelwerk“, Intro, Info-Texte, Kachel-Fuß „Ohne Verstöße“, Diagramm „Kumulierter Netto-P&L“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-25, wording-38, wording-39, wording-40
-Quelle: audit/spec/wording.md Z. 471–477 · Dateien: web/js/screens/shadow.js
-Abhängig von: —
-
-```text
-| 11.6 | screens/shadow.js:60 | `U.card('Mein Regelwerk', …, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' })` → `U.card('Regelwerk', …, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran, Änderungen gelten sofort.' })` | wording-25, wording-38 |
-| 11.7 | screens/shadow.js:108 Intro | `Dein Schatten-Ich handelt wie du – nur ohne Regelbrüche.` → `Dein Schatten-Ich handelt wie du, hält sich aber an jede aktive Regel.` | wording-38 |
-| 11.8 | screens/shadow.js:109 | `'Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.'` → `'… was Verstöße kosten.'` | wording-38 |
-| 11.9 | screens/shadow.js:112 Info | `'Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.'` → `'Schatten-Ich minus echt: was Verstöße im Zeitraum unterm Strich bewirkt haben.'` | wording-38 |
-| 11.10 | screens/shadow.js:114 | `{ foot: 'Mit allen Regeln eingehalten' }` → `{ foot: 'Ohne Verstöße' }` | wording-39 |
-| 11.11 | screens/shadow.js:118 | `U.card('Equity: echt vs. Schatten-Ich', …, { info: '… lässt Trades mit Regelbruch weg …' })` → `U.card('Kumulierter Netto-P&L', …, { info: '… lässt Trades mit Verstoß weg …' })` (Legende „Echt / Schatten-Ich“ bleibt) | wording-40, wording-38 |
-
-```
-
-## wording-S12.30 · Coupons-Leerzustand „Coupon-Codes für Prop Firms erscheinen hier.“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-55
-Quelle: audit/spec/wording.md Z. 511–512 · Dateien: web/js/screens/coupons.js
-Abhängig von: —
-
-```text
-| 12.30 | coupons.js:13 | `'Rabatt-Codes für Prop Firms erscheinen hier.'` → `'Coupon-Codes für Prop Firms erscheinen hier.'` | wording-55 |
-
-```
-
-## wording-S14.8-14.9 · Notebook: Zähler über U.count, Toast „Notiz verschoben“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: zustaende-28, bereich_notebook_news-27
-Quelle: audit/spec/wording.md Z. 536–537 · Dateien: web/js/screens/notebook.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 14.8 | notebook.js:141 / 142 / 149 / 162 | `` `${nb.selected.length} Notizen verschoben` `` → `` `${U.count(nb.selected.length, 'Notiz', 'Notizen')} verschoben` ``; ebenso `… löschen?` (142), `… endgültig löschen?` (149); Z. 162 `Alle ${n} Notizen darin werden …` → `${n === 1 ? 'Die Notiz darin wird' : \`Alle ${n} Notizen darin werden\`} mit gelöscht …` | zustaende-28 |
-| 14.9 | notebook.js:143 | `U.toast('Verschoben', 'ok')` → `U.toast('Notiz verschoben', 'ok')` | bereich_notebook_news-27 |
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [doppelt: U.toast] zustaende-S-U6 übernimmt toastWrap() und toast() ganz. Der Container hat role=status und aria-live=polite. Dauer: min(7000, max(err ? 4500 : 2400, 1200 + Länge·55)) ms. Beim Darüberfahren hält der Toast an, nach dem Verlassen bleibt er noch 1500 ms. Ausgeblendet wird über Motion.leave mit '--dur-2', passend zu .toast.out. barrierefreiheit-U4 legt nur noch announce() mit #sr-live an, denn sein toastWrap ist Wort für Wort derselbe. Es gibt nur einen Namen: U.toastWrap (Export über barrierefreiheit-U7). Die Zeile toast.init = toastWrap entfällt. Beim Start wird genau einmal U.toastWrap() aufgerufen (barrierefreiheit-P10). Wo zustaende-S-A1 U.toast.init() vorsieht, steht U.toastWrap(); die Zusammenführung von P10 und S-A1 in App.bind regelt konflikt-1. Formularfehler laufen nicht über Toasts (P12 und komponenten-S-trades-h, siehe #trade-form und #f-dir). wording-S14.8-14.9 ruft U.toast unverändert auf.
-
-## wording-S15.1-15.3 · News: Fehlertexte auf „Journalyst-Server“ und „Einstellungen → Server“, Banner gekürzt
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_notebook_news-46, wording-14, bereich_notebook_news-45
-Quelle: audit/spec/wording.md Z. 541–547 · Dateien: web/js/screens/news.js
-Abhängig von: —
-
-```text
-### Schritt 15 · Server-Texte: `web/js/screens/news.js`, `web/js/screens/mentor.js`, `web/js/screens/coach.js`, `web/js/coach.js`, `web/js/voice.js`, `web/js/screens/ruhepunkt.js`
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 15.1 | news.js:28 | `'Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor.'` → `'Der Journalyst-Server ist nicht erreichbar. Prüfe deine Verbindung und die Adresse unter Einstellungen → Server.'` | bereich_notebook_news-46, wording-14 |
-| 15.2 | news.js:29 | `'Zugangstoken fehlt oder ist falsch (Einstellungen → Mentor).'` → `'Zugangstoken fehlt oder ist falsch. Prüfe es unter Einstellungen → Server.'` | bereich_notebook_news-46, wording-14 |
-| 15.3 | news.js:91 Banner | `<b>Beispielansicht.</b> Echte Termine kommen über deinen Journalyst-Server (derselbe wie für den Mentor). <span class="muted">Die Beispiele haben keine Prognose- oder Vorwerte.</span>` → `<b>Beispielansicht.</b> Echte Termine kommen über deinen Journalyst-Server.` (Knopf „Server einrichten“ bleibt; Präfix „Beispiel: “ in Z. 40 bleibt) | bereich_notebook_news-45, wording-14 |
-```
-
-## wording-S15.4-15.5 · Mentor: Fehler- und Einrichten-Text, Knopf „Server einrichten“, Repo-Pfad streichen
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-14, bereich_notebook_news-46, bereich_training-35
-Quelle: audit/spec/wording.md Z. 548–549 · Dateien: web/js/screens/mentor.js
-Abhängig von: —
-
-```text
-| 15.4 | mentor.js:17 | `'Der Mentor-Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'` → Text aus 15.1 | wording-14, bereich_notebook_news-46 |
-| 15.5 | mentor.js:79 | `<p class="muted">Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.</p>` → `<p class="muted">Der Mentor läuft über deinen Journalyst-Server, damit der API-Schlüssel nie im Browser liegt. Trage unter Einstellungen → Server die Adresse und das Zugangstoken ein.</p>`; Knopf `Zu den Einstellungen` → `Server einrichten`; `<div class="small faint" style="margin-top:14px">Anleitung zum Server: <code>server/README.md</code> im Projekt.</div>` ersatzlos streichen (h2 bleibt) | bereich_training-35, wording-14 |
-```
-
-**Hinweise aus der Abstimmung (verbindlich):**
-
-- [konflikt: .mentor-setup] mentor.js Z. 79 schreibt allein wording-S15.4-15.5 neu, und zwar so: `<div class="mentor-wrap"><section class="card mentor-setup"><span class="ico">${I.chat}</span><h2>Mentor-Chat einrichten</h2><p class="muted">Der Mentor läuft über deinen Journalyst-Server, damit der API-Schlüssel nie im Browser liegt. Trage unter Einstellungen → Server die Adresse und das Zugangstoken ein.</p><a class="btn" href="#/settings/mentor">Server einrichten</a></section></div>`. Die Zeile „Anleitung zum Server: server/README.md im Projekt.“ fällt ersatzlos weg, weil Pfade laut wording W11 nur unter Einstellungen → Server stehen. Damit entfallen auch der Klassenwechsel `small faint → small muted` aus farbe-C21 an dieser Zeile und der einzige Inline-Abstand in mentor.js (`style="margin-top:14px"`), den abstaende-MENTOR ersetzen wollte. Der Knopf wird ein neutrales `.btn`, denn er navigiert nur, und Grün bleibt „Trade loggen“ vorbehalten. Das CSS der Karte aus abstaende-D8 (`padding: var(--sp-10) var(--sp-6)`, Symbol mittig) gilt unverändert. mentortest.js:22 (`.mentor-setup h2`, `.mentor-setup a[href="#/settings/mentor"]`) bleibt grün.
-- ÄNDERN: Beim Umschreiben von mentor.js Z. 79 zusätzlich `class="btn primary"` → `class="btn"` setzen (übernommen aus farbe-C21). Text, Knopfbeschriftung „Server einrichten“ und das Streichen der Anleitungszeile wie spezifiziert.
-
-## wording-S15.16-15.21 · Server-Texte in js/coach.js, voice.js, ruhepunkt.js: „Journalyst-Server“, „Prüfe“/„versuche“, Kommentare
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-14, bereich_notebook_news-46
-Quelle: audit/spec/wording.md Z. 560–566 · Dateien: web/js/coach.js, web/js/voice.js, web/js/screens/ruhepunkt.js
-Abhängig von: —
-
-```text
-| 15.16 | js/coach.js:41 | `'Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'` → Text aus 15.1 | wording-14, bereich_notebook_news-46 |
-| 15.17 | voice.js:18 | `'Mentor-Server nicht eingerichtet'` → `'Journalyst-Server nicht eingerichtet'` | wording-14 |
-| 15.18 | voice.js:72 | `Ohne Mentor-Server wird nur das Transkript gespeichert. Adresse unter Einstellungen → Mentor.` → `Ohne Journalyst-Server wird nur das Transkript gespeichert. Die Adresse trägst du unter Einstellungen → Server ein.` | wording-14 |
-| 15.19 | voice.js:103 | `… richte den Mentor-Server ein.` → `… richte den Journalyst-Server ein.` | wording-14 |
-| 15.20 | ruhepunkt.js:776 | `'Speichern hat nicht geklappt. Prüf deine Verbindung und versuch es noch einmal.'` → `'Speichern hat nicht geklappt. Prüfe deine Verbindung und versuche es noch einmal.'` | bereich_notebook_news-46 |
-| 15.21 | Kommentare js/coach.js:1 und voice.js:2 | „Mentor-Server“ → „Journalyst-Server“ (nur Kommentar, damit die grep-Prüfung 4.1 auf 0 kommt) | wording-14 |
-
-```
-
-## wording-S17.1 · Einstellungs-Reiter „Server“ und „Verlauf“ (Schlüssel und Routen bleiben)
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-14, wording-60
-Quelle: audit/spec/wording.md Z. 576–580 · Dateien: web/js/screens/misc.js
-Abhängig von: —
-
-```text
-### Schritt 17 · `web/js/screens/misc.js`, `web/js/theme.js`, `web/js/store.js` (Einstellungen)
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 17.1 | misc.js:8 Reiter | `['mentor', 'Mentor', 'chat']` → `['mentor', 'Server', 'chat']`; `['logs', 'Logs', 'clock']` → `['logs', 'Verlauf', 'clock']` (Schlüssel und Routen bleiben) | wording-14, wording-60 |
-```
-
-## wording-S17.13-17.15 · Benachrichtigungen: „Recaps“, „Wochen-Recap“, „Monats-Recap“ mit neuen Auslöser-Sätzen
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-11, wording-12
-Quelle: audit/spec/wording.md Z. 592–594 · Dateien: web/js/screens/misc.js
-Abhängig von: —
-
-```text
-| 17.13 | misc.js:169 Recaps | `<h3 …>Performance-Recaps</h3><div class="small muted">Zusammenfassungen deiner Performance. Sie erscheinen als Hinweis oben auf dem Dashboard.</div>` → `<h3 …>Recaps</h3><div class="small muted">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div>` | wording-11 |
-| 17.14 | misc.js:170 | `switchRow('Wöchentlicher Performance-Recap', 'Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens 4 geschlossene Trades geloggt wurden.', …)` → `switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', …)` | wording-11, wording-12 |
-| 17.15 | misc.js:171 | `switchRow('Monatlicher Performance-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum 1. des Monats mindestens 4 geschlossene Trades geloggt wurden.', …)` → `switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', …)` | wording-11, wording-12 |
+- `trading()` Z. 197: `switchRow('Geld-blind-Modus', …)` → `switchRow('Beträge ausblenden', …)`; `<h3>Geld-blind-Modus</h3>` bleibt.
+- `trading()` Z. 199, Feld `se-loss`: nach dem `<input … id="se-loss" …>` ergänzen: `<span class="hint">Für Tilt-Warnungen und die automatischen Regeln im Fortschritt.</span>`
 ```
 
 **Hinweise aus der Abstimmung (verbindlich):**
 
 - [konflikt: switchRow] switchRow bekommt die Fassung aus barrierefreiheit-C-misc-15: id je Aufbau über swN, <label for> mit .set-row-l, aria-describedby, kein aria-label. Die Signatur (title, text, action, on, extra) bleibt, deshalb laufen alle Aufrufer unverändert weiter, und C-misc-15 kommt zuerst. GELD-BLIND: Der Schalter heißt „Beträge als R zeigen“, Text aus wording-S17.19. Blocktitel „Geld-blind-Modus“ und Toast bleiben. Grund: Wording hat die Texthoheit (K13). Der Name sagt, was passiert (R statt Geld, Kontostand weg). Außerdem heißt im Zertifikat schon ein anderer Schalter „Beträge ausblenden (nur % bzw. R)“ (certificate.js:74), und ein Name für zwei Funktionen verletzt W2. TRADING: Markup aus komponenten-S-misc-e (Einheit im Feld, Tilt-Schalter, kein Speichern-Knopf). Labels: „Tagesverlustlimit“ und „Ruin-Schwelle für Monte Carlo (Drawdown)“, bei beiden steht „%“ im Feld. „für Monte Carlo“ kommt aus wording-29, die Einheit wandert laut komponenten ins Feld. Tilt-Schaltertext: „Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tagesverlustlimit.“ Wrapper class="mt-3" statt style="margin-top:14px". Durchläufe-Optionen mit value und fmt.int (wording 17.20). Der Hinweis aus aufbau-C8b steht als letztes Kind des .field hinter dem .inp-cur-Wrapper: „Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.“ Er trägt die Bezugsgröße, die mit „(% vom Konto)“ aus dem Label fällt. BENACHRICHTIGUNGEN, Endmarkup aus abstaende-L4, wording-S17.13-17.15 und aufbau-C8d: <div class="set-block"><h3>Recaps</h3><div class="set-desc">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div><div class="stack s-4">${switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.weekly === true, 'data-key="weekly"')}${switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.monthly === true, 'data-key="monthly"')}</div></div><div class="set-block"><h3>Hinweis-Punkte in der Seitenleiste</h3><div class="set-desc">(Satz unverändert)</div><div class="stack s-4">${switchRow('Hinweis-Punkte anzeigen', 'Alle Punkte auf einmal ein- oder ausschalten.', 'navdot-toggle', nd.on, 'data-key="on"')}<div class="set-sub"${nd.on ? '' : ' aria-disabled="true"'}>${App.NAV_DOT_AREAS.map(([k, label, desc]) => switchRow(label, desc, 'navdot-toggle', nd[k] !== false, `data-key="${k}"${nd.on ? '' : ' disabled'}`)).join('')}</div></div></div>. PROFIL: Block „Bedienung“ mit Schalter „Tastenkürzel“ (kilook-C24) direkt vor „Daten und Sicherung“. WCAG 2.1.4 verlangt abschaltbare Ein-Zeichen-Kürzel. Die Fußzeile wird einzeilig mit dem Text aus wording-17.7 und der Klasse aus farbe-C22. Die zweite Kürzel-Zeile aus wording-17.7 entfällt, weil der Schalter sie trägt; Esc wirkt immer. Neue Schalter-Aktionen setzen nur aria-checked, ohne Neuaufbau (zustaende Z9). Der Notebook-Schalter aus komponenten-S-misc-g bleibt wie spezifiziert, weil Notebook-To-dos laut zustaende das Durchstreichen behalten.
+- ÄNDERN: Teil 1 (Schaltertitel „Beträge ausblenden“) entfällt. wording-S17.19-17.21 setzt den Titel „Beträge als R zeigen“. Die Übersetzungszeile „Beträge ausblenden | Hide amounts“ (aufbau.md:678) nicht anlegen. Teil 2 erst nach komponenten-S-misc-e umsetzen: im Feld se-loss hinter (nicht in) den App.unitField-Wrapper <span class="hint">Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.</span> setzen. Schlüssel in js/lang/{en,es,hi,pt,zh}.js anlegen (en: „Percent of account size. Used for tilt warnings and the automatic rules in Progress.“).
+
+## aufbau-C8e · Regeln: neuer Untertitel mit Link aufs Regelwerk
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: aufbau-8
+Quelle: audit/spec/aufbau.md Z. 495–495 · Dateien: web/js/screens/misc.js
+Abhängig von: —
+
+```text
+- `regeln()` Z. 207 Untertitel → Text aus 1.9 (der `<a href="#/shadow">` wird von `head()` als HTML ausgegeben)
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: misc.regeln] Untertitel in regeln() Z. 207, verbindlich: `Deine Regeln zum Abhaken. Sie erscheinen in „Plan & Bewertung“ eines Trades, beim Session-Ende, im Fortschritt und im Regel-Tracker. Messbare Grenzen wie „Max. Trades pro Tag“ stellst du im <a class="tlink" href="#/shadow">Regelwerk des Schatten-Ichs</a> ein.` Grund: aufbau trennt Checkliste und Regelwerk (Glossar), und wording W10 verlangt den sichtbaren Namen „Plan & Bewertung“ (app.js:416) statt „Trade-Editor“. Ein Link im Fließtext ist .tlink (komponenten C33); ein nacktes <a> erbt die Farbe ohne Unterstreichung (app.css:89) und wäre nicht als Link erkennbar. head() gibt den Untertitel schon als HTML aus. farbe-C22b (Knopf „Hinzufügen“ in Z. 207 → btn sm) ist davon unabhängig.
+- ÄNDERN: Den Untertitel genau wie oben schreiben (mit „in „Plan & Bewertung“ eines Trades“ und class="tlink" am Link). Für die drei Textknoten Sprachschlüssel in en/es/pt/hi/zh anlegen (Satz bis „im“, „Regelwerk des Schatten-Ichs“, „ein.“) und den alten Schlüssel „Deine Handelsregeln. Sie erscheinen im Trade-Editor, …“ löschen.
+- ÜBERNIMMT wording-S17.22: Der Verweis auf „Plan & Bewertung“ steckt im neuen Untertitel von aufbau-C8e. Kein eigener Text und kein eigener Sprachschlüssel.
+
+## aufbau-D1a · Sprachdateien: Schlüssel Statistiken
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: bereich_statistik-3, aufbau-20, bereich_statistik-5, bereich_statistik-12, bereich_statistik-13, bereich_statistik-43
+Quelle: audit/spec/aufbau.md Z. 637–650 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Abhängig von: aufbau-C1, aufbau-C14b, aufbau-C14c, aufbau-C14d, aufbau-C14f
+
+```text
+### D – Übersetzungen, README, Tests
+
+**D1 Sprachdateien** (`web/js/lang/{en,es,hi,pt,zh}.js`, Format `"deutsch": "Übersetzung"`). Neue Schlüssel mit englischer Vorgabe; die anderen vier Sprachen werden sinngemäß übersetzt:
+
+| Deutsch | Englisch |
+|---|---|
+| Erwartungswert | Expectancy |
+| Ø Netto-P&L pro Trade: Netto-P&L geteilt durch Anzahl der Trades. | Avg net P&L per trade: net P&L divided by the number of trades. |
+| Trades | Trades |
+| Abgeschlossene Trades im Zeitraum. | Closed trades in the period. |
+| Extreme | Extremes |
+| Kumulierter Netto-P&L | Cumulative net P&L |
+| Tage im Detail | Days in detail |
+| Basis: {0} von {1} Trades | Based on {0} of {1} trades |
+```
+
+## aufbau-D1b · Sprachdateien: Schlüssel Tagesansicht und TradeLog
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: hierarchie-7, hierarchie-15, hierarchie-16, bereich_trades_tag-18, bereich_trades_tag-33, bereich_trades_tag-27
+Quelle: audit/spec/aufbau.md Z. 651–657 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Abhängig von: aufbau-C7a, aufbau-C7c, aufbau-C15a, aufbau-C15b, aufbau-C15c
+
+```text
+| Trade für {0} loggen | Log trade for {0} |
+| Check-in machen | Do check-in |
+| Setup · Fehler | Setup · Mistakes |
+| Einstieg / Ausstieg / R | Entry / Exit / R (vorhandene Schlüssel prüfen) |
+| Gefiltert · {0} Trades | Filtered · {0} trades |
+| Keine verpassten Trades im Zeitraum | No missed trades in this period |
+| Ändere den Zeitraum oder das Konto. | Change the period or the account. |
+```
+
+## aufbau-D1c · Sprachdateien: Schlüssel Dashboard
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: bereich_dashboard-33, bereich_dashboard-23, ki_look-13
+Quelle: audit/spec/aufbau.md Z. 658–662 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Abhängig von: aufbau-C2a, aufbau-C6a, aufbau-C6b
+
+```text
+| Alle Trades | All trades |
+| „Alle Trades“ öffnet das TradeLog (geänderter Info-Text, ganzer Satz) | … “All trades” opens the TradeLog. |
+| Vorlage: {0} | Template: {0} |
+| {0} verschieben | Move {0} |
+| {0} entfernen | Remove {0} |
+```
+
+## aufbau-D1d · Sprachdateien: Schlüssel Fortschritt
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: hierarchie-20, bereich_training-22, bereich_training-5
+Quelle: audit/spec/aufbau.md Z. 663–665 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Abhängig von: aufbau-C11a, aufbau-C11b
+
+```text
+| Schritte erledigt | steps done |
+| {0} Prozentpunkte zum Vorzeitraum | {0} percentage points vs. previous period |
+| Noch keine Regeln. | No rules yet. |
+```
+
+## aufbau-D1e · Sprachdateien: Schlüssel Notebook
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: bereich_notebook_news-6, bereich_notebook_news-7, bereich_notebook_news-10, bereich_notebook_news-9
+Quelle: audit/spec/aufbau.md Z. 666–675 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Abhängig von: aufbau-C10a, aufbau-C10b, aufbau-C10c, aufbau-C10e
+
+```text
+| Tagesnotiz öffnen | Open daily note |
+| Tagesnotiz für heute öffnen oder anlegen | Open or create today’s daily note |
+| Erstellt {0} | Created {0} |
+| · Bearbeitet {0} | · Edited {0} |
+| Trade vom {0} | Trade from {0} |
+| Datum ändern | Change date |
+| Suche in allen Ordnern | Search in all folders |
+| Zu den Ordnern | To folders |
+| Tag-Filter aufheben | Clear tag filter |
+| Bearbeitet: {0} – {1} | Edited: {0} – {1} |
+```
+
+## aufbau-D1f · Sprachdateien: Schlüssel Coach, Prop, Einstellungen; alte Schlüssel dürfen bleiben
+
+Gruppe aufbau · Cluster wording · Aufwand S · Befunde: bereich_konto-40, hierarchie-4, typografie-8, aufbau-8, hierarchie-33
+Quelle: audit/spec/aufbau.md Z. 676–684 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
+Abhängig von: aufbau-C4c, aufbau-C12a, aufbau-C8b, aufbau-C8c, aufbau-C8e
+
+```text
+| Gruppe anlegen | Create group |
+| nur noch das Ziel | only the target left |
+| Beträge ausblenden | Hide amounts |
+| Für Tilt-Warnungen und die automatischen Regeln im Fortschritt. | Used for tilt warnings and the automatic rules in Progress. |
+| neuer Regeln-Untertitel (1.9) | Your rules to check off. They appear in the trade editor, at session end, in Progress and in the rule tracker. Set measurable limits like “Max trades per day” in the Shadow Self ruleset. |
+| Alle Daten löschen | Delete all data |
+
+Nicht mehr gebrauchte Schlüssel („Trade-Erwartungswert“, „{0} von {1} Schritten erledigt“, „Trade für diesen Tag“, „Tag loggen“) dürfen bleiben.
+
+```
+
+## diagramme-E8a · Widget-Name kum_pnl → „Kumulierter Netto-P&L“
+
+Gruppe diagramme · Cluster wording · Aufwand S · Befunde: diagramme-13
+Quelle: audit/spec/diagramme.md Z. 588–589 · Dateien: web/js/widgets.js
+Abhängig von: —
+
+```text
+**E8 Widget-Registry: Namen, Texte, Legenden, Serienfarben**
+- Z. 228 (diagramme-13): `name: 'Kumulierter Tages-P&L'` → `name: 'Kumulierter Netto-P&L'`.
+```
+
+## diagramme-E8c · Info perf_uhrzeit/perf_haltedauer: „Break-even-Trades liegen auf der Nulllinie.“
+
+Gruppe diagramme · Cluster wording · Aufwand S · Befunde: bereich_dashboard-36
+Quelle: audit/spec/diagramme.md Z. 594–594 · Dateien: web/js/widgets.js
+Abhängig von: —
+
+```text
+- Z. 232 und Z. 241 (bereich_dashboard-36): im `info` den Satz `Blau sind Break-even-Trades.` → `Break-even-Trades liegen auf der Nulllinie.`
+```
+
+## diagramme-E8d · taeglich_kumuliert: desc und info (Linie statt Fläche)
+
+Gruppe diagramme · Cluster wording · Aufwand S · Befunde: diagramme-18
+Quelle: audit/spec/diagramme.md Z. 595–595 · Dateien: web/js/widgets.js
+Abhängig von: —
+
+```text
+- Z. 251 (diagramme-18): `desc` → `'Säulen für den Tages-P&L und eine Linie für den kumulierten P&L in einem Diagramm.'`, `info` → `'Säulen: Netto-Ergebnis je Handelstag. Linie: kumuliertes Ergebnis im Zeitraum.'`
+```
+
+## diagramme-H3 · Info Trading-Aktivität: „desto kräftiger das Kästchen“
+
+Gruppe diagramme · Cluster wording · Aufwand S · Befunde: farbe_kontrast-21
+Quelle: audit/spec/diagramme.md Z. 638–639 · Dateien: web/js/screens/progress.js
+Abhängig von: —
+
+```text
+**H3 Info-Text** (farbe_kontrast-21) Z. 71: `Je mehr Trades, desto kräftiger das Grün.` → `Je mehr Trades, desto kräftiger das Kästchen.`
+
+```
+
+## diagramme-3.14a · Sprachdateien: ersetzte Info-/Beschreibungssätze (Trefferquote-Verlauf, Uhrzeit, Haltedauer, Täglich & kumuliert, Trading-Aktivität)
+
+Gruppe diagramme · Cluster wording · Aufwand M · Befunde: bereich_dashboard-36, diagramme-6, diagramme-18, farbe_kontrast-21
+Quelle: audit/spec/diagramme.md Z. 713–724 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/pt.js, web/js/lang/hi.js, web/js/lang/zh.js
+Abhängig von: diagramme-E8b, diagramme-E8c, diagramme-E8d, diagramme-H3
+
+```text
+### 3.14 `web/js/lang/{en,es,pt,hi,zh}.js`
+
+Je Datei den alten deutschen Schlüssel durch den neuen ersetzen (sonst fällt der Text auf Deutsch zurück). Neue Schlüssel ergänzen. Englische Werte sind verbindlich, die übrigen Sprachen sinngemäß:
+
+| Schlüssel (de) | en |
+|---|---|
+| Laufende Werte bis zum jeweiligen Handelstag: oben Ø Gewinn und Ø Verlust, unten die Trefferquote. | Running values up to each trading day: avg win and avg loss on top, win rate below. |
+| Jeder Punkt ist ein geschlossener Trade: waagerecht die Uhrzeit (Einstieg oder Ausstieg, wählbar über das Zahnrad), senkrecht das Netto-Ergebnis. Break-even-Trades liegen auf der Nulllinie. | … Break-even trades sit on the zero line. (Rest wie bisher) |
+| Jeder Punkt ist ein geschlossener Trade: waagerecht die Haltedauer (logarithmisch), senkrecht das Netto-Ergebnis. Break-even-Trades liegen auf der Nulllinie. | … Break-even trades sit on the zero line. |
+| Säulen für den Tages-P&L und eine Linie für den kumulierten P&L in einem Diagramm. | Bars for daily P&L and a line for cumulative P&L in one chart. |
+| Säulen: Netto-Ergebnis je Handelstag. Linie: kumuliertes Ergebnis im Zeitraum. | Bars: net result per trading day. Line: cumulative result in the period. |
+| Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr Trades, desto kräftiger das Kästchen. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht. | One box per day, up to a year back. The more trades, the stronger the box. Drag or use the arrows to scroll; click to open the day view. |
+```
+
+## diagramme-3.14b · Sprachdateien: neue Beschriftungen (Startkapital, Median, Ruin, Zeiteinheiten, Verstöße, Boden, Trade-Details)
+
+Gruppe diagramme · Cluster wording · Aufwand M · Befunde: diagramme-15, diagramme-21, bereich_statistik-44, bereich_dashboard-35, diagramme-12, bereich_training-30, diagramme-39, bereich_notebook_news-18
+Quelle: audit/spec/diagramme.md Z. 725–741 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/pt.js, web/js/lang/hi.js, web/js/lang/zh.js
+Abhängig von: diagramme-C11, diagramme-C16, diagramme-C17, diagramme-E6, diagramme-I1, diagramme-J1, diagramme-L1
+
+```text
+| Startkapital {0} | Starting capital {0} |
+| Median {0} | Median {0} |
+| Ruin-Schwelle {0} | Ruin threshold {0} |
+| Ruin ab {0} | Ruin from {0} |
+| 1 T / 3 T / 1 W | 1 d / 3 d / 1 wk |
+| {0} s | {0} s |
+| Keine Trades | (vorhanden) |
+| Ohne Verstöße: {0} | No violations: {0} |
+| Keine Verstöße | No violations |
+| Im Zeitraum wurde keine Regel gebrochen. | No rule was broken in this period. |
+| über dem Boden | above the floor |
+| Boden bei {0} | Floor at {0} |
+| Boden fest bei {0} | Floor locked at {0} |
+| Trade-Details | Trade details |
+| Einstieg → Ausstieg | Entry → Exit |
+| R-Multiple | R multiple |
+
+```
+
+## diagramme-3.14c · Sprachdateien: alte Schlüssel entfernen („Kumulierter Tages-P&L“, alte Satzfassungen en.js:48, 534, 868–871)
+
+Gruppe diagramme · Cluster wording · Aufwand S · Befunde: diagramme-13, bereich_dashboard-36, diagramme-6, diagramme-18, farbe_kontrast-21
+Quelle: audit/spec/diagramme.md Z. 742–743 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/pt.js, web/js/lang/hi.js, web/js/lang/zh.js
+Abhängig von: diagramme-3.14a, diagramme-E8a, diagramme-F3
+
+```text
+Den Schlüssel „Kumulierter Tages-P&L“ (en.js:772) und die alten Fassungen der ersetzten Sätze (en.js:48, 534, 868–871) entfernen. „Kumulierter Netto-P&L“ existiert schon (en.js:372).
+
+```
+
+## zustaende-S-CO2 · Coach-Health: HTTP-Wortlaut „Der Server antwortet mit Fehler {0}.“
+
+Gruppe zustaende · Cluster wording · Aufwand S · Befunde: zustaende-18
+Quelle: audit/spec/zustaende.md Z. 604–606 · Dateien: web/js/coach.js
+Abhängig von: —
+
+```text
+**S-CO2 HTTP-Wortlaut** – zustaende-18
+Z. 43 `` `Server antwortet mit ${r.status}` `` → `` `Der Server antwortet mit Fehler ${r.status}.` ``. Z. 41 bleibt.
+
+```
+
+## zustaende-S-NW3 · News: Offline-Wortlaut mit „und deine Verbindung“
+
+Gruppe zustaende · Cluster wording · Aufwand S · Befunde: zustaende-18
+Quelle: audit/spec/zustaende.md Z. 807–809 · Dateien: web/js/screens/news.js
+Abhängig von: —
+
+```text
+**S-NW3 Offline-Wortlaut** – zustaende-18
+Z. 28 `'Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor.'` → `'Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'`
+
+```

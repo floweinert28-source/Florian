@@ -109,10 +109,10 @@
       if (!closed.length) return head + U.empty('stats', 'Noch keine abgeschlossenen Trades', 'Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.', `<button type="button" class="btn sm" data-action="new-trade">${I.plus} Trade loggen</button>`) + rulesCard(res, r);
       const cv = res.active ? costView(pd.sums.cost) : null; const p = pd.sums;
       const tiles = `<div class="grid tiles shadow-tiles">
-        <div class="tile shadow-main"><div class="head"><span>Disziplin-Kosten${U.info('Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.')}</span><span class="n">${esc(range.label)}</span></div><div class="body"><div><div class="val ${cv ? cv.cls : ''}">${cv ? cv.text : '—'}</div><div class="foot">${cv ? cv.foot : 'Keine Regel aktiv'}</div></div></div></div>
-        ${U.tile('Echt', res.active ? U.pnl(p.real) : '—', { n: U.count(p.n, 'Trade', 'Trades'), foot: 'Dein tatsächliches Ergebnis' })}
-        ${U.tile('Schatten-Ich', res.active ? U.pnl(p.shadow) : '—', { foot: 'Ergebnis ohne Regelbrüche' })}
-        ${U.tile('Verstöße', res.active ? String(pd.violations.length) : '—', { foot: res.active && p.n ? `${fmt.pct(pd.violations.length / p.n)} der Trades` : 'Keine Regel aktiv' })}
+        <div class="tile shadow-main"><div class="head"><span>Disziplin-Kosten${U.info('Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.')}</span><span class="n">${esc(range.label)}</span></div><div class="body"><div><div class="val ${cv ? cv.cls : ''}">${cv ? cv.text : '—'}</div></div></div></div>
+        ${U.tile('Echt', res.active ? U.pnl(p.real) : '—', { n: U.count(p.n, 'Trade', 'Trades') })}
+        ${U.tile('Schatten-Ich', res.active ? U.pnl(p.shadow) : '—')}
+        ${U.tile('Verstöße', res.active ? String(pd.violations.length) : '—')}
       </div>`;
       U.chartData['shadow-curve'] = { points: pd.curve.map(pt => ({ date: pt.date, v: { real: pt.real, shadow: pt.shadow } })), series: [{ key: 'real', label: 'Echt', unit: 'cur', color: 'var(--text-2)' }, { key: 'shadow', label: 'Schatten-Ich', unit: 'cur', color: 'var(--accent)' }], periodLabel: d => fmt.dateTime(d) };
       const chart = U.card('Equity: echt vs. Schatten-Ich', `<div class="legend top"><span><i style="background:var(--text-2)"></i>Echt</span><span><i style="background:var(--accent)"></i>Schatten-Ich</span></div><div class="chart h300" data-chart="lines" data-id="shadow-curve"></div>`, { info: 'Kumuliert über die abgeschlossenen Trades im Zeitraum. Die Schatten-Linie lässt Trades mit Regelbruch weg und verkleinert zu große Risiken.' });

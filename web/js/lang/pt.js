@@ -1760,6 +1760,4 @@ I18N.add('pt', {
   "Noch keine Daten": "Ainda sem dados",
   "Zum Inhalt springen": "Pular para o conteúdo",
   "Grabstein umdrehen": "Virar lápide",
-  "Dein tatsächliches Ergebnis": "Seu resultado real",
-  "Ergebnis ohne Regelbrüche": "Resultado sem quebrar regras",
 });

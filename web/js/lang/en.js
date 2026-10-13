@@ -1716,6 +1716,4 @@ I18N.add('en', {
   "Noch keine Daten": "No data yet",
   "Zum Inhalt springen": "Skip to content",
   "Grabstein umdrehen": "Turn tombstone over",
-  "Dein tatsächliches Ergebnis": "Your actual result",
-  "Ergebnis ohne Regelbrüche": "Result without rule breaks",
 });

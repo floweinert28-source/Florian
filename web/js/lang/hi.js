@@ -1811,6 +1811,4 @@ I18N.add('hi', {
   "Noch keine Daten": "अभी कोई डेटा नहीं",
   "Zum Inhalt springen": "सामग्री पर जाएँ",
   "Grabstein umdrehen": "कब्र पलटें",
-  "Dein tatsächliches Ergebnis": "आपका असली नतीजा",
-  "Ergebnis ohne Regelbrüche": "नियम तोड़े बिना नतीजा",
 });

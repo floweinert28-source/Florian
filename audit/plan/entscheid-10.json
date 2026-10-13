@@ -1,0 +1,605 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".btn.primary",
+   "nrs": [
+    "farbe-B2",
+    "komponenten-C06",
+    "komponenten-R1f",
+    "farbe-D3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Füllung der Bestätigen-Knöpfe: Grün ist durch BRIEF ausgeschlossen („Grün nur Gewinn und der Hauptknopf „Trade loggen““). Variante A der Nutzerfrage N1 entfällt also. Zwischen B (Vollfläche in Textfarbe, Empfehlung der Gruppe Komponenten) und C (ruhig angehobene Fläche --surface-3, farbe-B2) legt BRIEF nichts fest. Deshalb bleiben Fläche, Rand, Schrift und Hover-Fläche von .btn.primary (app.css Z. 274/275) bis zur Antwort unverändert. Sofort entfällt nur der Hover-Schein (Anker .btn.primary:hover). Nach Antwort C: background var(--surface-3); border-color var(--border-2); color var(--text). Hover: background color-mix(in srgb, var(--text) 8%, var(--surface-3)); border-color color-mix(in srgb, var(--text) 18%, var(--border-2)); box-shadow none. Nach Antwort B: background und border-color var(--text); color var(--bg). Hover: background und border-color color-mix(in srgb, var(--text) 86%, var(--bg)); box-shadow none. In beiden Fällen steht in der Regel kein font-weight, denn 700 kommt aus typografie-3.2.4b. Der Hover-Selektor heißt dann .btn.primary:hover:not(:disabled) (zustaende-S-C2).",
+   "wartet_auf_frage": "komponenten: komponenten-1 (N1, Füllung der Bestätigen-Knöpfe; betrifft auch farbe referenz-6/bereich_konto-5)",
+   "anpassungen": [
+    {
+     "nr": "farbe-B2",
+     "aktion": "aendern",
+     "anweisung": "Erst nach der Antwort auf komponenten-1 umsetzen, mit den Werten je Antwort wie in der Entscheidung (bei B die Textfarben-Werte statt --surface-3). `font-weight: 600` aus der Ersetzung streichen. Die Folgeänderung an `.fd-foot .fd-n` (Z. 1420) entfällt, weil komponenten-C24 die Regel löscht. Den Hover-Selektor mit `:not(:disabled)` belassen."
+    }
+   ]
+  },
+  {
+   "anker": ".btn.primary",
+   "nrs": [
+    "typografie-3.2.4b",
+    "farbe-B2",
+    "farbe-D3e",
+    "komponenten-W7",
+    "komponenten-S-coach-b",
+    "komponenten-S-dashboard-c",
+    "komponenten-S-day-d",
+    "komponenten-S-misc-d",
+    "komponenten-S-misc-h",
+    "komponenten-S-notebook-b",
+    "komponenten-S-prop-a",
+    "komponenten-S-trades-b",
+    "komponenten-S-trades-f",
+    "komponenten-R1f",
+    "farbe-C14e",
+    "farbe-C17a",
+    "farbe-C19c",
+    "farbe-C20",
+    "farbe-C22b",
+    "farbe-C24b",
+    "farbe-C26b",
+    "farbe-C31c",
+    "abstaende-M4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "(1) Gewicht: .btn.primary bekommt 700 (typografie-3.2.4b). Grundlage sind BRIEF („nur Werte und Hauptknöpfe 700“) und README Z. 209–210 („Hauptknöpfe („Trade loggen“, Speichern) fett“). Heute rendert 600 ohnehin als 700, sichtbar ändert sich also nichts. farbe-B2 und farbe-D3e nennen kein Gewicht mehr. (2) Rolle nach der Komponenten-Regel: .btn.primary steht nur im Dialog-Fuß, im Popover- bzw. Panel-Fuß (eine abschließende Aktion) und beim Absenden des Hauptformulars einer Seite. Auslöser, Leerzustand-, Banner- und Listen-Aktionen sowie Inline-Formulare in Karten und Widgets sind .btn bzw. .btn.sm. Grund: Das bleibt ruhig, egal wie N1 ausgeht; bei Variante B wäre jeder primary der lauteste Punkt der Seite und lauter als „Trade loggen“. Damit sind neutral: widgets.js:374 (Mentor-Frage im Widget) `btn`, coach.js:129/140/148 `btn sm`, notebook.js:67 „Wiederherstellen“ `btn sm`, prop.js:82 (Leerzustand) `btn sm`, prop.js:97 „Als bestanden markieren“ `btn sm`, prop.js:262/266 „Ausgabe/Payout erfassen“ `btn`, „Konto hinzufügen“ im Konten-Bereichskopf misc.js:186 `btn` (nicht sm, Seitenebene). (3) Doppelte Knopfänderungen führen die komponenten-S-Schritte aus. Die farbe-C-Schritte lassen ihre Knopf-Teile weg, ihre Farbteile bleiben. Ausnahme ist der Willkommen-Banner dashboard.js:130: farbe-C19c schreibt den ganzen Aufruf neu und übernimmt damit auch den Knopf. (4) README: farbe-D3e ersetzt Z. 203–208 sofort, aber ohne Aussehen und Gewicht von .btn.primary. komponenten-R1f setzt danach auf und zieht Z. 207–208 bzw. Z. 191 erst nach den Antworten N1/N2 nach, wie dort vorgesehen.",
+   "anpassungen": [
+    {
+     "nr": "farbe-D3e",
+     "aktion": "aendern",
+     "anweisung": "Im neuen Absatz „die Hinweis-Punkte und den Fokusring“ durch „und die Hinweis-Punkte“ ersetzen: Der Fokusring steht in Textfarbe (--focus, barrierefreiheit-A2a), Grün ist er nach BRIEF nicht. Den Satz zu .btn.primary ersetzen durch: „Bestätigende Knöpfe im Fuß von Dialogen und Popovern und beim Absenden des Hauptformulars einer Seite (`.btn.primary`: Speichern, Anwenden, Senden) sind nie grün.“ Also ohne „angehobene Fläche, feiner Rand, Gewicht 600“; das Aussehen ergänzt komponenten-R1f nach der Antwort auf komponenten-1. Die Formulierung zu „Heute“ in Datumswählern an die Entscheidung zu .dp-day.today/.rr-day.today angleichen."
+    },
+    {
+     "nr": "farbe-C14e",
+     "aktion": "aendern",
+     "anweisung": "Die Knopf-Teile an Z. 334, 354, 365 und 373 entfallen (führt komponenten-W7 aus). Z. 374 wird `btn` (W7) und bleibt nicht primary. Nur Z. 343 (`fw-go`, Blind-Replay, entschieden unter Anker .fw-go) bleibt in diesem Schritt."
+    },
+    {
+     "nr": "farbe-C17a",
+     "aktion": "aendern",
+     "anweisung": "Die Knopf-Teile an Z. 22 und Z. 53 entfallen (komponenten-S-coach-b). Z. 129/140/148 werden wie in S-coach-b `btn sm`. Pillen „Neu“/„{n} neu“, `.accent` → normal, Haken muted und „0“ muted bleiben."
+    },
+    {
+     "nr": "komponenten-S-dashboard-c",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "farbe-C19c",
+     "anweisung": "Der Knopf „Beispieldaten laden“ als `btn sm` ist Teil des neu geschriebenen Banner-Aufrufs in farbe-C19c. Entfällt C19c, hier nur `btn sm primary` → `btn sm`."
+    },
+    {
+     "nr": "farbe-C20",
+     "aktion": "aendern",
+     "anweisung": "An day.js Z. 19 nur `faint` → `muted` ändern. Den Knopf „Tagesnotiz anlegen“ übernimmt komponenten-S-day-d. Die übrigen Teile bleiben."
+    },
+    {
+     "nr": "farbe-C22b",
+     "aktion": "aendern",
+     "anweisung": "Die Knopf-Teile an Z. 62 (komponenten-S-misc-c), Z. 186 (komponenten-S-misc-d: `btn`, nicht `btn sm`), Z. 207 (komponenten-S-misc-f/abstaende-L7: `btn` in der Anlegen-Zeile) und Z. 238 (komponenten-S-misc-h) entfallen. Setups-Farbe, Speicherort muted, Pille „Aktiv“ und der Kategorien-Satz bleiben."
+    },
+    {
+     "nr": "farbe-C24b",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-S-notebook-b",
+     "anweisung": "notebook.js Z. 61 und Z. 66 ändert komponenten-S-notebook-b. Dort wird auch Z. 67 „Wiederherstellen“ `btn sm`."
+    },
+    {
+     "nr": "farbe-C26b",
+     "aktion": "aendern",
+     "anweisung": "Die Knopf-Teile entfallen: Z. 82 macht komponenten-S-prop-a (`btn sm`, Leerzustand), Z. 244 fällt mit komponenten-S-prop-c weg, Z. 251 macht komponenten-S-prop-d. Den Banner „Ziel erreicht“ als `ok` setzt C26b weiterhin; der Knopf darin wird `btn sm` (S-prop-a)."
+    },
+    {
+     "nr": "farbe-C31c",
+     "aktion": "aendern",
+     "anweisung": "Die Knopf-Teile an Z. 84/85 entfallen (komponenten-S-trades-f). Disziplin-Teilwerte, „Keine Fehler markiert“ und Sprachnotiz muted bleiben."
+    },
+    {
+     "nr": "abstaende-M4",
+     "aktion": "aendern",
+     "anweisung": "Den Absende-Knopf in `.prop-entry-foot` als `class=\"btn\"` statt `btn primary` setzen (Inline-Formular in einer Karte, wie komponenten-S-prop-d). Der Rest bleibt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "farbe-D3e",
+     "nach": "komponenten-R1f"
+    }
+   ]
+  },
+  {
+   "anker": ".btn.primary:hover",
+   "nrs": [
+    "bewegung-B1",
+    "komponenten-C06",
+    "zustaende-S-C2",
+    "farbe-B2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Der Schein beim Darüberfahren entfällt sofort. bewegung-B1 führt das aus: `box-shadow` aus Z. 275 und aus der Übergangsliste von .btn (Z. 269) streichen; Fläche und Rand bis zur Antwort auf N1 var(--accent-2). komponenten-C06 ist dieselbe Änderung. zustaende-S-C2 ändert danach nur den Selektor auf `.btn.primary:hover:not(:disabled)` und ergänzt `.btn.primary:disabled`. Die Hover-Fläche nach der Antwort auf N1 steht unter Anker .btn.primary (Füllung).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C06",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "bewegung-B1",
+     "anweisung": "Glow-Entfernung an .btn.primary:hover nur einmal über bewegung-B1. Die Füllfarbe kommt nach N1 aus der Füllungs-Entscheidung."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "bewegung-B1",
+     "nach": "zustaende-S-C2"
+    },
+    {
+     "vor": "zustaende-S-C2",
+     "nach": "farbe-B2"
+    }
+   ]
+  },
+  {
+   "anker": ".btn:hover",
+   "nrs": [
+    "bewegung-B1",
+    "zustaende-S-C2"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Inhaltlich verträglich, aber beide ändern dieselben Zeilen (Z. 272 .btn:hover, Z. 273 .btn:active, Z. 275 .btn.primary:hover). Zuerst bewegung-B1 (Deklarationen: kein translateY, Druckdauer calc(var(--dur-1) * .4), kein box-shadow), danach zustaende-S-C2 (nur Selektoren mit `:not(:disabled)`). Das gilt ebenso für .btn:active.",
+   "reihenfolge": [
+    {
+     "vor": "bewegung-B1",
+     "nach": "zustaende-S-C2"
+    }
+   ]
+  },
+  {
+   "anker": ".btn.accent",
+   "nrs": [
+    "zustaende-S-D2",
+    "farbe-C19b",
+    "farbe-B25",
+    "farbe-C31a",
+    "komponenten-S-trades-b",
+    "wording-S8.1-8.2",
+    "typografie-3.2.4b",
+    "farbe-D3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": ".btn.accent steht nur noch für „Trade loggen“ (App.newTradeButton `.btn.accent.tl` und der runde Handy-Knopf). Aktiver Dashboard-Filter: Klasse `is-on`. So steht es in zustaende-S-D2/-S-C7, kollisionsfrei und im gemeinsamen Ausgewählt-Stil. farbe-C19b/-B25 nennen denselben Zustand `.dh-context .btn.is-set`; das entfällt. Das aria-label „Filter ({0} aktiv)“ aus farbe-C19b bleibt. TradeLog-Leerzustand „Trade loggen“: neutral `btn sm` (komponenten-S-trades-b). Gründe: Die Kopfreihe trägt „Trade loggen“ schon, die Farbe-Spezifikation selbst verlangt „1 je Ansicht“, BRIEF spricht von dem einen Hauptknopf, und Leerzustand-Aktionen sind btn sm. „Trade für diesen Tag“ entfällt (wording-S8.1-8.2). Damit ist jedes .btn.accent ein Hauptknopf: `.btn.accent` font-weight 600 → 700 direkt, ohne eigene Regel `.btn.accent.tl`; die wäre eine wirkungslose Doppelregel. Der aktive Filter (is-on) bleibt 500 wie jeder Knopf, also nicht fetter.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C31a",
+     "aktion": "aendern",
+     "anweisung": "Der Z.-45-Teil (Leerzustand `btn sm accent`) entfällt; der Knopf wird `btn sm` (komponenten-S-trades-b). Score über scoreText, `.rule-ic` und „offen“ muted bleiben."
+    },
+    {
+     "nr": "farbe-C19b",
+     "aktion": "aendern",
+     "anweisung": "Klasse `is-on` statt `is-set` verwenden; die Klasse setzt zustaende-S-D2. Hier nur das aria-label „Filter ({0} aktiv)“ bzw. „Filter“ ergänzen, mit Übersetzungen."
+    },
+    {
+     "nr": "farbe-B25",
+     "aktion": "entfaellt",
+     "anweisung": "zustaende-S-C7 hängt `.btn.is-on` an den gemeinsamen Ausgewählt-Stil. `.dh-context .btn.is-set` wird nicht eingeführt."
+    },
+    {
+     "nr": "typografie-3.2.4b",
+     "aktion": "aendern",
+     "anweisung": "`.btn.accent` (Z. 3137) font-weight 600 → 700 statt → 500. Die neue Regel `.btn.accent.tl { font-weight: 700; }` entfällt. Unverändert bleiben .btn.primary 700, .rp-btn 500, .rp-btn.rp-primary 700 und die Liste 600 → 500."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-D2",
+     "nach": "farbe-C19b"
+    },
+    {
+     "vor": "zustaende-S-D2",
+     "nach": "typografie-3.2.4b"
+    },
+    {
+     "vor": "wording-S8.1-8.2",
+     "nach": "typografie-3.2.4b"
+    }
+   ]
+  },
+  {
+   "anker": ".empty",
+   "nrs": [
+    "komponenten-S-misc-i",
+    "komponenten-S-trades-b",
+    "zustaende-S-C4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Leerzustände entstehen nur über U.empty bzw. U.chartEmpty, ohne Inline-Stile; das ist die Komponenten-Regel und Leerzustand A der Gruppe Zustände. Im Reiter Verlauf (Importe/Änderungen) zeigt ein leerer Reiter deshalb U.empty wie der TradeLog (min-height 180 aus .empty). Ein handgeschriebenes `.empty` mit `min-height:140px` in einer `.tbl-wrap`-Hülle entfällt. Der Knopf in komponenten-S-trades-b ist neutral (siehe .btn.accent). zustaende-S-C4 ergänzt nur Stile und ist verträglich.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-misc-i",
+     "aktion": "aendern",
+     "anweisung": "Leerzweige als `${U.empty('upload', 'Noch keine Importe', 'CSV-Importe und importierte Sicherungen erscheinen hier.')}` bzw. `${U.empty('clock', 'Noch keine Änderungen', <bisheriger Satz>)}` direkt statt der Tabelle. Keine `.tbl-wrap`-Hülle, kein `style=\"min-height:140px\"`; die Texte kommen aus wording-S17.23-17.27. Ohne jeden Eintrag fehlt im Reiter Änderungen auch die Such-/Filterzeile. Nur wenn Suche oder Filter nichts findet, bleibt die Tabelle mit der Zeile „Keine Einträge gefunden“. Papierkorb ohne Inline-Farbe und Platzhalter „Verlauf durchsuchen“ wie spezifiziert."
+    }
+   ]
+  },
+  {
+   "anker": ".empty b",
+   "nrs": [
+    "komponenten-C11",
+    "typografie-3.2.3s",
+    "typografie-3.2.4h",
+    "zustaende-S-C4"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Endzustand: `.empty > b { color: var(--text); font-size: var(--fs-15); line-height: var(--lh-15); font-weight: 600; }`. komponenten-C11 setzt den Kind-Selektor (`.empty > b`, `.empty > svg`). typografie-3.2.3s setzt Token und 600 in einem Zug. typografie-3.2.4h und der Z.-677-Teil von zustaende-S-C4 wären dieselbe 600.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.4h",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "typografie-3.2.3s",
+     "anweisung": "600 an .empty > b setzt 3.2.3s zusammen mit dem Token."
+    },
+    {
+     "nr": "zustaende-S-C4",
+     "aktion": "aendern",
+     "anweisung": "Der Teil zu Z. 677 (`.empty b … font-weight: 600`) entfällt. Die neuen Regeln (.empty.chart-empty, .chart > .empty.chart-empty, .chart-empty svg/.ce-t/.small, .w-body > .card > .empty, .tile .nodata.dash) bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C11",
+     "nach": "typografie-3.2.3s"
+    }
+   ]
+  },
+  {
+   "anker": ".chart text",
+   "nrs": [
+    "diagramme-A1",
+    "farbe-B13",
+    "typografie-3.2.2e",
+    "typografie-3.2.3c",
+    "typografie-3.2.3d"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Es gibt eine Regel: `.chart text { fill: var(--muted); font-size: var(--fs-11); font-variant-numeric: tabular-nums; }`, ohne line-height (SVG). Dazu kommen `.chart text.bv` und `.chart text.lbl` aus diagramme-A1; Z. 1647–1648 werden gelöscht. Die Schrift Onest kommt aus der Sammelregel. diagramme-A1 führt das aus. farbe-B13 ist eine Teilmenge davon. tabular-nums steht nur hier, nicht zusätzlich in der Sammelregel von 3.2.2e. Der 11,5-px-Eintrag in 3.2.3c betrifft die gelöschte Zeile. 3.2.3d setzt anschließend `11px` → `var(--fs-11)`.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B13",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "diagramme-A1",
+     "anweisung": "Z. 683 ersetzen und Z. 1647–1648 löschen nur einmal, über diagramme-A1."
+    },
+    {
+     "nr": "typografie-3.2.2e",
+     "aktion": "aendern",
+     "anweisung": "`.chart text` nicht in die tabular-nums-Sammelregel aufnehmen; die Eigenschaft steht in der .chart-text-Regel aus diagramme-A1."
+    },
+    {
+     "nr": "typografie-3.2.3c",
+     "aktion": "aendern",
+     "anweisung": "Den Eintrag „Z. 1648 `.chart text` 11.5 → 11“ auslassen; die Regel löscht diagramme-A1."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-A1",
+     "nach": "typografie-3.2.3d"
+    },
+    {
+     "vor": "diagramme-A1",
+     "nach": "typografie-3.2.2e"
+    }
+   ]
+  },
+  {
+   "anker": ".fd-foot .fd-n",
+   "nrs": [
+    "farbe-B2",
+    "komponenten-C24"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C24 gilt, zusammen mit komponenten-S-dash-filter (footHTML) im selben Zug. Die Trade-Zahl steht links als Meta außerhalb des Knopfs (13 px, --muted, Ellipse); Z. 1419/1420 werden gelöscht. Einen Trennstrich im Knopf gibt es damit nicht mehr, farbe-B2s Umstellung auf currentColor ist gegenstandslos.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B2",
+     "aktion": "aendern",
+     "anweisung": "Folgeänderung Z. 1420 (`.fd-foot .fd-n` border-left auf currentColor) ersatzlos streichen."
+    }
+   ]
+  },
+  {
+   "anker": ".fd-pop .fd-foot .btn",
+   "nrs": [
+    "komponenten-C24",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C24 löscht Z. 1367 (`.fd-pop .fd-foot .btn { …font-size: 12.5px }`). Die Fußknöpfe sind künftig `.btn.sm` und bekommen 13 px über Z. 280 (`.btn.sm`) aus demselben Typografie-Schritt.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "Den Eintrag Z. 1367 `.fd-pop .fd-foot .btn` auslassen (Regel entfällt mit komponenten-C24)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C24",
+     "nach": "typografie-3.2.3h"
+    }
+   ]
+  },
+  {
+   "anker": ".pager .pg-nav button:disabled",
+   "nrs": [
+    "komponenten-C07",
+    "zustaende-S-C2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C07 gilt. Der Seitenwähler hat keinen Verbund mehr (`.pager .pg-nav { display: inline-flex; gap: 4px; }`), die Pfeile sind `.btn.nav`, die Pager-Regeln Z. 1749–1754 werden gelöscht. Deaktivierte Pfeile folgen damit `.btn:disabled` (opacity var(--disabled-o), cursor not-allowed) wie alle Knöpfe. zustaende behielt die Ausnahme nur farblich (--faint), weil „eine gemeinsame Knopfgruppe fleckig würde“. Diese Gruppe gibt es nach C07 nicht mehr.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C2",
+     "aktion": "aendern",
+     "anweisung": "Die Ausnahme „Unverändert: Z. 1752 (Pager)“ und der Zielwert „Pager-Pfeile nur --faint“ entfallen; am Pager nichts ändern, die Regeln löscht komponenten-C07. Prüfungen, die --faint an Pager-Pfeilen erwarten, auf opacity var(--disabled-o) umstellen."
+    }
+   ]
+  },
+  {
+   "anker": ".sp-item .btn.added",
+   "nrs": [
+    "farbe-C3a",
+    "farbe-C19a",
+    "zustaende-S-C2",
+    "komponenten-S-dashboard-d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "„Hinzufügen“ in der Widget-Bibliothek ist ein Listen-Auslöser je Eintrag, kein Panel-Fuß. Also neutral: `btn sm sp-add` (farbe-C19a). Mehrere primary in einem Panel widersprächen „1 je Dialog/Panel“. Komponenten wollte primary lassen; das entfällt. „Hinzugefügt“ wird --muted, transparent, ohne Fläche (farbe-C3a). Das Gewicht 600 an `.sp-item .btn` entfällt, beide Zustände sind 500 und der Knopf bleibt gleich breit. zustaende-S-C2 löscht Z. 1619; `.sp-item .btn.added` (Spezifität 0,3,0) behält opacity 1 und schlägt `.btn:disabled`. Verträglich. e2e: dashtest Z. 38/49/111 auf `.side-panel .sp-item .sp-add:not(.added)` umstellen, wie in der Farbe-Spezifikation (Testteil).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-dashboard-d",
+     "aktion": "aendern",
+     "anweisung": "dashboard.js Z. 63 (`sp-add`) bleibt nicht primary; das übernimmt farbe-C19a (`btn sm sp-add${added ? ' added' : ''}`). Die Bearbeitungsleiste „Speichern“ (Z. 119) bleibt primary. Die Dialog-Beschriftungen als .lbl bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "farbe-C19a",
+     "nach": "farbe-C3a"
+    }
+   ]
+  },
+  {
+   "anker": ".tbl-wrap",
+   "nrs": [
+    "abstaende-M5",
+    "komponenten-S-prop-e",
+    "komponenten-S-misc-i",
+    "zustaende-S-M4"
+   ],
+   "art": "doppelt",
+   "entscheidung": "`.tbl-wrap inset` an prop.js Z. 264/268 setzt abstaende-M5 (Eigentümer der inset-Regel); komponenten-S-prop-e ist identisch. Logs: siehe Anker .empty. „Tags auf Standard zurücksetzen“ steht unter der Tabelle, ohne Inline-Stile: Abstand über die Hilfsklasse `mt-3` (12 px, Abstandsskala; 10 px liegt nicht auf der Skala), Farbe von `.btn.ghost` (siehe Anker --muted).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-prop-e",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "abstaende-M5",
+     "anweisung": "prop.js Z. 264/268 nur einmal ändern."
+    },
+    {
+     "nr": "zustaende-S-M4",
+     "aktion": "aendern",
+     "anweisung": "Nach der Tags-Tabelle einfügen: `<div class=\"row mt-3\"><button type=\"button\" class=\"btn ghost sm\" data-action=\"tags-reset\">Tags auf Standard zurücksetzen</button></div>`, ohne `style=\"margin-top:10px\"` und ohne `style=\"color:var(--muted)\"`. Entfernen aus der Filterleiste und Rückfrage-Dialog wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-A6",
+     "nach": "zustaende-S-M4"
+    },
+    {
+     "vor": "komponenten-S-misc-i",
+     "nach": "wording-S17.23-17.27"
+    }
+   ]
+  },
+  {
+   "anker": ".tile .nodata",
+   "nrs": [
+    "typografie-3.2.3s",
+    "zustaende-S-C4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "typografie-3.2.3s gibt `.tile .nodata` font-size var(--fs-15) und line-height var(--lh-15); --lh-15 ist das einheitenlose Verhältnis 20/15. `.tile .nodata.dash` aus zustaende-S-C4 erbt die Wertgröße (font-size: inherit, 24 px) und bekäme damit eine 32-px-Zeile statt 26,4. Kacheln mit „—“ würden höher als ihre Nachbarn, entgegen „Werte je Reihe ±1 px“. Deshalb erbt .nodata.dash auch die Zeilenhöhe.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C4",
+     "aktion": "aendern",
+     "anweisung": "In der neuen Regel `.tile .nodata.dash { … }` zusätzlich `line-height: inherit;` setzen."
+    }
+   ]
+  },
+  {
+   "anker": ".ring-arc .arc",
+   "nrs": [
+    "kilook-B4",
+    "diagramme-A7",
+    "bewegung-B8",
+    "diagramme-H1",
+    "kilook-C18",
+    "zustaende-S-PR2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Sofort und unabhängig von der Ringgröße: (a) Der Schein (drop-shadow) entfällt, kilook-B4 führt das aus; der gleiche Teil in diagramme-A7 ist doppelt. (b) Übergang `stroke-dashoffset var(--dur-4) var(--ease)` per bewegung-B8, nach B4, weil beide Z. 1317 ändern. (c) Kein Bogen bei 0 oder null: zustaende-S-PR2 führt `${rate > 0 ? … : ''}` aus; diagramme-H1 und kilook-C18 enthalten dasselbe. (d) Bogenfarbe `stroke: U.scoreColor(rate * 100)` inline (diagramme-H1). Dann wird `stroke: var(--accent)` in Z. 1317 wirkungslos und entfällt.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-A7",
+     "aktion": "aendern",
+     "anweisung": "Der drop-shadow-Teil (Z. 1317) entfällt, kilook-B4 führt ihn aus. Rand 96 px und Handy-Regel: siehe Anker .ring-arc .arc (Ringgröße)."
+    },
+    {
+     "nr": "diagramme-H1",
+     "aktion": "aendern",
+     "anweisung": "Die Bedingung `rate > 0` übernimmt zustaende-S-PR2. H1 ergänzt am Bogen nur `style=\"stroke:${U.scoreColor(rate * 100)}\"` und streicht in app.css aus `.ring-arc .arc` das `stroke: var(--accent);`. Die Größe `size = 64, lw = 6` folgt erst nach der Antwort auf ki_look-6."
+    },
+    {
+     "nr": "kilook-C18",
+     "aktion": "aendern",
+     "anweisung": "Der ringArc-Teil (Z. 6, Bogen nur bei rate > 0) entfällt (zustaende-S-PR2). Der Teil zu Z. 69 („—“, kein Ring und kein ring-card bei rate == null) bleibt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "kilook-B4",
+     "nach": "bewegung-B8"
+    },
+    {
+     "vor": "bewegung-B8",
+     "nach": "diagramme-H1"
+    },
+    {
+     "vor": "zustaende-S-PR2",
+     "nach": "diagramme-H1"
+    }
+   ]
+  },
+  {
+   "anker": ".ring-arc .arc",
+   "nrs": [
+    "diagramme-H1",
+    "diagramme-A7",
+    "kilook-B4",
+    "kilook-C18"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ringgröße: kilook führt sie als Nutzerfrage N2 (Empfehlung: 116 px lassen, ausdrücklicher Wunsch vom 28.9.). diagramme legt 64/6 px mit Rand 96 px fest. BRIEF entscheidet das nicht. Bis zur Antwort bleiben ringArc 116/9, `.card.ring-card > .big-stat, .small { margin-right: 150px }` und die Handy-Regel Z. 1318 unverändert. Antwort „kleiner“: H1-Größe 64/6, A7 Rand 96 px und gekürzte Handy-Regel. Antwort „lassen“: diese Teile entfallen.",
+   "wartet_auf_frage": "kilook: ki_look-6 (N2 Ringgröße „% Regeln eingehalten“)",
+   "anpassungen": [
+    {
+     "nr": "diagramme-A7",
+     "aktion": "aendern",
+     "anweisung": "Z. 1312 (margin-right 96 px) und Z. 1318 (Handy-Regel kürzen) erst nach der Antwort auf ki_look-6 und nur bei „kleiner“; sonst entfallen sie."
+    }
+   ]
+  },
+  {
+   "anker": "--accent",
+   "nrs": [
+    "diagramme-K1",
+    "farbe-C16",
+    "barrierefreiheit-A2a",
+    "farbe-D3e",
+    "barrierefreiheit-B6",
+    "diagramme-A5",
+    "diagramme-A6",
+    "diagramme-C15",
+    "farbe-A2",
+    "zustaende-S-C8",
+    "zustaende-S-C9b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Affiliate-Balken (affiliate.js Z. 47): neutral nach diagramme-K1, also `<path class=\"br\">` mit fill var(--text-2) und fill-opacity .45. Das gilt auch gegen farbe-C16 (--profit). Gründe: Provisionen sind immer ≥ 0, Grün trüge keine Unterscheidung. Die Farbe-Regel selbst sagt „Spalten mit einheitlichem Vorzeichen neutral“, und diagramme A-8 nennt Provisionen ausdrücklich neutral. Fokusring: barrierefreiheit-A2a (--focus = Textfarbe) gilt. Der README-Satz in farbe-D3e wird unter Anker .btn.primary angepasst. Die übrigen Schritte ändern verschiedene Stellen und sind untereinander verträglich. Ihre Einzelkonflikte stehen unter eigenen Ankern (.popover .item[aria-checked], .activity/.tracker/.heat-legend, .dp-day.today/.rr-day.today, .set-tabs/.prop-sub).",
+   "anpassungen": [
+    {
+     "nr": "farbe-C16",
+     "aktion": "aendern",
+     "anweisung": "Der Z.-47-Teil (`fill=\"var(--profit)\"`) entfällt; den Balken setzt diagramme-K1. Der Z.-67-Teil („Ausgezahlt“ als ruhiger Text, „Offen“ neutral) bleibt."
+    }
+   ]
+  },
+  {
+   "anker": "--muted",
+   "nrs": [
+    "wording-S17.8-17.10",
+    "farbe-C22c",
+    "zustaende-S-M4",
+    "barrierefreiheit-B13",
+    "diagramme-A1",
+    "farbe-A1",
+    "farbe-A2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "(1) Der Akzent-Hinweis in Einstellungen → Design (misc.js Z. 145) lautet „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“ (farbe-C22c). Die wording-Fassung „Hauptknöpfe, Schalter, Markierungen und Diagramme.“ wäre nach dem neutralen .btn.primary falsch und widerspräche W1 („Hilfetexte sagen, was der Code tut“). (2) „Auf Standard zurücksetzen“-Knöpfe sind einheitlich `.btn.ghost.sm`, ohne Inline-Farbe und ohne eigene --muted-Variante (Komponenten: „keine weiteren Varianten“, kein Inline-Stil; abstaende-L6/-L8 entfernen die Inline-Farbe bereits). Die Farbe ist die von .btn.ghost (--text-2, Hover --text). Das gilt für color-reset, be-reset, die Notebook-Einstellungen und tags-reset. (3) Die --muted-Werte (farbe-A1/A2) und ihre Nutzung in barrierefreiheit-B13 und diagramme-A1 sind verträglich.",
+   "anpassungen": [
+    {
+     "nr": "wording-S17.8-17.10",
+     "aktion": "aendern",
+     "anweisung": "Den Akzent-Hinweis nicht ändern; farbe-C22c setzt „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“. Erwartung im Screenshot-Abgleich (settings_design.png) und Übersetzungen entsprechend. Den Reset-Knopf als `<button type=\"button\" class=\"btn sm ghost ml-auto\" data-action=\"color-reset\">Auf Standard zurücksetzen</button>` setzen, ohne Symbol und ohne `style` (kein margin-left:auto, kein color:var(--muted) inline). „Design speichern“ und die übrigen Texte bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-A6",
+     "nach": "wording-S17.8-17.10"
+    }
+   ]
+  },
+  {
+   "anker": "--loss",
+   "nrs": [
+    "barrierefreiheit-B11",
+    "zustaende-S-C3",
+    "farbe-A2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Feldfehler werden einmal definiert, in zustaende-S-C3; das schließt `.input[aria-invalid=\"true\"]` aus barrierefreiheit-B11 ein. Ohne Ring: Die Fokus-Regel für ungültige Felder hält nur den roten Rand. barrierefreiheit Z1 verbietet box-shadow-Ringe, und BRIEF will keinen Schein. Endzustand: `.field.invalid :is(.input, .select, .sym-btn, .dir-switch), .input[aria-invalid=\"true\"], .select[aria-invalid=\"true\"] { border-color: var(--loss); } :is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); } .field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }`. Damit ist auch der --loss-soft-Ring aus dem Anker --loss-soft erledigt.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B11",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-C3",
+     "anweisung": "`.input[aria-invalid=\"true\"] { border-color: var(--loss); }` steht in der Selektorliste von S-C3."
+    },
+    {
+     "nr": "zustaende-S-C3",
+     "aktion": "aendern",
+     "anweisung": "Zweite Regel ohne Ring: `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); }` (kein `box-shadow: 0 0 0 3px var(--loss-soft)`). `.field-err` mit `font-size: var(--fs-12); line-height: var(--lh-12);` statt 12px/1.35."
+    }
+   ]
+  },
+  {
+   "anker": "--loss-soft",
+   "nrs": [
+    "zustaende-S-C3",
+    "zustaende-S-C12",
+    "farbe-A2",
+    "farbe-A3c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Einziger Konflikt ist der 3-px-Ring in --loss-soft am fokussierten ungültigen Feld (zustaende-S-C3); er entfällt, entschieden unter Anker --loss. Die Tokenwerte (farbe-A2 hell .10, farbe-A3c theme.js .10/.14) und die Mentor-Fehlerzeile ohne --loss-soft (zustaende-S-C12) sind verträglich."
+  },
+  {
+   "anker": ".badge",
+   "nrs": [
+    "barrierefreiheit-B8",
+    "typografie-3.2.3c"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide setzen die Größe des LONG/SHORT-Abzeichens von 10.5 auf 11 px. Endzustand Z. 618: `font-size: var(--fs-11); font-weight: 600; letter-spacing: .04em; font-family: var(--font); line-height: 1;`. Die Größe setzt typografie-3.2.3c als Token, barrierefreiheit-B8 nur Laufweite und Schriftfamilie. Die offene Farbfrage bereich_trades_tag-17 (Farbe) bleibt davon unberührt.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B8",
+     "aktion": "aendern",
+     "anweisung": "Nur `letter-spacing: .06em` → `.04em` ändern und `font-family: var(--font)` ergänzen. Die Größe setzt typografie-3.2.3c (`var(--fs-11)`)."
+    }
+   ]
+  }
+ ],
+ "vertraeglich": [
+  "--accent-glow",
+  ".btn",
+  ".btn:active",
+  "widget:schatten_ich",
+  ".cal .d .p",
+  ".cal .p",
+  ".pf-n",
+  "--be",
+  "--accent-soft",
+  "--accent-ink",
+  "--info",
+  ".ring-abs",
+  "--warn",
+  "--warn-soft",
+  ".dash-head .tl"
+ ]
+}

@@ -1,0 +1,890 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".kpi-label",
+   "nrs": [
+    "kilook-A4",
+    "aufbau-A3a",
+    "typografie-3.2.2c",
+    "aufbau-C2b",
+    "aufbau-C14e",
+    "aufbau-C15c",
+    "kilook-C8c",
+    "kilook-C9b",
+    "kilook-C13",
+    "kilook-C14",
+    "kilook-C16",
+    "kilook-C17",
+    "kilook-C19b",
+    "typografie-3.8a",
+    "typografie-3.8j",
+    "komponenten-C36"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Es gibt genau eine Klasse für Beschriftungen direkt über oder neben einem Wert: .kpi-label. Aufbau und KI-Look nutzen sie, KI-Look schließt .val-label und .tracker-cap ausdrücklich aus. Die Werte entsprechen der Typografie-Rolle „Wert-Beschriftung“. Die Klasse wird einmal hinter .caption (app.css:101) definiert, mit Tokens und ohne flex: `.kpi-label { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); } /* Beschriftung direkt über einem Wert, Satzschreibung; .caption bleibt für Abschnittslabels */`. Gründe gegen die flex-Fassung aus aufbau-A3a: Sie würde „P&L“ in `.prop-balance .r` (text-align: right) nach links ziehen. Das Info-Symbol bei „Heutiger Score“ sitzt als span.info inline wie in .tile .head. `.kpi-label.sm` wird nicht angelegt, kein Markup nutzt es (kein toter Code). Es gibt weder .val-label noch .tracker-cap. Jede Stelle setzt genau ein Schritt um: widgets.js:184/287 → aufbau-C2b (Z. 227 siehe .caption), app.js:530 → kilook-C8c, day.js:14 → kilook-C13, stats.js:45 → aufbau-C14e, trades.js:59 → aufbau-C15c, replay.js:83 → kilook-C17, prop.js:102 → kilook-C19b.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-A4",
+     "anweisung": "Keine eigene Definition. .kpi-label kommt aus kilook-A4 mit den Tokens --fs-13/--lh-13, ohne display:flex/gap und ohne .kpi-label.sm."
+    },
+    {
+     "nr": "kilook-A4",
+     "aktion": "aendern",
+     "anweisung": "Regel mit Tokens statt px: `.kpi-label { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }`, Kommentar wie spezifiziert, direkt hinter der .caption-Sammelregel."
+    },
+    {
+     "nr": "typografie-3.2.2c",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-A4",
+     "anweisung": "Kein .val-label anlegen. Die Rolle heißt .kpi-label und bekommt dort die Typografie-Tokens."
+    },
+    {
+     "nr": "komponenten-C36",
+     "aktion": "aendern",
+     "anweisung": "Aus dem CSS-Block streichen: .tracker-cap (die Beschriftung ist .kpi-label) und .day-title (die einzige Definition kommt aus abstaende-E-day2, 18 px als Token). .dash-empty mit Skalen-Token: `.dash-empty { text-align: center; padding: var(--sp-8); }`. .score-row, .chal-*, .tracker-score bleiben."
+    },
+    {
+     "nr": "kilook-C13",
+     "aktion": "aendern",
+     "anweisung": "Z. 12 entfällt, weil aufbau-C7b den Check-in-Knopf aus der Datumszeile entfernt. Z. 14 (.kpi-label „Netto-P&L“) und Z. 16 (U.empty 'mood') bleiben bei kilook-C13."
+    },
+    {
+     "nr": "typografie-3.8a",
+     "aktion": "aendern",
+     "anweisung": "Den Teil day.js:14 übernimmt kilook-C13 (.kpi-label statt .val-label). day.js:15 (Zeitzelle class=\"num\") bleibt."
+    },
+    {
+     "nr": "kilook-C14",
+     "aktion": "aendern",
+     "anweisung": "Z. 45 übernimmt aufbau-C14e (gleiche Änderung). Z. 61 U.empty('mood', …) bleibt bei kilook-C14. Z. 79–80 (Monte Carlo compact) übernimmt wording-S10.13-10.15 (siehe fmt.cur)."
+    },
+    {
+     "nr": "typografie-3.8j",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-C19b",
+     "anweisung": "Die Beschriftungen in prop.js:102 werden .kpi-label, nicht .val-label."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "kilook-A4"
+    },
+    {
+     "vor": "kilook-A4",
+     "nach": "aufbau-C2b"
+    },
+    {
+     "vor": "kilook-A4",
+     "nach": "kilook-C8c"
+    },
+    {
+     "vor": "kilook-A4",
+     "nach": "kilook-C13"
+    },
+    {
+     "vor": "kilook-A4",
+     "nach": "aufbau-C14e"
+    },
+    {
+     "vor": "kilook-A4",
+     "nach": "aufbau-C15c"
+    },
+    {
+     "vor": "kilook-A4",
+     "nach": "kilook-C17"
+    },
+    {
+     "vor": "kilook-A4",
+     "nach": "kilook-C19b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".caption",
+   "nrs": [
+    "typografie-3.2.2b",
+    "aufbau-C2b",
+    "kilook-C9b",
+    "typografie-3.5d",
+    "komponenten-W6",
+    "aufbau-C14e",
+    "aufbau-C15c",
+    "kilook-A4",
+    "kilook-C8c",
+    "kilook-C13",
+    "kilook-C14",
+    "kilook-C16",
+    "kilook-C17",
+    "kilook-C19b",
+    "typografie-3.7a",
+    "typografie-3.8j"
+   ],
+   "art": "konflikt",
+   "entscheidung": ".caption steht nur noch für Eyebrows und Abschnittslabels und gehört zur Sammelregel aus typografie-3.2.2b (var(--fs-11)/var(--lh-11), 600, .06em, Versal, 'case', --muted). Abschnittslabels bleiben .caption: trades.js:76, progress.js:74–75, news.js:83, replay.js:68, voice.js:107/115, .nav-title. Jede Beschriftung über einem Wert wird .kpi-label; wer welche Stelle umsetzt, steht unter .kpi-label, App.openSessionEnd, trades.renderMissed und widget:regel_tracker. Ausnahme: widgets.js:227 „Dein Score“ bleibt .caption, bis der Nutzer typografie/referenz-43 beantwortet hat. BRIEF legt den Punkt nicht fest, und das Widget wurde auf Wunsch „wie am Anfang“ wiederhergestellt. Bei Ja setzt aufbau-C2b Z. 227 um.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C2b",
+     "aktion": "aendern",
+     "anweisung": "Z. 184 und Z. 287 sofort umsetzen (Z. 287 zusammen mit komponenten-W6, siehe widget:regel_tracker). Z. 227 („Dein Score“) erst nach der Antwort auf referenz-43, bei Nein bleibt .caption."
+    },
+    {
+     "nr": "kilook-C9b",
+     "aktion": "aendern",
+     "anweisung": "Z. 166 (`U.pnl(d.s.total)` ohne signed: false) bleibt bei kilook-C9b. Z. 184/227/287 setzt aufbau-C2b um (gleiche Änderung, Z. 227 wartet auf referenz-43)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": "typografie: referenz-43 (nur widgets.js:227 „Dein Score“)"
+  },
+  {
+   "anker": "widget:regel_tracker",
+   "nrs": [
+    "aufbau-C2a",
+    "aufbau-C2b",
+    "komponenten-W6",
+    "typografie-3.5d",
+    "zustaende-S-W5",
+    "komponenten-C36"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand Regel-Tracker (widgets.js:287–288): `<div class=\"tracker-foot\"><div><div class=\"kpi-label\">Heutiger Score ${U.info('Heute abgehakte Regeln von allen aktiven Regeln.')}</div><div class=\"row tracker-score\"><b class=\"score-n\">${doneToday}/${rules.length}</b><div class=\"bar-track\"><i style=\"width:…%\"></i></div></div></div><a class=\"btn sm\" href=\"#/progress\">Tages-Checkliste</a></div>`. Die Karte hat kein trailing „Mehr anzeigen“, der Leertext verlinkt auf `#/settings/regeln`. Zuständig: aufbau-C2a für den entfernten trailing-Link und den Link, aufbau-C2b für die Beschriftung (.kpi-label statt .tracker-cap/.val-label, eine Rollen-Klasse), komponenten-W6 für .tracker-score und btn sm.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-W6",
+     "aktion": "aendern",
+     "anweisung": "Die Beschriftung bekommt nicht .tracker-cap, sie wird `<div class=\"kpi-label\">` (macht aufbau-C2b). W6 setzt nur noch `<div class=\"row tracker-score\">` und `<a class=\"btn sm\" href=\"#/progress\">`; die Inline-Breite bleibt."
+    },
+    {
+     "nr": "typografie-3.5d",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-C2b",
+     "anweisung": "Z. 287 wird .kpi-label statt .val-label. Der Hinweis zu Z. 227 gilt weiter (wartet auf referenz-43)."
+    },
+    {
+     "nr": "zustaende-S-W5",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-C2a",
+     "anweisung": "Gleicher Link `#/settings/regeln`, wird nur einmal umgesetzt."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "App.openSessionEnd",
+   "nrs": [
+    "kilook-C8c",
+    "typografie-3.7a",
+    "wording-S5.6-5.8",
+    "barrierefreiheit-P14b",
+    "barrierefreiheit-P14c",
+    "farbe-C12c"
+   ],
+   "art": "doppelt",
+   "entscheidung": "kilook-C8c setzt app.js:530 einmal um: dreimal `<div class=\"kpi-label\">` mit den Beschriftungen „Heute“, „Trades“, „Trefferquote“ (Wording-Glossar, nie „Win-Rate“). guard: true (P14b, Z. 529), die Checkbox .vh mit done (P14c, Z. 531) und der Hinweis .lbl-hint (farbe-C12c, Z. 533) betreffen andere Stellen und sind verträglich.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.7a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-C8c",
+     "anweisung": "Klasse .kpi-label statt .val-label."
+    },
+    {
+     "nr": "wording-S5.6-5.8",
+     "aktion": "aendern",
+     "anweisung": "5.7 ändert nur den Text „Win-Rate“ → „Trefferquote“ in dem `<div class=\"kpi-label\">`, das kilook-C8c setzt, und nicht die Klasse zurück auf .caption. 5.6 und 5.8 bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "trades.renderMissed",
+   "nrs": [
+    "aufbau-C15c",
+    "farbe-C31b",
+    "kilook-C16",
+    "typografie-3.8c",
+    "komponenten-S-trades-e",
+    "responsiv-3.7"
+   ],
+   "art": "konflikt",
+   "entscheidung": "renderMissed folgt aufbau-C15c: Filter nach Zeitraum und Konto, zwei Leerzustände, accountId beim Speichern. Der Kartenkopf (Z. 59) wird einmal so umgesetzt: `<div><div class=\"kpi-label\">${total >= 0 ? 'Entgangen' : 'Verlust vermieden'}</div><div class=\"score-big\">${fmt.cur(Math.abs(total))}</div></div><div><div class=\"kpi-label\">Wären Gewinner gewesen</div><div class=\"score-big\">${wins} von ${m.length}</div></div>`. Der Inhalt (Beschriftungswechsel, ohne Vorzeichen und Farbe) kommt aus farbe-C31b (Farbregel „Verpasste Trades“), die Klasse aus aufbau-C15c. total und wins werden aus der gefilterten Liste m berechnet. Die Tabellenzellen derselben Zeile sind verträglich: komponenten-S-trades-e (Symbol/Richtung), responsiv-3.7 (Setup-Tooltip), typografie-3.8c (Datum num/dateRow).",
+   "anpassungen": [
+    {
+     "nr": "farbe-C31b",
+     "aktion": "aendern",
+     "anweisung": "aufbau-C15c setzt Z. 59 mit diesem Inhalt und der Klasse .kpi-label um, nicht .caption. Z. 54 (Tageskarten-Zähler nur > 0 gefärbt) bleibt bei farbe-C31b."
+    },
+    {
+     "nr": "kilook-C16",
+     "aktion": "aendern",
+     "anweisung": "Z. 59 setzt aufbau-C15c um. Z. 26 (`U.pnl(s.total)` ohne signed: false) bleibt, Z. 76 bleibt .caption."
+    },
+    {
+     "nr": "typografie-3.8c",
+     "aktion": "aendern",
+     "anweisung": "trades.js:59: Der Klassen-Teil (.val-label) entfällt, aufbau-C15c setzt dort .kpi-label. Datumszelle `<td class=\"num\">${fmt.dateRow(…)}</td>` und trades.js:49 bleiben bei typografie-3.8c."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.empty",
+   "nrs": [
+    "kilook-C13",
+    "kilook-C14",
+    "zustaende-S-ST2",
+    "aufbau-C7c",
+    "wording-S8.3-8.5",
+    "diagramme-I1",
+    "wording-S9.3-9.7",
+    "zustaende-S-T3",
+    "aufbau-C15c",
+    "wording-S8.6-8.9",
+    "wording-S9.10-9.16",
+    "wording-S12.6-12.7",
+    "wording-S12.30",
+    "zustaende-S-DY1",
+    "zustaende-S-PR3"
+   ],
+   "art": "konflikt",
+   "entscheidung": "(1) Check-in-Leerzustände nutzen I.mood: kilook-C13 in day.js:16, kilook-C14 in stats.js:61. kilook-C25 löscht I.sparkle; der Satz „Z. 61 Symbol sparkle bleibt“ in zustaende-S-ST2 gilt deshalb nicht. (2) Den Knopftext im Check-in-Leerzustand der Tagesansicht setzt aufbau-C7c einmal: `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`. Für künftige Tage passt „nachtragen“ nicht. (3) Schatten-Ich-Ranking (diagramme-I1): Ein leerer Hinweis ist nicht erlaubt (zustaende Z1: nie ''), also `U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.')`. Ohne Verstoß gibt es keinen zweiten Leerzustand „Keine Verstöße“, der steht schon in der Nachbarkarte „Regelverstöße“. Es bleibt nur die Zeile „Ohne Verstöße: …“. (4) TradeLog-Liste: `return (list.length ? filters : '') + U.empty('tradelog', …)` mit Titel und Satz nach zustaende-S-T3. wording 9.7 und S-T3 ergänzen sich in derselben Zeile. (5) Regeln im Fortschritt: siehe #/settings/regeln. Verträglich sind aufbau-C15c, wording 9.14, 12.6, 12.30, zustaende-S-DY1 und noTrades aus S-ST2.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-ST2",
+     "aktion": "aendern",
+     "anweisung": "Die Bemerkung „Z. 61 Symbol sparkle bleibt“ streichen, Z. 61 bekommt 'mood' über kilook-C14. Sonst unverändert."
+    },
+    {
+     "nr": "wording-S8.3-8.5",
+     "aktion": "aendern",
+     "anweisung": "8.4 entfällt, den Knopftext setzt aufbau-C7c mit der Bedingung key < heute. 8.3 und 8.5 bleiben."
+    },
+    {
+     "nr": "diagramme-I1",
+     "aktion": "aendern",
+     "anweisung": "`if (!ranking.length) return U.empty('shield', 'Keine Regel aktiv', 'Schalte oben im Regelwerk mindestens eine Regel ein.');` und `const bars = hit.length ? `<div class=\"shadow-rank\">…</div>` : '';` ohne U.empty 'Keine Verstöße'. Rückgabe: bars plus die Zeile „Ohne Verstöße: …“ wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "kilook-C14",
+     "nach": "kilook-C25"
+    },
+    {
+     "vor": "kilook-C13",
+     "nach": "kilook-C25"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.pnl",
+   "nrs": [
+    "kilook-A3",
+    "kilook-C9b",
+    "kilook-C16",
+    "farbe-C29",
+    "aufbau-C7c",
+    "aufbau-C15a",
+    "kilook-C19b",
+    "kilook-C19c",
+    "kilook-C20",
+    "farbe-C24c",
+    "zustaende-S-NB1",
+    "aufbau-C10d",
+    "responsiv-3.10",
+    "typografie-3.8h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Regel aus kilook-A3 gilt überall: Ergebnisse laufen über U.pnl und tragen immer ein Vorzeichen, signed: false fällt weg (kilook-C9b Z. 166, kilook-C16 Z. 26). Disziplin-Kosten tragen ein Vorzeichen (farbe-C29). Break-even sieht in TradeLog und Tagesansicht gleich aus: `<span class=\"neu\">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>`, offene Trades zeigen `U.statusPill('open')` (aufbau-C7c und C15a). Prop-Beträge bekommen { currency: a.currency } (siehe money). Im Notebook tragen alle P&L-Beträge die Klasse num: der Notizkopf (farbe-C24c), die Trade-Notiz in der Liste (zustaende-S-NB1) und ebenso die neue Tagesnotiz-Zeile aus aufbau-C10d. responsiv-3.10 und typografie-3.8h sind verträglich (Text von 3.8h siehe U.barRow).",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C10d",
+     "aktion": "aendern",
+     "anweisung": "Zeile: `${ts.length ? `${U.count(ts.length, 'Trade', 'Trades')}${cl.length ? ` · ${U.pnl(C.sum(cl.map(t => t.pnl)), 'num')}` : ''}` : 'Keine Trades'}`. Zähler über U.count, Betrag mit Klasse num wie in zustaende-S-NB1. Sonst wie spezifiziert (ohne data-nb-date)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.barRow",
+   "nrs": [
+    "typografie-3.8h",
+    "wording-S10.8-10.12",
+    "diagramme-A8a",
+    "diagramme-I1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "typografie-3.8h setzt „Kosten je Fehler“ (stats.js:52) einmal um, mit dem Begriff aus dem Wording-Glossar: `${U.pnl(it.total)} <span class=\"muted\">· ${it.n}× · Trefferquote ${fmt.pct(it.n ? it.wins / it.n : 0)}</span>`. „Win-Rate“ und „WR“ kommen nicht vor. Die Struktur aus Betrag und gedämpftem Zusatz passt zu diagramme-A8a (`.bar-row .bl > b` in Onest mit tabular-nums, `.muted` in 400) und zum Ranking aus diagramme-I1.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.8h",
+     "aktion": "aendern",
+     "anweisung": "Text wie in der Entscheidung: „Trefferquote {pct}“ statt „{pct} Win-Rate“."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.tile",
+   "nrs": [
+    "aufbau-C14d",
+    "farbe-C30",
+    "wording-S10.1-10.7",
+    "wording-S10.8-10.12",
+    "wording-S13.1-13.2",
+    "wording-S13.3-13.7",
+    "wording-S19-affiliate",
+    "aufbau-C3",
+    "abstaende-I2",
+    "wording-S11.6-11.11",
+    "farbe-C27",
+    "wording-S12.28-12.29",
+    "kilook-C19b",
+    "wording-S12.6-12.7",
+    "wording-S10.13-10.15",
+    "wording-S15.10-15.15"
+   ],
+   "art": "konflikt",
+   "entscheidung": "(1) Statistik → Tage (aufbau-C14d): Die Kacheln folgen der Farb- und Vorzeichenregel. „Gewinntage / Verlusttage“ wird nur bei > 0 gefärbt (`<span class=\"${ds.winDays ? 'pos' : ''}\">…</span> / <span class=\"${ds.lossDays ? 'neg' : ''}\">…</span>`, farbe-C30). „Ø Gewinntag“ wird `U.pnl(ds.avgWinDay)`, „Ø Verlusttag“ `U.pnl(ds.avgLossDay)`: Ergebnisse tragen ein Vorzeichen (kilook Z5b), avgLossDay ist negativ. Die Karte „P&L nach Wochentag“ entfällt mit aufbau-C14d und damit auch wording 10.3. (2) Statistik → Fehler: Kachel 1 behält das Vorzeichen `fmt.cur(mr.cost, { signed: true })`, die Klasse richtet sich nach dem Vorzeichen (neg/pos/neu). Die Beschriftung wechselt nach wording zwischen „Fehler haben gekostet“ und „Fehler haben eingebracht“. farbe K13 („Disziplin-Kosten überall mit Vorzeichen“, ausdrücklich auch für Statistik → Fehler) und kilook Z5b gehen vor; die Prüfzeile in wording (stats_mistakes.png) lautet dann „mit Minus“. (3) Affiliate: Die Kacheln behalten die Cent, kein moneyK (Begründung unter fmt.balance). Die Begriffe aus wording 13.3–13.7 bleiben, die Kachel „Creator“ entfällt (aufbau-C3). (4) Schatten-Ich, Kachel „Echt“: Fuß mit U.count. (5) Prop-Summe siehe summaryTiles, Monte Carlo siehe fmt.cur. Verträglich sind farbe-C27, wording 12.28, wording-S11.6-11.11 und wording-S15.10-15.15.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C14d",
+     "aktion": "aendern",
+     "anweisung": "Kachelwerte: `U.tile('Gewinntage / Verlusttage', `<span class=\"${ds.winDays ? 'pos' : ''}\">${ds.winDays}</span> / <span class=\"${ds.lossDays ? 'neg' : ''}\">${ds.lossDays}</span>`)`, `U.tile('Ø Gewinntag', U.pnl(ds.avgWinDay))`, `U.tile('Ø Verlusttag', U.pnl(ds.avgLossDay))`. Der Rest bleibt wie spezifiziert: kstrip, Karte „Tage im Detail“, tbl-wrap inset."
+    },
+    {
+     "nr": "farbe-C30",
+     "aktion": "aendern",
+     "anweisung": "Z. 14 entfällt, weil die Legende mit aufbau-C14b wegfällt. Z. 31 übernimmt aufbau-C14d (Kachel statt U.kv, gleiche Klassen). Z. 21 (rSigned) und Z. 32 (Tabelle) bleiben."
+    },
+    {
+     "nr": "wording-S10.1-10.7",
+     "aktion": "aendern",
+     "anweisung": "10.3 entfällt, weil aufbau-C14d die Karte „P&L nach Wochentag“ löscht. 10.1, 10.2 und 10.4–10.7 bleiben."
+    },
+    {
+     "nr": "wording-S10.8-10.12",
+     "aktion": "aendern",
+     "anweisung": "10.8, Kachel 1: Beschriftung wechselt wie spezifiziert, der Wert ist aber `fmt.cur(mr.cost, { signed: true })` mit der Klasse `mr.cost < -C.EPS ? 'neg' : mr.cost > C.EPS ? 'pos' : 'neu'`. Die übrigen Teile von 10.8 bleiben. 10.9 entfällt, typografie-3.8h setzt den Text mit „Trefferquote“ (siehe U.barRow). 10.10–10.12 bleiben."
+    },
+    {
+     "nr": "wording-S13.1-13.2",
+     "aktion": "entfaellt",
+     "anweisung": "Kein moneyK. Die Affiliate-Kacheln behalten money() mit Cent."
+    },
+    {
+     "nr": "wording-S13.3-13.7",
+     "aktion": "aendern",
+     "anweisung": "13.5: `money(s.earned)` und `money(s.open)` bleiben (kein moneyK), nur `U.tile('Provision', …)` wird `U.tile('Provisionssatz', …)`. 13.3, 13.4, 13.6 und 13.7 bleiben."
+    },
+    {
+     "nr": "wording-S19-affiliate",
+     "aktion": "aendern",
+     "anweisung": "affiliatetest.js:20: Die Toleranz bleibt `< 0.01`, weil die Kacheln Cent zeigen. Z. 23 und Z. 46 bleiben."
+    },
+    {
+     "nr": "abstaende-I2",
+     "aktion": "aendern",
+     "anweisung": "`{ foot: `${U.count(p.n, 'Trade', 'Trades')} im Zeitraum` }`."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.card",
+   "nrs": [
+    "aufbau-C14b",
+    "diagramme-G1",
+    "zustaende-S-ST1",
+    "diagramme-G2",
+    "zustaende-S-DY2",
+    "farbe-C20",
+    "kilook-C18",
+    "wording-S8.6-8.9",
+    "aufbau-B8",
+    "abstaende-I3",
+    "komponenten-S-prop-c",
+    "komponenten-S-stats-b",
+    "wording-S10.1-10.7",
+    "wording-S11.6-11.11"
+   ],
+   "art": "konflikt",
+   "entscheidung": "(1) Statistik-Kurve: Platz und Titel folgen aufbau-C14b, also erste Karte in „Übersicht“, Titel „Kumulierter Netto-P&L“, h240, ohne Legende; über dem Inhalt stehen nur die Reiter. Der Inhalt folgt diagramme-G1/A-14: ein Punkt je Handelstag, kein fillDays. „Nur mit abgeschlossenen Trades“ ist durch die Leer-Prüfung am Anfang von tabSummary erfüllt (zustaende-S-ST2). zustaende-S-ST1 entfällt, fillDays löscht diagramme-G2. (2) Tagesansicht, Kennzahlenkarte: nur mit Trades, die Spark nur mit abgeschlossenen Trades (zustaende-S-DY2). Gewinner und Verlierer werden nur bei > 0 gefärbt, das setzt farbe-C20 einmal um. (3) Fortschritt: Die Karte heißt „Regeltreue“ (wording 8.6) und hat den Inhalt aus kilook-C18 („—“ ohne Grundlage, Ring nur mit Wert). Die Prüflisten (aufbau Prüfung Z. 750, README in kilook-C28) nennen „Regeltreue“. (4) „Aktuelle Regeln“ entfällt (siehe #/settings/regeln), die Tage-Tabelle steht in „Tage im Detail“ (siehe .tbl-wrap.inset). Verträglich sind aufbau-B8 (h2), abstaende-I3, komponenten-S-prop-c, wording-S10.1-10.7 und wording-S11.6-11.11.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C14b",
+     "aktion": "aendern",
+     "anweisung": "render: `const days = C.dailyAggregation(list);` ohne fillDays, ohne App.range() und ohne chartData. tabSummary bekommt days als dritten Parameter (der Aufruf übergibt ihn schon) und setzt nach der Leer-Prüfung `U.chartData['stats-top'] = { days, bars: false, dots: days.length <= 45 };`, danach `U.card('Kumulierter Netto-P&L', '<div class=\"chart h240\" data-chart=\"pnl\" data-id=\"stats-top\"></div>')`. Der Rest bleibt wie spezifiziert (Reiter zuerst, Serien/Extreme/Drawdown & Risiko)."
+    },
+    {
+     "nr": "diagramme-G1",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-C14b",
+     "anweisung": "Titel, nur Handelstage und nur mit abgeschlossenen Trades werden in aufbau-C14b umgesetzt."
+    },
+    {
+     "nr": "zustaende-S-ST1",
+     "aktion": "entfaellt",
+     "anweisung": "Die Kopfkarte gibt es nur noch in tabSummary nach dessen Leer-Prüfung, fillDays entfällt."
+    },
+    {
+     "nr": "zustaende-S-DY2",
+     "aktion": "aendern",
+     "anweisung": "Die Klassen für Gewinner/Verlierer setzt farbe-C20 (gleiche Änderung). Karte nur mit Trades und Spark nur bei closed.length bleiben bei zustaende-S-DY2."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C14b",
+     "nach": "diagramme-G2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "#/settings/regeln",
+   "nrs": [
+    "aufbau-C2a",
+    "zustaende-S-W5",
+    "aufbau-C7c",
+    "zustaende-S-DY3",
+    "aufbau-C11b",
+    "zustaende-S-PR3",
+    "wording-S8.6-8.9",
+    "farbe-C2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Alle Wege zu den Regeln führen auf #/settings/regeln. Doppelt umgesetzte Stellen: Widget-Leertext → aufbau-C2a (zustaende-S-W5 siehe widget:regel_tracker), Tagesansicht day.js:18 → aufbau-C7c. Fortschritt: Die Karte „Aktuelle Regeln“ entfällt (aufbau-C11b). Die Regeln stehen schon als Tages-Checkliste daneben, und eine Information gehört an eine Stelle. Ihr Kopf-Knopf wandert in die Tages-Checkliste: `trailing: `<a class=\"btn sm\" href=\"#/settings/regeln\">${rules.length ? `${I.edit} Regeln bearbeiten` : `${I.plus} Regeln anlegen`}</a><a class=\"btn sm\" href=\"#/day/${todayKey}\">Tag ansehen</a>``. Der Leerzustand der Checkliste ist `<div class=\"dashed\">Noch keine Regeln angelegt.</div>` ohne Knopf: zustaende verlangt für .dashed einen Satz ohne Knopf, für jede Aktion gibt es ein Bedienelement, und der Satz folgt dem Glossar. zustaende-S-PR3 Z. 78 (Wochen-Diagramm nur mit Daten) bleibt.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C11b",
+     "aktion": "aendern",
+     "anweisung": "Z. 73: Leerzustand wird `<div class=\"dashed\">Noch keine Regeln angelegt.</div>`, ohne row between und ohne Knopf. Z. 75: trailing wie in der Entscheidung, ein Knopf für Anlegen/Bearbeiten mit I.plus bzw. I.edit plus „Tag ansehen“. Z. 77: Die Karte wird gelöscht wie spezifiziert; die dann ungenutzten .rules-list-Regeln in app.css mit löschen."
+    },
+    {
+     "nr": "zustaende-S-PR3",
+     "aktion": "aendern",
+     "anweisung": "Z. 77 entfällt, weil die Karte gelöscht wird; die Logik des Kopf-Knopfs setzt aufbau-C11b in der Tages-Checkliste um. Z. 78 bleibt."
+    },
+    {
+     "nr": "wording-S8.6-8.9",
+     "aktion": "aendern",
+     "anweisung": "8.7 entfällt (Karte „Aktuelle Regeln“ gelöscht). 8.6, 8.8 und 8.9 bleiben."
+    },
+    {
+     "nr": "farbe-C2",
+     "aktion": "entfaellt",
+     "anweisung": "Die Karte „Aktuelle Regeln“ und damit .rules-list gibt es nicht mehr (die CSS löscht aufbau-C11b)."
+    },
+    {
+     "nr": "zustaende-S-DY3",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-C7c",
+     "anweisung": "Gleicher Link `#/settings/regeln` in day.js:18, wird nur einmal umgesetzt."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dashed",
+   "nrs": [
+    "abstaende-F3",
+    "komponenten-S-dashboard-b",
+    "komponenten-C36",
+    "aufbau-C11b",
+    "zustaende-S-PR3",
+    "typografie-3.2.3l"
+   ],
+   "art": "doppelt",
+   "entscheidung": "komponenten-S-dashboard-b setzt die leere Dashboard-Vorlage (dashboard.js:53) einmal um: `<div class=\"dashed dash-empty\">…</div>` ohne Inline-Stil, CSS `.dash-empty { text-align: center; padding: var(--sp-8); }` (32 px aus der Abstandsskala, siehe komponenten-C36 unter .kpi-label). .dashed bleibt ein Satz ohne Knopf (Fortschritt siehe #/settings/regeln). typografie-3.2.3l stellt nur die Schriftgröße auf das Token um.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-F3",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-S-dashboard-b",
+     "anweisung": "Klasse .dash-empty mit padding var(--sp-8) statt `center` plus Inline-padding."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-A1",
+     "nach": "komponenten-C36"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".popover .sec",
+   "nrs": [
+    "typografie-3.2.2b",
+    "aufbau-A4f",
+    "komponenten-C21a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Typografie der Abschnittsköpfe in Menüs kommt nur aus der Eyebrow-Sammelregel in typografie-3.2.2b (11/600/.06em/Versal/'case'/--muted). Die Einzelregel .popover .sec behält nur den Innenabstand `padding: 8px 10px 4px` (komponenten-C21a). Der gleiche Rollenkopf im Filter-Fenster (.fd-pop .fd-gh) wird in die Sammelregel aufgenommen, statt dieselben Werte in aufbau-A4f ein zweites Mal zu schreiben.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4f",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile `.popover .sec … font-weight: 600` entfällt (Sammelregel). `.fd-pop .fd-gh` setzt nur noch `padding: 10px 2px 6px; font-family: var(--font);`; Größe, Gewicht, Versalien, Laufweite und Farbe kommen aus der Sammelregel. .fd-l, .fd-seg, .fd-tog, .fd-chip und .fd-add bleiben wie spezifiziert."
+    },
+    {
+     "nr": "typografie-3.2.2b",
+     "aktion": "aendern",
+     "anweisung": "Den Selektor `.fd-pop .fd-gh` in die Sammelregel aufnehmen (nach .sp-group). Sonst wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tracker-foot > .btn",
+   "nrs": [
+    "komponenten-C09",
+    "komponenten-W6",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.tracker-foot > .btn { flex: 0 0 auto; }` nach komponenten-C09: padding und font-size entfallen. Das Markup wird btn sm (komponenten-W6) und bekommt 13 px über `.btn.sm` (--fs-13 aus typografie-3.2.3h). Diese Regel setzt keine eigene Schriftgröße mehr.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.tracker-foot > .btn` (Z. 1678) aus der Liste 12.5 → 13 streichen; die Deklaration entfällt mit komponenten-C09. Die übrige Liste bleibt."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "summaryTiles",
+   "nrs": [
+    "kilook-C19b",
+    "wording-S12.6-12.7",
+    "abstaende-M1"
+   ],
+   "art": "doppelt",
+   "entscheidung": "kilook-C19b setzt die Kachel „P&L je Währung“ einmal um (Code Z. 86–87, red-Zählung in derselben Schleife), mit dem Wording-Text: Titel „P&L der aktiven Konten“, Teile verbunden mit `' <span class=\"muted\">·</span> '`, jeder Teil `U.pnl(v, '', c ? { currency: c } : {})` mit 2 Nachkommastellen, ohne aktive Konten `U.pnl(0)`. abstaende-M1 (section.prop-sec um head, body und none) ist davon unabhängig.",
+   "anpassungen": [
+    {
+     "nr": "wording-S12.6-12.7",
+     "aktion": "aendern",
+     "anweisung": "12.7 setzt kilook-C19b um, Titel und Trenner werden dort übernommen. 12.6 (Leerzustand) bleibt bei wording."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "planText",
+   "nrs": [
+    "wording-S12.4-12.5",
+    "wording-S12.8-12.12",
+    "responsiv-3.12a",
+    "kilook-C19b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "planText(a, ev, plan, skipProfit) folgt wording-S12.4-12.5. Der Gewinnteil erscheint nur ohne skipProfit, als `${money(a, plan.missingProfit)} Gewinn fehlen` (Kontowährung, 2 Nachkommastellen). Dazu „Consistency Rule verletzt“ und die Rückgabe `parts.join(' · ') || (skipProfit ? '' : '—')`. Der Aufrufer folgt wording 12.10: `const pt = planText(a, ev, plan, !!(ev.target && a.phase !== 'funded'));`, die kv-Zeile nur bei pt, Beschriftung `plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen'` (responsiv-3.12a). So steht die Bedingung „Gewinn fehlt nur ohne Ziel-Balken“ (responsiv, aufbau) an einer Stelle, und der Text folgt der Wortwahl (proptest-Regex „Gewinn fehlen“). Ein Link um den Wert (aufbau prop-plan-link) umschließt pt. Den Teil Z. 75 aus kilook-C19b regelt der Anker money.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-3.12a",
+     "aktion": "aendern",
+     "anweisung": "Z. 75 entfällt: gleiche Bedingung über skipProfit, Text „{0} Gewinn fehlen“ aus wording-S12.4-12.5. Z. 104: Nur die Beschriftung „Bestehen“ wird „Bis zum Bestehen“, an der kv-Zeile, die wording 12.10 bei leerem pt weglässt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "wording-S12.4-12.5",
+     "nach": "wording-S12.8-12.12"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "money",
+   "nrs": [
+    "kilook-C19b",
+    "kilook-C19c",
+    "responsiv-3.12a",
+    "wording-S12.1-12.3",
+    "wording-S12.8-12.12",
+    "wording-S12.24-12.26",
+    "kilook-C27",
+    "wording-S19-prop"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Alles, was zu einem Prop-Konto gehört, steht in Kontowährung über money(a, …) bzw. U.pnl(…, { currency: a.currency }); darin sind kilook und wording einig. Beträge haben immer 2 Nachkommastellen, prop.js übergibt nirgends { compact: true } (siehe fmt.balance). Die Stop-Größe im Puffer-Tooltip steht in Kontowährung (wording 12.10): `${money(a, b.money)} Puffer${stopSize ? ` / ${money(a, stopSize)} je Stop` : ''}`. Puffer ÷ Stop-Größe wird ohne Umrechnung gerechnet; zwei verschiedene Währungszeichen würden eine Umrechnung vortäuschen. proptest.js:116 folgt wording-S19-prop. Zuständig je Stelle: Z. 50 (Breach) und Z. 68 (fmtMoney) → wording-S12.1-12.3 mit `v => money(a, v)`. Z. 75 → planText. Z. 86–87 → summaryTiles. Z. 102: Text „Kontostand“, U.pnl-Währung und U.count → wording 12.9, Klasse .kpi-label → kilook-C19b. Z. 104 → wording 12.10 plus Beschriftung aus responsiv-3.12a. Z. 194 (Hinweis) → kilook-C19b. Z. 283–284 (Planer) → wording-S12.24-12.26, einschließlich der Auszahlung `money(a, ev.pnl * num(a.profitSplit, 0))`. Z. 303 (Kommentar) → kilook-C19c.",
+   "anpassungen": [
+    {
+     "nr": "kilook-C19b",
+     "aktion": "aendern",
+     "anweisung": "Es bleiben nur: Z. 86–87 summaryTiles (siehe dort, Titel und Trenner nach wording); Z. 102 die Klasse `<div class=\"kpi-label\">` an beiden Beschriftungen (Texte „Kontostand“ und „P&L“); Z. 194 der Hinweis „Kontostand, P&L, Limits und Puffer des Kontos in Kontowährung. Trade-Listen zeigen die Journal-Währung.“. Es entfallen: Z. 68 (wording-S12.1-12.3), Z. 75 (wording-S12.4-12.5), Z. 93/94 (änderten nur compact), die U.pnl-Währung in Z. 102 (wording 12.9) und Z. 104 (wording 12.10). Nirgends { compact: true }."
+    },
+    {
+     "nr": "kilook-C19c",
+     "aktion": "aendern",
+     "anweisung": "Z. 283/284 setzt wording-S12.24-12.26 um, ohne compact; die Auszahlung `money(a, ev.pnl * num(a.profitSplit, 0))` gehört dazu. Es bleibt nur Z. 303, der Kommentar „Die drei Bereiche …“."
+    },
+    {
+     "nr": "kilook-C27",
+     "aktion": "aendern",
+     "anweisung": "Z. 56 und Z. 116 nach wording-S19-prop (Z. 116: `UI.fmt.cur(150, { currency: acc.currency })` + ' je Stop'). Z. 101: `fmtMoney: v => UI.fmt.cur(v, { currency: Store.propAccounts()[2].currency })` ohne compact. Z. 55 (fmt.balance) bleibt, das ist gleich fmt.cur."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "fmt.balance",
+   "nrs": [
+    "kilook-A2",
+    "kilook-C19b",
+    "kilook-C19c",
+    "kilook-C20",
+    "kilook-C28",
+    "wording-S12.24-12.26",
+    "wording-S12.28-12.29",
+    "wording-S19-prop",
+    "zustaende-S-U1",
+    "typografie-3.4a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Für Bestände und Regelgrößen gibt es keine Ganzzahl-Regel. Geld hat immer 2 Nachkommastellen (zustaende-S-U1); typografie K24 und zustaende K14 haben „Balance und Limits ganzzahlig“ ausdrücklich verworfen, nur kilook will es. fmt.balance bleibt `fmt.cur(v, o)` ohne Vorzeichen und wird im Geld-blind-Modus ausgeblendet. Ohne Cent (compact) stehen Beträge nur im Kalender-Monatsraster (.p Tageszelle, Wochensumme), an Achsen (fmt.axisCur), in Kurzformen (.pm, curShort, curCompact) und bei Monte Carlo. Damit sind Kontostand, Limits, Ziel, Puffer, „… fehlen“, „heute noch … erlaubt“, Vorschlag und die Affiliate-Kacheln so genau wie P&L, und „X von Y“ ist auf beiden Seiten gleich genau. Die Grabstein-Unterzeile zeigt keinen Geldbetrag (wording-S12.28-12.29).",
+   "anpassungen": [
+    {
+     "nr": "kilook-A2",
+     "aktion": "aendern",
+     "anweisung": "Nur den Kommentar über fmt.balance präzisieren: `/* Kontostand und andere Bestände: ohne Vorzeichen; im Geld-blind-Modus komplett ausgeblendet */`. Kein `compact: true` als Standard."
+    },
+    {
+     "nr": "kilook-C20",
+     "aktion": "aendern",
+     "anweisung": "Z. 136 entfällt, die Unterzeile ersetzt wording-S12.28-12.29. Z. 32, 119–122, 146 und 149 bleiben."
+    },
+    {
+     "nr": "kilook-C28",
+     "aktion": "aendern",
+     "anweisung": "README Z. 211: „Geldbeträge immer mit Cent, Ergebnisse mit Vorzeichen, Bestände ohne; ohne Cent nur im Kalender-Monatsraster, an Achsen, in Kurzformen und bei Monte Carlo. Keine Größenschwelle.“ Z. 241 ff.: „Kontostand“ statt „Balance“ und „P&L der aktiven Konten“. Z. 129: „Regeltreue“ statt „% Regeln eingehalten“. Die übrigen Punkte bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "fmt.cur",
+   "nrs": [
+    "zustaende-S-U1",
+    "kilook-A1",
+    "typografie-3.4a",
+    "kilook-A2",
+    "kilook-C9a",
+    "kilook-C14",
+    "wording-S10.13-10.15",
+    "kilook-C19c",
+    "barrierefreiheit-U6a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "zustaende-S-U1 setzt ui.js:122 einmal um: `const d = o.compact ? 0 : 2;`, mit Überlaufprüfung und notfalls @container 164 → 190 px. Kalender-Monatsraster mit compact: true (kilook-C9a). Das ist dieselbe Änderung wie 6.1/6.2 in wording-S6.1-6.4; wer zuerst umsetzt, macht sie, der andere überspringt. Monte Carlo ohne Cent setzt wording-S10.13-10.15 einmal um, ergänzt um das Startkapital aus kilook-C14. Prop und Affiliate bekommen kein compact (siehe fmt.balance und money). chartLabel aus barrierefreiheit-U6a nutzt das Standardformat.",
+   "anpassungen": [
+    {
+     "nr": "kilook-A1",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-U1",
+     "anweisung": "Identische Änderung an ui.js:122."
+    },
+    {
+     "nr": "typografie-3.4a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-U1",
+     "anweisung": "Identische Änderung an ui.js:122."
+    },
+    {
+     "nr": "wording-S10.13-10.15",
+     "aktion": "aendern",
+     "anweisung": "Zusätzlich in Z. 79 `Startkapital ${fmt.cur(mc.start, { compact: true })}` (aus kilook-C14). Sonst wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "ctx.headLeft",
+   "nrs": [
+    "abstaende-E-day2",
+    "aufbau-C7b",
+    "kilook-C13",
+    "aufbau-B1",
+    "aufbau-C15d",
+    "wording-S9.10-9.16",
+    "aufbau-C3",
+    "aufbau-C9a",
+    "komponenten-C36"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Tagesansicht: Die Datumszeile bleibt im Inhalt, ohne ctx.headLeft. aufbau K4 hat genau diese Variante verworfen, weil Datumstitel und Konto-Filter in einer Reihe vermischt würden, und sie hängt an F1 (komponenten-3/bereich_shell-8). Die Knöpfe „Check-in“ und „Trade für diesen Tag“ entfallen mit aufbau-C7b, „Zertifikat“ bleibt dort mit I.award, die Pille „Heute“ ist neutral (farbe-C20). Von abstaende-E-day2 bleibt nur der Inline-Stil des Datumstitels als Klasse: `<h2 class=\"day-title\">` mit `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }` (h2-Rolle 18/600, einzige Definition; .day-title in komponenten-C36 entfällt). Trade-Ansicht: Links steht der Rückweg per ctx.headLeft (aufbau-C15d). Die Seitenaktionen aus wording 9.11 kommen nicht in die Rückweg-Zeile, sondern als `actions(ctx)` rechts in die Kopfreihe; die Aufbau-Regel lautet „rechts Seitenaktionen → .dh-sep → Trade loggen“. Bei ctx.params[0]: Notiz-Knopf (`btn`, „Notiz öffnen“ bzw. „Notiz im Notebook“), `btn danger` „Löschen“, `btn` „Trade bearbeiten“ (Seitenebene = btn, nicht primary); ohne Trade-Datensatz ''. Ohne Parameter bleibt „CSV importieren“. pageHead (aufbau-B1), News (aufbau-C9a) und Affiliate (aufbau-C3) bleiben unverändert.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-E-day2",
+     "aktion": "aendern",
+     "anweisung": "Kein ctx.headLeft, `${nav}` bleibt im Rückgabewert (Z. 20). Umgesetzt wird nur: im nav-h2 wird der Inline-Stil `font-size:18px;margin-left:6px` zu `class=\"day-title\"`, CSS `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`. Die Pillenfarbe setzt farbe-C20, die Knöpfe entfernt aufbau-C7b."
+    },
+    {
+     "nr": "wording-S9.10-9.16",
+     "aktion": "aendern",
+     "anweisung": "9.11: Die Knöpfe kommen nicht in die Rückweg-Zeile (die wandert mit aufbau-C15d in ctx.headLeft), sondern in `App.screens.trades.actions(ctx)`. Bei ctx.params[0] über `S.getTrade(id)` und `S.tradeNote(id)`: `<a class=\"btn\" href=\"#/notebook/${tn.id}\">${I.journal} Notiz öffnen</a>` bzw. `<button type=\"button\" class=\"btn\" data-action=\"nb-trade-note\" data-id=\"${id}\">${I.journal} Notiz im Notebook</button>`, dann `<button type=\"button\" class=\"btn danger\" data-action=\"delete-trade\" data-id=\"${id}\">${I.trash} Löschen</button>` und `<button type=\"button\" class=\"btn\" data-action=\"edit-trade\" data-id=\"${id}\">${I.edit} Trade bearbeiten</button>`, ohne `<span class=\"grow\">`. 9.10 und 9.12–9.16 bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-B1",
+     "nach": "aufbau-C15d"
+    },
+    {
+     "vor": "aufbau-C15d",
+     "nach": "wording-S9.10-9.16"
+    },
+    {
+     "vor": "aufbau-C7b",
+     "nach": "kilook-C25"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.pill",
+   "nrs": [
+    "abstaende-E-day2",
+    "farbe-C20",
+    "aufbau-C3",
+    "farbe-C16",
+    "farbe-C17a",
+    "farbe-C22b",
+    "farbe-C26a",
+    "kilook-C21",
+    "responsiv-3.12c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "„Heute“ in der Tagesansicht wird `U.pill('Heute', 'neutral')` (farbe-C20; BRIEF: Grün nur für Gewinn und „Trade loggen“). Weil die Datumszeile im Inhalt bleibt (siehe ctx.headLeft), setzt farbe-C20 das direkt in day.js:12 um; die Pille mit 'win' aus abstaende-E-day2 entfällt. Die übrigen Pillen sind verträglich: aufbau-C3 „Beispieldaten“ neutral, farbe-C16 „Ausgezahlt“ als .muted-Text, farbe-C17a und kilook-C21 Coach-Pillen neutral (U.pill ohne Art ist neutral), farbe-C22b „Aktiv“, farbe-C26a „geprüft“ und Status. responsiv-3.12c übernimmt die Statusart der Payout-Zeile.",
+   "anpassungen": [],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "td.dir-cell",
+   "nrs": [
+    "aufbau-C15a",
+    "komponenten-S-trades-e",
+    "responsiv-3.7",
+    "responsiv-3.2b"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Symbol und Richtung stehen in zwei Zellen (td.sym + td.dir-cell) unter einem Kopf „Symbol“ mit colspan 2. Im TradeLog über COLS ['symbol', 'Symbol', '', 2] (aufbau-C15a), bei Verpassten Trades über das Markup (komponenten-S-trades-e); das Richtungs-Abzeichen bekommt span.bl (responsiv-3.2b). responsiv-3.7 baut auf der neuen Spaltenfolge auf: `PH = ['openedAt', 'symbol', 'pnl']`, die Schlüssel 'direction' und 'status' gibt es nicht mehr. td.dir-cell bekommt nie ph-hide (am Handy nur der Pfeil). Es gibt keine Status-Zelle mehr; ph-hide kommt an Geschlossen, Setup, Einstieg, Ausstieg, R, Regeln und Score. Die Datumszelle „Eröffnet“ bleibt bei typografie-3.8c (fmt.dateRow ist schon kurz), es gibt kein Paar aus ph-hide und ph-only.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-3.7",
+     "aktion": "aendern",
+     "anweisung": "Teil Tabelle: `const PH = ['openedAt', 'symbol', 'pnl'];` th-Klasse über PH wie spezifiziert, der Symbol-Kopf mit colspan 2 bleibt sichtbar. td.sym und td.dir-cell ohne ph-hide. Die Status-Zelle entfällt (aufbau-C15a), „RR“ heißt „R“. Die Zelle „Eröffnet“ nicht ändern (typografie-3.8c). Setup-Chip-Tooltip (Z. 49, Z. 59) und `tbl ph-fit` bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C15a",
+     "nach": "responsiv-3.7"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tl-filters",
+   "nrs": [
+    "wording-S9.3-9.7",
+    "responsiv-3.7",
+    "responsiv-C2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "wording-S9.3-9.7 setzt das Markup der Filterzeile einmal um: `row tl-filters` > `grow tl-search` + `tl-sel` (Selects und Zurücksetzen) + `muted small tl-count`, „Trades durchsuchen“, Zähler mit U.count, Filterzeile nur mit Trades. responsiv-3.7 setzt dieselben Klassen tl-filters und tl-count; dieser Teil entfällt dort. Das CSS aus responsiv-C2 bleibt (`.tl-filters .select { max-width: 200px; … }`, `.tl-count { margin-left: auto; white-space: nowrap; flex: 0 0 auto; }`). Es greift auch innerhalb von .tl-sel und muss stehen, bevor das Inline-`margin-left:auto` wegfällt.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-3.7",
+     "aktion": "aendern",
+     "anweisung": "Den Teil Filterzeile (Z. 39 tl-filters, Z. 44 tl-count) setzt wording-S9.3-9.7 um; hier nicht noch einmal."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "responsiv-C2",
+     "nach": "wording-S9.3-9.7"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tl-count",
+   "nrs": [
+    "wording-S9.3-9.7",
+    "responsiv-3.7",
+    "responsiv-C2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie bei .tl-filters: Die Klasse tl-count setzt wording-S9.3-9.7, die Regel `.tl-count { margin-left: auto; white-space: nowrap; flex: 0 0 auto; }` kommt aus responsiv-C2. Der Zähler-Teil von responsiv-3.7 entfällt (Anpassung unter .tl-filters).",
+   "anpassungen": [],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tbl-wrap.inset",
+   "nrs": [
+    "komponenten-S-prop-e",
+    "abstaende-M5",
+    "aufbau-C14d",
+    "komponenten-S-stats-b",
+    "komponenten-L1c"
+   ],
+   "art": "doppelt",
+   "entscheidung": "komponenten-S-prop-e setzt `tbl-wrap inset` in der Prop-Bilanz (prop.js:264/268) einmal um. Statistik → Tage: aufbau-C14d setzt die Tabelle in die Karte „Tage im Detail“ mit `tbl-wrap inset`. Aufbau ist für Titel und Aufbau zuständig, der Titel folgt dem Muster „Regeln im Detail“/„Uhrzeiten im Detail“, und aufbau-D1a übersetzt ihn. groupTable inset (stats.js:34) bleibt bei komponenten-S-stats-b.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-M5",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-S-prop-e",
+     "anweisung": "Identische Änderung an prop.js:264/268."
+    },
+    {
+     "nr": "komponenten-S-stats-b",
+     "aktion": "aendern",
+     "anweisung": "Z. 32 (Karte für die Tage) setzt aufbau-C14d um, Titel „Tage im Detail“ statt „Alle Handelstage“. Z. 34 (groupTable inset) bleibt."
+    },
+    {
+     "nr": "komponenten-L1c",
+     "aktion": "aendern",
+     "anweisung": "Der Schlüssel „Alle Handelstage“ entfällt (aufbau-D1a liefert „Tage im Detail“). „Netto“ und die Seitenwahl-Schlüssel bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  "widget:score",
+  "App.range",
+  ".nav-title",
+  "renderMissed",
+  "activityGrid",
+  "U.badge",
+  "td.sym",
+  "U.rText",
+  "App.allTrades"
+ ]
+}

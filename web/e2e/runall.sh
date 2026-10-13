@@ -1,6 +1,6 @@
 #!/bin/bash
 # Alle Regressions-Suiten plus sampletest: je Suite PASS/FAIL-Zählung, FAIL-Zeilen und Fehlerstatus
-cd /tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad
+cd "${RUNDIR:-/tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad}"
 export NODE_PATH=$(npm root -g)
 # LOGDIR: eigener Ordner für Protokolle (parallele Läufe), SUITES: nur diese Suiten (Leerzeichen-getrennt), WEBROOT: Arbeitskopie (siehe webroot.js)
 L=${LOGDIR:-.}; mkdir -p "$L"

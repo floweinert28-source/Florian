@@ -44,7 +44,8 @@ let pass = 0, fail = 0; const ok = (c, n) => { if (c) pass++; else fail++; conso
   await p.goto(base + '#/stats'); await p.waitForTimeout(600); await p.goto(base + '#/dashboard'); await p.waitForTimeout(500);
   ok(await p.evaluate(() => document.querySelector('#content').classList.contains('enter') && getComputedStyle(document.querySelector('.score-scale')).animationName === 'score-run'), 'Dashboard neu geöffnet: Score-Skala läuft wieder');
   /* Balken wachsen von der Nulllinie */
-  await p.goto(base + '#/stats'); await p.waitForTimeout(150);
+  /* Die Balken-Diagramme der Übersicht zeichnen sich nach dem ersten Bild: auf den ersten Balken warten statt fester Zeit */
+  await p.goto(base + '#/stats'); await p.waitForSelector('.chart svg.enter rect.br', { timeout: 4000 }).catch(() => {});
   const bars = await p.evaluate(() => { const r = [...document.querySelectorAll('.chart svg.enter rect.br')]; if (!r.length) return null; const cs = r.map(e => getComputedStyle(e)); const up = r.find(e => !e.classList.contains('dn')), dn = r.find(e => e.classList.contains('dn')); return { n: r.length, anim: cs[0].animationName, box: cs[0].transformBox, upO: up && getComputedStyle(up).transformOrigin, dnO: dn && getComputedStyle(dn).transformOrigin, delays: r.slice(0, 3).map(e => e.style.getPropertyValue('--bd')), early: cs.some(c => c.transform !== 'none') }; });
   ok(bars && bars.anim === 'ch-grow' && bars.box === 'fill-box' && /100%|px$/.test(bars.upO || '') && bars.delays[1] !== bars.delays[0], 'Statistik: Balken wachsen (ch-grow, fill-box, gestaffelt) · ' + JSON.stringify(bars));
   ok(bars && bars.dnO && /\s0px$/.test(bars.dnO) && /[\d.]+px [\d.]+px$/.test(bars.upO) && +bars.upO.split(' ')[1].replace('px', '') > 0, 'Gewinn-Balken wachsen von unten, Verlust-Balken von oben · ' + bars.upO + ' / ' + bars.dnO);

@@ -213,7 +213,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Im hellen Design sind die Signalfarben abgedunkelt (Gewinn und Akzent `#077a41`, Verlust `#c62e2e`, Break-even `#5f4fcf`, Info `#1d6db5`,
   Warntext `#8f5f00`), damit Zahlen mindestens 4,5:1 erreichen; eigene Farben werden dafür automatisch abgedunkelt (`Theme.forLight`), die Schrift
   auf Farbflächen wählt `Theme.inkFor` nach dem höheren Kontrast.
-  **Grün nur für Gewinn und „Trade loggen“:** ausgewählte Reiter, Segmente, Chips und Karten mit Rahmen sind flach und ruhig: eine leicht
+  **Grün nur für Gewinn und „Trade loggen“** (dazu Schalter „an“, der Balken am aktiven Menüpunkt, Hinweis-Punkte, Fokusrahmen, Score und Serien). Neutral sind: gewählte Einträge in Menüs, Kalendern und Datumswählern (gewählt = Textfarbe als Fläche, Heute unterstrichen bzw. als Kreis in Textfarbe), Links („Zum TradeLog“, Notiz-Links), Häkchen, Ablageflächen, Kartensymbole, die Aktivitäts-Heatmap (Graustufen), Chat-Blasen, ein aktiver Dashboard-Filter (`.btn.is-on`) und die Willkommen-Meldung. ausgewählte Reiter, Segmente, Chips und Karten mit Rahmen sind flach und ruhig: eine leicht
   angehobene Fläche mit feinem Rand, ohne Licht, Verlauf oder Schein (ein gemeinsamer Stil am Ende von `css/app.css`). `--lc` setzt eine
   bewusste Farbe nur dort, wo sie etwas bedeutet (Gewinn/Verlust, Long/Short, Bewertung, Fehler-/Emotions-Chips): Schrift in der Farbe,
   Fläche leicht getönt, Rand leise gefärbt. Nur „Trade loggen“ behält sein Licht. Setup-Chips, Avatare, der aktive Seitenleisten-Eintrag

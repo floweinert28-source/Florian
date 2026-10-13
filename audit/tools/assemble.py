@@ -46,7 +46,7 @@ cyc = [n for n in active if n not in out]
 out += sorted(cyc, key=pri)
 W = {'S': 1, 'M': 2.5, 'L': 5}
 pk, cur, cw, ccl = [], [], 0, None
-BUD = 14
+BUD = 40
 for n in out:
     s = steps[n]; w = W.get(s.get('aufwand') or 'S', 1)
     if cur and (cw + w > BUD or (s['cluster'] != ccl and cw >= 5)):
@@ -60,3 +60,43 @@ for i, p in enumerate(pk, 1):
 json.dump({'pakete': pakete, 'steps': steps, 'entfallen': [n for n, s in steps.items() if s['status'] == 'entfaellt'], 'wartet': {n: s['wartet'] for n, s in steps.items() if s.get('wartet')}, 'zyklen': cyc}, open('plan/pakete.json', 'w'), ensure_ascii=False, indent=1)
 print('Schritte', len(steps), 'aktiv', len(active), 'entfallen', sum(s['status'] == 'entfaellt' for s in steps.values()), 'wartet', sum(bool(s.get('wartet')) for s in steps.values()), 'Kanten', len(edges), 'Zyklen', len(cyc), 'Pakete', len(pakete))
 print([ (p['nr'], p['cluster'][0], len(p['schritte'])) for p in pakete])
+
+# ---- Paket-Dateien, Wellen, PLAN.md ----
+specs = {}
+def spec_lines(g, a, b):
+    if g not in specs: specs[g] = open(f'spec/{g}.md').read().split('\n')
+    return '\n'.join(specs[g][a-1:b])
+pnr = {n: p['nr'] for p in pakete for n in p['schritte']}
+for p in pakete:
+    deps = sorted({pnr[a] for (a, b) in edges if b in p['schritte'] and a in pnr and pnr[a] != p['nr']})
+    p['haengt_ab'] = deps
+    L = [f"# Paket {p['nr']:03d} · {', '.join(p['cluster'])}", '',
+         f"Schritte: {len(p['schritte'])} · Dateien: {', '.join(p['dateien']) or '—'}",
+         f"Betroffene Tests laut Spezifikation: {'; '.join(p['tests']) or '—'}",
+         f"Baut auf Paketen auf: {', '.join(map(str, deps)) or '—'}", '',
+         'Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.', '']
+    for n in p['schritte']:
+        s = steps[n]
+        L += [f"## {n} · {s['titel']}", '',
+              f"Gruppe {s['gruppe']} · Cluster {s['cluster']} · Aufwand {s.get('aufwand') or '?'} · Befunde: {', '.join(s.get('befund_ids') or []) or '—'}",
+              f"Quelle: audit/spec/{s['gruppe']}.md Z. {s['von']}–{s['bis']} · Dateien: {', '.join(s.get('dateien') or [])}",
+              f"Abhängig von: {', '.join(s.get('abhaengig') or []) or '—'}", '', '```text', spec_lines(s['gruppe'], s['von'], s['bis']), '```', '']
+        if s['notizen']:
+            L += ['**Hinweise aus der Abstimmung (verbindlich):**', ''] + [f'- {x}' for x in s['notizen']] + ['']
+    open(f"plan/paket-{p['nr']:03d}.md", 'w').write('\n'.join(L))
+# Wellen: höchstens K Pakete, nur wenn alle Abhängigkeiten in früheren Wellen
+K = 4; done = set(); waves = []; rest = [p['nr'] for p in pakete]
+while rest:
+    w = []
+    for n in rest:
+        P = pakete[n-1]
+        if all(d in done for d in P['haengt_ab']) and len(w) < K:
+            # nicht zwei Pakete desselben Clusters mit gemeinsamen JS-Dateien parallel
+            js = {f for f in P['dateien'] if f.endswith('.js')}
+            if any(js & {f for f in pakete[m-1]['dateien'] if f.endswith('.js')} for m in w): continue
+            w.append(n)
+        if len(w) >= K: break
+    if not w: w = [rest[0]]
+    waves.append(w); done |= set(w); rest = [n for n in rest if n not in w]
+json.dump({'pakete': pakete, 'wellen': waves}, open('plan/wellen.json', 'w'), ensure_ascii=False, indent=1)
+print('Wellen', len(waves), [len(w) for w in waves][:40])

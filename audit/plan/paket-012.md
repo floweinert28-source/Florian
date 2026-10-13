@@ -1,8 +1,8 @@
 # Paket 012 · dashboard
 
-Schritte: 35 · Dateien: web/README.md, web/css/app.css, web/e2e/dashtest.js, web/e2e/headtest.js, web/js/screens/dashboard.js, web/js/widgetpreviews.js, web/js/widgets.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.2 Nr. 3: grep style="font-size in widgets.js ohne Treffer; Akzeptanz 4.3 dashboard (Wert einzeilig, Fuß „−4,2 % · 01.10.2026“); Akzeptanz 4.3 panel_widget_hinzufuegen (keine Überlappung); Akzeptanz 4.4: grep "<td>\${fmt.(date|time)" ohne Treffer; Akzeptanz 4.4: grep class="caption" nur Abschnittsköpfe; Akzeptanz 4.4: grep small.sub ohne Treffer; e2e/dashtest.js; e2e/dashtest.js:106 (.tpl-row .star, .tpl-row.on .chk svg); e2e/dashtest.js:123; e2e/mobiletest.js:21, :85 (.cal .d .p/.pm); web/e2e/dashtest.js:34/39 (.btn.added, :not(.added), prüfen); web/e2e/dashtest.js:38, 49, 111; web/e2e/dashtest.js:38, 49, 111 (siehe farbe-D2a); web/e2e/dashtest.js:72 (Tracker-Raster, prüfen); web/e2e/dashtest.js:82/89 ([data-i="new"] bleibt); web/e2e/headtest.js; web/e2e/headtest.js (neuer Fall, Schritt R4); web/e2e/leaktest.js (muss grün bleiben); web/e2e/mobiletest.js:21/85 (Kalender, prüfen); web/e2e/mobiletest.js:23-24 (Handy zwei Spalten, muss grün bleiben); web/e2e/scorestatetest.js; web/tests/inline-style.test.mjs (Zählung, Schritt R5)
-Baut auf Paketen auf: 1, 2, 3, 5
+Schritte: 21 · Dateien: web/README.md, web/css/app.css, web/e2e/dashtest.js, web/js/screens/dashboard.js, web/js/widgetpreviews.js, web/js/widgets.js
+Betroffene Tests laut Spezifikation: Akzeptanz 4.3 dashboard (Wert einzeilig, Fuß „−4,2 % · 01.10.2026“); Akzeptanz 4.3 panel_widget_hinzufuegen (keine Überlappung); Akzeptanz 4.4: grep "<td>\${fmt.(date|time)" ohne Treffer; Akzeptanz 4.4: grep class="caption" nur Abschnittsköpfe; Akzeptanz 4.4: grep small.sub ohne Treffer; web/e2e/dashtest.js:34/39 (.btn.added, :not(.added), prüfen); web/e2e/dashtest.js:38, 49, 111; web/e2e/dashtest.js:38, 49, 111 (siehe farbe-D2a); web/e2e/dashtest.js:72 (Tracker-Raster, prüfen); web/e2e/dashtest.js:82/89 ([data-i="new"] bleibt); web/e2e/mobiletest.js:21/85 (Kalender, prüfen); web/e2e/mobiletest.js:23-24 (Handy zwei Spalten, muss grün bleiben); web/e2e/scorestatetest.js
+Baut auf Paketen auf: 1, 2, 4
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
@@ -25,6 +25,17 @@ Abhängig von: —
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .cal .d.today .n] „Heute“ im Dashboard-Kalender setzt nur komponenten-C26a. Es löscht Z. 709 und fügt nach Z. 712 `.cal .d:is(.win, .loss, .be) .n { color: var(--text-2); }` ein, danach `.cal .d.today .n { background: var(--text); color: var(--bg); font-weight: 600; }`. Die Heute-Regel muss nach der Handelstag-Regel stehen, sonst gewinnt bei gleicher Spezifität deren Farbe. Die Farben sind dieselben wie in farbe-B14, Grün gibt es nie für Heute. 600 hält die invertierte Ziffer lesbar und entspricht der Regel für invertierte Tage in Komponenten und Zustände. Heute ist keine Auswahl. Grundfarbe und Grundgewicht von .cal .d .n regelt die Entscheidung zum Anker .cal .d .n (konflikt-14).
+- ÄNDERN: Z. 709 und Z. 731 nicht umsetzen, das übernimmt komponenten-C26a. Z. 708 richtet sich nach der Entscheidung zu .cal .d .n. Z. 711, 713, 1694, die neuen Regeln nach Z. 722 und der Kommentar bleiben.
+- [doppelt: .cal.mini .d.today] Z. 731 ändert nur komponenten-C26a: `.cal.mini .d.today .n { color: var(--text); font-weight: 600; } .cal.mini .d.today { border-color: var(--text-2); }`. Das ist gleich wie farbe-B14 bis auf 600, das im Mini-Kalender neben dem Zellrand die Unterscheidung trägt, weil Heute dort keine Fläche hat. `.cal.mini .d .n` (Z. 730) steht nach der neuen Heute-Regel des großen Kalenders und hält background: none.
+- ÄNDERN: Z. 709 und Z. 731 nicht umsetzen, das übernimmt komponenten-C26a. Z. 708 richtet sich nach der Entscheidung zu .cal .d .n. Z. 711, 713, 1694, die neuen Regeln nach Z. 722 und der Kommentar bleiben.
+- [doppelt: .cal.mini .d.today .n] Wie beim Anker .cal.mini .d.today: komponenten-C26a setzt `.cal.mini .d.today .n { color: var(--text); font-weight: 600; }`, farbe-B14 lässt Z. 731 aus.
+- ÄNDERN: Z. 709 und Z. 731 nicht umsetzen, das übernimmt komponenten-C26a. Z. 708 richtet sich nach der Entscheidung zu .cal .d .n. Z. 711, 713, 1694, die neuen Regeln nach Z. 722 und der Kommentar bleiben.
+- [konflikt: .cal .d .n] Desktop (Z. 708), Endstand für alle Tage: `.cal .d .n { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; background: none; color: var(--text-2); }`; komponenten-C26a schreibt die Regel. Bei der Farbe gilt --text-2 (Farbe und Aufbau). Die Variante „--muted, nur an Handelstagen --text-2“ (Komponenten) entfällt. Grund: Tageszahlen sind Inhalt; --muted ist laut Farbe-Spezifikation Hinweisen, Platzhaltern und Achsen vorbehalten, und es ist eine Regel weniger. ≤960 (Z. 940): `width: 20px; height: 20px; font-size: var(--fs-11); line-height: var(--lh-11);`, top/right 3px bleiben; das schreibt typografie-3.2.3b (Barrierefreiheit hat dieselben Werte). Heute-Kreis und Mini-Kalender entscheiden die Anker .cal .d.today .n und .cal.mini .d.today .n.
+- ÄNDERN: Teil Z. 708 (background none, color --text-2) entfällt, weil komponenten-C26a die Regel mit genau diesen Werten schreibt. Die übrigen Teile (Heute, Rot 18 %, Auswahl, Kleintext, helle Tönung, Mini-Kalender) laut ihren Ankern.
+
 ## farbe-B23b · Regel-Tracker gedämpft grün (18/32/50/70 %), Heute-Ring --text-2, eigene Legende .heat-legend.right
 
 Gruppe farbe · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-38, farbe_kontrast-24
@@ -37,6 +48,19 @@ Abhängig von: —
 - nach Z. 1675 neu: `.heat-legend.right i.l1 { background: color-mix(in srgb, var(--accent) 18%, var(--surface-2)); } .heat-legend.right i.l2 { background: color-mix(in srgb, var(--accent) 32%, var(--surface-2)); } .heat-legend.right i.l3 { background: color-mix(in srgb, var(--accent) 50%, var(--surface-2)); } .heat-legend.right i.l4 { background: color-mix(in srgb, var(--accent) 70%, var(--surface-2)); }`
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .tracker i.l1] Zellen und Legende des Regel-Trackers nutzen dieselben Selektoren (diagramme-A6, eine Quelle). Die Prozente kommen aus der Farb-Spezifikation; diagramme K12 überlässt sie ihr ausdrücklich. Grün bleibt, weil Regeltreue positiv ist (BRIEF), aber gedämpft statt als volle --accent-Fläche (ruhige Diagramme). Ergebnis in Z. 1668–1671: `.tracker i.l1, .heat-legend.right i.l1 { background: color-mix(in srgb, var(--accent) 18%, var(--surface-2)); border: 0; }`, ebenso l2 mit 32 %, l3 mit 50 % und l4 mit `color-mix(in srgb, var(--accent) 70%, var(--surface-2))`. Nach Z. 1675 kommen keine zusätzlichen .heat-legend.right-Regeln. Die Legende der Aktivität (ohne .right) bleibt neutral, die Spezifität 0,3,1 trennt beide.
+- ÄNDERN: Nur `.tracker i.today { box-shadow: 0 0 0 2px var(--text-2); }` (Z. 1672) umsetzen. Z. 1668–1671 und die neuen `.heat-legend.right i.l1–l4`-Regeln nach Z. 1675 übernimmt diagramme-A6 mit denselben Werten 18/32/50/70 %.
+- [konflikt: .tracker i.l2] Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l2, .heat-legend.right i.l2` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 32%, var(--surface-2))`, border: 0. Die Anpassungen stehen dort.
+- [konflikt: .tracker i.l3] Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l3, .heat-legend.right i.l3` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 50%, var(--surface-2))`, border: 0. Die Anpassungen stehen dort.
+- [konflikt: .tracker i.l4] Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l4, .heat-legend.right i.l4` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 70%, var(--surface-2))` statt `var(--accent)`, border: 0. Die Anpassungen stehen dort.
+- [doppelt: .heat-legend.right i.l1] Die Legende hängt am Zellen-Selektor von diagramme-A6 (18 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+- [doppelt: .heat-legend.right i.l2] Die Legende hängt am Zellen-Selektor von diagramme-A6 (32 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+- [doppelt: .heat-legend.right i.l3] Die Legende hängt am Zellen-Selektor von diagramme-A6 (50 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+- [doppelt: .heat-legend.right i.l4] Die Legende hängt am Zellen-Selektor von diagramme-A6 (70 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+- [konflikt: .tracker i.today] Die Heute-Markierung ist in allen Rastern gleich (Aktivität, Regel-Tracker, Jahres-Monatsraster): `box-shadow: 0 0 0 2px var(--text-2)`. Grund: farbe und diagramme (A5; diagramme Z. 219 übernimmt den Wert der Farb-Spezifikation) legen 2 px fest. Das ist auch die heutige Breite, nur die Farbe wechselt von Grün auf --text-2. 1,5 px rendern auf 1×-Bildschirmen unscharf. farbe-B23b setzt .tracker i.today, farbe-B23c setzt .ym-grid i.today. Für .activity i.today gilt derselbe Wert (Liste mit diagramme-A5/farbe-B23a).
+
 ## farbe-B23c · Jahres-Monatsraster: Heute-Ring --text-2
 
 Gruppe farbe · Cluster dashboard · Aufwand S · Befunde: referenz-8
@@ -48,6 +72,10 @@ Abhängig von: —
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .ym-grid i.today] farbe-B23c übernimmt: `.ym-grid i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Der Ring-Punkt von komponenten-C26b entfällt, die Anpassung steht beim Anker .tracker i.today.
+
 ## farbe-C3a · Widget-Bibliothek: Knopfgewicht entfernen, „Hinzugefügt“ grau ohne Fläche
 
 Gruppe farbe · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-5
@@ -58,17 +86,6 @@ Abhängig von: —
 **C3 – `web/css/app.css` Dashboard (Widget-Bibliothek, Letzte Trades, Report)** — bereich_dashboard-5, bereich_dashboard-1, referenz-9
 - Z. 1613 `.sp-item .btn { flex: 0 0 auto; font-weight: 600; }` → `.sp-item .btn { flex: 0 0 auto; }` (Kommentar zur Breite streichen)
 - Z. 1618 `.sp-item .btn.added { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); opacity: 1; }` → `{ color: var(--muted); border-color: transparent; background: transparent; opacity: 1; }`
-```
-
-## farbe-C3b · „Mehr anzeigen“-Link neutral (--text-2, 500, Hover --text)
-
-Gruppe farbe · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-1
-Quelle: audit/spec/farbe.md Z. 387–388 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-- Z. 1659 `.more-link { color: var(--accent); font-weight: 600; font-size: 13px; text-decoration: none; }` → `.more-link { color: var(--text-2); font-weight: 500; font-size: 13px; text-decoration: none; }`
-- Z. 1660 `.more-link:hover { text-decoration: underline; }` → `.more-link:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }`
 ```
 
 ## farbe-C3c · Report-Panel: gewählte Zeile flach, Zurücksetzen --text-2, Schriftgröße über .rep-add
@@ -83,6 +100,13 @@ Abhängig von: —
 - Z. 1711 `.rep-foot .btn.primary { font-size: 12.5px; }` → `.rep-foot .rep-add { font-size: 12.5px; }`
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .rep-sel.on] Die Regel lautet `.rep-sel.on { border-color: var(--text-2); background: var(--surface-3); }` (komponenten-C28). Begründung: .rep-sel ist ein Auswahlfeld mit geöffneter Liste. Sein Grundrand ist schon --border-2, die Fassung von farbe-C3c würde den Rand also nicht sichtbar ändern. --text-2 ist der Rand eines aktiven Felds (Barrierefreiheit Z1: Felder mit :focus haben Rand --text-2), neutral und ohne Grün. Den Streifen (border-left 4px) und das Gewicht 600 nimmt komponenten-C28 wie spezifiziert heraus.
+- ÄNDERN: Z. 1707 entfällt, komponenten-C28 übernimmt sie. Z. 1710 (.rep-reset --text-2) und Z. 1711 (Selektor .rep-add) bleiben.
+- [konflikt: .rep-foot .btn.primary] Z. 1711 wird ersatzlos gelöscht. Es gibt weder eine umbenannte Regel `.rep-foot .rep-add { font-size: 12.5px; }` noch eine tokenisierte Variante. Der Knopf ist nach farbe (widgets.js:223) `btn sm rep-add` und hat über .btn.sm bereits var(--fs-13). Eine eigene Größe wäre wirkungslos bzw. mit 12.5 px skalenwidrig.
+- ÄNDERN: Z. 1711 `.rep-foot .btn.primary { font-size: 12.5px; }` ersatzlos löschen statt in `.rep-foot .rep-add { font-size: 12.5px; }` umzubenennen. Die Punkte Z. 1707 und Z. 1710 bleiben.
 
 ## farbe-C14a · Widget Ø Gewinn/Verlust: Farbe über U.cls, gemeinsames Kompakt-Kriterium
 
@@ -129,6 +153,13 @@ Abhängig von: —
 
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: widgetpreviews.BLUE] Report-Standardpalette in der ganzen App: ['#2f80d0', '#b4549f', '#c0702f'] (Blau, Magenta, Kupfer), nach Diagramme K13. Beide Sätze bestehen den dataviz-Validator, aber #4a6fe3 liegt im hellen Design nur ΔE 6,0 von --be (#5f4fcf) entfernt, und Break-even muss von jeder Serie unterscheidbar bleiben. Echtes Widget und Vorschau nutzen dieselben Werte. widgets.js Z. 211 (REPORT_COLORS und REPORT_OLD-Umschreibung #3d6bff→#2f80d0, #f5a53a→#b4549f, #4fd1a5→#c0702f) setzt nur diagramme-E7 um. widgetpreviews.js Z. 7 (`BLUE = '#2f80d0'`, `MAGENTA = '#b4549f'`, ORANGE wird umbenannt) setzt nur diagramme-F2 um. Die Farbe-Regel „Report-Serien #4a6fe3 …“ und die Paletten-Prüfung in farbe.md Z. 593 gelten mit "#2f80d0,#b4549f,#c0702f".
+- ÄNDERN: Nur Z. 45 umsetzen (`'2.170,41 €'` → `'−2.170,41 €'`). Z. 7 (BLUE/ORANGE) entfällt, das übernimmt diagramme-F2 mit #2f80d0/#b4549f und der Umbenennung in MAGENTA.
+- [konflikt: widgetpreviews.ORANGE] Wie beim Anker widgetpreviews.BLUE: Nur diagramme-F2 ändert Z. 7. ORANGE heißt danach MAGENTA = '#b4549f', alle Verwendungen werden mitgezogen. Der Wert ist in beiden Spezifikationen gleich, also gibt es nur einen Schritt dafür.
+- ÄNDERN: Nur Z. 45 umsetzen (`'2.170,41 €'` → `'−2.170,41 €'`). Z. 7 (BLUE/ORANGE) entfällt, das übernimmt diagramme-F2 mit #2f80d0/#b4549f und der Umbenennung in MAGENTA.
+
 ## farbe-C19a · Widget-Bibliothek: sp-add ohne primary
 
 Gruppe farbe · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-5
@@ -150,6 +181,11 @@ Abhängig von: farbe-B11
 - Z. 130 `U.banner('accent', 'Willkommen', '…', { icon: 'sparkle', trailing: `<button … class="btn sm" data-action="import">${I.upload} CSV</button><button … class="btn sm primary" data-action="install-sample">Beispieldaten laden</button>` })` → `U.banner('info', 'Willkommen', '…', { trailing: `<button type="button" class="btn sm" data-action="import">${I.upload} CSV importieren</button><button type="button" class="btn sm" data-action="install-sample">Beispieldaten laden</button>` })` (ohne `icon`, Standard ist `info`; `data-action` bleiben)
 
 ```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: U.banner] Alle sechs Änderungen gelten; doppelt ist nur dashboard.js:130 (das sparkle-Symbol). Endstand: dashboard.js:130 `U.banner('info', 'Willkommen', …, { trailing: … }` mit „CSS importieren“ und zwei neutralen `btn sm`, ohne icon (farbe-C19c). shadow.js:58 ohne `icon: 'sparkle'` (kilook-C15). prop.js:97 `U.banner('ok', 'Ziel erreicht', …)` (farbe-C26b). prop.js:279/280 ohne den letzten info-Zweig und ohne warn (aufbau-C12e). Dazu eine Lücke: Der Erfolgs-Zweig `U.banner('accent', plan.funded ? 'Bereit für den Payout' : 'Challenge bestanden', …)` in Z. 279 wird `U.banner('ok', …)`. Grund: Die Farbe-Spezifikation benennt `.banner.accent` in `.banner.ok` um; ohne diese Änderung stünde das Banner ohne Stil da. coach.js:27 errorBox wie zustaende-S-CS1. Abnahme: `grep -rnE "banner\('accent'|icon: 'sparkle'" web/js` findet nichts mehr (I.sparkle wird gelöscht).
+- ÄNDERN: Unverändert umsetzen; übernimmt auch das Streichen von icon: 'sparkle' aus kilook-C12 (Z. 130).
 
 ## farbe-D2a · dashtest: Selektor .sp-item .btn.primary auf .sp-add:not(.added)
 
@@ -217,16 +253,6 @@ Abhängig von: typografie-3.4c, typografie-3.2.2f
 | Z. 256 (Letzte Trades) | `<td>${fmt.dateFull(tab === 'open' ? t.open : t.close)}</td>` → `<td class="num">${fmt.dateRow(tab === 'open' ? t.open : t.close)}</td>` | referenz-28, typografie-12 |
 ```
 
-## typografie-3.5c · Challenge-Widget: Inline-Größe 30px ersetzen durch Klasse score-big (K27)
-
-Gruppe typografie · Cluster dashboard · Aufwand S · Befunde: typografie-3
-Quelle: audit/spec/typografie.md Z. 399–399 · Dateien: web/js/widgets.js
-Abhängig von: typografie-3.2.3-fv32
-
-```text
-| Z. 273 (Challenge) | `<div class="big-stat" style="font-size:30px;margin:0">` → `<div class="score-big" style="margin:0">` | typografie-3 (K27) |
-```
-
 ## typografie-3.5d · Regel-Tracker: „Heutiger Score“ als .val-label; „Dein Score“ (Z. 227) bleibt bis zur Nutzerantwort
 
 Gruppe typografie · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-44, typografie-17, referenz-43
@@ -266,6 +292,11 @@ Abhängig von: abstaende-A1
 | C2 | Dashboard Z. 1426–1433 | `.dash-top` und `.dash-main` `gap: 18px` → `gap: var(--grid-gap)`. Z. 1429 `calc(var(--card-h) * 2 + 18px)` → `calc(var(--card-h) * 2 + var(--grid-gap))`. Z. 1433 `+ 18px + 96px` → `+ var(--grid-gap) + 96px`. Z. 1594 ebenso. Z. 1430 → `.dash-main > .w.flat { height: auto; align-self: stretch; }`. Neu nach Z. 1449: `.dash-main > .w.flat .fw-empty { justify-content: flex-start; }`. Z. 1492 `.btn.fw-reset { margin-top: auto; …` → `margin-top: var(--sp-3);` | abstaende_layout-32, bereich_dashboard-24 |
 ```
 
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .dash-top] Das Kachelraster folgt dem Anker .grid.tiles.kstrip (Block in responsiv-B6a): vier Kacheln ab 721 px in einer Reihe, darunter 2 × 2; fünf Kacheln 561–1240 px als 3 + 2, ab 1241 px in einer Reihe; Handy zwei Spalten. abstaende-C6 behält zwei Teile: die Karussell-Zeilen Z. 1775–1776 löschen und den Block 721–960 px für .dash-main. Seine Kachelblöcke entfallen, sie stehen im Block von B6a. abstaende-C2 (gap var(--grid-gap)) und barrierefreiheit-E-dashtest-15 (Testselektor button.info) sind unabhängig davon.
+- [doppelt: .dash-main] Zwei Spalten bei 961–1240 px kommen aus responsiv-B6a. Dessen Selektoren `.dash-main > .w.sz-gross`, `.dash-main > .skel.sz-gross` und `.dash-main > .add-slot.gap.sz-gross` stehen nach Z. 1593 und schlagen Z. 1442/1443/1565/1593. abstaende-C5 enthält dieselbe Regel und gibt sie ab; es behält nur die Container-Regel der Score-Skala. abstaende-C6 (721–960 px, mittel und groß volle Breite, !important wegen Z. 1778) gilt für einen anderen Bereich und bleibt. Ergebnis: ab 1241 px drei Spalten, 721–1240 px zwei (mittel und groß volle Breite), bis 720 px eine. abstaende-C2 (gap und Höhen mit --grid-gap) und dashtest.js:15 sind unabhängig.
+
 ## abstaende-C3 · Schatten-Ich-Widget: .fw-stats zwei Spalten, ab 520 px Container (.card.fw-shadow) vier; Ellipse in .fw-stats b weg; Handy-Regel löschen
 
 Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-2
@@ -276,143 +307,6 @@ Abhängig von: abstaende-A1
 | C3 | Schatten-Ich-Widget Z. 1453, 1456, 3039 | Z. 1453 `.fw-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }` → `.fw-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); margin-bottom: var(--sp-3); }`. Neu dahinter: `.card.fw-shadow { container-type: inline-size; } @container (min-width: 520px) { .fw-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }`. Z. 1456 `.fw-stats b`: `overflow: hidden; text-overflow: ellipsis;` streichen (`white-space: nowrap` bleibt). Z. 3039 (Handy-Regel) löschen. | bereich_dashboard-2 |
 ```
 
-## abstaende-C4 · Bearbeitungsmodus: gestrichelte Karte statt Außenlinie (.w.editing), .w-bar .w-name löschen
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-8
-Quelle: audit/spec/abstaende.md Z. 353–353 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-| C4 | Bearbeitungsmodus Z. 1569, 1579 | Z. 1569 `.w.editing { outline: 1.5px dashed var(--border-2); outline-offset: 5px; border-radius: var(--radius); }` → `.w.editing { border-radius: var(--radius); } .w.editing .w-body > :is(.card, .tile) { border-style: dashed; border-color: var(--border-2); }`. Z. 1579 `.w-bar .w-name { … }` löschen. | bereich_dashboard-8 |
-```
-
-## abstaende-C5 · Dashboard 961–1240 px: zwei Widget-Spalten (groß span 2); Score-Skala im Container ≤ 150 px nur erste/letzte Beschriftung
-
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: responsiv-10
-Quelle: audit/spec/abstaende.md Z. 354–354 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-| C5 | Dashboard 961–1240, neu nach Z. 1595 | `@media (min-width: 961px) and (max-width: 1240px) { .dash-main { grid-template-columns: repeat(2, minmax(0, 1fr)); } .w.sz-gross, .skel.sz-gross, .dash-main > .add-slot.gap.sz-gross { grid-column: span 2; } }`. Muss nach Z. 1593 stehen (gleiche Spezifität). Dazu nach Z. 576: `@container (max-width: 150px) { .score-scale .lbls span:not(:first-child):not(:last-child) { display: none; } }` | responsiv-10 |
-```
-
-## abstaende-F1 · Dashboard: Routen-Sperre als erste Anweisung in place() (zweite Sicherung des Größen-Listeners, unmount() bleibt)
-
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: bereich_prop-1, aufbau-2, bereich_statistik-34, abstaende_layout-4
-Quelle: audit/spec/abstaende.md Z. 392–396 · Dateien: web/js/screens/dashboard.js
-Abhängig von: —
-
-```text
-### web/js/screens/dashboard.js
-
-| Nr. | Stelle | vorher → nachher | Befunde |
-|---|---|---|---|
-| F1 | `placeContext` → `place` (Z. 15) | erste Anweisung in `place = () => {`: `if (App.state.route !== 'dashboard') return;`. `unmount()` (Z. 138) bleibt. | bereich_prop-1, aufbau-2, bereich_statistik-34, abstaende_layout-4 |
-```
-
-## abstaende-F2 · Bearbeitungsleiste: Widget-Name nur für Screenreader (.vh) plus .grow statt .w-name
-
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-8
-Quelle: audit/spec/abstaende.md Z. 397–397 · Dateien: web/js/screens/dashboard.js
-Abhängig von: abstaende-C4
-
-```text
-| F2 | `wrap()` Z. 41 | `<span class="w-name">${esc(e.name || inst.typ)}</span>` → `<span class="vh">${esc(e.name || inst.typ)}</span><span class="grow"></span>` | bereich_dashboard-8 |
-```
-
-## abstaende-F3 · Leere Dashboard-Vorlage: Inline-Stil → Klasse center, padding 32px
-
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: abstaende_layout-34
-Quelle: audit/spec/abstaende.md Z. 398–399 · Dateien: web/js/screens/dashboard.js
-Abhängig von: —
-
-```text
-| F3 | Z. 54 (leere Vorlage) | `<div class="dashed" style="text-align:center;padding:30px">` → `<div class="dashed center" style="padding:32px">` (Skala) | abstaende_layout-34 |
-
-```
-
-## abstaende-G2 · Widgets prop_konten, ruhepunkt und mentor als flach: true markieren
-
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-24
-Quelle: audit/spec/abstaende.md Z. 405–405 · Dateien: web/js/widgets.js
-Abhängig von: abstaende-C2
-
-```text
-| G2 | Registry Z. 351, 361, 370 | in `prop_konten`, `ruhepunkt` und `mentor` nach `groesse: 'klein',` den Eintrag `flach: true,` ergänzen | bereich_dashboard-24 |
-```
-
-## abstaende-G3 · Schatten-Ich-Widget: Karte bekommt cls 'fw-shadow'
-
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-2
-Quelle: audit/spec/abstaende.md Z. 406–406 · Dateien: web/js/widgets.js
-Abhängig von: abstaende-C3
-
-```text
-| G3 | Schatten-Ich-Widget Z. 337 | `{ trailing: more('#/shadow') }` → `{ trailing: more('#/shadow'), cls: 'fw-shadow' }` | bereich_dashboard-2 |
-```
-
-## abstaende-G4 · 14 Inline-Abstände in widgets.js nach 1.16 ersetzen
-
-Gruppe abstaende · Cluster dashboard · Aufwand M · Befunde: abstaende_layout-34
-Quelle: audit/spec/abstaende.md Z. 407–408 · Dateien: web/js/widgets.js
-Abhängig von: abstaende-A6
-
-```text
-| G4 | 14 Inline-Abstände | nach 1.16 ersetzen | abstaende_layout-34 |
-
-```
-
-## abstaende-R4 · headtest: neuer Fall Dashboard → Statistik → 800 → 1440, Kontext-Leiste in der Kopfreihe, #tb-tools leer
-
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: bereich_statistik-34
-Quelle: audit/spec/abstaende.md Z. 523–523 · Dateien: web/e2e/headtest.js
-Abhängig von: abstaende-F1
-
-```text
-| R4 | `web/e2e/headtest.js` | neuer Fall: 1440 → #/dashboard → #/stats → Viewport 800 → 1440: `#content > .page-head .dh-context [data-pop=range]` vorhanden, `#tb-tools` leer | bereich_statistik-34 |
-```
-
-## komponenten-C23 · Vorlagen-Menü (CSS): neutral, Stern gedämpft, Untermenü als eingerückte Gruppe
-
-Gruppe komponenten · Cluster dashboard · Aufwand S · Befunde: bereich_dashboard-47, komponenten-2, komponenten-34, komponenten-35
-Quelle: audit/spec/komponenten.md Z. 378–387 · Dateien: web/css/app.css
-Abhängig von: komponenten-C21a
-
-```text
-**C23 – Vorlagen-Menü** (bereich_dashboard-47, komponenten-2, komponenten-34, komponenten-35)
-- Z. 1625 `.tpl-row .item.name { flex: 1 1 auto; padding: 8px 10px; }` → `.tpl-row .item.name { flex: 1 1 auto; }`
-- Z. 1627 `.tpl-row .chk { width: 16px; display: inline-flex; color: var(--accent); flex: 0 0 auto; }` → `color: var(--text-2);`; Z. 1628 (`.tpl-row .chk svg`) löschen.
-- Z. 1629 `.tpl-row .star { color: var(--warn); … }` → `color: var(--muted);`
-- Z. 1631 `.tpl-row.on .item.name { color: var(--accent); font-weight: 600; }` → `.tpl-row.on { background: var(--surface-2); } .tpl-row.on .item.name { color: var(--text); }`
-- Z. 1632 `.tpl-menu { margin: 2px 6px 8px 24px; padding: 4px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-2); }` → `.tpl-menu { margin: 2px 0 6px 26px; padding: 4px 0 0; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: none; }`
-- Z. 1633 `.tpl-menu .item { padding: 7px 10px; font-size: 12.5px; }` löschen.
-- Neu nach Z. 1635: `.tpl-menu .item.danger:disabled { color: var(--text); }`
-- Z. 1636 `.tpl-menu .star-i { … color: var(--warn); }` → `color: var(--muted);`
-
-```
-
-## komponenten-C26a · Kalender: Wochentage als Beschriftung, Tageszahl ohne Kreis, nur „heute“ gefüllt (--text/--bg)
-
-Gruppe komponenten · Cluster dashboard · Aufwand S · Befunde: ki_look-11
-Quelle: audit/spec/komponenten.md Z. 411–416 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**C26 – Kalender** (ki_look-11, bereich_dashboard-45)
-- Z. 703 → `.cal .wd { text-align: center; padding: 4px 4px 6px; font-size: 12px; font-weight: 500; color: var(--muted); border: 0; background: none; }`
-- Z. 704 und Z. 1757 (`.cal .wd.wk`) löschen.
-- Z. 708 `.cal .d .n { …; font-size: 11.5px; font-weight: 600; background: var(--surface-3); color: var(--text-2); }` → Lage und Größe behalten (absolute, top/right 6px, 24×24, Radius 999, grid), nur `font-size: 12px; font-weight: 500; background: none; color: var(--muted);`
-- Z. 709 `.cal .d.today .n { background: var(--accent); color: var(--accent-ink); }` löschen; nach Z. 712 einfügen: `.cal .d:is(.win, .loss, .be) .n { color: var(--text-2); }` und danach `.cal .d.today .n { background: var(--text); color: var(--bg); font-weight: 600; }`
-- Z. 731 `.cal.mini .d.today .n { color: var(--accent); }` → `.cal.mini .d.today .n { color: var(--text); font-weight: 600; } .cal.mini .d.today { border-color: var(--text-2); }`
-```
-
-## komponenten-C26b · Heute-Ring in Rastern (Aktivität, Tracker, Jahresübersicht) und Jahreskalender-Kopf
-
-Gruppe komponenten · Cluster dashboard · Aufwand S · Befunde: ki_look-11
-Quelle: audit/spec/komponenten.md Z. 417–418 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-- Z. 1292 `.activity i.today`, Z. 1672 `.tracker i.today`, Z. 1771 `.ym-grid i.today`: `box-shadow: 0 0 0 2px var(--accent)` → `box-shadow: 0 0 0 1.5px var(--text-2)`
-- Z. 1685 `.ycal-head span { … }` → `.ycal-head span { text-align: center; padding: 0 2px 6px; font-size: 12px; font-weight: 500; color: var(--muted); border: 0; }`
-```
+- [konflikt: .fw-stats] Endstand wie in abstaende-C3: `.fw-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); margin-bottom: var(--sp-3); }`, `.card.fw-shadow { container-type: inline-size; } @container (min-width: 520px) { .fw-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }`; die Handy-Regel Z. 3039 wird gelöscht. aufbau-A3c will bedingt `gap 10 → 8`; das entfällt. Grund: Mit zwei Spalten unter 520 px Kartenbreite haben die Beschriftungen doppelte Breite, das Abschneiden von „Disziplin-Kosten“ (Anlass der Bedingung) tritt nicht mehr auf. 8 px würde vom 12-px-Raster der Abstände-Spezifikation abweichen. mobiletest.js:24 (Handy 2 Spalten) bleibt grün. Schriftgrößen und -gewichte der Beschriftungen entscheiden die Anker .fw-stats > div > span und .fw-lbl.

@@ -1,109 +1,156 @@
-# Paket 060 · zustaende, einstellungen, diagramme
+# Paket 060 · komponenten, notebook_news, konto, barrierefreiheit
 
-Schritte: 5 · Dateien: web/e2e/settest.js, web/js/app.js, web/js/screens/misc.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: web/e2e/settest.js:22; web/e2e/settest.js:22 (Schritt zustaende-S-TE6); web/e2e/settest.js:26
-Baut auf Paketen auf: 6, 37, 56, 58, 59
+Schritte: 6 · Dateien: web/css/app.css, web/js/screens/coach.js, web/js/screens/notebook.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: —
+Baut auf Paketen auf: 59
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## zustaende-S-U4b · Leerzweige der Diagramm-Zeichner auf U.chartEmpty umstellen (pnl, line, vbars, hbars, rolling, mc, hist, weeks; equity/spark bleiben leer)
+## barrierefreiheit-C-notebook-74-teilen · Notebook „Teilen“: .hide-m → .vh-m
 
-Gruppe zustaende · Cluster diagramme · Aufwand S · Befunde: diagramme-38
-Quelle: audit/spec/zustaende.md Z. 408–414 · Dateien: web/js/ui.js
-Abhängig von: zustaende-S-U4a
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_konto-11
+Quelle: audit/spec/barrierefreiheit.md Z. 800–801 · Dateien: web/js/screens/notebook.js
+Abhängig von: barrierefreiheit-B1
 
 ```text
-- Z. 261 (pnl) und Z. 300 (line): `el.innerHTML = `<div class="empty" …>…Keine abgeschlossenen Trades im Zeitraum…`; return;` → `chartEmpty(el, 'Keine abgeschlossenen Trades im Zeitraum'); return;`
-- Z. 323 (vbars), Z. 331 (hbars): → `chartEmpty(el); return;`
-- Z. 339 (rolling): → `chartEmpty(el, 'Zu wenig Trades', `Mindestens ${e ? e.window : 20} Trades mit R-Wert nötig`); return;` (nur noch Rückfall, siehe S-ST4)
-- Z. 347 (mc), Z. 353 (hist): `el.innerHTML = ''; return;` → `chartEmpty(el); return;`
-- Z. 358 (weeks): → `chartEmpty(el, 'Noch keine Wochen'); return;` (nur noch Rückfall, siehe S-PR3)
-- Z. 290 (equity, < 2 Punkte) und Z. 316 (spark) bleiben leer.
+  - `<span class="hide-m">Teilen</span>` → `<span class="vh-m">Teilen</span>` (Befund: bereich_konto-11, gleiches Muster)
 
 ```
 
-## zustaende-S-U5 · Feldfehler-Helfer U.fieldErrors, U.clearFieldError, U.clearFieldErrors
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe zustaende · Cluster zustaende · Aufwand S · Befunde: zustaende-3, barrierefreiheit-6
-Quelle: audit/spec/zustaende.md Z. 415–437 · Dateien: web/js/ui.js
-Abhängig von: zustaende-S-C3
+- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.
+
+## barrierefreiheit-C-coach-42-157 · Coach: .hide-m → .vh-m (Namen am Handy behalten)
+
+Gruppe barrierefreiheit · Cluster konto · Aufwand S · Befunde: bereich_konto-11
+Quelle: audit/spec/barrierefreiheit.md Z. 789–791 · Dateien: web/js/screens/coach.js
+Abhängig von: barrierefreiheit-B1
 
 ```text
-**S-U5 Feldfehler-Helfer** – zustaende-3, barrierefreiheit-6
-Bei Modal & Toast (vor Z. 444) neu und in `root.UI` exportieren:
+#### `web/js/screens/coach.js`
+
+- **Z. 42, 121 (2×), 157:** `<span class="hide-m">…</span>` → `<span class="vh-m">…</span>` (Befund: bereich_konto-11)
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.
+
+## barrierefreiheit-B2 · Sprunglink-Stil .skip und programmatische Fokusflächen ohne Ring (#content, .modal, .lightbox)
+
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
+Quelle: audit/spec/barrierefreiheit.md Z. 287–295 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**B2 Sprunglink und programmatische Fokusflächen** (nach `.vh`, Z. 1330)
+- nachher:
+  ```css
+  .skip { position: fixed; left: 16px; top: -48px; z-index: 200; padding: 8px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border-2); color: var(--text); font-size: 13.5px; font-weight: 500; }
+  .skip:focus { top: 12px; }
+  #content:focus, .modal:focus, .lightbox:focus { outline: none; }
+  ```
+- Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
+
+```
+
+## barrierefreiheit-U3a · Dialog-Gerüst: Selbstfokus, .shell inert, aria-labelledby, Fokus-Rückgabe (restoreAfterModal), guard/requestClose
+
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand L · Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39
+Quelle: audit/spec/barrierefreiheit.md Z. 413–454 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-B2
+
+```text
+**U3 Dialog-Gerüst** (Z. 428–449)
+
+`modal()` ersetzen:
 ```js
-function clearFieldError(el) {
-  const f = el.closest('.field'); if (f) { f.classList.remove('invalid'); f.querySelectorAll(':scope > .field-err').forEach(x => x.remove()); }
-  if (el.getAttribute('aria-invalid') === 'true') { el.removeAttribute('aria-invalid'); if ((el.getAttribute('aria-describedby') || '').endsWith('-err')) el.removeAttribute('aria-describedby'); }
+const modals = []; let modalSeq = 0;
+function modal(html, o = {}) {
+  const act = document.activeElement; const ret = act && act !== document.body ? act : null;
+  const retKey = ret && root.App && root.App.anchorKey ? root.App.anchorKey(ret) : null;
+  const bg = document.createElement('div'); bg.className = 'modal-bg';
+  bg.innerHTML = `<div class="modal ${o.cls || ''}" role="dialog" aria-modal="true" tabindex="-1">${html}</div>`;
+  document.body.appendChild(bg); const dlg = bg.firstElementChild; const entry = { bg, o, ret, retKey }; modals.push(entry);
+  document.body.style.overflow = 'hidden'; const sh = document.querySelector('.shell'); if (sh) sh.inert = true;
+  const h = dlg.querySelector('.modal-head h2'); if (h) { h.id = h.id || 'mh-' + (++modalSeq); dlg.setAttribute('aria-labelledby', h.id); }
+  bg.addEventListener('mousedown', e => { if (e.target === bg && !o.locked) requestClose(); });
+  if (o.onMount) o.onMount(dlg);
+  if (o.guard) { const form = dlg.querySelector('form'); const snap = () => form ? JSON.stringify([[...new FormData(form)].filter(([, v]) => typeof v === 'string'), [...form.querySelectorAll('[aria-pressed]')].map(b => b.getAttribute('aria-pressed'))]) : ''; const start = snap(); entry.dirty = () => snap() !== start; }
+  /* Anfangsfokus: [data-autofocus] oder der Dialog selbst; nie das ×, nie automatisch ein Feld (o.noFocus ist damit Standard) */
+  setTimeout(() => { if (!dlg.isConnected || dlg.contains(document.activeElement)) return; (dlg.querySelector('[data-autofocus]') || dlg).focus({ preventScroll: true }); }, 30);
+  return dlg;
 }
-function clearFieldErrors(scope) { scope.querySelectorAll('[aria-invalid="true"]').forEach(clearFieldError); scope.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid')); scope.querySelectorAll('.field-err').forEach(x => x.remove()); }
-let errSeq = 0;
-function fieldErrors(form, list) {
-  clearFieldErrors(form);
-  for (const { el, msg } of list) {
-    el.setAttribute('aria-invalid', 'true');
-    const f = el.closest('.field'); if (!f) continue;
-    const id = (el.id || 'fld' + (++errSeq)) + '-err';
-    f.classList.add('invalid');
-    const m = document.createElement('div'); m.className = 'field-err'; m.id = id; m.textContent = msg; f.appendChild(m);
-    el.setAttribute('aria-describedby', id);
-  }
-  if (list[0]) list[0].el.focus();
+```
+
+`closeModal()` am Ende ergänzen und `restoreAfterModal()` neu:
+```js
+  if (!modals.length) { document.body.style.overflow = ''; const sh = document.querySelector('.shell'); if (sh) sh.inert = false; }
+  const x0 = m[0]; if (x0) setTimeout(() => restoreAfterModal(x0), 0); /* nach dem synchronen App.rerender() */
+}
+function restoreAfterModal(x0) {
+  const top = modals[modals.length - 1]; const a = document.activeElement;
+  if (a && a !== document.body && !a.closest('.modal-bg.out')) return; /* jemand hat den Fokus schon gesetzt (Seitenwechsel, Mentor-Eingabe) */
+  const ok = e => e && e.isConnected && e.getClientRects().length > 0 && !e.closest('[inert], .modal-bg.out');
+  let el = ok(x0.ret) ? x0.ret : null;
+  if (!el && !top && x0.retKey) { const hits = document.querySelectorAll('#main ' + x0.retKey + ', #sidebar ' + x0.retKey); if (hits.length === 1 && ok(hits[0])) el = hits[0]; }
+  if (!el) el = top ? top.bg.firstElementChild : document.getElementById('content');
+  if (el) el.focus({ preventScroll: true });
+}
+function requestClose() {
+  const top = modals[modals.length - 1]; if (!top) return;
+  if (top.o.guard && top.dirty && top.dirty()) { confirmModal('Änderungen verwerfen?', 'Deine Eingaben in diesem Fenster gehen verloren.', { ok: 'Verwerfen', danger: true }).then(ok => { if (ok) closeModal(); }); return; }
+  closeModal();
 }
 ```
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+
+## barrierefreiheit-U3b · Bestätigung und Download: data-autofocus auf sicherer Wahl bzw. „Fertig“
+
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: komponenten-43, barrierefreiheit-1, barrierefreiheit-8
+Quelle: audit/spec/barrierefreiheit.md Z. 455–463 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-U3a
+
+```text
+
+`confirmModal` (Z. 447):
+- Fuß-„Abbrechen“ → `<button type="button" class="btn" data-close${o.danger ? ' data-autofocus' : ''}>Abbrechen</button>`
+- Bestätigung → `<button type="button" class="btn …" data-confirm${o.danger ? '' : ' data-autofocus'}>`
+
+`downloadText` (Z. 458): Fertig → `<button type="button" class="btn primary" data-close data-autofocus>Fertig</button>`.
+
+Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39, komponenten-43
 
 ```
 
-## zustaende-S-A1 · Start: Toast-Container anlegen; globaler invalid-Listener mit Feldmeldungen und Löschen der Meldung bei Eingabe
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe zustaende · Cluster zustaende · Aufwand M · Befunde: zustaende-19, barrierefreiheit-20, zustaende-3
-Quelle: audit/spec/zustaende.md Z. 515–531 · Dateien: web/js/app.js
-Abhängig von: zustaende-S-U5, zustaende-S-U6, zustaende-S-C3
+- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+
+## barrierefreiheit-U5 · Gemeinsame Bildansicht U.lightbox (role=dialog, Fokus, Escape, Fokus-Rückgabe)
+
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
+Quelle: audit/spec/barrierefreiheit.md Z. 474–487 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-B2
 
 ```text
-### 3.7 `web/js/app.js`
-
-**S-A1 Start: Toast-Container, Feldfehler** – zustaende-19, barrierefreiheit-20, zustaende-3
-In `bind()` (Z. 271) als erste Zeile `U.toast.init();`. Neben dem submit-Listener (nach Z. 284) neu:
+**U5 Bildansicht** (neu, nach `downloadText`)
 ```js
-let invalidBatch = null;
-document.addEventListener('invalid', e => {
-  const el = e.target; if (!el.form || el.form.noValidate) return; e.preventDefault();
-  const v = el.validity; const num = x => fmt.num(Number(x), 4);
-  const msg = v.valueMissing ? 'Pflichtfeld' : v.rangeUnderflow ? `Mindestens ${num(el.min)}` : v.rangeOverflow ? `Höchstens ${num(el.max)}` : v.typeMismatch && el.type === 'email' ? 'Gültige E-Mail-Adresse eintragen' : 'Ungültiger Wert';
-  if (!invalidBatch) { invalidBatch = { form: el.form, list: [] }; queueMicrotask(() => { const b = invalidBatch; invalidBatch = null; U.fieldErrors(b.form, b.list); }); }
-  invalidBatch.list.push({ el, msg });
-}, true);
-const clearErr = e => { const el = e.target; if (el && el.getAttribute && el.getAttribute('aria-invalid') === 'true') U.clearFieldError(el); };
-document.addEventListener('input', clearErr, true); document.addEventListener('change', clearErr, true);
+function lightbox(src, alt) {
+  const back = document.activeElement; const lb = document.createElement('div');
+  lb.className = 'lightbox'; lb.tabIndex = -1; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', alt || 'Screenshot');
+  lb.innerHTML = `<img src="${esc(src)}" alt="${esc(alt || '')}">`;
+  const close = () => { lb.remove(); if (back && back.isConnected) back.focus({ preventScroll: true }); };
+  lb.addEventListener('click', close);
+  lb.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); } });
+  document.body.appendChild(lb); lb.focus({ preventScroll: true }); return lb;
+}
 ```
+Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
 
-```
-
-## zustaende-S-M2 · Einstellungen → Trading speichert sofort bei change, „Gespeichert“ im Kopf, kein Speichern-Knopf
-
-Gruppe zustaende · Cluster einstellungen · Aufwand M · Befunde: komponenten-5
-Quelle: audit/spec/zustaende.md Z. 762–770 · Dateien: web/js/screens/misc.js
-Abhängig von: zustaende-S-C14, zustaende-S-A1
-
-```text
-**S-M2 Trading speichert sofort** – komponenten-5
-- Z. 192 `head('Trading', 'Passe dein Trading-Erlebnis an.')` → `head('Trading', 'Passe dein Trading-Erlebnis an.', '<span class="save-state" id="set-save" aria-live="polite"></span>')`; `<form data-action="save-trading" class="stack" …>` → `<form data-action="save-trading" data-change="save-trading-auto" class="stack" …>`
-- Z. 201 `<div><button type="submit" class="btn primary">Speichern</button></div>` entfernen.
-- Z. 335: Lesen der Form in eine Funktion `function readTrading(form) { … }` auslagern (genau der heutige Inhalt bis `C.setBreakEven(st.beOffset)`). `'save-trading'(form) { readTrading(form); U.toast('Gespeichert', 'ok'); rerender(); }` bleibt für Enter. Neu:
-```js
-'save-trading-auto'(form) { if (!form.checkValidity()) { form.reportValidity(); return; } readTrading(form); const s = document.getElementById('set-save'); if (s) { s.textContent = 'Gespeichert'; clearTimeout(s._t); s._t = setTimeout(() => { s.textContent = ''; }, 2000); } },
-```
-(kein Toast, kein `rerender`). Profil, Mentor, Notebook unverändert.
-
-```
-
-## zustaende-S-TE6 · Test settest.js:22: Break-even-Felder füllen und mit Tab verlassen statt Submit
-
-Gruppe zustaende · Cluster einstellungen · Aufwand S · Befunde: komponenten-5
-Quelle: audit/spec/zustaende.md Z. 882–882 · Dateien: web/e2e/settest.js
-Abhängig von: zustaende-S-M2, zustaende-S-M1b
-
-```text
-- `e2e/settest.js:22`: statt Klick auf den Submit-Knopf `#be-from` und `#be-to` füllen und mit `press('Tab')` verlassen, dann den Store prüfen. Z. 26 bleibt (be-reset setzt `C.setBreakEven`).
 ```

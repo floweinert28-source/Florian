@@ -1,0 +1,450 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "App.userCard",
+   "nrs": [
+    "zustaende-S-A3",
+    "aufbau-B3",
+    "komponenten-A2",
+    "wording-S5.1-5.2",
+    "aufbau-B4",
+    "barrierefreiheit-P7",
+    "barrierefreiheit-P5",
+    "komponenten-A1"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Drei Schritte legen dieselbe Namenslogik an (aufbau: App.userName(), komponenten: App.userInfo… nein App.displayName(), zustaende: App.userInfo()). Es gibt genau eine Quelle: App.userInfo() aus zustaende-S-A3. Sie gibt { name, initials, sub, avatarId } zurück, also alles, was userCard und topbar brauchen; die beiden anderen Fassungen liefern weniger (A2 kein sub). Sie steht im App-Objekt vor userCard. App.userName() und App.displayName() werden nicht angelegt und auch in README, regeln.md und Kommentaren nicht genannt; dort heißt es App.userInfo(). Den Text „Profil ergänzen“ setzt nur wording-S5.1-5.2 Teil 5.2 um, und zwar einmal: app.js:229, usercardtest.js:11 und die Umbenennung des Sprachschlüssels. Ebenfalls umzusetzen und verträglich: aufbau-B4 (Reihenfolge und Markierung .on im Konto-Menü), barrierefreiheit-P7 (kein role=menu/menuitem, .sb-av mit aria-hidden, Signatur userCard(theme, coachWhy, mini)) und komponenten-A1 (cdot bekommt data-tip statt title, aria-label bleibt). Endform der Hilfsfunktion: const link = (href, icon, label, extra = '', on = false) => `<a class=\"item${on ? ' on' : ''}\" href=\"${href}\" data-action=\"nav-close\">${I[icon]}<span>${label}</span>${extra}</a>`; Die Attribute am Knopf .sb-user regelt der Anker .sb-user.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-B3",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-A3",
+     "anweisung": "Teil 1 (Methode App.userName()) und Teil 2 (Initialen in topbar) entfallen. userCard und topbar nutzen App.userInfo() aus zustaende-S-A3. Im Tabellentext aufbau.md Z. 27 und in regeln.md App.userName() durch App.userInfo() ersetzen. Die übrigen Teile von B3 regelt der Anker App.topbar."
+    },
+    {
+     "nr": "komponenten-A2",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-A3",
+     "anweisung": "Keine Methode App.displayName() anlegen, userCard und topbar laufen über App.userInfo(). Der Punkt „Profil vervollständigen“ → „Profil ergänzen“ wird nur über wording-S5.1-5.2 Teil 5.2 umgesetzt (einschließlich usercardtest.js:11 und Sprachschlüssel, nicht doppelt über komponenten-L1). Abschnitt 1.10 der komponenten-Spezifikation nennt App.userInfo()."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-P5",
+     "nach": "barrierefreiheit-P7"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sb-user",
+   "nrs": [
+    "barrierefreiheit-P7",
+    "komponenten-A1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "An .sb-user steht kein title, auch eingeklappt nicht. Der App-Tooltip (#tip rechts, komponenten-U3) ersetzt ihn, sonst erscheinen zwei Tooltips. Eingeklappt braucht der Knopf aber einen Namen, weil .sb-who dann ausgeblendet ist; das aria-label aus P7 bleibt deshalb. Endform: <button type=\"button\" class=\"sb-user${cur === 'settings' || cur === 'coach' || cur === 'affiliate' ? ' active' : ''}\" data-pop=\"user\"${mini ? ' aria-label=\"Konto und Einstellungen\" data-tip=\"Konto und Einstellungen\" data-tip-side=\"right\"' : ''}>. aria-expanded und aria-controls setzt popInit (P1/P5); kein aria-haspopup. Das ist dasselbe Muster wie bei den eingeklappten Navigationslinks (Anker App.renderSidebar). data-tip-side braucht komponenten-U3 in bindTips.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-P7",
+     "aktion": "aendern",
+     "anweisung": "Z. 227 nachher: data-pop=\"user\"${mini ? ' aria-label=\"Konto und Einstellungen\" data-tip=\"Konto und Einstellungen\" data-tip-side=\"right\"' : ''}. Kein title und kein aria-haspopup. Die übrigen Punkte bleiben wie spezifiziert: Signatur mit mini, role=\"menuitem\" und role=\"menu\" streichen, .sb-av mit aria-hidden. Regel in barrierefreiheit.md Z. 98 und K12: statt „aria-label/title nur eingeklappt“ gilt „aria-label und App-Tooltip nur eingeklappt, kein title“."
+    },
+    {
+     "nr": "komponenten-A1",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 227 (.sb-user) setzt barrierefreiheit-P7 in der festgelegten Endform um; A1 fügt dort nichts weiter hinzu. Die anderen Punkte von A1 regelt der Anker App.renderSidebar."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "App.renderSidebar",
+   "nrs": [
+    "barrierefreiheit-P5",
+    "komponenten-A1",
+    "responsiv-3.3c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "(1) Die Zeile desk/mini wird einmal vor const item verschoben, durch P5 (A1 verlangt dasselbe). (2) Endform des Navigationslinks: `<a href=\"#/${key}\" class=\"${cur === key ? 'active' : ''}\"${cur === key ? ' aria-current=\"page\"' : ''}${mini ? ` aria-label=\"${label}\" data-tip=\"${label}\" data-tip-side=\"right\"` : ''} data-action=\"nav-close\">`. Kein title, auch eingeklappt nicht. Grund: komponenten verlangt „keine System-Tooltip-Dubletten“; App-Tooltip rechts und aria-label decken Maus und Screenreader ab. (3) Schublade: inert setzt nur P5 (sb.inert = mob && !open; main.inert = mob && open), und zwar vor jedem focus(). Die Fokuslogik steht nach dem Muster von 3.3c (wasOpen/hadFocus am Anfang) in renderSidebar. Nur so gibt jeder Schließweg den Fokus zurück: ×, Scrim, Escape (bind-Handler), nav-close auf dieselbe Route und Breitenwechsel. responsiv-Prüfpunkt 11 verlangt „Escape → Fokus auf .menu-btn“; P6 (Logik nur in den Aktionen) deckt das nicht ab. Beim Öffnen geht der Fokus auf „Menü schließen“ (.sb-toggle), wie in barrierefreiheit Z2 und bereich_shell-15, und nicht auf den aktiven Eintrag. Gründe: Es ist das erste Element der Schublade, Tab läuft danach von oben durch die Navigation, und der Screenreader nennt sofort den Weg zum Schließen. Prüfpunkt 11 (aktives Element liegt in #sidebar) bleibt erfüllt. Beim Schließen geht der Fokus an .menu-btn, aber nur wenn er in der Schublade war und der Knopf sichtbar ist.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-P5",
+     "aktion": "aendern",
+     "anweisung": "In Z. 207 entfällt ${mini ? ` title=\"${label}\"` : ''}; die Mini-Attribute setzt komponenten-A1 (siehe Endform). Unverändert bleiben: Zeile verschieben, aria-current, Gruppen als div role=group mit aria-labelledby, mini an userCard, this.popInit(sb) und die inert-Zeile. Die inert-Zeile steht direkt nach scrim.classList.toggle und vor der Fokuslogik aus responsiv-3.3c."
+    },
+    {
+     "nr": "komponenten-A1",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile desk/mini verschiebt P5, nicht doppelt verschieben. Z. 207 nach Endform: aria-current aus P5 und die Mini-Attribute aus A1 in einem Ausdruck, ohne title. Punkte (Z. 206/225 data-tip), Einklapp-Knopf (data-tip, eingeklappt mit data-tip-side) und Handy-× ohne title bleiben wie spezifiziert."
+    },
+    {
+     "nr": "responsiv-3.3c",
+     "aktion": "aendern",
+     "anweisung": "Erste Zeile wie spezifiziert: const wasOpen = sb.classList.contains('open'); const hadFocus = sb.contains(document.activeElement); Keine eigene main.inert-Zeile, die setzt P5. Direkt nach den inert-Zeilen von P5: if (!desk && open && !wasOpen) sb.querySelector('.sb-toggle')?.focus({ preventScroll: true }); else if (!open && wasOpen && hadFocus) { const b = document.querySelector('.menu-btn'); if (b && b.getClientRects().length) b.focus({ preventScroll: true }); } In responsiv.md 1.10 und in den regeln „Fokus auf den aktiven Eintrag“ → „Fokus auf „Menü schließen““."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-P5",
+     "nach": "komponenten-A1"
+    },
+    {
+     "vor": "barrierefreiheit-P5",
+     "nach": "responsiv-3.3c"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".menu-btn",
+   "nrs": [
+    "barrierefreiheit-P6",
+    "responsiv-3.3c",
+    "barrierefreiheit-P8",
+    "barrierefreiheit-B12a",
+    "komponenten-C10"
+   ],
+   "art": "doppelt",
+   "entscheidung": "P6 und 3.3c lösen dieselbe Aufgabe: Fokus beim Öffnen und Schließen der Schublade. Umgesetzt wird sie einmal in renderSidebar über responsiv-3.3c, in der Fassung des Ankers App.renderSidebar; das Ziel beim Öffnen (.sb-toggle) kommt aus P6. Die Aktionen sidebar() und scrim() sowie der Handy-Zweig von 'sb-toggle' bleiben unverändert. Eine Methode closeSidebar() gibt es nicht. Verträglich sind P8 (aria-controls=\"sidebar\" am Menüknopf), B12a (unsichtbare 44-px-Fläche per ::after im ≤960-Block) und C10 (Selektoren .topbar .menu-btn). Es gibt nur einen .menu-btn, document.querySelector('.menu-btn') trifft also weiter den Knopf der Titelzeile.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-P6",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "responsiv-3.3c",
+     "anweisung": "Entfällt als eigener Schritt: kein Fokus-Aufruf in sidebar(), kein closeSidebar(), scrim() und sb-toggle bleiben unverändert. Fokus auf „Menü schließen“ beim Öffnen und Rückgabe an .menu-btn (auch bei Escape) setzt 3.3c in renderSidebar um."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "#main",
+   "nrs": [
+    "barrierefreiheit-P1",
+    "barrierefreiheit-P5",
+    "responsiv-3.3c"
+   ],
+   "art": "doppelt",
+   "entscheidung": "main.inert wird nur einmal gesetzt, durch P5 (mob && open). 3.3c hat dafür keine eigene Zeile. Festlegung und Anweisungen stehen im Anker App.renderSidebar. P1 ist verträglich: restoreFocus überspringt Treffer in [inert], und renderSidebar läuft in render() vor restoreFocus. Beim Seitenwechsel aus der Schublade ist #main dadurch schon wieder bedienbar, bevor der Fokus auf #content geht.",
+   "anpassungen": [],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "inert",
+   "nrs": [
+    "barrierefreiheit-P5",
+    "responsiv-3.3c",
+    "barrierefreiheit-C-prop-friedhof-132-166"
+   ],
+   "art": "doppelt",
+   "entscheidung": "P5 und 3.3c setzen beide #main inert; es gilt nur P5, siehe Anker App.renderSidebar. Der Grabstein-Schritt (inert an der verdeckten Seite .pg-back/.pg-front) betrifft andere Elemente und ist verträglich.",
+   "anpassungen": [],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "#sidebar",
+   "nrs": [
+    "barrierefreiheit-H2",
+    "barrierefreiheit-P1",
+    "barrierefreiheit-P5",
+    "responsiv-3.3c"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Inhaltlich verträglich. P5 macht die Gruppen zu div role=\"group\", H2 macht das äußere Element zu <nav aria-label=\"Hauptnavigation\">. H2 darf nicht vor P5 landen, sonst gibt es vorübergehend verschachtelte nav-Landmarken (am besten in einem Commit). P5 ruft this.popInit(sb) auf, das P1 anlegt, also kommt P1 zuerst. Für 3.3c gilt die Fassung aus dem Anker App.renderSidebar.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-P1",
+     "nach": "barrierefreiheit-P5"
+    },
+    {
+     "vor": "barrierefreiheit-P5",
+     "nach": "barrierefreiheit-H2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sidebar",
+   "nrs": [
+    "abstaende-D1",
+    "responsiv-B1",
+    "responsiv-B2",
+    "barrierefreiheit-H2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "D1 und B1 verschieben beide die Dichte-Blöcke und machen die Konto-Karte klebend, aber nach verschiedenen Modellen (D1: .sidebar unten 18 px Polster, Karte mit bottom: -18px und negativem Rand; B1: oben 22 px Polster, unten 0, Karte mit bottom: 0). Festlegung: (a) Die Dichte-Blöcke verschiebt D1 einmal hinter .sidebar .spacer und streicht dabei .brand { padding-bottom: 14px; }, weil die Marke eine feste Höhe hat. (b) Oben gilt D1: .sidebar ohne Polster oben, .brand { min-height: var(--topbar-h); padding: 0 0 0 16px; }, Linie .sb-sep bei y = 71 über die volle Breite, ausgeklappt und eingeklappt, html.sb-mini .brand wie D1 (5). (c) Unten gilt das Modell von B1 bzw. responsiv-K3: .sidebar { padding: 0 14px 0; }. Der Abstand unten steckt in der Karte: .sidebar .sb-userwrap { position: sticky; bottom: 0; z-index: 1; flex: 0 0 auto; margin-top: 2px; padding: 8px 0 18px; background: var(--bg-2); }. Den Selektor mit .sidebar braucht es wie in D1, sonst gewinnt .popwrap { position: relative } aus Z. 328. bottom: -18px und negativer Rand entfallen: Ohne Polster unten scheint unter der Karte keine Navigation durch (responsiv-Prüfpunkt 11), und .sb-user endet trotzdem bei innerHeight − 18 (abstaende-Messung). (d) Für die Schublade ≤ 960 px gilt B2: oben calc(22px + inset-top), unten 0, Karte unten calc(18px + inset-bottom). Die Ausrichtung der Marke an der 72-px-Titelzeile gilt dort nicht, die Schublade behält ihre bisherige Marke. H2 (nav statt aside) ändert keine Selektoren und ist verträglich. Dieselbe Festlegung gilt für die Anker .sb-userwrap, .sidebar .sb-userwrap und .sidebar .spacer der anderen Konfliktliste.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-D1",
+     "aktion": "aendern",
+     "anweisung": "(2) .sidebar padding → 0 14px 0 (unten 0 statt 18). (6) → .sidebar .sb-userwrap { position: sticky; bottom: 0; z-index: 1; flex: 0 0 auto; margin-top: 2px; padding: 8px 0 18px; background: var(--bg-2); }, ohne bottom: -18px und ohne margin-bottom -18px. (1), (3), (4) und (5) bleiben unverändert. Zusätzlich messen: elementFromPoint(sidebar.left + 40, innerHeight − 4) liegt in .sb-userwrap; .sb-user unten = innerHeight − 18 bei 1440×1000, 1366×768 und 1280×720."
+    },
+    {
+     "nr": "responsiv-B1",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "abstaende-D1",
+     "anweisung": "Dichte-Blöcke verschieben und klebende Konto-Karte setzt D1 in der festgelegten Form um. Der Selektor heißt .sidebar .sb-userwrap, .sidebar hat oben 0 statt 22 (Marke so hoch wie die Titelzeile), und die Zeile .brand { padding-bottom: 14px; } im Dichte-Block entfällt."
+    },
+    {
+     "nr": "responsiv-B2",
+     "aktion": "aendern",
+     "anweisung": "Zusätzlich im Block @media (max-width: 960px): .sidebar .brand { min-height: 0; padding: 4px 0 18px 16px; } .sidebar .sb-sep { margin-top: 0; }. Damit gilt die Ausrichtung an der Titelzeile aus D1 nur ab 961 px; die Linie bleibt in voller Breite. Alles Übrige bleibt wie spezifiziert: Polster oben/links mit Safe Area, unten 0, Karte unten calc(18px + env(safe-area-inset-bottom, 0px)), visibility, 40×40-Knopf und der Block für Höhen ≤ 940 px samt .sidebar .brand { padding-bottom: 14px; }."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-D1",
+     "nach": "responsiv-B2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "App.topbar",
+   "nrs": [
+    "aufbau-B3",
+    "komponenten-A2",
+    "barrierefreiheit-P8",
+    "zustaende-S-A3"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Initialen und Profilbild der Titelzeile kommen aus App.userInfo() (zustaende-S-A3, siehe Anker App.userCard): const u = this.userInfo(); … <a class=\"avatar\" href=\"#/settings/profil\" aria-label=\"Profil\" title=\"Profil\">${u.avatarId ? `<img data-blob=\"${esc(u.avatarId)}\" alt=\"\">` : `<span aria-hidden=\"true\">${esc(u.initials)}</span>`}</a>. P8 (dazu aria-controls=\"sidebar\" am Menüknopf) ist verträglich. Offen ist, ob der Avatar ab 961 px wegfällt. aufbau-B3 entscheidet „weg“ (aufbau-7, bereich_shell-11). komponenten führt genau diesen Punkt als Nutzerfrage hierarchie-47 (N4) mit der Empfehlung „behalten“. BRIEF erlaubt Umbauten nur, wenn sie klar besser sind, und legt diesen Punkt nicht fest. Deshalb warten B3 Teil 3–5 auf die Antwort: Ausblenden von .topbar .avatar und .boot-top .skel.av ab 961 px, Kommentar app.css Z. 221, bedingte Grenze 1180 → 1100, dazu die abhängigen Test- und README-Änderungen. Das betrifft auch die Anker #tb-tools und .boot-top .skel.av; B11 (Handy-Avatar 34 px im Skelett) gilt unabhängig davon. abstaende-R4 (headtest: #tb-tools auf #/stats leer) prüft den heutigen Stand und hängt nicht daran. Beantwortet der Nutzer komponenten-3 (F1, Zeitraum und Konto überall in der Titelzeile) mit Ja, passt F1 diesen Testfall mit an; headtest.js steht bereits in F1s Testliste.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-B3",
+     "aktion": "aendern",
+     "anweisung": "Teil 3 (CSS @media (min-width: 961px) { .topbar .avatar, .boot-top .skel.av { display: none; } }), Teil 4 (Kommentar Z. 221) und Teil 5 (Grenze 1180 → 1100) erst nach der Antwort auf hierarchie-47 umsetzen. Dasselbe gilt für die abhängigen Änderungen aus aufbau.md: headtest.js:11, sixtest.js:11, README Z. 62–64 und Z. 339, Prüfpunkt Z. 759. Lautet die Antwort „Avatar behalten“, entfallen diese Teile ersatzlos; lautet sie „weg“, gilt die Spezifikation. Teil 1–2 siehe Anker App.userCard."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-A3",
+     "nach": "barrierefreiheit-P8"
+    }
+   ],
+   "wartet_auf_frage": "komponenten: hierarchie-47 (N4, Profilbild oben rechts am PC behalten?)"
+  },
+  {
+   "anker": "NAV_GROUPS",
+   "nrs": [
+    "barrierefreiheit-P5",
+    "wording-S5.1-5.2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Technisch verträglich: P5 rendert die Gruppen als div role=\"group\" mit aria-labelledby auf den Gruppentitel; der Titeltext kommt weiter aus NAV_GROUPS. Den Namen „Konten“ → „Prop Trading“ entscheidet wording (bereich_shell-33). aufbau führt denselben Punkt aber als Nutzerfrage F10 (aufbau-14), und BRIEF legt Namen von Navigationsgruppen nicht fest. Deshalb wartet Teil 5.1. Teil 5.2 („Profil ergänzen“) hängt nicht daran und wird sofort umgesetzt (komponenten N4 setzt ihn ausdrücklich auch ohne Antwort um).",
+   "anpassungen": [
+    {
+     "nr": "wording-S5.1-5.2",
+     "aktion": "aendern",
+     "anweisung": "Teil 5.1 (app.js:18 „Konten“ → „Prop Trading“) erst nach der Antwort auf aufbau-14 umsetzen, zusammen mit seinen Folgen: rptest.js:9, README:264, Sprachschlüssel „Prop Trading“ und Prüfpunkt „PROP TRADING“ in wording.md Z. 748. Bei Nein entfällt Teil 5.1. Teil 5.2 sofort umsetzen; er trägt „Profil ergänzen“ allein (siehe Anker App.userCard)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": "aufbau: aufbau-14 (F10, Gruppe „Konten“ in „Prop Trading“ umbenennen?)"
+  },
+  {
+   "anker": "data-tip",
+   "nrs": [
+    "diagramme-C14",
+    "barrierefreiheit-U6b",
+    "aufbau-B10",
+    "barrierefreiheit-U1",
+    "barrierefreiheit-C-widgets-84-93",
+    "komponenten-A1",
+    "responsiv-3.2c",
+    "zustaende-S-PR1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Konflikt nur bei hbars: diagramme-C14 setzt data-tip an den sichtbaren Balken, an gekürzte Beschriftungen und an ein eigenes Leer-Rechteck. barrierefreiheit-U6b verlangt dagegen eine transparente Trefferfläche über der ganzen Zeile, Beschriftung eingeschlossen. Es gilt U6b, auch im Umbau C14. Dieselbe Bauart haben die dbars in widgets.js (C-widgets-84-93), und so hat jede Zeile genau ein Tooltip-Ziel. Für vbars und hbars gibt es einen gemeinsamen Baustein in ui.js, damit beide gleich lauten. B10 (Summe bei Ø pro Trade) gilt damit auch für „Erwartungswert je Setup“ (hbars mit metric expectancy): const groupTip = (g, v, perTrade) => { const b = `<b>${esc(String(g.label || g.key))}</b>: `; return !g.s.n ? b + 'Keine Trades' : `${b}${fmt.cur(v, { signed: true })}${perTrade ? ' pro Trade' : ''}<br>${perTrade ? `Summe ${fmt.cur(g.s.total, { signed: true })} · ` : ''}${g.s.n} Trades · Win-Rate ${fmt.pct(g.s.winRate)}`; }; Zähler und Begriff ändert danach wording-S1.4-1.7 an dieser einen Stelle. Endstand hbars: Die Beschriftung hat kein eigenes data-tip, denn der volle Name steht fett im Zeilen-Tooltip, und die Fläche darüber würde sie ohnehin verdecken. Eine leere Zeile zeigt nur die Beschriftung in --faint. Der Balken <path class=\"br\"> trägt kein data-tip. Vor </svg> folgt je Zeile <rect class=\"tip-hit\" x=\"0\" y=\"${mt + i * rowH}\" width=\"${W - mr}\" height=\"${rowH}\" fill=\"transparent\" data-tip=\"${groupTip(g, vals[i], perTrade)}\"></rect>. Verträglich ohne Änderung sind U1 (Info-Knopf), responsiv-3.2c (Chip mit tip), komponenten-A1 (Seitenleiste, siehe Anker App.renderSidebar) und C-widgets-84-93; zum Trendpfeil siehe Anker .trend. Die neue „Summe …“-Zeile kommt als Muster in alle fünf Sprachdateien.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-C14",
+     "aktion": "aendern",
+     "anweisung": "Die ersten Anweisungen des Zeichners (const groups = d && d.groups || []; if (!groups.length) …) bleiben stehen; den Leerzweig stellt zustaende-S-U4b auf chartEmpty(el) um. Ersetzt wird erst ab const perTrade. Im neuen Code: Am Beschriftungs-<text> kein data-tip. Leere Zeile: return label; ohne eigenes Rechteck. <path class=\"br\"> ohne data-tip. Vor </svg> die tip-hit-Schleife mit groupTip(g, vals[i], perTrade). In diagramme.md A-6 „gekürzt … + data-tip“ → „gekürzt …; voller Name im Zeilen-Tooltip“."
+    },
+    {
+     "nr": "barrierefreiheit-U6b",
+     "aktion": "aendern",
+     "anweisung": "Legt groupTip in ui.js vor drawers.vbars an (Wortlaut wie in der Entscheidung, mit der Summe-Zeile aus aufbau-B10) und setzt die vbars-Trefferflächen mit data-tip=\"${groupTip(g, vals[i], perTrade)}\"; der sichtbare Balken trägt kein data-tip mehr. Der hbars-Teil wird nicht am alten Zeichner umgesetzt, sondern im Umbau diagramme-C14, in derselben Form (x = 0, Breite W − mr, Höhe rowH)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-U6b",
+     "nach": "diagramme-C14"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "drawers.vbars",
+   "nrs": [
+    "aufbau-B10",
+    "barrierefreiheit-U6b",
+    "zustaende-S-U4b"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Verträglich, aber in fester Reihenfolge. B10 ergänzt den Tooltip um die Summe. U6b übernimmt diesen Text danach in groupTip (siehe Anker data-tip) und verschiebt ihn vom sichtbaren Balken auf eine transparente Trefferfläche je Fach: x = ml + i * gap mit dem jeweils gültigen ml, y = mt, Breite gap, Höhe H − mt − mb. zustaende-S-U4b betrifft nur den Leerzweig (chartEmpty(el); return;) und bleibt unverändert. Für den vbars-Umbau diagramme-C13 aus der anderen Konfliktliste gilt dieselbe Platzierung: kein data-tip am <path class=\"br\">, kein eigenes Leer-Rechteck, Trefferflächen aus der U6b-Schleife (groupTip liefert für leere Fächer „<b>Name</b>: Keine Trades“).",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-B10",
+     "nach": "barrierefreiheit-U6b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.drawers.hbars",
+   "nrs": [
+    "diagramme-C14",
+    "wording-S1.4-1.7"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "C14 baut hbars in der Fassung des Ankers data-tip um, mit Tooltip über groupTip auf .tip-hit. Danach ändert wording-S1.4-1.7 Zähler und Begriff (count(g.s.n, 'Trade', 'Trades') · Trefferquote …) einmal in groupTip. Das erledigt die Stellen Z. 327 (vbars) und Z. 335 (hbars) zugleich. Der Text „…bisheriger Text unverändert…“ in C14 meint den Text aus groupTip.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-C14",
+     "nach": "wording-S1.4-1.7"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".trend",
+   "nrs": [
+    "aufbau-C11a",
+    "zustaende-S-PR1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Beide Schritte ändern dieselben Zeilen in progress.js (20, 58, 59, 68, 69). aufbau-C11a trägt, die Leerzustände kommen aus zustaende-S-PR1. Endfassung: Z. 20 const arrow = (dir, tip = '') => dir > 0 ? `<span class=\"trend up\" aria-label=\"steigend\"${tip ? ` data-tip=\"${esc(tip)}\"` : ''}>${I.arrowUp}</span>` : dir < 0 ? `<span class=\"trend down\" aria-label=\"fallend\"${tip ? ` data-tip=\"${esc(tip)}\"` : ''}>${I.arrowDown}</span>` : ''; · Z. 58 pct löschen · Z. 59 const delta = cur.rate != null && prev && prev.rate != null ? Math.round((cur.rate - prev.rate) * 100) : 0; const rateDir = Math.sign(delta); Ohne Vorzeitraum gibt es keinen Pfeil, unter einem Prozentpunkt auch nicht; sonst stünde ein Pfeil neben zwei gleich gerundeten Werten. · Z. 68 <div class=\"big-stat\"><span class=\"${doneN ? '' : 'muted'}\">${doneN} / ${items.length}</span></div><div class=\"small muted\">Schritte erledigt</div>. Das ist eine Angabe statt Prozent plus „x von 5“ (aufbau-Grundsatz „eine Information an einer Stelle“); die 0 bleibt eine Zahl und ist gedämpft wie in zustaende K6; kein Pfeil. · Z. 69 <span>${cur.rate == null ? '<span class=\"muted\">—</span>' : fmt.pct(cur.rate)}</span>${arrow(rateDir, `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${Math.abs(delta) === 1 ? 'Prozentpunkt' : 'Prozentpunkte'} zum Vorzeitraum`)}. Der Tooltip nennt die Änderung, die der Pfeil anzeigt, statt „Vorzeitraum: 80 %“; das Minus ist U+2212. Neue Texte „Schritte erledigt“, „{0} Prozentpunkte zum Vorzeitraum“ und „{0} Prozentpunkt zum Vorzeitraum“ kommen in alle fünf Sprachdateien.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C11a",
+     "aktion": "aendern",
+     "anweisung": "Auf die Endfassung der Entscheidung bringen. Abweichungen von der Spezifikation: Z. 68 bekommt die Klasse muted bei doneN === 0. Z. 69 zeigt bei cur.rate == null „—“ in .muted. Der Tooltip schreibt das Minus als U+2212 und unterscheidet Ein- und Mehrzahl (Prozentpunkt/Prozentpunkte)."
+    },
+    {
+     "nr": "zustaende-S-PR1",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-C11a",
+     "anweisung": "Z. 20, 59, 68 und 69 setzt aufbau-C11a in der Endfassung um; enthalten sind „—“ in .muted ohne Daten und .muted bei 0 erledigten Schritten. In zustaende.md anpassen: Prüfpunkt 18 (leer_progress) → „Heutiger Fortschritt“ = „0 / 5“ in --muted. Glossarzeile Z. 133 und K6 → Tooltip „{0} Prozentpunkte zum Vorzeitraum“ und „Heutiger Fortschritt“ als „{n} / 5“."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.chip",
+   "nrs": [
+    "responsiv-3.2c",
+    "responsiv-3.7",
+    "responsiv-3.8",
+    "zustaende-S-T4",
+    "typografie-3.8l"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "3.2c erweitert U.chip um den Parameter tip, und 3.7 und 3.8 rufen ihn auf. Deshalb kommt 3.2c zuerst. S-T4 und 3.7 ändern dieselbe Stelle trades.js:59; die Endform ist x.setup ? U.chip(x.setup, 'setup', x.setup.length > 20 ? x.setup : '') : '<span class=\"faint\">—</span>'. In trades.js:49 ergänzen sich die ph-hide-Klassen aus 3.7 und „—“ in .faint für Geschlossen und Ausstieg aus S-T4. typografie-3.8l (join(' ') im Friedhof) hängt davon nicht ab.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "responsiv-3.2c",
+     "nach": "responsiv-3.7"
+    },
+    {
+     "vor": "responsiv-3.2c",
+     "nach": "responsiv-3.8"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "hoverLine",
+   "nrs": [
+    "diagramme-C8",
+    "diagramme-C9",
+    "diagramme-C11",
+    "barrierefreiheit-U6b"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "C8 führt den achten Parameter band ein, C9 übergibt showBars als band. Deshalb kommt C8 zuerst. C11 nutzt den vorhandenen siebten Parameter color als Funktion (i => colOf(pts[i].v)) und ist verträglich. U6b berührt hoverLine nicht: Die Trefferflächen haben fill=\"transparent\" und die Klasse tip-hit, nicht .hit.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-C8",
+     "nach": "diagramme-C9"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "#content",
+   "nrs": [
+    "barrierefreiheit-P1",
+    "barrierefreiheit-P10",
+    "barrierefreiheit-H1",
+    "zustaende-S-TE2"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "P1 macht #content mit tabindex=\"-1\" fokussierbar, P10 legt die Aktion skip-content an, H1 setzt den Sprunglink. Ohne P10 würde der Link mit href=\"#content\" die Route wechseln, denn parseRoute fällt auf das Dashboard zurück. Ohne P1 bliebe c.focus() wirkungslos. Reihenfolge P1 → P10 → H1, oder alles in einem Commit. S-TE2 (dashtest) prüft nur Text in #content und hängt nicht davon ab.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-P1",
+     "nach": "barrierefreiheit-P10"
+    },
+    {
+     "vor": "barrierefreiheit-P10",
+     "nach": "barrierefreiheit-H1"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".boot-head",
+   "nrs": [
+    "zustaende-S-C19",
+    "responsiv-B11",
+    "responsiv-3.17"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die Werte vertragen sich: Desktop Kopfreihe 46, Symbole 42, Kacheln 131, Karten 396; Handy 46, 40, 111, 339. S-C19 setzt das Desktop-Skelett und lässt die Media-Queries ausdrücklich für responsiv (bereich_shell-5) stehen. B11 passt danach Z. 1554 an und blendet .boot-top .skel.mb und .boot-head .skel.m global aus. 3.17 fügt diese beiden Platzhalter ins HTML ein. 3.17 darf nicht vor B11 landen: Sonst stehen am Desktop ein 128-px-Block in der Titelzeile und ein zusätzlicher Platzhalter in der Kopfreihe. Reihenfolge S-C19 → B11 → 3.17; B11 und 3.17 am besten in einem Commit.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-C19",
+     "nach": "responsiv-B11"
+    },
+    {
+     "vor": "responsiv-B11",
+     "nach": "responsiv-3.17"
+    }
+   ],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  "#tb-tools",
+  ".boot-top .skel.av",
+  ".avatar",
+  ".sb-who span",
+  ".sb-av",
+  ".sb-av-dot",
+  "S.settings.profile",
+  "enterAnim",
+  "fmt.pct",
+  "drawers.hbars",
+  "App.render",
+  ".nav a.active",
+  "unmount",
+  "aria-hidden",
+  ".pg-stone",
+  ".pg-back"
+ ]
+}

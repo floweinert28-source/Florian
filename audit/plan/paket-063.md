@@ -1,140 +1,100 @@
-# Paket 063 · komponenten, notebook_news, konto, barrierefreiheit
+# Paket 063 · training, komponenten, shell, trades_tag
 
-Schritte: 6 · Dateien: web/css/app.css, web/js/screens/coach.js, web/js/screens/notebook.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: —
-Baut auf Paketen auf: 62
+Schritte: 6 · Dateien: web/e2e/notechecktest.js, web/js/app.js, web/js/screens/day.js, web/js/screens/progress.js
+Betroffene Tests laut Spezifikation: web/e2e/notechecktest.js:14
+Baut auf Paketen auf: 7, 62
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-C-notebook-74-teilen · Notebook „Teilen“: .hide-m → .vh-m
+## barrierefreiheit-P2 · Menüs: aria-expanded beim Öffnen/Schließen, Öffnen per Tastatur fokussiert Eintrag
 
-Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_konto-11
-Quelle: audit/spec/barrierefreiheit.md Z. 800–801 · Dateien: web/js/screens/notebook.js
-Abhängig von: barrierefreiheit-B1
-
-```text
-  - `<span class="hide-m">Teilen</span>` → `<span class="vh-m">Teilen</span>` (Befund: bereich_konto-11, gleiches Muster)
-
-```
-
-## barrierefreiheit-C-coach-42-157 · Coach: .hide-m → .vh-m (Namen am Handy behalten)
-
-Gruppe barrierefreiheit · Cluster konto · Aufwand S · Befunde: bereich_konto-11
-Quelle: audit/spec/barrierefreiheit.md Z. 789–791 · Dateien: web/js/screens/coach.js
-Abhängig von: barrierefreiheit-B1
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: bereich_dashboard-22, barrierefreiheit-26, barrierefreiheit-27, bereich_shell-12
+Quelle: audit/spec/barrierefreiheit.md Z. 565–572 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-P1
 
 ```text
-#### `web/js/screens/coach.js`
+**P2 Menüs** (Klick-Handler Z. 275, `closePopovers` Z. 172)
+- Z. 275, Zweig „öffnen“, nach `target.classList.add('open');`:
+  `pop.setAttribute('aria-expanded', 'true'); this.fitPopover(target); if (e.detail === 0) { const f = target.querySelector('[aria-checked="true"]') || target.querySelector('.item:not([disabled]), a[href], button:not([disabled])'); if (f) f.focus({ preventScroll: true }); }`
+  (das bisherige `this.fitPopover(target)` dorthin verschieben)
+- Z. 172 in der forEach-Schleife vor `M.leave(…)`:
+  `` document.querySelectorAll(`[data-pop="${CSS.escape(p.id.slice(4))}"]`).forEach(b => b.setAttribute('aria-expanded', 'false')); ``
+- Befunde: bereich_dashboard-22, barrierefreiheit-26, barrierefreiheit-27, bereich_shell-12
 
-- **Z. 42, 121 (2×), 157:** `<span class="hide-m">…</span>` → `<span class="vh-m">…</span>` (Befund: bereich_konto-11)
 ```
 
-## barrierefreiheit-B2 · Sprunglink-Stil .skip und programmatische Fokusflächen ohne Ring (#content, .modal, .lightbox)
+## barrierefreiheit-P7 · Konto-Karte: Disclosure statt role=menu, Label/title nur eingeklappt, Avatar aria-hidden
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
-Quelle: audit/spec/barrierefreiheit.md Z. 287–295 · Dateien: web/css/app.css
-Abhängig von: —
+Gruppe barrierefreiheit · Cluster shell · Aufwand S · Befunde: bereich_shell-12, barrierefreiheit-27
+Quelle: audit/spec/barrierefreiheit.md Z. 616–624 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-P5, barrierefreiheit-P2
 
 ```text
-**B2 Sprunglink und programmatische Fokusflächen** (nach `.vh`, Z. 1330)
-- nachher:
-  ```css
-  .skip { position: fixed; left: 16px; top: -48px; z-index: 200; padding: 8px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border-2); color: var(--text); font-size: 13.5px; font-weight: 500; }
-  .skip:focus { top: 12px; }
-  #content:focus, .modal:focus, .lightbox:focus { outline: none; }
-  ```
-- Befunde: barrierefreiheit-31, bereich_shell-14, barrierefreiheit-2, barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-17
+**P7 Konto-Karte** (`userCard` Z. 218–233)
+- Signatur `userCard(theme, coachWhy, mini)`.
+- Z. 226 `link`: `role="menuitem"` streichen.
+- Z. 227 vorher: `data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen"`
+  nachher: `data-pop="user"${mini ? ' aria-label="Konto und Einstellungen" title="Konto und Einstellungen"' : ''}`
+- Z. 228: `<span class="sb-av">` → `<span class="sb-av" aria-hidden="true">` (der Hinweis-Punkt `sb-av-dot` behält sein Label)
+- Z. 231: `<div class="popover up sb-menu" id="pop-user" role="menu">` → ohne `role`
+- Befunde: bereich_shell-12, barrierefreiheit-27
 
 ```
 
-## barrierefreiheit-U3a · Dialog-Gerüst: Selbstfokus, .shell inert, aria-labelledby, Fokus-Rückgabe (restoreAfterModal), guard/requestClose
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand L · Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39
-Quelle: audit/spec/barrierefreiheit.md Z. 413–454 · Dateien: web/js/ui.js
-Abhängig von: barrierefreiheit-B2
+- [doppelt: App.userCard] Drei Schritte legen dieselbe Namenslogik an (aufbau: App.userName(), komponenten: App.userInfo… nein App.displayName(), zustaende: App.userInfo()). Es gibt genau eine Quelle: App.userInfo() aus zustaende-S-A3. Sie gibt { name, initials, sub, avatarId } zurück, also alles, was userCard und topbar brauchen; die beiden anderen Fassungen liefern weniger (A2 kein sub). Sie steht im App-Objekt vor userCard. App.userName() und App.displayName() werden nicht angelegt und auch in README, regeln.md und Kommentaren nicht genannt; dort heißt es App.userInfo(). Den Text „Profil ergänzen“ setzt nur wording-S5.1-5.2 Teil 5.2 um, und zwar einmal: app.js:229, usercardtest.js:11 und die Umbenennung des Sprachschlüssels. Ebenfalls umzusetzen und verträglich: aufbau-B4 (Reihenfolge und Markierung .on im Konto-Menü), barrierefreiheit-P7 (kein role=menu/menuitem, .sb-av mit aria-hidden, Signatur userCard(theme, coachWhy, mini)) und komponenten-A1 (cdot bekommt data-tip statt title, aria-label bleibt). Endform der Hilfsfunktion: const link = (href, icon, label, extra = '', on = false) => `<a class="item${on ? ' on' : ''}" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span>${extra}</a>`; Die Attribute am Knopf .sb-user regelt der Anker .sb-user.
+- [konflikt: .sb-user] An .sb-user steht kein title, auch eingeklappt nicht. Der App-Tooltip (#tip rechts, komponenten-U3) ersetzt ihn, sonst erscheinen zwei Tooltips. Eingeklappt braucht der Knopf aber einen Namen, weil .sb-who dann ausgeblendet ist; das aria-label aus P7 bleibt deshalb. Endform: <button type="button" class="sb-user${cur === 'settings' || cur === 'coach' || cur === 'affiliate' ? ' active' : ''}" data-pop="user"${mini ? ' aria-label="Konto und Einstellungen" data-tip="Konto und Einstellungen" data-tip-side="right"' : ''}>. aria-expanded und aria-controls setzt popInit (P1/P5); kein aria-haspopup. Das ist dasselbe Muster wie bei den eingeklappten Navigationslinks (Anker App.renderSidebar). data-tip-side braucht komponenten-U3 in bindTips.
+- ÄNDERN: Z. 227 nachher: data-pop="user"${mini ? ' aria-label="Konto und Einstellungen" data-tip="Konto und Einstellungen" data-tip-side="right"' : ''}. Kein title und kein aria-haspopup. Die übrigen Punkte bleiben wie spezifiziert: Signatur mit mini, role="menuitem" und role="menu" streichen, .sb-av mit aria-hidden. Regel in barrierefreiheit.md Z. 98 und K12: statt „aria-label/title nur eingeklappt“ gilt „aria-label und App-Tooltip nur eingeklappt, kein title“.
+
+## barrierefreiheit-C-day-18 · Tages-Regelliste als <button role="checkbox" aria-checked>
+
+Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-15, bereich_trades_tag-41, bereich_training-20
+Quelle: audit/spec/barrierefreiheit.md Z. 762–767 · Dateien: web/js/screens/day.js
+Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1
 
 ```text
-**U3 Dialog-Gerüst** (Z. 428–449)
+- **Z. 18:**
+  - vorher: `<div class="it toggle ${…}" data-action="day-rule" data-day="${key}" data-rule="${r.id}">…</div>`
+  - nachher: `<button type="button" class="it toggle ${followed.includes(r.id) ? 'done' : ''}" role="checkbox" aria-checked="${followed.includes(r.id)}" data-action="day-rule" data-day="${key}" data-rule="${r.id}">…</button>`
+  - Die Fokus-Rückgabe nach `App.rerender()` übernimmt P1.
+  - Befunde: barrierefreiheit-15, bereich_trades_tag-41, bereich_training-20
 
-`modal()` ersetzen:
-```js
-const modals = []; let modalSeq = 0;
-function modal(html, o = {}) {
-  const act = document.activeElement; const ret = act && act !== document.body ? act : null;
-  const retKey = ret && root.App && root.App.anchorKey ? root.App.anchorKey(ret) : null;
-  const bg = document.createElement('div'); bg.className = 'modal-bg';
-  bg.innerHTML = `<div class="modal ${o.cls || ''}" role="dialog" aria-modal="true" tabindex="-1">${html}</div>`;
-  document.body.appendChild(bg); const dlg = bg.firstElementChild; const entry = { bg, o, ret, retKey }; modals.push(entry);
-  document.body.style.overflow = 'hidden'; const sh = document.querySelector('.shell'); if (sh) sh.inert = true;
-  const h = dlg.querySelector('.modal-head h2'); if (h) { h.id = h.id || 'mh-' + (++modalSeq); dlg.setAttribute('aria-labelledby', h.id); }
-  bg.addEventListener('mousedown', e => { if (e.target === bg && !o.locked) requestClose(); });
-  if (o.onMount) o.onMount(dlg);
-  if (o.guard) { const form = dlg.querySelector('form'); const snap = () => form ? JSON.stringify([[...new FormData(form)].filter(([, v]) => typeof v === 'string'), [...form.querySelectorAll('[aria-pressed]')].map(b => b.getAttribute('aria-pressed'))]) : ''; const start = snap(); entry.dirty = () => snap() !== start; }
-  /* Anfangsfokus: [data-autofocus] oder der Dialog selbst; nie das ×, nie automatisch ein Feld (o.noFocus ist damit Standard) */
-  setTimeout(() => { if (!dlg.isConnected || dlg.contains(document.activeElement)) return; (dlg.querySelector('[data-autofocus]') || dlg).focus({ preventScroll: true }); }, 30);
-  return dlg;
-}
 ```
 
-`closeModal()` am Ende ergänzen und `restoreAfterModal()` neu:
-```js
-  if (!modals.length) { document.body.style.overflow = ''; const sh = document.querySelector('.shell'); if (sh) sh.inert = false; }
-  const x0 = m[0]; if (x0) setTimeout(() => restoreAfterModal(x0), 0); /* nach dem synchronen App.rerender() */
-}
-function restoreAfterModal(x0) {
-  const top = modals[modals.length - 1]; const a = document.activeElement;
-  if (a && a !== document.body && !a.closest('.modal-bg.out')) return; /* jemand hat den Fokus schon gesetzt (Seitenwechsel, Mentor-Eingabe) */
-  const ok = e => e && e.isConnected && e.getClientRects().length > 0 && !e.closest('[inert], .modal-bg.out');
-  let el = ok(x0.ret) ? x0.ret : null;
-  if (!el && !top && x0.retKey) { const hits = document.querySelectorAll('#main ' + x0.retKey + ', #sidebar ' + x0.retKey); if (hits.length === 1 && ok(hits[0])) el = hits[0]; }
-  if (!el) el = top ? top.bg.firstElementChild : document.getElementById('content');
-  if (el) el.focus({ preventScroll: true });
-}
-function requestClose() {
-  const top = modals[modals.length - 1]; if (!top) return;
-  if (top.o.guard && top.dirty && top.dirty()) { confirmModal('Änderungen verwerfen?', 'Deine Eingaben in diesem Fenster gehen verloren.', { ok: 'Verwerfen', danger: true }).then(ok => { if (ok) closeModal(); }); return; }
-  closeModal();
-}
-```
-```
+## barrierefreiheit-C-progress-73 · Fortschritt: Tages-Checkliste als <button role="checkbox"> (wie day.js:18)
 
-## barrierefreiheit-U3b · Bestätigung und Download: data-autofocus auf sicherer Wahl bzw. „Fertig“
-
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: komponenten-43, barrierefreiheit-1, barrierefreiheit-8
-Quelle: audit/spec/barrierefreiheit.md Z. 455–463 · Dateien: web/js/ui.js
-Abhängig von: barrierefreiheit-U3a
+Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: barrierefreiheit-15, bereich_training-20
+Quelle: audit/spec/barrierefreiheit.md Z. 768–770 · Dateien: web/js/screens/progress.js
+Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1, barrierefreiheit-C-day-18
 
 ```text
+#### `web/js/screens/progress.js`
 
-`confirmModal` (Z. 447):
-- Fuß-„Abbrechen“ → `<button type="button" class="btn" data-close${o.danger ? ' data-autofocus' : ''}>Abbrechen</button>`
-- Bestätigung → `<button type="button" class="btn …" data-confirm${o.danger ? '' : ' data-autofocus'}>`
-
-`downloadText` (Z. 458): Fertig → `<button type="button" class="btn primary" data-close data-autofocus>Fertig</button>`.
-
-Befunde: barrierefreiheit-1, barrierefreiheit-8, barrierefreiheit-9, barrierefreiheit-10, barrierefreiheit-11, bereich_prop-39, komponenten-43
-
+- **Z. 73:** wie day.js:18, mit `rule.id` (Befunde: barrierefreiheit-15, bereich_training-20)
 ```
 
-## barrierefreiheit-U5 · Gemeinsame Bildansicht U.lightbox (role=dialog, Fokus, Escape, Fokus-Rückgabe)
+## barrierefreiheit-C-progress-75 · „Dein Tag“: Aktionszeilen als Knopf, Tagesnotiz als role=checkbox; Heatmap bleibt
 
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
-Quelle: audit/spec/barrierefreiheit.md Z. 474–487 · Dateien: web/js/ui.js
-Abhängig von: barrierefreiheit-B2
+Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: bereich_training-20, barrierefreiheit-15
+Quelle: audit/spec/barrierefreiheit.md Z. 771–776 · Dateien: web/js/screens/progress.js
+Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1
 
 ```text
-**U5 Bildansicht** (neu, nach `downloadText`)
-```js
-function lightbox(src, alt) {
-  const back = document.activeElement; const lb = document.createElement('div');
-  lb.className = 'lightbox'; lb.tabIndex = -1; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', alt || 'Screenshot');
-  lb.innerHTML = `<img src="${esc(src)}" alt="${esc(alt || '')}">`;
-  const close = () => { lb.remove(); if (back && back.isConnected) back.focus({ preventScroll: true }); };
-  lb.addEventListener('click', close);
-  lb.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); } });
-  document.body.appendChild(lb); lb.focus({ preventScroll: true }); return lb;
-}
-```
-Befunde: barrierefreiheit-17, bereich_trades_tag-41, bereich_notebook_news-35
+- **Z. 75 („Dein Tag“):**
+  - Zeilen mit `it.action` (ohne href) werden `<button type="button" class="it toggle ${it.done ? 'done' : ''}" data-action="${it.action}">`. Für `day-note-check` kommt zusätzlich `role="checkbox" aria-checked="${!!it.done}"` dazu.
+  - Zeilen mit href bleiben `<a>`, Zeilen ohne beides bleiben `<div class="it">` (z. B. „Regeln abgehakt“).
+  - Befunde: bereich_training-20, barrierefreiheit-15
+- **Z. 28 (Heatmap):** bleibt (siehe Zurückgestellt).
 
+```
+
+## barrierefreiheit-E-notechecktest-14 · notechecktest.js:14: Tagesnotiz-Zeile ist BUTTON mit role=checkbox
+
+Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: bereich_training-20
+Quelle: audit/spec/barrierefreiheit.md Z. 903–903 · Dateien: web/e2e/notechecktest.js
+Abhängig von: barrierefreiheit-C-progress-75
+
+```text
+| notechecktest.js:14 | `x.tagName === 'DIV'` | `x.tagName === 'BUTTON'` und `x.getAttribute('role') === 'checkbox'` |
 ```

@@ -1,0 +1,448 @@
+{
+ "zustaende-S-M2": [
+  {
+   "paket": 4,
+   "anker": ".set-head",
+   "aktion": "zusammen_mit",
+   "ziel": "komponenten-S-misc-e",
+   "anweisung": "komponenten-S-misc-e übernimmt das Speichern bei change (Formular-data-change, Knopf in Z. 201 entfernen, Handler mit App.savedHint). Aus S-M2 bleibt nur die Gültigkeitsprüfung; sie wandert in S-misc-e. head('Trading', …) bekommt kein trailing. zustaende-S-TE6 (Felder füllen und mit Tab verlassen) bleibt gültig und prüft `.set-head .save-state`.",
+   "entscheidung": "Jeder Einstellungs-Kopf hat genau einen „Gespeichert“-Hinweis. head() rendert immer `<span class=\"save-state\" aria-live=\"polite\"></span>` vor trailing (komponenten-S-misc-a). Gefüllt wird er nur über App.savedHint() (komponenten-A7) und steht 2000 ms. Die 2 s kommen aus zustaende Z9: Der Hinweis steht oben rechts, weit vom geänderten Feld, und 1,5 s reichen dort nicht zum Lesen. Trading speichert bei change über die eine Aktion save-trading: Das Formular trägt data-action und data-change=\"save-trading\", Enter läuft in denselben Handler. Der Handler beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (aus zustaende-S-M2), damit Werte außerhalb von min/max nicht gespeichert werden; die Meldung kommt über den globalen invalid-Listener. Danach speichern, C.setBreakEven, App.savedHint(), ohne Toast und ohne rerender. Es gibt keinen zweiten Span, keine id set-save, keine Aktion save-trading-auto und kein readTrading. Ob Profil und Notebook auch sofort speichern, entscheidet nicht dieser Anker. Wo sofort gespeichert wird, gilt derselbe Hinweis."
+  },
+  {
+   "paket": 16,
+   "anker": ".save-state",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "`head('Trading', …)` bekommt keinen eigenen `<span class=\"save-state\" id=\"set-save\">`, den setzt komponenten-S-misc-a in jeden Kopf. Statt der Inline-Anzeige über `#set-save` (2000 ms) `App.savedHint()` aufrufen. Die übrige Speicher-Mechanik wird unter dem Anker des Trading-Formulars entschieden.",
+   "entscheidung": "Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class=\"save-state\" aria-live=\"polite\"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id=\"set-save\"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change=\"save-trading\"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars."
+  }
+ ],
+ "komponenten-A7": [
+  {
+   "paket": 4,
+   "anker": ".set-head",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "In App.savedHint setTimeout auf 2000 statt 1500 setzen und den Titel auf „Gespeichert“ 2 s ändern.",
+   "entscheidung": "Jeder Einstellungs-Kopf hat genau einen „Gespeichert“-Hinweis. head() rendert immer `<span class=\"save-state\" aria-live=\"polite\"></span>` vor trailing (komponenten-S-misc-a). Gefüllt wird er nur über App.savedHint() (komponenten-A7) und steht 2000 ms. Die 2 s kommen aus zustaende Z9: Der Hinweis steht oben rechts, weit vom geänderten Feld, und 1,5 s reichen dort nicht zum Lesen. Trading speichert bei change über die eine Aktion save-trading: Das Formular trägt data-action und data-change=\"save-trading\", Enter läuft in denselben Handler. Der Handler beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (aus zustaende-S-M2), damit Werte außerhalb von min/max nicht gespeichert werden; die Meldung kommt über den globalen invalid-Listener. Danach speichern, C.setBreakEven, App.savedHint(), ohne Toast und ohne rerender. Es gibt keinen zweiten Span, keine id set-save, keine Aktion save-trading-auto und kein readTrading. Ob Profil und Notebook auch sofort speichern, entscheidet nicht dieser Anker. Wo sofort gespeichert wird, gilt derselbe Hinweis."
+  },
+  {
+   "paket": 16,
+   "anker": ".save-state",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "`App.savedHint` mit Timeout 2000 statt 1500 ms. Sonst wie spezifiziert (sucht `.set-head .save-state`).",
+   "entscheidung": "Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class=\"save-state\" aria-live=\"polite\"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id=\"set-save\"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change=\"save-trading\"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars."
+  }
+ ],
+ "komponenten-C20": [
+  {
+   "paket": 4,
+   "anker": ".prop-sub a::after",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 1866–1869 und Z. 2593–2598 durch genau diese Fassung ersetzen:\n.subtabs, .set-tabs, .prop-sub { display: flex; gap: 22px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }\n.subtabs::-webkit-scrollbar, .set-tabs::-webkit-scrollbar, .prop-sub::-webkit-scrollbar { display: none; }\n.subtabs > button, .set-tabs > button, .prop-sub a { position: relative; padding: 2px 1px 11px; border: 0; background: none; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; color: var(--muted); text-decoration: none; white-space: nowrap; cursor: pointer; transition: color var(--dur-1) var(--ease); }\n.subtabs > button:hover, .set-tabs > button:hover, .prop-sub a:hover, .subtabs > button[aria-pressed=\"true\"], .set-tabs > button[aria-pressed=\"true\"], .prop-sub a[aria-current=\"page\"] { color: var(--text); }\n.subtabs > button::after, .set-tabs > button::after, .prop-sub a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--text); transform: scaleX(0); }\n.subtabs > button[aria-pressed=\"true\"]::after, .set-tabs > button[aria-pressed=\"true\"]::after, .prop-sub a[aria-current=\"page\"]::after { transform: scaleX(1); }\n.subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }\nDie Regel .prop-sub a:focus-visible aus C19 entfällt wie vorgesehen. Tests friedhoftest.js:20, sampletest.js:81 und headtest.js:63–64 prüfen.",
+   "entscheidung": "komponenten-C20 setzt als einziger Schritt die gemeinsame Unterstrich-Fassung für .subtabs, .set-tabs und .prop-sub (Schrift und Linie --text, Gewicht 500, deckt farbe-B21 und zustaende-S-C9b ab). Abweichend von C20 gilt: (1) Die Linie ::after bekommt keine transition. Alle drei Leisten bauen beim Klick neu auf (content-tab, log-tab und recent-tab rufen rerender, .prop-sub navigiert; README Z. 357: die Leiste steht still), der Übergang würde also nie laufen (bewegung D3/K19). scaleX(0) und scaleX(1) bleiben. (2) Gewählt wird an Links über `.prop-sub a[aria-current=\"page\"]` angezeigt, weil aria-pressed an <a> wegfällt (barrierefreiheit Z4 und C-prop-304-305). (3) Schrift var(--fs-14)/var(--lh-14) statt 13.5px (Typografie: Reiter 14). (4) Fokus `outline: 2px solid var(--focus); outline-offset: -2px` statt --accent (barrierefreiheit Z1; die Leiste hat overflow-x: auto). Die Antwort auf aufbau-16 (F2) muss nicht abgewartet werden. Bei Ja streicht aufbau die .prop-sub-Selektoren aus diesen Regeln."
+  },
+  {
+   "paket": 15,
+   "anker": ".prop-sub a",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "(1) `font-size: 13.5px` → `font-size: var(--fs-14); line-height: var(--lh-14);`. (2) In der Hover/Gewählt-Liste und in der `::after { transform: scaleX(1) }`-Regel `.prop-sub a[aria-pressed=\"true\"]` → `.prop-sub a[aria-current=\"page\"]`. Für .subtabs/.set-tabs-Knöpfe bleibt aria-pressed. (3) Fokusregel: `.subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline-offset: -2px; }`, ohne outline-Farbe.",
+   "entscheidung": "komponenten-C20 trägt die Unterstrich-Reiter `.subtabs > button, .set-tabs > button, .prop-sub a` mit `font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; color: var(--muted)`. Hover und gewählt in --text, Linie `::after` mit `background: var(--text)`. Gewählt bei Knöpfen `[aria-pressed=\"true\"]`, bei den Prop-Links `.prop-sub a[aria-current=\"page\"]` (für Farbe und `::after { transform: scaleX(1) }`), weil Links kein aria-pressed tragen (barrierefreiheit Z4). Fokus `outline-offset: -2px`, nur der Versatz. Die Farbe kommt global, nicht --accent. -2px statt 2px, weil die Leiste mit overflow-x: auto den äußeren Ring oben abschneiden würde (barrierefreiheit Z1). .set-tabs bleibt damit 14 px und wird nur 600 → 500. Grund: Typografie-Rolle Reiter 14/500, keine 13.5 px. Unterstrich in --text statt Grün (BRIEF)."
+  },
+  {
+   "paket": 15,
+   "anker": ".prop-sub a:focus-visible",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Fokusregel nur `outline-offset: -2px` (siehe Anker .prop-sub a).",
+   "entscheidung": "Am Ende gibt es eine einzige Fokusregel: `.subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline-offset: -2px; }` (aus komponenten-C20). Ring 2px var(--focus) aus der globalen Regel. Die alte Z. 2592 löscht komponenten-C19 vollständig. Grund: barrierefreiheit Z1 („nur der Versatz weicht ab“, −2px in Scroll-Leisten), kein Grün als Fokus (BRIEF)."
+  }
+ ],
+ "barrierefreiheit-B9b": [
+  {
+   "paket": 4,
+   "anker": ".prop-sub a[aria-pressed=\"true\"]",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Der Punkt „Z. 2596 / 2598: .prop-sub a[aria-pressed=\"true\"] → .prop-sub a[aria-current=\"page\"]“ entfällt, das erledigt komponenten-C20. Es bleiben: die gemeinsame Liste Z. 3125–3128 (.rating button.on, .seg button[aria-checked], .tabs a und .prop-tabs a auf aria-current) und `.tabs a:not([aria-current=\"page\"])` nach Z. 1513.",
+   "entscheidung": "Der gewählte Prop-Unterreiter wird nur über aria-current=\"page\" markiert. Links tragen kein aria-pressed (barrierefreiheit Z4), und prop.js:305 setzt aria-current schon heute. komponenten-C20 schreibt die Selektoren gleich als `.prop-sub a[aria-current=\"page\"]` und `.prop-sub a[aria-current=\"page\"]::after`. barrierefreiheit-B9b ändert die .prop-sub-Zeilen nicht mehr."
+  },
+  {
+   "paket": 15,
+   "anker": ".tabs.scroll-x",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "(1) Die neue Regel nach Z. 1513 (`.tabs a:not([aria-current=\"page\"]) { color: var(--text-2); } … :hover { color: var(--text); }`) nicht anlegen. komponenten-C19 deckt das über `.tabs > a`/`.tabs > a:hover` ab. (2) Den Punkt „Z. 2596/2598 .prop-sub a[aria-pressed] → [aria-current]“ nicht separat ausführen. komponenten-C20 schreibt die .prop-sub-Selektoren direkt mit aria-current. Die Änderungen der gemeinsamen Liste (Z. 3125–3128) bleiben.",
+   "entscheidung": "Statistik-Reiter in stats.js Z. 15, genau so: `<nav class=\"tabs scroll-x\" data-subnav aria-label=\"Statistik-Bereiche\">${TABS.map(([k, l]) => `<a href=\"#/stats/${k}\"${tab === k ? ' aria-current=\"page\"' : ''}>${l}</a>`).join('')}</nav>`. Das heißt: <nav> mit Namen, kein .btn, keine Inline-Farbe, kein aria-pressed, aria-current nur am gewählten Link. CSS: `.tabs.scroll-x { overflow-x: auto; flex-wrap: nowrap; padding: 3px; margin: 0; }` (C19). Ungewählt --text-2 und Hover --text kommen aus der Schienen-Regel `.tabs > a` (C19). Gewählt kommt aus der gemeinsamen Regel mit `.tabs a[aria-current=\"page\"]` (B9b). Die Zusatzregel `.tabs a:not([aria-current=\"page\"]) …` aus B9b ist überflüssig. Abstand zum Inhalt: Die Schiene hat jetzt einen sichtbaren Rand und kein Scroll-Polster mit Gegenrand mehr. Deshalb entfällt der −4px-Ausgleich in abstaende-C8. Grund: Schiene statt Rahmenknöpfe (komponenten), Navigation als <nav> mit aria-current (barrierefreiheit Z4), 12 px Reiter↔Inhalt (abstaende)."
+  },
+  {
+   "paket": 1,
+   "anker": "[data-subnav]",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Die beiden Regeln `.tabs a:not([aria-current=\"page\"]) { color: var(--text-2); }` und `…:hover { color: var(--text); }` nach Z. 1513 nicht anlegen. Die Änderungen an der gemeinsamen Gewählt-Liste und an .prop-sub bleiben.",
+   "entscheidung": "stats.js:15 wird zu `<nav class=\"tabs scroll-x\" data-subnav aria-label=\"Statistik-Bereiche\">${TABS.map(([k, l]) => `<a href=\"#/stats/${k}\"${tab === k ? ' aria-current=\"page\"' : ''}>${l}</a>`).join('')}</nav>`. Die Links haben keine Klasse btn und keine Inline-Farbe (Komponenten: kein .btn als Reiter, Schiene .tabs > a aus komponenten-C19). Statt aria-pressed tragen sie aria-current (Barrierefreiheit Z4: nie aria-pressed an Links), der Behälter wird nav mit aria-label. Der gewählte Reiter bekommt seinen Stil über `.tabs a[aria-current=\"page\"]` in der gemeinsamen Liste (barrierefreiheit-B9b). Ohne .btn liefert .tabs > a schon --text-2 und beim Darüberfahren --text. Die beiden Zusatzregeln `.tabs a:not([aria-current=\"page\"])` aus barrierefreiheit-B9b hätten also keine Wirkung und entfallen. calmnavtest.js:50 sucht den gewählten Reiter über [aria-current=\"page\"], und App.revealActive (app.js:113) kennt aria-current schon."
+  }
+ ],
+ "komponenten-C26b": [
+  {
+   "paket": 4,
+   "anker": ".tracker i.today",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Der Punkt „Z. 1292 / 1672 / 1771: box-shadow 0 0 0 1.5px var(--text-2)“ entfällt; die Heute-Ringe setzen farbe-B23b/B23c (und für .activity der dortige Schritt), alle mit 0 0 0 2px var(--text-2). Der Punkt `.ycal-head span` (Z. 1685) bleibt. Der Grundsatz in komponenten Z. 99 („Ring 1,5 px“) gilt als 2 px.",
+   "entscheidung": "Die Heute-Markierung ist in allen Rastern gleich (Aktivität, Regel-Tracker, Jahres-Monatsraster): `box-shadow: 0 0 0 2px var(--text-2)`. Grund: farbe und diagramme (A5; diagramme Z. 219 übernimmt den Wert der Farb-Spezifikation) legen 2 px fest. Das ist auch die heutige Breite, nur die Farbe wechselt von Grün auf --text-2. 1,5 px rendern auf 1×-Bildschirmen unscharf. farbe-B23b setzt .tracker i.today, farbe-B23c setzt .ym-grid i.today. Für .activity i.today gilt derselbe Wert (Liste mit diagramme-A5/farbe-B23a)."
+  },
+  {
+   "paket": 18,
+   "anker": ".activity i.today",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "In Z. 1292 (.activity i.today), 1672 (.tracker i.today) und 1771 (.ym-grid i.today) `box-shadow: 0 0 0 2px var(--text-2)` statt `1.5px` setzen. Den Teil `.ycal-head span` laut Anker .ycal-head span umsetzen (mit Tokens).",
+   "entscheidung": "Das Ergebnis lautet `.activity i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Begründung: Die Farbregel „Raster 0 0 0 2px var(--text-2)“ und diagramme A-8 nennen beide 2 px. Ganze Pixel zeichnen auf 1×-Bildschirmen scharf, 1,5 px wird verwaschen. Der Ring hebt sich außerdem klar vom 1-px-Hover-Umriss ab (bewegung). Für die Einheitlichkeit der Raster gilt dieselbe Breite auch für .tracker i.today und .ym-grid i.today (diese Anker regelt konflikt-4). diagramme-A5 und farbe-B23a schreiben in Z. 1292 denselben Wert: Wer zuerst läuft, setzt ihn, der andere findet ihn schon vor. Die Heatmap-Stufen sind nicht Teil dieses Ankers (konflikt-5)."
+  },
+  {
+   "paket": 18,
+   "anker": ".ycal-head span",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "In der neuen Regel für Z. 1685 `font-size: var(--fs-12); line-height: var(--lh-12);` statt `font-size: 12px` schreiben.",
+   "entscheidung": "Das Ergebnis lautet `.ycal-head span { text-align: center; padding: 0 2px 6px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); border: 0; }`. Der Kopf des Jahreskalenders wird wie der Monatskalender eine Beschriftung ohne Kasten (gleiche Begründung wie beim Anker .cal .wd). Größe, Gewicht und Farbe stimmen in allen drei Schritten überein."
+  }
+ ],
+ "zustaende-S-C3": [
+  {
+   "paket": 3,
+   "anker": ".input[aria-invalid=\"true\"]",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Zeile 2 → `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }`. Zeile 3 → `.field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }`. Zeile 1 unverändert.",
+   "entscheidung": "Ein Regelsatz für Feldfehler aus zustaende-S-C3, nach `.field .hint` (Z. 299), also nach der Fokusregel Z. 293. Er deckt barrierefreiheit-B11 vollständig ab, plus .select, .sym-btn und .dir-switch. Eine Änderung: Ein fehlerhaftes Feld bekommt im Fokus keinen Ring. `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }` statt `box-shadow: 0 0 0 3px var(--loss-soft)`. Grund: barrierefreiheit Z1 (Felder im Fokus nur mit Rand, box-shadow none, box-shadow-Ringe verboten) und BRIEF (kein Schein). Die Fokusregel selbst bleibt nötig, sonst überstimmt `textarea.input:focus` (0,2,1) aus barrierefreiheit-A2b das `.input[aria-invalid=\"true\"]` (0,2,0). `.field-err` folgt der Typografie-Skala: `font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss);` (12/16; Zeilenhöhen 1.26–1.49 werden laut typografie ersetzt; ohne Tokens 12px/16px)."
+  },
+  {
+   "paket": 16,
+   "anker": ".field .hint",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Zweite Regel → `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }`; `.field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }`. Die Doppelung `.input[aria-invalid=\"true\"]` mit barrierefreiheit-B11 wird unter dessen Anker entschieden.",
+   "entscheidung": "Am Anker selbst verträglich: Farbe `--muted` (farbe-B3a), Größe `var(--fs-12)`/`var(--lh-12)` (typografie), die neuen Fehlerregeln von S-C3 stehen danach. Ein Widerspruch steckt in S-C3: `:is(.input, .select)[aria-invalid=\"true\"]:focus { box-shadow: 0 0 0 3px var(--loss-soft); }` ist ein Schein-Ring. Das verbieten barrierefreiheit Z1.3 (Felder im Fokus: Rand, `box-shadow: none`; Fehler: Rand --loss) und BRIEF (kein Schein). Endzustand: `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }`. `.field-err` bekommt Token-Zeilenhöhe statt 1.35 (typografie: 1.26–1.49 werden ersetzt): `.field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }`."
+  }
+ ],
+ "barrierefreiheit-B9a": [
+  {
+   "paket": 16,
+   "anker": ".rating",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Es entfallen die Punkte zu Z. 322 (`.seg.pill` min 36), Z. 324 (32 px), Z. 325 (`.rating button.on`) und die `.seg.pill`-Regel im Handy-Block. Das übernimmt komponenten-C15 mit `.scale5` (Desktop 32, Handy 44); `.seg.pill` wird gelöscht. Es bleibt nur Z. 320: `.seg button[aria-checked=\"true\"]` ergänzen.",
+   "entscheidung": "Eine Bauart `.scale5` für Check-in und Bewertung (komponenten), mit der ARIA-Struktur aus barrierefreiheit. Die Zustände hängen deshalb an `aria-checked` bzw. der Klasse `.on`, nicht mehr an `aria-pressed`. Gelbe Schrift ist `--warn-text` (Farbregel). MARKUP app.js: Z. 428 `<span class=\"lbl\" id=\"f-rating-l\">Bewertung</span><div class=\"scale5 rating\" id=\"f-rating\" role=\"radiogroup\" aria-labelledby=\"f-rating-l\">` mit Knöpfen `role=\"radio\" class=\"${t.rating >= n ? 'on' : ''}\" aria-checked=\"${t.rating === n}\" aria-label=\"${n} von 5 Sternen\"`; set-rating schaltet `.on` kumulativ und `aria-checked` nur am n-ten Stern (P13). Z. 513 `scale()` wird `<div class=\"scale5\" role=\"radiogroup\" aria-labelledby=\"${lid}\" data-chips=\"${name}\">` mit `role=\"radio\" aria-checked aria-label=\"${n} – ${label}\"`; seg-set setzt aria-checked (P14a). CSS app.css statt Z. 322–325: `.scale5 { display: inline-flex; gap: 6px; } .scale5 button { width: 32px; height: 32px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: … var(--dur-1) var(--ease); } .scale5 button:hover { color: var(--text); background: var(--surface-2); } .scale5.rating button { color: var(--muted); } .scale5.rating button.on { --lc: var(--warn-text); }`. Im Handy-Block (≤560px): `.scale5 button { width: 44px; height: 44px; }`, 5 × 44 + 4 × 6 = 244 px. In der gemeinsamen Auswahlregel (~Z. 3125) wird `.rating button["
+  },
+  {
+   "paket": 16,
+   "anker": ".rating button[aria-pressed=\"true\"]",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Es entfallen die Punkte zu Z. 322 (`.seg.pill` min 36), Z. 324 (32 px), Z. 325 (`.rating button.on`) und die `.seg.pill`-Regel im Handy-Block. Das übernimmt komponenten-C15 mit `.scale5` (Desktop 32, Handy 44); `.seg.pill` wird gelöscht. Es bleibt nur Z. 320: `.seg button[aria-checked=\"true\"]` ergänzen.",
+   "entscheidung": "Den Selektor gibt es danach nicht mehr. Endzustand wie beim Anker .rating: `.scale5.rating button { color: var(--muted); }` und `.scale5.rating button.on { --lc: var(--warn-text); }`. Gelbe Schrift ist immer --warn-text (farbe). Im hellen Design hat --warn als Schrift zu wenig Kontrast. In der gemeinsamen Auswahlregel steht `.scale5 button[aria-checked=\"true\"], .scale5.rating button.on`."
+  },
+  {
+   "paket": 15,
+   "anker": ".seg.pill button",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Die Punkte zu `.seg.pill button` (Z. 322 min-width/min-height 36 und Handy 44) nicht an .seg.pill setzen. Stattdessen nach komponenten-C15 `.scale5:not(.rating) button { width: 36px; height: 36px; }` anlegen und im ≤560-Block `.scale5:not(.rating) button { width: 44px; height: 44px; }`. Falls der Check-in als radiogroup mit aria-checked umgesetzt wird, gehört der Gewählt-Selektor an `.scale5 button[aria-checked=\"true\"]`.",
+   "entscheidung": "`.seg.pill button` wird gelöscht (komponenten-C14a). Der Check-in wird über komponenten-A6 zur `.scale5`. Die Mindestgröße des Check-ins aus barrierefreiheit bleibt erhalten, sitzt aber am neuen Baustein: `.scale5:not(.rating) button { width: 36px; height: 36px; }` und im Block `@media (max-width: 560px)`: `.scale5:not(.rating) button { width: 44px; height: 44px; }`. Die Bewertungssterne (.scale5.rating) bleiben bei 32. Grund: eine Bauart je Rolle (komponenten K24) und die ausdrückliche Touch-Vorgabe Check-in 36/44 (barrierefreiheit Z5)."
+  }
+ ],
+ "farbe-C1c": [
+  {
+   "paket": 16,
+   "anker": ".ed-pop .item .chk",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Den Punkt Z. 1103 (`.ed-pop .item .chk` → --text) nicht umsetzen, das übernimmt komponenten-C21d (--text-2, 16 px). Übrige Punkte (Toolbar gedrückt, Palettenrand, `.nb-menu`, YouTube-Popover) bleiben.",
+   "entscheidung": "Wie bei den Notebook-Tags: Haken in `--text-2`, 16 px (komponenten-C21d), einheitlich mit allen Menü-Haken. Endzustand: `.ed-pop .item .chk { display: none; width: 16px; height: 16px; color: var(--text-2); }`. Kein Grün, damit ist auch das Ziel von farbe-C1c erfüllt."
+  },
+  {
+   "paket": 15,
+   "anker": ".nb-ytpop",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Den Punkt Z. 1124 (.nb-ytpop border) nicht ausführen. komponenten-C22 setzt denselben Rand plus Radius 12. Die übrigen C1c-Punkte bleiben.",
+   "entscheidung": "Ergebnis `.nb-ytpop { …; border: 1px solid var(--border-2); border-radius: 12px; …; font-size: var(--fs-13); line-height: var(--lh-13); }`. Rand und Radius setzt komponenten-C22, die Größe typografie-3.2.3h."
+  }
+ ],
+ "typografie-3.2.3e": [
+  {
+   "paket": 16,
+   "anker": ".save-state",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Der Punkt „1030 `.nb .save-state`“ gilt für die von komponenten-C37a verallgemeinerte Regel `.save-state` (Endzustand `var(--fs-12)`/`var(--lh-12)`). Wer zuletzt umsetzt, stellt diesen Endzustand her.",
+   "entscheidung": "Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class=\"save-state\" aria-live=\"polite\"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id=\"set-save\"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change=\"save-trading\"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars."
+  },
+  {
+   "paket": 7,
+   "anker": ".prop-rule-f .field span",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 2723 `.prop-rule-f .field span` aus der Liste „11.5 → 12“ streichen, komponenten-C05 löscht die Regel.",
+   "entscheidung": "Die Regel wird gelöscht und nicht verkleinert. C05 löscht Z. 2723 `.prop-rule-f .field span`. S-prop-b stellt in prop.js `rulesFields` den Helfer `F` auf `<label class=\"field\"><span class=\"lbl\">…</span>` um. Die Beschriftung kommt dann aus `.field > .lbl`: 12/600 `--muted`, Token aus 3.2.3g. Das ist die app-weit einheitliche Feldbeschriftung und hat dieselbe Zielgröße 12, die 3.2.3e wollte. C05 und S-prop-b sollen im selben Durchgang landen, damit die Regelfelder nie ohne Beschriftungsstil dastehen."
+  },
+  {
+   "paket": 7,
+   "anker": ".fd-pop .fd-l",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 1360 `.fd-pop .fd-l` aus der Liste „11.5 → 12“ streichen, die Regel entfällt durch komponenten-C05.",
+   "entscheidung": "komponenten-C05 übernimmt und löscht `.fd-pop .fd-l` (Z. 1360). Die Filter-Beschriftung kommt in Popover und Panel allein aus `.fd-l`: `display: flex; align-items: baseline; gap: 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted);`. Das sind die Werte aus C05 in Token-Schreibweise; die Zeilenhöhe 1.3 wird zum Token wie in typografie-3.2.3f. aufbau-A4f wollte für das Popover dasselbe Ergebnis (12, `--muted`, 600 geerbt) als Zusatzregel. Eine Regel statt zwei ist sauberer."
+  }
+ ],
+ "komponenten-C25a": [
+  {
+   "paket": 7,
+   "anker": ".tile .head",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 637 `.stat-tile .k`: nicht auf `font-size: 13.5px` setzen. Kachel-Titel bleibt 13 (`var(--fs-13)`/`var(--lh-13)` nach typografie), 500, `--text-2`, wie `.tile .head`. Die übrigen C25a-Punkte bleiben unberührt.",
+   "entscheidung": "typografie-3.2.3i übernimmt die Kachel-Titel: `.tile .head { …; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }` (13.5 → 13). Die Handy-Regel ≤560 (Z. 3029) `font-size: 12px` → `var(--fs-12); line-height: var(--lh-12)` übernimmt 3.2.3g; das ist verträglich. Gewicht 500 für `.stat-tile .k` und `.stat .k` setzt typografie-3.2.4l. Damit ist aufbau-A3b in allen drei Punkten doppelt. Einheitlich gilt: Kachel-Titel überall 13/500 `--text-2`, auch `.stat-tile .k`. 13.5 px ist laut Typografie-Skala verboten."
+  },
+  {
+   "paket": 8,
+   "anker": ".kstrip .tile:hover",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Die Teile zu Z. 515 (transition kürzen) und Z. 516 (`.tile:hover, .stat-tile:hover { border-color: var(--border-2); }`) entfallen. Z. 636 `.stat-tile` bekommt keine transition. Maße, Schrift und der helle Schatten für .stat-tile (Z. 1499) bleiben.",
+   "entscheidung": "Karten und Kacheln haben keinen Hover-Zustand mehr. In app.css werden ersatzlos gelöscht: Z. 486 `.card:hover`, Z. 516 `.tile:hover, .stat-tile:hover`, Z. 2603 `.kstrip .tile:hover`. Die `transition`-Deklaration an `.card` (Z. 485), `.tile` (Z. 515) und `.stat-tile` (Z. 636) fällt ganz weg, weil dort kein Zustand mehr Rand, Schatten oder Lage ändert (kilook Z11: keine wirkungslosen Deklarationen; bewegung D3). Erhalten bleiben: (i) erscheint beim Darüberfahren und bei :focus-within (Z. 496–498, BRIEF „Info-Symbole nur beim Darüberfahren“); `.cal .d:hover` nach bewegung-C1, weil Kalendertage klickbar sind; das Token `--lift-shadow` (landing.css:56). Grund: Der BRIEF verlangt „ruhig, nichts Dekoratives“, und Hover-Rückmeldung gehört nur an Bedienbares. bewegung K1/H3 sieht genau diesen Fall selbst vor: Streicht zustaende `.card:hover`, folgen die Kacheln. S-C5 streicht es. Test motiontest.js:52–53: Beim Überfahren bleiben transform none und border-color unverändert. bewegung-3.11a und zustaende-S-TE3 sind dieselbe Änderung und werden einmal umgesetzt. Die Entscheidung zu `.tile:hover`/`.stat-tile:hover` in konflikt-14 muss hiermit übereinstimmen."
+  }
+ ],
+ "aufbau-A4f": [
+  {
+   "paket": 7,
+   "anker": ".fd-pop .fd-l",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Den Punkt Z. 1360 `.fd-pop .fd-l { font-size: 12px; color: var(--muted); }` streichen, komponenten-C05 löscht die Regel und setzt `.fd-l` selbst auf 12/600/`--muted`. Die übrigen A4f-Punkte (`.popover .sec`, `.fd-pop .fd-gh`, Gewichte der Filter-Steuerelemente) bleiben.",
+   "entscheidung": "komponenten-C05 übernimmt und löscht `.fd-pop .fd-l` (Z. 1360). Die Filter-Beschriftung kommt in Popover und Panel allein aus `.fd-l`: `display: flex; align-items: baseline; gap: 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted);`. Das sind die Werte aus C05 in Token-Schreibweise; die Zeilenhöhe 1.3 wird zum Token wie in typografie-3.2.3f. aufbau-A4f wollte für das Popover dasselbe Ergebnis (12, `--muted`, 600 geerbt) als Zusatzregel. Eine Regel statt zwei ist sauberer."
+  },
+  {
+   "paket": 15,
+   "anker": ".fd-seg button",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Den Punkt Z. 1386/1388/1400/1407 (font-weight 600 → 500) nicht ausführen. Das macht typografie-3.2.4d. Die übrigen A4f-Punkte (.popover .sec, .fd-gh, .fd-l) bleiben.",
+   "entscheidung": "Ergebnis `.fd-seg button { …; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; … }`. Das Gewicht 600 → 500 setzt typografie-3.2.4d als Gewichts-Sweep für alle Filter-Bausteine (.fd-seg button, .fd-tog button, .fd-chip, .fd-add), die Größe typografie-3.2.3h. Von komponenten-C14b bleiben `.fd-seg { gap: 2px; background: var(--surface-2); }` und die Löschungen."
+  },
+  {
+   "paket": 15,
+   "anker": ".fd-tog button",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Gewichtspunkt Z. 1388 (und 1386/1400/1407) entfällt in A4f, typografie-3.2.4d übernimmt ihn.",
+   "entscheidung": "Wie bei .fd-seg button: 500 über typografie-3.2.4d, Größe var(--fs-13)/var(--lh-13) über typografie-3.2.3h. aufbau-A4f ändert das Gewicht nicht noch einmal."
+  },
+  {
+   "paket": 18,
+   "anker": ".fd-pop .fd-gh",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 1355 → `.fd-pop .fd-gh { padding: 10px 2px 6px; font-family: var(--font); }` und `.fd-pop .fd-gh` an die Selektorliste der Eyebrow-Sammelregel anhängen (typografie-3.2.2b, Z. 101). font-size, font-weight, text-transform, letter-spacing und color nicht einzeln setzen. Die übrigen Punkte (.popover .sec, .fd-pop .fd-l, Gewichte der Filter-Steuerelemente) berührt dieser Anker nicht.",
+   "entscheidung": "Die Gruppenköpfe im Filter-Fenster („Trade“, „Zeit“ …) werden Eyebrows, wie `.popover .sec` in allen anderen Menüen (aufbau K11). Einheitlich heißt hier: `.fd-pop .fd-gh` kommt in die Eyebrow-Sammelregel von typografie-3.2.2b (var(--fs-11)/var(--lh-11), 600, Versal, .06em, 'case', --muted). Die Einzelregel Z. 1355 wird `.fd-pop .fd-gh { padding: 10px 2px 6px; font-family: var(--font); }`, Pfeil und Zähler bleiben. Die Sammelregel steht zwar früher in der Datei (Z. 101), gewinnt aber mit der Spezifität (0,2,0) gegen die Grundregel `.fd-gh` (Z. 1374, 15/600 --text). Nicht auf 13 px tokenisieren."
+  }
+ ],
+ "aufbau-A3c": [
+  {
+   "paket": 7,
+   "anker": ".day-card .stats .k",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) streichen. Die Größe 12 setzt typografie-3.2.3e als Token, es kommt kein `font-weight: 500`, `--muted` ist schon gesetzt. Auch der Prüfschritt `.fw-stats { gap: 8px }` entfällt: Die Kürzung prüft typografie-Akzeptanz 4.3 (K13), das Raster ordnet abstaende-C3. Übrig bleibt nur der Punkt `.fw-lbl`, für den die Entscheidung zum Anker `.fw-lbl` gilt.",
+   "entscheidung": "Typografie gewinnt mit 12/400 `--muted` für kleine Kennzahl-Beschriftungen in dichten Rastern: `.day-card .stats .k { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }`. Ein Gewicht wird nicht gesetzt, es bleibt 400 wie heute. Gründe: Die Gewichtsrollen gehören zur Typografie (400 = kleine Kennzahl-Beschriftung, abgestuft gegen den Kachel-Titel 13/500). Außerdem ist 500 breiter und verschärft die Kürzungen (typografie K13, „Disziplin-Kost…“). Die Größe 12 und die Farbe `--muted` sind in beiden Spezifikationen gleich."
+  },
+  {
+   "paket": 7,
+   "anker": ".strat-stats .k",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) und den Prüfschritt `.fw-stats { gap: 8px }` streichen. Die Größe 12 als Token kommt aus typografie-3.2.3e, es kommt kein 500. Übrig bleibt nur der Punkt `.fw-lbl` (Entscheidung zum Anker `.fw-lbl`).",
+   "entscheidung": "Wie bei `.day-card .stats .k`: `.strat-stats .k { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }`, Gewicht 400 (nicht gesetzt). Typografie gewinnt (Rolle kleine Kennzahl-Beschriftung 12/400)."
+  },
+  {
+   "paket": 7,
+   "anker": ".nb .stats-grid .k",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) und den Prüfschritt `.fw-stats { gap: 8px }` streichen. Die Größe 12 als Token kommt aus typografie-3.2.3e, es kommt kein 500. Übrig bleibt nur der Punkt `.fw-lbl` (Entscheidung zum Anker `.fw-lbl`).",
+   "entscheidung": "Wie bei `.day-card .stats .k`: `.nb .stats-grid .k { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }`, Gewicht 400. Gleiche Rolle wie die Kennzahl-Labels in der Tagesansicht, deshalb gleich gesetzt."
+  },
+  {
+   "paket": 7,
+   "anker": ".fw-stats > div > span",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) und den Prüfschritt `.fw-stats { gap: 8px }` streichen. Die Größe 12 als Token kommt aus typografie-3.2.3e, es kommt kein 500. Übrig bleibt nur der Punkt `.fw-lbl` (Entscheidung zum Anker `.fw-lbl`).",
+   "entscheidung": "`.fw-stats > div > span { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }`, Gewicht 400. Das entspricht typografie K13; 13/500 bzw. 12/500 wurden dort ausdrücklich abgelehnt, weil die Kürzung „Disziplin-Kost…“ sonst schlimmer wird. Das Raster selbst (zwei bzw. vier Spalten) regelt abstaende-C3, nicht A3c."
+  },
+  {
+   "paket": 18,
+   "anker": ".fw-lbl",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 1463 mit Tokens schreiben: `.fw-lbl { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); font-weight: 500; }`. Die übrigen Punkte wie spezifiziert.",
+   "entscheidung": "Das Ergebnis lautet `.fw-lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }`. Begründung: .fw-lbl („Richtig eingeschätzt“, widgets.js:348) steht direkt über dem großen Wert .fw-big. Das ist die Rolle „Wert-Beschriftung 13/500 --text-2“ aus typografie 1.5 (verbindlich) und deckt sich mit .val-label. Die 12er-Liste in 3.2.3f ordnet .fw-lbl nur mechanisch ein."
+  }
+ ],
+ "komponenten-C14b": [
+  {
+   "paket": 7,
+   "anker": ".seg.mini button",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "In der neuen Regel `.seg.mini button` `font-size: 11.5px` → `font-size: var(--fs-12); line-height: var(--lh-12)`. Höhe 24, Padding 0 7px und Radius 6 bleiben.",
+   "entscheidung": "Größe 12 statt 11.5: `.seg.mini button { height: 24px; padding: 0 7px; font-size: var(--fs-12); line-height: var(--lh-12); border-radius: 6px; }`. Die übrigen C14b-Änderungen an `.seg.mini` (Schiene `padding: 2px; border-radius: 8px; flex-wrap: nowrap`), `.fd-seg`, `.cert-opts .seg.sm` und `.seg.segc` bleiben. 11.5 px gehört zu den verbotenen Größen der Typografie-Skala. C14b hätte den Wert sonst nach 3.2.3e wieder eingeführt. dashtest.js:25/42 zählt bzw. klickt nur und ist nicht betroffen."
+  },
+  {
+   "paket": 15,
+   "anker": ".fd-seg button",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Bei Z. 1386 `.fd-seg button` das Gewicht nicht ändern (typografie-3.2.4d). Nur `.fd-seg { gap: 2px; background: var(--surface-2); }` und die übrigen C14b-Punkte umsetzen.",
+   "entscheidung": "Ergebnis `.fd-seg button { …; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; … }`. Das Gewicht 600 → 500 setzt typografie-3.2.4d als Gewichts-Sweep für alle Filter-Bausteine (.fd-seg button, .fd-tog button, .fd-chip, .fd-add), die Größe typografie-3.2.3h. Von komponenten-C14b bleiben `.fd-seg { gap: 2px; background: var(--surface-2); }` und die Löschungen."
+  },
+  {
+   "paket": 15,
+   "anker": ".cert-opts .seg.sm button",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Löschung wie spezifiziert, aber nicht als toten Code führen. Nach dem Löschen modal_zertifikat (1440 und 390) prüfen: Format-Schiene in einer Zeile, Tasten 34 px.",
+   "entscheidung": "komponenten-C14b löscht Z. 1965–1966. Das ist kein toter Code: certificate.js:73 rendert `.seg.sm` in `.cert-opts`. Die Format-Schalter erben danach aber die neue Segment-Grundregel aus C14a (34 px, 13 px, 500), und genau das ist gewollt (eine Bauart). Das <small> in den Tasten erbt 500. Nicht tokenisieren."
+  }
+ ],
+ "typografie-3.2.3m": [
+  {
+   "paket": 15,
+   "anker": ".prop-tabs a",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "`.tabs button` (Z. 660) und `.prop-tabs a` (Z. 2590) nicht einzeln anfassen. Die Zeilen ersetzt komponenten-C19, und die Größe var(--fs-14)/var(--lh-14) steht dort in der gemeinsamen Regel.",
+   "entscheidung": "Die Schiene aus komponenten-C19 ist die einzige Regel für `.tabs > button, .tabs > a, .prop-tabs a`, mit Skalenwerten statt 13.5/12.5 px: `display: inline-flex; align-items: center; height: 34px; padding: 0 12px; border: 1px solid transparent; border-radius: 9px; background: none; color: var(--text-2); font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; …` (Rest wie C19). Fokus: `.tabs > button:focus-visible, .tabs > a:focus-visible, .prop-tabs a:focus-visible { outline-offset: -2px; }`, nur der Versatz. Farbe und Stärke kommen aus der globalen :focus-visible-Regel, nach barrierefreiheit-A1 var(--focus), nie --accent. Handy ≤560: `.prop-tabs a { flex: 1 1 auto; justify-content: center; padding: 0 4px; font-size: var(--fs-13); line-height: var(--lh-13); }`. Handy Z. 3054: `.tabs > button, .tabs > a { padding: 0 12px; font-size: var(--fs-13); line-height: var(--lh-13); }`. Gewählt über die gemeinsame Regel am Dateiende mit `.prop-tabs a[aria-current=\"page\"]` (barrierefreiheit-B9b). Erst danach streichen prop.js 304/305 und affiliate.js 51 das aria-pressed (inkl. der Testanpassungen barrierefreiheit.md Z. 905–907). Grund: Reiter = 14/500 laut Typografie-Rollen, 12.5/13.5 sind verboten, Grün nie für Fokus (BRIEF, barrierefreiheit Z1)."
+  },
+  {
+   "paket": 15,
+   "anker": ".prop-sub a",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "`.prop-sub a` (Z. 2595) nicht einzeln anfassen. Die Größe steht in der gemeinsamen Regel von komponenten-C20.",
+   "entscheidung": "komponenten-C20 trägt die Unterstrich-Reiter `.subtabs > button, .set-tabs > button, .prop-sub a` mit `font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; color: var(--muted)`. Hover und gewählt in --text, Linie `::after` mit `background: var(--text)`. Gewählt bei Knöpfen `[aria-pressed=\"true\"]`, bei den Prop-Links `.prop-sub a[aria-current=\"page\"]` (für Farbe und `::after { transform: scaleX(1) }`), weil Links kein aria-pressed tragen (barrierefreiheit Z4). Fokus `outline-offset: -2px`, nur der Versatz. Die Farbe kommt global, nicht --accent. -2px statt 2px, weil die Leiste mit overflow-x: auto den äußeren Ring oben abschneiden würde (barrierefreiheit Z1). .set-tabs bleibt damit 14 px und wird nur 600 → 500. Grund: Typografie-Rolle Reiter 14/500, keine 13.5 px. Unterstrich in --text statt Grün (BRIEF)."
+  },
+  {
+   "paket": 15,
+   "anker": ".sym-opt",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "`.sym-opt` (Z. 881) nicht auf --fs-14 setzen. Die Größe 13 (Token) setzt komponenten-C21c.",
+   "entscheidung": "Die Symbol-Liste ist ein Menü. Menüeintrag = 13 (typografie 1.5 „alle Popover gleich“, komponenten Menüs). Ergebnis `.sym-opt { …; gap: 10px; min-height: 36px; padding: 0 10px; font-size: var(--fs-13); line-height: var(--lh-13); … }`, nicht 14. Die Zuordnung von .sym-opt zu 14 in typografie-3.2.3m widerspricht der eigenen Rollentabelle."
+  },
+  {
+   "paket": 17,
+   "anker": ".inp-cur .cur-sym",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "„845 `.inp-cur .cur-sym`“ aus der Liste 13,5 → 14 streichen; die Zeile bekommt `var(--fs-13)`/`var(--lh-13)` mit komponenten-C13.",
+   "entscheidung": "Das Währungs- oder Prozentzeichen im Feld wird 13 px/500, nicht 14 px. Das Zeichen ist eine leise Einheit neben dem 14-px-Wert. komponenten hat die Rolle ausdrücklich festgelegt („Zeichen 13px/500 --muted, 12 px vom Rand“) und die Einrückung darauf gerechnet. Bei typografie war 13,5 → 14 nur die pauschale Umstellung. 13 liegt auf der Skala, 500 ist das Gewicht für Steuerelemente. Endstand Z. 845: `.inp-cur .cur-sym { position: absolute; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); pointer-events: none; }`. Die übrigen C13-Werte (left/right 12, Einrückung calc(18px + var(--sl, 1) * 1ch), .w160, `.input-unit` weg) gelten unverändert."
+  }
+ ],
+ "barrierefreiheit-C-stats-15": [
+  {
+   "paket": 15,
+   "anker": ".tabs.scroll-x",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Im nachher-Markup `class=\"btn\"` am <a> weglassen (siehe Entscheidung). Sonst wie spezifiziert.",
+   "entscheidung": "Statistik-Reiter in stats.js Z. 15, genau so: `<nav class=\"tabs scroll-x\" data-subnav aria-label=\"Statistik-Bereiche\">${TABS.map(([k, l]) => `<a href=\"#/stats/${k}\"${tab === k ? ' aria-current=\"page\"' : ''}>${l}</a>`).join('')}</nav>`. Das heißt: <nav> mit Namen, kein .btn, keine Inline-Farbe, kein aria-pressed, aria-current nur am gewählten Link. CSS: `.tabs.scroll-x { overflow-x: auto; flex-wrap: nowrap; padding: 3px; margin: 0; }` (C19). Ungewählt --text-2 und Hover --text kommen aus der Schienen-Regel `.tabs > a` (C19). Gewählt kommt aus der gemeinsamen Regel mit `.tabs a[aria-current=\"page\"]` (B9b). Die Zusatzregel `.tabs a:not([aria-current=\"page\"]) …` aus B9b ist überflüssig. Abstand zum Inhalt: Die Schiene hat jetzt einen sichtbaren Rand und kein Scroll-Polster mit Gegenrand mehr. Deshalb entfällt der −4px-Ausgleich in abstaende-C8. Grund: Schiene statt Rahmenknöpfe (komponenten), Navigation als <nav> mit aria-current (barrierefreiheit Z4), 12 px Reiter↔Inhalt (abstaende)."
+  },
+  {
+   "paket": 1,
+   "anker": "[data-subnav]",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Im Markup nach der Änderung `class=\"btn\"` am <a> weglassen. Sonst wie spezifiziert, Test calmnavtest.js:50/51 auf [aria-current=\"page\"] umstellen.",
+   "entscheidung": "stats.js:15 wird zu `<nav class=\"tabs scroll-x\" data-subnav aria-label=\"Statistik-Bereiche\">${TABS.map(([k, l]) => `<a href=\"#/stats/${k}\"${tab === k ? ' aria-current=\"page\"' : ''}>${l}</a>`).join('')}</nav>`. Die Links haben keine Klasse btn und keine Inline-Farbe (Komponenten: kein .btn als Reiter, Schiene .tabs > a aus komponenten-C19). Statt aria-pressed tragen sie aria-current (Barrierefreiheit Z4: nie aria-pressed an Links), der Behälter wird nav mit aria-label. Der gewählte Reiter bekommt seinen Stil über `.tabs a[aria-current=\"page\"]` in der gemeinsamen Liste (barrierefreiheit-B9b). Ohne .btn liefert .tabs > a schon --text-2 und beim Darüberfahren --text. Die beiden Zusatzregeln `.tabs a:not([aria-current=\"page\"])` aus barrierefreiheit-B9b hätten also keine Wirkung und entfallen. calmnavtest.js:50 sucht den gewählten Reiter über [aria-current=\"page\"], und App.revealActive (app.js:113) kennt aria-current schon."
+  }
+ ],
+ "farbe-C3c": [
+  {
+   "paket": 15,
+   "anker": ".rep-foot .btn.primary",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 1711 `.rep-foot .btn.primary { font-size: 12.5px; }` ersatzlos löschen statt in `.rep-foot .rep-add { font-size: 12.5px; }` umzubenennen. Die Punkte Z. 1707 und Z. 1710 bleiben.",
+   "entscheidung": "Z. 1711 wird ersatzlos gelöscht. Es gibt weder eine umbenannte Regel `.rep-foot .rep-add { font-size: 12.5px; }` noch eine tokenisierte Variante. Der Knopf ist nach farbe (widgets.js:223) `btn sm rep-add` und hat über .btn.sm bereits var(--fs-13). Eine eigene Größe wäre wirkungslos bzw. mit 12.5 px skalenwidrig."
+  },
+  {
+   "paket": 1,
+   "anker": ".rep-sel.on",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Z. 1707 entfällt, komponenten-C28 übernimmt sie. Z. 1710 (.rep-reset --text-2) und Z. 1711 (Selektor .rep-add) bleiben.",
+   "entscheidung": "Die Regel lautet `.rep-sel.on { border-color: var(--text-2); background: var(--surface-3); }` (komponenten-C28). Begründung: .rep-sel ist ein Auswahlfeld mit geöffneter Liste. Sein Grundrand ist schon --border-2, die Fassung von farbe-C3c würde den Rand also nicht sichtbar ändern. --text-2 ist der Rand eines aktiven Felds (Barrierefreiheit Z1: Felder mit :focus haben Rand --text-2), neutral und ohne Grün. Den Streifen (border-left 4px) und das Gewicht 600 nimmt komponenten-C28 wie spezifiziert heraus."
+  }
+ ],
+ "aufbau-C5b": [
+  {
+   "paket": 1,
+   "anker": ".cpn-code",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": ".cpn-off: nur `color: var(--text-2)` setzen, font-size nicht auf 13.5px ändern (das Token --fs-13 setzt typografie-3.2.3l). Den .cpn-code-Teil (font-weight 600, letter-spacing .08em) unverändert umsetzen.",
+   "entscheidung": ".cpn-code bekommt font-weight 600 und letter-spacing .08em (aufbau-C5b). Onest, 14px und der gestrichelte Rahmen bleiben. Das Link-Ticket erhält die Klasse is-link (typografie-3.8r) mit `.cpn-code.is-link { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; letter-spacing: 0; }` (typografie-3.2.5e), das überschreibt die Basis. Begründung: Laut Brief bekommen nur Werte und Hauptknöpfe 700, und der Code ist keins von beiden. .08em wurde mit einer Vorher/Nachher-Aufnahme geprüft (extra/cpn-review-*-1440.png) und wirkt ruhiger. Die Festlegung „Coupon-Code +0.12em (bleibt)“ in Typografie 1.7 ist damit ersetzt: Es gilt .08em. Bei .cpn-off ändert sich nur die Farbe auf --text-2. 13,5 px ist in der Text-Skala verboten, deshalb bleibt die Größe 13 px, und typografie-3.2.3l macht daraus das Token --fs-13."
+  },
+  {
+   "paket": 18,
+   "anker": ".cpn-off",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "In Z. 2648 nur `color: var(--muted)` → `color: var(--text-2)` ändern. Die Schriftgröße bleibt 13, typografie-3.2.3l stellt sie auf var(--fs-13)/var(--lh-13). Den Punkt zu .cpn-code (Z. 2649) regelt konflikt-1.",
+   "entscheidung": "Das Ergebnis lautet `.cpn-off { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); }`. Begründung: 13,5 px ist laut typografie verboten, und die Rabattzeile hat die Rolle „Beschreibung“ (13). Die gewünschte Hervorhebung leistet die Farbe --text-2 statt --muted."
+  }
+ ],
+ "komponenten-S-trades-c": [
+  {
+   "paket": 1,
+   "anker": ".pg-nav",
+   "aktion": "zusammen_mit",
+   "ziel": "zustaende-S-T2",
+   "anweisung": "Das Template schreibt zustaende-S-T2. Von hier kommen die Knöpfe .btn.nav und „{0}–{1}“ ohne Leerzeichen, beides gilt für pages > 1. Die Vorgabe „.pg-info immer“ entfällt: Bei einer Seite erscheint pg-info nur ohne aktiven Filter.",
+   "entscheidung": "Der Seitenwähler im TradeLog (trades.js:48) wird in einem Durchgang geschrieben. „Trades pro Seite“ steht immer. Bei pages > 1: pg-sep, pg-info `{from}–{to} von {n} Trades` (Halbgeviertstrich ohne Leerzeichen, Schlüssel „{0}–{1} von {2} Trades“), grow, Seitenauswahl „von N Seiten“ und `.pg-nav` mit Knöpfen `class=\"btn nav\"`. Bei pages ≤ 1 gibt es weder Seitenauswahl noch .pg-nav. Ohne aktiven Filter folgt `<span class=\"pg-sep\"></span><span class=\"pg-info\">${U.count(rows.length, 'Trade', 'Trades')}</span>`, mit aktivem Filter nichts weiter, weil die Zahl dann im Zähler „{x} von {y} Trades“ der Filterzeile steht (der nur bei aktivem Filter erscheint, zustaende-S-T2). Begründung: eine Information an genau einer Stelle (Aufbau-Grundsatz 1), Zähler nur über U.count (Wortwahl W9). Das Schatten-Ich (komponenten-S-shadow) folgt derselben Regel: .btn.nav, Seitenwahl nur bei mehreren Seiten, „1–10“."
+  },
+  {
+   "paket": 17,
+   "anker": ".pg-info",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "„.pg-info bleibt immer“ ersetzen: `.pg-info` bei mehreren Seiten „{from}–{to} von {n} Trades“; bei einer Seite nur ohne aktiven Filter als „{n} Trade(s)“ (Bedingung aus zustaende-S-T2). `.btn nav`, „1–10“ ohne Leerzeichen, zweites Label und `.pg-nav` nur bei pages > 1 wie geplant; dasselbe Format in shadow.js:73 plus shadowtest.js:38/41.",
+   "entscheidung": "komponenten will `.pg-info` immer, zustaende will es bei einer Seite nur ohne aktiven Filter. zustaende gilt (aufbau Grundsatz 1: eine Information an einer Stelle). Bei aktivem Filter steht „{x} von {y} Trades“ schon in der Filterzeile.\n\nVerbindlicher Endstand trades.js:\n- Z. 44: Zähler nur bei aktivem Filter (`active = !!(f.q || f.symbol || f.setup || f.status || f.mistake)`).\n- Z. 48: „Trades pro Seite“ steht immer.\n- Bei `pages > 1` kommen dazu: `pg-sep`, `<span class=\"pg-info\">${from + 1}–${to} von ${n} Trades</span>`, `grow`, die Seitenwahl mit „von N Seiten“ und `.pg-nav` mit zwei `<button type=\"button\" class=\"btn nav\">`.\n- Bei `pages <= 1`: ohne Filter `pg-sep` + `<span class=\"pg-info\">{n} Trade(s)</span>`, mit Filter nichts weiter.\n\nBereichsangabe immer ohne Leerzeichen „1–10“ (komponenten-Wortwahl). Das „{from} – {to}“ in S-T2 zitiert nur den Ist-Text.\n\nGleiches Format in shadow.js:73 („1–10 von {n} Verstößen“). Dazu shadowtest.js:38 auf `1–10 von ${n2} Verstößen` und Z. 41 auf `startsWith('11–')` anpassen. Neue Schlüssel „{0}–{1} von {2} Trades/Verstößen“ in allen fünf js/lang-Dateien.\n\ntabular-nums für `.pg-info` (3.2.2e) gilt unverändert. Weil die Pfeile einzelne `.btn.nav` werden (komponenten ersetzt Z. 1749–1753), folgt `:disabled` der globalen Regel (`--disabled-o`); die Sonderfarbe `--faint` für die Pager-Pfeile entfällt."
+  }
+ ],
+ "zustaende-S-T2": [
+  {
+   "paket": 1,
+   "anker": ".pg-nav",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Bei pages > 1 die Knöpfe in .pg-nav mit `class=\"btn nav\"` und pg-info als „{from}–{to} von {n} Trades“ ohne Leerzeichen (aus komponenten-S-trades-c). Bei pages ≤ 1 den Zähler über `U.count(rows.length, 'Trade', 'Trades')` statt über den Plural-Ternär.",
+   "entscheidung": "Der Seitenwähler im TradeLog (trades.js:48) wird in einem Durchgang geschrieben. „Trades pro Seite“ steht immer. Bei pages > 1: pg-sep, pg-info `{from}–{to} von {n} Trades` (Halbgeviertstrich ohne Leerzeichen, Schlüssel „{0}–{1} von {2} Trades“), grow, Seitenauswahl „von N Seiten“ und `.pg-nav` mit Knöpfen `class=\"btn nav\"`. Bei pages ≤ 1 gibt es weder Seitenauswahl noch .pg-nav. Ohne aktiven Filter folgt `<span class=\"pg-sep\"></span><span class=\"pg-info\">${U.count(rows.length, 'Trade', 'Trades')}</span>`, mit aktivem Filter nichts weiter, weil die Zahl dann im Zähler „{x} von {y} Trades“ der Filterzeile steht (der nur bei aktivem Filter erscheint, zustaende-S-T2). Begründung: eine Information an genau einer Stelle (Aufbau-Grundsatz 1), Zähler nur über U.count (Wortwahl W9). Das Schatten-Ich (komponenten-S-shadow) folgt derselben Regel: .btn.nav, Seitenwahl nur bei mehreren Seiten, „1–10“."
+  },
+  {
+   "paket": 17,
+   "anker": ".pg-info",
+   "aktion": "aendern",
+   "ziel": "",
+   "anweisung": "Bei pages > 1 nicht „wie bisher“: `pg-info` als `${from + 1}–${to} von ${n} Trades` (ohne Leerzeichen um den Strich), Pfeile als `class=\"btn nav\"`. Bedingungen für pages <= 1 und den Filterzähler wie spezifiziert.",
+   "entscheidung": "komponenten will `.pg-info` immer, zustaende will es bei einer Seite nur ohne aktiven Filter. zustaende gilt (aufbau Grundsatz 1: eine Information an einer Stelle). Bei aktivem Filter steht „{x} von {y} Trades“ schon in der Filterzeile.\n\nVerbindlicher Endstand trades.js:\n- Z. 44: Zähler nur bei aktivem Filter (`active = !!(f.q || f.symbol || f.setup || f.status || f.mistake)`).\n- Z. 48: „Trades pro Seite“ steht immer.\n- Bei `pages > 1` kommen dazu: `pg-sep`, `<span class=\"pg-info\">${from + 1}–${to} von ${n} Trades</span>`, `grow`, die Seitenwahl mit „von N Seiten“ und `.pg-nav` mit zwei `<button type=\"button\" class=\"btn nav\">`.\n- Bei `pages <= 1`: ohne Filter `pg-sep` + `<span class=\"pg-info\">{n} Trade(s)</span>`, mit Filter nichts weiter.\n\nBereichsangabe immer ohne Leerzeichen „1–10“ (komponenten-Wortwahl). Das „{from} – {to}“ in S-T2 zitiert nur den Ist-Text.\n\nGleiches Format in shadow.js:73 („1–10 von {n} Verstößen“). Dazu shadowtest.js:38 auf `1–10 von ${n2} Verstößen` und Z. 41 auf `startsWith('11–')` anpassen. Neue Schlüssel „{0}–{1} von {2} Trades/Verstößen“ in allen fünf js/lang-Dateien.\n\ntabular-nums für `.pg-info` (3.2.2e) gilt unverändert. Weil die Pfeile einzelne `.btn.nav` werden (komponenten ersetzt Z. 1749–1753), folgt `:disabled` der globalen Regel (`--disabled-o`); die Sonderfarbe `--faint` für die Pager-Pfeile entfällt."
+  }
+ ]
+}

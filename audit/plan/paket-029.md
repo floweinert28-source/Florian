@@ -1,385 +1,407 @@
-# Paket 029 · prop
+# Paket 029 · konto, prop
 
-Schritte: 26 · Dateien: web/css/app.css, web/e2e/friedhoftest.js, web/e2e/proptest.js, web/js/screens/prop-friedhof.js, web/js/screens/prop.js
-Betroffene Tests laut Spezifikation: anpassen in kilook-C27: e2e/proptest.js:55–56, :101; anpassen: e2e/proptest.js:55, :56, :101; :116 unverändert; prüfen: e2e/friedhoftest.js:46 (flacher Grabstein); prüfen: e2e/friedhoftest.js:46, :73, :88–89, :122, :129; prüfen: e2e/proptest.js:116 („/ 150,00 € je Stop-Loss“ bleibt), :122–125 (Geld-blind); prüfen: e2e/proptest.js:94–102 (Payout-Planer Challenge/Funded); prüfen: e2e/sampletest.js:60 (Cockpit-Karten); web/e2e/friedhoftest.js:122; web/e2e/friedhoftest.js:129; web/e2e/friedhoftest.js:21; web/e2e/friedhoftest.js:47; web/e2e/friedhoftest.js:47 (Schritt zustaende-S-TE7); web/e2e/proptest.js:103; web/e2e/proptest.js:103 (Regex „Gewinn fehlt“ → „fehlen“, Schritt responsiv-3.20b); web/e2e/proptest.js:103, :116, :125 (.prop-meta); web/e2e/proptest.js:116; web/e2e/proptest.js:19; web/e2e/proptest.js:55; web/e2e/proptest.js:56; web/e2e/proptest.js:57; web/e2e/proptest.js:91; web/e2e/proptest.js:95; web/e2e/proptest.js:98
-Baut auf Paketen auf: 2, 6, 7
+Schritte: 30 · Dateien: web/README.md, web/css/app.css, web/js/certificate.js, web/js/screens/affiliate.js, web/js/screens/coach.js, web/js/screens/prop-friedhof.js
+Betroffene Tests laut Spezifikation: Akzeptanz 4.3 affiliate 390 (Ref-Code vollständig sichtbar); e2e/certtest.js:36 ([data-c=prev], .cert-opts .small.muted); e2e/coachtest.js:111, :154, :178; e2e/coachtest.js:127–131; e2e/coachtest.js:131 (.ct-done summary „1 erledigt“); e2e/coachtest.js:150; e2e/coupontest.js:14; web/e2e/affiliatetest.js; web/e2e/affiliatetest.js:15-16; web/e2e/affiliatetest.js:42; web/e2e/affiliatetest.js:42–55; web/e2e/affiliatetest.js:51 (Texte „Offen“/„Ausgezahlt“ bleiben); web/e2e/calmnavtest.js:44; web/e2e/coachtest.js; web/e2e/coachtest.js (Beitritt, Handy ohne Querscrollen); web/e2e/coachtest.js:81, :110 (Klasse is-new bleibt); web/e2e/coupontest.js
+Baut auf Paketen auf: 1, 2, 5, 6, 11, 28
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## zustaende-S-F1 · Friedhof: Muster-Karte erst ab zwei Grabsteinen, Hinweis als Info an „Häufigste Regel“
+## bewegung-3.9b · Friedhof: IntersectionObserver setzt .off an .pg-base (mount/unmount)
 
-Gruppe zustaende · Cluster prop · Aufwand S · Befunde: bereich_prop-45
-Quelle: audit/spec/zustaende.md Z. 735–741 · Dateien: web/js/screens/prop-friedhof.js
+Gruppe bewegung · Cluster prop · Aufwand M · Befunde: bereich_prop-50, bewegung-6
+Quelle: audit/spec/bewegung.md Z. 338–339 · Dateien: web/js/screens/prop-friedhof.js
+Abhängig von: bewegung-C10b
+
+```text
+- **Z. 175** `PS.register('friedhof', 'Friedhof', tabFriedhof);` → `let io = null; PS.register('friedhof', 'Friedhof', tabFriedhof, { mount(main) { if (io) io.disconnect(); io = null; if (!('IntersectionObserver' in window)) return; io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('off', !e.isIntersecting))); main.querySelectorAll('.pg-base').forEach(b => io.observe(b)); }, unmount() { if (io) { io.disconnect(); io = null; } } });` (`let io` gehört auf Modulebene über die Zeile).
+
+```
+
+## bewegung-3.12d · README Z. 260 (Friedhof): Flammen ruhen, solange der Sockel nicht im Bild ist
+
+Gruppe bewegung · Cluster prop · Aufwand S · Befunde: —
+Quelle: audit/spec/bewegung.md Z. 353–354 · Dateien: web/README.md
+Abhängig von: bewegung-C10b, bewegung-3.9b
+
+```text
+- **Z. 260** (Friedhof) nach „weicher Flamme und Lichthof“ ergänzen: „(Flammen ruhen, solange der Sockel nicht im Bild ist)“.
+
+```
+
+## farbe-C8b · Affiliate: Namens-Hover neutral mit Unterstrich
+
+Gruppe farbe · Cluster konto · Aufwand S · Befunde: bereich_konto-6
+Quelle: audit/spec/farbe.md Z. 415–416 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-### 3.15 `web/js/screens/prop-friedhof.js`
-
-**S-F1 Muster erst ab zwei Grabsteinen** – bereich_prop-45
-- Z. 172 `${tiles(g)}${patternsCard(g)}` → `${tiles(g)}${g.n >= 2 ? patternsCard(g) : ''}`
-- Z. 61: den Zweig `g.n < 2 ? 'Ab zwei Grabsteinen …' :` entfernen, nur „Kein wiederkehrendes Muster …“ bleibt.
-- Z. 56 Kachel „Häufigste Regel“: Optionen `{ foot: … }` → `{ foot: …, info: g.n < 2 ? 'Ab zwei Grabsteinen erscheinen Muster: Uhrzeit, Wochentag, Symbol, Setup, Verlustserie oder Emotion, wenn sie sich wiederholen.' : undefined }`
+- Z. 2678 `.aff-name:hover { color: var(--accent); }` → `.aff-name:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }`
 
 ```
 
-## zustaende-S-TE7 · Test friedhoftest.js:47: bei einem Grabstein keine Muster-Karte, Info an „Häufigste Regel“
+## farbe-C9 · Coach: Namens-Hover, Symbole, gewählte Option, Häkchen neutral; „Neu“-Rand und -Streifen löschen
 
-Gruppe zustaende · Cluster prop · Aufwand S · Befunde: bereich_prop-45
-Quelle: audit/spec/zustaende.md Z. 883–883 · Dateien: web/e2e/friedhoftest.js
-Abhängig von: zustaende-S-F1
-
-```text
-- `e2e/friedhoftest.js:47`: bei einem Grabstein weder `.prop-patterns` noch `.prop-patterns-empty`; das Info der Kachel „Häufigste Regel“ enthält „Ab zwei Grabsteinen“.
-```
-
-## barrierefreiheit-C-prop-233-267 · Prop-Listen: eindeutige Namen (Konto, Preset, Ausgabe, Payout)
-
-Gruppe barrierefreiheit · Cluster prop · Aufwand S · Befunde: barrierefreiheit-35
-Quelle: audit/spec/barrierefreiheit.md Z. 854–859 · Dateien: web/js/screens/prop.js
+Gruppe farbe · Cluster konto · Aufwand S · Befunde: bereich_konto-2, bereich_konto-4, bereich_konto-6
+Quelle: audit/spec/farbe.md Z. 417–425 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-#### `web/js/screens/prop.js`
+**C9 – `web/css/app.css` Coach** — bereich_konto-2, bereich_konto-4, bereich_konto-6
+- Z. 2861 `a.coach-name:hover { color: var(--accent); }` → `{ color: var(--text); text-decoration: underline; text-underline-offset: 3px; }`
+- Z. 2871 `.coach-entry.is-new { … }` löschen
+- Z. 2893 `.coach-join-head .ico svg { …; color: var(--accent); }` → `color: var(--text-2);`
+- Z. 2898 `.coach-yes svg { …; color: var(--accent); }` → `color: var(--text-2);` (Z. 2900 `.coach-no svg` bleibt `--faint`)
+- Z. 2903 `.coach-radio:has(input:checked) { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: color-mix(in srgb, var(--accent) 6%, var(--surface-2)); }` → `.coach-radio:has(input:checked) { color: var(--text); background: color-mix(in srgb, var(--text) 10%, var(--surface)); border-color: color-mix(in srgb, var(--text) 22%, var(--border-2)); box-shadow: none; }` (eigene Regel, nicht in die gemeinsame Liste; dort würde `:has()` in alten Browsern die ganze Liste ungültig machen)
+- Z. 2904 `.coach-radio input { margin-top: 3px; accent-color: var(--accent); }` → `accent-color: var(--text);`
+- Z. 2917 `.mn-reply.is-new { box-shadow: inset 2px 0 0 var(--accent); }` löschen
 
-- **Z. 233:** `aria-label="Bearbeiten"` / `"Löschen"` → `Konto „${esc(accName(a))}“ bearbeiten` / `Konto „${esc(accName(a))}“ löschen` (Befund: barrierefreiheit-35)
-- **Z. 237:** `Bearbeiten` / `Löschen` / `Ansehen` / `Kopieren` → `` Preset „${esc(`${p.firm} ${p.name}`)}“ bearbeiten `` / `… löschen` / `… ansehen` / `… kopieren` (Befund: barrierefreiheit-35)
-- **Z. 263:** `aria-label="Löschen"` → `aria-label="Ausgabe vom ${fmt.dateFull(e.date)} löschen"` (Befund: barrierefreiheit-35)
-- **Z. 267:** `aria-label="Löschen"` → `aria-label="Payout vom ${fmt.dateFull(p.requestedAt)} löschen"` (Befund: barrierefreiheit-35)
 ```
 
-## barrierefreiheit-C-prop-294 · „+ Prop-Konto“ auf allen Breiten mit Text (hide-m entfernen)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe barrierefreiheit · Cluster prop · Aufwand S · Befunde: bereich_prop-11
-Quelle: audit/spec/barrierefreiheit.md Z. 860–860 · Dateien: web/js/screens/prop.js
+- [konflikt: .coach-join-head .ico svg] Das Ergebnis lautet `.coach-join-head .ico svg { width: 34px; height: 34px; color: var(--faint); }`, dazu die gemeinsame Zentrierregel aus abstaende-D8. Einrichtungs- und Beitrittskarten bekommen eine einheitliche Bauart: Symbol 34 px, --faint, mittig, wie im Mentor-Setup und in den Leerzuständen. Kein Grün, damit ist auch das Ziel von farbe-C9 erfüllt.
+- ÄNDERN: Den Punkt zu Z. 2893 (`.coach-join-head .ico svg` → --text-2) streichen, das setzt abstaende-D8. Den Punkt zu Z. 2904 ebenfalls streichen (siehe Anker .coach-radio input). Die Punkte zu Z. 2861, 2871, 2898, 2903 und 2917 bleiben.
+- [doppelt: .coach-radio input] Das Ergebnis lautet `.coach-radio input { margin-top: 3px; accent-color: var(--text); }`. Gesetzt wird das von komponenten-C17a, das alle nativen Häkchen und Optionsfelder in einem Zug neutral stellt.
+- ÄNDERN: Den Punkt zu Z. 2904 (`accent-color: var(--text)`) streichen, das übernimmt komponenten-C17a.
+
+## farbe-C16 · Affiliate: Balken --profit, „Ausgezahlt“ als ruhiger Text
+
+Gruppe farbe · Cluster konto · Aufwand S · Befunde: farbe_kontrast-20, bereich_konto-8
+Quelle: audit/spec/farbe.md Z. 452–455 · Dateien: web/js/screens/affiliate.js
 Abhängig von: —
 
 ```text
-- **Z. 294:** `${I.plus}<span class="hide-m">Prop-Konto</span>` → `${I.plus}<span>Prop-Konto</span>` (Beschriftung auf allen Breiten; den Wortlaut regelt die Gruppe Wortwahl) (Befund: bereich_prop-11)
-```
-
-## barrierefreiheit-C-prop-304-305 · Prop-Reiter: aria-pressed an <a> streichen, aria-current bleibt
-
-Gruppe barrierefreiheit · Cluster prop · Aufwand S · Befunde: barrierefreiheit-32
-Quelle: audit/spec/barrierefreiheit.md Z. 861–862 · Dateien: web/js/screens/prop.js
-Abhängig von: barrierefreiheit-B9b
-
-```text
-- **Z. 304 und 305:** `aria-pressed="${…}"` an den `<a>` streichen, `aria-current="page"` bleibt (Befund: barrierefreiheit-32)
+**C16 – `web/js/screens/affiliate.js`** — farbe_kontrast-20, bereich_konto-8
+- Z. 47 `fill="var(--accent)"` → `fill="var(--profit)"`
+- Z. 67 `<td>${U.pill(paid ? 'Ausgezahlt' : 'Offen', paid ? 'win' : 'neutral')}</td>` → `<td>${paid ? '<span class="muted">Ausgezahlt</span>' : U.pill('Offen', 'neutral')}</td>`
 
 ```
 
-## barrierefreiheit-C-prop-friedhof-132-166 · Grabstein: verdeckte Seite inert, Fokus auf Umdrehen-Knopf bei Tastatur
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe barrierefreiheit · Cluster prop · Aufwand S · Befunde: bereich_prop-48
-Quelle: audit/spec/barrierefreiheit.md Z. 863–872 · Dateien: web/js/screens/prop-friedhof.js
+- [konflikt: --text-2] Affiliate-Balken (affiliate.js:47) neutral nach diagramme-K1: `<path class="br" d="${U.vbarPath(x(i) - bw / 2, bw, y(0), m.v > 0 ? Math.min(y(m.v), y(0) - 2) : y(0))}" fill="var(--text-2)" fill-opacity=".45" data-tip="…unverändert…"></path>`, in beiden Ansichten, ohne Hover-Stil. farbe-C16 wollte `fill="var(--profit)"`. Grund: Grün nur für Gewinn/positiv (BRIEF). Die Balken zeigen Beträge ohne Vorzeichen, in der Betreiber-Ansicht sind Provisionen Kosten, Grün wäre dort falsch. Mengenbalken sind app-weit --text-2 .45 (diagramme A-8). Die Zeile „Affiliate-Balken --profit“ in farbe 1.9 gilt damit nicht. Die übrigen --text-2-Stellen dieses Ankers (barrierefreiheit-A2b Fokusrand, diagramme-A1 text.bv, E5 PV.line, E8b Trefferquote-Reihe) nutzen nur das Token und sind verträglich. zustaende-S-C9c ist über die .lang-card-Anker erledigt.
+- ÄNDERN: Nur Z. 67 (Pille „Ausgezahlt“/„Offen“) umsetzen. Z. 47 (fill → --profit) entfällt, die Balken setzt diagramme-K1 neutral um (--text-2, .45, Pfad-Balken).
+
+## farbe-C17a · Coach: Knöpfe ohne primary, Pillen „Neu“/„{n} neu“ neutral, kein .accent, Haken muted, „0“ muted
+
+Gruppe farbe · Cluster konto · Aufwand S · Befunde: bereich_konto-3, bereich_konto-4, bereich_konto-6, komponenten-8, farbe_kontrast-26, farbe_kontrast-11
+Quelle: audit/spec/farbe.md Z. 456–462 · Dateien: web/js/screens/coach.js
 Abhängig von: —
 
 ```text
-#### `web/js/screens/prop-friedhof.js` (bereich_prop-48)
+**C17 – `web/js/screens/coach.js`** — bereich_konto-3, bereich_konto-4, bereich_konto-6, komponenten-8, farbe_kontrast-26, farbe_kontrast-11
+- Z. 22 `class="btn primary" href="#/settings/mentor"` → `class="btn"` (navigiert, Regel 1.4)
+- Z. 35 `U.pill('Neu', 'win')` → `U.pill('Neu')`
+- Z. 48 `<b class="accent">${unread} ungelesen</b>` → `<b>${unread} ungelesen</b>`
+- Z. 53 `class="btn sm primary"` („+ Gruppe“) → `class="btn sm"`
+- Z. 86 `<span class="accent">${I.check}</span>` → `<span class="muted">${I.check}</span>`
+- Z. 87 `U.pill(`${r.new} neu`, 'win')` → `U.pill(`${r.new} neu`)`; `'<span class="faint">0</span>'` → `'<span class="muted">0</span>'`
+```
 
-- **Z. 132:** ` title="Umdrehen"` an `.pg-stone` streichen
-- **Z. 142:** `<div class="pg-face pg-back" aria-hidden="true">` → `<div class="pg-face pg-back" aria-hidden="true" inert>`
-- **Z. 166:** ersetzen durch
-  ```js
-  const front = stone.querySelector('.pg-front'), back = stone.querySelector('.pg-back'); front.inert = on; back.inert = !on; front.setAttribute('aria-hidden', String(on)); back.setAttribute('aria-hidden', String(!on)); if (e && e.detail === 0) { const t = (on ? back : front).querySelector('.pg-turn'); if (t) t.focus({ preventScroll: true }); }
-  ```
-  Klicks auf inerte Knoten landen beim Vorfahren `.pg-stone`, das Umdrehen per Klick bleibt.
+## typografie-3.2.5e · Kopier-Link im Ticket: .cpn-code.is-link 13/500 ohne Sperrung
+
+Gruppe typografie · Cluster konto · Aufwand S · Befunde: bereich_konto-31
+Quelle: audit/spec/typografie.md Z. 363–363 · Dateien: web/css/app.css
+Abhängig von: typografie-3.2.1
+
+```text
+| `.cpn-code`, neu nach Z. 2655 | `.cpn-code.is-link { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; letter-spacing: 0; }` | bereich_konto-31 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .cpn-code] .cpn-code bekommt font-weight 600 und letter-spacing .08em (aufbau-C5b). Onest, 14px und der gestrichelte Rahmen bleiben. Das Link-Ticket erhält die Klasse is-link (typografie-3.8r) mit `.cpn-code.is-link { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; letter-spacing: 0; }` (typografie-3.2.5e), das überschreibt die Basis. Begründung: Laut Brief bekommen nur Werte und Hauptknöpfe 700, und der Code ist keins von beiden. .08em wurde mit einer Vorher/Nachher-Aufnahme geprüft (extra/cpn-review-*-1440.png) und wirkt ruhiger. Die Festlegung „Coupon-Code +0.12em (bleibt)“ in Typografie 1.7 ist damit ersetzt: Es gilt .08em. Bei .cpn-off ändert sich nur die Farbe auf --text-2. 13,5 px ist in der Text-Skala verboten, deshalb bleibt die Größe 13 px, und typografie-3.2.3l macht daraus das Token --fs-13.
+
+## typografie-3.8r · Affiliate-Ticket: Link-Ticket bekommt Klasse is-link
+
+Gruppe typografie · Cluster konto · Aufwand S · Befunde: bereich_konto-31
+Quelle: audit/spec/typografie.md Z. 443–443 · Dateien: web/js/screens/affiliate.js
+Abhängig von: typografie-3.2.5e
+
+```text
+| affiliate.js:52 (`ticket`) | `class="cpn-code"` → `class="cpn-code${kind === 'link' ? ' is-link' : ''}"` | bereich_konto-31 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .cpn-code] .cpn-code bekommt font-weight 600 und letter-spacing .08em (aufbau-C5b). Onest, 14px und der gestrichelte Rahmen bleiben. Das Link-Ticket erhält die Klasse is-link (typografie-3.8r) mit `.cpn-code.is-link { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; letter-spacing: 0; }` (typografie-3.2.5e), das überschreibt die Basis. Begründung: Laut Brief bekommen nur Werte und Hauptknöpfe 700, und der Code ist keins von beiden. .08em wurde mit einer Vorher/Nachher-Aufnahme geprüft (extra/cpn-review-*-1440.png) und wirkt ruhiger. Die Festlegung „Coupon-Code +0.12em (bleibt)“ in Typografie 1.7 ist damit ersetzt: Es gilt .08em. Bei .cpn-off ändert sich nur die Farbe auf --text-2. 13,5 px ist in der Text-Skala verboten, deshalb bleibt die Größe 13 px, und typografie-3.2.3l macht daraus das Token --fs-13.
+
+## typografie-3.8s · Affiliate-Tabelle: Datumszelle num; Coach-Sichtbarkeitstabelle ohne Änderung (über 3.2.2 Satoshi)
+
+Gruppe typografie · Cluster konto · Aufwand S · Befunde: typografie-12, bereich_konto-34
+Quelle: audit/spec/typografie.md Z. 444–446 · Dateien: web/js/screens/affiliate.js, web/js/screens/coach.js
+Abhängig von: typografie-3.2.2f
+
+```text
+| affiliate.js:67 | `<td class="nowrap">${fmt.dateFull(…)}</td>` → `<td class="nowrap num">…` | typografie-12, bereich_konto-34 |
+| coach.js:25 | keine Änderung; die Sichtbarkeits-Tabelle wird durch 3.2.2 Satoshi | bereich_konto-34 |
 
 ```
 
-## kilook-C5 · Prop-CSS: veraltete Kommentare, .prop-unv/.prop-highlights/Gravur-Variablen/wirkungslose text-shadow/.prop-grave-kv löschen
+## abstaende-D8 · Einrichten- und Beitrittskarten: .mentor-setup-Polster, Symbole mittig 34 px --faint (Mentor und Coach), .coach-join 680 mittig, .coach-co-what ohne eigene Breite, Einladungshinweis im Dialog volle Zeile
 
-Gruppe kilook · Cluster prop · Aufwand M · Befunde: bereich_prop-51
-Quelle: audit/spec/kilook.md Z. 557–578 · Dateien: web/css/app.css
-Abhängig von: —
+Gruppe abstaende · Cluster konto · Aufwand M · Befunde: bereich_konto-1, zustaende-15, bereich_konto-53, bereich_konto-46
+Quelle: audit/spec/abstaende.md Z. 375–375 · Dateien: web/css/app.css
+Abhängig von: abstaende-A1
 
 ```text
-**C5 · web/css/app.css · Prop-Reste** (bereich_prop-51)
-- **Kommentare:**
-  - **2585** im Kommentar „…, Trade-Zuordnung, Rechner (Klassen mit Präfix prop-)“ → „…, Trade-Zuordnung (Klassen mit Präfix prop-)“
-  - **2587** → `/* Prop Firms: drei Bereiche als Schiene links in der Kopfreihe, Unteransichten (Bilanz, Friedhof) als Reiter mit Unterstrich */`
-  - **2683** `/* Rechner: Eingaben links, Ergebnis rechts */` → `/* Kennzahlen-Leiste: Wertgröße */`
-  - **2760** „Prop Firms, Phase 3: Konto-Friedhof (Grabsteine, Muster) und Challenge vs. Funded (Vergleichstabelle)“ → „Prop Firms, Phase 3: Konto-Friedhof (Grabsteine, Muster)“
-  - **2766–2768** die beiden Kommentare → ein Kommentar `/* Friedhof: jede Breach-Karte ist ein flacher Grabstein in den Flächenfarben der App, auf einem Sockel mit Kerzen */`
-- **2734–2735** `/* Rechner */` und `.prop-unv { … }` löschen.
-- **2763–2765** nur die `.prop-highlights…`-Teile aus den Selektorlisten streichen; übrig bleiben:
-  - `.prop-patterns { … }`
-  - `.prop-patterns li::marker { … }`
-  - `.prop-patterns-empty { … }`
-- **2770** in `.prop-grave { … }` die Eigenschaften `--eng-hi: …; --eng-lo: …; --grain: url(…);` streichen. Die übrigen Deklarationen bleiben.
-- **2779** `--eng-hi: transparent; --eng-lo: transparent;` streichen. Der Kommentar wird „flach: Flächenfarben der App“.
-- **Wirkungslose `text-shadow` streichen:**
-  - **2793** `.pg-rip`: `text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo);`
-  - **2795** `.prop-grave-head b`: dasselbe
-  - **2799** `.pg-dates`: `text-shadow: 0 -1px 0 var(--eng-lo);`
-  - **2805** `.pg-cause b`: dasselbe wie 2793
-- **2839** `:root[data-theme="light"] .prop-grave-kv { … }` löschen.
-- **2842–2844** `.prop-grave .kv`, `.prop-grave .kv > b`, `.prop-grave-trade` löschen. Im Block bleibt `.pg-stone { margin: 0 22px; }`.
-
+| D8 | Mentor/Coach-Einrichtung Z. 2340–2341, 2891, 2893, 2953 | Z. 2340 `.mentor-setup { text-align: center; padding: 44px 24px; }` → `padding: var(--sp-10) var(--sp-6)`. Z. 2341 → `.mentor-setup .ico, .coach-join-head .ico { display: flex; justify-content: center; } .mentor-setup .ico svg { width: 34px; height: 34px; color: var(--faint); }`. Z. 2891 `.coach-join { padding: 22px 24px; }` → `.coach-join { width: 100%; max-width: var(--w-single); margin-inline: auto; padding: var(--sp-6); }`. Z. 2893 `.coach-join-head .ico svg { width: 36px; height: 36px; color: var(--accent); }` → `width: 34px; height: 34px; color: var(--faint);`. Z. 2953 `.coach-co-what`: `max-width: 640px; margin: 0 auto;` streichen. Neu: `.modal .coach-invite > .small { flex-basis: 100%; }` | bereich_konto-1, zustaende-15, bereich_konto-53, bereich_konto-46 |
 ```
 
-## kilook-C19a · Prop: Kopfkommentar aktualisieren (nur Friedhof, keine fünf Bereiche)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe kilook · Cluster prop · Aufwand S · Befunde: bereich_prop-51
-Quelle: audit/spec/kilook.md Z. 661–663 · Dateien: web/js/screens/prop.js
-Abhängig von: —
+- [konflikt: .mentor-setup] mentor.js Z. 79 schreibt allein wording-S15.4-15.5 neu, und zwar so: `<div class="mentor-wrap"><section class="card mentor-setup"><span class="ico">${I.chat}</span><h2>Mentor-Chat einrichten</h2><p class="muted">Der Mentor läuft über deinen Journalyst-Server, damit der API-Schlüssel nie im Browser liegt. Trage unter Einstellungen → Server die Adresse und das Zugangstoken ein.</p><a class="btn" href="#/settings/mentor">Server einrichten</a></section></div>`. Die Zeile „Anleitung zum Server: server/README.md im Projekt.“ fällt ersatzlos weg, weil Pfade laut wording W11 nur unter Einstellungen → Server stehen. Damit entfallen auch der Klassenwechsel `small faint → small muted` aus farbe-C21 an dieser Zeile und der einzige Inline-Abstand in mentor.js (`style="margin-top:14px"`), den abstaende-MENTOR ersetzen wollte. Der Knopf wird ein neutrales `.btn`, denn er navigiert nur, und Grün bleibt „Trade loggen“ vorbehalten. Das CSS der Karte aus abstaende-D8 (`padding: var(--sp-10) var(--sp-6)`, Symbol mittig) gilt unverändert. mentortest.js:22 (`.mentor-setup h2`, `.mentor-setup a[href="#/settings/mentor"]`) bleibt grün.
+- [konflikt: .mentor-setup .ico svg] Das Ergebnis lautet `.mentor-setup .ico, .coach-join-head .ico { display: flex; justify-content: center; } .mentor-setup .ico svg { width: 34px; height: 34px; color: var(--faint); }` (abstaende-D8). Begründung: Die Einrichtungskarte weist auf eine noch nicht eingerichtete Funktion hin. Sie ist damit dieselbe Bauart wie ein Leerzustand (Symbol 34 px --faint, siehe zustaende Z1 und komponenten LEER). farbe erlaubt --faint ausdrücklich für leere oder inaktive Symbole. Das Ziel von farbe-C6, kein Grün am Symbol, ist damit ebenfalls erfüllt.
+- [konflikt: .coach-join-head .ico svg] Das Ergebnis lautet `.coach-join-head .ico svg { width: 34px; height: 34px; color: var(--faint); }`, dazu die gemeinsame Zentrierregel aus abstaende-D8. Einrichtungs- und Beitrittskarten bekommen eine einheitliche Bauart: Symbol 34 px, --faint, mittig, wie im Mentor-Setup und in den Leerzuständen. Kein Grün, damit ist auch das Ziel von farbe-C9 erfüllt.
 
-```text
-**C19 · web/js/screens/prop.js** (diagramme-4, diagramme-32, ki_look-36, bereich_prop-51)
-- **7–8** vorher „Weitere Ansichten (Friedhof, Vergleich, Simulation …) registrieren sich … Oben stehen nur fünf Bereiche; Finanzen und Analyse haben einen kleinen Umschalter … Die Adressen bleiben #/prop/<ansicht>“
-  → nachher `/* Weitere Ansichten (Friedhof) registrieren sich aus eigenen Dateien über root.PropScreen.register. Die Adressen bleiben #/prop/<ansicht> */`
-```
+## abstaende-N1 · Coach-Einrichtung: coach-wrap narrow, Knopf „Zu den Einstellungen“ ohne Symbol
 
-## kilook-C19b · Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis
-
-Gruppe kilook · Cluster prop · Aufwand M · Befunde: diagramme-4, diagramme-32, ki_look-36
-Quelle: audit/spec/kilook.md Z. 664–681 · Dateien: web/js/screens/prop.js
-Abhängig von: kilook-A4
+Gruppe abstaende · Cluster konto · Aufwand S · Befunde: zustaende-15, bereich_konto-24
+Quelle: audit/spec/abstaende.md Z. 477–481 · Dateien: web/js/screens/coach.js
+Abhängig von: abstaende-C12, abstaende-D8
 
 ```text
-- **68** `fmtMoney: v => fmt.cur(v)` → `fmtMoney: v => money(a, v, { compact: true })`. Betrifft die Consistency-Warnung („heute mehr als …“).
-- **75** `Gewinn fehlt: ${fmt.cur(plan.missingProfit)}` → `Gewinn fehlt: ${money(a, plan.missingProfit, { compact: true })}`
-- **86–87** `summaryTiles`: Summe je Währung.
-  ```js
-  const active = list.filter(a => a.status === 'active'); const byCur = new Map(); let red = 0;
-  for (const a of active) { const { ev } = evalOf(a); const c = a.currency || ''; byCur.set(c, (byCur.get(c) || 0) + ev.pnl); if (ev.buffer.ampel === 'rot' || ev.status === 'breached') red++; }
-  /* P&L je Kontowährung: eine Währung = eine Zahl, mehrere = „+11.262,00 $ · +1.053,85 €“ */
-  const pnlText = byCur.size ? [...byCur].map(([c, v]) => U.pnl(v, '', c ? { currency: c } : {})).join(' · ') : U.pnl(0);
-  ```
-  In Z. 87 `U.tile('P&L aktive Konten', U.pnl(pnl), …)` → `U.tile('P&L aktive Konten', pnlText, …)`.
-- **93** `money(a, x.remaining)` → `money(a, x.remaining, { compact: true })`; `money(a, x.limit)` → `money(a, x.limit, { compact: true })`
-- **94** `money(a, ev.target.remaining)` → `money(a, ev.target.remaining, { compact: true })`
-- **102**
-  - beide `<div class="caption">` (Balance, P&L) → `<div class="kpi-label">`
-  - `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`
-  - `fmt.balance(…, { currency: a.currency })` bleibt (A2 macht es ganzzahlig)
-- **104** im Puffer-Tooltip `money(a, b.money)` → `money(a, b.money, { compact: true })`. `fmt.cur(stopSize)` **bleibt** (R6).
-- **194** Hinweis `Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.` → `Balance, P&L, Limits und Puffer des Kontos in Kontowährung. Trade-Listen zeigen die Journal-Währung.`
-```
+### web/js/screens/coach.js
 
-## kilook-C19c · Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“
-
-Gruppe kilook · Cluster prop · Aufwand M · Befunde: diagramme-4, diagramme-32, bereich_prop-51
-Quelle: audit/spec/kilook.md Z. 682–694 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- **283** (Payout-Planer, Karte „Bedingungen“):
-  - `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`
-  - `von ${fmt.cur(o.minProfit)}` → `von ${money(a, o.minProfit, { compact: true })}`
-  - `${fmt.cur(missP)} fehlen` → `${money(a, missP, { compact: true })} fehlen`
-  - `fmt.balance(ev.balance)` → `fmt.balance(ev.balance, { currency: a.currency })`
-  - `von ${fmt.cur(o.minBalance)}` → `von ${money(a, o.minBalance, { compact: true })}`
-  - `${fmt.cur(missB)} fehlen` → `${money(a, missB, { compact: true })} fehlen`
-  - `heute noch ${fmt.cur(cons.allowedToday)} erlaubt` → `heute noch ${money(a, cons.allowedToday, { compact: true })} erlaubt`
-  - `fmt.cur(ev.pnl * num(a.profitSplit, 0))` → `money(a, ev.pnl * num(a.profitSplit, 0))` (Auszahlung, mit Cent)
-- **284** `fmt.cur(plan.suggestion.perDay)` → `money(a, plan.suggestion.perDay, { compact: true })`; `fmt.cur(plan.suggestion.total)` → `money(a, plan.suggestion.total, { compact: true })`
-- **286** (Payouts dieses Kontos) **unverändert**, Journal-Währung wie erfasst.
-- **303** Kommentar „Die fünf Bereiche stehen links in der Kopfreihe …“ → „Die drei Bereiche stehen links in der Kopfreihe …“
-
-```
-
-## kilook-C20 · Friedhof: tote Helfer (kv, when, tradeHtml) löschen, Grabstein-Beträge in Kontowährung
-
-Gruppe kilook · Cluster prop · Aufwand S · Befunde: diagramme-4, bereich_prop-51
-Quelle: audit/spec/kilook.md Z. 695–701 · Dateien: web/js/screens/prop-friedhof.js
-Abhängig von: —
-
-```text
-**C20 · web/js/screens/prop-friedhof.js** (diagramme-4, bereich_prop-51)
-- **32** `const kv = (k, v) => …;` löschen.
-- **119–122** `const when = …;` und `const tradeHtml = …;` löschen. `whenShort` (123) und `WEEKDAY_LONG` bleiben.
-- **136** `fmt.balance(t.size)` → `fmt.balance(t.size, { currency: acc && acc.currency })`. Ersetzt wording/bereich_prop-46 die Unterzeile, entfällt dieser Teil.
-- **146** `U.pnl(t.result)` → `U.pnl(t.result, '', { currency: acc && acc.currency })`
-- **149** `U.pnl(c.pnl, '', { r: trade.r })` → `U.pnl(c.pnl, '', { r: trade.r, currency: acc && acc.currency })`
-
-```
-
-## kilook-C27 · e2e/proptest.js an Kontowährung und Genauigkeit anpassen
-
-Gruppe kilook · Cluster prop · Aufwand S · Befunde: diagramme-4, diagramme-32
-Quelle: audit/spec/kilook.md Z. 745–750 · Dateien: web/e2e/proptest.js
-Abhängig von: kilook-A2, kilook-C19b
-
-```text
-**C27 · web/e2e/proptest.js** (diagramme-4, diagramme-32)
-- **55** `UI.fmt.cur(b, { currency: Store.propAccounts()[0].currency })` → `UI.fmt.balance(b, { currency: Store.propAccounts()[0].currency })`. Der Kommentar wird `/* Balance und P&L in Kontowährung (USD) */`.
-- **56** `card.pnl.includes('€')` → `card.pnl.includes('$')`
-- **101** in `Prop.payoutPlan(…, { …, fmtMoney: v => UI.fmt.cur(v) })` → `fmtMoney: v => UI.fmt.cur(v, { currency: Store.propAccounts()[2].currency, compact: true })`
-- **116** („/ 150,00 € je Stop-Loss“) **unverändert**.
-
-```
-
-## responsiv-C3 · Prop-Karte: Zeilen ohne Umbruch, Wert rechtsbündig
-
-Gruppe responsiv · Cluster prop · Aufwand S · Befunde: bereich_prop-10
-Quelle: audit/spec/responsiv.md Z. 392–395 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**C3 Prop-Karte** (bereich_prop-10)
-- Z. 2709 `.prop-meta .kv { padding: 6px 0; flex-wrap: wrap; }` → `.prop-meta .kv { padding: 6px 0; flex-wrap: nowrap; } .prop-meta .kv > span { flex: 0 0 auto; }`
-- Z. 2710 `.prop-meta .kv b { text-align: right; }` → `.prop-meta .kv > b { min-width: 0; margin-left: auto; text-align: right; }`
-
-```
-
-## responsiv-3.12a · Prop-Karte: „Bis zum Bestehen“, Betrag ohne Dopplung in Kontowährung (planText)
-
-Gruppe responsiv · Cluster prop · Aufwand S · Befunde: bereich_prop-10
-Quelle: audit/spec/responsiv.md Z. 514–517 · Dateien: web/js/screens/prop.js
-Abhängig von: responsiv-C3
-
-```text
-### 3.12 web/js/screens/prop.js (bereich_prop-21, responsiv-6, bereich_prop-22, bereich_prop-10)
-
-- Z. 75 planText: `if (plan.missingProfit > C.EPS) parts.push(\`Gewinn fehlt: ${fmt.cur(plan.missingProfit)}\`);` → `if (plan.missingProfit > C.EPS && !(ev.target && a.phase !== 'funded')) parts.push(\`${money(a, plan.missingProfit)} fehlen\`); /* mit Ziel-Balken nennt der Balken den Betrag schon */`
-- Z. 104 `U.kv(plan.funded ? 'Nächster Payout' : 'Bestehen', …)` → `U.kv(plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen', …)`
-```
-
-## responsiv-3.20b · proptest: Regex „Gewinn fehlt“ → „fehlen“
-
-Gruppe responsiv · Cluster prop · Aufwand S · Befunde: —
-Quelle: audit/spec/responsiv.md Z. 571–571 · Dateien: web/e2e/proptest.js
-Abhängig von: responsiv-3.12a
-
-```text
-- `proptest.js:103`: Regex `/in \d+ Handelstag|Gewinn fehlt|bereit|Consistency/` → `/in \d+ Handelstag|fehlen|bereit|Consistency/`.
-```
-
-## wording-S12.1-12.3 · Prop: Währungssymbol je Konto (curSym/unitLabel), Breach-Banner ohne ISO-Datum mit „überschreitet“, fmtMoney in Kontowährung
-
-Gruppe wording · Cluster prop · Aufwand M · Befunde: bereich_prop-38, bereich_prop-4, bereich_prop-5
-Quelle: audit/spec/wording.md Z. 478–484 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-### Schritt 12 · `web/js/screens/prop.js`, `web/js/screens/prop-friedhof.js`, `web/js/screens/coupons.js`
-
-| # | Stelle | vorher → nachher | ids |
+| Nr. | Stelle | vorher → nachher | Befunde |
 |---|---|---|---|
-| 12.1 | prop.js:34–35 | `const curSym = () => …fmt.cur(0, { money: true })…` → `const curSym = c => fmt.moneyBlind() ? '' : fmt.cur(0, { money: true, currency: c }).replace(/[\d.,\s ]/g, '');` · `const unitLabel = (text) => { const s = curSym(); … }` → `const unitLabel = (text, c) => { const s = curSym(c); return s ? \`${text} (${s})\` : text; };` | bereich_prop-38 |
-| 12.2 | prop.js:50 `detailOf` (dailyLoss) | `` `Tagesverlust ${money(a, b.loss)} erreicht das Limit ${money(a, b.limit)}${b.dayKey ? ` (Handelstag ${esc(b.dayKey)})` : ''}` `` → `` `Tagesverlust ${money(a, b.loss)} ${b.loss > b.limit + C.EPS ? 'überschreitet' : 'erreicht'} das Limit von ${money(a, b.limit)}${b.dayKey && b.at && b.dayKey !== C.dayKey(new Date(b.at)) ? ` · Handelstag ${fmt.dateFull(C.parseDayKey(b.dayKey))}` : ''}` `` | bereich_prop-4 |
-| 12.3 | prop.js:68 | `fmtMoney: v => fmt.cur(v)` → `fmtMoney: v => money(a, v)` | bereich_prop-5 |
+| N1 | Z. 22 | `<div class="coach-wrap">` → `<div class="coach-wrap narrow">`. Im Knopf `${I.settings} Zu den Einstellungen` → `Zu den Einstellungen` | zustaende-15, bereich_konto-24 |
 ```
 
-## wording-S12.4-12.5 · Prop: planText mit skipProfit, „{0} Gewinn fehlen“, „Consistency Rule verletzt“; limText/ddText/lockAt in Kontowährung
+## abstaende-N2 · Coach-Übersicht: coach-wrap wide → coach-wrap (volle Breite links)
 
-Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-31, bereich_prop-5, bereich_prop-38
-Quelle: audit/spec/wording.md Z. 485–486 · Dateien: web/js/screens/prop.js
+Gruppe abstaende · Cluster konto · Aufwand S · Befunde: bereich_konto-24
+Quelle: audit/spec/abstaende.md Z. 482–482 · Dateien: web/js/screens/coach.js
+Abhängig von: abstaende-C12
+
+```text
+| N2 | Z. 117 | `coach-wrap wide` → `coach-wrap` | bereich_konto-24 |
+```
+
+## abstaende-N3 · Coach-Journal: coach-wrap read (Lesespalte 920)
+
+Gruppe abstaende · Cluster konto · Aufwand S · Befunde: bereich_konto-24
+Quelle: audit/spec/abstaende.md Z. 483–483 · Dateien: web/js/screens/coach.js
+Abhängig von: abstaende-C12
+
+```text
+| N3 | Z. 156 | `<div class="coach-wrap">` → `<div class="coach-wrap read">` | bereich_konto-24 |
+```
+
+## abstaende-N4 · Coach-Beitritts- und Zustandsansichten (Z. 167–187): coach-wrap narrow
+
+Gruppe abstaende · Cluster konto · Aufwand S · Befunde: bereich_konto-24, bereich_konto-53
+Quelle: audit/spec/abstaende.md Z. 484–484 · Dateien: web/js/screens/coach.js
+Abhängig von: abstaende-C12
+
+```text
+| N4 | Z. 167, 168, 169, 171, 184, 186, 187 | `<div class="coach-wrap">` → `<div class="coach-wrap narrow">` | bereich_konto-24, bereich_konto-53 |
+```
+
+## abstaende-N5 · Beitrittskarte: Inline margin-top/max-width → Klasse mt-4
+
+Gruppe abstaende · Cluster konto · Aufwand S · Befunde: bereich_konto-53
+Quelle: audit/spec/abstaende.md Z. 485–485 · Dateien: web/js/screens/coach.js
+Abhängig von: abstaende-A6, abstaende-D8
+
+```text
+| N5 | Z. 196 | `style="margin-top:14px;max-width:420px"` → Klasse `mt-4` (ohne max-width) | bereich_konto-53 |
+```
+
+## abstaende-N6 · Co-Coach-Einladungsdialog: { cls: 'wide' } → { cls: 'narrow' }
+
+Gruppe abstaende · Cluster konto · Aufwand S · Befunde: bereich_konto-46
+Quelle: audit/spec/abstaende.md Z. 486–487 · Dateien: web/js/screens/coach.js
+Abhängig von: abstaende-D8
+
+```text
+| N6 | Z. 265 | `{ cls: 'wide' }` → `{ cls: 'narrow' }` | bereich_konto-46 |
+
+```
+
+## abstaende-O1 · Provisions-Dialog: Untertitel und Feld in .stack (12 px); Zahlenpfeile über globale Regel aus komponenten-16 (anlegen, falls noch nicht vorhanden)
+
+Gruppe abstaende · Cluster konto · Aufwand S · Befunde: bereich_konto-47
+Quelle: audit/spec/abstaende.md Z. 488–493 · Dateien: web/js/screens/affiliate.js, web/css/app.css
+Abhängig von: abstaende-A3
+
+```text
+### web/js/screens/affiliate.js
+
+| Nr. | Stelle | vorher → nachher | Befunde |
+|---|---|---|---|
+| O1 | Z. 92 | `<p class="muted small no-i18n">…</p><div class="field">…</div>` in `<div class="stack">…</div>` fassen (12 px zwischen Untertitel und Feld). Die Zahlenpfeile entfernt die globale Regel aus komponenten-16. Falls sie noch nicht da ist (`grep -n "inner-spin-button" web/css/app.css` findet keine globale `input[type=number]`-Regel), diese Regel aus komponenten-16 jetzt anlegen. | bereich_konto-47 |
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: input[type=number]] Die globale Regel gegen Browser-Pfeile legt allein komponenten-C02 an, nach Z. 294: `input[type=number] { -moz-appearance: textfield; appearance: textfield; }` plus `::-webkit-inner/outer-spin-button { -webkit-appearance: none; margin: 0; }`. abstaende-O1 baut darauf auf und setzt nur den affiliate.js-Teil um, also Untertitel und Feld in `.stack`.
+- ÄNDERN: Nur affiliate.js Z. 92 (`.stack`) umsetzen; den app.css-Teil (Zahlenpfeile) weglassen, ihn liefert komponenten-C02.
+
+## komponenten-C17b · Coach-Aufgaben: Nur-Anzeige-Kästchen ohne Rand und Füllung
+
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-23
+Quelle: audit/spec/komponenten.md Z. 317–318 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| 12.4 | prop.js:71–77 `planText(a, ev, plan, skipProfit)` | vierter Parameter `skipProfit`. Z. 75: Gewinn-Teil `Gewinn fehlt: ${fmt.cur(plan.missingProfit)}` → nur wenn `!skipProfit`: `${money(a, plan.missingProfit)} Gewinn fehlen`; `'Consistency verletzt'` → `'Consistency Rule verletzt'`; „in N Handelstag(en)“ bleibt. Z. 76: `return parts.join(' · ') \|\| '—';` → `return parts.join(' · ') \|\| (skipProfit ? '' : '—');` | wording-31, bereich_prop-5 |
-| 12.5 | prop.js:79 `limText` | `r => … fmt.cur(r.value)` → `(r, c) => … fmt.cur(r.value, { currency: c })`; `ddText` reicht die Währung durch; Aufrufer im Preset-Raster übergeben `p.currency`; `lockAt` ebenso | bereich_prop-38 |
+- Z. 2932 `.ct-check[aria-checked="true"], .coach-task.done .ct-check.static { … }` → nur `.ct-check[aria-checked="true"] { … }`
+- Z. 2933 `.ct-check.static { cursor: default; }` → `.ct-check.static, .ct-check.static:hover { cursor: default; border-color: transparent; background: none; color: var(--text-2); }`
 ```
 
-## wording-S12.6-12.7 · Prop: Leerzustand „Prop-Konto anlegen“ ohne Firmen-Preset, Kachel „P&L der aktiven Konten“ je Währung
+## komponenten-C32a · Coach: Haken in „Kurz-Stats“ schrumpft nicht
 
-Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-35, wording-34, wording-32, bereich_prop-5, wording-36
-Quelle: audit/spec/wording.md Z. 487–488 · Dateien: web/js/screens/prop.js
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-36
+Quelle: audit/spec/komponenten.md Z. 459–460 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| 12.6 | prop.js:82 Leerzustand | Text `'Lege ein Konto aus einem Firmen-Preset an und ordne ihm Trades zu. Dann siehst du hier Balance, Puffer, Ampel und den Weg zum Payout.'` → `'Lege ein Prop-Konto an (Firma, Größe, Regeln) und ordne ihm Trades zu. Dann siehst du hier Kontostand, Puffer, Ampel und den Weg zum Payout.'`; Knopf `${I.plus} Konto anlegen` → `${I.plus} Prop-Konto anlegen` (Titel „Noch keine Prop-Konten“ bleibt, proptest.js:20) | wording-35, wording-34, wording-32 |
-| 12.7 | prop.js:86–87 Kachel | Summe je Währung: `const byCur = new Map(); for (const a of active) { const c = a.currency \|\| ''; byCur.set(c, (byCur.get(c) \|\| 0) + evalOf(a).ev.pnl); }`; Wert `[...byCur].map(([c, v]) => U.pnl(v, '', c ? { currency: c } : {})).join(' <span class="muted">·</span> ')`; Titel `'P&L aktive Konten'` → `'P&L der aktiven Konten'` | bereich_prop-5, wording-36 |
+**C32 – Coach-Kleinigkeiten** (bereich_konto-36, bereich_konto-50, bereich_konto-22, bereich_konto-45)
+- Nach Z. 2900 neu: `.coach-yes, .coach-no { align-items: flex-start; } .coach-yes svg, .coach-no svg { flex: none; margin-top: 2px; }`
 ```
 
-## wording-S12.8-12.12 · Prop-Karte: „reicht für N Stops“, „Kontostand“, P&L in Kontowährung, Bestehen-Zeile nur wenn nicht leer, Tooltip „je Stop“, Archiv-Untertitel, Verweis „Trade bearbeiten“
+## komponenten-C32b · Coach „1 erledigt“ mit CSS-Chevron statt ▸/▾
 
-Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-33, wording-32, bereich_prop-5, zustaende-28, wording-31, wording-37, wording-61
-Quelle: audit/spec/wording.md Z. 489–493 · Dateien: web/js/screens/prop.js
-Abhängig von: wording-S1.1-1.3, wording-S12.4-12.5
-
-```text
-| 12.8 | prop.js:98 Puffer | `` `noch ${b.stops} Stop-Loss${b.stops === 1 ? '' : 'es'}` `` → `` `reicht für ${b.stops} Stop${b.stops === 1 ? '' : 's'}` `` | wording-33 |
-| 12.9 | prop.js:102 Karte | Caption `Balance` → `Kontostand`; `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`; `${ev.n} Trades` → `${U.count(ev.n, 'Trade', 'Trades')}` | wording-32, bereich_prop-5, zustaende-28 |
-| 12.10 | prop.js:104 Meta | `const pt = planText(a, ev, plan, !!(ev.target && a.phase !== 'funded'));` und die kv-Zeile „Bestehen“/„Nächster Payout“ nur, wenn `pt`; Tooltip `${fmt.cur(stopSize)} je Stop-Loss` → `${money(a, stopSize)} je Stop` | wording-31, bereich_prop-5, wording-33 |
-| 12.11 | prop.js:123 | `sub: 'bestanden, geplatzt oder archiviert'` → `sub: 'Bestanden, geplatzt oder archiviert'` | wording-37 |
-| 12.12 | prop.js:133 Trades zuordnen | `Ältere Trades ordnest du im Trade-Editor zu.` → `Ältere Trades ordnest du über „Trade bearbeiten“ zu.` | wording-61 |
-```
-
-## wording-S12.13-12.16 · Prop-Konto-Dialog: Betrag-Option mit Kontowährung, „% des Startkapitals“, „Mindest-Kontostand“, Platzhalter „z. B. 50K“/„z. B. Topstep“, Währungshinweis
-
-Gruppe wording · Cluster prop · Aufwand S · Befunde: bereich_prop-38, wording-32, bereich_prop-53, bereich_prop-5
-Quelle: audit/spec/wording.md Z. 494–497 · Dateien: web/js/screens/prop.js
-Abhängig von: wording-S12.1-12.3
-
-```text
-| 12.13 | prop.js:143 `modeSel` | `[['abs', unitLabel('Betrag')], ['pct', '% der Startbalance']]` → `[['abs', unitLabel('Betrag', o.currency)], ['pct', '% des Startkapitals']]` | bereich_prop-38, wording-32 |
-| 12.14 | prop.js:153 | `F('Mindestbalance', …)` → `F('Mindest-Kontostand', …)` | wording-32 |
-| 12.15 | prop.js:191 / :216 / :217 | `<label for="pa-name">Konto (z. B. 50K)</label><input … id="pa-name" …>` → `<label for="pa-name">Konto</label><input … id="pa-name" placeholder="z. B. 50K" …>`; ebenso :217 (`pp-name`); :216 Firma bekommt `placeholder="z. B. Topstep"` | bereich_prop-53 |
-| 12.16 | prop.js:194 Währungshinweis | `Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.` → `Kontostand, P&L, Limits und Puffer in Kontowährung. In Trade-Listen bleibt die Journal-Währung.` | bereich_prop-5, wording-32 |
-```
-
-## wording-S12.17-12.20 · Prop-Konto-Dialog: Aktion prop-cur beim Währungswechsel, „Startkapital“, Währung an rulesFields, Stop-Größe-Hinweis
-
-Gruppe wording · Cluster prop · Aufwand M · Befunde: bereich_prop-38, wording-32, wording-33
-Quelle: audit/spec/wording.md Z. 498–501 · Dateien: web/js/screens/prop.js
-Abhängig von: wording-S12.1-12.3, wording-S12.13-12.16
-
-```text
-| 12.17 | prop.js:194/:21x Währungswechsel | `#pa-cur` und `#pp-cur` bekommen `data-change="prop-cur"`. Neue Aktion `'prop-cur'(el) { const f = el.form; ['dl_mode', 'dd_mode', 'pt_mode'].forEach(n => { const o = f.querySelector(\`select[name="${n}"] option[value="abs"]\`); if (o) o.textContent = unitLabel('Betrag', el.value); }); }`; `fillAccountForm` ruft sie nach `set('currency', …)` auf | bereich_prop-38 |
-| 12.18 | prop.js:198 | `<label for="pa-sb">Startbalance</label>` → `<label for="pa-sb">Startkapital</label>` | wording-32 |
-| 12.19 | prop.js:203 / :225 `rulesFields`-Aufrufe | `{ tz: s.tz }` → `{ tz: s.tz, currency: s.currency }`; `{ fees: s.fees \|\| {}, disabled: ro }` → `{ fees: s.fees \|\| {}, disabled: ro, currency: s.currency }` | bereich_prop-38 |
-| 12.20 | prop.js:242 Stop-Größe | Hinweis `Bestimmt „noch X Stop-Losses“.` → `Bestimmt, für wie viele Stops der Puffer reicht.` | wording-33 |
-```
-
-## wording-S12.21-12.23 · Prop-Bilanz: Pro Firma ohne ROI bei fehlenden Payouts, Symbolknopf „Als erhalten markieren“, Spalten „Beantragt am“/„Erhalten am“
-
-Gruppe wording · Cluster prop · Aufwand S · Befunde: bereich_prop-24, bereich_prop-20
-Quelle: audit/spec/wording.md Z. 502–504 · Dateien: web/js/screens/prop.js
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-50
+Quelle: audit/spec/komponenten.md Z. 461–461 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| 12.21 | prop.js:258 Pro Firma | Unterzeile → `${f.received > C.EPS ? \`${fmt.cur(f.spent)} Ausgaben · ${fmt.cur(f.received)} Payouts · ROI ${f.roi == null ? '—' : fmt.pct(f.roi, 0, true)}\` : \`${fmt.cur(f.spent)} Ausgaben · noch keine Payouts\`}` | bereich_prop-24 |
-| 12.22 | prop.js:267 Payout-Zeile | `<button type="button" class="btn xs" data-action="prop-payout-received" data-id="${esc(p.id)}">Erhalten</button> ` → `<button type="button" class="btn ghost icon sm" data-action="prop-payout-received" data-id="${esc(p.id)}" aria-label="Als erhalten markieren" data-tip="Als erhalten markieren">${I.check}</button>` (Leerzeichen danach entfällt) | bereich_prop-20 |
-| 12.23 | prop.js:268 und :286 Spaltenköpfe | `<th>Beantragt</th><th>Erhalten</th>` → `<th>Beantragt am</th><th>Erhalten am</th>` | bereich_prop-20 |
+- Z. 2937–2938 (`.ct-done summary::before`, `[open] … ::before`) löschen; neu: `.ct-done summary { display: inline-flex; align-items: center; gap: 5px; }`. Z. 2310 → `.rp-more summary::after, .ct-done summary::after { … }`; Z. 2311 → `.rp-more[open] summary::after, .ct-done[open] summary::after { … }`
 ```
 
-## wording-S12.24-12.26 · Prop-Planer: „Mindest-Kontostand“, Bedingungen „(mind. …) · erfüllt“, alle Beträge in Kontowährung
+## komponenten-C32c · Coach-Antwortfelder ohne Größen-Griff, wachsen bis 160 px (CSS)
 
-Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-32, bereich_prop-31, bereich_prop-5
-Quelle: audit/spec/wording.md Z. 505–507 · Dateien: web/js/screens/prop.js
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-22
+Quelle: audit/spec/komponenten.md Z. 462–462 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| 12.24 | prop.js:279 Planer-Banner | `(Mindest-Handelstage, Mindestgewinn oder Mindestbalance)` → `(Mindest-Handelstage, Mindestgewinn oder Mindest-Kontostand)` | wording-32 |
-| 12.25 | prop.js:283 Bedingungen | Handelstage: offen → `${n} von ${o.minDays} <span class="warn">· noch ${plan.missingDays}</span>` (unverändert); erfüllt → `${n} <span class="muted">(mind. ${o.minDays})</span> <span class="pos">· erfüllt</span>`; ohne Vorgabe unverändert. Profit Target/Gewinn: `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`, alle `fmt.cur(…)` → `money(a, …)`; erfüllt → `<span class="muted">(mind. ${money(a, o.minProfit)})</span> <span class="pos">· erfüllt</span>`, offen weiter mit „von“. kv `'Mindestbalance'` → `'Mindest-Kontostand'`, `fmt.balance(ev.balance)` → `fmt.balance(ev.balance, { currency: a.currency })`, gleiches Muster „(mind. …)“ wenn erfüllt | bereich_prop-31, bereich_prop-5, wording-32 |
-| 12.26 | prop.js:284 Vorschlag | `fmt.cur(plan.suggestion.perDay)`, `fmt.cur(plan.suggestion.total)` → `money(a, …)` | bereich_prop-5 |
+- Z. 2879 `.ce-write textarea { … resize: vertical; … }` und Z. 2923 `.mr-write textarea { … resize: vertical; … }` → `resize: none; field-sizing: content; max-height: 160px;` (min-height 44 bzw. 34 bleibt). `.mn-edit` bleibt `resize: vertical`.
 ```
 
-## wording-S12.27 · Prop-Kopfreihe: Knopf „Prop-Konto anlegen“ mit aria-label
+## komponenten-C32d · Coach-Gruppenmenü einzeilig
 
-Gruppe wording · Cluster prop · Aufwand S · Befunde: wording-34
-Quelle: audit/spec/wording.md Z. 508–508 · Dateien: web/js/screens/prop.js
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-45
+Quelle: audit/spec/komponenten.md Z. 463–464 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| 12.27 | prop.js:294 Kopfreihe | `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span class="hide-m">Prop-Konto</span></button>` → `<button type="button" class="btn" data-action="prop-account-new" aria-label="Prop-Konto anlegen">${I.plus}<span class="hide-m">Prop-Konto anlegen</span></button>` | wording-34 |
+- Neu: `#pop-coachmenu .item { white-space: nowrap; }`
+
 ```
 
-## wording-S12.28-12.29 · Friedhof: Lebensdauer über U.count, Grabstein-Unterzeile ohne Geldbetrag („100K“ nur ohne Namen)
+## komponenten-C33b · Coupon-Link in --text-2, unten bündig
 
-Gruppe wording · Cluster prop · Aufwand S · Befunde: zustaende-28, bereich_prop-46
-Quelle: audit/spec/wording.md Z. 509–510 · Dateien: web/js/screens/prop-friedhof.js
-Abhängig von: wording-S1.1-1.3
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-49
+Quelle: audit/spec/komponenten.md Z. 471–472 · Dateien: web/css/app.css
+Abhängig von: —
 
 ```text
-| 12.28 | prop-friedhof.js:56 | `` `${fmt.num(avgLife, 0)} Tage` `` → `U.count(Math.round(avgLife), 'Tag', 'Tage')` | zustaende-28 |
-| 12.29 | prop-friedhof.js:136 Grabstein | `${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? \` · ${marketLabel(t.market)}\` : ''}` → `${[!t.name && t.size > 0 ? \`${fmt.int(t.size / 1000)}K\` : '', t.market ? marketLabel(t.market) : ''].filter(Boolean).join(' · ') \|\| '—'}` | bereich_prop-46 |
+- Z. 2657 `.cpn-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; font-size: 12.5px; color: var(--muted); text-decoration: none; transition: … }` → `.cpn-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 6px; font-size: 12.5px; color: var(--text-2); text-decoration: none; transition: color var(--dur-2) var(--ease); }`; Z. 2658 bleibt.
+
 ```
 
-## wording-S19-prop · Tests anpassen: proptest, friedhoftest
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe wording · Cluster prop · Aufwand S · Befunde: bereich_prop-5, wording-33, wording-31, bereich_prop-46
-Quelle: audit/spec/wording.md Z. 630–635 · Dateien: web/e2e/proptest.js, web/e2e/friedhoftest.js
-Abhängig von: wording-S12.4-12.5, wording-S12.8-12.12, wording-S12.28-12.29
+- [konflikt: .cpn-link] Das Ergebnis lautet `.cpn-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: var(--sp-1); font-size: var(--fs-12); line-height: var(--lh-12); color: var(--text-2); text-decoration: none; transition: color var(--dur-2) var(--ease); }`. Z. 2658/2659 bleiben. Begründung: 12,5 px ist laut typografie verboten, und der Fußlink ist Hilfstext der Stufe 12. Für das Polster gilt die Skala (abstaende: Abstände nur als var(--sp-n)). Zusammen mit `.cpn { gap: var(--sp-1) }` (abstaende-B28) bleibt der Mindestabstand zur Notiz bei etwa 8 px, wie heute (5 + 4). Die transition bleibt so, wie sie in der Datei steht.
+- ÄNDERN: Z. 2657 wie oben schreiben: `font-size: var(--fs-12); line-height: var(--lh-12)` statt `12.5px` und `padding-top: var(--sp-1)` statt `6px`. Die transition nicht anfassen.
+- ÜBERNIMMT komponenten-S-coupons: Nur eine Prüfung, das Markup bleibt. Wird mit C33b erledigt; coupontest.js:14 (`.cpn-link[target=_blank][rel=noopener]`) muss grün bleiben.
+
+## komponenten-D3 · certificate.js: Format-Segment ohne .sm, eckige Pfeile, Größenhinweis
+
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: komponenten-26, komponenten-25, komponenten-18
+Quelle: audit/spec/komponenten.md Z. 617–621 · Dateien: web/js/certificate.js
+Abhängig von: komponenten-C07, komponenten-C14b, komponenten-C05
 
 ```text
-| e2e/proptest.js:56 | `card.pnl.includes('€')` → `card.pnl.includes('$')`; `/noch \d+ Stop-Loss/` → `/reicht für \d+ Stop/`; `card.meta.includes('Bestehen')` → `card.meta.includes('Puffer') && !/Gewinn fehlt/.test(card.meta)`; Kommentar Z. 55 anpassen | bereich_prop-5, wording-33, wording-31 |
-| e2e/proptest.js:57 | `` `noch ${ev.buffer.stops} Stop-Loss` `` → `` `reicht für ${ev.buffer.stops} Stop` `` | wording-33 |
-| e2e/proptest.js:103 | `/in \d+ Handelstag\|Gewinn fehlt\|bereit\|Consistency/` → `/in \d+ Handelstag\|Gewinn fehlen\|bereit\|Consistency/` | wording-31 |
-| e2e/proptest.js:116 | `'/ 150,00 € je Stop-Loss'` → Erwartung über `UI.fmt.cur(150, { currency: acc.currency })` + `' je Stop'` | bereich_prop-5, wording-33 |
-| e2e/friedhoftest.js:122 | „Fix 3“: für das Konto ohne Größe und Namen genau `'Futures'` (bzw. Marktname) erwarten, nicht `startsWith('—')` | bereich_prop-46 |
-| e2e/friedhoftest.js:129 | „Fix 4“: nur noch prüfen, dass im Geld-blind-Modus weder R-Wert noch €/$ in der Unterzeile steht (nicht `includes('ausgeblendet')`) | bereich_prop-46 |
+**D3 – certificate.js** (komponenten-26, komponenten-25, komponenten-18)
+- Z. 73 `<div class="seg sm">` → `<div class="seg">`
+- Z. 85: beide `class="btn round sm"` → `class="btn nav"`
+- Format-Zeile: Labels ohne `<small>` (`[k, v.label]`), direkt nach dem Segment `<div class="hint">${f.w} × ${f.h} px</div>` (`f` = `FORMATS[o.format]`, die Seitenleiste wird bei jedem Formatwechsel neu gerendert).
+
+```
+
+## komponenten-S-coach-a · Coach: Aktualisieren/Abgleichen/Link erneuern mit I.refresh, „Aufgabe an alle“ mit I.plus
+
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-10
+Quelle: audit/spec/komponenten.md Z. 628–631 · Dateien: web/js/screens/coach.js
+Abhängig von: —
+
+```text
+### 3.6 web/js/screens/*.js
+
+**S-coach (coach.js)** (bereich_konto-10, bereich_konto-5, komponenten-1, bereich_konto-45, bereich_konto-49, bereich_konto-22, bereich_konto-9)
+- `I.replay` → `I.refresh` in Z. 47, 115, 157 und 265; Z. 121 „Aufgabe an alle“ `${I.check}` → `${I.plus}`.
+```
+
+## komponenten-S-coach-b · Coach: Auslöser und Inline-Absenden neutral
+
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-5, komponenten-1
+Quelle: audit/spec/komponenten.md Z. 632–632 · Dateien: web/js/screens/coach.js
+Abhängig von: —
+
+```text
+- Neutral: Z. 22 `<a class="btn primary" href="#/settings/mentor">` → `<a class="btn" …>`; Z. 53 „+ Gruppe“ `btn sm primary` → `btn sm`; Z. 129 „Speichern“ (Notiz bearbeiten) `btn sm primary` → `btn sm`; Z. 140 „Notiz senden“ `btn sm primary` → `btn sm`; Z. 148 „Aufgabe geben“ `btn sm primary` → `btn sm`. Z. 178, 197, 271 bleiben primary.
+```
+
+## komponenten-S-coach-d · Coach: „Im Notebook ansehen“ als .tlink
+
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-49
+Quelle: audit/spec/komponenten.md Z. 634–634 · Dateien: web/js/screens/coach.js
+Abhängig von: komponenten-C33a
+
+```text
+- Z. 48 `<a href="#/notebook">Im Notebook ansehen</a>` → `<a class="tlink" href="#/notebook">Im Notebook ansehen</a>`
+```
+
+## komponenten-S-coach-e · Coach: Antwortfelder wachsen (Fallback ohne field-sizing); .input.sm und Zählung bleiben
+
+Gruppe komponenten · Cluster konto · Aufwand S · Befunde: bereich_konto-22, bereich_konto-9
+Quelle: audit/spec/komponenten.md Z. 635–638 · Dateien: web/js/screens/coach.js
+Abhängig von: komponenten-C32c, komponenten-C03
+
+```text
+- Z. 296 (`coach-note-draft`) und Z. 313 (`coach-reply-draft`) als erste Anweisung: `if (!(window.CSS && CSS.supports('field-sizing', 'content'))) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight + 2, 160) + 'px'; }`
+- Die 5 Felder `class="input sm"` (Z. 77, 109, 148 zweimal, 263) bleiben, sie bekommen ihre Höhe aus C03.
+- Z. 66 bleibt (Zählung „1 erledigt“/„n erledigt“).
+
+```
+
+## aufbau-A4c · Coach-Eintrag: Editor-Überschriften kleiner als .ce-title
+
+Gruppe aufbau · Cluster konto · Aufwand S · Befunde: bereich_konto-20
+Quelle: audit/spec/aufbau.md Z. 285–289 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+- Nach Z. 2876 neu:
+  ```css
+  .ce-body .ql-editor h1 { font-size: 16px; } .ce-body .ql-editor h2 { font-size: 15px; } .ce-body .ql-editor h3 { font-size: 14.5px; }
+  .ce-body .ql-editor :is(h1, h2, h3) { margin: 10px 0 4px; font-weight: 600; }
+  ```
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .ce-title] .ce-title wird 18/600 (typografie-3.2.3t: var(--fs-18)/var(--lh-18)), der Eintragstext .ce-body 14 px (typografie 14.5 → 14). Die Editor-Überschriften im Coach-Eintrag kommen nur aus der Skala: h1 var(--fs-15), h2 und h3 var(--fs-14), alle 600 in --text. Abstand var(--sp-2) davor und var(--sp-1) danach, die erste Überschrift ohne Abstand oben. Die Zeilenhöhe 1.25 kommt aus der Editor-Regel der Typografie (kein --lh-N). Grund: 16 px liegt nicht in der Skala, 14.5 px ist verboten. Die Überschriften bleiben trotzdem kleiner als der Eintragstitel (aufbau Grundsatz 4). Der Abstand entspricht der Tagesnotiz-Vorschau .nv-h (8 px davor, zustaende-S-C18). Die Regeln stehen nach Z. 2876, also hinter zustaende-S-C17 (`.ql-snow .ql-editor h1–h3`, gleiche Spezifität 0,2,1, .ce-body trägt ql-snow), und gewinnen dadurch.
+- ÄNDERN: Statt 16/15/14.5 px nach Z. 2876 einfügen: `.ce-body .ql-editor h1 { font-size: var(--fs-15); } .ce-body .ql-editor h2, .ce-body .ql-editor h3 { font-size: var(--fs-14); } .ce-body .ql-editor :is(h1, h2, h3) { margin: var(--sp-2) 0 var(--sp-1); font-weight: 600; color: var(--text); } .ce-body .ql-editor > :is(h1, h2, h3):first-child { margin-top: 0; }`. Keine eigene line-height.
+
+## aufbau-C3 · Affiliate: Steuerung in die Kopfreihe, Marke „Beispieldaten“, ohne Trade/Session, Kachel „Creator“ weg
+
+Gruppe aufbau · Cluster konto · Aufwand M · Befunde: hierarchie-45, bereich_konto-37, bereich_konto-29, responsiv-19, aufbau-6, ki_look-22
+Quelle: audit/spec/aufbau.md Z. 432–440 · Dateien: web/js/screens/affiliate.js, web/css/app.css
+Abhängig von: aufbau-B11
+
+```text
+#### `web/js/screens/affiliate.js`
+
+**C3** · hierarchie-45, bereich_konto-37, bereich_konto-29, responsiv-19, aufbau-6, ki_look-22
+- Z. 73 `head: { range: false, account: false },` → `head: { range: false, account: false, session: false, trade: false }, /* Konto-Menü-Seite: keine Handelsknöpfe, „Trade loggen“ gibt es auf allen Seiten der Navigation */`
+- Neu im Screen-Objekt: `actions: () => U.pill('Beispieldaten', 'neutral'),`
+- `render(ctx)` Z. 79–80: `const top = …; return `<div class="aff">${top}…`` → `ctx.headLeft = nav(view) + pick; return `<div class="aff">${view === 'creator' ? creator(d, c) : admin(d)}</div>`;` (kein `data-subnav` an der Navigation, sonst blendet app.css:116–117 falsch ein)
+- `admin` Z. 57: `${U.tile('Creator', String(d.creators.length))}` streichen. Kartentitel bleibt „Creator“ ohne Zahl.
+- `web/css/app.css`: Z. 2663–2664 (`.aff-top`, `.aff-top .grow`) löschen; Z. 2987 `.aff-top .aff-pick { flex: 1; min-width: 0; }` → `.page-head .aff-pick { flex: 1; min-width: 0; }`
+
 ```

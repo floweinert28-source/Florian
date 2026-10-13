@@ -1,0 +1,123 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".heat-legend i.l1",
+   "nrs": [
+    "diagramme-A5",
+    "farbe-B23a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Beide Schritte machen dasselbe: Sie färben die Aktivitäts-Heatmap im Fortschritt neutral, und der Heute-Ring wird --text-2. Sie unterscheiden sich nur in den Prozentwerten und im Legenden-Selektor. Verbindlich für app.css Z. 1287–1291: `.activity i.l1, .heat-legend:not(.right) i.l1 { background: color-mix(in srgb, var(--text) 14%, var(--surface-2)); border-color: transparent; }`, ebenso l2 26 %, l3 38 %, l4 50 % und l5 62 % (l5 also auch als color-mix, nicht var(--accent), und ebenfalls mit `border-color: transparent`). Z. 1292: `.activity i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Gibt die Entscheidung zum Anker `.activity i.today` (Komponenten nennt 1,5 px) etwas anderes vor, gilt diese. Begründung für die Werte: Nachgerechnet hat die erste Stufe bei 8 % zum leeren Kästchen nur 1,25:1 (dunkel) und 1,18:1 (hell), ist also kaum vom leeren Feld zu unterscheiden. Bei 14 % sind es 1,51:1 und 1,35:1. Die Schritte zwischen den Stufen sind gleichmäßig (1,37–1,48 dunkel, 1,33–1,47 hell). Die Diagramm-Spezifikation hat beide Werte in K11 ausdrücklich gegeneinander abgewogen. Farbe 1.9 / regeln.md Z. 13 (8/16/28/42/58 %) gilt damit nicht. Begründung für den Selektor `:not(.right)` (aus farbe-B23a): Die Fortschritt-Legende wird damit unabhängig von der Tracker-Legende `.heat-legend.right`. Sie hängt nicht mehr an der Spezifität und gilt gleich, ob beim Regel-Tracker diagramme-A6 oder farbe-B23b gewinnt. Die Akzeptanzprüfungen beider Gruppen bleiben erfüllt: diagramme grep 11 und Sonde 20 (l5 ≠ --accent), Farbe (kein var(--accent) in `.activity`, progress_voll grau abgestuft).",
+   "anpassungen": [
+    {
+     "nr": "diagramme-A5",
+     "aktion": "aendern",
+     "anweisung": "Werte 14/26/38/50/62 % und Heute-Ring wie spezifiziert umsetzen, aber in allen fünf Regeln (Z. 1287–1291) den Legenden-Teil `.heat-legend i.lN` durch `.heat-legend:not(.right) i.lN` ersetzen. In l5 `border-color: transparent` behalten. Den Hinweis zur Spezifität (0,3,1) in A6 nicht mehr als Voraussetzung behandeln: Die Selektoren überschneiden sich nicht mehr. Zusätzlich gelten mit diesem Schritt die Befunde bereich_training-8, farbe_kontrast-24 (Teil Aktivität) und referenz-8 (Teil Aktivität) als erledigt."
+    },
+    {
+     "nr": "farbe-B23a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "diagramme-A5",
+     "anweisung": "Kein eigener Schritt: diagramme-A5 übernimmt die Änderung, mit dem Selektor `:not(.right)` aus B23a. Die Prozentwerte 8/16/28/42/58 % werden NICHT verwendet. Gilt jetzt: 14/26/38/50/62 %. Die Farb-Akzeptanz (progress_voll grau abgestuft, kein --accent in .activity) prüft man am Ergebnis von A5."
+    }
+   ]
+  },
+  {
+   "anker": ".activity i.l1",
+   "nrs": [
+    "diagramme-A5",
+    "farbe-B23a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker `.heat-legend i.l1` (eine gemeinsame Entscheidung): `.activity i.l1, .heat-legend:not(.right) i.l1 { background: color-mix(in srgb, var(--text) 14%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5."
+  },
+  {
+   "anker": ".activity i.l2",
+   "nrs": [
+    "diagramme-A5",
+    "farbe-B23a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker `.heat-legend i.l1`: `.activity i.l2, .heat-legend:not(.right) i.l2 { background: color-mix(in srgb, var(--text) 26%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5."
+  },
+  {
+   "anker": ".activity i.l3",
+   "nrs": [
+    "diagramme-A5",
+    "farbe-B23a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker `.heat-legend i.l1`: `.activity i.l3, .heat-legend:not(.right) i.l3 { background: color-mix(in srgb, var(--text) 38%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5."
+  },
+  {
+   "anker": ".activity i.l4",
+   "nrs": [
+    "diagramme-A5",
+    "farbe-B23a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker `.heat-legend i.l1`: `.activity i.l4, .heat-legend:not(.right) i.l4 { background: color-mix(in srgb, var(--text) 50%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5."
+  },
+  {
+   "anker": ".activity i.l5",
+   "nrs": [
+    "diagramme-A5",
+    "farbe-B23a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker `.heat-legend i.l1`: `.activity i.l5, .heat-legend:not(.right) i.l5 { background: color-mix(in srgb, var(--text) 62%, var(--surface-2)); border-color: transparent; }`, also nicht mehr var(--accent). Umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5."
+  },
+  {
+   "anker": "fmt.dur",
+   "nrs": [
+    "diagramme-E6",
+    "zustaende-S-U3",
+    "zustaende-S-W6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Schritte widersprechen sich an zwei Stellen. (1) Tooltip: E6 lässt `durLabel` stehen, S-W6 stellt auf `fmt.dur` um. (2) Rückfall-Beschriftung der Achse: E6 nimmt `fmt.dur`, das zweiteilige Werte wie „1 h 23 min“ liefert. Die Zustände-Regel Z2.7 verlangt auf der Achse genau eine Einheit und verbietet „12m:05s“. Verbindliches Ergebnis: (a) ui.js Z. 157 `fmt.dur` wie in S-U3: direkt nach der null-Prüfung `if (min < 1) return `${Math.round(min * 60)} s`;`. (b) widgets.js Z. 38 `durLabel` wie in S-W6 (eine Einheit: „45 s“, „5 min“, „1,5 h“, „2 T“). Es dient nur noch als Achsenbeschriftung. (c) Z. 244 Tooltip `${fmt.dur(t.holdingMin)}` (S-W6). Mit S-U3 zeigt fmt.dur auch Sekunden, der Grund in E6 („Tooltip mit Sekunden“) bleibt also erfüllt, ohne das alte Format „12m:05s“. (d) Z. 246 Striche aus E6 (HOLD_TICKS, runde Werte), aber Rückfall mit durLabel: `let ticks = HOLD_TICKS.map(([m, l]) => ({ v: Math.log10(m * 60 + 1), label: l })).filter(t => t.v >= x0 && t.v <= x1); if (ticks.length < 2) ticks = [x0, (x0 + x1) / 2, x1].map(v => ({ v, label: durLabel((10 ** v - 1) / 60) }));`. Das eingebettete `min < 1 ? … s` entfällt, durLabel deckt Sekunden schon ab. (e) Z. 238 (Uhrzeit-Striche) unverändert nach E6. Die Übersetzungsmuster „{0} s“ und „{0} T“ nur einmal anlegen (Liste Zustände), die Einträge „1 T / 3 T / 1 W“ aus der Diagramm-Spezifikation bleiben.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-E6",
+     "aktion": "aendern",
+     "anweisung": "Z. 238 wie spezifiziert. Z. 246: Rückfall-Zweig statt `.map(v => { const min = (10 ** v - 1) / 60; return { v, label: min < 1 ? `${Math.round(min * 60)} s` : fmt.dur(min) }; })` → `.map(v => ({ v, label: durLabel((10 ** v - 1) / 60) }))`. Den Satz „Der Tooltip (Z. 244) behält durLabel“ streichen: Den Tooltip stellt zustaende-S-W6 auf fmt.dur um. Wird A-4 in die README übernommen, dort schreiben: „Rückfall beschriftet mit durLabel (eine Einheit); Tooltip fmt.dur (mit Sekunden)“."
+    },
+    {
+     "nr": "zustaende-S-W6",
+     "aktion": "aendern",
+     "anweisung": "Inhalt unverändert umsetzen (durLabel Z. 38 neu, Tooltip Z. 244 → fmt.dur). Zur Klarstellung: Den Achsen-Code Z. 246 fasst dieser Schritt nicht an. Den ersetzt diagramme-E6 (HOLD_TICKS), und dessen Rückfall ruft das neue durLabel auf. Damit ist „nur noch Achse“ richtig."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-U3",
+     "nach": "zustaende-S-W6"
+    },
+    {
+     "vor": "zustaende-S-W6",
+     "nach": "diagramme-E6"
+    }
+   ]
+  },
+  {
+   "anker": "durLabel",
+   "nrs": [
+    "diagramme-E6",
+    "zustaende-S-W6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Gehört zur Entscheidung beim Anker `fmt.dur`. durLabel bekommt die Fassung aus S-W6 (eine Einheit) und wird nur noch im Rückfall-Zweig der Haltedauer-Achse von E6 aufgerufen. Der Tooltip nutzt fmt.dur. Die Regelstriche kommen aus HOLD_TICKS (E6). Die alten Formate „12m:05s“, „1h:15m“ und „2d:3h“ verschwinden vollständig.",
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-W6",
+     "nach": "diagramme-E6"
+    }
+   ]
+  }
+ ],
+ "vertraeglich": [
+  "--text",
+  "fmt.r",
+  "fmt.dec"
+ ]
+}

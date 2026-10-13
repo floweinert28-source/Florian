@@ -1,0 +1,827 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".tile .val",
+   "nrs": [
+    "aufbau-A2",
+    "komponenten-C25b",
+    "responsiv-C1",
+    "typografie-3.2.2h",
+    "typografie-3.2.3-fv20",
+    "typografie-3.2.3-fv24",
+    "typografie-3.2.5a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ein Rollen-Token für alle Kachelwerte, die Werte kommen aus der Typografie-Skala. In :root steht `--tile-val: var(--fv-24);`, im Block @media (max-width: 960px) `:root { --tile-val: var(--fv-20); }`; eine eigene 560er-Stufe gibt es nicht, das Handy erbt 20. Die Regel lautet `.tile .val { font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); }` ohne font-family (Onest kommt über die Sammelregel). In der Container-Notstufe (heute @container max-width 164px, die Schwelle legt der Anker „@container (max-width: 164px)“ fest) gilt `.tile .val { font-size: var(--fv-20); }`. Gelöscht werden Z. 936 (22px, ≤960) und Z. 3027 (21px, Handy). Die Skala gilt auch für die bisherigen „Bleiben“-Ausnahmen aus aufbau-A2: `.prop-balance .val` geht von 26 auf var(--fv-24), bei ≤960 von 22 auf var(--fv-20) (wie typografie-fv24/fv20). `.coach-gs-tiles .tile .val { font-size: 21px }` (Z. 2945) wird gelöscht und erbt --tile-val; schmale Coach-Kacheln fallen über die Container-Notstufe auf 20. Grund: 25, 22, 21 und 26 px liegen nicht auf der Werte-Skala (14/16/20/24/32/44), und die Typografie verbietet sie. Aufbau, Typografie und Responsiv sind sich bei 24 am Desktop und 20 am Handy einig. Streitig war nur der Tablet-Wert 22 (Aufbau). Dafür gibt es die Skalenstufe 20 „Kachelwert schmal, ≤960, Handy“.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A1",
+     "aktion": "aendern",
+     "anweisung": "`--tile-val: var(--fv-24);` in :root; im 960er-Block `:root { --tile-val: var(--fv-20); }`; die 560er-Zeile `:root { --tile-val: 20px; }` entfällt (erbt 20)."
+    },
+    {
+     "nr": "aufbau-A2",
+     "aktion": "aendern",
+     "anweisung": "Schreibt alle Kachelwerte: Z. 540 `.tile .val { font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); }` ohne font-family. Z. 639 `.stat-tile .v` Schriftteil `font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val);` ohne font-family (margin/padding macht abstaende-B15). Z. 1735 wie geplant. Löschliste wie geplant (2397, 2446, 2684, 2742, 936, 3027, 3038) plus Z. 2945 `.coach-gs-tiles .tile .val`. Die Liste „Bleiben“ entfällt: Z. 533 → var(--fv-20) (typografie-fv20), Z. 2700 `.prop-balance .val` → var(--fv-24) (typografie-fv24)."
+    },
+    {
+     "nr": "typografie-3.2.5a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-A2",
+     "anweisung": "Gleiche Regel, aber `font-size: var(--tile-val)` statt var(--fv-24); aufbau-A2 schreibt sie."
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 540 `.tile .val` und Z. 639 `.stat-tile .v` (→ aufbau-A2 mit --tile-val), Z. 2397/2446 `.shadow-main` und Z. 2684 `.prop-tiles` (Regeln werden gelöscht), Z. 2945 `.coach-gs-tiles` (Regel wird gelöscht), Z. 1307 `.tilt-stats .v` ≤960 und `.v.cur` (→ abstaende-D4). Bleiben: .stat .v, .tracker-foot .score-n, .detail-head .sym/.big, .prop-balance .val (26 → var(--fv-24)), ol.rp-visual li::before, .streak-tile .val."
+    },
+    {
+     "nr": "typografie-3.2.3-fv20",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 936 und Z. 3027 `.tile .val`, Z. 2742 `.prop-tiles .tile .val`, Z. 3038 `.stat-tile .v` (die Zeilen werden gelöscht, die 20 px kommen aus --tile-val). Bleiben: Z. 533 Container-Notstufe `.tile .val` → var(--fv-20), Z. 2741 `.prop-balance .val` → var(--fv-20)."
+    },
+    {
+     "nr": "typografie-3.2.2h",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: `.tile .val` (540) und `.tile.spark-tile .val` (1735), aufbau-A2 schreibt beide ohne font-family. Rest bleibt (Pflicht: .prop-balance .val und .rh-big; dazu .score-big, .day-card .head .pnl, .big-stat, .fw-big, .fw-stats b)."
+    },
+    {
+     "nr": "responsiv-C1",
+     "aktion": "aendern",
+     "anweisung": "`.tile .val { font-size: 20px }` (Z. 3027) entfällt, weil aufbau-A2 die Zeile löscht und die 20 px aus --tile-val kommen. Das Streichen von 28px in Z. 1735 entfällt, weil aufbau-A2 die Regel neu schreibt. Die Bearbeitungsleisten-Regeln (.w-bar, 40×40) bleiben. Die Regel für die ungerade letzte Kachel siehe eigener Eintrag."
+    },
+    {
+     "nr": "komponenten-C25b",
+     "aktion": "entfaellt",
+     "anweisung": "Entfällt vollständig: Die gap-Löschung übernimmt abstaende-B13. Der Wert erbt .tile .val (aufbau-A2). Trennlinie und Abstand kommen über die Klasse body an .spark-body (typografie-3.8b), es gibt keine eigene linear-gradient-Kopie mit padding-top 8."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "aufbau-A1"
+    },
+    {
+     "vor": "aufbau-A1",
+     "nach": "aufbau-A2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tile.spark-tile .val",
+   "nrs": [
+    "aufbau-A2",
+    "komponenten-C25b",
+    "responsiv-C1",
+    "typografie-3.2.2f",
+    "typografie-3.2.2h",
+    "typografie-3.2.5b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Endstand: `.tile.spark-tile .val { flex: 0 0 auto; display: flex; align-items: center; margin: 0; padding: 0; min-height: 0; }`. Schrift, Größe (--tile-val, also 24/20 statt 28), Gewicht, Laufweite und Zeilenhöhe erbt die Regel von .tile .val. Geschrieben wird sie einmal, von aufbau-A2. Dass typografie-3.2.2f den Selektor aus der Onest-Liste streicht, passt dazu (.tile .val deckt ihn ab).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C25b",
+     "aktion": "entfaellt",
+     "anweisung": "Entfällt vollständig: Die gap-Löschung übernimmt abstaende-B13. Der Wert erbt .tile .val (aufbau-A2). Trennlinie und Abstand kommen über die Klasse body an .spark-body (typografie-3.8b), es gibt keine eigene linear-gradient-Kopie mit padding-top 8."
+    },
+    {
+     "nr": "typografie-3.2.5b",
+     "aktion": "entfaellt",
+     "anweisung": "Alle drei Teile sind übernommen: gap-Löschung und flex-wrap: nowrap macht abstaende-B13, die Typo-Dubletten in .tile.spark-tile .val löscht aufbau-A2."
+    },
+    {
+     "nr": "typografie-3.2.2h",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: `.tile .val` (540) und `.tile.spark-tile .val` (1735), aufbau-A2 schreibt beide ohne font-family. Rest bleibt (Pflicht: .prop-balance .val und .rh-big; dazu .score-big, .day-card .head .pnl, .big-stat, .fw-big, .fw-stats b)."
+    },
+    {
+     "nr": "responsiv-C1",
+     "aktion": "aendern",
+     "anweisung": "`.tile .val { font-size: 20px }` (Z. 3027) entfällt, weil aufbau-A2 die Zeile löscht und die 20 px aus --tile-val kommen. Das Streichen von 28px in Z. 1735 entfällt, weil aufbau-A2 die Regel neu schreibt. Die Bearbeitungsleisten-Regeln (.w-bar, 40×40) bleiben. Die Regel für die ungerade letzte Kachel siehe eigener Eintrag."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tile.spark-tile",
+   "nrs": [
+    "abstaende-B13",
+    "komponenten-C25b",
+    "typografie-3.2.5b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Regel `.tile.spark-tile { gap: 2px; }` (Z. 1733) wird einmal gelöscht, durch abstaende-B13.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C25b",
+     "aktion": "entfaellt",
+     "anweisung": "Entfällt vollständig: Die gap-Löschung übernimmt abstaende-B13. Der Wert erbt .tile .val (aufbau-A2). Trennlinie und Abstand kommen über die Klasse body an .spark-body (typografie-3.8b), es gibt keine eigene linear-gradient-Kopie mit padding-top 8."
+    },
+    {
+     "nr": "typografie-3.2.5b",
+     "aktion": "entfaellt",
+     "anweisung": "Alle drei Teile sind übernommen: gap-Löschung und flex-wrap: nowrap macht abstaende-B13, die Typo-Dubletten in .tile.spark-tile .val löscht aufbau-A2."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tile.spark-tile .spark-body",
+   "nrs": [
+    "abstaende-B13",
+    "komponenten-C25b",
+    "typografie-3.2.5b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand: `.tile.spark-tile .spark-body { flex: 1; display: flex; align-items: flex-start; flex-wrap: nowrap; gap: 18px; min-height: 0; padding-top: var(--sp-3); }` (abstaende-B13 plus nowrap aus typografie-3.2.5b). In trades.js:26 wird daraus `<div class=\"body spark-body\">` (typografie-3.8b). So bekommt die Verlaufskachel Trennlinie und Abstand genau von `.tile .body`, ohne eigene linear-gradient-Kopie und ohne eigenes padding-top: 8px. Grund: Komponenten will „dieselbe Trennlinie wie alle Kacheln“, und über die Klasse ist das automatisch so. Streicht der Nutzer bei ki_look-10 die Linie für alle Kacheln, verschwindet sie hier ohne Sonderregel mit; diese Entscheidung wartet deshalb nicht auf die Frage. padding-top 12 (var(--sp-3)) ist der Wert von .tile .body laut abstaende-B9. 8 px würde die Wertlinie gegen die Nachbarkacheln versetzen.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-B13",
+     "aktion": "aendern",
+     "anweisung": "In die neue .spark-body-Regel zusätzlich `flex-wrap: nowrap;` aufnehmen (schützt vor der ≤960-Regel `.tile .body { flex-wrap: wrap }`, sobald .spark-body die Klasse body trägt). Alles andere wie geplant."
+    },
+    {
+     "nr": "komponenten-C25b",
+     "aktion": "entfaellt",
+     "anweisung": "Entfällt vollständig: Die gap-Löschung übernimmt abstaende-B13. Der Wert erbt .tile .val (aufbau-A2). Trennlinie und Abstand kommen über die Klasse body an .spark-body (typografie-3.8b), es gibt keine eigene linear-gradient-Kopie mit padding-top 8."
+    },
+    {
+     "nr": "typografie-3.2.5b",
+     "aktion": "entfaellt",
+     "anweisung": "Alle drei Teile sind übernommen: gap-Löschung und flex-wrap: nowrap macht abstaende-B13, die Typo-Dubletten in .tile.spark-tile .val löscht aufbau-A2."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-B13",
+     "nach": "typografie-3.8b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".stat-tile .v",
+   "nrs": [
+    "abstaende-B15",
+    "aufbau-A2",
+    "komponenten-C25a",
+    "komponenten-E1h",
+    "responsiv-B7",
+    "typografie-3.2.3-fv20",
+    "typografie-3.2.3-fv24"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand: `.stat-tile .v { font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); margin-top: auto; padding-top: var(--sp-2); }` ohne font-family. Das ergibt 24 am Desktop und 20 bei ≤960 und am Handy, beides über das Token. Neu ist `@container (max-width: 175px) { .stat-tile .v { font-size: var(--fv-20); } }`. Die Handy-Regel Z. 3038 entfällt. 25 bzw. 22 px (Komponenten) gibt es nicht: „.stat-tile = .tile“ wird über dasselbe Token erreicht. mobiletest.js:27 (`20px`) bleibt gültig. Den Schriftteil schreibt aufbau-A2, margin und padding schreibt abstaende-B15.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur: `.stat-tile` border-radius var(--radius), und im hellen Design derselbe Schatten wie .tile (Z. 1499 um `.stat-tile` ergänzen). Entfallen: Z. 515/516 (Hover und Transition → zustaende-S-C5); Z. 636 padding 12px 15px und transition (→ abstaende-B15 mit 16/20, zustaende-S-C5); Z. 639 25px, Laufweite und Zeilenhöhe (→ aufbau-A2 mit --tile-val); am Handy das Löschen von `.stat-tile { padding: 14px }` (→ abstaende-C7 mit var(--sp-4) var(--sp-3)) und die 22px (Zeile Z. 3038 wird gelöscht, aufbau-A2). Z. 637 entscheidet der Anker .stat-tile .k."
+    },
+    {
+     "nr": "komponenten-E1h",
+     "aktion": "entfaellt",
+     "anweisung": "Der Handy-Kachelwert bleibt 20 px; mobiletest.js:27 bleibt unverändert."
+    },
+    {
+     "nr": "responsiv-B7",
+     "aktion": "aendern",
+     "anweisung": "`.stat-tile` nur um `container-type: inline-size` ergänzen (display und flex-direction übernimmt abstaende-B15). margin und padding an `.stat-tile .v` entfallen (abstaende-B15). Die Container-Regel als `@container (max-width: 175px) { .stat-tile .v { font-size: var(--fv-20); } }`. Breakpoint 1100 → 760 und .st-cards bleiben."
+    },
+    {
+     "nr": "aufbau-A2",
+     "aktion": "aendern",
+     "anweisung": "Schreibt alle Kachelwerte: Z. 540 `.tile .val { font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); }` ohne font-family. Z. 639 `.stat-tile .v` Schriftteil `font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val);` ohne font-family (margin/padding macht abstaende-B15). Z. 1735 wie geplant. Löschliste wie geplant (2397, 2446, 2684, 2742, 936, 3027, 3038) plus Z. 2945 `.coach-gs-tiles .tile .val`. Die Liste „Bleiben“ entfällt: Z. 533 → var(--fv-20) (typografie-fv20), Z. 2700 `.prop-balance .val` → var(--fv-24) (typografie-fv24)."
+    },
+    {
+     "nr": "typografie-3.2.3-fv20",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 936 und Z. 3027 `.tile .val`, Z. 2742 `.prop-tiles .tile .val`, Z. 3038 `.stat-tile .v` (die Zeilen werden gelöscht, die 20 px kommen aus --tile-val). Bleiben: Z. 533 Container-Notstufe `.tile .val` → var(--fv-20), Z. 2741 `.prop-balance .val` → var(--fv-20)."
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 540 `.tile .val` und Z. 639 `.stat-tile .v` (→ aufbau-A2 mit --tile-val), Z. 2397/2446 `.shadow-main` und Z. 2684 `.prop-tiles` (Regeln werden gelöscht), Z. 2945 `.coach-gs-tiles` (Regel wird gelöscht), Z. 1307 `.tilt-stats .v` ≤960 und `.v.cur` (→ abstaende-D4). Bleiben: .stat .v, .tracker-foot .score-n, .detail-head .sym/.big, .prop-balance .val (26 → var(--fv-24)), ol.rp-visual li::before, .streak-tile .val."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-A1",
+     "nach": "aufbau-A2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".stat-tile",
+   "nrs": [
+    "abstaende-B15",
+    "abstaende-C7",
+    "bewegung-B5",
+    "komponenten-C25a",
+    "responsiv-B7",
+    "zustaende-S-C5"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand: `.stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-4) var(--sp-5); display: flex; flex-direction: column; container-type: inline-size; min-width: 0; transition: border-color var(--dur-1) var(--ease); }`, ohne :hover (siehe .tile:hover). Am Handy (≤560) `.stat-tile { padding: var(--sp-4) var(--sp-3); }` (abstaende-C7). Im hellen Design derselbe Schatten wie .tile (komponenten-C25a). Grund: .tile bekommt durch abstaende-B7 dieselben 16/20 px; damit ist „.stat-tile = .tile“ (Komponenten) erfüllt, 12/15 px war nur der alte .tile-Wert. abstaende-B15 schreibt padding und flex, responsiv-B7 nur container-type, zustaende-S-C5 die Transition.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B7",
+     "aktion": "aendern",
+     "anweisung": "`.stat-tile` nur um `container-type: inline-size` ergänzen (display und flex-direction übernimmt abstaende-B15). margin und padding an `.stat-tile .v` entfallen (abstaende-B15). Die Container-Regel als `@container (max-width: 175px) { .stat-tile .v { font-size: var(--fv-20); } }`. Breakpoint 1100 → 760 und .st-cards bleiben."
+    },
+    {
+     "nr": "bewegung-B5",
+     "aktion": "aendern",
+     "anweisung": "Z. 515, 516 und 636 (Transition kürzen, Hover nur Rand) entfallen; zustaende-S-C5 übernimmt: kein Hover, `transition: border-color var(--dur-1) var(--ease)`. Für Z. 2603 (.kstrip .tile:hover) gilt die Entscheidung am Anker .kstrip .tile:hover."
+    },
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur: `.stat-tile` border-radius var(--radius), und im hellen Design derselbe Schatten wie .tile (Z. 1499 um `.stat-tile` ergänzen). Entfallen: Z. 515/516 (Hover und Transition → zustaende-S-C5); Z. 636 padding 12px 15px und transition (→ abstaende-B15 mit 16/20, zustaende-S-C5); Z. 639 25px, Laufweite und Zeilenhöhe (→ aufbau-A2 mit --tile-val); am Handy das Löschen von `.stat-tile { padding: 14px }` (→ abstaende-C7 mit var(--sp-4) var(--sp-3)) und die 22px (Zeile Z. 3038 wird gelöscht, aufbau-A2). Z. 637 entscheidet der Anker .stat-tile .k."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tile",
+   "nrs": [
+    "abstaende-B7",
+    "bewegung-B5",
+    "komponenten-C25a",
+    "zustaende-S-C5",
+    "zustaende-S-TE3"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand: `.tile { …; padding: var(--sp-4) var(--sp-5); …; gap: var(--sp-2); …; transition: border-color var(--dur-1) var(--ease); }` (abstaende-B7 und zustaende-S-C5). Kacheln, Statistik-Kacheln und Karten reagieren beim Darüberfahren gar nicht: kein Anheben, kein Schatten, kein Randwechsel. Nur das (i) blendet ein (Z. 497 bleibt). Grund: Kacheln und Karten sind nicht klickbar. Ein Randwechsel täuscht Klickbarkeit vor und ist Bewegung ohne Bedeutung (BRIEF: ruhig, nichts Dekoratives). Die Bewegungs-Regel H3 („Kacheln folgen .card:hover“) bleibt erfüllt, weil zustaende-S-C5 auch .card:hover löscht. Die Rand-Variante aus Bewegung und Komponenten entfällt.",
+   "anpassungen": [
+    {
+     "nr": "bewegung-B5",
+     "aktion": "aendern",
+     "anweisung": "Z. 515, 516 und 636 (Transition kürzen, Hover nur Rand) entfallen; zustaende-S-C5 übernimmt: kein Hover, `transition: border-color var(--dur-1) var(--ease)`. Für Z. 2603 (.kstrip .tile:hover) gilt die Entscheidung am Anker .kstrip .tile:hover."
+    },
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur: `.stat-tile` border-radius var(--radius), und im hellen Design derselbe Schatten wie .tile (Z. 1499 um `.stat-tile` ergänzen). Entfallen: Z. 515/516 (Hover und Transition → zustaende-S-C5); Z. 636 padding 12px 15px und transition (→ abstaende-B15 mit 16/20, zustaende-S-C5); Z. 639 25px, Laufweite und Zeilenhöhe (→ aufbau-A2 mit --tile-val); am Handy das Löschen von `.stat-tile { padding: 14px }` (→ abstaende-C7 mit var(--sp-4) var(--sp-3)) und die 22px (Zeile Z. 3038 wird gelöscht, aufbau-A2). Z. 637 entscheidet der Anker .stat-tile .k."
+    },
+    {
+     "nr": "zustaende-S-TE3",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "bewegung-3.11a",
+     "anweisung": "Dieselbe Testanpassung in motiontest.js:52–53; bewegung-3.11a setzt sie einmal um (Name und Prüfung siehe dort)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-C5",
+     "nach": "bewegung-3.11a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tile:hover",
+   "nrs": [
+    "bewegung-B5",
+    "bewegung-3.11a",
+    "komponenten-C25a",
+    "zustaende-S-C5"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Z. 516 `.tile:hover, .stat-tile:hover { … }` wird ganz gelöscht (zustaende-S-C5), Begründung wie beim Anker .tile. Den Test passt bewegung-3.11a einmal an: Name „Kachel bleibt beim Überfahren ruhig“. Nach `p.hover('.tile >> nth=1')` prüft er `transform === 'none'` und dass `borderColor` gleich dem Wert vor dem Überfahren ist.",
+   "anpassungen": [
+    {
+     "nr": "bewegung-3.11a",
+     "aktion": "aendern",
+     "anweisung": "motiontest.js:52–53: borderColor von `.tile` (Index 1) vor dem Hover lesen; nach dem Hover `ok('Kachel bleibt beim Überfahren ruhig', cs.transform === 'none' && cs.borderColor === vorher)`."
+    },
+    {
+     "nr": "bewegung-B5",
+     "aktion": "aendern",
+     "anweisung": "Z. 515, 516 und 636 (Transition kürzen, Hover nur Rand) entfallen; zustaende-S-C5 übernimmt: kein Hover, `transition: border-color var(--dur-1) var(--ease)`. Für Z. 2603 (.kstrip .tile:hover) gilt die Entscheidung am Anker .kstrip .tile:hover."
+    },
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur: `.stat-tile` border-radius var(--radius), und im hellen Design derselbe Schatten wie .tile (Z. 1499 um `.stat-tile` ergänzen). Entfallen: Z. 515/516 (Hover und Transition → zustaende-S-C5); Z. 636 padding 12px 15px und transition (→ abstaende-B15 mit 16/20, zustaende-S-C5); Z. 639 25px, Laufweite und Zeilenhöhe (→ aufbau-A2 mit --tile-val); am Handy das Löschen von `.stat-tile { padding: 14px }` (→ abstaende-C7 mit var(--sp-4) var(--sp-3)) und die 22px (Zeile Z. 3038 wird gelöscht, aufbau-A2). Z. 637 entscheidet der Anker .stat-tile .k."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-C5",
+     "nach": "bewegung-3.11a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".stat-tile:hover",
+   "nrs": [
+    "bewegung-B5",
+    "komponenten-C25a",
+    "zustaende-S-C5"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie bei .tile:hover: Es gibt keinen Hover an .stat-tile (Z. 516 wird ganz gelöscht, zustaende-S-C5). Die Transition an .stat-tile lautet `border-color var(--dur-1) var(--ease)`, das (i) blendet weiter über Z. 497 ein.",
+   "anpassungen": [
+    {
+     "nr": "bewegung-B5",
+     "aktion": "aendern",
+     "anweisung": "Z. 515, 516 und 636 (Transition kürzen, Hover nur Rand) entfallen; zustaende-S-C5 übernimmt: kein Hover, `transition: border-color var(--dur-1) var(--ease)`. Für Z. 2603 (.kstrip .tile:hover) gilt die Entscheidung am Anker .kstrip .tile:hover."
+    },
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur: `.stat-tile` border-radius var(--radius), und im hellen Design derselbe Schatten wie .tile (Z. 1499 um `.stat-tile` ergänzen). Entfallen: Z. 515/516 (Hover und Transition → zustaende-S-C5); Z. 636 padding 12px 15px und transition (→ abstaende-B15 mit 16/20, zustaende-S-C5); Z. 639 25px, Laufweite und Zeilenhöhe (→ aufbau-A2 mit --tile-val); am Handy das Löschen von `.stat-tile { padding: 14px }` (→ abstaende-C7 mit var(--sp-4) var(--sp-3)) und die 22px (Zeile Z. 3038 wird gelöscht, aufbau-A2). Z. 637 entscheidet der Anker .stat-tile .k."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-tiles .tile .val",
+   "nrs": [
+    "aufbau-A2",
+    "typografie-3.2.3-fv20",
+    "typografie-3.2.3-fv24"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Z. 2684 (24px) und Z. 2742 (20px, im 960er-Block) werden gelöscht (aufbau-A2). Die Prop-Kacheln erben var(--tile-val), also 24 bzw. 20. Die Token-Umstellung der Typografie für beide Zeilen entfällt, das Ergebnis ist dasselbe.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3-fv20",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 936 und Z. 3027 `.tile .val`, Z. 2742 `.prop-tiles .tile .val`, Z. 3038 `.stat-tile .v` (die Zeilen werden gelöscht, die 20 px kommen aus --tile-val). Bleiben: Z. 533 Container-Notstufe `.tile .val` → var(--fv-20), Z. 2741 `.prop-balance .val` → var(--fv-20)."
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 540 `.tile .val` und Z. 639 `.stat-tile .v` (→ aufbau-A2 mit --tile-val), Z. 2397/2446 `.shadow-main` und Z. 2684 `.prop-tiles` (Regeln werden gelöscht), Z. 2945 `.coach-gs-tiles` (Regel wird gelöscht), Z. 1307 `.tilt-stats .v` ≤960 und `.v.cur` (→ abstaende-D4). Bleiben: .stat .v, .tracker-foot .score-n, .detail-head .sym/.big, .prop-balance .val (26 → var(--fv-24)), ol.rp-visual li::before, .streak-tile .val."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".shadow-tiles .tile.shadow-main .val",
+   "nrs": [
+    "aufbau-A2",
+    "typografie-3.2.3-fv24"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Z. 2397 (34px) und Z. 2446 (Handy 26px) werden gelöscht (aufbau-A2). Die Hauptkachel des Schatten-Ichs hat damit den normalen Kachelwert var(--tile-val), also 24 bzw. 20. Die Typografie wollte am Handy 24 als Token behalten; das entfällt. Es gibt eine Kachelwert-Größe je Stufe, die Hervorhebung trägt schon der Rand --border-2 (Z. 2396).",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 540 `.tile .val` und Z. 639 `.stat-tile .v` (→ aufbau-A2 mit --tile-val), Z. 2397/2446 `.shadow-main` und Z. 2684 `.prop-tiles` (Regeln werden gelöscht), Z. 2945 `.coach-gs-tiles` (Regel wird gelöscht), Z. 1307 `.tilt-stats .v` ≤960 und `.v.cur` (→ abstaende-D4). Bleiben: .stat .v, .tracker-foot .score-n, .detail-head .sym/.big, .prop-balance .val (26 → var(--fv-24)), ol.rp-visual li::before, .streak-tile .val."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tilt-stats .v",
+   "nrs": [
+    "abstaende-D4",
+    "typografie-3.2.3-fv24",
+    "typografie-3.2.3-fv32"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Werte sind in beiden Spezifikationen gleich (32, ≤960 24, Handy 20). Die Tilt-Regeln schreibt einmal abstaende-D4, direkt mit Tokens: `.tilt-stats .v { font-size: var(--fv-32); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); margin-top: 0; }` ohne font-family: var(--font-display) (Onest kommt über die Sammelregel). Bei ≤960 `.tilt-stats .v { font-size: var(--fv-24); }`. In den Handy-Zeilen `.tilt-stats .v { font-size: var(--fv-20); text-align: right; } .tilt-stats .v small { font-size: var(--fs-12); }`.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-D4",
+     "aktion": "aendern",
+     "anweisung": "Werte als Tokens schreiben: `.tilt-stats .v { font-size: var(--fv-32); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); margin-top: 0; }` ohne font-family; bei ≤960 var(--fv-24); am Handy var(--fv-20), `.v small` var(--fs-12). Dazu `.tilt-stats .k { align-self: end; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); }` ohne text-transform und letter-spacing. Mit dem Löschen von `.v.cur` (Z. 1304 und in Z. 1307) auch die Klasse in progress.js:79 entfernen: `class=\"v cur ${U.cls(tp.afterStreakPnL)}\"` → `class=\"v ${U.cls(tp.afterStreakPnL)}\"`."
+    },
+    {
+     "nr": "typografie-3.2.3-fv32",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 1303 `.tilt-stats .v` und Z. 1304 `.tilt-stats .v.cur` (→ abstaende-D4). Rest bleibt (.score-big, .voice-time, .big-stat ≤960, .replay-big, .rh-big Handy, .rp-bigtime)."
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 540 `.tile .val` und Z. 639 `.stat-tile .v` (→ aufbau-A2 mit --tile-val), Z. 2397/2446 `.shadow-main` und Z. 2684 `.prop-tiles` (Regeln werden gelöscht), Z. 2945 `.coach-gs-tiles` (Regel wird gelöscht), Z. 1307 `.tilt-stats .v` ≤960 und `.v.cur` (→ abstaende-D4). Bleiben: .stat .v, .tracker-foot .score-n, .detail-head .sym/.big, .prop-balance .val (26 → var(--fv-24)), ol.rp-visual li::before, .streak-tile .val."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "abstaende-D4"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tilt-stats .v.cur",
+   "nrs": [
+    "abstaende-D4",
+    "typografie-3.2.3-fv24",
+    "typografie-3.2.3-fv32"
+   ],
+   "art": "doppelt",
+   "entscheidung": "`.tilt-stats .v.cur` wird gelöscht, in Z. 1304 und in Z. 1307 (abstaende-D4). Alle drei Werte sind gleich groß (32/24/20) und stehen über Subgrid auf einer Linie. Die Klasse cur verschwindet auch aus progress.js:79. Die Token-Umstellung der Typografie für .v.cur entfällt.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-D4",
+     "aktion": "aendern",
+     "anweisung": "Werte als Tokens schreiben: `.tilt-stats .v { font-size: var(--fv-32); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); margin-top: 0; }` ohne font-family; bei ≤960 var(--fv-24); am Handy var(--fv-20), `.v small` var(--fs-12). Dazu `.tilt-stats .k { align-self: end; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); }` ohne text-transform und letter-spacing. Mit dem Löschen von `.v.cur` (Z. 1304 und in Z. 1307) auch die Klasse in progress.js:79 entfernen: `class=\"v cur ${U.cls(tp.afterStreakPnL)}\"` → `class=\"v ${U.cls(tp.afterStreakPnL)}\"`."
+    },
+    {
+     "nr": "typografie-3.2.3-fv32",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 1303 `.tilt-stats .v` und Z. 1304 `.tilt-stats .v.cur` (→ abstaende-D4). Rest bleibt (.score-big, .voice-time, .big-stat ≤960, .replay-big, .rh-big Handy, .rp-bigtime)."
+    },
+    {
+     "nr": "typografie-3.2.3-fv24",
+     "aktion": "aendern",
+     "anweisung": "Entfallen: Z. 540 `.tile .val` und Z. 639 `.stat-tile .v` (→ aufbau-A2 mit --tile-val), Z. 2397/2446 `.shadow-main` und Z. 2684 `.prop-tiles` (Regeln werden gelöscht), Z. 2945 `.coach-gs-tiles` (Regel wird gelöscht), Z. 1307 `.tilt-stats .v` ≤960 und `.v.cur` (→ abstaende-D4). Bleiben: .stat .v, .tracker-foot .score-n, .detail-head .sym/.big, .prop-balance .val (26 → var(--fv-24)), ol.rp-visual li::before, .streak-tile .val."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "abstaende-D4"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tilt-stats .k",
+   "nrs": [
+    "abstaende-D4",
+    "kilook-B6"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Endstand: `.tilt-stats .k { align-self: end; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); }` ohne Versalien und ohne Laufweite. Die Texte bleiben. abstaende-D4 schreibt die Regel; kilook-B6 hat dieselben Werte, nur ohne align-self (das braucht das Subgrid).",
+   "anpassungen": [
+    {
+     "nr": "kilook-B6",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "abstaende-D4",
+     "anweisung": "12px/500/--muted ohne Versalien schreibt abstaende-D4 (mit Tokens und align-self: end)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "abstaende-D4"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".big-stat",
+   "nrs": [
+    "aufbau-C11a",
+    "aufbau-C12e",
+    "kilook-C18",
+    "komponenten-W5",
+    "typografie-3.2.2h",
+    "typografie-3.2.3-fv32",
+    "typografie-3.2.3-fv44",
+    "typografie-3.5c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.big-stat` bleibt die Hero-Klasse und gilt nur noch im Fortschritt (Serie, Heutiger Fortschritt, % Regeln eingehalten). CSS wie in der Typografie geplant: `font-size: var(--fv-44); letter-spacing: var(--ls-hero); line-height: var(--lh-val);` ohne font-family, bei ≤960 var(--fv-32) (typografie-3.2.2h, fv44, fv32 unverändert). Das Challenge-Widget nutzt `.score-big` (32 px) statt `.big-stat` (siehe Anker widget:challenge). Der Payout-Vorschlag nutzt `.prop-sugg-val` auf --tile-val (aufbau-C12e). Grund: Die Aufbau-Regel sagt „.big-stat 44 px nur Fortschritt und Serie“; W5 hätte das Challenge-Widget ohne die Inline-Größe auf 44 px aufgeblasen. progress.js Z. 69 ändern aufbau-C11a (Pfeil mit Tooltip) und kilook-C18 („—“, Ring und ring-card nur mit Wert) gemeinsam in derselben Zeile; keiner überschreibt den anderen. Den Inhalt von Z. 68 und den Tooltip-Text des Pfeils entscheidet der Anker .trend.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-W5",
+     "aktion": "aendern",
+     "anweisung": "widgets.js:273: `<div class=\"big-stat\" style=\"font-size:30px;margin:0\">` → `<div class=\"score-big\">` (nicht `big-stat`). chal-head und chal-foot wie geplant, kein style-Attribut mehr in der Zeile."
+    },
+    {
+     "nr": "typografie-3.5c",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-W5",
+     "anweisung": "Klasse score-big setzt komponenten-W5, ohne `style=\"margin:0\"` (.score-big hat keinen Außenabstand)."
+    },
+    {
+     "nr": "aufbau-C12e",
+     "aktion": "aendern",
+     "anweisung": "CSS mit Tokens: `.prop-sugg-val { font-family: var(--font-num); font-size: var(--tile-val); font-weight: 700; letter-spacing: var(--ls-val); line-height: var(--lh-val); margin: 2px 0 var(--sp-2); }`. Dazu siehe Anker U.banner (Erfolgs-Banner Z. 279 → 'ok')."
+    },
+    {
+     "nr": "aufbau-C11a",
+     "aktion": "aendern",
+     "anweisung": "progress.js Z. 69 nicht neu schreiben, sondern mit kilook-C18 zusammenführen: Wert `${cur.rate == null ? '<span class=\"muted\">—</span>' : fmt.pct(cur.rate)}`, Ring und ring-card nur bei `cur.rate != null`, dazu der Pfeil mit Tooltip. Z. 68 (Wertform), Z. 59 (delta/rateDir) und der Tooltip-Text des Pfeils folgen der Entscheidung am Anker .trend."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "widget:challenge",
+   "nrs": [
+    "komponenten-W5",
+    "typografie-3.5c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand widgets.js:273: `<div class=\"row between chal-head\"><div class=\"score-big\"><span class=\"${U.cls(pnl)}\">${fmt.cur(pnl, { signed: true })}</span></div>${status}</div>`; beide Fußzeilen werden `<div class=\"small muted chal-foot\">`; kein style-Attribut. Im CSS (komponenten-C36) stehen `.chal-head { margin-bottom: var(--sp-2); }` und `.chal-foot { margin-top: var(--sp-2); }`; die Regel `.chal-head .big-stat { font-size: 30px; margin: 0; }` entfällt. Die 32 px kommen aus .score-big (typografie-fv32 setzt sie von 30 auf var(--fv-32)). Grund: 30 px ist in der Typografie-Skala verboten, die Komponenten-Regel verbietet Inline-Stil außer für dynamische Werte, und .big-stat (44 px) ist dem Fortschritt vorbehalten.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-W5",
+     "aktion": "aendern",
+     "anweisung": "widgets.js:273: `<div class=\"big-stat\" style=\"font-size:30px;margin:0\">` → `<div class=\"score-big\">` (nicht `big-stat`). chal-head und chal-foot wie geplant, kein style-Attribut mehr in der Zeile."
+    },
+    {
+     "nr": "typografie-3.5c",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-W5",
+     "anweisung": "Klasse score-big setzt komponenten-W5, ohne `style=\"margin:0\"` (.score-big hat keinen Außenabstand)."
+    },
+    {
+     "nr": "komponenten-C36",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile `.chal-head .big-stat { font-size: 30px; margin: 0; }` entfällt. `.chal-head { margin-bottom: var(--sp-2); }` und `.chal-foot { margin-top: var(--sp-2); }` (Abstands-Skala statt 6/8 px). Die übrigen C36-Regeln bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.banner",
+   "nrs": [
+    "aufbau-C12e",
+    "farbe-C19c",
+    "farbe-C26b",
+    "kilook-C12",
+    "kilook-C15",
+    "zustaende-S-CS1"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Alle sechs Änderungen gelten; doppelt ist nur dashboard.js:130 (das sparkle-Symbol). Endstand: dashboard.js:130 `U.banner('info', 'Willkommen', …, { trailing: … }` mit „CSS importieren“ und zwei neutralen `btn sm`, ohne icon (farbe-C19c). shadow.js:58 ohne `icon: 'sparkle'` (kilook-C15). prop.js:97 `U.banner('ok', 'Ziel erreicht', …)` (farbe-C26b). prop.js:279/280 ohne den letzten info-Zweig und ohne warn (aufbau-C12e). Dazu eine Lücke: Der Erfolgs-Zweig `U.banner('accent', plan.funded ? 'Bereit für den Payout' : 'Challenge bestanden', …)` in Z. 279 wird `U.banner('ok', …)`. Grund: Die Farbe-Spezifikation benennt `.banner.accent` in `.banner.ok` um; ohne diese Änderung stünde das Banner ohne Stil da. coach.js:27 errorBox wie zustaende-S-CS1. Abnahme: `grep -rnE \"banner\\('accent'|icon: 'sparkle'\" web/js` findet nichts mehr (I.sparkle wird gelöscht).",
+   "anpassungen": [
+    {
+     "nr": "kilook-C12",
+     "aktion": "aendern",
+     "anweisung": "Der Teil Z. 130 (icon: 'sparkle' streichen) entfällt, farbe-C19c schreibt die ganze Zeile neu. Z. 119 (Bearbeitungsleiste mit „·“) bleibt bei kilook-C12."
+    },
+    {
+     "nr": "aufbau-C12e",
+     "aktion": "aendern",
+     "anweisung": "Zusätzlich in payoutPlanner Z. 279 `U.banner('accent', plan.funded ? 'Bereit für den Payout' : 'Challenge bestanden', 'Alle Bedingungen sind erfüllt.')` → `U.banner('ok', …)` (gleicher Text). Rest wie geplant (letzter info-Zweig → '', warn weg, prop-sugg-val mit Tokens, Planer-Karten rahmenlos)."
+    },
+    {
+     "nr": "farbe-C19c",
+     "aktion": "aendern",
+     "anweisung": "Unverändert umsetzen; übernimmt auch das Streichen von icon: 'sparkle' aus kilook-C12 (Z. 130)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fw-stats",
+   "nrs": [
+    "abstaende-C3",
+    "aufbau-A3c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand wie in abstaende-C3: `.fw-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); margin-bottom: var(--sp-3); }`, `.card.fw-shadow { container-type: inline-size; } @container (min-width: 520px) { .fw-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }`; die Handy-Regel Z. 3039 wird gelöscht. aufbau-A3c will bedingt `gap 10 → 8`; das entfällt. Grund: Mit zwei Spalten unter 520 px Kartenbreite haben die Beschriftungen doppelte Breite, das Abschneiden von „Disziplin-Kosten“ (Anlass der Bedingung) tritt nicht mehr auf. 8 px würde vom 12-px-Raster der Abstände-Spezifikation abweichen. mobiletest.js:24 (Handy 2 Spalten) bleibt grün. Schriftgrößen und -gewichte der Beschriftungen entscheiden die Anker .fw-stats > div > span und .fw-lbl.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3c",
+     "aktion": "aendern",
+     "anweisung": "Die bedingte Änderung „.fw-stats gap 10px → 8px“ (Prüfung bei 1440/1024) entfällt. Die Schrift-Zeilen bleiben, wie es an den Ankern .fw-stats > div > span und .fw-lbl entschieden wird."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-C3",
+     "nach": "aufbau-A3c"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "ringArc",
+   "nrs": [
+    "diagramme-H1",
+    "kilook-C18",
+    "zustaende-S-PR2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Den Bogen gibt es nur bei `rate > 0`; das setzt einmal zustaende-S-PR2 um (deckt null und 0 ab, mount kommt mit leerer Liste aus). Die Bogenfarbe steht inline als `style=\"stroke:${U.scoreColor(rate * 100)}\"` am `<circle class=\"arc\">` (diagramme-H1): ≥75 --profit, 50–74 --warn, <50 --loss, also Grün nur mit Bedeutung. Ohne Wert (cur.rate == null) gibt es keinen Ring und keine ring-card (kilook-C18, progress.js:69). Die Ringgröße ist offen: kilook führt sie als Nutzerfrage ki_look-6 (Empfehlung 116 px, ausdrücklicher Wunsch des Nutzers vom 28.9.), BRIEF legt sie nicht fest. Bis zur Antwort bleiben `size = 116, lw = 9`. Die 64/6 aus diagramme-H1 und alles, was an der Größe hängt (Rand rechts), wird erst nach der Antwort umgesetzt.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-H1",
+     "aktion": "aendern",
+     "anweisung": "Jetzt nur die Bogenfarbe `style=\"stroke:${U.scoreColor(rate * 100)}\"` am arc-Kreis setzen. Die Bedingung rate > 0 macht zustaende-S-PR2. Die Standardgröße 64/6 (und die zugehörige Ringbreite im Layout) wartet auf ki_look-6; bis dahin bleiben 116/9."
+    },
+    {
+     "nr": "kilook-C18",
+     "aktion": "aendern",
+     "anweisung": "Teil Z. 6 (Bedingung rate > 0) entfällt, das macht zustaende-S-PR2. `size = 116, lw = 9` bleibt bis zur Antwort auf ki_look-6. Teil Z. 69 („—“, kein Ring, keine ring-card ohne Wert) bleibt und wird mit aufbau-C11a in derselben Zeile zusammengeführt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-PR2",
+     "nach": "diagramme-H1"
+    }
+   ],
+   "wartet_auf_frage": "kilook ki_look-6 (nur die Ringgröße 116 vs. 64 px; Bogen-Bedingung und Bogenfarbe sind entschieden)"
+  },
+  {
+   "anker": ".cal .d .pm",
+   "nrs": [
+    "barrierefreiheit-B14",
+    "typografie-3.2.2f",
+    "typografie-3.2.3b",
+    "typografie-3.2.3f"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Kurzbetrag am Handy (Z. 3042): `font-weight: 700; font-size: 10.5px; letter-spacing: -.02em;` in Onest (über die Sammelregel), der Rest der Regel bleibt (barrierefreiheit-B14). Gemessen bei 390 px in Onest 700: Das Feld ist 39,7 px breit. „+12,3k€“ braucht bei 10,5/−.02em 37,5 px, bei 11/−.01em 40,2 px und würde abgeschnitten (overflow hidden); „−486€“ 34,0 bzw. 35,5 px. 10,5 ist damit die größte Stufe ohne Abschneiden und liegt deutlich über heute 9,5. Sie kommt als dokumentierte Ausnahme in die Typografie-Ausnahmenliste (wie --fs-10 für Container-Notstufen). Die Onest-Liste schreibt einmal typografie-3.2.2f (enthält .cal .d .pm und .cal .w .pm). Die Container-Stufe ≤77 px (Z. 2976, 12.5 → 12) bleibt bei typografie-3.2.3f.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3b",
+     "aktion": "aendern",
+     "anweisung": "Eintrag Z. 3042 `.cal .d .pm` (9.5 → 11, −.01em) entfällt; barrierefreiheit-B14 setzt 10.5px/−.02em. In die Ausnahmenliste (1.11) „Handy-Kalender-Kurzbetrag .cal .d .pm 10,5 px (gemessen, 11 px wird abgeschnitten)“ aufnehmen; Zensus-Prüfung (Z. 479) und Abnahme Z. 488 entsprechend auf „Kalender-Beträge 10,5 px mit €“ ändern. Z. 940 `.cal .d .n` bleibt bei diesem Schritt (siehe Anker .cal .d .n)."
+    },
+    {
+     "nr": "barrierefreiheit-B14",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur Z. 3042 (10.5px/700/−.02em). Entfallen: Z. 1800 (Onest-Liste → typografie-3.2.2f), Z. 940 (20×20, 11 px → typografie-3.2.3b, gleiche Werte), „Z. 3044 unverändert“ (der Wochenbetrag geht mit typografie-3.2.3f auf 12 px, Onest über 3.2.2f)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cal .w .pm",
+   "nrs": [
+    "barrierefreiheit-B14",
+    "typografie-3.2.2f",
+    "typografie-3.2.3f"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wochenbetrag am Handy (Z. 3044): `display: block; font-weight: 700; font-size: var(--fs-12); line-height: var(--lh-12);` in Onest (typografie-3.2.3f: 12.5 → 12, Onest über 3.2.2f). Barrierefreiheit wollte 12,5 nur gegen eine Verkleinerung auf 11 verteidigen. 12 ist eine Skalenstufe, liegt nur 0,5 px darunter und passt sicher in die Wochenspalte.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B14",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur Z. 3042 (10.5px/700/−.02em). Entfallen: Z. 1800 (Onest-Liste → typografie-3.2.2f), Z. 940 (20×20, 11 px → typografie-3.2.3b, gleiche Werte), „Z. 3044 unverändert“ (der Wochenbetrag geht mit typografie-3.2.3f auf 12 px, Onest über 3.2.2f)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cal .d .n",
+   "nrs": [
+    "aufbau-A4g",
+    "barrierefreiheit-B14",
+    "farbe-B14",
+    "komponenten-C26a",
+    "typografie-3.2.3b",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Desktop (Z. 708), Endstand für alle Tage: `.cal .d .n { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; background: none; color: var(--text-2); }`; komponenten-C26a schreibt die Regel. Bei der Farbe gilt --text-2 (Farbe und Aufbau). Die Variante „--muted, nur an Handelstagen --text-2“ (Komponenten) entfällt. Grund: Tageszahlen sind Inhalt; --muted ist laut Farbe-Spezifikation Hinweisen, Platzhaltern und Achsen vorbehalten, und es ist eine Regel weniger. ≤960 (Z. 940): `width: 20px; height: 20px; font-size: var(--fs-11); line-height: var(--lh-11);`, top/right 3px bleiben; das schreibt typografie-3.2.3b (Barrierefreiheit hat dieselben Werte). Heute-Kreis und Mini-Kalender entscheiden die Anker .cal .d.today .n und .cal.mini .d.today .n.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C26a",
+     "aktion": "aendern",
+     "anweisung": "Z. 708 wie im Endstand: color var(--text-2) statt var(--muted), Größe als var(--fs-12)/var(--lh-12). Die neue Regel `.cal .d:is(.win, .loss, .be) .n { color: var(--text-2); }` entfällt, die Grundregel deckt das ab. Heute- und Mini-Regeln: siehe deren Anker."
+    },
+    {
+     "nr": "farbe-B14",
+     "aktion": "aendern",
+     "anweisung": "Teil Z. 708 (background none, color --text-2) entfällt, weil komponenten-C26a die Regel mit genau diesen Werten schreibt. Die übrigen Teile (Heute, Rot 18 %, Auswahl, Kleintext, helle Tönung, Mini-Kalender) laut ihren Ankern."
+    },
+    {
+     "nr": "aufbau-A4g",
+     "aktion": "aendern",
+     "anweisung": "Teil Z. 708 `.cal .d .n` entfällt (komponenten-C26a). Z. 703 `.cal .wd` und Z. 1685 `.ycal-head span` laut Anker .cal .wd bzw. unverändert."
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "aktion": "aendern",
+     "anweisung": "Eintrag 708 `.cal .d .n` (11.5 → 12) entfällt, komponenten-C26a schreibt ihn direkt mit var(--fs-12)/var(--lh-12). Rest bleibt."
+    },
+    {
+     "nr": "barrierefreiheit-B14",
+     "aktion": "aendern",
+     "anweisung": "Es bleibt nur Z. 3042 (10.5px/700/−.02em). Entfallen: Z. 1800 (Onest-Liste → typografie-3.2.2f), Z. 940 (20×20, 11 px → typografie-3.2.3b, gleiche Werte), „Z. 3044 unverändert“ (der Wochenbetrag geht mit typografie-3.2.3f auf 12 px, Onest über 3.2.2f)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C26a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "--font-num",
+   "nrs": [
+    "diagramme-A8a",
+    "typografie-3.2.2f"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beträge in Balkenzeilen bekommen Onest über die Sammelregel (typografie-3.2.2f, `.bar-row .bl b`), tabular-nums über typografie-3.2.2e und `.bar-row .bl b { font-weight: 600; white-space: nowrap; } .bar-row .bl b .muted { font-weight: 400; }` über typografie-3.2.5d. diagramme-A8a steckt darin vollständig und entfällt. Gewicht 600 (Typografie-Rolle „Listenwert“, wie .kv b), nicht 700 wie in diagramme A-13 notiert. Schriftgewichte gehören der Typografie-Spezifikation, und beide Listenwert-Arten sollen gleich aussehen.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-A8a",
+     "aktion": "entfaellt",
+     "anweisung": "Onest übernimmt typografie-3.2.2f, tabular-nums typografie-3.2.2e, das .muted-Gewicht 400 typografie-3.2.5d (Selektor `.bar-row .bl b`, deckt `> b` ab). In diagramme A-13 „700“ als „600 (Listenwert)“ lesen."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".edit-bar",
+   "nrs": [
+    "bewegung-C4",
+    "bewegung-3.7a",
+    "kilook-B2",
+    "kilook-C12"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Das CSS setzt einmal bewegung-C4 um: `.edit-bar { …; border: 1px solid var(--border-2); background: var(--surface-2); box-shadow: var(--shadow); }`, sticky und alles Übrige bleiben. `.dot-live` (Z. 1568) und `@keyframes pulse` (Z. 1115, sonst unbenutzt) werden gelöscht. dashboard.js:119 ändert einmal kilook-C12: `<div class=\"edit-bar\"><div class=\"row\"><b>Bearbeitungsmodus</b><span class=\"muted\">·</span><span>${esc(tpl.name)}</span></div>…`. Der Trenner wird „·“ statt „–“: Bewegung hat das Zeichen ausdrücklich der Wortwahl überlassen, laut Wortwahl W8 ist kein Gedankenstrich als Satzzeichen erlaubt, und kilook Z12 nennt „Bearbeitungsmodus · Standard“. „Speichern“ bleibt btn primary. dashtest.js:23/110 prüft nur „Standard“ bzw. „Scalping“ und bleibt grün.",
+   "anpassungen": [
+    {
+     "nr": "kilook-B2",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "bewegung-C4",
+     "anweisung": "Identische CSS-Änderung (Rand --border-2, Fläche --surface-2, .dot-live und @keyframes pulse löschen); bewegung-C4 setzt sie einmal um."
+    },
+    {
+     "nr": "bewegung-3.7a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-C12",
+     "anweisung": "Das Entfernen von `<span class=\"dot-live\"></span>` in dashboard.js:119 macht kilook-C12 zusammen mit dem Trenner „·“ (nicht „–“)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dot-live",
+   "nrs": [
+    "bewegung-C4",
+    "bewegung-3.7a",
+    "kilook-B2",
+    "kilook-C12"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie bei .edit-bar: Die CSS-Regel .dot-live und @keyframes pulse löscht bewegung-C4, das Element in dashboard.js:119 entfernt kilook-C12 (dabei „·“ als Trenner). Danach findet `grep -rn \"dot-live\\|keyframes pulse \" web/css web/js` nichts mehr; streak-pulse* bleiben.",
+   "anpassungen": [
+    {
+     "nr": "kilook-B2",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "bewegung-C4",
+     "anweisung": "Identische CSS-Änderung (Rand --border-2, Fläche --surface-2, .dot-live und @keyframes pulse löschen); bewegung-C4 setzt sie einmal um."
+    },
+    {
+     "nr": "bewegung-3.7a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-C12",
+     "anweisung": "Das Entfernen von `<span class=\"dot-live\"></span>` in dashboard.js:119 macht kilook-C12 zusammen mit dem Trenner „·“ (nicht „–“)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dash-top > :last-child:nth-child(odd) (Handy, gefunden in abstaende-C7 und responsiv-C1)",
+   "nrs": [
+    "abstaende-C7",
+    "responsiv-C1"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide Schritte fügen im 560er-Block nach Z. 3026 eine Regel ein, damit die ungerade letzte Kachel die volle Breite bekommt. Es wird nur eine geschrieben: `.dash-top > :last-child:nth-child(odd) { grid-column: 1 / -1; }` (responsiv-C1). Sie erfasst auch das Start-Skelett (.skel), dessen fünfte Kachel laut Responsiv-Spezifikation volle Breite hat. Die Fassung von abstaende-C7 gilt nur für .w und .add-slot und entfällt.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-C7",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile `.dash-top > .w:last-child:nth-child(odd), .dash-top > .add-slot:last-child:nth-child(odd) { grid-column: span 2; }` entfällt (responsiv-C1). Der Rest bleibt: .stat-tiles gap var(--sp-3), .stat-tile padding var(--sp-4) var(--sp-3), .kstrip .tile aus dem 960er- in den 560er-Block."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  ".stat-tiles",
+  ".fw-stats b",
+  "prop.payoutPlanner",
+  ".tbl td",
+  ".tbl th",
+  "I.refresh",
+  ".btn.sm",
+  ".slider .sv",
+  "U.scoreColor"
+ ]
+}

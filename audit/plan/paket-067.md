@@ -1,77 +1,90 @@
-# Paket 067 · training, trades_tag, einstellungen
+# Paket 067 · barrierefreiheit, notebook_news, einstellungen
 
-Schritte: 5 · Dateien: web/e2e/notechecktest.js, web/js/screens/day.js, web/js/screens/misc.js, web/js/screens/progress.js
-Betroffene Tests laut Spezifikation: web/e2e/notechecktest.js:14
-Baut auf Paketen auf: 6, 65
+Schritte: 6 · Dateien: web/README.md, web/app.html, web/e2e/affiliatetest.js, web/e2e/calmnavtest.js, web/e2e/friedhoftest.js, web/e2e/proptest.js, web/js/editor.js, web/js/screens/misc.js, web/js/screens/notebook.js
+Betroffene Tests laut Spezifikation: neu (Abschnitt 4, Verhalten): Taste 0 ohne FEATURES.replay ändert location.hash nicht; shortcuts=false sperrt N und 1–9, Esc wirkt weiter; prüfen: e2e/rptest.js:10 (Taste 7), e2e/mentortest.js:21 (Taste 8); web/e2e/affiliatetest.js:16; web/e2e/calmnavtest.js:51; web/e2e/friedhoftest.js:21; web/e2e/proptest.js:19; web/e2e/proptest.js:91; web/e2e/proptest.js:95
+Baut auf Paketen auf: 3, 7, 14, 15, 27, 31, 60, 62, 65
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-C-day-18 · Tages-Regelliste als <button role="checkbox" aria-checked>
+## barrierefreiheit-C-editor-118-164 · „Umwandeln in“-Menü als Radiogruppe
 
-Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-15, bereich_trades_tag-41, bereich_training-20
-Quelle: audit/spec/barrierefreiheit.md Z. 762–767 · Dateien: web/js/screens/day.js
-Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 739–741 · Dateien: web/js/editor.js
+Abhängig von: barrierefreiheit-P1, barrierefreiheit-P3
 
 ```text
-- **Z. 18:**
-  - vorher: `<div class="it toggle ${…}" data-action="day-rule" data-day="${key}" data-rule="${r.id}">…</div>`
-  - nachher: `<button type="button" class="it toggle ${followed.includes(r.id) ? 'done' : ''}" role="checkbox" aria-checked="${followed.includes(r.id)}" data-action="day-rule" data-day="${key}" data-rule="${r.id}">…</button>`
-  - Die Fokus-Rückgabe nach `App.rerender()` übernimmt P1.
-  - Befunde: barrierefreiheit-15, bereich_trades_tag-41, bereich_training-20
+- Z. 118: `id="pop-${p}turn"` → `id="pop-${p}turn" role="radiogroup" aria-label="Umwandeln in"`. In Z. 164 in der forEach-Schleife zusätzlich `b.setAttribute('role', 'radio');`
+- Befunde: bereich_notebook_news-35, barrierefreiheit-36, barrierefreiheit-17, barrierefreiheit-26
 
 ```
 
-## barrierefreiheit-C-progress-73 · Fortschritt: Tages-Checkliste als <button role="checkbox"> (wie day.js:18)
+## barrierefreiheit-C-notebook-28-74 · Notebook-Menüs: Tags role=checkbox, Sortieren und In Ordner verschieben als Radiogruppen
 
-Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: barrierefreiheit-15, bereich_training-20
-Quelle: audit/spec/barrierefreiheit.md Z. 768–770 · Dateien: web/js/screens/progress.js
-Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1, barrierefreiheit-C-day-18
-
-```text
-#### `web/js/screens/progress.js`
-
-- **Z. 73:** wie day.js:18, mit `rule.id` (Befunde: barrierefreiheit-15, bereich_training-20)
-```
-
-## barrierefreiheit-C-progress-75 · „Dein Tag“: Aktionszeilen als Knopf, Tagesnotiz als role=checkbox; Heatmap bleibt
-
-Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: bereich_training-20, barrierefreiheit-15
-Quelle: audit/spec/barrierefreiheit.md Z. 771–776 · Dateien: web/js/screens/progress.js
-Abhängig von: barrierefreiheit-B5, barrierefreiheit-P1
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 794–799 · Dateien: web/js/screens/notebook.js
+Abhängig von: barrierefreiheit-P3
 
 ```text
-- **Z. 75 („Dein Tag“):**
-  - Zeilen mit `it.action` (ohne href) werden `<button type="button" class="it toggle ${it.done ? 'done' : ''}" data-action="${it.action}">`. Für `day-note-check` kommt zusätzlich `role="checkbox" aria-checked="${!!it.done}"` dazu.
-  - Zeilen mit href bleiben `<a>`, Zeilen ohne beides bleiben `<div class="it">` (z. B. „Regeln abgehakt“).
-  - Befunde: bereich_training-20, barrierefreiheit-15
-- **Z. 28 (Heatmap):** bleibt (siehe Zurückgestellt).
+#### `web/js/screens/notebook.js`
 
+- **Z. 28:** Tag-Einträge bekommen zusätzlich `role="checkbox"` (Befund: barrierefreiheit-26)
+- **Z. 61:** `<div class="popover" id="pop-nbsort">` → `… role="radiogroup" aria-label="Sortieren">`, Einträge `role="radio"` (Befund: barrierefreiheit-26)
+- **Z. 74:**
+  - Die Ordner-Einträge unter „In Ordner verschieben“ in `<div role="radiogroup" aria-label="In Ordner verschieben">…</div>` fassen, Einträge `role="radio"` (Befund: barrierefreiheit-26)
 ```
 
-## barrierefreiheit-E-notechecktest-14 · notechecktest.js:14: Tagesnotiz-Zeile ist BUTTON mit role=checkbox
+## barrierefreiheit-C-misc-365 · Sicherung: Dropzone role=button tabindex=0, Textfeld „Sicherung als Text einfügen“
 
-Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: bereich_training-20
-Quelle: audit/spec/barrierefreiheit.md Z. 903–903 · Dateien: web/e2e/notechecktest.js
-Abhängig von: barrierefreiheit-C-progress-75
+Gruppe barrierefreiheit · Cluster einstellungen · Aufwand S · Befunde: barrierefreiheit-16, barrierefreiheit-37
+Quelle: audit/spec/barrierefreiheit.md Z. 852–853 · Dateien: web/js/screens/misc.js
+Abhängig von: barrierefreiheit-B10, barrierefreiheit-P3
 
 ```text
-| notechecktest.js:14 | `x.tagName === 'DIV'` | `x.tagName === 'BUTTON'` und `x.getAttribute('role') === 'checkbox'` |
+- **Z. 365:** `<div class="dropzone" id="bk-drop">` → zusätzlich `role="button" tabindex="0"`; `<textarea class="input mono" id="bk-text" …>` → zusätzlich `aria-label="Sicherung als Text einfügen"` (Befunde: barrierefreiheit-16, barrierefreiheit-37)
+
 ```
 
-## barrierefreiheit-C-misc-15 · Einstellungen switchRow: stabile id je Aufbau, Name aus Label, Beschreibung per aria-describedby
+## barrierefreiheit-E-aria-current · Tests auf aria-current="page" umstellen (proptest, friedhoftest, affiliatetest, calmnavtest)
 
-Gruppe barrierefreiheit · Cluster einstellungen · Aufwand S · Befunde: barrierefreiheit-29
-Quelle: audit/spec/barrierefreiheit.md Z. 834–842 · Dateien: web/js/screens/misc.js
-Abhängig von: barrierefreiheit-B4, barrierefreiheit-P1
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-32, bereich_statistik-7
+Quelle: audit/spec/barrierefreiheit.md Z. 905–907 · Dateien: web/e2e/proptest.js, web/e2e/friedhoftest.js, web/e2e/affiliatetest.js, web/e2e/calmnavtest.js
+Abhängig von: barrierefreiheit-C-prop-304-305, barrierefreiheit-C-affiliate-51, barrierefreiheit-C-stats-15
 
 ```text
-#### `web/js/screens/misc.js`
-
-- **Z. 15 `switchRow`** (barrierefreiheit-29):
-  - oben im Modul: `let swN = 0;`, und als erste Zeile in `App.screens.settings.render` (Z. 19) `swN = 0;` (stabile ids je Aufbau, sonst findet P1 den Schalter nicht wieder)
-  - nachher:
-    ```js
-    const switchRow = (title, text, action, on, extra = '') => { const id = 'sw' + (++swN); return `<div class="set-row"><button type="button" class="switch" role="switch" id="${id}" aria-checked="${!!on}" data-action="${action}" ${extra} aria-describedby="${id}-d"></button><div><label for="${id}" class="set-row-l"><b>${esc(title)}</b></label><div class="small muted" id="${id}-d">${text}</div></div></div>`; };
-    ```
-    Das bisherige `aria-label` entfällt, der Name kommt aus dem Label. Eindeutig auch bei mehrfach genutzten Aktionen (`notif-toggle`, `navdot-toggle`).
+| proptest.js:19, 91, 95 · friedhoftest.js:21 | `.prop-tabs a[aria-pressed=true]` | `.prop-tabs a[aria-current=page]` |
+| affiliatetest.js:16 | `x.getAttribute('aria-pressed')`, Soll `Alle Creator:true,…` | `x.getAttribute('aria-current')`, Soll `'Alle Creator:page,Creator-Ansicht:null'` |
+| calmnavtest.js:51 | `t.querySelector('[aria-pressed="true"]')` | `t.querySelector('[aria-current="page"]')` |
 ```
+
+## barrierefreiheit-E-README · README: Tastatur-Zeile (Z. 318) erweitern, Absatz Fokusführung unter „Neuaufbau ohne Springen“
+
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: —
+Quelle: audit/spec/barrierefreiheit.md Z. 912–916 · Dateien: web/README.md
+Abhängig von: barrierefreiheit-A1, barrierefreiheit-P1, barrierefreiheit-P3, barrierefreiheit-U3a, barrierefreiheit-C-rangepicker, barrierefreiheit-C-dashboard-154
+
+```text
+#### `web/README.md`
+
+- Z. 318: „Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge“ → „Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge (Formular-Dialoge mit geänderten Eingaben fragen „Änderungen verwerfen?“), **Tab** am Seitenanfang: „Zum Inhalt springen“, **Pfeiltasten** in Auswahlgruppen, im Zeitraum-Kalender und am Ziehgriff.“
+- Neuer Absatz unter „Neuaufbau ohne Springen“: Fokus bleibt beim Neuaufbau auf demselben Element (`App.focusSnapshot`/`restoreFocus`), Seitenwechsel setzt ihn auf `#content`, Dialoge fokussieren sich selbst und geben ihn zurück, Fokusring neutral `--focus`.
+
+```
+
+## kilook-C6 · Tastenkürzel abschaltbar (settings.shortcuts), „0“ nur bei App.on('replay')
+
+Gruppe kilook · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-43
+Quelle: audit/spec/kilook.md Z. 579–583 · Dateien: web/app.html
+Abhängig von: —
+
+```text
+**C6 · web/app.html:93–96 · Tastenkürzel** (barrierefreiheit-43)
+- Erste Zeile im keydown-Listener: `if (window.Store && Store.settings && Store.settings.shortcuts === false) return;`
+- **95** vorher `const map = { '1': 'dashboard', …, '9': 'shadow', '0': 'replay' };`
+  → nachher `const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'notebook', '6': 'progress', '7': 'ruhepunkt', '8': 'mentor', '9': 'shadow' }; if (App.on('replay')) map['0'] = 'replay';`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: app.html keydown] Ein gemeinsamer Tasten-Listener. kilook-C6 ändert dieselbe Stelle unter dem Ankernamen „app.html keydown-Listener“ und wird deshalb hier mitentschieden. Endstand: erste Zeile if (window.Store && Store.settings && Store.settings.shortcuts === false) return; (kilook-C6), dann die bestehenden Prüfungen (Modifier, Eingabefelder, .modal-bg), dann const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'notebook', '6': 'progress', '7': 'ruhepunkt', '8': 'mentor', '9': 'shadow', '0': 'replay' }; if (map[e.key]) { if (App.on(map[e.key])) location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.actions['new-trade'].call(App); } (aufbau-B7). Grund: Die allgemeine Prüfung App.on(map[key]) deckt Taste 0 ab und dazu jeden Bereich, der über jy_features ausgeschaltet ist. Das entspricht parseRoute, das solche Bereiche aufs Dashboard umleitet. Eine Sonderregel nur für '0' braucht es dann nicht mehr.
+- ÄNDERN: Nur die erste Zeile mit dem settings.shortcuts-Schalter einfügen. Die Map bleibt mit '0': 'replay', ihr Umbau mit if (App.on('replay')) map['0'] = 'replay' entfällt (die Prüfung macht aufbau-B7). Prüfpunkt 20 Teil 1 („grep '0': 'replay' → 0“) wird ersetzt: Taste 0 ohne freigeschaltetes Replay lässt location.hash unverändert, mit jy_features {"replay":true} führt sie zu #/replay.

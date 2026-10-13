@@ -1,67 +1,47 @@
-# Paket 044 · responsiv, komponenten, trades_tag
+# Paket 044 · konto, responsiv, trades_tag
 
-Schritte: 4 · Dateien: web/css/app.css, web/js/app.js
-Betroffene Tests laut Spezifikation: neue Suite web/e2e/tablettest.js (Schritt responsiv-3.20c); web/e2e/affiliatetest.js (.kstrip); web/e2e/dashtest.js; web/e2e/fwtest.js; web/e2e/gaptest.js; web/e2e/headtest.js:19-32 (Menüs im Bild); web/e2e/mobiletest.js:74-76; web/e2e/rangetest.js (mob: ein Monat); web/e2e/shadowtest.js:37-41 (Verstöße seitenweise); web/e2e/tlfittest.js (1440×900, 1280×720, 1100×800 unverändert grün); web/e2e/tlfittest.js (muss grün bleiben); web/e2e/tlfittest.js (nur Desktop, muss grün bleiben); web/e2e/usercardtest.js:21, :58 (#pop-user)
-Baut auf Paketen auf: 7, 43
+Schritte: 3 · Dateien: web/css/app.css, web/js/screens/coach.js, web/js/screens/trades.js
+Betroffene Tests laut Spezifikation: web/e2e/coachlang.js:11; web/e2e/coachlang.js:12; web/e2e/coachtest.js:135
+Baut auf Paketen auf: 7, 19, 31, 43
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## responsiv-3.3b · App.fitPopover: RangePicker.fit-Aufruf und 16-px-Randabstand am Handy
+## wording-S15.10-15.15 · Coach-Gruppe und Journal: „1 von 2 offen“, „Ø Trefferquote“, „Mentor-Notizen“, Pille „nur für Mentoren“ weg, „Daten ab …“, „bearbeitet …“ nur bei späterer Bearbeitung
 
-Gruppe responsiv · Cluster komponenten · Aufwand S · Befunde: bereich_dashboard-27, responsiv-24
-Quelle: audit/spec/responsiv.md Z. 430–431 · Dateien: web/js/app.js
-Abhängig von: responsiv-3.4, responsiv-B4
+Gruppe wording · Cluster konto · Aufwand M · Befunde: bereich_konto-43, wording-3, zustaende-28, bereich_konto-21
+Quelle: audit/spec/wording.md Z. 554–559 · Dateien: web/js/screens/coach.js
+Abhängig von: wording-S1.1-1.3, wording-S3.4, wording-S3.5
 
 ```text
-- Z. 161 `fitPopover(pop)`: als erste Zeile `if (pop.id === 'pop-range' && root.RangePicker && root.RangePicker.fit) root.RangePicker.fit(pop); /* ein sichtbarer Monat: bei einer Vorgabe den aktuellen zeigen */` (bereich_dashboard-27)
-- Z. 169: `const over = r.right - (right - 8); … Math.max(0, r.left - left - 8)` → davor `const m = window.innerWidth <= 560 ? 16 : 8; /* Handy: 16px Abstand wie der Seitenrand */` und beide `8` durch `m` ersetzen (responsiv-24).
+| 15.10 | coach.js:86 Aufgaben-Zelle | `<span>${r.open_tasks === 1 ? '1 offen' : \`${r.open_tasks} offen\`}</span><div class="sub">${\`von ${r.tasks}\`}</div>` → `<span>${r.open_tasks} von ${r.tasks} offen</span>` (Erledigt-Zweig unverändert) | bereich_konto-43 |
+| 15.11 | coach.js:96 / :113 / :121 | `U.tile('Ø Winrate', …)` → `U.tile('Ø Trefferquote', …)`; `<th class="r">Winrate</th>` → `<th class="r">Trefferquote</th>`; Info `'Pro Schüler: Trades, Winrate, …'` → `'Pro Schüler: Trades, Trefferquote, …'` | wording-3 |
+| 15.12 | coach.js:99 Journal-Kachel | `${gs.notes === 1 ? '1 Notiz von euch' : \`${gs.notes} Notizen von euch\`}` → `${U.count(gs.notes, 'Mentor-Notiz', 'Mentor-Notizen')}` (bei F1 = Ja: „Coach-Notiz/-Notizen“) | bereich_konto-43, zustaende-28 |
+| 15.13 | coach.js:101 | `<span class="small muted">nur für Mentoren</span>` ersatzlos streichen (Info daneben sagt es) | bereich_konto-43 |
+| 15.14 | coach.js:121 | `Kurz-Stats nur in R und Prozent${g && g.period_start ? \` · ab ${…}\` : ''}` → `${g && g.period_start ? \`Daten ab ${esc(fmt.dateFull(C.parseDayKey(g.period_start)))}\` : ''}` | bereich_konto-43 |
+| 15.15 | coach.js:137 Journal-Eintrag | `<span class="small muted no-i18n">${esc(fmt.dateTime(e.updated_at))}</span>` → `${e.updated_at && C.dayKey(new Date(e.updated_at)) !== e.date_key ? \`<span class="small muted ce-edited"><span>bearbeitet</span> <span class="no-i18n">${esc(fmt.dateTime(e.updated_at))}</span></span>\` : ''}` | bereich_konto-21 |
 ```
 
-## responsiv-B5d · Unter 961 px keine eigene Scrollbox für TradeLog/Verstöße
+## wording-S3.7 · app.css Handy (≤ 560px): Suche volle Breite, Auswahlfelder als wischbare Zeile
 
-Gruppe responsiv · Cluster responsiv · Aufwand S · Befunde: responsiv-3
-Quelle: audit/spec/responsiv.md Z. 290–291 · Dateien: web/css/app.css
+Gruppe wording · Cluster responsiv · Aufwand S · Befunde: bereich_trades_tag-35
+Quelle: audit/spec/wording.md Z. 333–334 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-- Z. 1754 `@media (max-width: 960px) { .pager { … } .pager .pg-sep { display: none; } }` → in diesem Block ergänzen: `.tbl-wrap.paged .tbl-scroll { max-height: none; overscroll-behavior: auto; } /* unter 961px keine Scrollbox in der scrollenden Seite */` (steht nach Z. 1740 und gewinnt).
+| 3.7 | Handy-Block `@media (max-width: 560px)` | – → `.tl-search { max-width: none; flex: 1 1 100%; }` · `.tl-sel { display: flex; gap: 8px; flex: 1 1 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }` · `.tl-sel::-webkit-scrollbar { display: none; }` · `.tl-sel > * { flex: 0 0 auto; }` | bereich_trades_tag-35 |
 
 ```
 
-## responsiv-B6a · Kachelreihen ab 961 px (4 in einer Reihe, 5 als 3 + 2 bis 1240 px) und Dashboard-Raster zweispaltig 961–1240 px
+## wording-S9.3-9.7 · TradeLog-Filterzeile: Klassen tl-filters/tl-search/tl-sel/tl-count, „Trades durchsuchen“, Fehler-Filter, Filterzeile nur mit Trades
 
-Gruppe responsiv · Cluster responsiv · Aufwand M · Befunde: abstaende_layout-15, abstaende_layout-16, bereich_prop-13, bereich_trades_tag-32
-Quelle: audit/spec/responsiv.md Z. 292–310 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**B6 Kachelreihen und Dashboard-Raster** (abstaende_layout-15, abstaende_layout-16, bereich_prop-13, bereich_trades_tag-32, responsiv-2)
-- Z. 1773 `@media (max-width: 1240px) { .dash-top { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }` ersetzen durch:
-  ```css
-  /* Kachelreihen ab 961px: bis vier Kacheln in einer Reihe (Dashboard: Grundregel repeat(--n)) */
-  @media (min-width: 961px) {
-    .grid.tiles.kstrip:has(> :nth-child(4):last-child) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .grid.tiles.kstrip:has(> :nth-child(5):last-child) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-    .tl-fit > .grid.tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  }
-  /* 961–1240px: fünf Kacheln als 3 + 2, Dashboard-Raster mit zwei Spalten */
-  @media (min-width: 961px) and (max-width: 1240px) {
-    .dash-top:has(> :nth-child(5):last-child), .grid.tiles.kstrip:has(> :nth-child(5):last-child) { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-    .dash-top:has(> :nth-child(5):last-child) > *, .grid.tiles.kstrip:has(> :nth-child(5):last-child) > * { grid-column: span 2; }
-    .dash-top:has(> :nth-child(5):last-child) > :nth-child(n + 4), .grid.tiles.kstrip:has(> :nth-child(5):last-child) > :nth-child(n + 4) { grid-column: span 3; }
-    .dash-main { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .dash-main > .w.sz-gross, .dash-main > .skel.sz-gross, .dash-main > .add-slot.gap.sz-gross { grid-column: span 2; }
-  }
-  ```
-  (Steht nach Z. 1593, gewinnt gegen `.add-slot.gap.sz-gross`.)
-```
-
-## responsiv-B6c · TradeLog-Tabellenbox am Desktop mindestens 256 px hoch
-
-Gruppe responsiv · Cluster trades_tag · Aufwand S · Befunde: responsiv-2
-Quelle: audit/spec/responsiv.md Z. 312–312 · Dateien: web/css/app.css
-Abhängig von: responsiv-B6a
+Gruppe wording · Cluster trades_tag · Aufwand M · Befunde: wording-51, bereich_trades_tag-35, zustaende-28
+Quelle: audit/spec/wording.md Z. 426–430 · Dateien: web/js/screens/trades.js
+Abhängig von: wording-S1.1-1.3, wording-S3.6, wording-S3.7
 
 ```text
-- Im Block `@media (min-width: 961px)` (Z. 957–970) nach Z. 968 ergänzen: `.tl-fit > .tbl-wrap.paged { min-height: 256px; } /* mind. drei Zeilen; sonst scrollt die Seite */`
+| 9.3 | Z. 39 Filterzeile, Suche | `<div class="row" style="gap:8px"><div class="grow" style="max-width:260px;position:relative"><input … placeholder="Suchen: Symbol, Setup, Notiz …" aria-label="Suchen" …>` → `<div class="row tl-filters" style="gap:8px"><div class="grow tl-search"><input … placeholder="Trades durchsuchen" aria-label="Trades durchsuchen" title="Sucht in Symbol, Setup, Notizen, Fehler-Tags und Emotionen" …>` | wording-51, bereich_trades_tag-35 |
+| 9.4 | Z. 40–44 Auswahlfelder | die vier `<select>` und den Zurücksetzen-Knopf in `<div class="tl-sel">…</div>` fassen; Zähler `<span class="muted small" style="margin-left:auto">` → `<span class="muted small tl-count">` | bereich_trades_tag-35 |
+| 9.5 | Z. 43 Fehler-Filter | `<option value="">Fehler: alle</option>` → `<option value="">Alle Fehler</option>`; `>Nur mit Fehler<` → `>Mit Fehler<` | bereich_trades_tag-35 |
+| 9.6 | Z. 44 Zähler | `${rows.length} von ${list.length} Trades` → `${rows.length} von ${U.count(list.length, 'Trade', 'Trades')}` | zustaende-28 |
+| 9.7 | Z. 45 Leerzustand | `return filters + U.empty(…)` → `return (list.length ? filters : '') + U.empty(…)` (ohne Trades im Zeitraum keine Filterzeile; mit Trades und leerem Filterergebnis bleibt sie samt „Zurücksetzen“) | bereich_trades_tag-35 |
 ```

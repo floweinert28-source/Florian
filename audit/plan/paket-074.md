@@ -1,403 +1,134 @@
-# Paket 074 · wording, barrierefreiheit
+# Paket 074 · shell, komponenten
 
-Schritte: 29 · Dateien: web/README.md, web/e2e/runall.sh, web/js/app.js, web/js/coach.js, web/js/core.js, web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js, web/js/screens/coupons.js, web/js/screens/dash-filter.js, web/js/screens/dashboard.js, web/js/screens/mentor.js, web/js/screens/misc.js, web/js/screens/news.js, web/js/screens/notebook.js, web/js/screens/prop.js, web/js/screens/ruhepunkt.js, web/js/screens/shadow.js, web/js/screens/trades.js, web/js/shadow.js, web/js/store.js, web/js/theme.js, web/js/voice.js, web/js/widgets.js
-Betroffene Tests laut Spezifikation: prüfen: e2e/langtest.js; web/e2e/coachtest.js; web/e2e/filtertest.js; web/e2e/glidetest.js; web/e2e/langtest.js; web/e2e/langtest.js (Übersetzung); web/e2e/mobiletest.js; web/e2e/motiontest.js; web/e2e/rangetest.js; web/e2e/rptest.js:9; web/e2e/scorestatetest.js:10; web/e2e/settest.js:10; web/e2e/sidebartest.js; web/e2e/sixtest.js; web/e2e/switchtest.js; web/e2e/tiptest.js; web/e2e/tradeformtest.js; web/e2e/usercardtest.js; web/e2e/usercardtest.js:11
-Baut auf Paketen auf: 2, 3, 6, 7, 10, 14, 17, 21, 24, 26, 27, 29, 33, 37, 42, 43, 46, 53, 61, 64, 67, 71, 73
+Schritte: 4 · Dateien: web/app.html, web/css/app.css
+Betroffene Tests laut Spezifikation: —
+Baut auf Paketen auf: 2, 5, 10, 60, 75, 76
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-E-runall · web/e2e/runall.sh vollständig ausführen, besonders die genannten Suiten
+## abstaende-B13 · Verlaufskachel (TradeLog) auf die Wertlinie: .tile.spark-tile gap-Regel löschen, .spark-body flex-start + padding-top var(--sp-3), .chart margin-block -14px, Abfrage 190 → 180 mit margin-block 0
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand M · Befunde: —
-Quelle: audit/spec/barrierefreiheit.md Z. 909–911 · Dateien: web/e2e/runall.sh
-Abhängig von: barrierefreiheit-D1, barrierefreiheit-E-dashtest-15, barrierefreiheit-E-notechecktest-14, barrierefreiheit-E-newstest-52, barrierefreiheit-E-aria-current, barrierefreiheit-E-dptest-92
-
-```text
-
-Danach `web/e2e/runall.sh` vollständig, besonders `tradeformtest`, `mobiletest` (Affiliate-Tabelle bei 390 ohne seitliches Scrollen, Tabellen mit 40-px-Knöpfen), `rangetest`, `sixtest`, `filtertest`, `coachtest`, `usercardtest`, `sidebartest`, `motiontest`, `switchtest`, `glidetest`, `tiptest`.
-
-```
-
-## kilook-C26 · Wörterbücher en/es/pt/zh/hi: neue Schlüssel (Bedienung, Tastenkürzel …), alte Tastatur-Schlüssel löschen
-
-Gruppe kilook · Cluster wording · Aufwand S · Befunde: barrierefreiheit-43, diagramme-4
-Quelle: audit/spec/kilook.md Z. 727–744 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/pt.js, web/js/lang/zh.js, web/js/lang/hi.js
-Abhängig von: kilook-C24
+Gruppe abstaende · Cluster komponenten · Aufwand M · Befunde: bereich_dashboard-10
+Quelle: audit/spec/abstaende.md Z. 329–329 · Dateien: web/css/app.css
+Abhängig von: abstaende-B7, abstaende-B9
 
 ```text
-**C26 · web/js/lang/{en,es,pt,zh,hi}.js · neue und geänderte Schlüssel** (barrierefreiheit-43, diagramme-4)
-
-| Deutsch | en | es | pt | zh | hi |
-|---|---|---|---|---|---|
-| `Bedienung` | Controls | Controles | Controles | 操作 | नियंत्रण |
-| `Tastenkürzel` | Keyboard shortcuts | Atajos de teclado | Atalhos de teclado | 键盘快捷键 | कीबोर्ड शॉर्टकट |
-| `Trade loggen ·` | Log trade · | Registrar trade · | Registrar trade · | 记录交易 · | ट्रेड दर्ज करें · |
-| `Bereich wechseln` | switch section | cambiar sección | trocar seção | 切换区域 | सेक्शन बदलें |
-| `Speicherort: dieser Browser (localStorage und IndexedDB).` | Storage: this browser (localStorage and IndexedDB). | Almacenamiento: este navegador (localStorage e IndexedDB). | Armazenamento: este navegador (localStorage e IndexedDB). | 存储位置：此浏览器（localStorage 和 IndexedDB）。 | स्टोरेज: यह ब्राउज़र (localStorage और IndexedDB)। |
-
-- Die nicht mehr benutzten Schlüssel löschen:
-  - `"Speicherort: dieser Browser (localStorage und IndexedDB). Tastatur:"`
-  - `"neuer Trade ·"`
-  - `"Bereiche ·"`
-  - `"schließt Dialoge."`
-  Vorher mit `grep -rn` prüfen, dass kein anderer Text sie braucht.
-- Der Prop-Hinweis (prop.js:194) hat in den Wörterbüchern noch keinen Schlüssel (Prop ist nicht in Etappe 1). Nichts eintragen.
-
+| B13 | Verlaufskachel Z. 1733–1737 | Z. 1733 `.tile.spark-tile { gap: 2px; }` löschen. Z. 1734 → `.tile.spark-tile .spark-body { flex: 1; display: flex; align-items: flex-start; gap: 18px; min-height: 0; padding-top: var(--sp-3); }`. Z. 1736 um `margin-block: -14px;` ergänzen. Z. 1737 `@container (max-width: 190px)` → `180px`, darin `.tile.spark-tile .chart { flex: 0 0 auto; height: 48px; margin-block: 0; }` | bereich_dashboard-10 |
 ```
 
-## kilook-C28 · README: Tastatur, Mentor-Notiz, Fortschritt, Kalender, Schrift, Geldformat, Prop-Währung
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe kilook · Cluster wording · Aufwand S · Befunde: barrierefreiheit-43, bereich_konto-17, ki_look-33, ki_look-6, diagramme-31, typografie-33, diagramme-32, diagramme-35, diagramme-4
-Quelle: audit/spec/kilook.md Z. 751–762 · Dateien: web/README.md
-Abhängig von: kilook-A1, kilook-A2, kilook-A5, kilook-B3, kilook-B4, kilook-C6, kilook-C9a, kilook-C18, kilook-C19b, kilook-C19c, kilook-C20, kilook-C24
+- [doppelt: .tile .body] abstaende-B9 und typografie-3.8b ergänzen sich. .tile .body bekommt align-items flex-start und padding-top var(--sp-3), und die Verlaufskachel im TradeLog bekommt `class="body spark-body"`. Damit erbt sie Trennlinie, Abstand und Ausrichtung aus der einen Regel .tile .body, und diese Regel bleibt die einzige Quelle dafür. In `.tile.spark-tile .spark-body` werden Linie (background-Verlauf) und padding-top deshalb nicht ein zweites Mal gesetzt. komponenten-C25b wollte padding-top 8px plus Linie, abstaende-B13 padding-top 12 plus flex-start. Begründung: Jeder Wert steht an einer Stelle, und Dashboard- und TradeLog-Kachel weichen nicht um 8 gegen 12 px voneinander ab. Die offene Frage ki_look-10/bereich_dashboard-41 (Linie weglassen) wirkt später automatisch auf beide Kachelarten, blockiert diese Schritte aber nicht.
+- ÄNDERN: Z. 1734 wird zu `.tile.spark-tile .spark-body { gap: 18px; min-height: 0; }`. display, flex, align-items flex-start und padding-top var(--sp-3) liefert .tile .body (B9 + typografie-3.8b). Z. 1733 löschen, .chart margin-block -14px und die Abfrage 190 → 180 bleiben wie spezifiziert.
+- [doppelt: .tile.spark-tile] Die Regel `.tile.spark-tile { gap: 2px; }` (Z. 1733) wird einmal gelöscht, durch abstaende-B13.
+- [konflikt: .tile.spark-tile .spark-body] Endstand: `.tile.spark-tile .spark-body { flex: 1; display: flex; align-items: flex-start; flex-wrap: nowrap; gap: 18px; min-height: 0; padding-top: var(--sp-3); }` (abstaende-B13 plus nowrap aus typografie-3.2.5b). In trades.js:26 wird daraus `<div class="body spark-body">` (typografie-3.8b). So bekommt die Verlaufskachel Trennlinie und Abstand genau von `.tile .body`, ohne eigene linear-gradient-Kopie und ohne eigenes padding-top: 8px. Grund: Komponenten will „dieselbe Trennlinie wie alle Kacheln“, und über die Klasse ist das automatisch so. Streicht der Nutzer bei ki_look-10 die Linie für alle Kacheln, verschwindet sie hier ohne Sonderregel mit; diese Entscheidung wartet deshalb nicht auf die Frage. padding-top 12 (var(--sp-3)) ist der Wert von .tile .body laut abstaende-B9. 8 px würde die Wertlinie gegen die Nachbarkacheln versetzen.
+- ÄNDERN: In die neue .spark-body-Regel zusätzlich `flex-wrap: nowrap;` aufnehmen (schützt vor der ≤960-Regel `.tile .body { flex-wrap: wrap }`, sobald .spark-body die Klasse body trägt). Alles andere wie geplant.
 
-```text
-**C28 · web/README.md · Dokumentation** (alle umgesetzten Befunde)
-- **318** `Tastatur: **N** neuer Trade, **1–6** Bereiche, **Esc** schließt Dialoge.`
-  → `Tastatur: **N** Trade loggen, **1–9** Bereiche (0 = Blind-Replay, nur wenn freigeschaltet), **Esc** schließt Dialoge. Die Einzeltasten lassen sich unter Einstellungen → Profil → Bedienung abschalten.`
-- **153** hinter „(Badge „Mentor“, Name, Zeit; …)“ ergänzen: „Notiz als neutrale Fläche mit feinem Rand, ohne Farbstreifen“.
-- **129** (Fortschritt) ergänzen: „„% Regeln eingehalten“ zeigt ohne Regeln oder Regel-Check „—“ und keinen Ring; der Ring leuchtet nicht.“
-- **190** (Kalender-Kacheln) ergänzen: „Im Monatsraster stehen Tages- und Wochenbeträge ohne Cent; die Cent zeigt die Tagesansicht.“
-- **172** (Schrift) ergänzen: „`app.html` und die Startseite laden von Google nur Onest; Inter und Roboto lädt `Theme.loadFont` nur für „Klassisch“.“
-- **211** (Geld-blind-Modus, Absatz zu `fmt.cur`) ergänzen: „Genauigkeit nach Bedeutung: Ergebnisse, Gebühren und Payouts immer mit Cent und Ergebnisse mit Vorzeichen; Bestände (`fmt.balance`), Limits, Ziele, Puffer und Monte Carlo ganzzahlig. Keine Größenschwelle.“
-- **241 ff.** (Prop Firms) ergänzen: „Alles, was zu einem Konto gehört (Balance, P&L, Limits, Puffer, Payout-Planer, Grabstein), steht in der Kontowährung; Bilanz und Payout-Liste in der Journal-Währung; die Kachel „P&L aktive Konten“ summiert je Währung.“
+## zustaende-S-C19 · Start-Skelett Desktop in den Maßen der fertigen Seite (Kopfreihe 46, Kacheln 131, Karten 396, Seitenleiste, sb-mini)
 
----
-
-```
-
-## responsiv-3.18 · Sprachdateien: neue Texte eintragen, Prop-Kartenwert auf Englisch prüfen
-
-Gruppe responsiv · Cluster wording · Aufwand M · Befunde: bereich_prop-10, bereich_training-24, responsiv-6, bereich_notebook_news-11, bereich_dashboard-4, bereich_training-38
-Quelle: audit/spec/responsiv.md Z. 550–553 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/zh.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/screens/prop.js
-Abhängig von: responsiv-3.3a, responsiv-3.10, responsiv-3.12a, responsiv-3.12c, responsiv-3.13, responsiv-3.15
-
-```text
-### 3.18 web/js/lang/{en,es,zh,hi,pt}.js
-
-Neue Einträge (Muster wie vorhanden): „Bis zum Bestehen“ (en „To pass“), „{0} fehlen“ (en „{0} to go“), „{0}× gebrochen“ (en „Broken {0}×“), „Beantragt {0}“ (en „Requested {0}“), „Schreib dem Mentor …“ (en „Write to your mentor …“). „Teilen“, „Konto: {0}“, „Verlauf löschen“ prüfen und fehlende Einträge ergänzen. Der Wert der Prop-Karte ist ein einziger Textknoten („in 3 Handelstagen · 1.946,15 $ fehlen“): auf Englisch umschalten und prüfen, dass er vollständig übersetzt wird; fehlt ein Muster für die Kombination, die Teile in planText je in ein eigenes `<span>` setzen.
-
-```
-
-## wording-S2.1 · core.js: Radar-Achse in SCORE_AXES „Win-Rate“ → „Trefferquote“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-3, bereich_dashboard-32
-Quelle: audit/spec/wording.md Z. 304–308 · Dateien: web/js/core.js
+Gruppe zustaende · Cluster shell · Aufwand M · Befunde: bereich_shell-4
+Quelle: audit/spec/zustaende.md Z. 367–389 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-### Schritt 2 · `web/js/core.js` (zentrale Kennzahl-Namen)
+**S-C19 Start-Skelett, Desktop** – bereich_shell-4 (zusammen mit bereich_shell-3; danach bereich_shell-5 aus Spec Responsiv)
+Z. 1541 (`.boot-head`), 1542 (`.boot-head .skel`), 1545 (`.boot-tiles .skel`), 1547 (`.boot-main .skel`) ändern, 1548–1552 (`.boot-sb …`) ersetzen; 1543 (`.boot-head .skel.tl`) und die Media-Queries 1553–1554 bleiben (bereich_shell-5 passt 1554 an). Zielregeln:
+```css
+.boot-head { display: flex; justify-content: flex-end; align-items: center; gap: 8px; min-height: 46px; }
+.boot-head .skel { border: 0; border-radius: 9px; height: 42px; width: 40px; }
+.boot-tiles .skel { height: 131px; }
+.boot-main .skel { height: 396px; }
+.boot-sb { display: flex; flex-direction: column; gap: 0; padding: 4px 16px 0; height: 100%; }
+.boot-sb .skel { border: 0; border-radius: 6px; height: 14px; width: 62%; margin: 12.5px 0 15.5px; } /* 39-px-Zeile + 3 px wie .nav (Z. 164) – Maße gemeinsam mit .nav a pflegen */
+.boot-sb .skel.l { height: 19px; width: 54%; margin: 0 0 4px; }
+.boot-sb .skel.l2 { height: 12px; width: 60%; margin: 0 0 18px; }
+.boot-sb .sep { display: block; flex: 0 0 auto; height: 1px; background: var(--border); margin: 0 -8px 14px; }
+.boot-sb .skel.g { height: 10px; width: 34%; margin: 33px 0 7px; } /* 24-px-Titelzeile, 26 px Gruppenabstand */
+.boot-sb .skel.g.first { margin-top: 7px; }
+.boot-sb .skel.card { margin: auto 0 0; height: 59px; width: 100%; border-radius: 14px; }
+html.sb-mini .boot-sb { padding: 4px 0 0; align-items: center; }
+html.sb-mini .boot-sb .skel { width: 40px; }
+html.sb-mini .boot-sb .skel.g { height: 1px; width: 40px; }
+html.sb-mini .boot-sb .sep { margin: 0 0 14px; width: 40px; }
+html.sb-mini .boot-sb .skel.card { width: 40px; height: 40px; border-radius: 50%; }
+```
+Die bisherige Regel Z. 1552 `html.sb-mini .boot-sb .skel { width: 24px; }` entfällt. An `.nav a` (Z. 169) den Kommentar „Maße gemeinsam mit .boot-sb pflegen“ setzen.
 
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 2.1 | `SCORE_AXES` Z. 265 | `winRate: 'Win-Rate'` → `winRate: 'Trefferquote'` (übrige Achsen unverändert) | wording-3, bereich_dashboard-32 |
 ```
 
-## wording-S2.14 · core.js insights(): Einzahl „1 Trade“ und „Trefferquote“ in den Insight-Sätzen
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-3, zustaende-28
-Quelle: audit/spec/wording.md Z. 321–322 · Dateien: web/js/core.js
-Abhängig von: —
+- [reihenfolge: .boot-head] Die Werte vertragen sich: Desktop Kopfreihe 46, Symbole 42, Kacheln 131, Karten 396; Handy 46, 40, 111, 339. S-C19 setzt das Desktop-Skelett und lässt die Media-Queries ausdrücklich für responsiv (bereich_shell-5) stehen. B11 passt danach Z. 1554 an und blendet .boot-top .skel.mb und .boot-head .skel.m global aus. 3.17 fügt diese beiden Platzhalter ins HTML ein. 3.17 darf nicht vor B11 landen: Sonst stehen am Desktop ein 128-px-Block in der Titelzeile und ein zusätzlicher Platzhalter in der Kopfreihe. Reihenfolge S-C19 → B11 → 3.17; B11 und 3.17 am besten in einem Commit.
+- [reihenfolge: .nav a] Alle fünf Schritte gelten und landen in einer Regel. Der Selektor heißt nur noch `.nav a` (kilook-C1a, `.nav` enthält laut app.js:210 keine `<button>`). Z. 169–173 danach: `gap: var(--sp-3)` (A9), `font-size: var(--fs-14); line-height: var(--lh-14)` (3.2.3n), `transition` ohne `, transform var(--dur-2) var(--ease)` (B3), dazu der Kommentar „Maße gemeinsam mit .boot-sb pflegen“ (S-C19). `.nav a:hover { background: var(--surface-2); color: var(--text); }`; kein `:active` und kein `.nav a.active:hover`. Folge fürs Skelett: Mit 14/20 statt 14,5 × 1,45 ist ein Eintrag 38 statt 39 px hoch (8 + 20 + 8 + 2 Rand), das Raster der Leiste also 41 statt 42 px (Dichte-Stufen: 34/32 px). Deshalb kommt S-C19 erst nach 3.2.3n und nimmt die Werte aus dem Anker `.boot-sb`. Die responsiv-Prüfung „Zeilenhöhe .nav a 39 px (± 1)“ ist mit 38 erfüllt, die Gewichtsregel (Navigation 500) bleibt.
+- ÄNDERN: Skelett-Raster der Leiste auf 38-px-Einträge + 3 px auslegen (41 px), nicht 39 + 3. Werte siehe Anker .boot-sb. Den Kommentar an `.nav a` wie geplant setzen.
+- [konflikt: .boot-sb] Das Seitenleisten-Skelett gehört allein zu S-C19/S-H2. Der `.boot-sb`-Teil von C13 (`padding: 22px 10px 6px`) entfällt. Die übrigen C13-Teile (`.boot-body`, `.boot-tiles`, `.boot-main`) bleiben. S-C19 ist auf die heutige Leiste (oben 22 px Polster, Marke 4/18) gerechnet. Nach abstaende-D1 hat die Leiste oben kein Polster mehr, die Marke ist 72 px hoch, und die Linie liegt bei y = 71 über die volle Breite. Nach typografie-3.2.3n sind die Einträge 38 px hoch. Verbindlicher Endstand (ersetzt Z. 1548–1552):
+`.boot-sb { display: flex; flex-direction: column; gap: 0; padding: 0 16px; height: 100%; }`
+`.boot-sb .skel { border: 0; border-radius: 6px; height: 14px; width: var(--w, 62%); margin: 12px 0 15px; } /* 38-px-Zeile + 3 px wie .nav – Maße gemeinsam mit .nav a pflegen */`
+`.boot-sb .skel.l { height: 19px; width: 54%; margin: 16px 0 6px; }`
+`.boot-sb .skel.l2 { height: 12px; width: 60%; margin: 0 0 18px; }` (Linie bei y = 71)
+`.boot-sb .sep { display: block; flex: 0 0 auto; height: 1px; background: var(--border); margin: 0 -30px 14px; }` (volle Breite wie `.sb-sep` aus D1)
+`.boot-sb .skel.g { height: 10px; width: 34%; margin: 33px 0 7px; } .boot-sb .skel.g.first { margin-top: 7px; }`
+`.boot-sb .skel.card { margin: auto 0 0; height: 59px; width: 100%; border-radius: 14px; }`
+Dichte-Stufen wie die Leiste: `@media (min-width: 961px) and (max-height: 1060px) { .boot-sb .skel { margin: 10px 0 13px; } .boot-sb .skel.g { margin: 23px 0 5px; } }` und `@media (min-width: 961px) and (max-height: 940px) { .boot-sb .skel { margin: 9px 0 12px; } .boot-sb .skel.g { margin-top: 19px; } }`.
+Eingeklappt (Einträge fest 40 px, Raster 43): `html.sb-mini .boot-sb { padding: 0; align-items: center; } html.sb-mini .boot-sb .skel { width: 40px; margin: 13px 0 16px; } html.sb-mini .boot-sb .skel.l { width: 30px; height: 30px; border-radius: 9px; margin: 21px 0 20px; } html.sb-mini .boot-sb .skel.l2 { display: none; } html.sb-mini .boot-sb .skel.g { height: 1px; width: 40px; } html.sb-mini .boot-sb .sep { align-self: stretch; width: auto; margin: 0 -10px 14px; } html.sb-mini .boot-sb .skel.card { width: 40px; height: 40px; border-radius: 50%; }`.
+In S-H2 werden die Zeilenbreiten über `style="--w:52%"` gesetzt statt `style="width:52%"`. Ein Inline-`width` schlägt jede Klassenregel, sonst greift die eingeklappte Breite von 40 px nie (das gilt schon heute für die 24-px-Regel). Abnahme: Marke, Linie und erste Gruppe weichen bei 1440×1000 und 1440×900, voll und eingeklappt, höchstens ±2 px von der fertigen Leiste ab.
+- ÄNDERN: `.boot-sb`-Block durch den Endstand aus dieser Entscheidung ersetzen: padding 0 16px, `.skel` margin 12px 0 15px mit width var(--w, 62%), `.skel.l` margin 16px 0 6px, `.skel.l2` margin 0 0 18px, `.sep` margin 0 -30px 14px, dazu die zwei Dichte-Stufen und die sb-mini-Regeln (mini: padding 0, .skel margin 13px 0 16px, .l 30×30 margin 21px 0 20px, .l2 none, .sep align-self stretch und margin 0 -10px 14px).
+- [reihenfolge: .boot-tiles .skel] S-C19 (globale Regel, Desktop) und B11 (Block ≤ 960 px) ergänzen sich. Beide Zahlen sind aber gemessene Ist-Werte von heute und werden durch andere Gruppen ungültig. abstaende-B7/B9 machen die Dashboard-Kachel 131 → 144 px hoch. Mit typografie (Wert 25 → 24 px, Kopfzeile 18 px) werden es etwa 142 px. Am Handy kommen +4 (Körper-Polster 8 → 12) und +1 (gap) dazu, Kachelwert 21 → 20 und Kopf-Zeilenhöhe ziehen ab. Verbindlich: Beide Skelett-Höhen sind die gemessene Höhe der fertigen Dashboard-Kachel nach allen Kachel-Schritten, nicht 131 bzw. 111. Desktop gemessen bei 1440×900, Handy bei 390×844, Beispieldaten, dunkel. Prüfung zustaende 21 wird zu „Kacheln y = 158 / h = gemessen, Karten y = 158 + h + 16 / h = 396 (±2)“. Prüfung responsiv 13 vergleicht Kacheln und Karte mit der fertigen Seite (±2) statt mit festen 111/339. Ändert sich die Kachel durch die offene kilook-Frage ki_look-10 (Linie im Kachelkopf, N1), neu messen. Hinweis: Die Mittelstufe des Skeletts (≤ 1180 px, 3 Kacheln) bleibt laut S-C19 unverändert. Sie weicht von der fertigen Seite ab (5 Kacheln als 3+2) und wird nachgezogen, sobald das Kachelraster 561–1240 entschieden ist.
+- ÄNDERN: `.boot-tiles .skel { height: <gemessen> }` statt 131 px: Höhe der fertigen Dashboard-Kachel bei 1440×900 nach abstaende-B7/B9 und den typografie-Werten. Prüfpunkt 21 entsprechend (Karten-y = 158 + Kachelhöhe + 16).
+- [reihenfolge: .boot-head .skel] Die beiden Schritte ergänzen sich: S-C19 setzt die globale Regel, B11 überschreibt im Block ≤ 960 px. Die Symbol-Platzhalter haben die Maße der fertigen Knöpfe. Am Desktop sind das 42 × 42, weil komponenten-C08 `.btn.icon-only` (Vorlage, Zertifikat) auf 42 × 42 setzt. Also `.boot-head .skel { border: 0; border-radius: 9px; height: 42px; width: 42px; }` statt width 40; Kopfreihe min-height 46 bleibt (42 + 4). Am Handy bleiben die B11-Werte (40 × 40, Zeitraum 166 × 42) und werden nach komponenten-C08 und dem 40-px-Kontoknopf aus responsiv gegen die fertige Kopfreihe gemessen (±2).
+- ÄNDERN: `.boot-head .skel { border: 0; border-radius: 9px; height: 42px; width: 42px; }` (Breite 42 statt 40, wie `.btn.icon-only` nach komponenten-C08).
+- [reihenfolge: .boot-main .skel] Die Schritte ergänzen sich. Desktop 396 px (S-C19) ist richtig, denn `--card-h` bleibt 396 (abstaende). Am Handy ist die erste Karte height:auto. abstaende-B4 (Kartenkopf 14 → 16 px Abstand, Kopf mittig) und D10 ändern die fertige Höhe, daher gilt dort nicht die feste 339 aus B11, sondern die gemessene Höhe der ersten Dashboard-Karte bei 390×844 nach B4/D10 (erwartet etwa 341). Prüfung responsiv 13 vergleicht mit der fertigen Seite (±2).
+
+## zustaende-S-H2 · app.html: Seitenleisten-Skelett mit Marke, Untertitel, Trennlinie, vier Gruppen und Konto-Karte
+
+Gruppe zustaende · Cluster shell · Aufwand S · Befunde: bereich_shell-4
+Quelle: audit/spec/zustaende.md Z. 588–598 · Dateien: web/app.html
+Abhängig von: zustaende-S-C19
 
 ```text
-| 2.14 | `insights()` Z. 544–549 | neue lokale Hilfsfunktion in `insights()` direkt nach `const pct = …` (Z. 541): `const nT = n => n === 1 ? '1 Trade' : \`${n} Trades\`;`; in Z. 544 `${mr.mistakeN} Trades mit Fehler-Tags` → `${nT(mr.mistakeN)} mit Fehler-Tags`, Z. 546 `${best.s.n} Trades, Win-Rate ${pct(…)}` → `${nT(best.s.n)}, Trefferquote ${pct(…)}` und `${worst.s.n} Trades mit` → `${nT(worst.s.n)} mit`, Z. 548 `bei ${b.s.n} Trades` → `bei ${nT(b.s.n)}`, Z. 549 `${wd[0].s.n} Trades mit` → `${nT(wd[0].s.n)} mit` | wording-3, zustaende-28 |
+**S-H2 Skelett der Seitenleiste** – bereich_shell-4
+Z. 19, Inhalt von `.boot-sb` ersetzen durch:
+```html
+<span class="skel l"></span><span class="skel l2"></span><span class="sep"></span>
+<span class="skel g first"></span><span class="skel" style="width:52%"></span><span class="skel" style="width:58%"></span><span class="skel" style="width:48%"></span>
+<span class="skel g"></span><span class="skel" style="width:56%"></span><span class="skel" style="width:60%"></span><span class="skel" style="width:50%"></span><span class="skel" style="width:46%"></span>
+<span class="skel g"></span><span class="skel" style="width:54%"></span><span class="skel" style="width:58%"></span><span class="skel" style="width:44%"></span>
+<span class="skel g"></span><span class="skel" style="width:64%"></span><span class="skel" style="width:54%"></span>
+<span class="skel card"></span>
+```
 
 ```
 
-## wording-S5.1-5.2 · app.js: Navigationsgruppe „Prop Trading“, Konto-Karte „Profil ergänzen“
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_shell-33, bereich_shell-34
-Quelle: audit/spec/wording.md Z. 349–354 · Dateien: web/js/app.js
-Abhängig von: —
+- [konflikt: .boot-sb] Das Seitenleisten-Skelett gehört allein zu S-C19/S-H2. Der `.boot-sb`-Teil von C13 (`padding: 22px 10px 6px`) entfällt. Die übrigen C13-Teile (`.boot-body`, `.boot-tiles`, `.boot-main`) bleiben. S-C19 ist auf die heutige Leiste (oben 22 px Polster, Marke 4/18) gerechnet. Nach abstaende-D1 hat die Leiste oben kein Polster mehr, die Marke ist 72 px hoch, und die Linie liegt bei y = 71 über die volle Breite. Nach typografie-3.2.3n sind die Einträge 38 px hoch. Verbindlicher Endstand (ersetzt Z. 1548–1552):
+`.boot-sb { display: flex; flex-direction: column; gap: 0; padding: 0 16px; height: 100%; }`
+`.boot-sb .skel { border: 0; border-radius: 6px; height: 14px; width: var(--w, 62%); margin: 12px 0 15px; } /* 38-px-Zeile + 3 px wie .nav – Maße gemeinsam mit .nav a pflegen */`
+`.boot-sb .skel.l { height: 19px; width: 54%; margin: 16px 0 6px; }`
+`.boot-sb .skel.l2 { height: 12px; width: 60%; margin: 0 0 18px; }` (Linie bei y = 71)
+`.boot-sb .sep { display: block; flex: 0 0 auto; height: 1px; background: var(--border); margin: 0 -30px 14px; }` (volle Breite wie `.sb-sep` aus D1)
+`.boot-sb .skel.g { height: 10px; width: 34%; margin: 33px 0 7px; } .boot-sb .skel.g.first { margin-top: 7px; }`
+`.boot-sb .skel.card { margin: auto 0 0; height: 59px; width: 100%; border-radius: 14px; }`
+Dichte-Stufen wie die Leiste: `@media (min-width: 961px) and (max-height: 1060px) { .boot-sb .skel { margin: 10px 0 13px; } .boot-sb .skel.g { margin: 23px 0 5px; } }` und `@media (min-width: 961px) and (max-height: 940px) { .boot-sb .skel { margin: 9px 0 12px; } .boot-sb .skel.g { margin-top: 19px; } }`.
+Eingeklappt (Einträge fest 40 px, Raster 43): `html.sb-mini .boot-sb { padding: 0; align-items: center; } html.sb-mini .boot-sb .skel { width: 40px; margin: 13px 0 16px; } html.sb-mini .boot-sb .skel.l { width: 30px; height: 30px; border-radius: 9px; margin: 21px 0 20px; } html.sb-mini .boot-sb .skel.l2 { display: none; } html.sb-mini .boot-sb .skel.g { height: 1px; width: 40px; } html.sb-mini .boot-sb .sep { align-self: stretch; width: auto; margin: 0 -10px 14px; } html.sb-mini .boot-sb .skel.card { width: 40px; height: 40px; border-radius: 50%; }`.
+In S-H2 werden die Zeilenbreiten über `style="--w:52%"` gesetzt statt `style="width:52%"`. Ein Inline-`width` schlägt jede Klassenregel, sonst greift die eingeklappte Breite von 40 px nie (das gilt schon heute für die 24-px-Regel). Abnahme: Marke, Linie und erste Gruppe weichen bei 1440×1000 und 1440×900, voll und eingeklappt, höchstens ±2 px von der fertigen Leiste ab.
+- ÄNDERN: In app.html Z. 19 jede Inline-Breite `style="width:NN%"` als `style="--w:NN%"` schreiben; Markup sonst wie spezifiziert.
+
+## barrierefreiheit-H1 · Sprunglink „Zum Inhalt springen“ als erstes Kind von .shell
+
+Gruppe barrierefreiheit · Cluster shell · Aufwand S · Befunde: barrierefreiheit-31, bereich_shell-14
+Quelle: audit/spec/barrierefreiheit.md Z. 519–524 · Dateien: web/app.html
+Abhängig von: barrierefreiheit-B2
 
 ```text
-### Schritt 5 · `web/js/app.js` und `web/app.html` (Shell, Navigation, Trade-Dialog)
+#### `web/app.html`
 
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 5.1 | app.js:18 Navigationsgruppe | `['Konten', [['prop', …], ['coupons', …]]]` → `['Prop Trading', [['prop', …], ['coupons', …]]]` (Einträge gleich; Schlüssel „Konten“ in js/lang **nicht** umbenennen, er wird weiter gebraucht) | bereich_shell-33 |
-| 5.2 | app.js:229 Konto-Karte | `'<span>Profil vervollständigen</span>'` → `'<span>Profil ergänzen</span>'` | bereich_shell-34 |
-```
-
-## wording-S5.6-5.8 · app.js: Zähler über U.count (Symbol-Liste, CSV-Import) und „Trefferquote“ im Session-Ende
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: zustaende-28, wording-3, bereich_trades_tag-36
-Quelle: audit/spec/wording.md Z. 358–360 · Dateien: web/js/app.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 5.6 | app.js:391 Symbol-Liste | `(o.n === 1 ? '1 Trade' : \`${o.n} Trades\`)` → `U.count(o.n, 'Trade', 'Trades')` | zustaende-28 |
-| 5.7 | app.js:530 Session-Ende | `<div class="caption">Win-Rate</div>` → `<div class="caption">Trefferquote</div>` | wording-3, bereich_trades_tag-36 |
-| 5.8 | app.js:567 und :574 (CSV) | `${preview.trades.length} Trades erkannt` → `${U.count(preview.trades.length, 'Trade', 'Trades')} erkannt`; Toast `${fresh.length} Trades importiert` → `${U.count(fresh.length, 'Trade', 'Trades')} importiert` | zustaende-28 |
-```
-
-## wording-S6.16-6.18 · Disziplin-Kosten-, Schatten-Ich- und Blind-Replay-Widget: „Verstöße“, „Lege fest“, Zähler
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-38, zustaende-28
-Quelle: audit/spec/wording.md Z. 382–384 · Dateien: web/js/widgets.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 6.16 | widgets.js:323 / :331 desc | `'Schatten-Ich: was Regelbrüche dich im Zeitraum gekostet oder gebracht haben.'` → `'Schatten-Ich: was Verstöße dich im Zeitraum gekostet oder gebracht haben.'`; `'… was Regelbrüche gekostet haben, …'` → `'… was Verstöße gekostet haben, …'` | wording-38 |
-| 6.17 | widgets.js:334 | `Leg fest, was für dich gilt. Dann rechnet dein Schatten-Ich, was Regelbrüche kosten.` → `Lege fest, was für dich gilt. Dann rechnet dein Schatten-Ich, was Verstöße kosten.` | wording-38 |
-| 6.18 | widgets.js:344 / :348 | `${fmt.int(ready)} Trades bereit` → `${U.count(ready, 'Trade', 'Trades')} bereit`; `von ${fmt.int(st.n)} Trades` → `von ${U.count(st.n, 'Trade', 'Trades')}` | zustaende-28 |
-```
-
-## wording-S6.19-6.22 · Prop-Konten- und Mentor-Widget: „Kontostand“, „Prop-Konto anlegen“, „reicht für N Stops“, „Journalyst-Server“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-32, wording-34, wording-33, wording-14
-Quelle: audit/spec/wording.md Z. 385–388 · Dateien: web/js/widgets.js
-Abhängig von: —
-
-```text
-| 6.19 | widgets.js:351 Prop-Widget desc/info | „Ampel, Balance und Puffer“ → „Ampel, Kontostand und Puffer“; „die Ampel, die Balance und …“ → „die Ampel, den Kontostand und …“ | wording-32 |
-| 6.20 | widgets.js:354 Leerzustand | `Leg ein Konto an, dann siehst du hier Ampel, Balance und Puffer.` → `Lege ein Prop-Konto an, dann siehst du hier Ampel, Kontostand und Puffer.`; Knopftext `Konto anlegen` → `Prop-Konto anlegen` | wording-32, wording-34 |
-| 6.21 | widgets.js:358 | `noch ${b.stops} Stop-Loss${b.stops === 1 ? '' : 'es'}` → `reicht für ${b.stops} Stop${b.stops === 1 ? '' : 's'}` | wording-33 |
-| 6.22 | widgets.js:373 Mentor-Widget | `Der Mentor läuft über deinen eigenen Server.` → `Der Mentor läuft über deinen Journalyst-Server.` (Knopf und Ziel `#/mentor` bleiben, fwtest.js:46) | wording-14 |
-```
-
-## wording-S7.1-7.3 · Dashboard: Widget-Suche „Widgets durchsuchen“ mit aria-label, „Neuer Recap“, Banner-Knopf „CSV importieren“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-51, wording-11, wording-49
-Quelle: audit/spec/wording.md Z. 395–401 · Dateien: web/js/screens/dashboard.js
-Abhängig von: —
-
-```text
-### Schritt 7 · `web/js/screens/dashboard.js` und `web/js/screens/dash-filter.js`
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 7.1 | dashboard.js:78 Widget-Suche | `placeholder="Widget suchen …"` → `placeholder="Widgets durchsuchen" aria-label="Widgets durchsuchen"` | wording-51 |
-| 7.2 | dashboard.js:89 Hinweis-Punkt | `'Neuer Performance-Recap'` → `'Neuer Recap'` | wording-11 |
-| 7.3 | dashboard.js:130 Willkommen-Banner | `${I.upload} CSV</button>` → `${I.upload} CSV importieren</button>` | wording-49 |
-```
-
-## wording-S7.4-7.6 · Dashboard-Filter: Platzhalter „Von“/„Bis“, „Intraday / Mehrtägig“, „Nachbereitet: Alle · Ja · Nein“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_dashboard-31
-Quelle: audit/spec/wording.md Z. 402–405 · Dateien: web/js/screens/dash-filter.js
-Abhängig von: —
-
-```text
-| 7.4 | dash-filter.js:104 `pair()` | `placeholder="${o.ph1 \|\| 'Min'}"` → `\|\| 'Von'`; `placeholder="${o.ph2 \|\| 'Max'}"` → `\|\| 'Bis'` | bereich_dashboard-31 |
-| 7.5 | dash-filter.js:119 | `row('Intraday / Multiday', seg('span', f, [['', 'Alle'], ['intraday', 'Intraday'], ['multiday', 'Multiday']]))` → `row('Intraday / Mehrtägig', seg('span', f, [['', 'Alle'], ['intraday', 'Intraday'], ['multiday', 'Mehrtägig']]))` | bereich_dashboard-31 |
-| 7.6 | dash-filter.js:120 | `row('Reviewed', seg('reviewed', f, [['', 'Alle'], ['yes', 'Reviewed'], ['no', 'Unreviewed']]), 'Bewertung oder Notiz vorhanden')` → `row('Nachbereitet', seg('reviewed', f, [['', 'Alle'], ['yes', 'Ja'], ['no', 'Nein']]), 'Bewertung oder Notiz vorhanden')` (Werte `yes`/`no` bleiben, filtertest.js:62) | bereich_dashboard-31 |
+**H1 Sprunglink** (Z. 18, erstes Kind von `<div class="shell">`)
+- nachher: `<a class="skip" href="#content" data-action="skip-content">Zum Inhalt springen</a>`
+- Befunde: barrierefreiheit-31, bereich_shell-14
 
 ```
 
-## wording-S9.8-9.9 · TradeLog: Seitenwähler-Zähler über U.count, „Trefferquote“ in den Tageskarten
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe wording · Cluster wording · Aufwand S · Befunde: zustaende-28, wording-3, bereich_trades_tag-36
-Quelle: audit/spec/wording.md Z. 431–432 · Dateien: web/js/screens/trades.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 9.8 | Z. 48 Seitenwähler | `von ${rows.length} Trades` → `von ${U.count(rows.length, 'Trade', 'Trades')}` | zustaende-28 |
-| 9.9 | Z. 54 Tageskarten | `<div class="k">Win-Rate</div>` → `<div class="k">Trefferquote</div>` | wording-3, bereich_trades_tag-36 |
-```
-
-## wording-S9.17 · Dialogtitel „Text-Notiz“ statt „Notiz sprechen oder tippen“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_trades_tag-47
-Quelle: audit/spec/wording.md Z. 440–441 · Dateien: web/js/screens/trades.js
-Abhängig von: —
-
-```text
-| 9.17 | Z. 118 Dialogtitel | `<h2>Notiz sprechen oder tippen</h2>` → `<h2>Text-Notiz</h2>` | bereich_trades_tag-47 |
-
-```
-
-## wording-S11.1-11.5 · Schatten-Ich: Regel „Schluss nach Verlustserie“, Kosten-Texte mit „Verstöße“, DESC-Texte, Banner ohne Gedankenstrich, Zähler
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-41, wording-38, wording-10, zustaende-28
-Quelle: audit/spec/wording.md Z. 462–470 · Dateien: web/js/shadow.js, web/js/screens/shadow.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-### Schritt 11 · `web/js/shadow.js` und `web/js/screens/shadow.js`
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 11.1 | js/shadow.js:14 | `label: 'Stopp nach Verlusten in Folge'` → `label: 'Schluss nach Verlustserie'` (Regel-Schlüssel `lossStreak` bleibt; das aria-label „… : Verluste“ zieht mit) | wording-41 |
-| 11.2 | screens/shadow.js:25 `costView` | `'Regelbrüche haben dich das gekostet'` → `'So viel haben dich Verstöße gekostet'`; `'Regelbrüche haben dir das gebracht'` → `'So viel haben dir Verstöße gebracht'` | wording-38 |
-| 11.3 | screens/shadow.js:32 `DESC` | `dailyLoss: 'Ist das Tageslimit erreicht, ist für heute Schluss.'` → `'Ist der maximale Tagesverlust erreicht, ist für heute Schluss.'`; `lossStreak: 'Nach so vielen Verlusten hintereinander ist Pause.'` → `'Nach so vielen Verlusten hintereinander ist für heute Schluss.'` | wording-10, wording-41 |
-| 11.4 | screens/shadow.js:58 Banner | `'Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.'` → `'Schalte oben mindestens eine Regel ein. Dann rechnet dein Schatten-Ich, was Verstöße kosten.'` | wording-38 |
-| 11.5 | screens/shadow.js:59 | `${res.unknownRisk === 1 ? '1 Trade ohne Stop konnte' : \`${…} Trades ohne Stop konnten\`}` → `${U.count(res.unknownRisk, 'Trade', 'Trades')} ohne Stop ${res.unknownRisk === 1 ? 'konnte' : 'konnten'}` | zustaende-28 |
-```
-
-## wording-S11.6-11.11 · Schatten-Ich-Karten: „Regelwerk“, Intro, Info-Texte, Kachel-Fuß „Ohne Verstöße“, Diagramm „Kumulierter Netto-P&L“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-25, wording-38, wording-39, wording-40
-Quelle: audit/spec/wording.md Z. 471–477 · Dateien: web/js/screens/shadow.js
-Abhängig von: —
-
-```text
-| 11.6 | screens/shadow.js:60 | `U.card('Mein Regelwerk', …, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' })` → `U.card('Regelwerk', …, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran, Änderungen gelten sofort.' })` | wording-25, wording-38 |
-| 11.7 | screens/shadow.js:108 Intro | `Dein Schatten-Ich handelt wie du – nur ohne Regelbrüche.` → `Dein Schatten-Ich handelt wie du, hält sich aber an jede aktive Regel.` | wording-38 |
-| 11.8 | screens/shadow.js:109 | `'Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.'` → `'… was Verstöße kosten.'` | wording-38 |
-| 11.9 | screens/shadow.js:112 Info | `'Schatten-Ich minus echt: Was Regelbrüche im Zeitraum unterm Strich bewirkt haben.'` → `'Schatten-Ich minus echt: was Verstöße im Zeitraum unterm Strich bewirkt haben.'` | wording-38 |
-| 11.10 | screens/shadow.js:114 | `{ foot: 'Mit allen Regeln eingehalten' }` → `{ foot: 'Ohne Verstöße' }` | wording-39 |
-| 11.11 | screens/shadow.js:118 | `U.card('Equity: echt vs. Schatten-Ich', …, { info: '… lässt Trades mit Regelbruch weg …' })` → `U.card('Kumulierter Netto-P&L', …, { info: '… lässt Trades mit Verstoß weg …' })` (Legende „Echt / Schatten-Ich“ bleibt) | wording-40, wording-38 |
-
-```
-
-## wording-S12.30 · Coupons-Leerzustand „Coupon-Codes für Prop Firms erscheinen hier.“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-55
-Quelle: audit/spec/wording.md Z. 511–512 · Dateien: web/js/screens/coupons.js
-Abhängig von: —
-
-```text
-| 12.30 | coupons.js:13 | `'Rabatt-Codes für Prop Firms erscheinen hier.'` → `'Coupon-Codes für Prop Firms erscheinen hier.'` | wording-55 |
-
-```
-
-## wording-S14.8-14.9 · Notebook: Zähler über U.count, Toast „Notiz verschoben“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: zustaende-28, bereich_notebook_news-27
-Quelle: audit/spec/wording.md Z. 536–537 · Dateien: web/js/screens/notebook.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 14.8 | notebook.js:141 / 142 / 149 / 162 | `` `${nb.selected.length} Notizen verschoben` `` → `` `${U.count(nb.selected.length, 'Notiz', 'Notizen')} verschoben` ``; ebenso `… löschen?` (142), `… endgültig löschen?` (149); Z. 162 `Alle ${n} Notizen darin werden …` → `${n === 1 ? 'Die Notiz darin wird' : \`Alle ${n} Notizen darin werden\`} mit gelöscht …` | zustaende-28 |
-| 14.9 | notebook.js:143 | `U.toast('Verschoben', 'ok')` → `U.toast('Notiz verschoben', 'ok')` | bereich_notebook_news-27 |
-```
-
-## wording-S15.1-15.3 · News: Fehlertexte auf „Journalyst-Server“ und „Einstellungen → Server“, Banner gekürzt
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_notebook_news-46, wording-14, bereich_notebook_news-45
-Quelle: audit/spec/wording.md Z. 541–547 · Dateien: web/js/screens/news.js
-Abhängig von: —
-
-```text
-### Schritt 15 · Server-Texte: `web/js/screens/news.js`, `web/js/screens/mentor.js`, `web/js/screens/coach.js`, `web/js/coach.js`, `web/js/voice.js`, `web/js/screens/ruhepunkt.js`
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 15.1 | news.js:28 | `'Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor.'` → `'Der Journalyst-Server ist nicht erreichbar. Prüfe deine Verbindung und die Adresse unter Einstellungen → Server.'` | bereich_notebook_news-46, wording-14 |
-| 15.2 | news.js:29 | `'Zugangstoken fehlt oder ist falsch (Einstellungen → Mentor).'` → `'Zugangstoken fehlt oder ist falsch. Prüfe es unter Einstellungen → Server.'` | bereich_notebook_news-46, wording-14 |
-| 15.3 | news.js:91 Banner | `<b>Beispielansicht.</b> Echte Termine kommen über deinen Journalyst-Server (derselbe wie für den Mentor). <span class="muted">Die Beispiele haben keine Prognose- oder Vorwerte.</span>` → `<b>Beispielansicht.</b> Echte Termine kommen über deinen Journalyst-Server.` (Knopf „Server einrichten“ bleibt; Präfix „Beispiel: “ in Z. 40 bleibt) | bereich_notebook_news-45, wording-14 |
-```
-
-## wording-S15.4-15.5 · Mentor: Fehler- und Einrichten-Text, Knopf „Server einrichten“, Repo-Pfad streichen
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-14, bereich_notebook_news-46, bereich_training-35
-Quelle: audit/spec/wording.md Z. 548–549 · Dateien: web/js/screens/mentor.js
-Abhängig von: —
-
-```text
-| 15.4 | mentor.js:17 | `'Der Mentor-Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'` → Text aus 15.1 | wording-14, bereich_notebook_news-46 |
-| 15.5 | mentor.js:79 | `<p class="muted">Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.</p>` → `<p class="muted">Der Mentor läuft über deinen Journalyst-Server, damit der API-Schlüssel nie im Browser liegt. Trage unter Einstellungen → Server die Adresse und das Zugangstoken ein.</p>`; Knopf `Zu den Einstellungen` → `Server einrichten`; `<div class="small faint" style="margin-top:14px">Anleitung zum Server: <code>server/README.md</code> im Projekt.</div>` ersatzlos streichen (h2 bleibt) | bereich_training-35, wording-14 |
-```
-
-## wording-S15.16-15.21 · Server-Texte in js/coach.js, voice.js, ruhepunkt.js: „Journalyst-Server“, „Prüfe“/„versuche“, Kommentare
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-14, bereich_notebook_news-46
-Quelle: audit/spec/wording.md Z. 560–566 · Dateien: web/js/coach.js, web/js/voice.js, web/js/screens/ruhepunkt.js
-Abhängig von: —
-
-```text
-| 15.16 | js/coach.js:41 | `'Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'` → Text aus 15.1 | wording-14, bereich_notebook_news-46 |
-| 15.17 | voice.js:18 | `'Mentor-Server nicht eingerichtet'` → `'Journalyst-Server nicht eingerichtet'` | wording-14 |
-| 15.18 | voice.js:72 | `Ohne Mentor-Server wird nur das Transkript gespeichert. Adresse unter Einstellungen → Mentor.` → `Ohne Journalyst-Server wird nur das Transkript gespeichert. Die Adresse trägst du unter Einstellungen → Server ein.` | wording-14 |
-| 15.19 | voice.js:103 | `… richte den Mentor-Server ein.` → `… richte den Journalyst-Server ein.` | wording-14 |
-| 15.20 | ruhepunkt.js:776 | `'Speichern hat nicht geklappt. Prüf deine Verbindung und versuch es noch einmal.'` → `'Speichern hat nicht geklappt. Prüfe deine Verbindung und versuche es noch einmal.'` | bereich_notebook_news-46 |
-| 15.21 | Kommentare js/coach.js:1 und voice.js:2 | „Mentor-Server“ → „Journalyst-Server“ (nur Kommentar, damit die grep-Prüfung 4.1 auf 0 kommt) | wording-14 |
-
-```
-
-## wording-S17.1 · Einstellungs-Reiter „Server“ und „Verlauf“ (Schlüssel und Routen bleiben)
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-14, wording-60
-Quelle: audit/spec/wording.md Z. 576–580 · Dateien: web/js/screens/misc.js
-Abhängig von: —
-
-```text
-### Schritt 17 · `web/js/screens/misc.js`, `web/js/theme.js`, `web/js/store.js` (Einstellungen)
-
-| # | Stelle | vorher → nachher | ids |
-|---|---|---|---|
-| 17.1 | misc.js:8 Reiter | `['mentor', 'Mentor', 'chat']` → `['mentor', 'Server', 'chat']`; `['logs', 'Logs', 'clock']` → `['logs', 'Verlauf', 'clock']` (Schlüssel und Routen bleiben) | wording-14, wording-60 |
-```
-
-## wording-S17.13-17.15 · Benachrichtigungen: „Recaps“, „Wochen-Recap“, „Monats-Recap“ mit neuen Auslöser-Sätzen
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-11, wording-12
-Quelle: audit/spec/wording.md Z. 592–594 · Dateien: web/js/screens/misc.js
-Abhängig von: —
-
-```text
-| 17.13 | misc.js:169 Recaps | `<h3 …>Performance-Recaps</h3><div class="small muted">Zusammenfassungen deiner Performance. Sie erscheinen als Hinweis oben auf dem Dashboard.</div>` → `<h3 …>Recaps</h3><div class="small muted">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div>` | wording-11 |
-| 17.14 | misc.js:170 | `switchRow('Wöchentlicher Performance-Recap', 'Jeden Montag eine Zusammenfassung deiner Trading-Performance der Vorwoche. Wird ausgelöst, wenn bis Sonntag mindestens 4 geschlossene Trades geloggt wurden.', …)` → `switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', …)` | wording-11, wording-12 |
-| 17.15 | misc.js:171 | `switchRow('Monatlicher Performance-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats. Wird ausgelöst, wenn bis zum 1. des Monats mindestens 4 geschlossene Trades geloggt wurden.', …)` → `switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', …)` | wording-11, wording-12 |
-```
-
-## wording-S17.16-17.18 · Konten/Trading: „Tagesverlustlimit“, Trading-Untertitel nennt die Blöcke, Blocktitel „Märkte“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-10, wording-26, wording-27
-Quelle: audit/spec/wording.md Z. 595–597 · Dateien: web/js/screens/misc.js
-Abhängig von: —
-
-```text
-| 17.16 | misc.js:186 Konten | `Die Kontogröße bestimmt Tageslimit, Score-Drawdown und Monte Carlo.` → `Die Kontogröße bestimmt Tagesverlustlimit, Score-Drawdown und Monte Carlo.` | wording-10 |
-| 17.17 | misc.js:192 | `head('Trading', 'Passe dein Trading-Erlebnis an.')` → `head('Trading', 'Märkte, Break-even-Bereich, Geld-blind-Modus, Risiko und Warnungen.')` | wording-26 |
-| 17.18 | misc.js:193 | `<h3>Was handelst du?</h3>` → `<h3>Märkte</h3>` | wording-27 |
-```
-
-## wording-S17.22 · Regeln-Untertitel verweist auf „Plan & Bewertung“
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-61
-Quelle: audit/spec/wording.md Z. 601–601 · Dateien: web/js/screens/misc.js
-Abhängig von: —
-
-```text
-| 17.22 | misc.js:207 Regeln | `'Deine Handelsregeln. Sie erscheinen im Trade-Editor, beim Session-Ende, im Fortschritt und im Regel-Tracker.'` → `'Deine Handelsregeln. Sie erscheinen in „Plan & Bewertung“ eines Trades, beim Session-Ende, im Fortschritt und im Regel-Tracker.'` | wording-61 |
-```
-
-## wording-S17.23-17.27 · Verlauf-Reiter: Unterreiter „Importe · Änderungen“, Leerzustände, Kopf; Sicherung-Dialog „Importieren“ mit Zähler
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-60, wording-22, zustaende-28
-Quelle: audit/spec/wording.md Z. 602–606 · Dateien: web/js/screens/misc.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 17.23 | misc.js:250 Unterreiter | `[['imports', 'Imports'], ['verlauf', 'Verlauf']]` → `[['imports', 'Importe'], ['verlauf', 'Änderungen']]` | wording-60 |
-| 17.24 | misc.js:255 | `<b>Noch keine Imports</b><span class="small">CSV-Importe und eingespielte Sicherungen erscheinen hier.</span>` → `<b>Noch keine Importe</b><span class="small">CSV-Importe und importierte Sicherungen erscheinen hier.</span>` | wording-60, wording-22 |
-| 17.25 | misc.js:260 | `<b>Noch kein Verlauf</b>` → `<b>Noch keine Änderungen</b>` | wording-60 |
-| 17.26 | misc.js:262 | `head('Logs', 'Import- und Änderungsverlauf deines Journals.')` → `head('Verlauf', 'Importe und Änderungen in deinem Journal.')` | wording-60 |
-| 17.27 | misc.js:365 Sicherung-Dialog | Knopf `>Einspielen</button>` → `>Importieren</button>`; Toast `` `Sicherung eingespielt (${r.trades} Trades)` `` → `` `Sicherung importiert (${U.count(r.trades, 'Trade', 'Trades')})` `` | wording-22, zustaende-28 |
-```
-
-## wording-S17.28 · Schrift-Beschreibungen in FONTS.desc
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: bereich_einstellungen-45
-Quelle: audit/spec/wording.md Z. 607–607 · Dateien: web/js/theme.js
-Abhängig von: —
-
-```text
-| 17.28 | theme.js:10–13 `FONTS.desc` | modern `'Standard: klar und modern, Zahlen in Onest'` → `'Satoshi · Zahlen in Onest'`; geschwungen `'Leicht und geschwungen, Zahlen in Onest'` → `'Quicksand · Zahlen in Onest'`; rund `'Weiche, runde Formen'` → `'Nunito · auch für Zahlen'`; klassisch `'Klar und neutral, Zahlen in Roboto'` → `'Systemschrift · Zahlen in Roboto'` | bereich_einstellungen-45 |
-```
-
-## wording-S17.29-17.30 · store.js: Willkommensnotiz „importieren“, Verlaufseinträge mit U.count (wenn root.UI geladen)
-
-Gruppe wording · Cluster wording · Aufwand S · Befunde: wording-22, zustaende-28
-Quelle: audit/spec/wording.md Z. 608–610 · Dateien: web/js/store.js
-Abhängig von: wording-S1.1-1.3
-
-```text
-| 17.29 | store.js:371 Willkommensnotiz | `… eine Sicherung exportieren und wieder einspielen.` → `… eine Sicherung exportieren und wieder importieren.` (wirkt nur für neue Notizen) | wording-22 |
-| 17.30 | store.js:134 / :281 Verlaufseinträge | `` `${e.file || ''} · ${e.count || 0} Trades` `` → `` `${e.file || ''} · ${U.count(e.count || 0, 'Trade', 'Trades')}` `` nur, wenn `root.UI` geladen ist, sonst wie bisher; ebenso :281 (`${g.trades.length} Trades`) | zustaende-28 |
-
-```
-
-## wording-S18.1 · Wörterbücher: geänderte Schlüssel nach Regel 1.5 umbenennen bzw. löschen (Schritte 1–17)
-
-Gruppe wording · Cluster wording · Aufwand L · Befunde: wording-3, wording-9, wording-6, bereich_shell-34, wording-44, wording-43, wording-39, wording-40, wording-25, wording-41, wording-36, wording-37, wording-33, bereich_konto-42, wording-55, bereich_notebook_news-27, bereich_notebook_news-28, wording-5, wording-11, wording-63, wording-24, bereich_konto-43
-Quelle: audit/spec/wording.md Z. 611–613 · Dateien: web/js/lang/en.js, web/js/lang/es.js, web/js/lang/hi.js, web/js/lang/pt.js, web/js/lang/zh.js
-Abhängig von: wording-S1.1-1.3, wording-S1.4-1.7, wording-S2.1, wording-S2.2-2.4, wording-S2.5-2.13, wording-S2.14, wording-S5.1-5.2, wording-S5.4-5.5, wording-S5.6-5.8, wording-S6.1-6.4, wording-S6.5-6.10, wording-S6.11-6.15, wording-S6.16-6.18, wording-S6.19-6.22, wording-S7.1-7.3, wording-S7.4-7.6, wording-S8.1-8.2, wording-S8.3-8.5, wording-S8.6-8.9, wording-S9.1-9.2, wording-S9.3-9.7, wording-S9.8-9.9, wording-S9.10-9.16, wording-S9.17, wording-S10.1-10.7, wording-S10.8-10.12, wording-S10.13-10.15, wording-S11.1-11.5, wording-S11.6-11.11, wording-S12.1-12.3, wording-S12.4-12.5, wording-S12.6-12.7, wording-S12.8-12.12, wording-S12.13-12.16, wording-S12.17-12.20, wording-S12.21-12.23, wording-S12.24-12.26, wording-S12.27, wording-S12.28-12.29, wording-S12.30, wording-S13.3-13.7, wording-S14.1-14.7, wording-S14.8-14.9, wording-S14.10-14.11, wording-S15.1-15.3, wording-S15.4-15.5, wording-S15.6-15.9, wording-S15.10-15.15, wording-S15.16-15.21, wording-S16.1-16.4, wording-S17.1, wording-S17.2-17.3, wording-S17.4-17.7, wording-S17.8-17.10, wording-S17.11-17.12, wording-S17.13-17.15, wording-S17.16-17.18, wording-S17.19-17.21, wording-S17.22, wording-S17.23-17.27, wording-S17.28, wording-S17.29-17.30
-
-```text
-### Schritt 18 · `web/js/lang/{en,es,hi,pt,zh}.js` und `web/e2e/i18n`
-
-1. Für jede Zeile der Schritte 1–17 mit geändertem deutschem Text Regel 1.5 anwenden. Bekannte umzubenennende Schlüssel (Auswahl, Zeilen in en.js): „Win-Rate“ (767), „Winrate“, „Ø Winrate“, „Ø Tages-Win-Rate“, „Ø Trade-Gewinn/Verlust“, „Netto P&L“ (760), „Profil vervollständigen“ (927), „{0} von {1} eingehalten“ (358), „% Regeln eingehalten“ (501), „Mit allen Regeln eingehalten“ (548), „Equity: echt vs. Schatten-Ich“ (551), „Mein Regelwerk“, „Stopp nach Verlusten in Folge“ (+ „: Verluste“), „P&L aktive Konten“ (613), „Bestanden, geplatzt oder archiviert“ (938, klein → groß), „noch {0} Stop-Losses“, „noch 1 Stop-Loss“, „{0} Puffer / {1} je Stop-Loss“, „Coach Mode einrichten“, „Rabatt-Codes für Prop Firms erscheinen hier.“ (1381), „Kürzlich gelöscht“, „Aufklappbare Liste“, „Check-in nachtragen“, „Wochen-Recap“, „Neuer Performance-Recap“, „Trade speichern“ (entfällt), „Standardfarben“ (entfällt), „{0} Notiz von euch“ (1325), „{0} Notizen von euch“ (1326), „Kurz-Stats nur in R und Prozent · ab {0}“.
-```
+- [reihenfolge: #content] P1 macht #content mit tabindex="-1" fokussierbar, P10 legt die Aktion skip-content an, H1 setzt den Sprunglink. Ohne P10 würde der Link mit href="#content" die Route wechseln, denn parseRoute fällt auf das Dashboard zurück. Ohne P1 bliebe c.focus() wirkungslos. Reihenfolge P1 → P10 → H1, oder alles in einem Commit. S-TE2 (dashtest) prüft nur Text in #content und hängt nicht davon ab.

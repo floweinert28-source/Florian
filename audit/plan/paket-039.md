@@ -1,125 +1,80 @@
-# Paket 039 · responsiv, dashboard
+# Paket 039 · trades_tag, komponenten, statistik
 
-Schritte: 10 · Dateien: web/README.md, web/css/app.css, web/e2e/mobiletest.js, web/e2e/rangetest.js, web/js/rangepicker.js
-Betroffene Tests laut Spezifikation: e2e/mobiletest.js:16, :40, :50, :85 (.dash-head .tl); e2e/rangetest.js:18; e2e/rangetest.js:18 (siehe E1d); web/e2e/dashtest.js:151; web/e2e/mobiletest.js:19-20 (müssen grün bleiben); web/e2e/mobiletest.js:72; web/e2e/mobiletest.js:72 (354 → 360, Schritt R2); web/e2e/settest.js:65 (kein Überlauf am Handy)
-Baut auf Paketen auf: 2, 4, 9, 12, 34, 38
+Schritte: 4 · Dateien: web/js/screens/day.js, web/js/screens/stats.js, web/js/screens/trades.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: web/e2e/mobiletest.js:34 (pad '9px 10px' → '9px 8px', Schritt responsiv-3.20a); web/e2e/tlfittest.js (Desktop unverändert)
+Baut auf Paketen auf: 7, 15, 19, 38
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## abstaende-S2 · README Z. 67: Dashboard-Raster 721–1240 zwei Spalten, darunter eine
+## responsiv-3.2b · Richtungs-Abzeichen: Text in span.bl (für Pfeil-only am Handy)
 
-Gruppe abstaende · Cluster dashboard · Aufwand S · Befunde: responsiv-10, responsiv-42
-Quelle: audit/spec/abstaende.md Z. 531–531 · Dateien: web/README.md
-Abhängig von: abstaende-C5, abstaende-C6
-
-```text
-| S2 | Z. 67 | „unten ein 3-Spalten-Raster“ → „unten ein 3-Spalten-Raster (721–1240 px zwei Spalten, darunter eine)“ | responsiv-10, responsiv-42 |
-```
-
-## abstaende-C7 · Handy-Block: ungerade letzte Kachel über volle Breite; .stat-tiles gap var(--sp-3); .stat-tile und .kstrip .tile padding var(--sp-4) var(--sp-3) (kstrip-Regel aus 960er- in 560er-Block)
-
-Gruppe abstaende · Cluster responsiv · Aufwand S · Befunde: responsiv-31, abstaende_layout-31
-Quelle: audit/spec/abstaende.md Z. 356–356 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
+Gruppe responsiv · Cluster komponenten · Aufwand S · Befunde: responsiv-4, responsiv-7, bereich_trades_tag-5
+Quelle: audit/spec/responsiv.md Z. 415–415 · Dateien: web/js/ui.js
+Abhängig von: responsiv-A1
 
 ```text
-| C7 | Handy-Block Z. 3025–3038 | Nach Z. 3026: `.dash-top > .w:last-child:nth-child(odd), .dash-top > .add-slot:last-child:nth-child(odd) { grid-column: span 2; }`. Z. 3036 `.stat-tiles { …; gap: 10px; }` → `gap: var(--sp-3)`. Z. 3037 `.stat-tile { padding: 14px; }` → `padding: var(--sp-4) var(--sp-3)`. Z. 2739 (960er-Block Prop) `.kstrip .tile { padding: 14px 16px; }` → in den 560er-Block verschieben als `.kstrip .tile { padding: var(--sp-4) var(--sp-3); }` | responsiv-31, abstaende_layout-31 |
+- Z. 175 `badge`: `…</i>${dir > 0 ? 'LONG' : 'SHORT'}</span>` → `…</i><span class="bl">${dir > 0 ? 'LONG' : 'SHORT'}</span></span>` (responsiv-4, responsiv-7, bereich_trades_tag-5)
 ```
 
-## abstaende-D9 · Einstellungen am Handy (560er-Block): .set-item einspaltig, .set-block .form-grid einspaltig, .be-grid Einheit oben + Von|Bis, Einheitenfelder volle Breite
+## responsiv-3.9b · Statistik: Tage- und Gruppentabellen mit Kernspalten am Handy
 
-Gruppe abstaende · Cluster responsiv · Aufwand S · Befunde: bereich_einstellungen-13, bereich_einstellungen-27, bereich_einstellungen-25, responsiv-45
-Quelle: audit/spec/abstaende.md Z. 376–376 · Dateien: web/css/app.css
-Abhängig von: abstaende-B26, abstaende-B27
+Gruppe responsiv · Cluster statistik · Aufwand M · Befunde: responsiv-5, bereich_statistik-20
+Quelle: audit/spec/responsiv.md Z. 500–502 · Dateien: web/js/screens/stats.js
+Abhängig von: responsiv-A1, responsiv-3.2a
 
 ```text
-| D9 | Einstellungen Handy (560er-Block) | Neu: `.set-item { grid-template-columns: 1fr; } .set-block .form-grid { grid-template-columns: 1fr; } .be-grid { grid-template-columns: 1fr 1fr; } .be-grid > .field:first-child { grid-column: 1 / -1; } .set-block .input-unit .input { width: 100%; }` | bereich_einstellungen-13, -27, -25, responsiv-45 |
+- Z. 32 tabDays: `<table class="tbl compact">` → `<table class="tbl compact ph-fit">`; `th` und `td` von Gewinner, Verlierer, Brutto, Gebühren, Drawdown bekommen zusätzlich `ph-hide` (`class="r ph-hide"`, bei Gewinner/Verlierer `class="r pos ph-hide"` / `class="r neg ph-hide"`, Drawdown `class="r neg ph-hide"`); Tageszelle `<td>${fmt.weekdayLong(d.day)}</td>` → `<td><span class="ph-hide">${fmt.weekdayLong(d.day)}</span><span class="ph-only">${fmt.weekdayShort(d.day)}</span></td>`
+- Z. 34 groupTable: `<table class="tbl compact">` → `<table class="tbl compact ph-fit">`; `th`/`td` von „Ø pro Trade“, „Ø R“, „Profit-Faktor“ → `class="r ph-hide"`; erste `td` → `<td class="ph-wrap">`.
+
 ```
 
-## abstaende-D10 · Handy-Kartenhöhe „Letzte Trades“: calc(280px + 74px) → calc(280px + 80px)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe abstaende · Cluster responsiv · Aufwand S · Befunde: abstaende_layout-31
-Quelle: audit/spec/abstaende.md Z. 377–378 · Dateien: web/css/app.css
-Abhängig von: abstaende-B1, abstaende-B4
+- [konflikt: fmt.weekdayLong] Ein Formatierer und eine Zellform auf allen Breiten. Statistik → Tage zeigt das Datum überall als „Do., 08.10.“, über eine Jahresgrenze „Do., 08.10.25“. Es kommt aus fmt.weekdayDM(d, withYear) (typografie-3.4d), die Zelle steht in Onest (class="num"). Endzustand der Tageszelle in stats.js Z. 32: `<td class="num"><a class="row-link" href="#/day/${d.key}">${fmt.weekdayDM(d.day, multiYear)}</a></td>`, multiYear aus typografie-3.8e. Grund: Die Kurzform passt schon bei 390 px. Eine zweite Handy-Variante (ph-hide/ph-only) und ein zweiter Formatierer mit gleicher Ausgabe (fmt.weekdayShort) wären doppelt, und die Typografie-Regel legt die Tagestabelle auf „Do., 08.10.“ fest. Die übrigen Handy-Maßnahmen aus responsiv-3.9b bleiben: ph-fit, ph-hide an Gewinner, Verlierer, Brutto, Gebühren und Drawdown sowie die Änderungen an groupTable.
+- ÄNDERN: Die Tageszelle nicht in `<span class="ph-hide">…</span><span class="ph-only">…</span>` aufteilen. Sie bleibt so, wie typografie-3.8e und barrierefreiheit-C-stats-32 sie setzen. Nur umsetzen: Klasse ph-fit an der Tabelle, ph-hide an th/td von Gewinner, Verlierer, Brutto, Gebühren und Drawdown sowie die groupTable-Änderungen (Z. 34).
+
+## responsiv-3.7 · TradeLog: Kernspalten am Handy (PH), Filterzeile tl-filters/tl-count, Setup-Chip mit Tooltip
+
+Gruppe responsiv · Cluster trades_tag · Aufwand M · Befunde: responsiv-4, bereich_trades_tag-5, zustaende-30, zustaende-31, responsiv-3
+Quelle: audit/spec/responsiv.md Z. 477–489 · Dateien: web/js/screens/trades.js
+Abhängig von: responsiv-A1, responsiv-C2, responsiv-3.2b, responsiv-3.2c, responsiv-B5c
 
 ```text
-| D10 | Mobile-Kartenhöhe „Letzte Trades“ Z. 1780 | `height: calc(280px + 74px)` → `height: calc(280px + 80px)` (Kopf 21,75 + 16 + Polster 40 + Rand 2). Kommentar bleibt. | abstaende_layout-31 (Folge) |
+### 3.7 web/js/screens/trades.js (responsiv-4, bereich_trades_tag-5, zustaende-30, zustaende-31, responsiv-3)
+
+- Nach Z. 8 neu: `const PH = ['openedAt', 'symbol', 'direction', 'pnl']; /* am Handy sichtbare Spalten */`
+- Z. 39 `<div class="row" style="gap:8px">` → `<div class="row tl-filters" style="gap:8px">`
+- Z. 44 `<span class="muted small" style="margin-left:auto">` → `<span class="muted small tl-count">`
+- Z. 46 `th`: `class="sortable ${al || ''}"` → `class="sortable ${al || ''}${PH.includes(k) ? '' : ' ph-hide'}"`
+- Z. 49 Zeilen:
+  - `<td>${fmt.dateFull(t.open)} <span class="muted">${fmt.time(t.open)}</span></td>` → `<td><span class="ph-hide">${fmt.dateFull(t.open)}</span><span class="ph-only">${fmt.dateDM(t.open)}</span> <span class="muted">${fmt.time(t.open)}</span></td>`
+  - Status-`td` → `<td class="ph-hide">`, Geschlossen-`td` → `<td class="ph-hide">`, Einstieg/Ausstieg/RR/Regeln/Score-`td` → `class="r ph-hide"`, Setup-`td` → `<td class="ph-hide">`
+  - `U.chip(t.setup, 'setup')` → `U.chip(t.setup, 'setup', t.setup.length > 20 ? t.setup : '')`
+- Z. 50 `<table class="tbl">` → `<table class="tbl ph-fit">`
+- Z. 59 (Verpasste Trades) `U.chip(x.setup, 'setup')` → `U.chip(x.setup, 'setup', x.setup.length > 20 ? x.setup : '')`
 
 ```
 
-## abstaende-R2 · mobiletest: Kartenhöhe „Letzte Trades“ 354 → 360 (Wert und Text)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe abstaende · Cluster responsiv · Aufwand S · Befunde: abstaende_layout-31
-Quelle: audit/spec/abstaende.md Z. 521–521 · Dateien: web/e2e/mobiletest.js
-Abhängig von: abstaende-D10
+- [reihenfolge: U.chip] 3.2c erweitert U.chip um den Parameter tip, und 3.7 und 3.8 rufen ihn auf. Deshalb kommt 3.2c zuerst. S-T4 und 3.7 ändern dieselbe Stelle trades.js:59; die Endform ist x.setup ? U.chip(x.setup, 'setup', x.setup.length > 20 ? x.setup : '') : '<span class="faint">—</span>'. In trades.js:49 ergänzen sich die ph-hide-Klassen aus 3.7 und „—“ in .faint für Geschlossen und Ausstieg aus S-T4. typografie-3.8l (join(' ') im Friedhof) hängt davon nicht ab.
+
+## responsiv-3.8 · Trades des Tages: Kernspalten am Handy, day-tbl statt Inline-Mindestbreite
+
+Gruppe responsiv · Cluster trades_tag · Aufwand S · Befunde: responsiv-7, bereich_trades_tag-5, zustaende-31
+Quelle: audit/spec/responsiv.md Z. 490–496 · Dateien: web/js/screens/day.js
+Abhängig von: responsiv-A1, responsiv-B5a, responsiv-3.2b, responsiv-3.2c
 
 ```text
-| R2 | `web/e2e/mobiletest.js:72` | `dd.cardH === 354` → `dd.cardH === 360`, Text „(354px)“ → „(360px)“ | abstaende_layout-31 (Folge) |
-```
+### 3.8 web/js/screens/day.js:15 (responsiv-7, bereich_trades_tag-5, zustaende-31)
 
-## abstaende-S3 · README Z. 73: Handy-Kacheln (ungerade letzte voll, Tablet 3 + 2 ohne Karussell)
-
-Gruppe abstaende · Cluster responsiv · Aufwand S · Befunde: responsiv-31, responsiv-42
-Quelle: audit/spec/abstaende.md Z. 532–532 · Dateien: web/README.md
-Abhängig von: abstaende-C6, abstaende-C7
-
-```text
-| S3 | Z. 73 | nach „Handy: Kacheln in zwei Spalten“ ergänzen: „(eine ungerade letzte Kachel über die volle Breite; Tablet 3 + 2 ohne Karussell)“ | responsiv-31, responsiv-42 |
-```
-
-## komponenten-C35 · Runder „Trade loggen“-Knopf am Handy mit neutralem Schatten
-
-Gruppe komponenten · Cluster responsiv · Aufwand S · Befunde: responsiv-17
-Quelle: audit/spec/komponenten.md Z. 478–488 · Dateien: web/css/app.css
-Abhängig von: komponenten-C08
-
-```text
-**C35 – Runder „Trade loggen“-Knopf am Handy** (responsiv-17)
-- Z. 3019 `.dash-head .tl { … background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: 0 14px 30px -8px var(--accent-glow), 0 6px 18px rgba(0, 0, 0, .35); }` → `background`, `color`, `border-color` und `box-shadow` streichen (Lage, 54×54, Radius bleiben).
-- Z. 3020 (`.dash-head .tl:hover { background: var(--accent); }`) löschen.
-- Ans Dateiende (hinter Z. 3144) neu:
-```css
-@media (max-width: 560px) {
-  .dash-head .btn.accent.tl { width: 54px; height: 54px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04), 0 6px 18px rgba(0, 0, 0, .35); }
-  :root[data-theme="light"] .dash-head .btn.accent.tl { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 16px rgba(0, 0, 0, .14); }
-}
-```
+- `<table class="tbl compact" style="min-width:560px">` → `<table class="tbl compact day-tbl ph-fit">`
+- Kopf: `<th>Setup</th><th>Status</th>` → `<th class="ph-hide">Setup</th><th class="ph-hide">Status</th>`; `<th class="r">R</th><th class="r">Score</th>` → `<th class="r ph-hide">R</th><th class="r ph-hide">Score</th>`
+- Zeit: `${t.close ? \` – ${fmt.time(t.close)}\` : ''}` → `${t.close ? \`<span class="ph-hide"> – ${fmt.time(t.close)}</span>\` : ''}`
+- Setup-`td` → `<td class="ph-hide">`, Chip mit `U.chip(t.setup, 'setup', t.setup.length > 20 ? t.setup : '')`; Status-`td` → `<td class="ph-hide">`; R- und Score-`td` → `class="r ph-hide"`.
 
 ```
 
-## komponenten-D2 · rangepicker.js: einzelner Monat zeigt das Zeitraumende (oneMonth)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe komponenten · Cluster responsiv · Aufwand S · Befunde: responsiv-23
-Quelle: audit/spec/komponenten.md Z. 613–616 · Dateien: web/js/rangepicker.js
-Abhängig von: —
-
-```text
-**D2 – rangepicker.js: einzelner Monat zeigt das Zeitraumende** (responsiv-23)
-- Neu am Modulanfang: `const oneMonth = () => !!(window.matchMedia && matchMedia('(max-width: 700px), (min-width: 961px) and (max-width: 1000px)').matches);`
-- In `pick()` (Z. 59) und im `else`-Zweig von `reset()` (Z. 29): wenn `oneMonth()`, dann `const e = parse(st.to) || now; st.view = { y: e.getFullYear(), m: e.getMonth() };`, sonst wie bisher den Vormonat. Gespeicherte eigene Zeiträume zeigen weiter den Startmonat. CSS Z. 223 und 386 bleiben.
-
-```
-
-## komponenten-E1d · e2e rangetest.js: nur den sichtbaren Vormonat-Pfeil klicken
-
-Gruppe komponenten · Cluster responsiv · Aufwand S · Befunde: responsiv-23
-Quelle: audit/spec/komponenten.md Z. 760–760 · Dateien: web/e2e/rangetest.js
-Abhängig von: komponenten-D2
-
-```text
-- rangetest.js:18: `'#pop-range [data-rr="prev"]'` → `'#pop-range [data-rr="prev"]:visible'`.
-```
-
-## aufbau-B2 · Handy: Kopfreihe nur mit rundem Knopf ohne Höhe
-
-Gruppe aufbau · Cluster responsiv · Aufwand S · Befunde: bereich_konto-37, responsiv-19
-Quelle: audit/spec/aufbau.md Z. 317–321 · Dateien: web/css/app.css
-Abhängig von: aufbau-B1
-
-```text
-**B2 Kopfreihe am Handy ohne leeren Streifen** (`web/css/app.css`, Block ab Z. 2978, direkt nach Z. 3002 `.dash-head .dh-sep { display: none; }`) · bereich_konto-37, responsiv-19
-```css
-.page-head:not(:has(> .dh-context)):has(> .dh-tools > .tl:only-child) { min-height: 0; padding-bottom: 0; }
-```
-
-```
+- [reihenfolge: U.chip] 3.2c erweitert U.chip um den Parameter tip, und 3.7 und 3.8 rufen ihn auf. Deshalb kommt 3.2c zuerst. S-T4 und 3.7 ändern dieselbe Stelle trades.js:59; die Endform ist x.setup ? U.chip(x.setup, 'setup', x.setup.length > 20 ? x.setup : '') : '<span class="faint">—</span>'. In trades.js:49 ergänzen sich die ph-hide-Klassen aus 3.7 und „—“ in .faint für Geschlossen und Ausstieg aus S-T4. typografie-3.8l (join(' ') im Friedhof) hängt davon nicht ab.

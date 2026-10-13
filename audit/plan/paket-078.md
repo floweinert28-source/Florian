@@ -1,157 +1,47 @@
-# Paket 078 · bewegung, wording
+# Paket 078 · zustaende
 
-Schritte: 12 · Dateien: web/README.md, web/css/app.css, web/e2e/motiontest.js, web/js/app.js, web/js/motion.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: web/e2e/motiontest.js nach Z. 28 (neu); web/e2e/motiontest.js nach Z. 28 neu (Schritt bewegung-3.11b); web/e2e/motiontest.js:43-47, :58
-Baut auf Paketen auf: 3, 7, 10, 15, 21, 24, 40, 42, 43, 44, 76
+Schritte: 2 · Dateien: web/app.html, web/css/app.css
+Betroffene Tests laut Spezifikation: web/e2e/loadtest.js:10-11; web/e2e/loadtest.js:10-11 (Skelett: 5 Kacheln, 3 Karten, topH ≥ 60)
+Baut auf Paketen auf: 5, 39, 77
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## responsiv-3.19 · README an den Zielzustand anpassen
+## responsiv-B11 · Skelett am Handy: Maße der fertigen Seite (Titelzeile, Kopfreihe, 5 Kacheln, Karte)
 
-Gruppe responsiv · Cluster wording · Aufwand S · Befunde: —
-Quelle: audit/spec/responsiv.md Z. 554–566 · Dateien: web/README.md
-Abhängig von: responsiv-B1, responsiv-3.3a, responsiv-B6a, responsiv-3.4, responsiv-B4, responsiv-A1, responsiv-A3, responsiv-B9, responsiv-3.13, responsiv-B10, responsiv-B6c, responsiv-B5d, responsiv-B8, responsiv-3.3d
-
-```text
-### 3.19 web/README.md
-
-- Z. 51: „Auf niedrigen Bildschirmen etwas dichter.“ → „Auf niedrigen Bildschirmen etwas dichter; die Konto-Karte klebt unten, die Navigation scrollt darunter.“
-- Z. 62–64: „…auf dem Handy in der Kopfreihe)“ → „…auf dem Handy in der Kopfreihe; der Konto-Knopf erscheint unter 961px nur bei mehr als einem Konto, am Handy als Symbol)“.
-- Z. 67: „unten ein 3-Spalten-Raster“ → „unten ein 3-Spalten-Raster (961–1240px: zwei Spalten, oben fünf Kacheln als 3 + 2)“.
-- Z. 76–77: „(Handy: einer)“ → „(Handy: einer; bei einer Vorgabe der aktuelle Monat)“; „auf dem Handy volle Breite“ → „auf dem Handy wie alle Menüs der Kopfreihe volle Breite mit 16px Rand“.
-- Z. 92: „Tabellen kompakt ohne Zeilenumbruch“ → „Tabellen nur mit Kernspalten (Name/Datum, Kernwert, Aktionen; Nebeninfos in einer Unterzeile), kein seitliches Scrollen; Eingabefelder 16px; Dialoge gleiten von unten herein“.
-- Z. 96: „„Teilen“ nur ab 561px“ → „„Teilen“ ab 561px in der Reihe, darunter im •••-Menü“; Werkzeugleiste: „Formatierung zuerst, Rückgängig/Wiederholen/Größe am Ende“.
-- Z. 101: „Ab 961px bleibt alles wie gehabt“ → „Ab 961px gelten die Desktop-Regeln (961–1240px: Dashboard zweispaltig, Kachelreihen 4 bzw. 3 + 2)“.
-- Z. 106–107: nach „die Seite selbst scrollt nicht.“ ergänzen: „Ist das Fenster für drei Tabellenzeilen zu niedrig, scrollt die Seite. Unter 961px scrollt die Tabelle mit der Seite (keine eigene Box).“
-- Z. 120: „drei Spalten (Ordner und Tags, Notizliste, Notiz)“ → „drei Spalten (…); bei schmalem Inhalt (unter 1000px) Liste und Notiz, die Ordner über „Zurück“, unter 700px eine Spalte“.
-- Z. 361: „Waagerechte Reiterleisten haben keinen sichtbaren Scrollbalken.“ → „… keinen sichtbaren Scrollbalken; am Rand, hinter dem es weitergeht, laufen sie weich aus (`App.edgeFade`).“
-
-```
-
-## responsiv-3.2d · closeModal am Handy mit --dur-2 (Bottom-Sheet gleitet hinaus)
-
-Gruppe responsiv · Cluster bewegung · Aufwand S · Befunde: bewegung-29
-Quelle: audit/spec/responsiv.md Z. 417–418 · Dateien: web/js/ui.js
-Abhängig von: responsiv-B9
-
-```text
-- Z. 441 `closeModal`: `Mo.leave(bg, 'out', '--dur-1', () => bg.remove())` → `Mo.leave(bg, 'out', window.matchMedia('(max-width: 560px)').matches ? '--dur-2' : '--dur-1', () => bg.remove())` (bewegung-29)
-
-```
-
-## bewegung-A2 · Kommentar im Bewegungsblock: Abschalten über --dur-1 bis --dur-4 und --stagger
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: bewegung-34
-Quelle: audit/spec/bewegung.md Z. 165–166 · Dateien: web/css/app.css
-Abhängig von: bewegung-A1
-
-```text
-**A2 Kommentar Bewegungsblock Z. 2367–2368** (bewegung-34): `Abschalten: --dur-1/2/3 auf 0ms setzen …` → `Abschalten: --dur-1 bis --dur-4 und --stagger auf 0ms setzen …`
-
-```
-
-## bewegung-B7 · Reiterwechsel: swap-in auf --dur-1 --ease
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: bewegung-34, bewegung-33
-Quelle: audit/spec/bewegung.md Z. 210–211 · Dateien: web/css/app.css
+Gruppe responsiv · Cluster zustaende · Aufwand M · Befunde: bereich_shell-5
+Quelle: audit/spec/responsiv.md Z. 372–380 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**B7 Reiterwechsel** (bewegung-34, bewegung-33): Z. 117 `animation: swap-in .16s ease-out both;` → `animation: swap-in var(--dur-1) var(--ease) both;`
+**B11 Skelett am Handy** (bereich_shell-5)
+- Nach Z. 1539 global: `.boot-top .skel.mb, .boot-head .skel.m { display: none; }`
+- Z. 1554 (Block ≤ 960 px) ersetzen:
+  - `.boot-top { padding: 12px 16px; }` → `.boot-top { min-height: 60px; padding: 10px 16px; }`
+  - `.boot-top .skel:not(.t):not(.av) { display: none; }` → `.boot-top .skel:not(.t):not(.av):not(.mb) { display: none; } .boot-top .skel.mb { display: block; width: 20px; height: 20px; border-radius: 6px; margin-right: 7px; } .boot-top .skel.av { width: 34px; height: 34px; }` (Titel-Platzhalter bei x = 16 + 20 + 7 + 8 = 51 wie der echte Titel nach A4)
+  - `.boot-head { display: none; }` → `.boot-head { display: flex; justify-content: flex-start; min-height: 46px; } .boot-head .skel { width: 40px; height: 40px; } .boot-head .skel.tl { order: -1; width: 166px; height: 42px; margin-left: 0; } .boot-head .skel.m { display: block; }`
+  - `.boot-tiles .skel { height: 96px; }` → `.boot-tiles .skel { height: 111px; } .boot-tiles .skel:nth-child(n + 4) { display: block; } .boot-tiles .skel:nth-child(5) { grid-column: 1 / -1; }`
+  - `.boot-main .skel { height: 260px; }` → `.boot-main .skel { height: 339px; }`
 
 ```
 
-## bewegung-B10 · Reinscroll-Staffel aus --stagger, .rv im Druck sichtbar
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: bereich_dashboard-12, bewegung-34
-Quelle: audit/spec/bewegung.md Z. 223–226 · Dateien: web/css/app.css
-Abhängig von: bewegung-A1
+- [reihenfolge: .boot-tiles .skel] S-C19 (globale Regel, Desktop) und B11 (Block ≤ 960 px) ergänzen sich. Beide Zahlen sind aber gemessene Ist-Werte von heute und werden durch andere Gruppen ungültig. abstaende-B7/B9 machen die Dashboard-Kachel 131 → 144 px hoch. Mit typografie (Wert 25 → 24 px, Kopfzeile 18 px) werden es etwa 142 px. Am Handy kommen +4 (Körper-Polster 8 → 12) und +1 (gap) dazu, Kachelwert 21 → 20 und Kopf-Zeilenhöhe ziehen ab. Verbindlich: Beide Skelett-Höhen sind die gemessene Höhe der fertigen Dashboard-Kachel nach allen Kachel-Schritten, nicht 131 bzw. 111. Desktop gemessen bei 1440×900, Handy bei 390×844, Beispieldaten, dunkel. Prüfung zustaende 21 wird zu „Kacheln y = 158 / h = gemessen, Karten y = 158 + h + 16 / h = 396 (±2)“. Prüfung responsiv 13 vergleicht Kacheln und Karte mit der fertigen Seite (±2) statt mit festen 111/339. Ändert sich die Kachel durch die offene kilook-Frage ki_look-10 (Linie im Kachelkopf, N1), neu messen. Hinweis: Die Mittelstufe des Skeletts (≤ 1180 px, 3 Kacheln) bleibt laut S-C19 unverändert. Sie weicht von der fertigen Seite ab (5 Kacheln als 3+2) und wird nachgezogen, sobald das Kachelraster 561–1240 entschieden ist.
+- ÄNDERN: `.boot-tiles .skel { height: <gemessen> }` statt 111 px: Höhe der fertigen Kachel bei 390×844 nach abstaende-B7/B9 und Kachelwert 20 px. Rest von B11 (nth-child(n + 4) sichtbar, fünfte volle Breite) unverändert. Prüfung 13 gegen die fertige Seite ±2.
+- [reihenfolge: .boot-head .skel] Die beiden Schritte ergänzen sich: S-C19 setzt die globale Regel, B11 überschreibt im Block ≤ 960 px. Die Symbol-Platzhalter haben die Maße der fertigen Knöpfe. Am Desktop sind das 42 × 42, weil komponenten-C08 `.btn.icon-only` (Vorlage, Zertifikat) auf 42 × 42 setzt. Also `.boot-head .skel { border: 0; border-radius: 9px; height: 42px; width: 42px; }` statt width 40; Kopfreihe min-height 46 bleibt (42 + 4). Am Handy bleiben die B11-Werte (40 × 40, Zeitraum 166 × 42) und werden nach komponenten-C08 und dem 40-px-Kontoknopf aus responsiv gegen die fertige Kopfreihe gemessen (±2).
+- [reihenfolge: .boot-main .skel] Die Schritte ergänzen sich. Desktop 396 px (S-C19) ist richtig, denn `--card-h` bleibt 396 (abstaende). Am Handy ist die erste Karte height:auto. abstaende-B4 (Kartenkopf 14 → 16 px Abstand, Kopf mittig) und D10 ändern die fertige Höhe, daher gilt dort nicht die feste 339 aus B11, sondern die gemessene Höhe der ersten Dashboard-Karte bei 390×844 nach B4/D10 (erwartet etwa 341). Prüfung responsiv 13 vergleicht mit der fertigen Seite (±2).
+- ÄNDERN: `.boot-main .skel { height: <gemessen> }` statt 339 px: Höhe der ersten fertigen Dashboard-Karte bei 390×844 nach abstaende-B4 und abstaende-D10.
 
-```text
-**B10 Einblenden beim Reinscrollen und Druck** (bereich_dashboard-12, bewegung-34)
-- Z. 2370 `transition-delay: calc(var(--i, 0) * 40ms);` → `transition-delay: calc(var(--i, 0) * var(--stagger));`
-- Im Block `@media print { … }` (Z. 1192–1200) vor der schließenden Klammer neu: `.js-motion .rv { opacity: 1 !important; transform: none !important; transition: none !important; }`
+## responsiv-3.17 · Skelett im HTML: Platzhalter für Menüknopf (skel mb) und viertes Kopfreihen-Symbol (skel m)
 
-```
-
-## bewegung-B11 · Weniger Bewegung: Lade-Ring .spin dreht weiter (2,4 s)
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: barrierefreiheit-44
-Quelle: audit/spec/bewegung.md Z. 227–228 · Dateien: web/css/app.css
-Abhängig von: —
+Gruppe responsiv · Cluster zustaende · Aufwand S · Befunde: bereich_shell-5
+Quelle: audit/spec/responsiv.md Z. 545–549 · Dateien: web/app.html
+Abhängig von: responsiv-B11
 
 ```text
-**B11 Weniger Bewegung: Lade-Ring** (barrierefreiheit-44): Z. 1559 `.spin { animation-duration: 2.4s; }` → `.spin { animation: spin-turn 2.4s linear infinite !important; }` (Spezifität 0,1,0 schlägt `*` aus Z. 97).
+### 3.17 web/app.html:21 (bereich_shell-5)
 
-```
+- `<div class="boot-top"><span class="skel t"></span>…` → `<div class="boot-top"><span class="skel mb"></span><span class="skel t"></span>…`
+- `<div class="boot-head"><span class="skel"></span><span class="skel"></span><span class="skel tl"></span></div>` → `…<span class="skel tl"></span><span class="skel m"></span></div>`
 
-## bewegung-B12 · Lade-Kurven (.skel, .ld, Tipp-Punkte) auf --ease-sym
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: bewegung-33
-Quelle: audit/spec/bewegung.md Z. 229–233 · Dateien: web/css/app.css
-Abhängig von: bewegung-A1
-
-```text
-**B12 Lade-Kurven** (bewegung-33)
-- Z. 1518 `animation: skel-sheen 1.8s cubic-bezier(.45, 0, .25, 1) infinite;` → `animation: skel-sheen 1.8s var(--ease-sym) infinite;`
-- Z. 1527 `animation: ld-run 1.5s cubic-bezier(.65, 0, .35, 1) infinite;` → `animation: ld-run 1.5s var(--ease-sym) infinite;`
-- Z. 2356 `animation: mentor-dot 1.4s infinite cubic-bezier(.45, 0, .55, 1);` → `animation: mentor-dot 1.4s infinite var(--ease-sym);`
-
-```
-
-## bewegung-3.4 · motion.js: Reinscroll-Staffel aus --stagger statt STEP
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: bewegung-34
-Quelle: audit/spec/bewegung.md Z. 307–311 · Dateien: web/js/motion.js
-Abhängig von: bewegung-A1
-
-```text
-### 3.4 `web/js/motion.js` (bewegung-34)
-- Z. 2 Kommentar `--dur-1/2/3 und --ease` → `--dur-1 bis --dur-4, --stagger und --ease`
-- Z. 21 `var STEP = 40; /* … */` löschen.
-- Z. 33 `ms('--dur-3') + Math.min(k, MAX_I) * STEP + 80` → `ms('--dur-3') + Math.min(k, MAX_I) * ms('--stagger') + 80`. Kein Rückfallwert, damit 0 ms wirklich abschaltet.
-
-```
-
-## bewegung-3.5a · App.render: M.scan nur beim echten Seitenwechsel, Kommentare Z. 75 und 98–99 anpassen
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: bereich_dashboard-12, bewegung-3
-Quelle: audit/spec/bewegung.md Z. 312–314 · Dateien: web/js/app.js
-Abhängig von: —
-
-```text
-### 3.5 `web/js/app.js`
-- **Z. 103** (bereich_dashboard-12, bewegung-3): `M.scan(main.querySelector('#content'), false);` → `if (anim) M.scan(main.querySelector('#content'), false); /* nur beim echten Seitenwechsel; ein Neuaufbau bereitet nichts erneut vor */`
-- Kommentar Z. 75 `Neuaufbau nach Eingaben: nur, was noch unter dem Fenster liegt` → `Neuaufbau nach Eingaben: nichts blendet ein`. Kommentar Z. 98–99 entsprechend: „nur was beim Seitenwechsel unter dem Fenster liegt, blendet beim Reinscrollen ein“.
-```
-
-## bewegung-3.11b · motiontest: neuer Test „Neuaufbau bereitet nichts erneut vor“
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: bewegung-3
-Quelle: audit/spec/bewegung.md Z. 345–345 · Dateien: web/e2e/motiontest.js
-Abhängig von: bewegung-3.5a
-
-```text
-- **motiontest.js** nach Z. 28 neu (bewegung-3): Fortschritt öffnen, 900 ms warten, `App.rerender()`, dann `ok('Neuaufbau bereitet nichts erneut vor', document.querySelectorAll('#content .rv').length === 0)`.
-```
-
-## bewegung-3.12a · README „Bewegung und Übergänge“ Z. 329–331: Skala, Hover-Regel, Ebenen und Reinscrollen neu beschreiben
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: —
-Quelle: audit/spec/bewegung.md Z. 349–350 · Dateien: web/README.md
-Abhängig von: bewegung-A1, bewegung-B1, bewegung-B3, bewegung-B4a, bewegung-B5, bewegung-3.5a, bewegung-3.5b, bewegung-3.7b, bewegung-3.8b
-
-```text
-### 3.12 `web/README.md`
-- **Z. 329–331** ersetzen durch: „Alle Animationen laufen über eine gemeinsame Skala in `css/app.css`: `--dur-1` 150 ms (Hover, Schließen, kleine Wechsel), `--dur-2` 240 ms (Zustandswechsel, Seitenüberblendung), `--dur-3` 380 ms (größere Flächen), `--dur-4` 640 ms (nur Einzug von Diagrammen, Score-Skala und Ringen beim Seitenwechsel), `--stagger` 40 ms (Staffel); Kurven `--ease` (auslaufend), `--ease-in` (Schließen), `--ease-io` (Schieber), `--ease-sym` (Schleifen und Atemtakt). Beim Darüberfahren bewegt sich nichts (kein Anheben, Verschieben oder Vergrößern), Rückmeldung nur über Rand, Fläche, Schriftfarbe oder einen feinen Umriss; nur Knöpfe geben beim Drücken nach. `js/motion.js` blendet beim Seitenwechsel Karten und Abschnitte, die unter dem Fenster liegen, beim Reinscrollen ein (einmalig, gestaffelt; nach einem Neuaufbau oder Reiterwechsel nicht erneut; im Druck ist alles sichtbar), kapselt den Seitenwechsel in eine View Transition und blendet Dialoge, Popover, Filter-Fenster, Symbol-Liste, Seitenpanel und Toasts aus, bevor sie entfernt werden. Menüs unter einem Knopf klappen von ihm herab auf, nach oben öffnende Menüs steigen auf.“
-```
-
-## bewegung-3.12b · README Z. 342–343: weniger Bewegung (Ring dreht weiter) und Abschalten über --dur-1 bis --dur-4 und --stagger
-
-Gruppe bewegung · Cluster bewegung · Aufwand S · Befunde: —
-Quelle: audit/spec/bewegung.md Z. 351–351 · Dateien: web/README.md
-Abhängig von: bewegung-A1, bewegung-B11
-
-```text
-- **Z. 342–343** ersetzen durch: „Bei ‚weniger Bewegung‘ im System (`prefers-reduced-motion`) ist alles aus, nur der feine Ring in Knöpfen dreht langsam weiter (2,4 s je Umdrehung), damit ‚Wird erstellt …‘ nicht hängend wirkt. Abschalten: `--dur-1` bis `--dur-4` und `--stagger` auf `0ms` setzen oder `js/motion.js` nicht einbinden; ohne das Skript bleibt alles sofort sichtbar. Eigene Zeiten behalten nur der Ruhepunkt-Raum, Endlos-Animationen (Lade-Glanz, Kurslinie, Serie, Kerzen, Tipp-Punkte), das Start-Skelett und die Drehung des Grabsteins.“
 ```

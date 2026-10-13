@@ -1,288 +1,231 @@
-# Paket 034 · einstellungen
+# Paket 034 · einstellungen, tokens
 
-Schritte: 26 · Dateien: web/css/app.css, web/js/screens/misc.js, web/js/theme.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 settings_design; Akzeptanz 4.3 settings_design (Sprachkarte 14/600); Akzeptanz 4.3 settings_logs; Akzeptanz 4.3 settings_profil („Alles löschen“ bleibt rot), settings_benachrichtigungen/coach (Schalter-Titel 14/500 gleich); Akzeptanz 4.3 settings_profil („Daten und Sicherung“ 15/600); Akzeptanz 4.3 settings_profil („Profil“ 18/600 kleiner als „Einstellungen“ 21/600); Akzeptanz 4.3 settings_profil/settings_trading/settings_sprache (≤ 68ch, „Entfernen“ rechts); Akzeptanz 4.3 settings_sprache; web/e2e/coachtest.js; web/e2e/colorpickertest.js (prüfen); web/e2e/colorpickertest.js:102 (.design-grid, prüfen); web/e2e/colorpickertest.js:67/71 (is-new bleibt); web/e2e/langtest.js; web/e2e/langtest.js:33 (.lang-card ohne Überlauf); web/e2e/sampletest.js:118 (Text bleibt unverändert); web/e2e/settest.js:26 (be-reset bleibt); web/e2e/settest.js:65; web/e2e/settest2.js; web/e2e/settest2.js (Euro in einer Zeile); web/e2e/settest2.js:43–47 (prüfen); web/e2e/settest2.js:46 (6 .pair-card, bleibt); web/e2e/switchtest.js:11 (Text .lang-cur bleibt); web/tests/inline-style.test.mjs (Zählung, Schritt R5)
-Baut auf Paketen auf: 1, 2
+Schritte: 16 · Dateien: web/css/app.css, web/e2e/settest2.js, web/js/app.js, web/js/screens/misc.js, web/tests/inline-style.test.mjs
+Betroffene Tests laut Spezifikation: e2e/colorpickertest.js:27–92; e2e/settest2.js:31–38; e2e/settest2.js:9–13 (siehe E1b); e2e/settest2.js:9–16; e2e/sixtest.js:63, :67 (Avatar über form[data-action=save-profile] input[type=file]); web/e2e/settest.js:36; web/tests/inline-style.test.mjs (neu)
+Baut auf Paketen auf: 2, 5, 6, 11, 13, 17, 21, 29, 32, 33
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## farbe-A3b · theme.js: Farbpaare „Blau / Gelb“ (#3b82f6) und „Neutral / Rot“ in PRESETS_PAIR
+## abstaende-R5 · Neuer Unit-Test web/tests/inline-style.test.mjs: zählt Inline-Abstände in JS-Vorlagen, Obergrenze = Stand nach Umstellung (≤ 35)
 
-Gruppe farbe · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-18, bereich_einstellungen-17
-Quelle: audit/spec/farbe.md Z. 221–221 · Dateien: web/js/theme.js
+Gruppe abstaende · Cluster tokens · Aufwand S · Befunde: abstaende_layout-34
+Quelle: audit/spec/abstaende.md Z. 524–525 · Dateien: web/tests/inline-style.test.mjs
+Abhängig von: abstaende-E4, abstaende-UI, abstaende-F3, abstaende-G4, abstaende-H2, abstaende-H3, abstaende-E-day2, abstaende-E-day4, abstaende-K2, abstaende-K5, abstaende-L2, abstaende-L4, abstaende-L5, abstaende-L6, abstaende-L7, abstaende-L8, abstaende-L9, abstaende-L10, abstaende-N5, abstaende-MENTOR
+
+```text
+| R5 | neu `web/tests/inline-style.test.mjs` (node --test) | zählt `style="[^"]*(margin\|gap\|padding)` in `web/js/screens/*.js`, `web/js/app.js`, `web/js/widgets.js`, `web/js/ui.js`. Schlägt fehl, wenn die Zahl über dem Stand nach der Umstellung liegt (höchstens 35, genauen Wert eintragen). | abstaende_layout-34 |
+
+```
+
+## komponenten-C27 · Auswahl in Einstellungen → Design ohne Schlagschatten und Skalierung
+
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-19
+Quelle: audit/spec/komponenten.md Z. 422–427 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-- Z. 19 `PRESETS_PAIR`: `['Violett / Gelb', '#8b7cf6', '#facc15']` → `['Blau / Gelb', '#3b82f6', '#facc15']`; `['Weiß / Rot', '#f2f5f3', '#ff5c5c']` → `['Neutral / Rot', '#f2f5f3', '#ff5c5c']`. Gespeicherte Farben bleiben, keine Migration. — bereich_einstellungen-18, bereich_einstellungen-17
+**C27 – Auswahl in Einstellungen → Design** (bereich_einstellungen-19)
+- Z. 1830 → `.design-card[aria-pressed="true"] .dc-prev { box-shadow: inset 0 0 0 1px var(--dd), 0 0 0 2px var(--surface), 0 0 0 3.5px var(--text); }`
+- Z. 1841 → `.theme-card[aria-pressed="true"] .tc-prev { box-shadow: inset 0 0 0 1px var(--cb), 0 0 0 2px var(--surface), 0 0 0 3.5px var(--text); }`
+- Z. 1937 `.dot[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--text); transform: scale(1.08); }` → `.dot[aria-pressed="true"] { box-shadow: 0 0 0 1.5px var(--text); transform: none; }`
+- Z. 461 (`.cp-c`) und Fokusring Z. 1842 bleiben.
+
 ```
 
-## farbe-C4 · Einstellungen: Karte „Eigenes“ sichtbarer Rand, Sprach-Karten Hover und Währung neutral
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-47, bereich_einstellungen-8
-Quelle: audit/spec/farbe.md Z. 393–397 · Dateien: web/css/app.css
+- [konflikt: .dot[aria-pressed="true"]] Die Regel lautet `.dot[aria-pressed="true"] { box-shadow: 0 0 0 1.5px var(--text); }`, ohne transform. Weil die Skalierung auch beim Darüberfahren entfällt, braucht es kein `transform: none`. Begründung: Die Ringstärke 1,5 px ist dieselbe wie bei den gewählten Theme- und Design-Karten aus komponenten-C27 (0 0 0 2px var(--surface), 0 0 0 3.5px var(--text)) und bei den Heute-Ringen. Damit hat die Auswahl auf der ganzen Design-Seite eine Ringstärke. Den Abstand bildet der 3-px-Rand des Punkts in --surface. Der Hover-Ring (1px --text-2) bleibt klar schwächer. Die übrigen Teile von bewegung-C7b (transition, .dot:hover, .dot.custom:hover, .pair-card) bleiben unverändert.
+- ÄNDERN: Der Teil zu Z. 1937 entfällt, bewegung-C7b setzt ihn mit 1,5 px um. Z. 1830 und Z. 1841 (Design- und Theme-Karte) bleiben wie spezifiziert.
+
+## komponenten-C37a · „Gespeichert“-Hinweis: .save-state allgemein und im Bereichskopf
+
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-2
+Quelle: audit/spec/komponenten.md Z. 505–507 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**C4 – `web/css/app.css` Einstellungen** — bereich_einstellungen-47, bereich_einstellungen-8
-- Z. 1853 `.theme-card.t-custom.is-new .tc-prev { …; outline: 1.5px dashed var(--border-2); …; color: var(--muted); }` → `outline: 1.5px dashed color-mix(in srgb, var(--text) 22%, transparent); … color: var(--text-2);`
-- Z. 1921 `.lang-card:hover { border-color: var(--accent); }` → `border-color: var(--text-2);`
-- Z. 1926 `.lang-card[aria-pressed="true"] .lang-cur { color: var(--accent); background: transparent; box-shadow: inset 0 0 0 1px var(--accent); }` → `{ color: var(--text-2); background: var(--surface-3); box-shadow: none; }`
-
+**C37 – Einstellungen** (bereich_einstellungen-2, komponenten-30)
+- Z. 1030 `.nb .save-state { … }` → `.save-state { font-size: 11.5px; color: var(--muted); margin-left: auto; white-space: nowrap; }`; Z. 1031 `.nb .save-state.saving` → `.save-state.saving`; Z. 1193 (Druck) `.nb .save-state` → `.save-state`.
+- Neu nach Z. 1816: `.set-head .save-state { align-self: center; font-size: 12px; }`
 ```
 
-## farbe-C22a · Kategorien: Setups-Farbe --text-2
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-37
-Quelle: audit/spec/farbe.md Z. 485–486 · Dateien: web/js/screens/misc.js
+- [konflikt: .save-state] Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class="save-state" aria-live="polite"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id="set-save"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change="save-trading"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars.
+- ÄNDERN: Endzustand: `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }` (12 statt 11.5 px). `.nb .save-state.saving` nicht in `.save-state.saving` umbenennen, sondern löschen. Druckregel `.save-state`. Neu nur `.set-head .save-state { align-self: center; }` ohne eigene Schriftgröße.
+- ÜBERNIMMT zustaende-S-C14: Alle drei Punkte (12 px, `.saving` ohne Gelb löschen, `.set-head .save-state`) stecken im Endzustand von komponenten-C37a.
+- [doppelt: .set-head .save-state] Beide Gruppen legen die Regel neu an. Endzustand `.set-head .save-state { align-self: center; }`, 12 px und --muted kommen aus der allgemeinen `.save-state`-Regel. Umsetzung in komponenten-C37a; S-C14 läuft mit. A7 nutzt den Selektor mit 2000 ms. Einzelheiten beim Anker .save-state.
+- ÜBERNIMMT zustaende-S-C14: Alle drei Punkte (12 px, `.saving` ohne Gelb löschen, `.set-head .save-state`) stecken im Endzustand von komponenten-C37a.
+- [doppelt: .nb .save-state] Alle drei wollen die Notebook-Statuszeile in 12 px. Der Selektor wird zu `.save-state` verallgemeinert (komponenten-C37a), mit `font-size: var(--fs-12); line-height: var(--lh-12)`. Siehe Anker .save-state.
+- [konflikt: .nb .save-state.saving] Die Regel wird gelöscht, kein Gelb (zustaende). Weder farbe-C1b (`--warn-text`) noch eine Umbenennung in `.save-state.saving` (C37a). „Wird gespeichert …“ ist ein laufender Vorgang, keine Warnung. Siehe Anker .save-state.
+
+## komponenten-C37b · Inline-Anlegen-Zeile .add-row
+
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: komponenten-30
+Quelle: audit/spec/komponenten.md Z. 508–509 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**C22 – `web/js/screens/misc.js`** — bereich_einstellungen-37, bereich_einstellungen-9, barrierefreiheit-25, farbe_kontrast-26, komponenten-8, bereich_einstellungen-17, referenz-6
-- Z. 10 `setups: { label: 'Setups', color: 'var(--accent)', cls: 'setup' }` → `color: 'var(--text-2)'`
+- Nach Z. 128 (`.row`) neu: `.add-row { flex-wrap: nowrap; }`
+
 ```
 
-## farbe-C22b · Einstellungen: Neben-Knöpfe ohne primary, Speicherort muted, Pille „Aktiv“, Kategorien-Satz
+## komponenten-A7 · Helfer App.savedHint() für „Gespeichert“ (1,5 s)
 
-Gruppe farbe · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-9, barrierefreiheit-25, farbe_kontrast-26, komponenten-8, bereich_einstellungen-37, referenz-6
-Quelle: audit/spec/farbe.md Z. 487–492 · Dateien: web/js/screens/misc.js
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-2
+Quelle: audit/spec/komponenten.md Z. 574–576 · Dateien: web/js/app.js
+Abhängig von: komponenten-C37a
+
+```text
+**A7 – Gespeichert-Hinweis** (bereich_einstellungen-2)
+Neu: `App.savedHint = function () { const s = document.querySelector('.set-head .save-state'); if (!s) return; s.textContent = 'Gespeichert'; clearTimeout(App._svT); App._svT = setTimeout(() => { s.textContent = ''; }, 1500); };`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .set-head] Jeder Einstellungs-Kopf hat genau einen „Gespeichert“-Hinweis. head() rendert immer `<span class="save-state" aria-live="polite"></span>` vor trailing (komponenten-S-misc-a). Gefüllt wird er nur über App.savedHint() (komponenten-A7) und steht 2000 ms. Die 2 s kommen aus zustaende Z9: Der Hinweis steht oben rechts, weit vom geänderten Feld, und 1,5 s reichen dort nicht zum Lesen. Trading speichert bei change über die eine Aktion save-trading: Das Formular trägt data-action und data-change="save-trading", Enter läuft in denselben Handler. Der Handler beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (aus zustaende-S-M2), damit Werte außerhalb von min/max nicht gespeichert werden; die Meldung kommt über den globalen invalid-Listener. Danach speichern, C.setBreakEven, App.savedHint(), ohne Toast und ohne rerender. Es gibt keinen zweiten Span, keine id set-save, keine Aktion save-trading-auto und kein readTrading. Ob Profil und Notebook auch sofort speichern, entscheidet nicht dieser Anker. Wo sofort gespeichert wird, gilt derselbe Hinweis.
+- ÄNDERN: In App.savedHint setTimeout auf 2000 statt 1500 setzen und den Titel auf „Gespeichert“ 2 s ändern.
+- [konflikt: .save-state] Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class="save-state" aria-live="polite"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id="set-save"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change="save-trading"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars.
+- ÄNDERN: `App.savedHint` mit Timeout 2000 statt 1500 ms. Sonst wie spezifiziert (sucht `.set-head .save-state`).
+- [doppelt: .set-head .save-state] Beide Gruppen legen die Regel neu an. Endzustand `.set-head .save-state { align-self: center; }`, 12 px und --muted kommen aus der allgemeinen `.save-state`-Regel. Umsetzung in komponenten-C37a; S-C14 läuft mit. A7 nutzt den Selektor mit 2000 ms. Einzelheiten beim Anker .save-state.
+
+## komponenten-S-misc-a · Einstellungen-Kopf mit .save-state
+
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-2
+Quelle: audit/spec/komponenten.md Z. 669–670 · Dateien: web/js/screens/misc.js
+Abhängig von: komponenten-C37a
+
+```text
+**S-misc (misc.js, Einstellungen)** (bereich_einstellungen-11, bereich_einstellungen-2, komponenten-30, komponenten-17, bereich_einstellungen-35, komponenten-36, bereich_einstellungen-40, komponenten-1, komponenten-27)
+- Z. 14 `head`: `${trailing}` → `<span class="save-state" aria-live="polite"></span>${trailing}`
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .set-head] Jeder Einstellungs-Kopf hat genau einen „Gespeichert“-Hinweis. head() rendert immer `<span class="save-state" aria-live="polite"></span>` vor trailing (komponenten-S-misc-a). Gefüllt wird er nur über App.savedHint() (komponenten-A7) und steht 2000 ms. Die 2 s kommen aus zustaende Z9: Der Hinweis steht oben rechts, weit vom geänderten Feld, und 1,5 s reichen dort nicht zum Lesen. Trading speichert bei change über die eine Aktion save-trading: Das Formular trägt data-action und data-change="save-trading", Enter läuft in denselben Handler. Der Handler beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (aus zustaende-S-M2), damit Werte außerhalb von min/max nicht gespeichert werden; die Meldung kommt über den globalen invalid-Listener. Danach speichern, C.setBreakEven, App.savedHint(), ohne Toast und ohne rerender. Es gibt keinen zweiten Span, keine id set-save, keine Aktion save-trading-auto und kein readTrading. Ob Profil und Notebook auch sofort speichern, entscheidet nicht dieser Anker. Wo sofort gespeichert wird, gilt derselbe Hinweis.
+- [konflikt: .save-state] Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class="save-state" aria-live="polite"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id="set-save"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change="save-trading"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars.
+
+## komponenten-S-misc-b · Profil speichert sofort (change), kein „Speichern“-Knopf
+
+Gruppe komponenten · Cluster einstellungen · Aufwand M · Befunde: bereich_einstellungen-2
+Quelle: audit/spec/komponenten.md Z. 671–671 · Dateien: web/js/screens/misc.js
+Abhängig von: komponenten-S-misc-a, komponenten-A7
+
+```text
+- Profil, Z. 46: `<form data-action="save-profile" class="set-block stack" …>` → `<form data-action="save-profile" data-change="save-profile" class="set-block stack" …>`. Z. 58: den Knopf `Speichern` entfernen, „Passwort zurücksetzen“ bleibt allein in der Reihe. Handler `save-profile` (Z. 276): `U.toast(…)` und `rerender()` entfernen, stattdessen `App.savedHint()`; `rerender()` nur, wenn sich `currency` geändert hat. Das Avatar-Feld behält sein eigenes `data-change="avatar-file"` (wird über `closest` zuerst gefunden).
+```
+
+## komponenten-S-misc-d · Konten: „Konto hinzufügen“ als btn
+
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: komponenten-30
+Quelle: audit/spec/komponenten.md Z. 674–674 · Dateien: web/js/screens/misc.js
 Abhängig von: —
 
 ```text
-- Z. 62 `class="btn primary sm" data-action="twofa"` → `class="btn sm"`
-- Z. 69 `class="small faint">Speicherort:` → `class="small muted"`
-- Z. 186 `U.pill('aktiv', 'win')` → `U.pill('Aktiv')`; `class="btn sm primary" data-action="edit-account"` → `class="btn sm"`
-- Z. 207 `class="btn sm primary">${I.plus} Hinzufügen` → `class="btn sm"`
-- Z. 234 Satz `Die Farben folgen deinen Akzent-, Verlust- und Break-even-Farben.` → `Setups sind neutral, Fehler stehen in der Verlustfarbe, Emotionen in der Break-even-Farbe.`
-- Z. 238 `class="btn sm primary" data-action="tag-new"` → `class="btn sm"`
+- Konten, Z. 186: „Konto hinzufügen“ `class="btn sm primary"` → `class="btn"`.
 ```
 
-## farbe-C22c · Design-Seite: Vorschauen mit Anzeigefarbe (forLight), Paar-Schrift inkFor, Gewählt-Vergleich mit Rohwerten, Akzent-Hinweis
+## komponenten-S-misc-f · Regeln: Inline-Anlegen in einer Zeile (.add-row), Knopf btn
 
-Gruppe farbe · Cluster einstellungen · Aufwand M · Befunde: bereich_einstellungen-17
-Quelle: audit/spec/farbe.md Z. 493–499 · Dateien: web/js/screens/misc.js
-Abhängig von: farbe-A3a, farbe-A3c
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: komponenten-30
+Quelle: audit/spec/komponenten.md Z. 676–676 · Dateien: web/js/screens/misc.js
+Abhängig von: komponenten-C37b
 
 ```text
-- Z. 95 (`App.refreshSavedColors`) `T.DEFAULTS[st.theme === 'light' ? 'light' : 'dark'].accent` → `T.DEFAULTS.dark.accent`
-- Z. 90–93 `savedDots`: `style="--c:${c}"` → `style="--c:${S.settings.theme === 'light' ? root.Theme.forLight(c) : c}"`
-- In `design()` (Z. 129 ff.) am Anfang ergänzen: `const pv = c => st.theme === 'light' ? T.forLight(c) : c; const raw = k => (col[k] || T.DEFAULTS.dark[k]).toLowerCase();`
-- Z. 134 Paare: `aria-pressed="${cur.profit.toLowerCase() === p && cur.loss.toLowerCase() === l}"` → `aria-pressed="${raw('profit') === p && raw('loss') === l}"`; `<i style="background:${p}">` → `<i style="background:${pv(p)};color:${T.inkFor(pv(p))}">`; `<i style="background:${l}">` → `<i style="background:${pv(l)};color:${T.inkFor(pv(l))}">` (app.css:1947 `color:#04140a` bleibt als Rückfall)
-- Z. 141 `picker`: `<i style="background:${val}">` → `<i style="background:${pv(val)}">`
-- Z. 145 Akzentpunkte: `aria-pressed="${cur.accent.toLowerCase() === c}"` → `aria-pressed="${raw('accent') === c}"`, `style="--c:${c}"` → `style="--c:${pv(c)}"`; Aufruf `savedDots(cur.accent, …)` → `savedDots(raw('accent'), …)`; Hinweis „Buttons, aktive Einträge und Diagramme.“ → „„Trade loggen“, Schalter, aktive Einträge und Diagramme.“
-
+- Regeln, Z. 207: `<form data-action="add-rule" class="row" style="margin-top:14px">` → `<form data-action="add-rule" class="row add-row" style="margin-top:14px">`; Knopf `btn sm primary` → `btn`.
 ```
 
-## typografie-3.2.3o · Sprachkarte .lang-card b 16 → 14/600 (K5)
+## komponenten-S-misc-h · Inhalte: „Tag hinzufügen“ neutral
 
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-28
-Quelle: audit/spec/typografie.md Z. 263–263 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
-
-```text
-- 16 → 14: Z. 1922 `.lang-card b` → `font-size: var(--fs-14); font-weight: 600;` (bereich_einstellungen-28, K5)
-```
-
-## typografie-3.2.3r · Einstellungs-Blocktitel .set-block h3 14/700 → 15/600 (margin-bottom 10px bleibt)
-
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: referenz-35
-Quelle: audit/spec/typografie.md Z. 270–270 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
-
-```text
-- 14 → 15/600: Z. 1818 `.set-block h3` → `.set-block h3 { font-size: var(--fs-15); line-height: var(--lh-15); font-weight: 600; margin-bottom: 10px; }` (referenz-35)
-```
-
-## typografie-3.2.3u · Einstellungs-Bereichstitel .set-head h2 24/700 → 18/600 (K2)
-
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: referenz-32
-Quelle: audit/spec/typografie.md Z. 277–277 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
-
-```text
-- 24 → 18: Z. 1815 `.set-head h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }` → `{ font-size: var(--fs-18); line-height: var(--lh-18); font-weight: 600; letter-spacing: -0.01em; }` (referenz-32, K2)
-```
-
-## typografie-3.2.4j · Optionskarten .font-card b und .pair-card b auf 600
-
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-28
-Quelle: audit/spec/typografie.md Z. 346–346 · Dateien: web/css/app.css
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: komponenten-30, komponenten-1
+Quelle: audit/spec/komponenten.md Z. 678–678 · Dateien: web/js/screens/misc.js
 Abhängig von: —
 
 ```text
-| `.font-card b` (1931), `.pair-card b` (1948) | `font-weight: 600;` ergänzen | bereich_einstellungen-28 |
+- Inhalte, Z. 238: „Tag hinzufügen“ `btn sm primary` → `btn sm`.
 ```
 
-## typografie-3.2.4k · Zeilentitel in Einstellungen und Coach: neue Regel 14/500 ohne Farbe, Einzelregel .coach-nrow b 13.5px löschen (K7)
+## komponenten-S-misc-j · Einstellungen: .set-tabs-Markup und Mentor-Formular bleiben (nur prüfen)
 
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: referenz-35, bereich_einstellungen-28, bereich_konto-33, typografie-20
-Quelle: audit/spec/typografie.md Z. 347–347 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: komponenten-27
+Quelle: audit/spec/komponenten.md Z. 680–682 · Dateien: web/js/screens/misc.js
+Abhängig von: komponenten-C20
 
 ```text
-| Zeilentitel, neu nach Z. 1865 | `.set-row b, .set-block .row.between > div > b, .set-block .check b, .coach-nrow b { font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; }` (**ohne** Farbe). Z. 2949 `.coach-nrow b { font-size: 13.5px; }` löschen. | referenz-35, bereich_einstellungen-28, bereich_konto-33, typografie-20 (K7) |
+- Z. 231 und 250 (`.set-tabs`) bleiben im Markup; das Aussehen kommt aus C20.
+- Mentor (Z. 154–158) bleibt Formular mit „Speichern“.
+
 ```
 
-## typografie-3.2.5f · Einstellungen: Beschreibungen max. 68ch und Knopf rechts halten (flex: 1 1 320px)
+## komponenten-E1b · e2e settest2.js: Profil per Tab, Privatsphäre über Schalter
 
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: typografie-9, referenz-35
-Quelle: audit/spec/typografie.md Z. 364–365 · Dateien: web/css/app.css
+Gruppe komponenten · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-2, bereich_einstellungen-11
+Quelle: audit/spec/komponenten.md Z. 758–758 · Dateien: web/e2e/settest2.js
+Abhängig von: komponenten-S-misc-b, komponenten-S-misc-c
+
+```text
+- settest2.js:9–16: nach dem letzten `fill` `await p.press('#pf-addr', 'Tab')`; Privatsphäre: `await p.click('[data-action="privacy-toggle"]')`, gleiche Prüfung `Store.settings.privacy.support === true`.
+```
+
+## aufbau-B14 · CSS für eingerückte Unterschalter (.set-sub)
+
+Gruppe aufbau · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-33
+Quelle: audit/spec/aufbau.md Z. 390–396 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| Beschreibungsbreite, neu nach Z. 1818 | `.set-head p, .set-block .small { max-width: 68ch; }` | typografie-9 |
-| Knopf rechts halten, neu nach Z. 1818 | `.set-block .row.between > div:first-child { flex: 1 1 320px; min-width: 0; }` | referenz-35 |
+**B14 Unterschalter eingerückt** (`web/css/app.css` nach Z. 1865) · bereich_einstellungen-33
+```css
+.set-sub { margin-left: 50px; display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 1px solid var(--border); }
+.set-sub[aria-disabled="true"] { opacity: .5; }
+.switch:disabled { cursor: default; }
 ```
 
-## typografie-3.8p · Einstellungen → Sprache: Inline-max-width 640px entfernen
-
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: typografie-9
-Quelle: audit/spec/typografie.md Z. 441–441 · Dateien: web/js/screens/misc.js
-Abhängig von: typografie-3.2.5f
-
-```text
-| misc.js:33 | `style="margin-top:14px;max-width:640px"` → `style="margin-top:14px"` | typografie-9 |
 ```
 
-## typografie-3.8q · Einstellungen → Logs: Zeitzellen num
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe typografie · Cluster einstellungen · Aufwand S · Befunde: typografie-12
-Quelle: audit/spec/typografie.md Z. 442–442 · Dateien: web/js/screens/misc.js
-Abhängig von: typografie-3.2.2f
+- ÄNDERN: Werte auf Tokens: .set-sub { margin-left: 50px; display: flex; flex-direction: column; gap: var(--sp-3); padding-top: var(--sp-4); border-top: 1px solid var(--border); } .set-sub[aria-disabled="true"] { opacity: var(--disabled-o); } .switch:disabled { cursor: not-allowed; }. 50px = Schalter 36 + Lücke der .set-row 14; das ist Ausrichtung, kein Abstand.
+
+## aufbau-C8a · Einstellungen ohne Kopfreihe (head alles false)
+
+Gruppe aufbau · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-3, responsiv-18, ki_look-22, aufbau-6, hierarchie-19
+Quelle: audit/spec/aufbau.md Z. 485–488 · Dateien: web/js/screens/misc.js
+Abhängig von: aufbau-B1
 
 ```text
-| misc.js:255, 260 (Logs) | `<td>${when(x.at)}</td>` / `<td>${when(l.at)}</td>` → `<td class="num">…` | typografie-12 |
+#### `web/js/screens/misc.js` (Einstellungen)
+
+**C8** · bereich_einstellungen-3, responsiv-18, ki_look-22, aufbau-6, hierarchie-19, typografie-8, hierarchie-33, bereich_einstellungen-33, bereich_einstellungen-5, aufbau-8, aufbau-21, bereich_einstellungen-36
+- `App.screens.settings` nach Z. 18 `title`: `head: { range: false, account: false, session: false, trade: false }, /* Einstellungen sind keine Journal-Ansicht: keine Kopfreihe */`
 ```
 
-## abstaende-B26 · Einstellungsblöcke: .set-body (gap, container-type), .set-block, h3, .set-head-row auf Skala; neu .set-desc, .set-item, .set-block .form-grid, .set-block .set-field, .set-addrow
+## aufbau-C8c · Profil: „Alle Daten löschen“ neutral, „1–9 Bereiche“, Zeitzone des Systems
 
-Gruppe abstaende · Cluster einstellungen · Aufwand L · Befunde: bereich_einstellungen-31, bereich_einstellungen-27, bereich_einstellungen-26, bereich_einstellungen-13, abstaende_layout-23, abstaende_layout-34, abstaende_layout-21
-Quelle: audit/spec/abstaende.md Z. 342–342 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
+Gruppe aufbau · Cluster einstellungen · Aufwand S · Befunde: hierarchie-33, aufbau-21, bereich_einstellungen-5
+Quelle: audit/spec/aufbau.md Z. 491–493 · Dateien: web/js/screens/misc.js
+Abhängig von: —
 
 ```text
-| B26 | Einstellungsblöcke Z. 1813, 1817, 1818, 1820 | `.set-body` gap 22 → `var(--content-gap)`, dazu `container-type: inline-size;`. `.set-block` `padding: 18px 20px` → `padding: var(--pad-card)`. `.set-block h3` `margin-bottom: 10px` → `margin-bottom: var(--sp-4)`. `.set-head-row` `margin-bottom: 4px` → `margin-bottom: var(--sp-4)`. Neu nach Z. 1821: `.set-block h3:has(+ .set-desc), .set-head-row:has(+ .set-desc) { margin-bottom: var(--sp-1); } .set-desc { font-size: 12px; color: var(--muted); max-width: 68ch; margin: 0 0 var(--sp-4); } .set-desc:last-child { margin-bottom: 0; } .set-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-4); align-items: center; padding: var(--sp-4) 0; border-top: 1px solid var(--border); } .set-item:first-child { padding-top: 0; border-top: 0; } .set-block .form-grid { max-width: 560px; grid-template-columns: repeat(2, minmax(0, 1fr)); } .set-block .set-field { max-width: 560px; } .set-addrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-3); margin-top: var(--sp-4); }` | bereich_einstellungen-31, -27, -26, -13, abstaende_layout-23, -34, -21 |
+- `profil()` Z. 68 `<b class="neg">Alles löschen</b>` → `<b>Alle Daten löschen</b>`
+- `profil()` Z. 69 `<b>1–6</b> Bereiche` → `<b>1–9</b> Bereiche`
+- `timezones()` Z. 41: vor dem `return list;` → `const sys = Intl.DateTimeFormat().resolvedOptions().timeZone; if (sys && !list.includes(sys)) list = [sys, ...list];` (wie prop.js:147). `profil()` Z. 54: `const zones = timezones(); if (tz && !zones.includes(tz)) zones.unshift(tz);` und `zones.map(…)` statt `timezones().map(…)`
 ```
 
-## abstaende-B27 · Break-even-Raster .be-grid neu (auto 160px 160px, align-items start)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-25, responsiv-45
-Quelle: audit/spec/abstaende.md Z. 343–343 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
+- [konflikt: b.neg] Z. 68 (Daten und Sicherung) bekommt den Zeilentitel `<b>Alle Daten löschen</b>` ohne Klasse neg, also in --text als Zeilentitel 14/500. Der Knopf bleibt `btn sm danger` mit „Alles löschen“. Grund: Rot steht nur für Verlust, Fehler und die Gefahr-Aktion (farbe), und die Gefahr trägt hier der Knopf. Mit dem neuen Titel sagen Titel und Knopf außerdem nicht zweimal dasselbe (aufbau). Das <b>-Element ändert nur aufbau-C8c (Text und Klasse, dazu der Sprachschlüssel „Alle Daten löschen“ aus aufbau Z. 681 in allen fünf Sprachdateien). abstaende-L3 baut nur die Zeilen um. Die Typografie-Abnahme „„Alles löschen“ bleibt rot“ (typografie.md Z. 80/500) ist damit überholt. Die Entscheidung hängt nicht von aufbau-25 ab (Verschieben nach „Sicherheit und Daten“).
+- [konflikt: misc.profil] aufbau-C8c und farbe-C22b ändern in profil() verschiedene Teilstrings (Z. 41/54 Zeitzone, Z. 62 2FA-Knopf, Z. 68 Titel, Z. 69 Fußzeile) und vertragen sich. Z. 69 schreiben aber wording-S17.4-17.7 (17.7) und kilook-C24 als ganze Zeile neu, beide noch mit class="small faint". Für die Endfassung jeder Fußzeile in profil() gilt verbindlich: class="small muted", denn Fußnoten sind --muted und --faint ist nie für Wörter. Wo Tasten genannt werden, steht „1–9“. Welcher Wortlaut gilt (wording zweizeilig oder kilook ohne Tastatur-Teil), entscheidet diese Liste nicht.
+- ÄNDERN: Den Z.-69-Punkt (`<b>1–6</b> Bereiche` → `<b>1–9</b> Bereiche`) nur ausführen, solange die alte Fußzeile noch steht. Nach wording-S17.4-17.7 oder kilook-C24 ist er erledigt (dort steht 1–9 oder kein Tastatur-Teil mehr). Den Z.-68-Punkt siehe Anker b.neg. Die Zeitzone (Z. 41/54) bleibt wie spezifiziert.
 
-```text
-| B27 | Break-even, neu nach `.input-unit .input` (Z. 1882) | `.be-grid { display: grid; grid-template-columns: auto 160px 160px; gap: var(--sp-3) var(--sp-4); align-items: start; justify-content: start; }` | bereich_einstellungen-25, responsiv-45 |
-```
+## aufbau-C8f · Inhalte: Standard-Reiter „Tags“, Reihenfolge Tags · Kategorien
 
-## abstaende-C9 · Auswahlkarten-Raster der Einstellungen vereinheitlichen: eigene Spalten/Lücken/max-width streichen, gap var(--sp-3), 4 bzw. 3 Spalten, Container ≤ 720 px zwei Spalten
-
-Gruppe abstaende · Cluster einstellungen · Aufwand M · Befunde: abstaende_layout-21, bereich_einstellungen-24
-Quelle: audit/spec/abstaende.md Z. 358–358 · Dateien: web/css/app.css
-Abhängig von: abstaende-B26
+Gruppe aufbau · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-36
+Quelle: audit/spec/aufbau.md Z. 496–497 · Dateien: web/js/screens/misc.js
+Abhängig von: —
 
 ```text
-| C9 | Auswahlkarten-Raster Z. 1822, 1834, 1835, 1919, 1927, 1944 | Die eigenen `grid-template-columns`/`gap`/`max-width` in `.design-grid` (1822), `.theme-grid` (1834), `.lang-grid` (1919), `.font-grid` (1927) und `.pair-grid` (1944) streichen, ebenso die Media-Regel 1835. Neu nach 1821: `.theme-grid, .font-grid, .design-grid, .pair-grid, .lang-grid { display: grid; gap: var(--sp-3); } .theme-grid, .font-grid, .design-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .pair-grid, .lang-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }`. Neu nach Z. 1949 (hinter den `.pair-card`-Regeln, sonst gewinnt deren Polster): `@container (max-width: 720px) { .theme-grid, .font-grid, .design-grid, .pair-grid, .lang-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pair-card .pv i { padding: 7px 4px; } }` (Container ist `.set-body`, B26). | abstaende_layout-21, bereich_einstellungen-24 |
-```
+- `ui()` Z. 13 `contentTab: 'kategorien'` → `contentTab: 'tags'`; `inhalte()` Z. 231 Reiterfolge `[['kategorien', 'Kategorien'], ['tags', 'Tags']]` → `[['tags', 'Tags'], ['kategorien', 'Kategorien']]`
 
-## abstaende-C10 · .settings: gap 28px → var(--sp-8), im 960er-Block 14px → var(--sp-4)
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: abstaende_layout-32
-Quelle: audit/spec/abstaende.md Z. 359–359 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| C10 | Einstellungen Z. 1805, 1895 | `.settings` `gap: 28px` → `gap: var(--sp-8)`. Im 960er-Block `.settings { …; gap: 14px; }` → `gap: var(--sp-4)` | abstaende_layout-32 |
-```
-
-## abstaende-L1 · Profil: form-grid ohne Inline-max-width (zweispaltig über .set-block .form-grid)
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-27
-Quelle: audit/spec/abstaende.md Z. 451–455 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-B26
-
-```text
-### web/js/screens/misc.js (Einstellungen)
-
-| Nr. | Stelle | vorher → nachher | Befunde |
-|---|---|---|---|
-| L1 | Profil Z. 48 | `<div class="form-grid" style="max-width:720px">` → `<div class="form-grid">` (2 Spalten über B26) | bereich_einstellungen-27 |
-```
-
-## abstaende-L2 · Beschreibungen unter Blocktiteln als <div class="set-desc"> (auch Meine Designs ohne dynamischen Rand)
-
-Gruppe abstaende · Cluster einstellungen · Aufwand M · Befunde: bereich_einstellungen-31, abstaende_layout-34
-Quelle: audit/spec/abstaende.md Z. 456–456 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-B26
-
-```text
-| L2 | Beschreibungen Z. 60, 62, 109, 144, 145, 146, 194 | jedes `<div class="small muted" style="margin-bottom:…">` direkt unter einem Blocktitel → `<div class="set-desc">`. In Z. 109 (Meine Designs) die dynamische `margin-bottom:${list.length ? 14 : 0}px` streichen, den leeren Fall regelt `:last-child`. | bereich_einstellungen-31, abstaende_layout-34 |
-```
-
-## abstaende-L3 · Daten und Sicherung: Zeilen als .set-item, Trenner weg, „Entfernen“ neutral, „Alles löschen“ ohne .neg
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-13, abstaende_layout-23
-Quelle: audit/spec/abstaende.md Z. 457–457 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-B26
-
-```text
-| L3 | Daten und Sicherung Z. 63–68 | Z. 63 `<div class="stack" style="gap:12px">` → `<div>`. Z. 64, 65, 66, 68: `<div class="row between" style="gap:12px">` → `<div class="set-item">`. Z. 67 `<div class="divider"></div>` streichen. Z. 66: Knopf „Entfernen“ `btn sm danger` → `btn sm`. Z. 68: `<b class="neg">Alles löschen</b>` → `<b>Alles löschen</b>` (der Knopf bleibt `btn sm danger`). Text in Z. 66 bleibt. | bereich_einstellungen-13, abstaende_layout-23 |
-```
-
-## abstaende-L4 · Benachrichtigungen: Blöcke als set-block mit h3, .set-desc und stack s-4
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-31
-Quelle: audit/spec/abstaende.md Z. 458–458 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-B26, abstaende-A6
-
-```text
-| L4 | Benachrichtigungen Z. 168–177 | je Block: `<div class="set-block"><h3>Performance-Recaps</h3><div class="set-desc">…</div><div class="stack s-4">${switchRow…}…</div></div>`. Das `<h3 style="margin-bottom:4px">`, der Wrapper `<div>` und `set-block stack style="gap:18px"` entfallen. Für „Hinweis-Punkte in der Seitenleiste“ ebenso. | bereich_einstellungen-31 |
-```
-
-## abstaende-L5 · Mentor-Einstellungen: set-block stack s-4, Felder .set-field, Hinweise mt-2
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-27
-Quelle: audit/spec/abstaende.md Z. 459–459 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-B26, abstaende-A6
-
-```text
-| L5 | Mentor Z. 155–157 | `<form … class="set-block stack" style="gap:14px">` → `class="set-block stack s-4"`. Die beiden `.field` bekommen `class="field set-field"`. Die Inline-`margin-top` der Hinweise darunter → `mt-2`. | bereich_einstellungen-27 |
-```
-
-## abstaende-L6 · Trading-Block: stack s-6, chips s-2, Break-even mit Zurücksetzen in .set-head-row und Feldern in .be-grid, Feld .set-field mt-3, Häkchen .check.top (neue Regel in app.css)
-
-Gruppe abstaende · Cluster einstellungen · Aufwand M · Befunde: bereich_einstellungen-25, bereich_einstellungen-27, responsiv-45
-Quelle: audit/spec/abstaende.md Z. 460–460 · Dateien: web/js/screens/misc.js, web/css/app.css
-Abhängig von: abstaende-B26, abstaende-B27, abstaende-A6
-
-```text
-| L6 | Trading Z. 192–201 | Z. 192 `class="stack" style="gap:22px"` → `class="stack s-6"`. Z. 193 `class="chips" style="gap:8px"` → `class="chips s-2"`. Z. 194: `<h3>Break-even-Bereich</h3>` → `<div class="set-head-row"><h3>Break-even-Bereich</h3><button type="button" class="btn sm ghost" data-action="be-reset">Auf Standard zurücksetzen</button></div>`, Beschreibung als `set-desc`. Z. 195 `<div class="row" style="gap:16px;align-items:flex-end">` → `<div class="be-grid">`. Z. 196 (alter Zurücksetzen-Knopf mit Inline-Farbe) löschen. Z. 198 `<div class="field" style="max-width:300px;margin-top:12px">` → `<div class="field set-field mt-3">`. Z. 199 `<div class="form-grid" style="max-width:560px">` → `<div class="form-grid">`. Z. 200 `style="margin-top:12px;align-items:flex-start"` → Klasse `mt-3`, `align-items:flex-start` in eine Regel `.set-block .check.top { align-items: flex-start; }` (app.css) und Klasse `top`. | bereich_einstellungen-25, -27, responsiv-45 |
-```
-
-## abstaende-L7 · Regeln: Hinzufügen-Formular als .set-addrow, Feld ohne grow, Knopf neutral (btn), stack s-1
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-26
-Quelle: audit/spec/abstaende.md Z. 461–461 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-B26, abstaende-A6
-
-```text
-| L7 | Regeln Z. 207 | `<form data-action="add-rule" class="row" style="margin-top:14px"><input class="input grow" …>…<button … class="btn sm primary">` → `<form data-action="add-rule" class="set-addrow"><input class="input" …>…<button … class="btn">` (Attribute, Platzhalter und Knopfinhalt bleiben; `grow` am Feld und `sm primary` am Knopf entfallen: neutral und so hoch wie das Feld). `stack style="gap:4px"` → `stack s-1`. | bereich_einstellungen-26 |
-```
-
-## abstaende-L8 · Notebook-Einstellungen: .set-block.nb-settings, stack s-4, Zurücksetzen ohne Inline-Farbe, Vorschau als .field mit .lbl
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: bereich_einstellungen-12
-Quelle: audit/spec/abstaende.md Z. 462–462 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-B26, abstaende-A6
-
-```text
-| L8 | Notebook Z. 214–223 | Z. 214 `class="nb-settings"` → `class="set-block nb-settings"`. Z. 215 `class="stack" style="gap:14px"` → `class="stack s-4"`. Z. 221 am Knopf „Auf Standard zurücksetzen“ `style="color:var(--muted)"` streichen. Z. 223 `<div><div class="lbl" style="font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:8px">Vorschau</div><div class="nb-preview" …>` → `<div class="field"><span class="lbl">Vorschau</span><div class="nb-preview" …>` | bereich_einstellungen-12 |
-```
-
-## abstaende-L9 · Sprache: Hinweis <p class="small muted mt-4"> statt Inline-Rand/-Breite
-
-Gruppe abstaende · Cluster einstellungen · Aufwand S · Befunde: abstaende_layout-34
-Quelle: audit/spec/abstaende.md Z. 463–463 · Dateien: web/js/screens/misc.js
-Abhängig von: abstaende-A6
-
-```text
-| L9 | Sprache Z. 33 | `<p class="small muted" style="margin-top:14px;max-width:640px">` → `<p class="small muted mt-4">` | abstaende_layout-34 |
 ```

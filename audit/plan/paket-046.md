@@ -1,47 +1,108 @@
-# Paket 046 · konto, responsiv, trades_tag
+# Paket 046 · diagramme, prop
 
-Schritte: 3 · Dateien: web/css/app.css, web/js/screens/coach.js, web/js/screens/trades.js
-Betroffene Tests laut Spezifikation: web/e2e/coachlang.js:11; web/e2e/coachlang.js:12; web/e2e/coachtest.js:135
-Baut auf Paketen auf: 7, 20, 33, 45
+Schritte: 5 · Dateien: web/css/app.css, web/js/screens/prop.js
+Betroffene Tests laut Spezifikation: Akzeptanz grep 2: grep -c '^\.chart text {' web/css/app.css → 1; Akzeptanz grep 2: grep -n 'stroke-dasharray: 3' web/css/app.css → leer; Akzeptanz grep 4
+Baut auf Paketen auf: 1
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## wording-S15.10-15.15 · Coach-Gruppe und Journal: „1 von 2 offen“, „Ø Trefferquote“, „Mentor-Notizen“, Pille „nur für Mentoren“ weg, „Daten ab …“, „bearbeitet …“ nur bei späterer Bearbeitung
+## diagramme-A1 · Diagrammtext: eine .chart text-Definition, neu .chart text.bv und .chart text.lbl, alte Regel Z. 1647–1648 löschen (inkl. Abschnittskopf 3 und Reihenfolge)
 
-Gruppe wording · Cluster konto · Aufwand M · Befunde: bereich_konto-43, wording-3, zustaende-28, bereich_konto-21
-Quelle: audit/spec/wording.md Z. 554–559 · Dateien: web/js/screens/coach.js
-Abhängig von: wording-S1.1-1.3, wording-S3.4, wording-S3.5
-
-```text
-| 15.10 | coach.js:86 Aufgaben-Zelle | `<span>${r.open_tasks === 1 ? '1 offen' : \`${r.open_tasks} offen\`}</span><div class="sub">${\`von ${r.tasks}\`}</div>` → `<span>${r.open_tasks} von ${r.tasks} offen</span>` (Erledigt-Zweig unverändert) | bereich_konto-43 |
-| 15.11 | coach.js:96 / :113 / :121 | `U.tile('Ø Winrate', …)` → `U.tile('Ø Trefferquote', …)`; `<th class="r">Winrate</th>` → `<th class="r">Trefferquote</th>`; Info `'Pro Schüler: Trades, Winrate, …'` → `'Pro Schüler: Trades, Trefferquote, …'` | wording-3 |
-| 15.12 | coach.js:99 Journal-Kachel | `${gs.notes === 1 ? '1 Notiz von euch' : \`${gs.notes} Notizen von euch\`}` → `${U.count(gs.notes, 'Mentor-Notiz', 'Mentor-Notizen')}` (bei F1 = Ja: „Coach-Notiz/-Notizen“) | bereich_konto-43, zustaende-28 |
-| 15.13 | coach.js:101 | `<span class="small muted">nur für Mentoren</span>` ersatzlos streichen (Info daneben sagt es) | bereich_konto-43 |
-| 15.14 | coach.js:121 | `Kurz-Stats nur in R und Prozent${g && g.period_start ? \` · ab ${…}\` : ''}` → `${g && g.period_start ? \`Daten ab ${esc(fmt.dateFull(C.parseDayKey(g.period_start)))}\` : ''}` | bereich_konto-43 |
-| 15.15 | coach.js:137 Journal-Eintrag | `<span class="small muted no-i18n">${esc(fmt.dateTime(e.updated_at))}</span>` → `${e.updated_at && C.dayKey(new Date(e.updated_at)) !== e.date_key ? \`<span class="small muted ce-edited"><span>bearbeitet</span> <span class="no-i18n">${esc(fmt.dateTime(e.updated_at))}</span></span>\` : ''}` | bereich_konto-21 |
-```
-
-## wording-S3.7 · app.css Handy (≤ 560px): Suche volle Breite, Auswahlfelder als wischbare Zeile
-
-Gruppe wording · Cluster responsiv · Aufwand S · Befunde: bereich_trades_tag-35
-Quelle: audit/spec/wording.md Z. 333–334 · Dateien: web/css/app.css
+Gruppe diagramme · Cluster diagramme · Aufwand S · Befunde: typografie-29, diagramme-9, diagramme-25
+Quelle: audit/spec/diagramme.md Z. 279–293 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| 3.7 | Handy-Block `@media (max-width: 560px)` | – → `.tl-search { max-width: none; flex: 1 1 100%; }` · `.tl-sel { display: flex; gap: 8px; flex: 1 1 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }` · `.tl-sel::-webkit-scrollbar { display: none; }` · `.tl-sel > * { flex: 0 0 auto; }` | bereich_trades_tag-35 |
+## 3. Umsetzungsschritte
+
+Reihenfolge: Tokens und Basisstile → Skalen und Bausteine → Zeichner → Widgets und Seiten → Vorschaubilder → Übersetzungen → Tests → README. Für jeden Schritt sind die erledigten Befund-ids angegeben.
+
+### 3.1 `web/css/app.css`
+
+**A1 Diagrammtext, eine Definition** (typografie-29, diagramme-9, diagramme-25)
+- Z. 683 `.chart text { fill: var(--muted); font-size: 11px; font-family: var(--font); }` → `.chart text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }` Die Schrift Onest kommt aus der Sammelregel Z. 1800, `.chart text` steht dort schon.
+- direkt darunter neu:
+  ```css
+  .chart text.bv { fill: var(--text-2); } /* Wert an der Säule */
+  .chart text.lbl { paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; } /* Beschriftung an Bezugslinien im Feld */
+  ```
+- Z. 1647–1648 (`/* Achsen-Text */` und `.chart text { fill: var(--text-2); font-size: 11.5px; }`) löschen.
 
 ```
 
-## wording-S9.3-9.7 · TradeLog-Filterzeile: Klassen tl-filters/tl-search/tl-sel/tl-count, „Trades durchsuchen“, Fehler-Filter, Filterzeile nur mit Trades
+## diagramme-A2 · Gitter und Nulllinie durchgezogen, crispEdges; Strichelung Z. 1323 löschen
 
-Gruppe wording · Cluster trades_tag · Aufwand M · Befunde: wording-51, bereich_trades_tag-35, zustaende-28
-Quelle: audit/spec/wording.md Z. 426–430 · Dateien: web/js/screens/trades.js
-Abhängig von: wording-S1.1-1.3, wording-S3.6, wording-S3.7
+Gruppe diagramme · Cluster diagramme · Aufwand S · Befunde: diagramme-7
+Quelle: audit/spec/diagramme.md Z. 294–298 · Dateien: web/css/app.css
+Abhängig von: —
 
 ```text
-| 9.3 | Z. 39 Filterzeile, Suche | `<div class="row" style="gap:8px"><div class="grow" style="max-width:260px;position:relative"><input … placeholder="Suchen: Symbol, Setup, Notiz …" aria-label="Suchen" …>` → `<div class="row tl-filters" style="gap:8px"><div class="grow tl-search"><input … placeholder="Trades durchsuchen" aria-label="Trades durchsuchen" title="Sucht in Symbol, Setup, Notizen, Fehler-Tags und Emotionen" …>` | wording-51, bereich_trades_tag-35 |
-| 9.4 | Z. 40–44 Auswahlfelder | die vier `<select>` und den Zurücksetzen-Knopf in `<div class="tl-sel">…</div>` fassen; Zähler `<span class="muted small" style="margin-left:auto">` → `<span class="muted small tl-count">` | bereich_trades_tag-35 |
-| 9.5 | Z. 43 Fehler-Filter | `<option value="">Fehler: alle</option>` → `<option value="">Alle Fehler</option>`; `>Nur mit Fehler<` → `>Mit Fehler<` | bereich_trades_tag-35 |
-| 9.6 | Z. 44 Zähler | `${rows.length} von ${list.length} Trades` → `${rows.length} von ${U.count(list.length, 'Trade', 'Trades')}` | zustaende-28 |
-| 9.7 | Z. 45 Leerzustand | `return filters + U.empty(…)` → `return (list.length ? filters : '') + U.empty(…)` (ohne Trades im Zeitraum keine Filterzeile; mit Trades und leerem Filterergebnis bleibt sie samt „Zurücksetzen“) | bereich_trades_tag-35 |
+**A2 Gitter und Nulllinie durchgezogen** (diagramme-7)
+- Z. 684 → `.chart .grid line { stroke: var(--border); shape-rendering: crispEdges; }`
+- Z. 685 → `.chart .zero { stroke: var(--border-2); shape-rendering: crispEdges; }`
+- Z. 1323 (`.chart .grid line { stroke-dasharray: 3 4; }`) löschen.
+
 ```
+
+## diagramme-A4 · Neue Legendenklasse .chart-legend; .legend.top/.legend.rep (Z. 1649–1651) löschen
+
+Gruppe diagramme · Cluster diagramme · Aufwand S · Befunde: diagramme-14, bereich_training-28
+Quelle: audit/spec/diagramme.md Z. 305–315 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**A4 Legende** (diagramme-14, bereich_training-28)
+- nach Z. 692 neu:
+  ```css
+  /* Diagramm-Legende: oben links über dem Diagramm, nur bei zwei und mehr Reihen (.legend bleibt für Fieldset-Überschriften) */
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: 12px; font-weight: 400; color: var(--text-2); }
+  .chart-legend span { display: inline-flex; align-items: center; }
+  .chart-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; }
+  .chart-legend i.dash { width: 14px; height: 0; border-radius: 0; background: none; border-top: 2px dashed var(--text-2); }
+  ```
+- Z. 1649–1651 (`.legend.top`, `.legend.rep i`, `.legend.rep`) löschen. Z. 691–692 bleiben unverändert.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
+- ÄNDERN: In der neuen Regel `.chart-legend` `font-size: 12px;` → `font-size: var(--fs-12); line-height: var(--lh-12);`. Alles andere bleibt wie in der Spezifikation (Löschen von Z. 1649–1651, Z. 691–692 bleiben).
+- [konflikt: .legend.rep] diagramme-A4 löscht .legend.top/.legend.rep (Z. 1649–1651) und legt .chart-legend an. diagramme-E8f stellt das Report-Widget im selben Schritt um. typografie-3.2.3l setzt in Z. 1651 kein Token. Die neue Legende steht gleich in der Text-Skala (Legende 12/16): font-size: var(--fs-12); line-height: var(--lh-12).
+- ÄNDERN: .chart-legend { …; font-size: var(--fs-12); line-height: var(--lh-12); … } statt font-size: 12px. Die Löschung von .legend.rep nur zusammen mit E8f ausliefern.
+
+## diagramme-J2 · Prop „Ausgaben vs. Payouts“: .chart-legend vor dem Diagramm
+
+Gruppe diagramme · Cluster prop · Aufwand S · Befunde: diagramme-14
+Quelle: audit/spec/diagramme.md Z. 666–667 · Dateien: web/js/screens/prop.js
+Abhängig von: diagramme-A4
+
+```text
+**J2 Legende** (diagramme-14) Z. 257: die `<div class="legend">…</div>` hinter dem `.chart` → `<div class="chart-legend">…</div>` vor dem `.chart` (Inhalt gleich).
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
+
+## zustaende-S-P2 · Prop-Bilanz ohne Buchungen: „—“ statt „erreicht“, kein Diagramm, keine „Pro Firma“, Legende nur mit Daten
+
+Gruppe zustaende · Cluster prop · Aufwand S · Befunde: bereich_prop-14, bereich_prop-15
+Quelle: audit/spec/zustaende.md Z. 724–730 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+**S-P2 Bilanz ohne Buchungen** – bereich_prop-14, bereich_prop-15
+- In `tabBilanz` vor `const tiles` (Z. 256) neu: `const none = bs.spent <= C.EPS;`
+- Kachel „Bis Break-even“: Wert `bs.toBreakEven > C.EPS ? <neg> : '<span class="pos">erreicht</span>'` → `none ? '—' : bs.toBreakEven > C.EPS ? <neg wie bisher> : '<span class="pos">erreicht</span>'`; Fuß `bs.toBreakEven > C.EPS ? 'fehlende Payouts (netto)' : 'Payouts decken alle Ausgaben'` → `none ? 'noch keine Ausgaben' : (wie bisher)`.
+- Kachel „Kosten je Bestehen“: `bs.costPerPassed == null ? '—' : fmt.cur(bs.costPerPassed)` → `bs.costPerPassed == null || none ? '—' : fmt.cur(bs.costPerPassed)`. Fuß unverändert.
+- Z. 257 Legende `<div class="legend">…</div>` nur bei `bs.series.length`.
+- Z. 271 `${tiles}<div class="grid main-side">${chart}${byFirm}</div>${expenses}…` → `${tiles}${ex.length || po.length ? `<div class="grid main-side">${chart}${byFirm}</div>` : ''}${expenses}${payouts}${planer}`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: .legend] Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class="chart-legend"><span><i style="background:var(--loss)"></i>Ausgaben kumuliert</span><span><i style="background:var(--profit)"></i>Payouts kumuliert</span></div>` : ''}<div class="chart h280" data-chart="lines" data-id="prop-balance"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.
+- ÄNDERN: Die Bedingung „Legende nur bei bs.series.length“ gilt für die `<div class="chart-legend">…</div>`, die J2 vor `.chart` gesetzt hat. Die alte `<div class="legend">` hinter dem Diagramm nicht wiederherstellen. Endstand siehe Entscheidung (c).

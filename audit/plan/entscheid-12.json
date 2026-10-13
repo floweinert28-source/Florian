@@ -1,0 +1,841 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "switchRow",
+   "nrs": [
+    "barrierefreiheit-C-misc-15",
+    "aufbau-C8b",
+    "aufbau-C8d",
+    "kilook-C24",
+    "komponenten-S-misc-e",
+    "komponenten-S-misc-g",
+    "wording-S17.13-17.15",
+    "wording-S17.19-17.21"
+   ],
+   "art": "konflikt",
+   "entscheidung": "switchRow bekommt die Fassung aus barrierefreiheit-C-misc-15: id je Aufbau über swN, <label for> mit .set-row-l, aria-describedby, kein aria-label. Die Signatur (title, text, action, on, extra) bleibt, deshalb laufen alle Aufrufer unverändert weiter, und C-misc-15 kommt zuerst. GELD-BLIND: Der Schalter heißt „Beträge als R zeigen“, Text aus wording-S17.19. Blocktitel „Geld-blind-Modus“ und Toast bleiben. Grund: Wording hat die Texthoheit (K13). Der Name sagt, was passiert (R statt Geld, Kontostand weg). Außerdem heißt im Zertifikat schon ein anderer Schalter „Beträge ausblenden (nur % bzw. R)“ (certificate.js:74), und ein Name für zwei Funktionen verletzt W2. TRADING: Markup aus komponenten-S-misc-e (Einheit im Feld, Tilt-Schalter, kein Speichern-Knopf). Labels: „Tagesverlustlimit“ und „Ruin-Schwelle für Monte Carlo (Drawdown)“, bei beiden steht „%“ im Feld. „für Monte Carlo“ kommt aus wording-29, die Einheit wandert laut komponenten ins Feld. Tilt-Schaltertext: „Warnt auf dem Dashboard bei Verlustserien, Größenerhöhung nach Verlust, Revenge-Trades und erreichtem Tagesverlustlimit.“ Wrapper class=\"mt-3\" statt style=\"margin-top:14px\". Durchläufe-Optionen mit value und fmt.int (wording 17.20). Der Hinweis aus aufbau-C8b steht als letztes Kind des .field hinter dem .inp-cur-Wrapper: „Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.“ Er trägt die Bezugsgröße, die mit „(% vom Konto)“ aus dem Label fällt. BENACHRICHTIGUNGEN, Endmarkup aus abstaende-L4, wording-S17.13-17.15 und aufbau-C8d: <div class=\"set-block\"><h3>Recaps</h3><div class=\"set-desc\">Zusammenfassungen deiner Trades. Sie erscheinen als Hinweis oben auf dem Dashboard.</div><div class=\"stack s-4\">${switchRow('Wochen-Recap', 'Jeden Montag eine Zusammenfassung der Vorwoche, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.weekly === true, 'data-key=\"weekly\"')}${switchRow('Monats-Recap', 'Am 2. jedes Monats eine Zusammenfassung des Vormonats, wenn du darin mindestens 4 Trades geschlossen hast.', 'notif-toggle', n.monthly === true, 'data-key=\"monthly\"')}</div></div><div class=\"set-block\"><h3>Hinweis-Punkte in der Seitenleiste</h3><div class=\"set-desc\">(Satz unverändert)</div><div class=\"stack s-4\">${switchRow('Hinweis-Punkte anzeigen', 'Alle Punkte auf einmal ein- oder ausschalten.', 'navdot-toggle', nd.on, 'data-key=\"on\"')}<div class=\"set-sub\"${nd.on ? '' : ' aria-disabled=\"true\"'}>${App.NAV_DOT_AREAS.map(([k, label, desc]) => switchRow(label, desc, 'navdot-toggle', nd[k] !== false, `data-key=\"${k}\"${nd.on ? '' : ' disabled'}`)).join('')}</div></div></div>. PROFIL: Block „Bedienung“ mit Schalter „Tastenkürzel“ (kilook-C24) direkt vor „Daten und Sicherung“. WCAG 2.1.4 verlangt abschaltbare Ein-Zeichen-Kürzel. Die Fußzeile wird einzeilig mit dem Text aus wording-17.7 und der Klasse aus farbe-C22. Die zweite Kürzel-Zeile aus wording-17.7 entfällt, weil der Schalter sie trägt; Esc wirkt immer. Neue Schalter-Aktionen setzen nur aria-checked, ohne Neuaufbau (zustaende Z9). Der Notebook-Schalter aus komponenten-S-misc-g bleibt wie spezifiziert, weil Notebook-To-dos laut zustaende das Durchstreichen behalten.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C8b",
+     "aktion": "aendern",
+     "anweisung": "Teil 1 (Schaltertitel „Beträge ausblenden“) entfällt. wording-S17.19-17.21 setzt den Titel „Beträge als R zeigen“. Die Übersetzungszeile „Beträge ausblenden | Hide amounts“ (aufbau.md:678) nicht anlegen. Teil 2 erst nach komponenten-S-misc-e umsetzen: im Feld se-loss hinter (nicht in) den App.unitField-Wrapper <span class=\"hint\">Prozent der Kontogröße. Gilt für Tilt-Warnungen und die automatischen Regeln im Fortschritt.</span> setzen. Schlüssel in js/lang/{en,es,hi,pt,zh}.js anlegen (en: „Percent of account size. Used for tilt warnings and the automatic rules in Progress.“)."
+    },
+    {
+     "nr": "wording-S17.19-17.21",
+     "aktion": "aendern",
+     "anweisung": "17.19 unverändert, übernimmt den Schaltertitel. 17.20: Label → „Ruin-Schwelle für Monte Carlo (Drawdown)“ ohne „%“, denn das „%“ steht nach komponenten-S-misc-e im Feld (en „Monte Carlo ruin threshold (drawdown)“). Option mit value und fmt.int bleibt. 17.21: Der Satz gehört in den neuen Tilt-Schalter aus komponenten-S-misc-e, weil die alte Checkbox entfällt. Wortlaut: „… Revenge-Trades und erreichtem Tagesverlustlimit.“"
+    },
+    {
+     "nr": "komponenten-S-misc-e",
+     "aktion": "aendern",
+     "anweisung": "Label se-ruin „Ruin-Schwelle für Monte Carlo (Drawdown)“ statt „Ruin-Schwelle (Drawdown)“; den en-Schlüssel in Z. 735 entsprechend ändern. Tilt-Schaltertext endet auf „… und erreichtem Tagesverlustlimit.“ Wrapper <div class=\"mt-3\"> statt <div style=\"margin-top:14px\">. Monte-Carlo-Select: <option value=\"${n}\" …>${fmt.int(n)}</option>. Break-even-Handler wie in der Entscheidung zu #be-from. Rest unverändert."
+    },
+    {
+     "nr": "abstaende-L6",
+     "aktion": "aendern",
+     "anweisung": "Z. 200: Die Tilt-Checkbox wird durch komponenten-S-misc-e zum Schalter. Klasse „top“ und die neue Regel .set-block .check.top entfallen. mt-3 sitzt am Wrapper-div des Schalters."
+    },
+    {
+     "nr": "kilook-C24",
+     "aktion": "aendern",
+     "anweisung": "Aktion ohne Neuaufbau: 'shortcuts-toggle'(el) { const on = S.settings.shortcuts === false; S.setSetting('shortcuts', on); el.setAttribute('aria-checked', String(on)); }. Fußzeile nicht mit „Speicherort: … (localStorage und IndexedDB)“, sondern <div class=\"small muted\">Deine Daten liegen nur in diesem Browser.${S.storageOK ? '' : ' <span class=\"neg\">Speichern ist gerade nicht möglich (privates Fenster oder blockierte Website-Daten).</span>'}</div>. Einfügeort bleibt vor „Daten und Sicherung“. Wird aufbau-25 („Sicherheit und Daten“) angenommen, bleibt „Bedienung“ im Profil direkt nach dem Block „Ruhepunkt“."
+    },
+    {
+     "nr": "wording-S17.4-17.7",
+     "aktion": "aendern",
+     "anweisung": "17.7: nur die erste Zeile umsetzen, Text wie dort, Klasse small muted statt small faint. Die zweite Zeile „Tastenkürzel: N … · Esc Dialog schließen“ und ihr Schlüssel entfallen, weil kilook-C24 den Schalter „Tastenkürzel“ bringt. 17.4–17.6 unverändert."
+    },
+    {
+     "nr": "abstaende-L4",
+     "aktion": "aendern",
+     "anweisung": "Benachrichtigungen gleich im Endmarkup aus der Entscheidung bauen: je Block set-block > h3 > div.set-desc > div.stack.s-4. .set-sub ist das letzte Kind im stack des Blocks „Hinweis-Punkte“, direkt hinter dem Hauptschalter."
+    },
+    {
+     "nr": "aufbau-C8d",
+     "aktion": "aendern",
+     "anweisung": "div.set-sub (Bedingung und disabled wie spezifiziert) als letztes Kind in das div.stack.s-4 aus abstaende-L4 setzen, nicht als Geschwister der Blocküberschrift."
+    },
+    {
+     "nr": "aufbau-B14",
+     "aktion": "aendern",
+     "anweisung": "Werte auf Tokens: .set-sub { margin-left: 50px; display: flex; flex-direction: column; gap: var(--sp-3); padding-top: var(--sp-4); border-top: 1px solid var(--border); } .set-sub[aria-disabled=\"true\"] { opacity: var(--disabled-o); } .switch:disabled { cursor: not-allowed; }. 50px = Schalter 36 + Lücke der .set-row 14; das ist Ausrichtung, kein Abstand."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-C-misc-15",
+     "nach": "kilook-C24"
+    },
+    {
+     "vor": "barrierefreiheit-C-misc-15",
+     "nach": "komponenten-S-misc-e"
+    },
+    {
+     "vor": "barrierefreiheit-C-misc-15",
+     "nach": "komponenten-S-misc-g"
+    },
+    {
+     "vor": "barrierefreiheit-C-misc-15",
+     "nach": "aufbau-C8d"
+    },
+    {
+     "vor": "komponenten-S-misc-e",
+     "nach": "aufbau-C8b"
+    },
+    {
+     "vor": "abstaende-L4",
+     "nach": "wording-S17.13-17.15"
+    },
+    {
+     "vor": "wording-S17.13-17.15",
+     "nach": "aufbau-C8d"
+    },
+    {
+     "vor": "aufbau-B14",
+     "nach": "aufbau-C8d"
+    },
+    {
+     "vor": "zustaende-S-C1",
+     "nach": "aufbau-B14"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "switchRow",
+   "nrs": [
+    "komponenten-S-misc-c",
+    "wording-S17.2-17.3"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Privatsphäre-Teil von komponenten-S-misc-c (Checkbox + Speichern → Schalter privacy-toggle) wartet auf wording-17 (Schalter ganz streichen, ein Support-Team gibt es nicht). BRIEF legt das nicht fest. Antwort „behalten“: ${switchRow('Support-Team-Zugriff erlauben', 'Ist das an, darf das Support-Team dein Journal einsehen, um dir zu helfen und Fehler zu finden.', 'privacy-toggle', priv.support)}, Untertitel „Wer außer dir dein Journal sehen darf.“ (wording K12/17.2), Aktion privacy-toggle ohne Neuaufbau wie bei komponenten, Handler save-privacy löschen. Antwort „streichen“: Block als reine Information nach der Empfehlung zu wording-17; der Privatsphäre-Teil von komponenten-S-misc-c entfällt. Der 2FA-Knopf (btn primary sm → btn sm) kommt dreifach vor (komponenten-S-misc-c, wording-S17.2-17.3, farbe-C22). Er wird sofort und einmal umgesetzt, durch wording-S17.2-17.3, denn ein gefüllter Knopf bleibt in keinem Fall. Ob der Knopf ganz verschwindet, entscheidet wording-18.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-misc-c",
+     "aktion": "aendern",
+     "anweisung": "2FA-Knopf nicht selbst ändern, das übernimmt wording-S17.2-17.3. Den Privatsphäre-Schalter erst nach der Antwort auf wording-17 umsetzen, dann mit Titel „Support-Team-Zugriff erlauben“ und Text „Ist das an, darf das Support-Team dein Journal einsehen, um dir zu helfen und Fehler zu finden.“"
+    },
+    {
+     "nr": "komponenten-E1a",
+     "aktion": "aendern",
+     "anweisung": "Der settest2.js-Teil zur Privatsphäre (Klick auf [data-action=\"privacy-toggle\"]) wartet ebenfalls auf wording-17. Die Teile zu settest.js gelten sofort."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": "wording / wording-17 (Support-Team-Schalter streichen?) – nur der Privatsphäre-Teil"
+  },
+  {
+   "anker": "#be-from",
+   "nrs": [
+    "komponenten-S-misc-e",
+    "zustaende-S-M1b",
+    "zustaende-S-TE6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Feld-Markup kommt aus komponenten-S-misc-e: App.unitField(…, unit, 'w160'). Es passt zu .be-grid „auto 160px 160px“ aus abstaende-L6. Die Sofort-Handler aus zustaende-S-M1b bleiben (be-mode und be-reset speichern sofort, rufen C.setBreakEven, kein Neuaufbau). Sie dürfen aber nicht mehr .input-unit span ansprechen: Das gibt es nach komponenten-C13 nicht mehr, und bei Währung ändert sich mit dem Zeichen auch die Seite (€ dahinter, $ davor) und die Einrückung --sl. Neuer Helfer in misc.js neben switchRow: const beUnit = (blk, unit) => { const t = document.createElement('div'); t.innerHTML = App.unitField('', unit, 'w160'); const n = t.firstElementChild; blk.querySelectorAll('#be-from, #be-to').forEach(inp => { const w = inp.closest('.inp-cur'); if (!w) return; w.className = n.className; w.style.setProperty('--sl', n.style.getPropertyValue('--sl')); w.querySelector('.cur-sym').textContent = n.querySelector('.cur-sym').textContent; }); }; In be-mode ersetzt beUnit(el.closest('.set-block'), be.mode === 'pct' ? '%' : S.currency()); die Zeile mit .input-unit span, in be-reset beUnit(b, S.currency());. save-trading (komponenten, bei change) liest den Modus weiter aus dem Store und ruft C.setBreakEven. Den Test regelt die Entscheidung zu #be-to.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-M1b",
+     "aktion": "aendern",
+     "anweisung": "In be-mode und be-reset die Zeilen mit querySelectorAll('.input-unit span') durch den Helfer beUnit ersetzen (Code siehe Entscheidung). Alles andere bleibt: Speichern, C.setBreakEven, aria-pressed am Segment, Feldwerte auf 0."
+    },
+    {
+     "nr": "zustaende-S-TE6",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-E1a",
+     "anweisung": "settest.js:22 wird nur einmal geändert, durch komponenten-E1a (siehe #be-to)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C13",
+     "nach": "komponenten-S-misc-e"
+    },
+    {
+     "vor": "komponenten-S-misc-e",
+     "nach": "zustaende-S-M1b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "#be-to",
+   "nrs": [
+    "komponenten-S-misc-e",
+    "komponenten-E1a",
+    "zustaende-S-M1b",
+    "zustaende-S-TE6"
+   ],
+   "art": "doppelt",
+   "entscheidung": "settest.js:22 wird einmal geändert, durch komponenten-E1a: await p.fill('#be-from', '-150'); await p.fill('#be-to', '150'); await p.press('#be-to', 'Tab'); await p.waitForTimeout(300); Die Prüfung über den Store bleibt (instruments, beOffset.from/to). Z. 25/26 (be-mode, be-reset) bleiben und prüfen weiter den Store, weil zustaende-S-M1b sofort schreibt. zustaende-S-TE6 geht darin auf. Der Test läuft erst, wenn Markup (komponenten-S-misc-e) und Handler (zustaende-S-M1b) da sind.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-TE6",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-E1a",
+     "anweisung": "Gleiche Teständerung, umgesetzt in komponenten-E1a."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-S-misc-e",
+     "nach": "komponenten-E1a"
+    },
+    {
+     "vor": "zustaende-S-M1b",
+     "nach": "komponenten-E1a"
+    },
+    {
+     "vor": "komponenten-S-misc-g",
+     "nach": "komponenten-E1a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".input-unit span",
+   "nrs": [
+    "komponenten-C13",
+    "typografie-3.2.3l",
+    "zustaende-S-M1b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C13 löscht .input-unit, .input-unit span und .input-unit .input (Z. 1880–1882), und zwar im selben Schritt wie komponenten-S-misc-e. Das entfernt die letzten Nutzer (misc.js:195/198). Weil die Regel wegfällt, setzt typografie-3.2.3l in Z. 1881 kein Token. zustaende-S-M1b spricht statt .input-unit span das .inp-cur-Gerüst an (Helfer beUnit, siehe Entscheidung zu #be-from).",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 1881 (.input-unit span) auslassen, die Regel wird gelöscht."
+    },
+    {
+     "nr": "zustaende-S-M1b",
+     "aktion": "aendern",
+     "anweisung": "Wie in der Entscheidung zu #be-from: beUnit statt .input-unit span."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-S-misc-e",
+     "nach": "zustaende-S-M1b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".chip.sel.big",
+   "nrs": [
+    "komponenten-C16",
+    "komponenten-S-misc-e",
+    "typografie-3.2.3p"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Regel .chip.sel.big wird gelöscht (komponenten-C16), und das Markup misc.js:193 wird „chip sel“ (komponenten-S-misc-e). Damit sind alle wählbaren Chips einheitlich 28 px hoch, 12px/500. Beides gehört in einen Schritt. typografie-3.2.3p setzt in Z. 1879 kein Token. Ob der Block „Was handelst du?“ bzw. „Märkte“ bleibt, entscheidet die offene Frage bereich_einstellungen-6. Die Löschung gilt in beiden Fällen.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3p",
+     "aktion": "aendern",
+     "anweisung": "Z. 1879 (.chip.sel.big) auslassen, die Regel wird gelöscht."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".set-block h3",
+   "nrs": [
+    "abstaende-B26",
+    "aufbau-A4b",
+    "typografie-3.2.3r"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ergebnis: .set-block h3 { font-size: var(--fs-15); line-height: var(--lh-15); font-weight: 600; margin-bottom: var(--sp-4); } dazu .set-block h3:has(+ .set-desc) { margin-bottom: var(--sp-1); } aus abstaende-B26. Größe und Gewicht 15/600 setzen aufbau-A4b und typografie-3.2.3r beide; typografie übernimmt, mit Tokens. Den Abstand bestimmt abstaende („Titel↔Inhalt 16“), nicht die 10px, die typografie stehen lassen wollte.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4b",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile zu Z. 1818 (.set-block h3) entfällt, sie übernimmt typografie-3.2.3r. Die übrigen Punkte von A4b bleiben."
+    },
+    {
+     "nr": "typografie-3.2.3r",
+     "aktion": "aendern",
+     "anweisung": "Nur font-size: var(--fs-15); line-height: var(--lh-15); font-weight: 600 setzen. margin-bottom kommt aus abstaende-B26 (var(--sp-4)), also kein „margin-bottom: 10px“ schreiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-chip",
+   "nrs": [
+    "aufbau-A4f",
+    "komponenten-C16",
+    "typografie-3.2.3h",
+    "typografie-3.2.4d"
+   ],
+   "art": "konflikt",
+   "entscheidung": ".fd-chip ist ein Chip, keine Segment-Taste. Ergebnis: height: 28px; border-radius: 999px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500 (Padding, Rand und Farben wie bisher). Grund: Die Rollentabelle von typografie (Chip = --fs-12) und komponenten (Chips 12px/500) stimmen überein; 13 gilt für Segmente und Menüeinträge. So gleicht der Filter-Chip .chip und .nb .tagpill. Das Gewicht 500 setzen aufbau-A4f, komponenten-C16 und typografie-3.2.4d; komponenten-C16 übernimmt.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C16",
+     "aktion": "aendern",
+     "anweisung": "Z. 1400 .fd-chip mit font-size: var(--fs-12); line-height: var(--lh-12) statt 12px. Höhe 28, Radius 999 und Gewicht 500 wie spezifiziert."
+    },
+    {
+     "nr": "aufbau-A4f",
+     "aktion": "aendern",
+     "anweisung": ".fd-chip (Z. 1400) und .fd-add (Z. 1407) aus der Gewichtsliste streichen, das übernimmt komponenten-C16. .fd-seg und .fd-tog sowie die übrigen Punkte bleiben."
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": ".fd-chip (Z. 1400) und .fd-add (Z. 1407) aus der 13-px-Liste streichen. Beide bekommen --fs-12 über komponenten-C16."
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "aktion": "aendern",
+     "anweisung": ".fd-chip (Z. 1400) und .fd-add (Z. 1407) aus der Liste 600 → 500 streichen, das übernimmt komponenten-C16."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C16"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-add",
+   "nrs": [
+    "aufbau-A4f",
+    "komponenten-C16",
+    "typografie-3.2.3h",
+    "typografie-3.2.4d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Gleiche Entscheidung wie bei .fd-chip, weil der Hinzufügen-Chip neben den Chips steht und gleich hoch sein muss: height: 28px; border-radius: 999px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500. komponenten-C16 übernimmt. aufbau-A4f, typografie-3.2.3h und typografie-3.2.4d lassen .fd-add aus (Anpassungen wie bei .fd-chip).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C16",
+     "aktion": "aendern",
+     "anweisung": "Z. 1407 .fd-add mit font-size: var(--fs-12); line-height: var(--lh-12) statt 12px. Rest wie spezifiziert."
+    },
+    {
+     "nr": "aufbau-A4f",
+     "aktion": "aendern",
+     "anweisung": ".fd-add aus der Gewichtsliste streichen (komponenten-C16)."
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": ".fd-add (Z. 1407) aus der 13-px-Liste streichen."
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "aktion": "aendern",
+     "anweisung": ".fd-add (Z. 1407) aus der Liste 600 → 500 streichen."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C16"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".set-tabs button",
+   "nrs": [
+    "komponenten-C20",
+    "typografie-3.2.3p",
+    "typografie-3.2.4d",
+    "zustaende-S-C9b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die gemeinsame Unterstrich-Fassung aus komponenten-C20 ersetzt .set-tabs und .prop-sub. Schrift in der Text-Skala: font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500. 13.5px ist in der Skala verboten, und Reiter haben laut typografie 14. Gewicht 500 und Unterstrich in --text verlangen auch zustaende-S-C9b und typografie-3.2.4d, C20 übernimmt das. Die Fokus-Zeile in C20 setzt nur den Versatz, ohne eigene Farbe (--accent als Fokusfarbe ist laut barrierefreiheit verboten; Farbe und Stärke kommen aus der globalen :focus-visible-Regel). Den Selektor für .prop-sub a (aria-pressed oder aria-current) regelt der Anker .prop-sub a.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C20",
+     "aktion": "aendern",
+     "anweisung": "In .subtabs > button, .set-tabs > button, .prop-sub a: font-size: var(--fs-14); line-height: var(--lh-14) statt font-size: 13.5px. Fokus-Zeile → .subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline-offset: -2px; }, ohne outline-Farbe."
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-C20",
+     "anweisung": "Alle vier Zeilen (1867, 1869, 2595, 2597) gehen in der Ersatzregel von C20 auf (500, Unterstrich und Auswahl in --text)."
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "aktion": "aendern",
+     "anweisung": ".set-tabs button (Z. 1867) und .prop-sub a (Z. 2595) aus der Liste streichen, das übernimmt komponenten-C20."
+    },
+    {
+     "nr": "typografie-3.2.3p",
+     "aktion": "aendern",
+     "anweisung": "Z. 1867 (.set-tabs button) auslassen. Die Regel wird durch C20 ersetzt, die schon var(--fs-14) setzt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C20"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rules-list",
+   "nrs": [
+    "aufbau-C11c",
+    "typografie-3.2.3p"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Karte „Aktuelle Regeln“ verschwindet aus dem Fortschritt (aufbau, eine Information an einer Stelle). Damit hat .rules-list keinen Nutzer mehr (einziger: progress.js:77), und aufbau-C11c löscht die Regeln Z. 1273–1274. typografie-3.2.3p setzt in Z. 1273 kein Token.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3p",
+     "aktion": "aendern",
+     "anweisung": "Z. 1273 (.rules-list) auslassen, die Regel wird gelöscht."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nb .tagpill b",
+   "nrs": [
+    "komponenten-C16",
+    "typografie-3.2.4e"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Eine Regel, komponenten-C16 übernimmt: .nb .tagpill b { color: var(--muted); font-family: var(--font-num); font-size: var(--fs-11); line-height: var(--lh-11); font-weight: 500; }. Größe 11 kommt aus komponenten, Onest aus typografie (Zähler sind Ziffern), beide wollen 500. typografie-3.2.4e behält nur .nb-details summary.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C16",
+     "aktion": "aendern",
+     "anweisung": "Z. 993 → .nb .tagpill b { color: var(--muted); font-family: var(--font-num); font-size: var(--fs-11); line-height: var(--lh-11); font-weight: 500; }"
+    },
+    {
+     "nr": "typografie-3.2.4e",
+     "aktion": "aendern",
+     "anweisung": "Die Teile .nb .tagpill (Z. 992) und .nb .tagpill b (Z. 993) entfallen; komponenten-C16 übernimmt sie, mit Onest für den Zähler. Nur .nb-details summary 700 → 600 bleibt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C16"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nb .tagpill",
+   "nrs": [
+    "komponenten-C16",
+    "typografie-3.2.4e"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide setzen 600 → 500, komponenten-C16 übernimmt mit der vollständigen Chip-Fassung: height: 28px; padding: 0 10px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500 (Rand, Fläche, Farbe, Lücke 6 bleiben). typografie-3.2.4e lässt die Zeile aus (Anpassung wie bei .nb .tagpill b).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C16",
+     "aktion": "aendern",
+     "anweisung": "Z. 992 mit font-size: var(--fs-12); line-height: var(--lh-12) statt 12px. Höhe 28, Padding 0 10px und Gewicht 500 wie spezifiziert."
+    },
+    {
+     "nr": "typografie-3.2.4e",
+     "aktion": "aendern",
+     "anweisung": ".nb .tagpill (Z. 992) nicht ändern, das übernimmt komponenten-C16."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".more-link",
+   "nrs": [
+    "aufbau-B12",
+    "aufbau-C2a",
+    "barrierefreiheit-B12e",
+    "farbe-C3b",
+    "typografie-3.2.3l",
+    "typografie-3.2.4d",
+    "wording-S6.11-6.15",
+    "zustaende-S-W4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "CSS (aufbau-B12 übernimmt): .more-link { color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); text-decoration: none; } .more-link:hover { color: var(--text); }. Ohne Unterstrich beim Hover, wie in der aufbau-Regel („kein Grün, kein Unterstrich“): ruhiger, und gleich wie die übrigen Kopf-Bedienelemente. .more-row wird gelöscht. Touch-Höhe 44 px aus barrierefreiheit-B12e danach, unverändert. Letzte Trades (widgets.js:253/257): Der Link steht im Kartenkopf (aufbau-C2a, U.card trailing), nicht in einer Fußzeile, und heißt „Zum TradeLog“. Das ist laut wording W5 der feste Name für „Navigation aus Widget“ und sagt das Ziel; „Alle Trades“ und „Mehr anzeigen“ fallen weg, denn „Mehr anzeigen“ heißt laut aufbau nur Nachladen. Der Link erscheint nur mit Zeilen (wording W13, zustaende): { info: e.info, cls: 'recent-card', trailing: rows.length ? more('#/trades', 'Zum TradeLog') : '' }. Info-Satz: „Die zuletzt geschlossenen Trades des Kontos und alle noch offenen Positionen. So viele Zeilen, wie in die Karte passen; „Zum TradeLog“ öffnet die ganze Liste.“ Regel-Tracker: trailing ersatzlos streichen (aufbau-C2a = wording 6.15, aufbau übernimmt). Der Leertext-Link geht auf #/settings/regeln.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-B12",
+     "aktion": "aendern",
+     "anweisung": "font-size: var(--fs-13); line-height: var(--lh-13) statt 13px. Sonst wie spezifiziert, Hover nur color: var(--text). .more-row erst nach aufbau-C2a löschen (grep -rn more-row web/ leer)."
+    },
+    {
+     "nr": "farbe-C3b",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-B12",
+     "anweisung": "Gleiche Farbe und gleiches Gewicht, ohne Hover-Unterstrich und text-underline-offset."
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "aktion": "aendern",
+     "anweisung": ".more-link (Z. 1659) aus der Liste 600 → 500 streichen, das übernimmt aufbau-B12."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 1659 (.more-link) auslassen, aufbau-B12 setzt das Token."
+    },
+    {
+     "nr": "aufbau-C2a",
+     "aktion": "aendern",
+     "anweisung": "Linktext „Zum TradeLog“ statt „Alle Trades“. trailing nur mit Zeilen: trailing: rows.length ? more('#/trades', 'Zum TradeLog') : ''. Info-Satz Z. 253 endet auf „; „Zum TradeLog“ öffnet die ganze Liste.“ Regel-Tracker-Teil (trailing streichen, Link #/settings/regeln) wie spezifiziert."
+    },
+    {
+     "nr": "wording-S6.11-6.15",
+     "aktion": "aendern",
+     "anweisung": "6.11, 6.12 und 6.15 entfallen hier: aufbau-C2a setzt den Info-Satz, den Kopf-Link „Zum TradeLog“ ohne .more-row und das Streichen des Tracker-Links um. 6.13 (U.count) und 6.14 („abgehakt“) bleiben unverändert. Schlüssel „Zum TradeLog“ und den neuen Info-Satz weiter in den Wörterbüchern anlegen."
+    },
+    {
+     "nr": "zustaende-S-W4",
+     "aktion": "aendern",
+     "anweisung": "Der Teil zu Z. 257 entfällt, die Bedingung rows.length steckt im Kopf-Link von aufbau-C2a. Der Teil zu Z. 256 (Leertitel nach Lage, .empty.chart-empty) bleibt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C2a",
+     "nach": "aufbau-B12"
+    },
+    {
+     "vor": "aufbau-B12",
+     "nach": "barrierefreiheit-B12e"
+    },
+    {
+     "vor": "aufbau-C2a",
+     "nach": "wording-S6.11-6.15"
+    },
+    {
+     "vor": "aufbau-C2a",
+     "nach": "zustaende-S-W4"
+    },
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "aufbau-B12"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".pager",
+   "nrs": [
+    "komponenten-S-shadow",
+    "komponenten-S-trades-c",
+    "typografie-3.2.3l",
+    "zustaende-S-T2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Eine Fassung für beide Seitenwähler, komponenten-S-trades-c übernimmt den TradeLog. In renderTable: const active = !!(f.q || f.symbol || f.setup || f.status || f.mistake); Zähler oben nur mit Filter: ${active ? `<span class=\"muted small tl-count\">${rows.length} von ${U.count(list.length, 'Trade', 'Trades')}</span>` : ''}. Seitenwähler: „Trades pro Seite“ steht immer. Bei pages > 1 folgen <span class=\"pg-sep\"></span><span class=\"pg-info\">${from + 1}–${to} von ${U.count(rows.length, 'Trade', 'Trades')}</span><span class=\"grow\"></span>, die Seitenauswahl „von ${pages} Seiten“ und .pg-nav mit zwei .btn.nav. Bei pages <= 1 folgt nur ohne aktiven Filter <span class=\"pg-sep\"></span><span class=\"pg-info\">${U.count(rows.length, 'Trade', 'Trades')}</span>, sonst nichts. Grund: Mit Filter zeigt der Zähler oben schon „x von y“; ein zweites „1–7 von 7 Trades“ unten wäre dieselbe Information zweimal (aufbau, Grundsatz 1). Bereichsstrich ohne Leerzeichen „1–10“ (komponenten WORTWAHL). Zähler über U.count (wording W9). Schatten-Ich gleich: bei einer Seite pg-info ${U.count(list.length, 'Verstoß', 'Verstöße')}, sonst „{0}–{1} von {2} Verstößen“. Teil 3 von zustaende-S-T2 (Box schrumpft) wartet weiter auf zustaende-37. typografie-3.2.3l (Z. 1744 Token) passt dazu.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-trades-c",
+     "aktion": "aendern",
+     "anweisung": "Z. 44 und Z. 48 genau wie in der Entscheidung, mit der Hilfsvariable active, der reduzierten Form bei pages <= 1 und U.count. Schlüssel „{0}–{1} von {2} Trades“ (en „{0}–{1} of {2} trades“)."
+    },
+    {
+     "nr": "zustaende-S-T2",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-S-trades-c",
+     "anweisung": "Die Teile 1 und 2 (Zähler nur mit Filter, reduzierter Seitenwähler bei einer Seite) gehen in komponenten-S-trades-c auf. „Trade${…'s'}“ wird dort durch U.count ersetzt. Teil 3 bleibt offen bis zustaende-37."
+    },
+    {
+     "nr": "komponenten-S-shadow",
+     "aktion": "aendern",
+     "anweisung": "Bei pages <= 1: pg-sep + <span class=\"pg-info\">${U.count(list.length, 'Verstoß', 'Verstöße')}</span> statt „1–n von n Verstößen“. Sonst wie spezifiziert (.btn.nav, Auswahl und Pfeile nur bei mehreren Seiten, „{0}–{1} von {2} Verstößen“)."
+    },
+    {
+     "nr": "wording-S9.8-9.9",
+     "aktion": "aendern",
+     "anweisung": "9.8: Muster ohne Leerzeichen um den Strich, „{0}–{1} von {2} Trades“; U.count wie geplant. Umgesetzt wird es in komponenten-S-trades-c. 9.9 unverändert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "wording-S1.1-1.3",
+     "nach": "komponenten-S-trades-c"
+    },
+    {
+     "vor": "wording-S1.1-1.3",
+     "nach": "komponenten-S-shadow"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rating button",
+   "nrs": [
+    "barrierefreiheit-B9a",
+    "farbe-B3a",
+    "komponenten-C15",
+    "typografie-3.2.3l"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C15 ersetzt die Grundregel .rating button (app.css:324) durch .scale5 button: 32×32, Radius 8, Rand --border, Fläche --surface, 500, --text-2, font-size: var(--fs-13); line-height: var(--lh-13). Dazu kommt .scale5.rating button { color: var(--muted); }. Damit sind barrierefreiheit-B9a (32 px) und farbe-B3a (Stern --faint → --muted) erfüllt. Der Gewählt-Zustand folgt der Radio-Semantik aus barrierefreiheit: aria-checked nur am gewählten Stern, Klasse .on kumulativ. Die Sternfarbe ist gelbe Schrift, also --warn-text (farbe): .scale5.rating button.on { --lc: var(--warn-text); }. Die Zeile .rating button[aria-pressed=\"true\"] { --lc: var(--warn); } entfällt. In der gemeinsamen Auswahlregel (app.css:3125) stehen dafür .scale5.rating button.on und .scale5 button[aria-checked=\"true\"]. Das muss deckungsgleich bleiben mit dem Anker .rating button[aria-pressed=\"true\"] (Liste 16).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C15",
+     "aktion": "aendern",
+     "anweisung": ".scale5 button mit font-size: var(--fs-13); line-height: var(--lh-13) statt 13px. Die Zeile .rating button[aria-pressed=\"true\"] { --lc: var(--warn); } → .scale5.rating button.on { --lc: var(--warn-text); }. In der Auswahlregel Z. 3125 .scale5.rating button.on, .scale5 button[aria-checked=\"true\"] statt .scale5 button[aria-pressed=\"true\"]."
+    },
+    {
+     "nr": "barrierefreiheit-B9a",
+     "aktion": "aendern",
+     "anweisung": "Z. 324 (32 px) entfällt, das übernimmt komponenten-C15. Z. 325 wird nicht .rating button.on { --lc: var(--warn) }, sondern .scale5.rating button.on { --lc: var(--warn-text); } (in C15). Die übrigen Punkte von B9a (.seg aria-checked, .seg.pill-Größen) regeln die Anker .seg.pill button und .rating button[aria-pressed=\"true\"]."
+    },
+    {
+     "nr": "farbe-B3a",
+     "aktion": "aendern",
+     "anweisung": "Die Punkte Z. 324/325 entfallen hier: --muted steht in .scale5.rating button, --warn-text in .scale5.rating button.on (komponenten-C15). Die übrigen Punkte von B3a bleiben."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 324 (.rating button) auslassen, die Regel wird durch .scale5 button mit Token ersetzt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C15"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".stat-tile .k",
+   "nrs": [
+    "aufbau-A3b",
+    "komponenten-C25a",
+    "typografie-3.2.3l",
+    "typografie-3.2.4l"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ergebnis: .stat-tile .k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }. Die 13.5 px aus komponenten-C25a gelten nicht: Der Wert ist in der Skala verboten, und .tile .head wird ebenfalls 13 (typografie-3.2.3i, aufbau-A3b). Das Ziel von C25a, „gleiche Maße wie .tile“, bleibt damit erfüllt. Gewicht 500 setzen drei Schritte; komponenten-C25a übernimmt die ganze Zeile 637.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Z. 637 → font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); statt 13.5px. Die übrigen Punkte von C25a regeln die Anker .stat-tile und .stat-tile .v."
+    },
+    {
+     "nr": "aufbau-A3b",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile zu Z. 637 (.stat-tile .k) entfällt, das übernimmt komponenten-C25a."
+    },
+    {
+     "nr": "typografie-3.2.4l",
+     "aktion": "aendern",
+     "anweisung": ".stat-tile .k (Z. 637) streichen, das übernimmt komponenten-C25a. .stat .k und .cntb bleiben."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 637 auslassen, komponenten-C25a setzt das Token."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C25a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".stat .k",
+   "nrs": [
+    "aufbau-A3b",
+    "typografie-3.2.3l",
+    "typografie-3.2.4l"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Ergebnis: .stat .k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }. Das Gewicht 500 setzt typografie-3.2.4l, das Token typografie-3.2.3l. Die gleiche Zeile in aufbau-A3b entfällt.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3b",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile zu Z. 647 (.stat .k) entfällt, das übernimmt typografie-3.2.4l. Übrig bleiben .kpi-label (Anker .kpi-label), .tile .head und .strat-stats .k."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rp-switch",
+   "nrs": [
+    "kilook-C4",
+    "komponenten-C34a",
+    "typografie-3.2.3l"
+   ],
+   "art": "doppelt",
+   "entscheidung": "kilook-C4 und komponenten-C34a löschen genau dasselbe: die fünf .rp-switch-Regeln (Z. 2147–2151) und den Teil „.rp-switch input, .rp-switch input::after, “ in Z. 2333. kilook-C4 übernimmt (toter Code). typografie-3.2.3l setzt in Z. 2147 kein Token.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C34a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-C4",
+     "anweisung": "Identische Löschung, nur einmal umsetzen."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 2147 (.rp-switch) auslassen, die Regel wird gelöscht."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".legend.rep",
+   "nrs": [
+    "diagramme-A4",
+    "diagramme-E8f",
+    "typografie-3.2.3l"
+   ],
+   "art": "konflikt",
+   "entscheidung": "diagramme-A4 löscht .legend.top/.legend.rep (Z. 1649–1651) und legt .chart-legend an. diagramme-E8f stellt das Report-Widget im selben Schritt um. typografie-3.2.3l setzt in Z. 1651 kein Token. Die neue Legende steht gleich in der Text-Skala (Legende 12/16): font-size: var(--fs-12); line-height: var(--lh-12).",
+   "anpassungen": [
+    {
+     "nr": "diagramme-A4",
+     "aktion": "aendern",
+     "anweisung": ".chart-legend { …; font-size: var(--fs-12); line-height: var(--lh-12); … } statt font-size: 12px. Die Löschung von .legend.rep nur zusammen mit E8f ausliefern."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 1651 (.legend.rep) auslassen, die Regel wird gelöscht."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "diagramme-A4"
+    },
+    {
+     "vor": "diagramme-A4",
+     "nach": "diagramme-E8f"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-pair .input",
+   "nrs": [
+    "typografie-3.2.3l",
+    "wording-S3.1-3.3",
+    "wording-S7.4-7.6"
+   ],
+   "art": "konflikt",
+   "entscheidung": ".fd-pair .input bekommt das Token aus typografie-3.2.3l. Im Filter-Fenster wirkt .fd-pop .fd-pair .input mit var(--fs-12) (typografie-3.2.3f). Das neue Datums-Overlay .dp-display aus wording-S3.1-3.3 nimmt dieselben Stufen wie sein Feld statt 13.5/12.5 px, denn beide Werte sind in der Skala verboten und das Overlay muss deckungsgleich mit dem Feldtext sein: .dp-display { …; font-size: var(--fs-14); line-height: var(--lh-14); } (wie .input nach typografie-3.2.3m) und .fd-pop .fd-pair .dp-display { font-size: var(--fs-12); line-height: var(--lh-12); left: 11px; }. Der leere Zustand („Offen“) steht in Platzhalterfarbe --muted statt --faint, weil --faint laut farbe nie für Wörter gilt und Platzhalter laut farbe-B3a --muted sind: .dp-display.empty { color: var(--muted); } und .input.is-empty::-webkit-datetime-edit { color: var(--muted); }. Die Platzhalter „Von“/„Bis“ und die Filtertexte aus wording-S7.4-7.6 bleiben.",
+   "anpassungen": [
+    {
+     "nr": "wording-S3.1-3.3",
+     "aktion": "aendern",
+     "anweisung": "3.1: .dp-display mit font-size: var(--fs-14); line-height: var(--lh-14) statt 13.5px. .dp-display.empty { color: var(--muted); }. 3.2: .input.is-empty::-webkit-datetime-edit { color: var(--muted); }. 3.3: .fd-pop .fd-pair .dp-display { font-size: var(--fs-12); line-height: var(--lh-12); left: 11px; } statt 12.5px."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "wording-S3.1-3.3"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tabs button",
+   "nrs": [
+    "komponenten-C19",
+    "typografie-3.2.3l",
+    "typografie-3.2.3m"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Reiter-Schiene aus komponenten-C19 gilt, die Einträge aber in der Text-Skala: .tabs > button, .tabs > a, .prop-tabs a { …; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; … } statt 13.5px. 13.5 ist verboten, Reiter haben laut typografie 14 wie .btn. Auf dem Handy (Z. 3054): .tabs > button, .tabs > a { padding: 0 12px; font-size: var(--fs-13); line-height: var(--lh-13); }. Die Fokus-Zeile in C19 setzt nur outline-offset: -2px; Farbe und Stärke kommen aus der globalen :focus-visible-Regel, --accent als Fokusfarbe ist verboten. typografie-3.2.3m (Z. 660) und typografie-3.2.3l (Z. 3054) lassen die von C19 ersetzten Zeilen aus.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C19",
+     "aktion": "aendern",
+     "anweisung": "In der Eintragsregel font-size: var(--fs-14); line-height: var(--lh-14) statt 13.5px. Handy-Regel Z. 3054 mit font-size: var(--fs-13); line-height: var(--lh-13). Fokus-Zeile → .tabs > button:focus-visible, .tabs > a:focus-visible, .prop-tabs a:focus-visible { outline-offset: -2px; }, ohne outline-Farbe."
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "aktion": "aendern",
+     "anweisung": "Z. 660 (.tabs button) auslassen, C19 ersetzt die Regel mit Token."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 3054 (.tabs button, Handy) auslassen, C19 ersetzt die Regel mit Token."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C19"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nw-loading",
+   "nrs": [
+    "typografie-3.2.3l",
+    "zustaende-S-C13",
+    "zustaende-S-NW2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Beim Laden zeigt News ein Skelett statt Ring und Text (BRIEF: Skelett, kein Ladesymbol). zustaende-S-C13 ersetzt .nw-loading durch .nw-skel, zustaende-S-NW2 stellt news.js:87 im selben Schritt um. typografie-3.2.3l setzt in Z. 3108 kein Token. Die Abstände des Skeletts folgen der Liste, damit nach dem Laden nichts springt: .nw-skel { display: flex; flex-direction: column; gap: var(--sp-4); } (wie .nw-list, Raster 16 laut abstaende), .coach-skel { …; gap: var(--sp-2); }.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C13",
+     "aktion": "aendern",
+     "anweisung": ".nw-skel mit gap: var(--sp-4) statt 14px. .coach-skel mit gap: var(--sp-2) statt 8px. Der Rest bleibt."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 3108 (.nw-loading) auslassen, die Regel wird ersetzt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-C13",
+     "nach": "zustaende-S-NW2"
+    },
+    {
+     "vor": "abstaende-A1",
+     "nach": "zustaende-S-C13"
+    }
+   ],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  ".switch",
+  ".switch::after",
+  ".set-block",
+  "Theme.apply",
+  ".hint",
+  "C.setBreakEven",
+  ".set-nav a",
+  ".tpl-row .star",
+  ".mentor-note .mn-text",
+  ".dropzone",
+  ".nw-time",
+  ".popover .item"
+ ]
+}

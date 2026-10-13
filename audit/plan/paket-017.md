@@ -1,199 +1,354 @@
-# Paket 017 · statistik
+# Paket 017 · trades_tag
 
-Schritte: 13 · Dateien: web/css/app.css, web/e2e/scorestatetest.js, web/js/core.js, web/js/screens/stats.js, web/js/ui.js, web/tests/core.test.mjs
-Betroffene Tests laut Spezifikation: web/e2e/calmnavtest.js:51; web/e2e/filtertest.js; web/e2e/mobiletest.js:26-27 (.stat-tile .v 20px, zwei Spalten); web/e2e/scorestatetest.js:22; web/tests/core.test.mjs
-Baut auf Paketen auf: 2, 6, 7, 16
+Schritte: 26 · Dateien: web/README.md, web/css/app.css, web/e2e/mobiletest.js, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
+Betroffene Tests laut Spezifikation: Akzeptanz 4.3 day; Akzeptanz 4.3 trades (Datumsspalte „08.10. 19:43“ in Onest); Akzeptanz 4.4: grep "<td>\${fmt.(date|time)" ohne Treffer; Akzeptanz 4.4: grep class="caption"; e2e/blindtest.js:23 (#f-dir); e2e/tradeformtest.js; web/e2e/certtest.js:54; web/e2e/certtest.js:54 (Zertifikat-Knopf in der Tagesansicht bleibt); web/e2e/mobiletest.js:31; web/e2e/tlfittest.js; web/e2e/tradeformtest.js (Handy 390×844 ohne Scrollen, muss grün bleiben); web/e2e/tradeformtest.js (muss grün bleiben); web/tests/inline-style.test.mjs (Zählung, Schritt R5)
+Baut auf Paketen auf: 1, 2, 4, 5, 10
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## zustaende-S-TE1 · Test core.test.mjs: daySummary mit Verlusttag, Gewinntag, nur Break-even-Tagen
+## farbe-B17 · Long/Short-Schalter im Trade-Dialog flach getönt, Pfeilkreis ohne Glow
 
-Gruppe zustaende · Cluster statistik · Aufwand S · Befunde: zustaende-4
-Quelle: audit/spec/zustaende.md Z. 875–877 · Dateien: web/tests/core.test.mjs
-Abhängig von: zustaende-S-K1
-
-```text
-### 3.24 Tests – S-TE
-
-- `web/tests/core.test.mjs`: neu `daySummary` mit einem Verlusttag → `dayPayoff === 0` und `dayPF === 0`; mit einem Gewinntag → `dayPayoff === null` und `dayPF === null`; mit nur Break-even-Tagen → `dayPayoff === 0` und `dayPF === 0`.
-```
-
-## zustaende-S-TE8 · Test scorestatetest.js:22 („Karte flach“) muss ohne Anpassung grün sein
-
-Gruppe zustaende · Cluster statistik · Aufwand S · Befunde: bereich_statistik-1, diagramme-5
-Quelle: audit/spec/zustaende.md Z. 884–885 · Dateien: web/e2e/scorestatetest.js
-Abhängig von: zustaende-S-C15, zustaende-S-ST3
-
-```text
-- `e2e/scorestatetest.js:22` („Karte flach“, Höhe < 150 px) muss danach ohne Anpassung grün sein.
-
-```
-
-## barrierefreiheit-C-stats-15 · Statistik-Reiter als <nav aria-label="Statistik-Bereiche"> mit aria-current, ohne Inline-Farbe
-
-Gruppe barrierefreiheit · Cluster statistik · Aufwand S · Befunde: bereich_statistik-7, barrierefreiheit-32
-Quelle: audit/spec/barrierefreiheit.md Z. 777–782 · Dateien: web/js/screens/stats.js
-Abhängig von: barrierefreiheit-B9b
-
-```text
-#### `web/js/screens/stats.js`
-
-- **Z. 15:**
-  - vorher: `` <div class="tabs scroll-x" data-subnav>${TABS.map(([k, l]) => `<a class="btn" href="#/stats/${k}" aria-pressed="${tab === k}" style="${tab === k ? '' : 'color:var(--text-2)'}">${l}</a>`)…}</div> ``
-  - nachher: `` <nav class="tabs scroll-x" data-subnav aria-label="Statistik-Bereiche">${TABS.map(([k, l]) => `<a class="btn" href="#/stats/${k}"${tab === k ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</nav> ``
-  - Befunde: bereich_statistik-7, barrierefreiheit-32
-```
-
-## barrierefreiheit-C-stats-32 · Wochentag-Tabelle: Link in der ersten Zelle
-
-Gruppe barrierefreiheit · Cluster statistik · Aufwand S · Befunde: bereich_statistik-32, barrierefreiheit-4
-Quelle: audit/spec/barrierefreiheit.md Z. 783–784 · Dateien: web/js/screens/stats.js
-Abhängig von: barrierefreiheit-B7
-
-```text
-- **Z. 32:** `<td>${fmt.weekdayLong(d.day)}</td>` → `<td><a class="row-link" href="#/day/${d.key}">${fmt.weekdayLong(d.day)}</a></td>` (Befunde: bereich_statistik-32, barrierefreiheit-4)
-
-```
-
-## kilook-C14 · Statistik: Gewinner/Verlierer als .kpi-label, Check-in-Leerzustand mit I.mood, Monte Carlo ganzzahlig
-
-Gruppe kilook · Cluster statistik · Aufwand S · Befunde: ki_look-17, ki_look-36, diagramme-32
-Quelle: audit/spec/kilook.md Z. 630–641 · Dateien: web/js/screens/stats.js
-Abhängig von: kilook-A4
-
-```text
-**C14 · web/js/screens/stats.js** (ki_look-17, ki_look-36, diagramme-32)
-- **45** `<div class="caption">Gewinner</div>` und `<div class="caption">Verlierer</div>` → `class="kpi-label"`
-- **61** `U.empty('sparkle', 'Keine Check-ins im Zeitraum', …)` → `U.empty('mood', 'Keine Check-ins im Zeitraum', …)`
-- **79–80** (Monte Carlo) jedes `fmt.cur(x)` → `fmt.cur(x, { compact: true })`:
-  - `mc.start`
-  - `-mc.dd.p50`
-  - `-mc.dd.p95`
-  - `-mc.dd.worst`
-  - `mc.final.p50`
-  - `mc.final.p5`
-  - `mc.final.p95`
-
-```
-
-## responsiv-B7 · Statistik-Übersicht: 4 Spalten bis 761 px, Werte unten bündig, Kartenreihe st-cards
-
-Gruppe responsiv · Cluster statistik · Aufwand M · Befunde: bereich_statistik-21
-Quelle: audit/spec/responsiv.md Z. 315–326 · Dateien: web/css/app.css
+Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-12
+Quelle: audit/spec/farbe.md Z. 304–308 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**B7 Statistik-Übersicht** (bereich_statistik-21)
-- Z. 636 `.stat-tile { … min-width: 0; transition: … }` → zusätzlich `display: flex; flex-direction: column; container-type: inline-size;`
-- Z. 639 `.stat-tile .v { …; margin-top: 8px; … }` → `margin-top: auto; padding-top: 8px;`
-- Z. 640 `@media (max-width: 1100px) { .stat-tiles { … repeat(2 … } }` → `@media (max-width: 760px) { … }` (Inhalt gleich).
-- Nach Z. 641 neu:
-  ```css
-  @container (max-width: 175px) { .stat-tile .v { font-size: 20px; } }
-  .grid.three.st-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  @media (max-width: 1100px) { .grid.three.st-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid.three.st-cards > :nth-child(3) { grid-column: 1 / -1; } }
-  @media (max-width: 560px) { .grid.three.st-cards { grid-template-columns: minmax(0, 1fr); } }
-  ```
+**B17 – Long/Short-Schalter im Trade-Dialog** — bereich_trades_tag-12
+- Kommentar Z. 841 „eine leuchtende Fläche gleitet“ → „eine flache, leicht getönte Fläche gleitet“
+- Z. 853–854 (in `.dir-switch::before`, Z. 852 mit `transition` bleibt unverändert): `background: linear-gradient(90deg, color-mix(in srgb, var(--dir-c) 26%, var(--surface-2)), color-mix(in srgb, var(--dir-c) 7%, var(--surface-2)) 85%); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dir-c) 42%, transparent), -6px 4px 18px -10px color-mix(in srgb, var(--dir-c) 60%, transparent);` → `background: color-mix(in srgb, var(--dir-c) 10%, var(--surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dir-c) 22%, var(--border-2));`
+- Z. 869 `.dir-opt[aria-pressed="true"] .bi { background: var(--oc); box-shadow: 0 0 10px color-mix(in srgb, var(--oc) 50%, transparent); }` → `box-shadow: none;` (Fläche `var(--oc)` bleibt)
 
 ```
 
-## responsiv-3.2a · fmt.weekdayShort neu („Do., 08.10.“)
+## farbe-C12b · Check-in: sleepZone „fit“ und scaleColor auf --profit (Zwischenstufe aus --loss/--warn)
 
-Gruppe responsiv · Cluster statistik · Aufwand S · Befunde: responsiv-5, bereich_statistik-20
-Quelle: audit/spec/responsiv.md Z. 412–414 · Dateien: web/js/ui.js
+Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: farbe_kontrast-19, bereich_trades_tag-45
+Quelle: audit/spec/farbe.md Z. 432–433 · Dateien: web/js/app.js
 Abhängig von: —
 
 ```text
-### 3.2 web/js/ui.js
-
-- Z. 147 nach `dateDM(d) { … },` neu: `weekdayShort(d) { return new Date(d).toLocaleDateString(LOC(), { weekday: 'short', day: '2-digit', month: '2-digit' }); }, /* „Do., 08.10.“ (Tabellen am Handy) */` (responsiv-5, bereich_statistik-20)
+- Z. 497 `App.sleepZone`, Zweig fit: `color: 'var(--accent)'` → `'var(--profit)'`; Z. 501 `fit: { color: 'var(--accent)', … }` → `'var(--profit)'`
+- Z. 511 `App.scaleColor`: `['var(--loss)', '#ff8c5c', 'var(--warn)', 'color-mix(in srgb, var(--accent) 70%, var(--warn))', 'var(--accent)']` → `['var(--loss)', 'color-mix(in srgb, var(--loss) 55%, var(--warn))', 'var(--warn)', 'color-mix(in srgb, var(--profit) 70%, var(--warn))', 'var(--profit)']`
 ```
 
-## responsiv-3.9a · Statistik: Kartenreihe bekommt Klasse st-cards
+## farbe-C12c · Session-Ende und Import: Hinweise .lbl-hint bzw. muted statt faint
 
-Gruppe responsiv · Cluster statistik · Aufwand S · Befunde: bereich_statistik-21
-Quelle: audit/spec/responsiv.md Z. 497–499 · Dateien: web/js/screens/stats.js
-Abhängig von: responsiv-B7
+Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-25, farbe_kontrast-11, bereich_trades_tag-42
+Quelle: audit/spec/farbe.md Z. 434–437 · Dateien: web/js/app.js
+Abhängig von: farbe-B3a
 
 ```text
-### 3.9 web/js/screens/stats.js (responsiv-5, bereich_statistik-20, bereich_statistik-21)
+- Z. 533 `<span class="faint">(wird in die Tagesnotiz im Notebook geschrieben)</span>` → `<span class="lbl-hint">…</span>`
+- Z. 560 `<div class="small faint" …>Exporte von Brokern …` → `class="small muted"`
+- Z. 567 `'<span class="faint">offen</span>'` → `'<span class="muted">offen</span>'`
 
-- Z. 26 `<div class="grid three">` → `<div class="grid three st-cards">`
 ```
 
-## wording-S2.2-2.4 · core.js: Uhrzeit-Gruppen gleich breit bis „19–20“, Haltedauer „unter 5 min“/„über 4 h“
+## farbe-C20 · Tagesansicht: Pille „Heute“ neutral, Zähler nur > 0 gefärbt, Score mit scoreText, Leertext muted, Knopf neutral
 
-Gruppe wording · Cluster statistik · Aufwand S · Befunde: bereich_statistik-38
-Quelle: audit/spec/wording.md Z. 309–311 · Dateien: web/js/core.js
+Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: farbe_kontrast-24, referenz-8, komponenten-8, bereich_trades_tag-25, farbe_kontrast-42, bereich_trades_tag-19, barrierefreiheit-25, bereich_trades_tag-21
+Quelle: audit/spec/farbe.md Z. 474–479 · Dateien: web/js/screens/day.js
+Abhängig von: farbe-B27a
+
+```text
+**C20 – `web/js/screens/day.js`** — farbe_kontrast-24, referenz-8, komponenten-8, bereich_trades_tag-25, farbe_kontrast-42, bereich_trades_tag-19, barrierefreiheit-25, bereich_trades_tag-21
+- Z. 12 `U.pill('Heute', 'win')` → `U.pill('Heute', 'neutral')`
+- Z. 14 `<span class="pos">${s.wins}</span> / <span class="neg">${s.losses}</span>` → `<span class="${s.wins ? 'pos' : ''}">${s.wins}</span> / <span class="${s.losses ? 'neg' : ''}">${s.losses}</span>`
+- Z. 15 `<b style="color:${U.scoreColor(sc)}">${sc}</b>` → `<span style="color:${U.scoreText(sc)}">${sc}</span>`
+- Z. 19 `<span class="faint">Noch leer.</span>` → `<span class="muted">Noch leer.</span>`; `class="btn sm primary" data-action="nb-day-note"` → `class="btn sm"`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
+- ÄNDERN: Z. 14 (Zähler) entfällt, das übernimmt diagramme-M1. Z. 12, 15 und 19 bleiben.
+
+## farbe-C31a · TradeLog: Leerzustand „Trade loggen“ accent, Score über scoreText, Regeln-Symbol .rule-ic, „offen“ muted
+
+Gruppe farbe · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-21, bereich_trades_tag-19, bereich_trades_tag-42, barrierefreiheit-25, farbe_kontrast-11
+Quelle: audit/spec/farbe.md Z. 539–541 · Dateien: web/js/screens/trades.js
+Abhängig von: farbe-B26, farbe-B27a
+
+```text
+**C31 – `web/js/screens/trades.js`** — bereich_trades_tag-21, bereich_trades_tag-19, bereich_trades_tag-42, barrierefreiheit-25, bereich_trades_tag-25, bereich_trades_tag-29, farbe_kontrast-11
+- Z. 45 (Leerzustand) `class="btn sm primary" data-action="new-trade"` → `class="btn sm accent"`
+- Z. 49 Score: `<b style="color:${U.scoreColor(sc)}">${sc}</b>` → `<span style="color:${U.scoreText(sc)}">${sc}</span>`; Regeln: `<span class="pos">${I.check.replace('<svg', '<svg style="width:14px;height:14px;display:inline"')}</span>` → `<span class="rule-ic muted">${I.check}</span>` und `<span class="neg" data-tip="…">${I.close.replace(…)}</span>` → `<span class="rule-ic neg" data-tip="…">${I.close}</span>`; `'<span class="faint">offen</span>'` → `'<span class="muted">offen</span>'` (die beiden „—“ bleiben `faint`)
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
+
+## farbe-C31b · Tageskarten-Zähler nur > 0 gefärbt; Verpasste Trades „Entgangen“/„Verlust vermieden“ ohne Vorzeichen und Farbe
+
+Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-25, bereich_trades_tag-29
+Quelle: audit/spec/farbe.md Z. 542–543 · Dateien: web/js/screens/trades.js
 Abhängig von: —
 
 ```text
-| 2.2 | `HOUR_BUCKETS` Z. 195 | `[…, '17–18', '18–20', 'ab 20']` → `['vor 8', '8–9', '9–10', '10–11', '11–12', '12–13', '13–14', '14–15', '15–16', '16–17', '17–18', '18–19', '19–20', 'ab 20']` | bereich_statistik-38 |
-| 2.3 | `hourBucket` Z. 196 | `const hourBucket = h => h < 8 ? 'vor 8' : h < 18 ? \`${h}–${h + 1}\` : h < 20 ? '18–20' : 'ab 20';` → `const hourBucket = h => h < 8 ? 'vor 8' : h < 20 ? \`${h}–${h + 1}\` : 'ab 20';` | bereich_statistik-38 |
-| 2.4 | `HOLD_BUCKETS`, `holdBucket` Z. 197–198 | `'< 5 min'` → `'unter 5 min'`, `'> 4 h'` → `'über 4 h'` (beide Zeilen) | bereich_statistik-38 |
+- Z. 54 Tageskarten: `<span class="pos">${d.wins}</span> / <span class="neg">${d.losses}</span>` → `<span class="${d.wins ? 'pos' : ''}">${d.wins}</span> / <span class="${d.losses ? 'neg' : ''}">${d.losses}</span>`
+- Z. 59 Verpasste Trades: `<div class="caption">Entgangen</div><div class="score-big ${U.cls(total)}">${fmt.cur(total, { signed: true })}</div>` → `<div class="caption">${total >= 0 ? 'Entgangen' : 'Verlust vermieden'}</div><div class="score-big">${fmt.cur(Math.abs(total))}</div>`
 ```
 
-## wording-S2.5-2.13 · core.js stats16: „Erwartungswert pro Trade“, neue Kachel „Trades“ statt Ø pro Trade, Trefferquoten, Ø Gewinn/Verlust, R- und Kontrakt-Namen
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe wording · Cluster statistik · Aufwand M · Befunde: wording-8, wording-3, wording-9, hierarchie-13, bereich_statistik-10
-Quelle: audit/spec/wording.md Z. 312–320 · Dateien: web/js/core.js
-Abhängig von: —
+- [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
+- ÄNDERN: Z. 54 (Tageskarten-Zähler) entfällt, das übernimmt diagramme-M1. Z. 59 (Verpasste Trades) bleibt.
+
+## farbe-C31c · Trade-Ansicht: Disziplin-Teilwerte, „Keine Fehler markiert“, Sprachnotiz muted, Knöpfe neutral
+
+Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-19, bereich_trades_tag-21, farbe_kontrast-11
+Quelle: audit/spec/farbe.md Z. 544–548 · Dateien: web/js/screens/trades.js
+Abhängig von: farbe-A1, farbe-A2
 
 ```text
-| 2.5 | `stats16` Z. 316 (`expectancy`) | label `'Trade-Erwartungswert'` → `'Erwartungswert pro Trade'`; info `'Win-Rate × Ø Gewinn + Verlustrate × Ø Verlust.'` → `'Trefferquote × Ø Gewinn minus Verlustquote × Ø Verlust. Was ein Trade im Schnitt einbringt.'` (wörtlich wie widgets.js:177, Schlüssel vorhanden). Wert bleibt `s.tradeExpectancy` | wording-8, wording-3 |
-| 2.6 | `stats16` Z. 317 (`avgTrade`) | ganze Zeile → `{ key: 'trades', label: 'Trades', type: 'int', v: s.n, info: 'Abgeschlossene Trades im Zeitraum.' },` | wording-8 |
-| 2.7 | Z. 318 (`avgVolume`) | label `'Ø Tagesvolumen'` → `'Ø Kontrakte pro Tag'`; info `'Gehandelte Stückzahl pro Handelstag.'` → `'Gehandelte Kontrakte pro Handelstag.'` | bereich_statistik-10 |
-| 2.8 | Z. 319 (`winRate`) | label `'Win-Rate'` → `'Trade-Trefferquote'` | wording-3 |
-| 2.9 | Z. 320 (`dayPayoff`) | label bleibt `'Ø Tages-Gewinn/Verlust'`; info → `'Ø Gewinntag geteilt durch Ø Verlusttag.'` | wording-9, bereich_statistik-10 |
-| 2.10 | Z. 323 (`dayWinRate`) | label `'Ø Tages-Win-Rate'` → `'Tages-Trefferquote'` | wording-3, hierarchie-13, bereich_statistik-10 |
-| 2.11 | Z. 324 (`payoff`) | label `'Ø Trade-Gewinn/Verlust'` → `'Ø Gewinn/Verlust'`; info → `'Ø Gewinn geteilt durch Ø Verlust.'` | wording-9, hierarchie-13, bereich_statistik-10 |
-| 2.12 | Z. 325 (`plannedR`) | label `'Ø geplantes R-Multiple'` → `'Ø geplantes R pro Trade'` | bereich_statistik-10 |
-| 2.13 | Z. 329 (`realizedR`) | label `'Ø realisiertes R-Multiple'` → `'Ø R pro Trade'` (wie Edge-Check stats.js:72) | bereich_statistik-10 |
+- Z. 74 Disziplin-Teilwerte: `c.f >= 0.99 ? 'var(--accent)' : c.f > 0 ? 'var(--warn)' : 'var(--loss)'` → `c.f >= 0.99 ? 'var(--text-2)' : c.f > 0 ? 'var(--warn-text)' : 'var(--loss)'`
+- Z. 76 `class="pos small">Keine Fehler markiert` → `class="muted small"`
+- Z. 83 `${v.transcript ? '' : 'faint'}` → `${v.transcript ? '' : 'muted'}`
+- Z. 84 `class="btn sm primary" data-action="voice-open"` → `class="btn sm"`; Z. 85 `class="btn primary sm" data-action="edit-trade"` → `class="btn sm"`
+
 ```
 
-## wording-S10.1-10.7 · Statistik: REG_VS, Serien-Einzahl, Titel „… nach …“, Spalten „Trefferquote“/„Erwartungswert“, Uhrzeit-Tabelle mit „ Uhr“
+## farbe-D3a · README Z. 43: Long/Short-Fläche „flach, leicht getönt“
 
-Gruppe wording · Cluster statistik · Aufwand M · Befunde: bereich_statistik-16, bereich_statistik-28, zustaende-28, wording-3, bereich_statistik-38
-Quelle: audit/spec/wording.md Z. 442–452 · Dateien: web/js/screens/stats.js
-Abhängig von: wording-S1.1-1.3, wording-S2.2-2.4
+Gruppe farbe · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-12
+Quelle: audit/spec/farbe.md Z. 565–566 · Dateien: web/README.md
+Abhängig von: farbe-B17
 
 ```text
-### Schritt 10 · `web/js/screens/stats.js`
+**D3 – `web/README.md`**
+- Z. 43: „eine leuchtende Fläche gleitet zur gewählten Seite“ → „eine flache, leicht getönte Fläche gleitet zur gewählten Seite“ — bereich_trades_tag-12
+```
 
-| # | Stelle | vorher → nachher | ids |
+## typografie-3.7a · Session beenden: Beschriftungen „Heute/Trades/Win-Rate“ als .val-label
+
+Gruppe typografie · Cluster trades_tag · Aufwand S · Befunde: referenz-43
+Quelle: audit/spec/typografie.md Z. 411–415 · Dateien: web/js/app.js
+Abhängig von: typografie-3.2.2c
+
+```text
+### 3.7 `web/js/app.js`
+
+| Stelle | vorher → nachher | Befund |
+|---|---|---|
+| Z. 530 (Session beenden) | dreimal `<div class="caption">` („Heute“, „Trades“, „Win-Rate“) → `<div class="val-label">` | referenz-43 |
+```
+
+## typografie-3.7b · CSV-Vorschau: Datumszellen mit Klasse num
+
+Gruppe typografie · Cluster trades_tag · Aufwand S · Befunde: typografie-12
+Quelle: audit/spec/typografie.md Z. 416–417 · Dateien: web/js/app.js
+Abhängig von: typografie-3.2.2f
+
+```text
+| Z. 567 (CSV-Vorschau) | `<td>${fmt.dateTime(d.open)}</td>` → `<td class="num">…`; `<td>${d.close ? fmt.dateTime(d.close) : '<span class="faint">offen</span>'}</td>` → `<td${d.close ? ' class="num"' : ''}>…` | typografie-12 |
+
+```
+
+## typografie-3.8a · Tagesansicht day.js: „Netto-P&L“ als .val-label, Zeitzelle num
+
+Gruppe typografie · Cluster trades_tag · Aufwand S · Befunde: referenz-43, bereich_trades_tag-39, typografie-12
+Quelle: audit/spec/typografie.md Z. 418–423 · Dateien: web/js/screens/day.js
+Abhängig von: typografie-3.2.2c, typografie-3.2.2f
+
+```text
+### 3.8 `web/js/screens/*.js`
+
+| Datei:Stelle | vorher → nachher | Befund |
+|---|---|---|
+| day.js:14 | `<div class="caption">Netto-P&L</div>` → `<div class="val-label">Netto-P&L</div>` | referenz-43, bereich_trades_tag-39 |
+| day.js:15 | `<td>${fmt.time(t.open)}…</td>` → `<td class="num">${fmt.time(t.open)}…</td>` | typografie-12 |
+```
+
+## typografie-3.8c · TradeLog und Verpasste Trades: fmt.dateRow mit num-Zellen, Wert-Beschriftungen als .val-label
+
+Gruppe typografie · Cluster trades_tag · Aufwand S · Befunde: referenz-28, typografie-12, referenz-43
+Quelle: audit/spec/typografie.md Z. 425–426 · Dateien: web/js/screens/trades.js
+Abhängig von: typografie-3.4c, typografie-3.2.2c, typografie-3.2.2f
+
+```text
+| trades.js:49 | `<td>${fmt.dateFull(t.open)} <span class="muted">${fmt.time(t.open)}</span></td>` → `<td class="num">${fmt.dateRow(t.open)} <span class="muted">${fmt.time(t.open)}</span></td>`. Zelle „Geschlossen“: `<td>${t.close ? …` → `<td${t.close ? ' class="num"' : ''}>${t.close ? …`, darin `fmt.dateFull(t.close)` → `fmt.dateRow(t.close)` | referenz-28, typografie-12 (K21) |
+| trades.js:59 | `<div class="caption">Entgangen</div>` und `<div class="caption">Wären Gewinner gewesen</div>` → `class="val-label"`; `<td>${fmt.dateFull(C.parseDayKey(x.date))}</td>` → `<td class="num">${fmt.dateRow(C.parseDayKey(x.date))}</td>` | referenz-43, typografie-12, referenz-28 |
+```
+
+## abstaende-B16 · Kennzahlen-Raster: Handy-Einspaltigkeit (560er) löschen, .stat-Polster auf Skala, neu .stat-grid.detail (Trade-Ansicht), .detail-head .stars, 359er-Regel einspaltig
+
+Gruppe abstaende · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-23, responsiv-44, abstaende_layout-31
+Quelle: audit/spec/abstaende.md Z. 332–332 · Dateien: web/css/app.css
+Abhängig von: abstaende-A1
+
+```text
+| B16 | `.stat-grid`/`.stat` (Z. 645, 646) | Z. 645 (`@media (max-width: 560px) { .stat-grid { grid-template-columns: 1fr; } .stat { border-right: 0 !important; } }`) löschen. Die zwei Spalten mit Rändern kommen dann aus dem 1100er-Block Z. 644. Z. 646 `.stat { padding: 16px 18px; … }` → `padding: var(--sp-4) var(--sp-5)`. Neu nach Z. 650, in dieser Reihenfolge: `.stat-grid.detail .stat { padding: var(--sp-3) var(--sp-5); } .stat-grid.detail .v { font-size: 16px; } .detail-head .stars { font-size: 13px; color: var(--text-2); letter-spacing: 1px; } @media (max-width: 560px) { .stat-grid.detail .stat { padding: var(--sp-3) var(--sp-4); } } @media (max-width: 359px) { .stat-grid { grid-template-columns: 1fr; } .stat-grid > .stat { border-right: 0; } }` (die Media-Regeln müssen hinter der Desktop-Regel stehen, gleiche Spezifität) | bereich_trades_tag-23, responsiv-44, abstaende_layout-31 |
+```
+
+## abstaende-B23 · Trade-Formular als 6-Spalten-Raster .tf-main (Desktop und Handy), .tf-row2/.tf-row3-Regeln ersetzen, .dir-switch ohne min-width, .tf-wide volle Breite
+
+Gruppe abstaende · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-9, abstaende_layout-32
+Quelle: audit/spec/abstaende.md Z. 339–339 · Dateien: web/css/app.css
+Abhängig von: abstaende-A1
+
+```text
+| B23 | Trade-Formular Z. 836–840, 850, 872, 2979–2982 | Z. 836–840 ersetzen durch: `.tf-main { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--sp-4); align-items: end; } .tf-main > .field { grid-column: span 2; } .tf-main > .tf-sym { grid-column: span 4; } .tf-main:has(#f-account) > .tf-sym { grid-column: span 2; } .tf-main > .tf-c3 { grid-column: span 3; }`. Z. 850 `.dir-switch`: `min-width: 210px;` streichen. Z. 872 → `.tf-main > .tf-wide { grid-column: 1 / -1; }`. Handy Z. 2979–2982 ersetzen durch `.tf-main { gap: var(--sp-3); } .tf-main > :is(.tf-sym, .tf-dir, .tf-dt, .field:has(#f-account)) { grid-column: 1 / -1; }` | bereich_trades_tag-9, abstaende_layout-32 |
+```
+
+## abstaende-H1 · Trade-Ansicht: Detailkarten .grid two → .grid detail-grid
+
+Gruppe abstaende · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-3
+Quelle: audit/spec/abstaende.md Z. 409–413 · Dateien: web/js/screens/trades.js
+Abhängig von: abstaende-C1
+
+```text
+### web/js/screens/trades.js
+
+| Nr. | Stelle | vorher → nachher | Befunde |
 |---|---|---|---|
-| 10.1 | Z. 6 | nach `REG_V` ergänzen: `REG_VS = { low: 'Niedrig', normal: 'Normal', high: 'Hoch' }` | bereich_statistik-16 |
-| 10.2 | Z. 26 Serien | `${sk.current} ${sk.kind === 'win' ? 'Gewinne' : 'Verluste'}` → `${sk.kind === 'win' ? U.count(sk.current, 'Gewinn', 'Gewinne') : U.count(sk.current, 'Verlust', 'Verluste')}` | bereich_statistik-28, zustaende-28 |
-| 10.3 | Z. 31 | `U.card('P&L nach Wochentag', …)` → `U.card('Netto-P&L nach Wochentag', …)` | bereich_statistik-16 |
-| 10.4 | Z. 32 Tagestabelle | `<th class="r">Win-Rate</th>` → `<th class="r">Trefferquote</th>` | wording-3 |
-| 10.5 | Z. 34 `groupTable` | `<th class="r">Win-Rate</th><th class="r">Ø pro Trade</th>` → `<th class="r">Trefferquote</th><th class="r">Erwartungswert</th>` | wording-3, bereich_statistik-16 |
-| 10.6 | Z. 39 | `'Erwartungswert je Setup'` → `'Erwartungswert nach Setup'`; info `'Ø Netto-P&L pro Trade je Setup.'` → `'Ø Netto-P&L pro Trade nach Setup.'`; `'Netto-P&L je Symbol'` → `'Netto-P&L nach Symbol'` | bereich_statistik-16 |
-| 10.7 | Z. 45 | `'Ø pro Trade nach Wochentag'` → `'Erwartungswert nach Wochentag'`; `'Ø pro Trade nach Haltedauer'` → `'Erwartungswert nach Haltedauer'`; `groupTable(ta.hours, 'Uhrzeit')` → `groupTable(ta.hours.map(g => Object.assign({}, g, { label: g.key + ' Uhr' })), 'Uhrzeit')` | bereich_statistik-16, bereich_statistik-38 |
+| H1 | Detail-Raster Z. 86 | `<div class="grid two">` → `<div class="grid detail-grid">` | bereich_trades_tag-3 |
 ```
 
-## wording-S10.8-10.12 · Statistik: Fehler-Kacheln (Kosten in Verlustfarbe ohne Minus, Trefferquote mit/ohne Fehler ohne Farbe), Regime-Titel und Einzel-Labels, Edge-Zähler
+## abstaende-H2 · Trade-Kennzahlen: Eintrag „Bewertung“ aus dem Raster, Sterne im Kopf, .stat-grid.detail ohne Inline-Stile
 
-Gruppe wording · Cluster statistik · Aufwand M · Befunde: bereich_statistik-45, wording-3, zustaende-28, bereich_statistik-16
-Quelle: audit/spec/wording.md Z. 453–457 · Dateien: web/js/screens/stats.js
-Abhängig von: wording-S1.1-1.3, wording-S10.1-10.7
+Gruppe abstaende · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-23, responsiv-44
+Quelle: audit/spec/abstaende.md Z. 414–414 · Dateien: web/js/screens/trades.js
+Abhängig von: abstaende-B16
 
 ```text
-| 10.8 | Z. 51 Fehler-Kacheln | erste Kachel: `const mc0 = mr.cost < -C.EPS ? ['Fehler haben gekostet', 'neg', fmt.cur(-mr.cost)] : mr.cost > C.EPS ? ['Fehler haben eingebracht', 'pos', fmt.cur(mr.cost)] : ['Fehler haben gekostet', 'neu', fmt.cur(0)];` und `U.tile(mc0[0], \`<span class="${mc0[1]}">${mc0[2]}</span>\`, { info: … })` (Info unverändert); `{ n: \`${mr.compliantN} Trades\` }` → `{ n: U.count(mr.compliantN, 'Trade', 'Trades') }`; vierte Kachel `U.tile('Win-Rate mit / ohne Fehler', \`<span class="neg">…</span> <span class="muted">/</span> <span class="pos">…</span>\`)` → `U.tile('Trefferquote mit / ohne Fehler', \`${fmt.pct(mr.mistakeSummary.winRate, 1)} <span class="muted">/</span> ${fmt.pct(mr.compliantSummary.winRate, 1)}\`)` (keine Farbe, eine Stelle wie stats.js:21) | bereich_statistik-45, wording-3, zustaende-28 |
-| 10.9 | Z. 52 Kosten je Fehler | `· WR ${fmt.pct(…)}` → `· Trefferquote ${fmt.pct(…)}` | wording-3 |
-| 10.10 | Z. 56 `lab` | Einzelfall `REG_T[g.key] \|\| REG_V[g.key] \|\| g.key` → `REG_T[g.key] \|\| REG_VS[g.key] \|\| g.key` (Kombinationen behalten `REG_V`) | bereich_statistik-16 |
-| 10.11 | Z. 58 | `${ra.coverage} von ${closed.length} Trades haben …` → `${ra.coverage} von ${U.count(closed.length, 'Trade', 'Trades')} haben …`; `'Ø pro Trade je Marktphase'` → `'Erwartungswert nach Marktphase'`; `'Ø pro Trade nach Volatilität'` → `'Erwartungswert nach Volatilität'` | bereich_statistik-16, zustaende-28 |
-| 10.12 | Z. 72 Edge | `{ n: \`${e.n} Trades\` }` → `{ n: U.count(e.n, 'Trade', 'Trades') }`; `noch ${e.required - e.n} Trades` → `noch ${U.count(e.required - e.n, 'Trade', 'Trades')}` | zustaende-28 |
+| H2 | Kennzahlen Z. 67–68 | Z. 68: Eintrag `['Bewertung', …]` aus dem Array entfernen. `<div class="stat-grid">` → `<div class="stat-grid detail">`. An `.stat` `style="padding:12px 20px"` und an `.v` `style="font-size:16px"` streichen. Z. 67 nach den Chips, vor `<div class="big">`: `${t.rating ? `<span class="stars" aria-label="Bewertung ${t.rating} von 5">${'★'.repeat(t.rating)}<span class="faint">${'★'.repeat(5 - t.rating)}</span></span>` : ''}` | bereich_trades_tag-23, responsiv-44 |
 ```
 
-## wording-S10.13-10.15 · Monte Carlo: Durchläufe mit fmt.int, Kacheln kompakt ohne Cent, ausgeschriebene Fußzeilen
+## abstaende-H3 · Weitere Inline-Abstände in trades.js (zusammen 20) nach 1.16 ersetzen
 
-Gruppe wording · Cluster statistik · Aufwand S · Befunde: bereich_statistik-26, wording-29
-Quelle: audit/spec/wording.md Z. 458–461 · Dateien: web/js/screens/stats.js
+Gruppe abstaende · Cluster trades_tag · Aufwand M · Befunde: abstaende_layout-34
+Quelle: audit/spec/abstaende.md Z. 415–416 · Dateien: web/js/screens/trades.js
+Abhängig von: abstaende-A6
+
+```text
+| H3 | weitere Inline-Abstände (Z. 59 u. a., zusammen 20) | nach 1.16 ersetzen | abstaende_layout-34 |
+
+```
+
+## abstaende-E-day1 · Tagesansicht: Screen-Objekt mit head { range: false } und actions(ctx) (Zertifikat-Knopf)
+
+Gruppe abstaende · Cluster trades_tag · Aufwand S · Befunde: referenz-17
+Quelle: audit/spec/abstaende.md Z. 432–436 · Dateien: web/js/screens/day.js
 Abhängig von: —
 
 ```text
-| 10.13 | Z. 79 Monte Carlo | `${mc.runs} Durchläufe à …` → `${fmt.int(mc.runs)} Durchläufe à …` | bereich_statistik-26, wording-29 |
-| 10.14 | Z. 80 MC-Kacheln | `U.tile('Median-Drawdown', \`<span class="neg">${fmt.cur(-mc.dd.p50)}</span>\`, { foot: \`95 %: … · schlimmster …\` })` → `U.tile('Drawdown (Median)', \`<span class="neg">${fmt.cur(-mc.dd.p50, { compact: true })}</span>\`, { foot: \`In 95 % der Durchläufe unter ${fmt.cur(mc.dd.p95, { compact: true })} · schlimmster ${fmt.cur(mc.dd.worst, { compact: true })}\` })`; `U.tile('Endkapital (Median)', fmt.cur(mc.final.p50), { foot: \`5 %: … · 95 %: …\` })` → `U.tile('Endkapital (Median)', fmt.cur(mc.final.p50, { compact: true }), { foot: \`90 % der Durchläufe zwischen ${fmt.cur(mc.final.p5, { compact: true })} und ${fmt.cur(mc.final.p95, { compact: true })}\` })` | bereich_statistik-26 |
-| 10.15 | Z. 81 | `{ sub: '25 von ' + mc.runs + ' Durchläufen' }` → `{ sub: '25 von ' + fmt.int(mc.runs) + ' Durchläufen' }` | bereich_statistik-26 |
+### web/js/screens/day.js
+
+| Nr. | Stelle | vorher → nachher | Befunde |
+|---|---|---|---|
+| E-day1 | Screen-Objekt nach `title` | `head: { range: false },` und `actions(ctx) { const key = ctx.params[0] \|\| C.dayKey(new Date()); return `<button type="button" class="btn" data-action="cert-open" data-kind="day" data-ref="${key}" data-tip="Daily Profit Certificate">${I.shield}<span class="hide-m">Zertifikat</span></button>`; },` | referenz-17 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: App.screens.day.head] head ist die Funktion aus aufbau-C7a: `range: false` und an anderen Tagen der tradeTip „Trade für {Datum} loggen“. Der Zertifikat-Knopf wandert über `actions(ctx)` rechts in die Kopfreihe (abstaende-E-day1), mit Symbol I.award wie auf Dashboard und Statistiken und mit dem data-tip „Tageszertifikat erstellen“ (wording-S8.1): `actions(ctx) { const key = ctx.params[0] || C.dayKey(new Date()); return `<button type="button" class="btn" data-action="cert-open" data-kind="day" data-ref="${key}" data-tip="Tageszertifikat erstellen">${I.award}<span class="hide-m">Zertifikat</span></button>`; }`. Die Klasse am Text-Span folgt den übrigen Kopfreihen-Knöpfen: heute hide-m, nach Barrierefreiheit Z4 vh-m. Aus der Datumszeile verschwindet der Zertifikat-Knopf. Begründung: Seitenaktionen stehen überall rechts in der Kopfreihe (Aufbau 1.3), auf Dashboard und Statistiken steht das Zertifikat schon dort, und die Datumszeile bleibt reine Navigation (referenz-17, geprüfte Fassung). certtest.js:54 findet `[data-action=cert-open][data-kind=day]` weiterhin. Ob die Datumsnavigation selbst in ctx.headLeft wandert (abstaende-E-day2), entscheidet der Anker ctx.headLeft. Diese Entscheidung gilt in beiden Fällen.
+- ÄNDERN: `head: { range: false }` nicht anlegen, weil aufbau-C7a head als Funktion setzt. Nur actions(ctx) ergänzen, mit I.award statt I.shield und data-tip „Tageszertifikat erstellen“ statt „Daily Profit Certificate“.
+
+## abstaende-E-day2 · Tagesansicht: Datumsnavigation als ctx.headLeft in die Kopfreihe, Kopfknöpfe Zertifikat/Check-in/„Trade für diesen Tag“ entfallen, .day-title in app.css
+
+Gruppe abstaende · Cluster trades_tag · Aufwand M · Befunde: referenz-17
+Quelle: audit/spec/abstaende.md Z. 437–437 · Dateien: web/js/screens/day.js, web/css/app.css
+Abhängig von: abstaende-E-day1, abstaende-E3, abstaende-A6
+
+```text
+| E-day2 | `render()` Z. 12 und Z. 20 | Die Datumsnavigation wird Teil der Kopfreihe: `ctx.headLeft = `<div class="row s-2"><a class="btn round" href="#/day/${C.dayKey(prev)}" aria-label="Voriger Tag">${I.chevL}</a><a class="btn round" href="#/day/${C.dayKey(next)}" aria-label="Nächster Tag">${I.chevR}</a><h2 class="day-title">${fmt.weekdayLong(date)}</h2>${isToday ? U.pill('Heute', 'win') : `<a class="btn sm ghost" href="#/day/${C.dayKey(new Date())}">Heute</a>`}</div>`;` (das Konto steht davor, pageHead setzt `headLeft` nach dem Konto). Die Pillenfarbe entscheidet die Farb-Gruppe, Layout und Position stehen hier. Die Knöpfe „Zertifikat“, „Check-in“ und „Trade für diesen Tag“ aus Z. 12 entfallen. Z. 20 `return `${nav}${stats}…`` → `return `${stats}…``. CSS neu (app.css, Tagesansicht): `.day-title { font-size: 18px; margin-left: var(--sp-1); }`. Ergebnis: eine Kopfreihe, links Konto · ‹ › Datum (Heute), rechts Zertifikat · Session · „Trade loggen“. | referenz-17 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: App.pageHead] aufbau-B1 schreibt pageHead und newTradeButton neu und nimmt die Teile der anderen Schritte auf. Endzustand: `const sh = typeof screen.head === 'function' ? screen.head(ctx) : screen.head; const h = Object.assign({ range: true, account: true, session: true, trade: true, note: '', tradeTip: '' }, sh);`. In `left` steht `this.accountControl({ mobile: !h.range, iconM: !!h.range })` (responsiv-3.3a), danach wie heute `ctx.headLeft` und der Hinweis. In `right` steht `this.sessionControl()` ohne Argument (komponenten-A4); B1 lässt dort fälschlich noch `(true)` stehen. Vor dem return kommt `if (!left && !right) return '';`; das steht in B1 und abstaende-E1 gleich, also doppelt. abstaende-E-day2 setzt nur `ctx.headLeft` und passt ohne Änderung, weil pageHead headLeft nach dem Konto einsetzt. Mentor ohne Server nutzt die Funktionsform von head (siehe Anker screen.head).
+- [konflikt: .day-title] Eine Regel in app.css (Tagesansicht): `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`, ohne Tokens 18px/4px. 20 px (komponenten-C36) gibt es auf der Typo-Skala nicht; die h2-Rolle ist 18/600. 6 px gibt es auf der Abstandsskala nicht, also 4. Das Markup kommt aus abstaende-E-day2 (Datumsnavigation als `ctx.headLeft` in der Kopfreihe) mit den Komponenten-Klassen: Pfeile `class="btn nav"` (`.btn.round` entfällt), `<h2 class="day-title">`, heute `U.pill('Heute', 'neutral')` (Farbe). An anderen Tagen steht der Link „Heute“ als `class="btn sm"` (ohne ghost) direkt nach dem Titel in der linken Gruppe. Die rechte Gruppe der Kopfreihe gehört Seitenaktionen, Session und „Trade loggen“ (aufbau). „Am Anfang der rechten Gruppe“ (S-day-a) bezog sich auf die alte Datumszeile, die E-day2 auflöst.
+- ÄNDERN: Im headLeft-Markup `class="btn nav"` statt `class="btn round"`, Link „Heute“ `class="btn sm"` statt `class="btn sm ghost"`, Pille `U.pill('Heute', 'neutral')`. CSS `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`.
+- ÜBERNIMMT komponenten-S-day-a: Die Klassenwechsel aus Z. 12 (`btn nav`, `day-title`, „Heute“ als `btn sm`) setzt abstaende-E-day2 beim Umbau in die Kopfreihe um. Die Platzierung am Anfang der rechten Gruppe entfällt.
+
+## abstaende-E-day3 · Aktion new-trade-day entfernen, sobald grep sie nicht mehr findet
+
+Gruppe abstaende · Cluster trades_tag · Aufwand S · Befunde: referenz-17
+Quelle: audit/spec/abstaende.md Z. 438–438 · Dateien: web/js/screens/day.js
+Abhängig von: abstaende-E-day2
+
+```text
+| E-day3 | `new-trade-day` (Z. 24) | bleibt, wird aber nicht mehr verwendet. Entfernen, sobald `grep -rn "new-trade-day" web/js` außer Z. 24 nichts mehr findet. | referenz-17 |
+```
+
+## abstaende-E-day4 · Inline-Abstände in day.js (10) nach 1.16 ersetzen
+
+Gruppe abstaende · Cluster trades_tag · Aufwand M · Befunde: abstaende_layout-34
+Quelle: audit/spec/abstaende.md Z. 439–440 · Dateien: web/js/screens/day.js
+Abhängig von: abstaende-A6
+
+```text
+| E-day4 | Inline-Abstände (10) | nach 1.16 ersetzen | abstaende_layout-34 |
 
 ```
+
+## abstaende-R1 · mobiletest: TradeLog-Abstand 18 → 16 (Wert und Text)
+
+Gruppe abstaende · Cluster trades_tag · Aufwand S · Befunde: abstaende_layout-32
+Quelle: audit/spec/abstaende.md Z. 516–520 · Dateien: web/e2e/mobiletest.js
+Abhängig von: abstaende-C11
+
+```text
+### Tests
+
+| Nr. | Datei | Änderung | Befunde |
+|---|---|---|---|
+| R1 | `web/e2e/mobiletest.js:31` | `g === 18` → `g === 16`, Text „18px Abstand“ → „16px Abstand“ | abstaende_layout-32 |
+```
+
+## abstaende-S4 · README Z. 93: TradeLog-Blöcke 16 px statt 18 px
+
+Gruppe abstaende · Cluster trades_tag · Aufwand S · Befunde: abstaende_layout-32
+Quelle: audit/spec/abstaende.md Z. 533–533 · Dateien: web/README.md
+Abhängig von: abstaende-C11
+
+```text
+| S4 | Z. 93 | „TradeLog-Blöcke mit festem 18-px-Abstand“ → „TradeLog-Blöcke mit festem 16-px-Abstand (wie das Dashboard-Raster)“ | abstaende_layout-32 |
+```
+
+## abstaende-S7 · README Z. 108: Tagesansicht mit Datum ‹ › in der Kopfreihe, „Trade loggen“ übernimmt das Datum
+
+Gruppe abstaende · Cluster trades_tag · Aufwand S · Befunde: referenz-17
+Quelle: audit/spec/abstaende.md Z. 536–539 · Dateien: web/README.md
+Abhängig von: abstaende-E3, abstaende-E-day2
+
+```text
+| S7 | Z. 108 | Tagesansicht: „Datum mit ‹ › in der Kopfreihe; „Trade loggen“ übernimmt das Datum des angezeigten Tages“ | referenz-17 |
+
+---
+
+```
+
+## komponenten-A5b · Symbol- und Richtungsfeld aus openTradeEditor herauslösen (App.symbolField, App.dirField)
+
+Gruppe komponenten · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-11
+Quelle: audit/spec/komponenten.md Z. 568–569 · Dateien: web/js/app.js
+Abhängig von: —
+
+```text
+Zusätzlich die Markup-Teile für Symbol und Richtung aus `openTradeEditor` (Z. 350, 351) herauslösen: `App.symbolField(sym)` liefert das bisherige `<div class="field tf-sym">…</div>` (IDs `f-symbol-btn`, `f-symbol`, `f-symbol-l` bleiben), `App.dirField(dir)` das bisherige `<div class="field">…<div class="dir-switch" id="f-dir" …>…</div><input type="hidden" name="direction" …></div>`. `openTradeEditor` ruft beide auf. Die Symbolwahl (Z. 395–410) greift auf `#f-mult` schon abgesichert zu (`if (mi && …)`, Z. 399); im Verpasst-Dialog gibt es kein `#f-mult`, das bleibt so. `set-dir` (Z. 471) und `updateTradePreview` arbeiten ohne `#trade-form` weiter (früher Ausstieg), nichts zu ändern.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: #f-dir] Der Verpasst-Dialog meldet fehlendes Symbol und fehlende Richtung genauso wie der Trade-Dialog: als Feldmeldung über U.fieldErrors, nicht als Toast. Gleiche Texte („Symbol fehlt“, „Long oder Short wählen“) und gleiches .need-Wackeln. Die Meldungen verschwinden über U.clearFieldError, das zustaende-S-A4 in 'set-dir' und in pick() von openSymbolMenu einbaut. Beide Stellen werden von beiden Dialogen benutzt, weil App.symbolField und App.dirField (komponenten-A5b) dieselben IDs liefern. Das Datum bleibt dort natives required und läuft über den globalen invalid-Listener. Für P12 gilt, was unter #trade-form steht.
+- [reihenfolge: App.openTradeEditor] Alle Schritte ändern dieselbe Vorlage. Darum gilt eine feste Reihenfolge, und zwei Doppelungen werden zusammengelegt. (1) komponenten-A5b löst Symbol und Richtung in App.symbolField und App.dirField heraus. (2) abstaende-E2 entfernt die Wrapper. Die Klasse tf-dir gehört in App.dirField: <div class="field tf-dir">…</div>. Im Verpasst-Dialog wirkt sie nicht, denn die CSS-Regeln greifen nur unter .tf-main >. (3) wording-S5.4-5.5 setzt das Feld Geschlossen und übernimmt dabei farbe-C12a: <div class="field tf-c3 tf-dt"><label for="f-close">Geschlossen <span class="lbl-hint dp-coarse">(leer lassen, solange offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" data-empty="Offen" value="…"></div>. Die Klasse ist lbl-hint statt faint, weil --faint nie für Wörter steht. Der Knopftext wird ${trade ? 'Speichern' : 'Trade loggen'}, die Klasse bleibt btn primary. Wie die Bestätigen-Knöpfe aussehen, ist Nutzerfrage komponenten-1 und wird hier nicht geändert. (4) barrierefreiheit-P12 (Restteil): Punktwert-(i) in .lbl-row innerhalb von <div class="field tf-c3"> und guard: true. (5) zustaende-S-A4: novalidate und Prüfung (siehe #trade-form). abstaende-E3, aufbau-B6 und wording-S5.3 sind unter App.actions['new-trade'] entschieden, wording-S5.9 unter app.html keydown.
+- [konflikt: #f-symbol-btn] Fehler am Symbolknopf: Feldmeldung „Symbol fehlt“ über U.fieldErrors, aufgeräumt mit U.clearFieldError(btn) in pick() (siehe #trade-form). Die IDs f-symbol-btn, f-symbol und f-symbol-l bleiben in App.symbolField (komponenten-A5b) gleich, darum gilt das für Trade- und Verpasst-Dialog.
+
+## abstaende-E2 · Trade-Formular-Markup: Wrapper .tf-row3/.tf-row2 entfernen, Felder direkte Kinder von .tf-main mit Klassen tf-dir, tf-c3, tf-dt
+
+Gruppe abstaende · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-9
+Quelle: audit/spec/abstaende.md Z. 384–384 · Dateien: web/js/app.js
+Abhängig von: abstaende-B23
+
+```text
+| E2 | Trade-Formular Z. 353–365 | Wrapper `<div class="tf-row3">` und die beiden `<div class="tf-row2">` samt schließenden `</div>` entfernen. Alle Felder werden direkte Kinder von `.tf-main`. Klassen: Richtung `class="field tf-dir"`; Eröffnet und Geschlossen `class="field tf-c3 tf-dt"`; Punktwert und Gebühren `class="field tf-c3"`. Symbol behält `field tf-sym`, Prop-Konten `field tf-wide`. | bereich_trades_tag-9 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: App.openTradeEditor] Alle Schritte ändern dieselbe Vorlage. Darum gilt eine feste Reihenfolge, und zwei Doppelungen werden zusammengelegt. (1) komponenten-A5b löst Symbol und Richtung in App.symbolField und App.dirField heraus. (2) abstaende-E2 entfernt die Wrapper. Die Klasse tf-dir gehört in App.dirField: <div class="field tf-dir">…</div>. Im Verpasst-Dialog wirkt sie nicht, denn die CSS-Regeln greifen nur unter .tf-main >. (3) wording-S5.4-5.5 setzt das Feld Geschlossen und übernimmt dabei farbe-C12a: <div class="field tf-c3 tf-dt"><label for="f-close">Geschlossen <span class="lbl-hint dp-coarse">(leer lassen, solange offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" data-empty="Offen" value="…"></div>. Die Klasse ist lbl-hint statt faint, weil --faint nie für Wörter steht. Der Knopftext wird ${trade ? 'Speichern' : 'Trade loggen'}, die Klasse bleibt btn primary. Wie die Bestätigen-Knöpfe aussehen, ist Nutzerfrage komponenten-1 und wird hier nicht geändert. (4) barrierefreiheit-P12 (Restteil): Punktwert-(i) in .lbl-row innerhalb von <div class="field tf-c3"> und guard: true. (5) zustaende-S-A4: novalidate und Prüfung (siehe #trade-form). abstaende-E3, aufbau-B6 und wording-S5.3 sind unter App.actions['new-trade'] entschieden, wording-S5.9 unter app.html keydown.
+- ÄNDERN: Die Richtungsklasse wird in App.dirField gesetzt (<div class="field tf-dir">), nicht im Markup von openTradeEditor. Das Symbolfeld kommt mit class="field tf-sym" aus App.symbolField. Alles andere bleibt wie in E2: Wrapper weg, Eröffnet und Geschlossen tf-c3 tf-dt, Punktwert und Gebühren tf-c3, Prop-Konten tf-wide.

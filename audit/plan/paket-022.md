@@ -1,335 +1,438 @@
 # Paket 022 · notebook_news
 
-Schritte: 28 · Dateien: web/README.md, web/css/app.css, web/e2e/newstest.js, web/js/editor.js, web/js/screens/news.js, web/js/screens/notebook.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 news; Akzeptanz 4.3 notebook (Tag-Pillen 500); Akzeptanz 4.3 notebook („Netto-P&L“ 500, Betrag 700 Onest); Akzeptanz 4.3 notebook_notiz (Editor-h2 zweizeilig ohne Lücke); Akzeptanz 4.3 notebook_notiz (Notiztitel 32/600); Akzeptanz 4.3 notebook_notiz (Toolbar „Text“ und „16“ 13/500, „16“ in Onest); Akzeptanz 4.4: grep -n "\.journal" web/css/app.css ohne Treffer; web/e2e/figtest.js; web/e2e/imgtest.js:5 ([data-action=nb-new] greift weiter); web/e2e/mobiletest.js:53-55 (sucht .note-head > .row; auf .note-bar umstellen, rowH-Grenze prüfen); web/e2e/nbsel.js (prüfen); web/e2e/nbsel.js:34 (.sel.on bleibt); web/e2e/newstest.js; web/e2e/newstest.js:67; web/e2e/newstest.js:67 (siehe farbe-D2b); web/tests/inline-style.test.mjs (Zählung, Schritt R5)
-Baut auf Paketen auf: 1, 2
+Schritte: 32 · Dateien: web/README.md, web/css/app.css, web/e2e/newstest.js, web/e2e/sixtest.js, web/js/editor.js, web/js/sample.js, web/js/screens/news.js, web/js/screens/notebook.js, web/js/store.js
+Betroffene Tests laut Spezifikation: e2e/colorpickertest.js; e2e/imgtest.js:5 (.nb .col.mid .btn.primary nur Ausweich-Selektor); e2e/mobiletest.js:53 (nb-share); e2e/nbsel.js:11–17; e2e/sampletest.js; e2e/sixtest.js:52–57 (siehe E1c); e2e/sixtest.js:57; prüfen: e2e/newstest.js:53, :93 (.nw-next-t b, .nw-next .caption); web/e2e/dptest.js:104 (bleibt grün); web/e2e/figtest.js:5, web/e2e/figdel.js:5, web/e2e/scrolltest.js:30 (in Abschnitt 5 genannt, müssen grün bleiben); web/e2e/mobiletest.js:53 (.datebtn bleibt); web/e2e/newstest.js:52; web/e2e/newstest.js:54; web/e2e/newstest.js:54 (Schritt zustaende-S-TE4); web/tests/core.test.mjs; web/tests/sample.test.mjs
+Baut auf Paketen auf: 1, 6, 21
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## farbe-C1a · Notebook-Liste: Auswahl-Kästchen, gewählte Notiz und gedrückter Kopf-Knopf neutral
+## komponenten-C30 · Ordner-Dialog (CSS): Plus-Farbkreis .swatch.add, gleichmäßige Abstände
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-16
-Quelle: audit/spec/farbe.md Z. 354–359 · Dateien: web/css/app.css
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-31
+Quelle: audit/spec/komponenten.md Z. 442–452 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-### C. Einzelstellen
-
-**C1 – `web/css/app.css` Notebook und Editor** — bereich_notebook_news-16, bereich_notebook_news-26, ki_look-34, bereich_notebook_news-21, bereich_notebook_news-17, bereich_notebook_news-3, farbe_kontrast-6
-- Z. 1007 `.nb .note-item .sel.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }` → `{ background: var(--text); border-color: var(--text); color: var(--bg); }`
-- Z. 1008 `.nb .note-item.selected { background: var(--accent-soft); border-color: var(--accent-soft); }` → `{ background: var(--surface-3); border-color: var(--border-2); }`
-- Z. 1012 `.nb .col-head .btn[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); }` → `{ color: var(--text); background: var(--surface-3); border-color: var(--border-2); }`
+**C30 – Ordner-Dialog** (bereich_notebook_news-31)
+Nach den `.swatch`-Regeln (Z. 580–584; `.swatch` ist die Pille mit 18-px-Farbkreis, die der Ordner-Dialog schon nutzt) einfügen:
+```css
+.swatch.add { position: relative; }
+.swatch.add i { border: 1px dashed var(--border-2); display: grid; place-items: center; color: var(--text-2); }
+.swatch.add i svg { width: 12px; height: 12px; }
+.swatch.add input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+form[data-action="nb-folder-save"] .stack { gap: 16px; }
+form[data-action="nb-folder-save"] .modal-foot { margin-top: 20px; padding-top: 14px; }
 ```
 
-## farbe-C1b · Notizkopf (.pnl-line, .lbl-pnl, Links), Speicherstatus --warn-text, Tag-Menü ohne Grün
-
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-17, bereich_notebook_news-3, farbe_kontrast-6, bereich_notebook_news-16
-Quelle: audit/spec/farbe.md Z. 360–363 · Dateien: web/css/app.css
-Abhängig von: farbe-A1, farbe-A2
-
-```text
-- nach Z. 1029 (`.nb .meta`) neu: `.nb .meta .pnl-line { margin-top: 4px; } .nb .meta .lbl-pnl { font-weight: 500; color: var(--text-2); } .nb .meta a { color: var(--text-2); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 2px; } .nb .meta a:hover { color: var(--text); }`
-- Z. 1031 `.nb .save-state.saving { color: var(--warn); }` → `var(--warn-text)`
-- Z. 1044 `.nb .tagpop .sec.k-setup, .nb .tagpop .item.k-setup[aria-checked="true"] { color: var(--accent); }` → `.nb .tagpop .sec.k-setup { color: var(--muted); } .nb .tagpop .item.k-setup[aria-checked="true"] { color: var(--text); }`
-- Z. 1052 `.nb .tagpop .chk { …; color: var(--accent); }` → `color: currentColor;`
 ```
 
-## farbe-C1c · Editor-Werkzeuge: Toolbar gedrückt, Haken im Editor-Popover, Palettenrand, Notebook-Menü und YouTube-Popover neutral
+## komponenten-D4 · store.js: „Daily Journal“ nicht grün, einmalige Umfärbung
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-16, bereich_notebook_news-21
-Quelle: audit/spec/farbe.md Z. 364–369 · Dateien: web/css/app.css
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-31
+Quelle: audit/spec/komponenten.md Z. 622–624 · Dateien: web/js/store.js
 Abhängig von: —
 
 ```text
-- Z. 1090 `.nb-toolbar .tb[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }` → `{ background: var(--surface-3); color: var(--text); border-color: var(--border-2); }`
-- Z. 1103 `.ed-pop .item .chk { …; color: var(--accent); }` → `color: var(--text);`
-- Z. 1109 `.ed-palette .c { …; border: 1px solid rgba(255,255,255,.12); … }` → `border: 1px solid var(--border-2);`
-- Z. 1120 `.nb-menu .row-item.on, .nb-menu .row-item:hover { background: var(--accent-soft); color: var(--accent); }` → `{ background: var(--surface-2); color: var(--text); }`
-- Z. 1123 `… { background: var(--accent-soft); }` → `{ background: var(--surface-2); }`
-- Z. 1124 `.nb-ytpop { …; border: 1px solid var(--accent); … }` → `border: 1px solid var(--border-2);`
+**D4 – store.js: Daily Journal nicht grün** (bereich_notebook_news-31)
+Z. 56 `['daily', 'Daily Journal', '#34f58a']` → `['daily', 'Daily Journal', '#9aa3a0']`. Beim Laden (dort, wo Standardordner ergänzt werden) einmalig: Ordner mit `id === 'daily'`, `isDefault` und Farbe `#34f58a` (ohne Groß-/Kleinschreibung) bekommen `#9aa3a0`.
+
 ```
 
-## farbe-C1d · Quill-Editor: Platzhalter --muted ohne 18 px, Zitat, Code, Links (auch .nb-tweet a), Checklisten-Haken und Tooltip-Links neutral
+## komponenten-D5 · sample.js: Beispiel-Ordner ohne Emoji
 
-Gruppe farbe · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-26, ki_look-34, bereich_notebook_news-16
-Quelle: audit/spec/farbe.md Z. 370–375 · Dateien: web/css/app.css
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: referenz-39
+Quelle: audit/spec/komponenten.md Z. 625–627 · Dateien: web/js/sample.js
 Abhängig von: —
 
 ```text
-- Z. 1130 `.ql-editor.ql-blank::before { color: var(--faint); font-style: normal; left: 20px; font-size: 18px; }` → `{ color: var(--muted); font-style: normal; left: 20px; }`
-- Z. 1137 `.ql-editor blockquote { border-left: 3px solid var(--accent); … }` → `.ql-snow .ql-editor blockquote, .ql-editor blockquote { border-left: 2px solid var(--border-2); margin: 8px 0; padding-left: 14px; color: var(--text-2); }`
-- Z. 1139 `.ql-editor code { background: var(--surface-3); color: var(--accent); … }` → Selektor `.ql-snow .ql-editor code, .ql-editor code` und `color: var(--text);`
-- Z. 1140 `.ql-editor a { color: var(--accent); }` → `.ql-editor a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 2px; }`; ebenso Z. 1190 `.nb-tweet a { color: var(--accent); … }` → `color: var(--text); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 2px;` (`word-break` bleibt)
-- Z. 1143 `… > .ql-ui { color: var(--accent); }` → `color: var(--text-2);`
-- Z. 1148 und Z. 1154 (Quill-Tooltip-Links) `color: var(--accent)` → `color: var(--text)`
+**D5 – sample.js: Ordner ohne Emoji** (referenz-39)
+Z. 284: `name: '📈 Strategie'` → `'Strategie'`, `'💡 Ideen'` → `'Ideen'`. Keine Migration installierter Beispieldaten.
+
 ```
 
-## farbe-C1e · Bilder in Notizen (Griff, Rahmen, Größenleiste) neutral, grüner Fokus im aufklappbaren Abschnitt löschen
+## komponenten-S-notebook-a · Notebook: eigene Ordner mit Ordner-Symbol
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-16
-Quelle: audit/spec/farbe.md Z. 376–380 · Dateien: web/css/app.css
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-32
+Quelle: audit/spec/komponenten.md Z. 683–684 · Dateien: web/js/screens/notebook.js
+Abhängig von: komponenten-C29a
+
+```text
+**S-notebook (notebook.js)** (bereich_notebook_news-32, referenz-39, bereich_notebook_news-34, bereich_notebook_news-20, bereich_notebook_news-31, bereich_notebook_news-30, komponenten-1, komponenten-30, zustaende-14, komponenten-2)
+- Z. 51: `${x.isDefault ? folderIcon(x).replace('<svg', '<svg class="ico"') : ''}` → `${folderIcon(x).replace('<svg', '<svg class="ico"')}` (eigene Ordner bekommen `I.folder`).
+```
+
+## komponenten-S-notebook-b · Notebook: „Neue Notiz“/„Wiederherstellen“ neutral, Symbole Auswählen/Sortieren
+
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: komponenten-1, bereich_notebook_news-34, zustaende-14, komponenten-30
+Quelle: audit/spec/komponenten.md Z. 685–686 · Dateien: web/js/screens/notebook.js
+Abhängig von: komponenten-U1
+
+```text
+- Z. 61: „Neue Notiz“/„Tag loggen“ `btn sm primary grow` → `btn sm grow`; Auswahlmodus `${I.check}` → `${I.checkSquare}`; Sortieren `${I.arrowDown}` → `${I.sort}` (Tooltips bleiben).
+- Z. 66 (Leerzustand rechts) `btn sm primary` → `btn sm`. Z. 67 „Wiederherstellen“ `btn sm primary` → `btn sm`.
+```
+
+## komponenten-S-notebook-c · Notebook-Tag-Menü mit Suchfeld, neuer Tag direkt aus der Suche
+
+Gruppe komponenten · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-20, komponenten-2
+Quelle: audit/spec/komponenten.md Z. 687–687 · Dateien: web/js/screens/notebook.js
+Abhängig von: komponenten-C29b
+
+```text
+- Tag-Menü (Z. 26–31, 77): über `.tagcols` (außerhalb, damit `refreshTags` es nicht ersetzt) `<div class="tagpop-q"><input class="input" id="nb-tag-q" placeholder="Tags suchen" aria-label="Tags suchen" data-input="nb-tag-q" autocomplete="off"></div>`. Gruppen stehen untereinander (CSS C29). Den Fuß `<hr><button … data-action="nb-tag-new" …>Neuen Tag anlegen</button>` (Z. 77) entfernen. Neuer Handler `nb-tag-q`: blendet `.item` aus, deren `data-name` den Suchtext nicht enthält (ohne Groß-/Kleinschreibung), leere Gruppen ebenso; ist der Suchtext nicht leer und gibt es keinen gleichnamigen Tag, steht ganz oben `<button type="button" class="item" data-action="nb-tag-new" data-id="${cur.id}" data-name="${esc(q)}">${I.plus}<span>„${esc(q)}“ als Tag anlegen</span></button>`. `nb-tag-new` legt den Tag mit `data-name` ohne Dialog an (`S.ensureTag`) und weist ihn zu. `refreshTags` (Z. 36) wendet nach dem Neuaufbau den aktuellen Suchtext erneut an.
+```
+
+## komponenten-S-notebook-d · Ordner-Dialog: 8 Farben ohne Grün, Standard #8b7cf6, Plus-Kreis „Eigene Farbe“
+
+Gruppe komponenten · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-31, referenz-39
+Quelle: audit/spec/komponenten.md Z. 688–688 · Dateien: web/js/screens/notebook.js
+Abhängig von: komponenten-C30
+
+```text
+- Ordner-Dialog: Z. 5 `'#34f58a'` aus `FOLDER_COLORS` streichen (8 Farben). Z. 115 `color: FOLDER_COLORS[3]` → `color: '#8b7cf6'`. Z. 116: Platzhalter „z. B. 📈 Strategie“ → „z. B. Strategie“; statt `<label class="color-field">…<span class="small muted">eigene</span></label>` als letzten Kreis in `.swatches`: `<label class="swatch add" aria-label="Eigene Farbe" data-tip="Eigene Farbe" aria-pressed="${!FOLDER_COLORS.includes(cur.color)}"><i style="background:${FOLDER_COLORS.includes(cur.color) ? 'transparent' : cur.color}">${FOLDER_COLORS.includes(cur.color) ? I.plus : ''}</i><input type="color" name="custom" value="${cur.color}" data-input="fo-color-custom" aria-label="Eigene Farbe"></label>`. Handler `fo-color-custom` (Z. 158): zusätzlich das `<i>` des Plus-Kreises in der Farbe einfärben, Plus entfernen, `aria-pressed="true"` setzen.
+```
+
+## komponenten-S-notebook-e · Teilen-Dialog: einzeiliges Linkfeld, kurzer Hinweis, „Link kopieren“ als Hauptaktion
+
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-30
+Quelle: audit/spec/komponenten.md Z. 689–690 · Dateien: web/js/screens/notebook.js
 Abhängig von: —
 
 ```text
-- Z. 1163 `.nb-figure .rs::before { …; background: var(--accent); … }` → `background: var(--text);`
-- Z. 1165 `… { outline: 2px solid var(--accent); … }` → `outline: 2px solid var(--text-2);`
-- Z. 1177 `.nb-figure .fig-bar button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }` → `{ background: var(--surface-3); color: var(--text); }`
-- Z. 1187 `.nb-details summary:focus { color: var(--accent); }` löschen (Fokusring: bereich_notebook_news-35, andere Gruppe)
+- Teilen-Dialog (Z. 170): `<textarea class="input mono" id="share-link" readonly style="min-height:90px">…</textarea>` → `<input class="input" id="share-link" readonly value="${esc(link)}" style="text-overflow:ellipsis">`, beim Fokus markieren (`onMount`: `el.querySelector('#share-link').addEventListener('focus', e => e.target.select())`). Hinweis → „Wer den Link öffnet, sieht die Notiz nur lesend. Bilder erscheinen als Platzhalter.“; nur wenn `location.protocol === 'file:'` eine zweite Zeile `<p class="small muted">Der Link funktioniert für andere erst mit der Adresse deiner veröffentlichten Website.</p>`. Fuß: `<a class="btn ghost" href="${esc(link)}" target="_blank" rel="noopener">${I.external} Öffnen</a><button type="button" class="btn primary" data-action="nb-copy" data-target="share-link">${I.copy} Link kopieren</button>`.
 
 ```
 
-## farbe-C10 · News: mittlerer Wichtigkeits-Balken auf --imp-mid
+## komponenten-R1b · README: Notebook-Ordner und Tag-Menü mit Suche
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-42
-Quelle: audit/spec/farbe.md Z. 426–427 · Dateien: web/css/app.css
-Abhängig von: farbe-A1, farbe-A2
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-32, bereich_notebook_news-20
+Quelle: audit/spec/komponenten.md Z. 747–747 · Dateien: web/README.md
+Abhängig von: komponenten-S-notebook-a, komponenten-S-notebook-c
 
 ```text
-**C10 – `web/css/app.css` News, Z. 3096:** `.nw-imp.l2 i:nth-child(-n+2) { background: var(--warn); }` → `{ background: var(--imp-mid); }` — bereich_notebook_news-42
-
+- Z. 120 (Notebook): ergänzen „Eigene Ordner tragen links ihren Farbbalken und ein Ordner-Symbol. Das Tag-Menü ist eine Spalte mit Suche; ein neuer Tag entsteht direkt aus der Suche.“
 ```
 
-## farbe-C23 · News: IMP_COL löschen, Wichtigkeits-Chips ohne --lc
+## komponenten-E1c · e2e sixtest.js: neuer Tag über die Tag-Suche
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-42, farbe_kontrast-6
-Quelle: audit/spec/farbe.md Z. 500–501 · Dateien: web/js/screens/news.js
+Gruppe komponenten · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-20
+Quelle: audit/spec/komponenten.md Z. 759–759 · Dateien: web/e2e/sixtest.js
+Abhängig von: komponenten-S-notebook-c
+
+```text
+- sixtest.js:57: in `#nb-tag-q` „Sixtest“ tippen, dann `#pop-nbtags [data-action=nb-tag-new]` klicken (kein Prompt-Dialog mehr).
+```
+
+## aufbau-A4d · News-Tageskopf .nw-dh 14px
+
+Gruppe aufbau · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-44
+Quelle: audit/spec/aufbau.md Z. 290–290 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**C23 – `web/js/screens/news.js` Z. 76–77:** Konstante `IMP_COL` löschen und in `chip` den Teil `${key === 'impact' ? ` style="--lc:${IMP_COL[v]}"` : ''}` entfernen — bereich_notebook_news-42, farbe_kontrast-6
-
+- Z. 3084 `.nw-dh { …; font-size: 13px; font-weight: 600; … }` → `font-size: 14px;`
 ```
 
-## farbe-C24a · Notebook: Leertexte muted, active nicht im Auswahlmodus
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-26, barrierefreiheit-25, bereich_notebook_news-16
-Quelle: audit/spec/farbe.md Z. 502–505 · Dateien: web/js/screens/notebook.js
+- [konflikt: .nw-dh] Das Ergebnis lautet `.nw-dh { …; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 600; … }`. Der Rest der Regel bleibt. Begründung: Der News-Tageskopf ist ein Listen-Titel (14/600). Die Zeilen darunter (.nw-row) gehen laut typografie 3.2.3m auf 14, und eine Überschrift ist nie kleiner als ihr Inhalt (aufbau, Grundsatz 4).
+- ÄNDERN: Z. 3084 mit Tokens schreiben: `font-size: var(--fs-14); line-height: var(--lh-14);` statt `14px`.
+
+## aufbau-C9a · News: Filter in die Kopfreihe (ctx.headLeft), kein Session-Knopf
+
+Gruppe aufbau · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-39, aufbau-6, ki_look-22, responsiv-19
+Quelle: audit/spec/aufbau.md Z. 498–504 · Dateien: web/js/screens/news.js
 Abhängig von: —
 
 ```text
-**C24 – `web/js/screens/notebook.js`** — bereich_notebook_news-26, barrierefreiheit-25, bereich_notebook_news-16, bereich_notebook_news-2, bereich_notebook_news-17, bereich_notebook_news-3
-- Z. 34 `<span class="small faint">Noch keine Tags</span>` → `class="small muted"`
-- Z. 54 `<div class="small faint" style="padding:4px 10px">Noch keine eigenen Ordner` → `class="small muted"`
-- Z. 60 `class="note-item ${cur && cur.id === n.id ? 'active' : ''} …"` → `class="note-item ${!nb.selectMode && cur && cur.id === n.id ? 'active' : ''} …"`
+#### `web/js/screens/news.js`
+
+**C9** · bereich_notebook_news-39, bereich_notebook_news-44, aufbau-6, ki_look-22, responsiv-19
+- Z. 65 `head: { range: false, account: false },` → `head: { range: false, account: false, session: false },`
+- Z. 67 `render()` → `render(ctx)`
+- Vor dem `return` (Z. 99): `ctx.headLeft = ok && !s.events ? '' : filters;` (keine Filter beim Laden oder im Fehlerzustand)
+- Z. 88 `body = `${hero}${filters}${…}`` → `body = `${hero}${…}``
 ```
 
-## farbe-C24b · Notebook: „Neue Notiz“-Knöpfe neutral
+## aufbau-C9b · News: Zähler-Pille im Tageskopf entfernen
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-2
-Quelle: audit/spec/farbe.md Z. 506–507 · Dateien: web/js/screens/notebook.js
+Gruppe aufbau · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-44
+Quelle: audit/spec/aufbau.md Z. 505–505 · Dateien: web/js/screens/news.js, web/css/app.css
 Abhängig von: —
 
 ```text
-- Z. 61 `class="btn sm primary grow" data-action="nb-new"` → `class="btn sm grow"`
-- Z. 66 `class="btn sm primary" data-action="nb-new"` → `class="btn sm"` (Z. 47 „Anwenden“, 67 „Wiederherstellen“, 116/119/160 „Speichern“, 170 „Öffnen“ bleiben `primary` und werden über B2 neutral)
+- Z. 81 `<span class="nw-n">${g.items.length}</span>` streichen; `web/css/app.css` Regel `.nw-n` löschen
 ```
 
-## farbe-C24c · Notizkopf: P&L-Zeile mit .pnl-line/.lbl-pnl, Links ohne accent, „Tagesansicht öffnen“
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-17, bereich_notebook_news-3
-Quelle: audit/spec/farbe.md Z. 508–509 · Dateien: web/js/screens/notebook.js
-Abhängig von: farbe-C1b
+- [konflikt: .nw-n] Die Zähler-Pille im News-Tageskopf entfällt (aufbau Grundsatz 1, Prüfung aufbau 727/756). news.js Z. 81 ohne `<span class="nw-n">`, Regel Z. 3087 gelöscht. Die 11-px-Token-Umstellung entfällt für diese Zeile.
+
+## aufbau-C9c · News: Filter-Kontext in der Kopfreihe dehnbar (Desktop-CSS)
+
+Gruppe aufbau · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-39
+Quelle: audit/spec/aufbau.md Z. 506–509 · Dateien: web/css/app.css
+Abhängig von: aufbau-C9a
 
 ```text
-- Z. 76: `<div style="margin-top:4px;font-weight:700;color:var(--text)">Netto-P&L ${U.pnl(pnl, '', …)}` → `<div class="pnl-line"><span class="lbl-pnl">Netto-P&L</span> ${U.pnl(pnl, 'num', …)}` (übrige Argumente unverändert); bei den Links „Trade öffnen“ und „Tagesansicht“ `class="accent"` entfernen; Text „Tagesansicht“ → „Tagesansicht öffnen“
-
+- CSS (`web/css/app.css`, nach Z. 1340):
+  ```css
+  .page-head .dh-context:has(> .nw-filters) { flex: 1 1 0; min-width: 0; }
+  ```
 ```
 
-## farbe-C32 · Editor-Farbpalette: Abschnitt „Designfarben“ mit Token-Farben, „Eigene Farben“ nur bei Bedarf, aria-labels
+## aufbau-C10a · Notebook: Zeile „wo bin ich“ über der mittleren Spalte
 
-Gruppe farbe · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-21
-Quelle: audit/spec/farbe.md Z. 549–556 · Dateien: web/js/editor.js
-Abhängig von: farbe-A1, farbe-A2
-
-```text
-**C32 – `web/js/editor.js` (Farbpalette, Z. 106–112)** — bereich_notebook_news-21
-- Neue Konstante nach Z. 106: `const THEME_COLORS = [['var(--muted)', 'Grau'], ['var(--profit)', 'Gewinn'], ['var(--loss)', 'Verlust'], ['var(--warn-text)', 'Warnung'], ['var(--be)', 'Break-even'], ['var(--info)', 'Info']];`
-- `palette(kind, custom)` (Z. 112) umbauen:
-  - Abschnitt „Eigene Farben“ (Überschrift und Reihe) nur ausgeben, wenn `custom.length`; jeder eigene Kreis `aria-label="Farbe ${esc(c)}"`.
-  - davor neuer Abschnitt `<div class="sec">Designfarben</div><div class="row-c">…</div>` mit einem Kreis je `THEME_COLORS`: für `kind === 'color'` `data-value="${v}"` und `style="background:${v}"`, für `kind === 'background'` `data-value="color-mix(in srgb, ${v} 22%, transparent)"` und gleicher `style`; `aria-label` und `data-tip` = Name. Die Grau-Farbe (`var(--muted)`) entfällt beim Textmarker.
-  - den „+“-Kreis (`label.c.add`) ans Ende dieser Reihe „Designfarben“ setzen.
-  - Kreise des Rasters „Standardfarben“ bekommen `aria-label="Farbe ${c}"`. Raster, „Farbe entfernen“ und das Speichern als Wert bleiben unverändert (alte Hex-Werte bleiben gültig).
-
-```
-
-## farbe-D2b · newstest: Prüfung auf neutrale Wichtigkeits-Chips (kein --lc) umdrehen
-
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-42
-Quelle: audit/spec/farbe.md Z. 563–564 · Dateien: web/e2e/newstest.js
-Abhängig von: farbe-C23
-
-```text
-- `web/e2e/newstest.js` Z. 67: Prüfung umdrehen, neuer Text „Gewählte Wichtigkeit-Chips sind neutral“, Bedingung `(await p.$eval('[data-action=news-f][data-value=high]', b => b.style.getPropertyValue('--lc'))) === ''` — bereich_notebook_news-42
-
-```
-
-## farbe-D3b · README Z. 113: Wichtigkeits-Chips neutral
-
-Gruppe farbe · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-42
-Quelle: audit/spec/farbe.md Z. 567–567 · Dateien: web/README.md
-Abhängig von: farbe-C23
-
-```text
-- Z. 113 nach „Feiertage mit Kalender-Symbol)“ ergänzen: „; die gewählten Wichtigkeits-Chips im Filter sind neutral wie alle Filter-Chips“ — bereich_notebook_news-42
-```
-
-## typografie-3.2.2d · Toten .journal-Code löschen (Z. 770–774 und .journal-Teil in Z. 788)
-
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: typografie-17
-Quelle: audit/spec/typografie.md Z. 223–223 · Dateien: web/css/app.css
+Gruppe aufbau · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-10
+Quelle: audit/spec/aufbau.md Z. 518–534 · Dateien: web/js/screens/notebook.js, web/css/app.css
 Abhängig von: —
 
 ```text
-| Z. 770–774 und der `.journal`-Teil in Z. 788 | löschen (toter Code, kein `class="journal"` in `js/`) | typografie-17 |
+#### `web/js/screens/notebook.js`
+
+**C10** · bereich_notebook_news-10, bereich_notebook_news-6, bereich_notebook_news-7, bereich_notebook_news-8, bereich_notebook_news-9 (nur Labels)
+- `render`, mittlere Spalte Z. 61: Vor `<div class="col-head">` (nicht im Papierkorb) einfügen:
+  ```js
+  const where = nb.q ? 'Suche in allen Ordnern' : nb.folder === 'all' ? 'Alle Notizen' : (S.getFolder(nb.folder) || {}).name || '';
+  const tagName = nb.tag ? (S.noteTags().find(t => t.id === nb.tag) || {}).name || '' : '';
+  const whereRow = nb.folder === 'trash' ? '' : `<div class="nb-where">${!nb.leftOpen ? `<button type="button" class="btn ghost icon sm" data-action="nb-left-toggle" aria-label="Ordner anzeigen" data-tip="Ordner anzeigen">${I.chevR}</button>` : ''}<button type="button" class="btn ghost icon sm back" data-action="nb-view" data-value="folders" aria-label="Zu den Ordnern">${I.back}</button><span class="grow">${esc(where)}</span>${nb.tag ? `<button type="button" class="chip" data-action="nb-tag" data-id="${esc(nb.tag)}" aria-label="Tag-Filter aufheben"># ${esc(tagName)} ${I.close}</button>` : ''}</div>`;
+  ```
+  Im bisherigen `.col-head` den Chevron-Knopf (`!nb.leftOpen ? …chevR…`) und den Zurück-Knopf (`… back … data-value="folders"`) entfernen, **außer** im Papierkorb (dort bleibt der Zurück-Knopf im Kopf).
+  CSS (`web/css/app.css`, bei den `.nb`-Regeln um Z. 1060):
+  ```css
+  .nb .nb-where { display: none; align-items: center; gap: 6px; padding: 10px 12px 0; font-size: 13.5px; font-weight: 600; color: var(--text); min-width: 0; }
+  .nb .nb-where .grow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nb.no-left .nb-where { display: flex; }
+  @media (max-width: 960px) { .nb .nb-where { display: flex; } }
+  ```
 ```
 
-## typografie-3.2.3j · Notebook-Toolbar: „Text“-Label und Größenanzeige auf 13/500, .sz in Onest
+## aufbau-C10b · Notebook: Hauptknopf „Tagesnotiz öffnen/anlegen“, keine Doublette
 
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-14
-Quelle: audit/spec/typografie.md Z. 256–256 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
-
-```text
-- 15 → 13: Z. 1085 `.nb-toolbar .tb.turn .lbl` → `font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500;`; Z. 1086 `.nb-toolbar .tb .lbl` löschen; Z. 1093 `.nb-toolbar .sz`: `font-size: 15px; font-weight: 700;` → `font-family: var(--font-num); font-size: var(--fs-13); font-weight: 500;` (bereich_notebook_news-14)
-```
-
-## typografie-3.2.3z · Notiz-Titel .nb .note-title 34/700 → 32/600, lh 1.2 (Stufen 26/24 bleiben)
-
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-15
-Quelle: audit/spec/typografie.md Z. 286–288 · Dateien: web/css/app.css
+Gruppe aufbau · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-6
+Quelle: audit/spec/aufbau.md Z. 535–536 · Dateien: web/js/screens/notebook.js
 Abhängig von: —
 
 ```text
-**Notiz-Titel (Text, eigene Stufe)**
-- Z. 1014 `.nb .note-title`: `font-size: 34px; font-weight: 700` → `font-size: 32px; font-weight: 600; line-height: 1.2` (letter-spacing −0.02em bleibt). Z. 1069 (26 px) und 3012 (24 px) bleiben. (bereich_notebook_news-15, K14)
-
+- Hauptknopf Z. 61: `${isDaily ? 'Tag loggen' : 'Neue Notiz'}` → `const dayBtn = nb.folder === 'all' || isDaily; const hasToday = !!S.dayNote(C.dayKey(new Date()));` und Text `${dayBtn ? (hasToday ? 'Tagesnotiz öffnen' : 'Tagesnotiz anlegen') : 'Neue Notiz'}`, bei `dayBtn` zusätzlich `data-tip="Tagesnotiz für heute öffnen oder anlegen"`. Leertext Z. 63 und Knopf in der rechten Spalte Z. 66 nach derselben Regel.
+- Aktion `'nb-new'` Z. 136: Der Zweig `if (folderId === 'daily') { const key = …; n = S.dayNote(key) ? S.addNote({…}) : S.dayNote(key, true); }` → `if (folderId === 'daily') n = S.dayNote(C.dayKey(new Date()), true);` (öffnet die vorhandene Tagesnotiz, legt keine Doublette an)
 ```
 
-## typografie-3.2.4e · Notebook: Tag-Pillen 500 (Zähler Onest 500), .nb-details summary 600
+## aufbau-C10c · Notiz-Kopf: eine Meta-Zeile, Datumsknopf als Symbol bzw. „Trade vom {0}“
 
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-15
-Quelle: audit/spec/typografie.md Z. 338–340 · Dateien: web/css/app.css
+Gruppe aufbau · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-7
+Quelle: audit/spec/aufbau.md Z. 537–539 · Dateien: web/js/screens/notebook.js
 Abhängig von: —
 
 ```text
-| `.nb .tagpill` (992) | 600 → 500 | bereich_notebook_news-15 |
-| `.nb .tagpill b` (993) | `{ color: var(--muted); font-weight: 600; }` → `{ color: var(--muted); font-weight: 500; font-family: var(--font-num); }` | bereich_notebook_news-15 |
-| `.nb-details summary` (1186) | 700 → 600 | bereich_notebook_news-15 |
+- Notiz-Kopf Z. 76: `<div>Erstellt: ${fmt.dateTime(cur.createdAt)}</div><div id="nb-updated">Zuletzt bearbeitet: ${…}</div>` → `const c = fmt.dateTime(cur.createdAt), u = fmt.dateTime(cur.updatedAt || cur.createdAt);` und `<div><span>Erstellt ${c}</span><span id="nb-updated"${u === c ? ' hidden' : ''}> · Bearbeitet ${u}</span></div>` (P&L-Zeile darunter bleibt)
+- `flush()` Z. 101: `u.textContent = 'Zuletzt bearbeitet: ' + fmt.dateTime(n.updatedAt);` → `u.hidden = false; u.textContent = ' · Bearbeitet ' + fmt.dateTime(n.updatedAt);`
+- Datumsknopf Z. 73: Bei `cur.type === 'day' && cur.title === S.dayTitle(dateKey)` → `<button type="button" class="datebtn" data-pop="nbdate" aria-label="Datum ändern" data-tip="Datum ändern">${I.calendar}${I.chev}</button>`. Bei `cur.type === 'trade'` → Text `Trade vom ${esc(S.dayTitle(dateKey))}`. Sonst unverändert. Die Klasse `.datebtn` bleibt (mobiletest.js:53).
 ```
 
-## typografie-3.2.5g · Editor-Überschriften .ql-editor h1–h3 line-height 1.25
+## aufbau-C10d · Notizliste: Tagesnotiz mit „{0} Trades · P&L“ statt Datum
 
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: typografie-23
-Quelle: audit/spec/typografie.md Z. 366–366 · Dateien: web/css/app.css
+Gruppe aufbau · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-8
+Quelle: audit/spec/aufbau.md Z. 540–540 · Dateien: web/js/screens/notebook.js
 Abhängig von: —
 
 ```text
-| Editor-Überschriften, neu nach Z. 1135 | `.ql-editor h1, .ql-editor h2, .ql-editor h3 { line-height: 1.25; }` (Ränder 1133–1135 bleiben) | typografie-23 |
+- Notizliste Z. 60: vor `notes.map` `const byDay = new Map(); for (const t of App.allTrades()) (byDay.get(t.dayKey) || byDay.set(t.dayKey, []).get(t.dayKey)).push(t);`. Für `n.type === 'day' && !n.deletedAt` statt `<div class="d" data-nb-date="${n.id}">…</div>` ausgeben: `const ts = byDay.get(n.dateKey) || []; const cl = ts.filter(t => t.closed);` → `<div class="d">${ts.length ? `${ts.length} Trade${ts.length === 1 ? '' : 's'}${cl.length ? ` · ${U.pnl(C.sum(cl.map(t => t.pnl)))}` : ''}` : 'Keine Trades'}</div>` (**ohne** `data-nb-date`, sonst überschreiben `flush()` und `'nb-title'` die Zeile). Freie, Trade- und gelöschte Notizen bleiben unverändert.
 ```
 
-## typografie-3.2.5h · Notebook-P&L-Zeile: neue Regel .nb .nb-pnl (500, --text-2), Betrag 700 Onest
+## aufbau-C10e · Notebook-Filter: Abschnitt „Zuletzt bearbeitet“ mit Labels Von/Bis
 
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-15
-Quelle: audit/spec/typografie.md Z. 367–368 · Dateien: web/css/app.css
+Gruppe aufbau · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-9
+Quelle: audit/spec/aufbau.md Z. 541–542 · Dateien: web/js/screens/notebook.js
 Abhängig von: —
 
 ```text
-| Notebook-P&L, neu nach Z. 1029 | `.nb .nb-pnl { margin-top: 4px; font-weight: 500; color: var(--text-2); } .nb .nb-pnl > .pos, .nb .nb-pnl > .neg, .nb .nb-pnl > .neu { font-weight: 700; font-family: var(--font-num); }` | bereich_notebook_news-15 |
+- Filter-Fenster Z. 47 (nur Labels, F11 offen): `<div class="row" style="gap:6px"><input … name="from" … aria-label="Von"><input … name="to" … aria-label="Bis"></div>` → `<div class="sec">Zuletzt bearbeitet</div><div class="row" style="gap:8px;flex-wrap:nowrap"><div class="field grow"><label class="lbl" for="nbf-from">Von</label><input class="input" type="date" id="nbf-from" name="from" data-dp-group="nbrange" value="${esc(f.from || '')}"></div><div class="field grow"><label class="lbl" for="nbf-to">Bis</label><input class="input" type="date" id="nbf-to" name="to" data-dp-group="nbrange" value="${esc(f.to || '')}"></div></div>`. In `activeFilters` (Z. 45) `Zeitraum: ` → `Bearbeitet: `.
 
 ```
 
-## typografie-3.2.6b · News-Ziffern: tabular-nums kommt aus der Sammelregel (nur prüfen, keine Einzeländerung)
+## diagramme-A9 · Notiz-Statistik ohne Diagramm: .nb .stats-grid.solo einspaltig
 
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-48
-Quelle: audit/spec/typografie.md Z. 375–376 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.2e
-
-```text
-| `.nw-next-when b` (3077), `.nw-time` (3091), `.nw-v b` (3106) | `tabular-nums` kommt aus der Sammelregel 3.2.2 (keine Einzeländerung nötig) | bereich_notebook_news-48 |
-
-```
-
-## typografie-3.8n · Notebook: Inline-Stil der P&L-Zeile durch Klasse nb-pnl ersetzen
-
-Gruppe typografie · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-15
-Quelle: audit/spec/typografie.md Z. 439–439 · Dateien: web/js/screens/notebook.js
-Abhängig von: typografie-3.2.5h
-
-```text
-| notebook.js:76 | `<div style="margin-top:4px;font-weight:700;color:var(--text)">Netto-P&L …` → `<div class="nb-pnl">Netto-P&L …`; in beiden `<span class="muted small" style="font-weight:500">` das `style="font-weight:500"` streichen | bereich_notebook_news-15 |
-```
-
-## abstaende-D2 · Notebook-CSS: Notizkopf-Polster, neuer Spaltenkopf .nb .note-bar (Datumsknopf bündig), Ordnerspalte 240 px + Titel 28 px bei 961–1180, Werkzeugleiste ohne Unterrand, .ql-editor oben 16, Druck- und Handy-Selektoren auf .note-bar
-
-Gruppe abstaende · Cluster notebook_news · Aufwand L · Befunde: bereich_notebook_news-23, abstaende_layout-28, bereich_notebook_news-22, responsiv-13
-Quelle: audit/spec/abstaende.md Z. 369–369 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| D2 | Notebook Z. 1013, 1015–1019, 1061, 1068, 1079, 1128, 1136, 1193, 3005–3014 | (1) Z. 1013 `.nb .note-head { padding: 22px 28px 10px; …}` → `padding: var(--sp-4) 28px 10px`. (2) Neu nach Z. 1013: `.nb .note-bar { justify-content: space-between; flex-wrap: nowrap; padding: 12px 28px 10px; } .nb .note-bar .datebtn { padding-block: 6px; } @media (min-width: 961px) { .nb .note-bar .datebtn { margin-left: -11px; } }`. (3) Z. 1061: `.nb.no-left { grid-template-columns: 260px minmax(0, 1fr); }` → `240px minmax(0, 1fr)`, dazu `@media (min-width: 961px) and (max-width: 1180px) { .nb .note-title { font-size: 28px; } }`. (4) Im 960er-Block nach Z. 1068: `.nb .note-bar { padding-inline: 16px; }`. (5) Z. 1079 `.nb-toolbar` `margin: 0 -8px 10px` → `margin: 0 -8px 0`, Z. 3014 `margin: 0 -8px 8px` → `margin: 0 -8px 0`. (6) Z. 1128 `.ql-editor { padding: 14px 20px 60px; …}` → `padding: var(--sp-4) 20px 60px`. Neu nach Z. 1136: `.ql-editor > :first-child { margin-top: 0; }`. (7) Druck Z. 1193 `.nb .note-head .row .btn` → `.nb .note-bar .btn`. (8) Handy Z. 3006–3009: `.nb .note-head > .row, .nb .note-head > .row > .row` → `.nb .note-bar, .nb .note-bar > .row`. `.nb .note-head > .row > .row:first-child` → `.nb .note-bar > .row:first-child`. `.nb .note-head .popwrap:has(> .datebtn)` → `.nb .note-bar .popwrap:has(> .datebtn)`. `.nb .note-head .row [data-action="nb-share"]` → `.nb .note-bar [data-action="nb-share"]`. Neu im 560er-Block: `.nb .note-bar { padding-inline: 14px; }` | bereich_notebook_news-23, abstaende_layout-28, bereich_notebook_news-22, responsiv-13 |
-```
-
-## abstaende-D3 · Mentor-Notizen in der Notiz auf der Textkante 28 px
-
-Gruppe abstaende · Cluster notebook_news · Aufwand S · Befunde: bereich_konto-18
-Quelle: audit/spec/abstaende.md Z. 370–370 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| D3 | Mentor-Notizen Z. 2882 | `.mentor-notes.in-note { margin: 8px 0 16px; …}` → `margin: var(--sp-2) 28px var(--sp-4);` | bereich_konto-18 |
-```
-
-## abstaende-K1 · Notebook: leftOpen bei 961–1180 px zunächst false (Ordnerspalte eingeklappt)
-
-Gruppe abstaende · Cluster notebook_news · Aufwand S · Befunde: responsiv-13
-Quelle: audit/spec/abstaende.md Z. 441–445 · Dateien: web/js/screens/notebook.js
+Gruppe diagramme · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-18
+Quelle: audit/spec/diagramme.md Z. 338–340 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-### web/js/screens/notebook.js
-
-| Nr. | Stelle | vorher → nachher | Befunde |
-|---|---|---|---|
-| K1 | Z. 6 | `leftOpen: true` → `leftOpen: !(window.matchMedia && matchMedia('(min-width: 961px) and (max-width: 1180px)').matches)` | responsiv-13 |
-```
-
-## abstaende-K2 · Normale Notiz: erste Zeile aus .note-head als eigener Spaltenkopf .col-head.note-bar, inneres row → row s-2
-
-Gruppe abstaende · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-23, abstaende_layout-28
-Quelle: audit/spec/abstaende.md Z. 446–446 · Dateien: web/js/screens/notebook.js
-Abhängig von: abstaende-D2, abstaende-A6
-
-```text
-| K2 | Z. 72–74 (normale Notiz) | Die erste Zeile `<div class="row" style="justify-content:space-between;flex-wrap:nowrap">…</div>` aus `.note-head` herausnehmen. Sie wird direkt nach `<div class="col right">` zu `<div class="col-head note-bar">…</div>`, Inhalt unverändert, Inline-Stil weg. Das innere `<div class="row" style="gap:6px;flex-wrap:nowrap">` → `<div class="row s-2">`. `.note-head` enthält danach Titel, Meta und Tags. | bereich_notebook_news-23, abstaende_layout-28 |
-```
-
-## abstaende-K3 · Notiz im Papierkorb: gleicher Kopf wie normale Notiz (.note-bar mit Zurück, Wiederherstellen btn sm, Endgültig löschen btn sm danger; Titel, Meta-Zeilen)
-
-Gruppe abstaende · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-25
-Quelle: audit/spec/abstaende.md Z. 447–447 · Dateien: web/js/screens/notebook.js
-Abhängig von: abstaende-K2, abstaende-D2
-
-```text
-| K3 | Z. 67 (Notiz im Papierkorb) | → `<div class="col right"><div class="col-head note-bar"><button type="button" class="btn ghost icon sm back" data-action="nb-view" data-value="list" aria-label="Zurück">${I.back}</button><span class="grow"></span><button type="button" class="btn sm" data-action="nb-trash-restore" data-id="${cur.id}">Wiederherstellen</button><button type="button" class="btn sm danger" data-action="nb-trash-purge" data-id="${cur.id}">Endgültig löschen</button></div><div class="note-head"><h2 class="note-title">${esc(cur.title \|\| 'Ohne Titel')}</h2><div class="meta"><div>Gelöscht am ${fmt.dateTime(cur.deletedAt)}</div><div>Wird am ${fmt.dateFull(new Date(new Date(cur.deletedAt).getTime() + 30 * 86400000))} endgültig entfernt</div></div></div><div class="note-body nb-share-view">…unverändert…</div></div>` | bereich_notebook_news-25 |
-```
-
-## abstaende-K5 · 14 Inline-Abstände in notebook.js nach 1.16 ersetzen (z. B. col-body padding-top als Klasse)
-
-Gruppe abstaende · Cluster notebook_news · Aufwand M · Befunde: abstaende_layout-34
-Quelle: audit/spec/abstaende.md Z. 449–450 · Dateien: web/js/screens/notebook.js, web/css/app.css
-Abhängig von: abstaende-A6
-
-```text
-| K5 | 14 Inline-Abstände | nach 1.16 ersetzen (z. B. `col-body` `style="padding-top:6px"` → Klasse mit `padding-top: var(--sp-2)`) | abstaende_layout-34 |
+**A9 Notiz-Statistik ohne Diagramm** (bereich_notebook_news-18)
+- nach Z. 1036 neu: `.nb .stats-grid.solo { grid-template-columns: 1fr; }`
 
 ```
 
-## abstaende-S6 · README Z. 120: Notebook 961–1180 px Ordner zunächst eingeklappt
+## diagramme-L1 · Notiz-Statistik: Trade-Notiz als „Trade-Details“ (.kv), Tagesnotiz Sparkline ab 3 Trades, Zähler nur > 0
 
-Gruppe abstaende · Cluster notebook_news · Aufwand S · Befunde: responsiv-13
-Quelle: audit/spec/abstaende.md Z. 535–535 · Dateien: web/README.md
-Abhängig von: abstaende-K1
+Gruppe diagramme · Cluster notebook_news · Aufwand M · Befunde: bereich_notebook_news-18
+Quelle: audit/spec/diagramme.md Z. 674–685 · Dateien: web/js/screens/notebook.js
+Abhängig von: diagramme-A9
 
 ```text
-| S6 | Z. 120 | nach „drei Spalten (Ordner und Tags, Notizliste, Notiz)“ ergänzen: „(961–1180 px: Ordner zunächst eingeklappt)“ | responsiv-13 |
+### 3.12 `web/js/screens/notebook.js`, `day.js`, `trades.js`
+
+**L1 Notiz-Statistik** (bereich_notebook_news-18) `statsHTML` Z. 102–107. Nach `const rOf = …` neu:
+```js
+const cnt = (v, k) => `<span class="${v ? k : ''}">${v}</span>`;
+const head = one ? 'Trade-Details' : `${n.type === 'trade' ? 'Trade-Statistik' : 'Tagesstatistik'} · ${trades.length} Trade${trades.length === 1 ? '' : 's'}`;
+const body = one
+  ? `<div class="trade-facts">${U.kv('Einstieg → Ausstieg', `${fmt.price(one.entryPrice)} → ${one.exitPrice != null ? fmt.price(one.exitPrice) : '—'}`)}${U.kv('Kontrakte', fmt.num(one.quantity))}${U.kv('R-Multiple', one.r != null ? fmt.r(one.r) : '—')}${U.kv('Brutto-P&L', `<span class="${U.cls(s.gross)}">${fmt.cur(s.gross, Object.assign({ signed: true }, rOf(s.gross)))}</span>`)}${U.kv('Gebühren', fmt.cur(s.fees, rOf(s.fees)))}</div>`
+  : `<div class="stats-grid${closed.length >= 3 ? '' : ' solo'}">${closed.length >= 3 ? `<div class="chart h120" data-chart="spark" data-id="${id}"></div>` : ''}<div class="kpis">…bisherige Kacheln, nur Gewinner/Verlierer als ${cnt(s.wins, 'pos')} / ${cnt(s.losses, 'neg')}…</div></div>`;
+```
+Rückgabe: `<div class="stats-box"><button …>${I.chev}<span>${head}</span></button>${open ? body : ''}</div>`. Geld-blind läuft weiter über `rOf`/`fmt.cur`. Die Schrift (app.css:1036) bleibt, `.stats-grid .v` und `.kv b` sind schon Onest.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.kv] Die sechs Schritte ändern vier verschiedene Aufrufstellen. Sie überschneiden sich nur in prop.js Z. 104 (Kontokarte) und mittelbar in planText. Verbindlich für Z. 104, innerhalb des `${dead ? '' : …}` aus zustaende-S-P1: `${U.kv(plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen', plan.hasCond && active ? `<a href="#/prop/bilanz" class="prop-plan-link" data-action="prop-plan-open" data-id="${a.id}">${planText(a, ev, plan)}</a>` : planText(a, ev, plan))}`. Die Zeile wird immer gezeigt, denn sie trägt den einzigen Link in den Planer. planText: Der Gewinn-Teil erscheint nur bei `plan.missingProfit > C.EPS && (plan.funded || !ev.target)`; aufbau-C12a und responsiv-3.12a meinen dasselbe. Sind alle Teile leer und fehlt nur noch Gewinn, liefert planText `<span class="muted">nur noch das Ziel</span>`, sonst '—', nie ''. Ein leerer Wert würde Zeile und Link verstecken, und '—' bedeutet laut Zustände Z2 „Wert fehlt“. Wortlaut und Währungsformat des Betrags entscheidet der Anker planText/money (konflikt-9). prop.js Z. 283 (abstaende-M6): eigene Zeile „Heute noch erlaubt“ als Regelgröße in Kontowährung `money(a, cons.allowedToday, { compact: true })` (KI-Look Z5a/Z5c). Damit entfällt der Teil „heute noch … erlaubt“ in kilook-C19c. Die Testanpassung proptest.js:102 prüft die Zeile „Heute noch erlaubt“ und bei verletzter Regel „verletzt“ in „Consistency Rule“, nicht mehr „heute noch“ in der Consistency-Zeile. stats.js tabSummary (aufbau-C14c) und notebook.js statsHTML (diagramme-L1, Zähler nur > 0 gefärbt, passt zu farbe-C30) sind unabhängig. stats.js tabDays: siehe Anker stats.tabDays. Hinweis: responsiv-B7 (.st-cards, dritte Karte bis 1100 px volle Breite) passt zu den drei Karten aus C14c; die dritte Karte ist dann „Drawdown & Risiko“.
+
+## zustaende-S-C16 · Notizliste: Verlust wieder rot (.note-item span löschen), Trade-Zeile .tr b 12 px/600
+
+Gruppe zustaende · Cluster notebook_news · Aufwand S · Befunde: farbe_kontrast-29, bereich_notebook_news-4
+Quelle: audit/spec/zustaende.md Z. 356–359 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**S-C16 Notizliste: Verlust wieder rot** – farbe_kontrast-29 (mit bereich_notebook_news-4)
+- Z. 783 `.note-item span {…}` löschen (falls der ganze Block 779–788 schon durch bereich_notebook_news-36 weg ist, entfällt dieser Teil).
+- Nach Z. 1003 neu: `.nb .note-item .tr b { font-size: 12px; font-weight: 600; }`
+
+```
+
+## zustaende-S-C17 · Notebook-Überschriftgrößen aus den Einstellungen wirken im Editor (Spezifität .ql-snow, em-Größen entfernen)
+
+Gruppe zustaende · Cluster notebook_news · Aufwand S · Befunde: typografie-22
+Quelle: audit/spec/zustaende.md Z. 360–363 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**S-C17 Notebook-Überschriften** – typografie-22
+- Z. 1904–1906: Selektoren `.ql-editor h1|h2|h3` → `.ql-snow .ql-editor h1`, `.ql-snow .ql-editor h2`, `.ql-snow .ql-editor h3` (Werte `var(--nb-h1, 30px)` usw. bleiben).
+- Z. 1133–1135: jeweils `font-size: …em;` entfernen (Rest bleibt).
+
+```
+
+## zustaende-S-NW1 · News-Countdown in Kalendertagen, großgeschrieben (inText mit Datum und now)
+
+Gruppe zustaende · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-40, zustaende-40
+Quelle: audit/spec/zustaende.md Z. 787–803 · Dateien: web/js/screens/news.js
+Abhängig von: —
+
+```text
+### 3.17 `web/js/screens/news.js`
+
+**S-NW1 Countdown in Kalendertagen** – bereich_notebook_news-40, zustaende-40
+Z. 50 ersetzen:
+```js
+function inText(t, now) {
+  const m = Math.round((t - now) / 60000); if (m < 1) return 'Jetzt';
+  const dd = Math.round((new Date(t.getFullYear(), t.getMonth(), t.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+  if (m < 60) return `In ${m} Min.`;
+  const h = Math.floor(m / 60), r = m % 60; const rel = r ? `In ${h} Std. ${r} Min.` : `In ${h} Std.`;
+  if (dd === 0 || m < 360) return rel;
+  return dd === 1 ? 'Morgen' : `In ${dd} Tagen`;
+}
+```
+- Z. 83 `inText(new Date(next.time) - now)` → `inText(new Date(next.time), now)`. Die kleine Zeile (Datum, Uhrzeit) bleibt.
+- Z. 98 im Takt `el.textContent = inText(left);` → `el.textContent = inText(new Date(el.dataset.newsIn), new Date());` (`left` bleibt für die Prüfung `left < -60000`).
+
+```
+
+## zustaende-S-NB1 · Notizliste: Trade-P&L mit Klasse num (Verlust rot)
+
+Gruppe zustaende · Cluster notebook_news · Aufwand S · Befunde: farbe_kontrast-29
+Quelle: audit/spec/zustaende.md Z. 846–850 · Dateien: web/js/screens/notebook.js
+Abhängig von: zustaende-S-C16
+
+```text
+### 3.20 `web/js/screens/notebook.js`
+
+**S-NB1 Verlust in der Notizliste** – farbe_kontrast-29
+Z. 60 `U.pnl(pnl, '', { r: t.r })` → `U.pnl(pnl, 'num', { r: t.r })`.
+
+```
+
+## zustaende-S-NB2 · Notebook: „Farbe ändern“ nur für eigene Ordner, Standardordner mit Symbol in Verschieben-Menüs
+
+Gruppe zustaende · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-33
+Quelle: audit/spec/zustaende.md Z. 851–854 · Dateien: web/js/screens/notebook.js
+Abhängig von: —
+
+```text
+**S-NB2 Farbe nur für eigene Ordner** – bereich_notebook_news-33
+- Z. 51: Eintrag `<button … data-action="nb-folder-edit" … data-color="1">${I.dot} Farbe ändern</button>` nur bei `!x.isDefault` ausgeben.
+- Z. 62 (`nb-move-sel`) und Z. 74 (`nb-move`): statt `<i style="width:10px;height:10px;border-radius:3px;background:${esc(x.color)}"></i>` → `${x.isDefault ? folderIcon(x) : `<i style="width:10px;height:10px;border-radius:3px;background:${esc(x.color)}"></i>`}`.
+
+```
+
+## zustaende-S-TE4 · Test newstest.js:54: Countdown großgeschrieben (/^In 2 Std\./)
+
+Gruppe zustaende · Cluster notebook_news · Aufwand S · Befunde: zustaende-40, bereich_notebook_news-40
+Quelle: audit/spec/zustaende.md Z. 880–880 · Dateien: web/e2e/newstest.js
+Abhängig von: zustaende-S-NW1
+
+```text
+- `e2e/newstest.js:54`: `/^in 2 Std\./` → `/^In 2 Std\./`.
+```
+
+## barrierefreiheit-B13 · Vergangene News: Text in --muted statt Deckkraft .5, Balken .6
+
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-47
+Quelle: audit/spec/barrierefreiheit.md Z. 385–389 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**B13 Vergangene News** (Z. 3090)
+- vorher: `.nw-row.past { opacity: .5; }`
+- nachher: `.nw-row.past :is(.nw-time, .nw-title, .nw-cur) { color: var(--muted); } .nw-row.past .nw-v b { color: var(--muted); } .nw-row.past .nw-imp { opacity: .6; }`
+- Befunde: bereich_notebook_news-47
+
+```
+
+## barrierefreiheit-C-editor-112 · Farbknöpfe im Editor benennen (Schriftfarbe/Textmarker {0})
+
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: barrierefreiheit-36
+Quelle: audit/spec/barrierefreiheit.md Z. 738–738 · Dateien: web/js/editor.js
+Abhängig von: —
+
+```text
+- Z. 112: beide `<button type="button" class="c" …>` (eigene und Standardfarben) bekommen `aria-label="${kind === 'color' ? 'Schriftfarbe' : 'Textmarker'} ${esc(c)}"`.
+```
+
+## barrierefreiheit-C-news-49 · News-Wichtigkeitsbalken role=img mit aria-label wie title
+
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-47
+Quelle: audit/spec/barrierefreiheit.md Z. 884–887 · Dateien: web/js/screens/news.js
+Abhängig von: —
+
+```text
+#### `web/js/screens/news.js`
+
+- **Z. 49:** an beiden Varianten von `.nw-imp` `role="img"` und `aria-label` mit demselben Text wie `title` ergänzen („Hohe/Mittlere/Niedrige Wichtigkeit“, „Feiertag“) (Befund: bereich_notebook_news-47)
+
+```
+
+## barrierefreiheit-E-newstest-52 · newstest.js:52: vergangene Termine über --muted-Farbe statt Deckkraft prüfen
+
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-47
+Quelle: audit/spec/barrierefreiheit.md Z. 904–904 · Dateien: web/e2e/newstest.js
+Abhängig von: barrierefreiheit-B13
+
+```text
+| newstest.js:52 | `getComputedStyle(r).opacity < 0.7` | `r.classList.contains('past') && getComputedStyle(r.querySelector('.nw-title')).color === (() => { const s = document.createElement('span'); s.className = 'muted'; document.body.appendChild(s); const c = getComputedStyle(s).color; s.remove(); return c; })()` |
+```
+
+## kilook-B7 · News-Hero: Glockenkachel-CSS löschen, Countdown am Handy in eigener Zeile
+
+Gruppe kilook · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-41
+Quelle: audit/spec/kilook.md Z. 464–467 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**B7 · web/css/app.css · News-Hero** (bereich_notebook_news-41)
+- **3071–3072** `.nw-next-ico { … }` und `.nw-next-ico svg { … }` löschen.
+- **3119** im Block `@media (max-width: 640px)` an die Regel `.nw-next-when { … }` `flex-basis: 100%;` anhängen. Der Countdown bricht damit am Handy immer in eine eigene zweite Zeile.
+
 ```

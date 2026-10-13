@@ -1,98 +1,58 @@
-# Paket 043 · responsiv, prop, konto
+# Paket 043 · responsiv
 
-Schritte: 6 · Dateien: web/css/app.css, web/js/screens/coach.js, web/js/screens/prop.js
-Betroffene Tests laut Spezifikation: web/e2e/coachtest.js:69, :73, :134 (Zellen per textContent/nth-child, Server nötig); web/e2e/headtest.js (Titelzeile Desktop/1000 px); web/e2e/headtest.js:69 (Handy-Kopfreihe); web/e2e/mobiletest.js: neue Prüfung A5 (Schritt responsiv-3.20a); web/e2e/mobiletest.js:17 (runder Knopf right 16); web/e2e/mobiletest.js:41 (padding-bottom 104px); web/e2e/mobiletest.js:51 (Notebook-Liste: Suche, Filter, Session-Knopf in einer Reihe); web/e2e/mobiletest.js:74-76 (Vorlagen-Menü im Bild); web/e2e/proptest.js; web/e2e/rangetest.js (mob)
-Baut auf Paketen auf: 33, 40
+Schritte: 4 · Dateien: web/css/app.css, web/e2e/runall.sh, web/e2e/tablettest.js, web/js/screens/dash-filter.js
+Betroffene Tests laut Spezifikation: web/e2e/filtertest.js:11; web/e2e/headtest.js:24-25 (Desktop unverändert); web/e2e/mobiletest.js:30-31 (TradeLog-Abstände 18px); web/e2e/scrollareatest.js:17-19; web/e2e/sidebartest.js (grün); web/e2e/tlfittest.js (unverändert grün)
+Baut auf Paketen auf: 7, 16, 23, 31, 40, 41, 42
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## responsiv-3.12b · Prop → Deine Konten: Kernspalten am Handy, Phase in der Unterzeile, Aktionen bleiben
+## responsiv-B6b · TradeLog-Kacheln unter 961 px als 2 × 2
 
-Gruppe responsiv · Cluster prop · Aufwand S · Befunde: bereich_prop-22
-Quelle: audit/spec/responsiv.md Z. 518–518 · Dateien: web/js/screens/prop.js
-Abhängig von: responsiv-A1
-
-```text
-- Z. 233 Konten: `<table class="tbl compact prop-acc-tbl">` → `<table class="tbl compact prop-acc-tbl ph-fit">`; `th` Phase, Start, Gruppe → `class="ph-hide"`, Trades → `class="r ph-hide"`; zugehörige `td` ebenso; Konto-`td` → `<td class="ph-wrap">`; Unterzeile `<div class="sub">${nameOf(PD.MARKETS, a.market, 'Futures')}</div>` → `<div class="sub">${nameOf(PD.MARKETS, a.market, 'Futures')}<span class="ph-only"> · ${nameOf(PHASES, a.phase)}</span></div>`. Status und Aktionen (Bearbeiten, Löschen) bleiben sichtbar.
-```
-
-## responsiv-3.12c · Prop → Ausgaben und Payouts: Kernspalten am Handy mit Unterzeile
-
-Gruppe responsiv · Cluster prop · Aufwand M · Befunde: bereich_prop-21, responsiv-6
-Quelle: audit/spec/responsiv.md Z. 519–523 · Dateien: web/js/screens/prop.js
-Abhängig von: responsiv-A1
-
-```text
-- Z. 263 exRows: Datum-`td` → `<td class="ph-hide">`; Typ-`td` → `<td class="ph-wrap">${nameOf(PD.EXPENSE_TYPES, e.type)}<div class="sub ph-only">${fmt.dateFull(e.date)} · ${a ? esc(accName(a)) : esc(e.firm || '—')}</div></td>`; Firma- und Konto-`td` → `class="ph-hide"`; Notiz-`td` `class="muted"` → `class="muted ph-hide"`.
-- Z. 264 Ausgaben-Tabelle `class="tbl compact"` → `class="tbl compact ph-fit"`; `th` Datum, Firma, Konto, Notiz → `class="ph-hide"`.
-- Z. 267 poRows: Konto-`td` → `<td class="ph-wrap">${a ? esc(accName(a)) : esc(p.firm || '—')}<div class="sub ph-only">${U.pill(nameOf(PAYOUT_STATUS, p.status), kind)} · <span>Beantragt ${fmt.dateFull(p.requestedAt)}</span></div></td>`; Brutto, Split → `class="r ph-hide"`; Beantragt, Erhalten, Status → `class="ph-hide"`. Netto und Aktionsspalte bleiben.
-- Z. 268 Payout-Tabelle `class="tbl compact"` → `class="tbl compact ph-fit"`; `th` Brutto, Split → `class="r ph-hide"`, Beantragt, Erhalten, Status → `class="ph-hide"`.
-
-```
-
-## responsiv-3.14 · Coach-Schülertabelle: Kernspalten am Handy, tb-hide ≤ 1180 px
-
-Gruppe responsiv · Cluster konto · Aufwand S · Befunde: bereich_konto-13
-Quelle: audit/spec/responsiv.md Z. 531–535 · Dateien: web/js/screens/coach.js
-Abhängig von: responsiv-A1, responsiv-C4
-
-```text
-### 3.14 web/js/screens/coach.js (bereich_konto-13)
-
-- Z. 87 statsRow: erste `td` → `<td class="ph-wrap">`; `td` Profit-Faktor, Max. Drawdown, Letzter Eintrag → `class="r ph-hide"`; `td` Ø Gewinn, Ø Verlust → `class="r tb-hide ph-hide"`.
-- Z. 113: `<table class="tbl compact coach-tbl">` → `<table class="tbl compact coach-tbl ph-fit">`; `th` entsprechend (`Profit-Faktor`, `Max. Drawdown`, `Letzter Eintrag` → `r ph-hide`; `Ø Gewinn`, `Ø Verlust` → `r tb-hide ph-hide`).
-
-```
-
-## responsiv-A3 · Eingabefelder am Handy 16 px, .input/.select bleiben 42 px
-
-Gruppe responsiv · Cluster responsiv · Aufwand S · Befunde: responsiv-9, typografie-26
-Quelle: audit/spec/responsiv.md Z. 238–246 · Dateien: web/css/app.css
+Gruppe responsiv · Cluster responsiv · Aufwand S · Befunde: bereich_trades_tag-32
+Quelle: audit/spec/responsiv.md Z. 311–311 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**A3 Eingabefelder 16 px** (responsiv-9, typografie-26)
-- Im Block `@media (max-width: 560px)` am **Ende des Blocks** (nach Z. 3059, vor der schließenden Klammer) ergänzen:
-  ```css
-  /* iOS Safari zoomt bei Feldern unter 16px beim Antippen: alle Felder am Handy 16px (Notiztitel ist größer und bleibt) */
-  input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]):not(.note-title), select, textarea { font-size: 16px !important; }
-  input.input, select.select { line-height: 20px; } /* einzeilige Felder bleiben 42px hoch */
-  ```
-- web/app.html:5 bleibt unverändert (kein `maximum-scale`).
-
+- Im Block `@media (max-width: 960px)` (Z. 1774 ff.) ergänzen: `.tl-fit > .grid.tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }`
 ```
 
-## responsiv-A4 · Safe Area und Seitenränder: Titelzeile, Inhalt, runder Knopf
-
-Gruppe responsiv · Cluster responsiv · Aufwand S · Befunde: responsiv-16, responsiv-21, responsiv-15, bereich_shell-31
-Quelle: audit/spec/responsiv.md Z. 247–253 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**A4 Safe Area und Seitenränder** (responsiv-16, responsiv-21, responsiv-15, bereich_shell-31)
-- Z. 212–213 `.topbar { position: sticky; top: env(safe-area-inset-top, 0px); …; padding: 12px var(--gutter); … }` → `top: 0;` und `padding: calc(12px + env(safe-area-inset-top, 0px)) var(--gutter) 12px;` (Rest unverändert).
-- Z. 924 (Block ≤ 960 px) `.topbar { padding: 10px 12px; min-height: 60px; gap: 8px; flex-wrap: nowrap; }` → `.topbar { padding: calc(10px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); min-height: 60px; gap: 8px; flex-wrap: nowrap; }`; direkt danach neu: `.topbar .menu-btn { margin-left: -9px; } /* 18-px-Glyphe auf der Inhaltskante x=16 */` (nur in diesem Block, der Menüknopf ist auf dem Desktop ebenfalls sichtbar).
-- Z. 934 `.content { padding: 16px 16px 60px; --gutter: 16px; }` → `.content { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 60px max(16px, env(safe-area-inset-left, 0px)); --gutter: 16px; }`
-- Z. 2998 `.content { padding-bottom: 104px; }` → `.content { padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)); }`
-- Z. 3019 `.dash-head .tl { position: fixed; right: 16px; …` → `right: calc(16px + env(safe-area-inset-right, 0px));` (Rest unverändert).
-
-```
-
-## responsiv-B4 · Menüs am Handy: 16-px-Rand, Menüs der Kopfreihe in voller Breite der .dash-head
+## responsiv-3.5 · Dashboard-Filterfenster am Handy mit 16 px Rand
 
 Gruppe responsiv · Cluster responsiv · Aufwand S · Befunde: responsiv-24, bereich_dashboard-27
-Quelle: audit/spec/responsiv.md Z. 276–285 · Dateien: web/css/app.css
+Quelle: audit/spec/responsiv.md Z. 467–472 · Dateien: web/js/screens/dash-filter.js
 Abhängig von: —
 
 ```text
-**B4 Menüs am Handy** (responsiv-24, bereich_dashboard-27)
-- Z. 3050 `.popover { max-width: calc(100vw - 16px); }` → `.popover { max-width: calc(100vw - 32px); }`, darunter neu:
-  ```css
-  /* Menüs der Kopfreihe: volle Breite der Kopfreihe (16px Seitenrand), direkt unter ihr */
-  .dash-head { position: relative; }
-  .dash-head .popwrap { position: static; }
-  .dash-head .popover, .dash-head .popover.range-pop { left: 0 !important; right: 0; width: auto; max-width: none; }
-  ```
-  (`!important` schlägt den Inline-Wert aus `fitPopover`.)
+### 3.5 web/js/screens/dash-filter.js (responsiv-24, bereich_dashboard-27)
 
+- Z. 148 Kommentar „auf dem Handy volle Breite mit 8px Rand“ → „mit 16px Rand (Seitenrand)“.
+- Z. 153 `const w = phone ? vw - 16 : …` → `phone ? vw - 32 : …`
+- Z. 154 `const left = phone ? 8 : …` → `phone ? 16 : …`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: #fd-layer] close() vereint beide Fassungen: `function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); pop.inert = true; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action="dash-f-open"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } }`. Die Funktion kehrt nicht vorzeitig zurück, denn aria-expanded muss immer zurückgesetzt werden. `l.innerHTML = ''` entfällt, weil es das Ausblenden abschneiden würde. `inert` verhindert, dass ein Tastendruck im ausblendenden Fenster 'dash-f-apply' mit u.draft = null auslöst; gegen Klicks schützt schon `.fd-pop.closing { pointer-events: none }`. Die übrigen Teile von 168-189 bleiben: hashchange mit `() => close()`, Escape und × mit `close(true)`, Fokus nach „Anwenden“, Tab-Falle auf #fd-layer mit `#fd-pop`-Selektoren (sie übergeht das ausblendende Fenster ohne ID). barrierefreiheit-158 ist unabhängig, weil refresh bei u.open = false abbricht. responsiv-3.5 ändert in place() nur die Handy-Breite (vw − 32) und den linken Rand (16 px) und ist ebenfalls unabhängig. Die bewegung-Prüfung „40 ms nach Escape .fd-pop.closing, nach 250 ms #fd-layer leer“ bleibt erfüllt.
+- [konflikt: #fd-pop] Ein gemeinsames close() in dash-filter.js. Es blendet das Fenster aus (bewegung) und setzt aria-expanded, bei ×, Escape und Anwenden geht der Fokus zurück (barrierefreiheit): function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action="dash-f-open"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } } Dazu wie bei barrierefreiheit: hashchange → () => close(), Escape → close(true), 'dash-f-close' → close(true), 'dash-f-apply' → close(); App.rerender(); danach Fokus auf den Filter-Knopf. Das Ausblenden setzt kein #fd-layer.innerHTML = '' mehr. .fd-pop.closing (pointer-events: none) aus dem CSS-Teil von bewegung verhindert Klicks ins ausblendende Fenster. Die Tab-Falle (#fd-pop …) sieht das Fenster ohne ID nicht mehr. aria-controls="fd-pop" (C-dashboard-124) und der 16-px-Rand am Handy in place() (responsiv-3.5) sind verträglich.
+
+## responsiv-3.20c · Neue Suite tablettest.js (1024 × 768, Abschnitt 4 B) in runall.sh; tlfittest unverändert grün
+
+Gruppe responsiv · Cluster responsiv · Aufwand M · Befunde: —
+Quelle: audit/spec/responsiv.md Z. 572–573 · Dateien: web/e2e/tablettest.js, web/e2e/runall.sh
+Abhängig von: responsiv-B1, responsiv-B6a, responsiv-B6c, responsiv-B7, responsiv-B8, responsiv-A2, responsiv-3.3d, responsiv-3.9a, responsiv-3.13, responsiv-C4, responsiv-3.14
+
+```text
+- `tlfittest.js`: unverändert lassen (muss grün bleiben); neue Suite `tablettest.js` für 1024 × 768 (Abschnitt 4, B) und in `runall.sh` eintragen.
+
+```
+
+## wording-S3.5 · app.css Handy (≤ 560px): .ce-head untereinander
+
+Gruppe wording · Cluster responsiv · Aufwand S · Befunde: bereich_konto-21
+Quelle: audit/spec/wording.md Z. 331–331 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+| 3.5 | Handy-Block `@media (max-width: 560px)` am Ende der Datei | – → `.ce-head { flex-direction: column; gap: 2px; }` | bereich_konto-21 |
 ```

@@ -1,0 +1,410 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "b.neg",
+   "nrs": [
+    "abstaende-L3",
+    "aufbau-C8c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Z. 68 (Daten und Sicherung) bekommt den Zeilentitel `<b>Alle Daten löschen</b>` ohne Klasse neg, also in --text als Zeilentitel 14/500. Der Knopf bleibt `btn sm danger` mit „Alles löschen“. Grund: Rot steht nur für Verlust, Fehler und die Gefahr-Aktion (farbe), und die Gefahr trägt hier der Knopf. Mit dem neuen Titel sagen Titel und Knopf außerdem nicht zweimal dasselbe (aufbau). Das <b>-Element ändert nur aufbau-C8c (Text und Klasse, dazu der Sprachschlüssel „Alle Daten löschen“ aus aufbau Z. 681 in allen fünf Sprachdateien). abstaende-L3 baut nur die Zeilen um. Die Typografie-Abnahme „„Alles löschen“ bleibt rot“ (typografie.md Z. 80/500) ist damit überholt. Die Entscheidung hängt nicht von aufbau-25 ab (Verschieben nach „Sicherheit und Daten“).",
+   "anpassungen": [
+    {
+     "nr": "abstaende-L3",
+     "aktion": "aendern",
+     "anweisung": "In Z. 68 nur `<div class=\"row between\" style=\"gap:12px\">` → `<div class=\"set-item\">` ändern. `<b class=\"neg\">Alles löschen</b>` bleibt unberührt, das setzt aufbau-C8c auf `<b>Alle Daten löschen</b>`. Die übrigen Punkte von L3 bleiben unverändert (Z. 63/64/65/66, Trenner Z. 67 weg, „Entfernen“ als btn sm, Knopf „Alles löschen“ bleibt btn sm danger)."
+    }
+   ]
+  },
+  {
+   "anker": "misc.profil",
+   "nrs": [
+    "aufbau-C8c",
+    "farbe-C22b",
+    "wording-S17.4-17.7",
+    "kilook-C24"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aufbau-C8c und farbe-C22b ändern in profil() verschiedene Teilstrings (Z. 41/54 Zeitzone, Z. 62 2FA-Knopf, Z. 68 Titel, Z. 69 Fußzeile) und vertragen sich. Z. 69 schreiben aber wording-S17.4-17.7 (17.7) und kilook-C24 als ganze Zeile neu, beide noch mit class=\"small faint\". Für die Endfassung jeder Fußzeile in profil() gilt verbindlich: class=\"small muted\", denn Fußnoten sind --muted und --faint ist nie für Wörter. Wo Tasten genannt werden, steht „1–9“. Welcher Wortlaut gilt (wording zweizeilig oder kilook ohne Tastatur-Teil), entscheidet diese Liste nicht.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C22b",
+     "aktion": "aendern",
+     "anweisung": "Den Z.-69-Punkt auf die Endfassung der Fußzeile anwenden: Jedes `<div class=\"small faint\">` der Profil-Fußzeile wird `<div class=\"small muted\">`, auch wenn wording-S17.4-17.7 oder kilook-C24 die Zeile schon neu geschrieben haben. Der Suchtext `class=\"small faint\">Speicherort:` ist dafür nicht maßgeblich. Die übrigen Punkte (Z. 10, 62, 186, 207, 234, 238, 95) bleiben unverändert."
+    },
+    {
+     "nr": "aufbau-C8c",
+     "aktion": "aendern",
+     "anweisung": "Den Z.-69-Punkt (`<b>1–6</b> Bereiche` → `<b>1–9</b> Bereiche`) nur ausführen, solange die alte Fußzeile noch steht. Nach wording-S17.4-17.7 oder kilook-C24 ist er erledigt (dort steht 1–9 oder kein Tastatur-Teil mehr). Den Z.-68-Punkt siehe Anker b.neg. Die Zeitzone (Z. 41/54) bleibt wie spezifiziert."
+    },
+    {
+     "nr": "wording-S17.4-17.7",
+     "aktion": "aendern",
+     "anweisung": "17.7: Beide neuen Fußzeilen-`<div>` bekommen class=\"small muted\" statt \"small faint\". Der Text bleibt wie spezifiziert."
+    },
+    {
+     "nr": "kilook-C24",
+     "aktion": "aendern",
+     "anweisung": "Z. 69 nachher mit class=\"small muted\" statt \"small faint\". Der Text bleibt wie spezifiziert."
+    }
+   ]
+  },
+  {
+   "anker": "misc.regeln",
+   "nrs": [
+    "aufbau-C8e",
+    "farbe-C22b",
+    "wording-S17.22"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Untertitel in regeln() Z. 207, verbindlich: `Deine Regeln zum Abhaken. Sie erscheinen in „Plan & Bewertung“ eines Trades, beim Session-Ende, im Fortschritt und im Regel-Tracker. Messbare Grenzen wie „Max. Trades pro Tag“ stellst du im <a class=\"tlink\" href=\"#/shadow\">Regelwerk des Schatten-Ichs</a> ein.` Grund: aufbau trennt Checkliste und Regelwerk (Glossar), und wording W10 verlangt den sichtbaren Namen „Plan & Bewertung“ (app.js:416) statt „Trade-Editor“. Ein Link im Fließtext ist .tlink (komponenten C33); ein nacktes <a> erbt die Farbe ohne Unterstreichung (app.css:89) und wäre nicht als Link erkennbar. head() gibt den Untertitel schon als HTML aus. farbe-C22b (Knopf „Hinzufügen“ in Z. 207 → btn sm) ist davon unabhängig.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C8e",
+     "aktion": "aendern",
+     "anweisung": "Den Untertitel genau wie oben schreiben (mit „in „Plan & Bewertung“ eines Trades“ und class=\"tlink\" am Link). Für die drei Textknoten Sprachschlüssel in en/es/pt/hi/zh anlegen (Satz bis „im“, „Regelwerk des Schatten-Ichs“, „ein.“) und den alten Schlüssel „Deine Handelsregeln. Sie erscheinen im Trade-Editor, …“ löschen."
+    },
+    {
+     "nr": "wording-S17.22",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-C8e",
+     "anweisung": "Der Verweis auf „Plan & Bewertung“ steckt im neuen Untertitel von aufbau-C8e. Kein eigener Text und kein eigener Sprachschlüssel."
+    }
+   ]
+  },
+  {
+   "anker": ".set-head",
+   "nrs": [
+    "komponenten-S-misc-a",
+    "zustaende-S-M2",
+    "komponenten-S-misc-e",
+    "komponenten-A7"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Jeder Einstellungs-Kopf hat genau einen „Gespeichert“-Hinweis. head() rendert immer `<span class=\"save-state\" aria-live=\"polite\"></span>` vor trailing (komponenten-S-misc-a). Gefüllt wird er nur über App.savedHint() (komponenten-A7) und steht 2000 ms. Die 2 s kommen aus zustaende Z9: Der Hinweis steht oben rechts, weit vom geänderten Feld, und 1,5 s reichen dort nicht zum Lesen. Trading speichert bei change über die eine Aktion save-trading: Das Formular trägt data-action und data-change=\"save-trading\", Enter läuft in denselben Handler. Der Handler beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }` (aus zustaende-S-M2), damit Werte außerhalb von min/max nicht gespeichert werden; die Meldung kommt über den globalen invalid-Listener. Danach speichern, C.setBreakEven, App.savedHint(), ohne Toast und ohne rerender. Es gibt keinen zweiten Span, keine id set-save, keine Aktion save-trading-auto und kein readTrading. Ob Profil und Notebook auch sofort speichern, entscheidet nicht dieser Anker. Wo sofort gespeichert wird, gilt derselbe Hinweis.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-M2",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-S-misc-e",
+     "anweisung": "komponenten-S-misc-e übernimmt das Speichern bei change (Formular-data-change, Knopf in Z. 201 entfernen, Handler mit App.savedHint). Aus S-M2 bleibt nur die Gültigkeitsprüfung; sie wandert in S-misc-e. head('Trading', …) bekommt kein trailing. zustaende-S-TE6 (Felder füllen und mit Tab verlassen) bleibt gültig und prüft `.set-head .save-state`."
+    },
+    {
+     "nr": "komponenten-S-misc-e",
+     "aktion": "aendern",
+     "anweisung": "Der Handler save-trading beginnt mit `if (!form.checkValidity()) { form.reportValidity(); return; }`. Sonst wie spezifiziert: kein Toast, kein rerender, App.savedHint()."
+    },
+    {
+     "nr": "komponenten-A7",
+     "aktion": "aendern",
+     "anweisung": "In App.savedHint setTimeout auf 2000 statt 1500 setzen und den Titel auf „Gespeichert“ 2 s ändern."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-S-misc-a",
+     "nach": "komponenten-S-misc-e"
+    },
+    {
+     "vor": "komponenten-A7",
+     "nach": "komponenten-S-misc-e"
+    }
+   ]
+  },
+  {
+   "anker": ".prop-sub a::after",
+   "nrs": [
+    "komponenten-C20",
+    "farbe-B21",
+    "zustaende-S-C9b",
+    "bewegung-C6cd"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C20 setzt als einziger Schritt die gemeinsame Unterstrich-Fassung für .subtabs, .set-tabs und .prop-sub (Schrift und Linie --text, Gewicht 500, deckt farbe-B21 und zustaende-S-C9b ab). Abweichend von C20 gilt: (1) Die Linie ::after bekommt keine transition. Alle drei Leisten bauen beim Klick neu auf (content-tab, log-tab und recent-tab rufen rerender, .prop-sub navigiert; README Z. 357: die Leiste steht still), der Übergang würde also nie laufen (bewegung D3/K19). scaleX(0) und scaleX(1) bleiben. (2) Gewählt wird an Links über `.prop-sub a[aria-current=\"page\"]` angezeigt, weil aria-pressed an <a> wegfällt (barrierefreiheit Z4 und C-prop-304-305). (3) Schrift var(--fs-14)/var(--lh-14) statt 13.5px (Typografie: Reiter 14). (4) Fokus `outline: 2px solid var(--focus); outline-offset: -2px` statt --accent (barrierefreiheit Z1; die Leiste hat overflow-x: auto). Die Antwort auf aufbau-16 (F2) muss nicht abgewartet werden. Bei Ja streicht aufbau die .prop-sub-Selektoren aus diesen Regeln.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C20",
+     "aktion": "aendern",
+     "anweisung": "Z. 1866–1869 und Z. 2593–2598 durch genau diese Fassung ersetzen:\n.subtabs, .set-tabs, .prop-sub { display: flex; gap: 22px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }\n.subtabs::-webkit-scrollbar, .set-tabs::-webkit-scrollbar, .prop-sub::-webkit-scrollbar { display: none; }\n.subtabs > button, .set-tabs > button, .prop-sub a { position: relative; padding: 2px 1px 11px; border: 0; background: none; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; color: var(--muted); text-decoration: none; white-space: nowrap; cursor: pointer; transition: color var(--dur-1) var(--ease); }\n.subtabs > button:hover, .set-tabs > button:hover, .prop-sub a:hover, .subtabs > button[aria-pressed=\"true\"], .set-tabs > button[aria-pressed=\"true\"], .prop-sub a[aria-current=\"page\"] { color: var(--text); }\n.subtabs > button::after, .set-tabs > button::after, .prop-sub a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--text); transform: scaleX(0); }\n.subtabs > button[aria-pressed=\"true\"]::after, .set-tabs > button[aria-pressed=\"true\"]::after, .prop-sub a[aria-current=\"page\"]::after { transform: scaleX(1); }\n.subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }\nDie Regel .prop-sub a:focus-visible aus C19 entfällt wie vorgesehen. Tests friedhoftest.js:20, sampletest.js:81 und headtest.js:63–64 prüfen."
+    },
+    {
+     "nr": "farbe-B21",
+     "aktion": "aendern",
+     "anweisung": "Nur Z. 2611 `.select.prop-fsel.on` umsetzen. Z. 2597 (.prop-sub a::after) und Z. 1869 (.set-tabs gewählt) übernimmt komponenten-C20."
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-C20",
+     "anweisung": "Z. 1867, 1869, 2595 und 2597 (500, --text statt Akzent) stecken in der gemeinsamen Fassung von C20. Die grep-Prüfung in zustaende.md Z. 908 bleibt gültig."
+    },
+    {
+     "nr": "bewegung-C6cd",
+     "aktion": "aendern",
+     "anweisung": "Nur Teil d) umsetzen (Z. 2708 `.prop-bar .track i`: transition streichen). Teil c) erledigt komponenten-C20, dort hat ::after keine transition."
+    }
+   ]
+  },
+  {
+   "anker": ".set-tabs button[aria-pressed=\"true\"]",
+   "nrs": [
+    "farbe-B21",
+    "komponenten-C20",
+    "zustaende-S-C9b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Dreimal dieselbe Änderung (gewählt: Schrift --text, Linie --text). komponenten-C20 übernimmt sie mit `.set-tabs > button[aria-pressed=\"true\"]`; die Linie kommt über ::after statt border-bottom. Die Anpassungen für farbe-B21 (nur noch .prop-fsel.on) und zustaende-S-C9b (zusammen_mit C20) stehen beim Anker .prop-sub a::after."
+  },
+  {
+   "anker": ".prop-sub a[aria-pressed=\"true\"]",
+   "nrs": [
+    "barrierefreiheit-B9b",
+    "komponenten-C20"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Der gewählte Prop-Unterreiter wird nur über aria-current=\"page\" markiert. Links tragen kein aria-pressed (barrierefreiheit Z4), und prop.js:305 setzt aria-current schon heute. komponenten-C20 schreibt die Selektoren gleich als `.prop-sub a[aria-current=\"page\"]` und `.prop-sub a[aria-current=\"page\"]::after`. barrierefreiheit-B9b ändert die .prop-sub-Zeilen nicht mehr.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B9b",
+     "aktion": "aendern",
+     "anweisung": "Der Punkt „Z. 2596 / 2598: .prop-sub a[aria-pressed=\"true\"] → .prop-sub a[aria-current=\"page\"]“ entfällt, das erledigt komponenten-C20. Es bleiben: die gemeinsame Liste Z. 3125–3128 (.rating button.on, .seg button[aria-checked], .tabs a und .prop-tabs a auf aria-current) und `.tabs a:not([aria-current=\"page\"])` nach Z. 1513."
+    }
+   ]
+  },
+  {
+   "anker": ".prop-sub",
+   "nrs": [
+    "komponenten-C20",
+    "responsiv-A2",
+    "responsiv-3.3d"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die drei Schritte vertragen sich. C20 lässt .prop-sub wischbar ohne Scrollbalken, A2 blendet die Ränder per Maske aus, 3.3d setzt fade-l/fade-r. C20 macht aber auch .set-tabs und das neue .subtabs zu wischbaren Leisten (overflow-x: auto, kein Balken). Darum gilt die Wischleisten-Regel von responsiv (28-px-Auslauf an jedem Rand, hinter dem es weitergeht) auch dort, und die Selektorlisten in A2 und 3.3d bekommen .subtabs und .set-tabs dazu. Die Antwort auf aufbau-16 muss nicht abgewartet werden. Bei Ja fällt .prop-sub aus beiden Listen.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-A2",
+     "aktion": "aendern",
+     "anweisung": "In allen drei Masken-Regeln `:is(.tabs, .prop-tabs, .prop-sub, .set-nav)` → `:is(.tabs, .prop-tabs, .prop-sub, .subtabs, .set-tabs, .set-nav)`. Der Rest bleibt unverändert, auch .set-nav ohne Scrollbalken."
+    },
+    {
+     "nr": "responsiv-3.3d",
+     "aktion": "aendern",
+     "anweisung": "In App.edgeFade `querySelectorAll('.tabs, .prop-tabs, .prop-sub, .subtabs, .set-tabs, .set-nav, .nb-toolbar')`. Aufrufe in render() und im Resize-Listener bleiben unverändert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C20",
+     "nach": "responsiv-A2"
+    },
+    {
+     "vor": "responsiv-A2",
+     "nach": "responsiv-3.3d"
+    }
+   ]
+  },
+  {
+   "anker": ".nb.no-left",
+   "nrs": [
+    "abstaende-D2",
+    "responsiv-B8",
+    "abstaende-K1",
+    "abstaende-S6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Notebook-Spalten ab 961 px regelt allein responsiv-B8, und zwar nach Inhaltsbreite (Container nbc). Ab 1160 px gilt 236/300/Rest (.nb.no-left 300/Rest wie heute), bei 1000–1159 px 210/260/Rest bzw. .nb.no-left 260/Rest, bei 700–999 px Liste 260 plus Notiz (Ordner über „Zurück“), unter 700 px eine Spalte. Grund: Die Fensterbreite trifft die Lage nicht, weil eine offene oder eingeklappte Seitenleiste rund 150 px verschiebt. B8 erreicht bei 961–1180 px die Notizspalte von etwa 470 px, die abstaende mit 240 px und eingeklappten Ordnern wollte, ohne einen zweiten Mechanismus. Daher gibt es keine 240 px für .nb.no-left, kein Einklappen per matchMedia und keinen README-Satz „961–1180 px: Ordner zunächst eingeklappt“. README Z. 120 schreibt responsiv 3.19.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-D2",
+     "aktion": "aendern",
+     "anweisung": "Teil (3) entfällt ganz: weder `.nb.no-left { grid-template-columns: 240px minmax(0, 1fr); }` noch `@media (min-width: 961px) and (max-width: 1180px) { .nb .note-title { font-size: 28px; } }`. Z. 1061 ersetzt responsiv-B8. Die Teile (1), (2) und (4)–(7) bleiben, zu (8) siehe Anker .nb .note-head .row [data-action=\"nb-share\"]."
+    },
+    {
+     "nr": "abstaende-K1",
+     "aktion": "entfaellt",
+     "anweisung": "leftOpen bleibt true. Die mittleren Breiten regelt der Container nbc (responsiv-B8, 3.13 öffnet die Ordner über „Zurück“). Die Abnahme „961–1180 px: Ordnerspalte beim ersten Öffnen eingeklappt“ (abstaende 1.14) entfällt."
+    },
+    {
+     "nr": "abstaende-S6",
+     "aktion": "entfaellt",
+     "anweisung": "README Z. 120 ändert responsiv 3.19 („bei schmalem Inhalt (unter 1000px) Liste und Notiz, die Ordner über „Zurück“, unter 700px eine Spalte“)."
+    }
+   ]
+  },
+  {
+   "anker": ".nb .note-title",
+   "nrs": [
+    "abstaende-D2",
+    "typografie-3.2.3z",
+    "responsiv-B8"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Der Notiz-Titel bleibt in den Stufen der Typografie: 32/600, Zeilenhöhe 1.2, −0.02em (typografie-3.2.3z, Z. 1014), 26 px bis 960 px, 24 px am Handy. Die 28 px aus abstaende-D2 (3) entfallen: 28 ist in der Skala verboten, und Typografie-Abnahme 2 erlaubt für .nb .note-title nur 32/26/24. Für die schmale Notizspalte gilt stattdessen die vorhandene 26-px-Stufe auch im Notebook-Container unter 1000 px (Liste plus Notiz oder eine Spalte, Notiz 426–725 px breit). In der Dreispalten-Ansicht bleibt der Titel bei 32 px (1440 px mit offener Seitenleiste: Container ≥ 1160, Abnahme notebook_notiz 32/600 unberührt). Teil (3) von D2 entfällt laut Anker .nb.no-left.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B8",
+     "aktion": "aendern",
+     "anweisung": "Im Block `@container nbc (max-width: 999px) { … }` zusätzlich `.nb .note-title { font-size: 26px; }` eintragen."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.3z",
+     "nach": "responsiv-B8"
+    }
+   ]
+  },
+  {
+   "anker": ".nb",
+   "nrs": [
+    "abstaende-C11",
+    "responsiv-B8"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die Schritte vertragen sich: C11 setzt .nb gap von 14 auf var(--grid-gap) (16 px), B8 legt die Spaltenbreiten fest. B8 hat seine Messwerte aber mit gap 14 gerechnet; sie verschieben sich um 2 px je Lücke. 1440×900: 236/300/592 (statt 596). 1366×768: 210/260/584 (statt 588). 1024 mit offener Seitenleiste, Liste plus Notiz: 260/468 (statt 470), mit eingeklappter Seitenleiste 620 (statt 622). Die Notizspalte bleibt ≥ 440 px, die Grenzen 1160/1000/700 bleiben.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B8",
+     "aktion": "aendern",
+     "anweisung": "Die Abnahme (responsiv.md Abschnitt 4, Notebook) und die neue Suite tablettest.js mit gap 16 messen: Notiz 592 / 584 / 468 / 620 px (± 2)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-C11",
+     "nach": "responsiv-B8"
+    }
+   ]
+  },
+  {
+   "anker": ".nb .note-head .row [data-action=\"nb-share\"]",
+   "nrs": [
+    "abstaende-D2",
+    "responsiv-C7"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Handy-Regel `display: none` für „Teilen“ (app.css Z. 3009) wird ersatzlos gestrichen (responsiv-C7). Der Knopf bekommt ph-hide, der neue •••-Eintrag ph-only. abstaende-D2 (8) benennt die Regel deshalb nicht auf `.nb .note-bar [data-action=\"nb-share\"]` um. Das •••-Menü liegt in derselben Reihe (notebook.js:74), und die umbenannte Regel würde am Handy auch den neuen Menüeintrag „Teilen“ verstecken.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-D2",
+     "aktion": "aendern",
+     "anweisung": "In Teil (8) die Umbenennung `.nb .note-head .row [data-action=\"nb-share\"]` → `.nb .note-bar [data-action=\"nb-share\"]` streichen; die Regel löscht responsiv-C7. Die übrigen Umbenennungen in (8) und das neue `.nb .note-bar { padding-inline: 14px; }` bleiben."
+    }
+   ]
+  },
+  {
+   "anker": ".tracker i.l1",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Zellen und Legende des Regel-Trackers nutzen dieselben Selektoren (diagramme-A6, eine Quelle). Die Prozente kommen aus der Farb-Spezifikation; diagramme K12 überlässt sie ihr ausdrücklich. Grün bleibt, weil Regeltreue positiv ist (BRIEF), aber gedämpft statt als volle --accent-Fläche (ruhige Diagramme). Ergebnis in Z. 1668–1671: `.tracker i.l1, .heat-legend.right i.l1 { background: color-mix(in srgb, var(--accent) 18%, var(--surface-2)); border: 0; }`, ebenso l2 mit 32 %, l3 mit 50 % und l4 mit `color-mix(in srgb, var(--accent) 70%, var(--surface-2))`. Nach Z. 1675 kommen keine zusätzlichen .heat-legend.right-Regeln. Die Legende der Aktivität (ohne .right) bleibt neutral, die Spezifität 0,3,1 trennt beide.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-A6",
+     "aktion": "aendern",
+     "anweisung": "18/32/50/70 % statt 25/45/70/100 %. l4 als `color-mix(in srgb, var(--accent) 70%, var(--surface-2))` statt `var(--accent)`, border: 0 bleibt. dashtest.js:72 (Tracker-Raster) mitprüfen."
+    },
+    {
+     "nr": "farbe-B23b",
+     "aktion": "aendern",
+     "anweisung": "Nur `.tracker i.today { box-shadow: 0 0 0 2px var(--text-2); }` (Z. 1672) umsetzen. Z. 1668–1671 und die neuen `.heat-legend.right i.l1–l4`-Regeln nach Z. 1675 übernimmt diagramme-A6 mit denselben Werten 18/32/50/70 %."
+    }
+   ]
+  },
+  {
+   "anker": ".tracker i.l2",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l2, .heat-legend.right i.l2` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 32%, var(--surface-2))`, border: 0. Die Anpassungen stehen dort."
+  },
+  {
+   "anker": ".tracker i.l3",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l3, .heat-legend.right i.l3` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 50%, var(--surface-2))`, border: 0. Die Anpassungen stehen dort."
+  },
+  {
+   "anker": ".tracker i.l4",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l4, .heat-legend.right i.l4` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 70%, var(--surface-2))` statt `var(--accent)`, border: 0. Die Anpassungen stehen dort."
+  },
+  {
+   "anker": ".heat-legend.right i.l1",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Legende hängt am Zellen-Selektor von diagramme-A6 (18 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1."
+  },
+  {
+   "anker": ".heat-legend.right i.l2",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Legende hängt am Zellen-Selektor von diagramme-A6 (32 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1."
+  },
+  {
+   "anker": ".heat-legend.right i.l3",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Legende hängt am Zellen-Selektor von diagramme-A6 (50 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1."
+  },
+  {
+   "anker": ".heat-legend.right i.l4",
+   "nrs": [
+    "diagramme-A6",
+    "farbe-B23b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Legende hängt am Zellen-Selektor von diagramme-A6 (70 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1."
+  },
+  {
+   "anker": ".tracker i.today",
+   "nrs": [
+    "farbe-B23b",
+    "komponenten-C26b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Heute-Markierung ist in allen Rastern gleich (Aktivität, Regel-Tracker, Jahres-Monatsraster): `box-shadow: 0 0 0 2px var(--text-2)`. Grund: farbe und diagramme (A5; diagramme Z. 219 übernimmt den Wert der Farb-Spezifikation) legen 2 px fest. Das ist auch die heutige Breite, nur die Farbe wechselt von Grün auf --text-2. 1,5 px rendern auf 1×-Bildschirmen unscharf. farbe-B23b setzt .tracker i.today, farbe-B23c setzt .ym-grid i.today. Für .activity i.today gilt derselbe Wert (Liste mit diagramme-A5/farbe-B23a).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C26b",
+     "aktion": "aendern",
+     "anweisung": "Der Punkt „Z. 1292 / 1672 / 1771: box-shadow 0 0 0 1.5px var(--text-2)“ entfällt; die Heute-Ringe setzen farbe-B23b/B23c (und für .activity der dortige Schritt), alle mit 0 0 0 2px var(--text-2). Der Punkt `.ycal-head span` (Z. 1685) bleibt. Der Grundsatz in komponenten Z. 99 („Ring 1,5 px“) gilt als 2 px."
+    }
+   ]
+  },
+  {
+   "anker": ".ym-grid i.today",
+   "nrs": [
+    "farbe-B23c",
+    "komponenten-C26b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "farbe-B23c übernimmt: `.ym-grid i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Der Ring-Punkt von komponenten-C26b entfällt, die Anpassung steht beim Anker .tracker i.today."
+  }
+ ],
+ "vertraeglich": [
+  "misc.inhalte",
+  "misc.head",
+  ".nb-toolbar"
+ ]
+}

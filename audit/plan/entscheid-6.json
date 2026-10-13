@@ -1,0 +1,335 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "U.kv",
+   "nrs": [
+    "abstaende-M6",
+    "aufbau-C12b",
+    "aufbau-C14c",
+    "diagramme-L1",
+    "farbe-C30",
+    "responsiv-3.12a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die sechs Schritte ändern vier verschiedene Aufrufstellen. Sie überschneiden sich nur in prop.js Z. 104 (Kontokarte) und mittelbar in planText. Verbindlich für Z. 104, innerhalb des `${dead ? '' : …}` aus zustaende-S-P1: `${U.kv(plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen', plan.hasCond && active ? `<a href=\"#/prop/bilanz\" class=\"prop-plan-link\" data-action=\"prop-plan-open\" data-id=\"${a.id}\">${planText(a, ev, plan)}</a>` : planText(a, ev, plan))}`. Die Zeile wird immer gezeigt, denn sie trägt den einzigen Link in den Planer. planText: Der Gewinn-Teil erscheint nur bei `plan.missingProfit > C.EPS && (plan.funded || !ev.target)`; aufbau-C12a und responsiv-3.12a meinen dasselbe. Sind alle Teile leer und fehlt nur noch Gewinn, liefert planText `<span class=\"muted\">nur noch das Ziel</span>`, sonst '—', nie ''. Ein leerer Wert würde Zeile und Link verstecken, und '—' bedeutet laut Zustände Z2 „Wert fehlt“. Wortlaut und Währungsformat des Betrags entscheidet der Anker planText/money (konflikt-9). prop.js Z. 283 (abstaende-M6): eigene Zeile „Heute noch erlaubt“ als Regelgröße in Kontowährung `money(a, cons.allowedToday, { compact: true })` (KI-Look Z5a/Z5c). Damit entfällt der Teil „heute noch … erlaubt“ in kilook-C19c. Die Testanpassung proptest.js:102 prüft die Zeile „Heute noch erlaubt“ und bei verletzter Regel „verletzt“ in „Consistency Rule“, nicht mehr „heute noch“ in der Consistency-Zeile. stats.js tabSummary (aufbau-C14c) und notebook.js statsHTML (diagramme-L1, Zähler nur > 0 gefärbt, passt zu farbe-C30) sind unabhängig. stats.js tabDays: siehe Anker stats.tabDays. Hinweis: responsiv-B7 (.st-cards, dritte Karte bis 1100 px volle Breite) passt zu den drei Karten aus C14c; die dritte Karte ist dann „Drawdown & Risiko“.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-3.12a",
+     "aktion": "aendern",
+     "anweisung": "Z. 104: Beschriftung „Bis zum Bestehen“ wie spezifiziert. Z. 75: Bedingung `plan.missingProfit > C.EPS && (plan.funded || !ev.target)`. Text und Format des Betrags nach Anker planText/money (konflikt-9). Z. 76: `return parts.join(' · ') || (plan.missingProfit > C.EPS ? '<span class=\"muted\">nur noch das Ziel</span>' : '—');` (übernimmt aufbau-C12a). Neuer Text „nur noch das Ziel“ (en „only the target left“) in alle fünf Sprachdateien."
+    },
+    {
+     "nr": "aufbau-C12a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "responsiv-3.12a",
+     "anweisung": "Bedingung und Rückfall „nur noch das Ziel“ setzt responsiv-3.12a in planText um. Kein eigener Eingriff in Z. 75–76."
+    },
+    {
+     "nr": "aufbau-C12b",
+     "aktion": "aendern",
+     "anweisung": "Z. 104 erst nach responsiv-3.12a ändern. Die Beschriftung bleibt „Bis zum Bestehen“ (nicht auf „Bestehen“ zurücksetzen), nur der Wert wird zum Link wie in der Entscheidung. Aktion, mount und CSS siehe Anker [data-fold=\"planer\"]."
+    },
+    {
+     "nr": "wording-S12.8-12.12",
+     "aktion": "aendern",
+     "anweisung": "12.10: Die kv-Zeile „Bis zum Bestehen“/„Nächster Payout“ bekommt keine Bedingung `pt` und ist immer sichtbar, weil sie den Planer-Link trägt. planText liefert nie ''. Der Tooltip „je Stop“ und die übrigen Teile bleiben."
+    },
+    {
+     "nr": "abstaende-M6",
+     "aktion": "aendern",
+     "anweisung": "Neue Zeile als `U.kv('Heute noch erlaubt', money(a, cons.allowedToday, { compact: true }))` statt `fmt.cur(cons.allowedToday)`. Der Rest bleibt wie spezifiziert: Wert ohne title, Karte cls prop-conds."
+    },
+    {
+     "nr": "kilook-C19c",
+     "aktion": "aendern",
+     "anweisung": "Z. 283: Die Ersetzung `heute noch ${fmt.cur(cons.allowedToday)} erlaubt` entfällt. Der Teil steht nach abstaende-M6 als eigene Zeile, bereits mit money(a, …, { compact: true }). Alle übrigen Ersetzungen in Z. 283/284 bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "responsiv-3.12a",
+     "nach": "aufbau-C12b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "[data-fold=\"planer\"]",
+   "nrs": [
+    "aufbau-C12b",
+    "zustaende-S-P3"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide Einstiege (Link auf der Kontokarte, alte Adresse #/prop/payout) nutzen einen Scroll-Mechanismus mit dem Merker `s.scrollPlaner`. Gescrollt wird einmal in mount, umgesetzt von aufbau-C12b: `mount(main) { const fn = MOUNTS[st().tab]; if (fn) fn(main); const s = st(); if (s.scrollPlaner) { s.scrollPlaner = false; const f = main.querySelector('[data-fold=\"planer\"]'); if (f) requestAnimationFrame(() => { const tb = document.querySelector('.topbar'); window.scrollTo({ top: Math.max(0, f.getBoundingClientRect().top + window.scrollY - (tb ? tb.offsetHeight : 0) - 16) }); }); } },`. requestAnimationFrame läuft nach dem scrollTo in App.render (aufbau K18). zustaende-S-P3 setzt in render nur Fold, Merker und replaceState. Ergebnis: Der Planer beginnt 16 px unter der Titelzeile (offsetHeight enthält nach responsiv-A4 auch den Safe-Area-Rand), die Adresse lautet #/prop/bilanz, proptest.js:95 bleibt grün.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-P3",
+     "aktion": "aendern",
+     "anweisung": "Z. 299: `if (key === 'payout') { key = 'bilanz'; (s.fold || (s.fold = {})).planer = true; s.scrollPlaner = true; try { history.replaceState(null, '', '#/prop/bilanz'); } catch (e) { } }`. Merker heißt scrollPlaner, nicht scrollTo = 'planer'. Der mount-Teil (Z. 309) entfällt, das Scrollen übernimmt aufbau-C12b."
+    },
+    {
+     "nr": "aufbau-C12b",
+     "aktion": "aendern",
+     "anweisung": "mount wie in der Entscheidung, mit Null-Prüfung der Titelzeile. Aktion 'prop-plan-open' und CSS .prop-plan-link bleiben unverändert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C12b",
+     "nach": "zustaende-S-P3"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "stats.tabDays",
+   "nrs": [
+    "aufbau-C14d",
+    "farbe-C30"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aufbau-C14d ersetzt die Karte „Tage im Überblick“ (U.kv) durch eine Kennzahl-Leiste. farbe-C30 Z. 31 würde eine gelöschte Zeile ändern. Die Farbregeln gehen deshalb in die Leiste: Zähler in X/Y nur bei > 0 gefärbt, Ø-Werte über U.cls, also 0 neutral statt grüner oder roter 0,00. Ergebnis: `<div class=\"grid tiles kstrip\">${U.tile('Handelstage', fmt.int(ds.days))}${U.tile('Gewinntage / Verlusttage', `<span class=\"${ds.winDays ? 'pos' : ''}\">${ds.winDays}</span> / <span class=\"${ds.lossDays ? 'neg' : ''}\">${ds.lossDays}</span>`)}${U.tile('Ø Gewinntag', `<span class=\"${U.cls(ds.avgWinDay)}\">${fmt.cur(ds.avgWinDay)}</span>`)}${U.tile('Ø Verlusttag', `<span class=\"${U.cls(ds.avgLossDay)}\">${fmt.cur(ds.avgLossDay)}</span>`)}${U.tile('Tages-Profit-Faktor', fmt.factor(ds.dayPF))}${U.tile('Ø Trades pro Tag', fmt.num(ds.avgTrades, 1))}</div>`. Vorzeichen, Format und Beschriftungen der Kacheln regelt der Anker U.tile (konflikt-9). farbe-C30 Z. 32 (Gewinner- und Verlierer-Spalten neutral, fehlender Drawdown als „—“ in faint) gilt für die Tabelle in der neuen Karte „Tage im Detail“. Raster der 6er-Leiste: Anker .grid.tiles.kstrip.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C14d",
+     "aktion": "aendern",
+     "anweisung": "Leiste mit den Klassen aus der Entscheidung bauen: Zähler nur bei > 0 pos/neg, Ø Gewinntag/Ø Verlusttag mit U.cls(v). Karte „Tage im Detail“ und Wegfall des Wochentag-Diagramms wie spezifiziert."
+    },
+    {
+     "nr": "farbe-C30",
+     "aktion": "aendern",
+     "anweisung": "Z. 31 entfällt, steckt in aufbau-C14d. Z. 14 (Legendenpunkt) entfällt, weil aufbau-C14b die Karte samt Legende löscht. Z. 21 (statVal rSigned) bleibt. Z. 32 bleibt und wird nach aufbau-C14d in der Tabelle der Karte „Tage im Detail“ umgesetzt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C14d",
+     "nach": "farbe-C30"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".grid.tiles.kstrip",
+   "nrs": [
+    "aufbau-B11",
+    "aufbau-C14d",
+    "responsiv-B6a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Eine Regelgruppe für alle Kachelreihen. responsiv-B6a setzt sie an die Stelle von Z. 1773, also nach Z. 1593, damit gleich spezifische Regeln gewinnen: `@media (min-width: 721px) { .dash-top:has(> :nth-child(4):last-child), .grid.tiles:has(> :nth-child(4):last-child) { grid-template-columns: repeat(4, minmax(0, 1fr)); } } @media (max-width: 720px) { .dash-top:has(> :nth-child(4):last-child), .grid.tiles:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); } } @media (min-width: 561px) { .grid.tiles.kstrip:has(> :nth-child(6):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); } } @media (min-width: 1241px) { .grid.tiles.kstrip:has(> :nth-child(5):last-child) { grid-template-columns: repeat(5, minmax(0, 1fr)); } } @media (min-width: 561px) and (max-width: 1240px) { .dash-top:has(> :nth-child(5):last-child), .grid.tiles.kstrip:has(> :nth-child(5):last-child) { grid-template-columns: repeat(6, minmax(0, 1fr)); } .dash-top:has(> :nth-child(5):last-child) > *, .grid.tiles.kstrip:has(> :nth-child(5):last-child) > * { grid-column: span 2; } .dash-top:has(> :nth-child(5):last-child) > :nth-child(n + 4), .grid.tiles.kstrip:has(> :nth-child(5):last-child) > :nth-child(n + 4) { grid-column: span 3; } } @media (min-width: 961px) { .tl-fit > .grid.tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } } @media (min-width: 961px) and (max-width: 1240px) { .dash-main { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dash-main > .w.sz-gross, .dash-main > .skel.sz-gross, .dash-main > .add-slot.gap.sz-gross { grid-column: span 2; } }`. Begründung: abstaende-C6 (vier Kacheln nur 1000–1240 und 800–960) widerspricht responsiv-B6a und aufbau-B11 (vier Kacheln ab 961) bei 961–999 und 800–960. Responsiv K7 belegt, dass 156–186 px breite Kacheln mit den vorhandenen Container-Abfragen funktionieren. Bei 721 px ist eine Kachel so breit wie bei 961 px mit offener Seitenleiste (≈160 px). 720 ist ein vorhandener Grenzwert, es entstehen keine neuen Grenzen bei 800 oder 1000 (Responsiv-Stufen). Fünf Kacheln stehen von 561 bis 1240 px einheitlich als 3 + 2, auf dem Dashboard und in den Leisten; Leisten standen unter 961 px bisher als 2 + 2 + 1. Sechs Kacheln (Statistik → Tage, aufbau-C14d) stehen ab 561 px als 3 × 2. Am Handy (≤ 560 px) bleiben zwei Spalten mit voller letzter Kachel bei ungerader Zahl (Z. 2738/2740, abstaende-C7); die Spezifität der neuen Regeln (0,4,0 bis 0,6,0) schlägt Z. 2601, 2738, 2740 und den ≤960-Block. responsiv-B6b (TradeLog ≤960 als 2 × 2) wirkt damit nur noch bis 720 px. Die Prüfungen „#/affiliate 1024 px: 4 Kacheln gleiche Oberkante“ (aufbau) und „768 × 1024 ohne seitliches Scrollen“ (abstaende) bleiben erfüllt.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B6a",
+     "aktion": "aendern",
+     "anweisung": "Z. 1773 durch genau den Block aus der Entscheidung ersetzen, einschließlich der .dash-main-Regeln für 961–1240 px und der 6er-Regel ab 561 px. Die Ergänzungen B6b, B6c und B6d bleiben unverändert."
+    },
+    {
+     "nr": "aufbau-B11",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "responsiv-B6a",
+     "anweisung": "Die 4er-Regel ist doppelt. Die 6er-Regel steht im Block von responsiv-B6a und gilt ab 561 px statt ab 961 px. Kein eigener Block nach Z. 2604."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dash-top",
+   "nrs": [
+    "abstaende-C2",
+    "abstaende-C6",
+    "barrierefreiheit-E-dashtest-15",
+    "responsiv-B6a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Kachelraster folgt dem Anker .grid.tiles.kstrip (Block in responsiv-B6a): vier Kacheln ab 721 px in einer Reihe, darunter 2 × 2; fünf Kacheln 561–1240 px als 3 + 2, ab 1241 px in einer Reihe; Handy zwei Spalten. abstaende-C6 behält zwei Teile: die Karussell-Zeilen Z. 1775–1776 löschen und den Block 721–960 px für .dash-main. Seine Kachelblöcke entfallen, sie stehen im Block von B6a. abstaende-C2 (gap var(--grid-gap)) und barrierefreiheit-E-dashtest-15 (Testselektor button.info) sind unabhängig davon.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-C6",
+     "aktion": "aendern",
+     "anweisung": "Es bleiben: Z. 1775–1776 (Karussell) löschen und `@media (min-width: 721px) and (max-width: 960px) { .dash-main, .dash-main.editing { … } … }` wie spezifiziert. Es entfallen: der Block 561–1240 px für fünf Kacheln und der Block (1000–1240, 800–960) für vier Kacheln; beide stecken im Block von responsiv-B6a (vier Kacheln ab 721 px)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dash-main",
+   "nrs": [
+    "abstaende-C2",
+    "abstaende-C5",
+    "abstaende-C6",
+    "barrierefreiheit-E-dashtest-15",
+    "responsiv-B6a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Zwei Spalten bei 961–1240 px kommen aus responsiv-B6a. Dessen Selektoren `.dash-main > .w.sz-gross`, `.dash-main > .skel.sz-gross` und `.dash-main > .add-slot.gap.sz-gross` stehen nach Z. 1593 und schlagen Z. 1442/1443/1565/1593. abstaende-C5 enthält dieselbe Regel und gibt sie ab; es behält nur die Container-Regel der Score-Skala. abstaende-C6 (721–960 px, mittel und groß volle Breite, !important wegen Z. 1778) gilt für einen anderen Bereich und bleibt. Ergebnis: ab 1241 px drei Spalten, 721–1240 px zwei (mittel und groß volle Breite), bis 720 px eine. abstaende-C2 (gap und Höhen mit --grid-gap) und dashtest.js:15 sind unabhängig.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-C5",
+     "aktion": "aendern",
+     "anweisung": "Nur `@container (max-width: 150px) { .score-scale .lbls span:not(:first-child):not(:last-child) { display: none; } }` nach Z. 576 umsetzen. Der Block 961–1240 px für .dash-main entfällt (doppelt zu responsiv-B6a)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dash-main > .add-slot.gap.sz-gross",
+   "nrs": [
+    "abstaende-C5",
+    "abstaende-C6",
+    "responsiv-B6a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie beim Anker .dash-main: span 2 bei 961–1240 px kommt nur aus responsiv-B6a (nach Z. 1593, gleiche Spezifität 0,4,0 wie Z. 1593, daher die Position). Der Teil aus abstaende-C5 entfällt. Volle Breite bei 721–960 px (`grid-column: 1 / -1 !important`) bleibt in abstaende-C6.",
+   "anpassungen": [],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".kstrip",
+   "nrs": [
+    "abstaende-C6",
+    "aufbau-B11"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Siehe Anker .grid.tiles.kstrip: Leisten mit vier Kacheln stehen ab 721 px in einer Reihe (die .grid.tiles-Regel aus C6 gilt auch für Leisten, jetzt ab 721 statt 1000/800); fünf Kacheln stehen 561–1240 px als 3 + 2, sechs ab 561 px als 3 × 2. Z. 2738 (`1fr 1fr`) gilt danach nur noch für andere Kachelzahlen und am Handy. Beide Schritte geben ihre Kachelregeln an responsiv-B6a ab (Anweisungen dort).",
+   "anpassungen": [],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".content",
+   "nrs": [
+    "abstaende-A4",
+    "responsiv-A4"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die beiden Schritte ändern verschiedene Regeln: abstaende-A4 die Grundregel Z. 230, responsiv-A4 den ≤960-Block (Z. 934) und den ≤560-Block (Z. 2998). Bis 960 px bleiben oben 16 px. Damit es eine Abstands-Skala gibt, schreibt responsiv-A4 seine neuen Werte mit den Token aus abstaende-A1: .topbar Z. 212–213 `top: 0; padding: calc(var(--sp-3) + env(safe-area-inset-top, 0px)) var(--gutter) var(--sp-3);`. Z. 924 `.topbar { padding: calc(10px + env(safe-area-inset-top, 0px)) max(var(--sp-4), env(safe-area-inset-right, 0px)) 10px max(var(--sp-4), env(safe-area-inset-left, 0px)); min-height: 60px; gap: 8px; flex-wrap: nowrap; }`; die 10 px bleiben, weil die Titelzeile fest 60 px hoch ist. Z. 934 `.content { padding: var(--sp-4) max(var(--gutter), env(safe-area-inset-right, 0px)) 60px max(var(--gutter), env(safe-area-inset-left, 0px)); --gutter: var(--sp-4); }`. Unverändert bleiben Z. 2998 (`calc(104px + env(safe-area-inset-bottom, 0px))`, Platz für den runden Knopf), `.topbar .menu-btn { margin-left: -9px; }` (negativer Ausgleich ist erlaubt) und Z. 3019 (Anker .dash-head .tl, konflikt-10).",
+   "anpassungen": [
+    {
+     "nr": "responsiv-A4",
+     "aktion": "aendern",
+     "anweisung": ".topbar, .topbar im ≤960-Block und .content im ≤960-Block mit den Token-Werten aus der Entscheidung schreiben (var(--sp-3), var(--sp-4), var(--gutter)). Safe-Area-Logik, 10 px, 60 px, 104 px und −9 px bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-A1",
+     "nach": "responsiv-A4"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".replay-decide .btn.big",
+   "nrs": [
+    "komponenten-C09",
+    "typografie-3.2.3s"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C09 gilt: Der Knopf nutzt die Standardstufe .btn (14px/500, Höhe md), die Regel lautet `.replay-decide .btn.big { min-width: 132px; justify-content: center; }`. Die 15-px-Angabe, die typografie-3.2.3s in ein Token umwandeln würde, entfällt ganz. Grund: eine Bauart je Rolle. Blind-Replay bleibt hinter dem Feature-Flag.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3s",
+     "aktion": "aendern",
+     "anweisung": "Z. 2530 (.replay-decide .btn.big) aus der Liste „schon 15 → Token“ streichen."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".voice-actions .btn.big",
+   "nrs": [
+    "komponenten-C09",
+    "typografie-3.2.3s"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C09 gilt: Die Regel `.voice-actions .btn.big` wird gelöscht, „Aufnahme starten“ wird ein normaler .btn.primary der Stufe md. Damit gibt es nichts mehr in ein Token umzuwandeln.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3s",
+     "aktion": "aendern",
+     "anweisung": "Z. 2576 (.voice-actions .btn.big) aus der Liste „schon 15 → Token“ streichen."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-group-title b",
+   "nrs": [
+    "aufbau-A4e",
+    "typografie-3.2.3s",
+    "typografie-3.2.4f"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.prop-group-title b { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 600; color: var(--text-2); }`: aufbau-A4e mit Typografie-Token, `font-family: var(--font-display)` entfällt. Grund: Der Gruppentitel steht unter „Aktive Konten“ (.prop-h 15/600) und über Karten, deren Titel ebenfalls 15/600 sind (.prop-title b). Eine Unterüberschrift darf nicht gleich groß sein wie die übergeordnete (aufbau Grundsatz 4 und K21; die aufbau-Prüfung Z. 751 erwartet 13px/600). 13/600 ist eine Stufe der Text-Skala, das Gewicht 600 deckt auch typografie-3.2.4f ab.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4e",
+     "aktion": "aendern",
+     "anweisung": "Größe und Zeilenhöhe als Token schreiben: `font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 600; color: var(--text-2);`."
+    },
+    {
+     "nr": "typografie-3.2.3s",
+     "aktion": "aendern",
+     "anweisung": "Z. 2715 (.prop-group-title b) aus „schon 15 → Token (dazu 600)“ streichen."
+    },
+    {
+     "nr": "typografie-3.2.4f",
+     "aktion": "aendern",
+     "anweisung": ".prop-group-title b (2715) aus der Liste der Listen-Titel streichen, weil aufbau-A4e das Gewicht 600 setzt. Die übrigen sieben Selektoren bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "aufbau-A4e"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "#fd-layer",
+   "nrs": [
+    "barrierefreiheit-C-dash-filter-158",
+    "barrierefreiheit-C-dash-filter-168-189",
+    "bewegung-3.8b",
+    "responsiv-3.5"
+   ],
+   "art": "konflikt",
+   "entscheidung": "close() vereint beide Fassungen: `function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); pop.inert = true; const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action=\"dash-f-open\"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } }`. Die Funktion kehrt nicht vorzeitig zurück, denn aria-expanded muss immer zurückgesetzt werden. `l.innerHTML = ''` entfällt, weil es das Ausblenden abschneiden würde. `inert` verhindert, dass ein Tastendruck im ausblendenden Fenster 'dash-f-apply' mit u.draft = null auslöst; gegen Klicks schützt schon `.fd-pop.closing { pointer-events: none }`. Die übrigen Teile von 168-189 bleiben: hashchange mit `() => close()`, Escape und × mit `close(true)`, Fokus nach „Anwenden“, Tab-Falle auf #fd-layer mit `#fd-pop`-Selektoren (sie übergeht das ausblendende Fenster ohne ID). barrierefreiheit-158 ist unabhängig, weil refresh bei u.open = false abbricht. responsiv-3.5 ändert in place() nur die Handy-Breite (vw − 32) und den linken Rand (16 px) und ist ebenfalls unabhängig. Die bewegung-Prüfung „40 ms nach Escape .fd-pop.closing, nach 250 ms #fd-layer leer“ bleibt erfüllt.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-C-dash-filter-168-189",
+     "aktion": "aendern",
+     "anweisung": "Z. 169: close nicht durch die eigene Fassung (`l.innerHTML = ''`) ersetzen. Stattdessen die Fassung aus bewegung-3.8b zur Funktion aus der Entscheidung erweitern: Parameter ret, was, aria-expanded, Fokus-Rücksprung, pop.inert. Die übrigen Punkte (Z. 168, 170, 174, 178, 189) bleiben wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "bewegung-3.8b",
+     "nach": "barrierefreiheit-C-dash-filter-168-189"
+    }
+   ],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  "#/prop/bilanz",
+  ".topbar",
+  "--gutter",
+  ".topbar .menu-btn",
+  ".dash-main > .skel.sz-gross",
+  ".dash-main > .w.sz-gross",
+  ".btn.fw-reset",
+  ".fw-go",
+  ".card-title",
+  ".fd-gh",
+  ".prop-h"
+ ]
+}

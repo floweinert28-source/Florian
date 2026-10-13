@@ -1,282 +1,126 @@
 # Paket 028 · prop
 
-Schritte: 35 · Dateien: web/css/app.css, web/e2e/proptest.js, web/js/screens/prop-friedhof.js, web/js/screens/prop.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 prop; Akzeptanz 4.3 prop_bilanz; Akzeptanz 4.3 prop_friedhof (keine Zeile endet mit „·“); Sonde 22; e2e/proptest.js:19; e2e/proptest.js:79; e2e/sampletest.js:69; e2e/sampletest.js:69, :73; web/e2e/friedhoftest.js; web/e2e/friedhoftest.js:47 (bleibt grün); web/e2e/friedhoftest.js:80 (Stein < 560 px, danach laufen lassen); web/e2e/proptest.js; web/e2e/proptest.js:102; web/e2e/proptest.js:102 („Consistency Rule“ bleibt); web/e2e/proptest.js:112 (zählt .prop-presets .pill.win === 1, muss angepasst werden, in D2 nicht genannt); web/e2e/proptest.js:130 (keine implizite Spalte am Handy); web/e2e/proptest.js:20/23/27/133 (data-action bleibt); web/e2e/proptest.js:55-56 (Kontowährung bleibt); web/e2e/proptest.js:95 (bleibt grün); web/e2e/proptest.js:98
-Baut auf Paketen auf: 1, 2, 3, 4, 5, 9
+Schritte: 24 · Dateien: web/css/app.css, web/e2e/friedhoftest.js, web/e2e/proptest.js, web/js/screens/prop-friedhof.js, web/js/screens/prop.js
+Betroffene Tests laut Spezifikation: anpassen in kilook-C27: e2e/proptest.js:55–56, :101; anpassen: e2e/proptest.js:55, :56, :101; :116 unverändert; prüfen: e2e/friedhoftest.js:46, :73, :88–89, :122, :129; prüfen: e2e/proptest.js:116 („/ 150,00 € je Stop-Loss“ bleibt), :122–125 (Geld-blind); prüfen: e2e/proptest.js:94–102 (Payout-Planer Challenge/Funded); prüfen: e2e/sampletest.js:60 (Cockpit-Karten); web/e2e/friedhoftest.js:122; web/e2e/friedhoftest.js:129; web/e2e/proptest.js:103; web/e2e/proptest.js:103 (Regex „Gewinn fehlt“ → „fehlen“, Schritt responsiv-3.20b); web/e2e/proptest.js:103, :116, :125 (.prop-meta); web/e2e/proptest.js:116; web/e2e/proptest.js:55; web/e2e/proptest.js:56; web/e2e/proptest.js:57; web/e2e/proptest.js:95 (bleibt grün); web/e2e/proptest.js:98
+Baut auf Paketen auf: 3, 7
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## farbe-C8a · Prop: Trade-Zuordnung mit neutralen Häkchen
+## kilook-C19b · Prop-Übersicht: Kontobeträge in Kontowährung, Regelgrößen ganzzahlig, P&L-Summe je Währung, Balance/P&L als .kpi-label, Konto-Dialog-Hinweis
 
-Gruppe farbe · Cluster prop · Aufwand S · Befunde: bereich_prop-40
-Quelle: audit/spec/farbe.md Z. 413–414 · Dateien: web/css/app.css
+Gruppe kilook · Cluster prop · Aufwand M · Befunde: diagramme-4, diagramme-32, ki_look-36
+Quelle: audit/spec/kilook.md Z. 664–681 · Dateien: web/js/screens/prop.js
+Abhängig von: kilook-A4
+
+```text
+- **68** `fmtMoney: v => fmt.cur(v)` → `fmtMoney: v => money(a, v, { compact: true })`. Betrifft die Consistency-Warnung („heute mehr als …“).
+- **75** `Gewinn fehlt: ${fmt.cur(plan.missingProfit)}` → `Gewinn fehlt: ${money(a, plan.missingProfit, { compact: true })}`
+- **86–87** `summaryTiles`: Summe je Währung.
+  ```js
+  const active = list.filter(a => a.status === 'active'); const byCur = new Map(); let red = 0;
+  for (const a of active) { const { ev } = evalOf(a); const c = a.currency || ''; byCur.set(c, (byCur.get(c) || 0) + ev.pnl); if (ev.buffer.ampel === 'rot' || ev.status === 'breached') red++; }
+  /* P&L je Kontowährung: eine Währung = eine Zahl, mehrere = „+11.262,00 $ · +1.053,85 €“ */
+  const pnlText = byCur.size ? [...byCur].map(([c, v]) => U.pnl(v, '', c ? { currency: c } : {})).join(' · ') : U.pnl(0);
+  ```
+  In Z. 87 `U.tile('P&L aktive Konten', U.pnl(pnl), …)` → `U.tile('P&L aktive Konten', pnlText, …)`.
+- **93** `money(a, x.remaining)` → `money(a, x.remaining, { compact: true })`; `money(a, x.limit)` → `money(a, x.limit, { compact: true })`
+- **94** `money(a, ev.target.remaining)` → `money(a, ev.target.remaining, { compact: true })`
+- **102**
+  - beide `<div class="caption">` (Balance, P&L) → `<div class="kpi-label">`
+  - `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`
+  - `fmt.balance(…, { currency: a.currency })` bleibt (A2 macht es ganzzahlig)
+- **104** im Puffer-Tooltip `money(a, b.money)` → `money(a, b.money, { compact: true })`. `fmt.cur(stopSize)` **bleibt** (R6).
+- **194** Hinweis `Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.` → `Balance, P&L, Limits und Puffer des Kontos in Kontowährung. Trade-Listen zeigen die Journal-Währung.`
+```
+
+## kilook-C19c · Payout-Planer in Kontowährung (Regelgrößen ganzzahlig, Auszahlung mit Cent); Kommentar „drei Bereiche“
+
+Gruppe kilook · Cluster prop · Aufwand M · Befunde: diagramme-4, diagramme-32, bereich_prop-51
+Quelle: audit/spec/kilook.md Z. 682–694 · Dateien: web/js/screens/prop.js
 Abhängig von: —
 
 ```text
-**C8 – `web/css/app.css` Prop und Affiliate** — bereich_prop-40, bereich_konto-6
-- Z. 2731 `.prop-assign-row input { accent-color: var(--accent); … }` → `accent-color: var(--text);`
+- **283** (Payout-Planer, Karte „Bedingungen“):
+  - `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`
+  - `von ${fmt.cur(o.minProfit)}` → `von ${money(a, o.minProfit, { compact: true })}`
+  - `${fmt.cur(missP)} fehlen` → `${money(a, missP, { compact: true })} fehlen`
+  - `fmt.balance(ev.balance)` → `fmt.balance(ev.balance, { currency: a.currency })`
+  - `von ${fmt.cur(o.minBalance)}` → `von ${money(a, o.minBalance, { compact: true })}`
+  - `${fmt.cur(missB)} fehlen` → `${money(a, missB, { compact: true })} fehlen`
+  - `heute noch ${fmt.cur(cons.allowedToday)} erlaubt` → `heute noch ${money(a, cons.allowedToday, { compact: true })} erlaubt`
+  - `fmt.cur(ev.pnl * num(a.profitSplit, 0))` → `money(a, ev.pnl * num(a.profitSplit, 0))` (Auszahlung, mit Cent)
+- **284** `fmt.cur(plan.suggestion.perDay)` → `money(a, plan.suggestion.perDay, { compact: true })`; `fmt.cur(plan.suggestion.total)` → `money(a, plan.suggestion.total, { compact: true })`
+- **286** (Payouts dieses Kontos) **unverändert**, Journal-Währung wie erfasst.
+- **303** Kommentar „Die fünf Bereiche stehen links in der Kopfreihe …“ → „Die drei Bereiche stehen links in der Kopfreihe …“
+
 ```
 
-## farbe-C26a · Prop: Status „Aktiv“ neutral, „geprüft“-Pillen neutral
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster prop · Aufwand S · Befunde: bereich_prop-35, komponenten-8, farbe_kontrast-26
-Quelle: audit/spec/farbe.md Z. 512–514 · Dateien: web/js/screens/prop.js
+- ÄNDERN: Z. 283: Die Ersetzung `heute noch ${fmt.cur(cons.allowedToday)} erlaubt` entfällt. Der Teil steht nach abstaende-M6 als eigene Zeile, bereits mit money(a, …, { compact: true }). Alle übrigen Ersetzungen in Z. 283/284 bleiben.
+
+## kilook-C20 · Friedhof: tote Helfer (kv, when, tradeHtml) löschen, Grabstein-Beträge in Kontowährung
+
+Gruppe kilook · Cluster prop · Aufwand S · Befunde: diagramme-4, bereich_prop-51
+Quelle: audit/spec/kilook.md Z. 695–701 · Dateien: web/js/screens/prop-friedhof.js
 Abhängig von: —
 
 ```text
-**C26 – `web/js/screens/prop.js`** — bereich_prop-35, komponenten-8, farbe_kontrast-26, bereich_prop-16, zustaende-7, bereich_prop-25
-- Z. 20 `STATUS_KIND = { active: 'open', … }` → `active: 'neutral'` („Beantragt“ Z. 267/286 bleibt `open`)
-- Z. 81 `U.pill(`geprüft ${…}`, 'win')` → `U.pill(`geprüft ${…}`)`; Z. 236 `U.pill('geprüft', 'win')` → `U.pill('geprüft')`
+**C20 · web/js/screens/prop-friedhof.js** (diagramme-4, bereich_prop-51)
+- **32** `const kv = (k, v) => …;` löschen.
+- **119–122** `const when = …;` und `const tradeHtml = …;` löschen. `whenShort` (123) und `WEEKDAY_LONG` bleiben.
+- **136** `fmt.balance(t.size)` → `fmt.balance(t.size, { currency: acc && acc.currency })`. Ersetzt wording/bereich_prop-46 die Unterzeile, entfällt dieser Teil.
+- **146** `U.pnl(t.result)` → `U.pnl(t.result, '', { currency: acc && acc.currency })`
+- **149** `U.pnl(c.pnl, '', { r: trade.r })` → `U.pnl(c.pnl, '', { r: trade.r, currency: acc && acc.currency })`
+
 ```
 
-## farbe-C26b · Prop: Anlegen-/Erfassen-Öffner ohne primary, Banner „Ziel erreicht“ als ok
+## kilook-C27 · e2e/proptest.js an Kontowährung und Genauigkeit anpassen
 
-Gruppe farbe · Cluster prop · Aufwand S · Befunde: bereich_prop-16, zustaende-7
-Quelle: audit/spec/farbe.md Z. 515–517 · Dateien: web/js/screens/prop.js
-Abhängig von: farbe-B11
+Gruppe kilook · Cluster prop · Aufwand S · Befunde: diagramme-4, diagramme-32
+Quelle: audit/spec/kilook.md Z. 745–750 · Dateien: web/e2e/proptest.js
+Abhängig von: kilook-A2, kilook-C19b
 
 ```text
-- Z. 82 `class="btn primary" data-action="prop-account-new"` → `class="btn"`; Z. 244 `class="btn sm primary" data-action="prop-account-new"` → `class="btn sm"` (entfällt, falls die Aufbau-Gruppe den Knopf streicht)
-- Z. 97 `U.banner('accent', 'Ziel erreicht', …)` → `U.banner('ok', 'Ziel erreicht', …)`
-- Z. 251 `class="btn sm${e[kind] ? '' : ' primary'}"` → `class="btn sm"`
+**C27 · web/e2e/proptest.js** (diagramme-4, diagramme-32)
+- **55** `UI.fmt.cur(b, { currency: Store.propAccounts()[0].currency })` → `UI.fmt.balance(b, { currency: Store.propAccounts()[0].currency })`. Der Kommentar wird `/* Balance und P&L in Kontowährung (USD) */`.
+- **56** `card.pnl.includes('€')` → `card.pnl.includes('$')`
+- **101** in `Prop.payoutPlan(…, { …, fmtMoney: v => UI.fmt.cur(v) })` → `fmtMoney: v => UI.fmt.cur(v, { currency: Store.propAccounts()[2].currency, compact: true })`
+- **116** („/ 150,00 € je Stop-Loss“) **unverändert**.
+
 ```
 
-## farbe-C26c · Prop-Bilanz: Ausgaben- und Payout-Spalten neutral
+## responsiv-C3 · Prop-Karte: Zeilen ohne Umbruch, Wert rechtsbündig
 
-Gruppe farbe · Cluster prop · Aufwand S · Befunde: bereich_prop-25
-Quelle: audit/spec/farbe.md Z. 518–519 · Dateien: web/js/screens/prop.js
+Gruppe responsiv · Cluster prop · Aufwand S · Befunde: bereich_prop-10
+Quelle: audit/spec/responsiv.md Z. 392–395 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-- Z. 263 `<td class="r neg">${fmt.cur(e.amount)}` → `<td class="r">`; Z. 267 und Z. 286 `<td class="r pos">${fmt.cur(p.net)}` → `<td class="r">`
+**C3 Prop-Karte** (bereich_prop-10)
+- Z. 2709 `.prop-meta .kv { padding: 6px 0; flex-wrap: wrap; }` → `.prop-meta .kv { padding: 6px 0; flex-wrap: nowrap; } .prop-meta .kv > span { flex: 0 0 auto; }`
+- Z. 2710 `.prop-meta .kv b { text-align: right; }` → `.prop-meta .kv > b { min-width: 0; margin-left: auto; text-align: right; }`
 
 ```
 
-## farbe-C27 · Friedhof: Kachel „Geplatzte Konten“ ohne tint neg
+## responsiv-3.12a · Prop-Karte: „Bis zum Bestehen“, Betrag ohne Dopplung in Kontowährung (planText)
 
-Gruppe farbe · Cluster prop · Aufwand S · Befunde: bereich_prop-44
-Quelle: audit/spec/farbe.md Z. 520–521 · Dateien: web/js/screens/prop-friedhof.js
-Abhängig von: —
+Gruppe responsiv · Cluster prop · Aufwand S · Befunde: bereich_prop-10
+Quelle: audit/spec/responsiv.md Z. 514–517 · Dateien: web/js/screens/prop.js
+Abhängig von: responsiv-C3
 
 ```text
-**C27 – `web/js/screens/prop-friedhof.js` Z. 56:** im ersten `U.tile('Geplatzte Konten', …)` `tint: 'neg'` streichen — bereich_prop-44
+### 3.12 web/js/screens/prop.js (bereich_prop-21, responsiv-6, bereich_prop-22, bereich_prop-10)
 
+- Z. 75 planText: `if (plan.missingProfit > C.EPS) parts.push(\`Gewinn fehlt: ${fmt.cur(plan.missingProfit)}\`);` → `if (plan.missingProfit > C.EPS && !(ev.target && a.phase !== 'funded')) parts.push(\`${money(a, plan.missingProfit)} fehlen\`); /* mit Ziel-Balken nennt der Balken den Betrag schon */`
+- Z. 104 `U.kv(plan.funded ? 'Nächster Payout' : 'Bestehen', …)` → `U.kv(plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen', …)`
 ```
 
-## typografie-3.2.6a · Grabstein-Chips: nowrap und Trennpunkt „· “ (Umbruch nur vor dem Punkt)
-
-Gruppe typografie · Cluster prop · Aufwand S · Befunde: bereich_prop-49
-Quelle: audit/spec/typografie.md Z. 369–374 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-#### 3.2.6 Einzelstellen
-
-| Selektor (Z.) | vorher → nachher | Befund |
-|---|---|---|
-| `.pg-facts dd.pg-tags .chip` (2814) | `white-space: nowrap;` ergänzen | bereich_prop-49 |
-| `.pg-facts dd.pg-tags .chip + .chip::before` (2815) | `content: ' · ';` → `content: '· ';` | bereich_prop-49 |
-```
-
-## typografie-3.8j · Prop-Kontokarte: „Balance“/„P&L“ als .val-label
-
-Gruppe typografie · Cluster prop · Aufwand S · Befunde: referenz-43
-Quelle: audit/spec/typografie.md Z. 435–435 · Dateien: web/js/screens/prop.js
-Abhängig von: typografie-3.2.2c
-
-```text
-| prop.js:102 | `<div class="caption">Balance</div>` und `<div class="caption">P&L</div>` → `class="val-label"` | referenz-43 |
-```
-
-## typografie-3.8k · Prop-Tabellen: Datumszellen mit Klasse num
-
-Gruppe typografie · Cluster prop · Aufwand S · Befunde: typografie-12
-Quelle: audit/spec/typografie.md Z. 436–436 · Dateien: web/js/screens/prop.js
-Abhängig von: typografie-3.2.2f
-
-```text
-| prop.js:233, 263, 267 (2 Zellen), 286 (2 Zellen) | jede `<td>${fmt.dateFull(…)}</td>` bzw. `<td>${p.receivedAt ? fmt.dateFull(…) : '—'}</td>` → `<td class="num">…` | typografie-12 |
-```
-
-## typografie-3.8l · Friedhof: Chips mit join(' ') verbinden (K23)
-
-Gruppe typografie · Cluster prop · Aufwand S · Befunde: bereich_prop-49
-Quelle: audit/spec/typografie.md Z. 437–437 · Dateien: web/js/screens/prop-friedhof.js
-Abhängig von: typografie-3.2.6a
-
-```text
-| prop-friedhof.js:151, 152 | `.map(… U.chip(…)).join('')` → `.join(' ')` | bereich_prop-49 (K23) |
-```
-
-## abstaende-B24 · Prop-Dialog: .prop-form löschen, .prop-h3 mit margin-top var(--sp-2)
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: bereich_prop-36
-Quelle: audit/spec/abstaende.md Z. 340–340 · Dateien: web/css/app.css
-Abhängig von: abstaende-B22
-
-```text
-| B24 | `.prop-form`, `.prop-h3` (Z. 2717, 2718) | Z. 2717 löschen. Z. 2718 → `.prop-h3 { font-size: 14px; font-weight: 600; margin-top: var(--sp-2); }` | bereich_prop-36 |
-```
-
-## abstaende-B25 · Prop-Regeln: .prop-rules gap, .prop-rule padding, .prop-rule-f gap auf Skala
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: abstaende_layout-1
-Quelle: audit/spec/abstaende.md Z. 341–341 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| B25 | `.prop-rules`, `.prop-rule`, `.prop-rule-f` (Z. 2719, 2720, 2722) | `.prop-rules` gap 10 → `var(--sp-3)`. `.prop-rule` `padding: 12px 14px` → `var(--sp-3) var(--sp-4)`. `.prop-rule-f` `gap: 10px 12px` → `gap: var(--sp-3)` | abstaende_layout-1 |
-```
-
-## abstaende-D6 · Prop-CSS: .prop-group gap 12, neu .prop-sec, Badge-Mindestbreite in .prop-assign-row, .prop-entry-foot (Handy Knopf breit), .prop-entry .field button löschen, Consistency-Label nowrap
-
-Gruppe abstaende · Cluster prop · Aufwand M · Befunde: abstaende_layout-36, bereich_prop-41, bereich_prop-54, bereich_prop-29
-Quelle: audit/spec/abstaende.md Z. 373–373 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| D6 | Prop | Z. 2713 `.prop-group { gap: 10px }` → `gap: var(--sp-3)`. Neu nach Z. 2713: `.prop-sec { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; } .prop-sec > .prop-group + .prop-group, .prop-sec > .prop-cards + .prop-group { margin-top: var(--sp-3); }`. Neu nach Z. 2732: `.prop-assign-row .badge { min-width: 80px; }`. Neu nach Z. 2681: `.prop-entry-foot { grid-column: 1 / -1; display: flex; justify-content: flex-end; }`, im 560er-Block `.prop-entry-foot .btn { flex: 1 1 auto; justify-content: center; }`. Z. 2725 `.prop-entry .field button { width: 100%; }` löschen. Neu nach Z. 2710: `.prop-conds .kv > span { white-space: nowrap; }` | abstaende_layout-36, bereich_prop-41, bereich_prop-54, bereich_prop-29 |
-```
-
-## abstaende-D7 · Grabstein-Rückseite: padding-inline var(--sp-8)
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: bereich_prop-47
-Quelle: audit/spec/abstaende.md Z. 374–374 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| D7 | Grabstein-Rückseite Z. 2776 | `.pg-back { transform: rotateY(180deg); padding-top: 60px; padding-bottom: 104px; …}` → zusätzlich `padding-inline: var(--sp-8);` | bereich_prop-47 |
-```
-
-## abstaende-M1 · Prop-Übersicht: Kopf, Gruppen und Leerhinweis in <section class="prop-sec">
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: abstaende_layout-36
-Quelle: audit/spec/abstaende.md Z. 466–470 · Dateien: web/js/screens/prop.js
-Abhängig von: abstaende-D6
-
-```text
-### web/js/screens/prop.js
-
-| Nr. | Stelle | vorher → nachher | Befunde |
-|---|---|---|---|
-| M1 | Z. 125 | `return `${summaryTiles(list)}${head}${body}${none}${endedHtml}`;` → `return `${summaryTiles(list)}<section class="prop-sec">${head}${body}${none}</section>${endedHtml}`;` | abstaende_layout-36 |
-```
-
-## abstaende-M2 · Prop-Konto-Dialog: Währungshinweis als eigene Rasterzeile (span2, #pa-cur-hint, aria-describedby), Notiz span4
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: bereich_prop-37
-Quelle: audit/spec/abstaende.md Z. 471–471 · Dateien: web/js/screens/prop.js
-Abhängig von: abstaende-A8
-
-```text
-| M2 | Z. 194, 201 | Z. 194: `<span class="hint">…</span>` aus dem Währungsfeld nehmen und direkt hinter dem Feld als eigenes Rasterelement setzen: `<span class="hint span2" id="pa-cur-hint">Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.</span>`. Das Select bekommt `aria-describedby="pa-cur-hint"`. Z. 201: Notiz `class="field span2"` → `class="field span4"`. | bereich_prop-37 |
-```
-
-## abstaende-M4 · Ausgabe/Payout erfassen: Absende-Knopf in .prop-entry-foot statt über &nbsp;-Label, Notiz span2
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: bereich_prop-54
-Quelle: audit/spec/abstaende.md Z. 473–473 · Dateien: web/js/screens/prop.js
-Abhängig von: abstaende-D6
-
-```text
-| M4 | Z. 262, 266 | letztes Feld `<div class="field"><span class="lbl">&nbsp;</span><button type="submit" …>…</button></div>` → `<div class="prop-entry-foot"><button type="submit" class="btn primary">${I.plus} Ausgabe erfassen</button></div>` (Payout: „Payout erfassen“). Notiz in Z. 262 `class="field"` → `class="field span2"`. | bereich_prop-54 |
-```
-
-## abstaende-M5 · Prop-Bilanz-Tabellen als .tbl-wrap.inset
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: abstaende_layout-13
-Quelle: audit/spec/abstaende.md Z. 474–474 · Dateien: web/js/screens/prop.js
-Abhängig von: abstaende-B21
-
-```text
-| M5 | Z. 264, 268 | `<div class="tbl-wrap">` → `<div class="tbl-wrap inset">` | abstaende_layout-13 |
-```
-
-## abstaende-M6 · Consistency-Zeile zweizeilig: Wert ohne „heute noch … erlaubt“ und title, eigene kv-Zeile „Heute noch erlaubt“, Karte cls prop-conds
-
-Gruppe abstaende · Cluster prop · Aufwand S · Befunde: bereich_prop-29
-Quelle: audit/spec/abstaende.md Z. 475–476 · Dateien: web/js/screens/prop.js
-Abhängig von: abstaende-D6, abstaende-B17
-
-```text
-| M6 | Z. 283 | Die kv-Zeile „Consistency Rule“ bekommt den Wert `${cons.ok ? '<span class="pos">ok</span>' : '<span class="neg">verletzt</span>'} <span class="muted">· bester Tag ${cons.bestDayPct == null ? '—' : fmt.pct(cons.bestDayPct)} von max. ${fmt.num(cons.maxDayPct)} %</span>` (Teil „heute noch … erlaubt“ und das title-Attribut entfallen). Direkt danach, nur bei `cons && isFinite(cons.allowedToday)`: `U.kv('Heute noch erlaubt', fmt.cur(cons.allowedToday))`. Die Karte `conds` bekommt `{ cls: 'prop-conds' }`. | bereich_prop-29 |
-
-```
-
-## komponenten-S-prop-b · Prop-Regelfelder: Beschriftung als .lbl
-
-Gruppe komponenten · Cluster prop · Aufwand S · Befunde: komponenten-18
-Quelle: audit/spec/komponenten.md Z. 697–697 · Dateien: web/js/screens/prop.js
-Abhängig von: komponenten-C05
-
-```text
-- Z. 146 `<label class="field"><span>${esc(lbl)}</span>` → `<label class="field"><span class="lbl">${esc(lbl)}</span>`.
-```
-
-## komponenten-S-prop-c · Karte „Deine Konten“ ohne Kopfknopf
-
-Gruppe komponenten · Cluster prop · Aufwand S · Befunde: hierarchie-28
-Quelle: audit/spec/komponenten.md Z. 698–698 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- Z. 244: in `U.card('Deine Konten', accTable, { trailing: …, info: … })` die Option `trailing` streichen.
-```
-
-## komponenten-S-prop-d · Prop: Eintrag-Knöpfe und Inline-Absenden (Ausgabe/Payout erfassen) neutral
-
-Gruppe komponenten · Cluster prop · Aufwand S · Befunde: komponenten-1, komponenten-30
-Quelle: audit/spec/komponenten.md Z. 699–700 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- Z. 251 `entryBtn`: `class="btn sm${e[kind] ? '' : ' primary'}"` → `class="btn sm"`.
-- Z. 262 und Z. 266 (Absenden „Ausgabe erfassen“/„Payout erfassen“ im Inline-Formular) `class="btn primary"` → `class="btn"`.
-```
-
-## komponenten-S-prop-e · Prop-Bilanz: Tabellen als tbl-wrap inset
-
-Gruppe komponenten · Cluster prop · Aufwand S · Befunde: bereich_prop-18
-Quelle: audit/spec/komponenten.md Z. 701–701 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- Z. 264 und Z. 268 `<div class="tbl-wrap">` → `<div class="tbl-wrap inset">`.
-```
-
-## komponenten-S-prop-f · Prop-Kopfknopf „+ Konto anlegen“ mit Text auch am Handy
-
-Gruppe komponenten · Cluster prop · Aufwand S · Befunde: hierarchie-28, responsiv-46
-Quelle: audit/spec/komponenten.md Z. 702–703 · Dateien: web/js/screens/prop.js
-Abhängig von: komponenten-C08
-
-```text
-- Z. 294 `${I.plus}<span class="hide-m">Prop-Konto</span>` → `${I.plus}<span>Konto anlegen</span>`.
-
-```
-
-## aufbau-A4e · Prop-Gruppentitel 13px/600 --text-2
-
-Gruppe aufbau · Cluster prop · Aufwand S · Befunde: bereich_prop-7
-Quelle: audit/spec/aufbau.md Z. 291–291 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-- Z. 2715 `.prop-group-title b { font-family: var(--font-display); font-size: 15px; }` → `.prop-group-title b { font-size: 13px; font-weight: 600; color: var(--text-2); }`
-```
-
-## aufbau-C12a · Prop-Karte: „Gewinn fehlt“ nur bei Funded oder ohne Ziel-Balken
-
-Gruppe aufbau · Cluster prop · Aufwand S · Befunde: hierarchie-4
-Quelle: audit/spec/aufbau.md Z. 557–560 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-#### `web/js/screens/prop.js`
-
-**C12** · hierarchie-4, bereich_prop-7, bereich_prop-19, bereich_prop-28, bereich_prop-30, bereich_prop-32, aufbau-6, ki_look-22
-- `planText` Z. 75: `if (plan.missingProfit > C.EPS) parts.push(…)` → `if (plan.missingProfit > C.EPS && (plan.funded || !ev.target)) parts.push(…)`; Rückgabe `return parts.join(' · ') || '—';` → `return parts.join(' · ') || (plan.missingProfit > C.EPS ? '<span class="muted">nur noch das Ziel</span>' : '—');`
-```
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: U.kv] Die sechs Schritte ändern vier verschiedene Aufrufstellen. Sie überschneiden sich nur in prop.js Z. 104 (Kontokarte) und mittelbar in planText. Verbindlich für Z. 104, innerhalb des `${dead ? '' : …}` aus zustaende-S-P1: `${U.kv(plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen', plan.hasCond && active ? `<a href="#/prop/bilanz" class="prop-plan-link" data-action="prop-plan-open" data-id="${a.id}">${planText(a, ev, plan)}</a>` : planText(a, ev, plan))}`. Die Zeile wird immer gezeigt, denn sie trägt den einzigen Link in den Planer. planText: Der Gewinn-Teil erscheint nur bei `plan.missingProfit > C.EPS && (plan.funded || !ev.target)`; aufbau-C12a und responsiv-3.12a meinen dasselbe. Sind alle Teile leer und fehlt nur noch Gewinn, liefert planText `<span class="muted">nur noch das Ziel</span>`, sonst '—', nie ''. Ein leerer Wert würde Zeile und Link verstecken, und '—' bedeutet laut Zustände Z2 „Wert fehlt“. Wortlaut und Währungsformat des Betrags entscheidet der Anker planText/money (konflikt-9). prop.js Z. 283 (abstaende-M6): eigene Zeile „Heute noch erlaubt“ als Regelgröße in Kontowährung `money(a, cons.allowedToday, { compact: true })` (KI-Look Z5a/Z5c). Damit entfällt der Teil „heute noch … erlaubt“ in kilook-C19c. Die Testanpassung proptest.js:102 prüft die Zeile „Heute noch erlaubt“ und bei verletzter Regel „verletzt“ in „Consistency Rule“, nicht mehr „heute noch“ in der Consistency-Zeile. stats.js tabSummary (aufbau-C14c) und notebook.js statsHTML (diagramme-L1, Zähler nur > 0 gefärbt, passt zu farbe-C30) sind unabhängig. stats.js tabDays: siehe Anker stats.tabDays. Hinweis: responsiv-B7 (.st-cards, dritte Karte bis 1100 px volle Breite) passt zu den drei Karten aus C14c; die dritte Karte ist dann „Drawdown & Risiko“.
+- ÄNDERN: Z. 104: Beschriftung „Bis zum Bestehen“ wie spezifiziert. Z. 75: Bedingung `plan.missingProfit > C.EPS && (plan.funded || !ev.target)`. Text und Format des Betrags nach Anker planText/money (konflikt-9). Z. 76: `return parts.join(' · ') || (plan.missingProfit > C.EPS ? '<span class="muted">nur noch das Ziel</span>' : '—');` (übernimmt aufbau-C12a). Neuer Text „nur noch das Ziel“ (en „only the target left“) in alle fünf Sprachdateien.
+- ÜBERNIMMT aufbau-C12a: Bedingung und Rückfall „nur noch das Ziel“ setzt responsiv-3.12a in planText um. Kein eigener Eingriff in Z. 75–76.
 
 ## aufbau-C12b · Prop-Karte: Wert verlinkt in den Payout-Planer des Kontos
 
@@ -291,112 +135,12 @@ Abhängig von: —
 - CSS (`web/css/app.css` nach Z. 2701): `.prop-plan-link { color: inherit; text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 3px; } .prop-plan-link:hover { text-decoration-color: currentColor; }`
 ```
 
-## aufbau-C12c · Prop-Übersicht: Überschrift nur zusammen mit den Filtern
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe aufbau · Cluster prop · Aufwand S · Befunde: bereich_prop-7
-Quelle: audit/spec/aufbau.md Z. 565–565 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- Übersicht Z. 122: `const head = `<div class="prop-toolbar"><div class="prop-h">…</div>${filters}</div>`;` → `const head = filters ? `<div class="prop-toolbar"><div class="prop-h">${f.status ? 'Konten' : 'Aktive Konten'} <span class="pf-n">${main.length}</span></div>${filters}</div>` : '';`
-```
-
-## aufbau-C12d · Bilanz: Spalten „Firma“ und „Konto“ zu einer Spalte „Konto“
-
-Gruppe aufbau · Cluster prop · Aufwand S · Befunde: bereich_prop-19
-Quelle: audit/spec/aufbau.md Z. 566–567 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- Bilanz Z. 263 `exRows`: die Zellen `<td>${esc(e.firm || (a ? a.firm : '') || '—')}</td><td>${a ? esc(accName(a)) : '—'}</td>` → eine Zelle `<td>${a ? `<b>${esc(a.firm || 'Eigene Firma')}</b> ${esc(sizeName(a))}` : esc(e.firm || '—')}</td>`. Z. 264 Kopf: `<th>Firma</th>` streichen (Datum · Typ · Konto · Betrag · Notiz)
-- `poRows` (Z. 267): erste Zelle `${a ? esc(accName(a)) : esc(p.firm || '—')}` → `${a ? `<b>${esc(a.firm || 'Eigene Firma')}</b> ${esc(sizeName(a))}` : esc(p.firm || '—')}`
-```
-
-## aufbau-C12e · Payout-Planer: ohne Banner, Vorschlag auf --tile-val, Karten rahmenlos
-
-Gruppe aufbau · Cluster prop · Aufwand M · Befunde: bereich_prop-28, bereich_prop-30
-Quelle: audit/spec/aufbau.md Z. 568–574 · Dateien: web/js/screens/prop.js, web/css/app.css
-Abhängig von: aufbau-A1
-
-```text
-- `payoutPlanner` Z. 279: letzter Zweig von `intro` `: plan.funded ? '' : U.banner('info', '', `Dieses Konto ist in der …`)` → `: ''`. Z. 280 `const warn = …` löschen, in Z. 287 `${sel}${intro}${warn}<div class="grid two">` → `${sel}${intro}<div class="grid two">`
-- Z. 284 Vorschlag: `<div class="big-stat"><span>${fmt.cur(plan.suggestion.perDay)}</span></div>` → `<div class="prop-sugg-val">${fmt.cur(plan.suggestion.perDay)}</div>`; CSS: `.prop-sugg-val { font-family: var(--font-num); font-size: var(--tile-val); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 2px 0 6px; }`
-- CSS Planer (`web/css/app.css` nach Z. 2627):
-  ```css
-  .prop-fold[data-fold="planer"] > .pf-body .card { background: none; border: 0; box-shadow: none; padding: 0; }
-  .prop-fold[data-fold="planer"] > .pf-body > .grid.two + .card { border-top: 1px solid var(--border); padding-top: 16px; }
-  ```
-```
-
-## aufbau-C12f · Prop Firms: kein Session-Knopf
-
-Gruppe aufbau · Cluster prop · Aufwand S · Befunde: aufbau-6, ki_look-22
-Quelle: audit/spec/aufbau.md Z. 575–576 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-- Z. 293 `head: { range: false, account: false },` → `head: { range: false, account: false, session: false },`
-
-```
-
-## aufbau-C13 · Friedhof: Muster-Satz als Textzeile statt Karte
-
-Gruppe aufbau · Cluster prop · Aufwand S · Befunde: ki_look-41
-Quelle: audit/spec/aufbau.md Z. 577–582 · Dateien: web/js/screens/prop-friedhof.js
-Abhängig von: —
-
-```text
-#### `web/js/screens/prop-friedhof.js`
-
-**C13** · ki_look-41
-- Z. 172 `${tiles(g)}${patternsCard(g)}<div class="grid prop-graves">` → `${tiles(g)}${g.n < 2 ? '<p class="small muted prop-patterns-empty">Ab zwei Grabsteinen erscheinen hier Muster: Uhrzeit, Wochentag, Symbol, Setup, Verlustserie oder Emotion, wenn sie sich wiederholen.</p>' : patternsCard(g)}<div class="grid prop-graves">`
-- `patternsCard` Z. 61: `${g.n < 2 ? 'Ab zwei …' : 'Kein wiederkehrendes Muster …'}` → nur `'Kein wiederkehrendes Muster: Uhrzeit, Symbol, Setup und Emotionen der Breaches unterscheiden sich.'`
-
-```
-
-## aufbau-D3f · Test proptest.js: Planer ohne Banner
-
-Gruppe aufbau · Cluster prop · Aufwand S · Befunde: bereich_prop-28
-Quelle: audit/spec/aufbau.md Z. 710–710 · Dateien: web/e2e/proptest.js
-Abhängig von: aufbau-C12e
-
-```text
-- `proptest.js:98`: „Weg zum Bestehen“ → „Bedingungen zum Bestehen“; `proptest.js:102`: statt `plan.consistencyWarning` im Text `verletzt` bzw. `heute noch` in der Zeile „Consistency Rule“ prüfen
-```
-
-## diagramme-J1 · Prop-Puffer über Limit: „über dem Boden“ mit Boden-Tooltip
-
-Gruppe diagramme · Cluster prop · Aufwand S · Befunde: diagramme-39
-Quelle: audit/spec/diagramme.md Z. 657–665 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-### 3.10 `web/js/screens/prop.js`
-
-**J1 Puffer über Limit** (diagramme-39)
-
-Z. 93 `bar` →
-```js
-const bar = (lbl, x) => { if (!x) return ''; const over = x.limit > 0 && x.remaining > x.limit + C.EPS; const tip = over && x.floor != null ? ` data-tip="${esc(`${x.locked ? 'Boden fest bei' : 'Boden bei'} ${money(a, x.floor)}`)}"` : ''; return `<div class="prop-bar"><div class="bl"><span>${lbl} übrig</span><b${tip}>${money(a, x.remaining)} <span class="muted">${over ? 'über dem Boden' : `von ${money(a, x.limit)}`}</span></b></div><div class="track"><i style="width:${x.limit > 0 ? Math.min(100, x.remaining / x.limit * 100).toFixed(1) : 0}%;background:${x.limit > 0 ? col(x.remaining / x.limit) : 'var(--surface-3)'}"></i></div></div>`; };
-```
-
-```
-
-## zustaende-S-P2 · Prop-Bilanz ohne Buchungen: „—“ statt „erreicht“, kein Diagramm, keine „Pro Firma“, Legende nur mit Daten
-
-Gruppe zustaende · Cluster prop · Aufwand S · Befunde: bereich_prop-14, bereich_prop-15
-Quelle: audit/spec/zustaende.md Z. 724–730 · Dateien: web/js/screens/prop.js
-Abhängig von: —
-
-```text
-**S-P2 Bilanz ohne Buchungen** – bereich_prop-14, bereich_prop-15
-- In `tabBilanz` vor `const tiles` (Z. 256) neu: `const none = bs.spent <= C.EPS;`
-- Kachel „Bis Break-even“: Wert `bs.toBreakEven > C.EPS ? <neg> : '<span class="pos">erreicht</span>'` → `none ? '—' : bs.toBreakEven > C.EPS ? <neg wie bisher> : '<span class="pos">erreicht</span>'`; Fuß `bs.toBreakEven > C.EPS ? 'fehlende Payouts (netto)' : 'Payouts decken alle Ausgaben'` → `none ? 'noch keine Ausgaben' : (wie bisher)`.
-- Kachel „Kosten je Bestehen“: `bs.costPerPassed == null ? '—' : fmt.cur(bs.costPerPassed)` → `bs.costPerPassed == null || none ? '—' : fmt.cur(bs.costPerPassed)`. Fuß unverändert.
-- Z. 257 Legende `<div class="legend">…</div>` nur bei `bs.series.length`.
-- Z. 271 `${tiles}<div class="grid main-side">${chart}${byFirm}</div>${expenses}…` → `${tiles}${ex.length || po.length ? `<div class="grid main-side">${chart}${byFirm}</div>` : ''}${expenses}${payouts}${planer}`
-
-```
+- [konflikt: U.kv] Die sechs Schritte ändern vier verschiedene Aufrufstellen. Sie überschneiden sich nur in prop.js Z. 104 (Kontokarte) und mittelbar in planText. Verbindlich für Z. 104, innerhalb des `${dead ? '' : …}` aus zustaende-S-P1: `${U.kv(plan.funded ? 'Nächster Payout' : 'Bis zum Bestehen', plan.hasCond && active ? `<a href="#/prop/bilanz" class="prop-plan-link" data-action="prop-plan-open" data-id="${a.id}">${planText(a, ev, plan)}</a>` : planText(a, ev, plan))}`. Die Zeile wird immer gezeigt, denn sie trägt den einzigen Link in den Planer. planText: Der Gewinn-Teil erscheint nur bei `plan.missingProfit > C.EPS && (plan.funded || !ev.target)`; aufbau-C12a und responsiv-3.12a meinen dasselbe. Sind alle Teile leer und fehlt nur noch Gewinn, liefert planText `<span class="muted">nur noch das Ziel</span>`, sonst '—', nie ''. Ein leerer Wert würde Zeile und Link verstecken, und '—' bedeutet laut Zustände Z2 „Wert fehlt“. Wortlaut und Währungsformat des Betrags entscheidet der Anker planText/money (konflikt-9). prop.js Z. 283 (abstaende-M6): eigene Zeile „Heute noch erlaubt“ als Regelgröße in Kontowährung `money(a, cons.allowedToday, { compact: true })` (KI-Look Z5a/Z5c). Damit entfällt der Teil „heute noch … erlaubt“ in kilook-C19c. Die Testanpassung proptest.js:102 prüft die Zeile „Heute noch erlaubt“ und bei verletzter Regel „verletzt“ in „Consistency Rule“, nicht mehr „heute noch“ in der Consistency-Zeile. stats.js tabSummary (aufbau-C14c) und notebook.js statsHTML (diagramme-L1, Zähler nur > 0 gefärbt, passt zu farbe-C30) sind unabhängig. stats.js tabDays: siehe Anker stats.tabDays. Hinweis: responsiv-B7 (.st-cards, dritte Karte bis 1100 px volle Breite) passt zu den drei Karten aus C14c; die dritte Karte ist dann „Drawdown & Risiko“.
+- ÄNDERN: Z. 104 erst nach responsiv-3.12a ändern. Die Beschriftung bleibt „Bis zum Bestehen“ (nicht auf „Bestehen“ zurücksetzen), nur der Wert wird zum Link wie in der Entscheidung. Aktion, mount und CSS siehe Anker [data-fold="planer"].
+- [doppelt: [data-fold="planer"]] Beide Einstiege (Link auf der Kontokarte, alte Adresse #/prop/payout) nutzen einen Scroll-Mechanismus mit dem Merker `s.scrollPlaner`. Gescrollt wird einmal in mount, umgesetzt von aufbau-C12b: `mount(main) { const fn = MOUNTS[st().tab]; if (fn) fn(main); const s = st(); if (s.scrollPlaner) { s.scrollPlaner = false; const f = main.querySelector('[data-fold="planer"]'); if (f) requestAnimationFrame(() => { const tb = document.querySelector('.topbar'); window.scrollTo({ top: Math.max(0, f.getBoundingClientRect().top + window.scrollY - (tb ? tb.offsetHeight : 0) - 16) }); }); } },`. requestAnimationFrame läuft nach dem scrollTo in App.render (aufbau K18). zustaende-S-P3 setzt in render nur Fold, Merker und replaceState. Ergebnis: Der Planer beginnt 16 px unter der Titelzeile (offsetHeight enthält nach responsiv-A4 auch den Safe-Area-Rand), die Adresse lautet #/prop/bilanz, proptest.js:95 bleibt grün.
+- ÄNDERN: mount wie in der Entscheidung, mit Null-Prüfung der Titelzeile. Aktion 'prop-plan-open' und CSS .prop-plan-link bleiben unverändert.
 
 ## zustaende-S-P3 · #/prop/payout: Bilanz mit offenem Planer, Adresse auf #/prop/bilanz umschreiben, Planer unter die Titelzeile scrollen
 
@@ -409,4 +153,221 @@ Abhängig von: —
 - Z. 299 `if (key === 'payout') { key = 'bilanz'; (s.fold || (s.fold = {})).planer = true; }` → `if (key === 'payout') { key = 'bilanz'; (s.fold || (s.fold = {})).planer = true; s.scrollTo = 'planer'; try { history.replaceState(null, '', '#/prop/bilanz'); } catch (e) { } }`
 - Z. 309 `mount(main)` am Anfang: `if (st().scrollTo === 'planer') { st().scrollTo = null; requestAnimationFrame(() => { const d = main.querySelector('[data-fold="planer"]'); const tb = main.querySelector('.topbar'); if (d) window.scrollTo({ top: d.getBoundingClientRect().top + window.scrollY - (tb ? tb.offsetHeight : 0) - 16 }); }); }`
 
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: [data-fold="planer"]] Beide Einstiege (Link auf der Kontokarte, alte Adresse #/prop/payout) nutzen einen Scroll-Mechanismus mit dem Merker `s.scrollPlaner`. Gescrollt wird einmal in mount, umgesetzt von aufbau-C12b: `mount(main) { const fn = MOUNTS[st().tab]; if (fn) fn(main); const s = st(); if (s.scrollPlaner) { s.scrollPlaner = false; const f = main.querySelector('[data-fold="planer"]'); if (f) requestAnimationFrame(() => { const tb = document.querySelector('.topbar'); window.scrollTo({ top: Math.max(0, f.getBoundingClientRect().top + window.scrollY - (tb ? tb.offsetHeight : 0) - 16) }); }); } },`. requestAnimationFrame läuft nach dem scrollTo in App.render (aufbau K18). zustaende-S-P3 setzt in render nur Fold, Merker und replaceState. Ergebnis: Der Planer beginnt 16 px unter der Titelzeile (offsetHeight enthält nach responsiv-A4 auch den Safe-Area-Rand), die Adresse lautet #/prop/bilanz, proptest.js:95 bleibt grün.
+- ÄNDERN: Z. 299: `if (key === 'payout') { key = 'bilanz'; (s.fold || (s.fold = {})).planer = true; s.scrollPlaner = true; try { history.replaceState(null, '', '#/prop/bilanz'); } catch (e) { } }`. Merker heißt scrollPlaner, nicht scrollTo = 'planer'. Der mount-Teil (Z. 309) entfällt, das Scrollen übernimmt aufbau-C12b.
+
+## responsiv-3.20b · proptest: Regex „Gewinn fehlt“ → „fehlen“
+
+Gruppe responsiv · Cluster prop · Aufwand S · Befunde: —
+Quelle: audit/spec/responsiv.md Z. 571–571 · Dateien: web/e2e/proptest.js
+Abhängig von: responsiv-3.12a
+
+```text
+- `proptest.js:103`: Regex `/in \d+ Handelstag|Gewinn fehlt|bereit|Consistency/` → `/in \d+ Handelstag|fehlen|bereit|Consistency/`.
+```
+
+## wording-S12.1-12.3 · Prop: Währungssymbol je Konto (curSym/unitLabel), Breach-Banner ohne ISO-Datum mit „überschreitet“, fmtMoney in Kontowährung
+
+Gruppe wording · Cluster prop · Aufwand M · Befunde: bereich_prop-38, bereich_prop-4, bereich_prop-5
+Quelle: audit/spec/wording.md Z. 478–484 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+### Schritt 12 · `web/js/screens/prop.js`, `web/js/screens/prop-friedhof.js`, `web/js/screens/coupons.js`
+
+| # | Stelle | vorher → nachher | ids |
+|---|---|---|---|
+| 12.1 | prop.js:34–35 | `const curSym = () => …fmt.cur(0, { money: true })…` → `const curSym = c => fmt.moneyBlind() ? '' : fmt.cur(0, { money: true, currency: c }).replace(/[\d.,\s ]/g, '');` · `const unitLabel = (text) => { const s = curSym(); … }` → `const unitLabel = (text, c) => { const s = curSym(c); return s ? \`${text} (${s})\` : text; };` | bereich_prop-38 |
+| 12.2 | prop.js:50 `detailOf` (dailyLoss) | `` `Tagesverlust ${money(a, b.loss)} erreicht das Limit ${money(a, b.limit)}${b.dayKey ? ` (Handelstag ${esc(b.dayKey)})` : ''}` `` → `` `Tagesverlust ${money(a, b.loss)} ${b.loss > b.limit + C.EPS ? 'überschreitet' : 'erreicht'} das Limit von ${money(a, b.limit)}${b.dayKey && b.at && b.dayKey !== C.dayKey(new Date(b.at)) ? ` · Handelstag ${fmt.dateFull(C.parseDayKey(b.dayKey))}` : ''}` `` | bereich_prop-4 |
+| 12.3 | prop.js:68 | `fmtMoney: v => fmt.cur(v)` → `fmtMoney: v => money(a, v)` | bereich_prop-5 |
+```
+
+## wording-S12.4-12.5 · Prop: planText mit skipProfit, „{0} Gewinn fehlen“, „Consistency Rule verletzt“; limText/ddText/lockAt in Kontowährung
+
+Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-31, bereich_prop-5, bereich_prop-38
+Quelle: audit/spec/wording.md Z. 485–486 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+| 12.4 | prop.js:71–77 `planText(a, ev, plan, skipProfit)` | vierter Parameter `skipProfit`. Z. 75: Gewinn-Teil `Gewinn fehlt: ${fmt.cur(plan.missingProfit)}` → nur wenn `!skipProfit`: `${money(a, plan.missingProfit)} Gewinn fehlen`; `'Consistency verletzt'` → `'Consistency Rule verletzt'`; „in N Handelstag(en)“ bleibt. Z. 76: `return parts.join(' · ') \|\| '—';` → `return parts.join(' · ') \|\| (skipProfit ? '' : '—');` | wording-31, bereich_prop-5 |
+| 12.5 | prop.js:79 `limText` | `r => … fmt.cur(r.value)` → `(r, c) => … fmt.cur(r.value, { currency: c })`; `ddText` reicht die Währung durch; Aufrufer im Preset-Raster übergeben `p.currency`; `lockAt` ebenso | bereich_prop-38 |
+```
+
+## wording-S12.6-12.7 · Prop: Leerzustand „Prop-Konto anlegen“ ohne Firmen-Preset, Kachel „P&L der aktiven Konten“ je Währung
+
+Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-35, wording-34, wording-32, bereich_prop-5, wording-36
+Quelle: audit/spec/wording.md Z. 487–488 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+| 12.6 | prop.js:82 Leerzustand | Text `'Lege ein Konto aus einem Firmen-Preset an und ordne ihm Trades zu. Dann siehst du hier Balance, Puffer, Ampel und den Weg zum Payout.'` → `'Lege ein Prop-Konto an (Firma, Größe, Regeln) und ordne ihm Trades zu. Dann siehst du hier Kontostand, Puffer, Ampel und den Weg zum Payout.'`; Knopf `${I.plus} Konto anlegen` → `${I.plus} Prop-Konto anlegen` (Titel „Noch keine Prop-Konten“ bleibt, proptest.js:20) | wording-35, wording-34, wording-32 |
+| 12.7 | prop.js:86–87 Kachel | Summe je Währung: `const byCur = new Map(); for (const a of active) { const c = a.currency \|\| ''; byCur.set(c, (byCur.get(c) \|\| 0) + evalOf(a).ev.pnl); }`; Wert `[...byCur].map(([c, v]) => U.pnl(v, '', c ? { currency: c } : {})).join(' <span class="muted">·</span> ')`; Titel `'P&L aktive Konten'` → `'P&L der aktiven Konten'` | bereich_prop-5, wording-36 |
+```
+
+## wording-S12.8-12.12 · Prop-Karte: „reicht für N Stops“, „Kontostand“, P&L in Kontowährung, Bestehen-Zeile nur wenn nicht leer, Tooltip „je Stop“, Archiv-Untertitel, Verweis „Trade bearbeiten“
+
+Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-33, wording-32, bereich_prop-5, zustaende-28, wording-31, wording-37, wording-61
+Quelle: audit/spec/wording.md Z. 489–493 · Dateien: web/js/screens/prop.js
+Abhängig von: wording-S1.1-1.3, wording-S12.4-12.5
+
+```text
+| 12.8 | prop.js:98 Puffer | `` `noch ${b.stops} Stop-Loss${b.stops === 1 ? '' : 'es'}` `` → `` `reicht für ${b.stops} Stop${b.stops === 1 ? '' : 's'}` `` | wording-33 |
+| 12.9 | prop.js:102 Karte | Caption `Balance` → `Kontostand`; `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`; `${ev.n} Trades` → `${U.count(ev.n, 'Trade', 'Trades')}` | wording-32, bereich_prop-5, zustaende-28 |
+| 12.10 | prop.js:104 Meta | `const pt = planText(a, ev, plan, !!(ev.target && a.phase !== 'funded'));` und die kv-Zeile „Bestehen“/„Nächster Payout“ nur, wenn `pt`; Tooltip `${fmt.cur(stopSize)} je Stop-Loss` → `${money(a, stopSize)} je Stop` | wording-31, bereich_prop-5, wording-33 |
+| 12.11 | prop.js:123 | `sub: 'bestanden, geplatzt oder archiviert'` → `sub: 'Bestanden, geplatzt oder archiviert'` | wording-37 |
+| 12.12 | prop.js:133 Trades zuordnen | `Ältere Trades ordnest du im Trade-Editor zu.` → `Ältere Trades ordnest du über „Trade bearbeiten“ zu.` | wording-61 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- ÄNDERN: 12.10: Die kv-Zeile „Bis zum Bestehen“/„Nächster Payout“ bekommt keine Bedingung `pt` und ist immer sichtbar, weil sie den Planer-Link trägt. planText liefert nie ''. Der Tooltip „je Stop“ und die übrigen Teile bleiben.
+
+## wording-S12.13-12.16 · Prop-Konto-Dialog: Betrag-Option mit Kontowährung, „% des Startkapitals“, „Mindest-Kontostand“, Platzhalter „z. B. 50K“/„z. B. Topstep“, Währungshinweis
+
+Gruppe wording · Cluster prop · Aufwand S · Befunde: bereich_prop-38, wording-32, bereich_prop-53, bereich_prop-5
+Quelle: audit/spec/wording.md Z. 494–497 · Dateien: web/js/screens/prop.js
+Abhängig von: wording-S12.1-12.3
+
+```text
+| 12.13 | prop.js:143 `modeSel` | `[['abs', unitLabel('Betrag')], ['pct', '% der Startbalance']]` → `[['abs', unitLabel('Betrag', o.currency)], ['pct', '% des Startkapitals']]` | bereich_prop-38, wording-32 |
+| 12.14 | prop.js:153 | `F('Mindestbalance', …)` → `F('Mindest-Kontostand', …)` | wording-32 |
+| 12.15 | prop.js:191 / :216 / :217 | `<label for="pa-name">Konto (z. B. 50K)</label><input … id="pa-name" …>` → `<label for="pa-name">Konto</label><input … id="pa-name" placeholder="z. B. 50K" …>`; ebenso :217 (`pp-name`); :216 Firma bekommt `placeholder="z. B. Topstep"` | bereich_prop-53 |
+| 12.16 | prop.js:194 Währungshinweis | `Balance, Limits und Puffer in Kontowährung. Trade-P&L bleibt in der Journal-Währung.` → `Kontostand, P&L, Limits und Puffer in Kontowährung. In Trade-Listen bleibt die Journal-Währung.` | bereich_prop-5, wording-32 |
+```
+
+## wording-S12.17-12.20 · Prop-Konto-Dialog: Aktion prop-cur beim Währungswechsel, „Startkapital“, Währung an rulesFields, Stop-Größe-Hinweis
+
+Gruppe wording · Cluster prop · Aufwand M · Befunde: bereich_prop-38, wording-32, wording-33
+Quelle: audit/spec/wording.md Z. 498–501 · Dateien: web/js/screens/prop.js
+Abhängig von: wording-S12.1-12.3, wording-S12.13-12.16
+
+```text
+| 12.17 | prop.js:194/:21x Währungswechsel | `#pa-cur` und `#pp-cur` bekommen `data-change="prop-cur"`. Neue Aktion `'prop-cur'(el) { const f = el.form; ['dl_mode', 'dd_mode', 'pt_mode'].forEach(n => { const o = f.querySelector(\`select[name="${n}"] option[value="abs"]\`); if (o) o.textContent = unitLabel('Betrag', el.value); }); }`; `fillAccountForm` ruft sie nach `set('currency', …)` auf | bereich_prop-38 |
+| 12.18 | prop.js:198 | `<label for="pa-sb">Startbalance</label>` → `<label for="pa-sb">Startkapital</label>` | wording-32 |
+| 12.19 | prop.js:203 / :225 `rulesFields`-Aufrufe | `{ tz: s.tz }` → `{ tz: s.tz, currency: s.currency }`; `{ fees: s.fees \|\| {}, disabled: ro }` → `{ fees: s.fees \|\| {}, disabled: ro, currency: s.currency }` | bereich_prop-38 |
+| 12.20 | prop.js:242 Stop-Größe | Hinweis `Bestimmt „noch X Stop-Losses“.` → `Bestimmt, für wie viele Stops der Puffer reicht.` | wording-33 |
+```
+
+## wording-S12.21-12.23 · Prop-Bilanz: Pro Firma ohne ROI bei fehlenden Payouts, Symbolknopf „Als erhalten markieren“, Spalten „Beantragt am“/„Erhalten am“
+
+Gruppe wording · Cluster prop · Aufwand S · Befunde: bereich_prop-24, bereich_prop-20
+Quelle: audit/spec/wording.md Z. 502–504 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+| 12.21 | prop.js:258 Pro Firma | Unterzeile → `${f.received > C.EPS ? \`${fmt.cur(f.spent)} Ausgaben · ${fmt.cur(f.received)} Payouts · ROI ${f.roi == null ? '—' : fmt.pct(f.roi, 0, true)}\` : \`${fmt.cur(f.spent)} Ausgaben · noch keine Payouts\`}` | bereich_prop-24 |
+| 12.22 | prop.js:267 Payout-Zeile | `<button type="button" class="btn xs" data-action="prop-payout-received" data-id="${esc(p.id)}">Erhalten</button> ` → `<button type="button" class="btn ghost icon sm" data-action="prop-payout-received" data-id="${esc(p.id)}" aria-label="Als erhalten markieren" data-tip="Als erhalten markieren">${I.check}</button>` (Leerzeichen danach entfällt) | bereich_prop-20 |
+| 12.23 | prop.js:268 und :286 Spaltenköpfe | `<th>Beantragt</th><th>Erhalten</th>` → `<th>Beantragt am</th><th>Erhalten am</th>` | bereich_prop-20 |
+```
+
+## wording-S12.24-12.26 · Prop-Planer: „Mindest-Kontostand“, Bedingungen „(mind. …) · erfüllt“, alle Beträge in Kontowährung
+
+Gruppe wording · Cluster prop · Aufwand M · Befunde: wording-32, bereich_prop-31, bereich_prop-5
+Quelle: audit/spec/wording.md Z. 505–507 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+| 12.24 | prop.js:279 Planer-Banner | `(Mindest-Handelstage, Mindestgewinn oder Mindestbalance)` → `(Mindest-Handelstage, Mindestgewinn oder Mindest-Kontostand)` | wording-32 |
+| 12.25 | prop.js:283 Bedingungen | Handelstage: offen → `${n} von ${o.minDays} <span class="warn">· noch ${plan.missingDays}</span>` (unverändert); erfüllt → `${n} <span class="muted">(mind. ${o.minDays})</span> <span class="pos">· erfüllt</span>`; ohne Vorgabe unverändert. Profit Target/Gewinn: `U.pnl(ev.pnl)` → `U.pnl(ev.pnl, '', { currency: a.currency })`, alle `fmt.cur(…)` → `money(a, …)`; erfüllt → `<span class="muted">(mind. ${money(a, o.minProfit)})</span> <span class="pos">· erfüllt</span>`, offen weiter mit „von“. kv `'Mindestbalance'` → `'Mindest-Kontostand'`, `fmt.balance(ev.balance)` → `fmt.balance(ev.balance, { currency: a.currency })`, gleiches Muster „(mind. …)“ wenn erfüllt | bereich_prop-31, bereich_prop-5, wording-32 |
+| 12.26 | prop.js:284 Vorschlag | `fmt.cur(plan.suggestion.perDay)`, `fmt.cur(plan.suggestion.total)` → `money(a, …)` | bereich_prop-5 |
+```
+
+## wording-S12.27 · Prop-Kopfreihe: Knopf „Prop-Konto anlegen“ mit aria-label
+
+Gruppe wording · Cluster prop · Aufwand S · Befunde: wording-34
+Quelle: audit/spec/wording.md Z. 508–508 · Dateien: web/js/screens/prop.js
+Abhängig von: —
+
+```text
+| 12.27 | prop.js:294 Kopfreihe | `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span class="hide-m">Prop-Konto</span></button>` → `<button type="button" class="btn" data-action="prop-account-new" aria-label="Prop-Konto anlegen">${I.plus}<span class="hide-m">Prop-Konto anlegen</span></button>` | wording-34 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .hide-m] Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label="Prop-Konto anlegen"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.
+- ÄNDERN: Ergebnis ohne aria-label und ohne class="hide-m": `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span>Prop-Konto anlegen</span></button>`. In 4.2 die Zeile `p "aria-label=\"Prop-Konto anlegen\"" 1` streichen.
+- ÜBERNIMMT barrierefreiheit-C-prop-294: wording-S12.27 entfernt hide-m mit. Der Wortlaut ist „Prop-Konto anlegen“.
+- ÜBERNIMMT komponenten-S-prop-f: Text „Prop-Konto anlegen“ statt „Konto anlegen“. wording-S12.27 setzt ihn um, zusammen mit dem Entfernen von hide-m.
+
+## wording-S12.28-12.29 · Friedhof: Lebensdauer über U.count, Grabstein-Unterzeile ohne Geldbetrag („100K“ nur ohne Namen)
+
+Gruppe wording · Cluster prop · Aufwand S · Befunde: zustaende-28, bereich_prop-46
+Quelle: audit/spec/wording.md Z. 509–510 · Dateien: web/js/screens/prop-friedhof.js
+Abhängig von: wording-S1.1-1.3
+
+```text
+| 12.28 | prop-friedhof.js:56 | `` `${fmt.num(avgLife, 0)} Tage` `` → `U.count(Math.round(avgLife), 'Tag', 'Tage')` | zustaende-28 |
+| 12.29 | prop-friedhof.js:136 Grabstein | `${t.size > 0 ? fmt.balance(t.size) : '—'}${t.market ? \` · ${marketLabel(t.market)}\` : ''}` → `${[!t.name && t.size > 0 ? \`${fmt.int(t.size / 1000)}K\` : '', t.market ? marketLabel(t.market) : ''].filter(Boolean).join(' · ') \|\| '—'}` | bereich_prop-46 |
+```
+
+## wording-S19-prop · Tests anpassen: proptest, friedhoftest
+
+Gruppe wording · Cluster prop · Aufwand S · Befunde: bereich_prop-5, wording-33, wording-31, bereich_prop-46
+Quelle: audit/spec/wording.md Z. 630–635 · Dateien: web/e2e/proptest.js, web/e2e/friedhoftest.js
+Abhängig von: wording-S12.4-12.5, wording-S12.8-12.12, wording-S12.28-12.29
+
+```text
+| e2e/proptest.js:56 | `card.pnl.includes('€')` → `card.pnl.includes('$')`; `/noch \d+ Stop-Loss/` → `/reicht für \d+ Stop/`; `card.meta.includes('Bestehen')` → `card.meta.includes('Puffer') && !/Gewinn fehlt/.test(card.meta)`; Kommentar Z. 55 anpassen | bereich_prop-5, wording-33, wording-31 |
+| e2e/proptest.js:57 | `` `noch ${ev.buffer.stops} Stop-Loss` `` → `` `reicht für ${ev.buffer.stops} Stop` `` | wording-33 |
+| e2e/proptest.js:103 | `/in \d+ Handelstag\|Gewinn fehlt\|bereit\|Consistency/` → `/in \d+ Handelstag\|Gewinn fehlen\|bereit\|Consistency/` | wording-31 |
+| e2e/proptest.js:116 | `'/ 150,00 € je Stop-Loss'` → Erwartung über `UI.fmt.cur(150, { currency: acc.currency })` + `' je Stop'` | bereich_prop-5, wording-33 |
+| e2e/friedhoftest.js:122 | „Fix 3“: für das Konto ohne Größe und Namen genau `'Futures'` (bzw. Marktname) erwarten, nicht `startsWith('—')` | bereich_prop-46 |
+| e2e/friedhoftest.js:129 | „Fix 4“: nur noch prüfen, dass im Geld-blind-Modus weder R-Wert noch €/$ in der Unterzeile steht (nicht `includes('ausgeblendet')`) | bereich_prop-46 |
+```
+
+## bewegung-C6cd · Tote Übergänge im Prop-Bereich streichen (.prop-sub a::after, .prop-bar .track i)
+
+Gruppe bewegung · Cluster prop · Aufwand S · Befunde: bewegung-40
+Quelle: audit/spec/bewegung.md Z. 269–271 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+- c) Z. 2597 `.prop-sub a::after { …; transform: scaleX(0); transition: transform var(--dur-2) var(--ease); }` → nur `transition: …;` streichen. Entfällt, wenn aufbau-16 `.prop-sub` löscht (K19).
+- d) Z. 2708 `.prop-bar .track i { …; transition: width var(--dur-3) var(--ease); }` → `transition: …;` streichen.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .prop-sub a::after] komponenten-C20 setzt als einziger Schritt die gemeinsame Unterstrich-Fassung für .subtabs, .set-tabs und .prop-sub (Schrift und Linie --text, Gewicht 500, deckt farbe-B21 und zustaende-S-C9b ab). Abweichend von C20 gilt: (1) Die Linie ::after bekommt keine transition. Alle drei Leisten bauen beim Klick neu auf (content-tab, log-tab und recent-tab rufen rerender, .prop-sub navigiert; README Z. 357: die Leiste steht still), der Übergang würde also nie laufen (bewegung D3/K19). scaleX(0) und scaleX(1) bleiben. (2) Gewählt wird an Links über `.prop-sub a[aria-current="page"]` angezeigt, weil aria-pressed an <a> wegfällt (barrierefreiheit Z4 und C-prop-304-305). (3) Schrift var(--fs-14)/var(--lh-14) statt 13.5px (Typografie: Reiter 14). (4) Fokus `outline: 2px solid var(--focus); outline-offset: -2px` statt --accent (barrierefreiheit Z1; die Leiste hat overflow-x: auto). Die Antwort auf aufbau-16 (F2) muss nicht abgewartet werden. Bei Ja streicht aufbau die .prop-sub-Selektoren aus diesen Regeln.
+- ÄNDERN: Nur Teil d) umsetzen (Z. 2708 `.prop-bar .track i`: transition streichen). Teil c) erledigt komponenten-C20, dort hat ::after keine transition.
+
+## bewegung-C10a · Grabstein-Drehung .pg-inner auf --ease (.75s bleibt)
+
+Gruppe bewegung · Cluster prop · Aufwand S · Befunde: bewegung-33
+Quelle: audit/spec/bewegung.md Z. 303–304 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**C10 Grabstein und Kerzen** (bewegung-33, bereich_prop-50, bewegung-6)
+- Z. 2773 `.pg-inner { … transition: transform .75s cubic-bezier(.3, .7, .2, 1); }` → `transition: transform .75s var(--ease);` (.75s bleibt, Ausnahme T1)
+```
+
+## bewegung-C10b · Kerzen (CSS): Flammen und Lichthöfe pausieren über .pg-base.off
+
+Gruppe bewegung · Cluster prop · Aufwand S · Befunde: bereich_prop-50, bewegung-6
+Quelle: audit/spec/bewegung.md Z. 305–306 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+- Nach Z. 2832 neu: `.pg-base.off .pg-candles .flame, .pg-base.off .pg-candles .halo { animation-play-state: paused; } /* außerhalb des Fensters ruhen die Flammen */`
+
+```
+
+## bewegung-3.9a · Friedhof: Kerzen-Definitionen einmal pro Seite (cluster als Objekt, .pg-defs in tabFriedhof)
+
+Gruppe bewegung · Cluster prop · Aufwand M · Befunde: bereich_prop-50, bewegung-6
+Quelle: audit/spec/bewegung.md Z. 333–337 · Dateien: web/js/screens/prop-friedhof.js
+Abhängig von: —
+
+```text
+### 3.9 `web/js/screens/prop-friedhof.js` (bereich_prop-50, bewegung-6)
+- **`cluster` Z. 105**: Rückgabe von String auf Objekt umstellen, ohne Definitionen im SVG:
+  `const cluster = (cls, vw, list) => { const c = list.map((x, i) => candle(x, i, cls[0], vw)); return { svg: \`<svg class="pg-candles ${cls}" viewBox="0 0 ${vw} 80" aria-hidden="true" focusable="false"><g class="halos">${c.map(x => x.halo).join('')}</g>${c.map(x => x.wax).join('')}</svg>\`, defs: c.map(x => x.grad).join('') }; };`
+- **Z. 159** `${CANDLES_L}${CANDLES_R}` → `${CANDLES_L.svg}${CANDLES_R.svg}`
+- **`tabFriedhof` Z. 172** vor `<div class="grid prop-graves">` einmal einfügen: `<svg class="pg-defs" data-no-reveal width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">${CANDLE_DEFS}<defs>${CANDLES_L.defs}${CANDLES_R.defs}</defs></svg>`. Wichtig: nicht `display:none`, sonst greifen die Verläufe nicht.
 ```

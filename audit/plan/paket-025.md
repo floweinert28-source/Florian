@@ -1,457 +1,334 @@
-# Paket 025 · training
+# Paket 025 · training, aufbau, dashboard
 
-Schritte: 37 · Dateien: web/README.md, web/css/app.css, web/e2e/rptest.js, web/e2e/shadowtest.js, web/js/screens/mentor.js, web/js/screens/progress.js, web/js/screens/ruhepunkt.js, web/js/screens/shadow.js
-Betroffene Tests laut Spezifikation: Akzeptanz 4.3 progress; Akzeptanz 4.3 ruhepunkt (document.querySelectorAll('h1').length === 1); Akzeptanz 4.3 ruhepunkt („Wo stehst du gerade?“ und Session-Titel 21/600); Akzeptanz 4.4: grep "h('h1'" in ruhepunkt.js ohne Treffer; e2e/coachtest.js:84, :96 (Coach-.mentor-note bleibt); e2e/mentortest.js; e2e/rptest.js:17; e2e/rptest.js:46; e2e/rptest.js:46 (siehe E1e); e2e/shadowtest.js:38, :41, :43 (prüfen „1 – 10 von … Verstößen“ bzw. „11 – “/„1 – “ mit Leerzeichen; nicht in E1 genannt, mitändern); web/e2e/fwtest.js:23–24 (Widget = Seite über costView); web/e2e/mentortest.js:44–45; web/e2e/rptest.js; web/e2e/rptest.js (.rp-nav .rp-primary bleibt); web/e2e/rptest.js:11; web/e2e/rptest.js:51 (.rp-timer .rp-btn), :18–63 (.rp-nav .rp-primary bleibt); web/e2e/shadowtest.js; web/e2e/shadowtest.js:68, 69, 71, 74; web/e2e/shadowtest.js:68, 74 (Schritt R3); web/e2e/shadowtest.js:69, 71 (Schritt R3); web/e2e/streaktest.js; web/tests/inline-style.test.mjs (Zählung, Schritt R5)
-Baut auf Paketen auf: 1, 2, 5
+Schritte: 18 · Dateien: web/README.md, web/css/app.css, web/js/screens/mentor.js, web/js/screens/progress.js, web/js/screens/ruhepunkt.js, web/js/screens/shadow.js
+Betroffene Tests laut Spezifikation: Akzeptanz grep 11, Sonde 20; Akzeptanz grep 9; prüfen: e2e/headtest.js:55–57 (Füll-Animation .ring-arc .arc); prüfen: e2e/mentortest.js:44; prüfen: e2e/rptest.js (.rp-choice, .rp-seq-i); prüfen: e2e/rptest.js:11; prüfen: e2e/shadowtest.js; web/e2e/headtest.js:55, :57 (.ring-arc .arc) prüfen; web/e2e/shadowtest.js:57 (O5); web/tests/shadow.test.mjs:163 bleibt
+Baut auf Paketen auf: 1, 7, 11, 15, 18, 19, 22, 24
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## farbe-B23a · Aktivitäts-Heatmap (Fortschritt) neutral in fünf Stufen, Heute-Ring --text-2
+## aufbau-D2b · README: TradeLog, Tagesansicht, Statistiken, News, Fortschritt
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: bereich_training-8, farbe_kontrast-24, referenz-8
-Quelle: audit/spec/farbe.md Z. 332–335 · Dateien: web/css/app.css
+Gruppe aufbau · Cluster aufbau · Aufwand S · Befunde: bereich_trades_tag-18, bereich_trades_tag-33, bereich_trades_tag-27, hierarchie-7, aufbau-5, aufbau-19, bereich_statistik-5, aufbau-20, bereich_notebook_news-39, bereich_training-11, bereich_training-10
+Quelle: audit/spec/aufbau.md Z. 689–693 · Dateien: web/README.md
+Abhängig von: aufbau-C15a, aufbau-C15b, aufbau-C15c, aufbau-C7a, aufbau-B6, aufbau-B7, aufbau-C14b, aufbau-C1, aufbau-C9a, aufbau-C11c
+
+```text
+- TradeLog (Z. 84 ff.): Spaltenfolge, „Kacheln folgen Suche und Filter“, „Verpasste Trades folgen Zeitraum und Konto“
+- Z. 108 Tagesansicht: „Kopfreihe ohne Zeitraum; „Trade loggen“ legt an anderen Tagen den Trade auf diesen Tag (09:00), auch mit Taste N“
+- Z. 109 Statistiken: „Reiterleiste oben; die Kurve „Kumulierter Netto-P&L“ nur in der Übersicht; 16 Kennzahlen in vier Themenreihen“
+- News-Punkt: „Filter in der Kopfreihe, kein Session-Knopf“
+- Z. 135 Fortschritt: „links die Tages-Checkliste, rechts untereinander Disziplin pro Woche und Tilt-Profil, zusammen so hoch wie die Checkliste (das Tilt-Profil füllt den Rest); darunter Trading-Aktivität und Regeln im Detail“
+```
+
+## aufbau-C16 · Ruhepunkt-Fuß: Hilfe-Link links und unterstrichen; Telefonnummern unterstrichen
+
+Gruppe aufbau · Cluster training · Aufwand S · Befunde: bereich_training-50
+Quelle: audit/spec/aufbau.md Z. 629–636 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**B23 – Heatmaps, Tracker, Jahresraster** — bereich_training-8, bereich_dashboard-38, farbe_kontrast-24, referenz-8
-- Z. 1287–1291 ersetzen (nur noch Aktivität und ihre Legende):
-  `.activity i.l1, .heat-legend:not(.right) i.l1 { background: color-mix(in srgb, var(--text) 8%, var(--surface-2)); border-color: transparent; }`, ebenso `l2` 16 %, `l3` 28 %, `l4` 42 %, `l5` 58 %
-- Z. 1292 `.activity i.today { box-shadow: 0 0 0 2px var(--accent); }` → `var(--text-2)`
+#### Restliche Einzelstellen in `web/css/app.css`
+
+**C16 Ruhepunkt-Fuß** · bereich_training-50
+- Z. 2316 `.rp-foot { …; justify-content: flex-end; … }` → `justify-content: flex-start;` (am Handy bleibt Z. 2334 zentriert)
+- Z. 2317 → `.rp-foot .rp-btn.rp-quiet { font-size: 13px; color: var(--text-2); text-decoration: underline; text-underline-offset: 3px; padding-left: 0; }`
+- Z. 2318 → `.rp-foot .rp-btn.rp-quiet:hover { color: var(--text); }`
+- Z. 2322 `.rp-dlg a { color: var(--text); font-weight: 700; }` → `.rp-dlg a { color: var(--text); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }`
+
 ```
 
-## farbe-C2 · Fortschritt: Listenmarker „Aktuelle Regeln“ neutral (entfällt, falls Aufbau die Karte löscht)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: farbe_kontrast-22
-Quelle: audit/spec/farbe.md Z. 381–383 · Dateien: web/css/app.css
+- [konflikt: .rp-foot .rp-btn.rp-quiet] aufbau-C16 gewinnt inhaltlich: Der Krisenhilfe-Link „Hilfe und Beratung“ ist keine graue 12-px-Fußnote, er soll als Link erkennbar und lesbar sein (bereich_training-50). Die Größe steht aber als Token: `.rp-foot .rp-btn.rp-quiet { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); text-decoration: underline; text-underline-offset: 3px; padding-left: 0; }` und `.rp-foot .rp-btn.rp-quiet:hover { color: var(--text); }`. Dazu `.rp-foot { … justify-content: flex-start; … }` (am Handy bleibt Z. 2334 zentriert) und `.rp-dlg a` wie in C16. 13 liegt auf der Skala (kleines Steuerelement). rptest.js:11 prüft nur den Text und ist nicht betroffen.
+- ÄNDERN: In Z. 2317 `font-size: 13px` → `font-size: var(--fs-13); line-height: var(--lh-13)`. Alles andere bleibt wie in der Spezifikation.
+
+## diagramme-A5 · Aktivitäts-Heatmap neutral (--text 14/26/38/50/62 %), Heute-Ring --text-2
+
+Gruppe diagramme · Cluster training · Aufwand S · Befunde: farbe_kontrast-21, diagramme-23
+Quelle: audit/spec/diagramme.md Z. 316–320 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**C2 – `web/css/app.css` Fortschritt, Z. 1274** (entfällt, wenn die Aufbau-Gruppe die Karte „Aktuelle Regeln“ löscht) — farbe_kontrast-22
-`.rules-list li::marker { color: var(--accent); font-weight: 700; }` → `.rules-list li::marker { color: var(--muted); font-weight: 500; font-family: var(--font-num); }`
+**A5 Aktivitäts-Heatmap neutral** (farbe_kontrast-21, Ergänzung diagramme-23)
+- Z. 1287–1290: in `.activity i.lN, .heat-legend i.lN` jeweils `color-mix(in srgb, var(--accent) 22% | 40% | 60% | 80%, var(--surface-2))` → `color-mix(in srgb, var(--text) 14% | 26% | 38% | 50%, var(--surface-2))`. `border-color: transparent` bleibt.
+- Z. 1291 `background: var(--accent)` → `background: color-mix(in srgb, var(--text) 62%, var(--surface-2))`.
+- Z. 1292 → `.activity i.today { box-shadow: 0 0 0 2px var(--text-2); }`
 
 ```
 
-## farbe-C5 · Ruhepunkt: --rp-dawn = --info, Hauptknopf .rp-primary neutral wie .btn.primary
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: farbe_kontrast-8, bereich_training-44
-Quelle: audit/spec/farbe.md Z. 398–403 · Dateien: web/css/app.css
+- [konflikt: .heat-legend i.l1] Beide Schritte machen dasselbe: Sie färben die Aktivitäts-Heatmap im Fortschritt neutral, und der Heute-Ring wird --text-2. Sie unterscheiden sich nur in den Prozentwerten und im Legenden-Selektor. Verbindlich für app.css Z. 1287–1291: `.activity i.l1, .heat-legend:not(.right) i.l1 { background: color-mix(in srgb, var(--text) 14%, var(--surface-2)); border-color: transparent; }`, ebenso l2 26 %, l3 38 %, l4 50 % und l5 62 % (l5 also auch als color-mix, nicht var(--accent), und ebenfalls mit `border-color: transparent`). Z. 1292: `.activity i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Gibt die Entscheidung zum Anker `.activity i.today` (Komponenten nennt 1,5 px) etwas anderes vor, gilt diese. Begründung für die Werte: Nachgerechnet hat die erste Stufe bei 8 % zum leeren Kästchen nur 1,25:1 (dunkel) und 1,18:1 (hell), ist also kaum vom leeren Feld zu unterscheiden. Bei 14 % sind es 1,51:1 und 1,35:1. Die Schritte zwischen den Stufen sind gleichmäßig (1,37–1,48 dunkel, 1,33–1,47 hell). Die Diagramm-Spezifikation hat beide Werte in K11 ausdrücklich gegeneinander abgewogen. Farbe 1.9 / regeln.md Z. 13 (8/16/28/42/58 %) gilt damit nicht. Begründung für den Selektor `:not(.right)` (aus farbe-B23a): Die Fortschritt-Legende wird damit unabhängig von der Tracker-Legende `.heat-legend.right`. Sie hängt nicht mehr an der Spezifität und gilt gleich, ob beim Regel-Tracker diagramme-A6 oder farbe-B23b gewinnt. Die Akzeptanzprüfungen beider Gruppen bleiben erfüllt: diagramme grep 11 und Sonde 20 (l5 ≠ --accent), Farbe (kein var(--accent) in `.activity`, progress_voll grau abgestuft).
+- ÄNDERN: Werte 14/26/38/50/62 % und Heute-Ring wie spezifiziert umsetzen, aber in allen fünf Regeln (Z. 1287–1291) den Legenden-Teil `.heat-legend i.lN` durch `.heat-legend:not(.right) i.lN` ersetzen. In l5 `border-color: transparent` behalten. Den Hinweis zur Spezifität (0,3,1) in A6 nicht mehr als Voraussetzung behandeln: Die Selektoren überschneiden sich nicht mehr. Zusätzlich gelten mit diesem Schritt die Befunde bereich_training-8, farbe_kontrast-24 (Teil Aktivität) und referenz-8 (Teil Aktivität) als erledigt.
+- ÜBERNIMMT farbe-B23a: Kein eigener Schritt: diagramme-A5 übernimmt die Änderung, mit dem Selektor `:not(.right)` aus B23a. Die Prozentwerte 8/16/28/42/58 % werden NICHT verwendet. Gilt jetzt: 14/26/38/50/62 %. Die Farb-Akzeptanz (progress_voll grau abgestuft, kein --accent in .activity) prüft man am Ergebnis von A5.
+- [konflikt: .activity i.l1] Wie beim Anker `.heat-legend i.l1` (eine gemeinsame Entscheidung): `.activity i.l1, .heat-legend:not(.right) i.l1 { background: color-mix(in srgb, var(--text) 14%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
+- [konflikt: .activity i.l2] Wie beim Anker `.heat-legend i.l1`: `.activity i.l2, .heat-legend:not(.right) i.l2 { background: color-mix(in srgb, var(--text) 26%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
+- [konflikt: .activity i.l3] Wie beim Anker `.heat-legend i.l1`: `.activity i.l3, .heat-legend:not(.right) i.l3 { background: color-mix(in srgb, var(--text) 38%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
+- [konflikt: .activity i.l4] Wie beim Anker `.heat-legend i.l1`: `.activity i.l4, .heat-legend:not(.right) i.l4 { background: color-mix(in srgb, var(--text) 50%, var(--surface-2)); border-color: transparent; }`, umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
+- [konflikt: .activity i.l5] Wie beim Anker `.heat-legend i.l1`: `.activity i.l5, .heat-legend:not(.right) i.l5 { background: color-mix(in srgb, var(--text) 62%, var(--surface-2)); border-color: transparent; }`, also nicht mehr var(--accent). Umgesetzt von diagramme-A5, farbe-B23a zusammen_mit A5.
+- [konflikt: .activity i.today] Das Ergebnis lautet `.activity i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Begründung: Die Farbregel „Raster 0 0 0 2px var(--text-2)“ und diagramme A-8 nennen beide 2 px. Ganze Pixel zeichnen auf 1×-Bildschirmen scharf, 1,5 px wird verwaschen. Der Ring hebt sich außerdem klar vom 1-px-Hover-Umriss ab (bewegung). Für die Einheitlichkeit der Raster gilt dieselbe Breite auch für .tracker i.today und .ym-grid i.today (diese Anker regelt konflikt-4). diagramme-A5 und farbe-B23a schreiben in Z. 1292 denselben Wert: Wer zuerst läuft, setzt ihn, der andere findet ihn schon vor. Die Heatmap-Stufen sind nicht Teil dieses Ankers (konflikt-5).
+
+## diagramme-A6 · Regel-Tracker: Legende und Zellen mit gemeinsamen Selektoren
+
+Gruppe diagramme · Cluster dashboard · Aufwand S · Befunde: diagramme-24
+Quelle: audit/spec/diagramme.md Z. 321–328 · Dateien: web/css/app.css
+Abhängig von: diagramme-A5
+
+```text
+**A6 Regel-Tracker: Legende = Zellen** (diagramme-24)
+- Z. 1668 → `.tracker i.l1, .heat-legend.right i.l1 { background: color-mix(in srgb, var(--accent) 25%, var(--surface-2)); border: 0; }`
+- Z. 1669 → gleiche Form mit `.l2` und 45 %
+- Z. 1670 → gleiche Form mit `.l3` und 70 %
+- Z. 1671 → `.tracker i.l4, .heat-legend.right i.l4 { background: var(--accent); border: 0; }`
+
+Die Spezifität (0,3,1) schlägt `.heat-legend i.lN` aus A5. Die Fortschritt-Legende (ohne `.right`) bleibt neutral.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .tracker i.l1] Zellen und Legende des Regel-Trackers nutzen dieselben Selektoren (diagramme-A6, eine Quelle). Die Prozente kommen aus der Farb-Spezifikation; diagramme K12 überlässt sie ihr ausdrücklich. Grün bleibt, weil Regeltreue positiv ist (BRIEF), aber gedämpft statt als volle --accent-Fläche (ruhige Diagramme). Ergebnis in Z. 1668–1671: `.tracker i.l1, .heat-legend.right i.l1 { background: color-mix(in srgb, var(--accent) 18%, var(--surface-2)); border: 0; }`, ebenso l2 mit 32 %, l3 mit 50 % und l4 mit `color-mix(in srgb, var(--accent) 70%, var(--surface-2))`. Nach Z. 1675 kommen keine zusätzlichen .heat-legend.right-Regeln. Die Legende der Aktivität (ohne .right) bleibt neutral, die Spezifität 0,3,1 trennt beide.
+- ÄNDERN: 18/32/50/70 % statt 25/45/70/100 %. l4 als `color-mix(in srgb, var(--accent) 70%, var(--surface-2))` statt `var(--accent)`, border: 0 bleibt. dashtest.js:72 (Tracker-Raster) mitprüfen.
+- [konflikt: .tracker i.l2] Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l2, .heat-legend.right i.l2` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 32%, var(--surface-2))`, border: 0. Die Anpassungen stehen dort.
+- [konflikt: .tracker i.l3] Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l3, .heat-legend.right i.l3` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 50%, var(--surface-2))`, border: 0. Die Anpassungen stehen dort.
+- [konflikt: .tracker i.l4] Wie beim Anker .tracker i.l1: gemeinsamer Selektor `.tracker i.l4, .heat-legend.right i.l4` aus diagramme-A6, Wert `color-mix(in srgb, var(--accent) 70%, var(--surface-2))` statt `var(--accent)`, border: 0. Die Anpassungen stehen dort.
+- [doppelt: .heat-legend.right i.l1] Die Legende hängt am Zellen-Selektor von diagramme-A6 (18 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+- [doppelt: .heat-legend.right i.l2] Die Legende hängt am Zellen-Selektor von diagramme-A6 (32 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+- [doppelt: .heat-legend.right i.l3] Die Legende hängt am Zellen-Selektor von diagramme-A6 (50 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+- [doppelt: .heat-legend.right i.l4] Die Legende hängt am Zellen-Selektor von diagramme-A6 (70 %). Die eigene Legenden-Regel aus farbe-B23b entfällt. Die Anpassungen stehen beim Anker .tracker i.l1.
+
+## diagramme-A7 · Regeltreue-Ring CSS: Rand 96px, drop-shadow streichen, Handy-Regel kürzen
+
+Gruppe diagramme · Cluster training · Aufwand S · Befunde: bereich_training-7, diagramme-26
+Quelle: audit/spec/diagramme.md Z. 329–333 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**C5 – `web/css/app.css` Ruhepunkt** — farbe_kontrast-8, bereich_training-44
-- Z. 2141 in `.rp { … }`: `--rp-dawn: #5cb8ff;` → `--rp-dawn: var(--info);`
-- Z. 2142: aus `html[data-theme="light"] .rp, :root[data-theme="light"] .rp { --rp-dawn: #2a6fb8; --rp-brick: #c73a3a; --rp-on-phase: #ffffff; }` den Eintrag `--rp-dawn: #2a6fb8;` streichen
-- Z. 2217 `.rp-btn.rp-primary { background: var(--phase); border-color: var(--phase); color: var(--rp-on-phase); }` → `.rp-btn.rp-primary { background: var(--surface-3); border-color: var(--border-2); color: var(--text); }`
-- Z. 2218 `.rp-btn.rp-primary:hover { filter: brightness(1.08); }` → `.rp-btn.rp-primary:hover { background: color-mix(in srgb, var(--text) 8%, var(--surface-3)); border-color: color-mix(in srgb, var(--text) 18%, var(--border-2)); }`
+**A7 Regeltreue-Ring** (bereich_training-7, Ergänzung diagramme-26)
+- Z. 1312 `margin-right: 150px` → `margin-right: 96px`.
+- Z. 1317: `filter: drop-shadow(0 0 6px var(--accent-glow));` streichen. Die Farbe kommt künftig inline (H1). Die `transition` derselben Zeile ändert Bewegung B8.
+- Z. 1318 → `@media (max-width: 600px) { .card.ring-card { min-height: 0; } }`. Der 64-px-Ring bleibt damit auch am Handy rechts mittig.
 
 ```
 
-## farbe-C6 · Mentor: Einrichtungs-Symbol, eigene Nachricht und Tipp-Punkte neutral
+## diagramme-A8b · Neue Klasse .shadow-clean (Abstand der Zeile „Ohne Verstöße“)
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: bereich_konto-6, bereich_training-36
-Quelle: audit/spec/farbe.md Z. 404–408 · Dateien: web/css/app.css
+Gruppe diagramme · Cluster training · Aufwand S · Befunde: bereich_training-30
+Quelle: audit/spec/diagramme.md Z. 336–337 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**C6 – `web/css/app.css` Mentor** — bereich_konto-6, bereich_training-36
-- Z. 2341 `.mentor-setup .ico svg { …; color: var(--accent); }` → `color: var(--text-2);`
-- Z. 2350 `.msg.user { align-self: flex-end; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-bottom-right-radius: 4px; }` → `.msg.user { align-self: flex-end; background: var(--surface-3); border: 1px solid var(--border-2); border-bottom-right-radius: 4px; }`
-- Z. 2356 `.msg.typing i { …; background: var(--accent); … }` → `background: var(--muted);`
+- nach Z. 2443 neu: `.shadow-clean { margin-top: 10px; }`
 
 ```
 
-## farbe-C7 · Schatten-Ich: eingeschaltete Regel neutral angehoben statt grün getönt
+## diagramme-I1 · Schatten-Ich-Ranking: Balken nur bei Verstoß, Zeile „Ohne Verstöße“, Leerzustand
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: bereich_training-4
-Quelle: audit/spec/farbe.md Z. 409–412 · Dateien: web/css/app.css
+Gruppe diagramme · Cluster training · Aufwand S · Befunde: bereich_training-30
+Quelle: audit/spec/diagramme.md Z. 640–652 · Dateien: web/js/screens/shadow.js
+Abhängig von: diagramme-A8b
+
+```text
+### 3.9 `web/js/screens/shadow.js`
+
+**I1 Ranking** (bereich_training-30) Z. 76–80 `rankingRows`:
+```js
+function rankingRows(ranking) {
+  if (!ranking.length) return U.empty('shield', 'Keine Regel aktiv', '');
+  const hit = ranking.filter(x => x.n > 0), clean = ranking.filter(x => !x.n); const max = Math.max(0, ...hit.map(x => Math.abs(x.cost)));
+  const bars = hit.length ? `<div class="shadow-rank">${hit.map(x => U.barRow(x.label, x.cost, max, `${U.pnl(-x.cost)} <span class="muted">· ${x.n}×</span>`, x.cost > C.EPS ? 'var(--loss)' : x.cost < -C.EPS ? 'var(--profit)' : 'var(--surface-3)')).join('')}</div>` : U.empty('shield', 'Keine Verstöße', 'Im Zeitraum wurde keine Regel gebrochen.');
+  return bars + (clean.length ? `<div class="small muted shadow-clean">Ohne Verstöße: ${clean.map(x => esc(x.label)).join(', ')}</div>` : '');
+}
+```
+Die Engine liefert Regeln ohne Verstoß weiter mit 0 (tests/shadow.test.mjs:163). Gefiltert wird nur in der Anzeige.
+
+```
+
+## zustaende-S-C11 · Schatten-Ich-Regelkarte: aus transparent, an surface-2 mit Rand border-2 (kein Grün)
+
+Gruppe zustaende · Cluster training · Aufwand S · Befunde: farbe_kontrast-30
+Quelle: audit/spec/zustaende.md Z. 333–337 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-**C7 – `web/css/app.css` Schatten-Ich, Z. 2399 und 2402** — bereich_training-4
-- Kommentar „an = leicht getönt“ → „an = leicht angehoben, neutral“
-- `.shadow-rule.on { border-color: color-mix(in srgb, var(--accent) 30%, var(--border)); background: color-mix(in srgb, var(--accent) 5%, var(--surface-2)); }` → `.shadow-rule.on { border-color: var(--border-2); background: color-mix(in srgb, var(--text) 3%, var(--surface-2)); }`
+**S-C11 Regelkarte im Schatten-Ich** – farbe_kontrast-30
+- Kommentar Z. 2399 „an = leicht getönt“ → „an = leicht angehoben (Fläche surface-2, Rand border-2), Grün nur im Schalter“.
+- Z. 2401 `.shadow-rule { … background: var(--surface-2); … }` → `background: transparent;` (Rand, Abstände, Transition bleiben).
+- Z. 2402 → `.shadow-rule.on { border-color: var(--border-2); background: var(--surface-2); }`
 
 ```
 
-## farbe-C21 · Mentor-Seite: Hinweise muted, „Zu den Einstellungen“ normaler Knopf
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: barrierefreiheit-25, farbe_kontrast-11, bereich_training-36
-Quelle: audit/spec/farbe.md Z. 480–484 · Dateien: web/js/screens/mentor.js
+- [konflikt: .shadow-rule.on] Nach zustaende-S-C11: aus = `.shadow-rule { …; background: transparent; }` (Rand --border, Abstände und Transition bleiben). An = `.shadow-rule.on { border-color: var(--border-2); background: var(--surface-2); }`. Kommentar Z. 2399: „an = leicht angehoben (Fläche surface-2, Rand border-2), Grün nur im Schalter“. Grund: BRIEF „leicht angehobene Fläche, feiner Rand“. farbe-C7 ließe aus und an beide auf --surface-2 und unterschiede sie nur durch 3 % Textbeimischung, das wäre kaum sichtbar, und der Zustand hinge allein am Schalter. transparent → surface-2 ist ruhig, lesbar und ohne Grün.
+
+## zustaende-S-PR3 · Fortschritt: Regel-Karte als .dashed mit einem Kopf-Knopf (anlegen/bearbeiten), Wochen-Diagramm nur mit Daten
+
+Gruppe zustaende · Cluster training · Aufwand S · Befunde: bereich_training-19, zustaende-13, zustaende-2
+Quelle: audit/spec/zustaende.md Z. 706–709 · Dateien: web/js/screens/progress.js
 Abhängig von: —
 
 ```text
-**C21 – `web/js/screens/mentor.js`** — barrierefreiheit-25, farbe_kontrast-11, bereich_training-36
-- Z. 79 `class="small faint" style="margin-top:14px">Anleitung zum Server:` → `class="small muted"`; `class="btn primary" href="#/settings/mentor">Zu den Einstellungen` → `class="btn"`
-- Z. 84 Senden `btn primary icon` bleibt (Formular-Absenden, jetzt neutral)
-- Z. 85 `class="mentor-note small faint"` → `class="mentor-note small muted"`
+**S-PR3 Regel-Karte und Wochen** – bereich_training-19, zustaende-13, zustaende-2
+- Z. 77 Leerzweig `U.empty('shield', 'Keine Regeln definiert', …, `<a class="btn sm" href="#/settings">Regeln anlegen</a>`)` → `'<div class="dashed">Noch keine Regeln angelegt.</div>'`; `trailing: `<a class="btn sm" href="#/settings">${I.edit} Regeln bearbeiten</a>`` → `trailing: `<a class="btn sm" href="#/settings/regeln">${rules.length ? `${I.edit} Regeln bearbeiten` : `${I.plus} Regeln anlegen`}</a>``
+- Z. 78 `<div class="chart h200" data-chart="weeks" data-id="prog-weeks"></div>` → `${weeks.length ? '<div class="chart h200" data-chart="weeks" data-id="prog-weeks"></div>' : '<div class="dashed">Noch keine abgeschlossenen Trades.</div>'}`
 
 ```
 
-## farbe-C28 · Ruhepunkt: Schließen und Bühnen-Knöpfe ohne Hauptknopf-Stil
+## zustaende-S-MT1 · Mentor ohne Server: leere Kopfreihe (head als Getter)
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: bereich_training-44
-Quelle: audit/spec/farbe.md Z. 522–526 · Dateien: web/js/screens/ruhepunkt.js
+Gruppe zustaende · Cluster training · Aufwand S · Befunde: zustaende-16, hierarchie-34
+Quelle: audit/spec/zustaende.md Z. 837–841 · Dateien: web/js/screens/mentor.js
 Abhängig von: —
 
 ```text
-**C28 – `web/js/screens/ruhepunkt.js`** — bereich_training-44
-- Z. 155 `class="btn primary" data-close>Schließen` → `class="btn"`
-- Z. 232 `class: 'rp-btn rp-primary'` (Atmung „Starten“) → `class: 'rp-btn'`
-- Z. 366 `class: 'rp-btn rp-primary'` (Countdown) → `class: 'rp-btn'` (Z. 737 Navigation und Z. 791 Mentor bleiben `rp-primary`)
+### 3.19 `web/js/screens/mentor.js`
+
+**S-MT1 Kopfreihe ohne Server** – zustaende-16 (mit hierarchie-34)
+Z. 76 `head: { range: false, session: false, trade: false, note: 'Der Mentor sieht die letzten 20 Trades dieses Kontos.' },` → `get head() { return configured() ? { range: false, session: false, trade: false, note: 'Der Mentor sieht die letzten 20 Trades dieses Kontos.' } : { range: false, account: false, session: false, trade: false }; },` (app.js:257 liest den Getter über `Object.assign`).
 
 ```
 
-## farbe-C29 · Schatten-Ich: Kosten mit Vorzeichen (costView, Tabelle), Spaltenkopf „Effekt“
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster training · Aufwand M · Befunde: bereich_training-3
-Quelle: audit/spec/farbe.md Z. 527–532 · Dateien: web/js/screens/shadow.js
+- [konflikt: App.pageHead] aufbau-B1 schreibt pageHead und newTradeButton neu und nimmt die Teile der anderen Schritte auf. Endzustand: `const sh = typeof screen.head === 'function' ? screen.head(ctx) : screen.head; const h = Object.assign({ range: true, account: true, session: true, trade: true, note: '', tradeTip: '' }, sh);`. In `left` steht `this.accountControl({ mobile: !h.range, iconM: !!h.range })` (responsiv-3.3a), danach wie heute `ctx.headLeft` und der Hinweis. In `right` steht `this.sessionControl()` ohne Argument (komponenten-A4); B1 lässt dort fälschlich noch `(true)` stehen. Vor dem return kommt `if (!left && !right) return '';`; das steht in B1 und abstaende-E1 gleich, also doppelt. abstaende-E-day2 setzt nur `ctx.headLeft` und passt ohne Änderung, weil pageHead headLeft nach dem Konto einsetzt. Mentor ohne Server nutzt die Funktionsform von head (siehe Anker screen.head).
+- [konflikt: screen.head] Ein Mechanismus für bedingte Kopfreihen: `screen.head` darf eine Funktion von ctx sein (aufbau-B1, auch für Trade-Ansicht und Tagesansicht). Ein Getter würde zwar auch funktionieren, wäre aber eine zweite Schreibweise für dasselbe. Mentor: `head() { return configured() ? { range: false, session: false, trade: false, note: 'Der Mentor sieht die letzten 20 Trades dieses Kontos.' } : { range: false, account: false, session: false, trade: false }; }`. Ohne Server bleiben left und right leer, pageHead liefert '' (B1).
+- ÄNDERN: Statt `get head() { … }` die Methode `head() { return configured() ? {…} : { range: false, account: false, session: false, trade: false }; }` mit demselben Inhalt. pageHead (aufbau-B1) ruft Funktionen mit ctx auf. Kommentar „head als Funktion“ statt „Getter“.
+
+## zustaende-S-RP1 · Ruhepunkt: laufende Session nur mit Rückfrage verwerfen
+
+Gruppe zustaende · Cluster training · Aufwand S · Befunde: bereich_training-42
+Quelle: audit/spec/zustaende.md Z. 858–864 · Dateien: web/js/screens/ruhepunkt.js
 Abhängig von: —
 
 ```text
-**C29 – `web/js/screens/shadow.js`** — bereich_training-3
-- Kommentar Z. 24 → `/* Kosten-Darstellung: Wirkung auf das Konto mit Vorzeichen (wie Tabelle, Ranking und Statistik → Fehler) */`
-- Z. 25 `costView`: Zweig `cost > C.EPS`: `text: fmt.cur(cost)` → `text: fmt.cur(-cost, { signed: true })` (Klasse `neg` bleibt); Zweig `cost < -C.EPS`: `text: fmt.cur(-cost)` → `text: fmt.cur(-cost, { signed: true })` (Klasse `pos` bleibt); Null-Zweig unverändert
-- Z. 69 `${U.pnl(v.cost, '', costR)}` → `${U.pnl(-v.cost, '', costR.r == null ? {} : { r: -costR.r })}`
-- Z. 71 `<th class="r">Kosten</th>` → `<th class="r">Effekt</th>`
+### 3.21 `web/js/screens/ruhepunkt.js`
+
+**S-RP1 Session nicht ohne Rückfrage verwerfen** – bereich_training-42
+- Z. 781 (`renderDone`) `cleanup(); homeBtn(true);` → `cleanup(); homeBtn(false);`
+- Z. 890 → `'rp-home': function () { if (!stage) return; var go = function () { renderHome().focus({ preventScroll: true }); }; if (mode === 'step' && stepIdx > 0) { U.confirmModal('Session verwerfen?', 'Deine Eingaben aus dieser Session gehen verloren.', { ok: 'Verwerfen', danger: true }).then(function (yes) { if (yes && stage) go(); }); } else go(); },`
+- Beschriftung „← Übersicht“ (Z. 877) bleibt.
 
 ```
 
-## farbe-D3f · README Z. 224: Regelwerk-Kachel „leicht angehoben (neutral, feiner Rand)“
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe farbe · Cluster training · Aufwand S · Befunde: bereich_training-4
-Quelle: audit/spec/farbe.md Z. 571–571 · Dateien: web/README.md
-Abhängig von: farbe-C7
+- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+
+## zustaende-S-R2 · README Z. 144: Mentor ohne Server zeigt keine Kopfreihe
+
+Gruppe zustaende · Cluster training · Aufwand S · Befunde: —
+Quelle: audit/spec/zustaende.md Z. 889–889 · Dateien: web/README.md
+Abhängig von: zustaende-S-MT1
 
 ```text
-- Z. 224: „eingeschaltet ist sie leicht getönt“ → „eingeschaltet ist sie leicht angehoben (neutral, feiner Rand)“ — bereich_training-4
+- Z. 144: Satz ergänzen „Ohne eingerichteten Server zeigt die Kopfreihe nichts.“
 ```
 
-## typografie-3.2.3v · Ruhepunkt-Bühnentitel am Handy: .rp-q 22 und .rp-title 21 → --fs-18 (K3)
+## zustaende-S-R3 · README Z. 224: Schatten-Ich-Regelkarte „leicht angehoben“, Grün nur im Schalter
 
-Gruppe typografie · Cluster training · Aufwand S · Befunde: typografie-3, bereich_training-46
-Quelle: audit/spec/typografie.md Z. 278–278 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
+Gruppe zustaende · Cluster training · Aufwand S · Befunde: —
+Quelle: audit/spec/zustaende.md Z. 890–890 · Dateien: web/README.md
+Abhängig von: zustaende-S-C11
 
 ```text
-- Handy Z. 2334: `.rp-q { font-size: 22px; }` → `var(--fs-18)`, `.rp-title { font-size: 21px; }` → `var(--fs-18)` (K3)
+- Z. 224: „eingeschaltet ist sie leicht getönt“ → „eingeschaltet ist sie leicht angehoben (flach, feiner Rand), Grün nur im Schalter“.
 ```
 
-## typografie-3.2.3x · Ruhepunkt-Bühnentitel .rp-q (26/700) und .rp-title (24/700) → 21/600 mit --lh-21 (K3)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe typografie · Cluster training · Aufwand S · Befunde: bereich_training-46
-Quelle: audit/spec/typografie.md Z. 281–283 · Dateien: web/css/app.css
-Abhängig von: typografie-3.2.1
+- [doppelt: README Z. 224] Es gibt einen Text: „eingeschaltet ist sie leicht angehoben (flach, feiner Rand), Grün nur im Schalter“ (zustaende-S-R3). Er stimmt für beide CSS-Fassungen der Regelkarte (farbe-C7 und zustaende-S-C11) und nennt die Grün-Regel aus dem Brief.
+- ÜBERNIMMT farbe-D3f: Dieselbe README-Stelle, zustaende-S-R3 schreibt den Text.
+
+## barrierefreiheit-C-shadow-69 · Schatten-Ich-Verstöße: Link in der ersten Zelle
+
+Gruppe barrierefreiheit · Cluster training · Aufwand S · Befunde: bereich_training-20, barrierefreiheit-4
+Quelle: audit/spec/barrierefreiheit.md Z. 785–788 · Dateien: web/js/screens/shadow.js
+Abhängig von: barrierefreiheit-B7
 
 ```text
-**→ `--fs-21`**
-- Z. 2153 `.rp-q`: `font-weight: 700; font-size: 26px; line-height: 1.2` → `font-weight: 600; font-size: var(--fs-21); line-height: var(--lh-21)` (bereich_training-46, K3)
-- Z. 2194 `.rp-title`: `font-weight: 700; font-size: 24px; line-height: 1.25` → `font-weight: 600; font-size: var(--fs-21); line-height: var(--lh-21)` (bereich_training-46, K3)
+#### `web/js/screens/shadow.js`
+
+- **Z. 69:** `<td>${fmt.dateTime(v.date)}</td>` → `<td><a class="row-link" href="#/trades/${esc(v.tradeId)}">${fmt.dateTime(v.date)}</a></td>` (Befunde: bereich_training-20, barrierefreiheit-4)
+
 ```
 
-## typografie-3.2.4c · Ruhepunkt-Knöpfe: .rp-btn 500, .rp-btn.rp-primary 700
+## kilook-B4 · Fortschrittsring ohne drop-shadow
 
-Gruppe typografie · Cluster training · Aufwand S · Befunde: typografie-19
-Quelle: audit/spec/typografie.md Z. 334–335 · Dateien: web/css/app.css
+Gruppe kilook · Cluster training · Aufwand S · Befunde: ki_look-6
+Quelle: audit/spec/kilook.md Z. 436–440 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| `.rp-btn` (2214) | 600 → 500 | typografie-19 |
-| `.rp-btn.rp-primary` (2217) | `font-weight: 700;` ergänzen | typografie-19 |
+**B4 · web/css/app.css:1317 · Fortschrittsring ohne Schein** (ki_look-6)
+- vorher: `.ring-arc .arc { stroke: var(--accent); transition: stroke-dashoffset 1.1s cubic-bezier(.22, .61, .36, 1); filter: drop-shadow(0 0 6px var(--accent-glow)); }`
+- nachher: `.ring-arc .arc { stroke: var(--accent); transition: stroke-dashoffset 1.1s cubic-bezier(.22, .61, .36, 1); }`
+- 1312 `margin-right: 150px` bleibt, weil der Ring 116 px groß bleibt (N2).
+
 ```
 
-## typografie-3.2.4g · Schatten-Ich-Intro .shadow-intro b auf 600
+## kilook-B5 · Ruhepunkt-Startkarten: Hover nur Rand/Fläche, kein Lichtkegel/Lift/Skalierung, keine Dauer-Änderung; Schein an Ampelpunkt und Rhythmus-Balken weg
 
-Gruppe typografie · Cluster training · Aufwand S · Befunde: typografie-20, bereich_training-33
-Quelle: audit/spec/typografie.md Z. 342–342 · Dateien: web/css/app.css
+Gruppe kilook · Cluster training · Aufwand M · Befunde: bereich_training-45
+Quelle: audit/spec/kilook.md Z. 441–459 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| `.shadow-intro b` (2395) | `font-weight: 600;` ergänzen | typografie-20, bereich_training-33 |
+**B5 · web/css/app.css · Ruhepunkt-Startkarten und Schein-Reste** (bereich_training-45 mit bewegung-36, bewegung-8; ki_look-27 teilweise)
+- **2156** `.rp-choice { …; transition: border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease), background var(--dur-2) var(--ease); …}` → `transition: border-color var(--dur-2) var(--ease), background var(--dur-2) var(--ease);`. `position: relative; overflow: hidden;` bleiben.
+- **2157** `.rp-choice::before { … radial-gradient … }` löschen.
+- **2158** vorher `.rp-choice:hover { border-color: color-mix(in srgb, var(--c) 60%, var(--border)); transform: translateY(-2px); box-shadow: 0 14px 30px -18px var(--c); }`
+  → nachher `.rp-choice:hover { border-color: var(--border-2); background: var(--surface-2); }`
+- **2159** `.rp-choice:hover::before, .rp-choice:focus-visible::before { opacity: 1; }` löschen.
+- **2160** `.rp-choice:active { transform: translateY(0); }` löschen. Die Regel ist wirkungslos, weil `rp-in` mit `both` das transform hält.
+- **2161** in `.rp-choice .rp-icon` die transition `background var(--dur-2) var(--ease), transform var(--dur-2) var(--ease)` → `background var(--dur-2) var(--ease)`.
+- **2162** vorher `.rp-choice:hover .rp-icon { background: color-mix(in srgb, var(--c) 20%, var(--surface-2)); transform: scale(1.04); }`
+  → nachher `.rp-choice:hover .rp-icon { background: color-mix(in srgb, var(--c) 20%, var(--surface-2)); }`
+- **2166** `.rp-choice:hover .rp-i-sun, .rp-choice:hover .rp-i-rays { animation-duration: 2.2s; }` löschen. Behebt den Sprung.
+- **2177** `.rp-choice:hover .rp-i-ring, .rp-choice:hover .rp-i-ring2, .rp-choice:hover .rp-i-pause { animation-duration: 2s; }` löschen.
+- **2248** `.rp-ampel .rp-dot { …; background: var(--c); box-shadow: 0 0 12px var(--c); }` → `box-shadow` streichen.
+- **2282** `.rp-seq-i i { …; background: var(--phase); box-shadow: 0 0 8px color-mix(in srgb, var(--phase) 50%, transparent); }` → `box-shadow` streichen.
+- **Nicht ändern:**
+  - 2164–2180 (Symbol-Animationen, `drop-shadow` in `rp-sun`/`rp-moon`): erst nach Antwort auf N3
+  - 2120–2131 (Farbflächen)
+  - `.rp-tide`, `.rp-tide-glow`
+
 ```
 
-## typografie-3.2.4m · Serie-Stufenwort 600/.06em (Farben bleiben) und Regel-Ziffern gedämpft 500 Onest (K19)
+## kilook-C4 · Ruhepunkt-CSS: Reste des Schalters „Christlicher Impuls“ (.rp-switch) löschen
 
-Gruppe typografie · Cluster training · Aufwand S · Befunde: bereich_training-21
-Quelle: audit/spec/typografie.md Z. 350–352 · Dateien: web/css/app.css
+Gruppe kilook · Cluster training · Aufwand S · Befunde: bereich_training-49
+Quelle: audit/spec/kilook.md Z. 553–556 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-| `.dstreak-steps b` (1265) | `font-weight: 700; letter-spacing: .08em` → `font-weight: 600; letter-spacing: .06em` (Farbe und Z. 1266/1267 bleiben) | bereich_training-21 (K19) |
-| `.rules-list li::marker` (1274) | `{ color: var(--accent); font-weight: 700; }` → `{ color: var(--muted); font-weight: 500; font-family: var(--font-num); }` | bereich_training-21 |
+**C4 · web/css/app.css · Ruhepunkt-Schalter-Reste** (bereich_training-49 = bewegung-41)
+- **2147–2151** die fünf Regeln `.rp-switch …` löschen.
+- **2333** in der Liste `.rp-switch input, .rp-switch input::after, .rp-choice { transition: none; }` den Teil `.rp-switch input, .rp-switch input::after, ` streichen. Übrig bleibt `.rp-choice { transition: none; }`.
 
 ```
 
-## typografie-3.8m · Schatten-Ich-Verstöße: Datumszelle num
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe typografie · Cluster training · Aufwand S · Befunde: typografie-12
-Quelle: audit/spec/typografie.md Z. 438–438 · Dateien: web/js/screens/shadow.js
-Abhängig von: typografie-3.2.2f
+- [doppelt: .rp-switch input] Wortgleich: Z. 2147–2151 (alle .rp-switch-Regeln) löschen und in Z. 2333 aus der Liste `.rp-switch input, .rp-switch input::after, ` streichen. Übrig bleibt `.rp-choice { transition: none; }`. Einmal über kilook-C4, prüfen mit rptest.js:11.
+- ÜBERNIMMT komponenten-C34a: Identisch mit kilook-C4, nicht separat umsetzen.
+- [doppelt: .rp-switch input::after] Wie beim Anker .rp-switch input: einmal über kilook-C4. komponenten-C34a entfällt als eigener Schritt.
+- ÜBERNIMMT komponenten-C34a: Identisch mit kilook-C4.
+- [doppelt: .rp-switch] kilook-C4 und komponenten-C34a löschen genau dasselbe: die fünf .rp-switch-Regeln (Z. 2147–2151) und den Teil „.rp-switch input, .rp-switch input::after, “ in Z. 2333. kilook-C4 übernimmt (toter Code). typografie-3.2.3l setzt in Z. 2147 kein Token.
+- ÜBERNIMMT komponenten-C34a: Identische Löschung, nur einmal umsetzen.
 
-```text
-| shadow.js:69 | `<td>${fmt.dateTime(v.date)}</td>` → `<td class="num">…` | typografie-12 |
-```
+## kilook-C15 · Schatten-Ich: Banner „Noch keine Regel aktiv“ ohne icon: 'sparkle'
 
-## typografie-3.8o · Ruhepunkt-Startfrage .rp-q als h2 statt h1
-
-Gruppe typografie · Cluster training · Aufwand S · Befunde: bereich_training-46
-Quelle: audit/spec/typografie.md Z. 440–440 · Dateien: web/js/screens/ruhepunkt.js
-Abhängig von: typografie-3.2.3x
-
-```text
-| ruhepunkt.js:707 | `h('h1', { class: 'rp-q', tabindex: '-1' }, …)` → `h('h2', { class: 'rp-q', tabindex: '-1' }, …)` | bereich_training-46 |
-```
-
-## abstaende-D4 · Tilt-Profil: .tilt-wrap gap, .tilt-stats als Subgrid (Werte auf einer Linie), Labels 12/500 --muted, Werte 32/24, .v.cur löschen; Handy Zeilen „Label | Wert“ (20 px)
-
-Gruppe abstaende · Cluster training · Aufwand M · Befunde: abstaende_layout-27, responsiv-35
-Quelle: audit/spec/abstaende.md Z. 371–371 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| D4 | Tilt-Profil Z. 1300–1307 | Z. 1300 `.tilt-wrap` `gap: 18px` → `gap: var(--sp-4)`. Z. 1301 → `.tilt-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; column-gap: var(--sp-3); row-gap: var(--sp-2); flex: 1; align-content: center; } .tilt-stats > div { display: grid; grid-row: span 2; grid-template-rows: subgrid; }`. Z. 1302 → `.tilt-stats .k { align-self: end; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--muted); }`. Z. 1303: `font-size: 40px` → `32px`, `margin-top: 8px` → `0`. Z. 1304 (`.v.cur`) löschen. Z. 1307 → `@media (max-width: 960px) { .tilt-stats .v { font-size: 24px; } }`. Neu im 560er-Block: `.tilt-stats { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 0; } .tilt-stats > div { display: flex; grid-row: auto; justify-content: space-between; align-items: baseline; gap: var(--sp-3); padding: var(--sp-3) 0; border-bottom: 1px solid var(--border); } .tilt-stats > div:last-child { border-bottom: 0; } .tilt-stats .v { font-size: 20px; text-align: right; } .tilt-stats .v small { font-size: 12px; }` | abstaende_layout-27, responsiv-35 |
-```
-
-## abstaende-D5 · Ruhepunkt „Dein Plan für heute“: durchgehende Zeilenlinien (dl.rp-summary gap 0, dd padding-left var(--sp-6))
-
-Gruppe abstaende · Cluster training · Aufwand S · Befunde: bereich_training-47
-Quelle: audit/spec/abstaende.md Z. 372–372 · Dateien: web/css/app.css
-Abhängig von: abstaende-A1
-
-```text
-| D5 | Ruhepunkt Z. 2260, 2262 | `dl.rp-summary` `gap: 0 24px` → `gap: 0`. `dl.rp-summary dd` zusätzlich `padding-left: var(--sp-6);` | bereich_training-47 |
-```
-
-## abstaende-I1 · Schatten-Ich: Zeitraum-Label aus dem Kachelkopf streichen
-
-Gruppe abstaende · Cluster training · Aufwand S · Befunde: bereich_training-25, responsiv-36
-Quelle: audit/spec/abstaende.md Z. 417–421 · Dateien: web/js/screens/shadow.js
+Gruppe kilook · Cluster training · Aufwand S · Befunde: ki_look-17
+Quelle: audit/spec/kilook.md Z. 642–644 · Dateien: web/js/screens/shadow.js
 Abhängig von: —
 
 ```text
-### web/js/screens/shadow.js
-
-| Nr. | Stelle | vorher → nachher | Befunde |
-|---|---|---|---|
-| I1 | Z. 112 | `<span class="n">${esc(range.label)}</span>` streichen | bereich_training-25, responsiv-36 |
-```
-
-## abstaende-I2 · Schatten-Ich: Trade-Zahl als Fußzeile „{0} Trades im Zeitraum“ statt Kopfzusatz
-
-Gruppe abstaende · Cluster training · Aufwand S · Befunde: bereich_training-25
-Quelle: audit/spec/abstaende.md Z. 422–422 · Dateien: web/js/screens/shadow.js
-Abhängig von: —
-
-```text
-| I2 | Z. 113 | `{ n: `${p.n} Trade${p.n === 1 ? '' : 's'}` }` → `{ foot: `${p.n} Trade${p.n === 1 ? '' : 's'} im Zeitraum` }` | bereich_training-25 |
-```
-
-## abstaende-I3 · Schatten-Ich: Untertitel (Zeitraum) an der Karte „Regelverstöße“ streichen
-
-Gruppe abstaende · Cluster training · Aufwand S · Befunde: bereich_training-25
-Quelle: audit/spec/abstaende.md Z. 423–424 · Dateien: web/js/screens/shadow.js
-Abhängig von: —
-
-```text
-| I3 | Z. 120 | in `U.card('Regelverstöße', …, { sub: esc(pd.label), info: … })` die Option `sub: esc(pd.label), ` streichen | bereich_training-25 |
+**C15 · web/js/screens/shadow.js:58** (ki_look-17)
+- In `U.banner('info', 'Noch keine Regel aktiv', …, { icon: 'sparkle', trailing: … })` den Teil `icon: 'sparkle', ` streichen.
 
 ```
 
-## abstaende-MENTOR · mentor.js: keine Strukturänderung (Breiten in C12, Symbol in D8), einen Inline-Abstand nach 1.16 ersetzen
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe abstaende · Cluster training · Aufwand S · Befunde: abstaende_layout-34
-Quelle: audit/spec/abstaende.md Z. 494–497 · Dateien: web/js/screens/mentor.js
-Abhängig von: abstaende-A6
-
-```text
-### web/js/screens/mentor.js
-
-Keine Strukturänderung (Breiten in C12, Symbol in D8). Ein Inline-Abstand nach 1.16.
-
-```
-
-## abstaende-R3 · shadowtest: Zeitraum aus [data-pop=range] span, Trade-Zahl aus .tile:nth-child(2) .foot
-
-Gruppe abstaende · Cluster training · Aufwand S · Befunde: bereich_training-25
-Quelle: audit/spec/abstaende.md Z. 522–522 · Dateien: web/e2e/shadowtest.js
-Abhängig von: abstaende-I1, abstaende-I2
-
-```text
-| R3 | `web/e2e/shadowtest.js:68, 69, 71, 74` | Zeitraum nicht mehr aus `.shadow-main .head .n`, sondern aus `[data-pop=range] span`. Trade-Zahl aus `.tile:nth-child(2) .foot` (parseInt) statt `.tile:nth-child(2) .head .n` | bereich_training-25 |
-```
-
-## komponenten-C17c · Ruhepunkt „Bewusst abschalten“: eigene 20-px-Box statt nativer Checkbox (CSS)
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bereich_training-48
-Quelle: audit/spec/komponenten.md Z. 319–326 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-- Z. 2268 `.rp-checks input { width: 20px; height: 20px; accent-color: var(--phase); flex: none; margin: 0; }` ersetzen durch:
-```css
-.rp-checks .rp-box { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-2); display: grid; place-items: center; flex: none; color: transparent; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
-.rp-checks .rp-box svg { width: 13px; height: 13px; }
-.rp-checks input:checked + .rp-box { background: var(--phase); border-color: var(--phase); color: var(--rp-on-phase); }
-.rp-checks input:focus-visible + .rp-box { outline: 2px solid var(--phase); outline-offset: 3px; }
-```
-
-```
-
-## komponenten-C31 · Mentor-Chat (CSS): .mentor → .mentor-chat, KI-Hinweis .mentor-disclaimer
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bereich_training-2, bereich_training-1
-Quelle: audit/spec/komponenten.md Z. 453–458 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**C31 – Mentor-Chat** (bereich_training-2, bereich_training-1)
-- Z. 2344 `.mentor { display: flex; … }` → `.mentor-chat { display: flex; … }` (Werte bleiben).
-- Z. 2364 (im @media-Block) `.mentor { height: …; min-height: 400px; }` → `.mentor-chat { … }`
-- Z. 2363 `.mentor-note { padding: 0 18px 12px; }` → `.mentor-disclaimer { padding: 0 18px 12px; color: var(--muted); }`
-- Coach-Regeln Z. 2884–2889 und Z. 2916 bleiben unverändert.
-
-```
-
-## komponenten-C34a · Ruhepunkt: tote .rp-switch-Regeln löschen
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bewegung-41
-Quelle: audit/spec/komponenten.md Z. 473–474 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**C34 – Ruhepunkt** (bewegung-41, bereich_training-41)
-- Z. 2147–2151 (alle `.rp-switch`-Regeln) löschen; in Z. 2333 aus der Selektorliste `.rp-switch input, .rp-switch input::after, ` streichen.
-```
-
-## komponenten-C34b · Ruhepunkt-Rhythmusleiste ohne Abschneiden (min-width: max-content)
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bereich_training-41
-Quelle: audit/spec/komponenten.md Z. 475–477 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-- Z. 2280 `.rp-seq-i { position: relative; min-width: 0; … }` → `min-width: max-content;`
-- Z. 2334 (Handy) den Teil `.rp-seq-i b { white-space: normal; }` streichen. Die Ellipse in Z. 2283 bleibt als Netz.
-
-```
-
-## komponenten-S-mentor-a · Mentor-Chat: .mentor-chat, .mentor-disclaimer, Neu-laden mit I.refresh
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bereich_training-2, bereich_training-1, bereich_training-37
-Quelle: audit/spec/komponenten.md Z. 663–666 · Dateien: web/js/screens/mentor.js
-Abhängig von: komponenten-C31
-
-```text
-**S-mentor (mentor.js)** (bereich_training-2, bereich_training-1, bereich_training-37, komponenten-1)
-- Z. 81 `<section class="card mentor">` → `<section class="card mentor-chat">`
-- Z. 82 `${I.clock}` → `${I.refresh}` (aria-label und data-tip bleiben).
-- Z. 85 `class="mentor-note small faint"` → `class="mentor-disclaimer small"`
-```
-
-## komponenten-S-mentor-b · Mentor: Link zu Einstellungen neutral, „Senden“ bleibt primary
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: komponenten-1
-Quelle: audit/spec/komponenten.md Z. 667–668 · Dateien: web/js/screens/mentor.js
-Abhängig von: —
-
-```text
-- Z. 79 `<a class="btn primary" href="#/settings/mentor">` → `<a class="btn" …>`. Z. 84 (Senden) bleibt primary.
-
-```
-
-## komponenten-S-progress · Fortschritt: Aktivitäts-Pfeile als .btn.nav
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: komponenten-25
-Quelle: audit/spec/komponenten.md Z. 691–693 · Dateien: web/js/screens/progress.js
-Abhängig von: komponenten-C07
-
-```text
-**S-progress (progress.js)** (komponenten-25)
-Z. 71: beide `class="btn round"` (act-scroll) → `class="btn nav"`.
-
-```
-
-## komponenten-S-ruhepunkt-a · Ruhepunkt-Rhythmus: Kurzlabels „Einatmen/Nachziehen/Ausatmen“ in der Leiste
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bereich_training-41
-Quelle: audit/spec/komponenten.md Z. 704–706 · Dateien: web/js/screens/ruhepunkt.js
-Abhängig von: komponenten-C34b
-
-```text
-**S-ruhepunkt (ruhepunkt.js)** (bereich_training-41, bereich_training-48)
-- Z. 55–58 (`P.seufzer`): `short` ergänzen: `{ label: 'Durch die Nase einatmen', short: 'Einatmen', … }`, `{ label: 'Kurz nachziehen', short: 'Nachziehen', … }`, `{ label: 'Lang durch den Mund ausatmen', short: 'Ausatmen', … }`.
-- Z. 248 `h('b', null, p.label)` → `h('b', null, p.short || p.label)`.
-```
-
-## komponenten-S-ruhepunkt-b · „Bewusst abschalten“: versteckte Checkbox plus eigene .rp-box
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bereich_training-48
-Quelle: audit/spec/komponenten.md Z. 707–708 · Dateien: web/js/screens/ruhepunkt.js
-Abhängig von: komponenten-C17c
-
-```text
-- Z. 606–609: `var cb = h('input', { type: 'checkbox' });` → `var cb = h('input', { type: 'checkbox', class: 'vh' }); var box = h('span', { class: 'rp-box', 'aria-hidden': 'true' }); box.innerHTML = I.check;` und `return h('label', null, cb, h('span', null, it[1]));` → `return h('label', null, cb, box, h('span', null, it[1]));` (`checked`-Vorbelegung und Listener bleiben).
-
-```
-
-## komponenten-S-shadow · Schatten-Ich-Seitenwahl: .btn.nav, nur bei mehreren Seiten, „1–10“
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: komponenten-25, bereich_trades_tag-34
-Quelle: audit/spec/komponenten.md Z. 709–711 · Dateien: web/js/screens/shadow.js
-Abhängig von: komponenten-C07
-
-```text
-**S-shadow (shadow.js)** (komponenten-25, bereich_trades_tag-34)
-Z. 73 (Seitenwahl): Knöpfe in `.pg-nav` bekommen `class="btn nav"`; Seitenauswahl und `.pg-nav` nur bei mehr als einer Seite; `${from + 1} – ${…}` → `${from + 1}–${…}` (Schlüssel „{0}–{1} von {2} Verstößen“). Z. 109 bleibt `btn sm`.
-
-```
-
-## komponenten-E1e · e2e rptest.js: Abhak-Zeile über das Label klicken
-
-Gruppe komponenten · Cluster training · Aufwand S · Befunde: bereich_training-48
-Quelle: audit/spec/komponenten.md Z. 761–761 · Dateien: web/e2e/rptest.js
-Abhängig von: komponenten-S-ruhepunkt-b
-
-```text
-- rptest.js:46: `p.click('.rp-checks input')` → `p.click('.rp-checks label')`.
-```
-
-## aufbau-C11a · Fortschritt: Pfeil mit Tooltip in Prozentpunkten, „0 / 5 Schritte erledigt“
-
-Gruppe aufbau · Cluster training · Aufwand S · Befunde: bereich_training-22, hierarchie-20
-Quelle: audit/spec/aufbau.md Z. 543–549 · Dateien: web/js/screens/progress.js
-Abhängig von: —
-
-```text
-#### `web/js/screens/progress.js`
-
-**C11** · bereich_training-10, bereich_training-5, bereich_training-11, hierarchie-20, bereich_training-22, aufbau-10
-- Z. 20 `const arrow = (dir) => …` → `const arrow = (dir, tip) => dir > 0 ? `<span class="trend up" aria-label="steigend"${tip ? ` data-tip="${esc(tip)}"` : ''}>${I.arrowUp}</span>` : dir < 0 ? `<span class="trend down" aria-label="fallend"${tip ? ` data-tip="${esc(tip)}"` : ''}>${I.arrowDown}</span>` : '';`
-- Z. 59 `const rateDir = …` → `const delta = cur.rate != null && prev && prev.rate != null ? Math.round((cur.rate - prev.rate) * 100) : 0; const rateDir = Math.sign(delta);` (ohne Vorzeitraum kein Pfeil)
-- Z. 68 Heutiger Fortschritt: `<div class="big-stat"><span>${doneN ? pct + ' %' : 'Keine Daten'}</span>${arrow(doneN >= 4 ? 1 : 0)}</div><div class="small muted">${doneN} von ${items.length} Schritten erledigt</div>` → `<div class="big-stat"><span>${doneN} / ${items.length}</span></div><div class="small muted">Schritte erledigt</div>`; `pct` (Z. 58) löschen
-- Z. 69: `${arrow(rateDir)}` → `${arrow(rateDir, `${delta > 0 ? '+' : ''}${delta} Prozentpunkte zum Vorzeitraum`)}`
-```
-
-## aufbau-C11b · Fortschritt: Checkliste mit „Regeln anlegen/bearbeiten“, Karte „Aktuelle Regeln“ weg
-
-Gruppe aufbau · Cluster training · Aufwand S · Befunde: bereich_training-10, bereich_training-5, aufbau-10
-Quelle: audit/spec/aufbau.md Z. 550–552 · Dateien: web/js/screens/progress.js
-Abhängig von: —
-
-```text
-- Z. 73 Leerzustand der Checkliste: `<div class="dashed">Noch keine Regeln. Lege unter Einstellungen …</div>` → `<div class="dashed row between"><span>Noch keine Regeln.</span><a class="btn sm" href="#/settings/regeln">Regeln anlegen</a></div>`
-- Z. 75 `trailing` der Tages-Checkliste: `<a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>` → `${rules.length ? '<a class="btn sm" href="#/settings/regeln">Regeln bearbeiten</a>' : ''}<a class="btn sm" href="#/day/${todayKey}">Tag ansehen</a>`
-- Z. 77 Karte „Aktuelle Regeln“ ersatzlos löschen. `.prog-side` enthält danach „Disziplin pro Woche“ und „Dein Tilt-Profil“ (`cls: 'fill'` bleibt)
-```
-
-## aufbau-C11c · Fortschritt: Trading-Aktivität unter die Checkliste, Kommentare, .rules-list löschen
-
-Gruppe aufbau · Cluster training · Aufwand S · Befunde: bereich_training-11, bereich_training-10
-Quelle: audit/spec/aufbau.md Z. 553–556 · Dateien: web/js/screens/progress.js, web/css/app.css
-Abhängig von: aufbau-C11b
-
-```text
-- Reihenfolge: Den Block `${U.card('Trading-Aktivität', …)}` (Z. 71, samt `trailing`) hinter das schließende `</div>` von `.grid.two.prog-split` und vor `Regeln im Detail` (Z. 82) setzen
-- Kommentare Z. 1 und Z. 65 anpassen („rechts Disziplin und Tilt-Profil“, „darunter Trading-Aktivität und Regeln im Detail“)
-- `web/css/app.css` Z. 1273–1274 (`.rules-list`, `.rules-list li::marker`) löschen
-
-```
+- [doppelt: U.banner] Alle sechs Änderungen gelten; doppelt ist nur dashboard.js:130 (das sparkle-Symbol). Endstand: dashboard.js:130 `U.banner('info', 'Willkommen', …, { trailing: … }` mit „CSS importieren“ und zwei neutralen `btn sm`, ohne icon (farbe-C19c). shadow.js:58 ohne `icon: 'sparkle'` (kilook-C15). prop.js:97 `U.banner('ok', 'Ziel erreicht', …)` (farbe-C26b). prop.js:279/280 ohne den letzten info-Zweig und ohne warn (aufbau-C12e). Dazu eine Lücke: Der Erfolgs-Zweig `U.banner('accent', plan.funded ? 'Bereit für den Payout' : 'Challenge bestanden', …)` in Z. 279 wird `U.banner('ok', …)`. Grund: Die Farbe-Spezifikation benennt `.banner.accent` in `.banner.ok` um; ohne diese Änderung stünde das Banner ohne Stil da. coach.js:27 errorBox wie zustaende-S-CS1. Abnahme: `grep -rnE "banner\('accent'|icon: 'sparkle'" web/js` findet nichts mehr (I.sparkle wird gelöscht).

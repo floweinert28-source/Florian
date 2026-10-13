@@ -1,153 +1,519 @@
-# Paket 019 · trades_tag
+# Paket 019 · trades_tag, shell
 
-Schritte: 13 · Dateien: web/README.md, web/css/app.css, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
-Betroffene Tests laut Spezifikation: e2e/blindtest.js:23 (#f-dir); e2e/chartanimtest.js:28; e2e/tlfittest.js:13 (Ansicht days); e2e/tlfittest.js:8–9 (Pager sichtbar); e2e/tradeformtest.js
-Baut auf Paketen auf: 5, 13, 18
+Schritte: 34 · Dateien: web/README.md, web/app.html, web/css/app.css, web/e2e/sampletest.js, web/js/app.js, web/js/screens/day.js, web/js/screens/trades.js
+Betroffene Tests laut Spezifikation: web/e2e/mentortest.js:21 (bleibt grün); web/e2e/rptest.js:10 (bleibt grün); web/e2e/sampletest.js:39-40
+Baut auf Paketen auf: 3, 6, 7, 11, 17, 18
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## abstaende-S7 · README Z. 108: Tagesansicht mit Datum ‹ › in der Kopfreihe, „Trade loggen“ übernimmt das Datum
+## aufbau-B7 · Tastatur: Bereichstaste nur bei freigeschaltetem Bereich, N über Aktion new-trade
 
-Gruppe abstaende · Cluster trades_tag · Aufwand S · Befunde: referenz-17
-Quelle: audit/spec/abstaende.md Z. 536–539 · Dateien: web/README.md
-Abhängig von: abstaende-E3, abstaende-E-day2
+Gruppe aufbau · Cluster shell · Aufwand S · Befunde: aufbau-21, hierarchie-7
+Quelle: audit/spec/aufbau.md Z. 356–359 · Dateien: web/app.html
+Abhängig von: aufbau-B6
 
 ```text
-| S7 | Z. 108 | Tagesansicht: „Datum mit ‹ › in der Kopfreihe; „Trade loggen“ übernimmt das Datum des angezeigten Tages“ | referenz-17 |
-
----
+**B7 Tastatur** (`web/app.html` Z. 95–96) · aufbau-21, hierarchie-7
+`if (map[e.key]) { location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.openTradeEditor(null); }` →
+`if (map[e.key]) { if (App.on(map[e.key])) location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.actions['new-trade'].call(App); }`
 
 ```
 
-## komponenten-A5b · Symbol- und Richtungsfeld aus openTradeEditor herauslösen (App.symbolField, App.dirField)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe komponenten · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-11
-Quelle: audit/spec/komponenten.md Z. 568–569 · Dateien: web/js/app.js
+- [doppelt: app.html keydown] Ein gemeinsamer Tasten-Listener. kilook-C6 ändert dieselbe Stelle unter dem Ankernamen „app.html keydown-Listener“ und wird deshalb hier mitentschieden. Endstand: erste Zeile if (window.Store && Store.settings && Store.settings.shortcuts === false) return; (kilook-C6), dann die bestehenden Prüfungen (Modifier, Eingabefelder, .modal-bg), dann const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'notebook', '6': 'progress', '7': 'ruhepunkt', '8': 'mentor', '9': 'shadow', '0': 'replay' }; if (map[e.key]) { if (App.on(map[e.key])) location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.actions['new-trade'].call(App); } (aufbau-B7). Grund: Die allgemeine Prüfung App.on(map[key]) deckt Taste 0 ab und dazu jeden Bereich, der über jy_features ausgeschaltet ist. Das entspricht parseRoute, das solche Bereiche aufs Dashboard umleitet. Eine Sonderregel nur für '0' braucht es dann nicht mehr.
+- ÜBERNIMMT wording-S5.9: Beide Teile (Taste 0 nur mit Replay, N über App.actions['new-trade']) setzt aufbau-B7 um. Die eigene Zeile if (e.key === '0' && !App.on('replay')) return; entfällt.
+- [doppelt: App.on] B7 und S5.9 sind unter „app.html keydown“ entschieden (B7 übernimmt). wording-S17.4-17.7 liest App.on('replay') nur für den Beispieldaten-Text (17.5) und ist damit verträglich. Die Fußzeile (17.7) gegen kilook-C24 wird in der Konfliktliste zu switchRow/.set-block entschieden, nicht hier.
+
+## aufbau-D2d · README: Tastenkürzel und Start-Skelett
+
+Gruppe aufbau · Cluster shell · Aufwand S · Befunde: aufbau-21, aufbau-7
+Quelle: audit/spec/aufbau.md Z. 699–701 · Dateien: web/README.md
+Abhängig von: aufbau-B7, aufbau-B3
+
+```text
+- Z. 318: „**N** Trade loggen, **1–9** Bereiche (0 = Blind-Replay, nur wenn freigeschaltet)“
+- Z. 339 Skelett: „mit Werkzeugen und Avatar“ → „mit Werkzeugen (Avatar nur am Handy)“
+
+```
+
+## aufbau-C7a · Tagesansicht: head-Funktion ohne Zeitraum, Tooltip „Trade für {0} loggen“
+
+Gruppe aufbau · Cluster trades_tag · Aufwand S · Befunde: aufbau-5, hierarchie-19, hierarchie-7, responsiv-22
+Quelle: audit/spec/aufbau.md Z. 470–477 · Dateien: web/js/screens/day.js
+Abhängig von: aufbau-B1
+
+```text
+#### `web/js/screens/day.js`
+
+**C7** · aufbau-5, responsiv-22, hierarchie-19, hierarchie-7, hierarchie-15, hierarchie-16, bereich_trades_tag-18, aufbau-10, bereich_training-5, bereich_dashboard-23
+- `App.screens.day` nach `title` neu:
+  ```js
+  /* der Tag kommt aus der Adresse; der Zeitraum wirkt hier nicht (ctx.all). „Trade loggen“ legt an anderen Tagen den Trade auf diesen Tag */
+  head: ctx => { const k = ctx.params[0]; const d = k ? C.parseDayKey(k) : null; return { range: false, tradeTip: k && k !== C.dayKey(new Date()) && !isNaN(d) ? `Trade für ${fmt.dateFull(d)} loggen` : '' }; },
+  ```
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: App.screens.day.head] head ist die Funktion aus aufbau-C7a: `range: false` und an anderen Tagen der tradeTip „Trade für {Datum} loggen“. Der Zertifikat-Knopf wandert über `actions(ctx)` rechts in die Kopfreihe (abstaende-E-day1), mit Symbol I.award wie auf Dashboard und Statistiken und mit dem data-tip „Tageszertifikat erstellen“ (wording-S8.1): `actions(ctx) { const key = ctx.params[0] || C.dayKey(new Date()); return `<button type="button" class="btn" data-action="cert-open" data-kind="day" data-ref="${key}" data-tip="Tageszertifikat erstellen">${I.award}<span class="hide-m">Zertifikat</span></button>`; }`. Die Klasse am Text-Span folgt den übrigen Kopfreihen-Knöpfen: heute hide-m, nach Barrierefreiheit Z4 vh-m. Aus der Datumszeile verschwindet der Zertifikat-Knopf. Begründung: Seitenaktionen stehen überall rechts in der Kopfreihe (Aufbau 1.3), auf Dashboard und Statistiken steht das Zertifikat schon dort, und die Datumszeile bleibt reine Navigation (referenz-17, geprüfte Fassung). certtest.js:54 findet `[data-action=cert-open][data-kind=day]` weiterhin. Ob die Datumsnavigation selbst in ctx.headLeft wandert (abstaende-E-day2), entscheidet der Anker ctx.headLeft. Diese Entscheidung gilt in beiden Fällen.
+
+## aufbau-C7b · Tagesansicht: Datumszeile ohne Check-in- und Tagestrade-Knopf, Zertifikat award
+
+Gruppe aufbau · Cluster trades_tag · Aufwand S · Befunde: hierarchie-15, hierarchie-7, responsiv-22, bereich_dashboard-23
+Quelle: audit/spec/aufbau.md Z. 478–478 · Dateien: web/js/screens/day.js
+Abhängig von: aufbau-B6, aufbau-B9
+
+```text
+- Z. 12 `nav`: den Knopf `data-action="check-in"` (`Check-in` / `Check-in bearbeiten`) und den Knopf `data-action="new-trade-day"` (`Trade für diesen Tag`) entfernen. `${I.shield} Zertifikat` → `${I.award} Zertifikat`.
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: App.screens.day.head] head ist die Funktion aus aufbau-C7a: `range: false` und an anderen Tagen der tradeTip „Trade für {Datum} loggen“. Der Zertifikat-Knopf wandert über `actions(ctx)` rechts in die Kopfreihe (abstaende-E-day1), mit Symbol I.award wie auf Dashboard und Statistiken und mit dem data-tip „Tageszertifikat erstellen“ (wording-S8.1): `actions(ctx) { const key = ctx.params[0] || C.dayKey(new Date()); return `<button type="button" class="btn" data-action="cert-open" data-kind="day" data-ref="${key}" data-tip="Tageszertifikat erstellen">${I.award}<span class="hide-m">Zertifikat</span></button>`; }`. Die Klasse am Text-Span folgt den übrigen Kopfreihen-Knöpfen: heute hide-m, nach Barrierefreiheit Z4 vh-m. Aus der Datumszeile verschwindet der Zertifikat-Knopf. Begründung: Seitenaktionen stehen überall rechts in der Kopfreihe (Aufbau 1.3), auf Dashboard und Statistiken steht das Zertifikat schon dort, und die Datumszeile bleibt reine Navigation (referenz-17, geprüfte Fassung). certtest.js:54 findet `[data-action=cert-open][data-kind=day]` weiterhin. Ob die Datumsnavigation selbst in ctx.headLeft wandert (abstaende-E-day2), entscheidet der Anker ctx.headLeft. Diese Entscheidung gilt in beiden Fällen.
+- ÄNDERN: In day.js:12 den Zertifikat-Knopf aus der Datumszeile ganz entfernen, statt nur I.shield gegen I.award zu tauschen. Das Entfernen von Check-in- und „Trade für diesen Tag“-Knopf bleibt.
+
+## aufbau-C7c · Tagesansicht: Tabelle ohne Status-Spalte, Check-in-Text, Regeln-Link, alte Aktion löschen, Breitenprüfung
+
+Gruppe aufbau · Cluster trades_tag · Aufwand M · Befunde: hierarchie-16, bereich_trades_tag-18, hierarchie-15, aufbau-10, bereich_training-5, hierarchie-7
+Quelle: audit/spec/aufbau.md Z. 479–484 · Dateien: web/js/screens/day.js
+Abhängig von: aufbau-C7b
+
+```text
+- Z. 15 Tabelle: Kopf `<th>Zeit</th><th colspan="2">Symbol</th><th>Setup</th><th>Status</th><th class="r">Netto-P&L</th>…` → `<th>Zeit</th><th colspan="2">Symbol</th><th>Setup · Fehler</th><th class="r">Netto-P&L</th><th class="r">R</th><th class="r">Score</th>`. Zelle `<td>${U.statusPill(t.status)}</td>` entfernen. P&L-Zelle `${t.closed ? U.pnl(t.pnl, '', { r: t.r }) : '—'}` → `${!t.closed ? U.statusPill('open') : t.status === 'be' ? `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>` : U.pnl(t.pnl, '', { r: t.r })}`
+- Z. 16 Leerzustand der Check-in-Karte: Knopftext `Check-in nachtragen` → `${key < C.dayKey(new Date()) ? 'Check-in nachtragen' : 'Check-in machen'}`
+- Z. 18 `<a class="btn sm" href="#/settings">Regeln anlegen</a>` → `href="#/settings/regeln"`
+- Z. 24 Aktion `'new-trade-day'` löschen (kein Test nutzt sie)
+- Danach bei 1440 px prüfen: Tabelle ohne waagerechtes Scrollen (R und Score sichtbar). Sonst `style="min-width:560px"` → `min-width:520px`.
+
+```
+
+## aufbau-C15a · TradeLog-Tabelle: neue Spaltenfolge, Richtung neben Symbol, ohne Status
+
+Gruppe aufbau · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-18
+Quelle: audit/spec/aufbau.md Z. 610–616 · Dateien: web/js/screens/trades.js
 Abhängig von: —
 
 ```text
-Zusätzlich die Markup-Teile für Symbol und Richtung aus `openTradeEditor` (Z. 350, 351) herauslösen: `App.symbolField(sym)` liefert das bisherige `<div class="field tf-sym">…</div>` (IDs `f-symbol-btn`, `f-symbol`, `f-symbol-l` bleiben), `App.dirField(dir)` das bisherige `<div class="field">…<div class="dir-switch" id="f-dir" …>…</div><input type="hidden" name="direction" …></div>`. `openTradeEditor` ruft beide auf. Die Symbolwahl (Z. 395–410) greift auf `#f-mult` schon abgesichert zu (`if (mi && …)`, Z. 399); im Verpasst-Dialog gibt es kein `#f-mult`, das bleibt so. `set-dir` (Z. 471) und `updateTradePreview` arbeiten ohne `#trade-form` weiter (früher Ausstieg), nichts zu ändern.
+#### `web/js/screens/trades.js`
+
+**C15** · bereich_trades_tag-18, bereich_trades_tag-33, bereich_trades_tag-27, bereich_trades_tag-16, typografie-4
+- Z. 7 `COLS` → `[['openedAt', 'Eröffnet'], ['close', 'Geschlossen'], ['symbol', 'Symbol', '', 2], ['setup', 'Setup'], ['entryPrice', 'Einstieg', 'r'], ['exitPrice', 'Ausstieg', 'r'], ['pnl', 'P&L', 'r'], ['r', 'R', 'r'], ['rules', 'Regeln', 'r'], ['score', 'Score', 'r']]`
+- Z. 46 `th`: `COLS.map(([k, l, al]) => `<th class="sortable ${al || ''}" …>`)` → `COLS.map(([k, l, al, span]) => `<th ${span ? `colspan="${span}" ` : ''}class="sortable ${al || ''}" …>`)`
+- `sorted` Z. 14: im `val`-Ausdruck vor `t[key] == null` ergänzen: `key === 'symbol' ? `${t.symbol}|${t.direction > 0 ? 'L' : 'S'}` : `; den Zweig `key === 'status' ? …` löschen
+- Z. 49 Zellen in dieser Reihenfolge: Eröffnet | Geschlossen (unverändert) | `<td class="sym">${esc(t.symbol)}</td><td class="dir-cell">${U.badge(t.direction)}</td>` | Setup | Einstieg | Ausstieg | P&L | R | Regeln | Score. `<td>${U.statusPill(t.status)}</td>` und `<td>${U.badge(t.direction)}</td>` entfallen. P&L-Zelle: `${!t.closed ? U.statusPill('open') : t.status === 'be' ? `<span class="neu">${fmt.cur(t.pnl, { signed: true, r: t.r })}</span>` : U.pnl(t.pnl, '', { r: t.r })}`. R-Zelle bei `t.status === 'be'`: `<span class="neu">${t.r != null ? fmt.r(t.r) : '—'}</span>`, sonst `U.rText(t.r)`
+```
+
+## aufbau-C15c · Verpasste Trades folgen Zeitraum und Konto, Leerzustand, .kpi-label
+
+Gruppe aufbau · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-27, typografie-4
+Quelle: audit/spec/aufbau.md Z. 618–625 · Dateien: web/js/screens/trades.js
+Abhängig von: aufbau-A3a
+
+```text
+- `renderMissed` Z. 57:
+  ```js
+  const r = App.range(); const acc = S.settings.accountId; const all = S.data.missed;
+  const m = all.filter(x => (!r.from || (x.date >= C.dayKey(r.from) && x.date <= C.dayKey(r.to))) && (!x.accountId || !acc || acc === 'all' || x.accountId === acc)).sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  if (!m.length) return all.length ? U.empty('eye', 'Keine verpassten Trades im Zeitraum', 'Ändere den Zeitraum oder das Konto.') : U.empty('eye', 'Keine verpassten Trades notiert', 'Setups, die du gesehen, aber nicht gehandelt hast. So erkennst du, ob Zögern dich Geld kostet.');
+  ```
+  Z. 59: `<div class="caption">Entgangen</div>`, `<div class="caption">Wären Gewinner gewesen</div>` → `class="kpi-label"`
+- `'save-missed'` (Z. 112): ins gespeicherte Objekt `accountId: S.defaultAccountId()` aufnehmen
+```
+
+## aufbau-C15d · Trade-Ansicht: Kopfreihe nur mit Rückweg und Trade loggen
+
+Gruppe aufbau · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-16
+Quelle: audit/spec/aufbau.md Z. 626–628 · Dateien: web/js/screens/trades.js
+Abhängig von: aufbau-B1
+
+```text
+- `App.screens.trades` neu: `head: ctx => ctx.params[0] ? { range: false, account: false, session: false } : {},`
+- `renderDetail` Z. 66: Die Zeile `<div class="row"><a class="btn ghost sm" href="#/trades">${I.back} TradeLog</a><span class="muted small">·</span><a … href="#/day/${t.dayKey}">${I.day} ${fmt.dateFull(t.open)}</a></div>` aus `head` entfernen. Stattdessen `ctx.headLeft = `<a class="btn ghost sm" href="#/trades">${I.back} TradeLog</a><span class="muted small">·</span><a class="btn ghost sm" href="#/day/${t.dayKey}">${I.day} ${fmt.dateFull(t.open)}</a>`;` setzen (render läuft vor pageHead, app.js:90)
 
 ```
 
-## komponenten-A8 · Gemeinsame Tages-Kennzahlen App.dayStatsHTML()
+## aufbau-D3g · Test sampletest.js: Ergebnis über P&L-Farbe statt Status-Pille
 
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-43
-Quelle: audit/spec/komponenten.md Z. 577–579 · Dateien: web/js/app.js
+Gruppe aufbau · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-18, hierarchie-16
+Quelle: audit/spec/aufbau.md Z. 711–711 · Dateien: web/e2e/sampletest.js
+Abhängig von: aufbau-C15a, aufbau-C7c
+
+```text
+- `sampletest.js:39–40`: geschlossene Zeilen über `td.r .pos, td.r .neg, td.r .neu` statt `.pill.win/.loss/.be`; offene über `.pill.open`
+```
+
+## diagramme-M1 · Zähler Gewinner/Verlierer in Tagesansicht und TradeLog nur bei > 0 gefärbt
+
+Gruppe diagramme · Cluster trades_tag · Aufwand S · Befunde: bereich_notebook_news-18
+Quelle: audit/spec/diagramme.md Z. 686–689 · Dateien: web/js/screens/day.js, web/js/screens/trades.js
 Abhängig von: —
 
 ```text
-**A8 – Gemeinsame Tages-Kennzahlen** (bereich_trades_tag-43)
-Neu: `App.dayStatsHTML(s, o = {})` gibt `<div class="stats"${o.style ? ` style="${o.style}"` : ''}>…</div>` mit acht Feldern in dieser Reihenfolge zurück: Trades (`o.n ?? s.n`, dahinter ` <span class="muted small">(x offen)</span>`, wenn `o.open`), Brutto-P&L (`U.cls`, signiert), Gewinner / Verlierer (`pos`/`neg`), Gebühren, Win-Rate, Volumen (`fmt.num(…, 2)`), Profit-Faktor, Ø R (`fmt.r(s.avgR)` oder „—“). Ohne geschlossene Trades (`o.closed === 0`) zeigen Win-Rate, Profit-Faktor und Ø R „—“, wie heute in day.js:14.
+**M1 Zähler** (bereich_notebook_news-18)
+- day.js:14: `<span class="pos">${s.wins}</span> / <span class="neg">${s.losses}</span>` → `<span class="${s.wins ? 'pos' : ''}">${s.wins}</span> / <span class="${s.losses ? 'neg' : ''}">${s.losses}</span>`
+- trades.js:54: dasselbe mit `d.wins` / `d.losses`.
 
 ```
 
-## komponenten-S-day-a · Tagesansicht-Kopf: .btn.nav, .day-title, „Heute“ als btn sm
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: komponenten-25, bereich_trades_tag-38
-Quelle: audit/spec/komponenten.md Z. 657–658 · Dateien: web/js/screens/day.js
-Abhängig von: komponenten-C07, komponenten-C36
+- [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
+- [doppelt: .neg] Dieselben Schritte und dieselbe Entscheidung wie beim Anker .pos: Zähler einmal über diagramme-M1 (day.js:14, trades.js:54) und diagramme-G3 (stats.js:31/32). Das × in der Regeln-Spalte bekommt `rule-ic neg` (farbe-C31a) plus role="img" und aria-label „Gebrochen: …“ (barrierefreiheit-C-trades-49). Die Anpassungen stehen beim Anker .pos und werden nur einmal angewendet.
 
-```text
-**S-day (day.js)** (komponenten-25, bereich_trades_tag-38, referenz-20, bereich_trades_tag-43, zustaende-14)
-- Z. 12: beide `class="btn round"` → `class="btn nav"`; `<h2 style="font-size:18px;margin-left:6px">` → `<h2 class="day-title">`; Link „Heute“ (nur an anderen Tagen) `class="btn sm ghost"` → `class="btn sm"`, Platz bleibt am Anfang der rechten Gruppe. Die Pille „Heute“ regelt Gruppe Farbe (komponenten-8).
-```
+## zustaende-S-C18 · Tagesnotiz-Vorschau: Stile .nv und .nv-h
 
-## komponenten-S-day-b · Tagesansicht: Kennzahlen aus App.dayStatsHTML
-
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-43
-Quelle: audit/spec/komponenten.md Z. 659–659 · Dateien: web/js/screens/day.js
-Abhängig von: komponenten-A8
-
-```text
-- Z. 14: die handgeschriebene `<div class="stats">…</div>` → `${App.dayStatsHTML(s, { n: trades.length, open: trades.length - closed.length, closed: closed.length })}` (innerhalb der bestehenden `.day-card`).
-```
-
-## komponenten-S-day-c · Tagesansicht Check-in: Werte flach in .day-card .stats statt Unterkarten
-
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: referenz-20
-Quelle: audit/spec/komponenten.md Z. 660–660 · Dateien: web/js/screens/day.js
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-48
+Quelle: audit/spec/zustaende.md Z. 364–366 · Dateien: web/css/app.css
 Abhängig von: —
 
 ```text
-- Z. 16 (Check-in): das äußere `<div class="grid" style="grid-template-columns:repeat(3,1fr);gap:8px">` mit den drei `<div class="strat-stats" style="margin:0;grid-template-columns:1fr">…</div>` → `<div class="day-card"><div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:0">` + je Wert `<div><div class="k">${k}</div><div class="v"${col ? ` style="color:${col}"` : ''}>${v}</div></div>` + `</div></div>`.
+**S-C18 Tagesnotiz-Vorschau** – bereich_trades_tag-48
+Nach den Tagesansicht-/Notebook-Regeln (z. B. nach Z. 1144) neu: `.nv > div { margin: 0; } .nv-h { font-weight: 600; color: var(--text); margin-top: 8px; } .nv-h:first-child { margin-top: 0; }`
+
 ```
 
-## komponenten-S-trades-a · TradeLog: Trefferzähler nur bei aktivem Filter
+## zustaende-S-A5 · Check-in-Dialog: Knopf „Löschen“ mit Rückfrage „Check-in löschen?“
 
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-34
-Quelle: audit/spec/komponenten.md Z. 717–718 · Dateien: web/js/screens/trades.js
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-28
+Quelle: audit/spec/zustaende.md Z. 570–573 · Dateien: web/js/app.js
 Abhängig von: —
 
 ```text
-**S-trades (trades.js)** (bereich_trades_tag-11, bereich_trades_tag-34, zustaende-14, komponenten-25, bereich_trades_tag-43, bereich_trades_tag-30, komponenten-1)
-- Z. 44: `<span class="muted small" style="margin-left:auto">${rows.length} von ${list.length} Trades</span>` nur ausgeben, wenn `f.q || f.symbol || f.setup || f.status || f.mistake`.
+**S-A5 Check-in löschen** – bereich_trades_tag-28
+- Z. 524 (Check-in-Dialog) Knopftext `>Entfernen</button>` (an `data-action="delete-checkin"`) → `>Löschen</button>`.
+- Z. 551 → `async 'delete-checkin'(el) { if (!await U.confirmModal('Check-in löschen?', 'Die Angaben dieses Check-ins werden gelöscht.', { ok: 'Löschen', danger: true })) return; const d = S.day(el.dataset.day); if (d) { delete d.checkIn; S.save(); } U.closeModal(); App.rerender(); },`
+
 ```
 
-## komponenten-S-trades-c · TradeLog-Seitenwahl: .btn.nav, Auswahl/Pfeile nur bei mehreren Seiten, „1–10“
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-34, komponenten-25
-Quelle: audit/spec/komponenten.md Z. 720–720 · Dateien: web/js/screens/trades.js
-Abhängig von: komponenten-C07
+- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
 
-```text
-- Z. 48 (Seitenwahl): das zweite `<label class="pg-l">` (Seitenauswahl, „von n Seite(n)“) und `<span class="pg-nav">` nur bei `pages > 1`; Knöpfe in `.pg-nav` `class="btn nav"`; `${from + 1} – ${…}` → `${from + 1}–${…}` (Schlüssel „{0}–{1} von {2} Trades“). „Trades pro Seite“ und `.pg-info` bleiben immer.
-```
+## zustaende-S-A6 · CSV-Import-Vorschau: „offen“ in .muted, fehlende Werte als „—“ in .faint
 
-## komponenten-S-trades-d · Tageskarten: „Netto“ gedämpft, Kennzahlen aus App.dayStatsHTML
-
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-43
-Quelle: audit/spec/komponenten.md Z. 721–721 · Dateien: web/js/screens/trades.js
-Abhängig von: komponenten-A8
-
-```text
-- Z. 54 (Tageskarten): `<span class="pnl ${U.cls(d.pnl)}">Netto ${fmt.cur(d.pnl, { signed: true })}</span>` → `<span class="pnl"><span class="muted">Netto</span> <span class="${U.cls(d.pnl)}">${fmt.cur(d.pnl, { signed: true })}</span></span>`; die sieben handgeschriebenen Kennzahlen → `${App.dayStatsHTML(C.summary(d.trades), { style: 'margin-top:0' })}`.
-```
-
-## komponenten-S-trades-e · Verpasste Trades: Symbol und Richtung in zwei Zellen unter einer Überschrift
-
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-30
-Quelle: audit/spec/komponenten.md Z. 722–722 · Dateien: web/js/screens/trades.js
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: zustaende-24
+Quelle: audit/spec/zustaende.md Z. 574–576 · Dateien: web/js/app.js
 Abhängig von: —
 
 ```text
-- Z. 59 (Verpasste Trades): `<th>Symbol</th>` → `<th colspan="2">Symbol</th>`; `<td class="sym">${esc(x.symbol)} ${U.badge(x.direction)}</td>` → `<td class="sym">${esc(x.symbol)}</td><td class="dir-cell">${U.badge(x.direction)}</td>`.
+**S-A6 CSV-Vorschau Platzhalter** – zustaende-24
+Z. 567: `'<span class="faint">offen</span>'` → `'<span class="muted">offen</span>'`; Ausstieg `: '—'` → `: '<span class="faint">—</span>'`; Netto-P&L `: '—'` → `: '<span class="faint">—</span>'`.
+
 ```
 
-## komponenten-S-trades-f · Trade-Ansicht: „30 Sekunden aufnehmen“ und „Bearbeiten“ neutral
+## zustaende-S-T3 · TradeLog: Leerzustand der Liste nach Lage (leeres Journal / Zeitraum / Filter)
 
-Gruppe komponenten · Cluster trades_tag · Aufwand S · Befunde: komponenten-1
-Quelle: audit/spec/komponenten.md Z. 723–723 · Dateien: web/js/screens/trades.js
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: wording-46
+Quelle: audit/spec/zustaende.md Z. 648–650 · Dateien: web/js/screens/trades.js
 Abhängig von: —
 
 ```text
-- Z. 84 „30 Sekunden aufnehmen“ `btn sm primary` → `btn sm`; Z. 85 „Bearbeiten“ `btn primary sm` → `btn sm`.
+**S-T3 Leerzustand der Liste** – wording-46
+Z. 45 Titel `list.length ? 'Keine Trades passen zum Filter' : 'Keine Trades im Zeitraum'` → `list.length ? 'Keine Trades passen zum Filter' : App.allTrades().length ? 'Keine Trades im Zeitraum' : 'Noch keine Trades'`; Satz `list.length ? 'Ändere die Filter oder den Zeitraum.' : 'Logge einen Trade oder importiere eine CSV-Datei.'` → `list.length ? 'Ändere die Filter oder den Zeitraum.' : App.allTrades().length ? 'Ändere den Zeitraum oder logge Trades.' : 'Logge deinen ersten Trade oder importiere eine CSV-Datei.'`. Knöpfe unverändert.
+
 ```
 
-## komponenten-S-trades-g · Verpasst-Dialog mit den Bausteinen aus „Trade loggen“ (3er-Raster, Symbol, Richtung, Währungsfeld, R)
+## zustaende-S-T4 · TradeLog-Tabelle: fehlende Werte (Geschlossen, Ausstieg, Setup) als „—“ in .faint
 
-Gruppe komponenten · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-11
-Quelle: audit/spec/komponenten.md Z. 724–724 · Dateien: web/js/screens/trades.js, web/css/app.css
-Abhängig von: komponenten-A5a, komponenten-A5b
-
-```text
-- Verpasst-Dialog Z. 110: `<div class="form-grid">` → `<div class="form-grid cols3">` (CSS: `.form-grid.cols3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } @media (max-width: 560px) { .form-grid.cols3 { grid-template-columns: 1fr; } }` nach app.css Z. 301). Reihenfolge: Datum | Symbol | Richtung, dann Setup | Hätte gebracht | R, dann „Warum nicht gehandelt?“ (`span2` → volle Breite). Symbol `<input class="input" id="m-symbol" name="symbol" required>` → `${App.symbolField('')}`; Richtung `${U.seg([[1,'Long'],[-1,'Short']], 1, 'set-dir')}<input type="hidden" name="direction" value="1">` → `${App.dirField(0)}` (keine Vorwahl). „Hätte gebracht (P&L)“ → „Hätte gebracht“ mit `App.curField({ name: 'pnl', id: 'm-pnl', value: '', accountId: S.defaultAccountId() })`; „R-Multiple“ → „R“. Am `U.modal(…)`-Aufruf des Dialogs die Option `{ onClose: () => App.closeSymbolMenu(), onMount: el => App.noLabelFocus(el) }` ergänzen (wie im Trade-Dialog), damit das Symbol-Menü mit dem Dialog schließt. Das versteckte Feld heißt weiter `name="symbol"` (`#f-symbol`), `save-missed` liest es unverändert.
-```
-
-## aufbau-B6 · Aktion new-trade auf der Tagesansicht mit Datum 09:00 vorbelegen
-
-Gruppe aufbau · Cluster trades_tag · Aufwand S · Befunde: hierarchie-7
-Quelle: audit/spec/aufbau.md Z. 347–355 · Dateien: web/js/app.js
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: zustaende-24
+Quelle: audit/spec/zustaende.md Z. 651–654 · Dateien: web/js/screens/trades.js
 Abhängig von: —
 
 ```text
-**B6 `new-trade` mit Tag** (`web/js/app.js` Z. 324) · hierarchie-7
+**S-T4 Platzhalter in der Tabelle** – zustaende-24
+- Z. 49 Spalte Geschlossen `'<span class="faint">offen</span>'` → `'<span class="faint">—</span>'`; Ausstieg `t.exitPrice != null ? fmt.price(t.exitPrice) : '—'` → `… : '<span class="faint">—</span>'`.
+- Z. 59 Setup `x.setup ? U.chip(x.setup, 'setup') : '—'` → `… : '<span class="faint">—</span>'`.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: U.chip] 3.2c erweitert U.chip um den Parameter tip, und 3.7 und 3.8 rufen ihn auf. Deshalb kommt 3.2c zuerst. S-T4 und 3.7 ändern dieselbe Stelle trades.js:59; die Endform ist x.setup ? U.chip(x.setup, 'setup', x.setup.length > 20 ? x.setup : '') : '<span class="faint">—</span>'. In trades.js:49 ergänzen sich die ph-hide-Klassen aus 3.7 und „—“ in .faint für Geschlossen und Ausstieg aus S-T4. typografie-3.8l (join(' ') im Friedhof) hängt davon nicht ab.
+
+## zustaende-S-T5 · Löschen mit Rückfrage: verpasster Trade, Screenshot vor Entry, Screenshot, Sprachnotiz
+
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-28
+Quelle: audit/spec/zustaende.md Z. 655–661 · Dateien: web/js/screens/trades.js
+Abhängig von: —
+
+```text
+**S-T5 Löschen mit Rückfrage** – bereich_trades_tag-28
+Jeweils `async` machen und als erste Zeile die Rückfrage:
+- Z. 113 `'delete-missed'` → `async 'delete-missed'(el) { if (!await U.confirmModal('Verpassten Trade löschen?', 'Der Eintrag wird dauerhaft entfernt.', { ok: 'Löschen', danger: true })) return; S.deleteMissed(el.dataset.id); App.rerender(); },`
+- Z. 114 `'delete-pre-shot'`: `if (!await U.confirmModal('Screenshot vor Entry löschen?', 'Das Bild wird dauerhaft entfernt.', { ok: 'Löschen', danger: true })) return;`
+- Z. 115 `'delete-shot'`: `if (!await U.confirmModal('Screenshot löschen?', 'Das Bild wird dauerhaft entfernt.', { ok: 'Löschen', danger: true })) return;`
+- Z. 117 `'delete-voice'`: `if (!await U.confirmModal('Sprachnotiz löschen?', 'Aufnahme und Transkript werden dauerhaft entfernt.', { ok: 'Löschen', danger: true })) return;`
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: U.confirmModal] Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.
+
+## zustaende-S-DY1 · Tagesansicht ungültige Adresse: Satz und Weg „Zum heutigen Tag“
+
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-44
+Quelle: audit/spec/zustaende.md Z. 662–666 · Dateien: web/js/screens/day.js
+Abhängig von: —
+
+```text
+### 3.12 `web/js/screens/day.js`
+
+**S-DY1 Ungültige Adresse** – bereich_trades_tag-44
+Z. 9 `U.empty('day', 'Ungültiges Datum', '')` → `U.empty('day', 'Ungültiges Datum', 'Die Adresse enthält kein gültiges Datum.', '<a class="btn sm" href="#/day">Zum heutigen Tag</a>')`
+
+```
+
+## zustaende-S-DY2 · Tagesansicht: Kennzahlen-Karte nur mit Trades, Spark nur mit abgeschlossenen, Null ohne Grün/Rot
+
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: hierarchie-18, zustaende-25
+Quelle: audit/spec/zustaende.md Z. 667–669 · Dateien: web/js/screens/day.js
+Abhängig von: —
+
+```text
+**S-DY2 Kennzahlen-Karte nur mit Trades** – hierarchie-18 (mit zustaende-25)
+Z. 14: `const stats = U.card('', …);` → `const stats = trades.length ? U.card('', …) : '';`. In der Karte die Spark-Zelle `<div class="grow chart h80" data-chart="spark" data-id="${id}" style="min-width:160px"></div>` nur bei `closed.length` ausgeben, sonst `''`. Gewinner/Verlierer `<span class="pos">${s.wins}</span> / <span class="neg">${s.losses}</span>` → `<span class="${s.wins ? 'pos' : ''}">${s.wins}</span> / <span class="${s.losses ? 'neg' : ''}">${s.losses}</span>`. Kein zusätzlicher Knopf im Leerzustand der Trade-Karte.
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
+- ÄNDERN: Nur „Kennzahlen-Karte nur bei trades.length“ und „Spark-Zelle nur bei closed.length“ umsetzen. Den Gewinner/Verlierer-Teil nicht umsetzen, das macht diagramme-M1.
+- [doppelt: .neg] Dieselben Schritte und dieselbe Entscheidung wie beim Anker .pos: Zähler einmal über diagramme-M1 (day.js:14, trades.js:54) und diagramme-G3 (stats.js:31/32). Das × in der Regeln-Spalte bekommt `rule-ic neg` (farbe-C31a) plus role="img" und aria-label „Gebrochen: …“ (barrierefreiheit-C-trades-49). Die Anpassungen stehen beim Anker .pos und werden nur einmal angewendet.
+
+## zustaende-S-DY3 · Tagesansicht: Regel-Link auf #/settings/regeln
+
+Gruppe zustaende · Cluster trades_tag · Aufwand S · Befunde: zustaende-2
+Quelle: audit/spec/zustaende.md Z. 670–672 · Dateien: web/js/screens/day.js
+Abhängig von: —
+
+```text
+**S-DY3 Regel-Link** – zustaende-2
+Z. 18 `<a class="btn sm" href="#/settings">Regeln anlegen</a>` → `href="#/settings/regeln"`.
+
+```
+
+## zustaende-S-DY4 · Tagesnotiz-Vorschau mit Überschriften als eigene Zeilen (notePreview)
+
+Gruppe zustaende · Cluster trades_tag · Aufwand M · Befunde: bereich_trades_tag-48
+Quelle: audit/spec/zustaende.md Z. 673–694 · Dateien: web/js/screens/day.js
+Abhängig von: zustaende-S-C18
+
+```text
+**S-DY4 Notiz-Vorschau mit Überschriften** – bereich_trades_tag-48
+Oben im Modul neu:
 ```js
-'new-trade'() {
-  const k = this.state.route === 'day' && this.state.params[0];
-  if (k && k !== C.dayKey(new Date())) { const d = C.parseDayKey(k); if (!isNaN(d)) { d.setHours(9, 0, 0, 0); return this.openTradeEditor(null, { openedAt: d.toISOString() }); } }
-  this.openTradeEditor(null);
-},
+function notePreview(content, max = 320) {
+  const lines = []; let buf = '';
+  for (const op of (content && content.ops) || []) {
+    if (typeof op.insert !== 'string') continue; /* Bilder und andere Einbettungen auslassen */
+    const parts = op.insert.split('\n');
+    parts.forEach((p, i) => { buf += p; if (i < parts.length - 1) { lines.push({ t: buf.trim(), h: !!(op.attributes && op.attributes.header) }); buf = ''; } });
+  }
+  if (buf.trim()) lines.push({ t: buf.trim(), h: false });
+  let n = 0; const out = [];
+  for (const l of lines.filter(x => x.t)) {
+    if (n >= max) { out[out.length - 1] = out[out.length - 1].replace(/<\/div>$/, ' …</div>'); break; }
+    const cut = n + l.t.length > max; const s = cut ? l.t.slice(0, max - n) + ' …' : l.t; n += l.t.length;
+    out.push(`<div${l.h ? ' class="nv-h"' : ''}>${esc(s)}</div>`); if (cut) break;
+  }
+  return out.join('');
+}
+```
+Z. 19: `const preview = dn ? S.deltaText(dn.content).trim().slice(0, 320) : '';` → `const preview = dn ? notePreview(dn.content) : '';` und `<div style="white-space:pre-wrap">${preview ? esc(preview) + (… ' …' …) : '<span class="faint">Noch leer.</span>'}</div>` → `<div class="nv">${preview || '<span class="faint">Noch leer.</span>'}</div>`.
+
 ```
 
+## barrierefreiheit-P14c · Regel-Checkliste in „Session beenden“: Checkbox .vh statt .hidden, done vorbelegt
+
+Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-14
+Quelle: audit/spec/barrierefreiheit.md Z. 679–682 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-B5
+
+```text
+- Z. 531 vorher: `<label class="it toggle"><input type="checkbox" name="rule" value="${r.id}" ${…'checked'…} class="hidden">`
+  nachher: `<label class="it toggle${followed.includes(r.id) ? ' done' : ''}"><input type="checkbox" name="rule" value="${r.id}" ${followed.includes(r.id) ? 'checked' : ''} class="vh">` (der change-Listener Z. 553 hält `done` danach aktuell)
+- Befunde: barrierefreiheit-12, barrierefreiheit-14, barrierefreiheit-11
+
+```
+
+## barrierefreiheit-C-trades-46 · TradeLog-Sortierköpfe mit Knopf .th-sort, aria-sort und Chevron
+
+Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-33, zustaende-36, typografie-30
+Quelle: audit/spec/barrierefreiheit.md Z. 742–747 · Dateien: web/js/screens/trades.js
+Abhängig von: barrierefreiheit-B7
+
+```text
+#### `web/js/screens/trades.js`
+
+- **Z. 46 Sortierköpfe**
+  - vorher: `` <th class="sortable ${al || ''}" data-action="trade-sort" data-key="${k}">${l}${key === k ? `<span class="dir">${dir > 0 ? '▲' : '▼'}</span>` : ''}</th> ``
+  - nachher: `` <th class="sortable ${al || ''}" data-action="trade-sort" data-key="${k}"${key === k ? ` aria-sort="${dir > 0 ? 'ascending' : 'descending'}"` : ''}><button type="button" class="th-sort" data-action="trade-sort" data-key="${k}">${l}${key === k ? `<span class="dir${dir > 0 ? ' up' : ''}" aria-hidden="true">${I.chev}</span>` : ''}</button></th> ``
+  - Befunde: barrierefreiheit-33, zustaende-36, typografie-30
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [konflikt: .tbl th .dir] Der Sortierpfeil wird ein Chevron-SVG mit 12 × 12 px (barrierefreiheit-B7): `.tbl th .dir { display: inline-flex; margin-left: 4px; color: var(--text-2); }` ohne font-size, dazu `.tbl th .dir svg { width: 12px; height: 12px; }` und `.tbl th .dir.up svg { transform: rotate(180deg); }`. ▲/▼ werden durch I.chev im Knopf .th-sort ersetzt, und .dir kommt nur in trades.js vor. Die Schriftgröße 11 px aus typografie-3.2.3b wäre deshalb ein toter Wert (Kilook Z11: kein toter Code).
+
+## barrierefreiheit-C-trades-49 · TradeLog-Zeile: Link in der ersten Zelle, Regeln-Spalte als role=img
+
+Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-4, zustaende-36, barrierefreiheit-34
+Quelle: audit/spec/barrierefreiheit.md Z. 748–751 · Dateien: web/js/screens/trades.js
+Abhängig von: barrierefreiheit-B7
+
+```text
+- **Z. 49 Zeile**
+  - erste Zelle: `<td>${fmt.dateFull(t.open)} <span class="muted">${fmt.time(t.open)}</span></td>` → `<td><a class="row-link" href="#/trades/${t.id}">${fmt.dateFull(t.open)} <span class="muted">${fmt.time(t.open)}</span></a></td>`
+  - Regeln-Zelle: `<span class="neg" data-tip="…">` → `<span class="neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="…">` und `<span class="pos">` → `<span class="pos" role="img" aria-label="Alle Regeln eingehalten">`
+  - Befunde: barrierefreiheit-4, zustaende-36, barrierefreiheit-34
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: .pos] Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class="rule-ic muted" role="img" aria-label="Alle Regeln eingehalten">${I.check}</span>` bzw. `<span class="rule-ic neg" role="img" aria-label="Gebrochen: ${esc(t.rulesBroken.join(', '))}" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.
+- ÄNDERN: In der Regeln-Zelle die Klassen und Symbole aus farbe-C31a übernehmen (`rule-ic muted` für ✓, `rule-ic neg` für ×, ohne Inline-Größe am SVG). Nur role="img" und aria-label ergänzen, nicht class="pos" setzen. Erste Zelle mit a.row-link wie spezifiziert.
+- [doppelt: .neg] Dieselben Schritte und dieselbe Entscheidung wie beim Anker .pos: Zähler einmal über diagramme-M1 (day.js:14, trades.js:54) und diagramme-G3 (stats.js:31/32). Das × in der Regeln-Spalte bekommt `rule-ic neg` (farbe-C31a) plus role="img" und aria-label „Gebrochen: …“ (barrierefreiheit-C-trades-49). Die Anpassungen stehen beim Anker .pos und werden nur einmal angewendet.
+
+## barrierefreiheit-C-trades-50 · TradeLog-Scrollbox als benannte Region „Trades“
+
+Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-50
+Quelle: audit/spec/barrierefreiheit.md Z. 752–752 · Dateien: web/js/screens/trades.js
+Abhängig von: barrierefreiheit-B7
+
+```text
+- **Z. 50:** `<div class="tbl-scroll">` → `<div class="tbl-scroll" tabindex="0" role="region" aria-label="Trades">` (Befund: barrierefreiheit-50)
+```
+
+## barrierefreiheit-C-trades-59 · Verpasste Trades: eindeutiger Lösch-Name
+
+Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-35
+Quelle: audit/spec/barrierefreiheit.md Z. 753–753 · Dateien: web/js/screens/trades.js
+Abhängig von: —
+
+```text
+- **Z. 59:** `aria-label="Löschen"` → `aria-label="Verpassten Trade ${esc(x.symbol)} vom ${fmt.dateFull(C.parseDayKey(x.date))} löschen"` (Befund: barrierefreiheit-35)
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: C.parseDayKey] E3 und B6 sind dieselbe Änderung, B6 übernimmt (siehe App.actions['new-trade']). barrierefreiheit-C-trades-59 nutzt C.parseDayKey nur für den Lösch-Namen der verpassten Trades und ist verträglich.
+
+## barrierefreiheit-C-day-15 · Tagesansicht-Zeile: Link in der ersten Zelle
+
+Gruppe barrierefreiheit · Cluster trades_tag · Aufwand S · Befunde: barrierefreiheit-4, zustaende-36
+Quelle: audit/spec/barrierefreiheit.md Z. 759–761 · Dateien: web/js/screens/day.js
+Abhängig von: barrierefreiheit-B7
+
+```text
+#### `web/js/screens/day.js`
+
+- **Z. 15:** erste Zelle `<td>${fmt.time(t.open)}${…}</td>` → `` <td><a class="row-link" href="#/trades/${t.id}">${fmt.time(t.open)}${t.close ? ` – ${fmt.time(t.close)}` : ''}</a></td> `` (Befunde: barrierefreiheit-4, zustaende-36)
+```
+
+## kilook-C8c · Session-Ende-Dialog: Heute/Trades/Win-Rate als .kpi-label
+
+Gruppe kilook · Cluster trades_tag · Aufwand S · Befunde: ki_look-36
+Quelle: audit/spec/kilook.md Z. 603–604 · Dateien: web/js/app.js
+Abhängig von: kilook-A4
+
+```text
+- **530** (Session-Ende) dreimal `<div class="caption">` → `<div class="kpi-label">` (Heute, Trades, Win-Rate).
+
+```
+
+## kilook-C13 · Tagesansicht: Check-in mit I.mood (Knopf und Leerzustand), Netto-P&L als .kpi-label
+
+Gruppe kilook · Cluster trades_tag · Aufwand S · Befunde: ki_look-17, ki_look-36
+Quelle: audit/spec/kilook.md Z. 625–629 · Dateien: web/js/screens/day.js
+Abhängig von: kilook-A4
+
+```text
+**C13 · web/js/screens/day.js** (ki_look-17, ki_look-36)
+- **12** `${I.sparkle} ${d.checkIn ? 'Check-in bearbeiten' : 'Check-in'}` → `${I.mood} ${d.checkIn ? 'Check-in bearbeiten' : 'Check-in'}`
+- **14** `<div class="caption">Netto-P&L</div>` → `<div class="kpi-label">Netto-P&L</div>`
+- **16** `U.empty('sparkle', 'Kein Check-in', …)` → `U.empty('mood', 'Kein Check-in', …)`
+
+```
+
+## kilook-C16 · TradeLog: Netto-P&L mit Vorzeichen, Verpasste-Trades-Labels als .kpi-label
+
+Gruppe kilook · Cluster trades_tag · Aufwand S · Befunde: diagramme-35, ki_look-36
+Quelle: audit/spec/kilook.md Z. 645–649 · Dateien: web/js/screens/trades.js
+Abhängig von: kilook-A4
+
+```text
+**C16 · web/js/screens/trades.js** (diagramme-35, ki_look-36)
+- **26** `U.pnl(s.total, '', { signed: false })` → `U.pnl(s.total)`
+- **59** `<div class="caption">Entgangen</div>` und `<div class="caption">Wären Gewinner gewesen</div>` → `class="kpi-label"`
+- **76** bleibt `.caption`.
+
+```
+
+## responsiv-B5a · Trades des Tages: Mindestbreite als Klasse .tbl.day-tbl
+
+Gruppe responsiv · Cluster trades_tag · Aufwand S · Befunde: responsiv-7
+Quelle: audit/spec/responsiv.md Z. 286–287 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**B5 Tabellen** (zustaende-31, zustaende-32, responsiv-7, responsiv-3)
+- Nach Z. 615 neu: `.tbl.day-tbl { min-width: 560px; } /* Trades des Tages: früher Inline-Stil in day.js */`
+```
+
+## responsiv-C2 · TradeLog-Filterzeile: Auswahlfelder max. 200 px, Zähler bricht nicht allein um
+
+Gruppe responsiv · Cluster trades_tag · Aufwand S · Befunde: zustaende-30
+Quelle: audit/spec/responsiv.md Z. 389–391 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+**C2 TradeLog-Filterzeile** (zustaende-30)
+- Nach Z. 1743 neu: `.tl-filters .select { max-width: 200px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } .tl-count { margin-left: auto; white-space: nowrap; flex: 0 0 auto; }`
+
+```
+
+## wording-S3.6 · app.css: TradeLog-Filter am Desktop (.tl-search, .tl-sel display: contents)
+
+Gruppe wording · Cluster trades_tag · Aufwand S · Befunde: bereich_trades_tag-35
+Quelle: audit/spec/wording.md Z. 332–332 · Dateien: web/css/app.css
+Abhängig von: —
+
+```text
+| 3.6 | TradeLog-Filter (bei den TradeLog-Regeln, um Z. 1743) | – → `.tl-search { max-width: 260px; position: relative; }` · `.tl-sel { display: contents; }` | bereich_trades_tag-35 |
+```
+
+## wording-S5.4-5.5 · Trade-Dialog: „Geschlossen“ mit Leertext „Offen“ und Touch-Hinweis, Bestätigungsknopf „Trade loggen“
+
+Gruppe wording · Cluster trades_tag · Aufwand S · Befunde: wording-62, wording-2, wording-63
+Quelle: audit/spec/wording.md Z. 356–357 · Dateien: web/js/app.js
+Abhängig von: wording-S3.1-3.3, wording-S4.1-4.5
+
+```text
+| 5.4 | app.js:360 Feld Geschlossen | `<label for="f-close">Geschlossen <span class="faint">(leer = offen)</span></label><input class="input" type="datetime-local" id="f-close" …>` → `<label for="f-close">Geschlossen <span class="faint dp-coarse">(leer lassen, solange offen)</span></label><input class="input" type="datetime-local" id="f-close" data-empty="Offen" …>` | wording-62, wording-2 |
+| 5.5 | app.js:368 Bestätigungsknopf | `${trade ? 'Speichern' : 'Trade speichern'}` → `${trade ? 'Speichern' : 'Trade loggen'}` | wording-63 |
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [reihenfolge: App.openTradeEditor] Alle Schritte ändern dieselbe Vorlage. Darum gilt eine feste Reihenfolge, und zwei Doppelungen werden zusammengelegt. (1) komponenten-A5b löst Symbol und Richtung in App.symbolField und App.dirField heraus. (2) abstaende-E2 entfernt die Wrapper. Die Klasse tf-dir gehört in App.dirField: <div class="field tf-dir">…</div>. Im Verpasst-Dialog wirkt sie nicht, denn die CSS-Regeln greifen nur unter .tf-main >. (3) wording-S5.4-5.5 setzt das Feld Geschlossen und übernimmt dabei farbe-C12a: <div class="field tf-c3 tf-dt"><label for="f-close">Geschlossen <span class="lbl-hint dp-coarse">(leer lassen, solange offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" data-empty="Offen" value="…"></div>. Die Klasse ist lbl-hint statt faint, weil --faint nie für Wörter steht. Der Knopftext wird ${trade ? 'Speichern' : 'Trade loggen'}, die Klasse bleibt btn primary. Wie die Bestätigen-Knöpfe aussehen, ist Nutzerfrage komponenten-1 und wird hier nicht geändert. (4) barrierefreiheit-P12 (Restteil): Punktwert-(i) in .lbl-row innerhalb von <div class="field tf-c3"> und guard: true. (5) zustaende-S-A4: novalidate und Prüfung (siehe #trade-form). abstaende-E3, aufbau-B6 und wording-S5.3 sind unter App.actions['new-trade'] entschieden, wording-S5.9 unter app.html keydown.
+- ÜBERNIMMT farbe-C12a: Der Wechsel faint → lbl-hint geschieht in wording-S5.4. Ergebnis: <span class="lbl-hint dp-coarse">(leer lassen, solange offen)</span>.
+- ÄNDERN: In 5.4 bekommt der Span die Klasse "lbl-hint dp-coarse" (statt "faint dp-coarse"). Text und data-empty="Offen" bleiben wie in der Spezifikation. In 5.5 ändert sich nur der Text ('Trade loggen'), die Klasse bleibt btn primary.
+- [doppelt: #f-close] Das Feld bekommt data-empty="Offen" (wording-S5.4, Markup unter App.openTradeEditor). Ohne Wert zeigt das Overlay „Offen“ in --muted, auf Touch setzt DatePicker den Anfangszustand is-empty. zustaende-S-DP (class="input is-empty" in app.js) entfällt.
+
+## wording-S8.1-8.2 · Tagesansicht-Kopf: „Check-in“ und „Trade für diesen Tag“ streichen, Aktion new-trade-day entfernen, Tooltip „Tageszertifikat erstellen“
+
+Gruppe wording · Cluster trades_tag · Aufwand S · Befunde: wording-5, wording-45, bereich_trades_tag-37
+Quelle: audit/spec/wording.md Z. 406–411 · Dateien: web/js/screens/day.js
+Abhängig von: wording-S5.3
+
+```text
+### Schritt 8 · `web/js/screens/day.js` und `web/js/screens/progress.js`
+
+| # | Stelle | vorher → nachher | ids |
+|---|---|---|---|
+| 8.1 | day.js:12 Kopfzeile | Knopf `<button … data-action="check-in" …>${I.sparkle} ${d.checkIn ? 'Check-in bearbeiten' : 'Check-in'}</button>` und Knopf `<button … class="btn sm accent" data-action="new-trade-day" …>${I.plus} Trade für diesen Tag</button>` ersatzlos streichen. Am Zertifikat-Knopf `data-tip="Daily Profit Certificate"` → `data-tip="Tageszertifikat erstellen"`. Knopf bleibt immer sichtbar. Gilt am neuen Ort, falls referenz-17 vorher umgesetzt ist | wording-5, wording-45, bereich_trades_tag-37 |
+| 8.2 | day.js:24 | Aktion `'new-trade-day'` streichen (übernommen von 5.3) | wording-5 |
 ```

@@ -1,144 +1,112 @@
-# Paket 062 · barrierefreiheit
+# Paket 062 · barrierefreiheit, komponenten, notebook_news
 
-Schritte: 10 · Dateien: web/css/app.css, web/css/landing.css, web/js/screens/progress.js, web/js/ui.js
-Betroffene Tests laut Spezifikation: Sonde 13
-Baut auf Paketen auf: 2
+Schritte: 4 · Dateien: web/js/app.js, web/js/editor.js, web/js/ui.js
+Betroffene Tests laut Spezifikation: —
+Baut auf Paketen auf: 7, 60
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## farbe-C11 · Landing: Hero-Überschrift in var(--text) statt #ededed
+## barrierefreiheit-U4 · Live-Regionen: .toast-wrap role=status (toastWrap), #sr-live mit U.announce
 
-Gruppe farbe · Cluster barrierefreiheit · Aufwand S · Befunde: ki_look-2
-Quelle: audit/spec/farbe.md Z. 428–429 · Dateien: web/css/landing.css
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: bewegung-32, barrierefreiheit-38
+Quelle: audit/spec/barrierefreiheit.md Z. 464–473 · Dateien: web/js/ui.js
 Abhängig von: —
 
 ```text
-**C11 – `web/css/landing.css` Z. 14:** `.lp .hero h1 { …; color: #ededed; }` → `color: var(--text);` — ki_look-2
-
-```
-
-## aufbau-A4a · CSS für Kartentitel als h2 (.card-title letter-spacing/text-wrap)
-
-Gruppe aufbau · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-41
-Quelle: audit/spec/aufbau.md Z. 278–279 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-**A4 Überschriften-Treppe** · barrierefreiheit-41, typografie-7, typografie-8, hierarchie-33, bereich_konto-20, bereich_notebook_news-44, bereich_prop-7, typografie-18, typografie-32
-- Z. 491 `.card-title { display: flex; …; font-size: 15px; }` → am Ende ergänzen `letter-spacing: normal; text-wrap: wrap;` (hebt Z. 90 für das neue `h2` auf)
-```
-
-## aufbau-B8 · U.card: Kartentitel als <h2 class="card-title">
-
-Gruppe aufbau · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-41
-Quelle: audit/spec/aufbau.md Z. 360–362 · Dateien: web/js/ui.js
-Abhängig von: aufbau-A4a
-
-```text
-**B8 Kartentitel als Überschrift** (`web/js/ui.js` Z. 170, `card`) · barrierefreiheit-41
-`<div class="card-title">…</div>` → `<h2 class="card-title">…</h2>` (CSS siehe A4). Die von Hand geschriebenen `div.card-title` (coach.js:101, replay.js:23) bleiben.
-
-```
-
-## diagramme-C7 · nameChart: role=img und aria-label (data-label oder Kartentitel) nach jedem Zeichnen
-
-Gruppe diagramme · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-19
-Quelle: audit/spec/diagramme.md Z. 395–403 · Dateien: web/js/ui.js
-Abhängig von: —
-
-```text
-**C7 Name für Screenreader** (barrierefreiheit-19)
-- Z. 232 in `drawCharts`: direkt nach `drawers[k] && drawers[k](el, data, W, H);` `nameChart(el);` aufrufen.
-- neue Funktion nach `drawCharts`:
+**U4 Live-Regionen** (Z. 444)
+- vorher: `toast()` legt `.toast-wrap` beim ersten Toast an.
+- nachher:
   ```js
-  /* Name für Screenreader: data-label am .chart oder der Kartentitel (beim Zeichnen schon übersetzt); ohne Namen ausgeblendet */
-  function nameChart(el) { const svg = el.querySelector('svg'); if (!svg) return; const card = el.closest('.card'), head = card && card.querySelector('.card-title'); const t = el.dataset.label || (head ? head.textContent.trim() : ''); if (t) { svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', t); } else svg.setAttribute('aria-hidden', 'true'); }
+  function toastWrap() { let w = document.querySelector('.toast-wrap'); if (!w) { w = document.createElement('div'); w.className = 'toast-wrap'; w.setAttribute('role', 'status'); w.setAttribute('aria-live', 'polite'); document.body.appendChild(w); } return w; }
+  function toast(msg, kind = '') { const w = toastWrap(); /* … Rest wie bisher … */ }
+  function announce(text) { let r = document.getElementById('sr-live'); if (!r) { r = document.createElement('div'); r.id = 'sr-live'; r.className = 'vh no-i18n'; r.setAttribute('role', 'status'); r.setAttribute('aria-live', 'polite'); document.body.appendChild(r); } r.textContent = ''; if (text) setTimeout(() => { r.textContent = text; }, 50); }
   ```
-  `drawCharts` schreibt das SVG bei jeder Größenänderung neu, deshalb wird der Name nach jedem Zeichnen gesetzt. Zur Erweiterung durch bereich_statistik-33 siehe K21.
+- Befunde: bewegung-32, barrierefreiheit-38
 
 ```
 
-## diagramme-H2 · Heatmap-Container role=img aria-label „Trading-Aktivität“
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe diagramme · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-19
-Quelle: audit/spec/diagramme.md Z. 636–637 · Dateien: web/js/screens/progress.js
-Abhängig von: —
+- [doppelt: U.toast] zustaende-S-U6 übernimmt toastWrap() und toast() ganz. Der Container hat role=status und aria-live=polite. Dauer: min(7000, max(err ? 4500 : 2400, 1200 + Länge·55)) ms. Beim Darüberfahren hält der Toast an, nach dem Verlassen bleibt er noch 1500 ms. Ausgeblendet wird über Motion.leave mit '--dur-2', passend zu .toast.out. barrierefreiheit-U4 legt nur noch announce() mit #sr-live an, denn sein toastWrap ist Wort für Wort derselbe. Es gibt nur einen Namen: U.toastWrap (Export über barrierefreiheit-U7). Die Zeile toast.init = toastWrap entfällt. Beim Start wird genau einmal U.toastWrap() aufgerufen (barrierefreiheit-P10). Wo zustaende-S-A1 U.toast.init() vorsieht, steht U.toastWrap(); die Zusammenführung von P10 und S-A1 in App.bind regelt konflikt-1. Formularfehler laufen nicht über Toasts (P12 und komponenten-S-trades-h, siehe #trade-form und #f-dir). wording-S14.8-14.9 ruft U.toast unverändert auf.
+- ÄNDERN: Nur announce(text) mit #sr-live (class "vh no-i18n", role=status, aria-live=polite) anlegen. toastWrap() und der Umbau von toast() entfallen, beides liefert zustaende-S-U6.
+- [doppelt: toastWrap] Zwei identische Fassungen von toastWrap(). zustaende-S-U6 übernimmt, U4 legt nur announce() an. Einziger öffentlicher Name ist U.toastWrap, kein toast.init (Einzelheiten unter U.toast).
+- [doppelt: .toast-wrap] Den Container legt zustaende-S-U6 an (siehe U.toast). zustaende-S-C6 setzt nur .toast { pointer-events: auto }, .toast-wrap behält pointer-events: none. Damit ist S-C6 verträglich und die Voraussetzung dafür, dass das Anhalten beim Darüberfahren in S-U6 funktioniert.
+
+## barrierefreiheit-U7 · root.UI um toastWrap, announce, lightbox, requestClose ergänzen
+
+Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: —
+Quelle: audit/spec/barrierefreiheit.md Z. 516–518 · Dateien: web/js/ui.js
+Abhängig von: barrierefreiheit-U3a, barrierefreiheit-U4, barrierefreiheit-U5
 
 ```text
-**H2 Heatmap-Name** (barrierefreiheit-19) Z. 29: `<div class="activity" data-keep-scroll …>` → `<div class="activity" role="img" aria-label="Trading-Aktivität" data-keep-scroll …>`
+**U7 Export** (Z. 464)
+- `root.UI` um `toastWrap, announce, lightbox, requestClose` ergänzen.
 
 ```
 
-## barrierefreiheit-A2a · Globale Fokusregel und Shell-Fokusringe auf --focus (app.css Z. 95, 206, 235)
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: farbe_kontrast-14
-Quelle: audit/spec/barrierefreiheit.md Z. 258–264 · Dateien: web/css/app.css
-Abhängig von: barrierefreiheit-A1
+- [reihenfolge: root.UI] Alle Schritte ergänzen verschiedene Namen im selben Export-Objekt, ohne Überschneidung. Endstand ergänzt: toastWrap, announce, lightbox, requestClose, vbarPath, hbarPath, xLabels, fitRadars, scoreText, count, chartEmpty, chartEmptyHTML, fieldErrors, clearFieldError, clearFieldErrors. barrierefreiheit-U7 exportiert toastWrap, darum muss die Funktion vorher aus zustaende-S-U6 da sein (sonst ReferenceError beim Laden von ui.js). Jeder Export kommt erst mit seiner Funktion.
+
+## barrierefreiheit-C-editor-41-42 · Notizbild: Alt-Text aus Bildunterschrift, Doppelklick öffnet U.lightbox
+
+Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-35, barrierefreiheit-17
+Quelle: audit/spec/barrierefreiheit.md Z. 734–737 · Dateien: web/js/editor.js
+Abhängig von: barrierefreiheit-U5, barrierefreiheit-U7
 
 ```text
-**A2 Alle Fokusregeln auf `--focus`**
+#### `web/js/editor.js`
 
-| Zeile | vorher | nachher | Befunde |
-|---|---|---|---|
-| 95 | `:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }` | `… var(--focus) …` | farbe_kontrast-14 |
-| 206 | `.theme-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }` | `var(--focus)` | farbe_kontrast-14 |
-| 235 | `.sb-user:focus-visible { outline: 2px solid var(--accent); … }` | `var(--focus)` | farbe_kontrast-14 |
+- Z. 41 nach `cap.value = v.caption || '';`: `const altOf = () => cap.value || (root.I18N ? root.I18N.t('Bild in der Notiz') : 'Bild in der Notiz'); img.alt = altOf();`. Der input-Listener der Bildunterschrift wird zu `cap.addEventListener('input', () => { img.alt = altOf(); dirty(node); });`
+- Z. 42: `img.addEventListener('dblclick', () => { const lb = …; document.body.appendChild(lb); });` → `img.addEventListener('dblclick', () => U.lightbox(img.src, img.alt));`
 ```
 
-## barrierefreiheit-A2b · Fokus an Eingabefeldern, Schalter, Datums- und Farbwähler neutral (Z. 293, 314–315, 437, 447, 451)
+## barrierefreiheit-P1 · Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: farbe_kontrast-14, farbe_kontrast-13, barrierefreiheit-21
-Quelle: audit/spec/barrierefreiheit.md Z. 265–269 · Dateien: web/css/app.css
-Abhängig von: barrierefreiheit-A1
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand L · Befunde: barrierefreiheit-2, barrierefreiheit-31, bereich_dashboard-22, barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 530–564 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-B2
 
 ```text
-| 293 | `.input:focus, .select:focus, textarea.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }` | `{ outline: none; border-color: var(--text-2); box-shadow: none; }` | farbe_kontrast-14 |
-| 314–315 | `.switch:focus-visible { outline: none; box-shadow: …accent-soft }` und `.switch[aria-checked="true"]:focus-visible {…}` | **beide Zeilen löschen** (der globale Ring greift, pillenförmig über `border-radius: 999px`) | farbe_kontrast-13, barrierefreiheit-21 |
-| 437 | `.dp button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }` | `var(--focus)` | farbe_kontrast-14 |
-| 447 | `.cp-sv:focus-visible .cp-knob, .cp-hue:focus-visible .cp-knob { transform: …scale(1.15); box-shadow: 0 0 0 2.5px #fff, 0 0 0 5px var(--accent-soft), … }` | `.cp-sv:focus-visible, .cp-hue:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; } .cp-sv:focus-visible .cp-knob, .cp-hue:focus-visible .cp-knob { transform: translate(-50%, -50%) scale(1.15); }` (Knopf-Schatten aus Z. 445 bleibt) | farbe_kontrast-14 (gleiches Muster wie -13) |
-| 451 | `.cp-hex:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }` | `{ border-color: var(--text-2); box-shadow: none; }` | farbe_kontrast-14 |
+#### `web/js/app.js`
+
+**P1 Fokus über Neuaufbau und Seitenwechsel** (`render`, Z. 76–110)
+
+Neue Methoden im App-Objekt:
+```js
+focusSnapshot() {
+  const a = document.activeElement; if (!a || a === document.body) return { body: true };
+  const host = a.closest('#main') ? 'main' : a.closest('#sidebar') ? 'sidebar' : null; if (!host) return null;
+  const sel = this.anchorKey(a) || (a.dataset && a.dataset.pop ? `[data-pop="${CSS.escape(a.dataset.pop)}"]` : null) || (a.matches('a[href]') ? `a[href="${CSS.escape(a.getAttribute('href'))}"]` : null) || (a.id && a.id !== 'content' ? '#' + CSS.escape(a.id) : null);
+  let s = null, e = null; try { s = a.selectionStart; e = a.selectionEnd; } catch (_) { /* Feldtyp ohne Auswahl */ }
+  return { host, sel, s, e };
+},
+restoreFocus(fs, routeChanged) {
+  if (!fs || !this._rendered) return; const a = document.activeElement; if (a && a !== document.body) return; /* mount hat Vorrang */
+  const content = document.getElementById('content');
+  if (routeChanged) { if (content) content.focus({ preventScroll: true }); return; }
+  if (fs.body) return;
+  const box = document.getElementById(fs.host); const hits = box && fs.sel ? box.querySelectorAll(fs.sel) : [];
+  const el = hits.length === 1 && hits[0].getClientRects().length && !hits[0].closest('[inert]') ? hits[0] : null;
+  if (el) { el.focus({ preventScroll: true }); if (fs.s != null && el.setSelectionRange) try { el.setSelectionRange(fs.s, fs.e); } catch (_) { /* nicht unterstützt */ } }
+  else if (content && fs.host === 'main') content.focus({ preventScroll: true });
+},
+popInit(scope) { scope.querySelectorAll('[data-pop]').forEach(b => { if (!b.hasAttribute('aria-expanded')) b.setAttribute('aria-expanded', 'false'); if (!b.hasAttribute('aria-controls')) b.setAttribute('aria-controls', 'pop-' + b.dataset.pop); }); },
 ```
 
-## barrierefreiheit-A2c · Fokus an Schieberegler (Offset 6px), Richtungs- und Symbol-Option (Z. 814, 864, 885)
+In `render`:
+- vor Z. 96: `const fs = this.focusSnapshot();`
+- Z. 96: `id="content"` → `id="content" tabindex="-1"`
+- nach Z. 97 (`translateNow`): `this.popInit(main);`
+- Z. 106: nach `screen.mount(main, ctx)` erneut `this.popInit(main);` (Editor-Werkzeugleiste entsteht erst dort)
+- nach Z. 109: `this.restoreFocus(fs, routeChanged); this._rendered = true;`
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: barrierefreiheit-22, farbe_kontrast-14, barrierefreiheit-23
-Quelle: audit/spec/barrierefreiheit.md Z. 270–272 · Dateien: web/css/app.css
-Abhängig von: barrierefreiheit-A1
-
-```text
-| 814 | `.slider input[type=range]:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); }` | `{ outline: 2px solid var(--focus); outline-offset: 6px; box-shadow: none; }` (`outline: none` in Z. 811 bleibt für die Maus) | barrierefreiheit-22 |
-| 864 | `.dir-opt:focus-visible { outline: 2px solid var(--dir-c); outline-offset: -2px; }` | `var(--focus)` | farbe_kontrast-14 |
-| 885 | `.sym-opt:hover, .sym-opt:focus-visible { background: var(--surface-2); outline: none; }` | `.sym-opt:hover { background: var(--surface-2); } .sym-opt:focus-visible { background: var(--surface-2); outline: 2px solid var(--focus); outline-offset: -2px; }` | barrierefreiheit-23 |
-```
-
-## barrierefreiheit-A2d · Restliche Fokusregeln: Notiz-Details, Theme-Karte, Zahlenfeld, Prop/Coupon/Affiliate (Z. 1186–1187, 1842, 2411, 2516–2679); .rp bleibt unverändert
-
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: bereich_notebook_news-35, farbe_kontrast-14
-Quelle: audit/spec/barrierefreiheit.md Z. 273–278 · Dateien: web/css/app.css
-Abhängig von: barrierefreiheit-A1
-
-```text
-| 1186–1187 | `.nb-details summary { …; outline: none; }` · `.nb-details summary:focus { color: var(--accent); }` | 1186 bleibt; 1187 → `.nb-details summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }` | bereich_notebook_news-35 |
-| 1842 | `.theme-card:focus-visible { outline: none; } .theme-card:focus-visible .tc-prev { box-shadow: …, 0 0 0 5px var(--accent); }` | `.theme-card:focus-visible { outline-offset: 4px; border-radius: 16px; }` (Umriss um die ganze Karte, Z1.5) | farbe_kontrast-14 |
-| 2411 | `.sr-num:focus-within { border-color: var(--accent); }` | `var(--text-2)` | farbe_kontrast-14 |
-| 2516, 2592, 2620, 2653, 2675, 2679 | `outline: 2px solid var(--accent)` | `outline: 2px solid var(--focus)` (Offsets bleiben) | farbe_kontrast-14 |
-| 2144, 2232, 2240 (`.rp`) | – | **unverändert** (Blind-Replay, Feature-Flag aus) | – |
+Befunde: barrierefreiheit-2, barrierefreiheit-31, bereich_dashboard-22, barrierefreiheit-26
 
 ```
 
-## barrierefreiheit-B1 · Klasse .vh-m (nur optisch versteckt am Handy) im 960-px-Block
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: bereich_konto-11
-Quelle: audit/spec/barrierefreiheit.md Z. 279–286 · Dateien: web/css/app.css
-Abhängig von: —
-
-```text
-### Phase B – Komponenten
-
-#### `web/css/app.css`
-
-**B1 Nur-optisch-versteckt am Handy** (im Block `@media (max-width: 960px)` Z. 1062–1072, nach `.hide-m`)
-- nachher: `.vh-m { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }`
-- Befunde: bereich_konto-11
-
-```
+- [doppelt: #main] main.inert wird nur einmal gesetzt, durch P5 (mob && open). 3.3c hat dafür keine eigene Zeile. Festlegung und Anweisungen stehen im Anker App.renderSidebar. P1 ist verträglich: restoreFocus überspringt Treffer in [inert], und renderSidebar läuft in render() vor restoreFocus. Beim Seitenwechsel aus der Schublade ist #main dadurch schon wieder bedienbar, bevor der Fokus auf #content geht.
+- [reihenfolge: #sidebar] Inhaltlich verträglich. P5 macht die Gruppen zu div role="group", H2 macht das äußere Element zu <nav aria-label="Hauptnavigation">. H2 darf nicht vor P5 landen, sonst gibt es vorübergehend verschachtelte nav-Landmarken (am besten in einem Commit). P5 ruft this.popInit(sb) auf, das P1 anlegt, also kommt P1 zuerst. Für 3.3c gilt die Fassung aus dem Anker App.renderSidebar.
+- [reihenfolge: #content] P1 macht #content mit tabindex="-1" fokussierbar, P10 legt die Aktion skip-content an, H1 setzt den Sprunglink. Ohne P10 würde der Link mit href="#content" die Route wechseln, denn parseRoute fällt auf das Dashboard zurück. Ohne P1 bliebe c.focus() wirkungslos. Reihenfolge P1 → P10 → H1, oder alles in einem Commit. S-TE2 (dashtest) prüft nur Text in #content und hängt nicht davon ab.

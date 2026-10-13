@@ -1,95 +1,77 @@
-# Paket 065 · barrierefreiheit, komponenten, notebook_news
+# Paket 065 · dashboard, barrierefreiheit, shell
 
-Schritte: 4 · Dateien: web/js/app.js, web/js/editor.js, web/js/ui.js
+Schritte: 4 · Dateien: web/js/app.js, web/js/widgets.js
 Betroffene Tests laut Spezifikation: —
-Baut auf Paketen auf: 63
+Baut auf Paketen auf: 60, 62
 
 Jeder Schritt zitiert die Spezifikation wörtlich (Datei und Zeilen). „Hinweise aus der Abstimmung“ haben Vorrang vor dem Spezifikationstext.
 
-## barrierefreiheit-U4 · Live-Regionen: .toast-wrap role=status (toastWrap), #sr-live mit U.announce
+## barrierefreiheit-P3 · Globaler Tastatur-Handler: Escape (requestClose, Menü-Rücksprung, closeSidebar), Enter/Leertaste auf role=button/checkbox, Pfeiltasten in Radiogruppen
 
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand S · Befunde: bewegung-32, barrierefreiheit-38
-Quelle: audit/spec/barrierefreiheit.md Z. 464–473 · Dateien: web/js/ui.js
-Abhängig von: —
-
-```text
-**U4 Live-Regionen** (Z. 444)
-- vorher: `toast()` legt `.toast-wrap` beim ersten Toast an.
-- nachher:
-  ```js
-  function toastWrap() { let w = document.querySelector('.toast-wrap'); if (!w) { w = document.createElement('div'); w.className = 'toast-wrap'; w.setAttribute('role', 'status'); w.setAttribute('aria-live', 'polite'); document.body.appendChild(w); } return w; }
-  function toast(msg, kind = '') { const w = toastWrap(); /* … Rest wie bisher … */ }
-  function announce(text) { let r = document.getElementById('sr-live'); if (!r) { r = document.createElement('div'); r.id = 'sr-live'; r.className = 'vh no-i18n'; r.setAttribute('role', 'status'); r.setAttribute('aria-live', 'polite'); document.body.appendChild(r); } r.textContent = ''; if (text) setTimeout(() => { r.textContent = text; }, 50); }
-  ```
-- Befunde: bewegung-32, barrierefreiheit-38
-
-```
-
-## barrierefreiheit-U7 · root.UI um toastWrap, announce, lightbox, requestClose ergänzen
-
-Gruppe barrierefreiheit · Cluster komponenten · Aufwand S · Befunde: —
-Quelle: audit/spec/barrierefreiheit.md Z. 516–518 · Dateien: web/js/ui.js
-Abhängig von: barrierefreiheit-U3a, barrierefreiheit-U4, barrierefreiheit-U5
+Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand M · Befunde: barrierefreiheit-3, barrierefreiheit-16, barrierefreiheit-12, barrierefreiheit-13, barrierefreiheit-26, barrierefreiheit-11, bereich_shell-12, barrierefreiheit-27, bereich_shell-15
+Quelle: audit/spec/barrierefreiheit.md Z. 573–590 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-U3a, barrierefreiheit-U7, barrierefreiheit-P6
 
 ```text
-**U7 Export** (Z. 464)
-- `root.UI` um `toastWrap, announce, lightbox, requestClose` ergänzen.
-
-```
-
-## barrierefreiheit-C-editor-41-42 · Notizbild: Alt-Text aus Bildunterschrift, Doppelklick öffnet U.lightbox
-
-Gruppe barrierefreiheit · Cluster notebook_news · Aufwand S · Befunde: bereich_notebook_news-35, barrierefreiheit-17
-Quelle: audit/spec/barrierefreiheit.md Z. 734–737 · Dateien: web/js/editor.js
-Abhängig von: barrierefreiheit-U5, barrierefreiheit-U7
-
-```text
-#### `web/js/editor.js`
-
-- Z. 41 nach `cap.value = v.caption || '';`: `const altOf = () => cap.value || (root.I18N ? root.I18N.t('Bild in der Notiz') : 'Bild in der Notiz'); img.alt = altOf();`. Der input-Listener der Bildunterschrift wird zu `cap.addEventListener('input', () => { img.alt = altOf(); dirty(node); });`
-- Z. 42: `img.addEventListener('dblclick', () => { const lb = …; document.body.appendChild(lb); });` → `img.addEventListener('dblclick', () => U.lightbox(img.src, img.alt));`
-```
-
-## barrierefreiheit-P1 · Fokus über Neuaufbau und Seitenwechsel halten (focusSnapshot, restoreFocus, popInit, #content tabindex=-1)
-
-Gruppe barrierefreiheit · Cluster barrierefreiheit · Aufwand L · Befunde: barrierefreiheit-2, barrierefreiheit-31, bereich_dashboard-22, barrierefreiheit-26
-Quelle: audit/spec/barrierefreiheit.md Z. 530–564 · Dateien: web/js/app.js
-Abhängig von: barrierefreiheit-B2
-
-```text
-#### `web/js/app.js`
-
-**P1 Fokus über Neuaufbau und Seitenwechsel** (`render`, Z. 76–110)
-
-Neue Methoden im App-Objekt:
+**P3 Tastatur global** (Z. 285, ersetzt den Escape-Handler)
 ```js
-focusSnapshot() {
-  const a = document.activeElement; if (!a || a === document.body) return { body: true };
-  const host = a.closest('#main') ? 'main' : a.closest('#sidebar') ? 'sidebar' : null; if (!host) return null;
-  const sel = this.anchorKey(a) || (a.dataset && a.dataset.pop ? `[data-pop="${CSS.escape(a.dataset.pop)}"]` : null) || (a.matches('a[href]') ? `a[href="${CSS.escape(a.getAttribute('href'))}"]` : null) || (a.id && a.id !== 'content' ? '#' + CSS.escape(a.id) : null);
-  let s = null, e = null; try { s = a.selectionStart; e = a.selectionEnd; } catch (_) { /* Feldtyp ohne Auswahl */ }
-  return { host, sel, s, e };
-},
-restoreFocus(fs, routeChanged) {
-  if (!fs || !this._rendered) return; const a = document.activeElement; if (a && a !== document.body) return; /* mount hat Vorrang */
-  const content = document.getElementById('content');
-  if (routeChanged) { if (content) content.focus({ preventScroll: true }); return; }
-  if (fs.body) return;
-  const box = document.getElementById(fs.host); const hits = box && fs.sel ? box.querySelectorAll(fs.sel) : [];
-  const el = hits.length === 1 && hits[0].getClientRects().length && !hits[0].closest('[inert]') ? hits[0] : null;
-  if (el) { el.focus({ preventScroll: true }); if (fs.s != null && el.setSelectionRange) try { el.setSelectionRange(fs.s, fs.e); } catch (_) { /* nicht unterstützt */ } }
-  else if (content && fs.host === 'main') content.focus({ preventScroll: true });
-},
-popInit(scope) { scope.querySelectorAll('[data-pop]').forEach(b => { if (!b.hasAttribute('aria-expanded')) b.setAttribute('aria-expanded', 'false'); if (!b.hasAttribute('aria-controls')) b.setAttribute('aria-controls', 'pop-' + b.dataset.pop); }); },
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const op = document.querySelector('.popover.open:not(.closing)'); const trg = op && document.querySelector(`[data-pop="${CSS.escape(op.id.slice(4))}"]`); const back = !!(op && op.contains(document.activeElement));
+    U.requestClose(); this.closePopovers(); if (back && trg) trg.focus({ preventScroll: true });
+    if (this.state.sidebarOpen) this.closeSidebar();
+    return;
+  }
+  /* Enter/Leertaste auf eigenen Knöpfen (div mit role=button/checkbox) wie ein Klick */
+  if ((e.key === 'Enter' || e.key === ' ') && !e.repeat && !e.defaultPrevented) { const t = e.target; if (t && t.matches && t.matches('[role="button"], [role="checkbox"]') && !t.matches('button, a[href], input, select, textarea, summary, [contenteditable="true"]')) { e.preventDefault(); t.click(); return; } }
+  /* Pfeiltasten in Auswahlgruppen: Fokus weiter; gewählt wird mit Enter/Leertaste */
+  const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+  if (step && e.target.matches && e.target.matches('[role="radio"]')) { const g = e.target.closest('[role="radiogroup"]'); if (!g) return; const all = [...g.querySelectorAll('[role="radio"]:not([disabled])')]; const i = all.indexOf(e.target); if (i < 0) return; e.preventDefault(); all[(i + step + all.length) % all.length].focus(); }
+});
+```
+Der Handler reagiert nur auf das Element selbst (`e.target`), nicht auf Knöpfe darin, etwa das Ordner-Menü im Notebook. Befunde: barrierefreiheit-3, barrierefreiheit-16, barrierefreiheit-12, barrierefreiheit-13, barrierefreiheit-26, barrierefreiheit-11, bereich_shell-12, barrierefreiheit-27, bereich_shell-15
+
 ```
 
-In `render`:
-- vor Z. 96: `const fs = this.focusSnapshot();`
-- Z. 96: `id="content"` → `id="content" tabindex="-1"`
-- nach Z. 97 (`translateNow`): `this.popInit(main);`
-- Z. 106: nach `screen.mount(main, ctx)` erneut `this.popInit(main);` (Editor-Werkzeugleiste entsteht erst dort)
-- nach Z. 109: `this.restoreFocus(fs, routeChanged); this._rendered = true;`
+**Hinweise aus der Abstimmung (verbindlich):**
 
-Befunde: barrierefreiheit-2, barrierefreiheit-31, bereich_dashboard-22, barrierefreiheit-26
+- [doppelt: App.bind] Der Toast-Container wird genau einmal am Anfang von bind() angelegt, mit `U.toastWrap(); U.announce('');` (barrierefreiheit-P10; U.toastWrap wird laut barrierefreiheit-U7 exportiert). Die zusätzliche erste Zeile `U.toast.init();` aus zustaende-S-A1 macht dasselbe unter einem zweiten Namen und entfällt. Ob toast.init als Alias bestehen bleibt, entscheidet der Anker U.toast/toastWrap. Der invalid-Listener und clearErr aus zustaende-S-A1 kommen unverändert neben den submit-Listener. Der Tastatur-Handler aus barrierefreiheit-P3 ersetzt den alten Escape-Handler. Beide Teile stören sich nicht: Der eine hört auf keydown, der andere auf invalid, input und change.
 
+## barrierefreiheit-P11 · Zeitraum- und Konto-Menü als Radiogruppen (role=radiogroup/radio)
+
+Gruppe barrierefreiheit · Cluster shell · Aufwand S · Befunde: barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 640–644 · Dateien: web/js/app.js
+Abhängig von: barrierefreiheit-P3, barrierefreiheit-B6
+
+```text
+**P11 Zeitraum- und Konto-Menü** (Z. 239, 244)
+- Z. 239: `<div class="rr-presets">` → `<div class="rr-presets" role="radiogroup" aria-label="Zeitraum">`. Jeder Eintrag bekommt zusätzlich `role="radio"`.
+- Z. 244: die `.item`-Knöpfe (Alle Konten und die Konten) in `<div role="radiogroup" aria-label="Konto">…</div>` fassen, jeder mit `role="radio"`. `<hr>` und „Konten verwalten“ stehen danach außerhalb.
+- Befunde: barrierefreiheit-26
+
+```
+
+**Hinweise aus der Abstimmung (verbindlich):**
+
+- [doppelt: App.accountControl] Die Schritte ergänzen sich. Einzige Doppelung: Der Link „Konten verwalten“ → `#/settings/konten` steht in aufbau-B5 und in zustaende-S-A2, umgesetzt wird er in S-A2. Endzustand app.js:243–244: `const show = o.mobile || accounts.length > 1`; Wrapper `popwrap${show ? '' : ' hide-m'}${o.iconM ? ' acc-iconm' : ''}` (3.3a). Der Auslöser bekommt zusätzlich `aria-label="Konto: ${esc(accName)}"`; der Name endet mit dem sichtbaren Wort, damit ist WCAG 2.5.3 erfüllt. Im Popover umschließt `<div role="radiogroup" aria-label="Konto">` die Einträge „Alle Konten“ (nur bei mehr als einem Konto) und die Konten, jeder davon `role="radio"` (P11). aria-checked: für „Alle Konten“ `!acc || acc === 'all'`, für ein Konto `acc === a.id || ((!acc || acc === 'all') && accounts.length === 1)` (S-A2). So ist in jeder Lage genau ein Radio gewählt, denn „Alle Konten“ wird bei einem einzigen Konto nicht gerendert. Vor dem Namen steht `<span class="chk">${on ? I.check : ''}</span>`, `on` ist derselbe Ausdruck wie aria-checked (A3). Der Betrag bekommt `title="Kontogröße"`. Danach folgen außerhalb der Gruppe `<hr>` und `<a class="item" href="#/settings/konten">${I.settings} Konten verwalten</a>`. Das Dashboard ruft `App.accountControl({ iconM: true })` auf (3.6). Den pageHead-Teil von 3.3a regelt der Anker App.pageHead.
+
+## barrierefreiheit-C-widgets-115 · Kalendertag mit zugänglichem Namen (Datum · Betrag · Trades)
+
+Gruppe barrierefreiheit · Cluster dashboard · Aufwand S · Befunde: barrierefreiheit-3
+Quelle: audit/spec/barrierefreiheit.md Z. 726–726 · Dateien: web/js/widgets.js
+Abhängig von: barrierefreiheit-P3
+
+```text
+| 115 Kalendertag | `role="button" tabindex="0"` ohne Name | zusätzlich `` aria-label="${esc(e ? `${fmt.dateFull(c.date)} · ${fmt.cur(e.pnl, { signed: true })} · ${e.n === 1 ? '1 Trade' : e.n + ' Trades'}` : fmt.dateFull(c.date))}" `` | barrierefreiheit-3 |
+```
+
+## barrierefreiheit-C-widgets-222-234 · Kennzahl-Suche benennen, Uhrzeit-Menü als Radiogruppe
+
+Gruppe barrierefreiheit · Cluster dashboard · Aufwand S · Befunde: barrierefreiheit-37, barrierefreiheit-26
+Quelle: audit/spec/barrierefreiheit.md Z. 729–730 · Dateien: web/js/widgets.js
+Abhängig von: barrierefreiheit-P3
+
+```text
+| 222 Kennzahl-Suche | `<input class="input" id="rep-q" placeholder="Suchen" …>` | zusätzlich `aria-label="Kennzahl suchen"` | barrierefreiheit-37 |
+| 234 Uhrzeit-Menü | `<div class="popover" id="pop-uhrzeit">` mit Einträgen `aria-checked` | `<div class="popover" id="pop-uhrzeit" role="radiogroup" aria-label="Uhrzeit">`, Einträge zusätzlich `role="radio"` | barrierefreiheit-26 |
 ```

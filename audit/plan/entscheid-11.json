@@ -1,0 +1,475 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "#trade-form",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "zustaende-S-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Eine Prüfung für den Trade-Dialog. Den Ablauf liefert zustaende-S-A4: novalidate nur am Trade-Formular, alle Fehler zugleich über U.fieldErrors am Feld (.field.invalid, aria-invalid, aria-describedby=\"<id>-err\", .field-err), Fokus aufs erste fehlerhafte Feld, kein Toast und keine Browser-Blase. Die Texte kommen aus barrierefreiheit-P12 nach der Hausregel „<Feld> fehlt/fehlen“. Endgültige Prüfkette in 'save-trade': const t = App.readTradeForm(form); const errs = []; const q = s => form.querySelector(s); if (!t.symbol) errs.push({ el: q('#f-symbol-btn'), msg: 'Symbol fehlt' }); if ('direction' in t && !t.direction) { errs.push({ el: q('#f-dir .dir-opt'), msg: 'Long oder Short wählen' }); const sw = q('#f-dir'); if (sw) { sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); } } if (t.entryPrice == null) errs.push({ el: q('#f-entry'), msg: 'Einstieg fehlt' }); if (!(Number(form.elements.quantity.value) > 0)) errs.push({ el: q('#f-qty'), msg: 'Kontrakte fehlen' }); if (!form.elements.openedAt.value) errs.push({ el: q('#f-open'), msg: 'Eröffnet fehlt' }); if (t.closedAt && t.exitPrice == null) errs.push({ el: q('#f-exit'), msg: 'Ausstieg fehlt' }); if (errs.length) { U.fieldErrors(form, errs); return; } Gründe: Eine Meldung am Feld bleibt stehen und ist mit dem Feld verknüpft (WCAG 3.3.1). Laut zustaende Z7.1 melden Toasts nur Ergebnisse, und Feldmeldungen sind ruhiger als rote Toasts. Für die Texte spricht: Es ist die Fehlerregel der Barrierefreiheit (Z8), die Schlüssel „Symbol fehlt“ und „Long oder Short wählen“ sind schon übersetzt, und der Verpasst-Dialog nutzt denselben Wortlaut. „Symbol wählen“ als Fehler würde nur den Platzhalter des Symbolknopfs wiederholen.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-A4",
+     "aktion": "aendern",
+     "anweisung": "Prüfkette wie im Entscheidungstext mit den Texten 'Symbol fehlt', 'Long oder Short wählen', 'Einstieg fehlt', 'Kontrakte fehlen', 'Eröffnet fehlt', 'Ausstieg fehlt' (statt 'Symbol wählen', 'Einstieg eintragen', 'Kontrakte eintragen', 'Datum eintragen', 'Ausstieg eintragen oder Geschlossen leeren'). Unverändert bleiben: novalidate an Z. 348, U.fieldErrors, U.clearFieldError am Ende von 'set-dir' und nach dem Setzen von #f-symbol in pick() von openSymbolMenu, das .need-Wackeln, die Fußzeilen-Vorschau und der Toast „Trade gespeichert“. Die Übersetzungsschlüssel 'Einstieg eintragen', 'Kontrakte eintragen', 'Datum eintragen' und 'Ausstieg eintragen oder Geschlossen leeren' (zustaende Z. 873) nicht anlegen. Stattdessen gelten die aus barrierefreiheit Z. 194 (Entry missing · Contracts missing · Open time missing · Exit missing). Prüfpunkt 23 bleibt."
+    },
+    {
+     "nr": "barrierefreiheit-P12",
+     "aktion": "aendern",
+     "anweisung": "Es bleiben nur zwei Teile: (1) Z. 363: Punktwert-(i) aus dem <label>, also <div class=\"lbl-row\"><label for=\"f-mult\">Punktwert</label>${U.info('…')}</div>; (2) Z. 369: guard: true in den U.modal-Optionen. Es entfallen: novalidate (setzt zustaende-S-A4), der input-Listener im onMount (der globale input/change-Listener aus zustaende-S-A1 entfernt Feldmeldung und aria-invalid zusammen), btn.removeAttribute('aria-invalid') in pick() (zustaende-S-A4 ruft U.clearFieldError(btn) auf) und die Prüfkette mit bad()/U.toast. Die Übersetzungen aus Z. 194 bleiben und dienen jetzt als Feldmeldung. Die alten Schlüssel 'Einstiegskurs fehlt' und 'Ausstiegskurs fehlt für geschlossenen Trade' werden entfernt. Prüfpunkt 24 neu: Absenden ohne Einstieg zeigt keine Browser-Blase und keinen Toast; unter dem Feld steht .field-err „Einstieg fehlt“, der Rand ist --loss, der Fokus liegt im ersten fehlerhaften Feld."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-U5",
+     "nach": "zustaende-S-A4"
+    }
+   ]
+  },
+  {
+   "anker": "#f-dir",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "komponenten-A5b",
+    "komponenten-S-trades-h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Der Verpasst-Dialog meldet fehlendes Symbol und fehlende Richtung genauso wie der Trade-Dialog: als Feldmeldung über U.fieldErrors, nicht als Toast. Gleiche Texte („Symbol fehlt“, „Long oder Short wählen“) und gleiches .need-Wackeln. Die Meldungen verschwinden über U.clearFieldError, das zustaende-S-A4 in 'set-dir' und in pick() von openSymbolMenu einbaut. Beide Stellen werden von beiden Dialogen benutzt, weil App.symbolField und App.dirField (komponenten-A5b) dieselben IDs liefern. Das Datum bleibt dort natives required und läuft über den globalen invalid-Listener. Für P12 gilt, was unter #trade-form steht.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-trades-h",
+     "aktion": "aendern",
+     "anweisung": "In 'save-missed' (trades.js Z. 112) vor dem Speichern statt der zwei Toasts: const errs = []; if (!fd.get('symbol')) errs.push({ el: form.querySelector('#f-symbol-btn'), msg: 'Symbol fehlt' }); if (!fd.get('direction')) { errs.push({ el: form.querySelector('#f-dir .dir-opt'), msg: 'Long oder Short wählen' }); const sw = form.querySelector('#f-dir'); if (sw) { sw.classList.remove('need'); void sw.offsetWidth; sw.classList.add('need'); } } if (errs.length) { U.fieldErrors(form, errs); return; } Danach unverändert direction: Number(fd.get('direction')). Kein U.toast für Formularfehler."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-U5",
+     "nach": "komponenten-S-trades-h"
+    },
+    {
+     "vor": "zustaende-S-A4",
+     "nach": "komponenten-S-trades-h"
+    },
+    {
+     "vor": "komponenten-A5b",
+     "nach": "komponenten-S-trades-h"
+    }
+   ]
+  },
+  {
+   "anker": "App.openTradeEditor",
+   "nrs": [
+    "abstaende-E2",
+    "abstaende-E3",
+    "aufbau-B6",
+    "barrierefreiheit-P12",
+    "farbe-C12a",
+    "komponenten-A5b",
+    "wording-S5.3",
+    "wording-S5.4-5.5",
+    "wording-S5.9"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Alle Schritte ändern dieselbe Vorlage. Darum gilt eine feste Reihenfolge, und zwei Doppelungen werden zusammengelegt. (1) komponenten-A5b löst Symbol und Richtung in App.symbolField und App.dirField heraus. (2) abstaende-E2 entfernt die Wrapper. Die Klasse tf-dir gehört in App.dirField: <div class=\"field tf-dir\">…</div>. Im Verpasst-Dialog wirkt sie nicht, denn die CSS-Regeln greifen nur unter .tf-main >. (3) wording-S5.4-5.5 setzt das Feld Geschlossen und übernimmt dabei farbe-C12a: <div class=\"field tf-c3 tf-dt\"><label for=\"f-close\">Geschlossen <span class=\"lbl-hint dp-coarse\">(leer lassen, solange offen)</span></label><input class=\"input\" type=\"datetime-local\" id=\"f-close\" name=\"closedAt\" data-empty=\"Offen\" value=\"…\"></div>. Die Klasse ist lbl-hint statt faint, weil --faint nie für Wörter steht. Der Knopftext wird ${trade ? 'Speichern' : 'Trade loggen'}, die Klasse bleibt btn primary. Wie die Bestätigen-Knöpfe aussehen, ist Nutzerfrage komponenten-1 und wird hier nicht geändert. (4) barrierefreiheit-P12 (Restteil): Punktwert-(i) in .lbl-row innerhalb von <div class=\"field tf-c3\"> und guard: true. (5) zustaende-S-A4: novalidate und Prüfung (siehe #trade-form). abstaende-E3, aufbau-B6 und wording-S5.3 sind unter App.actions['new-trade'] entschieden, wording-S5.9 unter app.html keydown.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C12a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "wording-S5.4-5.5",
+     "anweisung": "Der Wechsel faint → lbl-hint geschieht in wording-S5.4. Ergebnis: <span class=\"lbl-hint dp-coarse\">(leer lassen, solange offen)</span>."
+    },
+    {
+     "nr": "wording-S5.4-5.5",
+     "aktion": "aendern",
+     "anweisung": "In 5.4 bekommt der Span die Klasse \"lbl-hint dp-coarse\" (statt \"faint dp-coarse\"). Text und data-empty=\"Offen\" bleiben wie in der Spezifikation. In 5.5 ändert sich nur der Text ('Trade loggen'), die Klasse bleibt btn primary."
+    },
+    {
+     "nr": "abstaende-E2",
+     "aktion": "aendern",
+     "anweisung": "Die Richtungsklasse wird in App.dirField gesetzt (<div class=\"field tf-dir\">), nicht im Markup von openTradeEditor. Das Symbolfeld kommt mit class=\"field tf-sym\" aus App.symbolField. Alles andere bleibt wie in E2: Wrapper weg, Eröffnet und Geschlossen tf-c3 tf-dt, Punktwert und Gebühren tf-c3, Prop-Konten tf-wide."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-A5b",
+     "nach": "abstaende-E2"
+    },
+    {
+     "vor": "abstaende-E2",
+     "nach": "wording-S5.4-5.5"
+    },
+    {
+     "vor": "wording-S5.4-5.5",
+     "nach": "barrierefreiheit-P12"
+    },
+    {
+     "vor": "barrierefreiheit-P12",
+     "nach": "zustaende-S-A4"
+    }
+   ]
+  },
+  {
+   "anker": "App.actions['new-trade']",
+   "nrs": [
+    "aufbau-B6",
+    "abstaende-E3",
+    "wording-S5.3",
+    "wording-S5.9"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Drei Schritte machen dieselbe Änderung. aufbau-B6 übernimmt, weil nur er das ungültige Datum abfängt: 'new-trade'() { const k = this.state.route === 'day' && this.state.params[0]; if (k && k !== C.dayKey(new Date())) { const d = C.parseDayKey(k); if (!isNaN(d)) { d.setHours(9, 0, 0, 0); return this.openTradeEditor(null, { openedAt: d.toISOString() }); } } this.openTradeEditor(null); }. parseRoute setzt params immer als Array. Das Verhalten entspricht new-trade-day (day.js:24). wording-S5.9 nutzt nur diese Aktion (siehe app.html keydown).",
+   "anpassungen": [
+    {
+     "nr": "abstaende-E3",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-B6",
+     "anweisung": "Wird von aufbau-B6 umgesetzt, keine eigene Änderung."
+    },
+    {
+     "nr": "wording-S5.3",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-B6",
+     "anweisung": "Wird von aufbau-B6 umgesetzt, keine eigene Änderung."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-B6",
+     "nach": "aufbau-B7"
+    }
+   ]
+  },
+  {
+   "anker": "app.html keydown",
+   "nrs": [
+    "aufbau-B7",
+    "wording-S5.9",
+    "kilook-C6"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Ein gemeinsamer Tasten-Listener. kilook-C6 ändert dieselbe Stelle unter dem Ankernamen „app.html keydown-Listener“ und wird deshalb hier mitentschieden. Endstand: erste Zeile if (window.Store && Store.settings && Store.settings.shortcuts === false) return; (kilook-C6), dann die bestehenden Prüfungen (Modifier, Eingabefelder, .modal-bg), dann const map = { '1': 'dashboard', '2': 'trades', '3': 'day', '4': 'stats', '5': 'notebook', '6': 'progress', '7': 'ruhepunkt', '8': 'mentor', '9': 'shadow', '0': 'replay' }; if (map[e.key]) { if (App.on(map[e.key])) location.hash = '#/' + map[e.key]; } else if (e.key === 'n' || e.key === 'N') { App.actions['new-trade'].call(App); } (aufbau-B7). Grund: Die allgemeine Prüfung App.on(map[key]) deckt Taste 0 ab und dazu jeden Bereich, der über jy_features ausgeschaltet ist. Das entspricht parseRoute, das solche Bereiche aufs Dashboard umleitet. Eine Sonderregel nur für '0' braucht es dann nicht mehr.",
+   "anpassungen": [
+    {
+     "nr": "wording-S5.9",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-B7",
+     "anweisung": "Beide Teile (Taste 0 nur mit Replay, N über App.actions['new-trade']) setzt aufbau-B7 um. Die eigene Zeile if (e.key === '0' && !App.on('replay')) return; entfällt."
+    },
+    {
+     "nr": "kilook-C6",
+     "aktion": "aendern",
+     "anweisung": "Nur die erste Zeile mit dem settings.shortcuts-Schalter einfügen. Die Map bleibt mit '0': 'replay', ihr Umbau mit if (App.on('replay')) map['0'] = 'replay' entfällt (die Prüfung macht aufbau-B7). Prüfpunkt 20 Teil 1 („grep '0': 'replay' → 0“) wird ersetzt: Taste 0 ohne freigeschaltetes Replay lässt location.hash unverändert, mit jy_features {\"replay\":true} führt sie zu #/replay."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-B6",
+     "nach": "aufbau-B7"
+    }
+   ]
+  },
+  {
+   "anker": "App.on",
+   "nrs": [
+    "aufbau-B7",
+    "wording-S5.9",
+    "wording-S17.4-17.7"
+   ],
+   "art": "doppelt",
+   "entscheidung": "B7 und S5.9 sind unter „app.html keydown“ entschieden (B7 übernimmt). wording-S17.4-17.7 liest App.on('replay') nur für den Beispieldaten-Text (17.5) und ist damit verträglich. Die Fußzeile (17.7) gegen kilook-C24 wird in der Konfliktliste zu switchRow/.set-block entschieden, nicht hier.",
+   "anpassungen": []
+  },
+  {
+   "anker": "U.toast",
+   "nrs": [
+    "zustaende-S-U6",
+    "barrierefreiheit-U4",
+    "barrierefreiheit-P12",
+    "komponenten-S-trades-h",
+    "wording-S14.8-14.9"
+   ],
+   "art": "doppelt",
+   "entscheidung": "zustaende-S-U6 übernimmt toastWrap() und toast() ganz. Der Container hat role=status und aria-live=polite. Dauer: min(7000, max(err ? 4500 : 2400, 1200 + Länge·55)) ms. Beim Darüberfahren hält der Toast an, nach dem Verlassen bleibt er noch 1500 ms. Ausgeblendet wird über Motion.leave mit '--dur-2', passend zu .toast.out. barrierefreiheit-U4 legt nur noch announce() mit #sr-live an, denn sein toastWrap ist Wort für Wort derselbe. Es gibt nur einen Namen: U.toastWrap (Export über barrierefreiheit-U7). Die Zeile toast.init = toastWrap entfällt. Beim Start wird genau einmal U.toastWrap() aufgerufen (barrierefreiheit-P10). Wo zustaende-S-A1 U.toast.init() vorsieht, steht U.toastWrap(); die Zusammenführung von P10 und S-A1 in App.bind regelt konflikt-1. Formularfehler laufen nicht über Toasts (P12 und komponenten-S-trades-h, siehe #trade-form und #f-dir). wording-S14.8-14.9 ruft U.toast unverändert auf.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-U4",
+     "aktion": "aendern",
+     "anweisung": "Nur announce(text) mit #sr-live (class \"vh no-i18n\", role=status, aria-live=polite) anlegen. toastWrap() und der Umbau von toast() entfallen, beides liefert zustaende-S-U6."
+    },
+    {
+     "nr": "zustaende-S-U6",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile toast.init = toastWrap; streichen. Der Start-Aufruf heißt U.toastWrap(), exportiert über root.UI (barrierefreiheit-U7). Alles andere bleibt wie spezifiziert."
+    },
+    {
+     "nr": "zustaende-S-A1",
+     "aktion": "aendern",
+     "anweisung": "U.toast.init() gibt es nicht. Den Container legt beim Start U.toastWrap() an, nur einmal in App.bind. Wenn konflikt-1 den Aufruf barrierefreiheit-P10 zuteilt, entfällt die Zeile hier."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-U6",
+     "nach": "barrierefreiheit-U7"
+    }
+   ]
+  },
+  {
+   "anker": "toastWrap",
+   "nrs": [
+    "barrierefreiheit-U4",
+    "zustaende-S-U6"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Zwei identische Fassungen von toastWrap(). zustaende-S-U6 übernimmt, U4 legt nur announce() an. Einziger öffentlicher Name ist U.toastWrap, kein toast.init (Einzelheiten unter U.toast).",
+   "anpassungen": []
+  },
+  {
+   "anker": ".toast-wrap",
+   "nrs": [
+    "barrierefreiheit-U4",
+    "zustaende-S-C6",
+    "zustaende-S-U6"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Den Container legt zustaende-S-U6 an (siehe U.toast). zustaende-S-C6 setzt nur .toast { pointer-events: auto }, .toast-wrap behält pointer-events: none. Damit ist S-C6 verträglich und die Voraussetzung dafür, dass das Anhalten beim Darüberfahren in S-U6 funktioniert.",
+   "anpassungen": []
+  },
+  {
+   "anker": "root.UI",
+   "nrs": [
+    "barrierefreiheit-U7",
+    "diagramme-C5",
+    "farbe-B27a",
+    "wording-S1.1-1.3",
+    "zustaende-S-U4a",
+    "zustaende-S-U5"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Alle Schritte ergänzen verschiedene Namen im selben Export-Objekt, ohne Überschneidung. Endstand ergänzt: toastWrap, announce, lightbox, requestClose, vbarPath, hbarPath, xLabels, fitRadars, scoreText, count, chartEmpty, chartEmptyHTML, fieldErrors, clearFieldError, clearFieldErrors. barrierefreiheit-U7 exportiert toastWrap, darum muss die Funktion vorher aus zustaende-S-U6 da sein (sonst ReferenceError beim Laden von ui.js). Jeder Export kommt erst mit seiner Funktion.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-U6",
+     "nach": "barrierefreiheit-U7"
+    }
+   ]
+  },
+  {
+   "anker": "--faint",
+   "nrs": [
+    "barrierefreiheit-B3",
+    "diagramme-C13",
+    "wording-S3.1-3.3",
+    "zustaende-S-DP"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Es gilt die app-weite Farbregel: --faint nie für Wörter oder Zahlen (farbe Z. 49; Platzhalter und Leertexte in --muted mit mindestens 4,5:1). (a) Leeres Datumsfeld: Das Overlay „Offen“ und der Touch-Leerzustand stehen in --muted statt --faint, gleich wie .input::placeholder und .lbl-hint. (b) Diagramm-Fach ohne Trades: Die Beschriftung bleibt in --muted wie alle Kategorienamen. Leer erkennt man am fehlenden Balken und am Tooltip „<b>{Name}</b>: Keine Trades“. Gleiches gilt sinngemäß für diagramme-C14 (hbars: !g.s.n ? 'muted' statt 'faint'). (c) barrierefreiheit-B3 bleibt unverändert: Das (i)-Symbol darf --faint sein (leeres/inaktives Symbol); in der Prüfliste der Farbe heißt der Selektor nach B3 button.info statt span.info. (d) zustaende-S-DP entfällt (siehe DatePicker.init). Gleich mit Typografie: Das Overlay bekommt keine eigenen verbotenen Größen 13.5/12.5 px, sondern die Größe seines Feldes.",
+   "anpassungen": [
+    {
+     "nr": "wording-S3.1-3.3",
+     "aktion": "aendern",
+     "anweisung": "3.1: .dp-display.empty { color: var(--muted); } statt var(--faint). .dp-display font-size: var(--fs-14) statt 13.5px (die Typografie hebt .input auf 14). Zusätzlich .fd-pair .dp-display { font-size: var(--fs-13); }. 3.2: .input.is-empty::-webkit-datetime-edit { color: var(--muted); } statt var(--faint). 3.3: .fd-pop .fd-pair .dp-display { font-size: var(--fs-12); left: 11px; } statt 12.5px. Der Rest von 3.1–3.3 bleibt."
+    },
+    {
+     "nr": "diagramme-C13",
+     "aktion": "aendern",
+     "anweisung": "In der Beschriftung leerer Fächer das Inline-Attribut style=\"fill:var(--faint)\" weglassen: const lab = i % step === 0 ? `<text x=\"${cx}\" y=\"${H - 7}\" text-anchor=\"middle\">${esc(name(g))}</text>` : ''; (erbt --muted von der .chart-text-Regel). Trefferfeld und Tooltip „Keine Trades“ bleiben. Für diagramme-C14 entsprechend 'muted' statt 'faint'."
+    }
+   ]
+  },
+  {
+   "anker": ".input.is-empty::-webkit-datetime-edit",
+   "nrs": [
+    "wording-S3.1-3.3",
+    "zustaende-S-DP"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Regel gibt es einmal, in wording-S3.2, mit color: var(--muted) statt var(--faint). Der Touch-Leerzustand ist ein Platzhalter und braucht mindestens 4,5:1 (Entscheidung und Anweisung unter --faint). Die Doppelung aus zustaende-S-DP entfällt (siehe DatePicker.init).",
+   "anpassungen": []
+  },
+  {
+   "anker": "DatePicker.init",
+   "nrs": [
+    "wording-S4.1-4.5",
+    "wording-S4.6-4.7",
+    "zustaende-S-DP"
+   ],
+   "art": "doppelt",
+   "entscheidung": "wording-S4.1-4.7 übernimmt den Leerzustand der Datumsfelder. zustaende-S-DP ist laut eigener Spezifikation nur ein Ersatz für den Fall, dass wording-2 fehlt, und entfällt. Eine Lücke wird geschlossen: Laut 4.5 läuft der MutationObserver nur bei fine(). Auf Touch bekämen später eingefügte Felder (Trade-Dialog, #f-close) dann beim Öffnen nicht .is-empty. Der Observer läuft darum auf allen Geräten: Bei neuen input.input mit TYPES[type] setzt er immer is-empty (= !value), das Overlay (decorate) baut er nur bei fine(). Damit braucht es kein Sonder-is-empty in app.js.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-DP",
+     "aktion": "entfaellt",
+     "anweisung": "Erledigt durch wording-S3.1-3.3 und wording-S4.1-4.7: keine Klasse is-empty in app.js:360, kein zweiter input/change-Listener, keine CSS-Regel .input.is-empty."
+    },
+    {
+     "nr": "wording-S4.6-4.7",
+     "aktion": "aendern",
+     "anweisung": "Den Anfangszustand is-empty (= !value) für alle input.input mit TYPES[type] beim Start und für jedes später eingefügte Feld setzen. Dazu läuft der MutationObserver aus 4.5 auf allen Geräten, ruft aber decorate() nur bei fine() auf. Der input-Listener (capture) bleibt wie in 4.6. type=week bleibt nativ."
+    }
+   ]
+  },
+  {
+   "anker": ".input.is-empty",
+   "nrs": [
+    "wording-S4.6-4.7",
+    "zustaende-S-DP"
+   ],
+   "art": "doppelt",
+   "entscheidung": "wording-S4.6-4.7 übernimmt mit der Ergänzung unter DatePicker.init (Anfangszustand auch für später eingefügte Felder auf Touch). zustaende-S-DP entfällt.",
+   "anpassungen": []
+  },
+  {
+   "anker": "#f-close",
+   "nrs": [
+    "wording-S5.4-5.5",
+    "zustaende-S-DP"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Das Feld bekommt data-empty=\"Offen\" (wording-S5.4, Markup unter App.openTradeEditor). Ohne Wert zeigt das Overlay „Offen“ in --muted, auf Touch setzt DatePicker den Anfangszustand is-empty. zustaende-S-DP (class=\"input is-empty\" in app.js) entfällt.",
+   "anpassungen": []
+  },
+  {
+   "anker": "aria-describedby",
+   "nrs": [
+    "zustaende-S-U5",
+    "abstaende-M2",
+    "barrierefreiheit-C-misc-15"
+   ],
+   "art": "konflikt",
+   "entscheidung": "U.fieldErrors darf vorhandene Beschreibungen nicht überschreiben und U.clearFieldError sie nicht löschen. Betroffen sind z. B. die Währungsauswahl im Prop-Konto-Dialog mit aria-describedby=\"pa-cur-hint\" (abstaende-M2), deren required-Prüfung über den globalen invalid-Listener läuft. Die Fehler-ID wird angehängt, beim Aufräumen wird nur der Teil mit „-err“ entfernt. switchRow (C-misc-15, Suffix „-d“) und M2 bleiben unverändert. Den Wortlaut des Hinweises legt M2 nicht fest.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-U5",
+     "aktion": "aendern",
+     "anweisung": "In fieldErrors statt el.setAttribute('aria-describedby', id): const keep = (el.getAttribute('aria-describedby') || '').split(/\\s+/).filter(x => x && !x.endsWith('-err')); el.setAttribute('aria-describedby', keep.concat(id).join(' ')); In clearFieldError statt if ((el.getAttribute('aria-describedby') || '').endsWith('-err')) el.removeAttribute('aria-describedby'): const keep = (el.getAttribute('aria-describedby') || '').split(/\\s+/).filter(x => x && !x.endsWith('-err')); if (keep.length) el.setAttribute('aria-describedby', keep.join(' ')); else el.removeAttribute('aria-describedby');"
+    },
+    {
+     "nr": "abstaende-M2",
+     "aktion": "aendern",
+     "anweisung": "M2 ändert nur den Aufbau: Hinweis als eigenes Rasterelement <span class=\"hint span2\" id=\"pa-cur-hint\">…</span> direkt hinter dem Währungsfeld, aria-describedby=\"pa-cur-hint\" am Select, Notiz span4. Den Hinweistext nicht aus M2 nehmen. Es gilt der Text, den die Wortwahl für prop.js:194 festlegt (wording.md Z. 497, Schritt 12.16, bzw. die Konfliktentscheidung dazu gegen kilook)."
+    }
+   ]
+  },
+  {
+   "anker": "#fd-pop",
+   "nrs": [
+    "barrierefreiheit-C-dashboard-124",
+    "barrierefreiheit-C-dash-filter-168-189",
+    "bewegung-3.8b",
+    "responsiv-3.5"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ein gemeinsames close() in dash-filter.js. Es blendet das Fenster aus (bewegung) und setzt aria-expanded, bei ×, Escape und Anwenden geht der Fokus zurück (barrierefreiheit): function close(ret) { const u = ui(); const was = u.open; u.open = false; u.draft = null; u.pick = null; const pop = document.getElementById('fd-pop'); if (pop) { pop.removeAttribute('id'); const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(pop, 'closing', '--dur-1', () => pop.remove()); else pop.remove(); } const b = document.querySelector('[data-action=\"dash-f-open\"]'); if (b) { b.setAttribute('aria-expanded', 'false'); if (ret === true && was) b.focus({ preventScroll: true }); } } Dazu wie bei barrierefreiheit: hashchange → () => close(), Escape → close(true), 'dash-f-close' → close(true), 'dash-f-apply' → close(); App.rerender(); danach Fokus auf den Filter-Knopf. Das Ausblenden setzt kein #fd-layer.innerHTML = '' mehr. .fd-pop.closing (pointer-events: none) aus dem CSS-Teil von bewegung verhindert Klicks ins ausblendende Fenster. Die Tab-Falle (#fd-pop …) sieht das Fenster ohne ID nicht mehr. aria-controls=\"fd-pop\" (C-dashboard-124) und der 16-px-Rand am Handy in place() (responsiv-3.5) sind verträglich.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-C-dash-filter-168-189",
+     "aktion": "aendern",
+     "anweisung": "close() wie im Entscheidungstext, also mit Motion.leave statt l.innerHTML = ''. Alle anderen Teile (Fokus beim Öffnen, Tab-Falle, refresh-Fokus, hashchange-Kapsel, close(true) bei Escape und ×, Fokus nach Anwenden) bleiben."
+    },
+    {
+     "nr": "bewegung-3.8b",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "barrierefreiheit-C-dash-filter-168-189",
+     "anweisung": "Das Ausblenden mit ID-Entfernung steckt im gemeinsamen close(). Prüfung 6 der Bewegung (40 ms nach Escape existiert .fd-pop.closing, nach 250 ms ist #fd-layer leer) bleibt gültig."
+    }
+   ]
+  },
+  {
+   "anker": "aria-invalid",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "zustaende-S-U5"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aria-invalid setzt und entfernt allein U.fieldErrors bzw. U.clearFieldError (zustaende-S-U5). Die händischen setAttribute- und removeAttribute-Aufrufe aus barrierefreiheit-P12 entfallen (Anweisung unter #trade-form).",
+   "anpassungen": []
+  },
+  {
+   "anker": "#f-symbol-btn",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "komponenten-A5b",
+    "zustaende-S-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Fehler am Symbolknopf: Feldmeldung „Symbol fehlt“ über U.fieldErrors, aufgeräumt mit U.clearFieldError(btn) in pick() (siehe #trade-form). Die IDs f-symbol-btn, f-symbol und f-symbol-l bleiben in App.symbolField (komponenten-A5b) gleich, darum gilt das für Trade- und Verpasst-Dialog.",
+   "anpassungen": []
+  },
+  {
+   "anker": "#f-entry",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "zustaende-S-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Feldmeldung „Einstieg fehlt“ über U.fieldErrors (siehe #trade-form). required bleibt als Semantik.",
+   "anpassungen": []
+  },
+  {
+   "anker": "#f-exit",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "zustaende-S-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ist Geschlossen gesetzt und fehlt der Ausstieg, erscheint die Feldmeldung „Ausstieg fehlt“ am Ausstiegsfeld (siehe #trade-form). Wie man den Trade offen lässt, zeigt das Feld Geschlossen über sein Overlay „Offen“ bzw. den Hinweis „(leer lassen, solange offen)“.",
+   "anpassungen": []
+  },
+  {
+   "anker": "#f-qty",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "zustaende-S-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Geprüft wird roh mit Number(form.elements.quantity.value) > 0 (aus S-A4, fängt auch negative Eingaben ab, die readTradeForm still per abs umdreht), Meldung „Kontrakte fehlen“ (siehe #trade-form).",
+   "anpassungen": []
+  },
+  {
+   "anker": "#f-open",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "zustaende-S-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Geprüft wird roh mit form.elements.openedAt.value, weil readTradeForm leer still auf „jetzt“ setzt. Meldung „Eröffnet fehlt“ (siehe #trade-form).",
+   "anpassungen": []
+  },
+  {
+   "anker": "App.readTradeForm",
+   "nrs": [
+    "barrierefreiheit-P12",
+    "zustaende-S-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "readTradeForm bleibt unverändert. Die Prüfung in 'save-trade' liest Symbol, Richtung, Einstieg und Ausstieg daraus, Kontrakte und Eröffnet roh aus dem Formular (siehe #trade-form).",
+   "anpassungen": []
+  },
+  {
+   "anker": "C.parseDayKey",
+   "nrs": [
+    "abstaende-E3",
+    "aufbau-B6",
+    "barrierefreiheit-C-trades-59"
+   ],
+   "art": "doppelt",
+   "entscheidung": "E3 und B6 sind dieselbe Änderung, B6 übernimmt (siehe App.actions['new-trade']). barrierefreiheit-C-trades-59 nutzt C.parseDayKey nur für den Lösch-Namen der verpassten Trades und ist verträglich.",
+   "anpassungen": []
+  }
+ ],
+ "vertraeglich": [
+  "App.openSymbolMenu",
+  "#f-mult",
+  "[data-action=new-trade]",
+  "C.dayKey",
+  "Motion.leave",
+  ".toast",
+  ".dir-switch.need",
+  "aria-keyshortcuts",
+  "Certificate.menuHTML"
+ ]
+}

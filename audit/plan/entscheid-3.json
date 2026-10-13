@@ -1,0 +1,477 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "--text-2",
+   "nrs": [
+    "diagramme-K1",
+    "farbe-C16"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Affiliate-Balken (affiliate.js:47) neutral nach diagramme-K1: `<path class=\"br\" d=\"${U.vbarPath(x(i) - bw / 2, bw, y(0), m.v > 0 ? Math.min(y(m.v), y(0) - 2) : y(0))}\" fill=\"var(--text-2)\" fill-opacity=\".45\" data-tip=\"…unverändert…\"></path>`, in beiden Ansichten, ohne Hover-Stil. farbe-C16 wollte `fill=\"var(--profit)\"`. Grund: Grün nur für Gewinn/positiv (BRIEF). Die Balken zeigen Beträge ohne Vorzeichen, in der Betreiber-Ansicht sind Provisionen Kosten, Grün wäre dort falsch. Mengenbalken sind app-weit --text-2 .45 (diagramme A-8). Die Zeile „Affiliate-Balken --profit“ in farbe 1.9 gilt damit nicht. Die übrigen --text-2-Stellen dieses Ankers (barrierefreiheit-A2b Fokusrand, diagramme-A1 text.bv, E5 PV.line, E8b Trefferquote-Reihe) nutzen nur das Token und sind verträglich. zustaende-S-C9c ist über die .lang-card-Anker erledigt.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C16",
+     "aktion": "aendern",
+     "anweisung": "Nur Z. 67 (Pille „Ausgezahlt“/„Offen“) umsetzen. Z. 47 (fill → --profit) entfällt, die Balken setzt diagramme-K1 neutral um (--text-2, .45, Pfad-Balken)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".lang-card:hover",
+   "nrs": [
+    "farbe-C4",
+    "zustaende-S-C9c"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide setzen app.css:1921 `.lang-card:hover { border-color: var(--text-2); }`. Das passt zu anderen Optionskarten (.pair-card Hover-Rand --text-2). farbe-C4 setzt es um. Auf gewählten Karten bleibt der Rand aus der gemeinsamen Gewählt-Regel (Z. 3127, steht später).",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C9c",
+     "aktion": "zusammen_mit",
+     "anweisung": "Z. 1921 wird nicht separat geändert, farbe-C4 setzt denselben Wert.",
+     "ziel_nr": "farbe-C4"
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".lang-card[aria-pressed=\"true\"] .lang-cur",
+   "nrs": [
+    "farbe-C4",
+    "zustaende-S-C9c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "app.css:1926 nach farbe-C4: `.lang-card[aria-pressed=\"true\"] .lang-cur { color: var(--text-2); background: var(--surface-3); box-shadow: none; }`. Das Währungskürzel bleibt in beiden Zuständen dieselbe gefüllte Pille, gewählt wird nur die Schrift heller (--muted → --text-2). Die Auswahl zeigt die Karte selbst über den flachen Gewählt-Stil (Z. 3127). zustaende-S-C9c wollte im gewählten Zustand auf eine Umriss-Pille wechseln (transparent + Ring --border-2). Das wäre ein zusätzlicher Formwechsel und brächte keine Deutlichkeit: Im Dunklen liegt --border-2 (#34322e) auf der gewählten Kartenfläche (color-mix 10 % ≈ #302f2c) praktisch unsichtbar. Ruhiger und ohne Grün ist farbe-C4. switchtest.js:11 bleibt gültig.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C9c",
+     "aktion": "entfaellt",
+     "anweisung": "Ganzer Schritt entfällt: Z. 1921 und Z. 1926 setzt farbe-C4 um (Chip gewählt: --text-2 auf --surface-3, ohne Ring)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".more-row",
+   "nrs": [
+    "aufbau-B12",
+    "aufbau-C2a",
+    "farbe-C14d",
+    "wording-S6.11-6.15",
+    "zustaende-S-W4",
+    "wording-S6.23-6.27"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Bindendes Ergebnis für „Letzte Trades & offene Positionen“ (widgets.js:253/257): keine Fußzeile mehr. Der Link sitzt nach dem einen App-Muster (aufbau) rechts im Kartenkopf, wie „Öffnen“ bei den Bereichs-Widgets. Z. 257 endet auf `…${table}` ohne `.more-row`, Optionen `{ info: e.info, cls: 'recent-card', trailing: d.all.length ? more('#/trades', 'Zum TradeLog') : '' }`. Beschriftung „Zum TradeLog“ (Wording-Glossar W5: „Zum/Zur + Bereich“ = Navigation aus einem Widget; Übersetzung „Go to TradeLog“ ist dort vorbereitet), also weder „Alle Trades“ noch „Mehr anzeigen“ (das bleibt fürs Nachladen reserviert). Info-Text Z. 253: „…; „Zum TradeLog“ öffnet die ganze Liste.“ Der Link erscheint nur, wenn das Widget überhaupt Trades hat (`d.all.length`). Das erfüllt W13 („mehr“-Link nur mit Inhalt) und zustaende-S-TE2 (leeres Dashboard ohne `.recent-card .more-link`). Der Kopf-Link springt aber nicht weg, wenn man auf „Offene Positionen“ ohne offene Position umschaltet (das täte die Bedingung rows.length). Regel-Tracker Z. 288 verliert den Kopf-Link (aufbau-C2a = wording 6.15, einmal umsetzen). Danach löscht aufbau-B12 `.more-row` (Z. 1658). Tests: dashtest.js:67 Meldung „Zum TradeLog“, die Prüfung `.recent-card .more-link` mit href `#/trades` bleibt. In dashtest.js:72 den Teil `&& await p.$eval('.w[data-typ=\"regel_tracker\"] .card-head .more-link', …)` streichen, weil der Kopf-Link bewusst entfällt; die Prüfung `.tracker-foot a` → `#/progress` bleibt.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C2a",
+     "aktion": "aendern",
+     "anweisung": "Z. 257 trailing = `d.all.length ? more('#/trades', 'Zum TradeLog') : ''` (nicht 'Alle Trades', nicht unbedingt). Z. 253 Info-Text = „…; „Zum TradeLog“ öffnet die ganze Liste.“ (Wording). Regel-Tracker-Teil und Leertext-Link #/settings/regeln wie spezifiziert. Zusätzlich dashtest.js:72 die Kopf-Link-Prüfung des Regel-Trackers streichen (Rest der Zeile bleibt). Den neuen Text „Zum TradeLog“ und den Info-Satz in js/lang/{en,es,hi,pt,zh}.js eintragen (Werte aus wording)."
+    },
+    {
+     "nr": "wording-S6.11-6.15",
+     "aktion": "aendern",
+     "anweisung": "6.11 und 6.12 setzt aufbau-C2a mit dem Wording-Text um: Kopf-Link statt .more-row, Bedingung d.all.length. 6.15 ist identisch mit aufbau-C2a und wird dort umgesetzt. Nur 6.13 (U.count im Challenge-Zähler) und 6.14 („abgehakt“) hier umsetzen."
+    },
+    {
+     "nr": "farbe-C14d",
+     "aktion": "entfaellt",
+     "anweisung": "Die Fußzeile entfällt ganz. Die Inhaltsbedingung trägt der Kopf-Link aus aufbau-C2a (d.all.length)."
+    },
+    {
+     "nr": "zustaende-S-W4",
+     "aktion": "aendern",
+     "anweisung": "Nur Z. 256 (Leerzweig mit .empty.chart-empty und den Leertiteln) umsetzen. Der Z.-257-Teil (.more-row nur mit Zeilen) entfällt, das übernimmt aufbau-C2a."
+    },
+    {
+     "nr": "wording-S6.23-6.27",
+     "aktion": "aendern",
+     "anweisung": "6.27 widgetpreviews.js:90: „Zum TradeLog“ nicht unten mittig (tx(70, 85, …)), sondern im Kopf wie bisher beim Regel-Tracker: `tx(132, 13, 'Zum TradeLog', 4, T2, { a: 'end', w: 500 })`, neutral statt P (Grün). Der Teil zu :104 (Regel-Tracker-Link streichen) bleibt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C2a",
+     "nach": "aufbau-B12"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".more-link:hover",
+   "nrs": [
+    "aufbau-B12",
+    "farbe-C3b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "app.css:1659–1660 nach aufbau-B12: `.more-link { color: var(--text-2); font-weight: 500; font-size: 13px; text-decoration: none; }` und `.more-link:hover { color: var(--text); }`, ohne Unterstreichung. Z. 1659 ist in beiden Specs identisch. farbe-C3b wollte beim Hover zusätzlich `text-decoration: underline; text-underline-offset: 3px`. Der Kopf-Link ist ein Navigations-Steuerelement wie Reiter und Navigation. Seine Hover-Rückmeldung läuft nur über die Textfarbe (aufbau „kein Grün/Unterstrich“, bewegung H1). Unterstrichen sind nur Fließtext-Links (.tlink). Das 13-px-Token regelt typografie-3.2.3l.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C3b",
+     "aktion": "entfaellt",
+     "anweisung": "Z. 1659 setzt aufbau-B12 wortgleich um, Z. 1660 ohne Unterstreichung nach aufbau-B12."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".recent-card",
+   "nrs": [
+    "abstaende-R2",
+    "aufbau-C2a",
+    "komponenten-W4"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die Kartenhöhe am Handy ist fest (app.css:1780, nach abstaende-D10 360 px). Fußzeile weg (aufbau-C2a) und Unterstrich-Reiter statt Schiene (komponenten-W4) ändern aber den Platz für die Tabellenzeilen. abstaende-R2 (mobiletest.js:72) wird deshalb erst nach C2a und W4 angepasst und gemessen. Der Wert 360 bleibt, die Zeilengrenze wird mitgeprüft.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-R2",
+     "aktion": "aendern",
+     "anweisung": "Nach aufbau-C2a und komponenten-W4 laufen lassen. `dd.cardH === 360` und „(360px)“ wie spezifiziert. Ohne Fußzeile (≈30 px) passt etwa eine Zeile mehr. Misst mobiletest dann 7 sichtbare Zeilen, `dd.rows <= 6` → `dd.rows <= 7` setzen, sonst unverändert lassen."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C2a",
+     "nach": "abstaende-R2"
+    },
+    {
+     "vor": "komponenten-W4",
+     "nach": "abstaende-R2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".pos",
+   "nrs": [
+    "diagramme-M1",
+    "diagramme-G3",
+    "zustaende-S-DY2",
+    "farbe-C20",
+    "farbe-C30",
+    "farbe-C31b",
+    "farbe-C31a",
+    "barrierefreiheit-C-trades-49"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Dieselbe Zählerfärbung steht wortgleich in mehreren Gruppen: Gewinner/Verlierer bzw. Gewinntage/Verlusttage nur bei > 0 als pos/neg, Tabellen-Zählspalten neutral. Betroffen sind day.js:14 (diagramme-M1, zustaende-S-DY2, farbe-C20), trades.js:54 (diagramme-M1, farbe-C31b) und stats.js:31/32 (diagramme-G3, farbe-C30). Sie wird einmal umgesetzt: diagramme-M1 für day.js:14 und trades.js:54, diagramme-G3 für stats.js:31/32, genau mit den dort genannten Werten. TradeLog-Regeln-Spalte trades.js:49: Klasse und Symbole nach farbe-C31a (Regel „✓ --muted, × --loss“). barrierefreiheit-C-trades-49 ergänzt nur die Namen: `<span class=\"rule-ic muted\" role=\"img\" aria-label=\"Alle Regeln eingehalten\">${I.check}</span>` bzw. `<span class=\"rule-ic neg\" role=\"img\" aria-label=\"Gebrochen: ${esc(t.rulesBroken.join(', '))}\" data-tip=\"${esc(t.rulesBroken.join(', '))}\">${I.close}</span>`. Der row-link in der ersten Zelle bleibt wie in C-trades-49.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-DY2",
+     "aktion": "aendern",
+     "anweisung": "Nur „Kennzahlen-Karte nur bei trades.length“ und „Spark-Zelle nur bei closed.length“ umsetzen. Den Gewinner/Verlierer-Teil nicht umsetzen, das macht diagramme-M1."
+    },
+    {
+     "nr": "farbe-C20",
+     "aktion": "aendern",
+     "anweisung": "Z. 14 (Zähler) entfällt, das übernimmt diagramme-M1. Z. 12, 15 und 19 bleiben."
+    },
+    {
+     "nr": "farbe-C31b",
+     "aktion": "aendern",
+     "anweisung": "Z. 54 (Tageskarten-Zähler) entfällt, das übernimmt diagramme-M1. Z. 59 (Verpasste Trades) bleibt."
+    },
+    {
+     "nr": "farbe-C30",
+     "aktion": "aendern",
+     "anweisung": "Z. 31 und der wins/losses-Teil von Z. 32 entfallen, das übernimmt diagramme-G3. Der intradayDD-Teil von Z. 32 (neg bzw. „—“ faint) und die übrigen Punkte bleiben."
+    },
+    {
+     "nr": "barrierefreiheit-C-trades-49",
+     "aktion": "aendern",
+     "anweisung": "In der Regeln-Zelle die Klassen und Symbole aus farbe-C31a übernehmen (`rule-ic muted` für ✓, `rule-ic neg` für ×, ohne Inline-Größe am SVG). Nur role=\"img\" und aria-label ergänzen, nicht class=\"pos\" setzen. Erste Zelle mit a.row-link wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "farbe-C31a",
+     "nach": "barrierefreiheit-C-trades-49"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".neg",
+   "nrs": [
+    "diagramme-M1",
+    "diagramme-G3",
+    "zustaende-S-DY2",
+    "barrierefreiheit-C-trades-49"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Dieselben Schritte und dieselbe Entscheidung wie beim Anker .pos: Zähler einmal über diagramme-M1 (day.js:14, trades.js:54) und diagramme-G3 (stats.js:31/32). Das × in der Regeln-Spalte bekommt `rule-ic neg` (farbe-C31a) plus role=\"img\" und aria-label „Gebrochen: …“ (barrierefreiheit-C-trades-49). Die Anpassungen stehen beim Anker .pos und werden nur einmal angewendet.",
+   "anpassungen": [],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".input[aria-invalid=\"true\"]",
+   "nrs": [
+    "zustaende-S-C3",
+    "barrierefreiheit-B11"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ein Regelsatz für Feldfehler aus zustaende-S-C3, nach `.field .hint` (Z. 299), also nach der Fokusregel Z. 293. Er deckt barrierefreiheit-B11 vollständig ab, plus .select, .sym-btn und .dir-switch. Eine Änderung: Ein fehlerhaftes Feld bekommt im Fokus keinen Ring. `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }` statt `box-shadow: 0 0 0 3px var(--loss-soft)`. Grund: barrierefreiheit Z1 (Felder im Fokus nur mit Rand, box-shadow none, box-shadow-Ringe verboten) und BRIEF (kein Schein). Die Fokusregel selbst bleibt nötig, sonst überstimmt `textarea.input:focus` (0,2,1) aus barrierefreiheit-A2b das `.input[aria-invalid=\"true\"]` (0,2,0). `.field-err` folgt der Typografie-Skala: `font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss);` (12/16; Zeilenhöhen 1.26–1.49 werden laut typografie ersetzt; ohne Tokens 12px/16px).",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C3",
+     "aktion": "aendern",
+     "anweisung": "Zeile 2 → `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }`. Zeile 3 → `.field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }`. Zeile 1 unverändert."
+    },
+    {
+     "nr": "barrierefreiheit-B11",
+     "aktion": "zusammen_mit",
+     "anweisung": "`.input[aria-invalid=\"true\"] { border-color: var(--loss); }` ist in der ersten Regel von zustaende-S-C3 enthalten, nicht doppelt anlegen.",
+     "ziel_nr": "zustaende-S-C3"
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rr-day.today",
+   "nrs": [
+    "farbe-B5",
+    "zustaende-S-C8"
+   ],
+   "art": "konflikt",
+   "entscheidung": "„Heute“ wird in allen Wählern einheitlich nach zustaende-S-C8 unterstrichen statt umrandet: `.rr-day.today { color: var(--text); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--muted); }`, dazu `.rr-day.start.today, .rr-day.end.today { text-decoration-color: currentColor; }`. Gründe: (1) Eine Markierung für Zeitraum-Kalender, Datumswähler, Monatswahl und Notebook-Kalender. farbe-B5 gibt .rr-day keinen Ring, den anderen schon. (2) S-C8 nutzt den Ring inset 1.5px --muted bereits für Vorschau und Kante (.rr-day.pv-end, .dp-day.edge). Ein Heute-Ring inset 1px --muted wäre davon kaum zu unterscheiden. (3) Im .rr-day verdeckt das Band (::before) einen Ring seitlich. (4) 600 statt 700: Kalenderknöpfe stehen auf 500, 700 ist nur für Werte. 600 entspricht dem Heute-Kreis im Dashboard-Kalender (komponenten K6). Ohne Grün, ohne Ring.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B5",
+     "aktion": "entfaellt",
+     "anweisung": "Die Heute-Markierung aller vier Selektoren setzt zustaende-S-C8 um (Unterstreichung, --text, ohne Ring)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dp-day.today",
+   "nrs": [
+    "farbe-B5",
+    "zustaende-S-C8"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Nach zustaende-S-C8 (Begründung beim Anker .rr-day.today): `.dp-day.today { color: var(--text); font-weight: 600; box-shadow: none; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--muted); }` und `.dp-day.sel.today { text-decoration-color: currentColor; }`. Nicht farbe-B5 (`box-shadow: inset 0 0 0 1px var(--muted)`, 700). dptest.js:24 (.dp-day.today genau einmal) bleibt gültig.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B5",
+     "aktion": "entfaellt",
+     "anweisung": "Siehe .rr-day.today, zustaende-S-C8 setzt es um."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".dp-month.today",
+   "nrs": [
+    "farbe-B5",
+    "zustaende-S-C8"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Nach zustaende-S-C8, mit derselben Stärke wie die anderen Heute-Markierungen: `.dp-month.today { color: var(--text); font-weight: 600; box-shadow: none; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--muted); }` sowie neu `.dp-month.sel.today { text-decoration-color: currentColor; }`. Nach S-C8s eigener Regel bekommt eine invertierte Auswahl eine Unterstreichung in currentColor; S-C8 hat das hier nicht ausgeschrieben. Nicht farbe-B5 (Ring --muted).",
+   "anpassungen": [
+    {
+     "nr": "farbe-B5",
+     "aktion": "entfaellt",
+     "anweisung": "Siehe .rr-day.today."
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "aktion": "aendern",
+     "anweisung": "In Z. 431 zusätzlich `font-weight: 600;`. Nach Z. 432 neu `.dp-month.sel.today { text-decoration-color: currentColor; }`."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".datepick .dp.today",
+   "nrs": [
+    "farbe-B5",
+    "zustaende-S-C8"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Notebook-Kalender wie die anderen Wähler nach zustaende-S-C8: `.datepick .dp.today { font-weight: 600; box-shadow: none; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--muted); }` sowie neu `.datepick .dp.sel.today { text-decoration-color: currentColor; }`, weil .datepick .dp.sel (Z. 1027) bereits invertiert ist (--text/--bg). 600, weil typografie-3.2.4d die Grundschrift von .datepick .dp auf 500 setzt und Heute überall 600 ist. Nicht farbe-B5 (Ring --muted).",
+   "anpassungen": [
+    {
+     "nr": "farbe-B5",
+     "aktion": "entfaellt",
+     "anweisung": "Siehe .rr-day.today."
+    },
+    {
+     "nr": "zustaende-S-C8",
+     "aktion": "aendern",
+     "anweisung": "In Z. 1026 zusätzlich `font-weight: 600;`. Nach Z. 1027 neu `.datepick .dp.sel.today { text-decoration-color: currentColor; }`."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sidebar .spacer",
+   "nrs": [
+    "abstaende-D1",
+    "responsiv-B1"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide verschieben die zwei Dichte-@media-Blöcke (Z. 146–157 samt Kommentar) hinter `.sidebar .spacer { flex: 1; }` (Z. 187). Das passiert einmal über abstaende-D1 (1), dabei wird `.brand { padding-bottom: 14px; }` aus dem 1060er-Block gestrichen (die Marke hat nach D1 kein unteres Polster mehr). Polster und Konto-Karte regelt der Anker .sb-userwrap.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B1",
+     "aktion": "zusammen_mit",
+     "anweisung": "Verschieben über abstaende-D1 (1). B1 wird insgesamt nicht separat umgesetzt (siehe .sb-userwrap). Die B1-Tests (sidebartest 1440×1000, usercardtest:21, mobiletest:59–60) laufen bei D1 mit.",
+     "ziel_nr": "abstaende-D1"
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sb-userwrap",
+   "nrs": [
+    "abstaende-D1",
+    "responsiv-B1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ein Modell für Desktop und Schublade: Die Leiste hat unten kein Polster, die 18 px trägt die klebende Konto-Karte. Desktop (D1 mit Änderung): `.sidebar { …; padding: 0 14px 0; }`. Oben 0 kommt aus D1, weil .brand jetzt min-height var(--topbar-h) hat; unten 0 aus B1. Z. 232 `.sb-userwrap { margin-top: 10px; flex: 0 0 auto; }` → `.sidebar .sb-userwrap { position: sticky; bottom: 0; z-index: 1; flex: 0 0 auto; margin-top: 2px; padding: 8px 0 18px; background: var(--bg-2); } /* Konto-Karte bleibt sichtbar, die Navigation scrollt darunter */`. Der Selektor mit .sidebar ist Pflicht: Das Element ist zugleich .popwrap, und `.popwrap { position: relative }` (Z. 328) steht später. B1s bloßes `.sb-userwrap { position: sticky }` hätte nicht gewirkt. Kein negatives bottom und kein negativer Rand wie in der D1-Fassung, weil die Schublade (responsiv-B2) unten ebenfalls 0 Polster setzt und die Karte dort sonst 18 px unter den Rand rutschte. Ergebnis wie von D1 gemessen: Die Karte endet bei innerHeight − 18, darüber 10 px Luft (2 + 8). Die D1-Teile (3) .brand, (4) .sb-sep, (5) mini-.brand bleiben unverändert.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-D1",
+     "aktion": "aendern",
+     "anweisung": "(2) `.sidebar` padding → `0 14px 0` (statt `0 14px 18px`). (6) Z. 232 → `.sidebar .sb-userwrap { position: sticky; bottom: 0; z-index: 1; flex: 0 0 auto; margin-top: 2px; padding: 8px 0 18px; background: var(--bg-2); }` mit Kommentar aus B1, ohne `bottom: -18px` und ohne `margin: 2px 0 -18px`. (1), (3), (4), (5) wie spezifiziert. Prüfen: sidebartest.js, usercardtest.js (inkl. :21, :55–58), mobiletest.js:59–60."
+    },
+    {
+     "nr": "responsiv-B1",
+     "aktion": "zusammen_mit",
+     "anweisung": "Unteres Polster 0 und klebende Konto-Karte sind in abstaende-D1 (geändert) enthalten, nicht separat umsetzen.",
+     "ziel_nr": "abstaende-D1"
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sidebar .sb-userwrap",
+   "nrs": [
+    "abstaende-D1",
+    "responsiv-B2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Schublade ≤ 960 px (responsiv-B2) übernimmt das D1-Modell. In der Regel Z. 918: `padding: env(safe-area-inset-top, 0px) 14px 0 calc(14px + env(safe-area-inset-left, 0px));` statt `calc(22px + env(...)) …`. Nach D1 ist die Marke überall so hoch wie die Titelzeile (min-height var(--topbar-h), Inhalt mittig). 22 px zusätzlich ergäben oben 94 statt 72 px, also einen anderen Kopf als am Desktop. Safe Area bleibt berücksichtigt. `.sidebar .sb-userwrap { padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }` bleibt und passt zu „unten 0“. Im neuen Block `@media (max-width: 960px) and (max-height: 940px)` steht nur `.sidebar .nav.nav-group + .nav.nav-group { margin-top: 16px; }`. `.sidebar .brand { padding-bottom: 14px; }` entfällt: Die Marke hat nach D1 kein unteres Polster, und D1 streicht dieselbe Zeile im Desktop-Dichteblock. visibility-Übergänge bleiben wie spezifiziert.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B2",
+     "aktion": "aendern",
+     "anweisung": "Z. 918 padding → `env(safe-area-inset-top, 0px) 14px 0 calc(14px + env(safe-area-inset-left, 0px))`. Im neuen ≤960/≤940-Block die Regel `.sidebar .brand { padding-bottom: 14px; }` weglassen. `.sidebar .sb-userwrap { padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }`, visibility und Transition wie spezifiziert. Die `.brand .sb-toggle`-Größenzeile entfällt (Anker .brand .sb-toggle). Prüfen: sidebartest.js:44–45, usercardtest.js:55–58, motiontest.js:62–66, mobiletest.js:59–60."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-D1",
+     "nach": "responsiv-B2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".brand .sb-toggle",
+   "nrs": [
+    "barrierefreiheit-B12a",
+    "responsiv-B2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Trefferfläche des Schubladen-× wird unsichtbar vergrößert (barrierefreiheit-B12a): im ≤960-Block `.brand .sb-toggle { position: relative; } .brand .sb-toggle::after { content: ''; position: absolute; inset: -7px; }`, gesamt 44 px. Sichtbar bleibt der Knopf 30×30, so wie Menüknopf (36) und Avatar (34) ebenfalls nur per ::after auf 44 px wachsen (barrierefreiheit Z5: „Schubladen-× 44“ unsichtbar). responsiv-B2 `.brand .sb-toggle { width: 40px; height: 40px; margin-right: -6px; }` entfällt. Das Ziel ist dasselbe, aber B2 ändert die Optik nur am Handy, und zusammen mit ::after ergäbe es 54 px. Die 7 px liegen im 14-px-Seitenpolster der Leiste, overflow-x: hidden schneidet nichts ab.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B2",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile `.brand .sb-toggle { width: 40px; height: 40px; margin-right: -6px; }` nicht anlegen. Die Trefferfläche kommt aus barrierefreiheit-B12a."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rp-switch input",
+   "nrs": [
+    "kilook-C4",
+    "komponenten-C34a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wortgleich: Z. 2147–2151 (alle .rp-switch-Regeln) löschen und in Z. 2333 aus der Liste `.rp-switch input, .rp-switch input::after, ` streichen. Übrig bleibt `.rp-choice { transition: none; }`. Einmal über kilook-C4, prüfen mit rptest.js:11.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C34a",
+     "aktion": "zusammen_mit",
+     "anweisung": "Identisch mit kilook-C4, nicht separat umsetzen.",
+     "ziel_nr": "kilook-C4"
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rp-switch input::after",
+   "nrs": [
+    "kilook-C4",
+    "komponenten-C34a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie beim Anker .rp-switch input: einmal über kilook-C4. komponenten-C34a entfällt als eigener Schritt.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C34a",
+     "aktion": "zusammen_mit",
+     "anweisung": "Identisch mit kilook-C4.",
+     "ziel_nr": "kilook-C4"
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".shadow-rule.on",
+   "nrs": [
+    "zustaende-S-C11",
+    "farbe-C7"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Nach zustaende-S-C11: aus = `.shadow-rule { …; background: transparent; }` (Rand --border, Abstände und Transition bleiben). An = `.shadow-rule.on { border-color: var(--border-2); background: var(--surface-2); }`. Kommentar Z. 2399: „an = leicht angehoben (Fläche surface-2, Rand border-2), Grün nur im Schalter“. Grund: BRIEF „leicht angehobene Fläche, feiner Rand“. farbe-C7 ließe aus und an beide auf --surface-2 und unterschiede sie nur durch 3 % Textbeimischung, das wäre kaum sichtbar, und der Zustand hinge allein am Schalter. transparent → surface-2 ist ruhig, lesbar und ohne Grün.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C7",
+     "aktion": "entfaellt",
+     "anweisung": "Kommentar und `.shadow-rule.on` setzt zustaende-S-C11 um (Fläche --surface-2, Rand --border-2, aus transparent)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  ".ql-editor h1",
+  ".ql-editor h2",
+  ".ql-editor h3",
+  "--border-2",
+  "widget:letzte_trades",
+  "day.js:14",
+  "day.js:15",
+  ".dir-switch",
+  ".dir-switch::before",
+  "--dir-c",
+  ".brand",
+  ".rp-choice",
+  ".nw-next",
+  ".shadow-rule"
+ ]
+}

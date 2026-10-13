@@ -10,6 +10,7 @@
     "farbe-A2",
     "farbe-A3a",
     "farbe-A3c",
+    "farbe-D3d",
     "typografie-3.0",
     "typografie-3.1",
     "typografie-3.2.1",
@@ -25,10 +26,10 @@
     "typografie-3.2.3f",
     "typografie-3.2.3g",
     "typografie-3.2.3h",
-    "typografie-3.2.3i",
-    "typografie-3.2.3l"
+    "typografie-3.2.3i"
    ],
    "dateien": [
+    "web/README.md",
     "web/app.html",
     "web/css/app.css",
     "web/index.html",
@@ -37,7 +38,6 @@
    "tests": [
     "Akzeptanz 4.1 Nr. 1–3 (grep satoshi@, Canvas-Breiten 500/600/700, document.fonts weight \"300 900\")",
     "Akzeptanz 4.2 Nr. 1–2 (grep font-size px)",
-    "Akzeptanz 4.2 Nr. 2 und Nr. 5",
     "Akzeptanz 4.2 Nr. 5 (Zeilenhöhen ganzzahlig)",
     "Akzeptanz 4.3 dashboard (Schatten-Ich-Widget-Labels 12 px, Kürzung nicht schlimmer, K13), day (Kennzahl-Labels 12 px)",
     "Akzeptanz 4.3 dashboard 1280 (Kalenderzellen ohne Überlauf)",
@@ -71,6 +71,7 @@
     "tokens"
    ],
    "schritte": [
+    "typografie-3.2.3l",
     "typografie-3.2.3m",
     "typografie-3.2.3n",
     "typografie-3.2.3p",
@@ -92,32 +93,24 @@
     "abstaende-A6",
     "abstaende-S1",
     "aufbau-A1",
-    "zustaende-S-C1",
-    "barrierefreiheit-A1",
-    "kilook-A1",
-    "kilook-A2",
-    "kilook-A3",
-    "kilook-A4"
+    "zustaende-S-C1"
    ],
    "dateien": [
     "scratchpad/localfonts.js",
     "web/README.md",
     "web/css/app.css",
     "web/css/landing.css",
-    "web/e2e/localfonts.js",
-    "web/js/ui.js"
+    "web/e2e/localfonts.js"
    ],
    "tests": [
     "Akzeptanz 4.1 Nr. 2–3",
+    "Akzeptanz 4.2 Nr. 2 und Nr. 5",
     "Akzeptanz 4.3 Kopfzeile 1024 (Knöpfe 14 px ohne Umbruch)",
     "Akzeptanz 4.3 dashboard/stats_summary/trades (Kachelwerte 24)",
     "Akzeptanz 4.3 index.html (sieht aus wie vorher)",
     "Akzeptanz 4.3 ruhepunkt („Vor dem Trading“ 15/600)",
     "Akzeptanz 4.3 shadow/leer_shadow/leer_progress (Intro und Leer-Titel 15/600)",
     "Akzeptanz 4.3 sidebar (Navigation 14/500)",
-    "anpassen in kilook-C27: e2e/proptest.js:55 (Erwartung baut Balance über UI.fmt.cur)",
-    "prüfen: e2e/friedhoftest.js:122 (Konto ohne Größe „—“)",
-    "prüfen: e2e/mobiletest.js (Kacheln bei Zeitraum „Gesamt“ mit P&L ≥ 10.000 bei 1024/390 px ohne Überlauf)",
     "web/e2e/coachtest.js",
     "web/e2e/headtest.js (Kopfreihe Handy)",
     "web/e2e/headtest.js:60–64 (Navigation weiter 500)",
@@ -140,20 +133,47 @@
   {
    "nr": 3,
    "cluster": [
-    "komponenten",
     "tokens"
    ],
    "schritte": [
+    "barrierefreiheit-A1",
+    "kilook-A1",
+    "kilook-A2",
+    "kilook-A3",
+    "kilook-A4",
     "kilook-A5",
     "kilook-A6",
     "bewegung-A1",
-    "bewegung-3.11c",
+    "bewegung-3.11c"
+   ],
+   "dateien": [
+    "web/app.html",
+    "web/css/app.css",
+    "web/e2e/motiontest.js",
+    "web/index.html",
+    "web/js/sample.js",
+    "web/js/ui.js"
+   ],
+   "tests": [
+    "anpassen in kilook-C27: e2e/proptest.js:55 (Erwartung baut Balance über UI.fmt.cur)",
+    "prüfen: e2e/friedhoftest.js:122 (Konto ohne Größe „—“)",
+    "prüfen: e2e/mobiletest.js (Kacheln bei Zeitraum „Gesamt“ mit P&L ≥ 10.000 bei 1024/390 px ohne Überlauf)",
+    "prüfen: e2e/settest2.js:22–26 („Klassisch“ lädt Inter/Roboto über Theme.loadFont)",
+    "web/e2e/motiontest.js:8",
+    "web/e2e/motiontest.js:8 (Schritt bewegung-3.11c)"
+   ],
+   "haengt_ab": []
+  },
+  {
+   "nr": 4,
+   "cluster": [
+    "komponenten"
+   ],
+   "schritte": [
     "farbe-B1",
     "farbe-B2",
     "farbe-B3a",
     "farbe-B3b",
-    "farbe-B4",
-    "farbe-B5",
     "farbe-B6",
     "farbe-B7",
     "farbe-B8",
@@ -176,37 +196,27 @@
     "typografie-3.2.4f",
     "typografie-3.2.4i",
     "typografie-3.2.4l",
-    "typografie-3.2.5a",
     "typografie-3.4a",
     "typografie-3.4b",
     "typografie-3.4c"
    ],
    "dateien": [
     "web/README.md",
-    "web/app.html",
     "web/css/app.css",
-    "web/e2e/motiontest.js",
-    "web/index.html",
-    "web/js/sample.js",
     "web/js/ui.js"
    ],
    "tests": [
     "Akzeptanz 4.1 Nr. 5 („Trade loggen“ fett, „Filter“ mit aktivem Filter nicht fetter)",
     "Akzeptanz 4.2 Nr. 6 (letter-spacing 0.66px an .nav-title, .popover .sec, .nb .sec-h, .sp-group, .caption; kein 0.99px)",
-    "Akzeptanz 4.3 dashboard (Kachelwerte 24)",
     "Akzeptanz 4.3 notebook (Listentitel 14/600), prop („Copy NQ“ und „Aktive Konten“ gleich schwer)",
     "Akzeptanz 4.3 prop (Reiter 14/500)",
     "Akzeptanz 4.4: grep \"a >= 10000\" ohne Treffer",
     "node --test web/tests/*.mjs",
-    "prüfen: e2e/settest2.js:22–26 („Klassisch“ lädt Inter/Roboto über Theme.loadFont)",
     "web/e2e/affiliatetest.js",
     "web/e2e/coachtest.js",
-    "web/e2e/dptest.js:24 (.dp-day.today bleibt genau einmal)",
     "web/e2e/filtertest.js",
     "web/e2e/headtest.js:61 (.set-nav 500, nicht betroffen)",
     "web/e2e/langtest.js:58",
-    "web/e2e/motiontest.js:8",
-    "web/e2e/motiontest.js:8 (Schritt bewegung-3.11c)",
     "web/e2e/proptest.js:55 (UI.fmt.cur, passt sich an)",
     "web/e2e/scorestatetest.js:20 (Symbol > 10 px, bleibt grün)",
     "web/e2e/switchtest.js:9"
@@ -216,7 +226,7 @@
    ]
   },
   {
-   "nr": 4,
+   "nr": 5,
    "cluster": [
     "komponenten",
     "tokens"
@@ -238,7 +248,6 @@
     "abstaende-B10",
     "abstaende-B11",
     "abstaende-B12",
-    "abstaende-B13",
     "abstaende-B17",
     "abstaende-B18",
     "abstaende-B19",
@@ -253,7 +262,10 @@
     "komponenten-C01",
     "komponenten-C02",
     "komponenten-C03",
-    "komponenten-C04"
+    "komponenten-C04",
+    "komponenten-C05",
+    "komponenten-C06",
+    "komponenten-C07"
    ],
    "dateien": [
     "web/README.md",
@@ -264,10 +276,15 @@
     "web/js/ui.js"
    ],
    "tests": [
+    "e2e/certtest.js",
     "e2e/coachtest.js (Coach-Felder .input.sm neben btn sm, 4.2)",
     "e2e/dptest.js",
+    "e2e/filtertest.js",
+    "e2e/rangetest.js (.rr-nav)",
     "e2e/shadowtest.js (Regelwerk .sr-num/.sr-step)",
+    "e2e/shadowtest.js:37–46 (Seitenwahl)",
     "e2e/shadowtest.js:37–46 und e2e/tlfittest.js (Seitenwahl mit .select.sm)",
+    "e2e/tlfittest.js:8–9 (Pager sichtbar)",
     "e2e/tradeformtest.js (Zahlenfelder im Trade-Dialog)",
     "web/e2e/dashtest.js:19 (muss grün bleiben)",
     "web/e2e/mobiletest.js:34 (Handy-Ausnahme bleibt)",
@@ -278,18 +295,15 @@
    "haengt_ab": [
     1,
     2,
-    3
+    4
    ]
   },
   {
-   "nr": 5,
+   "nr": 6,
    "cluster": [
     "komponenten"
    ],
    "schritte": [
-    "komponenten-C05",
-    "komponenten-C06",
-    "komponenten-C07",
     "komponenten-C09",
     "komponenten-C12",
     "komponenten-C13",
@@ -301,31 +315,32 @@
     "komponenten-C19",
     "komponenten-C20",
     "komponenten-C21a",
+    "farbe-B4",
     "komponenten-C21c",
     "komponenten-C22",
     "komponenten-C24",
     "komponenten-C25a",
-    "komponenten-C25b",
-    "komponenten-C25c",
     "komponenten-C33a",
     "komponenten-U1",
     "komponenten-U2",
     "komponenten-A5a",
-    "komponenten-A6",
     "komponenten-D1",
     "komponenten-S-dash-filter",
     "komponenten-R1a",
     "komponenten-R1e",
     "komponenten-R1f",
-    "komponenten-E1h",
     "aufbau-A2",
     "aufbau-A3a",
-    "aufbau-A3b"
+    "aufbau-A4f",
+    "aufbau-B9",
+    "zustaende-S-C2",
+    "zustaende-S-C5",
+    "zustaende-S-C6",
+    "zustaende-S-C7"
    ],
    "dateien": [
     "web/README.md",
     "web/css/app.css",
-    "web/e2e/mobiletest.js",
     "web/js/app.js",
     "web/js/datepicker.js",
     "web/js/screens/dash-filter.js",
@@ -333,7 +348,6 @@
    ],
    "tests": [
     "e2e/affiliatetest.js:16",
-    "e2e/affiliatetest.js:19, :45",
     "e2e/calmnavtest.js:40–51 (.tabs[data-subnav] scrollLeft)",
     "e2e/certtest.js",
     "e2e/colorpickertest.js",
@@ -352,63 +366,47 @@
     "e2e/langtest.js:33",
     "e2e/langtest.js:33 (keine abgeschnittenen .seg-Tasten)",
     "e2e/mobiletest.js:26–27 (Handy-Wert, siehe E1h)",
-    "e2e/mobiletest.js:27",
     "e2e/mobiletest.js:29 (TradeLog .tabs button einreihig, flexWrap)",
     "e2e/motiontest.js:18, :57",
     "e2e/proptest.js",
     "e2e/proptest.js:19, :91, :95",
     "e2e/rangetest.js",
-    "e2e/rangetest.js (.rr-nav)",
     "e2e/replaytest.js",
     "e2e/sampletest.js:81",
     "e2e/settest.js:22 (#be-from/#be-to; .input-unit fällt erst mit S-misc-e weg)",
-    "e2e/shadowtest.js:37–46 (Seitenwahl)",
     "e2e/shadowtest.js:53 (fill auf input[type=time])",
     "e2e/sixtest.js:26–31",
     "e2e/sixtest.js:39–40",
     "e2e/sixtest.js:53–55 (.nb .tags-row .chip)",
     "e2e/sixtest.js:54–56 (#pop-nbtags .item[aria-checked])",
-    "e2e/tlfittest.js",
-    "e2e/tlfittest.js:8–9 (Pager sichtbar)",
-    "e2e/tradeformtest.js:11",
     "e2e/tradeformtest.js:11 (#f-rating)",
     "e2e/tradeformtest.js:11, :30, :47 (#f-fees)",
     "e2e/tradeformtest.js:21–29 (#sym-menu .sym-opt)",
     "e2e/tradeformtest.js:30, :47 (#f-fees)",
-    "e2e/voicetest.js"
+    "e2e/voicetest.js",
+    "web/e2e/motiontest.js: „Kachel hebt sich beim Überfahren“ umkehren (Schritt zustaende-S-TE3)"
    ],
    "haengt_ab": [
+    1,
     2,
-    4
+    4,
+    5
    ]
   },
   {
-   "nr": 6,
+   "nr": 7,
    "cluster": [
     "komponenten"
    ],
    "schritte": [
-    "aufbau-A3c",
-    "aufbau-A4f",
-    "aufbau-B9",
-    "aufbau-B11",
-    "diagramme-A8a",
-    "zustaende-S-C2",
-    "zustaende-S-C5",
-    "zustaende-S-C6",
-    "zustaende-S-C7",
     "zustaende-S-C8",
-    "zustaende-S-C9b",
     "zustaende-S-C10",
     "zustaende-S-U6",
-    "zustaende-S-DP",
-    "zustaende-S-TE3",
     "zustaende-S-R1",
     "barrierefreiheit-B3",
     "barrierefreiheit-B4",
     "barrierefreiheit-B5",
     "komponenten-C18",
-    "barrierefreiheit-B6",
     "barrierefreiheit-B7",
     "barrierefreiheit-B8",
     "barrierefreiheit-B9a",
@@ -424,14 +422,19 @@
     "responsiv-A2",
     "responsiv-B5c",
     "responsiv-B6d",
-    "responsiv-C5"
+    "responsiv-C5",
+    "responsiv-3.2c",
+    "responsiv-3.3d",
+    "responsiv-3.4",
+    "wording-S1.1-1.3",
+    "wording-S3.1-3.3",
+    "wording-S4.1-4.5"
    ],
    "dateien": [
     "web/README.md",
     "web/css/app.css",
     "web/css/landing.css",
     "web/e2e/dashtest.js",
-    "web/e2e/motiontest.js",
     "web/js/app.js",
     "web/js/datepicker.js",
     "web/js/rangepicker.js",
@@ -442,36 +445,35 @@
     "prüfen: e2e/coachtest.js (mit Server)",
     "prüfen: e2e/usercardtest.js (Konto-Menü)",
     "web/e2e/affiliatetest.js",
+    "web/e2e/calmnavtest.js:49 (scrollLeft der Reiter)",
     "web/e2e/calmnavtest.js:49 (scrollbarWidth der .tabs, muss grün bleiben)",
     "web/e2e/dashtest.js:15",
+    "web/e2e/dptest.js:63",
     "web/e2e/friedhoftest.js",
-    "web/e2e/motiontest.js",
-    "web/e2e/motiontest.js: „Kachel hebt sich beim Überfahren“ umkehren (Schritt zustaende-S-TE3)",
+    "web/e2e/langtest.js (.rr-m)",
     "web/e2e/motiontest.js:49 (Toast „Hallo“ nach 2500 ms aus) bleibt gültig, nur prüfen",
     "web/e2e/proptest.js",
-    "web/e2e/settest.js, web/e2e/settest2.js (.set-nav, muss grün bleiben)"
+    "web/e2e/rangetest.js:10-20 (mob: sichtbarer Monat)",
+    "web/e2e/scrolltest.js (Scrollstände)",
+    "web/e2e/settest.js, web/e2e/settest2.js (.set-nav, muss grün bleiben)",
+    "web/e2e/tiptest.js (data-tip)"
    ],
    "haengt_ab": [
-    2
+    1,
+    3,
+    6
    ]
   },
   {
-   "nr": 7,
+   "nr": 8,
    "cluster": [
     "komponenten"
    ],
    "schritte": [
-    "responsiv-3.2c",
-    "responsiv-3.3d",
-    "responsiv-3.4",
-    "wording-S1.1-1.3",
-    "wording-S3.1-3.3",
-    "wording-S4.1-4.5",
     "wording-S4.6-4.7",
     "bewegung-B1",
     "bewegung-B2",
     "bewegung-B4a",
-    "bewegung-B5",
     "bewegung-C1",
     "bewegung-C7c",
     "bewegung-3.11a"
@@ -479,28 +481,19 @@
    "dateien": [
     "web/css/app.css",
     "web/e2e/motiontest.js",
-    "web/js/app.js",
-    "web/js/datepicker.js",
-    "web/js/rangepicker.js",
-    "web/js/ui.js"
+    "web/js/datepicker.js"
    ],
    "tests": [
-    "web/e2e/calmnavtest.js:49 (scrollLeft der Reiter)",
-    "web/e2e/dptest.js:63",
-    "web/e2e/langtest.js (.rr-m)",
     "web/e2e/motiontest.js:31 (animationName === 'pop-in' bleibt gültig)",
-    "web/e2e/motiontest.js:52–53",
-    "web/e2e/motiontest.js:52–53 (Schritt bewegung-3.11a)",
-    "web/e2e/rangetest.js:10-20 (mob: sichtbarer Monat)",
-    "web/e2e/scrolltest.js (Scrollstände)",
-    "web/e2e/tiptest.js (data-tip)"
+    "web/e2e/motiontest.js:52–53"
    ],
    "haengt_ab": [
-    6
+    6,
+    7
    ]
   },
   {
-   "nr": 8,
+   "nr": 9,
    "cluster": [
     "shell"
    ],
@@ -525,11 +518,11 @@
    "haengt_ab": [
     1,
     2,
-    3
+    4
    ]
   },
   {
-   "nr": 9,
+   "nr": 10,
    "cluster": [
     "shell",
     "tokens"
@@ -539,40 +532,39 @@
     "abstaende-A5",
     "abstaende-A9",
     "abstaende-D1",
-    "abstaende-E1",
     "abstaende-S5",
     "komponenten-C08",
     "komponenten-C10",
     "komponenten-C21b",
     "komponenten-U3",
     "komponenten-A1",
-    "komponenten-A2",
-    "komponenten-A3",
     "komponenten-A4",
     "komponenten-E1f",
     "komponenten-E1g",
-    "aufbau-B1",
-    "aufbau-B3",
     "aufbau-B4",
-    "aufbau-B5",
-    "aufbau-D3d",
-    "zustaende-S-C19",
     "zustaende-S-A2",
-    "zustaende-S-A3",
+    "komponenten-A3",
     "zustaende-S-H1",
-    "zustaende-S-H2",
-    "barrierefreiheit-B12b"
+    "barrierefreiheit-H2",
+    "barrierefreiheit-P9",
+    "kilook-C1b",
+    "barrierefreiheit-B12b",
+    "kilook-C7b",
+    "kilook-C8a",
+    "kilook-C1a",
+    "responsiv-B2",
+    "responsiv-B3",
+    "responsiv-3.3a"
    ],
    "dateien": [
     "web/README.md",
     "web/app.html",
     "web/css/app.css",
     "web/e2e/coachtest.js",
-    "web/e2e/headtest.js",
     "web/e2e/navdottest.js",
     "web/e2e/sidebartest.js",
-    "web/e2e/sixtest.js",
     "web/e2e/usercardtest.js",
+    "web/index.html",
     "web/js/app.js",
     "web/js/ui.js"
    ],
@@ -595,80 +587,45 @@
     "e2e/tiptest.js",
     "e2e/usercardtest.js",
     "e2e/usercardtest.js:11",
-    "e2e/usercardtest.js:11 (siehe E1g)",
     "e2e/usercardtest.js:55",
     "e2e/voicetest.js:21",
-    "web/e2e/headtest.js:11",
-    "web/e2e/mobiletest.js:31 (18 → 16, Schritt R1)",
-    "web/e2e/mobiletest.js:39-40 (bleibt grün)",
-    "web/e2e/sidebartest.js",
-    "web/e2e/sixtest.js:11",
-    "web/e2e/tlfittest.js (muss grün bleiben)",
-    "web/e2e/usercardtest.js (müssen grün bleiben)"
-   ],
-   "haengt_ab": [
-    2,
-    5,
-    8
-   ]
-  },
-  {
-   "nr": 10,
-   "cluster": [
-    "shell"
-   ],
-   "schritte": [
-    "barrierefreiheit-H2",
-    "barrierefreiheit-P8",
-    "barrierefreiheit-P9",
-    "kilook-C1b",
-    "kilook-C7b",
-    "kilook-C8a",
-    "kilook-C1a",
-    "responsiv-B1",
-    "responsiv-B2",
-    "responsiv-B3",
-    "responsiv-3.3a",
-    "responsiv-3.6",
-    "bewegung-B3"
-   ],
-   "dateien": [
-    "web/app.html",
-    "web/css/app.css",
-    "web/index.html",
-    "web/js/app.js",
-    "web/js/screens/dashboard.js"
-   ],
-   "tests": [
     "prüfen: e2e/sidebartest.js",
     "prüfen: e2e/sidebartest.js:44, e2e/motiontest.js:62–66 (.menu-btn)",
     "prüfen: e2e/usercardtest.js:12",
     "prüfen: e2e/usercardtest.js:21–28 (#pop-user .theme-toggle)",
     "web/e2e/headtest.js:11-31, :69 (Konto oben rechts, Handy-Kopfreihe ≤ 80 px)",
     "web/e2e/headtest.js:30-31 (1000 px: Konto nur Symbol)",
-    "web/e2e/headtest.js:69",
-    "web/e2e/mobiletest.js:18",
     "web/e2e/mobiletest.js:18 (Kopfreihe)",
+    "web/e2e/mobiletest.js:31 (18 → 16, Schritt R1)",
     "web/e2e/mobiletest.js:59-60",
-    "web/e2e/mobiletest.js:59-60 (Schublade)",
     "web/e2e/motiontest.js:38-39",
     "web/e2e/motiontest.js:62-66 (Schublade öffnen/schließen)",
     "web/e2e/proptest.js:19 (kein Zeitraum/Konto)",
     "web/e2e/scrolltest.js:8",
-    "web/e2e/sidebartest.js (1440×1000 grün)",
+    "web/e2e/sidebartest.js",
     "web/e2e/sidebartest.js:44-45 (Handy: nichts ragt rechts über die Schublade)",
     "web/e2e/sixtest.js:10, :36 (Mentor-Kopfreihe nur mit Konto)",
-    "web/e2e/usercardtest.js:21 (Konto-Menü relativ zur Karte)",
+    "web/e2e/tlfittest.js (muss grün bleiben)",
+    "web/e2e/usercardtest.js (müssen grün bleiben)",
     "web/e2e/usercardtest.js:55-58 (Handy: Karte nach Scrollen klickbar)"
    ],
-   "haengt_ab": []
+   "haengt_ab": [
+    1,
+    2,
+    6,
+    9
+   ]
   },
   {
    "nr": 11,
    "cluster": [
-    "aufbau"
+    "aufbau",
+    "shell"
    ],
    "schritte": [
+    "aufbau-B1",
+    "responsiv-3.6",
+    "bewegung-B3",
     "abstaende-C12",
     "kilook-B8a",
     "kilook-B8c",
@@ -680,16 +637,22 @@
    "dateien": [
     "web/css/app.css",
     "web/css/landing.css",
-    "web/index.html"
+    "web/index.html",
+    "web/js/app.js",
+    "web/js/screens/dashboard.js"
    ],
    "tests": [
     "prüfen: e2e/motiontest.js:72–74 (6 × .feat-card.rv, sichtbar nach Scrollen)",
     "prüfen: e2e/motiontest.js:72–74 (weiter 6 × .feat-card)",
-    "web/e2e/coachtest.js (muss grün bleiben)"
+    "web/e2e/coachtest.js (muss grün bleiben)",
+    "web/e2e/headtest.js:69",
+    "web/e2e/mobiletest.js:18",
+    "web/e2e/mobiletest.js:39-40 (bleibt grün)"
    ],
    "haengt_ab": [
     2,
-    8
+    9,
+    10
    ]
   },
   {
@@ -702,7 +665,6 @@
     "farbe-B23b",
     "farbe-B23c",
     "farbe-C3a",
-    "farbe-C3b",
     "farbe-C3c",
     "farbe-C14a",
     "farbe-C14c",
@@ -716,15 +678,50 @@
     "typografie-3.5a",
     "typografie-3.2.5c",
     "typografie-3.5b",
-    "typografie-3.5c",
     "typografie-3.5d",
     "typografie-3.6",
     "abstaende-C2",
-    "abstaende-C3",
-    "abstaende-C4",
+    "abstaende-C3"
+   ],
+   "dateien": [
+    "web/README.md",
+    "web/css/app.css",
+    "web/e2e/dashtest.js",
+    "web/js/screens/dashboard.js",
+    "web/js/widgetpreviews.js",
+    "web/js/widgets.js"
+   ],
+   "tests": [
+    "Akzeptanz 4.3 dashboard (Wert einzeilig, Fuß „−4,2 % · 01.10.2026“)",
+    "Akzeptanz 4.3 panel_widget_hinzufuegen (keine Überlappung)",
+    "Akzeptanz 4.4: grep \"<td>\\${fmt.(date|time)\" ohne Treffer",
+    "Akzeptanz 4.4: grep class=\"caption\" nur Abschnittsköpfe",
+    "Akzeptanz 4.4: grep small.sub ohne Treffer",
+    "web/e2e/dashtest.js:34/39 (.btn.added, :not(.added), prüfen)",
+    "web/e2e/dashtest.js:38, 49, 111",
+    "web/e2e/dashtest.js:38, 49, 111 (siehe farbe-D2a)",
+    "web/e2e/dashtest.js:72 (Tracker-Raster, prüfen)",
+    "web/e2e/dashtest.js:82/89 ([data-i=\"new\"] bleibt)",
+    "web/e2e/mobiletest.js:21/85 (Kalender, prüfen)",
+    "web/e2e/mobiletest.js:23-24 (Handy zwei Spalten, muss grün bleiben)",
+    "web/e2e/scorestatetest.js"
+   ],
+   "haengt_ab": [
+    1,
+    2,
+    4
+   ]
+  },
+  {
+   "nr": 13,
+   "cluster": [
+    "dashboard",
+    "komponenten"
+   ],
+   "schritte": [
+    "aufbau-A3c",
     "abstaende-C5",
     "abstaende-F1",
-    "abstaende-F2",
     "abstaende-F3",
     "abstaende-G2",
     "abstaende-G3",
@@ -732,54 +729,7 @@
     "abstaende-R4",
     "komponenten-C23",
     "komponenten-C26a",
-    "komponenten-C26b"
-   ],
-   "dateien": [
-    "web/README.md",
-    "web/css/app.css",
-    "web/e2e/dashtest.js",
-    "web/e2e/headtest.js",
-    "web/js/screens/dashboard.js",
-    "web/js/widgetpreviews.js",
-    "web/js/widgets.js"
-   ],
-   "tests": [
-    "Akzeptanz 4.2 Nr. 3: grep style=\"font-size in widgets.js ohne Treffer",
-    "Akzeptanz 4.3 dashboard (Wert einzeilig, Fuß „−4,2 % · 01.10.2026“)",
-    "Akzeptanz 4.3 panel_widget_hinzufuegen (keine Überlappung)",
-    "Akzeptanz 4.4: grep \"<td>\\${fmt.(date|time)\" ohne Treffer",
-    "Akzeptanz 4.4: grep class=\"caption\" nur Abschnittsköpfe",
-    "Akzeptanz 4.4: grep small.sub ohne Treffer",
-    "e2e/dashtest.js",
-    "e2e/dashtest.js:106 (.tpl-row .star, .tpl-row.on .chk svg)",
-    "e2e/dashtest.js:123",
-    "e2e/mobiletest.js:21, :85 (.cal .d .p/.pm)",
-    "web/e2e/dashtest.js:34/39 (.btn.added, :not(.added), prüfen)",
-    "web/e2e/dashtest.js:38, 49, 111",
-    "web/e2e/dashtest.js:38, 49, 111 (siehe farbe-D2a)",
-    "web/e2e/dashtest.js:72 (Tracker-Raster, prüfen)",
-    "web/e2e/dashtest.js:82/89 ([data-i=\"new\"] bleibt)",
-    "web/e2e/headtest.js",
-    "web/e2e/headtest.js (neuer Fall, Schritt R4)",
-    "web/e2e/leaktest.js (muss grün bleiben)",
-    "web/e2e/mobiletest.js:21/85 (Kalender, prüfen)",
-    "web/e2e/mobiletest.js:23-24 (Handy zwei Spalten, muss grün bleiben)",
-    "web/e2e/scorestatetest.js",
-    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
-   ],
-   "haengt_ab": [
-    1,
-    2,
-    3,
-    5
-   ]
-  },
-  {
-   "nr": 13,
-   "cluster": [
-    "dashboard"
-   ],
-   "schritte": [
+    "komponenten-C26b",
     "komponenten-C26c",
     "komponenten-C28",
     "komponenten-C36",
@@ -802,19 +752,31 @@
    "dateien": [
     "web/README.md",
     "web/css/app.css",
+    "web/e2e/headtest.js",
     "web/js/screens/dashboard.js",
     "web/js/widgets.js"
    ],
    "tests": [
+    "e2e/dashtest.js",
+    "e2e/dashtest.js:106 (.tpl-row .star, .tpl-row.on .chk svg)",
+    "e2e/dashtest.js:123",
     "e2e/dashtest.js:123 (erwartet 4 Einträge im ···-Menü, danach 5 bei Nicht-Standard-Vorlage; nicht in E1 genannt)",
     "e2e/dashtest.js:22, :102 (#pop-tpl [data-action=dash-tpl-edit], erster Treffer)",
     "e2e/dashtest.js:72",
     "e2e/dashtest.js:82",
+    "e2e/mobiletest.js:21, :85 (.cal .d .p/.pm)",
     "web/e2e/dashtest.js:67 (bleibt grün)",
-    "web/e2e/dashtest.js:72 (bleibt grün)"
+    "web/e2e/dashtest.js:72 (bleibt grün)",
+    "web/e2e/headtest.js",
+    "web/e2e/headtest.js (neuer Fall, Schritt R4)",
+    "web/e2e/leaktest.js (muss grün bleiben)",
+    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
    ],
    "haengt_ab": [
+    1,
+    2,
     5,
+    6,
     12
    ]
   },
@@ -846,7 +808,6 @@
     "barrierefreiheit-C-dash-filter-95-121",
     "barrierefreiheit-C-dash-filter-158",
     "barrierefreiheit-C-dash-filter-168-189",
-    "kilook-B2",
     "kilook-C9b",
     "kilook-C10",
     "kilook-C12",
@@ -859,8 +820,8 @@
     "wording-S6.23-6.27",
     "bewegung-B4c",
     "bewegung-B9",
-    "bewegung-C4",
-    "bewegung-3.7a"
+    "bewegung-3.7b",
+    "bewegung-3.8a"
    ],
    "dateien": [
     "web/css/app.css",
@@ -873,7 +834,6 @@
    ],
    "tests": [
     "prüfen: e2e/dashtest.js:23, :110",
-    "prüfen: e2e/dashtest.js:23, :59, :110 (.edit-bar mit Vorlagenname)",
     "prüfen: e2e/scorestatetest.js (Score-Karte)",
     "web/e2e/dashtest.js",
     "web/e2e/dashtest.js (Bearbeitungsmodus)",
@@ -887,41 +847,20 @@
     "web/e2e/mobiletest.js:72 (Letzte Trades)"
    ],
    "haengt_ab": [
-    2,
-    5,
+    1,
+    3,
     6,
     7,
+    8,
     13
    ]
   },
   {
    "nr": 15,
    "cluster": [
-    "dashboard"
-   ],
-   "schritte": [
-    "bewegung-3.7b",
-    "bewegung-3.8a",
-    "bewegung-3.8b"
-   ],
-   "dateien": [
-    "web/js/screens/dash-filter.js",
-    "web/js/screens/dashboard.js"
-   ],
-   "tests": [],
-   "haengt_ab": [
-    7,
-    14
-   ]
-  },
-  {
-   "nr": 16,
-   "cluster": [
     "statistik"
    ],
    "schritte": [
-    "farbe-C30",
-    "farbe-C13",
     "typografie-3.2.2g",
     "typografie-3.2.5d",
     "typografie-3.8d",
@@ -935,7 +874,6 @@
     "abstaende-C8",
     "abstaende-J1",
     "abstaende-J2",
-    "komponenten-S-stats-a",
     "komponenten-S-stats-b",
     "aufbau-C1",
     "aufbau-C14a",
@@ -953,13 +891,17 @@
     "diagramme-O6",
     "zustaende-S-C15",
     "zustaende-S-K1",
-    "zustaende-S-ST1",
     "zustaende-S-ST2",
     "zustaende-S-ST3",
-    "zustaende-S-ST4"
+    "zustaende-S-ST4",
+    "zustaende-S-TE1",
+    "zustaende-S-TE8",
+    "barrierefreiheit-C-stats-15",
+    "barrierefreiheit-C-stats-32"
    ],
    "dateien": [
     "web/css/app.css",
+    "web/e2e/scorestatetest.js",
     "web/js/core.js",
     "web/js/screens/stats.js",
     "web/tests/core.test.mjs"
@@ -974,15 +916,16 @@
     "Akzeptanz 4.4: grep \"WR \\${\" ohne Treffer",
     "Akzeptanz grep 7",
     "Akzeptanz grep 8, Sonde 19",
-    "e2e/calmnavtest.js:40–51",
-    "e2e/chartanimtest.js:33",
     "e2e/chartanimtest.js:33–35",
     "node --test web/tests/core.test.mjs",
     "web/e2e/calmnavtest.js:40",
     "web/e2e/calmnavtest.js:47-48",
+    "web/e2e/calmnavtest.js:51",
     "web/e2e/chartanimtest.js:35",
+    "web/e2e/scorestatetest.js:22",
     "web/e2e/scorestatetest.js:22 muss ohne Anpassung grün sein (Schritt zustaende-S-TE8)",
     "web/e2e/sixtest.js:39 (bleibt gültig)",
+    "web/tests/core.test.mjs",
     "web/tests/core.test.mjs: neue daySummary-Fälle (Schritt zustaende-S-TE1)",
     "web/tests/core.test.mjs:100 (bleibt gültig)",
     "web/tests/core.test.mjs:57",
@@ -991,26 +934,21 @@
    "haengt_ab": [
     1,
     2,
-    3,
     4,
     5,
     6,
-    8
+    7,
+    9
    ]
   },
   {
-   "nr": 17,
+   "nr": 16,
    "cluster": [
     "statistik"
    ],
    "schritte": [
-    "zustaende-S-TE1",
-    "zustaende-S-TE8",
-    "barrierefreiheit-C-stats-15",
-    "barrierefreiheit-C-stats-32",
     "kilook-C14",
     "responsiv-B7",
-    "responsiv-3.2a",
     "responsiv-3.9a",
     "wording-S2.2-2.4",
     "wording-S2.5-2.13",
@@ -1020,34 +958,26 @@
    ],
    "dateien": [
     "web/css/app.css",
-    "web/e2e/scorestatetest.js",
     "web/js/core.js",
-    "web/js/screens/stats.js",
-    "web/js/ui.js",
-    "web/tests/core.test.mjs"
+    "web/js/screens/stats.js"
    ],
    "tests": [
-    "web/e2e/calmnavtest.js:51",
     "web/e2e/filtertest.js",
-    "web/e2e/mobiletest.js:26-27 (.stat-tile .v 20px, zwei Spalten)",
-    "web/e2e/scorestatetest.js:22",
-    "web/tests/core.test.mjs"
+    "web/e2e/mobiletest.js:26-27 (.stat-tile .v 20px, zwei Spalten)"
    ],
    "haengt_ab": [
-    2,
-    6,
+    3,
     7,
-    16
+    15
    ]
   },
   {
-   "nr": 18,
+   "nr": 17,
    "cluster": [
     "trades_tag"
    ],
    "schritte": [
     "farbe-B17",
-    "farbe-C12a",
     "farbe-C12b",
     "farbe-C12c",
     "farbe-C20",
@@ -1055,16 +985,12 @@
     "farbe-C31b",
     "farbe-C31c",
     "farbe-D3a",
-    "typografie-3.2.5b",
     "typografie-3.7a",
     "typografie-3.7b",
     "typografie-3.8a",
-    "typografie-3.8b",
     "typografie-3.8c",
     "abstaende-B16",
     "abstaende-B23",
-    "abstaende-E2",
-    "abstaende-E3",
     "abstaende-H1",
     "abstaende-H2",
     "abstaende-H3",
@@ -1073,7 +999,10 @@
     "abstaende-E-day3",
     "abstaende-E-day4",
     "abstaende-R1",
-    "abstaende-S4"
+    "abstaende-S4",
+    "abstaende-S7",
+    "komponenten-A5b",
+    "abstaende-E2"
    ],
    "dateien": [
     "web/README.md",
@@ -1085,10 +1014,11 @@
    ],
    "tests": [
     "Akzeptanz 4.3 day",
-    "Akzeptanz 4.3 trades (893,04 € gleich groß wie 1,43; leer_trades y ≈ 220)",
     "Akzeptanz 4.3 trades (Datumsspalte „08.10. 19:43“ in Onest)",
     "Akzeptanz 4.4: grep \"<td>\\${fmt.(date|time)\" ohne Treffer",
     "Akzeptanz 4.4: grep class=\"caption\"",
+    "e2e/blindtest.js:23 (#f-dir)",
+    "e2e/tradeformtest.js",
     "web/e2e/certtest.js:54",
     "web/e2e/certtest.js:54 (Zertifikat-Knopf in der Tagesansicht bleibt)",
     "web/e2e/mobiletest.js:31",
@@ -1100,25 +1030,21 @@
    "haengt_ab": [
     1,
     2,
-    3,
     4,
-    9
+    5,
+    10
    ]
   },
   {
-   "nr": 19,
+   "nr": 18,
    "cluster": [
     "trades_tag"
    ],
    "schritte": [
-    "abstaende-S7",
-    "komponenten-A5b",
     "komponenten-A8",
-    "komponenten-S-day-a",
     "komponenten-S-day-b",
     "komponenten-S-day-c",
     "komponenten-S-trades-a",
-    "komponenten-S-trades-c",
     "komponenten-S-trades-d",
     "komponenten-S-trades-e",
     "komponenten-S-trades-f",
@@ -1126,27 +1052,21 @@
     "aufbau-B6"
    ],
    "dateien": [
-    "web/README.md",
     "web/css/app.css",
     "web/js/app.js",
     "web/js/screens/day.js",
     "web/js/screens/trades.js"
    ],
    "tests": [
-    "e2e/blindtest.js:23 (#f-dir)",
-    "e2e/chartanimtest.js:28",
-    "e2e/tlfittest.js:13 (Ansicht days)",
-    "e2e/tlfittest.js:8–9 (Pager sichtbar)",
-    "e2e/tradeformtest.js"
+    "e2e/tlfittest.js:13 (Ansicht days)"
    ],
    "haengt_ab": [
-    5,
-    13,
-    18
+    6,
+    17
    ]
   },
   {
-   "nr": 20,
+   "nr": 19,
    "cluster": [
     "trades_tag",
     "shell"
@@ -1158,7 +1078,6 @@
     "aufbau-C7b",
     "aufbau-C7c",
     "aufbau-C15a",
-    "aufbau-C15b",
     "aufbau-C15c",
     "aufbau-C15d",
     "aufbau-D3g",
@@ -1166,7 +1085,6 @@
     "zustaende-S-C18",
     "zustaende-S-A5",
     "zustaende-S-A6",
-    "zustaende-S-T2",
     "zustaende-S-T3",
     "zustaende-S-T4",
     "zustaende-S-T5",
@@ -1185,7 +1103,9 @@
     "kilook-C16",
     "responsiv-B5a",
     "responsiv-C2",
-    "wording-S3.6"
+    "wording-S3.6",
+    "wording-S5.4-5.5",
+    "wording-S8.1-8.2"
    ],
    "dateien": [
     "web/README.md",
@@ -1202,24 +1122,20 @@
     "web/e2e/sampletest.js:39-40"
    ],
    "haengt_ab": [
-    2,
-    5,
+    3,
     6,
-    9,
-    19
+    7,
+    11,
+    17,
+    18
    ]
   },
   {
-   "nr": 21,
+   "nr": 20,
    "cluster": [
-    "trades_tag",
-    "shell"
+    "trades_tag"
    ],
    "schritte": [
-    "wording-S5.3",
-    "wording-S5.9",
-    "wording-S5.4-5.5",
-    "wording-S8.1-8.2",
     "wording-S8.3-8.5",
     "wording-S9.1-9.2",
     "wording-S9.10-9.16",
@@ -1230,7 +1146,6 @@
     "bewegung-3.5c"
    ],
    "dateien": [
-    "web/app.html",
     "web/css/app.css",
     "web/js/app.js",
     "web/js/screens/day.js",
@@ -1242,11 +1157,12 @@
     "web/e2e/tradeformtest.js:54"
    ],
    "haengt_ab": [
-    7
+    7,
+    8
    ]
   },
   {
-   "nr": 22,
+   "nr": 21,
    "cluster": [
     "notebook_news"
    ],
@@ -1264,7 +1180,6 @@
     "farbe-C32",
     "farbe-D2b",
     "farbe-D3b",
-    "typografie-3.2.2d",
     "typografie-3.2.3j",
     "typografie-3.2.3z",
     "typografie-3.2.4e",
@@ -1274,11 +1189,12 @@
     "typografie-3.8n",
     "abstaende-D2",
     "abstaende-D3",
-    "abstaende-K1",
     "abstaende-K2",
     "abstaende-K3",
     "abstaende-K5",
-    "abstaende-S6"
+    "komponenten-C21d",
+    "komponenten-C29a",
+    "komponenten-C29b"
    ],
    "dateien": [
     "web/README.md",
@@ -1295,7 +1211,9 @@
     "Akzeptanz 4.3 notebook_notiz (Editor-h2 zweizeilig ohne Lücke)",
     "Akzeptanz 4.3 notebook_notiz (Notiztitel 32/600)",
     "Akzeptanz 4.3 notebook_notiz (Toolbar „Text“ und „16“ 13/500, „16“ in Onest)",
-    "Akzeptanz 4.4: grep -n \"\\.journal\" web/css/app.css ohne Treffer",
+    "e2e/headtest.js:62–64 (.nb .folder.active)",
+    "e2e/nbsel.js:12–17",
+    "e2e/sixtest.js:52–57",
     "web/e2e/figtest.js",
     "web/e2e/imgtest.js:5 ([data-action=nb-new] greift weiter)",
     "web/e2e/mobiletest.js:53-55 (sucht .note-head > .row; auf .note-bar umstellen, rowH-Grenze prüfen)",
@@ -1312,14 +1230,11 @@
    ]
   },
   {
-   "nr": 23,
+   "nr": 22,
    "cluster": [
     "notebook_news"
    ],
    "schritte": [
-    "komponenten-C21d",
-    "komponenten-C29a",
-    "komponenten-C29b",
     "komponenten-C30",
     "komponenten-D4",
     "komponenten-D5",
@@ -1348,7 +1263,10 @@
     "zustaende-S-NB2",
     "zustaende-S-TE4",
     "barrierefreiheit-B13",
-    "barrierefreiheit-C-editor-112"
+    "barrierefreiheit-C-editor-112",
+    "barrierefreiheit-C-news-49",
+    "barrierefreiheit-E-newstest-52",
+    "kilook-B7"
    ],
    "dateien": [
     "web/README.md",
@@ -1363,15 +1281,13 @@
    ],
    "tests": [
     "e2e/colorpickertest.js",
-    "e2e/headtest.js:62–64 (.nb .folder.active)",
     "e2e/imgtest.js:5 (.nb .col.mid .btn.primary nur Ausweich-Selektor)",
     "e2e/mobiletest.js:53 (nb-share)",
     "e2e/nbsel.js:11–17",
-    "e2e/nbsel.js:12–17",
     "e2e/sampletest.js",
-    "e2e/sixtest.js:52–57",
     "e2e/sixtest.js:52–57 (siehe E1c)",
     "e2e/sixtest.js:57",
+    "prüfen: e2e/newstest.js:53, :93 (.nw-next-t b, .nw-next .caption)",
     "web/e2e/dptest.js:104 (bleibt grün)",
     "web/e2e/figtest.js:5, web/e2e/figdel.js:5, web/e2e/scrolltest.js:30 (in Abschnitt 5 genannt, müssen grün bleiben)",
     "web/e2e/mobiletest.js:53 (.datebtn bleibt)",
@@ -1382,18 +1298,17 @@
     "web/tests/sample.test.mjs"
    ],
    "haengt_ab": [
-    5
+    1,
+    6,
+    21
    ]
   },
   {
-   "nr": 24,
+   "nr": 23,
    "cluster": [
     "notebook_news"
    ],
    "schritte": [
-    "barrierefreiheit-C-news-49",
-    "barrierefreiheit-E-newstest-52",
-    "kilook-B7",
     "kilook-C2",
     "kilook-C22",
     "responsiv-B8",
@@ -1404,44 +1319,35 @@
    ],
    "dateien": [
     "web/css/app.css",
-    "web/e2e/newstest.js",
     "web/js/editor.js",
     "web/js/screens/news.js",
     "web/js/screens/notebook.js"
    ],
    "tests": [
     "neue Suite web/e2e/tablettest.js",
-    "prüfen: e2e/newstest.js:53, :93 (.nw-next-t b, .nw-next .caption)",
     "prüfen: e2e/newstest.js:93 (.nw-next .caption)",
     "web/e2e/figtest.js, figdel.js, imgtest.js, undotest.js (.nb-toolbar)",
     "web/e2e/mobiletest.js:51-55 (Handy unverändert)",
     "web/e2e/mobiletest.js:55 (Werkzeugleiste eine Zeile, seitlich wischbar)",
-    "web/e2e/nbsel.js, figtest.js, figdel.js, imgtest.js, undotest.js, tiptest.js, scrolltest.js (Spalten .col.left/.col.mid)",
-    "web/e2e/newstest.js:52"
+    "web/e2e/nbsel.js, figtest.js, figdel.js, imgtest.js, undotest.js, tiptest.js, scrolltest.js (Spalten .col.left/.col.mid)"
    ],
    "haengt_ab": [
     7,
-    23
+    10,
+    21
    ]
   },
   {
-   "nr": 25,
+   "nr": 24,
    "cluster": [
     "training"
    ],
    "schritte": [
-    "farbe-B23a",
-    "farbe-C2",
-    "farbe-C5",
     "farbe-C6",
-    "farbe-C7",
     "farbe-C21",
-    "farbe-C28",
     "farbe-C29",
-    "farbe-D3f",
     "typografie-3.2.3v",
     "typografie-3.2.3x",
-    "typografie-3.2.4c",
     "typografie-3.2.4g",
     "typografie-3.2.4m",
     "typografie-3.8m",
@@ -1451,11 +1357,9 @@
     "abstaende-I1",
     "abstaende-I2",
     "abstaende-I3",
-    "abstaende-MENTOR",
     "abstaende-R3",
     "komponenten-C17c",
     "komponenten-C31",
-    "komponenten-C34a",
     "komponenten-C34b",
     "komponenten-S-mentor-a",
     "komponenten-S-mentor-b",
@@ -1469,7 +1373,6 @@
     "aufbau-C11c"
    ],
    "dateien": [
-    "web/README.md",
     "web/css/app.css",
     "web/e2e/rptest.js",
     "web/e2e/shadowtest.js",
@@ -1490,26 +1393,23 @@
     "e2e/rptest.js:46 (siehe E1e)",
     "e2e/shadowtest.js:38, :41, :43 (prüfen „1 – 10 von … Verstößen“ bzw. „11 – “/„1 – “ mit Leerzeichen; nicht in E1 genannt, mitändern)",
     "web/e2e/fwtest.js:23–24 (Widget = Seite über costView)",
-    "web/e2e/mentortest.js:44–45",
     "web/e2e/rptest.js",
-    "web/e2e/rptest.js (.rp-nav .rp-primary bleibt)",
     "web/e2e/rptest.js:11",
-    "web/e2e/rptest.js:51 (.rp-timer .rp-btn), :18–63 (.rp-nav .rp-primary bleibt)",
     "web/e2e/shadowtest.js",
     "web/e2e/shadowtest.js:68, 69, 71, 74",
     "web/e2e/shadowtest.js:68, 74 (Schritt R3)",
     "web/e2e/shadowtest.js:69, 71 (Schritt R3)",
-    "web/e2e/streaktest.js",
-    "web/tests/inline-style.test.mjs (Zählung, Schritt R5)"
+    "web/e2e/streaktest.js"
    ],
    "haengt_ab": [
     1,
     2,
-    5
+    5,
+    7
    ]
   },
   {
-   "nr": 26,
+   "nr": 25,
    "cluster": [
     "training",
     "aufbau",
@@ -1522,11 +1422,8 @@
     "diagramme-A6",
     "diagramme-A7",
     "diagramme-A8b",
-    "diagramme-H1",
     "diagramme-I1",
     "zustaende-S-C11",
-    "zustaende-S-PR1",
-    "zustaende-S-PR2",
     "zustaende-S-PR3",
     "zustaende-S-MT1",
     "zustaende-S-RP1",
@@ -1535,7 +1432,6 @@
     "barrierefreiheit-C-shadow-69",
     "kilook-B4",
     "kilook-B5",
-    "kilook-B6",
     "kilook-C4",
     "kilook-C15"
    ],
@@ -1550,7 +1446,6 @@
    "tests": [
     "Akzeptanz grep 11, Sonde 20",
     "Akzeptanz grep 9",
-    "Sonde 20",
     "prüfen: e2e/headtest.js:55–57 (Füll-Animation .ring-arc .arc)",
     "prüfen: e2e/mentortest.js:44",
     "prüfen: e2e/rptest.js (.rp-choice, .rp-seq-i)",
@@ -1561,16 +1456,18 @@
     "web/tests/shadow.test.mjs:163 bleibt"
    ],
    "haengt_ab": [
-    6,
-    16,
+    1,
+    7,
+    11,
+    15,
+    18,
     19,
-    20,
-    23,
-    25
+    22,
+    24
    ]
   },
   {
-   "nr": 27,
+   "nr": 26,
    "cluster": [
     "training",
     "komponenten"
@@ -1601,22 +1498,20 @@
     "web/e2e/sixtest.js:36 (Mentor-Kopfreihe)"
    ],
    "haengt_ab": [
-    2,
     3,
     7,
     14,
-    17,
-    20,
-    26
+    16,
+    19,
+    25
    ]
   },
   {
-   "nr": 28,
+   "nr": 27,
    "cluster": [
     "prop"
    ],
    "schritte": [
-    "farbe-C8a",
     "farbe-C26a",
     "farbe-C26b",
     "farbe-C26c",
@@ -1638,10 +1533,7 @@
     "komponenten-S-prop-c",
     "komponenten-S-prop-d",
     "komponenten-S-prop-e",
-    "komponenten-S-prop-f",
     "aufbau-A4e",
-    "aufbau-C12a",
-    "aufbau-C12b",
     "aufbau-C12c",
     "aufbau-C12d",
     "aufbau-C12e",
@@ -1649,8 +1541,11 @@
     "aufbau-C13",
     "aufbau-D3f",
     "diagramme-J1",
-    "zustaende-S-P2",
-    "zustaende-S-P3"
+    "barrierefreiheit-C-prop-233-267",
+    "barrierefreiheit-C-prop-304-305",
+    "barrierefreiheit-C-prop-friedhof-132-166",
+    "kilook-C5",
+    "kilook-C19a"
    ],
    "dateien": [
     "web/css/app.css",
@@ -1663,11 +1558,12 @@
     "Akzeptanz 4.3 prop_bilanz",
     "Akzeptanz 4.3 prop_friedhof (keine Zeile endet mit „·“)",
     "Sonde 22",
-    "e2e/proptest.js:19",
     "e2e/proptest.js:79",
     "e2e/sampletest.js:69",
     "e2e/sampletest.js:69, :73",
+    "prüfen: e2e/friedhoftest.js:46 (flacher Grabstein)",
     "web/e2e/friedhoftest.js",
+    "web/e2e/friedhoftest.js:21",
     "web/e2e/friedhoftest.js:47 (bleibt grün)",
     "web/e2e/friedhoftest.js:80 (Stein < 560 px, danach laufen lassen)",
     "web/e2e/proptest.js",
@@ -1675,40 +1571,35 @@
     "web/e2e/proptest.js:102 („Consistency Rule“ bleibt)",
     "web/e2e/proptest.js:112 (zählt .prop-presets .pill.win === 1, muss angepasst werden, in D2 nicht genannt)",
     "web/e2e/proptest.js:130 (keine implizite Spalte am Handy)",
+    "web/e2e/proptest.js:19",
     "web/e2e/proptest.js:20/23/27/133 (data-action bleibt)",
-    "web/e2e/proptest.js:55-56 (Kontowährung bleibt)",
-    "web/e2e/proptest.js:95 (bleibt grün)",
+    "web/e2e/proptest.js:91",
+    "web/e2e/proptest.js:95",
     "web/e2e/proptest.js:98"
    ],
    "haengt_ab": [
     1,
     2,
-    3,
     4,
     5,
-    9
+    6,
+    7
    ]
   },
   {
-   "nr": 29,
+   "nr": 28,
    "cluster": [
     "prop"
    ],
    "schritte": [
-    "zustaende-S-F1",
-    "zustaende-S-TE7",
-    "barrierefreiheit-C-prop-233-267",
-    "barrierefreiheit-C-prop-294",
-    "barrierefreiheit-C-prop-304-305",
-    "barrierefreiheit-C-prop-friedhof-132-166",
-    "kilook-C5",
-    "kilook-C19a",
     "kilook-C19b",
     "kilook-C19c",
     "kilook-C20",
     "kilook-C27",
     "responsiv-C3",
     "responsiv-3.12a",
+    "aufbau-C12b",
+    "zustaende-S-P3",
     "responsiv-3.20b",
     "wording-S12.1-12.3",
     "wording-S12.4-12.5",
@@ -1720,7 +1611,11 @@
     "wording-S12.24-12.26",
     "wording-S12.27",
     "wording-S12.28-12.29",
-    "wording-S19-prop"
+    "wording-S19-prop",
+    "bewegung-C6cd",
+    "bewegung-C10a",
+    "bewegung-C10b",
+    "bewegung-3.9a"
    ],
    "dateien": [
     "web/css/app.css",
@@ -1732,66 +1627,40 @@
    "tests": [
     "anpassen in kilook-C27: e2e/proptest.js:55–56, :101",
     "anpassen: e2e/proptest.js:55, :56, :101; :116 unverändert",
-    "prüfen: e2e/friedhoftest.js:46 (flacher Grabstein)",
     "prüfen: e2e/friedhoftest.js:46, :73, :88–89, :122, :129",
     "prüfen: e2e/proptest.js:116 („/ 150,00 € je Stop-Loss“ bleibt), :122–125 (Geld-blind)",
     "prüfen: e2e/proptest.js:94–102 (Payout-Planer Challenge/Funded)",
     "prüfen: e2e/sampletest.js:60 (Cockpit-Karten)",
     "web/e2e/friedhoftest.js:122",
     "web/e2e/friedhoftest.js:129",
-    "web/e2e/friedhoftest.js:21",
-    "web/e2e/friedhoftest.js:47",
-    "web/e2e/friedhoftest.js:47 (Schritt zustaende-S-TE7)",
     "web/e2e/proptest.js:103",
     "web/e2e/proptest.js:103 (Regex „Gewinn fehlt“ → „fehlen“, Schritt responsiv-3.20b)",
     "web/e2e/proptest.js:103, :116, :125 (.prop-meta)",
     "web/e2e/proptest.js:116",
-    "web/e2e/proptest.js:19",
     "web/e2e/proptest.js:55",
     "web/e2e/proptest.js:56",
     "web/e2e/proptest.js:57",
-    "web/e2e/proptest.js:91",
-    "web/e2e/proptest.js:95",
+    "web/e2e/proptest.js:95 (bleibt grün)",
     "web/e2e/proptest.js:98"
    ],
    "haengt_ab": [
-    2,
-    6,
+    3,
     7
    ]
   },
   {
-   "nr": 30,
+   "nr": 29,
    "cluster": [
+    "konto",
     "prop"
    ],
    "schritte": [
-    "bewegung-C6cd",
-    "bewegung-C10a",
-    "bewegung-C10b",
-    "bewegung-3.9a",
     "bewegung-3.9b",
-    "bewegung-3.12d"
-   ],
-   "dateien": [
-    "web/README.md",
-    "web/css/app.css",
-    "web/js/screens/prop-friedhof.js"
-   ],
-   "tests": [],
-   "haengt_ab": []
-  },
-  {
-   "nr": 31,
-   "cluster": [
-    "konto"
-   ],
-   "schritte": [
+    "bewegung-3.12d",
     "farbe-C8b",
     "farbe-C9",
     "farbe-C16",
     "farbe-C17a",
-    "farbe-C17b",
     "typografie-3.2.5e",
     "typografie-3.8r",
     "typografie-3.8s",
@@ -1814,16 +1683,16 @@
     "komponenten-S-coach-b",
     "komponenten-S-coach-d",
     "komponenten-S-coach-e",
-    "komponenten-S-coupons",
     "aufbau-A4c",
     "aufbau-C3"
    ],
    "dateien": [
+    "web/README.md",
     "web/css/app.css",
     "web/js/certificate.js",
     "web/js/screens/affiliate.js",
     "web/js/screens/coach.js",
-    "web/js/screens/coupons.js"
+    "web/js/screens/prop-friedhof.js"
    ],
    "tests": [
     "Akzeptanz 4.3 affiliate 390 (Ref-Code vollständig sichtbar)",
@@ -1839,24 +1708,22 @@
     "web/e2e/affiliatetest.js:42–55",
     "web/e2e/affiliatetest.js:51 (Texte „Offen“/„Ausgezahlt“ bleiben)",
     "web/e2e/calmnavtest.js:44",
-    "web/e2e/coachlang2.js (neuer Text)",
     "web/e2e/coachtest.js",
     "web/e2e/coachtest.js (Beitritt, Handy ohne Querscrollen)",
-    "web/e2e/coachtest.js:81 (zählt .coach-entry.is-new, bleibt)",
     "web/e2e/coachtest.js:81, :110 (Klasse is-new bleibt)",
     "web/e2e/coupontest.js"
    ],
    "haengt_ab": [
     1,
     2,
-    4,
     5,
     6,
-    11
+    11,
+    28
    ]
   },
   {
-   "nr": 32,
+   "nr": 30,
    "cluster": [
     "konto",
     "statistik"
@@ -1866,6 +1733,7 @@
     "aufbau-C4a",
     "aufbau-C4b",
     "aufbau-C4c",
+    "farbe-C17b",
     "aufbau-C5a",
     "aufbau-C5b",
     "aufbau-D3a",
@@ -1888,21 +1756,24 @@
     "web/e2e/calmnavtest.js:44",
     "web/e2e/calmnavtest.js:47-48",
     "web/e2e/chartanimtest.js:35",
+    "web/e2e/coachlang2.js (neuer Text)",
     "web/e2e/coachtest.js:154",
     "web/e2e/coachtest.js:178",
     "web/e2e/coachtest.js:194 (bleibt grün)",
     "web/e2e/coachtest.js:80-81",
+    "web/e2e/coachtest.js:81 (zählt .coach-entry.is-new, bleibt)",
     "web/e2e/coachtest.js:83",
     "web/e2e/mobiletest.js:39-40 (bleibt grün)"
    ],
    "haengt_ab": [
-    9,
-    16,
-    31
+    7,
+    11,
+    15,
+    29
    ]
   },
   {
-   "nr": 33,
+   "nr": 31,
    "cluster": [
     "konto",
     "dashboard"
@@ -1960,11 +1831,11 @@
    "haengt_ab": [
     6,
     7,
-    32
+    30
    ]
   },
   {
-   "nr": 34,
+   "nr": 32,
    "cluster": [
     "einstellungen"
    ],
@@ -2032,7 +1903,7 @@
    ]
   },
   {
-   "nr": 35,
+   "nr": 33,
    "cluster": [
     "einstellungen"
    ],
@@ -2047,11 +1918,11 @@
    ],
    "haengt_ab": [
     2,
-    34
+    32
    ]
   },
   {
-   "nr": 36,
+   "nr": 34,
    "cluster": [
     "einstellungen",
     "tokens"
@@ -2064,27 +1935,18 @@
     "komponenten-A7",
     "komponenten-S-misc-a",
     "komponenten-S-misc-b",
-    "komponenten-S-misc-c",
     "komponenten-S-misc-d",
-    "komponenten-S-misc-e",
     "komponenten-S-misc-f",
-    "komponenten-S-misc-g",
     "komponenten-S-misc-h",
     "komponenten-S-misc-j",
-    "komponenten-R1c",
-    "komponenten-E1a",
     "komponenten-E1b",
-    "aufbau-A4b",
     "aufbau-B14",
     "aufbau-C8a",
     "aufbau-C8c",
-    "aufbau-C8d",
     "aufbau-C8f"
    ],
    "dateien": [
-    "web/README.md",
     "web/css/app.css",
-    "web/e2e/settest.js",
     "web/e2e/settest2.js",
     "web/js/app.js",
     "web/js/screens/misc.js",
@@ -2092,47 +1954,37 @@
    ],
    "tests": [
     "e2e/colorpickertest.js:27–92",
-    "e2e/settest.js:22",
-    "e2e/settest.js:22 (siehe E1a)",
-    "e2e/settest.js:31",
-    "e2e/settest.js:31 (siehe E1a)",
-    "e2e/settest2.js:16 (siehe E1b)",
     "e2e/settest2.js:31–38",
     "e2e/settest2.js:9–13 (siehe E1b)",
     "e2e/settest2.js:9–16",
     "e2e/sixtest.js:63, :67 (Avatar über form[data-action=save-profile] input[type=file])",
-    "e2e/switchtest.js",
-    "web/e2e/navdottest.js:37",
     "web/e2e/settest.js:36",
     "web/tests/inline-style.test.mjs (neu)"
    ],
    "haengt_ab": [
-    4,
+    2,
     5,
-    9,
-    12,
-    18,
-    22,
-    25,
-    31,
-    34,
-    35
+    6,
+    11,
+    13,
+    17,
+    21,
+    29,
+    32,
+    33
    ]
   },
   {
-   "nr": 37,
+   "nr": 35,
    "cluster": [
     "einstellungen",
     "aufbau"
    ],
    "schritte": [
     "aufbau-D2c",
-    "aufbau-D3e",
     "aufbau-D3h",
     "zustaende-S-C9a",
-    "zustaende-S-C9c",
     "zustaende-S-M1a",
-    "zustaende-S-M1b",
     "zustaende-S-M3",
     "zustaende-S-M4",
     "zustaende-S-M5",
@@ -2142,7 +1994,6 @@
     "barrierefreiheit-C-misc-93-145",
     "barrierefreiheit-C-misc-186-207",
     "barrierefreiheit-C-misc-238-259",
-    "wording-S17.2-17.3",
     "wording-S17.4-17.7",
     "wording-S17.8-17.10",
     "wording-S17.11-17.12",
@@ -2153,26 +2004,24 @@
    "dateien": [
     "web/README.md",
     "web/css/app.css",
-    "web/e2e/navdottest.js",
     "web/e2e/settest.js",
     "web/js/screens/misc.js"
    ],
    "tests": [
     "web/e2e/mentortest.js:24",
-    "web/e2e/navdottest.js:37",
-    "web/e2e/settest.js:26 bleibt (be-reset setzt C.setBreakEven), nur prüfen",
     "web/e2e/settest.js:36",
     "web/e2e/settest2.js:47"
    ],
    "haengt_ab": [
+    27,
     28,
-    31,
-    32,
-    36
+    29,
+    30,
+    34
    ]
   },
   {
-   "nr": 38,
+   "nr": 36,
    "cluster": [
     "responsiv"
    ],
@@ -2194,7 +2043,7 @@
    ]
   },
   {
-   "nr": 39,
+   "nr": 37,
    "cluster": [
     "responsiv",
     "dashboard"
@@ -2207,7 +2056,6 @@
     "abstaende-R2",
     "abstaende-S3",
     "komponenten-C35",
-    "komponenten-D2",
     "komponenten-E1d",
     "aufbau-B2"
    ],
@@ -2215,13 +2063,11 @@
     "web/README.md",
     "web/css/app.css",
     "web/e2e/mobiletest.js",
-    "web/e2e/rangetest.js",
-    "web/js/rangepicker.js"
+    "web/e2e/rangetest.js"
    ],
    "tests": [
     "e2e/mobiletest.js:16, :40, :50, :85 (.dash-head .tl)",
     "e2e/rangetest.js:18",
-    "e2e/rangetest.js:18 (siehe E1d)",
     "web/e2e/dashtest.js:151",
     "web/e2e/mobiletest.js:19-20 (müssen grün bleiben)",
     "web/e2e/mobiletest.js:72",
@@ -2230,15 +2076,16 @@
    ],
    "haengt_ab": [
     2,
-    4,
-    9,
-    12,
-    34,
-    38
+    5,
+    10,
+    11,
+    13,
+    32,
+    36
    ]
   },
   {
-   "nr": 40,
+   "nr": 38,
    "cluster": [
     "responsiv",
     "shell"
@@ -2266,15 +2113,18 @@
     "web/e2e/leaktest.js (nur Prüfung, Akzeptanz 35)"
    ],
    "haengt_ab": [
+    1,
     6,
-    9,
-    12,
-    23,
-    39
+    10,
+    11,
+    13,
+    14,
+    22,
+    37
    ]
   },
   {
-   "nr": 41,
+   "nr": 39,
    "cluster": [
     "trades_tag",
     "komponenten",
@@ -2297,15 +2147,14 @@
     "web/e2e/tlfittest.js (Desktop unverändert)"
    ],
    "haengt_ab": [
-    6,
     7,
-    17,
-    20,
-    40
+    15,
+    19,
+    38
    ]
   },
   {
-   "nr": 42,
+   "nr": 40,
    "cluster": [
     "training",
     "notebook_news"
@@ -2334,13 +2183,13 @@
     "web/e2e/shadowtest.js:28, :56, :62 (Tabelleninhalt)"
    ],
    "haengt_ab": [
-    24,
-    27,
-    40
+    23,
+    26,
+    38
    ]
   },
   {
-   "nr": 43,
+   "nr": 41,
    "cluster": [
     "responsiv",
     "prop",
@@ -2372,12 +2221,13 @@
     "web/e2e/rangetest.js (mob)"
    ],
    "haengt_ab": [
-    33,
-    40
+    2,
+    31,
+    38
    ]
   },
   {
-   "nr": 44,
+   "nr": 42,
    "cluster": [
     "responsiv",
     "komponenten",
@@ -2410,11 +2260,11 @@
    ],
    "haengt_ab": [
     7,
-    43
+    41
    ]
   },
   {
-   "nr": 45,
+   "nr": 43,
    "cluster": [
     "responsiv"
    ],
@@ -2439,19 +2289,17 @@
     "web/e2e/tlfittest.js (unverändert grün)"
    ],
    "haengt_ab": [
-    6,
     7,
-    10,
-    17,
-    24,
-    33,
-    42,
-    43,
-    44
+    16,
+    23,
+    31,
+    40,
+    41,
+    42
    ]
   },
   {
-   "nr": 46,
+   "nr": 44,
    "cluster": [
     "konto",
     "responsiv",
@@ -2474,53 +2322,51 @@
    ],
    "haengt_ab": [
     7,
-    20,
-    33,
-    45
+    19,
+    31,
+    43
    ]
   },
   {
-   "nr": 47,
+   "nr": 45,
    "cluster": [
-    "diagramme"
+    "diagramme",
+    "statistik"
    ],
    "schritte": [
     "farbe-B13",
     "farbe-B15",
     "farbe-B27b",
-    "farbe-C14b"
+    "aufbau-B10",
+    "aufbau-C14d",
+    "farbe-C30",
+    "farbe-C13"
    ],
    "dateien": [
     "web/css/app.css",
-    "web/js/ui.js",
-    "web/js/widgets.js"
+    "web/js/core.js",
+    "web/js/screens/stats.js",
+    "web/js/ui.js"
    ],
-   "tests": [
-    "4.6: gespeicherter Report mit alten Standardfarben zeigt neue, eigene Farbe bleibt",
-    "web/e2e/dashtest.js:81–100 (Report-Panel, prüfen)"
-   ],
+   "tests": [],
    "haengt_ab": []
   },
   {
-   "nr": 48,
+   "nr": 46,
    "cluster": [
     "diagramme",
-    "tokens",
-    "statistik"
+    "prop"
    ],
    "schritte": [
-    "farbe-D3d",
-    "aufbau-B10",
-    "aufbau-C14d",
     "diagramme-A1",
     "diagramme-A2",
-    "diagramme-A4"
+    "diagramme-A4",
+    "diagramme-J2",
+    "zustaende-S-P2"
    ],
    "dateien": [
-    "web/README.md",
     "web/css/app.css",
-    "web/js/screens/stats.js",
-    "web/js/ui.js"
+    "web/js/screens/prop.js"
    ],
    "tests": [
     "Akzeptanz grep 2: grep -c '^\\.chart text {' web/css/app.css → 1",
@@ -2528,46 +2374,41 @@
     "Akzeptanz grep 4"
    ],
    "haengt_ab": [
-    1,
-    6,
-    47
+    1
    ]
   },
   {
-   "nr": 49,
+   "nr": 47,
    "cluster": [
     "diagramme",
-    "prop"
+    "konto"
    ],
    "schritte": [
-    "diagramme-J2",
     "diagramme-C1",
     "diagramme-C3",
     "diagramme-C4",
-    "diagramme-C5"
+    "diagramme-C5",
+    "diagramme-K1"
    ],
    "dateien": [
-    "web/js/screens/prop.js",
+    "web/js/screens/affiliate.js",
     "web/js/ui.js"
    ],
    "tests": [
-    "Akzeptanz grep 4",
+    "Akzeptanz grep 12, Sonde 15",
     "Sonde 14",
-    "Sonde 15 (Balken innerhalb der Gitterlinien)"
+    "Sonde 15 (Balken innerhalb der Gitterlinien)",
+    "web/e2e/affiliatetest.js:25 (O4)"
    ],
-   "haengt_ab": [
-    48
-   ]
+   "haengt_ab": []
   },
   {
-   "nr": 50,
+   "nr": 48,
    "cluster": [
     "diagramme",
-    "konto",
     "responsiv"
    ],
    "schritte": [
-    "diagramme-K1",
     "diagramme-D1",
     "diagramme-C8",
     "diagramme-C9",
@@ -2575,39 +2416,33 @@
     "diagramme-C11",
     "diagramme-C12",
     "diagramme-C13",
-    "diagramme-C14",
     "diagramme-C15",
     "diagramme-C16"
    ],
    "dateien": [
     "web/js/app.js",
-    "web/js/screens/affiliate.js",
     "web/js/ui.js"
    ],
    "tests": [
-    "Akzeptanz grep 12, Sonde 15",
     "Akzeptanz grep 5",
-    "Sonde 14",
     "Sonde 15, 18, 19",
-    "web/e2e/affiliatetest.js:25 (O4)",
     "web/e2e/chartanimtest.js:23 (Sparkline) prüfen"
    ],
    "haengt_ab": [
-    16,
-    40,
-    48,
-    49
+    15,
+    38,
+    46,
+    47
    ]
   },
   {
-   "nr": 51,
+   "nr": 49,
    "cluster": [
     "diagramme",
     "statistik"
    ],
    "schritte": [
     "diagramme-P1",
-    "diagramme-C2",
     "diagramme-C17",
     "diagramme-C18"
    ],
@@ -2616,19 +2451,17 @@
     "web/js/ui.js"
    ],
    "tests": [
-    "Akzeptanz grep 1",
-    "Sonde 18 (Geld-blind)",
     "Sonde 20 (390px Wochenlabels)"
    ],
    "haengt_ab": [
-    16,
-    48,
-    49,
-    50
+    15,
+    46,
+    47,
+    48
    ]
   },
   {
-   "nr": 52,
+   "nr": 50,
    "cluster": [
     "training",
     "diagramme"
@@ -2647,13 +2480,13 @@
     "web/e2e/shadowtest.js:30 (O5)"
    ],
    "haengt_ab": [
-    26,
-    49,
-    51
+    25,
+    47,
+    49
    ]
   },
   {
-   "nr": 53,
+   "nr": 51,
    "cluster": [
     "diagramme",
     "training"
@@ -2666,7 +2499,6 @@
     "diagramme-E3",
     "diagramme-E4",
     "diagramme-E5",
-    "diagramme-E6",
     "diagramme-E7",
     "diagramme-E8b",
     "diagramme-E8e",
@@ -2681,18 +2513,17 @@
     "diagramme-F7",
     "diagramme-F8",
     "diagramme-F9",
-    "diagramme-O1",
     "diagramme-O2",
     "diagramme-O3",
     "diagramme-P3",
     "diagramme-P5",
     "barrierefreiheit-U6a",
     "barrierefreiheit-U6b",
+    "diagramme-C14",
+    "diagramme-C2",
     "barrierefreiheit-C-widgets-84-93",
-    "kilook-C9a",
     "wording-S1.4-1.7",
-    "bewegung-B6",
-    "bewegung-B8"
+    "bewegung-B6"
    ],
    "dateien": [
     "web/README.md",
@@ -2705,6 +2536,7 @@
     "web/js/widgets.js"
    ],
    "tests": [
+    "Akzeptanz grep 1",
     "Akzeptanz grep 10",
     "Akzeptanz grep 12",
     "Akzeptanz grep 3, 6",
@@ -2714,11 +2546,10 @@
     "Akzeptanz grep 6",
     "Akzeptanz grep 6, Sonde 17",
     "Akzeptanz grep 7",
+    "Sonde 14",
+    "Sonde 18 (Geld-blind)",
     "Sonde 21",
-    "neu (Abschnitt 4): .cal .p ohne /,\\d\\d\\s?[€$]/",
-    "prüfen: e2e/mobiletest.js:66 (.cal .w .p/.pm)",
     "web/e2e/chartanimtest.js:10–11 (Schritt bewegung-3.11d)",
-    "web/e2e/dashtest.js:69",
     "web/e2e/dashtest.js:69 (O1)",
     "web/e2e/dashtest.js:92",
     "web/e2e/dashtest.js:95",
@@ -2729,27 +2560,50 @@
    "haengt_ab": [
     3,
     7,
-    26,
+    15,
+    25,
+    45,
+    46,
+    47,
     48,
     49,
-    50,
-    52
+    50
    ]
   },
   {
-   "nr": 54,
+   "nr": 52,
    "cluster": [
-    "zustaende",
     "diagramme"
    ],
    "schritte": [
+    "bewegung-B8",
     "bewegung-C5",
     "bewegung-3.6",
     "bewegung-3.11d",
-    "bewegung-3.12c",
-    "farbe-B12",
+    "bewegung-3.12c"
+   ],
+   "dateien": [
+    "web/README.md",
+    "web/css/app.css",
+    "web/e2e/chartanimtest.js",
+    "web/js/ui.js"
+   ],
+   "tests": [
+    "web/e2e/chartanimtest.js:10–11",
+    "web/e2e/chartanimtest.js:10–11 (Schritt bewegung-3.11d)"
+   ],
+   "haengt_ab": [
+    3,
+    51
+   ]
+  },
+  {
+   "nr": 53,
+   "cluster": [
+    "zustaende"
+   ],
+   "schritte": [
     "farbe-B20",
-    "farbe-C14d",
     "farbe-C18",
     "farbe-D3g",
     "typografie-3.2.4h",
@@ -2760,9 +2614,7 @@
    "dateien": [
     "web/README.md",
     "web/css/app.css",
-    "web/e2e/chartanimtest.js",
     "web/js/screens/dash-filter.js",
-    "web/js/ui.js",
     "web/js/widgets.js"
    ],
    "tests": [
@@ -2770,20 +2622,15 @@
     "e2e/coachtest.js:50, :197 (.coach-wrap .empty b)",
     "e2e/dashtest.js:143",
     "e2e/friedhoftest.js:22",
-    "e2e/proptest.js:20",
-    "web/e2e/chartanimtest.js:10–11",
-    "web/e2e/chartanimtest.js:10–11 (Schritt bewegung-3.11d)",
-    "web/e2e/dashtest.js:67 (.recent-card .more-link mit Trades)"
+    "e2e/proptest.js:20"
    ],
    "haengt_ab": [
     2,
-    3,
-    9,
-    53
+    10
    ]
   },
   {
-   "nr": 55,
+   "nr": 54,
    "cluster": [
     "trades_tag",
     "prop",
@@ -2805,21 +2652,22 @@
     "e2e/proptest.js:20, :23, :27"
    ],
    "haengt_ab": [
-    54
+    53
    ]
   },
   {
-   "nr": 56,
+   "nr": 55,
    "cluster": [
     "zustaende",
-    "dashboard"
+    "dashboard",
+    "trades_tag"
    ],
    "schritte": [
-    "komponenten-S-trades-h",
     "zustaende-S-C3",
     "zustaende-S-C4",
     "zustaende-S-W2",
-    "zustaende-S-W4"
+    "zustaende-S-W4",
+    "zustaende-S-T1"
    ],
    "dateien": [
     "web/css/app.css",
@@ -2831,30 +2679,63 @@
     "web/e2e/dashtest.js:143–144: kein .recent-card .more-link (Schritt zustaende-S-TE2)"
    ],
    "haengt_ab": [
-    14,
-    19
+    13,
+    14
+   ]
+  },
+  {
+   "nr": 56,
+   "cluster": [
+    "zustaende",
+    "notebook_news",
+    "konto"
+   ],
+   "schritte": [
+    "zustaende-S-C12",
+    "zustaende-S-C13",
+    "zustaende-S-NW2",
+    "zustaende-S-CS2",
+    "zustaende-S-U1"
+   ],
+   "dateien": [
+    "web/css/app.css",
+    "web/js/screens/coach.js",
+    "web/js/screens/news.js",
+    "web/js/ui.js"
+   ],
+   "tests": [],
+   "haengt_ab": [
+    2,
+    5
    ]
   },
   {
    "nr": 57,
    "cluster": [
+    "diagramme",
     "zustaende",
-    "trades_tag",
-    "notebook_news"
+    "prop"
    ],
    "schritte": [
-    "zustaende-S-T1",
-    "zustaende-S-C12",
-    "zustaende-S-C13",
-    "zustaende-S-NW2"
+    "zustaende-S-P1",
+    "zustaende-S-U2",
+    "zustaende-S-U3",
+    "zustaende-S-W6",
+    "diagramme-E6",
+    "diagramme-O1"
    ],
    "dateien": [
-    "web/css/app.css",
-    "web/js/screens/news.js",
-    "web/js/screens/trades.js"
+    "web/e2e/dashtest.js",
+    "web/js/screens/prop.js",
+    "web/js/ui.js",
+    "web/js/widgets.js"
    ],
-   "tests": [],
+   "tests": [
+    "web/e2e/dashtest.js:69",
+    "web/e2e/dashtest.js:69 (O1)"
+   ],
    "haengt_ab": [
+    51,
     56
    ]
   },
@@ -2862,43 +2743,23 @@
    "nr": 58,
    "cluster": [
     "zustaende",
-    "konto",
-    "prop"
-   ],
-   "schritte": [
-    "zustaende-S-CS2",
-    "zustaende-S-C14",
-    "zustaende-S-U1",
-    "zustaende-S-P1"
-   ],
-   "dateien": [
-    "web/css/app.css",
-    "web/js/screens/coach.js",
-    "web/js/screens/prop.js",
-    "web/js/ui.js"
-   ],
-   "tests": [],
-   "haengt_ab": [
-    57
-   ]
-  },
-  {
-   "nr": 59,
-   "cluster": [
-    "zustaende",
     "dashboard",
     "diagramme"
    ],
    "schritte": [
-    "zustaende-S-U2",
-    "zustaende-S-U3",
-    "zustaende-S-W6",
     "zustaende-S-U4a",
     "zustaende-S-W3",
-    "zustaende-S-TE2"
+    "zustaende-S-TE2",
+    "zustaende-S-U4b",
+    "zustaende-S-U5",
+    "zustaende-S-A1",
+    "zustaende-S-R4",
+    "zustaende-S-R5"
    ],
    "dateien": [
+    "web/README.md",
     "web/e2e/dashtest.js",
+    "web/js/app.js",
     "web/js/ui.js",
     "web/js/widgets.js"
    ],
@@ -2907,82 +2768,17 @@
     "web/e2e/dashtest.js:143–144 (Schritt zustaende-S-TE2)"
    ],
    "haengt_ab": [
+    2,
+    7,
+    10,
     14,
+    31,
+    55,
     56
    ]
   },
   {
-   "nr": 60,
-   "cluster": [
-    "zustaende",
-    "einstellungen",
-    "diagramme"
-   ],
-   "schritte": [
-    "zustaende-S-U4b",
-    "zustaende-S-U5",
-    "zustaende-S-A1",
-    "zustaende-S-M2",
-    "zustaende-S-TE6"
-   ],
-   "dateien": [
-    "web/e2e/settest.js",
-    "web/js/app.js",
-    "web/js/screens/misc.js",
-    "web/js/ui.js"
-   ],
-   "tests": [
-    "web/e2e/settest.js:22",
-    "web/e2e/settest.js:22 (Schritt zustaende-S-TE6)",
-    "web/e2e/settest.js:26"
-   ],
-   "haengt_ab": [
-    6,
-    37,
-    56,
-    58,
-    59
-   ]
-  },
-  {
-   "nr": 61,
-   "cluster": [
-    "zustaende"
-   ],
-   "schritte": [
-    "zustaende-S-A4",
-    "zustaende-S-R4",
-    "zustaende-S-R5",
-    "barrierefreiheit-B11",
-    "kilook-C18",
-    "responsiv-B11",
-    "responsiv-3.17"
-   ],
-   "dateien": [
-    "web/README.md",
-    "web/app.html",
-    "web/css/app.css",
-    "web/js/app.js",
-    "web/js/screens/progress.js"
-   ],
-   "tests": [
-    "prüfen: e2e/headtest.js:55–57 (Ring kann ohne .arc sein)",
-    "web/e2e/loadtest.js:10-11",
-    "web/e2e/loadtest.js:10-11 (Skelett: 5 Kacheln, 3 Karten, topH ≥ 60)"
-   ],
-   "haengt_ab": [
-    2,
-    6,
-    9,
-    33,
-    56,
-    57,
-    58,
-    60
-   ]
-  },
-  {
-   "nr": 62,
+   "nr": 59,
    "cluster": [
     "barrierefreiheit"
    ],
@@ -3008,11 +2804,11 @@
     "Sonde 13"
    ],
    "haengt_ab": [
-    2
+    3
    ]
   },
   {
-   "nr": 63,
+   "nr": 60,
    "cluster": [
     "komponenten",
     "notebook_news",
@@ -3035,38 +2831,43 @@
    ],
    "tests": [],
    "haengt_ab": [
-    62
+    59
    ]
   },
   {
-   "nr": 64,
+   "nr": 61,
    "cluster": [
     "trades_tag",
-    "shell",
+    "zustaende",
     "komponenten"
    ],
    "schritte": [
-    "barrierefreiheit-H1",
     "barrierefreiheit-P12",
     "barrierefreiheit-E-dptest-92",
-    "barrierefreiheit-P14b"
+    "barrierefreiheit-P14b",
+    "zustaende-S-A4",
+    "komponenten-S-trades-h"
    ],
    "dateien": [
-    "web/app.html",
     "web/e2e/dptest.js",
-    "web/js/app.js"
+    "web/js/app.js",
+    "web/js/screens/trades.js"
    ],
    "tests": [
     "web/e2e/dptest.js:92"
    ],
    "haengt_ab": [
-    6,
-    61,
-    63
+    7,
+    17,
+    18,
+    19,
+    55,
+    58,
+    60
    ]
   },
   {
-   "nr": 65,
+   "nr": 62,
    "cluster": [
     "barrierefreiheit",
     "komponenten",
@@ -3085,60 +2886,74 @@
    ],
    "tests": [],
    "haengt_ab": [
-    63
+    7,
+    60
    ]
   },
   {
-   "nr": 66,
+   "nr": 63,
    "cluster": [
+    "training",
+    "komponenten",
     "shell",
-    "komponenten"
+    "trades_tag"
    ],
    "schritte": [
     "barrierefreiheit-P2",
-    "barrierefreiheit-P5",
-    "barrierefreiheit-P6",
-    "barrierefreiheit-P7"
-   ],
-   "dateien": [
-    "web/js/app.js"
-   ],
-   "tests": [],
-   "haengt_ab": [
-    10,
-    65
-   ]
-  },
-  {
-   "nr": 67,
-   "cluster": [
-    "training",
-    "trades_tag",
-    "einstellungen"
-   ],
-   "schritte": [
+    "barrierefreiheit-P7",
     "barrierefreiheit-C-day-18",
     "barrierefreiheit-C-progress-73",
     "barrierefreiheit-C-progress-75",
-    "barrierefreiheit-E-notechecktest-14",
-    "barrierefreiheit-C-misc-15"
+    "barrierefreiheit-E-notechecktest-14"
    ],
    "dateien": [
     "web/e2e/notechecktest.js",
+    "web/js/app.js",
     "web/js/screens/day.js",
-    "web/js/screens/misc.js",
     "web/js/screens/progress.js"
    ],
    "tests": [
     "web/e2e/notechecktest.js:14"
    ],
    "haengt_ab": [
-    6,
-    65
+    7,
+    62
    ]
   },
   {
-   "nr": 68,
+   "nr": 64,
+   "cluster": [
+    "einstellungen"
+   ],
+   "schritte": [
+    "barrierefreiheit-C-misc-15",
+    "komponenten-S-misc-e",
+    "komponenten-S-misc-g",
+    "komponenten-R1c",
+    "zustaende-S-M1b",
+    "komponenten-E1a"
+   ],
+   "dateien": [
+    "web/README.md",
+    "web/e2e/settest.js",
+    "web/js/screens/misc.js"
+   ],
+   "tests": [
+    "e2e/settest.js:22",
+    "e2e/settest.js:22 (siehe E1a)",
+    "e2e/settest.js:31",
+    "e2e/settest.js:31 (siehe E1a)",
+    "web/e2e/settest.js:26 bleibt (be-reset setzt C.setBreakEven), nur prüfen"
+   ],
+   "haengt_ab": [
+    6,
+    7,
+    34,
+    62
+   ]
+  },
+  {
+   "nr": 65,
    "cluster": [
     "dashboard",
     "barrierefreiheit",
@@ -3156,14 +2971,12 @@
    ],
    "tests": [],
    "haengt_ab": [
-    6,
-    63,
-    65,
-    66
+    60,
+    62
    ]
   },
   {
-   "nr": 69,
+   "nr": 66,
    "cluster": [
     "trades_tag"
    ],
@@ -3180,54 +2993,26 @@
    "tests": [],
    "haengt_ab": [
     6,
-    63,
-    65,
-    68
+    7,
+    60,
+    62,
+    65
    ]
   },
   {
-   "nr": 70,
+   "nr": 67,
    "cluster": [
-    "notebook_news",
-    "einstellungen",
     "barrierefreiheit",
-    "training"
+    "notebook_news",
+    "einstellungen"
    ],
    "schritte": [
     "barrierefreiheit-C-editor-118-164",
     "barrierefreiheit-C-notebook-28-74",
     "barrierefreiheit-C-misc-365",
-    "barrierefreiheit-P10",
-    "barrierefreiheit-C-mentor-83-111"
-   ],
-   "dateien": [
-    "web/js/app.js",
-    "web/js/editor.js",
-    "web/js/screens/mentor.js",
-    "web/js/screens/misc.js",
-    "web/js/screens/notebook.js"
-   ],
-   "tests": [],
-   "haengt_ab": [
-    6,
-    64,
-    65,
-    68
-   ]
-  },
-  {
-   "nr": 71,
-   "cluster": [
-    "barrierefreiheit",
-    "einstellungen"
-   ],
-   "schritte": [
     "barrierefreiheit-E-aria-current",
     "barrierefreiheit-E-README",
-    "kilook-C6",
-    "kilook-C24",
-    "kilook-C8b",
-    "responsiv-3.3c"
+    "kilook-C6"
    ],
    "dateien": [
     "web/README.md",
@@ -3236,8 +3021,9 @@
     "web/e2e/calmnavtest.js",
     "web/e2e/friedhoftest.js",
     "web/e2e/proptest.js",
-    "web/js/app.js",
-    "web/js/screens/misc.js"
+    "web/js/editor.js",
+    "web/js/screens/misc.js",
+    "web/js/screens/notebook.js"
    ],
    "tests": [
     "neu (Abschnitt 4, Verhalten): Taste 0 ohne FEATURES.replay ändert location.hash nicht; shortcuts=false sperrt N und 1–9, Esc wirkt weiter",
@@ -3245,32 +3031,33 @@
     "web/e2e/affiliatetest.js:16",
     "web/e2e/calmnavtest.js:51",
     "web/e2e/friedhoftest.js:21",
-    "web/e2e/motiontest.js:62-66",
     "web/e2e/proptest.js:19",
     "web/e2e/proptest.js:91",
-    "web/e2e/proptest.js:95",
-    "web/e2e/sidebartest.js:44-45",
-    "web/e2e/usercardtest.js:55-58"
+    "web/e2e/proptest.js:95"
    ],
    "haengt_ab": [
-    2,
-    6,
-    10,
+    3,
+    7,
     14,
-    17,
-    29,
-    33,
-    63,
-    65,
-    68
+    15,
+    27,
+    31,
+    60,
+    62,
+    65
    ]
   },
   {
-   "nr": 72,
+   "nr": 68,
    "cluster": [
-    "wording"
+    "wording",
+    "barrierefreiheit",
+    "einstellungen"
    ],
    "schritte": [
+    "kilook-C24",
+    "kilook-C8b",
+    "responsiv-3.3c",
     "farbe-C25",
     "farbe-D1",
     "abstaende-K4",
@@ -3301,11 +3088,10 @@
     "diagramme-3.14b",
     "diagramme-3.14c",
     "zustaende-S-CO2",
-    "zustaende-S-NW3",
-    "zustaende-S-MT2",
-    "zustaende-S-NB3"
+    "zustaende-S-NW3"
    ],
    "dateien": [
+    "web/js/app.js",
     "web/js/coach.js",
     "web/js/lang/en.js",
     "web/js/lang/es.js",
@@ -3313,7 +3099,6 @@
     "web/js/lang/pt.js",
     "web/js/lang/zh.js",
     "web/js/screens/coach.js",
-    "web/js/screens/mentor.js",
     "web/js/screens/misc.js",
     "web/js/screens/news.js",
     "web/js/screens/notebook.js",
@@ -3328,83 +3113,53 @@
     "e2e/coachtest.js:204–206",
     "e2e/langtest.js",
     "web/e2e/coachlang2.js",
-    "web/e2e/langtest.js"
+    "web/e2e/langtest.js",
+    "web/e2e/motiontest.js:62-66",
+    "web/e2e/sidebartest.js:44-45",
+    "web/e2e/usercardtest.js:55-58"
    ],
    "haengt_ab": [
-    8,
     9,
+    10,
     12,
     13,
     14,
-    16,
+    15,
+    17,
     18,
     19,
-    20,
+    21,
     22,
-    23,
+    24,
     25,
-    26,
-    28,
-    31,
+    27,
+    30,
     32,
     34,
-    36,
+    45,
     48,
-    50,
+    49,
     51,
-    53,
-    55,
-    58
+    54,
+    57,
+    64,
+    67
    ]
   },
   {
-   "nr": 73,
+   "nr": 69,
    "cluster": [
     "wording"
    ],
    "schritte": [
+    "zustaende-S-MT2",
+    "zustaende-S-NB3",
     "zustaende-S-L",
-    "barrierefreiheit-D1"
-   ],
-   "dateien": [
-    "web/js/lang/en.js",
-    "web/js/lang/es.js",
-    "web/js/lang/hi.js",
-    "web/js/lang/pt.js",
-    "web/js/lang/zh.js"
-   ],
-   "tests": [],
-   "haengt_ab": [
-    10,
-    14,
-    17,
-    20,
-    23,
-    29,
-    37,
-    53,
-    63,
-    64,
-    65,
-    68,
-    69,
-    70
-   ]
-  },
-  {
-   "nr": 74,
-   "cluster": [
-    "wording",
-    "barrierefreiheit"
-   ],
-   "schritte": [
-    "barrierefreiheit-E-runall",
     "kilook-C26",
     "kilook-C28",
     "responsiv-3.18",
     "wording-S2.1",
     "wording-S2.14",
-    "wording-S5.1-5.2",
     "wording-S5.6-5.8",
     "wording-S6.16-6.18",
     "wording-S6.19-6.22",
@@ -3420,17 +3175,10 @@
     "wording-S15.4-15.5",
     "wording-S15.16-15.21",
     "wording-S17.1",
-    "wording-S17.13-17.15",
-    "wording-S17.16-17.18",
-    "wording-S17.22",
-    "wording-S17.23-17.27",
-    "wording-S17.28",
-    "wording-S17.29-17.30",
-    "wording-S18.1"
+    "wording-S17.13-17.15"
    ],
    "dateien": [
     "web/README.md",
-    "web/e2e/runall.sh",
     "web/js/app.js",
     "web/js/coach.js",
     "web/js/core.js",
@@ -3451,60 +3199,79 @@
     "web/js/screens/shadow.js",
     "web/js/screens/trades.js",
     "web/js/shadow.js",
-    "web/js/store.js",
-    "web/js/theme.js",
     "web/js/voice.js",
     "web/js/widgets.js"
    ],
    "tests": [
     "prüfen: e2e/langtest.js",
-    "web/e2e/coachtest.js",
-    "web/e2e/filtertest.js",
-    "web/e2e/glidetest.js",
-    "web/e2e/langtest.js",
     "web/e2e/langtest.js (Übersetzung)",
-    "web/e2e/mobiletest.js",
-    "web/e2e/motiontest.js",
-    "web/e2e/rangetest.js",
-    "web/e2e/rptest.js:9",
     "web/e2e/scorestatetest.js:10",
-    "web/e2e/settest.js:10",
-    "web/e2e/sidebartest.js",
-    "web/e2e/sixtest.js",
-    "web/e2e/switchtest.js",
-    "web/e2e/tiptest.js",
-    "web/e2e/tradeformtest.js",
-    "web/e2e/usercardtest.js",
-    "web/e2e/usercardtest.js:11"
+    "web/e2e/settest.js:10"
    ],
    "haengt_ab": [
-    2,
     3,
-    6,
     7,
     10,
-    14,
-    17,
-    21,
-    24,
-    26,
-    27,
-    29,
-    33,
-    37,
-    42,
-    43,
-    46,
-    53,
-    61,
-    64,
+    25,
+    28,
+    31,
+    32,
+    40,
+    41,
     67,
-    71,
-    73
+    68
    ]
   },
   {
-   "nr": 75,
+   "nr": 70,
+   "cluster": [
+    "wording",
+    "einstellungen"
+   ],
+   "schritte": [
+    "aufbau-C8d",
+    "aufbau-D3e",
+    "wording-S17.16-17.18",
+    "wording-S17.23-17.27",
+    "wording-S17.28",
+    "wording-S17.29-17.30",
+    "wording-S18.1"
+   ],
+   "dateien": [
+    "web/e2e/navdottest.js",
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js",
+    "web/js/screens/misc.js",
+    "web/js/store.js",
+    "web/js/theme.js"
+   ],
+   "tests": [
+    "web/e2e/langtest.js",
+    "web/e2e/navdottest.js:37"
+   ],
+   "haengt_ab": [
+    7,
+    14,
+    16,
+    19,
+    20,
+    23,
+    26,
+    28,
+    31,
+    34,
+    35,
+    44,
+    51,
+    64,
+    69
+   ]
+  },
+  {
+   "nr": 71,
    "cluster": [
     "wording",
     "konto"
@@ -3560,19 +3327,21 @@
    "haengt_ab": [
     7,
     14,
-    17,
-    21,
-    27,
-    29,
-    33,
-    37,
-    46,
-    53,
-    74
+    16,
+    19,
+    20,
+    26,
+    28,
+    31,
+    35,
+    44,
+    51,
+    69,
+    70
    ]
   },
   {
-   "nr": 76,
+   "nr": 72,
    "cluster": [
     "bewegung",
     "diagramme"
@@ -3605,39 +3374,12 @@
     "web/e2e/motiontest.js:43-47, :58 (Desktop pop-in, reduzierte Bewegung)"
    ],
    "haengt_ab": [
-    50
+    47,
+    51
    ]
   },
   {
-   "nr": 77,
-   "cluster": [
-    "responsiv"
-   ],
-   "schritte": [
-    "responsiv-3.20a"
-   ],
-   "dateien": [
-    "web/e2e/mobiletest.js"
-   ],
-   "tests": [
-    "web/e2e/mobiletest.js"
-   ],
-   "haengt_ab": [
-    7,
-    10,
-    14,
-    24,
-    40,
-    41,
-    42,
-    43,
-    61,
-    71,
-    76
-   ]
-  },
-  {
-   "nr": 78,
+   "nr": 73,
    "cluster": [
     "bewegung",
     "wording"
@@ -3672,118 +3414,267 @@
    "haengt_ab": [
     3,
     7,
+    8,
     10,
-    15,
-    21,
-    24,
+    11,
+    14,
+    20,
+    23,
+    38,
     40,
+    41,
     42,
-    43,
-    44,
+    72
+   ]
+  },
+  {
+   "nr": 74,
+   "cluster": [
+    "shell",
+    "komponenten"
+   ],
+   "schritte": [
+    "abstaende-B13",
+    "zustaende-S-C19",
+    "zustaende-S-H2",
+    "barrierefreiheit-H1"
+   ],
+   "dateien": [
+    "web/app.html",
+    "web/css/app.css"
+   ],
+   "tests": [],
+   "haengt_ab": [
+    2,
+    5,
+    10,
+    60,
+    75,
     76
+   ]
+  },
+  {
+   "nr": 75,
+   "cluster": [
+    "trades_tag",
+    "training",
+    "responsiv"
+   ],
+   "schritte": [
+    "typografie-3.8b",
+    "barrierefreiheit-C-mentor-83-111",
+    "responsiv-3.20a"
+   ],
+   "dateien": [
+    "web/e2e/mobiletest.js",
+    "web/js/screens/mentor.js",
+    "web/js/screens/trades.js"
+   ],
+   "tests": [
+    "web/e2e/mobiletest.js",
+    "web/e2e/tlfittest.js"
+   ],
+   "haengt_ab": [
+    7,
+    10,
+    14,
+    23,
+    38,
+    39,
+    40,
+    41,
+    62,
+    68,
+    72,
+    74,
+    76
+   ]
+  },
+  {
+   "nr": 76,
+   "cluster": [
+    "zustaende",
+    "barrierefreiheit"
+   ],
+   "schritte": [
+    "responsiv-B11",
+    "responsiv-3.17",
+    "barrierefreiheit-P10",
+    "barrierefreiheit-E-runall"
+   ],
+   "dateien": [
+    "web/app.html",
+    "web/css/app.css",
+    "web/e2e/runall.sh",
+    "web/js/app.js"
+   ],
+   "tests": [
+    "web/e2e/coachtest.js",
+    "web/e2e/filtertest.js",
+    "web/e2e/glidetest.js",
+    "web/e2e/loadtest.js:10-11",
+    "web/e2e/loadtest.js:10-11 (Skelett: 5 Kacheln, 3 Karten, topH ≥ 60)",
+    "web/e2e/mobiletest.js",
+    "web/e2e/motiontest.js",
+    "web/e2e/rangetest.js",
+    "web/e2e/sidebartest.js",
+    "web/e2e/sixtest.js",
+    "web/e2e/switchtest.js",
+    "web/e2e/tiptest.js",
+    "web/e2e/tradeformtest.js",
+    "web/e2e/usercardtest.js"
+   ],
+   "haengt_ab": [
+    5,
+    7,
+    22,
+    37,
+    61,
+    62,
+    63,
+    67,
+    74,
+    77
+   ]
+  },
+  {
+   "nr": 77,
+   "cluster": [
+    "wording"
+   ],
+   "schritte": [
+    "barrierefreiheit-D1"
+   ],
+   "dateien": [
+    "web/js/lang/en.js",
+    "web/js/lang/es.js",
+    "web/js/lang/hi.js",
+    "web/js/lang/pt.js",
+    "web/js/lang/zh.js"
+   ],
+   "tests": [],
+   "haengt_ab": [
+    10,
+    14,
+    15,
+    19,
+    22,
+    27,
+    35,
+    51,
+    60,
+    61,
+    62,
+    65,
+    66,
+    67,
+    74,
+    75
    ]
   }
  ],
  "wellen": [
   [
    1,
-   10,
-   30,
-   47
+   3
   ],
   [
    2,
-   38
-  ],
-  [
-   3,
-   22,
-   34
-  ],
-  [
    4,
-   8,
-   35
+   36,
+   46
   ],
   [
    5,
-   11
+   9,
+   21,
+   32
   ],
   [
    6,
-   23,
-   25
+   12,
+   33
   ],
   [
    7,
-   12,
-   16,
-   31
+   13,
+   22
   ],
   [
-   9,
-   13,
-   24,
-   29
+   8,
+   10,
+   15,
+   24
+  ],
+  [
+   11,
+   16,
+   23,
+   27
   ],
   [
    14,
    17,
-   18,
-   28
+   28,
+   45
   ],
   [
-   15,
+   18,
+   29,
+   37,
+   53
+  ],
+  [
    19,
-   32,
-   39
+   30,
+   38
   ],
   [
    20,
-   33,
+   25,
+   31
+  ],
+  [
+   26,
+   34,
+   41,
+   55
+  ],
+  [
+   35,
+   39,
+   40,
+   42
+  ],
+  [
+   43,
+   47,
+   54
+  ],
+  [
+   44,
    48
   ],
   [
-   21,
-   26,
-   40
+   49
   ],
   [
-   27,
-   36,
-   43,
+   50,
    56
-  ],
-  [
-   37,
-   41,
-   42,
-   44
-  ],
-  [
-   45,
-   49,
-   57
-  ],
-  [
-   46,
-   50
   ],
   [
    51
   ],
   [
-   52,
+   52
+  ],
+  [
+   57
+  ],
+  [
    58
   ],
   [
-   53
-  ],
-  [
-   54
-  ],
-  [
-   55,
    59
   ],
   [
@@ -3791,17 +3682,14 @@
   ],
   [
    61,
-   76
+   72
   ],
   [
    62
   ],
   [
-   63
-  ],
-  [
-   64,
-   72
+   63,
+   64
   ],
   [
    65
@@ -3817,19 +3705,23 @@
    69
   ],
   [
-   70
-  ],
-  [
-   71,
+   70,
    73
   ],
   [
-   74,
+   71
+  ],
+  [
+   74
+  ],
+  [
+   75
+  ],
+  [
    77
   ],
   [
-   75,
-   78
+   76
   ]
  ]
 }

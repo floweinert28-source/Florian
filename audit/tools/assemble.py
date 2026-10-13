@@ -30,6 +30,13 @@ for f in sorted(glob.glob('plan/entscheid-*.json'), key=lambda p: int(re.findall
                 steps[n]['notizen'].append(f"ÄNDERN: {a['anweisung']}")
         for p in e.get('reihenfolge') or []:
             if p['vor'] in steps and p['nach'] in steps: edges.add((p['vor'], p['nach']))
+if os.path.exists('plan/kreuz-final.json'):
+    for k in json.load(open('plan/kreuz-final.json')).get('schritte', []):
+        n = k['nr']
+        if n not in steps: continue
+        steps[n]['notizen'] = [x for x in steps[n]['notizen'] if not x.startswith(('ENTFÄLLT', 'ÄNDERN'))]
+        if k['aktion'] == 'entfaellt': steps[n]['status'] = 'entfaellt'; steps[n]['notizen'].append(f"ENTFÄLLT (Kreuzprüfung {k.get('ziel_nr','')}): {k['anweisung']}")
+        else: steps[n]['status'] = 'offen'; steps[n]['notizen'].append(f"VERBINDLICH (Kreuzprüfung): {k['anweisung']}")
 active = {n: s for n, s in steps.items() if s['status'] != 'entfaellt' and not s.get('wartet')}
 # Kahn mit Priorität (Cluster, Gruppe, Zeile)
 pri = lambda n: (ORDER.index(steps[n]['cluster']), GORDER.index(steps[n]['gruppe']), steps[n]['von'])
@@ -100,3 +107,26 @@ while rest:
     waves.append(w); done |= set(w); rest = [n for n in rest if n not in w]
 json.dump({'pakete': pakete, 'wellen': waves}, open('plan/wellen.json', 'w'), ensure_ascii=False, indent=1)
 print('Wellen', len(waves), [len(w) for w in waves][:40])
+
+# ---- PLAN.md (Übersicht für den Nutzer und die Sitzung) ----
+fragen = []
+for k in ['farbe', 'typografie', 'abstaende', 'komponenten', 'aufbau', 'diagramme', 'zustaende', 'barrierefreiheit', 'kilook', 'responsiv', 'wording', 'bewegung']:
+    r = json.load(open(f'spec/{k}.result.json'))
+    for q in r.get('nutzer_fragen') or []:
+        if isinstance(q, dict): fragen.append((k, q.get('id', ''), q.get('frage', ''), q.get('empfehlung', '')))
+        else: fragen.append((k, '', str(q), ''))
+nd = sum(len(json.load(open(f)).get('entscheidungen', [])) for f in glob.glob('plan/entscheid-*.json'))
+L = ['# Umsetzungsplan Design-Audit', '',
+     f"{len(steps)} Schritte aus 12 Zielspezifikationen (audit/spec/*.md) · {nd} Entscheidungen zu Überschneidungen (plan/entscheid-*.json) · "
+     f"{len(active)} aktiv, {sum(s['status'] == 'entfaellt' for s in steps.values())} entfallen (doppelt oder überstimmt), {sum(bool(s.get('wartet')) for s in steps.values())} warten auf eine Nutzerfrage · {len(pakete)} Pakete in {len(waves)} Wellen.", '',
+     'Ablauf je Paket: Umsetzer in eigener Arbeitskopie (git-Worktree) → strenger Prüfer → Zusammenführen in den Hauptzweig mit vollem Testlauf (alle Suiten) → Push. Pakete einer Welle laufen parallel.', '',
+     '## Pakete', '', '| Paket | Cluster | Schritte | Baut auf | Dateien |', '|---|---|---|---|---|']
+for p in pakete:
+    L.append(f"| {p['nr']:03d} | {', '.join(p['cluster'])} | {len(p['schritte'])} | {', '.join(f'{x:03d}' for x in p['haengt_ab']) or '—'} | {', '.join(f.replace('web/', '') for f in p['dateien'][:6])}{' …' if len(p['dateien']) > 6 else ''} |")
+L += ['', '## Wellen', ''] + [f"- Welle {i}: {', '.join(f'{n:03d}' for n in w)}" for i, w in enumerate(waves, 1)]
+L += ['', '## Fragen an dich (werden bis zur Antwort nicht umgesetzt)', '']
+for k, i, q, e in fragen: L.append(f"- **{k}{' · ' + i if i else ''}:** {q}" + (f" Empfehlung: {e}" if e else ''))
+L += ['', '## Entfallene Schritte', ''] + [f"- {n}: {next((x for x in steps[n]['notizen'] if x.startswith('ENTFÄLLT')), '')[:300]}" for n in sorted(n for n, s in steps.items() if s['status'] == 'entfaellt')]
+L += ['', '## Wartende Schritte', ''] + [f"- {n}: wartet auf {s['wartet']}" for n, s in sorted(steps.items()) if s.get('wartet')]
+open('PLAN.md', 'w').write('\n'.join(L))
+print('PLAN.md', len(fragen), 'Fragen')

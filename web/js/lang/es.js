@@ -1763,4 +1763,6 @@ I18N.add('es', {
   "Noch keine Daten": "Aún no hay datos",
   "Zum Inhalt springen": "Saltar al contenido",
   "Grabstein umdrehen": "Girar lápida",
+  "Dein tatsächliches Ergebnis": "Tu resultado real",
+  "Ergebnis ohne Regelbrüche": "Resultado sin romper reglas",
 });

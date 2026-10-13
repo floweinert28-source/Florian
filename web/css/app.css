@@ -3219,3 +3219,6 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .sr-btn { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 7px; background: none; color: var(--muted); cursor: pointer; transition: color var(--dur-1) var(--ease), background var(--dur-1) var(--ease); }
 .sr-btn:hover { color: var(--text); background: var(--surface-3); }
 .sr-btn svg { width: 14px; height: 14px; }
+/* Schatten-Ich: vier Kacheln gleich gebaut – Zahl auf gleicher Höhe (feste Zeilenhöhe, oben ausgerichtet), darunter je ein kurzer Satz */
+.shadow-tiles .tile .body { align-items: flex-start; }
+.shadow-tiles .tile .val { min-height: 38px; display: flex; align-items: center; }

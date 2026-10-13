@@ -1,0 +1,1 @@
+- README Zeile „Statistiken … Zustand“ ist seit Commit 8f5650a verstümmelt (vor dem Audit); nach Paket 001 von Hand reparieren.

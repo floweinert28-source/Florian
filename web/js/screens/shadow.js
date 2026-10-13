@@ -49,8 +49,9 @@
       extra = !all.length ? `<div class="small muted shadow-hint">Noch keine Setups angelegt. Lege sie unter <a href="#/settings/inhalte">Einstellungen → Inhalte</a> an oder vergib sie beim Loggen.</div>`
         : `<div class="chips shadow-chips">${all.map(x => `<button type="button" class="chip sel" aria-pressed="${list.includes(x)}" data-action="shadow-setup-toggle" data-value="${esc(x)}">${esc(x)}</button>`).join('')}</div>${!list.length ? `<div class="small warn shadow-hint">Kein Setup gewählt – so zählt jeder Trade als Verstoß.</div>` : ''}`;
     }
-    /* eine Zeile je Regel: links Name und Satz, rechts (wenn an) der Wert und der Schalter – nichts verschiebt sich beim Einschalten */
-    return `<div class="shadow-rule ${on ? 'on' : ''}"><div class="sr-main"><div class="sr-txt"><span class="sr-label">${esc(def.label)}</span>${DESC[def.key] ? `<span class="sr-desc">${esc(DESC[def.key])}</span>` : ''}</div>${on && ctrl ? `<div class="sr-ctrl">${ctrl}</div>` : ''}<button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button></div>${on && extra ? `<div class="sr-extra">${extra}</div>` : ''}</div>`;
+    /* jede Regel eine gleich gebaute Karte: oben Name und Schalter, darunter der Satz (zwei Zeilen Platz), unten der Wert –
+       der Wert steht immer da (aus: blass und gesperrt), damit alle Karten gleich hoch sind und beim Einschalten nichts springt */
+    return `<div class="shadow-rule ${on ? 'on' : ''}"><div class="sr-main"><span class="sr-label">${esc(def.label)}</span><button type="button" class="switch" role="switch" aria-checked="${on}" data-action="shadow-rule-toggle" data-rule="${def.key}" aria-label="${esc(def.label)}"></button></div>${DESC[def.key] ? `<span class="sr-desc">${esc(DESC[def.key])}</span>` : ''}<div class="sr-ctrl"${on ? '' : ' inert'}>${ctrl}</div>${on && extra ? `<div class="sr-extra">${extra}</div>` : ''}</div>`;
   }
   function rulesCard(res, r) {
     const setups = (S.data.tags && S.data.tags.setups) || [];
@@ -58,7 +59,7 @@
     /* Hinweis ohne aktive Regel steht unter den Schaltern: beim ersten Einschalten verschwindet er, ohne dass sich darüber etwas verschiebt */
     if (!res.active) notes.push(U.banner('info', 'Noch keine Regel aktiv', 'Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="shadow-preset">${I.bolt} Vorschlag übernehmen</button>` }));
     if (res.unknownRisk) notes.push(U.banner('info', '', `${U.count(res.unknownRisk, 'Trade', 'Trades')} ohne Stop ${res.unknownRisk === 1 ? 'konnte' : 'konnten'} bei der Risiko-Regel nicht geprüft werden.`));
-    return U.card('Mein Regelwerk', `<div class="shadow-rules">${(rows => { const h = Math.ceil(rows.length / 2); return `<div class="sr-col">${rows.slice(0, h).join('')}</div><div class="sr-col">${rows.slice(h).join('')}</div>`; })(Sh.RULES.map(def => ruleRow(def, r[def.key], setups)))}</div>${notes.length ? `<div class="stack shadow-notes">${notes.join('')}</div>` : ''}`, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' });
+    return U.card('Mein Regelwerk', `<div class="shadow-rules">${Sh.RULES.map(def => ruleRow(def, r[def.key], setups)).join('')}</div>${notes.length ? `<div class="stack shadow-notes">${notes.join('')}</div>` : ''}`, { info: 'Schalte ein, was für dich gilt. Dein Schatten-Ich hält sich daran – Änderungen gelten sofort.' });
   }
 
   /* ---------- Verstöße und Ranking ---------- */

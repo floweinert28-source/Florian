@@ -3263,3 +3263,11 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .switch[aria-checked="true"]::after { background: var(--accent); }
 /* Regel-Karten färben sich beim Einschalten nicht */
 .shadow-rule.on { border-color: var(--border); background: var(--surface-2); }
+/* Schalter: minimal und einfarbig – aus = graue Spur, grauer Knopf; an = Spur in Textfarbe, Knopf in Hintergrundfarbe. Keine Kontur, kein Grün, kein Schatten */
+.switch, .switch:hover { width: 32px; height: 18px; background: color-mix(in srgb, var(--text) 14%, transparent); box-shadow: none; }
+.switch:hover { background: color-mix(in srgb, var(--text) 20%, transparent); }
+.switch::after, .switch:hover::after { top: 3px; left: 3px; width: 12px; height: 12px; background: var(--text-2); box-shadow: none; }
+.switch:active::after { width: 15px; }
+.switch[aria-checked="true"], .switch[aria-checked="true"]:hover { background: var(--text); box-shadow: none; }
+.switch[aria-checked="true"]::after { transform: translateX(14px); background: var(--bg); }
+.switch[aria-checked="true"]:active::after { transform: translateX(11px); }

@@ -6346,9 +6346,7 @@
    ],
    "aenderung": "Der Standard in pageHead (app.js:257) wird „kein „Trade loggen“, kein ▷“. Eingeschaltet bleiben beide nur im TradeLog und in der Tagesansicht; das Dashboard hat seine eigene Reihe, die Prop-Übersicht schaltet „Trade loggen“ selbst ein (Nr. 14). Eine laufende Session (Timer und Stopp) bleibt auf jeder Seite mit Kopfreihe sichtbar, außer wo sie ausdrücklich aus ist (Schatten-Ich, Mentor, Coach, Einstellungen, Coupon-Codes, Affiliate, Replay). Einstellungen, Coupon-Codes und Affiliate verlieren zusätzlich Zeitraum und Konto. Eine ganz leere Kopfreihe wird nicht mehr gerendert (heute bleiben ~60 px Leerraum, wie beim Coach). Folge auf dem Handy: Der runde „+“-Knopf erscheint nur noch auf Dashboard, TradeLog und Tagesansicht – auch das doppelte „+“ auf Einstellungen → Konten verschwindet. Erreichbar bleibt „Trade loggen“ überall über die Taste N (app.html:96, nachgeprüft), über Dashboard, TradeLog, Tagesansicht und die Fortschritt-Checkliste; ▷ über TradeLog, Tagesansicht und die Checkliste. Vorbild ist deine Entscheidung fürs Schatten-Ich (shadow.js:104, README:223). Auf Statistiken braucht der Leerzustand „Zustand“ dafür einen eigenen Session-Knopf (Nr. 42). README:89 anpassen. Ohne diesen Punkt müsste auf dem Handy das ▷ von News, Coupons, Affiliate und Prop aus seiner eigenen Zeile in die Titelzeile wandern.",
    "entscheidungen": [
-    "E1",
-    "E3",
-    "E15"
+    "E1"
    ],
    "ids": [
     "shell-1-1",
@@ -7103,7 +7101,7 @@
      "ueberschrift": "Einstellungen – Profil · leer"
     }
    ],
-   "aenderung": "Jeweils `.btn.primary` → `.btn` (bzw. `sm`), die Funktion bleibt: „Tagesnotiz anlegen“ ohne Plus-Symbol – heute der einzige gefüllte und durch das 34-px-Symbol größte Knopf der Tagesansicht. „2FA aktivieren“ (Platzhalter) und „Passwort zurücksetzen“ in einen ruhigen Block „Sicherheit“ – im Profil bleibt nur „Speichern“ gefüllt. Notebook: „Neue Notiz“ in der leeren rechten Spalte umrandet (bleibt, weil er auf dem Handy dort die einzige Bedienung ist). Ampel-„Speichern“ umrandet. „+ Gruppe“ nur in der ganz leeren Coach-Übersicht gefüllt, sobald es in irgendeiner Rolle eine Gruppe gibt umrandet.",
+   "aenderung": "Jeweils `.btn.primary` → `.btn` (bzw. `sm`), die Funktion bleibt: „Tagesnotiz anlegen“ ohne Plus-Symbol – heute der einzige gefüllte und durch das 34-px-Symbol größte Knopf der Tagesansicht. „2FA aktivieren“ (Platzhalter) und „Passwort zurücksetzen“ in einen ruhigen Block „Sicherheit“ – im Profil bleibt nur „Speichern“ gefüllt. Notebook: „Neue Notiz“ in der leeren rechten Spalte umrandet (bleibt, weil er auf dem Handy dort die einzige Bedienung ist). Ampel-„Speichern“ umrandet. „+ Gruppe“ bleibt nur in der ganz leeren Coach-Übersicht gefüllt; sobald es in irgendeiner Rolle eine Gruppe gibt, ist er umrandet.",
    "entscheidungen": [],
    "ids": [
     "day-2-1",
@@ -13968,9 +13966,12 @@
     "A: nur auf Dashboard, TradeLog, Tagesansicht und der Prop-Übersicht mit Konten (strenge Fassung von Nr. 1).",
     "B: zusätzlich auf den Journal-Seiten Statistiken, Fortschritt, Notebook und News; weg nur auf Einstellungen, Coupon-Codes, Affiliate, Replay (wie heute schon Schatten-Ich, Mentor, Coach)."
    ],
-   "empfehlung": "A. Auf Statistiken, Fortschritt, Notebook und News will der Screen etwas anderes (lesen, abhaken, schreiben); du hast dieselbe Regel fürs Schatten-Ich schon so entschieden, und am Desktop bleibt die Taste N überall. Preis: Auf dem Handy fehlt dort der runde Knopf, ein Tipp mehr über das Menü. Berührt README:89 („runder Knopf unten rechts“).",
-   "beruehrt": "README:89, README:223, shadow.js:104",
+   "empfehlung": "A. Auf Statistiken, Fortschritt, Notebook und News will der Screen etwas anderes (lesen, abhaken, schreiben); du hast dieselbe Regel fürs Schatten-Ich schon so entschieden, und am Desktop bleibt die Taste N überall. Preis: Auf dem Handy fehlt dort der runde Knopf, ein Tipp mehr über das Menü.",
+   "beruehrt": "README:89 („runder Knopf unten rechts“), README:223, shadow.js:104",
    "vorschlaege": [
+    1
+   ],
+   "erwaehnt": [
     1
    ]
   },
@@ -13981,9 +13982,12 @@
     "Ja, gefüllt grün ohne Schein (Nr. 2).",
     "Nein, ruhig wie heute (dunkler Kreis mit grünem Ring)."
    ],
-   "empfehlung": "Ja. Auf dem Handy ist er der einzige Hauptknopf jedes Screens, und Regel 2 nennt Füllung ausdrücklich. Die Füllung war in der Handy-Regel schon gewollt und wird nur versehentlich überschrieben; den Schein, den du abgelehnt hast, nehmen wir heraus. Am Desktop bleibt „Trade loggen“ ruhig. Berührt deine Entscheidung „Trade loggen ruhiger“ (Commit 96b165b).",
-   "beruehrt": "Commit 96b165b, app.css:3019/3137",
+   "empfehlung": "Ja. Auf dem Handy ist er der einzige Hauptknopf jedes Screens, und Regel 2 nennt Füllung ausdrücklich. Die Füllung war in der Handy-Regel schon gewollt und wird nur versehentlich überschrieben; den Schein, den du abgelehnt hast, nehmen wir heraus. Am Desktop bleibt „Trade loggen“ ruhig.",
+   "beruehrt": "deine Entscheidung „Trade loggen ruhiger“ (Commit 96b165b), app.css:3019/3137",
    "vorschlaege": [
+    2
+   ],
+   "erwaehnt": [
     2
    ]
   },
@@ -13997,6 +14001,9 @@
    "empfehlung": "Getönt lassen. Nach Nr. 3 und Nr. 1 ist „Trade loggen“ auf seinen Seiten der einzige grüne Knopf; eine Füllung würde deine Festlegungen #61/#72 („ruhig, Grün nur mit Bedeutung“) aufweichen. Regel „höchstens ein gefüllter Knopf je Screen“ gilt dann für `.btn.primary`.",
    "beruehrt": "README:202-208, Aufgaben #61, #72",
    "vorschlaege": [
+    3
+   ],
+   "erwaehnt": [
     1,
     3
    ]
@@ -14012,6 +14019,9 @@
    "beruehrt": "README:62, README:144, Aufgabe #8",
    "vorschlaege": [
     25
+   ],
+   "erwaehnt": [
+    25
    ]
   },
   {
@@ -14024,6 +14034,10 @@
    "empfehlung": "Erste Variante (Nr. 7, Nr. 21). Grün ist laut deiner Regel nur für „Trade loggen“ da; der Check-in ist der erste Schritt, bekommt aber Platz statt Farbe. Wichtig: Heute nimmt „Trade loggen“ die aktuelle Uhrzeit, nur vergangene Tage werden vorbelegt.",
    "beruehrt": "README:203",
    "vorschlaege": [
+    7,
+    21
+   ],
+   "erwaehnt": [
     7,
     21
    ]
@@ -14039,6 +14053,9 @@
    "beruehrt": "README:33-39",
    "vorschlaege": [
     5
+   ],
+   "erwaehnt": [
+    5
    ]
   },
   {
@@ -14052,6 +14069,9 @@
    "beruehrt": "README:33-38",
    "vorschlaege": [
     20
+   ],
+   "erwaehnt": [
+    20
    ]
   },
   {
@@ -14064,6 +14084,9 @@
    "empfehlung": "Letzter Handelstag – für einen Daytrader der häufigste Grund zu teilen; Montag früh liefert Freitag. Den Zeitraum-Bezug sieht man trotzdem, weil rechts der konkrete Zeitraum steht. Eine grüne Markierung des passenden Eintrags ist verworfen (Auswahl-Grün hast du abgelehnt).",
    "beruehrt": "—",
    "vorschlaege": [
+    29
+   ],
+   "erwaehnt": [
     29
    ]
   },
@@ -14079,6 +14102,10 @@
    "vorschlaege": [
     11,
     65
+   ],
+   "erwaehnt": [
+    11,
+    65
    ]
   },
   {
@@ -14091,6 +14118,9 @@
    "empfehlung": "Ja. Das Profil hat heute fünf Blöcke mit 14 Bedienelementen und zwei gefüllten Knöpfen; Daten und Profilangaben sind verschiedene Aufgaben. Es geht keine Funktion verloren, kein Link zeigt auf den Datenblock.",
    "beruehrt": "README:23, README:171",
    "vorschlaege": [
+    70
+   ],
+   "erwaehnt": [
     70
    ]
   },
@@ -14106,6 +14136,10 @@
    "vorschlaege": [
     24,
     69
+   ],
+   "erwaehnt": [
+    24,
+    69
    ]
   },
   {
@@ -14119,6 +14153,9 @@
    "beruehrt": "ui.js:447",
    "vorschlaege": [
     81
+   ],
+   "erwaehnt": [
+    81
    ]
   },
   {
@@ -14130,7 +14167,8 @@
    ],
    "empfehlung": "Beide gleich. Die eine Sache dieses Screens ist „entscheiden“; ein gefülltes „Nehmen“ verleitet zum Nehmen und verfälscht die Trefferquote, um die es beim Training geht. Kein bestätigter Vorschlag, nur deine Wahl; Replay ist ohnehin per Feature-Flag versteckt.",
    "beruehrt": "replay.js:65",
-   "vorschlaege": []
+   "vorschlaege": [],
+   "erwaehnt": []
   },
   {
    "nr": "E14",
@@ -14142,6 +14180,10 @@
    "empfehlung": "Ja. „Session“ heißt sonst die Trading-Session mit Check-in, und deine neuere Vorgabe für Leer- und Startzustände lautet „ein Satz und ein Knopf“. Die grünen Nummernkreise sind Grün ohne Bedeutung.",
    "beruehrt": "README:84, README:229-240",
    "vorschlaege": [
+    94,
+    95
+   ],
+   "erwaehnt": [
     94,
     95
    ]
@@ -14156,6 +14198,9 @@
    "empfehlung": "Gefüllt – es ist der einzige Knopf, der auf dieser Seite weiterhilft, und mit Nr. 1 steht auf News kein „Trade loggen“ mehr. Gleiche Aktion, gleiche Stufe wie bei Mentor und Coach.",
    "beruehrt": "—",
    "vorschlaege": [
+    66
+   ],
+   "erwaehnt": [
     1,
     66
    ]
@@ -14171,6 +14216,9 @@
    "beruehrt": "ruhepunkt.js:1-2 (Texte aus docs/ruhepunkt.html)",
    "vorschlaege": [
     98
+   ],
+   "erwaehnt": [
+    98
    ]
   },
   {
@@ -14183,6 +14231,9 @@
    "empfehlung": "Ja. Die Bereichs-Widgets sind durch die Layout-Migration bei fast allen schon hinzugefügt; oben sollen die Einträge stehen, die man noch wählen kann. Die Reihenfolge steht nur als Code-Kommentar, nicht in der README.",
    "beruehrt": "dashboard.js:59 (Aufgabe #32)",
    "vorschlaege": [
+    33
+   ],
+   "erwaehnt": [
     33
    ]
   }

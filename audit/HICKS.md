@@ -4,7 +4,7 @@ Journalyst · Stand 13.10.2026 · 196 geprüfte Zustände · 112 Vorschläge · 
 
 ## Gesamtbild
 
-Geprüft wurden 196 Zustände – jede Route, jeder Dialog, jeweils voll, leer und auf dem Handy –; nach der Gegenprüfung bleiben 112 Vorschläge und 17 Fragen an dich. Gut hält Journalyst die Regeln dort ein, wo du zuletzt selbst aufgeräumt hast: Fast jeder Dialog hat genau einen gefüllten Knopf, Menüs bündeln Seltenes, und Schatten-Ich, Mentor und Coach haben schon eine schlanke Kopfreihe. Am schwächsten ist Regel 2 bei der wichtigsten Aktion: „Trade loggen“ ist bewusst nur getönt, und überall, wo ein gefüllter Knopf danebensteht – Bereichs-Widgets im Dashboard, „Tagesnotiz anlegen“, „2FA aktivieren“, „30 Sekunden aufnehmen“, zwei Erfassen-Knöpfe in der Bilanz –, gewinnt der falsche. Ebenso schwach ist Regel 5 in den leeren Zuständen: Dashboard, TradeLog, Statistiken, Tagesansicht, Bilanz und Blind-Replay zeigen ohne Daten das volle Werkzeugbrett (Filter, Kacheln mit „Noch keine Daten“, Zeitraum, Zertifikat, teils tote Knöpfe) statt eines Satzes und eines Knopfs. Der größte einzelne Hebel ist die Kopfreihe, die „Trade loggen“ und ▷ auf zehn Seiten mit anderer Aufgabe setzt; danach folgen die leeren Zustände, die Trade-Detailseite mit dem Hauptknopf unter der Falz und lange Formulare wie „Konto anlegen“ mit 30 gleichrangigen Feldern.
+Geprüft wurden 196 Zustände (jede Route und jeder Dialog, voll, leer und auf dem Handy); nach der Gegenprüfung bleiben 112 Vorschläge und 17 Fragen an dich. Gut hält Journalyst die Regeln dort ein, wo du zuletzt selbst aufgeräumt hast: Fast jeder Dialog hat genau einen gefüllten Knopf, Menüs bündeln Seltenes, und Schatten-Ich, Mentor und Coach haben schon eine schlanke Kopfreihe. Am schwächsten ist Regel 2 bei der wichtigsten Aktion: „Trade loggen“ ist bewusst nur getönt, und überall, wo ein gefüllter Knopf danebensteht – Bereichs-Widgets im Dashboard, „Tagesnotiz anlegen“, „2FA aktivieren“, „30 Sekunden aufnehmen“, zwei Erfassen-Knöpfe in der Bilanz –, gewinnt der falsche. Ebenso schwach ist Regel 5 in den leeren Zuständen: Dashboard, TradeLog, Statistiken, Tagesansicht, Bilanz und Blind-Replay zeigen ohne Daten das volle Werkzeugbrett (Filter, Kacheln mit „Noch keine Daten“, Zeitraum, Zertifikat, teils tote Knöpfe) statt eines Satzes und eines Knopfs. Der größte einzelne Hebel ist die Kopfreihe, die „Trade loggen“ und ▷ auf zehn Seiten mit anderer Aufgabe setzt; danach folgen die leeren Zustände, die Trade-Detailseite mit dem Hauptknopf unter der Falz und lange Formulare wie „Konto anlegen“ mit 30 gleichrangigen Feldern.
 
 ## Hierarchie-Stufen
 
@@ -1979,7 +1979,7 @@ Alle bestätigten Vorschläge; gleichartige über mehrere Screens sind zusammeng
 
 ### Wirkung groß
 
-1. **Kopfreihe: „Trade loggen“ und ▷ nur dort, wo sie die Aufgabe der Seite sind** · Regel 1, 3, 4, 5 · Aufwand S · vorher entscheiden: E1, E3, E15
+1. **Kopfreihe: „Trade loggen“ und ▷ nur dort, wo sie die Aufgabe der Seite sind** · Regel 1, 3, 4, 5 · Aufwand S · vorher entscheiden: E1
    - Wo: Kopfreihe aller Seiten (Desktop und Handy): Einstellungen (alle Bereiche), Coupon-Codes, Affiliate, Blind-Replay, Statistiken, Fortschritt, Notebook, News, Prop Firms
    - Änderung: Der Standard in pageHead (app.js:257) wird „kein „Trade loggen“, kein ▷“. Eingeschaltet bleiben beide nur im TradeLog und in der Tagesansicht; das Dashboard hat seine eigene Reihe, die Prop-Übersicht schaltet „Trade loggen“ selbst ein (Nr. 14). Eine laufende Session (Timer und Stopp) bleibt auf jeder Seite mit Kopfreihe sichtbar, außer wo sie ausdrücklich aus ist (Schatten-Ich, Mentor, Coach, Einstellungen, Coupon-Codes, Affiliate, Replay). Einstellungen, Coupon-Codes und Affiliate verlieren zusätzlich Zeitraum und Konto. Eine ganz leere Kopfreihe wird nicht mehr gerendert (heute bleiben ~60 px Leerraum, wie beim Coach). Folge auf dem Handy: Der runde „+“-Knopf erscheint nur noch auf Dashboard, TradeLog und Tagesansicht – auch das doppelte „+“ auf Einstellungen → Konten verschwindet. Erreichbar bleibt „Trade loggen“ überall über die Taste N (app.html:96, nachgeprüft), über Dashboard, TradeLog, Tagesansicht und die Fortschritt-Checkliste; ▷ über TradeLog, Tagesansicht und die Checkliste. Vorbild ist deine Entscheidung fürs Schatten-Ich (shadow.js:104, README:223). Auf Statistiken braucht der Leerzustand „Zustand“ dafür einen eigenen Session-Knopf (Nr. 42). README:89 anpassen. Ohne diesen Punkt müsste auf dem Handy das ▷ von News, Coupons, Affiliate und Prop aus seiner eigenen Zeile in die Titelzeile wandern.
 2. **Runder „Trade loggen“-Knopf auf dem Handy wieder gefüllt – ohne Schein** · Regel 2 · Aufwand S · vorher entscheiden: E2
@@ -2002,7 +2002,7 @@ Alle bestätigten Vorschläge; gleichartige über mehrere Screens sind zusammeng
    - Änderung: Der Kopfreihen-Knopf „Trade loggen“ (Akzent, auf dem Handy der runde Knopf) belegt auf vergangenen Tagen das Datum vor (`new-trade-day`), heute bleibt die aktuelle Uhrzeit (`new-trade`, sonst 09:00). „+ Trade für diesen Tag“ in der Datumszeile entfällt. „Check-in“ verlässt die Datumszeile; er bleibt in der Check-in-Karte („Check-in nachtragen“ / „Bearbeiten“) und heute zusätzlich über ▷. Zertifikat: Nr. 28. Datumszeile danach: ‹ › Datum und „Heute“ (ghost) bzw. die Heute-Pille; auf dem Handy zwei bis drei statt fünf Steuerzeilen. Bei ungültigem Datum der normale Knopf (kein Absturz).
 8. **Zweiter gefüllter Knopf auf einer Seite wird umrandet** · Regel 2, 4 · Aufwand S
    - Wo: Tagesansicht („Tagesnotiz anlegen“, alle Zustände), Einstellungen → Profil („2FA aktivieren“), Notebook leer (zweites „Neue Notiz“), Prop → Konten (Ampel-„Speichern“), Coach-Übersicht („+ Gruppe“)
-   - Änderung: Jeweils `.btn.primary` → `.btn` (bzw. `sm`), die Funktion bleibt: „Tagesnotiz anlegen“ ohne Plus-Symbol – heute der einzige gefüllte und durch das 34-px-Symbol größte Knopf der Tagesansicht. „2FA aktivieren“ (Platzhalter) und „Passwort zurücksetzen“ in einen ruhigen Block „Sicherheit“ – im Profil bleibt nur „Speichern“ gefüllt. Notebook: „Neue Notiz“ in der leeren rechten Spalte umrandet (bleibt, weil er auf dem Handy dort die einzige Bedienung ist). Ampel-„Speichern“ umrandet. „+ Gruppe“ nur in der ganz leeren Coach-Übersicht gefüllt, sobald es in irgendeiner Rolle eine Gruppe gibt umrandet.
+   - Änderung: Jeweils `.btn.primary` → `.btn` (bzw. `sm`), die Funktion bleibt: „Tagesnotiz anlegen“ ohne Plus-Symbol – heute der einzige gefüllte und durch das 34-px-Symbol größte Knopf der Tagesansicht. „2FA aktivieren“ (Platzhalter) und „Passwort zurücksetzen“ in einen ruhigen Block „Sicherheit“ – im Profil bleibt nur „Speichern“ gefüllt. Notebook: „Neue Notiz“ in der leeren rechten Spalte umrandet (bleibt, weil er auf dem Handy dort die einzige Bedienung ist). Ampel-„Speichern“ umrandet. „+ Gruppe“ bleibt nur in der ganz leeren Coach-Übersicht gefüllt; sobald es in irgendeiner Rolle eine Gruppe gibt, ist er umrandet.
 9. **Reiterleisten: nur der aktive Reiter ist eine Fläche** · Regel 4 · Aufwand S
    - Wo: Statistiken (alle Reiter, Desktop und Handy); ebenso TradeLog-Reiter und Widget „Letzte Trades“
    - Änderung: Nicht aktive Reiter werden `btn ghost` (Text), der aktive behält die flache Auswahlfläche (app.css:3126-3131). Aus 14 gleichen Pillen über dem Inhalt werden 6; auf dem Handy liest sich die abgeschnittene Leiste als Navigation. Dieselbe Stufe in U.tabs (ui.js:183) und widgets.js:257, damit die Rolle „Reiter“ überall gleich aussieht. Alle neun Reiter bleiben.
@@ -2330,15 +2330,15 @@ Hier gibt es zwei sinnvolle Wege, oder der Vorschlag berührt etwas, das du scho
 
 - A: nur auf Dashboard, TradeLog, Tagesansicht und der Prop-Übersicht mit Konten (strenge Fassung von Nr. 1).
 - B: zusätzlich auf den Journal-Seiten Statistiken, Fortschritt, Notebook und News; weg nur auf Einstellungen, Coupon-Codes, Affiliate, Replay (wie heute schon Schatten-Ich, Mentor, Coach).
-- Empfehlung: A. Auf Statistiken, Fortschritt, Notebook und News will der Screen etwas anderes (lesen, abhaken, schreiben); du hast dieselbe Regel fürs Schatten-Ich schon so entschieden, und am Desktop bleibt die Taste N überall. Preis: Auf dem Handy fehlt dort der runde Knopf, ein Tipp mehr über das Menü. Berührt README:89 („runder Knopf unten rechts“).
-- Berührt: README:89, README:223, shadow.js:104
+- Empfehlung: A. Auf Statistiken, Fortschritt, Notebook und News will der Screen etwas anderes (lesen, abhaken, schreiben); du hast dieselbe Regel fürs Schatten-Ich schon so entschieden, und am Desktop bleibt die Taste N überall. Preis: Auf dem Handy fehlt dort der runde Knopf, ein Tipp mehr über das Menü.
+- Berührt: README:89 („runder Knopf unten rechts“), README:223, shadow.js:104
 
 **E2. Soll der runde „Trade loggen“-Knopf auf dem Handy wieder gefüllt sein?**
 
 - Ja, gefüllt grün ohne Schein (Nr. 2).
 - Nein, ruhig wie heute (dunkler Kreis mit grünem Ring).
-- Empfehlung: Ja. Auf dem Handy ist er der einzige Hauptknopf jedes Screens, und Regel 2 nennt Füllung ausdrücklich. Die Füllung war in der Handy-Regel schon gewollt und wird nur versehentlich überschrieben; den Schein, den du abgelehnt hast, nehmen wir heraus. Am Desktop bleibt „Trade loggen“ ruhig. Berührt deine Entscheidung „Trade loggen ruhiger“ (Commit 96b165b).
-- Berührt: Commit 96b165b, app.css:3019/3137
+- Empfehlung: Ja. Auf dem Handy ist er der einzige Hauptknopf jedes Screens, und Regel 2 nennt Füllung ausdrücklich. Die Füllung war in der Handy-Regel schon gewollt und wird nur versehentlich überschrieben; den Schein, den du abgelehnt hast, nehmen wir heraus. Am Desktop bleibt „Trade loggen“ ruhig.
+- Berührt: deine Entscheidung „Trade loggen ruhiger“ (Commit 96b165b), app.css:3019/3137
 
 **E3. Bleibt „Trade loggen“ am Desktop nur getönt, und ist ein gefüllter Knopf je Bereich daneben in Ordnung?**
 
@@ -2449,106 +2449,106 @@ Geprüft und bewusst nicht vorgeschlagen.
 
 *Rahmen der App: Titelzeile, Seitenleiste, Menüs, Kopfreihe*
 
-- „Dashboard-Platzierung nicht auf andere Seiten übertragen“ (Titelzeile · voll (Desktop)): Schon behoben (Commit aa9f1c6 vom 11.10., unmount im Dashboard); die Aufnahmen waren älter.
-- „Avatar in der Titelzeile nur auf dem Handy“ (Titelzeile · voll (Desktop)): Der Avatar ist fester Teil der Titelzeile (README:62, :339); das eigentliche Problem – zwei gleiche „T“ mit verschiedenem Verhalten – löst Nr. 111.
-- „Coupon-Codes aus der Navigation in Prop Firms verlegen“ (Seitenleiste · ausgeklappt): Widerspricht README:264 (Coupon-Codes eigener Bereich) und README:241 (Prop Firms auf drei Bereiche reduziert); kleiner Gewinn.
-- „Konto-Menü auf 4 Zeilen kürzen, Einstellungen zuerst“ (Konto-Menü unten links · Desktop): Inhalt und Reihenfolge des Konto-Menüs hast du festgelegt (README:60-61, #30, #48); das Menü ist selbst schon die versteckte Stufe. Offen nur: „Profil“ öffnet dieselbe Seite wie „Einstellungen“.
+- **Titelzeile · voll (Desktop):** „Dashboard-Platzierung nicht auf andere Seiten übertragen“ – Schon behoben (Commit aa9f1c6 vom 11.10., unmount im Dashboard); die Aufnahmen waren älter.
+- **Titelzeile · voll (Desktop):** „Avatar in der Titelzeile nur auf dem Handy“ – Der Avatar ist fester Teil der Titelzeile (README:62, :339); das eigentliche Problem – zwei gleiche „T“ mit verschiedenem Verhalten – löst Nr. 111.
+- **Seitenleiste · ausgeklappt:** „Coupon-Codes aus der Navigation in Prop Firms verlegen“ – Widerspricht README:264 (Coupon-Codes eigener Bereich) und README:241 (Prop Firms auf drei Bereiche reduziert); kleiner Gewinn.
+- **Konto-Menü unten links · Desktop:** „Konto-Menü auf 4 Zeilen kürzen, Einstellungen zuerst“ – Inhalt und Reihenfolge des Konto-Menüs hast du festgelegt (README:60-61, #30, #48); das Menü ist selbst schon die versteckte Stufe. Offen nur: „Profil“ öffnet dieselbe Seite wie „Einstellungen“.
 
 *Dialog „Trade loggen“ und Check-in*
 
-- „Beim Öffnen das Symbol-Feld fokussieren statt nichts“ (Trade loggen · leer (neuer Trade)): Fokus färbt das Symbolfeld sofort grün; den automatischen Fokus hast du bewusst entfernt (Commit 2a2db87).
-- „Nach der Richtungswahl direkt zum Einstieg“ (Trade loggen · Long gewählt): Ungefragter grüner Fokus und auf dem Handy die aufspringende Tastatur; der Text-Teil steckt in Nr. 78.
-- „„Mehr Optionen“ gilt auch hier“ (Trade loggen · Long gewählt): Dublette, in Nr. 20 enthalten.
-- „„Mehr Optionen“ bringt auf dem Handy den Hauptknopf in Sicht“ (Trade loggen · Handy (Bottom-Sheet)): Dublette, in Nr. 20 enthalten (bei 390×844 ist „Trade speichern“ schon sichtbar).
-- „„Mehr Optionen“ beim Bearbeiten automatisch offen, wenn Werte gesetzt sind“ (Trade bearbeiten): In Nr. 20 enthalten (Aufklappen beim Bearbeiten).
-- „Fokus beim Öffnen auf das erste Feld statt auf das X“ (Check-in · leer): Ein globaler Fokuswechsel hätte bei Bestätigungen „Löschen“ fokussiert (Enter löscht). Der Fokusring ist nur bei Tastatur sichtbar; sicher gelöst in Nr. 35.
+- **Trade loggen · leer (neuer Trade):** „Beim Öffnen das Symbol-Feld fokussieren statt nichts“ – Fokus färbt das Symbolfeld sofort grün; den automatischen Fokus hast du bewusst entfernt (Commit 2a2db87).
+- **Trade loggen · Long gewählt:** „Nach der Richtungswahl direkt zum Einstieg“ – Ungefragter grüner Fokus und auf dem Handy die aufspringende Tastatur; der Text-Teil steckt in Nr. 78.
+- **Trade loggen · Long gewählt:** „„Mehr Optionen“ gilt auch hier“ – Dublette, in Nr. 20 enthalten.
+- **Trade loggen · Handy (Bottom-Sheet):** „„Mehr Optionen“ bringt auf dem Handy den Hauptknopf in Sicht“ – Dublette, in Nr. 20 enthalten (bei 390×844 ist „Trade speichern“ schon sichtbar).
+- **Trade bearbeiten:** „„Mehr Optionen“ beim Bearbeiten automatisch offen, wenn Werte gesetzt sind“ – In Nr. 20 enthalten (Aufklappen beim Bearbeiten).
+- **Check-in · leer:** „Fokus beim Öffnen auf das erste Feld statt auf das X“ – Ein globaler Fokuswechsel hätte bei Bestätigungen „Löschen“ fokussiert (Enter löscht). Der Fokusring ist nur bei Tastatur sichtbar; sicher gelöst in Nr. 35.
 
 *Dashboard*
 
-- „Kalender erst bei „Benutzerdefiniert“ zeigen (optional)“ (Zeitraum-Menü): Die zwei Monatskalender im Zeitraum-Menü sind deine Vorschau-Entscheidung (#18, #35, README:70); das Menü erfüllt die Regeln schon.
+- **Zeitraum-Menü:** „Kalender erst bei „Benutzerdefiniert“ zeigen (optional)“ – Die zwei Monatskalender im Zeitraum-Menü sind deine Vorschau-Entscheidung (#18, #35, README:70); das Menü erfüllt die Regeln schon.
 
 *Zertifikat (aus Dashboard, Statistiken, Tagesansicht)*
 
-- „Passenden Eintrag zum gewählten Zeitraum markieren“ (Zertifikat-Menü): Wäre eine grüne Markierung im Menü (abgelehnt) und täuscht in einem Aktionsmenü eine Auswahl vor; Nr. 29 zeigt den konkreten Zeitraum ohnehin rechts.
+- **Zertifikat-Menü:** „Passenden Eintrag zum gewählten Zeitraum markieren“ – Wäre eine grüne Markierung im Menü (abgelehnt) und täuscht in einem Aktionsmenü eine Auswahl vor; Nr. 29 zeigt den konkreten Zeitraum ohnehin rechts.
 
 *Statistiken*
 
-- „Neun Reiter → fünf Reiter plus „Mehr ▾“ (Entscheidung des Nutzers nötig)“ (Übersicht · voll): Das Popover würde in der scrollenden Reiterleiste abgeschnitten, auf dem Handy hilft es nicht, und die Reiter sind deine Navigation (README:109-111). Nr. 9 beruhigt die Leiste billiger.
-- „Klickbare Tageszeilen als Link erkennbar machen – nur mit vorhandenem Muster“ (Tage): Die App hat keine Link-Optik; klickbare Zeilen ohne Link-Hinweis sind das App-Muster.
-- „Diese vier Leerzustände durch den Seiten-Leerzustand ersetzen“ (Tage, Setups, Zeit, Fehler · leer): Nach Nr. 10 nicht mehr erreichbar.
+- **Übersicht · voll:** „Neun Reiter → fünf Reiter plus „Mehr ▾“ (Entscheidung des Nutzers nötig)“ – Das Popover würde in der scrollenden Reiterleiste abgeschnitten, auf dem Handy hilft es nicht, und die Reiter sind deine Navigation (README:109-111). Nr. 9 beruhigt die Leiste billiger.
+- **Tage:** „Klickbare Tageszeilen als Link erkennbar machen – nur mit vorhandenem Muster“ – Die App hat keine Link-Optik; klickbare Zeilen ohne Link-Hinweis sind das App-Muster.
+- **Tage, Setups, Zeit, Fehler · leer:** „Diese vier Leerzustände durch den Seiten-Leerzustand ersetzen“ – Nach Nr. 10 nicht mehr erreichbar.
 
 *Fortschritt*
 
-- „„Nächster Schritt“ direkt in der Kachel „Heutiger Fortschritt““ (Fortschritt · voll): Ein zusätzlicher Link doppelt den Checklisten-Eintrag; nach Nr. 11 steht die Checkliste direkt unter der Kachel.
+- **Fortschritt · voll:** „„Nächster Schritt“ direkt in der Kachel „Heutiger Fortschritt““ – Ein zusätzlicher Link doppelt den Checklisten-Eintrag; nach Nr. 11 steht die Checkliste direkt unter der Kachel.
 
 *TradeLog*
 
-- „Reiter „Tage“ ohne Trades ausblenden“ (Reiter Trades · leer): Reiter sind Navigation; ein Reiter, der je nach Datenlage verschwindet, macht den Aufbau unberechenbar. Sein Leerzustand bekommt in Nr. 36 einen Knopf.
-- „Ganze Tageskarte als Link, „Tagesansicht ›“ bleibt als Hinweis“ (Reiter Tage · voll): Betrifft Fitts, nicht Hick: die Zahl der Wahlmöglichkeiten sinkt nicht, die Karte hat schon genau eine Aktion; bräuchte neue Hover-Optik.
-- „Ein gefüllter Knopf in der Leer-Karte“ (TradeLog · Handy leer): Die Leer-Karte erfüllt Regel 4 schon; was auffällt, sind die 34-px-Symbole (Nr. 6). Der doppelte runde Knopf fällt mit Nr. 26 weg.
-- „„Löschen“ tertiär statt gleich groß neben „Bearbeiten““ (Trade-Detail · voll): `ghost`+`danger` ist außerhalb des Notebooks grau statt rot; Löschen ist überall `.btn.sm.danger`. Die Nähe zum Hauptknopf löst Nr. 5.
-- „„Abbrechen“ im Bestätigungsdialog als Textknopf“ (Bestätigung „Trade löschen“): Ein Prüfer: „Abbrechen“ ist in allen Dialogen umrandet. Derselbe Gedanke ist für rote Bestätigungen in Nr. 81 bestätigt – die Entscheidung liegt bei dir.
+- **Reiter Trades · leer:** „Reiter „Tage“ ohne Trades ausblenden“ – Reiter sind Navigation; ein Reiter, der je nach Datenlage verschwindet, macht den Aufbau unberechenbar. Sein Leerzustand bekommt in Nr. 36 einen Knopf.
+- **Reiter Tage · voll:** „Ganze Tageskarte als Link, „Tagesansicht ›“ bleibt als Hinweis“ – Betrifft Fitts, nicht Hick: die Zahl der Wahlmöglichkeiten sinkt nicht, die Karte hat schon genau eine Aktion; bräuchte neue Hover-Optik.
+- **TradeLog · Handy leer:** „Ein gefüllter Knopf in der Leer-Karte“ – Die Leer-Karte erfüllt Regel 4 schon; was auffällt, sind die 34-px-Symbole (Nr. 6). Der doppelte runde Knopf fällt mit Nr. 26 weg.
+- **Trade-Detail · voll:** „„Löschen“ tertiär statt gleich groß neben „Bearbeiten““ – `ghost`+`danger` ist außerhalb des Notebooks grau statt rot; Löschen ist überall `.btn.sm.danger`. Die Nähe zum Hauptknopf löst Nr. 5.
+- **Bestätigung „Trade löschen“:** „„Abbrechen“ im Bestätigungsdialog als Textknopf“ – Ein Prüfer: „Abbrechen“ ist in allen Dialogen umrandet. Derselbe Gedanke ist für rote Bestätigungen in Nr. 81 bestätigt – die Entscheidung liegt bei dir.
 
 *Tagesansicht*
 
-- „Session-Start ▷ nur für heute“ (Tag mit Trades): Kleiner Gewinn; die Kopfreihe würde beim Blättern zwischen heute und gestern ihren Aufbau ändern und eine laufende Session verstecken.
-- „Leerzustand „Keine Regeln definiert“ nicht in der Tagesansicht bewerben“ (Vergangener Tag ohne Trades): Der Leerzustand „Keine Regeln definiert“ ist schon ein Satz und ein Knopf und der einzige Hinweis auf Regeln in der Tagesansicht. Eigener Fix: Der Link soll auf #/settings/regeln zeigen.
+- **Tag mit Trades:** „Session-Start ▷ nur für heute“ – Kleiner Gewinn; die Kopfreihe würde beim Blättern zwischen heute und gestern ihren Aufbau ändern und eine laufende Session verstecken.
+- **Vergangener Tag ohne Trades:** „Leerzustand „Keine Regeln definiert“ nicht in der Tagesansicht bewerben“ – Der Leerzustand „Keine Regeln definiert“ ist schon ein Satz und ein Knopf und der einzige Hinweis auf Regeln in der Tagesansicht. Eigener Fix: Der Link soll auf #/settings/regeln zeigen.
 
 *Notebook*
 
-- „Entscheidung: Notebook will „Neue Notiz“ – nur ein gefüllter Knopf pro Screen“ (Notebook · voll): Keine Änderung nötig: „Neue Notiz“ ist schon der einzige gefüllte Knopf. Die Grundsatzfrage steht unter den Entscheidungen.
-- „Filter-Knopf erst ab zwei Notizen; Tag-Feld nur, wenn Tags existieren“ (Notebook · voll): Dublette von Nr. 45; das Tag-Feld im Filter ohne Tags auszublenden ist harmlos und kann dort mitlaufen.
-- „Leere Notiz: Teilen/Export/PDF/Duplizieren erst bei Inhalt“ (Neue Notiz): Die Bedingung greift nicht (neue Notizen haben einen Datumstitel), die Seite baut beim Tippen nicht neu auf; nach Nr. 44 steht ohnehin alles im Menü.
-- „Knopftext passend zur erzeugten Notiz“ (Neue Notiz): Kein Hierarchie-Thema; „Neue Notiz“ legt bewusst eine Tagesnotiz an (Daily Journal als Standard).
-- „„Teilen“ auf dem Handy erreichbar machen (ins …-Menü)“ (Notebook · Handy Notiz): Dublette von Nr. 44.
-- „Ordneransicht: „Ordner hinzufügen“ als Ghost-„+“ im Abschnittskopf“ (Notebook · Handy Ordneransicht): In Nr. 87 aufgegangen.
-- „Notiz-Menü auf 6–7 Einträge: Verschieben als zweiter Schritt, Teilen hinein“ (…-Menü der Notiz): Dublette von Nr. 44.
-- „„Farbe ändern“: Namensfeld nicht zeigen (oder Variante zusammenlegen)“ (Ordner-Dialog): Durch Nr. 90 überflüssig.
-- „Filter-Popover auf das Einzigartige reduzieren“ (Filter und Sortieren): Das Ordner-Feld im Filter ist der einzige Weg, innerhalb eines Ordners zu suchen – Ausblenden entfernt eine Funktion.
-- „„+“-Menü ohne Dubletten zu „Text ▾““ (Editor-Menüs („+“, „Text ▾“, Bild, Farben)): Das „+“-Menü ist nach deinem TradePath-Vorbild festgelegt (README:123); innerhalb eines Menüs ist der Gewinn klein.
+- **Notebook · voll:** „Entscheidung: Notebook will „Neue Notiz“ – nur ein gefüllter Knopf pro Screen“ – Keine Änderung nötig: „Neue Notiz“ ist schon der einzige gefüllte Knopf. Die Grundsatzfrage steht unter den Entscheidungen.
+- **Notebook · voll:** „Filter-Knopf erst ab zwei Notizen; Tag-Feld nur, wenn Tags existieren“ – Dublette von Nr. 45; das Tag-Feld im Filter ohne Tags auszublenden ist harmlos und kann dort mitlaufen.
+- **Neue Notiz:** „Leere Notiz: Teilen/Export/PDF/Duplizieren erst bei Inhalt“ – Die Bedingung greift nicht (neue Notizen haben einen Datumstitel), die Seite baut beim Tippen nicht neu auf; nach Nr. 44 steht ohnehin alles im Menü.
+- **Neue Notiz:** „Knopftext passend zur erzeugten Notiz“ – Kein Hierarchie-Thema; „Neue Notiz“ legt bewusst eine Tagesnotiz an (Daily Journal als Standard).
+- **Notebook · Handy Notiz:** „„Teilen“ auf dem Handy erreichbar machen (ins …-Menü)“ – Dublette von Nr. 44.
+- **Notebook · Handy Ordneransicht:** „Ordneransicht: „Ordner hinzufügen“ als Ghost-„+“ im Abschnittskopf“ – In Nr. 87 aufgegangen.
+- **…-Menü der Notiz:** „Notiz-Menü auf 6–7 Einträge: Verschieben als zweiter Schritt, Teilen hinein“ – Dublette von Nr. 44.
+- **Ordner-Dialog:** „„Farbe ändern“: Namensfeld nicht zeigen (oder Variante zusammenlegen)“ – Durch Nr. 90 überflüssig.
+- **Filter und Sortieren:** „Filter-Popover auf das Einzigartige reduzieren“ – Das Ordner-Feld im Filter ist der einzige Weg, innerhalb eines Ordners zu suchen – Ausblenden entfernt eine Funktion.
+- **Editor-Menüs („+“, „Text ▾“, Bild, Farben):** „„+“-Menü ohne Dubletten zu „Text ▾““ – Das „+“-Menü ist nach deinem TradePath-Vorbild festgelegt (README:123); innerhalb eines Menüs ist der Gewinn klein.
 
 *News*
 
-- „Handy: Beispielansicht wie Desktop auf einen Knopf reduzieren“ (News · Handy): Dublette von Nr. 66.
+- **News · Handy:** „Handy: Beispielansicht wie Desktop auf einen Knopf reduzieren“ – Dublette von Nr. 66.
 
 *Schatten-Ich*
 
-- „Ohne aktive Regel nur Intro und Regelwerk zeigen“ (Schatten-Ich · Trades, keine Regel aktiv): Widerspricht deiner Entscheidung: Das Banner steht unter den Schaltern, damit beim ersten Einschalten nichts verrutscht (README, shadow.js:57).
+- **Schatten-Ich · Trades, keine Regel aktiv:** „Ohne aktive Regel nur Intro und Regelwerk zeigen“ – Widerspricht deiner Entscheidung: Das Banner steht unter den Schaltern, damit beim ersten Einschalten nichts verrutscht (README, shadow.js:57).
 
 *Blind-Replay*
 
-- „Konto-Auswahl nur bei mehreren Konten“ (Übersicht · voll): Das Konto bestimmt die Übungs-Trades (wie beim Mentor); geregelt wird es global in Nr. 25.
-- „Runden-Säulen erst ab 3 Runden, dann ohne doppelten Fakt“ (Übersicht · voll): Ab 21 Runden stünde die Gesamtzahl nur noch im Tooltip; das Widget zeigt den Verlauf bewusst ab zwei Runden; README:234.
-- „Fakten-Streifen auf dem Handy entlasten“ (Übersicht · Handy): Dublette von Nr. 96; der Streifen passt schon in eine Zeile.
-- „Kartenkopf auf dem Handy in einer Zeile“ (Karte · Handy): Der Kartenkopf bliebe trotzdem zweizeilig (gemessen); der Zähler ist festgelegt (README:237).
+- **Übersicht · voll:** „Konto-Auswahl nur bei mehreren Konten“ – Das Konto bestimmt die Übungs-Trades (wie beim Mentor); geregelt wird es global in Nr. 25.
+- **Übersicht · voll:** „Runden-Säulen erst ab 3 Runden, dann ohne doppelten Fakt“ – Ab 21 Runden stünde die Gesamtzahl nur noch im Tooltip; das Widget zeigt den Verlauf bewusst ab zwei Runden; README:234.
+- **Übersicht · Handy:** „Fakten-Streifen auf dem Handy entlasten“ – Dublette von Nr. 96; der Streifen passt schon in eine Zeile.
+- **Karte · Handy:** „Kartenkopf auf dem Handy in einer Zeile“ – Der Kartenkopf bliebe trotzdem zweizeilig (gemessen); der Zähler ist festgelegt (README:237).
 
 *Mentor*
 
-- „Konto-Hinweis auf dem Handy in das Konto-Popover“ (Mentor · Chat Handy): Der Hinweis erklärt, warum die Kontowahl dort steht; du hast ihn so bestellt (Mentor-Kopfreihe).
+- **Mentor · Chat Handy:** „Konto-Hinweis auf dem Handy in das Konto-Popover“ – Der Hinweis erklärt, warum die Kontowahl dort steht; du hast ihn so bestellt (Mentor-Kopfreihe).
 
 *Ruhepunkt*
 
-- „Empfohlene Session nach der Lage zuerst“ (Ruhepunkt · Start): Die Dreierwahl ist richtig; wechselnde Positionen schaden gerade beim Akut-Reset, und die Texte stammen unverändert aus docs/ruhepunkt.html.
-- „Leerer Tagesplan: eine Zeile und ein Sprung statt drei Leerzeilen“ (Ruhepunkt · Formular-Schritte): Die Zeilen „nicht festgelegt“ sind ein gewollter Hinweis; ein zusätzlicher Knopf fügt eine Wahl hinzu; Texte fest.
+- **Ruhepunkt · Start:** „Empfohlene Session nach der Lage zuerst“ – Die Dreierwahl ist richtig; wechselnde Positionen schaden gerade beim Akut-Reset, und die Texte stammen unverändert aus docs/ruhepunkt.html.
+- **Ruhepunkt · Formular-Schritte:** „Leerer Tagesplan: eine Zeile und ein Sprung statt drei Leerzeilen“ – Die Zeilen „nicht festgelegt“ sind ein gewollter Hinweis; ein zusätzlicher Knopf fügt eine Wahl hinzu; Texte fest.
 
 *Coupon-Codes*
 
-- „Leerzustand: ein Satz und ein sekundärer Weg weiter“ (Coupon-Codes · leer): Der Zustand ist praktisch nicht erreichbar (Codes fest im Code); der Knopf führte nur in einen anderen Bereich.
+- **Coupon-Codes · leer:** „Leerzustand: ein Satz und ein sekundärer Weg weiter“ – Der Zustand ist praktisch nicht erreichbar (Codes fest im Code); der Knopf führte nur in einen anderen Bereich.
 
 *Coach*
 
-- „Schülername als Link, damit das Öffnen sichtbar ist“ (Gruppe · voll): Kein Gewinn nach den Regeln (Hover gibt es schon) und ein Stilwechsel (700 → 600).
-- „„Aktualisieren“ ins „…“-Menü“ (Gruppe · voll): „Aktualisieren“ wird gebraucht (die Gruppe lädt nur beim Betreten); gleiche Aktion, gleiche Stufe wie in Journal und Leerzustand.
-- „Symbolknöpfe ✓ und ⟳ am Handy ins Menü“ (Gruppe · Handy): „Aufgabe an alle“ ist häufig; die Stufe hinge von der Breite ab. Das mehrdeutige ✓ ohne Text ist eine Frage der Verständlichkeit.
+- **Gruppe · voll:** „Schülername als Link, damit das Öffnen sichtbar ist“ – Kein Gewinn nach den Regeln (Hover gibt es schon) und ein Stilwechsel (700 → 600).
+- **Gruppe · voll:** „„Aktualisieren“ ins „…“-Menü“ – „Aktualisieren“ wird gebraucht (die Gruppe lädt nur beim Betreten); gleiche Aktion, gleiche Stufe wie in Journal und Leerzustand.
+- **Gruppe · Handy:** „Symbolknöpfe ✓ und ⟳ am Handy ins Menü“ – „Aufgabe an alle“ ist häufig; die Stufe hinge von der Breite ab. Das mehrdeutige ✓ ohne Text ist eine Frage der Verständlichkeit.
 
 *Affiliate*
 
-- „Zeile tippbar machen, damit das Öffnen am Handy überhaupt erkennbar ist“ (Alle Creator · Handy): Chevron am Handy würde die Tabelle seitlich scrollen lassen (README:275); die tippbare Zeile steckt in Nr. 104.
+- **Alle Creator · Handy:** „Zeile tippbar machen, damit das Öffnen am Handy überhaupt erkennbar ist“ – Chevron am Handy würde die Tabelle seitlich scrollen lassen (README:275); die tippbare Zeile steckt in Nr. 104.
 
 *Einstellungen*
 
-- „Gespeicherte Designs zuerst, wenn vorhanden“ (Design): Die Blockreihenfolge würde beim Speichern springen; README legt sie fest.
-- „Untertitel auf einen Satz“ (Sprache): Nur Text, keine Wahl weniger; der Untertitel der Sprachseite fiele bis zur Übersetzung auf Deutsch zurück.
-- „Recap-Beschreibungen kürzen“ (Benachrichtigungen): Nur Text und ungenauer („ab 4 Trades“ statt „mindestens 4 geschlossene Trades bis Sonntag“).
-- „Leerzustand = Feld + Knopf“ (Regeln · leer): Der Leerzustand ist schon Satz, Feld, Knopf; Autofokus öffnete auf dem Handy die Tastatur.
-- „Bei zerstörenden Bestätigungen Fokus auf „Abbrechen““ (Bestätigungen und Hinweise): Als Schutzregel in Nr. 35 enthalten; heute bricht Enter auf dem X schon ab.
+- **Design:** „Gespeicherte Designs zuerst, wenn vorhanden“ – Die Blockreihenfolge würde beim Speichern springen; README legt sie fest.
+- **Sprache:** „Untertitel auf einen Satz“ – Nur Text, keine Wahl weniger; der Untertitel der Sprachseite fiele bis zur Übersetzung auf Deutsch zurück.
+- **Benachrichtigungen:** „Recap-Beschreibungen kürzen“ – Nur Text und ungenauer („ab 4 Trades“ statt „mindestens 4 geschlossene Trades bis Sonntag“).
+- **Regeln · leer:** „Leerzustand = Feld + Knopf“ – Der Leerzustand ist schon Satz, Feld, Knopf; Autofokus öffnete auf dem Handy die Tastatur.
+- **Bestätigungen und Hinweise:** „Bei zerstörenden Bestätigungen Fokus auf „Abbrechen““ – Als Schutzregel in Nr. 35 enthalten; heute bricht Enter auf dem X schon ab.

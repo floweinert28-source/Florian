@@ -287,7 +287,7 @@ html.sb-mini .popover.up.sb-menu.open { transform-origin: bottom left; }
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border-2);
   background: var(--surface); color: var(--text); font-weight: 500; font-size: var(--fs-14); line-height: var(--lh-14); cursor: pointer; white-space: nowrap; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), color var(--dur-1) var(--ease), box-shadow var(--dur-2) var(--ease);
 }
-.btn svg { width: 16px; height: 16px; }
+.btn svg { width: 16px; height: 16px; flex: 0 0 auto; } /* Symbole in Knöpfen schrumpfen nie */
 .btn:hover { background: var(--surface-2); border-color: var(--border-2); transform: translateY(-1px); }
 .btn:active { transform: scale(.97); transition-duration: 60ms; }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
@@ -296,11 +296,11 @@ html.sb-mini .popover.up.sb-menu.open { transform-origin: bottom left; }
 .btn.danger:hover { background: var(--loss-soft); }
 .btn.ghost { border-color: transparent; background: transparent; color: var(--text-2); }
 .btn.ghost:hover { background: var(--surface-2); color: var(--text); }
-.btn.sm { padding: 7px 11px; font-size: 12.5px; border-radius: 9px; }
+.btn.sm { min-height: 34px; padding: 0 12px; font-size: var(--fs-13); line-height: var(--lh-13); border-radius: 9px; } /* kleine Stufe: 34 px wie .input.sm und .select.sm */
 .btn.xs { padding: 4px 8px; font-size: var(--fs-12); line-height: var(--lh-12); border-radius: 7px; }
 .btn.icon { padding: 9px; }
 .btn.icon.sm { padding: 6px; }
-.btn.round { border-radius: 999px; width: 36px; height: 36px; padding: 0; }
+.btn.round { border-radius: 9px; width: 34px; height: 34px; padding: 0; } /* Pfeil-Knöpfe (vor/zurück): überall dieselbe eckige Form */
 .btn.round.accent { color: var(--accent); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 .btn .caret { width: 14px; height: 14px; opacity: .7; }
@@ -333,8 +333,8 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .switch:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--border-2), 0 0 0 3px var(--accent-soft); }
 .switch[aria-checked="true"]:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); }
 .switch.no-anim, .switch.no-anim::after { transition: none !important; }
-.seg { display: inline-flex; gap: 6px; flex-wrap: wrap; }
-.seg button { padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); cursor: pointer; }
+.seg { display: inline-flex; gap: 2px; flex-wrap: wrap; padding: 3px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); } /* Segmente als eine Schiene */
+.seg button { min-height: 34px; padding: 0 14px; border-radius: 9px; border: 1px solid transparent; background: none; color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); cursor: pointer; }
 .seg button:hover { color: var(--text); background: var(--surface-2); }
 .seg button[aria-pressed="true"] { font-weight: 500; }
 #f-dir button[data-value="-1"][aria-pressed="true"] { border-color: var(--loss); color: var(--loss); background: var(--loss-soft); box-shadow: inset 0 0 0 1px var(--loss); }
@@ -675,8 +675,8 @@ span.info:hover { color: var(--text-2); }
 .bar-row .bl { display: flex; justify-content: space-between; font-size: var(--fs-12); line-height: var(--lh-12); }
 .bar-row .track { height: 7px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
 .bar-row .track i { display: block; height: 100%; border-radius: 4px; }
-.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
-.tabs button { padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 500; font-size: 13.5px; cursor: pointer; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.tabs { display: flex; width: fit-content; max-width: 100%; gap: 2px; flex-wrap: wrap; padding: 3px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); } /* Reiter der Seitenebene: eine Schiene */
+.tabs button { min-height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid transparent; background: none; color: var(--text-2); font-weight: 500; font-size: var(--fs-14); cursor: pointer; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .tabs button:hover { color: var(--text); }
 .banner { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-radius: 12px; border: 1px solid; font-size: var(--fs-13); line-height: var(--lh-13); }
 .banner svg { width: 18px; height: 18px; flex: 0 0 auto; margin-top: 1px; }
@@ -1525,11 +1525,13 @@ span.info:hover { color: var(--text-2); }
 .serie .row { gap: 10px; flex-wrap: nowrap; margin-top: 4px; }
 .streak-ring { display: inline-grid; place-items: center; width: 50px; height: 50px; border-radius: 999px; border: 4px solid var(--profit); font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--profit); flex: 0 0 auto; }
 .streak-ring.loss { border-color: var(--loss); color: var(--loss); }
-.tabs.sm button { padding: 7px 14px; font-size: 12.5px; border-radius: 9px; }
+.tabs.sm button { min-height: 28px; padding: 0 10px; font-size: var(--fs-13); border-radius: 8px; }
 /* Waagerecht scrollende Knopfleisten schneiden alles über ihrem Rand ab. Etwas Innenabstand ringsum (mit Gegen-Rand) hält
    die obere Linie beim Anheben (Hover), den Fokusrahmen und Schatten sichtbar, ohne dass sich die Leiste verschiebt. */
 .tabs.scroll-x { overflow-x: auto; flex-wrap: nowrap; }
-.tabs.scroll-x { padding: 4px 3px 4px; margin: -4px -3px -2px; scrollbar-width: none; overscroll-behavior-x: contain; }
+.tabs.scroll-x { padding: 3px; margin: 0; scrollbar-width: none; overscroll-behavior-x: contain; }
+.tabs > a.btn { min-height: 34px; padding: 0 12px; border-radius: 9px; border-color: transparent; background: none; font-size: var(--fs-14); line-height: var(--lh-14); }
+.tabs > a.btn:hover { background: var(--surface-2); color: var(--text) !important; }
 .tabs.scroll-x::-webkit-scrollbar { display: none; } /* Reiterleiste ohne Scrollbalken; wischen geht weiterhin */
 .tip-dot, #tip i.dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; vertical-align: middle; }
 /* Skeleton */
@@ -1670,7 +1672,8 @@ html.sb-mini .boot-sb .skel { width: 24px; }
 .legend.rep i { width: 12px; height: 12px; }
 .legend.rep { font-size: 13px; color: var(--text-2); }
 #tip i.dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 6px; }
-.select.sm { padding: 6px 28px 6px 10px; font-size: 12.5px; border-radius: 9px; width: auto; }
+.select.sm, .input.sm { min-height: 34px; padding: 0 28px 0 10px; font-size: var(--fs-13); line-height: var(--lh-13); border-radius: 9px; width: auto; }
+.input.sm { padding: 0 10px; }
 /* Letzte Trades: Box füllen, „Mehr anzeigen“ */
 .card.recent-card { min-height: var(--card-h, 396px); }
 .recent-wrap { flex: 1 1 auto; height: 0; min-height: 0; overflow: hidden; }
@@ -3167,3 +3170,9 @@ a.coach-name:hover { color: var(--text); text-decoration: underline; text-underl
 :root[data-theme="light"] .btn.accent { color: var(--accent); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }
 /* Gesetzter Zustand eines Rahmen-Knopfs (z. B. aktiver Dashboard-Filter): flach wie jede Auswahl, nie grün (Grün gehört „Trade loggen“) */
 .btn.is-on { background: color-mix(in srgb, var(--text) 10%, var(--surface)); border-color: color-mix(in srgb, var(--text) 22%, var(--border-2)); color: var(--text); }
+/* Zahlenfelder ohne Browser-Pfeile (eigene Schritt-Knöpfe nur, wo es sie braucht) */
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+/* Menüeinträge mindestens 36 px hoch, wählbare Chips 28 px */
+.popover .item { min-height: 36px; }
+.chip.sel { min-height: 28px; padding: 0 10px; }

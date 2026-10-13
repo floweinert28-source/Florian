@@ -46,6 +46,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   ↘ Short in Rot), bewusst ruhig: zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis ohne Leuchten (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **Abstände** folgen einem 4-px-Raster (`--sp-1` … `--sp-10` in `:root`): Karten und Einstellungsblöcke 20 px innen, Kartenkopf 16 px über dem Inhalt, Abschnitte einer Seite 24 px, Raster (Dashboard) 16 px, nach der Kopfreihe 16 px, Tabellenzellen 12/16 px, Dialoge mit Formular 16 px zwischen Kopf, Feldern und Fuß. Eine Seite ohne Steuerelemente in der Kopfreihe zeigt keine leere Kopfreihe; die Einstellungen haben keine (Zeitraum und Konto wirken dort nicht).
+- **Bedienelemente** haben feste Höhen: kleine Knöpfe (`.btn.sm`), runde Pfeil-Knöpfe (`.btn.round`, 34 × 34) und kleine Felder (`.input.sm`, `.select.sm`) sind alle 34 px hoch. Reiter (`.tabs`) und Umschalter (`.seg`) sind eine Schiene mit 34 px hohen Einträgen; der gewählte Eintrag ist hell hinterlegt, nicht farbig. Zahlenfelder zeigen keine Pfeile.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz. Das Beispielformat im Dialog
   (Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;…) wird richtig erkannt; Kennungsspalten („Order ID“, „_…“) werden nie

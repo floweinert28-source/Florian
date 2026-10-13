@@ -1,7 +1,7 @@
 {
  "1": {
-  "status": "offen",
-  "notiz": ""
+  "status": "laeuft",
+  "notiz": "impl gestartet 13.10."
  },
  "2": {
   "status": "offen",
@@ -176,8 +176,8 @@
   "notiz": ""
  },
  "45": {
-  "status": "offen",
-  "notiz": ""
+  "status": "laeuft",
+  "notiz": "impl gestartet 13.10."
  },
  "46": {
   "status": "offen",

@@ -1761,4 +1761,6 @@ I18N.add('es', {
   "Das gespeicherte Design wird gelöscht.": "El diseño guardado se eliminará.",
   "Ändere den Zeitraum oder logge Trades.": "Cambia el periodo o registra trades.",
   "Noch keine Daten": "Aún no hay datos",
+  "Zum Inhalt springen": "Saltar al contenido",
+  "Grabstein umdrehen": "Girar lápida",
 });

@@ -1809,4 +1809,6 @@ I18N.add('hi', {
   "Das gespeicherte Design wird gelöscht.": "सहेजा गया डिज़ाइन हटा दिया जाएगा।",
   "Ändere den Zeitraum oder logge Trades.": "समय-सीमा बदलें या ट्रेड लॉग करें।",
   "Noch keine Daten": "अभी कोई डेटा नहीं",
+  "Zum Inhalt springen": "सामग्री पर जाएँ",
+  "Grabstein umdrehen": "कब्र पलटें",
 });

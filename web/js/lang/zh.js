@@ -1809,4 +1809,6 @@ I18N.add('zh', {
   "Das gespeicherte Design wird gelöscht.": "已保存的设计将被删除。",
   "Ändere den Zeitraum oder logge Trades.": "更改时间范围或记录交易。",
   "Noch keine Daten": "暂无数据",
+  "Zum Inhalt springen": "跳到内容",
+  "Grabstein umdrehen": "翻转墓碑",
 });

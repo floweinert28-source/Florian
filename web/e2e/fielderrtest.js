@@ -1,4 +1,4 @@
-/* Zustände: Feldfehler am Feld statt Toast, eingebaute Prüfung ohne Browser-Blase, Rückfrage vor endgültigem Löschen */
+/* Zustände und Bedienung: Feldfehler am Feld statt Toast, eingebaute Prüfung ohne Browser-Blase, Rückfrage vor endgültigem Löschen, Tastatur */
 const { chromium } = require('playwright');
 const base = 'file:///home/user/Florian/web/app.html';
 const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${n}${x ? ' · ' + x : ''}`);
@@ -36,5 +36,17 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.click('[data-action=delete-rule]'); await p.waitForTimeout(300); await p.click('.modal [data-confirm]'); await p.waitForTimeout(400);
   const r2 = await p.evaluate(() => Store.rules ? Store.rules().length : (Store.data.rules || []).length);
   ok('Bestätigen: Regel gelöscht', r2 === r0 - 1, r0 + ' → ' + r2);
+  /* Tastatur: Sprunglink, Fokus-Ring in Textfarbe, Abhakzeilen per Enter */
+  await p.goto('about:blank'); await p.goto(base + '#/day', { waitUntil: 'load' }); await p.waitForTimeout(800); /* frisch geladen, Fokus noch nirgends */
+  await p.keyboard.press('Tab'); await p.waitForTimeout(150);
+  const sk = await p.evaluate(() => { const a = document.activeElement; const r = a.getBoundingClientRect(); return { cls: a.className, top: r.top, ring: getComputedStyle(a).outlineColor, text: getComputedStyle(document.documentElement).color }; });
+  ok('Erstes Tab: Sprunglink „Zum Inhalt springen“ sichtbar', sk.cls === 'skip-link' && sk.top >= 0, JSON.stringify(sk));
+  await p.keyboard.press('Enter'); await p.waitForTimeout(150);
+  ok('Enter auf dem Sprunglink: Fokus im Inhalt', await p.evaluate(() => document.activeElement && document.activeElement.id === 'content'));
+  const ring = await p.evaluate(() => { const b = document.querySelector('#content button, #content a[href]'); b.focus(); const cs = getComputedStyle(b); const probe = document.createElement('span'); probe.style.color = 'var(--focus)'; document.body.appendChild(probe); const want = getComputedStyle(probe).color; probe.remove(); return { style: cs.outlineStyle, color: cs.outlineColor, want, accent: getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() }; });
+  ok('Fokus-Ring: 2px in Textfarbe (--focus), nicht Grün', ring.style === 'solid' && ring.color === ring.want, JSON.stringify(ring));
+  const tg = await p.$('.it.toggle[role=checkbox]');
+  if (tg) { const b0 = await tg.getAttribute('aria-checked'); await tg.focus(); await p.keyboard.press('Enter'); await p.waitForTimeout(400); const b1 = await p.evaluate(() => (document.querySelector('.it.toggle[role=checkbox]') || {}).getAttribute && document.querySelector('.it.toggle[role=checkbox]').getAttribute('aria-checked'));
+    ok('Regel-Abhakzeile: role=checkbox, Enter schaltet um', b0 !== b1, b0 + ' → ' + b1); } else ok('Regel-Abhakzeile: role=checkbox vorhanden', false, 'keine .it.toggle auf #/day');
   console.log(out.join('\n')); console.log(errs.length ? 'ERRORS:\n' + errs.join('\n') : 'no errors'); await browser.close();
 })().catch(e => { console.log(out.join('\n')); console.error('CRASH', e); process.exit(1); });

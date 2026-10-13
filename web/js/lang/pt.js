@@ -1758,4 +1758,6 @@ I18N.add('pt', {
   "Das gespeicherte Design wird gelöscht.": "O design salvo será excluído.",
   "Ändere den Zeitraum oder logge Trades.": "Altere o período ou registre trades.",
   "Noch keine Daten": "Ainda sem dados",
+  "Zum Inhalt springen": "Pular para o conteúdo",
+  "Grabstein umdrehen": "Virar lápide",
 });

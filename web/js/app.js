@@ -93,7 +93,10 @@
       main.style.minHeight = hold ? hold + 'px' : '';
       /* Reiterwechsel in derselben Seite (Statistik-Reiter, Prop-Bereiche, Einstellungen …): Seite und Reiterleiste bleiben, wo sie sind */
       const stayY = swap ? window.scrollY : null; const subX = swap ? [...main.querySelectorAll('#content [data-subnav]')].map(e => e.scrollLeft) : [];
-      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content${anim ? ' enter' : ''}${swap ? ' ' + swap : ''}" id="content">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
+      const lostFocus = this._booted && routeChanged && main.contains(document.activeElement);
+      main.innerHTML = `${this.topbar(title, screen, ctx)}<div class="content${anim ? ' enter' : ''}${swap ? ' ' + swap : ''}" id="content" tabindex="-1">${screen.ownActions ? '' : this.pageHead(screen, ctx)}${body}</div>`;
+      /* Seitenwechsel: lag der Fokus im ersetzten Inhalt, geht er an den Seitenanfang statt verloren (nicht beim ersten Aufbau) */
+      if (lostFocus) main.querySelector('#content').focus({ preventScroll: true }); this._booted = true;
       this.translateNow(main); /* sofort übersetzen: Scrollstand und Höhen gelten für den übersetzten Text, nicht für das deutsche Zwischenbild */
       /* Sichtbares erscheint sofort (die Seite wird als Ganzes überblendet, kein Einzug Karte für Karte, nichts rutscht);
          nur was unter dem Fenster liegt, blendet beim Reinscrollen ein. Dafür vorher oben sein, wenn die Seite oben beginnt */
@@ -283,7 +286,7 @@
         const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); this.noteAnchor(el); const sw = this.switchMark(el); fn.call(this, el, e); if (sw) this.glideSwitch(sw); }
       });
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
+      document.addEventListener('keydown', e => { /* Elemente mit role=button/checkbox: Enter und Leertaste wie Klick */ const rb = e.target && e.target.closest && (e.key === 'Enter' || e.key === ' ') && !e.target.matches('input, textarea, select, button, a, [contenteditable]') ? e.target.closest('[role=button][tabindex], [role=checkbox][tabindex]') : null; if (rb && rb === e.target) { e.preventDefault(); rb.click(); return; } if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
       /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
       window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
       if (root.RangePicker) root.RangePicker.init(); /* Zeitraum „Benutzerdefiniert“ mit zwei Monaten */
@@ -306,6 +309,7 @@
   };
 
   Object.assign(App.actions, {
+    'skip-content'() { const c = document.getElementById('content'); if (c) c.focus(); },
     sidebar() { this.state.sidebarOpen = !this.state.sidebarOpen; this.renderSidebar(); },
     /* Knopf in der Marke: Desktop klappt auf Symbole zusammen, Handy schließt das Menü */
     'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.sidebarMini = !S.settings.sidebarMini; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },

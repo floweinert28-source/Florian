@@ -129,7 +129,7 @@
     /* zwei Seiten: vorne nur das Wesentliche (Name, Konto, Phase, Daten, Todesursache), per Klick dreht sich der Stein und zeigt
        hinten kompakt den Rest (Inschrift, Ergebnis, auslösender Trade, Verlustserie, Tags, Link) */
     return `<section class="prop-grave" data-id="${esc(String(t.accountId))}">
-      <div class="pg-stone" data-action="pg-flip" title="Umdrehen">
+      <div class="pg-stone" data-action="pg-flip" title="Umdrehen" role="button" tabindex="0" aria-label="Grabstein umdrehen">
         <div class="pg-inner">
           <div class="pg-face pg-front" aria-hidden="false">${ROCK}
             <span class="pg-rip" aria-hidden="true">R · I · P</span>

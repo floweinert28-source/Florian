@@ -1714,4 +1714,6 @@ I18N.add('en', {
   "Das gespeicherte Design wird gelöscht.": "The saved design will be deleted.",
   "Ändere den Zeitraum oder logge Trades.": "Change the date range or log trades.",
   "Noch keine Daten": "No data yet",
+  "Zum Inhalt springen": "Skip to content",
+  "Grabstein umdrehen": "Turn tombstone over",
 });

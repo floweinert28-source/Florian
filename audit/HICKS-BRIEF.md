@@ -34,7 +34,7 @@ BESONDERS PRÜFEN:
 WICHTIG: Das Design (dunkles Erscheinungsbild, Farben, Schriften, Rundungen, Symbole) bleibt wie es ist. Es geht nur um Hierarchie, Reduktion und Reihenfolge, nicht um neues Styling. Keine Funktionen entfernen, nur besser ordnen oder verstecken.
 
 ## Hierarchie-Stufen, die es im Design schon gibt (für Vorschläge verwenden, nichts Neues erfinden)
-- Primär: gefüllter Akzentknopf wie „Trade loggen“ (`.btn.accent`, grün gefüllt) oder `.btn.primary` in Dialogen (Speichern).
+- Primär: der eine hervorgehobene Knopf – „Trade loggen“ (`.btn.accent`: Kartenfläche mit grün getöntem Verlaufsrand und grüner Schrift, app.css:3137) oder der gefüllte `.btn.primary` (einziger wirklich gefüllter Knopf, app.css:274), z. B. Speichern in Dialogen. (Korrigiert nach Faktenprüfung: `.btn.accent` ist NICHT gefüllt.)
 - Sekundär: umrandeter Knopf `.btn` (Rahmen, keine Füllung).
 - Tertiär: `.btn.ghost` (nur Text/Symbol, kein Rahmen) oder Textlink.
 - Symbol-Knöpfe `.btn.icon-only` für Werkzeuge; Menüs/Popover für selten gebrauchte Optionen; Abschnitt „Mehr Optionen“ (aufklappbar) für Zusatzfelder.

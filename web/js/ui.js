@@ -439,10 +439,21 @@
   /* Diagramm-Tooltip als ordentliche kleine Tabelle: oben das Datum, darunter Bezeichnung links und Wert rechtsbündig */
   const tipTable = (title, rows) => `<div class="tt-h">${title}</div><div class="tt-g">${rows.map(r => `<span>${r[0]}</span><b>${r[1]}</b>`).join('')}</div>`;
   function tipEl() { let t = document.getElementById('tip'); if (!t) { t = document.createElement('div'); t.id = 'tip'; document.body.appendChild(t); } return t; }
-  function tipAt(el, lx, ly, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); const r = el.getBoundingClientRect(); const x = r.left + lx, y = r.top + ly; const w = tip.offsetWidth, h = tip.offsetHeight; const box = (el.closest('.card, .w') || el).getBoundingClientRect(); /* im Kasten bleiben: rechts zu eng → links vom Punkt, oben zu eng → unter dem Punkt */ const right = Math.min(window.innerWidth - 8, box.right - 8), lo = Math.max(8, box.left + 8); let left = x + 16; if (left + w > right) left = x - 16 - w; if (left < lo) left = Math.max(lo, Math.min(x - w / 2, right - w)); /* passt keine Seite: mittig über/unter dem Punkt */ let top = y - h - 16; if (top < Math.max(8, box.top + 8)) top = y + 16; tip.style.left = Math.max(8, left) + 'px'; tip.style.top = Math.max(8, Math.min(top, window.innerHeight - h - 8)) + 'px'; }
+  /* Tooltip platzieren ohne Hin-und-her: die einmal gewählte Seite (rechts/links, über/unter dem Punkt) bleibt, solange sie passt;
+     erst wenn sie nicht mehr passt, wechselt sie – und bleibt dann wieder. Neue Seite erst bei neuem Diagramm oder nach dem Ausblenden */
+  function tipAt(el, lx, ly, html) {
+    const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); if (tip._host !== el) { tip._host = el; tip._sx = 'r'; tip._sy = 'a'; }
+    const r = el.getBoundingClientRect(); const x = r.left + lx, y = r.top + ly; const w = tip.offsetWidth, h = tip.offsetHeight;
+    const box = (el.closest('.card, .w') || el).getBoundingClientRect(); const right = Math.min(window.innerWidth - 8, box.right - 8), lo = Math.max(8, box.left + 8), top0 = Math.max(8, box.top + 8), bottom = Math.min(window.innerHeight - 8, box.bottom - 8);
+    const fitsR = x + 16 + w <= right, fitsL = x - 16 - w >= lo; if (tip._sx === 'r' && !fitsR && fitsL) tip._sx = 'l'; else if (tip._sx === 'l' && !fitsL && fitsR) tip._sx = 'r';
+    let left = tip._sx === 'r' ? x + 16 : x - 16 - w; if (!fitsR && !fitsL) left = Math.min(Math.max(lo, x - w / 2), right - w); /* passt keine Seite: mittig */
+    const fitsA = y - h - 16 >= top0, fitsB = y + 16 + h <= bottom; if (tip._sy === 'a' && !fitsA && fitsB) tip._sy = 'b'; else if (tip._sy === 'b' && !fitsB && fitsA) tip._sy = 'a';
+    const top = tip._sy === 'a' ? y - h - 16 : y + 16;
+    tip.style.left = Math.round(Math.max(8, left)) + 'px'; tip.style.top = Math.round(Math.max(8, Math.min(top, window.innerHeight - h - 8))) + 'px';
+  }
   function tipShowAt(clientX, clientY, html) { const tip = tipEl(); tip.innerHTML = html; tip.classList.add('on'); tip.style.left = Math.min(clientX + 14, window.innerWidth - tip.offsetWidth - 10) + 'px'; tip.style.top = Math.max(8, clientY - tip.offsetHeight - 12) + 'px'; }
   let tipFor = null; /* Element mit data-tip, zu dem der sichtbare Tooltip gehört (Diagramm-Tooltips laufen ohne) */
-  function tipHide() { tipFor = null; const t = document.getElementById('tip'); if (t) t.classList.remove('on'); }
+  function tipHide() { tipFor = null; const t = document.getElementById('tip'); if (t) { t.classList.remove('on'); t._host = null; } }
   function bindTips() {
     /* Über einem data-tip-Element anzeigen; woanders verstecken. Wird das Element beim Klick neu aufgebaut (Spalte ein-/ausklappen),
        kommt kein mouseout mehr – darum versteckt der Klick den Tooltip sofort und die nächste Mausbewegung räumt Reste weg */

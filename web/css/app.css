@@ -3254,3 +3254,6 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 #tip .tt-g { display: grid; grid-template-columns: auto auto; column-gap: 18px; row-gap: 4px; align-items: center; }
 #tip .tt-g > span { color: var(--muted); white-space: nowrap; display: inline-flex; align-items: center; }
 #tip .tt-g > b { justify-self: end; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text); }
+/* Tabellen-Tooltip in fester Breite: die Box ändert ihre Größe nicht von Tag zu Tag */
+#tip:has(.tt-g) { width: 220px; }
+#tip .tt-h { overflow: hidden; text-overflow: ellipsis; }

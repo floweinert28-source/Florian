@@ -182,8 +182,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Schrift**: Text in **Satoshi** (Fontshare, Indian Type Foundry), Zahlen in **Onest** (Google Fonts). Beide sind geometrisch
   mit ähnlicher x-Höhe, deshalb passen Text und Zahlen nebeneinander. Satoshi steht unter der ITF Free Font License: freie
   Nutzung auch kommerziell, Selbst-Hosting auf der eigenen Website erlaubt, Weitergabe der Schriftdateien nicht. Darum liegen
-  keine Satoshi-Dateien in diesem öffentlichen Repository; `app.html` lädt sie über die Fontshare-API (feste Schnitte 400, 500,
-  700, 900; Gewicht 600 nimmt Bold). Ohne Netz fällt der Text auf Onest zurück. Frühere Standardschrift „Geschwungen“
+  keine Satoshi-Dateien in diesem öffentlichen Repository; `app.html` lädt sie über die Fontshare-API (variable Schrift mit
+  Gewichtsachse 300–900; 500, 600 und 700 sind echte Stufen, die Marke steht auf 900). Ohne Netz fällt der Text auf Onest zurück. Frühere Standardschrift „Geschwungen“
   (Quicksand) bleibt unter Einstellungen → Design wählbar; wer sie als Standard hatte, wurde einmalig auf „Modern“ umgestellt.
 - **Sprachen** (Einstellungen → Sprache): Deutsch, Englisch, Spanisch, Chinesisch (vereinfacht), Hindi und
   Portugiesisch (Brasilien), die fünf meistgesprochenen Sprachen der Welt neben Deutsch. Zahlen, Beträge, Daten und der Kalender
@@ -210,6 +210,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   erscheinen im Farbwähler und in der Akzentreihe und lassen sich mit × löschen. **Meine Designs**: Erscheinungsbild, Schrift und alle
   Farben als Paket speichern, mit einem Klick anwenden, löschen; höchstens 6.
   Die Wahl gilt für die ganze Website inklusive Startseite.
+  Im hellen Design sind die Signalfarben abgedunkelt (Gewinn und Akzent `#077a41`, Verlust `#c62e2e`, Break-even `#5f4fcf`, Info `#1d6db5`,
+  Warntext `#8f5f00`), damit Zahlen mindestens 4,5:1 erreichen; eigene Farben werden dafür automatisch abgedunkelt (`Theme.forLight`), die Schrift
+  auf Farbflächen wählt `Theme.inkFor` nach dem höheren Kontrast.
   **Grün nur für Gewinn und „Trade loggen“:** ausgewählte Reiter, Segmente, Chips und Karten mit Rahmen sind flach und ruhig: eine leicht
   angehobene Fläche mit feinem Rand, ohne Licht, Verlauf oder Schein (ein gemeinsamer Stil am Ende von `css/app.css`). `--lc` setzt eine
   bewusste Farbe nur dort, wo sie etwas bedeutet (Gewinn/Verlust, Long/Short, Bewertung, Fehler-/Emotions-Chips): Schrift in der Farbe,

@@ -322,7 +322,7 @@ web/
   vendor/quill/         Quill 2.0.3 (BSD-3-Clause)
   js/app.js             Router, Seitenleiste, Kopfzeile und Kopfreihe unter dem Titel, Trade-Editor, Session, CSV-Import
   js/colorpicker.js     Farbwähler im App-Design für alle Farbfelder, merkt eigene Farben (höchstens 8)
-  js/datepicker.js      Kalender im App-Design für Datums- und Zeitfelder (Datum, Datum mit Uhrzeit samt Stunden-/Minuten-Spalten, Monat, nur Uhrzeit), auch auf Handy und Tablet
+  js/datepicker.js      Kalender im App-Design für Datums- und Zeitfelder (Datum, Datum mit Uhrzeit samt Stunden-/Minuten-Spalten, Monat, nur Uhrzeit), auch auf Handy und Tablet; Tag und Uhrzeit sind ein Entwurf, ins Feld kommen sie erst mit „Fertig“ (daneben tippen oder Escape verwirft); bei Touch bekommt das Feld danach keinen Fokus, damit iOS nicht sein eigenes Rad öffnet
   js/selectpicker.js    Auswahlliste im App-Design für alle <select>-Felder statt des System-Menüs (Maus, Tastatur, Touch)
   js/screens/*.js       Die einzelnen Seiten
   tests/core.test.mjs   Tests für die Analytik

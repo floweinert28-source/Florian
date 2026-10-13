@@ -69,17 +69,17 @@ const pad = n => String(n).padStart(2, '0');
   ok('Pflichtfeld ohne „Löschen“', !(await p.$('#pop-dp [data-dp=clear]')) && !!(await p.$('#pop-dp [data-dp=today]')));
   const pickK = `${before.slice(0, 7)}-15`; await p.click(`#pop-dp .dp-day[data-k="${pickK}"]`); await p.waitForTimeout(250);
   const after = await p.$eval('#f-open', e => e.value);
-  ok('Datum übernommen, Uhrzeit bleibt', after === `${pickK}T${before.slice(11, 16)}`, `${before} → ${after}`);
+  ok('Tag gewählt: erst Entwurf (markiert), Feld noch unverändert', after === before && await p.$eval('#pop-dp .dp-day.sel', e => e.dataset.k) === pickK, `${before} → ${after}`);
   ok('Dialog bleibt offen', !!(await p.$('.modal-bg .modal')));
-  /* Uhrzeit: Spalten für Stunde und Minute, Klick setzt sofort, Kalender bleibt offen bis „Fertig“ */
+  /* Uhrzeit: Spalten für Stunde und Minute; Tag und Zeit sind ein Entwurf, ins Feld kommen sie erst mit „Fertig“ */
   ok('Datum mit Uhrzeit: Kalender bleibt nach Tageswahl offen', (await dpState()).open);
   ok('Uhrzeit-Spalten: 24 Stunden, 60 Minuten, aktuelle Zeit markiert', await p.$$eval('#pop-dp .dp-t[data-dp=hour]', e => e.length) === 24 && await p.$$eval('#pop-dp .dp-t[data-dp=min]', e => e.length) === 60 && await p.$eval('#pop-dp .dp-t[data-dp=hour].sel', e => e.textContent) === before.slice(11, 13));
   await p.click('#pop-dp .dp-t[data-dp=hour][data-v="9"]'); await p.waitForTimeout(150); await p.click('#pop-dp .dp-t[data-dp=min][data-v="45"]'); await p.waitForTimeout(150);
-  ok('Stunde und Minute gewählt → Wert im Feld, Kalender offen', await p.$eval('#f-open', e => e.value) === `${pickK}T09:45` && (await dpState()).open, await p.$eval('#f-open', e => e.value));
+  ok('Stunde und Minute gewählt → Entwurf oben (09:45), Feld unverändert, Kalender offen', await p.$eval('#f-open', e => e.value) === before && await p.$eval('#pop-dp .dp-tval', e => e.textContent) === '09:45' && (await dpState()).open, await p.$eval('#f-open', e => e.value));
   await p.focus('#pop-dp .dp-t[data-dp=min][data-v="45"]'); await p.keyboard.press('ArrowDown'); await p.waitForTimeout(100);
-  ok('Pfeil runter: nächste Minute', await p.$eval('#f-open', e => e.value) === `${pickK}T09:46` && await p.evaluate(() => document.activeElement && document.activeElement.dataset.v === '46'));
+  ok('Pfeil runter: nächste Minute', await p.$eval('#pop-dp .dp-tval', e => e.textContent) === '09:46' && await p.evaluate(() => document.activeElement && document.activeElement.dataset.v === '46'));
   await p.click('#pop-dp [data-dp=done]'); await p.waitForTimeout(250);
-  ok('„Fertig“ schließt, Fokus im Feld', !(await dpState()).open && await p.evaluate(() => document.activeElement && document.activeElement.id === 'f-open'));
+  ok('„Fertig“ übernimmt Tag und Zeit, schließt, Fokus im Feld', await p.$eval('#f-open', e => e.value) === `${pickK}T09:46` && !(await dpState()).open && await p.evaluate(() => document.activeElement && document.activeElement.id === 'f-open'), await p.$eval('#f-open', e => e.value));
   await p.click('#f-close'); await p.waitForTimeout(250);
   ok('Schluss-Feld (optional) mit „Löschen“', !!(await p.$('#pop-dp [data-dp=clear]')));
   await p.click('#pop-dp [data-dp=today]'); await p.waitForTimeout(250);
@@ -87,8 +87,9 @@ const pad = n => String(n).padStart(2, '0');
   ok('„Heute“ setzt heutiges Datum mit Uhrzeit', fc.startsWith(tk + 'T') && fc.length === 16, fc);
   await p.click('#f-close'); await p.waitForTimeout(200); await p.click('#pop-dp [data-dp=clear]'); await p.waitForTimeout(250);
   ok('„Löschen“ leert das Feld', await p.$eval('#f-close', e => e.value) === '');
-  await p.click('#f-open'); await p.waitForTimeout(200); await p.keyboard.press('Escape'); await p.waitForTimeout(250);
+  await p.click('#f-open'); await p.waitForTimeout(200); await p.click('#pop-dp .dp-t[data-dp=hour][data-v="3"]'); await p.waitForTimeout(120); await p.keyboard.press('Escape'); await p.waitForTimeout(250);
   ok('Escape im Dialog: erst Kalender zu, Dialog bleibt', !(await dpState()).open && !!(await p.$('.modal-bg .modal')));
+  ok('Escape verwirft den Entwurf (Stunde 03 nicht übernommen)', await p.$eval('#f-open', e => e.value) === `${pickK}T09:46`, await p.$eval('#f-open', e => e.value));
   await p.keyboard.press('Escape'); await p.waitForTimeout(400); ok('Zweites Escape schließt den Dialog', !(await p.$('.modal-bg')));
   /* 7. Monatsfeld (Zertifikat) */
   await p.evaluate(() => Certificate.open('month')); await p.waitForTimeout(500);
@@ -123,6 +124,25 @@ const pad = n => String(n).padStart(2, '0');
   ok('Touch: pointer coarse', await mp.evaluate(() => !matchMedia('(pointer: fine)').matches));
   await mp.evaluate(() => App.openTradeEditor(null)); await mp.waitForTimeout(400); await mp.tap('#f-open'); await mp.waitForTimeout(300);
   ok('Touch: eigener Kalender offen, Feld ohne Fokus (kein System-Fenster)', await mp.evaluate(() => { const d = document.getElementById('pop-dp'); return !!d && d.classList.contains('open') && document.activeElement !== document.getElementById('f-open'); }));
+  const mBefore = await mp.$eval('#f-open', e => e.value);
+  const mm = String((+mBefore.slice(14, 16) + 1) % 60).padStart(2, '0'); /* Nachbarminute: steht sichtbar neben der markierten */
+  await mp.tap(`#pop-dp .dp-t[data-dp=min][data-v="${+mm}"]`); await mp.waitForTimeout(200);
+  ok('Touch: Minute antippen setzt nur den Entwurf', await mp.$eval('#f-open', e => e.value) === mBefore && await mp.$eval('#pop-dp .dp-tval', (e, mm) => e.textContent.endsWith(':' + mm), mm));
+  await mp.tap('#pop-dp [data-dp=done]'); await mp.waitForTimeout(300);
+  ok('Touch: „Fertig“ übernimmt, Feld bekommt keinen Fokus (kein System-Rad danach)', (await mp.$eval('#f-open', e => e.value)).endsWith(':' + mm) && await mp.evaluate(() => !document.getElementById('pop-dp').classList.contains('open') && document.activeElement !== document.getElementById('f-open')), await mp.$eval('#f-open', e => e.value));
+  /* Schatten-Ich auf dem Handy: Uhrzeitfeld der Handelszeiten und Einheiten-Auswahl */
+  await mp.evaluate(() => { const r = Store.shadowRules(); r.hours.on = true; r.dailyLoss.on = true; Store.setShadowRules(r); Store.saveNow(); }); await mp.goto(base + '#/shadow', { waitUntil: 'load' }); await mp.reload({ waitUntil: 'load' }); await mp.waitForTimeout(600); /* neu laden: das Trade-Fenster von oben ist sonst noch offen */
+  const tSel = 'input[type=time][data-rule=hours][data-field=to]'; const tField = await mp.$(tSel);
+  if (tField) { await tField.scrollIntoViewIfNeeded(); const tBefore = await tField.evaluate(e => e.value); await tField.tap(); await mp.waitForTimeout(300);
+    const hv = (+(tBefore || '10:00').slice(0, 2) + 1) % 24; await mp.tap(`#pop-dp .dp-t[data-dp=hour][data-v="${hv}"]`); await mp.waitForTimeout(200);
+    ok('Touch Uhrzeitfeld: eigener Wähler, Stunde nur im Entwurf', await mp.evaluate(() => document.getElementById('pop-dp').classList.contains('tm')) && await mp.$eval(tSel, e => e.value) === tBefore);
+    await mp.tap('#pop-dp [data-dp=done]'); await mp.waitForTimeout(400);
+    ok('Touch Uhrzeitfeld: „Fertig“ übernimmt und speichert, kein Fokus im Feld', await mp.evaluate(n => Store.shadowRules().hours.to.slice(0, 2) === String(n).padStart(2, '0') && !document.getElementById('pop-dp').classList.contains('open') && !(document.activeElement && document.activeElement.matches('input[type=time]')), hv), await mp.evaluate(() => Store.shadowRules().hours.to)); }
+  else ok('Touch: Uhrzeitfeld der Handelszeiten gefunden', false);
+  const msel = await mp.$('select.sr-unit');
+  if (msel) { await msel.scrollIntoViewIfNeeded(); await msel.tap(); await mp.waitForTimeout(250); const n = await mp.$$eval('#pop-sp .item[data-i]', e => e.length); if (n > 1) { await mp.tap('#pop-sp .item[data-i]:not([aria-selected="true"])'); await mp.waitForTimeout(250); }
+    ok('Touch: Auswahlliste wählt, Feld bekommt keinen Fokus (keine System-Liste danach)', n > 1 && await mp.evaluate(() => !document.getElementById('pop-sp').classList.contains('open') && !(document.activeElement && document.activeElement.tagName === 'SELECT')), 'Einträge: ' + n); }
+  else ok('Touch: Einheiten-Auswahl gefunden', false);
   await mctx.close();
   ok('Keine Fehler', errs.length === 0, errs.join(' | '));
   console.log(out.join('\n')); console.log(`${out.filter(x => x.startsWith('PASS')).length}/${out.length} bestanden`);

@@ -4,7 +4,7 @@
    Tastatur: Pfeiltasten ändern den Wert wie gewohnt; Enter, Leertaste, Alt+Pfeil oder F4 öffnen das Menü. Mehrfachauswahl bleibt nativ. */
 (function (root) {
   'use strict';
-  let el = null, sel = null, inited = false;
+  let el = null, sel = null, inited = false, touchUI = false;
   const isSel = t => !!t && t.tagName === 'SELECT' && !t.multiple && !t.disabled && t.size <= 1;
   const isOpen = () => !!el && el.classList.contains('open');
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -46,7 +46,7 @@
   function choose(i) {
     const s = sel; close(); if (!s) return; const o = s.options[i]; if (!o || o.disabled) return;
     if (s.selectedIndex !== i) { s.selectedIndex = i; s.dispatchEvent(new Event('input', { bubbles: true })); s.dispatchEvent(new Event('change', { bubbles: true })); }
-    try { s.focus({ preventScroll: true }); } catch (e) { /* ohne Fokus-Optionen */ }
+    if (!touchUI) try { s.focus({ preventScroll: true }); } catch (e) { /* ohne Fokus-Optionen */ } /* bei Touch nicht: iOS öffnet sonst seine eigene Liste */
   }
   function onClick(e) { e.stopPropagation(); const b = e.target.closest('.item[data-i]'); if (!b || b.disabled) return; choose(+b.dataset.i); }
   function onKey(e) {
@@ -60,9 +60,10 @@
     if (inited || typeof document === 'undefined') return; inited = true;
     document.addEventListener('mousedown', e => { const t = e.target; if (isSel(t) && e.button === 0) { e.preventDefault(); try { t.focus({ preventScroll: true }); } catch (x) { /* egal */ } } else if (isOpen() && !el.contains(t)) close(); }, true);
     document.addEventListener('click', e => { const t = e.target; if (!isSel(t)) return; e.preventDefault(); if (isOpen() && sel === t) close(); else open(t, false); });
+    document.addEventListener('pointerdown', e => { touchUI = e.pointerType === 'touch'; }, true);
     let tap = null;
     document.addEventListener('touchstart', e => { const t = e.target; tap = isSel(t) && e.touches.length === 1 ? { t, x: e.touches[0].clientX, y: e.touches[0].clientY } : null; if (isOpen() && !el.contains(t) && t !== sel) close(); }, { passive: true, capture: true });
-    document.addEventListener('touchend', e => { const p = tap; tap = null; if (!p || e.target !== p.t) return; const c = e.changedTouches[0]; if (Math.hypot(c.clientX - p.x, c.clientY - p.y) > 10) return; e.preventDefault(); if (isOpen() && sel === p.t) close(); else open(p.t, false); }, { passive: false, capture: true });
+    document.addEventListener('touchend', e => { const p = tap; tap = null; if (!p || e.target !== p.t) return; const c = e.changedTouches[0]; if (Math.hypot(c.clientX - p.x, c.clientY - p.y) > 10) return; e.preventDefault(); touchUI = true; if (isOpen() && sel === p.t) close(); else open(p.t, false); }, { passive: false, capture: true });
     document.addEventListener('keydown', e => { const t = e.target; if (!isSel(t)) return; if (e.key === 'Enter' || e.key === ' ' || e.key === 'F4' || (e.altKey && (e.key === 'ArrowDown' || e.key === 'ArrowUp'))) { e.preventDefault(); e.stopPropagation(); open(t, true); } }, true);
     window.addEventListener('keydown', e => { if (e.key !== 'Escape' || !isOpen()) return; e.preventDefault(); e.stopImmediatePropagation(); const s = sel; close(); if (s && s.isConnected) { try { s.focus({ preventScroll: true }); } catch (x) { /* egal */ } } }, true);
     window.addEventListener('resize', () => place());

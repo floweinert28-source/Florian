@@ -1816,4 +1816,5 @@ I18N.add('hi', {
   "Noch kein Check": "अभी कोई चेक नहीं",
   "Keine Regeln": "कोई नियम नहीं",
   "Monats-P&L": "महीने का P&L",
+  "Im Monat": "मासिक",
 });

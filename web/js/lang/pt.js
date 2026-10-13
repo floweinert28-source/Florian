@@ -1767,4 +1767,5 @@ I18N.add('pt', {
   "Noch kein Check": "Ainda sem check",
   "Keine Regeln": "Sem regras",
   "Monats-P&L": "P&L do mês",
+  "Im Monat": "Mensal",
 });

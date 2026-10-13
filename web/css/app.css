@@ -64,6 +64,9 @@
   --topbar-h: 72px;
   --page-head-h: 64px; /* Kopfreihe unter dem Titel samt Abstand (pageHead in app.js) */
   --gutter: 24px;
+  /* Abstandsraster (4-px-Stufen): Abstände nur über diese Werte */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --content-gap: var(--sp-6); /* zwischen Abschnitten einer Seite */ --grid-gap: var(--sp-4); /* zwischen Karten eines Rasters */ --pad-card: var(--sp-5); /* Innenabstand von Karten */
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
@@ -138,9 +141,9 @@ svg { display: block; }
    Textfarbe (passt sich hell/dunkel an). Bereiche, die ihren Balken verstecken (prop-tabs), behalten das */
 :root { --sb-thumb: color-mix(in srgb, var(--text) 16%, transparent); }
 html, * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb) transparent; }
-.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
 .row.between { justify-content: space-between; }
-.stack { display: flex; flex-direction: column; gap: 10px; }
+.stack { display: flex; flex-direction: column; gap: var(--sp-3); }
 .grow { flex: 1 1 auto; min-width: 0; }
 .right { text-align: right; }
 .center { text-align: center; }
@@ -241,7 +244,9 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .menu-btn svg path:nth-child(2) { transform-origin: 12px 12px; }
 .menu-btn svg path:nth-child(3) { transform-origin: 12px 17px; }
 .scrim { display: none; }
-.content { padding: 22px var(--gutter) 60px; display: flex; flex-direction: column; gap: 18px; }
+.content { padding: var(--sp-6) var(--gutter) 60px; display: flex; flex-direction: column; gap: var(--content-gap); }
+.content > .page-head { flex-shrink: 0; margin-bottom: calc(var(--sp-4) - var(--content-gap)); } /* Kopfreihe → Inhalt 16 px */
+.content:has(> .dash-top, > .dash-main) { --content-gap: var(--grid-gap); } /* Dashboard: Kacheln und Karten im 16-px-Raster */
 /* Konto-Karte unten in der Seitenleiste mit Menü nach oben */
 .sb-userwrap { margin-top: 10px; flex: 0 0 auto; }
 .sb-user { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px 9px 9px; border-radius: 14px; border: 1px solid var(--border-2); background: var(--surface); color: var(--text); cursor: pointer; text-align: left; font: inherit; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
@@ -311,7 +316,7 @@ textarea.input { min-height: 90px; resize: vertical; line-height: 1.5; }
 .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .field > label, .field > .lbl { font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted); }
 .field .hint { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--faint); }
-.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px 14px; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--sp-4); }
 .form-grid .span2 { grid-column: 1 / -1; }
 .check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: var(--fs-13); line-height: var(--lh-13); }
 .check input { accent-color: var(--text); width: 16px; height: 16px; }
@@ -496,12 +501,12 @@ button.dp-title:hover { background: var(--surface-2); }
 .dp-foot-r { display: flex; gap: 4px; }
 
 /* ---------- Karten ---------- */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; min-width: 0; transition: border-color var(--dur-2) var(--ease); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--pad-card); min-width: 0; transition: border-color var(--dur-2) var(--ease); }
 .card:hover { border-color: var(--border-2); }
 .card.tight { padding: 14px 16px; }
 .card.flush { padding: 0; overflow: hidden; }
 .card.fill { display: flex; flex-direction: column; }
-.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-4); }
 .card-title { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 600; font-size: 15px; }
 span.info { display: inline-flex; width: 14px; height: 14px; color: var(--faint); vertical-align: middle; flex: 0 0 auto; cursor: help; margin-left: 2px; }
 span.info svg { width: 100%; height: 100%; }
@@ -608,7 +613,7 @@ span.info:hover { color: var(--text-2); }
 .tbl th.sortable { cursor: pointer; user-select: none; }
 .tbl th.sortable:hover { color: var(--text); }
 .tbl th .dir { font-size: 10px; margin-left: 4px; color: var(--text-2); }
-.tbl td { padding: 12px 14px; border-bottom: 1px solid var(--border); white-space: nowrap; vertical-align: middle; }
+.tbl td { padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--border); white-space: nowrap; vertical-align: middle; }
 .tbl tbody tr:last-child td { border-bottom: 0; }
 .tbl tbody tr.link { cursor: pointer; }
 .tbl tbody tr.link:hover td { background: var(--surface-2); }
@@ -647,7 +652,7 @@ span.info:hover { color: var(--text-2); }
 
 /* ---------- Statistiken / Kennzahlen ---------- */
 .stat-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; min-width: 0; transition: border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
+.stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: var(--sp-4) var(--sp-5); min-width: 0; transition: border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease); }
 .stat-tile .k { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-2); }
 .stat-tile .k span.info { width: 13px; height: 13px; }
 .stat-tile .v { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-top: 8px; letter-spacing: -0.01em; }
@@ -673,7 +678,7 @@ span.info:hover { color: var(--text-2); }
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 .tabs button { padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-weight: 500; font-size: 13.5px; cursor: pointer; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .tabs button:hover { color: var(--text); }
-.banner { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 12px; border: 1px solid; font-size: var(--fs-13); line-height: var(--lh-13); }
+.banner { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-radius: 12px; border: 1px solid; font-size: var(--fs-13); line-height: var(--lh-13); }
 .banner svg { width: 18px; height: 18px; flex: 0 0 auto; margin-top: 1px; }
 .banner.warn { border-color: var(--warn); background: var(--warn-soft); color: var(--text); }
 .banner.warn svg { color: var(--warn); }
@@ -843,7 +848,8 @@ span.info:hover { color: var(--text-2); }
 .modal.wide { width: min(1080px, 100%); }
 .modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .modal-head h2 { font-size: 19px; }
-.modal-foot { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; padding-top: 6px; border-top: 1px solid var(--border); }
+.modal-foot { display: flex; justify-content: flex-end; gap: var(--sp-2); flex-wrap: wrap; padding-top: var(--sp-4); border-top: 1px solid var(--border); }
+.modal > form { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; } /* Formular-Dialoge: Kopf, Felder und Fuß im gleichen Abstand */
 .modal-foot .left { margin-right: auto; }
 /* Trade-Fenster (nur Trade-Daten, Ersatz für einen Broker-Sync) und Auswertung „Plan & Bewertung“ */
 .modal.tf-modal { width: min(680px, 100%); }
@@ -1793,7 +1799,7 @@ html.sb-mini .boot-sb .skel { width: 24px; }
   .dash-main, .dash-main.editing { grid-template-columns: 1fr; }
   .dash-main > .w, .dash-main > .skel, .dash-main > .w.tall, .dash-main.editing > .w, .dash-main.editing > .w.tall { grid-column: auto !important; grid-row: auto !important; height: auto; }
   .dash-main .w-body > .card { height: auto; }
-  .dash-main .w-body > .card.recent-card { flex: 0 0 auto; height: calc(280px + 74px); } /* so hoch wie eine Diagramm-Karte (Kopf + 280px-Diagramm + Innenabstand); flex-basis fest, sonst gilt height nicht; die Liste zeigt so viele Zeilen, wie hineinpassen */
+  .dash-main .w-body > .card.recent-card { flex: 0 0 auto; height: calc(280px + 79px); } /* so hoch wie eine Diagramm-Karte (Kopf + 280px-Diagramm + Innenabstand); flex-basis fest, sonst gilt height nicht; die Liste zeigt so viele Zeilen, wie hineinpassen */
   .dash-main > .add-slot.gap { grid-column: auto !important; grid-row: auto !important; height: 160px; }
   .dash-main .cal .d { min-height: 56px; }
   .dash-main .skel { height: 340px; }
@@ -1831,7 +1837,7 @@ html.sb-mini .boot-sb .skel { width: 24px; }
 .set-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
 .set-head h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
 .set-head p { margin-top: 4px; font-size: var(--fs-13); line-height: var(--lh-13); }
-.set-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+.set-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--pad-card); }
 .set-block h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
 /* Meine Designs: gespeicherte Pakete aus Erscheinungsbild, Schrift und Farben (höchstens 6) als kleine Karten mit Farbvorschau */
 .set-head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }

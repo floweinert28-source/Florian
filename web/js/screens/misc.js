@@ -15,6 +15,7 @@
   const switchRow = (title, text, action, on, extra = '') => `<div class="set-row"><button type="button" class="switch" role="switch" aria-checked="${!!on}" data-action="${action}" ${extra} aria-label="${esc(title)}"></button><div><b>${esc(title)}</b><div class="small muted">${text}</div></div></div>`;
 
   App.screens.settings = {
+    head: { range: false, account: false, session: false, trade: false }, /* Einstellungen: keine Kopfreihe, Zeitraum und Konto wirken hier nicht */
     title: 'Einstellungen',
     render(ctx) {
       const sec = SECTIONS.some(s => s && s[0] === ctx.params[0]) ? ctx.params[0] : 'profil';

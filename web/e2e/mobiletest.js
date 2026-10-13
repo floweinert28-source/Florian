@@ -69,7 +69,7 @@ const ROUTES = ['dashboard', 'trades', 'day', 'stats', 'notebook', 'progress', '
       return { ycal, week, rows, wrap, cardH, chartCardH, head, title }; });
     ok('Jahreskalender: wischbar ohne sichtbare Scroll-Leiste', dd.ycal.ox === 'auto' && dd.ycal.sbw === 'none', JSON.stringify(dd.ycal));
     ok('Kalender-Wochen: Kurzform sichtbar, Vollform versteckt', dd.week.p === 'none' && dd.week.pm === 'block' && /^[+−]/.test(dd.week.pmText) && dd.week.pmText.length <= 6, JSON.stringify(dd.week));
-    ok('Letzte Trades: Liste sichtbar, Karte so hoch wie die Diagramm-Karten (354px), nur passende Zeilen', dd.rows >= 3 && dd.rows <= 6 && dd.wrap > 60 && dd.cardH === 354 && Math.abs(dd.chartCardH - dd.cardH) <= 4, JSON.stringify({ rows: dd.rows, wrap: dd.wrap, cardH: dd.cardH, chartCardH: dd.chartCardH }));
+    ok('Letzte Trades: Liste sichtbar, Karte so hoch wie die Diagramm-Karten (359px), nur passende Zeilen', dd.rows >= 3 && dd.rows <= 6 && dd.wrap > 60 && dd.cardH === 359 && Math.abs(dd.chartCardH - dd.cardH) <= 4, JSON.stringify({ rows: dd.rows, wrap: dd.wrap, cardH: dd.cardH, chartCardH: dd.chartCardH }));
     ok('Kachel „Ø Gewinn/Verlust“: kurzer Titel in einer Zeile', dd.head > 0 && dd.head <= 24 && /Gewinn\/Verlust$/.test(dd.title), JSON.stringify({ head: dd.head, title: dd.title }));
     await p.click('[data-pop=tpl]'); await p.waitForTimeout(250);
     const tpl = await p.evaluate(() => { const r = document.getElementById('pop-tpl').getBoundingClientRect(); return { open: document.getElementById('pop-tpl').classList.contains('open'), right: Math.round(r.right), left: Math.round(r.left), w: innerWidth }; });

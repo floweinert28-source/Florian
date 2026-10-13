@@ -258,6 +258,7 @@
       const own = screen.actions ? screen.actions(ctx) : '';
       const left = `${h.range ? this.rangeControl() : ''}${h.account ? this.accountControl({ mobile: !h.range }) : ''}${ctx.headLeft || ''}${h.note ? `<span class="ph-note">${esc(h.note)}</span>` : ''}`;
       const right = `${own}${h.session ? this.sessionControl(true) : ''}${h.trade ? `${own || h.session ? '<span class="dh-sep" aria-hidden="true"></span>' : ''}${this.newTradeButton()}` : ''}`;
+      if (!left && !right) return ''; /* keine leere Kopfreihe (sie hielt rund 60 px Leerraum) */
       return `<div class="dash-head page-head${right ? '' : ' compact'}">${left ? `<div class="row dh-context">${left}</div>` : ''}${right ? `<div class="row dh-tools">${right}</div>` : ''}</div>`;
     },
     topbar(title, screen, ctx) {

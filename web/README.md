@@ -45,6 +45,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
   ↘ Short in Rot), bewusst ruhig: zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis ohne Leuchten (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
+- **Abstände** folgen einem 4-px-Raster (`--sp-1` … `--sp-10` in `:root`): Karten und Einstellungsblöcke 20 px innen, Kartenkopf 16 px über dem Inhalt, Abschnitte einer Seite 24 px, Raster (Dashboard) 16 px, nach der Kopfreihe 16 px, Tabellenzellen 12/16 px, Dialoge mit Formular 16 px zwischen Kopf, Feldern und Fuß. Eine Seite ohne Steuerelemente in der Kopfreihe zeigt keine leere Kopfreihe; die Einstellungen haben keine (Zeitraum und Konto wirken dort nicht).
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz. Das Beispielformat im Dialog
   (Symbol;Richtung;Eröffnung;Schluss;Einstieg;Ausstieg;…) wird richtig erkannt; Kennungsspalten („Order ID“, „_…“) werden nie

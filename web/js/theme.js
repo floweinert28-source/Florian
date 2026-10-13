@@ -1,7 +1,7 @@
 /* Farben: Akzent, Gewinn und Verlust frei wählbar; gilt für App und Startseite */
 (function (root) {
   'use strict';
-  const DEFAULTS = { dark: { accent: '#34f58a', profit: '#34f58a', loss: '#ff5c5c', be: '#8b7cf6' }, light: { accent: '#0fb862', profit: '#0fb862', loss: '#e03e3e', be: '#6b5bd6' } };
+  const DEFAULTS = { dark: { accent: '#34f58a', profit: '#34f58a', loss: '#ff5c5c', be: '#9a8cf8' }, light: { accent: '#077a41', profit: '#077a41', loss: '#c62e2e', be: '#5f4fcf' } };
   /* Schriftarten: „modern“ ist der Standard (Satoshi von Fontshare, Zahlen in Onest; beide geometrisch, gleiche Proportionen), „geschwungen“ die frühere
      Standardschrift (Quicksand, Zahlen in Onest), „klassisch“ SF Pro / Inter mit Roboto-Zahlen, „rund“ eine Schrift für Text und Zahlen.
      Satoshi steht unter der ITF Free Font License: Laden über die Fontshare-API (app.html), Schriftdateien liegen nicht im Repository */
@@ -23,7 +23,11 @@
   const shade = (h, f) => { const c = hex2rgb(h); return rgb2hex(c.map(v => f < 0 ? v * (1 + f) : v + (255 - v) * f)); };
   const rgba = (h, a) => { const [r, g, b] = hex2rgb(h); return `rgba(${r}, ${g}, ${b}, ${a})`; };
   const valid = h => typeof h === 'string' && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(h);
-  const forLight = h => { let x = h; let i = 0; while (lum(x) > 0.3 && i++ < 8) x = shade(x, -0.15); return x; };
+  /* helles Design: eigene Farben in 8-%-Schritten abdunkeln, bis Zahlen auf Weiß mindestens 4,5:1 erreichen (Luminanz ≤ 0,18) */
+  const forLight = h => { let x = h; let i = 0; while (lum(x) > 0.18 && i++ < 24) x = shade(x, -0.08); return x; };
+  const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  /* Schrift auf einer Farbfläche: Weiß oder Fast-Schwarz, je nachdem, was mehr Kontrast hat */
+  const inkFor = h => ratio(h, '#ffffff') >= ratio(h, '#04140a') ? '#ffffff' : '#04140a';
   /* Flächen aus einer Grundfarbe: dunkle Grundfarbe → hellere Stufen für Karten und Ränder; helle → Karten fast weiß, Ränder dunkler.
      Die Stufen folgen den festen Designs (Graphit bzw. Weiß), nur im Farbton der Grundfarbe. */
   const SURFACE_KEYS = ['--bg', '--bg-2', '--surface', '--surface-2', '--surface-3', '--border', '--border-2', '--field', '--ambient'];
@@ -42,13 +46,13 @@
     if (cs) { root.dataset.dark = 'eigen'; }
     for (const k of SURFACE_KEYS) set(k, cs ? cs[k] : null);
     const acc = valid(c.accent) ? (light ? forLight(c.accent) : c.accent) : null;
-    set('--accent', acc); set('--accent-2', acc && shade(acc, -0.14)); set('--accent-soft', acc && rgba(acc, 0.13)); set('--accent-glow', acc && rgba(acc, 0.3)); set('--accent-ink', acc && (lum(acc) > 0.4 ? '#04140a' : '#ffffff'));
+    set('--accent', acc); set('--accent-2', acc && shade(acc, -0.14)); set('--accent-soft', acc && rgba(acc, light ? 0.10 : 0.13)); set('--accent-glow', acc && rgba(acc, 0.3)); set('--accent-ink', acc && inkFor(acc));
     const p = valid(c.profit) ? (light ? forLight(c.profit) : c.profit) : null; const l = valid(c.loss) ? (light ? forLight(c.loss) : c.loss) : null;
-    set('--profit', p); set('--loss', l); set('--loss-soft', l && rgba(l, 0.14));
+    set('--profit', p); set('--loss', l); set('--loss-soft', l && rgba(l, light ? 0.10 : 0.14)); set('--profit-soft', p && rgba(p, light ? 0.10 : 0.12));
     const b = valid(c.be) ? (light ? forLight(c.be) : c.be) : null; set('--be', b); set('--be-soft', b && rgba(b, 0.16));
     const fk = fontKey(settings && settings.font); const f = FONTS[fk]; const own = fk !== DEFAULT_FONT; if (own) loadFont(fk); set('--font', own ? f.text : null); set('--font-display', own ? (f.display || f.text) : null); set('--font-num', own ? (f.num || f.text) : null); root.dataset.font = fk;
     const nb = (settings && settings.notebook) || {}; const px = v => v > 0 ? v + 'px' : null; set('--nb-h1', px(nb.h1)); set('--nb-h2', px(nb.h2)); set('--nb-h3', px(nb.h3)); set('--nb-body', px(nb.body)); root.classList.toggle('nb-nostrike', nb.strike === false);
   }
   function applyFromStorage(key) { try { const raw = localStorage.getItem(key || 'trading-journal-web-v1'); if (raw) apply(JSON.parse(raw).settings || {}); } catch (e) { /* ohne Speicher: Standardfarben */ } }
-  root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, FONTS, DEFAULT_FONT, fontKey, loadFont, apply, applyFromStorage, lum, shade, valid, surfaces, isLightBase };
+  root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, FONTS, DEFAULT_FONT, fontKey, loadFont, apply, applyFromStorage, lum, shade, valid, surfaces, isLightBase, forLight, inkFor };
 })(typeof self !== 'undefined' ? self : this);

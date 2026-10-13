@@ -74,6 +74,16 @@
   function centerTimes() {
     if (!el) return; const now = new Date();
     el.querySelectorAll('.dp-tcol').forEach(c => { const b = c.querySelector('.dp-t.sel') || c.querySelector(`.dp-t[data-v="${c.dataset.col === 'hour' ? now.getHours() : now.getMinutes()}"]`); if (b) c.scrollTop = b.offsetTop - (c.clientHeight - b.offsetHeight) / 2; });
+    edges();
+  }
+  /* Ausblendung nur, wo die Spalte weiterläuft: am Anfang oben keine, am Ende unten keine */
+  function edges(c) { (c ? [c] : el ? el.querySelectorAll('.dp-tcol') : []).forEach(x => { x.classList.toggle('at-top', x.scrollTop <= 1); x.classList.toggle('at-end', x.scrollTop + x.clientHeight >= x.scrollHeight - 1); }); }
+  /* gewählte Zeit ganz aus dem ausgeblendeten Rand holen */
+  function reveal(kind) {
+    const b = el && el.querySelector(`.dp-t.sel[data-dp="${kind}"]`); if (!b) return; const c = b.parentElement, pad = 16;
+    const top = b.offsetTop - c.scrollTop, bottom = top + b.offsetHeight;
+    const to = top < pad ? b.offsetTop - pad : bottom > c.clientHeight - pad ? b.offsetTop + b.offsetHeight - c.clientHeight + pad : null;
+    if (to != null) c.scrollTo({ top: Math.max(0, to), behavior: root.Motion && root.Motion.enabled === false ? 'auto' : 'smooth' });
   }
   function render() {
     if (!el || !input) return;
@@ -88,7 +98,7 @@
     const tm = isTM(); const tfoot = `<div class="dp-foot">${clear}<span class="dp-foot-r"><button type="button" class="dp-link" data-dp="today">Jetzt</button><button type="button" class="dp-link accent" data-dp="done">Fertig</button></span></div>`;
     el.innerHTML = tm ? timeHTML() + tfoot : dt ? `<div class="dp-body"><div class="dp-cal">${cal}</div>${timeHTML()}</div>${foot}` : cal + foot;
     el.classList.toggle('months', months && !tm); el.classList.toggle('dt', dt); el.classList.toggle('tm', tm);
-    el.querySelectorAll('.dp-tcol').forEach((c, i) => { if (keep[i] != null) c.scrollTop = keep[i]; }); /* Neuaufbau behält die Scrollstände der Uhrzeit-Spalten */
+    el.querySelectorAll('.dp-tcol').forEach((c, i) => { if (keep[i] != null) c.scrollTop = keep[i]; }); edges(); /* Neuaufbau behält die Scrollstände der Uhrzeit-Spalten */
     el.setAttribute('aria-label', tm ? 'Uhrzeit wählen' : monthField ? 'Monat wählen' : 'Datum wählen');
   }
   /* unter dem Feld, links bündig; reicht der Platz nach unten nicht, klappt der Kalender nach oben */
@@ -135,7 +145,7 @@
     else if (a === 'mode') { view.mode = view.mode === 'months' ? 'days' : 'months'; render(); place(); }
     else if (a === 'month') { const m = +b.dataset.m; if (input.type === 'month') commit(`${view.y}-${pad(m + 1)}-01`); else { view.m = m; view.mode = 'days'; focusKey = ''; render(); place(); } }
     else if (a === 'day') commit(b.dataset.k, isDT());
-    else if (a === 'hour' || a === 'min') setTime(a, +b.dataset.v);
+    else if (a === 'hour' || a === 'min') { setTime(a, +b.dataset.v); reveal(a); }
     else if (a === 'today') { if (isTM()) { const inp = input; close(); write(inp, nowHM()); refocus(inp); } else if (isDT()) { const inp = input; close(); write(inp, `${keyOf(new Date())}T${nowHM()}`); refocus(inp); } else commit(keyOf(new Date())); }
     else if (a === 'done') done();
     else if (a === 'clear') commit('');
@@ -173,6 +183,7 @@
     el = document.createElement('div'); el.className = 'popover dp'; el.id = 'pop-dp'; el.setAttribute('role', 'dialog');
     el.addEventListener('mousedown', e => e.preventDefault()); /* Fokus bleibt im Feld, Tippen geht weiter */
     el.addEventListener('click', onClick); el.addEventListener('keydown', onKey);
+    el.addEventListener('scroll', e => { if (e.target.classList && e.target.classList.contains('dp-tcol')) edges(e.target); }, true);
     document.body.appendChild(el);
   }
   function open(inp, keyboard) {

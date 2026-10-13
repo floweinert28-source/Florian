@@ -1,0 +1,436 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".mentor-setup",
+   "nrs": [
+    "abstaende-D8",
+    "abstaende-MENTOR",
+    "farbe-C21",
+    "wording-S15.4-15.5"
+   ],
+   "art": "konflikt",
+   "entscheidung": "mentor.js Z. 79 schreibt allein wording-S15.4-15.5 neu, und zwar so: `<div class=\"mentor-wrap\"><section class=\"card mentor-setup\"><span class=\"ico\">${I.chat}</span><h2>Mentor-Chat einrichten</h2><p class=\"muted\">Der Mentor läuft über deinen Journalyst-Server, damit der API-Schlüssel nie im Browser liegt. Trage unter Einstellungen → Server die Adresse und das Zugangstoken ein.</p><a class=\"btn\" href=\"#/settings/mentor\">Server einrichten</a></section></div>`. Die Zeile „Anleitung zum Server: server/README.md im Projekt.“ fällt ersatzlos weg, weil Pfade laut wording W11 nur unter Einstellungen → Server stehen. Damit entfallen auch der Klassenwechsel `small faint → small muted` aus farbe-C21 an dieser Zeile und der einzige Inline-Abstand in mentor.js (`style=\"margin-top:14px\"`), den abstaende-MENTOR ersetzen wollte. Der Knopf wird ein neutrales `.btn`, denn er navigiert nur, und Grün bleibt „Trade loggen“ vorbehalten. Das CSS der Karte aus abstaende-D8 (`padding: var(--sp-10) var(--sp-6)`, Symbol mittig) gilt unverändert. mentortest.js:22 (`.mentor-setup h2`, `.mentor-setup a[href=\"#/settings/mentor\"]`) bleibt grün.",
+   "anpassungen": [
+    {
+     "nr": "wording-S15.4-15.5",
+     "aktion": "aendern",
+     "anweisung": "Beim Umschreiben von mentor.js Z. 79 zusätzlich `class=\"btn primary\"` → `class=\"btn\"` setzen (übernommen aus farbe-C21). Text, Knopfbeschriftung „Server einrichten“ und das Streichen der Anleitungszeile wie spezifiziert."
+    },
+    {
+     "nr": "farbe-C21",
+     "aktion": "aendern",
+     "anweisung": "Z. 79 nicht selbst bearbeiten. Die Zeile „Anleitung zum Server“ streicht wording-S15.4-15.5 ersatzlos und setzt dabei auch die Knopfklasse `btn`. Z. 84 bleibt laut Spezifikation ohnehin. Z. 85 regelt der Anker .mentor-note. Von C21 bleibt damit keine eigene Änderung übrig, nur das Ergebnis prüfen."
+    },
+    {
+     "nr": "abstaende-MENTOR",
+     "aktion": "entfaellt",
+     "anweisung": "Der einzige Inline-Abstand in mentor.js (`style=\"margin-top:14px\"` an der Anleitungszeile) verschwindet mit der Zeile (wording-S15.4-15.5). Breiten (C12) und Symbol (D8) laufen in ihren eigenen Schritten. Die Inline-Größen der Skelett-Blasen (Z. 83, width/height) sind keine Abstände und bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".mentor-setup .ico svg",
+   "nrs": [
+    "abstaende-D8",
+    "farbe-C6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.mentor-setup .ico, .coach-join-head .ico { display: flex; justify-content: center; } .mentor-setup .ico svg { width: 34px; height: 34px; color: var(--faint); }` (abstaende-D8). Begründung: Die Einrichtungskarte weist auf eine noch nicht eingerichtete Funktion hin. Sie ist damit dieselbe Bauart wie ein Leerzustand (Symbol 34 px --faint, siehe zustaende Z1 und komponenten LEER). farbe erlaubt --faint ausdrücklich für leere oder inaktive Symbole. Das Ziel von farbe-C6, kein Grün am Symbol, ist damit ebenfalls erfüllt.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C6",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt zu Z. 2341 (`.mentor-setup .ico svg` → --text-2) streichen. Größe 34 px und Farbe --faint setzt abstaende-D8. Z. 2350 (.msg.user) und Z. 2356 (.msg.typing i → --muted) unverändert umsetzen."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".coach-join-head .ico svg",
+   "nrs": [
+    "abstaende-D8",
+    "farbe-C9"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.coach-join-head .ico svg { width: 34px; height: 34px; color: var(--faint); }`, dazu die gemeinsame Zentrierregel aus abstaende-D8. Einrichtungs- und Beitrittskarten bekommen eine einheitliche Bauart: Symbol 34 px, --faint, mittig, wie im Mentor-Setup und in den Leerzuständen. Kein Grün, damit ist auch das Ziel von farbe-C9 erfüllt.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C9",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt zu Z. 2893 (`.coach-join-head .ico svg` → --text-2) streichen, das setzt abstaende-D8. Den Punkt zu Z. 2904 ebenfalls streichen (siehe Anker .coach-radio input). Die Punkte zu Z. 2861, 2871, 2898, 2903 und 2917 bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".mentor-note",
+   "nrs": [
+    "farbe-C21",
+    "kilook-B3",
+    "komponenten-C31",
+    "komponenten-S-mentor-a"
+   ],
+   "art": "konflikt",
+   "entscheidung": ".mentor-note steht künftig nur noch für die Coach-Notiz. Der KI-Hinweis im Mentor-Chat wird zu `.mentor-disclaimer`: mentor.js Z. 85 `<div class=\"mentor-disclaimer small\">…</div>` (komponenten-S-mentor-a) und app.css Z. 2363 `.mentor-disclaimer { padding: 0 18px 12px; color: var(--muted); }` (komponenten-C31). Dazu kommen `.mentor` → `.mentor-chat` in Z. 2344/2364 und `card mentor` → `card mentor-chat` in Z. 81. Damit ist das Ziel von farbe-C21 (Hinweis in --muted statt --faint) erreicht, ohne Klasse `muted`. kilook-B3 läuft unverändert: Selektor `.mentor-notes > .mentor-note`, Fläche --surface-2, Rand --border, ::before gelöscht. Heute bekommt der KI-Hinweis wegen der gleichen Klasse die gelbe Notizfläche samt Streifen, weil Z. 2884/2885 nach Z. 2363 stehen. Beide Schritte beheben das, die Reihenfolge ist egal. coachtest.js:84/153 (`.coach-entry … .mentor-note`) bleibt gültig.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C21",
+     "aktion": "aendern",
+     "anweisung": "Z. 85 nicht selbst ändern. komponenten-S-mentor-a setzt `class=\"mentor-disclaimer small\"`, und die Farbe --muted kommt aus `.mentor-disclaimer` (komponenten-C31)."
+    },
+    {
+     "nr": "kilook-B3",
+     "aktion": "aendern",
+     "anweisung": "Den letzten Punkt („2363 `.mentor-note { padding: 0 18px 12px; }` unverändert“) streichen: komponenten-C31 benennt diese Regel in `.mentor-disclaimer` um. Alle anderen Punkte wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".coach-radio input",
+   "nrs": [
+    "farbe-C9",
+    "komponenten-C17a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Das Ergebnis lautet `.coach-radio input { margin-top: 3px; accent-color: var(--text); }`. Gesetzt wird das von komponenten-C17a, das alle nativen Häkchen und Optionsfelder in einem Zug neutral stellt.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C9",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt zu Z. 2904 (`accent-color: var(--text)`) streichen, das übernimmt komponenten-C17a."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-assign-row input",
+   "nrs": [
+    "farbe-C8a",
+    "komponenten-C17a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Das Ergebnis lautet `.prop-assign-row input { accent-color: var(--text); width: 16px; height: 16px; }` (Z. 2731). Beide Schritte meinen dieselbe Änderung, komponenten-C17a übernimmt sie als Teil der gemeinsamen Häkchen-Regel.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C8a",
+     "aktion": "zusammen_mit",
+     "anweisung": "Identische Änderung. Sie wird in komponenten-C17a umgesetzt.",
+     "ziel_nr": "komponenten-C17a"
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".ql-editor li[data-list=checked] > .ql-ui",
+   "nrs": [
+    "farbe-C1d",
+    "komponenten-C17a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Z. 1143 ist eine gemeinsame Regel für checked und unchecked und wird `.ql-editor li[data-list=checked] > .ql-ui, .ql-editor li[data-list=unchecked] > .ql-ui { color: var(--text-2); }`. Das setzt komponenten-C17a. Der Wert ist in beiden Schritten gleich.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C1d",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt zu Z. 1143 (`.ql-ui` → --text-2) streichen, das übernimmt komponenten-C17a. Platzhalter, Zitat, Code, Links (.ql-editor a, .nb-tweet a) und Tooltip-Links wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".ql-editor li[data-list=unchecked] > .ql-ui",
+   "nrs": [
+    "farbe-C1d",
+    "komponenten-C17a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Es ist dieselbe Regel (Z. 1143) wie beim Anker `.ql-editor li[data-list=checked] > .ql-ui`: `color: var(--text-2)`, gesetzt von komponenten-C17a.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C1d",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt zu Z. 1143 streichen, das übernimmt komponenten-C17a (dieselbe Anweisung wie beim checked-Anker, nur einmal ausführen)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".activity i.today",
+   "nrs": [
+    "diagramme-A5",
+    "farbe-B23a",
+    "komponenten-C26b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.activity i.today { box-shadow: 0 0 0 2px var(--text-2); }`. Begründung: Die Farbregel „Raster 0 0 0 2px var(--text-2)“ und diagramme A-8 nennen beide 2 px. Ganze Pixel zeichnen auf 1×-Bildschirmen scharf, 1,5 px wird verwaschen. Der Ring hebt sich außerdem klar vom 1-px-Hover-Umriss ab (bewegung). Für die Einheitlichkeit der Raster gilt dieselbe Breite auch für .tracker i.today und .ym-grid i.today (diese Anker regelt konflikt-4). diagramme-A5 und farbe-B23a schreiben in Z. 1292 denselben Wert: Wer zuerst läuft, setzt ihn, der andere findet ihn schon vor. Die Heatmap-Stufen sind nicht Teil dieses Ankers (konflikt-5).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C26b",
+     "aktion": "aendern",
+     "anweisung": "In Z. 1292 (.activity i.today), 1672 (.tracker i.today) und 1771 (.ym-grid i.today) `box-shadow: 0 0 0 2px var(--text-2)` statt `1.5px` setzen. Den Teil `.ycal-head span` laut Anker .ycal-head span umsetzen (mit Tokens)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cal .wd",
+   "nrs": [
+    "aufbau-A4g",
+    "komponenten-C26a",
+    "typografie-3.2.3f"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.cal .wd { text-align: center; padding: 4px 4px 6px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); border: 0; background: none; }`. Z. 704 und Z. 1757 (`.cal .wd.wk`) werden gelöscht. Die Wochentage werden zur Beschriftung ohne Kasten (komponenten-C26a, ki_look-11). Der Kasten ist reine Zierde und konkurriert mit den Tageskacheln, was „Nichts Dekoratives“ widerspricht. Das „Kasten bleibt“ in aufbau ist nicht begründet, und das README legt nichts fest. Größe 12, Gewicht 500 und Farbe --muted sind in allen drei Schritten gleich, die Größe steht als Token. Wenn typografie-3.2.3f Z. 703 vorher tokenisiert, schreibt C26a die Regel mit denselben Tokens neu.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4g",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt zu Z. 703 (.cal .wd) streichen, die Regel schreibt komponenten-C26a. Z. 708 (.cal .d .n) regelt konflikt-14, Z. 1685 der Anker .ycal-head span."
+    },
+    {
+     "nr": "komponenten-C26a",
+     "aktion": "aendern",
+     "anweisung": "In der neuen Regel für Z. 703 `font-size: var(--fs-12); line-height: var(--lh-12);` statt `font-size: 12px` schreiben. Den Rest wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C26a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".ycal-head span",
+   "nrs": [
+    "aufbau-A4g",
+    "komponenten-C26b",
+    "typografie-3.2.3f"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.ycal-head span { text-align: center; padding: 0 2px 6px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 500; color: var(--muted); border: 0; }`. Der Kopf des Jahreskalenders wird wie der Monatskalender eine Beschriftung ohne Kasten (gleiche Begründung wie beim Anker .cal .wd). Größe, Gewicht und Farbe stimmen in allen drei Schritten überein.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4g",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt zu Z. 1685 (.ycal-head span) streichen, die Regel schreibt komponenten-C26b."
+    },
+    {
+     "nr": "komponenten-C26b",
+     "aktion": "aendern",
+     "anweisung": "In der neuen Regel für Z. 1685 `font-size: var(--fs-12); line-height: var(--lh-12);` statt `font-size: 12px` schreiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C26b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cpn-link",
+   "nrs": [
+    "komponenten-C33b",
+    "komponenten-S-coupons",
+    "typografie-3.2.3f"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.cpn-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: var(--sp-1); font-size: var(--fs-12); line-height: var(--lh-12); color: var(--text-2); text-decoration: none; transition: color var(--dur-2) var(--ease); }`. Z. 2658/2659 bleiben. Begründung: 12,5 px ist laut typografie verboten, und der Fußlink ist Hilfstext der Stufe 12. Für das Polster gilt die Skala (abstaende: Abstände nur als var(--sp-n)). Zusammen mit `.cpn { gap: var(--sp-1) }` (abstaende-B28) bleibt der Mindestabstand zur Notiz bei etwa 8 px, wie heute (5 + 4). Die transition bleibt so, wie sie in der Datei steht.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C33b",
+     "aktion": "aendern",
+     "anweisung": "Z. 2657 wie oben schreiben: `font-size: var(--fs-12); line-height: var(--lh-12)` statt `12.5px` und `padding-top: var(--sp-1)` statt `6px`. Die transition nicht anfassen."
+    },
+    {
+     "nr": "komponenten-S-coupons",
+     "aktion": "zusammen_mit",
+     "anweisung": "Nur eine Prüfung, das Markup bleibt. Wird mit C33b erledigt; coupontest.js:14 (`.cpn-link[target=_blank][rel=noopener]`) muss grün bleiben.",
+     "ziel_nr": "komponenten-C33b"
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C33b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fw-lbl",
+   "nrs": [
+    "aufbau-A3c",
+    "typografie-3.2.3f"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.fw-lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }`. Begründung: .fw-lbl („Richtig eingeschätzt“, widgets.js:348) steht direkt über dem großen Wert .fw-big. Das ist die Rolle „Wert-Beschriftung 13/500 --text-2“ aus typografie 1.5 (verbindlich) und deckt sich mit .val-label. Die 12er-Liste in 3.2.3f ordnet .fw-lbl nur mechanisch ein.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3f",
+     "aktion": "aendern",
+     "anweisung": "`1463 .fw-lbl` aus der Liste „12.5 → 12“ streichen. aufbau-A3c schreibt die Regel mit --fs-13."
+    },
+    {
+     "nr": "aufbau-A3c",
+     "aktion": "aendern",
+     "anweisung": "Z. 1463 mit Tokens schreiben: `.fw-lbl { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); font-weight: 500; }`. Die übrigen Punkte wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "aufbau-A3c"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-l",
+   "nrs": [
+    "komponenten-C05",
+    "typografie-3.2.3f"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Das Ergebnis lautet `.fd-l { display: flex; align-items: baseline; gap: 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted); }`. Größe und Zeilenhöhe setzt typografie-3.2.3f (12.5 → var(--fs-12), 1.3 → var(--lh-12)), die Farbe setzt komponenten-C05. So überschreibt kein wörtliches `12px` das Token.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C05",
+     "aktion": "aendern",
+     "anweisung": "In Z. 1381 nur `color: var(--text-2)` → `color: var(--muted)` ändern, 600 bleibt. font-size nicht als `12px` schreiben, das Token kommt aus typografie-3.2.3f. Die Punkte zu Z. 1360, 1964 und 2723 berührt dieser Anker nicht (konflikt-7)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-pop .fd-gh",
+   "nrs": [
+    "aufbau-A4f",
+    "typografie-3.2.3l"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Gruppenköpfe im Filter-Fenster („Trade“, „Zeit“ …) werden Eyebrows, wie `.popover .sec` in allen anderen Menüen (aufbau K11). Einheitlich heißt hier: `.fd-pop .fd-gh` kommt in die Eyebrow-Sammelregel von typografie-3.2.2b (var(--fs-11)/var(--lh-11), 600, Versal, .06em, 'case', --muted). Die Einzelregel Z. 1355 wird `.fd-pop .fd-gh { padding: 10px 2px 6px; font-family: var(--font); }`, Pfeil und Zähler bleiben. Die Sammelregel steht zwar früher in der Datei (Z. 101), gewinnt aber mit der Spezifität (0,2,0) gegen die Grundregel `.fd-gh` (Z. 1374, 15/600 --text). Nicht auf 13 px tokenisieren.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4f",
+     "aktion": "aendern",
+     "anweisung": "Z. 1355 → `.fd-pop .fd-gh { padding: 10px 2px 6px; font-family: var(--font); }` und `.fd-pop .fd-gh` an die Selektorliste der Eyebrow-Sammelregel anhängen (typografie-3.2.2b, Z. 101). font-size, font-weight, text-transform, letter-spacing und color nicht einzeln setzen. Die übrigen Punkte (.popover .sec, .fd-pop .fd-l, Gewichte der Filter-Steuerelemente) berührt dieser Anker nicht."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 1355 (`.fd-pop .fd-gh`) aus der Liste der 13-px-Regeln streichen, sie wird Eyebrow (Sammelregel 11 px)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.2b",
+     "nach": "aufbau-A4f"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nw-dh",
+   "nrs": [
+    "aufbau-A4d",
+    "typografie-3.2.3l"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.nw-dh { …; font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 600; … }`. Der Rest der Regel bleibt. Begründung: Der News-Tageskopf ist ein Listen-Titel (14/600). Die Zeilen darunter (.nw-row) gehen laut typografie 3.2.3m auf 14, und eine Überschrift ist nie kleiner als ihr Inhalt (aufbau, Grundsatz 4).",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4d",
+     "aktion": "aendern",
+     "anweisung": "Z. 3084 mit Tokens schreiben: `font-size: var(--fs-14); line-height: var(--lh-14);` statt `14px`."
+    },
+    {
+     "nr": "typografie-3.2.3l",
+     "aktion": "aendern",
+     "anweisung": "Z. 3084 (`.nw-dh`) aus der Liste der 13-px-Regeln streichen. aufbau-A4d setzt --fs-14."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "aufbau-A4d"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cpn-off",
+   "nrs": [
+    "aufbau-C5b",
+    "typografie-3.2.3l"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Ergebnis lautet `.cpn-off { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); }`. Begründung: 13,5 px ist laut typografie verboten, und die Rabattzeile hat die Rolle „Beschreibung“ (13). Die gewünschte Hervorhebung leistet die Farbe --text-2 statt --muted.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C5b",
+     "aktion": "aendern",
+     "anweisung": "In Z. 2648 nur `color: var(--muted)` → `color: var(--text-2)` ändern. Die Schriftgröße bleibt 13, typografie-3.2.3l stellt sie auf var(--fs-13)/var(--lh-13). Den Punkt zu .cpn-code (Z. 2649) regelt konflikt-1."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".seg button",
+   "nrs": [
+    "komponenten-C14a",
+    "typografie-3.2.3l"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide wollen 13 px für die Segmenttasten. komponenten-C14a ersetzt Z. 318 vollständig und schreibt die Größe gleich als Token: `.seg button { height: 34px; padding: 0 14px; border-radius: 9px; border: 1px solid transparent; background: none; color: var(--text-2); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); white-space: nowrap; cursor: pointer; transition: …wie spezifiziert… }`. Tokenisiert typografie-3.2.3l Z. 318 vorher, ist das Ergebnis dasselbe.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C14a",
+     "aktion": "aendern",
+     "anweisung": "In der neuen Regel `.seg button` `font-size: var(--fs-13); line-height: var(--lh-13);` statt `font-size: 13px` schreiben. Den Rest wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C14a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  ".mentor-note .mn-head",
+  ".mentor-note .mn-head b",
+  ".mentor-notes.in-note",
+  ".coach-yes svg",
+  ".msg.typing i",
+  ".card-sub",
+  ".fd-pop .fd-pair .fd-unit",
+  ".fd-pop .fd-pair .input",
+  ".pair-card .pv i",
+  ".rep-sel",
+  ".fd-opts .item",
+  ".rep-foot .rep-reset",
+  ".banner",
+  ".rr-day",
+  ".mr-write textarea",
+  ".ld .ld-line"
+ ]
+}

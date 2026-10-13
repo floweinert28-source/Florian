@@ -1,0 +1,221 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "U.confirmModal",
+   "nrs": [
+    "barrierefreiheit-U3a",
+    "barrierefreiheit-U3b",
+    "zustaende-S-A5",
+    "zustaende-S-T5",
+    "zustaende-S-M3",
+    "zustaende-S-M4",
+    "zustaende-S-RP1",
+    "barrierefreiheit-P4"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die Schnittstelle bleibt gleich: confirmModal(title, text, {ok, danger}) gibt ein Promise<boolean> zurück. U3a baut nur das Dialog-Gerüst um, U3b ergänzt data-autofocus (bei danger auf „Abbrechen“, sonst auf der Bestätigung). Alle fünf Aufrufe aus zustaende passen damit zusammen: Titel enden auf „?“, OK-Knopf „Löschen“/„Verwerfen“ mit danger (Z8). Es gibt eine echte Abhängigkeit: S-A5 öffnet die Rückfrage ÜBER dem Check-in-Dialog. Ohne P4 löst „Abbrechen“ bzw. × der Rückfrage zuerst den eigenen Listener aus (closeModal, Motion.leave lässt den Knopf noch im DOM). Danach greift der globale [data-close]-Handler (app.js:280) und schließt zusätzlich den Check-in-Dialog. Deshalb kommt P4 vor S-A5. S-A5 schließt nach „Löschen“ den Check-in-Dialog weiter direkt mit U.closeModal() und nicht über requestClose. So löst der guard aus P14b keine zweite Rückfrage „Änderungen verwerfen?“ aus. Der Fokus nach dem Schließen passt: In S-RP1 setzt .then(go) den Fokus als Microtask, bevor restoreAfterModal per setTimeout(0) läuft. restoreAfterModal sieht den gesetzten Fokus und tut nichts.",
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-P4",
+     "nach": "zustaende-S-A5"
+    },
+    {
+     "vor": "barrierefreiheit-U3a",
+     "nach": "barrierefreiheit-U3b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".kstrip .tile:hover",
+   "nrs": [
+    "bewegung-B5",
+    "zustaende-S-C5",
+    "komponenten-C25c",
+    "komponenten-C25a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Karten und Kacheln haben keinen Hover-Zustand mehr. In app.css werden ersatzlos gelöscht: Z. 486 `.card:hover`, Z. 516 `.tile:hover, .stat-tile:hover`, Z. 2603 `.kstrip .tile:hover`. Die `transition`-Deklaration an `.card` (Z. 485), `.tile` (Z. 515) und `.stat-tile` (Z. 636) fällt ganz weg, weil dort kein Zustand mehr Rand, Schatten oder Lage ändert (kilook Z11: keine wirkungslosen Deklarationen; bewegung D3). Erhalten bleiben: (i) erscheint beim Darüberfahren und bei :focus-within (Z. 496–498, BRIEF „Info-Symbole nur beim Darüberfahren“); `.cal .d:hover` nach bewegung-C1, weil Kalendertage klickbar sind; das Token `--lift-shadow` (landing.css:56). Grund: Der BRIEF verlangt „ruhig, nichts Dekoratives“, und Hover-Rückmeldung gehört nur an Bedienbares. bewegung K1/H3 sieht genau diesen Fall selbst vor: Streicht zustaende `.card:hover`, folgen die Kacheln. S-C5 streicht es. Test motiontest.js:52–53: Beim Überfahren bleiben transform none und border-color unverändert. bewegung-3.11a und zustaende-S-TE3 sind dieselbe Änderung und werden einmal umgesetzt. Die Entscheidung zu `.tile:hover`/`.stat-tile:hover` in konflikt-14 muss hiermit übereinstimmen.",
+   "anpassungen": [
+    {
+     "nr": "bewegung-B5",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-C5",
+     "anweisung": "B5 fällt als eigener Schritt weg. Es gibt keine Regel `.tile:hover, .stat-tile:hover { border-color: var(--border-2) }`. Das Löschen von Z. 516 und 2603 und das Streichen der Übergänge übernimmt S-C5."
+    },
+    {
+     "nr": "zustaende-S-C5",
+     "aktion": "aendern",
+     "anweisung": "Z. 485 (.card), Z. 515 (.tile) und Z. 636 (.stat-tile): die transition-Deklaration ganz entfernen, statt sie auf `border-color var(--dur-1) var(--ease)` zu setzen. Die Löschungen Z. 486, 516 und 2603 bleiben wie spezifiziert, ebenso das padding aus abstaende-B1 in Z. 485."
+    },
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Die Teile zu Z. 515 (transition kürzen) und Z. 516 (`.tile:hover, .stat-tile:hover { border-color: var(--border-2); }`) entfallen. Z. 636 `.stat-tile` bekommt keine transition. Maße, Schrift und der helle Schatten für .stat-tile (Z. 1499) bleiben."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ":root[data-theme=\"light\"] .kstrip .tile",
+   "nrs": [
+    "farbe-B24",
+    "komponenten-C25c"
+   ],
+   "art": "doppelt",
+   "entscheidung": "farbe-B24 übernimmt und legt an der Stelle der gelöschten Z. 2603 an: `:root[data-theme=\"light\"] .kstrip .tile { box-shadow: -1px 0 0 var(--border), 0 -1px 0 var(--border); }` und `:root[data-theme=\"light\"] .grid.tiles.kstrip { box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 6px 18px rgba(20, 30, 24, .06); }`. Ein `:hover`-Selektor ist nicht nötig. Die Spezifität 0,4,0 schlägt die helle Kachel-Regel Z. 1499 (0,3,0) und jede Hover-Regel, und Kacheln haben ohnehin keinen Hover mehr. Grund: Die Leiste ist selbst eine Karte (Fläche, Rand, Radius) und bekommt im hellen Design denselben weichen Schatten wie .card. Innen gibt es nur Haarlinien (Ziel von farbe HELL und komponenten).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C25c",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "farbe-B24",
+     "anweisung": "Die Regel aus Z. 407 legt farbe-B24 an, ohne den Selektor `:root[data-theme=\"light\"] .kstrip .tile:hover`. Die Hinweise aus Z. 408–409 gelten weiter: --lift-shadow bleibt, und .stat-tile übernimmt die .tile-Werte aus Typografie und Abstände."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".chart svg.enter rect.br",
+   "nrs": [
+    "bewegung-B6",
+    "diagramme-A3"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Beide Schritte ändern dieselben Zeilen (app.css Z. 108/109) und ergänzen sich, wie in diagramme K20 abgestimmt: Selektoren aus diagramme, Zeiten aus bewegung. Ergebnis: `.chart svg.enter .br { transform-box: fill-box; transform-origin: 50% 100%; animation: ch-grow var(--dur-3) var(--ease) var(--bd, 0ms) both; }`, `.chart svg.enter .br.dn { transform-origin: 50% 0; }` und neu `.chart svg.enter text.bv { animation: ch-fade var(--dur-2) var(--ease) var(--dur-3) both; }`. Erst B6, dann A3. A3 nur zusammen mit diagramme-C6 umsetzen, sonst bekommen Pfad-Balken in enterAnim zusätzlich `.ar`, und `path.ar` (0,3,2) schlägt `.br` (0,3,1).",
+   "reihenfolge": [
+    {
+     "vor": "bewegung-B6",
+     "nach": "diagramme-A3"
+    }
+   ],
+   "anpassungen": [
+    {
+     "nr": "diagramme-A3",
+     "aktion": "aendern",
+     "anweisung": "Der Rückfall in Z. 303 (`ch-fade .45s ease .55s both`) entfällt, weil B6 umgesetzt wird. In Z. 108/109 nur die Selektoren ändern. Die Tests headtest.js:48, :49 und :53 stellen alle von `rect.br` auf `.br` um; diagramme O4 nennt nur :48."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".chart svg.enter path.ar",
+   "nrs": [
+    "bewegung-B6",
+    "diagramme-A3"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Den Wert setzt bewegung-B6: `animation: ch-fade var(--dur-3) var(--ease) calc(var(--dur-4) - var(--dur-3)) both;`. Die Fläche läuft von 260 bis 640 ms und endet mit der Linie. Der Rückfall `.45s ease .55s` aus diagramme-A3 (Z. 303) entfällt, siehe die Anpassung beim Anker .chart svg.enter rect.br.",
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".chart svg.enter polygon.ar",
+   "nrs": [
+    "bewegung-B6",
+    "diagramme-A3"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie path.ar: bewegung-B6 setzt `animation: ch-fade var(--dur-3) var(--ease) calc(var(--dur-4) - var(--dur-3)) both;`. Der Rückfall aus diagramme-A3 entfällt (Anpassung beim Anker .chart svg.enter rect.br).",
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".topbar h1",
+   "nrs": [
+    "typografie-3.2.3t",
+    "typografie-3.2.3y",
+    "aufbau-D3d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.topbar h1` am Desktop: `font-size: var(--fs-21); line-height: var(--lh-21); font-weight: 600` (typografie-3.2.3y). Bei ≤960 px: `font-size: var(--fs-18); line-height: var(--lh-18)` statt 17 px (typografie-3.2.3t). nowrap, Ellipse und flex aus Z. 925 bleiben. Überholt sind damit „bis 960 px: 17px, unverändert“ (aufbau.md Z. 72) und „.topbar h1 17 px bleibt“ (responsiv K12). Beides steht nur in den Doku-Tabellen, kein Schritt setzt dort eine Größe. Kein Test prüft die Größe. Grund: 17 px steht auf der Verbotsliste der Skala. h1 am Handy liegt auf der h2-Stufe 18/600, wie Dialog- und Bereichstitel. aufbau-D3d misst nur die vertikale Mitte von .topbar h1 und hängt nicht von der Größe ab; zur Wartefrage siehe den nächsten Eintrag.",
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".topbar h1",
+   "nrs": [
+    "aufbau-D3d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aufbau-D3d (headtest.js:11 und sixtest.js:11 ohne Avatar-Bezug) setzt aufbau-B3 voraus: Avatar ab 961 px ausblenden. Genau diesen Punkt führt komponenten als offene Nutzerfrage hierarchie-47 (N4, Empfehlung „behalten“; README Z. 62 richtet Zeitraum, Konto und Filter am Avatar aus). Der BRIEF legt ihn nicht fest. Deshalb warten D3d und der Ausblende-Teil von B3. Bei „behalten“: D3d entfällt, headtest/sixtest:11 bleiben, aus B3 wird nur userName() mit gleichen Initialen umgesetzt. Bei „weg“: D3d wie spezifiziert, zusammen mit B3.",
+   "wartet_auf_frage": "komponenten: hierarchie-47 (N4 – Profilbild oben rechts am PC wegfallen lassen?)"
+  },
+  {
+   "anker": ".ce-title",
+   "nrs": [
+    "aufbau-A4c",
+    "typografie-3.2.3t"
+   ],
+   "art": "konflikt",
+   "entscheidung": ".ce-title wird 18/600 (typografie-3.2.3t: var(--fs-18)/var(--lh-18)), der Eintragstext .ce-body 14 px (typografie 14.5 → 14). Die Editor-Überschriften im Coach-Eintrag kommen nur aus der Skala: h1 var(--fs-15), h2 und h3 var(--fs-14), alle 600 in --text. Abstand var(--sp-2) davor und var(--sp-1) danach, die erste Überschrift ohne Abstand oben. Die Zeilenhöhe 1.25 kommt aus der Editor-Regel der Typografie (kein --lh-N). Grund: 16 px liegt nicht in der Skala, 14.5 px ist verboten. Die Überschriften bleiben trotzdem kleiner als der Eintragstitel (aufbau Grundsatz 4). Der Abstand entspricht der Tagesnotiz-Vorschau .nv-h (8 px davor, zustaende-S-C18). Die Regeln stehen nach Z. 2876, also hinter zustaende-S-C17 (`.ql-snow .ql-editor h1–h3`, gleiche Spezifität 0,2,1, .ce-body trägt ql-snow), und gewinnen dadurch.",
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "aufbau-A4c"
+    },
+    {
+     "vor": "abstaende-A1",
+     "nach": "aufbau-A4c"
+    }
+   ],
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4c",
+     "aktion": "aendern",
+     "anweisung": "Statt 16/15/14.5 px nach Z. 2876 einfügen: `.ce-body .ql-editor h1 { font-size: var(--fs-15); } .ce-body .ql-editor h2, .ce-body .ql-editor h3 { font-size: var(--fs-14); } .ce-body .ql-editor :is(h1, h2, h3) { margin: var(--sp-2) 0 var(--sp-1); font-weight: 600; color: var(--text); } .ce-body .ql-editor > :is(h1, h2, h3):first-child { margin-top: 0; }`. Keine eigene line-height."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "coach.journal",
+   "nrs": [
+    "aufbau-C4b",
+    "aufbau-C4c",
+    "farbe-C17b"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die Schritte ergänzen sich, ändern aber dieselben Ausdrücke in journal() (Z. 155 und 157). Ergebnis: Vor body steht `const allNew = !!j && j.entries.length > 1 && j.entries.every(e => e.is_new);`. Der body-Zweig wird zu `j.entries.slice(0, s.jlimit).map(e => entryHTML(e, j.notes, gid, sid, myId, allNew)).join('') + (j.entries.length > s.jlimit ? '<div class=\"aff-more\"><button type=\"button\" class=\"btn sm ghost\" data-action=\"coach-more\">Mehr anzeigen</button></div>' : '')`. Der Kopf wird zu `<div class=\"row\">${back(…, 'Gruppe')}<div><h2 class=\"coach-title no-i18n\">${esc(name)}</h2>${j ? `<div class=\"small muted\"><span>${esc(sinceText(j.student))}</span>${j.entries.length ? `<span> · </span><span>${allNew ? `${j.entries.length} neue Einträge` : U.count(j.entries.length, 'Eintrag', 'Einträge')}</span>` : ''}</div>` : ''}</div></div>`. Der Kopf zählt alle Einträge, allNew bezieht sich auf alle. Grund für U.count: wording W9/K32 („Zähler nur über U.count“).",
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C4c",
+     "nach": "farbe-C17b"
+    },
+    {
+     "vor": "aufbau-C4a",
+     "nach": "aufbau-C4b"
+    },
+    {
+     "vor": "wording-S1.1-1.3",
+     "nach": "farbe-C17b"
+    }
+   ],
+   "anpassungen": [
+    {
+     "nr": "farbe-C17b",
+     "aktion": "aendern",
+     "anweisung": "Z. 157: Den neuen Zählertext in das `<div class=\"small muted\">` aus aufbau-C4c setzen (nicht mehr in das span). Statt der Verzweigung `=== 1 ? '1 Eintrag' : …` schreiben: `allNew ? `${j.entries.length} neue Einträge` : U.count(j.entries.length, 'Eintrag', 'Einträge')`. allNew an den aus C4b gekürzten map-Aufruf übergeben."
+    }
+   ],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  "U.closeModal",
+  ".modal",
+  "U.modal",
+  ".modal-bg.out",
+  ".modal-bg",
+  ".modal-head h2",
+  "--dur-2",
+  "--dur-1",
+  ".form-grid",
+  "App.closeSymbolMenu",
+  ".panel-bg",
+  ".coach-title",
+  "--lift-shadow",
+  ".card",
+  ".cal .d:hover",
+  "coach.hub",
+  ".cal .d",
+  "coach.entryHTML",
+  "fmt.dateFull"
+ ]
+}

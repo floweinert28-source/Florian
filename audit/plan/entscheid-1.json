@@ -1,0 +1,425 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".prop-patterns-empty",
+   "nrs": [
+    "aufbau-C13",
+    "kilook-C5",
+    "zustaende-S-F1",
+    "zustaende-S-TE7"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Es gilt die Fassung von aufbau-C13. In prop-friedhof.js:172 wird bei g.n < 2 die Karte „Muster“ durch die Textzeile `<p class=\"small muted prop-patterns-empty\">Ab zwei Grabsteinen erscheinen hier Muster: Uhrzeit, Wochentag, Symbol, Setup, Verlustserie oder Emotion, wenn sie sich wiederholen.</p>` zwischen Kacheln und Grabsteinen ersetzt. patternsCard (Z. 61) zeigt dann nur noch „Kein wiederkehrendes Muster: …“. An der Kachel „Häufigste Regel“ kommt kein (i) dazu. Begründung: Der Satz erklärt den Abschnitt und nicht die Kachel „Häufigste Regel“. Ein (i) ist laut Brief nur beim Darüberfahren sichtbar und am Handy schlecht erreichbar. Klasse und Satz bleiben wörtlich, es gibt also keine neuen Übersetzungsschlüssel, und friedhoftest.js:47 bleibt unverändert grün. Beide Fassungen erfüllen Zustände Z10 („Friedhof < 2 ohne Muster-Karte“). Die Regel .prop-patterns-empty aus kilook-C5 (margin 0, line-height 1.5, max-width 560px) bleibt und passt.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-F1",
+     "aktion": "entfaellt",
+     "anweisung": "Z. 172 und Z. 61 setzt aufbau-C13 um (statt '' steht dort die Textzeile). Das info an der Kachel „Häufigste Regel“ (Z. 56) entfällt ersatzlos."
+    },
+    {
+     "nr": "zustaende-S-TE7",
+     "aktion": "entfaellt",
+     "anweisung": "friedhoftest.js:47 bleibt unverändert. Der Test prüft weiter .prop-patterns-empty, den Text „Ab zwei Grabsteinen“ und dass .prop-patterns fehlt."
+    }
+   ]
+  },
+  {
+   "anker": ".cpn-code",
+   "nrs": [
+    "aufbau-C5b",
+    "typografie-3.2.5e",
+    "typografie-3.8r"
+   ],
+   "art": "konflikt",
+   "entscheidung": ".cpn-code bekommt font-weight 600 und letter-spacing .08em (aufbau-C5b). Onest, 14px und der gestrichelte Rahmen bleiben. Das Link-Ticket erhält die Klasse is-link (typografie-3.8r) mit `.cpn-code.is-link { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; letter-spacing: 0; }` (typografie-3.2.5e), das überschreibt die Basis. Begründung: Laut Brief bekommen nur Werte und Hauptknöpfe 700, und der Code ist keins von beiden. .08em wurde mit einer Vorher/Nachher-Aufnahme geprüft (extra/cpn-review-*-1440.png) und wirkt ruhiger. Die Festlegung „Coupon-Code +0.12em (bleibt)“ in Typografie 1.7 ist damit ersetzt: Es gilt .08em. Bei .cpn-off ändert sich nur die Farbe auf --text-2. 13,5 px ist in der Text-Skala verboten, deshalb bleibt die Größe 13 px, und typografie-3.2.3l macht daraus das Token --fs-13.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C5b",
+     "aktion": "aendern",
+     "anweisung": ".cpn-off: nur `color: var(--text-2)` setzen, font-size nicht auf 13.5px ändern (das Token --fs-13 setzt typografie-3.2.3l). Den .cpn-code-Teil (font-weight 600, letter-spacing .08em) unverändert umsetzen."
+    }
+   ]
+  },
+  {
+   "anker": ".rules-list li::marker",
+   "nrs": [
+    "aufbau-C11c",
+    "farbe-C2",
+    "typografie-3.2.4m"
+   ],
+   "art": "doppelt",
+   "entscheidung": "aufbau-C11b/C11c löschen die Karte „Aktuelle Regeln“ (progress.js:77, die einzige Stelle mit .rules-list) und die Regeln .rules-list und .rules-list li::marker (app.css 1273–1274). Damit gibt es keinen Listenmarker mehr, den man umfärben könnte. farbe-C2 sieht diesen Fall selbst vor („entfällt, falls Aufbau die Karte löscht“). Keine offene Nutzerfrage betrifft die Karte, und kein Test prüft sie.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C2",
+     "aktion": "entfaellt",
+     "anweisung": "aufbau-C11c löscht die Regel .rules-list li::marker samt Karte."
+    },
+    {
+     "nr": "typografie-3.2.4m",
+     "aktion": "aendern",
+     "anweisung": "Nur die Zeile `.dstreak-steps b` umsetzen (600, .06em, Farben in Z. 1266/1267 bleiben). Die Zeile `.rules-list li::marker` entfällt, weil aufbau-C11c die Regel löscht."
+    }
+   ]
+  },
+  {
+   "anker": "App.bind",
+   "nrs": [
+    "barrierefreiheit-P3",
+    "barrierefreiheit-P10",
+    "zustaende-S-A1"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Der Toast-Container wird genau einmal am Anfang von bind() angelegt, mit `U.toastWrap(); U.announce('');` (barrierefreiheit-P10; U.toastWrap wird laut barrierefreiheit-U7 exportiert). Die zusätzliche erste Zeile `U.toast.init();` aus zustaende-S-A1 macht dasselbe unter einem zweiten Namen und entfällt. Ob toast.init als Alias bestehen bleibt, entscheidet der Anker U.toast/toastWrap. Der invalid-Listener und clearErr aus zustaende-S-A1 kommen unverändert neben den submit-Listener. Der Tastatur-Handler aus barrierefreiheit-P3 ersetzt den alten Escape-Handler. Beide Teile stören sich nicht: Der eine hört auf keydown, der andere auf invalid, input und change.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-A1",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile `U.toast.init();` nicht einfügen, denn `U.toastWrap()` aus barrierefreiheit-P10 legt den Container an. invalid-Listener, invalidBatch und clearErr unverändert neben dem submit-Listener ergänzen."
+    }
+   ]
+  },
+  {
+   "anker": ".pg-nav",
+   "nrs": [
+    "komponenten-S-shadow",
+    "komponenten-S-trades-c",
+    "zustaende-S-T2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Der Seitenwähler im TradeLog (trades.js:48) wird in einem Durchgang geschrieben. „Trades pro Seite“ steht immer. Bei pages > 1: pg-sep, pg-info `{from}–{to} von {n} Trades` (Halbgeviertstrich ohne Leerzeichen, Schlüssel „{0}–{1} von {2} Trades“), grow, Seitenauswahl „von N Seiten“ und `.pg-nav` mit Knöpfen `class=\"btn nav\"`. Bei pages ≤ 1 gibt es weder Seitenauswahl noch .pg-nav. Ohne aktiven Filter folgt `<span class=\"pg-sep\"></span><span class=\"pg-info\">${U.count(rows.length, 'Trade', 'Trades')}</span>`, mit aktivem Filter nichts weiter, weil die Zahl dann im Zähler „{x} von {y} Trades“ der Filterzeile steht (der nur bei aktivem Filter erscheint, zustaende-S-T2). Begründung: eine Information an genau einer Stelle (Aufbau-Grundsatz 1), Zähler nur über U.count (Wortwahl W9). Das Schatten-Ich (komponenten-S-shadow) folgt derselben Regel: .btn.nav, Seitenwahl nur bei mehreren Seiten, „1–10“.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-trades-c",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-T2",
+     "anweisung": "Das Template schreibt zustaende-S-T2. Von hier kommen die Knöpfe .btn.nav und „{0}–{1}“ ohne Leerzeichen, beides gilt für pages > 1. Die Vorgabe „.pg-info immer“ entfällt: Bei einer Seite erscheint pg-info nur ohne aktiven Filter."
+    },
+    {
+     "nr": "zustaende-S-T2",
+     "aktion": "aendern",
+     "anweisung": "Bei pages > 1 die Knöpfe in .pg-nav mit `class=\"btn nav\"` und pg-info als „{from}–{to} von {n} Trades“ ohne Leerzeichen (aus komponenten-S-trades-c). Bei pages ≤ 1 den Zähler über `U.count(rows.length, 'Trade', 'Trades')` statt über den Plural-Ternär."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C07",
+     "nach": "zustaende-S-T2"
+    }
+   ]
+  },
+  {
+   "anker": ".tile .body",
+   "nrs": [
+    "abstaende-B9",
+    "typografie-3.8b",
+    "komponenten-C25b",
+    "abstaende-B13"
+   ],
+   "art": "doppelt",
+   "entscheidung": "abstaende-B9 und typografie-3.8b ergänzen sich. .tile .body bekommt align-items flex-start und padding-top var(--sp-3), und die Verlaufskachel im TradeLog bekommt `class=\"body spark-body\"`. Damit erbt sie Trennlinie, Abstand und Ausrichtung aus der einen Regel .tile .body, und diese Regel bleibt die einzige Quelle dafür. In `.tile.spark-tile .spark-body` werden Linie (background-Verlauf) und padding-top deshalb nicht ein zweites Mal gesetzt. komponenten-C25b wollte padding-top 8px plus Linie, abstaende-B13 padding-top 12 plus flex-start. Begründung: Jeder Wert steht an einer Stelle, und Dashboard- und TradeLog-Kachel weichen nicht um 8 gegen 12 px voneinander ab. Die offene Frage ki_look-10/bereich_dashboard-41 (Linie weglassen) wirkt später automatisch auf beide Kachelarten, blockiert diese Schritte aber nicht.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C25b",
+     "aktion": "aendern",
+     "anweisung": "In Z. 1734 an .spark-body weder padding-top noch den background-Verlauf ergänzen, beides kommt über die Klasse body aus .tile .body. Gap-Regel Z. 1733 löschen und .val auf die Layout-Eigenschaften kürzen wie spezifiziert."
+    },
+    {
+     "nr": "abstaende-B13",
+     "aktion": "aendern",
+     "anweisung": "Z. 1734 wird zu `.tile.spark-tile .spark-body { gap: 18px; min-height: 0; }`. display, flex, align-items flex-start und padding-top var(--sp-3) liefert .tile .body (B9 + typografie-3.8b). Z. 1733 löschen, .chart margin-block -14px und die Abfrage 190 → 180 bleiben wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.8b",
+     "nach": "abstaende-B13"
+    }
+   ]
+  },
+  {
+   "anker": "@container (max-width: 164px)",
+   "nrs": [
+    "abstaende-B11",
+    "zustaende-S-U1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Schwelle geht von 164 auf 154 (abstaende-B11). Begründung: Mit abstaende-B7 hat die Kachel seitlich 20 statt 15 px Polster. Container-Abfragen messen die Inhaltsbreite, also muss jede Abfrage um 10 px mitwandern (178 → 168, 164 → 154), sonst greifen die Notstufen bei gleicher Kachelbreite früher. Die Überlaufprüfung aus zustaende-S-U1 (Beträge immer mit zwei Nachkommastellen) läuft erst danach bei 1024 und 390 px. Nur wenn ein Wert überläuft, wird die 154er-Schwelle angehoben, höchstens auf 180px. Das entspricht den 190px aus S-U1 vor der Polster-Änderung. Stellen werden nicht abgeschnitten. Die Schriftgröße innerhalb der Abfrage entscheiden die Anker .tile .val/--fv-*, nicht dieser.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-U1",
+     "aktion": "aendern",
+     "anweisung": "Die Überlaufprüfung erst nach abstaende-B7/B11 machen. Läuft ein Wert über, `@container (max-width: 154px)` auf den nötigen Wert anheben, höchstens 180px (nicht 164 → 190)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-B11",
+     "nach": "zustaende-S-U1"
+    }
+   ]
+  },
+  {
+   "anker": "App.screens.day.head",
+   "nrs": [
+    "abstaende-E-day1",
+    "aufbau-C7a",
+    "aufbau-C7b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "head ist die Funktion aus aufbau-C7a: `range: false` und an anderen Tagen der tradeTip „Trade für {Datum} loggen“. Der Zertifikat-Knopf wandert über `actions(ctx)` rechts in die Kopfreihe (abstaende-E-day1), mit Symbol I.award wie auf Dashboard und Statistiken und mit dem data-tip „Tageszertifikat erstellen“ (wording-S8.1): `actions(ctx) { const key = ctx.params[0] || C.dayKey(new Date()); return `<button type=\"button\" class=\"btn\" data-action=\"cert-open\" data-kind=\"day\" data-ref=\"${key}\" data-tip=\"Tageszertifikat erstellen\">${I.award}<span class=\"hide-m\">Zertifikat</span></button>`; }`. Die Klasse am Text-Span folgt den übrigen Kopfreihen-Knöpfen: heute hide-m, nach Barrierefreiheit Z4 vh-m. Aus der Datumszeile verschwindet der Zertifikat-Knopf. Begründung: Seitenaktionen stehen überall rechts in der Kopfreihe (Aufbau 1.3), auf Dashboard und Statistiken steht das Zertifikat schon dort, und die Datumszeile bleibt reine Navigation (referenz-17, geprüfte Fassung). certtest.js:54 findet `[data-action=cert-open][data-kind=day]` weiterhin. Ob die Datumsnavigation selbst in ctx.headLeft wandert (abstaende-E-day2), entscheidet der Anker ctx.headLeft. Diese Entscheidung gilt in beiden Fällen.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-E-day1",
+     "aktion": "aendern",
+     "anweisung": "`head: { range: false }` nicht anlegen, weil aufbau-C7a head als Funktion setzt. Nur actions(ctx) ergänzen, mit I.award statt I.shield und data-tip „Tageszertifikat erstellen“ statt „Daily Profit Certificate“."
+    },
+    {
+     "nr": "aufbau-C7b",
+     "aktion": "aendern",
+     "anweisung": "In day.js:12 den Zertifikat-Knopf aus der Datumszeile ganz entfernen, statt nur I.shield gegen I.award zu tauschen. Das Entfernen von Check-in- und „Trade für diesen Tag“-Knopf bleibt."
+    }
+   ]
+  },
+  {
+   "anker": "C.stats16",
+   "nrs": [
+    "aufbau-C1",
+    "wording-S2.5-2.13"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die 16 Kacheln stehen in der Reihenfolge aus aufbau-C1 (4 Themenreihen). Auf Platz 2 steht der Eintrag expectancy, nicht avgTrade: `{ key: 'expectancy', label: 'Erwartungswert pro Trade', type: 'cur', v: s.tradeExpectancy, info: 'Trefferquote × Ø Gewinn minus Verlustquote × Ø Verlust. Was ein Trade im Schnitt einbringt.' }`. avgTrade wird gelöscht. Platz 13 ist die neue Kachel `{ key: 'trades', label: 'Trades', type: 'int', v: s.n, info: 'Abgeschlossene Trades im Zeitraum.' }`. Alle übrigen Beschriftungen und Infos kommen aus wording 2.7–2.13: Ø Kontrakte pro Tag, Trade-Trefferquote, Tages-Trefferquote, Ø Gewinn/Verlust, Ø geplantes R pro Trade, Ø R pro Trade und das Info zu „Ø Tages-Gewinn/Verlust“. Begründung: Name, Wert und Info sind dann gleich wie im Dashboard-Widget „Erwartungswert pro Trade“ (widgets.js:177, s.tradeExpectancy). Ein Begriff steht in der ganzen App für eine Zahl (Wortwahl W2), und der Info-Text ist schon übersetzt. Aufbau verweist für Beschriftungen selbst auf die Wortwahl-Gruppe. core.test.mjs:100 (16 Einträge, key days) und sixtest.js:39 bleiben grün.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C1",
+     "aktion": "aendern",
+     "anweisung": "Platz 2 ist der Eintrag expectancy mit Label und Info aus wording 2.5 und `v: s.tradeExpectancy`. avgTrade löschen (nicht expectancy). Die übrige Reihenfolge und die neue Kachel trades auf Platz 13 bleiben."
+    },
+    {
+     "nr": "wording-S2.5-2.13",
+     "aktion": "aendern",
+     "anweisung": "2.6 entfällt, weil aufbau-C1 avgTrade löscht und trades auf Platz 13 setzt. 2.5 und 2.7–2.13 auf die von aufbau-C1 umsortierten Einträge anwenden."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C1",
+     "nach": "wording-S2.5-2.13"
+    }
+   ]
+  },
+  {
+   "anker": "[data-subnav]",
+   "nrs": [
+    "barrierefreiheit-C-stats-15",
+    "komponenten-S-stats-a",
+    "barrierefreiheit-B9b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "stats.js:15 wird zu `<nav class=\"tabs scroll-x\" data-subnav aria-label=\"Statistik-Bereiche\">${TABS.map(([k, l]) => `<a href=\"#/stats/${k}\"${tab === k ? ' aria-current=\"page\"' : ''}>${l}</a>`).join('')}</nav>`. Die Links haben keine Klasse btn und keine Inline-Farbe (Komponenten: kein .btn als Reiter, Schiene .tabs > a aus komponenten-C19). Statt aria-pressed tragen sie aria-current (Barrierefreiheit Z4: nie aria-pressed an Links), der Behälter wird nav mit aria-label. Der gewählte Reiter bekommt seinen Stil über `.tabs a[aria-current=\"page\"]` in der gemeinsamen Liste (barrierefreiheit-B9b). Ohne .btn liefert .tabs > a schon --text-2 und beim Darüberfahren --text. Die beiden Zusatzregeln `.tabs a:not([aria-current=\"page\"])` aus barrierefreiheit-B9b hätten also keine Wirkung und entfallen. calmnavtest.js:50 sucht den gewählten Reiter über [aria-current=\"page\"], und App.revealActive (app.js:113) kennt aria-current schon.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-stats-a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "barrierefreiheit-C-stats-15",
+     "anweisung": "class=\"btn\" und Inline-Farbe entfernt barrierefreiheit-C-stats-15 im selben Durchgang."
+    },
+    {
+     "nr": "barrierefreiheit-C-stats-15",
+     "aktion": "aendern",
+     "anweisung": "Im Markup nach der Änderung `class=\"btn\"` am <a> weglassen. Sonst wie spezifiziert, Test calmnavtest.js:50/51 auf [aria-current=\"page\"] umstellen."
+    },
+    {
+     "nr": "barrierefreiheit-B9b",
+     "aktion": "aendern",
+     "anweisung": "Die beiden Regeln `.tabs a:not([aria-current=\"page\"]) { color: var(--text-2); }` und `…:hover { color: var(--text); }` nach Z. 1513 nicht anlegen. Die Änderungen an der gemeinsamen Gewählt-Liste und an .prop-sub bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C19",
+     "nach": "barrierefreiheit-C-stats-15"
+    }
+   ]
+  },
+  {
+   "anker": ".spin",
+   "nrs": [
+    "bewegung-B11",
+    "zustaende-S-C13"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Z. 1559 wird ersetzt, nicht gelöscht. Im reduced-motion-Block steht dann `.spin { animation: spin-turn 2.4s linear infinite !important; }` (bewegung-B11). Begründung: Bewegungs-Regel R1 sagt „alles aus, nur .spin dreht, 2,4 s“. Der Ring steht laut Zustände Z5 nur noch in Knöpfen neben „Wird … …“ und zeigt, dass gerade gearbeitet wird. Die heutige Regel ist tot, weil `* { animation: none !important }` sie schlägt. B11 macht sie wirksam, statt sie zu streichen. Die Skelett-Teile von zustaende-S-C13 (.coach-skel, .nw-skel) bleiben.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C13",
+     "aktion": "aendern",
+     "anweisung": "Z. 1559 nicht löschen, bewegung-B11 ersetzt sie. Nur .coach-loading → .coach-skel und .nw-loading → .nw-skel wie spezifiziert umsetzen."
+    }
+   ]
+  },
+  {
+   "anker": "@keyframes pulse",
+   "nrs": [
+    "bewegung-C4",
+    "kilook-B2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide Schritte machen dieselbe CSS-Änderung. .edit-bar bekommt Rand var(--border-2) und Fläche var(--surface-2), box-shadow var(--shadow) und sticky bleiben. .dot-live (Z. 1568) und @keyframes pulse (Z. 1115) werden gelöscht, streak-pulse und streak-pulse-3 bleiben. kilook-B2 setzt um und prüft dashtest.js:23/:59/:110.",
+   "anpassungen": [
+    {
+     "nr": "bewegung-C4",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-B2",
+     "anweisung": "Identische Änderung, kilook-B2 setzt sie um."
+    }
+   ]
+  },
+  {
+   "anker": ".dot[aria-pressed=\"true\"]",
+   "nrs": [
+    "bewegung-C7b",
+    "komponenten-C27"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Regel lautet `.dot[aria-pressed=\"true\"] { box-shadow: 0 0 0 1.5px var(--text); }`, ohne transform. Weil die Skalierung auch beim Darüberfahren entfällt, braucht es kein `transform: none`. Begründung: Die Ringstärke 1,5 px ist dieselbe wie bei den gewählten Theme- und Design-Karten aus komponenten-C27 (0 0 0 2px var(--surface), 0 0 0 3.5px var(--text)) und bei den Heute-Ringen. Damit hat die Auswahl auf der ganzen Design-Seite eine Ringstärke. Den Abstand bildet der 3-px-Rand des Punkts in --surface. Der Hover-Ring (1px --text-2) bleibt klar schwächer. Die übrigen Teile von bewegung-C7b (transition, .dot:hover, .dot.custom:hover, .pair-card) bleiben unverändert.",
+   "anpassungen": [
+    {
+     "nr": "bewegung-C7b",
+     "aktion": "aendern",
+     "anweisung": "Z. 1937 wird zu `.dot[aria-pressed=\"true\"] { box-shadow: 0 0 0 1.5px var(--text); }` statt 2px. Rest wie spezifiziert."
+    },
+    {
+     "nr": "komponenten-C27",
+     "aktion": "aendern",
+     "anweisung": "Der Teil zu Z. 1937 entfällt, bewegung-C7b setzt ihn mit 1,5 px um. Z. 1830 und Z. 1841 (Design- und Theme-Karte) bleiben wie spezifiziert."
+    }
+   ]
+  },
+  {
+   "anker": ".prop-bar",
+   "nrs": [
+    "diagramme-J1",
+    "zustaende-S-P1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Es gibt eine bar-Funktion (prop.js:93) auf Grundlage von diagramme-J1. Ist der Rest größer als das Limit, zeigt sie `${money(a, x.remaining)} <span class=\"muted\">${x.locked ? 'über dem festen Boden' : 'über dem Boden'}</span>`. Am <b> steht nur bei x.floor != null ein data-tip „Boden fest bei {Betrag}“ bzw. „Boden bei {Betrag}“ (money(a, x.floor)). Sonst steht „{Rest} von {Limit}“. Der Balken ist bei Rest > Limit voll (min 100 %). Begründung: „über dem Boden“ sagt, was die Zahl bedeutet (Diagramme A-13). Der feste Boden bleibt wie in zustaende-S-P1 sichtbar, auch am Handy ohne Tooltip, und ohne das doppelte „Boden … · Boden fest“. Alle anderen Teile von zustaende-S-P1 bleiben: Ampel rot bei Verletzung, geplatzte Konten ohne Balken und Meta, Title gekappt. Die neuen Texte „über dem Boden“, „über dem festen Boden“, „Boden bei {0}“ und „Boden fest bei {0}“ kommen in alle fünf js/lang-Dateien.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-J1",
+     "aktion": "aendern",
+     "anweisung": "Bei over den gedämpften Text als `x.locked ? 'über dem festen Boden' : 'über dem Boden'` setzen. Tooltip, Balken und „von {Limit}“-Fall wie spezifiziert."
+    },
+    {
+     "nr": "zustaende-S-P1",
+     "aktion": "aendern",
+     "anweisung": "Der Ersatz der bar-Funktion (Z. 93) entfällt hier, diagramme-J1 übernimmt ihn. Z. 90 (dead/Ampel), Z. 100 (Title), Z. 103 und Z. 104 (ohne Balken/Meta bei geplatzt) wie spezifiziert umsetzen."
+    }
+   ]
+  },
+  {
+   "anker": ".set-nav a.active",
+   "nrs": [
+    "farbe-B22",
+    "zustaende-S-C9a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Der aktive Eintrag im Einstellungs-Menü sieht aus wie der aktive Eintrag der Seitenleiste, damit es ein Muster für „aktive Navigation“ gibt. Die Regeln lauten: `.set-nav a { … border: 1px solid transparent; }`, `.set-nav a:hover { background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--text); }` und `.set-nav a.active { background: var(--surface-2); border-color: var(--border); color: var(--text); font-weight: 500; }` (dunkel, wie .nav a.active). Für hell gilt `:root[data-theme=\"light\"] .nav a.active, :root[data-theme=\"light\"] .set-nav a.active { background: var(--surface); border-color: var(--border-2); }`. Statt eines inset-Schattens gibt es einen echten Rand. Weil der Grundrand transparent ist, springt nichts, wie bei .nav a. Das Darüberfahren bleibt schwächer als der aktive Zustand, weil das Menü keinen Leistenbalken hat. Das Gewicht 500 bleibt (headtest.js:60–64).",
+   "anpassungen": [
+    {
+     "nr": "farbe-B22",
+     "aktion": "aendern",
+     "anweisung": "Z. 1810: kein inset-Schatten und keine Änderung an der dunklen Regel (das macht zustaende-S-C9a). Die helle Regel für .set-nav a.active mit `background: var(--surface); border-color: var(--border-2)` als zweiten Selektor in die neue Regel `:root[data-theme=\"light\"] .nav a.active` schreiben."
+    },
+    {
+     "nr": "zustaende-S-C9a",
+     "aktion": "aendern",
+     "anweisung": "Z. 1810 aktiv `background: var(--surface-2)` statt `var(--surface)`, Rand var(--border). Transparenter Grundrand (Z. 1807) und Hover 5 % (Z. 1809) wie spezifiziert."
+    }
+   ]
+  },
+  {
+   "anker": ".ql-editor.ql-blank::before",
+   "nrs": [
+    "farbe-C1d",
+    "typografie-3.2.3w"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Der Platzhalter bekommt keine eigene Schriftgröße: `.ql-editor.ql-blank::before { color: var(--muted); font-style: normal; left: 20px; }` (farbe-C1d). Begründung: Der Platzhalter steht dort, wo der Text erscheint, und ahmt dessen Format nach (.ph-bold/.ph-italic). Der Notiztext hat var(--nb-body, 16px), die festen 18px wichen davon ab. Ohne font-size gibt es an dieser Regel nichts zu tokenisieren.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3w",
+     "aktion": "aendern",
+     "anweisung": "Nur .rp-x (Z. 2331) auf --fs-18 umstellen (lh 1 bleibt). .ql-editor.ql-blank::before fällt aus der Liste."
+    }
+   ]
+  },
+  {
+   "anker": ".rep-sel.on",
+   "nrs": [
+    "farbe-C3c",
+    "komponenten-C28"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Regel lautet `.rep-sel.on { border-color: var(--text-2); background: var(--surface-3); }` (komponenten-C28). Begründung: .rep-sel ist ein Auswahlfeld mit geöffneter Liste. Sein Grundrand ist schon --border-2, die Fassung von farbe-C3c würde den Rand also nicht sichtbar ändern. --text-2 ist der Rand eines aktiven Felds (Barrierefreiheit Z1: Felder mit :focus haben Rand --text-2), neutral und ohne Grün. Den Streifen (border-left 4px) und das Gewicht 600 nimmt komponenten-C28 wie spezifiziert heraus.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C3c",
+     "aktion": "aendern",
+     "anweisung": "Z. 1707 entfällt, komponenten-C28 übernimmt sie. Z. 1710 (.rep-reset --text-2) und Z. 1711 (Selektor .rep-add) bleiben."
+    }
+   ]
+  },
+  {
+   "anker": "README Z. 224",
+   "nrs": [
+    "farbe-D3f",
+    "zustaende-S-R3"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Es gibt einen Text: „eingeschaltet ist sie leicht angehoben (flach, feiner Rand), Grün nur im Schalter“ (zustaende-S-R3). Er stimmt für beide CSS-Fassungen der Regelkarte (farbe-C7 und zustaende-S-C11) und nennt die Grün-Regel aus dem Brief.",
+   "anpassungen": [
+    {
+     "nr": "farbe-D3f",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-R3",
+     "anweisung": "Dieselbe README-Stelle, zustaende-S-R3 schreibt den Text."
+    }
+   ]
+  },
+  {
+   "anker": "calendarHTML",
+   "nrs": [
+    "kilook-C9a",
+    "wording-S6.1-6.4"
+   ],
+   "art": "doppelt",
+   "entscheidung": "widgets.js:115 und :116 bekommen `compact: true` für Tages- und Wochenbetrag, in beiden Schritten gleich. wording-S6.1–6.4 setzt das zusammen mit dem title „Trefferquote“, U.count und „—“ für den leeren Monat um. Die Prüfungen aus kilook-C9a übernimmt der Wortwahl-Schritt: mobiletest.js:66 (.cal .w .p/.pm) und .cal .p ohne Cent.",
+   "anpassungen": [
+    {
+     "nr": "kilook-C9a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "wording-S6.1-6.4",
+     "anweisung": "Gleiche Änderung an Z. 115/116. Die Prüfungen (mobiletest.js:66, .cal .p ohne /,\\d\\d\\s?[€$]/) laufen im Wortwahl-Schritt."
+    }
+   ]
+  }
+ ],
+ "vertraeglich": [
+  "App.openImport",
+  "U.radar",
+  ".shot",
+  "groupTable",
+  ".grid",
+  "App.state.route",
+  "emptyBox",
+  ".grid.two",
+  ".chart.h240",
+  "m-emo",
+  "trades.renderDetail",
+  ".recent-card .more-link",
+  ".pager .pg-nav button",
+  ".aff-pct",
+  ".ed-palette .c"
+ ]
+}

@@ -1,0 +1,678 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "App.accountControl",
+   "nrs": [
+    "aufbau-B5",
+    "barrierefreiheit-P11",
+    "komponenten-A3",
+    "responsiv-3.3a",
+    "responsiv-3.6",
+    "zustaende-S-A2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Schritte ergänzen sich. Einzige Doppelung: Der Link „Konten verwalten“ → `#/settings/konten` steht in aufbau-B5 und in zustaende-S-A2, umgesetzt wird er in S-A2. Endzustand app.js:243–244: `const show = o.mobile || accounts.length > 1`; Wrapper `popwrap${show ? '' : ' hide-m'}${o.iconM ? ' acc-iconm' : ''}` (3.3a). Der Auslöser bekommt zusätzlich `aria-label=\"Konto: ${esc(accName)}\"`; der Name endet mit dem sichtbaren Wort, damit ist WCAG 2.5.3 erfüllt. Im Popover umschließt `<div role=\"radiogroup\" aria-label=\"Konto\">` die Einträge „Alle Konten“ (nur bei mehr als einem Konto) und die Konten, jeder davon `role=\"radio\"` (P11). aria-checked: für „Alle Konten“ `!acc || acc === 'all'`, für ein Konto `acc === a.id || ((!acc || acc === 'all') && accounts.length === 1)` (S-A2). So ist in jeder Lage genau ein Radio gewählt, denn „Alle Konten“ wird bei einem einzigen Konto nicht gerendert. Vor dem Namen steht `<span class=\"chk\">${on ? I.check : ''}</span>`, `on` ist derselbe Ausdruck wie aria-checked (A3). Der Betrag bekommt `title=\"Kontogröße\"`. Danach folgen außerhalb der Gruppe `<hr>` und `<a class=\"item\" href=\"#/settings/konten\">${I.settings} Konten verwalten</a>`. Das Dashboard ruft `App.accountControl({ iconM: true })` auf (3.6). Den pageHead-Teil von 3.3a regelt der Anker App.pageHead.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-B5",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-A2",
+     "anweisung": "Die href-Änderung `#/settings` → `#/settings/konten` ist in zustaende-S-A2 enthalten. Nicht doppelt umsetzen."
+    },
+    {
+     "nr": "komponenten-A3",
+     "aktion": "aendern",
+     "anweisung": "Für `checked` gilt der neue aria-checked-Ausdruck aus zustaende-S-A2, nicht der heutige. `.chk` steht im role=radio-Knopf vor dem Namen. „Konten verwalten“ bleibt außerhalb der Radiogruppe."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-A2",
+     "nach": "komponenten-A3"
+    },
+    {
+     "vor": "responsiv-3.3a",
+     "nach": "responsiv-3.6"
+    }
+   ]
+  },
+  {
+   "anker": "#/settings/konten",
+   "nrs": [
+    "aufbau-B5",
+    "zustaende-S-A2"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide Schritte ändern dieselbe Stelle gleich (app.js:244, `href=\"#/settings\"` → `href=\"#/settings/konten\"`). zustaende-S-A2 übernimmt das, weil es dieselbe Zeile ohnehin umschreibt (siehe Anker App.accountControl).",
+   "anpassungen": [
+    {
+     "nr": "aufbau-B5",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "zustaende-S-A2",
+     "anweisung": "Die href-Änderung `#/settings` → `#/settings/konten` ist in zustaende-S-A2 enthalten. Nicht doppelt umsetzen."
+    }
+   ]
+  },
+  {
+   "anker": "App.pageHead",
+   "nrs": [
+    "aufbau-B1",
+    "abstaende-E1",
+    "abstaende-E-day2",
+    "komponenten-A4",
+    "responsiv-3.3a",
+    "zustaende-S-MT1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aufbau-B1 schreibt pageHead und newTradeButton neu und nimmt die Teile der anderen Schritte auf. Endzustand: `const sh = typeof screen.head === 'function' ? screen.head(ctx) : screen.head; const h = Object.assign({ range: true, account: true, session: true, trade: true, note: '', tradeTip: '' }, sh);`. In `left` steht `this.accountControl({ mobile: !h.range, iconM: !!h.range })` (responsiv-3.3a), danach wie heute `ctx.headLeft` und der Hinweis. In `right` steht `this.sessionControl()` ohne Argument (komponenten-A4); B1 lässt dort fälschlich noch `(true)` stehen. Vor dem return kommt `if (!left && !right) return '';`; das steht in B1 und abstaende-E1 gleich, also doppelt. abstaende-E-day2 setzt nur `ctx.headLeft` und passt ohne Änderung, weil pageHead headLeft nach dem Konto einsetzt. Mentor ohne Server nutzt die Funktionsform von head (siehe Anker screen.head).",
+   "anpassungen": [
+    {
+     "nr": "abstaende-E1",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "aufbau-B1",
+     "anweisung": "Der frühe Rücksprung `if (!left && !right) return '';` ist in aufbau-B1 enthalten."
+    },
+    {
+     "nr": "aufbau-B1",
+     "aktion": "aendern",
+     "anweisung": "In `left` `this.accountControl({ mobile: !h.range, iconM: !!h.range })` statt „unverändert“, in `right` `this.sessionControl()` ohne Argument statt `this.sessionControl(true)`. Der Kommentar nennt zusätzlich den Mentor als Seite, deren head eine Funktion ist."
+    },
+    {
+     "nr": "responsiv-3.3a",
+     "aktion": "aendern",
+     "anweisung": "Nur accountControl ändern (Z. 243–244). Den pageHead-Punkt (Z. 259, iconM) setzt aufbau-B1 um."
+    },
+    {
+     "nr": "komponenten-A4",
+     "aktion": "aendern",
+     "anweisung": "Nur sessionControl ändern (Parameter weg, `.lbl-wide`, CSS). Den Aufruf in pageHead (Z. 260) stellt aufbau-B1 auf `this.sessionControl()` um."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-A4",
+     "nach": "aufbau-B1"
+    },
+    {
+     "vor": "responsiv-3.3a",
+     "nach": "aufbau-B1"
+    },
+    {
+     "vor": "aufbau-B1",
+     "nach": "zustaende-S-MT1"
+    }
+   ]
+  },
+  {
+   "anker": "App.sessionControl",
+   "nrs": [
+    "aufbau-B1",
+    "barrierefreiheit-P9",
+    "komponenten-A4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Signatur aus komponenten-A4 gilt: Parameter `iconOnly` entfällt. Damit gibt es eine Bauart, die ab 1181 px Text zeigt und darunter nur das Symbol (`.lbl-wide`); `hide-m` blendete den ganzen Knopf am Handy aus. Endzustand: Zweig mit Session `<button type=\"button\" class=\"btn\" data-action=\"end-session\" aria-label=\"Session beenden\" aria-describedby=\"session-timer\" title=\"Session beenden\">${I.stop}<span id=\"session-timer\">…</span></button>` (P9). Zweig ohne Session `<button type=\"button\" class=\"btn\" data-action=\"start-session\" title=\"Session starten\" aria-label=\"Session starten\">${I.play}<span class=\"lbl-wide\">Session starten</span></button>` (A4). Der Aufruf in pageHead lautet `this.sessionControl()` (aufbau-B1 entsprechend ändern, siehe App.pageHead). P9 und A4 berühren verschiedene Zweige und ergänzen sich.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-B1",
+     "aktion": "aendern",
+     "anweisung": "In `right` `this.sessionControl()` ohne Argument (Signatur aus komponenten-A4)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-A4",
+     "nach": "aufbau-B1"
+    }
+   ]
+  },
+  {
+   "anker": "screen.head",
+   "nrs": [
+    "aufbau-B1",
+    "zustaende-S-MT1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ein Mechanismus für bedingte Kopfreihen: `screen.head` darf eine Funktion von ctx sein (aufbau-B1, auch für Trade-Ansicht und Tagesansicht). Ein Getter würde zwar auch funktionieren, wäre aber eine zweite Schreibweise für dasselbe. Mentor: `head() { return configured() ? { range: false, session: false, trade: false, note: 'Der Mentor sieht die letzten 20 Trades dieses Kontos.' } : { range: false, account: false, session: false, trade: false }; }`. Ohne Server bleiben left und right leer, pageHead liefert '' (B1).",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-MT1",
+     "aktion": "aendern",
+     "anweisung": "Statt `get head() { … }` die Methode `head() { return configured() ? {…} : { range: false, account: false, session: false, trade: false }; }` mit demselben Inhalt. pageHead (aufbau-B1) ruft Funktionen mit ctx auf. Kommentar „head als Funktion“ statt „Getter“."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-B1",
+     "nach": "zustaende-S-MT1"
+    }
+   ]
+  },
+  {
+   "anker": ".rating",
+   "nrs": [
+    "barrierefreiheit-P13",
+    "barrierefreiheit-P14a",
+    "barrierefreiheit-B9a",
+    "komponenten-C15",
+    "komponenten-A6",
+    "farbe-B3a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Eine Bauart `.scale5` für Check-in und Bewertung (komponenten), mit der ARIA-Struktur aus barrierefreiheit. Die Zustände hängen deshalb an `aria-checked` bzw. der Klasse `.on`, nicht mehr an `aria-pressed`. Gelbe Schrift ist `--warn-text` (Farbregel). MARKUP app.js: Z. 428 `<span class=\"lbl\" id=\"f-rating-l\">Bewertung</span><div class=\"scale5 rating\" id=\"f-rating\" role=\"radiogroup\" aria-labelledby=\"f-rating-l\">` mit Knöpfen `role=\"radio\" class=\"${t.rating >= n ? 'on' : ''}\" aria-checked=\"${t.rating === n}\" aria-label=\"${n} von 5 Sternen\"`; set-rating schaltet `.on` kumulativ und `aria-checked` nur am n-ten Stern (P13). Z. 513 `scale()` wird `<div class=\"scale5\" role=\"radiogroup\" aria-labelledby=\"${lid}\" data-chips=\"${name}\">` mit `role=\"radio\" aria-checked aria-label=\"${n} – ${label}\"`; seg-set setzt aria-checked (P14a). CSS app.css statt Z. 322–325: `.scale5 { display: inline-flex; gap: 6px; } .scale5 button { width: 32px; height: 32px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: … var(--dur-1) var(--ease); } .scale5 button:hover { color: var(--text); background: var(--surface-2); } .scale5.rating button { color: var(--muted); } .scale5.rating button.on { --lc: var(--warn-text); }`. Im Handy-Block (≤560px): `.scale5 button { width: 44px; height: 44px; }`, 5 × 44 + 4 × 6 = 244 px. In der gemeinsamen Auswahlregel (~Z. 3125) wird `.rating button[aria-pressed=\"true\"]` zu `.scale5 button[aria-checked=\"true\"], .scale5.rating button.on`; das gilt auch für barrierefreiheit-B9b, das diesen Selektor dann nicht mehr anfasst. Größe: Desktop einheitlich 32 px für beide Skalen, denn 32 ≥ 24 erfüllt WCAG 2.5.8 und eine Bauart hat eine Größe. Die 36 px aus barrierefreiheit stammen von der alten Pillenform, die komponenten löscht. Am Handy 44 px, wie barrierefreiheit es für Touch verlangt, für die ganze Bauart. barrierefreiheit-Test 19 (≥ 44 bei 390 px) bleibt gültig; Prüfpunkt 22 heißt dann „Check-in-Skala 32 px (Handy 44)“.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-A6",
+     "aktion": "entfaellt",
+     "anweisung": "Den Klassenwechsel übernehmen barrierefreiheit-P13 (Z. 428: `class=\"scale5 rating\"`) und barrierefreiheit-P14a (Z. 513: `class=\"scale5\"`), die dieselben Zeilen ohnehin neu schreiben."
+    },
+    {
+     "nr": "barrierefreiheit-P13",
+     "aktion": "aendern",
+     "anweisung": "Z. 428: Container `class=\"scale5 rating\"` statt `class=\"rating\"`. Sonst wie spezifiziert (radiogroup, role=radio, .on kumulativ, aria-checked am n-ten Stern, aria-label, guard, set-rating)."
+    },
+    {
+     "nr": "barrierefreiheit-P14a",
+     "aktion": "aendern",
+     "anweisung": "Z. 513: Container `class=\"scale5\"` statt `class=\"seg pill\"`. Sonst wie spezifiziert (radiogroup, aria-labelledby, role=radio, aria-checked, aria-label „{n} – {Label}“, seg-set setzt aria-checked)."
+    },
+    {
+     "nr": "komponenten-C15",
+     "aktion": "aendern",
+     "anweisung": "`.scale5.rating button.on { --lc: var(--warn-text); }` statt `.rating button[aria-pressed=\"true\"] { --lc: var(--warn); }`. In der gemeinsamen Auswahlregel `.scale5 button[aria-checked=\"true\"], .scale5.rating button.on` statt `.scale5 button[aria-pressed=\"true\"]`. Neu im Handy-Block (≤560px) `.scale5 button { width: 44px; height: 44px; }`. Übrige Werte und das Streichen von letter-spacing an `.fd-tog.stars button` bleiben."
+    },
+    {
+     "nr": "barrierefreiheit-B9a",
+     "aktion": "aendern",
+     "anweisung": "Es entfallen die Punkte zu Z. 322 (`.seg.pill` min 36), Z. 324 (32 px), Z. 325 (`.rating button.on`) und die `.seg.pill`-Regel im Handy-Block. Das übernimmt komponenten-C15 mit `.scale5` (Desktop 32, Handy 44); `.seg.pill` wird gelöscht. Es bleibt nur Z. 320: `.seg button[aria-checked=\"true\"]` ergänzen."
+    },
+    {
+     "nr": "farbe-B3a",
+     "aktion": "aendern",
+     "anweisung": "Die Punkte Z. 324/325 (`.rating`) entfallen. Ungewählt `--muted` und gewählt `--warn-text` setzt komponenten-C15 an `.scale5.rating`."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C15",
+     "nach": "barrierefreiheit-P13"
+    },
+    {
+     "vor": "komponenten-C15",
+     "nach": "barrierefreiheit-P14a"
+    }
+   ]
+  },
+  {
+   "anker": "#f-rating",
+   "nrs": [
+    "barrierefreiheit-P13",
+    "komponenten-A6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker .rating: P13 schreibt Z. 428 mit `class=\"scale5 rating\"`, role=radiogroup, Klasse `.on` und aria-checked. A6 entfällt.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-A6",
+     "aktion": "entfaellt",
+     "anweisung": "Den Klassenwechsel übernehmen barrierefreiheit-P13 (Z. 428: `class=\"scale5 rating\"`) und barrierefreiheit-P14a (Z. 513: `class=\"scale5\"`), die dieselben Zeilen ohnehin neu schreiben."
+    },
+    {
+     "nr": "barrierefreiheit-P13",
+     "aktion": "aendern",
+     "anweisung": "Z. 428: Container `class=\"scale5 rating\"` statt `class=\"rating\"`. Sonst wie spezifiziert (radiogroup, role=radio, .on kumulativ, aria-checked am n-ten Stern, aria-label, guard, set-rating)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C15",
+     "nach": "barrierefreiheit-P13"
+    }
+   ]
+  },
+  {
+   "anker": "App.checkInFields",
+   "nrs": [
+    "barrierefreiheit-P14a",
+    "komponenten-A6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker .rating: P14a schreibt `scale()` (Z. 513) mit `class=\"scale5\"`, role=radiogroup/radio und aria-checked. Die Check-in-Auswahl bleibt neutral (kein --lc) über `.scale5 button[aria-checked=\"true\"]` in der gemeinsamen Auswahlregel. A6 entfällt.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-A6",
+     "aktion": "entfaellt",
+     "anweisung": "Den Klassenwechsel übernehmen barrierefreiheit-P13 (Z. 428: `class=\"scale5 rating\"`) und barrierefreiheit-P14a (Z. 513: `class=\"scale5\"`), die dieselben Zeilen ohnehin neu schreiben."
+    },
+    {
+     "nr": "barrierefreiheit-P14a",
+     "aktion": "aendern",
+     "anweisung": "Z. 513: Container `class=\"scale5\"` statt `class=\"seg pill\"`. Sonst wie spezifiziert (radiogroup, aria-labelledby, role=radio, aria-checked, aria-label „{n} – {Label}“, seg-set setzt aria-checked)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C15",
+     "nach": "barrierefreiheit-P14a"
+    }
+   ]
+  },
+  {
+   "anker": ".seg.pill",
+   "nrs": [
+    "barrierefreiheit-P14a",
+    "komponenten-A6"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.seg.pill` entfällt ganz (komponenten). Der Check-in nutzt `.scale5` mit der ARIA-Struktur aus P14a, Einzelheiten beim Anker .rating.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-A6",
+     "aktion": "entfaellt",
+     "anweisung": "Den Klassenwechsel übernehmen barrierefreiheit-P13 (Z. 428: `class=\"scale5 rating\"`) und barrierefreiheit-P14a (Z. 513: `class=\"scale5\"`), die dieselben Zeilen ohnehin neu schreiben."
+    },
+    {
+     "nr": "barrierefreiheit-P14a",
+     "aktion": "aendern",
+     "anweisung": "Z. 513: Container `class=\"scale5\"` statt `class=\"seg pill\"`. Sonst wie spezifiziert (radiogroup, aria-labelledby, role=radio, aria-checked, aria-label „{n} – {Label}“, seg-set setzt aria-checked)."
+    }
+   ]
+  },
+  {
+   "anker": ".rating button[aria-pressed=\"true\"]",
+   "nrs": [
+    "barrierefreiheit-B9a",
+    "farbe-B3a",
+    "komponenten-C15"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Den Selektor gibt es danach nicht mehr. Endzustand wie beim Anker .rating: `.scale5.rating button { color: var(--muted); }` und `.scale5.rating button.on { --lc: var(--warn-text); }`. Gelbe Schrift ist immer --warn-text (farbe). Im hellen Design hat --warn als Schrift zu wenig Kontrast. In der gemeinsamen Auswahlregel steht `.scale5 button[aria-checked=\"true\"], .scale5.rating button.on`.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C15",
+     "aktion": "aendern",
+     "anweisung": "`.scale5.rating button.on { --lc: var(--warn-text); }` statt `.rating button[aria-pressed=\"true\"] { --lc: var(--warn); }`. In der gemeinsamen Auswahlregel `.scale5 button[aria-checked=\"true\"], .scale5.rating button.on` statt `.scale5 button[aria-pressed=\"true\"]`. Neu im Handy-Block (≤560px) `.scale5 button { width: 44px; height: 44px; }`. Übrige Werte und das Streichen von letter-spacing an `.fd-tog.stars button` bleiben."
+    },
+    {
+     "nr": "barrierefreiheit-B9a",
+     "aktion": "aendern",
+     "anweisung": "Es entfallen die Punkte zu Z. 322 (`.seg.pill` min 36), Z. 324 (32 px), Z. 325 (`.rating button.on`) und die `.seg.pill`-Regel im Handy-Block. Das übernimmt komponenten-C15 mit `.scale5` (Desktop 32, Handy 44); `.seg.pill` wird gelöscht. Es bleibt nur Z. 320: `.seg button[aria-checked=\"true\"]` ergänzen."
+    },
+    {
+     "nr": "farbe-B3a",
+     "aktion": "aendern",
+     "anweisung": "Die Punkte Z. 324/325 (`.rating`) entfallen. Ungewählt `--muted` und gewählt `--warn-text` setzt komponenten-C15 an `.scale5.rating`."
+    }
+   ]
+  },
+  {
+   "anker": "--lc",
+   "nrs": [
+    "farbe-C23",
+    "farbe-D2b",
+    "komponenten-C15"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Keine Werte-Kollision: C23 entfernt --lc an den News-Wichtigkeits-Chips, C15 setzt --lc an den Bewertungssternen (Wert --warn-text, siehe Anker .rating). Die Umkehr der newstest-Prüfung (D2b) setzt die Code-Änderung C23 voraus.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "farbe-C23",
+     "nach": "farbe-D2b"
+    }
+   ]
+  },
+  {
+   "anker": ".popover .item[aria-checked=\"true\"]",
+   "nrs": [
+    "barrierefreiheit-B6",
+    "farbe-B4",
+    "komponenten-C21a",
+    "zustaende-S-A2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Werte aus farbe-B4: `.popover .item[aria-checked=\"true\"] { color: var(--text); background: color-mix(in srgb, var(--text) 10%, var(--surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 22%, var(--border-2)); }`. Gründe: BRIEF verlangt für Gewähltes „leicht angehobene Fläche, feiner Rand“. Das ist derselbe flache Gewählt-Stil wie überall in der App (zustaende Z3, farbe AUSWAHL). `var(--surface-2)` aus komponenten-C21a ist genau die Hover-Fläche (`.popover .item:hover`), damit wäre Gewählt von Hover nicht zu unterscheiden. B6 (nur Fläche) hat keinen Rand. Der inset-Rand ist eine 1-px-Kante, kein Schein. Die Regel steht nach `:hover`, gewinnt also. S-A2 liefert nur die aria-checked-Werte und passt dazu.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B6",
+     "aktion": "entfaellt",
+     "anweisung": "Alle Teile sind anderswo abgedeckt: Z. 337 durch farbe-B4, Z. 1044 (Notebook-Tags) durch komponenten-C29b (alle farbigen Tag-Regeln gelöscht; der grüne Setup-Kopf, den B6 behalten wollte, verstößt gegen „Grün nur Gewinn und Trade loggen“), Z. 1627/1631 (Vorlagen) durch komponenten-C23."
+    },
+    {
+     "nr": "komponenten-C21a",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 337 nicht umsetzen, das übernimmt farbe-B4. Alle übrigen Punkte (min-height 36, Padding, 500, Symbol 16 --muted, `.chk`-Spalte --text-2, `.sec`, `.sb-menu`, `.sym-opt`, `.fd-opts`) bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C21a",
+     "nach": "farbe-B4"
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpop .item.k-setup[aria-checked=\"true\"]",
+   "nrs": [
+    "barrierefreiheit-B6",
+    "farbe-C1b",
+    "komponenten-C29b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C29b gilt: Z. 1043–1046 (farbige `.sec.k-*` und `.item.k-*[aria-checked]`) werden ersatzlos gelöscht. Die Gruppenköpfe nutzen danach die normale `.popover .sec` (--muted). Gewählte Tags sehen aus wie jeder gewählte Menüeintrag (`.popover .item[aria-checked=\"true\"]`, farbe-B4), denn `.tagpop` ist ein `.popover`. Begründung: Der grüne Setup-Kopf (B6) verstößt gegen BRIEF (Grün nur Gewinn und „Trade loggen“). Rot oder violett gefärbte gewählte Einträge im Menü wären eine bunte Markierung der Auswahl. Die Kategorie ist durch die Gruppenüberschrift klar. Die Tag-Chips in der Notiz (`.tagpill.k-*`) bleiben unberührt. Die neue Regel `.nb .tagpop .item[aria-checked=\"true\"] { color: var(--text); }` aus C29b wäre wirkungslos (kilook Z11) und entfällt.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C29b",
+     "aktion": "aendern",
+     "anweisung": "Z. 1043–1046 ersatzlos löschen, ohne die neue Regel `.nb .tagpop .item[aria-checked=\"true\"] { color: var(--text); }`; `.popover .item[aria-checked=\"true\"]` (farbe-B4) setzt Schrift, Fläche und Rand. Übrige Punkte (280 px, eine Spalte, Suchfeld, `.tagcol`, Handy-Regel löschen) bleiben."
+    },
+    {
+     "nr": "farbe-C1b",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1044 (`.sec.k-setup` --muted / `.item.k-setup` --text) nicht umsetzen, komponenten-C29b löscht die Zeilen. Übrige Punkte von C1b siehe Anker .nb .tagpop .chk und .nb .save-state.saving."
+    },
+    {
+     "nr": "barrierefreiheit-B6",
+     "aktion": "entfaellt",
+     "anweisung": "Alle Teile sind anderswo abgedeckt: Z. 337 durch farbe-B4, Z. 1044 (Notebook-Tags) durch komponenten-C29b (alle farbigen Tag-Regeln gelöscht; der grüne Setup-Kopf, den B6 behalten wollte, verstößt gegen „Grün nur Gewinn und Trade loggen“), Z. 1627/1631 (Vorlagen) durch komponenten-C23."
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpop .sec.k-setup",
+   "nrs": [
+    "barrierefreiheit-B6",
+    "farbe-C1b",
+    "komponenten-C29b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker .nb .tagpop .item.k-setup[aria-checked=\"true\"]: Die Regel wird gelöscht (komponenten-C29b). Der Kopf „Setups“ steht neutral in `.popover .sec` (--muted). Weder Grün (B6) noch eine eigene --muted-Regel (farbe-C1b) ist nötig.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C1b",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1044 (`.sec.k-setup` --muted / `.item.k-setup` --text) nicht umsetzen, komponenten-C29b löscht die Zeilen. Übrige Punkte von C1b siehe Anker .nb .tagpop .chk und .nb .save-state.saving."
+    }
+   ]
+  },
+  {
+   "anker": ".tpl-row .chk",
+   "nrs": [
+    "barrierefreiheit-B6",
+    "komponenten-C23"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide setzen `.tpl-row .chk` auf `color: var(--text-2)`. komponenten-C23 übernimmt das und löscht dazu Z. 1628 (`.tpl-row .chk svg`, Symbolgröße kommt aus `.popover .item svg` 16 px). B6 entfällt (siehe Anker .popover .item[aria-checked=\"true\"]).",
+   "anpassungen": []
+  },
+  {
+   "anker": ".tpl-row.on .item.name",
+   "nrs": [
+    "barrierefreiheit-B6",
+    "komponenten-C23"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die aktive Vorlage bekommt denselben flachen Gewählt-Stil wie jeder gewählte Menüeintrag: `.tpl-row.on { background: color-mix(in srgb, var(--text) 10%, var(--surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 22%, var(--border-2)); } .tpl-row.on .item.name { color: var(--text); }`. Kein eigenes font-weight, 500 kommt aus `.popover .item` (C21a); ein Gewählt-Zustand ändert das Gewicht nie. C23s `background: var(--surface-2)` ist gleich der Hover-Fläche `.tpl-row:hover`. B6 hätte gar keine Fläche. Beides reicht nicht für „angehobene Fläche, feiner Rand“ (BRIEF) und die Einheitlichkeit mit Konto-, Zeitraum- und Notebook-Menü.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C23",
+     "aktion": "aendern",
+     "anweisung": "Z. 1631 → `.tpl-row.on { background: color-mix(in srgb, var(--text) 10%, var(--surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 22%, var(--border-2)); } .tpl-row.on .item.name { color: var(--text); }` statt `.tpl-row.on { background: var(--surface-2); }`. Übrige Punkte (chk --text-2, svg-Regel löschen, Sterne --muted, `.tpl-menu` als eingerückte Gruppe) bleiben."
+    }
+   ]
+  },
+  {
+   "anker": ".nb .tagpop .chk",
+   "nrs": [
+    "farbe-C1b",
+    "komponenten-C21d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Haken haben in allen Einzelwahl-Listen dieselbe Farbe: `--text-2`, 16 px (komponenten-C21d, wie `.popover .item .chk` aus C21a und `.tpl-row .chk`). Das `currentColor` aus farbe-C1b würde nach dem Neutralisieren der Einträge `--text` ergeben und von den anderen Menüs abweichen. Endzustand: `.nb .tagpop .chk { width: 16px; height: 16px; display: inline-grid; place-items: center; color: var(--text-2); }`, Z. 1053 gelöscht.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C1b",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1052 (`.nb .tagpop .chk` → currentColor) nicht umsetzen, das übernimmt komponenten-C21d (--text-2, 16 px)."
+    }
+   ]
+  },
+  {
+   "anker": ".ed-pop .item .chk",
+   "nrs": [
+    "farbe-C1c",
+    "komponenten-C21d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie bei den Notebook-Tags: Haken in `--text-2`, 16 px (komponenten-C21d), einheitlich mit allen Menü-Haken. Endzustand: `.ed-pop .item .chk { display: none; width: 16px; height: 16px; color: var(--text-2); }`. Kein Grün, damit ist auch das Ziel von farbe-C1c erfüllt.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C1c",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1103 (`.ed-pop .item .chk` → --text) nicht umsetzen, das übernimmt komponenten-C21d (--text-2, 16 px). Übrige Punkte (Toolbar gedrückt, Palettenrand, `.nb-menu`, YouTube-Popover) bleiben."
+    }
+   ]
+  },
+  {
+   "anker": ".save-state",
+   "nrs": [
+    "komponenten-C37a",
+    "komponenten-A7",
+    "komponenten-S-misc-a",
+    "zustaende-S-C14",
+    "zustaende-S-M2",
+    "zustaende-S-NB3",
+    "farbe-C1b",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ein Baustein für den Speicherstand, überall gleich. CSS: Z. 1030 `.nb .save-state` → `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }`, solange die Typo-Tokens fehlen, 12px. Z. 1031 `.nb .save-state.saving` wird ersatzlos gelöscht. „Wird gespeichert …“ ist keine Warnung, --warn steht nur für Warnungen (zustaende Z5, farbe-Grundregel). Druck Z. 1193 `.nb .save-state` → `.save-state`. Neu: `.set-head .save-state { align-self: center; }`, Größe und Farbe aus der allgemeinen Regel. JS: misc.js `head()` setzt in jeden Einstellungen-Kopf `<span class=\"save-state\" aria-live=\"polite\"></span>${trailing}` (S-misc-a). Kein zweiter Span mit `id=\"set-save\"` im Trading-Kopf. Angezeigt wird ausschließlich über `App.savedHint()` (A7), auch in Trading. Dauer 2000 ms (statt 1,5 s), weil der Hinweis im Kopf weit weg vom geänderten Feld steht. Notebook: Text „Wird gespeichert …“ (S-NB3); die Klasse `saving` hat keine Regel mehr und wird nicht mehr gesetzt (kein toter Code). Wie Trading sonst speichert (`save-trading-auto` gegen `data-change=\"save-trading\"` aus komponenten-S-misc-e), entscheidet der Anker des Trading-Formulars.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C37a",
+     "aktion": "aendern",
+     "anweisung": "Endzustand: `.save-state { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); margin-left: auto; white-space: nowrap; }` (12 statt 11.5 px). `.nb .save-state.saving` nicht in `.save-state.saving` umbenennen, sondern löschen. Druckregel `.save-state`. Neu nur `.set-head .save-state { align-self: center; }` ohne eigene Schriftgröße."
+    },
+    {
+     "nr": "zustaende-S-C14",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-C37a",
+     "anweisung": "Alle drei Punkte (12 px, `.saving` ohne Gelb löschen, `.set-head .save-state`) stecken im Endzustand von komponenten-C37a."
+    },
+    {
+     "nr": "komponenten-A7",
+     "aktion": "aendern",
+     "anweisung": "`App.savedHint` mit Timeout 2000 statt 1500 ms. Sonst wie spezifiziert (sucht `.set-head .save-state`)."
+    },
+    {
+     "nr": "zustaende-S-M2",
+     "aktion": "aendern",
+     "anweisung": "`head('Trading', …)` bekommt keinen eigenen `<span class=\"save-state\" id=\"set-save\">`, den setzt komponenten-S-misc-a in jeden Kopf. Statt der Inline-Anzeige über `#set-save` (2000 ms) `App.savedHint()` aufrufen. Die übrige Speicher-Mechanik wird unter dem Anker des Trading-Formulars entschieden."
+    },
+    {
+     "nr": "zustaende-S-NB3",
+     "aktion": "aendern",
+     "anweisung": "Zusätzlich in `setSaveState` (notebook.js:100) `el.classList.toggle('saving', s === 'saving')` streichen: Die CSS-Regel entfällt, die Klasse hätte keine Wirkung mehr."
+    },
+    {
+     "nr": "farbe-C1b",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1031 (`.nb .save-state.saving` → --warn-text) nicht umsetzen, die Regel wird gelöscht (komponenten-C37a)."
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "aktion": "aendern",
+     "anweisung": "Der Punkt „1030 `.nb .save-state`“ gilt für die von komponenten-C37a verallgemeinerte Regel `.save-state` (Endzustand `var(--fs-12)`/`var(--lh-12)`). Wer zuletzt umsetzt, stellt diesen Endzustand her."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C37a",
+     "nach": "komponenten-A7"
+    },
+    {
+     "vor": "komponenten-S-misc-a",
+     "nach": "zustaende-S-M2"
+    },
+    {
+     "vor": "komponenten-A7",
+     "nach": "zustaende-S-M2"
+    }
+   ]
+  },
+  {
+   "anker": ".set-head .save-state",
+   "nrs": [
+    "komponenten-C37a",
+    "komponenten-A7",
+    "zustaende-S-C14"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide Gruppen legen die Regel neu an. Endzustand `.set-head .save-state { align-self: center; }`, 12 px und --muted kommen aus der allgemeinen `.save-state`-Regel. Umsetzung in komponenten-C37a; S-C14 läuft mit. A7 nutzt den Selektor mit 2000 ms. Einzelheiten beim Anker .save-state.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C14",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-C37a",
+     "anweisung": "Alle drei Punkte (12 px, `.saving` ohne Gelb löschen, `.set-head .save-state`) stecken im Endzustand von komponenten-C37a."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C37a",
+     "nach": "komponenten-A7"
+    }
+   ]
+  },
+  {
+   "anker": ".nb .save-state",
+   "nrs": [
+    "komponenten-C37a",
+    "typografie-3.2.3e",
+    "zustaende-S-C14"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Alle drei wollen die Notebook-Statuszeile in 12 px. Der Selektor wird zu `.save-state` verallgemeinert (komponenten-C37a), mit `font-size: var(--fs-12); line-height: var(--lh-12)`. Siehe Anker .save-state.",
+   "anpassungen": []
+  },
+  {
+   "anker": ".nb .save-state.saving",
+   "nrs": [
+    "farbe-C1b",
+    "komponenten-C37a",
+    "zustaende-S-C14"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Regel wird gelöscht, kein Gelb (zustaende). Weder farbe-C1b (`--warn-text`) noch eine Umbenennung in `.save-state.saving` (C37a). „Wird gespeichert …“ ist ein laufender Vorgang, keine Warnung. Siehe Anker .save-state.",
+   "anpassungen": []
+  },
+  {
+   "anker": ".day-title",
+   "nrs": [
+    "abstaende-E-day2",
+    "komponenten-C36",
+    "komponenten-S-day-a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Eine Regel in app.css (Tagesansicht): `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`, ohne Tokens 18px/4px. 20 px (komponenten-C36) gibt es auf der Typo-Skala nicht; die h2-Rolle ist 18/600. 6 px gibt es auf der Abstandsskala nicht, also 4. Das Markup kommt aus abstaende-E-day2 (Datumsnavigation als `ctx.headLeft` in der Kopfreihe) mit den Komponenten-Klassen: Pfeile `class=\"btn nav\"` (`.btn.round` entfällt), `<h2 class=\"day-title\">`, heute `U.pill('Heute', 'neutral')` (Farbe). An anderen Tagen steht der Link „Heute“ als `class=\"btn sm\"` (ohne ghost) direkt nach dem Titel in der linken Gruppe. Die rechte Gruppe der Kopfreihe gehört Seitenaktionen, Session und „Trade loggen“ (aufbau). „Am Anfang der rechten Gruppe“ (S-day-a) bezog sich auf die alte Datumszeile, die E-day2 auflöst.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-E-day2",
+     "aktion": "aendern",
+     "anweisung": "Im headLeft-Markup `class=\"btn nav\"` statt `class=\"btn round\"`, Link „Heute“ `class=\"btn sm\"` statt `class=\"btn sm ghost\"`, Pille `U.pill('Heute', 'neutral')`. CSS `.day-title { font-size: var(--fs-18); line-height: var(--lh-18); margin-left: var(--sp-1); }`."
+    },
+    {
+     "nr": "komponenten-C36",
+     "aktion": "aendern",
+     "anweisung": "Die Zeile `.day-title { font-size: 20px; margin-left: 6px; }` entfällt, die Regel legt abstaende-E-day2 an. Alle übrigen neuen Klassen bleiben."
+    },
+    {
+     "nr": "komponenten-S-day-a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "abstaende-E-day2",
+     "anweisung": "Die Klassenwechsel aus Z. 12 (`btn nav`, `day-title`, „Heute“ als `btn sm`) setzt abstaende-E-day2 beim Umbau in die Kopfreihe um. Die Platzierung am Anfang der rechten Gruppe entfällt."
+    }
+   ]
+  },
+  {
+   "anker": "RangePicker.oneMonth",
+   "nrs": [
+    "komponenten-D2",
+    "responsiv-3.4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Beide lösen dasselbe Problem (nur ein Monat sichtbar). responsiv-3.4 übernimmt. Die Erkennung am Layout (`oneMonth(box)`: zweites `.rr-m` hat `display: none`) dupliziert keine CSS-Grenzwerte. `fit(pop)` korrigiert die Ansicht beim Öffnen (über responsiv-3.3b), auch nach Größenänderung. Bei Vorgaben steht der aktuelle Monat. D2s „Monat des Zeitraumendes“ wäre bei „Dieses Jahr“ (`to` = 31.12.) im Oktober der leere Dezember; alle Vorgaben enthalten heute, der aktuelle Monat stimmt also immer. Eigene Zeiträume zeigen in beiden Fassungen den Startmonat. Den Prüfpunkt aus komponenten (pop_zeitraum dark-390: aktueller Monat) erfüllt 3.4.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-D2",
+     "aktion": "entfaellt",
+     "anweisung": "Ersetzt durch responsiv-3.4 (oneMonth(box), presetView, pick(p, box), setPreset, fit) und den fit-Aufruf in App.fitPopover (responsiv-3.3b). Kein Media-Query-Duplikat in rangepicker.js."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "responsiv-3.4",
+     "nach": "responsiv-3.3b"
+    }
+   ]
+  },
+  {
+   "anker": "RangePicker.pick",
+   "nrs": [
+    "komponenten-D2",
+    "responsiv-3.4"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker RangePicker.oneMonth: `pick(p, box)` setzt `st.view = presetView(box)` (responsiv-3.4). D2 entfällt.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-D2",
+     "aktion": "entfaellt",
+     "anweisung": "Ersetzt durch responsiv-3.4 (oneMonth(box), presetView, pick(p, box), setPreset, fit) und den fit-Aufruf in App.fitPopover (responsiv-3.3b). Kein Media-Query-Duplikat in rangepicker.js."
+    }
+   ]
+  },
+  {
+   "anker": ".check input",
+   "nrs": [
+    "farbe-B3a",
+    "komponenten-C17a"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide setzen `.check input { accent-color: var(--text); }`. komponenten-C17a übernimmt das, weil es auch `.prop-assign-row input`, `.coach-radio input` und die Quill-Checklisten im selben Zug neutralisiert.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B3a",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 303 (`.check input` accent-color) nicht umsetzen, das übernimmt komponenten-C17a mit demselben Wert. Platzhalter, `.field .hint` und `.lbl-hint` bleiben."
+    }
+   ]
+  },
+  {
+   "anker": ".field .hint",
+   "nrs": [
+    "farbe-B3a",
+    "typografie-3.2.3e",
+    "zustaende-S-C3"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Am Anker selbst verträglich: Farbe `--muted` (farbe-B3a), Größe `var(--fs-12)`/`var(--lh-12)` (typografie), die neuen Fehlerregeln von S-C3 stehen danach. Ein Widerspruch steckt in S-C3: `:is(.input, .select)[aria-invalid=\"true\"]:focus { box-shadow: 0 0 0 3px var(--loss-soft); }` ist ein Schein-Ring. Das verbieten barrierefreiheit Z1.3 (Felder im Fokus: Rand, `box-shadow: none`; Fehler: Rand --loss) und BRIEF (kein Schein). Endzustand: `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }`. `.field-err` bekommt Token-Zeilenhöhe statt 1.35 (typografie: 1.26–1.49 werden ersetzt): `.field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }`.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C3",
+     "aktion": "aendern",
+     "anweisung": "Zweite Regel → `:is(.input, .select)[aria-invalid=\"true\"]:focus { border-color: var(--loss); box-shadow: none; }`; `.field-err { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--loss); }`. Die Doppelung `.input[aria-invalid=\"true\"]` mit barrierefreiheit-B11 wird unter dessen Anker entschieden."
+    }
+   ]
+  }
+ ],
+ "vertraeglich": [
+  "aria-checked",
+  "App.rerender",
+  "#pop-range",
+  "App.fitPopover",
+  "App.closePopovers",
+  ".fd-tog.stars button",
+  ".tpl-row .item.name"
+ ]
+}

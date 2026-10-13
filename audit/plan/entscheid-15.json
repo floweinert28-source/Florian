@@ -1,0 +1,644 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".w-name",
+   "nrs": [
+    "abstaende-F2",
+    "aufbau-C6b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aufbau-C6b gilt. dashboard.js wrap() Z. 41: `<span class=\"w-name\">…</span>` → `<span class=\"grow\" aria-hidden=\"true\"></span>`. Kein .vh-Name in der Leiste. Der Widget-Name steht stattdessen im Namen der Steuerelemente, nach dem app-weiten Muster `<Objekt> „<Name>“ <Verb>` (barrierefreiheit Z4/Glossar): Griff `aria-label=\"Widget „${esc(e.name || inst.typ)}“ verschieben\"`, × `aria-label=\"Widget „${esc(e.name || inst.typ)}“ entfernen\"`, übersetzt über die Muster 'Widget „{0}“ verschieben' und 'Widget „{0}“ entfernen' in js/lang/{en,es,hi,pt,zh}.js. Grund: Ein loses .vh-Wort in der Leiste hängt an keinem Steuerelement. Ein Name im Steuerelement sagt dem Screenreader, welches Widget verschoben oder entfernt wird, und folgt der Namensregel der ganzen App statt der Kurzform „{0} verschieben“.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-F2",
+     "aktion": "entfaellt",
+     "anweisung": "Nicht umsetzen. Die Leiste bekommt nur `<span class=\"grow\" aria-hidden=\"true\"></span>` aus aufbau-C6b, keinen .vh-Namen."
+    },
+    {
+     "nr": "aufbau-C6b",
+     "aktion": "aendern",
+     "anweisung": "Wie spezifiziert, aber mit den aria-labels `Widget „${name}“ verschieben` und `Widget „${name}“ entfernen` (name = esc(e.name || inst.typ)), nicht „{0} verschieben“/„{0} entfernen“. Im Glossar (aufbau.md Z. 164) und in den Sprachdateien heißen die Muster 'Widget „{0}“ verschieben' und 'Widget „{0}“ entfernen'. Prüfpunkt Z. 757: Griff-aria „Widget „Netto-P&L“ verschieben“ (genauer Name aus W.CATALOG)."
+    },
+    {
+     "nr": "responsiv-C1",
+     "aktion": "aendern",
+     "anweisung": "Den Teil `.dash-top .w-bar .w-name { display: none; }` streichen, weil es .w-name nicht mehr gibt. Der Rest bleibt (`.dash-top .w-bar { justify-content: space-between; }`, Pfeile und × 40×40). Prüfpunkt responsiv.md Z. 591: statt „.w-name display none“ prüfen, dass kein `.w-name` im DOM steht."
+    },
+    {
+     "nr": "barrierefreiheit-C-dashboard-41",
+     "aktion": "aendern",
+     "anweisung": "Am Ziehgriff nur `aria-keyshortcuts=\"ArrowLeft ArrowRight ArrowUp ArrowDown\"` ergänzen. Das aria-label bleibt das aus aufbau-C6b (Widget „{Name}“ verschieben) und wird nicht auf „Verschieben“ zurückgesetzt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "aufbau-C6b",
+     "nach": "barrierefreiheit-C-dashboard-41"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".grow",
+   "nrs": [
+    "abstaende-F2",
+    "aufbau-C6b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Ein leerer Füller `<span class=\"grow\" aria-hidden=\"true\"></span>` aus aufbau-C6b. Die globale Klasse .grow (app.css Z. 130) bleibt unverändert. Die Begründung steht beim Anker .w-name.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-F2",
+     "aktion": "entfaellt",
+     "anweisung": "Nicht umsetzen. aufbau-C6b setzt den Füller (mit aria-hidden)."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".w-bar",
+   "nrs": [
+    "abstaende-F2",
+    "aufbau-B13",
+    "aufbau-C6b",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Leiste über jedem Widget ist flach: `.w-bar { display: flex; align-items: center; gap: 6px; padding: 0; margin-bottom: 6px; border: 0; background: none; }` (aufbau-B13). Das Markup kommt aus aufbau-C6b. `font-size: 12.5px` an .w-bar wird ersatzlos gestrichen und nicht tokenisiert: Ohne .w-name steht in der Leiste kein erbender Text mehr. .seg.mini und .btn.sm setzen eigene Größen, der Griff ist ein Symbol. Damit bleibt keine wirkungslose Deklaration stehen (kilook Z11).",
+   "anpassungen": [
+    {
+     "nr": "aufbau-B13",
+     "aktion": "aendern",
+     "anweisung": "In Z. 1574 zusätzlich `font-size: 12.5px;` streichen. Die Regel lautet danach `.w-bar { display: flex; align-items: center; gap: 6px; padding: 0; margin-bottom: 6px; border: 0; background: none; }`."
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.w-bar` (Z. 1574) aus der Liste nehmen. Die Größe entfällt über aufbau-B13."
+    },
+    {
+     "nr": "abstaende-F2",
+     "aktion": "entfaellt",
+     "anweisung": "Siehe Anker .w-name."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".w-bar .w-name",
+   "nrs": [
+    "abstaende-C4",
+    "aufbau-B13"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Regel `.w-bar .w-name { … }` (Z. 1579) wird genau einmal gelöscht, durch aufbau-B13.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-C4",
+     "aktion": "zusammen_mit",
+     "anweisung": "Das Löschen von Z. 1579 übernimmt aufbau-B13. Zum übrigen Teil von C4 siehe Anker .w.editing (entfällt).",
+     "ziel_nr": "aufbau-B13"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".w.editing",
+   "nrs": [
+    "abstaende-C4",
+    "aufbau-B13"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aufbau-B13 gilt: `.w.editing { border-radius: var(--radius); }`. Die Außenlinie entfällt, und die Karte wird nicht gestrichelt (keine Regel `.w.editing .w-body > :is(.card, .tile) { border-style: dashed … }`). Die Drop-Markierung .over-l/.over-r bleibt. Grund: BRIEF „ruhig, nichts Dekoratives“. Den Modus zeigen bereits die klebende Leiste „Bearbeitungsmodus · Standard“ und die Griff-/×-Leiste über jedem Widget. Die gestrichelte Karte wäre ein dritter Moduszeiger und sieht aus wie eine leere Ablagefläche. abstaendes Ziel „weniger Rahmen“ erfüllt B13 vollständig: Es bleibt ein Rahmen, nämlich die Karte selbst.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-C4",
+     "aktion": "entfaellt",
+     "anweisung": "Nicht umsetzen. Die Außenlinie und .w-name entfernt aufbau-B13. Die gestrichelte Karte wird nicht eingeführt."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "C.summary",
+   "nrs": [
+    "aufbau-C15b",
+    "komponenten-S-trades-d",
+    "zustaende-S-T1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "zustaende-S-T1 gilt für render() in trades.js. `const base = view === 'trades' ? filtered(list) : list; const s = C.summary(base);` und `W.data(Object.assign({}, ctx, { inRange: base }), App)`. Zähler in der Netto-Kachel `${s.n} abgeschlossen`, ohne „Gefiltert ·“-Präfix. Dazu der Info-Text aus S-T1 und der leere Wert als `.nodata.dash` („—“ + .vh „Noch keine Daten“). renderTable/renderDays/renderMissed bekommen weiter `list`. Grund: C.summary zählt nur abgeschlossene Trades. „{n} abgeschlossen“ ist deshalb wahr und unterscheidet sich vom „x von y Trades“ der Filterzeile, das auch offene Trades zählt. Der Filterzustand steht direkt darunter in der Filterzeile („x von y Trades“, „Zurücksetzen“). „Gefiltert · 1 Trades“ wäre außerdem grammatisch falsch und in schmalen Kacheln (961–1240 px) zu lang. komponenten-S-trades-d betrifft nur renderDays (C.summary(d.trades) für Tageskarten) und ist verträglich.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C15b",
+     "aktion": "zusammen_mit",
+     "anweisung": "Nicht separat umsetzen. Die Filter-Logik und den Zähler setzt zustaende-S-T1. Glossarzeilen aufbau.md Z. 160 und Z. 655 („Gefiltert · {0} Trades“) entfallen. Prüfpunkt Z. 744 wird zu: Suche „NQ“, `.spark-tile .n` lautet „{n} abgeschlossen“, und der Netto-Wert ist die Summe der sichtbaren geschlossenen Trades.",
+     "ziel_nr": "zustaende-S-T1"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "W.data",
+   "nrs": [
+    "aufbau-C15b",
+    "zustaende-S-T1"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Ein Aufruf `W.data(Object.assign({}, ctx, { inRange: base }), App)` aus zustaende-S-T1 (siehe C.summary).",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C15b",
+     "aktion": "zusammen_mit",
+     "anweisung": "W.data-Änderung übernimmt zustaende-S-T1.",
+     "ziel_nr": "zustaende-S-T1"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".checklist .it.done span",
+   "nrs": [
+    "komponenten-C18",
+    "zustaende-S-C10"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ergebnis: `.checklist .it.done span { color: var(--text-2); }`, ohne Durchstreichen (zustaende-S-C10). Die Regel wird nicht ersatzlos gelöscht. Grund: Erledigte Punkte treten leise zurück, offene stehen in --text vorn. Das ist eine ruhige Rangfolge ohne Durchstreichen und passt zu „Quill-Checklisten --text-2“ in komponenten. Den Zustand trägt weiterhin die gefüllte Box.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C18",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt „Z. 805 … ersatzlos löschen“ nicht ausführen. Z. 805 setzt zustaende-S-C10 (`color: var(--text-2)`, kein line-through). Die übrigen C18-Punkte bleiben."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-tabs a",
+   "nrs": [
+    "barrierefreiheit-C-prop-304-305",
+    "barrierefreiheit-C-affiliate-51",
+    "komponenten-C19",
+    "typografie-3.2.3h",
+    "typografie-3.2.3m",
+    "typografie-3.2.4d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Schiene aus komponenten-C19 ist die einzige Regel für `.tabs > button, .tabs > a, .prop-tabs a`, mit Skalenwerten statt 13.5/12.5 px: `display: inline-flex; align-items: center; height: 34px; padding: 0 12px; border: 1px solid transparent; border-radius: 9px; background: none; color: var(--text-2); font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; …` (Rest wie C19). Fokus: `.tabs > button:focus-visible, .tabs > a:focus-visible, .prop-tabs a:focus-visible { outline-offset: -2px; }`, nur der Versatz. Farbe und Stärke kommen aus der globalen :focus-visible-Regel, nach barrierefreiheit-A1 var(--focus), nie --accent. Handy ≤560: `.prop-tabs a { flex: 1 1 auto; justify-content: center; padding: 0 4px; font-size: var(--fs-13); line-height: var(--lh-13); }`. Handy Z. 3054: `.tabs > button, .tabs > a { padding: 0 12px; font-size: var(--fs-13); line-height: var(--lh-13); }`. Gewählt über die gemeinsame Regel am Dateiende mit `.prop-tabs a[aria-current=\"page\"]` (barrierefreiheit-B9b). Erst danach streichen prop.js 304/305 und affiliate.js 51 das aria-pressed (inkl. der Testanpassungen barrierefreiheit.md Z. 905–907). Grund: Reiter = 14/500 laut Typografie-Rollen, 12.5/13.5 sind verboten, Grün nie für Fokus (BRIEF, barrierefreiheit Z1).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C19",
+     "aktion": "aendern",
+     "anweisung": "In der Grundregel `font-size: 13.5px` → `font-size: var(--fs-14); line-height: var(--lh-14);`. Die Fokusregel nur mit `outline-offset: -2px` (kein `outline: 2px solid var(--accent)`). Z. 2592 (`.prop-tabs a:focus-visible, .prop-sub a:focus-visible`) vollständig löschen, statt den .prop-sub-Teil stehen zu lassen (komponenten-C20 bringt ihn). Handy Z. 2753: `font-size: var(--fs-13); line-height: var(--lh-13);` statt 12.5px. Handy Z. 3054: `font-size: var(--fs-13); line-height: var(--lh-13);` statt 13px."
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "aktion": "aendern",
+     "anweisung": "`.tabs button` (Z. 660) und `.prop-tabs a` (Z. 2590) nicht einzeln anfassen. Die Zeilen ersetzt komponenten-C19, und die Größe var(--fs-14)/var(--lh-14) steht dort in der gemeinsamen Regel."
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.prop-tabs a` schmal (Z. 2753) nicht einzeln anfassen. komponenten-C19 schreibt die Handy-Regel mit var(--fs-13)/var(--lh-13)."
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "aktion": "aendern",
+     "anweisung": "`.prop-tabs a` (Z. 2590) nicht anfassen. 500 steht in der Schienen-Regel von komponenten-C19."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-B9b",
+     "nach": "barrierefreiheit-C-prop-304-305"
+    },
+    {
+     "vor": "barrierefreiheit-B9b",
+     "nach": "barrierefreiheit-C-affiliate-51"
+    },
+    {
+     "vor": "komponenten-C19",
+     "nach": "barrierefreiheit-C-prop-304-305"
+    },
+    {
+     "vor": "komponenten-C19",
+     "nach": "barrierefreiheit-C-affiliate-51"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-sub a",
+   "nrs": [
+    "barrierefreiheit-C-prop-304-305",
+    "komponenten-C20",
+    "typografie-3.2.3m",
+    "typografie-3.2.4d",
+    "zustaende-S-C9b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C20 trägt die Unterstrich-Reiter `.subtabs > button, .set-tabs > button, .prop-sub a` mit `font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; color: var(--muted)`. Hover und gewählt in --text, Linie `::after` mit `background: var(--text)`. Gewählt bei Knöpfen `[aria-pressed=\"true\"]`, bei den Prop-Links `.prop-sub a[aria-current=\"page\"]` (für Farbe und `::after { transform: scaleX(1) }`), weil Links kein aria-pressed tragen (barrierefreiheit Z4). Fokus `outline-offset: -2px`, nur der Versatz. Die Farbe kommt global, nicht --accent. -2px statt 2px, weil die Leiste mit overflow-x: auto den äußeren Ring oben abschneiden würde (barrierefreiheit Z1). .set-tabs bleibt damit 14 px und wird nur 600 → 500. Grund: Typografie-Rolle Reiter 14/500, keine 13.5 px. Unterstrich in --text statt Grün (BRIEF).",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C20",
+     "aktion": "aendern",
+     "anweisung": "(1) `font-size: 13.5px` → `font-size: var(--fs-14); line-height: var(--lh-14);`. (2) In der Hover/Gewählt-Liste und in der `::after { transform: scaleX(1) }`-Regel `.prop-sub a[aria-pressed=\"true\"]` → `.prop-sub a[aria-current=\"page\"]`. Für .subtabs/.set-tabs-Knöpfe bleibt aria-pressed. (3) Fokusregel: `.subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline-offset: -2px; }`, ohne outline-Farbe."
+    },
+    {
+     "nr": "zustaende-S-C9b",
+     "aktion": "zusammen_mit",
+     "anweisung": "Vollständig in komponenten-C20 enthalten: .set-tabs/.prop-sub 500, gewählt --text, Linie var(--text). Nicht separat umsetzen.",
+     "ziel_nr": "komponenten-C20"
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "aktion": "aendern",
+     "anweisung": "`.prop-sub a` (Z. 2595) nicht einzeln anfassen. Die Größe steht in der gemeinsamen Regel von komponenten-C20."
+    },
+    {
+     "nr": "typografie-3.2.4d",
+     "aktion": "aendern",
+     "anweisung": "`.prop-sub a` (Z. 2595) und `.set-tabs button` (Z. 1867) nicht einzeln anfassen. komponenten-C20 setzt 500."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C19",
+     "nach": "komponenten-C20"
+    },
+    {
+     "vor": "komponenten-C20",
+     "nach": "barrierefreiheit-C-prop-304-305"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-sub a:focus-visible",
+   "nrs": [
+    "barrierefreiheit-A2d",
+    "komponenten-C19",
+    "komponenten-C20"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Am Ende gibt es eine einzige Fokusregel: `.subtabs > button:focus-visible, .set-tabs > button:focus-visible, .prop-sub a:focus-visible { outline-offset: -2px; }` (aus komponenten-C20). Ring 2px var(--focus) aus der globalen Regel. Die alte Z. 2592 löscht komponenten-C19 vollständig. Grund: barrierefreiheit Z1 („nur der Versatz weicht ab“, −2px in Scroll-Leisten), kein Grün als Fokus (BRIEF).",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-A2d",
+     "aktion": "aendern",
+     "anweisung": "Z. 2592 aus der Tabelle nehmen. komponenten-C19/C20 ersetzen die Zeile, und die Farbe kommt aus der globalen :focus-visible-Regel. Die Zeilen 2516, 2620, 2653, 2675, 2679 und die übrigen A2d-Punkte bleiben."
+    },
+    {
+     "nr": "komponenten-C19",
+     "aktion": "aendern",
+     "anweisung": "Z. 2591/2592 komplett löschen. Keine Zwischenregel `.prop-sub a:focus-visible { outline: 2px solid var(--accent) … }` stehen lassen."
+    },
+    {
+     "nr": "komponenten-C20",
+     "aktion": "aendern",
+     "anweisung": "Fokusregel nur `outline-offset: -2px` (siehe Anker .prop-sub a)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C19",
+     "nach": "komponenten-C20"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-tabs a:focus-visible",
+   "nrs": [
+    "barrierefreiheit-A2d",
+    "komponenten-C19"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.tabs > button:focus-visible, .tabs > a:focus-visible, .prop-tabs a:focus-visible { outline-offset: -2px; }` aus komponenten-C19, ohne eigene Farbe. Der Ring kommt global (2px var(--focus) nach barrierefreiheit-A1). Gleiche Begründung wie bei .prop-sub a:focus-visible.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C19",
+     "aktion": "aendern",
+     "anweisung": "In der Fokusregel `outline: 2px solid var(--accent);` streichen, nur `outline-offset: -2px;` setzen."
+    },
+    {
+     "nr": "barrierefreiheit-A2d",
+     "aktion": "aendern",
+     "anweisung": "Z. 2592 nicht anfassen (siehe .prop-sub a:focus-visible)."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tabs.scroll-x",
+   "nrs": [
+    "barrierefreiheit-B9b",
+    "barrierefreiheit-C-stats-15",
+    "komponenten-C19",
+    "komponenten-S-stats-a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Statistik-Reiter in stats.js Z. 15, genau so: `<nav class=\"tabs scroll-x\" data-subnav aria-label=\"Statistik-Bereiche\">${TABS.map(([k, l]) => `<a href=\"#/stats/${k}\"${tab === k ? ' aria-current=\"page\"' : ''}>${l}</a>`).join('')}</nav>`. Das heißt: <nav> mit Namen, kein .btn, keine Inline-Farbe, kein aria-pressed, aria-current nur am gewählten Link. CSS: `.tabs.scroll-x { overflow-x: auto; flex-wrap: nowrap; padding: 3px; margin: 0; }` (C19). Ungewählt --text-2 und Hover --text kommen aus der Schienen-Regel `.tabs > a` (C19). Gewählt kommt aus der gemeinsamen Regel mit `.tabs a[aria-current=\"page\"]` (B9b). Die Zusatzregel `.tabs a:not([aria-current=\"page\"]) …` aus B9b ist überflüssig. Abstand zum Inhalt: Die Schiene hat jetzt einen sichtbaren Rand und kein Scroll-Polster mit Gegenrand mehr. Deshalb entfällt der −4px-Ausgleich in abstaende-C8. Grund: Schiene statt Rahmenknöpfe (komponenten), Navigation als <nav> mit aria-current (barrierefreiheit Z4), 12 px Reiter↔Inhalt (abstaende).",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-C-stats-15",
+     "aktion": "aendern",
+     "anweisung": "Im nachher-Markup `class=\"btn\"` am <a> weglassen (siehe Entscheidung). Sonst wie spezifiziert."
+    },
+    {
+     "nr": "komponenten-S-stats-a",
+     "aktion": "zusammen_mit",
+     "anweisung": "Das Entfernen von .btn und der Inline-Farbe übernimmt barrierefreiheit-C-stats-15. Den Behälter behält es nicht als div mit aria-pressed, sondern als nav mit aria-current.",
+     "ziel_nr": "barrierefreiheit-C-stats-15"
+    },
+    {
+     "nr": "barrierefreiheit-B9b",
+     "aktion": "aendern",
+     "anweisung": "(1) Die neue Regel nach Z. 1513 (`.tabs a:not([aria-current=\"page\"]) { color: var(--text-2); } … :hover { color: var(--text); }`) nicht anlegen. komponenten-C19 deckt das über `.tabs > a`/`.tabs > a:hover` ab. (2) Den Punkt „Z. 2596/2598 .prop-sub a[aria-pressed] → [aria-current]“ nicht separat ausführen. komponenten-C20 schreibt die .prop-sub-Selektoren direkt mit aria-current. Die Änderungen der gemeinsamen Liste (Z. 3125–3128) bleiben."
+    },
+    {
+     "nr": "abstaende-C8",
+     "aktion": "aendern",
+     "anweisung": "`.content > .tabs.scroll-x[data-subnav] { margin-bottom: calc(var(--sp-3) - var(--content-gap)); }` ohne „- 4px“. Nach komponenten-C19 ist die Außenkante der Schiene die sichtbare Kante, und das Scroll-Polster mit Gegenrand gibt es nicht mehr. Prüfen: 12 px von der Unterkante der Schiene bis zum Inhalt."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C19",
+     "nach": "barrierefreiheit-C-stats-15"
+    },
+    {
+     "vor": "barrierefreiheit-B9b",
+     "nach": "barrierefreiheit-C-stats-15"
+    },
+    {
+     "vor": "komponenten-C19",
+     "nach": "abstaende-C8"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tabs.sm button",
+   "nrs": [
+    "komponenten-C19",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.tabs.sm button` (Z. 1508) wird gelöscht (komponenten-C19). Der einzige Nutzer, widgets.js:257 „Letzte Trades / Offene Positionen“, wird über komponenten-W4 zu `.subtabs`. Es wird nichts tokenisiert.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.tabs.sm button` (Z. 1508) aus der Liste nehmen. Die Regel entfällt über komponenten-C19."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-seg button",
+   "nrs": [
+    "aufbau-A4f",
+    "komponenten-C14b",
+    "typografie-3.2.3h",
+    "typografie-3.2.4d"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Ergebnis `.fd-seg button { …; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; … }`. Das Gewicht 600 → 500 setzt typografie-3.2.4d als Gewichts-Sweep für alle Filter-Bausteine (.fd-seg button, .fd-tog button, .fd-chip, .fd-add), die Größe typografie-3.2.3h. Von komponenten-C14b bleiben `.fd-seg { gap: 2px; background: var(--surface-2); }` und die Löschungen.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4f",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1386/1388/1400/1407 (font-weight 600 → 500) nicht ausführen. Das macht typografie-3.2.4d. Die übrigen A4f-Punkte (.popover .sec, .fd-gh, .fd-l) bleiben."
+    },
+    {
+     "nr": "komponenten-C14b",
+     "aktion": "aendern",
+     "anweisung": "Bei Z. 1386 `.fd-seg button` das Gewicht nicht ändern (typografie-3.2.4d). Nur `.fd-seg { gap: 2px; background: var(--surface-2); }` und die übrigen C14b-Punkte umsetzen."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-tog button",
+   "nrs": [
+    "aufbau-A4f",
+    "typografie-3.2.3h",
+    "typografie-3.2.4d"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie bei .fd-seg button: 500 über typografie-3.2.4d, Größe var(--fs-13)/var(--lh-13) über typografie-3.2.3h. aufbau-A4f ändert das Gewicht nicht noch einmal.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4f",
+     "aktion": "aendern",
+     "anweisung": "Gewichtspunkt Z. 1388 (und 1386/1400/1407) entfällt in A4f, typografie-3.2.4d übernimmt ihn."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nb-ytpop",
+   "nrs": [
+    "farbe-C1c",
+    "komponenten-C22",
+    "typografie-3.2.3h"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Ergebnis `.nb-ytpop { …; border: 1px solid var(--border-2); border-radius: 12px; …; font-size: var(--fs-13); line-height: var(--lh-13); }`. Rand und Radius setzt komponenten-C22, die Größe typografie-3.2.3h.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C1c",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1124 (.nb-ytpop border) nicht ausführen. komponenten-C22 setzt denselben Rand plus Radius 12. Die übrigen C1c-Punkte bleiben."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".seg.pill button",
+   "nrs": [
+    "barrierefreiheit-B9a",
+    "komponenten-C14a",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.seg.pill button` wird gelöscht (komponenten-C14a). Der Check-in wird über komponenten-A6 zur `.scale5`. Die Mindestgröße des Check-ins aus barrierefreiheit bleibt erhalten, sitzt aber am neuen Baustein: `.scale5:not(.rating) button { width: 36px; height: 36px; }` und im Block `@media (max-width: 560px)`: `.scale5:not(.rating) button { width: 44px; height: 44px; }`. Die Bewertungssterne (.scale5.rating) bleiben bei 32. Grund: eine Bauart je Rolle (komponenten K24) und die ausdrückliche Touch-Vorgabe Check-in 36/44 (barrierefreiheit Z5).",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B9a",
+     "aktion": "aendern",
+     "anweisung": "Die Punkte zu `.seg.pill button` (Z. 322 min-width/min-height 36 und Handy 44) nicht an .seg.pill setzen. Stattdessen nach komponenten-C15 `.scale5:not(.rating) button { width: 36px; height: 36px; }` anlegen und im ≤560-Block `.scale5:not(.rating) button { width: 44px; height: 44px; }`. Falls der Check-in als radiogroup mit aria-checked umgesetzt wird, gehört der Gewählt-Selektor an `.scale5 button[aria-checked=\"true\"]`."
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.seg.pill button` (Z. 322) aus der Liste nehmen, weil die Regel entfällt. Die neue `.scale5 button`-Regel (komponenten-C15) schreibt ihre 13 px gleich als `font-size: var(--fs-13); line-height: var(--lh-13);`."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C14a",
+     "nach": "barrierefreiheit-B9a"
+    },
+    {
+     "vor": "komponenten-C15",
+     "nach": "barrierefreiheit-B9a"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".select.sm",
+   "nrs": [
+    "barrierefreiheit-B12f",
+    "komponenten-C03",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ergebnis `.select.sm { padding: 7px 28px 7px 10px; font-size: var(--fs-13); line-height: var(--lh-13); border-radius: 9px; width: auto; }`. Das ergibt genau 34 px (18 + 14 + 2), die sm-Stufe. Auf Touch bleibt `@media (pointer: coarse) { .select.sm { padding-top: 10px; padding-bottom: 10px; } }`, das ergibt 40 px. Die neue `.input.sm` aus komponenten-C03 nutzt ebenfalls die Skala statt 12.5 px: `.input.sm { height: 34px; padding: 0 10px; font-size: var(--fs-13); line-height: var(--lh-13); border-radius: 9px; }`. Grund: 12.5 px ist in der Typografie-Skala verboten, sm-Felder = 13 wie .btn.sm.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C03",
+     "aktion": "aendern",
+     "anweisung": "In der neuen Regel `.input.sm` `font-size: 12.5px` → `font-size: var(--fs-13); line-height: var(--lh-13);`. `.select.sm` nur das Padding auf 7px 28px 7px 10px ändern. Die Größe setzt typografie-3.2.3h, die Höhe danach mit 34 px prüfen."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".seg.segc button",
+   "nrs": [
+    "komponenten-C14b",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Toter Code (kein `segc` in js/ oder HTML): komponenten-C14b löscht Z. 2542–2545 und den Handy-Teil in Z. 2754. Nicht tokenisieren.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.seg.segc button` (Z. 2543) aus der Liste nehmen, weil die Regel gelöscht wird."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cert-opts .seg.sm button",
+   "nrs": [
+    "komponenten-C14b",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C14b löscht Z. 1965–1966. Das ist kein toter Code: certificate.js:73 rendert `.seg.sm` in `.cert-opts`. Die Format-Schalter erben danach aber die neue Segment-Grundregel aus C14a (34 px, 13 px, 500), und genau das ist gewollt (eine Bauart). Das <small> in den Tasten erbt 500. Nicht tokenisieren.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.cert-opts .seg.sm button` (Z. 1965) aus der Liste nehmen, weil die Regel gelöscht wird."
+    },
+    {
+     "nr": "komponenten-C14b",
+     "aktion": "aendern",
+     "anweisung": "Löschung wie spezifiziert, aber nicht als toten Code führen. Nach dem Löschen modal_zertifikat (1440 und 390) prüfen: Format-Schiene in einer Zeile, Tasten 34 px."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C14a",
+     "nach": "komponenten-C14b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rep-foot .btn.primary",
+   "nrs": [
+    "farbe-C3c",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Z. 1711 wird ersatzlos gelöscht. Es gibt weder eine umbenannte Regel `.rep-foot .rep-add { font-size: 12.5px; }` noch eine tokenisierte Variante. Der Knopf ist nach farbe (widgets.js:223) `btn sm rep-add` und hat über .btn.sm bereits var(--fs-13). Eine eigene Größe wäre wirkungslos bzw. mit 12.5 px skalenwidrig.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C3c",
+     "aktion": "aendern",
+     "anweisung": "Z. 1711 `.rep-foot .btn.primary { font-size: 12.5px; }` ersatzlos löschen statt in `.rep-foot .rep-add { font-size: 12.5px; }` umzubenennen. Die Punkte Z. 1707 und Z. 1710 bleiben."
+    },
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.rep-foot .btn.primary` (Z. 1711) aus der Liste nehmen, weil die Regel entfällt."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nb .tags-row input",
+   "nrs": [
+    "kilook-C2",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Toter Code (.tags-row enthält kein input, notebook.js:77): kilook-C2 löscht Z. 1057 und 1059. Nicht tokenisieren.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.nb .tags-row input` (Z. 1057) aus der Liste nehmen, weil die Regel gelöscht wird."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tpl-menu .item",
+   "nrs": [
+    "komponenten-C23",
+    "typografie-3.2.3h"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten-C23 löscht `.tpl-menu .item { padding: 7px 10px; font-size: 12.5px; }`. Die Einträge erben Maß und Größe von `.popover .item` (Menüeintrag 13 = var(--fs-13), min. 36 px). Nicht tokenisieren.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3h",
+     "aktion": "aendern",
+     "anweisung": "`.tpl-menu .item` (Z. 1633) aus der Liste nehmen, weil die Regel gelöscht wird."
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sym-opt",
+   "nrs": [
+    "komponenten-C21c",
+    "typografie-3.2.3m"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Symbol-Liste ist ein Menü. Menüeintrag = 13 (typografie 1.5 „alle Popover gleich“, komponenten Menüs). Ergebnis `.sym-opt { …; gap: 10px; min-height: 36px; padding: 0 10px; font-size: var(--fs-13); line-height: var(--lh-13); … }`, nicht 14. Die Zuordnung von .sym-opt zu 14 in typografie-3.2.3m widerspricht der eigenen Rollentabelle.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C21c",
+     "aktion": "aendern",
+     "anweisung": "`font-size: 13px` als `font-size: var(--fs-13); line-height: var(--lh-13);` schreiben."
+    },
+    {
+     "nr": "typografie-3.2.3m",
+     "aktion": "aendern",
+     "anweisung": "`.sym-opt` (Z. 881) nicht auf --fs-14 setzen. Die Größe 13 (Token) setzt komponenten-C21c."
+    }
+   ],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  ".vh",
+  ".checklist",
+  ".checklist .it",
+  ".nw-v b",
+  ".prop-patterns",
+  ".coach-co-what",
+  ".nb .folder",
+  ".tabs",
+  ".prop-tabs"
+ ]
+}

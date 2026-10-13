@@ -1,0 +1,415 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".legend",
+   "nrs": [
+    "diagramme-A4",
+    "diagramme-J2",
+    "typografie-3.2.3g",
+    "zustaende-S-P2"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Alle vier Schritte bleiben, sie ergänzen sich. Ergebnis in app.css: (a) Neue Regel `.chart-legend` aus A4 in Token-Schreibweise: `.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 400; color: var(--text-2); }`. Laut Typografie ist Legendentext --fs-12. `span`, `i` und `i.dash` übernimmt A4 unverändert. Die Regeln `.legend.top`, `.legend.rep` und `.legend.rep i` (Z. 1649–1651) werden gelöscht; ob der 13-px-Token-Lauf vorher darüberging, spielt keine Rolle. (b) `.legend` und `.legend i` (Z. 691–692) bleiben für die Fieldset-Überschriften erhalten. 3.2.3g ersetzt dort nur `font-size: 12px` durch `font-size: var(--fs-12); line-height: var(--lh-12)`. Das passt zu „Z. 691–692 bleiben unverändert“ in A4. (c) prop.js `tabBilanz`, Endstand: `const chart = U.card('Ausgaben vs. Payouts', `${bs.series.length ? `<div class=\"chart-legend\"><span><i style=\"background:var(--loss)\"></i>Ausgaben kumuliert</span><span><i style=\"background:var(--profit)\"></i>Payouts kumuliert</span></div>` : ''}<div class=\"chart h280\" data-chart=\"lines\" data-id=\"prop-balance\"></div>`, { info: … })`. Z. 271 setzt S-P2 wie spezifiziert um (Raster nur bei `ex.length || po.length`). J2 ändert Klasse und Position, danach ergänzt S-P2 nur die Bedingung. Die offene Frage diagramme-40/bereich_prop-23 betrifft Zeitachse und Treppe, nicht die Legende, deshalb wird nicht gewartet.",
+   "anpassungen": [
+    {
+     "nr": "diagramme-A4",
+     "aktion": "aendern",
+     "anweisung": "In der neuen Regel `.chart-legend` `font-size: 12px;` → `font-size: var(--fs-12); line-height: var(--lh-12);`. Alles andere bleibt wie in der Spezifikation (Löschen von Z. 1649–1651, Z. 691–692 bleiben)."
+    },
+    {
+     "nr": "zustaende-S-P2",
+     "aktion": "aendern",
+     "anweisung": "Die Bedingung „Legende nur bei bs.series.length“ gilt für die `<div class=\"chart-legend\">…</div>`, die J2 vor `.chart` gesetzt hat. Die alte `<div class=\"legend\">` hinter dem Diagramm nicht wiederherstellen. Endstand siehe Entscheidung (c)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "diagramme-A4"
+    },
+    {
+     "vor": "diagramme-A4",
+     "nach": "diagramme-J2"
+    },
+    {
+     "vor": "diagramme-J2",
+     "nach": "zustaende-S-P2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tile .head",
+   "nrs": [
+    "aufbau-A3b",
+    "typografie-3.2.3g",
+    "typografie-3.2.3i"
+   ],
+   "art": "doppelt",
+   "entscheidung": "typografie-3.2.3i übernimmt die Kachel-Titel: `.tile .head { …; font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); }` (13.5 → 13). Die Handy-Regel ≤560 (Z. 3029) `font-size: 12px` → `var(--fs-12); line-height: var(--lh-12)` übernimmt 3.2.3g; das ist verträglich. Gewicht 500 für `.stat-tile .k` und `.stat .k` setzt typografie-3.2.4l. Damit ist aufbau-A3b in allen drei Punkten doppelt. Einheitlich gilt: Kachel-Titel überall 13/500 `--text-2`, auch `.stat-tile .k`. 13.5 px ist laut Typografie-Skala verboten.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3b",
+     "aktion": "entfaellt",
+     "anweisung": "Vollständig abgedeckt: `.tile .head` 13 durch typografie-3.2.3i (mit Token und Zeilenhöhe), `.stat-tile .k` und `.stat .k` 500 durch typografie-3.2.4l."
+    },
+    {
+     "nr": "komponenten-C25a",
+     "aktion": "aendern",
+     "anweisung": "Z. 637 `.stat-tile .k`: nicht auf `font-size: 13.5px` setzen. Kachel-Titel bleibt 13 (`var(--fs-13)`/`var(--lh-13)` nach typografie), 500, `--text-2`, wie `.tile .head`. Die übrigen C25a-Punkte bleiben unberührt."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-pop .fd-tog button",
+   "nrs": [
+    "barrierefreiheit-B12d",
+    "typografie-3.2.3g"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Beide bleiben. 3.2.3g setzt in der Grundregel Z. 1363 `font-size: 12px` → `font-size: var(--fs-12); line-height: var(--lh-12)`. B12d ergänzt den Touch-Block `@media (pointer: coarse)` danach im Quelltext (nach Z. 1365) und setzt die Schrift dort ebenfalls als Token: `.fd-pop .fd-tog button { height: 40px; font-size: var(--fs-13); line-height: var(--lh-13); }`. Grund: Sonst gilt auf Touch 13 px mit der 16-px-Zeilenhöhe aus der Grundregel, und 13px stünde als Rohwert außerhalb der Skala. Die Höhe 40 px bleibt.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "aktion": "aendern",
+     "anweisung": "Im neuen `@media (pointer: coarse)`-Block nach Z. 1365 bei `.fd-pop .fd-seg button` und `.fd-pop .fd-tog button` jeweils `font-size: 13px` → `font-size: var(--fs-13); line-height: var(--lh-13)`. Der Block muss im Quelltext nach den Grundregeln Z. 1362–1364 stehen. Höhen und Innenabstände bleiben wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.3g",
+     "nach": "barrierefreiheit-B12d"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-pop .fd-seg button",
+   "nrs": [
+    "barrierefreiheit-B12d",
+    "typografie-3.2.3g"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Wie bei `.fd-pop .fd-tog button`. Grundregel Z. 1362: `font-size: var(--fs-12); line-height: var(--lh-12)` (3.2.3g). Touch-Block von B12d: `.fd-pop .fd-seg button { padding: 10px 12px; font-size: var(--fs-13); line-height: var(--lh-13); }`, im Quelltext nach den Grundregeln.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B12d",
+     "aktion": "aendern",
+     "anweisung": "Im neuen `@media (pointer: coarse)`-Block nach Z. 1365 bei `.fd-pop .fd-seg button` und `.fd-pop .fd-tog button` jeweils `font-size: 13px` → `font-size: var(--fs-13); line-height: var(--lh-13)`. Der Block muss im Quelltext nach den Grundregeln Z. 1362–1364 stehen. Höhen und Innenabstände bleiben wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.3g",
+     "nach": "barrierefreiheit-B12d"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cert-opts .lbl",
+   "nrs": [
+    "komponenten-C05",
+    "typografie-3.2.3g"
+   ],
+   "art": "konflikt",
+   "entscheidung": "C05 gewinnt: `.cert-opts .lbl { display: block; margin-bottom: 6px; }`. Größe, Gewicht und Farbe kommen allein aus `.field > .lbl` (Z. 298, das Zertifikat-Label steht als `<span class=\"lbl\">` direkt in `.field`, certificate.js:85). Dort ergibt sich 12/600 `--muted`, durch 3.2.3g als `var(--fs-12)`/`var(--lh-12)`. Grund: Die App soll genau eine Feldbeschriftung haben, ohne Sonderfarbe `--text-2`. Damit gibt es in Z. 1964 keine Schriftgröße mehr, die 3.2.3g auf ein Token umstellen könnte.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3g",
+     "aktion": "aendern",
+     "anweisung": "Z. 1964 `.cert-opts .lbl` nicht auf das Token umstellen, C05 entfernt dort `font-size`, `font-weight` und `color`. Die Grundregel Z. 298 `.field > label, .field > .lbl` wie geplant auf das Token umstellen."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".rp-foot .rp-btn.rp-quiet",
+   "nrs": [
+    "aufbau-C16",
+    "typografie-3.2.3g"
+   ],
+   "art": "konflikt",
+   "entscheidung": "aufbau-C16 gewinnt inhaltlich: Der Krisenhilfe-Link „Hilfe und Beratung“ ist keine graue 12-px-Fußnote, er soll als Link erkennbar und lesbar sein (bereich_training-50). Die Größe steht aber als Token: `.rp-foot .rp-btn.rp-quiet { font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); text-decoration: underline; text-underline-offset: 3px; padding-left: 0; }` und `.rp-foot .rp-btn.rp-quiet:hover { color: var(--text); }`. Dazu `.rp-foot { … justify-content: flex-start; … }` (am Handy bleibt Z. 2334 zentriert) und `.rp-dlg a` wie in C16. 13 liegt auf der Skala (kleines Steuerelement). rptest.js:11 prüft nur den Text und ist nicht betroffen.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-C16",
+     "aktion": "aendern",
+     "anweisung": "In Z. 2317 `font-size: 13px` → `font-size: var(--fs-13); line-height: var(--lh-13)`. Alles andere bleibt wie in der Spezifikation."
+    },
+    {
+     "nr": "typografie-3.2.3g",
+     "aktion": "aendern",
+     "anweisung": "Z. 2317 `.rp-foot .rp-btn.rp-quiet` aus dem 12-px-Token-Lauf herausnehmen. Die Regel wird durch aufbau-C16 zu 13 px (Token)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "aufbau-C16"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".set-head p",
+   "nrs": [
+    "aufbau-A4b",
+    "typografie-3.2.3i",
+    "typografie-3.2.5f"
+   ],
+   "art": "doppelt",
+   "entscheidung": "typografie-3.2.3i übernimmt die Größe: `.set-head p { margin-top: 4px; font-size: var(--fs-13); line-height: var(--lh-13); }`. typografie-3.2.5f ist verträglich und fügt die neue Regel `.set-head p, .set-block .small { max-width: 68ch; }` hinzu. aufbau-A4b setzt dieselbe Größe 13 ohne Token und entfällt hier.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4b",
+     "aktion": "entfaellt",
+     "anweisung": "Alle fünf Punkte sind durch Typografie abgedeckt: `.set-head h2` → typografie-3.2.3u, `.set-head p` → typografie-3.2.3i, `.set-block h3` → typografie-3.2.3r, `.set-row b` und Optionstitel → typografie-3.2.4k (dort um `.set-block .avatar-row b` ergänzt). Die Handy-Stufe 16/22 px und `letter-spacing: 0` fallen ersatzlos weg."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sb-menu .item",
+   "nrs": [
+    "komponenten-C21b",
+    "typografie-3.2.3i"
+   ],
+   "art": "doppelt",
+   "entscheidung": "komponenten-C21b übernimmt und löscht Z. 250 vollständig (`.sb-menu .item { font-size: 13.5px; color: var(--text-2); }` und `.sb-menu .item:hover { color: var(--text); }`). `.sb-menu .item.on` (Z. 251) bleibt. Die Einträge im Konto-Menü erben dann alles von `.popover .item`: min. 36 px, Padding 0 10px, 13/500, `--text` (nach C21a; Token aus typografie-3.2.3l). Das ist dieselbe Menügröße wie in allen anderen Popovern (typografie K1). Das Löschen nur von `font-size` in 3.2.3i ist darin enthalten.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3i",
+     "aktion": "aendern",
+     "anweisung": "Die Teile Konto-Menü streichen: weder Z. 250 `.sb-menu .item` (C21b löscht die ganze Regel) noch Z. 254 `.sb-menu-row` (C21b übernimmt die Regel mit Token) anfassen. `.tile .head` und `.set-head p` bleiben in 3.2.3i."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".sb-menu-row",
+   "nrs": [
+    "komponenten-C21b",
+    "typografie-3.2.3i"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Diese Regel gehört komplett zu komponenten-C21b. Endstand: `.sb-menu-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 6px 4px 10px; font-size: var(--fs-13); line-height: var(--lh-13); color: var(--text-2); }`. Der Innenabstand links ist 10 wie bei `.popover .item`. Die Größe 13 steht als Token. typografie-3.2.3i fasst die Regel nicht an.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C21b",
+     "aktion": "aendern",
+     "anweisung": "In Z. 253/254 `.sb-menu-row` `font-size: 13px` → `font-size: var(--fs-13); line-height: var(--lh-13)`. Padding `4px 6px 4px 10px` wie spezifiziert, Z. 250 ganz löschen."
+    },
+    {
+     "nr": "typografie-3.2.3i",
+     "aktion": "aendern",
+     "anweisung": "Die Teile Konto-Menü streichen: weder Z. 250 `.sb-menu .item` noch Z. 254 `.sb-menu-row` anfassen, beide macht komponenten-C21b."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C21b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".prop-rule-f .field span",
+   "nrs": [
+    "komponenten-C05",
+    "komponenten-S-prop-b",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Regel wird gelöscht und nicht verkleinert. C05 löscht Z. 2723 `.prop-rule-f .field span`. S-prop-b stellt in prop.js `rulesFields` den Helfer `F` auf `<label class=\"field\"><span class=\"lbl\">…</span>` um. Die Beschriftung kommt dann aus `.field > .lbl`: 12/600 `--muted`, Token aus 3.2.3g. Das ist die app-weit einheitliche Feldbeschriftung und hat dieselbe Zielgröße 12, die 3.2.3e wollte. C05 und S-prop-b sollen im selben Durchgang landen, damit die Regelfelder nie ohne Beschriftungsstil dastehen.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3e",
+     "aktion": "aendern",
+     "anweisung": "Z. 2723 `.prop-rule-f .field span` aus der Liste „11.5 → 12“ streichen, komponenten-C05 löscht die Regel."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C05",
+     "nach": "komponenten-S-prop-b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fd-pop .fd-l",
+   "nrs": [
+    "aufbau-A4f",
+    "komponenten-C05",
+    "typografie-3.2.3e"
+   ],
+   "art": "doppelt",
+   "entscheidung": "komponenten-C05 übernimmt und löscht `.fd-pop .fd-l` (Z. 1360). Die Filter-Beschriftung kommt in Popover und Panel allein aus `.fd-l`: `display: flex; align-items: baseline; gap: 8px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted);`. Das sind die Werte aus C05 in Token-Schreibweise; die Zeilenhöhe 1.3 wird zum Token wie in typografie-3.2.3f. aufbau-A4f wollte für das Popover dasselbe Ergebnis (12, `--muted`, 600 geerbt) als Zusatzregel. Eine Regel statt zwei ist sauberer.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4f",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1360 `.fd-pop .fd-l { font-size: 12px; color: var(--muted); }` streichen, komponenten-C05 löscht die Regel und setzt `.fd-l` selbst auf 12/600/`--muted`. Die übrigen A4f-Punkte (`.popover .sec`, `.fd-pop .fd-gh`, Gewichte der Filter-Steuerelemente) bleiben."
+    },
+    {
+     "nr": "typografie-3.2.3e",
+     "aktion": "aendern",
+     "anweisung": "Z. 1360 `.fd-pop .fd-l` aus der Liste „11.5 → 12“ streichen, die Regel entfällt durch komponenten-C05."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".set-head h2",
+   "nrs": [
+    "aufbau-A4b",
+    "typografie-3.2.3u"
+   ],
+   "art": "konflikt",
+   "entscheidung": "typografie-3.2.3u gewinnt: `.set-head h2 { font-size: var(--fs-18); line-height: var(--lh-18); font-weight: 600; letter-spacing: -0.01em; }`. Es gibt keine eigene Stufe ≤960 px, also keine 16 px. Gründe: h2 für Bereich, Dialog und Panel ist app-weit 18/600, auch am Handy (Dialog- und Panel-Titel bleiben dort ebenfalls 18). 16 liegt nicht auf der Text-Skala. Überschriften behalten −0.01em aus `h1–h4`. Zeilenhöhen stehen nie in px. Gewicht 600 und Größe 18 sind in beiden Spezifikationen gleich, abweichend waren nur Laufweite, px-Zeilenhöhe und die Handy-Stufe.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A4b",
+     "aktion": "entfaellt",
+     "anweisung": "Vollständig durch Typografie abgedeckt: `.set-head h2` → typografie-3.2.3u (ohne Handy-Stufe 16/22, ohne `letter-spacing: 0`), `.set-head p` → typografie-3.2.3i, `.set-block h3` → typografie-3.2.3r, `.set-row b` und Optionstitel → typografie-3.2.4k (ergänzt um `.set-block .avatar-row b`)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".set-row b",
+   "nrs": [
+    "aufbau-A4b",
+    "typografie-3.2.4k"
+   ],
+   "art": "konflikt",
+   "entscheidung": "typografie-3.2.4k gewinnt, ergänzt um den Profilbild-Titel aus A4b. Nach Z. 1865 kommt neu: `.set-row b, .set-block .row.between > div > b, .set-block .check b, .set-block .avatar-row b, .coach-nrow b { font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; }`, **ohne Farbe**. `.set-row b { display: block; margin-bottom: 2px; }` bleibt, Z. 2949 `.coach-nrow b { font-size: 13.5px; }` wird gelöscht. Gründe: A4b setzt `color: var(--text)` auf `.set-body .row.between > div > b` (Spezifität 0,3,1). Das würde „Alles löschen“ (`<b class=\"neg\">`, misc.js:68) von Rot auf Textfarbe setzen. Außerdem fehlt bei A4b `.coach-nrow b`. Aus A4b wird `.avatar-row b` („Profilbild“, misc.js:47, liegt in `form.set-block`) übernommen, weil es dieselbe Rolle „Zeilentitel einer Option“ hat.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.4k",
+     "aktion": "aendern",
+     "anweisung": "Die Selektorliste der neuen Regel um `.set-block .avatar-row b` ergänzen: `.set-row b, .set-block .row.between > div > b, .set-block .check b, .set-block .avatar-row b, .coach-nrow b { font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 500; }`. Weiter ohne Farbe, Z. 2949 löschen wie spezifiziert."
+    },
+    {
+     "nr": "aufbau-A4b",
+     "aktion": "entfaellt",
+     "anweisung": "Der Punkt `.set-row b` und die neue Regel `.set-body .check b, .set-body .row.between > div > b, .set-body .avatar-row b` entfallen, typografie-3.2.4k übernimmt ohne `color`. Die übrigen A4b-Punkte sind ebenfalls durch Typografie abgedeckt (siehe `.set-head h2`)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".day-card .stats .k",
+   "nrs": [
+    "aufbau-A3c",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Typografie gewinnt mit 12/400 `--muted` für kleine Kennzahl-Beschriftungen in dichten Rastern: `.day-card .stats .k { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }`. Ein Gewicht wird nicht gesetzt, es bleibt 400 wie heute. Gründe: Die Gewichtsrollen gehören zur Typografie (400 = kleine Kennzahl-Beschriftung, abgestuft gegen den Kachel-Titel 13/500). Außerdem ist 500 breiter und verschärft die Kürzungen (typografie K13, „Disziplin-Kost…“). Die Größe 12 und die Farbe `--muted` sind in beiden Spezifikationen gleich.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3c",
+     "aktion": "aendern",
+     "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) streichen. Die Größe 12 setzt typografie-3.2.3e als Token, es kommt kein `font-weight: 500`, `--muted` ist schon gesetzt. Auch der Prüfschritt `.fw-stats { gap: 8px }` entfällt: Die Kürzung prüft typografie-Akzeptanz 4.3 (K13), das Raster ordnet abstaende-C3. Übrig bleibt nur der Punkt `.fw-lbl`, für den die Entscheidung zum Anker `.fw-lbl` gilt."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".strat-stats .k",
+   "nrs": [
+    "aufbau-A3c",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie bei `.day-card .stats .k`: `.strat-stats .k { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }`, Gewicht 400 (nicht gesetzt). Typografie gewinnt (Rolle kleine Kennzahl-Beschriftung 12/400).",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3c",
+     "aktion": "aendern",
+     "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) und den Prüfschritt `.fw-stats { gap: 8px }` streichen. Die Größe 12 als Token kommt aus typografie-3.2.3e, es kommt kein 500. Übrig bleibt nur der Punkt `.fw-lbl` (Entscheidung zum Anker `.fw-lbl`)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nb .stats-grid .k",
+   "nrs": [
+    "aufbau-A3c",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie bei `.day-card .stats .k`: `.nb .stats-grid .k { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }`, Gewicht 400. Gleiche Rolle wie die Kennzahl-Labels in der Tagesansicht, deshalb gleich gesetzt.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3c",
+     "aktion": "aendern",
+     "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) und den Prüfschritt `.fw-stats { gap: 8px }` streichen. Die Größe 12 als Token kommt aus typografie-3.2.3e, es kommt kein 500. Übrig bleibt nur der Punkt `.fw-lbl` (Entscheidung zum Anker `.fw-lbl`)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".fw-stats > div > span",
+   "nrs": [
+    "aufbau-A3c",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.fw-stats > div > span { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }`, Gewicht 400. Das entspricht typografie K13; 13/500 bzw. 12/500 wurden dort ausdrücklich abgelehnt, weil die Kürzung „Disziplin-Kost…“ sonst schlimmer wird. Das Raster selbst (zwei bzw. vier Spalten) regelt abstaende-C3, nicht A3c.",
+   "anpassungen": [
+    {
+     "nr": "aufbau-A3c",
+     "aktion": "aendern",
+     "anweisung": "Die vier Raster-Punkte (`.strat-stats .k`, `.day-card .stats .k`, `.nb .stats-grid .k`, `.fw-stats > div > span`) und den Prüfschritt `.fw-stats { gap: 8px }` streichen. Die Größe 12 als Token kommt aus typografie-3.2.3e, es kommt kein 500. Übrig bleibt nur der Punkt `.fw-lbl` (Entscheidung zum Anker `.fw-lbl`)."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".seg.mini button",
+   "nrs": [
+    "komponenten-C14b",
+    "typografie-3.2.3e"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Größe 12 statt 11.5: `.seg.mini button { height: 24px; padding: 0 7px; font-size: var(--fs-12); line-height: var(--lh-12); border-radius: 6px; }`. Die übrigen C14b-Änderungen an `.seg.mini` (Schiene `padding: 2px; border-radius: 8px; flex-wrap: nowrap`), `.fd-seg`, `.cert-opts .seg.sm` und `.seg.segc` bleiben. 11.5 px gehört zu den verbotenen Größen der Typografie-Skala. C14b hätte den Wert sonst nach 3.2.3e wieder eingeführt. dashtest.js:25/42 zählt bzw. klickt nur und ist nicht betroffen.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-C14b",
+     "aktion": "aendern",
+     "anweisung": "In der neuen Regel `.seg.mini button` `font-size: 11.5px` → `font-size: var(--fs-12); line-height: var(--lh-12)`. Höhe 24, Padding 0 7px und Radius 6 bleiben."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.1",
+     "nach": "komponenten-C14b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  ".tile .foot",
+  "#tip",
+  ".fd-pop .fd-chip",
+  ".fd-pop .fd-add",
+  ".prop-rule .hint",
+  ".stc-l small"
+ ]
+}

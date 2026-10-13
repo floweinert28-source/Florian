@@ -1,0 +1,486 @@
+{
+ "entscheidungen": [
+  {
+   "anker": ".nav a",
+   "nrs": [
+    "abstaende-A9",
+    "bewegung-B3",
+    "kilook-C1a",
+    "typografie-3.2.3n",
+    "zustaende-S-C19"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Alle fünf Schritte gelten und landen in einer Regel. Der Selektor heißt nur noch `.nav a` (kilook-C1a, `.nav` enthält laut app.js:210 keine `<button>`). Z. 169–173 danach: `gap: var(--sp-3)` (A9), `font-size: var(--fs-14); line-height: var(--lh-14)` (3.2.3n), `transition` ohne `, transform var(--dur-2) var(--ease)` (B3), dazu der Kommentar „Maße gemeinsam mit .boot-sb pflegen“ (S-C19). `.nav a:hover { background: var(--surface-2); color: var(--text); }`; kein `:active` und kein `.nav a.active:hover`. Folge fürs Skelett: Mit 14/20 statt 14,5 × 1,45 ist ein Eintrag 38 statt 39 px hoch (8 + 20 + 8 + 2 Rand), das Raster der Leiste also 41 statt 42 px (Dichte-Stufen: 34/32 px). Deshalb kommt S-C19 erst nach 3.2.3n und nimmt die Werte aus dem Anker `.boot-sb`. Die responsiv-Prüfung „Zeilenhöhe .nav a 39 px (± 1)“ ist mit 38 erfüllt, die Gewichtsregel (Navigation 500) bleibt.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C19",
+     "aktion": "aendern",
+     "anweisung": "Skelett-Raster der Leiste auf 38-px-Einträge + 3 px auslegen (41 px), nicht 39 + 3. Werte siehe Anker .boot-sb. Den Kommentar an `.nav a` wie geplant setzen."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.2.3n",
+     "nach": "zustaende-S-C19"
+    }
+   ]
+  },
+  {
+   "anker": ".nav button",
+   "nrs": [
+    "abstaende-A9",
+    "bewegung-B3",
+    "kilook-C1a",
+    "typografie-3.2.3n"
+   ],
+   "art": "konflikt",
+   "entscheidung": "`.nav button` fällt aus allen Selektorlisten (kilook-C1a; kein Element im Markup, grep app.js:210). A9, B3 und 3.2.3n setzen ihre Werte nur an `.nav a`. Wichtig: B3 schreibt Z. 176 laut Spezifikation als `.nav a:hover, .nav button:hover { … }`. Das würde den toten Selektor zurückbringen, egal in welcher Reihenfolge umgesetzt wird. Ergebnis: `.nav a:hover { background: var(--surface-2); color: var(--text); }`. Gilt ebenso für Z. 149/155 (Dichte), 175 (svg), 195/196 (sb-mini).",
+   "anpassungen": [
+    {
+     "nr": "bewegung-B3",
+     "aktion": "aendern",
+     "anweisung": "Z. 176 als `.nav a:hover { background: var(--surface-2); color: var(--text); }` schreiben, ohne `.nav button:hover`. Transition-Änderung Z. 172 an `.nav a`."
+    },
+    {
+     "nr": "abstaende-A9",
+     "aktion": "aendern",
+     "anweisung": "`gap: var(--sp-3)` an `.nav a` (Selektor ohne `.nav button`)."
+    },
+    {
+     "nr": "typografie-3.2.3n",
+     "aktion": "aendern",
+     "anweisung": "Z. 169–172: `font-size: var(--fs-14); line-height: var(--lh-14)` an `.nav a` (Selektor ohne `.nav button`)."
+    }
+   ]
+  },
+  {
+   "anker": ".nav a:hover",
+   "nrs": [
+    "bewegung-B3",
+    "kilook-C1a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endstand: `.nav a:hover { background: var(--surface-2); color: var(--text); }` – Werte von B3 (kein Versatz), Selektor von C1a. B3 darf `.nav button:hover` nicht wieder einfügen (siehe Anker .nav button).",
+   "anpassungen": [
+    {
+     "nr": "bewegung-B3",
+     "aktion": "aendern",
+     "anweisung": "Z. 176 nur als `.nav a:hover { background: var(--surface-2); color: var(--text); }` schreiben."
+    }
+   ]
+  },
+  {
+   "anker": ".nav a:active",
+   "nrs": [
+    "bewegung-B3",
+    "kilook-C1a"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Z. 177 wird ganz gelöscht (bewegung H2: Navigation, Karten und Zellen haben keinen Druckzustand; BRIEF „ruhig“). Ein bloß verengtes `.nav a:active { transform: translateX(2px) scale(.98); }` (C1a) bleibt nicht stehen. Z. 182 `.nav a.active:hover { transform: none; }` wird mit B3 ebenfalls gelöscht.",
+   "anpassungen": [
+    {
+     "nr": "kilook-C1a",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt „177 `.nav a:active, .nav button:active` → `.nav a:active`“ streichen; die Zeile löscht bewegung-B3 komplett."
+    }
+   ]
+  },
+  {
+   "anker": ".nav .badge-n",
+   "nrs": [
+    "kilook-C1a",
+    "typografie-3.2.3d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Z. 186 `.nav .badge-n { … }` wird gelöscht. Toter Code: `badge-n` kommt in web/js und web/app.html nicht vor (kilook Z11, Prüfung kilook 11). Die Umstellung von 11 px auf das Token entfällt für diese Zeile.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3d",
+     "aktion": "aendern",
+     "anweisung": "Z. 186 aus der Liste der 11-px-Regeln streichen (Regel wird von kilook-C1a gelöscht)."
+    }
+   ]
+  },
+  {
+   "anker": ".boot-sb",
+   "nrs": [
+    "abstaende-C13",
+    "zustaende-S-C19",
+    "zustaende-S-H2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Seitenleisten-Skelett gehört allein zu S-C19/S-H2. Der `.boot-sb`-Teil von C13 (`padding: 22px 10px 6px`) entfällt. Die übrigen C13-Teile (`.boot-body`, `.boot-tiles`, `.boot-main`) bleiben. S-C19 ist auf die heutige Leiste (oben 22 px Polster, Marke 4/18) gerechnet. Nach abstaende-D1 hat die Leiste oben kein Polster mehr, die Marke ist 72 px hoch, und die Linie liegt bei y = 71 über die volle Breite. Nach typografie-3.2.3n sind die Einträge 38 px hoch. Verbindlicher Endstand (ersetzt Z. 1548–1552):\n`.boot-sb { display: flex; flex-direction: column; gap: 0; padding: 0 16px; height: 100%; }`\n`.boot-sb .skel { border: 0; border-radius: 6px; height: 14px; width: var(--w, 62%); margin: 12px 0 15px; } /* 38-px-Zeile + 3 px wie .nav – Maße gemeinsam mit .nav a pflegen */`\n`.boot-sb .skel.l { height: 19px; width: 54%; margin: 16px 0 6px; }`\n`.boot-sb .skel.l2 { height: 12px; width: 60%; margin: 0 0 18px; }` (Linie bei y = 71)\n`.boot-sb .sep { display: block; flex: 0 0 auto; height: 1px; background: var(--border); margin: 0 -30px 14px; }` (volle Breite wie `.sb-sep` aus D1)\n`.boot-sb .skel.g { height: 10px; width: 34%; margin: 33px 0 7px; } .boot-sb .skel.g.first { margin-top: 7px; }`\n`.boot-sb .skel.card { margin: auto 0 0; height: 59px; width: 100%; border-radius: 14px; }`\nDichte-Stufen wie die Leiste: `@media (min-width: 961px) and (max-height: 1060px) { .boot-sb .skel { margin: 10px 0 13px; } .boot-sb .skel.g { margin: 23px 0 5px; } }` und `@media (min-width: 961px) and (max-height: 940px) { .boot-sb .skel { margin: 9px 0 12px; } .boot-sb .skel.g { margin-top: 19px; } }`.\nEingeklappt (Einträge fest 40 px, Raster 43): `html.sb-mini .boot-sb { padding: 0; align-items: center; } html.sb-mini .boot-sb .skel { width: 40px; margin: 13px 0 16px; } html.sb-mini .boot-sb .skel.l { width: 30px; height: 30px; border-radius: 9px; margin: 21px 0 20px; } html.sb-mini .boot-sb .skel.l2 { display: none; } html.sb-mini .boot-sb .skel.g { height: 1px; width: 40px; } html.sb-mini .boot-sb .sep { align-self: stretch; width: auto; margin: 0 -10px 14px; } html.sb-mini .boot-sb .skel.card { width: 40px; height: 40px; border-radius: 50%; }`.\nIn S-H2 werden die Zeilenbreiten über `style=\"--w:52%\"` gesetzt statt `style=\"width:52%\"`. Ein Inline-`width` schlägt jede Klassenregel, sonst greift die eingeklappte Breite von 40 px nie (das gilt schon heute für die 24-px-Regel). Abnahme: Marke, Linie und erste Gruppe weichen bei 1440×1000 und 1440×900, voll und eingeklappt, höchstens ±2 px von der fertigen Leiste ab.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-C13",
+     "aktion": "aendern",
+     "anweisung": "Nur `.boot-body` (padding var(--sp-6) var(--gutter) 60px, gap var(--grid-gap)), `.boot-tiles` und `.boot-main` (gap var(--grid-gap)) umsetzen. Den Teil `.boot-sb` `padding: 22px 10px 6px` weglassen, `.boot-sb` schreibt S-C19 neu."
+    },
+    {
+     "nr": "zustaende-S-C19",
+     "aktion": "aendern",
+     "anweisung": "`.boot-sb`-Block durch den Endstand aus dieser Entscheidung ersetzen: padding 0 16px, `.skel` margin 12px 0 15px mit width var(--w, 62%), `.skel.l` margin 16px 0 6px, `.skel.l2` margin 0 0 18px, `.sep` margin 0 -30px 14px, dazu die zwei Dichte-Stufen und die sb-mini-Regeln (mini: padding 0, .skel margin 13px 0 16px, .l 30×30 margin 21px 0 20px, .l2 none, .sep align-self stretch und margin 0 -10px 14px)."
+    },
+    {
+     "nr": "zustaende-S-H2",
+     "aktion": "aendern",
+     "anweisung": "In app.html Z. 19 jede Inline-Breite `style=\"width:NN%\"` als `style=\"--w:NN%\"` schreiben; Markup sonst wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-D1",
+     "nach": "zustaende-S-C19"
+    },
+    {
+     "vor": "typografie-3.2.3n",
+     "nach": "zustaende-S-C19"
+    },
+    {
+     "vor": "zustaende-S-H2",
+     "nach": "zustaende-S-C19"
+    }
+   ]
+  },
+  {
+   "anker": ".boot-tiles .skel",
+   "nrs": [
+    "responsiv-B11",
+    "zustaende-S-C19"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "S-C19 (globale Regel, Desktop) und B11 (Block ≤ 960 px) ergänzen sich. Beide Zahlen sind aber gemessene Ist-Werte von heute und werden durch andere Gruppen ungültig. abstaende-B7/B9 machen die Dashboard-Kachel 131 → 144 px hoch. Mit typografie (Wert 25 → 24 px, Kopfzeile 18 px) werden es etwa 142 px. Am Handy kommen +4 (Körper-Polster 8 → 12) und +1 (gap) dazu, Kachelwert 21 → 20 und Kopf-Zeilenhöhe ziehen ab. Verbindlich: Beide Skelett-Höhen sind die gemessene Höhe der fertigen Dashboard-Kachel nach allen Kachel-Schritten, nicht 131 bzw. 111. Desktop gemessen bei 1440×900, Handy bei 390×844, Beispieldaten, dunkel. Prüfung zustaende 21 wird zu „Kacheln y = 158 / h = gemessen, Karten y = 158 + h + 16 / h = 396 (±2)“. Prüfung responsiv 13 vergleicht Kacheln und Karte mit der fertigen Seite (±2) statt mit festen 111/339. Ändert sich die Kachel durch die offene kilook-Frage ki_look-10 (Linie im Kachelkopf, N1), neu messen. Hinweis: Die Mittelstufe des Skeletts (≤ 1180 px, 3 Kacheln) bleibt laut S-C19 unverändert. Sie weicht von der fertigen Seite ab (5 Kacheln als 3+2) und wird nachgezogen, sobald das Kachelraster 561–1240 entschieden ist.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C19",
+     "aktion": "aendern",
+     "anweisung": "`.boot-tiles .skel { height: <gemessen> }` statt 131 px: Höhe der fertigen Dashboard-Kachel bei 1440×900 nach abstaende-B7/B9 und den typografie-Werten. Prüfpunkt 21 entsprechend (Karten-y = 158 + Kachelhöhe + 16)."
+    },
+    {
+     "nr": "responsiv-B11",
+     "aktion": "aendern",
+     "anweisung": "`.boot-tiles .skel { height: <gemessen> }` statt 111 px: Höhe der fertigen Kachel bei 390×844 nach abstaende-B7/B9 und Kachelwert 20 px. Rest von B11 (nth-child(n + 4) sichtbar, fünfte volle Breite) unverändert. Prüfung 13 gegen die fertige Seite ±2."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-B7",
+     "nach": "zustaende-S-C19"
+    },
+    {
+     "vor": "abstaende-B9",
+     "nach": "zustaende-S-C19"
+    },
+    {
+     "vor": "abstaende-B7",
+     "nach": "responsiv-B11"
+    },
+    {
+     "vor": "abstaende-B9",
+     "nach": "responsiv-B11"
+    },
+    {
+     "vor": "zustaende-S-C19",
+     "nach": "responsiv-B11"
+    }
+   ]
+  },
+  {
+   "anker": ".boot-head .skel",
+   "nrs": [
+    "responsiv-B11",
+    "zustaende-S-C19"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die beiden Schritte ergänzen sich: S-C19 setzt die globale Regel, B11 überschreibt im Block ≤ 960 px. Die Symbol-Platzhalter haben die Maße der fertigen Knöpfe. Am Desktop sind das 42 × 42, weil komponenten-C08 `.btn.icon-only` (Vorlage, Zertifikat) auf 42 × 42 setzt. Also `.boot-head .skel { border: 0; border-radius: 9px; height: 42px; width: 42px; }` statt width 40; Kopfreihe min-height 46 bleibt (42 + 4). Am Handy bleiben die B11-Werte (40 × 40, Zeitraum 166 × 42) und werden nach komponenten-C08 und dem 40-px-Kontoknopf aus responsiv gegen die fertige Kopfreihe gemessen (±2).",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-C19",
+     "aktion": "aendern",
+     "anweisung": "`.boot-head .skel { border: 0; border-radius: 9px; height: 42px; width: 42px; }` (Breite 42 statt 40, wie `.btn.icon-only` nach komponenten-C08)."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C08",
+     "nach": "zustaende-S-C19"
+    },
+    {
+     "vor": "zustaende-S-C19",
+     "nach": "responsiv-B11"
+    }
+   ]
+  },
+  {
+   "anker": ".boot-main .skel",
+   "nrs": [
+    "responsiv-B11",
+    "zustaende-S-C19"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die Schritte ergänzen sich. Desktop 396 px (S-C19) ist richtig, denn `--card-h` bleibt 396 (abstaende). Am Handy ist die erste Karte height:auto. abstaende-B4 (Kartenkopf 14 → 16 px Abstand, Kopf mittig) und D10 ändern die fertige Höhe, daher gilt dort nicht die feste 339 aus B11, sondern die gemessene Höhe der ersten Dashboard-Karte bei 390×844 nach B4/D10 (erwartet etwa 341). Prüfung responsiv 13 vergleicht mit der fertigen Seite (±2).",
+   "anpassungen": [
+    {
+     "nr": "responsiv-B11",
+     "aktion": "aendern",
+     "anweisung": "`.boot-main .skel { height: <gemessen> }` statt 339 px: Höhe der ersten fertigen Dashboard-Karte bei 390×844 nach abstaende-B4 und abstaende-D10."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "abstaende-B4",
+     "nach": "responsiv-B11"
+    },
+    {
+     "vor": "abstaende-D10",
+     "nach": "responsiv-B11"
+    },
+    {
+     "vor": "zustaende-S-C19",
+     "nach": "responsiv-B11"
+    }
+   ]
+  },
+  {
+   "anker": ".rp-btn.rp-primary",
+   "nrs": [
+    "farbe-C5",
+    "farbe-C28",
+    "typografie-3.2.4c"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Sofort gilt:\n- Je Ruhepunkt-Bildschirm genau ein Hauptknopf (farbe-C28): Schließen `btn primary` → `btn`, Atmung „Starten“ (Z. 232) und Countdown (Z. 366) → `rp-btn`. Navigation (Z. 737) und Mentor (Z. 791) bleiben `rp-primary`. rptest und mentortest klicken weiter `.rp-nav .rp-primary`, `.rp-timer .rp-btn` trifft weiter.\n- Gewicht: `.rp-btn` 500, `.rp-btn.rp-primary` 700 (typografie-3.2.4c). BRIEF sagt „nur Werte und Hauptknöpfe 700“. Das „wie .btn.primary“ aus farbe betrifft nur die Farben, nicht farbes Gewicht 600.\n\nFüllung: Die Phasenfarbe (standardmäßig Grün, sonst bunt) muss weg, das schließt BRIEF aus (Grün nur Gewinn und „Trade loggen“, keine bunten Akzente). Neu ist exakt die Füllung von `.btn.primary`. Welche neutrale Füllung das wird, fragt komponenten-1 (N1): B Textfarbe oder C `--surface-3` wie farbe-C5. BRIEF entscheidet das nicht.\n- Deshalb Z. 2217/2218 aus farbe-C5 erst nach der Antwort umsetzen, dann mit denselben Werten wie `.btn.primary`: bei C wörtlich farbe-C5, bei B die Werte aus komponenten N1/C06. Hover ohne `filter`.\n- Bis dahin bleiben Z. 2217/2218 unverändert.\n- Der `--rp-dawn`-Teil von farbe-C5 hängt nicht an der Frage.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C5",
+     "aktion": "aendern",
+     "anweisung": "Z. 2141 (`--rp-dawn: var(--info)`) und Z. 2142 (helles `--rp-dawn` streichen) sofort umsetzen. Z. 2217/2218 (Füllung und Hover von `.rp-btn.rp-primary`) erst nach der Antwort auf komponenten-1, dann exakt die Werte von `.btn.primary` übernehmen. `font-weight: 700` aus typografie-3.2.4c in derselben Regel erhalten."
+    }
+   ],
+   "wartet_auf_frage": "komponenten: komponenten-1 (N1, Füllfarbe des Hauptknopfs) – betrifft nur den Füll-Teil von farbe-C5 (Z. 2217/2218); farbe-C28 und typografie-3.2.4c laufen sofort"
+  },
+  {
+   "anker": ".note-body",
+   "nrs": [
+    "kilook-C2",
+    "typografie-3.2.3n"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die ungebundene Regel `.note-body { … }` (Z. 786) und `.note-body:focus` (Z. 787) werden gelöscht (kilook-C2). Ganz tot sind sie aber nicht: `.nb .note-body` (notebook.js:78, Papierkorb notebook.js:67) erbt heute 14,5 px und Zeilenhöhe 1.65, und Werkzeugleiste, `.nb-menu` und `.nb-ytpop` liegen darin. Die Schriftgröße kommt danach vom body (14 px nach typografie), das ist der typografie-Zielwert. Die Zeilenhöhe, die typografie ausdrücklich behält („1.65 bleibt“), wandert in die gebundene Regel Z. 1058: `.nb .note-body { padding: 0 8px 20px; line-height: 1.65; }`. Der Editor-Text ist nicht betroffen (`.ql-container.ql-snow` setzt `--nb-body`, `.ql-editor` 1.65). Hinweis zu den übrigen C2-Löschungen (Z. 779–783): Heute schlägt `.note-item span` (0,1,1) die Klasse `.pos`/`.neg` aus U.pnl. Nach dem Löschen steht das P&L in der Notizliste in Gewinn- oder Verlustfarbe wie überall in der App. Das ist gewollt, die Notizliste per Aufnahme prüfen.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3n",
+     "aktion": "aendern",
+     "anweisung": "Punkt „786 .note-body“ streichen: Die Regel löscht kilook-C2, 14 px erbt die Notiz vom body."
+    },
+    {
+     "nr": "kilook-C2",
+     "aktion": "aendern",
+     "anweisung": "Z. 786–787 wie geplant löschen und `.nb .note-body` (Z. 1058) zu `padding: 0 8px 20px; line-height: 1.65;` ergänzen. Nach dem Löschen von Z. 779–783 Notizliste und Papierkorb-Notiz per Aufnahme prüfen."
+    }
+   ]
+  },
+  {
+   "anker": ".note-title",
+   "nrs": [
+    "abstaende-K3",
+    "kilook-C2",
+    "responsiv-A3"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Im Code passen die drei Schritte zusammen:\n- K3 baut den Papierkorb-Kopf mit `<h2 class=\"note-title\">` innerhalb von `.nb`. Dort greift `.nb .note-title` (Z. 1014) und nicht die ungebundene Regel, die C2 löscht. `h2` hat über Z. 90 margin 0.\n- `.nb .note-title:focus` (Z. 1028) bleibt.\n- responsiv-A3 schließt `.note-title` über die Klasse am Titelfeld aus, die Klasse bleibt im Markup.\n\nEinziger Widerspruch ist ein Wert: Die abstaende-Prüfung 14 erwartet „Titel 34 px“, typografie setzt den Notiz-Titel auf 32/600 (≤ 960: 26, ≤ 560: 24). Verbindlich: Der Papierkorb-Titel ist so groß wie der Titel einer offenen Notiz, also 32 px am Desktop.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-K3",
+     "aktion": "aendern",
+     "anweisung": "Markup wie spezifiziert. In der zugehörigen Prüfung 14 „Titel 34 px“ durch „Titel gleich groß wie der Titel einer offenen Notiz (32 px nach typografie)“ ersetzen."
+    }
+   ]
+  },
+  {
+   "anker": ".journal",
+   "nrs": [
+    "kilook-C2",
+    "typografie-3.2.2d"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Beide löschen denselben toten Code: Z. 770–774 und Z. 788, deren @media nur `.journal`-Regeln enthält. kilook-C2 übernimmt, inklusive Kommentar „Notebook-Ordner“. Die `.folder`-Regeln Z. 775–778 bleiben.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.2d",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "kilook-C2",
+     "anweisung": "Nicht separat umsetzen; Z. 770–774 und Z. 788 löscht kilook-C2."
+    }
+   ]
+  },
+  {
+   "anker": ".nb-toolbar .tb .lbl",
+   "nrs": [
+    "kilook-C2",
+    "typografie-3.2.3j"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Dieselbe Änderung zweimal. typografie-3.2.3j übernimmt, weil sie Tokens und Zeilenhöhe mitbringt: Z. 1086 `.nb-toolbar .tb .lbl` löschen (`.lbl` gibt es nur im Umwandeln-Knopf, editor.js:118). Z. 1085 wird `.nb-toolbar .tb.turn .lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; }`.",
+   "anpassungen": [
+    {
+     "nr": "kilook-C2",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt „1085–1086“ weglassen, ihn setzt typografie-3.2.3j um. Übrige C2-Punkte unverändert."
+    }
+   ]
+  },
+  {
+   "anker": ".nb-toolbar .tb.turn .lbl",
+   "nrs": [
+    "kilook-C2",
+    "typografie-3.2.3j"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie beim Anker .nb-toolbar .tb .lbl: typografie-3.2.3j übernimmt. Endstand: `.nb-toolbar .tb.turn .lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; }`, Z. 1086 gelöscht.",
+   "anpassungen": [
+    {
+     "nr": "kilook-C2",
+     "aktion": "aendern",
+     "anweisung": "Punkt „1085–1086“ entfällt (übernimmt typografie-3.2.3j)."
+    }
+   ]
+  },
+  {
+   "anker": "input[type=number]",
+   "nrs": [
+    "abstaende-O1",
+    "komponenten-C02"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die globale Regel gegen Browser-Pfeile legt allein komponenten-C02 an, nach Z. 294: `input[type=number] { -moz-appearance: textfield; appearance: textfield; }` plus `::-webkit-inner/outer-spin-button { -webkit-appearance: none; margin: 0; }`. abstaende-O1 baut darauf auf und setzt nur den affiliate.js-Teil um, also Untertitel und Feld in `.stack`.",
+   "anpassungen": [
+    {
+     "nr": "abstaende-O1",
+     "aktion": "aendern",
+     "anweisung": "Nur affiliate.js Z. 92 (`.stack`) umsetzen; den app.css-Teil (Zahlenpfeile) weglassen, ihn liefert komponenten-C02."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-C02",
+     "nach": "abstaende-O1"
+    }
+   ]
+  },
+  {
+   "anker": ".btn .cntb",
+   "nrs": [
+    "typografie-3.2.3d",
+    "typografie-3.2.4l",
+    "zustaende-S-C7"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Das Gewicht 700 → 600 steht zweimal da (3.2.4l und S-C7). S-C7 übernimmt es zusammen mit der neutralen Farbe, 3.2.3d stellt die Größe auf das Token um. Endstand: `.btn .cntb { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: color-mix(in srgb, var(--text) 16%, transparent); color: var(--text); font-size: var(--fs-11); line-height: var(--lh-11); font-weight: 600; }`. Ein Zähler ist ein Etikett, daher 600, ohne Grün. Prüfung zustaende 8 (kein `var(--bg)` in `.btn .cntb`) ist damit erfüllt.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.4l",
+     "aktion": "aendern",
+     "anweisung": "Nur `.stat-tile .k`/`.stat .k` → 500 umsetzen; den Teil „Zähler .cntb 700 → 600“ übernimmt zustaende-S-C7."
+    }
+   ]
+  },
+  {
+   "anker": ".fd-panel .cntb",
+   "nrs": [
+    "typografie-3.2.3d",
+    "typografie-3.2.4l",
+    "zustaende-S-C7"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie bei .btn .cntb: S-C7 setzt Fläche `color-mix(in srgb, var(--text) 16%, transparent)`, Schrift `var(--text)` und Gewicht 600, 3.2.3d stellt `font-size: var(--fs-11); line-height: var(--lh-11)` um. 3.2.4l ändert die Zeile nicht separat.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.4l",
+     "aktion": "aendern",
+     "anweisung": "Z. 1421 nicht anfassen; Gewicht 600 setzt zustaende-S-C7."
+    }
+   ]
+  },
+  {
+   "anker": ".nw-n",
+   "nrs": [
+    "aufbau-C9b",
+    "typografie-3.2.3d"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Zähler-Pille im News-Tageskopf entfällt (aufbau Grundsatz 1, Prüfung aufbau 727/756). news.js Z. 81 ohne `<span class=\"nw-n\">`, Regel Z. 3087 gelöscht. Die 11-px-Token-Umstellung entfällt für diese Zeile.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3d",
+     "aktion": "aendern",
+     "anweisung": "Z. 3087 `.nw-n` aus der Liste streichen (Regel wird von aufbau-C9b gelöscht)."
+    }
+   ]
+  },
+  {
+   "anker": ".inp-cur .cur-sym",
+   "nrs": [
+    "komponenten-C13",
+    "typografie-3.2.3m"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Das Währungs- oder Prozentzeichen im Feld wird 13 px/500, nicht 14 px. Das Zeichen ist eine leise Einheit neben dem 14-px-Wert. komponenten hat die Rolle ausdrücklich festgelegt („Zeichen 13px/500 --muted, 12 px vom Rand“) und die Einrückung darauf gerechnet. Bei typografie war 13,5 → 14 nur die pauschale Umstellung. 13 liegt auf der Skala, 500 ist das Gewicht für Steuerelemente. Endstand Z. 845: `.inp-cur .cur-sym { position: absolute; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); pointer-events: none; }`. Die übrigen C13-Werte (left/right 12, Einrückung calc(18px + var(--sl, 1) * 1ch), .w160, `.input-unit` weg) gelten unverändert.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3m",
+     "aktion": "aendern",
+     "anweisung": "„845 `.inp-cur .cur-sym`“ aus der Liste 13,5 → 14 streichen; die Zeile bekommt `var(--fs-13)`/`var(--lh-13)` mit komponenten-C13."
+    },
+    {
+     "nr": "komponenten-C13",
+     "aktion": "aendern",
+     "anweisung": "Statt `font-size: 13px` das Token schreiben: `font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500;`."
+    }
+   ]
+  },
+  {
+   "anker": ".pg-info",
+   "nrs": [
+    "komponenten-S-trades-c",
+    "typografie-3.2.2e",
+    "zustaende-S-T2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "komponenten will `.pg-info` immer, zustaende will es bei einer Seite nur ohne aktiven Filter. zustaende gilt (aufbau Grundsatz 1: eine Information an einer Stelle). Bei aktivem Filter steht „{x} von {y} Trades“ schon in der Filterzeile.\n\nVerbindlicher Endstand trades.js:\n- Z. 44: Zähler nur bei aktivem Filter (`active = !!(f.q || f.symbol || f.setup || f.status || f.mistake)`).\n- Z. 48: „Trades pro Seite“ steht immer.\n- Bei `pages > 1` kommen dazu: `pg-sep`, `<span class=\"pg-info\">${from + 1}–${to} von ${n} Trades</span>`, `grow`, die Seitenwahl mit „von N Seiten“ und `.pg-nav` mit zwei `<button type=\"button\" class=\"btn nav\">`.\n- Bei `pages <= 1`: ohne Filter `pg-sep` + `<span class=\"pg-info\">{n} Trade(s)</span>`, mit Filter nichts weiter.\n\nBereichsangabe immer ohne Leerzeichen „1–10“ (komponenten-Wortwahl). Das „{from} – {to}“ in S-T2 zitiert nur den Ist-Text.\n\nGleiches Format in shadow.js:73 („1–10 von {n} Verstößen“). Dazu shadowtest.js:38 auf `1–10 von ${n2} Verstößen` und Z. 41 auf `startsWith('11–')` anpassen. Neue Schlüssel „{0}–{1} von {2} Trades/Verstößen“ in allen fünf js/lang-Dateien.\n\ntabular-nums für `.pg-info` (3.2.2e) gilt unverändert. Weil die Pfeile einzelne `.btn.nav` werden (komponenten ersetzt Z. 1749–1753), folgt `:disabled` der globalen Regel (`--disabled-o`); die Sonderfarbe `--faint` für die Pager-Pfeile entfällt.",
+   "anpassungen": [
+    {
+     "nr": "komponenten-S-trades-c",
+     "aktion": "aendern",
+     "anweisung": "„.pg-info bleibt immer“ ersetzen: `.pg-info` bei mehreren Seiten „{from}–{to} von {n} Trades“; bei einer Seite nur ohne aktiven Filter als „{n} Trade(s)“ (Bedingung aus zustaende-S-T2). `.btn nav`, „1–10“ ohne Leerzeichen, zweites Label und `.pg-nav` nur bei pages > 1 wie geplant; dasselbe Format in shadow.js:73 plus shadowtest.js:38/41."
+    },
+    {
+     "nr": "zustaende-S-T2",
+     "aktion": "aendern",
+     "anweisung": "Bei pages > 1 nicht „wie bisher“: `pg-info` als `${from + 1}–${to} von ${n} Trades` (ohne Leerzeichen um den Strich), Pfeile als `class=\"btn nav\"`. Bedingungen für pages <= 1 und den Filterzähler wie spezifiziert."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "zustaende-S-T2",
+     "nach": "komponenten-S-trades-c"
+    }
+   ]
+  }
+ ],
+ "vertraeglich": [
+  ".rp",
+  ".rp input[type=number]",
+  ".rp-checks label",
+  ".sr-num .input",
+  ".nb-toolbar .sz",
+  ".boot-head .skel.tl",
+  ".tile .head .n",
+  ".nw-cur",
+  ".fd-hint",
+  ".note-item",
+  ".kv b",
+  ".prop-highlights",
+  ".mentor-err"
+ ]
+}

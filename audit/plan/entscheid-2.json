@@ -1,0 +1,514 @@
+{
+ "entscheidungen": [
+  {
+   "anker": "fmt.weekdayLong",
+   "nrs": [
+    "typografie-3.8e",
+    "responsiv-3.9b",
+    "typografie-3.4d",
+    "responsiv-3.2a",
+    "barrierefreiheit-C-stats-32"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Ein Formatierer und eine Zellform auf allen Breiten. Statistik → Tage zeigt das Datum überall als „Do., 08.10.“, über eine Jahresgrenze „Do., 08.10.25“. Es kommt aus fmt.weekdayDM(d, withYear) (typografie-3.4d), die Zelle steht in Onest (class=\"num\"). Endzustand der Tageszelle in stats.js Z. 32: `<td class=\"num\"><a class=\"row-link\" href=\"#/day/${d.key}\">${fmt.weekdayDM(d.day, multiYear)}</a></td>`, multiYear aus typografie-3.8e. Grund: Die Kurzform passt schon bei 390 px. Eine zweite Handy-Variante (ph-hide/ph-only) und ein zweiter Formatierer mit gleicher Ausgabe (fmt.weekdayShort) wären doppelt, und die Typografie-Regel legt die Tagestabelle auf „Do., 08.10.“ fest. Die übrigen Handy-Maßnahmen aus responsiv-3.9b bleiben: ph-fit, ph-hide an Gewinner, Verlierer, Brutto, Gebühren und Drawdown sowie die Änderungen an groupTable.",
+   "anpassungen": [
+    {
+     "nr": "responsiv-3.2a",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "typografie-3.4d",
+     "anweisung": "fmt.weekdayShort nicht anlegen. Dieselbe Ausgabe liefert fmt.weekdayDM(d) aus typografie-3.4d. In den Regeln und Texten von Responsiv „fmt.weekdayShort“ durch „fmt.weekdayDM“ ersetzen."
+    },
+    {
+     "nr": "responsiv-3.9b",
+     "aktion": "aendern",
+     "anweisung": "Die Tageszelle nicht in `<span class=\"ph-hide\">…</span><span class=\"ph-only\">…</span>` aufteilen. Sie bleibt so, wie typografie-3.8e und barrierefreiheit-C-stats-32 sie setzen. Nur umsetzen: Klasse ph-fit an der Tabelle, ph-hide an th/td von Gewinner, Verlierer, Brutto, Gebühren und Drawdown sowie die groupTable-Änderungen (Z. 34)."
+    },
+    {
+     "nr": "barrierefreiheit-C-stats-32",
+     "aktion": "aendern",
+     "anweisung": "Den Link um den neuen Inhalt legen: `<td class=\"num\"><a class=\"row-link\" href=\"#/day/${d.key}\">${fmt.weekdayDM(d.day, multiYear)}</a></td>`, nicht um fmt.weekdayLong."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "typografie-3.4d",
+     "nach": "typografie-3.8e"
+    },
+    {
+     "vor": "typografie-3.8e",
+     "nach": "barrierefreiheit-C-stats-32"
+    },
+    {
+     "vor": "typografie-3.8e",
+     "nach": "responsiv-3.9b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".hide-m",
+   "nrs": [
+    "wording-S12.27",
+    "barrierefreiheit-C-prop-294",
+    "komponenten-S-prop-f",
+    "barrierefreiheit-B1",
+    "barrierefreiheit-C-coach-42-157",
+    "barrierefreiheit-C-notebook-74-teilen"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endzustand des Prop-Kopfknopfs (prop.js:294): `<button type=\"button\" class=\"btn\" data-action=\"prop-account-new\">${I.plus}<span>Prop-Konto anlegen</span></button>`. Der Text steht auf allen Breiten, ohne hide-m oder vh-m und ohne aria-label. Grund für den Wortlaut: Das Wording-Glossar ist für Texte maßgeblich („Prop-Konto“ immer mit Präfix, Knopf = Objekt + Verb, „anlegen“ für neue Datensätze) und hat Vorrang vor „Konto anlegen“ aus Komponenten. Er ist derselbe wie im Leerzustand (prop.js:82) und in widgets.js:354. Grund für die Form: Barrierefreiheit und Komponenten wollen den Text auf allen Breiten sichtbar haben. Damit ist das aria-label überflüssig (Barrierefreiheit Z8: aria-label nur ohne sichtbaren Text). In Wording 4.2 entfällt die Pflichtprüfung `aria-label=\"Prop-Konto anlegen\"` ≥ 1, die Prüfung `Prop-Konto anlegen` ≥ 3 bleibt. Die übrigen hide-m-Schritte (B1, Coach, Notebook „Teilen“) sind verträglich, B1 muss aber zuerst die Klasse .vh-m anlegen.",
+   "anpassungen": [
+    {
+     "nr": "wording-S12.27",
+     "aktion": "aendern",
+     "anweisung": "Ergebnis ohne aria-label und ohne class=\"hide-m\": `<button type=\"button\" class=\"btn\" data-action=\"prop-account-new\">${I.plus}<span>Prop-Konto anlegen</span></button>`. In 4.2 die Zeile `p \"aria-label=\\\"Prop-Konto anlegen\\\"\" 1` streichen."
+    },
+    {
+     "nr": "barrierefreiheit-C-prop-294",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "wording-S12.27",
+     "anweisung": "wording-S12.27 entfernt hide-m mit. Der Wortlaut ist „Prop-Konto anlegen“."
+    },
+    {
+     "nr": "komponenten-S-prop-f",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "wording-S12.27",
+     "anweisung": "Text „Prop-Konto anlegen“ statt „Konto anlegen“. wording-S12.27 setzt ihn um, zusammen mit dem Entfernen von hide-m."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-B1",
+     "nach": "barrierefreiheit-C-coach-42-157"
+    },
+    {
+     "vor": "barrierefreiheit-B1",
+     "nach": "barrierefreiheit-C-notebook-74-teilen"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".tbl th .dir",
+   "nrs": [
+    "barrierefreiheit-B7",
+    "barrierefreiheit-C-trades-46",
+    "typografie-3.2.3b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Der Sortierpfeil wird ein Chevron-SVG mit 12 × 12 px (barrierefreiheit-B7): `.tbl th .dir { display: inline-flex; margin-left: 4px; color: var(--text-2); }` ohne font-size, dazu `.tbl th .dir svg { width: 12px; height: 12px; }` und `.tbl th .dir.up svg { transform: rotate(180deg); }`. ▲/▼ werden durch I.chev im Knopf .th-sort ersetzt, und .dir kommt nur in trades.js vor. Die Schriftgröße 11 px aus typografie-3.2.3b wäre deshalb ein toter Wert (Kilook Z11: kein toter Code).",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.2.3b",
+     "aktion": "aendern",
+     "anweisung": "In der Liste „10 → 11“ den Eintrag Z. 596 `.tbl th .dir` streichen. Die übrigen Stellen bleiben: .cal .d .pm am Handy, .ring .n small, .cal .w .t, .nw-v small und .cal .d .n bis 960 px, letzteres vorbehaltlich der Entscheidung zu .cal .d .n."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "barrierefreiheit-B7",
+     "nach": "barrierefreiheit-C-trades-46"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "widgetpreviews.BLUE",
+   "nrs": [
+    "diagramme-F2",
+    "diagramme-F8",
+    "farbe-C15",
+    "diagramme-E7",
+    "farbe-C14b"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Report-Standardpalette in der ganzen App: ['#2f80d0', '#b4549f', '#c0702f'] (Blau, Magenta, Kupfer), nach Diagramme K13. Beide Sätze bestehen den dataviz-Validator, aber #4a6fe3 liegt im hellen Design nur ΔE 6,0 von --be (#5f4fcf) entfernt, und Break-even muss von jeder Serie unterscheidbar bleiben. Echtes Widget und Vorschau nutzen dieselben Werte. widgets.js Z. 211 (REPORT_COLORS und REPORT_OLD-Umschreibung #3d6bff→#2f80d0, #f5a53a→#b4549f, #4fd1a5→#c0702f) setzt nur diagramme-E7 um. widgetpreviews.js Z. 7 (`BLUE = '#2f80d0'`, `MAGENTA = '#b4549f'`, ORANGE wird umbenannt) setzt nur diagramme-F2 um. Die Farbe-Regel „Report-Serien #4a6fe3 …“ und die Paletten-Prüfung in farbe.md Z. 593 gelten mit \"#2f80d0,#b4549f,#c0702f\".",
+   "anpassungen": [
+    {
+     "nr": "farbe-C15",
+     "aktion": "aendern",
+     "anweisung": "Nur Z. 45 umsetzen (`'2.170,41 €'` → `'−2.170,41 €'`). Z. 7 (BLUE/ORANGE) entfällt, das übernimmt diagramme-F2 mit #2f80d0/#b4549f und der Umbenennung in MAGENTA."
+    },
+    {
+     "nr": "farbe-C14b",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "diagramme-E7",
+     "anweisung": "REPORT_COLORS und das Umschreiben alter Standardfarben nur einmal, in diagramme-E7 (#2f80d0 statt #4a6fe3). Der Test 4.6 aus farbe-C14b (gespeicherter Report mit alten Standardfarben zeigt die neuen, eigene Farben bleiben) wird mit den Werten aus E7 bei E7 geprüft. Die Validator-Prüfung in farbe.md Z. 593 läuft mit \"#2f80d0,#b4549f,#c0702f\"."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-F2",
+     "nach": "diagramme-F8"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "widgetpreviews.ORANGE",
+   "nrs": [
+    "diagramme-F2",
+    "farbe-C15"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Wie beim Anker widgetpreviews.BLUE: Nur diagramme-F2 ändert Z. 7. ORANGE heißt danach MAGENTA = '#b4549f', alle Verwendungen werden mitgezogen. Der Wert ist in beiden Spezifikationen gleich, also gibt es nur einen Schritt dafür.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C15",
+     "aktion": "aendern",
+     "anweisung": "Nur Z. 45 umsetzen (`'2.170,41 €'` → `'−2.170,41 €'`). Z. 7 (BLUE/ORANGE) entfällt, das übernimmt diagramme-F2 mit #2f80d0/#b4549f und der Umbenennung in MAGENTA."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".lp .step .k",
+   "nrs": [
+    "kilook-B8d",
+    "kilook-C7d",
+    "typografie-3.3"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Die Ablauf-Nummer wird eine ruhige Ziffer vor dem Titel statt eines Kickers: `.lp .step .k { font-family: var(--font-num); color: var(--muted); font-weight: 500; margin-right: 8px; }` (kilook-B8d), Markup `<b><span class=\"k\">1</span>Session starten</b>` (kilook-C7d). Grund: Die BRIEF verlangt „nichts Dekoratives“, also keinen Versal-Kicker in --accent. 900 wäre für eine Ziffer in einem Titel mit 600 zu laut. Gewicht 900 bleibt nur für die Marke und .lp .hero h1.",
+   "anpassungen": [
+    {
+     "nr": "typografie-3.3",
+     "aktion": "aendern",
+     "anweisung": "Nur `.lp .hero h1` font-weight 800 → 900 umsetzen. `.lp .step .k` nicht anfassen, das regelt kilook-B8d mit 500. In der Typografie-Regel „900 = Marke (…)“ den Eintrag .lp .step .k streichen."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "kilook-B8d",
+     "nach": "kilook-C7d"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".nb-details summary:focus",
+   "nrs": [
+    "barrierefreiheit-A2d",
+    "farbe-C1e"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Z. 1187 wird genau einmal ersetzt, durch barrierefreiheit-A2d: `.nb-details summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }`. Damit fällt die grüne Fokus-Schrift weg, und der neutrale Fokusring gilt wie überall. Z. 1186 behält `outline: none`, die :focus-visible-Regel setzt sich darüber durch. Das Gewicht 600 kommt aus typografie-3.2.4e.",
+   "anpassungen": [
+    {
+     "nr": "farbe-C1e",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 1187 (Löschen von `.nb-details summary:focus`) nicht umsetzen, das erledigt barrierefreiheit-A2d. Z. 1163, 1165 und 1177 bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "stats-top",
+   "nrs": [
+    "diagramme-G1",
+    "zustaende-S-ST1",
+    "diagramme-G2"
+   ],
+   "art": "konflikt",
+   "entscheidung": "Endzustand von stats.js Z. 12–14 nach diagramme-G1: `const days = C.dailyAggregation(list); let top = ''; if (closed.length) { const id = 'stats-top'; U.chartData[id] = { days, bars: false, dots: days.length <= 45 }; top = U.card('Kumulierter Netto-P&L', `<div class=\"chart h240\" data-chart=\"pnl\" data-id=\"${id}\"></div>`); }`. Die Karte hat einen Titel und keine Legende, zeigt einen Punkt je Handelstag (kein fillDays) und erscheint nur mit abgeschlossenen Trades. `const r = App.range()` entfällt. Grund: Diagramme A-14 und Aufbau („Karte „Kumulierter Netto-P&L“ (h240, ohne Legende)“). Das Ziel der Zustände-Gruppe, kein leeres Diagramm, ist in G1 schon enthalten. Verschiebt aufbau-19 die Karte in „Übersicht“, gilt dort derselbe Inhalt.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-ST1",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "diagramme-G1",
+     "anweisung": "Die Prüfung auf closed.length steckt in diagramme-G1. Kein fillDays und kein leerer Kartentitel."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-G1",
+     "nach": "diagramme-G2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "fillDays",
+   "nrs": [
+    "diagramme-G2",
+    "zustaende-S-ST1",
+    "diagramme-G1"
+   ],
+   "art": "konflikt",
+   "entscheidung": "fillDays (stats.js Z. 20) wird gelöscht (diagramme-G2), sobald diagramme-G1 den einzigen Aufruf entfernt hat. Grund: Das Kopfdiagramm zeigt nur Handelstage (Diagramme A-14). zustaende-S-ST1 würde fillDays weiter aufrufen und entfällt.",
+   "anpassungen": [
+    {
+     "nr": "zustaende-S-ST1",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "diagramme-G1",
+     "anweisung": "Die Prüfung auf closed.length steckt in diagramme-G1. Kein fillDays und kein leerer Kartentitel."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-G1",
+     "nach": "diagramme-G2"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".empty > svg",
+   "nrs": [
+    "komponenten-C11",
+    "farbe-B12"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Z. 676 wird einmal geändert, durch komponenten-C11: `.empty > svg { width: 34px; height: 34px; color: var(--faint); }`, dazu `.empty > b { color: var(--text); font-size: 15px; }` und neu `.empty > .btn, .empty > .row { margin-top: 8px; }`. Die Werte sind gleich wie in farbe-B12, und Symbole in Knöpfen des Leerzustands bleiben 16 px.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B12",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-C11",
+     "anweisung": "Dieselbe Änderung an Z. 676 macht komponenten-C11."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".empty svg",
+   "nrs": [
+    "komponenten-C11",
+    "farbe-B12"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie beim Anker .empty > svg: komponenten-C11 ersetzt `.empty svg` (Z. 676) durch `.empty > svg` mit unveränderten Werten. farbe-B12 entfällt.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B12",
+     "aktion": "zusammen_mit",
+     "ziel_nr": "komponenten-C11",
+     "anweisung": "Dieselbe Änderung an Z. 676 macht komponenten-C11."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "DatePicker.TYPES",
+   "nrs": [
+    "komponenten-D1",
+    "wording-S4.1-4.5"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Beide Schritte bleiben. komponenten-D1 nimmt `time: 1` in TYPES auf und öffnet für Uhrzeitfelder den App-Wähler. Danach legt wording-S4.1-4.5 die Anzeige .dp-display über alle TYPES-Felder, auch time, wie in 4.1 vorgesehen. Damit die Anzeige bei Uhrzeitfeldern nicht leer bleibt, bekommt sync() einen Zweig für time: `root.UI.fmt.time(new Date(2000, 0, 1, +v.slice(0, 2), +v.slice(3, 5)))`. Das ist dieselbe Uhrzeitform wie bei datetime-local über fmt.dateTime, auf Deutsch „09:30“. Ist kein data-empty gesetzt, steht im leeren Feld „—“ (U+2014, Wording W8) statt „–“.",
+   "anpassungen": [
+    {
+     "nr": "wording-S4.1-4.5",
+     "aktion": "aendern",
+     "anweisung": "4.2 sync(): Zweig `time → root.UI.fmt.time(new Date(2000, 0, 1, +v.slice(0, 2), +v.slice(3, 5)))` ergänzen. Rückfall für den Leertext „—“ (U+2014) statt „–“. 4.1 dekoriert time-Felder, weil TYPES.time nach komponenten-D1 gesetzt ist."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "komponenten-D1",
+     "nach": "wording-S4.1-4.5"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".theme-toggle",
+   "nrs": [
+    "kilook-C1b",
+    "barrierefreiheit-B12b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Z. 207–208 werden genau einmal gelöscht, durch kilook-C1b, zusammen mit Z. 199 (margin 0, ohne align-self), 255, 256 und den .menu-btn-Resten. Der Schalter steht nur in #pop-user (.sb-menu), und nach kilook-C1b ist die Grundregel die einzige. Die unsichtbare Trefferfläche 26 × 34 aus barrierefreiheit-B12b kommt deshalb an die Grundregel: Z. 202 `.theme-toggle button { …; position: relative; }` und neu `.theme-toggle button::after { content: ''; position: absolute; inset: -6px 0; }`. Optik und translateX bleiben, und die Knöpfe überlappen sich nicht. Die offene Frage bereich_shell-30 betrifft nur eine sichtbare Vergrößerung. Die unsichtbare Fläche passt zu beiden Antworten, deshalb hängt diese Entscheidung nicht von ihr ab.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B12b",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 207–208 (Löschen) nicht umsetzen, das erledigt kilook-C1b. Die Trefferfläche ohne .sb-menu-Präfix: `position: relative` in die Regel Z. 202 `.theme-toggle button` aufnehmen und direkt danach neu `.theme-toggle button::after { content: ''; position: absolute; inset: -6px 0; }`."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "kilook-C1b",
+     "nach": "barrierefreiheit-B12b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "html.sb-mini .theme-toggle",
+   "nrs": [
+    "kilook-C1b",
+    "barrierefreiheit-B12b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie beim Anker .theme-toggle: Z. 207 (`html.sb-mini .theme-toggle { … }`) löscht nur kilook-C1b.",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B12b",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 207–208 (Löschen) nicht umsetzen, das erledigt kilook-C1b. Die Trefferfläche ohne .sb-menu-Präfix: `position: relative` in die Regel Z. 202 `.theme-toggle button` aufnehmen und direkt danach neu `.theme-toggle button::after { content: ''; position: absolute; inset: -6px 0; }`."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "kilook-C1b",
+     "nach": "barrierefreiheit-B12b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "html.sb-mini[data-theme=\"light\"] .theme-toggle::before",
+   "nrs": [
+    "kilook-C1b",
+    "barrierefreiheit-B12b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie beim Anker .theme-toggle: Z. 208 löscht nur kilook-C1b. Die Verschiebung im hellen Design übernimmt danach Z. 201 (`:root[data-theme=\"light\"] .theme-toggle::before { transform: translateX(26px); … }`).",
+   "anpassungen": [
+    {
+     "nr": "barrierefreiheit-B12b",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 207–208 (Löschen) nicht umsetzen, das erledigt kilook-C1b. Die Trefferfläche ohne .sb-menu-Präfix: `position: relative` in die Regel Z. 202 `.theme-toggle button` aufnehmen und direkt danach neu `.theme-toggle button::after { content: ''; position: absolute; inset: -6px 0; }`."
+    }
+   ],
+   "reihenfolge": [
+    {
+     "vor": "kilook-C1b",
+     "nach": "barrierefreiheit-B12b"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.drawers.vbars",
+   "nrs": [
+    "diagramme-C13",
+    "wording-S1.4-1.7"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "Die beiden Schritte sind verträglich, wenn die Reihenfolge feststeht. diagramme-C13 ersetzt den Rumpf von drawers.vbars und übernimmt den Tooltip-Text wörtlich. Danach setzt wording-S1.4 im neuen Rumpf `${count(g.s.n, 'Trade', 'Trades')} · Trefferquote ${fmt.pct(g.s.winRate)}`. Der Tooltip für leere Fächer, „<b>{Name}</b>: Keine Trades“, aus C13 bleibt.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-C13",
+     "nach": "wording-S1.4-1.7"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.drawers.weeks",
+   "nrs": [
+    "diagramme-C18",
+    "wording-S1.4-1.7"
+   ],
+   "art": "reihenfolge",
+   "entscheidung": "diagramme-C18 schreibt den Rumpf mit data-tip `Woche ab ${fmt.date(p.week)}: Score ${Math.round(p.score)} (${p.n} Trades)` wörtlich. Danach ersetzt wording-S1.6 den Teil `(${p.n} Trades)` durch `(${count(p.n, 'Trade', 'Trades')})`. In umgekehrter Reihenfolge würde C18 den alten Text zurückbringen.",
+   "anpassungen": [],
+   "reihenfolge": [
+    {
+     "vor": "diagramme-C18",
+     "nach": "wording-S1.4-1.7"
+    }
+   ],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": "U.drawers.mc",
+   "nrs": [
+    "diagramme-C16",
+    "wording-S1.4-1.7",
+    "farbe-B27b"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Die Ruin-Beschriftung setzt nur diagramme-C16: `<text class=\"lbl\" x=\"${ml + 2}\" y=\"${y(ruinY) - 5}\" style=\"fill:var(--loss)\">Ruin-Schwelle ${fmt.axisCur(ruinY)}</text>`. fmt.axisCur ist fmt.cur(v, { compact: true }) und ergibt dasselbe „17.500 €“ wie wording 1.5. Im Geld-blind-Modus folgt die Beschriftung außerdem der Achse. Die Pfadfarbe (--text-2, Deckkraft .22) setzt farbe-B27b, C16 setzt sie nicht noch einmal (C16 Z. 504 ist ohnehin nur bedingt formuliert).",
+   "anpassungen": [
+    {
+     "nr": "wording-S1.4-1.7",
+     "aktion": "aendern",
+     "anweisung": "Zeile 1.5 (Ruin-Schwelle mit fmt.cur compact) nicht umsetzen, das erledigt diagramme-C16. 1.4, 1.6 und 1.7 bleiben und laufen nach diagramme-C13 und diagramme-C18."
+    },
+    {
+     "nr": "diagramme-C16",
+     "aktion": "aendern",
+     "anweisung": "Den Punkt Z. 504 (Pfadfarbe --text-2, .22) nicht umsetzen, das erledigt farbe-B27b. Die übrigen Punkte bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cal .d.today .n",
+   "nrs": [
+    "komponenten-C26a",
+    "farbe-B14"
+   ],
+   "art": "doppelt",
+   "entscheidung": "„Heute“ im Dashboard-Kalender setzt nur komponenten-C26a. Es löscht Z. 709 und fügt nach Z. 712 `.cal .d:is(.win, .loss, .be) .n { color: var(--text-2); }` ein, danach `.cal .d.today .n { background: var(--text); color: var(--bg); font-weight: 600; }`. Die Heute-Regel muss nach der Handelstag-Regel stehen, sonst gewinnt bei gleicher Spezifität deren Farbe. Die Farben sind dieselben wie in farbe-B14, Grün gibt es nie für Heute. 600 hält die invertierte Ziffer lesbar und entspricht der Regel für invertierte Tage in Komponenten und Zustände. Heute ist keine Auswahl. Grundfarbe und Grundgewicht von .cal .d .n regelt die Entscheidung zum Anker .cal .d .n (konflikt-14).",
+   "anpassungen": [
+    {
+     "nr": "farbe-B14",
+     "aktion": "aendern",
+     "anweisung": "Z. 709 und Z. 731 nicht umsetzen, das übernimmt komponenten-C26a. Z. 708 richtet sich nach der Entscheidung zu .cal .d .n. Z. 711, 713, 1694, die neuen Regeln nach Z. 722 und der Kommentar bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cal.mini .d.today",
+   "nrs": [
+    "komponenten-C26a",
+    "farbe-B14"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Z. 731 ändert nur komponenten-C26a: `.cal.mini .d.today .n { color: var(--text); font-weight: 600; } .cal.mini .d.today { border-color: var(--text-2); }`. Das ist gleich wie farbe-B14 bis auf 600, das im Mini-Kalender neben dem Zellrand die Unterscheidung trägt, weil Heute dort keine Fläche hat. `.cal.mini .d .n` (Z. 730) steht nach der neuen Heute-Regel des großen Kalenders und hält background: none.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B14",
+     "aktion": "aendern",
+     "anweisung": "Z. 709 und Z. 731 nicht umsetzen, das übernimmt komponenten-C26a. Z. 708 richtet sich nach der Entscheidung zu .cal .d .n. Z. 711, 713, 1694, die neuen Regeln nach Z. 722 und der Kommentar bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  },
+  {
+   "anker": ".cal.mini .d.today .n",
+   "nrs": [
+    "komponenten-C26a",
+    "farbe-B14"
+   ],
+   "art": "doppelt",
+   "entscheidung": "Wie beim Anker .cal.mini .d.today: komponenten-C26a setzt `.cal.mini .d.today .n { color: var(--text); font-weight: 600; }`, farbe-B14 lässt Z. 731 aus.",
+   "anpassungen": [
+    {
+     "nr": "farbe-B14",
+     "aktion": "aendern",
+     "anweisung": "Z. 709 und Z. 731 nicht umsetzen, das übernimmt komponenten-C26a. Z. 708 richtet sich nach der Entscheidung zu .cal .d .n. Z. 711, 713, 1694, die neuen Regeln nach Z. 722 und der Kommentar bleiben."
+    }
+   ],
+   "reihenfolge": [],
+   "wartet_auf_frage": ""
+  }
+ ],
+ "vertraeglich": [
+  "folderIcon",
+  "[data-action=\"nb-share\"]",
+  ".tbl-wrap.paged .tbl-scroll",
+  ".muted",
+  ".warn",
+  ".lp .hero h1",
+  ".dash-head",
+  ".popover",
+  ".nb-details summary",
+  "drawers.mc",
+  "drawers.hist",
+  "input.input"
+ ]
+}

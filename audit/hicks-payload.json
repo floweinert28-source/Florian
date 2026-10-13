@@ -5564,51 +5564,51 @@
    "vorschlaege": [
     {
      "id": "replay-1-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Kopfreihe ohne Trading-Session und „Trade loggen“",
      "regel": 4,
-     "wirkung": 1,
+     "wirkung": 2,
      "aufwand": "S",
-     "beschreibung": "In replay.js:110 wird `head: { range: false }` zu `head: { range: false, session: false, trade: false }`, genau wie bei Schatten-Ich (shadow.js:104, laut Kommentar so gewollt: „Trade loggen“ und „Session starten“ gibt es auf Dashboard und TradeLog) und Mentor (mentor.js:76). Danach ist „Session starten“ in der Hero-Karte der einzige Knopf mit Play-Symbol und die einzige grüne Fläche. Beide Funktionen bleiben auf Dashboard, TradeLog und Tagesansicht erreichbar.",
+     "beschreibung": "In replay.js:110 wird `head: { range: false }` zu `head: { range: false, session: false, trade: false }`, wie bei Schatten-Ich (shadow.js:104) und Mentor (mentor.js:76). Danach ist „Session starten“ in der Hero-Karte der einzige Knopf mit Play-Symbol und der einzige grüne Knopf. Die Runden-Säule und die Listenbalken bleiben grün. Auf dem Handy verschwindet damit auch der FAB. „Trade loggen“ bleibt auf Dashboard und TradeLog erreichbar. Die Trading-Session bleibt auf TradeLog, Tagesansicht, Statistiken, Fortschritt usw. erreichbar, nicht auf dem Dashboard, denn dort gibt es keinen Session-Knopf (dashboard.js:125).",
      "beleg": "extra-dark-1440/replay.png (oben rechts ▷ und „Trade loggen“ neben dem gefüllten „Session starten“); app.js:250, 253, 256-261; replay.js:110",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Was heute zu sehen ist, stimmt mit replay.png überein: ▷ ist .btn.icon-only, „Trade loggen“ ist .btn.accent (umrandet, grüne Schrift), „Session starten“ ist der einzige gefüllte Knopf. Der gleiche Name des ▷-Knopfs steht aber nur im Tooltip. Die Hauptaktion ist schon heute klar die stärkste (optisch_klar true), deshalb ist Wirkung 2 statt 1 angemessen. Eine grüne Fläche ist der Hero-Knopf danach nicht allein, denn die letzte Runden-Säule und die Balken der Listen sind ebenfalls grün (app.css:2466, 2487). Auf dem Dashboard gibt es keinen Session-Knopf.",
+     "vorgaben": "Hält alle Vorgaben ein: Es wird nur etwas versteckt, nichts neu gestaltet. Vorbilder gibt es schon: shadow.js:104 (vom Nutzer gewünscht, README:223), mentor.js:76 und coach.js:219. Die Kopfreihe sieht danach genau aus wie beim Mentor: nur das Konto. „Trade loggen“ (.btn.accent, app.js:253, umrandet mit grüner Schrift, app.css:3137) und die Trading-Session bleiben auf Dashboard, TradeLog und Tagesansicht erreichbar. Die Code-Änderung ist dieselbe wie bei replay-2-1, replay-3-2 und replay-5-1 und wird nur einmal umgesetzt. README:239-240 ergänzen: „Die Kopfreihe hat hier kein ‚Trade loggen‘ und kein ‚Session starten‘“ (wie README:223)."
     },
     {
      "id": "replay-1-2",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Replay-Aktion „Runde starten“ statt „Session starten“",
      "regel": 1,
-     "wirkung": 2,
+     "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "Die Knopftexte in replay.js:20 („Session starten“ → „Runde starten“) und replay.js:83-84 („Session beendet“ → „Runde beendet“, „Neue Session“ → „Neue Runde“) werden angepasst. Die Übersicht nennt die Durchgänge schon „Runden“ (replay.js:29 „Runden“, :36 „Runden N“, Tooltip „Runde X“). Damit ist die eine Hauptaktion sprachlich klar von der Trading-Session in der Kopfzeile getrennt (app.js:250 „Session starten“). Neue Schlüssel kommen in js/lang/*.js dazu, denn „Session starten“ wird geteilt (en.js:754). Der Text in README.md:229-240 und der Widget-Knopf (widgets.js:343) werden gleich mitgezogen.",
+     "beschreibung": "Nur die sichtbaren Texte des Replays werden umbenannt. Der geteilte Schlüssel „Session starten“ für die Trading-Session (app.js:250-251, en.js:754) bleibt unverändert. Die Änderungen: replay.js:20 „Session starten“ → „Runde starten“. replay.js:83 „Session beendet“ → „Runde beendet“ und „Trefferquote in dieser Session.“ → „Trefferquote in dieser Runde.“ replay.js:84 „Neue Session“ → „Neue Runde“. Dashboard-Widget: widgets.js:343 „Session starten“ → „Runde starten“ und widgets.js:340 „…der Start einer neuen Session.“ → „…der Start einer neuen Runde.“ So hat dieselbe Aktion in beiden Bereichen denselben Namen. Neue Schlüssel in allen fünf js/lang/*.js (en, es, hi, pt, zh): „Runde starten“, „Runde beendet“, „Neue Runde“, „Trefferquote in dieser Runde.“ und die geänderte Widget-Beschreibung. README:84 und README:229-240 („Zehn Karten je Session“, „Session starten“) auf „Runde“ umstellen. Gleich bleiben: interne Namen (st().session, sessionId, data-action replay-start/replay-go), das Play-Symbol und die Knopfstufen. Damit bleiben gespeicherte Historie und Tests gültig.",
      "beleg": "replay.js:20, 29, 36, 83-84; app.js:250; js/lang/en.js:754; README.md:229-240",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Die Begriffe sind wirklich uneinheitlich: Der Knopf heißt „Session“, die Statistik zählt „Runden“ (replay.js:29, 36). Nach 1-1 steht auf der Replay-Seite aber kein sichtbarer ▷-Knopf mehr, und das Dashboard hat keinen Session-Knopf. Der Konflikt ist dann nur noch sprachlich, deshalb Wirkung 3. In der Liste fehlen Stellen, die mit umbenannt werden müssen.",
+     "vorgaben": "Echte Klarheit nach Regel 1: Die Seite spricht selbst von „Runden“ (replay.js:29, 36), und „Session“ heißt in der App sonst die Trading-Session mit Check-in (README:139). Nach replay-1-1 stehen die beiden „Session starten“ aber nicht mehr auf demselben Bildschirm. Deshalb ist die Wirkung nur klein. Die Beschreibung war unvollständig: „Trefferquote in dieser Session.“ (replay.js:83) und die Widget-Beschreibung (widgets.js:340) fehlten."
     },
     {
      "id": "replay-1-3",
      "bestaetigt": false,
      "titel": "Konto-Auswahl nur bei mehreren Konten",
      "regel": 5,
-     "wirkung": 2,
+     "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "`head` wird in App.screens.replay zum Getter: `get head() { return { range: false, session: false, trade: false, account: S.data.accounts.length > 1 }; }`. Bei einem Konto bleibt die Kopfreihe leer und die Hero-Karte rückt nach oben. Bei mehreren Konten bleibt die Auswahl als sekundärer .btn, weil sie dann bestimmt, welche Trades geübt werden (app.js:47). „Konten verwalten“ bleibt in den Einstellungen.",
+     "beschreibung": "`head` wird in App.screens.replay zum Getter: `get head() { return { range: false, session: false, trade: false, account: S.data.accounts.length > 1 }; }`. Damit die Hero-Karte bei einem Konto wirklich nach oben rückt, muss pageHead zusätzlich '' zurückgeben, wenn left und right leer sind (app.js:261). Sonst bleibt der leere .dash-head mit min-height 40px stehen (app.css:1324). Besser wäre die Regel „Konto-Auswahl nur bei mehr als einem Konto“ global in accountControl (app.js:242, Shell-Bereich). „Konten verwalten“ bleibt in den Einstellungen und im Konto-Menü unten links.",
      "beleg": "extra-dark-1440/replay.png (Popover mit nur einem Konto); app.js:242-244, 47",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Es stimmt, dass das Popover bei einem Konto nur „Hauptkonto“ und „Konten verwalten“ zeigt (app.js:242-244; die Beispieldaten haben ein Konto, store.js:49). Falsch ist „die Kopfreihe bleibt leer und die Hero-Karte rückt nach oben“: Das leere .dash-head hält rund 60 px (app.css:1324, app.js:261, vgl. coach.png). Die Sache ist außerdem global sinnvoll, weil jede Seite eine Konto-Auswahl mit nur einem Konto zeigt (das sagt die Analyse selbst). Für Replay allein deshalb Wirkung 3.",
+     "vorgaben": "Abgelehnt, weil es mit den anderen Bereichen und mit einer Entscheidung des Nutzers kollidiert. Beim Mentor steht in derselben Lage das Konto bewusst als einziges Element in der Kopfreihe, „weil es bestimmt, welche Trades der Mentor sieht“ (README:144, mentor.js:76, Aufgabe „Mentor-Kopfreihe nur mit Konto“). Beim Replay ist es genauso: R.eligible(ctx.all) hängt am Konto (app.js:47). Eine Ausnahme nur auf Replay für Nutzer mit einem Konto verstößt gegen „gleiche Aktion = gleiche Stufe“. Falls gewünscht, gehört die Regel „Konto-Auswahl erst ab zwei Konten“ global in die Shell (pageHead/accountControl, app.js:242-259). Das berührt README:62 (Dashboard: Zeitraum, Konto und Filter in der Titelzeile) und README:144 und braucht daher die Zustimmung des Nutzers. Ohne diesen Vorschlag bleibt die Kopfreihe nach replay-1-1 als ruhige Kontextzeile mit dem Konto stehen."
     },
     {
      "id": "replay-1-4",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "„Letzte 20“ erst ab 21 Karten zeigen",
      "regel": 5,
      "wirkung": 3,
      "aufwand": "S",
      "beschreibung": "In replay.js:35 wird der Fakt „Letzte 20“ nur gerendert, wenn `stats.n > R.RECENT` (also über 20) ist. Vorher ist der Wert immer gleich der großen Zahl „Richtig eingeschätzt“. Danach erscheint er automatisch mit Pfeil. Im Widget gilt dasselbe (widgets.js:349, Hinweis an den Dashboard-Bereich).",
      "beleg": "extra-dark-1440/replay.png: „70 %“ groß und „Letzte 20 70 %“; replay.js:35, js/replay.js:14 (RECENT = 20)",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Richtig. Bei n ≤ 20 ist stats.recent rechnerisch gleich hitRate (js/replay.js:93). Ein Pfeil kann dann nie erscheinen, und replay.png zeigt zweimal 70 %. Das ist reine Doppelung von Information, keine Wahlmöglichkeit, daher klein. Die drei Fakten sind im README:235 dokumentiert, die Änderung zeigt sie aber nur bedingt an.",
+     "vorgaben": "Richtig: Solange es höchstens 20 Karten gibt, rechnet stats.recent über dieselben Karten wie hitRate (js/replay.js:91). Der Wert ist dann immer gleich der großen Zahl, und der Pfeil kann nie erscheinen. Es wird nichts entfernt, der Fakt kommt ab 21 Karten von selbst. README:234-235 („drei Fakten (Letzte 20 mit Pfeil, …)“) um „ab 21 Karten“ ergänzen. Das Dashboard-Widget (widgets.js:349) sollte gleich behandelt werden, damit beide Bereiche einheitlich bleiben. Das ist Aufgabe des Dashboard-Bereichs."
     },
     {
      "id": "replay-1-5",
@@ -5617,10 +5617,10 @@
      "regel": 5,
      "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "In replay.js:29 wird `tl.length >= 2` zu `tl.length >= 3`. Zwei Säulen sagen noch nichts über einen Verlauf aus. Sobald die Säulen sichtbar sind, entfällt der Fakt „Runden N“ in replay.js:36, denn die Anzahl steckt in den Säulen und im Tooltip „Runde X“. Vorher bleibt nur der Fakt „Runden N“ stehen.",
+     "beschreibung": "Den Fakt „Runden N“ (replay.js:36) nur weglassen, solange die Säulen sichtbar sind und stats.timeline.length ≤ 20 gilt, also solange die Säulen-Anzahl gleich der Gesamtzahl ist. Ab 21 Runden bleibt der Fakt stehen. Die Schwelle der Säulen von ≥ 2 auf ≥ 3 anzuheben (replay.js:29) ist optional und sollte der Nutzer entscheiden, weil die Säulen im README:234 als Entscheidung dokumentiert sind.",
      "beleg": "extra-dark-1440/replay.png (zwei Säulen „Runden“ und darunter „Runden 2“); replay.js:29, 36",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Die Doppelung bei wenigen Runden stimmt. Die Begründung „die Anzahl steckt in den Säulen“ gilt aber nur bis 20 Runden, denn es werden höchstens 20 Säulen gezeigt (replay.js:28 slice(-20)). Darüber nennt nur der Fakt die Gesamtzahl, und der Tooltip zeigt sie erst beim Darüberfahren. Ob zwei Säulen „nichts sagen“, ist Geschmackssache: Sie vergleichen die letzte Runde mit der davor. Das ist keine Hick-Frage, sondern Redundanz.",
+     "vorgaben": "Abgelehnt, aus vier Gründen. (1) Die Säulen zeigen höchstens die letzten 20 Runden (replay.js:28). Ab 21 Runden stünde die Gesamtzahl nur noch im Tooltip der letzten Säule. Auf Touch geht diese Information damit praktisch verloren. (2) Das Dashboard-Widget zeigt den Verlauf bewusst ab zwei Runden („Ab zwei Runden siehst du hier deinen Verlauf.“, widgets.js:345). Die Schwelle 3 wäre über die Bereiche hinweg uneinheitlich. (3) README:234-235 legt die Runden-Säulen und die drei Fakten fest. (4) Fakten sind keine Auswahl. Nach Hick's Law bringt das nichts, und Regel 5 greift nicht, weil die Zahl relevant bleibt."
     }
    ]
   },
@@ -5650,15 +5650,15 @@
    "vorschlaege": [
     {
      "id": "replay-2-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Kopfreihe und FAB auf Replay weglassen",
      "regel": 5,
-     "wirkung": 1,
+     "wirkung": 2,
      "aufwand": "S",
-     "beschreibung": "Gleiche Änderung wie am Desktop: In replay.js:110 kommt `session: false, trade: false` dazu, und die Konto-Auswahl erscheint nur bei mehr als einem Konto (Getter). Auf dem Handy verschwinden damit der ▷-Knopf und der FAB „+“. Bei einem Konto fällt die ganze Kopfreihe weg, und die Hero-Karte mit dem einzigen Hauptknopf rückt nach oben.",
+     "beschreibung": "Gleiche Code-Änderung wie replay-1-1, nur einmal umsetzen: replay.js:110 wird zu `head: { range: false, session: false, trade: false }`. Auf dem Handy verschwinden damit der ▷-Knopf (app.js:250, auf dem Handy sichtbar) und der runde „Trade loggen“-Knopf unten rechts (.dash-head .tl, app.css:3019). Er verdeckt heute den rechten Rand der Karte „Treffer je Gefühl“. Die Konto-Auswahl bleibt als einzige Zeile über der Hero-Karte (wie beim Mentor, mentor.js:76), denn sie bestimmt, aus welchen Trades geübt wird. „Trade loggen“ und die Trading-Session bleiben auf Dashboard, TradeLog und Tagesansicht erreichbar. Danach gibt es auf dem Bildschirm genau einen gefüllten Knopf: „Session starten“.",
      "beleg": "extra-dark-390/replay.png (▷ neben „Hauptkonto“, FAB unten rechts über der Karte); app.js:250, 259; app.css:3019",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "▷ (ohne hide-m, app.js:250) und der FAB (app.css:3019) sind auf 390 wirklich sichtbar. Der FAB ist dabei ein dunkler Kreis mit grünem Ring, weil .btn.accent (app.css:3137) ihn überschreibt. Die Hauptaktion ist aber ein gefüllter Knopf über die volle Breite und klar dominant, deshalb Wirkung 2 statt 1. Falsch ist „bei einem Konto fällt die ganze Kopfreihe weg“, ohne pageHead-Änderung bleiben rund 60 px leer. Es ist dieselbe Code-Änderung wie 1-1 und 1-3.",
+     "vorgaben": "Den Kern bestätige ich: ▷ und der runde Knopf unten rechts fallen weg. Der runde Knopf ist das .tl aus pageHead (app.css:3019) und überdeckt heute die Karte „Treffer je Gefühl“. Den Teil zum Konto-Getter streiche ich, siehe replay-1-3. Die Behauptung „bei einem Konto fällt die ganze Kopfreihe weg“ entfällt damit."
     },
     {
      "id": "replay-2-2",
@@ -5667,10 +5667,10 @@
      "regel": 5,
      "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "„Letzte 20“ erst ab 21 Karten zeigen und „Runden N“ weglassen, sobald Säulen da sind (siehe Desktop). Auf 390 px passt der Streifen dann sicher in eine Zeile, und das (i) bei „Zum Üben“ rückt nicht an den Rand.",
+     "beschreibung": "Nur „Letzte 20“: gleiche Änderung wie replay-1-4, nur einmal umsetzen. In replay.js:35 wird der Fakt erst gerendert, wenn stats.n > R.RECENT (also ab 21 Karten). Vorher ist er identisch mit der großen Zahl. „Runden N“ und „Zum Üben“ bleiben. Der Gewinn auf dem Handy liegt allein darin, dass die doppelte Zahl wegfällt. Am Zeilenumbruch ändert sich nichts, der Streifen passt schon heute in eine Zeile.",
      "beleg": "extra-dark-390/replay.png (Streifen „Letzte 20 70 % · Runden 2 · Zum Üben 6 (i)“ füllt die volle Breite); replay.js:35-37",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Kein eigener Befund, nur eine Doppelung von 1-4 und 1-5. Die Handy-Begründung trägt nicht: In extra-dark-390/replay.png steht der Streifen heute schon in einer Zeile. Das (i) bei „Zum Üben“ endet bei etwa x≈330 CSS-px, der Innenrand der Karte liegt bei etwa 356, es bleiben also rund 26 px Luft. Außerdem darf der Streifen umbrechen (flex-wrap, app.css:2471). Nicht als eigener Vorschlag zählen.",
+     "vorgaben": "Ich bestätige nur den Teil „Letzte 20“, denn „Runden N weglassen“ ist mit replay-1-5 abgelehnt. Die Begründung stimmt außerdem nicht: In extra-dark-390/replay.png passt der Streifen schon heute in eine Zeile (er endet bei etwa 330 von 358 px nutzbarer Breite)."
     }
    ]
   },
@@ -5701,39 +5701,39 @@
    "vorschlaege": [
     {
      "id": "replay-3-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Toten Knopf durch genau einen hilfreichen Knopf ersetzen",
      "regel": 5,
      "wirkung": 1,
      "aufwand": "S",
-     "beschreibung": "In replay.js:20-25 gilt bei `eligible.length === 0`: kein Session-Knopf, stattdessen ein einziger gefüllter .btn.primary in der Startkarte. (A) Gibt es im Konto keinen geschlossenen Trade (`!all.some(t => t.closed)`), heißt der Knopf „Trade loggen“ (data-action=\"new-trade\", wie im leeren TradeLog, trades.js:45), dazu der Satz: „Logge Trades mit einem Chart vor dem Einstieg, dann übst du sie hier blind.“ (B) Gibt es geschlossene Trades, aber keinen mit screenshotPre, heißt der Knopf „Screenshot vor Entry hinzufügen“ als Link auf `#/trades/<id des jüngsten geschlossenen Trades>`. Dort liegt die Karte „Screenshot vor Entry“ (trades.js:80); Ausweichziel ist #/trades. Dazu der Satz: „Nur Trades mit einem Chart vor dem Einstieg kommen ins Replay.“ Die graue Zeile .rh-ready entfällt in beiden Fällen. Sobald ein Trade bereit ist, erscheint wieder „Session starten“ (bzw. „Runde starten“) mit „N Trades bereit“.",
+     "beschreibung": "In replay.js:20-21 wird `start` in drei Fälle geteilt. Die Regel gilt für die leere Startkarte (Z. 25) und ebenso für die Übersicht mit Historie (Z. 33), wenn dort kein Trade mehr bereit ist. (1) `eligible.length > 0`: wie bisher „Session starten“ (bzw. „Runde starten“, siehe replay-1-2) mit „N Trades bereit“ darunter. (2) Kein geschlossener Trade im Konto (`!all.some(t => t.closed)`): `<button type=\"button\" class=\"btn primary rh-start\" data-action=\"new-trade\">${I.plus} Trade loggen</button>`, dazu genau ein Satz in .muted: „Hier übst du mit alten Trades, die einen Screenshot vor dem Einstieg haben. Logge zuerst einen Trade.“ (3) Geschlossene Trades, aber keiner mit screenshotPre: `<button type=\"button\" class=\"btn primary rh-start\" data-action=\"trade\" data-id=\"<id des zuletzt geschlossenen Trades>\">${I.image} Screenshot vor Entry hinzufügen</button>`. Die vorhandene Aktion `trade` öffnet #/trades/<id> (app.js:323). Dort liegt die Karte „Screenshot vor Entry“ (trades.js:80); sie ist sichtbar, weil das Feature-Flag fürs Replay an ist. Satz dazu: „Nur Trades mit einem Screenshot vor dem Einstieg kommen ins Replay.“ In (2) und (3) gibt es keinen deaktivierten Knopf mehr, und die graue Zeile .rh-ready entfällt. Der Satz steht an ihrer Stelle unter dem Knopf. Wird replay-3-3 umgesetzt, steht er stattdessen unter dem Titel. Es bleibt in jedem Fall genau ein Satz. Die Klasse rh-start bleibt, damit der Knopf auf dem Handy über die volle Breite geht (app.css:2555). Nach dem Speichern eines Trades baut App.rerender die Seite neu, und Fall (3) erscheint von selbst. e2e/replaytest.js:12 prüft heute den Text „Noch kein Trade mit …“, .rh-steps und den deaktivierten Knopf und muss angepasst werden.",
      "beleg": "extra-dark-1440/leer_replay.png und shots/extra/hicks-replay-leer-ohne-pre-1440.png (blassgrüner deaktivierter Knopf, graue Hinweiszeile); replay.js:20-25; app.css:286; trades.js:45, 80",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Alles bestätigt. Der deaktivierte .btn.primary hat nur opacity .5 (app.css:286) und ist in leer_replay.png weiter eine grüne Fläche. Der Hinweis ist eine 12-px-Zeile ohne Link (app.css:2470). Das Formular hat kein Feld für screenshotPre, das gibt es nur in der Trade-Ansicht (trades.js:80). Das ist der einzige echte Verstoß gegen die Regeln 2 und 5 in diesem Bereich. Zwei Ungenauigkeiten: Der Satz in Fall A verspricht etwas, das das Formular nicht kann. Auf dem Handy wird der neue Knopf nur voll breit, wenn er die Klasse rh-start behält.",
+     "vorgaben": "Die stärkste Änderung im Bereich: Ein toter, aber grün wirkender Hauptknopf (app.css:286, nur 50 % Deckkraft) wird zum einen Knopf, der wirklich weiterhilft. Das entspricht Regel 5 und der Nutzervorgabe „ein Satz Erklärung und ein Knopf“. Ich habe die Beschreibung präzisiert. (a) Der vorgeschlagene Satz „Logge Trades mit einem Chart vor dem Einstieg“ führt in die Irre, denn das Formular hat kein Feld dafür (app.js enthält kein screenshotPre). (b) `start` wird in beiden Zweigen verwendet (Z. 25 und 33), die Regel muss also auch in der Übersicht mit Historie gelten. (c) Die Klasse rh-start ist für die volle Breite auf dem Handy nötig. (d) Der Test e2e/replaytest.js:12 bricht. Für die Einheitlichkeit gilt: Das Dashboard-Widget (widgets.js:343-344) hat denselben toten Knopf und sollte die gleiche Logik bekommen (Dashboard-Bereich)."
     },
     {
      "id": "replay-3-2",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Kopfreihe wie im vollen Zustand reduzieren",
      "regel": 5,
      "wirkung": 2,
      "aufwand": "S",
-     "beschreibung": "Die Änderung `head: { range: false, session: false, trade: false }` plus Konto nur bei mehr als einem Konto (replay.js:110) greift auch hier. Ohne Trades steht „Trade loggen“ dann als einziger Knopf in der Startkarte statt oben rechts. Bei mehreren Konten bleibt die Konto-Auswahl, denn dann kann der Wechsel zu einem anderen Konto der Ausweg sein.",
+     "beschreibung": "Gleiche Code-Änderung wie replay-1-1 (replay.js:110 `head: { range: false, session: false, trade: false }`), nur einmal umsetzen. Im leeren Zustand verschwinden ▷ und „Trade loggen“ oben rechts. „Trade loggen“ gibt es dann nur noch als den einen gefüllten Knopf in der Startkarte (replay-3-1, Fall ohne geschlossene Trades). Die Konto-Auswahl bleibt wie beim Mentor stehen. Sie bestimmt, aus welchen Trades geübt wird, und bei mehreren Konten ist der Wechsel der Ausweg, wenn nur ein anderes Konto Trades mit Screenshot hat.",
      "beleg": "extra-dark-1440/leer_replay.png (oben rechts ▷ und „Trade loggen“, links „Hauptkonto“); replay.js:110",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Nötig als Begleitung zu 3-1, sonst stehen zwei „Trade loggen“ auf der Seite (gefüllt in der Karte, .btn.accent oben rechts), und das verstößt gegen Regel 4. Zwei Korrekturen: Die Trading-Session gibt es nicht auf dem Dashboard. Bei einem Konto bleibt ohne pageHead-Änderung ein leerer Streifen von rund 60 px.",
+     "vorgaben": "Ohne den Konto-Getter bestätigt (siehe replay-1-3). Das ist keine eigene Umsetzung, sondern dieselbe Änderung wie replay-1-1."
     },
     {
      "id": "replay-3-3",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Drei Schritte zu einem Satz zusammenfassen",
      "regel": 5,
      "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "Die Liste .rh-steps (replay.js:24) mit drei fett gesetzten Schritten und grünen Nummern-Kreisen wird durch einen Satz unter dem Titel ersetzt, gleich wie im Dashboard-Widget (widgets.js:344: „Alte Trades ohne Ergebnis: nehmen oder skippen?“). Die leere Startkarte besteht dann aus Titel, einem Satz und einem Knopf. Das berührt eine dokumentierte Entscheidung (README.md:236 „Ohne Daten erklärt die Startkarte in drei Schritten“), deshalb sollte der Nutzer das bestätigen. Die CSS-Regeln .rh-steps bleiben stehen oder werden ungenutzt.",
+     "beschreibung": "Die Liste .rh-steps (replay.js:24) entfällt. Unter dem Titel „Trainiere dein Bauchgefühl“ steht genau ein Satz in .muted. Mit bereiten Trades: „Alte Trades ohne Ergebnis: nehmen oder skippen?“ (gleicher Text und Schlüssel wie widgets.js:344, schon übersetzt). Ohne bereite Trades: der Satz aus replay-3-1, dann gibt es keinen zweiten Satz unter dem Knopf. Die Karte besteht danach aus Titel, einem Satz und einem Knopf, bei bereiten Trades zusätzlich „N Trades bereit“ unter dem Knopf. README:236 anpassen. e2e/replaytest.js:12 prüft `.rh-steps` und muss angepasst werden. Die Regeln .rh-steps (app.css:2479-2481 und 2552) werden ungenutzt und können entfernt werden.",
      "beleg": "extra-dark-1440/leer_replay.png; replay.js:24; app.css:2479-2481; widgets.js:344; README.md:236",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Die Fakten stimmen: .rh-steps mit Gewicht 600 und Nummern-Kreisen in accent-soft/accent (app.css:2479-2481). Der Vorschlag entspricht wörtlich der Nutzer-Vorgabe „Leere Zustände: ein Satz Erklärung und ein Knopf“. Die Schritte sind aber Erklärung, keine Wahlmöglichkeiten, daher Wirkung 3. Er berührt die dokumentierte Entscheidung README.md:236, also vorher den Nutzer fragen.",
+     "vorgaben": "Der Vorschlag berührt README:236 („erklärt die Startkarte in drei Schritten“). Der neuere, wörtliche Auftrag des Nutzers verlangt aber genau das: „Leere Zustände überall: ein Satz Erklärung und ein Knopf, nicht mehr.“ Zusätzlich verschwinden die grün getönten Nummern-Kreise (app.css:2481). Sie nutzen Grün ohne Bedeutung, was README:203-208 widerspricht. Die Zustimmung des Nutzers vor der Umsetzung gilt ohnehin für alle Vorschläge. Präzisiert habe ich, wie der Satz mit replay-3-1 zusammenspielt, damit es nicht zwei Sätze werden."
     }
    ]
   },
@@ -5763,27 +5763,27 @@
    "vorschlaege": [
     {
      "id": "replay-4-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Ein Knopf über die volle Breite, der wirklich weiterhilft",
      "regel": 5,
      "wirkung": 1,
      "aufwand": "S",
-     "beschreibung": "Gleiche Logik wie am Desktop (replay.js:20-25): Ohne Trades wird der Knopf in voller Breite zu „Trade loggen“ (data-action=\"new-trade\"), mit Trades ohne Screenshot zu „Screenshot vor Entry hinzufügen“ (Link #/trades/<id>). Die vorhandene Handy-Regel .rh-start bzw. .rh-go stretch macht ihn automatisch voll breit. Mit trade:false entfällt der FAB, es bleibt genau ein grüner Knopf.",
+     "beschreibung": "Gleiche Logik wie replay-3-1, eine Umsetzung für beide Breiten. Der Ersatzknopf („Trade loggen“ bzw. „Screenshot vor Entry hinzufügen“) muss die Klasse rh-start tragen. Nur sie macht ihn auf dem Handy voll breit (app.css:2555), denn in der leeren Karte bleibt .rh-empty .rh-go auf align-items: flex-start. Mit `trade: false` (replay-1-1) entfällt der runde „Trade loggen“-Knopf unten rechts. Auf dem Bildschirm bleibt dann genau ein gefüllter Knopf, und er führt wirklich weiter.",
      "beleg": "extra-dark-390/leer_replay.png (blassgrüner Knopf über die volle Breite, FAB unten rechts); app.css:2553-2555, 286, 3019",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Bestätigt: In extra-dark-390/leer_replay.png ist ein blassgrüner Knopf über die volle Breite das stärkste Element, unten rechts liegt der FAB. Die Angabe zur Breite ist ungenau: `.rh-empty .rh-go { align-items: flex-start }` (app.css:2478) schlägt `.rh-go { align-items: stretch }` in der Media-Query (app.css:2550). Voll breit wird der Knopf nur über `.rh-start { width: 100% }` (app.css:2555).",
+     "vorgaben": "Inhaltlich bestätigt. Eine technische Annahme war falsch: „.rh-go stretch“ greift in der leeren Karte nicht. .rh-empty .rh-go { align-items: flex-start } (app.css:2477) schlägt die Handy-Regel .rh-go { align-items: stretch } (app.css:2551). Gemessen: align-items ist auf 390 px flex-start, und die volle Breite (320 px) kommt allein von .rh-start { width: 100% }."
     },
     {
      "id": "replay-4-2",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Schritte auf dem Handy zu einem Satz",
      "regel": 5,
-     "wirkung": 2,
+     "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "Auf dem Handy stehen die drei Schritte untereinander (app.css:2552) und brauchen rund 200 px, mehr als der Knopf. Gleiche Änderung wie am Desktop: ein Satz statt der Liste (README.md:236 berührt, Nutzer fragen). Die Karte wird dann etwa halb so hoch, und der eine Knopf steht im ersten Blick.",
+     "beschreibung": "Gleiche Änderung wie replay-3-3, nur einmal umsetzen. Gemessen bei 390 px: Die drei untereinander stehenden Schritte (app.css:2552) sind 92 px hoch und damit doppelt so hoch wie der Knopf (46 px). Die Karte ist 271 px hoch. Mit einem Satz statt der Liste wird die Karte rund ein Drittel niedriger, und der eine Knopf rückt um etwa 70 px nach oben.",
      "beleg": "extra-dark-390/leer_replay.png (Schritte 1-3 untereinander über dem Knopf); replay.js:24; app.css:2552",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Die Zahlen sind übertrieben. Die drei Schritte brauchen etwa 92 CSS-px; die „rund 200 px“ sind Bildpixel der 2×-Aufnahme. Der Knopf ist etwa 45 CSS-px hoch. Die Karte wird ungefähr ein Drittel kürzer, nicht halb so hoch. Der Knopf liegt schon heute im ersten Blick (etwa y≈317-362 von 844). Es ist dieselbe Änderung wie 3-3, deshalb Wirkung 3 statt 2.",
+     "vorgaben": "Bestätigt als Teil von replay-3-3. Die Maße waren falsch, weil die Aufnahme doppelt aufgelöst ist (780 px Bildbreite bei 390 px Ansicht). Gemessen: Schritte 92 px, Karte 271 px, Knopf 46 px. Die Karte wird also nicht etwa halb so hoch, sondern rund ein Drittel niedriger."
     }
    ]
   },
@@ -5811,27 +5811,27 @@
    "vorschlaege": [
     {
      "id": "replay-5-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Kopfreihe reduzieren (gleiche Änderung wie in der Übersicht)",
      "regel": 4,
-     "wirkung": 1,
+     "wirkung": 2,
      "aufwand": "S",
-     "beschreibung": "Mit `head: { range: false, session: false, trade: false, account: S.data.accounts.length > 1 }` (replay.js:110) bleibt genau ein Knopf mit Play-Symbol auf der Seite: der in der Startkarte.",
+     "beschreibung": "Gleiche Code-Änderung wie replay-1-1, nur einmal umsetzen: replay.js:110 wird zu `head: { range: false, session: false, trade: false }`. Danach gibt es auf der Seite genau einen Knopf mit Play-Symbol und genau einen gefüllten Knopf, nämlich „Session starten“ in der Startkarte. Die Konto-Auswahl bleibt als Kontext stehen, wie beim Mentor.",
      "beleg": "shots/extra/hicks-replay-start-ohne-historie-1440.png und -390.png; app.js:250, 253",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Die Fakten stimmen mit hicks-replay-start-ohne-historie-1440.png überein. Die Hauptaktion ist aktiv, gefüllt und schon klar die stärkste. Es ist dieselbe Code-Änderung wie 1-1 und keine eigene Arbeit, deshalb Wirkung 2 statt 1.",
+     "vorgaben": "Ohne Konto-Getter bestätigt (siehe replay-1-3). Gleiche Code-Änderung wie replay-1-1."
     },
     {
      "id": "replay-5-2",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Ein Satz statt drei Schritte, Knopftext „Runde starten“",
      "regel": 1,
      "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "Die Startkarte wird auf Titel, einen Satz (wie widgets.js:344) und den einen Knopf „Runde starten“ mit „N Trades bereit“ darunter reduziert. Das berührt README.md:236, deshalb sollte der Nutzer zustimmen. Die Umbenennung ist in der Übersicht begründet.",
+     "beschreibung": "Ergibt sich aus replay-3-3 und replay-1-2. Die Startkarte mit bereiten Trades besteht aus dem Titel „Trainiere dein Bauchgefühl“, dem einen Satz „Alte Trades ohne Ergebnis: nehmen oder skippen?“ (widgets.js:344), dem gefüllten Knopf „Runde starten“ (.btn.primary.rh-start) und darunter „N Trades bereit“. README:236 anpassen.",
      "beleg": "shots/extra/hicks-replay-start-ohne-historie-1440.png; replay.js:23-25",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Kombination aus 3-3 und 1-2, ohne eigenen Aufwand. Gerade vor der ersten Runde erklären die Schritte das Spiel. Ein Satz nach dem Muster von widgets.js:344 reicht laut Nutzer-Vorgabe aber aus. README.md:236 ist berührt.",
+     "vorgaben": "Ergibt sich aus replay-3-3 und replay-1-2 und ist keine eigene Umsetzung. Mit bereiten Trades bleibt „N Trades bereit“ unter dem Knopf, denn diese Statusangabe sagt, wie viele Karten es gibt."
     }
    ]
   },
@@ -5858,15 +5858,15 @@
    "vorschlaege": [
     {
      "id": "replay-6-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Fokusmodus: keine Kopfreihe während einer laufenden Runde",
      "regel": 5,
-     "wirkung": 1,
+     "wirkung": 2,
      "aufwand": "S",
-     "beschreibung": "In App.screens.replay kommt `get ownActions() { const s = App.state.replay; return !!(s && s.session); }` dazu. app.js:96 lässt pageHead dann weg, genau wie beim Ruhepunkt (ruhepunkt.js:874 `ownActions: true`). Das gilt für Entscheidung, Auflösung und Auswertung. Nach „Abbrechen“ oder „Zur Übersicht“ ist session null, und die (reduzierte) Kopfreihe ist wieder da. Nebeneffekt: Ein Kontowechsel mitten in der Runde (replay.js:56) ist nicht mehr möglich. Nichts geht verloren, denn Konto, Trade loggen und Session sind über Seitenleiste, Dashboard und TradeLog erreichbar.",
+     "beschreibung": "In App.screens.replay kommt `get ownActions() { const s = App.state.replay; return !!(s && s.session); }` dazu. app.js:96 lässt pageHead dann ganz weg, wie beim Ruhepunkt (ruhepunkt.js:874). Das gilt für Entscheidung, Auflösung und Auswertung. Nach „Abbrechen“ oder „Zur Übersicht“ ist session null, und die reduzierte Kopfreihe kommt wieder. Nebenbei lässt sich das Konto mitten in der Runde nicht mehr wechseln, was heute die Runde scheinbar beendet (replay.js:56). Konto, „Trade loggen“ (Dashboard, TradeLog) und Trading-Session (TradeLog, Tagesansicht) bleiben erreichbar, nicht aber auf dem Dashboard.",
      "beleg": "extra-dark-1440/replay_karte.png (Konto, ▷, „Trade loggen“ über der Karte); app.js:47, 96; replay.js:56; ruhepunkt.js:874",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Technisch richtig: app.js:96 fragt screen.ownActions ab, ein Getter funktioniert, Vorbilder sind ruhepunkt.js:874 und dashboard.js:116. Ebenfalls richtig ist die Falle beim Kontowechsel mitten in der Runde: app.js:320 baut neu auf, app.js:47 filtert, und replay.js:56 springt in summaryView, bei mehreren Konten. Nach 1-1 entfernt der Fokusmodus aber nur noch die Konto-Auswahl und den Streifen. Die Entscheidung Nehmen/Skippen ist schon heute klar, deshalb Wirkung 2 statt 1.",
+     "vorgaben": "Technisch tragfähig: app.js:96 fragt nur screen.ownActions ab, also funktioniert ein Getter. Vorbild ist der Ruhepunkt (ruhepunkt.js:874), ebenfalls ein Fokus-Ablauf. Nichts geht verloren: Der Ausgang ist „Abbrechen“ bzw. „Zur Übersicht“, danach ist die Kopfreihe wieder da. Nebenbei verhindert die Änderung den echten Fehler, dass ein Kontowechsel die Runde scheinbar beendet (replay.js:56). Die Wirkung setze ich auf 2 statt 1: Nach replay-1-1 steht in der Kopfreihe nur noch das Konto, der Fokusmodus nimmt also im Kern diesen einen sekundären Knopf weg. Eine einzige Umsetzung deckt auch replay-7-1, replay-8-1 und replay-9-1 ab. README:237-238 („In der Session …“) um „ohne Kopfreihe“ ergänzen."
     }
    ]
   },
@@ -5894,15 +5894,15 @@
    "vorschlaege": [
     {
      "id": "replay-7-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Fokusmodus auch auf dem Handy",
      "regel": 5,
-     "wirkung": 1,
+     "wirkung": 2,
      "aufwand": "S",
      "beschreibung": "Derselbe Getter `ownActions` wie am Desktop. Auf dem Handy entfallen die Zeile mit Konto und ▷ sowie der FAB, die Karte beginnt rund 65 px weiter oben (y≈76 statt ≈141). Chart, Sicherheit und die zwei Entscheidungsknöpfe passen öfter ohne Scrollen in den Bildschirm, und das wiederholt sich bei jeder der 10 Karten.",
      "beleg": "extra-dark-390/replay_karte.png (Konto und ▷ über der Karte, FAB unten rechts); app.js:96",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Die rund 65 px stimmen (Karte bei y≈140 statt ≈76 CSS), denn ownActions entfernt die Reihe wirklich. „Passt öfter ohne Scrollen“ ist überzogen: Ein üblicher Chart im Querformat ist bei 330 px Breite etwa 186 px hoch, und die Karte endet dann schon heute bei etwa y≈560 von 844. Nur hohe Charts stoßen an die Grenze, max-height liegt bei 60vh (app.css:2547). Der FAB verschwindet zwar, ist aber nach 1-1/2-1 ohnehin weg. Deshalb Wirkung 2 statt 1.",
+     "vorgaben": "Derselbe Getter wie replay-6-1, kein eigener Code. Nach replay-2-1 bleibt auf dem Handy nur noch die Konto-Zeile (gemessen 46 px hoch, die Karte beginnt bei y=140). Der Fokusmodus hebt die Karte um etwa 65 px an, und das bei jeder der zehn Karten. Den FAB entfernt schon replay-1-1/2-1."
     },
     {
      "id": "replay-7-2",
@@ -5913,8 +5913,8 @@
      "aufwand": "S",
      "beschreibung": "Unter 960 px wird .rc-count („Trade 1 von 10“, replay.js:59) ausgeblendet. Die zehnteilige .replay-progress (replay.js:60) bekommt `role=\"progressbar\"` und `aria-label=\"Trade 1 von 10\"`, damit die Information erhalten bleibt. Rechts bleiben nur „Setup anzeigen“ und „Abbrechen“ (ghost), sodass der Kartenkopf mit Symbol und Zeit eher in eine Zeile passt. Am Desktop bleibt der Zähler.",
      "beleg": "extra-dark-390/replay_karte.png (zweite Kopfzeile „Trade 1 von 10 · Setup anzeigen · Abbrechen“); replay.js:59-60; app.css:2491-2493",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Der Vorschlag erreicht sein Ziel nicht. Ohne Zähler braucht der Kartenkopf auf 390 etwa 374 CSS-px: Symbol und Zeit rund 156, Abstand 12, Checkbox mit Label und „Abbrechen“ rund 206. Verfügbar sind nur etwa 328 px (Karte 356 minus 2×14 Polster, app.css:2547). Die zweite Zeile bleibt also. Dazu verliert man den lesbaren Zähler „Trade 1 von 10“. Die zehn Segmente muss man abzählen, und aria-label hilft nur Screenreadern. Hier wird keine Wahl reduziert. Nicht empfehlen.",
+     "vorgaben": "Abgelehnt, weil das versprochene Ergebnis nicht eintritt. Gemessen bei 390 px und bei 430 px bleibt der Kartenkopf auch ohne .rc-count zweizeilig (Höhe 75 px mit und ohne Zähler). Die linke Gruppe ist 159 px breit, die rechte Gruppe ohne Zähler 222 px, zusammen 159 + 12 + 222 = 393 px bei nur 328 bzw. 368 px Innenbreite. Übrig bliebe ein versteckter Zähler, den README:237 ausdrücklich im Kartenkopf festlegt („Zähler (‚Trade 1 von 10‘), Fortschritt …“). Dafür entstünde ein Risiko für die Barrierefreiheit: Eine progressbar bräuchte aria-valuenow, aria-valuemax und aria-valuetext, nicht nur aria-label. Der Zähler ist zudem keine Auswahl, Hick's Law bringt hier also nichts."
     }
    ]
   },
@@ -5941,27 +5941,27 @@
    "vorschlaege": [
     {
      "id": "replay-8-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Fokusmodus (Kopfreihe aus, solange die Runde läuft)",
      "regel": 5,
-     "wirkung": 1,
+     "wirkung": 3,
      "aufwand": "S",
      "beschreibung": "Gleicher Getter `ownActions` wie beim Entscheidungszustand. In der Auflösung bleibt dann genau ein Ziel: „Nächster Trade“.",
      "beleg": "shots/extra/hicks-replay-aufloesung-1440.png und -390.png; app.js:96",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Derselbe Getter wie 6-1, keine eigene Änderung. Die Auflösung hat schon genau einen gefüllten Knopf „Nächster Trade“ (replay.js:70, hicks-replay-aufloesung-1440.png). Nach 1-1 bleibt als Zusatz nur die Konto-Auswahl, deshalb Wirkung 3 statt 1.",
+     "vorgaben": "Derselbe Getter wie replay-6-1, keine eigene Umsetzung. In der Auflösung bleibt dann als einziges Ziel der gefüllte Knopf „Nächster Trade“ bzw. „Auswertung“ (replay.js:70). „Abbrechen“ bleibt als Tertiärknopf (ghost) im Kartenkopf."
     },
     {
      "id": "replay-8-2",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "„Setup anzeigen“ nur vor der Entscheidung zeigen",
      "regel": 5,
      "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "In replay.js:59 wird das Label `<label class=\"check small\">…Setup anzeigen</label>` nur gerendert, wenn `!ses.reveal` gilt. Die Einstellung st().showSetup bleibt erhalten und gilt ab der nächsten Karte wieder. Im Kartenkopf der Auflösung stehen dann nur der Zähler und „Abbrechen“.",
+     "beschreibung": "In replay.js:59 wird `<label class=\"check small\">…Setup anzeigen</label>` nur bei `!ses.reveal` gerendert. In der Auflösung nennt die Ergebniszeile das Setup schon (replay.js:69). Ein Klick würde heute nur einen zweiten Setup-Chip im Kartenkopf einblenden (replay.js:58). st().showSetup bleibt erhalten und gilt ab der nächsten Karte. Im Kartenkopf der Auflösung stehen dann nur Zähler und „Abbrechen“.",
      "beleg": "shots/extra/hicks-replay-aufloesung-1440.png (Checkbox oben rechts, Setup „Reversal“ zugleich in der Ergebniszeile); replay.js:59, 69",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Richtig, dass das Setup schon in der Ergebniszeile steht (replay.js:69). Ungenau ist „ein Klick baut die Seite nur neu auf“: Der Klick setzt showSetup und blendet zusätzlich einen Setup-Chip in replay-meta ein (replay.js:58). Dann steht das Setup doppelt da. Das stützt den Vorschlag eher.",
+     "vorgaben": "Richtig nach Regel 5: In der Auflösung steht das Setup schon in der Ergebniszeile (replay.js:69). Ein Klick auf den Schalter baut die Seite nur neu auf und zeigt einen doppelten Chip. Die Einstellung st().showSetup bleibt erhalten und ist ab der nächsten Karte wieder erreichbar, es geht also keine Funktion verloren. Hinnehmbarer Nebeneffekt: Weil .rc-tools rechtsbündig sitzt, rückt der Zähler am Desktop beim Wechsel zwischen Entscheidung und Auflösung um die Breite des Schalters nach rechts und wieder zurück. README:237 („Setup-Schalter … im Kopf der Karte“) um „vor der Entscheidung“ ergänzen."
     }
    ]
   },
@@ -5987,27 +5987,27 @@
    "vorschlaege": [
     {
      "id": "replay-9-1",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Fokusmodus bis „Zur Übersicht“",
      "regel": 4,
-     "wirkung": 2,
+     "wirkung": 3,
      "aufwand": "S",
      "beschreibung": "Der Getter `ownActions` (siehe Karte) deckt auch die Auswertung ab, denn session bleibt bis „Zur Übersicht“ oder „Neue Session“ gesetzt (replay.js:91-92, 111). Danach bleiben genau zwei Knöpfe: „Neue Runde“ (primär) und „Zur Übersicht“ (sekundär).",
      "beleg": "shots/extra/hicks-replay-auswertung-1440.png und -390.png; replay.js:81-85, 111",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Richtig, dass session bis „Zur Übersicht“ (replay.js:92) oder bis zum Verlassen der Seite (replay.js:114) gesetzt bleibt und der Getter auch die Auswertung abdeckt. Die Auswertung ist aber schon das Musterbeispiel (gefüllt + umrandet, hicks-replay-auswertung-390.png). Es ist derselbe Getter wie 6-1, deshalb Wirkung 3 statt 2.",
+     "vorgaben": "Derselbe Getter wie replay-6-1. Die Annahme stimmt: session bleibt in summaryView gesetzt (replay.js:111, zurückgesetzt erst in Z. 91-92 bzw. durch replay-start). Die Wirkung setze ich auf 3 statt 2: Der Konflikt mit demselben Play-Symbol (▷) fällt schon durch replay-1-1 weg. Hier verschwindet zusätzlich nur das Konto. Danach bleiben genau zwei Knöpfe: „Neue Runde“ (primär) und „Zur Übersicht“ (sekundär)."
     },
     {
      "id": "replay-9-2",
-     "bestaetigt": false,
+     "bestaetigt": true,
      "titel": "Knopftexte „Runde beendet“ und „Neue Runde“",
      "regel": 1,
      "wirkung": 3,
      "aufwand": "S",
-     "beschreibung": "Ergibt sich aus der Umbenennung „Session“ → „Runde“ (replay.js:83-84, Übersetzungen in js/lang/*.js). Die Übersicht spricht danach durchgängig von „Runden“.",
+     "beschreibung": "Ergibt sich aus replay-1-2, nur einmal umsetzen. Geändert wird replay.js:83: „Session beendet“ → „Runde beendet“ und „Trefferquote in dieser Session.“ → „Trefferquote in dieser Runde.“ Außerdem replay.js:84: „Neue Session“ → „Neue Runde“. Neue Schlüssel kommen in alle fünf js/lang/*.js. Der bestehende Schlüssel „Session beendet“ (en.js:668) bleibt stehen, falls er anderswo genutzt wird.",
      "beleg": "replay.js:83-84; js/lang/en.js:668, 754",
-     "fakten": "kein Urteil",
-     "vorgaben": "kein Urteil"
+     "fakten": "Folgt aus 1-2. Ergänzung: Auch „… Trefferquote in dieser Session.“ (replay.js:83) muss umbenannt werden. „Neue Session“ hat heute keinen Eintrag in en.js, braucht also ohnehin einen neuen Schlüssel. „Session beendet“ (en.js:668) teilt sich den Schlüssel mit dem Ende der Trading-Session, deshalb braucht „Runde beendet“ einen eigenen Schlüssel.",
+     "vorgaben": "Teil von replay-1-2. Der Text „Trefferquote in dieser Session.“ fehlte."
     }
    ]
   },
@@ -8322,7 +8322,7 @@
   },
   {
    "gruppe": "replay",
-   "text": ""
+   "text": "Alle Hauptaktionen sind plausibel und bleiben so: Übersicht „Runde starten“, leer „Trade loggen“ bzw. „Screenshot vor Entry hinzufügen“, Karte „Nehmen/Skippen“, Auflösung „Nächster Trade“, Auswertung „Neue Session“. Die Beschreibung der Knöpfe stimmt im Kern: .btn.primary ist gefüllt, „Skippen“ und „Zur Übersicht“ sind umrandete .btn, „Abbrechen“ ist .btn.ghost.sm, ▷ ist ein grauer .btn.icon-only. Folgende Punkte sind zu korrigieren:\n\n(1) HICKS-BRIEF nennt .btn.accent „grün gefüllt“. Das ist falsch. „Trade loggen“ (.btn.accent, app.css:3137-3143) hat die normale Kartenfläche, einen grün getönten Verlaufsrand und grüne Schrift. Gefüllt ist nur .btn.primary (app.css:274). Die Analyse beschreibt das richtig („grüner Rand und grüne Schrift“). Der Fehler im Brief kann aber Analysen anderer Bereiche verfälschen. Nebenbefund zum Handy: Die FAB-Regel app.css:3019 will einen gefüllten grünen Kreis. .btn.accent (app.css:3137) hat dieselbe Spezifität, steht später und überschreibt Hintergrund, Rand und Farbe. Deshalb ist der FAB in allen 390er-Aufnahmen ein dunkler Kreis mit grünem Ring.\n\n(2) Falsch ist an allen Stellen der Satz „Trading-Session bleibt auf dem Dashboard erreichbar“ (replay-1 verstecken, 1-1, 2-1, 3-2). Das Dashboard hat keinen Session-Knopf (dashboard.js:125: nur Vorlage, Zertifikat, Trade loggen). Erreichbar bleibt er über pageHead mit session:true, also auf TradeLog, Tagesansicht, Statistiken, Fortschritt, Notebook, News, Prop usw. Der Kommentar in shadow.js:104 ist in diesem Punkt veraltet. Für „Trade loggen“ stimmt die Aussage (Dashboard, TradeLog).\n\n(3) Eine leere Kopfreihe fällt nicht weg. pageHead (app.js:256-262) rendert immer `<div class=\"dash-head page-head compact\">`. .dash-head hat min-height 40px und padding-bottom 4px (app.css:1324), dazu kommt der Abstand von 18px (app.css:230). Es bleiben also rund 60 px Leerraum stehen. Beleg: dark-1440/coach.png, dort sind alle Head-Teile false und die Karte beginnt trotzdem bei y≈152. Damit stimmt „Hero-Karte rückt nach oben“ in 1-3, 2-1 und 3-2 nur, wenn zusätzlich pageHead '' zurückgibt, sobald left und right leer sind (app.js:261). Die Alternative ist ein replay-Getter ownActions, der true liefert, wenn nichts zu zeigen ist. Die ownActions-Vorschläge (6-1, 7-1, 8-1, 9-1) entfernen die Reihe wirklich (app.js:96). Dort stimmt die Angabe von rund 65 px.\n\n(4) replay-1: Der ▷-Knopf trägt den Namen „Session starten“ nur als title/aria-label (app.js:250). Sichtbar gleich ist nur das Symbol.\n\n(5) replay-2 irrelevant: Der FAB verdeckt nur die untere rechte Ecke der Karte „Treffer je Gefühl“ unterhalb von „3/4“, nicht die Werte 5/7 und 6/9. Es ist eine ganzseitige Aufnahme, und der feste FAB überlagert im echten Viewport wechselnde Inhalte.\n\n(6) replay-6/7: Die Hauptaktion ist eine Entscheidung zwischen zwei gleichwertigen Antworten. Ein gefülltes „Nehmen“ neben einem nur umrandeten „Skippen“ ist eine Voreinstellung zugunsten von „Nehmen“. Die Analyse lässt das zu Recht offen, der Nutzer sollte entscheiden. Auf dem Handy passt die Karte mit einem üblichen Chart im Querformat (330 px breit, etwa 186 px hoch) schon heute ohne Scrollen in 844 px. Der Platzgewinn durch den Fokusmodus ist deshalb kleiner als beschrieben.\n\n(7) replay-8: Ein Klick auf „Setup anzeigen“ in der Auflösung baut die Seite nicht „nur neu auf“. Er blendet zusätzlich einen Setup-Chip im Kartenkopf ein (replay.js:58), und das Setup steht dann doppelt neben der Ergebniszeile (replay.js:69).\n\n(8) Doppelzählung: 1-1, 2-1, 3-2 und 5-1 sind dieselbe Code-Änderung (replay.js:110). 6-1, 7-1, 8-1 und 9-1 sind derselbe Getter. Ist 1-1 umgesetzt, entfernt der Fokusmodus nur noch die Konto-Auswahl und den Streifen. Die Wirkungswerte sind entsprechend gesenkt. Die einzige echte Regelverletzung mit großer Wirkung ist der tote, aber grün gefüllte Knopf im leeren Zustand (3-1, 4-1). | replay-1/2/3/5 (Konkurrenten): Die Konto-Auswahl ist hier keine konkurrierende Aktion, sondern Kontext. Sie bestimmt, aus welchen Trades geübt wird (app.js:47). Der Mentor behandelt sie genauso und zeigt sie bewusst allein (README:144). Sie bleibt in der Übersicht und verschwindet nur während einer laufenden Runde (Fokusmodus). replay-2 (irrelevant): Die Einsparung von etwa 65 px über der Hero-Karte gilt nur, wenn die ganze Kopfreihe fehlt. Nach replay-1-1 bleibt in der Übersicht die Konto-Zeile (46 px). Der Fakten-Streifen passt auf 390 px schon heute in eine Zeile. replay-4 bzw. 4-2: Die Aufnahmen auf 390 px sind doppelt aufgelöst. Die Schritte sind gemessen 92 px hoch (nicht etwa 200 px), die Karte 271 px, der Knopf 46 px. replay-7: Ohne den Zähler „Trade 1 von 10“ passt der Kartenkopf weder auf 390 px noch auf 430 px in eine Zeile (gemessen 75 px mit und ohne Zähler). replay-6 (Hinweis zu „Nehmen“ gefüllt gegenüber „Skippen“ umrandet): Das entspricht Regel 4. Ob die Optik bei einer Blind-Entscheidung zum Nehmen verleitet, ist eine Frage an den Nutzer; das Offenlassen ist richtig. Allgemein: In HICKS-BRIEF heißt „Trade loggen“ (.btn.accent) „grün gefüllt“. Tatsächlich ist er umrandet mit grüner Schrift (app.css:3137-3144), und auch der runde Knopf auf dem Handy übernimmt diese Optik, weil app.css:3137 die Regel in Zeile 3019 überschreibt. Die Analyse beschreibt das richtig. Damit ist „Session starten“ (.btn.primary) heute schon der einzige gefüllte Knopf der Replay-Übersicht. Für die anderen Bereiche: Das Dashboard-Widget „Blind-Replay“ (widgets.js:340-349) braucht dieselben Änderungen wie replay-3-1 (kein toter Knopf), replay-1-2 (Name „Runde starten“) und replay-1-4 („Letzte 20“ erst ab 21 Karten). Sonst hat dieselbe Aktion in zwei Bereichen verschiedene Namen und Zustände."
   },
   {
    "gruppe": "konto",

@@ -51,7 +51,7 @@ Diese drei Aussagen bestimmen, was unter „Nutzer fragen“ steht.
 1. **Kein Schein.** Kein farbiger `box-shadow` mit Null-Versatz, kein `filter: drop-shadow(…)` in Farbe, kein farbiger Schatten unter Karten.
    Erlaubt bleiben nur die Ausnahmen aus README und BRIEF:
    - „Trade loggen“ (`.btn.accent`, README:206)
-   - `--dot-glow` an Hinweis-Punkten und am Balken des aktiven Seitenleisten-Eintrags (README:111)
+   - `--dot-glow` an Hinweis-Punkten und am Balken des aktiven Seitenleisten-Eintrags (README:50)
    - Serie „Im Flow“ und „Unaufhaltsam“ (README:130–132)
    - Ergebnis-Pille im Zertifikat (README:140)
    - Ruhepunkt-Atemlicht `.rp-tide`/`.rp-tide-glow` und die Farbflächen im Hintergrund (README:142)
@@ -133,7 +133,7 @@ Diese drei Aussagen bestimmen, was unter „Nutzer fragen“ steht.
 | Monte Carlo (Startkapital, Drawdowns, Endkapital samt Fußzeilen) | 0 | „Median-Drawdown −2.975,94 €“ → „−2.976 €“ |
 | Kalender-Monatsraster (Tageszelle `.p`, Wochensumme) | 0 | „−486,02 €“ → „−486 €“; „−1.054 €“ bleibt |
 | Diagrammachsen (`fmt.axisCur`) | 0 (bestehend) | – |
-| Handy-Kurzform `.pm` | k-Form (bestehend, README:192) | – |
+| Handy- und Schmal-Kurzform `.pm` | k-Form (bestehend, README:91, README:192) | – |
 
 - Ein Paar „X von Y“ hat immer auf beiden Seiten dieselbe Genauigkeit.
 - Die Cent eines Kalendertags stehen in der Tagesansicht.
@@ -170,7 +170,7 @@ Diese drei Aussagen bestimmen, was unter „Nutzer fragen“ steht.
   Das Anheben wirkt heute ohnehin nicht. Gemessen: Die Eingangsanimation `rp-in` mit `fill-mode: both` hält `transform: none`, sodass beim Überfahren `matrix(1, 0, 0, 1, 0, 0)` bleibt. Sichtbar ist nur der farbige Schatten `rgb(92, 184, 255) 0px 14px 30px -18px`.
 - **Ruhepunkt-Ampelpunkt und Rhythmus-Balken:** ohne Schein.
 - **Startseite:** Die Einträge in „Funktionen“ und „Ablauf“ haben keinen Hover-Effekt. Sie sind keine Karten mehr und nicht klickbar.
-- **Fortschrittsring:** Die Füll-Animation beim Seitenwechsel bleibt (README:234), aber ohne Schein.
+- **Fortschrittsring:** Die Füll-Animation beim Seitenwechsel bleibt (README:354), aber ohne Schein.
 
 ### Z7 Leer- und Nullzustände ohne erfundene Werte
 
@@ -562,7 +562,7 @@ Innerhalb einer Phase stehen die Schritte nach Datei sortiert. C25 (sparkle lös
   - **2760** „Prop Firms, Phase 3: Konto-Friedhof (Grabsteine, Muster) und Challenge vs. Funded (Vergleichstabelle)“ → „Prop Firms, Phase 3: Konto-Friedhof (Grabsteine, Muster)“
   - **2766–2768** die beiden Kommentare → ein Kommentar `/* Friedhof: jede Breach-Karte ist ein flacher Grabstein in den Flächenfarben der App, auf einem Sockel mit Kerzen */`
 - **2734–2735** `/* Rechner */` und `.prop-unv { … }` löschen.
-- **2763–2765** nur die `.prop-highlights…`-Selektoren streichen:
+- **2763–2765** nur die `.prop-highlights…`-Teile aus den Selektorlisten streichen; übrig bleiben:
   - `.prop-patterns { … }`
   - `.prop-patterns li::marker { … }`
   - `.prop-patterns-empty { … }`
@@ -610,7 +610,7 @@ Innerhalb einer Phase stehen die Schritte nach Datei sortiert. C25 (sparkle lös
 - **227** `<div class="caption">Dein Score</div>` → `<div class="kpi-label">Dein Score</div>`
 - **287** `<div class="caption" style="text-transform:none;letter-spacing:0;font-size:13px;font-weight:600;color:var(--text-2)">Heutiger Score …` → `<div class="kpi-label">Heutiger Score …`
 
-**C10 · web/js/widgetpreviews.js:73 · Vorschaubild Score** (ki_look-36; die Vorschauen sind genaue Miniaturen, README:91)
+**C10 · web/js/widgetpreviews.js:73 · Vorschaubild Score** (ki_look-36; die Vorschauen zeigen das echte Widget, README:75)
 - `tx(8, 54, 'DEIN SCORE', 3.8, F, { w: 600, ls: .3 })` → `tx(8, 54, 'Dein Score', 5.2, T2)`
 
 **C11 · web/js/certificate.js** (ki_look-31, bereich_shell-35)
@@ -651,7 +651,7 @@ Innerhalb einer Phase stehen die Schritte nach Datei sortiert. C25 (sparkle lös
 - `<div class="caption">Session beendet</div>` → `<div class="kpi-label">Session beendet</div>`. Die Seite ist versteckt; der Schritt dient nur der Einheitlichkeit. 68 bleibt `.caption`.
 
 **C18 · web/js/screens/progress.js** (ki_look-6)
-- **6** `ringArc`: den zweiten Kreis `<circle class="arc" … />` in `${rate > 0 ? `<circle class="arc" … />` : ''}` einschließen. Der `.track`-Kreis bleibt immer. `size = 116, lw = 9` bleibt (N2).
+- **6** `ringArc`: den zweiten Kreis `<circle class="arc" … />` in `` ${rate > 0 ? `<circle class="arc" … />` : ''} `` einschließen. Der `.track`-Kreis bleibt immer. `size = 116, lw = 9` bleibt (N2).
 - **69** vorher
   `` ${U.card('% Regeln eingehalten', `<div class="big-stat"><span>${cur.rate == null ? '0 %' : fmt.pct(cur.rate)}</span>${arrow(rateDir)}</div><div class="small muted">…</div><div class="ring-abs">${ringArc(cur.rate)}</div>`, { info: '…', cls: 'ring-card' })} ``
   → nachher
@@ -772,7 +772,7 @@ Innerhalb einer Phase stehen die Schritte nach Datei sortiert. C25 (sparkle lös
 6. `grep -n "mentor-note::before\|var(--warn) 6%\|var(--warn) 28%\|var(--warn) 22%\|var(--warn) 5%" web/css/app.css` → 0
 7. `grep -n "U.pill('Mentor', 'warn')" web/js/screens/coach.js` → 0
 8. `grep -n "drop-shadow(0 0 6px var(--accent-glow))" web/css/app.css` → 0
-9. `grep -n "box-shadow: 0 0 12px var(--c)\|0 0 8px color-mix(in srgb, var(--phase)\|0 14px 30px -18px var(--c)\|animation-duration: 2" web/css/app.css` → 0
+9. `grep -n "box-shadow: 0 0 12px var(--c)\|0 0 8px color-mix(in srgb, var(--phase)\|0 14px 30px -18px var(--c)\|rp-choice:hover .rp-i\|rp-choice::before" web/css/app.css` → 0
 10. `grep -rn "rp-switch\|rp-faith\|syncFaithUI" web/css web/js` → 0
 11. `grep -rn "nav-sec\|badge-n\|\.nav button\|menu-btn svg path\|\.brand em\|Journal<em>" web/css web/js web/index.html` → 0
 12. `grep -rn "prop-grave-kv\|prop-highlights\|prop-unv\|--grain\|eng-hi\|eng-lo\|prop-grave-trade\|tradeHtml" web/css web/js` → 0
@@ -781,7 +781,7 @@ Innerhalb einer Phase stehen die Schritte nach Datei sortiert. C25 (sparkle lös
 15. `grep -rn "nw-next-ico" web` → 0
 16. `grep -rn "family=Inter\|Inter, Roboto" web/app.html web/index.html web/js/sample.js` → 0
 17. `grep -n "ribbon\|uppercase\|SCHRITT\|class=\"bar\"\|ff5f57\|class=\"ico\"\|Win-Rate\|accent-soft" web/index.html web/css/landing.css` → 0
-18. `grep -rn 'class="caption' web/js | grep -v "/lang/"` → genau diese 10 Stellen:
+18. `grep -rno 'class="caption' web/js | grep -v "/lang/" | wc -l` → 10, und zwar genau an diesen Stellen:
     - trades.js:76 (4×)
     - progress.js:74, progress.js:75
     - news.js:83

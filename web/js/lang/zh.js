@@ -1815,4 +1815,5 @@ I18N.add('zh', {
   "{0} Tag": "{0} 天",
   "Noch kein Check": "尚未打卡",
   "Keine Regeln": "没有规则",
+  "Monats-P&L": "本月盈亏",
 });

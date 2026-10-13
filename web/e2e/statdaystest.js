@@ -69,7 +69,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   /* Gemeinsamer Baustein: leeres Fach „<b>Name</b>: Keine Trades“, sonst Wert, Summe, Trades und Trefferquote, in vbars und hbars gleich */
   const gt = await p.evaluate(() => { const g = [{ key: 'Sa', s: { n: 0, expectancy: 0, total: 0, winRate: 0 } }, { key: 'So', s: { n: 2, expectancy: 10, total: 20, winRate: 0.5 } }]; const out = {};
     for (const k of ['vbars', 'hbars']) { const el = document.createElement('div'); UI.drawers[k](el, { groups: g, metric: 'expectancy' }, 400, 200); out[k] = [...el.querySelectorAll('[data-tip]')].map(e => e.getAttribute('data-tip')); } return out; });
-  ok(['vbars', 'hbars'].every(k => gt[k].length === 2 && gt[k][0] === '<b>Sa</b>: Keine Trades' && /^<b>So<\/b>: \+10,00\s€ pro Trade<br>Summe \+20,00\s€ · 2 Trades · Trefferquote 50\s%$/.test(gt[k][1])), 'Balken-Tooltip: leeres Fach „Keine Trades“, vbars und hbars gleich · ' + JSON.stringify(gt));
+  ok(['vbars', 'hbars'].every(k => gt[k].length === 2 && gt[k][0] === '<b>Sa</b>: Keine Trades' && /^<b>So<\/b>: 10,00\s€ pro Trade<br>Summe 20,00\s€ · 2 Trades · Trefferquote 50\s%$/.test(gt[k][1])), 'Balken-Tooltip: leeres Fach „Keine Trades“, vbars und hbars gleich · ' + JSON.stringify(gt));
 
   /* Englisch: Tooltip übersetzt */
   await p.evaluate(async () => { Store.setLanguage('en'); I18N.setLang('en'); await new Promise(r => setTimeout(r, 900)); location.hash = '#/stats/time'; }); await p.waitForTimeout(900);

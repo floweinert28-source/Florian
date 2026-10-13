@@ -1766,4 +1766,5 @@ I18N.add('pt', {
   "{0} Tag": "{0} dia",
   "Noch kein Check": "Ainda sem check",
   "Keine Regeln": "Sem regras",
+  "Monats-P&L": "P&L do mês",
 });

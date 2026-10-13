@@ -66,7 +66,7 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   await p.screenshot({ path: 'sample-prop.png', fullPage: true });
   await go('#/prop/bilanz', 600);
   const tiles = (await p.$$eval('.prop-tiles .tile', els => els.map(e => ({ k: e.querySelector('.head span').textContent.trim(), v: e.querySelector('.val').textContent.trim() })))).map(t => ({ k: norm(t.k), v: norm(t.v) }));
-  ok('Bilanz: Netto positiv, ROI in %, Ausgaben (8) und Payouts (3) gelistet', tiles[0].k.startsWith('Netto') && tiles[0].v.startsWith('+') && tiles[1].k.startsWith('ROI') && /\+\d+ %/.test(tiles[1].v) && (await p.$$('form[data-action=prop-expense-add] ~ .tbl-wrap tbody tr')).length === 8 && (await p.$$('form[data-action=prop-payout-add] ~ .tbl-wrap tbody tr')).length === 3 && (await content()).includes('Beantragt'), tiles.map(t => `${t.k}=${t.v}`).join(' | '));
+  ok('Bilanz: Netto positiv, ROI in %, Ausgaben (8) und Payouts (3) gelistet', tiles[0].k.startsWith('Netto') && /^\d/.test(tiles[0].v) && tiles[1].k.startsWith('ROI') && /^\d+ %/.test(tiles[1].v) && (await p.$$('form[data-action=prop-expense-add] ~ .tbl-wrap tbody tr')).length === 8 && (await p.$$('form[data-action=prop-payout-add] ~ .tbl-wrap tbody tr')).length === 3 && (await content()).includes('Beantragt'), tiles.map(t => `${t.k}=${t.v}`).join(' | '));
   await go('#/prop/payout', 600);
   await p.selectOption('#pp-acc-sel', 'smpa-apex'); await p.waitForTimeout(400);
   const ptxt = await content();

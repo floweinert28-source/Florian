@@ -1769,4 +1769,5 @@ I18N.add('es', {
   "{0} Tag": "{0} día",
   "Noch kein Check": "Aún sin revisión",
   "Keine Regeln": "Sin reglas",
+  "Monats-P&L": "P&L del mes",
 });

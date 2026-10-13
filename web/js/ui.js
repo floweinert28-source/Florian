@@ -111,7 +111,7 @@
       if (o.r === null) return '– R';
       const r = o.r !== undefined ? Number(o.r) : (blind.unit ? v / blind.unit : null);
       if (r == null || isNaN(r)) return '– R';
-      if (o.compact) { const a = Math.abs(r); const s = (a >= 10 ? Math.round(a) : Math.round(a * 10) / 10).toLocaleString(LOC()) + ' R'; return (r < -C.EPS ? '−' : (o.signed && r > C.EPS ? '+' : '')) + s; }
+      if (o.compact) { const a = Math.abs(r); const s = (a >= 10 ? Math.round(a) : Math.round(a * 10) / 10).toLocaleString(LOC()) + ' R'; return (r < -C.EPS ? '−' : '') + s; }
       return fmt.r(r, !!o.signed);
     },
     /* Kontostand: im Geld-blind-Modus komplett ausgeblendet */
@@ -127,10 +127,10 @@
         /* Euro steht in jeder Sprache hinter der Zahl („1,234.50 €“), andere Währungen wie in der Sprache üblich („$1,234.50“) */
         s = cc === 'EUR' ? parts.filter(x => x.type !== 'currency' && x.type !== 'literal').map(x => x.value).join('') + '\u00a0€' : parts.map(x => x.value).join('');
       } catch (e) { s = a.toFixed(d) + ' ' + cc; }
-      return (v < -C.EPS ? '−' : (o.signed && v > C.EPS ? '+' : '')) + s;
+      return (v < -C.EPS ? '−' : '') + s; /* positive Zahlen ohne „+“: die Farbe sagt Gewinn, nur Verluste tragen ein Minus */
     },
-    pct(f, d = 0, signed = false) { if (f == null || isNaN(f)) return '—'; const s = new Intl.NumberFormat(LOC(), { style: 'percent', maximumFractionDigits: d, minimumFractionDigits: d }).format(Math.abs(f)); return (f < 0 ? '−' : signed && f > 0 ? '+' : '') + s; },
-    r(v, signed = true) { if (v == null || isNaN(v)) return '—'; return (v < 0 ? '−' : (signed && v > 0 ? '+' : '')) + fmt.dec(Math.abs(v), 2) + ' R'; },
+    pct(f, d = 0, signed = false) { if (f == null || isNaN(f)) return '—'; const s = new Intl.NumberFormat(LOC(), { style: 'percent', maximumFractionDigits: d, minimumFractionDigits: d }).format(Math.abs(f)); return (f < 0 ? '−' : '') + s; },
+    r(v, signed = true) { if (v == null || isNaN(v)) return '—'; return (v < 0 ? '−' : '') + fmt.dec(Math.abs(v), 2) + ' R'; },
     /* feste Nachkommastellen ohne Tausenderpunkte, mit dem Dezimalzeichen der Sprache (Deutsch: Komma) */
     dec(v, d = 2) { const s = Number(v).toFixed(d); const sep = (1.5).toLocaleString(LOC()).charAt(1); return sep === '.' ? s : s.replace('.', sep); },
     /* Prozentzeichen samt Abstand der Sprache: Deutsch „52,3 %“, Englisch „52.3%“ */

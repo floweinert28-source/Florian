@@ -82,7 +82,7 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(
   await p.fill('#pp-rec', today()); await p.click('form[data-action=prop-payout-add] button[type=submit]'); await p.waitForTimeout(450);
   const po = await p.evaluate(() => Store.propPayouts()); ok('Payout erfasst (erhalten, netto 800)', po.length === 1 && po[0].net === 800 && po[0].split === 0.8 && po[0].status === 'received' && po[0].firm === 'FTMO');
   const tiles = (await p.$$eval('.prop-tiles .tile', els => els.map(e => e.querySelector('.val').textContent.trim()))).map(norm);
-  ok('Kennzahlen: Netto, ROI, Kosten/bestandenes Konto, Quote, Break-even', tiles[0] === '+260,00 €' && tiles[1] === '+48 %' && tiles[2] === '—' && tiles[3] === '0 %' && tiles[4] === 'erreicht', tiles.join(' | '));
+  ok('Kennzahlen: Netto, ROI, Kosten/bestandenes Konto, Quote, Break-even', tiles[0] === '260,00 €' && tiles[1] === '48 %' && tiles[2] === '—' && tiles[3] === '0 %' && tiles[4] === 'erreicht', tiles.join(' | '));
   ok('Pro Firma: FTMO', (await p.textContent('.grid.main-side')).includes('FTMO'));
   ok('Chart mit zwei Linien', (await p.$$('[data-id=prop-balance] svg path')).length === 2 && (await p.$$('[data-id=prop-balance] svg path[stroke="var(--loss)"]')).length === 1 && (await p.$$('[data-id=prop-balance] svg path[stroke="var(--profit)"]')).length === 1);
 

@@ -3257,3 +3257,9 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 /* Tabellen-Tooltip in fester Breite: die Box ändert ihre Größe nicht von Tag zu Tag */
 #tip:has(.tt-g) { width: 220px; }
 #tip .tt-h { overflow: hidden; text-overflow: ellipsis; }
+/* Schalter an: nur noch ein grüner Punkt in heller Kontur – kein grüner Rahmen, keine grüne Fläche */
+.switch[aria-checked="true"] { background: color-mix(in srgb, var(--text) 7%, transparent); box-shadow: inset 0 0 0 1.5px var(--text-2); }
+.switch[aria-checked="true"]:hover { background: color-mix(in srgb, var(--text) 11%, transparent); }
+.switch[aria-checked="true"]::after { background: var(--accent); }
+/* Regel-Karten färben sich beim Einschalten nicht */
+.shadow-rule.on { border-color: var(--border); background: var(--surface-2); }

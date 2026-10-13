@@ -726,7 +726,7 @@ span.info:hover { color: var(--text-2); }
 .cal .d { position: relative; min-height: 84px; border: 1px solid var(--border); border-radius: 12px; padding: 8px 8px 8px; background: var(--surface); display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; cursor: pointer; transition: border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease); }
 .cal .d:hover { border-color: var(--border-2); transform: translateY(-1px); }
 .cal .d.pad { visibility: hidden; }
-.cal .d .n { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; background: var(--surface-3); color: var(--text-2); }
+.cal .d .n { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; background: none; color: var(--text-2); } /* kein Kreis hinter der Zahl, nur heute bekommt den grünen */
 .cal .d.today .n { background: var(--accent); color: var(--accent-ink); }
 .cal .d.win { background: color-mix(in srgb, var(--profit) 16%, var(--surface)); border-color: color-mix(in srgb, var(--profit) 45%, var(--border)); }
 .cal .d.loss { background: color-mix(in srgb, var(--loss) 23%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 52%, var(--border)); } /* Rot etwas kräftiger als Grün, damit es auf dem dunklen Grund gleich stark wirkt */

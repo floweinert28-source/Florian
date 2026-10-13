@@ -3,7 +3,7 @@ const base = 'file:///home/user/Florian/web/app.html';
 const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`);
 (async () => {
   const browser = await chromium.launch(); const errs = [];
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'warning' || m.type() === 'error') errs.push('console: ' + m.text()); });
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } }); await require('./localfonts.js')(ctx); /* Schriften lokal: der Proxy blockiert Google Fonts */ const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'warning' || m.type() === 'error') errs.push('console: ' + m.text()); });
   await p.goto(base + '#/trades', { waitUntil: 'load' }); await p.waitForTimeout(300);
   await p.evaluate(() => { location.hash = '#/dashboard'; }); await p.waitForTimeout(110); /* Seitenwechsel läuft als View Transition, der Aufbau kommt einen Frame später */
   ok('Kein Skeleton beim Wechsel aufs Dashboard: Kacheln stehen sofort (nichts springt)', (await p.$$eval('.skel', e => e.length)) === 0 && (await p.$$eval('.dash-top > .w', e => e.length)) > 0);
@@ -145,7 +145,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   await p.screenshot({ path: 'dash-7-empty.png', fullPage: true });
   await p.evaluate(() => { Store.installSample(); });
   /* Handy */
-  const m = await browser.newContext({ viewport: { width: 400, height: 820 } }); const mp = await m.newPage(); mp.on('pageerror', e => errs.push('phone ' + e.message));
+  const m = await browser.newContext({ viewport: { width: 400, height: 820 } }); await require('./localfonts.js')(m); const mp = await m.newPage(); mp.on('pageerror', e => errs.push('phone ' + e.message));
   await mp.goto(base + '#/dashboard', { waitUntil: 'load' }); await mp.waitForTimeout(700);
   ok('Handy: keine Seitenbreite-Überlauf', await mp.evaluate(() => document.documentElement.scrollWidth <= 400 + 1), String(await mp.evaluate(() => document.documentElement.scrollWidth)));
   ok('Handy: obere Reihe als Raster mit zwei Spalten (kein Karussell)', await mp.$eval('.dash-top', e => { const cs = getComputedStyle(e); return cs.display === 'grid' && cs.gridTemplateColumns.split(' ').length === 2 && e.scrollWidth <= e.clientWidth; }));

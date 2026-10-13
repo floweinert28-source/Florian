@@ -20,8 +20,9 @@ const FEAT = ['schatten_ich', 'blind_replay', 'prop_konten', 'ruhepunkt', 'mento
   ok(!(await p.evaluate(() => /konnte nicht berechnet werden|ist hier nicht geladen|Unbekanntes Widget/.test(document.getElementById('content').textContent))), 'Keine Fehler- oder Fehlt-Hinweise in den Karten');
   ok(await p.evaluate(() => !!document.querySelector('[data-id="dash-schatten"] svg') && document.querySelectorAll('.fw-rounds i').length >= 2 && document.querySelectorAll('.fw-acc').length >= 1 && document.querySelectorAll('.fw-rp').length === 2 && (!!document.querySelector('form.fw-mentor') || /Mentor noch nicht eingerichtet/.test(document.getElementById('content').textContent))), 'Inhalte: Schatten-Kurve, Replay-Runden, Prop-Konten, Ruhepunkt-Zeilen, Mentor-Feld oder Einrichten-Hinweis');
   /* gleiche Zahl wie die Schatten-Ich-Seite (Zeitraum Gesamt) */
+  await p.evaluate(() => { Store.data.settings.range = { preset: 'all', from: null, to: null }; Store.saveNow(); App.rerender(false); }); await p.waitForTimeout(600); /* Zeitraum über die App setzen: ein Speichern beim Neuladen kann den Eintrag im localStorage überschreiben */
   const sh = await p.evaluate(() => { const res = ShadowScreen.evaluate(App.allTrades()); const all = res.periods.all; const cost = all.cost != null ? all.cost : all.shadow - all.real; return { want: ShadowScreen.costView(cost).text, got: document.querySelector('.fw-stats b').textContent.trim() }; });
-  ok(sh.want === sh.got, `Disziplin-Kosten wie auf der Schatten-Ich-Seite (${sh.got})`);
+  ok(sh.want === sh.got, `Disziplin-Kosten wie auf der Schatten-Ich-Seite (${sh.got}${sh.want !== sh.got ? " ≠ Seite " + sh.want : ""})`);
   const rp = await p.evaluate(() => { const st = Replay.stats(Store.replayHistory(), App.allTrades()); return { want: UI.fmt.pct(st.hitRate, 0), got: document.querySelector('.fw-big').textContent.trim() }; });
   ok(rp.want === rp.got, `Replay-Trefferquote wie auf der Replay-Seite (${rp.got})`);
   /* 3) Kacheln oben */

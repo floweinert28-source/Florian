@@ -3278,7 +3278,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .chart-skel .cs-plot { position: relative; min-height: 0; }
 .chart-skel .cs-grid { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 6px 0 12px; }
 .chart-skel .cs-grid i { height: 0; border-top: 1px dashed color-mix(in srgb, var(--text) 8%, transparent); }
-.chart-skel svg { position: absolute; inset: 14% 0 12px 0; width: 100%; height: auto; overflow: visible; }
+.chart-skel svg { position: absolute; left: 0; top: 14%; width: 100%; height: calc(86% - 12px); overflow: visible; } /* feste Höhe: ein SVG mit nur oben/unten würde sein Seitenverhältnis behalten und auf schmalen Schirmen flach oben kleben */
 .chart-skel .cs-area { fill: color-mix(in srgb, var(--text) 4%, transparent); stroke: none; }
 .chart-skel .cs-line { fill: none; stroke: color-mix(in srgb, var(--text) 16%, transparent); stroke-width: 2.5; stroke-linecap: round; }
 .chart-skel .cs-x { grid-column: 2; display: flex; justify-content: space-between; align-items: center; padding: 0 2px; }
@@ -3288,3 +3288,16 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 @media (prefers-reduced-motion: reduce) { .chart-skel::after { animation: none; display: none; } }
 /* Schatten-Ich: Nebenangaben in den Kacheln ganz leise (Anzahl Trades), damit nur die Zahlen auffallen */
 .shadow-tiles .tile .head .n { color: var(--faint); font-size: 11px; font-weight: 500; }
+/* Eigenes Auswahl-Menü für <select> (selectpicker.js): wie die übrigen Menüs, fest positioniert unter dem Feld, eigene Scrollfläche */
+.popover.sp { position: fixed; top: 0; left: 0; right: auto; z-index: 75; min-width: 160px; max-width: min(360px, calc(100vw - 16px)); padding: 6px; overflow-y: auto; overscroll-behavior: contain; transform-origin: top left; }
+.popover.sp.up { bottom: auto; right: auto; transform-origin: bottom left; }
+.popover.sp .item { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 36px; padding: 0 10px; text-align: left; white-space: nowrap; }
+.popover.sp .item[aria-selected="true"] { color: var(--text); font-weight: 500; }
+.popover.sp .item:focus-visible { outline: none; background: var(--surface-2); }
+.popover.sp .sp-chk { display: inline-grid; place-items: center; width: 16px; height: 16px; flex: 0 0 16px; color: var(--text); }
+.popover.sp .sp-chk svg { width: 15px; height: 15px; }
+.popover.sp .sp-cap { padding: 8px 10px 4px; font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted); }
+@media (pointer: coarse) { .popover.sp .item { min-height: 44px; } }
+/* Uhrzeitfeld: nur die zwei Spalten Stunde/Minute im Kalender-Stil */
+.popover.dp.tm { width: 200px; }
+.dp.tm .dp-time { padding-left: 0; border-left: 0; height: 236px; }

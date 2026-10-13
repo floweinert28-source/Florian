@@ -291,6 +291,7 @@
       window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
       if (root.RangePicker) root.RangePicker.init(); /* Zeitraum „Benutzerdefiniert“ mit zwei Monaten */
       if (root.DatePicker) root.DatePicker.init(); /* eigener Kalender für Datumsfelder, nach dem Klick-Handler oben registriert */
+      if (root.SelectPicker) root.SelectPicker.init(); /* eigenes Menü für Auswahlfelder statt der Browser-/Handy-Liste */
       if (root.ColorPicker) root.ColorPicker.init({ get: () => S.settings.savedColors || [], set: l => S.setSetting('savedColors', l), changed: () => { if (App.refreshSavedColors) App.refreshSavedColors(); } }); /* eigener Farbwähler; selbst gewählte Farben werden gemerkt */
       document.addEventListener('input', e => { const el = e.target.closest('[data-input]'); if (el) { const fn = this.actions[el.dataset.input]; if (fn) fn.call(this, el, e); } });
       document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el) { const fn = this.actions[el.dataset.change]; if (fn) { this.noteAnchor(el); fn.call(this, el, e); } } });

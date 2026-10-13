@@ -47,6 +47,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **Abstände** folgen einem 4-px-Raster (`--sp-1` … `--sp-10` in `:root`): Karten und Einstellungsblöcke 20 px innen, Kartenkopf 16 px über dem Inhalt, Abschnitte einer Seite 24 px, Raster (Dashboard) 16 px, nach der Kopfreihe 16 px, Tabellenzellen 12/16 px, Dialoge mit Formular 16 px zwischen Kopf, Feldern und Fuß. Eine Seite ohne Steuerelemente in der Kopfreihe zeigt keine leere Kopfreihe; die Einstellungen haben keine (Zeitraum und Konto wirken dort nicht).
 - **Diagramm-Tooltips** sind eine kleine Tabelle (`U.tipTable`): oben das Datum, darunter Bezeichnung links und Wert rechtsbündig; die Box ist fest 220 px breit und bleibt im Diagrammkasten; die gewählte Seite (rechts/links, über/unter dem Punkt) bleibt, solange sie passt, damit nichts hin- und herspringt.
+- **Leere Diagramme** zeigen ein Skelett (`.chart-skel`): angedeutete Achsen, Gitterlinien und eine graue Beispielkurve, die die ganze Zeichenfläche füllt, dazu „Keine Daten“ in der Mitte.
 - **Bedienelemente** haben feste Höhen: kleine Knöpfe (`.btn.sm`), runde Pfeil-Knöpfe (`.btn.round`, 34 × 34) und kleine Felder (`.input.sm`, `.select.sm`) sind alle 34 px hoch. Reiter (`.tabs`) und Umschalter (`.seg`) sind eine Schiene mit 34 px hohen Einträgen; der gewählte Eintrag ist hell hinterlegt, bei Auswahl mit Bedeutung in seiner Farbe (siehe **Farbe**). Zahlenfelder zeigen keine Browser-Pfeile.
 - **Texte:** Die Quote gewonnener Trades heißt überall „Trefferquote“ (nicht Win-Rate/Winrate), die der verlorenen „Verlustquote“. Zähler laufen über `U.count(n, Einzahl, Mehrzahl)` („1 Trade“, „2 Trades“, „1 Notiz“); jede Einzahlform hat in allen fünf Wörterbüchern ein eigenes Muster (`"{0} Trade"`, `"{0} von {1} Trade"` …).
 - **Fehler und Löschen:** Eingabefehler stehen direkt am Feld (roter Rand, Satz darunter, `aria-invalid`), alle zugleich, Fokus aufs erste Feld; sie verschwinden bei der nächsten Eingabe (`U.fieldErrors`). Das Trade-Formular prüft selbst („Symbol wählen“, „Einstieg eintragen“ …), alle anderen Formulare nutzen die eingebaute Prüfung, aber ohne Browser-Blase („Pflichtfeld“, „Mindestens {0}“ …). Wer Daten endgültig löscht (Screenshot, Sprachnotiz, Regel, Check-in, verpasster Trade, Design, Konto, Vorlage …), bestätigt vorher in einem Fenster mit rotem „Löschen“.
@@ -321,7 +322,8 @@ web/
   vendor/quill/         Quill 2.0.3 (BSD-3-Clause)
   js/app.js             Router, Seitenleiste, Kopfzeile und Kopfreihe unter dem Titel, Trade-Editor, Session, CSV-Import
   js/colorpicker.js     Farbwähler im App-Design für alle Farbfelder, merkt eigene Farben (höchstens 8)
-  js/datepicker.js      Kalender im App-Design für Datumsfelder (Datum, Datum mit Uhrzeit samt Stunden-/Minuten-Spalten, Monat), auf Touch-Geräten bleibt der System-Kalender
+  js/datepicker.js      Kalender im App-Design für Datums- und Zeitfelder (Datum, Datum mit Uhrzeit samt Stunden-/Minuten-Spalten, Monat, nur Uhrzeit), auch auf Handy und Tablet
+  js/selectpicker.js    Auswahlliste im App-Design für alle <select>-Felder statt des System-Menüs (Maus, Tastatur, Touch)
   js/screens/*.js       Die einzelnen Seiten
   tests/core.test.mjs   Tests für die Analytik
 ```

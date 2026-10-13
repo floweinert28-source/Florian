@@ -117,12 +117,12 @@ const pad = n => String(n).padStart(2, '0');
   await openRange(); await p.click('#range-to'); await p.waitForTimeout(300);
   await p.screenshot({ path: 'dp-light.png', clip: { x: 232, y: 60, width: 640, height: 560 } });
   await p.keyboard.press('Escape'); await p.evaluate(() => { Store.setSetting('theme', 'dark'); Theme.apply(Store.settings); });
-  /* 10. Touch-Gerät behält den System-Kalender */
+  /* 10. Touch-Gerät: auch hier der eigene Kalender statt des System-Fensters; das Feld bekommt keinen Fokus (sonst öffnet das Gerät sein Fenster) */
   const mctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }); const mp = await mctx.newPage(); mp.on('pageerror', e => errs.push('mobil: ' + e.message));
   await mp.goto(base + '#/trades', { waitUntil: 'load' }); await mp.waitForTimeout(500);
   ok('Touch: pointer coarse', await mp.evaluate(() => !matchMedia('(pointer: fine)').matches));
   await mp.evaluate(() => App.openTradeEditor(null)); await mp.waitForTimeout(400); await mp.tap('#f-open'); await mp.waitForTimeout(300);
-  ok('Touch: kein eigener Kalender, natives Feld unverändert', !(await mp.evaluate(() => { const d = document.getElementById('pop-dp'); return !!d && d.classList.contains('open'); })) && await mp.$eval('#f-open', e => getComputedStyle(e).backgroundImage === 'none'));
+  ok('Touch: eigener Kalender offen, Feld ohne Fokus (kein System-Fenster)', await mp.evaluate(() => { const d = document.getElementById('pop-dp'); return !!d && d.classList.contains('open') && document.activeElement !== document.getElementById('f-open'); }));
   await mctx.close();
   ok('Keine Fehler', errs.length === 0, errs.join(' | '));
   console.log(out.join('\n')); console.log(`${out.filter(x => x.startsWith('PASS')).length}/${out.length} bestanden`);

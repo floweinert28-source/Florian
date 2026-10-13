@@ -2,13 +2,14 @@
    Datum mit Uhrzeit: rechts neben dem Kalender zwei Spalten für Stunde und Minute; ein Klick setzt den Wert sofort,
    der Kalender bleibt offen, bis „Fertig“, „Jetzt“, Enter oder ein Klick daneben ihn schließt.
    Das native Feld bleibt zum Tippen und für Formulare (Wert, Pflichtfeld, Ereignisse), ersetzt wird nur das Aufklapp-Fenster des Browsers.
-   Auf Touch-Geräten bleibt der System-Kalender, der dort zur Bedienung passt. Von/Bis-Paare markieren sich über data-dp-group. */
+   Uhrzeitfelder (type=time) bekommen nur die zwei Spalten. Auch auf dem Handy öffnet dieser Kalender statt des System-Fensters
+   (Antippen öffnet ihn, ohne dass das Feld den Fokus und damit das Fenster des Geräts bekommt). Von/Bis-Paare markieren sich über data-dp-group. */
 (function (root) {
   'use strict';
   const MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
   const MONTHS_S = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
   const WD = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-  const TYPES = { date: 1, 'datetime-local': 1, month: 1 };
+  const TYPES = { date: 1, 'datetime-local': 1, month: 1, time: 1 };
   /* Monats- und Tagesnamen in der gewählten Sprache (i18n.js); Deutsch nutzt die festen Listen oben */
   const LOC = () => (root.I18N && root.I18N.lang() !== 'de' ? root.I18N.locale() : null);
   const fmtD = (o, d) => new Intl.DateTimeFormat(LOC(), o).format(d);
@@ -21,11 +22,11 @@
   const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   const parse = k => { const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?/.exec(k || ''); return m ? new Date(+m[1], +m[2] - 1, m[3] ? +m[3] : 1) : null; };
   const daysIn = (y, m) => new Date(y, m + 1, 0).getDate();
-  const fine = () => !root.matchMedia || root.matchMedia('(pointer: fine)').matches;
   const svg = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const IC = { prev: svg('<path d="M15 6l-6 6 6 6"/>'), next: svg('<path d="M9 6l6 6-6 6"/>'), caret: svg('<path d="M6 9l6 6 6-6"/>') };
   let el = null, input = null, view = null, focusKey = '', inited = false;
   const isDT = () => !!input && input.type === 'datetime-local';
+  const isTM = () => !!input && input.type === 'time';
   const nowHM = () => { const n = new Date(); return `${pad(n.getHours())}:${pad(n.getMinutes())}`; };
 
   const isField = t => !!t && t.tagName === 'INPUT' && !!TYPES[t.type] && !t.disabled && !t.readOnly;
@@ -62,7 +63,7 @@
   }
   /* Stunde und Minute als Spalten; ohne Wert ist nichts markiert, die Spalten stehen dann auf der aktuellen Uhrzeit */
   function timeHTML() {
-    const t = (input.value || '').slice(11, 16); const cur = { hour: t ? +t.slice(0, 2) : -1, min: t ? +t.slice(3, 5) : -1 };
+    const t = isTM() ? (input.value || '').slice(0, 5) : (input.value || '').slice(11, 16); const cur = { hour: t ? +t.slice(0, 2) : -1, min: t ? +t.slice(3, 5) : -1 };
     const col = (kind, n, label) => `<div class="dp-tcol" data-col="${kind}" role="group" aria-label="${label}">${Array.from({ length: n }, (_, i) => `<button type="button" class="dp-t${i === cur[kind] ? ' sel' : ''}" data-dp="${kind}" data-v="${i}" tabindex="${i === Math.max(0, cur[kind]) ? '0' : '-1'}"${i === cur[kind] ? ' aria-pressed="true"' : ''}>${pad(i)}</button>`).join('')}</div>`;
     return `<div class="dp-time"><div class="dp-thead"><span class="dp-tval${t ? '' : ' empty'}">${t || '--:--'}</span></div><div class="dp-week dp-tweek" aria-hidden="true"><span>Std</span><span>Min</span></div><div class="dp-tcols">${col('hour', 24, 'Stunde')}${col('min', 60, 'Minute')}</div></div>`;
   }
@@ -81,10 +82,11 @@
     const foot = dt ? `<div class="dp-foot">${clear}<span class="dp-foot-r"><button type="button" class="dp-link" data-dp="today">Jetzt</button><button type="button" class="dp-link accent" data-dp="done">Fertig</button></span></div>`
       : `<div class="dp-foot">${clear}<button type="button" class="dp-link accent" data-dp="today">${monthField ? 'Dieser Monat' : 'Heute'}</button></div>`;
     const cal = head + (months ? monthsHTML() : daysHTML());
-    el.innerHTML = dt ? `<div class="dp-body"><div class="dp-cal">${cal}</div>${timeHTML()}</div>${foot}` : cal + foot;
-    el.classList.toggle('months', months); el.classList.toggle('dt', dt);
+    const tm = isTM(); const tfoot = `<div class="dp-foot">${clear}<span class="dp-foot-r"><button type="button" class="dp-link" data-dp="today">Jetzt</button><button type="button" class="dp-link accent" data-dp="done">Fertig</button></span></div>`;
+    el.innerHTML = tm ? timeHTML() + tfoot : dt ? `<div class="dp-body"><div class="dp-cal">${cal}</div>${timeHTML()}</div>${foot}` : cal + foot;
+    el.classList.toggle('months', months && !tm); el.classList.toggle('dt', dt); el.classList.toggle('tm', tm);
     el.querySelectorAll('.dp-tcol').forEach((c, i) => { if (keep[i] != null) c.scrollTop = keep[i]; }); /* Neuaufbau behält die Scrollstände der Uhrzeit-Spalten */
-    el.setAttribute('aria-label', monthField ? 'Monat wählen' : 'Datum wählen');
+    el.setAttribute('aria-label', tm ? 'Uhrzeit wählen' : monthField ? 'Monat wählen' : 'Datum wählen');
   }
   /* unter dem Feld, links bündig; reicht der Platz nach unten nicht, klappt der Kalender nach oben */
   function place() {
@@ -116,7 +118,9 @@
   }
   /* Stunde oder Minute setzen; ohne Datum gilt der markierte Tag im Kalender (sonst heute) */
   function setTime(kind, n) {
-    const inp = input; const v = inp.value || ''; const day = v.slice(0, 10) || focusKey || keyOf(new Date()); const t = v.slice(11, 16) || nowHM();
+    const inp = input; const v = inp.value || '';
+    if (isTM()) { const t = v.slice(0, 5) || nowHM(); write(inp, `${kind === 'hour' ? pad(n) : t.slice(0, 2)}:${kind === 'min' ? pad(n) : t.slice(3, 5)}`); render(); return; }
+    const day = v.slice(0, 10) || focusKey || keyOf(new Date()); const t = v.slice(11, 16) || nowHM();
     write(inp, `${day}T${kind === 'hour' ? pad(n) : t.slice(0, 2)}:${kind === 'min' ? pad(n) : t.slice(3, 5)}`); render();
   }
   function done() { const inp = input; close(); if (inp && inp.isConnected) refocus(inp); }
@@ -129,7 +133,7 @@
     else if (a === 'month') { const m = +b.dataset.m; if (input.type === 'month') commit(`${view.y}-${pad(m + 1)}-01`); else { view.m = m; view.mode = 'days'; focusKey = ''; render(); place(); } }
     else if (a === 'day') commit(b.dataset.k, isDT());
     else if (a === 'hour' || a === 'min') setTime(a, +b.dataset.v);
-    else if (a === 'today') { if (isDT()) { const inp = input; close(); write(inp, `${keyOf(new Date())}T${nowHM()}`); refocus(inp); } else commit(keyOf(new Date())); }
+    else if (a === 'today') { if (isTM()) { const inp = input; close(); write(inp, nowHM()); refocus(inp); } else if (isDT()) { const inp = input; close(); write(inp, `${keyOf(new Date())}T${nowHM()}`); refocus(inp); } else commit(keyOf(new Date())); }
     else if (a === 'done') done();
     else if (a === 'clear') commit('');
   }
@@ -184,9 +188,13 @@
   /* einmal nach App.bind: der eigene Klick-Handler läuft nach dem der App, die beim Klick neben ein Popover alle schließt */
   function init() {
     if (inited || typeof document === 'undefined') return; inited = true;
-    document.addEventListener('click', e => { const t = e.target; if (!isField(t) || !fine()) return; e.preventDefault(); open(t, false); });
-    document.addEventListener('keydown', e => { const t = e.target; if (!isField(t) || !fine()) return; if ((e.altKey && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) || e.key === 'F4') { e.preventDefault(); e.stopPropagation(); open(t, true); } }, true);
+    document.addEventListener('click', e => { const t = e.target; if (!isField(t)) return; e.preventDefault(); open(t, false); });
+    let tap = null; /* Touch: Antippen öffnet den eigenen Kalender; preventDefault verhindert Fokus und damit das Fenster des Geräts */
+    document.addEventListener('touchstart', e => { const t = e.target; tap = isField(t) && e.touches.length === 1 ? { t, x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { passive: true, capture: true });
+    document.addEventListener('touchend', e => { const p = tap; tap = null; if (!p || e.target !== p.t) return; const c = e.changedTouches[0]; if (Math.hypot(c.clientX - p.x, c.clientY - p.y) > 10) return; e.preventDefault(); if (isOpen() && input === p.t) close(); else open(p.t, false); }, { passive: false, capture: true });
+    document.addEventListener('keydown', e => { const t = e.target; if (!isField(t)) return; if ((e.altKey && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) || e.key === 'F4') { e.preventDefault(); e.stopPropagation(); open(t, true); } }, true);
     document.addEventListener('mousedown', e => { if (isOpen() && !el.contains(e.target) && e.target !== input) close(); }, true);
+    document.addEventListener('touchstart', e => { if (isOpen() && !el.contains(e.target) && e.target !== input) close(); }, { passive: true, capture: true });
     document.addEventListener('focusin', e => { if (isOpen() && !el.contains(e.target) && e.target !== input) close(); });
     /* Escape schließt nur den Kalender, nicht auch Popover oder Dialog darunter */
     window.addEventListener('keydown', e => { if (e.key !== 'Escape' || !isOpen()) return; e.preventDefault(); e.stopImmediatePropagation(); const inp = input; close(); if (inp && inp.isConnected) { try { inp.focus({ preventScroll: true }); } catch (x) { /* ohne Fokus-Optionen */ } } }, true);

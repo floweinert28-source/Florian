@@ -2,6 +2,8 @@
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt;
+  /* Hinweis als kleines rotes Abzeichen mit Zahl (Seitenleiste, Konto-Menü, Profilbild): Zahl vorn im Grund (z. B. „2 offene Positionen“), sonst 1 */
+  const navBadge = w => { const m = /^(\d+)/.exec(w); const n = m ? +m[1] : 1; return `<span class="nav-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}">${n > 99 ? '99+' : n}</span>`; };
   const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
 
   /* Seitenleiste in Gruppen: was ist los, was habe ich gehandelt, woran arbeite ich, welche Konten */
@@ -206,7 +208,7 @@
       const nd = Object.assign({ on: true }, S.settings.navDots || {}); const all = nd.on ? this.allTrades() : null;
       const dctx = all ? { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) } : null;
       const why = key => { if (!dctx || nd[key] === false || !this.dots[key]) return null; try { return this.dots[key](dctx) || null; } catch (e) { console.warn(e); return null; } };
-      const dot = key => { const w = why(key); return w ? `<span class="nav-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}"></span>` : ''; };
+      const dot = key => { const w = why(key); return w ? navBadge(w) : ''; };
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
@@ -225,7 +227,7 @@
       const mail = String(pr.email || '').trim(); const sub = mail || (user ? '@' + user : '');
       const initials = name.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
       const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
-      const cdot = coachWhy ? `<span class="nav-dot" role="img" title="${esc(coachWhy)}" aria-label="${esc(coachWhy)}"></span>` : '';
+      const cdot = coachWhy ? navBadge(coachWhy) : '';
       const link = (href, icon, label, extra = '', on = false) => `<a class="item${on ? ' on' : ''}" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span>${extra}</a>`;
       return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' || cur === 'coach' || cur === 'affiliate' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
         <span class="sb-avwrap"><span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span>${coachWhy ? cdot.replace('nav-dot', 'nav-dot sb-av-dot') : ''}</span>

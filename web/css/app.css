@@ -3356,3 +3356,10 @@ html:not(.sb-mini) .nav a, html:not(.sb-mini) .nav button { padding-top: 5px; pa
 .nav a svg, .nav button svg, .nav a.active svg { opacity: 1; color: var(--nav-icon); }
 .nav-title { color: var(--muted); }
 .sidebar .sb-sep { border-top: 0; height: 2px; background: linear-gradient(var(--groove-d) 50%, var(--groove-l) 50%); }
+/* Hinweise als kleines rotes Abzeichen mit Zahl (statt Punkt/Raute): weiße, fette Ziffer auf Rot, rund */
+:root { --badge: #e5484d; } :root[data-theme="light"] { --badge: #dc3545; }
+.nav .nav-dot, .sb-menu .item .nav-dot { display: inline-grid; place-items: center; min-width: 18px; height: 16px; padding: 0 5px; margin-left: auto; border-radius: 999px; transform: none; background: var(--badge); color: #fff; font: 700 10.5px/1 var(--font-num); letter-spacing: -.01em; box-shadow: none; }
+.nav .nav-dot { margin-right: 8px; }
+.sb-menu .item .nav-dot { margin-right: 0; }
+html.sb-mini .nav .nav-dot { position: absolute; top: 1px; right: 0; min-width: 15px; height: 14px; padding: 0 4px; font-size: 9.5px; margin: 0; box-shadow: 0 0 0 2px var(--bg-2); }
+.sb-av-dot { top: -3px; right: -5px; width: auto; height: 15px; min-width: 15px; padding: 0 4px; border-radius: 999px; transform: none; display: inline-grid; place-items: center; background: var(--badge); color: #fff; font: 700 9.5px/1 var(--font-num); box-shadow: 0 0 0 2px var(--surface); }

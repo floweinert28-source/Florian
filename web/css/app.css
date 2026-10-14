@@ -3367,3 +3367,19 @@ html.sb-mini .nav .nav-dot { position: absolute; top: 1px; right: 0; min-width: 
 .nav .nav-dot, .sb-menu .item .nav-dot { min-width: 0; height: auto; padding: 0; background: none; color: color-mix(in srgb, var(--text) 40%, var(--bg-2)); font: 400 14px/20px var(--font-num); letter-spacing: 0; }
 .nav .nav-dot { margin-right: 14px; }
 html.sb-mini .nav .nav-dot { top: 2px; right: 2px; min-width: 0; height: auto; padding: 0 2px; font-size: 10px; border-radius: 3px; background: var(--bg-2); box-shadow: none; }
+/* Ausgewählt (Reiter, Segmente, Chips, Karten) wie der aktive Eintrag der Seitenleiste: Fläche mit weichem Übergang (links heller,
+   rechts etwas dunkler), der Rand links in Flächenfarbe (unsichtbar) und nach rechts weich sichtbar. Mit --lc (Gewinn/Verlust, Long/Short, …)
+   bleibt die Farbe: Schrift farbig, Fläche und Rand leicht getönt */
+:root { --sel-p1: 9%; --sel-p2: 6.5%; --sel-pb: 17%; }
+:root[data-theme="light"] { --sel-p1: 4%; --sel-p2: 8%; --sel-pb: 17%; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --sel-p1: 4%; --sel-p2: 8%; --sel-pb: 17%; } }
+.seg button[aria-pressed="true"], .swatch[aria-pressed="true"], .chip.sel[aria-pressed="true"], .rating button[aria-pressed="true"],
+.tabs button[aria-pressed="true"], .tabs a[aria-pressed="true"], .nb .tagpill[aria-pressed="true"],
+.fd-seg button[aria-pressed="true"], .fd-tog button[aria-pressed="true"], .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"],
+.pair-card[aria-pressed="true"], .rp-chip[aria-pressed="true"], .prop-tabs a[aria-pressed="true"], .sb-user.active {
+  --sel-c: var(--lc, var(--text));
+  border-color: transparent;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)), color-mix(in srgb, var(--sel-c) var(--sel-p2), var(--surface))) padding-box,
+    linear-gradient(90deg, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)) 0%, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)) 30%, color-mix(in srgb, var(--sel-c) var(--sel-pb), var(--surface)) 100%) border-box;
+}

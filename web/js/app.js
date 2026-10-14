@@ -232,8 +232,8 @@
       let rl = document.getElementById('rail'); const sb = document.getElementById('sidebar');
       if (!rl) { rl = document.createElement('nav'); rl.id = 'rail'; rl.className = 'rail'; sb.before(rl); }
       rl.setAttribute('aria-label', 'Bereiche'); sb.parentElement.classList.add('has-rail');
-      rl.innerHTML = AREAS.map(a => { const act = a.key === area.key; const href = a.key === 'journal' ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home;
-        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-area="${a.key}" data-action="nav-close" title="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span><span class="rl">${a.label}</span></a>`; }).join('');
+      rl.innerHTML = AREAS.map(a => { const act = a.key === area.key; const href = a.key === 'journal' && !act ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home; /* aktiver Bereich: zur Startseite des Bereichs */
+        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span><span class="rl">${a.label}</span></a>`; }).join('');
       this.translateNow(rl);
     },
     /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Coach, Einstellungen,

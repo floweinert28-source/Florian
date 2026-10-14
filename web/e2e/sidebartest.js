@@ -38,11 +38,21 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   ok(lg.b.login === lg.a.login && lg.b.prev === lg.a.prev, 'Neuladen nach 5 Minuten: gleiche Sitzung');
   ok(lg.c.prev === lg.a.login && lg.c.login !== lg.a.login, 'Nach 31 Minuten Pause: neue Sitzung, letzter Login = Beginn der vorigen');
   await p.evaluate(() => { Store.setLanguage('de'); });
+  /* Bereichsleiste links: Journal aktiv, Backtesting wechselt Seite und Navigation, Journal führt zur letzten Journal-Seite zurück */
+  await p.goto('file:///home/user/Florian/web/app.html#/notebook', { waitUntil: 'load' }); await p.waitForTimeout(700);
+  const r0 = await p.evaluate(() => { const rl = document.getElementById('rail'), sb = document.getElementById('sidebar'); return { n: rl ? rl.querySelectorAll('.rail-item').length : 0, act: (rl.querySelector('.rail-item.active') || {}).dataset?.rail, left: Math.round(sb.getBoundingClientRect().left) === Math.round(rl.getBoundingClientRect().right) }; });
+  ok(r0.n === 2 && r0.act === 'journal' && r0.left, 'Bereichsleiste: zwei Bereiche, Journal aktiv, direkt links neben der Seitenleiste ' + JSON.stringify(r0));
+  await p.click('.rail-item[data-rail=backtest]'); await p.waitForTimeout(600);
+  const r1 = await p.evaluate(() => ({ h: location.hash, nav: [...document.querySelectorAll('#sidebar .nav a')].map(a => a.textContent.trim()).join(','), act: document.querySelector('.rail-item.active').dataset.rail, title: document.querySelector('.topbar h1').textContent }));
+  ok(r1.h === '#/backtesting' && ['Übersicht', 'Overview'].includes(r1.nav) && r1.act === 'backtest' && r1.title === 'Backtesting', 'Backtesting: eigene Seite und eigene Navigation ' + JSON.stringify(r1));
+  await p.click('.rail-item[data-rail=journal]'); await p.waitForTimeout(600);
+  ok(await p.evaluate(() => location.hash === '#/notebook' && document.querySelector('.rail-item.active').dataset.rail === 'journal' && !!document.querySelector('#sidebar .nav a[href="#/trades"]')), 'Journal: zurück zur zuletzt offenen Journal-Seite mit voller Navigation');
   /* Handy: Menü öffnen */
   const m = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 }); m.on('pageerror', e => errs.push(e.message)); try { await require('./localfonts.js')(m); } catch (e) {}
   await m.goto('file:///home/user/Florian/web/app.html#/dashboard', { waitUntil: 'load' }); await m.waitForTimeout(800);
   await m.evaluate(() => { const bt = document.querySelector('.menu-btn'); if (bt) bt.click(); }); await m.waitForTimeout(500);
   ok(await m.evaluate(() => { const s = document.getElementById('sidebar'); return s.classList.contains('open') && !s.querySelector('.sb-hello') && [...s.querySelectorAll('*')].every(e => e.getBoundingClientRect().right <= s.getBoundingClientRect().right + 1); }), 'Handy: Menü ohne Begrüßung, nichts ragt heraus');
+  ok(await m.evaluate(() => { const rl = document.getElementById('rail'), sb = document.getElementById('sidebar'); const r = rl.getBoundingClientRect(), q = sb.getBoundingClientRect(); return rl.classList.contains('open') && r.left >= 0 && Math.abs(q.left - r.right) < 1 && q.right <= innerWidth; }), 'Handy: Bereichsleiste schiebt mit der Seitenleiste herein, beide im Bild');
   await m.screenshot({ path: 'langshots/sb-mob.png' });
   ok(!errs.length, 'keine Fehler ' + errs.join(' | '));
   console.log(`${pass}/${pass + fail} bestanden`); await b.close(); process.exit(fail ? 1 : 0); })();

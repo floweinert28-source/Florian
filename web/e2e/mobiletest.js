@@ -80,8 +80,8 @@ const ROUTES = ['dashboard', 'trades', 'day', 'stats', 'notebook', 'progress', '
     ok('Widget-Bibliothek: Knopf bei allen Karten unten links unter dem Text', lib.length >= 5 && lib.every(x => x.belowText && x.leftEdge <= 16), JSON.stringify(lib.slice(0, 4)));
     await p.screenshot({ path: 'mob-lib.png' });
     await p.evaluate(() => { const cl = document.querySelector('[data-action="dash-add-close"]'); if (cl) cl.click(); }); await p.waitForTimeout(300); await p.evaluate(() => { const c = document.querySelector('[data-action="dash-cancel"]'); if (c) c.click(); }); await p.waitForTimeout(600); /* Bearbeitungsmodus wieder weg */
-    /* Großer Bildschirm: nichts davon aktiv */
-    await p.setViewportSize({ width: 1440, height: 900 }); await go('dashboard');
+    /* Großer Bildschirm: nichts davon aktiv (1520 px: die Bereichsleiste links nimmt 64 px, bei 1440 px zeigt der Kalender die Kurzform) */
+    await p.setViewportSize({ width: 1520, height: 900 }); await go('dashboard');
     const desk = await p.evaluate(() => { const t = document.querySelector('.dash-head .tl'); const pm = document.querySelector('.cal .d .pm'); const d = document.querySelector('.dash-top'); const m = document.querySelector('.dash-head > .row'); return { pos: getComputedStyle(t).position, label: getComputedStyle(t.querySelector('span')).display, pm: pm ? getComputedStyle(pm).display : 'none', cols: getComputedStyle(d).gridTemplateColumns.split(' ').length, rows: getComputedStyle(m).display, padB: getComputedStyle(document.querySelector('.content')).paddingBottom }; });
     ok('Großer Bildschirm unverändert: Knopf in der Kopfreihe mit Text, Vollform im Kalender, Kachelraster, 60px unten', desk.pos === 'static' && desk.label !== 'none' && desk.pm === 'none' && desk.cols >= 3 && desk.rows === 'flex' && desk.padB === '60px', JSON.stringify(desk));
     ok('keine Seitenfehler', !errors.length, errors.join(' | '));

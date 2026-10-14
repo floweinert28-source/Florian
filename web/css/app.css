@@ -550,7 +550,7 @@ span.info:hover { color: var(--text-2); }
 /* der Halbkreis hat oben Luft im SVG (Strichbreite), die Pillen hängen unten: sichtbare Mitte auf die Ziffern-Mitte ziehen */
 .tile.side .gauge-stack { transform: translateY(-3.5px); }
 /* enge Kacheln: erst der Abstand zum Rand weg, dann kompaktere Zähler, damit nichts in den Wert ragt */
-@container (max-width: 178px) { .tile.side .gauge { margin-right: 0; } }
+@container (max-width: 170px) { .tile.side .gauge { margin-right: 0; } } /* ohne „+“ vor Gewinnen ist der Wert schmaler: Abstand zum Rand bleibt länger */
 @container (max-width: 164px) { .tile .val { font-size: 22px; } .tile.side .gauge-stack .pill { padding: 1px 5px; font-size: var(--fs-10); } .tile.side .gauge-stack .pills { gap: 3px; } }
 @container (max-width: 150px) { .tile.side .gauge-stack .pills { display: none; } .tile.side .gauge-stack { transform: none; } .tile.side .gauge-stack svg { width: 54px; } }
 .tile.wide .gauge { flex: 1 1 100px; min-width: 0; }
@@ -3393,13 +3393,13 @@ html.sb-mini .nav .nav-dot { top: 3px; right: 3px; padding: 0 2px; font: 500 8.5
 /* „Widget hinzufügen“ am Ende des unteren Bereichs: so hoch wie das kleinste Widget im Bearbeitungsmodus (Klein) */
 @media (min-width: 961px) { .dash-main > .add-slot.big { height: calc(var(--card-h) + 48px); } }
 /* ---------- Bereichsleiste ganz links (Journal, Backtesting …): schmal, Symbol mit kleiner Beschriftung, eingekerbte Trennlinie zur Seitenleiste ---------- */
-:root { --rail-w: 74px; }
+:root { --rail-w: 64px; }
 .shell.has-rail { grid-template-columns: var(--rail-w) var(--sidebar-w) minmax(0, 1fr); }
 html.sb-mini .shell.has-rail { grid-template-columns: var(--rail-w) 80px minmax(0, 1fr); }
 .rail { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 0 18px; background: var(--bg-2); overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
 .rail::-webkit-scrollbar { display: none; }
 .rail::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 2px; background: linear-gradient(90deg, var(--groove-d) 50%, var(--groove-l) 50%); pointer-events: none; }
-.rail-item { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 68px; color: var(--muted); text-decoration: none; font: 500 10.5px/1.2 var(--font); letter-spacing: 0; text-align: center; border-radius: var(--radius-sm); }
+.rail-item { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 60px; color: var(--muted); text-decoration: none; font: 500 10px/1.2 var(--font); letter-spacing: 0; text-align: center; border-radius: var(--radius-sm); }
 .rail-item .ri { display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--radius); border: 1px solid transparent; color: var(--nav-icon); transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
 .rail-item svg { width: 22px; height: 22px; stroke-width: 1.7; }
 .rail-item .rl { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

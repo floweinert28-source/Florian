@@ -3334,6 +3334,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   .cal:not(.mini):not(.ext) .d .n { top: 3px; right: 3px; font-size: var(--fs-12); line-height: var(--lh-12); }
   .cal:not(.mini):not(.ext) .d .pm { margin: 0 -2px 0 0; text-align: right; font-size: 10.5px; font-weight: 800; letter-spacing: -.02em; overflow: visible; }
   .cal:not(.mini):not(.ext) .d .c { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; margin: 0; white-space: normal; overflow: visible; font-size: 9.5px; line-height: 1.2; color: var(--text-2); }
+  .cal:not(.mini):not(.ext) .d.pad { visibility: visible; background: transparent; border-color: var(--border); pointer-events: none; } /* Tage vor dem 1. und nach dem Monatsende als leere Kästchen, damit das Raster geschlossen ist */
   .cal:not(.mini):not(.ext) .d .c > span:first-child { width: min-content; } /* Zahl und „Trades“ immer untereinander, auch bei 1 Trade */
   .cal:not(.mini):not(.ext) .d .c .wr { position: static; display: block; height: auto; font-size: 9.5px; line-height: 1.2; font-weight: 600; color: var(--muted); }
 }

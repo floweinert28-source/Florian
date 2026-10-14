@@ -34,7 +34,7 @@ const ROUTES = ['dashboard', 'trades', 'day', 'stats', 'notebook', 'progress', '
     ok('TradeLog: drei Reiter in einer Reihe, Tabellenzellen kompakt ohne Umbruch', tabs.n === 3 && tabs.oneRow && tabs.wrap === 'nowrap' && tabs.nowrap === 'nowrap' && tabs.pad === '9px 10px', JSON.stringify(tabs));
     await p.evaluate(() => App.openTradeEditor(null)); await p.waitForTimeout(600);
     const md = await p.evaluate(() => { const m = document.querySelector('.modal'); const r = m.getBoundingClientRect(); const cs = getComputedStyle(m); return { left: Math.round(r.left), w: Math.round(r.width), bottomGap: Math.round(innerHeight - r.bottom), radius: cs.borderTopLeftRadius + '/' + cs.borderBottomLeftRadius, maxH: Math.round(r.height) <= innerHeight - 28 }; });
-    ok('Trade-Dialog als Bottom-Sheet (volle Breite, unten bündig, oben gerundet)', md.left === 0 && md.w === 390 && md.bottomGap === 0 && md.radius === '20px/0px' && md.maxH, JSON.stringify(md));
+    ok('Trade-Dialog als Bottom-Sheet (volle Breite, unten bündig, oben gerundet)', md.left === 0 && md.w === 390 && md.bottomGap === 0 && md.radius === '10px/0px' && md.maxH, JSON.stringify(md));
     await p.keyboard.press('Escape'); await p.waitForTimeout(300);
     await go('coupons');
     const cp = await p.evaluate(() => { const t = document.querySelector('.dash-head .tl'); const cs = getComputedStyle(document.querySelector('.content')); return { fixed: t && getComputedStyle(t).position === 'fixed', padB: cs.paddingBottom, tiles: [...document.querySelectorAll('.cpn')].map(c => Math.round(c.getBoundingClientRect().width)) }; });

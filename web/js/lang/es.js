@@ -1771,4 +1771,6 @@ I18N.add('es', {
   "Keine Regeln": "Sin reglas",
   "Monats-P&L": "P&L del mes",
   "Im Monat": "Mensual",
+  "Backtesting": "Backtesting",
+  "Dieser Bereich wird gerade aufgebaut.": "Esta sección está en construcción.",
 });

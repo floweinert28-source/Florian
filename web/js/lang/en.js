@@ -1724,4 +1724,6 @@ I18N.add('en', {
   "Keine Regeln": "No rules",
   "Monats-P&L": "Monthly P&L",
   "Im Monat": "Monthly",
+  "Backtesting": "Backtesting",
+  "Dieser Bereich wird gerade aufgebaut.": "This area is being built.",
 });

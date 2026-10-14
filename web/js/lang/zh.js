@@ -1817,4 +1817,6 @@ I18N.add('zh', {
   "Keine Regeln": "没有规则",
   "Monats-P&L": "本月盈亏",
   "Im Monat": "本月",
+  "Backtesting": "回测",
+  "Dieser Bereich wird gerade aufgebaut.": "此区域正在建设中。",
 });

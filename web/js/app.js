@@ -19,6 +19,13 @@
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
     ['Konten', [['prop', 'Prop Firms', 'prop'], ['coupons', 'Coupon-Codes', 'coupon']]],
   ]; /* Coach und Affiliate stehen nicht in der Navigation, sondern im Konto-Menü unten (userCard) */
+  /* Bereiche in der schmalen Leiste ganz links: jeder Bereich hat seine eigene Navigation in der Seitenleiste.
+     Journal ist alles Bisherige; ein Bereich gilt als aktiv, wenn die Seite in seiner Navigation steht */
+  const AREAS = [
+    { key: 'journal', label: 'Journal', icon: 'areaJournal', home: 'dashboard', nav: NAV_GROUPS },
+    { key: 'backtest', label: 'Backtesting', icon: 'backtest', home: 'backtesting', nav: [['Backtesting', [['backtesting', 'Übersicht', 'backtest']]]] },
+  ];
+  const areaOf = route => AREAS.find(a => a.key !== 'journal' && a.nav.some(([, items]) => items.some(([k]) => k === route))) || AREAS[0];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
 
@@ -212,10 +219,22 @@
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
-      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${NAV_GROUPS.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
+      const area = areaOf(cur); if (area.key === 'journal' && cur !== 'share') this.state.lastJournal = location.hash || '#/dashboard';
+      this.renderRail(area);
+      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.nav.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
-      const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
+      const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
+    },
+    /* Bereichsleiste ganz links (Journal, Backtesting): Symbol mit kleiner Beschriftung; Journal führt zurück auf die zuletzt
+       offene Journal-Seite. Fehlt das Element in der Seite, wird es vor der Seitenleiste angelegt */
+    renderRail(area) {
+      let rl = document.getElementById('rail'); const sb = document.getElementById('sidebar');
+      if (!rl) { rl = document.createElement('nav'); rl.id = 'rail'; rl.className = 'rail'; sb.before(rl); }
+      rl.setAttribute('aria-label', 'Bereiche'); sb.parentElement.classList.add('has-rail');
+      rl.innerHTML = AREAS.map(a => { const act = a.key === area.key; const href = a.key === 'journal' ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home;
+        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-area="${a.key}" data-action="nav-close" title="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span><span class="rl">${a.label}</span></a>`; }).join('');
+      this.translateNow(rl);
     },
     /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Coach, Einstellungen,
        Benachrichtigungen, Sprache und Hell/Dunkel. Ersetzt den früheren Einstellungen-Eintrag und den Hell/Dunkel-Schalter.

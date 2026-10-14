@@ -18,6 +18,8 @@
     strategy: sv('<path d="M4 5h4l4 7 4 7h4M4 19h4l3-5M16 5h4l-3 5"/>'),
     progress: sv('<path d="M6 4.5h11.5l-2.5 4 2.5 4H6z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M6 12.5h11.5l-2.5-4 2.5-4H6"/><path d="M6 3.5v17"/>'),
     chat: sv('<path d="M11 8.5h7A2.5 2.5 0 0 1 20.5 11v4a2.5 2.5 0 0 1-2.5 2.5h-.5v2.5l-3-2.5H11A2.5 2.5 0 0 1 8.5 15v-4A2.5 2.5 0 0 1 11 8.5z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M6 4h7.5A2.5 2.5 0 0 1 16 6.5v4a2.5 2.5 0 0 1-2.5 2.5H9l-3 2.5V13A2.5 2.5 0 0 1 3.5 10.5v-4A2.5 2.5 0 0 1 6 4z"/>'),
+    areaJournal: sv('<path d="M7 3.5h10.5A1.5 1.5 0 0 1 19 5v10.5H7a2 2 0 0 0-2 2v-12a2 2 0 0 1 2-2z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M7 3.5h10.5A1.5 1.5 0 0 1 19 5v14a1.5 1.5 0 0 1-1.5 1.5H7A2 2 0 0 1 5 18.5v-13a2 2 0 0 1 2-2z"/><path d="M5 17.5a2 2 0 0 1 2-2h12M10 3.5v6l1.75-1.3 1.75 1.3v-6"/>'),
+    backtest: sv('<rect x="10.25" y="9" width="3.5" height="6" rx=".9" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M4.4 9.5A8 8 0 1 1 4 12"/><path d="M3.5 5.5v4h4"/><rect x="10.25" y="9" width="3.5" height="6" rx=".9"/><path d="M12 7v2M12 15v2"/>'),
     calm: sv('<path d="M5 19.5C5 11 10 5 19.5 4.5 19.5 14 14 19.5 5.5 19.5z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M5 19.5C5 11 10 5 19.5 4.5 19.5 14 14 19.5 5.5 19.5z"/><path d="M4 20.5l9-9"/>'),
     coach: sv('<path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 15l.6 1.4 1.4.6-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z"/>'),
     zen: sv('<circle cx="12" cy="5" r="2"/><path d="M12 8v6M12 14l-4 6M12 14l4 6M5 11l7 1 7-1"/>'),

@@ -3392,3 +3392,32 @@ html.sb-mini .nav .nav-dot { top: 3px; right: 3px; padding: 0 2px; font: 500 8.5
 .sb-av-dot { top: -2px; right: -3px; min-width: 12px; height: 12px; padding: 0 3px; border-radius: 3px; font: 500 8px/1 var(--font-num); background: var(--surface-3, var(--surface-2)); color: color-mix(in srgb, var(--text) 55%, var(--surface)); box-shadow: 0 0 0 1.5px var(--surface); }
 /* „Widget hinzufügen“ am Ende des unteren Bereichs: so hoch wie das kleinste Widget im Bearbeitungsmodus (Klein) */
 @media (min-width: 961px) { .dash-main > .add-slot.big { height: calc(var(--card-h) + 48px); } }
+/* ---------- Bereichsleiste ganz links (Journal, Backtesting …): schmal, Symbol mit kleiner Beschriftung, eingekerbte Trennlinie zur Seitenleiste ---------- */
+:root { --rail-w: 74px; }
+.shell.has-rail { grid-template-columns: var(--rail-w) var(--sidebar-w) minmax(0, 1fr); }
+html.sb-mini .shell.has-rail { grid-template-columns: var(--rail-w) 80px minmax(0, 1fr); }
+.rail { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 0 18px; background: var(--bg-2); overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+.rail::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 2px; background: linear-gradient(90deg, var(--groove-d) 50%, var(--groove-l) 50%); pointer-events: none; }
+.rail-item { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 68px; color: var(--muted); text-decoration: none; font: 500 10.5px/1.2 var(--font); letter-spacing: 0; text-align: center; border-radius: var(--radius-sm); }
+.rail-item .ri { display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--radius); border: 1px solid transparent; color: var(--nav-icon); transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.rail-item svg { width: 22px; height: 22px; stroke-width: 1.7; }
+.rail-item .rl { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rail-item:hover { color: var(--text-2); }
+.rail-item:hover .ri { background: var(--nav-a1); }
+.rail-item.active { color: var(--text); }
+.rail-item.active .ri { background: linear-gradient(90deg, var(--nav-a1), var(--nav-a2)) padding-box, linear-gradient(90deg, var(--nav-a1) 0%, var(--nav-a1) 30%, var(--nav-b2) 100%) border-box; }
+.rail-item:focus-visible { outline: none; }
+.rail-item:focus-visible .ri { outline: 2px solid var(--accent); outline-offset: 1px; }
+.bt-soon .empty { min-height: 320px; }
+.bt-soon .bt-ico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: var(--radius); background: var(--surface-2); color: var(--nav-icon); margin-bottom: 6px; }
+.bt-soon .bt-ico svg { width: 26px; height: 26px; stroke-width: 1.6; }
+.bt-soon h3 { margin: 0; color: var(--text); }
+.bt-soon p { margin: 0; }
+@media (max-width: 960px) {
+  .shell.has-rail { grid-template-columns: 1fr; }
+  .rail { position: fixed; left: 0; top: 0; bottom: 0; height: auto; z-index: 51; width: var(--rail-w); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); }
+  .rail.open { transform: none; }
+  .shell.has-rail .sidebar { left: var(--rail-w); width: min(280px, calc(86vw - var(--rail-w))); transform: translateX(calc(-102% - var(--rail-w))); }
+  .shell.has-rail .sidebar.open { transform: none; }
+}

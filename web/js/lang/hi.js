@@ -1817,4 +1817,6 @@ I18N.add('hi', {
   "Keine Regeln": "कोई नियम नहीं",
   "Monats-P&L": "महीने का P&L",
   "Im Monat": "मासिक",
+  "Backtesting": "बैकटेस्टिंग",
+  "Dieser Bereich wird gerade aufgebaut.": "यह क्षेत्र अभी बनाया जा रहा है।",
 });

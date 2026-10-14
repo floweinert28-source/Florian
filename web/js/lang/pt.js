@@ -1768,4 +1768,6 @@ I18N.add('pt', {
   "Keine Regeln": "Sem regras",
   "Monats-P&L": "P&L do mês",
   "Im Monat": "Mensal",
+  "Backtesting": "Backtesting",
+  "Dieser Bereich wird gerade aufgebaut.": "Esta área está em construção.",
 });

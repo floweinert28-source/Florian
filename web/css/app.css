@@ -3383,3 +3383,5 @@ html.sb-mini .nav .nav-dot { top: 2px; right: 2px; min-width: 0; height: auto; p
     linear-gradient(90deg, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)), color-mix(in srgb, var(--sel-c) var(--sel-p2), var(--surface))) padding-box,
     linear-gradient(90deg, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)) 0%, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)) 30%, color-mix(in srgb, var(--sel-c) var(--sel-pb), var(--surface)) 100%) border-box;
 }
+/* Seitenleiste: eigene zweifarbige Symbole (weiche Fläche + feine Kontur), Linien etwas feiner */
+.nav a svg, .nav button svg { stroke-width: 1.7; }

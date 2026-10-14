@@ -3390,3 +3390,5 @@ html.sb-mini .nav .nav-dot { top: 2px; right: 2px; min-width: 0; height: auto; p
 .nav .nav-dot { margin-right: 12px; }
 html.sb-mini .nav .nav-dot { top: 3px; right: 3px; padding: 0 2px; font: 500 8.5px/11px var(--font-num); border-radius: 2px; color: color-mix(in srgb, var(--text) 45%, var(--bg-2)); }
 .sb-av-dot { top: -2px; right: -3px; min-width: 12px; height: 12px; padding: 0 3px; border-radius: 3px; font: 500 8px/1 var(--font-num); background: var(--surface-3, var(--surface-2)); color: color-mix(in srgb, var(--text) 55%, var(--surface)); box-shadow: 0 0 0 1.5px var(--surface); }
+/* „Widget hinzufügen“ am Ende des unteren Bereichs: so hoch wie das kleinste Widget im Bearbeitungsmodus (Klein) */
+@media (min-width: 961px) { .dash-main > .add-slot.big { height: calc(var(--card-h) + 48px); } }

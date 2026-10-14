@@ -3344,7 +3344,15 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --nav-a1: #ebebeb; --nav-a2: #e5e5e5; --nav-b1: #e2e2e2; --nav-b2: #dadada; } }
 /* Bereiche durch feine, eingerückte Trennlinien getrennt (ausgeklappt; eingeklappt ist der Titel selbst die Linie) */
 .nav.nav-group + .nav.nav-group { margin-top: 18px; }
-html:not(.sb-mini) .nav.nav-group + .nav.nav-group::before { content: ''; display: block; height: 1px; margin: 0 16px 18px; background: var(--border); }
+html:not(.sb-mini) .nav.nav-group + .nav.nav-group::before { content: ''; display: block; height: 2px; margin: 0 16px 18px; background: linear-gradient(var(--groove-d) 50%, var(--groove-l) 50%); } /* eingekerbt: dunkle Linie, darunter eine helle */
 html:not(.sb-mini) .nav-title { padding-bottom: 9px; } /* mehr Luft um die Bereichstitel */
 /* Einträge der Seitenleiste niedriger: aktive Box enger von der Höhe (ausgeklappt; eingeklappt bleiben die quadratischen Knöpfe) */
 html:not(.sb-mini) .nav a, html:not(.sb-mini) .nav button { padding-top: 5px; padding-bottom: 5px; }
+/* Seitenleiste wie Vorlage: Namen kräftig, Symbole weich in warmem Grau, Bereichstitel deckend grau, Trennlinien eingekerbt */
+:root { --nav-icon: #a39e96; --groove-d: rgba(0, 0, 0, .55); --groove-l: rgba(255, 255, 255, .05); }
+:root[data-theme="light"] { --nav-icon: #79736b; --groove-d: #e0e0e0; --groove-l: #ffffff; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --nav-icon: #79736b; --groove-d: #e0e0e0; --groove-l: #ffffff; } }
+.nav a, .nav button { color: var(--text); }
+.nav a svg, .nav button svg, .nav a.active svg { opacity: 1; color: var(--nav-icon); }
+.nav-title { color: var(--muted); }
+.sidebar .sb-sep { border-top: 0; height: 2px; background: linear-gradient(var(--groove-d) 50%, var(--groove-l) 50%); }

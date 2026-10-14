@@ -15,7 +15,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   ok('Vorlage und Zertifikat stehen nebeneinander', await p.evaluate(() => { const t = document.querySelector('.dash-head [data-pop=tpl]').getBoundingClientRect(), c = document.querySelector('.dash-head [data-pop=cert]').getBoundingClientRect(); return c.left - t.right < 14 && c.left > t.right; }));
   await p.evaluate(() => { Store.setDay(Core.dayKey(new Date()), { checkIn: { sleep: 7, stress: 2, mood: 4 } }); App.rerender(); }); await p.waitForTimeout(300);
   ok('Kein „Check-in bearbeiten“ auf dem Dashboard', !(await p.$('.dash-head [data-action=check-in]')));
-  const fits = await p.evaluate(() => { const h = document.querySelector('.dash-head').getBoundingClientRect(); return [...document.querySelectorAll('.dash-head .btn')].filter(b => !b.closest('.popover')).every(b => { const r = b.getBoundingClientRect(); return r.left >= h.left - 1 && r.right <= h.right + 1; }); });
+  const fits = await p.evaluate(() => { const h = document.querySelector('.dash-head').getBoundingClientRect(); return [...document.querySelectorAll('.dash-head .btn')].filter(b => !b.closest('.popover') && b.getClientRects().length).every(b => { const r = b.getBoundingClientRect(); return r.left >= h.left - 1 && r.right <= h.right + 1; }); });
   ok('Reihe passt in die Breite', fits);
   /* Beispieldaten v2: Zeitraum „Gesamt“, damit mehrere Symbole im Zeitraum liegen (am Monatsersten hat „Dieser Monat“ sonst nur einen Trade) */
   await p.evaluate(() => { Store.setSetting('range', { preset: 'all', from: null, to: null }); App.rerender(false); }); await p.waitForTimeout(300);

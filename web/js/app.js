@@ -230,10 +230,12 @@
       const area = areaOf(cur); if (area.key === 'journal' && cur !== 'share') this.state.lastJournal = location.hash || '#/dashboard';
       const solo = area.nav.reduce((n, [, items]) => n + items.filter(([k]) => on(k)).length, 0) <= 1; document.documentElement.classList.toggle('sb-off', solo); /* nur eine Seite im Bereich: Vollbild ohne Seitenleiste */
       this.renderRail(area, a => { const ws = a.nav.flatMap(([, items]) => items.filter(([k]) => on(k)).map(([k]) => why(k))).filter(Boolean); return ws.length ? ws.join(' · ') : ''; });
-      const brandHTML = `<span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>`;
+      const brandHTML = `<span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span></span>`; /* nur der Schriftzug, ohne Untertitel */
       const toggle = `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>`;
-      this.renderFrame(desk ? `<div class="ft-toggle">${solo ? '' : toggle}</div><div class="brand">${brandHTML}</div>` : '');
-      sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
+      const ini = (S.settings.name || 'T').split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
+      const avatar = `<a class="avatar ft-avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(ini)}</a>`;
+      this.renderFrame(desk ? `<div class="ft-toggle">${solo ? '' : toggle}</div><div class="brand">${brandHTML}</div>${avatar}` : '');
+      sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.key === 'journal' ? `<div class="sb-new">${this.newTradeButton()}</div>` : ''}${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
@@ -243,7 +245,7 @@
     renderFrame(html) {
       let ft = document.getElementById('frame-top');
       if (!ft) { ft = document.createElement('header'); ft.id = 'frame-top'; ft.className = 'frame-top'; const sk = document.querySelector('.shell > .skip-link'); if (sk) sk.after(ft); else document.getElementById('sidebar').parentElement.prepend(ft); } /* nach dem Sprunglink: der bleibt das erste Ziel der Tab-Taste */
-      ft.innerHTML = html; this.translateNow(ft);
+      ft.innerHTML = html; this.translateNow(ft); this.loadBlobImages(ft);
     },
     /* Bereichsleiste ganz links (Journal, Backtesting): nur Symbole (Name im Tooltip); Journal führt zurück auf die zuletzt
        offene Journal-Seite. Fehlt das Element in der Seite, wird es vor der Seitenleiste angelegt */

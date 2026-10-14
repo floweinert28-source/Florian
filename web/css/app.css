@@ -3481,3 +3481,19 @@ html.sb-off .shell.has-rail > .sidebar { display: none; }
   html.sb-mini .frame-top .brand .brand-text { display: flex; }
   html.sb-mini .frame-top .brand .name { display: inline; }
 }
+/* Farben wie Tradezella (dunkle Designs): Rahmen etwas heller als das Fenster, Seitenleiste und Seite in derselben dunklen Farbe; Profilbild oben rechts im Rahmen */
+@media (min-width: 961px) {
+  :root:not([data-theme="light"]) { --rail-bg: var(--bg-2); }
+  :root:not([data-theme="light"]) .shell.has-rail .sidebar { background: var(--bg); }
+  .shell.has-rail .topbar .avatar { display: none; }
+  .frame-top .ft-avatar { margin-left: auto; width: 36px; height: 36px; font-size: 14px; }
+}
+/* „Trade loggen“ oben in der Seitenleiste über Dashboard (wie Tradezella): immer erreichbar; am PC entfällt dafür der Knopf in der Kopfreihe der Journal-Seiten */
+.sidebar .sb-new { padding: 0 6px; margin: 0 0 16px; flex: 0 0 auto; }
+.sidebar .sb-new .btn { width: 100%; height: 40px; justify-content: center; }
+html.sb-mini .sidebar .sb-new { padding: 0; }
+html.sb-mini .sidebar .sb-new .btn { width: 40px; padding: 0; margin: 0 auto; gap: 0; }
+html.sb-mini .sidebar .sb-new .btn span { display: none; }
+@media (min-width: 961px) {
+  html:not(.sb-off) .shell.has-rail .dash-head [data-action=new-trade], html:not(.sb-off) .shell.has-rail .dash-head .dh-sep:has(+ [data-action=new-trade]) { display: none; }
+}

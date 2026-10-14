@@ -242,7 +242,7 @@
        als eigenes Fenster (Seitenleiste und Seite) mit runder Ecke oben links, links daneben die Bereichsleiste */
     renderFrame(html) {
       let ft = document.getElementById('frame-top');
-      if (!ft) { ft = document.createElement('header'); ft.id = 'frame-top'; ft.className = 'frame-top'; document.getElementById('sidebar').parentElement.prepend(ft); }
+      if (!ft) { ft = document.createElement('header'); ft.id = 'frame-top'; ft.className = 'frame-top'; const sk = document.querySelector('.shell > .skip-link'); if (sk) sk.after(ft); else document.getElementById('sidebar').parentElement.prepend(ft); } /* nach dem Sprunglink: der bleibt das erste Ziel der Tab-Taste */
       ft.innerHTML = html; this.translateNow(ft);
     },
     /* Bereichsleiste ganz links (Journal, Backtesting): nur Symbole (Name im Tooltip); Journal führt zurück auf die zuletzt

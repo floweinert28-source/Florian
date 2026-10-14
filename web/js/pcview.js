@@ -25,27 +25,46 @@
       document.documentElement.style.cssText += ';overflow:hidden;background:#050505;'; document.body.style.cssText += ';overflow:hidden;margin:0;background:#050505;';
       const wrap = document.createElement('div'); wrap.className = 'pcv';
       wrap.setAttribute('style', 'position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483647;background:#050505;overflow:hidden;');
+      /* Zwei-Finger-Zoom aus: das Neuzeichnen des großen Fensters in hoher Auflösung lässt die App auf dem Handy abstürzen.
+         Stattdessen eigene Stufen (− / +), bei größerer Stufe wird das Bild verschoben */
+      const vp = document.querySelector('meta[name=viewport]');
+      if (vp) vp.setAttribute('content', 'width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover');
+      else { const m = document.createElement('meta'); m.name = 'viewport'; m.content = 'width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'; document.head.appendChild(m); }
       /* Bühne: im Hochformat auf Wunsch quer gedreht (Handy drehen), damit die PC-Ansicht den ganzen Bildschirm nutzt */
       const stage = document.createElement('div'); stage.className = 'pcv-stage'; stage.setAttribute('style', 'position:absolute;left:0;top:0;transform-origin:0 0;');
+      const scroller = document.createElement('div'); scroller.className = 'pcv-scroll'; scroller.setAttribute('style', 'position:absolute;left:0;top:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;');
+      const sizer = document.createElement('div'); sizer.setAttribute('style', 'position:relative;');
       const frame = document.createElement('iframe'); frame.className = 'pcv-frame'; frame.title = 'PC';
-      frame.setAttribute('style', `position:absolute;left:0;top:0;width:${W}px;height:${H}px;max-width:none;max-height:none;border:0;margin:0;padding:0;display:block;transform-origin:0 0;will-change:transform;background:#000;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.08);`);
+      frame.setAttribute('style', `position:absolute;left:0;top:0;width:${W}px;height:${H}px;max-width:none;max-height:none;border:0;margin:0;padding:0;display:block;transform-origin:0 0;background:#000;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.08);`);
       const bar = document.createElement('div'); bar.setAttribute('style', 'position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:8px;');
-      const rot = document.createElement('button'); rot.type = 'button'; rot.className = 'pcv-rot'; rot.textContent = ROT[lang] || ROT.en; rot.setAttribute('style', BTN);
-      const exit = document.createElement('button'); exit.type = 'button'; exit.className = 'pcv-exit'; exit.textContent = EXIT[lang] || EXIT.en; exit.setAttribute('style', BTN);
+      const mk = (cls, label, extra = '') => { const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = label; b.setAttribute('style', BTN + extra); return b; };
+      const zout = mk('pcv-zout', '−', 'padding:0;width:40px;font-size:20px;'), zin = mk('pcv-zin', '+', 'padding:0;width:40px;font-size:20px;');
+      const rot = mk('pcv-rot', ROT[lang] || ROT.en), exit = mk('pcv-exit', EXIT[lang] || EXIT.en);
       exit.addEventListener('click', () => this.set(false));
-      bar.append(rot, exit); stage.append(frame, bar); wrap.append(stage); document.body.appendChild(wrap);
+      sizer.append(frame); scroller.append(sizer); bar.append(zout, zin, rot, exit); stage.append(scroller, bar); wrap.append(stage); document.body.appendChild(wrap);
       frame.srcdoc = html;
       let turned = true; try { turned = root.localStorage.getItem(RKEY) !== '0'; } catch (e) { /* Standard: gedreht */ }
-      const fit = () => {
+      let zoom = 0; /* 0 = ganzes Fenster, danach die Stufen aus STEPS, die größer sind */
+      const STEPS = [0.5, 0.75, 1];
+      const fit = keep => {
         const vw = root.innerWidth, vh = root.innerHeight; const r = turned && vh > vw; /* drehen nur im Hochformat */
-        const SW = r ? vh : vw, SH = r ? vw : vh;
+        const SW = r ? vh : vw, SH = r ? vw : vh, AH = SH - 60;
         stage.style.width = SW + 'px'; stage.style.height = SH + 'px'; stage.style.transform = r ? `translateX(${vw}px) rotate(90deg)` : 'none';
-        const s = Math.min(SW / W, (SH - 60) / H);
-        frame.style.transform = `scale(${s})`; frame.style.left = `${Math.round((SW - W * s) / 2)}px`; frame.style.top = `${Math.max(6, Math.round((SH - 60 - H * s) / 2))}px`;
-        rot.style.display = vh > vw ? '' : 'none'; wrap.dataset.turned = r ? '1' : '0';
+        scroller.style.width = SW + 'px'; scroller.style.height = AH + 'px';
+        const s0 = Math.min(SW / W, (AH - 12) / H); const levels = [s0].concat(STEPS.filter(v => v > s0 + 0.04)); zoom = Math.max(0, Math.min(zoom, levels.length - 1)); const s = levels[zoom];
+        /* Mitte des sichtbaren Ausschnitts halten */
+        const cx = keep ? (scroller.scrollLeft + SW / 2) / Math.max(1, sizer.offsetWidth) : 0.5, cy = keep ? (scroller.scrollTop + AH / 2) / Math.max(1, sizer.offsetHeight) : 0;
+        const fw = W * s, fh = H * s, left = Math.max(0, Math.round((SW - fw) / 2)), top = Math.max(6, Math.round((AH - fh) / 2));
+        sizer.style.width = Math.max(SW, Math.ceil(fw)) + 'px'; sizer.style.height = Math.max(AH, Math.ceil(top + fh + 6)) + 'px';
+        frame.style.transform = `scale(${s})`; frame.style.left = left + 'px'; frame.style.top = top + 'px';
+        if (keep) { scroller.scrollLeft = cx * sizer.offsetWidth - SW / 2; scroller.scrollTop = cy * sizer.offsetHeight - AH / 2; }
+        zout.disabled = zoom === 0; zin.disabled = zoom === levels.length - 1; zout.style.opacity = zout.disabled ? '.4' : '1'; zin.style.opacity = zin.disabled ? '.4' : '1';
+        rot.style.display = vh > vw ? '' : 'none'; wrap.dataset.turned = r ? '1' : '0'; wrap.dataset.zoom = String(Math.round(s * 100));
       };
-      rot.addEventListener('click', () => { turned = !turned; try { root.localStorage.setItem(RKEY, turned ? '1' : '0'); } catch (e) { /* nur dieses Mal */ } fit(); });
-      fit(); root.addEventListener('resize', fit); root.addEventListener('orientationchange', () => setTimeout(fit, 250));
+      zin.addEventListener('click', () => { zoom += 1; fit(true); });
+      zout.addEventListener('click', () => { zoom -= 1; fit(true); });
+      rot.addEventListener('click', () => { turned = !turned; zoom = 0; try { root.localStorage.setItem(RKEY, turned ? '1' : '0'); } catch (e) { /* nur dieses Mal */ } fit(false); });
+      fit(false); root.addEventListener('resize', () => fit(true)); root.addEventListener('orientationchange', () => setTimeout(() => fit(true), 250));
       return true;
     }
   };

@@ -18,7 +18,7 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   await p.screenshot({ path: 'langshots/sb-mini.png', clip: { x: 0, y: 0, width: 120, height: 600 } });
   await p.evaluate(() => { Store.setSetting('sidebarMini', false); location.hash = '#/dashboard'; }); await p.waitForTimeout(500);
   /* Coach steht im Konto-Menü unten, nicht in der Navigation */
-  ok(await p.evaluate(() => !document.querySelector('.sb-rail') && !document.querySelector('.sidebar .nav a[href="#/coach"]') && document.querySelectorAll('.sidebar .nav a').length === 12 && !!document.querySelector('.sidebar .nav a[href="#/news"]') && !document.querySelector('.sidebar .nav a[href="#/replay"]') && !document.querySelector('.sidebar .nav a[href="#/affiliate"]')), 'Navigation ohne Coach, Affiliate und (zurückgestelltes) Blind-Replay, keine Extra-Leiste (12 Einträge inkl. Coupon-Codes und News)');
+  ok(await p.evaluate(() => !document.querySelector('.sb-rail') && !document.querySelector('.sidebar .nav a[href="#/coach"]') && document.querySelectorAll('.sidebar .nav a').length === 8 && !document.querySelector('.sidebar .nav a[href="#/news"]') && ['prop', 'mentor', 'news', 'backtest', 'coach', 'affiliate', 'contact'].every(k => !!document.querySelector('.rail-item[data-rail=' + k + ']')) && !document.querySelector('.sidebar .nav a[href="#/replay"]') && !document.querySelector('.sidebar .nav a[href="#/affiliate"]')), 'Navigation ohne Coach, Affiliate und (zurückgestelltes) Blind-Replay, keine Extra-Leiste (8 Einträge im Journal; Prop Firms, Mentor, News und Backtesting als Bereiche links) (inkl. Coupon-Codes und News)');
   await p.evaluate(() => { location.hash = '#/replay'; }); await p.waitForTimeout(400);
   ok(await p.evaluate(() => App.state.route === 'dashboard' && !document.querySelector('.replay-page, [data-action=replay-start]')), 'Zurückgestelltes Blind-Replay: #/replay führt zum Dashboard');
   await p.click('.sb-user'); await p.waitForTimeout(300); await p.click('#pop-user .item[href="#/coach"]'); await p.waitForTimeout(500);
@@ -41,10 +41,14 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   /* Bereichsleiste links: Journal aktiv, Backtesting wechselt Seite und Navigation, Journal führt zur letzten Journal-Seite zurück */
   await p.goto('file:///home/user/Florian/web/app.html#/notebook', { waitUntil: 'load' }); await p.waitForTimeout(700);
   const r0 = await p.evaluate(() => { const rl = document.getElementById('rail'), sb = document.getElementById('sidebar'); return { n: rl ? rl.querySelectorAll('.rail-item').length : 0, act: (rl.querySelector('.rail-item.active') || {}).dataset?.rail, left: Math.round(sb.getBoundingClientRect().left) === Math.round(rl.getBoundingClientRect().right) }; });
-  ok(r0.n === 2 && r0.act === 'journal' && r0.left, 'Bereichsleiste: zwei Bereiche, Journal aktiv, direkt links neben der Seitenleiste ' + JSON.stringify(r0));
+  ok(r0.n === 8 && r0.act === 'journal' && r0.left, 'Bereichsleiste: acht Bereiche (drei unten), Journal aktiv, direkt links neben der Seitenleiste ' + JSON.stringify(r0));
   await p.click('.rail-item[data-rail=backtest]'); await p.waitForTimeout(600);
   const r1 = await p.evaluate(() => ({ h: location.hash, nav: [...document.querySelectorAll('#sidebar .nav a')].map(a => a.textContent.trim()).join(','), act: document.querySelector('.rail-item.active').dataset.rail, title: document.querySelector('.topbar h1').textContent }));
-  ok(r1.h === '#/backtesting' && ['Übersicht', 'Overview'].includes(r1.nav) && r1.act === 'backtest' && r1.title === 'Backtesting', 'Backtesting: eigene Seite und eigene Navigation ' + JSON.stringify(r1));
+  ok(r1.h === '#/backtesting' && r1.nav === 'Backtesting' && r1.act === 'backtest' && r1.title === 'Backtesting', 'Backtesting: eigene Seite und eigene Navigation ' + JSON.stringify(r1));
+  const rb = await p.evaluate(() => { const r = k => document.querySelector('.rail-item[data-rail=' + k + ']').getBoundingClientRect(); return { gap: r('coach').top - r('backtest').bottom, last: Math.round(innerHeight - r('contact').bottom) }; });
+  ok(rb.gap > 100 && rb.last < 40, 'Leiste: Coach, Affiliate und Kontakt unten abgesetzt ' + JSON.stringify(rb));
+  await p.click('.rail-item[data-rail=contact]'); await p.waitForTimeout(600);
+  ok(await p.evaluate(() => location.hash === '#/contact' && ['Kontakt', 'Contact us'].includes(document.querySelector('.topbar h1').textContent) && !!document.querySelector('#ct-text') && document.querySelectorAll('[data-action=contact-topic]').length === 3), 'Kontakt: eigene Seite mit Thema und Nachricht');
   await p.click('.rail-item[data-rail=journal]'); await p.waitForTimeout(600);
   ok(await p.evaluate(() => location.hash === '#/notebook' && document.querySelector('.rail-item.active').dataset.rail === 'journal' && !!document.querySelector('#sidebar .nav a[href="#/trades"]')), 'Journal: zurück zur zuletzt offenen Journal-Seite mit voller Navigation');
   /* Handy: Menü öffnen */

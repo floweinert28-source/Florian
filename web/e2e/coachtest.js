@@ -32,7 +32,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   /* 1. Ohne Server-Einstellung: Einrichten-Hinweis; Navigation hat „Coach“ */
   await go(M.p, '#/coach');
-  ok('Navigation: Coach im Konto-Menü unten, nicht in der Navigation', !!(await M.p.$('#pop-user .item[href="#/coach"]')) && !(await M.p.$('.sidebar .nav a[href="#/coach"]')));
+  ok('Navigation: Coach im Konto-Menü und als Bereich unten in der Leiste (aktiv)', !!(await M.p.$('#pop-user .item[href="#/coach"]')) && !!(await M.p.$('.rail-item[data-rail=coach].active')));
   await collect(M.p, 'setup');
   ok('Ohne Server: Einrichten-Hinweis mit Link zu Einstellungen → Mentor', (await M.p.textContent('.mentor-setup h2')) === 'Coach Mode einrichten' && !!(await M.p.$('.mentor-setup a[href="#/settings/mentor"]')));
   ok('Kopfreihe ohne Zeitraum, Konto, Session und Trade loggen', !(await M.p.$('.page-head [data-pop=range]')) && !(await M.p.$('.page-head [data-action=new-trade]')) && !(await M.p.$('.page-head [data-action=start-session]')));
@@ -91,7 +91,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   /* 6. Schülerin: Notiz kommt an, Hinweis-Punkt, im Notebook unter dem Eintrag */
   /* der Abgleich läuft auch von selbst (nach jeder Änderung und alle 5 Minuten); hier erzwungen, damit der Test nicht wartet */
   const synced = await A.p.evaluate(() => Coach.sync({ force: true }).then(r => r && r.notes.length)); await A.p.waitForTimeout(800);
-  ok('Schülerin: Notiz gespeichert, ungelesen, Hinweis-Punkt am Notebook', synced === 1 && await A.p.evaluate(() => Store.data.coach.notes.length === 1 && Coach.unread().length === 1) && (await A.p.$eval('.sidebar .nav a[href="#/notebook"] .nav-dot', e => e.getAttribute('title'))) === '1 Neuigkeit von deinem Mentor', String(synced));
+  ok('Schülerin: Notiz gespeichert, ungelesen, Hinweis-Punkt am Notebook (oder am Bereich Journal der Leiste)', synced === 1 && await A.p.evaluate(() => Store.data.coach.notes.length === 1 && Coach.unread().length === 1) && (await A.p.evaluate(() => { const d = document.querySelector('.sidebar .nav a[href="#/notebook"] .nav-dot'); if (d) return d.title; const r = document.querySelector('.rail-item[data-rail=journal] .rail-dot'); return r && r.title.split(' · ').includes('1 Neuigkeit von deinem Mentor') ? '1 Neuigkeit von deinem Mentor' : ''; })) === '1 Neuigkeit von deinem Mentor', String(synced));
   await go(A.p, '#/notebook', 800); await A.p.evaluate(id => { App.state.nb.folder = 'all'; App.state.nb.note = id; App.state.nb.view = 'note'; App.rerender(); }, firstId); await A.p.waitForTimeout(800);
   ok('Notebook: Mentor-Notiz unter dem Eintrag, klar getrennt, nicht editierbar', !!(await A.p.$('.mentor-notes.in-note')) && (await A.p.textContent('.mentor-notes.in-note .mn-head')).includes('Mentor') && (await A.p.textContent('.mentor-notes.in-note .mn-head')).includes('Max') && (await A.p.textContent('.mentor-notes.in-note .mn-text')).includes('Stopp-Plan') && !(await A.p.$('.mentor-notes.in-note [data-action=coach-note-edit], .mentor-notes.in-note [data-action=coach-note-delete], .mentor-notes.in-note .mn-edit')) && !!(await A.p.$('.mentor-notes.in-note textarea[data-input=coach-reply-draft]')));
   /* der Notebook-Punkt kann danach noch den normalen Grund zeigen (z. B. „Tagesnotiz für heute fehlt“, je nach Uhrzeit der Beispieldaten) – nur der Mentor-Grund muss weg sein */

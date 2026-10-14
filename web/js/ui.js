@@ -21,7 +21,7 @@
     areaJournal: sv('<path d="M7 3.5h10.5A1.5 1.5 0 0 1 19 5v10.5H7a2 2 0 0 0-2 2v-12a2 2 0 0 1 2-2z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M7 3.5h10.5A1.5 1.5 0 0 1 19 5v14a1.5 1.5 0 0 1-1.5 1.5H7A2 2 0 0 1 5 18.5v-13a2 2 0 0 1 2-2z"/><path d="M5 17.5a2 2 0 0 1 2-2h12M10 3.5v6l1.75-1.3 1.75 1.3v-6"/>'),
     backtest: sv('<rect x="10.25" y="9" width="3.5" height="6" rx=".9" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M4.4 9.5A8 8 0 1 1 4 12"/><path d="M3.5 5.5v4h4"/><rect x="10.25" y="9" width="3.5" height="6" rx=".9"/><path d="M12 7v2M12 15v2"/>'),
     calm: sv('<path d="M5 19.5C5 11 10 5 19.5 4.5 19.5 14 14 19.5 5.5 19.5z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M5 19.5C5 11 10 5 19.5 4.5 19.5 14 14 19.5 5.5 19.5z"/><path d="M4 20.5l9-9"/>'),
-    coach: sv('<path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 15l.6 1.4 1.4.6-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z"/>'),
+    coach: sv('<path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 15l.6 1.4 1.4.6-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z"/>'),
     zen: sv('<circle cx="12" cy="5" r="2"/><path d="M12 8v6M12 14l-4 6M12 14l4 6M5 11l7 1 7-1"/>'),
     /* Zahnrad mit geschlossenem Kranz, damit es sich klar von der Sonne (Hell-Modus) unterscheidet */
     globe: sv('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
@@ -51,7 +51,8 @@
     shadow: sv('<circle cx="13" cy="9" r="3.2" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M7 21.5c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5z" fill="currentColor" fill-opacity=".36" stroke="none"/><circle cx="10" cy="7.5" r="3.2"/><path d="M4 20.5c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5"/>'),
     prop: sv('<rect x="7" y="4" width="13.5" height="10.5" rx="2.5" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M7 7.5V6.5A2.5 2.5 0 0 1 9.5 4h8.5a2.5 2.5 0 0 1 2.5 2.5V12a2.5 2.5 0 0 1-2.5 2.5h-1"/><rect x="3.5" y="9.5" width="13.5" height="10.5" rx="2.5"/><path d="M7 16.5h4"/>'),
     coupon: sv('<path d="M3.5 11.4V5a1.5 1.5 0 0 1 1.5-1.5h6.4a1.5 1.5 0 0 1 1.06.44l7.6 7.6a1.5 1.5 0 0 1 0 2.12l-6.4 6.4a1.5 1.5 0 0 1-2.12 0l-7.6-7.6A1.5 1.5 0 0 1 3.5 11.4z" fill="currentColor" fill-opacity=".36" stroke="none"/><path d="M3.5 11.4V5a1.5 1.5 0 0 1 1.5-1.5h6.4a1.5 1.5 0 0 1 1.06.44l7.6 7.6a1.5 1.5 0 0 1 0 2.12l-6.4 6.4a1.5 1.5 0 0 1-2.12 0l-7.6-7.6A1.5 1.5 0 0 1 3.5 11.4z"/><circle cx="8" cy="8" r="1.3"/>'),
-    affiliate: sv('<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M21 9l-5 6"/><circle cx="16.4" cy="9.4" r=".9"/><circle cx="20.6" cy="14.6" r=".9"/>'),
+    affiliate: sv('<circle cx="9" cy="8" r="3.2" fill="currentColor" fill-opacity=".36" stroke="none"/><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M21 9l-5 6"/><circle cx="16.4" cy="9.4" r=".9"/><circle cx="20.6" cy="14.6" r=".9"/>'),
+    contact: sv('<rect x="3.5" y="5.5" width="17" height="13" rx="2.5" fill="currentColor" fill-opacity=".36" stroke="none"/><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M4.5 7.5l7.5 5.5 7.5-5.5"/>'),
     replay: sv('<rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v11"/><path d="M8 11l4 2-4 2z"/>'),
     layout: sv('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 10h18M10 10v11"/>'),
     filter: sv('<path d="M3 5h18l-7 8v6l-4 2v-8z"/>'),

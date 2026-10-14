@@ -17,7 +17,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   });
   await p.goto(base, { waitUntil: 'load' }); await p.evaluate(() => { localStorage.clear(); }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(400);
   await p.evaluate(() => { Store.installSample(); Store.setSetting('profile', Object.assign({}, Store.settings.profile, { username: 'flo', firstName: 'Florian' })); Store.saveNow(); });
-  ok('Navigation: Mentor und Ruhepunkt in der Gruppe Training', (await p.$$eval('.sidebar .nav a', a => a.map(x => x.textContent.trim()).join(','))).includes('Mentor,Ruhepunkt'));
+  ok('Navigation: Mentor als eigener Bereich in der Leiste, Ruhepunkt in der Gruppe Training', !!(await p.$('.rail-item[data-rail=mentor]')) && (await p.$$eval('.sidebar .nav a', a => a.map(x => x.textContent.trim()).join(','))).includes('Schatten-Ich,Ruhepunkt'));
   await p.keyboard.press('8'); await p.waitForTimeout(500);
   ok('Ohne Server: Einrichtungshinweis', (await p.textContent('.mentor-setup h2')) === 'Mentor-Chat einrichten' && !!(await p.$('.mentor-setup a[href="#/settings/mentor"]')));
   await p.click('.mentor-setup a'); await p.waitForTimeout(500);

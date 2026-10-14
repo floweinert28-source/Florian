@@ -4,6 +4,8 @@
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt;
   /* Hinweis als kleines rotes Abzeichen mit Zahl (Seitenleiste, Konto-Menü, Profilbild): Zahl vorn im Grund (z. B. „2 offene Positionen“), sonst 1 */
   const navBadge = w => { const m = /^(\d+)/.exec(w); const n = m ? +m[1] : 1; return `<span class="nav-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}">${n > 99 ? '99+' : n}</span>`; };
+  /* Hinweis an einem Bereich der Leiste: Anzahl der Hinweise in seiner Navigation (Gründe im Tooltip) */
+  const railBadge = w => { if (!w) return ''; const n = w.split(' · ').reduce((s, x) => { const m = /^(\d+)/.exec(x); return s + (m ? +m[1] : 1); }, 0); return `<span class="nav-dot rail-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}">${n > 99 ? '99+' : n}</span>`; };
   const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
 
   /* Seitenleiste in Gruppen: was ist los, was habe ich gehandelt, woran arbeite ich, welche Konten */
@@ -15,16 +17,21 @@
   const on = key => FEATURES[key] !== false;
   const NAV_GROUPS = [
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
-    ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal'], ['news', 'News', 'news']]],
-    ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['mentor', 'Mentor', 'chat'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
-    ['Konten', [['prop', 'Prop Firms', 'prop'], ['coupons', 'Coupon-Codes', 'coupon']]],
-  ]; /* Coach und Affiliate stehen nicht in der Navigation, sondern im Konto-Menü unten (userCard) */
+    ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
+    ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
+  ]; /* Coach und Affiliate stehen nicht in der Navigation, sondern im Konto-Menü unten (userCard); Prop Firms, Mentor und News sind eigene Bereiche */
   /* Bereiche in der schmalen Leiste ganz links: jeder Bereich hat seine eigene Navigation in der Seitenleiste.
      Journal ist alles Bisherige; ein Bereich gilt als aktiv, wenn die Seite in seiner Navigation steht */
   const AREAS = [
     { key: 'journal', label: 'Journal', icon: 'areaJournal', home: 'dashboard', nav: NAV_GROUPS },
-    { key: 'backtest', label: 'Backtesting', icon: 'backtest', home: 'backtesting', nav: [['Backtesting', [['backtesting', 'Übersicht', 'backtest']]]] },
-  ];
+    { key: 'prop', label: 'Prop Firms', icon: 'prop', home: 'prop', nav: [[null, [['prop', 'Prop Firms', 'prop'], ['coupons', 'Coupon-Codes', 'coupon']]]] },
+    { key: 'mentor', label: 'Mentor', icon: 'chat', home: 'mentor', nav: [[null, [['mentor', 'Mentor', 'chat']]]] },
+    { key: 'news', label: 'News', icon: 'news', home: 'news', nav: [[null, [['news', 'News', 'news']]]] },
+    { key: 'backtest', label: 'Backtesting', icon: 'backtest', home: 'backtesting', nav: [[null, [['backtesting', 'Backtesting', 'backtest']]]] },
+    { key: 'coach', label: 'Coach', icon: 'coach', home: 'coach', bottom: true, nav: [[null, [['coach', 'Coach', 'coach']]]] },
+    { key: 'affiliate', label: 'Affiliate-Programm', icon: 'affiliate', home: 'affiliate', bottom: true, nav: [[null, [['affiliate', 'Affiliate-Programm', 'affiliate']]]] },
+    { key: 'contact', label: 'Kontakt', icon: 'contact', home: 'contact', bottom: true, nav: [[null, [['contact', 'Kontakt', 'contact']]]] },
+  ]; /* Gruppen ohne Titel (null): Bereiche mit nur einem Thema; bottom: unten in der Leiste (Coach, Affiliate, Kontakt) */
   const areaOf = route => AREAS.find(a => a.key !== 'journal' && a.nav.some(([, items]) => items.some(([k]) => k === route))) || AREAS[0];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
@@ -220,20 +227,21 @@
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
       const area = areaOf(cur); if (area.key === 'journal' && cur !== 'share') this.state.lastJournal = location.hash || '#/dashboard';
-      this.renderRail(area);
-      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.nav.map(([title, items]) => `<nav class="nav nav-group" aria-label="${title}"><div class="nav-title">${title}</div>${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
+      this.renderRail(area, a => { const ws = a.nav.flatMap(([, items]) => items.filter(([k]) => on(k)).map(([k]) => why(k))).filter(Boolean); return ws.length ? ws.join(' · ') : ''; });
+      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
     },
     /* Bereichsleiste ganz links (Journal, Backtesting): nur Symbole (Name im Tooltip); Journal führt zurück auf die zuletzt
        offene Journal-Seite. Fehlt das Element in der Seite, wird es vor der Seitenleiste angelegt */
-    renderRail(area) {
+    renderRail(area, hint) {
       let rl = document.getElementById('rail'); const sb = document.getElementById('sidebar');
       if (!rl) { rl = document.createElement('nav'); rl.id = 'rail'; rl.className = 'rail'; sb.before(rl); }
       rl.setAttribute('aria-label', 'Bereiche'); sb.parentElement.classList.add('has-rail');
-      rl.innerHTML = AREAS.map(a => { const act = a.key === area.key; const href = a.key === 'journal' && !act ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home; /* aktiver Bereich: zur Startseite des Bereichs */
-        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}" aria-label="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span></a>`; }).join('');
+      const btn = a => { const act = a.key === area.key; const href = a.key === 'journal' && !act ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home; /* aktiver Bereich: zur Startseite des Bereichs */
+        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}" aria-label="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span>${!act && hint ? railBadge(hint(a)) : ''}</a>`; };
+      rl.innerHTML = `${AREAS.filter(a => !a.bottom).map(btn).join('')}<span class="rail-spacer"></span>${AREAS.filter(a => a.bottom).map(btn).join('')}`;
       this.translateNow(rl);
     },
     /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Coach, Einstellungen,

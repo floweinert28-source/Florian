@@ -29,10 +29,9 @@ function feed() {
   try {
     await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(700);
     await p.evaluate(() => { Store.setSetting('mentor', { url: '', token: '' }); Store.setSetting('newsFilter', null); App.state.news = null; });
-    const nav = await p.evaluate(() => [...document.querySelectorAll('.sidebar .nav-group')].map(g => [g.querySelector('.nav-title').textContent.trim(), [...g.querySelectorAll('a')].map(a => a.getAttribute('href'))]));
-    const j = nav.find(g => g[0] === 'Journal');
-    ok('Navigation: „News“ in der Gruppe Journal nach Notebook, mit Symbol', j && j[1].join(',') === '#/trades,#/day,#/notebook,#/news' && !!(await p.$('.sidebar a[href="#/news"] svg')), JSON.stringify(j));
-    await p.click('.sidebar a[href="#/news"]'); await p.waitForTimeout(500);
+    ok('Navigation: „News“ als eigener Bereich in der Leiste links, mit Symbol', !(await p.$('.sidebar a[href="#/news"]')) && !!(await p.$('.rail-item[data-rail=news] svg')));
+    await p.click('.rail-item[data-rail=news]'); await p.waitForTimeout(500);
+    ok('Bereich News: Eintrag „News“ in der Seitenleiste aktiv', !!(await p.$('.sidebar a[href="#/news"].active svg')) && !!(await p.$('.rail-item[data-rail=news].active')));
     ok('Titel „News“, kein Zeitraum-/Konto-Kopf', (await p.textContent('.topbar h1')).trim() === 'News' && !(await p.$('#content [data-action=range-open]')));
     /* ohne Server: Beispielansicht */
     const sample = await p.evaluate(() => ({ banner: (document.querySelector('.nw-banner') || {}).textContent || '', link: !!document.querySelector('.nw-banner a[href="#/settings/mentor"]'), titles: [...document.querySelectorAll('.nw-title')].map(t => t.textContent), vals: document.querySelectorAll('.nw-v:not(.e)').length }));

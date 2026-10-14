@@ -193,13 +193,16 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein; der kleine Balken links ist der einzige Akzent */
-.nav a.active { overflow: visible; color: var(--text); font-weight: 500; background: var(--surface-2); border-color: var(--border); } /* gleiche Stärke wie die anderen Einträge */
-.nav a.active svg { opacity: 1; color: var(--text); }
-.nav a.active::after { content: ''; position: absolute; left: -12px; top: 50%; width: 3px; height: 18px; transform: translateY(-50%); border-radius: 3px; background: var(--accent); box-shadow: var(--dot-glow); } /* Balken mit sanftem Leuchten; alle Hinweis-Punkte leuchten genauso (--dot-glow) */
-.nav a.active:hover { transform: none; }
-/* Hinweis-Punkt: kleiner runder Punkt rechts im Eintrag, farblich wie der Lichtbalken am aktiven Eintrag (gleiches Grün, gedämpft, leichtes Leuchten); eingeklappt oben rechts am Knopf */
-.nav .nav-dot { margin-left: auto; margin-right: 12px; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); box-shadow: var(--dot-glow); }
+/* aktiver Eintrag: eine kleine Kerze wie im Chart statt Leuchtbalken und Fläche – Docht und Körper im Akzent, ohne Schein.
+   Der Körper wächst beim Wechsel kurz auf; das Symbol wird grün, der Eintrag selbst bleibt ohne Hintergrund */
+.nav a.active { overflow: visible; color: var(--text); font-weight: 500; background: none; border-color: transparent; } /* gleiche Stärke wie die anderen Einträge */
+.nav a.active svg { opacity: 1; color: var(--accent); }
+.nav a.active::before { content: ''; position: absolute; left: -11px; top: 50%; width: 2px; height: 22px; transform: translateY(-50%); border-radius: 1px; background: color-mix(in srgb, var(--accent) 50%, transparent); } /* Docht */
+.nav a.active::after { content: ''; position: absolute; left: -13px; top: 50%; width: 6px; height: 12px; transform: translateY(-50%); border-radius: 2px; background: var(--accent); animation: nav-candle var(--dur-2) var(--ease) both; } /* Körper */
+@keyframes nav-candle { from { transform: translateY(-50%) scaleY(.15); } to { transform: translateY(-50%) scaleY(1); } }
+.nav a.active:hover { transform: none; background: none; }
+/* Hinweis: kleine Raute wie eine Markierung im Chart (Akzent, ohne Leuchten) rechts im Eintrag; eingeklappt oben rechts am Knopf */
+.nav .nav-dot { margin-left: auto; margin-right: 13px; width: 6px; height: 6px; border-radius: 1px; transform: rotate(45deg); flex: 0 0 auto; background: var(--accent); }
 html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 4px; right: 4px; margin: 0; }
 .nav .badge-n { margin-left: auto; font-size: 11px; background: var(--surface-3); color: var(--text-2); padding: 1px 7px; border-radius: 999px; }
 .sidebar .spacer { flex: 1; }
@@ -212,7 +215,7 @@ html.sb-mini .brand .name { display: none; }
 html.sb-mini .brand .sb-toggle { margin-left: 0; }
 html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: quadratische Knöpfe */
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
-html.sb-mini .nav a.active::after { left: -18px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf, Balken 2px vom Rand */
+html.sb-mini .nav a.active::after { left: -19px; } html.sb-mini .nav a.active::before { left: -17px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf, Balken 2px vom Rand */
 /* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */
 .theme-toggle { position: relative; isolation: isolate; align-self: flex-start; display: inline-flex; align-items: center; padding: 2px; margin: 10px 16px 0; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
 .theme-toggle::before { content: ''; position: absolute; z-index: -1; top: 2px; left: 2px; width: 26px; height: 22px; border-radius: 999px; background: var(--surface-3); box-shadow: 0 1px 2px rgba(0, 0, 0, .28); transition: transform var(--dur-2) var(--ease); }
@@ -257,7 +260,7 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .sb-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Hinweis-Punkt am Profilbild, wenn bei Coach etwas wartet (Coach steht im Konto-Menü) */
 .sb-avwrap { position: relative; flex: 0 0 auto; display: grid; }
-.sb-av-dot { position: absolute; top: -1px; right: -1px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--surface), var(--dot-glow); }
+.sb-av-dot { position: absolute; top: 0; right: 0; width: 8px; height: 8px; border-radius: 1.5px; transform: rotate(45deg); background: var(--accent); box-shadow: 0 0 0 2px var(--surface); }
 /* helles Design: Balken und Punkte im satten Akzent (aufgehellt wären sie auf Weiß zu blass) */
 .sb-who { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1 1 auto; }
 .sb-who b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -269,7 +272,7 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .sb-menu { padding: 6px; }
 .sb-menu .item { font-size: 13.5px; color: var(--text-2); } .sb-menu .item:hover { color: var(--text); }
 .sb-menu .item.on { color: var(--text); background: var(--surface-2); }
-.sb-menu .item .nav-dot { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; background: var(--accent); box-shadow: var(--dot-glow); }
+.sb-menu .item .nav-dot { margin-left: auto; margin-right: 2px; width: 6px; height: 6px; border-radius: 1px; transform: rotate(45deg); flex: 0 0 auto; background: var(--accent); }
 .sb-menu-sep { height: 1px; background: var(--border); margin: 6px 4px; }
 .sb-menu-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 6px 4px 12px; font-size: 13.5px; color: var(--text-2); }
 .sb-menu .theme-toggle, html.sb-mini .sb-menu .theme-toggle { margin: 0; flex-direction: row; align-self: auto; }

@@ -63,11 +63,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Sicherung einspielen** (Einstellungen → Profil): Datei wählen, Inhalt prüfen (Name, Trades, Notizen, Datum der Sicherung),
   erst dann „Zusammenführen“ bzw. das rote „Daten ersetzen“. „Ersetzen“ nennt vorher die Zahl der eigenen Trades.
   Zusammenführen meldet nur die wirklich neuen Trades. Das Zertifikat-Bild (PNG) enthält die App-Schriften.
-- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag ist flach und ruhig: leicht angehobene Fläche mit feinem Rand, kein Licht, kein Schein, gleiche Schriftstärke wie die anderen Einträge (500, ebenso Einstellungs-Menü, Notebook-Ordner und Segmente); der kleine Balken am Rand mit dezentem Leuchten ist der einzige Akzent; die Hinweis-Punkte (Navigation, Konto-Menü, Profilbild) leuchten genauso (ein gemeinsamer Wert `--dot-glow`).
+- **Seitenleiste**: oben der Schriftzug JOURNALYST ohne Logo-Zeichen (ein neues Logo folgt), darunter „Trading Journal App“, eine Trennlinie, dann die Navigation (keine Begrüßung). Der aktive Eintrag hat keine Fläche und keinen Leuchtbalken, sondern links eine kleine Kerze wie im Chart (Docht und Körper im Akzent, wächst beim Wechsel kurz auf); sein Symbol ist grün, die Schriftstärke bleibt wie bei den anderen Einträgen (500, ebenso Einstellungs-Menü, Notebook-Ordner und Segmente). Hinweise (Navigation, Konto-Menü, Profilbild) sind kleine Rauten ohne Leuchten.
   Im eingeklappten Modus nur Symbole (quadratische Knöpfe). Auf niedrigen Bildschirmen etwas dichter.
   Aktiver Eintrag (Ecken 12px): Akzentfarbe links, läuft nach rechts ins Dunkle aus, sehr feiner Rand und
   ein schmaler, leicht leuchtender Balken links am Rand der Leiste. Rand nur dezent, links leicht grün.
-  **Hinweis-Punkte** (kleiner runder Punkt, farblich wie der Lichtbalken am aktiven Eintrag) neben Bereichen, in denen etwas wartet (Grund im Tooltip): Dashboard (neuer Recap), TradeLog (offene
+  **Hinweis-Rauten** (kleine Raute wie eine Chart-Markierung, im Akzent, ohne Leuchten) neben Bereichen, in denen etwas wartet (Grund im Tooltip): Dashboard (neuer Recap), TradeLog (offene
   Positionen), Tagesansicht (Check-in fehlt, Mo–Fr), Notebook (heute gehandelt, keine Tagesnotiz), Fortschritt (heute gehandelt,
   Regeln nicht abgehakt), Prop Firms (aktives Konto auf Rot oder verletzt). Ein- und ausschalten, gesamt oder je Bereich, unter
   Einstellungen → Benachrichtigungen. Weitere Bereiche melden sich mit `App.navDot(key, fn)` an.

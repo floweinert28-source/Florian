@@ -182,7 +182,7 @@ html.sb-mini .brand .brand-text { display: none; }
 .nav { display: flex; flex-direction: column; gap: 3px; }
 .nav.nav-sec { margin-top: 12px; }
 .nav.nav-group + .nav.nav-group { margin-top: 26px; }
-.nav-title { padding: 0 17px 6px; font-size: 9.5px; line-height: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--muted) 72%, transparent); } /* Bereichstitel klein und zurückhaltend, damit sie sich klar von den Einträgen abheben */
+.nav-title { padding: 0 17px 6px; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0; text-transform: none; color: color-mix(in srgb, var(--muted) 85%, transparent); } /* Bereichstitel klein, normale Schreibweise, grau – wie eine ruhige Zwischenzeile */
 html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 1px; background: var(--border); }
 .nav a, .nav button {
   position: relative; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border-radius: 12px; border: 1px solid transparent; background: none;
@@ -194,7 +194,8 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
 /* aktiver Eintrag: leicht graue Fläche mit feinem Rand wie zuvor, Symbol grün und ein kurzer grüner Strich unter dem Namen; kein Leuchtbalken */
-.nav a.active { overflow: visible; color: var(--text); font-weight: 500; background: var(--surface-2); border-color: var(--border); } /* gleiche Stärke wie die anderen Einträge */
+.nav a.active { overflow: visible; color: var(--text); font-weight: 500; border: 1px solid transparent;
+  background: linear-gradient(90deg, var(--nav-a1), var(--nav-a2)) padding-box, linear-gradient(90deg, var(--nav-b1), var(--nav-b2)) border-box; } /* gleiche Stärke wie die anderen Einträge; Fläche und feiner Rand links heller, rechts etwas dunkler */
 .nav a.active svg { opacity: 1; color: var(--accent); }
 .nav a.active > span:not(.nav-dot) { position: relative; overflow: visible; }
 .nav a.active > span:not(.nav-dot)::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 18px; height: 2px; border-radius: 2px; background: var(--accent); }
@@ -3339,3 +3340,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   .cal:not(.mini):not(.ext) .d .c > span:first-child { display: none; } /* keine Trade-Anzahl auf dem Handy, nur Betrag und Trefferquote */
   .cal:not(.mini):not(.ext) .d .c .wr { position: static; display: block; height: auto; font-size: 9.5px; line-height: 1.2; font-weight: 600; color: var(--muted); }
 }
+/* Seitenleiste: Farben für den aktiven Eintrag (Fläche und Rand mit weichem Übergang von links hell nach rechts dunkler) */
+:root { --nav-a1: color-mix(in srgb, var(--text) 9%, var(--bg-2)); --nav-a2: color-mix(in srgb, var(--text) 4.5%, var(--bg-2)); --nav-b1: color-mix(in srgb, var(--text) 17%, var(--bg-2)); --nav-b2: color-mix(in srgb, var(--text) 7%, var(--bg-2)); }
+:root[data-theme="light"] { --nav-a1: #fbfbfb; --nav-a2: #ececec; --nav-b1: #e9e9e9; --nav-b2: #d3d3d3; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --nav-a1: #fbfbfb; --nav-a2: #ececec; --nav-b1: #e9e9e9; --nav-b2: #d3d3d3; } }
+/* Bereiche durch feine, eingerückte Trennlinien getrennt (ausgeklappt; eingeklappt ist der Titel selbst die Linie) */
+.nav.nav-group + .nav.nav-group { margin-top: 12px; }
+html:not(.sb-mini) .nav.nav-group + .nav.nav-group::before { content: ''; display: block; height: 1px; margin: 0 16px 12px; background: var(--border); }

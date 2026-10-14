@@ -75,7 +75,11 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   await Promise.all([m.waitForNavigation().catch(() => {}), m.click('.pcv-item')]); await m.waitForTimeout(2500);
   const inner = m.frames().find(f => f !== m.mainFrame());
   const pv = inner ? await inner.evaluate(() => ({ w: innerWidth, h: innerHeight, rail: getComputedStyle(document.getElementById('rail')).display, frame: getComputedStyle(document.getElementById('frame-top')).display })) : null;
-  ok(!!pv && pv.w === 1440 && pv.h === 900 && pv.rail !== 'none' && pv.frame !== 'none' && await m.evaluate(() => !!document.querySelector('.pcv-exit') && !document.querySelector('#sidebar .nav')), 'Handy: PC-Ansicht zeigt das PC-Layout im verkleinerten Fenster ' + JSON.stringify(pv));
+  const outer = await m.evaluate(() => { const f = document.querySelector('.pcv-frame').getBoundingClientRect(); return { W: PCView.W, H: PCView.H, turned: document.querySelector('.pcv').dataset.turned, fw: Math.round(f.width), fh: Math.round(f.height), vw: innerWidth, vh: innerHeight, links: document.querySelectorAll('link[rel=stylesheet]').length, app: !!document.querySelector('#sidebar .nav'), exit: !!document.querySelector('.pcv-exit') }; });
+  ok(!!pv && pv.w === outer.W && pv.h === outer.H && pv.rail !== 'none' && pv.frame !== 'none' && outer.exit && !outer.app && outer.links > 0 && outer.turned === '1' && outer.fh > outer.fw && outer.fh <= outer.vh && outer.fw <= outer.vw, 'Handy: PC-Ansicht zeigt das PC-Layout in Originalgröße, im Hochformat quer gedreht ' + JSON.stringify({ pv, outer }));
+  await m.click('.pcv-rot'); await m.waitForTimeout(300);
+  ok(await m.evaluate(() => { const f = document.querySelector('.pcv-frame').getBoundingClientRect(); return document.querySelector('.pcv').dataset.turned === '0' && Math.abs(f.width - innerWidth) <= 2 && localStorage.getItem('jy_pcview_rot') === '0'; }), 'Handy: „Drehen“ stellt die PC-Ansicht aufrecht (volle Breite) und merkt es sich');
+  await m.evaluate(() => localStorage.removeItem('jy_pcview_rot'));
   await Promise.all([m.waitForNavigation().catch(() => {}), m.click('.pcv-exit')]); await m.waitForTimeout(1200);
   ok(await m.evaluate(() => !document.querySelector('.pcv') && !!document.querySelector('#sidebar .nav') && !localStorage.getItem('jy_pcview')), 'Handy: zurück zur Handy-Ansicht');
   ok(!errs.length, 'keine Fehler ' + errs.join(' | '));

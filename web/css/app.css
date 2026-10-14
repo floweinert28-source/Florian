@@ -73,21 +73,21 @@
   :root:not([data-theme="dark"]) {
     color-scheme: light;
     --sheen: rgba(255, 255, 255, .75);
-    --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9; --field: #ffffff; --ambient: none;
-    --border: #e1e6e2; --border-2: #cfd6d1; --text: #0d130f; --text-2: #3d463f; --muted: #5f6862; --faint: #b0b8b2; --lift-shadow: 0 14px 28px -20px rgba(20, 30, 24, .35);
+    --bg: #ffffff; --bg-2: #f5f5f5; --surface: #ffffff; --surface-2: #f5f5f5; --surface-3: #ebebeb; --field: #ffffff; --ambient: none;
+    --border: #e5e5e5; --border-2: #d4d4d4; --text: #0a0a0a; --text-2: #404040; --muted: #666666; --faint: #b3b3b3; --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
     --accent: #077a41; --accent-2: #06663a; --accent-ink: #ffffff; --accent-soft: rgba(7, 122, 65, 0.10); --accent-glow: rgba(7, 122, 65, 0.20);
     --profit: #077a41; --profit-soft: rgba(7, 122, 65, 0.10); --loss: #c62e2e; --loss-soft: rgba(198, 46, 46, 0.10); --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
-    --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5; --shadow: 0 18px 50px rgba(20, 30, 24, 0.14);
+    --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5; --shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
   }
 }
 :root[data-theme="light"] {
   color-scheme: light;
   --sheen: rgba(255, 255, 255, .75);
-  --bg: #f5f7f5; --bg-2: #eef1ee; --surface: #ffffff; --surface-2: #f3f5f3; --surface-3: #e9ede9; --field: #ffffff; --ambient: none;
-  --border: #e1e6e2; --border-2: #cfd6d1; --text: #0d130f; --text-2: #3d463f; --muted: #5f6862; --faint: #b0b8b2; --lift-shadow: 0 14px 28px -20px rgba(20, 30, 24, .35);
+  --bg: #ffffff; --bg-2: #f5f5f5; --surface: #ffffff; --surface-2: #f5f5f5; --surface-3: #ebebeb; --field: #ffffff; --ambient: none;
+  --border: #e5e5e5; --border-2: #d4d4d4; --text: #0a0a0a; --text-2: #404040; --muted: #666666; --faint: #b3b3b3; --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
   --accent: #077a41; --accent-2: #06663a; --accent-ink: #ffffff; --accent-soft: rgba(7, 122, 65, 0.10); --accent-glow: rgba(7, 122, 65, 0.20);
   --profit: #077a41; --profit-soft: rgba(7, 122, 65, 0.10); --loss: #c62e2e; --loss-soft: rgba(198, 46, 46, 0.10); --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
-  --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5; --shadow: 0 18px 50px rgba(20, 30, 24, 0.14);
+  --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5; --shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
 }
 :root[data-theme="dark"] { color-scheme: dark; }
 /* dunkle Variante „Schwarz“: tiefschwarzer Grund wie früher (Einstellungen → Design → Erscheinungsbild) */
@@ -216,7 +216,7 @@ html.sb-mini .nav a.active::after { left: -18px; } /* Leiste 10px Rand + 10px bi
 /* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */
 .theme-toggle { position: relative; isolation: isolate; align-self: flex-start; display: inline-flex; align-items: center; padding: 2px; margin: 10px 16px 0; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
 .theme-toggle::before { content: ''; position: absolute; z-index: -1; top: 2px; left: 2px; width: 26px; height: 22px; border-radius: 999px; background: var(--surface-3); box-shadow: 0 1px 2px rgba(0, 0, 0, .28); transition: transform var(--dur-2) var(--ease); }
-:root[data-theme="light"] .theme-toggle::before { transform: translateX(26px); box-shadow: 0 1px 2px rgba(20, 30, 24, .14); }
+:root[data-theme="light"] .theme-toggle::before { transform: translateX(26px); box-shadow: 0 1px 2px rgba(0, 0, 0, .14); }
 .theme-toggle button { width: 26px; height: 22px; border-radius: 999px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; transition: color var(--dur-1) var(--ease); }
 .theme-toggle button svg { width: 14px; height: 14px; }
 .theme-toggle button:hover { color: var(--text-2); }
@@ -952,9 +952,9 @@ span.info:hover { color: var(--text-2); }
 /* ---------- Responsiv ---------- */
 @media (max-width: 960px) {
   .shell { grid-template-columns: 1fr; }
-  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(280px, 86vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: var(--shadow); border-right: 0; scrollbar-width: none; } /* Schublade ohne Rand und ohne sichtbare Scroll-Leiste */
+  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: min(280px, 86vw); transform: translateX(-102%); transition: transform var(--dur-2) var(--ease); box-shadow: none; border-right: 0; scrollbar-width: none; } /* Schublade ohne Rand und ohne sichtbare Scroll-Leiste */
   .sidebar::-webkit-scrollbar { display: none; }
-  .sidebar.open { transform: none; }
+  .sidebar.open { transform: none; box-shadow: var(--shadow); }
   .scrim { display: block; position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, .55); opacity: 0; pointer-events: none; transition: opacity var(--dur-2) var(--ease); }
   .scrim.show { opacity: 1; pointer-events: auto; }
   .menu-btn { display: inline-flex; }
@@ -1533,7 +1533,7 @@ span.info:hover { color: var(--text-2); }
 .fw-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 12px; }
 .fw-chips button { border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 12.5px; cursor: pointer; transition: color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease); }
 .fw-chips button:hover { color: var(--text); border-color: var(--border-2); }
-:root[data-theme="light"] .card, :root[data-theme="light"] .tile { box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 6px 18px rgba(20, 30, 24, .06); }
+:root[data-theme="light"] .card, :root[data-theme="light"] .tile { box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 6px 18px rgba(0, 0, 0, .06); }
 .w-body .card-head .row .btn.w-cfg { color: var(--muted); }
 .tile .val small.sub { display: inline-block; font-size: 13px; font-weight: 600; margin-left: 8px; font-family: var(--font); letter-spacing: 0; }
 .tile .nodata { font-size: 15px; font-weight: 600; color: var(--muted); font-family: var(--font); }
@@ -1902,7 +1902,7 @@ html.sb-mini .boot-sb .skel { width: 24px; }
 .theme-card.t-custom.is-new .tc-edit { display: none; }
 .theme-card.t-graphit { --c1: #1e1d1a; --c0: #0e0d0b; --cw: #151412; --cp: #1c1b19; --cb: #2f2d29; --cl: #3d3b36; --ct: #2a2926; }
 .theme-card.t-schwarz { --c1: #0c0e0d; --c0: #000000; --cw: #060807; --cp: #0d0f0e; --cb: #1f2622; --cl: #2b332e; --ct: #171b18; }
-.theme-card.t-light { --c1: #eef1ee; --c0: #d9dfda; --cw: #f3f5f3; --cp: #ffffff; --cb: #cfd6d1; --cl: #d3d9d4; --ct: #edf0ed; }
+.theme-card.t-light { --c1: #f5f5f5; --c0: #e0e0e0; --cw: #f5f5f5; --cp: #ffffff; --cb: #d4d4d4; --cl: #d9d9d9; --ct: #efefef; }
 .set-row { display: flex; align-items: flex-start; gap: 14px; }
 .set-row .switch { margin-top: 3px; }
 .set-row b { display: block; margin-bottom: 2px; }
@@ -2878,8 +2878,8 @@ dl.rp-summary + .rp-small { margin-top: 10px; }
 :root[data-theme="light"] .pg-glow { opacity: .55; }
 @keyframes pg-flicker { 0%, 100% { transform: scale(1) rotate(0); opacity: .95; } 30% { transform: scale(1.06, 1.14) rotate(-3deg); opacity: 1; } 55% { transform: scale(.94, .9) rotate(2deg); opacity: .82; } 80% { transform: scale(1.03, 1.06) rotate(-1deg); opacity: .92; } }
 @keyframes pg-halo { 0%, 100% { opacity: .85; transform: scale(1); } 30% { opacity: 1; transform: scale(1.08); } 55% { opacity: .7; transform: scale(.95); } }
-:root[data-theme="light"] .pg-stone { filter: drop-shadow(0 14px 14px rgba(40, 50, 44, .28)); }
-:root[data-theme="light"] .prop-grave-kv { background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: inset 0 1px 2px rgba(40, 50, 44, .08); }
+:root[data-theme="light"] .pg-stone { filter: drop-shadow(0 14px 14px rgba(0, 0, 0, .28)); }
+:root[data-theme="light"] .prop-grave-kv { background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: inset 0 1px 2px rgba(0, 0, 0, .08); }
 @media (max-width: 560px) {
   .pg-stone { margin: 0 22px; }
   .prop-grave .kv { flex-direction: column; gap: 4px; }

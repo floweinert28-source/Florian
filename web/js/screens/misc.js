@@ -99,7 +99,7 @@
   const sigOf = d => JSON.stringify([d.theme, d.darkStyle, d.customLook, d.customBg, d.font, d.colors.accent, d.colors.profit, d.colors.loss, d.colors.be]);
   function designVars(d) {
     const T = root.Theme; const light = d.theme === 'light'; const defs = T.DEFAULTS[light ? 'light' : 'dark'];
-    const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#f5f7f5', '--surface': '#ffffff', '--border-2': '#cfd6d1' } : d.darkStyle === 'schwarz' ? { '--bg': '#000000', '--surface': '#0b0d0c', '--border-2': '#2b332e' } : { '--bg': '#0e0d0b', '--surface': '#1a1917', '--border-2': '#34322e' };
+    const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#ffffff', '--surface': '#ffffff', '--border-2': '#d4d4d4' } : d.darkStyle === 'schwarz' ? { '--bg': '#000000', '--surface': '#0b0d0c', '--border-2': '#2b332e' } : { '--bg': '#0e0d0b', '--surface': '#1a1917', '--border-2': '#34322e' };
     const c = k => (T.valid(d.colors[k]) ? d.colors[k] : defs[k]);
     return `--db:${base['--bg']};--ds:${base['--surface']};--dd:${base['--border-2']};--da:${c('accent')};--dp:${c('profit')};--dl:${c('loss')}`;
   }

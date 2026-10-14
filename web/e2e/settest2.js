@@ -32,7 +32,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.click('[data-action="appearance"][data-value="schwarz"]'); await p.waitForTimeout(300);
   ok('Schwarz: tiefschwarzer Grund', await bg() === '#000000' && await p.evaluate(() => document.documentElement.dataset.dark === 'schwarz' && Store.settings.theme === 'dark' && Store.settings.darkStyle === 'schwarz'));
   await p.click('[data-action="appearance"][data-value="light"]'); await p.waitForTimeout(300);
-  ok('Weiß: helles Design', await bg() === '#f5f7f5' && await p.evaluate(() => Store.settings.theme === 'light' && Store.settings.darkStyle === 'schwarz'));
+  ok('Weiß: helles Design', await bg() === '#ffffff' && await p.evaluate(() => Store.settings.theme === 'light' && Store.settings.darkStyle === 'schwarz'));
   await p.evaluate(() => App.actions.theme.call(App, { dataset: { value: 'dark' } })); await p.waitForTimeout(300);
   ok('Schalter im Konto-Menü auf Dunkel behält Schwarz', await bg() === '#000000');
   await p.click('[data-action="appearance"][data-value="graphit"]'); await p.waitForTimeout(300);

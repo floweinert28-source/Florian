@@ -1833,4 +1833,5 @@ I18N.add('hi', {
   "Bitte schreib kurz, worum es geht": "कृपया संक्षेप में बताएं कि बात क्या है",
   "Bereichsleiste einblenden": "क्षेत्र बार दिखाएं",
   "Bereichsleiste ausblenden": "क्षेत्र बार छिपाएं",
+  "PC-Ansicht": "डेस्कटॉप व्यू",
 });

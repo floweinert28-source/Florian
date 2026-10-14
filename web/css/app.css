@@ -3509,3 +3509,9 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 }
 @media (min-width: 961px) { .frame-top .brand { pointer-events: none; } .frame-top .ft-toggle { position: relative; z-index: 1; } }
 .sidebar .sb-new { padding: 0; } /* „Trade loggen“ genau so breit wie die Einträge darunter */
+/* PC-Ansicht auf dem Handy (js/pcview.js): die App als verkleinertes PC-Fenster, darunter der Knopf zurück */
+.pcv { position: fixed; inset: 0; background: #050505; overflow: hidden; }
+.pcv-frame { position: absolute; top: 8px; left: 0; width: 1440px; height: 900px; border: 0; border-radius: 6px; transform-origin: 0 0; background: #000; box-shadow: 0 0 0 1px rgba(255, 255, 255, .08); }
+.pcv-exit { position: absolute; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); transform: translateX(-50%); height: 40px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, .14); background: #161616; color: #f5f5f4; font: 600 14px/1 Onest, system-ui, sans-serif; cursor: pointer; }
+.pcv-item { display: none !important; }
+@media (max-width: 960px) { .pcv-item { display: flex !important; } }

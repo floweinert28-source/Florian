@@ -276,7 +276,7 @@
         <span class="sb-who"><b class="no-i18n">${esc(name)}</b>${sub ? `<span class="no-i18n">${esc(sub)}</span>` : '<span>Profil vervollständigen</span>'}</span>
         <span class="sb-chev">${chev('M7 14l5-5 5 5')}${chev('M7 10l5 5 5-5')}</span></button>
         <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/coach', 'coach', 'Coach', cdot, cur === 'coach')}${link('#/affiliate', 'affiliate', 'Affiliate', '', cur === 'affiliate')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
-          <div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
+          <button type="button" class="item pcv-item" role="menuitem" data-action="pc-view">${I.monitor}<span>PC-Ansicht</span></button><div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
     },
     /* Vorgabe für das Zeitraum-Menü: Schlüssel, Name und Tage (JJJJ-MM-TT) zum Markieren im Kalender; „Gesamt“ ohne Tage */
     presetPick(key) { const r = this.range({ preset: key }); return { key, label: PRESETS[key] || key, from: r.from ? C.dayKey(r.from) : '', to: r.from && r.to ? C.dayKey(r.to) : '' }; },
@@ -357,6 +357,7 @@
     'skip-content'() { const c = document.getElementById('content'); if (c) c.focus(); },
     sidebar() { this.state.sidebarOpen = !this.state.sidebarOpen; this.renderSidebar(); },
     /* Knopf in der Marke: Desktop klappt auf Symbole zusammen, Handy schließt das Menü */
+    'pc-view'() { if (root.PCView) root.PCView.set(true); },
     'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.railHidden = !S.settings.railHidden; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */

@@ -70,5 +70,13 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   ok(await m.evaluate(() => { const s = document.getElementById('sidebar'); return s.classList.contains('open') && !s.querySelector('.sb-hello') && [...s.querySelectorAll('*')].every(e => e.getBoundingClientRect().right <= s.getBoundingClientRect().right + 1); }), 'Handy: Menü ohne Begrüßung, nichts ragt heraus');
   ok(await m.evaluate(() => { const rl = document.getElementById('rail'), sb = document.getElementById('sidebar'); const r = rl.getBoundingClientRect(), q = sb.getBoundingClientRect(); return rl.classList.contains('open') && r.left >= 0 && Math.abs(q.left - r.right) < 1 && q.right <= innerWidth; }), 'Handy: Bereichsleiste schiebt mit der Seitenleiste herein, beide im Bild');
   await m.screenshot({ path: 'langshots/sb-mob.png' });
+  /* PC-Ansicht auf dem Handy: Konto-Menü → PC-Ansicht zeigt die App als verkleinertes PC-Fenster (1440 × 900), Knopf zurück */
+  await m.click('.sb-user'); await m.waitForTimeout(300);
+  await Promise.all([m.waitForNavigation().catch(() => {}), m.click('.pcv-item')]); await m.waitForTimeout(2500);
+  const inner = m.frames().find(f => f !== m.mainFrame());
+  const pv = inner ? await inner.evaluate(() => ({ w: innerWidth, h: innerHeight, rail: getComputedStyle(document.getElementById('rail')).display, frame: getComputedStyle(document.getElementById('frame-top')).display })) : null;
+  ok(!!pv && pv.w === 1440 && pv.h === 900 && pv.rail !== 'none' && pv.frame !== 'none' && await m.evaluate(() => !!document.querySelector('.pcv-exit') && !document.querySelector('#sidebar .nav')), 'Handy: PC-Ansicht zeigt das PC-Layout im verkleinerten Fenster ' + JSON.stringify(pv));
+  await Promise.all([m.waitForNavigation().catch(() => {}), m.click('.pcv-exit')]); await m.waitForTimeout(1200);
+  ok(await m.evaluate(() => !document.querySelector('.pcv') && !!document.querySelector('#sidebar .nav') && !localStorage.getItem('jy_pcview')), 'Handy: zurück zur Handy-Ansicht');
   ok(!errs.length, 'keine Fehler ' + errs.join(' | '));
   console.log(`${pass}/${pass + fail} bestanden`); await b.close(); process.exit(fail ? 1 : 0); })();

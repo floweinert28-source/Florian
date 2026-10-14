@@ -1784,4 +1784,5 @@ I18N.add('pt', {
   "Bitte schreib kurz, worum es geht": "Descreva brevemente do que se trata",
   "Bereichsleiste einblenden": "Mostrar barra de áreas",
   "Bereichsleiste ausblenden": "Ocultar barra de áreas",
+  "PC-Ansicht": "Visão de computador",
 });

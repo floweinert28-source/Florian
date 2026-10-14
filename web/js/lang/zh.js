@@ -1833,4 +1833,5 @@ I18N.add('zh', {
   "Bitte schreib kurz, worum es geht": "请简要说明是关于什么的",
   "Bereichsleiste einblenden": "显示区域栏",
   "Bereichsleiste ausblenden": "隐藏区域栏",
+  "PC-Ansicht": "电脑视图",
 });

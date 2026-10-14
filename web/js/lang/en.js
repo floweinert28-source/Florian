@@ -1740,4 +1740,5 @@ I18N.add('en', {
   "Bitte schreib kurz, worum es geht": "Please briefly describe what it is about",
   "Bereichsleiste einblenden": "Show area bar",
   "Bereichsleiste ausblenden": "Hide area bar",
+  "PC-Ansicht": "Desktop view",
 });

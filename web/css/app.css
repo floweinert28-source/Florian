@@ -193,14 +193,12 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a svg, .nav button svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .85; }
 .nav a:hover, .nav button:hover { background: var(--surface-2); color: var(--text); transform: translateX(2px); }
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
-/* aktiver Eintrag: eine kleine Kerze wie im Chart statt Leuchtbalken und Fläche – Docht und Körper im Akzent, ohne Schein.
-   Der Körper wächst beim Wechsel kurz auf; das Symbol wird grün, der Eintrag selbst bleibt ohne Hintergrund */
-.nav a.active { overflow: visible; color: var(--text); font-weight: 500; background: none; border-color: transparent; } /* gleiche Stärke wie die anderen Einträge */
+/* aktiver Eintrag: leicht graue Fläche mit feinem Rand wie zuvor, Symbol grün und ein kurzer grüner Strich unter dem Namen; kein Leuchtbalken */
+.nav a.active { overflow: visible; color: var(--text); font-weight: 500; background: var(--surface-2); border-color: var(--border); } /* gleiche Stärke wie die anderen Einträge */
 .nav a.active svg { opacity: 1; color: var(--accent); }
-.nav a.active::before { content: ''; position: absolute; left: -11px; top: 50%; width: 2px; height: 22px; transform: translateY(-50%); border-radius: 1px; background: color-mix(in srgb, var(--accent) 50%, transparent); } /* Docht */
-.nav a.active::after { content: ''; position: absolute; left: -13px; top: 50%; width: 6px; height: 12px; transform: translateY(-50%); border-radius: 2px; background: var(--accent); animation: nav-candle var(--dur-2) var(--ease) both; } /* Körper */
-@keyframes nav-candle { from { transform: translateY(-50%) scaleY(.15); } to { transform: translateY(-50%) scaleY(1); } }
-.nav a.active:hover { transform: none; background: none; }
+.nav a.active > span:not(.nav-dot) { position: relative; overflow: visible; }
+.nav a.active > span:not(.nav-dot)::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 18px; height: 2px; border-radius: 2px; background: var(--accent); }
+.nav a.active:hover { transform: none; }
 /* Hinweis: kleine Raute wie eine Markierung im Chart (Akzent, ohne Leuchten) rechts im Eintrag; eingeklappt oben rechts am Knopf */
 .nav .nav-dot { margin-left: auto; margin-right: 13px; width: 6px; height: 6px; border-radius: 1px; transform: rotate(45deg); flex: 0 0 auto; background: var(--accent); }
 html.sb-mini .nav .nav-dot { display: block; position: absolute; top: 4px; right: 4px; margin: 0; }
@@ -215,7 +213,7 @@ html.sb-mini .brand .name { display: none; }
 html.sb-mini .brand .sb-toggle { margin-left: 0; }
 html.sb-mini .nav a, html.sb-mini .nav button { justify-content: center; width: 40px; height: 40px; margin: 0 auto; padding: 0; gap: 0; } /* eingeklappt: quadratische Knöpfe */
 html.sb-mini .nav a span, html.sb-mini .nav button span { display: none; }
-html.sb-mini .nav a.active::after { left: -19px; } html.sb-mini .nav a.active::before { left: -17px; } /* Leiste 10px Rand + 10px bis zum mittigen Knopf, Balken 2px vom Rand */
+ /* Leiste 10px Rand + 10px bis zum mittigen Knopf, Balken 2px vom Rand */
 /* Hell/Dunkel: schlanker Schiebeschalter, der Knopf gleitet unter das aktive Symbol (theme.js setzt data-theme am html) */
 .theme-toggle { position: relative; isolation: isolate; align-self: flex-start; display: inline-flex; align-items: center; padding: 2px; margin: 10px 16px 0; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
 .theme-toggle::before { content: ''; position: absolute; z-index: -1; top: 2px; left: 2px; width: 26px; height: 22px; border-radius: 999px; background: var(--surface-3); box-shadow: 0 1px 2px rgba(0, 0, 0, .28); transition: transform var(--dur-2) var(--ease); }

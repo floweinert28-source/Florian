@@ -3343,7 +3343,8 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 :root[data-theme="light"] { --nav-a1: #fbfbfb; --nav-a2: #ececec; --nav-b1: #e9e9e9; --nav-b2: #d3d3d3; }
 @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --nav-a1: #fbfbfb; --nav-a2: #ececec; --nav-b1: #e9e9e9; --nav-b2: #d3d3d3; } }
 /* Bereiche durch feine, eingerückte Trennlinien getrennt (ausgeklappt; eingeklappt ist der Titel selbst die Linie) */
-.nav.nav-group + .nav.nav-group { margin-top: 12px; }
-html:not(.sb-mini) .nav.nav-group + .nav.nav-group::before { content: ''; display: block; height: 1px; margin: 0 16px 12px; background: var(--border); }
+.nav.nav-group + .nav.nav-group { margin-top: 18px; }
+html:not(.sb-mini) .nav.nav-group + .nav.nav-group::before { content: ''; display: block; height: 1px; margin: 0 16px 18px; background: var(--border); }
+html:not(.sb-mini) .nav-title { padding-bottom: 9px; } /* mehr Luft um die Bereichstitel */
 /* Einträge der Seitenleiste niedriger: aktive Box enger von der Höhe (ausgeklappt; eingeklappt bleiben die quadratischen Knöpfe) */
 html:not(.sb-mini) .nav a, html:not(.sb-mini) .nav button { padding-top: 5px; padding-bottom: 5px; }

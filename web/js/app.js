@@ -19,19 +19,20 @@
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
+    ['Konten', [['coupons', 'Coupon-Codes', 'coupon']]],
   ]; /* Coach und Affiliate stehen nicht in der Navigation, sondern im Konto-Menü unten (userCard); Prop Firms, Mentor und News sind eigene Bereiche */
   /* Bereiche in der schmalen Leiste ganz links: jeder Bereich hat seine eigene Navigation in der Seitenleiste.
      Journal ist alles Bisherige; ein Bereich gilt als aktiv, wenn die Seite in seiner Navigation steht */
   const AREAS = [
     { key: 'journal', label: 'Journal', icon: 'areaJournal', home: 'dashboard', nav: NAV_GROUPS },
-    { key: 'prop', label: 'Prop Firms', icon: 'prop', home: 'prop', nav: [[null, [['prop', 'Prop Firms', 'prop'], ['coupons', 'Coupon-Codes', 'coupon']]]] },
+    { key: 'prop', label: 'Prop Firms', icon: 'prop', home: 'prop', nav: [[null, [['prop', 'Prop Firms', 'prop']]]] },
     { key: 'mentor', label: 'Mentor', icon: 'chat', home: 'mentor', nav: [[null, [['mentor', 'Mentor', 'chat']]]] },
     { key: 'news', label: 'News', icon: 'news', home: 'news', nav: [[null, [['news', 'News', 'news']]]] },
     { key: 'backtest', label: 'Backtesting', icon: 'backtest', home: 'backtesting', nav: [[null, [['backtesting', 'Backtesting', 'backtest']]]] },
     { key: 'coach', label: 'Coach', icon: 'coach', home: 'coach', bottom: true, nav: [[null, [['coach', 'Coach', 'coach']]]] },
     { key: 'affiliate', label: 'Affiliate-Programm', icon: 'affiliate', home: 'affiliate', bottom: true, nav: [[null, [['affiliate', 'Affiliate-Programm', 'affiliate']]]] },
     { key: 'contact', label: 'Kontakt', icon: 'contact', home: 'contact', bottom: true, nav: [[null, [['contact', 'Kontakt', 'contact']]]] },
-  ]; /* Gruppen ohne Titel (null): Bereiche mit nur einem Thema; bottom: unten in der Leiste (Coach, Affiliate, Kontakt) */
+  ]; /* Bereiche mit nur einer Seite zeigen keine Seitenleiste (Vollbild neben der Leiste, html.sb-off); bottom: unten in der Leiste (Coach, Affiliate, Kontakt) */
   const areaOf = route => AREAS.find(a => a.key !== 'journal' && a.nav.some(([, items]) => items.some(([k]) => k === route))) || AREAS[0];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
@@ -227,11 +228,22 @@
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
       const area = areaOf(cur); if (area.key === 'journal' && cur !== 'share') this.state.lastJournal = location.hash || '#/dashboard';
+      const solo = area.nav.reduce((n, [, items]) => n + items.filter(([k]) => on(k)).length, 0) <= 1; document.documentElement.classList.toggle('sb-off', solo); /* nur eine Seite im Bereich: Vollbild ohne Seitenleiste */
       this.renderRail(area, a => { const ws = a.nav.flatMap(([, items]) => items.filter(([k]) => on(k)).map(([k]) => why(k))).filter(Boolean); return ws.length ? ws.join(' · ') : ''; });
-      sb.innerHTML = `<div class="brand"><span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>${desk ? `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>` : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
+      const brandHTML = `<span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span><span class="sub no-i18n">Trading Journal App</span></span>`;
+      const toggle = `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>`;
+      this.renderFrame(desk ? `<div class="ft-toggle">${solo ? '' : toggle}</div><div class="brand">${brandHTML}</div>` : '');
+      sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
+    },
+    /* Rahmen oben (nur PC): dunkle Leiste über die ganze Breite mit Einklapp-Knopf und Schriftzug; darunter liegt der Inhalt
+       als eigenes Fenster (Seitenleiste und Seite) mit runder Ecke oben links, links daneben die Bereichsleiste */
+    renderFrame(html) {
+      let ft = document.getElementById('frame-top');
+      if (!ft) { ft = document.createElement('header'); ft.id = 'frame-top'; ft.className = 'frame-top'; document.getElementById('sidebar').parentElement.prepend(ft); }
+      ft.innerHTML = html; this.translateNow(ft);
     },
     /* Bereichsleiste ganz links (Journal, Backtesting): nur Symbole (Name im Tooltip); Journal führt zurück auf die zuletzt
        offene Journal-Seite. Fehlt das Element in der Seite, wird es vor der Seitenleiste angelegt */

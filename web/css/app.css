@@ -3448,3 +3448,36 @@ html.sb-mini .shell.has-rail { grid-template-columns: var(--rail-w) 80px minmax(
 .ct-card .lbl { font-size: var(--fs-12); color: var(--muted); }
 .ct-card textarea { resize: vertical; min-height: 140px; }
 .ct-foot { display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap; }
+/* Bereiche mit nur einer Seite (Prop Firms, Mentor, News, Backtesting, Coach, Affiliate, Kontakt): keine Seitenleiste, Inhalt im Vollbild neben der Leiste */
+html.sb-off .shell.has-rail > .sidebar { display: none; }
+@media (min-width: 961px) { html.sb-off .shell.has-rail { grid-template-columns: var(--rail-w) minmax(0, 1fr); } }
+/* ---------- Rahmen wie Tradezella (nur PC): oben eine dunkle Leiste mit Schriftzug, links die Bereichsleiste; Seitenleiste und Seite
+   liegen darin als eigenes Fenster mit runder Ecke oben links ---------- */
+:root { --frame-h: 56px; --win-r: 14px; }
+.frame-top { display: none; }
+@media (min-width: 961px) {
+  .shell.has-rail { padding-top: var(--frame-h); background: var(--rail-bg); }
+  .frame-top { display: flex; align-items: center; position: fixed; top: 0; left: 0; right: 0; height: var(--frame-h); z-index: 25; padding: 0 18px 0 0; background: var(--rail-bg); color: var(--rail-ic-on); }
+  .frame-top .ft-toggle { flex: 0 0 var(--rail-w); display: grid; place-items: center; }
+  .frame-top .sb-toggle { width: 34px; height: 34px; border-radius: 8px; border: 0; background: none; color: var(--rail-ic); display: grid; place-items: center; cursor: pointer; transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+  .frame-top .sb-toggle svg { width: 19px; height: 19px; }
+  .frame-top .sb-toggle:hover { background: rgba(255, 255, 255, .07); color: var(--rail-ic-on); }
+  .frame-top .sb-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .frame-top .brand { padding: 0 0 0 14px; color: var(--rail-ic-on); }
+  .frame-top .brand .sub { color: color-mix(in srgb, var(--rail-ic-on) 52%, var(--rail-bg)); }
+  .shell.has-rail .rail { top: var(--frame-h); height: calc(100vh - var(--frame-h)); height: calc(100dvh - var(--frame-h)); padding-top: 12px; }
+  .shell.has-rail .sidebar { top: var(--frame-h); height: calc(100vh - var(--frame-h)); height: calc(100dvh - var(--frame-h)); border-top-left-radius: var(--win-r); padding-top: 18px; }
+  .shell.has-rail .sidebar > .brand, .shell.has-rail .sidebar > .brand + .sb-sep { display: none; }
+  .shell.has-rail .main { background: var(--bg); }
+  .shell.has-rail .topbar { top: var(--frame-h); }
+  html.sb-off .shell.has-rail .main, html.sb-off .shell.has-rail .topbar { border-top-left-radius: var(--win-r); }
+  .shell.has-rail .main:has(> .content > .nb), .shell.has-rail .main:has(> .content > .tl-fit) { height: calc(100vh - var(--frame-h)); height: calc(100dvh - var(--frame-h)); }
+  .shell.has-rail .set-nav { top: calc(var(--frame-h) + var(--topbar-h) + 16px); }
+  .shell.has-rail .edit-bar { top: calc(var(--frame-h) + 8px); }
+}
+/* Eingeklappte Seitenleiste: der Schriftzug im Rahmen oben bleibt ganz sichtbar */
+@media (min-width: 961px) {
+  html.sb-mini .frame-top .brand { flex-direction: row; gap: 8px; padding: 0 0 0 14px; align-items: center; }
+  html.sb-mini .frame-top .brand .brand-text { display: flex; }
+  html.sb-mini .frame-top .brand .name { display: inline; }
+}

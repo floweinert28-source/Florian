@@ -31,7 +31,7 @@ function feed() {
     await p.evaluate(() => { Store.setSetting('mentor', { url: '', token: '' }); Store.setSetting('newsFilter', null); App.state.news = null; });
     ok('Navigation: „News“ als eigener Bereich in der Leiste links, mit Symbol', !(await p.$('.sidebar a[href="#/news"]')) && !!(await p.$('.rail-item[data-rail=news] svg')));
     await p.click('.rail-item[data-rail=news]'); await p.waitForTimeout(500);
-    ok('Bereich News: Eintrag „News“ in der Seitenleiste aktiv', !!(await p.$('.sidebar a[href="#/news"].active svg')) && !!(await p.$('.rail-item[data-rail=news].active')));
+    ok('Bereich News: im Vollbild ohne Seitenleiste, Symbol in der Leiste aktiv', await p.evaluate(() => document.documentElement.classList.contains('sb-off') && getComputedStyle(document.getElementById('sidebar')).display === 'none') && !!(await p.$('.rail-item[data-rail=news].active')));
     ok('Titel „News“, kein Zeitraum-/Konto-Kopf', (await p.textContent('.topbar h1')).trim() === 'News' && !(await p.$('#content [data-action=range-open]')));
     /* ohne Server: Beispielansicht */
     const sample = await p.evaluate(() => ({ banner: (document.querySelector('.nw-banner') || {}).textContent || '', link: !!document.querySelector('.nw-banner a[href="#/settings/mentor"]'), titles: [...document.querySelectorAll('.nw-title')].map(t => t.textContent), vals: document.querySelectorAll('.nw-v:not(.e)').length }));

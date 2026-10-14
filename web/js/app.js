@@ -226,14 +226,14 @@
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
     },
-    /* Bereichsleiste ganz links (Journal, Backtesting): Symbol mit kleiner Beschriftung; Journal führt zurück auf die zuletzt
+    /* Bereichsleiste ganz links (Journal, Backtesting): nur Symbole (Name im Tooltip); Journal führt zurück auf die zuletzt
        offene Journal-Seite. Fehlt das Element in der Seite, wird es vor der Seitenleiste angelegt */
     renderRail(area) {
       let rl = document.getElementById('rail'); const sb = document.getElementById('sidebar');
       if (!rl) { rl = document.createElement('nav'); rl.id = 'rail'; rl.className = 'rail'; sb.before(rl); }
       rl.setAttribute('aria-label', 'Bereiche'); sb.parentElement.classList.add('has-rail');
       rl.innerHTML = AREAS.map(a => { const act = a.key === area.key; const href = a.key === 'journal' && !act ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home; /* aktiver Bereich: zur Startseite des Bereichs */
-        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span><span class="rl">${a.label}</span></a>`; }).join('');
+        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}" aria-label="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span></a>`; }).join('');
       this.translateNow(rl);
     },
     /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Coach, Einstellungen,

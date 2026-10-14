@@ -3421,3 +3421,14 @@ html.sb-mini .shell.has-rail { grid-template-columns: var(--rail-w) 80px minmax(
   .shell.has-rail .sidebar { left: var(--rail-w); width: min(280px, calc(86vw - var(--rail-w))); transform: translateX(calc(-102% - var(--rail-w))); }
   .shell.has-rail .sidebar.open { transform: none; }
 }
+/* Bereichsleiste wie die Vorlagen: nur Symbole, schmal, dunkel abgesetzt (auch im hellen Design), aktiver Bereich als abgerundetes Feld */
+:root { --rail-w: 56px; --rail-bg: color-mix(in srgb, var(--bg-2) 50%, #000); --rail-ic: #9a958d; --rail-ic-on: #f5f5f4; }
+:root[data-theme="light"] { --rail-bg: #161616; --rail-ic: #a3a3a3; --rail-ic-on: #ffffff; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --rail-bg: #161616; --rail-ic: #a3a3a3; --rail-ic-on: #ffffff; } }
+.rail { background: var(--rail-bg); gap: 8px; padding: 22px 0 18px; }
+.rail::after { display: none; }
+.rail-item { width: 40px; gap: 0; }
+.rail-item .ri { width: 40px; height: 40px; border: 0; border-radius: 10px; color: var(--rail-ic); }
+.rail-item svg { width: 21px; height: 21px; stroke-width: 1.7; }
+.rail-item:hover .ri { background: rgba(255, 255, 255, .06); color: var(--rail-ic-on); }
+.rail-item.active .ri { color: var(--rail-ic-on); background: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, .09)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .09), 0 1px 2px rgba(0, 0, 0, .35); }

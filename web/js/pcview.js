@@ -46,18 +46,23 @@
       let turned = true; try { turned = root.localStorage.getItem(RKEY) !== '0'; } catch (e) { /* Standard: gedreht */ }
       let zoom = 0; /* 0 = ganzes Fenster, danach die Stufen aus STEPS, die größer sind */
       const STEPS = [0.5, 0.75, 1];
+      /* In der Claude-App liegt oben deren Kopfleiste (mit dunklem Schleier) über der Seite: dort nichts hinlegen.
+         Eingebettet (Claude-Ansicht) bleibt oben ein Streifen frei; gedreht ist „oben am Handy“ die linke Seite der Bühne */
+      let embedded = false; try { embedded = root.self !== root.top; } catch (e) { embedded = true; }
+      const INSET = embedded ? 104 : 0;
       const fit = keep => {
         const vw = root.innerWidth, vh = root.innerHeight; const r = turned && vh > vw; /* drehen nur im Hochformat */
-        const SW = r ? vh : vw, SH = r ? vw : vh, AH = SH - 60;
+        const SW = r ? vh : vw, SH = r ? vw : vh;
+        const insL = r ? INSET : 0, insT = r ? 0 : INSET; const AW = SW - insL, AH = SH - 60 - insT;
         stage.style.width = SW + 'px'; stage.style.height = SH + 'px'; stage.style.transform = r ? `translateX(${vw}px) rotate(90deg)` : 'none';
-        scroller.style.width = SW + 'px'; scroller.style.height = AH + 'px';
-        const s0 = Math.min(SW / W, (AH - 12) / H); const levels = [s0].concat(STEPS.filter(v => v > s0 + 0.04)); zoom = Math.max(0, Math.min(zoom, levels.length - 1)); const s = levels[zoom];
+        scroller.style.left = insL + 'px'; scroller.style.top = insT + 'px'; scroller.style.width = AW + 'px'; scroller.style.height = AH + 'px'; bar.style.left = insL + 'px';
+        const s0 = Math.min(AW / W, (AH - 12) / H); const levels = [s0].concat(STEPS.filter(v => v > s0 + 0.04)); zoom = Math.max(0, Math.min(zoom, levels.length - 1)); const s = levels[zoom];
         /* Mitte des sichtbaren Ausschnitts halten */
-        const cx = keep ? (scroller.scrollLeft + SW / 2) / Math.max(1, sizer.offsetWidth) : 0.5, cy = keep ? (scroller.scrollTop + AH / 2) / Math.max(1, sizer.offsetHeight) : 0;
-        const fw = W * s, fh = H * s, left = Math.max(0, Math.round((SW - fw) / 2)), top = Math.max(6, Math.round((AH - fh) / 2));
-        sizer.style.width = Math.max(SW, Math.ceil(fw)) + 'px'; sizer.style.height = Math.max(AH, Math.ceil(top + fh + 6)) + 'px';
+        const cx = keep ? (scroller.scrollLeft + AW / 2) / Math.max(1, sizer.offsetWidth) : 0.5, cy = keep ? (scroller.scrollTop + AH / 2) / Math.max(1, sizer.offsetHeight) : 0;
+        const fw = W * s, fh = H * s, left = Math.max(0, Math.round((AW - fw) / 2)), top = Math.max(6, Math.round((AH - fh) / 2));
+        sizer.style.width = Math.max(AW, Math.ceil(fw)) + 'px'; sizer.style.height = Math.max(AH, Math.ceil(top + fh + 6)) + 'px';
         frame.style.transform = `scale(${s})`; frame.style.left = left + 'px'; frame.style.top = top + 'px';
-        if (keep) { scroller.scrollLeft = cx * sizer.offsetWidth - SW / 2; scroller.scrollTop = cy * sizer.offsetHeight - AH / 2; }
+        if (keep) { scroller.scrollLeft = cx * sizer.offsetWidth - AW / 2; scroller.scrollTop = cy * sizer.offsetHeight - AH / 2; }
         zout.disabled = zoom === 0; zin.disabled = zoom === levels.length - 1; zout.style.opacity = zout.disabled ? '.4' : '1'; zin.style.opacity = zin.disabled ? '.4' : '1';
         rot.style.display = vh > vw ? '' : 'none'; wrap.dataset.turned = r ? '1' : '0'; wrap.dataset.zoom = String(Math.round(s * 100));
       };

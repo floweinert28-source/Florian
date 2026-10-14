@@ -3,7 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
   const FOLDER_COLORS = ['#34f58a', '#5cb8ff', '#f5b93a', '#8b7cf6', '#ff5c5c', '#f97316', '#ec4899', '#22d3ee', '#9aa3a0'];
-  const st = () => App.state.nb || (App.state.nb = { folder: 'all', note: null, q: '', tag: null, filter: { folder: '', tag: '', from: '', to: '' }, sort: 'updated', selected: [], selectMode: false, leftOpen: true, foldersOpen: true, tagsOpen: true, focus: false, statsOpen: false, view: 'list' });
+  const st = () => App.state.nb || (App.state.nb = { folder: 'all', note: null, q: '', tag: null, filter: { folder: '', tag: '', from: '', to: '' }, sort: 'updated', selected: [], selectMode: false, leftOpen: true, foldersOpen: true, tagsOpen: false, focus: false, statsOpen: false, view: 'list' });
   let editor = null, saveTimer = null, pendingContent = null, pendingId = null;
 
   function visibleNotes() {

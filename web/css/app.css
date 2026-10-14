@@ -3497,3 +3497,15 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 @media (min-width: 961px) {
   html:not(.sb-off) .shell.has-rail .dash-head [data-action=new-trade], html:not(.sb-off) .shell.has-rail .dash-head .dh-sep:has(+ [data-action=new-trade]) { display: none; }
 }
+/* Knopf oben links (in allen Bereichen): blendet die Bereichsleiste ganz links aus und wieder ein; Schriftzug mittig über der Seitenleiste */
+@media (min-width: 961px) {
+  html.rail-off .shell.has-rail > .rail { display: none; }
+  html.rail-off .shell.has-rail { grid-template-columns: var(--sidebar-w) minmax(0, 1fr); }
+  html.rail-off.sb-off .shell.has-rail { grid-template-columns: minmax(0, 1fr); }
+  .frame-top { position: fixed; }
+  .frame-top .brand { position: absolute; top: 0; bottom: 0; left: var(--rail-w); width: var(--sidebar-w); justify-content: center; align-items: center; padding: 0; }
+  html.rail-off .frame-top .brand { left: 0; }
+  .frame-top .sb-toggle[aria-pressed="true"] { color: var(--rail-ic-on); }
+}
+@media (min-width: 961px) { .frame-top .brand { pointer-events: none; } .frame-top .ft-toggle { position: relative; z-index: 1; } }
+.sidebar .sb-new { padding: 0; } /* „Trade loggen“ genau so breit wie die Einträge darunter */

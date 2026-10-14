@@ -1785,4 +1785,6 @@ I18N.add('es', {
   "Die Kontakt-Adresse ist noch nicht eingetragen.": "La dirección de contacto aún no está configurada.",
   "Senden": "Enviar",
   "Bitte schreib kurz, worum es geht": "Describe brevemente de qué se trata",
+  "Bereichsleiste einblenden": "Mostrar barra de áreas",
+  "Bereichsleiste ausblenden": "Ocultar barra de áreas",
 });

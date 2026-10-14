@@ -226,15 +226,16 @@
       const dot = key => { const w = why(key); return w ? navBadge(w) : ''; };
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
-      const desk = window.matchMedia('(min-width: 961px)').matches; const mini = !!S.settings.sidebarMini && desk; document.documentElement.classList.toggle('sb-mini', mini);
+      const desk = window.matchMedia('(min-width: 961px)').matches; const mini = false; document.documentElement.classList.remove('sb-mini'); /* eingeklappte Seitenleiste entfällt: der Knopf oben links blendet jetzt die Bereichsleiste aus */
+      const railOff = !!S.settings.railHidden && desk; document.documentElement.classList.toggle('rail-off', railOff);
       const area = areaOf(cur); if (area.key === 'journal' && cur !== 'share') this.state.lastJournal = location.hash || '#/dashboard';
       const solo = area.nav.reduce((n, [, items]) => n + items.filter(([k]) => on(k)).length, 0) <= 1; document.documentElement.classList.toggle('sb-off', solo); /* nur eine Seite im Bereich: Vollbild ohne Seitenleiste */
       this.renderRail(area, a => { const ws = a.nav.flatMap(([, items]) => items.filter(([k]) => on(k)).map(([k]) => why(k))).filter(Boolean); return ws.length ? ws.join(' · ') : ''; });
       const brandHTML = `<span class="brand-text"><span class="name no-i18n">Journal<em>yst</em></span></span>`; /* nur der Schriftzug, ohne Untertitel */
-      const toggle = `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${mini ? 'Seitenleiste ausklappen' : 'Seitenleiste einklappen'}" title="${mini ? 'Ausklappen' : 'Einklappen'}">${I.panel}</button>`;
+      const toggle = `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden'}" aria-pressed="${railOff}" title="${railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden'}">${I.panel}</button>`;
       const ini = (S.settings.name || 'T').split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
       const avatar = `<a class="avatar ft-avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(ini)}</a>`;
-      this.renderFrame(desk ? `<div class="ft-toggle">${solo ? '' : toggle}</div><div class="brand">${brandHTML}</div>${avatar}` : '');
+      this.renderFrame(desk ? `<div class="ft-toggle">${toggle}</div><div class="brand">${brandHTML}</div>${avatar}` : '');
       sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.key === 'journal' ? `<div class="sb-new">${this.newTradeButton()}</div>` : ''}${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
@@ -356,7 +357,7 @@
     'skip-content'() { const c = document.getElementById('content'); if (c) c.focus(); },
     sidebar() { this.state.sidebarOpen = !this.state.sidebarOpen; this.renderSidebar(); },
     /* Knopf in der Marke: Desktop klappt auf Symbole zusammen, Handy schließt das Menü */
-    'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.sidebarMini = !S.settings.sidebarMini; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
+    'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.railHidden = !S.settings.railHidden; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },

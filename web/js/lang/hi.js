@@ -1831,4 +1831,6 @@ I18N.add('hi', {
   "Die Kontakt-Adresse ist noch nicht eingetragen.": "संपर्क पता अभी दर्ज नहीं है।",
   "Senden": "भेजें",
   "Bitte schreib kurz, worum es geht": "कृपया संक्षेप में बताएं कि बात क्या है",
+  "Bereichsleiste einblenden": "क्षेत्र बार दिखाएं",
+  "Bereichsleiste ausblenden": "क्षेत्र बार छिपाएं",
 });

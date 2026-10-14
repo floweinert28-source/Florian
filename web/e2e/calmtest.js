@@ -20,8 +20,8 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500); s = await st(); ok('Verlassen räumt auf', !s.calm && !s.bloom && s.amb === 0, JSON.stringify(s));
   await p.evaluate(() => { location.hash = '#/ruhepunkt'; }); await p.waitForTimeout(400); ok('Erneut betreten: Blätter wieder da', (await st()).bloom);
   await p.evaluate(() => { location.hash = '#/dashboard'; }); await p.waitForTimeout(400); ok('Sofort wieder raus: Blätter weg', !(await st()).bloom);
-  await p.evaluate(() => { Store.setSetting('sidebarMini', true); App.renderSidebar(); location.hash = '#/ruhepunkt'; }); await p.waitForTimeout(500); ok('Eingeklappte Leiste: Blätter neben der Leiste', (await st()).inArea);
-  await p.evaluate(() => { Store.setSetting('sidebarMini', false); location.hash = '#/dashboard'; }); await p.waitForTimeout(300);
+  await p.evaluate(() => { Store.setSetting('railHidden', true); App.renderSidebar(); location.hash = '#/ruhepunkt'; }); await p.waitForTimeout(500); ok('Bereichsleiste ausgeblendet: Blätter neben der Seitenleiste', (await st()).inArea);
+  await p.evaluate(() => { Store.setSetting('railHidden', false); location.hash = '#/dashboard'; }); await p.waitForTimeout(300);
   const rctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' }); const rp = await rctx.newPage(); rp.on('pageerror', e => errs.push('rm: ' + e.message));
   await rp.goto(base + '#/dashboard', { waitUntil: 'load' }); await rp.waitForTimeout(300); await rp.evaluate(() => { location.hash = '#/ruhepunkt'; }); await rp.waitForTimeout(400);
   ok('Reduzierte Bewegung: keine Blätter', !(await rp.evaluate(() => !!document.querySelector('.rp-bloom')))); await rctx.close();

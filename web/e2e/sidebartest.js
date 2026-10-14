@@ -14,11 +14,20 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   await p.screenshot({ path: 'langshots/sb-dark.png', clip: { x: 0, y: 0, width: 300, height: 900 } });
   await p.evaluate(() => { Store.setSetting('theme', 'light'); Theme.apply(Store.settings); App.rerender(); }); await p.waitForTimeout(300);
   await p.screenshot({ path: 'langshots/sb-light.png', clip: { x: 0, y: 0, width: 300, height: 900 } });
-  await p.evaluate(() => { Store.setSetting('theme', 'dark'); Theme.apply(Store.settings); Store.setSetting('sidebarMini', true); App.rerender(); }); await p.waitForTimeout(300);
-  ok(await p.evaluate(() => getComputedStyle(document.querySelector('#sidebar .brand')).display === 'none' && getComputedStyle(document.querySelector('#frame-top .brand .brand-text')).display !== 'none' && !!document.querySelector('#frame-top .sb-toggle')), 'Mini-Modus: Schriftzug bleibt im Rahmen oben, Einklapp-Knopf dort');
-  ok(await p.evaluate(() => { const f = document.getElementById('frame-top').getBoundingClientRect(), r = document.getElementById('rail').getBoundingClientRect(), s = document.getElementById('sidebar'); return f.top === 0 && Math.round(f.bottom) === Math.round(r.top) && Math.round(s.getBoundingClientRect().top) === Math.round(f.bottom) && parseFloat(getComputedStyle(s).borderTopLeftRadius) >= 10; }), 'Rahmen: Leiste oben, Bereichsleiste und Fenster darunter, runde Ecke oben links');
-  await p.screenshot({ path: 'langshots/sb-mini.png', clip: { x: 0, y: 0, width: 120, height: 600 } });
-  await p.evaluate(() => { Store.setSetting('sidebarMini', false); location.hash = '#/dashboard'; }); await p.waitForTimeout(500);
+  await p.evaluate(() => { Store.setSetting('theme', 'dark'); Theme.apply(Store.settings); App.rerender(); }); await p.waitForTimeout(300);
+  const ctr = () => p.evaluate(() => { const R = e => e.getBoundingClientRect(); const sb = R(document.getElementById('sidebar')), br = R(document.querySelector('#frame-top .brand .name')); return { d: Math.abs((sb.left + sb.right) / 2 - (br.left + br.right) / 2), rail: getComputedStyle(document.getElementById('rail')).display, sbL: Math.round(sb.left) }; });
+  const c0 = await ctr();
+  ok(c0.d < 2 && c0.rail !== 'none' && await p.evaluate(() => getComputedStyle(document.querySelector('#sidebar .brand')).display === 'none'), 'Schriftzug im Rahmen mittig über der Seitenleiste ' + JSON.stringify(c0));
+  await p.click('#frame-top .sb-toggle'); await p.waitForTimeout(300);
+  const c1 = await ctr();
+  ok(c1.rail === 'none' && c1.sbL === 0 && c1.d < 2 && await p.evaluate(() => Store.settings.railHidden === true), 'Knopf oben links blendet die Bereichsleiste aus, Schriftzug bleibt mittig ' + JSON.stringify(c1));
+  await p.evaluate(() => { location.hash = '#/news'; }); await p.waitForTimeout(500);
+  ok(await p.evaluate(() => !!document.querySelector('#frame-top .sb-toggle') && Math.round(document.getElementById('main').getBoundingClientRect().left) === 0), 'Knopf auch in anderen Bereichen, Vollbild ohne Leiste');
+  await p.click('#frame-top .sb-toggle'); await p.waitForTimeout(300);
+  ok((await ctr()).rail !== 'none' && await p.evaluate(() => !Store.settings.railHidden), 'Zweiter Klick: Bereichsleiste wieder da');
+  await p.evaluate(() => { location.hash = '#/dashboard'; }); await p.waitForTimeout(500);
+  ok(await p.evaluate(() => { const f = document.getElementById('frame-top').getBoundingClientRect(), r = document.getElementById('rail').getBoundingClientRect(), s = document.getElementById('sidebar'); if (location.hash !== '#/dashboard') return false; return f.top === 0 && Math.round(f.bottom) === Math.round(r.top) && Math.round(s.getBoundingClientRect().top) === Math.round(f.bottom) && parseFloat(getComputedStyle(s).borderTopLeftRadius) >= 10; }), 'Rahmen: Leiste oben, Bereichsleiste und Fenster darunter, runde Ecke oben links');
+
   /* Coach steht im Konto-Menü unten, nicht in der Navigation */
   ok(await p.evaluate(() => !document.querySelector('.sb-rail') && !document.querySelector('.sidebar .nav a[href="#/coach"]') && document.querySelectorAll('.sidebar .nav a').length === 9 && !document.querySelector('.sidebar .nav a[href="#/news"]') && ['prop', 'mentor', 'news', 'backtest', 'coach', 'affiliate', 'contact'].every(k => !!document.querySelector('.rail-item[data-rail=' + k + ']')) && !document.querySelector('.sidebar .nav a[href="#/replay"]') && !document.querySelector('.sidebar .nav a[href="#/affiliate"]')), 'Navigation ohne Coach, Affiliate und (zurückgestelltes) Blind-Replay, keine Extra-Leiste (9 Einträge im Journal inkl. Coupon-Codes; Prop Firms, Mentor, News und Backtesting als Bereiche links) (inkl. Coupon-Codes und News)');
   await p.evaluate(() => { location.hash = '#/replay'; }); await p.waitForTimeout(400);

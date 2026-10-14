@@ -39,11 +39,9 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await p.evaluate(() => document.querySelector('[data-action="navdot-toggle"][data-key="trades"]').click()); await p.waitForTimeout(300);
   d = await dots(); ok(d.trades === '1 offene Position', 'Wieder eingeschaltet: TradeLog-Punkt zurück');
   /* Mini-Modus */
-  await p.evaluate(() => { Store.setSetting('sidebarMini', true); App.rerender(); }); await p.waitForTimeout(300);
-  ok(await p.evaluate(() => { const dt = document.querySelector('#sidebar .nav-dot'); return dt && getComputedStyle(dt).position === 'absolute'; }), 'Eingeklappt: Punkt oben rechts am Knopf');
-  ok(await p.evaluate(() => { const dt = document.querySelector('#sidebar .nav-dot'); const r = dt && dt.getBoundingClientRect(); return !!r && r.width > 0 && r.height > 0; }), 'Eingeklappt: Hinweis sichtbar');
-  await p.screenshot({ path: 'langshots/dots-mini.png', clip: { x: 0, y: 0, width: 110, height: 700 } });
-  await p.evaluate(() => { Store.setSetting('sidebarMini', false); App.rerender(); });
+  await p.evaluate(() => { Store.setSetting('railHidden', true); App.rerender(); }); await p.waitForTimeout(300);
+  ok(await p.evaluate(() => { const dt = document.querySelector('#sidebar .nav-dot'); const r = dt && dt.getBoundingClientRect(); return !!r && r.width > 0 && r.height > 0 && getComputedStyle(document.getElementById('rail')).display === 'none'; }), 'Bereichsleiste ausgeblendet: Hinweis in der Seitenleiste weiter sichtbar');
+  await p.evaluate(() => { Store.setSetting('railHidden', false); App.rerender(); });
   /* Begrüßung entfernt: keine Namensform-Auswahl mehr im Profil, Profil speichert weiter */
   await p.goto(BASE + '#/settings/profil', { waitUntil: 'load' }); await p.waitForTimeout(700);
   ok(await p.evaluate(() => !document.getElementById('pf-greet') && !document.querySelector('#sidebar .sb-hello') && !!document.getElementById('pf-first') && !!document.getElementById('pf-tz') && !!document.getElementById('pf-bio')), 'Profil ohne Begrüßungs-Auswahl, übrige Felder da');

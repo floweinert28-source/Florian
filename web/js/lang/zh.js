@@ -1831,4 +1831,6 @@ I18N.add('zh', {
   "Die Kontakt-Adresse ist noch nicht eingetragen.": "尚未设置联系地址。",
   "Senden": "发送",
   "Bitte schreib kurz, worum es geht": "请简要说明是关于什么的",
+  "Bereichsleiste einblenden": "显示区域栏",
+  "Bereichsleiste ausblenden": "隐藏区域栏",
 });

@@ -195,7 +195,7 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 .nav a:active, .nav button:active { transform: translateX(2px) scale(.98); }
 /* aktiver Eintrag: leicht graue Fläche mit feinem Rand wie zuvor, Symbol grün und ein kurzer grüner Strich unter dem Namen; kein Leuchtbalken */
 .nav a.active { overflow: visible; color: var(--text); font-weight: 500; border: 1px solid transparent;
-  background: linear-gradient(90deg, var(--nav-a1), var(--nav-a2)) padding-box, linear-gradient(90deg, var(--nav-b1), var(--nav-b2)) border-box; } /* gleiche Stärke wie die anderen Einträge; Fläche und feiner Rand links heller, rechts etwas dunkler */
+  background: linear-gradient(90deg, var(--nav-a1), var(--nav-a2)) padding-box, linear-gradient(90deg, var(--nav-a1) 0%, var(--nav-a1) 30%, var(--nav-b2) 100%) border-box; } /* Rand links in Flächenfarbe (unsichtbar), nach rechts weich sichtbar */ /* gleiche Stärke wie die anderen Einträge; Fläche und feiner Rand links heller, rechts etwas dunkler */
 .nav a.active svg { opacity: .85; color: var(--text-2); } /* Symbol ruhig wie bei den anderen Einträgen, nicht so kräftig wie die Schrift */
 .nav a.active:hover { transform: none; }
 /* Hinweis: kleine Raute wie eine Markierung im Chart (Akzent, ohne Leuchten) rechts im Eintrag; eingeklappt oben rechts am Knopf */
@@ -3339,9 +3339,9 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   .cal:not(.mini):not(.ext) .d .c .wr { position: static; display: block; height: auto; font-size: 9.5px; line-height: 1.2; font-weight: 600; color: var(--muted); }
 }
 /* Seitenleiste: Farben für den aktiven Eintrag (Fläche und Rand mit weichem Übergang von links hell nach rechts dunkler) */
-:root { --nav-a1: color-mix(in srgb, var(--text) 7.5%, var(--bg-2)); --nav-a2: color-mix(in srgb, var(--text) 5%, var(--bg-2)); --nav-b1: color-mix(in srgb, var(--text) 10.5%, var(--bg-2)); --nav-b2: color-mix(in srgb, var(--text) 7.5%, var(--bg-2)); } /* Rand nur knapp heller als die Fläche: weich statt kräftig */
-:root[data-theme="light"] { --nav-a1: #ebebeb; --nav-a2: #e5e5e5; --nav-b1: #e2e2e2; --nav-b2: #dadada; }
-@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --nav-a1: #ebebeb; --nav-a2: #e5e5e5; --nav-b1: #e2e2e2; --nav-b2: #dadada; } }
+:root { --nav-a1: color-mix(in srgb, var(--text) 7%, var(--bg-2)); --nav-a2: color-mix(in srgb, var(--text) 6%, var(--bg-2)); --nav-b1: var(--nav-a1); --nav-b2: color-mix(in srgb, var(--text) 13%, var(--bg-2)); } /* Rand nur knapp heller als die Fläche: weich statt kräftig */
+:root[data-theme="light"] { --nav-a1: #e8e8e8; --nav-a2: #e4e4e4; --nav-b1: #e8e8e8; --nav-b2: #d4d4d4; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --nav-a1: #e8e8e8; --nav-a2: #e4e4e4; --nav-b1: #e8e8e8; --nav-b2: #d4d4d4; } }
 /* Bereiche durch feine, eingerückte Trennlinien getrennt (ausgeklappt; eingeklappt ist der Titel selbst die Linie) */
 .nav.nav-group + .nav.nav-group { margin-top: 18px; }
 html:not(.sb-mini) .nav.nav-group + .nav.nav-group::before { content: ''; display: block; height: 2px; margin: 0 16px 18px; background: linear-gradient(var(--groove-d) 50%, var(--groove-l) 50%); } /* eingekerbt: dunkle Linie, darunter eine helle */
@@ -3357,9 +3357,9 @@ html:not(.sb-mini) .nav a, html:not(.sb-mini) .nav button { padding-top: 5px; pa
 .nav-title { color: var(--muted); }
 .sidebar .sb-sep { border-top: 0; height: 2px; background: linear-gradient(var(--groove-d) 50%, var(--groove-l) 50%); }
 /* Hinweise als kleines rotes Abzeichen mit Zahl (statt Punkt/Raute): weiße, fette Ziffer auf Rot, rund */
-:root { --badge: #e5484d; } :root[data-theme="light"] { --badge: #dc3545; }
-.nav .nav-dot, .sb-menu .item .nav-dot { display: inline-grid; place-items: center; min-width: 18px; height: 16px; padding: 0 5px; margin-left: auto; border-radius: 999px; transform: none; background: var(--badge); color: #fff; font: 700 10.5px/1 var(--font-num); letter-spacing: -.01em; box-shadow: none; }
+:root { --badge: color-mix(in srgb, var(--text) 14%, var(--bg-2)); --badge-ink: var(--text); } /* neutral grau, passend zur Seitenleiste */
+.nav .nav-dot, .sb-menu .item .nav-dot { display: inline-grid; place-items: center; min-width: 18px; height: 16px; padding: 0 5px; margin-left: auto; border-radius: 999px; transform: none; background: var(--badge); color: var(--badge-ink); font: 600 10.5px/1 var(--font-num); letter-spacing: -.01em; box-shadow: none; }
 .nav .nav-dot { margin-right: 8px; }
 .sb-menu .item .nav-dot { margin-right: 0; }
 html.sb-mini .nav .nav-dot { position: absolute; top: 1px; right: 0; min-width: 15px; height: 14px; padding: 0 4px; font-size: 9.5px; margin: 0; box-shadow: 0 0 0 2px var(--bg-2); }
-.sb-av-dot { top: -3px; right: -5px; width: auto; height: 15px; min-width: 15px; padding: 0 4px; border-radius: 999px; transform: none; display: inline-grid; place-items: center; background: var(--badge); color: #fff; font: 700 9.5px/1 var(--font-num); box-shadow: 0 0 0 2px var(--surface); }
+.sb-av-dot { top: -3px; right: -5px; width: auto; height: 15px; min-width: 15px; padding: 0 4px; border-radius: 999px; transform: none; display: inline-grid; place-items: center; background: var(--badge); color: var(--badge-ink); font: 600 9.5px/1 var(--font-num); box-shadow: 0 0 0 2px var(--surface); }

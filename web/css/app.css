@@ -586,15 +586,15 @@ span.info:hover { color: var(--text-2); }
 /* Score-Skala: blasser Verlauf über die ganze Breite, kräftige Füllung bis zum Score, dort ein runder Punkt in der Farbe
    der Skala an dieser Stelle (ohne Rahmen). Beim Erscheinen läuft der Score einmal von 0 hoch (registrierte Zahl --pv), sonst ruhig. */
 @property --pv { syntax: '<number>'; inherits: true; initial-value: 0; }
-.score-scale { position: relative; height: 26px; margin: 8px 6px 0; container-type: inline-size; --pv: var(--p, 0); --sx: clamp(3px, var(--pv) * 1cqw, 100cqw - 3px); }
+.score-scale { position: relative; height: 26px; margin: 8px 6px 0; container-type: inline-size; --pv: var(--p, 0); --sx: clamp(5px, var(--pv) * 1cqw, 100cqw - 5px); }
 .content.enter .score-scale { animation: score-run 1.3s cubic-bezier(.22, .9, .25, 1) .2s backwards; } /* nur beim Öffnen der Seite, nicht beim Neuaufbau (Reiter, Eingaben) */
 .rv .score-scale { animation-play-state: paused; } /* startet erst, wenn die Karte ins Bild kommt */
 @keyframes score-run { from { --pv: 0; } }
-.score-scale .track { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 3px; background-image: linear-gradient(90deg, color-mix(in srgb, var(--loss) 26%, var(--surface)), color-mix(in srgb, var(--warn) 26%, var(--surface)), color-mix(in srgb, var(--accent) 26%, var(--surface))); }
+.score-scale .track { display: none; } /* nur der erreichte Teil wird gezeigt, der Rest der Skala bleibt leer */
 .score-scale .fill, .score-scale .knob { background-image: linear-gradient(90deg, color-mix(in srgb, var(--loss) 82%, var(--surface)), color-mix(in srgb, var(--warn) 82%, var(--surface)), color-mix(in srgb, var(--accent) 82%, var(--surface))); background-size: 100cqw 100%; background-repeat: no-repeat; }
-.score-scale .fill { position: absolute; left: 0; top: 10px; height: 6px; width: var(--sx); border-radius: 3px 0 0 3px; }
-.score-scale .knob { position: absolute; top: 10px; left: var(--sx); width: 6px; height: 6px; border-radius: 50%; transform: translateX(-50%); background-position: calc(3px - var(--sx)) 0;
-  box-shadow: 0 0 0 2px var(--surface); } /* Punkt so groß wie der Balken; schmaler Rand in der Kartenfarbe trennt ihn von der Linie */
+.score-scale .fill { position: absolute; left: 0; top: 10px; height: 6px; width: var(--sx); border-radius: 3px; }
+.score-scale .knob { position: absolute; top: 8px; left: var(--sx); width: 10px; height: 10px; border-radius: 50%; transform: translateX(-50%); background-position: calc(5px - var(--sx)) 0;
+  box-shadow: 0 0 0 1px var(--surface); } /* Punkt am Ende des erreichten Teils, etwas größer als der Balken, mit feinem Rand */
 .score-scale .lbls { position: absolute; left: 0; right: 0; top: 22px; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
 .score-big { font-size: 30px; font-weight: 700; }
 

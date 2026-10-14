@@ -3345,3 +3345,5 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 /* Bereiche durch feine, eingerückte Trennlinien getrennt (ausgeklappt; eingeklappt ist der Titel selbst die Linie) */
 .nav.nav-group + .nav.nav-group { margin-top: 12px; }
 html:not(.sb-mini) .nav.nav-group + .nav.nav-group::before { content: ''; display: block; height: 1px; margin: 0 16px 12px; background: var(--border); }
+/* Einträge der Seitenleiste niedriger: aktive Box enger von der Höhe (ausgeklappt; eingeklappt bleiben die quadratischen Knöpfe) */
+html:not(.sb-mini) .nav a, html:not(.sb-mini) .nav button { padding-top: 5px; padding-bottom: 5px; }

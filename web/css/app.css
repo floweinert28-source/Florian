@@ -3354,7 +3354,7 @@ html:not(.sb-mini) .nav a, html:not(.sb-mini) .nav button { padding-top: 5px; pa
 @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --nav-icon: #79736b; --groove-d: #e0e0e0; --groove-l: #ffffff; } }
 .nav a, .nav button { color: var(--text); }
 .nav a svg, .nav button svg, .nav a.active svg { opacity: 1; color: var(--nav-icon); }
-.nav-title { color: var(--muted); }
+.nav-title { color: color-mix(in srgb, var(--text) 40%, var(--bg-2)); font-weight: 500; } /* wie Vorlage: klares, helles Grau (40 % zwischen Hintergrund und Schrift) */
 .sidebar .sb-sep { border-top: 0; height: 2px; background: linear-gradient(var(--groove-d) 50%, var(--groove-l) 50%); }
 /* Hinweise als kleines rotes Abzeichen mit Zahl (statt Punkt/Raute): weiße, fette Ziffer auf Rot, rund */
 :root { --badge: color-mix(in srgb, var(--text) 14%, var(--bg-2)); --badge-ink: var(--text); } /* neutral grau, passend zur Seitenleiste */

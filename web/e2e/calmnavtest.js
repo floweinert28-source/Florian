@@ -15,7 +15,7 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
     const routes = ['stats', 'progress', 'trades', 'prop', 'affiliate', 'dashboard'];
     let names = [], after = [], vis = [];
     for (const r of routes) {
-      const during = await p.evaluate(r => { document.querySelector(`.sidebar a[href="#/${r}"]`).click(); return new Promise(res => setTimeout(() => res({ on: document.documentElement.classList.contains('vt-on'), sb: getComputedStyle(document.querySelector('.sidebar')).viewTransitionName, tb: document.querySelector('.topbar') ? getComputedStyle(document.querySelector('.topbar')).viewTransitionName : null }), 30)); }, r);
+      const during = await p.evaluate(r => { const a = document.querySelector(`.sidebar a[href="#/${r}"], .rail a[href="#/${r}"]`); if (a) a.click(); else location.hash = '#/' + r; /* Seite in einem anderen Bereich der Leiste: direkt hin */ return new Promise(res => setTimeout(() => res({ on: document.documentElement.classList.contains('vt-on'), sb: getComputedStyle(document.querySelector('.sidebar')).viewTransitionName, tb: document.querySelector('.topbar') ? getComputedStyle(document.querySelector('.topbar')).viewTransitionName : null }), 30)); }, r);
       names.push(during);
       await p.waitForTimeout(120);
       vis.push(await p.evaluate(() => [...document.querySelectorAll('#content .rv')].filter(e => e.getBoundingClientRect().top < innerHeight - 10).length));

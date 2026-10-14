@@ -92,9 +92,9 @@
 :root[data-theme="dark"] { color-scheme: dark; }
 /* dunkle Variante „Schwarz“: tiefschwarzer Grund wie früher (Einstellungen → Design → Erscheinungsbild) */
 :root[data-theme="dark"][data-dark="schwarz"] {
-  --bg: #000000; --bg-2: #070907; --surface: #0b0d0c; --surface-2: #121513; --surface-3: #191d1a;
-  --border: #1f2622; --border-2: #2b332e; --field: #0b0d0c; --ambient: none;
-  --text: #f2f5f3; --text-2: #b4bdb7; --muted: #7d877f; --faint: #4d564f;
+  --bg: #000000; --bg-2: #070707; --surface: #0c0c0c; --surface-2: #131313; --surface-3: #1a1a1a;
+  --border: #222222; --border-2: #2e2e2e; --field: #0c0c0c; --ambient: none;
+  --text: #f5f5f5; --text-2: #b8b8b8; --muted: #808080; --faint: #4f4f4f; /* neutral, ohne Grünstich */
 }
 
 * { box-sizing: border-box; }
@@ -1901,7 +1901,7 @@ html.sb-mini .boot-sb .skel { width: 24px; }
 .theme-card.t-custom[aria-pressed="true"] .tc-edit, .theme-card.t-custom:not(.is-new):hover .tc-edit { opacity: 1; transform: none; }
 .theme-card.t-custom.is-new .tc-edit { display: none; }
 .theme-card.t-graphit { --c1: #1e1d1a; --c0: #0e0d0b; --cw: #151412; --cp: #1c1b19; --cb: #2f2d29; --cl: #3d3b36; --ct: #2a2926; }
-.theme-card.t-schwarz { --c1: #0c0e0d; --c0: #000000; --cw: #060807; --cp: #0d0f0e; --cb: #1f2622; --cl: #2b332e; --ct: #171b18; }
+.theme-card.t-schwarz { --c1: #0d0d0d; --c0: #000000; --cw: #070707; --cp: #0e0e0e; --cb: #222222; --cl: #2e2e2e; --ct: #181818; }
 .theme-card.t-light { --c1: #f5f5f5; --c0: #e0e0e0; --cw: #f5f5f5; --cp: #ffffff; --cb: #d4d4d4; --cl: #d9d9d9; --ct: #efefef; }
 .set-row { display: flex; align-items: flex-start; gap: 14px; }
 .set-row .switch { margin-top: 3px; }

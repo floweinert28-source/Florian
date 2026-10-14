@@ -16,7 +16,7 @@
   const fontKey = k => FONTS[k] ? k : DEFAULT_FONT;
   function loadFont(key) { const f = FONTS[key]; if (!f || typeof document === 'undefined') return; for (const fam of f.gf) { const id = 'font-' + fam.replace(/[^a-z]/gi, '').toLowerCase(); if (document.getElementById(id)) continue; const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + fam + '&display=swap'; document.head.appendChild(l); } }
   const PRESETS_ACCENT = [['Neongrün', '#34f58a'], ['Violett', '#7b61ff'], ['Blau', '#3b82f6'], ['Türkis', '#22d3ee'], ['Orange', '#f97316'], ['Pink', '#ec4899'], ['Gelb', '#facc15'], ['Weiß', '#e5e7eb']];
-  const PRESETS_PAIR = [['Grün / Rot', '#34f58a', '#ff5c5c'], ['Blau / Orange', '#3b82f6', '#f97316'], ['Türkis / Pink', '#22d3ee', '#ec4899'], ['Violett / Gelb', '#8b7cf6', '#facc15'], ['Grün / Grau', '#34f58a', '#9aa3a0'], ['Weiß / Rot', '#f2f5f3', '#ff5c5c']];
+  const PRESETS_PAIR = [['Grün / Rot', '#34f58a', '#ff5c5c'], ['Blau / Orange', '#3b82f6', '#f97316'], ['Türkis / Pink', '#22d3ee', '#ec4899'], ['Violett / Gelb', '#8b7cf6', '#facc15'], ['Grün / Grau', '#34f58a', '#9aa3a0'], ['Weiß / Rot', '#f5f5f5', '#ff5c5c']];
   const hex2rgb = h => { const s = h.replace('#', ''); const v = s.length === 3 ? s.split('').map(c => c + c).join('') : s; const n = parseInt(v, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
   const rgb2hex = ([r, g, b]) => '#' + [r, g, b].map(v => Math.round(Math.min(255, Math.max(0, v))).toString(16).padStart(2, '0')).join('');
   const lum = h => { const [r, g, b] = hex2rgb(h).map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };

@@ -92,9 +92,9 @@
 :root[data-theme="dark"] { color-scheme: dark; }
 /* dunkle Variante „Schwarz“: tiefschwarzer Grund wie früher (Einstellungen → Design → Erscheinungsbild) */
 :root[data-theme="dark"][data-dark="schwarz"] {
-  --bg: #000000; --bg-2: #070707; --surface: #0c0c0c; --surface-2: #131313; --surface-3: #1a1a1a;
-  --border: #222222; --border-2: #2e2e2e; --field: #0c0c0c; --ambient: none;
-  --text: #f5f5f5; --text-2: #b8b8b8; --muted: #808080; --faint: #4f4f4f; /* neutral, ohne Grünstich */
+  /* genau wie „Eigenes“ mit Schwarz (Theme.surfaces('#000000')); Schriftfarben bleiben die des dunklen Grunddesigns */
+  --bg: #000000; --bg-2: #060606; --surface: #0d0d0d; --surface-2: #161616; --surface-3: #1f1f1f;
+  --border: #121212; --border-2: #212121; --field: #040404; --ambient: none;
 }
 
 * { box-sizing: border-box; }

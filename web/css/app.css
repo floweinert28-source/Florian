@@ -196,9 +196,7 @@ html.sb-mini .nav-title { font-size: 0; padding: 0; margin: 0 10px 8px; height: 
 /* aktiver Eintrag: leicht graue Fläche mit feinem Rand wie zuvor, Symbol grün und ein kurzer grüner Strich unter dem Namen; kein Leuchtbalken */
 .nav a.active { overflow: visible; color: var(--text); font-weight: 500; border: 1px solid transparent;
   background: linear-gradient(90deg, var(--nav-a1), var(--nav-a2)) padding-box, linear-gradient(90deg, var(--nav-b1), var(--nav-b2)) border-box; } /* gleiche Stärke wie die anderen Einträge; Fläche und feiner Rand links heller, rechts etwas dunkler */
-.nav a.active svg { opacity: 1; color: var(--accent); }
-.nav a.active > span:not(.nav-dot) { position: relative; overflow: visible; }
-.nav a.active > span:not(.nav-dot)::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 18px; height: 2px; border-radius: 2px; background: var(--accent); }
+.nav a.active svg { opacity: 1; color: var(--text); } /* Symbol in Schriftfarbe, nicht grün */
 .nav a.active:hover { transform: none; }
 /* Hinweis: kleine Raute wie eine Markierung im Chart (Akzent, ohne Leuchten) rechts im Eintrag; eingeklappt oben rechts am Knopf */
 .nav .nav-dot { margin-left: auto; margin-right: 13px; width: 6px; height: 6px; border-radius: 1px; transform: rotate(45deg); flex: 0 0 auto; background: var(--accent); }

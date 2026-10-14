@@ -6,7 +6,7 @@
 'use strict';
 var html = document.documentElement;
 var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
-var enabled = !(mq && mq.matches) && 'IntersectionObserver' in window;
+var enabled = !(mq && mq.matches) && 'IntersectionObserver' in window && !root.__jyInner; /* PC-Ansicht auf dem Handy (js/pcview.js): ohne Bewegung, damit das große Fenster flüssig bleibt */
 if (enabled) html.classList.add('js-motion');
 
 /* Dauer einer CSS-Variablen in Millisekunden, z. B. ms('--dur-2') */

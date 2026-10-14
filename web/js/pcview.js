@@ -18,9 +18,9 @@
     maybeStart() {
       if (root.__jyInner || !this.on() || root.innerWidth >= 961) return false;
       const base = String(root.location.href).replace(/#.*$/, '').replace(/"/g, '&quot;');
-      const html = '<!doctype html>' + document.documentElement.outerHTML.replace(/<head[^>]*>/i, m => `${m}<base href="${base}"><script>window.__jyInner = true;<\/script>`);
+      const html = '<!doctype html>' + document.documentElement.outerHTML.replace(/^<html[^>]*>/i, '<html>').replace(/<head[^>]*>/i, m => `${m}<base href="${base}"><script>window.__jyInner = true; document.documentElement.classList.add('pcv-inner');<\/script>`);
       let lang = 'en'; try { lang = ((JSON.parse(root.localStorage.getItem('trading-journal-web-v1') || '{}').settings) || {}).language || 'en'; } catch (e) { /* Standard */ }
-      /* Äußeres verdecken (nichts entfernen) */
+      /* Klassen von außen (z. B. js-motion) nicht übernehmen: das eingebettete Fenster startet sauber. Äußeres verdecken (nichts entfernen) */
       for (const el of [...document.body.children]) if (!/^(SCRIPT|STYLE|LINK|META|TITLE)$/.test(el.tagName)) el.style.display = 'none';
       document.documentElement.style.cssText += ';overflow:hidden;background:#050505;'; document.body.style.cssText += ';overflow:hidden;margin:0;background:#050505;';
       const wrap = document.createElement('div'); wrap.className = 'pcv';
@@ -28,7 +28,7 @@
       /* Bühne: im Hochformat auf Wunsch quer gedreht (Handy drehen), damit die PC-Ansicht den ganzen Bildschirm nutzt */
       const stage = document.createElement('div'); stage.className = 'pcv-stage'; stage.setAttribute('style', 'position:absolute;left:0;top:0;transform-origin:0 0;');
       const frame = document.createElement('iframe'); frame.className = 'pcv-frame'; frame.title = 'PC';
-      frame.setAttribute('style', `position:absolute;left:0;top:0;width:${W}px;height:${H}px;max-width:none;max-height:none;border:0;margin:0;padding:0;display:block;transform-origin:0 0;background:#000;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.08);`);
+      frame.setAttribute('style', `position:absolute;left:0;top:0;width:${W}px;height:${H}px;max-width:none;max-height:none;border:0;margin:0;padding:0;display:block;transform-origin:0 0;will-change:transform;background:#000;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.08);`);
       const bar = document.createElement('div'); bar.setAttribute('style', 'position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:8px;');
       const rot = document.createElement('button'); rot.type = 'button'; rot.className = 'pcv-rot'; rot.textContent = ROT[lang] || ROT.en; rot.setAttribute('style', BTN);
       const exit = document.createElement('button'); exit.type = 'button'; exit.className = 'pcv-exit'; exit.textContent = EXIT[lang] || EXIT.en; exit.setAttribute('style', BTN);

@@ -3512,3 +3512,6 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 /* PC-Ansicht auf dem Handy (js/pcview.js): gestaltet sich selbst (inline); hier nur der Menüeintrag, der nur auf schmalen Bildschirmen erscheint */
 .pcv-item { display: none !important; }
 @media (max-width: 960px) { .pcv-item { display: flex !important; } }
+/* PC-Ansicht auf dem Handy (eingebettetes Fenster): ohne Unschärfe-Effekte, die das verkleinerte große Fenster ausbremsen; die Kopfzeile dafür deckend */
+.pcv-inner *, .pcv-inner *::before, .pcv-inner *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.pcv-inner .topbar { background: var(--bg); }

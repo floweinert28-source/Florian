@@ -122,6 +122,15 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   await p.$eval('#f-close', e => e.scrollIntoView({ block: 'end' })); await p.click('#f-close'); await p.waitForTimeout(350);
   const dpH = await p.$eval('#pop-dp', e => e.getBoundingClientRect().height);
   ok('Kalender (auch nach oben geklappt) in voller Höhe', dpH > 250, String(dpH));
+  /* Akzentfarbe ändert nur Hervorhebungen, nie Long, Gewinn oder „gut“ */
+  await p.keyboard.press('Escape'); await p.setViewportSize({ width: 1600, height: 1000 });
+  await p.evaluate(() => { Store.settings.colors = { accent: '#ff00ff' }; Store.saveNow(); Theme.apply(Store.settings); location.hash = '#/trades'; }); await p.waitForTimeout(800);
+  const sem = await p.evaluate(() => { const mag = e => !!e && ['color', 'backgroundColor', 'borderColor'].some(k => getComputedStyle(e)[k].includes('255, 0, 255')); const pick = s => document.querySelector(s);
+    return { long: mag(pick('.badge.l')) || mag(pick('.badge.l .bi')), win: mag(pick('.pill.win')), ring: /accent/.test(UI.ring(90)), score: /accent/.test(UI.scoreColor(90)), scale: /accent/.test(App.scaleColor(5)), sleep: /accent/.test(App.sleepZone(8).color), btn: (s => { const c = (s.match(/[\d.]+/g) || []).map(Number).map(v => s.startsWith('color(') ? v * 255 : v); return c[0] > 200 && c[1] < 120 && c[2] > 200; })(getComputedStyle(pick('.sb-new .btn')).color) }; /* Akzent mit Schrift gemischt: deutlich magenta */ });
+  ok('Akzent geändert: Long, Gewinn, Score und Skalen bleiben in Gewinnfarbe, nur Hervorhebungen (Trade loggen) folgen dem Akzent', !sem.long && !sem.win && !sem.ring && !sem.score && !sem.scale && !sem.sleep && sem.btn, JSON.stringify(sem));
+  await p.evaluate(() => App.openTradeEditor(null)); await p.waitForTimeout(500);
+  ok('Trade loggen: Long-Schalter in Gewinnfarbe, nicht im Akzent', await p.evaluate(() => { const o = document.querySelector('.dir-opt.l'); return !!o && !getComputedStyle(o).getPropertyValue('--oc').includes('accent') && !getComputedStyle(document.querySelector('.dir-switch')).getPropertyValue('--dir-c').includes('255, 0, 255'); }));
+  await p.keyboard.press('Escape'); await p.evaluate(() => { Store.settings.colors = {}; Store.saveNow(); Theme.apply(Store.settings); });
   ok('Keine Fehler', errs.length === 0, errs.join(' | '));
   console.log(`${pass}/${pass + fail} bestanden`); await b.close();
 })();

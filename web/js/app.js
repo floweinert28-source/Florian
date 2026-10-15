@@ -7,6 +7,19 @@
   /* Hinweis an einem Bereich der Leiste: Anzahl der Hinweise in seiner Navigation (Gründe im Tooltip) */
   const railBadge = w => { if (!w) return ''; const n = w.split(' · ').reduce((s, x) => { const m = /^(\d+)/.exec(x); return s + (m ? +m[1] : 1); }, 0); return `<span class="nav-dot rail-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}">${n > 99 ? '99+' : n}</span>`; };
   /* Logo-Zeichen (J aus zwei Flächen, assets/logo.svg) */
+  /* Eigene Symbole nur für die Leiste ganz links (wie Vorlage): reine Kontur, kräftiger Strich, einfache Formen –
+     bewusst anders als die zweifarbigen Symbole der Seitenleiste */
+  const RIC = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const RAIL_ICONS = {
+    journal: RIC('<path d="M4.5 10.2 12 4l7.5 6.2V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19z"/>'),
+    prop: RIC('<rect x="3.5" y="7" width="17" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M3.5 12.5h17"/>'),
+    mentor: RIC('<path d="M20 11.5a8 8 0 0 1-11.7 7.1L4 20l1.3-4A8 8 0 1 1 20 11.5z"/>'),
+    news: RIC('<path d="M4 18 9 11l4 4 7-9"/><path d="M15.5 6H20v4.5"/>'),
+    backtest: RIC('<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/>'),
+    coach: RIC('<circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/>'),
+    affiliate: RIC('<circle cx="12" cy="12" r="8.5"/><path d="M9 15l6-6"/><circle cx="9.4" cy="9.4" r="1" fill="currentColor" stroke="none"/><circle cx="14.6" cy="14.6" r="1" fill="currentColor" stroke="none"/>'),
+    contact: RIC('<rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7.5 7.5 5.5 7.5-5.5"/>'),
+  };
   const LOGO = '<svg viewBox="0 0 420 547" aria-hidden="true"><path d="M230 0H420V256C420 301 391.5 338.3 355 359L230 430ZM0 289L230 430V547H126A126 126 0 0 1 0 421Z" fill="currentColor"/></svg>';
   const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
 
@@ -255,7 +268,7 @@
       if (!rl) { rl = document.createElement('nav'); rl.id = 'rail'; rl.className = 'rail'; sb.before(rl); }
       rl.setAttribute('aria-label', 'Bereiche'); sb.parentElement.classList.add('has-rail');
       const btn = a => { const act = a.key === area.key; const href = a.key === 'journal' && !act ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home; /* aktiver Bereich: zur Startseite des Bereichs */
-        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}" aria-label="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span>${!act && hint ? railBadge(hint(a)) : ''}</a>`; };
+        return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}" aria-label="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${RAIL_ICONS[a.key] || I[a.icon]}</span>${!act && hint ? railBadge(hint(a)) : ''}</a>`; };
       rl.innerHTML = `<a class="rail-logo" href="#/dashboard" data-action="nav-close" title="Journalyst" aria-label="Journalyst">${LOGO}</a>${AREAS.filter(a => !a.bottom).map(btn).join('')}<span class="rail-spacer"></span>${AREAS.filter(a => a.bottom).map(btn).join('')}`;
       this.translateNow(rl);
     },

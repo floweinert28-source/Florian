@@ -3573,3 +3573,7 @@ html:not(.sb-mini) .sidebar .nav a { padding-top: 3px; padding-bottom: 3px; }
 .sidebar .nav-group { gap: 2px; }
 .sidebar .nav.nav-group + .nav.nav-group { margin-top: 12px; }
 html:not(.sb-mini) .sidebar .nav-title { padding-bottom: 6px; }
+/* Leiste ganz links: eigene Kontur-Symbole in Weiß (wie Vorlage), kräftiger Strich; aktiv nur durch das helle Feld */
+.rail { --rail-ic: color-mix(in srgb, #fff 82%, var(--rail-bg)); --rail-ic-on: #fff; }
+.rail-item .ri { color: var(--rail-ic); }
+.rail-item svg { width: 20px; height: 20px; stroke-width: 2; }

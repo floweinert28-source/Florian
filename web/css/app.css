@@ -3577,3 +3577,7 @@ html:not(.sb-mini) .sidebar .nav-title { padding-bottom: 6px; }
 .rail { --rail-ic: color-mix(in srgb, #fff 82%, var(--rail-bg)); --rail-ic-on: #fff; }
 .rail-item .ri { color: var(--rail-ic); }
 .rail-item svg { width: 20px; height: 20px; stroke-width: 2; }
+/* ---------- Widgets (Karten, Kacheln, Fenster darüber) in den dunklen Designs immer in der Farbe der Leiste ganz links ---------- */
+:root:not([data-theme="light"]), :root[data-theme="dark"][data-dark="schwarz"] { --surface: var(--rail-bg); }
+.theme-card.t-graphit { --cw: #060605; }
+.theme-card.t-schwarz { --cw: #000000; }

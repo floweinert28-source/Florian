@@ -3565,14 +3565,6 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
   .frame-top { left: calc(var(--rail-w) + var(--win-gap) + var(--sidebar-w)); }
   html.sb-off .frame-top { left: calc(var(--rail-w) + var(--win-gap)); }
 }
-/* ---------- Seitenleiste niedriger: „Trade loggen“ flacher, Einträge und Abstände kompakter ---------- */
-.sidebar .sb-new { margin-bottom: 12px; }
-.sidebar .sb-new .btn { height: 32px; min-height: 32px; padding-top: 0; padding-bottom: 0; font-size: 13.5px; border-radius: 8px; }
-.sidebar .sb-new .btn svg { width: 15px; height: 15px; }
-html:not(.sb-mini) .sidebar .nav a { padding-top: 3px; padding-bottom: 3px; }
-.sidebar .nav-group { gap: 2px; }
-.sidebar .nav.nav-group + .nav.nav-group { margin-top: 12px; }
-html:not(.sb-mini) .sidebar .nav-title { padding-bottom: 6px; }
 /* Leiste ganz links: eigene Kontur-Symbole in Weiß (wie Vorlage), kräftiger Strich; aktiv nur durch das helle Feld */
 .rail { --rail-ic: color-mix(in srgb, #fff 82%, var(--rail-bg)); --rail-ic-on: #fff; }
 .rail-item .ri { color: var(--rail-ic); }
@@ -3581,3 +3573,5 @@ html:not(.sb-mini) .sidebar .nav-title { padding-bottom: 6px; }
 :root:not([data-theme="light"]), :root[data-theme="dark"][data-dark="schwarz"] { --surface: var(--rail-bg); }
 .theme-card.t-graphit { --cw: #060605; }
 .theme-card.t-schwarz { --cw: #000000; }
+/* PC: Inhalt der Seitenleiste so tief, dass „Trade loggen“ mittig auf Höhe von Logo und Seitentitel steht (wie Vorlage) */
+@media (min-width: 961px) { .shell.has-rail .sidebar { padding-top: calc(var(--win-gap) + var(--topbar-h) / 2 - 20px); } }

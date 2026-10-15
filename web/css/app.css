@@ -3483,7 +3483,7 @@ html.sb-off .shell.has-rail > .sidebar { display: none; }
 }
 /* Farben wie Tradezella (dunkle Designs): Rahmen etwas heller als das Fenster, Seitenleiste und Seite in derselben dunklen Farbe; Profilbild oben rechts im Rahmen */
 @media (min-width: 961px) {
-  :root:not([data-theme="light"]) { --rail-bg: var(--bg-2); }
+  :root:not([data-theme="light"]) { --rail-bg: var(--surface); } /* Rahmen oben und links in der Farbe der Widgets */
   :root:not([data-theme="light"]) .shell.has-rail .sidebar { background: var(--bg); }
   .shell.has-rail .topbar .avatar { display: none; }
   .frame-top .ft-avatar { margin-left: auto; width: 36px; height: 36px; font-size: 14px; }
@@ -3519,3 +3519,5 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 .brand .brand-mark { display: inline-flex; flex: 0 0 auto; color: inherit; }
 .brand .brand-mark svg { display: block; height: 22px; width: auto; }
 .brand:has(.brand-mark) { gap: 10px; }
+/* Dunkle Designs: Bereichsleiste auch auf dem Handy in der Farbe der Widgets */
+:root:not([data-theme="light"]) { --rail-bg: var(--surface); }

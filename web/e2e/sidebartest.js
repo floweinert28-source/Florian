@@ -22,6 +22,8 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   const mid = s => p.evaluate(s => { const r = document.querySelector(s).getBoundingClientRect(); return Math.round(r.top + r.height / 2); }, s);
   const al = [await mid('.sb-new .btn'), await mid('.rail-logo'), await mid('.topbar h1')];
   ok(await p.evaluate(() => { const g = e => getComputedStyle(document.querySelector(e)).backgroundColor; return g('.main') === g('.rail') && g('.card, .tile') !== g('.rail'); }), 'Fensterhintergrund in der Farbe der Leiste ganz links, Widgets heller');
+  const ln = await p.evaluate(() => { const c = s => { const r = document.querySelector(s).getBoundingClientRect(); return r.top + r.height / 2; }; const ri = [...document.querySelectorAll('.rail-item .ri')]; const m = e => { const r = e.getBoundingClientRect(); return r.top + r.height / 2; }; return [m(ri[0]), c('.sidebar .nav a'), c('.dash-head'), m(ri[ri.length - 1]), c('.sb-user'), c('.topbar .avatar'), c('.rail-logo')].map(Math.round); });
+  ok(Math.abs(ln[0] - ln[1]) <= 2 && Math.abs(ln[0] - ln[2]) <= 2 && Math.abs(ln[3] - ln[4]) <= 2 && ln[5] === ln[6], 'Saubere Linien: erstes Symbol links = Dashboard = Filterzeile, letztes Symbol = Konto-Karte, Profilbild = Logo ' + JSON.stringify(ln));
   ok(Math.abs(al[0] - al[1]) <= 1 && Math.abs(al[0] - al[2]) <= 1 && await p.evaluate(() => document.querySelector('.sb-new .btn').getBoundingClientRect().height >= 39), 'Trade loggen (alte Größe) mittig auf Höhe von Logo und Seitentitel ' + JSON.stringify(al));
   await p.click('.topbar .rail-btn'); await p.waitForTimeout(300);
   const c1 = await lay();

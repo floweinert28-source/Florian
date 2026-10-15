@@ -3580,3 +3580,6 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 .pcv-inner .topbar { background: var(--win); }
 @media (min-width: 961px) { .shell.has-rail .main { background: var(--win); } }
 .theme-card.t-graphit { --c0: #060605; }
+/* PC: klare Linien quer über Leiste, Seitenleiste und Fenster – Zeile 1: Logo, Trade loggen, Seitentitel (Mitte 44 px);
+   Zeile 2: erstes Bereichs-Symbol, „Dashboard“ und die Filterzeile des Dashboards (Mitte ≈ 128 px) */
+@media (min-width: 961px) { .shell.has-rail .rail-logo { margin-bottom: 36px; } }

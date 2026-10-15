@@ -6,6 +6,8 @@
   const navBadge = w => { const m = /^(\d+)/.exec(w); const n = m ? +m[1] : 1; return `<span class="nav-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}">${n > 99 ? '99+' : n}</span>`; };
   /* Hinweis an einem Bereich der Leiste: Anzahl der Hinweise in seiner Navigation (Gründe im Tooltip) */
   const railBadge = w => { if (!w) return ''; const n = w.split(' · ').reduce((s, x) => { const m = /^(\d+)/.exec(x); return s + (m ? +m[1] : 1); }, 0); return `<span class="nav-dot rail-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}">${n > 99 ? '99+' : n}</span>`; };
+  /* Logo-Zeichen (J aus zwei Flächen, assets/logo.svg) */
+  const LOGO = '<svg viewBox="0 0 420 547" aria-hidden="true"><path d="M230 0H420V256C420 301 391.5 338.3 355 359L230 430ZM0 289L230 430V547H126A126 126 0 0 1 0 421Z" fill="currentColor"/></svg>';
   const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
 
   /* Seitenleiste in Gruppen: was ist los, was habe ich gehandelt, woran arbeite ich, welche Konten */
@@ -231,11 +233,9 @@
       const area = areaOf(cur); if (area.key === 'journal' && cur !== 'share') this.state.lastJournal = location.hash || '#/dashboard';
       const solo = area.nav.reduce((n, [, items]) => n + items.filter(([k]) => on(k)).length, 0) <= 1; document.documentElement.classList.toggle('sb-off', solo); /* nur eine Seite im Bereich: Vollbild ohne Seitenleiste */
       this.renderRail(area, a => { const ws = a.nav.flatMap(([, items]) => items.filter(([k]) => on(k)).map(([k]) => why(k))).filter(Boolean); return ws.length ? ws.join(' · ') : ''; });
-      const brandHTML = `<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 420 547"><path d="M230 0H420V256C420 301 391.5 338.3 355 359L230 430ZM0 289L230 430V547H126A126 126 0 0 1 0 421Z" fill="currentColor"/></svg></span><span class="brand-text brand-sr"><span class="name no-i18n">Journalyst</span></span>`; /* nur das Logo-Zeichen; der Name bleibt unsichtbar für Screenreader */
-      const toggle = `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="${railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden'}" aria-pressed="${railOff}" title="${railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden'}">${I.panel}</button>`;
-      const ini = (S.settings.name || 'T').split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
-      const avatar = `<a class="avatar ft-avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(ini)}</a>`;
-      this.renderFrame(desk ? `<div class="ft-toggle">${toggle}</div><div class="brand">${brandHTML}</div>${avatar}` : '');
+      const brandHTML = `<span class="brand-mark" aria-hidden="true">${LOGO}</span><span class="brand-text brand-sr"><span class="name no-i18n">Journalyst</span></span>`; /* nur das Logo-Zeichen; der Name bleibt unsichtbar für Screenreader */
+      this.renderFrame(''); /* oben nur noch der schmale Rand über dem großen Fenster (css), Logo in der Bereichsleiste, Knopf und Profilbild in der Kopfzeile */
+      document.querySelectorAll('.rail-btn').forEach(bt => { bt.setAttribute('aria-pressed', String(railOff)); const l = railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden'; bt.setAttribute('aria-label', l); bt.title = l; });
       sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.key === 'journal' ? `<div class="sb-new">${this.newTradeButton()}</div>` : ''}${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
@@ -256,7 +256,7 @@
       rl.setAttribute('aria-label', 'Bereiche'); sb.parentElement.classList.add('has-rail');
       const btn = a => { const act = a.key === area.key; const href = a.key === 'journal' && !act ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home; /* aktiver Bereich: zur Startseite des Bereichs */
         return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}" aria-label="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${I[a.icon]}</span>${!act && hint ? railBadge(hint(a)) : ''}</a>`; };
-      rl.innerHTML = `${AREAS.filter(a => !a.bottom).map(btn).join('')}<span class="rail-spacer"></span>${AREAS.filter(a => a.bottom).map(btn).join('')}`;
+      rl.innerHTML = `<a class="rail-logo" href="#/dashboard" data-action="nav-close" title="Journalyst" aria-label="Journalyst">${LOGO}</a>${AREAS.filter(a => !a.bottom).map(btn).join('')}<span class="rail-spacer"></span>${AREAS.filter(a => a.bottom).map(btn).join('')}`;
       this.translateNow(rl);
     },
     /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Coach, Einstellungen,
@@ -310,7 +310,8 @@
     },
     topbar(title, screen, ctx) {
       const initials = (S.settings.name || 'T').split(/\s+/).map(s => s[0]).join('').slice(0, 2).toUpperCase();
-      return `<header class="topbar"><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1>${screen.titleBadge ? screen.titleBadge(ctx) : ''}<div class="actions"><div class="tb-tools" id="tb-tools"></div>
+      const railOff = !!S.settings.railHidden; const rl = railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden';
+      return `<header class="topbar"><button type="button" class="btn ghost icon rail-btn" data-action="rail-toggle" aria-pressed="${railOff}" aria-label="${rl}" title="${rl}">${I.panel}</button><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1>${screen.titleBadge ? screen.titleBadge(ctx) : ''}<div class="actions"><div class="tb-tools" id="tb-tools"></div>
         <a class="avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(initials)}</a></div></header>`;
     },
     async loadBlobImages(scope) { const imgs = scope.querySelectorAll('img[data-blob]'); for (const img of imgs) { const u = await root.Blobs.url(img.dataset.blob).catch(() => null); if (u) { img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); img.src = u; if (img.complete && img.naturalWidth) img.classList.add('loaded'); } else img.closest('.shot, .thumb, .lib-card')?.classList.add('missing'); } const auds = scope.querySelectorAll('audio[data-blob]'); for (const a of auds) { const u = await root.Blobs.url(a.dataset.blob).catch(() => null); if (u) a.src = u; } },
@@ -356,6 +357,7 @@
   Object.assign(App.actions, {
     'skip-content'() { const c = document.getElementById('content'); if (c) c.focus(); },
     sidebar() { this.state.sidebarOpen = !this.state.sidebarOpen; this.renderSidebar(); },
+    'rail-toggle'() { S.settings.railHidden = !S.settings.railHidden; S.save(); this.renderSidebar(); },
     /* Knopf in der Marke: Desktop klappt auf Symbole zusammen, Handy schließt das Menü */
     'pc-view'() { if (root.PCView) root.PCView.set(true); },
     'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.railHidden = !S.settings.railHidden; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },

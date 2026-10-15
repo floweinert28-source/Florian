@@ -3484,7 +3484,6 @@ html.sb-off .shell.has-rail > .sidebar { display: none; }
 /* Farben wie Tradezella (dunkle Designs): Rahmen etwas heller als das Fenster, Seitenleiste und Seite in derselben dunklen Farbe; Profilbild oben rechts im Rahmen */
 @media (min-width: 961px) {
   :root:not([data-theme="light"]) { --rail-bg: var(--surface); } /* Rahmen oben und links in der Farbe der Widgets */
-  :root:not([data-theme="light"]) .shell.has-rail .sidebar { background: var(--bg); }
   .shell.has-rail .topbar .avatar { display: none; }
   .frame-top .ft-avatar { margin-left: auto; width: 36px; height: 36px; font-size: 14px; }
 }
@@ -3525,3 +3524,37 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 .brand .brand-sr { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: nowrap !important; border: 0 !important; }
 .brand .brand-mark svg { height: 26px; }
 .brand:has(.brand-mark) { gap: 0; }
+/* ---------- Aufbau wie Vorlage (PC): ganz links die dunkle Leiste über die volle Höhe mit dem Logo oben, daneben die Seitenleiste,
+   das große Fenster als eigene abgerundete Fläche mit schmalem Rand oben, rechts und unten (Rand und Seitenleiste in der Farbe der Widgets) ---------- */
+:root { --win-gap: 8px; }
+:root:not([data-theme="light"]) { --rail-bg: color-mix(in srgb, var(--bg) 45%, #000); } /* Leiste ganz links dunkler als alles andere */
+.rail-btn { display: none; }
+.rail-logo { display: none; }
+@media (min-width: 961px) {
+  .shell.has-rail { padding-top: 0; background: var(--bg-2); }
+  .frame-top { display: block; position: fixed; top: 0; right: 0; left: calc(var(--rail-w) + var(--sidebar-w)); height: var(--win-gap); padding: 0; background: var(--bg-2); z-index: 25; pointer-events: none; }
+  html.rail-off .frame-top { left: var(--sidebar-w); }
+  html.sb-off .frame-top { left: var(--rail-w); }
+  html.rail-off.sb-off .frame-top { left: 0; }
+  /* runde obere Ecken des Fensters bleiben beim Scrollen: Eckstücke unter dem Rand */
+  .frame-top::before, .frame-top::after { content: ''; position: absolute; top: 100%; width: var(--win-r); height: var(--win-r); }
+  .frame-top::before { left: 0; background: radial-gradient(circle at 100% 100%, transparent calc(var(--win-r) - .5px), var(--bg-2) var(--win-r)); }
+  .frame-top::after { right: var(--win-gap); background: radial-gradient(circle at 0 100%, transparent calc(var(--win-r) - .5px), var(--bg-2) var(--win-r)); }
+  html.sb-off .frame-top::before { left: var(--win-gap); }
+  .shell.has-rail .rail { top: 0; height: 100vh; height: 100dvh; padding-top: 16px; }
+  .shell.has-rail .sidebar { top: 0; height: 100vh; height: 100dvh; padding-top: 18px; border-top-left-radius: 0; border-right: 0; background: var(--bg-2); }
+  .shell.has-rail .main { margin: var(--win-gap) var(--win-gap) var(--win-gap) 0; border-radius: var(--win-r); background: var(--bg); min-height: calc(100vh - 2 * var(--win-gap)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--border) 70%, transparent); }
+  html.sb-off .shell.has-rail .main { margin-left: var(--win-gap); }
+  .shell.has-rail .topbar { top: var(--win-gap); border-radius: var(--win-r) var(--win-r) 0 0; }
+  html.sb-off .shell.has-rail .topbar { border-top-left-radius: var(--win-r); }
+  .shell.has-rail .main:has(> .content > .nb), .shell.has-rail .main:has(> .content > .tl-fit) { height: calc(100vh - 2 * var(--win-gap)); height: calc(100dvh - 2 * var(--win-gap)); }
+  .shell.has-rail .set-nav { top: calc(var(--win-gap) + var(--topbar-h) + 16px); }
+  .shell.has-rail .edit-bar { top: calc(var(--win-gap) + 8px); }
+  .shell.has-rail .topbar .avatar { display: grid; }
+  .shell.has-rail .rail-btn { display: inline-flex; }
+  .shell.has-rail .rail-btn[aria-pressed="true"] { color: var(--text); }
+  .rail-logo { display: grid; place-items: center; flex: 0 0 auto; width: 40px; height: 40px; margin: 0 0 22px; color: var(--rail-ic-on); border-radius: 10px; }
+  .rail-logo svg { display: block; height: 28px; width: auto; }
+  .rail-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+}
+@media (min-width: 961px) { .shell .topbar .menu-btn { display: none; } } /* PC: statt des Menü-Symbols der Knopf für die Bereichsleiste */

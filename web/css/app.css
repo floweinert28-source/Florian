@@ -22,11 +22,11 @@
   --text-2: #bcb8b1;
   --muted: #948f88;
   --faint: #4f4c47;
-  --accent: #34f58a;
-  --accent-2: #1fd873;
-  --accent-ink: #04140a;
-  --accent-soft: rgba(52, 245, 138, 0.12);
-  --accent-glow: rgba(52, 245, 138, 0.28);
+  --accent: #ede6da; /* Elfenbein: Akzent nur für Hervorhebungen; Farbe tragen allein Gewinn, Verlust und Break-even */
+  --accent-2: #fbf7f0;
+  --accent-ink: #15130f;
+  --accent-soft: rgba(237, 230, 218, 0.10);
+  --accent-glow: rgba(237, 230, 218, 0.22);
   --dot-glow: 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 8px color-mix(in srgb, var(--accent) 20%, transparent); /* Leuchten von Hinweis-Punkten und dem Balken am aktiven Menüpunkt */
   --profit: #34f58a;
   --profit-soft: rgba(52, 245, 138, 0.12);
@@ -75,7 +75,7 @@
     --sheen: rgba(255, 255, 255, .75);
     --bg: #ffffff; --bg-2: #f5f5f5; --surface: #ffffff; --surface-2: #f5f5f5; --surface-3: #ebebeb; --field: #ffffff; --ambient: none;
     --border: #e5e5e5; --border-2: #d4d4d4; --text: #0a0a0a; --text-2: #404040; --muted: #666666; --faint: #b3b3b3; --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
-    --accent: #077a41; --accent-2: #06663a; --accent-ink: #ffffff; --accent-soft: rgba(7, 122, 65, 0.10); --accent-glow: rgba(7, 122, 65, 0.20);
+    --accent: #22201c; --accent-2: #3a3732; --accent-ink: #ffffff; --accent-soft: rgba(34, 32, 28, 0.07); --accent-glow: rgba(34, 32, 28, 0.16);
     --profit: #077a41; --profit-soft: rgba(7, 122, 65, 0.10); --loss: #c62e2e; --loss-soft: rgba(198, 46, 46, 0.10); --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
     --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5; --shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
   }
@@ -85,7 +85,7 @@
   --sheen: rgba(255, 255, 255, .75);
   --bg: #ffffff; --bg-2: #f5f5f5; --surface: #ffffff; --surface-2: #f5f5f5; --surface-3: #ebebeb; --field: #ffffff; --ambient: none;
   --border: #e5e5e5; --border-2: #d4d4d4; --text: #0a0a0a; --text-2: #404040; --muted: #666666; --faint: #b3b3b3; --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
-  --accent: #077a41; --accent-2: #06663a; --accent-ink: #ffffff; --accent-soft: rgba(7, 122, 65, 0.10); --accent-glow: rgba(7, 122, 65, 0.20);
+  --accent: #22201c; --accent-2: #3a3732; --accent-ink: #ffffff; --accent-soft: rgba(34, 32, 28, 0.07); --accent-glow: rgba(34, 32, 28, 0.16);
   --profit: #077a41; --profit-soft: rgba(7, 122, 65, 0.10); --loss: #c62e2e; --loss-soft: rgba(198, 46, 46, 0.10); --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
   --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5; --shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
 }
@@ -3175,16 +3175,12 @@ a.coach-name:hover { color: var(--accent); }
   box-shadow: none;
 }
 .lang-card[aria-pressed="true"], .font-card[aria-pressed="true"], .pair-card[aria-pressed="true"], .sb-user.active { color: var(--text); } /* Karten: nur die Fläche, Schrift bleibt */
-/* Akzent-Knopf (z. B. „Trade loggen“): Form und Fläche wie die anderen Knöpfe, nur ein Hauch Licht von oben links und ein
-   leiser grüner Rand, kein Schein darunter; beim Darüberfahren etwas mehr Licht */
-.btn.accent { --al: 8%; font-weight: 600; border-color: transparent; color: color-mix(in srgb, var(--accent) 88%, var(--text));
-  background:
-    radial-gradient(120% 140% at 8% 0%, color-mix(in srgb, var(--accent) var(--al), transparent), transparent 60%) padding-box,
-    linear-gradient(var(--surface), var(--surface)) padding-box,
-    linear-gradient(155deg, color-mix(in srgb, var(--accent) 48%, var(--border-2)) 0%, color-mix(in srgb, var(--accent) 20%, var(--border-2)) 35%, var(--border-2) 70%, color-mix(in srgb, var(--accent) 14%, var(--border-2)) 100%) border-box;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); }
-.btn.accent:hover { --al: 14%; background-color: transparent; }
-:root[data-theme="light"] .btn.accent { color: var(--accent); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }
+/* Akzent-Knopf (z. B. „Trade loggen“): gefüllt in der Akzentfarbe (Standard Elfenbein) mit fast schwarzer Schrift,
+   oben ein feiner Lichtsaum; beim Darüberfahren etwas heller */
+.btn.accent { font-weight: 600; border-color: var(--accent); background: var(--accent); color: var(--accent-ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 1px 2px rgba(0, 0, 0, .25); }
+.btn.accent:hover { background: var(--accent-2); border-color: var(--accent-2); }
+:root[data-theme="light"] .btn.accent { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 1px 2px rgba(0, 0, 0, .12); }
 /* Gesetzter Zustand eines Rahmen-Knopfs (z. B. aktiver Dashboard-Filter): flach wie jede Auswahl, nie grün (Grün gehört „Trade loggen“) */
 .btn.is-on { background: color-mix(in srgb, var(--text) 10%, var(--surface)); border-color: color-mix(in srgb, var(--text) 22%, var(--border-2)); color: var(--text); }
 /* Zahlenfelder ohne Browser-Pfeile (eigene Schritt-Knöpfe nur, wo es sie braucht) */

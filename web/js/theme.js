@@ -1,7 +1,7 @@
 /* Farben: Akzent, Gewinn und Verlust frei wählbar; gilt für App und Startseite */
 (function (root) {
   'use strict';
-  const DEFAULTS = { dark: { accent: '#34f58a', profit: '#34f58a', loss: '#ff5c5c', be: '#9a8cf8' }, light: { accent: '#077a41', profit: '#077a41', loss: '#c62e2e', be: '#5f4fcf' } };
+  const DEFAULTS = { dark: { accent: '#ede6da', profit: '#34f58a', loss: '#ff5c5c', be: '#9a8cf8' }, light: { accent: '#22201c', profit: '#077a41', loss: '#c62e2e', be: '#5f4fcf' } }; /* Akzent Elfenbein (hell: Grafit), Grün nur für Gewinn */
   /* Schriftarten: „modern“ ist der Standard (Satoshi von Fontshare, Zahlen in Onest; beide geometrisch, gleiche Proportionen), „geschwungen“ die frühere
      Standardschrift (Quicksand, Zahlen in Onest), „klassisch“ SF Pro / Inter mit Roboto-Zahlen, „rund“ eine Schrift für Text und Zahlen.
      Satoshi steht unter der ITF Free Font License: Laden über die Fontshare-API (app.html), Schriftdateien liegen nicht im Repository */
@@ -15,7 +15,7 @@
   /* Unbekannte Werte, auch das frühere „standard“, landen beim Standard */
   const fontKey = k => FONTS[k] ? k : DEFAULT_FONT;
   function loadFont(key) { const f = FONTS[key]; if (!f || typeof document === 'undefined') return; for (const fam of f.gf) { const id = 'font-' + fam.replace(/[^a-z]/gi, '').toLowerCase(); if (document.getElementById(id)) continue; const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + fam + '&display=swap'; document.head.appendChild(l); } }
-  const PRESETS_ACCENT = [['Neongrün', '#34f58a'], ['Violett', '#7b61ff'], ['Blau', '#3b82f6'], ['Türkis', '#22d3ee'], ['Orange', '#f97316'], ['Pink', '#ec4899'], ['Gelb', '#facc15'], ['Weiß', '#e5e7eb']];
+  const PRESETS_ACCENT = [['Elfenbein', '#ede6da'], ['Neongrün', '#34f58a'], ['Violett', '#7b61ff'], ['Blau', '#3b82f6'], ['Türkis', '#22d3ee'], ['Orange', '#f97316'], ['Pink', '#ec4899'], ['Gelb', '#facc15']];
   const PRESETS_PAIR = [['Grün / Rot', '#34f58a', '#ff5c5c'], ['Blau / Orange', '#3b82f6', '#f97316'], ['Türkis / Pink', '#22d3ee', '#ec4899'], ['Violett / Gelb', '#8b7cf6', '#facc15'], ['Grün / Grau', '#34f58a', '#9aa3a0'], ['Weiß / Rot', '#f5f5f5', '#ff5c5c']];
   const hex2rgb = h => { const s = h.replace('#', ''); const v = s.length === 3 ? s.split('').map(c => c + c).join('') : s; const n = parseInt(v, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
   const rgb2hex = ([r, g, b]) => '#' + [r, g, b].map(v => Math.round(Math.min(255, Math.max(0, v))).toString(16).padStart(2, '0')).join('');
@@ -24,7 +24,7 @@
   const rgba = (h, a) => { const [r, g, b] = hex2rgb(h); return `rgba(${r}, ${g}, ${b}, ${a})`; };
   const valid = h => typeof h === 'string' && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(h);
   /* helles Design: eigene Farben in 8-%-Schritten abdunkeln, bis Zahlen auf Weiß mindestens 4,5:1 erreichen (Luminanz ≤ 0,18) */
-  const forLight = h => { let x = h; let i = 0; while (lum(x) > 0.18 && i++ < 24) x = shade(x, -0.08); return x; };
+  const forLight = h => { const c = hex2rgb(h); if (Math.max(...c) - Math.min(...c) < 40 && lum(h) > 0.5) return '#22201c'; /* helle, fast farblose Töne (Elfenbein, Weiß): im hellen Design Grafit statt mattem Graubraun */ let x = h; let i = 0; while (lum(x) > 0.18 && i++ < 24) x = shade(x, -0.08); return x; };
   const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
   /* Schrift auf einer Farbfläche: Weiß oder Fast-Schwarz, je nachdem, was mehr Kontrast hat */
   const inkFor = h => ratio(h, '#ffffff') >= ratio(h, '#04140a') ? '#ffffff' : '#04140a';

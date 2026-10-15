@@ -7,8 +7,10 @@ const T = require('../js/theme.js').Theme;
 const ratio = (a, b) => { const x = T.lum(a), y = T.lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
 
 test('Standardfarben: hell abgedunkelt, dunkel mit hellerem Break-even', () => {
-  assert.deepEqual(T.DEFAULTS.dark, { accent: '#34f58a', profit: '#34f58a', loss: '#ff5c5c', be: '#9a8cf8' });
-  assert.deepEqual(T.DEFAULTS.light, { accent: '#077a41', profit: '#077a41', loss: '#c62e2e', be: '#5f4fcf' });
+  assert.deepEqual(T.DEFAULTS.dark, { accent: '#ede6da', profit: '#34f58a', loss: '#ff5c5c', be: '#9a8cf8' });
+  assert.deepEqual(T.DEFAULTS.light, { accent: '#22201c', profit: '#077a41', loss: '#c62e2e', be: '#5f4fcf' });
+  assert.equal(T.forLight('#ede6da'), '#22201c'); /* Elfenbein im hellen Design: Grafit */
+  assert.equal(T.inkFor('#ede6da'), '#04140a');
   for (const h of Object.values(T.DEFAULTS.light)) assert.ok(ratio(h, '#ffffff') >= 4.5, `${h} auf Weiß`);
 });
 

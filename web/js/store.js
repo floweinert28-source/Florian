@@ -27,6 +27,8 @@
     const st = data && data.settings; if (!st) return;
     if (!st.recapsOffV1) { st.notifications = Object.assign({}, st.notifications || {}, { weekly: false, monthly: false }); st.recapsOffV1 = true; }
     /* neue Standardschrift (Satoshi): die frühere Standardschrift „geschwungen“ einmalig auf den neuen Standard umstellen; andere bewusst gewählte Schriften bleiben, „Geschwungen“ ist weiter wählbar */
+    /* neuer Standard-Akzent Elfenbein: der früher als Standard gespeicherte Neongrün-Akzent wird einmalig auf den neuen Standard gestellt; andere eigene Farben bleiben */
+    if (!st.accentIvoryV1) { if (st.colors && String(st.colors.accent || '').toLowerCase() === '#34f58a') { st.colors = Object.assign({}, st.colors); delete st.colors.accent; } st.accentIvoryV1 = true; }
     if (!st.fontModernV1) { if (!st.font || st.font === 'geschwungen' || st.font === 'standard') st.font = 'modern'; st.fontModernV1 = true; }
   }
   function migrateDashboards(data) {

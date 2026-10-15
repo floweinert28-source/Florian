@@ -9,7 +9,7 @@ Es gibt keinen Server und keine Anmeldung.
 
 ## Starten
 
-Am einfachsten: `web/app.html` im Browser öffnen (Doppelklick). Die Startseite ist `web/index.html`.
+Am einfachsten: `web/app.html` im Browser öffnen (Doppelklick). `web/index.html` (mit `css/landing.css`) ist nur eine alte Nebenseite aus der Anfangszeit: nicht Teil der App, nicht veröffentlicht, nicht für andere gedacht; die eigentliche Website gibt es separat. Sie bleibt nur liegen.
 
 Sauberer über einen kleinen lokalen Server, damit Drag & Drop und Audio in allen Browsern funktionieren:
 
@@ -312,10 +312,10 @@ Testsuiten (replaytest, sampletest, fwtest, mobiletest) schalten es so frei.
 
 ```
 web/
-  index.html            Startseite
+  index.html            alte Nebenseite (nicht Teil der App)
   app.html              App
   css/app.css           Design-Tokens (dunkel/hell) und alle Komponenten
-  css/landing.css       Startseite
+  css/landing.css       alte Nebenseite
   js/theme.js           Farben (Akzent, Gewinn, Verlust) für App und Startseite
   js/scroll.js          Weiches, schweres Scrollen: das Rad setzt ein Ziel, die Seite gleitet mit Trägheit nach
   js/core.js            Analytik ohne DOM (auch in Node nutzbar)

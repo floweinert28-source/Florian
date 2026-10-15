@@ -3515,3 +3515,7 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 /* PC-Ansicht auf dem Handy (eingebettetes Fenster): ohne Unschärfe-Effekte, die das verkleinerte große Fenster ausbremsen; die Kopfzeile dafür deckend */
 .pcv-inner *, .pcv-inner *::before, .pcv-inner *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 .pcv-inner .topbar { background: var(--bg); }
+/* Logo-Zeichen (J aus zwei Flächen) vor dem Schriftzug, in Schriftfarbe */
+.brand .brand-mark { display: inline-flex; flex: 0 0 auto; color: inherit; }
+.brand .brand-mark svg { display: block; height: 22px; width: auto; }
+.brand:has(.brand-mark) { gap: 10px; }

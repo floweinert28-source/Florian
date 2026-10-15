@@ -15,7 +15,7 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   await p.evaluate(() => { Store.setSetting('theme', 'light'); Theme.apply(Store.settings); App.rerender(); }); await p.waitForTimeout(300);
   await p.screenshot({ path: 'langshots/sb-light.png', clip: { x: 0, y: 0, width: 300, height: 900 } });
   await p.evaluate(() => { Store.setSetting('theme', 'dark'); Theme.apply(Store.settings); App.rerender(); }); await p.waitForTimeout(300);
-  const ctr = () => p.evaluate(() => { const R = e => e.getBoundingClientRect(); const sb = R(document.getElementById('sidebar')), br = R(document.querySelector('#frame-top .brand .name')); return { d: Math.abs((sb.left + sb.right) / 2 - (br.left + br.right) / 2), rail: getComputedStyle(document.getElementById('rail')).display, sbL: Math.round(sb.left) }; });
+  const ctr = () => p.evaluate(() => { const R = e => e.getBoundingClientRect(); const sb = R(document.getElementById('sidebar')), mk = R(document.querySelector('#frame-top .brand .brand-mark')), nm = R(document.querySelector('#frame-top .brand .name')), br = { left: Math.min(mk.left, nm.left), right: Math.max(mk.right, nm.right) }; /* Logo-Zeichen und Schriftzug zusammen */ return { d: Math.abs((sb.left + sb.right) / 2 - (br.left + br.right) / 2), rail: getComputedStyle(document.getElementById('rail')).display, sbL: Math.round(sb.left) }; });
   const c0 = await ctr();
   ok(c0.d < 2 && c0.rail !== 'none' && await p.evaluate(() => getComputedStyle(document.querySelector('#sidebar .brand')).display === 'none'), 'Schriftzug im Rahmen mittig über der Seitenleiste ' + JSON.stringify(c0));
   await p.click('#frame-top .sb-toggle'); await p.waitForTimeout(300);

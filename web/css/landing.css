@@ -59,3 +59,7 @@ html { scroll-behavior: smooth; }
 .lp .shot .frame { transition: transform var(--dur-3) var(--ease), box-shadow var(--dur-3) var(--ease); }
 .lp .shot .frame:hover { transform: translateY(-2px); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .lp .hero::before { transform: none; } }
+/* Logo-Zeichen vor dem Schriftzug (wie in der App) */
+.lp header.topnav .brand { gap: 10px; align-items: center; }
+.lp header.topnav .brand .mark { display: inline-flex; flex: 0 0 auto; }
+.lp header.topnav .brand .mark svg { display: block; height: 24px; width: auto; }

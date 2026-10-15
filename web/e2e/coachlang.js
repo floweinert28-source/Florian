@@ -6,7 +6,7 @@ const keysFor = lang => { const m = {}; const d = path.join(__dirname, 'i18n', l
     await p.goto('file:///home/user/Florian/web/app.html#/settings/sprache', { waitUntil: 'load' }); await p.waitForTimeout(600); await p.evaluate(l => document.querySelector(`.lang-card[data-value="${l}"]`).click(), lang); await p.waitForTimeout(400);
     await p.evaluate(() => { location.hash = '#/coach'; }); await p.waitForTimeout(800);
     const left = await p.evaluate(keys => { const K = new Set(keys); const out = []; const w = document.createTreeWalker(document.querySelector('#main'), 4); let t; while ((t = w.nextNode())) { const s = t.textContent.replace(/\s+/g, ' ').trim(); if (s && K.has(s)) out.push(s); } return out; }, [...KEYS]);
-    const nav = await p.$eval('#pop-user .item[href="#/coach"]', e => e.textContent.trim()); const h2 = await p.textContent('.mentor-setup h2');
+    const nav = await p.$eval('.rail-item[data-rail=coach]', e => e.getAttribute('aria-label')); const h2 = await p.textContent('.mentor-setup h2');
     /* Texte mit Namen darin laufen über Platzhalter-Muster */
     const pat = await p.evaluate(() => [I18N.t('Du verlässt „Kurs Herbst 2026“. Dein Mentor sieht danach nichts mehr von dir; seine bisherigen Notizen behältst du.'), I18N.t('Neue Mentor-Notiz von Max'), I18N.t('Kurz-Stats nur in R und Prozent · ab 01.10.2026'), I18N.t('28 Einträge')]);
     const patOk = pat[0].includes('Kurs Herbst 2026') && !pat[0].startsWith('Du verlässt') && pat[1].includes('Max') && !pat[1].startsWith('Neue Mentor') && pat[2].includes('01.10.2026') && !pat[2].startsWith('Kurz-Stats') && /28/.test(pat[3]) && pat[3] !== '28 Einträge';

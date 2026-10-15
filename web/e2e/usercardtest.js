@@ -19,7 +19,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   /* Menü öffnen */
   await p.click('.sb-user'); await p.waitForTimeout(300);
   const menu = await p.evaluate(() => { const m = document.getElementById('pop-user'); const r = m.getBoundingClientRect(), c = document.querySelector('.sb-user').getBoundingClientRect(); return { open: m.classList.contains('open'), items: [...m.querySelectorAll('.item')].filter(a => a.getClientRects().length).map(a => a.textContent.trim()), above: r.bottom <= c.top + 1, inside: r.left >= 0 && r.right <= document.getElementById('sidebar').getBoundingClientRect().right + 1, theme: !!m.querySelector('.theme-toggle') }; });
-  ok(menu.open && menu.above && menu.inside && menu.theme && menu.items.join(',') === 'Profil,Coach,Affiliate,Einstellungen,Benachrichtigungen,Sprache', 'Menü öffnet nach oben mit Profil, Coach, Affiliate, Einstellungen, Benachrichtigungen, Sprache und Hell/Dunkel · ' + JSON.stringify(menu));
+  ok(menu.open && menu.above && menu.inside && menu.theme && menu.items.join(',') === 'Profil,Einstellungen,Benachrichtigungen,Sprache', 'Menü öffnet nach oben mit Profil, Einstellungen, Benachrichtigungen, Sprache und Hell/Dunkel · ' + JSON.stringify(menu));
   await p.screenshot({ path: 'langshots/uc-open.png', clip: { x: 0, y: 500, width: 300, height: 500 } });
   /* Hell/Dunkel im Menü */
   await p.click('#pop-user .theme-toggle [data-value="light"]'); await p.waitForTimeout(300);
@@ -47,7 +47,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await p.evaluate(async () => { Store.setLanguage('en'); I18N.setLang('en'); await new Promise(r => setTimeout(r, 900)); App.rerender(); }); await p.waitForTimeout(300);
   await p.click('.sb-user'); await p.waitForTimeout(300);
   const en = await p.evaluate(() => [...document.querySelectorAll('#pop-user .item')].filter(a => a.getClientRects().length).map(a => a.textContent.trim()).join(',') + ' | ' + document.querySelector('#pop-user .sb-menu-row span').textContent);
-  ok(/Profile,Coach,Affiliate,Settings,Notifications,Language \| Appearance/.test(en), 'Englisch: Menü übersetzt · ' + en);
+  ok(/Profile,Settings,Notifications,Language \| Appearance/.test(en), 'Englisch: Menü übersetzt · ' + en);
   await p.evaluate(() => Store.setLanguage('de'));
   /* Handy */
   const m = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 }); m.on('pageerror', e => errs.push(e.message)); try { await require('./localfonts.js')(m); } catch (e) {}

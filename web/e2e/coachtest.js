@@ -32,7 +32,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   /* 1. Ohne Server-Einstellung: Einrichten-Hinweis; Navigation hat „Coach“ */
   await go(M.p, '#/coach');
-  ok('Navigation: Coach im Konto-Menü und als Bereich unten in der Leiste (aktiv)', !!(await M.p.$('#pop-user .item[href="#/coach"]')) && !!(await M.p.$('.rail-item[data-rail=coach].active')));
+  ok('Navigation: Coach als Bereich unten in der Leiste (aktiv), nicht im Konto-Menü', !(await M.p.$('#pop-user .item[href="#/coach"]')) && !!(await M.p.$('.rail-item[data-rail=coach].active')));
   await collect(M.p, 'setup');
   ok('Ohne Server: Einrichten-Hinweis mit Link zu Einstellungen → Mentor', (await M.p.textContent('.mentor-setup h2')) === 'Coach Mode einrichten' && !!(await M.p.$('.mentor-setup a[href="#/settings/mentor"]')));
   ok('Kopfreihe ohne Zeitraum, Konto, Session und Trade loggen', !(await M.p.$('.page-head [data-pop=range]')) && !(await M.p.$('.page-head [data-action=new-trade]')) && !(await M.p.$('.page-head [data-action=start-session]')));
@@ -124,9 +124,9 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await go(M.p, '#/coach/g/' + gid, 1400); await M.p.click('[data-action=coach-task-all]'); await M.p.waitForTimeout(300); await collect(M.p, 'task-all'); await M.p.fill('#ct-all-text', 'Jeden Abend eine Tagesnotiz'); await M.p.click('.modal button[type=submit]'); await M.p.waitForTimeout(1200);
   ok('Aufgabe an alle', (await toast(M.p)) === 'Aufgabe an 1 Schüler gegeben');
   await A.p.evaluate(() => Coach.sync({ force: true })); await A.p.waitForTimeout(800);
-  ok('Schülerin: zwei Aufgaben, Punkt am Coach', await A.p.evaluate(() => Store.data.coach.tasks.length === 2) && (await A.p.$eval('#pop-user .item[href="#/coach"] .nav-dot', e => e.getAttribute('title'))) === '2 neue Aufgaben' && !!(await A.p.$('.sb-user .sb-av-dot')));
+  ok('Schülerin: zwei Aufgaben, Punkt am Coach', await A.p.evaluate(() => Store.data.coach.tasks.length === 2) && (await A.p.$eval('.rail-item[data-rail=coach] .rail-dot', e => e.getAttribute('title'))) === '2 neue Aufgaben' && !(await A.p.$('.sb-user .sb-av-dot')));
   await go(A.p, '#/coach', 1400);
-  ok('Coach-Übersicht: Aufgaben-Karte mit 2 offenen, Punkt weg', (await A.p.$$('.coach-tasks .coach-task:not(.done)')).length === 2 && !(await A.p.$('#pop-user .item[href="#/coach"] .nav-dot')) && !(await A.p.$('.sb-user .sb-av-dot')));
+  ok('Coach-Übersicht: Aufgaben-Karte mit 2 offenen, Punkt weg', (await A.p.$$('.coach-tasks .coach-task:not(.done)')).length === 2 && !(await A.p.$('.rail-item[data-rail=coach] .rail-dot')) && !(await A.p.$('.sb-user .sb-av-dot')));
   await A.p.click('.coach-tasks .coach-task:not(.done) [data-action=coach-task-toggle]'); await A.p.waitForTimeout(1000);
   ok('Abgehakt: eine offen, eine erledigt', (await A.p.$$('.coach-tasks > .coach-task:not(.done)')).length === 1 && (await A.p.textContent('.ct-done summary')).includes('1 erledigt'));
   await collect(A.p, 'hub-tasks'); await A.p.screenshot({ path: 'coach-student-hub.png', fullPage: true });

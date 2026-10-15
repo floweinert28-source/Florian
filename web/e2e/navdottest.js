@@ -5,7 +5,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
 (async () => { const b = await chromium.launch(); const errs = [];
   const p = await b.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 2 }); p.on('pageerror', e => errs.push(e.message)); try { await require('./localfonts.js')(p); } catch (e) {}
   await p.goto(BASE + '#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(900);
-  const dots = () => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#sidebar .nav a, #pop-user .item[href="#/coach"]')].map(a => [a.getAttribute('href').slice(2), (a.querySelector('.nav-dot') || {}).title || ''])));
+  const dots = () => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#sidebar .nav a, .rail-item[data-rail=coach]')].map(a => [a.getAttribute('href').slice(2), (a.querySelector('.nav-dot') || {}).title || ''])));
   const today = await p.evaluate(() => Core.dayKey(new Date())); const wd = new Date().getDay(); const weekday = wd !== 0 && wd !== 6;
   console.log('Start:', JSON.stringify(await dots()));
   /* Ausgangslage festlegen: heute kein Trade, keine offene Position, kein Check-in */

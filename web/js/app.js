@@ -22,7 +22,7 @@
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
     ['Konten', [['coupons', 'Coupon-Codes', 'coupon']]],
-  ]; /* Coach und Affiliate stehen nicht in der Navigation, sondern im Konto-Menü unten (userCard); Prop Firms, Mentor und News sind eigene Bereiche */
+  ]; /* Prop Firms, Mentor, News, Backtesting, Coach, Affiliate und Kontakt sind eigene Bereiche in der Leiste ganz links */
   /* Bereiche in der schmalen Leiste ganz links: jeder Bereich hat seine eigene Navigation in der Seitenleiste.
      Journal ist alles Bisherige; ein Bereich gilt als aktiv, wenn die Seite in seiner Navigation steht */
   const AREAS = [
@@ -236,7 +236,7 @@
       const brandHTML = `<span class="brand-mark" aria-hidden="true">${LOGO}</span><span class="brand-text brand-sr"><span class="name no-i18n">Journalyst</span></span>`; /* nur das Logo-Zeichen; der Name bleibt unsichtbar für Screenreader */
       this.renderFrame(''); /* oben nur noch der schmale Rand über dem großen Fenster (css), Logo in der Bereichsleiste, Knopf und Profilbild in der Kopfzeile */
       document.querySelectorAll('.rail-btn').forEach(bt => { bt.setAttribute('aria-pressed', String(railOff)); const l = railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden'; bt.setAttribute('aria-label', l); bt.title = l; });
-      sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.key === 'journal' ? `<div class="sb-new">${this.newTradeButton()}</div>` : ''}${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme, why('coach'))}`;
+      sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.key === 'journal' ? `<div class="sb-new">${this.newTradeButton()}</div>` : ''}${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme)}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
@@ -259,23 +259,22 @@
       rl.innerHTML = `<a class="rail-logo" href="#/dashboard" data-action="nav-close" title="Journalyst" aria-label="Journalyst">${LOGO}</a>${AREAS.filter(a => !a.bottom).map(btn).join('')}<span class="rail-spacer"></span>${AREAS.filter(a => a.bottom).map(btn).join('')}`;
       this.translateNow(rl);
     },
-    /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Coach, Einstellungen,
+    /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Einstellungen,
        Benachrichtigungen, Sprache und Hell/Dunkel. Ersetzt den früheren Einstellungen-Eintrag und den Hell/Dunkel-Schalter.
-       coachWhy: Grund für den Hinweis-Punkt bei Coach (neue Aufgabe) – dann auch ein Punkt am Profilbild */
-    userCard(theme, coachWhy) {
+       Coach und Affiliate stehen nur in der Bereichsleiste (Hinweis auf neue Aufgaben dort am Coach-Symbol) */
+    userCard(theme) {
       const st = S.settings, pr = st.profile || {}; const cur = this.state.route;
       const full = [pr.firstName, pr.lastName].map(x => String(x || '').trim()).filter(Boolean).join(' '); const user = String(pr.username || '').trim().replace(/^@/, '');
       const name = full || user || (st.name && st.name !== 'Trader' ? String(st.name).trim() : '') || 'Trader';
       const mail = String(pr.email || '').trim(); const sub = mail || (user ? '@' + user : '');
       const initials = name.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
       const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
-      const cdot = coachWhy ? navBadge(coachWhy) : '';
-      const link = (href, icon, label, extra = '', on = false) => `<a class="item${on ? ' on' : ''}" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span>${extra}</a>`;
-      return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' || cur === 'coach' || cur === 'affiliate' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
-        <span class="sb-avwrap"><span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span>${coachWhy ? cdot.replace('nav-dot', 'nav-dot sb-av-dot') : ''}</span>
+      const link = (href, icon, label) => `<a class="item" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
+      return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
+        <span class="sb-avwrap"><span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span></span>
         <span class="sb-who"><b class="no-i18n">${esc(name)}</b>${sub ? `<span class="no-i18n">${esc(sub)}</span>` : '<span>Profil vervollständigen</span>'}</span>
         <span class="sb-chev">${chev('M7 14l5-5 5 5')}${chev('M7 10l5 5 5-5')}</span></button>
-        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/coach', 'coach', 'Coach', cdot, cur === 'coach')}${link('#/affiliate', 'affiliate', 'Affiliate', '', cur === 'affiliate')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
+        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
           <button type="button" class="item pcv-item" role="menuitem" data-action="pc-view">${I.monitor}<span>PC-Ansicht</span></button><div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
     },
     /* Vorgabe für das Zeitraum-Menü: Schlüssel, Name und Tage (JJJJ-MM-TT) zum Markieren im Kalender; „Gesamt“ ohne Tage */

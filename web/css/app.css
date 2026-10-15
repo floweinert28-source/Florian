@@ -257,7 +257,6 @@ html.sb-mini[data-theme="light"] .theme-toggle::before { transform: translateY(2
 .sb-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Hinweis-Punkt am Profilbild, wenn bei Coach etwas wartet (Coach steht im Konto-Menü) */
 .sb-avwrap { position: relative; flex: 0 0 auto; display: grid; }
-.sb-av-dot { position: absolute; top: 0; right: 0; width: 8px; height: 8px; border-radius: 1.5px; transform: rotate(45deg); background: var(--accent); box-shadow: 0 0 0 2px var(--surface); }
 /* helles Design: Balken und Punkte im satten Akzent (aufgehellt wären sie auf Weiß zu blass) */
 .sb-who { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1 1 auto; }
 .sb-who b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -3362,7 +3361,6 @@ html:not(.sb-mini) .nav a, html:not(.sb-mini) .nav button { padding-top: 5px; pa
 .nav .nav-dot { margin-right: 8px; }
 .sb-menu .item .nav-dot { margin-right: 0; }
 html.sb-mini .nav .nav-dot { position: absolute; top: 1px; right: 0; min-width: 15px; height: 14px; padding: 0 4px; font-size: 9.5px; margin: 0; box-shadow: 0 0 0 2px var(--bg-2); }
-.sb-av-dot { top: -3px; right: -5px; width: auto; height: 15px; min-width: 15px; padding: 0 4px; border-radius: 999px; transform: none; display: inline-grid; place-items: center; background: var(--badge); color: var(--badge-ink); font: 600 9.5px/1 var(--font-num); box-shadow: 0 0 0 2px var(--surface); }
 /* Hinweise wie die Zähler der Vorlage: nur eine schlichte graue Zahl rechts im Eintrag, ohne Kreis und Hintergrund */
 .nav .nav-dot, .sb-menu .item .nav-dot { min-width: 0; height: auto; padding: 0; background: none; color: color-mix(in srgb, var(--text) 40%, var(--bg-2)); font: 400 14px/20px var(--font-num); letter-spacing: 0; }
 .nav .nav-dot { margin-right: 14px; }
@@ -3389,7 +3387,6 @@ html.sb-mini .nav .nav-dot { top: 2px; right: 2px; min-width: 0; height: auto; p
 .nav .nav-dot, .sb-menu .item .nav-dot { font: 500 11px/16px var(--font-num); font-variant-numeric: tabular-nums; color: color-mix(in srgb, var(--text) 34%, var(--bg-2)); }
 .nav .nav-dot { margin-right: 12px; }
 html.sb-mini .nav .nav-dot { top: 3px; right: 3px; padding: 0 2px; font: 500 8.5px/11px var(--font-num); border-radius: 2px; color: color-mix(in srgb, var(--text) 45%, var(--bg-2)); }
-.sb-av-dot { top: -2px; right: -3px; min-width: 12px; height: 12px; padding: 0 3px; border-radius: 3px; font: 500 8px/1 var(--font-num); background: var(--surface-3, var(--surface-2)); color: color-mix(in srgb, var(--text) 55%, var(--surface)); box-shadow: 0 0 0 1.5px var(--surface); }
 /* „Widget hinzufügen“ am Ende des unteren Bereichs: so hoch wie das kleinste Widget im Bearbeitungsmodus (Klein) */
 @media (min-width: 961px) { .dash-main > .add-slot.big { height: calc(var(--card-h) + 48px); } }
 /* ---------- Bereichsleiste ganz links (Journal, Backtesting …): schmal, Symbol mit kleiner Beschriftung, eingekerbte Trennlinie zur Seitenleiste ---------- */

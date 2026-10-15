@@ -77,7 +77,7 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   await save();
   const sf = await p.evaluate(() => { const cs = getComputedStyle(document.documentElement); return [cs.getPropertyValue('--surface').trim(), cs.getPropertyValue('--border').trim(), document.documentElement.dataset.theme]; });
   ok('Grundfarbe landet nicht bei den eigenen Akzentfarben', !(await p.evaluate(() => Store.settings.savedColors)).includes('#1b2a3f'));
-  ok('Flächen und Ränder aus der Grundfarbe abgeleitet (dunkel)', sf[0] && sf[0] !== '#1a1917' && sf[2] === 'dark', JSON.stringify(sf));
+  ok('Flächen und Ränder aus der Grundfarbe abgeleitet (dunkel)', sf[0] && sf[0] !== '#151412' && sf[2] === 'dark', JSON.stringify(sf));
   ok('Karte „Eigenes“ zeigt Vorschau in der Grundfarbe', await p.$eval('.theme-card.t-custom', e => !e.classList.contains('is-new') && !!e.querySelector('.tc-win') && e.style.getPropertyValue('--c0') === '#1b2a3f'));
   /* helle Grundfarbe → helles Design */
   await p.click('.theme-card.t-custom'); await p.waitForTimeout(300); await p.fill('#pop-cp .cp-hex input', 'efe6d8'); await p.waitForTimeout(200); await save();

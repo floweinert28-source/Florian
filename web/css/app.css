@@ -11,7 +11,7 @@
   /* warmes Graphit statt Schwarz: ruhige, leicht warme Grautöne mit sanftem Licht von oben links */
   --bg: #0e0d0b;
   --bg-2: #151412;
-  --surface: #1a1917;
+  --surface: #151412; /* Widgets und Rahmen gleich dunkel (wie Tradezella: Karten und Rahmen etwas heller als das Fenster) */
   --surface-2: #22211f;
   --surface-3: #2b2a26;
   --border: #262522;
@@ -3521,3 +3521,7 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 .brand:has(.brand-mark) { gap: 10px; }
 /* Dunkle Designs: Bereichsleiste auch auf dem Handy in der Farbe der Widgets */
 :root:not([data-theme="light"]) { --rail-bg: var(--surface); }
+/* Marke: nur das Logo-Zeichen, der Name ist nur für Screenreader da */
+.brand .brand-sr { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: nowrap !important; border: 0 !important; }
+.brand .brand-mark svg { height: 26px; }
+.brand:has(.brand-mark) { gap: 0; }

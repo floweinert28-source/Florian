@@ -140,7 +140,7 @@
     releaseHeight(main, imgs, tok, short) {
       /* Freigeben, aber nie unter das, was das Fenster gerade zeigt: wird die Seite kürzer (z. B. eine Tabelle unten fällt weg),
          würde der Browser den Scrollstand kürzen und alles rutschen. Der Rest bleibt als Luft unten bis zum nächsten Aufbau. */
-      const done = () => { if (this._holdTok !== tok) return; this.catchUpScroll(short); const c = main.querySelector('#content'); const mt = main.getBoundingClientRect().top; const natural = c ? c.getBoundingClientRect().bottom - mt + (parseFloat(getComputedStyle(main).paddingBottom) || 0) : 0; const need = Math.ceil(window.innerHeight - mt); main.style.minHeight = need > natural + 1 ? need + 'px' : ''; };
+      const done = () => { if (this._holdTok !== tok) return; this.catchUpScroll(short); const c = main.querySelector('#content'); const mt = main.getBoundingClientRect().top; const ms = getComputedStyle(main); const natural = c ? c.getBoundingClientRect().bottom - mt + (parseFloat(ms.paddingBottom) || 0) : 0; const need = Math.ceil(window.innerHeight - mt - (parseFloat(ms.marginBottom) || 0)); /* PC: Rand unter dem Fenster mitrechnen */ main.style.minHeight = need > natural + 1 ? need + 'px' : ''; };
       Promise.resolve(imgs).catch(() => {}).then(() => Promise.race([
         Promise.all([...main.querySelectorAll('img')].filter(i => !i.complete).map(i => new Promise(r => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); }))),
         new Promise(r => setTimeout(r, 2000)),

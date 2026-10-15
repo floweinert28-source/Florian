@@ -3569,9 +3569,14 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 .rail { --rail-ic: color-mix(in srgb, #fff 82%, var(--rail-bg)); --rail-ic-on: #fff; }
 .rail-item .ri { color: var(--rail-ic); }
 .rail-item svg { width: 20px; height: 20px; stroke-width: 2; }
-/* ---------- Widgets (Karten, Kacheln, Fenster darüber) in den dunklen Designs immer in der Farbe der Leiste ganz links ---------- */
-:root:not([data-theme="light"]), :root[data-theme="dark"][data-dark="schwarz"] { --surface: var(--rail-bg); }
-.theme-card.t-graphit { --cw: #060605; }
-.theme-card.t-schwarz { --cw: #000000; }
 /* PC: Inhalt der Seitenleiste so tief, dass „Trade loggen“ mittig auf Höhe von Logo und Seitentitel steht (wie Vorlage) */
 @media (min-width: 961px) { .shell.has-rail .sidebar { padding-top: calc(var(--win-gap) + var(--topbar-h) / 2 - 20px); } }
+/* ---------- Hintergrund des großen Fensters (hinter den Widgets) in den dunklen Designs immer in der Farbe der Leiste ganz links;
+   Widgets, Rand und Seitenleiste bleiben, wie sie sind ---------- */
+:root { --win: var(--bg); }
+:root:not([data-theme="light"]) { --win: var(--rail-bg); }
+body { background: var(--ambient), var(--win); background-attachment: fixed; }
+.topbar { background: color-mix(in srgb, var(--win) 82%, transparent); }
+.pcv-inner .topbar { background: var(--win); }
+@media (min-width: 961px) { .shell.has-rail .main { background: var(--win); } }
+.theme-card.t-graphit { --c0: #060605; }

@@ -80,7 +80,7 @@
   /* Vorschaufarben der Karte „Eigenes“ aus der Grundfarbe (gleiche Stufen wie in Theme.surfaces) */
   function customVars(hex) {
     const T = root.Theme; if (!T.valid(hex)) return ''; const v = T.surfaces(hex); const lt = T.isLightBase(hex);
-    return `--c1:${v['--surface-2']};--c0:${v['--bg']};--cw:${v['--bg-2']};--cp:${v['--surface']};--cb:${v['--border-2']};--cl:${T.shade(hex, lt ? -0.16 : 0.2)};--ct:${v['--surface-3']}`;
+    return `--c1:${v['--surface-2']};--c0:${lt ? v['--bg'] : T.shade(hex, -0.55)};--cw:${v['--bg-2']};--cp:${v['--surface']};--cb:${v['--border-2']};--cl:${T.shade(hex, lt ? -0.16 : 0.2)};--ct:${v['--surface-3']}`;
   }
   function customCard(st, look) {
     const cb = root.Theme.valid(st.customBg) ? st.customBg : '';
@@ -99,9 +99,10 @@
   const sigOf = d => JSON.stringify([d.theme, d.darkStyle, d.customLook, d.customBg, d.font, d.colors.accent, d.colors.profit, d.colors.loss, d.colors.be]);
   function designVars(d) {
     const T = root.Theme; const light = d.theme === 'light'; const defs = T.DEFAULTS[light ? 'light' : 'dark'];
-    const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#ffffff', '--surface': '#ffffff', '--border-2': '#d4d4d4' } : d.darkStyle === 'schwarz' ? { '--bg': '#000000', '--surface': '#000000', '--border-2': '#212121' } : { '--bg': '#0e0d0b', '--surface': '#060605', '--border-2': '#34322e' };
+    const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#ffffff', '--surface': '#ffffff', '--border-2': '#d4d4d4' } : d.darkStyle === 'schwarz' ? { '--bg': '#000000', '--surface': '#0d0d0d', '--border-2': '#212121' } : { '--bg': '#060605', '--surface': '#151412', '--border-2': '#34322e' }; /* Graphit: Fenster in der Farbe der Leiste ganz links */
     const c = k => (T.valid(d.colors[k]) ? d.colors[k] : defs[k]);
-    return `--db:${base['--bg']};--ds:${base['--surface']};--dd:${base['--border-2']};--da:${c('accent')};--dp:${c('profit')};--dl:${c('loss')}`;
+    const win = d.customLook && T.valid(d.customBg) && !T.isLightBase(d.customBg) ? T.shade(d.customBg, -0.55) : base['--bg']; /* dunkles Fenster = Farbe der Leiste ganz links */
+    return `--db:${win};--ds:${base['--surface']};--dd:${base['--border-2']};--da:${c('accent')};--dp:${c('profit')};--dl:${c('loss')}`;
   }
   function designsBlock(st) {
     const list = st.designs || []; const full = list.length >= DESIGN_MAX; const cur = sigOf(designOf(st));

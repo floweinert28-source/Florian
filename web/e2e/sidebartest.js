@@ -21,6 +21,7 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   ok(c0.rail !== 'none' && c0.railTop >= 6 && c0.railTop <= 12 && c0.railL === c0.railTop && c0.railBot === c0.railTop && c0.railR >= 10 && c0.sbTop === 0 && c0.mainTop >= 6 && c0.mainTop <= 12 && c0.mainL === c0.sbR && c0.radius >= 10 && c0.sbBg === c0.shellBg && await p.evaluate(() => getComputedStyle(document.querySelector('#sidebar .brand')).display === 'none'), 'Aufbau: Bereichsleiste rundum abgerundet mit Schlitz, Seitenleiste über die volle Höhe, großes Fenster abgerundet mit schmalem Rand ' + JSON.stringify(c0));
   const mid = s => p.evaluate(s => { const r = document.querySelector(s).getBoundingClientRect(); return Math.round(r.top + r.height / 2); }, s);
   const al = [await mid('.sb-new .btn'), await mid('.rail-logo'), await mid('.topbar h1')];
+  ok(await p.evaluate(() => { const g = e => getComputedStyle(document.querySelector(e)).backgroundColor; return g('.main') === g('.rail') && g('.card, .tile') !== g('.rail'); }), 'Fensterhintergrund in der Farbe der Leiste ganz links, Widgets heller');
   ok(Math.abs(al[0] - al[1]) <= 1 && Math.abs(al[0] - al[2]) <= 1 && await p.evaluate(() => document.querySelector('.sb-new .btn').getBoundingClientRect().height >= 39), 'Trade loggen (alte Größe) mittig auf Höhe von Logo und Seitentitel ' + JSON.stringify(al));
   await p.click('.topbar .rail-btn'); await p.waitForTimeout(300);
   const c1 = await lay();

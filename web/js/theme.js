@@ -35,7 +35,7 @@
   function surfaces(base) {
     const b = base.toLowerCase();
     if (isLightBase(b)) return { '--bg': b, '--bg-2': shade(b, -0.03), '--surface': shade(b, 0.72), '--surface-2': shade(b, 0.38), '--surface-3': shade(b, -0.04), '--border': shade(b, -0.07), '--border-2': shade(b, -0.15), '--field': shade(b, 0.72), '--ambient': 'none' };
-    return { '--bg': b, '--bg-2': shade(b, 0.025), '--surface': shade(b, -0.55), /* Widgets wie die Leiste ganz links (45 % der Grundfarbe zu Schwarz) */ '--surface-2': shade(b, 0.085), '--surface-3': shade(b, 0.12), '--border': shade(b, 0.07), '--border-2': shade(b, 0.13), '--field': shade(b, 0.015), '--ambient': 'none' };
+    return { '--bg': b, '--bg-2': shade(b, 0.025), '--surface': shade(b, 0.05), '--surface-2': shade(b, 0.085), '--surface-3': shade(b, 0.12), '--border': shade(b, 0.07), '--border-2': shade(b, 0.13), '--field': shade(b, 0.015), '--ambient': 'none' };
   }
   function apply(settings) {
     const theme = (settings && settings.theme) || 'dark'; const light = theme === 'light'; const c = (settings && settings.colors) || {};

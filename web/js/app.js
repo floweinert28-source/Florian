@@ -12,11 +12,11 @@
   const RIC = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const RAIL_ICONS = {
     journal: RIC('<path d="M4.5 10.2 12 4l7.5 6.2V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19z"/>'),
-    prop: RIC('<rect x="3.5" y="7" width="17" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M3.5 12.5h17"/>'),
+    prop: RIC('<path d="M3.5 9 12 4.5 20.5 9"/><path d="M4.5 9h15"/><path d="M6.5 12v5M10.5 12v5M13.5 12v5M17.5 12v5"/><path d="M3.5 20h17"/>'), /* Firma: Gebäude mit Säulen */
     mentor: RIC('<path d="M20 11.5a8 8 0 0 1-11.7 7.1L4 20l1.3-4A8 8 0 1 1 20 11.5z"/>'),
-    news: RIC('<path d="M4 18 9 11l4 4 7-9"/><path d="M15.5 6H20v4.5"/>'),
-    backtest: RIC('<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/>'),
-    coach: RIC('<circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/>'),
+    news: RIC('<path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h10A1.5 1.5 0 0 1 17 6.5V18a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9.5h2.5V18a2 2 0 0 1-2 2"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4"/>'), /* Zeitung */
+    backtest: RIC('<path d="M9.5 3.5h5"/><path d="M10.5 3.5v5.3L5.2 17.7A1.8 1.8 0 0 0 6.8 20.5h10.4a1.8 1.8 0 0 0 1.6-2.8L13.5 8.8V3.5"/><path d="M8 16.5l2.5-2 2 1.5 3.2-3.2"/>'), /* Strategie testen: Kolben mit Kurve */
+    coach: RIC('<path d="M2.5 9.5 12 5l9.5 4.5L12 14z"/><path d="M6.5 11.8v4.2c0 1.4 2.5 2.8 5.5 2.8s5.5-1.4 5.5-2.8v-4.2"/><path d="M21.5 9.5v5"/>'), /* Lernen: Doktorhut */
     affiliate: RIC('<circle cx="12" cy="12" r="8.5"/><path d="M9 15l6-6"/><circle cx="9.4" cy="9.4" r="1" fill="currentColor" stroke="none"/><circle cx="14.6" cy="14.6" r="1" fill="currentColor" stroke="none"/>'),
     contact: RIC('<rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7.5 7.5 5.5 7.5-5.5"/>'),
   };

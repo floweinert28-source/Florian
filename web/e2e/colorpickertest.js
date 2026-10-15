@@ -67,24 +67,24 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   ok('Vier Karten: Graphit, Schwarz, Weiß, Eigenes (ohne Farbe gestrichelt mit Plus)', await p.$$eval('[data-action="appearance"]', e => e.map(x => x.dataset.value).join(',')) === 'graphit,schwarz,light,custom' && await p.$eval('.theme-card.t-custom', e => e.classList.contains('is-new')));
   /* erstes Mal „Eigenes“, dann daneben klicken: alles wie vorher (Graphit, Karte wieder mit Plus) */
   await p.click('.theme-card.t-custom'); await p.waitForTimeout(300); await p.fill('#pop-cp .cp-hex input', 'aa3355'); await p.waitForTimeout(200);
-  const tmp = await p.evaluate(() => getComputedStyle(document.body).backgroundColor); await outside();
-  ok('„Eigenes“ verwerfen: zurück zu Graphit, Karte wieder leer', tmp === 'rgb(170, 51, 85)' && await p.evaluate(() => !Store.settings.customLook && !Store.settings.customBg && getComputedStyle(document.body).backgroundColor === 'rgb(14, 13, 11)') && await p.$eval('.theme-card.t-custom', e => e.classList.contains('is-new') && e.getAttribute('aria-pressed') === 'false') && await p.$eval('.theme-card.t-graphit', e => e.getAttribute('aria-pressed') === 'true'), tmp);
+  const tmp = await p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()); await outside(); /* Grundfarbe = --bg; das Fenster selbst hat in dunklen Designs die Farbe der Leiste ganz links */
+  ok('„Eigenes“ verwerfen: zurück zu Graphit, Karte wieder leer', tmp === '#aa3355' && await p.evaluate(() => !Store.settings.customLook && !Store.settings.customBg && getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() === '#0e0d0b') && await p.$eval('.theme-card.t-custom', e => e.classList.contains('is-new') && e.getAttribute('aria-pressed') === 'false') && await p.$eval('.theme-card.t-graphit', e => e.getAttribute('aria-pressed') === 'true'), tmp);
   await p.click('.theme-card.t-custom'); await p.waitForTimeout(300);
   ok('„Eigenes“ öffnet den Farbwähler', await cp());
   await p.fill('#pop-cp .cp-hex input', '1b2a3f'); await p.waitForTimeout(250);
-  const live = await p.evaluate(() => [Store.settings.customLook, getComputedStyle(document.body).backgroundColor, document.querySelector('.theme-card.t-custom').getAttribute('aria-pressed')]);
-  ok('Grundfarbe wirkt sofort: Hintergrund, Karte gewählt', live[0] === true && live[1] === 'rgb(27, 42, 63)' && live[2] === 'true', JSON.stringify(live));
+  const live = await p.evaluate(() => [Store.settings.customLook, getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(), document.querySelector('.theme-card.t-custom').getAttribute('aria-pressed'), getComputedStyle(document.body).backgroundColor === getComputedStyle(document.querySelector('.rail')).backgroundColor]);
+  ok('Grundfarbe wirkt sofort: Hintergrund, Karte gewählt', live[0] === true && live[1] === '#1b2a3f' && live[2] === 'true' && live[3], JSON.stringify(live));
   await save();
   const sf = await p.evaluate(() => { const cs = getComputedStyle(document.documentElement); return [cs.getPropertyValue('--surface').trim(), cs.getPropertyValue('--border').trim(), document.documentElement.dataset.theme]; });
   ok('Grundfarbe landet nicht bei den eigenen Akzentfarben', !(await p.evaluate(() => Store.settings.savedColors)).includes('#1b2a3f'));
   ok('Flächen und Ränder aus der Grundfarbe abgeleitet (dunkel)', sf[0] && sf[0] !== '#151412' && sf[2] === 'dark', JSON.stringify(sf));
-  ok('Karte „Eigenes“ zeigt Vorschau in der Grundfarbe', await p.$eval('.theme-card.t-custom', e => !e.classList.contains('is-new') && !!e.querySelector('.tc-win') && e.style.getPropertyValue('--c0') === '#1b2a3f'));
+  ok('Karte „Eigenes“ zeigt Vorschau in der Grundfarbe', await p.$eval('.theme-card.t-custom', e => !e.classList.contains('is-new') && !!e.querySelector('.tc-win') && e.style.getPropertyValue('--c0') === Theme.shade('#1b2a3f', -0.55))); /* Fenster der Vorschau wie die Leiste ganz links */
   /* helle Grundfarbe → helles Design */
   await p.click('.theme-card.t-custom'); await p.waitForTimeout(300); await p.fill('#pop-cp .cp-hex input', 'efe6d8'); await p.waitForTimeout(200); await save();
   ok('Helle Grundfarbe → helles Design', await p.evaluate(() => Store.settings.theme === 'light' && document.documentElement.dataset.theme === 'light' && getComputedStyle(document.body).backgroundColor === 'rgb(239, 230, 216)'));
   /* zurück zu Graphit, eigenes bleibt gespeichert und ist mit einem Klick wieder da */
   await p.click('[data-action="appearance"][data-value="graphit"]'); await p.waitForTimeout(300);
-  ok('Graphit: eigenes aus, Grundfarbe bleibt gespeichert', await p.evaluate(() => !Store.settings.customLook && Store.settings.customBg === '#efe6d8' && getComputedStyle(document.body).backgroundColor === 'rgb(14, 13, 11)'));
+  ok('Graphit: eigenes aus, Grundfarbe bleibt gespeichert', await p.evaluate(() => !Store.settings.customLook && Store.settings.customBg === '#efe6d8' && getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() === '#0e0d0b' && getComputedStyle(document.body).backgroundColor === getComputedStyle(document.querySelector('.rail')).backgroundColor));
   await p.click('.theme-card.t-custom'); await p.waitForTimeout(300);
   ok('Klick auf „Eigenes“ wendet die gespeicherte Grundfarbe an (ohne Farbwähler)', !(await cp()) && await p.evaluate(() => Store.settings.customLook && getComputedStyle(document.body).backgroundColor === 'rgb(239, 230, 216)'));
 
@@ -109,7 +109,7 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
 
   /* 9. Hell/Dunkel-Schalter verlässt „Eigenes“ */
   await p.evaluate(() => App.actions.theme.call(App, { dataset: { value: 'dark' } })); await p.waitForTimeout(300);
-  ok('Hell/Dunkel-Schalter wählt die festen Designs', await p.evaluate(() => !Store.settings.customLook && getComputedStyle(document.body).backgroundColor === 'rgb(14, 13, 11)'));
+  ok('Hell/Dunkel-Schalter wählt die festen Designs (Graphit; Fensterhintergrund in der Farbe der Leiste ganz links)', await p.evaluate(() => !Store.settings.customLook && document.documentElement.dataset.dark === 'graphit' && getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() === '#0e0d0b' && getComputedStyle(document.body).backgroundColor === getComputedStyle(document.querySelector('.rail')).backgroundColor));
 
   /* 10. Andere Farbfelder (Notebook-Ordner) nutzen den Farbwähler ebenfalls */
   const other = await p.evaluate(() => { const i = document.createElement('input'); i.type = 'color'; i.value = '#123456'; i.id = 'tmp-color'; document.body.appendChild(i); return true; });

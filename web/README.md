@@ -390,3 +390,12 @@ die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; k
 Bereiche mit eigenem Scrollen (Notiz-Spalten, Tabellen, Menüs, Dialoge), Tastatur, Scrollbalken und Touch bleiben nativ. Bei
 „Bewegung reduzieren“, auf Touch-Geräten und bei offenem Dialog passiert nichts; programmatisches Scrollen (Seitenwechsel,
 Scrollstand halten) bricht die Bewegung ab. Ohne das Skript scrollt alles wie gewohnt.
+
+## Werkzeuge für Claude (Design und Prüfung)
+
+Im Repository unter `.claude/skills/` (jede neue Claude-Code-Sitzung lädt sie automatisch):
+- **taste-skill** (`design-taste-frontend`, aus github.com/Leonxlnx/taste-skill, MIT, Stand f624f37 vom 14.10.2026): Vorgaben für Schrift, Layout und Abstände gegen den „generischen KI-Look“, für neue Seiten. Arbeitsdateien landen in `.taste-skill/` (in `.gitignore`).
+- **redesign-skill** (`redesign-existing-projects`, gleiche Quelle): prüft eine bestehende Oberfläche und verbessert Layout, Abstände und Hierarchie, ohne Funktionen zu brechen; der passende Taste-Skill für diese App.
+- **21st-ui** (aus github.com/21st-dev/magic-mcp, ISC, Stand 6b5299e): steuert den 21st-MCP-Server (Komponenten suchen, Code holen, Logos). `.mcp.json` bindet den Server `https://21st.dev/api/mcp` ein, `.claude/settings.json` gibt ihn frei. Der Schlüssel kommt nur aus der Umgebungsvariable `API_KEY_21ST` (kostenlos unter 21st.dev/mcp, in den Einstellungen der Cloud-Umgebung eintragen), nie aus dem Repository. 21st-Komponenten sind React/Tailwind; diese App ist Vanilla-JS, sie dienen daher als Vorlage, die nachgebaut wird.
+- **web-design-guidelines** (Vercel Web Interface Guidelines): prüft den Code auf Bedienbarkeit (Fokus, Tastatur, Formulare, Ladezustände usw.) und holt die aktuellen Regeln bei jedem Lauf von GitHub.
+- Außerdem **impeccable** und **writing-guidelines**.

@@ -26,3 +26,6 @@ __pycache__/
 data/
 server/data/
 venv/
+
+# Arbeitsdateien des Taste Skill
+.taste-skill/

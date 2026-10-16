@@ -3634,7 +3634,7 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 .wr-ico svg { width: 18px; height: 18px; }
 .chart.wr-chart { height: 220px; min-height: 220px; }
 .wr { position: relative; height: 100%; display: grid; place-items: center; }
-.wr-track { fill: none; stroke: color-mix(in srgb, var(--accent) 10%, transparent); stroke-width: 12; stroke-dasharray: 8 12; stroke-linecap: round; }
+.wr-track { fill: none; stroke: color-mix(in srgb, var(--accent) 10%, transparent); stroke-width: 12; stroke-linecap: round; }
 .wr-bar { fill: none; stroke: var(--accent); stroke-width: 12; stroke-linecap: round; }
 .wr-mid { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; pointer-events: none; }
 .wr-n { font-family: var(--font-num); font-size: 52px; line-height: 1; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
@@ -3658,3 +3658,29 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 .badge .bi { background: color-mix(in srgb, var(--c) 14%, transparent); }
 /* Setup-Schilder: nur Kontur */
 .chip.setup { background: transparent; border-color: var(--border-2); color: var(--text-2); }
+/* ---------- Schwarze Leiste oben (PC): läuft so breit wie die Leiste links über die ganze obere Kante und bildet mit ihr ein „L“;
+   das Logo sitzt in der Ecke, innen ein runder Übergang. Seitenleiste und Fenster beginnen darunter ---------- */
+:root { --lbar-h: var(--rail-w); --win-top: calc(2 * var(--win-gap) + var(--lbar-h)); }
+.ft-bar, .ft-in { display: none; }
+@media (min-width: 961px) {
+  .frame-top { left: calc(var(--rail-w) + var(--win-gap)); height: var(--win-top); }
+  html.sb-off .frame-top { left: calc(var(--rail-w) + var(--win-gap)); }
+  html.rail-off .frame-top, html.rail-off.sb-off .frame-top { left: 0; }
+  .frame-top::before { left: var(--sidebar-w); }
+  html.sb-off .frame-top::before { left: var(--win-gap); }
+  html.rail-off .frame-top::before { left: var(--sidebar-w); }
+  html.rail-off.sb-off .frame-top::before { left: var(--win-gap); }
+  .ft-bar { display: block; position: absolute; left: -1px; right: var(--win-gap); top: var(--win-gap); height: var(--lbar-h); background: var(--rail-bg); border-radius: 0 var(--win-r) var(--win-r) 0; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07); }
+  html.rail-off .ft-bar { left: var(--win-gap); border-radius: var(--win-r); }
+  /* runder Übergang innen zwischen Leiste oben und Leiste links */
+  .ft-in { display: block; position: absolute; left: 0; top: calc(var(--win-gap) + var(--lbar-h)); width: var(--win-r); height: var(--win-r); background: radial-gradient(circle at 100% 100%, transparent calc(var(--win-r) - .5px), var(--rail-bg) var(--win-r)); }
+  html.rail-off .ft-in { display: none; }
+  .shell.has-rail .rail { border-top-right-radius: 0; padding-top: calc((var(--lbar-h) - 40px) / 2); }
+  .shell.has-rail .rail-logo { margin-bottom: calc(36px + var(--lbar-h) + var(--win-gap) + 16px - (var(--lbar-h) - 40px) / 2); }
+  .shell.has-rail .sidebar { top: var(--win-top); height: calc(100vh - var(--win-top)); height: calc(100dvh - var(--win-top)); padding-top: calc(var(--topbar-h) / 2 - 20px); }
+  .shell.has-rail .main { margin-top: var(--win-top); min-height: calc(100vh - var(--win-top) - var(--win-gap)); }
+  .shell.has-rail .topbar { top: var(--win-top); }
+  .shell.has-rail .main:has(> .content > .nb), .shell.has-rail .main:has(> .content > .tl-fit) { height: calc(100vh - var(--win-top) - var(--win-gap)); height: calc(100dvh - var(--win-top) - var(--win-gap)); }
+  .shell.has-rail .set-nav { top: calc(var(--win-top) + var(--topbar-h) + 16px); }
+  .shell.has-rail .edit-bar { top: calc(var(--win-top) + 8px); }
+}

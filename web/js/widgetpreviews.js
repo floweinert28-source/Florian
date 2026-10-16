@@ -21,7 +21,9 @@
   const path = (pts, stroke, w = 1.4) => `<path d="M${pts.map(p => p.join(' ')).join(' L')}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
   const area = (pts, base, fill, op = .2) => `<path d="M${pts[0][0]} ${base} L${pts.map(p => p.join(' ')).join(' L')} L${pts[pts.length - 1][0]} ${base} Z" fill="${fill}" fill-opacity="${op}"/>`;
   const dot = (x, y, c, rr = 1.5) => `<circle cx="${x}" cy="${y}" r="${rr}" fill="${c}"/>`;
-  const ring = (cx, cy, rad, color, frac, w = 4.5, bg = S3) => { const c = 2 * Math.PI * rad; return `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${bg}" stroke-width="${w}"/><circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${color}" stroke-width="${w}" stroke-dasharray="${(c * frac).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 ${cx} ${cy})"/>`; };
+  /* Kreis als Pfad ab 12 Uhr im Uhrzeigersinn (Fortschritt ohne Drehung per transform, die nicht jeder Browser gleich umsetzt) */
+  const topCircle = (cx, cy, r) => `M${cx} ${cy - r} A${r} ${r} 0 1 1 ${cx} ${cy + r} A${r} ${r} 0 1 1 ${cx} ${cy - r}`;
+  const ring = (cx, cy, rad, color, frac, w = 4.5, bg = S3) => { const c = 2 * Math.PI * rad; return `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${bg}" stroke-width="${w}"/><path d="${topCircle(cx, cy, rad)}" fill="none" stroke="${color}" stroke-width="${w}" stroke-dasharray="${(c * frac).toFixed(1)} ${c.toFixed(1)}"/>`; };
   const gauge = (cx, cy, rad, frac) => { const a = Math.PI * (1 - frac); const x = cx + rad * Math.cos(a), y = cy - rad * Math.sin(a); return `<path d="M${cx - rad} ${cy} A${rad} ${rad} 0 0 1 ${cx + rad} ${cy}" fill="none" stroke="${L}" stroke-width="4" stroke-linecap="round"/><path d="M${cx - rad} ${cy} A${rad} ${rad} 0 0 1 ${x.toFixed(1)} ${y.toFixed(1)}" fill="none" stroke="${P}" stroke-width="4" stroke-linecap="round"/>`; };
   const legend = (items, y) => items.map(([c, s, x]) => dot(x, y - 1.4, c, 1.6) + tx(x + 3.5, y, s, 4.2, T2)).join('');
   const gear = (x, y) => `<g transform="translate(${x} ${y})" fill="none" stroke="${F}" stroke-width="1"><circle r="1.5"/><circle r="3.6" stroke-dasharray="1.5 1.3"/></g>`;
@@ -127,7 +129,7 @@
         + `<polygon points="${poly(vals)}" fill="${A}" fill-opacity=".6"/>` + names.map((s, i) => tx(pos[i][0], pos[i][1], s, 3.6, T2, { a: pos[i][2], w: 600 })).join(''); },
     trefferquote_ring: () => { const cx = 70, cy = 50, rad = 23, c = 2 * Math.PI * rad, f = .58;
       return ttl('Trefferquote-Ring') + `<circle cx="128" cy="11" r="5.5" fill="${A}"/><circle cx="128" cy="11" r="2.6" fill="none" stroke="var(--accent-ink)" stroke-width=".8"/><circle cx="128" cy="11" r=".9" fill="var(--accent-ink)"/>`
-        + `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${A}" stroke-opacity=".16" stroke-width="3.6" stroke-dasharray="2.4 3.6" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${A}" stroke-width="3.6" stroke-linecap="round" stroke-dasharray="${(c * f).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 ${cx} ${cy})"/>`
+        + `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${A}" stroke-opacity=".16" stroke-width="3.6" stroke-dasharray="2.4 3.6" stroke-linecap="round"/><path d="${topCircle(cx, cy, rad)}" fill="none" stroke="${A}" stroke-width="3.6" stroke-linecap="round" stroke-dasharray="${(c * f).toFixed(1)} ${c.toFixed(1)}"/>`
         + num(cx - 1, cy + 3, '58', 13, TX, { a: 'middle', w: 700 }) + tx(cx + 9, cy + 3, '%', 5, T2) + tx(cx, cy + 10, '52 von 90 Trades', 3.4, T2, { a: 'middle' }) + tx(cx - 1, 85, 'Letzte 20 Trades', 4, T2, { a: 'end' }) + num(cx + 1, 85, '60 %', 4, TX, { w: 700 }); },
   };
   /* ältere Bezeichnungen (preview-Feld der Registry) als Rückfall */

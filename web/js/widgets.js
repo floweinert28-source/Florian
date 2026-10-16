@@ -134,25 +134,36 @@
     box.querySelectorAll('.mc-col').forEach(c => { const p = +c.dataset.p; c.addEventListener('pointerenter', () => set(p)); c.addEventListener('pointerdown', () => set(p)); c.addEventListener('focus', () => set(p)); c.addEventListener('blur', () => set(null)); });
     box.querySelector('.mc-bars').addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') set(null); });
   };
-  /* Ringsegment mit abgerundeten Ecken (wie cornerRadius bei Recharts): Eckkreise innen am äußeren Rand und außen am inneren Rand anliegend */
-  function roundedArc(cx, cy, r0, r1, a0, a1, cr) {
-    const span = a1 - a0; const p = (rr, a) => polar(cx, cy, rr, a).map(f2).join(' ');
-    let c = Math.min(cr, (r1 - r0) / 2); while (c > 0.5 && 2 * Math.asin(Math.min(1, c / (r0 + c))) > span * 0.9) c *= 0.8;
-    if (c <= 0.5) { const lg = span > Math.PI ? 1 : 0; return `M${p(r1, a0)} A${f2(r1)} ${f2(r1)} 0 ${lg} 1 ${p(r1, a1)} L${p(r0, a1)} A${f2(r0)} ${f2(r0)} 0 ${lg} 0 ${p(r0, a0)} Z`; }
-    const dO = Math.asin(c / (r1 - c)), dI = Math.asin(c / (r0 + c)); const lO = Math.sqrt((r1 - c) ** 2 - c * c), lI = Math.sqrt((r0 + c) ** 2 - c * c);
-    const lgO = span - 2 * dO > Math.PI ? 1 : 0, lgI = span - 2 * dI > Math.PI ? 1 : 0; const k = `${f2(c)} ${f2(c)} 0 0 1`;
-    return `M${p(lO, a0)} A${k} ${p(r1, a0 + dO)} A${f2(r1)} ${f2(r1)} 0 ${lgO} 1 ${p(r1, a1 - dO)} A${k} ${p(lO, a1)} L${p(lI, a1)} A${k} ${p(r0, a1 - dI)} A${f2(r0)} ${f2(r0)} 0 ${lgI} 0 ${p(r0, a0 + dI)} A${k} ${p(lI, a0)} Z`;
+  /* Ringsegment mit überall gleich breiten Lücken: die Kanten laufen parallel zur Trennlinie (Abstand gap/2), statt als Winkel
+     nach außen breiter zu werden; die Ecken sind rund (Eckkreise an Kante und Rand anliegend). Zu schmale Segmente werden zum Keil */
+  function ringSegment(cx, cy, r0, r1, a0, a1, gap, cr) {
+    const d = gap / 2, span = a1 - a0;
+    const P = (a, s, t, h) => polar(cx, cy, Math.hypot(t, h), a + s * Math.atan2(h, t)).map(f2).join(' '); /* Punkt t entlang der Trennlinie bei a, h quer ins Segment */
+    const R = (rr, a) => polar(cx, cy, rr, a).map(f2).join(' ');
+    const lg = x => (x > Math.PI ? 1 : 0);
+    let c = Math.min(cr, (r1 - r0) / 2 - 0.5), ok = false;
+    for (let k = 0; k < 30 && c > 0.3; k++) { const ti = Math.sqrt(Math.max(0, (r0 + c) ** 2 - (d + c) ** 2)); if (r0 > d && span - 2 * Math.atan2(d + c, ti) > 0.02) { ok = true; break; } c *= 0.8; }
+    if (ok) {
+      const to = Math.sqrt((r1 - c) ** 2 - (d + c) ** 2), ti = Math.sqrt((r0 + c) ** 2 - (d + c) ** 2); const dO = Math.atan2(d + c, to), dI = Math.atan2(d + c, ti); const k = `${f2(c)} ${f2(c)} 0 0 1`;
+      return `M${P(a0, 1, to, d)} A${k} ${R(r1, a0 + dO)} A${f2(r1)} ${f2(r1)} 0 ${lg(span - 2 * dO)} 1 ${R(r1, a1 - dO)} A${k} ${P(a1, -1, to, d)} L${P(a1, -1, ti, d)} A${k} ${R(r0, a1 - dI)} A${f2(r0)} ${f2(r0)} 0 ${lg(span - 2 * dI)} 0 ${R(r0, a0 + dI)} A${k} ${P(a0, 1, ti, d)} Z`;
+    }
+    /* sehr schmales Segment: ohne Rundung; reicht es nicht bis innen, endet es als Spitze, wo sich die beiden Kanten treffen */
+    const to = Math.sqrt(Math.max(0, r1 * r1 - d * d)); const dO = Math.atan2(d, to);
+    if (span - 2 * dO <= 0.002) return '';
+    const ti = Math.sqrt(Math.max(0, r0 * r0 - d * d));
+    if (r0 > d && span - 2 * Math.atan2(d, ti) > 0.002) return `M${P(a0, 1, to, d)} A${f2(r1)} ${f2(r1)} 0 ${lg(span - 2 * dO)} 1 ${P(a1, -1, to, d)} L${P(a1, -1, ti, d)} A${f2(r0)} ${f2(r0)} 0 ${lg(span)} 0 ${P(a0, 1, ti, d)} Z`;
+    const tip = d / Math.sin(span / 2); return tip >= r1 ? '' : `M${P(a0, 1, to, d)} A${f2(r1)} ${f2(r1)} 0 ${lg(span - 2 * dO)} 1 ${P(a1, -1, to, d)} L${R(tip, (a0 + a1) / 2)} Z`;
   }
   /* Pie Chart: Ring mit kleinen Lücken und runden Ecken, Anzahl im Segment, Tooltip beim Drüberfahren; die anderen Segmente treten zurück */
   U.drawers.pie = function (el, d, W, H) {
     const sl = d && d.slices || []; const total = C.sum(sl.map(x => x.n)); if (!total) { chartEmpty(el); return; }
-    const cx = W / 2, cy = H / 2, r1 = Math.min(W, H) / 2 - 4, r0 = r1 * 0.3, cr = Math.max(3, r1 * 0.08), pad = sl.length > 1 ? 4 * Math.PI / 180 : 0;
+    const cx = W / 2, cy = H / 2, r1 = Math.min(W, H) / 2 - 4, r0 = r1 * 0.3, cr = Math.max(3, r1 * 0.07), gap = sl.length > 1 ? Math.round(Math.max(4, r1 * 0.045)) : 0;
     let a = -Math.PI / 2;
     const parts = sl.map(x => {
-      const span = x.n / total * 2 * Math.PI; const a0 = a + pad / 2, a1 = a + span - pad / 2; a += span; const [lx, ly] = polar(cx, cy, (r0 + r1) / 2, (a0 + a1) / 2);
+      const span = x.n / total * 2 * Math.PI; const a0 = a, a1 = a + span; a += span; const [lx, ly] = polar(cx, cy, (r0 + r1) / 2, (a0 + a1) / 2);
       const tip = `<b>${esc(x.label)}</b><br><span>${U.count(x.n, 'Trade', 'Trades')}</span> · ${fmt.pct(x.n / total, 0)}<br><span>Trefferquote</span> ${fmt.pct(x.s.winRate, 0)} · ${fmt.cur(x.s.total, { signed: true })}`;
-      const shape = sl.length === 1 ? `<circle cx="${f2(cx)}" cy="${f2(cy)}" r="${f2((r0 + r1) / 2)}" fill="none" stroke="var(--pie-${x.c})" stroke-width="${f2(r1 - r0)}" class="pie-seg" data-tip="${esc(tip)}"/>` : `<path d="${roundedArc(cx, cy, r0, r1, a0, a1, cr)}" fill="var(--pie-${x.c})" class="pie-seg" data-tip="${esc(tip)}"/>`;
-      return shape + (a1 - a0 >= 0.32 ? `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="middle" style="fill:var(--pie-${x.c}-ink)">${fmt.int(x.n)}</text>` : '');
+      const shape = sl.length === 1 ? `<circle cx="${f2(cx)}" cy="${f2(cy)}" r="${f2((r0 + r1) / 2)}" fill="none" stroke="var(--pie-${x.c})" stroke-width="${f2(r1 - r0)}" class="pie-seg" data-tip="${esc(tip)}"/>` : `<path d="${ringSegment(cx, cy, r0, r1, a0, a1, gap, cr)}" fill="var(--pie-${x.c})" class="pie-seg" data-tip="${esc(tip)}"/>`;
+      return shape + ((a1 - a0) * (r0 + r1) / 2 - gap >= 30 ? `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="middle" style="fill:var(--pie-${x.c}-ink)">${fmt.int(x.n)}</text>` : '');
     });
     el.innerHTML = `<svg class="pie-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Trades nach Setup">${parts.join('')}</svg>`;
   };
@@ -178,11 +189,13 @@
   };
   /* Progress: Ring mit gestrichelter Spur und durchgehendem Fortschritt; Zahl und Ring laufen vom zuletzt gezeigten Wert zum neuen (beim ersten Mal von 0) */
   const ringShown = {};
+  /* Kreis als Pfad, der oben (12 Uhr) beginnt und im Uhrzeigersinn läuft: ohne Drehung per transform, die nicht jeder Browser gleich umsetzt */
+  const RING_PATH = 'M100 20 A80 80 0 1 1 100 180 A80 80 0 1 1 100 20';
   const easeRing = t => { const x1 = 0.43, y1 = 0.13, x2 = 0.23, y2 = 0.96; let u = t; for (let k = 0; k < 8; k++) { const x = 3 * (1 - u) ** 2 * u * x1 + 3 * (1 - u) * u * u * x2 + u ** 3 - t; const dx = 3 * (1 - u) ** 2 * x1 + 6 * (1 - u) * u * (x2 - x1) + 3 * u * u * (1 - x2); if (Math.abs(dx) < 1e-6) break; u = C.clamp(u - x / dx, 0, 1); } return 3 * (1 - u) ** 2 * u * y1 + 3 * (1 - u) * u * u * y2 + u ** 3; };
   U.drawers.wring = function (el, d, W, H) {
     if (!d) { chartEmpty(el); return; }
     const size = Math.max(120, Math.min(184, W, H)), circ = 2 * Math.PI * 80;
-    el.innerHTML = `<div class="wr"><svg class="wr-svg" viewBox="0 0 200 200" width="${size}" height="${size}" style="width:${size}px;height:${size}px" role="progressbar" aria-label="Trefferquote" aria-valuenow="${Math.round(d.rate * 100)}" aria-valuemin="0" aria-valuemax="100"><circle cx="100" cy="100" r="80" class="wr-track"/><circle cx="100" cy="100" r="80" class="wr-bar" stroke-dasharray="${f2(circ)} ${f2(circ)}" transform="rotate(-90 100 100)"/></svg><div class="wr-mid"><span class="wr-n"><span class="wr-v">0</span><small>%</small></span><span class="wr-s">${d.sub}</span></div></div>`;
+    el.innerHTML = `<div class="wr"><svg class="wr-svg" viewBox="0 0 200 200" width="${size}" height="${size}" style="width:${size}px;height:${size}px" role="progressbar" aria-label="Trefferquote" aria-valuenow="${Math.round(d.rate * 100)}" aria-valuemin="0" aria-valuemax="100"><path d="${RING_PATH}" class="wr-track" stroke-dasharray="${f2(circ / 25 * 0.4)} ${f2(circ / 25 * 0.6)}"/><path d="${RING_PATH}" class="wr-bar" stroke-dasharray="${f2(circ)} ${f2(circ)}"/></svg><div class="wr-mid"><span class="wr-n"><span class="wr-v">0</span><small>%</small></span><span class="wr-s">${d.sub}</span></div></div>`;
     const bar = el.querySelector('.wr-bar'), num = el.querySelector('.wr-v'); const key = el.dataset.id;
     const paint = x => { bar.setAttribute('stroke-dashoffset', f2(circ * (1 - x))); bar.style.opacity = x > 0.001 ? '' : '0'; num.textContent = String(Math.round(x * 100)); };
     const from = ringShown[key] != null ? ringShown[key] : 0, to = d.rate; ringShown[key] = to;

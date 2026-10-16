@@ -11,12 +11,13 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   const fid = await p.evaluate(() => Store.data.folders.find(f => !f.isDefault).id);
   await p.hover(`.nb .folder[data-id="${fid}"]`); await p.click(`.nb .folder[data-id="${fid}"] .more`); await p.waitForTimeout(200);
   ok('Ordnermenü offen', await p.$eval(`#pop-fm-${fid}`, e => e.classList.contains('open')));
-  await p.click(`#pop-fm-${fid} [data-action="nb-folder-edit"]:not([data-color])`); await p.waitForTimeout(250);
-  ok('Umbenennen öffnet Dialog', !!(await p.$('.modal #fo-name')) && (await p.textContent('.modal h2')).includes('Ordner bearbeiten'));
+  ok('Ordnermenü: Bearbeiten, Standard-Vorlage, Löschen (kein „Farbe ändern“)', await p.$$eval(`#pop-fm-${fid} .item`, e => e.length === 3 && /Bearbeiten/.test(e[0].textContent)));
+  await p.click(`#pop-fm-${fid} [data-action="nb-folder-edit"]`); await p.waitForTimeout(250);
+  ok('Bearbeiten öffnet Dialog', !!(await p.$('.modal #fo-name')) && (await p.textContent('.modal h2')).includes('Ordner bearbeiten'));
   await p.fill('.modal #fo-name', 'Umbenannt'); await p.click('.modal button[type=submit]'); await p.waitForTimeout(300);
   ok('Umbenennen gespeichert', (await p.textContent(`.nb .folder[data-id="${fid}"]`)).includes('Umbenannt'));
-  await p.hover(`.nb .folder[data-id="${fid}"]`); await p.click(`.nb .folder[data-id="${fid}"] .more`); await p.waitForTimeout(150); await p.click(`#pop-fm-${fid} [data-action="nb-folder-edit"][data-color]`); await p.waitForTimeout(250);
-  ok('Farbe ändern öffnet Dialog', (await p.textContent('.modal h2')).includes('Farbe ändern'));
+  await p.hover(`.nb .folder[data-id="${fid}"]`); await p.click(`.nb .folder[data-id="${fid}"] .more`); await p.waitForTimeout(150); await p.click(`#pop-fm-${fid} [data-action="nb-folder-edit"]`); await p.waitForTimeout(250);
+  ok('Farbe im selben Dialog „Ordner bearbeiten“', (await p.textContent('.modal h2')).includes('Ordner bearbeiten') && !(await p.$('.modal #fo-name[readonly]')));
   await p.click('.modal .swatch[data-value="#5cb8ff"]'); await p.click('.modal button[type=submit]'); await p.waitForTimeout(300);
   ok('Farbe gespeichert', await p.evaluate((id) => Store.getFolder(id).color === '#5cb8ff', fid));
   await p.hover(`.nb .folder[data-id="${fid}"]`); await p.click(`.nb .folder[data-id="${fid}"] .more`); await p.waitForTimeout(150); await p.click(`#pop-fm-${fid} [data-action="nb-folder-template"]`); await p.waitForTimeout(250);

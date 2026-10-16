@@ -3,7 +3,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
 (async () => { const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1600, height: 1000 } }); const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
   await p.goto('file:///home/user/Florian/web/app.html#/notebook', { waitUntil: 'load' }); await p.waitForTimeout(900);
   await p.click('.nb .col.mid [data-action=nb-new]'); await p.waitForTimeout(500); await p.click('.nb-editor .ql-editor'); await p.keyboard.type('Setup von heute:'); await p.keyboard.press('Enter');
-  await p.click('.nb-toolbar [data-pop$="image"]'); await p.waitForTimeout(150);
+  await p.click('.nb-toolbar [data-pop$="insert"]'); await p.waitForTimeout(150);
   const [fc] = await Promise.all([p.waitForEvent('filechooser'), p.click('.nb-toolbar label[data-ed-label="image"]')]); await fc.setFiles('chart.png'); await p.waitForTimeout(900);
   const geo = () => p.evaluate(() => { const f = document.querySelector('.nb-figure'); const im = f.querySelector('img').getBoundingClientRect(), rs = f.querySelector('.rs').getBoundingClientRect(), cap = f.querySelector('.cap').getBoundingClientRect(), fr = f.getBoundingClientRect(); return { img: [Math.round(im.left), Math.round(im.right), Math.round(im.bottom), Math.round(im.width)], rsC: [Math.round(rs.left + rs.width / 2), Math.round(rs.top + rs.height / 2)], cap: [Math.round(cap.left), Math.round(cap.right)], full: Math.round(fr.width), w: f.querySelector('.fig').style.width }; });
   let g = await geo(); ok('Ohne Größe: Bild höchstens volle Breite', g.img[3] <= g.full && g.img[3] > 100, JSON.stringify(g));

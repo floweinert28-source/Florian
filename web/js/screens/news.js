@@ -30,7 +30,7 @@
       let r; try { r = await fetch(baseUrl() + '/api/news', { headers: h }); } catch (e) { throw Object.assign(new Error(''), { status: 0, serverMessage: e && e.message }); }
       if (!r.ok) throw Object.assign(new Error(''), { status: r.status });
       const body = await r.json(); s.events = Array.isArray(body.events) ? body.events : []; s.updated = body.updated_at || null; s.stale = !!body.stale; s.at = Date.now();
-    } catch (e) { s.error = U.friendly(e, 'news'); } /* freundlicher Satz, Details in der Konsole */
+    } catch (e) { s.error = U.friendly(e, 'news'); s.status = e && e.status; } /* freundlicher Satz, Details in der Konsole; der Status wählt den passenden Knopf */
     finally { s.loading = false; if (App.state.route === 'news') App.rerender(); }
   }
 
@@ -74,7 +74,8 @@
       const next = shown.find(e => e.impact === 'high' && new Date(e.time) > now) || shown.find(e => new Date(e.time) > now && e.impact !== 'holiday');
 
       const chip = (key, v, l, on) => `<button type="button" class="chip sel" data-action="news-f" data-key="${key}" data-value="${esc(v)}" aria-pressed="${on}">${l}</button>`; /* ruhiger Look: aktive Filter neutral wie bei der Währung, die Farbe der Wichtigkeit steht in den Balken der Termine */
-      const filters = `<div class="nw-filters"><div class="nw-fg"><span class="lbl">Wichtigkeit</span><div class="chips">${IMPACTS.map(([v, l]) => chip('impact', v, l, f.impact.includes(v))).join('')}</div></div>${curs.length ? `<div class="nw-fg"><span class="lbl">Währung</span><div class="chips">${chip('cur', '', 'Alle', !f.cur.length)}${curs.map(c => chip('cur', c, c === 'ALL' ? 'Alle Währungen' : `<span class="no-i18n">${esc(c)}</span>`, f.cur.includes(c))).join('')}</div></div>` : ''}</div>`;
+      const curChips = `${chip('cur', '', 'Alle', !f.cur.length)}${curs.map(c => chip('cur', c, c === 'ALL' ? 'Alle Währungen' : `<span class="no-i18n">${esc(c)}</span>`, f.cur.includes(c))).join('')}`;
+      const filters = `<div class="nw-filters"><div class="nw-fg"><span class="lbl">Wichtigkeit</span><div class="chips">${IMPACTS.map(([v, l]) => chip('impact', v, l, f.impact.includes(v))).join('')}</div></div>${curs.length ? `<div class="nw-fg nw-cur"><span class="lbl">Währung</span><div class="chips">${curChips}</div></div><div class="popwrap nw-cur-m"><button type="button" class="chip sel" data-pop="nwcur" aria-haspopup="true">Währung: ${f.cur.length ? `<span class="no-i18n">${esc(f.cur.join(', '))}</span>` : 'Alle'} ${I.chev}</button><div class="popover left nw-cur-pop" id="pop-nwcur"><div class="chips">${curChips}</div></div></div>` : ''}</div>`;
 
       const groups = []; for (const e of shown) { const d = new Date(e.time); const k = dayKey(d); let g = groups[groups.length - 1]; if (!g || g.k !== k) { g = { k, d, items: [] }; groups.push(g); } g.items.push(e); }
       const list = groups.map(g => `<section class="nw-day"><h3 class="nw-dh">${dayTitle(g.d, today)}<span class="nw-n">${g.items.length}</span></h3><div class="nw-rows">${g.items.map(e => row(e, now)).join('')}</div></section>`).join('');
@@ -82,12 +83,13 @@
       const hero = next ? `<div class="nw-next"><span class="nw-next-ico">${I.bell}</span><div class="grow"><div class="caption">Nächste wichtige News</div><div class="nw-next-t">${curTag(next.currency)}<b${next.sample ? '' : ' class="no-i18n"'}>${esc(next.title)}</b></div></div><div class="nw-next-when"><b data-news-in="${esc(next.time)}">${inText(new Date(next.time) - now)}</b><small>${fmt.dayLong(new Date(next.time))}, ${fmt.time(new Date(next.time))}</small></div></div>` : '';
 
       let body;
-      if (ok && s.error && !s.events) body = U.empty('warning', 'News konnten nicht geladen werden', s.error, `<button type="button" class="btn sm" data-action="news-reload">${I.refresh} Erneut versuchen</button>`);
+      const setup = s.status === 0 || s.status === 401 || s.status === 403; /* nicht erreichbar oder falscher Schlüssel: zuerst die Einstellungen */
+      if (ok && s.error && !s.events) body = U.empty('warning', 'News konnten nicht geladen werden', s.error, setup ? `<div class="row"><a class="btn sm" href="#/settings/mentor">Zu den Einstellungen</a><button type="button" class="btn sm ghost" data-action="news-reload">${I.refresh} Erneut versuchen</button></div>` : `<button type="button" class="btn sm" data-action="news-reload">${I.refresh} Erneut versuchen</button>`);
       else if (ok && !s.events) body = newsSkel(); /* Laden: Skelett in der Form der Termin-Liste statt Kreisel */
-      else body = `${hero}${filters}${shown.length ? `<div class="nw-list">${list}</div>` : U.empty('calendar', 'Keine Termine für diese Auswahl', upcoming.length ? 'Ändere die Filter, um mehr zu sehen.' : 'Für die kommenden Tage liegen noch keine Termine vor. Die nächste Woche erscheint in der Regel zum Wochenende.')}`;
+      else if (sample) body = `<section class="card nw-setup"><h2>News brauchen deinen Journalyst-Server</h2><p>Echte Termine kommen über denselben Server wie der Mentor.</p><div class="row"><a class="btn primary" href="#/settings/mentor">Server einrichten</a></div></section><div class="nw-sample" aria-label="Beispiel"><div class="small muted nw-sample-cap">Beispiel: so sieht es mit Server aus</div><div class="nw-list">${list}</div></div>`;
+      else body = `${hero}${filters}${shown.length ? `<div class="nw-list">${list}</div>` : U.empty('calendar', 'Keine Termine für diese Auswahl', upcoming.length ? 'Ändere die Filter, um mehr zu sehen.' : 'Für die kommenden Tage liegen noch keine Termine vor. Die nächste Woche erscheint in der Regel zum Wochenende.', upcoming.length ? `<button type="button" class="btn sm" data-action="news-all">Alle Termine zeigen</button>` : '')}`;
 
-      const banner = sample
-        ? `<div class="nw-banner"><span>${I.info}</span><div class="grow"><b>Beispielansicht.</b> Echte Termine kommen über deinen Journalyst-Server (derselbe wie für den Mentor). <span class="muted">Die Beispiele haben keine Prognose- oder Vorwerte.</span></div><a class="btn sm" href="#/settings/mentor">Server einrichten</a></div>`
+      const banner = sample ? ''
         : s.error && s.events ? `<div class="nw-banner warn"><span>${I.warning}</span><div class="grow"><span>${esc(s.error)}</span> <span>Angezeigt wird der letzte Stand.</span></div></div>`
         : s.stale ? `<div class="nw-banner warn"><span>${I.warning}</span><div class="grow">Die Quelle war zuletzt nicht erreichbar. Angezeigt wird der letzte Stand.</div></div>` : '';
       const foot = !sample && s.events ? `<div class="nw-foot small muted"><span><span>Quelle: ForexFactory-Wirtschaftskalender</span>${s.updated ? ` · <span>Stand ${fmt.time(new Date(s.updated))}</span>` : ''} · <span>Diese Woche und, sobald veröffentlicht, die nächste</span> · <span>Zeiten in deiner Zeitzone</span></span><button type="button" class="btn sm ghost" data-action="news-reload"${s.loading ? ' disabled' : ''}>${I.refresh} Aktualisieren</button></div>` : '';
@@ -104,8 +106,10 @@
       const f = filt(); const k = el.dataset.key, v = el.dataset.value;
       if (k === 'impact') { const has = f.impact.includes(v); f.impact = has ? f.impact.filter(x => x !== v) : [...f.impact, v]; if (!f.impact.length) f.impact = [v]; }
       else f.cur = !v ? [] : f.cur.includes(v) ? f.cur.filter(x => x !== v) : [...f.cur, v];
-      S.setSetting('newsFilter', f); App.rerender();
+      const inPop = !!el.closest('#pop-nwcur'); S.setSetting('newsFilter', f); App.rerender();
+      if (inPop) { const p = document.getElementById('pop-nwcur'); if (p) { p.classList.add('open', 'keep'); App.fitPopover(p); } } /* Währungsfenster bleibt nach der Wahl offen */
     },
     'news-reload'() { load(true); App.rerender(); },
+    'news-all'() { S.setSetting('newsFilter', { impact: IMPACTS.map(x => x[0]), cur: [] }); App.rerender(); }, /* garantiert Termine: alle Wichtigkeiten, keine Währung */
   });
 })(typeof self !== 'undefined' ? self : this);

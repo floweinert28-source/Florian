@@ -3,7 +3,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
 (async () => { const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1600, height: 1000 } }); const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
   await p.goto('file:///home/user/Florian/web/app.html#/notebook', { waitUntil: 'load' }); await p.waitForTimeout(900);
   await p.click('.nb .col.mid [data-action=nb-new]'); await p.waitForTimeout(500); await p.click('.nb-editor .ql-editor'); await p.keyboard.type('Vorher'); await p.keyboard.press('Enter');
-  const add = async () => { await p.click('.nb-toolbar [data-pop$="image"]'); await p.waitForTimeout(150); const [fc] = await Promise.all([p.waitForEvent('filechooser'), p.click('.nb-toolbar label[data-ed-label="image"]')]); await fc.setFiles('chart.png'); await p.waitForTimeout(800); };
+  const add = async () => { await p.click('.nb-toolbar [data-pop$="insert"]'); await p.waitForTimeout(150); const [fc] = await Promise.all([p.waitForEvent('filechooser'), p.click('.nb-toolbar label[data-ed-label="image"]')]); await fc.setFiles('chart.png'); await p.waitForTimeout(800); };
   await add(); await p.keyboard.type('Nachher');
   const n = () => p.$$eval('.nb-editor .nb-figure', e => e.length);
   ok('Bild eingefügt', await n() === 1);

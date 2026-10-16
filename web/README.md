@@ -195,7 +195,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Bottom-Sheet; TradeLog-Blöcke mit festem 18-px-Abstand. Kacheln: das Info-Symbol bleibt neben dem Titel, auch wenn der
   umbricht (eigene Spalte), und in engen Kacheln (Container unter 220px) rutscht der Gewinn/Verlust-Balken mit voller Breite
   unter den Wert, die Beträge bleiben in einer Zeile. Notebook: Suche, Filter und Session-Knopf in einer Reihe; in der
-  Notiz-Ansicht Kopfzeile in einer Reihe (Zurück, Datum, Speicherstand, Menü; „Teilen“ nur ab 561px), die Werkzeugleiste
+  Notiz-Ansicht Kopfzeile in einer Reihe (Zurück, Datum, Speicherstand, Menü; „Teilen“ steht im Menü), die Werkzeugleiste
   des Editors als eine seitlich wischbare Zeile und kein runder Knopf über dem Text. Dashboard-Details: Jahreskalender
   wischbar ohne sichtbare Scroll-Leiste, Wochen-Summen im Kalender in Kurzform, „Letzte Trades“ so hoch wie eine Diagramm-Karte
   (Kopf + 280px-Diagramm, feste flex-basis) und zeigt die Zeilen, die hineinpassen, mit enger Tabelle, Kacheltitel in einer Zeile (kleinere Schrift, `short`-Titel „Ø
@@ -231,7 +231,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   neutral grau, erst ab der Ruin-Schwelle rot). Realisiertes R ist nach Vorzeichen gefärbt, geplantes R bleibt neutral.
   Balken-Tooltips zeigen bei Ø pro Trade (Setups, Wochentag, Haltedauer, Emotionen, Marktphase) zusätzlich die Summe; die Summe
   je Wochentag steht damit unter „Zeit“ (die frühere Karte „P&L nach Wochentag“ unter „Tage“ entfällt).
-- **News** (Journal → News): Wirtschaftskalender der kommenden Tage, nach Tagen gruppiert (Heute, Morgen, …) mit Uhrzeit in
+- **News** (Journal → News; ohne Server oben „News brauchen deinen Journalyst-Server“ mit „Server einrichten“, darunter gedämpfte
+  Beispieltermine; bei „nicht erreichbar“ oder falschem Schlüssel „Zu den Einstellungen“; leere Auswahl mit „Alle Termine zeigen“;
+  am Handy die Währungen als Chip „Währung: Alle“ mit Fenster): Wirtschaftskalender der kommenden Tage, nach Tagen gruppiert (Heute, Morgen, …) mit Uhrzeit in
   der eigenen Zeitzone, Wichtigkeit als drei Balken (hoch rot, mittel gelb, niedrig grau, Feiertage mit Kalender-Symbol),
   Währung und den Werten Ist, Prognose, Vorher in festen Spalten. Oben die Karte „Nächste wichtige News“ mit Countdown.
   Filter Wichtigkeit (Standard: Hoch und Mittel) und Währung bleiben gespeichert (`newsFilter`). Die Termine kommen über den
@@ -246,7 +248,14 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Schriftgröße, Fett/Kursiv/Unterstrichen/Durchgestrichen, Schriftfarbe mit Farbraster, Bild
   (Datei oder Adresse), Textmarker. „/“ öffnet Befehle, „:“ die Emoji-Auswahl, Bilder per Einfügen
   oder Drag & Drop mit Unterschrift. Tags, Vorlagen, Suche über alle Notizen, Filter, Papierkorb
-  (30 Tage), Teilen per Link, Export/Import, Autosave. Notizen zu Handelstagen und Trades zeigen
+  (30 Tage), Teilen per Link, Export/Import, Autosave. Das …-Menü der Notiz: „In Ordner verschieben …“ (zweiter Schritt im selben
+  Menü), Teilen, Duplizieren | Aus Datei laden, Exportieren, Als PDF | Löschen. Auswählen, Sortieren und Filter erst ab zwei Notizen;
+  der Filter kennt nur noch „Zuletzt bearbeitet von–bis“ (Ordner und Tags stehen links). „Tags“ erst mit dem ersten Tag,
+  „Kürzlich gelöscht“ erst, wenn etwas gelöscht ist; neue Ordner über das kleine „+“ am Abschnitt „Ordner“; das Ordner-Menü hat
+  einen Eintrag „Bearbeiten“ (Name und Farbe). Im Papierkorb sind „Leeren“ und „Endgültig löschen“ leise rote Textknöpfe, im
+  Auswahlmodus ersetzt die Auswahlzeile den Spaltenkopf. Editor-Werkzeugleiste: Bild hochladen und Bild über Adresse im „+“-Menü,
+  Absatzformat mit fester Breite, Schriftgröße und Durchgestrichen am PC hinter „Weitere Formate“ (Aa, gemerkt); am Handy zuerst
+  + · Text · B I U, beim Schreiben ohne Suchzeile. Notizen zu Handelstagen und Trades zeigen
   Netto-P&L und eine aufklappbare Statistik.
 - **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil (Reihenfolge: Kacheln, Checkliste mit Regeln,
   Disziplin und Tilt daneben, dann die Heatmap; Regelblock und „Automatische Regeln“ nur mit Inhalt; ohne abgeschlossene Trades keine
@@ -343,7 +352,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   deiner Trades mit Stop oder ein fester Wert). Der Kontostand wird komplett ausgeblendet, das Zertifikat erzwingt
   „Beträge ausblenden“. Zentral in `js/ui.js` (`fmt.cur` mit Option `{ r }`), alle Anzeigen laufen darüber.
 - **Schatten-Ich** (Taste 9): zeigt, wie das Konto aussähe, wenn du deine eigenen Regeln zu 100 % eingehalten
-  hättest. Regelwerk mit max. Trades pro Tag, max. Tagesverlust, Stopp nach Verlustserie, max. Risiko pro Trade,
+  hättest. „Mein Regelwerk“ ist beim Betreten mit aktiven Regeln eine Zeile mit den Regeln und „Regeln bearbeiten“; ohne Regel ein Satz
+  mit „Vorschlag übernehmen“ und „Regeln einzeln wählen“; aufgeklappt bleibt es bis zum Seitenwechsel. Am Handy steht „Welche Regel
+  kostet am meisten“ vor den Verstößen, die Tabelle zeigt Datum, Symbol, Regel und Kosten. Regelwerk mit max. Trades pro Tag, max. Tagesverlust, Stopp nach Verlustserie, max. Risiko pro Trade,
   Handelszeiten, erlaubten Setups und Cooldown nach Verlust. Die Berechnung in `js/shadow.js` geht alle Trades
   chronologisch durch, Tageslimits gelten für das Schatten-Konto, zu große Trades werden herunterskaliert.
   Equity echt vs. Schatten, Disziplin-Kosten im Zeitraum (ehrlich auch, wenn ein Regelbruch Geld gebracht hat),

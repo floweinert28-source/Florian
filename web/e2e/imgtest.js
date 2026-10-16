@@ -8,13 +8,13 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   const b64 = fs.readFileSync('testbild.png').toString('base64');
   await p.click('.nb-editor .ql-editor');
   /* 1. Knopf: Label öffnet die Dateiauswahl */
-  await p.click('.nb-toolbar [data-pop$="image"]'); await p.waitForTimeout(200);
+  await p.click('.nb-toolbar [data-pop$="insert"]'); await p.waitForTimeout(200);
   ok('Bild-Menü mit Hinweis auf Strg+V und Ziehen', (await p.textContent('.nb-toolbar .ed-pop .ed-hint')).includes('Strg+V'));
   ok('Hochladen ist ein Label am Datei-Feld', await p.$eval('.nb-toolbar label[data-ed-label="image"]', l => !!l.control && l.control.type === 'file'));
   const [fc] = await Promise.all([p.waitForEvent('filechooser', { timeout: 3000 }).catch(() => null), p.click('.nb-toolbar label[data-ed-label="image"]')]);
   ok('Klick öffnet die Dateiauswahl', !!fc); if (fc) { await fc.setFiles('testbild.png'); await p.waitForTimeout(1000); }
   let f = await figs(); ok('Bild über den Knopf eingefügt und sichtbar', f.length === 1 && f[0].ok && f[0].kind === 'id', JSON.stringify(f));
-  ok('Menü danach geschlossen', !(await p.$eval('.nb-toolbar .ed-pop[id$="image"]', e => e.classList.contains('open'))));
+  ok('Menü danach geschlossen', !(await p.$eval('.nb-toolbar .ed-pop[id$="insert"]', e => e.classList.contains('open'))));
   /* 2. Strg+V */
   const fire = (type) => p.evaluate(async ({ b64, type }) => { const bin = atob(b64); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); const file = new File([u], 'x.png', { type: 'image/png' }); const dt = new DataTransfer(); dt.items.add(file); const ed = document.querySelector('.nb-editor .ql-editor'); const r = ed.getBoundingClientRect(); if (type === 'paste') ed.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true })); else for (const t of ['dragenter', 'dragover', 'drop']) ed.dispatchEvent(new DragEvent(t, { dataTransfer: dt, bubbles: true, cancelable: true, clientX: r.left + 40, clientY: r.top + 30 })); }, { b64, type });
   await fire('paste'); await p.waitForTimeout(1000); f = await figs(); ok('Strg+V fügt ein', f.length === 2 && f.every(x => x.ok), JSON.stringify(f));

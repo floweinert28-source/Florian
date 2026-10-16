@@ -955,7 +955,8 @@ span.info:hover { color: var(--text-2); }
 .nb .note-item.selected { background: var(--accent-soft); border-color: var(--accent-soft); }
 .nb .sel-row { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-2) var(--sp-2); font-size: var(--fs-13); color: var(--muted); border-bottom: 1px solid var(--border); min-width: 0; }
 .nb .sel-row .cnt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.nb .sel-row .btn.danger.ghost { color: var(--loss-ink); border-color: transparent; }
+.nb .btn.danger.ghost { color: var(--loss-ink); border-color: transparent; } /* Zerstören leise: Textknopf in Rot */
+.nb .btn.danger.ghost:hover { background: var(--loss-soft); }
 .nb .col-head .btn[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); }
 .nb .note-head { padding: var(--sp-6) var(--sp-6) var(--sp-2); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); }
 .nb .note-title { font-family: var(--font-display); font-size: var(--fs-32); font-weight: 700; letter-spacing: -0.02em; border: 0; background: none; width: 100%; padding: 0.125rem 0; min-width: 0; }
@@ -1024,11 +1025,12 @@ span.info:hover { color: var(--text-2); }
 .vh-file { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip-path: inset(50%); pointer-events: none; }
 .ed-pop .ed-hint { padding: var(--sp-2) var(--sp-3) var(--sp-2); max-width: 15rem; font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }
 .nb-toolbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; flex-wrap: wrap; gap: 0.1875rem; padding: var(--sp-2) var(--sp-2); margin: 0 calc(-1 * var(--sp-2)) var(--sp-2); border-bottom: 1px solid var(--border); background: var(--surface); white-space: nowrap; }
-.nb-toolbar .sep { width: 1px; height: 1.5rem; background: var(--border-2); margin: 0 var(--sp-1); flex: 0 0 auto; }
+.nb-toolbar .sep { width: 1px; height: 1.5rem; background: var(--border-2); margin: 0 0.125rem; flex: 0 0 auto; } /* schmale Trenner: die Leiste passt bei 1440 px in eine Zeile */
 .nb-toolbar .tb { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-1); min-width: 2rem; height: 2.125rem; padding: 0 var(--sp-2); border-radius: var(--radius-xs); border: 1px solid transparent; background: none; color: var(--text); cursor: pointer; flex: 0 0 auto; }
 .nb-toolbar .tb svg { width: 1.125rem; height: 1.125rem; }
 .nb-toolbar .tb svg:last-child:not(:first-child) { width: 0.8125rem; height: 0.8125rem; opacity: .7; }
-.nb-toolbar .tb.turn { min-width: 6.5rem; justify-content: space-between; }
+.nb-toolbar .tb.turn { width: 7.25rem; min-width: 7.25rem; justify-content: space-between; } /* feste Breite: die Leiste springt nicht je Absatzformat */
+.nb-toolbar .tb.turn .lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nb-toolbar .tb.turn .lbl { font-size: var(--fs-16); }
 .nb-toolbar .tb .lbl { font-size: var(--fs-13); font-weight: 600; }
 .nb-toolbar .tb.wide { padding: 0 var(--sp-2); }
@@ -3787,3 +3789,36 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 .tf-more-sum { color: var(--muted); font-weight: 400; font-size: var(--fs-13); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tf-more[open] .tf-more-sum { display: none; }
 .modal[tabindex="-1"]:focus { outline: none; } /* Startfokus auf dem Dialog selbst: ohne Ring */
+/* Notebook: „+“ für neue Ordner neben dem Abschnittstitel; im Auswahlmodus ersetzt die Auswahlzeile den Spaltenkopf */
+.nb .sec-row { display: flex; align-items: center; gap: var(--sp-1); }
+.nb .sec-row .sec-h { flex: 1 1 auto; min-width: 0; }
+.nb .col.mid:has(.sel-row) > .col-head { display: none; }
+@media (max-width: 60em) { .nb .col.left > .col-head { display: none; } }
+@media (max-width: 35em) { .content:has(.nb[data-view="note"]) .dash-head .dh-context { display: none; } } /* Handy: beim Schreiben keine Suchzeile */
+/* Handy: die häufigsten Formate zuerst (nur Reihenfolge, das DOM bleibt): + · Text · B I U · Farben und Größe · Rückgängig/Wiederholen */
+@media (max-width: 35em) {
+  .nb-toolbar > * { order: 5; }
+  .nb-toolbar > .popwrap:has([data-pop$="insert"]) { order: 1; }
+  .nb-toolbar > .popwrap:has(.turn) { order: 2; }
+  .nb-toolbar > [data-ed="bold"], .nb-toolbar > [data-ed="italic"], .nb-toolbar > [data-ed="underline"] { order: 3; }
+  .nb-toolbar > [data-ed="undo"], .nb-toolbar > [data-ed="redo"] { order: 9; }
+  .nb-toolbar > .sep { display: none; }
+}
+/* News ohne Server: ein Satz und ein Knopf, die Beispiele gedämpft darunter */
+.nw-setup { display: flex; flex-direction: column; gap: var(--sp-3); }
+.nw-setup h2 { font-size: var(--fs-18); line-height: var(--lh-18); font-weight: 600; }
+.nw-setup p { color: var(--text-2); }
+.nw-sample { opacity: .55; pointer-events: none; display: flex; flex-direction: column; gap: var(--sp-2); }
+.nw-cur-m { display: none; }
+.nw-cur-pop { padding: var(--sp-3); width: min(20rem, calc(100vw - 2rem)); }
+@media (max-width: 35em) { .nw-filters .nw-cur { display: none; } .nw-cur-m { display: inline-block; } } /* Handy: Währungen als zweiter Schritt */
+.nw-cur-pop.keep { animation: none; }
+/* Schatten-Ich: eingeklapptes Regelwerk als eine Zeile; Handy: Ranking vor den Verstößen, Tabelle nur Datum · Symbol · Regel · Kosten */
+.sr-summary { color: var(--text-2); line-height: var(--lh-14); }
+@media (max-width: 68.75em) { .shadow-detail > .card:last-child { order: -1; } }
+@media (max-width: 35em) { .shadow-tbl { min-width: 0; } .shadow-tbl th:nth-child(4), .shadow-tbl td:nth-child(4), .shadow-tbl th:nth-child(5), .shadow-tbl td:nth-child(5) { display: none; } }
+/* Editor: Schriftgröße und Durchgestrichen hinter „Weitere Formate“ (am PC), damit die Leiste in eine Zeile passt; am Handy wischbar, alles sichtbar */
+@media (min-width: 35.0625em) { .nb-toolbar:not(.more) .size, .nb-toolbar:not(.more) [data-ed="strike"], .nb-toolbar:not(.more) .size + .sep { display: none; } }
+@media (max-width: 35em) { .nb-toolbar [data-ed="more-formats"] { display: none; } }
+@media (max-width: 35em) { .content:has(.nb[data-view="note"]) .dash-head:not(:has([data-action=end-session])) { display: none; } } /* Notiz am Handy: ohne leere Kopfreihe, ein laufender Session-Timer bleibt */
+#pop-nbmenu { min-width: 15rem; } #pop-nbmenu .item { white-space: nowrap; }

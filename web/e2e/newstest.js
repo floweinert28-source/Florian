@@ -34,8 +34,8 @@ function feed() {
     ok('Bereich News: im Vollbild ohne Seitenleiste, Symbol in der Leiste aktiv', await p.evaluate(() => document.documentElement.classList.contains('sb-off') && getComputedStyle(document.getElementById('sidebar')).display === 'none') && !!(await p.$('.rail-item[data-rail=news].active')));
     ok('Titel „News“, kein Zeitraum-/Konto-Kopf', (await p.textContent('.topbar h1')).trim() === 'News' && !(await p.$('#content [data-action=range-open]')));
     /* ohne Server: Beispielansicht */
-    const sample = await p.evaluate(() => ({ banner: (document.querySelector('.nw-banner') || {}).textContent || '', link: !!document.querySelector('.nw-banner a[href="#/settings/mentor"]'), titles: [...document.querySelectorAll('.nw-title')].map(t => t.textContent), vals: document.querySelectorAll('.nw-v:not(.e)').length }));
-    ok('Ohne Server: Beispielansicht klar markiert, Link „Server einrichten“', /Beispielansicht/.test(sample.banner) && sample.link, sample.banner);
+    const sample = await p.evaluate(() => ({ banner: ((document.querySelector('.nw-setup') || {}).textContent || '') + ' ' + ((document.querySelector('.nw-sample-cap') || {}).textContent || ''), link: !!document.querySelector('.nw-setup a.btn.primary[href="#/settings/mentor"]') && !document.querySelector('.nw-banner, .nw-next, .nw-filters'), titles: [...document.querySelectorAll('.nw-title')].map(t => t.textContent), vals: document.querySelectorAll('.nw-v:not(.e)').length }));
+    ok('Ohne Server: ein Satz und „Server einrichten“ (gefüllt), Beispiele gedämpft darunter, ohne Band, Countdown und Filter', /Journalyst-Server/.test(sample.banner) && /Beispiel/.test(sample.banner) && sample.link, sample.banner);
     ok('Beispiele: alle Titel mit „Beispiel:“, keine Prognose-/Vorwerte', sample.titles.length > 0 && sample.titles.every(t => t.startsWith('Beispiel:')) && sample.vals === 0, JSON.stringify(sample));
     ok('Ohne Server kein Abruf', calls === 0);
     /* mit Server */

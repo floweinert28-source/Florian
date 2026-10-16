@@ -11,7 +11,9 @@ const ignore = m => /ERR_CERT|fonts\.googleapis|fonts\.gstatic|net::ERR|Error in
   /* Beispieldaten schalten die drei Vorschlagsregeln ein; die Suite beginnt bewusst ohne aktive Regel */
   await p.evaluate(() => { const r = Store.shadowRules(); for (const k of Object.keys(r)) if (r[k]) r[k].on = false; Store.setShadowRules(r); if (Store.saveNow) Store.saveNow(); }); await p.waitForTimeout(400); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(500);
   /* 1. Rendern, Leerzustand ohne aktive Regel */
-  ok('Seite rendert mit Titel', (await p.textContent('.topbar h1')) === 'Schatten-Ich' && (await p.$$('.shadow-rule')).length === 7);
+  ok('Seite rendert mit Titel; ohne Regel ein Satz mit „Vorschlag übernehmen“ und „Regeln einzeln wählen“, Raster eingeklappt', (await p.textContent('.topbar h1')) === 'Schatten-Ich' && !!(await p.$('[data-action=shadow-preset]')) && !!(await p.$('[data-action=shadow-rules-open]')) && (await p.$$('.shadow-rule')).length === 0);
+  await p.evaluate(() => { const b = document.querySelector('[data-action=shadow-rules-open]'); if (b) b.click(); }); await p.waitForTimeout(300); /* Regelwerk aufklappen (beim Betreten eingeklappt) */
+  ok('Aufgeklappt: sieben Regeln', (await p.$$('.shadow-rule')).length === 7);
   ok('Keine Regel aktiv → Banner + Kacheln „—“', !!(await p.$('.banner.info')) && (await p.$eval('.shadow-main .val', e => e.textContent.trim())) === '—' && (await p.$$('.shadow-main')).length === 1 && !(await p.$('.shadow-tbl')));
   ok('Kopfreihe: Zeitraum + Konto, ohne „Trade loggen“ und Session', !!(await p.$('.page-head [data-pop=range]')) && !(await p.$('.page-head [data-action=new-trade]')) && !(await p.$('.page-head [data-action=start-session]')) && !(await p.$('.page-head .dh-tools')));
   ok('Kein zweiter Zeitraum-Schalter, keine Bildkarte', !(await p.$('[data-action=shadow-period]')) && !(await p.$('[data-action=shadow-card]')) && !(await p.$('.shadow-ctl')));
@@ -56,13 +58,13 @@ const ignore = m => /ERR_CERT|fonts\.googleapis|fonts\.gstatic|net::ERR|Error in
   ok('Uhrzeit gespeichert und wirkt', await p.evaluate(() => Store.shadowRules().hours.to === '11:00') && /[1-9]\d*×/.test(hoursRow) && (await p.textContent('.shadow-tbl')).includes('Erlaubte Handelszeiten'), hoursRow.replace(/\s+/g, ' '));
   ok('Ranking jetzt drei Regeln, sortiert', (await p.$$('.shadow-rank .bar-row')).length === 3);
   await p.click('[data-action=shadow-rule-toggle][data-rule=setups]'); await p.waitForTimeout(300);
-  ok('Setup-Chips + ein Hinweis ohne Auswahl (nur unter den Regeln, nicht doppelt im Kasten)', (await p.$$('[data-action=shadow-setup-toggle]')).length >= 5 && /keine Setups ausgewählt/.test(await p.textContent('.shadow-notes')) && !(await p.$('.shadow-rule .shadow-hint.warn')));
+  ok('Setup-Chips + ein Hinweis ohne Auswahl, nur an der Regel (kein zweites Banner)', (await p.$$('[data-action=shadow-setup-toggle]')).length >= 5 && /mindestens ein Setup/.test(await p.textContent('.shadow-rule.on .sr-extra')) && !/keine Setups ausgewählt/.test(await p.evaluate(() => (document.querySelector('.shadow-notes') || {}).textContent || '')));
   await p.click('[data-action=shadow-setup-toggle][data-value=Pullback]'); await p.waitForTimeout(300);
   ok('Setup gespeichert + Chip gedrückt', await p.evaluate(() => JSON.stringify(Store.shadowRules().setups.list) === '["Pullback"]') && await p.$eval('[data-action=shadow-setup-toggle][data-value=Pullback]', e => e.getAttribute('aria-pressed') === 'true'));
   ok('„+ n weitere“ in der Tabelle', (await p.textContent('.shadow-tbl')).includes('weitere'));
   await p.click('[data-action=shadow-rule-toggle][data-rule=setups]'); await p.click('[data-action=shadow-rule-toggle][data-rule=maxRisk]'); await p.waitForTimeout(300);
   ok('Risiko-Regel: Hinweis zu Trades ohne Stop oder keiner', !(await p.textContent('#content')).includes('NaN'));
-  await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(500);
+  await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(500); await p.evaluate(() => { const b = document.querySelector('[data-action=shadow-rules-open]'); if (b) b.click(); }); await p.waitForTimeout(300);
   ok('Regeln bleiben nach Neuladen', await p.evaluate(() => { const r = Store.shadowRules(); return r.maxTrades.on && r.maxTrades.value === 1 && r.hours.to === '11:00' && r.dailyLoss.unit === 'pct'; }) && (await p.$$('[data-action=shadow-rule-toggle][aria-checked=true]')).length === 4);
   /* Zeitraum kommt aus der Kopfreihe (gespeichert wie auf allen Seiten) */
   ok('Zeitraum oben gilt nach Neuladen', (await p.textContent('.dash-head [data-pop=range] span')).trim() === 'Gesamt');
@@ -84,6 +86,7 @@ const ignore = m => /ERR_CERT|fonts\.googleapis|fonts\.gstatic|net::ERR|Error in
   const over = await p.evaluate(() => { const w = document.documentElement.scrollWidth; let worst = 0, who = ''; document.querySelectorAll('#content, #content *').forEach(e => { if (e.closest('.tbl-wrap')) return; const r = e.getBoundingClientRect(); if (r.right - 390 > worst) { worst = r.right - 390; who = e.tagName.toLowerCase() + '.' + (e.className.baseVal !== undefined ? e.className.baseVal : e.className); } }); return { w, worst: Math.round(worst), who }; });
   ok('Handy 390 px ohne Überlauf', over.w <= 390 && over.worst <= 0, JSON.stringify(over));
   await p.screenshot({ path: 'shadow-phone.png', fullPage: true });
+  await p.evaluate(() => { const b = document.querySelector('[data-action=shadow-rules-open]'); if (b) b.click(); }); await p.waitForTimeout(300); /* Regelwerk aufklappen (beim Betreten eingeklappt) */
   /* 8. Geld-blind-Modus */
   await p.setViewportSize({ width: 1440, height: 1000 }); await p.evaluate(() => { Store.setSetting('moneyBlind', true); App.rerender(); }); await p.waitForTimeout(500);
   const pageText = await p.evaluate(() => document.querySelector('#main').innerText);

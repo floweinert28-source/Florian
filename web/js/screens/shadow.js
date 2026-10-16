@@ -47,7 +47,7 @@
     if (def.fields.some(f => f.type === 'setups')) {
       const list = Array.isArray(r.list) ? r.list : []; const all = [...new Set([...(setups || []), ...list])];
       extra = !all.length ? `<div class="small muted shadow-hint">Noch keine Setups angelegt. Lege sie unter <a href="#/settings/inhalte">Einstellungen → Inhalte</a> an oder vergib sie beim Loggen.</div>`
-        : `<div class="chips shadow-chips">${all.map(x => `<button type="button" class="chip sel" aria-pressed="${list.includes(x)}" data-action="shadow-setup-toggle" data-value="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
+        : `<div class="chips shadow-chips">${all.map(x => `<button type="button" class="chip sel" aria-pressed="${list.includes(x)}" data-action="shadow-setup-toggle" data-value="${esc(x)}">${esc(x)}</button>`).join('')}</div>${list.length ? '' : '<div class="small muted shadow-hint">Wähle mindestens ein Setup, sonst gilt jeder Trade als Verstoß.</div>'}`;
     }
     /* schlichte Karte, eine Zeile: Name links, rechts der Wert (nur wenn an) und der Schalter – alle Karten gleich hoch.
        Die Erklärung steht im title (Hover) statt als Text; nur die Setup-Auswahl erscheint unter der Zeile */
@@ -55,7 +55,13 @@
   }
   function rulesCard(res, r) {
     const setups = (S.data.tags && S.data.tags.setups) || [];
-    const notes = res.warnings.map(w => U.banner('warn', '', esc(w)));
+    /* die Setup-Warnung steht an der Regel selbst, solange es Setups zum Wählen gibt; sonst bleibt das Banner der einzige Hinweis */
+    const notes = res.warnings.filter(w => !(setups.length && /keine Setups ausgewählt/.test(w))).map(w => U.banner('warn', '', esc(w)));
+    const s = st(); const onDefs = Sh.RULES.filter(def => r[def.key] && r[def.key].on);
+    if (!s.rulesOpen && !notes.length && !res.unknownRisk) {
+      if (onDefs.length) return U.card('Mein Regelwerk', `<div class="sr-summary">${onDefs.map(def => `<span>${esc(def.label)}</span>`).join('<span class="muted" aria-hidden="true"> · </span>')}</div>`, { trailing: `<button type="button" class="btn sm" data-action="shadow-rules-open">${I.edit} Regeln bearbeiten</button>` });
+      return U.card('Mein Regelwerk', `<p class="muted">Noch keine Regel aktiv. Du kannst sie schon vor dem ersten Trade festlegen.</p><div class="row" style="margin-top:12px"><button type="button" class="btn sm" data-action="shadow-preset">${I.bolt} Vorschlag übernehmen</button><button type="button" class="btn sm ghost" data-action="shadow-rules-open">Regeln einzeln wählen</button></div>`);
+    }
     /* Hinweis ohne aktive Regel steht unter den Schaltern: beim ersten Einschalten verschwindet er, ohne dass sich darüber etwas verschiebt */
     if (!res.active) notes.push(U.banner('info', 'Noch keine Regel aktiv', 'Schalte oben mindestens eine Regel ein – dann rechnet dein Schatten-Ich, was Regelbrüche kosten.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="shadow-preset">${I.bolt} Vorschlag übernehmen</button>` }));
     if (res.unknownRisk) notes.push(U.banner('info', '', `${U.count(res.unknownRisk, 'Trade', 'Trades')} ohne Stop ${res.unknownRisk === 1 ? 'konnte' : 'konnten'} bei der Risiko-Regel nicht geprüft werden.`));
@@ -82,6 +88,7 @@
   }
 
   /* ---------- Aktionen ---------- */
+  Object.assign(App.actions, { 'shadow-rules-open'() { st().rulesOpen = true; App.rerender(false); } });
   Object.assign(App.actions, {
     /* Pfeile im Zahlenfeld: Wert um einen Schritt ändern (nie unter 0) und wie beim Tippen speichern */
     'sr-step'(el) {
@@ -104,11 +111,12 @@
   App.screens.shadow = {
     title: 'Schatten-Ich',
     head: { session: false, trade: false }, /* nur Zeitraum und Konto oben; „Trade loggen“ und „Session starten“ gibt es auf Dashboard und TradeLog */
+    unmount() { if (!/^#\/shadow(\/|$)/.test(location.hash)) st().rulesOpen = false; }, /* beim Seitenwechsel klappt das Regelwerk wieder zu, beim Neuaufbau nicht */
     mount(main) { /* Enter in einem Zahlenfeld übernimmt den Wert sofort (change feuert erst beim Verlassen) */ main.querySelectorAll('.shadow-rule input').forEach(inp => inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); inp.blur(); } })); },
     render(ctx) {
       const s = st(); const all = ctx.all; const closed = C.closedOnly(all); const r = rules(); const res = evaluate(all); const range = App.range(); const pd = periodData(res, all, range);
       const head = ''; /* kein Einleitungssatz: die Erklärung steht im (i) der Disziplin-Kosten */
-      if (!closed.length) return head + U.empty('stats', 'Noch keine abgeschlossenen Trades', 'Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.', `<button type="button" class="btn sm" data-action="new-trade">${I.plus} Trade loggen</button>`) + rulesCard(res, r);
+      if (!closed.length) return head + U.empty('stats', 'Noch keine abgeschlossenen Trades', 'Sobald Trades geschlossen sind, zeigt dir dein Schatten-Ich, was Regelbrüche kosten.', `<button type="button" class="btn sm accent" data-action="new-trade">${I.plus} Trade loggen</button>`) + rulesCard(res, r);
       const cv = res.active ? costView(pd.sums.cost) : null; const p = pd.sums;
       const tiles = `<div class="grid tiles shadow-tiles">
         <div class="tile shadow-main"><div class="head"><span>Disziplin-Kosten${U.info('Dein Schatten-Ich handelt wie du, nur ohne Regelbrüche. Disziplin-Kosten = Schatten-Ich minus echt: was Regelbrüche im Zeitraum gekostet haben.')}</span></div><div class="body"><div><div class="val ${cv ? cv.cls : ''}">${cv ? cv.text : '—'}</div></div></div></div>

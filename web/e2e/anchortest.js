@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PASS ' + m); } else { fail++; console.log('FAIL ' + m); } };
 (async () => { const b = await chromium.launch(); const errs = [];
   const p = await b.newPage({ viewport: { width: 1440, height: 900 } }); p.on('pageerror', e => errs.push(e.message)); try { await require('./localfonts.js')(p); } catch (e) {}
-  await p.goto('file:///home/user/Florian/web/app.html#/shadow', { waitUntil: 'load' }); await p.waitForTimeout(900);
+  await p.goto('file:///home/user/Florian/web/app.html#/shadow', { waitUntil: 'load' }); await p.waitForTimeout(900); await p.evaluate(() => { const b = document.querySelector('[data-action=shadow-rules-open]'); if (b) b.click(); }); await p.waitForTimeout(300); /* Regelwerk aufklappen (beim Betreten eingeklappt) */
   const click = async sel => { const el = await p.$(sel); await el.scrollIntoViewIfNeeded(); await p.waitForTimeout(100); const b1 = await el.boundingBox(); await p.mouse.click(b1.x + b1.width / 2, b1.y + b1.height / 2); await p.waitForTimeout(600); const el2 = await p.$(sel); const b2 = el2 ? await el2.boundingBox() : null; return { y1: Math.round(b1.y), y2: b2 ? Math.round(b2.y) : null, sy: await p.evaluate(() => scrollY) }; };
   /* 1) alle Regeln an, dann von unten nach oben aus- und wieder einschalten (gescrollt) */
   await p.evaluate(() => { const r = JSON.parse(JSON.stringify(Store.data.shadowRules)); for (const k of Object.keys(r)) if (r[k] && typeof r[k] === 'object' && 'on' in r[k]) r[k].on = true; Store.setShadowRules(r); App.rerender(false); }); await p.waitForTimeout(500);

@@ -8,10 +8,11 @@ const ratio = (a, b) => { const x = T.lum(a), y = T.lum(b); return (Math.max(x, 
 
 test('Standardfarben: hell abgedunkelt, dunkel mit hellerem Break-even', () => {
   assert.deepEqual(T.DEFAULTS.dark, { accent: '#ede6da', profit: '#4cb782', loss: '#eb5757', be: '#9a8cf8' });
-  assert.deepEqual(T.DEFAULTS.light, { accent: '#22201c', profit: '#077a41', loss: '#c62e2e', be: '#5f4fcf' });
+  assert.deepEqual(T.DEFAULTS.light, { accent: '#22201c', profit: '#16a34a', loss: '#ef4444', be: '#5f4fcf' });
   assert.equal(T.forLight('#ede6da'), '#22201c'); /* Elfenbein im hellen Design: Grafit */
   assert.equal(T.inkFor('#ede6da'), '#04140a');
-  for (const h of Object.values(T.DEFAULTS.light)) assert.ok(ratio(h, '#ffffff') >= 4.5, `${h} auf Weiß`);
+  /* Akzent und Break-even mit 4,5:1; Gewinn und Verlust auf Wunsch heller (frischeres Grün/Rot), mindestens 3:1 wie für große Zahlen und Grafik */
+  for (const [k, h] of Object.entries(T.DEFAULTS.light)) assert.ok(ratio(h, '#ffffff') >= (k === 'profit' || k === 'loss' ? 3 : 4.5), `${k} ${h} auf Weiß`);
 });
 
 test('forLight: eigene Farben erreichen auf Weiß mindestens 4,5:1, dunkle bleiben unverändert', () => {

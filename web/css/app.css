@@ -3685,3 +3685,11 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
   .shell.has-rail .set-nav { top: calc(var(--win-top) + var(--topbar-h) + 16px); }
   .shell.has-rail .edit-bar { top: calc(var(--win-top) + 8px); }
 }
+/* ---------- Helles Design: frischeres Grün und Rot (Gewinn, Long, Verlust) und die Leiste um alles herum (links und oben) weiß statt schwarz ---------- */
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --profit: #16a34a; --profit-soft: rgba(22, 163, 74, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --rail-bg: #ffffff; } }
+:root[data-theme="light"] { --profit: #16a34a; --profit-soft: rgba(22, 163, 74, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --rail-bg: #ffffff; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .rail { --rail-ic: #737373; --rail-ic-on: #0a0a0a; } :root:not([data-theme="dark"]) .rail-item:hover .ri { background: rgba(0, 0, 0, .045); } :root:not([data-theme="dark"]) .rail-item.active .ri { background: #f1f1f0; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06); } :root:not([data-theme="dark"]) .shell.has-rail .rail, :root:not([data-theme="dark"]) .ft-bar { box-shadow: none; } }
+:root[data-theme="light"] .rail { --rail-ic: #737373; --rail-ic-on: #0a0a0a; }
+:root[data-theme="light"] .rail-item:hover .ri { background: rgba(0, 0, 0, .045); }
+:root[data-theme="light"] .rail-item.active .ri { background: #f1f1f0; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06); }
+:root[data-theme="light"] .shell.has-rail .rail, :root[data-theme="light"] .ft-bar { box-shadow: none; }

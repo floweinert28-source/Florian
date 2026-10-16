@@ -1,7 +1,7 @@
 /* Farben: Akzent, Gewinn und Verlust frei wählbar; gilt für App und Startseite */
 (function (root) {
   'use strict';
-  const DEFAULTS = { dark: { accent: '#ede6da', profit: '#4cb782', loss: '#eb5757', be: '#9a8cf8' }, light: { accent: '#22201c', profit: '#077a41', loss: '#c62e2e', be: '#5f4fcf' } }; /* Akzent Elfenbein (hell: Grafit), Grün nur für Gewinn; Gewinn und Verlust gedämpft statt neon (ruhiger Gesamt-Look) */
+  const DEFAULTS = { dark: { accent: '#ede6da', profit: '#4cb782', loss: '#eb5757', be: '#9a8cf8' }, light: { accent: '#22201c', profit: '#16a34a', loss: '#ef4444', be: '#5f4fcf' } }; /* Akzent Elfenbein (hell: Grafit), Grün nur für Gewinn; Gewinn und Verlust gedämpft statt neon (ruhiger Gesamt-Look) */
   /* Schriftarten: „modern“ ist der Standard (Satoshi von Fontshare, Zahlen in Onest; beide geometrisch, gleiche Proportionen), „geschwungen“ die frühere
      Standardschrift (Quicksand, Zahlen in Onest), „klassisch“ SF Pro / Inter mit Roboto-Zahlen, „rund“ eine Schrift für Text und Zahlen.
      Satoshi steht unter der ITF Free Font License: Laden über die Fontshare-API (app.html), Schriftdateien liegen nicht im Repository */

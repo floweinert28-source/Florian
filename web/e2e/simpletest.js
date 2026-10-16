@@ -80,6 +80,6 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await p.evaluate(() => { location.hash = '#/settings/design'; }); await p.waitForTimeout(800); await p.click('.mode-card[data-value="advanced"]'); await p.waitForTimeout(600);
   await p.evaluate(() => { location.hash = '#/dashboard'; }); await p.waitForTimeout(900);
   const adv = await p.evaluate(() => ({ mode: document.documentElement.dataset.mode, titles: document.querySelectorAll('#sidebar .nav-title').length, more: !!document.querySelector('#sidebar details.nav-more'), rail: document.querySelectorAll('#rail .rail-item[data-rail]').length, railMore: !!document.querySelector('[data-pop="railmore"]') || !!document.getElementById('pop-railmore'), tpl: !!document.querySelector('.dh-tools [data-pop="tpl"]'), fs: getComputedStyle(document.querySelector('.dash-top .tile .val')).fontSize }));
-  ok(adv.mode === 'advanced' && adv.titles >= 3 && !adv.more && adv.rail === 8 && !adv.railMore && adv.tpl && adv.fs === '25px', 'Advanced: Gruppentitel, alle 8 Bereiche, Vorlage-Knopf, Zahl 25 px wie bisher · ' + JSON.stringify(adv));
+  ok(adv.mode === 'advanced' && adv.titles >= 3 && !adv.more && adv.rail === 8 && !adv.railMore && adv.tpl && adv.fs === '24px', 'Advanced: Gruppentitel, alle 8 Bereiche, Vorlage-Knopf, Zahl 24 px (Schriftskala) · ' + JSON.stringify(adv));
   ok(!errs.length, 'keine Fehler ' + errs.join(' | '));
   console.log(`${pass}/${pass + fail} bestanden`); await b.close(); process.exit(fail ? 1 : 0); })();

@@ -80,7 +80,7 @@ function leave(el, cls, durVar, done) {
 
 /* ---------- Dezenter Parallax (nur Desktop, nur transform) ---------- */
 function parallax(el, factor) {
-  if (!enabled || !el || !window.matchMedia('(min-width: 900px)').matches) return;
+  if (!enabled || !el || !window.matchMedia('(min-width: 56.25em)').matches) return;
   var raf = 0;
   function tick() { raf = 0; el.style.setProperty('--py', (window.scrollY * factor).toFixed(1)); }
   window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });

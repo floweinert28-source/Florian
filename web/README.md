@@ -423,6 +423,16 @@ Abstände der Leisten und die Werte je Erscheinungsbild (Graphit, Schwarz, Weiß
   hatte, bekommt beim Start automatisch „System“.
 - `tests/theme.test.mjs` prüft die Kontraste der Grundwerte (Text, Hinweise, Gewinn/Verlust, Akzent) im hellen und dunklen Design.
 
+### Schriftgrößen und 200 % Schrift
+
+Alle Längen in `css/*.css` stehen in `rem` (Haarlinien bis 1 px bleiben `px`), Breakpoints in `@media` in `em`, Container-Abfragen
+in `rem`. Stellt jemand im Browser eine größere Standardschrift ein (z. B. 32 statt 16 px), wächst die ganze Oberfläche mit,
+wie beim Zoomen: Bei 200 % schaltet das Layout so um wie bei halber Fensterbreite, nichts wird abgeschnitten. Die Schrift folgt
+der Skala 12/13/14/16/18/20/24/32 (`--fs-12` … `--fs-32` in `css/tokens.css`); 11 nur für Achsen, Zähler und Abzeichen, größere
+Anzeigezahlen direkt in `rem`. Ausnahme: Beschriftungen in Diagrammen (SVG) bleiben in `px` (11–12 px), weil die Diagramme
+ihre Abstände in Pixeln rechnen; das steht auch in der Erklärung zur Barrierefreiheit. Breiten-Abfragen in JavaScript nutzen
+dieselben `em`-Werte (`matchMedia('(min-width: 60.0625em)')`).
+
 ## Bewegung und Übergänge
 
 Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 150 ms, `--dur-2` 240 ms, `--dur-3` 380 ms, `--ease`).

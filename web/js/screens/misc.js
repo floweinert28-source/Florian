@@ -214,7 +214,7 @@
   }
 
   /* ---------- Abo ---------- */
-  function abo() { return head('Abo', 'Verwaltung deines Plans.') + `<div class="set-block"><div class="dashed" style="padding:26px;text-align:center"><b style="display:block;color:var(--text);font-size:15px;margin-bottom:6px">Kostenlos, alle Funktionen enthalten</b>Es gibt derzeit kein Abo. Dieser Bereich wird später ergänzt.</div></div>`; }
+  function abo() { return head('Abo', 'Verwaltung deines Plans.') + `<div class="set-block"><div class="dashed" style="padding:26px;text-align:center"><b style="display:block;color:var(--text);font-size:var(--fs-16);margin-bottom:6px">Kostenlos, alle Funktionen enthalten</b>Es gibt derzeit kein Abo. Dieser Bereich wird später ergänzt.</div></div>`; }
 
   /* ---------- Konten ---------- */
   function konten() {
@@ -256,7 +256,7 @@
         <label class="check" style="align-items:flex-start"><input type="checkbox" name="strike" ${nb.strike ? 'checked' : ''} data-change="nb-preview" style="margin-top:2px"><span><b>Erledigte Punkte durchstreichen</b><div class="small muted">Abgehakte Einträge in To-do-Listen werden durchgestrichen.</div></span></label>
         <div class="divider"></div><div class="row"><button type="submit" class="btn primary">Speichern</button><button type="button" class="btn ghost" data-action="nb-reset" style="color:var(--muted)">Auf Standard zurücksetzen</button></div>
       </div>
-      <div><div class="lbl" style="font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:8px">Vorschau</div><div class="nb-preview" id="nb-preview" style="--h1:${nb.h1}px;--h2:${nb.h2}px;--h3:${nb.h3}px;--body:${nb.body}px">
+      <div><div class="lbl" style="font-size:var(--fs-13);font-weight:600;color:var(--text-2);margin-bottom:8px">Vorschau</div><div class="nb-preview" id="nb-preview" style="--h1:${nb.h1}px;--h2:${nb.h2}px;--h3:${nb.h3}px;--body:${nb.body}px">
         <div class="pv-l">H1</div><div class="pv-h1">Mein Journalyst</div><hr><div class="pv-l">H2</div><div class="pv-h2">Wochenrückblick</div><hr><div class="pv-l">H3</div><div class="pv-h3">Trade-Analyse</div><hr><div class="pv-l">Text</div><div class="pv-body">So sehen deine Notizen und Tagesjournal-Einträge aus. Nutze die Vorschau, um die angenehmste Größe für deine Trade-Reviews zu finden.</div><div class="pv-body pv-check ${nb.strike ? 'strike' : ''}">${I.check} Stop vor dem Einstieg gesetzt</div>
       </div></div></form>`;
   }

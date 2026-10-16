@@ -260,7 +260,7 @@
       const dot = key => { const w = why(key); return w ? navBadge(w) : ''; };
       const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
-      const desk = window.matchMedia('(min-width: 961px)').matches; const mini = false; document.documentElement.classList.remove('sb-mini'); /* eingeklappte Seitenleiste entfällt: der Knopf oben links blendet jetzt die Bereichsleiste aus */
+      const desk = window.matchMedia('(min-width: 60.0625em)').matches; const mini = false; document.documentElement.classList.remove('sb-mini'); /* eingeklappte Seitenleiste entfällt: der Knopf oben links blendet jetzt die Bereichsleiste aus */
       const railOff = !!S.settings.railHidden && desk; document.documentElement.classList.toggle('rail-off', railOff);
       const area = areaOf(cur); if (area.key === 'journal' && cur !== 'share') this.state.lastJournal = location.hash || '#/dashboard';
       const solo = area.nav.reduce((n, [, items]) => n + items.filter(([k]) => on(k)).length, 0) <= 1; document.documentElement.classList.toggle('sb-off', solo); /* nur eine Seite im Bereich: Vollbild ohne Seitenleiste */
@@ -389,7 +389,7 @@
       document.addEventListener('focusin', e => { if (!window.matchMedia('(pointer: coarse)').matches || !inField()) return; setTimeout(() => { const a = inField(); if (a) a.scrollIntoView({ block: 'center' }); }, 350); }); /* iOS Safari zeigt :active (gedrückter Zustand) nur mit einem Touch-Listener */
       document.addEventListener('keydown', e => { /* Elemente mit role=button/checkbox: Enter und Leertaste wie Klick */ const rb = e.target && e.target.closest && (e.key === 'Enter' || e.key === ' ') && !e.target.matches('input, textarea, select, button, a, [contenteditable]') ? e.target.closest('[role=button][tabindex], [role=checkbox][tabindex]') : null; if (rb && rb === e.target) { e.preventDefault(); rb.click(); return; } if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
       /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
-      window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
+      window.matchMedia('(min-width: 60.0625em)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
       if (root.RangePicker) root.RangePicker.init(); /* Zeitraum „Benutzerdefiniert“ mit zwei Monaten */
       if (root.DatePicker) root.DatePicker.init(); /* eigener Kalender für Datumsfelder, nach dem Klick-Handler oben registriert */
       if (root.SelectPicker) root.SelectPicker.init(); /* eigenes Menü für Auswahlfelder statt der Browser-/Handy-Liste */
@@ -416,7 +416,7 @@
     'rail-toggle'() { S.settings.railHidden = !S.settings.railHidden; S.save(); this.renderSidebar(); },
     /* Knopf in der Marke: Desktop klappt auf Symbole zusammen, Handy schließt das Menü */
     'pc-view'() { if (root.PCView) root.PCView.set(true); },
-    'sb-toggle'() { if (window.matchMedia('(min-width: 961px)').matches) { S.settings.railHidden = !S.settings.railHidden; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
+    'sb-toggle'() { if (window.matchMedia('(min-width: 60.0625em)').matches) { S.settings.railHidden = !S.settings.railHidden; S.save(); this.renderSidebar(); } else { this.state.sidebarOpen = false; this.renderSidebar(); } },
     scrim() { this.state.sidebarOpen = false; this.renderSidebar(); },
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },

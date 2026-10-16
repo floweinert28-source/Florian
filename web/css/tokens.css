@@ -17,7 +17,7 @@
   --border: #262522;
   --border-2: #34322e;
   --field: #121110; /* Eingabefelder liegen etwas tiefer als die Karten */
-  --ambient: radial-gradient(1100px 640px at 14% -10%, rgba(255, 238, 218, .045), transparent 62%);
+  --ambient: radial-gradient(68.75rem 40rem at 14% -10%, rgba(255, 238, 218, .045), transparent 62%);
   --sheen: rgba(255, 255, 255, .055); /* Lade-Glanz über Platzhaltern */
   --win: var(--rail-bg); /* großes Fenster hinter den Widgets: in den dunklen Designs in der Farbe der Leiste */
   /* Text */
@@ -32,7 +32,7 @@
   --accent-soft: rgba(237, 230, 218, 0.10);
   --accent-glow: rgba(237, 230, 218, 0.22);
   --focus: var(--accent); /* Fokus-Ring in der Akzentfarbe */
-  --dot-glow: 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 8px color-mix(in srgb, var(--accent) 20%, transparent);
+  --dot-glow: 0 0 0.1875rem color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0.5rem color-mix(in srgb, var(--accent) 20%, transparent);
   /* Bedeutungsfarben */
   --profit: #4cb782; /* große Zahlen, Diagramme */
   --profit-soft: rgba(76, 183, 130, 0.12);
@@ -69,41 +69,43 @@
   --paper: #fcfcfb;
   --ink-black: #080807;
   /* Schatten */
-  --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-  --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .7);
+  --shadow: 0 1.125rem 3.125rem rgba(0, 0, 0, 0.55);
+  --lift-shadow: 0 0.875rem 1.75rem -1.25rem rgba(0, 0, 0, .7);
   /* Schriften */
   --font: "Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-display: "Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-num: "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
-  /* Schriftgrößen: Text-Skala mit Zeilenhöhe als Verhältnis, Werte-Skala (Zahlen) */
-  --fs-10: 10px; /* nur @container-Notstufen */
-  --fs-11: 11px; --lh-11: calc(16 / 11);
-  --fs-12: 12px; --lh-12: calc(16 / 12);
-  --fs-13: 13px; --lh-13: calc(18 / 13);
-  --fs-14: 14px; --lh-14: calc(20 / 14);
-  --fs-15: 15px; --lh-15: calc(20 / 15);
-  --fs-18: 18px; --lh-18: calc(24 / 18);
-  --fs-21: 21px; --lh-21: calc(28 / 21);
-  --fv-14: 14px; --fv-16: 16px; --fv-20: 20px; --fv-24: 24px; --fv-32: 32px; --fv-44: 44px;
+  /* Schriftgrößen in rem: wachsen mit der Schriftgröße des Browsers/Systems (bis 200 % ohne Abschneiden).
+     Skala 12/13/14/16/18/20/24/32; 11 nur für Achsen, Zähler und Abzeichen; größere Anzeigezahlen direkt in rem */
+  --fs-11: 0.6875rem; --lh-11: calc(16 / 11);
+  --fs-12: 0.75rem; --lh-12: calc(16 / 12);
+  --fs-13: 0.8125rem; --lh-13: calc(18 / 13);
+  --fs-14: 0.875rem; --lh-14: calc(20 / 14);
+  --fs-16: 1rem; --lh-16: calc(24 / 16);
+  --fs-18: 1.125rem; --lh-18: calc(24 / 18);
+  --fs-20: 1.25rem; --lh-20: calc(28 / 20);
+  --fs-24: 1.5rem; --lh-24: calc(32 / 24);
+  --fs-32: 2rem; --lh-32: calc(40 / 32);
+  --fs-44: 2.75rem;
   --lh-val: 1.1; --ls-val: -0.02em; --ls-hero: -0.03em;
   /* Radien */
-  --radius: 8px;
-  --radius-sm: 6px;
-  --radius-xs: 4px;
-  --win-r: 14px;
+  --radius: 0.5rem;
+  --radius-sm: 0.375rem;
+  --radius-xs: 0.25rem;
+  --win-r: 0.875rem;
   /* Abstände (4-px-Stufen) */
-  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem; --sp-5: 1.25rem; --sp-6: 1.5rem; --sp-8: 2rem; --sp-10: 2.5rem;
   --content-gap: var(--sp-6); /* zwischen Abschnitten einer Seite */
   --grid-gap: var(--sp-4); /* zwischen Karten eines Rasters */
   --pad-card: var(--sp-5); /* Innenabstand von Karten */
-  --gutter: 24px;
+  --gutter: 1.5rem;
   /* Maße des Aufbaus */
-  --sidebar-w: 232px;
-  --rail-w: 56px;
-  --topbar-h: 72px;
-  --page-head-h: 64px; /* Kopfreihe unter dem Titel samt Abstand (pageHead in app.js) */
-  --frame-h: 56px;
-  --win-gap: 8px;
+  --sidebar-w: 14.5rem;
+  --rail-w: 3.5rem;
+  --topbar-h: 4.5rem;
+  --page-head-h: 4rem; /* Kopfreihe unter dem Titel samt Abstand (pageHead in app.js) */
+  --frame-h: 3.5rem;
+  --win-gap: 0.5rem;
   --lbar-h: var(--rail-w);
   --win-top: calc(2 * var(--win-gap) + var(--lbar-h));
   /* Bewegung: Dauer und Easing für alle Übergänge (js/motion.js liest sie mit) */
@@ -125,7 +127,7 @@
     --nav-a1: #e9e8e5; --nav-a2: #e5e4e1; --nav-b1: #e9e8e5; --nav-b2: #d6d4cf; --nav-icon: #79736b; --groove-d: #e2e1de; --groove-l: #fcfcfb;
     --sel-p1: 4%; --sel-p2: 8%; --sel-pb: 17%;
     --rail-bg: #fcfcfb; --rail-ic: #a3a3a3; --rail-ic-on: #fcfcfb;
-    --shadow: 0 18px 50px rgba(0, 0, 0, 0.14); --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
+    --shadow: 0 1.125rem 3.125rem rgba(0, 0, 0, 0.14); --lift-shadow: 0 0.875rem 1.75rem -1.25rem rgba(0, 0, 0, .35);
   }
 }
 :root[data-theme="light"] {
@@ -140,7 +142,7 @@
   --nav-a1: #e9e8e5; --nav-a2: #e5e4e1; --nav-b1: #e9e8e5; --nav-b2: #d6d4cf; --nav-icon: #79736b; --groove-d: #e2e1de; --groove-l: #fcfcfb;
   --sel-p1: 4%; --sel-p2: 8%; --sel-pb: 17%;
   --rail-bg: #fcfcfb; --rail-ic: #a3a3a3; --rail-ic-on: #fcfcfb;
-  --shadow: 0 18px 50px rgba(0, 0, 0, 0.14); --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
+  --shadow: 0 1.125rem 3.125rem rgba(0, 0, 0, 0.14); --lift-shadow: 0 0.875rem 1.75rem -1.25rem rgba(0, 0, 0, .35);
 }
 :root[data-theme="dark"] { color-scheme: dark; }
 
@@ -151,5 +153,5 @@
 }
 
 /* ---------- Werte je Fensterbreite ---------- */
-@media (max-width: 560px) { :root { --page-head-h: 115px; } }
-@media (min-width: 961px) { :root { --lbar-h: 56px; --topbar-h: calc(var(--lbar-h) + 1px); } }
+@media (max-width: 35em) { :root { --page-head-h: 7.1875rem; } }
+@media (min-width: 60.0625em) { :root { --lbar-h: 3.5rem; --topbar-h: calc(var(--lbar-h) + 1px); } }

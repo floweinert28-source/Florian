@@ -1909,4 +1909,13 @@ I18N.add('es', {
   "z. B. Strategie": "p. ej. Estrategia",
   "Ideen": "Ideas",
   "Strategie": "Estrategia",
+  "Abgebrochen. Diese Nachricht zählt nicht für dein Tageslimit.": "Cancelado. Este mensaje no cuenta para tu límite diario.",
+  "Das wird endgültig gelöscht:": "Esto se eliminará definitivamente:",
+  "Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser": "Todos los trades, notas, imágenes y ajustes de este navegador",
+  "Dein Verlauf mit dem Mentor auf deinem Server": "Tu historial con el Mentor en tu servidor",
+  "Deine Daten im Coach Mode: Einträge, Gruppen, Notizen und Aufgaben": "Tus datos del Modo Coach: entradas, grupos, notas y tareas",
+  "Das lässt sich nicht rückgängig machen. Exportiere vorher, was du behalten willst.": "No se puede deshacer. Exporta antes lo que quieras conservar.",
+  "Server nicht erreichbar": "Servidor no disponible",
+  "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "No se pudieron eliminar los datos de tu servidor. ¿Eliminar solo en este navegador? Los datos del servidor se mantendrán.",
+  "Nur hier löschen": "Eliminar solo aquí",
 });

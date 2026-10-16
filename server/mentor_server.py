@@ -21,11 +21,12 @@ import urllib.request
 import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Callable
+from typing import AsyncIterator, Callable
 from zoneinfo import ZoneInfo
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field, field_validator
 
 from server.coach import CoachStore, make_asset_route, make_router as make_coach_router, smtp_mailer_from_env
@@ -221,6 +222,23 @@ def make_anthropic_ask() -> Callable[[str, list[dict]], str]:
     return ask
 
 
+def make_anthropic_ask_stream() -> Callable[[str, list[dict]], AsyncIterator[str]]:
+    """Antwort Stück für Stück (Streaming). Bricht die Website ab, endet die Schleife und die Verbindung zum Modell wird geschlossen."""
+    client = None
+
+    async def ask_stream(system: str, messages: list[dict]) -> AsyncIterator[str]:
+        nonlocal client
+        if client is None:
+            import anthropic
+
+            client = anthropic.AsyncAnthropic()
+        async with client.messages.stream(model=MODEL, max_tokens=MAX_TOKENS, system=system, messages=messages) as stream:
+            async for text in stream.text_stream:
+                yield text
+
+    return ask_stream
+
+
 def make_anthropic_ask_json(schema: dict, max_tokens: int) -> Callable[[str, str], dict]:
     """Modellanfrage mit erzwungenem JSON (output_config.format); liefert das geparste Objekt."""
     client = None
@@ -323,6 +341,7 @@ def create_app() -> FastAPI:
     app.state.coach = CoachStore(DB_PATH, TZ)
     app.state.coach_mailer = smtp_mailer_from_env(dict(os.environ))  # E-Mail-Benachrichtigungen im Coach Mode (optional)
     app.state.ask = make_anthropic_ask()
+    app.state.ask_stream = make_anthropic_ask_stream()
     app.state.ask_json = make_anthropic_ask_json(VOICE_SCHEMA, VOICE_MAX_TOKENS)
     app.state.transcribe = transcribe_remote
     try:
@@ -360,8 +379,8 @@ def create_app() -> FastAPI:
     def clear(user: str = Query(..., min_length=1, max_length=80)) -> dict:
         return {"ok": True, "deleted": app.state.store.clear(user), "quota": quota(user, now())}
 
-    @app.post("/api/mentor/chat", dependencies=[Depends(auth)])
-    def chat(body: ChatIn) -> dict:
+    def prepare(body: ChatIn) -> tuple[datetime, list[dict], int, str]:
+        """Vor jeder Modellanfrage: Einrichtung prüfen, Nachricht im Tageslimit reservieren, System-Prompt bauen."""
         if not app.state.template:
             log.error("System-Prompt fehlt (MENTOR_PROMPT_FILE)")
             raise HTTPException(status_code=500, detail={"error": "prompt", "message": "Der Mentor ist auf dem Server noch nicht fertig eingerichtet."})
@@ -380,6 +399,11 @@ def create_app() -> FastAPI:
             glaubensmodus=body.context.glaubensmodus,
             journal=body.context.journal,
         )
+        return at, past, reserved, system
+
+    @app.post("/api/mentor/chat", dependencies=[Depends(auth)])
+    def chat(body: ChatIn) -> dict:
+        at, past, reserved, system = prepare(body)
         try:
             reply = app.state.ask(system, conversation(past, body.message))
             if not reply:
@@ -390,6 +414,39 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=502, detail={"error": "model", "message": "Der Mentor konnte gerade nicht antworten. Versuch es gleich noch einmal."}) from exc
         saved = app.state.store.add_reply(body.user, reply, now())
         return {"reply": reply, "at": saved["at"], "model": MODEL, "quota": quota(body.user, at)}
+
+    @app.post("/api/mentor/chat/stream", dependencies=[Depends(auth)])
+    async def chat_stream(body: ChatIn) -> StreamingResponse:
+        """Wie /chat, aber die Antwort kommt Stück für Stück als Zeilen (NDJSON): {"t":"delta","text":…} …, am Ende
+        {"t":"done",…} oder {"t":"error",…}. Fehler vor dem Start (Einrichtung, Tageslimit) kommen wie bei /chat als HTTP-Fehler.
+        Bricht die Website ab oder schlägt die Anfrage fehl, wird die Nachricht wieder freigegeben und zählt nicht."""
+        at, past, reserved, system = prepare(body)
+
+        def line(obj: dict) -> str:
+            return json.dumps(obj, ensure_ascii=False) + "\n"
+
+        async def events() -> AsyncIterator[str]:
+            parts: list[str] = []
+            done = False
+            try:
+                async for piece in app.state.ask_stream(system, conversation(past, body.message)):
+                    if piece:
+                        parts.append(piece)
+                        yield line({"t": "delta", "text": piece})
+                reply = "".join(parts).strip()
+                if not reply:
+                    raise RuntimeError("leere Antwort")
+                saved = app.state.store.add_reply(body.user, reply, now())
+                done = True
+                yield line({"t": "done", "reply": reply, "at": saved["at"], "model": MODEL, "quota": quota(body.user, at)})
+            except Exception:  # noqa: BLE001 - jede Modellstörung wird als Fehlerzeile gemeldet, nie als Absturz
+                log.exception("Modellanfrage (Stream) fehlgeschlagen")
+                yield line({"t": "error", "error": "model", "message": "Der Mentor konnte gerade nicht antworten. Versuch es gleich noch einmal."})
+            finally:
+                if not done:
+                    app.state.store.release(body.user, reserved, at)
+
+        return StreamingResponse(events(), media_type="application/x-ndjson", headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"})
 
     @app.post("/api/voice/analyze", dependencies=[Depends(auth)])
     def voice(body: VoiceIn) -> dict:

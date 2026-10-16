@@ -46,6 +46,11 @@ und dasselbe Token eintragen. „Verbindung testen“ ruft `/api/mentor/health` 
 - `DELETE /api/mentor/history?user=ID` → Verlauf löschen
 - `POST /api/mentor/chat` mit `{ "user": "ID", "message": "…", "context": { "app_name": "Journalyst", "user_name": "…", "glaubensmodus": true, "journal": "…" } }`
   → `{ "reply": "…", "quota": { "limit", "used", "remaining", "reset_at" } }`; bei erschöpftem Limit `429`
+- `POST /api/mentor/chat/stream` mit demselben Inhalt → die Antwort Stück für Stück als Zeilen (`application/x-ndjson`):
+  `{ "t": "delta", "text": "…" }` …, am Ende `{ "t": "done", "reply", "at", "quota" }` oder `{ "t": "error", "error": "model", "message" }`.
+  Einrichtung, Zugang und Tageslimit werden vorher geprüft und kommen wie bei `/chat` als HTTP-Fehler. Bricht die Website ab
+  oder scheitert die Anfrage, wird die Nachricht wieder freigegeben: sie zählt nicht fürs Tageslimit und landet nicht im Verlauf.
+  Die Website nutzt diesen Weg und fällt bei älteren Servern (404) auf `/chat` zurück.
 - `POST /api/voice/analyze` mit `{ "user": "ID", "transcript": "…", "audio": "<Base64, optional>", "mime": "audio/mp4", "language": "de", "setups": ["…"], "mistakes": ["…"], "trade": "…" }`
   → `{ "transcript", "emotion" (feste Liste, siehe `/health`), "setup" (aus den Setups des Nutzers oder leer), "mistakes" (nur Fehler-Tags des Nutzers), "summary", "source": "browser"|"server", "quota" }`.
   Das Transkript kommt normalerweise aus der Spracherkennung des Browsers (Safari, Chrome); ohne Transkript und mit `VOICE_STT_URL` transkribiert der Server die Aufnahme. Ohne beides `422`.
@@ -118,6 +123,10 @@ Phase 2 und 3 (Migration 2, ohne Datenverlust für Datenbanken aus Phase 1):
 - E-Mail: `PUT /notify` `{ "email", "notify_email" }`. Mails gehen nur mit Einwilligung raus, im Hintergrund nach der
   Antwort, höchstens `COACH_MAIL_DAILY_LIMIT` pro Empfänger und Tag; ein Fehler beim Versand ändert nichts an der Anfrage.
   Verlässt jemand alle Gruppen und ist auch nicht Mentor, wird die Adresse gelöscht.
+- Alles löschen: `DELETE /me` entfernt alles dieser Person endgültig (Einträge, Tage, Bilder, Antworten, E-Mail, Mitgliedschaften;
+  als Mentor auch die eigenen Gruppen samt Notizen, Aufgaben und Co-Coach-Rollen; die Mitglieder verlieren nur die Gruppe, ihre
+  eigenen Daten bleiben). Danach gilt der Schlüssel nicht mehr. Die Website ruft das bei „Alles löschen“ zusammen mit
+  `DELETE /api/mentor/history` auf, bevor sie die Daten im Browser löscht.
 
 | Variable | Standard | Bedeutung |
 | --- | --- | --- |

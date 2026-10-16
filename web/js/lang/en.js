@@ -1863,4 +1863,13 @@ I18N.add('en', {
   "z. B. Strategie": "e.g. Strategy",
   "Ideen": "Ideas",
   "Strategie": "Strategy",
+  "Abgebrochen. Diese Nachricht zählt nicht für dein Tageslimit.": "Cancelled. This message doesn't count toward your daily limit.",
+  "Das wird endgültig gelöscht:": "This will be deleted for good:",
+  "Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser": "All trades, notes, images and settings in this browser",
+  "Dein Verlauf mit dem Mentor auf deinem Server": "Your Mentor history on your server",
+  "Deine Daten im Coach Mode: Einträge, Gruppen, Notizen und Aufgaben": "Your Coach Mode data: entries, groups, notes and tasks",
+  "Das lässt sich nicht rückgängig machen. Exportiere vorher, was du behalten willst.": "This can't be undone. Export anything you want to keep first.",
+  "Server nicht erreichbar": "Server not reachable",
+  "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "The data on your server couldn't be deleted. Delete only in this browser? The data on the server will then remain.",
+  "Nur hier löschen": "Delete only here",
 });

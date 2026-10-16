@@ -3740,3 +3740,9 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 .nw-skel .sk-t { width: 7.5rem; height: 0.875rem; } .nw-skel .sk-l { width: 2.75rem; } .nw-skel .sk-b { width: 1.125rem; } .nw-skel .sk-c { width: 2.25rem; height: 1.125rem; }
 .coach-skel { display: grid; gap: var(--sp-2); padding: var(--sp-2) 0; }
 .coach-skel .skel { display: block; height: 2.5rem; border: 0; border-radius: var(--radius); }
+
+/* Alles löschen: Liste der Daten im Bestätigungsfenster */
+.wipe-intro, .wipe-outro, .wipe-li { display: block; }
+.wipe-li { position: relative; padding-left: var(--sp-4); margin-top: var(--sp-1); color: var(--text-2); }
+.wipe-li::before { content: '•'; position: absolute; left: var(--sp-1); }
+.wipe-outro { margin-top: var(--sp-3); }

@@ -578,3 +578,41 @@ def test_migration_from_version_1_keeps_data(tmp_path):
     assert s.user("u1") == {"id": "u1", "name": "Flo", "email": "", "notify_email": False}
     assert s.group("g1")["name"] == "Alt" and s.coach_token("g1") and s.coach_token("g1") == s.coach_token("g1")
     assert s.tasks_for_student("u1") == [] and s.coaches("g1") == []
+
+
+# ---------------------------------------------------------------- Alles löschen
+def test_delete_me_as_student_removes_everything_of_that_person(coach):
+    mod, _, client = coach
+    g, anna_id, note = setup_group_with_anna(client)
+    client.post(f"/api/coach/notes/{note['id']}/replies", json={"text": "Angst vor dem Gap."}, headers=as_(ANNA_KEY))
+    client.post(f"/api/coach/groups/{g['id']}/tasks", json={"text": "Max. 3 Trades", "student_id": anna_id}, headers=as_(MENTOR_KEY))
+    client.put("/api/coach/notify", json={"email": "anna@example.org", "notify_email": True}, headers=as_(ANNA_KEY))
+    r = client.delete("/api/coach/me", headers=as_(ANNA_KEY))
+    assert r.status_code == 200 and r.json()["ok"]
+    d = r.json()["deleted"]
+    assert d["entries"] == 1 and d["days"] == 1 and d["members"] == 1 and d["notes"] == 1 and d["replies"] == 1 and d["tasks"] == 1 and d["users"] == 1
+    # Mentor sieht Anna nicht mehr; die Gruppe selbst bleibt
+    assert client.get(f"/api/coach/groups/{g['id']}/students", headers=as_(MENTOR_KEY)).json()["students"] == []
+    assert any(x["id"] == g["id"] for x in client.get("/api/coach/groups", headers=as_(MENTOR_KEY)).json()["groups"])
+    # Annas alter Schlüssel ist jetzt ein neuer, leerer Nutzer ohne Gruppen, Notizen und E-Mail
+    mine = client.get("/api/coach/notes", headers=as_(ANNA_KEY)).json()
+    assert mine["notes"] == [] and mine["tasks"] == []
+    with mod.app.state.coach._conn() as c:
+        assert c.execute("SELECT COUNT(*) FROM coach_users WHERE email = 'anna@example.org'").fetchone()[0] == 0
+
+
+def test_delete_me_as_mentor_removes_own_groups_but_keeps_students_data(coach):
+    mod, _, client = coach
+    g, anna_id, note = setup_group_with_anna(client)
+    r = client.delete("/api/coach/me", headers=as_(MENTOR_KEY))
+    assert r.status_code == 200 and r.json()["deleted"]["groups"] == 1 and r.json()["deleted"]["notes"] == 1
+    assert client.get("/api/coach/groups", headers=as_(ANNA_KEY)).json()["groups"] == [] or all(x["id"] != g["id"] for x in client.get("/api/coach/groups", headers=as_(ANNA_KEY)).json()["groups"])
+    with mod.app.state.coach._conn() as c:
+        assert c.execute("SELECT COUNT(*) FROM coach_entries WHERE user_id = ?", (anna_id,)).fetchone()[0] == 1  # Annas eigene Einträge bleiben bei ihr
+        assert c.execute("SELECT COUNT(*) FROM coach_groups").fetchone()[0] == 0
+
+
+def test_delete_me_needs_key_and_app_token(coach):
+    _, _, client = coach
+    assert client.delete("/api/coach/me").status_code == 401
+    assert client.delete("/api/coach/me", headers={**as_(ANNA_KEY), "Authorization": "Bearer falsch"}).status_code == 401

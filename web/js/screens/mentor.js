@@ -15,14 +15,44 @@
 
   /* Anfrage an den eigenen Server; Fehler kommen als freundlicher Satz zurück (U.friendly), Status, Code und Server-Text nur in
      der Konsole. Sprachnotizen (/api/voice) haben eigene Sätze für Limit, Transkription und Auswertung */
+  const failer = area => (status, code, raw, body) => { const err = new Error(''); Object.assign(err, { status, code, serverMessage: raw, body }); err.message = U.friendly(err, area); return err; };
+  const aborted = () => Object.assign(new Error(''), { code: 'abort' });
+  /* Fehlerantwort des Servers lesen: Code und Text gehen in die Konsole, sichtbar wird nur der freundliche Satz */
+  async function errorOf(r, fail) {
+    let body = null; try { body = await r.json(); } catch (e) { /* keine JSON-Antwort */ }
+    const d = body && body.detail; const raw = (Array.isArray(d) && d.map(x => x && x.msg).filter(Boolean).join(' ')) || (d && typeof d === 'object' && !Array.isArray(d) && d.message) || (typeof d === 'string' && d) || (body && body.error) || '';
+    return fail(r.status, d && !Array.isArray(d) && typeof d === 'object' ? d.error : '', raw, body);
+  }
   async function api(path, opts) {
-    const area = path.startsWith('/api/voice') ? 'voice' : 'mentor'; const fail = (status, code, raw, body) => { const err = new Error(''); Object.assign(err, { status, code, serverMessage: raw, body }); err.message = U.friendly(err, area); return err; };
+    const fail = failer(path.startsWith('/api/voice') ? 'voice' : 'mentor');
     let r;
     try { r = await fetch(baseUrl() + path, Object.assign({ headers: headers() }, opts || {})); }
-    catch (e) { if (e && e.name === 'AbortError') throw Object.assign(new Error(''), { code: 'abort' }); throw fail(0, 'net', e && e.message); }
+    catch (e) { if (e && e.name === 'AbortError') throw aborted(); throw fail(0, 'net', e && e.message); }
+    if (!r.ok) throw await errorOf(r, fail);
     let body = null; try { body = await r.json(); } catch (e) { /* keine JSON-Antwort */ }
-    if (!r.ok) { const d = body && body.detail; const raw = (Array.isArray(d) && d.map(x => x && x.msg).filter(Boolean).join(' ')) || (d && typeof d === 'object' && !Array.isArray(d) && d.message) || (typeof d === 'string' && d) || (body && body.error) || ''; throw fail(r.status, d && !Array.isArray(d) && typeof d === 'object' ? d.error : '', raw, body); }
     return body;
+  }
+  /* Antwort nach und nach: /api/mentor/chat/stream schickt Zeilen (NDJSON) mit Textstücken, onText bekommt den Text bis hierher.
+     Ältere Server ohne diesen Weg (404) bekommen die normale Anfrage, dann kommt die Antwort am Stück. info.stream sagt, ob gestreamt
+     wurde: ein Abbruch gibt die Nachricht dort wieder frei (zählt nicht fürs Tageslimit) */
+  async function chatStream(payload, signal, onText, info) {
+    const fail = failer('mentor'); let r;
+    try { r = await fetch(baseUrl() + '/api/mentor/chat/stream', { method: 'POST', headers: headers(), body: payload, signal }); }
+    catch (e) { if (e && e.name === 'AbortError') throw aborted(); throw fail(0, 'net', e && e.message); }
+    if (r.status === 404 || r.status === 405) return api('/api/mentor/chat', { method: 'POST', signal, body: payload });
+    if (!r.ok || !r.body) throw await errorOf(r, fail);
+    info.stream = true; const reader = r.body.getReader(), dec = new TextDecoder(); let buf = '', text = '', end = null;
+    try {
+      for (;;) {
+        const { value, done } = await reader.read(); if (done) break; buf += dec.decode(value, { stream: true }); let i;
+        while ((i = buf.indexOf('\n')) >= 0) {
+          const ln = buf.slice(0, i).trim(); buf = buf.slice(i + 1); if (!ln) continue; let ev; try { ev = JSON.parse(ln); } catch (e) { continue; }
+          if (ev.t === 'delta') { text += ev.text || ''; onText(text); } else if (ev.t === 'done') end = ev; else if (ev.t === 'error') throw fail(502, ev.error || 'model', ev.message);
+        }
+      }
+    } catch (e) { if (e && e.name === 'AbortError') throw aborted(); if (e && e.code) throw e; throw fail(0, 'net', e && e.message); }
+    if (!end) throw fail(502, 'model', 'Antwort ohne Abschluss');
+    return { reply: end.reply, at: end.at, quota: end.quota };
   }
 
   /* ---------- Journal-Kontext: kurze Zusammenfassung statt Rohdaten ---------- */
@@ -99,7 +129,7 @@
       const msgs = s.messages || []; const limitHit = s.quota && s.quota.remaining <= 0; const busy = s.sending || s.loading || limitHit;
       return `<div class="mentor-wrap"><section class="card mentor">
         <div class="mentor-head"><div><b>Trading-Psychologie-Mentor</b>${AI_BADGE}<div class="small muted" id="mentor-quota">${quotaText(s)}</div></div><div class="row"><button type="button" class="btn sm ghost" data-action="mentor-reload" aria-label="Neu laden" data-tip="Verlauf neu laden" ${s.sending || s.loading ? 'disabled' : ''}>${I.clock}</button><button type="button" class="btn sm ghost" data-action="mentor-clear" ${msgs.length ? '' : 'disabled'}>${I.trash} Verlauf löschen</button></div></div>
-        <div class="mentor-log" id="mentor-log">${s.loading ? '<div class="mentor-skel" role="status" aria-label="Verlauf wird geladen"><div class="skel msg ai" style="width:62%;height:56px"></div><div class="skel msg user" style="width:38%;height:44px"></div><div class="skel msg ai" style="width:72%;height:68px"></div></div>' : msgs.length ? msgs.map(bubble).join('') : INTRO}${s.sending ? '<div class="msg ai typing" aria-label="Der Mentor schreibt"><i></i><i></i><i></i></div>' : ''}${s.error ? `<div class="mentor-err" role="alert">${esc(s.error)}</div>` : ''}${s.notice ? `<div class="mentor-notice" role="status">${esc(s.notice)}</div>` : ''}</div>
+        <div class="mentor-log" id="mentor-log">${s.loading ? '<div class="mentor-skel" role="status" aria-label="Verlauf wird geladen"><div class="skel msg ai" style="width:62%;height:56px"></div><div class="skel msg user" style="width:38%;height:44px"></div><div class="skel msg ai" style="width:72%;height:68px"></div></div>' : msgs.length ? msgs.map(bubble).join('') : INTRO}${s.sending ? (s.partial ? `<div class="msg ai streaming" aria-busy="true"><div class="b">${renderText(s.partial)}</div></div>` : '<div class="msg ai typing" aria-label="Der Mentor schreibt"><i></i><i></i><i></i></div>') : ''}${s.error ? `<div class="mentor-err" role="alert">${esc(s.error)}</div>` : ''}${s.notice ? `<div class="mentor-notice" role="status">${esc(s.notice)}</div>` : ''}</div>
         <form class="mentor-form" data-action="mentor-send"><textarea class="input" id="mentor-in" rows="2" maxlength="4000" placeholder="${limitHit ? 'Tageslimit erreicht' : 'Schreib dem Mentor … (Enter sendet, Shift+Enter neue Zeile)'}" data-input="mentor-draft" ${busy ? 'disabled' : ''}>${esc(s.draft)}</textarea>${s.sending ? `<button type="button" class="btn icon mentor-stop" data-action="mentor-cancel" aria-label="Antwort abbrechen" title="Abbrechen">${I.stop}</button>` : `<button type="submit" class="btn primary icon" aria-label="Senden" ${busy ? 'disabled' : ''}>${I.arrowUp}</button>`}</form>
         <div class="mentor-note small faint">Der Mentor ist eine KI und ersetzt keine Therapie, Beratung oder Seelsorge. In akuten Krisen: Telefonseelsorge 0800 111 0 111, bei Gefahr 112.</div>
       </section></div>`;
@@ -118,6 +148,11 @@
     catch (e) { if (first) s.messages = []; s.error = e.message; }
     s.loading = false; if (App.state.route === 'mentor' && !s.sending) App.rerender();
   }
+  function showPartial(txt) {
+    const log = document.getElementById('mentor-log'); if (!log) return; const atEnd = log.scrollHeight - log.scrollTop - log.clientHeight < 40;
+    let b = log.querySelector('.msg.ai.streaming'); if (!b) { const t = log.querySelector('.msg.ai.typing'); b = document.createElement('div'); b.className = 'msg ai streaming'; b.setAttribute('aria-busy', 'true'); b.innerHTML = '<div class="b"></div>'; if (t) t.replaceWith(b); else log.appendChild(b); }
+    b.querySelector('.b').innerHTML = renderText(txt); if (atEnd) log.scrollTop = log.scrollHeight;
+  }
   Object.assign(App.actions, {
     'mentor-draft'(el) { st().draft = el.value; },
     'mentor-cancel'() { const s = st(); if (s.ctrl) s.ctrl.abort(); },
@@ -125,15 +160,16 @@
     async 'mentor-send'() {
       const s = st(); const text = (s.draft || '').trim().slice(0, 4000); if (!text || s.sending || s.loading) return;
       if (!s.messages) s.messages = [];
-      s.messages.push({ role: 'user', content: text, at: new Date().toISOString(), pending: true }); s.draft = ''; s.sending = true; s.error = ''; s.notice = ''; s.ctrl = new AbortController(); App.rerender();
+      s.messages.push({ role: 'user', content: text, at: new Date().toISOString(), pending: true }); s.draft = ''; s.sending = true; s.partial = ''; s.error = ''; s.notice = ''; s.ctrl = new AbortController(); App.rerender(); const info = { stream: false };
       try {
-        const r = await api('/api/mentor/chat', { method: 'POST', signal: s.ctrl.signal, body: JSON.stringify({ user: S.userId(), message: text, context: { app_name: APP_NAME, user_name: userName(), glaubensmodus: S.settings.christlicherImpuls !== false, journal: buildContext() } }) });
+        const payload = JSON.stringify({ user: S.userId(), message: text, context: { app_name: APP_NAME, user_name: userName(), glaubensmodus: S.settings.christlicherImpuls !== false, journal: buildContext() } });
+        const r = await chatStream(payload, s.ctrl.signal, txt => { s.partial = txt; showPartial(txt); }, info);
         s.messages.forEach(m => { delete m.pending; }); s.messages.push({ role: 'assistant', content: r.reply, at: r.at }); s.quota = r.quota || s.quota; s.focus = true;
       } catch (e) {
-        if (e.code === 'abort') { s.messages.forEach(m => { delete m.pending; }); s.notice = 'Du hast das Warten abgebrochen. Kommt die Antwort noch, siehst du sie beim nächsten Öffnen.'; } /* die Nachricht ist schon beim Server; beim nächsten Öffnen lädt der Verlauf neu (hashchange) */
+        if (e.code === 'abort') { s.messages.forEach(m => { delete m.pending; }); s.notice = info.stream ? 'Abgebrochen. Diese Nachricht zählt nicht für dein Tageslimit.' : 'Du hast das Warten abgebrochen. Kommt die Antwort noch, siehst du sie beim nächsten Öffnen.'; } /* gestreamt: der Server gibt die Nachricht frei; sonst ist sie schon beim Server und kommt beim nächsten Öffnen mit dem Verlauf (hashchange) */
         else { s.messages = s.messages.filter(m => !m.pending); s.draft = text; s.error = e.message; if (e.status === 429 && e.body && e.body.detail && e.body.detail.quota) s.quota = e.body.detail.quota; }
       }
-      s.sending = false; s.ctrl = null; if (App.state.route === 'mentor') App.rerender();
+      s.sending = false; s.ctrl = null; s.partial = ''; if (App.state.route === 'mentor') App.rerender();
     },
     async 'mentor-clear'() {
       if (!await U.confirmModal('Verlauf löschen?', 'Der Mentor vergisst damit alle bisherigen Nachrichten.', { ok: 'Löschen', danger: true })) return;

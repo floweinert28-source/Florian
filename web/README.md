@@ -88,6 +88,12 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Ränder links (Zitate im Notebook und Replay-Ergebnis mit ruhigem Rahmen), keine Emojis in Ordnernamen der Beispieldaten (alte
   Namen „📈 Strategie“/„💡 Ideen“ werden beim Start umbenannt, eigene Ordner bleiben) und keine Warnzeichen im Text. Die Serie
   zeigt ihre Stufen ohne Farbverlauf und Glühen. Bewusst erhalten (eigene Welten): Zertifikat, Friedhof und Ruhepunkt.
+- **Mentor-Antwort nach und nach:** Die Mentor-Seite nutzt `POST /api/mentor/chat/stream` und zeigt die Antwort Stück für Stück
+  (`.msg.ai.streaming`, `aria-busy`), bis sie fertig ist; ältere Server ohne diesen Weg (404) bekommen die normale Anfrage. Der
+  Stopp-Knopf beendet die Verbindung; der Server gibt die Nachricht dann frei (zählt nicht fürs Tageslimit). Test: `e2e/streamtest.js`.
+- **Alles löschen** (Einstellungen → Profil): Das Fenster nennt, was gelöscht wird: alle Daten in diesem Browser, mit eingerichtetem
+  Server auch der Mentor-Verlauf und die Daten im Coach Mode. Erst löscht die Website auf dem Server (`DELETE /api/mentor/history`,
+  `DELETE /api/coach/me`), dann im Browser. Ist der Server nicht erreichbar, fragt sie, ob nur im Browser gelöscht werden soll.
 - **Fehlermeldungen in Alltagssprache** (`U.friendly(fehler, bereich)` in ui.js): Mentor, Sprachnotizen, Coach und News zeigen nie
   Statuscodes, Server-Texte mit Technik-Namen, Fehlerklassen oder Stacktraces, sondern was passiert ist und was man tun kann
   (keine Verbindung, Zugang abgelehnt, Server noch nicht eingerichtet, Tageslimit, Server-Problem). Status, Code und Server-Text

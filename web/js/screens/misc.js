@@ -417,6 +417,20 @@
           try { const r = await S.importJSON(pending, mode); S.addImport({ source: 'Sicherung', file: fileName, accountId: S.defaultAccountId(), count: r.added, dup: r.trades - r.added, status: 'Erfolg' }); U.closeModal(); U.toast(rep ? `Sicherung eingespielt (${U.count(r.trades, 'Trade', 'Trades')})` : (r.added ? (r.added === 1 ? '1 neuer Trade übernommen' : `${r.added} neue Trades übernommen`) : 'Keine neuen Trades in der Sicherung'), 'ok'); App.rerender(false); }
           catch (e) { S.addImport({ source: 'Sicherung', file: fileName, accountId: S.defaultAccountId(), count: 0, dup: 0, status: 'Fehler' }); go.disabled = false; sum.hidden = false; sum.className = 'small neg'; sum.textContent = 'Die Sicherung konnte nicht eingespielt werden. Prüfe, ob die Datei vollständig ist.'; } });
       } }); },
-    async wipe() { if (await U.confirmModal('Wirklich alles löschen?', 'Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser werden entfernt. Das lässt sich nicht rückgängig machen.', { ok: 'Alles löschen', danger: true })) { await S.wipe(); U.toast('Alle Daten gelöscht'); App.navigate('#/dashboard'); App.rerender(false); } },
+    /* Alles löschen: erst die Daten auf dem eigenen Server (Mentor-Verlauf, Coach Mode), dann alles in diesem Browser. Klappt der
+       Server nicht, wird noch nichts gelöscht; auf Wunsch nur hier im Browser */
+    async wipe() {
+      const M = root.Mentor, Co = root.Coach; const srv = !!(M && M.configured()); const coach = srv && !!(Co && (Co.data() || {}).key);
+      const li = t => `<span class="wipe-li">${esc(t)}</span>`;
+      const text = `<span class="wipe-intro">Das wird endgültig gelöscht:</span>${li('Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser')}${srv ? li('Dein Verlauf mit dem Mentor auf deinem Server') : ''}${coach ? li('Deine Daten im Coach Mode: Einträge, Gruppen, Notizen und Aufgaben') : ''}<span class="wipe-outro">Das lässt sich nicht rückgängig machen. Exportiere vorher, was du behalten willst.</span>`;
+      if (!await U.confirmModal('Wirklich alles löschen?', text, { ok: 'Alles löschen', danger: true })) return;
+      try {
+        if (srv) await M.api('/api/mentor/history?user=' + encodeURIComponent(S.userId()), { method: 'DELETE' });
+        if (coach) await Co.api('/api/coach/me', { method: 'DELETE' });
+      } catch (e) {
+        if (!await U.confirmModal('Server nicht erreichbar', 'Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.', { ok: 'Nur hier löschen', danger: true })) return;
+      }
+      await S.wipe(); U.toast('Alle Daten gelöscht'); App.navigate('#/dashboard'); App.rerender(false);
+    },
   });
 })(typeof self !== 'undefined' ? self : this);

@@ -159,3 +159,106 @@ def test_missing_api_key_is_a_clear_error(server, monkeypatch):
     assert client.get("/api/mentor/health").json()["api_key"] is False
     r = client.post("/api/mentor/chat", json={"user": "flo", "message": "Hallo"})
     assert r.status_code == 503 and r.json()["detail"]["error"] == "key" and "ANTHROPIC_API_KEY" not in r.json()["detail"]["message"] and not calls  # Variablenname nur im Log
+
+
+# ---------------------------------------------------------------- Antwort nach und nach (Streaming)
+def _lines(r) -> list[dict]:
+    import json as _json
+    return [_json.loads(x) for x in r.text.splitlines() if x.strip()]
+
+
+def test_stream_sends_pieces_then_done_and_stores_reply(server):
+    mod, client, _ = server
+    seen: list[dict] = []
+
+    async def pieces(system, messages):
+        seen.append({"system": system, "messages": messages})
+        for p in ["Atme ", "kurz ", "durch."]:
+            yield p
+
+    mod.app.state.ask_stream = pieces
+    r = client.post("/api/mentor/chat/stream", json={"user": "flo", "message": "Bin nervös.", "context": {"user_name": "Flo"}})
+    assert r.status_code == 200 and r.headers["content-type"].startswith("application/x-ndjson")
+    ev = _lines(r)
+    assert [e["t"] for e in ev] == ["delta", "delta", "delta", "done"]
+    assert "".join(e["text"] for e in ev if e["t"] == "delta") == "Atme kurz durch."
+    assert ev[-1]["reply"] == "Atme kurz durch." and ev[-1]["quota"]["used"] == 1 and "at" in ev[-1]
+    assert seen[0]["messages"] == [{"role": "user", "content": "Bin nervös."}] and "Name: Flo" in seen[0]["system"]
+    hist = client.get("/api/mentor/history", params={"user": "flo"}).json()
+    assert [m["role"] for m in hist["messages"]] == ["user", "assistant"] and hist["messages"][1]["content"] == "Atme kurz durch."
+
+
+def test_stream_failure_mid_answer_is_an_error_line_and_does_not_count(server):
+    mod, client, _ = server
+
+    async def broken(system, messages):
+        yield "Halb"
+        raise RuntimeError("Netz weg")
+
+    mod.app.state.ask_stream = broken
+    r = client.post("/api/mentor/chat/stream", json={"user": "flo", "message": "Hallo"})
+    ev = _lines(r)
+    assert ev[0] == {"t": "delta", "text": "Halb"} and ev[-1]["t"] == "error" and ev[-1]["error"] == "model" and "RuntimeError" not in ev[-1]["message"]
+    hist = client.get("/api/mentor/history", params={"user": "flo"}).json()
+    assert hist["messages"] == [] and hist["quota"]["used"] == 0
+
+    async def empty(system, messages):
+        if False:
+            yield ""
+
+    mod.app.state.ask_stream = empty
+    ev = _lines(client.post("/api/mentor/chat/stream", json={"user": "flo", "message": "Hallo"}))
+    assert ev[-1]["t"] == "error" and client.get("/api/mentor/history", params={"user": "flo"}).json()["quota"]["used"] == 0
+
+
+def test_stream_checks_auth_and_limit_before_starting(server):
+    mod, client, _ = server
+
+    async def ok(system, messages):
+        yield "Ok."
+
+    mod.app.state.ask_stream = ok
+    assert client.post("/api/mentor/chat/stream", json={"user": "flo", "message": "x"}, headers={"Authorization": "Bearer falsch"}).status_code == 401
+    for i in range(2):
+        assert _lines(client.post("/api/mentor/chat/stream", json={"user": "flo", "message": f"N {i}"}))[-1]["t"] == "done"
+    r = client.post("/api/mentor/chat/stream", json={"user": "flo", "message": "Noch eine"})
+    assert r.status_code == 429 and r.json()["detail"]["error"] == "limit"
+
+
+def test_stream_abort_by_the_website_releases_the_message(server):
+    import asyncio
+    import json as _json
+
+    mod, client, _ = server
+
+    async def slow(system, messages):
+        yield "Erster Teil "
+        await asyncio.sleep(5)
+        yield "kommt nie"
+
+    mod.app.state.ask_stream = slow
+    body = _json.dumps({"user": "flo", "message": "Hallo"}).encode()
+
+    async def run() -> None:
+        first = asyncio.Event()
+        calls = {"n": 0}
+
+        async def receive():
+            calls["n"] += 1
+            if calls["n"] == 1:
+                return {"type": "http.request", "body": body, "more_body": False}
+            await first.wait()
+            return {"type": "http.disconnect"}
+
+        async def send(msg):
+            if msg["type"] == "http.response.body" and msg.get("body"):
+                first.set()
+
+        scope = {"type": "http", "asgi": {"version": "3.0"}, "http_version": "1.1", "method": "POST", "scheme": "http", "path": "/api/mentor/chat/stream",
+                 "raw_path": b"/api/mentor/chat/stream", "query_string": b"", "root_path": "", "client": ("test", 1), "server": ("test", 80),
+                 "headers": [(b"content-type", b"application/json"), (b"authorization", b"Bearer geheim")]}
+        await asyncio.wait_for(mod.app(scope, receive, send), 3)
+
+    asyncio.run(run())
+    hist = client.get("/api/mentor/history", params={"user": "flo"}).json()
+    assert hist["messages"] == [] and hist["quota"]["used"] == 0  # abgebrochen: zählt nicht, nichts gespeichert

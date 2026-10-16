@@ -1955,4 +1955,13 @@ I18N.add('hi', {
   "z. B. Strategie": "जैसे: रणनीति",
   "Ideen": "विचार",
   "Strategie": "रणनीति",
+  "Abgebrochen. Diese Nachricht zählt nicht für dein Tageslimit.": "रद्द किया गया। यह संदेश आपकी दैनिक सीमा में नहीं गिना जाएगा।",
+  "Das wird endgültig gelöscht:": "यह हमेशा के लिए हटा दिया जाएगा:",
+  "Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser": "इस ब्राउज़र में सभी ट्रेड, नोट्स, चित्र और सेटिंग्स",
+  "Dein Verlauf mit dem Mentor auf deinem Server": "आपके सर्वर पर मेंटर के साथ आपका इतिहास",
+  "Deine Daten im Coach Mode: Einträge, Gruppen, Notizen und Aufgaben": "कोच मोड में आपका डेटा: प्रविष्टियाँ, समूह, नोट्स और कार्य",
+  "Das lässt sich nicht rückgängig machen. Exportiere vorher, was du behalten willst.": "इसे पलटा नहीं जा सकता। जो रखना चाहते हैं, पहले उसे एक्सपोर्ट करें।",
+  "Server nicht erreichbar": "सर्वर तक नहीं पहुँच सके",
+  "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "आपके सर्वर का डेटा हटाया नहीं जा सका। केवल इस ब्राउज़र में हटाएँ? तब सर्वर पर डेटा बना रहेगा।",
+  "Nur hier löschen": "केवल यहाँ हटाएँ",
 });

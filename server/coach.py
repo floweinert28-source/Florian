@@ -212,6 +212,31 @@ class CoachStore:
                 return {"id": row["id"], "name": name.strip()}
             return {"id": row["id"], "name": row["name"]}
 
+    def delete_user(self, uid: str) -> dict:
+        """Recht auf Löschung: alles dieser Person endgültig entfernen. Eigene Einträge, Tage, Bilder, Antworten, E-Mail und
+        Mitgliedschaften; als Mentor auch die eigenen Gruppen (die Mitglieder verlieren nur die Gruppe, ihre eigenen Daten bleiben),
+        geschriebene Notizen und Aufgaben und Co-Coach-Rollen. Danach gilt der Schlüssel nicht mehr."""
+        out: dict[str, int] = {}
+        with self.lock, self._conn() as c:
+            own = [r["id"] for r in c.execute("SELECT id FROM coach_groups WHERE owner_id = ?", (uid,))]
+            q = ",".join("?" * len(own)) or "NULL"
+
+            def run(key: str, sql: str, args: tuple) -> None:
+                out[key] = out.get(key, 0) + c.execute(sql, args).rowcount
+
+            notes = f"SELECT id FROM coach_notes WHERE group_id IN ({q}) OR mentor_id = ? OR student_id = ?"
+            run("replies", f"DELETE FROM coach_replies WHERE note_id IN ({notes}) OR author_id = ?", (*own, uid, uid, uid))
+            run("notes", f"DELETE FROM coach_notes WHERE group_id IN ({q}) OR mentor_id = ? OR student_id = ?", (*own, uid, uid))
+            run("tasks", f"DELETE FROM coach_tasks WHERE group_id IN ({q}) OR mentor_id = ? OR student_id = ?", (*own, uid, uid))
+            run("seen", f"DELETE FROM coach_seen WHERE group_id IN ({q}) OR mentor_id = ? OR student_id = ?", (*own, uid, uid))
+            run("members", f"DELETE FROM coach_members WHERE group_id IN ({q}) OR user_id = ?", (*own, uid))
+            run("coaches", f"DELETE FROM coach_coaches WHERE group_id IN ({q}) OR user_id = ?", (*own, uid))
+            run("groups", "DELETE FROM coach_groups WHERE owner_id = ?", (uid,))
+            for t in ("coach_entries", "coach_days", "coach_assets", "coach_mail_usage"):
+                run(t.removeprefix("coach_"), f"DELETE FROM {t} WHERE user_id = ?", (uid,))
+            run("users", "DELETE FROM coach_users WHERE id = ?", (uid,))
+        return out
+
     def rename_user(self, uid: str, name: str) -> dict:
         with self.lock, self._conn() as c:
             c.execute("UPDATE coach_users SET name = ? WHERE id = ?", (name.strip(), uid))
@@ -919,6 +944,13 @@ def make_router(store: CoachStore, app_auth: Callable[..., None], mail_limit: in
         if body.name.strip():
             user = store.rename_user(user["id"], body.name)
         return me_out(user)
+
+    @router.delete("/me")
+    def delete_me(user: dict = Depends(me)) -> dict:
+        """„Alles löschen“ in Journalyst: alle Daten dieser Person im Coach Mode endgültig entfernen."""
+        deleted = store.delete_user(user["id"])
+        log.info("Coach-Nutzer %s hat seine Daten gelöscht", user["id"])
+        return {"ok": True, "deleted": deleted}
 
     @router.put("/notify")
     def put_notify(body: NotifyIn, request: Request, user: dict = Depends(me)) -> dict:

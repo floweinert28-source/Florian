@@ -1955,4 +1955,13 @@ I18N.add('zh', {
   "z. B. Strategie": "例如：策略",
   "Ideen": "想法",
   "Strategie": "策略",
+  "Abgebrochen. Diese Nachricht zählt nicht für dein Tageslimit.": "已取消。这条消息不计入你的每日上限。",
+  "Das wird endgültig gelöscht:": "以下内容将被永久删除：",
+  "Alle Trades, Notizen, Bilder und Einstellungen in diesem Browser": "此浏览器中的所有交易、笔记、图片和设置",
+  "Dein Verlauf mit dem Mentor auf deinem Server": "你服务器上与导师的聊天记录",
+  "Deine Daten im Coach Mode: Einträge, Gruppen, Notizen und Aufgaben": "你在教练模式中的数据：条目、小组、笔记和任务",
+  "Das lässt sich nicht rückgängig machen. Exportiere vorher, was du behalten willst.": "此操作无法撤销。请先导出你想保留的内容。",
+  "Server nicht erreichbar": "无法连接服务器",
+  "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "无法删除你服务器上的数据。只在此浏览器中删除吗？服务器上的数据将保留。",
+  "Nur hier löschen": "仅在此删除",
 });

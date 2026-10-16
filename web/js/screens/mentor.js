@@ -124,7 +124,7 @@
     head: { range: false, session: false, trade: false, note: 'Der Mentor sieht die letzten 20 Trades dieses Kontos.' },
     render() {
       const s = st();
-      if (!configured()) return `<div class="mentor-wrap"><section class="card mentor-setup"><span class="ico">${I.chat}</span><h2>Mentor-Chat einrichten</h2><p class="muted">Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.</p><a class="btn primary" href="#/settings/mentor">Zu den Einstellungen</a><div class="small faint" style="margin-top:14px">Anleitung zum Server: <code>server/README.md</code> im Projekt.</div></section></div>`;
+      if (!configured()) return `<div class="mentor-wrap"><section class="card mentor-setup"><span class="ico">${I.chat}</span><h2>Mentor-Chat einrichten</h2><p class="muted">Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.</p><a class="btn primary" href="#/settings/mentor">Zu den Einstellungen</a></section></div>`;
       if (!consented('mentor')) return consentCard();
       const msgs = s.messages || []; const limitHit = s.quota && s.quota.remaining <= 0; const busy = s.sending || s.loading || limitHit;
       return `<div class="mentor-wrap"><section class="card mentor">

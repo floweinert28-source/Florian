@@ -4,7 +4,7 @@
    Aufruf: node -r ./de-default.js suite.js */
 const { webPath } = require('./webroot.js'); /* WEBROOT: Arbeitskopie statt Repo (siehe webroot.js) */
 const pw = require('playwright'); const fs = require('fs');
-const SWAP = [["language: 'en'", "language: 'de'"], ["currency: 'USD', dailyLossLimitPct", "currency: 'EUR', dailyLossLimitPct"], ["size: 25000, currency: 'USD' }]", "size: 25000, currency: 'EUR' }]"]];
+const SWAP = [["language: 'en'", "language: 'de'"], ["currency: 'USD', dailyLossLimitPct", "currency: 'EUR', dailyLossLimitPct"], ["size: 25000, currency: 'USD' }]", "size: 25000, currency: 'EUR' }]"], ["uiMode: 'simple'", "uiMode: 'advanced'"]]; /* Simple/Advanced: alte Suiten prüfen die volle Ansicht */
 function storeBody(file) {
   let s = fs.readFileSync(file, 'utf8');
   for (const [a, b] of SWAP) { if (!s.includes(a)) throw new Error('de-default: Standardwert nicht gefunden: ' + a); s = s.replace(a, b); }

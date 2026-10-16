@@ -1805,4 +1805,13 @@ I18N.add('es', {
   "Großer Ring mit deiner Trefferquote, der beim Laden hochzählt, darunter die letzten 20 Trades.": "Anillo grande con tu tasa de acierto que cuenta hacia arriba al cargar; debajo, los últimos 20 trades.",
   "Anteil der Gewinn-Trades an allen geschlossenen Trades im gewählten Zeitraum. Darunter dieselbe Quote für die letzten 20 Trades, mit Pfeil, wenn sie um mindestens 3 Punkte abweicht.": "Porcentaje de trades ganadores sobre todos los trades cerrados en el período elegido. Debajo, la misma tasa de los últimos 20 trades, con una flecha si difiere al menos 3 puntos.",
   "im Zeitraum": "en el período",
+  "Mehr Bereiche": "Más áreas",
+  "Mehr Details": "Más detalles",
+  "Simple": "Simple",
+  "Advanced": "Avanzado",
+  "Weniger Text, große Zahlen, nur das Wichtigste": "Menos texto, números grandes, solo lo importante",
+  "Alle Funktionen, Details und Erklärungen": "Todas las funciones, detalles y explicaciones",
+  "Ansicht: Simple": "Vista: Simple",
+  "Ansicht: Advanced": "Vista: Avanzado",
+  "Dashboard anpassen": "Personalizar el dashboard",
 });

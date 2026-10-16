@@ -871,7 +871,7 @@ span.info:hover { color: var(--text-2); }
 /* Trade-Fenster (nur Trade-Daten, Ersatz für einen Broker-Sync) und Auswertung „Plan & Bewertung“ */
 .modal.tf-modal { width: min(680px, 100%); }
 .tf-main { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 14px; align-items: end; }
-.tf-main:has(#f-account) { grid-template-columns: minmax(0, 1fr) auto minmax(0, .8fr); }
+.tf-main:has(> .field > #f-account) { grid-template-columns: minmax(0, 1fr) auto minmax(0, .8fr); }
 .tf-main .tf-row3, .tf-main .tf-row2 { grid-column: 1 / -1; display: grid; gap: 14px; }
 .tf-main .tf-row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .tf-main .tf-row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -3728,3 +3728,62 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
   .dash-main.editing > .w.tall, .dash-main > .add-slot.gap.tall { height: calc(var(--card-h) * 2 + var(--grid-gap) + 96px); }
   .tile { padding: 12px 16px; }
 }
+/* ---------- Ansicht „Simple“ (Einstellungen → Design → Ansicht): weniger Text und Nebeninfos, wichtige Zahlen eine Stufe größer,
+   Hauptknöpfe höher. Advanced (ohne Merkmal oder data-mode="advanced") bleibt genau wie bisher ---------- */
+.mode-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); gap: 12px; }
+.mode-card { display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text-2); font: inherit; text-align: left; cursor: pointer; transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease); }
+.mode-card:hover { border-color: var(--border-2); }
+.mode-card[aria-pressed="true"] { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+.md-txt { display: grid; gap: 2px; min-width: 0; }
+.md-txt b { font-size: var(--fs-14); line-height: var(--lh-14); font-weight: 600; color: var(--text); }
+.md-txt small { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }
+.md-prev { flex: 0 0 auto; display: grid; grid-template-columns: 1fr 1fr; align-content: start; gap: 4px; width: 72px; height: 52px; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-2); }
+.md-prev i { display: block; height: 7px; border-radius: 2px; background: var(--border-2); }
+.md-prev i.b { height: 20px; background: color-mix(in srgb, var(--text) 26%, transparent); }
+.md-prev i.bt { grid-column: 1 / -1; height: 9px; border-radius: 3px; background: var(--accent); }
+.md-prev.adv { grid-template-columns: repeat(4, 1fr); gap: 3px; }
+.md-prev.adv i.w { grid-column: span 2; height: 12px; }
+.md-prev.adv i.bt { grid-column: 1 / span 2; height: 6px; }
+@media (max-width: 560px) { .mode-grid { grid-template-columns: minmax(0, 1fr); } }
+/* Nebeninfos weg: (i)-Erklärungen, Untertitel von Karten, Zähler und Fußzeilen der Kacheln, kleine Diagramme neben der Zahl */
+html[data-mode="simple"] span.info, html[data-mode="simple"] .card-sub, html[data-mode="simple"] .tile .head .n, html[data-mode="simple"] .tile .foot,
+html[data-mode="simple"] .tile .gauge, html[data-mode="simple"] .tile .val small.sub { display: none; }
+/* Beschriftungen in normaler Schrift statt Großbuchstaben */
+html[data-mode="simple"] .caption { text-transform: none; letter-spacing: 0; font-size: var(--fs-12); font-weight: 500; }
+/* wichtige Zahlen größer */
+html[data-mode="simple"] .tile .val, html[data-mode="simple"] .tile.spark-tile .val { font-size: clamp(22px, 18cqi, 32px); } /* mit der Kachelbreite: am PC 32 px, schmale Kacheln (Handy) kleiner, nichts läuft hinaus */
+html[data-mode="simple"] .tile.spark-tile .chart { display: none; } /* auch der Verlauf neben dem Netto-P&L (TradeLog) */
+/* Trades-Tabelle mit vier Spalten: passt ohne Mindestbreite, am Handy ohne Uhrzeit und mit schmaleren Rändern */
+.tbl.slim { min-width: 0; }
+@media (max-width: 560px) { .tbl.slim th, .tbl.slim td { padding-left: 8px; padding-right: 8px; } .tbl.slim td:first-child .muted { display: none; } }
+html[data-mode="simple"] .stat-tile .v { font-size: 30px; }
+html[data-mode="simple"] .stat .v { font-size: 28px; }
+html[data-mode="simple"] .score-big { font-size: 38px; }
+/* Hauptknöpfe höher und größer (kleine Knöpfe und Symbol-Knöpfe bleiben) */
+html[data-mode="simple"] :is(.btn.primary, .btn.accent):not(.sm):not(.icon-only):not(.icon) { min-height: 44px; padding-left: 20px; padding-right: 20px; font-size: var(--fs-15); }
+html[data-mode="simple"] .sidebar .sb-new .btn { height: 44px; font-size: var(--fs-15); }
+/* Seitenleiste: aufklappbares „Mehr“ wie ein Eintrag */
+.nav-more > summary { display: flex; align-items: center; gap: 12px; padding: 8px 12px; margin: 0 8px; border-radius: var(--radius); color: var(--text-2); cursor: pointer; list-style: none; font-weight: 500; }
+.nav-more > summary::-webkit-details-marker { display: none; }
+.nav-more > summary svg { width: 18px; height: 18px; color: var(--nav-icon); }
+.nav-more > summary .caret { width: 14px; height: 14px; margin-left: auto; transition: transform var(--dur-1) var(--ease); }
+.nav-more[open] > summary .caret { transform: rotate(180deg); }
+.nav-more > summary:hover { background: var(--nav-a1); color: var(--text); }
+/* Leiste ganz links: Menü „Mehr“ neben dem Knopf (fest positioniert, die Leiste selbst schneidet ab) */
+.rail-more { border: 0; background: none; padding: 0; font: inherit; cursor: pointer; }
+.popover.rail-pop { position: fixed; right: auto; top: 0; z-index: 120; min-width: 220px; }
+.popover.rail-pop .item svg { width: 18px; height: 18px; }
+.popover.rail-pop .item.on { color: var(--text); background: var(--surface-2); }
+/* Dashboard: Menü „Mehr“ (Filter, Zertifikat, Vorlage) */
+.dmore-pop { min-width: 240px; }
+.dmore-pop .item .cntb { margin-left: auto; }
+.dmore-pop .item[aria-checked="true"] { color: var(--text); }
+.dmore-pop .chk { display: inline-flex; width: 16px; }
+/* Trade-Fenster: Nebenfelder aufklappbar */
+.tf-more { border-top: 1px solid var(--border); padding-top: 12px; }
+.tf-more > summary { cursor: pointer; color: var(--text-2); font-weight: 500; list-style: none; display: flex; align-items: center; gap: 8px; min-height: 36px; }
+.tf-more > summary::-webkit-details-marker { display: none; }
+.tf-more > summary::before { content: '+'; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--border-2); font-weight: 600; line-height: 1; }
+.tf-more[open] > summary::before { content: '−'; }
+.tf-more[open] > summary { margin-bottom: 12px; }
+.tf-more > .field + .tf-row2, .tf-more > .tf-row2 + .field { margin-top: 12px; }

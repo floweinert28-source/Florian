@@ -1851,4 +1851,13 @@ I18N.add('zh', {
   "Großer Ring mit deiner Trefferquote, der beim Laden hochzählt, darunter die letzten 20 Trades.": "显示胜率的大圆环，加载时数字递增，下方为最近 20 笔交易。",
   "Anteil der Gewinn-Trades an allen geschlossenen Trades im gewählten Zeitraum. Darunter dieselbe Quote für die letzten 20 Trades, mit Pfeil, wenn sie um mindestens 3 Punkte abweicht.": "所选时间段内盈利交易占全部已平仓交易的比例。下方为最近 20 笔交易的同一比率，相差至少 3 个百分点时显示箭头。",
   "im Zeitraum": "（所选时间段）",
+  "Mehr Bereiche": "更多区域",
+  "Mehr Details": "更多详情",
+  "Simple": "简洁",
+  "Advanced": "高级",
+  "Weniger Text, große Zahlen, nur das Wichtigste": "更少文字，大号数字，只显示要点",
+  "Alle Funktionen, Details und Erklärungen": "全部功能、详情和说明",
+  "Ansicht: Simple": "视图：简洁",
+  "Ansicht: Advanced": "视图：高级",
+  "Dashboard anpassen": "自定义仪表盘",
 });

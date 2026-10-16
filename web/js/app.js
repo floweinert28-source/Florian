@@ -48,6 +48,10 @@
     { key: 'affiliate', label: 'Affiliate-Programm', icon: 'affiliate', home: 'affiliate', bottom: true, nav: [[null, [['affiliate', 'Affiliate-Programm', 'affiliate']]]] },
     { key: 'contact', label: 'Kontakt', icon: 'contact', home: 'contact', bottom: true, nav: [[null, [['contact', 'Kontakt', 'contact']]]] },
   ]; /* Bereiche mit nur einer Seite zeigen keine Seitenleiste (Vollbild neben der Leiste, html.sb-off); bottom: unten in der Leiste (Coach, Affiliate, Kontakt) */
+  /* Simple: in der Seitenleiste nur die Kern-Seiten, der Rest unter „Mehr“; in der Leiste ganz links wandern Prop Firms, News,
+     Backtesting und Affiliate in das Menü „Mehr“ (Advanced zeigt alles wie bisher) */
+  const SIMPLE_CORE = ['dashboard', 'trades', 'day', 'stats', 'notebook'];
+  const SIMPLE_RAIL_MORE = ['prop', 'news', 'backtest', 'affiliate'];
   const areaOf = route => AREAS.find(a => a.key !== 'journal' && a.nav.some(([, items]) => items.some(([k]) => k === route))) || AREAS[0];
   const TREND_LABELS = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' };
   const PRESETS = { today: 'Heute', week: 'Diese Woche', month: 'Dieser Monat', last30: 'Letzte 30 Tage', quarter: 'Dieses Quartal', year: 'Dieses Jahr', all: 'Gesamt', custom: 'Benutzerdefiniert' };
@@ -194,6 +198,7 @@
     },
     /* Popover in seiner Box halten: ragt ein rechtsbündiges Menü links aus dem nächsten scrollenden Rahmen (z. B. der Notiz-Spalte), klappt es nach rechts auf */
     fitPopover(pop) {
+      if (pop.id === 'pop-railmore') { const b = document.querySelector('[data-pop="railmore"]'); if (!b) return; const r = b.getBoundingClientRect(); pop.style.left = `${Math.round(r.right + 8)}px`; pop.style.top = `${Math.round(Math.max(8, Math.min(r.top, window.innerHeight - pop.offsetHeight - 8)))}px`; return; }
       if (pop.id === 'pop-user') { const mini = document.documentElement.classList.contains('sb-mini'); const card = pop.parentElement.querySelector('.sb-user'); if (mini && card) { const r = card.getBoundingClientRect(), sb = document.getElementById('sidebar').getBoundingClientRect(); pop.style.left = `${Math.round(sb.right + 8)}px`; pop.style.bottom = `${Math.round(window.innerHeight - r.bottom)}px`; } else { pop.style.left = ''; pop.style.bottom = ''; } return; }
       const fixedLeft = pop.classList.contains('left') && !pop.dataset.autoLeft; pop.style.left = '';
       if (!fixedLeft) { pop.classList.remove('left'); delete pop.dataset.autoLeft; }
@@ -249,10 +254,20 @@
       const brandHTML = `<span class="brand-mark" aria-hidden="true">${LOGO}</span><span class="brand-text brand-sr"><span class="name no-i18n">Journalyst</span></span>`; /* nur das Logo-Zeichen; der Name bleibt unsichtbar für Screenreader */
       this.renderFrame('<span class="ft-bar" aria-hidden="true"></span><span class="ft-in" aria-hidden="true"></span>'); /* oben die schwarze Leiste (PC): mit der Bereichsleiste ein „L“, Logo in der Ecke; darunter der schmale Rand über dem großen Fenster (css) */
       document.querySelectorAll('.rail-btn').forEach(bt => { bt.setAttribute('aria-pressed', String(railOff)); const l = railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden'; bt.setAttribute('aria-label', l); bt.title = l; });
-      sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.key === 'journal' ? `<div class="sb-new">${this.newTradeButton()}</div>` : ''}${area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme)}`;
+      sb.innerHTML = `<div class="brand">${brandHTML}${desk ? '' : `<button type="button" class="sb-toggle" data-action="sb-toggle" aria-label="Menü schließen" title="Schließen">${I.close}</button>`}</div><hr class="sb-sep">${area.key === 'journal' ? `<div class="sb-new">${this.newTradeButton()}</div>` : ''}${area.key === 'journal' && this.simple() ? this.simpleNav(item, cur) : area.nav.map(([title, items]) => `<nav class="nav nav-group${title ? '' : ' untitled'}" aria-label="${title || area.label}">${title ? `<div class="nav-title">${title}</div>` : ''}${items.filter(([k]) => on(k)).map(item).join('')}</nav>`).join('')}<div class="spacer"></div>${this.userCard(theme)}`;
       this.loadBlobImages(sb);
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
+    },
+    /* Ansicht Simple (Einstellungen → Design): weniger Text, größere Zahlen, Nebenaktionen in „Mehr“ */
+    simple() { return S.settings.uiMode === 'simple'; },
+    /* Journal-Navigation in Simple: die Kern-Seiten ohne Gruppentitel, alles andere aufklappbar unter „Mehr“ (offen, wenn die Seite
+       dort steht oder es zuletzt aufgeklappt war) */
+    simpleNav(item, cur) {
+      const flat = NAV_GROUPS.flatMap(([, items]) => items).filter(([k]) => on(k));
+      const core = SIMPLE_CORE.map(k => flat.find(x => x[0] === k)).filter(Boolean); const more = flat.filter(x => !SIMPLE_CORE.includes(x[0]));
+      const open = more.some(([k]) => k === cur) || !!this.state.navMore;
+      return `<nav class="nav nav-group untitled" aria-label="Journal">${core.map(item).join('')}</nav>${more.length ? `<details class="nav nav-group nav-more" data-nav-more${open ? ' open' : ''}><summary>${I.more}<span>Mehr</span>${I.chev.replace('<svg', '<svg class="caret"')}</summary>${more.map(item).join('')}</details>` : ''}`;
     },
     /* Rahmen oben (nur PC): dunkle Leiste über die ganze Breite mit Einklapp-Knopf und Schriftzug; darunter liegt der Inhalt
        als eigenes Fenster (Seitenleiste und Seite) mit runder Ecke oben links, links daneben die Bereichsleiste */
@@ -269,7 +284,14 @@
       rl.setAttribute('aria-label', 'Bereiche'); sb.parentElement.classList.add('has-rail');
       const btn = a => { const act = a.key === area.key; const href = a.key === 'journal' && !act ? (this.state.lastJournal || '#/' + a.home) : '#/' + a.home; /* aktiver Bereich: zur Startseite des Bereichs */
         return `<a href="${esc(href)}" class="rail-item${act ? ' active' : ''}" data-rail="${a.key}" data-action="nav-close" title="${a.label}" aria-label="${a.label}"${act ? ' aria-current="true"' : ''}><span class="ri">${RAIL_ICONS[a.key] || I[a.icon]}</span>${!act && hint ? railBadge(hint(a)) : ''}</a>`; };
-      rl.innerHTML = `<a class="rail-logo" href="#/dashboard" data-action="nav-close" title="Journalyst" aria-label="Journalyst">${LOGO}</a>${AREAS.filter(a => !a.bottom).map(btn).join('')}<span class="rail-spacer"></span>${AREAS.filter(a => a.bottom).map(btn).join('')}`;
+      const simple = this.simple(); const vis = a => !simple || !SIMPLE_RAIL_MORE.includes(a.key); const moreAreas = simple ? AREAS.filter(a => !vis(a)) : [];
+      const moreOn = moreAreas.some(a => a.key === area.key); const moreHint = hint ? moreAreas.filter(a => a.key !== area.key).map(hint).filter(Boolean).join(' · ') : '';
+      const moreBtn = moreAreas.length ? `<button type="button" class="rail-item rail-more${moreOn ? ' active' : ''}" data-pop="railmore" title="Mehr" aria-label="Mehr Bereiche" aria-haspopup="menu"${moreOn ? ' aria-current="true"' : ''}><span class="ri">${I.more}</span>${moreHint ? railBadge(moreHint) : ''}</button>` : '';
+      rl.innerHTML = `<a class="rail-logo" href="#/dashboard" data-action="nav-close" title="Journalyst" aria-label="Journalyst">${LOGO}</a>${AREAS.filter(a => !a.bottom && vis(a)).map(btn).join('')}${moreBtn}<span class="rail-spacer"></span>${AREAS.filter(a => a.bottom && vis(a)).map(btn).join('')}`;
+      let pm = document.getElementById('pop-railmore');
+      if (moreAreas.length) { if (!pm) { pm = document.createElement('div'); pm.id = 'pop-railmore'; pm.className = 'popover rail-pop'; pm.setAttribute('role', 'menu'); pm.setAttribute('aria-label', 'Mehr Bereiche'); rl.after(pm); }
+        pm.classList.remove('open', 'closing'); pm.innerHTML = moreAreas.map(a => `<a class="item${a.key === area.key ? ' on' : ''}" role="menuitem" href="#/${a.home}" data-action="nav-close"${a.key === area.key ? ' aria-current="page"' : ''}>${RAIL_ICONS[a.key] || I[a.icon]}<span>${a.label}</span></a>`).join(''); this.translateNow(pm); }
+      else if (pm) pm.remove();
       this.translateNow(rl);
     },
     /* Konto-Karte unten in der Seitenleiste: Profilbild, Name, E-Mail; Klick öffnet das Menü mit Profil, Einstellungen,
@@ -342,6 +364,7 @@
         if (!el || el.tagName === 'FORM') return;
         const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); this.noteAnchor(el); const sw = this.switchMark(el); fn.call(this, el, e); if (sw) this.glideSwitch(sw); }
       });
+      document.addEventListener('toggle', e => { if (e.target.matches && e.target.matches('[data-nav-more]')) this.state.navMore = e.target.open; }, true); /* „Mehr“ der Seitenleiste (Simple) bleibt beim Seitenwechsel auf oder zu */
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
       document.addEventListener('keydown', e => { /* Elemente mit role=button/checkbox: Enter und Leertaste wie Klick */ const rb = e.target && e.target.closest && (e.key === 'Enter' || e.key === ' ') && !e.target.matches('input, textarea, select, button, a, [contenteditable]') ? e.target.closest('[role=button][tabindex], [role=checkbox][tabindex]') : null; if (rb && rb === e.target) { e.preventDefault(); rb.click(); return; } if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
       /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
@@ -378,6 +401,8 @@
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     /* Erscheinungsbild in den Einstellungen: Graphit oder Schwarz (beide dunkel) oder Weiß (hell); der Schalter im Konto-Menü wechselt nur Dunkel/Hell und behält die dunkle Variante */
     appearance(el) { const v = el.dataset.value; if (v === 'custom') { if (App.openCustomLook) App.openCustomLook(el); return; } if (v !== 'light') S.setSetting('darkStyle', v === 'schwarz' ? 'schwarz' : 'graphit'); this.actions.theme.call(this, { dataset: { value: v === 'light' ? 'light' : 'dark' } }); },
+    /* Ansicht Simple / Advanced: ganze Seite samt Seitenleiste neu aufbauen (andere Navigation, Spalten, Reiter) */
+    'ui-mode'(el) { const v = el.dataset.value === 'simple' ? 'simple' : 'advanced'; if (S.settings.uiMode === v) return; S.setSetting('uiMode', v); root.Theme.apply(S.settings); this.render(); U.toast(v === 'simple' ? 'Ansicht: Simple' : 'Ansicht: Advanced', 'ok'); },
     theme(el) { S.setSetting('customLook', false); S.setSetting('theme', el.dataset.value); /* Hell/Dunkel wählt die festen Designs, das eigene bleibt gespeichert */ root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     /* Vorgabe links nur markieren und im Kalender zeigen; übernommen wird erst mit „Anwenden“ */
     range(el) { const pop = el.closest('.range-pop'); if (!pop || !root.RangePicker) return; pop.querySelectorAll('.rr-presets [data-action="range"]').forEach(b => b.setAttribute('aria-checked', String(b === el))); root.RangePicker.setPreset(pop.querySelector('[data-rr-root]'), this.presetPick(el.dataset.value)); },
@@ -409,12 +434,13 @@
     const t = trade || Object.assign({ symbol: '', direction: 0, openedAt: new Date().toISOString(), closedAt: null, entryPrice: '', exitPrice: '', quantity: 1, multiplier: 1, fees: 0, accountId: S.defaultAccountId() }, preset);
     const val = v => v == null ? '' : v;
     const props = (S.propAccounts ? S.propAccounts() : []).filter(a => a.status !== 'archived');
+    const simple = App.simple(); const moreOpen = !!(trade && ((S.data.accounts.length > 1 && t.accountId !== S.defaultAccountId()) || Number(t.fees) || (t.propAccountIds || []).length)); /* Simple: Nebenfelder aufklappbar, offen wenn darin schon etwas eingetragen ist */
     const accField = S.data.accounts.length > 1 ? `<div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>` : `<input type="hidden" name="accountId" value="${esc(t.accountId || S.defaultAccountId())}">`;
     const html = `<form id="trade-form" class="tf" novalidate data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
       <div class="tf-main">
         <div class="field tf-sym"><span class="lbl" id="f-symbol-l">Symbol</span><button type="button" class="input sym-btn${t.symbol ? '' : ' sym-none'}" id="f-symbol-btn" data-action="sym-open" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="f-symbol-l"><span class="sym-v${t.symbol ? ' no-i18n' : ''}">${t.symbol ? esc(t.symbol) : 'Symbol wählen'}</span>${I.chev}</button><input type="hidden" name="symbol" id="f-symbol" value="${esc(t.symbol)}"></div>
         <div class="field"><span class="lbl">Richtung</span><div class="dir-switch" id="f-dir" role="group" aria-label="Richtung" data-dir="${Math.sign(t.direction) || 0}">${[[1, 'Long', 'l', '<path d="M7 17L17 7M9 7h8v8"/>'], [-1, 'Short', 's', '<path d="M7 7l10 10M17 9v8H9"/>']].map(([v, l, k, d]) => `<button type="button" class="dir-opt ${k}" data-action="set-dir" data-value="${v}" aria-pressed="${Math.sign(t.direction) === v}"><i class="bi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${d}</svg></i>${l}</button>`).join('')}</div><input type="hidden" name="direction" value="${Math.sign(t.direction) || ''}"></div>
-        ${accField}
+        ${simple ? '' : accField}
         <div class="tf-row3">
           <div class="field"><label for="f-entry">Einstieg</label><input class="input" type="number" step="any" id="f-entry" name="entryPrice" value="${val(t.entryPrice)}" required inputmode="decimal"></div>
           <div class="field"><label for="f-exit">Ausstieg</label><input class="input" type="number" step="any" id="f-exit" name="exitPrice" value="${val(t.exitPrice)}" inputmode="decimal"></div>
@@ -424,11 +450,11 @@
           <div class="field"><label for="f-open">Eröffnet</label><input class="input" type="datetime-local" id="f-open" name="openedAt" value="${fmt.isoLocal(t.openedAt)}" required></div>
           <div class="field"><label for="f-close">Geschlossen <span class="faint">(leer = offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" value="${t.closedAt ? fmt.isoLocal(t.closedAt) : ''}"></div>
         </div>
-        <div class="tf-row2">
+        ${simple ? `<details class="tf-more tf-wide"${moreOpen ? ' open' : ''}><summary>Mehr Details</summary>${accField}` : ''}<div class="tf-row2">
           <div class="field"><label for="f-mult">Punktwert ${U.info('P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.')}</label><input class="input" type="number" step="any" min="0" id="f-mult" name="multiplier" value="${t.multiplier || 1}" inputmode="decimal"></div>
           <div class="field"><label for="f-fees">Gebühren</label>${App.feeField(t)}</div>
         </div>
-        ${props.length ? `<div class="field tf-wide"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}
+        ${props.length ? `<div class="field tf-wide"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}${simple ? '</details>' : ''}
       </div>
       <div class="modal-foot"><div class="left row" id="trade-preview"></div><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${trade ? 'Speichern' : 'Trade speichern'}</button></div></form>`;
     U.modal(html, { cls: 'tf-modal', noFocus: true, onClose: () => App.closeSymbolMenu(), onMount(el) {

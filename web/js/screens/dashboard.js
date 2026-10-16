@@ -17,6 +17,16 @@
   const gapSlot = (area, i, g) => `<button type="button" class="add-slot gap ${area === 'unten' ? 'sz-' + (g.groesse || 'klein') : ''} ${g.hoch ? 'tall' : ''} ${g.flach ? 'flat' : ''}" data-action="dash-add-open" data-area="${area}" data-slot="${i}">${I.plus}<span>Widget hinzufügen</span></button>`;
 
   /* ---------- Vorlagen-Menü ---------- */
+  /* Simple: rechts nur „Mehr“ (Filter, Zertifikat, Vorlage wechseln, Dashboard anpassen) und „Trade loggen“; der Knopf trägt die
+     Filter-Zahl und dient dem Filter-Fenster als Anker */
+  function simpleTools(tpl, fN, todayKey) {
+    const cnt = fN ? `<b class="cntb">${fN}</b>` : '';
+    return `<div class="popwrap"><button type="button" class="btn icon-only ${fN ? 'accent' : ''}" data-pop="dmore" data-f-anchor aria-haspopup="menu" aria-label="Mehr" title="Mehr">${I.more}${cnt}</button><div class="popover dmore-pop" id="pop-dmore" role="menu">
+      <button type="button" class="item" data-action="dash-f-open">${I.filter}<span>Filter</span>${cnt}</button>
+      <div class="sec">Zertifikat</div>${root.Certificate.menuHTML({ day: todayKey })}
+      <div class="sec">Vorlage</div>${S.dashboards().map(t => `<button type="button" class="item" data-action="dash-tpl-select" data-id="${t.id}" aria-checked="${t.id === tpl.id}"><span class="chk">${t.id === tpl.id ? I.check : ''}</span><span class="grow">${esc(t.name)}</span></button>`).join('')}
+      <button type="button" class="item" data-action="dash-tpl-edit" data-id="${tpl.id}">${I.edit}<span>Dashboard anpassen</span></button></div></div><span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}`;
+  }
   function tplPopHTML() {
     const s = st(); const act = active();
     return `<button type="button" class="item" data-action="dash-tpl-new">${I.plus}<span>Neue Vorlage erstellen</span></button><hr>
@@ -112,7 +122,7 @@
         /* Kopfzeile: links Zeitraum und Konto, rechts die Werkzeuge als Symbole (Vorlage, Zertifikat, Filter) und „Trade loggen“ */
         parts.push(`<div class="dash-head">
           <div class="row dh-context">${App.rangeControl()}${App.accountControl()}</div>
-          <div class="row dh-tools"><div class="popwrap"><button type="button" class="btn icon-only" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="vh tpl-name">${esc(tpl.name)}</span></button><div class="popover tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div><div class="popwrap"><button type="button" class="btn icon-only" data-pop="cert" title="Zertifikat erstellen" aria-label="Zertifikat erstellen">${I.shield}<span class="vh">Zertifikat</span></button><div class="popover" id="pop-cert">${root.Certificate.menuHTML({ day: todayKey })}</div></div><button type="button" class="btn icon-only ${fN ? 'accent' : ''}" data-action="dash-f-open" aria-label="Filter" title="Filter">${I.filter}${fN ? `<b class="cntb">${fN}</b>` : ''}</button><span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}</div>
+          <div class="row dh-tools">${App.simple() ? simpleTools(tpl, fN, todayKey) : `<div class="popwrap"><button type="button" class="btn icon-only" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="vh tpl-name">${esc(tpl.name)}</span></button><div class="popover tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div><div class="popwrap"><button type="button" class="btn icon-only" data-pop="cert" title="Zertifikat erstellen" aria-label="Zertifikat erstellen">${I.shield}<span class="vh">Zertifikat</span></button><div class="popover" id="pop-cert">${root.Certificate.menuHTML({ day: todayKey })}</div></div><button type="button" class="btn icon-only ${fN ? 'accent' : ''}" data-action="dash-f-open" aria-label="Filter" title="Filter">${I.filter}${fN ? `<b class="cntb">${fN}</b>` : ''}</button><span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}`}</div>
         </div>`);
         if (S.settings.tiltWarnings) { const tilt = C.tiltCheck(App.todayTrades(all), { account: d.account, dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); for (const wn of tilt.warnings) { if (S.data.dismissed[wn.kind] === todayKey) continue; parts.push(U.banner(wn.severity === 'critical' ? 'loss' : 'warn', wn.title, wn.text, { close: 'x' }).replace('data-action="x"', `data-action="dismiss" data-key="${wn.kind}"`)); } }
         for (const r of recaps(all)) parts.push(U.banner('info', r.title, r.text, { icon: 'bell', close: 'x', trailing: `<a class="btn sm" href="#/stats">Zur Statistik</a>` }).replace('data-action="x"', `data-action="recap-dismiss" data-kind="${r.kind}" data-key="${r.key}"`));

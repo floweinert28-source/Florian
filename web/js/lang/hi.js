@@ -1851,4 +1851,13 @@ I18N.add('hi', {
   "Großer Ring mit deiner Trefferquote, der beim Laden hochzählt, darunter die letzten 20 Trades.": "आपके विन रेट वाला बड़ा रिंग, जो लोड होने पर गिनती बढ़ाता है, नीचे पिछले 20 ट्रेड।",
   "Anteil der Gewinn-Trades an allen geschlossenen Trades im gewählten Zeitraum. Darunter dieselbe Quote für die letzten 20 Trades, mit Pfeil, wenn sie um mindestens 3 Punkte abweicht.": "चुनी गई अवधि में सभी बंद ट्रेड में जीतने वाले ट्रेड का हिस्सा। नीचे पिछले 20 ट्रेड का वही रेट, कम से कम 3 पॉइंट का अंतर होने पर तीर के साथ।",
   "im Zeitraum": "इस अवधि में",
+  "Mehr Bereiche": "और क्षेत्र",
+  "Mehr Details": "और विवरण",
+  "Simple": "सरल",
+  "Advanced": "उन्नत",
+  "Weniger Text, große Zahlen, nur das Wichtigste": "कम टेक्स्ट, बड़े अंक, सिर्फ़ ज़रूरी चीज़ें",
+  "Alle Funktionen, Details und Erklärungen": "सभी फ़ीचर, विवरण और व्याख्याएँ",
+  "Ansicht: Simple": "दृश्य: सरल",
+  "Ansicht: Advanced": "दृश्य: उन्नत",
+  "Dashboard anpassen": "डैशबोर्ड बदलें",
 });

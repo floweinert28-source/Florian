@@ -39,7 +39,7 @@
   }
   function apply(settings) {
     const theme = (settings && settings.theme) || 'dark'; const light = theme === 'light'; const c = (settings && settings.colors) || {};
-    const root = document.documentElement; root.dataset.theme = theme; root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
+    const root = document.documentElement; root.dataset.theme = theme; root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; root.dataset.mode = settings && settings.uiMode === 'simple' ? 'simple' : 'advanced'; /* Ansicht: Simple (weniger Text, größere Zahlen) oder Advanced (alles) */ /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
     const set = (k, v) => v ? root.style.setProperty(k, v) : root.style.removeProperty(k);
     /* eigenes Erscheinungsbild: Grund und Flächen aus einer Grundfarbe (hell oder dunkel je nach Helligkeit, siehe surfaces) */
     const cs = settings && settings.customLook && valid(settings.customBg) ? surfaces(settings.customBg) : null;

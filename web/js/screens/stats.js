@@ -3,6 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
   const TABS = [['summary', 'Übersicht'], ['days', 'Tage'], ['setups', 'Setups'], ['time', 'Zeit'], ['mistakes', 'Fehler'], ['regime', 'Marktphase'], ['state', 'Zustand'], ['edge', 'Edge-Check'], ['mc', 'Monte Carlo']];
+  const SIMPLE_TABS = ['summary', 'days', 'setups', 'time'];
   const REG_T = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' }, REG_V = { low: 'Vola niedrig', normal: 'Vola normal', high: 'Vola hoch' };
   App.screens.stats = {
     title: 'Statistiken',
@@ -12,7 +13,8 @@
       const days = C.dailyAggregation(list); const r = App.range();
       const chartDays = fillDays(days, r); const id = 'stats-top'; U.chartData[id] = { days: chartDays, bars: false, dots: chartDays.length <= 45 };
       const top = U.card('', `<div class="chart h240" data-chart="pnl" data-id="${id}"></div><div class="legend"><span><i style="background:var(--profit)"></i>Kumulierter Netto-P&L</span></div>`);
-      const tabs = `<div class="tabs scroll-x" data-subnav>${TABS.map(([k, l]) => `<a class="btn" href="#/stats/${k}" aria-pressed="${tab === k}" style="${tab === k ? '' : 'color:var(--text-2)'}">${l}</a>`).join('')}</div>`;
+      const shown = App.simple() ? TABS.filter(([k]) => SIMPLE_TABS.includes(k) || k === tab) : TABS; /* Simple: vier Reiter; ein direkt verlinkter weiterer Reiter bleibt sichtbar, solange er offen ist */
+      const tabs = `<div class="tabs scroll-x" data-subnav>${shown.map(([k, l]) => `<a class="btn" href="#/stats/${k}" aria-pressed="${tab === k}" style="${tab === k ? '' : 'color:var(--text-2)'}">${l}</a>`).join('')}</div>`;
       const body = ({ summary: tabSummary, days: tabDays, setups: tabSetups, time: tabTime, mistakes: tabMistakes, regime: tabRegime, state: tabState, edge: tabEdge, mc: tabMC })[tab](list, closed, days, ctx);
       return top + tabs + body;
     },

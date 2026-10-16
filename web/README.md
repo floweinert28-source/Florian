@@ -31,12 +31,17 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 ## Was die App kann
 
 - **Trade loggen** (Ersatz für einen Broker-Sync, nur Trade-Daten): Symbol, Long/Short, Einstieg, Ausstieg, Kontrakte, Eröffnet,
-  Geschlossen (Kalender mit Uhrzeit: rechts Stunde und Minute zum Anklicken, „Jetzt“ und „Fertig“), Punktwert und Gebühren; Konto nur bei mehreren Konten, Prop-Konten fürs Copy-Trading. Keine Notiz- oder Bewertungsfragen:
+  Geschlossen (Kalender mit Uhrzeit: rechts Stunde und Minute zum Anklicken, „Jetzt“ und „Fertig“); Konto nur bei mehreren Konten. Punktwert,
+  Gebühren und Prop-Konten (Copy-Trading) stehen hinter „Mehr Optionen · Punktwert 20 · Gebühren 0 $“ (aktuelle Werte im Text); offen,
+  wenn man sie zuletzt offen gelassen hat, beim Bearbeiten mit Gebühren, Prop-Zuordnung oder abweichendem Punktwert, und bei einem Symbol
+  ohne bekannten Punktwert. Der Hinweis links im Fuß nennt den nächsten Schritt („Symbol wählen“ → „Long oder Short wählen“ →
+  „Einstieg eintragen“; Ausstieg ohne „Geschlossen“: „Geschlossen fehlt, der Trade bleibt offen“). Am Handy ist „Trade speichern“ breit,
+  „Abbrechen“ schmal. Keine Notiz- oder Bewertungsfragen:
   Notizen gehören ins Notebook und in die Tagesansicht. Das **Symbol ist eine Auswahl** (kein Tippen): zuletzt gehandelte Symbole
   (häufigste zuerst, mit Anzahl und letztem Punktwert), darunter Standard-Instrumente aus `js/propdata.js` (Punktwert = Tick-Wert /
   Tick-Größe bzw. Pip-Wert / Pip-Größe, unverifiziert) und „Anderes Symbol“ zum Eintippen; die Wahl setzt den Punktwert mit, solange
   er nicht von Hand geändert wurde. Ein Klick auf eine Beschriftung wählt das Feld darunter nicht aus (`App.noLabelFocus`). „Trade bearbeiten“ zeigt dieselben Felder und lässt Plan, Setup und Tags unangetastet.
-  **Plan & Bewertung** (Trade-Ansicht → „Bearbeiten“ an „Plan vs. Ausführung“ oder „Tags & Notizen“, `App.openTradeJournal`): Stop,
+  **Plan & Bewertung** (Trade-Ansicht: gefüllter Knopf oben rechts neben „Trade bearbeiten“, dazu „Plan bearbeiten“ bzw. „Tags bearbeiten“ an den Karten; `App.openTradeJournal`): Stop,
   Ziel, geplanter Einstieg, Begründung, MAE/MFE, Setup, Bewertung, Fehler-Tags, Emotionen, gebrochene Regeln; eine alte Trade-Notiz
   bleibt dort bearbeitbar. Screenshots per Drag & Drop, Datei oder Einfügen.
   Sprachnotizen mit Transkription (wenn der Browser das erlaubt) oder als Text, mit Stimmungsanalyse.
@@ -54,7 +59,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Dunkle Variante „Schwarz“** sieht genau aus wie „Eigenes“ mit Schwarz: Flächen aus Theme.surfaces('#000000') (Grund #000000, Karten #0d0d0d, Ränder #121212/#212121), Schriftfarben die des dunklen Grunddesigns.
 - **Bedienelemente** haben feste Höhen: kleine Knöpfe (`.btn.sm`), runde Pfeil-Knöpfe (`.btn.round`, 34 × 34) und kleine Felder (`.input.sm`, `.select.sm`) sind alle 34 px hoch. Reiter (`.tabs`) und Umschalter (`.seg`) sind eine Schiene mit 34 px hohen Einträgen; der gewählte Eintrag ist hell hinterlegt, bei Auswahl mit Bedeutung in seiner Farbe (siehe **Farbe**). Zahlenfelder zeigen keine Browser-Pfeile.
 - **Texte:** Die Quote gewonnener Trades heißt überall „Trefferquote“ (nicht Win-Rate/Winrate), die der verlorenen „Verlustquote“. Zähler laufen über `U.count(n, Einzahl, Mehrzahl)` („1 Trade“, „2 Trades“, „1 Notiz“); jede Einzahlform hat in allen fünf Wörterbüchern ein eigenes Muster (`"{0} Trade"`, `"{0} von {1} Trade"` …).
-- **Fehler und Löschen:** Eingabefehler stehen direkt am Feld (roter Rand, Satz darunter, `aria-invalid`), alle zugleich, Fokus aufs erste Feld; sie verschwinden bei der nächsten Eingabe (`U.fieldErrors`). Das Trade-Formular prüft selbst („Symbol wählen“, „Einstieg eintragen“ …), alle anderen Formulare nutzen die eingebaute Prüfung, aber ohne Browser-Blase („Pflichtfeld“, „Mindestens {0}“ …). Wer Daten endgültig löscht (Screenshot, Sprachnotiz, Regel, Check-in, verpasster Trade, Design, Konto, Vorlage …), bestätigt vorher in einem Fenster mit rotem „Löschen“.
+- **Fehler und Löschen:** Eingabefehler stehen direkt am Feld (roter Rand, Satz darunter, `aria-invalid`), alle zugleich, Fokus aufs erste Feld; sie verschwinden bei der nächsten Eingabe (`U.fieldErrors`). Das Trade-Formular prüft selbst („Symbol wählen“, „Einstieg eintragen“ …), alle anderen Formulare nutzen die eingebaute Prüfung, aber ohne Browser-Blase („Pflichtfeld“, „Mindestens {0}“ …). Wer Daten endgültig löscht (Screenshot, Sprachnotiz, Regel, Check-in, verpasster Trade, Design, Konto, Vorlage …), bestätigt vorher in einem Fenster mit rotem „Löschen“; dort ist „Abbrechen“ ein Textknopf mit Startfokus (Enter bricht ab). Dialoge öffnen mit dem Fokus auf dem Dialog selbst (nie auf dem Schließen-X, kein vorausgewähltes Feld); Sonderfälle wählen ein Ziel über `U.modal(…, { focus })`.
 - **Farben mit Bedeutung:** Standard-Akzent ist Elfenbein (`#ede6da`, `Theme.DEFAULTS`; im hellen Design fast Schwarz `#1c1a17`, auch wenn man Elfenbein oder einen anderen sehr hellen, fast farblosen Ton wählt, `Theme.forLight`). Wer noch den früheren Standard Neongrün gespeichert hatte, bekommt einmalig Elfenbein (`accentIvoryV1` in `migrateSettings`); bewusst gewählte andere Akzente bleiben. „Trade loggen“ und die anderen Akzent-Knöpfe sind gefüllt in der Akzentfarbe mit fast schwarzer Schrift. Die Akzentfarbe (Einstellungen → Design) färbt nur Hervorhebungen: Trade loggen, Hauptknöpfe, Links wie „Mehr anzeigen“, aktive Markierungen, Fortschrittsbalken, Score-Netz, Schatten-Ich-Kurve, Hinweis-Pillen „Heute“/„Neu“ (`.pill.acc`). Alles mit Bedeutung hat eigene Farben und ändert sich mit dem Akzent nicht: Long, Gewinn-Pillen (`.pill.win`), Gewinner-Zahlen an den Tachos, der Long/Short-Schalter, gute Werte bei Score-Ring, Disziplin-Punkten, 1–5-Skalen und Schlaf („gut“ = Gewinnfarbe `--profit`), Short und Verlust (`--loss`), Break-even (`--be`).
 - **Eine Hauptaktion je Seite, Tippflächen, Feedback:** Pro Seite ist genau ein Knopf gefüllt (Akzentfarbe). Hat eine Seite
   eine eigene Hauptaktion (Speichern, Neue Notiz, Konto anlegen, Trade für diesen Tag …), tritt „Trade loggen“ als Rahmen-Knopf
@@ -109,7 +114,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   offen oder zu); in der Leiste ganz links liegen Prop Firms, News, Backtesting und Affiliate im Menü „Mehr“. Dashboard-Kopf:
   Filter, Zertifikat, Vorlage und „Dashboard anpassen“ im Menü „Mehr“ (der Filter öffnet sich unter diesem Knopf). Statistiken
   mit vier Reitern (ein verlinkter weiterer bleibt sichtbar, solange er offen ist), TradeLog mit Datum, Symbol, Richtung, P&L,
-  Trade-Fenster mit Konto, Punktwert, Gebühren und Prop-Konten unter „Mehr Details“ (offen, wenn dort schon etwas steht).
+  Trade-Fenster mit Konto, Punktwert, Gebühren und Prop-Konten unter „Mehr Optionen“ (offen, wenn dort schon etwas steht).
   Neue Nutzer starten in Simple, wer schon Daten hat, bleibt in Advanced; „Alles löschen“ behält die Wahl. Tests:
   `e2e/simpletest.js`, `tests/uimode.test.mjs` (die übrigen Suiten laufen über `e2e/de-default.js` in Advanced).
 - **Ruhiger Gesamt-Look (Schwarz/Elfenbein wie die Seitenleisten):** Gewinn und Verlust sind gedämpft statt neon (Standard dunkel `#4cb782` / `#eb5757`; wer noch das frühere Neon-Grün/-Rot gespeichert hatte, bekommt einmalig den neuen Standard, `semanticCalmV1` in `migrateSettings`; das alte Paar steht als Farbpaar „Neon“ in den Einstellungen). Flächen unter Kurven und Balken sind leiser, Ringe und Halbkreise dünner. Status in Tabellen (Gewinn, Verlust, Break-even, Offen) ist ein farbiger Punkt mit ruhigem Text (`.pill.st`), Long/Short ein neutrales Schild mit farbigem Pfeil, Setups nur als Kontur. Karten und Kacheln haben eine feine Lichtkante oben und heben sich beim Drüberfahren nicht mehr an (nur die Kante wird heller). Die Wichtigkeits-Filter bei den News sind ausgewählt neutral wie die Währung; die Farbe steht in den Balken der Termine. **Helles Design:** Gewinn/Long frischer Grün `#16a34a`, Verlust helleres Rot `#ef4444` (auf Wunsch heller als 4,5:1; mindestens 3:1 wie für große Zahlen und Grafik); die Leiste um alles herum (links und oben) ist weiß statt schwarz, Symbole und Logo dunkel, aktiver Bereich hellgrau.
@@ -211,8 +216,15 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Seitenwähler steht direkt darunter. Trade-Detail und Handy scrollen wie gewohnt.
   **CSV-Import Schritt 2**: Konto-Auswahl nur bei mehreren Konten; Datumsformat sichtbar nur, wenn es bei Daten wie 08/10/2026 nicht eindeutig ist
   (ISO- und Punkt-Daten sind eindeutig); Dezimaltrennzeichen und ein erkanntes Datumsformat hinter „Mehr Optionen“ (offen bei Lesefehlern).
-- **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
-- **Statistiken**: 16 Kennzahlen, Tage (Kennzahl-Leiste mit sechs Kacheln, ab 561 px als 3 × 2, darunter die Karte „Tage im Detail“;
+- **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal. Die Datumszeile ist nur Navigation
+  (‹ › Datum, „Heute“); „Trade loggen“ (Kopfreihe, Seitenleiste, runder Knopf, Taste N) belegt an vergangenen Tagen deren Datum vor, heute
+  gilt die aktuelle Uhrzeit; der Check-in steht in seiner Karte, das Zertifikat als Symbol in der Kopfreihe (nur mit abgeschlossenen Trades).
+  Ein Tag ohne Trades zeigt keine Kennzahlen: Leerzustand, Check-in (heute oder mit Daten) und Tagesnotiz; Regeln und Marktphase erscheinen
+  mit Daten oder nach „Mehr anzeigen“ (je Tag gemerkt).
+- **Statistiken** (ohne abgeschlossene Trades im Zeitraum nur ein Leerzustand: „Noch keine abgeschlossenen Trades“ mit „Trade loggen“
+  bzw. „Außerhalb von … liegen n abgeschlossene Trades“ mit „Gesamten Zeitraum anzeigen“; die Reiterleiste steht immer direkt unter der
+  Kopfreihe, die Kumulativ-Kurve nur in Übersicht und Tage; Leerzustände der Reiter mit dem einen passenden Knopf; „Rollierender Edge“
+  erst mit Kurve; „Neu simulieren“ am Diagramm „Beispielpfade“): 16 Kennzahlen, Tage (Kennzahl-Leiste mit sechs Kacheln, ab 561 px als 3 × 2, darunter die Karte „Tage im Detail“;
   Zähler nur bei > 0 gefärbt, Ø-Tage mit Vorzeichen), Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,
   Fehlerkosten und Emotionen, Marktphase, Zustand (Schlaf, Stress, Stimmung vs. Ergebnis: je Karte drei ruhige Spalten in Skalen-Reihenfolge mit Bereich und Ø Tages-P&L, Tage und Anteil im Plus im Tooltip),
   Edge-Check mit 95-%-Intervall und rollierendem Schnitt, Monte Carlo mit Ruin-Wahrscheinlichkeit (Pfade und Drawdown-Verteilung
@@ -236,7 +248,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   oder Drag & Drop mit Unterschrift. Tags, Vorlagen, Suche über alle Notizen, Filter, Papierkorb
   (30 Tage), Teilen per Link, Export/Import, Autosave. Notizen zu Handelstagen und Trades zeigen
   Netto-P&L und eine aufklappbare Statistik.
-- **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil. Die Serie hat drei Stufen (Werktage in Folge):
+- **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil (Reihenfolge: Kacheln, Checkliste mit Regeln,
+  Disziplin und Tilt daneben, dann die Heatmap; Regelblock und „Automatische Regeln“ nur mit Inhalt; ohne abgeschlossene Trades keine
+  Disziplin- und Tilt-Karten; „% Regeln eingehalten“ ohne Wert „—“; „Regeln anlegen“/„Regeln bearbeiten“ führen zu Einstellungen → Regeln). Die Serie hat drei Stufen (Werktage in Folge):
   ab 1 „Angefangen“ (Flamme gedämpft, ganz leichtes Flackern), ab 5 „Im Flow“ (Flamme und Zahl in Akzent mit Schein, leichtes Flackern), ab 20 (≈ ein Monat) „Unaufhaltsam“ als Effekt:
   Flamme in Gold-Grün mit aufsteigenden Funken und Sternchen, Zahl mit wanderndem Schimmer, leuchtende Stufenbalken, wanderndes
   Nordlicht und atmender Rand in der Karte (alles CSS, bei „Bewegung reduzieren“ still). Die Flamme steht frei neben der Zahl

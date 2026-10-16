@@ -510,7 +510,9 @@
     document.body.appendChild(bg); modals.push({ bg, o }); document.body.style.overflow = 'hidden';
     bg.addEventListener('mousedown', e => { if (e.target === bg && !o.locked) closeModal(); });
     if (o.onMount) o.onMount(bg.firstElementChild);
-    const f = bg.querySelector('input:not([type=hidden]),select,textarea,button'); if (f && !o.noFocus) setTimeout(() => f.focus(), 30);
+    /* Startfokus: der Dialog selbst (nie das Schließen-X, kein vorausgewähltes Feld, am Handy keine aufspringende Tastatur);
+       Tastatur-Nutzer sind mit Tab im ersten Bedienelement. Sonderfälle wählen ein Ziel über o.focus (Selektor) */
+    if (!o.noFocus) setTimeout(() => { if (!bg.isConnected) return; const m = bg.firstElementChild; const target = o.focus ? m.querySelector(o.focus) : null; if (target) target.focus(); else { m.setAttribute('tabindex', '-1'); m.focus({ preventScroll: true }); } }, 30);
     return bg.firstElementChild;
   }
   function closeModal(all) {
@@ -523,7 +525,7 @@
   function toast(msg, kind = '') { let w = document.querySelector('.toast-wrap'); if (!w) { w = document.createElement('div'); w.className = 'toast-wrap'; document.body.appendChild(w); } const t = document.createElement('div'); t.className = `toast ${kind}`; t.textContent = msg; w.appendChild(t); setTimeout(() => { const Mo = root.Motion; if (Mo && Mo.enabled) Mo.leave(t, 'out', '--dur-2', () => t.remove()); else t.remove(); }, 2400); }
   function confirmModal(title, text, o = {}) {
     return new Promise(res => {
-      modal(`<div class="modal-head"><h2>${esc(title)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">${text}</p><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="button" class="btn ${o.danger ? 'danger' : 'primary'}" data-confirm>${esc(o.ok || 'Bestätigen')}</button></div>`, { cls: 'narrow', onMount(el) { el.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { closeModal(); res(false); })); el.querySelector('[data-confirm]').addEventListener('click', () => { closeModal(); res(true); }); } });
+      modal(`<div class="modal-head"><h2>${esc(title)}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted">${text}</p><div class="modal-foot"><button type="button" class="btn${o.danger ? ' ghost' : ''}" data-close>Abbrechen</button><button type="button" class="btn ${o.danger ? 'danger' : 'primary'}" data-confirm>${esc(o.ok || 'Bestätigen')}</button></div>`, { cls: 'narrow', focus: o.danger ? '.modal-foot [data-close]' : null, onMount(el) { /* rote Bestätigung: „Abbrechen“ als Textknopf mit Startfokus, Enter bricht ab */ el.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { closeModal(); res(false); })); el.querySelector('[data-confirm]').addEventListener('click', () => { closeModal(); res(true); }); } });
     });
   }
 

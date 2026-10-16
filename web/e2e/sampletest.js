@@ -111,7 +111,7 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   await go('#/day/' + editKey, 600);
   if (await p.$('[data-action=check-in]')) { await p.click('[data-action=check-in]'); await p.waitForTimeout(300); }
   const viaUi = !!(await p.$('form[data-action=save-checkin] [name=note]'));
-  if (viaUi) { await p.fill('form[data-action=save-checkin] [name=note]', 'EIGENER CHECK-IN'); await p.click('form[data-action=save-checkin] button[type=submit]'); await p.waitForTimeout(300); }
+  if (viaUi) { await p.evaluate(() => { const d = document.querySelector('form[data-action=save-checkin] details'); if (d) d.open = true; }); await p.fill('form[data-action=save-checkin] [name=note]', 'EIGENER CHECK-IN'); await p.click('form[data-action=save-checkin] button[type=submit]'); await p.waitForTimeout(300); }
   else await p.evaluate(k => { Store.setDay(k, { checkIn: Object.assign({}, Store.data.days[k].checkIn, { note: 'EIGENER CHECK-IN', goal: '', createdAt: new Date().toISOString() }) }); }, editKey);
   ok('Tagesansicht: Check-in auf einem Beispiel-Tag bearbeitet (Tag bleibt als Beispiel-Tag markiert)', await p.evaluate(k => Store.data.days[k].checkIn.note === 'EIGENER CHECK-IN' && Store.data.days[k].sample === true, editKey), viaUi ? 'über das Formular' : 'über Store.setDay');
   await go('#/settings/profil', 600);

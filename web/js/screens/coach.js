@@ -260,14 +260,14 @@
     U.closeModal(true);
     U.modal(`<div class="modal-head"><h2>Co-Coaches</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
       <p class="muted small">Ein Co-Coach sieht dasselbe wie du (Journal-Einträge und Kurz-Stats aller Schüler) und schreibt Notizen, Antworten und Aufgaben. Verwalten und schließen darfst nur du. Die Schüler sehen, wer dazukommt.</p>
-      <div class="coach-invite"><span class="small muted">Co-Coach-Link</span><input class="input sm" readonly value="${esc(coachLink(info.coach_token))}" aria-label="Co-Coach-Link" onfocus="this.select()"><button type="button" class="btn sm" data-action="coach-coach-copy" data-token="${esc(info.coach_token)}">${I.copy} Kopieren</button></div>
+      <div class="coach-invite"><span class="small muted">Co-Coach-Link</span><input class="input sm" readonly value="${esc(coachLink(info.coach_token))}" aria-label="Co-Coach-Link" onfocus="this.select()"><button type="button" class="btn sm primary" data-action="coach-coach-copy" data-token="${esc(info.coach_token)}">${I.copy} Kopieren</button></div>
       <div class="coach-list" style="margin-top:12px">${list}</div>
       <div class="modal-foot"><button type="button" class="btn ghost left" data-action="coach-coach-rotate" data-gid="${esc(gid)}">${I.replay} Neuen Link erzeugen</button><button type="button" class="btn" data-close>Fertig</button></div>`, { cls: 'wide' });
   }
   /* Aufgabe an alle Schüler einer Gruppe: kleines Fenster mit Text und Datum */
   function taskAllModal(gid) {
     U.modal(`<form data-action="coach-task-all-save" data-gid="${esc(gid)}"><div class="modal-head"><h2>Aufgabe an alle</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
-      <div class="stack"><div class="field"><label for="ct-all-text">Aufgabe</label><input class="input" id="ct-all-text" name="text" maxlength="300" required placeholder="z. B. Jeden Abend eine Tagesnotiz"></div><div class="field"><label for="ct-all-due">Fällig am (optional)</label><input class="input" id="ct-all-due" type="date" name="due"></div><p class="small muted">Jeder Schüler bekommt sie einzeln und hakt sie selbst ab.</p></div>
+      <div class="stack"><div class="field"><label for="ct-all-text">Aufgabe</label><input class="input" id="ct-all-text" name="text" maxlength="300" required placeholder="z. B. Jeden Abend eine Tagesnotiz"></div><details class="tf-more"><summary>Fällig am (optional)</summary><div class="field"><label for="ct-all-due">Fällig am</label><input class="input" id="ct-all-due" type="date" name="due"></div></details><p class="small muted">Jeder Schüler bekommt sie einzeln und hakt sie selbst ab.</p></div>
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Aufgabe geben</button></div></form>`, { cls: 'narrow' });
   }
   Object.assign(App.actions, {

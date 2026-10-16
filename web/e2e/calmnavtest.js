@@ -37,15 +37,15 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
       return p.evaluate(([still, moving]) => { const an = q => { const e = document.querySelector(q); return e ? getComputedStyle(e).animationName : 'fehlt'; }; return { still: still.map(an), moving: moving.map(an), from: (() => { for (const sh of document.styleSheets) { try { for (const r of sh.cssRules) if (r.name === 'swap-in') return r.cssRules[0].style.opacity; } catch (e) { return 'n/a'; } } return null; })() }; }, [still, moving]); };
     const s1 = await inPage('#/settings/profil', '.set-nav a[href="#/settings/design"]', ['.set-nav', '.content'], ['.set-body']);
     ok('Einstellungen: Menü links steht still, nur der Bereich rechts blendet', s1.still.every(x => x === 'none') && s1.moving.every(x => x === 'swap-in'), JSON.stringify(s1));
-    const s2 = await inPage('#/stats/summary', '.tabs[data-subnav] a[href="#/stats/days"]', ['.tabs[data-subnav]', '.content > .card', '.page-head'], ['.tabs[data-subnav] ~ *']);
-    ok('Statistiken: Diagramm oben, Reiter und Kopfreihe stehen still, nur der Reiter-Inhalt blendet', s2.still.every(x => x === 'none') && s2.moving.every(x => x === 'swap-in'), JSON.stringify(s2));
+    const s2 = await inPage('#/stats/summary', '.tabs[data-subnav] a[href="#/stats/days"]', ['.tabs[data-subnav]', '.page-head'], ['.tabs[data-subnav] ~ *']); /* Kurve gehört jetzt zum Inhalt von Übersicht und Tage */
+    ok('Statistiken: Reiter und Kopfreihe stehen still, nur der Reiter-Inhalt (mit Kurve) blendet', s2.still.every(x => x === 'none') && s2.moving.every(x => x === 'swap-in'), JSON.stringify(s2));
     const s3 = await inPage('#/prop/cockpit', '.prop-tabs a[data-area="konten"]', ['.page-head'], ['.content > :not(.page-head)']);
     ok('Prop Firms: Kopfreihe mit Bereichen steht still', s3.still.every(x => x === 'none') && s3.moving.every(x => x === 'swap-in'), JSON.stringify(s3));
     const s4 = await inPage('#/affiliate', '.aff-top a[href="#/affiliate/creator"]', ['.aff-top'], ['.aff-top ~ *']);
     ok('Affiliate: Umschalter steht still', s4.still.every(x => x === 'none') && s4.moving.every(x => x === 'swap-in'), JSON.stringify(s4));
     /* Reiter antippen: Seite springt nicht nach oben, Reiterleiste bleibt, gewählter Reiter sichtbar, kein Scrollbalken */
     await p.setViewportSize({ width: 390, height: 844 }); await p.evaluate(() => { location.hash = '#/stats/summary'; }); await p.waitForTimeout(900);
-    await p.evaluate(() => { const t = document.querySelector('.tabs[data-subnav]'); scrollTo(0, t.getBoundingClientRect().top + scrollY - 300); t.scrollLeft = 220; }); await p.waitForTimeout(400);
+    await p.evaluate(() => { const t = document.querySelector('.tabs[data-subnav]'); scrollTo(0, t.getBoundingClientRect().top + scrollY - 60); t.scrollLeft = 220; }); await p.waitForTimeout(400);
     const b0 = await p.evaluate(() => { const t = document.querySelector('.tabs[data-subnav]'); return { y: Math.round(scrollY), x: t.scrollLeft, top: Math.round(t.getBoundingClientRect().top), sbw: getComputedStyle(t).scrollbarWidth }; });
     await p.click('.tabs[data-subnav] a[href="#/stats/mistakes"]'); await p.waitForTimeout(600);
     const b1 = await p.evaluate(() => { const t = document.querySelector('.tabs[data-subnav]'); const a = t.querySelector('[aria-pressed="true"]').getBoundingClientRect(), r = t.getBoundingClientRect(); return { y: Math.round(scrollY), x: t.scrollLeft, top: Math.round(r.top), vis: a.left >= r.left - 1 && a.right <= r.right + 1 }; });

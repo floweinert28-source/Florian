@@ -8,9 +8,9 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   try {
     await p.goto(base + '#/trades', { waitUntil: 'load' }); await p.waitForTimeout(1000);
     await p.evaluate(() => App.openTradeEditor(null)); await p.waitForTimeout(400);
-    const f = await p.evaluate(() => { const q = s => !!document.querySelector('#trade-form ' + s); return { data: ['#f-symbol-btn', '#f-symbol', '#f-dir', '#f-entry', '#f-exit', '#f-qty', '#f-open', '#f-close', '#f-mult', '#f-fees'].every(q), journal: ['#f-pstop', '#f-ptarget', '#f-setup', '#f-notes', '#f-reason', '#f-rating', '[data-chips=mistakes]', '[data-chips=emotions]', 'details'].filter(q), accounts: Store.data.accounts.length, accSel: q('#f-account'), focus: document.activeElement && document.activeElement.id, title: document.querySelector('.modal-head h2').textContent }; });
+    const f = await p.evaluate(() => { const q = s => !!document.querySelector('#trade-form ' + s); return { data: ['#f-symbol-btn', '#f-symbol', '#f-dir', '#f-entry', '#f-exit', '#f-qty', '#f-open', '#f-close', '#f-mult', '#f-fees'].every(q), journal: ['#f-pstop', '#f-ptarget', '#f-setup', '#f-notes', '#f-reason', '#f-rating', '[data-chips=mistakes]', '[data-chips=emotions]'].filter(q), more: (d => !!d && !d.open && !!d.querySelector('#f-mult') && !!d.querySelector('#f-fees'))(document.querySelector('#trade-form details.tf-more')), accounts: Store.data.accounts.length, accSel: q('#f-account'), focus: document.activeElement && document.activeElement.id, title: document.querySelector('.modal-head h2').textContent }; });
     ok('Trade loggen: nur Trade-Daten (Symbol, Richtung, Kurse, Kontrakte, Zeit, Punktwert, Gebühren)', f.data && f.title === 'Trade loggen', JSON.stringify(f));
-    ok('Keine Notiz-, Plan-, Setup- oder Tag-Fragen im Fenster', f.journal.length === 0, f.journal.join(','));
+    ok('Keine Notiz-, Plan-, Setup- oder Tag-Fragen im Fenster; Punktwert und Gebühren hinter „Mehr Optionen“ (zu)', f.journal.length === 0 && f.more, f.journal.join(',') + ' more=' + f.more);
     ok('Konto-Auswahl nur bei mehreren Konten; kein Feld vorausgewählt', f.accSel === (f.accounts > 1) && !['f-symbol-btn', 'f-entry'].includes(f.focus), JSON.stringify(f));
     /* Klick auf eine Beschriftung wählt das Feld nicht aus */
     await p.click('label[for=f-entry]'); await p.waitForTimeout(80);

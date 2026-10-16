@@ -20,7 +20,7 @@ const leaks = p => p.evaluate(() => { const o = []; const w = document.createTre
   await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(600);
   ok('R-Werte statt Beträge', await p.evaluate(() => (document.getElementById('main').innerText.match(/ R\b/g) || []).length > 10));
   // Trade-Editor-Vorschau
-  await p.keyboard.press('n'); await p.waitForTimeout(350); await p.click('#f-dir [data-value="1"]');
+  await p.keyboard.press('n'); await p.waitForTimeout(350); await p.evaluate(() => { document.getElementById('f-symbol').value = 'NQ'; }); await p.click('#f-dir [data-value="1"]');
   await p.fill('#trade-form [name=entryPrice]', '100'); await p.fill('#trade-form [name=exitPrice]', '110'); 
   const closedAt = await p.$('#trade-form [name=closedAt]'); if (closedAt) { await p.fill('#trade-form [name=closedAt]', '2026-09-30T12:00'); }
   await p.dispatchEvent('#trade-form [name=exitPrice]', 'input'); await p.waitForTimeout(250);

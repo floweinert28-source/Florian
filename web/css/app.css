@@ -2924,7 +2924,7 @@ a.coach-name:hover { color: var(--accent); }
   .tf-main .tf-row2 { grid-template-columns: minmax(0, 1fr); }
   .tf-modal .modal-foot { flex-wrap: wrap; }
   .tf-modal .modal-foot #trade-preview { flex: 1 0 100%; }
-  .tf-modal .modal-foot .btn { flex: 1; }
+  .tf-modal .modal-foot .btn { flex: 0 0 auto; } .tf-modal .modal-foot .btn.primary { flex: 1 1 auto; } /* Handy: „Speichern“ breit, „Abbrechen“ schmal */
   .aff-share { grid-template-columns: 1fr; }
   .aff-top .aff-pick { flex: 1; min-width: 0; }
   .aff-tbl { min-width: 0; }
@@ -3783,3 +3783,7 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 .imp-more > summary { cursor: pointer; width: max-content; }
 .imp-more > .row { margin-top: var(--sp-2); gap: var(--sp-3); flex-wrap: wrap; }
 @media (max-width: 35em) { .fieldset .map-row.caption { display: none; } }
+/* „Mehr Optionen“ im Trade-Fenster: aktuelle Werte leise hinter dem Titel, bei wenig Platz abgeschnitten */
+.tf-more-sum { color: var(--muted); font-weight: 400; font-size: var(--fs-13); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tf-more[open] .tf-more-sum { display: none; }
+.modal[tabindex="-1"]:focus { outline: none; } /* Startfokus auf dem Dialog selbst: ohne Ring */

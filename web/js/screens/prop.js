@@ -130,10 +130,10 @@
     const all = C.deriveAll(S.trades()).sort((x, y) => y.sortTime - x.sortTime).slice(0, 50);
     const rows = all.map(t => `<label class="prop-assign-row"><input type="checkbox" name="t" value="${esc(t.id)}" ${(t.propAccountIds || []).includes(a.id) ? 'checked' : ''}><span class="sym">${esc(t.symbol)}</span>${U.badge(t.direction)}<span class="muted small">${fmt.dateTime(t.open)}</span><span class="muted small qty">${fmt.num(t.quantity, 2)}×</span><span class="r">${t.closed ? U.pnl(t.pnl, '', { r: t.r }) : U.pill('Offen', 'open')}</span></label>`).join('');
     const siblings = a.group ? accounts().filter(x => x.id !== a.id && x.group === a.group) : [];
-    U.modal(`<form data-action="prop-assign-save" data-id="${a.id}"><div class="modal-head"><h2>Trades zuordnen · ${esc(accName(a))}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><p class="muted small">Die letzten 50 Trades. Angehakte Trades zählen für dieses Konto; ein Trade kann mehreren Konten gehören (Copy-Trading). Ältere Trades ordnest du im Trade-Editor zu.</p><input type="hidden" name="shown" value="${all.map(t => t.id).join(',')}">
-      ${all.length ? `<div class="row"><button type="button" class="btn xs" data-action="prop-assign-all" data-on="1">Alle</button><button type="button" class="btn xs" data-action="prop-assign-all" data-on="0">Keine</button></div><div class="prop-assign">${rows}</div>` : U.empty('tradelog', 'Keine Trades im Journal', 'Logge zuerst Trades, dann kannst du sie hier zuordnen.')}
+    U.modal(`<form data-action="prop-assign-save" data-id="${a.id}"><div class="modal-head"><h2>Trades zuordnen · ${esc(accName(a))}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>${all.length ? `<p class="muted small">Die letzten 50 Trades; ältere ordnest du im Trade-Editor zu. Ein Trade kann mehreren Konten gehören (Copy-Trading).</p>` : ''}<input type="hidden" name="shown" value="${all.map(t => t.id).join(',')}">
+      ${all.length ? `${all.length > 1 ? `<div class="row"><button type="button" class="btn xs ghost" data-action="prop-assign-all" data-on="1">Alle</button><button type="button" class="btn xs ghost" data-action="prop-assign-all" data-on="0">Keine</button></div>` : ''}<div class="prop-assign">${rows}</div>` : U.empty('tradelog', 'Keine Trades im Journal', 'Logge zuerst Trades, dann kannst du sie hier zuordnen.', `<button type="button" class="btn accent" data-action="prop-assign-log">${I.plus} Trade loggen</button>`)}
       ${siblings.length ? `<label class="check"><input type="checkbox" name="group"><span>Auch für ${siblings.length} weitere${siblings.length === 1 ? 's Konto' : ' Konten'} der Gruppe „${esc(a.group)}“ übernehmen</span></label>` : ''}
-      <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`);
+      ${all.length ? `<div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div>` : ''}</form>`);
   }
 
   /* ---------- Regel-Felder (Konto- und Preset-Dialog) ---------- */
@@ -342,6 +342,7 @@
       U.toast('Konto als geplatzt markiert'); App.rerender();
     },
     'prop-assign'(el) { const a = find(el.dataset.id); if (a) assignModal(a); },
+    'prop-assign-log'() { U.closeModal(); App.openTradeEditor(null); }, /* erst dieses Fenster schließen, dann „Trade loggen“ */
     'prop-assign-all'(el) { el.closest('form').querySelectorAll('.prop-assign input[type=checkbox]').forEach(c => { c.checked = el.dataset.on === '1'; }); },
     'prop-assign-save'(form) {
       const fd = new FormData(form); const shown = String(fd.get('shown') || '').split(',').filter(Boolean); const on = fd.getAll('t').map(String); const off = shown.filter(id => !on.includes(id)); const a = find(form.dataset.id); if (!a) return;

@@ -1,4 +1,4 @@
-/* Coupon-Codes: eigener Bereich in der Gruppe Konten (Seitenleiste, Titel, Kacheln, Kopieren), Prop Firms → Konten ohne Coupon-Karte */
+/* Coupon-Codes: eigener Bereich in der Gruppe Prop Trading (Seitenleiste, Titel, Kacheln, Kopieren), Prop Firms → Konten ohne Coupon-Karte */
 const { chromium } = require('playwright');
 const base = 'file:///tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/sample-dev.html';
 let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; console.log('PASS ' + n); } else { fail++; console.log('FAIL ' + n + (extra ? ' · ' + extra : '')); } };
@@ -8,7 +8,7 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   try {
     await p.goto(base + '#/coupons', { waitUntil: 'load' }); await p.waitForTimeout(900);
     const nav = await p.evaluate(() => [...document.querySelectorAll('.sidebar nav a[href^="#/"], .sidebar a[href^="#/"]')].map(a => a.getAttribute('href')));
-    ok('Seitenleiste: „Coupon-Codes“ im Journal in der Gruppe Konten (Prop Firms als eigener Bereich in der Leiste)', !!(await p.$('.sidebar .nav-group[aria-label="Konten"] a[href="#/coupons"]')) && !nav.includes('#/prop') && !!(await p.$('.rail-item[data-rail=prop]')) && (await p.textContent('.sidebar a[href="#/coupons"]')).includes('Coupon-Codes'), JSON.stringify(nav));
+    ok('Seitenleiste: „Coupon-Codes“ im Journal in der Gruppe Prop Trading (Prop Firms als eigener Bereich in der Leiste)', !!(await p.$('.sidebar .nav-group[aria-label="Prop Trading"] a[href="#/coupons"]')) && !nav.includes('#/prop') && !!(await p.$('.rail-item[data-rail=prop]')) && (await p.textContent('.sidebar a[href="#/coupons"]')).includes('Coupon-Codes'), JSON.stringify(nav));
     ok('Eigener Bereich: Titel „Coupon-Codes“, Eintrag aktiv, Prop Firms nicht aktiv', (await p.textContent('.topbar h1')).trim() === 'Coupon-Codes' && !!(await p.$('.sidebar a[href="#/coupons"].active')) && !(await p.$('.sidebar a[href="#/prop"].active')));
     const n = await p.evaluate(() => PropData.COUPONS.length);
     ok('Kacheln: Firma, Rabatt, Code-Ticket, Link (neuer Tab), Beispiel-Marke', n >= 2 && (await p.$$('.cpn')).length === n && (await p.$$('.cpn .pill.neutral')).length === n && (await p.$$('.cpn-link[target=_blank][rel=noopener]')).length === n && (await p.textContent('.cpn:first-child .cpn-code')).trim() === (await p.evaluate(() => PropData.COUPONS[0].code)) && (await p.textContent('.cpn:first-child .cpn-off')).trim() === (await p.evaluate(() => PropData.COUPONS[0].discount)));

@@ -445,7 +445,8 @@
     nav(el) { this.navigate(el.dataset.href); },
     day(el) { this.navigate('#/day/' + el.dataset.day); },
     trade(el) { this.navigate('#/trades/' + el.dataset.id); },
-    'new-trade'() { this.openTradeEditor(null); },
+    /* in der Tagesansicht eines vergangenen Tages ist dessen Datum vorbelegt (Seitenleiste, Kopfreihe, runder Knopf, Taste N); heute gilt die aktuelle Uhrzeit */
+    'new-trade'() { const k = this.state.route === 'day' && this.state.params[0]; if (k && k !== C.dayKey(new Date()) && !isNaN(C.parseDayKey(k))) return this.actions['new-trade-day'].call(this, { dataset: { day: k } }); this.openTradeEditor(null); },
     'edit-trade'(el) { this.openTradeEditor(S.getTrade(el.dataset.id)); },
     async 'delete-trade'(el) { if (await U.confirmModal('Trade löschen?', 'Der Trade und seine Anhänge werden dauerhaft entfernt.', { ok: 'Löschen', danger: true })) { await S.deleteTrade(el.dataset.id); U.toast('Trade gelöscht'); this.navigate('#/trades'); } },
     'start-session'() { this.openSessionStart(); },
@@ -458,6 +459,7 @@
     'sample-error-dismiss'() { delete S.settings.sampleError; S.settings.sampleVersion = (root.Sample && root.Sample.VERSION) || S.settings.sampleVersion; S.save(); this.rerender(false); },
     'remove-sample'() { S.removeSample(); U.toast('Beispieldaten entfernt'); this.rerender(false); },
     import() { this.openImport(); },
+    'range-preset'(el) { S.setSetting('range', { preset: el.dataset.value || 'all' }); this.rerender(); },
   });
 
   /* ---------- Trade-Editor ---------- */
@@ -482,7 +484,10 @@
     const t = trade || Object.assign({ symbol: '', direction: 0, openedAt: new Date().toISOString(), closedAt: null, entryPrice: '', exitPrice: '', quantity: 1, multiplier: 1, fees: 0, accountId: S.defaultAccountId() }, preset);
     const val = v => v == null ? '' : v;
     const props = (S.propAccounts ? S.propAccounts() : []).filter(a => a.status !== 'archived');
-    const simple = App.simple(); const moreOpen = !!(trade && ((S.data.accounts.length > 1 && t.accountId !== S.defaultAccountId()) || Number(t.fees) || (t.propAccountIds || []).length)); /* Simple: Nebenfelder aufklappbar, offen wenn darin schon etwas eingetragen ist */
+    /* „Mehr Optionen“ (Punktwert, Gebühren, Prop-Konten; in Simple auch das Konto): offen, wenn man sie zuletzt offen gelassen hat,
+       wenn beim Bearbeiten Gebühren, eine Prop-Zuordnung oder ein abweichender Punktwert gesetzt sind, oder wenn das Symbol keinen bekannten Punktwert hat */
+    const simple = App.simple(); const known = t.symbol ? App.symbolMult(t.symbol) : null;
+    const moreOpen = !!S.settings.tfMoreOpen || !!(trade && ((simple && S.data.accounts.length > 1 && t.accountId !== S.defaultAccountId()) || Number(t.fees) || (t.propAccountIds || []).length || (known != null && Number(t.multiplier) !== known))) || !!(t.symbol && known == null);
     const accField = S.data.accounts.length > 1 ? `<div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>` : `<input type="hidden" name="accountId" value="${esc(t.accountId || S.defaultAccountId())}">`;
     const html = `<form id="trade-form" class="tf" novalidate data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>${draft ? `<div class="tf-draft" role="status"><span>Entwurf wiederhergestellt</span><button type="button" class="btn sm ghost" data-action="trade-draft-discard" data-key="${dk}">Verwerfen</button></div>` : ''}
       <div class="tf-main">
@@ -498,11 +503,11 @@
           <div class="field"><label for="f-open">Eröffnet</label><input class="input" type="datetime-local" id="f-open" name="openedAt" value="${fmt.isoLocal(t.openedAt)}" required></div>
           <div class="field"><label for="f-close">Geschlossen <span class="faint">(leer = offen)</span></label><input class="input" type="datetime-local" id="f-close" name="closedAt" value="${t.closedAt ? fmt.isoLocal(t.closedAt) : ''}"></div>
         </div>
-        ${simple ? `<details class="tf-more tf-wide"${moreOpen ? ' open' : ''}><summary>Mehr Details</summary>${accField}` : ''}<div class="tf-row2">
+        <details class="tf-more tf-wide"${moreOpen ? ' open' : ''}><summary>Mehr Optionen<span class="tf-more-sum" id="tf-more-sum">${App.tradeMoreSum(t)}</span></summary>${simple ? accField : ''}<div class="tf-row2">
           <div class="field"><label for="f-mult">Punktwert ${U.info('P&L = (Ausstieg − Einstieg) × Kontrakte × Punktwert. Wird vom letzten Trade mit demselben Symbol übernommen.')}</label><input class="input" type="number" step="any" min="0" id="f-mult" name="multiplier" value="${t.multiplier || 1}" inputmode="decimal"></div>
           <div class="field"><label for="f-fees">Gebühren</label>${App.feeField(t)}</div>
         </div>
-        ${props.length ? `<div class="field tf-wide"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}${simple ? '</details>' : ''}
+        ${props.length ? `<div class="field tf-wide"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}</details>
       </div>
       <div class="modal-foot"><div class="left row" id="trade-preview"></div><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${trade ? 'Speichern' : 'Trade speichern'}</button></div></form>`;
     /* Stand beim Öffnen merken: ohne Änderung bleibt alles, wie es war (auch ein wiederhergestellter Entwurf); ein leerer neuer Trade ist kein Entwurf */
@@ -513,6 +518,7 @@
       el.addEventListener('input', later); el.addEventListener('click', later); /* auch Richtung, Symbol und Chips (Knöpfe statt Felder) */
       const away = () => { if (document.hidden && el.isConnected) keep(el.querySelector('#trade-form')); else if (!el.isConnected) document.removeEventListener('visibilitychange', away); }; document.addEventListener('visibilitychange', away); /* App kurz verlassen */
       const upd = () => App.updateTradePreview(el); el.addEventListener('input', upd); upd();
+      const more = el.querySelector('.tf-more'); more.querySelector('summary').addEventListener('click', () => setTimeout(() => { if (more.open !== !!S.settings.tfMoreOpen) S.setSetting('tfMoreOpen', more.open); }, 0)); /* Klappzustand gemerkt, nur wenn man selbst auf- oder zuklappt */
       const mult = el.querySelector('#f-mult'); mult.addEventListener('input', () => { mult.dataset.touched = '1'; }); if (trade) mult.dataset.touched = '1'; /* bestehender Trade: Punktwert nicht still ändern */
       App.noLabelFocus(el);
     } });
@@ -529,19 +535,23 @@
     const more = (PD && PD.instrumentsDefault || []).filter(i => !have.has(i.symbol)).map(i => ({ sym: i.symbol, name: i.name, mult: i.tickSize ? r(i.tickValue / i.tickSize) : i.pipSize ? r(i.pipValue / i.pipSize) : null }));
     return { recent, more };
   };
+  App.symbolMult = function (sym) { const o = App.symbolOptions(); const k = String(sym || '').trim().toUpperCase(); const hit = [...o.recent, ...o.more].find(x => x.sym === k); return hit ? hit.mult : null; };
+  /* Kurztext hinter „Mehr Optionen“ mit den aktuellen Werten, damit man sie ohne Aufklappen sieht */
+  App.tradeMoreSum = function (t) { const T = x => (root.I18N && root.I18N.t ? root.I18N.t(x) : x); const f = feeSym(accCurrency(t.accountId)); const fee = fmt.num(Number(t.fees) || 0, 2); const n = (t.propAccountIds || []).length; return `· ${T('Punktwert')} ${fmt.num(Number(t.multiplier) || 1, 4)} · ${T('Gebühren')} ${f.side === 'pre' ? f.sym + fee : fee + ' ' + f.sym}${n ? ` · ${T(U.count(n, 'Prop-Konto', 'Prop-Konten'))}` : ''}`; };
   App.closeSymbolMenu = function () { const m = document.getElementById('sym-menu'); if (m) { if (m._off) m._off(); m.remove(); } document.querySelectorAll('#f-symbol-btn[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false')); };
   App.openSymbolMenu = function (btn) {
     if (document.getElementById('sym-menu')) return App.closeSymbolMenu();
     const form = btn.closest('form'); const cur = form.querySelector('#f-symbol').value; const { recent, more } = App.symbolOptions();
     const opt = o => `<button type="button" class="sym-opt" role="option" data-sym="${esc(o.sym)}" data-mult="${o.mult == null ? '' : o.mult}" aria-selected="${o.sym === cur}"><b class="no-i18n">${esc(o.sym)}</b><span class="nm">${o.name ? `<span class="no-i18n">${esc(o.name)}</span>` : o.n ? U.count(o.n, 'Trade', 'Trades') : ''}</span>${o.mult != null ? `<span class="pv no-i18n">× ${fmt.num(o.mult, 4)}</span>` : ''}</button>`;
     const m = document.createElement('div'); m.id = 'sym-menu'; m.className = 'sym-menu'; m.setAttribute('role', 'listbox'); m.setAttribute('aria-label', 'Symbol wählen');
-    m.innerHTML = `${recent.length ? `<div class="sym-cap">Zuletzt gehandelt</div>${recent.map(opt).join('')}` : ''}${more.length ? `<div class="sym-cap">Weitere</div>${more.map(opt).join('')}` : ''}<form class="sym-new" autocomplete="off"><input class="input" maxlength="20" placeholder="Anderes Symbol, z. B. DAX" autocapitalize="characters" aria-label="Anderes Symbol"><button type="submit" class="btn sm primary">OK</button></form>`;
+    m.innerHTML = `${recent.length ? `<div class="sym-cap">Zuletzt gehandelt</div>${recent.map(opt).join('')}` : ''}${more.length ? `<div class="sym-cap">Weitere</div>${more.map(opt).join('')}` : ''}<form class="sym-new" autocomplete="off"><input class="input" maxlength="20" placeholder="Anderes Symbol, z. B. DAX" autocapitalize="characters" aria-label="Anderes Symbol"><button type="submit" class="btn sm">OK</button></form>`; /* Enter ist der Hauptweg; gefüllt bleibt nur „Trade speichern“ */
     document.body.appendChild(m); if (root.I18N && App.translateNow) App.translateNow(m);
     const place = () => { const r = btn.getBoundingClientRect(); const vw = document.documentElement.clientWidth, vh = innerHeight; const w = Math.min(Math.max(r.width, 300), vw - 16); m.style.width = w + 'px'; m.style.left = Math.max(8, Math.min(r.left, vw - w - 8)) + 'px'; const below = vh - r.bottom - 14, above = r.top - 14; const up = below < 260 && above > below; m.style.maxHeight = Math.max(180, Math.min(360, up ? above : below)) + 'px'; m.style.top = up ? '' : (r.bottom + 6) + 'px'; m.style.bottom = up ? (vh - r.top + 6) + 'px' : ''; };
     place(); btn.setAttribute('aria-expanded', 'true');
     const pick = (sym, mult) => {
       sym = String(sym || '').trim().toUpperCase(); if (!sym) return; form.querySelector('#f-symbol').value = sym; const v = btn.querySelector('.sym-v'); v.textContent = sym; v.classList.add('no-i18n'); btn.classList.remove('sym-none');
       const mi = form.querySelector('#f-mult'); if (mi && !mi.dataset.touched && mult) mi.value = mult; /* Punktwert passend zum Symbol, solange nicht von Hand geändert */
+      if (!mult) { const more = form.querySelector('.tf-more'); if (more) more.open = true; } /* unbekannter Punktwert: „Mehr Optionen“ öffnen, damit man ihn einträgt */
       App.closeSymbolMenu(); btn.focus(); App.updateTradePreview(form.closest('.modal'));
     };
     m.addEventListener('click', e => { const o = e.target.closest('.sym-opt'); if (o) pick(o.dataset.sym, Number(o.dataset.mult) || null); });
@@ -611,7 +621,13 @@
     return out;
   };
   /* Vorschau des gerade bearbeiteten Trades. Geld-blind: P&L mit dem exakten R des derive-Ergebnisses (ohne Stop „– R“), Risiko = 1 R per Definition; das kleine R neben dem P&L entfällt dann, weil es doppelt wäre */
-  App.updateTradePreview = function (el) { const f = el.querySelector('#trade-form'); const p = el.querySelector('#trade-preview'); if (!f || !p) return; if (f.querySelector('input[name=direction]') && !f.querySelector('input[name=direction]').value) { p.innerHTML = '<span class="muted small">Long oder Short wählen</span>'; return; } const d = C.derive(Object.assign({ mistakes: [], emotions: [], rulesBroken: [] }, (f.dataset.id && S.getTrade(f.dataset.id)) || {}, App.readTradeForm(f))); /* bestehender Trade: Plan (Stop) aus dem gespeicherten Trade, damit R stimmt */ if (!d.closed) { p.innerHTML = `<span class="muted small">Offener Trade · Risiko ${d.risk ? fmt.cur(d.risk, { r: 1 }) : '—'}${d.plannedR ? ` · geplant ${fmt.r(d.plannedR, false)}` : ''}</span>`; return; } p.innerHTML = `<span class="small muted">Netto-P&L</span> ${U.pnl(d.pnl, '', { r: d.r })} ${d.r != null && !fmt.moneyBlind() ? `<span class="small muted">·</span> ${U.rText(d.r)}` : ''} <span class="small muted">· Disziplin ${C.discipline(d).score}</span>`; };
+  App.updateTradePreview = function (el) { const f = el.querySelector('#trade-form'); const p = el.querySelector('#trade-preview'); if (!f || !p) return; const sumEl = el.querySelector('#tf-more-sum'); if (sumEl) sumEl.textContent = App.tradeMoreSum(App.readTradeForm(f));
+    /* Fuß-Hinweis nennt immer den nächsten Schritt in Formular-Reihenfolge */
+    const need = s => { p.innerHTML = `<span class="muted small">${s}</span>`; };
+    if (!f.querySelector('#f-symbol').value) return need('Symbol wählen');
+    if (f.querySelector('input[name=direction]') && !f.querySelector('input[name=direction]').value) return need('Long oder Short wählen');
+    if (f.querySelector('#f-entry') && f.querySelector('#f-entry').value.trim() === '') return need('Einstieg eintragen');
+    if (f.querySelector('#f-exit') && f.querySelector('#f-exit').value.trim() !== '' && f.querySelector('#f-close') && !f.querySelector('#f-close').value) return need('Geschlossen fehlt, der Trade bleibt offen'); const d = C.derive(Object.assign({ mistakes: [], emotions: [], rulesBroken: [] }, (f.dataset.id && S.getTrade(f.dataset.id)) || {}, App.readTradeForm(f))); /* bestehender Trade: Plan (Stop) aus dem gespeicherten Trade, damit R stimmt */ if (!d.closed) { p.innerHTML = `<span class="muted small">Offener Trade${d.risk ? ` · Risiko ${fmt.cur(d.risk, { r: 1 })}` : ''}${d.plannedR ? ` · geplant ${fmt.r(d.plannedR, false)}` : ''}</span>`; return; } p.innerHTML = `<span class="small muted">Netto-P&L</span> ${U.pnl(d.pnl, '', { r: d.r })} ${d.r != null && !fmt.moneyBlind() ? `<span class="small muted">·</span> ${U.rText(d.r)}` : ''} <span class="small muted">· Disziplin ${C.discipline(d).score}</span>`; };
   Object.assign(App.actions, {
     'set-dir'(el) { const f = el.closest('form'); f.querySelector('input[name=direction]').value = el.dataset.value; f.querySelectorAll('#f-dir button').forEach(b => b.setAttribute('aria-pressed', b === el)); const sw = f.querySelector('#f-dir'); if (sw) { sw.classList.remove('need'); if (sw.dataset.dir === '0') { sw.classList.add('first'); setTimeout(() => sw.classList.remove('first'), 250); } sw.dataset.dir = el.dataset.value; } App.updateTradePreview(f.closest('.modal')); },
     'set-rating'(el) { const f = el.closest('form'); const v = Number(el.dataset.value); const cur = Number(f.querySelector('input[name=rating]').value) || 0; const nv = cur === v ? 0 : v; f.querySelector('input[name=rating]').value = nv || ''; f.querySelectorAll('#f-rating button').forEach(b => b.setAttribute('aria-pressed', Number(b.dataset.value) <= nv)); },
@@ -671,7 +687,7 @@
       <div class="field"><label for="ci-sleep">Schlaf (Stunden)</label><div class="sleep-row"><div class="face-wrap" id="ci-face">${App.sleepFaceHTML(sleep)}</div><div class="grow"><div class="slider"><input type="range" id="ci-sleep" name="sleep" min="0" max="14" step="0.5" value="${sleep}" style="--p:${pct}%" data-input="ci-sleep" aria-valuetext="${fmt.num(sleep, 1)} Stunden"><b class="sv" id="ci-sleep-val" data-v="${sleep}">${fmt.num(sleep, 1)} h</b></div><div class="ticks"><span>0 h</span><span>7 h</span><span>14 h</span></div><div class="zone" id="ci-zone" style="color:${zone.color}">${zone.label}</div></div></div></div>
       <div class="field"><span class="lbl">Stress (1 entspannt – 5 sehr gestresst)</span>${scale('stress', ci.stress, ['entspannt', 'leicht', 'mittel', 'hoch', 'sehr hoch'])}</div>
       <div class="field"><span class="lbl">Stimmung (1 schlecht – 5 sehr gut)</span>${scale('mood', ci.mood, ['schlecht', 'mäßig', 'neutral', 'gut', 'sehr gut'])}</div>
-      <div class="field"><label for="ci-note">Notiz</label><input class="input" id="ci-note" name="note" value="${esc(ci.note || '')}" placeholder="Wie fühlst du dich?"></div></div>`;
+      <details class="tf-more"${ci.note ? ' open' : ''}><summary>Notiz hinzufügen</summary><div class="field"><label for="ci-note">Notiz</label><input class="input" id="ci-note" name="note" value="${esc(ci.note || '')}" placeholder="Wie fühlst du dich?"></div></details></div>`; /* die Notiz ist freiwillig: aufklappbar, offen wenn es schon eine gibt */
   };
   App.readCheckIn = function (form) { const fd = new FormData(form); const n = k => fd.get(k) === '' || fd.get(k) == null ? null : Number(fd.get(k)); return { sleep: n('sleep'), stress: n('stress'), mood: n('mood'), note: String(fd.get('note') || ''), goal: String(fd.get('goal') || ''), createdAt: new Date().toISOString() }; };
   App.openCheckIn = function (key) {

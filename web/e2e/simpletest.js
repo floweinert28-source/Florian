@@ -1,5 +1,5 @@
 /* Ansicht Simple / Advanced (Einstellungen → Design → Ansicht): Schalter, Seitenleiste mit „Mehr“, Leiste mit „Mehr“-Menü,
-   Dashboard-Kopf, größere Zahlen, Statistik-Reiter, Trades-Spalten, Trade-Fenster mit „Mehr Details“, zurück zu Advanced */
+   Dashboard-Kopf, größere Zahlen, Statistik-Reiter, Trades-Spalten, Trade-Fenster mit „Mehr Optionen“, zurück zu Advanced */
 const { chromium } = require('playwright');
 let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PASS ' + m); } else { fail++; console.log('FAIL ' + m); } };
 const BASE = 'file:///home/user/Florian/web/app.html';
@@ -54,11 +54,11 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await p.evaluate(() => { location.hash = '#/trades'; }); await p.waitForTimeout(800);
   const th = await p.evaluate(() => ({ th: [...document.querySelectorAll('.tbl thead th')].map(t => t.dataset.key), td: document.querySelectorAll('.tbl tbody tr:first-child td').length, slim: document.querySelector('.tbl').classList.contains('slim') }));
   ok(th.th.join() === 'openedAt,symbol,direction,pnl' && th.td === 4 && th.slim, 'TradeLog: Datum, Symbol, Richtung, P&L · ' + JSON.stringify(th));
-  /* Trade-Fenster: Nebenfelder unter „Mehr Details“, Speichern übernimmt sie trotzdem */
+  /* Trade-Fenster: Nebenfelder unter „Mehr Optionen“, Speichern übernimmt sie trotzdem */
   const before = await p.evaluate(() => Store.trades().length);
   await p.evaluate(() => { const o = new Date(Date.now() - 3600e3); App.openTradeEditor(null, { symbol: 'NQ', direction: 1, entryPrice: 20000, exitPrice: 20010, openedAt: o.toISOString(), closedAt: new Date().toISOString() }); }); await p.waitForTimeout(600);
   const tf = await p.evaluate(() => { const d = document.querySelector('.tf-more'); return { has: !!d, open: d && d.open, mult: !!(d && d.querySelector('#f-mult')), fees: !!(d && d.querySelector('[name="fees"]')), entry: !!document.querySelector('.tf-main > .tf-row3 #f-entry') }; });
-  ok(tf.has && !tf.open && tf.mult && tf.fees && tf.entry, 'Trade-Fenster: Punktwert und Gebühren unter „Mehr Details“ (zu), Einstieg sichtbar · ' + JSON.stringify(tf));
+  ok(tf.has && !tf.open && tf.mult && tf.fees && tf.entry, 'Trade-Fenster: Punktwert und Gebühren unter „Mehr Optionen“ (zu), Einstieg sichtbar · ' + JSON.stringify(tf));
   await p.evaluate(() => { document.getElementById('f-mult').value = '20'; }); await p.click('#trade-form button[type="submit"]'); await p.waitForTimeout(700);
   const saved = await p.evaluate(() => { const t = Store.trades().slice().sort((a, b) => String(b.openedAt).localeCompare(String(a.openedAt)))[0]; return { n: Store.trades().length, mult: t.multiplier, sym: t.symbol }; });
   ok(saved.n === before + 1 && saved.mult === 20 && saved.sym === 'NQ', 'Speichern im zugeklappten Bereich: Punktwert 20 übernommen · ' + JSON.stringify(saved));
@@ -68,7 +68,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   /* Englisch */
   await p.evaluate(async () => { Store.setLanguage('en'); I18N.setLang('en'); await new Promise(r => setTimeout(r, 900)); App.render(); App.openTradeEditor(null); }); await p.waitForTimeout(700);
   const en = await p.evaluate(() => ({ more: document.querySelector('.tf-more > summary').textContent.trim(), nav: document.querySelector('#sidebar .nav-more > summary span').textContent.trim() }));
-  ok(en.more === 'More details' && en.nav === 'More', 'Englisch: „More details“, „More“ · ' + JSON.stringify(en));
+  ok(/^More options/.test(en.more) && /Point value/.test(en.more) && en.nav === 'More', 'Englisch: „More options · Point value …“, „More“ · ' + JSON.stringify(en));
   await p.keyboard.press('Escape'); await p.evaluate(async () => { Store.setLanguage('de'); I18N.setLang('de'); await new Promise(r => setTimeout(r, 600)); App.render(); }); await p.waitForTimeout(400);
   /* Handy: Tabelle passt ohne seitliches Scrollen */
   const m = await b.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }); m.on('pageerror', e => errs.push('Handy: ' + e.message)); try { await require('./localfonts.js')(m); } catch (e) {}

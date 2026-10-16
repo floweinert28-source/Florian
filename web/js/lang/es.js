@@ -1906,4 +1906,7 @@ I18N.add('es', {
   "Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen, wenn er dafür eingerichtet ist.": "El análisis (emoción, setup, etiquetas de errores, resumen) pasa por este servidor. La transcripción se crea en el navegador; para navegadores sin reconocimiento de voz, el servidor puede usar un servicio de transcripción si está configurado para ello.",
   "Auf dem Server ist noch kein E-Mail-Versand eingerichtet. Die Adresse wird gespeichert, Mails gehen aber erst raus, wenn der Versand eingerichtet ist.": "El servidor aún no tiene configurado el envío de correos. La dirección se guarda, pero los correos solo saldrán cuando el envío esté configurado.",
   "Termine werden geladen": "Cargando eventos",
+  "z. B. Strategie": "p. ej. Estrategia",
+  "Ideen": "Ideas",
+  "Strategie": "Estrategia",
 });

@@ -17,3 +17,9 @@ function makeStore(saved) {
 test('neuer Nutzer (kein Speicher): Simple', () => { const S = makeStore(null); S.load(); assert.equal(S.settings.uiMode, 'simple'); });
 test('bestehende Daten ohne uiMode: Advanced, sonst bleibt alles', () => { const S = makeStore({ settings: { theme: 'light', language: 'de' }, trades: [] }); S.load(); assert.equal(S.settings.uiMode, 'advanced'); assert.equal(S.settings.theme, 'light'); });
 test('gespeicherte Wahl bleibt', () => { for (const m of ['simple', 'advanced']) { const S = makeStore({ settings: { uiMode: m }, trades: [] }); S.load(); assert.equal(S.settings.uiMode, m); } });
+test('Beispielordner ohne Emoji: alte Namen werden umbenannt, eigene Ordner bleiben', () => {
+  const S = makeStore({ settings: { language: 'de' }, trades: [], notes: [], folders: [
+    { id: 'smpf-strategie', name: '📈 Strategie', sample: true }, { id: 'smpf-ideen', name: '💡 Ideen', sample: true }, { id: 'eigen', name: '🚀 Meins' }] });
+  S.load(); const n = id => S.data.folders.find(f => f.id === id).name;
+  assert.equal(n('smpf-strategie'), 'Strategie'); assert.equal(n('smpf-ideen'), 'Ideen'); assert.equal(n('eigen'), '🚀 Meins');
+});

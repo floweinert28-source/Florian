@@ -79,6 +79,8 @@
   function migrateNotes(data) {
     if (!Array.isArray(data.folders) || !data.folders.length) data.folders = defaultFolders();
     for (const f of defaultFolders()) if (!data.folders.some(x => x.id === f.id)) data.folders.push(f);
+    /* Beispielordner hießen früher mit Emoji („📈 Strategie“, „💡 Ideen“); nur diese beiden umbenennen, eigene Ordner bleiben */
+    for (const f of data.folders) if (f.sample && (f.id === 'smpf-strategie' || f.id === 'smpf-ideen') && /^\p{Extended_Pictographic}/u.test(f.name || '')) f.name = f.name.replace(/^\p{Extended_Pictographic}\uFE0F?\s*/u, '');
     if (!Array.isArray(data.noteTags)) data.noteTags = []; if (!Array.isArray(data.templates) || !data.templates.length) data.templates = defaultTemplates();
     const ensureFolder = (id, name, color) => { if (!data.folders.some(x => x.id === id)) data.folders.push({ id, name, color, isDefault: false, defaultTemplateId: null, order: data.folders.length, createdAt: new Date().toISOString() }); };
     for (const n of data.notes) {

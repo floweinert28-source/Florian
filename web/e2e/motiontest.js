@@ -10,7 +10,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   /* ab dem Ersetzen des Skeletts messen: der load-Zeitpunkt hängt davon ab, wie viele Schrift-Stylesheets nachgeladen werden */
   await p.waitForFunction(() => !document.querySelector('#content .skel'), null, { timeout: 5000 }); await p.waitForTimeout(900);
   const late = await p.evaluate(() => ({ rv: [...document.querySelectorAll('#content .rv')].map(e => Math.round(e.getBoundingClientRect().top)), hidden: [...document.querySelectorAll('#content > *, #content .w, #content .tile')].filter(e => getComputedStyle(e).opacity !== '1' && e.getBoundingClientRect().top < innerHeight * 0.9).length }));
-  ok('Dashboard: Sichtbares eingeblendet und freigegeben, nur Unteres wartet', early > 0 && late.rv.every(t => t >= 900) && late.hidden === 0, `früh ${early}, spät ${JSON.stringify(late)}`);
+  ok('Dashboard: kein Einblenden beim Scrollen, alles sofort sichtbar', early === 0 && late.rv.length === 0 && late.hidden === 0, `früh ${early}, spät ${JSON.stringify(late)}`);
   // Seitenwechsel per Hash → View Transition, Inhalt vollständig sichtbar danach
   await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(150);
   const vt = await p.evaluate(() => !!document.startViewTransition);
@@ -19,7 +19,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   // Unterhalb des Fensters: Elemente warten auf das Scrollen
   await p.evaluate(() => { location.hash = '#/progress'; }); await p.waitForTimeout(1200);
   const below = await p.evaluate(() => [...document.querySelectorAll('#content .rv')].map(e => Math.round(e.getBoundingClientRect().top)));
-  ok('Fortschritt: nur Elemente unter dem Fenster bleiben vorbereitet', below.every(t => t > 1000), JSON.stringify(below));
+  ok('Fortschritt: auch Elemente unter dem Fenster sind ohne Einblenden da', below.length === 0, JSON.stringify(below));
   await p.evaluate(() => window.scrollTo(0, 2000)); await p.waitForTimeout(900);
   ok('Nach dem Scrollen alles eingeblendet', await p.evaluate(() => document.querySelectorAll('#content .rv').length === 0 && [...document.querySelectorAll('#content .card')].every(e => getComputedStyle(e).opacity === '1')));
   // Neuaufbau (rerender) blendet Sichtbares nicht erneut aus
@@ -69,7 +69,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   // Startseite
   await p.setViewportSize({ width: 1440, height: 1000 });
   await p.goto('file:///home/user/Florian/web/index.html', { waitUntil: 'load' }); await p.waitForTimeout(100);
-  ok('Startseite: Hero-Zeilen animieren, Karten unten vorbereitet', await p.evaluate(() => getComputedStyle(document.querySelector('.hero h1 span')).animationName === 'lp-in' && document.querySelectorAll('.feat-card.rv').length === 6));
+  ok('Startseite: Hero-Zeilen animieren, Karten sofort da (kein Einblenden beim Scrollen)', await p.evaluate(() => getComputedStyle(document.querySelector('.hero h1 span')).animationName === 'lp-in' && document.querySelectorAll('.feat-card').length === 6 && !document.querySelector('.feat-card.rv') && [...document.querySelectorAll('.feat-card')].every(e => getComputedStyle(e).opacity === '1')));
   await p.evaluate(() => window.scrollTo(0, 1400)); await p.waitForTimeout(1000);
   ok('Startseite: Karten nach dem Scrollen sichtbar, Parallax gesetzt', await p.evaluate(() => [...document.querySelectorAll('.feat-card')].every(e => getComputedStyle(e).opacity === '1') && parseFloat(document.querySelector('.hero').style.getPropertyValue('--py')) > 100));
   await p.screenshot({ path: 'mo-landing.png' });

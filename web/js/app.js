@@ -627,7 +627,7 @@
     'trade-journal'(el) { App.openTradeJournal(S.getTrade(el.dataset.id)); },
     'save-trade-journal'(form) { const id = form.dataset.id; if (!S.getTrade(id)) return U.closeModal(); const t = App.readTradeForm(form); if (t.setup) S.addTag('setups', t.setup); S.updateTrade(id, t); U.toast('Gespeichert', 'ok'); U.closeModal(); App.rerender(); },
   });
-  App.checkTiltAfterSave = function () { if (!S.settings.tiltWarnings) return; const res = C.tiltCheck(this.todayTrades(), { account: this.account(), dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); const w = res.warnings.find(x => x.severity === 'critical' || x.severity === 'high'); if (w) U.toast('⚠ ' + w.title, 'err'); };
+  App.checkTiltAfterSave = function () { if (!S.settings.tiltWarnings) return; const res = C.tiltCheck(this.todayTrades(), { account: this.account(), dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); const w = res.warnings.find(x => x.severity === 'critical' || x.severity === 'high'); if (w) U.toast(w.title, 'err'); };
 
   /* ---------- Session & Check-in ---------- */
   App.openSessionStart = function () {

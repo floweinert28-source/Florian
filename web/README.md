@@ -82,6 +82,12 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Barrierefreiheit enthält die Erklärung zur Barrierefreiheit (Ziel WCAG 2.2 AA, teilweise erfüllt, bekannte Grenzen, Rückmeldung
   über das Kontaktformular; Stand-Datum bei größeren Änderungen anpassen). News und Coach zeigen beim Laden Platzhalter in der
   Form des Inhalts statt eines Kreisels. Texte in den Einstellungen nennen keine Variablennamen oder Dateipfade. Test: `e2e/formtest.js`.
+- **Ohne typische KI-Merkmale** (Design-Prompt, Abschnitt 12): keine kleinen Großbuchstaben-Labels über Überschriften (Labels in
+  normaler Schreibweise, gedämpft), kein Einblenden beim Scrollen (`Motion.scan` ist leer, Inhalte sind sofort da; Seitenwechsel
+  und Dialoge behalten ihre kurzen Übergänge), kein Milchglas (Kopfzeile und Dialog-Hintergrund mit voller Fläche), keine farbigen
+  Ränder links (Zitate im Notebook und Replay-Ergebnis mit ruhigem Rahmen), keine Emojis in Ordnernamen der Beispieldaten (alte
+  Namen „📈 Strategie“/„💡 Ideen“ werden beim Start umbenannt, eigene Ordner bleiben) und keine Warnzeichen im Text. Die Serie
+  zeigt ihre Stufen ohne Farbverlauf und Glühen. Bewusst erhalten (eigene Welten): Zertifikat, Friedhof und Ruhepunkt.
 - **Fehlermeldungen in Alltagssprache** (`U.friendly(fehler, bereich)` in ui.js): Mentor, Sprachnotizen, Coach und News zeigen nie
   Statuscodes, Server-Texte mit Technik-Namen, Fehlerklassen oder Stacktraces, sondern was passiert ist und was man tun kann
   (keine Verbindung, Zugang abgelehnt, Server noch nicht eingerichtet, Tageslimit, Server-Problem). Status, Code und Server-Text

@@ -31,7 +31,7 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
     await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(900);
     const below = await p.evaluate(() => [...document.querySelectorAll('#content .rv')].length);
     await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)); await p.waitForTimeout(1200);
-    ok('Unterhalb des Fensters: blendet beim Reinscrollen ein', below > 0 && (await p.evaluate(() => document.querySelectorAll('#content .rv').length)) === 0, `vorher ${below}`);
+    ok('Unterhalb des Fensters: kein Einblenden beim Scrollen, alles sofort da', below === 0 && (await p.evaluate(() => document.querySelectorAll('#content .rv').length)) === 0, `vorher ${below}`);
     /* Wechsel innerhalb einer Seite: Menü/Reiter und Kopfreihe stehen still, nur der Teil darunter blendet (nicht aus ganz unsichtbar) */
     const inPage = async (start, sel, still, moving) => { await p.evaluate(h => { location.hash = h; }, start); await p.waitForTimeout(800); await p.click(sel); await p.waitForTimeout(40);
       return p.evaluate(([still, moving]) => { const an = q => { const e = document.querySelector(q); return e ? getComputedStyle(e).animationName : 'fehlt'; }; return { still: still.map(an), moving: moving.map(an), from: (() => { for (const sh of document.styleSheets) { try { for (const r of sh.cssRules) if (r.name === 'swap-in') return r.cssRules[0].style.opacity; } catch (e) { return 'n/a'; } } return null; })() }; }, [still, moving]); };

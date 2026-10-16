@@ -1952,4 +1952,7 @@ I18N.add('hi', {
   "Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen, wenn er dafür eingerichtet ist.": "विश्लेषण (भावना, सेटअप, गलती टैग, सारांश) इसी सर्वर से होता है। ट्रांसक्रिप्ट ब्राउज़र में बनता है; बिना वाक् पहचान वाले ब्राउज़र के लिए सर्वर, अगर उसके लिए सेट है, एक ट्रांसक्रिप्शन सेवा इस्तेमाल कर सकता है।",
   "Auf dem Server ist noch kein E-Mail-Versand eingerichtet. Die Adresse wird gespeichert, Mails gehen aber erst raus, wenn der Versand eingerichtet ist.": "सर्वर पर अभी ईमेल भेजना सेट नहीं है। पता सहेजा जाता है, लेकिन ईमेल तभी जाएँगे जब भेजना सेट हो जाएगा।",
   "Termine werden geladen": "इवेंट लोड हो रहे हैं",
+  "z. B. Strategie": "जैसे: रणनीति",
+  "Ideen": "विचार",
+  "Strategie": "रणनीति",
 });

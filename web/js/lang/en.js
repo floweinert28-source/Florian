@@ -1860,4 +1860,7 @@ I18N.add('en', {
   "Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen, wenn er dafür eingerichtet ist.": "Analysis (emotion, setup, mistake tags, summary) runs through this server. The transcript is created in the browser; for browsers without speech recognition, the server can use a transcription service if it is set up for it.",
   "Auf dem Server ist noch kein E-Mail-Versand eingerichtet. Die Adresse wird gespeichert, Mails gehen aber erst raus, wenn der Versand eingerichtet ist.": "Email sending is not set up on the server yet. The address is saved, but emails will only go out once sending is set up.",
   "Termine werden geladen": "Loading events",
+  "z. B. Strategie": "e.g. Strategy",
+  "Ideen": "Ideas",
+  "Strategie": "Strategy",
 });

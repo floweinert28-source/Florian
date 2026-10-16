@@ -1952,4 +1952,7 @@ I18N.add('zh', {
   "Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen, wenn er dafür eingerichtet ist.": "分析（情绪、形态、错误标签、摘要）通过此服务器进行。文字记录在浏览器中生成；对于不支持语音识别的浏览器，如果服务器已配置，可使用转写服务。",
   "Auf dem Server ist noch kein E-Mail-Versand eingerichtet. Die Adresse wird gespeichert, Mails gehen aber erst raus, wenn der Versand eingerichtet ist.": "服务器尚未配置邮件发送。地址会被保存，但要等配置好发送后才会发出邮件。",
   "Termine werden geladen": "正在加载事件",
+  "z. B. Strategie": "例如：策略",
+  "Ideen": "想法",
+  "Strategie": "策略",
 });

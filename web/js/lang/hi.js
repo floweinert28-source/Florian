@@ -2050,4 +2050,13 @@ I18N.add('hi', {
   "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "इसके लिए तुम्हें एंट्री से पहले के स्क्रीनशॉट वाले बंद ट्रेड चाहिए।",
   "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "किसी बंद ट्रेड में एंट्री से पहले का स्क्रीनशॉट जोड़ो, फिर तुम उसे यहाँ बिना नतीजा देखे आँक सकते हो।",
   "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "ब्लाइंड रिप्ले में तुम्हारी सही अनुमान दर, पिछले राउंड और नया राउंड शुरू करना।",
+  "Das ist zugleich dein Check-in für heute.": "यही आज के लिए तुम्हारा चेक-इन भी है।",
+  "Wie viele Stunden hast du geschlafen?": "तुम कितने घंटे सोए?",
+  "sehr gestresst": "बहुत तनाव में",
+  "Vorbelegt aus deinem Regelwerk im Schatten-Ich. Was du hier änderst, gilt nur für heute.": "शैडो-सेल्फ में तुम्हारे नियमों से पहले से भरा गया। यहाँ जो बदलोगे, वह सिर्फ़ आज के लिए है।",
+  "{0} % vom Konto": "खाते का {0} %",
+  "ich {0} Verluste in Folge habe": "मेरे लगातार {0} नुकसान हो जाएँ",
+  "Die Pause läuft noch.": "विराम अभी चल रहा है।",
+  "Die 15 Minuten sind noch nicht um. Trotzdem speichern und schließen?": "15 मिनट अभी पूरे नहीं हुए। फिर भी सेव करके बंद करें?",
+  "Zur Übersicht": "ओवरव्यू पर वापस",
 });

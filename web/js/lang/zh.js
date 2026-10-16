@@ -2050,4 +2050,13 @@ I18N.add('zh', {
   "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "为此你需要带有入场前截图的已平仓交易。",
   "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "为一笔已平仓交易添加入场前截图，然后就可以在这里盲评它。",
   "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "你在盲测回放中的命中率、最近几轮以及开始新一轮。",
+  "Das ist zugleich dein Check-in für heute.": "这同时也是你今天的签到。",
+  "Wie viele Stunden hast du geschlafen?": "你睡了几个小时？",
+  "sehr gestresst": "压力很大",
+  "Vorbelegt aus deinem Regelwerk im Schatten-Ich. Was du hier änderst, gilt nur für heute.": "已根据你在影子自我中的规则预填。这里的修改只对今天有效。",
+  "{0} % vom Konto": "账户的 {0} %",
+  "ich {0} Verluste in Folge habe": "我连续亏损 {0} 次",
+  "Die Pause läuft noch.": "暂停还在进行中。",
+  "Die 15 Minuten sind noch nicht um. Trotzdem speichern und schließen?": "15 分钟还没到。仍然保存并关闭吗？",
+  "Zur Übersicht": "返回概览",
 });

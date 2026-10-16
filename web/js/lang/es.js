@@ -2004,4 +2004,13 @@ I18N.add('es', {
   "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "Para ello necesitas operaciones cerradas con una captura previa a la entrada.",
   "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "Añade a una operación cerrada una captura previa a la entrada y podrás evaluarla a ciegas aquí.",
   "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "Tu tasa de aciertos en el Blind Replay, las últimas rondas y el inicio de una nueva ronda.",
+  "Das ist zugleich dein Check-in für heute.": "Esto cuenta también como tu check-in de hoy.",
+  "Wie viele Stunden hast du geschlafen?": "¿Cuántas horas has dormido?",
+  "sehr gestresst": "muy estresado",
+  "Vorbelegt aus deinem Regelwerk im Schatten-Ich. Was du hier änderst, gilt nur für heute.": "Rellenado con tu reglamento del Yo en la Sombra. Lo que cambies aquí solo vale para hoy.",
+  "{0} % vom Konto": "{0} % de la cuenta",
+  "ich {0} Verluste in Folge habe": "tengo {0} pérdidas seguidas",
+  "Die Pause läuft noch.": "La pausa sigue en marcha.",
+  "Die 15 Minuten sind noch nicht um. Trotzdem speichern und schließen?": "Los 15 minutos aún no han pasado. ¿Guardar y cerrar de todos modos?",
+  "Zur Übersicht": "Volver al resumen",
 });

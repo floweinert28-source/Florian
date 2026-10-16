@@ -1958,4 +1958,13 @@ I18N.add('en', {
   "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "For this you need closed trades with a screenshot taken before entry.",
   "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "Add a screenshot taken before entry to a closed trade, then you can judge it blind here.",
   "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "Your hit rate in Blind Replay, the latest rounds and the start of a new round.",
+  "Das ist zugleich dein Check-in für heute.": "This also counts as your check-in for today.",
+  "Wie viele Stunden hast du geschlafen?": "How many hours did you sleep?",
+  "sehr gestresst": "very stressed",
+  "Vorbelegt aus deinem Regelwerk im Schatten-Ich. Was du hier änderst, gilt nur für heute.": "Prefilled from your rule set in Shadow Self. Changes here apply to today only.",
+  "{0} % vom Konto": "{0} % of account",
+  "ich {0} Verluste in Folge habe": "I have {0} losses in a row",
+  "Die Pause läuft noch.": "The break is still running.",
+  "Die 15 Minuten sind noch nicht um. Trotzdem speichern und schließen?": "The 15 minutes are not over yet. Save and close anyway?",
+  "Zur Übersicht": "Back to overview",
 });

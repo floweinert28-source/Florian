@@ -159,15 +159,19 @@ function closeHelp() { U.closeModal(); }
 /* ================================================================
    BAUSTEINE
    ================================================================ */
-function slider(label, obj, key, lo, hi, onChange) {
+/* Regler: Standard 1–10; opts { min, max, step, unit } für den Check-in (Schlaf in Stunden, Stress und Stimmung 1–5) */
+function slider(label, obj, key, lo, hi, onChange, opts) {
+  opts = opts || {};
+  var min = opts.min != null ? opts.min : 1, max = opts.max != null ? opts.max : 10, step = opts.step || 1;
+  var show = function (v) { return opts.unit ? fmt.num(v, v % 1 ? 1 : 0) + ' ' + opts.unit : String(v); };
   var id = uid('r');
-  var out = h('output', { class: 'rp-range-val', for: id }, String(obj[key]));
-  var inp = h('input', { type: 'range', id: id, min: '1', max: '10', step: '1' });
+  var out = h('output', { class: 'rp-range-val', for: id }, show(obj[key]));
+  var inp = h('input', { type: 'range', id: id, min: String(min), max: String(max), step: String(step) });
   inp.value = String(obj[key]);
-  var fill = function () { inp.style.setProperty('--p', ((Number(inp.value) - 1) / 9 * 100) + '%'); };
+  var fill = function () { inp.style.setProperty('--p', ((Number(inp.value) - min) / (max - min) * 100) + '%'); };
   fill();
   inp.addEventListener('input', function () {
-    obj[key] = Number(inp.value); out.textContent = inp.value; fill();
+    obj[key] = Number(inp.value); out.textContent = show(obj[key]); fill();
     if (onChange) onChange();
   });
   return h('div', { class: 'rp-field rp-slider' },
@@ -312,7 +316,8 @@ function breather(container, segments) {
     say(nextEl, '');
     segEl.dataset.raw = allNames; segEl.textContent = allNames;
     metaEl.textContent = 'Geh weiter, wenn du bereit bist, oder mach noch eine Runde.';
-    btn.textContent = 'Noch einmal';
+    btn.textContent = 'Noch einmal'; btn.className = 'rp-btn rp-ghost'; tempoRow.style.visibility = '';
+    box.dispatchEvent(new CustomEvent('rp:done', { bubbles: true })); /* „Weiter“ wird jetzt der Hauptknopf */
     place(0.5, 3);
     seqItems.forEach(function (it) { it.classList.remove('rp-on'); it.classList.add('rp-done'); it.querySelector('i').style.width = '100%'; });
   }
@@ -348,11 +353,12 @@ function breather(container, segments) {
       segEl.dataset.raw = segments[0].name; segEl.textContent = segments[0].name; buildSeq();
       wait('lead', LEAD, 0); timer = setInterval(tick, 200);
     }
-    tempoBtns.forEach(function (x) { x.disabled = state === 'running'; });
+    tempoRow.style.visibility = state === 'running' ? 'hidden' : ''; /* nur während der Atmung verborgen, der Platz bleibt */
   });
   buildSeq(); place(0, 0);
   onCleanup(function () { clearInterval(timer); });
-  container.appendChild(h('div', { class: 'rp-breath' }, segEl, wrap, phaseEl, hintEl, metaEl, seqEl, nextEl, h('div', { class: 'rp-controls' }, btn), tempoRow));
+  var box = h('div', { class: 'rp-breath' }, segEl, wrap, phaseEl, hintEl, metaEl, seqEl, nextEl, h('div', { class: 'rp-controls' }, btn), tempoRow);
+  container.appendChild(box);
 }
 
 /* Countdown (Visualisierung, Pause): Zeit im Ring, der Ring leert sich mit der Zeit */
@@ -365,35 +371,40 @@ function countdown(container, secs, opts) {
   var status = h('p', { class: 'rp-muted rp-small', 'aria-live': 'polite' }, '');
   var btn = h('button', { type: 'button', class: 'rp-btn rp-primary' }, opts.startLabel);
   function draw() { prog.style.strokeDashoffset = (RING_C * (1 - Math.max(0, left) / secs)).toFixed(2); }
+  var box = null;
+  function setState(s) { state = s; if (box) box.dataset.state = s; }
   btn.addEventListener('click', function () {
     if (state === 'running') {
-      clearInterval(timer); state = 'paused'; btn.textContent = 'Fortsetzen';
+      clearInterval(timer); setState('paused'); btn.textContent = 'Fortsetzen'; if (opts.quietRun) btn.className = 'rp-btn rp-primary';
       return;
     }
     if (state === 'done') { left = secs; status.textContent = ''; draw(); }
-    state = 'running'; btn.textContent = 'Pausieren';
+    setState('running'); btn.textContent = 'Pausieren'; if (opts.quietRun) btn.className = 'rp-btn rp-ghost';
     if (opts.onStart) opts.onStart();
     last = performance.now();
     timer = setInterval(function () {
       var now = performance.now();
       left -= (now - last) / 1000; last = now;
       if (left <= 0) {
-        left = 0; clearInterval(timer); state = 'done';
+        left = 0; clearInterval(timer); setState('done');
         big.textContent = fmtClock(0); status.textContent = opts.doneText; draw();
-        btn.textContent = 'Noch einmal';
+        btn.textContent = 'Noch einmal'; btn.className = 'rp-btn rp-ghost';
+        box.dispatchEvent(new CustomEvent('rp:done', { bubbles: true }));
         return;
       }
       big.textContent = fmtClock(Math.ceil(left)); draw();
     }, 250);
   });
   onCleanup(function () { clearInterval(timer); });
-  container.appendChild(h('div', { class: 'rp-timer' }, wrap, status, h('div', { class: 'rp-controls' }, btn)));
+  box = h('div', { class: 'rp-timer', 'data-state': 'idle' }, wrap, status, h('div', { class: 'rp-controls' }, btn));
+  container.appendChild(box);
 }
 
 function ampelStatus(c) {
   var k = c.koerper;
-  if (c.schlaf <= 3 || c.stress >= 8 || c.stimmung <= 2) return 'rot';
-  if (c.schlaf <= 5 || c.stress >= 6 || c.stimmung <= 4 ||
+  /* Skalen wie im Tages-Check-in: Schlaf in Stunden, Stress und Stimmung 1–5 */
+  if (c.schlaf < 4.5 || c.stress >= 5 || c.stimmung <= 1) return 'rot';
+  if (c.schlaf < 6 || c.stress >= 4 || c.stimmung <= 2 ||
       ['angespannt', 'unruhig', 'muede', 'gereizt'].some(function (x) { return k.indexOf(x) >= 0; })) return 'gelb';
   return 'gruen';
 }
@@ -494,10 +505,10 @@ var FLOWS = {
         var box = h('div', { class: 'rp-ampel', 'aria-live': 'polite' });
         var upd = function () { renderAmpel(box); };
         el.append(
-          guide('Ehrlich einschätzen, nicht schönreden. Dein Zustand entscheidet mit, wie gut deine Entscheidungen heute werden.'),
-          slider('Wie gut hast du geschlafen?', c, 'schlaf', 'kaum', 'ausgeruht', upd),
-          slider('Wie gestresst bist du?', c, 'stress', 'entspannt', 'unter Strom', upd),
-          slider('Wie ist deine Stimmung?', c, 'stimmung', 'am Boden', 'sehr gut', upd),
+          guide('Ehrlich einschätzen, nicht schönreden. Dein Zustand entscheidet mit, wie gut deine Entscheidungen heute werden.', 'Das ist zugleich dein Check-in für heute.'),
+          slider('Wie viele Stunden hast du geschlafen?', c, 'schlaf', '0 h', '14 h', upd, { min: 0, max: 14, step: 0.5, unit: 'h' }),
+          slider('Wie gestresst bist du?', c, 'stress', 'entspannt', 'sehr gestresst', upd, { min: 1, max: 5 }),
+          slider('Wie ist deine Stimmung?', c, 'stimmung', 'schlecht', 'sehr gut', upd, { min: 1, max: 5 }),
           chipField('Was sagt dein Körper?', KOERPER,
             function (v) { return c.koerper.indexOf(v) >= 0; },
             function (v) { toggleIn(c.koerper, v); upd(); }),
@@ -512,6 +523,7 @@ var FLOWS = {
         var r = session.regeln;
         el.append(
           guide('Leg deine Grenzen jetzt fest, solange du ruhig bist. Im Stress entscheidest du schlechter. Dann gilt, was hier steht.'),
+          session.regelnVorbelegt ? h('p', { class: 'rp-small rp-muted' }, 'Vorbelegt aus deinem Regelwerk im Schatten-Ich. Was du hier änderst, gilt nur für heute.') : '',
           session.ampel !== 'gruen'
             ? h('div', { class: 'rp-callout' }, h('p', null, 'Deine Ampel steht heute auf ' + AMPEL[session.ampel].label + '. Setz deine Limits bewusst niedriger als an einem normalen Tag.'))
             : '',
@@ -632,7 +644,7 @@ var FLOWS = {
           guide('Das Gefühl ist Information, kein Befehl. Du darfst es spüren, ohne ihm zu gehorchen.'));
         var pause = h('section', { class: 'rp-pause' }, h('h3', { class: 'rp-sub' }, 'Deine Pause: 15 Minuten kein neuer Trade.'));
         countdown(pause, 15 * 60, {
-          startLabel: 'Pause starten',
+          startLabel: 'Pause starten', quietRun: true,
           doneText: 'Die Pause ist vorbei. Entscheide jetzt in Ruhe, ob du heute weitermachst.',
           onStart: function () { session.pauseGestartet = true; }
         });
@@ -663,15 +675,35 @@ var ICON = {
 /* ================================================================
    SESSION UND NAVIGATION
    ================================================================ */
+/* Tagesregeln aus dem Regelwerk im Schatten-Ich vorbelegen (nur eingeschaltete Regeln); Änderungen gelten nur für diese Session */
+function regelnAusRegelwerk() {
+  var out = { maxVerlust: '', maxTrades: '', stoppWenn: '' };
+  var r = root.ShadowScreen && root.ShadowScreen.rules ? root.ShadowScreen.rules() : null; if (!r) return out;
+  var t = function (s, v) { return root.I18N ? root.I18N.t(s, v) : s.replace(/\{(\d+)\}/g, function (_, i) { return v[i]; }); };
+  var num = function (v) { return fmt.num(v, v % 1 ? 1 : 0); };
+  var dl = r.dailyLoss, v = dl && Number(dl.value);
+  if (dl && dl.on && dl.value !== '' && isFinite(v) && v > 0) out.maxVerlust = dl.unit === 'pct' ? t('{0} % vom Konto', [num(v)]) : dl.unit === 'money' ? fmt.cur(v, { money: true }) : num(v) + 'R';
+  if (r.maxTrades && r.maxTrades.on && Number(r.maxTrades.value) > 0) out.maxTrades = String(r.maxTrades.value);
+  if (r.lossStreak && r.lossStreak.on && Number(r.lossStreak.value) > 0) out.stoppWenn = t('ich {0} Verluste in Folge habe', [r.lossStreak.value]);
+  return out;
+}
+/* der heutige Check-in (Tagesansicht, Hinweispunkt, Fortschritt) ist derselbe wie Schritt 2 „Vor dem Trading“ */
+function todayCheckIn() { return (S.day(C.dayKey(new Date())) || {}).checkIn || {}; }
+function saveCheckIn() {
+  var c = session.checkin, k = C.dayKey(new Date()), old = todayCheckIn();
+  S.setDay(k, { checkIn: Object.assign({}, old, { sleep: c.schlaf, stress: c.stress, mood: c.stimmung, createdAt: old.createdAt || new Date().toISOString() }) });
+}
 function newSession(typ) {
+  var ci = typ === 'vor' ? todayCheckIn() : {};
+  var regeln = typ === 'vor' ? regelnAusRegelwerk() : { maxVerlust: '', maxTrades: '', stoppWenn: '' };
   return {
     typ: typ,
     gestartet: new Date().toISOString(),
     idx: { vor: rnd(VERSE.vor.length), nach: rnd(VERSE.nach.length) },
     lidx: { vor: rnd(LEIT.vor.length), nach: rnd(LEIT.nach.length) },
-    checkin: { schlaf: 6, stress: 5, stimmung: 6, koerper: [] },
+    checkin: { schlaf: ci.sleep != null ? Number(ci.sleep) : 7, stress: Number(ci.stress) || 3, stimmung: Number(ci.mood) || 3, koerper: [], skala: 'tag' },
     ampel: 'gruen',
-    regeln: { maxVerlust: '', maxTrades: '', stoppWenn: '' },
+    regeln: regeln, regelnVorbelegt: !!(regeln.maxVerlust || regeln.maxTrades || regeln.stoppWenn),
     ergebnis: null, aufgewuehlt: 5, regelnEingehalten: null,
     gutGemacht: '', abweichung: '', mitnehmen: '',
     examen: { dank: '', frei: '', hand: '' },
@@ -725,7 +757,7 @@ function start(key) {
 }
 
 function renderStep() {
-  cleanup(); homeBtn(true);
+  cleanup(); homeBtn(stepIdx > 0); /* in Schritt 1 führt „Abbrechen“ unten zur Übersicht, oben kein zweiter Ausstieg */
   mode = 'step';
   var flow = FLOWS[flowKey], step = flow.steps[stepIdx], n = flow.steps.length;
   var isLast = stepIdx === n - 1;
@@ -733,13 +765,18 @@ function renderStep() {
   var heading = typeof step.heading === 'function' ? step.heading() : step.heading;
   var title = h('h2', { class: 'rp-title', tabindex: '-1' }, heading);
   var content = h('div', { class: 'rp-content' });
-  var back = h('button', { type: 'button', class: 'rp-btn rp-ghost' }, stepIdx === 0 ? 'Abbrechen' : 'Zurück');
-  var next = h('button', { type: 'button', class: 'rp-btn rp-primary' }, isLast ? flow.finish : 'Weiter');
+  var back = h('button', { type: 'button', class: 'rp-btn rp-ghost rp-back' }, stepIdx === 0 ? 'Abbrechen' : 'Zurück');
+  var next = h('button', { type: 'button', class: 'rp-btn rp-primary rp-go' }, isLast ? flow.finish : 'Weiter');
   back.addEventListener('click', function () {
     if (stepIdx === 0) { renderHome().focus({ preventScroll: true }); }
     else { stepIdx -= 1; renderStep(); }
   });
   next.addEventListener('click', function () {
+    if (flowKey === 'vor' && stepIdx === 1) saveCheckIn(); /* zählt als Check-in des Tages */
+    if (isLast && content.querySelector('.rp-pause .rp-timer[data-state="running"]')) {
+      U.confirmModal('Die Pause läuft noch.', 'Die 15 Minuten sind noch nicht um. Trotzdem speichern und schließen?', { ok: flow.finish }).then(function (yes) { if (yes) finish(next); });
+      return;
+    }
     if (isLast) finish(next); else { stepIdx += 1; renderStep(); }
   });
   stage.replaceChildren(
@@ -748,6 +785,11 @@ function renderStep() {
       h('div', { class: 'rp-progress', 'aria-hidden': 'true' }, flow.steps.map(function (_, i) { return h('i', { class: i <= stepIdx ? 'rp-on' : '' }); }))),
     title, content, h('div', { class: 'rp-nav' }, back, next));
   step.render(content);
+  /* Schritte mit Übung (Atmung, Countdown): erst die Übung ist der Hauptknopf, „Weiter“ wird es nach ihrem Ende */
+  if (content.querySelector('.rp-breath, .rp-timer')) {
+    next.className = 'rp-btn rp-go';
+    content.addEventListener('rp:done', function () { next.className = 'rp-btn rp-primary rp-go'; });
+  }
   /* Schritte ohne Atmung liegen offen auf der Seite, nur die Atemschritte haben eine Bühne */
   content.classList.toggle('rp-open', !content.querySelector('.rp-breath'));
   if (content.querySelector('.rp-breath')) {
@@ -778,18 +820,17 @@ function finish(btn) {
 }
 
 function renderDone() {
-  cleanup(); homeBtn(true);
+  cleanup(); homeBtn(false); /* unten steht „Zur Übersicht“ */
   mode = 'done';
   var title = h('h2', { class: 'rp-title', tabindex: '-1' }, 'Gespeichert.');
-  var home = h('button', { type: 'button', class: 'rp-btn rp-ghost' }, 'Zur Übersicht');
+  var mentor = typeof CONFIG.onMentor === 'function' && root.Mentor && typeof root.Mentor.configured === 'function' && root.Mentor.configured();
+  var home = h('button', { type: 'button', class: 'rp-btn rp-home ' + (mentor ? 'rp-ghost' : 'rp-primary') }, 'Zur Übersicht');
   home.addEventListener('click', function () { renderHome().focus({ preventScroll: true }); });
   stage.replaceChildren(
     title,
     h('p', { class: 'rp-lead' }, DONE[flowKey]),
     h('div', { class: 'rp-nav rp-solo' }, home,
-      typeof CONFIG.onMentor === 'function'
-        ? h('button', { type: 'button', class: 'rp-btn rp-primary', onclick: CONFIG.onMentor }, 'Mit dem Mentor besprechen')
-        : null));
+      mentor ? h('button', { type: 'button', class: 'rp-btn rp-primary', onclick: CONFIG.onMentor }, 'Mit dem Mentor besprechen') : null));
   window.scrollTo(0, 0);
   title.focus({ preventScroll: true });
 }

@@ -2001,4 +2001,13 @@ I18N.add('pt', {
   "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "Para isso você precisa de trades fechados com uma captura antes da entrada.",
   "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "Adicione a um trade fechado uma captura antes da entrada e você poderá avaliá-lo às cegas aqui.",
   "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "Sua taxa de acertos no Blind Replay, as últimas rodadas e o início de uma nova rodada.",
+  "Das ist zugleich dein Check-in für heute.": "Isso também conta como seu check-in de hoje.",
+  "Wie viele Stunden hast du geschlafen?": "Quantas horas você dormiu?",
+  "sehr gestresst": "muito estressado",
+  "Vorbelegt aus deinem Regelwerk im Schatten-Ich. Was du hier änderst, gilt nur für heute.": "Pré-preenchido com suas regras do Eu Sombra. O que você mudar aqui vale só para hoje.",
+  "{0} % vom Konto": "{0} % da conta",
+  "ich {0} Verluste in Folge habe": "eu tiver {0} perdas seguidas",
+  "Die Pause läuft noch.": "A pausa ainda está em andamento.",
+  "Die 15 Minuten sind noch nicht um. Trotzdem speichern und schließen?": "Os 15 minutos ainda não acabaram. Salvar e fechar mesmo assim?",
+  "Zur Übersicht": "Voltar à visão geral",
 });

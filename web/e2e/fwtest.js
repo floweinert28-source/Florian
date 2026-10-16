@@ -42,7 +42,7 @@ const FEAT = ['schatten_ich', 'blind_replay', 'prop_konten', 'ruhepunkt', 'mento
   ok(await p.evaluate(() => location.hash === '#/replay' && /Trade 1 von 10/.test(document.getElementById('content').textContent) && !!document.querySelector('.replay-shot img')), 'Session starten: Replay öffnet direkt mit Trade 1 von 10');
   await p.evaluate(() => { App.state.replay.session = null; location.hash = '#/dashboard'; }); await p.waitForTimeout(900);
   await p.evaluate(() => document.querySelector('.fw-rp [data-action="rp-open"][data-flow="vor"]').click()); await p.waitForTimeout(1500);
-  ok(await p.evaluate(() => location.hash === '#/ruhepunkt' && !!Ruhepunkt.session() && !document.getElementById('rp-homebtn').hidden), 'Ruhepunkt „Vor dem Trading“: Ablauf startet direkt');
+  ok(await p.evaluate(() => location.hash === '#/ruhepunkt' && !!Ruhepunkt.session() && /Schritt 1 von/.test(document.querySelector('.rp-where').textContent)), 'Ruhepunkt „Vor dem Trading“: Ablauf startet direkt');
   await p.evaluate(() => { location.hash = '#/dashboard'; }); await p.waitForTimeout(900);
   ok(await p.evaluate(() => /Mentor noch nicht eingerichtet/.test(document.getElementById('content').textContent) && !!document.querySelector('.dash-main a[href="#/mentor"].btn')), 'Mentor ohne Server: Karte sagt „noch nicht eingerichtet“ mit Einrichten-Knopf');
   await p.evaluate(() => { Store.setSetting('mentor', { url: 'http://127.0.0.1:9', token: '' }); App.rerender(false); }); await p.waitForTimeout(500); /* Testadresse: niemand antwortet, die Seite bleibt bedienbar */

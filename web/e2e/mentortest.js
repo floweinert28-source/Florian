@@ -44,7 +44,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.click('[data-action=mentor-clear]'); await p.waitForTimeout(200); await p.click('.modal .btn.danger, .modal button.primary'); await p.waitForTimeout(500);
   ok('Verlauf löschen', calls.some(c => c.method === 'DELETE') && (await p.$$('.mentor-log .msg')).length === 0 && !!(await p.$('.mentor-intro')));
   /* Ruhepunkt → Mentor */
-  await p.evaluate(() => { App.state.mentor.draft = ''; location.hash = '#/ruhepunkt'; }); await p.waitForTimeout(500); await p.click('.rp-choice:nth-child(3)'); await p.waitForTimeout(200); await p.click('.rp-nav .rp-primary'); await p.waitForTimeout(200); await p.click('.rp-chip:has-text("Frust")'); await p.click('.rp-nav .rp-primary'); await p.waitForTimeout(500);
+  await p.evaluate(() => { App.state.mentor.draft = ''; location.hash = '#/ruhepunkt'; }); await p.waitForTimeout(500); await p.click('.rp-choice:nth-child(3)'); await p.waitForTimeout(200); await p.click('.rp-nav .rp-go'); await p.waitForTimeout(200); await p.click('.rp-chip:has-text("Frust")'); await p.click('.rp-nav .rp-go'); await p.waitForTimeout(500);
   const mentorBtn = await p.$('.rp-nav .rp-primary'); ok('Ruhepunkt: „Mit dem Mentor besprechen“', !!mentorBtn && (await mentorBtn.textContent()) === 'Mit dem Mentor besprechen');
   await mentorBtn.click(); await p.waitForTimeout(700);
   ok('Mentor öffnet sich mit vorbereitetem Entwurf', (await p.evaluate(() => location.hash)) === '#/mentor' && (await p.inputValue('#mentor-in')).includes('Akut-Reset') && (await p.inputValue('#mentor-in')).includes('Frust'));

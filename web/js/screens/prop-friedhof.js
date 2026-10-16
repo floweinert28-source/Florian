@@ -168,8 +168,9 @@
   });
   function tabFriedhof() {
     const { g, byId, accs } = graveyard();
-    if (!g.n) return U.empty('shield', 'Noch kein Konto auf dem Friedhof', 'Gut so. Konten, die du im Cockpit über „Als geplatzt markieren“ beendest, landen hier als Grabstein, mit Ursache, auslösendem Trade und den Mustern dahinter.');
-    return `${tiles(g)}${patternsCard(g)}<div class="grid prop-graves">${g.tombstones.map(t => grave(t, byId, accs)).join('')}</div>`;
+    if (!accs.length) return PS.emptyAccounts(); /* ohne Konten: derselbe Satz und Knopf wie in der Übersicht */
+    if (!g.n) return U.empty('shield', 'Noch kein Konto auf dem Friedhof', 'Gut so. Konten, die du in der Übersicht über „Als geplatzt markieren“ beendest, landen hier als Grabstein, mit Ursache, auslösendem Trade und den Mustern dahinter.');
+    return `${tiles(g)}${g.n >= 2 ? patternsCard(g) : ''}<div class="grid prop-graves">${g.tombstones.map(t => grave(t, byId, accs)).join('')}</div>`;
   }
 
   PS.register('friedhof', 'Friedhof', tabFriedhof);

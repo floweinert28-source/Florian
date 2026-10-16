@@ -44,9 +44,10 @@
   /* leeres Diagramm als Skeleton: blasse Achsen-Platzhalter, feine Gitterlinien, eine angedeutete Kurve mit leichtem Schimmer, mittig „Noch keine Daten“ */
   const SKEL_LINE = 'M0 78 C 30 74, 48 60, 80 62 S 130 40, 160 46 S 215 66, 245 50 S 300 22, 330 28 S 380 18, 400 12';
   const chartEmpty = el => { el.innerHTML = `<div class="chart-skel" role="img" aria-label="${NO_DATA}"><div class="cs-y">${'<i></i>'.repeat(5)}</div><div class="cs-plot"><div class="cs-grid">${'<i></i>'.repeat(5)}</div><svg viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true"><path class="cs-area" d="${SKEL_LINE} L400 100 L0 100 Z"/><path class="cs-line" d="${SKEL_LINE}" vector-effect="non-scaling-stroke"/></svg><span class="cs-note">${NO_DATA}</span></div><div class="cs-x">${'<i></i>'.repeat(5)}</div></div>`; };
-  function bindHover(el, svg, n, xf, yf, tipFn) {
+  /* pick (optional): Anteil 0–1 über die Breite → Index; für Zeitachsen der nächste Punkt statt gleicher Abstände */
+  function bindHover(el, svg, n, xf, yf, tipFn, pick) {
     const hover = svg.querySelector('.hover'), hit = svg.querySelector('.hit'); if (!hover || !hit) return;
-    const show = e => { const r = hit.getBoundingClientRect(); const cx = e.touches ? e.touches[0].clientX : e.clientX; const i = C.clamp(Math.round((cx - r.left) / r.width * (n - 1)), 0, n - 1); hover.classList.add('on'); const x = xf(i); const ln = hover.querySelector('line'); ln.setAttribute('x1', x); ln.setAttribute('x2', x); const c = hover.querySelector('circle'); if (c) { const y = yf(i); if (y == null) c.style.display = 'none'; else { c.style.display = ''; c.setAttribute('cx', x); c.setAttribute('cy', y); } } U.tipAt(el, x, yf(i) == null ? 20 : yf(i), tipFn(i)); };
+    const show = e => { const r = hit.getBoundingClientRect(); const cx = e.touches ? e.touches[0].clientX : e.clientX; const f = C.clamp((cx - r.left) / r.width, 0, 1); const i = pick ? pick(f) : C.clamp(Math.round(f * (n - 1)), 0, n - 1); hover.classList.add('on'); const x = xf(i); const ln = hover.querySelector('line'); ln.setAttribute('x1', x); ln.setAttribute('x2', x); const c = hover.querySelector('circle'); if (c) { const y = yf(i); if (y == null) c.style.display = 'none'; else { c.style.display = ''; c.setAttribute('cx', x); c.setAttribute('cy', y); } } U.tipAt(el, x, yf(i) == null ? 20 : yf(i), tipFn(i)); };
     hit.addEventListener('mousemove', show); hit.addEventListener('touchstart', show, { passive: true }); hit.addEventListener('touchmove', show, { passive: true });
     hit.addEventListener('mouseleave', () => { hover.classList.remove('on'); U.tipHide(); }); hit.addEventListener('touchend', () => { hover.classList.remove('on'); U.tipHide(); });
   }
@@ -60,9 +61,12 @@
     const scale = {};
     units.forEach((u, ui) => { const vals = series.filter(s => s.unit === u).flatMap(s => pts.map(p => p.v[s.key]).concat(s.type === 'bar' ? [0] : [])).filter(v => v != null && isFinite(v)); if (!vals.length) vals.push(0); const lo = Math.min(...vals), hi = Math.max(...vals); const ticks = ui < 2 ? U.niceTicks(lo, hi === lo ? lo + 1 : hi, 6) : []; scale[u] = { ticks, y0: Math.min(ticks.length ? ticks[0] : lo, lo), y1: Math.max(ticks.length ? ticks[ticks.length - 1] : hi, hi) }; });
     const ml = U.axisWidth(scale[u0].ticks.map(t => unitFmt(u0, t, true))), mr = u1 ? U.axisWidth(scale[u1].ticks.map(t => unitFmt(u1, t, true))) : 12, mt = 12, mb = 30; const iw = W - ml - mr, ih = H - mt - mb;
-    const n = pts.length; const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = (u, v) => mt + (scale[u].y1 - v) / (scale[u].y1 - scale[u].y0 || 1) * ih;
+    /* d.timeX: x nach echtem Datum statt gleicher Abstände; d.step: Treppe (Summen springen am Tag der Buchung), bewusst ohne Glättung */
+    const n = pts.length; const tx = d.timeX && n > 1 ? pts.map(p => +new Date(p.date)) : null; const t0 = tx ? Math.min(...tx) : 0, t1 = tx ? Math.max(...tx) : 0;
+    const x = i => n === 1 ? ml + iw / 2 : tx && t1 > t0 ? ml + (tx[i] - t0) / (t1 - t0) * iw : ml + i / (n - 1) * iw; const y = (u, v) => mt + (scale[u].y1 - v) / (scale[u].y1 - scale[u].y0 || 1) * ih;
+    const stepPath = r => `M${r[0][0].toFixed(1)},${r[0][1].toFixed(1)}` + r.slice(1).map(([px, py]) => `H${px.toFixed(1)}V${py.toFixed(1)}`).join('');
     /* Lücken (fehlende Werte) trennen die Linie; jedes Stück mit leicht gerundeten Ecken wie die anderen Kurven */
-    const path = s => { const runs = [[]]; pts.forEach((p, i) => { const v = p.v[s.key]; if (v == null || !isFinite(v)) { if (runs[runs.length - 1].length) runs.push([]); return; } runs[runs.length - 1].push([x(i), y(s.unit, v)]); }); return runs.filter(r => r.length).map(r => U.smooth(r)).join(''); };
+    const path = s => { const runs = [[]]; pts.forEach((p, i) => { const v = p.v[s.key]; if (v == null || !isFinite(v)) { if (runs[runs.length - 1].length) runs.push([]); return; } runs[runs.length - 1].push([x(i), y(s.unit, v)]); }); return runs.filter(r => r.length).map(r => d.step ? stepPath(r) : U.smooth(r)).join(''); };
     const bars = series.filter(s => s.type === 'bar'); const bw = Math.max(2, Math.min(14, iw / n * 0.6 / Math.max(1, bars.length)));
     const xt = U.xTicks(n, iw); const dots = n <= 120;
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${U.axisLeft(scale[u0].ticks, v => y(u0, v), ml, W, mr, v => unitFmt(u0, v, true))}
@@ -71,7 +75,7 @@
       ${series.filter(s => s.type !== 'bar').map(s => `<path d="${path(s)}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots ? pts.map((p, i) => { const v = p.v[s.key]; return v == null || !isFinite(v) ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(s.unit, v).toFixed(1)}" r="1.8" fill="${s.color}"/>`; }).join('') : ''}`).join('')}
       ${U.dateAxis(n, x, i => pts[i].date, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
-    bindHover(el, el.firstElementChild, n, x, () => null, i => U.tipTable(d.periodLabel ? d.periodLabel(pts[i].date) : fmt.weekdayLong(pts[i].date), series.map(s => [`<i class="dot" style="background:${s.color}"></i>${esc(s.label)}`, unitFmt(s.unit, pts[i].v[s.key])])));
+    bindHover(el, el.firstElementChild, n, x, () => null, i => U.tipTable(d.periodLabel ? d.periodLabel(pts[i].date) : fmt.weekdayLong(pts[i].date), series.map(s => [`<i class="dot" style="background:${s.color}"></i>${esc(s.label)}`, unitFmt(s.unit, pts[i].v[s.key])])), tx ? f => { const sx = ml + f * iw; let best = 0; for (let i = 1; i < n; i++) if (Math.abs(x(i) - sx) < Math.abs(x(best) - sx)) best = i; return best; } : null);
   };
   /* Punktdiagramm (Uhrzeit, Haltedauer): Achse links, Beschriftungen unten schräg */
   U.drawers.scatter = function (el, d, W, H) {

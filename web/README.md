@@ -391,17 +391,34 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   „Skippen“/„Nehmen“ in einer Reihe. Die Sicherheit ist eine Signal-Anzeige: drei ansteigende Balken (Bernstein → Grün)
   mit dem Wort daneben, Vorschau beim Überfahren; ein Klick ändert nur die Anzeige. Der Zeitraum spielt hier keine Rolle
   und fehlt in der Kopfreihe.
-- **Prop Firms** (eigener Bereich, für den Einstieg auf drei Bereiche links in der Kopfreihe reduziert: Übersicht ·
-  Auswertung · Konten; Auswertung mit den Reitern Bilanz und Friedhof, der Payout-Planer ist ein aufklappbarer
-  Abschnitt in der Bilanz. Rechner, Simulation und Challenge vs. Funded sind entfallen (wenig genutzt); `#/prop/rechner` führt zur
-  Übersicht, Simulation und Vergleich zur Bilanz, `#/prop/payout` zur Bilanz mit offenem Payout-Planer. Die Adressen bleiben `#/prop/<ansicht>` (z. B.
-  `#/prop/bilanz`); `#/prop/auswertung` und die alten `#/prop/finanzen` und `#/prop/analyse` öffnen die zuletzt benutzte Ansicht. Ruhig gehalten: Kennzahlen als Leiste ohne Fußtexte;
-  Konto-Karten zeigen nur Balken für Regeln, die es gibt (Ziel nur in der Challenge), Status nur wenn nicht aktiv,
-  Puffer-Details im Tooltip; Filter erst ab fünf Konten; Presets-Tabelle mit Größe, Drawdown, Ziel und Gebühr (Rest unter
-  „Ansehen“). Bestandene, geplatzte und archivierte Konten liegen eingeklappt
-  unter „Abgeschlossen“; eigene Presets sowie Ampel und Stop-Größe sind aufklappbar; die Eingabeformulare
-  für Ausgaben und Payouts öffnen sich über den
-  Knopf im Kartenkopf. Journal-Zeitraum und -Konto fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
+- **Prop Firms** (eigener Bereich mit einer Leiste links in der Kopfreihe: Übersicht · Bilanz · Friedhof · Konten; der
+  Payout-Planer ist ein aufklappbarer Abschnitt in der Bilanz. Rechner, Simulation und Challenge vs. Funded sind entfallen (wenig
+  genutzt); `#/prop/rechner` führt zur Übersicht, Simulation und Vergleich zur Bilanz, `#/prop/payout` zur Bilanz mit offenem
+  Payout-Planer. Die Adressen bleiben `#/prop/<ansicht>` (z. B. `#/prop/bilanz`); `#/prop/auswertung` und die alten
+  `#/prop/finanzen` und `#/prop/analyse` öffnen die zuletzt benutzte Auswertung (Bilanz oder Friedhof). Kopfreihe je Ansicht: nur
+  die Übersicht mit Konten hat Werkzeuge („Trade loggen“, davor „Konto anlegen“ als Textknopf, bis 960 px ausgeblendet und dann
+  über den Reiter Konten erreichbar); Bilanz, Friedhof, Konten und leere Zustände haben keine, nie Zeitraum, Konto oder
+  Session-Timer. Leere Übersicht, leere Konten und Friedhof ohne Konten: ein Satz und ein gefüllter „Konto anlegen“. Ruhig
+  gehalten: Kennzahlen als Leiste ohne Fußtexte; Konto-Karten zeigen nur Balken für Regeln, die es gibt (Ziel nur in der
+  Challenge), Status nur wenn nicht aktiv, Puffer-Details im Tooltip, „Bearbeiten“ als Stift im Kartenkopf, im Fuß nur „Trades
+  zuordnen“. Bei verletzter Regel nur Banner („Als geplatzt markieren“), Balance und Fuß, keine Balken und kein Puffer; beendete
+  Konten kompakt (Kopf mit Status, Balance, P&L, „Trades zuordnen“, „Zum Grabstein“ nur mit Grabstein). Filter erst ab fünf
+  Konten; Konten-Tabelle: Zeile öffnet „Bearbeiten“, gelöscht wird im Dialog („Konto löschen“ als Textknopf links, rote
+  Rückfrage), am Handy ohne Start, Gruppe und Trades; Ampel und Stop-Größe erst mit dem ersten Konto. Konto- und Preset-Dialog:
+  vorn Preset (nur mit eigenen Presets), Firma, Konto, Kontogröße, beim Bearbeiten der Status, Phase, Daily Loss, Drawdown mit
+  Typ und je Phase Profit Target (Challenge) bzw. Payout-Bedingungen (Funded); Modus, Basis, Reset-Uhrzeit, Zeitzone, Lock (nur
+  bei „Trailing mit Lock“), weitere Regeln, Gebühren und Kontodaten unter „Mehr Optionen“ (versteckte Werte bleiben erhalten).
+  Presets-Tabelle mit Größe, Drawdown, Ziel und Gebühr (Rest unter „Ansehen“). Bestandene, geplatzte und archivierte Konten liegen
+  eingeklappt unter „Abgeschlossen“; eigene Presets sowie Ampel und Stop-Größe sind aufklappbar. Bilanz: „Ausgabe erfassen“
+  gefüllt, „Payout erfassen“ umrandet, nur ein Formular offen; Payout vorn mit Konto, Brutto, Beantragt (Split, Netto, Erhalten,
+  Status unter „Mehr Optionen“), Ausgabe mit Firma nur ohne gewähltes Konto (Notiz unter „Mehr Optionen“). Ohne Buchungen nur
+  „Noch keine Ausgaben oder Payouts“, ein Satz, „Ausgabe erfassen“ und „oder Payout erfassen“, der Planer eingeklappt darunter.
+  Ausgaben ab der sechsten Zeile hinter „Alle n anzeigen“; am Handy Payouts mit Konto, Netto, Status und Knöpfen, Ausgaben mit
+  Datum, Typ (darunter Firma bzw. Konto und Notiz), Betrag. „Ausgaben vs. Payouts“ ist bewusst eine Treppe auf echter Zeitachse
+  (`timeX`/`step` im Liniendiagramm, Hover am nächsten Punkt) statt geglätteter Kurve mit gleichen Abständen: Summen springen am
+  Tag der Buchung. Payout-Planer: der Weg in der Challenge steht als Untertitel der Bedingungen, Profit Split nur bei Funded,
+  „Payouts dieses Kontos“ nur mit Einträgen; Friedhof-Karte „Muster“ erst ab zwei Grabsteinen. Journal-Zeitraum und -Konto
+  fehlen in der Kopfreihe, weil Prop-Konten eigene Trades haben):
   eigene Presets (Regeln je Firma und Kontogröße; die früher eingebauten Firmen-Presets erscheinen nicht mehr, weil ihre
   Werte ungeprüft sind und sich laufend ändern – `PropData.PRESETS` dient nur noch den Beispieldaten und Altkonten ohne
   eigene Payout-Bedingungen; der Konto-Dialog zeigt die Preset-Auswahl nur, wenn es eigene Presets gibt), Prop-Konten mit Regel-Snapshot (Preset-Änderungen ändern bestehende Konten nicht), Trades

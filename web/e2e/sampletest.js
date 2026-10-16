@@ -66,7 +66,8 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   await p.screenshot({ path: 'sample-prop.png', fullPage: true });
   await go('#/prop/bilanz', 600);
   const tiles = (await p.$$eval('.prop-tiles .tile', els => els.map(e => ({ k: e.querySelector('.head span').textContent.trim(), v: e.querySelector('.val').textContent.trim() })))).map(t => ({ k: norm(t.k), v: norm(t.v) }));
-  ok('Bilanz: Netto positiv, ROI in %, Ausgaben (8) und Payouts (3) gelistet', tiles[0].k.startsWith('Netto') && /^\d/.test(tiles[0].v) && tiles[1].k.startsWith('ROI') && /^\d+ %/.test(tiles[1].v) && (await p.$$('form[data-action=prop-expense-add] ~ .tbl-wrap tbody tr')).length === 8 && (await p.$$('form[data-action=prop-payout-add] ~ .tbl-wrap tbody tr')).length === 3 && (await content()).includes('Beantragt'), tiles.map(t => `${t.k}=${t.v}`).join(' | '));
+  const exShort = (await p.$$('form[data-action=prop-expense-add] ~ .tbl-wrap tbody tr')).length; const allBtn = await p.$('[data-action=prop-exp-all]'); const allTxt = allBtn ? (await allBtn.textContent()).trim() : ''; if (allBtn) { await allBtn.click(); await p.waitForTimeout(400); }
+  ok('Bilanz: Netto positiv, ROI in %, Ausgaben (5 von 8, „Alle 8 anzeigen“) und Payouts (3) gelistet', tiles[0].k.startsWith('Netto') && /^\d/.test(tiles[0].v) && tiles[1].k.startsWith('ROI') && /^\d+ %/.test(tiles[1].v) && exShort === 5 && allTxt === 'Alle 8 anzeigen' && (await p.$$('form[data-action=prop-expense-add] ~ .tbl-wrap tbody tr')).length === 8 && (await p.$$('form[data-action=prop-payout-add] ~ .tbl-wrap tbody tr')).length === 3 && (await content()).includes('Beantragt'), tiles.map(t => `${t.k}=${t.v}`).join(' | '));
   await go('#/prop/payout', 600);
   await p.selectOption('#pp-acc-sel', 'smpa-apex'); await p.waitForTimeout(400);
   const ptxt = await content();
@@ -78,7 +79,7 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   await p.click('.prop-grave a[href^="#/trades/"]'); await p.waitForTimeout(600);
   ok('Trade-Link öffnet den auslösenden Trade (DAX, Verlust)', (await p.textContent('.topbar h1')) === 'Trade' && (await p.textContent('.detail-head .sym')) === 'DAX' && !!(await p.$('.detail-head .pill.loss, .detail-head [class*=loss]')));
   ok('FTMO-Karte im Cockpit zeigt „Forex / CFD“', cards.find(c => c.firm === 'FTMO').txt.includes('Forex / CFD'));
-  ok('Auswertung nur noch mit Bilanz und Friedhof (Simulation und Vergleich entfallen)', await (async () => { await go('#/prop/simulation', 500); return (await p.$$eval('.prop-sub a', els => els.map(e => e.textContent.trim()).join(','))) === 'Bilanz,Friedhof' && !(await p.$('.prop-sim-result, .prop-cmp')); })());
+  ok('Auswertung nur noch mit Bilanz und Friedhof (Simulation und Vergleich entfallen)', await (async () => { await go('#/prop/simulation', 500); return (await p.$$eval('.prop-tabs a', els => els.map(e => e.textContent.trim()).join(','))) === 'Übersicht,Bilanz,Friedhof,Konten' && (await p.$eval('.prop-tabs a[aria-pressed=true]', e => e.textContent.trim())) === 'Bilanz' && !(await p.$('.prop-sim-result, .prop-cmp')); })());
 
   /* 5. Blind-Replay */
   await go('#/replay', 700);

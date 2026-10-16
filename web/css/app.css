@@ -3818,3 +3818,23 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 @media (max-width: 35em) { .nb-toolbar [data-ed="more-formats"] { display: none; } }
 @media (max-width: 35em) { .content:has(.nb[data-view="note"]) .dash-head:not(:has([data-action=end-session])) { display: none; } } /* Notiz am Handy: ohne leere Kopfreihe, ein laufender Session-Timer bleibt */
 #pop-nbmenu { min-width: 15rem; } #pop-nbmenu .item { white-space: nowrap; }
+/* Prop (Hick's 14, 23, 24, 67–69, 101): Stift im Kartenkopf, kompakte beendete Karten, „Mehr Optionen“ in Dialogen und Formularen,
+   Tabellen am Handy nur mit Spalten, die etwas tun; „Konto anlegen“ in der Kopfreihe erst ab 960 px */
+.prop-head-r { display: flex; align-items: flex-start; gap: var(--sp-1); }
+.prop-head-r .btn.icon { margin: -0.25rem -0.375rem 0 0; }
+.prop-form .prop-more { margin-top: var(--sp-4); }
+.prop-form .prop-more .form-grid + .prop-h3 { margin-top: var(--sp-4); }
+.prop-snap { margin: var(--sp-2) 0 0; font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); }
+.prop-entry .prop-more { margin-top: 0; }
+.prop-entry .prop-entry-go { display: flex; justify-content: flex-end; }
+.prop-entry .prop-entry-go .btn { width: auto; }
+.prop-tbl .m-only { display: none; }
+.prop-more-rows { display: flex; justify-content: center; padding-top: var(--sp-2); }
+.prop-bilanz-empty .prop-entry { max-width: 48rem; margin: 0 auto var(--sp-4); }
+@media (max-width: 60em) {
+  .prop-new-head, .dash-head:has(.prop-new-head) .dh-sep { display: none; }
+  .prop-tbl .opt, .prop-acc-tbl .opt { display: none; }
+  .prop-tbl .m-only { display: block; }
+  .prop-entry .prop-entry-go .btn { width: 100%; }
+}
+:is(.prop-rules-main, .prop-rules-more) .field > span { font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted); }

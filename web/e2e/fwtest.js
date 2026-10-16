@@ -47,7 +47,9 @@ const FEAT = ['schatten_ich', 'blind_replay', 'prop_konten', 'ruhepunkt', 'mento
   ok(await p.evaluate(() => /Mentor noch nicht eingerichtet/.test(document.getElementById('content').textContent) && !!document.querySelector('.dash-main a[href="#/mentor"].btn')), 'Mentor ohne Server: Karte sagt „noch nicht eingerichtet“ mit Einrichten-Knopf');
   await p.evaluate(() => { Store.setSetting('mentor', { url: 'http://127.0.0.1:9', token: '' }); App.rerender(false); }); await p.waitForTimeout(500); /* Testadresse: niemand antwortet, die Seite bleibt bedienbar */
   await p.evaluate(() => document.querySelector('.fw-chips [data-action="mentor-ask"]').click()); await p.waitForTimeout(2500);
-  ok(await p.evaluate(() => location.hash === '#/mentor' && document.getElementById('mentor-in') && document.getElementById('mentor-in').value === 'Wie war meine Woche?'), 'Mentor-Vorschlag: landet im Eingabefeld des Mentors');
+  ok(await p.evaluate(() => location.hash === '#/mentor' && !!document.querySelector('.ai-consent') && App.state.mentor.draft === 'Wie war meine Woche?'), 'Mentor-Vorschlag ohne Einwilligung: erst die KI-Einwilligung, der Vorschlag wartet als Entwurf');
+  await p.evaluate(() => document.querySelector('[data-action="ai-consent"]').click()); await p.waitForTimeout(800);
+  ok(await p.evaluate(() => document.getElementById('mentor-in') && document.getElementById('mentor-in').value === 'Wie war meine Woche?'), 'Mentor-Vorschlag: nach Zustimmung im Eingabefeld des Mentors');
   await p.evaluate(() => { location.hash = '#/dashboard'; }); await p.waitForTimeout(900);
   await p.evaluate(() => document.querySelector('form.fw-mentor button[type=submit]').click()); await p.waitForTimeout(400);
   ok(await p.evaluate(() => location.hash === '#/dashboard'), 'Leere Frage: bleibt auf dem Dashboard (Hinweis statt Sprung)');

@@ -103,6 +103,18 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Konto), Ruhepunkt (heute vor/nach dem Trading, Start mit einem Klick, Akut-Reset) und Mentor (Frage oder Vorschlag landet
   im Eingabefeld des Mentors; ohne Server ein Einrichten-Hinweis). Die fünf Karten hängt eine einmalige Migration
   (`dashboardsVersion` 4) ans Ende des Standard-Dashboards; Entferntes bleibt entfernt.
+  **Widgets nach Vorlagen von 21st.dev** (Gruppe „Auswertungen“, nur über „Widget hinzufügen“, das Standard-Dashboard bleibt
+  unverändert): die React-Komponenten Mini Chart, Pie Chart, Radar Chart und Progress im Code der App nachgebaut, ohne React,
+  Tailwind oder Zusatzbibliotheken (`U.drawers.wdbars`, `pie`, `sradar`, `wring` in `js/widgets.js`, Stile am Ende von
+  `css/app.css`). **Trefferquote nach Wochentag**: abgerundete Balken in Textfarbe, beim Drüberfahren (Handy: Tippen) wird der
+  Balken voll, die Nachbarn halb, der Rest tritt zurück; oben Tag, Anzahl und Wert, über dem Balken ein kleines Schild;
+  Samstag/Sonntag nur mit Trades. **Trades nach Setup**: Ring mit runden Ecken und kleinen Lücken, Anzahl im Segment,
+  Tooltip mit Anteil, Trefferquote und P&L; die fünf insgesamt häufigsten Setups haben feste Farben (`--pie-1` … `--pie-5`,
+  ohne Grün und Rot, mit dem Farbprüfer auf Unterscheidbarkeit auch bei Farbschwäche geprüft), der Rest „Andere“, Trades ohne
+  Setup „Ohne Setup“. **Trefferquote nach Setup**: Netz mit bis zu acht Setups, Fläche in der Akzentfarbe; unter drei Setups
+  ein Hinweis. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe, die Zahl zählt beim ersten Laden
+  hoch (danach nur, wenn sich der Wert ändert; bei „weniger Bewegung“ gar nicht), darunter die letzten 20 Trades. Test:
+  `e2e/w21test.js`.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).
 - **Handy** (bis 560px, Regeln am Ende von `css/app.css`): Kopfreihe als eine umbrechende Werkzeugleiste, „Trade loggen“ als
   runder Knopf unten rechts (Inhalt bekommt unten Platz, Toasts rutschen darüber), Dashboard-Kacheln und Statistik-Kennzahlen

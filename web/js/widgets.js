@@ -109,6 +109,100 @@
     bindHover(el, el.firstElementChild, n, x, i => y(pts[i].dd), i => U.tipTable(fmt.weekdayLong(pts[i].date), [['Drawdown', U.pnl(pts[i].dd)], ['Kumuliert', fmt.cur(pts[i].cum, { signed: true })]]));
   };
 
+  /* ---------- Widgets nach Vorlagen von 21st.dev (Mini Chart, Pie Chart, Radar Chart, Progress), im Stil der App nachgebaut:
+     ohne React und ohne Zusatzbibliotheken, Farben über die Design-Tokens, Hover und Animation wie im Original ---------- */
+  const LOCALE = () => (root.I18N ? root.I18N.locale() : 'de-DE');
+  const calm = () => !(root.Motion && root.Motion.enabled); /* weniger Bewegung oder PC-Ansicht auf dem Handy: ohne Animation */
+  const polar = (cx, cy, rr, a) => [cx + rr * Math.cos(a), cy + rr * Math.sin(a)];
+  const f2 = n => n.toFixed(2);
+  /* Trefferquote je Wochentag; Samstag und Sonntag nur, wenn an dem Tag gehandelt wurde */
+  function weekdayRates(list) {
+    const by = new Map(C.timeAnalysis(list).weekdays.map(g => [g.key, g.s])); const short = fmt.weekdays();
+    return C.WEEKDAYS.map((k, i) => ({ i, short: short[i], long: new Date(2024, 0, 1 + i).toLocaleDateString(LOCALE(), { weekday: 'long' }), s: by.get(k) || null })).filter(x => x.i < 5 || x.s);
+  }
+  /* Mini Chart: abgerundete Balken; Hover hebt den Balken hervor, die Nachbarn etwas, der Rest tritt zurück. Oben links Tag und Anzahl, rechts der Wert */
+  U.drawers.wdbars = function (el, d) {
+    const days = d && d.days || []; if (!days.some(x => x.s)) { chartEmpty(el); return; }
+    const max = Math.max(...days.map(x => x.s ? x.s.winRate : 0)) || 1;
+    const lbl = (p, name, n) => `<span class="mc-l${p === 'all' ? ' on' : ''}" data-p="${p}"><b>${esc(name)}</b> · <span>${n ? U.count(n, 'Trade', 'Trades') : 'Keine Trades'}</span></span>`;
+    const val = (p, s) => `<span class="mc-v${p === 'all' ? ' on' : ''}" data-p="${p}">${s ? fmt.pct(s.winRate, 0) : '—'}</span>`;
+    const cols = days.map((x, p) => { const h = x.s ? Math.max(4, x.s.winRate / max * 100) : 3;
+      return `<div class="mc-col" data-p="${p}"${x.s ? '' : ' data-empty'} tabindex="0" role="img" aria-label="${esc(x.long)}: ${x.s ? fmt.pct(x.s.winRate, 0) : '—'}"><div class="mc-track"><i class="mc-bar" style="height:${h.toFixed(1)}%"></i><span class="mc-tip" style="bottom:calc(${h.toFixed(1)}% + 8px)">${x.s ? fmt.pct(x.s.winRate, 0) : '—'}</span></div><span class="mc-wd">${esc(x.short)}</span></div>`; }).join('');
+    el.innerHTML = `<div class="mc"><div class="mc-head"><span class="mc-cap"><i class="mc-dot"></i><span class="mc-ls">${lbl('all', 'Alle Tage', d.all ? d.all.n : 0)}${days.map((x, p) => lbl(p, x.long, x.s ? x.s.n : 0)).join('')}</span></span><span class="mc-vs">${val('all', d.all)}${days.map((x, p) => val(p, x.s)).join('')}</span></div><div class="mc-bars">${cols}</div></div>`;
+    const box = el.firstElementChild;
+    const set = p => { box.classList.toggle('hov', p != null); box.querySelectorAll('.mc-col').forEach(c => { const k = +c.dataset.p; c.classList.toggle('on', k === p); c.classList.toggle('nb', p != null && Math.abs(k - p) === 1); }); box.querySelectorAll('.mc-l, .mc-v').forEach(s => s.classList.toggle('on', s.dataset.p === (p == null ? 'all' : String(p)))); };
+    box.querySelectorAll('.mc-col').forEach(c => { const p = +c.dataset.p; c.addEventListener('pointerenter', () => set(p)); c.addEventListener('pointerdown', () => set(p)); c.addEventListener('focus', () => set(p)); c.addEventListener('blur', () => set(null)); });
+    box.querySelector('.mc-bars').addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') set(null); });
+  };
+  /* Ringsegment mit abgerundeten Ecken (wie cornerRadius bei Recharts): Eckkreise innen am äußeren Rand und außen am inneren Rand anliegend */
+  function roundedArc(cx, cy, r0, r1, a0, a1, cr) {
+    const span = a1 - a0; const p = (rr, a) => polar(cx, cy, rr, a).map(f2).join(' ');
+    let c = Math.min(cr, (r1 - r0) / 2); while (c > 0.5 && 2 * Math.asin(Math.min(1, c / (r0 + c))) > span * 0.9) c *= 0.8;
+    if (c <= 0.5) { const lg = span > Math.PI ? 1 : 0; return `M${p(r1, a0)} A${f2(r1)} ${f2(r1)} 0 ${lg} 1 ${p(r1, a1)} L${p(r0, a1)} A${f2(r0)} ${f2(r0)} 0 ${lg} 0 ${p(r0, a0)} Z`; }
+    const dO = Math.asin(c / (r1 - c)), dI = Math.asin(c / (r0 + c)); const lO = Math.sqrt((r1 - c) ** 2 - c * c), lI = Math.sqrt((r0 + c) ** 2 - c * c);
+    const lgO = span - 2 * dO > Math.PI ? 1 : 0, lgI = span - 2 * dI > Math.PI ? 1 : 0; const k = `${f2(c)} ${f2(c)} 0 0 1`;
+    return `M${p(lO, a0)} A${k} ${p(r1, a0 + dO)} A${f2(r1)} ${f2(r1)} 0 ${lgO} 1 ${p(r1, a1 - dO)} A${k} ${p(lO, a1)} L${p(lI, a1)} A${k} ${p(r0, a1 - dI)} A${f2(r0)} ${f2(r0)} 0 ${lgI} 0 ${p(r0, a0 + dI)} A${k} ${p(lI, a0)} Z`;
+  }
+  /* Pie Chart: Ring mit kleinen Lücken und runden Ecken, Anzahl im Segment, Tooltip beim Drüberfahren; die anderen Segmente treten zurück */
+  U.drawers.pie = function (el, d, W, H) {
+    const sl = d && d.slices || []; const total = C.sum(sl.map(x => x.n)); if (!total) { chartEmpty(el); return; }
+    const cx = W / 2, cy = H / 2, r1 = Math.min(W, H) / 2 - 4, r0 = r1 * 0.3, cr = Math.max(3, r1 * 0.08), pad = sl.length > 1 ? 4 * Math.PI / 180 : 0;
+    let a = -Math.PI / 2;
+    const parts = sl.map(x => {
+      const span = x.n / total * 2 * Math.PI; const a0 = a + pad / 2, a1 = a + span - pad / 2; a += span; const [lx, ly] = polar(cx, cy, (r0 + r1) / 2, (a0 + a1) / 2);
+      const tip = `<b>${esc(x.label)}</b><br><span>${U.count(x.n, 'Trade', 'Trades')}</span> · ${fmt.pct(x.n / total, 0)}<br><span>Trefferquote</span> ${fmt.pct(x.s.winRate, 0)} · ${fmt.cur(x.s.total, { signed: true })}`;
+      const shape = sl.length === 1 ? `<circle cx="${f2(cx)}" cy="${f2(cy)}" r="${f2((r0 + r1) / 2)}" fill="none" stroke="var(--pie-${x.c})" stroke-width="${f2(r1 - r0)}" class="pie-seg" data-tip="${esc(tip)}"/>` : `<path d="${roundedArc(cx, cy, r0, r1, a0, a1, cr)}" fill="var(--pie-${x.c})" class="pie-seg" data-tip="${esc(tip)}"/>`;
+      return shape + (a1 - a0 >= 0.32 ? `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="middle" style="fill:var(--pie-${x.c}-ink)">${fmt.int(x.n)}</text>` : '');
+    });
+    el.innerHTML = `<svg class="pie-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Trades nach Setup">${parts.join('')}</svg>`;
+  };
+  /* Breite eines Textes in der Schrift des Elements (Canvas), sonst geschätzt */
+  function textWidth(el, font) { let ctx = null; try { ctx = document.createElement('canvas').getContext('2d'); ctx.font = `${font} ${getComputedStyle(el).fontFamily}`; } catch (e) { ctx = null; } return s => (ctx ? ctx.measureText(s).width : s.length * 6.6); }
+  /* Radar Chart: Netz mit vier Ringen, gefüllte Fläche in der Akzentfarbe; jede Achse hat eine Trefferfläche mit Tooltip */
+  U.drawers.sradar = function (el, d, W, H) {
+    const ax = d && d.axes || []; if (ax.length < 3) { chartEmpty(el); return; }
+    const short = s => (s.length > 16 ? s.slice(0, 15) + '…' : s); const n = ax.length; const rot = n % 4 === 0 ? Math.PI / n : 0; /* liegt eine Achse waagerecht (4 oder 8 Setups), das Netz drehen: sonst kosten die seitlichen Beschriftungen viel Platz */
+    const ang = i => -Math.PI / 2 + rot + i * 2 * Math.PI / n;
+    /* Radius so groß wie möglich: seitliche Beschriftungen brauchen ihre Breite, oben und unten eine Zeile */
+    const tw = textWidth(el, '600 11px'); const R = Math.max(40, Math.min(H / 2 - 26, ...ax.map((x, i) => { const c = Math.abs(Math.cos(ang(i))); return c < 0.1 ? Infinity : (W / 2 - 8 - 12 * c - tw(short(x.label))) / c; })));
+    const cx = W / 2, cy = H / 2; const pt = (i, f) => polar(cx, cy, R * f, ang(i));
+    const poly = vals => ax.map((x, i) => pt(i, typeof vals === 'number' ? vals : vals(x)).map(v => v.toFixed(1)).join(',')).join(' ');
+    const grid = [0.25, 0.5, 0.75, 1].map(f => `<polygon points="${poly(f)}" class="sr-grid"/>`).join('') + ax.map((_, i) => { const [x, y] = pt(i, 1); return `<line x1="${f2(cx)}" y1="${f2(cy)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" class="sr-grid"/>`; }).join('');
+    const v = x => Math.max(x.v, 0.02);
+    const labels = ax.map((x, i) => { const [px, py] = pt(i, 1); const [ox, oy] = polar(0, 0, 12, ang(i)); const anchor = Math.abs(px - cx) < 6 ? 'middle' : px < cx ? 'end' : 'start'; return `<text x="${(px + ox).toFixed(1)}" y="${(py + oy + 4).toFixed(1)}" text-anchor="${anchor}" class="sr-lbl" data-i="${i}">${esc(short(x.label))}</text>`; }).join('');
+    const dots = ax.map((x, i) => { const [px, py] = pt(i, v(x)); return `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4" class="sr-dot" data-i="${i}"/>`; }).join('');
+    const hits = ax.map((x, i) => { const rr = R + 16; const [x0, y0] = polar(cx, cy, rr, ang(i) - Math.PI / n), [x1, y1] = polar(cx, cy, rr, ang(i) + Math.PI / n); const tip = `<b>${esc(x.label)}</b><br><span>Trefferquote</span> ${fmt.pct(x.v, 0)}<br><span>${U.count(x.n, 'Trade', 'Trades')}</span> · ${fmt.cur(x.total, { signed: true })}`; return `<path d="M${f2(cx)} ${f2(cy)} L${f2(x0)} ${f2(y0)} A${f2(rr)} ${f2(rr)} 0 0 1 ${f2(x1)} ${f2(y1)} Z" class="sr-hit" data-i="${i}" data-tip="${esc(tip)}"/>`; }).join('');
+    el.innerHTML = `<svg class="sr-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Trefferquote nach Setup">${grid}<polygon points="${poly(v)}" class="sr-area"/>${dots}${labels}${hits}</svg>`;
+    const svg = el.firstElementChild; const on = i => svg.querySelectorAll('.sr-dot, .sr-lbl').forEach(n => n.classList.toggle('on', n.dataset.i === i));
+    svg.querySelectorAll('.sr-hit').forEach(h => h.addEventListener('pointerenter', () => on(h.dataset.i))); svg.addEventListener('pointerleave', () => on(null));
+  };
+  /* Progress: Ring mit gestrichelter Spur und durchgehendem Fortschritt; Zahl und Ring laufen vom zuletzt gezeigten Wert zum neuen (beim ersten Mal von 0) */
+  const ringShown = {};
+  const easeRing = t => { const x1 = 0.43, y1 = 0.13, x2 = 0.23, y2 = 0.96; let u = t; for (let k = 0; k < 8; k++) { const x = 3 * (1 - u) ** 2 * u * x1 + 3 * (1 - u) * u * u * x2 + u ** 3 - t; const dx = 3 * (1 - u) ** 2 * x1 + 6 * (1 - u) * u * (x2 - x1) + 3 * u * u * (1 - x2); if (Math.abs(dx) < 1e-6) break; u = C.clamp(u - x / dx, 0, 1); } return 3 * (1 - u) ** 2 * u * y1 + 3 * (1 - u) * u * u * y2 + u ** 3; };
+  U.drawers.wring = function (el, d, W, H) {
+    if (!d) { chartEmpty(el); return; }
+    const size = Math.max(120, Math.min(184, W, H)), circ = 2 * Math.PI * 80;
+    el.innerHTML = `<div class="wr"><svg class="wr-svg" viewBox="0 0 200 200" width="${size}" height="${size}" style="width:${size}px;height:${size}px" role="progressbar" aria-label="Trefferquote" aria-valuenow="${Math.round(d.rate * 100)}" aria-valuemin="0" aria-valuemax="100"><circle cx="100" cy="100" r="80" class="wr-track"/><circle cx="100" cy="100" r="80" class="wr-bar" stroke-dasharray="${f2(circ)} ${f2(circ)}" transform="rotate(-90 100 100)"/></svg><div class="wr-mid"><span class="wr-n"><span class="wr-v">0</span><small>%</small></span><span class="wr-s">${d.sub}</span></div></div>`;
+    const bar = el.querySelector('.wr-bar'), num = el.querySelector('.wr-v'); const key = el.dataset.id;
+    const paint = x => { bar.setAttribute('stroke-dashoffset', f2(circ * (1 - x))); bar.style.opacity = x > 0.001 ? '' : '0'; num.textContent = String(Math.round(x * 100)); };
+    const from = ringShown[key] != null ? ringShown[key] : 0, to = d.rate; ringShown[key] = to;
+    if (calm() || Math.abs(to - from) < 0.0005 || typeof requestAnimationFrame === 'undefined') { paint(to); return; }
+    paint(from); const t0 = performance.now();
+    const step = now => { if (!num.isConnected) return; const t = Math.min(1, (now - t0) / 1500); paint(from + (to - from) * easeRing(t)); if (t < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  };
+  /* Setups in fester Reihenfolge über alle Trades (häufigste zuerst): so behält jedes Setup seine Farbe, auch wenn sich der Zeitraum ändert */
+  const PIE_SLOTS = 5;
+  function setupOrder(all) { const m = new Map(); for (const t of C.closedOnly(all)) if (t.setup) m.set(t.setup, (m.get(t.setup) || 0) + 1); return [...m.entries()].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]))).map(x => x[0]); }
+  function setupSlices(closed, all) {
+    const order = setupOrder(all).slice(0, PIE_SLOTS); const slot = new Map(order.map((k, i) => [k, i + 1])); const by = new Map();
+    for (const t of closed) { const k = !t.setup ? '_ohne' : slot.has(t.setup) ? t.setup : '_andere'; (by.get(k) || by.set(k, []).get(k)).push(t); }
+    const out = order.filter(k => by.has(k)).map(k => ({ label: k, c: slot.get(k), trades: by.get(k) }));
+    if (by.has('_andere')) out.push({ label: 'Andere', c: 'o', trades: by.get('_andere') });
+    if (by.has('_ohne')) out.push({ label: 'Ohne Setup', c: 'n', trades: by.get('_ohne') });
+    return out.map(x => Object.assign(x, { n: x.trades.length, s: C.summary(x.trades) }));
+  }
+  const SETUP_HINT = '<div class="fw-empty"><b>Noch keine Setups</b><span>Trage beim Loggen eines Trades ein Setup ein. Dann siehst du hier, wie sich deine Trades verteilen.</span></div>';
   /* ---------- Kalender-Bausteine ---------- */
   function calendarHTML(days, year, month, o = {}) {
     const weeks = C.calendarMonth(days, year, month); const today = C.dayKey(new Date()); const ext = !!o.weeks, mini = !!o.mini;
@@ -303,6 +397,33 @@
       } },
     { typ: 'jahreskalender', name: 'Jahreskalender', preview: 'year', groesse: 'gross', flach: true, desc: 'Eine Zeile pro Jahr mit allen zwölf Monaten und Gesamt, umschaltbar zwischen Trefferquote, P&L und Trades.', info: 'Jede Zeile ist ein Jahr, jedes Kästchen ein Monat mit Anzahl Trades. P&L: grün bei Gewinn, rot bei Verlust. Trefferquote und Trades: je kräftiger das Blau, desto höher der Wert. Rechts das Jahresergebnis.',
       render(d, inst, e) { const ansicht = (inst.einstellungen || {}).ansicht || 'pnl'; const seg = `<div class="seg mini">${[['trefferquote', 'Trefferquote'], ['pnl', 'P&L'], ['trades', 'Trades']].map(([k, l]) => `<button type="button" data-action="dash-w-opt" data-key="ansicht" data-value="${k}" aria-pressed="${ansicht === k}">${l}</button>`).join('')}</div>`; return U.card(e.name, yearRows(d.daysAll, ansicht), { info: e.info, trailing: seg }); } },
+    /* Vorlagen von 21st.dev, im Stil der App nachgebaut (Zeichnen und Hover: U.drawers.wdbars, pie, sradar, wring) */
+    { typ: 'wochentag_quote', name: 'Trefferquote nach Wochentag', preview: 'bars', groesse: 'klein', desc: 'Ein abgerundeter Balken je Wochentag. Beim Drüberfahren erscheinen Wert und Anzahl Trades.', info: 'Anteil der Gewinn-Trades je Wochentag im gewählten Zeitraum. Der höchste Wert füllt die Höhe. Samstag und Sonntag erscheinen nur, wenn du an diesen Tagen gehandelt hast.',
+      render(d, inst, e) { if (d.empty) return card(e, emptyBox(280)); U.chartData['dash-wdq'] = { days: weekdayRates(d.list), all: d.s }; return card(e, `<div class="chart h280 mc-chart" data-chart="wdbars" data-id="dash-wdq"></div>`); } },
+    { typ: 'setup_verteilung', name: 'Trades nach Setup', preview: 'donut', groesse: 'klein', desc: 'Ring mit runden Segmenten: wie sich deine Trades auf die Setups verteilen.', info: 'Anzahl geschlossener Trades je Setup im gewählten Zeitraum. Die fünf Setups, die du insgesamt am häufigsten handelst, haben je eine feste Farbe, der Rest steht unter „Andere“. Beim Drüberfahren siehst du Anteil, Trefferquote und P&L.',
+      render(d, inst, e) {
+        if (d.empty) return card(e, emptyBox(280)); const sl = setupSlices(d.closed, d.all); if (!sl.some(x => x.c !== 'n')) return card(e, SETUP_HINT);
+        U.chartData['dash-setups'] = { slices: sl };
+        return card(e, `<div class="chart h240 pie-chart" data-chart="pie" data-id="dash-setups"></div><div class="legend pie-legend">${sl.map(x => `<span><i style="background:var(--pie-${x.c})"></i>${esc(x.label)} <b>${fmt.int(x.n)}</b></span>`).join('')}</div>`);
+      } },
+    { typ: 'setup_radar', name: 'Trefferquote nach Setup', preview: 'radar', groesse: 'klein', desc: 'Netz-Diagramm: deine Trefferquote je Setup auf einen Blick.', info: 'Jede Achse ist ein Setup, außen sind 100 %. Gezeigt werden bis zu acht Setups mit den meisten Trades im gewählten Zeitraum. Beim Drüberfahren siehst du Trefferquote, Anzahl Trades und P&L.',
+      render(d, inst, e) {
+        if (d.empty) return card(e, emptyBox(280)); const groups = C.groupBy(d.closed, t => t.setup || null).sort((a, b) => b.s.n - a.s.n || String(a.key).localeCompare(String(b.key))).slice(0, 8);
+        if (!groups.length) return card(e, SETUP_HINT);
+        if (groups.length < 3) return card(e, `<div class="fw-empty"><b>Zu wenige Setups</b><span>Das Netz braucht mindestens drei Setups mit Trades im gewählten Zeitraum. Bisher: ${groups.map(g => esc(g.key)).join(', ')}.</span></div>`);
+        U.chartData['dash-sradar'] = { axes: groups.map(g => ({ label: String(g.key), v: g.s.winRate, n: g.s.n, total: g.s.total })) };
+        return card(e, `<div class="chart h300" data-chart="sradar" data-id="dash-sradar"></div>`);
+      } },
+    { typ: 'trefferquote_ring', name: 'Trefferquote-Ring', preview: 'gauge', groesse: 'klein', desc: 'Großer Ring mit deiner Trefferquote, der beim Laden hochzählt, darunter die letzten 20 Trades.', info: 'Anteil der Gewinn-Trades an allen geschlossenen Trades im gewählten Zeitraum. Darunter dieselbe Quote für die letzten 20 Trades, mit Pfeil, wenn sie um mindestens 3 Punkte abweicht.',
+      render(d, inst, e) {
+        const trailing = `<span class="wr-ico" aria-hidden="true">${I.target}</span>`;
+        if (d.empty) return card(e, emptyBox(280), { trailing, cls: 'wr-card' });
+        const s = d.s; const last = d.closed.slice().sort((a, b) => b.close - a.close).slice(0, 20); const recent = C.summary(last).winRate;
+        const down = s.winRate - recent >= 0.03, up = recent - s.winRate >= 0.03;
+        U.chartData['dash-wring'] = { rate: s.winRate, sub: `${fmt.int(s.wins)} von ${U.count(s.n, 'Trade', 'Trades')}` };
+        const foot = s.n > 20 ? `<div class="wr-foot"><span>Letzte 20 Trades</span> <b class="${down ? 'neg' : up ? 'pos' : ''}">${down ? '↓ ' : up ? '↑ ' : ''}${fmt.pct(recent, 0)}</b></div>` : `<div class="wr-foot"><span>${U.count(s.n, 'Trade', 'Trades')}</span> <span>im Zeitraum</span></div>`;
+        return card(e, `<div class="chart wr-chart" data-chart="wring" data-id="dash-wring"></div>${foot}`, { trailing, cls: 'wr-card' });
+      } },
   ];
   /* ---------- Bereiche der App als Widgets: Schatten-Ich, Blind-Replay, Prop Firms, Ruhepunkt, Mentor ----------
      Gleiche Rechnung wie auf den Seiten (ShadowScreen, Replay, PropScreen, Ruhepunkt); fehlt ein Bereich, zeigt das Widget einen ruhigen Hinweis.

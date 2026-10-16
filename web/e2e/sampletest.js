@@ -36,7 +36,7 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   const syms = await p.$$eval('select[data-key=symbol] option', o => o.map(x => x.value));
   const tbl = await p.$eval('.tbl tbody', e => e.textContent);
   ok('TradeLog zeigt NQ und ES (Symbolfilter und Tabelle)', syms.includes('NQ') && syms.includes('ES') && tbl.includes('NQ') && tbl.includes('ES') && c1.nq > c1.es && c1.es >= 20, `NQ ${c1.nq}, ES ${c1.es}`);
-  const rows = await p.$$eval('.tbl tbody tr', rs => rs.map(r => ({ txt: r.textContent, closed: !!r.querySelector('.pill.win, .pill.loss, .pill.be'), open: !!r.querySelector('.pill.open') })));
+  const rows = await p.$$eval('.tbl tbody tr', rs => rs.map(r => { const open = [...r.querySelectorAll('td .faint')].some(x => x.textContent === 'offen'); return { txt: r.textContent, closed: !open, open }; })); /* ohne Status-Spalte: offen steht in „Geschlossen“ */
   const firstClosed = rows.find(r => r.closed);
   ok('Erste geschlossene Zeile (unabhängig von der Uhrzeit): Preise mit Nachkommastellen, P&L in € und R', !!firstClosed && /\d+,\d{2}/.test(firstClosed.txt) && /€/.test(firstClosed.txt) && /-?\d+,\d+ R/.test(firstClosed.txt), (firstClosed || {}).txt);
   /* Minor: kein geschlossener Trade mit Ausstieg in der Zukunft (werktags 15–22 Uhr läuft nur der offene NQ-Trade) */

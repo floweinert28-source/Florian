@@ -4,20 +4,19 @@
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
 
   const COLS = [
-    ['openedAt', 'Eröffnet'], ['symbol', 'Symbol'], ['status', 'Status'], ['direction', 'Richtung'], ['close', 'Geschlossen'], ['entryPrice', 'Einstiegspreis', 'r'], ['exitPrice', 'Ausstiegspreis', 'r'], ['pnl', 'P&L', 'r'], ['r', 'RR', 'r'], ['setup', 'Setup'], ['rules', 'Regeln', 'r'], ['score', 'Score', 'r'],
+    ['openedAt', 'Eröffnet'], ['symbol', 'Symbol'], ['direction', 'Richtung'], ['close', 'Geschlossen'], ['entryPrice', 'Einstiegspreis', 'r'], ['exitPrice', 'Ausstiegspreis', 'r'], ['pnl', 'P&L', 'r'], ['r', 'RR', 'r'], ['setup', 'Setup'], ['rules', 'Regeln', 'r'], ['score', 'Score', 'r'],
   ];
   /* Zellen je Spalte; Simple zeigt nur Datum, Symbol, Richtung und P&L */
   const SIMPLE_COLS = ['openedAt', 'symbol', 'direction', 'pnl'];
   const CELL = {
     openedAt: t => `<td>${fmt.dateFull(t.open)} <span class="muted">${fmt.time(t.open)}</span></td>`,
     symbol: t => `<td class="sym">${esc(t.symbol)}</td>`,
-    status: t => `<td>${U.statusPill(t.status)}</td>`,
     direction: t => `<td>${U.badge(t.direction)}</td>`,
     close: t => `<td>${t.close ? (C.dayKey(t.close) === C.dayKey(t.open) ? `<span class="muted">${fmt.time(t.close)}</span>` : `${fmt.dateFull(t.close)} <span class="muted">${fmt.time(t.close)}</span>`) : '<span class="faint">offen</span>'}</td>`,
     entryPrice: t => `<td class="r">${fmt.price(t.entryPrice)}</td>`,
     exitPrice: t => `<td class="r">${t.exitPrice != null ? fmt.price(t.exitPrice) : '—'}</td>`,
-    pnl: t => `<td class="r">${t.closed ? U.pnl(t.pnl, '', { r: t.r }) : '<span class="faint">—</span>'}</td>`,
-    r: t => `<td class="r">${U.rText(t.r)}</td>`,
+    pnl: t => `<td class="r">${t.closed ? U.pnl(t.pnl, '', { r: t.r, neutral: t.status === 'be' }) : '<span class="faint">—</span>'}</td>`,
+    r: t => `<td class="r">${U.rText(t.r, '', t.status === 'be')}</td>`,
     setup: t => `<td>${t.setup ? U.chip(t.setup, 'setup') : '<span class="faint">—</span>'}</td>`,
     rules: t => `<td class="r">${t.rulesBroken.length ? `<span class="neg" data-tip="${esc(t.rulesBroken.join(', '))}">${I.close.replace('<svg', '<svg style="width:14px;height:14px;display:inline"')}</span>` : `<span class="pos">${I.check.replace('<svg', '<svg style="width:14px;height:14px;display:inline"')}</span>`}</td>`,
     score: t => { const sc = C.discipline(t).score; return `<td class="r"><b style="color:${U.scoreColor(sc)}">${sc}</b></td>`; },
@@ -28,19 +27,19 @@
     return list.filter(t => (!f.symbol || t.symbol === f.symbol) && (!f.setup || t.setup === f.setup) && (!f.status || t.status === f.status) && (!f.mistake || t.mistakes.includes(f.mistake) || (f.mistake === '__any' && t.mistakes.length)) && (!q || [t.symbol, t.setup, t.notes, ...(t.mistakes || []), ...(t.emotions || [])].join(' ').toLowerCase().includes(q)));
   }
   function sorted(list) {
-    const { key, dir } = App.state.tradeSort; const val = t => key === 'openedAt' || key === 'open' ? t.open.getTime() : key === 'close' ? (t.close ? t.close.getTime() : 0) : key === 'rules' ? (t.rulesBroken.length ? 0 : 1) : key === 'score' ? C.discipline(t).score : key === 'status' ? ({ win: 3, be: 2, loss: 1, open: 0 })[t.status] : t[key] == null ? -Infinity : t[key];
+    const { key, dir } = App.state.tradeSort; const val = t => key === 'openedAt' || key === 'open' ? t.open.getTime() : key === 'close' ? (t.close ? t.close.getTime() : 0) : key === 'rules' ? (t.rulesBroken.length ? 0 : 1) : key === 'score' ? C.discipline(t).score : t[key] == null ? -Infinity : t[key];
     return list.slice().sort((a, b) => { const x = val(a), y = val(b); if (x === y) return b.sortTime - a.sortTime; return (x > y ? 1 : -1) * dir; });
   }
   App.screens.trades = {
     title(ctx) { return ctx.params[0] ? 'Trade' : 'TradeLog'; },
     /* Liste: Zeitraum, Konto, Session und „Trade loggen“; Trade-Detail: nichts davon (dort ist „Plan & Bewertung“ die Aufgabe) */
     head: ctx => (ctx.params[0] ? { range: false, account: false, session: false, trade: false } : { session: true, trade: true, tradeIfEmpty: false }),
-    actions(ctx) { return ctx.params[0] ? '' : `<button type="button" class="btn hide-m" data-action="import">${I.upload}<span>CSV importieren</span></button>`; },
+    actions(ctx) { return ctx.params[0] || !ctx.all.length || App.state.tradeFilter.view === 'missed' ? '' : `<button type="button" class="btn ghost icon-only" data-action="import" title="CSV importieren" aria-label="CSV importieren">${I.upload}</button>`; },
     render(ctx) {
       if (ctx.params[0]) return renderDetail(ctx.params[0], ctx);
       const view = App.state.tradeFilter.view; const list = ctx.inRange; const s = C.summary(list);
       const W = root.Widgets; const d = W.data(ctx, App); let cum = 0; const spark = d.days.map(x => { cum += x.pnl; return cum; }); U.chartData['tl-spark'] = { values: spark };
-      const head = `<div class="grid tiles">
+      const head = !list.length ? '' : `<div class="grid tiles">
         <div class="tile spark-tile"><div class="head"><span>Netto-P&L${U.info('Kumulierte Summe aller abgeschlossenen Trades im Zeitraum. Daneben der Verlauf je Handelstag.')}</span>${s.n ? `<span class="n">${U.count(s.n, 'Trade', 'Trades')}</span>` : ''}</div><div class="spark-body"><div class="val">${s.n ? U.pnl(s.total, '', { signed: false }) : '<span class="nodata">Noch keine Daten</span>'}</div>${s.n ? `<div class="chart" data-chart="spark" data-id="tl-spark"></div>` : ''}</div></div>
         ${W.render({ typ: 'profit_faktor' }, d, App)}
         ${W.render({ typ: 'trade_trefferquote' }, d, App)}
@@ -48,32 +47,45 @@
       </div>`;
       const tabs = U.tabs([['trades', 'Trades'], ['days', 'Tage'], ['missed', 'Verpasste Trades']], view, 'trades-view');
       /* Desktop: die Liste füllt genau das Fenster (tl-fit), die Tabelle scrollt in ihrer Box; die Seite selbst nicht */
-      return '<div class="tl-fit">' + head + `<div class="row between">${tabs}${view === 'missed' ? `<button type="button" class="btn sm" data-action="new-missed">${I.plus} Verpassten Trade notieren</button>` : ''}</div>` + (view === 'days' ? renderDays(list) : view === 'missed' ? renderMissed() : renderTable(list, ctx)) + '</div>';
+      return '<div class="tl-fit">' + head + `<div class="row between">${tabs}${view === 'missed' && S.data.missed.length ? `<button type="button" class="btn" data-action="new-missed">${I.plus} Verpassten Trade notieren</button>` : ''}</div>` + (view === 'days' ? renderDays(list, ctx) : view === 'missed' ? renderMissed() : renderTable(list, ctx)) + '</div>';
     },
   };
+  /* Leer-Karten im TradeLog: kein Trade überhaupt → „Trade loggen“ (gefüllt) und „CSV importieren“; Trades nur außerhalb des
+     Zeitraums → „Zeitraum ändern“ (öffnet das Zeitraum-Menü); nur offene Trades → kein Knopf */
+  function emptyCard(ctx, icon, title, onlyOpen) {
+    if (!ctx.all.length) return U.empty(icon, 'Noch keine Trades', 'Logge deinen ersten Trade oder importiere eine CSV-Datei.', `<div class="row"><button type="button" class="btn accent" data-action="new-trade">${I.plus} Trade loggen</button><button type="button" class="btn" data-action="import">${I.upload} CSV importieren</button></div>`);
+    if (onlyOpen) return U.empty(icon, title, 'Sobald Trades abgeschlossen sind, erscheinen sie hier.');
+    return U.empty(icon, title, 'Wähle einen anderen Zeitraum.', `<button type="button" class="btn" data-action="range-open">${I.calendar} Zeitraum ändern</button>`);
+  }
   function renderTable(list, ctx) {
+    if (!list.length) return emptyCard(ctx, 'tradelog', 'Keine Trades im Zeitraum');
     const f = App.state.tradeFilter; const symbols = [...new Set(ctx.all.map(t => t.symbol))].sort(); const setups = [...new Set(ctx.all.map(t => t.setup).filter(Boolean))].sort(); const mistakes = [...new Set(ctx.all.flatMap(t => t.mistakes))].sort();
     const rows = sorted(filtered(list)); const { key, dir } = App.state.tradeSort;
-    const filters = `<div class="row" style="gap:8px"><div class="grow" style="max-width:260px;position:relative"><input class="input" type="search" enterkeyhint="search" autocomplete="off" id="tf-q" data-input="trade-q" value="${esc(f.q)}" placeholder="Suchen: Symbol, Setup, Notiz …" aria-label="Suchen" style="padding-left:34px"><span style="position:absolute;left:11px;top:11px;width:15px;height:15px;color:var(--muted)">${I.search}</span></div>
-      <select class="select" style="width:auto" data-change="trade-filter" data-key="symbol" aria-label="Symbol"><option value="">Alle Symbole</option>${symbols.map(x => `<option ${f.symbol === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
-      <select class="select" style="width:auto" data-change="trade-filter" data-key="setup" aria-label="Setup"><option value="">Alle Setups</option>${setups.map(x => `<option ${f.setup === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
-      <select class="select" style="width:auto" data-change="trade-filter" data-key="status" aria-label="Status"><option value="">Alle Ergebnisse</option><option value="win" ${f.status === 'win' ? 'selected' : ''}>Gewinn</option><option value="loss" ${f.status === 'loss' ? 'selected' : ''}>Verlust</option><option value="be" ${f.status === 'be' ? 'selected' : ''}>Break-even</option><option value="open" ${f.status === 'open' ? 'selected' : ''}>Offen</option></select>
-      <select class="select" style="width:auto" data-change="trade-filter" data-key="mistake" aria-label="Fehler"><option value="">Fehler: alle</option><option value="__any" ${f.mistake === '__any' ? 'selected' : ''}>Nur mit Fehler</option>${mistakes.map(x => `<option value="${esc(x)}" ${f.mistake === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>
-      ${(f.q || f.symbol || f.setup || f.status || f.mistake) ? `<button type="button" class="btn sm ghost" data-action="trade-filter-reset">${I.close} Zurücksetzen</button>` : ''}<span class="muted small" style="margin-left:auto">${rows.length} von ${U.count(list.length, 'Trade', 'Trades')}</span></div>`;
-    if (!rows.length) return filters + U.empty('tradelog', list.length ? 'Keine Trades passen zum Filter' : 'Keine Trades im Zeitraum', list.length ? 'Ändere die Filter oder den Zeitraum.' : 'Logge einen Trade oder importiere eine CSV-Datei.', list.length ? '' : `<div class="row"><button type="button" class="btn sm" data-action="import">${I.upload} CSV importieren</button><button type="button" class="btn sm primary" data-action="new-trade">${I.plus} Trade loggen</button></div>`);
+    const nSel = ['symbol', 'setup', 'status', 'mistake'].filter(k => f[k]).length; const active = nSel || f.q.trim();
+    const sel = (key, label, opts) => `<label class="field"><span class="lbl">${label}</span><select class="select" data-change="trade-filter" data-key="${key}">${opts}</select></label>`;
+    const filters = `<div class="row tl-filters"><div class="grow tl-search"><input class="input" type="search" enterkeyhint="search" autocomplete="off" id="tf-q" data-input="trade-q" value="${esc(f.q)}" placeholder="Suchen: Symbol, Setup, Notiz …" aria-label="Suchen"><span class="tl-search-i">${I.search}</span></div>
+      <div class="popwrap"><button type="button" class="btn" data-pop="tfilter" aria-haspopup="true" aria-label="${nSel ? `Filter, ${nSel} aktiv` : 'Filter'}">${I.filter}<span class="hide-m">Filter</span>${nSel ? `<b class="cntb">${nSel}</b>` : ''}</button><div class="popover tf-pop" id="pop-tfilter">
+        ${sel('symbol', 'Symbol', `<option value="">Alle Symbole</option>${symbols.map(x => `<option ${f.symbol === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}`)}
+        ${sel('setup', 'Setup', `<option value="">Alle Setups</option>${setups.map(x => `<option ${f.setup === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}`)}
+        ${sel('status', 'Ergebnis', `<option value="">Alle Ergebnisse</option><option value="win" ${f.status === 'win' ? 'selected' : ''}>Gewinn</option><option value="loss" ${f.status === 'loss' ? 'selected' : ''}>Verlust</option><option value="be" ${f.status === 'be' ? 'selected' : ''}>Break-even</option><option value="open" ${f.status === 'open' ? 'selected' : ''}>Offen</option>`)}
+        ${sel('mistake', 'Fehler', `<option value="">Alle</option><option value="__any" ${f.mistake === '__any' ? 'selected' : ''}>Nur mit Fehler</option>${mistakes.map(x => `<option value="${esc(x)}" ${f.mistake === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}`)}
+      </div></div>
+      ${active ? `<button type="button" class="btn ghost" data-action="trade-filter-reset">${I.close} Zurücksetzen</button><span class="muted small tl-count">${rows.length} von ${U.count(list.length, 'Trade', 'Trades')}</span>` : ''}</div>`;
+    if (!rows.length) return filters + U.empty('tradelog', 'Keine Trades passen zum Filter', 'Ändere die Filter.', `<button type="button" class="btn" data-action="trade-filter-reset">${I.close} Filter zurücksetzen</button>`);
     const cols = App.simple() ? COLS.filter(([k]) => SIMPLE_COLS.includes(k)) : COLS;
     const th = cols.map(([k, l, al]) => `<th class="sortable ${al || ''}" data-action="trade-sort" data-key="${k}">${l}${key === k ? `<span class="dir">${dir > 0 ? '▲' : '▼'}</span>` : ''}</th>`).join('');
     const pg = pageState(); const pages = Math.max(1, Math.ceil(rows.length / pg.size)); if (pg.page > pages) pg.page = pages; if (pg.page < 1) pg.page = 1; const from = (pg.page - 1) * pg.size; const pageRows = rows.slice(from, from + pg.size);
-    const pager = `<div class="pager"><label class="pg-l"><span>Trades pro Seite:</span><select class="select sm" data-change="trade-page-size" aria-label="Trades pro Seite">${[10, 25, 50, 100].map(n => `<option value="${n}" ${pg.size === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label><span class="pg-sep"></span><span class="pg-info">${from + 1} – ${Math.min(rows.length, from + pg.size)} von ${U.count(rows.length, 'Trade', 'Trades')}</span><span class="grow"></span><label class="pg-l"><select class="select sm" data-change="trade-page" aria-label="Seite">${Array.from({ length: pages }, (_, i) => `<option value="${i + 1}" ${pg.page === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select><span>von ${pages} Seite${pages === 1 ? '' : 'n'}</span></label><span class="pg-nav"><button type="button" data-action="trade-page-nav" data-dir="-1" ${pg.page <= 1 ? 'disabled' : ''} aria-label="Vorherige Seite">${I.chevL}</button><button type="button" data-action="trade-page-nav" data-dir="1" ${pg.page >= pages ? 'disabled' : ''} aria-label="Nächste Seite">${I.chevR}</button></span></div>`;
+    const sizeSel = `<label class="pg-l"><span>Trades pro Seite:</span><select class="select sm" data-change="trade-page-size" aria-label="Trades pro Seite">${[10, 25, 50, 100].map(n => `<option value="${n}" ${pg.size === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label>`;
+    const pager = rows.length <= 10 ? '' : pages === 1 ? `<div class="pager">${sizeSel}</div>` : `<div class="pager">${sizeSel}<span class="pg-sep"></span><span class="pg-info">${from + 1} – ${Math.min(rows.length, from + pg.size)} von ${U.count(rows.length, 'Trade', 'Trades')}</span><span class="grow"></span><label class="pg-l"><select class="select sm" data-change="trade-page" aria-label="Seite">${Array.from({ length: pages }, (_, i) => `<option value="${i + 1}" ${pg.page === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select><span>von ${pages} Seite${pages === 1 ? '' : 'n'}</span></label><span class="pg-nav"><button type="button" data-action="trade-page-nav" data-dir="-1" ${pg.page <= 1 ? 'disabled' : ''} aria-label="Vorherige Seite">${I.chevL}</button><button type="button" data-action="trade-page-nav" data-dir="1" ${pg.page >= pages ? 'disabled' : ''} aria-label="Nächste Seite">${I.chevR}</button></span></div>`;
     const tr = pageRows.map(t => `<tr class="link" data-action="trade" data-id="${t.id}">${cols.map(([k]) => CELL[k](t)).join('')}</tr>`).join('');
-    return filters + `<div class="tbl-wrap paged"><div class="tbl-scroll"><table class="tbl${cols === COLS ? '' : ' slim'}"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>${pager}</div>`;
+    return filters + `<div class="tbl-wrap paged${pager ? '' : ' no-pager'}"><div class="tbl-scroll"><table class="tbl${cols === COLS ? '' : ' slim'}"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>${pager}</div>`;
   }
-  function renderDays(list) {
-    const days = C.dailyAggregation(list).slice().reverse(); if (!days.length) return U.empty('day', 'Keine Handelstage im Zeitraum', 'Sobald Trades abgeschlossen sind, erscheinen hier Tageskarten.');
+  function renderDays(list, ctx) {
+    const days = C.dailyAggregation(list).slice().reverse(); if (!days.length) return emptyCard(ctx, 'day', 'Keine Handelstage im Zeitraum', list.length > 0);
     return `<div class="stack" style="gap:14px">${days.map(d => { const id = 'spark-' + d.key; let c = 0; U.chartData[id] = { values: d.trades.map(t => (c += t.pnl)) }; const gross = d.gross; return `<section class="card day-card"><div class="head"><span class="date">${fmt.weekdayLong(d.day)}</span><span class="pnl ${U.cls(d.pnl)}">Netto ${fmt.cur(d.pnl, { signed: true })}</span><a class="btn sm ghost" style="margin-left:auto" href="#/day/${d.key}">Tagesansicht ${I.chevR}</a></div><div class="body" style="margin-top:12px"><div class="chart h80" data-chart="spark" data-id="${id}"></div><div class="stats" style="margin-top:0"><div><div class="k">Trades</div><div class="v">${d.n}</div></div><div><div class="k">Brutto-P&L</div><div class="v ${U.cls(gross)}">${fmt.cur(gross, { signed: true })}</div></div><div><div class="k">Gewinner / Verlierer</div><div class="v"><span class="pos">${d.wins}</span> / <span class="neg">${d.losses}</span></div></div><div><div class="k">Gebühren</div><div class="v">${fmt.cur(d.fees)}</div></div><div><div class="k">Trefferquote</div><div class="v">${fmt.pct(d.winRate)}</div></div><div><div class="k">Volumen</div><div class="v">${fmt.num(d.volume, 2)}</div></div><div><div class="k">Profit-Faktor</div><div class="v">${fmt.factor(d.pf)}</div></div></div></div></section>`; }).join('')}</div>`;
   }
   function renderMissed() {
-    const m = S.data.missed.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '')); if (!m.length) return U.empty('eye', 'Keine verpassten Trades notiert', 'Setups, die du gesehen, aber nicht gehandelt hast. So erkennst du, ob Zögern dich Geld kostet.');
+    const m = S.data.missed.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '')); if (!m.length) return U.empty('eye', 'Keine verpassten Trades notiert', 'Notiere Setups, die du gesehen, aber nicht gehandelt hast.', `<button type="button" class="btn" data-action="new-missed">${I.plus} Verpassten Trade notieren</button>`);
     const total = C.sum(m.map(x => Number(x.pnl) || 0)); const wins = m.filter(x => x.pnl > 0).length;
     return U.card('Verpasste Trades', `<div class="row" style="gap:18px;margin-bottom:12px"><div><div class="caption">Entgangen</div><div class="score-big ${U.cls(total)}">${fmt.cur(total, { signed: true })}</div></div><div><div class="caption">Wären Gewinner gewesen</div><div class="score-big">${wins} von ${m.length}</div></div></div><div class="tbl-wrap inset"><table class="tbl compact"><thead><tr><th>Datum</th><th>Symbol</th><th>Setup</th><th>Grund</th><th class="r">Hätte gebracht</th><th class="r">R</th><th></th></tr></thead><tbody>${m.map(x => `<tr><td>${fmt.dateFull(C.parseDayKey(x.date))}</td><td class="sym">${esc(x.symbol)} ${U.badge(x.direction)}</td><td>${x.setup ? U.chip(x.setup, 'setup') : '—'}</td><td style="white-space:normal;min-width:200px">${esc(x.reason || '')}</td><td class="r">${U.pnl(x.pnl, '', { r: x.r })}</td><td class="r">${U.rText(x.r)}</td><td class="r"><button type="button" class="btn ghost icon sm" data-action="delete-missed" data-id="${x.id}" aria-label="Löschen">${I.trash}</button></td></tr>`).join('')}</tbody></table></div>`, { info: 'Trades, die du nicht genommen hast. Mit dem hypothetischen Ergebnis siehst du, was Zögern kostet.' });
   }
@@ -120,10 +132,11 @@
     'trades-view'(el) { App.state.tradeFilter.view = el.dataset.value; App.rerender(); },
     'trade-sort'(el) { const k = el.dataset.key; const s = App.state.tradeSort; if (s.key === k) s.dir = -s.dir; else { s.key = k; s.dir = k === 'symbol' || k === 'setup' ? 1 : -1; } App.rerender(); },
     'trade-q'(el) { App.state.tradeFilter.q = el.value; clearTimeout(App._qt); App._qt = setTimeout(() => { App.rerender(); const q = document.getElementById('tf-q'); if (q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); } }, 250); },
-    'trade-filter'(el) { App.state.tradeFilter[el.dataset.key] = el.value; pageState().page = 1; App.rerender(); },
+    'trade-filter'(el) { const key = el.dataset.key; App.state.tradeFilter[key] = el.value; pageState().page = 1; App.rerender(); const pop = document.getElementById('pop-tfilter'); if (pop) { pop.classList.add('open', 'keep'); App.fitPopover(pop); const s2 = pop.querySelector(`[data-key="${key}"]`); if (s2) s2.focus({ preventScroll: true }); } },
     'trade-page-size'(el) { const pg = pageState(); pg.size = Number(el.value) || 50; pg.page = 1; App.rerender(); },
     'trade-page'(el) { pageState().page = Number(el.value) || 1; App.rerender(); },
     'trade-page-nav'(el) { const pg = pageState(); pg.page += Number(el.dataset.dir); App.rerender(); },
+    'range-open'() { const b = document.querySelector('.page-head [data-pop=range], .dash-head [data-pop=range]'); if (b) b.click(); },
     'trade-filter-reset'() { Object.assign(App.state.tradeFilter, { q: '', symbol: '', setup: '', status: '', mistake: '' }); App.rerender(); },
     'new-missed'() {
       U.modal(`<form data-action="save-missed"><div class="modal-head"><h2>Verpassten Trade notieren</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><div class="form-grid"><div class="field"><label for="m-date">Datum</label><input class="input" type="date" id="m-date" name="date" value="${C.dayKey(new Date())}" required></div><div class="field"><label for="m-symbol">Symbol</label><input class="input" id="m-symbol" name="symbol" required></div><div class="field"><span class="lbl">Richtung</span>${U.seg([[1, 'Long'], [-1, 'Short']], 1, 'set-dir')}<input type="hidden" name="direction" value="1"></div><div class="field"><label for="m-setup">Setup</label><input class="input" id="m-setup" name="setup" list="setup-list"><datalist id="setup-list">${S.data.tags.setups.map(s => `<option value="${esc(s)}">`).join('')}</datalist></div><div class="field"><label for="m-pnl">Hätte gebracht (P&L)</label><input class="input" type="number" step="any" id="m-pnl" name="pnl" inputmode="decimal"></div><div class="field"><label for="m-r">R-Multiple</label><input class="input" type="number" step="any" id="m-r" name="r" inputmode="decimal"></div><div class="field span2"><label for="m-reason">Warum nicht gehandelt?</label><input class="input" id="m-reason" name="reason" placeholder="Gezögert, Angst, nicht am Rechner …"></div></div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`);

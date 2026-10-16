@@ -34,9 +34,9 @@ let pass = 0, fail = 0; const ok = (c, n) => { if (c) pass++; else fail++; conso
   /* Score-Skala und Diagramme laufen nur beim Seitenwechsel */
   const anim1 = await p.evaluate(() => ({ enter: document.querySelector('#content').classList.contains('enter'), score: getComputedStyle(document.querySelector('.score-scale')).animationName }));
   ok(anim1.enter && anim1.score === 'score-run', 'Seite geöffnet: Score-Skala läuft · ' + JSON.stringify(anim1));
-  await p.click('[data-action="recent-tab"][data-value="open"]'); await p.waitForTimeout(300);
-  const anim2 = await p.evaluate(() => ({ enter: document.querySelector('#content').classList.contains('enter'), score: getComputedStyle(document.querySelector('.score-scale')).animationName, tab: document.querySelector('[data-action="recent-tab"][data-value="open"]').getAttribute('aria-pressed'), charts: [...document.querySelectorAll('.chart svg.enter')].length }));
-  ok(!anim2.enter && anim2.score === 'none' && anim2.tab === 'true' && anim2.charts === 0, 'Reiter „Offene Positionen“: kein Neustart von Score und Diagrammen · ' + JSON.stringify(anim2));
+  await p.click('.w [data-action="cal-prev"]'); await p.waitForTimeout(300); /* Neuaufbau ohne Seitenwechsel (Reiter „Offene Positionen“ gibt es nur bei offenen Positionen) */
+  const anim2 = await p.evaluate(() => ({ enter: document.querySelector('#content').classList.contains('enter'), score: getComputedStyle(document.querySelector('.score-scale')).animationName, today: !!document.querySelector('[data-action="cal-today"]'), charts: [...document.querySelectorAll('.chart svg.enter')].length }));
+  ok(!anim2.enter && anim2.score === 'none' && anim2.today && anim2.charts === 0, 'Kalender: voriger Monat zeigt „Heute“, kein Neustart von Score und Diagrammen · ' + JSON.stringify(anim2));
   await p.goto(base + '#/stats'); await p.waitForTimeout(600); await p.goto(base + '#/dashboard'); await p.waitForTimeout(500);
   ok(await p.evaluate(() => document.querySelector('#content').classList.contains('enter') && getComputedStyle(document.querySelector('.score-scale')).animationName === 'score-run'), 'Dashboard neu geöffnet: Score-Skala läuft wieder');
   /* Balken wachsen von der Nulllinie */

@@ -43,7 +43,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Long/Short ist ein Umschalter mit zwei Hälften und rundem Pfeil; eine leuchtende Fläche gleitet zur gewählten Seite (Long grün,
   Short rot; der Schieber gleitet weich an- und auslaufend, seine Farbe blendet schnell über; Schrift und Pfeil stehen sofort in der eigenen Farbe, Short wird nie kurz grün). Bei einem neuen Trade ist keine Richtung vorgewählt (die Fläche erscheint erst bei der Wahl, an ihrem Platz); ohne Wahl wird nicht gespeichert, der Schalter wird kurz rot markiert und die Vorschau sagt „Long oder Short wählen“. Gebühren tragen das Währungszeichen des Kontos im Feld ($ davor, € dahinter; wechselt mit der Konto-Auswahl). In Datums- und Zeitfeldern wird das angeklickte Teilstück nicht blau markiert. Am Handy stehen Symbol und Richtung untereinander.
 - **Richtung (Long/Short)** in TradeLog, Tagesansicht, letzten Trades und Trade-Ansicht als Pille mit rundem Pfeil (↗ Long in Grün,
-  ↘ Short in Rot), bewusst ruhig: zarte Fläche, feiner Rand, Pfeil im leicht getönten Kreis ohne Leuchten (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
+  ↘ Short in Rot), bewusst ruhig: Schrift und Rand neutral grau, ohne Fläche; nur der Pfeil im leicht getönten Kreis trägt Grün bzw. Rot (`UI.badge`). In Tabellen steht das Abzeichen in einer eigenen Spalte
   neben dem Symbol (gemeinsame Überschrift „Symbol“), mittig im freien Platz und in einheitlicher Breite, so stehen alle Abzeichen bündig untereinander.
 - **Abstände** folgen einem 4-px-Raster (`--sp-1` … `--sp-10` in `:root`): Karten und Einstellungsblöcke 20 px innen, Kartenkopf 16 px über dem Inhalt, Abschnitte einer Seite 24 px, Raster (Dashboard) 16 px, nach der Kopfreihe 16 px, Tabellenzellen 12/16 px, Dialoge mit Formular 16 px zwischen Kopf, Feldern und Fuß. Eine Seite ohne Steuerelemente in der Kopfreihe zeigt keine leere Kopfreihe; die Einstellungen haben keine (Zeitraum und Konto wirken dort nicht).
 - **Diagramm-Tooltips** sind eine kleine Tabelle (`U.tipTable`): oben das Datum, darunter Bezeichnung links und Wert rechtsbündig; die Box ist fest 220 px breit und bleibt im Diagrammkasten; die gewählte Seite (rechts/links, über/unter dem Punkt) bleibt, solange sie passt, damit nichts hin- und herspringt.
@@ -197,11 +197,20 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Gewinn/Verlust“), Menüs (Vorlagen, Sortierung) bleiben im Bild (`fitPopover` schiebt links verankerte Menüs nach links,
   Grenze ist der sichtbare Bereich), Widget-Bibliothek mit Vorschau, Text und Knopf untereinander. Ab 961px bleibt alles wie gehabt; der Handy-Test `mobiletest` prüft dazu
   alle Routen auf seitlichen Überlauf.
-- **TradeLog**: sortierbare Tabelle, Filter, Tageskarten mit Mini-Chart, verpasste Trades. Auf dem Desktop füllt die Liste genau
+- **TradeLog**: sortierbare Tabelle (ohne Status-Spalte: P&L und RR zeigen das Ergebnis, Break-even neutral; offene Trades stehen unter
+  „Geschlossen“ als „offen“), Suchfeld plus Knopf „Filter“ mit neutralem Zähler (Symbol, Setup, Ergebnis, Fehler im Fenster darunter, es bleibt
+  nach jeder Wahl offen); „Zurücksetzen“ und „x von y Trades“ nur bei aktivem Filter. CSV-Import als Symbol in der Kopfreihe (auch am Handy),
+  nicht bei „Verpasste Trades“ und nicht ohne Trades. Leer-Karten mit je einem Satz und dem einen passenden Knopf (kein Trade: „Trade loggen“
+  und „CSV importieren“; nichts im Zeitraum: „Zeitraum ändern“; Filter ohne Treffer: „Filter zurücksetzen“); ohne Trades im Zeitraum keine
+  Kacheln und keine Filterzeile. Seitenwähler erst ab 11 Zeilen (bei einer Seite nur „Trades pro Seite“). Tageskarten mit Mini-Chart,
+  verpasste Trades („Verpassten Trade notieren“ in der Leer-Karte, sonst neben den Reitern). Auf dem Desktop füllt die Liste genau
   Die Tabelle passt bei 1280 px und mehr ohne seitliches Scrollen ins Fenster (engere Zellen; „Geschlossen“ zeigt am selben Tag nur die Uhrzeit).
   Das „Overall score“-Netz ist in der eingestellten Akzentfarbe, die Score-Zahl bleibt in der Schriftfarbe.
   das Fenster (wie das Notebook): Kacheln, Reiter und Filter oben, die Tabelle nimmt den Rest und scrollt in ihrer Box, der
-  Seitenwähler bleibt unten sichtbar; die Seite selbst scrollt nicht. Trade-Detail und Handy scrollen wie gewohnt.
+  Seitenwähler bleibt unten sichtbar; die Seite selbst scrollt nicht. Bei wenigen Trades ist die Tabelle nur so hoch wie ihr Inhalt, der
+  Seitenwähler steht direkt darunter. Trade-Detail und Handy scrollen wie gewohnt.
+  **CSV-Import Schritt 2**: Konto-Auswahl nur bei mehreren Konten; Datumsformat sichtbar nur, wenn es bei Daten wie 08/10/2026 nicht eindeutig ist
+  (ISO- und Punkt-Daten sind eindeutig); Dezimaltrennzeichen und ein erkanntes Datumsformat hinter „Mehr Optionen“ (offen bei Lesefehlern).
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal.
 - **Statistiken**: 16 Kennzahlen, Tage (Kennzahl-Leiste mit sechs Kacheln, ab 561 px als 3 × 2, darunter die Karte „Tage im Detail“;
   Zähler nur bei > 0 gefärbt, Ø-Tage mit Vorzeichen), Setups/Symbole, Wochentag/Uhrzeit/Haltedauer,

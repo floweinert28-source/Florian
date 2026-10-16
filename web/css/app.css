@@ -911,7 +911,7 @@ span.info:hover { color: var(--text-2); }
   .main:has(> .content > .tl-fit) > .content { flex: 1 1 auto; min-height: 0; padding-bottom: var(--sp-6); }
   .content > .tl-fit { flex: 1 1 auto; min-height: 0; }
   .tl-fit > :last-child { flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; }
-  .tl-fit > .tbl-wrap.paged { overflow: hidden; }
+  .tl-fit > .tbl-wrap.paged { overflow: hidden; flex: 0 1 auto; } /* wenige Trades: Tabelle so kurz wie ihr Inhalt, der Seitenwähler direkt darunter; lange Listen füllen weiter das Fenster */
   .tl-fit > .tbl-wrap.paged .tbl-scroll { max-height: none; flex: 1 1 auto; min-height: 0; }
   .tl-fit > .empty, .tl-fit > .grid.tiles, .tl-fit > .row { flex: 0 0 auto; overflow: visible; }
 }
@@ -3764,3 +3764,22 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 .dash-welcome p { color: var(--text-2); }
 .dash-welcome .dw-actions { gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-1); }
 .score-lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); } /* wie alle Wert-Beschriftungen */
+
+/* TradeLog-Filter: Suchfeld plus ein Knopf „Filter“ mit neutralem Zähler; die vier Auswahlen im Fenster darunter */
+.tl-filters { gap: var(--sp-2); flex-wrap: nowrap; }
+.tl-search { max-width: 16.25rem; position: relative; min-width: 0; }
+.tl-search .input { padding-left: 2.125rem; }
+.tl-search-i { position: absolute; left: 0.6875rem; top: 50%; transform: translateY(-50%); width: 0.9375rem; height: 0.9375rem; color: var(--muted); display: flex; pointer-events: none; }
+.tl-search-i svg { width: 100%; height: 100%; }
+.tl-count { margin-left: auto; white-space: nowrap; }
+.tf-pop { left: 0; right: auto; width: 17.5rem; padding: var(--sp-3); flex-direction: column; gap: var(--sp-3); }
+.tf-pop.open { display: flex; }
+.tf-pop .field { margin: 0; }
+@media (max-width: 35em) { .tl-filters .tl-count { display: none; } .tf-pop { left: auto; right: 0; width: min(17.5rem, calc(100vw - 2rem)); } }
+.tf-pop.keep { animation: none; } /* nach einer Filter-Wahl ohne erneutes Aufklappen */
+/* CSV-Import Schritt 2: Optionen kompakt in einer Zeile, „Mehr Optionen“ eingeklappt; am Handy ohne Spaltenkopf-Zeile */
+.imp-opt { flex-direction: row; align-items: center; gap: var(--sp-2); margin: 0; }
+.imp-more { margin: var(--sp-2) 0 0; }
+.imp-more > summary { cursor: pointer; width: max-content; }
+.imp-more > .row { margin-top: var(--sp-2); gap: var(--sp-3); flex-wrap: wrap; }
+@media (max-width: 35em) { .fieldset .map-row.caption { display: none; } }

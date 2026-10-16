@@ -192,8 +192,9 @@
   }
   /* Zähler mit Einzahl/Mehrzahl: count(1, 'Trade', 'Trades') → „1 Trade“ */
   const count = (n, one, many) => `${fmt.int(n)} ${Math.abs(n) === 1 ? one : many}`;
-  const pnl = (v, extra = '', o = {}) => `<span class="${cls(v)} ${extra}">${fmt.cur(v, Object.assign({ signed: true }, o))}</span>`;
-  const rText = (v, extra = '') => v == null ? `<span class="faint ${extra}">—</span>` : `<span class="${cls(v)} ${extra}">${fmt.r(v)}</span>`;
+  /* o.neutral / neutral: Break-even-Trades ohne Gewinn- oder Verlustfarbe, auch wenn Gebühren den Betrag knapp ins Minus drücken */
+  const pnl = (v, extra = '', o = {}) => `<span class="${o.neutral ? 'neu' : cls(v)} ${extra}">${fmt.cur(v, Object.assign({ signed: true }, o))}</span>`;
+  const rText = (v, extra = '', neutral = false) => v == null ? `<span class="faint ${extra}">—</span>` : `<span class="${neutral ? 'neu' : cls(v)} ${extra}">${fmt.r(v)}</span>`;
 
   /* ---------- Fehler freundlich melden: was passiert ist und was man tun kann. Technische Details (Status, Server-Text, Stack)
      nur in die Konsole, nie in die Oberfläche. area: 'mentor' | 'coach' | 'news' | 'voice' | 'server' ---------- */

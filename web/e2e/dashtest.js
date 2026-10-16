@@ -47,7 +47,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   // Alle unteren Widgets hinzufügen
   await p.click('.dash-main .add-slot'); await p.waitForTimeout(250);
   for (let i = 0; i < 30; i++) { const b = await p.$('.side-panel .sp-item .btn.primary'); if (!b) break; await b.click(); await p.waitForTimeout(150); }
-  ok('Alle 21 unteren Widgets drin (Blind-Replay zurückgestellt)', await p.$$eval('.dash-main > .w', e => e.length) === 21);
+  ok('Alle 25 unteren Widgets drin (Blind-Replay zurückgestellt)', await p.$$eval('.dash-main > .w', e => e.length) === 25);
   await p.click('.side-panel [data-action="dash-add-close"]'); await p.waitForTimeout(200);
   // Drag & Drop oben: Widget 0 hinter Widget 2
   await p.dragAndDrop('.dash-top .w[data-idx="0"] .handle', '.dash-top .w[data-idx="2"]', { targetPosition: { x: 200, y: 40 } }); await p.waitForTimeout(300);
@@ -56,8 +56,8 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   await p.screenshot({ path: 'dash-4-full.png', fullPage: true });
   // Speichern
   await p.click('[data-action="dash-save"]'); await p.waitForTimeout(300);
-  ok('Gespeichert: kein Edit-Bar, 21 unten', !(await p.$('.edit-bar')) && await p.$$eval('.dash-main > .w', e => e.length) === 21);
-  ok('Persistiert', await p.evaluate(() => Store.activeDashboard().layout.unten.length === 22 && Store.activeDashboard().layout.oben.length === 5));
+  ok('Gespeichert: kein Edit-Bar, 25 unten', !(await p.$('.edit-bar')) && await p.$$eval('.dash-main > .w', e => e.length) === 25);
+  ok('Persistiert', await p.evaluate(() => Store.activeDashboard().layout.unten.length === 26 && Store.activeDashboard().layout.oben.length === 5));
   ok('Keine Fehler in Widgets', await p.$$eval('.dash-main .card', c => c.filter(x => x.textContent.includes('nicht berechnet')).length) === 0);
   ok('Jahreskalender: Zeile pro Jahr mit 14 Kästchen', await p.$$eval('.ycal-row', e => e.length) >= 1 && await p.$$eval('.ycal-row', e => e.every(r => r.querySelectorAll('.yc').length === 14)));
   await p.click('.w[data-typ="jahreskalender"] [data-key="ansicht"][data-value="trefferquote"]'); await p.waitForTimeout(300);
@@ -100,7 +100,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   ok('Panel geschlossen', !(await p.$('.rep-panel')));
   // Abbrechen verwirft
   await p.click('[data-pop=tpl]'); await p.waitForTimeout(150); await p.click('#pop-tpl [data-action="dash-tpl-edit"]'); await p.waitForTimeout(250); await p.click('.dash-main .w[data-idx="0"] .rm'); await p.waitForTimeout(150); await p.click('[data-action="dash-cancel"]'); await p.waitForTimeout(250);
-  ok('Abbrechen verwirft Änderung', await p.$$eval('.dash-main > .w', e => e.length) === 21);
+  ok('Abbrechen verwirft Änderung', await p.$$eval('.dash-main > .w', e => e.length) === 25);
   /* Vorlagen */
   await p.click('[data-pop=tpl]'); await p.waitForTimeout(150);
   ok('Dropdown mit Neu + Standard ★ ✓', !!(await p.$('#pop-tpl.open')) && (await p.textContent('#pop-tpl')).includes('Neue Vorlage') && !!(await p.$('.tpl-row .star')) && !!(await p.$('.tpl-row.on .chk svg')));
@@ -134,7 +134,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   ok('Gelöscht, neuer Standard', await p.evaluate(() => Store.dashboards().length === 3 && !Store.dashboards().some(d => d.name === 'Scalping Pro') && Store.dashboards().filter(d => d.isDefault).length === 1));
   // Vorlage wechseln
   await p.click('[data-pop=tpl]'); await p.waitForTimeout(150); await p.click('.tpl-row .item.name'); await p.waitForTimeout(300);
-  ok('Wechsel lädt Standard (21 unten)', await p.$$eval('.dash-main > .w', e => e.length) === 21 && (await p.textContent('[data-pop=tpl]')).includes('Standard'));
+  ok('Wechsel lädt Standard (25 unten)', await p.$$eval('.dash-main > .w', e => e.length) === 25 && (await p.textContent('[data-pop=tpl]')).includes('Standard'));
   // Neuladen: Standard-Vorlage (isDefault) wird geladen
   await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(600);
   ok('Nach Neuladen Standard-Vorlage (Stern) geladen', await p.evaluate(() => Store.activeDashboard().isDefault));

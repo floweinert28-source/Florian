@@ -3804,3 +3804,30 @@ html[data-mode="simple"] .sidebar .sb-new .btn { height: 44px; font-size: var(--
 .mentor-notice { margin: 8px 0 0; padding: 8px 12px; border-radius: var(--radius); background: var(--surface-2); color: var(--text-2); font-size: var(--fs-13); line-height: var(--lh-13); }
 .mentor-stop { color: var(--text); }
 .mentor-stop svg { width: 14px; height: 14px; }
+/* ---------- Tippflächen auf Touch-Geräten (Handy, Tablet): jede Bedienfläche mindestens 44 × 44 px. Knöpfe, Felder und Reiter
+   werden so hoch; kleine Elemente (Schalter, Stufen-Knöpfe, Links im Text) behalten ihre Form und bekommen eine unsichtbare,
+   größere Trefferfläche ---------- */
+@media (pointer: coarse) {
+  .btn, .btn.sm, .input, .input.sm, .select, .select.sm, .tabs button, .tabs a.btn, .tabs.sm button, .chip.sel, label.check { min-height: 44px; }
+  .btn.icon, .btn.icon.sm, .btn.icon-only, .btn.round { min-width: 44px; min-height: 44px; }
+  .btn.icon-only, .btn.round { width: 44px; }
+  .btn.round { height: 44px; }
+  label.check { align-items: center !important; }
+  .switch, .sr-btn, .avatar, .more-link, .aff-pct, .aff-name, .cpn-link, .pg-turn, .dot, .pager .pg-nav button, .rail-item, .sb-toggle { position: relative; }
+  .switch::before, .sr-btn::before, a.avatar::before, .more-link::before, .aff-pct::before, .aff-name::before, .cpn-link::before, .pg-turn::before, .pager .pg-nav button::before, .sb-toggle::before {
+    content: ''; position: absolute; left: 50%; top: 50%; width: max(100%, 44px); height: max(100%, 44px); transform: translate(-50%, -50%); }
+  .cal-arr::after { inset: -8px; }
+  .dot { width: 44px; height: 44px; }
+  .set-nav a, .dir-opt, .tf-more > summary, .nav-more > summary, [data-action="day-regime"], .rp-btn, .cpn-code, .nav a { min-height: 44px; }
+}
+/* ---------- Eine Hauptaktion je Seite: gefüllt ist nur der wichtigste Knopf. Auf Seiten mit eigener Hauptaktion wird „Trade loggen“
+   (Seitenleiste) zum Rahmen-Knopf; Knöpfe in Dashboard-Widgets sind immer Rahmen-Knöpfe ---------- */
+html.page-primary .btn.accent.tl { background: transparent; border-color: var(--border-2); color: var(--text); box-shadow: none; }
+html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
+:is(.dash-top, .dash-main) :is(.btn.primary, .btn.accent):not(.icon-only) { background: transparent; border-color: var(--border-2); color: var(--text); box-shadow: none; }
+:is(.dash-top, .dash-main) :is(.btn.primary, .btn.accent):not(.icon-only):hover { background: var(--surface-2); }
+/* ---------- Sofortiges Feedback beim Tippen und Klicken: gedrückter Zustand für Einträge, Menüpunkte, Reiter, Chips und Karten ---------- */
+.nav a:active, .nav-more > summary:active, .popover .item:active, .set-nav a:active, .tabs button:active, .chip.sel:active, tr.link:active > td { background: var(--surface-3); transition-duration: 60ms; }
+.rail-item:active .ri { background: var(--nav-a2); transition-duration: 60ms; }
+.mode-card:active, .theme-card:active .tc-prev, .font-card:active, .pair-card:active, .switch:active, .dot:active { transform: scale(.98); transition-duration: 60ms; }
+.btn[aria-busy="true"] { cursor: progress; }

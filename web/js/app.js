@@ -142,7 +142,7 @@
       M.scan(main.querySelector('#content'), false);
       this.renderSidebar();
       /* Diagramme zeichnen sich nur beim Seitenwechsel ein (nicht beim Neuaufbau nach Eingaben); bei „Bewegung reduzieren“ nie */
-      U.enterCharts(anim); U.drawCharts(main); U.enterCharts(false); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.catchUpScroll(short);
+      U.enterCharts(anim); U.drawCharts(main); U.enterCharts(false); const imgs = this.loadBlobImages(main); const short = keep ? this.restoreScroll(main, keep) : []; if (screen.mount) screen.mount(main, ctx); this.markPrimary(main); this.catchUpScroll(short);
       window.scrollTo({ top: keep ? keep.y : stay ? stayY : 0 });
       if (keep && keep.anchor) this.keepAnchor(main, keep.anchor);
       if (hold) this.releaseHeight(main, imgs, tok, short);
@@ -216,6 +216,20 @@
       if (sw.el.isConnected) return; const n = document.querySelector(sw.sel); if (!n) return; const now = n.getAttribute('aria-checked'); if (now === sw.was) return;
       const tile = n.closest('.shadow-rule'); n.classList.add('no-anim'); n.setAttribute('aria-checked', sw.was); void n.offsetWidth; n.classList.remove('no-anim'); n.setAttribute('aria-checked', now);
       if (tile) { const on = tile.classList.contains('on'); tile.style.transition = 'none'; tile.classList.toggle('on', !on); void tile.offsetWidth; tile.style.transition = ''; tile.classList.toggle('on', on); }
+    },
+    /* Doppelklick-Sperre: Läuft eine Aktion asynchron (Server, Bilder, Rückfrage), bleibt ihr Knopf bis zum Ende gesperrt,
+       damit nichts doppelt gesendet oder gespeichert wird */
+    lockWhile(el, r) {
+      if (!r || typeof r.then !== 'function' || !el || el.tagName !== 'BUTTON' || el.disabled) return;
+      el.disabled = true; el.setAttribute('aria-busy', 'true');
+      const done = () => { if (el.isConnected) { el.disabled = false; el.removeAttribute('aria-busy'); } };
+      r.then(done, done);
+    },
+    /* Eine Hauptaktion je Seite: hat die Seite einen eigenen gefüllten Hauptknopf (Speichern, Neue Notiz, Konto anlegen …), tritt
+       „Trade loggen“ in der Seitenleiste als Rahmen-Knopf zurück, an derselben Stelle. Knöpfe in Widgets, Hinweisen und Menüs zählen nicht */
+    markPrimary(main) {
+      const own = [...main.querySelectorAll('.btn.primary, .btn.accent')].some(b => !b.classList.contains('tl') && !b.classList.contains('icon-only') && !b.closest('.dash-top, .dash-main, .banner, .empty, .popover, .edit-bar, [hidden]') && b.getClientRects().length);
+      document.documentElement.classList.toggle('page-primary', own);
     },
     rerender(keepScroll = true) { const keep = keepScroll ? this.saveScroll(document.getElementById('main')) : null; if (keep) keep.anchor = this.takeAnchor(); this.render({ enter: false, keep }); },
     /* Angeklicktes Element an seinem Platz halten: Ändert sich durch die Aktion etwas darüber (ein Hinweis verschwindet, eine Karte wächst),
@@ -362,10 +376,11 @@
         if (stopEl && !inside(closeEl) && !inside(el)) return; /* data-stop schirmt nur äußere Aktionen ab, nicht Knöpfe darin */
         if (closeEl) { if (closeEl.isConnected) U.closeModal(); return; }
         if (!el || el.tagName === 'FORM') return;
-        const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); this.noteAnchor(el); const sw = this.switchMark(el); fn.call(this, el, e); if (sw) this.glideSwitch(sw); }
+        const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); this.noteAnchor(el); const sw = this.switchMark(el); this.lockWhile(el, fn.call(this, el, e)); if (sw) this.glideSwitch(sw); }
       });
       document.addEventListener('toggle', e => { if (e.target.matches && e.target.matches('[data-nav-more]')) this.state.navMore = e.target.open; }, true); /* „Mehr“ der Seitenleiste (Simple) bleibt beim Seitenwechsel auf oder zu */
-      document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); fn.call(this, f, e); } } });
+      document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); this.lockWhile(f.querySelector('button[type=submit]'), fn.call(this, f, e)); } } });
+      document.addEventListener('touchstart', () => {}, { passive: true }); /* iOS Safari zeigt :active (gedrückter Zustand) nur mit einem Touch-Listener */
       document.addEventListener('keydown', e => { /* Elemente mit role=button/checkbox: Enter und Leertaste wie Klick */ const rb = e.target && e.target.closest && (e.key === 'Enter' || e.key === ' ') && !e.target.matches('input, textarea, select, button, a, [contenteditable]') ? e.target.closest('[role=button][tabindex], [role=checkbox][tabindex]') : null; if (rb && rb === e.target) { e.preventDefault(); rb.click(); return; } if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
       /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
       window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });

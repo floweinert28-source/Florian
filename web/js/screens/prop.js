@@ -240,7 +240,7 @@
       <div class="field"><label for="ps-yellow">Gelb, wenn weniger als … % des Limits übrig</label><input class="input" id="ps-yellow" name="yellow" type="number" min="0" max="100" step="1" value="${Math.round(th.yellow * 100)}" inputmode="decimal"></div>
       <div class="field"><label for="ps-red">Rot, wenn weniger als … % übrig</label><input class="input" id="ps-red" name="red" type="number" min="0" max="100" step="1" value="${Math.round(th.red * 100)}" inputmode="decimal"></div>
       <div class="field"><label for="ps-stop">${esc(unitLabel('Stop-Größe: Risiko pro Trade'))}</label><input class="input" id="ps-stop" name="stopSize" type="number" min="0" step="any" value="${S.settings.propStopSize > 0 ? S.settings.propStopSize : ''}" inputmode="decimal" placeholder="automatisch"><span class="hint">Leer: Median der Verlust-Trades der letzten 30 Trades je Konto. Bestimmt „noch X Stop-Losses“.</span></div>
-      <div class="field span2"><div><button type="submit" class="btn primary sm">Speichern</button></div></div></form>`;
+      <div class="field span2"><div><button type="submit" class="btn sm">Speichern</button></div></div></form>`; /* Nebenaktion im Aufklapp-Bereich: Rahmen-Knopf, gefüllt ist nur „Konto anlegen“ */
     return U.card('Deine Konten', accTable, { trailing: `<button type="button" class="btn sm primary" data-action="prop-account-new">${I.plus} Konto anlegen</button>`, info: 'Regeln sind je Konto als Momentaufnahme gespeichert. Status (geplatzt, bestanden, archiviert) setzt du im Konto-Dialog.' })
       + fold('presets', 'Eigene Presets', presetBody, { count: ps.length, sub: 'Vorlagen für neue Konten' })
       + fold('ampel', 'Ampel und Stop-Größe', settings, { sub: `Gelb unter ${Math.round(th.yellow * 100)} %, Rot unter ${Math.round(th.red * 100)} %` });
@@ -248,7 +248,8 @@
 
   /* ---------- Bilanz ---------- */
   /* Eingabe-Formulare sind eingeklappt; der Knopf im Kartenkopf klappt sie auf (ohne Neuaufbau). Leere Liste: gleich offen */
-  const entryBtn = (kind, label) => { const e = st().entry || {}; return `<button type="button" class="btn sm${e[kind] ? '' : ' primary'}" data-action="prop-entry" data-value="${kind}" aria-expanded="${!!e[kind]}">${e[kind] ? `${I.close} Schließen` : `${I.plus} ${label}`}</button>`; };
+  /* Hauptaktion der Bilanz ist „Ausgabe erfassen“ (gefüllt); „Payout erfassen“ daneben als Rahmen-Knopf, nie zwei gleich starke */
+  const entryBtn = (kind, label) => { const e = st().entry || {}; return `<button type="button" class="btn sm${e[kind] || kind !== 'expense' ? '' : ' primary'}" data-action="prop-entry" data-value="${kind}" aria-expanded="${!!e[kind]}">${e[kind] ? `${I.close} Schließen` : `${I.plus} ${label}`}</button>`; };
   function tabBilanz() {
     const ex = typeof S.propExpenses === 'function' ? S.propExpenses() : [], po = typeof S.propPayouts === 'function' ? S.propPayouts() : [], accs = accounts(); const bs = P.balanceSheet(ex, po, accs);
     U.chartData['prop-balance'] = { points: bs.series.map(p => ({ date: C.parseDayKey(p.date), v: { spent: p.spentCum, received: p.receivedCum } })), series: [{ key: 'spent', label: 'Ausgaben kumuliert', unit: 'cur', color: 'var(--loss)' }, { key: 'received', label: 'Payouts kumuliert', unit: 'cur', color: 'var(--profit)' }], periodLabel: d => fmt.dateFull(d) };

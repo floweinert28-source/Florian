@@ -14,7 +14,7 @@ const pad = n => String(n).padStart(2, '0');
   await openRange();
   const indicatorRule = () => { for (const ss of document.styleSheets) { let rs; try { rs = ss.cssRules; } catch (e) { continue; } for (const r of rs) if (r.media && /pointer: fine/.test(r.conditionText || r.media.mediaText)) for (const rr of r.cssRules) if (/::-webkit-calendar-picker-indicator/.test(rr.selectorText) && rr.style.display === 'none' && /type="date"/.test(rr.selectorText)) return true; } return false; };
   /* Symbol-Regel und Ausblenden des nativen Symbols stehen im selben (pointer: fine)-Block; file:// sperrt CSSOM, darum über das eigene Symbol geprüft */
-  ok('Eigenes Kalender-Symbol statt des nativen', await p.evaluate(() => matchMedia('(pointer: fine)').matches) && await p.$eval('#range-from', e => getComputedStyle(e).backgroundImage.includes('svg') && getComputedStyle(e).paddingRight === '38px'));
+  ok('Eigenes Kalender-Symbol statt des nativen', await p.evaluate(() => matchMedia('(pointer: fine)').matches) && await p.$eval('#range-from', e => getComputedStyle(e).backgroundImage.includes('svg') && getComputedStyle(e).paddingRight === '40px'));
   await p.click('#range-from'); await p.waitForTimeout(250);
   let st = await dpState(); const fr = await p.$eval('#range-from', e => { const r = e.getBoundingClientRect(); return { b: Math.round(r.bottom), l: Math.round(r.left) }; });
   ok('Kalender öffnet beim Klick ins Feld', st.open, JSON.stringify(st));

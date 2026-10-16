@@ -423,6 +423,13 @@ Abstände der Leisten und die Werte je Erscheinungsbild (Graphit, Schwarz, Weiß
   hatte, bekommt beim Start automatisch „System“.
 - `tests/theme.test.mjs` prüft die Kontraste der Grundwerte (Text, Hinweise, Gewinn/Verlust, Akzent) im hellen und dunklen Design.
 
+### Abstände und Radien
+
+Abstände (padding, margin, gap) kommen nur aus sechs Stufen: `--sp-1` 4 px, `--sp-2` 8, `--sp-3` 12, `--sp-4` 16, `--sp-6` 24,
+`--sp-8` 32 (in rem, `css/tokens.css`). Karten haben innen 16 (`--pad-card`), zwischen Karten 16 (`--grid-gap`), zwischen
+Abschnitten 24 (`--content-gap`). Ausnahmen: Feinkorrekturen bis 3 px und große Layout-Maße über 40 px. Radien in vier Stufen:
+`--radius-xs` 4 (Chips), `--radius` 8 (Knöpfe, Felder, Karten), `--radius-lg` 12 (Fenster, Popover), rund für Schalter und Pills.
+
 ### Schriftgrößen und 200 % Schrift
 
 Alle Längen in `css/*.css` stehen in `rem` (Haarlinien bis 1 px bleiben `px`), Breakpoints in `@media` in `em`, Container-Abfragen

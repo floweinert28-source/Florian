@@ -39,7 +39,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await p.goto(BASE + '#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(700);
   await p.evaluate(() => { Store.setSetting('railHidden', true); App.rerender(); }); await p.waitForTimeout(300);
   await p.click('.sb-user'); await p.waitForTimeout(300);
-  const mini = await p.evaluate(() => { const m = document.getElementById('pop-user'); const r = m.getBoundingClientRect(), s = document.getElementById('sidebar').getBoundingClientRect(); const hit = document.elementFromPoint(r.left + 40, r.top + 20); return { left: Math.round(r.left), sbRight: Math.round(s.right), visible: r.width > 200 && r.bottom <= innerHeight + 1 && !!hit && m.contains(hit), who: getComputedStyle(document.querySelector('.sb-who')).display }; });
+  const mini = await p.evaluate(() => { const m = document.getElementById('pop-user'); const r = m.getBoundingClientRect(), s = document.getElementById('sidebar').getBoundingClientRect(); const hit = document.elementFromPoint(r.left + 40, r.top + 20); return { left: Math.round(r.left), sbRight: Math.round(s.right), visible: r.width > 180 && r.bottom <= innerHeight + 1 && !!hit && m.contains(hit), who: getComputedStyle(document.querySelector('.sb-who')).display }; });
   ok(mini.visible && mini.left >= 0 && mini.left < mini.sbRight, 'Bereichsleiste ausgeblendet: Konto-Menü sichtbar über der Karte in der Seitenleiste · ' + JSON.stringify(mini));
   await p.screenshot({ path: 'langshots/uc-mini.png', clip: { x: 0, y: 600, width: 400, height: 400 } });
   await p.mouse.click(900, 300); await p.evaluate(() => { Store.setSetting('railHidden', false); App.rerender(); }); await p.waitForTimeout(200);

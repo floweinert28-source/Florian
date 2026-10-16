@@ -89,15 +89,18 @@
   --fs-44: 2.75rem;
   --lh-val: 1.1; --ls-val: -0.02em; --ls-hero: -0.03em;
   /* Radien */
-  --radius: 0.5rem;
-  --radius-sm: 0.375rem;
+  /* Radien: vier Stufen. 4 Chips, 8 Knöpfe, Felder und Karten, 12 Fenster und Popover, rund für Schalter und Pills */
   --radius-xs: 0.25rem;
+  --radius: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 999px;
   --win-r: 0.875rem;
   /* Abstände (4-px-Stufen) */
-  --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem; --sp-5: 1.25rem; --sp-6: 1.5rem; --sp-8: 2rem; --sp-10: 2.5rem;
+  /* Abstände: nur diese sechs Stufen (4/8/12/16/24/32) */
+  --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem; --sp-6: 1.5rem; --sp-8: 2rem;
   --content-gap: var(--sp-6); /* zwischen Abschnitten einer Seite */
   --grid-gap: var(--sp-4); /* zwischen Karten eines Rasters */
-  --pad-card: var(--sp-5); /* Innenabstand von Karten */
+  --pad-card: var(--sp-4); /* Innenabstand von Karten */
   --gutter: 1.5rem;
   /* Maße des Aufbaus */
   --sidebar-w: 14.5rem;

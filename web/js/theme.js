@@ -1,19 +1,20 @@
 /* Farben: Akzent, Gewinn und Verlust frei wählbar; gilt für App und Startseite */
 (function (root) {
   'use strict';
-  const DEFAULTS = { dark: { accent: '#ede6da', profit: '#4cb782', loss: '#eb5757', be: '#9a8cf8' }, light: { accent: '#22201c', profit: '#16a34a', loss: '#ef4444', be: '#5f4fcf' } }; /* Akzent Elfenbein (hell: Grafit), Grün nur für Gewinn; Gewinn und Verlust gedämpft statt neon (ruhiger Gesamt-Look) */
+  const DEFAULTS = { dark: { accent: '#ede6da', profit: '#4cb782', loss: '#eb5757', be: '#9a8cf8' }, light: { accent: '#1c1a17', profit: '#16a34a', loss: '#ef4444', be: '#5f4fcf' } }; /* Akzent Elfenbein (hell: Grafit), Grün nur für Gewinn; Gewinn und Verlust gedämpft statt neon (ruhiger Gesamt-Look) */
   /* Schriftarten: „modern“ ist der Standard (Satoshi von Fontshare, Zahlen in Onest; beide geometrisch, gleiche Proportionen), „geschwungen“ die frühere
-     Standardschrift (Quicksand, Zahlen in Onest), „klassisch“ SF Pro / Inter mit Roboto-Zahlen, „rund“ eine Schrift für Text und Zahlen.
+     Standardschrift (Quicksand, Zahlen in Onest), „system“ die Schrift des Geräts (Apple: SF Pro, Windows: Segoe UI, Android: Roboto; ersetzt das frühere „klassisch“ mit Inter),
+     „rund“ eine Schrift für Text und Zahlen.
      Satoshi steht unter der ITF Free Font License: Laden über die Fontshare-API (app.html), Schriftdateien liegen nicht im Repository */
   const DEFAULT_FONT = 'modern';
   const FONTS = {
     modern: { name: 'Modern', desc: 'Standard: klar und modern, Zahlen in Onest', text: '"Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Onest:wght@400;500;600;700;800'] },
     geschwungen: { name: 'Geschwungen', desc: 'Leicht und geschwungen, Zahlen in Onest', text: '"Quicksand", "Segoe UI", system-ui, -apple-system, sans-serif', num: '"Onest", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Quicksand:wght@400;500;600;700', 'Onest:wght@400;500;600;700;800'] },
     rund: { name: 'Rund', desc: 'Weiche, runde Formen', text: '"Nunito", "Segoe UI", system-ui, sans-serif', gf: ['Nunito:wght@400;500;600;700;800'] },
-    klassisch: { name: 'Klassisch', desc: 'Klar und neutral, Zahlen in Roboto', text: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif', display: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif', num: '"Roboto", "Segoe UI", system-ui, -apple-system, sans-serif', gf: ['Inter:wght@400;500;600;700;800', 'Roboto:wght@400;500;700'] },
+    system: { name: 'System', desc: 'Die Schrift deines Geräts', text: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', num: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', gf: [] },
   };
   /* Unbekannte Werte, auch das frühere „standard“, landen beim Standard */
-  const fontKey = k => FONTS[k] ? k : DEFAULT_FONT;
+  const fontKey = k => FONTS[k] ? k : k === 'klassisch' ? 'system' : DEFAULT_FONT; /* „klassisch“ (Inter) heißt jetzt „system“ */
   function loadFont(key) { const f = FONTS[key]; if (!f || typeof document === 'undefined') return; for (const fam of f.gf) { const id = 'font-' + fam.replace(/[^a-z]/gi, '').toLowerCase(); if (document.getElementById(id)) continue; const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + fam + '&display=swap'; document.head.appendChild(l); } }
   const PRESETS_ACCENT = [['Elfenbein', '#ede6da'], ['Neongrün', '#34f58a'], ['Violett', '#7b61ff'], ['Blau', '#3b82f6'], ['Türkis', '#22d3ee'], ['Orange', '#f97316'], ['Pink', '#ec4899'], ['Gelb', '#facc15']];
   const PRESETS_PAIR = [['Grün / Rot', '#4cb782', '#eb5757'], ['Blau / Orange', '#3b82f6', '#f97316'], ['Türkis / Pink', '#22d3ee', '#ec4899'], ['Violett / Gelb', '#8b7cf6', '#facc15'], ['Grün / Grau', '#4cb782', '#9aa3a0'], ['Weiß / Rot', '#f5f5f5', '#eb5757'], ['Neon', '#34f58a', '#ff5c5c']];
@@ -23,11 +24,11 @@
   const shade = (h, f) => { const c = hex2rgb(h); return rgb2hex(c.map(v => f < 0 ? v * (1 + f) : v + (255 - v) * f)); };
   const rgba = (h, a) => { const [r, g, b] = hex2rgb(h); return `rgba(${r}, ${g}, ${b}, ${a})`; };
   const valid = h => typeof h === 'string' && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(h);
-  /* helles Design: eigene Farben in 8-%-Schritten abdunkeln, bis Zahlen auf Weiß mindestens 4,5:1 erreichen (Luminanz ≤ 0,18) */
-  const forLight = h => { const c = hex2rgb(h); if (Math.max(...c) - Math.min(...c) < 40 && lum(h) > 0.5) return '#22201c'; /* helle, fast farblose Töne (Elfenbein, Weiß): im hellen Design Grafit statt mattem Graubraun */ let x = h; let i = 0; while (lum(x) > 0.18 && i++ < 24) x = shade(x, -0.08); return x; };
+  /* helles Design: eigene Farben in 8-%-Schritten abdunkeln, bis Zahlen auf dem hellen Grund mindestens 4,5:1 erreichen (Luminanz ≤ 0,175) */
+  const forLight = h => { const c = hex2rgb(h); if (Math.max(...c) - Math.min(...c) < 40 && lum(h) > 0.5) return '#1c1a17'; /* helle, fast farblose Töne (Elfenbein, Weiß): im hellen Design Grafit statt mattem Graubraun */ let x = h; let i = 0; while (lum(x) > 0.175 && i++ < 24) x = shade(x, -0.08); return x; }; /* 0,175: 4,5 : 1 auch auf dem fast weißen Grund (#fcfcfb) */
   const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
   /* Schrift auf einer Farbfläche: Weiß oder Fast-Schwarz, je nachdem, was mehr Kontrast hat */
-  const inkFor = h => ratio(h, '#ffffff') >= ratio(h, '#04140a') ? '#ffffff' : '#04140a';
+  const inkFor = h => ratio(h, '#fcfcfb') >= ratio(h, '#04140a') ? '#fcfcfb' : '#04140a'; /* fast Weiß statt reinem Weiß */
   /* Flächen aus einer Grundfarbe: dunkle Grundfarbe → hellere Stufen für Karten und Ränder; helle → Karten fast weiß, Ränder dunkler.
      Die Stufen folgen den festen Designs (Graphit bzw. Weiß), nur im Farbton der Grundfarbe. */
   const SURFACE_KEYS = ['--bg', '--bg-2', '--surface', '--surface-2', '--surface-3', '--border', '--border-2', '--field', '--ambient'];
@@ -48,7 +49,7 @@
     const acc = valid(c.accent) ? (light ? forLight(c.accent) : c.accent) : null;
     set('--accent', acc); set('--accent-2', acc && shade(acc, -0.14)); set('--accent-soft', acc && rgba(acc, light ? 0.10 : 0.13)); set('--accent-glow', acc && rgba(acc, 0.3)); set('--accent-ink', acc && inkFor(acc));
     const p = valid(c.profit) ? (light ? forLight(c.profit) : c.profit) : null; const l = valid(c.loss) ? (light ? forLight(c.loss) : c.loss) : null;
-    set('--profit', p); set('--loss', l); set('--loss-soft', l && rgba(l, light ? 0.10 : 0.14)); set('--profit-soft', p && rgba(p, light ? 0.10 : 0.12));
+    set('--profit', p); set('--loss', l); set('--profit-ink', p); set('--loss-ink', l); /* eigene Farben: im hellen Design schon auf 4,5 : 1 abgedunkelt (forLight), gelten auch für kleine Schrift */ set('--loss-soft', l && rgba(l, light ? 0.10 : 0.14)); set('--profit-soft', p && rgba(p, light ? 0.10 : 0.12));
     const b = valid(c.be) ? (light ? forLight(c.be) : c.be) : null; set('--be', b); set('--be-soft', b && rgba(b, 0.16));
     const fk = fontKey(settings && settings.font); const f = FONTS[fk]; const own = fk !== DEFAULT_FONT; if (own) loadFont(fk); set('--font', own ? f.text : null); set('--font-display', own ? (f.display || f.text) : null); set('--font-num', own ? (f.num || f.text) : null); root.dataset.font = fk;
     const nb = (settings && settings.notebook) || {}; const px = v => v > 0 ? v + 'px' : null; set('--nb-h1', px(nb.h1)); set('--nb-h2', px(nb.h2)); set('--nb-h3', px(nb.h3)); set('--nb-body', px(nb.body)); root.classList.toggle('nb-nostrike', nb.strike === false);

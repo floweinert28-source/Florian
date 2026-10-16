@@ -308,21 +308,21 @@
     const L = 16, RM = 118, T = 46, B = 30; const pw = W - L - RM, ph = H - T - B; const slots = N + (post.length ? post.length + 3 : 7); const slot = pw / slots;
     const x = i => L + i * slot + slot / 2, y = v => T + (max - v) / (max - min) * ph; const dec = spec.dec == null ? 2 : spec.dec;
     g.fillStyle = '#0b0f0d'; g.fillRect(0, 0, W, H);
-    g.strokeStyle = 'rgba(255,255,255,0.07)'; g.lineWidth = 1; g.font = '11px Inter, Roboto, sans-serif'; g.textAlign = 'left';
+    g.strokeStyle = 'rgba(255,255,255,0.07)'; g.lineWidth = 1; g.font = '11px Onest, system-ui, sans-serif'; g.textAlign = 'left';
     for (let k = 0; k <= 5; k++) { const yy = T + k * ph / 5; g.beginPath(); g.moveTo(L, yy); g.lineTo(W - RM + 64, yy); g.stroke(); g.fillStyle = '#6f7a74'; g.fillText(fmtPrice(max - k * (max - min) / 5, dec), W - RM + 70, yy + 4); }
     const candle = (c, i) => { const up = c.c >= c.o; g.strokeStyle = g.fillStyle = up ? '#34f58a' : '#ff5c5c'; g.lineWidth = 1; g.beginPath(); g.moveTo(x(i), y(c.hi)); g.lineTo(x(i), y(c.lo)); g.stroke(); const bw = Math.max(3, slot * 0.6); g.fillRect(x(i) - bw / 2, y(Math.max(c.o, c.c)), bw, Math.max(1.5, Math.abs(y(c.o) - y(c.c)))); };
     candles.forEach(candle); post.forEach((c, k) => candle(c, N + k));
-    const line = (v, color, label, dash) => { g.setLineDash(dash); g.strokeStyle = color; g.lineWidth = 1.2; g.beginPath(); g.moveTo(L, y(v)); g.lineTo(W - RM + 64, y(v)); g.stroke(); g.setLineDash([]); g.fillStyle = color; g.font = 'bold 11px Inter, Roboto, sans-serif'; g.textAlign = 'right'; g.fillText(label, W - RM + 58, y(v) - 4); };
+    const line = (v, color, label, dash) => { g.setLineDash(dash); g.strokeStyle = color; g.lineWidth = 1.2; g.beginPath(); g.moveTo(L, y(v)); g.lineTo(W - RM + 64, y(v)); g.stroke(); g.setLineDash([]); g.fillStyle = color; g.font = 'bold 11px Onest, system-ui, sans-serif'; g.textAlign = 'right'; g.fillText(label, W - RM + 58, y(v) - 4); };
     if (spec.stop != null && spec.stop !== '') line(Number(spec.stop), '#ff5c5c', 'Stop ' + fmtPrice(spec.stop, dec), [5, 4]);
     if (spec.target != null && spec.target !== '') line(Number(spec.target), '#34f58a', 'Ziel ' + fmtPrice(spec.target, dec), [5, 4]);
     line(entry, '#5cb8ff', 'Einstieg ' + fmtPrice(entry, dec), [2, 3]);
     const arrow = (cx, cy, up, color) => { g.fillStyle = color; g.beginPath(); const s = 7; if (up) { g.moveTo(cx, cy - 4); g.lineTo(cx - s, cy + s); g.lineTo(cx + s, cy + s); } else { g.moveTo(cx, cy + 4); g.lineTo(cx - s, cy - s); g.lineTo(cx + s, cy - s); } g.closePath(); g.fill(); };
     arrow(x(N - 1), y(entry) + (dir > 0 ? 14 : -14), dir > 0, '#5cb8ff');
-    if (post.length) { const ex = Number(spec.exit); arrow(x(N + post.length - 1), y(ex) + (dir > 0 ? -14 : 14), dir < 0, '#f5b93a'); g.fillStyle = '#f5b93a'; g.font = 'bold 11px Inter, Roboto, sans-serif'; g.textAlign = 'right'; g.fillText('Ausstieg ' + fmtPrice(ex, dec), W - RM + 58, y(ex) + (dir > 0 ? 14 : -6)); }
+    if (post.length) { const ex = Number(spec.exit); arrow(x(N + post.length - 1), y(ex) + (dir > 0 ? -14 : 14), dir < 0, '#f5b93a'); g.fillStyle = '#f5b93a'; g.font = 'bold 11px Onest, system-ui, sans-serif'; g.textAlign = 'right'; g.fillText('Ausstieg ' + fmtPrice(ex, dec), W - RM + 58, y(ex) + (dir > 0 ? 14 : -6)); }
     const title = `${spec.symbol || ''} · ${dir > 0 ? 'Long' : 'Short'}`;
-    g.fillStyle = '#e8ece9'; g.font = 'bold 16px Inter, Roboto, sans-serif'; g.textAlign = 'left'; g.fillText(title, 16, 26); const titleW = g.measureText(title).width;
-    g.fillStyle = '#9aa3a0'; g.font = '13px Inter, Roboto, sans-serif'; g.fillText(`5 min · ${spec.time || ''} · ${spec.kind === 'post' ? 'nach dem Einstieg' : 'vor dem Einstieg'}`, 16 + titleW + 18, 26);
-    g.fillStyle = '#56605b'; g.font = '11px Inter, Roboto, sans-serif'; g.fillText('Beispiel-Chart · Journalyst', 16, H - 10);
+    g.fillStyle = '#e8ece9'; g.font = 'bold 16px Onest, system-ui, sans-serif'; g.textAlign = 'left'; g.fillText(title, 16, 26); const titleW = g.measureText(title).width;
+    g.fillStyle = '#9aa3a0'; g.font = '13px Onest, system-ui, sans-serif'; g.fillText(`5 min · ${spec.time || ''} · ${spec.kind === 'post' ? 'nach dem Einstieg' : 'vor dem Einstieg'}`, 16 + titleW + 18, 26);
+    g.fillStyle = '#56605b'; g.font = '11px Onest, system-ui, sans-serif'; g.fillText('Beispiel-Chart · Journalyst', 16, H - 10);
     return new Promise(res => { try { cv.toBlob(b => res(b || null), 'image/png'); } catch (e) { res(null); } });
   }
   /* renderScreenshots(specs, Blobs, { alive }) → Anzahl gespeicherter Bilder. alive() wird vor jedem Bild geprüft (Abbruch, wenn die Beispieldaten inzwischen entfernt wurden). */

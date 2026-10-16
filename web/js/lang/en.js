@@ -1828,4 +1828,6 @@ I18N.add('en', {
   "Nur speichern": "Just save",
   "Gespeichert, ohne Auswertung. Du kannst sie später in der Trade-Ansicht auswerten lassen.": "Saved without analysis. You can have it analyzed later in the trade view.",
   "Einwilligung": "Consent",
+  "System": "System",
+  "Die Schrift deines Geräts": "Your device's font",
 });

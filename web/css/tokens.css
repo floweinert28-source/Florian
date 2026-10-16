@@ -1,0 +1,155 @@
+/* ============================================================
+   Journalyst – Design-Tokens (zentrale Datei, vor app.css geladen)
+   Alle Farben, Schriften, Abstände, Radien und Bewegungen der App. app.css und die Bildschirme nutzen nur diese Werte.
+   Aufbau: Grund = dunkles Graphit; helles Design zweimal (Systemeinstellung vor dem Start, danach data-theme="light");
+   dunkle Variante „Schwarz“; zum Schluss Werte, die von der Fensterbreite abhängen.
+   Eigene Farben und Grundfarben (Einstellungen → Design) setzt js/theme.js als Inline-Werte am Wurzel-Element.
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+  /* Flächen: warmes Graphit statt Schwarz, leicht warme Grautöne */
+  --bg: #0e0d0b;
+  --bg-2: #151412;
+  --surface: #151412; /* Widgets und Rahmen gleich dunkel */
+  --surface-2: #22211f;
+  --surface-3: #2b2a26;
+  --border: #262522;
+  --border-2: #34322e;
+  --field: #121110; /* Eingabefelder liegen etwas tiefer als die Karten */
+  --ambient: radial-gradient(1100px 640px at 14% -10%, rgba(255, 238, 218, .045), transparent 62%);
+  --sheen: rgba(255, 255, 255, .055); /* Lade-Glanz über Platzhaltern */
+  --win: var(--rail-bg); /* großes Fenster hinter den Widgets: in den dunklen Designs in der Farbe der Leiste */
+  /* Text */
+  --text: #f2f0ec;
+  --text-2: #bcb8b1;
+  --muted: #948f88;
+  --faint: #4f4c47;
+  /* Akzent: Elfenbein, nur für die Hauptaktion und Hervorhebungen; Farbe tragen allein Gewinn, Verlust und Break-even */
+  --accent: #ede6da;
+  --accent-2: #fbf7f0;
+  --accent-ink: #15130f;
+  --accent-soft: rgba(237, 230, 218, 0.10);
+  --accent-glow: rgba(237, 230, 218, 0.22);
+  --focus: var(--accent); /* Fokus-Ring in der Akzentfarbe */
+  --dot-glow: 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 8px color-mix(in srgb, var(--accent) 20%, transparent);
+  /* Bedeutungsfarben */
+  --profit: #4cb782; /* große Zahlen, Diagramme */
+  --profit-soft: rgba(76, 183, 130, 0.12);
+  --loss: #eb5757;
+  --loss-soft: rgba(235, 87, 87, 0.14);
+  --profit-ink: var(--profit); /* kleine Schrift in Gewinnfarbe (Tabellen, Listen): im hellen Design eine Stufe kräftiger für 4,5:1 */
+  --loss-ink: var(--loss);
+  --be: #9a8cf8;
+  --be-soft: rgba(154, 140, 248, 0.16);
+  --warn: #f5b93a;
+  --warn-soft: rgba(245, 185, 58, 0.14);
+  --warn-text: var(--warn); /* gelbe Schrift; im hellen Design dunkler für 4,5:1 */
+  --imp-mid: var(--warn); /* mittlerer Wichtigkeits-Balken (News) */
+  --info: #5cb8ff;
+  /* Kategorie-Farben „Trades nach Setup“: unterscheidbar (auch bei Farbschwäche), ohne Grün und Rot; -ink = Zahl im Segment */
+  --pie-1: #3987e5; --pie-2: #d95926; --pie-3: #9085e9; --pie-4: #d55181; --pie-5: #c98500; --pie-o: #7d786f; --pie-n: #45423c;
+  --pie-1-ink: #15130f; --pie-2-ink: #15130f; --pie-3-ink: #15130f; --pie-4-ink: #15130f; --pie-5-ink: #15130f; --pie-o-ink: #15130f; --pie-n-ink: #e9e4da;
+  /* Seitenleiste und Leiste ganz links */
+  --nav-a1: color-mix(in srgb, var(--text) 7%, var(--bg-2)); /* aktiver Eintrag: Fläche mit weichem Übergang */
+  --nav-a2: color-mix(in srgb, var(--text) 6%, var(--bg-2));
+  --nav-b1: var(--nav-a1);
+  --nav-b2: color-mix(in srgb, var(--text) 13%, var(--bg-2));
+  --nav-icon: #a39e96;
+  --groove-d: rgba(0, 0, 0, .55); /* eingekerbte Trennlinie: dunkle Linie, darunter eine helle */
+  --groove-l: rgba(255, 255, 255, .05);
+  --badge: color-mix(in srgb, var(--text) 14%, var(--bg-2));
+  --badge-ink: var(--text);
+  --sel-p1: 9%; --sel-p2: 6.5%; --sel-pb: 17%; /* Ausgewählt (Reiter, Segmente, Chips): Stärke von Fläche und Rand */
+  --rail-bg: color-mix(in srgb, var(--bg) 45%, var(--ink-black)); /* Leiste ganz links dunkler als alles andere */
+  --rail-ic: #9a958d;
+  --rail-ic-on: #f5f5f4;
+  --sb-thumb: color-mix(in srgb, var(--text) 16%, transparent); /* Scrollbalken-Griff */
+  /* feste Töne statt reinem Weiß und Schwarz (Schrift auf Farbflächen, Knöpfe auf dem Akzent) */
+  --paper: #fcfcfb;
+  --ink-black: #080807;
+  /* Schatten */
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .7);
+  /* Schriften */
+  --font: "Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Satoshi", "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-num: "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
+  /* Schriftgrößen: Text-Skala mit Zeilenhöhe als Verhältnis, Werte-Skala (Zahlen) */
+  --fs-10: 10px; /* nur @container-Notstufen */
+  --fs-11: 11px; --lh-11: calc(16 / 11);
+  --fs-12: 12px; --lh-12: calc(16 / 12);
+  --fs-13: 13px; --lh-13: calc(18 / 13);
+  --fs-14: 14px; --lh-14: calc(20 / 14);
+  --fs-15: 15px; --lh-15: calc(20 / 15);
+  --fs-18: 18px; --lh-18: calc(24 / 18);
+  --fs-21: 21px; --lh-21: calc(28 / 21);
+  --fv-14: 14px; --fv-16: 16px; --fv-20: 20px; --fv-24: 24px; --fv-32: 32px; --fv-44: 44px;
+  --lh-val: 1.1; --ls-val: -0.02em; --ls-hero: -0.03em;
+  /* Radien */
+  --radius: 8px;
+  --radius-sm: 6px;
+  --radius-xs: 4px;
+  --win-r: 14px;
+  /* Abstände (4-px-Stufen) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --content-gap: var(--sp-6); /* zwischen Abschnitten einer Seite */
+  --grid-gap: var(--sp-4); /* zwischen Karten eines Rasters */
+  --pad-card: var(--sp-5); /* Innenabstand von Karten */
+  --gutter: 24px;
+  /* Maße des Aufbaus */
+  --sidebar-w: 232px;
+  --rail-w: 56px;
+  --topbar-h: 72px;
+  --page-head-h: 64px; /* Kopfreihe unter dem Titel samt Abstand (pageHead in app.js) */
+  --frame-h: 56px;
+  --win-gap: 8px;
+  --lbar-h: var(--rail-w);
+  --win-top: calc(2 * var(--win-gap) + var(--lbar-h));
+  /* Bewegung: Dauer und Easing für alle Übergänge (js/motion.js liest sie mit) */
+  --dur-1: 150ms; --dur-2: 240ms; --dur-3: 380ms;
+  --ease: cubic-bezier(.2, .8, .2, 1); --ease-in: cubic-bezier(.4, 0, 1, 1); --ease-io: cubic-bezier(.4, 0, .2, 1);
+}
+
+/* ---------- Helles Design: vor dem Start nach der Systemeinstellung, danach über data-theme="light" (gleiche Werte) ---------- */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #fcfcfb; --bg-2: #f5f5f3; --surface: #fcfcfb; --surface-2: #f5f5f3; --surface-3: #ebeae7; --field: #fcfcfb; --ambient: none;
+    --border: #e7e6e3; --border-2: #d6d4cf; --sheen: rgba(255, 255, 255, .75); --win: var(--bg);
+    --text: #161513; --text-2: #45433f; --muted: #6b6862; --faint: #b5b2ac;
+    --accent: #1c1a17; --accent-2: #3a3732; --accent-ink: #fcfcfb; --accent-soft: rgba(34, 32, 28, 0.07); --accent-glow: rgba(34, 32, 28, 0.16);
+    --profit: #16a34a; --profit-soft: rgba(22, 163, 74, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --profit-ink: #15803d; --loss-ink: #dc2626; --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
+    --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5;
+    --pie-1: #2a78d6; --pie-2: #eb6834; --pie-3: #4a3aa7; --pie-4: #e87ba4; --pie-5: #eda100; --pie-o: #a29d93; --pie-n: #dcd8d0; --pie-1-ink: #fcfcfb; --pie-3-ink: #fcfcfb; --pie-n-ink: #15130f;
+    --nav-a1: #e9e8e5; --nav-a2: #e5e4e1; --nav-b1: #e9e8e5; --nav-b2: #d6d4cf; --nav-icon: #79736b; --groove-d: #e2e1de; --groove-l: #fcfcfb;
+    --sel-p1: 4%; --sel-p2: 8%; --sel-pb: 17%;
+    --rail-bg: #fcfcfb; --rail-ic: #a3a3a3; --rail-ic-on: #fcfcfb;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.14); --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fcfcfb; --bg-2: #f5f5f3; --surface: #fcfcfb; --surface-2: #f5f5f3; --surface-3: #ebeae7; --field: #fcfcfb; --ambient: none;
+  --border: #e7e6e3; --border-2: #d6d4cf; --sheen: rgba(255, 255, 255, .75); --win: var(--bg);
+  --text: #161513; --text-2: #45433f; --muted: #6b6862; --faint: #b5b2ac;
+  --accent: #1c1a17; --accent-2: #3a3732; --accent-ink: #fcfcfb; --accent-soft: rgba(34, 32, 28, 0.07); --accent-glow: rgba(34, 32, 28, 0.16);
+  --profit: #16a34a; --profit-soft: rgba(22, 163, 74, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --profit-ink: #15803d; --loss-ink: #dc2626; --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
+  --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5;
+  --pie-1: #2a78d6; --pie-2: #eb6834; --pie-3: #4a3aa7; --pie-4: #e87ba4; --pie-5: #eda100; --pie-o: #a29d93; --pie-n: #dcd8d0; --pie-1-ink: #fcfcfb; --pie-3-ink: #fcfcfb; --pie-n-ink: #15130f;
+  --nav-a1: #e9e8e5; --nav-a2: #e5e4e1; --nav-b1: #e9e8e5; --nav-b2: #d6d4cf; --nav-icon: #79736b; --groove-d: #e2e1de; --groove-l: #fcfcfb;
+  --sel-p1: 4%; --sel-p2: 8%; --sel-pb: 17%;
+  --rail-bg: #fcfcfb; --rail-ic: #a3a3a3; --rail-ic-on: #fcfcfb;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.14); --lift-shadow: 0 14px 28px -20px rgba(0, 0, 0, .35);
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* ---------- Dunkle Variante „Schwarz“ (Einstellungen → Design → Erscheinungsbild) ---------- */
+:root[data-theme="dark"][data-dark="schwarz"] {
+  --bg: #080807; --bg-2: #0b0b0a; --surface: #0d0d0d; --surface-2: #161616; --surface-3: #1f1f1f;
+  --border: #121212; --border-2: #212121; --field: #040404; --ambient: none;
+}
+
+/* ---------- Werte je Fensterbreite ---------- */
+@media (max-width: 560px) { :root { --page-head-h: 115px; } }
+@media (min-width: 961px) { :root { --lbar-h: 56px; --topbar-h: calc(var(--lbar-h) + 1px); } }

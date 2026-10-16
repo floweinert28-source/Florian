@@ -1920,4 +1920,6 @@ I18N.add('zh', {
   "Nur speichern": "仅保存",
   "Gespeichert, ohne Auswertung. Du kannst sie später in der Trade-Ansicht auswerten lassen.": "已保存，未分析。之后可在交易视图中进行分析。",
   "Einwilligung": "同意",
+  "System": "系统",
+  "Die Schrift deines Geräts": "设备自带字体",
 });

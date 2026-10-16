@@ -23,18 +23,20 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.click('.font-card[data-value="rund"]'); await p.waitForTimeout(400);
   ok('Schriftart Rund aktiv + geladen', await p.evaluate(() => Store.settings.font === 'rund' && document.documentElement.style.getPropertyValue('--font').includes('Nunito') && !!document.querySelector('link[id^="font-nunito"]')));
   await p.click('.font-card[data-value="geschwungen"]'); await p.waitForTimeout(300); ok('Geschwungen (wählbar): Quicksand-Text, Onest-Zahlen', await p.evaluate(() => { const cs = getComputedStyle(document.documentElement); return document.documentElement.style.getPropertyValue('--font').includes('Quicksand') && cs.getPropertyValue('--font-num').includes('Onest') && Store.settings.font === 'geschwungen' && !!document.querySelector('link[id^="font-quicksand"]'); }));
-  await p.click('.font-card[data-value="klassisch"]'); await p.waitForTimeout(300); ok('Klassisch: frühere Schrift mit Roboto-Zahlen', await p.evaluate(() => document.documentElement.style.getPropertyValue('--font-num').includes('Roboto') && document.documentElement.style.getPropertyValue('--font').includes('Inter') && Store.settings.font === 'klassisch'));
+  await p.click('.font-card[data-value="system"]'); await p.waitForTimeout(300); ok('System: Schrift des Geräts, kein Inter mehr', await p.evaluate(() => document.documentElement.style.getPropertyValue('--font').startsWith('-apple-system') && !document.documentElement.style.getPropertyValue('--font').includes('Inter') && Store.settings.font === 'system' && !document.querySelector('link[href*="family=Inter"]')));
+  await p.evaluate(() => { const k = 'trading-journal-web-v1'; Store.saveNow(); const d = JSON.parse(localStorage.getItem(k)); d.settings.font = 'klassisch'; localStorage.setItem(k, JSON.stringify(d)); }); await p.reload(); await p.waitForTimeout(400);
+  ok('Alte Einstellung „klassisch“ (Inter) wird zu System', await p.evaluate(() => Store.settings.font === 'system' && document.documentElement.style.getPropertyValue('--font').startsWith('-apple-system')));
   await p.evaluate(() => { const k = 'trading-journal-web-v1'; Store.saveNow(); const d = JSON.parse(localStorage.getItem(k)); d.settings.font = 'standard'; localStorage.setItem(k, JSON.stringify(d)); }); await p.reload(); await p.waitForTimeout(400);
   ok('Alte Einstellung „standard“ wird zu Modern', await p.evaluate(() => Store.settings.font === 'modern' && document.documentElement.dataset.font === 'modern' && document.documentElement.style.getPropertyValue('--font') === ''));
   /* Erscheinungsbild: Graphit (Standard), Schwarz, Weiß, Eigenes */
   const bg = () => p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bg').trim());
   ok('Erscheinungsbild: vier Wahlen (mit Eigenes), Graphit aktiv', await p.$$eval('[data-action="appearance"]', e => e.map(x => x.dataset.value).join(',')) === 'graphit,schwarz,light,custom' && await p.$eval('[data-action="appearance"][aria-pressed="true"]', e => e.dataset.value) === 'graphit' && await bg() === '#0e0d0b');
   await p.click('[data-action="appearance"][data-value="schwarz"]'); await p.waitForTimeout(300);
-  ok('Schwarz: tiefschwarzer Grund', await bg() === '#000000' && await p.evaluate(() => document.documentElement.dataset.dark === 'schwarz' && Store.settings.theme === 'dark' && Store.settings.darkStyle === 'schwarz'));
+  ok('Schwarz: fast schwarzer Grund (#080807)', await bg() === '#080807' && await p.evaluate(() => document.documentElement.dataset.dark === 'schwarz' && Store.settings.theme === 'dark' && Store.settings.darkStyle === 'schwarz'));
   await p.click('[data-action="appearance"][data-value="light"]'); await p.waitForTimeout(300);
-  ok('Weiß: helles Design', await bg() === '#ffffff' && await p.evaluate(() => Store.settings.theme === 'light' && Store.settings.darkStyle === 'schwarz'));
+  ok('Weiß: helles Design (#fcfcfb)', await bg() === '#fcfcfb' && await p.evaluate(() => Store.settings.theme === 'light' && Store.settings.darkStyle === 'schwarz'));
   await p.evaluate(() => App.actions.theme.call(App, { dataset: { value: 'dark' } })); await p.waitForTimeout(300);
-  ok('Schalter im Konto-Menü auf Dunkel behält Schwarz', await bg() === '#000000');
+  ok('Schalter im Konto-Menü auf Dunkel behält Schwarz', await bg() === '#080807');
   await p.click('[data-action="appearance"][data-value="graphit"]'); await p.waitForTimeout(300);
   await p.reload(); await p.waitForTimeout(500);
   ok('Graphit bleibt nach Neuladen', await bg() === '#0e0d0b' && await p.evaluate(() => document.documentElement.dataset.dark === 'graphit' && Store.settings.darkStyle === 'graphit'));

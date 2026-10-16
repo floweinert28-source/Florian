@@ -91,13 +91,13 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   /* 7. Meine Designs */
   ok('Meine Designs: leer mit Speichern-Knopf', await p.$$eval('.design-card', e => e.length) === 0 && !!(await p.$('[data-action="design-save"]:not([disabled])')));
   await p.click('[data-action="design-save"]'); await p.waitForTimeout(300); await p.fill('#design-name', 'Sand'); await p.click('.modal button[type=submit]'); await p.waitForTimeout(400);
-  await p.click('[data-action="appearance"][data-value="schwarz"]'); await p.waitForTimeout(300); await p.click('.font-card[data-value="klassisch"]'); await p.waitForTimeout(300);
+  await p.click('[data-action="appearance"][data-value="schwarz"]'); await p.waitForTimeout(300); await p.click('.font-card[data-value="system"]'); await p.waitForTimeout(300);
   await p.click('[data-action="design-save"]'); await p.waitForTimeout(300); await p.click('.modal button[type=submit]'); await p.waitForTimeout(400);
   const ds = await p.evaluate(() => Store.settings.designs.map(d => [d.name, d.customLook, d.darkStyle, d.font]));
-  ok('Zwei Designs gespeichert (eigenes und Schwarz/Klassisch)', ds.length === 2 && ds[0][0] === 'Sand' && ds[0][1] === true && ds[1][2] === 'schwarz' && ds[1][3] === 'klassisch', JSON.stringify(ds));
+  ok('Zwei Designs gespeichert (eigenes und Schwarz/System)', ds.length === 2 && ds[0][0] === 'Sand' && ds[0][1] === true && ds[1][2] === 'schwarz' && ds[1][3] === 'system', JSON.stringify(ds));
   ok('Aktuelles Design als gewählt markiert', await p.$eval(`.design-card[data-id="${await p.evaluate(() => Store.settings.designs[1].id)}"]`, e => e.getAttribute('aria-pressed') === 'true'));
   await p.click(`.design-card[data-id="${await p.evaluate(() => Store.settings.designs[0].id)}"]`); await p.waitForTimeout(400);
-  ok('Design anwenden stellt alles wieder her (Grundfarbe, Schrift, Farben)', await p.evaluate(() => Store.settings.customLook && Store.settings.customBg === '#efe6d8' && Store.settings.font !== 'klassisch' && Store.settings.colors.accent === '#777777' && getComputedStyle(document.body).backgroundColor === 'rgb(239, 230, 216)'));
+  ok('Design anwenden stellt alles wieder her (Grundfarbe, Schrift, Farben)', await p.evaluate(() => Store.settings.customLook && Store.settings.customBg === '#efe6d8' && Store.settings.font !== 'system' && Store.settings.colors.accent === '#777777' && getComputedStyle(document.body).backgroundColor === 'rgb(239, 230, 216)'));
   for (let i = 0; i < 4; i++) { await p.click('[data-action="design-save"]'); await p.waitForTimeout(250); await p.click('.modal button[type=submit]'); await p.waitForTimeout(300); }
   ok('Höchstens 6 Designs: Knopf gesperrt, Hinweis', (await p.evaluate(() => Store.settings.designs.length)) === 6 && !!(await p.$('[data-action="design-save"][disabled]')) && (await p.$eval('.design-grid', e => e.parentElement.textContent)).includes('Höchstens 6'));
   await p.hover('.design-wrap:last-child'); await p.click('.design-wrap:last-child .dot-x'); await p.waitForTimeout(300); await p.click('.modal [data-confirm]'); await p.waitForTimeout(400);

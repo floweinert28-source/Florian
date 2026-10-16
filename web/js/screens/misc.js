@@ -99,7 +99,7 @@
   const sigOf = d => JSON.stringify([d.theme, d.darkStyle, d.customLook, d.customBg, d.font, d.colors.accent, d.colors.profit, d.colors.loss, d.colors.be]);
   function designVars(d) {
     const T = root.Theme; const light = d.theme === 'light'; const defs = T.DEFAULTS[light ? 'light' : 'dark'];
-    const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#ffffff', '--surface': '#ffffff', '--border-2': '#d4d4d4' } : d.darkStyle === 'schwarz' ? { '--bg': '#000000', '--surface': '#0d0d0d', '--border-2': '#212121' } : { '--bg': '#060605', '--surface': '#151412', '--border-2': '#34322e' }; /* Graphit: Fenster in der Farbe der Leiste ganz links */
+    const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#fcfcfb', '--surface': '#fcfcfb', '--border-2': '#d6d4cf' } : d.darkStyle === 'schwarz' ? { '--bg': '#080807', '--surface': '#0d0d0d', '--border-2': '#212121' } : { '--bg': '#060605', '--surface': '#151412', '--border-2': '#34322e' }; /* Graphit: Fenster in der Farbe der Leiste ganz links */
     const c = k => (T.valid(d.colors[k]) ? d.colors[k] : defs[k]);
     const win = d.customLook && T.valid(d.customBg) && !T.isLightBase(d.customBg) ? T.shade(d.customBg, -0.55) : base['--bg']; /* dunkles Fenster = Farbe der Leiste ganz links */
     return `--db:${win};--ds:${base['--surface']};--dd:${base['--border-2']};--da:${c('accent')};--dp:${c('profit')};--dl:${c('loss')}`;

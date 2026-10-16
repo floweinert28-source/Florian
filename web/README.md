@@ -399,6 +399,21 @@ angeklickte Element (Schalter, Knopf, Auswahlfeld) bleibt an seinem Platz unter 
 gleicht der Scrollstand das aus (`App.noteAnchor` / `keepAnchor`, nur im normalen Seitenfluss, nicht in Dialogen, Menüs und
 eigenen Scrollbereichen). Nur ein Seitenwechsel, eine neue Replay-Karte oder eine andere Dashboard-Vorlage beginnt oben.
 
+### Farben und Grundwerte (`css/tokens.css`)
+
+Alle Grundwerte stehen in `css/tokens.css` und werden vor `css/app.css` geladen: Flächen, Text, Ränder, Akzent, Gewinn/Verlust,
+Abstände der Leisten und die Werte je Erscheinungsbild (Graphit, Schwarz, Weiß). `app.css` nutzt nur diese Variablen.
+
+- Weiß ist nicht reines Weiß, sondern `#fcfcfb` (`--paper`); Schwarz ist `#080807` (`--ink-black`). Das schont die Augen.
+- Gewinn und Verlust haben im hellen Design zwei Stufen: große Zahlen (Kacheln, Kennzahlen) in `--profit`/`--loss`
+  (`#16a34a`/`#ef4444`), kleiner Text in `--profit-ink`/`--loss-ink` (`#15803d`/`#dc2626`), damit auch kleine Schrift
+  genug Kontrast hat (mindestens 4,5:1). Im dunklen Design sind beide Stufen gleich. Eigene Farben gelten für beide Stufen.
+- Akzent im hellen Design: fast schwarz (`#1c1a17`) auf `#fcfcfb`. Eigene Akzentfarben werden im hellen Design so weit
+  abgedunkelt, dass Text darauf lesbar bleibt.
+- Schrift „System“ (statt „Klassisch“/Inter): nutzt die Schrift des Geräts und lädt nichts nach. Wer „Klassisch“ gewählt
+  hatte, bekommt beim Start automatisch „System“.
+- `tests/theme.test.mjs` prüft die Kontraste der Grundwerte (Text, Hinweise, Gewinn/Verlust, Akzent) im hellen und dunklen Design.
+
 ## Bewegung und Übergänge
 
 Alle Animationen laufen über eine gemeinsame Skala in `css/app.css` (`--dur-1` 150 ms, `--dur-2` 240 ms, `--dur-3` 380 ms, `--ease`).

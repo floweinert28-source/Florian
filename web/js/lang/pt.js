@@ -1871,4 +1871,6 @@ I18N.add('pt', {
   "Nur speichern": "Só salvar",
   "Gespeichert, ohne Auswertung. Du kannst sie später in der Trade-Ansicht auswerten lassen.": "Salva sem análise. Você pode analisá-la depois na visão do trade.",
   "Einwilligung": "Consentimento",
+  "System": "Sistema",
+  "Die Schrift deines Geräts": "A fonte do seu dispositivo",
 });

@@ -1920,4 +1920,6 @@ I18N.add('hi', {
   "Nur speichern": "सिर्फ़ सेव करें",
   "Gespeichert, ohne Auswertung. Du kannst sie später in der Trade-Ansicht auswerten lassen.": "बिना विश्लेषण सेव किया गया। बाद में ट्रेड व्यू में विश्लेषण करा सकते हैं।",
   "Einwilligung": "सहमति",
+  "System": "सिस्टम",
+  "Die Schrift deines Geräts": "आपके डिवाइस का फ़ॉन्ट",
 });

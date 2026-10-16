@@ -50,7 +50,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   // Hover auf Kachel und Knopf
   await p.evaluate(() => { location.hash = '#/trades'; }); await p.waitForTimeout(900);
   await p.hover('.tile >> nth=1'); await p.waitForTimeout(350);
-  ok('Kachel hebt sich beim Überfahren', await p.evaluate(() => getComputedStyle(document.querySelectorAll('.tile')[1]).transform !== 'none'));
+  ok('Kachel bleibt beim Überfahren ruhig (kein Anheben, Kante heller)', await p.evaluate(() => { const t = document.querySelectorAll('.tile')[1]; const cs = getComputedStyle(t); return cs.transform === 'none' && cs.borderTopColor === getComputedStyle(document.documentElement).getPropertyValue('--border-2').trim().replace(/^#(..)(..)(..)$/, (_, r, g, b) => `rgb(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(b, 16)})`); }));
   // Reduced motion: nichts versteckt, keine Klasse
   const ctx2 = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' }); const p2 = await ctx2.newPage(); p2.on('pageerror', e => errs.push(e.message));
   await p2.goto(base + '#/stats', { waitUntil: 'load' }); await p2.waitForTimeout(80);

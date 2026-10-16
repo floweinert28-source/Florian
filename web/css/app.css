@@ -28,10 +28,10 @@
   --accent-soft: rgba(237, 230, 218, 0.10);
   --accent-glow: rgba(237, 230, 218, 0.22);
   --dot-glow: 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 8px color-mix(in srgb, var(--accent) 20%, transparent); /* Leuchten von Hinweis-Punkten und dem Balken am aktiven Menüpunkt */
-  --profit: #34f58a;
-  --profit-soft: rgba(52, 245, 138, 0.12);
-  --loss: #ff5c5c;
-  --loss-soft: rgba(255, 92, 92, 0.14);
+  --profit: #4cb782; /* gedämpftes Grün statt Neon (ruhiger Gesamt-Look) */
+  --profit-soft: rgba(76, 183, 130, 0.12);
+  --loss: #eb5757;
+  --loss-soft: rgba(235, 87, 87, 0.14);
   --be: #9a8cf8;
   --be-soft: rgba(154, 140, 248, 0.16);
   --warn: #f5b93a;
@@ -3644,3 +3644,17 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 .wr-foot b { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
 .wr-foot b.pos { color: var(--profit); } .wr-foot b.neg { color: var(--loss); }
 @media (prefers-reduced-motion: reduce) { .mc-bar, .mc-tip, .mc-v, .mc-wd, .pie-seg, .sr-dot, .sr-lbl { transition: none; } }
+/* ---------- Ruhiger Gesamt-Look (Schwarz/Elfenbein wie die Seitenleisten): wenig Farbe, feine Kanten, nichts hüpft ---------- */
+/* Karten und Kacheln: feine Lichtkante oben statt Schatten, beim Drüberfahren nur die Kante etwas heller */
+:root:not([data-theme="light"]) .card, :root:not([data-theme="light"]) .tile, :root:not([data-theme="light"]) .stat-tile { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .028); }
+.tile:hover, .stat-tile:hover { transform: none; box-shadow: none; border-color: var(--border-2); }
+:root:not([data-theme="light"]) .tile:hover, :root:not([data-theme="light"]) .stat-tile:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .028); }
+/* Status (Gewinn, Verlust, Break-even, Offen): Punkt in der Farbe, Text ruhig – keine Farbfläche */
+.pill.st { background: none; padding-left: 0; padding-right: 0; color: var(--text-2); font-weight: 500; gap: 7px; }
+.pill.st::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex: none; background: var(--text-2); }
+.pill.st.win::before { background: var(--profit); } .pill.st.loss::before { background: var(--loss); } .pill.st.be::before { background: var(--be); } .pill.st.open::before { background: var(--info); }
+/* Long/Short: neutrales Schild mit feiner Kante, Farbe nur im Pfeil */
+.badge { color: var(--text-2); border-color: var(--border-2); background: transparent; }
+.badge .bi { background: color-mix(in srgb, var(--c) 14%, transparent); }
+/* Setup-Schilder: nur Kontur */
+.chip.setup { background: transparent; border-color: var(--border-2); color: var(--text-2); }

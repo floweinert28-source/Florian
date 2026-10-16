@@ -63,7 +63,7 @@ function feed() {
     ok('Währung USD: nur USD-Termine', (await p.$$eval('.nw-cur', c => c.filter(x => x.closest('.nw-row')).map(x => x.textContent))).every(c => c === 'USD') && (await p.$$('.nw-row')).length === 1);
     await p.click('[data-action=news-f][data-key=cur][data-value=""]'); await p.waitForTimeout(300);
     ok('„Alle“ setzt die Währungen zurück', (await p.$$('.nw-row')).length === 5 && (await p.evaluate(() => Store.settings.newsFilter.cur.length === 0)));
-    ok('Ausgewählte Wichtigkeit-Chips leuchten in ihrer Farbe (Hoch rot)', (await p.$eval('[data-action=news-f][data-value=high]', b => b.style.getPropertyValue('--lc'))) === 'var(--loss)');
+    ok('Ausgewählte Wichtigkeit-Chips ruhig wie die Währung (keine Farbfläche)', await p.$eval('[data-action=news-f][data-value=high]', b => { const c = document.querySelector('[data-action=news-f][data-key=cur][aria-pressed=true]'); return b.getAttribute('aria-pressed') === 'true' && !b.style.getPropertyValue('--lc') && (!c || getComputedStyle(b).backgroundColor === getComputedStyle(c).backgroundColor); }));
     /* letzter Wahl-Chip lässt sich nicht abwählen */
     await p.evaluate(() => { Store.setSetting('newsFilter', { impact: ['high'], cur: [] }); App.rerender(); }); await p.waitForTimeout(200);
     await p.click('[data-action=news-f][data-key=impact][data-value=high]'); await p.waitForTimeout(200);

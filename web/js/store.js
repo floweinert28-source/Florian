@@ -29,6 +29,8 @@
     /* neue Standardschrift (Satoshi): die frühere Standardschrift „geschwungen“ einmalig auf den neuen Standard umstellen; andere bewusst gewählte Schriften bleiben, „Geschwungen“ ist weiter wählbar */
     /* neuer Standard-Akzent Elfenbein: der früher als Standard gespeicherte Neongrün-Akzent wird einmalig auf den neuen Standard gestellt; andere eigene Farben bleiben */
     if (!st.accentIvoryV1) { if (st.colors && String(st.colors.accent || '').toLowerCase() === '#34f58a') { st.colors = Object.assign({}, st.colors); delete st.colors.accent; } st.accentIvoryV1 = true; }
+    /* ruhiger Gesamt-Look: das frühere Neon-Grün/-Rot als gespeicherte Farbe gilt als alter Standard und weicht dem neuen, gedämpften Standard */
+    if (!st.semanticCalmV1) { if (st.colors) { const c = Object.assign({}, st.colors); if (String(c.profit || '').toLowerCase() === '#34f58a') delete c.profit; if (String(c.loss || '').toLowerCase() === '#ff5c5c') delete c.loss; st.colors = c; } st.semanticCalmV1 = true; }
     if (!st.fontModernV1) { if (!st.font || st.font === 'geschwungen' || st.font === 'standard') st.font = 'modern'; st.fontModernV1 = true; }
   }
   function migrateDashboards(data) {

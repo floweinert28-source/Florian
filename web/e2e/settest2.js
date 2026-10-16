@@ -43,7 +43,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.click('.dot[data-value="#3b82f6"]'); await p.waitForTimeout(300); ok('Akzent Blau', await p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() === '#3b82f6'));
   await p.$eval('.cpick input[data-key="be"]', e => { e.value = '#00aaff'; e.dispatchEvent(new Event('input', { bubbles: true })); }); await p.waitForTimeout(200);
   ok('Break-even-Farbe wählbar', await p.evaluate(() => Store.settings.colors.be === '#00aaff' && getComputedStyle(document.documentElement).getPropertyValue('--be').trim() === '#00aaff'));
-  ok('Farbpaare als Karten', await p.$$eval('.pair-card', e => e.length) === 6); ok('Euro bleibt in einer Zeile', await p.$$eval('.pair-card .pv i', els => els.every(i => i.getBoundingClientRect().height < 34)));
+  ok('Farbpaare als Karten (mit „Neon“ für den früheren Look)', await p.$$eval('.pair-card', e => e.length) === 7); ok('Euro bleibt in einer Zeile', await p.$$eval('.pair-card .pv i', els => els.every(i => i.getBoundingClientRect().height < 34)));
   await p.click('[data-action="color-reset"]'); await p.waitForTimeout(300); ok('Standardfarben', await p.evaluate(() => Store.settings.colors.be === '' && Store.settings.colors.accent === ''));
   await p.screenshot({ path: 's2-design.png', fullPage: true });
   await p.evaluate(() => { location.hash = '#/settings/inhalte'; }); await p.waitForTimeout(300);

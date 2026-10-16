@@ -203,7 +203,7 @@
   const DIR_ARROW = { l: '<path d="M7 17L17 7M9 7h8v8"/>', s: '<path d="M7 7l10 10M17 9v8H9"/>' };
   const badge = dir => { const k = dir > 0 ? 'l' : 's'; return `<span class="badge ${k}"><i class="bi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${DIR_ARROW[k]}</svg></i>${dir > 0 ? 'LONG' : 'SHORT'}</span>`; };
   const chip = (text, kind = '') => `<span class="chip ${kind}">${esc(text)}</span>`;
-  const statusPill = st => ({ win: pill('Gewinn', 'win'), loss: pill('Verlust', 'loss'), be: pill('Break-even', 'be'), open: pill('Offen', 'open') })[st] || '';
+  const statusPill = st => ({ win: pill('Gewinn', 'win st'), loss: pill('Verlust', 'loss st'), be: pill('Break-even', 'be st'), open: pill('Offen', 'open st') })[st] || ''; /* st: ruhiger Status mit Punkt statt Farbfläche */
   const empty = (icon, title, text, action = '') => `<div class="empty">${I[icon] || ''}<b>${esc(title)}</b><span class="small">${text}</span>${action}</div>`;
   const banner = (kind, title, text, o = {}) => `<div class="banner ${kind}">${I[o.icon || (kind === 'warn' || kind === 'loss' ? 'warning' : 'info')]}<div class="grow">${title ? `<b>${esc(title)}</b>` : ''}<span>${text}</span></div>${o.close ? `<button type="button" class="btn ghost icon sm close" data-action="${o.close}" aria-label="Schließen">${I.close}</button>` : ''}${o.trailing || ''}</div>`;
   const kv = (k, v) => `<div class="kv"><span>${esc(k)}</span><b>${v}</b></div>`;
@@ -301,14 +301,14 @@
     const xt = xTicks(n, iw);
     const last = pts[n - 1].cum, lastCol = last >= 0 ? 'var(--profit)' : 'var(--loss)';
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs>
-      <linearGradient id="${gp}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--profit)" stop-opacity=".35"/><stop offset="1" stop-color="var(--profit)" stop-opacity=".02"/></linearGradient>
-      <linearGradient id="${gn}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--loss)" stop-opacity=".5"/><stop offset="1" stop-color="var(--loss)" stop-opacity=".08"/></linearGradient>
+      <linearGradient id="${gp}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--profit)" stop-opacity=".16"/><stop offset="1" stop-color="var(--profit)" stop-opacity="0"/></linearGradient>
+      <linearGradient id="${gn}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--loss)" stop-opacity=".18"/><stop offset="1" stop-color="var(--loss)" stop-opacity="0"/></linearGradient>
       <clipPath id="${cp}"><rect x="0" y="0" width="${W}" height="${Math.max(0, y(0))}"/></clipPath><clipPath id="${cn}"><rect x="0" y="${y(0)}" width="${W}" height="${Math.max(0, H - y(0))}"/></clipPath></defs>
       ${axisLeft(ticks, y, ml, W, mr, fmt.axisCur)}
       <line class="zero" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/>
       ${showBars ? pts.map((p, i) => `<rect x="${x(i) - bw / 2}" y="${Math.min(y(p.pnl), y(0))}" width="${bw}" height="${Math.max(1.5, Math.abs(y(p.pnl) - y(0)))}" rx="2" class="br${p.pnl >= 0 ? '' : ' dn'}" fill="var(--${p.pnl >= 0 ? 'profit' : 'loss'})" fill-opacity=".55"/>`).join('') : ''}
       <path class="ar" d="${area}" fill="url(#${gp})" clip-path="url(#${cp})"/><path class="ar" d="${area}" fill="url(#${gn})" clip-path="url(#${cn})"/>
-      <path class="ln" d="${line}" fill="none" stroke="var(--profit)" stroke-width="2.2" clip-path="url(#${cp})" stroke-linejoin="round"/><path class="ln" d="${line}" fill="none" stroke="var(--loss)" stroke-width="2.2" clip-path="url(#${cn})" stroke-linejoin="round"/>
+      <path class="ln" d="${line}" fill="none" stroke="var(--profit)" stroke-width="1.8" clip-path="url(#${cp})" stroke-linejoin="round"/><path class="ln" d="${line}" fill="none" stroke="var(--loss)" stroke-width="1.8" clip-path="url(#${cn})" stroke-linejoin="round"/>
       ${dots ? pts.map((p, i) => `<circle class="dt" cx="${x(i)}" cy="${y(p.cum)}" r="2.2" fill="var(--${p.cum >= 0 ? 'profit' : 'loss'})"/>`).join('') : `<circle class="dt" cx="${x(n - 1)}" cy="${y(last)}" r="4" fill="${lastCol}" stroke="var(--surface)" stroke-width="2"/>`}
       ${dateAxis(n, x, i => pts[i].day, ml, W, mr, H)}
       <g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
@@ -392,7 +392,7 @@
   };
   /* Halbkreis-Anzeige (Trefferquote) */
   function semiGauge(segments, label, size = 110) {
-    const r = 42, cx = 60, cy = 58, lw = 11; const total = Math.max(1e-9, segments.reduce((a, s) => a + Math.max(0, s.v), 0)); let a = Math.PI;
+    const r = 42, cx = 60, cy = 58, lw = 9; const total = Math.max(1e-9, segments.reduce((a, s) => a + Math.max(0, s.v), 0)); let a = Math.PI;
     const pt = ang => [cx + r * Math.cos(ang), cy - r * Math.sin(ang)];
     const arcs = segments.filter(s => s.v > 0).map(s => { const span = s.v / total * Math.PI; const a1 = a - span; const [x0, y0] = pt(a), [x1, y1] = pt(a1); const dd = `M${x0.toFixed(2)},${y0.toFixed(2)} A${r},${r} 0 ${span > Math.PI ? 1 : 0} 1 ${x1.toFixed(2)},${y1.toFixed(2)}`; a = a1; return `<path d="${dd}" fill="none" stroke="var(--${s.c})" stroke-width="${lw}" stroke-linecap="butt"/>`; }).join('');
     return `<svg viewBox="0 0 120 66" width="${size}" height="${size * 0.55}" aria-hidden="true"><path d="M${cx - r},${cy} A${r},${r} 0 0 1 ${cx + r},${cy}" fill="none" stroke="var(--surface-3)" stroke-width="${lw}"/>${arcs}<text x="60" y="57" text-anchor="middle" style="font-size:15px;font-weight:700;fill:var(--text);font-family:var(--font-display)">${label}</text></svg>`;

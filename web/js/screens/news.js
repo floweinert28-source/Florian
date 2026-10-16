@@ -73,8 +73,7 @@
       const shown = upcoming.filter(e => f.impact.includes(e.impact) && (!f.cur.length || f.cur.includes(e.currency)));
       const next = shown.find(e => e.impact === 'high' && new Date(e.time) > now) || shown.find(e => new Date(e.time) > now && e.impact !== 'holiday');
 
-      const IMP_COL = { high: 'var(--loss)', medium: 'var(--warn)', low: 'var(--text-2)', holiday: 'var(--be)' };
-      const chip = (key, v, l, on) => `<button type="button" class="chip sel" data-action="news-f" data-key="${key}" data-value="${esc(v)}" aria-pressed="${on}"${key === 'impact' ? ` style="--lc:${IMP_COL[v]}"` : ''}>${l}</button>`;
+      const chip = (key, v, l, on) => `<button type="button" class="chip sel" data-action="news-f" data-key="${key}" data-value="${esc(v)}" aria-pressed="${on}">${l}</button>`; /* ruhiger Look: aktive Filter neutral wie bei der Währung, die Farbe der Wichtigkeit steht in den Balken der Termine */
       const filters = `<div class="nw-filters"><div class="nw-fg"><span class="lbl">Wichtigkeit</span><div class="chips">${IMPACTS.map(([v, l]) => chip('impact', v, l, f.impact.includes(v))).join('')}</div></div>${curs.length ? `<div class="nw-fg"><span class="lbl">Währung</span><div class="chips">${chip('cur', '', 'Alle', !f.cur.length)}${curs.map(c => chip('cur', c, c === 'ALL' ? 'Alle Währungen' : `<span class="no-i18n">${esc(c)}</span>`, f.cur.includes(c))).join('')}</div></div>` : ''}</div>`;
 
       const groups = []; for (const e of shown) { const d = new Date(e.time); const k = dayKey(d); let g = groups[groups.length - 1]; if (!g || g.k !== k) { g = { k, d, items: [] }; groups.push(g); } g.items.push(e); }

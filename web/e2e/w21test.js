@@ -107,7 +107,7 @@ const put = N => { const d = Store.dashboards().find(x => x.isDefault); d.layout
   await m.close();
   /* 10) Bibliothek (eigene Seite: der Bearbeitungsmodus bleibt sonst offen) */
   const lc = await b.newContext({ viewport: { width: 1440, height: 1100 } }); const lp = await lc.newPage(); watch(lp, 'lib'); try { await require('./localfonts.js')(lp); } catch (e) {} await lp.goto(URL, { waitUntil: 'load' }); await lp.waitForTimeout(900);
-  await lp.click('.dash-head [data-pop=tpl]'); await lp.waitForTimeout(200); await lp.click('#pop-tpl [data-action="dash-tpl-edit"]'); await lp.waitForTimeout(400);
+  await lp.click('.dash-head [data-pop=tpl]'); await lp.waitForTimeout(200); await lp.click('#pop-tpl .tpl-row.on [data-action="dash-tpl-menu"]'); await lp.waitForTimeout(120); await lp.click('#pop-tpl .tpl-menu [data-action="dash-tpl-edit"]'); await lp.waitForTimeout(400);
   await lp.click('.add-slot[data-area="unten"]'); await lp.waitForTimeout(500);
   const lib = await lp.evaluate(N => { const L = document.getElementById('dash-add-list'); const items = [...L.querySelectorAll('.sp-item')]; const names = items.map(x => (x.querySelector('b, .sp-name, h4') || x).textContent.trim()); return { found: N.map(n => names.some(t => t.startsWith(n))), pv: N.map(n => { const it = items.find(x => (x.querySelector('b, .sp-name, h4') || x).textContent.trim().startsWith(n)); return !!(it && it.querySelector('svg.wpv text')); }) }; }, NAMES);
   ok(lib.found.every(Boolean) && lib.pv.every(Boolean), 'Bibliothek: alle vier Widgets mit eigenem Vorschaubild · ' + JSON.stringify(lib));

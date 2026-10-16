@@ -19,19 +19,19 @@
   /* ---------- Vorlagen-Menü ---------- */
   /* Simple: rechts nur „Mehr“ (Filter, Zertifikat, Vorlage wechseln, Dashboard anpassen) und „Trade loggen“; der Knopf trägt die
      Filter-Zahl und dient dem Filter-Fenster als Anker */
-  function simpleTools(tpl, fN, todayKey) {
+  function simpleTools(tpl, fN, cert) {
     const cnt = fN ? `<b class="cntb">${fN}</b>` : '';
-    return `<div class="popwrap"><button type="button" class="btn ${fN ? 'accent' : 'ghost'} icon-only" data-pop="dmore" data-f-anchor aria-haspopup="menu" aria-label="Mehr" title="Mehr">${I.more}${cnt}</button><div class="popover dmore-pop" id="pop-dmore" role="menu">
+    return `<div class="popwrap"><button type="button" class="btn${fN ? '' : ' ghost'} icon-only" data-pop="dmore" data-f-anchor aria-haspopup="menu" aria-label="${fN ? `Mehr, ${fN} Filter aktiv` : 'Mehr'}" title="Mehr">${I.more}${cnt}</button><div class="popover dmore-pop" id="pop-dmore" role="menu">
       <button type="button" class="item" data-action="dash-f-open">${I.filter}<span>Filter</span>${cnt}</button>
-      <div class="sec">Zertifikat</div>${root.Certificate.menuHTML({ day: todayKey })}
+      ${cert ? `<div class="sec">Zertifikat</div>${root.Certificate.menuHTML()}` : ''}
       <div class="sec">Vorlage</div>${S.dashboards().map(t => `<button type="button" class="item" data-action="dash-tpl-select" data-id="${t.id}" aria-checked="${t.id === tpl.id}"><span class="chk">${t.id === tpl.id ? I.check : ''}</span><span class="grow">${esc(t.name)}</span></button>`).join('')}
       <button type="button" class="item" data-action="dash-tpl-edit" data-id="${tpl.id}">${I.edit}<span>Dashboard anpassen</span></button></div></div><span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}`;
   }
   function tplPopHTML() {
     const s = st(); const act = active();
     return `<button type="button" class="item" data-action="dash-tpl-new">${I.plus}<span>Neue Vorlage erstellen</span></button><hr>
-      ${S.dashboards().map(t => `<div class="tpl-row ${t.id === act.id ? 'on' : ''}"><button type="button" class="item name" data-action="dash-tpl-select" data-id="${t.id}"><span class="chk">${t.id === act.id ? I.check : ''}</span><span class="grow">${esc(t.name)}</span>${t.isDefault ? '<span class="star" title="Standard-Vorlage">★</span>' : ''}</button><button type="button" class="btn ghost icon sm" data-action="dash-tpl-edit" data-id="${t.id}" title="Bearbeiten" aria-label="Vorlage bearbeiten">${I.edit}</button><button type="button" class="btn ghost icon sm" data-action="dash-tpl-menu" data-id="${t.id}" title="Mehr" aria-label="Mehr" aria-expanded="${s.menu === t.id}">${I.more}</button></div>
-      ${s.menu === t.id ? `<div class="tpl-menu"><button type="button" class="item" data-action="dash-tpl-rename" data-id="${t.id}">${I.edit}<span>Umbenennen</span></button><button type="button" class="item" data-action="dash-tpl-dup" data-id="${t.id}">${I.copy}<span>Duplizieren</span></button><button type="button" class="item" data-action="dash-tpl-default" data-id="${t.id}" ${t.isDefault ? 'disabled' : ''}><span class="star-i">★</span><span>${t.isDefault ? 'Ist Standard' : 'Als Standard festlegen'}</span></button><button type="button" class="item danger" data-action="dash-tpl-delete" data-id="${t.id}" ${S.dashboards().length <= 1 ? 'disabled' : ''}>${I.trash}<span>Löschen</span></button></div>` : ''}`).join('')}`;
+      ${S.dashboards().map(t => `<div class="tpl-row ${t.id === act.id ? 'on' : ''}"><button type="button" class="item name" data-action="dash-tpl-select" data-id="${t.id}"><span class="chk">${t.id === act.id ? I.check : ''}</span><span class="grow">${esc(t.name)}</span>${t.isDefault ? '<span class="star" title="Standard-Vorlage">★</span>' : ''}</button><button type="button" class="btn ghost icon sm" data-action="dash-tpl-menu" data-id="${t.id}" title="Mehr" aria-label="Mehr" aria-expanded="${s.menu === t.id}">${I.more}</button></div>
+      ${s.menu === t.id ? `<div class="tpl-menu"><button type="button" class="item" data-action="dash-tpl-edit" data-id="${t.id}">${I.edit}<span>Bearbeiten</span></button><button type="button" class="item" data-action="dash-tpl-rename" data-id="${t.id}">${I.rename}<span>Umbenennen</span></button><button type="button" class="item" data-action="dash-tpl-dup" data-id="${t.id}">${I.copy}<span>Duplizieren</span></button>${t.isDefault ? '' : `<button type="button" class="item" data-action="dash-tpl-default" data-id="${t.id}"><span class="star-i">★</span><span>Als Standard festlegen</span></button>`}${S.dashboards().length > 1 ? `<button type="button" class="item danger" data-action="dash-tpl-delete" data-id="${t.id}">${I.trash}<span>Löschen</span></button>` : ''}</div>` : ''}`).join('')}`;
   }
   function refreshPop() { const p = document.getElementById('pop-tpl'); if (p) { p.innerHTML = tplPopHTML(); p.classList.add('open'); } }
 
@@ -57,8 +57,11 @@
   function panelListHTML(area, lay, q) {
     const have = new Set(real(lay[area]).map(x => x.typ)); const full = area === 'oben' && real(lay.oben).length >= MAX_TOP; const ql = q.trim().toLowerCase();
     const items = W.list(area).filter(e => !ql || (e.name + ' ' + e.desc).toLowerCase().includes(ql));
-    /* zwei Gruppen: die Bereiche der App (Schatten-Ich, Replay, Prop …) zuerst, dann die Auswertungen */
-    const groups = [['Bereiche der App', items.filter(e => e.gruppe === 'bereiche')], ['Auswertungen', items.filter(e => e.gruppe !== 'bereiche')]].filter(g => g[1].length);
+    /* zwei Gruppen: erst die Auswertungen, dann die Bereiche der App (die sind meist schon hinzugefügt). In jeder Gruppe stehen die
+       beim Öffnen noch wählbaren Widgets oben; sortiert nach dem Stand beim Öffnen, damit beim Hinzufügen nichts springt */
+    const s = st(); if (!s.panelHave || s.panelHaveArea !== area) { s.panelHave = [...have]; s.panelHaveArea = area; } const had = new Set(s.panelHave);
+    const sorted = list => list.slice().sort((a, b) => had.has(a.typ) - had.has(b.typ));
+    const groups = [['Auswertungen', sorted(items.filter(e => e.gruppe !== 'bereiche'))], ['Bereiche der App', sorted(items.filter(e => e.gruppe === 'bereiche'))]].filter(g => g[1].length);
     if (!groups.length) return `<div class="empty" style="min-height:120px">${I.search}<b>Kein Widget gefunden</b></div>`;
     return groups.map(([title, list]) => `<div class="sp-group">${esc(title)}</div>` + itemsHTML(list)).join('');
     function itemsHTML(list) { return list.map(e => { const added = have.has(e.typ); return `<div class="sp-item"><div class="pv">${W.preview(e.preview, e.typ)}</div><div class="grow"><b>${esc(e.name)}</b><span class="small muted">${esc(e.desc)}</span></div><button type="button" class="btn sm sp-add ${added ? 'added' : 'primary'}" data-action="dash-add" data-typ="${e.typ}" ${added || full ? 'disabled' : ''} title="${full && !added ? 'Maximal 5 Widgets – entferne zuerst eines' : ''}"><span class="sp-lbl"><span class="a">Hinzufügen</span><span class="b">${I.check} Hinzugefügt</span></span></button></div>`; }).join(''); }
@@ -104,6 +107,9 @@
   });
   Object.assign(App.actions, { 'recap-dismiss'(el) { const shown = Object.assign({}, S.settings.recapShown || {}); shown[el.dataset.kind] = el.dataset.key; S.setSetting('recapShown', shown); App.rerender(); } });
 
+  /* Beispieldaten-Fehler: freundlicher Satz statt Meldung und Stack; die technischen Details gehen nur über „Fehlerbericht kopieren“ */
+  const sampleErrorBanner = () => U.banner('warn', 'Beispieldaten konnten nicht geladen werden', 'Deine eigenen Daten sind nicht betroffen. Versuch es noch einmal oder blende den Hinweis aus.', { icon: 'bell', trailing: `<button type="button" class="btn sm" data-action="sample-retry">Erneut versuchen</button><button type="button" class="btn sm ghost" data-action="sample-error-copy">Fehlerbericht kopieren</button><button type="button" class="btn sm ghost" data-action="sample-error-dismiss">Ausblenden</button>` });
+
   /* ---------- Filter (Symbol, Richtung, Status, Setup, Tags) ---------- */
   /* Filter: Seitenleiste und Logik in js/screens/dash-filter.js */
   const DF = () => root.DashFilter;
@@ -117,18 +123,25 @@
     ownActions: true,
     render(ctx) {
       const s = st(); const tpl = active(); const rawAll = ctx.all; const f = filterState(); const fN = filterCount(f); if (fN) ctx = Object.assign({}, ctx, { all: applyFilter(ctx.all, f), inRange: applyFilter(ctx.inRange, f) }); const d = W.data(ctx, App); const all = ctx.all; const parts = []; const todayKey = C.dayKey(new Date());
+      const cert = C.closedOnly(rawAll).length > 0;
+      /* Journal ganz leer (über alle Konten): statt Banner, Kopfreihe und Raster nur eine Karte mit einem Satz, einem Hauptknopf und
+         leisen Nebenwegen. Raster und Vorlage bleiben gespeichert; ein gesetzter Filter bleibt zurücksetzbar */
+      if (!S.trades().length && !s.editing) {
+        if (fN) parts.push(`<div class="dash-head"><div class="row dh-context"></div><div class="row dh-tools"><button type="button" class="btn icon-only" data-action="dash-f-open" data-f-anchor aria-label="Filter, ${fN} aktiv" title="Filter">${I.filter}<b class="cntb">${fN}</b></button></div></div>`);
+        if (S.settings.sampleError) parts.push(sampleErrorBanner());
+        parts.push(`<section class="card dash-welcome" aria-labelledby="dw-h"><h2 id="dw-h">Willkommen</h2><p>Dein Journal ist noch leer. Logge deinen ersten Trade.</p><div class="row dw-actions"><button type="button" class="btn accent" data-action="new-trade">${I.plus}<span>Trade loggen</span></button><button type="button" class="btn" data-action="import">${I.upload}<span>CSV importieren</span></button><button type="button" class="btn ghost" data-action="install-sample">Beispieldaten laden</button></div></section>`);
+        return parts.join('');
+      }
       if (s.editing) parts.push(`<div class="edit-bar"><div class="row"><span class="dot-live"></span><b>Bearbeitungsmodus</b><span class="muted">–</span><span>${esc(tpl.name)}</span></div><div class="row"><button type="button" class="btn" data-action="dash-cancel">Abbrechen</button><button type="button" class="btn primary" data-action="dash-save">${I.check} Speichern</button></div></div>`);
       else {
         /* Kopfzeile: links Zeitraum und Konto, rechts die Werkzeuge als Symbole (Vorlage, Zertifikat, Filter) und „Trade loggen“ */
         parts.push(`<div class="dash-head">
           <div class="row dh-context">${rawAll.length ? App.rangeControl() : ''}${App.accountControl()}</div>
-          <div class="row dh-tools">${App.simple() ? simpleTools(tpl, fN, todayKey) : `<div class="popwrap"><button type="button" class="btn ghost icon-only" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="vh tpl-name">${esc(tpl.name)}</span></button><div class="popover tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div><div class="popwrap"><button type="button" class="btn ghost icon-only" data-pop="cert" title="Zertifikat erstellen" aria-label="Zertifikat erstellen">${I.shield}<span class="vh">Zertifikat</span></button><div class="popover" id="pop-cert">${root.Certificate.menuHTML({ day: todayKey })}</div></div>${rawAll.length || fN ? `<button type="button" class="btn ${fN ? 'accent' : 'ghost'} icon-only" data-action="dash-f-open" aria-label="Filter" title="Filter">${I.filter}${fN ? `<b class="cntb">${fN}</b>` : ''}</button>` : ''}<span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}`}</div>
+          <div class="row dh-tools">${App.simple() ? simpleTools(tpl, fN, cert) : `<div class="popwrap"><button type="button" class="btn ghost icon-only" data-pop="tpl" aria-label="Vorlage wählen" title="Vorlage">${I.layout}<span class="vh tpl-name">${esc(tpl.name)}</span></button><div class="popover tpl-pop" id="pop-tpl">${tplPopHTML()}</div></div>${cert ? `<div class="popwrap"><button type="button" class="btn ghost icon-only" data-pop="cert" title="Zertifikat erstellen" aria-label="Zertifikat erstellen">${I.shield}<span class="vh">Zertifikat</span></button><div class="popover" id="pop-cert">${root.Certificate.menuHTML()}</div></div>` : ''}${rawAll.length || fN ? `<button type="button" class="btn${fN ? '' : ' ghost'} icon-only" data-action="dash-f-open" aria-label="${fN ? `Filter, ${fN} aktiv` : 'Filter'}" title="Filter">${I.filter}${fN ? `<b class="cntb">${fN}</b>` : ''}</button>` : ''}<span class="dh-sep" aria-hidden="true"></span>${App.newTradeButton()}`}</div>
         </div>`);
         if (S.settings.tiltWarnings) { const tilt = C.tiltCheck(App.todayTrades(all), { account: d.account, dailyLossLimitPct: S.settings.dailyLossLimitPct / 100, fmtMoney: v => fmt.cur(v) }); for (const wn of tilt.warnings) { if (S.data.dismissed[wn.kind] === todayKey) continue; parts.push(U.banner(wn.severity === 'critical' ? 'loss' : 'warn', wn.title, wn.text, { close: 'x' }).replace('data-action="x"', `data-action="dismiss" data-key="${wn.kind}"`)); } }
         for (const r of recaps(all)) parts.push(U.banner('info', r.title, r.text, { icon: 'bell', close: 'x', trailing: `<a class="btn sm" href="#/stats">Zur Statistik</a>` }).replace('data-action="x"', `data-action="recap-dismiss" data-kind="${r.kind}" data-key="${r.key}"`));
-        /* Beispieldaten-Fehler: freundlicher Satz statt Meldung und Stack; die technischen Details gehen nur über „Fehlerbericht kopieren“ */
-        if (S.settings.sampleError) parts.push(U.banner('warn', 'Beispieldaten konnten nicht geladen werden', 'Deine eigenen Daten sind nicht betroffen. Versuch es noch einmal oder blende den Hinweis aus.', { icon: 'bell', trailing: `<button type="button" class="btn sm" data-action="sample-retry">Erneut versuchen</button><button type="button" class="btn sm ghost" data-action="sample-error-copy">Fehlerbericht kopieren</button><button type="button" class="btn sm ghost" data-action="sample-error-dismiss">Ausblenden</button>` }));
-        if (!rawAll.length) parts.push(U.banner('accent', 'Willkommen', 'Dein Journal ist noch leer. Logge deinen ersten Trade, importiere eine CSV oder lade Beispieldaten, um alle Auswertungen zu sehen.', { icon: 'sparkle', trailing: `<button type="button" class="btn sm" data-action="import">${I.upload} CSV</button><button type="button" class="btn sm primary" data-action="install-sample">Beispieldaten laden</button>` }));
+        if (S.settings.sampleError) parts.push(sampleErrorBanner());
       }
       const lay = layout();
       parts.push(topArea(lay.oben, d)); parts.push(mainArea(lay.unten, d));
@@ -203,7 +216,7 @@
     'dash-remove'(el) { const s = st(); const p = widgetOf(el); if (!p || !s.draft) return; const arr = s.draft[p.area]; arr[p.idx] = gapFor(p.area, arr[p.idx]); App.rerender(); },
     'dash-size'(el) { const s = st(); const p = widgetOf(el); if (!p || !s.draft) return; s.draft[p.area][p.idx].groesse = el.dataset.value; App.rerender(); },
     'dash-move'(el) { const s = st(); const p = widgetOf(el); if (!p || !s.draft) return; const arr = s.draft[p.area]; const to = p.idx + Number(el.dataset.dir); if (to < 0 || to >= arr.length) return; [arr[p.idx], arr[to]] = [arr[to], arr[p.idx]]; App.rerender(); },
-    'dash-add-open'(el) { const s = st(); s.panel = el.dataset.area; s.slot = el.dataset.slot != null ? Number(el.dataset.slot) : null; s.q = ''; App.rerender(); },
+    'dash-add-open'(el) { const s = st(); s.panel = el.dataset.area; s.panelHave = null; s.slot = el.dataset.slot != null ? Number(el.dataset.slot) : null; s.q = ''; App.rerender(); },
     'dash-add-close'() { const s = st(); s.panel = null; s.slot = null; App.rerender(); },
     'dash-add'(el) { const s = st(); if (!s.draft || !s.panel) return; const e = W.get(el.dataset.typ); if (!e) return; const arr = s.draft[s.panel]; if (arr.some(x => x.typ === e.typ)) return; if (s.panel === 'oben' && real(arr).length >= MAX_TOP) return U.toast('Maximal 5 Widgets – entferne zuerst eines', 'err');
       const inst = s.panel === 'oben' ? { typ: e.typ } : { typ: e.typ, groesse: e.groesse || 'klein' };

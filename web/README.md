@@ -137,23 +137,31 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Benachrichtigungen, Sprache und dem Hell/Dunkel-Schalter; eingeklappt nur das Profilbild, Menü rechts daneben.
 - **Dashboard** (Aufbau nach TradeZella; Kopfreihe links Zeitraum und Konto, rechts Vorlage, Zertifikat und Filter als kleine Symbole
   und „Trade loggen“, kein Mikrofon- und kein Session-Knopf; die Titelzeile trägt nur Titel und Avatar; das Filter-Fenster öffnet
-  rechtsbündig unter dem Filter-Symbol, ein aktiver Filter zeigt die Anzahl als kleines Abzeichen): oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
+  rechtsbündig unter dem Filter-Symbol, ein aktiver Filter bleibt ein umrandeter Knopf und zeigt die Anzahl als neutrales Abzeichen;
+  das Zertifikat-Symbol erscheint erst mit abgeschlossenen Trades). **Leer** (kein einziger Trade über alle Konten): statt Kopfreihe und Raster nur
+  eine Karte „Willkommen“ mit einem Satz, „Trade loggen“ (gefüllt), „CSV importieren“ (umrandet) und „Beispieldaten laden“ (leise);
+  Raster und Vorlage bleiben gespeichert, ein gesetzter Filter bleibt zurücksetzbar. Oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
   mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
   Performance nach Uhrzeit und Haltedauer, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
-  Jedes Widget hat ein (i) mit Erklärung (sichtbar beim Darüberfahren). **Vorlagen**: mehrere Dashboards anlegen, umbenennen,
-  duplizieren, als Standard festlegen, löschen. **Bearbeitungsmodus** mit Drag & Drop, Entfernen,
+  Jedes Widget hat ein (i) mit Erklärung (sichtbar beim Darüberfahren). Profit-Faktor und Ø Gewinn/Verlust zeigen beide das Verhältnis
+  zweier Beträge als Zweiteil-Balken. Bedienelemente nur, wenn sie etwas tun: „Heute“ im Kalender nur bei einem anderen Monat, der Reiter
+  „Offene Positionen“ nur bei offenen Positionen; Knöpfe in Bereichs-Widgets sind umrandet, „Öffnen“/„Mehr anzeigen“ neutral.
+  **Vorlagen**: mehrere Dashboards anlegen, umbenennen, duplizieren, als Standard festlegen, löschen; je Vorlage ein ⋯-Menü mit
+  „Bearbeiten“ zuerst, „Als Standard festlegen“ nur bei Nicht-Standard, „Löschen“ erst ab zwei Vorlagen. **Bearbeitungsmodus** (Widget-Inhalte
+  ruhen, nur Widget-Einstellungen bleiben bedienbar) mit Drag & Drop, Entfernen,
   Größe (klein/mittel/groß) und Widget-Bibliothek mit Suche. Handy: Kacheln in zwei Spalten, Pfeile statt Drag & Drop.
   Beim Bearbeiten bleibt ein entferntes Widget als Lücke stehen (neue Widgets füllen sie, Drag & Drop tauscht hinein);
-  erst „Speichern“ schließt die Lücken. Die Kachel „Widget hinzufügen“ am Ende ist am PC so hoch wie ein kleines Widget. Die Bibliothek zeigt zu jedem Widget ein eigenes Vorschaubild (`js/widgetpreviews.js`).
+  erst „Speichern“ schließt die Lücken. Die Kachel „Widget hinzufügen“ am Ende ist am PC so hoch wie ein kleines Widget. Die Bibliothek zeigt zu jedem Widget ein eigenes Vorschaubild (`js/widgetpreviews.js`);
+  erst „Auswertungen“, dann „Bereiche der App“, in jeder Gruppe die beim Öffnen noch wählbaren oben, „Hinzugefügt“ still ohne Akzent.
   **Zeitraum**: Voreinstellungen plus „Benutzerdefiniert“ mit zwei Monatskalendern nebeneinander (Handy: einer), erster Klick
   Start, zweiter Klick Ende (`js/rangepicker.js`); die Vorgaben links (Heute, Diese Woche … Gesamt) werden nur markiert und im Kalender gezeigt, übernommen wird erst mit „Anwenden“; der gewählte Zeitraum erscheint als schmales, an Wochen- und Monatsrändern rundes Band, Start und Ende als Kachel in der Akzentfarbe; beim Überfahren zeigt nur der Tag unter der Maus einen Rahmen, außerhalb des Kalenders verschwindet die Vorschau. **Filter** als Fenster direkt unter dem Filter-Knopf wie Zeitraum, Konto und Vorlage (`js/screens/dash-filter.js`; kompakt wie die anderen Menüs: 320px breit, höchstens 460px hoch mit scrollendem Inhalt, kleiner Kopf ohne Untertitel, Bereiche ohne eigene Kästen, nur feine Trennlinien; auf dem Handy volle Breite; Klick daneben, Escape oder ein zweiter Klick auf den Knopf schließen es), in Gruppen
   Trade (Symbol per „+“ mit Suche, Long/Short, Gewinn/Verlust/Break-even, offen/geschlossen, Intraday/Multiday, Reviewed,
   Bewertung), Zeit (Wochentag, Monat, Entry- und Exit-Uhrzeit, Haltedauer in Min/Std/Tagen), Werte (Entry-/Exit-Preis,
   R-Multiple, Positionsgröße, Volumen) und Tags (Setups, Fehler, Emotionen); „Anwenden“ zeigt live die Zahl der Trades.
-  **Bereiche der App als Widgets** (eigene Gruppe „Bereiche der App“ in der Bibliothek, gleiche Rechnung wie auf den
+  **Bereiche der App als Widgets** (eigene Gruppe „Bereiche der App“ nach den Auswertungen, gleiche Rechnung wie auf den
   Seiten): Kacheln Disziplin-Kosten (Schatten-Ich im Dashboard-Zeitraum), Blind-Replay (richtig eingeschätzt, letzte 20)
   und Prop-Konten (aktiv, Ampel-Zählung); Karten Schatten-Ich (Kosten, echt, Schatten-Ich, Verstöße, Kurven), Blind-Replay
   (große Zahl, Runden, „Session starten“ öffnet direkt die erste Karte), Prop-Konten (Ampel, Balance, Puffer je aktivem
@@ -230,7 +238,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   In „Dein Tag“ hakt ein Klick auf „Tagesnotiz geschrieben“ den Punkt ab oder löst ihn wieder (`days[heute].noteDone`, kein Sprung
   ins Notebook); eine Notiz von heute im Notebook hakt ihn automatisch ab. Der Hinweis-Punkt am Notebook verschwindet dann ebenfalls.
 - **Sessions**: „Session starten“ mit Check-in, „Session beenden“ mit Regel-Check, Marktphase und Reflexion.
-- **Zertifikat-Karten** (Dashboard → „Zertifikat“, Tagesansicht, Statistiken): Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in einem Design im Look der App (`data-theme="app"`): warmes Graphit wie die App, Schriftzug JOURNALYST oben links, zentriert, Ergebnis als Pille mit Licht von links wie der aktive Eintrag der Seitenleiste; der Rand folgt dem Licht (links hell, nach rechts dunkel auslaufend, am Rahmen ausgerichtet) (grün, bei Verlust rot), Kennzahlen als Kachelstreifen, feiner Kartenrahmen und unten eine weiche kein Hintergrund-Diagramm (Inhalt mittig zwischen Marke und Fußzeile); Schrift wie in der App (Text in Satoshi über `--font`, Ergebnis, Kennzahlen und Ausstellungsdaten in der Zahlenschrift Onest über `--font-num`); mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen. Der Zeitraum auf der Karte (Datum, Woche, Monat, „Gesamter Zeitraum“) folgt der App-Sprache (`I18N.locale()`, z. B. „Thursday, October 15, 2026“, „Week 42 · …“; ohne I18N, etwa in den Node-Tests, deutsch).
+- **Zertifikat-Karten** (Schild-Symbol auf Dashboard und Statistiken, in der Tagesansicht in der Kopfreihe; jeweils nur mit abgeschlossenen
+  Trades). Das Menü bezieht Tag, Woche und Monat auf den letzten Handelstag (Montag früh liefert Freitag) und zeigt rechts den konkreten
+  Zeitraum („Do 15.10.“, „KW 42“, „Okt. 2026“); in den Statistiken steht „Performance“ zum gewählten Zeitraum zuerst. Ohne Trades im
+  Zeitraum zeigt der Dialog nur einen Satz und einen Knopf („Zum letzten Handelstag“ usw., springt rückwärts); Format, Häkchen und Export
+  erscheinen erst mit Trades. Certificate of Daily/Weekly/Monthly Profit und Certificate of Performance, bewusst schlicht (Titel, für wen, Ergebnis, Zeitraum, drei Kennzahlen, Unterschriften), in einem Design im Look der App (`data-theme="app"`): warmes Graphit wie die App, Schriftzug JOURNALYST oben links, zentriert, Ergebnis als Pille mit Licht von links wie der aktive Eintrag der Seitenleiste; der Rand folgt dem Licht (links hell, nach rechts dunkel auslaufend, am Rahmen ausgerichtet) (grün, bei Verlust rot), Kennzahlen als Kachelstreifen, feiner Kartenrahmen und unten eine weiche kein Hintergrund-Diagramm (Inhalt mittig zwischen Marke und Fußzeile); Schrift wie in der App (Text in Satoshi über `--font`, Ergebnis, Kennzahlen und Ausstellungsdaten in der Zahlenschrift Onest über `--font-num`); mit Live-Vorschau, Quadrat/Story/Querformat, Beträge ausblenden, PNG-Export in doppelter Auflösung, Kopieren und Teilen. Der Zeitraum auf der Karte (Datum, Woche, Monat, „Gesamter Zeitraum“) folgt der App-Sprache (`I18N.locale()`, z. B. „Thursday, October 15, 2026“, „Week 42 · …“; ohne I18N, etwa in den Node-Tests, deutsch).
 - **Ruhepunkt**: geführte Sessions vor und nach dem Trading plus Akut-Reset (Abläufe und Texte aus `docs/ruhepunkt.html`). Jede Session wird als Eintrag mit Nutzerkennung gespeichert; „Christlicher Impuls“ ist eine gespeicherte Einstellung, umschaltbar nur in den Einstellungen (unten im Ruhepunkt steht nur noch „Hilfe und Beratung“).
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
 - **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
@@ -281,7 +293,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Rote Flächen (Verlusttage im Kalender und in der Jahresübersicht, Fläche unter der Kurve im Minus) sind etwas kräftiger getönt als grüne,
   damit sie auf dem dunklen Grund gleich stark wirken.
   Kalender-Kacheln ruhig aufgeteilt: oben links die Winrate des Tages (Gewinn-Trades durch alle geschlossenen Trades, ohne
-  Beschriftung, auf Höhe der Tageszahl), unten die Tages-P&L in Gewinn- bzw. Verlustfarbe (am PC kräftiger, Onest 800) und die
+  Beschriftung, auf Höhe der Tageszahl), unten die Tages-P&L in Gewinn- bzw. Verlustfarbe (Onest 700 wie alle Werte) und die
   Anzahl der Trades. In schmalen Kacheln (Container-Abfrage) steht der Betrag in Kurzform („−486€“, „+2,1k€“) statt über den
   Rand zu laufen, sehr schmale Kacheln lassen die Winrate weg; am Handy in Kurzform
   mit Währungszeichen („+$722“, „−$5.8k“), mittig im Feld. Diagramme beschriften die Zeitachse mit

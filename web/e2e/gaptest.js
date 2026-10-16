@@ -6,7 +6,7 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   await p.goto('file:///home/user/Florian/web/app.html#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(800);
   const saved = () => p.evaluate(() => { const l = Store.activeDashboard().layout; return { oben: l.oben.map(x => x.typ), unten: l.unten.map(x => x.typ + ':' + x.groesse) }; });
   const before = await saved();
-  await p.click('.dash-head [data-pop=tpl]'); await p.waitForTimeout(200); await p.click('#pop-tpl [data-action="dash-tpl-edit"]'); await p.waitForTimeout(500);
+  await p.click('.dash-head [data-pop=tpl]'); await p.waitForTimeout(200); await p.click('#pop-tpl .tpl-row.on [data-action="dash-tpl-menu"]'); await p.waitForTimeout(120); await p.click('#pop-tpl .tpl-menu [data-action="dash-tpl-edit"]'); await p.waitForTimeout(500);
   const rect = sel => p.evaluate(sel => { const e = document.querySelector(sel); if (!e) return null; const r = e.getBoundingClientRect(); return { x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), h: Math.round(r.height) }; }, sel);
   /* unten: zweites Widget entfernen */
   const second = await rect('.dash-main > .w[data-idx="1"]'); const thirdTyp = await p.evaluate(() => document.querySelector('.dash-main > .w[data-idx="2"]').dataset.typ); const thirdPos = await rect('.dash-main > .w[data-idx="2"]');
@@ -36,7 +36,7 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   ok(await p.evaluate(() => !document.querySelector('.add-slot') && document.querySelector('.dash-main > .w[data-idx="0"]') && document.querySelector('.dash-top > .w[data-idx="0"]')), 'Nach dem Speichern: Widgets aufgerückt, keine Platzhalter');
   await p.screenshot({ path: 'langshots/gaps-saved.png' });
   /* Abbrechen verwirft Lücken */
-  await p.click('.dash-head [data-pop=tpl]'); await p.waitForTimeout(200); await p.click('#pop-tpl [data-action="dash-tpl-edit"]'); await p.waitForTimeout(400);
+  await p.click('.dash-head [data-pop=tpl]'); await p.waitForTimeout(200); await p.click('#pop-tpl .tpl-row.on [data-action="dash-tpl-menu"]'); await p.waitForTimeout(120); await p.click('#pop-tpl .tpl-menu [data-action="dash-tpl-edit"]'); await p.waitForTimeout(400);
   await p.evaluate(() => document.querySelector('.dash-main > .w[data-idx="0"] [data-action="dash-remove"]').click()); await p.waitForTimeout(300); await p.click('[data-action="dash-cancel"]'); await p.waitForTimeout(400);
   ok(JSON.stringify(await saved()) === JSON.stringify(after), 'Abbrechen: Layout unverändert');
   ok(!errs.length, 'keine Fehler ' + errs.join(' | '));

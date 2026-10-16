@@ -58,14 +58,22 @@
   const canShare = () => !!(navigator.share && navigator.canShare);
 
   /* ---------- Menü und Modal ---------- */
+  /* Menü: Tag, Woche und Monat beziehen sich auf den letzten Handelstag (Montag früh liefert Freitag); rechts steht der konkrete
+     Zeitraum. In den Statistiken steht „Performance“ zum gewählten Zeitraum zuerst, Tag/Woche/Monat folgen unter einer Linie */
   function menuHTML(ctx) {
-    const day = (ctx && ctx.day) || C.dayKey(new Date());
-    return [['day', 'Tag', day], ['week', 'Woche', day], ['month', 'Monat', D.monthKey(C.parseDayKey(day))], ['stats', 'Stats', 'range']].map(([k, l, ref]) => `<button type="button" class="item" data-action="cert-open" data-kind="${k}" data-ref="${ref}">${D.KINDS[k].title.replace(' Certificate', '')}<span class="muted small" style="margin-left:auto">${l}</span></button>`).join('');
+    ctx = ctx || {}; const day = ctx.day || D.latestRef('day', App.allTrades());
+    const loc = root.I18N && root.I18N.locale ? root.I18N.locale() : 'de-DE'; const dd = C.parseDayKey(day);
+    const dayLbl = `${dd.toLocaleDateString(loc, { weekday: 'short' }).replace(/\.$/, '')} ${dd.toLocaleDateString(loc, { day: '2-digit', month: '2-digit' })}`;
+    const item = (k, ref, right) => `<button type="button" class="item" data-action="cert-open" data-kind="${k}" data-ref="${esc(ref)}">${D.KINDS[k].title.replace(' Certificate', '')}<span class="muted small" style="margin-left:auto">${esc(right)}</span></button>`;
+    const month = D.refFor('month', day);
+    const periodic = item('day', day, dayLbl) + item('week', day, D.period('week', day).short) + item('month', month, D.period('month', month).short);
+    const perf = item('stats', 'range', App.range().label);
+    return ctx.stats ? `${perf}<hr>${periodic}` : periodic + perf;
   }
   function resolveRef(kind, ref) { if (ref === 'range' || ref == null || ref === '') { if (kind !== 'stats') return D.defaultRef(kind); const r = App.range(); return r.from ? { from: r.from, to: r.to } : null; } return ref; }
 
   function open(kind, ref) {
-    fontCSS = null;
+    fontCSS = null; App.closePopovers(); /* das Menü, aus dem man kam, schließt sich */
     const o = opts(); o.theme = 'app';
     const state = { kind, ref: resolveRef(kind, ref), busy: false };
     const mo = {
@@ -85,11 +93,12 @@
         const render = () => {
           const p = D.period(kind, state.ref); const all = App.allTrades(); const list = D.select(all, p); const m = D.compute(kind, list, p); const f = FORMATS[o.format]; const ex = Object.assign({}, o, { account: App.account() }); cur = { p, m, f };
           const empty = !list.length;
-          preview.innerHTML = empty ? `<div class="cert-empty">${U.empty('stats', 'Keine Trades in diesem Zeitraum', 'Wähle einen anderen Zeitraum, um ein Zertifikat zu erstellen.')}</div>` : `<div class="cert-scale">${cardHTML(m, p, ex)}</div>`;
+          const any = empty && C.closedOnly(all).length > 0; const jumpLbl = { day: 'Zum letzten Handelstag', week: 'Zur letzten Woche mit Trades', month: 'Zum letzten Monat mit Trades', stats: 'Gesamten Zeitraum zeigen' }[kind];
+          preview.innerHTML = empty ? `<div class="cert-empty"><p>${any ? 'Keine Trades in diesem Zeitraum.' : 'Noch keine abgeschlossenen Trades.'}</p>${any && !(kind === 'stats' && !state.ref) ? `<button type="button" class="btn primary" data-c="jump">${jumpLbl}</button>` : ''}</div>` : `<div class="cert-scale">${cardHTML(m, p, ex)}</div>`;
           side.innerHTML = `<div class="field"><span class="lbl">Zeitraum</span><div class="row" style="gap:6px;flex-wrap:nowrap">${kind !== 'stats' ? `<button type="button" class="btn round sm" data-c="prev" aria-label="Zurück">${I.chevL}</button>` : ''}${periodInput(p)}${kind !== 'stats' ? `<button type="button" class="btn round sm" data-c="next" aria-label="Weiter">${I.chevR}</button>` : ''}</div><div class="small muted" style="margin-top:6px">${esc(p.label)}${empty ? '' : ` · ${U.count(m.n, 'Trade', 'Trades')}`}</div></div>
-            <div class="field"><span class="lbl">Format</span>${seg('format', Object.entries(FORMATS).map(([k, v]) => [k, `${v.label} <small class="muted">${v.w}×${v.h}</small>`]))}</div>
-            <div class="stack" style="gap:8px">${toggle('hide', 'Beträge ausblenden (nur % bzw. R)')}${toggle('user', 'Username anzeigen')}</div>`;
-          foot.innerHTML = `<span class="small muted left">PNG in doppelter Auflösung (${f.w * 2}×${f.h * 2}).</span>${canShare() ? `<button type="button" class="btn" data-c="share" ${empty ? 'disabled' : ''}>${I.external} Teilen</button>` : ''}<button type="button" class="btn" data-c="copy" ${empty ? 'disabled' : ''}>${I.copy} Kopieren</button><button type="button" class="btn primary" data-c="png" ${empty ? 'disabled' : ''}>${I.download} PNG herunterladen</button>`;
+            ${empty ? '' : `<div class="field"><span class="lbl">Format</span>${seg('format', Object.entries(FORMATS).map(([k, v]) => [k, `${v.label} <small class="muted">${v.w}×${v.h}</small>`]))}</div>
+            <div class="stack" style="gap:8px">${toggle('hide', 'Beträge ausblenden (nur % bzw. R)')}${toggle('user', 'Username anzeigen')}</div>`}`;
+          foot.hidden = empty; foot.innerHTML = empty ? '' : `<span class="small muted left">PNG in doppelter Auflösung (${f.w * 2}×${f.h * 2}).</span>${canShare() ? `<button type="button" class="btn" data-c="share">${I.external} Teilen</button>` : ''}<button type="button" class="btn" data-c="copy">${I.copy} Kopieren</button><button type="button" class="btn primary" data-c="png">${I.download} PNG herunterladen</button>`;
           requestAnimationFrame(fit);
         };
         const busy = async (btn, fn) => { if (state.busy) return; state.busy = true; const label = btn.innerHTML; btn.disabled = true; btn.innerHTML = `${U.spin()} Wird erstellt …`; try { await fn(); } catch (e) { U.toast(e && e.message === 'clipboard' ? 'Zwischenablage nicht verfügbar. Lade das PNG stattdessen herunter.' : e && e.message === 'share' ? 'Teilen wird hier nicht unterstützt.' : 'Export fehlgeschlagen. Bitte noch einmal versuchen.', 'err'); } finally { btn.disabled = false; btn.innerHTML = label; state.busy = false; } };
@@ -97,6 +106,7 @@
           const b = e.target.closest('[data-c]'); if (!b || b.tagName === 'INPUT' || b.tagName === 'SELECT') return; const k = b.dataset.c;
           if (k === 'format') { o[k] = b.dataset.v; render(); return; }
           if (k === 'prev' || k === 'next') { state.ref = D.shift(kind, state.ref, k === 'next' ? 1 : -1); render(); return; }
+          if (k === 'jump') { state.ref = kind === 'stats' ? null : D.jumpRef(kind, App.allTrades(), cur && cur.p) || state.ref; render(); return; }
           const card = preview.querySelector('.cert'); if (!card || !cur) return; const name = fileName(cur.m, cur.p);
           if (k === 'png') busy(b, async () => { await exportPng(card, cur.f, name); U.toast('PNG wird heruntergeladen', 'ok'); });
           if (k === 'copy') busy(b, async () => { await copyPng(card, cur.f); U.toast('In die Zwischenablage kopiert', 'ok'); });

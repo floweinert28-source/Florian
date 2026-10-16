@@ -7,6 +7,8 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.goto(base, { waitUntil: 'load' }); await p.evaluate(() => { Store.installSample(); Store.setSetting('profile', Object.assign({}, Store.settings.profile, { username: 'flo' })); Store.saveNow(); }); await p.waitForTimeout(400); /* Speicher erst übernehmen lassen, dann neu laden */
   await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(900);
   ok('Zertifikat-Menü im Dashboard', !!(await p.$('.dash-head [data-pop=cert]')) && (await p.$$('#pop-cert [data-action=cert-open]')).length === 4);
+  const menu = await p.evaluate(() => { const last = Core.closedOnly(App.allTrades()).map(t => t.dayKey).filter(k => k <= Core.dayKey(new Date())).sort().pop(); const it = [...document.querySelectorAll('#pop-cert [data-action=cert-open]')]; return { last, refs: it.map(b => b.dataset.ref), right: it.map(b => b.querySelector('span').textContent) }; });
+  ok('Menü: Tag/Woche/Monat zum letzten Handelstag, rechts konkrete Zeiträume (KW, Monat), keine Wörter „Tag/Woche/Monat“', menu.refs[0] === menu.last && menu.refs[1] === menu.last && menu.refs[2] === menu.last.slice(0, 7) && /^KW \d+$/.test(menu.right[1]) && /\d{4}/.test(menu.right[2]) && !/^(Tag|Woche|Monat|Stats)$/.test(menu.right.join('|').split('|')[0]), JSON.stringify(menu));
   await p.click('.dash-head [data-pop=cert]'); await p.waitForTimeout(150); await p.click('#pop-cert [data-kind=stats]'); await p.waitForTimeout(700);
   ok('Modal mit Vorschau + Optionen', !!(await p.$('.cert-modal .cert-preview .cert')) && !!(await p.$('.cert-opts')) && !!(await p.$('[data-c=png]')));
   const card = await p.$eval('.cert', e => ({ w: e.style.width, h: e.style.height, title: e.querySelector('.cert-title .ct-sub').textContent, user: (e.querySelector('.cert-to .user') || {}).textContent, no: e.querySelector('.issue .v.mono').textContent, stats: e.querySelectorAll('.cert-stats .st').length, nan: /NaN|undefined/.test(e.textContent) }));
@@ -49,11 +51,16 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   ok('Tages-Karte schlicht: drei Kennzahlen, keine Symbol-Chips', (await p.$$('.cert-stats .st')).length === 3 && !(await p.$('.cert-syms')));
   await p.screenshot({ path: 'cert-day.png' });
   await p.$eval('.cert-opts input[type=date]', e => { e.value = '2019-01-01'; e.dispatchEvent(new Event('change', { bubbles: true })); }); await p.waitForTimeout(400);
-  ok('Leerer Zeitraum: Hinweis + Export aus', (await p.textContent('.cert-preview')).includes('Keine Trades in diesem Zeitraum') && await p.$eval('[data-c=png]', b => b.disabled));
+  ok('Leerer Zeitraum: ein Satz und ein Knopf; Format, Häkchen und Export erst mit Trades', (await p.textContent('.cert-preview')).includes('Keine Trades in diesem Zeitraum') && (await p.textContent('[data-c=jump]')) === 'Zum letzten Handelstag' && !(await p.$('[data-c=png]')) && !(await p.$('.cert-opts [data-c=format]')) && await p.$eval('#cert-foot', f => f.hidden));
+  await p.click('[data-c=jump]'); await p.waitForTimeout(400);
+  ok('„Zum letzten Handelstag“ springt rückwärts zu einem Tag mit Trades', !!(await p.$('.cert')) && !!(await p.$('[data-c=png]')) && (await p.$eval('.cert-opts input[type=date]', e => e.value)) > '2019-01-01');
   await p.keyboard.press('Escape'); await p.waitForTimeout(200);
   /* Tagesansicht + Statistik */
-  await p.evaluate(() => { location.hash = '#/day'; }); await p.waitForTimeout(500); ok('Knopf in der Tagesansicht', !!(await p.$('[data-action=cert-open][data-kind=day]')));
-  await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500); ok('Menü in der Statistik', !!(await p.$('.page-head [data-pop=cert]')));
+  await p.evaluate(() => { location.hash = '#/day/' + Core.closedOnly(App.allTrades()).map(t => t.dayKey).sort().pop(); }); await p.waitForTimeout(500);
+  ok('Tagesansicht mit Trades: Zertifikat als Symbol in der Kopfreihe, nicht mehr in der Datumszeile', !!(await p.$('.page-head .icon-only[data-action=cert-open][data-kind=day]')) && (await p.$$('[data-action=cert-open]')).length === 1);
+  await p.evaluate(() => { location.hash = '#/day/2019-01-01'; }); await p.waitForTimeout(500); ok('Tag ohne Trades: kein Zertifikat', !(await p.$('[data-action=cert-open]')));
+  await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500);
+  ok('Statistik: Schild-Symbol, „Performance“ zuerst, Tag/Woche/Monat unter einer Linie', !!(await p.$('.page-head .icon-only[data-pop=cert]')) && await p.$eval('#pop-cert', m => m.firstElementChild.dataset.kind === 'stats' && m.children[1].tagName === 'HR' && m.children.length === 5));
   /* Handy */
   await p.setViewportSize({ width: 390, height: 800 }); await p.evaluate(() => { location.hash = '#/dashboard'; }); await p.waitForTimeout(600);
   await p.evaluate(() => Certificate.open('stats', 'range')); await p.waitForTimeout(700);

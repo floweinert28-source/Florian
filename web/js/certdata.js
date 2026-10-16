@@ -68,5 +68,13 @@
     return `#JY-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${code}`;
   }
   const defaultRef = (kind, now) => { const d = now || new Date(); return kind === 'month' ? monthKey(d) : kind === 'stats' ? null : C.dayKey(d); };
-  return { KINDS, period, shift, select, compute, certNo, defaultRef, monthKey, parseMonthKey };
+  /* jüngster Tag mit abgeschlossenen Trades bis einschließlich „upto“ (dayKey, leer = ohne Grenze); ohne Treffer null */
+  function lastTradeDay(all, upto) { let best = null; for (const t of C.closedOnly(all || [])) { const k = t.dayKey; if ((!upto || k <= upto) && (!best || k > best)) best = k; } return best; }
+  /* Bezug einer Art aus einem Tag: Tag und Woche nehmen den Tag, der Monat seinen Monat */
+  const refFor = (kind, day) => kind === 'month' ? monthKey(C.parseDayKey(day)) : day;
+  /* Bezug für das Menü: der letzte Handelstag (Montag früh liefert Freitag), ohne Trades heute */
+  const latestRef = (kind, all, now) => refFor(kind, lastTradeDay(all, C.dayKey(now || new Date())) || C.dayKey(now || new Date()));
+  /* Leerer Zeitraum: der nächste frühere Zeitraum mit Trades; gibt es davor keinen, der jüngste überhaupt; ohne Trades null */
+  function jumpRef(kind, all, p) { const before = p && p.from ? C.dayKey(new Date(p.from.getFullYear(), p.from.getMonth(), p.from.getDate() - 1)) : null; const k = (before && lastTradeDay(all, before)) || lastTradeDay(all); return k ? refFor(kind, k) : null; }
+  return { KINDS, period, shift, select, compute, certNo, defaultRef, monthKey, parseMonthKey, lastTradeDay, refFor, latestRef, jumpRef };
 });

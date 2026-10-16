@@ -70,6 +70,7 @@
     external: sv('<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>'),
     csv: sv('<path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M8 13h8M8 17h8"/>'),
     copy: sv('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5h10"/>'),
+    rename: sv('<path d="M5 7V5h14v2"/><path d="M12 5v14"/><path d="M9 19h6"/>'), /* Schrift-T: Umbenennen, damit kein zweiter Stift neben „Bearbeiten“ steht */
     more: sv('<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>'),
     dot: sv('<circle cx="12" cy="12" r="4" fill="currentColor"/>'),
     sparkle: sv('<path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>'),

@@ -452,8 +452,7 @@ span.info:hover { color: var(--text-2); }
 .tile .head > span:first-child > .info { flex: 0 0 auto; }
 /* enge Kacheln: der Gewinn/Verlust-Balken rutscht mit voller Breite unter den Wert, die beiden Beträge bleiben in einer Zeile */
 @container (max-width: 13.75rem) { .tile .body:has(> .gauge > .wl-single) { flex-wrap: wrap; } .tile .body > .gauge:has(> .wl-single) { flex: 1 1 100%; margin-right: 0; } }
-.tile .body { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3) var(--sp-4); padding-top: var(--sp-2); flex: 1;
-  background: linear-gradient(90deg, var(--border), var(--border) 22%, transparent 48%) top left / 100% 1px no-repeat; }
+.tile .body { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3) var(--sp-4); padding-top: var(--sp-1); flex: 1; } /* Titel und Wert nur durch Abstand getrennt, ohne Linie */
 .tile.wide .body { flex-wrap: nowrap; gap: var(--sp-3) 2.75rem; }
 /* Kacheln mit kleinem Diagramm (Donut, Halbkreis): Diagramm auf Höhe der Wert-Schrift, etwas vom rechten Rand abgerückt */
 .tile.side .gauge { margin-right: var(--sp-3); }
@@ -604,7 +603,7 @@ span.info:hover { color: var(--text-2); }
 .banner .grow { flex: 1 1 13.75rem; }
 .banner .close { margin-left: auto; }
 .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: var(--sp-2); padding: var(--sp-8) var(--sp-4); color: var(--muted); min-height: 11.25rem; }
-.empty svg { width: 2.125rem; height: 2.125rem; color: var(--faint); }
+.empty > svg { width: 2.125rem; height: 2.125rem; color: var(--faint); } /* nur das Leer-Symbol, nicht die Symbole in Knöpfen */
 .empty b { color: var(--text); font-size: var(--fs-16); }
 .empty .small { max-width: 22.5rem; }
 
@@ -649,7 +648,7 @@ span.info:hover { color: var(--text-2); }
 .cal .d .c .wr { position: absolute; top: 0.375rem; left: 0.5rem; height: 1.5rem; display: flex; align-items: center; font-family: var(--font-num); font-size: var(--fs-11); line-height: var(--lh-11); font-weight: 600; letter-spacing: -.01em; color: var(--muted); }
 @container (max-width: 3.25rem) { .cal .d .c .wr { display: none; } }
 .cal .p { font-weight: 700; font-size: var(--fs-13); line-height: var(--lh-13); }
-.cal .d .p { font-weight: 800; font-size: var(--fs-14); letter-spacing: -.01em; } /* am PC kräftiger */
+.cal .d .p { font-weight: 700; font-size: var(--fs-14); letter-spacing: -.01em; } /* Werte 700 wie überall */
 .cal .c { font-size: var(--fs-12); color: var(--muted); }
 .cal .w { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-2); background: var(--surface-2); display: flex; flex-direction: column; gap: 0.125rem; justify-content: center; }
 .cal .w .t { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); font-weight: 600; }
@@ -694,6 +693,7 @@ span.info:hover { color: var(--text-2); }
 .detail-head .big { font-family: var(--font-display); font-size: var(--fs-24); font-weight: 700; margin-left: auto; }
 .dropzone { border: 0.09375rem dashed var(--border-2); border-radius: var(--radius); padding: var(--sp-6); text-align: center; color: var(--muted); font-size: var(--fs-13); line-height: var(--lh-13); cursor: pointer; transition: border-color var(--dur-1) var(--ease), background var(--dur-1) var(--ease); }
 .dropzone.over, .dropzone:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+.dropzone svg { display: block; width: 1.75rem; height: 1.75rem; margin: 0 auto var(--sp-2); color: var(--faint); } /* Symbolgröße statt Dialogbreite */
 .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.375rem, 1fr)); gap: var(--sp-2); }
 .shot { position: relative; aspect-ratio: 16 / 10; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--surface-2); max-width: 100%; }
 .shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-3) var(--ease), opacity var(--dur-3) var(--ease); }
@@ -1508,7 +1508,8 @@ html.sb-mini .boot-sb .skel { width: 1.5rem; }
 .edit-bar { position: sticky; top: 0.5rem; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; padding: var(--sp-3) var(--sp-4); border-radius: var(--radius); border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); box-shadow: var(--shadow); }
 .dot-live { width: 0.5625rem; height: 0.5625rem; border-radius: 62.4375rem; background: var(--accent); box-shadow: 0 0 0 0.25rem var(--accent-soft); animation: pulse 1.6s infinite; }
 .w.editing { outline: 0.09375rem dashed var(--border-2); outline-offset: 0.3125rem; border-radius: var(--radius); }
-.w.editing .w-body { pointer-events: none; }
+.w.editing .w-body { pointer-events: none; } /* Inhalte ruhen beim Bearbeiten; nur die Widget-Einstellungen bleiben bedienbar */
+.w.editing .w-body .w-cfg, .w.editing .w-body .popover, .w.editing .w-body [data-change="dash-w-opt"], .w.editing .w-body [data-action="dash-w-opt"], .w.editing .w-body .rep-panel { pointer-events: auto; }
 .w.editing.drag { opacity: .45; }
 .w.editing.over-l { box-shadow: -0.375rem 0 0 -0.125rem var(--accent); }
 .w.editing.over-r { box-shadow: 0.375rem 0 0 -0.125rem var(--accent); }
@@ -1556,7 +1557,7 @@ html.sb-mini .boot-sb .skel { width: 1.5rem; }
 .sp-add .sp-lbl { display: grid; }
 .sp-add .sp-lbl > span { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-1); }
 .sp-add:not(.added) .sp-lbl .b, .sp-add.added .sp-lbl .a { visibility: hidden; }
-.sp-item .btn.added { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); opacity: 1; }
+.sp-item .btn.added { color: var(--muted); border-color: transparent; background: transparent; opacity: 1; } /* „Hinzugefügt“ still, ohne Akzent */
 .sp-item .btn:disabled:not(.added) { opacity: .45; cursor: not-allowed; }
 .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2) var(--sp-4); }
 /* Vorlagen-Menü */
@@ -1598,8 +1599,8 @@ html.sb-mini .boot-sb .skel { width: 1.5rem; }
 .recent-wrap { flex: 1 1 auto; height: 0; min-height: 0; overflow-x: auto; overflow-y: hidden; } /* schmales Widget: Spalten seitlich erreichbar statt abgeschnitten */
 .recent-wrap .tbl tbody tr.hidden { display: none; }
 .more-row { padding-top: var(--sp-2); border-top: 1px solid var(--border); text-align: center; margin-top: auto; }
-.more-link { color: var(--accent); font-weight: 600; font-size: var(--fs-13); text-decoration: none; }
-.more-link:hover { text-decoration: underline; }
+.more-link { color: var(--text-2); font-weight: 500; font-size: var(--fs-13); text-decoration: none; } /* neutral: Grün nur für Gewinn und „Trade loggen“ */
+.more-link:hover { color: var(--text); text-decoration: underline; }
 /* Regel-Tracker (Aufbau nach TradeZella) */
 .tracker { display: grid; grid-template-columns: 1.75rem repeat(var(--weeks, 13), minmax(0, 1fr)); gap: 0.1875rem; align-items: center; }
 .tracker .tl, .tracker .ml { font-size: var(--fs-12); line-height: var(--lh-12); color: var(--muted); height: 1rem; white-space: nowrap; overflow: visible; }
@@ -1904,7 +1905,7 @@ html.nb-nostrike .ql-editor li[data-list=checked] { text-decoration: none; color
 .cert-modal .cert-body { display: grid; grid-template-columns: minmax(0, 1fr) 17.5rem; gap: var(--sp-4); align-items: start; }
 .cert-preview { display: grid; place-items: center; min-width: 0; width: 100%; min-height: 20rem; padding: var(--sp-3); border-radius: var(--radius-lg); background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
 .cert-preview .cert-scale { transform-origin: top left; flex: 0 0 auto; }
-.cert-preview .cert-empty { padding: var(--sp-4); }
+.cert-preview .cert-empty { padding: var(--sp-6) var(--sp-4); display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); text-align: center; color: var(--text-2); }
 .cert-opts { display: flex; flex-direction: column; gap: var(--sp-4); }
 .cert-opts .lbl { display: block; font-size: var(--fs-12); font-weight: 600; color: var(--text-2); margin-bottom: var(--sp-2); }
 .cert-opts .seg.sm button { padding: var(--sp-2) var(--sp-3); font-size: var(--fs-13); }
@@ -2914,7 +2915,7 @@ a.coach-name:hover { color: var(--accent); }
 /* ---------- Handy (bis 560px) ---------- */
 .cal .d .pm, .cal .w .pm { display: none; }
 /* schmale Kacheln am PC (z. B. 1280 px Fensterbreite): kurzer Betrag (−486 €, +2,1k €) statt über den Rand zu laufen */
-@container (max-width: 4.8125rem) { .cal .d .p { display: none; } .cal .d .pm { display: block; font-weight: 800; font-size: var(--fs-12); line-height: var(--lh-12); letter-spacing: -.02em; white-space: nowrap; } }
+@container (max-width: 4.8125rem) { .cal .d .p { display: none; } .cal .d .pm { display: block; font-weight: 700; font-size: var(--fs-12); line-height: var(--lh-12); letter-spacing: -.02em; white-space: nowrap; } }
 @container (max-width: 3.125rem) { .cal .d .pm { font-size: var(--fs-11); margin: 0 calc(-1 * var(--sp-1)); } .cal .d .c { font-size: var(--fs-11); margin: 0 calc(-1 * var(--sp-1)); overflow: hidden; } }
 @media (max-width: 35em) {
   .tf-main, .tf-main:has(#f-account) { grid-template-columns: minmax(0, 1fr); } /* Handy: Symbol und Richtung untereinander, Umschalter über die volle Breite */
@@ -3226,7 +3227,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 @media (max-width: 35em) {
   .cal:not(.mini):not(.ext) .d, .dash-main .cal:not(.mini):not(.ext) .d { min-height: 4rem; padding: var(--sp-6) 0.1875rem var(--sp-1); align-items: center; text-align: center; gap: 0.125rem; } /* Betrag und Quote mittig: nicht am rechten Rand */
   .cal:not(.mini):not(.ext) .d .n { top: 0.1875rem; right: 0.1875rem; font-size: var(--fs-12); line-height: var(--lh-12); }
-  .cal:not(.mini):not(.ext) .d .pm { margin: 0; text-align: center; font-size: var(--fs-11); font-weight: 800; letter-spacing: -.02em; overflow: visible; }
+  .cal:not(.mini):not(.ext) .d .pm { margin: 0; text-align: center; font-size: var(--fs-11); font-weight: 700; letter-spacing: -.02em; overflow: visible; }
   .cal:not(.mini):not(.ext) .d .c { display: flex; flex-direction: column; align-items: center; gap: 1px; margin: 0; white-space: normal; overflow: visible; font-size: var(--fs-11); line-height: 1.2; color: var(--text-2); }
   .cal:not(.mini):not(.ext) .d.pad { visibility: visible; background: transparent; border-color: var(--border); pointer-events: none; } /* Tage vor dem 1. und nach dem Monatsende als leere Kästchen, damit das Raster geschlossen ist */
   .cal:not(.mini):not(.ext) .d .c > span:first-child { display: none; } /* keine Trade-Anzahl auf dem Handy, nur Betrag und Trefferquote */
@@ -3756,3 +3757,10 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 .tb-userwrap > .popover.tb-menu { left: auto; right: 0; top: calc(100% + var(--sp-2)); bottom: auto; }
 /* Handy und Tablet: die Schublade ist nur Navigation, das Konto-Menü sitzt am Profilbild */
 @media (max-width: 60em) { .sidebar .sb-userwrap { display: none; } }
+
+/* Dashboard leer: eine Karte mit einem Satz, einem Hauptknopf und leisen Nebenwegen */
+.dash-welcome { max-width: 40rem; display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-6); }
+.dash-welcome h2 { font-size: var(--fs-20); line-height: var(--lh-20); font-weight: 600; }
+.dash-welcome p { color: var(--text-2); }
+.dash-welcome .dw-actions { gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-1); }
+.score-lbl { font-size: var(--fs-13); line-height: var(--lh-13); font-weight: 500; color: var(--text-2); } /* wie alle Wert-Beschriftungen */

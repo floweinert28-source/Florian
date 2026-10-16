@@ -19,7 +19,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   ok('Kachel-Diagramme auf Höhe des Werts, 12px vom Rand abgerückt', await p.evaluate(() => [...document.querySelectorAll('.tile.side')].length >= 2 && [...document.querySelectorAll('.tile.side')].every(t => { const v = t.querySelector('.val').getBoundingClientRect(), g = t.querySelector('.gauge').getBoundingClientRect(), T = t.getBoundingClientRect(); return Math.abs((v.top + v.height / 2) - (g.top + g.height / 2)) < 1.5 && Math.round(T.right - g.right) >= 26; })));
   await p.screenshot({ path: 'dash-1.png', fullPage: true });
   /* Bearbeitungsmodus */
-  await p.click('[data-pop=tpl]'); await p.waitForTimeout(150); await p.click('#pop-tpl [data-action="dash-tpl-edit"]'); await p.waitForTimeout(300);
+  await p.click('[data-pop=tpl]'); await p.waitForTimeout(150); await p.click('#pop-tpl .tpl-row.on [data-action="dash-tpl-menu"]'); await p.waitForTimeout(120); await p.click('#pop-tpl .tpl-menu [data-action="dash-tpl-edit"]'); await p.waitForTimeout(300);
   ok('Edit-Bar sichtbar', !!(await p.$('.edit-bar')) && (await p.textContent('.edit-bar')).includes('Standard'));
   ok('Handles + X pro Widget', await p.$$eval('.w.editing .handle', e => e.length) === 14 && await p.$$eval('.w.editing .rm', e => e.length) === 14);
   ok('Größenauswahl nur unten', await p.$$eval('.dash-main .seg.mini', e => e.length) === 9 && await p.$$eval('.dash-top .seg.mini', e => e.length) === 0);
@@ -99,7 +99,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   await p.click('.w[data-typ="report"] [data-action="dash-rep-toggle"]'); await p.waitForTimeout(200);
   ok('Panel geschlossen', !(await p.$('.rep-panel')));
   // Abbrechen verwirft
-  await p.click('[data-pop=tpl]'); await p.waitForTimeout(150); await p.click('#pop-tpl [data-action="dash-tpl-edit"]'); await p.waitForTimeout(250); await p.click('.dash-main .w[data-idx="0"] .rm'); await p.waitForTimeout(150); await p.click('[data-action="dash-cancel"]'); await p.waitForTimeout(250);
+  await p.click('[data-pop=tpl]'); await p.waitForTimeout(150); await p.click('#pop-tpl .tpl-row.on [data-action="dash-tpl-menu"]'); await p.waitForTimeout(120); await p.click('#pop-tpl .tpl-menu [data-action="dash-tpl-edit"]'); await p.waitForTimeout(250); await p.click('.dash-main .w[data-idx="0"] .rm'); await p.waitForTimeout(150); await p.click('[data-action="dash-cancel"]'); await p.waitForTimeout(250);
   ok('Abbrechen verwirft Änderung', await p.$$eval('.dash-main > .w', e => e.length) === 24);
   /* Vorlagen */
   await p.click('[data-pop=tpl]'); await p.waitForTimeout(150);
@@ -117,10 +117,10 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   await p.click('[data-action="dash-tpl-new"]'); await p.waitForTimeout(200); await p.fill('.modal input[name=name]', 'Kopie'); await p.click('.modal input[value=copy]'); await p.click('.modal button[type=submit]'); await p.waitForTimeout(350);
   ok('Von aktueller kopiert', await p.$$eval('.dash-top > .w', e => e.length) === 1);
   await p.click('[data-action="dash-cancel"]'); await p.waitForTimeout(250);
-  // Menü: Umbenennen, Duplizieren, Standard, Löschen
+  // Menü: Bearbeiten, Umbenennen, Duplizieren, Standard (nur bei Nicht-Standard), Löschen (nur ab zwei Vorlagen)
   await p.click('[data-pop=tpl]'); await p.waitForTimeout(150);
   const menuBtns = await p.$$('[data-action="dash-tpl-menu"]'); await menuBtns[1].click(); await p.waitForTimeout(150);
-  ok('···-Menü zeigt 4 Einträge', await p.$$eval('.tpl-menu .item', e => e.length) === 4 && !!(await p.$('#pop-tpl.open')));
+  ok('···-Menü zeigt 5 Einträge, „Bearbeiten“ zuerst, keine deaktivierten', await p.$$eval('.tpl-menu .item', e => e.length === 5 && e[0].dataset.action === 'dash-tpl-edit' && !e.some(x => x.disabled)) && !(await p.$('.tpl-row [data-action="dash-tpl-edit"]')) && !!(await p.$('#pop-tpl.open')));
   await p.click('[data-action="dash-tpl-rename"]'); await p.waitForTimeout(200); await p.fill('.modal input[name=v]', 'Scalping Pro'); await p.click('.modal button[type=submit]'); await p.waitForTimeout(300);
   ok('Umbenannt', await p.evaluate(() => Store.dashboards().some(d => d.name === 'Scalping Pro')));
   await p.click('[data-pop=tpl]'); await p.waitForTimeout(150); console.log('rows:', await p.$$eval('.tpl-row', r => r.map(x => x.textContent.trim()).join(' | ')), 'pop open:', !!(await p.$('#pop-tpl.open'))); await (await p.$$('[data-action="dash-tpl-menu"]'))[1].click(); await p.waitForTimeout(150); console.log('menu for:', await p.$eval('.tpl-menu', e => e.previousElementSibling.textContent.trim()).catch(() => 'none')); await p.click('[data-action="dash-tpl-default"]'); await p.waitForTimeout(200); console.log('defaults:', await p.evaluate(() => Store.dashboards().map(d => d.name + ':' + d.isDefault).join(' ')));
@@ -140,8 +140,8 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   ok('Nach Neuladen Standard-Vorlage (Stern) geladen', await p.evaluate(() => Store.activeDashboard().isDefault));
   // Leerer Zustand: Beispieldaten entfernen
   await p.evaluate(() => { Store.removeSample(); }); await p.waitForTimeout(100); await p.evaluate(() => App.rerender(false)); await p.waitForTimeout(300);
-  const nd = await p.$$eval('.nodata, .empty b', e => e.filter(x => x.textContent.includes('Noch keine Daten')).length);
-  ok('Leerer Zustand: „Noch keine Daten“', nd >= 10, String(nd));
+  const wc = await p.evaluate(() => { const c = document.querySelector('.dash-welcome'); return { c: !!c, h: c && c.querySelector('h2').textContent, btn: c ? [...c.querySelectorAll('.btn')].map(b => b.className.replace('btn', '').trim() + ':' + b.dataset.action) : [], grid: !!document.querySelector('.dash-main, .dash-top'), head: !!document.querySelector('.dash-head'), banner: !!document.querySelector('.banner') }; });
+  ok('Leer: nur eine Willkommens-Karte (Trade loggen gefüllt, CSV umrandet, Beispieldaten leise), kein Raster, keine Kopfreihe, kein Banner', wc.c && wc.h === 'Willkommen' && wc.btn.join() === 'accent:new-trade,:import,ghost:install-sample' && !wc.grid && !wc.head && !wc.banner, JSON.stringify(wc));
   await p.screenshot({ path: 'dash-7-empty.png', fullPage: true });
   await p.evaluate(() => { Store.installSample(); });
   /* Handy */
@@ -151,7 +151,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   ok('Handy: obere Reihe als Raster mit zwei Spalten (kein Karussell)', await mp.$eval('.dash-top', e => { const cs = getComputedStyle(e); return cs.display === 'grid' && cs.gridTemplateColumns.split(' ').length === 2 && e.scrollWidth <= e.clientWidth; }));
   ok('Handy: untere Widgets volle Breite', await mp.$$eval('.dash-main > .w', ws => ws.every(w => Math.abs(w.getBoundingClientRect().width - ws[0].getBoundingClientRect().width) < 2)));
   await mp.screenshot({ path: 'dash-8-phone.png' });
-  await mp.click('[data-pop=tpl]'); await mp.waitForTimeout(150); await mp.click('#pop-tpl [data-action="dash-tpl-edit"]'); await mp.waitForTimeout(300);
+  await mp.click('[data-pop=tpl]'); await mp.waitForTimeout(150); await mp.click('#pop-tpl .tpl-row.on [data-action="dash-tpl-menu"]'); await mp.waitForTimeout(120); await mp.click('#pop-tpl .tpl-menu [data-action="dash-tpl-edit"]'); await mp.waitForTimeout(300);
   ok('Handy: Pfeile statt Handle', await mp.$eval('.w.editing .mv', e => getComputedStyle(e).display !== 'none') && await mp.$eval('.w.editing .handle', e => getComputedStyle(e).display === 'none'));
   await mp.screenshot({ path: 'dash-9-phone-edit.png' });
   await mp.click('.dash-main .add-slot'); await mp.waitForTimeout(300); await mp.screenshot({ path: 'dash-10-phone-panel.png' });

@@ -31,7 +31,7 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   ok(await p.evaluate(l => { const box = document.querySelector(l); const a = box.querySelector('.note-item.active'); if (!a) return false; const r = a.getBoundingClientRect(), br = box.getBoundingClientRect(); return r.top >= br.top - 1 && r.bottom <= br.bottom + 1; }, L), 'Neue Notiz ist in der Liste sichtbar');
   /* Widget hinzufügen: Einträge bleiben an ihrem Platz, auch wenn die obere Reihe voll wird */
   await p.goto('file:///home/user/Florian/web/app.html#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(900);
-  await p.evaluate(() => document.querySelector('.dash-head [data-pop=tpl]').click()); await p.waitForTimeout(250); await p.evaluate(() => document.querySelector('#pop-tpl [data-action="dash-tpl-edit"]').click()); await p.waitForTimeout(500);
+  await p.evaluate(() => document.querySelector('.dash-head [data-pop=tpl]').click()); await p.waitForTimeout(250); await p.evaluate(() => { document.querySelector('#pop-tpl .tpl-row.on [data-action="dash-tpl-menu"]').click(); document.querySelector('#pop-tpl .tpl-menu [data-action="dash-tpl-edit"]').click(); }); await p.waitForTimeout(500);
   for (let i = 0; i < 2; i++) { await p.evaluate(() => { const r = document.querySelector('.dash-top [data-action="dash-remove"]'); if (r) r.click(); }); await p.waitForTimeout(250); }
   for (const area of ['unten', 'oben']) {
     const o = await p.$(`[data-action="dash-add-open"][data-area="${area}"]`); await o.scrollIntoViewIfNeeded(); await o.click(); await p.waitForTimeout(600);

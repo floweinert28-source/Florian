@@ -1834,4 +1834,6 @@ I18N.add('zh', {
   "Bereichsleiste einblenden": "显示区域栏",
   "Bereichsleiste ausblenden": "隐藏区域栏",
   "PC-Ansicht": "电脑视图",
+  "KW {0}": "第 {0} 周",
+  "Gesamter Zeitraum": "全部时间",
 });

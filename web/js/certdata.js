@@ -15,15 +15,19 @@
   const monthKey = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
   const parseMonthKey = k => { const [y, m] = String(k).split('-').map(Number); return new Date(y, m - 1, 1); };
   const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
-  const dateDE = (d, o) => new Date(d).toLocaleDateString('de-DE', o);
+  /* Datum und Zeitraum in der eingestellten App-Sprache (Gebietsschema aus I18N); ohne I18N (Node-Tests) deutsch */
+  const G = typeof self !== 'undefined' ? self : (typeof globalThis !== 'undefined' ? globalThis : {});
+  const LOC = () => (G.I18N && G.I18N.locale ? G.I18N.locale() : 'de-DE');
+  const T = (s, v) => (G.I18N && G.I18N.t ? G.I18N.t(s, v) : (v ? s.replace(/\{(\d+)\}/g, (_, i) => v[i]) : s));
+  const dateDE = (d, o) => new Date(d).toLocaleDateString(LOC(), o);
   const fmtRange = (a, b) => `${dateDE(a, { day: '2-digit', month: '2-digit' })} – ${dateDE(b, { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
 
   /* Zeitraum aus Art und Bezug (Tag: dayKey, Woche: dayKey, Monat: YYYY-MM, Stats: {from,to} oder null = gesamt) */
   function period(kind, ref) {
     if (kind === 'day') { const d = C.parseDayKey(ref); const from = new Date(d.getFullYear(), d.getMonth(), d.getDate()); return { kind, ref, from, to: from, label: dateDE(from, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), short: dateDE(from, { day: '2-digit', month: '2-digit', year: 'numeric' }) }; }
-    if (kind === 'week') { const from = C.weekStart(C.parseDayKey(ref)); const to = addDays(from, 6); return { kind, ref: C.dayKey(from), from, to, label: `KW ${C.isoWeek(from)} · ${fmtRange(from, to)}`, short: `KW ${C.isoWeek(from)}` }; }
+    if (kind === 'week') { const from = C.weekStart(C.parseDayKey(ref)); const to = addDays(from, 6); return { kind, ref: C.dayKey(from), from, to, label: `${T('KW {0}', [C.isoWeek(from)])} · ${fmtRange(from, to)}`, short: T('KW {0}', [C.isoWeek(from)]) }; }
     if (kind === 'month') { const from = parseMonthKey(ref); const to = new Date(from.getFullYear(), from.getMonth() + 1, 0); return { kind, ref, from, to, label: dateDE(from, { month: 'long', year: 'numeric' }), short: dateDE(from, { month: 'short', year: 'numeric' }) }; }
-    const r = ref && ref.from ? ref : null; if (!r) return { kind, ref: null, from: null, to: null, label: 'Gesamter Zeitraum', short: 'Gesamt' };
+    const r = ref && ref.from ? ref : null; if (!r) return { kind, ref: null, from: null, to: null, label: T('Gesamter Zeitraum'), short: T('Gesamt') };
     const from = new Date(r.from), to = new Date(r.to); from.setHours(0, 0, 0, 0); to.setHours(0, 0, 0, 0);
     return { kind, ref: { from, to }, from, to, label: fmtRange(from, to), short: fmtRange(from, to) };
   }

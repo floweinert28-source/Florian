@@ -1834,4 +1834,6 @@ I18N.add('hi', {
   "Bereichsleiste einblenden": "क्षेत्र बार दिखाएं",
   "Bereichsleiste ausblenden": "क्षेत्र बार छिपाएं",
   "PC-Ansicht": "डेस्कटॉप व्यू",
+  "KW {0}": "सप्ताह {0}",
+  "Gesamter Zeitraum": "पूरी अवधि",
 });

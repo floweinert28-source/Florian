@@ -1785,4 +1785,6 @@ I18N.add('pt', {
   "Bereichsleiste einblenden": "Mostrar barra de áreas",
   "Bereichsleiste ausblenden": "Ocultar barra de áreas",
   "PC-Ansicht": "Visão de computador",
+  "KW {0}": "Semana {0}",
+  "Gesamter Zeitraum": "Período total",
 });

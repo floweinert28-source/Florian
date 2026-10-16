@@ -1741,4 +1741,6 @@ I18N.add('en', {
   "Bereichsleiste einblenden": "Show area bar",
   "Bereichsleiste ausblenden": "Hide area bar",
   "PC-Ansicht": "Desktop view",
+  "KW {0}": "Week {0}",
+  "Gesamter Zeitraum": "All time",
 });

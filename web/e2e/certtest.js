@@ -60,5 +60,10 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   const mob = await p.evaluate(() => { const m = document.querySelector('.cert-modal'); const sc = document.querySelector('.cert-scale .cert'); return { fits: m.scrollWidth <= m.clientWidth + 1, sw: document.documentElement.scrollWidth, scaleW: sc ? sc.getBoundingClientRect().width : 0, win: window.innerWidth, modals: document.querySelectorAll('.modal-bg').length, scales: [...document.querySelectorAll('.cert-scale')].map(s => Math.round(s.getBoundingClientRect().width)), pv: [...document.querySelectorAll('.cert-preview')].map(s => Math.round(s.getBoundingClientRect().width)) }; });
   ok('Modal am Handy ohne Überlauf', mob.fits && mob.sw <= 390 && mob.scaleW <= 390, JSON.stringify(mob));
   await p.screenshot({ path: 'cert-mobile.png' });
+  /* Zeitraum auf dem Zertifikat folgt der App-Sprache (Englisch: kein deutsches Datum, „Week“ statt „KW“) */
+  await p.evaluate(async () => { document.querySelectorAll('.modal-bg').forEach(m => m.remove()); I18N.setLang('en'); await new Promise(r => setTimeout(r, 500)); });
+  const enP = await p.evaluate(() => { const days = Core.dailyAggregation(App.allTrades()); const day = days[days.length - 1].key; const out = []; for (const k of ['day', 'week', 'month']) { Certificate.open(k, k === 'month' ? day.slice(0, 7) : day); out.push(document.querySelector('.cert-period').textContent); document.querySelectorAll('.modal-bg').forEach(m => m.remove()); } return out; });
+  ok('Zertifikat auf Englisch: Datum und Woche englisch', /(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), [A-Z][a-z]+ \d{1,2}, \d{4}/.test(enP[0]) && /^Week \d+ · /.test(enP[1]) && /^[A-Z][a-z]+ \d{4}$/.test(enP[2]) && !/Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|KW|Oktober/.test(enP.join(' ')), JSON.stringify(enP));
+  await p.evaluate(() => I18N.setLang('de'));
   console.log(out.join('\n')); console.log(errs.length ? 'ERRORS:\n' + errs.join('\n') : 'no errors'); await browser.close();
 })().catch(e => { console.log(out.join('\n')); console.error('CRASH', e.message); process.exit(1); });

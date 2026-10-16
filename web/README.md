@@ -302,6 +302,17 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Server: `server/coach.py` (SQLite-Migrationen, Rechte-Trennung), Tests `server/tests/test_coach.py`; Oberfläche
   `js/screens/coach.js`. Nicht enthalten (bewusst): Gruppen-Chat, Trade-Einsicht, Bearbeiten von Schüler-Einträgen,
   Bezahlung, Ranglisten.
+  In der Oberfläche heißt die betreuende Person „Coach“ („Als Coach“, „Coach-Notiz“, „Was der Coach sieht“; Code, Daten und
+  Server sprechen weiter von mentor, der KI-Mentor-Chat bleibt „Mentor“). Ruhiger Aufbau: reine Schüler mit offener Aufgabe
+  sehen die Aufgabe zuerst, dann „Als Schüler“ und „Als Coach“ („+ Gruppe“ dann umrandet); Gruppenzeilen öffnen über Namen
+  oder Chevron; in der Schüler-Zeile „Im Notebook ansehen“ als Knopf nur bei Ungelesenem, „Verlassen“ und „Jetzt abgleichen“ im
+  …-Menü (die Abgleich-Zeile nur bei Fehler oder während des Abgleichs). Benachrichtigungen erst mit einer Gruppe, zu als
+  Zustandszeile („E-Mail aus · Browser aus“, „Ändern“); E-Mail-Feld und „Speichern“ nur bei eingeschaltetem Schalter,
+  Ausschalten speichert sofort. Gruppe: Einladungsleiste nur ohne Schüler (dort „Kopieren“ gefüllt), sonst „Einladungslink
+  kopieren“ als erster Eintrag im …-Menü (bei Kopierfehler erscheint die Leiste zum Markieren); Zeitraum erst mit Schülern;
+  am Handy steht die Schülertabelle vor „Gruppe im Überblick“. Journal eines Schülers: „Aufgabe geben“ als Textknopf mit
+  Dialog, „Notiz senden“ erst mit Text, eigene Notizen mit Symbolknöpfen, der Hinweis „Nur lesen …“ nur bis zur ersten
+  eigenen Notiz; das Antwortfeld unter einer Notiz erscheint erst auf „Antworten“ (ohne Verlauf und Entwurf).
   Phase 2 und 3: **Antworten** auf Mentor-Notizen als kleiner Verlauf (Schüler im Notebook, Mentoren in der
   Journal-Ansicht; eigene Antworten löschbar; neue Antworten als „1 Antwort“ in der Schüler-Tabelle).
   **Benachrichtigungen**: Toast und Hinweis-Punkt, auf Wunsch Mitteilung des Browsers (solange Journalyst in einem Tab

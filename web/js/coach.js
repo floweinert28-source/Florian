@@ -15,7 +15,7 @@
   const VISIBILITY = [
     ['Journal-Einträge (Notebook, ohne Trade-Notizen)', true, 'nur lesen'],
     ['Kurz-Stats', true, 'nur R und Prozent, keine Beträge'],
-    ['Mentor-Notizen und deine Antworten darauf', true, ''],
+    ['Coach-Notizen und deine Antworten darauf', true, ''],
     ['Aufgaben und ob du sie erledigt hast', true, ''],
     ['Bilder und Charts im Journal-Eintrag', true, ''],
     ['Einzelne Trades und TradeLog', false, ''],
@@ -139,8 +139,8 @@
   const tt = (s, v) => (root.I18N ? root.I18N.t(s, v) : s.replace(/\{(\d+)\}/g, (_, i) => (v || [])[i]));
   function announce(fresh) {
     if (!fresh.length) return;
-    const one = fresh[0]; const who = one.author || tt('deinem Mentor');
-    const msg = fresh.length > 1 ? tt('{0} Neuigkeiten von deinem Mentor', [fresh.length]) : one.kind === 'task' ? tt('Neue Aufgabe von {0}', [who]) : one.kind === 'reply' ? tt('Neue Antwort von {0}', [who]) : tt('Neue Mentor-Notiz von {0}', [who]);
+    const one = fresh[0]; const who = one.author || tt('deinem Coach');
+    const msg = fresh.length > 1 ? tt('{0} Neuigkeiten von deinem Coach', [fresh.length]) : one.kind === 'task' ? tt('Neue Aufgabe von {0}', [who]) : one.kind === 'reply' ? tt('Neue Antwort von {0}', [who]) : tt('Neue Coach-Notiz von {0}', [who]);
     U.toast(msg, 'ok'); browserNotify('Journalyst', fresh.length > 1 ? msg : `${msg}: ${one.item.text || ''}`);
   }
   function announceMentors(list) { for (const x of list) U.toast(tt('{0} sieht jetzt als Co-Coach deine Einträge in „{1}“', [x.name, x.group]), 'ok'); }

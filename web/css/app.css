@@ -3838,3 +3838,10 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
   .prop-entry .prop-entry-go .btn { width: 100%; }
 }
 :is(.prop-rules-main, .prop-rules-more) .field > span { font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted); }
+/* Coach (Hick's 18, 55, 56, 105): Benachrichtigungen als Zustandszeile, „Antworten“ erst auf Klick, Handy: Schülertabelle vor den Kennzahlen */
+.coach-notify-bar { padding: var(--sp-3) var(--sp-4); }
+.coach-notify-bar .row { gap: var(--sp-3); align-items: center; }
+.mn-thread .mr-open { align-self: flex-start; }
+.mr-write[hidden] { display: none; }
+.coach-notes-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); }
+@media (max-width: 35em) { .coach-gstats { order: 1; } }

@@ -19,10 +19,10 @@
 
   /* ---------- Bausteine ---------- */
   function setup() {
-    return `<div class="coach-wrap"><section class="card mentor-setup"><span class="ico">${I.coach}</span><h2>Coach Mode einrichten</h2><p class="muted">Coach Mode läuft über denselben Server wie der Mentor-Chat. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein; danach kannst du hier Gruppen anlegen oder einer Gruppe beitreten.</p><a class="btn primary" href="#/settings/mentor">${I.settings} Zu den Einstellungen</a></section></div>`;
+    return `<div class="coach-wrap"><section class="card mentor-setup"><span class="ico">${I.coach}</span><h2>Coach Mode einrichten</h2><p class="muted">Verbinde in den Einstellungen den Server des Mentor-Chats, dann legst du hier Gruppen an oder trittst einer bei.</p><a class="btn primary" href="#/settings/mentor">${I.settings} Zu den Einstellungen</a></section></div>`;
   }
   function visibilityTable() {
-    return `<div class="tbl-wrap inset"><table class="tbl compact wrap coach-vis"><thead><tr><th>Bereich</th><th>Dein Mentor</th></tr></thead><tbody>${Co.VISIBILITY.map(([area, yes, hint]) => `<tr><td>${esc(area)}</td><td class="${yes ? '' : 'muted'}">${yes ? `<span class="coach-yes">${I.check} ${esc(hint || 'sieht es')}</span>` : `<span class="coach-no">${I.close} sieht es nicht</span>`}</td></tr>`).join('')}</tbody></table></div>`;
+    return `<div class="tbl-wrap inset"><table class="tbl compact wrap coach-vis"><thead><tr><th>Bereich</th><th>Dein Coach</th></tr></thead><tbody>${Co.VISIBILITY.map(([area, yes, hint]) => `<tr><td>${esc(area)}</td><td class="${yes ? '' : 'muted'}">${yes ? `<span class="coach-yes">${I.check} ${esc(hint || 'sieht es')}</span>` : `<span class="coach-no">${I.close} sieht es nicht</span>`}</td></tr>`).join('')}</tbody></table></div>`;
   }
   function errorBox(msg, retry) { return U.banner('warn', '', `${esc(msg)}${retry ? ` <button type="button" class="btn xs" data-action="${retry}">Erneut versuchen</button>` : ''}`); }
   const loading = () => `<div class="coach-skel" role="status" aria-label="Lädt">${[0, 1, 2, 3].map(i => `<span class="skel" style="width:${[100, 92, 96, 88][i]}%"></span>`).join('')}</div>`; /* Laden: Zeilen-Platzhalter statt Kreisel */
@@ -31,30 +31,35 @@
   /* Antworten unter einer Notiz; ctx = 'mentor' (Journal-Ansicht) oder 'student' (Notebook) */
   function thread(n, ctx, myId) {
     const s = st(); const list = (n.replies || []).filter(r => !r.deleted_at); const d = s.rdraft[n.id] || '';
-    const item = r => { const mine = r.author_id === myId; const who = r.role === 'student' ? (ctx === 'student' && mine ? 'Du' : r.author_name || 'Schüler') : (r.author_name || 'Mentor');
-      return `<div class="mn-reply ${r.role} ${r.is_new ? 'is-new' : ''}"><div class="mr-head"><b class="${who === 'Du' ? '' : 'no-i18n'}">${esc(who)}</b>${r.role === 'mentor' ? ` ${U.pill('Mentor', 'warn')}` : ''}<span class="muted small no-i18n">${esc(fmt.dateTime(r.created_at))}</span>${r.is_new ? ` ${U.pill('Neu', 'acc')}` : ''}${mine ? `<span class="grow"></span><button type="button" class="btn xs ghost" data-action="coach-reply-delete" data-note="${esc(n.id)}" data-id="${esc(r.id)}" data-ctx="${ctx}" aria-label="Antwort löschen">${I.trash}</button>` : ''}</div><div class="mr-text">${esc(r.text)}</div></div>`; };
-    return `<div class="mn-thread">${list.map(item).join('')}<div class="mr-write"><textarea class="input" rows="1" placeholder="${ctx === 'student' ? 'Antworten …' : 'Antwort an den Schüler …'}" data-input="coach-reply-draft" data-id="${esc(n.id)}" aria-label="Antworten">${esc(d)}</textarea><button type="button" class="btn xs" data-action="coach-reply-send" data-id="${esc(n.id)}" data-ctx="${ctx}" ${d.trim() ? '' : 'disabled'}>${I.chat} Antworten</button></div></div>`;
+    const item = r => { const mine = r.author_id === myId; const who = r.role === 'student' ? (ctx === 'student' && mine ? 'Du' : r.author_name || 'Schüler') : (r.author_name || 'Coach');
+      return `<div class="mn-reply ${r.role} ${r.is_new ? 'is-new' : ''}"><div class="mr-head"><b class="${who === 'Du' ? '' : 'no-i18n'}">${esc(who)}</b>${r.role === 'mentor' ? ` ${U.pill('Coach', 'warn')}` : ''}<span class="muted small no-i18n">${esc(fmt.dateTime(r.created_at))}</span>${r.is_new ? ` ${U.pill('Neu', 'acc')}` : ''}${mine ? `<span class="grow"></span><button type="button" class="btn xs ghost" data-action="coach-reply-delete" data-note="${esc(n.id)}" data-id="${esc(r.id)}" data-ctx="${ctx}" aria-label="Antwort löschen">${I.trash}</button>` : ''}</div><div class="mr-text">${esc(r.text)}</div></div>`; };
+    /* ohne Verlauf und Entwurf zuerst nur „Antworten“ (ghost); er öffnet das Feld ohne Neuaufbau (im Notebook steht der Block unter dem Editor) */
+    const closed = !list.length && !d.trim() && !(s.replyOpen || {})[n.id];
+    return `<div class="mn-thread">${list.map(item).join('')}${closed ? `<button type="button" class="btn xs ghost mr-open" data-action="coach-reply-open" data-id="${esc(n.id)}">${I.chat} Antworten</button>` : ''}<div class="mr-write"${closed ? ' hidden' : ''}><textarea class="input" rows="1" placeholder="${ctx === 'student' ? 'Antworten …' : 'Antwort an den Schüler …'}" data-input="coach-reply-draft" data-id="${esc(n.id)}" aria-label="Antworten">${esc(d)}</textarea><button type="button" class="btn xs" data-action="coach-reply-send" data-id="${esc(n.id)}" data-ctx="${ctx}" ${d.trim() ? '' : 'disabled'}>${I.chat} Antworten</button></div></div>`;
   }
 
   /* ---------- Übersicht ---------- */
   function hub() {
     const s = st(); const c = Co.data(); const unread = Co.unread().length; const notes = c.notes.filter(n => !n.deleted_at).length;
-    const ownRows = c.own.map(g => `<div class="coach-row"><div class="grow"><a class="coach-name no-i18n" href="#/coach/g/${esc(g.id)}">${esc(g.name)}</a><div class="small muted">${g.members === 1 ? '1 Schüler' : `${g.members} Schüler`}</div></div><button type="button" class="btn sm ghost" data-action="coach-copy-link" data-token="${esc(g.invite_token)}" data-tip="Einladungslink kopieren">${I.copy}<span class="hide-m">Link</span></button><a class="btn sm" href="#/coach/g/${esc(g.id)}">Öffnen</a></div>`);
-    const coRows = c.coached.map(g => `<div class="coach-row"><div class="grow"><a class="coach-name no-i18n" href="#/coach/g/${esc(g.id)}">${esc(g.name)}</a><div class="small muted"><span>Co-Coach</span> · <span>Mentor:</span> <span class="no-i18n">${esc(g.owner_name || '—')}</span> · <span>${g.members === 1 ? '1 Schüler' : `${g.members} Schüler`}</span></div></div><a class="btn sm" href="#/coach/g/${esc(g.id)}">Öffnen</a></div>`);
+    const ownRows = c.own.map(g => `<div class="coach-row"><div class="grow"><a class="coach-name no-i18n" href="#/coach/g/${esc(g.id)}">${esc(g.name)}</a><div class="small muted">${g.members === 1 ? '1 Schüler' : `${g.members} Schüler`}</div></div><button type="button" class="btn sm ghost" data-action="coach-copy-link" data-token="${esc(g.invite_token)}" data-tip="Einladungslink kopieren">${I.copy}<span class="hide-m">Link</span></button><a class="btn ghost icon sm" href="#/coach/g/${esc(g.id)}" aria-label="Öffnen" data-tip="Öffnen">${I.chevR}</a></div>`);
+    const coRows = c.coached.map(g => `<div class="coach-row"><div class="grow"><a class="coach-name no-i18n" href="#/coach/g/${esc(g.id)}">${esc(g.name)}</a><div class="small muted"><span>Co-Coach</span> · <span>Coach:</span> <span class="no-i18n">${esc(g.owner_name || '—')}</span> · <span>${g.members === 1 ? '1 Schüler' : `${g.members} Schüler`}</span></div></div><a class="btn ghost icon sm" href="#/coach/g/${esc(g.id)}" aria-label="Öffnen" data-tip="Öffnen">${I.chevR}</a></div>`);
     const own = ownRows.length || coRows.length ? `<div class="coach-list">${ownRows.concat(coRows).join('')}</div>`
       : `<p class="muted small coach-hint">Erstelle eine Gruppe und schick den Einladungslink an deine Schüler. Du siehst dann ihre Journal-Einträge und Kurz-Stats und schreibst Notizen direkt dazu.</p>`;
-    const mine = c.groups.length ? `<div class="coach-list">${c.groups.map(m => `<div class="coach-row"><div class="grow"><span class="coach-name no-i18n">${esc(m.group_name)}</span><div class="small muted"><span>${(m.mentors || []).length > 1 ? 'Mentoren:' : 'Mentor:'}</span> ${names(m.mentors && m.mentors.length ? m.mentors : [m.mentor_name])} · <span>${esc(sinceText(m))}</span></div></div><button type="button" class="btn sm ghost" data-action="coach-leave" data-id="${esc(m.group_id)}" data-name="${esc(m.group_name)}">Verlassen</button></div>`).join('')}</div>
-        <div class="row coach-sync small muted"><span>${Co.state.syncing ? 'Wird abgeglichen …' : c.lastSync ? `Zuletzt abgeglichen ${fmt.dateTime(c.lastSync)}` : 'Noch nicht abgeglichen'}${Co.state.lastError ? ` · <span class="warn">${esc(Co.state.lastError)}</span>` : ''}</span><button type="button" class="btn xs ghost" data-action="coach-sync-now">${I.replay} Jetzt abgleichen</button></div>
-        ${notes ? `<div class="small muted"><span>${notes === 1 ? '1 Mentor-Notiz' : `${notes} Mentor-Notizen`}</span>${unread ? `<span>, </span><b class="accent">${unread} ungelesen</b>` : ''}<span> · </span><a href="#/notebook">Im Notebook ansehen</a></div>` : ''}`
-      : `<p class="muted small coach-hint">Dein Mentor schickt dir einen Einladungslink. Öffne ihn hier in Journalyst. Vor dem Beitritt siehst du genau, was er sehen wird.</p>`;
+    const mine = c.groups.length ? `<div class="coach-list">${c.groups.map(m => `<div class="coach-row"><div class="grow"><span class="coach-name no-i18n">${esc(m.group_name)}</span><div class="small muted"><span>${(m.mentors || []).length > 1 ? 'Coaches:' : 'Coach:'}</span> ${names(m.mentors && m.mentors.length ? m.mentors : [m.mentor_name])} · <span>${esc(sinceText(m))}</span></div></div><div class="popwrap"><button type="button" class="btn ghost icon sm" data-pop="cgm-${esc(m.group_id)}" aria-label="Mehr">${I.more}</button><div class="popover right" id="pop-cgm-${esc(m.group_id)}"><button type="button" class="item" data-action="coach-sync-now">${I.replay} Jetzt abgleichen</button><hr><button type="button" class="item danger" data-action="coach-leave" data-id="${esc(m.group_id)}" data-name="${esc(m.group_name)}">${I.close} Verlassen</button></div></div></div>`).join('')}</div>
+        ${Co.state.syncing || Co.state.lastError ? `<div class="row coach-sync small muted"><span>${Co.state.syncing ? 'Wird abgeglichen …' : c.lastSync ? `Zuletzt abgeglichen ${fmt.dateTime(c.lastSync)}` : 'Noch nicht abgeglichen'}${Co.state.lastError ? ` · <span class="warn">${esc(Co.state.lastError)}</span>` : ''}</span><button type="button" class="btn xs ghost" data-action="coach-sync-now">${I.replay} Jetzt abgleichen</button></div>` : ''}
+        ${notes ? `<div class="small muted coach-notes-line"><span>${notes === 1 ? '1 Coach-Notiz' : `${notes} Coach-Notizen`}</span>${unread ? `<span>, </span><b class="accent">${unread} ungelesen</b> <a class="btn sm" href="#/notebook">Im Notebook ansehen</a>` : `<span> · </span><a href="#/notebook">Im Notebook ansehen</a>`}</div>` : ''}`
+      : `<p class="muted small coach-hint">Dein Coach schickt dir einen Einladungslink. Öffne ihn hier in Journalyst. Vor dem Beitritt siehst du genau, was er sehen wird.</p>`;
+    /* reiner Schüler mit offener Aufgabe: die Aufgabe zuerst, dann „Als Schüler“, dann „Als Coach“ (mit umrandetem „+ Gruppe“) */
+    const pupil = c.groups.length > 0 && !c.own.length && !c.coached.length; const openTasks = c.tasks.filter(t => !t.done_at).length;
+    const coachCard = U.card('Als Coach', own, { info: 'Du siehst von jedem Schüler nur Journal-Einträge und Kurz-Stats in R und Prozent. Schüler sehen sich gegenseitig nicht.', trailing: `<button type="button" class="btn sm${pupil ? '' : ' primary'}" data-action="coach-create-group">${I.plus} Gruppe</button>` });
+    const pupilCard = U.card('Als Schüler', mine, { info: 'Nur Journal-Einträge und Kurz-Stats werden geteilt. Trades, Beträge, Kontostand und private Notizen bleiben bei dir.', trailing: `<button type="button" class="btn sm ghost" data-action="coach-visibility">${I.eye} Was der Coach sieht</button>` });
+    const tasks = c.groups.length || c.tasks.length ? tasksCard() : ''; const first = pupil && openTasks;
     return `<div class="coach-wrap">
       ${s.error ? errorBox(s.error, 'coach-refresh') : ''}
-      <div class="grid two start">
-        ${U.card('Als Mentor', own, { info: 'Du siehst von jedem Schüler nur Journal-Einträge und Kurz-Stats in R und Prozent. Schüler sehen sich gegenseitig nicht.', trailing: `<button type="button" class="btn sm primary" data-action="coach-create-group">${I.plus} Gruppe</button>` })}
-        ${U.card('Als Schüler', mine, { info: 'Nur Journal-Einträge und Kurz-Stats werden geteilt. Trades, Beträge, Kontostand und private Notizen bleiben bei dir.', trailing: `<button type="button" class="btn sm ghost" data-action="coach-visibility">${I.eye} Was der Mentor sieht</button>` })}
-      </div>
-      ${c.groups.length || c.tasks.length ? tasksCard() : ''}
-      ${notifyCard()}
+      ${first ? tasks : ''}
+      <div class="grid two start">${pupil ? pupilCard + coachCard : coachCard + pupilCard}</div>
+      ${first ? '' : tasks}
+      ${c.groups.length || c.own.length || c.coached.length ? notifyCard() : ''}
       <p class="small muted coach-foot"><span>Dein Name im Coach Mode:</span> <b class="no-i18n">${esc(Co.myName() || '—')}</b> <span>(aus dem Profil, beim Beitritt änderbar).</span> ${s.loading ? U.loader('sm', 'Lädt') : ''}</p>
     </div>`;
   }
@@ -62,21 +67,25 @@
   function tasksCard() {
     const c = Co.data(); const open = c.tasks.filter(t => !t.done_at), done = c.tasks.filter(t => t.done_at);
     const row = t => `<div class="coach-task ${t.done_at ? 'done' : ''}"><button type="button" class="ct-check" role="checkbox" aria-checked="${!!t.done_at}" data-action="coach-task-toggle" data-id="${esc(t.id)}" aria-label="${t.done_at ? 'Als offen markieren' : 'Als erledigt markieren'}">${I.check}</button><div class="grow"><div class="ct-text">${esc(t.text)}</div><div class="small muted"><span class="no-i18n">${esc(t.mentor_name || '')}</span> · <span class="no-i18n">${esc(t.group_name || '')}</span>${t.due ? ` · ${dueText(t)}` : ''}</div></div></div>`;
-    const body = !c.tasks.length ? `<p class="muted small coach-hint">Noch keine Aufgaben. Gibt dir dein Mentor eine, steht sie hier, und du hakst sie ab, wenn du sie geschafft hast.</p>`
+    const body = !c.tasks.length ? `<p class="muted small coach-hint">Noch keine Aufgaben. Gibt dir dein Coach eine, steht sie hier, und du hakst sie ab, wenn du sie geschafft hast.</p>`
       : `${open.length ? open.map(row).join('') : `<p class="muted small coach-hint">Alles erledigt.</p>`}${done.length ? `<details class="ct-done"><summary class="small muted">${done.length === 1 ? '1 erledigt' : `${done.length} erledigt`}</summary>${done.map(row).join('')}</details>` : ''}`;
-    return U.card('Aufgaben von deinem Mentor', `<div class="coach-tasks">${body}</div>`, { info: 'Dein Mentor sieht, ob du eine Aufgabe erledigt hast.', sub: open.length ? (open.length === 1 ? '1 offen' : `${open.length} offen`) : '' });
+    return U.card('Aufgaben von deinem Coach', `<div class="coach-tasks">${body}</div>`, { info: 'Dein Coach sieht, ob du eine Aufgabe erledigt hast.', sub: open.length ? (open.length === 1 ? '1 offen' : `${open.length} offen`) : '' });
   }
   /* Benachrichtigungen: E-Mail (nur mit Einwilligung, Versand über den Server) und Mitteilung des Browsers */
+  /* Zu: eine Zustandszeile („E-Mail aus · Browser aus“) mit „Ändern“ (Zustand gemerkt). Offen: E-Mail-Feld, Hinweis und „Speichern“ nur
+     bei eingeschaltetem E-Mail-Schalter; Ausschalten speichert sofort */
   function notifyCard() {
-    const s = st(); const n = Co.data().notify || { email: '', notify_email: false };
+    const s = st(); const n = Co.data().notify || { email: '', notify_email: false }; const mailOn = s.mailOn != null ? s.mailOn : !!n.notify_email;
+    const state = `<span>${n.notify_email ? 'E-Mail an' : 'E-Mail aus'}</span> · <span>${Co.browserOn() ? 'Browser an' : 'Browser aus'}</span>`;
+    if (!s.notifyOpen) return `<section class="card coach-notify-bar"><div class="row between"><div><b>Benachrichtigungen</b> <span class="small muted">${state}</span></div><button type="button" class="btn sm ghost" data-action="coach-notify-open">Ändern</button></div></section>`;
     const supported = 'Notification' in root; const perm = supported ? root.Notification.permission : 'unsupported';
     const browser = supported ? `<div class="set-row coach-nrow"><button type="button" class="switch" role="switch" aria-checked="${Co.browserOn()}" data-action="coach-browser-toggle" aria-label="Mitteilung im Browser"></button><div><b>Mitteilung im Browser</b><div class="small muted">${perm === 'denied' ? 'Im Browser blockiert. Du kannst Mitteilungen für diese Seite in den Browser-Einstellungen erlauben.' : 'Solange Journalyst in einem Tab offen ist, meldet sich der Browser bei neuen Notizen, Antworten und Aufgaben.'}</div></div></div>` : '';
     const mailHint = s.mail === false ? `<div class="small warn coach-mailhint">Auf dem Server ist noch kein E-Mail-Versand eingerichtet. Die Adresse wird gespeichert, Mails gehen aber erst raus, wenn der Versand eingerichtet ist.</div>` : '';
     return U.card('Benachrichtigungen', `<form class="stack coach-notify" data-action="coach-notify-save">
-        <div class="set-row coach-nrow"><button type="button" class="switch" role="switch" aria-checked="${!!n.notify_email}" data-action="coach-mail-toggle" aria-label="E-Mail bei Neuigkeiten"></button><div class="grow"><b>E-Mail bei Neuigkeiten</b><div class="small muted">Neue Notizen, Antworten und Aufgaben. Höchstens 20 Mails am Tag.</div>
-          <div class="row coach-mailrow"><input class="input sm" type="email" name="email" value="${esc(n.email || '')}" placeholder="name@beispiel.de" autocomplete="email" aria-label="E-Mail-Adresse"><button type="submit" class="btn sm">Speichern</button></div>${mailHint}</div></div>
+        <div class="set-row coach-nrow"><button type="button" class="switch" role="switch" aria-checked="${mailOn}" data-action="coach-mail-toggle" aria-label="E-Mail bei Neuigkeiten"></button><div class="grow"><b>E-Mail bei Neuigkeiten</b><div class="small muted">Neue Notizen, Antworten und Aufgaben. Höchstens 20 Mails am Tag.</div>
+          ${!mailOn ? '' : `<div class="row coach-mailrow"><input class="input sm" type="email" name="email" value="${esc(n.email || '')}" placeholder="name@beispiel.de" autocomplete="email" aria-label="E-Mail-Adresse"><button type="submit" class="btn sm">Speichern</button></div>${mailHint}`}</div></div>
         ${browser}
-      </form>`, { info: 'Die Adresse liegt nur auf deinem Coach-Server und wird nur für diese Benachrichtigungen benutzt. Verlässt du alle Gruppen, wird sie gelöscht.' });
+      </form>`, { sub: state, info: 'Die Adresse liegt nur auf deinem Coach-Server und wird nur für diese Benachrichtigungen benutzt. Verlässt du alle Gruppen, wird sie gelöscht.', trailing: `<button type="button" class="btn sm ghost" data-action="coach-notify-open">Fertig</button>` });
   }
 
   /* ---------- Mentor: Gruppe ---------- */
@@ -96,9 +105,9 @@
       U.tile('Ø Trefferquote', gs.avg_win_rate == null ? '—' : esc(fmt.pct(gs.avg_win_rate, 0)), { foot: 'Durchschnitt der Schüler' }),
       U.tile('Ø Profit-Faktor', esc(pf), { foot: gs.avg_win_r == null ? 'in R' : `<span class="nowrap">${U.rText(gs.avg_win_r)} / ${U.rText(gs.avg_loss_r)}</span>`, info: 'Darunter: Ø Gewinn und Ø Verlust je Trade in R, gemittelt über die Schüler.' }),
       U.tile('Ø Max. Drawdown', gs.avg_max_dd_pct == null ? '—' : `−${esc(fmt.num(gs.avg_max_dd_pct, 1))} %`, { tint: gs.avg_max_dd_pct ? 'neg' : '', foot: 'der Kontogröße' }),
-      U.tile('Journal', esc(String(gs.entries)), { foot: `<span>${gs.notes === 1 ? '1 Notiz von euch' : `${gs.notes} Notizen von euch`}</span>${gs.open_tasks ? ` · <span>${gs.open_tasks === 1 ? '1 Aufgabe offen' : `${gs.open_tasks} Aufgaben offen`}</span>` : ''}`, info: 'Journal-Einträge der Schüler im Zeitraum und Notizen aller Mentoren dieser Gruppe.' }),
+      U.tile('Journal', esc(String(gs.entries)), { foot: `<span>${gs.notes === 1 ? '1 Notiz von euch' : `${gs.notes} Notizen von euch`}</span>${gs.open_tasks ? ` · <span>${gs.open_tasks === 1 ? '1 Aufgabe offen' : `${gs.open_tasks} Aufgaben offen`}</span>` : ''}`, info: 'Journal-Einträge der Schüler im Zeitraum und Notizen aller Coaches dieser Gruppe.' }),
     ];
-    return `<section class="coach-gstats"><div class="row between coach-gs-head"><div class="card-title">Gruppe im Überblick${U.info('Durchschnitt über die Schüler mit Trades im gewählten Zeitraum. Nur Mentoren sehen das, Schüler nicht. Es gibt bewusst keine Rangliste.')}</div><span class="small muted">nur für Mentoren</span></div><div class="grid tiles coach-gs-tiles">${tiles.join('')}</div></section>`;
+    return `<section class="coach-gstats"><div class="row between coach-gs-head"><div class="card-title">Gruppe im Überblick${U.info('Durchschnitt über die Schüler mit Trades im gewählten Zeitraum. Nur Coaches sehen das, Schüler nicht. Es gibt bewusst keine Rangliste.')}</div><span class="small muted">nur für Coaches</span></div><div class="grid tiles coach-gs-tiles">${tiles.join('')}</div></section>`;
   }
   function group(gid) {
     const s = st(); const g = s.group && s.group.group && s.group.group.id === gid ? s.group : null; const c = Co.data();
@@ -106,26 +115,27 @@
     const role = g ? g.group.role : own ? 'owner' : co ? 'coach' : 'owner';
     const name = g ? g.group.name : own ? own.name : co ? co.name : 'Gruppe'; const token = role === 'owner' ? (g ? g.group.invite_token : own ? own.invite_token : '') : '';
     const mentors = g ? [g.group.owner].concat(g.group.coaches || []) : [];
-    const invite = token ? `<div class="coach-invite"><span class="small muted">Einladungslink</span><input class="input sm" readonly value="${esc(inviteLink(token))}" aria-label="Einladungslink" onfocus="this.select()"><button type="button" class="btn sm" data-action="coach-copy-link" data-token="${esc(token)}">${I.copy} Kopieren</button></div>` : '';
-    const rows = g ? g.students : null;
+    const rows = g ? g.students : null; const none = !!rows && !rows.length;
+    /* Einladungsleiste nur ohne Schüler (dort ist „Kopieren“ die Hauptaktion); mit Schülern steht der Link im …-Menü, bei Kopierfehler kommt die Leiste zum Markieren */
+    const invite = token && (none || s.showInvite === gid) ? `<div class="coach-invite"><span class="small muted">Einladungslink</span><input class="input sm" readonly value="${esc(inviteLink(token))}" aria-label="Einladungslink" onfocus="this.select()"><button type="button" class="btn sm${none ? ' primary' : ''}" data-action="coach-copy-link" data-token="${esc(token)}" data-gid="${esc(gid)}">${I.copy} Kopieren</button></div>` : '';
     const table = !g ? (s.error ? errorBox(s.error, 'coach-refresh') : loading())
       : !rows.length ? U.empty('coach', 'Noch kein Schüler', role === 'owner' ? 'Schick den Einladungslink. Wer beitritt, erscheint hier mit Kurz-Stats.' : 'Sobald Schüler beitreten, erscheinen sie hier mit Kurz-Stats.')
       : `<div class="tbl-wrap"><table class="tbl compact coach-tbl"><thead><tr><th>Schüler</th><th class="r">Trades</th><th class="r">Trefferquote</th><th class="r">Profit-Faktor</th><th class="r">Ø Gewinn</th><th class="r">Ø Verlust</th><th class="r">Max. Drawdown</th><th class="r">Letzter Eintrag</th><th class="r">Aufgaben</th></tr></thead><tbody>${rows.map(r => statsRow(r, gid)).join('')}</tbody></table></div>`;
     const menu = role === 'owner'
-      ? `<button type="button" class="item" data-action="coach-rename" data-id="${esc(gid)}" data-name="${esc(name)}">${I.edit} Umbenennen</button><button type="button" class="item" data-action="coach-rotate" data-id="${esc(gid)}">${I.replay} Neuen Einladungslink erzeugen</button><button type="button" class="item" data-action="coach-cocoach" data-id="${esc(gid)}">${I.account} Co-Coaches</button><hr><button type="button" class="item danger" data-action="coach-archive" data-id="${esc(gid)}" data-name="${esc(name)}">${I.trash} Gruppe schließen</button>`
+      ? `${rows && rows.length && token ? `<button type="button" class="item" data-action="coach-copy-link" data-token="${esc(token)}" data-gid="${esc(gid)}">${I.copy} Einladungslink kopieren</button>` : ''}<button type="button" class="item" data-action="coach-rename" data-id="${esc(gid)}" data-name="${esc(name)}">${I.edit} Umbenennen</button><button type="button" class="item" data-action="coach-rotate" data-id="${esc(gid)}">${I.replay} Neuen Einladungslink erzeugen</button><button type="button" class="item" data-action="coach-cocoach" data-id="${esc(gid)}">${I.account} Co-Coaches</button><hr><button type="button" class="item danger" data-action="coach-archive" data-id="${esc(gid)}" data-name="${esc(name)}">${I.trash} Gruppe schließen</button>`
       : `<button type="button" class="item danger" data-action="coach-coach-leave" data-id="${esc(gid)}" data-name="${esc(name)}">${I.close} Als Co-Coach austreten</button>`;
     return `<div class="coach-wrap wide">
-      <div class="coach-head"><div class="row">${back('#/coach', 'Coach')}<div><h2 class="coach-title no-i18n">${esc(name)}</h2>${mentors.length ? `<div class="small muted"><span>${mentors.length > 1 ? 'Mentoren:' : 'Mentor:'}</span> ${names(mentors)}${role === 'coach' ? ' · <span>du bist Co-Coach</span>' : ''}</div>` : ''}</div></div><div class="row"><div class="popwrap"><button type="button" class="btn ghost icon sm" data-pop="coachmenu" aria-label="Mehr">${I.more}</button><div class="popover right" id="pop-coachmenu">${menu}</div></div></div></div>
+      <div class="coach-head"><div class="row">${back('#/coach', 'Coach')}<div><h2 class="coach-title no-i18n">${esc(name)}</h2>${mentors.length ? `<div class="small muted"><span>${mentors.length > 1 ? 'Coaches:' : 'Coach:'}</span> ${names(mentors)}${role === 'coach' ? ' · <span>du bist Co-Coach</span>' : ''}</div>` : ''}</div></div><div class="row"><div class="popwrap"><button type="button" class="btn ghost icon sm" data-pop="coachmenu" aria-label="Mehr">${I.more}</button><div class="popover right" id="pop-coachmenu">${menu}</div></div></div></div>
       ${invite}
       ${g ? groupStats(g.group_stats) : ''}
-      ${U.card('Schüler', `<div class="row between coach-ctl">${U.seg(PERIODS, s.period, 'coach-period')}<span class="small muted">Kurz-Stats nur in R und Prozent${g && g.period_start ? ` · ab ${esc(fmt.dateFull(C.parseDayKey(g.period_start)))}` : ''}</span></div>${table}`, { info: 'Pro Schüler: Trades, Trefferquote, Profit-Faktor (R), Ø Gewinn und Ø Verlust in R, größter Rückgang in Prozent der Kontogröße, letzter Journal-Eintrag und neue Einträge seit deinem letzten Besuch. Klick auf eine Zeile öffnet das Journal.', trailing: `${rows && rows.length ? `<button type="button" class="btn sm ghost" data-action="coach-task-all" data-gid="${esc(gid)}">${I.check}<span class="hide-m">Aufgabe an alle</span></button>` : ''}<button type="button" class="btn sm ghost" data-action="coach-refresh" ${s.loading ? 'disabled' : ''}>${I.replay}<span class="hide-m">Aktualisieren</span></button>` })}
+      ${U.card('Schüler', `${rows && rows.length ? `<div class="row between coach-ctl">${U.seg(PERIODS, s.period, 'coach-period')}<span class="small muted">Kurz-Stats nur in R und Prozent${g && g.period_start ? ` · ab ${esc(fmt.dateFull(C.parseDayKey(g.period_start)))}` : ''}</span></div>` : ''}${table}`, { info: 'Pro Schüler: Trades, Trefferquote, Profit-Faktor (R), Ø Gewinn und Ø Verlust in R, größter Rückgang in Prozent der Kontogröße, letzter Journal-Eintrag und neue Einträge seit deinem letzten Besuch. Klick auf eine Zeile öffnet das Journal.', trailing: `${rows && rows.length ? `<button type="button" class="btn sm ghost" data-action="coach-task-all" data-gid="${esc(gid)}">${I.check}<span class="hide-m">Aufgabe an alle</span></button>` : ''}<button type="button" class="btn sm ghost" data-action="coach-refresh" ${s.loading ? 'disabled' : ''}>${I.replay}<span class="hide-m">Aktualisieren</span></button>` })}
     </div>`;
   }
 
   /* ---------- Mentor: Journal eines Schülers ---------- */
   function noteHTML(n, myId) {
     const s = st(); const editing = s.editing === n.id; const own = n.mentor_id === myId;
-    return `<div class="mentor-note" data-note="${esc(n.id)}"><div class="mn-head">${U.pill('Mentor', 'warn')}<b class="no-i18n">${esc(n.mentor_name || 'Mentor')}</b><span class="muted small"><span class="no-i18n">${esc(fmt.dateTime(n.created_at))}</span>${n.updated_at && n.updated_at !== n.created_at ? '<span> · bearbeitet</span>' : ''}</span>${own && !editing ? `<span class="grow"></span><button type="button" class="btn xs ghost" data-action="coach-note-edit" data-id="${esc(n.id)}">${I.edit} Bearbeiten</button><button type="button" class="btn xs ghost" data-action="coach-note-delete" data-id="${esc(n.id)}">${I.trash} Löschen</button>` : ''}</div>
+    return `<div class="mentor-note" data-note="${esc(n.id)}"><div class="mn-head">${U.pill('Coach', 'warn')}<b class="no-i18n">${esc(n.mentor_name || 'Coach')}</b><span class="muted small"><span class="no-i18n">${esc(fmt.dateTime(n.created_at))}</span>${n.updated_at && n.updated_at !== n.created_at ? '<span> · bearbeitet</span>' : ''}</span>${own && !editing ? `<span class="grow"></span><button type="button" class="btn xs ghost" data-action="coach-note-edit" data-id="${esc(n.id)}" aria-label="Notiz bearbeiten" data-tip="Bearbeiten">${I.edit}</button><button type="button" class="btn xs ghost" data-action="coach-note-delete" data-id="${esc(n.id)}" aria-label="Notiz löschen" data-tip="Löschen">${I.trash}</button>` : ''}</div>
       ${editing ? `<textarea class="input mn-edit" data-input="coach-note-edit-text" rows="3" aria-label="Notiz bearbeiten">${esc(s.editText)}</textarea><div class="row"><button type="button" class="btn sm primary" data-action="coach-note-save" data-id="${esc(n.id)}">Speichern</button><button type="button" class="btn sm ghost" data-action="coach-note-cancel">Abbrechen</button></div>` : `<div class="mn-text">${esc(n.text)}</div>`}
       ${thread(n, 'mentor', myId)}</div>`;
   }
@@ -137,15 +147,14 @@
       <div class="ce-head"><div><div class="ce-date">${esc(fmt.dateFull(C.parseDayKey(e.date_key)))}${e.is_new ? ` ${U.pill('Neu', 'acc')}` : ''}</div><h3 class="ce-title ${e.title ? 'no-i18n' : ''}">${esc(e.title || 'Ohne Titel')}</h3></div><span class="small muted no-i18n">${esc(fmt.dateTime(e.updated_at))}</span></div>
       <div class="ql-container ql-snow ce-body"><div class="ql-editor">${html}</div></div>
       ${own.length ? `<div class="mentor-notes">${own.map(n => noteHTML(n, myId)).join('')}</div>` : ''}
-      <div class="ce-write"><textarea class="input" rows="2" placeholder="Notiz an den Schüler …" data-input="coach-note-draft" data-id="${esc(e.id)}" aria-label="Notiz schreiben">${esc(s.draft[e.id] || '')}</textarea><button type="button" class="btn sm primary" data-action="coach-note-send" data-gid="${esc(gid)}" data-sid="${esc(sid)}" data-id="${esc(e.id)}" ${(s.draft[e.id] || '').trim() ? '' : 'disabled'}>${I.chat} Notiz senden</button></div>
+      <div class="ce-write"><textarea class="input" rows="2" placeholder="Notiz an den Schüler …" data-input="coach-note-draft" data-id="${esc(e.id)}" aria-label="Notiz schreiben">${esc(s.draft[e.id] || '')}</textarea><button type="button" class="btn sm primary" data-action="coach-note-send" data-gid="${esc(gid)}" data-sid="${esc(sid)}" data-id="${esc(e.id)}" ${(s.draft[e.id] || '').trim() ? '' : 'hidden'}>${I.chat} Notiz senden</button></div>
     </section>`;
   }
   /* Aufgaben an diesen Schüler: Liste mit Status, eigene löschen, neue geben */
   function studentTasks(j, gid, sid, myId) {
     const list = j.tasks || [];
     const row = t => `<div class="coach-task ${t.done_at ? 'done' : ''}"><span class="ct-check static" aria-hidden="true">${t.done_at ? I.check : ''}</span><div class="grow"><div class="ct-text">${esc(t.text)}</div><div class="small muted">${t.done_at ? `<span class="accent">erledigt</span> <span class="no-i18n">${esc(fmt.dateTime(t.done_at))}</span>` : '<span>offen</span>'}${t.due ? ` · ${dueText(t)}` : ''} · <span class="no-i18n">${esc(t.mentor_name || '')}</span></div></div>${t.mentor_id === myId ? `<button type="button" class="btn xs ghost" data-action="coach-task-delete" data-id="${esc(t.id)}" aria-label="Aufgabe löschen">${I.trash}</button>` : ''}</div>`;
-    return U.card('Aufgaben', `<div class="coach-tasks">${list.length ? list.map(row).join('') : '<p class="muted small coach-hint">Noch keine Aufgabe.</p>'}</div>
-      <form class="row coach-taskform" data-action="coach-task-add" data-gid="${esc(gid)}" data-sid="${esc(sid)}"><input class="input sm grow" name="text" maxlength="300" placeholder="z. B. Diese Woche höchstens 3 Trades pro Tag" required aria-label="Aufgabe"><input class="input sm" type="date" name="due" aria-label="Fällig am"><button type="submit" class="btn sm primary">${I.plus} Aufgabe geben</button></form>`, { info: 'Der Schüler sieht die Aufgabe in seiner Coach-Übersicht, mit Hinweis-Punkt, und hakt sie ab.', sub: list.length ? `${list.filter(t => !t.done_at).length} offen · ${list.filter(t => t.done_at).length} erledigt` : '' });
+    return U.card('Aufgaben', `<div class="coach-tasks">${list.length ? list.map(row).join('') : '<p class="muted small coach-hint">Noch keine Aufgabe.</p>'}</div>`, { info: 'Der Schüler sieht die Aufgabe in seiner Coach-Übersicht, mit Hinweis-Punkt, und hakt sie ab.', sub: list.length ? `${list.filter(t => !t.done_at).length} offen · ${list.filter(t => t.done_at).length} erledigt` : '', trailing: `<button type="button" class="btn sm ghost" data-action="coach-task-one" data-gid="${esc(gid)}" data-sid="${esc(sid)}" data-name="${esc(j.student.name || '')}">${I.check} Aufgabe geben</button>` });
   }
   function journal(gid, sid) {
     const s = st(); const j = s.journal && s.journal.gid === gid && s.journal.student.id === sid ? s.journal : null; const myId = Co.data().userId;
@@ -156,7 +165,7 @@
     return `<div class="coach-wrap">
       <div class="coach-head"><div class="row">${back('#/coach/g/' + encodeURIComponent(gid), 'Gruppe')}<h2 class="coach-title no-i18n">${esc(name)}</h2>${j ? `<span class="small muted"><span>${esc(sinceText(j.student))}</span>${j.entries.length ? `<span> · </span><span>${j.entries.length === 1 ? '1 Eintrag' : `${j.entries.length} Einträge`}</span>` : ''}</span>` : ''}</div><button type="button" class="btn sm ghost" data-action="coach-refresh" ${s.loading ? 'disabled' : ''}>${I.replay}<span class="hide-m">Aktualisieren</span></button></div>
       ${j ? studentTasks(j, gid, sid, myId) : ''}
-      <p class="small muted coach-hint">Nur lesen. Deine Notizen erscheinen beim Schüler unter dem Eintrag, mit deinem Namen und der Uhrzeit. Er kann sie nicht ändern, aber darauf antworten.</p>
+      ${j && j.notes.some(n => n.mentor_id === myId && !n.deleted_at) ? '' : `<p class="small muted coach-hint">Nur lesen. Deine Notizen erscheinen beim Schüler unter dem Eintrag, mit deinem Namen und der Uhrzeit. Er kann sie nicht ändern, aber darauf antworten.</p>`}
       <div class="coach-entries">${body}</div>
     </div>`;
   }
@@ -166,16 +175,16 @@
     const s = st(); const inv = s.invite && s.invite.token === token ? s.invite : null;
     if (!inv) return `<div class="coach-wrap">${s.error ? `<section class="card">${errorBox(s.error, 'coach-refresh')}<div class="row" style="margin-top:12px">${back('#/coach', 'Coach')}</div></section>` : loading()}</div>`;
     if (inv.own) return `<div class="coach-wrap">${U.card('Einladung', `<p><span>Das ist dein eigener Einladungslink für</span> <b class="no-i18n">${esc(inv.group.name)}</b>. <span>Schick ihn an deine Schüler.</span></p><div class="row">${back('#/coach/g/' + encodeURIComponent(inv.group.id), 'Zur Gruppe')}</div>`)}</div>`;
-    if (inv.member) return `<div class="coach-wrap">${U.card('Einladung', `<p><span>Du bist schon in der Gruppe</span> <b class="no-i18n">${esc(inv.group.name)}</b> <span>von</span> <span class="no-i18n">${esc(inv.mentor || 'deinem Mentor')}</span>.</p><div class="row">${back('#/coach', 'Coach')}</div>`)}</div>`;
+    if (inv.member) return `<div class="coach-wrap">${U.card('Einladung', `<p><span>Du bist schon in der Gruppe</span> <b class="no-i18n">${esc(inv.group.name)}</b> <span>von</span> <span class="no-i18n">${esc(inv.mentor || 'deinem Coach')}</span>.</p><div class="row">${back('#/coach', 'Coach')}</div>`)}</div>`;
     const mentors = inv.mentors && inv.mentors.length ? inv.mentors : [inv.mentor];
     return `<div class="coach-wrap"><form class="card coach-join" data-action="coach-join" data-token="${esc(token)}">
-      <div class="coach-join-head"><span class="ico">${I.coach}</span><h2><span>Einladung von</span> <span class="no-i18n">${esc(inv.mentor || 'deinem Mentor')}</span></h2><p class="muted"><span>Gruppe</span> <b class="no-i18n">${esc(inv.group.name)}</b>${mentors.length > 1 ? `<br><span>Mentoren:</span> ${names(mentors)}` : ''}<br><span>Bevor du beitrittst: Das und nur das sieht dein Mentor.</span></p></div>
+      <div class="coach-join-head"><span class="ico">${I.coach}</span><h2><span>Einladung von</span> <span class="no-i18n">${esc(inv.mentor || 'deinem Coach')}</span></h2><p class="muted"><span>Gruppe</span> <b class="no-i18n">${esc(inv.group.name)}</b>${mentors.length > 1 ? `<br><span>Coaches:</span> ${names(mentors)}` : ''}<br><span>Bevor du beitrittst: Das und nur das sieht dein Coach.</span></p></div>
       ${visibilityTable()}
       <div class="grid two" style="margin-top:14px">
-        <div class="field"><label for="coach-name">Dein Name für den Mentor</label><input class="input" id="coach-name" name="name" value="${esc(Co.myName())}" maxlength="80" required placeholder="Vorname" autocomplete="given-name"></div>
-        <div class="field"><span class="lbl">Welche Einträge</span><div class="coach-since"><label class="coach-radio"><input type="radio" name="since" value="today" checked><span><b>Nur ab heute</b><small>Ältere Einträge und Trades bleiben privat.</small></span></label><label class="coach-radio"><input type="radio" name="since" value="all"><span><b>Auch ältere</b><small>Der Mentor sieht auch frühere Journal-Einträge und Kurz-Stats.</small></span></label></div></div>
+        <div class="field"><label for="coach-name">Dein Name für den Coach</label><input class="input" id="coach-name" name="name" value="${esc(Co.myName())}" maxlength="80" required placeholder="Vorname" autocomplete="given-name"></div>
+        <div class="field"><span class="lbl">Welche Einträge</span><div class="coach-since"><label class="coach-radio"><input type="radio" name="since" value="today" checked><span><b>Nur ab heute</b><small>Ältere Einträge und Trades bleiben privat.</small></span></label><label class="coach-radio"><input type="radio" name="since" value="all"><span><b>Auch ältere</b><small>Der Coach sieht auch frühere Journal-Einträge und Kurz-Stats.</small></span></label></div></div>
       </div>
-      <div class="row coach-join-foot"><button type="submit" class="btn primary" ${s.loading ? 'disabled' : ''}>${I.check} Beitreten</button><a class="btn ghost" href="#/coach">Abbrechen</a><span class="small muted">Du kannst die Gruppe jederzeit verlassen; dann sieht der Mentor nichts mehr von dir. Kommt ein Co-Coach dazu, erfährst du es.</span></div>
+      <div class="row coach-join-foot"><button type="submit" class="btn primary" ${s.loading ? 'disabled' : ''}>${I.check} Beitreten</button><a class="btn ghost" href="#/coach">Abbrechen</a><span class="small muted">Du kannst die Gruppe jederzeit verlassen; dann sieht der Coach nichts mehr von dir. Kommt ein Co-Coach dazu, erfährst du es.</span></div>
     </form></div>`;
   }
   /* ---------- Co-Coach: Beitritt ---------- */
@@ -185,12 +194,12 @@
     const msg = inv.own ? 'Das ist der Co-Coach-Link deiner eigenen Gruppe. Schick ihn an jemanden, der mit dir coacht.' : inv.coach ? 'Du bist in dieser Gruppe schon Co-Coach.' : inv.member ? 'Du bist in dieser Gruppe Schüler. Als Co-Coach würdest du die anderen Schüler sehen, darum geht das nicht.' : '';
     if (msg) return `<div class="coach-wrap">${U.card('Co-Coach-Einladung', `<p>${esc(msg)}</p><div class="row">${back(inv.own || inv.coach ? '#/coach/g/' + encodeURIComponent(inv.group.id) : '#/coach', inv.own || inv.coach ? 'Zur Gruppe' : 'Coach')}</div>`)}</div>`;
     return `<div class="coach-wrap"><form class="card coach-join" data-action="coach-cojoin" data-token="${esc(token)}">
-      <div class="coach-join-head"><span class="ico">${I.coach}</span><h2><span class="no-i18n">${esc(inv.owner || 'Ein Mentor')}</span> <span>lädt dich als Co-Coach ein</span></h2><p class="muted"><span>Gruppe</span> <b class="no-i18n">${esc(inv.group.name)}</b> · <span>${inv.students === 1 ? '1 Schüler' : `${inv.students} Schüler`}</span></p></div>
+      <div class="coach-join-head"><span class="ico">${I.coach}</span><h2><span class="no-i18n">${esc(inv.owner || 'Ein Coach')}</span> <span>lädt dich als Co-Coach ein</span></h2><p class="muted"><span>Gruppe</span> <b class="no-i18n">${esc(inv.group.name)}</b> · <span>${inv.students === 1 ? '1 Schüler' : `${inv.students} Schüler`}</span></p></div>
       <div class="coach-co-what">
         <div class="coach-yes">${I.check} <span>Du siehst Journal-Einträge und Kurz-Stats (R und Prozent) aller Schüler der Gruppe.</span></div>
         <div class="coach-yes">${I.check} <span>Du schreibst Notizen, Antworten und Aufgaben, mit deinem Namen.</span></div>
         <div class="coach-no">${I.close} <span>Einzelne Trades, Beträge und Kontostände siehst du nicht.</span></div>
-        <div class="coach-no">${I.close} <span>Gruppe umbenennen, Links erzeugen und schließen darf nur der Mentor.</span></div>
+        <div class="coach-no">${I.close} <span>Gruppe umbenennen, Links erzeugen und schließen darf nur der Coach.</span></div>
         <div class="small muted">Die Schüler sehen, dass du dazugekommen bist.</div>
       </div>
       <div class="field" style="margin-top:14px;max-width:420px"><label for="coach-coname">Dein Name für die Gruppe</label><input class="input" id="coach-coname" name="name" value="${esc(Co.myName())}" maxlength="80" required placeholder="Vorname" autocomplete="given-name"></div>
@@ -240,15 +249,15 @@
   /* Notizen des Mentors im Notebook des Schülers (unter dem Eintrag): nur lesen, aber mit Antworten */
   function notesBlock(noteId) {
     const list = Co.notesFor(noteId); if (!list.length) return ''; const myId = Co.data().userId;
-    return `<div class="mentor-notes in-note"><div class="small muted mn-title">${list.length === 1 ? 'Notiz deines Mentors' : 'Notizen deines Mentors'}</div>${list.map(n => `<div class="mentor-note"><div class="mn-head">${U.pill('Mentor', 'warn')}<b class="no-i18n">${esc(n.mentor_name || 'Mentor')}</b><span class="muted small no-i18n">${esc(n.group_name || '')}${n.group_name ? ' · ' : ''}${esc(fmt.dateTime(n.created_at))}</span></div><div class="mn-text">${esc(n.text)}</div>${n.local ? (n.replies || []).length ? `<div class="mn-thread">${n.replies.map(r => `<div class="mn-reply ${r.role}"><div class="mr-head"><b class="no-i18n">${esc(r.author_id === myId ? 'Du' : r.author_name || '')}</b><span class="muted small no-i18n">${esc(fmt.dateTime(r.created_at))}</span></div><div class="mr-text">${esc(r.text)}</div></div>`).join('')}</div>` : '' : thread(n, 'student', myId)}</div>`).join('')}</div>`;
+    return `<div class="mentor-notes in-note"><div class="small muted mn-title">${list.length === 1 ? 'Notiz deines Coaches' : 'Notizen deines Coaches'}</div>${list.map(n => `<div class="mentor-note"><div class="mn-head">${U.pill('Coach', 'warn')}<b class="no-i18n">${esc(n.mentor_name || 'Coach')}</b><span class="muted small no-i18n">${esc(n.group_name || '')}${n.group_name ? ' · ' : ''}${esc(fmt.dateTime(n.created_at))}</span></div><div class="mn-text">${esc(n.text)}</div>${n.local ? (n.replies || []).length ? `<div class="mn-thread">${n.replies.map(r => `<div class="mn-reply ${r.role}"><div class="mr-head"><b class="no-i18n">${esc(r.author_id === myId ? 'Du' : r.author_name || '')}</b><span class="muted small no-i18n">${esc(fmt.dateTime(r.created_at))}</span></div><div class="mr-text">${esc(r.text)}</div></div>`).join('')}</div>` : '' : thread(n, 'student', myId)}</div>`).join('')}</div>`;
   }
   root.CoachUI = { notesBlock };
 
   /* Hinweis-Punkte: Notebook bei neuen Notizen und Antworten, Coach bei neuen Aufgaben */
   const prevDot = App.dots.notebook;
-  App.navDot('notebook', c => { const u = Co.unread().length; if (u) return u === 1 ? '1 Neuigkeit von deinem Mentor' : `${u} Neuigkeiten von deinem Mentor`; return prevDot ? prevDot(c) : null; });
+  App.navDot('notebook', c => { const u = Co.unread().length; if (u) return u === 1 ? '1 Neuigkeit von deinem Coach' : `${u} Neuigkeiten von deinem Coach`; return prevDot ? prevDot(c) : null; });
   App.navDot('coach', () => { const t = Co.unseenTasks().length; return t ? (t === 1 ? '1 neue Aufgabe' : `${t} neue Aufgaben`) : null; });
-  if (Array.isArray(App.NAV_DOT_AREAS) && !App.NAV_DOT_AREAS.some(a => a[0] === 'coach')) App.NAV_DOT_AREAS.push(['coach', 'Coach', 'Dein Mentor hat dir eine neue Aufgabe gegeben.']);
+  if (Array.isArray(App.NAV_DOT_AREAS) && !App.NAV_DOT_AREAS.some(a => a[0] === 'coach')) App.NAV_DOT_AREAS.push(['coach', 'Coach', 'Dein Coach hat dir eine neue Aufgabe gegeben.']);
 
   /* ---------- Aktionen ---------- */
   const fail = e => U.toast(e && e.message ? e.message : 'Das hat nicht geklappt', 'err');
@@ -265,9 +274,9 @@
       <div class="modal-foot"><button type="button" class="btn ghost left" data-action="coach-coach-rotate" data-gid="${esc(gid)}">${I.replay} Neuen Link erzeugen</button><button type="button" class="btn" data-close>Fertig</button></div>`, { cls: 'wide' });
   }
   /* Aufgabe an alle Schüler einer Gruppe: kleines Fenster mit Text und Datum */
-  function taskAllModal(gid) {
-    U.modal(`<form data-action="coach-task-all-save" data-gid="${esc(gid)}"><div class="modal-head"><h2>Aufgabe an alle</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
-      <div class="stack"><div class="field"><label for="ct-all-text">Aufgabe</label><input class="input" id="ct-all-text" name="text" maxlength="300" required placeholder="z. B. Jeden Abend eine Tagesnotiz"></div><details class="tf-more"><summary>Fällig am (optional)</summary><div class="field"><label for="ct-all-due">Fällig am</label><input class="input" id="ct-all-due" type="date" name="due"></div></details><p class="small muted">Jeder Schüler bekommt sie einzeln und hakt sie selbst ab.</p></div>
+  function taskAllModal(gid, sid, name) {
+    U.modal(`<form data-action="coach-task-all-save" data-gid="${esc(gid)}"${sid ? ` data-sid="${esc(sid)}"` : ''}><div class="modal-head"><h2>${sid ? `<span>Aufgabe an</span> <span class="no-i18n">${esc(name || 'Schüler')}</span>` : 'Aufgabe an alle'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
+      <div class="stack"><div class="field"><label for="ct-all-text">Aufgabe</label><input class="input" id="ct-all-text" name="text" maxlength="300" required placeholder="z. B. Jeden Abend eine Tagesnotiz"></div><details class="tf-more"><summary>Fällig am (optional)</summary><div class="field"><label for="ct-all-due">Fällig am</label><input class="input" id="ct-all-due" type="date" name="due"></div></details>${sid ? '' : '<p class="small muted">Jeder Schüler bekommt sie einzeln und hakt sie selbst ab.</p>'}</div>
       <div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Aufgabe geben</button></div></form>`, { cls: 'narrow' });
   }
   Object.assign(App.actions, {
@@ -275,7 +284,7 @@
       const name = await U.promptModal('Neue Gruppe', { label: 'Name der Gruppe', placeholder: 'Kurs Herbst 2026', ok: 'Erstellen' }); if (!name) return;
       try { const r = await Co.api('/api/coach/groups', { method: 'POST', body: JSON.stringify({ name }) }); await Co.me(); U.toast('Gruppe erstellt. Kopiere den Einladungslink.', 'ok'); App.navigate('#/coach/g/' + encodeURIComponent(r.group.id)); } catch (e) { fail(e); }
     },
-    async 'coach-copy-link'(el) { const ok = await copyText(inviteLink(el.dataset.token)); U.toast(ok ? 'Einladungslink kopiert' : 'Kopieren nicht möglich, bitte den Link markieren', ok ? 'ok' : 'err'); },
+    async 'coach-copy-link'(el) { if (App.closePopovers) App.closePopovers(); const ok = await copyText(inviteLink(el.dataset.token)); U.toast(ok ? 'Einladungslink kopiert' : 'Kopieren nicht möglich, bitte den Link markieren', ok ? 'ok' : 'err'); if (!ok && el.dataset.gid) { st().showInvite = el.dataset.gid; App.rerender(); } },
     async 'coach-rename'(el) {
       const name = await U.promptModal('Gruppe umbenennen', { label: 'Name', value: el.dataset.name, ok: 'Speichern' }); if (!name || name === el.dataset.name) return;
       try { await Co.api(`/api/coach/groups/${encodeURIComponent(el.dataset.id)}`, { method: 'PATCH', body: JSON.stringify({ name }) }); await Co.me(); st().group = null; App.rerender(); } catch (e) { fail(e); }
@@ -285,15 +294,15 @@
       try { await Co.api(`/api/coach/groups/${encodeURIComponent(el.dataset.id)}/invite/rotate`, { method: 'POST' }); await Co.me(); st().group = null; App.rerender(); U.toast('Neuer Einladungslink', 'ok'); } catch (e) { fail(e); }
     },
     async 'coach-archive'(el) {
-      if (!await U.confirmModal('Gruppe schließen?', `„${el.dataset.name}“ wird geschlossen. Alle Schüler verlassen die Gruppe, du siehst ihre Einträge nicht mehr. Ihre Mentor-Notizen behalten sie.`, { ok: 'Gruppe schließen', danger: true })) return;
+      if (!await U.confirmModal('Gruppe schließen?', `„${el.dataset.name}“ wird geschlossen. Alle Schüler verlassen die Gruppe, du siehst ihre Einträge nicht mehr. Ihre Coach-Notizen behalten sie.`, { ok: 'Gruppe schließen', danger: true })) return;
       try { await Co.api(`/api/coach/groups/${encodeURIComponent(el.dataset.id)}`, { method: 'DELETE' }); await Co.me(); st().group = null; U.toast('Gruppe geschlossen'); App.navigate('#/coach'); } catch (e) { fail(e); }
     },
     'coach-period'(el) { const s = st(); s.period = PERIODS.some(p => p[0] === el.dataset.value) ? el.dataset.value : 'month'; s.group = null; App.rerender(); },
     'coach-open-student'(el) { App.navigate(`#/coach/g/${encodeURIComponent(el.dataset.gid)}/s/${encodeURIComponent(el.dataset.sid)}`); },
     'coach-refresh'() { const s = st(); s.group = null; s.journal = null; s.invite = null; s.coInvite = null; s.key = ''; s.error = ''; s.hubAt = 0; App.rerender(); },
-    'coach-visibility'() { U.modal(`<div class="modal-head"><h2>Was dein Mentor sieht</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>${visibilityTable()}<p class="small muted" style="margin-top:12px">Diese Liste bestätigst du beim Beitritt. Verlässt du die Gruppe, verliert der Mentor sofort jeden Zugriff.</p>`); },
+    'coach-visibility'() { U.modal(`<div class="modal-head"><h2>Was dein Coach sieht</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>${visibilityTable()}<p class="small muted" style="margin-top:12px">Diese Liste bestätigst du beim Beitritt. Verlässt du die Gruppe, verliert der Coach sofort jeden Zugriff.</p>`); },
     /* Notizen (Mentor) */
-    'coach-note-draft'(el) { st().draft[el.dataset.id] = el.value; const btn = el.parentElement && el.parentElement.querySelector('[data-action=coach-note-send]'); if (btn) btn.disabled = !el.value.trim(); },
+    'coach-note-draft'(el) { st().draft[el.dataset.id] = el.value; const btn = el.parentElement && el.parentElement.querySelector('[data-action=coach-note-send]'); if (btn) btn.hidden = !el.value.trim(); },
     async 'coach-note-send'(el) {
       const s = st(); const text = (s.draft[el.dataset.id] || '').trim(); if (!text) return; el.disabled = true;
       try { const r = await Co.api(`/api/coach/groups/${encodeURIComponent(el.dataset.gid)}/students/${encodeURIComponent(el.dataset.sid)}/notes`, { method: 'POST', body: JSON.stringify({ entry_id: el.dataset.id, text }) }); delete s.draft[el.dataset.id]; if (s.journal) s.journal.notes.push(r.note); U.toast('Notiz gesendet', 'ok'); App.rerender(); } catch (e) { el.disabled = false; fail(e); }
@@ -310,6 +319,8 @@
       try { await Co.api(`/api/coach/notes/${encodeURIComponent(el.dataset.id)}`, { method: 'DELETE' }); const s = st(); if (s.journal) s.journal.notes = s.journal.notes.filter(n => n.id !== el.dataset.id); App.rerender(); } catch (e) { fail(e); }
     },
     /* Antworten (Mentor in der Journal-Ansicht, Schüler im Notebook) */
+    'coach-reply-open'(el) { const s = st(); (s.replyOpen || (s.replyOpen = {}))[el.dataset.id] = true; const w = el.parentElement && el.parentElement.querySelector('.mr-write'); el.hidden = true; if (w) { w.hidden = false; const ta = w.querySelector('textarea'); if (ta) ta.focus(); } },
+    'coach-notify-open'() { const s = st(); s.notifyOpen = !s.notifyOpen; s.mailOn = null; App.rerender(); },
     'coach-reply-draft'(el) { st().rdraft[el.dataset.id] = el.value; const btn = el.parentElement && el.parentElement.querySelector('[data-action=coach-reply-send]'); if (btn) btn.disabled = !el.value.trim(); },
     async 'coach-reply-send'(el) {
       const s = st(); const id = el.dataset.id; const text = (s.rdraft[id] || '').trim(); if (!text) return; el.disabled = true;
@@ -335,8 +346,13 @@
       try { const r = await Co.api(`/api/coach/groups/${encodeURIComponent(form.dataset.gid)}/tasks`, { method: 'POST', body: JSON.stringify({ text, due, student_id: form.dataset.sid }) }); if (s.journal) s.journal.tasks = (s.journal.tasks || []).concat(r.tasks); U.toast('Aufgabe gegeben', 'ok'); App.rerender(); } catch (e) { fail(e); }
     },
     'coach-task-all'(el) { taskAllModal(el.dataset.gid); },
+    'coach-task-one'(el) { taskAllModal(el.dataset.gid, el.dataset.sid, el.dataset.name); },
     async 'coach-task-all-save'(form) {
       const fd = new FormData(form); const text = String(fd.get('text') || '').trim(); if (!text) return; const due = String(fd.get('due') || '') || null;
+      if (form.dataset.sid) { /* ein Schüler (aus seinem Journal) */
+        try { const r = await Co.api(`/api/coach/groups/${encodeURIComponent(form.dataset.gid)}/tasks`, { method: 'POST', body: JSON.stringify({ text, due, student_id: form.dataset.sid }) }); const s = st(); if (s.journal) s.journal.tasks = (s.journal.tasks || []).concat(r.tasks); U.closeModal(); U.toast('Aufgabe gegeben', 'ok'); App.rerender(); } catch (e) { fail(e); }
+        return;
+      }
       try { const r = await Co.api(`/api/coach/groups/${encodeURIComponent(form.dataset.gid)}/tasks`, { method: 'POST', body: JSON.stringify({ text, due, all: true }) }); U.closeModal(); U.toast(r.tasks.length === 1 ? 'Aufgabe an 1 Schüler gegeben' : `Aufgabe an ${r.tasks.length} Schüler gegeben`, 'ok'); st().group = null; App.rerender(); } catch (e) { fail(e); }
     },
     async 'coach-task-delete'(el) {
@@ -361,11 +377,15 @@
       catch (e) { s.loading = false; fail(e); App.rerender(); }
     },
     /* Benachrichtigungen */
-    'coach-mail-toggle'(el) { const on = el.getAttribute('aria-checked') !== 'true'; el.setAttribute('aria-checked', String(on)); const f = el.closest('form'); if (f) f.dataset.mail = on ? '1' : '0'; },
+    async 'coach-mail-toggle'(el) {
+      const s = st(); const on = el.getAttribute('aria-checked') !== 'true'; s.mailOn = on;
+      if (!on && (Co.data().notify || {}).notify_email) { try { const r = await Co.saveNotify((Co.data().notify || {}).email || '', false); s.mail = r.mail; s.mailOn = null; U.toast('E-Mail-Benachrichtigung aus', 'ok'); } catch (e) { fail(e); } }
+      App.rerender();
+    },
     async 'coach-notify-save'(form) {
       const email = String(new FormData(form).get('email') || '').trim(); const sw = form.querySelector('[data-action=coach-mail-toggle]'); const on = sw ? sw.getAttribute('aria-checked') === 'true' : false;
       if (on && !email) return U.toast('Bitte eine E-Mail-Adresse eintragen', 'err');
-      try { const r = await Co.saveNotify(email, on); st().mail = r.mail; U.toast(on ? (r.mail ? 'E-Mail-Benachrichtigung an' : 'Gespeichert. Der Server verschickt noch keine Mails.') : 'Gespeichert', 'ok'); App.rerender(); } catch (e) { fail(e); }
+      try { const r = await Co.saveNotify(email, on); st().mail = r.mail; st().mailOn = null; U.toast(on ? (r.mail ? 'E-Mail-Benachrichtigung an' : 'Gespeichert. Der Server verschickt noch keine Mails.') : 'Gespeichert', 'ok'); App.rerender(); } catch (e) { fail(e); }
     },
     async 'coach-browser-toggle'() {
       if (S.settings.coachBrowserNotify) { S.setSetting('coachBrowserNotify', false); App.rerender(); return; }
@@ -381,7 +401,8 @@
       catch (e) { s.loading = false; fail(e); App.rerender(); }
     },
     async 'coach-leave'(el) {
-      if (!await U.confirmModal('Gruppe verlassen?', `Du verlässt „${el.dataset.name}“. Dein Mentor sieht danach nichts mehr von dir; seine bisherigen Notizen behältst du.`, { ok: 'Verlassen', danger: true })) return;
+      if (App.closePopovers) App.closePopovers(); /* das Menü schließt vor der Rückfrage */
+      if (!await U.confirmModal('Gruppe verlassen?', `Du verlässt „${el.dataset.name}“. Dein Coach sieht danach nichts mehr von dir; seine bisherigen Notizen behältst du.`, { ok: 'Verlassen', danger: true })) return;
       try { await Co.api(`/api/coach/groups/${encodeURIComponent(el.dataset.id)}/leave`, { method: 'POST' }); await Co.me(); Co.markLocal(); Co.data().tasks = Co.data().tasks.filter(t => t.group_id !== el.dataset.id); S.save(); U.toast('Gruppe verlassen'); App.rerender(); } catch (e) { fail(e); }
     },
     async 'coach-sync-now'() { const r = await Co.sync({ force: true }); U.toast(r ? 'Abgeglichen' : (Co.state.lastError || 'Abgleich nicht möglich'), r ? 'ok' : 'err'); App.rerender(); },

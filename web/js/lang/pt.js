@@ -1993,4 +1993,12 @@ I18N.add('pt', {
   "Ordner bearbeiten": "Editar pasta",
   "Leeren": "Esvaziar",
   "Endgültig löschen": "Excluir definitivamente",
+  "Runde starten": "Iniciar rodada",
+  "Runde beendet": "Rodada concluída",
+  "Trefferquote in dieser Runde.": "de acertos nesta rodada.",
+  "Neue Runde": "Nova rodada",
+  "Screenshot vor Entry hinzufügen": "Adicionar captura antes da entrada",
+  "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "Para isso você precisa de trades fechados com uma captura antes da entrada.",
+  "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "Adicione a um trade fechado uma captura antes da entrada e você poderá avaliá-lo às cegas aqui.",
+  "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "Sua taxa de acertos no Blind Replay, as últimas rodadas e o início de uma nova rodada.",
 });

@@ -1950,4 +1950,12 @@ I18N.add('en', {
   "Ordner bearbeiten": "Edit folder",
   "Leeren": "Empty",
   "Endgültig löschen": "Delete permanently",
+  "Runde starten": "Start round",
+  "Runde beendet": "Round finished",
+  "Trefferquote in dieser Runde.": "hit rate in this round.",
+  "Neue Runde": "New round",
+  "Screenshot vor Entry hinzufügen": "Add screenshot before entry",
+  "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "For this you need closed trades with a screenshot taken before entry.",
+  "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "Add a screenshot taken before entry to a closed trade, then you can judge it blind here.",
+  "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "Your hit rate in Blind Replay, the latest rounds and the start of a new round.",
 });

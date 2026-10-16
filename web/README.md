@@ -368,13 +368,17 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Zahlenfelder als ruhige Leiste in der Kartenfläche: [−] Zahl Einheit [+], kein schwarzes Feld; das Feld ist so breit wie die Zahl
   (ganze Zahlen in 1er-Schritten, R und % in 0,5er, Beträge in 10er, nie unter 0); Tippen geht weiter.
 - **Blind-Replay** (zurückgestellt, siehe unten): Trainingsmodus mit deinen alten Trades. Nur Trades mit einem „Screenshot vor Entry“
-  (eigenes Feld in der Trade-Ansicht) kommen vor. Zehn Karten je Session: Chart, Instrument, Uhrzeit, Setup
-  optional, dann „Nehmen“ oder „Skippen“ mit Sicherheit 1–3, Auflösung mit Ergebnis in R. Richtig heißt Gewinner
+  (eigenes Feld in der Trade-Ansicht) kommen vor. Zehn Karten je Runde (bewusst „Runde“, „Session“ heißt die Trading-Session):
+  Chart, Instrument, Uhrzeit, Setup optional (nur vor der Entscheidung), dann „Nehmen“ oder „Skippen“ (beide gleich umrandet,
+  damit kein Knopf zum Nehmen verleitet) mit Sicherheit 1–3, Auflösung mit Ergebnis in R. Richtig heißt Gewinner
   genommen oder Verlierer geskippt. Karteikasten mit drei Fächern (`js/replay.js`): falsch eingeschätzte Trades
   kommen öfter wieder. Die Übersicht ist bewusst knapp: eine große Zahl „Richtig eingeschätzt“ (x von y Trades), daneben
-  die Runden als kleine Säulen (nur die letzte grün, Wert beim Überfahren) und „Session starten“; darunter drei Fakten
-  (Letzte 20 mit Pfeil, Runden, Zum Üben) und zwei schlanke Listen „Treffer je Setup“ und „Treffer je Gefühl“
-  (Unsicher/Eher sicher/Sicher) in einer Farbe. Ohne Daten erklärt die Startkarte in drei Schritten, worum es geht. In der Session stehen
+  die Runden als kleine Säulen (nur die letzte grün, Wert beim Überfahren) und „Runde starten“; darunter die Fakten
+  (Letzte 20 mit Pfeil erst ab 21 Karten, Runden, Zum Üben) und zwei schlanke Listen „Treffer je Setup“ und „Treffer je Gefühl“
+  (Unsicher/Eher sicher/Sicher) in einer Farbe. Ohne Daten zeigt die Startkarte Titel, einen Satz und einen Knopf. Nie ein toter
+  Knopf: ohne abgeschlossene Trades „Trade loggen“, mit Trades ohne „Screenshot vor Entry“ „Screenshot vor Entry hinzufügen“
+  (öffnet den zuletzt geschlossenen Trade); das Dashboard-Widget nutzt dieselbe Logik (`ReplayScreen.startCta`). Während einer
+  Runde gibt es keine Kopfreihe (Fokus bis „Zur Übersicht“). In der Runde stehen
   Zähler („Trade 1 von 10“), Fortschritt, Setup-Schalter und Abbrechen im Kopf der Karte, Sicherheit und
   „Skippen“/„Nehmen“ in einer Reihe. Die Sicherheit ist eine Signal-Anzeige: drei ansteigende Balken (Bernstein → Grün)
   mit dem Wort daneben, Vorschau beim Überfahren; ein Klick ändert nur die Anzeige. Der Zeitraum spielt hier keine Rolle

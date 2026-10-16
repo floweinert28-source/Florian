@@ -2042,4 +2042,12 @@ I18N.add('hi', {
   "Ordner bearbeiten": "फ़ोल्डर संपादित करें",
   "Leeren": "खाली करें",
   "Endgültig löschen": "स्थायी रूप से हटाएँ",
+  "Runde starten": "राउंड शुरू करें",
+  "Runde beendet": "राउंड पूरा हुआ",
+  "Trefferquote in dieser Runde.": "इस राउंड में सही अनुमान दर।",
+  "Neue Runde": "नया राउंड",
+  "Screenshot vor Entry hinzufügen": "एंट्री से पहले का स्क्रीनशॉट जोड़ें",
+  "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "इसके लिए तुम्हें एंट्री से पहले के स्क्रीनशॉट वाले बंद ट्रेड चाहिए।",
+  "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "किसी बंद ट्रेड में एंट्री से पहले का स्क्रीनशॉट जोड़ो, फिर तुम उसे यहाँ बिना नतीजा देखे आँक सकते हो।",
+  "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "ब्लाइंड रिप्ले में तुम्हारी सही अनुमान दर, पिछले राउंड और नया राउंड शुरू करना।",
 });

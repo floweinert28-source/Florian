@@ -2042,4 +2042,12 @@ I18N.add('zh', {
   "Ordner bearbeiten": "编辑文件夹",
   "Leeren": "清空",
   "Endgültig löschen": "永久删除",
+  "Runde starten": "开始一轮",
+  "Runde beendet": "本轮结束",
+  "Trefferquote in dieser Runde.": "本轮命中率。",
+  "Neue Runde": "新一轮",
+  "Screenshot vor Entry hinzufügen": "添加入场前截图",
+  "Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.": "为此你需要带有入场前截图的已平仓交易。",
+  "Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.": "为一笔已平仓交易添加入场前截图，然后就可以在这里盲评它。",
+  "Deine Trefferquote im Blind-Replay, die letzten Runden und der Start einer neuen Runde.": "你在盲测回放中的命中率、最近几轮以及开始新一轮。",
 });

@@ -11,18 +11,26 @@
   /* ---------- Übersicht ----------
      Ruhig und knapp: eine große Zahl (richtig eingeschätzt), daneben Start und die letzten 20, darunter Runden als kleine
      Säulen (nur die letzte in Grün) und drei kleine Zahlen; dann zwei schlanke Listen (je Setup, je Gefühl) in einer Farbe.
-     Ohne Daten erklärt die Startkarte in drei Schritten, worum es geht */
+     Ohne Daten: Titel, ein Satz, ein Knopf (Hick's 95) */
   const CONF_WORD = { 1: 'Unsicher', 2: 'Eher sicher', 3: 'Sicher' };
   const n1 = (n, one, many) => `${fmt.int(n)} ${n === 1 ? one : many}`;
   const row = (label, rate, sub) => `<div class="rb-row"><span class="rb-l">${esc(label)}</span><span class="rb-track"><i style="width:${Math.round((rate || 0) * 100)}%"></i></span><span class="rb-v">${pct(rate)}</span><span class="rb-n">${sub}</span></div>`;
+  /* Start je nach Stand (Hick's 12): nie ein toter Knopf. Bereit → „Runde starten“; ohne abgeschlossene Trades → „Trade loggen“;
+     abgeschlossene Trades ohne „Screenshot vor Entry“ → „Screenshot vor Entry hinzufügen“ (öffnet den zuletzt geschlossenen Trade).
+     Dazu genau ein Satz; auch das Dashboard-Widget nutzt das */
+  function startCta(all, cls, action) {
+    const ready = R.eligible(all).length;
+    if (ready) return { ready, btn: `<button type="button" class="btn primary ${cls}" data-action="${action}">${I.play} Runde starten</button>`, lead: 'Alte Trades ohne Ergebnis: nehmen oder skippen?', note: `${n1(ready, 'Trade', 'Trades')} bereit` };
+    if (!C.closedOnly(all).length) return { ready, btn: `<button type="button" class="btn primary ${cls}" data-action="new-trade">${I.plus} Trade loggen</button>`, lead: 'Dafür brauchst du abgeschlossene Trades mit einem Screenshot vor dem Einstieg.', note: '' };
+    return { ready, btn: `<button type="button" class="btn primary ${cls}" data-action="replay-add-shot">${I.image} Screenshot vor Entry hinzufügen</button>`, lead: 'Füge einem abgeschlossenen Trade einen Screenshot vor dem Einstieg hinzu, dann kannst du ihn hier blind bewerten.', note: '' };
+  }
   function overview(all) {
-    const eligible = R.eligible(all); const hist = S.replayHistory(); const stats = R.stats(hist, all); const has = stats.n > 0;
-    const start = `<button type="button" class="btn primary rh-start" data-action="replay-start"${eligible.length ? '' : ' disabled'}>${I.play} Session starten</button>`;
-    const ready = eligible.length ? `${n1(eligible.length, 'Trade', 'Trades')} bereit` : 'Noch kein Trade mit „Screenshot vor Entry“';
+    const hist = S.replayHistory(); const stats = R.stats(hist, all); const has = stats.n > 0;
+    const cta = startCta(all, 'rh-start', 'replay-start');
     if (!has) {
       return `<div class="stack replay"><section class="card replay-hero rh-empty"><div class="card-title">Trainiere dein Bauchgefühl</div>
-        <ol class="rh-steps"><li><b>1</b>Chart ansehen</li><li><b>2</b>Nehmen oder skippen</li><li><b>3</b>Ergebnis sehen</li></ol>
-        <div class="rh-go">${start}<span class="rh-ready">${ready}</span></div></section></div>`;
+        <p class="rh-lead">${cta.lead}</p>
+        <div class="rh-go">${cta.btn}${cta.note ? `<span class="rh-ready">${cta.note}</span>` : ''}</div></section></div>`;
     }
     const down = stats.recent != null && stats.hitRate - stats.recent >= 0.03, up = stats.recent != null && stats.recent - stats.hitRate >= 0.03;
     const tl = stats.timeline.slice(-20);
@@ -30,9 +38,9 @@
     const hero = `<section class="card replay-hero"><div class="rh-main">
         <div class="rh-num"><span class="rh-lbl">Richtig eingeschätzt${U.info('Du siehst alte Trades ohne Ergebnis und entscheidest: nehmen oder skippen. Richtig ist, Gewinner zu nehmen und Verlierer zu skippen.')}</span><b class="rh-big">${pct(stats.hitRate)}</b><span class="rh-sub">${fmt.int(stats.correct)} von ${n1(stats.n, 'Trade', 'Trades')}</span></div>
         <div class="rh-trend">${rounds}</div>
-        <div class="rh-go">${start}<span class="rh-ready">${ready}</span></div>
+        <div class="rh-go">${cta.btn}<span class="rh-ready">${cta.ready ? cta.note : cta.lead}</span></div>
       </div><div class="rh-facts">
-        <span>Letzte 20 <b class="${down ? 'neg' : up ? 'pos' : ''}">${down ? '↓ ' : up ? '↑ ' : ''}${pct(stats.recent)}</b></span>
+        ${stats.n > 20 ? `<span>Letzte 20 <b class="${down ? 'neg' : up ? 'pos' : ''}">${down ? '↓ ' : up ? '↑ ' : ''}${pct(stats.recent)}</b></span>` : ''}
         <span>Runden <b>${fmt.int(stats.timeline.length)}</b></span>
         <span>Zum Üben <b>${fmt.int(stats.boxes[1] || 0)}</b>${U.info('Trades, die du zuletzt falsch eingeschätzt hast. Sie kommen öfter wieder, bis du sie dreimal in Folge richtig hast.')}</span>
       </div></section>`;
@@ -55,14 +63,15 @@
     const total = ses.queue.length;
     if (!t) return summaryView();
     /* Kopf der Karte: Instrument und Zeit links, Kartenzähler, Setup-Schalter und Abbrechen rechts; darunter der Fortschritt über die ganze Breite */
-    const meta = `<div class="replay-meta"><span class="sym">${esc(t.symbol)}</span><span class="muted">${fmt.dateTime(t.open)}</span>${s.showSetup && t.setup ? U.chip(t.setup, 'setup') : ''}</div>`;
-    const tools = `<div class="rc-tools"><span class="rc-count">Trade ${ses.idx + 1} von ${total}</span><label class="check small"><input type="checkbox" data-change="replay-setup" ${s.showSetup ? 'checked' : ''}> Setup anzeigen</label><button type="button" class="btn ghost sm" data-action="replay-abort">Abbrechen</button></div>`;
+    /* „Setup anzeigen“ nur vor der Entscheidung: die Auflösung nennt das Setup ohnehin (Hick's 96) */
+    const meta = `<div class="replay-meta"><span class="sym">${esc(t.symbol)}</span><span class="muted">${fmt.dateTime(t.open)}</span>${s.showSetup && t.setup && !ses.reveal ? U.chip(t.setup, 'setup') : ''}</div>`;
+    const tools = `<div class="rc-tools"><span class="rc-count">Trade ${ses.idx + 1} von ${total}</span>${ses.reveal ? '' : `<label class="check small"><input type="checkbox" data-change="replay-setup" ${s.showSetup ? 'checked' : ''}> Setup anzeigen</label>`}<button type="button" class="btn ghost sm" data-action="replay-abort">Abbrechen</button></div>`;
     const progress = `<div class="replay-progress">${ses.queue.map((_, i) => `<i class="${i < ses.idx ? (ses.results[i] && ses.results[i].correct ? 'ok' : 'bad') : i === ses.idx ? 'cur' : ''}"></i>`).join('')}</div>`;
     const shot = `<div class="replay-shot"><img data-blob="${esc(t.screenshotPre)}" alt="Chart vor dem Einstieg" data-action="lightbox" data-blob-id="${esc(t.screenshotPre)}"></div>`;
     let body;
     if (!ses.reveal) {
       body = `${shot}<div class="replay-decide">${confMeter(ses.confidence)}
-        <div class="rd-btns"><button type="button" class="btn big" data-action="replay-decide" data-value="skip">${I.close} Skippen</button><button type="button" class="btn primary big" data-action="replay-decide" data-value="take">${I.check} Nehmen</button></div></div>`;
+        <div class="rd-btns"><button type="button" class="btn big" data-action="replay-decide" data-value="skip">${I.close} Skippen</button><button type="button" class="btn big" data-action="replay-decide" data-value="take">${I.check} Nehmen</button></div></div>`; /* beide gleich (E13): ein gefülltes „Nehmen“ würde zum Nehmen verleiten */
     } else {
       const g = ses.reveal; const after = (t.screenshots || []).filter(id => id !== t.screenshotPre);
       const rest = after.length ? `<div class="caption" style="margin-top:16px">So ging es weiter</div><div class="shots">${after.map(id => `<div class="shot"><img data-blob="${id}" alt="Chart nach dem Einstieg" data-action="lightbox" data-blob-id="${id}"></div>`).join('')}</div>` : `<div class="small muted" style="margin-top:12px">Kein weiterer Screenshot zu diesem Trade.</div>`;
@@ -80,8 +89,8 @@
   }
   function summaryView() {
     const ses = st().session; const n = ses.results.length; const ok = ses.results.filter(r => r.correct).length;
-    return `<div class="stack replay"><section class="card replay-summary"><div class="caption">Session beendet</div><div class="replay-big">${ok} von ${n} richtig</div><div class="muted">${n ? fmt.pct(ok / n, 0) : '—'} Trefferquote in dieser Session.</div>
-      <div class="row" style="gap:10px;margin-top:18px;flex-wrap:wrap"><button type="button" class="btn primary" data-action="replay-start">${I.play} Neue Session</button><button type="button" class="btn" data-action="replay-close">Zur Übersicht</button></div></section></div>`;
+    return `<div class="stack replay"><section class="card replay-summary"><div class="caption">Runde beendet</div><div class="replay-big">${ok} von ${n} richtig</div><div class="muted">${n ? fmt.pct(ok / n, 0) : '—'} <span>Trefferquote in dieser Runde.</span></div>
+      <div class="row" style="gap:10px;margin-top:18px;flex-wrap:wrap"><button type="button" class="btn primary" data-action="replay-start">${I.play} Neue Runde</button><button type="button" class="btn" data-action="replay-close">Zur Übersicht</button></div></section></div>`;
   }
 
   Object.assign(App.actions, {
@@ -89,6 +98,8 @@
     /* vom Dashboard-Widget: Session vorbereiten und direkt mit der ersten Karte öffnen */
     'replay-go'() { if (!newSession(App.allTrades())) return; if (location.hash.indexOf('#/replay') === 0) App.rerender(false); else location.hash = '#/replay'; },
     'replay-abort'() { st().session = null; App.rerender(false); },
+    /* ohne „Screenshot vor Entry“: den zuletzt geschlossenen Trade öffnen, dort lässt er sich hinzufügen */
+    'replay-add-shot'() { const last = C.closedOnly(App.allTrades()).slice().sort((a, b) => new Date(b.close || b.open) - new Date(a.close || a.open))[0]; if (last) App.navigate('#/trades/' + last.id); },
     'replay-close'() { st().session = null; App.rerender(false); },
     'replay-conf'(el) {
       const ses = st().session; if (!ses) return; ses.confidence = Number(el.dataset.value) || 2;
@@ -108,8 +119,11 @@
   App.screens.replay = {
     title: 'Blind-Replay',
     head: { range: false }, /* Replay zieht aus allen Trades des Kontos: der Zeitraum spielt keine Rolle */
+    /* Fokus während einer Runde (Hick's 51): bis „Zur Übersicht“ keine Kopfreihe, ein Kontowechsel kann die Runde nicht scheinbar beenden */
+    get ownActions() { const s = App.state.replay; return !!(s && s.session); },
     render(ctx) { const s = st(); if (!R) return U.empty('stats', 'Replay nicht geladen', 'Das Modul replay.js fehlt.'); return s.session ? (s.session.idx < s.session.queue.length ? sessionView(ctx.all) : summaryView()) : overview(ctx.all); },
   };
-  /* Beim Verlassen der Seite bleibt eine laufende Session erhalten; eine beendete wird verworfen */
+  root.ReplayScreen = { startCta };
+  /* Beim Verlassen der Seite bleibt eine laufende Runde erhalten; eine beendete wird verworfen */
   window.addEventListener('hashchange', () => { const s = App.state.replay; if (s && s.session && s.session.idx >= s.session.queue.length && location.hash.indexOf('#/replay') !== 0) s.session = null; });
 })(typeof self !== 'undefined' ? self : this);

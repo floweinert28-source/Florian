@@ -2417,13 +2417,11 @@ dl.rp-summary + .rp-small { margin-top: var(--sp-2); }
 .rh-facts > span { display: inline-flex; align-items: center; gap: var(--sp-2); }
 .rh-facts b { color: var(--text); font-weight: 700; }
 .rh-facts b.neg { color: var(--loss-ink); } .rh-facts b.pos { color: var(--profit-ink); }
-/* ohne Daten: Titel, drei Schritte, Start */
-.rh-empty { padding: var(--sp-6) var(--sp-6); display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-4); }
+/* ohne Daten: Titel, ein Satz, ein Knopf */
+.rh-empty { padding: var(--sp-6) var(--sp-6); display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-3); }
 .rh-empty .card-title { font-size: var(--fs-18); }
-.rh-empty .rh-go { align-items: flex-start; }
-.rh-steps { list-style: none; display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); margin: 0; padding: 0; }
-.rh-steps li { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-14); font-weight: 600; }
-.rh-steps li b { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 700; }
+.rh-lead { margin: 0; color: var(--text-2); font-size: var(--fs-14); line-height: var(--lh-14); max-width: 52ch; }
+.rh-empty .rh-go { align-items: flex-start; margin-top: var(--sp-1); }
 /* Listen: Name · Balken · Wert · Anzahl */
 .replay-bars { display: flex; flex-direction: column; gap: var(--sp-4); }
 .rb-row { display: grid; grid-template-columns: minmax(5.25rem, 7.5rem) minmax(0, 1fr) 2.75rem 2.5rem; align-items: center; gap: var(--sp-4); font-size: var(--fs-13); line-height: var(--lh-13); }
@@ -2495,8 +2493,7 @@ dl.rp-summary + .rp-small { margin-top: var(--sp-2); }
   .rh-go { grid-column: 1 / -1; align-items: stretch; } .rh-ready { text-align: center; }
   .rh-big { font-size: 2.875rem; }
   .rh-facts { margin: 0 calc(-1 * var(--sp-4)); padding: var(--sp-3) var(--sp-4); gap: var(--sp-2) var(--sp-4); }
-  .rh-empty { padding: var(--sp-6) var(--sp-4); } .rh-empty .rh-go { align-self: stretch; }
-  .rh-steps { flex-direction: column; gap: var(--sp-2); }
+  .rh-empty { padding: var(--sp-4); } .rh-empty .rh-go { align-self: stretch; }
   .rh-start { width: 100%; justify-content: center; }
   .rb-row { grid-template-columns: minmax(4.375rem, 6rem) minmax(0, 1fr) 2.5rem 2.25rem; gap: var(--sp-2); }
   .replay-decide { flex-direction: column; align-items: stretch; }

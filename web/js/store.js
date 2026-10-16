@@ -44,6 +44,8 @@
     let seen = false; for (const d of data.dashboards) { if (d.isDefault && seen) d.isDefault = false; if (d.isDefault) seen = true; }
     /* Version 4: die Bereichs-Karten einmalig ans Ende des Standard-Dashboards hängen (nur was noch fehlt; danach entfernt bleibt entfernt) */
     if ((data.dashboardsVersion || 1) < 4) { const d0 = data.dashboards.find(d => d.isDefault) || data.dashboards[0]; const have = new Set(d0.layout.unten.map(w => w.typ)); for (const typ of FEATURE_CARDS) if (!have.has(typ)) d0.layout.unten.push({ typ, groesse: 'klein' }); data.dashboardsVersion = 4; }
+    /* Version 5: das Widget „Trefferquote nach Setup“ gibt es nicht mehr (sein Netz-Design trägt jetzt der Gesamt-Score); aus allen Vorlagen entfernen */
+    if ((data.dashboardsVersion || 1) < 5) { for (const d of data.dashboards) d.layout.unten = d.layout.unten.filter(w => w.typ !== 'setup_radar'); data.dashboardsVersion = 5; }
   }
 
   function defaults() {

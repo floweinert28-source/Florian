@@ -172,18 +172,25 @@
   /* Radar Chart: Netz mit vier Ringen, gefüllte Fläche in der Akzentfarbe; jede Achse hat eine Trefferfläche mit Tooltip */
   U.drawers.sradar = function (el, d, W, H) {
     const ax = d && d.axes || []; if (ax.length < 3) { chartEmpty(el); return; }
-    const short = s => (s.length > 16 ? s.slice(0, 15) + '…' : s); const n = ax.length; const rot = n % 4 === 0 ? Math.PI / n : 0; /* liegt eine Achse waagerecht (4 oder 8 Setups), das Netz drehen: sonst kosten die seitlichen Beschriftungen viel Platz */
+    const T = s => (root.I18N && root.I18N.t ? root.I18N.t(s) : s); /* Beschriftung schon übersetzt messen, damit sie in jeder Sprache passt */
+    const n = ax.length; const rot = n % 4 === 0 ? Math.PI / n : 0; /* liegt eine Achse waagerecht (4 oder 8 Achsen), das Netz drehen: sonst kosten die seitlichen Beschriftungen viel Platz */
     const ang = i => -Math.PI / 2 + rot + i * 2 * Math.PI / n;
-    /* Radius so groß wie möglich: seitliche Beschriftungen brauchen ihre Breite, oben und unten eine Zeile */
-    const tw = textWidth(el, '600 11px'); const R = Math.max(40, Math.min(H / 2 - 26, ...ax.map((x, i) => { const c = Math.abs(Math.cos(ang(i))); return c < 0.1 ? Infinity : (W / 2 - 8 - 12 * c - tw(short(x.label))) / c; })));
+    const tw = textWidth(el, '600 11px');
+    /* lange Beschriftungen mit Leerzeichen auf zwei Zeilen (Trennung nahe der Mitte), sehr lange gekürzt */
+    /* breite seitliche Beschriftungen an Leerzeichen, „/“ oder „-“ nahe der Mitte umbrechen (Zeichen bleibt am Zeilenende), damit das Netz größer wird */
+    const lines = ax.map((x, i) => { const s = T(x.label); const side = Math.abs(Math.cos(ang(i))) > 0.3; if (tw(s) <= (side ? 58 : 92) || !/[ /-]/.test(s)) return [s.length > 22 ? s.slice(0, 21) + '…' : s]; let cut = -1; for (let k = 1; k < s.length - 1; k++) if (/[ /-]/.test(s[k]) && (cut < 0 || Math.abs(k - s.length / 2) < Math.abs(cut - s.length / 2))) cut = k; return s[cut] === ' ' ? [s.slice(0, cut), s.slice(cut + 1)] : [s.slice(0, cut + 1), s.slice(cut + 1)]; });
+    const wid = lines.map(l => Math.max(...l.map(tw)));
+    /* Radius so groß wie möglich: seitliche Beschriftungen brauchen ihre Breite, oben und unten ihre Zeilen */
+    const R = Math.max(40, Math.min(...ax.map((x, i) => { const c = Math.abs(Math.cos(ang(i))), sn = Math.abs(Math.sin(ang(i))); const hx = c < 0.1 ? Infinity : (W / 2 - 8 - 12 * c - wid[i]) / c; const hy = sn < 0.1 ? Infinity : (H / 2 - 6 - 12 * sn - lines[i].length * 13) / sn; return Math.min(hx, hy); })));
     const cx = W / 2, cy = H / 2; const pt = (i, f) => polar(cx, cy, R * f, ang(i));
     const poly = vals => ax.map((x, i) => pt(i, typeof vals === 'number' ? vals : vals(x)).map(v => v.toFixed(1)).join(',')).join(' ');
     const grid = [0.25, 0.5, 0.75, 1].map(f => `<polygon points="${poly(f)}" class="sr-grid"/>`).join('') + ax.map((_, i) => { const [x, y] = pt(i, 1); return `<line x1="${f2(cx)}" y1="${f2(cy)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" class="sr-grid"/>`; }).join('');
     const v = x => Math.max(x.v, 0.02);
-    const labels = ax.map((x, i) => { const [px, py] = pt(i, 1); const [ox, oy] = polar(0, 0, 12, ang(i)); const anchor = Math.abs(px - cx) < 6 ? 'middle' : px < cx ? 'end' : 'start'; return `<text x="${(px + ox).toFixed(1)}" y="${(py + oy + 4).toFixed(1)}" text-anchor="${anchor}" class="sr-lbl" data-i="${i}">${esc(short(x.label))}</text>`; }).join('');
+    const labels = ax.map((x, i) => { const [px, py] = pt(i, 1); const [ox, oy] = polar(0, 0, 12, ang(i)); const anchor = Math.abs(px - cx) < 6 ? 'middle' : px < cx ? 'end' : 'start'; const L = lines[i]; const tx = (px + ox).toFixed(1); const sn = Math.sin(ang(i)); const y0 = py + oy + 4 + (L.length > 1 ? (sn < -0.3 ? -13 : sn > 0.3 ? 0 : -6.5) : 0);
+      return `<text x="${tx}" y="${y0.toFixed(1)}" text-anchor="${anchor}" class="sr-lbl no-i18n" data-i="${i}">${L.length > 1 ? L.map((l, k) => `<tspan x="${tx}" dy="${k ? 13 : 0}">${esc(l)}</tspan>`).join('') : esc(L[0])}</text>`; }).join('');
     const dots = ax.map((x, i) => { const [px, py] = pt(i, v(x)); return `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4" class="sr-dot" data-i="${i}"/>`; }).join('');
-    const hits = ax.map((x, i) => { const rr = R + 16; const [x0, y0] = polar(cx, cy, rr, ang(i) - Math.PI / n), [x1, y1] = polar(cx, cy, rr, ang(i) + Math.PI / n); const tip = `<b>${esc(x.label)}</b><br><span>Trefferquote</span> ${fmt.pct(x.v, 0)}<br><span>${U.count(x.n, 'Trade', 'Trades')}</span> · ${fmt.cur(x.total, { signed: true })}`; return `<path d="M${f2(cx)} ${f2(cy)} L${f2(x0)} ${f2(y0)} A${f2(rr)} ${f2(rr)} 0 0 1 ${f2(x1)} ${f2(y1)} Z" class="sr-hit" data-i="${i}" data-tip="${esc(tip)}"/>`; }).join('');
-    el.innerHTML = `<svg class="sr-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Trefferquote nach Setup">${grid}<polygon points="${poly(v)}" class="sr-area"/>${dots}${labels}${hits}</svg>`;
+    const hits = ax.map((x, i) => { const rr = R + 16; const [x0, y0] = polar(cx, cy, rr, ang(i) - Math.PI / n), [x1, y1] = polar(cx, cy, rr, ang(i) + Math.PI / n); return `<path d="M${f2(cx)} ${f2(cy)} L${f2(x0)} ${f2(y0)} A${f2(rr)} ${f2(rr)} 0 0 1 ${f2(x1)} ${f2(y1)} Z" class="sr-hit" data-i="${i}" data-tip="${esc(x.tip || '')}"/>`; }).join('');
+    el.innerHTML = `<svg class="sr-svg radar-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(d.aria || 'Netz-Diagramm')}">${grid}<polygon points="${poly(v)}" class="sr-area"/>${dots}${labels}${hits}</svg>`;
     const svg = el.firstElementChild; const on = i => svg.querySelectorAll('.sr-dot, .sr-lbl').forEach(n => n.classList.toggle('on', n.dataset.i === i));
     svg.querySelectorAll('.sr-hit').forEach(h => h.addEventListener('pointerenter', () => on(h.dataset.i))); svg.addEventListener('pointerleave', () => on(null));
   };
@@ -334,7 +341,7 @@
   }
   const MAIN = [
     { typ: 'score', name: 'Gesamt-Score', preview: 'radar', groesse: 'klein', desc: 'Punktzahl von 0 bis 100 aus Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Drawdown und Konstanz, als Netz-Diagramm.', info: 'Sechs Achsen von 0 bis 100: Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Der Score ist der Mittelwert.',
-      render(d, inst, e) { if (d.empty) return card(e, emptyBox()); const sc = d.score; return card(e, `${U.radar(sc.axes, 230)}<div class="row" style="gap:16px;margin-top:8px;align-items:center"><div><div class="caption">Dein Score</div><div class="score-big">${sc.overall}</div></div><div class="grow score-scale" style="margin:0 8px 14px;--p:${sc.overall}"><div class="track"></div><div class="fill"></div><div class="knob"></div><div class="lbls"><span>0</span><span>20</span><span>40</span><span>60</span><span>80</span><span>100</span></div></div></div>`); } },
+      render(d, inst, e) { if (d.empty) return card(e, emptyBox()); const sc = d.score; U.chartData['dash-score'] = { aria: 'Score-Radar', axes: sc.axes.map(a => ({ label: a.label, v: a.score, tip: `<b>${esc(a.label)}</b>: ${esc(a.text)}<br>Teilscore ${Math.round(a.score * 100)}` })) }; return card(e, `<div class="chart score-radar" data-chart="sradar" data-id="dash-score"></div><div class="row" style="gap:16px;margin-top:8px;align-items:center"><div><div class="caption">Dein Score</div><div class="score-big">${sc.overall}</div></div><div class="grow score-scale" style="margin:0 8px 14px;--p:${sc.overall}"><div class="track"></div><div class="fill"></div><div class="knob"></div><div class="lbls"><span>0</span><span>20</span><span>40</span><span>60</span><span>80</span><span>100</span></div></div></div>`); } },
     { typ: 'kum_pnl', name: 'Kumulierter Tages-P&L', preview: 'area', groesse: 'klein', desc: 'Wie sich der Netto-P&L über die Zeit aufsummiert, als Flächendiagramm.', info: 'Kumuliertes Netto-Tagesergebnis im Zeitraum. Grün über Null, rot darunter.',
       render(d, inst, e) { if (d.empty) return card(e, emptyBox(280)); U.chartData['dash-kum_pnl'] = { days: d.days, bars: false }; return card(e, `<div class="chart h280" data-chart="pnl" data-id="dash-kum_pnl"></div>`); } },
     { typ: 'verlauf_trefferquote', name: 'Trefferquote – Ø Gewinn – Ø Verlust', preview: 'line', groesse: 'klein', desc: 'Wie sich Trefferquote, Ø Gewinn und Ø Verlust über die Handelstage entwickeln.', info: 'Laufende Werte bis zum jeweiligen Handelstag: Trefferquote (rechte Achse), Ø Gewinn und Ø Verlust (linke Achse).',
@@ -410,7 +417,7 @@
       } },
     { typ: 'jahreskalender', name: 'Jahreskalender', preview: 'year', groesse: 'gross', flach: true, desc: 'Eine Zeile pro Jahr mit allen zwölf Monaten und Gesamt, umschaltbar zwischen Trefferquote, P&L und Trades.', info: 'Jede Zeile ist ein Jahr, jedes Kästchen ein Monat mit Anzahl Trades. P&L: grün bei Gewinn, rot bei Verlust. Trefferquote und Trades: je kräftiger das Blau, desto höher der Wert. Rechts das Jahresergebnis.',
       render(d, inst, e) { const ansicht = (inst.einstellungen || {}).ansicht || 'pnl'; const seg = `<div class="seg mini">${[['trefferquote', 'Trefferquote'], ['pnl', 'P&L'], ['trades', 'Trades']].map(([k, l]) => `<button type="button" data-action="dash-w-opt" data-key="ansicht" data-value="${k}" aria-pressed="${ansicht === k}">${l}</button>`).join('')}</div>`; return U.card(e.name, yearRows(d.daysAll, ansicht), { info: e.info, trailing: seg }); } },
-    /* Vorlagen von 21st.dev, im Stil der App nachgebaut (Zeichnen und Hover: U.drawers.wdbars, pie, sradar, wring) */
+    /* Vorlagen von 21st.dev, im Stil der App nachgebaut (Zeichnen und Hover: U.drawers.wdbars, pie, wring; das Netz U.drawers.sradar nutzt der Gesamt-Score) */
     { typ: 'wochentag_quote', name: 'Trefferquote nach Wochentag', preview: 'bars', groesse: 'klein', desc: 'Ein abgerundeter Balken je Wochentag. Beim Drüberfahren erscheinen Wert und Anzahl Trades.', info: 'Anteil der Gewinn-Trades je Wochentag im gewählten Zeitraum. Der höchste Wert füllt die Höhe. Samstag und Sonntag erscheinen nur, wenn du an diesen Tagen gehandelt hast.',
       render(d, inst, e) { if (d.empty) return card(e, emptyBox(280)); U.chartData['dash-wdq'] = { days: weekdayRates(d.list), all: d.s }; return card(e, `<div class="chart h280 mc-chart" data-chart="wdbars" data-id="dash-wdq"></div>`); } },
     { typ: 'setup_verteilung', name: 'Trades nach Setup', preview: 'donut', groesse: 'klein', desc: 'Ring mit runden Segmenten: wie sich deine Trades auf die Setups verteilen.', info: 'Anzahl geschlossener Trades je Setup im gewählten Zeitraum. Die fünf Setups, die du insgesamt am häufigsten handelst, haben je eine feste Farbe, der Rest steht unter „Andere“. Beim Drüberfahren siehst du Anteil, Trefferquote und P&L.',
@@ -418,14 +425,6 @@
         if (d.empty) return card(e, emptyBox(280)); const sl = setupSlices(d.closed, d.all); if (!sl.some(x => x.c !== 'n')) return card(e, SETUP_HINT);
         U.chartData['dash-setups'] = { slices: sl };
         return card(e, `<div class="chart h240 pie-chart" data-chart="pie" data-id="dash-setups"></div><div class="legend pie-legend">${sl.map(x => `<span><i style="background:var(--pie-${x.c})"></i>${esc(x.label)} <b>${fmt.int(x.n)}</b></span>`).join('')}</div>`);
-      } },
-    { typ: 'setup_radar', name: 'Trefferquote nach Setup', preview: 'radar', groesse: 'klein', desc: 'Netz-Diagramm: deine Trefferquote je Setup auf einen Blick.', info: 'Jede Achse ist ein Setup, außen sind 100 %. Gezeigt werden bis zu acht Setups mit den meisten Trades im gewählten Zeitraum. Beim Drüberfahren siehst du Trefferquote, Anzahl Trades und P&L.',
-      render(d, inst, e) {
-        if (d.empty) return card(e, emptyBox(280)); const groups = C.groupBy(d.closed, t => t.setup || null).sort((a, b) => b.s.n - a.s.n || String(a.key).localeCompare(String(b.key))).slice(0, 8);
-        if (!groups.length) return card(e, SETUP_HINT);
-        if (groups.length < 3) return card(e, `<div class="fw-empty"><b>Zu wenige Setups</b><span>Das Netz braucht mindestens drei Setups mit Trades im gewählten Zeitraum. Bisher: ${groups.map(g => esc(g.key)).join(', ')}.</span></div>`);
-        U.chartData['dash-sradar'] = { axes: groups.map(g => ({ label: String(g.key), v: g.s.winRate, n: g.s.n, total: g.s.total })) };
-        return card(e, `<div class="chart h300" data-chart="sradar" data-id="dash-sradar"></div>`);
       } },
     { typ: 'trefferquote_ring', name: 'Trefferquote-Ring', preview: 'gauge', groesse: 'klein', desc: 'Großer Ring mit deiner Trefferquote, der beim Laden hochzählt, darunter die letzten 20 Trades.', info: 'Anteil der Gewinn-Trades an allen geschlossenen Trades im gewählten Zeitraum. Darunter dieselbe Quote für die letzten 20 Trades, mit Pfeil, wenn sie um mindestens 3 Punkte abweicht.',
       render(d, inst, e) {

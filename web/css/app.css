@@ -3618,7 +3618,8 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 .pie-svg text { font-family: var(--font-num); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; }
 .pie-legend { margin-top: 12px; gap: 6px 14px; }
 .pie-legend b { color: var(--text-2); font-weight: 600; font-variant-numeric: tabular-nums; }
-/* Trefferquote nach Setup (Radar Chart) */
+/* Netz-Diagramm (Gesamt-Score; Design der früheren „Trefferquote nach Setup“) */
+.chart.score-radar { height: 246px; min-height: 246px; }
 .sr-svg { display: block; overflow: visible; }
 .sr-grid { fill: none; stroke: var(--border-2); stroke-width: 1; }
 .sr-area { fill: var(--accent); fill-opacity: var(--sr-op, .6); stroke: none; }

@@ -11,7 +11,7 @@ const FEAT = ['schatten_ich', 'blind_replay', 'prop_konten', 'ruhepunkt', 'mento
   const lay = await p.evaluate(() => Store.dashboards().find(d => d.isDefault).layout.unten.map(w => w.typ));
   ok(FEAT.every(t => lay.filter(x => x === t).length === 1) && lay.indexOf('schatten_ich') > lay.indexOf('kalender'), 'Migration: fünf Bereichs-Karten einmal am Ende des Standard-Dashboards · ' + lay.join(','));
   await p.evaluate(() => { const d = Store.dashboards().find(x => x.isDefault); d.layout.unten = d.layout.unten.filter(w => w.typ !== 'mentor'); Store.saveNow(); }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(900);
-  ok(await p.evaluate(() => !Store.dashboards().find(d => d.isDefault).layout.unten.some(w => w.typ === 'mentor') && Store.data.dashboardsVersion === 4), 'Entfernte Karte bleibt entfernt (keine Wiederholung der Migration)');
+  ok(await p.evaluate(() => !Store.dashboards().find(d => d.isDefault).layout.unten.some(w => w.typ === 'mentor') && Store.data.dashboardsVersion >= 4), 'Entfernte Karte bleibt entfernt (keine Wiederholung der Migration)');
   await p.evaluate(() => { const d = Store.dashboards().find(x => x.isDefault); d.layout.unten.push({ typ: 'mentor', groesse: 'klein' }); Store.saveNow(); App.rerender(false); }); await p.waitForTimeout(800);
   /* 2) Darstellung */
   const cards = await p.evaluate(F => F.map(t => { const w = [...document.querySelectorAll('.dash-main > .w')].find(x => x.querySelector('.card-title') && x.dataset && (x.dataset.typ === t || x.querySelector(`[data-typ="${t}"]`)) ); return null; }), FEAT);

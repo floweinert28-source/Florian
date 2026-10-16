@@ -105,15 +105,17 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   im Eingabefeld des Mentors; ohne Server ein Einrichten-Hinweis). Die fünf Karten hängt eine einmalige Migration
   (`dashboardsVersion` 4) ans Ende des Standard-Dashboards; Entferntes bleibt entfernt.
   **Widgets nach Vorlagen von 21st.dev** (Gruppe „Auswertungen“, nur über „Widget hinzufügen“, das Standard-Dashboard bleibt
-  unverändert): die React-Komponenten Mini Chart, Pie Chart, Radar Chart und Progress im Code der App nachgebaut, ohne React,
-  Tailwind oder Zusatzbibliotheken (`U.drawers.wdbars`, `pie`, `sradar`, `wring` in `js/widgets.js`, Stile am Ende von
+  unverändert): die React-Komponenten Mini Chart, Pie Chart und Progress im Code der App nachgebaut, ohne React,
+  Tailwind oder Zusatzbibliotheken (`U.drawers.wdbars`, `pie`, `wring` in `js/widgets.js`, Stile am Ende von
   `css/app.css`). **Trefferquote nach Wochentag**: abgerundete Balken in Textfarbe, beim Drüberfahren (Handy: Tippen) wird der
   Balken voll, die Nachbarn halb, der Rest tritt zurück; oben Tag, Anzahl und Wert, über dem Balken ein kleines Schild;
   Samstag/Sonntag nur mit Trades. **Trades nach Setup**: Ring mit runden Ecken und überall gleich breiten Lücken (Kanten parallel zur Trennlinie, nicht als Winkel; `ringSegment`), Anzahl im Segment,
   Tooltip mit Anteil, Trefferquote und P&L; die fünf insgesamt häufigsten Setups haben feste Farben (`--pie-1` … `--pie-5`,
   ohne Grün und Rot, mit dem Farbprüfer auf Unterscheidbarkeit auch bei Farbschwäche geprüft), der Rest „Andere“, Trades ohne
-  Setup „Ohne Setup“. **Trefferquote nach Setup**: Netz mit bis zu acht Setups, Fläche in der Akzentfarbe; unter drei Setups
-  ein Hinweis. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
+  Setup „Ohne Setup“. Das frühere Widget „Trefferquote nach Setup“ (Radar Chart) ist entfernt; sein Netz-Design (vier Ringe, Fläche in der
+  Akzentfarbe ohne Rand, Trefferflächen je Achse mit Tooltip, Punkt und Beschriftung beim Drüberfahren, `U.drawers.sradar`) trägt jetzt der
+  **Gesamt-Score** (Score-Zahl und Farbbalken bleiben; Beschriftungen werden schon übersetzt gemessen und bei Bedarf an Leerzeichen, „/“ oder „-“
+  umbrochen). Gespeicherte Vorlagen mit dem alten Widget räumt `dashboardsVersion` 5 auf. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
   hoch (danach nur, wenn sich der Wert ändert; bei „weniger Bewegung“ gar nicht), darunter die letzten 20 Trades. Test:
   `e2e/w21test.js`.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).

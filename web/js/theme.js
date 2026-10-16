@@ -38,9 +38,11 @@
     if (isLightBase(b)) return { '--bg': b, '--bg-2': shade(b, -0.03), '--surface': shade(b, 0.72), '--surface-2': shade(b, 0.38), '--surface-3': shade(b, -0.04), '--border': shade(b, -0.07), '--border-2': shade(b, -0.15), '--field': shade(b, 0.72), '--ambient': 'none' };
     return { '--bg': b, '--bg-2': shade(b, 0.025), '--surface': shade(b, 0.05), '--surface-2': shade(b, 0.085), '--surface-3': shade(b, 0.12), '--border': shade(b, 0.07), '--border-2': shade(b, 0.13), '--field': shade(b, 0.015), '--ambient': 'none' };
   }
+  /* Erscheinungsbild auflösen: „system“ folgt der Systemeinstellung (hell/dunkel), sonst die feste Wahl */
+  function resolve(settings) { const t = (settings && settings.theme) || 'dark'; if (t !== 'system') return t === 'light' ? 'light' : 'dark'; try { return root.matchMedia && root.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (e) { return 'dark'; } }
   function apply(settings) {
-    const theme = (settings && settings.theme) || 'dark'; const light = theme === 'light'; const c = (settings && settings.colors) || {};
-    const root = document.documentElement; root.dataset.theme = theme; root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; root.dataset.mode = settings && settings.uiMode === 'simple' ? 'simple' : 'advanced'; /* Ansicht: Simple (weniger Text, größere Zahlen) oder Advanced (alles) */ /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
+    const theme = resolve(settings); const light = theme === 'light'; const c = (settings && settings.colors) || {};
+    const root = document.documentElement; root.dataset.theme = theme; root.dataset.themePref = (settings && settings.theme) || 'dark'; /* „system“: folgt der Einstellung des Geräts */ root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; root.dataset.mode = settings && settings.uiMode === 'simple' ? 'simple' : 'advanced'; /* Ansicht: Simple (weniger Text, größere Zahlen) oder Advanced (alles) */ /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
     const set = (k, v) => v ? root.style.setProperty(k, v) : root.style.removeProperty(k);
     /* eigenes Erscheinungsbild: Grund und Flächen aus einer Grundfarbe (hell oder dunkel je nach Helligkeit, siehe surfaces) */
     const cs = settings && settings.customLook && valid(settings.customBg) ? surfaces(settings.customBg) : null;
@@ -55,5 +57,5 @@
     const nb = (settings && settings.notebook) || {}; const px = v => v > 0 ? v + 'px' : null; set('--nb-h1', px(nb.h1)); set('--nb-h2', px(nb.h2)); set('--nb-h3', px(nb.h3)); set('--nb-body', px(nb.body)); root.classList.toggle('nb-nostrike', nb.strike === false);
   }
   function applyFromStorage(key) { try { const raw = localStorage.getItem(key || 'trading-journal-web-v1'); if (raw) apply(JSON.parse(raw).settings || {}); } catch (e) { /* ohne Speicher: Standardfarben */ } }
-  root.Theme = { DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, FONTS, DEFAULT_FONT, fontKey, loadFont, apply, applyFromStorage, lum, shade, valid, surfaces, isLightBase, forLight, inkFor };
+  root.Theme = { resolve, DEFAULTS, PRESETS_ACCENT, PRESETS_PAIR, FONTS, DEFAULT_FONT, fontKey, loadFont, apply, applyFromStorage, lum, shade, valid, surfaces, isLightBase, forLight, inkFor };
 })(typeof self !== 'undefined' ? self : this);

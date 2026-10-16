@@ -6,6 +6,8 @@
 (function (root) {
   'use strict';
   const S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
+  /* Laden: Platzhalter in der Form der Liste (zwei Tage mit Kopf und Zeilen) */
+  const newsSkel = () => `<div class="nw-skel" role="status" aria-label="Termine werden geladen">${[4, 3].map(n => `<div class="nw-day"><div class="nw-dh"><span class="skel sk-t"></span></div><div class="nw-rows">${Array.from({ length: n }, (_, i) => `<div class="nw-row"><span class="skel sk-l"></span><span class="skel sk-b"></span><span class="skel sk-c"></span><span class="skel sk-x" style="width:${[62, 48, 70, 55][i]}%"></span><span></span></div>`).join('')}</div></div>`).join('')}</div>`;
   const TTL = 10 * 60 * 1000; /* nach 10 Minuten neu laden */
   const IMPACTS = [['high', 'Hoch'], ['medium', 'Mittel'], ['low', 'Niedrig'], ['holiday', 'Feiertage']];
   const LEVEL = { high: 3, medium: 2, low: 1, holiday: 0 };
@@ -81,7 +83,7 @@
 
       let body;
       if (ok && s.error && !s.events) body = U.empty('warning', 'News konnten nicht geladen werden', s.error, `<button type="button" class="btn sm" data-action="news-reload">${I.refresh} Erneut versuchen</button>`);
-      else if (ok && !s.events) body = `<div class="nw-loading">${U.spin()} Termine werden geladen …</div>`;
+      else if (ok && !s.events) body = newsSkel(); /* Laden: Skelett in der Form der Termin-Liste statt Kreisel */
       else body = `${hero}${filters}${shown.length ? `<div class="nw-list">${list}</div>` : U.empty('calendar', 'Keine Termine für diese Auswahl', upcoming.length ? 'Ändere die Filter, um mehr zu sehen.' : 'Für die kommenden Tage liegen noch keine Termine vor. Die nächste Woche erscheint in der Regel zum Wochenende.')}`;
 
       const banner = sample

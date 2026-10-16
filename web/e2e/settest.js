@@ -5,7 +5,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   const browser = await chromium.launch(); const errs = [];
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
   await p.goto(base + '#/settings', { waitUntil: 'load' }); await p.waitForTimeout(500);
-  ok('Bereichsliste mit 12 Einträgen (inkl. Sprache)', await p.$$eval('.set-nav a', a => a.length) === 12 && await p.$eval('.set-nav a.active', a => a.textContent.trim()) === 'Profil');
+  ok('Bereichsliste mit 13 Einträgen (inkl. Sprache und Barrierefreiheit)', await p.$$eval('.set-nav a', a => a.length) === 13 && await p.$eval('.set-nav a.active', a => a.textContent.trim()) === 'Profil');
   await p.screenshot({ path: 's-profil.png', fullPage: false });
   for (const [sec, title] of [['benachrichtigungen', 'Benachrichtigungen'], ['abo', 'Abo'], ['konten', 'Konten'], ['trading', 'Trading'], ['regeln', 'Regeln'], ['notebook', 'Notebook'], ['inhalte', 'Inhalte'], ['logs', 'Logs']]) { await p.evaluate(h => { location.hash = '#/settings/' + h; }, sec); await p.waitForFunction(t => { const h = document.querySelector('.set-head h2'); return h && h.textContent.trim() === t; }, title, { timeout: 3000 }).catch(() => {}); ok(`Bereich ${title}`, (await p.textContent('.set-head h2')).trim() === title); }
   // Benachrichtigungen

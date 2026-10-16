@@ -39,3 +39,16 @@ test('Design-Tokens: kein reines Weiß oder Schwarz, kleine Gewinn-/Verlust-Schr
   for (const k of ['text', 'text-2', 'muted', 'profit-ink', 'loss-ink']) assert.ok(ratio(val(k), val('surface')) >= 4.5, `${k} ${val(k)} auf ${val('surface')}`);
   for (const k of ['profit', 'loss']) assert.ok(ratio(val(k), val('surface')) >= 3, `${k} groß ${val(k)}`);
 });
+
+test('resolve: „system“ folgt dem Gerät, feste Wahl bleibt', () => {
+  const mod = require('../js/theme.js');
+  assert.equal(T.resolve({ theme: 'light' }), 'light');
+  assert.equal(T.resolve({ theme: 'dark' }), 'dark');
+  assert.equal(T.resolve({}), 'dark');
+  assert.equal(T.resolve({ theme: 'system' }), 'dark'); /* ohne matchMedia: dunkel */
+  mod.matchMedia = q => ({ matches: q === '(prefers-color-scheme: light)' });
+  assert.equal(T.resolve({ theme: 'system' }), 'light');
+  mod.matchMedia = () => ({ matches: false });
+  assert.equal(T.resolve({ theme: 'system' }), 'dark');
+  delete mod.matchMedia;
+});

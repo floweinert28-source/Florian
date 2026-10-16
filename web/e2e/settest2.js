@@ -5,7 +5,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   const browser = await chromium.launch(); const errs = [];
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message)); await require('./localfonts.js')(p);
   await p.goto(base + '#/settings/profil', { waitUntil: 'load' }); await p.waitForTimeout(500);
-  ok('12 Bereiche inkl. Design, Sprache und Mentor', await p.$$eval('.set-nav a', a => a.length) === 12);
+  ok('13 Bereiche inkl. Design, Sprache, Mentor und Barrierefreiheit', await p.$$eval('.set-nav a', a => a.length) === 13);
   await p.fill('#pf-first', 'Florian'); await p.fill('#pf-last', 'Weinert'); await p.fill('#pf-user', 'flo'); await p.fill('#pf-mail', 'flo@example.com'); await p.fill('#pf-addr', 'Musterstraße 1, 12345 Berlin'); await p.fill('#pf-bio', 'Daytrader seit 2024.'); await p.selectOption('#pf-tz', 'Europe/Berlin'); await p.click('form[data-action="save-profile"] button[type=submit]'); await p.waitForTimeout(300);
   ok('Profil gespeichert, Name abgeleitet', await p.evaluate(() => Store.settings.profile.email === 'flo@example.com' && Store.settings.profile.timezone === 'Europe/Berlin' && Store.settings.name === 'Florian Weinert') && (await p.textContent('.topbar .avatar')).trim() === 'FW');
   // Foto
@@ -30,7 +30,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   ok('Alte Einstellung „standard“ wird zu Modern', await p.evaluate(() => Store.settings.font === 'modern' && document.documentElement.dataset.font === 'modern' && document.documentElement.style.getPropertyValue('--font') === ''));
   /* Erscheinungsbild: Graphit (Standard), Schwarz, Weiß, Eigenes */
   const bg = () => p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bg').trim());
-  ok('Erscheinungsbild: vier Wahlen (mit Eigenes), Graphit aktiv', await p.$$eval('[data-action="appearance"]', e => e.map(x => x.dataset.value).join(',')) === 'graphit,schwarz,light,custom' && await p.$eval('[data-action="appearance"][aria-pressed="true"]', e => e.dataset.value) === 'graphit' && await bg() === '#0e0d0b');
+  ok('Erscheinungsbild: fünf Wahlen (Automatisch bis Eigenes), Graphit aktiv', await p.$$eval('[data-action="appearance"]', e => e.map(x => x.dataset.value).join(',')) === 'system,graphit,schwarz,light,custom' && await p.$eval('[data-action="appearance"][aria-pressed="true"]', e => e.dataset.value) === 'graphit' && await bg() === '#0e0d0b');
   await p.click('[data-action="appearance"][data-value="schwarz"]'); await p.waitForTimeout(300);
   ok('Schwarz: fast schwarzer Grund (#080807)', await bg() === '#080807' && await p.evaluate(() => document.documentElement.dataset.dark === 'schwarz' && Store.settings.theme === 'dark' && Store.settings.darkStyle === 'schwarz'));
   await p.click('[data-action="appearance"][data-value="light"]'); await p.waitForTimeout(300);

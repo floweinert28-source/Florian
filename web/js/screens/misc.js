@@ -5,7 +5,8 @@
 
   const SECTIONS = [
     ['profil', 'Profil', 'account'], ['design', 'Design', 'sun'], ['sprache', 'Sprache', 'globe'], ['benachrichtigungen', 'Benachrichtigungen', 'bell'], ['abo', 'Abo', 'card'], null,
-    ['konten', 'Konten', 'folder'], ['trading', 'Trading', 'stats'], ['regeln', 'Regeln', 'shield'], ['notebook', 'Notebook', 'journal'], ['mentor', 'Mentor', 'chat'], ['inhalte', 'Inhalte', 'tag'], ['logs', 'Logs', 'clock'],
+    ['konten', 'Konten', 'folder'], ['trading', 'Trading', 'stats'], ['regeln', 'Regeln', 'shield'], ['notebook', 'Notebook', 'journal'], ['mentor', 'Mentor', 'chat'], ['inhalte', 'Inhalte', 'tag'], ['logs', 'Logs', 'clock'], null,
+    ['barrierefreiheit', 'Barrierefreiheit', 'eye'],
   ];
   const KINDS = { setups: { label: 'Setups', color: 'var(--accent)', cls: 'setup' }, mistakes: { label: 'Fehler', color: 'var(--loss)', cls: 'mistake' }, emotions: { label: 'Emotionen', color: 'var(--be)', cls: 'emotion' } };
   const INSTRUMENTS = [['aktien', 'Aktien'], ['forex', 'Forex'], ['futures', 'Futures'], ['optionen', 'Optionen'], ['krypto', 'Krypto'], ['sonstiges', 'Sonstiges']];
@@ -20,10 +21,35 @@
     render(ctx) {
       const sec = SECTIONS.some(s => s && s[0] === ctx.params[0]) ? ctx.params[0] : 'profil';
       const nav = `<nav class="set-nav" data-subnav="side">${SECTIONS.map(s => s ? `<a href="#/settings/${s[0]}" class="${sec === s[0] ? 'active' : ''}">${I[s[2]]}<span>${s[1]}</span></a>` : '<hr>').join('')}</nav>`;
-      const body = ({ profil, design, sprache, benachrichtigungen, abo, konten, trading, regeln, notebook, mentor, inhalte, logs })[sec]();
+      const body = ({ profil, design, sprache, benachrichtigungen, abo, konten, trading, regeln, notebook, mentor, inhalte, logs, barrierefreiheit })[sec]();
       return `<div class="settings">${nav}<section class="set-body">${body}</section></div>`;
     },
   };
+
+  /* ---------- Barrierefreiheit ---------- */
+  /* Erklärung zur Barrierefreiheit: Ziel (WCAG 2.2 AA), Stand, was umgesetzt ist, bekannte Grenzen, Rückmeldung über das Kontaktformular.
+     Stand-Datum bei jeder größeren Änderung anpassen */
+  function barrierefreiheit() {
+    const li = a => `<ul class="a11y-list">${a.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    return head('Barrierefreiheit', 'Erklärung zur Barrierefreiheit von Journalyst. Stand: 16.10.2026') + `
+      <div class="set-block a11y"><h3>Unser Ziel</h3><p>Journalyst soll für alle gut nutzbar sein: mit Maus, Tastatur oder Bildschirmleser, mit großer Schrift und auf dem Handy. Wir richten uns nach den Richtlinien WCAG 2.2, Stufe AA.</p>
+      <h3>Wie weit wir sind</h3><p>Journalyst erfüllt WCAG 2.2 AA teilweise. Was schon geht und was noch fehlt, steht hier.</p>
+      <h3>Was schon geht</h3>${li([
+        'Alles lässt sich mit der Tastatur bedienen. Der Fokus ist sichtbar, und „Zum Inhalt springen“ überspringt die Navigation.',
+        'Text hat im hellen und im dunklen Design mindestens 4,5 : 1 Kontrast zum Hintergrund.',
+        'Knöpfe und Felder sind auf Touch-Geräten mindestens 44 Pixel hoch.',
+        'Das Erscheinungsbild kann dem Gerät folgen (hell oder dunkel). Ist im Gerät „Bewegung reduzieren“ eingestellt, zeigt Journalyst weniger Bewegung.',
+        'Fehlermeldungen sagen in klaren Worten, was passiert ist und was du tun kannst.',
+        'Angefangene Trades bleiben als Entwurf erhalten, wenn das Fenster zugeht.',
+        'Die einfache Ansicht zeigt nur das Wichtigste.',
+      ])}
+      <h3>Was noch nicht barrierefrei ist</h3>${li([
+        'Diagramme sind Grafiken. Bildschirmleser lesen ihre Werte nicht vor. Viele Werte stehen zusätzlich in Kacheln oder Tabellen, aber nicht alle.',
+        'Die Beschriftungen an den Diagramm-Achsen haben eine feste Größe und wachsen mit größerer Schrift nicht mit.',
+        'Das Zertifikat ist ein Bild. Seine Werte stehen nicht zusätzlich als Text daneben.',
+      ])}
+      <h3>Etwas gefunden?</h3><p>Ist dir etwas aufgefallen, das schwer zu bedienen ist? Schreib uns über das Kontaktformular. Wir melden uns so bald wie möglich.</p><p>Bekommst du keine zufriedenstellende Antwort, kannst du dich an die zuständige Marktüberwachungsbehörde wenden.</p><a class="btn sm a11y-contact" href="#/contact">Zum Kontaktformular</a></div>`;
+  }
 
   /* ---------- Sprache ---------- */
   /* Sprachen aus i18n.js; der eigene Name jeder Sprache bleibt unübersetzt (no-i18n), darunter der Name in der gewählten Sprache */
@@ -76,7 +102,7 @@
   const DESIGN_MAX = 6;
   const X_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>';
   const TC_WIN = '<span class="tc-win"><span class="tc-dots"><i></i><i></i><i></i></span><span class="tc-side"><i></i><i></i><i></i><i></i></span><span class="tc-user"><i></i><i></i></span><span class="tc-main"><i class="h"></i><i class="h2"></i><span class="tc-tiles"><i></i><i></i><i></i></span><i class="f"></i></span></span>';
-  const lookOf = st => (st.customLook && root.Theme.valid(st.customBg) ? 'custom' : st.theme === 'light' ? 'light' : st.darkStyle === 'schwarz' ? 'schwarz' : 'graphit');
+  const lookOf = st => (st.customLook && root.Theme.valid(st.customBg) ? 'custom' : st.theme === 'system' ? 'system' : st.theme === 'light' ? 'light' : st.darkStyle === 'schwarz' ? 'schwarz' : 'graphit');
   /* Vorschaufarben der Karte „Eigenes“ aus der Grundfarbe (gleiche Stufen wie in Theme.surfaces) */
   function customVars(hex) {
     const T = root.Theme; if (!T.valid(hex)) return ''; const v = T.surfaces(hex); const lt = T.isLightBase(hex);
@@ -93,12 +119,12 @@
     const list = (S.settings.savedColors || []).filter(c => T.valid(c) && !presetSet.has(c.toLowerCase())).slice(0, max);
     return list.length ? `<i class="dots-sep" aria-hidden="true"></i>${list.map(c => `<span class="dot-wrap"><button type="button" class="dot" data-action="color-preset" data-key="accent" data-value="${c}" aria-pressed="${accent.toLowerCase() === c.toLowerCase()}" data-tip="Eigene Farbe" style="--c:${c}"></button><button type="button" class="dot-x" data-action="saved-color-del" data-value="${c}" aria-label="Farbe löschen">${X_SVG}</button></span>`).join('')}` : '';
   }
-  App.refreshSavedColors = () => { const g = document.getElementById('saved-colors'); if (!g) return; const T = root.Theme; const st = S.settings; const acc = (st.colors || {}).accent || T.DEFAULTS[st.theme === 'light' ? 'light' : 'dark'].accent; g.innerHTML = savedDots(acc, new Set(T.PRESETS_ACCENT.map(a => a[1]))); };
+  App.refreshSavedColors = () => { const g = document.getElementById('saved-colors'); if (!g) return; const T = root.Theme; const st = S.settings; const acc = (st.colors || {}).accent || T.DEFAULTS[T.resolve(st)].accent; g.innerHTML = savedDots(acc, new Set(T.PRESETS_ACCENT.map(a => a[1]))); };
   /* Design = Erscheinungsbild + Schrift + Farben; die Signatur vergleicht ein gespeichertes Design mit den aktuellen Einstellungen */
-  const designOf = st => ({ theme: st.theme === 'light' ? 'light' : 'dark', darkStyle: st.darkStyle === 'schwarz' ? 'schwarz' : 'graphit', customLook: !!(st.customLook && root.Theme.valid(st.customBg)), customBg: st.customLook && root.Theme.valid(st.customBg) ? st.customBg.toLowerCase() : '', font: root.Theme.fontKey(st.font), colors: ['accent', 'profit', 'loss', 'be'].reduce((o, k) => (o[k] = ((st.colors || {})[k] || '').toLowerCase(), o), {}) });
+  const designOf = st => ({ theme: st.theme === 'light' || st.theme === 'system' ? st.theme : 'dark', darkStyle: st.darkStyle === 'schwarz' ? 'schwarz' : 'graphit', customLook: !!(st.customLook && root.Theme.valid(st.customBg)), customBg: st.customLook && root.Theme.valid(st.customBg) ? st.customBg.toLowerCase() : '', font: root.Theme.fontKey(st.font), colors: ['accent', 'profit', 'loss', 'be'].reduce((o, k) => (o[k] = ((st.colors || {})[k] || '').toLowerCase(), o), {}) });
   const sigOf = d => JSON.stringify([d.theme, d.darkStyle, d.customLook, d.customBg, d.font, d.colors.accent, d.colors.profit, d.colors.loss, d.colors.be]);
   function designVars(d) {
-    const T = root.Theme; const light = d.theme === 'light'; const defs = T.DEFAULTS[light ? 'light' : 'dark'];
+    const T = root.Theme; const light = T.resolve({ theme: d.theme }) === 'light'; const defs = T.DEFAULTS[light ? 'light' : 'dark'];
     const base = d.customLook && T.valid(d.customBg) ? T.surfaces(d.customBg) : light ? { '--bg': '#fcfcfb', '--surface': '#fcfcfb', '--border-2': '#d6d4cf' } : d.darkStyle === 'schwarz' ? { '--bg': '#080807', '--surface': '#0d0d0d', '--border-2': '#212121' } : { '--bg': '#060605', '--surface': '#151412', '--border-2': '#34322e' }; /* Graphit: Fenster in der Farbe der Leiste ganz links */
     const c = k => (T.valid(d.colors[k]) ? d.colors[k] : defs[k]);
     const win = d.customLook && T.valid(d.customBg) && !T.isLightBase(d.customBg) ? T.shade(d.customBg, -0.55) : base['--bg']; /* dunkles Fenster = Farbe der Leiste ganz links */
@@ -135,7 +161,7 @@
     return [['simple', 'Simple', 'Weniger Text, große Zahlen, nur das Wichtigste'], ['advanced', 'Advanced', 'Alle Funktionen, Details und Erklärungen']].map(([k, n, d]) => `<button type="button" class="mode-card" data-action="ui-mode" data-value="${k}" aria-pressed="${mode === k}">${prev[k]}<span class="md-txt"><b>${n}</b><small>${d}</small></span></button>`).join('');
   }
   function design() {
-    const st = S.settings; const T = root.Theme; const col = st.colors || {}; const defs = T.DEFAULTS[st.theme === 'light' ? 'light' : 'dark']; const cur = { accent: col.accent || defs.accent, profit: col.profit || defs.profit, loss: col.loss || defs.loss, be: col.be || defs.be };
+    const st = S.settings; const T = root.Theme; const col = st.colors || {}; const defs = T.DEFAULTS[T.resolve(st)]; const cur = { accent: col.accent || defs.accent, profit: col.profit || defs.profit, loss: col.loss || defs.loss, be: col.be || defs.be };
     Object.keys(T.FONTS).forEach(T.loadFont); const fontKey = T.fontKey(st.font);
     const accents = T.PRESETS_ACCENT.slice().sort((a, b) => HUE(a[1]) - HUE(b[1]));
     const fonts = Object.entries(T.FONTS).map(([k, f]) => `<button type="button" class="font-card" data-action="font-set" data-value="${k}" aria-pressed="${fontKey === k}" style="font-family:${f.text.replace(/"/g, '&quot;')}"><span class="sample">Aa</span><span class="nums" style="${f.num ? `font-family:${f.num.replace(/"/g, '&quot;')}` : ''}">${fmt.cur(1234.5, { money: true })}</span><b>${f.name}</b><small>${f.desc}</small></button>`).join('');
@@ -143,7 +169,7 @@
     /* Erscheinungsbild als kleine Vorschau der App (Fenster mit Seitenleiste, Kopf und Kacheln) in den Farben des jeweiligen Designs;
        „Eigenes“ zeigt die eigene Grundfarbe (ohne gewählte Farbe ein Plus), ein Klick auf die gewählte Karte öffnet den Farbwähler */
     const look = lookOf(st);
-    const themes = [['graphit', 'Graphit'], ['schwarz', 'Schwarz'], ['light', 'Weiß']].map(([k, n]) => `<button type="button" class="theme-card t-${k}" data-action="appearance" data-value="${k}" aria-pressed="${look === k}"><span class="tc-prev" aria-hidden="true">${TC_WIN}</span><b>${n}</b></button>`).join('')
+    const themes = [['system', 'Automatisch'], ['graphit', 'Graphit'], ['schwarz', 'Schwarz'], ['light', 'Weiß']].map(([k, n]) => `<button type="button" class="theme-card t-${k}" data-action="appearance" data-value="${k}" aria-pressed="${look === k}"><span class="tc-prev" aria-hidden="true">${TC_WIN}${k === 'system' ? `<span class="tc-half">${TC_WIN}</span>` : ''}</span><b>${n}</b></button>`).join('')
       + customCard(st, look);
     const presetSet = new Set(T.PRESETS_ACCENT.map(a => a[1]));
     const picker = (key, label, val) => `<label class="cpick"><input type="color" value="${val}" data-input="color-set" data-key="${key}" aria-label="${label}"><i style="background:${val}"></i><span>${label}</span></label>`;
@@ -162,12 +188,12 @@
     const m = Object.assign({ url: '', token: '' }, S.settings.mentor || {});
     return head('Mentor', 'Dein Trading-Psychologie-Mentor läuft über einen eigenen Server, damit der API-Schlüssel nie im Browser landet.') + `
       <form data-action="save-mentor" class="set-block stack" style="gap:14px">
-        <div class="field"><label for="mentor-url">Server-Adresse</label><input class="input" id="mentor-url" name="url" type="url" value="${esc(m.url)}" placeholder="https://mentor.deine-domain.de" autocomplete="off"><div class="small muted" style="margin-top:6px">Der Server aus <code>server/</code> im Projekt. Anleitung in <code>server/README.md</code>.</div></div>
-        <div class="field"><label for="mentor-token">Zugangstoken</label><input class="input" id="mentor-token" name="token" type="password" value="${esc(m.token)}" placeholder="Wert von MENTOR_APP_TOKEN" autocomplete="off"><div class="small muted" style="margin-top:6px">Derselbe Wert wie auf dem Server. Nicht der API-Schlüssel des Sprachmodells, der bleibt nur auf dem Server.</div></div>
+        <div class="field"><label for="mentor-url">Server-Adresse</label><input class="input" id="mentor-url" name="url" type="url" value="${esc(m.url)}" placeholder="https://mentor.deine-domain.de" autocomplete="off"><div class="small muted" style="margin-top:6px">Die Adresse deines Journalyst-Servers, so wie du sie im Browser öffnen würdest.</div></div>
+        <div class="field"><label for="mentor-token">Zugangstoken</label><input class="input" id="mentor-token" name="token" type="password" value="${esc(m.token)}" placeholder="Zugangstoken vom Server" autocomplete="off"><div class="small muted" style="margin-top:6px">Derselbe Wert wie auf dem Server. Nicht der API-Schlüssel des Sprachmodells, der bleibt nur auf dem Server.</div></div>
         <div class="row"><button type="submit" class="btn primary">Speichern</button><button type="button" class="btn" data-action="mentor-test">Verbindung testen</button><span class="small muted no-i18n" id="mentor-test-out" role="status"></span></div>
       </form>
       <div class="set-block"><h3>KI und Einwilligung</h3><div class="stack" style="gap:12px">${[['mentor', 'Mentor-Chat', 'Wird vor der ersten Nachricht abgefragt.'], ['voice', 'Sprachnotizen auswerten', 'Wird vor der ersten Auswertung abgefragt.']].map(([k, l, pend]) => { const at = (S.settings.aiConsent || {})[k]; return `<div class="row between" style="gap:12px"><div><b>${l}</b><div class="small muted">${at ? `Einwilligung erteilt am ${fmt.dateFull(new Date(at))}. Daten gehen an deinen Mentor-Server und von dort an Anthropic (KI).` : pend}</div></div>${at ? `<button type="button" class="btn sm" data-action="ai-consent-revoke" data-scope="${k}">Widerrufen</button>` : ''}</div>`; }).join('')}</div></div>
-      <div class="set-block"><h3>Sprachjournal</h3>${switchRow('Audio behalten', 'Aufnahmen bleiben nach der Auswertung als Audio gespeichert. Aus: nach der Auswertung wird nur das Transkript behalten, die Audiodatei wird gelöscht.', 'voice-audio-toggle', S.settings.voiceKeepAudio !== false)}<div class="small muted" style="margin-top:10px">Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen (<code>VOICE_STT_URL</code>, siehe <code>server/README.md</code>).</div></div>
+      <div class="set-block"><h3>Sprachjournal</h3>${switchRow('Audio behalten', 'Aufnahmen bleiben nach der Auswertung als Audio gespeichert. Aus: nach der Auswertung wird nur das Transkript behalten, die Audiodatei wird gelöscht.', 'voice-audio-toggle', S.settings.voiceKeepAudio !== false)}<div class="small muted" style="margin-top:10px">Die Auswertung (Emotion, Setup, Fehler-Tags, Kurzfassung) läuft über diesen Server. Das Transkript entsteht im Browser; für Browser ohne Spracherkennung kann der Server einen Transkriptions-Dienst nutzen, wenn er dafür eingerichtet ist.</div></div>
       <div class="set-block"><h3>So funktioniert es</h3><div class="stack small muted" style="gap:6px"><div>Vor jedem Gespräch bekommt der Mentor deinen Namen, den Glaubensmodus aus dem Ruhepunkt (Einstellungen → Profil → Christlicher Impuls) und eine kurze Zusammenfassung deiner letzten 20 Trades und des heutigen Ruhepunkt-Check-ins.</div><div>Der Verlauf wird pro Nutzer auf dem Server gespeichert. Das Tageslimit legt der Server fest (Standard 30 Nachrichten), damit die Kosten kontrollierbar bleiben.</div><div>Nutzerkennung ist dein Benutzername aus dem Profil, aktuell: <b>${esc(S.userId())}</b>.</div><div>Derselbe Server trägt auch den <a href="#/coach">Coach Mode</a> (Gruppen, Journal-Ansicht und Notizen des Mentors). Dafür legt Journalyst einen eigenen geheimen Schlüssel an, der nur auf diesem Gerät liegt.</div></div></div>`;
   }
 

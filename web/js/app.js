@@ -252,7 +252,7 @@
       const d = Math.round(this.docTop(hits[0]) - window.scrollY - a.top); if (Math.abs(d) >= 1) window.scrollTo({ top: Math.max(0, window.scrollY + d) });
     },
     renderSidebar() {
-      const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = S.settings.theme || 'dark';
+      const sb = document.getElementById('sidebar'); const cur = this.state.route; const theme = root.Theme.resolve(S.settings);
       /* Hinweis-Punkte: nur wenn eingeschaltet (Einstellungen → Benachrichtigungen); Grund steht im Tooltip */
       const nd = Object.assign({ on: true }, S.settings.navDots || {}); const all = nd.on ? this.allTrades() : null;
       const dctx = all ? { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) } : null;
@@ -380,7 +380,13 @@
       });
       document.addEventListener('toggle', e => { if (e.target.matches && e.target.matches('[data-nav-more]')) this.state.navMore = e.target.open; }, true); /* „Mehr“ der Seitenleiste (Simple) bleibt beim Seitenwechsel auf oder zu */
       document.addEventListener('submit', e => { const f = e.target.closest('form[data-action]'); if (f) { const fn = this.actions[f.dataset.action]; if (fn) { e.preventDefault(); this.lockWhile(f.querySelector('button[type=submit]'), fn.call(this, f, e)); } } });
-      document.addEventListener('touchstart', () => {}, { passive: true }); /* iOS Safari zeigt :active (gedrückter Zustand) nur mit einem Touch-Listener */
+      document.addEventListener('touchstart', () => {}, { passive: true });
+      /* Erscheinungsbild „Automatisch“: wechselt das Gerät zwischen hell und dunkel, zieht die App sofort nach */
+      try { window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { if (S.settings.theme === 'system') { root.Theme.apply(S.settings); this.render(); } }); } catch (e) { /* ältere Browser: beim nächsten Start */ }
+      /* Handy-Tastatur: sichtbare Höhe als --vvh (Dialoge passen sich an), das aktive Feld rückt in die Mitte des sichtbaren Bereichs */
+      const vv = window.visualViewport; const inField = () => { const a = document.activeElement; return a && a.matches && a.matches('input:not([type=checkbox]):not([type=radio]), textarea, select, [contenteditable="true"]') ? a : null; };
+      if (vv) { const upd = () => { document.documentElement.style.setProperty('--vvh', Math.round(vv.height) + 'px'); const a = inField(); if (a && vv.height < window.innerHeight - 80) a.scrollIntoView({ block: 'center' }); }; vv.addEventListener('resize', upd); upd(); }
+      document.addEventListener('focusin', e => { if (!window.matchMedia('(pointer: coarse)').matches || !inField()) return; setTimeout(() => { const a = inField(); if (a) a.scrollIntoView({ block: 'center' }); }, 350); }); /* iOS Safari zeigt :active (gedrückter Zustand) nur mit einem Touch-Listener */
       document.addEventListener('keydown', e => { /* Elemente mit role=button/checkbox: Enter und Leertaste wie Klick */ const rb = e.target && e.target.closest && (e.key === 'Enter' || e.key === ' ') && !e.target.matches('input, textarea, select, button, a, [contenteditable]') ? e.target.closest('[role=button][tabindex], [role=checkbox][tabindex]') : null; if (rb && rb === e.target) { e.preventDefault(); rb.click(); return; } if (e.key === 'Escape') { U.closeModal(); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } } });
       /* Fenster breiter als die Mobil-Grenze: ein offen gebliebenes Menü zurücksetzen */
       window.matchMedia('(min-width: 961px)').addEventListener('change', () => { this.state.sidebarOpen = false; this.renderSidebar(); });
@@ -415,7 +421,7 @@
     /* Link in der Seitenleiste: Navigation läuft normal über href; nur das mobile Menü schließen */
     'nav-close'(el) { const h = el.getAttribute('href'); this.closePopovers(); if (this.state.sidebarOpen) { this.state.sidebarOpen = false; this.renderSidebar(); } if (h && location.hash !== h) location.hash = h; },
     /* Erscheinungsbild in den Einstellungen: Graphit oder Schwarz (beide dunkel) oder Weiß (hell); der Schalter im Konto-Menü wechselt nur Dunkel/Hell und behält die dunkle Variante */
-    appearance(el) { const v = el.dataset.value; if (v === 'custom') { if (App.openCustomLook) App.openCustomLook(el); return; } if (v !== 'light') S.setSetting('darkStyle', v === 'schwarz' ? 'schwarz' : 'graphit'); this.actions.theme.call(this, { dataset: { value: v === 'light' ? 'light' : 'dark' } }); },
+    appearance(el) { const v = el.dataset.value; if (v === 'custom') { if (App.openCustomLook) App.openCustomLook(el); return; } if (v === 'system') return this.actions.theme.call(this, { dataset: { value: 'system' } }); /* Automatisch: hell oder dunkel wie das Gerät */ if (v !== 'light') S.setSetting('darkStyle', v === 'schwarz' ? 'schwarz' : 'graphit'); this.actions.theme.call(this, { dataset: { value: v === 'light' ? 'light' : 'dark' } }); },
     /* KI-Einwilligung (Mentor-Chat, Sprachnotizen): mit Datum gespeichert, in Einstellungen → Mentor widerrufbar */
     'ai-consent'(el) { const sc = el.dataset.scope; if (!sc) return; S.setSetting('aiConsent', Object.assign({}, S.settings.aiConsent || {}, { [sc]: new Date().toISOString() })); if (sc === 'mentor' && App.state.mentor) App.state.mentor.focus = true; this.rerender(); },
     'ai-consent-revoke'(el) { const sc = el.dataset.scope; const c = Object.assign({}, S.settings.aiConsent || {}); delete c[sc]; S.setSetting('aiConsent', c); U.toast('Einwilligung widerrufen', 'ok'); this.rerender(); },
@@ -449,13 +455,26 @@
      Punktwert, Gebühren; Konto nur bei mehreren Konten, Prop-Konten fürs Copy-Trading). Auswertung gehört nicht hierher:
      Plan, Setup, Bewertung und Tags bearbeitet man am Trade selbst (App.openTradeJournal, Trade-Ansicht), Notizen im Notebook
      und in der Tagesansicht. Punktwert: bei einem neuen Trade vom letzten Trade mit demselben Symbol übernommen. */
+  /* Entwurf des Trade-Fensters: Eingaben bleiben erhalten, wenn das Fenster ohne Speichern zugeht (Abbrechen, Zurück, Escape)
+     oder die App kurz verlassen wird. Gespeichert im Browser (24 Stunden), je neuer Trade bzw. je bearbeitetem Trade */
+  const DRAFT_KEY = 'jy_trade_draft';
+  const DRAFT_FIELDS = ['symbol', 'direction', 'accountId', 'openedAt', 'closedAt', 'entryPrice', 'exitPrice', 'quantity', 'multiplier', 'fees', 'propAccountIds'];
+  App.tradeDraft = {
+    all() { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || '{}') || {}; } catch (e) { return {}; } },
+    get(key) { const d = this.all()[key]; return d && Date.now() - d.at < 24 * 3600e3 ? d.v : null; },
+    set(key, v) { try { const a = this.all(); if (v) a[key] = { at: Date.now(), v }; else delete a[key]; localStorage.setItem(DRAFT_KEY, JSON.stringify(a)); } catch (e) { /* ohne Speicher: kein Entwurf */ } },
+  };
+  const draftKey = trade => trade ? 'edit:' + trade.id : 'new';
+  const pick = o => { const r = {}; for (const k of DRAFT_FIELDS) if (o && o[k] !== undefined) r[k] = o[k]; return r; };
   App.openTradeEditor = function (trade, preset = {}) {
+    const dk = draftKey(trade); const draft = Object.keys(preset).length ? null : App.tradeDraft.get(dk);
+    if (trade && draft) trade = Object.assign({}, trade, draft); else if (!trade && draft) preset = draft;
     const t = trade || Object.assign({ symbol: '', direction: 0, openedAt: new Date().toISOString(), closedAt: null, entryPrice: '', exitPrice: '', quantity: 1, multiplier: 1, fees: 0, accountId: S.defaultAccountId() }, preset);
     const val = v => v == null ? '' : v;
     const props = (S.propAccounts ? S.propAccounts() : []).filter(a => a.status !== 'archived');
     const simple = App.simple(); const moreOpen = !!(trade && ((S.data.accounts.length > 1 && t.accountId !== S.defaultAccountId()) || Number(t.fees) || (t.propAccountIds || []).length)); /* Simple: Nebenfelder aufklappbar, offen wenn darin schon etwas eingetragen ist */
     const accField = S.data.accounts.length > 1 ? `<div class="field"><label for="f-account">Konto</label><select class="select" id="f-account" name="accountId">${S.data.accounts.map(a => `<option value="${a.id}" ${a.id === t.accountId ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></div>` : `<input type="hidden" name="accountId" value="${esc(t.accountId || S.defaultAccountId())}">`;
-    const html = `<form id="trade-form" class="tf" novalidate data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>
+    const html = `<form id="trade-form" class="tf" novalidate data-action="save-trade" data-id="${t.id || ''}"><div class="modal-head"><h2>${trade ? 'Trade bearbeiten' : 'Trade loggen'}</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div>${draft ? `<div class="tf-draft" role="status"><span>Entwurf wiederhergestellt</span><button type="button" class="btn sm ghost" data-action="trade-draft-discard" data-key="${dk}">Verwerfen</button></div>` : ''}
       <div class="tf-main">
         <div class="field tf-sym"><span class="lbl" id="f-symbol-l">Symbol</span><button type="button" class="input sym-btn${t.symbol ? '' : ' sym-none'}" id="f-symbol-btn" data-action="sym-open" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="f-symbol-l"><span class="sym-v${t.symbol ? ' no-i18n' : ''}">${t.symbol ? esc(t.symbol) : 'Symbol wählen'}</span>${I.chev}</button><input type="hidden" name="symbol" id="f-symbol" value="${esc(t.symbol)}"></div>
         <div class="field"><span class="lbl">Richtung</span><div class="dir-switch" id="f-dir" role="group" aria-label="Richtung" data-dir="${Math.sign(t.direction) || 0}">${[[1, 'Long', 'l', '<path d="M7 17L17 7M9 7h8v8"/>'], [-1, 'Short', 's', '<path d="M7 7l10 10M17 9v8H9"/>']].map(([v, l, k, d]) => `<button type="button" class="dir-opt ${k}" data-action="set-dir" data-value="${v}" aria-pressed="${Math.sign(t.direction) === v}"><i class="bi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${d}</svg></i>${l}</button>`).join('')}</div><input type="hidden" name="direction" value="${Math.sign(t.direction) || ''}"></div>
@@ -476,7 +495,13 @@
         ${props.length ? `<div class="field tf-wide"><span class="lbl">Prop-Konten <span class="muted">(Copy-Trading: mehrere möglich)</span></span><div class="chips" data-chips="propAccountIds">${props.map(a => `<button type="button" class="chip sel" data-action="toggle-chip" data-value="${esc(a.id)}" aria-pressed="${(t.propAccountIds || []).includes(a.id)}">${esc(`${a.firm || ''} ${a.name || ''}`.trim() || 'Prop-Konto')}</button>`).join('')}</div></div>` : ''}${simple ? '</details>' : ''}
       </div>
       <div class="modal-foot"><div class="left row" id="trade-preview"></div><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">${trade ? 'Speichern' : 'Trade speichern'}</button></div></form>`;
-    U.modal(html, { cls: 'tf-modal', noFocus: true, onClose: () => App.closeSymbolMenu(), onMount(el) {
+    /* Stand beim Öffnen merken: ohne Änderung bleibt alles, wie es war (auch ein wiederhergestellter Entwurf); ein leerer neuer Trade ist kein Entwurf */
+    let initial = null;
+    const keep = form => { if (!form || form.dataset.saved) return; const v = pick(App.readTradeForm(form)); if (!form.dataset.id && !v.symbol && v.entryPrice == null && v.exitPrice == null) return App.tradeDraft.set(dk, null); if (JSON.stringify(v) === initial) return; App.tradeDraft.set(dk, v); };
+    U.modal(html, { cls: 'tf-modal', noFocus: true, onClose: () => { App.closeSymbolMenu(); keep(document.getElementById('trade-form')); }, onMount(el) {
+      initial = JSON.stringify(pick(App.readTradeForm(el.querySelector('#trade-form')))); let tm = 0; const later = () => { clearTimeout(tm); tm = setTimeout(() => keep(el.querySelector('#trade-form')), 400); };
+      el.addEventListener('input', later); el.addEventListener('click', later); /* auch Richtung, Symbol und Chips (Knöpfe statt Felder) */
+      const away = () => { if (document.hidden && el.isConnected) keep(el.querySelector('#trade-form')); else if (!el.isConnected) document.removeEventListener('visibilitychange', away); }; document.addEventListener('visibilitychange', away); /* App kurz verlassen */
       const upd = () => App.updateTradePreview(el); el.addEventListener('input', upd); upd();
       const mult = el.querySelector('#f-mult'); mult.addEventListener('input', () => { mult.dataset.touched = '1'; }); if (trade) mult.dataset.touched = '1'; /* bestehender Trade: Punktwert nicht still ändern */
       App.noLabelFocus(el);
@@ -593,10 +618,12 @@
       if (t.closedAt && t.exitPrice == null) errs.push([q('#f-exit'), 'Ausstieg eintragen oder Geschlossen leeren']);
       if (errs.filter(e => e[0]).length) return U.fieldErrors(form, errs.filter(e => e[0]));
       if (t.setup) S.addTag('setups', t.setup);
+      form.dataset.saved = '1'; App.tradeDraft.set(form.dataset.id ? 'edit:' + form.dataset.id : 'new', null); /* gespeichert: Entwurf weg */
       const id = form.dataset.id; if (id) { S.updateTrade(id, t); U.toast('Trade gespeichert', 'ok'); } else { const n = S.addTrade(Object.assign({ screenshots: [], voiceNotes: [], plannedEntry: null, plannedStop: null, plannedTarget: null, plannedReason: '', mae: null, mfe: null, setup: '', strategy: '', mistakes: [], emotions: [], rulesBroken: [], rating: null, notes: '' }, t)); U.toast('Trade gespeichert', 'ok'); U.closeModal(); App.checkTiltAfterSave(); if (App.state.route === 'trades' && App.state.params[0]) App.navigate('#/trades/' + n.id); else App.rerender(); return; }
       U.closeModal(); App.rerender();
     },
     'sym-open'(el) { App.openSymbolMenu(el); },
+    'trade-draft-discard'(el) { const f = el.closest('form'); const id = f && f.dataset.id; App.tradeDraft.set(el.dataset.key, null); if (f) f.dataset.saved = '1'; U.closeModal(); App.openTradeEditor(id ? S.getTrade(id) : null); },
     'trade-journal'(el) { App.openTradeJournal(S.getTrade(el.dataset.id)); },
     'save-trade-journal'(form) { const id = form.dataset.id; if (!S.getTrade(id)) return U.closeModal(); const t = App.readTradeForm(form); if (t.setup) S.addTag('setups', t.setup); S.updateTrade(id, t); U.toast('Gespeichert', 'ok'); U.closeModal(); App.rerender(); },
   });

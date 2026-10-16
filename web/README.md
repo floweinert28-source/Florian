@@ -1,7 +1,7 @@
 # Journalyst (Web-App)
 
 Journalyst ist ein Trading-Journal im Browser, im Aufbau und Look von TradeZella und TradePath: warmes Graphit (dunkle, leicht warme Grautöne mit sanftem Licht von oben links),
-Elfenbein (`#ede6da`, im hellen Design Grafit `#22201c`) als zurückhaltender Akzent, echte Farbe nur für Gewinn, Verlust und Break-even, Seitenleiste mit Dashboard, TradeLog, Tagesansicht, Statistiken, Journal,
+Elfenbein (`#ede6da`, im hellen Design fast Schwarz `#1c1a17`) als zurückhaltender Akzent, echte Farbe nur für Gewinn, Verlust und Break-even, Seitenleiste mit Dashboard, TradeLog, Tagesansicht, Statistiken, Journal,
 Fortschritt und Einstellungen.
 
 Alle Daten bleiben im Browser (localStorage für Daten, IndexedDB für Bilder und Audio).
@@ -55,7 +55,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Bedienelemente** haben feste Höhen: kleine Knöpfe (`.btn.sm`), runde Pfeil-Knöpfe (`.btn.round`, 34 × 34) und kleine Felder (`.input.sm`, `.select.sm`) sind alle 34 px hoch. Reiter (`.tabs`) und Umschalter (`.seg`) sind eine Schiene mit 34 px hohen Einträgen; der gewählte Eintrag ist hell hinterlegt, bei Auswahl mit Bedeutung in seiner Farbe (siehe **Farbe**). Zahlenfelder zeigen keine Browser-Pfeile.
 - **Texte:** Die Quote gewonnener Trades heißt überall „Trefferquote“ (nicht Win-Rate/Winrate), die der verlorenen „Verlustquote“. Zähler laufen über `U.count(n, Einzahl, Mehrzahl)` („1 Trade“, „2 Trades“, „1 Notiz“); jede Einzahlform hat in allen fünf Wörterbüchern ein eigenes Muster (`"{0} Trade"`, `"{0} von {1} Trade"` …).
 - **Fehler und Löschen:** Eingabefehler stehen direkt am Feld (roter Rand, Satz darunter, `aria-invalid`), alle zugleich, Fokus aufs erste Feld; sie verschwinden bei der nächsten Eingabe (`U.fieldErrors`). Das Trade-Formular prüft selbst („Symbol wählen“, „Einstieg eintragen“ …), alle anderen Formulare nutzen die eingebaute Prüfung, aber ohne Browser-Blase („Pflichtfeld“, „Mindestens {0}“ …). Wer Daten endgültig löscht (Screenshot, Sprachnotiz, Regel, Check-in, verpasster Trade, Design, Konto, Vorlage …), bestätigt vorher in einem Fenster mit rotem „Löschen“.
-- **Farben mit Bedeutung:** Standard-Akzent ist Elfenbein (`#ede6da`, `Theme.DEFAULTS`; im hellen Design Grafit `#22201c`, auch wenn man Elfenbein oder einen anderen sehr hellen, fast farblosen Ton wählt, `Theme.forLight`). Wer noch den früheren Standard Neongrün gespeichert hatte, bekommt einmalig Elfenbein (`accentIvoryV1` in `migrateSettings`); bewusst gewählte andere Akzente bleiben. „Trade loggen“ und die anderen Akzent-Knöpfe sind gefüllt in der Akzentfarbe mit fast schwarzer Schrift. Die Akzentfarbe (Einstellungen → Design) färbt nur Hervorhebungen: Trade loggen, Hauptknöpfe, Links wie „Mehr anzeigen“, aktive Markierungen, Fortschrittsbalken, Score-Netz, Schatten-Ich-Kurve, Hinweis-Pillen „Heute“/„Neu“ (`.pill.acc`). Alles mit Bedeutung hat eigene Farben und ändert sich mit dem Akzent nicht: Long, Gewinn-Pillen (`.pill.win`), Gewinner-Zahlen an den Tachos, der Long/Short-Schalter, gute Werte bei Score-Ring, Disziplin-Punkten, 1–5-Skalen und Schlaf („gut“ = Gewinnfarbe `--profit`), Short und Verlust (`--loss`), Break-even (`--be`).
+- **Farben mit Bedeutung:** Standard-Akzent ist Elfenbein (`#ede6da`, `Theme.DEFAULTS`; im hellen Design fast Schwarz `#1c1a17`, auch wenn man Elfenbein oder einen anderen sehr hellen, fast farblosen Ton wählt, `Theme.forLight`). Wer noch den früheren Standard Neongrün gespeichert hatte, bekommt einmalig Elfenbein (`accentIvoryV1` in `migrateSettings`); bewusst gewählte andere Akzente bleiben. „Trade loggen“ und die anderen Akzent-Knöpfe sind gefüllt in der Akzentfarbe mit fast schwarzer Schrift. Die Akzentfarbe (Einstellungen → Design) färbt nur Hervorhebungen: Trade loggen, Hauptknöpfe, Links wie „Mehr anzeigen“, aktive Markierungen, Fortschrittsbalken, Score-Netz, Schatten-Ich-Kurve, Hinweis-Pillen „Heute“/„Neu“ (`.pill.acc`). Alles mit Bedeutung hat eigene Farben und ändert sich mit dem Akzent nicht: Long, Gewinn-Pillen (`.pill.win`), Gewinner-Zahlen an den Tachos, der Long/Short-Schalter, gute Werte bei Score-Ring, Disziplin-Punkten, 1–5-Skalen und Schlaf („gut“ = Gewinnfarbe `--profit`), Short und Verlust (`--loss`), Break-even (`--be`).
 - **Eine Hauptaktion je Seite, Tippflächen, Feedback:** Pro Seite ist genau ein Knopf gefüllt (Akzentfarbe). Hat eine Seite
   eine eigene Hauptaktion (Speichern, Neue Notiz, Konto anlegen, Trade für diesen Tag …), tritt „Trade loggen“ als Rahmen-Knopf
   zurück, an derselben Stelle (`App.markPrimary` setzt `html.page-primary`). Knöpfe in Dashboard-Widgets sind Rahmen-Knöpfe;
@@ -73,6 +73,15 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   der ersten Auswertung nach (im Aufnahme-Fenster bzw. bei „Erneut senden“); „Nur speichern“ geht immer. Die Einwilligungen
   stehen mit Datum in `settings.aiConsent` (mentor, voice) und lassen sich unter Einstellungen → Mentor → „KI und Einwilligung“
   widerrufen. Tests: `e2e/aitest.js`, dazu `mentortest`, `voicetest`.
+- **Formulare und Barrierefreiheit:** Das Trade-Fenster merkt sich Eingaben als Entwurf (`App.tradeDraft`, im Browser unter
+  `jy_trade_draft`, 24 Stunden, je neuer Trade bzw. je bearbeitetem Trade), wenn es ohne Speichern zugeht oder die App in den
+  Hintergrund geht. Beim nächsten Öffnen steht „Entwurf wiederhergestellt“ mit „Verwerfen“; Speichern löscht den Entwurf, ein
+  leeres Fenster hinterlässt keinen. Auf dem Handy rückt das aktive Feld über die Tastatur (`visualViewport`, Dialoge mit
+  `--vvh`). Hinweistexte stehen in `--muted` statt `--faint` (Kontrast mindestens 4,5:1). Erscheinungsbild „Automatisch“
+  (`theme: 'system'`, `Theme.resolve`) folgt dem Gerät und wechselt sofort mit; neue Nutzer starten damit. Einstellungen →
+  Barrierefreiheit enthält die Erklärung zur Barrierefreiheit (Ziel WCAG 2.2 AA, teilweise erfüllt, bekannte Grenzen, Rückmeldung
+  über das Kontaktformular; Stand-Datum bei größeren Änderungen anpassen). News und Coach zeigen beim Laden Platzhalter in der
+  Form des Inhalts statt eines Kreisels. Texte in den Einstellungen nennen keine Variablennamen oder Dateipfade. Test: `e2e/formtest.js`.
 - **Fehlermeldungen in Alltagssprache** (`U.friendly(fehler, bereich)` in ui.js): Mentor, Sprachnotizen, Coach und News zeigen nie
   Statuscodes, Server-Texte mit Technik-Namen, Fehlerklassen oder Stacktraces, sondern was passiert ist und was man tun kann
   (keine Verbindung, Zugang abgelehnt, Server noch nicht eingerichtet, Tageslimit, Server-Problem). Status, Code und Server-Text

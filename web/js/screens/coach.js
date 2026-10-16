@@ -25,7 +25,7 @@
     return `<div class="tbl-wrap inset"><table class="tbl compact wrap coach-vis"><thead><tr><th>Bereich</th><th>Dein Mentor</th></tr></thead><tbody>${Co.VISIBILITY.map(([area, yes, hint]) => `<tr><td>${esc(area)}</td><td class="${yes ? '' : 'muted'}">${yes ? `<span class="coach-yes">${I.check} ${esc(hint || 'sieht es')}</span>` : `<span class="coach-no">${I.close} sieht es nicht</span>`}</td></tr>`).join('')}</tbody></table></div>`;
   }
   function errorBox(msg, retry) { return U.banner('warn', '', `${esc(msg)}${retry ? ` <button type="button" class="btn xs" data-action="${retry}">Erneut versuchen</button>` : ''}`); }
-  const loading = () => `<div class="coach-loading">${U.loader('', 'Lädt')}</div>`;
+  const loading = () => `<div class="coach-skel" role="status" aria-label="Lädt">${[0, 1, 2, 3].map(i => `<span class="skel" style="width:${[100, 92, 96, 88][i]}%"></span>`).join('')}</div>`; /* Laden: Zeilen-Platzhalter statt Kreisel */
   const dueText = t => !t.due ? '' : `<span class="${!t.done_at && t.due < today() ? 'warn' : ''}"><span>bis</span> <span class="no-i18n">${esc(fmt.dateFull(C.parseDayKey(t.due)))}</span></span>`;
 
   /* Antworten unter einer Notiz; ctx = 'mentor' (Journal-Ansicht) oder 'student' (Notebook) */
@@ -71,7 +71,7 @@
     const s = st(); const n = Co.data().notify || { email: '', notify_email: false };
     const supported = 'Notification' in root; const perm = supported ? root.Notification.permission : 'unsupported';
     const browser = supported ? `<div class="set-row coach-nrow"><button type="button" class="switch" role="switch" aria-checked="${Co.browserOn()}" data-action="coach-browser-toggle" aria-label="Mitteilung im Browser"></button><div><b>Mitteilung im Browser</b><div class="small muted">${perm === 'denied' ? 'Im Browser blockiert. Du kannst Mitteilungen für diese Seite in den Browser-Einstellungen erlauben.' : 'Solange Journalyst in einem Tab offen ist, meldet sich der Browser bei neuen Notizen, Antworten und Aufgaben.'}</div></div></div>` : '';
-    const mailHint = s.mail === false ? `<div class="small warn coach-mailhint">Auf dem Server ist kein E-Mail-Versand eingerichtet (COACH_SMTP_HOST, siehe server/README.md). Die Adresse wird gespeichert, Mails gehen aber erst raus, wenn der Versand eingerichtet ist.</div>` : '';
+    const mailHint = s.mail === false ? `<div class="small warn coach-mailhint">Auf dem Server ist noch kein E-Mail-Versand eingerichtet. Die Adresse wird gespeichert, Mails gehen aber erst raus, wenn der Versand eingerichtet ist.</div>` : '';
     return U.card('Benachrichtigungen', `<form class="stack coach-notify" data-action="coach-notify-save">
         <div class="set-row coach-nrow"><button type="button" class="switch" role="switch" aria-checked="${!!n.notify_email}" data-action="coach-mail-toggle" aria-label="E-Mail bei Neuigkeiten"></button><div class="grow"><b>E-Mail bei Neuigkeiten</b><div class="small muted">Neue Notizen, Antworten und Aufgaben. Höchstens 20 Mails am Tag.</div>
           <div class="row coach-mailrow"><input class="input sm" type="email" name="email" value="${esc(n.email || '')}" placeholder="name@beispiel.de" autocomplete="email" aria-label="E-Mail-Adresse"><button type="submit" class="btn sm">Speichern</button></div>${mailHint}</div></div>
@@ -172,7 +172,7 @@
       <div class="coach-join-head"><span class="ico">${I.coach}</span><h2><span>Einladung von</span> <span class="no-i18n">${esc(inv.mentor || 'deinem Mentor')}</span></h2><p class="muted"><span>Gruppe</span> <b class="no-i18n">${esc(inv.group.name)}</b>${mentors.length > 1 ? `<br><span>Mentoren:</span> ${names(mentors)}` : ''}<br><span>Bevor du beitrittst: Das und nur das sieht dein Mentor.</span></p></div>
       ${visibilityTable()}
       <div class="grid two" style="margin-top:14px">
-        <div class="field"><label for="coach-name">Dein Name für den Mentor</label><input class="input" id="coach-name" name="name" value="${esc(Co.myName())}" maxlength="80" required placeholder="Vorname"></div>
+        <div class="field"><label for="coach-name">Dein Name für den Mentor</label><input class="input" id="coach-name" name="name" value="${esc(Co.myName())}" maxlength="80" required placeholder="Vorname" autocomplete="given-name"></div>
         <div class="field"><span class="lbl">Welche Einträge</span><div class="coach-since"><label class="coach-radio"><input type="radio" name="since" value="today" checked><span><b>Nur ab heute</b><small>Ältere Einträge und Trades bleiben privat.</small></span></label><label class="coach-radio"><input type="radio" name="since" value="all"><span><b>Auch ältere</b><small>Der Mentor sieht auch frühere Journal-Einträge und Kurz-Stats.</small></span></label></div></div>
       </div>
       <div class="row coach-join-foot"><button type="submit" class="btn primary" ${s.loading ? 'disabled' : ''}>${I.check} Beitreten</button><a class="btn ghost" href="#/coach">Abbrechen</a><span class="small muted">Du kannst die Gruppe jederzeit verlassen; dann sieht der Mentor nichts mehr von dir. Kommt ein Co-Coach dazu, erfährst du es.</span></div>
@@ -193,7 +193,7 @@
         <div class="coach-no">${I.close} <span>Gruppe umbenennen, Links erzeugen und schließen darf nur der Mentor.</span></div>
         <div class="small muted">Die Schüler sehen, dass du dazugekommen bist.</div>
       </div>
-      <div class="field" style="margin-top:14px;max-width:420px"><label for="coach-coname">Dein Name für die Gruppe</label><input class="input" id="coach-coname" name="name" value="${esc(Co.myName())}" maxlength="80" required placeholder="Vorname"></div>
+      <div class="field" style="margin-top:14px;max-width:420px"><label for="coach-coname">Dein Name für die Gruppe</label><input class="input" id="coach-coname" name="name" value="${esc(Co.myName())}" maxlength="80" required placeholder="Vorname" autocomplete="given-name"></div>
       <div class="row coach-join-foot"><button type="submit" class="btn primary" ${s.loading ? 'disabled' : ''}>${I.check} Als Co-Coach beitreten</button><a class="btn ghost" href="#/coach">Abbrechen</a></div>
     </form></div>`;
   }

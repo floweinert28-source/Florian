@@ -64,7 +64,7 @@ let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; cons
   ok('Gewinn/Verlust-Farbe: eigener Farbwähler', await cp()); await p.keyboard.press('Escape'); await p.waitForTimeout(250);
 
   /* 6. Erscheinungsbild „Eigenes“ */
-  ok('Vier Karten: Graphit, Schwarz, Weiß, Eigenes (ohne Farbe gestrichelt mit Plus)', await p.$$eval('[data-action="appearance"]', e => e.map(x => x.dataset.value).join(',')) === 'graphit,schwarz,light,custom' && await p.$eval('.theme-card.t-custom', e => e.classList.contains('is-new')));
+  ok('Fünf Karten: Automatisch, Graphit, Schwarz, Weiß, Eigenes (ohne Farbe gestrichelt mit Plus)', await p.$$eval('[data-action="appearance"]', e => e.map(x => x.dataset.value).join(',')) === 'system,graphit,schwarz,light,custom' && await p.$eval('.theme-card.t-custom', e => e.classList.contains('is-new')));
   /* erstes Mal „Eigenes“, dann daneben klicken: alles wie vorher (Graphit, Karte wieder mit Plus) */
   await p.click('.theme-card.t-custom'); await p.waitForTimeout(300); await p.fill('#pop-cp .cp-hex input', 'aa3355'); await p.waitForTimeout(200);
   const tmp = await p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()); await outside(); /* Grundfarbe = --bg; das Fenster selbst hat in dunklen Designs die Farbe der Leiste ganz links */

@@ -33,6 +33,8 @@
   }
   App.screens.trades = {
     title(ctx) { return ctx.params[0] ? 'Trade' : 'TradeLog'; },
+    /* Liste: Zeitraum, Konto, Session und „Trade loggen“; Trade-Detail: nichts davon (dort ist „Plan & Bewertung“ die Aufgabe) */
+    head: ctx => (ctx.params[0] ? { range: false, account: false, session: false, trade: false } : { session: true, trade: true, tradeIfEmpty: false }),
     actions(ctx) { return ctx.params[0] ? '' : `<button type="button" class="btn hide-m" data-action="import">${I.upload}<span>CSV importieren</span></button>`; },
     render(ctx) {
       if (ctx.params[0]) return renderDetail(ctx.params[0], ctx);

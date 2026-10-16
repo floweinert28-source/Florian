@@ -1964,4 +1964,6 @@ I18N.add('zh', {
   "Server nicht erreichbar": "无法连接服务器",
   "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "无法删除你服务器上的数据。只在此浏览器中删除吗？服务器上的数据将保留。",
   "Nur hier löschen": "仅在此删除",
+  "Profil ergänzen": "完善个人资料",
+  "Prop Trading": "自营交易",
 });

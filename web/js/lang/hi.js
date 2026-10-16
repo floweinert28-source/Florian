@@ -1964,4 +1964,6 @@ I18N.add('hi', {
   "Server nicht erreichbar": "सर्वर तक नहीं पहुँच सके",
   "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "आपके सर्वर का डेटा हटाया नहीं जा सका। केवल इस ब्राउज़र में हटाएँ? तब सर्वर पर डेटा बना रहेगा।",
   "Nur hier löschen": "केवल यहाँ हटाएँ",
+  "Profil ergänzen": "प्रोफ़ाइल पूरी करें",
+  "Prop Trading": "प्रॉप ट्रेडिंग",
 });

@@ -3,6 +3,7 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
   App.screens.day = {
+    head: { range: false, session: true, trade: true }, /* der Tag ist der Zeitraum; das Konto bleibt (auch auf dem Handy) */
     defaultParam: () => C.dayKey(new Date()), /* ohne Parameter = heute (für die Richtung beim Tageswechsel) */
     title: 'Tagesansicht',
     render(ctx) {

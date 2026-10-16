@@ -1918,4 +1918,6 @@ I18N.add('es', {
   "Server nicht erreichbar": "Servidor no disponible",
   "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "No se pudieron eliminar los datos de tu servidor. ¿Eliminar solo en este navegador? Los datos del servidor se mantendrán.",
   "Nur hier löschen": "Eliminar solo aquí",
+  "Profil ergänzen": "Completar perfil",
+  "Prop Trading": "Prop Trading",
 });

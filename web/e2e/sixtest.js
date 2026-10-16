@@ -4,7 +4,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
 (async () => {
   const browser = await chromium.launch(); const errs = [];
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
-  await p.goto(base, { waitUntil: 'load' }); await p.evaluate(() => { Store.installSample(); Store.saveNow(); });
+  await p.goto(base, { waitUntil: 'load' }); await p.evaluate(() => { Store.installSample(); Store.data.accounts.push({ id: 'acc2', name: 'Zweitkonto', size: 10000, currency: 'USD' }); /* zweites Konto: erst dann gibt es die Konto-Wahl */ Store.saveNow(); });
   /* 6. Dashboard-Kopf */
   await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(900);
   ok('Kopfreihe: Zeitraum und Konto links, Filter als Symbol rechts; Titelzeile ohne „Trade loggen“', !!(await p.$('.dash-head .dh-context [data-pop=range]')) && !!(await p.$('.dash-head .dh-context [data-pop=account]')) && !!(await p.$('.dash-head .dh-tools [data-action=dash-f-open].icon-only')) && !(await p.$('.topbar [data-action=new-trade]')) && !!(await p.$('.topbar .avatar')));
@@ -30,8 +30,10 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.click('[data-action=dash-f-open]'); await p.waitForTimeout(300); await p.click('[data-action=dash-f-set][data-key=dir][data-value=long]'); await p.click('[data-action=dash-f-apply]'); await p.waitForTimeout(400); ok('Richtung dazu = 2 Filter', (await p.textContent('[data-action=dash-f-open] .cntb')) === '2');
   await p.click('[data-action=dash-f-open]'); await p.waitForTimeout(300); await p.click('[data-action=dash-f-reset]'); await p.click('[data-action=dash-f-apply]'); await p.waitForTimeout(400); ok('Zurücksetzen', !(await p.$('[data-action=dash-f-open] .cntb')) && (await p.textContent('.dash-top .tile .val')) === pnlBefore);
   await p.screenshot({ path: 'six-dash.png', clip: { x: 232, y: 0, width: 1208, height: 520 } });
-  await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500);
+  await p.evaluate(() => { location.hash = '#/trades'; }); await p.waitForTimeout(500);
   ok('Andere Seiten: Knöpfe in der Reihe unter dem Titel', !!(await p.$('#content > .page-head [data-pop=range]')) && !!(await p.$('#content > .page-head [data-action=new-trade]')) && !(await p.$('.topbar .actions .btn')));
+  await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500);
+  ok('Statistiken: kein „Trade loggen“ und kein ▷ (nicht die Aufgabe der Seite)', !(await p.$('#content > .page-head [data-action=new-trade]')) && !(await p.$('#content > .page-head [data-action=start-session]')) && !!(await p.$('#content > .page-head [data-pop=range]')));
   await p.evaluate(() => { location.hash = '#/mentor'; }); await p.waitForTimeout(500);
   ok('Mentor: Kopfreihe nur mit Konto und Hinweis', await p.evaluate(() => { const h = document.querySelector('#content > .page-head'); return !!h && h.classList.contains('compact') && !!h.querySelector('[data-pop=account]') && !h.querySelector('[data-pop=range]') && !h.querySelector('[data-action=new-trade]') && !h.querySelector('[data-action=start-session]') && /20 Trades/.test(h.textContent); }));
   await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500);

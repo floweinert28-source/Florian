@@ -2936,7 +2936,7 @@ a.coach-name:hover { color: var(--accent); }
   .aff-tbl .sub { display: none; }
   .aff-pct { gap: 0; margin: 0; padding: 0; }
   .aff-pct svg { display: none; }
-  .content { padding-bottom: 6.5rem; } /* Platz für den runden „Trade loggen“-Knopf */
+  .content { padding-bottom: var(--sp-6); } .content:has(.dash-head .btn.tl) { padding-bottom: 6.5rem; } /* Platz für den runden „Trade loggen“-Knopf, nur wo er steht */
   /* Kopfreihe: alle Knöpfe in einer umbrechenden Werkzeugleiste statt zwei halb leerer Zeilen */
   .dash-head { gap: var(--sp-2); justify-content: flex-start; }
   .dash-head > .row, .dash-head > .row.dh-tools { display: contents; }
@@ -3746,3 +3746,13 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 .wipe-li { position: relative; padding-left: var(--sp-4); margin-top: var(--sp-1); color: var(--text-2); }
 .wipe-li::before { content: '•'; position: absolute; left: var(--sp-1); }
 .wipe-outro { margin-top: var(--sp-3); }
+
+/* Session-Knopf der Kopfreihe: ruhig (ohne Rahmen), ab breiten Fenstern mit Beschriftung */
+.sess-btn .sess-l { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (min-width: 73.8125em) { .btn.icon-only.sess-btn { width: auto; padding: 0 var(--sp-3); gap: var(--sp-2); } .sess-btn .sess-l { position: static; width: auto; height: auto; overflow: visible; clip: auto; } }
+/* Profilbild oben rechts öffnet das Konto-Menü (dieselben Einträge wie die Konto-Karte), rechtsbündig darunter */
+.tb-userwrap { position: relative; }
+.topbar .avatar { border: 0; padding: 0; cursor: pointer; }
+.tb-userwrap > .popover.tb-menu { left: auto; right: 0; top: calc(100% + var(--sp-2)); bottom: auto; }
+/* Handy und Tablet: die Schublade ist nur Navigation, das Konto-Menü sitzt am Profilbild */
+@media (max-width: 60em) { .sidebar .sb-userwrap { display: none; } }

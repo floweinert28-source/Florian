@@ -8,7 +8,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   /* ohne Profil: „Trader“ + Hinweis */
   await p.evaluate(() => { Store.data.settings.profile = {}; Store.data.settings.name = 'Trader'; App.rerender(); }); await p.waitForTimeout(200);
   const card0 = await p.evaluate(() => document.querySelector('.sb-user .sb-who').innerText.replace(/\n/g, ' / '));
-  ok(card0 === 'Trader / Profil vervollständigen', 'Ohne Profil: Trader / Profil vervollständigen · ' + card0);
+  ok(card0 === 'Trader / Profil ergänzen', 'Ohne Profil: Trader / Profil ergänzen · ' + card0);
   ok(await p.evaluate(() => !document.querySelector('#sidebar .nav-sec') && !document.querySelector('#sidebar > .theme-toggle')), 'Alter Einstellungen-Eintrag und Hell/Dunkel-Schalter unten ersetzt');
   /* mit Profil */
   await p.evaluate(() => { Store.data.settings.profile = { firstName: 'Florian', lastName: 'Weinert', username: 'flo', email: 'flo@example.com' }; Store.data.settings.name = 'Florian Weinert'; Store.save(); App.rerender(); }); await p.waitForTimeout(200);

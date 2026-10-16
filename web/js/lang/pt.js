@@ -1915,4 +1915,6 @@ I18N.add('pt', {
   "Server nicht erreichbar": "Servidor indisponível",
   "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "Não foi possível excluir os dados do seu servidor. Excluir só neste navegador? Os dados no servidor continuarão lá.",
   "Nur hier löschen": "Excluir só aqui",
+  "Profil ergänzen": "Completar perfil",
+  "Prop Trading": "Prop Trading",
 });

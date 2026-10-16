@@ -4,7 +4,7 @@ let pass = 0, fail = 0; const ok = (c, n) => { if (c) pass++; else fail++; conso
 (async () => {
   const b = await chromium.launch(); const errs = [];
   const p = await b.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 2 }); p.on('pageerror', e => errs.push(e.message)); try { await require('./localfonts.js')(p); } catch (e) {}
-  await p.goto(base, { waitUntil: 'load' }); await p.evaluate(() => { Store.installSample(); Store.saveNow(); });
+  await p.goto(base, { waitUntil: 'load' }); await p.evaluate(() => { Store.installSample(); Store.data.accounts.push({ id: 'acc2', name: 'Zweitkonto', size: 10000, currency: 'USD' }); /* zweites Konto: erst dann gibt es die Konto-Wahl */ Store.saveNow(); });
   await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(900);
   const inView = sel => p.evaluate(s => { const e = document.querySelector(s); if (!e) return null; const r = e.getBoundingClientRect(); const sb = document.querySelector('.sidebar').getBoundingClientRect(); return { l: Math.round(r.left), r: Math.round(r.right), t: Math.round(r.top), b: Math.round(r.bottom), w: Math.round(r.width), vw: innerWidth, sb: Math.round(sb.right), fits: r.left >= sb.right && r.right <= innerWidth && r.top >= 0 }; }, sel);
   /* Kopfzeile Desktop */

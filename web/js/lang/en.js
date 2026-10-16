@@ -1872,4 +1872,6 @@ I18N.add('en', {
   "Server nicht erreichbar": "Server not reachable",
   "Die Daten auf deinem Server konnten nicht gelöscht werden. Nur in diesem Browser löschen? Dann bleiben die Daten auf dem Server bestehen.": "The data on your server couldn't be deleted. Delete only in this browser? The data on the server will then remain.",
   "Nur hier löschen": "Delete only here",
+  "Profil ergänzen": "Complete profile",
+  "Prop Trading": "Prop Trading",
 });

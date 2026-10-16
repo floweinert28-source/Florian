@@ -291,7 +291,7 @@
   /* ---------- Seite ---------- */
   App.screens.prop = {
     title: 'Prop Firms',
-    head: { range: false, account: false }, /* Prop-Konten haben eigene Trades und Zeiträume: Journal-Zeitraum und -Konto spielen hier keine Rolle */
+    head: { range: false, account: false, trade: true }, /* Prop-Konten haben eigene Trades und Zeiträume: Journal-Zeitraum und -Konto spielen hier keine Rolle */
     actions() { return `<button type="button" class="btn" data-action="prop-account-new">${I.plus}<span class="hide-m">Prop-Konto</span></button>`; },
     render(ctx) {
       cache = new Map(); const s = st(); s.last = s.last || {};

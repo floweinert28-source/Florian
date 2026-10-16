@@ -4,7 +4,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
 (async () => {
   const browser = await chromium.launch(); const errs = [];
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
-  await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(60);
+  await p.goto(base + '#/dashboard', { waitUntil: 'load' }); await p.evaluate(() => { Store.data.accounts.push({ id: 'acc2', name: 'Zweitkonto', size: 10000, currency: 'USD' }); /* zweites Konto: erst dann gibt es die Konto-Wahl */ Store.saveNow(); }); await p.waitForTimeout(60);
   ok('js-motion gesetzt, Variablen lesbar', await p.evaluate(() => document.documentElement.classList.contains('js-motion') && Motion.ms('--dur-2') === 240 && Motion.ms('--dur-3') === 380));
   const early = await p.evaluate(() => [...document.querySelectorAll('#content .rv')].length);
   /* ab dem Ersetzen des Skeletts messen: der load-Zeitpunkt hängt davon ab, wie viele Schrift-Stylesheets nachgeladen werden */

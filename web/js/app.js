@@ -34,7 +34,7 @@
     ['Übersicht', [['dashboard', 'Dashboard', 'dashboard'], ['stats', 'Statistiken', 'stats'], ['progress', 'Fortschritt', 'progress']]],
     ['Journal', [['trades', 'TradeLog', 'tradelog'], ['day', 'Tagesansicht', 'day'], ['notebook', 'Notebook', 'journal']]],
     ['Training', [['shadow', 'Schatten-Ich', 'shadow'], ['replay', 'Blind-Replay', 'replay'], ['ruhepunkt', 'Ruhepunkt', 'calm']]],
-    ['Konten', [['coupons', 'Coupon-Codes', 'coupon']]],
+    ['Prop Trading', [['coupons', 'Coupon-Codes', 'coupon']]],
   ]; /* Prop Firms, Mentor, News, Backtesting, Coach, Affiliate und Kontakt sind eigene Bereiche in der Leiste ganz links */
   /* Bereiche in der schmalen Leiste ganz links: jeder Bereich hat seine eigene Navigation in der Seitenleiste.
      Journal ist alles Bisherige; ein Bereich gilt als aktiv, wenn die Seite in seiner Navigation steht */
@@ -71,7 +71,7 @@
     /* Prüfungen je Bereich: liefern einen kurzen Grund (Tooltip) oder null. Bereiche mit eigenen Daten melden sich über navDot an */
     dots: {
       trades: c => { const n = c.all.filter(t => !t.closed).length; return n ? (n === 1 ? '1 offene Position' : `${n} offene Positionen`) : null; },
-      day: c => { const wd = new Date().getDay(); if (wd === 0 || wd === 6) return null; return (S.day(c.key) || {}).checkIn ? null : 'Check-in für heute fehlt'; },
+      day: c => { const wd = new Date().getDay(); if (wd === 0 || wd === 6 || !S.trades().length) return null; /* erst ab dem ersten Trade */ return (S.day(c.key) || {}).checkIn ? null : 'Check-in für heute fehlt'; },
       notebook: c => (!c.todays.length || S.notesByDay()[c.key] || (S.day(c.key) || {}).noteDone ? null : 'Tagesnotiz für heute fehlt'),
       progress: c => { const rules = (S.data.rules || []).filter(r => r.active !== false); if (!rules.length || !c.todays.length) return null; const f = (S.day(c.key) || {}).rulesFollowed; return f && f.length ? null : 'Regeln von heute noch nicht abgehakt'; },
     },
@@ -318,13 +318,11 @@
       const mail = String(pr.email || '').trim(); const sub = mail || (user ? '@' + user : '');
       const initials = name.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
       const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
-      const link = (href, icon, label) => `<a class="item" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
       return `<div class="popwrap sb-userwrap"><button type="button" class="sb-user${cur === 'settings' ? ' active' : ''}" data-pop="user" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">
         <span class="sb-avwrap"><span class="sb-av">${st.avatarId ? `<img data-blob="${esc(st.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</span></span>
-        <span class="sb-who"><b class="no-i18n">${esc(name)}</b>${sub ? `<span class="no-i18n">${esc(sub)}</span>` : '<span>Profil vervollständigen</span>'}</span>
+        <span class="sb-who"><b class="no-i18n">${esc(name)}</b>${sub ? `<span class="no-i18n">${esc(sub)}</span>` : '<span>Profil ergänzen</span>'}</span>
         <span class="sb-chev">${chev('M7 14l5-5 5 5')}${chev('M7 10l5 5 5-5')}</span></button>
-        <div class="popover up sb-menu" id="pop-user" role="menu">${link('#/settings/profil', 'account', 'Profil')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
-          <button type="button" class="item pcv-item" role="menuitem" data-action="pc-view">${I.monitor}<span>PC-Ansicht</span></button><div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div></div>`;
+        <div class="popover up sb-menu" id="pop-user" role="menu">${this.userMenu(theme)}</div></div>`;
     },
     /* Vorgabe für das Zeitraum-Menü: Schlüssel, Name und Tage (JJJJ-MM-TT) zum Markieren im Kalender; „Gesamt“ ohne Tage */
     presetPick(key) { const r = this.range({ preset: key }); return { key, label: PRESETS[key] || key, from: r.from ? C.dayKey(r.from) : '', to: r.from && r.to ? C.dayKey(r.to) : '' }; },
@@ -335,32 +333,44 @@
     },
     /* o.mobile: auch auf dem Handy zeigen (sonst nur ab Tablet-Breite) */
     accountControl(o = {}) {
-      const acc = S.settings.accountId; const accounts = S.data.accounts; const accName = acc === 'all' || !acc ? (accounts.length > 1 ? 'Alle Konten' : (accounts[0] || {}).name || 'Konto') : ((accounts.find(a => a.id === acc) || {}).name || 'Konto');
+      const acc = S.settings.accountId; const accounts = S.data.accounts; if (accounts.length < 2 && !o.always) return ''; /* mit einem Konto gibt es nichts zu wählen (Mentor: o.always, dort erklärt es, welche Trades er sieht) */ const accName = acc === 'all' || !acc ? (accounts.length > 1 ? 'Alle Konten' : (accounts[0] || {}).name || 'Konto') : ((accounts.find(a => a.id === acc) || {}).name || 'Konto');
       return `<div class="popwrap${o.mobile ? '' : ' hide-m'}"><button type="button" class="btn" data-pop="account" title="Konto: ${esc(accName)}">${I.account}<span>${esc(accName)}</span>${I.chev.replace('<svg', '<svg class="caret"')}</button><div class="popover" id="pop-account">${accounts.length > 1 ? `<button type="button" class="item" data-action="account" data-value="all" aria-checked="${acc === 'all'}">Alle Konten</button>` : ''}${accounts.map(a => `<button type="button" class="item" data-action="account" data-value="${a.id}" aria-checked="${acc === a.id}">${esc(a.name)}<span class="muted small" style="margin-left:auto">${fmt.cur(a.size, { compact: true })}</span></button>`).join('')}<hr><a class="item" href="#/settings">${I.settings} Konten verwalten</a></div></div>`;
     },
     /* iconOnly: nur Symbol mit Tooltip, der Text bleibt für Screenreader im Knopf (Klasse vh) */
     sessionControl(iconOnly) {
       const sess = S.activeSession();
       if (sess) return `<button type="button" class="btn" data-action="end-session" title="Session beenden">${I.stop}<span id="session-timer">${fmt.hm((Date.now() - new Date(sess.startedAt)) / 1000)}</span></button>`;
-      return iconOnly ? `<button type="button" class="btn icon-only" data-action="start-session" title="Session starten" aria-label="Session starten">${I.play}<span class="vh">Session starten</span></button>`
+      return iconOnly ? `<button type="button" class="btn ghost icon-only sess-btn" data-action="start-session" title="Session starten" aria-label="Session starten">${I.play}<span class="sess-l">Session starten</span></button>`
         : `<button type="button" class="btn hide-m" data-action="start-session">${I.play}<span>Session starten</span></button>`;
     },
     newTradeButton() { return `<button type="button" class="btn accent tl" data-action="new-trade">${I.plus}<span>Trade loggen</span></button>`; },
     /* Kopfreihe unter dem Seitentitel wie beim Dashboard: links Zeitraum und Konto, rechts die Knöpfe der Seite, Session und „Trade loggen“.
        screen.head schaltet Teile ab und kann einen kurzen Hinweis zeigen (Mentor: nur das Konto, weil es bestimmt, welche Trades der Mentor sieht) */
+    /* „Trade loggen“ und ▷ nur, wo sie die Aufgabe der Seite sind (screen.head.trade/session: TradeLog, Tagesansicht, Prop-Übersicht);
+       eine laufende Session (Timer, Stopp) bleibt auf jeder Seite mit Kopfreihe sichtbar, außer wo session: false steht.
+       Ohne einen einzigen Trade im Konto: kein Zeitraum und kein ▷ (nichts zu filtern); tradeIfEmpty: false lässt dann auch
+       „Trade loggen“ weg, weil die Leer-Karte ihn trägt. head darf eine Funktion sein (z. B. Trade-Detail ohne Zeitraum und Konto) */
     pageHead(screen, ctx) {
-      const h = Object.assign({ range: true, account: true, session: true, trade: true, note: '' }, screen.head);
-      const own = screen.actions ? screen.actions(ctx) : '';
-      const left = `${h.range ? this.rangeControl() : ''}${h.account ? this.accountControl({ mobile: !h.range }) : ''}${ctx.headLeft || ''}${h.note ? `<span class="ph-note">${esc(h.note)}</span>` : ''}`;
-      const right = `${own}${h.session ? this.sessionControl(true) : ''}${h.trade ? `${own || h.session ? '<span class="dh-sep" aria-hidden="true"></span>' : ''}${this.newTradeButton()}` : ''}`;
+      const h = Object.assign({ range: true, account: true, session: 'running', trade: false, note: '' }, typeof screen.head === 'function' ? screen.head(ctx) : screen.head);
+      const own = screen.actions ? screen.actions(ctx) : ''; const empty = !(ctx.all || []).length;
+      const range = h.range && !empty; const trade = h.trade && !(empty && h.tradeIfEmpty === false);
+      const sess = h.session === false ? '' : h.session === true && !empty ? this.sessionControl(true) : S.activeSession() ? this.sessionControl(true) : '';
+      const left = `${range ? this.rangeControl() : ''}${h.account ? this.accountControl({ mobile: !range, always: h.accountAlways }) : ''}${ctx.headLeft || ''}${h.note ? `<span class="ph-note">${esc(h.note)}</span>` : ''}`;
+      const right = `${own}${sess}${trade ? `${own || sess ? '<span class="dh-sep" aria-hidden="true"></span>' : ''}${this.newTradeButton()}` : ''}`;
       if (!left && !right) return ''; /* keine leere Kopfreihe (sie hielt rund 60 px Leerraum) */
       return `<div class="dash-head page-head${right ? '' : ' compact'}">${left ? `<div class="row dh-context">${left}</div>` : ''}${right ? `<div class="row dh-tools">${right}</div>` : ''}</div>`;
+    },
+    /* Konto-Menü: dieselben Einträge in der Konto-Karte (Seitenleiste) und am Profilbild oben rechts */
+    userMenu(theme) {
+      const link = (href, icon, label) => `<a class="item" role="menuitem" href="${href}" data-action="nav-close">${I[icon]}<span>${label}</span></a>`;
+      return `${link('#/settings/profil', 'account', 'Profil')}${link('#/settings', 'settings', 'Einstellungen')}${link('#/settings/benachrichtigungen', 'bell', 'Benachrichtigungen')}${link('#/settings/sprache', 'globe', 'Sprache')}
+          <button type="button" class="item pcv-item" role="menuitem" data-action="pc-view">${I.monitor}<span>PC-Ansicht</span></button><div class="sb-menu-sep"></div><div class="sb-menu-row"><span>Design</span><div class="theme-toggle" role="group" aria-label="Erscheinungsbild"><button type="button" data-action="theme" data-value="dark" aria-pressed="${theme === 'dark'}" aria-label="Dunkel">${I.moon}</button><button type="button" data-action="theme" data-value="light" aria-pressed="${theme === 'light'}" aria-label="Hell">${I.sun}</button></div></div></div>`;
     },
     topbar(title, screen, ctx) {
       const initials = (S.settings.name || 'T').split(/\s+/).map(s => s[0]).join('').slice(0, 2).toUpperCase();
       const railOff = !!S.settings.railHidden; const rl = railOff ? 'Bereichsleiste einblenden' : 'Bereichsleiste ausblenden';
       return `<header class="topbar"><button type="button" class="btn ghost icon rail-btn" data-action="rail-toggle" aria-pressed="${railOff}" aria-label="${rl}" title="${rl}">${I.panel}</button><button type="button" class="btn ghost icon menu-btn" data-action="sidebar" aria-label="Menü">${I.menu}</button><h1>${esc(title)}</h1>${screen.titleBadge ? screen.titleBadge(ctx) : ''}<div class="actions"><div class="tb-tools" id="tb-tools"></div>
-        <a class="avatar" href="#/settings/profil" title="Profil">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : esc(initials)}</a></div></header>`;
+        <div class="popwrap tb-userwrap"><button type="button" class="avatar" data-pop="user-top" aria-haspopup="menu" aria-label="Konto und Einstellungen" title="Konto und Einstellungen">${S.settings.avatarId ? `<img data-blob="${esc(S.settings.avatarId)}" alt="">` : `<span class="no-i18n">${esc(initials)}</span>`}</button><div class="popover sb-menu tb-menu" id="pop-user-top" role="menu">${this.userMenu(root.Theme.resolve(S.settings))}</div></div></div></header>`;
     },
     async loadBlobImages(scope) { const imgs = scope.querySelectorAll('img[data-blob]'); for (const img of imgs) { const u = await root.Blobs.url(img.dataset.blob).catch(() => null); if (u) { img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); img.src = u; if (img.complete && img.naturalWidth) img.classList.add('loaded'); } else img.closest('.shot, .thumb, .lib-card')?.classList.add('missing'); } const auds = scope.querySelectorAll('audio[data-blob]'); for (const a of auds) { const u = await root.Blobs.url(a.dataset.blob).catch(() => null); if (u) a.src = u; } },
 

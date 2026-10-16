@@ -2089,4 +2089,11 @@ I18N.add('pt', {
   "E-Mail-Benachrichtigung aus": "Notificação por e-mail desativada",
   "Coach:": "Coach:",
   "Verbinde in den Einstellungen den Server des Mentor-Chats, dann legst du hier Gruppen an oder trittst einer bei.": "Conecte nas configurações o servidor do chat Mentor e você poderá criar grupos aqui ou entrar em um.",
+  "Verlauf neu laden": "Recarregar histórico",
+  "Verlauf löschen": "Apagar histórico",
+  "oder Code": "ou código",
+  "Code kopieren": "Copiar código",
+  "Noch keine Kunden. Für jeden Kauf über deinen Link oder Code bekommst du": "Ainda sem clientes. Por cada compra pelo seu link ou código você recebe",
+  "vom Umsatz.": "do faturamento.",
+  "{0} Creator": "{0} criadores",
 });

@@ -19,7 +19,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.evaluate(() => { Store.installSample(); Store.setSetting('profile', Object.assign({}, Store.settings.profile, { username: 'flo', firstName: 'Florian' })); Store.saveNow(); });
   ok('Navigation: Mentor als eigener Bereich in der Leiste, Ruhepunkt in der Gruppe Training', !!(await p.$('.rail-item[data-rail=mentor]')) && (await p.$$eval('.sidebar .nav a', a => a.map(x => x.textContent.trim()).join(','))).includes('Schatten-Ich,Ruhepunkt'));
   await p.keyboard.press('8'); await p.waitForTimeout(500);
-  ok('Ohne Server: Einrichtungshinweis', (await p.textContent('.mentor-setup h2')) === 'Mentor-Chat einrichten' && !!(await p.$('.mentor-setup a[href="#/settings/mentor"]')));
+  ok('Ohne Server: nur die Einrichtungskarte, keine Kopfreihe', (await p.textContent('.mentor-setup h2')) === 'Mentor-Chat einrichten' && !!(await p.$('.mentor-setup a[href="#/settings/mentor"]')) && !(await p.$('.page-head')));
   await p.click('.mentor-setup a'); await p.waitForTimeout(500);
   ok('Einstellungen → Mentor', (await p.textContent('.set-head h2, .set-body h2')).includes('Mentor') && !!(await p.$('#mentor-url')));
   await p.fill('#mentor-url', 'https://mentor.test/'); await p.fill('#mentor-token', 'geheim'); await p.click('[data-action=mentor-test]'); await p.waitForTimeout(500);
@@ -41,7 +41,8 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   limitMode = true; await p.fill('#mentor-in', 'Noch eine Frage'); await p.click('.mentor-form button[type=submit]'); await p.waitForTimeout(600);
   ok('Tageslimit: Meldung + Eingabe gesperrt + Text bleibt', (await p.textContent('.mentor-err')).includes('alle Nachrichten an den Mentor verbraucht') && await p.$eval('#mentor-in', e => e.disabled) && (await p.textContent('#mentor-quota')).includes('Tageslimit von 30') && (await p.$$('.mentor-log .msg.user')).length === 2);
   limitMode = false;
-  await p.click('[data-action=mentor-clear]'); await p.waitForTimeout(200); await p.click('.modal .btn.danger, .modal button.primary'); await p.waitForTimeout(500);
+  ok('Verlaufswerkzeuge im …-Menü, Senden ist der einzige gefüllte Knopf', !(await p.$('.mentor-head > .row [data-action=mentor-clear]')) && !!(await p.$('#pop-mentormenu [data-action=mentor-reload]')) && (await p.$$('.mentor .btn.primary')).length <= 1);
+  await p.click('[data-pop=mentormenu]'); await p.waitForTimeout(150); await p.click('[data-action=mentor-clear]'); await p.waitForTimeout(200); await p.click('.modal .btn.danger, .modal button.primary'); await p.waitForTimeout(500);
   ok('Verlauf löschen', calls.some(c => c.method === 'DELETE') && (await p.$$('.mentor-log .msg')).length === 0 && !!(await p.$('.mentor-intro')));
   /* Ruhepunkt → Mentor */
   await p.evaluate(() => { App.state.mentor.draft = ''; location.hash = '#/ruhepunkt'; }); await p.waitForTimeout(500); await p.click('.rp-choice:nth-child(3)'); await p.waitForTimeout(200); await p.click('.rp-nav .rp-go'); await p.waitForTimeout(200); await p.click('.rp-chip:has-text("Frust")'); await p.click('.rp-nav .rp-go'); await p.waitForTimeout(500);

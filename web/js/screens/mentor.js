@@ -121,14 +121,15 @@
   App.screens.mentor = {
     title: 'Mentor',
     /* Zeitraum, Session und „Trade loggen“ braucht der Chat nicht; das Konto bestimmt, welche Trades mitgeschickt werden (buildContext) */
-    head: { range: false, session: false, trade: false, accountAlways: true, note: 'Der Mentor sieht die letzten 20 Trades dieses Kontos.' },
+    /* nicht eingerichtet: keine Kopfreihe, nur die Einrichtungskarte */
+    head() { return configured() ? { range: false, session: false, trade: false, accountAlways: true, note: 'Der Mentor sieht die letzten 20 Trades dieses Kontos.' } : { range: false, account: false, session: false, trade: false }; },
     render() {
       const s = st();
       if (!configured()) return `<div class="mentor-wrap"><section class="card mentor-setup"><span class="ico">${I.chat}</span><h2>Mentor-Chat einrichten</h2><p class="muted">Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.</p><a class="btn primary" href="#/settings/mentor">Zu den Einstellungen</a></section></div>`;
       if (!consented('mentor')) return consentCard();
       const msgs = s.messages || []; const limitHit = s.quota && s.quota.remaining <= 0; const busy = s.sending || s.loading || limitHit;
       return `<div class="mentor-wrap"><section class="card mentor">
-        <div class="mentor-head"><div><b>Trading-Psychologie-Mentor</b>${AI_BADGE}<div class="small muted" id="mentor-quota">${quotaText(s)}</div></div><div class="row"><button type="button" class="btn sm ghost" data-action="mentor-reload" aria-label="Neu laden" data-tip="Verlauf neu laden" ${s.sending || s.loading ? 'disabled' : ''}>${I.clock}</button><button type="button" class="btn sm ghost" data-action="mentor-clear" ${msgs.length ? '' : 'disabled'}>${I.trash} Verlauf löschen</button></div></div>
+        <div class="mentor-head"><div><b>Trading-Psychologie-Mentor</b>${AI_BADGE}<div class="small muted" id="mentor-quota">${quotaText(s)}</div></div><div class="popwrap"><button type="button" class="btn ghost icon sm" data-pop="mentormenu" aria-label="Mehr">${I.more}</button><div class="popover right" id="pop-mentormenu"><button type="button" class="item" data-action="mentor-reload" ${s.sending || s.loading ? 'disabled' : ''}>${I.clock} Verlauf neu laden</button>${msgs.length ? `<hr><button type="button" class="item danger" data-action="mentor-clear">${I.trash} Verlauf löschen</button>` : ''}</div></div></div>
         <div class="mentor-log" id="mentor-log">${s.loading ? '<div class="mentor-skel" role="status" aria-label="Verlauf wird geladen"><div class="skel msg ai" style="width:62%;height:56px"></div><div class="skel msg user" style="width:38%;height:44px"></div><div class="skel msg ai" style="width:72%;height:68px"></div></div>' : msgs.length ? msgs.map(bubble).join('') : INTRO}${s.sending ? (s.partial ? `<div class="msg ai streaming" aria-busy="true"><div class="b">${renderText(s.partial)}</div></div>` : '<div class="msg ai typing" aria-label="Der Mentor schreibt"><i></i><i></i><i></i></div>') : ''}${s.error ? `<div class="mentor-err" role="alert">${esc(s.error)}</div>` : ''}${s.notice ? `<div class="mentor-notice" role="status">${esc(s.notice)}</div>` : ''}</div>
         <form class="mentor-form" data-action="mentor-send"><textarea class="input" id="mentor-in" rows="2" maxlength="4000" placeholder="${limitHit ? 'Tageslimit erreicht' : 'Schreib dem Mentor … (Enter sendet, Shift+Enter neue Zeile)'}" data-input="mentor-draft" ${busy ? 'disabled' : ''}>${esc(s.draft)}</textarea>${s.sending ? `<button type="button" class="btn icon mentor-stop" data-action="mentor-cancel" aria-label="Antwort abbrechen" title="Abbrechen">${I.stop}</button>` : `<button type="submit" class="btn primary icon" aria-label="Senden" ${busy ? 'disabled' : ''}>${I.arrowUp}</button>`}</form>
         <div class="mentor-note small faint">Der Mentor ist eine KI und ersetzt keine Therapie, Beratung oder Seelsorge. In akuten Krisen: Telefonseelsorge 0800 111 0 111, bei Gefahr 112.</div>
@@ -156,7 +157,7 @@
   Object.assign(App.actions, {
     'mentor-draft'(el) { st().draft = el.value; },
     'mentor-cancel'() { const s = st(); if (s.ctrl) s.ctrl.abort(); },
-    'mentor-reload'() { st().messages = null; loadHistory(); },
+    'mentor-reload'() { if (App.closePopovers) App.closePopovers(); st().messages = null; loadHistory(); },
     async 'mentor-send'() {
       const s = st(); const text = (s.draft || '').trim().slice(0, 4000); if (!text || s.sending || s.loading) return;
       if (!s.messages) s.messages = [];
@@ -172,6 +173,7 @@
       s.sending = false; s.ctrl = null; s.partial = ''; if (App.state.route === 'mentor') App.rerender();
     },
     async 'mentor-clear'() {
+      if (App.closePopovers) App.closePopovers(); /* das Menü schließt vor der Rückfrage */
       if (!await U.confirmModal('Verlauf löschen?', 'Der Mentor vergisst damit alle bisherigen Nachrichten.', { ok: 'Löschen', danger: true })) return;
       const s = st(); try { const r = await api('/api/mentor/history?user=' + encodeURIComponent(S.userId()), { method: 'DELETE' }); s.messages = []; s.error = ''; if (r && r.quota) s.quota = r.quota; U.toast('Verlauf gelöscht', 'ok'); } catch (e) { s.error = e.message; }
       App.rerender();

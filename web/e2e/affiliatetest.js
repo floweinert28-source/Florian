@@ -17,7 +17,7 @@ const num = s => Number(String(s).replace(/[^\d,.-]/g, '').replace(/\./g, '').re
     /* Admin: Kennzahlen stimmen mit den Daten überein */
     const exp = await p.evaluate(() => { const d = AffiliateData.build(new Date()); const by = Object.fromEntries(d.creators.map(c => [c.id, c])); let rev = 0, earned = 0; for (const k of d.customers) { rev += k.amount; earned += k.amount * by[k.creatorId].pct / 100; } return { creators: d.creators.length, n: d.customers.length, rev, earned }; });
     const tiles = await p.$$eval('.kstrip .tile', ts => ts.map(t => [t.querySelector('.head span').textContent.trim(), t.querySelector('.val').textContent.trim()]));
-    ok('Kacheln: Creator, Kunden, Umsatz, Provisionen, Offen', tiles.map(t => t[0]).join(',') === 'Creator,Kunden,Umsatz,Provisionen,Offen' && num(tiles[0][1]) === exp.creators && num(tiles[1][1]) === exp.n && Math.abs(num(tiles[2][1]) - exp.rev) < 1 && Math.abs(num(tiles[3][1]) - exp.earned) < 0.01, JSON.stringify({ tiles, exp }));
+    ok('Kacheln: Kunden, Umsatz, Provisionen, Offen; „n Creator“ am Kartenkopf; Zeile öffnet den Creator', tiles.map(t => t[0]).join(',') === 'Kunden,Umsatz,Provisionen,Offen' && num(tiles[0][1]) === exp.n && Math.abs(num(tiles[1][1]) - exp.rev) < 1 && Math.abs(num(tiles[2][1]) - exp.earned) < 0.01 && (await p.textContent('.card:has(.aff-tbl) .card-head')).includes(`${exp.creators} Creator`) && (await p.$$('.aff-tbl tbody tr.link[data-action=aff-view]')).length === exp.creators, JSON.stringify({ tiles, exp }));
     const rows = await p.$$eval('.aff-tbl tbody tr', rs => rs.map(r => [...r.children].map(td => td.textContent.trim())));
     const head = await p.$$eval('.aff-tbl thead th', a => a.map(x => x.textContent.trim()).join(','));
     ok('Tabelle je Creator: Name, Code, Kunden, Umsatz, Provision, Verdient, Offen; nach Verdienst sortiert', head === 'Creator,Code,Kunden,Umsatz,Provision,Verdient,Offen,' && rows.length === exp.creators && rows.every((r, i) => i === 0 || num(rows[i - 1][5]) >= num(r[5])) && rows.reduce((a, r) => a + num(r[2]), 0) === exp.n, head + ' ' + JSON.stringify(rows[0]));
@@ -39,8 +39,8 @@ const num = s => Number(String(s).replace(/[^\d,.-]/g, '').replace(/\./g, '').re
     await p.click('.aff-tbl tbody tr:nth-child(2) [data-action=aff-view].btn'); await p.waitForTimeout(700);
     ok('Pfeil öffnet die Creator-Ansicht dieses Creators', (await p.evaluate(() => location.hash)) === '#/affiliate/creator' && (await p.$eval('.aff-pick', s => s.options[s.selectedIndex].textContent)) === name, name);
     const c = await p.evaluate(() => { const d = AffiliateData.build(new Date()); return d.creators.find(x => x.id === Store.settings.affiliate.creatorId); });
-    ok('Link und Code als Kopier-Tickets', (await p.textContent('.aff-ticket:nth-child(1) .cpn-code')).trim() === 'https://journalyst.app/?ref=' + c.code && (await p.textContent('.aff-ticket:nth-child(2) .cpn-code')).trim() === c.code);
-    await p.click('.aff-ticket:nth-child(2) .cpn-code'); await p.waitForTimeout(300);
+    ok('Eine Teilen-Karte: Link als Ticket, darunter „oder Code“ mit Kopier-Symbol', (await p.textContent('.aff-share .aff-ticket .cpn-code')).trim() === 'https://journalyst.app/?ref=' + c.code && (await p.textContent('.aff-code-row b')).trim() === c.code && (await p.$$('.aff-share .aff-ticket')).length === 1);
+    await p.click('.aff-code-row [data-action=aff-copy]'); await p.waitForTimeout(300);
     ok('Klick auf den Code kopiert ihn', /Code kopiert|Kopieren nicht möglich/.test(await p.textContent('.toast-wrap')));
     const ct = await p.$$eval('.kstrip .tile', ts => ts.map(t => t.querySelector('.head span').textContent.trim()).join(','));
     ok('Creator-Kacheln: Verdient, Offen, Kunden (Link/Code), Provision', ct === 'Verdient,Offen,Kunden,Provision' && /Link \d+ · Code \d+/.test(await p.textContent('.kstrip .tile:nth-child(3) .foot')), ct);
@@ -52,7 +52,7 @@ const num = s => Number(String(s).replace(/[^\d,.-]/g, '').replace(/\./g, '').re
     /* Auswahl wechseln */
     await p.selectOption('.aff-pick', { index: 0 }); await p.waitForTimeout(400);
     const sel = await p.evaluate(() => Store.settings.affiliate.creatorId);
-    ok('Creator-Auswahl wechselt die Ansicht und wird gemerkt', !!sel && (await p.textContent('.aff-ticket:nth-child(2) .cpn-code')).trim() === (await p.evaluate(id => AffiliateData.build(new Date()).creators.find(x => x.id === id).code, sel)));
+    ok('Creator-Auswahl wechselt die Ansicht und wird gemerkt', !!sel && (await p.textContent('.aff-code-row b')).trim() === (await p.evaluate(id => AffiliateData.build(new Date()).creators.find(x => x.id === id).code, sel)));
     await p.screenshot({ path: 'affiliate-creator.png', fullPage: true });
     await p.evaluate(() => { Store.setSetting('affiliate', { pct: {}, creatorId: '' }); });
     ok('keine Seitenfehler', !errors.length, errors.join(' | '));

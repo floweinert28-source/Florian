@@ -285,7 +285,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   mit eingerichtetem Mentor, sonst ist „Zur Übersicht“ der Hauptknopf. Die Symbole der drei Abläufe bewegen sich nur beim
   Darüberfahren, ohne Schein.
   Beim Betreten schweben 15 Kirschblütenblätter langsam schräg durch den Ruhepunkt-Bereich (nur dort, Klicks gehen durch, bei reduzierter Bewegung keine Blätter); danach treiben weiche Farbflächen in Blau, Rosa und Violett hinter den Inhalten.
-- **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor.
+- **Mentor**: Chat mit dem Trading-Psychologie-Mentor über den eigenen Server in `server/` (System-Prompt `docs/mentor-systemprompt.md`, Journal-Kontext aus den letzten 20 Trades und dem heutigen Ruhepunkt-Check-in, Verlauf pro Nutzer, Tageslimit). Adresse und Zugangstoken unter Einstellungen → Mentor. Ohne Einrichtung nur die Einrichtungskarte (keine Kopfreihe); „Verlauf neu laden“ und „Verlauf löschen“ (nur mit Nachrichten) stehen im …-Menü des Chats, Senden ist der einzige gefüllte Knopf.
   In der Kopfreihe steht nur das Konto: es bestimmt, aus welchem Konto der Mentor die letzten 20 Trades sieht; der Zeitraum hat keinen Einfluss.
 - **Coach Mode** (Bereich unten in der Leiste ganz links; eine kleine Zahl am Coach-Symbol zeigt neue Aufgaben): ein Trading-Mentor sieht die Journal-Einträge und Kurz-Stats seiner
   Schüler und schreibt Feedback direkt an den Eintrag. Gruppe mit einseitiger Sicht: der Mentor sieht alle Schüler, jeder
@@ -444,11 +444,11 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   `web/tests/propsim.test.mjs`.
 - **Coupon-Codes** (im Journal in der Gruppe Konten, `js/screens/coupons.js`): Rabatt-Codes für
   Prop Firms aus der Liste `COUPONS` in `js/propdata.js`, je Firma eine Kachel mit Rabatt, Code als gestricheltes Ticket (Klick
-  kopiert ihn, Rahmen kurz grün, Toast), Notiz und Link zur Website; Platzhalter tragen die Marke „Beispiel“.
+  kopiert ihn, Rahmen kurz grün, Toast), Notiz und Link zur Website; Platzhalter tragen die Marke „Beispiel“ (sind alle Einträge Beispiele, steht sie einmal rechts über dem Raster).
 - **Affiliate** (unten in der Bereichsleiste, `js/screens/affiliate.js`): für Trading-Content-Creator
-  mit eigenem Link und Code. Zwei Ansichten: **Alle Creator** (`#/affiliate`, für dich als Betreiber) mit Kennzahlen (Creator,
-  Kunden, Umsatz, Provisionen, Offen), Tabelle je Creator (Code, Kunden, Umsatz, Provision in %, verdient, offen) und Balken
-  „Provisionen je Monat“; **Creator-Ansicht** (`#/affiliate/creator`) mit Link und Code zum Kopieren, Verdient, Offen, Kunden
+  mit eigenem Link und Code. Zwei Ansichten: **Alle Creator** (`#/affiliate`, für dich als Betreiber) mit Kennzahlen (Kunden,
+  Umsatz, Provisionen, Offen; die Zahl der Creator steht am Kartenkopf), Tabelle je Creator (Code, Kunden, Umsatz, Provision in %, verdient, offen; die ganze Zeile öffnet die Creator-Ansicht) und Balken
+  „Provisionen je Monat“; **Creator-Ansicht** (`#/affiliate/creator`) mit einer Teilen-Karte (Link als großes Ticket, darunter „oder Code“ mit Kopier-Symbol; ohne Kunden nur diese Karte und ein Satz mit der Provision), Verdient, Offen, Kunden
   (davon über Link/Code), Provision, „Verdient je Monat“ und Kundenliste (Datum, Plan, Über, Umsatz, Provision, Status, je 10
   mehr). Provision = Umsatz × Prozent des Creators; die Prozente lassen sich je Creator ändern (Stift in der Tabelle, gespeichert
   in `settings.affiliate.pct`). Offen = Provisionen des laufenden Monats, ältere gelten als ausgezahlt. **Nur Oberfläche:** alle

@@ -2138,4 +2138,11 @@ I18N.add('zh', {
   "E-Mail-Benachrichtigung aus": "邮件通知已关闭",
   "Coach:": "教练：",
   "Verbinde in den Einstellungen den Server des Mentor-Chats, dann legst du hier Gruppen an oder trittst einer bei.": "在设置中连接导师聊天的服务器，然后就可以在这里创建小组或加入小组。",
+  "Verlauf neu laden": "重新加载记录",
+  "Verlauf löschen": "删除记录",
+  "oder Code": "或代码",
+  "Code kopieren": "复制代码",
+  "Noch keine Kunden. Für jeden Kauf über deinen Link oder Code bekommst du": "还没有客户。每次通过你的链接或代码购买，你都能获得",
+  "vom Umsatz.": "的营业额。",
+  "{0} Creator": "{0} 位创作者",
 });

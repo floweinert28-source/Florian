@@ -2046,4 +2046,11 @@ I18N.add('en', {
   "E-Mail-Benachrichtigung aus": "Email notification off",
   "Coach:": "Coach:",
   "Verbinde in den Einstellungen den Server des Mentor-Chats, dann legst du hier Gruppen an oder trittst einer bei.": "Connect the Mentor chat server in the settings, then you can create groups here or join one.",
+  "Verlauf neu laden": "Reload history",
+  "Verlauf löschen": "Delete history",
+  "oder Code": "or code",
+  "Code kopieren": "Copy code",
+  "Noch keine Kunden. Für jeden Kauf über deinen Link oder Code bekommst du": "No customers yet. For every purchase through your link or code you get",
+  "vom Umsatz.": "of revenue.",
+  "{0} Creator": "{0} creators",
 });

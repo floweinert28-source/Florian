@@ -2138,4 +2138,11 @@ I18N.add('hi', {
   "E-Mail-Benachrichtigung aus": "ईमेल सूचना बंद",
   "Coach:": "कोच:",
   "Verbinde in den Einstellungen den Server des Mentor-Chats, dann legst du hier Gruppen an oder trittst einer bei.": "सेटिंग्स में मेंटर चैट का सर्वर जोड़ो, फिर यहाँ ग्रुप बना सकते हो या किसी में शामिल हो सकते हो।",
+  "Verlauf neu laden": "इतिहास फिर से लोड करें",
+  "Verlauf löschen": "इतिहास हटाएँ",
+  "oder Code": "या कोड",
+  "Code kopieren": "कोड कॉपी करें",
+  "Noch keine Kunden. Für jeden Kauf über deinen Link oder Code bekommst du": "अभी कोई ग्राहक नहीं। तुम्हारे लिंक या कोड से हर ख़रीद पर तुम्हें मिलता है",
+  "vom Umsatz.": "राजस्व का।",
+  "{0} Creator": "{0} क्रिएटर",
 });

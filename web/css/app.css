@@ -2604,7 +2604,12 @@ dl.rp-summary + .rp-small { margin-top: var(--sp-2); }
 .aff-top { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
 .aff-top .grow { flex: 1; }
 .aff-pick { width: auto; min-width: 10.625rem; }
-.aff-share { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--sp-4); }
+.aff-share { display: flex; flex-direction: column; gap: var(--sp-3); }
+.aff-share .aff-ticket { border: 0; padding: 0; background: none; }
+.aff-code-row { display: flex; align-items: center; gap: var(--sp-2); }
+.aff-code-row b { color: var(--text); font-weight: 600; letter-spacing: .02em; }
+.aff-first { margin: 0; }
+.cpn-top { margin-bottom: calc(-1 * var(--sp-1)); }
 .aff-ticket { display: flex; flex-direction: column; gap: 0.125rem; padding: var(--sp-4) var(--sp-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); min-width: 0; }
 .aff-label { font-size: var(--fs-12); line-height: var(--lh-12); font-weight: 600; color: var(--muted); }
 .aff-ticket .cpn-code { margin-top: var(--sp-2); }
@@ -2923,7 +2928,6 @@ a.coach-name:hover { color: var(--accent); }
   .tf-modal .modal-foot { flex-wrap: wrap; }
   .tf-modal .modal-foot #trade-preview { flex: 1 0 100%; }
   .tf-modal .modal-foot .btn { flex: 0 0 auto; } .tf-modal .modal-foot .btn.primary { flex: 1 1 auto; } /* Handy: „Speichern“ breit, „Abbrechen“ schmal */
-  .aff-share { grid-template-columns: 1fr; }
   .aff-top .aff-pick { flex: 1; min-width: 0; }
   .aff-tbl { min-width: 0; }
   .aff-tbl .ph-hide { display: none; }

@@ -3693,3 +3693,38 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 :root[data-theme="light"] .rail-item:hover .ri { background: rgba(0, 0, 0, .045); }
 :root[data-theme="light"] .rail-item.active .ri { background: #f1f1f0; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06); }
 :root[data-theme="light"] .shell.has-rail .rail, :root[data-theme="light"] .ft-bar { box-shadow: none; }
+/* ---------- „Eine Fläche“ (PC): die Leiste links und oben bildet ohne Rahmen ein „L“ (dunkel; im hellen Design weiß) mit Logo in der Ecke,
+   Seitentitel und Profilbild in der Leiste oben. Darunter EINE Fläche mit runder Ecke innen: Seitenleiste (grau) und Seite, nur durch
+   feine Linien getrennt; keine zweite Kopfzeile, kein Fenster im Rahmen. Abstände im 8er-Raster (8 / 16 / 24 px) ---------- */
+@media (min-width: 961px) {
+  :root { --lbar-h: 56px; --topbar-h: calc(var(--lbar-h) + 1px); }
+  .shell.has-rail { background: var(--rail-bg); grid-template-columns: var(--rail-w) var(--sidebar-w) minmax(0, 1fr); }
+  html.sb-off .shell.has-rail { grid-template-columns: var(--rail-w) minmax(0, 1fr); }
+  html.rail-off .shell.has-rail { grid-template-columns: var(--sidebar-w) minmax(0, 1fr); }
+  html.rail-off.sb-off .shell.has-rail { grid-template-columns: minmax(0, 1fr); }
+  .shell.has-rail .rail { top: 0; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; box-shadow: none; padding-top: calc((var(--lbar-h) - 40px) / 2); padding-bottom: 26px; } /* letztes Symbol auf Höhe der Konto-Karte */
+  /* Leiste oben über der Seitenleiste; über der Seite trägt die Kopfzeile selbst die Farbe der Leiste */
+  .frame-top { top: 0; left: var(--rail-w); right: auto; width: var(--sidebar-w); height: var(--lbar-h); background: var(--rail-bg); }
+  html.rail-off .frame-top { left: 0; }
+  html.sb-off .frame-top, html.rail-off.sb-off .frame-top { display: none; }
+  .frame-top::before, .frame-top::after, .ft-bar, .ft-in { display: none; }
+  .shell.has-rail .sidebar { top: var(--lbar-h); height: calc(100vh - var(--lbar-h)); height: calc(100dvh - var(--lbar-h)); padding-top: 24px; background: var(--bg-2); border-top: 1px solid var(--border); border-left: 1px solid var(--border); border-right: 1px solid var(--border); border-top-left-radius: var(--win-r); }
+  html.rail-off .shell.has-rail .sidebar { border-left: 0; border-top-left-radius: 0; }
+  .shell.has-rail .main, html.sb-off .shell.has-rail .main { margin: 0; border-radius: 0; box-shadow: none; background: var(--win); min-height: 100vh; min-height: 100dvh; }
+  .shell.has-rail .topbar, html.sb-off .shell.has-rail .topbar { top: 0; min-height: var(--topbar-h); padding-top: 0; padding-bottom: 0; background: var(--rail-bg); backdrop-filter: none; -webkit-backdrop-filter: none; border-radius: 0; border-bottom: 1px solid var(--border); }
+  .shell.has-rail .topbar h1 { font-size: 17px; letter-spacing: -0.01em; }
+  .shell.has-rail .topbar .avatar { width: 32px; height: 32px; font-size: 12px; }
+  /* ohne Seitenleiste bekommt die Seite selbst die runde Ecke innen: Linie folgt der Rundung, außen die Farbe der Leiste */
+  html.sb-off:not(.rail-off) .shell.has-rail .main { position: relative; }
+  html.sb-off:not(.rail-off) .shell.has-rail .main::after { content: ""; position: absolute; z-index: 21; left: -1px; top: calc(var(--topbar-h) - 1px + var(--win-r)); bottom: 0; width: 1px; background: var(--border); pointer-events: none; } /* Linie links erst unter der Rundung */
+  html.sb-off:not(.rail-off) .shell.has-rail .main::before { content: ""; position: absolute; z-index: 21; left: -1px; top: calc(var(--topbar-h) - 1px); width: var(--win-r); height: var(--win-r); border-top: 1px solid var(--border); border-left: 1px solid var(--border); border-top-left-radius: var(--win-r); box-shadow: calc(-1 * var(--win-r)) calc(-1 * var(--win-r)) 0 var(--win-r) var(--rail-bg); pointer-events: none; }
+  .shell.has-rail .main:has(> .content > .nb), .shell.has-rail .main:has(> .content > .tl-fit) { height: 100vh; height: 100dvh; }
+  .shell.has-rail .set-nav { top: calc(var(--topbar-h) + 16px); }
+  .shell.has-rail .edit-bar { top: 8px; }
+  /* Raster: überall 16 px zwischen Reihen und Karten, Kacheln innen 16 px */
+  .dash-head { padding-bottom: 0; }
+  .dash-top, .dash-main { gap: var(--grid-gap); }
+  .dash-main > .w.tall, .dash-main > .skel.tall { height: calc(var(--card-h) * 2 + var(--grid-gap)); }
+  .dash-main.editing > .w.tall, .dash-main > .add-slot.gap.tall { height: calc(var(--card-h) * 2 + var(--grid-gap) + 96px); }
+  .tile { padding: 12px 16px; }
+}

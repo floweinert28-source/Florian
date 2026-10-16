@@ -148,7 +148,7 @@ def test_model_failure_is_reported_and_reservation_released(server):
 
     mod.app.state.ask = broken
     r = client.post("/api/mentor/chat", json={"user": "flo", "message": "Hallo"})
-    assert r.status_code == 502 and "RuntimeError" in r.json()["detail"]["message"]
+    assert r.status_code == 502 and r.json()["detail"]["error"] == "model" and "RuntimeError" not in r.json()["detail"]["message"]  # Fehlerklasse nur im Log, nicht nach außen
     hist = client.get("/api/mentor/history", params={"user": "flo"}).json()
     assert hist["messages"] == [] and hist["quota"]["used"] == 0
 
@@ -158,4 +158,4 @@ def test_missing_api_key_is_a_clear_error(server, monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     assert client.get("/api/mentor/health").json()["api_key"] is False
     r = client.post("/api/mentor/chat", json={"user": "flo", "message": "Hallo"})
-    assert r.status_code == 503 and "ANTHROPIC_API_KEY" in r.json()["detail"]["message"] and not calls
+    assert r.status_code == 503 and r.json()["detail"]["error"] == "key" and "ANTHROPIC_API_KEY" not in r.json()["detail"]["message"] and not calls  # Variablenname nur im Log

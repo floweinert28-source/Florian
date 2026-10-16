@@ -23,7 +23,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.click('.mentor-setup a'); await p.waitForTimeout(500);
   ok('Einstellungen → Mentor', (await p.textContent('.set-head h2, .set-body h2')).includes('Mentor') && !!(await p.$('#mentor-url')));
   await p.fill('#mentor-url', 'https://mentor.test/'); await p.fill('#mentor-token', 'geheim'); await p.click('[data-action=mentor-test]'); await p.waitForTimeout(500);
-  ok('Verbindung testen', (await p.textContent('#mentor-test-out')).includes('Verbunden. Modell claude-sonnet-5') && (await p.textContent('#mentor-test-out')).includes('Zugangstoken passt'));
+  { const out = await p.textContent('#mentor-test-out'); ok('Verbindung testen: Grenze und Token, ohne Modellname', /^Verbunden\. \d+ Nachrichten pro Tag\./.test(out) && out.includes('Zugangstoken passt') && !/Modell|claude/i.test(out)); }
   await p.click('form[data-action=save-mentor] button[type=submit]'); await p.waitForTimeout(300);
   ok('Einstellungen gespeichert (ohne Schrägstrich am Ende)', await p.evaluate(() => Store.settings.mentor.url === 'https://mentor.test' && Store.settings.mentor.token === 'geheim'));
   await p.evaluate(() => { location.hash = '#/mentor'; }); await p.waitForTimeout(700);
@@ -36,7 +36,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   ok('Antwort erscheint, Kontingent sinkt, Eingabe leer', (await p.textContent('.mentor-log .msg.ai:last-of-type')).includes('Verstanden: Ich habe gerade zwei Verluste') && (await p.textContent('#mentor-quota')).includes('Noch 27 von 30') && (await p.inputValue('#mentor-in')) === '');
   await p.screenshot({ path: 'mentor.png', clip: { x: 232, y: 0, width: 1208, height: 900 } });
   limitMode = true; await p.fill('#mentor-in', 'Noch eine Frage'); await p.click('.mentor-form button[type=submit]'); await p.waitForTimeout(600);
-  ok('Tageslimit: Meldung + Eingabe gesperrt + Text bleibt', (await p.textContent('.mentor-err')).includes('Tageslimit') && await p.$eval('#mentor-in', e => e.disabled) && (await p.textContent('#mentor-quota')).includes('Tageslimit von 30') && (await p.$$('.mentor-log .msg.user')).length === 2);
+  ok('Tageslimit: Meldung + Eingabe gesperrt + Text bleibt', (await p.textContent('.mentor-err')).includes('alle Nachrichten an den Mentor verbraucht') && await p.$eval('#mentor-in', e => e.disabled) && (await p.textContent('#mentor-quota')).includes('Tageslimit von 30') && (await p.$$('.mentor-log .msg.user')).length === 2);
   limitMode = false;
   await p.click('[data-action=mentor-clear]'); await p.waitForTimeout(200); await p.click('.modal .btn.danger, .modal button.primary'); await p.waitForTimeout(500);
   ok('Verlauf löschen', calls.some(c => c.method === 'DELETE') && (await p.$$('.mentor-log .msg')).length === 0 && !!(await p.$('.mentor-intro')));

@@ -194,6 +194,39 @@
   const pnl = (v, extra = '', o = {}) => `<span class="${cls(v)} ${extra}">${fmt.cur(v, Object.assign({ signed: true }, o))}</span>`;
   const rText = (v, extra = '') => v == null ? `<span class="faint ${extra}">—</span>` : `<span class="${cls(v)} ${extra}">${fmt.r(v)}</span>`;
 
+  /* ---------- Fehler freundlich melden: was passiert ist und was man tun kann. Technische Details (Status, Server-Text, Stack)
+     nur in die Konsole, nie in die Oberfläche. area: 'mentor' | 'coach' | 'news' | 'voice' | 'server' ---------- */
+  const SRV = 'Einstellungen → Mentor';
+  const FRIENDLY = {
+    net: `Keine Verbindung zum Server. Prüf deine Internetverbindung und die Adresse unter ${SRV}.`,
+    auth: `Der Server hat den Zugang abgelehnt. Prüf den Zugangstoken unter ${SRV}.`,
+    setup: 'Der Server ist noch nicht fertig eingerichtet. Versuch es später noch einmal.',
+    busy: 'Der Server hat gerade ein Problem. Versuch es in ein paar Minuten noch einmal.',
+    old: 'Dein Server kennt diese Funktion noch nicht. Er braucht den neuen Stand.',
+    input: 'Die Angaben passen nicht. Prüf sie und versuch es noch einmal.',
+    other: 'Das hat nicht geklappt. Versuch es noch einmal.',
+  };
+  const AREA_TEXT = {
+    mentor: { limit: 'Für heute sind alle Nachrichten an den Mentor verbraucht. Morgen geht es weiter.', model: 'Der Mentor konnte gerade nicht antworten. Versuch es gleich noch einmal.', key: FRIENDLY.setup, prompt: FRIENDLY.setup },
+    voice: { limit: 'Für heute sind alle Sprachnotizen verbraucht. Morgen geht es weiter.', model: 'Die Sprachnotiz konnte gerade nicht ausgewertet werden. Sie bleibt gespeichert, versuch es später noch einmal.', stt: 'Die Aufnahme konnte nicht in Text umgewandelt werden. Versuch es noch einmal oder tippe die Notiz.', transcript: 'In der Aufnahme wurde keine Sprache erkannt.', key: FRIENDLY.setup },
+  };
+  /* Server-Texte, die für Nutzer geschrieben sind (Coach), dürfen durch; alles andere wird ersetzt */
+  const COACH_OK = new Set(['key', 'group', 'student', 'email', 'limit', 'coach', 'invite', 'own', 'member', 'entry', 'note', 'reply', 'students', 'task', 'asset']);
+  function friendly(err, area) {
+    const e = err || {}; const st = Number(e.status); const code = e.code || '';
+    try { console.warn('[' + (area || 'app') + ']', st || '', code || '', e.serverMessage || e.message || e); } catch (x) { /* ohne Konsole */ }
+    const a = AREA_TEXT[area] || {};
+    if (code && a[code]) return a[code];
+    if (area === 'coach' && code && COACH_OK.has(code) && e.serverMessage) return e.serverMessage;
+    if (e.friendly) return e.friendly;
+    if (st === 0 || e.name === 'TypeError') return FRIENDLY.net;
+    if (st === 401 || st === 403 || code === 'auth') return FRIENDLY.auth;
+    if (st === 404) return FRIENDLY.old;
+    if (st === 413 || st === 422 || st === 400) return FRIENDLY.input;
+    if (st === 429) return a.limit || 'Für heute ist das Limit erreicht. Morgen geht es weiter.';
+    if (st >= 500) return FRIENDLY.busy;
+    return FRIENDLY.other;
+  }
   /* ---------- Bausteine ---------- */
   const info = text => text ? `<span class="info" data-tip="${esc(text)}">${I.info}</span>` : '';
   const card = (title, body, o = {}) => `<section class="card ${o.cls || ''}" ${o.attrs || ''}>${title ? `<div class="card-head"><div><div class="card-title">${o.icon ? `<span class="card-ico">${I[o.icon] || o.icon}</span>` : ''}${esc(title)}${info(o.info)}</div>${o.sub ? `<div class="card-sub">${o.sub}</div>` : ''}</div>${o.trailing ? `<div class="row">${o.trailing}</div>` : ''}</div>` : ''}${body}</section>`;
@@ -505,5 +538,5 @@
   const LD_PATH = 'M2 17 L9 11 L15 14 L22 6 L29 10 L36 4 L46 8';
   function loader(size = '', label = 'Lädt') { return `<span class="ld${size ? ' ' + size : ''}" role="status" aria-label="${esc(label)}"><svg viewBox="0 0 48 22" aria-hidden="true"><path class="ld-track" d="${LD_PATH}"/><path class="ld-line" d="${LD_PATH}" pathLength="100"/></svg></span>`; }
   const spin = () => '<span class="spin" aria-hidden="true"></span>';
-  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, cls, pnl, count, fieldErrors, tipTable, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
+  root.UI = { I, esc, fmt, loader, spin, downloadText, copyText, friendly, cls, pnl, count, fieldErrors, tipTable, rText, info, card, tile, pill, badge, chip, statusPill, empty, banner, kv, barRow, seg, tabs, ring, scoreColor, chartData, drawers, drawCharts, enterCharts, semiGauge, donut, radar, heatmap, tipAt, tipHide, bindTips, modal, closeModal, toast, confirmModal, promptModal, niceTicks, smooth, axisLeft, axisWidth, xTicks, dateAxis };
 })(typeof self !== 'undefined' ? self : this);

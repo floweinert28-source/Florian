@@ -363,9 +363,11 @@ def create_app() -> FastAPI:
     @app.post("/api/mentor/chat", dependencies=[Depends(auth)])
     def chat(body: ChatIn) -> dict:
         if not app.state.template:
-            raise HTTPException(status_code=500, detail={"error": "prompt", "message": "Der System-Prompt fehlt auf dem Server."})
+            log.error("System-Prompt fehlt (MENTOR_PROMPT_FILE)")
+            raise HTTPException(status_code=500, detail={"error": "prompt", "message": "Der Mentor ist auf dem Server noch nicht fertig eingerichtet."})
         if not api_key_present():
-            raise HTTPException(status_code=503, detail={"error": "key", "message": "Auf dem Server ist kein ANTHROPIC_API_KEY gesetzt."})
+            log.error("ANTHROPIC_API_KEY ist nicht gesetzt")
+            raise HTTPException(status_code=503, detail={"error": "key", "message": "Der Mentor ist auf dem Server noch nicht fertig eingerichtet."})
         at = now()
         past = app.state.store.history(body.user, HISTORY_WINDOW)
         reserved = app.state.store.reserve(body.user, body.message, at, DAILY_LIMIT)
@@ -385,7 +387,7 @@ def create_app() -> FastAPI:
         except Exception as exc:  # noqa: BLE001 - jede Modellstörung wird als 502 gemeldet, nie als Absturz
             app.state.store.release(body.user, reserved, at)
             log.exception("Modellanfrage fehlgeschlagen")
-            raise HTTPException(status_code=502, detail={"error": "model", "message": f"Das Sprachmodell hat nicht geantwortet: {type(exc).__name__}"}) from exc
+            raise HTTPException(status_code=502, detail={"error": "model", "message": "Der Mentor konnte gerade nicht antworten. Versuch es gleich noch einmal."}) from exc
         saved = app.state.store.add_reply(body.user, reply, now())
         return {"reply": reply, "at": saved["at"], "model": MODEL, "quota": quota(body.user, at)}
 
@@ -393,7 +395,8 @@ def create_app() -> FastAPI:
     def voice(body: VoiceIn) -> dict:
         """Sprachjournal: Transkript (vom Browser oder per Server-Transkription) auswerten → Vorschläge als JSON."""
         if not api_key_present():
-            raise HTTPException(status_code=503, detail={"error": "key", "message": "Auf dem Server ist kein ANTHROPIC_API_KEY gesetzt."})
+            log.error("ANTHROPIC_API_KEY ist nicht gesetzt")
+            raise HTTPException(status_code=503, detail={"error": "key", "message": "Der Mentor ist auf dem Server noch nicht fertig eingerichtet."})
         at = now()
         transcript = " ".join(body.transcript.split())
         source = "browser"
@@ -401,12 +404,13 @@ def create_app() -> FastAPI:
             if not body.audio:
                 raise HTTPException(status_code=422, detail={"error": "transcript", "message": "Kein Transkript und keine Aufnahme erhalten."})
             if not STT_URL:
-                raise HTTPException(status_code=422, detail={"error": "stt", "message": "Dein Browser hat kein Transkript geliefert und auf dem Server ist keine Transkription eingerichtet (VOICE_STT_URL)."})
+                log.warning("Keine Server-Transkription eingerichtet (VOICE_STT_URL leer)")
+                raise HTTPException(status_code=422, detail={"error": "stt", "message": "Dein Browser hat kein Transkript geliefert und auf dem Server ist keine Transkription eingerichtet."})
             try:
                 transcript = app.state.transcribe(body.audio, body.mime, body.language)
             except Exception as exc:  # noqa: BLE001
                 log.exception("Transkription fehlgeschlagen")
-                raise HTTPException(status_code=502, detail={"error": "stt", "message": f"Die Transkription ist fehlgeschlagen: {type(exc).__name__}"}) from exc
+                raise HTTPException(status_code=502, detail={"error": "stt", "message": "Die Aufnahme konnte nicht in Text umgewandelt werden."}) from exc
             source = "server"
             if not transcript:
                 raise HTTPException(status_code=422, detail={"error": "transcript", "message": "In der Aufnahme wurde keine Sprache erkannt."})
@@ -427,7 +431,7 @@ def create_app() -> FastAPI:
         except Exception as exc:  # noqa: BLE001
             app.state.store.release_usage(key, at)
             log.exception("Sprachauswertung fehlgeschlagen")
-            raise HTTPException(status_code=502, detail={"error": "model", "message": f"Die Auswertung ist fehlgeschlagen: {type(exc).__name__}"}) from exc
+            raise HTTPException(status_code=502, detail={"error": "model", "message": "Die Sprachnotiz konnte gerade nicht ausgewertet werden."}) from exc
         result = clean_voice_result(raw, setups, mistakes)
         used = app.state.store.used(key, ChatStore.day_of(at))
         return dict(result, transcript=transcript, source=source, model=MODEL, quota={"limit": VOICE_LIMIT, "used": used, "remaining": max(0, VOICE_LIMIT - used)})

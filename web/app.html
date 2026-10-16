@@ -75,19 +75,24 @@
 <script src="js/screens/misc.js"></script>
 <script>
 (function () {
-  /* Startfehler sichtbar machen: statt einer weißen Seite erscheint die Meldung mit Hilfe-Knöpfen */
+  /* Startfehler: statt einer weißen Seite ein freundlicher Hinweis mit Hilfe-Knöpfen. Technische Details (Meldung, Stack, Browser)
+     stehen nicht auf der Seite, sondern nur in der Konsole und im Fehlerbericht zum Kopieren */
   function startFail(e) {
     console.error(e); var main = document.getElementById('main'); if (!main) return;
-    var msg = String(e && (e.stack || e.message) || e).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-    main.innerHTML = '<div style="max-width:720px;margin:40px auto;padding:24px;font:15px/1.5 Inter,Roboto,sans-serif;color:#eee;background:#161616;border:1px solid #333;border-radius:14px">'
-      + '<h2 style="margin:0 0 8px;font-size:20px">Journalyst konnte nicht starten</h2><p style="margin:0 0 14px;color:#aaa">Bitte diese Meldung weitergeben:</p>'
-      + '<pre style="white-space:pre-wrap;word-break:break-word;background:#0d0d0d;padding:12px;border-radius:10px;font-size:12px;max-height:240px;overflow:auto">' + msg + '</pre>'
-      + '<p style="color:#aaa">Browser: ' + String(navigator.userAgent).replace(/</g, '&lt;') + '</p>'
-      + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button id="sf-sample" style="padding:10px 14px;border-radius:10px;border:1px solid #444;background:#222;color:#eee;cursor:pointer">Beispieldaten entfernen und neu laden</button>'
-      + '<button id="sf-reset" style="padding:10px 14px;border-radius:10px;border:1px solid #633;background:#2a1414;color:#f8caca;cursor:pointer">Alle lokalen Daten löschen und neu laden</button></div></div>';
-    var b1 = document.getElementById('sf-sample'), b2 = document.getElementById('sf-reset');
-    if (b1) b1.onclick = function () { try { if (typeof Store !== 'undefined' && Store.removeSample) Store.removeSample(); } catch (err) { console.warn(err); } try { var k = 'trading-journal-web-v1', d = JSON.parse(localStorage.getItem(k) || '{}'); if (d.settings) { d.settings.sampleInstalled = false; d.settings.sampleVersion = 99; localStorage.setItem(k, JSON.stringify(d)); } } catch (err) { console.warn(err); } location.reload(); };
-    if (b2) b2.onclick = function () { if (confirm('Wirklich alle lokalen Daten dieses Journals löschen?')) { try { localStorage.removeItem('trading-journal-web-v1'); } catch (err) { console.warn(err); } location.reload(); } };
+    var report = ['Journalyst: Startfehler', new Date().toISOString(), String(e && (e.stack || e.message) || e), navigator.userAgent].join('\n');
+    var btn = 'padding:10px 14px;border-radius:10px;border:1px solid #3a3835;background:#1f1e1c;color:#f2f0ec;cursor:pointer;font:inherit;min-height:44px';
+    main.innerHTML = '<div role="alert" style="max-width:640px;margin:40px auto;padding:24px;font:15px/1.5 Onest,system-ui,-apple-system,sans-serif;color:#f2f0ec;background:#151412;border:1px solid #34322e;border-radius:12px">'
+      + '<h2 style="margin:0 0 8px;font-size:20px">Journalyst konnte nicht starten</h2>'
+      + '<p style="margin:0 0 16px;color:#bcb8b1">Deine Daten sind nicht verloren, sie liegen weiter in diesem Browser. Lade die Seite neu. Hilft das nicht, entferne die Beispieldaten oder schick uns den Fehlerbericht.</p>'
+      + '<div style="display:flex;gap:8px;flex-wrap:wrap"><button id="sf-reload" style="' + btn + ';background:#ede6da;color:#15130f;border-color:#ede6da;font-weight:600">Neu laden</button>'
+      + '<button id="sf-sample" style="' + btn + '">Beispieldaten entfernen und neu laden</button><button id="sf-copy" style="' + btn + '">Fehlerbericht kopieren</button></div>'
+      + '<p style="margin:20px 0 8px;color:#948f88;font-size:13px">Nur wenn gar nichts hilft:</p><button id="sf-reset" style="' + btn + ';border-color:#5a2a2a;background:#241414;color:#f4c4c4">Alle lokalen Daten löschen und neu laden</button></div>';
+    var $ = function (id) { return document.getElementById(id); };
+    $('sf-reload').onclick = function () { location.reload(); };
+    $('sf-sample').onclick = function () { try { if (typeof Store !== 'undefined' && Store.removeSample) Store.removeSample(); } catch (err) { console.warn(err); } try { var k = 'trading-journal-web-v1', d = JSON.parse(localStorage.getItem(k) || '{}'); if (d.settings) { d.settings.sampleInstalled = false; d.settings.sampleVersion = 99; localStorage.setItem(k, JSON.stringify(d)); } } catch (err) { console.warn(err); } location.reload(); };
+    $('sf-copy').onclick = function () { var b = this; var done = function (ok) { b.textContent = ok ? 'Fehlerbericht kopiert' : 'Kopieren ging nicht'; }; try { navigator.clipboard.writeText(report).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); } };
+    /* zweistufig statt confirm(): der erste Klick fragt nach, erst der zweite löscht */
+    $('sf-reset').onclick = function () { if (!this.dataset.sure) { this.dataset.sure = '1'; this.textContent = 'Wirklich alles löschen? Noch einmal klicken'; return; } try { localStorage.removeItem('trading-journal-web-v1'); } catch (err) { console.warn(err); } location.reload(); };
   }
   window.addEventListener('error', function (ev) { var main = document.getElementById('main'); if (main && (!main.innerHTML.trim() || main.querySelector('.boot'))) startFail(ev.error || ev.message); /* Startfehler: auch wenn noch die Ladeanzeige steht */ });
   if (window.PCView && PCView.maybeStart()) return; /* PC-Ansicht auf dem Handy: die App läuft im eingebetteten Fenster */

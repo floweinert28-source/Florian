@@ -11,12 +11,15 @@
   const headers = () => { const h = { 'Content-Type': 'application/json' }; if (cfg().token) h.Authorization = 'Bearer ' + cfg().token.trim(); return h; };
   const userName = () => { const p = S.settings.profile || {}; const n = (p.firstName || p.username || S.settings.name || '').trim(); return n === 'Trader' ? '' : n; };
 
+  /* Anfrage an den eigenen Server; Fehler kommen als freundlicher Satz zurück (U.friendly), Status, Code und Server-Text nur in
+     der Konsole. Sprachnotizen (/api/voice) haben eigene Sätze für Limit, Transkription und Auswertung */
   async function api(path, opts) {
+    const area = path.startsWith('/api/voice') ? 'voice' : 'mentor'; const fail = (status, code, raw, body) => { const err = new Error(''); Object.assign(err, { status, code, serverMessage: raw, body }); err.message = U.friendly(err, area); return err; };
     let r;
     try { r = await fetch(baseUrl() + path, Object.assign({ headers: headers() }, opts || {})); }
-    catch (e) { const err = new Error('Der Mentor-Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'); err.status = 0; throw err; }
+    catch (e) { throw fail(0, 'net', e && e.message); }
     let body = null; try { body = await r.json(); } catch (e) { /* keine JSON-Antwort */ }
-    if (!r.ok) { const d = body && body.detail; const msg = (Array.isArray(d) && d.map(x => x && x.msg).filter(Boolean).join(' ')) || (d && typeof d === 'object' && !Array.isArray(d) && d.message) || (typeof d === 'string' && d) || (body && body.error) || (r.status === 401 ? 'Zugangstoken fehlt oder ist falsch.' : 'Der Server antwortet mit Fehler ' + r.status + '.'); const err = new Error(msg); err.status = r.status; err.body = body; throw err; }
+    if (!r.ok) { const d = body && body.detail; const raw = (Array.isArray(d) && d.map(x => x && x.msg).filter(Boolean).join(' ')) || (d && typeof d === 'object' && !Array.isArray(d) && d.message) || (typeof d === 'string' && d) || (body && body.error) || ''; throw fail(r.status, d && !Array.isArray(d) && typeof d === 'object' ? d.error : '', raw, body); }
     return body;
   }
 
@@ -121,14 +124,15 @@
     },
     async 'mentor-test'(el) {
       const url = (document.getElementById('mentor-url') || {}).value || cfg().url; const token = (document.getElementById('mentor-token') || {}).value || cfg().token;
-      const out = document.getElementById('mentor-test-out'); if (out) out.textContent = 'Prüfe …';
+      const out = document.getElementById('mentor-test-out'); if (out) out.textContent = root.I18N ? root.I18N.t('Prüfe …') : 'Prüfe …';
       try {
         const u = String(url).trim().replace(/\/+$/, ''); if (!/^https?:\/\//.test(u)) throw new Error('Bitte eine Adresse mit https:// eintragen.');
-        const r = await fetch(u + '/api/mentor/health'); if (!r.ok) throw new Error('Server antwortet mit ' + r.status);
-        const h = await r.json(); let msg = `Verbunden. Modell ${h.model}, ${h.limit} Nachrichten pro Tag.` + (h.prompt_loaded ? '' : ' Achtung: Der System-Prompt fehlt auf dem Server.') + (h.api_key === false ? ' Achtung: Auf dem Server ist kein API-Schlüssel gesetzt.' : '');
-        if (h.auth) { const r2 = await fetch(u + '/api/mentor/history?user=' + encodeURIComponent(S.userId()), { headers: { Authorization: 'Bearer ' + String(token).trim() } }); msg += r2.ok ? ' Zugangstoken passt.' : ' Zugangstoken wird abgelehnt.'; }
+        let r; try { r = await fetch(u + '/api/mentor/health'); } catch (e) { throw Object.assign(new Error(''), { status: 0, serverMessage: e && e.message }); } if (!r.ok) throw Object.assign(new Error(''), { status: r.status });
+        const h = await r.json(); const T = (x, v) => root.I18N ? root.I18N.t(x, v) : x; /* Teile einzeln übersetzen, die Ausgabe selbst ist no-i18n */
+        let msg = T('Verbunden. {0} Nachrichten pro Tag.', [h.limit]) + (h.prompt_loaded && h.api_key !== false ? '' : ' ' + T('Achtung: Der Server ist noch nicht fertig eingerichtet, der Mentor kann noch nicht antworten.'));
+        if (h.auth) { const r2 = await fetch(u + '/api/mentor/history?user=' + encodeURIComponent(S.userId()), { headers: { Authorization: 'Bearer ' + String(token).trim() } }); msg += ' ' + T(r2.ok ? 'Zugangstoken passt.' : 'Zugangstoken wird abgelehnt.'); }
         if (out) out.textContent = msg; U.toast('Verbindung geprüft', 'ok');
-      } catch (e) { if (out) out.textContent = 'Keine Verbindung: ' + e.message; U.toast('Keine Verbindung', 'err'); }
+      } catch (e) { const T = x => root.I18N ? root.I18N.t(x) : x; if (out) out.textContent = T(e.status == null && e.message ? e.message : U.friendly(e, 'mentor')); U.toast('Keine Verbindung', 'err'); }
     },
   });
   window.addEventListener('hashchange', () => { st().stale = true; });

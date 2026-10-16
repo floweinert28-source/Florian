@@ -25,12 +25,10 @@
     s.loading = true; s.error = ''; s.tried = Date.now();
     try {
       const h = {}; if (cfg().token) h.Authorization = 'Bearer ' + cfg().token.trim();
-      let r; try { r = await fetch(baseUrl() + '/api/news', { headers: h }); } catch (e) { throw new Error('Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor.'); }
-      if (r.status === 401) throw new Error('Zugangstoken fehlt oder ist falsch (Einstellungen → Mentor).');
-      if (r.status === 404) throw new Error('Dein Server kennt die News noch nicht. Bitte den Server auf den neuen Stand bringen.');
-      if (!r.ok) throw new Error('Der Server antwortet mit Fehler ' + r.status + '.');
+      let r; try { r = await fetch(baseUrl() + '/api/news', { headers: h }); } catch (e) { throw Object.assign(new Error(''), { status: 0, serverMessage: e && e.message }); }
+      if (!r.ok) throw Object.assign(new Error(''), { status: r.status });
       const body = await r.json(); s.events = Array.isArray(body.events) ? body.events : []; s.updated = body.updated_at || null; s.stale = !!body.stale; s.at = Date.now();
-    } catch (e) { s.error = e.message || 'Laden fehlgeschlagen.'; }
+    } catch (e) { s.error = U.friendly(e, 'news'); } /* freundlicher Satz, Details in der Konsole */
     finally { s.loading = false; if (App.state.route === 'news') App.rerender(); }
   }
 

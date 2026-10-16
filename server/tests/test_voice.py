@@ -67,7 +67,7 @@ def test_voice_without_transcript_needs_server_transcription(voice):
     r = client.post("/api/voice/analyze", json={"user": "flo", "transcript": "", "audio": ""})
     assert r.status_code == 422 and r.json()["detail"]["error"] == "transcript"
     r = client.post("/api/voice/analyze", json={"user": "flo", "transcript": "", "audio": "AAAA", "mime": "audio/mp4"})
-    assert r.status_code == 422 and r.json()["detail"]["error"] == "stt" and "VOICE_STT_URL" in r.json()["detail"]["message"]
+    assert r.status_code == 422 and r.json()["detail"]["error"] == "stt" and "Transkription" in r.json()["detail"]["message"] and "VOICE_STT_URL" not in r.json()["detail"]["message"]  # keine Technik-Namen nach außen
     assert not calls
 
 

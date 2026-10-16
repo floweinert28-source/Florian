@@ -15,7 +15,7 @@
 
   /* ---------- Auswertung über den Server ---------- */
   async function analyze(trade, note) {
-    const M = mentor(); if (!M || !M.configured()) throw Object.assign(new Error('Mentor-Server nicht eingerichtet'), { code: 'config' });
+    const M = mentor(); if (!M || !M.configured()) throw Object.assign(new Error('Für die Auswertung braucht es den Mentor-Server (Einstellungen → Mentor).'), { code: 'config' });
     const body = { user: S.userId(), transcript: note.transcript || '', audio: '', mime: note.mime || '', language: 'de', setups: (S.data.tags.setups || []).slice(0, 100), mistakes: (S.data.tags.mistakes || []).slice(0, 100), trade: tradeLabel(trade) };
     if (!body.transcript && note.blobId) { const blob = await root.Blobs.get(note.blobId).catch(() => null); if (blob) { body.audio = await blobToBase64(blob); body.mime = note.mime || blob.type || ''; } }
     return M.api('/api/voice/analyze', { method: 'POST', body: JSON.stringify(body) });

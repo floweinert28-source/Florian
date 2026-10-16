@@ -38,9 +38,9 @@
     const tok = String((S.settings.mentor || {}).token || '').trim(); if (tok) h.Authorization = 'Bearer ' + tok; o.headers = h;
     let r;
     try { r = await fetch(baseUrl() + path, o); }
-    catch (e) { const err = new Error('Der Server ist nicht erreichbar. Prüf die Adresse unter Einstellungen → Mentor und deine Verbindung.'); err.status = 0; throw err; }
+    catch (e) { const err = Object.assign(new Error(''), { status: 0, serverMessage: e && e.message }); err.message = U.friendly(err, 'coach'); throw err; }
     let body = null; try { body = await r.json(); } catch (e) { /* keine JSON-Antwort */ }
-    if (!r.ok) { const d = body && body.detail; const msg = (Array.isArray(d) && d.map(x => x && x.msg).filter(Boolean).join(' ')) || (d && typeof d === 'object' && !Array.isArray(d) && d.message) || (typeof d === 'string' && d) || `Server antwortet mit ${r.status}`; const err = new Error(msg); err.status = r.status; err.code = d && d.error; throw err; }
+    if (!r.ok) { const d = body && body.detail; const raw = (Array.isArray(d) && d.map(x => x && x.msg).filter(Boolean).join(' ')) || (d && typeof d === 'object' && !Array.isArray(d) && d.message) || (typeof d === 'string' && d) || ''; const err = Object.assign(new Error(''), { status: r.status, code: d && !Array.isArray(d) && typeof d === 'object' ? d.error : '', serverMessage: raw }); err.message = U.friendly(err, 'coach'); throw err; } /* nur Texte, die der Coach-Server für Nutzer schreibt, kommen durch (U.friendly) */
     return body;
   }
 

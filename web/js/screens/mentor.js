@@ -4,7 +4,9 @@
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App;
   const APP_NAME = 'Journalyst';
-  const st = () => App.state.mentor || (App.state.mentor = { messages: null, loading: false, sending: false, error: '', quota: null, draft: '', stale: false, focus: false });
+  const st = () => App.state.mentor || (App.state.mentor = { messages: null, loading: false, sending: false, error: '', notice: '', quota: null, draft: '', stale: false, focus: false, ctrl: null });
+  /* Einwilligung (EU AI Act, Datenschutz): erst nach Zustimmung geht etwas an den Server und von dort an den KI-Anbieter */
+  const consented = scope => !!((S.settings.aiConsent || {})[scope]);
   const cfg = () => Object.assign({ url: '', token: '' }, S.settings.mentor || {});
   const baseUrl = () => cfg().url.trim().replace(/\/+$/, '');
   const configured = () => /^https?:\/\//.test(baseUrl());
@@ -17,7 +19,7 @@
     const area = path.startsWith('/api/voice') ? 'voice' : 'mentor'; const fail = (status, code, raw, body) => { const err = new Error(''); Object.assign(err, { status, code, serverMessage: raw, body }); err.message = U.friendly(err, area); return err; };
     let r;
     try { r = await fetch(baseUrl() + path, Object.assign({ headers: headers() }, opts || {})); }
-    catch (e) { throw fail(0, 'net', e && e.message); }
+    catch (e) { if (e && e.name === 'AbortError') throw Object.assign(new Error(''), { code: 'abort' }); throw fail(0, 'net', e && e.message); }
     let body = null; try { body = await r.json(); } catch (e) { /* keine JSON-Antwort */ }
     if (!r.ok) { const d = body && body.detail; const raw = (Array.isArray(d) && d.map(x => x && x.msg).filter(Boolean).join(' ')) || (d && typeof d === 'object' && !Array.isArray(d) && d.message) || (typeof d === 'string' && d) || (body && body.error) || ''; throw fail(r.status, d && !Array.isArray(d) && typeof d === 'object' ? d.error : '', raw, body); }
     return body;
@@ -71,7 +73,20 @@
   }
   const bubble = m => `<div class="msg ${m.role === 'user' ? 'user' : 'ai'}"><div class="b">${m.role === 'user' ? esc(m.content).replace(/\n/g, '<br>') : renderText(m.content)}</div>${m.at ? `<div class="t">${fmt.time ? fmt.time(m.at) : ''}</div>` : ''}</div>`;
   function quotaText(s) { const q = s.quota; if (!q) return s.loading ? 'Verlauf wird geladen …' : 'Kontingent unbekannt.'; if (q.remaining <= 0) return `Tageslimit von ${q.limit} Nachrichten erreicht. Morgen geht es weiter.`; return `Noch ${q.remaining} von ${q.limit} Nachrichten heute.`; }
-  const INTRO = `<div class="mentor-intro"><p><b>Hallo, ich bin dein Trading-Psychologie-Mentor.</b></p><p>Ich kenne deine letzten Trades und dein heutiges Ruhepunkt-Check-in. Erzähl mir, wo du gerade stehst: vor dem Handelstag, nach einem Verlust, mitten in einer Serie.</p></div>`;
+  const INTRO = `<div class="mentor-intro"><p><b>Hallo, ich bin dein Trading-Psychologie-Mentor, eine KI.</b></p><p>Ich kenne deine letzten Trades und dein heutiges Ruhepunkt-Check-in. Erzähl mir, wo du gerade stehst: vor dem Handelstag, nach einem Verlust, mitten in einer Serie.</p></div>`;
+  const AI_BADGE = '<span class="ai-badge" title="Künstliche Intelligenz">KI</span>';
+  /* Vor der ersten Nachricht: klar sagen, dass hier eine KI antwortet, welche Daten mitgehen und wohin; erst nach Zustimmung geht es los */
+  function consentCard() {
+    let host = ''; try { host = new URL(baseUrl()).host; } catch (e) { host = baseUrl(); }
+    return `<div class="mentor-wrap"><section class="card ai-consent" aria-labelledby="ai-consent-h">
+      <div class="ai-consent-top">${AI_BADGE}<h2 id="ai-consent-h">Bevor du mit dem Mentor schreibst</h2></div>
+      <p class="lead">Der Mentor ist eine KI (Claude von Anthropic), kein Mensch. Seine Antworten können falsch sein und ersetzen keine Therapie, Beratung oder Seelsorge.</p>
+      <div class="ai-consent-cols"><div><h3>Was mitgeschickt wird</h3><ul><li>Deine Nachrichten an den Mentor</li><li>Dein Vorname, falls im Profil eingetragen</li><li>Die letzten 20 abgeschlossenen Trades dieses Kontos: Datum, Symbol, Richtung, Ergebnis, Regeln, Fehler, Emotionen und der Anfang deiner Notiz</li><li>Dein heutiger Check-in und Ruhepunkt (Schlaf, Stress, Stimmung, Tagesregeln, deine Antworten)</li></ul></div>
+      <div><h3>Wohin es geht</h3><ul><li>An deinen Mentor-Server. Er speichert den Chatverlauf, bis du ihn löschst. <span class="muted no-i18n">(${esc(host)})</span></li><li>Von dort an Anthropic, den Anbieter des Sprachmodells, damit eine Antwort entsteht.</li><li>Kontostände, Broker-Daten und andere Notizen bleiben auf deinem Gerät.</li></ul></div></div>
+      <p class="small muted">Du kannst die Einwilligung jederzeit unter Einstellungen → Mentor widerrufen.</p>
+      <div class="row ai-consent-act"><button type="button" class="btn primary" data-action="ai-consent" data-scope="mentor">Zustimmen und Mentor starten</button><a class="btn ghost" href="#/dashboard">Nicht jetzt</a></div>
+    </section></div>`;
+  }
 
   App.screens.mentor = {
     title: 'Mentor',
@@ -80,16 +95,17 @@
     render() {
       const s = st();
       if (!configured()) return `<div class="mentor-wrap"><section class="card mentor-setup"><span class="ico">${I.chat}</span><h2>Mentor-Chat einrichten</h2><p class="muted">Der Mentor läuft über deinen eigenen Server, damit der API-Schlüssel nie im Browser landet. Trag unter Einstellungen → Mentor die Server-Adresse und das Zugangstoken ein.</p><a class="btn primary" href="#/settings/mentor">Zu den Einstellungen</a><div class="small faint" style="margin-top:14px">Anleitung zum Server: <code>server/README.md</code> im Projekt.</div></section></div>`;
+      if (!consented('mentor')) return consentCard();
       const msgs = s.messages || []; const limitHit = s.quota && s.quota.remaining <= 0; const busy = s.sending || s.loading || limitHit;
       return `<div class="mentor-wrap"><section class="card mentor">
-        <div class="mentor-head"><div><b>Trading-Psychologie-Mentor</b><div class="small muted" id="mentor-quota">${quotaText(s)}</div></div><div class="row"><button type="button" class="btn sm ghost" data-action="mentor-reload" aria-label="Neu laden" data-tip="Verlauf neu laden" ${s.sending || s.loading ? 'disabled' : ''}>${I.clock}</button><button type="button" class="btn sm ghost" data-action="mentor-clear" ${msgs.length ? '' : 'disabled'}>${I.trash} Verlauf löschen</button></div></div>
-        <div class="mentor-log" id="mentor-log">${s.loading ? '<div class="mentor-skel" role="status" aria-label="Verlauf wird geladen"><div class="skel msg ai" style="width:62%;height:56px"></div><div class="skel msg user" style="width:38%;height:44px"></div><div class="skel msg ai" style="width:72%;height:68px"></div></div>' : msgs.length ? msgs.map(bubble).join('') : INTRO}${s.sending ? '<div class="msg ai typing" aria-label="Der Mentor schreibt"><i></i><i></i><i></i></div>' : ''}${s.error ? `<div class="mentor-err" role="alert">${esc(s.error)}</div>` : ''}</div>
-        <form class="mentor-form" data-action="mentor-send"><textarea class="input" id="mentor-in" rows="2" maxlength="4000" placeholder="${limitHit ? 'Tageslimit erreicht' : 'Schreib dem Mentor … (Enter sendet, Shift+Enter neue Zeile)'}" data-input="mentor-draft" ${busy ? 'disabled' : ''}>${esc(s.draft)}</textarea><button type="submit" class="btn primary icon" aria-label="Senden" ${busy ? 'disabled' : ''}>${I.arrowUp}</button></form>
+        <div class="mentor-head"><div><b>Trading-Psychologie-Mentor</b>${AI_BADGE}<div class="small muted" id="mentor-quota">${quotaText(s)}</div></div><div class="row"><button type="button" class="btn sm ghost" data-action="mentor-reload" aria-label="Neu laden" data-tip="Verlauf neu laden" ${s.sending || s.loading ? 'disabled' : ''}>${I.clock}</button><button type="button" class="btn sm ghost" data-action="mentor-clear" ${msgs.length ? '' : 'disabled'}>${I.trash} Verlauf löschen</button></div></div>
+        <div class="mentor-log" id="mentor-log">${s.loading ? '<div class="mentor-skel" role="status" aria-label="Verlauf wird geladen"><div class="skel msg ai" style="width:62%;height:56px"></div><div class="skel msg user" style="width:38%;height:44px"></div><div class="skel msg ai" style="width:72%;height:68px"></div></div>' : msgs.length ? msgs.map(bubble).join('') : INTRO}${s.sending ? '<div class="msg ai typing" aria-label="Der Mentor schreibt"><i></i><i></i><i></i></div>' : ''}${s.error ? `<div class="mentor-err" role="alert">${esc(s.error)}</div>` : ''}${s.notice ? `<div class="mentor-notice" role="status">${esc(s.notice)}</div>` : ''}</div>
+        <form class="mentor-form" data-action="mentor-send"><textarea class="input" id="mentor-in" rows="2" maxlength="4000" placeholder="${limitHit ? 'Tageslimit erreicht' : 'Schreib dem Mentor … (Enter sendet, Shift+Enter neue Zeile)'}" data-input="mentor-draft" ${busy ? 'disabled' : ''}>${esc(s.draft)}</textarea>${s.sending ? `<button type="button" class="btn icon mentor-stop" data-action="mentor-cancel" aria-label="Antwort abbrechen" title="Abbrechen">${I.stop}</button>` : `<button type="submit" class="btn primary icon" aria-label="Senden" ${busy ? 'disabled' : ''}>${I.arrowUp}</button>`}</form>
         <div class="mentor-note small faint">Der Mentor ist eine KI und ersetzt keine Therapie, Beratung oder Seelsorge. In akuten Krisen: Telefonseelsorge 0800 111 0 111, bei Gefahr 112.</div>
       </section></div>`;
     },
     mount(main) {
-      const s = st(); if (!configured()) return;
+      const s = st(); if (!configured() || !consented('mentor')) return; /* vor der Einwilligung keine Anfrage */
       if ((s.messages === null || s.stale) && !s.loading && !s.sending) { s.stale = false; loadHistory(); } /* beim Öffnen der Seite frisch laden, nicht bei jedem Neuaufbau */
       const log = main.querySelector('#mentor-log'); if (log) log.scrollTop = log.scrollHeight;
       const ta = main.querySelector('#mentor-in'); if (ta) { ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ta.form.requestSubmit(); } }); if ((s.draft || s.focus) && !ta.disabled && !document.querySelector('.modal-bg')) { ta.focus(); s.focus = false; } }
@@ -104,18 +120,20 @@
   }
   Object.assign(App.actions, {
     'mentor-draft'(el) { st().draft = el.value; },
+    'mentor-cancel'() { const s = st(); if (s.ctrl) s.ctrl.abort(); },
     'mentor-reload'() { st().messages = null; loadHistory(); },
     async 'mentor-send'() {
       const s = st(); const text = (s.draft || '').trim().slice(0, 4000); if (!text || s.sending || s.loading) return;
       if (!s.messages) s.messages = [];
-      s.messages.push({ role: 'user', content: text, at: new Date().toISOString(), pending: true }); s.draft = ''; s.sending = true; s.error = ''; App.rerender();
+      s.messages.push({ role: 'user', content: text, at: new Date().toISOString(), pending: true }); s.draft = ''; s.sending = true; s.error = ''; s.notice = ''; s.ctrl = new AbortController(); App.rerender();
       try {
-        const r = await api('/api/mentor/chat', { method: 'POST', body: JSON.stringify({ user: S.userId(), message: text, context: { app_name: APP_NAME, user_name: userName(), glaubensmodus: S.settings.christlicherImpuls !== false, journal: buildContext() } }) });
+        const r = await api('/api/mentor/chat', { method: 'POST', signal: s.ctrl.signal, body: JSON.stringify({ user: S.userId(), message: text, context: { app_name: APP_NAME, user_name: userName(), glaubensmodus: S.settings.christlicherImpuls !== false, journal: buildContext() } }) });
         s.messages.forEach(m => { delete m.pending; }); s.messages.push({ role: 'assistant', content: r.reply, at: r.at }); s.quota = r.quota || s.quota; s.focus = true;
       } catch (e) {
-        s.messages = s.messages.filter(m => !m.pending); s.draft = text; s.error = e.message; if (e.status === 429 && e.body && e.body.detail && e.body.detail.quota) s.quota = e.body.detail.quota;
+        if (e.code === 'abort') { s.messages.forEach(m => { delete m.pending; }); s.notice = 'Du hast das Warten abgebrochen. Kommt die Antwort noch, siehst du sie beim nächsten Öffnen.'; } /* die Nachricht ist schon beim Server; beim nächsten Öffnen lädt der Verlauf neu (hashchange) */
+        else { s.messages = s.messages.filter(m => !m.pending); s.draft = text; s.error = e.message; if (e.status === 429 && e.body && e.body.detail && e.body.detail.quota) s.quota = e.body.detail.quota; }
       }
-      s.sending = false; if (App.state.route === 'mentor') App.rerender();
+      s.sending = false; s.ctrl = null; if (App.state.route === 'mentor') App.rerender();
     },
     async 'mentor-clear'() {
       if (!await U.confirmModal('Verlauf löschen?', 'Der Mentor vergisst damit alle bisherigen Nachrichten.', { ok: 'Löschen', danger: true })) return;

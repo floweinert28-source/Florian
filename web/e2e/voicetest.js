@@ -34,6 +34,8 @@ const FAKES = `
   ok('Countdown läuft', t1 === '0:29' || t1 === '0:28', t1);
   ok('Live-Transkript sichtbar', (await p.textContent('#voice-live')).includes('zu früh rein'));
   await p.click('#voice-start'); await p.waitForTimeout(1500);
+  ok('Vor der ersten Auswertung: Einwilligungs-Frage, noch keine Anfrage', !!(await p.$('.voice-modal .ai-consent-box')) && /Anthropic/.test(await p.textContent('.voice-modal .ai-consent-box')) && calls.length === 0);
+  await p.click('.voice-modal [data-voice-consent=yes]'); await p.waitForTimeout(1500);
   ok('Vorschläge angezeigt', !!(await p.$('.voice-modal .voice-sugs')) && (await p.textContent('.voice-modal .voice-sugs')).includes('frustriert') && (await p.textContent('.voice-modal .voice-sugs')).includes('Pullback'));
   ok('Server bekam Transkript, Listen und Nutzer', calls.length === 1 && calls[0].transcript.includes('zu früh') && calls[0].setups.includes('Pullback') && calls[0].mistakes.includes('FOMO') && !!calls[0].user && calls[0].audio === '');
   ok('Nichts ungefragt überschrieben', await p.evaluate(i => { const t = Store.getTrade(i); return t.setup === '' && t.emotions.length === 0; }, id));

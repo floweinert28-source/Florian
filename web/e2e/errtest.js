@@ -21,7 +21,7 @@ const RAW = /\b(4\d\d|5\d\d)\b|RuntimeError|TypeError|ANTHROPIC|VOICE_STT|undefi
       : r.fulfill({ status: 422, contentType: 'application/json', body: JSON.stringify({ detail: [{ loc: ['body', 'message'], msg: 'field required', type: 'value_error.missing' }] }) });
     return r.fulfill({ status: 404, body: 'Not Found' }); });
   await p.goto(BASE + '#/dashboard', { waitUntil: 'load' }); await p.waitForTimeout(800);
-  await p.evaluate(s => { Store.setSetting('mentor', { url: s, token: 'x' }); }, SRV);
+  await p.evaluate(s => { Store.setSetting('mentor', { url: s, token: 'x' }); Store.setSetting('aiConsent', { mentor: new Date().toISOString() }); }, SRV);
   /* Mentor: Modell-Fehler (502 mit Fehlerklasse) */
   const send = async () => { await p.evaluate(() => { location.hash = '#/mentor'; }); await p.waitForTimeout(700); await p.fill('#mentor-in', 'Hallo'); await p.press('#mentor-in', 'Enter'); await p.waitForTimeout(900); return p.evaluate(() => { const e = document.querySelector('.mentor-err, .mentor .banner, [data-mentor-error]'); return (e ? e.textContent : '') + ' || ' + document.getElementById('main').innerText; }); };
   let t = await send();

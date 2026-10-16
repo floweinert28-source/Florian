@@ -26,7 +26,10 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   { const out = await p.textContent('#mentor-test-out'); ok('Verbindung testen: Grenze und Token, ohne Modellname', /^Verbunden\. \d+ Nachrichten pro Tag\./.test(out) && out.includes('Zugangstoken passt') && !/Modell|claude/i.test(out)); }
   await p.click('form[data-action=save-mentor] button[type=submit]'); await p.waitForTimeout(300);
   ok('Einstellungen gespeichert (ohne Schrägstrich am Ende)', await p.evaluate(() => Store.settings.mentor.url === 'https://mentor.test' && Store.settings.mentor.token === 'geheim'));
-  await p.evaluate(() => { location.hash = '#/mentor'; }); await p.waitForTimeout(700);
+  const before = calls.length; await p.evaluate(() => { location.hash = '#/mentor'; }); await p.waitForTimeout(700);
+  { const card = await p.$('.ai-consent'); const t = card ? await card.innerText() : ''; ok('Vor der Einwilligung: Karte mit KI-Hinweis, Daten und Ziel, noch keine Anfrage', !!card && /Der Mentor ist eine KI/.test(t) && /letzten 20 abgeschlossenen Trades/.test(t) && /Anthropic/.test(t) && t.includes('mentor.test') && calls.length === before && !(await p.$('#mentor-in')), t.slice(0, 60)); }
+  await p.click('[data-action=ai-consent][data-scope=mentor]'); await p.waitForTimeout(700);
+  ok('Nach Zustimmung: Einwilligung mit Datum gespeichert, Chat mit KI-Kennzeichen', await p.evaluate(() => !!Date.parse((Store.settings.aiConsent || {}).mentor)) && (await p.textContent('.mentor-head .ai-badge')).trim() === 'KI');
   ok('Verlauf geladen mit Kontingent', (await p.$$('.mentor-log .msg')).length === 2 && (await p.textContent('#mentor-quota')).includes('Noch 28 von 30') && calls.some(c => c.path.startsWith('/api/mentor/history?user=flo') && c.auth === 'Bearer geheim'));
   ok('Antwort mit Fett und Liste gerendert', !!(await p.$('.msg.ai b')) && (await p.$$('.msg.ai li')).length === 2);
   await p.fill('#mentor-in', 'Ich habe gerade zwei Verluste in Folge.'); await p.keyboard.press('Enter'); await p.waitForTimeout(700);

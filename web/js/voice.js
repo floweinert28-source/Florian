@@ -13,6 +13,12 @@
   const tradeLabel = t => `${t.symbol} ${t.direction > 0 ? 'Long' : 'Short'} · ${fmt.dateTime(t.openedAt)}`;
   const blobToBase64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = () => rej(r.error); r.readAsDataURL(blob); });
 
+  /* ---------- Einwilligung: vor der ersten Auswertung, was wohin geht (EU AI Act, Datenschutz) ---------- */
+  const consented = () => !!((S.settings.aiConsent || {}).voice);
+  const giveConsent = () => S.setSetting('aiConsent', Object.assign({}, S.settings.aiConsent || {}, { voice: new Date().toISOString() }));
+  const CONSENT_TEXT = 'Für Vorschläge geht die Notiz an deinen Mentor-Server und von dort an Anthropic (KI): das Transkript oder, wenn dein Browser keins geliefert hat, die Aufnahme, dazu deine Setup- und Fehler-Listen sowie Symbol, Richtung und Zeit des Trades. Widerrufen kannst du das unter Einstellungen → Mentor.';
+  const consentBox = () => `<div class="ai-consent-box" role="group" aria-label="Einwilligung"><div class="row" style="gap:8px"><span class="ai-badge">KI</span><b>Notiz auswerten lassen?</b></div><p class="small muted">${CONSENT_TEXT}</p><div class="row"><button type="button" class="btn sm primary" data-voice-consent="yes">Erlauben und auswerten</button><button type="button" class="btn sm ghost" data-voice-consent="no">Nur speichern</button></div></div>`;
+
   /* ---------- Auswertung über den Server ---------- */
   async function analyze(trade, note) {
     const M = mentor(); if (!M || !M.configured()) throw Object.assign(new Error('Für die Auswertung braucht es den Mentor-Server (Einstellungen → Mentor).'), { code: 'config' });
@@ -101,17 +107,26 @@
         status.textContent = transcript ? 'Aufnahme gespeichert.' : 'Aufnahme gespeichert, dein Browser hat kein Transkript geliefert.';
         const M = mentor();
         if (!(M && M.configured())) { result.innerHTML = `<div class="small muted" style="margin-top:10px">Transkript gespeichert. Für Vorschläge (Emotion, Setup, Fehler) richte den Mentor-Server ein.</div>`; App.rerender(); return; }
-        result.innerHTML = `<div class="ld-row" style="margin-top:12px">${U.loader('sm', 'Wird ausgewertet')}<span class="small muted">Wird ausgewertet …</span></div>`;
-        const r = await runAnalysis(tradeId, note.id);
-        const fresh = S.getTrade(tradeId);
-        if (r && r.ok) { result.innerHTML = `<div class="caption" style="margin-top:14px">Vorschläge</div>${suggestionsHTML(fresh, r.note.analysis)}`; result.dataset.trade = tradeId; result.dataset.voice = note.id; }
-        else result.innerHTML = `<div class="banner warn" style="margin-top:12px">${I.warning}<div class="grow"><b>${esc((r && r.error) || 'Auswertung fehlgeschlagen')}</b><span>${r && r.retry ? 'Die Aufnahme ist gespeichert. Du kannst sie in der Trade-Ansicht erneut senden.' : ''}</span></div></div>`;
+        /* Einwilligung vor der ersten Auswertung: sagen, was wohin geht; ohne Zustimmung bleibt es beim Speichern */
+        if (!consented()) { result.innerHTML = consentBox(); result.dataset.trade = tradeId; result.dataset.voice = note.id; App.rerender(); return; }
+        await evaluate(tradeId, note.id);
         App.rerender();
       };
       rec.start(250); active = { rec, stream, recog, timer: null };
       startBtn.innerHTML = `${I.stop} Stopp`; startBtn.classList.add('danger'); status.textContent = recog ? 'Aufnahme läuft, Transkription aktiv …' : 'Aufnahme läuft (keine Transkription in diesem Browser) …'; result.innerHTML = '';
       active.timer = setInterval(() => { const el = (performance.now() - started) / 1000; const left = Math.max(0, MAX_SEC - el); time.textContent = `0:${String(Math.ceil(left)).padStart(2, '0')}`; prog.style.strokeDashoffset = (CIRC * (1 - left / MAX_SEC)).toFixed(1); if (left <= 0 && active) { try { active.rec.stop(); } catch (e) { /* ignorieren */ } } }, 200);
     });
+    async function evaluate(tradeId, noteId) {
+      result.innerHTML = `<div class="ld-row" style="margin-top:12px">${U.loader('sm', 'Wird ausgewertet')}<span class="small muted">Wird ausgewertet …</span></div>`;
+      const r = await runAnalysis(tradeId, noteId);
+      const fresh = S.getTrade(tradeId);
+      if (r && r.ok) { result.innerHTML = `<div class="caption" style="margin-top:14px">Vorschläge</div>${suggestionsHTML(fresh, r.note.analysis)}`; result.dataset.trade = tradeId; result.dataset.voice = noteId; }
+      else result.innerHTML = `<div class="banner warn" style="margin-top:12px">${I.warning}<div class="grow"><b>${esc((r && r.error) || 'Auswertung fehlgeschlagen')}</b><span>${r && r.retry ? 'Die Aufnahme ist gespeichert. Du kannst sie in der Trade-Ansicht erneut senden.' : ''}</span></div></div>`;
+    }
+    /* Antwort auf die Einwilligungs-Frage */
+    result.addEventListener('click', async e => { const c = e.target.closest('[data-voice-consent]'); if (!c) return; e.preventDefault(); e.stopPropagation();
+      if (c.dataset.voiceConsent === 'yes') { giveConsent(); await evaluate(result.dataset.trade, result.dataset.voice); App.rerender(); }
+      else result.innerHTML = `<div class="small muted" style="margin-top:10px">Gespeichert, ohne Auswertung. Du kannst sie später in der Trade-Ansicht auswerten lassen.</div>`; });
     result.addEventListener('click', e => { const b = e.target.closest('[data-action=voice-apply]'); if (!b) return; e.preventDefault(); e.stopPropagation(); const t = S.getTrade(result.dataset.trade); const v = t && (t.voiceNotes || []).find(x => x.id === result.dataset.voice); if (!t || !v || !v.analysis) return; apply(t, v.analysis, b.dataset.kind, b.dataset.value); result.innerHTML = `<div class="caption" style="margin-top:14px">Vorschläge</div>${suggestionsHTML(S.getTrade(t.id), v.analysis)}`; App.rerender(); });
   }
 
@@ -121,7 +136,7 @@
     'voice-open'(el) { open(el.dataset.trade); },
     /* Dashboard-Schnellzugriff: Sprachnotiz zum zuletzt gehandelten Trade */
     'voice-last'() { const all = App.allTrades(); if (!all.length) return U.toast('Noch kein Trade vorhanden', 'err'); const last = all.slice().sort((a, b) => b.sortTime - a.sortTime)[0]; open(last.id); },
-    async 'voice-retry'(el) { el.disabled = true; const r = await runAnalysis(el.dataset.trade, el.dataset.voice); U.toast(r && r.ok ? 'Auswertung da' : (r && r.error) || 'Fehlgeschlagen', r && r.ok ? 'ok' : 'err'); App.rerender(); },
+    async 'voice-retry'(el) { if (!consented()) { if (!await U.confirmModal('Notiz auswerten lassen?', CONSENT_TEXT, { ok: 'Erlauben und auswerten' })) return; giveConsent(); } el.disabled = true; const r = await runAnalysis(el.dataset.trade, el.dataset.voice); U.toast(r && r.ok ? 'Auswertung da' : (r && r.error) || 'Fehlgeschlagen', r && r.ok ? 'ok' : 'err'); App.rerender(); },
     'voice-apply'(el) { const t = S.getTrade(el.dataset.trade); const v = t && (t.voiceNotes || []).find(x => x.id === el.dataset.voice); if (!t || !v || !v.analysis) return; apply(t, v.analysis, el.dataset.kind, el.dataset.value); App.rerender(); },
   });
   root.Voice = { open, runAnalysis, suggestionsHTML, pickMime, MAX_SEC };

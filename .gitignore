@@ -19,3 +19,6 @@ data/
 .vscode/
 .idea/
 .DS_Store
+
+# Arbeitsdateien des Taste Skill
+.taste-skill/

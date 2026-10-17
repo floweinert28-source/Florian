@@ -242,6 +242,14 @@
     'cal-next'() { const m = App.state.calMonth || new Date(); App.state.calMonth = new Date(m.getFullYear(), m.getMonth() + 1, 1); App.rerender(); },
     'cal-today'() { App.state.calMonth = null; App.rerender(); },
     'recent-tab'(el) { App.state.recentTab = el.dataset.value; App.rerender(); },
+    /* Disziplin-Trichter: Stufe = die Trades, die dort rausfallen; „Saubere Trades“ = die durch alle Stufen; erste Stufe = alle */
+    'funnel-open'(el) {
+      const d = U.chartData['dash-funnel']; if (!d) return; const i = el.dataset.i; const f = App.state.tradeFilter;
+      Object.assign(f, { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades', ids: null, idsLabel: '' });
+      if (i === 'clean') Object.assign(f, { ids: d.cleanIds, idsLabel: 'Saubere Trades' });
+      else { const s = d.stages[+i]; if (s && +i > 0) Object.assign(f, { ids: s.dropIds, idsLabel: s.drop }); }
+      if (App.state.tradePage) App.state.tradePage.page = 1; location.hash = '#/trades';
+    },
     'dash-year'(el) { App.state.dashYear = (App.state.dashYear || new Date().getFullYear()) + Number(el.dataset.dir); App.rerender(); },
   });
   App.calendarHTML = W.calendarHTML;

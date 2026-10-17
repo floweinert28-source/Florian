@@ -25,7 +25,7 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   /* Zeitraum „Alle“: der Standardbereich „Monat“ enthält am Monatsersten nur die heutigen Trades */
   await p.evaluate(() => { Store.setSetting('range', { preset: 'all', from: null, to: null }); App.rerender(false); }); await p.waitForTimeout(400);
   ok('Dashboard mit Daten (Zeitraum Alle): ≥ 150 Trades, keine „Noch keine Daten“, Kennzahlen gefüllt', !(await content()).includes('Noch keine Daten') && (await p.$$('.tile .val')).length >= 4);
-  ok('sampleInstalled und sampleVersion 3 gesetzt', await p.evaluate(() => Store.settings.sampleInstalled === true && Store.settings.sampleVersion === 3));
+  ok('sampleInstalled und sampleVersion 4 gesetzt', await p.evaluate(() => Store.settings.sampleInstalled === true && Store.settings.sampleVersion === 4));
   const imgs = await p.evaluate(() => Store.sampleImages);
   const b1 = await blobCount();
   ok('Replay-Screenshots nachgelaufen: ≥ 50 PNGs in IndexedDB (pre + post)', imgs >= 50 && b1 === imgs && c1.shots * 2 === imgs, `${imgs} Bilder, ${b1} Blobs, ${c1.shots} Trades`);
@@ -151,12 +151,12 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(800);
   const up = await p.evaluate(() => ({ v: Store.settings.sampleVersion, inst: Store.settings.sampleInstalled, own: !!Store.getTrade('own1'), ownProp: (Store.getTrade('own1') || {}).propAccountIds, old: !!Store.getTrade('smpold'), nq: Store.trades().filter(t => t.symbol === 'NQ').length, acc: Store.propAccounts().length, rule: Store.data.rules.some(r => r.text === 'Eigene Regel'), oldDay: !!Store.data.days['2026-02-02'], total: Store.trades().length }));
   const imgs3 = await p.evaluate(() => Store.sampleImages);
-  ok('Upgrade: neue Beispieldaten installiert (sampleVersion 3), alter Beispiel-Trade weg, eigener Trade und eigene Regel bleiben, Bilder nachgelaufen', up.v === 3 && up.inst && up.own && up.ownProp.length === 1 && !up.old && up.nq > 30 && up.acc === 4 && up.rule && !up.oldDay && up.total === c1.trades + 1 && imgs3 === imgs, JSON.stringify(up) + ` Bilder ${imgs3}`);
+  ok('Upgrade: neue Beispieldaten installiert (sampleVersion 4), alter Beispiel-Trade weg, eigener Trade und eigene Regel bleiben, Bilder nachgelaufen', up.v === 4 && up.inst && up.own && up.ownProp.length === 1 && !up.old && up.nq > 30 && up.acc === 4 && up.rule && !up.oldDay && up.total === c1.trades + 1 && imgs3 === imgs, JSON.stringify(up) + ` Bilder ${imgs3}`);
   ok('Upgrade: Verlauf protokolliert den Import der Beispieldaten', await p.evaluate(() => (Store.data.logs || []).some(l => l.source === 'Beispieldaten' && l.ident.includes('Prop-Konten'))));
   const upDays = await p.evaluate(ks => { const a = Store.data.days[ks[40]], b = Store.data.days[ks[41]]; return { ownNote: a && a.checkIn && a.checkIn.note, ownHasSample: !!(a && a.sample && a.regime && a.sampleFields && !a.sampleFields.checkIn), genReplaced: !!(b && b.sample && (!b.checkIn || b.sampleFields.checkIn)) }; }, upKeys);
   ok('Upgrade: eigener Check-in auf einem v1-Beispiel-Tag bleibt, generiert aussehender v1-Check-in (8:00 Uhr, ohne Ziel) wird ersetzt', upDays.ownNote === 'EIGENER CHECK-IN auf einem v1-Beispiel-Tag' && upDays.ownHasSample && upDays.genReplaced, JSON.stringify(upDays));
   ok('Upgrade: Vorschlagsregeln eingeschaltet und protokolliert (nicht stillschweigend)', await p.evaluate(() => Store.settings.sampleShadowRules === true && Store.data.logs.some(l => l.type === 'Schatten-Ich' && l.source === 'Beispieldaten')));
-  await p.evaluate(() => { localStorage.setItem('trading-journal-web-v1', JSON.stringify({ version: 1, settings: { sampleInstalled: true, sampleVersion: 3, onboarded: true }, trades: [], logs: [] })); });
+  await p.evaluate(() => { localStorage.setItem('trading-journal-web-v1', JSON.stringify({ version: 1, settings: { sampleInstalled: true, sampleVersion: 4, onboarded: true }, trades: [], logs: [] })); });
   await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(500);
   ok('Aktuelle Version wird beim Laden nicht erneut installiert', await p.evaluate(() => Store.trades().length === 0 && (Store.data.logs || []).length === 0));
 

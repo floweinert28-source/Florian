@@ -8,7 +8,7 @@
   'use strict';
   const C = root.Core || (typeof require === 'function' ? require('./core.js') : null);
   const PD = root.PropData || (typeof require === 'function' ? (require('./propdata.js').PropData || null) : null);
-  const VERSION = 3; /* 3: FTMO als Forex-Konto, Tage-Merge mit Prüfsummen; Erhöhung erzwingt die Neuinstallation bestehender Beispieldaten */
+  const VERSION = 4; /* 3: FTMO als Forex-Konto, Tage-Merge mit Prüfsummen; 4: Revenge-Trades ohne Setup (Disziplin-Trichter); Erhöhung erzwingt die Neuinstallation bestehender Beispieldaten */
   const SEED = 19887; /* per Seed-Suche (scratchpad/seedsearch.js) gewählt: Topstep ~35 % zum Ziel, Apex ohne Verletzung mit > 6.000 beim Funded-Wechsel, FTMO am Breach-Tag im DAX gerissen, MNQ höchstens 5 Kontrakte */
   const DAYS = 88;
   /* Fenster als Index der Handelstage (0 = ältester, 87 = heute): Topstep seit ~3 Wochen, Apex seit ~3 Monaten (funded seit ~6 Wochen), FTMO ~9 bis ~5 Wochen (Forex/CFD, Frühsession), Breach-Tag ~5 Wochen her */
@@ -103,7 +103,7 @@
       const t = {
         id: 'smp' + (++n), accountId, symbol: ins.s, direction: dir, openedAt: o.cursor.toISOString(), closedAt: exit.toISOString(), entryPrice, exitPrice, quantity: o.qty, multiplier: ins.mult, fees,
         plannedEntry: o.plannedEntry, plannedStop, plannedTarget, plannedReason: o.reason, mae: roundTick(entryPrice - dir * maeR * o.stopDist, ins), mfe: roundTick(entryPrice + dir * mfeR * o.stopDist, ins),
-        setup: o.setup.n, strategy: o.setup.strat, mistakes: o.mistakes, emotions: o.emotions, rulesBroken: o.rules, rating: o.rating, notes: o.notes,
+        setup: o.mistakes.includes('Revenge-Trade') ? '' : o.setup.n, strategy: o.mistakes.includes('Revenge-Trade') ? '' : o.setup.strat, mistakes: o.mistakes, /* Revenge-Trades ohne Setup, wie in der Sprachnotiz */ emotions: o.emotions, rulesBroken: o.rules, rating: o.rating, notes: o.notes,
         screenshots: [], voiceNotes: [], propAccountIds: [], sample: true, createdAt: exit.toISOString(),
       };
       info.set(t.id, { di: o.di, win: o.win, rr: o.rr, exit, stopDist: o.stopDist });

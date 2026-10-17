@@ -149,7 +149,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
   mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
-  Performance nach Uhrzeit und Haltedauer, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
+  Performance nach Uhrzeit und Haltedauer, Disziplin-Trichter, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
   Jedes Widget hat ein (i) mit Erklärung (sichtbar beim Darüberfahren). Profit-Faktor als Ring (Gewinne gegen Verluste), Ø Gewinn/Verlust
   als Zweiteil-Balken, damit die Kacheln oben nicht doppelt aussehen. Bedienelemente nur, wenn sie etwas tun: „Heute“ im Kalender nur bei einem anderen Monat, der Reiter
@@ -173,6 +173,16 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Konto), Ruhepunkt (heute vor/nach dem Trading, Start mit einem Klick, Akut-Reset) und Mentor (Frage oder Vorschlag landet
   im Eingabefeld des Mentors; ohne Server ein Einrichten-Hinweis). Die fünf Karten hängt eine einmalige Migration
   (`dashboardsVersion` 4) ans Ende des Standard-Dashboards; Entferntes bleibt entfernt.
+  **Disziplin-Trichter** (Standard-Dashboard an dritter Stelle statt „Netto-P&L pro Tag“; bestehende Standard-Dashboards tauscht
+  `dashboardsVersion` 6 einmalig an gleicher Stelle und Größe, eigene Vorlagen bleiben; das Säulen-Widget bleibt in der Bibliothek):
+  Alle Trades → mit Setup → Stop gehalten (geplant und Verlust höchstens 1,15 R wie im Trade-Score) → Regeln gehalten → ohne
+  Fehler. Jede Stufe zählt, was sie und alle davor schafft; Höhe = Anzahl, Prozent bezogen auf alle Trades. Stufen, die nie
+  erfasst werden (kein Setup, kein Stop, keine Regeln, kein Fehler-Tag), fallen weg, mit Hinweis. Form nach der 21st-Vorlage
+  bklitai/funnel-chart (geschwungene Abschnitte, drei Schichten, Anzahl oben, Prozent-Pille, Name unten), Farben als eine Farbe in
+  Stufen (Akzent zur Kartenfarbe gemischt, folgt hell/dunkel und eigenen Farben). Hover/Fokus hebt eine Stufe hervor, Tooltip mit
+  „fallen hier raus“; Klick öffnet das TradeLog mit genau diesen Trades (Chip „Disziplin-Trichter · Ohne Setup“ mit ×, Filter
+  `tradeFilter.ids`). Darunter ein Satz „Saubere Trades gewinnen x %, alle anderen y %“ und „Saubere Trades ansehen“
+  (`U.drawers.funnel`, `funnelStages` in `js/widgets.js`; Test `e2e/trichtertest.js`). Beispieldaten Version 4: Revenge-Trades ohne Setup.
   **Widgets nach Vorlagen von 21st.dev** (Gruppe „Auswertungen“, nur über „Widget hinzufügen“, das Standard-Dashboard bleibt
   unverändert): die React-Komponenten Mini Chart, Pie Chart und Progress im Code der App nachgebaut, ohne React,
   Tailwind oder Zusatzbibliotheken (`U.drawers.wdbars`, `pie`, `wring` in `js/widgets.js`, Stile am Ende von

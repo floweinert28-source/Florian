@@ -3883,3 +3883,31 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
   .set-back { display: inline-flex; }
   .set-drow { flex-direction: column; }
 }
+/* Disziplin-Trichter: Zeichnung (SVG) und darüber je Stufe ein Knopf mit Anzahl, Prozent-Pille und Name. Hover/Fokus: die Stufe
+   wächst etwas auf, die anderen treten zurück (wie die 21st-Vorlage); Klick öffnet die Trades im TradeLog */
+.fn-chart { position: relative; }
+.fn { position: relative; width: 100%; height: 100%; }
+.fn-svg { position: absolute; inset: 0; display: block; overflow: visible; }
+.fn-seg path { transform-box: fill-box; transform-origin: center; transition: transform var(--dur-1) var(--ease); }
+.fn-seg, .fn-col { transition: opacity var(--dur-1) var(--ease); }
+.fn.hov .fn-seg:not(.on), .fn.hov .fn-col:not(.on) { opacity: .4; }
+.fn-seg.on .fn-l1 { transform: scaleY(1.06); }
+.fn-seg.on .fn-l2 { transform: scaleY(1.12); }
+.fn-cols { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(var(--fn-n), minmax(0, 1fr)); column-gap: 4px; }
+.fn-col { display: grid; grid-template-rows: 28px 1fr 38px; justify-items: center; align-items: center; min-width: 0; padding: 0; border: 0; border-radius: var(--radius-xs); background: none; color: inherit; font: inherit; cursor: pointer; }
+.fn-col:focus-visible { outline: 0.125rem solid var(--accent); outline-offset: 2px; }
+.fn-v { align-self: end; padding-bottom: 6px; color: var(--text); font-size: var(--fs-14); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fn-p { padding: 3px 9px; border-radius: 999px; background: var(--surface); color: var(--text); font-size: var(--fs-12); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 12%, transparent); }
+.fn-lb { align-self: start; max-width: 100%; padding-top: 6px; overflow: hidden; color: var(--muted); font-size: var(--fs-12); line-height: 1.25; text-align: center; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.fn-foot { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-1) var(--sp-3); margin-top: var(--sp-3); color: var(--text-2); font-size: var(--fs-13); }
+.fn-say { min-width: 0; }
+.fn-miss { margin-top: var(--sp-1); }
+/* TradeLog: Filter aus dem Disziplin-Trichter als Chip mit × */
+.tl-ids { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 2.25rem; padding: 0 var(--sp-1) 0 var(--sp-3); border: 1px solid var(--border); border-radius: 999px; font-size: var(--fs-13); white-space: nowrap; }
+.tl-ids-x { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; }
+.tl-ids-x:hover { background: var(--surface-2); color: var(--text); }
+.tl-ids-x svg { width: 0.75rem; height: 0.75rem; }
+button.more-link { padding: 0; border: 0; background: none; font-family: inherit; cursor: pointer; } /* Link-Optik auch als Knopf */
+/* schmale Trichter-Karte (drei Spalten auf kleinen Bildschirmen): Stufennamen etwas kleiner, damit sie in zwei Zeilen passen */
+.fn-chart { container-type: inline-size; }
+@container (max-width: 18.5rem) { .fn-lb { font-size: var(--fs-11); } .fn-p { padding: 2px 7px; font-size: var(--fs-11); } .fn-v { font-size: var(--fs-13); } }

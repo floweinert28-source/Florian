@@ -23,8 +23,8 @@
   };
   const pageState = () => App.state.tradePage || (App.state.tradePage = { size: 50, page: 1 });
   function filtered(list) {
-    const f = App.state.tradeFilter; const q = f.q.trim().toLowerCase();
-    return list.filter(t => (!f.symbol || t.symbol === f.symbol) && (!f.setup || t.setup === f.setup) && (!f.status || t.status === f.status) && (!f.mistake || t.mistakes.includes(f.mistake) || (f.mistake === '__any' && t.mistakes.length)) && (!q || [t.symbol, t.setup, t.notes, ...(t.mistakes || []), ...(t.emotions || [])].join(' ').toLowerCase().includes(q)));
+    const f = App.state.tradeFilter; const q = f.q.trim().toLowerCase(); const ids = f.ids ? new Set(f.ids) : null;
+    return list.filter(t => (!ids || ids.has(t.id)) && (!f.symbol || t.symbol === f.symbol) && (!f.setup || t.setup === f.setup) && (!f.status || t.status === f.status) && (!f.mistake || t.mistakes.includes(f.mistake) || (f.mistake === '__any' && t.mistakes.length)) && (!q || [t.symbol, t.setup, t.notes, ...(t.mistakes || []), ...(t.emotions || [])].join(' ').toLowerCase().includes(q)));
   }
   function sorted(list) {
     const { key, dir } = App.state.tradeSort; const val = t => key === 'openedAt' || key === 'open' ? t.open.getTime() : key === 'close' ? (t.close ? t.close.getTime() : 0) : key === 'rules' ? (t.rulesBroken.length ? 0 : 1) : key === 'score' ? C.discipline(t).score : t[key] == null ? -Infinity : t[key];
@@ -61,7 +61,7 @@
     if (!list.length) return emptyCard(ctx, 'tradelog', 'Keine Trades im Zeitraum');
     const f = App.state.tradeFilter; const symbols = [...new Set(ctx.all.map(t => t.symbol))].sort(); const setups = [...new Set(ctx.all.map(t => t.setup).filter(Boolean))].sort(); const mistakes = [...new Set(ctx.all.flatMap(t => t.mistakes))].sort();
     const rows = sorted(filtered(list)); const { key, dir } = App.state.tradeSort;
-    const nSel = ['symbol', 'setup', 'status', 'mistake'].filter(k => f[k]).length; const active = nSel || f.q.trim();
+    const nSel = ['symbol', 'setup', 'status', 'mistake'].filter(k => f[k]).length; const active = nSel || f.q.trim() || f.ids;
     const sel = (key, label, opts) => `<label class="field"><span class="lbl">${label}</span><select class="select" data-change="trade-filter" data-key="${key}">${opts}</select></label>`;
     const filters = `<div class="row tl-filters"><div class="grow tl-search"><input class="input" type="search" enterkeyhint="search" autocomplete="off" id="tf-q" data-input="trade-q" value="${esc(f.q)}" placeholder="Suchen: Symbol, Setup, Notiz …" aria-label="Suchen"><span class="tl-search-i">${I.search}</span></div>
       <div class="popwrap"><button type="button" class="btn" data-pop="tfilter" aria-haspopup="true" aria-label="${nSel ? `Filter, ${nSel} aktiv` : 'Filter'}">${I.filter}<span class="hide-m">Filter</span>${nSel ? `<b class="cntb">${nSel}</b>` : ''}</button><div class="popover tf-pop" id="pop-tfilter">
@@ -70,6 +70,7 @@
         ${sel('status', 'Ergebnis', `<option value="">Alle Ergebnisse</option><option value="win" ${f.status === 'win' ? 'selected' : ''}>Gewinn</option><option value="loss" ${f.status === 'loss' ? 'selected' : ''}>Verlust</option><option value="be" ${f.status === 'be' ? 'selected' : ''}>Break-even</option><option value="open" ${f.status === 'open' ? 'selected' : ''}>Offen</option>`)}
         ${sel('mistake', 'Fehler', `<option value="">Alle</option><option value="__any" ${f.mistake === '__any' ? 'selected' : ''}>Nur mit Fehler</option>${mistakes.map(x => `<option value="${esc(x)}" ${f.mistake === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}`)}
       </div></div>
+      ${f.ids ? `<span class="tl-ids"><span class="muted">Disziplin-Trichter</span><span>${esc(f.idsLabel || '')}</span><button type="button" class="tl-ids-x" data-action="trade-ids-clear" aria-label="Trichter-Filter entfernen">${I.close}</button></span>` : ''}
       ${active ? `<button type="button" class="btn ghost" data-action="trade-filter-reset">${I.close} Zurücksetzen</button><span class="muted small tl-count">${rows.length} von ${U.count(list.length, 'Trade', 'Trades')}</span>` : ''}</div>`;
     if (!rows.length) return filters + U.empty('tradelog', 'Keine Trades passen zum Filter', 'Ändere die Filter.', `<button type="button" class="btn" data-action="trade-filter-reset">${I.close} Filter zurücksetzen</button>`);
     const cols = App.simple() ? COLS.filter(([k]) => SIMPLE_COLS.includes(k)) : COLS;
@@ -137,7 +138,8 @@
     'trade-page'(el) { pageState().page = Number(el.value) || 1; App.rerender(); },
     'trade-page-nav'(el) { const pg = pageState(); pg.page += Number(el.dataset.dir); App.rerender(); },
     'range-open'() { const b = document.querySelector('.page-head [data-pop=range], .dash-head [data-pop=range]'); if (b) b.click(); },
-    'trade-filter-reset'() { Object.assign(App.state.tradeFilter, { q: '', symbol: '', setup: '', status: '', mistake: '' }); App.rerender(); },
+    'trade-filter-reset'() { Object.assign(App.state.tradeFilter, { q: '', symbol: '', setup: '', status: '', mistake: '', ids: null, idsLabel: '' }); App.rerender(); },
+    'trade-ids-clear'() { Object.assign(App.state.tradeFilter, { ids: null, idsLabel: '' }); App.rerender(); },
     'new-missed'() {
       U.modal(`<form data-action="save-missed"><div class="modal-head"><h2>Verpassten Trade notieren</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><div class="form-grid"><div class="field"><label for="m-date">Datum</label><input class="input" type="date" id="m-date" name="date" value="${C.dayKey(new Date())}" required></div><div class="field"><label for="m-symbol">Symbol</label><input class="input" id="m-symbol" name="symbol" required></div><div class="field"><span class="lbl">Richtung</span>${U.seg([[1, 'Long'], [-1, 'Short']], 1, 'set-dir')}<input type="hidden" name="direction" value="1"></div><div class="field"><label for="m-setup">Setup</label><input class="input" id="m-setup" name="setup" list="setup-list"><datalist id="setup-list">${S.data.tags.setups.map(s => `<option value="${esc(s)}">`).join('')}</datalist></div><div class="field"><label for="m-pnl">Hätte gebracht (P&L)</label><input class="input" type="number" step="any" id="m-pnl" name="pnl" inputmode="decimal"></div><div class="field span2"><label for="m-reason">Warum nicht gehandelt?</label><input class="input" id="m-reason" name="reason" placeholder="Gezögert, Angst, nicht am Rechner …"></div></div><details class="tf-more"><summary>Mehr Optionen</summary><div class="form-grid"><div class="field"><label for="m-r">R-Multiple</label><input class="input" type="number" step="any" id="m-r" name="r" inputmode="decimal"></div></div></details><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`);
     },

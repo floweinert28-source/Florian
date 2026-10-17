@@ -78,7 +78,7 @@
     navDot(key, fn) { this.dots[key] = fn; },
     TREND_LABELS, TREND_OPTIONS: [['up', 'Aufwärts'], ['down', 'Abwärts'], ['ranging', 'Seitwärts']],
     FEATURES, on,
-    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
+    screens: {}, actions: {}, state: { route: 'dashboard', params: [], sidebarOpen: false, calMonth: null, tradeSort: { key: 'openedAt', dir: -1 }, tradeFilter: { q: '', symbol: '', setup: '', status: '', mistake: '', view: 'trades', ids: null, idsLabel: '' }, statsTab: 'summary', journal: { folder: 'daily', note: null }, recentTab: 'recent' },
     /* ---------- Daten ---------- */
     allTrades() { const acc = S.settings.accountId; return C.deriveAll(S.trades().filter(t => acc === 'all' || !acc || t.accountId === acc)); },
     /* rr: anderer Zeitraum als der gespeicherte (Vorschau im Zeitraum-Menü) */

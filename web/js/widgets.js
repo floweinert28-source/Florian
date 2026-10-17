@@ -226,6 +226,43 @@
     if (by.has('_ohne')) out.push({ label: 'Ohne Setup', c: 'n', trades: by.get('_ohne') });
     return out.map(x => Object.assign(x, { n: x.trades.length, s: C.summary(x.trades) }));
   }
+  /* Disziplin-Trichter (Vorlage: 21st.dev bklitai/funnel-chart, im Stil der App): jede Stufe zählt die Trades, die sie UND alle
+     Stufen davor schaffen. Stufen, deren Angabe nie benutzt wird (kein Trade mit Setup, Stop oder Fehler-Tag, keine Regeln), fallen
+     weg, damit der Trichter nicht grundlos auf null fällt. Höhe = Anzahl (äußere Schicht), Prozent immer bezogen auf alle Trades */
+  const tr = (s, v) => (root.I18N && root.I18N.t ? root.I18N.t(s, v) : (v ? s.replace(/\{(\d+)\}/g, (_, i) => v[i]) : s));
+  const hasStop = t => t.plannedStop != null && t.plannedStop !== '';
+  const FUNNEL = [
+    { key: 'all', label: 'Alle Trades' },
+    { key: 'setup', label: 'Mit Setup', drop: 'Ohne Setup', ok: t => !!t.setup, used: h => h.some(t => t.setup) },
+    { key: 'stop', label: 'Stop gehalten', drop: 'Stop nicht gehalten', ok: t => hasStop(t) && !(t.status === 'loss' && t.r != null && t.r < -1.15), used: h => h.some(hasStop) }, /* wie der Trade-Score: mehr als 1,15 R Verlust = Stop nicht gehalten */
+    { key: 'rules', label: 'Regeln gehalten', drop: 'Regel gebrochen', ok: t => !t.rulesBroken.length, used: h => S.data.rules.some(r => r.active !== false) || h.some(t => t.rulesBroken.length) },
+    { key: 'clean', label: 'Ohne Fehler', drop: 'Mit Fehler-Tag', ok: t => !t.mistakes.length, used: h => h.some(t => t.mistakes.length) },
+  ];
+  function funnelStages(closed, all) {
+    const hist = C.closedOnly(all); const steps = FUNNEL.filter(s => !s.used || s.used(hist)); let cur = closed;
+    const stages = steps.map((s, i) => { const pass = i ? cur.filter(s.ok) : cur; const drop = i ? cur.filter(t => !s.ok(t)) : []; cur = pass; return { key: s.key, label: s.label, drop: s.drop, n: pass.length, dropIds: drop.map(t => t.id) }; });
+    return { stages, clean: cur, missing: steps.length < FUNNEL.length };
+  }
+  /* Farben: eine Farbe in Stufen (Akzent zur Kartenfarbe hin gemischt), folgt hell/dunkel und eigenen Farben; Verlauf je Abschnitt zur nächsten Stufe */
+  const FN_MIX = [100, 86, 73, 61, 50];
+  U.drawers.funnel = function (el, d, W, H) {
+    const st = d && d.stages || []; const max = st.length ? st[0].n : 0; if (st.length < 2 || !max) { chartEmpty(el); return; }
+    const n = st.length, gap = 4, segW = (W - gap * (n - 1)) / n, top = 28, bot = 38, half = (H - top - bot) / 2, mid = top + half;
+    const step = i => FN_MIX[Math.round(i * (FN_MIX.length - 1) / (n - 1))]; const col = i => `color-mix(in oklab, var(--accent) ${step(i)}%, var(--surface))`;
+    const path = (a, b, sc) => { const h0 = Math.max(a * half * sc, 1), h1 = Math.max(b * half * sc, 1), cx = segW * 0.55; return `M0 ${f2(mid - h0)} C${f2(cx)} ${f2(mid - h0)} ${f2(segW - cx)} ${f2(mid - h1)} ${f2(segW)} ${f2(mid - h1)} L${f2(segW)} ${f2(mid + h1)} C${f2(segW - cx)} ${f2(mid + h1)} ${f2(cx)} ${f2(mid + h0)} 0 ${f2(mid + h0)} Z`; };
+    const uid = 'fn' + Math.random().toString(36).slice(2, 7);
+    const segs = st.map((s, i) => { const a = s.n / max, b = (st[Math.min(i + 1, n - 1)].n) / max, x = i * (segW + gap);
+      return `<linearGradient id="${uid}-${i}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" style="stop-color:${col(i)}"/><stop offset="1" style="stop-color:${col(Math.min(i + 1, n - 1))}"/></linearGradient>`
+        + `<g class="fn-seg" data-i="${i}" transform="translate(${f2(x)} 0)"><path class="fn-l0" d="${path(a, b, 1)}" style="fill:${col(i)}" fill-opacity=".18"/><path class="fn-l1" d="${path(a, b, 0.883)}" style="fill:${col(i)}" fill-opacity=".5"/><path class="fn-l2" d="${path(a, b, 0.767)}" fill="url(#${uid}-${i})" fill-opacity=".9"/></g>`; });
+    const cols = st.map((s, i) => { const pct = fmt.pct(s.n / max, 0), lost = s.dropIds.length;
+      const tip = i ? `<b>${esc(tr(s.label))}</b><br>${tr('{0} Trades · {1} von allen', [fmt.int(s.n), pct])}<br>${lost === 1 ? tr('1 Trade fällt hier raus') : tr('{0} Trades fallen hier raus', [fmt.int(lost)])}${lost ? `<br><span class="muted">${tr('Klick zeigt sie im TradeLog')}</span>` : ''}` : `<b>${esc(tr(s.label))}</b><br>${tr('{0} Trades im Zeitraum', [fmt.int(s.n)])}`;
+      return `<button type="button" class="fn-col" data-i="${i}" data-action="funnel-open" data-tip="${esc(tip)}" aria-label="${esc(tr('{0}: {1} von {2} Trades', [tr(s.label), fmt.int(s.n), fmt.int(max)]))}"><span class="fn-v">${fmt.int(s.n)}</span><span class="fn-p">${pct}</span><span class="fn-lb">${esc(tr(s.label))}</span></button>`; });
+    el.innerHTML = `<div class="fn" style="--fn-n:${n}"><svg class="fn-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><defs>${segs.map(x => x.slice(0, x.indexOf('<g '))).join('')}</defs>${segs.map(x => x.slice(x.indexOf('<g '))).join('')}</svg><div class="fn-cols" role="group" aria-label="${esc(tr('Disziplin-Trichter'))}">${cols.join('')}</div></div>`;
+    const box = el.firstElementChild;
+    const set = i => { box.classList.toggle('hov', i != null); box.querySelectorAll('.fn-seg, .fn-col').forEach(x => x.classList.toggle('on', i != null && x.dataset.i === String(i))); };
+    box.querySelectorAll('.fn-col').forEach(c => { const i = +c.dataset.i; c.addEventListener('pointerenter', () => set(i)); c.addEventListener('focus', () => set(i)); c.addEventListener('blur', () => set(null)); });
+    box.querySelector('.fn-cols').addEventListener('pointerleave', () => set(null));
+  };
   const SETUP_HINT = '<div class="fw-empty"><b>Noch keine Setups</b><span>Trage beim Loggen eines Trades ein Setup ein. Dann siehst du hier, wie sich deine Trades verteilen.</span></div>';
   /* ---------- Kalender-Bausteine ---------- */
   function calendarHTML(days, year, month, o = {}) {
@@ -431,6 +468,15 @@
         if (d.empty) return card(e, emptyBox(280)); const sl = setupSlices(d.closed, d.all); if (!sl.some(x => x.c !== 'n')) return card(e, SETUP_HINT);
         U.chartData['dash-setups'] = { slices: sl };
         return card(e, `<div class="chart h240 pie-chart" data-chart="pie" data-id="dash-setups"></div><div class="legend pie-legend">${sl.map(x => `<span><i style="background:var(--pie-${x.c})"></i>${esc(x.label)} <b>${fmt.int(x.n)}</b></span>`).join('')}</div>`);
+      } },
+    { typ: 'disziplin_trichter', name: 'Disziplin-Trichter', preview: 'funnel', groesse: 'klein', desc: 'Trichter von allen Trades über Setup, gehaltenen Stop und eingehaltene Regeln bis zu den Trades ohne Fehler. Darunter die Trefferquote der sauberen Trades.', info: 'Jede Stufe zählt die Trades, die sie und alle Stufen davor schaffen: mit Setup, Stop geplant und gehalten (Verlust höchstens 1,15 R), ohne gebrochene Regel, ohne Fehler-Tag. Prozent beziehen sich auf alle Trades im Zeitraum. Klick auf eine Stufe zeigt im TradeLog die Trades, die dort rausfallen. Stufen, die du nie erfasst, fehlen.',
+      render(d, inst, e) {
+        if (d.empty) return card(e, emptyBox(280)); const f = funnelStages(d.closed, d.all);
+        if (f.stages.length < 2) return card(e, '<div class="fw-empty" style="min-height:280px"><b>Noch keine Stufen</b><span>Erfasse beim Loggen Setup, Stop, Regeln oder Fehler. Dann zeigt der Trichter, wo deine Disziplin wegbricht.</span></div>');
+        const rest = d.closed.filter(t => !f.clean.includes(t)); const cs = C.summary(f.clean), rs = C.summary(rest);
+        U.chartData['dash-funnel'] = { stages: f.stages, cleanIds: f.clean.map(t => t.id) };
+        const line = !f.clean.length ? tr('Noch kein Trade hat alle Stufen geschafft.') : !rest.length ? tr('Alle Trades haben alle Stufen geschafft.') : tr('Saubere Trades gewinnen {0}, alle anderen {1}.', [fmt.pct(cs.winRate, 0), fmt.pct(rs.winRate, 0)]);
+        return card(e, `<div class="chart h240 fn-chart" data-chart="funnel" data-id="dash-funnel"></div><div class="fn-foot"><span class="fn-say">${esc(line)}</span>${f.clean.length ? '<button type="button" class="more-link" data-action="funnel-open" data-i="clean">Saubere Trades ansehen</button>' : ''}</div>${f.missing ? '<div class="small muted fn-miss">Weitere Stufen erscheinen, sobald du Setup, Stop, Regeln oder Fehler beim Loggen erfasst.</div>' : ''}`);
       } },
     { typ: 'trefferquote_ring', name: 'Trefferquote-Ring', preview: 'gauge', groesse: 'klein', desc: 'Großer Ring mit deiner Trefferquote, der beim Laden hochzählt, darunter die letzten 20 Trades.', info: 'Anteil der Gewinn-Trades an allen geschlossenen Trades im gewählten Zeitraum. Darunter dieselbe Quote für die letzten 20 Trades, mit Pfeil, wenn sie um mindestens 3 Punkte abweicht.',
       render(d, inst, e) {

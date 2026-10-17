@@ -23,6 +23,7 @@
   const dot = (x, y, c, rr = 1.5) => `<circle cx="${x}" cy="${y}" r="${rr}" fill="${c}"/>`;
   /* Kreis als Pfad ab 12 Uhr im Uhrzeigersinn (Fortschritt ohne Drehung per transform, die nicht jeder Browser gleich umsetzt) */
   const topCircle = (cx, cy, r) => `M${cx} ${cy - r} A${r} ${r} 0 1 1 ${cx} ${cy + r} A${r} ${r} 0 1 1 ${cx} ${cy - r}`;
+  const ring = (cx, cy, rad, color, frac, w = 4.5, bg = S3) => { const c = 2 * Math.PI * rad; return `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${bg}" stroke-width="${w}"/><path d="${topCircle(cx, cy, rad)}" fill="none" stroke="${color}" stroke-width="${w}" stroke-dasharray="${(c * frac).toFixed(1)} ${c.toFixed(1)}"/>`; };
   const gauge = (cx, cy, rad, frac) => { const a = Math.PI * (1 - frac); const x = cx + rad * Math.cos(a), y = cy - rad * Math.sin(a); return `<path d="M${cx - rad} ${cy} A${rad} ${rad} 0 0 1 ${cx + rad} ${cy}" fill="none" stroke="${L}" stroke-width="4" stroke-linecap="round"/><path d="M${cx - rad} ${cy} A${rad} ${rad} 0 0 1 ${x.toFixed(1)} ${y.toFixed(1)}" fill="none" stroke="${P}" stroke-width="4" stroke-linecap="round"/>`; };
   const legend = (items, y) => items.map(([c, s, x]) => dot(x, y - 1.4, c, 1.6) + tx(x + 3.5, y, s, 4.2, T2)).join('');
   const gear = (x, y) => `<g transform="translate(${x} ${y})" fill="none" stroke="${F}" stroke-width="1"><circle r="1.5"/><circle r="3.6" stroke-dasharray="1.5 1.3"/></g>`;
@@ -60,7 +61,7 @@
     netto_pnl: () => ttl('Netto P&L') + tx(132, 13, '174 Trades', 4.8, T2, { a: 'end' }) + big(8, 47, '13.611 €', P, 14) + cap(8, 65, 'Ø +78,23 € pro Trade'),
     kontostand_pnl: () => ttl('Kontostand & P&L') + big(8, 47, '38.611 €', TX, 14) + tx(8, 65, 'P&L:', 5, T2) + num(21, 65, '13.611 €', 5, P, { w: 600 }),
     trade_trefferquote: () => ttl('Trade-Trefferquote') + big(8, 54, '52,3 %', TX, 14) + gauge(108, 52, 15, .523) + bdg(86, 60, '91', P) + bdg(101, 60, '0', B) + bdg(116, 60, '83', L),
-    profit_faktor: () => ttl('Profit-Faktor') + big(8, 51, '1,42', TX, 14) + r(38, 44, 94, 5, L, { rx: 2.5 }) + r(38, 44, 55, 5, P, { rx: 2.5 }) + num(38, 58, '9.420 €', 5, P, { w: 600 }) + num(132, 58, '−6.634 €', 5, L, { w: 600, a: 'end' }),
+    profit_faktor: () => ttl('Profit-Faktor') + big(8, 54, '1,42', TX, 14) + ring(112, 50, 14, P, .62, 4.5, L),
     tages_trefferquote: () => ttl('Tages-Trefferquote') + big(8, 54, '58,0 %', TX, 14) + gauge(108, 52, 15, .58) + bdg(86, 60, '47', P) + bdg(101, 60, '0', B) + bdg(116, 60, '34', L),
     avg_gewinn_verlust: () => ttl('Gewinn/Verlust pro Trade') + big(8, 51, '1,3', TX, 14) + r(38, 44, 94, 5, L, { rx: 2.5 }) + r(38, 44, 53, 5, P, { rx: 2.5 }) + num(38, 58, '503,92 €', 5, P, { w: 600 }) + num(132, 58, '−388,50 €', 5, L, { w: 600, a: 'end' }),
     erwartungswert: () => ttl('Erwartungswert pro Trade') + big(8, 47, '78,23 €', P, 14) + cap(8, 65, '52 % × 504 € − 48 % × 389 €'),
@@ -128,7 +129,7 @@
         + num(cx - 1, cy + 3, '58', 13, TX, { a: 'middle', w: 700 }) + tx(cx + 9, cy + 3, '%', 5, T2) + tx(cx, cy + 10, '52 von 90 Trades', 3.4, T2, { a: 'middle' }) + tx(cx - 1, 85, 'Letzte 20 Trades', 4, T2, { a: 'end' }) + num(cx + 1, 85, '60 %', 4, TX, { w: 700 }); },
   };
   /* ältere Bezeichnungen (preview-Feld der Registry) als Rückfall */
-  const KIND = { num: 'netto_pnl', gauge: 'trade_trefferquote', donut: 'setup_verteilung', wl: 'avg_gewinn_verlust', streak: 'serie', radar: 'score', area: 'kum_pnl', line: 'verlauf_trefferquote', scatter: 'perf_uhrzeit', bars: 'pnl_pro_tag', combo: 'taeglich_kumuliert', table: 'letzte_trades', calendar: 'kalender', calext: 'kalender_erweitert', year: 'jahreskalender', heat: 'regel_tracker', progress: 'challenge', dd: 'drawdown_verlauf' };
+  const KIND = { num: 'netto_pnl', gauge: 'trade_trefferquote', donut: 'profit_faktor', wl: 'avg_gewinn_verlust', streak: 'serie', radar: 'score', area: 'kum_pnl', line: 'verlauf_trefferquote', scatter: 'perf_uhrzeit', bars: 'pnl_pro_tag', combo: 'taeglich_kumuliert', table: 'letzte_trades', calendar: 'kalender', calext: 'kalender_erweitert', year: 'jahreskalender', heat: 'regel_tracker', progress: 'challenge', dd: 'drawdown_verlauf' };
   function svg(typ, kind) { const f = PV[typ] || PV[KIND[kind]] || PV.netto_pnl; return `<svg viewBox="0 0 140 88" width="140" height="88" aria-hidden="true" class="wpv">${f()}</svg>`; }
   root.WidgetPreviews = { svg, has: typ => !!PV[typ] };
 })(typeof self !== 'undefined' ? self : this);

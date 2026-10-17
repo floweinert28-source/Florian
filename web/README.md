@@ -151,8 +151,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
   Performance nach Uhrzeit und Haltedauer, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
-  Jedes Widget hat ein (i) mit Erklärung (sichtbar beim Darüberfahren). Profit-Faktor und Ø Gewinn/Verlust zeigen beide das Verhältnis
-  zweier Beträge als Zweiteil-Balken. Bedienelemente nur, wenn sie etwas tun: „Heute“ im Kalender nur bei einem anderen Monat, der Reiter
+  Jedes Widget hat ein (i) mit Erklärung (sichtbar beim Darüberfahren). Profit-Faktor als Ring (Gewinne gegen Verluste), Ø Gewinn/Verlust
+  als Zweiteil-Balken, damit die Kacheln oben nicht doppelt aussehen. Bedienelemente nur, wenn sie etwas tun: „Heute“ im Kalender nur bei einem anderen Monat, der Reiter
   „Offene Positionen“ nur bei offenen Positionen; Knöpfe in Bereichs-Widgets sind umrandet, „Öffnen“/„Mehr anzeigen“ neutral.
   **Vorlagen**: mehrere Dashboards anlegen, umbenennen, duplizieren, als Standard festlegen, löschen; je Vorlage ein ⋯-Menü mit
   „Bearbeiten“ zuerst, „Als Standard festlegen“ nur bei Nicht-Standard, „Löschen“ erst ab zwei Vorlagen. **Bearbeitungsmodus** (Widget-Inhalte

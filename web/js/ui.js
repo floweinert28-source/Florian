@@ -231,7 +231,7 @@
   }
   /* ---------- Bausteine ---------- */
   const info = text => text ? `<span class="info" data-tip="${esc(text)}">${I.info}</span>` : '';
-  const card = (title, body, o = {}) => `<section class="card ${o.cls || ''}" ${o.attrs || ''}>${title ? `<div class="card-head"><div><div class="card-title">${o.icon ? `<span class="card-ico">${I[o.icon] || o.icon}</span>` : ''}${esc(title)}${info(o.info)}</div>${o.sub ? `<div class="card-sub">${o.sub}</div>` : ''}</div>${o.trailing ? `<div class="row">${o.trailing}</div>` : ''}</div>` : ''}${body}</section>`;
+  const card = (title, body, o = {}) => `<section class="card ${o.cls || ''}" ${o.attrs || ''}>${title ? `<div class="card-head"><div><div class="card-title">${o.icon ? `<span class="card-ico">${I[o.icon] || o.icon}</span>` : ''}${esc(title)}${o.badge || ''}${info(o.info)}</div>${o.sub ? `<div class="card-sub">${o.sub}</div>` : ''}</div>${o.trailing ? `<div class="row">${o.trailing}</div>` : ''}</div>` : ''}${body}</section>`;
   const tile = (label, value, o = {}) => `<div class="tile${o.side ? ' side' : ''}"><div class="head"><span>${esc(label)}${info(o.info)}</span>${o.n != null ? `<span class="n">${o.n}</span>` : ''}</div><div class="body"><div><div class="val ${o.tint || ''}">${value}</div>${o.foot ? `<div class="foot">${o.foot}</div>` : ''}</div>${o.gauge ? `<div class="gauge">${o.gauge}</div>` : ''}</div></div>`;
   const pill = (text, kind = 'neutral') => `<span class="pill ${kind}">${text}</span>`;
   /* Richtung: Pille mit rundem Pfeil (↗ Long, ↘ Short), Licht von links und feinem farbigen Rand */
@@ -332,11 +332,9 @@
     const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 10, mb = 30; const iw = W - ml - mr;
     const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb);
     const path = list => list.length === 1 ? `M${x(0) - 1},${y(list[0].v)}L${x(0) + 1},${y(list[0].v)}` : 'M' + list.map((p, i) => `${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join('L');
-    const dots = cur.filter(p => p.trade).length <= 40;
     const grid = ticks.map(v => `<line class="pc-grid" x1="${ml}" x2="${W - mr}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"/><text class="pc-yl" x="${ml - 8}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end">${fmt.axisCur(v)}</text>`).join('');
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" class="pc-svg" role="img" aria-label="${esc(d.aria || '')}">${grid}<line class="pc-zero" x1="${ml}" x2="${W - mr}" y1="${y(0).toFixed(1)}" y2="${y(0).toFixed(1)}"/>`
       + (prev ? `<path class="pc-prev" d="${path(prev)}"/>` : '') + `<path class="ln pc-cur" d="${path(cur)}"/>`
-      + (dots ? cur.map((p, i) => p.trade ? `<circle class="dt pc-dot" cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="3.2"/>` : '').join('') : `<circle class="dt pc-dot" cx="${x(cur.length - 1).toFixed(1)}" cy="${y(cur[cur.length - 1].v).toFixed(1)}" r="3.6"/>`)
       + dateAxis(n, x, i => d.dates[i], ml, W, mr, H)
       + `<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2" fill="var(--accent)"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
     const at = i => cur[Math.min(i, cur.length - 1)];

@@ -117,7 +117,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Trade-Fenster mit Konto, Punktwert, Gebühren und Prop-Konten unter „Mehr Optionen“ (offen, wenn dort schon etwas steht).
   Neue Nutzer starten in Simple, wer schon Daten hat, bleibt in Advanced; „Alles löschen“ behält die Wahl. Tests:
   `e2e/simpletest.js`, `tests/uimode.test.mjs` (die übrigen Suiten laufen über `e2e/de-default.js` in Advanced).
-- **Ruhiger Gesamt-Look (Schwarz/Elfenbein wie die Seitenleisten):** Gewinn und Verlust sind gedämpft statt neon (Standard dunkel `#4cb782` / `#eb5757`; wer noch das frühere Neon-Grün/-Rot gespeichert hatte, bekommt einmalig den neuen Standard, `semanticCalmV1` in `migrateSettings`; das alte Paar steht als Farbpaar „Neon“ in den Einstellungen). Flächen unter Kurven und Balken sind leiser, Ringe und Halbkreise dünner. Status in Tabellen (Gewinn, Verlust, Break-even, Offen) ist ein farbiger Punkt mit ruhigem Text (`.pill.st`), Long/Short ein neutrales Schild mit farbigem Pfeil, Setups nur als Kontur. Karten und Kacheln haben eine feine Lichtkante oben und heben sich beim Drüberfahren nicht mehr an (nur die Kante wird heller). Die Wichtigkeits-Filter bei den News sind ausgewählt neutral wie die Währung; die Farbe steht in den Balken der Termine. **Helles Design:** Gewinn/Long frischer Grün `#16a34a`, Verlust helleres Rot `#ef4444` (auf Wunsch heller als 4,5:1; mindestens 3:1 wie für große Zahlen und Grafik); die Leiste um alles herum (links und oben) ist weiß statt schwarz, Symbole und Logo dunkel, aktiver Bereich hellgrau.
+- **Ruhiger Gesamt-Look (Schwarz/Elfenbein wie die Seitenleisten):** Gewinn und Verlust sind gedämpft statt neon (Standard dunkel `#1fae7c` / `#ef4444` nach der Kalender-Vorlage TradeZella, kleine rote Schrift `#f04f4f`; wer noch das frühere Neon-Grün/-Rot gespeichert hatte, bekommt einmalig den neuen Standard, `semanticCalmV1` in `migrateSettings`; das alte Paar steht als Farbpaar „Neon“ in den Einstellungen). Flächen unter Kurven und Balken sind leiser, Ringe und Halbkreise dünner. Status in Tabellen (Gewinn, Verlust, Break-even, Offen) ist ein farbiger Punkt mit ruhigem Text (`.pill.st`), Long/Short im hellen Design ein neutrales Schild mit farbigem Pfeil, im dunklen Design grün bzw. rot gefüllt; im dunklen Design sind Gewinn- und Verlusttage im Kalender satt gefüllt (dunkles Grün/Rot mit hellerer Kante, weiße Schrift). Setups nur als Kontur. Karten und Kacheln haben eine feine Lichtkante oben und heben sich beim Drüberfahren nicht mehr an (nur die Kante wird heller). Die Wichtigkeits-Filter bei den News sind ausgewählt neutral wie die Währung; die Farbe steht in den Balken der Termine. **Helles Design:** Gewinn/Long frischer Grün `#16a34a`, Verlust helleres Rot `#ef4444` (auf Wunsch heller als 4,5:1; mindestens 3:1 wie für große Zahlen und Grafik); die Leiste um alles herum (links und oben) ist weiß statt schwarz, Symbole und Logo dunkel, aktiver Bereich hellgrau.
 - **Bedienung:** Ein Fokus-Ring für alles: 2 px in der Akzentfarbe (`--focus`); Felder zeigen Fokus mit einem Rand in der Akzentfarbe. Das erste Tab zeigt „Zum Inhalt springen“. Nach einem Seitenwechsel landet der Fokus am Seitenanfang (`#content`), wenn er im ersetzten Inhalt lag. Abhakzeilen der Regeln sind Checkboxen (Enter/Leertaste), Grabsteine Knöpfe. Auf Touch-Geräten sind kleine Knöpfe, Reiter und Umschalter mindestens 40 px hoch, Menüeinträge und Abhakzeilen 44 px.
 - **CSV-Import** mit automatischer Spaltenerkennung (deutsche und englische Zahlen- und
   Datumsformate), anpassbarer Zuordnung, Vorschau und Duplikat-Schutz. Das Beispielformat im Dialog
@@ -173,8 +173,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Konto), Ruhepunkt (heute vor/nach dem Trading, Start mit einem Klick, Akut-Reset) und Mentor (Frage oder Vorschlag landet
   im Eingabefeld des Mentors; ohne Server ein Einrichten-Hinweis). Die fünf Karten hängt eine einmalige Migration
   (`dashboardsVersion` 4) ans Ende des Standard-Dashboards; Entferntes bleibt entfernt.
-  **Disziplin-Trichter** (Standard-Dashboard an dritter Stelle statt „Netto-P&L pro Tag“; bestehende Standard-Dashboards tauscht
-  `dashboardsVersion` 6 einmalig an gleicher Stelle und Größe, eigene Vorlagen bleiben; das Säulen-Widget bleibt in der Bibliothek):
+  **Disziplin-Trichter** (Standard-Dashboard zwei Spalten breit neben dem Score, statt „Netto-P&L pro Tag“; bestehende Standard-Dashboards
+  tauscht `dashboardsVersion` 6 einmalig an gleicher Stelle, `dashboardsVersion` 8 macht ihn breit und rückt ihn neben den Score,
+  wenn die Reihe noch dem alten Standard entspricht; eigene Vorlagen bleiben; das Säulen-Widget bleibt in der Bibliothek):
   Alle Trades → mit Setup → Stop gehalten (geplant und Verlust höchstens 1,15 R wie im Trade-Score) → Regeln gehalten → ohne
   Fehler. Jede Stufe zählt, was sie und alle davor schafft; Höhe = Anzahl, Prozent bezogen auf alle Trades. Stufen, die nie
   erfasst werden (kein Setup, kein Stop, keine Regeln, kein Fehler-Tag), fallen weg, mit Hinweis. Form nach der 21st-Vorlage
@@ -183,13 +184,13 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   „fallen hier raus“; Klick öffnet das TradeLog mit genau diesen Trades (Chip „Disziplin-Trichter · Ohne Setup“ mit ×, Filter
   `tradeFilter.ids`). Darunter ein Satz „Saubere Trades gewinnen x %, alle anderen y %“ und „Saubere Trades ansehen“
   (`U.drawers.funnel`, `funnelStages` in `js/widgets.js`; Test `e2e/trichtertest.js`). Beispieldaten Version 4: Revenge-Trades ohne Setup.
-  **P&L im Vergleich** (Standard-Dashboard an zweiter Stelle statt „Kumulierter Tages-P&L“; `dashboardsVersion` 7 tauscht bestehende
+  **P&L im Vergleich** (Standard-Dashboard an dritter Stelle neben dem Kalender statt „Kumulierter Tages-P&L“; `dashboardsVersion` 7 tauscht bestehende
   Standard-Dashboards einmalig an gleicher Stelle und Größe, eigene Vorlagen bleiben; „Kumulierter Tages-P&L“ bleibt in der Bibliothek):
   nach der 21st-Vorlage LegionWebDev/line-chart (Multi Line Chart) – nur waagerechte Rasterlinien, gerade Linien, der kumulierte P&L
-  des Zeitraums durchgezogen mit Punkten an Handelstagen, derselbe Zeitraum davor gestrichelt, Tag für Tag übereinander (Tage ohne
+  des Zeitraums durchgezogen ohne Punkte, derselbe Zeitraum davor gestrichelt, Tag für Tag übereinander (Tage ohne
   Trades halten den Stand, `cumDays`); neben dem Titel eine Pille mit Pfeil und dem Unterschied am gleichen Tag (grün/rot, weil es
-  Geld ist), darunter beide Zeiträume (Monate kurz) mit gestricheltem Zeichen; Fadenkreuz mit „Kumuliert bis Tag n“ und beiden Daten.
-  Bei „Gesamt“: die letzten 30 Tage gegen die 30 Tage davor (`U.drawers.pnlcmp` in `js/ui.js`; Test `e2e/pnlcmptest.js`).
+  Geld ist), darunter eine Legende mit zwei Linien-Schlüsseln (Monate kurz, genaues Datum im Tooltip); Fadenkreuz mit „Kumuliert bis Tag n“ und beiden Daten.
+  Bei „Gesamt“: „Letzte 30 Tage“ gegen „Vorherige 30 Tage“ (`U.drawers.pnlcmp` in `js/ui.js`; Test `e2e/pnlcmptest.js`).
   **Widgets nach Vorlagen von 21st.dev** (Gruppe „Auswertungen“, nur über „Widget hinzufügen“, das Standard-Dashboard bleibt
   unverändert): die React-Komponenten Mini Chart, Pie Chart und Progress im Code der App nachgebaut, ohne React,
   Tailwind oder Zusatzbibliotheken (`U.drawers.wdbars`, `pie`, `wring` in `js/widgets.js`, Stile am Ende von
@@ -201,7 +202,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Setup „Ohne Setup“. Das frühere Widget „Trefferquote nach Setup“ (Radar Chart) ist entfernt; den **Gesamt-Score** zeichnet jetzt
   `U.drawers.radar2` im Stil der 21st-Vorlage heygaia/radar-chart (vier Ringe als Vielecke, Fläche mit Rand, Vorzeitraum gestrichelt,
   Trefferflächen je Achse mit Tooltip, Punkt und Beschriftung beim Drüberfahren; Beschriftungen werden übersetzt und in echter Schriftgröße
-  gemessen und bei Bedarf an Leerzeichen, „/“ oder „-“ umbrochen; Score-Zahl und Farbbalken bleiben). Gespeicherte Vorlagen mit dem alten Widget räumt `dashboardsVersion` 5 auf. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
+  gemessen und bei Bedarf an Leerzeichen, „/“ oder „-“ umbrochen; Score-Zahl und Skala bleiben; Netz gut sichtbar, feine Linie, Skala in der Akzentfarbe, Veränderung als ruhige Pille ohne Pfeil). Gespeicherte Vorlagen mit dem alten Widget räumt `dashboardsVersion` 5 auf. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
   hoch (danach nur, wenn sich der Wert ändert; bei „weniger Bewegung“ gar nicht), darunter die letzten 20 Trades. Test:
   `e2e/w21test.js`.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).

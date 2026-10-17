@@ -34,12 +34,12 @@
   --focus: var(--accent); /* Fokus-Ring in der Akzentfarbe */
   --dot-glow: 0 0 0.1875rem color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0.5rem color-mix(in srgb, var(--accent) 20%, transparent);
   /* Bedeutungsfarben */
-  --profit: #4cb782; /* große Zahlen, Diagramme */
-  --profit-soft: rgba(76, 183, 130, 0.12);
-  --loss: #eb5757;
-  --loss-soft: rgba(235, 87, 87, 0.14);
+  --profit: #1fae7c; /* große Zahlen, Diagramme; Grün und Rot im dunklen Design nach der Kalender-Vorlage (TradeZella) */
+  --profit-soft: rgba(31, 174, 124, 0.12);
+  --loss: #ef4444;
+  --loss-soft: rgba(239, 68, 68, 0.14);
   --profit-ink: var(--profit); /* kleine Schrift in Gewinnfarbe (Tabellen, Listen): im hellen Design eine Stufe kräftiger für 4,5:1 */
-  --loss-ink: var(--loss);
+  --loss-ink: #f04f4f; /* kleine Schrift: eine Spur heller, damit sie auch auf helleren Flächen 4,5:1 erreicht */
   --be: #9a8cf8;
   --be-soft: rgba(154, 140, 248, 0.16);
   --warn: #f5b93a;

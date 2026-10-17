@@ -43,7 +43,7 @@ const out = []; const ok = (name, cond, extra = '') => out.push(`${cond ? 'PASS'
   ok('Größe groß gesetzt', await p.$eval('.dash-main .w[data-idx="0"]', e => e.classList.contains('sz-gross')));
   await p.$eval('.dash-main .w[data-idx="1"] .mv button[data-dir="1"]', e => e.click()); await p.waitForTimeout(200);
   const order = await p.$$eval('.dash-main > .w', e => e.map(x => x.dataset.typ));
-  ok('Pfeil verschiebt Widget', order[2] === 'pnl_vergleich', order.join(','));
+  ok('Pfeil verschiebt Widget', order[2] === 'disziplin_trichter', order.join(','));
   // Alle unteren Widgets hinzufügen
   await p.click('.dash-main .add-slot'); await p.waitForTimeout(250);
   for (let i = 0; i < 30; i++) { const b = await p.$('.side-panel .sp-item .btn.primary'); if (!b) break; await b.click(); await p.waitForTimeout(150); }

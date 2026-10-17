@@ -15,7 +15,7 @@ const view = () => { const w = document.querySelector('.w[data-typ="score"]'); c
     return { overall: cur.overall, trader: Core.traderScore(App.tradesInRange(), Store.accountSize()).overall, pairs: cur.axes.map((a, i) => `${Math.round(a.score * 100)} / ${Math.round(ps.axes[i].score * 100)}`), prevOverall: ps.overall, n: prev.length }; });
   ok(v.cur && v.prev && v.labels.length === 6 && v.labels.map(l => l[0]).join('|') === exp.pairs.join('|') && v.labels[0][1] === 'Trefferquote', 'Sechs Punkte, je „jetzt / vorher“ und Name · ' + v.labels.map(l => l.join(' ')).join(', '));
   ok(v.legend.length === 2 && /2026/.test(v.legend[0]) && v.legend[0] !== v.legend[1], 'Legende: gewählter Monat und Vormonat · ' + v.legend.join(' | '));
-  ok(v.big === exp.overall && exp.overall === exp.trader && v.delta.includes(String(Math.abs(exp.overall - exp.prevOverall))), `Score ${v.big} wie bisher (traderScore ${exp.trader}), Veränderung zum Vormonat ${v.delta}`);
+  const dExp = exp.overall - exp.prevOverall; ok(v.big === exp.overall && exp.overall === exp.trader && v.delta === (dExp > 0 ? '+' + dExp : dExp < 0 ? '−' + -dExp : '±0'), `Score ${v.big} wie bisher (traderScore ${exp.trader}), Veränderung zum Vormonat als ruhige Pille ohne Pfeil: ${v.delta}`);
   /* 2: Tooltip nennt beide Zeiträume */
   const hb = await (await p.$('.w[data-typ="score"] .r2-hit[data-i="0"]')).boundingBox(); await p.mouse.move(hb.x + hb.width / 2, hb.y + hb.height / 2); await p.waitForTimeout(350);
   const tip = await p.evaluate(() => (document.getElementById('tip') || {}).textContent || '');
@@ -46,7 +46,7 @@ const view = () => { const w = document.querySelector('.w[data-typ="score"]'); c
   await p.evaluate(() => { Store.setSetting('range', { preset: 'all', from: null, to: null }); App.rerender(); }); await p.waitForTimeout(600);
   v = await p.evaluate(view);
   const r30 = await p.evaluate(() => { const to = new Date(); to.setHours(23, 59, 59, 999); const from = new Date(); from.setHours(0, 0, 0, 0); from.setDate(from.getDate() - 29); const l = Core.closedOnly(App.allTrades()).filter(t => t.close >= from && t.close <= to); const a = Core.scoreAxes(App.allTrades(), Store.accountSize()), b = Core.scoreAxes(l, Store.accountSize()); return a.axes.map((x, i) => `${Math.round(x.score * 100)} / ${Math.round(b.axes[i].score * 100)}`); });
-  ok(v.prev && v.legend.join('|') === 'Gesamt|Letzte 30 Tage' && /[↗↘→]/.test(v.delta) && v.labels.map(l => l[0]).join('|') === r30.join('|'), 'Gesamt: zweite Linie mit den letzten 30 Tagen, Legende „Gesamt | Letzte 30 Tage“ · ' + v.labels.map(l => l[0]).join(', '));
+  ok(v.prev && v.legend.join('|') === 'Gesamt|Letzte 30 Tage' && /^[+−±]\d+$/.test(v.delta) && v.labels.map(l => l[0]).join('|') === r30.join('|'), 'Gesamt: zweite Linie mit den letzten 30 Tagen, Legende „Gesamt | Letzte 30 Tage“ · ' + v.labels.map(l => l[0]).join(', '));
   await p.screenshot({ path: 'langshots/score-gesamt.png' });
   /* 6: Englisch und Handy */
   const m = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }); m.on('pageerror', e => errs.push(e.message));

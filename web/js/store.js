@@ -18,7 +18,7 @@
     const now = new Date().toISOString();
     return { id: 'standard', name: 'Standard', isDefault: true, lastActiveAt: null, createdAt: now, updatedAt: now, layout: {
       oben: ['netto_pnl', 'trade_trefferquote', 'profit_faktor', 'tages_trefferquote', 'avg_gewinn_verlust'].map(typ => ({ typ })),
-      unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'pnl_vergleich', groesse: 'klein' }, { typ: 'disziplin_trichter', groesse: 'klein' }, { typ: 'letzte_trades', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }, ...FEATURE_CARDS.map(typ => ({ typ, groesse: 'klein' }))],
+      unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'disziplin_trichter', groesse: 'mittel' }, { typ: 'pnl_vergleich', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }, { typ: 'letzte_trades', groesse: 'klein' }, ...FEATURE_CARDS.map(typ => ({ typ, groesse: 'klein' }))],
     } };
   }
   /* Performance-Recaps oben auf dem Dashboard sind standardmäßig aus (sie störten beim Öffnen). Einmalig auch für bestehende
@@ -53,6 +53,10 @@
     if ((data.dashboardsVersion || 1) < 6) { const d0 = data.dashboards.find(d => d.isDefault); if (d0 && !d0.layout.unten.some(w => w.typ === 'disziplin_trichter')) { const w = d0.layout.unten.find(x => x.typ === 'pnl_pro_tag'); if (w) { w.typ = 'disziplin_trichter'; delete w.einstellungen; } } data.dashboardsVersion = 6; }
     /* Version 7: im Standard-Dashboard „Kumulierter Tages-P&L“ einmalig gegen „P&L im Vergleich“ tauschen (gleicher Platz, gleiche Größe) */
     if ((data.dashboardsVersion || 1) < 7) { const d0 = data.dashboards.find(d => d.isDefault); if (d0 && !d0.layout.unten.some(w => w.typ === 'pnl_vergleich')) { const w = d0.layout.unten.find(x => x.typ === 'kum_pnl'); if (w) { w.typ = 'pnl_vergleich'; delete w.einstellungen; } } data.dashboardsVersion = 7; }
+    /* Version 8: der Disziplin-Trichter ist im Standard-Dashboard zwei Spalten breit. Steht die Reihe noch wie im alten Standard
+       (Score, P&L im Vergleich, Trichter, Letzte Trades, Kalender), rückt er neben den Score und der Kalender vor „Letzte Trades“,
+       damit keine Lücke entsteht; sonst wird er nur breiter. Eigene Vorlagen bleiben unverändert */
+    if ((data.dashboardsVersion || 1) < 8) { const d0 = data.dashboards.find(d => d.isDefault); const u = d0 ? d0.layout.unten : []; const w = u.find(x => x.typ === 'disziplin_trichter'); if (w && w.groesse === 'klein') { w.groesse = 'mittel'; if (u.slice(0, 5).map(x => x.typ).join() === 'score,pnl_vergleich,disziplin_trichter,letzte_trades,kalender') { const [sc, pc, fn, lt, ka] = u.splice(0, 5); u.unshift(sc, fn, pc, ka, lt); } } data.dashboardsVersion = 8; }
   }
 
   function defaults() {

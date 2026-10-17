@@ -504,10 +504,10 @@ span.info:hover { color: var(--text-2); }
 .content.enter .score-scale { animation: score-run 1.3s cubic-bezier(.22, .9, .25, 1) .2s backwards; } /* nur beim Öffnen der Seite, nicht beim Neuaufbau (Reiter, Eingaben) */
 @keyframes score-run { from { --pv: 0; } }
 .score-scale .track { display: none; } /* nur der erreichte Teil wird gezeigt, der Rest der Skala bleibt leer */
-.score-scale .fill, .score-scale .knob { background-image: linear-gradient(90deg, color-mix(in srgb, var(--loss) 82%, var(--surface)), color-mix(in srgb, var(--warn) 82%, var(--surface)), color-mix(in srgb, var(--profit) 82%, var(--surface))); background-size: 100cqw 100%; background-repeat: no-repeat; }
+.score-scale .fill { background: color-mix(in srgb, var(--accent) 80%, var(--surface)); } .score-scale .knob { background: var(--accent); } /* in der Akzentfarbe der App statt Rot-Gelb-Grün */
 .score-scale .fill { position: absolute; left: 0; top: 0.625rem; height: 0.375rem; width: var(--sx); border-radius: var(--radius-xs); }
-.score-scale .knob { position: absolute; top: 0.5rem; left: var(--sx); width: 0.625rem; height: 0.625rem; border-radius: 50%; transform: translateX(-50%); background-position: calc(0.3125rem - var(--sx)) 0;
-  box-shadow: 0 0 0 1px var(--surface); } /* Punkt am Ende des erreichten Teils, etwas größer als der Balken, mit feinem Rand */
+.score-scale .knob { position: absolute; top: 0.5rem; left: var(--sx); width: 0.625rem; height: 0.625rem; border-radius: 50%; transform: translateX(-50%);
+  box-shadow: 0 0 0 2px var(--surface); } /* Punkt am Ende des erreichten Teils, etwas größer als der Balken, mit feinem Rand */
 .score-scale .lbls { position: absolute; left: 0; right: 0; top: 1.375rem; display: flex; justify-content: space-between; font-size: var(--fs-12); color: var(--muted); }
 .score-big { font-size: var(--fs-32); font-weight: 700; }
 
@@ -645,6 +645,12 @@ span.info:hover { color: var(--text-2); }
 .cal .d.win { background: color-mix(in srgb, var(--profit) 16%, var(--surface)); border-color: color-mix(in srgb, var(--profit) 45%, var(--border)); }
 .cal .d.loss { background: color-mix(in srgb, var(--loss) 23%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 52%, var(--border)); } /* Rot etwas kräftiger als Grün, damit es auf dem dunklen Grund gleich stark wirkt */
 .cal .d.be { background: color-mix(in srgb, var(--be) 14%, var(--surface)); }
+/* Dunkles Design: Gewinn- und Verlusttage wie in der Vorlage (TradeZella) als satt gefüllte Felder mit hellerer Kante und weißer Schrift */
+:root:not([data-theme="light"]) .cal .d.win { background: color-mix(in srgb, var(--profit) 28%, #000); border-color: color-mix(in srgb, var(--profit) 62%, #000); }
+:root:not([data-theme="light"]) .cal .d.loss { background: color-mix(in srgb, var(--loss) 45%, #000); border-color: color-mix(in srgb, var(--loss) 66%, #000); }
+:root:not([data-theme="light"]) .cal .d:is(.win, .loss) :is(.p, .pm) { color: #fff; }
+:root:not([data-theme="light"]) .cal .d:is(.win, .loss) :is(.c, .c .wr) { color: rgba(255, 255, 255, .78); }
+:root:not([data-theme="light"]) .cal .d:is(.win, .loss):not(.today) .n { color: rgba(255, 255, 255, .86); }
 .cal .d.sel { box-shadow: 0 0 0 0.125rem var(--accent); }
 /* ruhige Kachel: oben links die Winrate des Tages (auf Höhe der Tageszahl), unten Betrag und Anzahl Trades.
    In sehr schmalen Kacheln fällt die Winrate weg, damit nichts überlappt */
@@ -3279,8 +3285,8 @@ html.sb-mini .nav .nav-dot { top: 0.125rem; right: 0.125rem; min-width: 0; heigh
     linear-gradient(90deg, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)), color-mix(in srgb, var(--sel-c) var(--sel-p2), var(--surface))) padding-box,
     linear-gradient(90deg, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)) 0%, color-mix(in srgb, var(--sel-c) var(--sel-p1), var(--surface)) 30%, color-mix(in srgb, var(--sel-c) var(--sel-pb), var(--surface)) 100%) border-box;
 }
-/* Seitenleiste: eigene zweifarbige Symbole (weiche Fläche + feine Kontur), Linien etwas feiner */
-.nav a svg, .nav button svg { stroke-width: 1.7; }
+/* Seitenleiste: eigene zweifarbige Symbole (weiche Fläche + feine Kontur), gleiche Strichstärke wie die Leiste ganz links */
+.nav a svg, .nav button svg { stroke-width: 1.85; }
 /* Hinweis-Zahlen minimal: klein, leicht, ruhiges Grau (Vollansicht, Mini-Leiste, Konto-Bild) */
 .nav .nav-dot, .sb-menu .item .nav-dot { font: 500 var(--fs-11)/1rem var(--font-num); font-variant-numeric: tabular-nums; color: color-mix(in srgb, var(--text) 34%, var(--bg-2)); }
 .nav .nav-dot { margin-right: var(--sp-3); }
@@ -3463,7 +3469,7 @@ html.sb-mini .sidebar .sb-new .btn span { display: none; }
 /* Leiste ganz links: eigene Kontur-Symbole in Weiß (wie Vorlage), kräftiger Strich; aktiv nur durch das helle Feld */
 .rail { --rail-ic: color-mix(in srgb, var(--paper) 82%, var(--rail-bg)); --rail-ic-on: var(--paper); }
 .rail-item .ri { color: var(--rail-ic); }
-.rail-item svg { width: 1.25rem; height: 1.25rem; stroke-width: 2; }
+.rail-item svg { width: 1.25rem; height: 1.25rem; stroke-width: 1.85; } /* so groß und so kräftig wie die Symbole der Seitenleiste (Mitte aus 2 und 1,7) */
 /* PC: Inhalt der Seitenleiste so tief, dass „Trade loggen“ mittig auf Höhe von Logo und Seitentitel steht (wie Vorlage) */
 @media (min-width: 60.0625em) { .shell.has-rail .sidebar { padding-top: calc(var(--win-gap) + var(--topbar-h) / 2 - 1.25rem); } }
 /* ---------- Hintergrund des großen Fensters (hinter den Widgets) in den dunklen Designs immer in der Farbe der Leiste ganz links;
@@ -3541,6 +3547,9 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 /* Long/Short: neutrales Schild mit feiner Kante, Farbe nur im Pfeil */
 .badge { color: var(--text-2); border-color: var(--border-2); background: transparent; }
 .badge .bi { background: color-mix(in srgb, var(--c) 14%, transparent); }
+/* dunkles Design: Long grün, Short rot, in denselben Tönen wie die Kalendertage */
+:root:not([data-theme="light"]) .badge { color: color-mix(in srgb, var(--c) 45%, #fff); border-color: color-mix(in srgb, var(--c) 55%, #000); background: color-mix(in srgb, var(--c) 22%, #000); }
+:root:not([data-theme="light"]) .badge .bi { background: color-mix(in srgb, var(--c) 40%, transparent); }
 /* Setup-Schilder: nur Kontur */
 .chip.setup { background: transparent; border-color: var(--border-2); color: var(--text-2); }
 /* ---------- Schwarze Leiste oben (PC): läuft so breit wie die Leiste links über die ganze obere Kante und bildet mit ihr ein „L“;
@@ -3905,10 +3914,10 @@ button.more-link { padding: 0; border: 0; background: none; font-family: inherit
 /* Gesamt-Score im Stil der 21st-Vorlage heygaia/radar-chart: Gitter als Vielecke, gewählter Zeitraum als Fläche mit Rand, der Zeitraum davor
    gestrichelt; an jedem Punkt „jetzt / vorher“ und darunter der Name */
 .r2-svg { display: block; overflow: visible; }
-.r2-grid { fill: none; stroke: var(--border-2); stroke-width: 1; }
-.r2-outer { stroke: color-mix(in srgb, var(--text) 30%, transparent); }
-.r2-cur { fill: var(--accent); fill-opacity: .2; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
-.r2-prev { fill: var(--text-2); fill-opacity: .06; stroke: var(--text-2); stroke-width: 1.5; stroke-dasharray: 4 3; stroke-linejoin: round; }
+.r2-grid { fill: none; stroke: color-mix(in srgb, var(--text) 20%, transparent); stroke-width: 1; } /* Netz gut sichtbar */
+.r2-outer { stroke: color-mix(in srgb, var(--text) 40%, transparent); }
+.r2-cur { fill: var(--accent); fill-opacity: .28; stroke: var(--accent); stroke-opacity: .85; stroke-width: 1.25; stroke-linejoin: round; } /* feine Linie, die Fläche trägt die Form */
+.r2-prev { fill: var(--text-2); fill-opacity: .06; stroke: var(--text-2); stroke-width: 1; stroke-dasharray: 4 3; stroke-linejoin: round; }
 .r2-dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; opacity: 0; transition: opacity var(--dur-1) var(--ease); pointer-events: none; }
 .r2-dot.on { opacity: 1; }
 .r2-lbl { pointer-events: none; }
@@ -3921,7 +3930,7 @@ button.more-link { padding: 0; border: 0; background: none; font-family: inherit
 .legend .r2-k.cur { background: var(--accent); }
 .legend .r2-k.prev { box-sizing: border-box; width: 0.625rem; height: 0.625rem; border: 1.5px dashed var(--text-2); background: none; }
 .r2-big { gap: var(--sp-2); align-items: baseline; flex-wrap: nowrap; }
-.r2-delta { color: var(--text-2); font-size: var(--fs-12); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.r2-delta { align-self: center; padding: 1px 7px; border-radius: 999px; background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text-2); font-size: var(--fs-12); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; } /* ruhige Pille ohne Pfeil: Veränderung zum Vergleich */
 /* Einstellungen „Punkte im Score“: Liste mit Name und kurzer Erklärung, die letzten drei lassen sich nicht abwählen */
 .sc-list { display: grid; gap: 2px; max-height: min(60vh, 30rem); margin: 0 calc(-1 * var(--sp-2)); overflow: auto; }
 .check.sc-opt { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-2); border-radius: var(--radius-xs); }
@@ -3933,8 +3942,8 @@ button.more-link { padding: 0; border: 0; background: none; font-family: inherit
 .r2-sm .r2-v { font-size: var(--fs-11); }
 .r2-sm .r2-n { font-size: 0.625rem; }
 @container (max-width: 7.5rem) { .score-scale .lbls span:not(:first-child):not(:last-child) { display: none; } } /* schmale Score-Karte: nur 0 und 100 */
-/* „P&L im Vergleich“ (Vorlage: 21st.dev Multi Line Chart): nur waagerechte Rasterlinien, gerade Linien, jetzt durchgezogen mit Punkten,
-   der Zeitraum davor gestrichelt; Pille mit Pfeil und Unterschied neben dem Titel */
+/* „P&L im Vergleich“ (Vorlage: 21st.dev Multi Line Chart): nur waagerechte Rasterlinien, gerade Linien ohne Punkte, jetzt durchgezogen,
+   der Zeitraum davor gestrichelt; Pille mit Pfeil und Unterschied direkt neben dem Titel; Legende mit zwei Linien-Schlüsseln */
 .chart.h280.pc-chart { height: 16.3125rem; min-height: 16.3125rem; } /* zieht die Untertitelzeile (1,1875rem) ab: Karte so hoch wie die übrigen Diagramm-Karten */
 .pc-svg { display: block; overflow: visible; }
 .pc-grid { stroke: var(--border); stroke-width: 1; }
@@ -3942,8 +3951,11 @@ button.more-link { padding: 0; border: 0; background: none; font-family: inherit
 .pc-yl { fill: var(--muted); font-size: var(--fs-11); font-variant-numeric: tabular-nums; }
 .pc-cur { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .pc-prev { fill: none; stroke: var(--text-2); stroke-width: 1.5; stroke-dasharray: 4 4; stroke-linejoin: round; opacity: .8; }
-.pc-dot { fill: var(--surface); stroke: var(--accent); stroke-width: 1.8; }
 .pc-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; font-size: var(--fs-12); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .pc-pill.up { background: var(--profit-soft, color-mix(in srgb, var(--profit) 14%, transparent)); color: var(--profit-ink, var(--profit)); }
 .pc-pill.down { background: var(--loss-soft, color-mix(in srgb, var(--loss) 14%, transparent)); color: var(--loss-ink, var(--loss)); }
-.pc-key { display: inline-block; width: 14px; height: 0; margin: 0 5px 0 2px; border-top: 1.5px dashed var(--text-2); vertical-align: middle; }
+.card-title:has(> .pc-pill) { flex-wrap: wrap; row-gap: var(--sp-1); } /* große Schrift: Pille rutscht unter den Titel statt hinaus */
+.pc-leg { display: inline-flex; flex-wrap: wrap; gap: 0.125rem var(--sp-4); }
+.pc-li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.pc-k { display: inline-block; width: 14px; height: 0; border-top: 2px solid var(--accent); }
+.pc-k.prev { border-top: 1.5px dashed var(--text-2); }

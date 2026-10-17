@@ -2,10 +2,9 @@
 
 **Format wie bei den Vorbildern:** keine Geschichte, keine Hauptfigur. Es ist eine Reihe von Einzelszenen, in denen Steinzeitmenschen **ganz selbstverständlich traden**, als wäre das völlig normal. Niemand ist überrascht, und jede Szene zeigt genau einen Gag. Am Ende kommt das Journaling als Pointe, danach das Logo.
 
-- 14 Szenen, mit Sprüngen näher ran im Schnitt ca. 16 Einstellungen, ca. 20–25 Sekunden
+- 10 Szenen, mit Sprüngen näher ran im Schnitt ca. 12 Einstellungen, ca. 15–20 Sekunden
 - Ein Gag braucht 1 bis 2 Einstellungen
 - 30 fps, 5-Sekunden-Clips, **kein Filmkorn**
-- „Bild verdeckt“ nur bei Szene 6 und 10, wo es sich von selbst ergibt
 
 ### Stil-Block: in JEDEN Bild-Prompt am Ende einfügen
 ```
@@ -43,16 +42,6 @@ slow push-in from the cave entrance, shot past the rock edge (frame in frame), t
 ```
 *Im Schnitt: Sprung näher ran auf den Mann am Monitor.*
 
-## Szene 3 – Trendlinie mit Kohle
-**Bild:**
-```
-Close-up: a caveman draws a trendline with a charcoal stick directly onto the screen of a computer monitor showing a candlestick chart, black charcoal line across the screen, [STIL]
-```
-**Bewegung:**
-```
-the caveman slowly and carefully draws a straight diagonal line with the charcoal stick along the chart lows, then nods
-```
-
 ## Szene 4 – Morgen-Meeting am Stein
 **Bild:**
 ```
@@ -73,26 +62,6 @@ A caveman sits at a campfire turning a big piece of meat on a wooden spit with o
 the meat smokes and blackens, the caveman keeps staring at his phone without looking up, slight push-in
 ```
 
-## Szene 6 – Jäger mit Chart (Bulle in Sicht)
-**Bild:**
-```
-Two cave hunters lie flat in tall dry grass, one looks through binoculars, the other holds a phone with a green rising chart, a huge wild aurochs bull stands in the distance, [STIL]
-```
-**Bewegung:**
-```
-starts with a fast whip pan with motion blur from the aurochs bull to the hunters, the hunter shows the phone to the other one, they nod
-```
-
-## Szene 7 – Kurs-Alarm in der Nacht
-**Bild:**
-```
-Night in a cave: a caveman sleeps on a bed of furs next to a dying fire, a smartphone lights up next to his head with a bright notification glow, [STIL]
-```
-**Bewegung:**
-```
-the phone lights up and vibrates, the caveman immediately sits up, grabs it and stares at it, his face lit blue by the screen
-```
-
 ## Szene 8 – Tauschhandel um Hardware
 **Bild:**
 ```
@@ -111,16 +80,6 @@ A caveman lies relaxed in a hammock made of fur between two trees, laptop on his
 **Bewegung:**
 ```
 static wide shot, the hammock swings gently, the mammoth walks through the background from left to right
-```
-
-## Szene 10 – Seilrutsche mit Handy
-**Bild:**
-```
-A caveman rides a zipline across a rocky canyon, holding on with one hand and checking a chart on his smartphone with the other, [STIL]
-```
-**Bewegung:**
-```
-camera tracks alongside the caveman on the zipline, he keeps looking at his phone, at the end a rock passes close to the camera and fills the frame
 ```
 
 ## Szene 11 – Höhlenmalerei als Chart

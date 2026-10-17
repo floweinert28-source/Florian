@@ -10,6 +10,7 @@ const ignore = m => /ERR_CERT|fonts\.googleapis|fonts\.gstatic|net::ERR|fontshar
 const health = () => new Promise(res => { http.get(URLB + '/api/mentor/health', r => res(r.statusCode === 200)).on('error', () => res(false)); });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
+  if (await health()) { console.log(`FAIL Port ${PORT} ist schon belegt (alter Test-Server läuft noch?); erst beenden, sonst prüft der Test den falschen Server`); console.log('0/1 bestanden'); process.exit(1); }
   try { fs.unlinkSync(DB); } catch (e) { /* frisch */ }
   const MAILS = __dirname + '/coach-mails.jsonl'; try { fs.unlinkSync(MAILS); } catch (e) { /* frisch */ }
   const SMTP_PORT = PORT + 100; const sink = spawn('python3', [__dirname + '/smtpsink.py', String(SMTP_PORT), MAILS]);
@@ -180,6 +181,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const before = mails().length;
   await go(M.p, `#/coach/g/${gid}/s/${await A.p.evaluate(() => Store.data.coach.userId)}`, 1400);
   await M.p.fill(`.coach-entry[data-entry="${firstId}"] .ce-write textarea`, 'Nachtrag: Morgen bitte Check-in vor dem Open.'); await M.p.click(`.coach-entry[data-entry="${firstId}"] [data-action=coach-note-send]`); await M.p.waitForTimeout(1500);
+  for (let i = 0; i < 40 && mails().length <= before; i++) await M.p.waitForTimeout(200); /* der Server schickt die Mail im Hintergrund; unter Last dauert das */
   const got = mails().slice(before);
   ok('E-Mail an die Schülerin über den Server verschickt', got.length === 1 && got[0].to[0] === 'anna@example.com' && /Neue Notiz von Max/.test(got[0].data) && /Morgen bitte Check-in/.test(got[0].data) && /https:\/\/journalyst\.test\/app\.html/.test(got[0].data), JSON.stringify(got.map(m => m.to)));
   await A.p.evaluate(() => Coach.sync({ force: true })); await A.p.waitForTimeout(800);

@@ -42,8 +42,8 @@ const ROUTES = ['dashboard', 'trades', 'day', 'stats', 'notebook', 'progress', '
     /* Affiliate: Tabellen ohne seitliches Scrollen (Nebenspalten ausgeblendet), Link und Code untereinander */
     for (const r of ['affiliate', 'affiliate/creator']) {
       await go(r);
-      const af = await p.evaluate(() => ({ tbl: [...document.querySelectorAll('.aff-tbl')].map(t => [t.scrollWidth, t.closest('.tbl-wrap').clientWidth]), share: [...document.querySelectorAll('.aff-ticket')].map(x => Math.round(x.getBoundingClientRect().width)), hidden: [...document.querySelectorAll('.aff-tbl thead .ph-hide')].every(x => getComputedStyle(x).display === 'none') }));
-      ok(`Affiliate (${r}): Tabelle passt ohne Scrollen, Nebenspalten aus${r.includes('creator') ? ', Link und Code volle Breite' : ''}`, af.tbl.length === 1 && af.tbl.every(([a, b]) => a <= b + 1) && af.hidden && (!r.includes('creator') || (af.share.length === 2 && af.share.every(w => w >= 340))), JSON.stringify(af));
+      const af = await p.evaluate(() => ({ tbl: [...document.querySelectorAll('.aff-tbl')].map(t => [t.scrollWidth, t.closest('.tbl-wrap').clientWidth]), share: [...document.querySelectorAll('.aff-ticket')].map(x => { const c = x.closest('.card'), cs = getComputedStyle(c); return Math.round(c.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - x.getBoundingClientRect().width); }), code: !!document.querySelector('.aff-share .aff-code-row'), hidden: [...document.querySelectorAll('.aff-tbl thead .ph-hide')].every(x => getComputedStyle(x).display === 'none') }));
+      ok(`Affiliate (${r}): Tabelle passt ohne Scrollen, Nebenspalten aus${r.includes('creator') ? ', Link über die volle Kartenbreite, Code darunter' : ''}`, af.tbl.length === 1 && af.tbl.every(([a, b]) => a <= b + 1) && af.hidden && (!r.includes('creator') || (af.share.length === 1 && af.share[0] <= 1 && af.code)), JSON.stringify(af));
     }
     /* Notebook: Suche und Symbole in einer Reihe; Notiz-Ansicht mit einzeiliger Kopfzeile, wischbarer Werkzeugleiste und ohne runden Knopf */
     await go('notebook');

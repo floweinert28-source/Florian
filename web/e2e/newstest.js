@@ -3,12 +3,14 @@ const { chromium } = require('playwright');
 const base = 'file:///tmp/claude-0/-home-user-Florian/3d79e81c-3967-55f9-a53a-e07cf04bcd94/scratchpad/sample-dev.html';
 let pass = 0, fail = 0; const ok = (n, c, extra = '') => { if (c) { pass++; console.log('PASS ' + n); } else { fail++; console.log('FAIL ' + n + (extra ? ' · ' + extra : '')); } };
 const H = 3600e3;
+/* vergangener Termin: vor 3 Std., kurz nach Mitternacht aber noch heute (sonst fiele er auf gestern und die Prüfungen dazu liefen ins Leere) */
+const pastAt = (now) => { const d = new Date(now); d.setHours(0, 0, 1, 0); return Math.max(now - 3 * H, Math.min(d.getTime(), now - 1000)); };
 function feed() {
   const now = Date.now(); const day = new Date(); day.setHours(0, 0, 0, 0);
   const at = (d, h, m) => { const t = new Date(day); t.setDate(t.getDate() + d); t.setHours(h, m, 0, 0); return t.toISOString(); };
   return [
     { id: 'y', title: 'Gestern-Termin', currency: 'USD', time: at(-1, 10, 0), impact: 'high', forecast: '', previous: '', actual: '' },
-    { id: 'p', title: 'Vorbei heute', currency: 'EUR', time: new Date(now - 3 * H).toISOString(), impact: 'medium', forecast: '', previous: '', actual: '0.4%' },
+    { id: 'p', title: 'Vorbei heute', currency: 'EUR', time: new Date(pastAt(now)).toISOString(), impact: 'medium', forecast: '', previous: '', actual: '0.4%' },
     { id: 'n', title: 'CPI m/m', currency: 'USD', time: new Date(now + 2 * H + 60e3).toISOString(), impact: 'high', forecast: '0.3%', previous: '0.2%', actual: '' },
     { id: 'm', title: 'ZEW Economic Sentiment', currency: 'EUR', time: at(1, 11, 0), impact: 'medium', forecast: '-8.5', previous: '-12.1', actual: '' },
     { id: 'l', title: 'Trade Balance', currency: 'JPY', time: at(1, 1, 50), impact: 'low', forecast: '', previous: '', actual: '' },
@@ -45,7 +47,7 @@ function feed() {
     const v = await p.evaluate(() => ({ banner: !!document.querySelector('.nw-banner'), days: [...document.querySelectorAll('.nw-day')].map(d => [d.querySelector('.nw-rel') ? d.querySelector('.nw-rel').textContent.trim() : '', [...d.querySelectorAll('.nw-title')].map(t => t.textContent)]), foot: (document.querySelector('.nw-foot') || {}).textContent || '' }));
     ok('Kein Beispiel-Hinweis mehr; Quelle und Stand im Fuß', !v.banner && /ForexFactory/.test(v.foot) && /Stand/.test(v.foot), v.foot);
     /* Erwartung je nach Uhrzeit: „in 2 Std.“ kann nach Mitternacht fallen (dann steht CPI unter Morgen), „vor 3 Std.“ vor Mitternacht */
-    const sameDay = (a, b) => a.toDateString() === b.toDateString(); const nowD = new Date(); const cpiToday = sameDay(new Date(Date.now() + 2 * H + 60e3), nowD), pastToday = sameDay(new Date(Date.now() - 3 * H), nowD);
+    const sameDay = (a, b) => a.toDateString() === b.toDateString(); const nowD = new Date(); const cpiToday = sameDay(new Date(Date.now() + 2 * H + 60e3), nowD), pastToday = sameDay(new Date(pastAt(Date.now())), nowD);
     const expDays = [['Heute', [pastToday ? 'Vorbei heute' : null, cpiToday ? 'CPI m/m' : null].filter(Boolean)], ['Morgen', [cpiToday ? null : 'CPI m/m', 'ZEW Economic Sentiment'].filter(Boolean)]].filter(g => g[1].length);
     ok('Nach Tagen gruppiert: Heute, Morgen; gestern nicht; Standardfilter ohne Niedrig und Feiertage', JSON.stringify(v.days) === JSON.stringify(expDays), JSON.stringify(v.days) + ' erwartet ' + JSON.stringify(expDays));
     ok('Vergangene Termine heute sind abgeblendet', await p.$eval('.nw-row:has(.nw-title)', r => r.classList.contains('past') && getComputedStyle(r).opacity < 0.7));

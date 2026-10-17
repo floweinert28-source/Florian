@@ -1,4 +1,4 @@
-# Steinzeit-Trader – Szenenplan & Prompts
+# Steinzeit-Trader – Szenenplan & Prompts (Werbung für Journalyst)
 
 **Format wie bei den Vorbildern:** keine Geschichte, keine Hauptfigur. Es ist eine Reihe von Einzelszenen, in denen Steinzeitmenschen **ganz selbstverständlich traden**, als wäre das völlig normal. Niemand ist überrascht, und jede Szene zeigt genau einen Gag. Am Ende kommt das Journaling als Pointe, danach das Logo.
 
@@ -146,12 +146,12 @@ Text erscheint **nur am Ende**, vorher läuft das Video ohne Text wie bei den Vo
 **Empfehlung (Deutsch):**
 1. Bei Szene 13: **„Trader journalen seit 40.000 Jahren.“**
 2. Bei Szene 14: **„Und du?“**
-3. Logo
+3. Logo **Journalyst**
 
 **Dieselbe Version auf Englisch** (falls du international postest):
 1. **„Traders have been journaling for 40,000 years.“**
 2. **„Have you?“**
-3. Logo
+3. Logo **Journalyst**
 
 **Alternativen:**
 - „Die ältesten Trade-Journale der Welt.“ → „Schreib deins weiter.“ → Logo

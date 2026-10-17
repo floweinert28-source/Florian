@@ -227,7 +227,7 @@ test('Store.load: alte Installation (sampleInstalled, sampleVersion fehlt) bekom
   const { Store: S2 } = makeStore({ version: 1, settings: { sampleInstalled: false, onboarded: true }, trades: [own] }); S2.load();
   assert.equal(S2.trades().length, 1); assert.equal(S2.propAccounts().length, 0);
   /* Aktuelle Version wird nicht erneut installiert (Verlauf bleibt unverändert) */
-  const { Store: S3 } = makeStore({ version: 1, settings: { sampleInstalled: true, sampleVersion: 3, onboarded: true }, trades: [own], logs: [] }); S3.load();
+  const { Store: S3 } = makeStore({ version: 1, settings: { sampleInstalled: true, sampleVersion: 4, onboarded: true }, trades: [own], logs: [] }); S3.load();
   assert.equal(S3.trades().length, 1); assert.equal((S3.data.logs || []).length, 0);
   void mem;
 });

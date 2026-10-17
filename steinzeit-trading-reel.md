@@ -1,258 +1,185 @@
 # Steinzeit-Trader – Szenenplan & Prompts
 
-**Idee:** Ein Höhlenmensch tradet wie ein Höhlenmensch: Er läuft dem Hype nach, geht all-in, nimmt zu viel Hebel und verliert alles. Dann zeigt ihm die alte Mara ihr Geheimnis: Die Höhlenmalereien an der Wand sind ihr **Trade-Journal**. Sie gibt ihm deine App, und am Ende journalt der ganze Stamm.
+**Format wie bei den Vorbildern:** keine Geschichte, keine Hauptfigur. Es ist eine Reihe von Einzelszenen, in denen Steinzeitmenschen **ganz selbstverständlich traden**, als wäre das völlig normal. Niemand ist überrascht, und jede Szene zeigt genau einen Gag. Am Ende kommt das Journaling als Pointe, danach das Logo.
 
-**Kernaussage der Werbung:** *Höhlenmalerei war das erste Trade-Journal.*
-
----
-
-## Technische Vorgaben für alle Clips
-
-- 30 fps, 5 Sekunden pro Clip, **kein Filmkorn** (machst du im Schnitt)
-- Prompts auf Englisch, weil die Modelle damit besser arbeiten
-- Ablauf pro Clip: zuerst das **Startbild** erzeugen (Text → Bild), dann das Bild mit dem **Bewegungs-Prompt** animieren (Bild → Video)
-- Damit die Figuren gleich aussehen: immer dieselbe Figurenbeschreibung verwenden. Wenn das Tool Referenzbilder kann, erst ein Porträt von Ugo und Mara erzeugen und dann als Referenz nutzen.
+- 14 Szenen, mit Sprüngen näher ran im Schnitt ca. 16 Einstellungen, ca. 20–25 Sekunden
+- Ein Gag braucht 1 bis 2 Einstellungen
+- 30 fps, 5-Sekunden-Clips, **kein Filmkorn**
+- „Bild verdeckt“ nur bei Szene 6 und 10, wo es sich von selbst ergibt
 
 ### Stil-Block: in JEDEN Bild-Prompt am Ende einfügen
 ```
-1980s prehistoric adventure film still, shot on 35mm, warm natural sunlight, slightly faded earthy colors, realistic skin and fur textures, cinematic documentary feel, clean image, no film grain, no text, no watermark
+1980s prehistoric adventure film still, shot on 35mm, warm natural sunlight, slightly faded earthy colors, realistic skin and fur textures, cinematic documentary feel, everyone acts completely casual and serious, clean image, no film grain, no text, no watermark
 ```
 
-### Figuren
+### Steinzeitmenschen (Basis-Beschreibung, pro Szene variieren)
 ```
-UGO: a rugged caveman in his mid-30s, long tangled dark-brown hair, thick full beard, tanned dirty skin, bone-tooth necklace, brown fur loincloth and a fur over one shoulder
-```
-```
-MARA: a calm elderly cavewoman, long grey braided hair, weathered wise face, brown fur cloak, necklace of small white shells
+caveman with long tangled hair and beard, tanned dirty skin, bone-tooth necklace, brown fur loincloth
 ```
 
-### App-Bildschirme
-Videomodelle können keine echte App-Oberfläche darstellen. Deshalb sind alle Handy-Bildschirme **leer und hell leuchtend** gepromptet. Im Schnitt legst du echte Screenshots deiner App darüber, in CapCut zum Beispiel mit Motion-Tracking. Bei Clip 15 bis 17 ist das wichtig.
+### Bildschirme
+Charts auf Monitoren kann das Modell selbst erzeugen, das sind normale Candlestick-Charts. **Handy-Bildschirme in Szene 12 bis 14 sind leer und hell leuchtend gepromptet**, damit du im Schnitt deine echten App-Screenshots darüberlegen kannst.
 
 ---
 
-## AKT 1 – Der Trader (Morgen)
-
-### Clip 1 – Die Trading-Höhle
+## Szene 1 – Eröffnung: Chart-Check in der Steppe
 **Bild:**
 ```
-Wide shot at dawn: a prehistoric steppe with a big rock wall and a cave entrance, smoke rising from a fire, inside the cave a cold blue glow from computer monitors, a few cavemen walking by with spears, [STIL]
+Wide shot: a prehistoric steppe, a herd of woolly mammoths grazing in the distance, in the foreground a caveman sits casually on a big rock with an open laptop on his knees showing a candlestick chart, [STIL]
 ```
 **Bewegung:**
 ```
-slow push-in towards the glowing cave entrance, smoke drifting, birds fly past
+starts wide and static, then a fast crash zoom towards the caveman and his laptop, mammoths keep grazing
 ```
 
-### Clip 2 – Der Schreibtisch
+## Szene 2 – Trading-Desk in der Höhle
 **Bild:**
 ```
-Inside a cave: UGO sits at a desk made of a flat stone slab, in front of three modern computer monitors showing green and red candlestick charts, cables run across the cave floor to a wooden pedal generator that a caveman child pedals, torches on the wall, [UGO], [STIL]
+Inside a cave: a caveman sits at a desk made of a flat stone slab with three modern computer monitors showing green and red candlestick charts, cables run over the cave floor to a wooden pedal generator pedaled by a caveman child in the background, torches on the wall, [STIL]
 ```
 **Bewegung:**
 ```
-camera slowly dollies from behind the child on the pedal generator to UGO at the monitors, the child pedals steadily, chart candles flicker
+slow push-in from the cave entrance, shot past the rock edge (frame in frame), the child pedals steadily, the caveman scrolls with the mouse
 ```
+*Im Schnitt: Sprung näher ran auf den Mann am Monitor.*
 
-### Clip 3 – Morgenkaffee
+## Szene 3 – Trendlinie mit Kohle
 **Bild:**
 ```
-Medium close-up of UGO holding a clay cup, sipping, staring intensely at the monitors, green and red light of the charts reflected on his face, [UGO], [STIL]
+Close-up: a caveman draws a trendline with a charcoal stick directly onto the screen of a computer monitor showing a candlestick chart, black charcoal line across the screen, [STIL]
 ```
 **Bewegung:**
 ```
-UGO slowly sips from the clay cup without taking his eyes off the screen, slight handheld camera movement
+the caveman slowly and carefully draws a straight diagonal line with the charcoal stick along the chart lows, then nods
 ```
 
----
-
-## AKT 2 – Bullen- und Bärenmarkt (wörtlich genommen)
-
-*Ein Auerochse ist ein Steinzeit-Bulle, und der Höhlenbär ist der Bär. Bulle → Kurs geht hoch, Bär → Crash.*
-
-### Clip 4 – Der Bulle
+## Szene 4 – Morgen-Meeting am Stein
 **Bild:**
 ```
-Wide shot: a herd of huge wild aurochs bulls stampeding up a grassy hill, cavemen on the hilltop cheering with raised spears, dust clouds, golden morning light, [STIL]
+A group of cavemen stands in a circle around a large flat rock with a tablet lying on it showing a candlestick chart, an old tribe elder points at the chart with the tip of his spear, the others listen seriously, morning light, [STIL]
 ```
 **Bewegung:**
 ```
-fast tracking shot following the aurochs bulls running uphill, dust flying, cavemen cheering
+handheld camera slowly circles the group, the elder taps the chart with the spear tip, the others nod
 ```
 
-### Clip 5 – Grüner Chart
+## Szene 5 – Fleisch brennt an
 **Bild:**
 ```
-Over-the-shoulder shot of UGO at his stone desk, the middle monitor shows a candlestick chart shooting steeply upwards in green, UGO raises a fist in triumph, [UGO], [STIL]
+A caveman sits at a campfire turning a big piece of meat on a wooden spit with one hand, while staring at a smartphone showing a chart in his other hand, the meat is starting to burn and smoke, [STIL]
 ```
 **Bewegung:**
 ```
-UGO pumps his fist and shouts with joy, quick push-in to the green chart
+the meat smokes and blackens, the caveman keeps staring at his phone without looking up, slight push-in
 ```
 
-### Clip 6 – Der Bär
+## Szene 6 – Jäger mit Chart (Bulle in Sicht)
 **Bild:**
 ```
-A giant cave bear rises on its hind legs on top of the hill and roars, the cavemen and the aurochs herd flee downhill in panic, dust everywhere, [STIL]
+Two cave hunters lie flat in tall dry grass, one looks through binoculars, the other holds a phone with a green rising chart, a huge wild aurochs bull stands in the distance, [STIL]
 ```
 **Bewegung:**
 ```
-starts with a fast whip pan onto the roaring cave bear, then everyone runs downhill towards the camera, chaos, dust fills the frame at the end
+starts with a fast whip pan with motion blur from the aurochs bull to the hunters, the hunter shows the phone to the other one, they nod
 ```
 
-### Clip 7 – Roter Chart
+## Szene 7 – Kurs-Alarm in der Nacht
 **Bild:**
 ```
-Close-up of UGO's face lit by red light from the monitor, eyes wide, mouth open in shock, the reflection of a falling red chart in his eyes, [UGO], [STIL]
+Night in a cave: a caveman sleeps on a bed of furs next to a dying fire, a smartphone lights up next to his head with a bright notification glow, [STIL]
 ```
 **Bewegung:**
 ```
-very slow push-in on UGO's frozen shocked face, the red light flickers
+the phone lights up and vibrates, the caveman immediately sits up, grabs it and stares at it, his face lit blue by the screen
 ```
 
----
-
-## AKT 3 – FOMO, All-in, Hebel, Liquidation
-
-### Clip 8 – FOMO
+## Szene 8 – Tauschhandel um Hardware
 **Bild:**
 ```
-A smug caveman rides past the cave on a brand-new cart with shiny round stone wheels, the cart is overflowing with seashells (stone-age money), he waves arrogantly; in the foreground UGO peeks out jealously from behind his monitors, [UGO], [STIL]
+Two cavemen at a stone counter in a prehistoric market: one hands over a big mammoth tusk, the other hands him a small modern hardware crypto wallet device, both completely serious, other cavemen trading furs and fish in the background, [STIL]
 ```
 **Bewegung:**
 ```
-the cart rolls slowly past from left to right, the rich caveman waves, UGO's eyes follow him enviously
+the two exchange the items, shake hands firmly, the buyer inspects the small device closely
 ```
 
-### Clip 9 – All-in
+## Szene 9 – Hängematte mit Laptop
 **Bild:**
 ```
-UGO pours a huge woven basket full of seashells into the outstretched basket of a grinning old shell trader at a stone counter, a modern card payment terminal sits on the counter, [UGO], [STIL]
+A caveman lies relaxed in a hammock made of fur between two trees, laptop on his belly showing charts, a mammoth walks slowly past behind him, [STIL]
 ```
 **Bewegung:**
 ```
-UGO tips the whole basket, hundreds of shells pour out, the old trader grins wider, the terminal beeps green
+static wide shot, the hammock swings gently, the mammoth walks through the background from left to right
 ```
 
-### Clip 10 – Hebel (Leverage)
+## Szene 10 – Seilrutsche mit Handy
 **Bild:**
 ```
-UGO and two other cavemen push down on a gigantic wooden lever placed under an enormous boulder on a slope, the boulder starts lifting, UGO's small hut stands at the bottom of the slope, [UGO], [STIL]
+A caveman rides a zipline across a rocky canyon, holding on with one hand and checking a chart on his smartphone with the other, [STIL]
 ```
 **Bewegung:**
 ```
-the cavemen push the lever, the boulder lifts, then the lever snaps loudly, the boulder rolls down the slope and smashes the hut, a huge dust cloud fills the frame
+camera tracks alongside the caveman on the zipline, he keeps looking at his phone, at the end a rock passes close to the camera and fills the frame
 ```
-*Das ist der Clip mit „Bild verdeckt“: Die Staubwolke gibt dir einen sauberen Schnitt.*
 
-### Clip 11 – Liquidation (wörtlich: Er wird flüssig gemacht)
+## Szene 11 – Höhlenmalerei als Chart
 **Bild:**
 ```
-UGO kneels in a shallow river, a sudden flash flood washes away his seashells, his fur blanket and his clay cup, he desperately grabs after them, [UGO], [STIL]
+Inside a cave: a caveman paints a big candlestick chart onto the cave wall with red ochre, the painting looks exactly like a trading chart with green and red candles drawn in ochre and charcoal, torch light, [STIL]
 ```
 **Bewegung:**
 ```
-the water surges through, shells and belongings float away downstream, UGO reaches after them in vain, camera slowly pulls back
+slow lateral dolly along the wall, revealing the huge painted chart, the caveman adds another candle with his finger
 ```
 
 ---
 
-## AKT 4 – Die Wende
+## Die Werbung (Pointe am Ende)
 
-### Clip 12 – Am Boden
+*Bisher war alles Trading. Jetzt kommt das Journaling als Höhepunkt, wieder ganz selbstverständlich und ohne Erklärung.*
+
+## Szene 12 – Die alte Journal-Wand
 **Bild:**
 ```
-Rainy evening at the cave entrance: UGO sits slumped on a rock, soaking wet, staring at the ground; MARA walks past calmly and relaxed with a clay cup of something warm, [UGO], [MARA], [STIL]
+Deep inside a cave, torch light: a huge cave wall covered with endless neat rows of ochre cave paintings: small drawn trades with arrows up and down, tally marks, hand prints, small happy and sad faces, like a trading diary going back centuries; an old cavewoman stands in front of it holding a smartphone with a plain bright white screen, [STIL]
 ```
 **Bewegung:**
 ```
-rain falls, MARA walks past slowly, stops and looks at UGO, then nods towards the inside of the cave
+slow pull-back revealing the enormous painted wall, then the cavewoman looks at the wall, looks at her phone, shrugs and starts typing on the phone
 ```
+*Pointe: Früher wurde an die Wand gemalt, heute benutzt sie die App. Auf den Handy-Bildschirm kommt dein Screenshot.*
 
-### Clip 13 – Die Wand
+## Szene 13 – Trade wird eingetragen
 **Bild:**
 ```
-Deep inside the cave, torch light: a huge rock wall entirely covered in ochre cave paintings arranged in neat rows: small drawn candlestick charts with arrows pointing up and down, tally marks, hand prints, small happy and sad faces next to each drawing, like a diary, MARA holds a torch next to the wall, UGO stares in awe, [UGO], [MARA], [STIL]
+Over-the-shoulder close-up of a caveman at his stone trading desk typing a trade entry on a smartphone with a plain bright white screen, his dirty thumb tapping, the monitors with charts blurred in the background, [STIL]
 ```
 **Bewegung:**
 ```
-slow lateral dolly along the painted wall from left to right, torch light flickers over the paintings, revealing more and more rows, ends on UGO's amazed face
+the caveman types calmly with his thumb, then taps once firmly to save, slow push-in on the phone screen
 ```
-*Hier ist die Pointe: Die Höhlenmalereien sind ein Trade-Journal.*
+*Hier dein App-Screenshot: ein Trade wird eingetragen.*
 
-### Clip 14 – Mara journalt
+## Szene 14 – Schlussbild (Logo)
 **Bild:**
 ```
-Close-up: MARA's finger dipped in red ochre paints a new small entry on the cave wall: a tiny chart with an upward arrow and a happy face, next to a long column of tally marks, [MARA], [STIL]
+Night, wide shot: a whole tribe of cavemen and cavewomen sits calmly around a big campfire, every single one is typing on a smartphone with glowing screens, a mammoth stands peacefully in the dark background, empty space on the right side of the frame, [STIL]
 ```
 **Bewegung:**
 ```
-MARA slowly paints the new entry, then taps the wall twice with satisfaction
+slow push-in towards the campfire, sparks rise, everyone calmly typing on their phones
 ```
-
-### Clip 15 – Die Übergabe
-**Bild:**
-```
-MARA hands UGO a modern smartphone in the torch-lit cave, the phone screen is facing the camera and shows a plain bright white screen, UGO holds it with both hands and looks at it curiously, [UGO], [MARA], [STIL]
-```
-**Bewegung:**
-```
-MARA places the phone into UGO's hands, UGO slowly turns it, sniffs it, then looks at the screen with growing understanding, screen glows evenly
-```
-*Hier kommt dein App-Screenshot auf den Bildschirm.*
+*Das Logo setzt du in den letzten 1 bis 1,5 Sekunden ein, wie bei den Vorbildern. Rechts ist absichtlich Platz frei.*
 
 ---
 
-## AKT 5 – Die Werbung
-
-### Clip 16 – Ugo journalt
-**Bild:**
-```
-UGO back at his stone desk, calm and focused, typing on the smartphone; next to the monitors he has painted a small cave painting on the rock: a little chart with a happy face; monitors show a calm green chart, [UGO], [STIL]
-```
-**Bewegung:**
-```
-UGO types calmly with his thumb, nods to himself, leans back relaxed, slow push-in on the phone screen
-```
-
-### Clip 17 – Der ganze Stamm
-**Bild:**
-```
-Night, the whole tribe sits around a big campfire, every caveman and cavewoman calmly typing on a smartphone, the child on the pedal generator is also on a phone, MARA sits in the middle smiling, [MARA], [STIL]
-```
-**Bewegung:**
-```
-slow circular camera movement around the campfire, sparks rise, everyone calmly journaling
-```
-
-### Clip 18 – Der Schluss (Endbild für Logo)
-**Bild:**
-```
-Wide shot at sunset: UGO stands in front of the big cave painting wall and presses his ochre-covered hand onto the rock, leaving a fresh red handprint at the end of the last row; empty space on the right side of the frame, [UGO], [STIL]
-```
-**Bewegung:**
-```
-UGO presses his hand on the wall and steps back proudly, camera slowly pulls back, warm light, calm ending
-```
-*Rechts ist absichtlich Platz frei für dein Logo und den Slogan.*
-
----
-
-## Slogans für das Ende (Text legst du im Schnitt drüber)
+## Slogans für das Ende (optional, Text legst du im Schnitt drüber)
 
 1. **„Don't trade like a caveman.“** → Logo
 2. **„Höhlenmalerei war das erste Trade-Journal.“** → Logo
-3. **„40.000 Jahre später – und du journalst immer noch nicht?“** → Logo
-4. **„Evolve your trading.“** → Logo
-5. Kombiniert: zuerst „Höhlenmalerei war das erste Trade-Journal.“, dann „Zeit für ein Upgrade.“, dann das Logo
+3. **„Even cavemen journal their trades.“** → Logo
+4. Gar kein Text, nur das Logo, wie bei den Vorbildern. Die Bilder sprechen für sich.
 
-**Mein Favorit:** Nr. 1. Er ist kurz, funktioniert international und fasst die ganze Geschichte in einem Satz zusammen.
-
----
-
-## Schnitt-Hinweise (Vorschlag, du entscheidest)
-
-- 18 Clips × 1 bis 2 Sekunden ergeben 25 bis 30 Sekunden.
-- Akt 1 bis 3 schnell und chaotisch schneiden, auf den Beat.
-- Ab Akt 4 (Regen) wird die Musik ruhiger oder bricht kurz ab, das gibt einen emotionalen Wechsel.
-- In Akt 5 kommt die Musik wieder, aber entspannt.
-- Mögliche Kürzungen: Clip 3, 7 oder 17.
+## Mögliche Kürzungen
+Wenn das Reel zu lang wird: Szene 4, 8 oder 9 rausnehmen.

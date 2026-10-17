@@ -165,12 +165,6 @@
     root.ColorPicker.open(inp, card.querySelector('.tc-prev'));
   };
 
-  /* Ansicht: Simple (weniger Text, große Zahlen) oder Advanced (alles); kleine Vorschau zeigt den Unterschied */
-  function modeCards(st) {
-    const mode = st.uiMode === 'simple' ? 'simple' : 'advanced';
-    const prev = { simple: '<span class="md-prev"><i class="b"></i><i class="b"></i><i class="bt"></i></span>', advanced: '<span class="md-prev adv"><i></i><i></i><i></i><i></i><i class="w"></i><i class="w"></i><i class="bt"></i></span>' };
-    return [['simple', 'Simple', 'Weniger Text, große Zahlen, nur das Wichtigste'], ['advanced', 'Advanced', 'Alle Funktionen, Details und Erklärungen']].map(([k, n, d]) => `<button type="button" class="mode-card" data-action="ui-mode" data-value="${k}" aria-pressed="${mode === k}">${prev[k]}<span class="md-txt"><b>${n}</b><small>${d}</small></span></button>`).join('');
-  }
   function design() {
     const st = S.settings; const T = root.Theme; const col = st.colors || {}; const defs = T.DEFAULTS[T.resolve(st)]; const cur = { accent: col.accent || defs.accent, profit: col.profit || defs.profit, loss: col.loss || defs.loss, be: col.be || defs.be };
     Object.keys(T.FONTS).forEach(T.loadFont); const fontKey = T.fontKey(st.font);
@@ -185,7 +179,6 @@
     const presetSet = new Set(T.PRESETS_ACCENT.map(a => a[1]));
     const picker = (key, label, val) => `<label class="cpick"><input type="color" value="${val}" data-input="color-set" data-key="${key}" aria-label="${label}"><i style="background:${val}"></i><span>${label}</span></label>`;
     return head('Design', 'Erscheinungsbild, Schrift und Farben. Wirkt sofort auf die ganze Website.') + `
-      <div class="set-block"><h3>Ansicht</h3><div class="mode-grid" role="group" aria-label="Ansicht">${modeCards(st)}</div></div>
       <div class="set-block"><h3>Erscheinungsbild</h3><div class="theme-grid">${themes}</div></div>
       <div class="set-block"><h3>Schriftart</h3><div class="small muted" style="margin-bottom:12px">Gilt für Text und Zahlen auf der ganzen Website.</div><div class="font-grid">${fonts}</div></div>
       <div class="set-block"><h3>Akzentfarbe</h3><div class="small muted" style="margin-bottom:12px">Buttons, aktive Einträge und Diagramme.</div><div class="dots">${accents.map(([n, c]) => `<button type="button" class="dot" data-action="color-preset" data-key="accent" data-value="${c}" aria-pressed="${cur.accent.toLowerCase() === c}" data-tip="${n}" style="--c:${c}"></button>`).join('')}<span id="saved-colors" class="dots-saved">${savedDots(cur.accent, presetSet)}</span><label class="dot custom" data-tip="Eigene Farbe wählen"><input type="color" value="${cur.accent}" data-input="color-set" data-key="accent" aria-label="Eigene Akzentfarbe">${I.plus}</label></div></div>

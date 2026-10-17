@@ -642,15 +642,16 @@ span.info:hover { color: var(--text-2); }
 .cal .d.pad { visibility: hidden; }
 .cal .d .n { position: absolute; top: 0.375rem; right: 0.375rem; width: 1.5rem; height: 1.5rem; border-radius: 62.4375rem; display: grid; place-items: center; font-size: var(--fs-12); font-weight: 600; background: none; color: var(--text-2); } /* kein Kreis hinter der Zahl, nur heute bekommt den grünen */
 .cal .d.today .n { background: var(--accent); color: var(--accent-ink); }
-.cal .d.win { background: color-mix(in srgb, var(--profit) 16%, var(--surface)); border-color: color-mix(in srgb, var(--profit) 45%, var(--border)); }
-.cal .d.loss { background: color-mix(in srgb, var(--loss) 23%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 52%, var(--border)); } /* Rot etwas kräftiger als Grün, damit es auf dem dunklen Grund gleich stark wirkt */
+.cal .d.win { background: color-mix(in srgb, var(--profit) 14%, var(--surface)); border-color: color-mix(in srgb, var(--profit) 55%, var(--surface)); } /* helles Design: zarte Fläche, kräftige Kante */
+.cal .d.loss { background: color-mix(in srgb, var(--loss) 14%, var(--surface)); border-color: color-mix(in srgb, var(--loss) 55%, var(--surface)); }
 .cal .d.be { background: color-mix(in srgb, var(--be) 14%, var(--surface)); }
-/* Dunkles Design: Gewinn- und Verlusttage wie in der Vorlage (TradeZella) als satt gefüllte Felder mit hellerer Kante und weißer Schrift */
+/* Gewinn- und Verlusttage in beiden Designs nach derselben Regel (Vorlage TradeZella): die Farbe trägt die Fläche mit kräftiger Kante,
+   die Schrift bleibt neutral (hell: dunkle Schrift auf zarter Fläche, dunkel: weiße Schrift auf satter Fläche) */
 :root:not([data-theme="light"]) .cal .d.win { background: color-mix(in srgb, var(--profit) 28%, #000); border-color: color-mix(in srgb, var(--profit) 62%, #000); }
 :root:not([data-theme="light"]) .cal .d.loss { background: color-mix(in srgb, var(--loss) 45%, #000); border-color: color-mix(in srgb, var(--loss) 66%, #000); }
-:root:not([data-theme="light"]) .cal .d:is(.win, .loss) :is(.p, .pm) { color: #fff; }
-:root:not([data-theme="light"]) .cal .d:is(.win, .loss) :is(.c, .c .wr) { color: rgba(255, 255, 255, .78); }
-:root:not([data-theme="light"]) .cal .d:is(.win, .loss):not(.today) .n { color: rgba(255, 255, 255, .86); }
+.cal .d:is(.win, .loss) :is(.p, .pm) { color: var(--text); }
+.cal .d:is(.win, .loss) :is(.c, .c .wr) { color: color-mix(in srgb, var(--text) 74%, transparent); }
+.cal .d:is(.win, .loss):not(.today) .n { color: color-mix(in srgb, var(--text) 86%, transparent); }
 .cal .d.sel { box-shadow: 0 0 0 0.125rem var(--accent); }
 /* ruhige Kachel: oben links die Winrate des Tages (auf Höhe der Tageszahl), unten Betrag und Anzahl Trades.
    In sehr schmalen Kacheln fällt die Winrate weg, damit nichts überlappt */
@@ -3544,10 +3545,10 @@ body { background: var(--ambient), var(--win); background-attachment: fixed; }
 .pill.st { background: none; padding-left: 0; padding-right: 0; color: var(--text-2); font-weight: 500; gap: var(--sp-2); }
 .pill.st::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: 50%; flex: none; background: var(--text-2); }
 .pill.st.win::before { background: var(--profit); } .pill.st.loss::before { background: var(--loss); } .pill.st.be::before { background: var(--be); } .pill.st.open::before { background: var(--info); }
-/* Long/Short: neutrales Schild mit feiner Kante, Farbe nur im Pfeil */
-.badge { color: var(--text-2); border-color: var(--border-2); background: transparent; }
-.badge .bi { background: color-mix(in srgb, var(--c) 14%, transparent); }
-/* dunkles Design: Long grün, Short rot, in denselben Tönen wie die Kalendertage */
+/* Long/Short: Long grün, Short rot, in beiden Designs nach derselben Regel wie die Kalendertage (Fläche, kräftigere Kante, getönte Schrift) */
+.badge { --ci: var(--profit-ink); color: color-mix(in srgb, var(--ci) 85%, #000); border-color: color-mix(in srgb, var(--c) 45%, var(--surface)); background: color-mix(in srgb, var(--c) 10%, var(--surface)); }
+.badge.s { --ci: var(--loss-ink); }
+.badge .bi { background: color-mix(in srgb, var(--c) 18%, transparent); }
 :root:not([data-theme="light"]) .badge { color: color-mix(in srgb, var(--c) 45%, #fff); border-color: color-mix(in srgb, var(--c) 55%, #000); background: color-mix(in srgb, var(--c) 22%, #000); }
 :root:not([data-theme="light"]) .badge .bi { background: color-mix(in srgb, var(--c) 40%, transparent); }
 /* Setup-Schilder: nur Kontur */

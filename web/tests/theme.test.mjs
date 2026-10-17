@@ -11,7 +11,7 @@ const ratio = (a, b) => { const x = T.lum(a), y = T.lum(b); return (Math.max(x, 
 
 test('Standardfarben: hell abgedunkelt, dunkel mit hellerem Break-even', () => {
   assert.deepEqual(T.DEFAULTS.dark, { accent: '#ede6da', profit: '#1fae7c', loss: '#ef4444', be: '#9a8cf8' });
-  assert.deepEqual(T.DEFAULTS.light, { accent: '#1c1a17', profit: '#16a34a', loss: '#ef4444', be: '#5f4fcf' });
+  assert.deepEqual(T.DEFAULTS.light, { accent: '#1c1a17', profit: '#12936a', loss: '#ef4444', be: '#5f4fcf' });
   assert.equal(T.forLight('#ede6da'), '#1c1a17'); /* Elfenbein im hellen Design: Fast-Schwarz */
   assert.equal(T.inkFor('#ede6da'), '#04140a');
   /* Akzent und Break-even mit 4,5:1; Gewinn und Verlust auf Wunsch heller (frischeres Grün/Rot), mindestens 3:1 wie für große Zahlen und Grafik */

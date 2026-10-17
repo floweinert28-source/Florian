@@ -124,7 +124,7 @@
     --border: #e7e6e3; --border-2: #d6d4cf; --sheen: rgba(255, 255, 255, .75); --win: var(--bg);
     --text: #161513; --text-2: #45433f; --muted: #6b6862; --faint: #b5b2ac;
     --accent: #1c1a17; --accent-2: #3a3732; --accent-ink: #fcfcfb; --accent-soft: rgba(34, 32, 28, 0.07); --accent-glow: rgba(34, 32, 28, 0.16);
-    --profit: #16a34a; --profit-soft: rgba(22, 163, 74, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --profit-ink: #15803d; --loss-ink: #dc2626; --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
+    --profit: #12936a; --profit-soft: rgba(18, 147, 106, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --profit-ink: #0d7d56; --loss-ink: #dc2626; --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
     --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5;
     --pie-1: #2a78d6; --pie-2: #eb6834; --pie-3: #4a3aa7; --pie-4: #e87ba4; --pie-5: #eda100; --pie-o: #a29d93; --pie-n: #dcd8d0; --pie-1-ink: #fcfcfb; --pie-3-ink: #fcfcfb; --pie-n-ink: #15130f;
     --nav-a1: #e9e8e5; --nav-a2: #e5e4e1; --nav-b1: #e9e8e5; --nav-b2: #d6d4cf; --nav-icon: #79736b; --groove-d: #e2e1de; --groove-l: #fcfcfb;
@@ -139,7 +139,7 @@
   --border: #e7e6e3; --border-2: #d6d4cf; --sheen: rgba(255, 255, 255, .75); --win: var(--bg);
   --text: #161513; --text-2: #45433f; --muted: #6b6862; --faint: #b5b2ac;
   --accent: #1c1a17; --accent-2: #3a3732; --accent-ink: #fcfcfb; --accent-soft: rgba(34, 32, 28, 0.07); --accent-glow: rgba(34, 32, 28, 0.16);
-  --profit: #16a34a; --profit-soft: rgba(22, 163, 74, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --profit-ink: #15803d; --loss-ink: #dc2626; --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
+  --profit: #12936a; --profit-soft: rgba(18, 147, 106, 0.10); --loss: #ef4444; --loss-soft: rgba(239, 68, 68, 0.10); --profit-ink: #0d7d56; --loss-ink: #dc2626; --be: #5f4fcf; --be-soft: rgba(95, 79, 207, 0.14);
   --warn: #d99a12; --warn-soft: rgba(217, 154, 18, 0.14); --warn-text: #8f5f00; --imp-mid: #b8820c; --info: #1d6db5;
   --pie-1: #2a78d6; --pie-2: #eb6834; --pie-3: #4a3aa7; --pie-4: #e87ba4; --pie-5: #eda100; --pie-o: #a29d93; --pie-n: #dcd8d0; --pie-1-ink: #fcfcfb; --pie-3-ink: #fcfcfb; --pie-n-ink: #15130f;
   --nav-a1: #e9e8e5; --nav-a2: #e5e4e1; --nav-b1: #e9e8e5; --nav-b2: #d6d4cf; --nav-icon: #79736b; --groove-d: #e2e1de; --groove-l: #fcfcfb;

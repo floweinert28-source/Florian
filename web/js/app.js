@@ -274,8 +274,9 @@
       const open = this.state.sidebarOpen; sb.classList.toggle('open', open); const rl = document.getElementById('rail'); if (rl) rl.classList.toggle('open', open); const scrim = document.getElementById('scrim'); scrim.hidden = false; scrim.classList.toggle('show', open);
       document.querySelectorAll('.menu-btn').forEach(b => b.setAttribute('aria-expanded', String(open)));
     },
-    /* Ansicht Simple (Einstellungen → Design): weniger Text, größere Zahlen, Nebenaktionen in „Mehr“ */
-    simple() { return S.settings.uiMode === 'simple'; },
+    /* Ansicht Simple ist vorerst ausgeschaltet: die App zeigt immer die volle Ansicht (Advanced). Die Simple-Zweige bleiben im Code,
+       damit sich die Ansicht später wieder einschalten lässt */
+    simple() { return false; },
     /* Journal-Navigation in Simple: die Kern-Seiten ohne Gruppentitel, alles andere aufklappbar unter „Mehr“ (offen, wenn die Seite
        dort steht oder es zuletzt aufgeklappt war) */
     simpleNav(item, cur) {
@@ -436,8 +437,6 @@
     /* KI-Einwilligung (Mentor-Chat, Sprachnotizen): mit Datum gespeichert, in Einstellungen → Mentor widerrufbar */
     'ai-consent'(el) { const sc = el.dataset.scope; if (!sc) return; S.setSetting('aiConsent', Object.assign({}, S.settings.aiConsent || {}, { [sc]: new Date().toISOString() })); if (sc === 'mentor' && App.state.mentor) App.state.mentor.focus = true; this.rerender(); },
     'ai-consent-revoke'(el) { const sc = el.dataset.scope; const c = Object.assign({}, S.settings.aiConsent || {}); delete c[sc]; S.setSetting('aiConsent', c); U.toast('Einwilligung widerrufen', 'ok'); this.rerender(); },
-    /* Ansicht Simple / Advanced: ganze Seite samt Seitenleiste neu aufbauen (andere Navigation, Spalten, Reiter) */
-    'ui-mode'(el) { const v = el.dataset.value === 'simple' ? 'simple' : 'advanced'; if (S.settings.uiMode === v) return; S.setSetting('uiMode', v); root.Theme.apply(S.settings); this.render(); U.toast(v === 'simple' ? 'Ansicht: Simple' : 'Ansicht: Advanced', 'ok'); },
     theme(el) { S.setSetting('customLook', false); S.setSetting('theme', el.dataset.value); /* Hell/Dunkel wählt die festen Designs, das eigene bleibt gespeichert */ root.Theme.apply(S.settings); /* Schalter nicht neu aufbauen, damit der Knopf hinübergleitet */ document.querySelectorAll('.theme-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === S.settings.theme))); if (this.state.route === 'settings') this.rerender(); else U.drawCharts(document.getElementById('main')); },
     /* Vorgabe links nur markieren und im Kalender zeigen; übernommen wird erst mit „Anwenden“ */
     range(el) { const pop = el.closest('.range-pop'); if (!pop || !root.RangePicker) return; pop.querySelectorAll('.rr-presets [data-action="range"]').forEach(b => b.setAttribute('aria-checked', String(b === el))); root.RangePicker.setPreset(pop.querySelector('[data-rr-root]'), this.presetPick(el.dataset.value)); },

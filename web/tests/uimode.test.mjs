@@ -1,4 +1,4 @@
-/* Ansicht Simple / Advanced: neue Nutzer starten in Simple, bestehende Daten ohne Angabe bleiben in Advanced */
+/* Ansicht: Simple ist vorerst ausgeschaltet, alle sehen Advanced (neue Nutzer, alte Daten ohne Angabe, gespeichertes „simple“) */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -14,9 +14,9 @@ function makeStore(saved) {
   new Function('self', readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../js/store.js'), 'utf8'))(sandbox);
   return sandbox.Store;
 }
-test('neuer Nutzer (kein Speicher): Simple', () => { const S = makeStore(null); S.load(); assert.equal(S.settings.uiMode, 'simple'); });
+test('neuer Nutzer (kein Speicher): Advanced', () => { const S = makeStore(null); S.load(); assert.equal(S.settings.uiMode, 'advanced'); });
 test('bestehende Daten ohne uiMode: Advanced, sonst bleibt alles', () => { const S = makeStore({ settings: { theme: 'light', language: 'de' }, trades: [] }); S.load(); assert.equal(S.settings.uiMode, 'advanced'); assert.equal(S.settings.theme, 'light'); });
-test('gespeicherte Wahl bleibt', () => { for (const m of ['simple', 'advanced']) { const S = makeStore({ settings: { uiMode: m }, trades: [] }); S.load(); assert.equal(S.settings.uiMode, m); } });
+test('gespeichertes „simple“ wird Advanced', () => { for (const m of ['simple', 'advanced']) { const S = makeStore({ settings: { uiMode: m }, trades: [] }); S.load(); assert.equal(S.settings.uiMode, 'advanced'); } });
 test('Beispielordner ohne Emoji: alte Namen werden umbenannt, eigene Ordner bleiben', () => {
   const S = makeStore({ settings: { language: 'de' }, trades: [], notes: [], folders: [
     { id: 'smpf-strategie', name: '📈 Strategie', sample: true }, { id: 'smpf-ideen', name: '💡 Ideen', sample: true }, { id: 'eigen', name: '🚀 Meins' }] });

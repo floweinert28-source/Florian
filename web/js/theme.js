@@ -1,7 +1,7 @@
 /* Farben: Akzent, Gewinn und Verlust frei wählbar; gilt für App und Startseite */
 (function (root) {
   'use strict';
-  const DEFAULTS = { dark: { accent: '#ede6da', profit: '#1fae7c', loss: '#ef4444', be: '#9a8cf8' }, light: { accent: '#1c1a17', profit: '#16a34a', loss: '#ef4444', be: '#5f4fcf' } }; /* Akzent Elfenbein (hell: Grafit), Grün nur für Gewinn; Gewinn und Verlust gedämpft statt neon (ruhiger Gesamt-Look) */
+  const DEFAULTS = { dark: { accent: '#ede6da', profit: '#1fae7c', loss: '#ef4444', be: '#9a8cf8' }, light: { accent: '#1c1a17', profit: '#12936a', loss: '#ef4444', be: '#5f4fcf' } }; /* Akzent Elfenbein (hell: Grafit), Grün nur für Gewinn, in beiden Designs derselbe Smaragd-Ton (hell dunkler für die Lesbarkeit); Gewinn und Verlust gedämpft statt neon (ruhiger Gesamt-Look) */
   /* Schriftarten: „modern“ ist der Standard (Satoshi von Fontshare, Zahlen in Onest; beide geometrisch, gleiche Proportionen), „geschwungen“ die frühere
      Standardschrift (Quicksand, Zahlen in Onest), „system“ die Schrift des Geräts (Apple: SF Pro, Windows: Segoe UI, Android: Roboto; ersetzt das frühere „klassisch“ mit Inter),
      „rund“ eine Schrift für Text und Zahlen.
@@ -42,7 +42,7 @@
   function resolve(settings) { const t = (settings && settings.theme) || 'dark'; if (t !== 'system') return t === 'light' ? 'light' : 'dark'; try { return root.matchMedia && root.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (e) { return 'dark'; } }
   function apply(settings) {
     const theme = resolve(settings); const light = theme === 'light'; const c = (settings && settings.colors) || {};
-    const root = document.documentElement; root.dataset.theme = theme; root.dataset.themePref = (settings && settings.theme) || 'dark'; /* „system“: folgt der Einstellung des Geräts */ root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; root.dataset.mode = settings && settings.uiMode === 'simple' ? 'simple' : 'advanced'; /* Ansicht: Simple (weniger Text, größere Zahlen) oder Advanced (alles) */ /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
+    const root = document.documentElement; root.dataset.theme = theme; root.dataset.themePref = (settings && settings.theme) || 'dark'; /* „system“: folgt der Einstellung des Geräts */ root.dataset.dark = settings && settings.darkStyle === 'schwarz' ? 'schwarz' : 'graphit'; root.dataset.mode = 'advanced'; /* Ansicht: vorerst immer Advanced (Simple ist ausgeschaltet, siehe App.simple) */ /* dunkle Variante: warmes Graphit (Standard) oder Schwarz */
     const set = (k, v) => v ? root.style.setProperty(k, v) : root.style.removeProperty(k);
     /* eigenes Erscheinungsbild: Grund und Flächen aus einer Grundfarbe (hell oder dunkel je nach Helligkeit, siehe surfaces) */
     const cs = settings && settings.customLook && valid(settings.customBg) ? surfaces(settings.customBg) : null;

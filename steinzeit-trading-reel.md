@@ -94,51 +94,70 @@ slow lateral dolly along the wall, revealing the huge painted chart, the caveman
 
 ---
 
-## Die Werbung (Pointe am Ende)
+## Die Pointe: Zeitsprung ins Heute
 
-*Bisher war alles Trading. Jetzt kommt das Journaling als Höhepunkt, wieder ganz selbstverständlich und ohne Erklärung.*
+**Pointe:** Höhlenmalereien waren in Wahrheit Trade-Journale.
+Szene 11 bereitet das vor: Ein Chart wird an die Wand gemalt, und der Zuschauer denkt nur „Höhlenmalerei“. Dann springt das Video in die Gegenwart, und man sieht: Die berühmten Malereien sind lauter Trade-Einträge.
 
-## Szene 12 – Die alte Journal-Wand
+### Stil-Block für die Gegenwart (nur Szene 12–14, statt dem Steinzeit-Stil)
+```
+modern documentary film look, shot on a cinema camera, realistic, natural colors, dim cave lighting with flashlights, clean image, no film grain, no text, no watermark
+```
+*Der Stilwechsel ist absichtlich: Er zeigt dem Zuschauer sofort, dass wir jetzt in der Gegenwart sind.*
+
+## Szene 12 – Die Höhle heute
 **Bild:**
 ```
-Deep inside a cave, torch light: a huge cave wall covered with endless neat rows of ochre cave paintings: small drawn trades with arrows up and down, tally marks, hand prints, small happy and sad faces, like a trading diary going back centuries; an old cavewoman stands in front of it holding a smartphone with a plain bright white screen, [STIL]
+Present day: a small group of tourists with a guide inside a famous prehistoric painted cave, the guide points his flashlight at a huge ancient rock wall covered in faded ochre cave paintings, wooden walkway and safety rope in the foreground, [STIL GEGENWART]
 ```
 **Bewegung:**
 ```
-slow pull-back revealing the enormous painted wall, then the cavewoman looks at the wall, looks at her phone, shrugs and starts typing on the phone
+slow push-in past the tourists towards the wall, flashlight beams move across the ancient paintings
 ```
-*Pointe: Früher wurde an die Wand gemalt, heute benutzt sie die App. Auf den Handy-Bildschirm kommt dein Screenshot.*
 
-## Szene 13 – Trade wird eingetragen
+## Szene 13 – Die Wand im Licht (die Auflösung)
 **Bild:**
 ```
-Over-the-shoulder close-up of a caveman at his stone trading desk typing a trade entry on a smartphone with a plain bright white screen, his dirty thumb tapping, the monitors with charts blurred in the background, [STIL]
+Close-up of an ancient cave wall in a flashlight beam: faded ochre and charcoal cave paintings arranged in neat rows like a diary, each entry shows a small candlestick chart with an arrow up or down, tally marks next to it, and a small happy or sad face, old hand prints between them, [STIL GEGENWART]
 ```
 **Bewegung:**
 ```
-the caveman types calmly with his thumb, then taps once firmly to save, slow push-in on the phone screen
+the flashlight beam slowly slides from left to right along the rows of paintings, revealing entry after entry
 ```
-*Hier dein App-Screenshot: ein Trade wird eingetragen.*
+*Hier versteht der Zuschauer die Pointe: Das ist ein Trade-Journal. Text 1 kommt hier.*
 
-## Szene 14 – Schlussbild (Logo)
+## Szene 14 – Schlussbild (App + Logo)
 **Bild:**
 ```
-Night, wide shot: a whole tribe of cavemen and cavewomen sits calmly around a big campfire, every single one is typing on a smartphone with glowing screens, a mammoth stands peacefully in the dark background, empty space on the right side of the frame, [STIL]
+Present day, inside the painted cave: a young tourist in a hoodie stands in front of the ancient cave wall with the painted trade entries, holding a smartphone with a plain bright white screen and typing on it, the flashlight-lit paintings behind him, empty space on the right side of the frame, [STIL GEGENWART]
 ```
 **Bewegung:**
 ```
-slow push-in towards the campfire, sparks rise, everyone calmly typing on their phones
+the young man looks at the ancient wall, smiles, then types on his phone, camera slowly pushes in over his shoulder onto the phone screen
 ```
-*Das Logo setzt du in den letzten 1 bis 1,5 Sekunden ein, wie bei den Vorbildern. Rechts ist absichtlich Platz frei.*
+*Auf den Bildschirm kommt dein App-Screenshot. Text 2 und das Logo kommen hier, das Logo in den letzten 1 bis 1,5 Sekunden.*
 
 ---
 
-## Slogans für das Ende (optional, Text legst du im Schnitt drüber)
+## Text für Video 1 (legst du im Schnitt drüber)
 
-1. **„Don't trade like a caveman.“** → Logo
-2. **„Höhlenmalerei war das erste Trade-Journal.“** → Logo
-3. **„Even cavemen journal their trades.“** → Logo
-4. Gar kein Text, nur das Logo, wie bei den Vorbildern. Die Bilder sprechen für sich.
+Text erscheint **nur am Ende**, vorher läuft das Video ohne Text wie bei den Vorbildern.
+
+**Empfehlung (Deutsch):**
+1. Bei Szene 13: **„Trader journalen seit 40.000 Jahren.“**
+2. Bei Szene 14: **„Und du?“**
+3. Logo
+
+**Dieselbe Version auf Englisch** (falls du international postest):
+1. **„Traders have been journaling for 40,000 years.“**
+2. **„Have you?“**
+3. Logo
+
+**Alternativen:**
+- „Die ältesten Trade-Journale der Welt.“ → „Schreib deins weiter.“ → Logo
+- „Höhlenmalerei war das erste Trade-Journal.“ → Logo
+
+**Optional, Bildunterschrift oder Hook-Text am Anfang** (wie „primal future“ bei den Vorbildern): kurz und neugierig machend, z. B. „How cavemen traded“ oder „primal trading“.
 
 ## Mögliche Kürzungen
 Wenn das Reel zu lang wird: Szene 4, 8 oder 9 rausnehmen.

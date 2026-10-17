@@ -3933,3 +3933,17 @@ button.more-link { padding: 0; border: 0; background: none; font-family: inherit
 .r2-sm .r2-v { font-size: var(--fs-11); }
 .r2-sm .r2-n { font-size: 0.625rem; }
 @container (max-width: 7.5rem) { .score-scale .lbls span:not(:first-child):not(:last-child) { display: none; } } /* schmale Score-Karte: nur 0 und 100 */
+/* „P&L im Vergleich“ (Vorlage: 21st.dev Multi Line Chart): nur waagerechte Rasterlinien, gerade Linien, jetzt durchgezogen mit Punkten,
+   der Zeitraum davor gestrichelt; Pille mit Pfeil und Unterschied neben dem Titel */
+.chart.h280.pc-chart { height: 16.3125rem; min-height: 16.3125rem; } /* zieht die Untertitelzeile (1,1875rem) ab: Karte so hoch wie die übrigen Diagramm-Karten */
+.pc-svg { display: block; overflow: visible; }
+.pc-grid { stroke: var(--border); stroke-width: 1; }
+.pc-zero { stroke: var(--border-2); stroke-width: 1; }
+.pc-yl { fill: var(--muted); font-size: var(--fs-11); font-variant-numeric: tabular-nums; }
+.pc-cur { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.pc-prev { fill: none; stroke: var(--text-2); stroke-width: 1.5; stroke-dasharray: 4 4; stroke-linejoin: round; opacity: .8; }
+.pc-dot { fill: var(--surface); stroke: var(--accent); stroke-width: 1.8; }
+.pc-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; font-size: var(--fs-12); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pc-pill.up { background: var(--profit-soft, color-mix(in srgb, var(--profit) 14%, transparent)); color: var(--profit-ink, var(--profit)); }
+.pc-pill.down { background: var(--loss-soft, color-mix(in srgb, var(--loss) 14%, transparent)); color: var(--loss-ink, var(--loss)); }
+.pc-key { display: inline-block; width: 14px; height: 0; margin: 0 5px 0 2px; border-top: 1.5px dashed var(--text-2); vertical-align: middle; }

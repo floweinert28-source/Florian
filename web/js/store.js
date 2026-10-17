@@ -18,7 +18,7 @@
     const now = new Date().toISOString();
     return { id: 'standard', name: 'Standard', isDefault: true, lastActiveAt: null, createdAt: now, updatedAt: now, layout: {
       oben: ['netto_pnl', 'trade_trefferquote', 'profit_faktor', 'tages_trefferquote', 'avg_gewinn_verlust'].map(typ => ({ typ })),
-      unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'kum_pnl', groesse: 'klein' }, { typ: 'disziplin_trichter', groesse: 'klein' }, { typ: 'letzte_trades', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }, ...FEATURE_CARDS.map(typ => ({ typ, groesse: 'klein' }))],
+      unten: [{ typ: 'score', groesse: 'klein' }, { typ: 'pnl_vergleich', groesse: 'klein' }, { typ: 'disziplin_trichter', groesse: 'klein' }, { typ: 'letzte_trades', groesse: 'klein' }, { typ: 'kalender', groesse: 'mittel' }, ...FEATURE_CARDS.map(typ => ({ typ, groesse: 'klein' }))],
     } };
   }
   /* Performance-Recaps oben auf dem Dashboard sind standardmäßig aus (sie störten beim Öffnen). Einmalig auch für bestehende
@@ -51,6 +51,8 @@
     /* Version 6: im Standard-Dashboard „Netto-P&L pro Tag“ einmalig gegen den Disziplin-Trichter tauschen (gleicher Platz, gleiche Größe);
        das Säulen-Widget bleibt in der Bibliothek, eigene Vorlagen bleiben unverändert */
     if ((data.dashboardsVersion || 1) < 6) { const d0 = data.dashboards.find(d => d.isDefault); if (d0 && !d0.layout.unten.some(w => w.typ === 'disziplin_trichter')) { const w = d0.layout.unten.find(x => x.typ === 'pnl_pro_tag'); if (w) { w.typ = 'disziplin_trichter'; delete w.einstellungen; } } data.dashboardsVersion = 6; }
+    /* Version 7: im Standard-Dashboard „Kumulierter Tages-P&L“ einmalig gegen „P&L im Vergleich“ tauschen (gleicher Platz, gleiche Größe) */
+    if ((data.dashboardsVersion || 1) < 7) { const d0 = data.dashboards.find(d => d.isDefault); if (d0 && !d0.layout.unten.some(w => w.typ === 'pnl_vergleich')) { const w = d0.layout.unten.find(x => x.typ === 'kum_pnl'); if (w) { w.typ = 'pnl_vergleich'; delete w.einstellungen; } } data.dashboardsVersion = 7; }
   }
 
   function defaults() {

@@ -1,5 +1,5 @@
 /* Gesamt-Score im Netz-Design (Vorlage heygaia/radar-chart): „jetzt / vorher“ an jedem Punkt, Vorzeitraum gestrichelt mit Legende,
-   Punkte über das Zahnrad wählbar (mindestens 3, „Standard“), Score = Mittelwert der gewählten Punkte, Gesamt ohne Vergleich, Englisch, Handy */
+   Punkte über das Zahnrad wählbar (mindestens 3, „Standard“), Score = Mittelwert der gewählten Punkte, Gesamt gegen die letzten 30 Tage, Englisch, Handy */
 const { chromium } = require('playwright');
 let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PASS ' + m); } else { fail++; console.log('FAIL ' + m); } };
 const BASE = 'file:///home/user/Florian/web/app.html';
@@ -42,10 +42,11 @@ const view = () => { const w = document.querySelector('.w[data-typ="score"]'); c
   await p.click('.w[data-typ="score"] [data-action="dash-w-settings"]'); await p.waitForTimeout(400); await p.click('.modal [data-sc-default]'); await p.click('.modal [type=submit]'); await p.waitForTimeout(500);
   v = await p.evaluate(view);
   ok(v.labels.length === 6 && v.keys === null, '„Standard“: wieder die sechs Punkte, keine eigene Auswahl gespeichert');
-  /* 5: Gesamt: kein Vorzeitraum */
+  /* 5: Gesamt: Vergleich mit den letzten 30 Tagen */
   await p.evaluate(() => { Store.setSetting('range', { preset: 'all', from: null, to: null }); App.rerender(); }); await p.waitForTimeout(600);
   v = await p.evaluate(view);
-  ok(!v.prev && !v.legend.length && !v.delta && v.labels.every(l => /^\d+$/.test(l[0])), 'Gesamt: kein Vergleich, nur eine Fläche, Werte ohne „/“, keine Legende');
+  const r30 = await p.evaluate(() => { const to = new Date(); to.setHours(23, 59, 59, 999); const from = new Date(); from.setHours(0, 0, 0, 0); from.setDate(from.getDate() - 29); const l = Core.closedOnly(App.allTrades()).filter(t => t.close >= from && t.close <= to); const a = Core.scoreAxes(App.allTrades(), Store.accountSize()), b = Core.scoreAxes(l, Store.accountSize()); return a.axes.map((x, i) => `${Math.round(x.score * 100)} / ${Math.round(b.axes[i].score * 100)}`); });
+  ok(v.prev && v.legend.join('|') === 'Gesamt|Letzte 30 Tage' && /[↗↘→]/.test(v.delta) && v.labels.map(l => l[0]).join('|') === r30.join('|'), 'Gesamt: zweite Linie mit den letzten 30 Tagen, Legende „Gesamt | Letzte 30 Tage“ · ' + v.labels.map(l => l[0]).join(', '));
   await p.screenshot({ path: 'langshots/score-gesamt.png' });
   /* 6: Englisch und Handy */
   const m = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }); m.on('pageerror', e => errs.push(e.message));

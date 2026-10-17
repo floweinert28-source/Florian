@@ -320,6 +320,28 @@
     svg.querySelectorAll('.ln').forEach(p => { let L = 0; try { L = p.getTotalLength(); } catch (e) { L = 0; } if (L) { p.style.setProperty('--len', L.toFixed(1)); hasLine = true; } else p.classList.remove('ln'); });
     svg.style.setProperty('--dt-delay', hasLine ? '1.1s' : '.15s'); /* Punkte erst nach der Linie, sonst gleich */
   }
+  /* „P&L im Vergleich“ (Vorlage: 21st.dev Multi Line Chart): kumulierter P&L des Zeitraums als gerade Linie mit Punkten an Handelstagen,
+     derselbe Zeitraum davor gestrichelt ohne Punkte, Tag für Tag übereinander. Nur waagerechte Rasterlinien, kleine Beträge links,
+     Datum unten; Fadenkreuz mit beiden Werten im Tooltip */
+  drawers.pnlcmp = function (el, d, W, H) {
+    const tr = (t, v) => (root.I18N && root.I18N.t ? root.I18N.t(t, v) : t.replace(/\{(\d+)\}/g, (_, k) => v[k]));
+    const cur = d && d.cur || [], prev = d && d.prev || null; if (!cur.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%">${I.stats}<span class="small">Keine abgeschlossenen Trades im Zeitraum</span></div>`; return; }
+    const n = Math.max(cur.length, prev ? prev.length : 0, d.len || 0);
+    const vals = [0, ...cur.map(p => p.v), ...(prev || []).map(p => p.v)]; const ticks = niceTicks(Math.min(...vals), Math.max(...vals), 4);
+    const y0 = Math.min(ticks[0], ...vals), y1 = Math.max(ticks[ticks.length - 1], ...vals);
+    const ml = axisWidth(ticks.map(fmt.axisCur)), mr = 12, mt = 10, mb = 30; const iw = W - ml - mr;
+    const x = i => n === 1 ? ml + iw / 2 : ml + i / (n - 1) * iw; const y = v => mt + (y1 - v) / (y1 - y0 || 1) * (H - mt - mb);
+    const path = list => list.length === 1 ? `M${x(0) - 1},${y(list[0].v)}L${x(0) + 1},${y(list[0].v)}` : 'M' + list.map((p, i) => `${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join('L');
+    const dots = cur.filter(p => p.trade).length <= 40;
+    const grid = ticks.map(v => `<line class="pc-grid" x1="${ml}" x2="${W - mr}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"/><text class="pc-yl" x="${ml - 8}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end">${fmt.axisCur(v)}</text>`).join('');
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" class="pc-svg" role="img" aria-label="${esc(d.aria || '')}">${grid}<line class="pc-zero" x1="${ml}" x2="${W - mr}" y1="${y(0).toFixed(1)}" y2="${y(0).toFixed(1)}"/>`
+      + (prev ? `<path class="pc-prev" d="${path(prev)}"/>` : '') + `<path class="ln pc-cur" d="${path(cur)}"/>`
+      + (dots ? cur.map((p, i) => p.trade ? `<circle class="dt pc-dot" cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="3.2"/>` : '').join('') : `<circle class="dt pc-dot" cx="${x(cur.length - 1).toFixed(1)}" cy="${y(cur[cur.length - 1].v).toFixed(1)}" r="3.6"/>`)
+      + dateAxis(n, x, i => d.dates[i], ml, W, mr, H)
+      + `<g class="hover"><line y1="${mt}" y2="${H - mb}" stroke="var(--text-2)" stroke-opacity=".5"/><circle r="4.5" stroke="var(--surface)" stroke-width="2" fill="var(--accent)"/></g><rect class="hit" x="${ml}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+    const at = i => cur[Math.min(i, cur.length - 1)];
+    hoverLine(el, el.firstElementChild, Array.from({ length: n }), x, i => y(at(i).v), i => tipTable(d.prev ? tr('Kumuliert bis Tag {0}', [i + 1]) : fmt.dateFull(d.dates[i]), [[fmt.dateFull(d.dates[i]), i < cur.length ? pnl(cur[i].v) : '—'], ...(prev ? [[fmt.dateFull(d.pdates[i]), i < prev.length ? pnl(prev[i].v) : '—']] : [])]));
+  };
   /* Täglicher (Balken) und kumulierter (Fläche) P&L */
   drawers.pnl = function (el, d, W, H) {
     const days = d && d.days || []; if (!days.length) { el.innerHTML = `<div class="empty" style="min-height:0;height:100%">${I.stats}<span class="small">Keine abgeschlossenen Trades im Zeitraum</span></div>`; return; }

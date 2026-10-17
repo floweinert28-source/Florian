@@ -210,6 +210,22 @@
     const label = r.preset === 'month' ? fmt.monthYear(pf) : r.preset === 'year' ? String(pf.getFullYear()) : r.preset === 'today' ? fmt.date(pf) : `${fmt.date(pf)} – ${fmt.date(pt)}`;
     return { from: pf, to: pt, label };
   }
+  /* Kumulierter P&L je Kalendertag ab „from“ (Handelstage tragen Punkte, Tage ohne Trades halten den Stand); bis „to“, höchstens bis heute */
+  function cumDays(list, from, to) {
+    const by = new Map(C.dailyAggregation(list).map(x => [x.key, x])); const out = []; const end = Math.min(to.getTime(), Date.now()); let cum = 0;
+    for (const dt = new Date(from.getFullYear(), from.getMonth(), from.getDate()); dt.getTime() <= end; dt.setDate(dt.getDate() + 1)) { const k = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`; const x = by.get(k); if (x) cum += x.pnl; out.push({ date: new Date(dt), v: cum, trade: !!x }); }
+    return out;
+  }
+  /* Vergleich für Score und „P&L im Vergleich“: immer ein zweiter Zeitraum. Normal der Zeitraum davor; bei „Gesamt“ die letzten 30 Tage;
+     hat der Zeitraum davor keine Trades, Gesamt */
+  const last30 = () => { const to = new Date(); to.setHours(23, 59, 59, 999); const from = new Date(); from.setHours(0, 0, 0, 0); from.setDate(from.getDate() - 29); return { from, to }; };
+  const closedIn = (all, r) => all.filter(t => t.closed && t.close >= r.from && t.close <= r.to);
+  function compareRange(d) {
+    if (!d.range.from) { const r = last30(); return { from: r.from, to: r.to, label: tr('Letzte 30 Tage'), list: closedIn(d.all, r), kind: 'recent' }; }
+    const pr = prevRange(d.range); const list = pr ? closedIn(d.all, pr) : [];
+    if (pr && list.length) return Object.assign(pr, { list, kind: 'prev' });
+    return { from: null, to: null, label: tr('Gesamt'), list: C.closedOnly(d.all), kind: 'all' };
+  }
   /* Progress: Ring mit gestrichelter Spur und durchgehendem Fortschritt; Zahl und Ring laufen vom zuletzt gezeigten Wert zum neuen (beim ersten Mal von 0) */
   const ringShown = {};
   /* Kreis als Pfad, der oben (12 Uhr) beginnt und im Uhrzeigersinn läuft: ohne Drehung per transform, die nicht jeder Browser gleich umsetzt */
@@ -394,17 +410,34 @@
     return `<div class="rep-panel">${rows.map((r, i) => `<div class="rep-row"><label class="rep-color" style="background:${esc(r.color)}" title="Farbe"><input type="color" value="${esc(r.color)}" data-change="dash-rep-color" data-i="${i}" aria-label="Farbe"></label><button type="button" class="rep-sel ${st.pick === i ? 'on' : ''}" data-action="dash-rep-pick" data-i="${i}" style="border-left-color:${esc(r.color)}" title="${esc(REPORT_ALL[r.key].label)}"><span>${esc(REPORT_ALL[r.key].short)}</span>${I.chev}</button><select class="select sm rep-type" data-change="dash-rep-type" data-i="${i}" aria-label="Darstellung"><option value="linie" ${r.typ !== 'balken' ? 'selected' : ''}>Linie</option><option value="balken" ${r.typ === 'balken' ? 'selected' : ''}>Balken</option></select><button type="button" class="btn ghost icon sm rep-x" data-action="dash-rep-remove" data-i="${i}" aria-label="Entfernen" ${rows.length <= 1 ? 'disabled' : ''}>${I.close}</button></div>`).join('')}<div class="rep-foot"><button type="button" class="btn ghost rep-reset" data-action="dash-rep-reset">Auf Standard zurücksetzen</button><button type="button" class="btn primary sm ${st.pick === 'new' ? 'on' : ''}" data-action="dash-rep-pick" data-i="new" ${rows.length >= 3 ? 'disabled' : ''}>${I.plus} Kennzahl hinzufügen</button></div>${pick}</div>`;
   }
   const MAIN = [
-    { typ: 'score', name: 'Gesamt-Score', preview: 'radar', groesse: 'klein', settings: 'score', desc: 'Punktzahl von 0 bis 100 als Netz-Diagramm, mit dem Zeitraum davor zum Vergleich. Die Punkte wählst du selbst (mindestens 3).', info: 'Jeder Punkt geht von 0 bis 100: standardmäßig Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Über das Zahnrad wählst du andere oder weitere Punkte, mindestens 3. Der Score ist der Mittelwert. Gestrichelt: derselbe Zeitraum davor (z. B. der Vormonat).',
+    { typ: 'score', name: 'Gesamt-Score', preview: 'radar', groesse: 'klein', settings: 'score', desc: 'Punktzahl von 0 bis 100 als Netz-Diagramm, mit dem Zeitraum davor zum Vergleich. Die Punkte wählst du selbst (mindestens 3).', info: 'Jeder Punkt geht von 0 bis 100: standardmäßig Trefferquote, Profit-Faktor, Gewinn/Verlust-Verhältnis, Konsistenz, Regeltreue und Drawdown. Über das Zahnrad wählst du andere oder weitere Punkte, mindestens 3. Der Score ist der Mittelwert. Gestrichelt zum Vergleich: der Zeitraum davor (z. B. der Vormonat), bei „Gesamt“ die letzten 30 Tage.',
       render(d, inst, e) {
         if (d.empty) return card(e, emptyBox(), { trailing: settingsBtn() }); const keys = (inst.einstellungen || {}).achsen; const sc = C.scoreAxes(d.list, d.account, keys);
-        const pr = prevRange(d.range); const prevList = pr ? d.all.filter(t => t.closed && t.close >= pr.from && t.close <= pr.to) : []; const ps = prevList.length ? C.scoreAxes(prevList, d.account, keys) : null;
+        const pr = compareRange(d); const ps = pr.list.length ? C.scoreAxes(pr.list, d.account, keys) : null;
         const curLabel = d.range.label === 'Gesamt' ? tr('Gesamt') : d.range.label;
-        const shortM = dt => new Intl.DateTimeFormat(LOCALE(), { month: 'short', year: 'numeric' }).format(dt); const legCur = d.range.preset === 'month' ? shortM(d.range.from) : curLabel, legPrev = pr && d.range.preset === 'month' ? shortM(pr.from) : (pr ? pr.label : '');
-        U.chartData['dash-score'] = { aria: tr('Gesamt-Score {0} von 100', [sc.overall]), prev: !!ps, curLabel, prevLabel: pr ? pr.label : '', axes: sc.axes.map((a, i) => ({ key: a.key, label: a.label, v: a.score, text: a.text, p: ps ? ps.axes[i].score : 0, ptext: ps ? ps.axes[i].text : '' })) };
+        const shortM = dt => new Intl.DateTimeFormat(LOCALE(), { month: 'short', year: 'numeric' }).format(dt); const legCur = d.range.preset === 'month' ? shortM(d.range.from) : curLabel, legPrev = pr.kind === 'prev' && d.range.preset === 'month' ? shortM(pr.from) : pr.label;
+        U.chartData['dash-score'] = { aria: tr('Gesamt-Score {0} von 100', [sc.overall]), prev: !!ps, curLabel, prevLabel: pr.label, axes: sc.axes.map((a, i) => ({ key: a.key, label: a.label, v: a.score, text: a.text, p: ps ? ps.axes[i].score : 0, ptext: ps ? ps.axes[i].text : '' })) };
         const delta = ps ? sc.overall - ps.overall : null;
         const legend = ps ? `<div class="legend r2-legend"><span><i class="r2-k cur"></i><span class="no-i18n">${esc(legCur)}</span></span><span><i class="r2-k prev"></i><span class="no-i18n">${esc(legPrev)}</span></span></div>` : '';
-        const dl = delta == null ? '' : `<span class="r2-delta" data-tip="${esc(tr('Score im Zeitraum davor: {0}', [ps.overall]))}">${delta > 0 ? '↗ +' + delta : delta < 0 ? '↘ ' + String(delta).replace('-', '−') : '→ 0'}</span>`;
+        const dl = delta == null ? '' : `<span class="r2-delta" data-tip="${esc(pr.label + ': ' + ps.overall)}">${delta > 0 ? '↗ +' + delta : delta < 0 ? '↘ ' + String(delta).replace('-', '−') : '→ 0'}</span>`;
         return card(e, `<div class="chart score-radar" data-chart="radar2" data-id="dash-score"></div>${legend}<div class="row" style="gap:16px;margin-top:8px;align-items:center"><div><div class="score-lbl">Dein Score</div><div class="row r2-big"><div class="score-big">${sc.overall}</div>${dl}</div></div><div class="grow score-scale" style="margin:0 8px 14px;--p:${sc.overall}"><div class="track"></div><div class="fill"></div><div class="knob"></div><div class="lbls"><span>0</span><span>20</span><span>40</span><span>60</span><span>80</span><span>100</span></div></div></div>`, { trailing: settingsBtn() });
+      } },
+    { typ: 'pnl_vergleich', name: 'P&L im Vergleich', preview: 'pnlcmp', groesse: 'klein', desc: 'Kumulierter P&L des Zeitraums als Linie mit Punkten, gestrichelt derselbe Zeitraum davor. Oben der Unterschied zum gleichen Zeitpunkt.', info: 'Durchgezogen: kumuliertes Netto-Ergebnis im gewählten Zeitraum, Punkte an Handelstagen. Gestrichelt: derselbe Zeitraum davor (z. B. der Vormonat), Tag für Tag darübergelegt. Die Pille zeigt, wie viel besser oder schlechter du jetzt stehst als am gleichen Tag des Zeitraums davor. Bei „Gesamt“: die letzten 30 Tage gegen die 30 Tage davor.',
+      render(d, inst, e) {
+        if (d.empty) return card(e, emptyBox(280)); const recent = !d.range.from; const r = recent ? Object.assign({ preset: 'last30', label: tr('Letzte 30 Tage') }, last30()) : d.range; const pr = recent ? Object.assign(prevRange(r), { label: tr('30 Tage davor') }) : prevRange(r);
+        const first = d.days.length ? d.days[0].day : new Date(); const from = r.from || first, to = r.to || new Date();
+        const cur = cumDays(recent ? closedIn(d.all, r) : d.list, from, to); const prevList = pr ? closedIn(d.all, pr) : []; const prev = pr && prevList.length ? cumDays(prevList, pr.from, pr.to) : null;
+        const len = r.from && r.to ? Math.round((new Date(r.to.getFullYear(), r.to.getMonth(), r.to.getDate()) - new Date(r.from.getFullYear(), r.from.getMonth(), r.from.getDate())) / 864e5) + 1 : cur.length;
+        const dates = Array.from({ length: Math.max(len, cur.length, prev ? prev.length : 0) }, (_, i) => { const dt = new Date(from.getFullYear(), from.getMonth(), from.getDate() + i); return dt; });
+        const curLabel = r.label === 'Gesamt' ? tr('Gesamt') : r.label;
+        const pdates = pr ? Array.from({ length: dates.length }, (_, i) => new Date(pr.from.getFullYear(), pr.from.getMonth(), pr.from.getDate() + i)) : [];
+        U.chartData['dash-pnlcmp'] = { cur, prev, len, dates, pdates, curLabel, prevLabel: pr ? pr.label : '', aria: tr('Kumulierter P&L im Vergleich zum Zeitraum davor') };
+        /* Pille: Stand heute gegen den Stand am gleichen Tag des Zeitraums davor */
+        const now = cur.length ? cur[cur.length - 1].v : 0, then = prev ? prev[Math.min(cur.length, prev.length) - 1].v : null; const diff = then == null ? null : now - then;
+        const pill = diff == null ? '' : `<span class="pc-pill ${diff >= 0 ? 'up' : 'down'}" data-tip="${esc(tr('Stand am gleichen Tag im Zeitraum davor: {0}', [fmt.cur(then, { signed: true })]))}">${diff >= 0 ? '↗' : '↘'} ${fmt.cur(diff, { signed: true, compact: Math.abs(diff) >= 10000 })}</span>`;
+        const shortM = dt => new Intl.DateTimeFormat(LOCALE(), { month: 'short', year: 'numeric' }).format(dt); const subCur = r.preset === 'month' ? shortM(r.from) : curLabel, subPrev = pr ? (r.preset === 'month' ? shortM(pr.from) : pr.label) : '';
+        const sub = prev ? `<span class="no-i18n">${esc(subCur)}</span> · <span class="pc-key"></span><span class="no-i18n">${esc(subPrev)}</span>` : `<span class="no-i18n">${esc(subCur)}</span>`;
+        return card(e, `<div class="chart h280 pc-chart" data-chart="pnlcmp" data-id="dash-pnlcmp"></div>`, { trailing: pill, sub });
       } },
     { typ: 'kum_pnl', name: 'Kumulierter Tages-P&L', preview: 'area', groesse: 'klein', desc: 'Wie sich der Netto-P&L über die Zeit aufsummiert, als Flächendiagramm.', info: 'Kumuliertes Netto-Tagesergebnis im Zeitraum. Grün über Null, rot darunter.',
       render(d, inst, e) { if (d.empty) return card(e, emptyBox(280)); U.chartData['dash-kum_pnl'] = { days: d.days, bars: false }; return card(e, `<div class="chart h280" data-chart="pnl" data-id="dash-kum_pnl"></div>`); } },

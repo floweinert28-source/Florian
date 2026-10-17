@@ -64,7 +64,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Eine Hauptaktion je Seite, Tippflächen, Feedback:** Pro Seite ist genau ein Knopf gefüllt (Akzentfarbe). Hat eine Seite
   eine eigene Hauptaktion (Speichern, Neue Notiz, Konto anlegen, Trade für diesen Tag …), tritt „Trade loggen“ als Rahmen-Knopf
   zurück, an derselben Stelle (`App.markPrimary` setzt `html.page-primary`). Knöpfe in Dashboard-Widgets sind Rahmen-Knöpfe;
-  Nebenaktionen (Payout erfassen, Tagesnotiz anlegen, Sprachnotiz, 2FA, Ampel speichern) ebenfalls. Auf Touch-Geräten
+  Nebenaktionen (Payout erfassen, Tagesnotiz anlegen, Sprachnotiz, Ampel speichern, „Neue Notiz“ in der leeren Notebook-Spalte, „+ Gruppe“ sobald es eine Gruppe gibt) ebenfalls. Auf Touch-Geräten
   (`pointer: coarse`) sind Knöpfe, Felder, Reiter und Chips mindestens 44 px hoch; kleine Elemente (Schalter, Stufen-Knöpfe,
   Kalender-Pfeile, Links im Text) behalten ihre Form und bekommen eine unsichtbare 44-px-Trefferfläche. Gedrückter Zustand für
   Einträge, Menüpunkte, Reiter, Chips, Karten (`:active`, auf iOS über einen Touch-Listener). Doppelklick-Sperre: gibt eine
@@ -304,7 +304,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Bezahlung, Ranglisten.
   In der Oberfläche heißt die betreuende Person „Coach“ („Als Coach“, „Coach-Notiz“, „Was der Coach sieht“; Code, Daten und
   Server sprechen weiter von mentor, der KI-Mentor-Chat bleibt „Mentor“). Ruhiger Aufbau: reine Schüler mit offener Aufgabe
-  sehen die Aufgabe zuerst, dann „Als Schüler“ und „Als Coach“ („+ Gruppe“ dann umrandet); Gruppenzeilen öffnen über Namen
+  sehen die Aufgabe zuerst, dann „Als Schüler“ und „Als Coach“ („+ Gruppe“ ist nur gefüllt, solange es noch keine Gruppe gibt); Gruppenzeilen öffnen über Namen
   oder Chevron; in der Schüler-Zeile „Im Notebook ansehen“ als Knopf nur bei Ungelesenem, „Verlassen“ und „Jetzt abgleichen“ im
   …-Menü (die Abgleich-Zeile nur bei Fehler oder während des Abgleichs). Benachrichtigungen erst mit einer Gruppe, zu als
   Zustandszeile („E-Mail aus · Browser aus“, „Ändern“); E-Mail-Feld und „Speichern“ nur bei eingeschaltetem Schalter,
@@ -585,7 +585,7 @@ bei Fenstergröße und bei „Bewegung reduzieren“ nicht. Dasselbe gilt für a
 Ringe im Fortschritt): sie laufen nur, wenn `#content` die Klasse `enter` trägt (echter Seitenwechsel), nicht beim Reiterwechsel
 („Offene Positionen“) oder nach Eingaben. Wechselt nur ein Parameter derselben Seite (Tag vor/zurück, Statistik-Reiter),
 gibt es keine Überblendung der Seite und keinen gestaffelten Einzug. Kopfreihe und Unter-Navigation (Elemente mit `data-subnav`:
-Einstellungs-Menü, Statistik-Reiter, Prop-Unterreiter, Affiliate-Umschalter) bleiben stehen; nur der Teil darunter blendet kurz ein
+Einstellungs-Menü, Statistik-Reiter, Affiliate-Umschalter; die Prop-Reiter stehen in der Kopfreihe) bleiben stehen; nur der Teil darunter blendet kurz ein
 (`.content.swap`, nur Deckkraft ab 0,35 – kein Aufblitzen, keine Verschiebung, keine Schnappschüsse). Ohne `data-subnav` blendet
 alles außer der Kopfreihe. Beim Reiterwechsel bleibt die Seite, wo sie ist (kein Sprung nach oben), die Reiterleiste behält
 ihre Position und schiebt den gewählten Reiter ins Bild (`App.revealActive`); nur das Seitenmenü der Einstellungen (`data-subnav="side"`)

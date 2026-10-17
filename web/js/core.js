@@ -281,6 +281,35 @@
     return { overall: Math.round(mean(axes.map(a => a.score)) * 100), axes };
   }
 
+  /* Gesamt-Score mit wählbaren Punkten (Widget-Einstellung, mindestens 3): die sechs Standard-Punkte wie traderScore, dazu sechs
+     weitere. Jeder Punkt 0–1, der Score ist der Mittelwert der gewählten; ohne Auswahl die sechs Standard-Punkte (gleicher Score wie bisher) */
+  const SCORE_EXTRA = { dayWin: 'Tages-Trefferquote', expectancy: 'Erwartungswert', recovery: 'Erholungsfaktor', stopHeld: 'Stop gehalten', noMistakes: 'Fehlerfrei', review: 'Nachbereitung' };
+  const SCORE_LABELS = Object.assign({}, SCORE_AXES, SCORE_EXTRA);
+  const SCORE_KEYS = Object.keys(SCORE_LABELS);
+  const SCORE_INFO = {
+    winRate: 'Anteil der Gewinn-Trades. 70 % geben die volle Punktzahl.', profitFactor: 'Gewinne geteilt durch Verluste. Ab 3,0 volle Punktzahl.',
+    payoff: 'Ø Gewinn geteilt durch Ø Verlust. Ab 3,0 volle Punktzahl.', consistency: 'Viele Gewinntage statt eines einzelnen Ausreißers.',
+    rules: 'Ø Disziplin-Score deiner Trades (Plan, Einstieg, Stop, Fehler, Regeln).', drawdown: 'Größter Rückgang. Ab 25 % der Kontogröße null Punkte.',
+    dayWin: 'Anteil der Handelstage im Plus. 70 % geben die volle Punktzahl.', expectancy: 'Ø Ergebnis in R pro Trade. −0,5 R null, +1 R volle Punktzahl.',
+    recovery: 'Netto-P&L geteilt durch den größten Drawdown. Ab 3 volle Punktzahl.', stopHeld: 'Anteil der Trades mit geplantem Stop, der gehalten wurde (Verlust höchstens 1,15 R).',
+    noMistakes: 'Anteil der Trades ohne Fehler-Tag.', review: 'Anteil der Trades mit Bewertung oder Notiz.',
+  };
+  const scoreKeys = keys => { const k = (Array.isArray(keys) ? keys : []).filter((x, i, a) => SCORE_KEYS.includes(x) && a.indexOf(x) === i); return k.length >= 3 ? SCORE_KEYS.filter(x => k.includes(x)) : Object.keys(SCORE_AXES); };
+  function scoreAxes(list, account, keys) {
+    const use = scoreKeys(keys); const base = traderScore(list, account); const by = new Map(base.axes.map(a => [a.key, a]));
+    const c = closedOnly(list); const n = c.length; const share = f => (n ? c.filter(f).length / n : 0); const pctT = v => Math.round(v * 100) + ' %';
+    const extra = {
+      dayWin: () => { const days = dailyAggregation(list); const r = days.length ? days.filter(d => d.pnl > EPS).length / days.length : 0; return { score: clamp(r / 0.7, 0, 1), text: pctT(r) }; },
+      expectancy: () => { const rs = c.map(t => t.r).filter(v => v != null && isFinite(v)); if (!rs.length) return { score: 0, text: '—' }; const e = mean(rs); return { score: clamp((e + 0.5) / 1.5, 0, 1), text: e.toFixed(2).replace('.', ',') + ' R' }; },
+      recovery: () => { const s = summary(list); if (!s.n) return { score: 0, text: '—' }; if (s.maxDD <= 0) return { score: s.total > 0 ? 1 : 0, text: s.total > 0 ? '∞' : '0' }; const rf = s.total / s.maxDD; return { score: clamp(rf / 3, 0, 1), text: rf.toFixed(1).replace('.', ',') }; },
+      stopHeld: () => { const r = share(t => t.plannedStop != null && t.plannedStop !== '' && !(t.status === 'loss' && t.r != null && t.r < -1.15)); return { score: r, text: pctT(r) }; },
+      noMistakes: () => { const r = share(t => !t.mistakes.length); return { score: r, text: pctT(r) }; },
+      review: () => { const r = share(t => Number(t.rating) > 0 || !!String(t.notes || '').replace(/<[^>]*>/g, '').trim()); return { score: r, text: pctT(r) }; },
+    };
+    const axes = use.map(k => by.has(k) ? by.get(k) : Object.assign({ key: k, label: SCORE_LABELS[k] }, n ? extra[k]() : { score: 0, text: '—' }));
+    return { overall: n ? Math.round(mean(axes.map(a => a.score)) * 100) : 0, axes, keys: use };
+  }
+
   /* ---------- Tilt ---------- */
   function tiltCheck(todayTrades, opts = {}) {
     const account = opts.account || 10000, limitPct = opts.dailyLossLimitPct == null ? 0.03 : opts.dailyLossLimitPct;
@@ -579,7 +608,7 @@
     clamp, sum, mean, sd, dayKey, parseDayKey, weekStart, isoWeek, mulberry, percentile, uid, EPS, setBreakEven,
     derive, deriveAll, closedOnly, summary, streaks, dailyAggregation, daySummary, equityCurve, cumulativeByDay, calendarMonth,
     discipline, avgDiscipline, weeklyDiscipline, mistakeReport, groupBy, timeAnalysis, regimeAnalysis, WEEKDAYS, HOUR_BUCKETS, HOLD_BUCKETS,
-    edge, monteCarlo, pearson, stateAnalysis, traderScore, SCORE_AXES, tiltCheck, tiltProfile, stats16, activityDays, journalStreak,
+    edge, monteCarlo, pearson, stateAnalysis, traderScore, SCORE_AXES, SCORE_LABELS, SCORE_KEYS, SCORE_INFO, scoreKeys, scoreAxes, tiltCheck, tiltProfile, stats16, activityDays, journalStreak,
     drawdownSeries, drawdownStats, dayStreaks, runningStats, reportSeries, aggregateSeries,
     parseCSV, FIELDS, guessMapping, parseNumber, parseDate, guessDayFirst, parseDirection, mapRows, dedupeKey, sentiment, insights,
   };

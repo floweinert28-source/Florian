@@ -2,6 +2,7 @@
 (function (root) {
   'use strict';
   const C = root.Core, S = root.Store, U = root.UI, I = U.I, esc = U.esc, fmt = U.fmt, App = root.App, W = root.Widgets;
+  const tt = (s, v) => (root.I18N && root.I18N.t ? root.I18N.t(s, v) : (v ? s.replace(/\{(\d+)\}/g, (_, i) => v[i]) : s)); /* Text mit Werten, schon übersetzt */
   const MAX_TOP = W.MAX_TOP;
   const st = () => App.state.dash || (App.state.dash = { editing: false, draft: null, panel: null, q: '', menu: null, booted: false });
   const clone = o => JSON.parse(JSON.stringify(o));
@@ -192,6 +193,17 @@
 
   function openWidgetSettings(inst, save) {
     const e = W.get(inst.typ); const cfg = inst.einstellungen || {};
+    if (e.settings === 'score') {
+      /* Punkte im Score: mindestens 3 bleiben immer an (die letzten 3 lassen sich nicht abwählen); „Standard“ = die sechs bisherigen */
+      const on = new Set(C.scoreKeys(cfg.achsen)); const DEF = Object.keys(C.SCORE_AXES);
+      U.modal(`<div class="modal-head"><h2>Punkte im Score</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><form class="stack sc-form"><p class="muted small">Wähle, woraus dein Score besteht. Der Score ist der Mittelwert der gewählten Punkte.</p><div class="sc-list">${C.SCORE_KEYS.map(k => `<label class="check sc-opt"><input type="checkbox" name="achse" value="${k}" ${on.has(k) ? 'checked' : ''}><span class="sc-t"><b>${esc(C.SCORE_LABELS[k])}</b><span class="muted small">${esc(C.SCORE_INFO[k])}</span></span></label>`).join('')}</div><div class="small muted sc-n" aria-live="polite"></div><div class="modal-foot"><button type="button" class="btn ghost" data-sc-default>Standard</button><span class="grow"></span><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'narrow', onMount(el) {
+        const f = el.querySelector('form'); const boxes = [...f.querySelectorAll('input[name=achse]')];
+        const sync = () => { const n = boxes.filter(b => b.checked).length; boxes.forEach(b => { b.disabled = b.checked && n <= 3; b.closest('label').title = b.disabled ? tt('Mindestens 3 Punkte') : ''; }); f.querySelector('.sc-n').textContent = n <= 3 ? tt('{0} von {1} gewählt · mindestens 3 Punkte', [n, boxes.length]) : tt('{0} von {1} gewählt', [n, boxes.length]); };
+        boxes.forEach(b => b.addEventListener('change', sync)); f.querySelector('[data-sc-default]').addEventListener('click', () => { boxes.forEach(b => { b.checked = DEF.includes(b.value); }); sync(); }); sync();
+        f.addEventListener('submit', ev => { ev.preventDefault(); const keys = boxes.filter(b => b.checked).map(b => b.value); if (keys.length < 3) return; const isDef = keys.length === DEF.length && keys.every(k => DEF.includes(k)); save(isDef ? {} : { achsen: keys }); U.closeModal(); });
+      } });
+      return;
+    }
     if (e.settings === 'challenge') {
       U.modal(`<div class="modal-head"><h2>Challenge einrichten</h2><button type="button" class="btn ghost icon" data-close aria-label="Schließen">${I.close}</button></div><form data-action="dash-w-settings-save" class="stack"><div class="form-grid"><label class="field"><span>Gewinnziel</span><input class="input" type="number" step="1" min="0" name="ziel" value="${cfg.ziel || ''}" placeholder="z. B. 2500"></label><label class="field"><span>Maximaler Verlust</span><input class="input" type="number" step="1" min="0" name="maxVerlust" value="${cfg.maxVerlust || ''}" placeholder="z. B. 1500"></label><label class="field"><span>Tagesverlustlimit (optional)</span><input class="input" type="number" step="1" min="0" name="tagesVerlust" value="${cfg.tagesVerlust || ''}" placeholder="z. B. 500"></label><label class="field"><span>Startdatum (optional)</span><input class="input" type="date" name="start" value="${cfg.start || ''}"><span class="hint">Leer: gewählter Zeitraum des Dashboards</span></label></div><div class="modal-foot"><button type="button" class="btn" data-close>Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div></form>`, { cls: 'narrow', onMount(el) { el.querySelector('form').addEventListener('submit', ev => { ev.preventDefault(); const fd = new FormData(ev.target); const out = {}; for (const k of ['ziel', 'maxVerlust', 'tagesVerlust']) { const v = Number(fd.get(k)); if (v > 0) out[k] = v; } if (fd.get('start')) out.start = fd.get('start'); save(out); U.closeModal(); }); } });
     }

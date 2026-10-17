@@ -148,7 +148,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Raster und Vorlage bleiben gespeichert, ein gesetzter Filter bleibt zurücksetzbar. Oberer Bereich mit bis zu 5 Kennzahl-Kacheln (Netto P&L,
   Kontostand, Trade- und Tages-Trefferquote, Profit-Faktor, Ø Gewinn/Verlust, Erwartungswert, Tages-,
   Trade- und kombinierte Serie, maximaler und durchschnittlicher Drawdown), unten ein 3-Spalten-Raster
-  mit Diagrammen, Kalendern und Listen (Gesamt-Score-Radar mit Farbskala, die Skala füllt sich beim Erscheinen bis zum Score, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
+  mit Diagrammen, Kalendern und Listen (Gesamt-Score als Netz nach der 21st-Vorlage heygaia/radar-chart: gewählter Zeitraum als Fläche mit Rand, derselbe Zeitraum davor gestrichelt (Vormonat, Vorquartal, Vorjahr, Vorwoche, sonst gleich lang direkt davor; bei „Gesamt“ kein Vergleich), an jedem Punkt „jetzt / vorher“ und der Name, Legende mit kurzen Monatsnamen, Tooltip mit Wert und Teilscore für beide Zeiträume; die Punkte wählt das Zahnrad („Punkte im Score“: sechs Standard-Punkte plus Tages-Trefferquote, Erwartungswert, Erholungsfaktor, Stop gehalten, Fehlerfrei, Nachbereitung, mindestens 3, die letzten drei lassen sich nicht abwählen, „Standard“ setzt zurück; `inst.einstellungen.achsen`, `C.scoreAxes`), der Score ist der Mittelwert der gewählten Punkte (mit den Standard-Punkten gleich wie bisher), daneben die Veränderung zum Vorzeitraum; in schmalen Karten folgt die Höhe der Breite und die Schrift wird kleiner; darunter die Farbskala, die sich beim Erscheinen bis zum Score füllt, dort ein runder Punkt in der Farbe der Skala mit dunklem Rand in der Kartenfarbe (kein Blinken), kumulierter P&L, Trefferquote-Verlauf,
   Performance nach Uhrzeit und Haltedauer, Disziplin-Trichter, P&L pro Tag, täglich & kumuliert, letzte Trades, Kalender,
   Mini-, erweiterter und Jahreskalender, Kontostand, Drawdown-Verlauf, Challenge, Regel-Tracker, Report).
   Jedes Widget hat ein (i) mit Erklärung (sichtbar beim Darüberfahren). Profit-Faktor als Ring (Gewinne gegen Verluste), Ø Gewinn/Verlust
@@ -191,10 +191,10 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Samstag/Sonntag nur mit Trades. **Trades nach Setup**: Ring mit runden Ecken und überall gleich breiten Lücken (Kanten parallel zur Trennlinie, nicht als Winkel; `ringSegment`), Anzahl im Segment,
   Tooltip mit Anteil, Trefferquote und P&L; die fünf insgesamt häufigsten Setups haben feste Farben (`--pie-1` … `--pie-5`,
   ohne Grün und Rot, mit dem Farbprüfer auf Unterscheidbarkeit auch bei Farbschwäche geprüft), der Rest „Andere“, Trades ohne
-  Setup „Ohne Setup“. Das frühere Widget „Trefferquote nach Setup“ (Radar Chart) ist entfernt; sein Netz-Design (vier Ringe, Fläche in der
-  Akzentfarbe ohne Rand, Trefferflächen je Achse mit Tooltip, Punkt und Beschriftung beim Drüberfahren, `U.drawers.sradar`) trägt jetzt der
-  **Gesamt-Score** (Score-Zahl und Farbbalken bleiben; Beschriftungen werden schon übersetzt gemessen und bei Bedarf an Leerzeichen, „/“ oder „-“
-  umbrochen). Gespeicherte Vorlagen mit dem alten Widget räumt `dashboardsVersion` 5 auf. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
+  Setup „Ohne Setup“. Das frühere Widget „Trefferquote nach Setup“ (Radar Chart) ist entfernt; den **Gesamt-Score** zeichnet jetzt
+  `U.drawers.radar2` im Stil der 21st-Vorlage heygaia/radar-chart (vier Ringe als Vielecke, Fläche mit Rand, Vorzeitraum gestrichelt,
+  Trefferflächen je Achse mit Tooltip, Punkt und Beschriftung beim Drüberfahren; Beschriftungen werden übersetzt und in echter Schriftgröße
+  gemessen und bei Bedarf an Leerzeichen, „/“ oder „-“ umbrochen; Score-Zahl und Farbbalken bleiben). Gespeicherte Vorlagen mit dem alten Widget räumt `dashboardsVersion` 5 auf. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
   hoch (danach nur, wenn sich der Wert ändert; bei „weniger Bewegung“ gar nicht), darunter die letzten 20 Trades. Test:
   `e2e/w21test.js`.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).

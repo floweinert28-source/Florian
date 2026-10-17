@@ -2080,4 +2080,5 @@ I18N.add('en', {
   "Standardliste laden": "Load default list",
   "Tags auf Standardliste zurücksetzen": "Reset tags to the default list",
   "Laden": "Load",
+  "Status und Bewertung": "Status and rating",
 });

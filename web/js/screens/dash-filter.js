@@ -111,10 +111,11 @@
   function bodyHTML(f, all) {
     const wd = fmt.weekdays(); const loc = root.I18N ? root.I18N.locale() : 'de-DE';
     const mon = [...Array(12)].map((_, m) => { const s = new Intl.DateTimeFormat(loc, { month: 'short' }).format(new Date(2024, m, 1)).replace(/\.$/, ''); return [m, s]; });
-    const trade = group('trade', 'Trade', activeIn(f, ['symbols', 'dir', 'status', 'state', 'span', 'reviewed', 'ratings']),
+    const trade = group('trade', 'Trade', activeIn(f, ['symbols', 'dir', 'status']),
       row('Symbol', pickerHTML('symbols', f, all)) +
       row('Richtung', seg('dir', f, [['', 'Alle'], ['long', 'Long'], ['short', 'Short']])) +
-      row('Ergebnis', seg('status', f, [['', 'Alle'], ['win', 'Gewinn'], ['loss', 'Verlust'], ['be', 'Break-even']])) +
+      row('Ergebnis', seg('status', f, [['', 'Alle'], ['win', 'Gewinn'], ['loss', 'Verlust'], ['be', 'Break-even']])));
+    const more = group('more', 'Status und Bewertung', activeIn(f, GROUP_KEYS.more),
       row('Offen / Geschlossen', seg('state', f, [['', 'Alle'], ['open', 'Offen'], ['closed', 'Geschlossen']])) +
       row('Intraday / Multiday', seg('span', f, [['', 'Alle'], ['intraday', 'Intraday'], ['multiday', 'Multiday']])) +
       row('Reviewed', seg('reviewed', f, [['', 'Alle'], ['yes', 'Reviewed'], ['no', 'Unreviewed']]), 'Bewertung oder Notiz vorhanden') +
@@ -133,12 +134,12 @@
       row('Volumen', pair('volMin', 'volMax', f), 'Positionswert: Stück × Kurs × Punktwert'));
     const tags = group('tags', 'Tags', activeIn(f, ['setups', 'mistakes', 'emotions']),
       row('Setup', pickerHTML('setups', f, all)) + row('Fehler', pickerHTML('mistakes', f, all)) + row('Emotionen', pickerHTML('emotions', f, all)));
-    return trade + time + vals + tags;
+    return trade + more + time + vals + tags;
   }
   const rangeTrades = () => App.tradesInRange(App.allTrades());
   function footHTML(f) {
     const n = apply(rangeTrades(), f).length;
-    return `<button type="button" class="btn ghost" data-action="dash-f-reset" ${count(f) ? '' : 'disabled'}>Zurücksetzen</button><button type="button" class="btn primary" data-action="dash-f-apply">${I.check}<span>Anwenden</span><span class="fd-n">${n === 1 ? '1 Trade' : fmt.int(n) + ' Trades'}</span></button>`;
+    return `${count(f) ? '<button type="button" class="btn ghost" data-action="dash-f-reset">Zurücksetzen</button>' : ''}<button type="button" class="btn primary" data-action="dash-f-apply">${I.check}<span>Anwenden</span><span class="fd-n">${n === 1 ? '1 Trade' : fmt.int(n) + ' Trades'}</span></button>`;
   }
   function panelHTML() {
     const u = ui(); const f = u.draft; const all = App.allTrades(); const n = count(f);
@@ -164,7 +165,7 @@
     if (focusQ) { const q = l.querySelector('#fd-q'); if (q) { q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); } }
   }
   /* beim Öffnen: „Trade“ offen, die anderen Bereiche nur, wenn darin schon gefiltert wird */
-  const GROUP_KEYS = { time: ['weekdays', 'months', ['entryFrom', 'entryTo'], ['exitFrom', 'exitTo'], ['holdMin', 'holdMax']], vals: [['entryMin', 'entryMax'], ['exitMin', 'exitMax'], ['rMin', 'rMax'], ['qtyMin', 'qtyMax'], ['volMin', 'volMax']], tags: ['setups', 'mistakes', 'emotions'] };
+  const GROUP_KEYS = { more: ['state', 'span', 'reviewed', 'ratings'], time: ['weekdays', 'months', ['entryFrom', 'entryTo'], ['exitFrom', 'exitTo'], ['holdMin', 'holdMax']], vals: [['entryMin', 'entryMax'], ['exitMin', 'exitMax'], ['rMin', 'rMax'], ['qtyMin', 'qtyMax'], ['volMin', 'volMax']], tags: ['setups', 'mistakes', 'emotions'] };
   function open() { const u = ui(); u.open = true; u.draft = state(); u.pick = null; u.q = ''; u.closed = { trade: false }; for (const [g, keys] of Object.entries(GROUP_KEYS)) u.closed[g] = !activeIn(u.draft, keys); App.closePopovers(); layer().innerHTML = panelHTML(); place(); }
   function close() { const u = ui(); u.open = false; u.draft = null; u.pick = null; const l = document.getElementById('fd-layer'); if (l) l.innerHTML = ''; }
   window.addEventListener('hashchange', close);

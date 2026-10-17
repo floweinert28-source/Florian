@@ -2126,4 +2126,5 @@ I18N.add('es', {
   "Standardliste laden": "Cargar lista estándar",
   "Tags auf Standardliste zurücksetzen": "Restablecer etiquetas a la lista estándar",
   "Laden": "Cargar",
+  "Status und Bewertung": "Estado y valoración",
 });

@@ -20,7 +20,7 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   /* Beispieldaten v2: Zeitraum „Gesamt“, damit mehrere Symbole im Zeitraum liegen (am Monatsersten hat „Dieser Monat“ sonst nur einen Trade) */
   await p.evaluate(() => { Store.setSetting('range', { preset: 'all', from: null, to: null }); App.rerender(false); }); await p.waitForTimeout(300);
   const pnlBefore = await p.textContent('.dash-top .tile .val');
-  await p.click('[data-action=dash-f-open]'); await p.waitForTimeout(400); ok('Filter-Leiste offen', !!(await p.$('#fd-layer .fd-panel')) && (await p.$$('.fd-group')).length === 4);
+  await p.click('[data-action=dash-f-open]'); await p.waitForTimeout(400); ok('Filter-Leiste offen', !!(await p.$('#fd-layer .fd-panel')) && (await p.$$('.fd-group')).length === 5);
   await p.click('.fd-pick[data-key="symbols"] .fd-add'); await p.waitForTimeout(200);
   const sym = await p.$eval('#fd-opts .item[data-value]', e => e.dataset.value); await p.click('#fd-opts .item[data-value]'); await p.waitForTimeout(150);
   await p.click('[data-action=dash-f-apply]'); await p.waitForTimeout(500);

@@ -6,11 +6,11 @@
    Scrollstand halten) bricht die Bewegung ab, damit es nie gegen den Rahmen arbeitet. */
 (function (root) {
   'use strict';
-  const EASE = 0.075; /* Anteil des Restwegs pro Bild: kleiner = schwerer, träger */
+  const TAU = 214; /* Zeitkonstante in ms: nach TAU ist knapp zwei Drittel des Restwegs geschafft; größer = schwerer, träger (entspricht 7,5 % pro Bild bei 60 Hz) */
   const LINE = 18, MAX_STEP = 1.4; /* Zeilen-Delta in Pixel; größter Sprung pro Radtick in Fensterhöhen */
   const reduce = root.matchMedia ? root.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
   const coarse = root.matchMedia ? root.matchMedia('(pointer: coarse)') : { matches: false };
-  let target = 0, current = 0, raf = 0, active = false, own = false;
+  let target = 0, current = 0, raf = 0, active = false, own = false, last = 0;
 
   const maxY = () => Math.max(0, (document.scrollingElement || document.documentElement).scrollHeight - root.innerHeight);
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
@@ -32,10 +32,11 @@
   }
   function delta(e) { let d = e.deltaY; if (e.deltaMode === 1) d *= LINE; else if (e.deltaMode === 2) d *= root.innerHeight; const cap = root.innerHeight * MAX_STEP; return clamp(d, -cap, cap); }
   function stop() { active = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
-  function tick() {
+  function tick(now) {
     raf = 0;
     if (Math.abs(root.scrollY - current) > 2) { stop(); return; } /* jemand anders hat gescrollt (Tastatur, Scrollbalken, Seitenwechsel) */
-    current += (target - current) * EASE;
+    const dt = Math.min(50, Math.max(0, now - last)); last = now; /* nach einer Pause (Tab im Hintergrund) kein Sprung */
+    current += (target - current) * (1 - Math.exp(-dt / TAU));
     if (Math.abs(target - current) < 0.4) { current = target; own = true; root.scrollTo(0, current); own = false; stop(); return; }
     own = true; root.scrollTo(0, current); own = false; raf = requestAnimationFrame(tick);
   }
@@ -50,7 +51,7 @@
     if (document.body.style.overflow === 'hidden' || getComputedStyle(document.body).overflowY === 'hidden') return; /* Dialog offen */
     const max = maxY(); if (!max) return;
     e.preventDefault();
-    if (!active) { current = root.scrollY; target = current; active = true; }
+    if (!active) { current = root.scrollY; target = current; active = true; last = performance.now(); }
     target = clamp(target + dy, 0, max);
     if (!raf) raf = requestAnimationFrame(tick);
   }

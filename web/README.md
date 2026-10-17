@@ -163,9 +163,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   erst „Auswertungen“, dann „Bereiche der App“, in jeder Gruppe die beim Öffnen noch wählbaren oben, „Hinzugefügt“ still ohne Akzent.
   **Zeitraum**: Voreinstellungen plus „Benutzerdefiniert“ mit zwei Monatskalendern nebeneinander (Handy: einer), erster Klick
   Start, zweiter Klick Ende (`js/rangepicker.js`); die Vorgaben links (Heute, Diese Woche … Gesamt) werden nur markiert und im Kalender gezeigt, übernommen wird erst mit „Anwenden“; der gewählte Zeitraum erscheint als schmales, an Wochen- und Monatsrändern rundes Band, Start und Ende als Kachel in der Akzentfarbe; beim Überfahren zeigt nur der Tag unter der Maus einen Rahmen, außerhalb des Kalenders verschwindet die Vorschau. **Filter** als Fenster direkt unter dem Filter-Knopf wie Zeitraum, Konto und Vorlage (`js/screens/dash-filter.js`; kompakt wie die anderen Menüs: 320px breit, höchstens 460px hoch mit scrollendem Inhalt, kleiner Kopf ohne Untertitel, Bereiche ohne eigene Kästen, nur feine Trennlinien; auf dem Handy volle Breite; Klick daneben, Escape oder ein zweiter Klick auf den Knopf schließen es), in Gruppen
-  Trade (Symbol per „+“ mit Suche, Long/Short, Gewinn/Verlust/Break-even, offen/geschlossen, Intraday/Multiday, Reviewed,
-  Bewertung), Zeit (Wochentag, Monat, Entry- und Exit-Uhrzeit, Haltedauer in Min/Std/Tagen), Werte (Entry-/Exit-Preis,
-  R-Multiple, Positionsgröße, Volumen) und Tags (Setups, Fehler, Emotionen); „Anwenden“ zeigt live die Zahl der Trades.
+  Trade (Symbol per „+“ mit Suche, Long/Short, Gewinn/Verlust/Break-even), Status und Bewertung (offen/geschlossen,
+  Intraday/Multiday, Reviewed, Bewertung; zugeklappt, außer dort wird schon gefiltert), Zeit (Wochentag, Monat, Entry- und Exit-Uhrzeit, Haltedauer in Min/Std/Tagen), Werte (Entry-/Exit-Preis,
+  R-Multiple, Positionsgröße, Volumen) und Tags (Setups, Fehler, Emotionen); „Anwenden“ zeigt live die Zahl der Trades, „Zurücksetzen“ erscheint erst mit einem gesetzten Filter.
   **Bereiche der App als Widgets** (eigene Gruppe „Bereiche der App“ nach den Auswertungen, gleiche Rechnung wie auf den
   Seiten): Kacheln Disziplin-Kosten (Schatten-Ich im Dashboard-Zeitraum), Blind-Replay (richtig eingeschätzt, letzte 20)
   und Prop-Konten (aktiv, Ampel-Zählung); Karten Schatten-Ich (Kosten, echt, Schatten-Ich, Verstöße, Kurven), Blind-Replay
@@ -382,7 +382,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   niedrig violett, normal grün, hoch gelb; Stress 1–2 grün, 3 gelb, 4–5 rot; Stimmung umgekehrt; dazu Gewinn/Verlust, Long/Short, Bewertung,
   Fehler- und Emotions-Chips. Ohne `--lc` ist eine Auswahl flach und neutral (ein gemeinsamer Stil am Ende von `css/app.css`).
   **Schriftgewichte abgestuft:** Steuerelemente (Knöpfe, Reiter, Segmente, Chips, Tabellenköpfe, Kachel-Titel) 500, Titel 600, nur Werte und
-  Hauptknöpfe („Trade loggen“, Speichern) fett. **Info-Symbole** in Karten und Kacheln erscheinen erst beim Darüberfahren (auf Touch immer).
+  Hauptknöpfe („Trade loggen“, Speichern) fett. **Info-Symbole** in Karten und Kacheln erscheinen erst beim Darüberfahren (auf Touch immer); ebenso Löschen und Bearbeiten in Listen (Regeln, Ruhepunkt-Verlauf, Provision im Affiliate), mit Tastatur beim Fokus. Links in Kartenköpfen („Tag ansehen“, „Regeln bearbeiten“, „Zur Statistik“) sind Textknöpfe; je Seite höchstens ein gefüllter Knopf.
 - **Geld-blind-Modus** (Einstellungen → Trading): blendet überall alle Geldbeträge aus und zeigt R-Multiples.
   Trades zeigen ihr exaktes R, ohne Stop „– R“; Summen werden über eine R-Einheit umgerechnet (Median des Risikos
   deiner Trades mit Stop oder ein fester Wert). Der Kontostand wird komplett ausgeblendet, das Zertifikat erzwingt
@@ -592,7 +592,7 @@ ihre Position und schiebt den gewählten Reiter ins Bild (`App.revealActive`); n
 beginnt einen neuen Bereich oben. Waagerechte Reiterleisten haben keinen sichtbaren Scrollbalken.
 
 `js/scroll.js` macht das Scrollen der ganzen App weich und „schwer“ wie auf edlen Websites: das Mausrad setzt nur ein Ziel,
-die Seite gleitet mit Trägheit hinterher (Anteil 0,075 des Restwegs pro Bild; kleiner = träger). Nur das Fenster wird so bewegt –
+die Seite gleitet mit Trägheit hinterher (zeitbasiert mit Zeitkonstante 214 ms, also auf 60 Hz und 120 Hz gleich schnell; größer = träger). Nur das Fenster wird so bewegt –
 Bereiche mit eigenem Scrollen (Notiz-Spalten, Tabellen, Menüs, Dialoge), Tastatur, Scrollbalken und Touch bleiben nativ. Bei
 „Bewegung reduzieren“, auf Touch-Geräten und bei offenem Dialog passiert nichts; programmatisches Scrollen (Seitenwechsel,
 Scrollstand halten) bricht die Bewegung ab. Ohne das Skript scrollt alles wie gewohnt.

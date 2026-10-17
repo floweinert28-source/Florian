@@ -2172,4 +2172,5 @@ I18N.add('zh', {
   "Standardliste laden": "载入默认列表",
   "Tags auf Standardliste zurücksetzen": "将标签重置为默认列表",
   "Laden": "载入",
+  "Status und Bewertung": "状态与评分",
 });

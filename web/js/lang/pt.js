@@ -2123,4 +2123,5 @@ I18N.add('pt', {
   "Standardliste laden": "Carregar lista padrão",
   "Tags auf Standardliste zurücksetzen": "Redefinir tags para a lista padrão",
   "Laden": "Carregar",
+  "Status und Bewertung": "Status e avaliação",
 });

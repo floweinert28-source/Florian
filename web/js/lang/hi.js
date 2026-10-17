@@ -2172,4 +2172,5 @@ I18N.add('hi', {
   "Standardliste laden": "डिफ़ॉल्ट सूची लोड करें",
   "Tags auf Standardliste zurücksetzen": "टैग डिफ़ॉल्ट सूची पर रीसेट करें",
   "Laden": "लोड करें",
+  "Status und Bewertung": "स्थिति और रेटिंग",
 });

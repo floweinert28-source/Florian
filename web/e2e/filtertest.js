@@ -9,7 +9,9 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   const footN = () => p.evaluate(() => (document.querySelector('.fd-foot .fd-n') || {}).textContent);
   await p.click('[data-action="dash-f-open"]'); await p.waitForTimeout(400);
   ok(await p.evaluate(() => { const pop = document.querySelector('#fd-layer .fd-panel.fd-pop'); if (!pop) return false; const r = pop.getBoundingClientRect(), b = document.querySelector('[data-action="dash-f-open"]').getBoundingClientRect(); return !document.querySelector('.fd-panel .chip') && !document.querySelector('.side-panel.fd-panel, .panel-bg') && getComputedStyle(pop).position === 'absolute' && Math.abs(r.top - (b.bottom + 8)) <= 3 && Math.abs(r.right - b.right) <= 1 && r.width === 320 && r.height <= 460; }), 'Filter öffnet als Fenster direkt unter dem Knopf (wie die anderen Menüs), ohne Tag-Wolke');
-  ok(await p.evaluate(() => [...document.querySelectorAll('.fd-group')].map(g => g.classList.contains('open')).join(',')) === 'true,false,false,false', 'Nur „Trade“ ist aufgeklappt');
+  ok(await p.evaluate(() => [...document.querySelectorAll('.fd-group')].map(g => g.classList.contains('open')).join(',')) === 'true,false,false,false,false', 'Nur „Trade“ ist aufgeklappt');
+  ok(await p.evaluate(() => [...document.querySelectorAll('.fd-gh')].map(g => g.dataset.id).join(',') === 'trade,more,time,vals,tags' && [...document.querySelectorAll('.fd-group.open .fd-l')].map(x => x.textContent).join(',') === 'Symbol,Richtung,Ergebnis'), '„Trade“ nur mit Symbol, Richtung, Ergebnis; Status und Bewertung eigene Gruppe');
+  ok(await p.evaluate(() => !document.querySelector('[data-action="dash-f-reset"]')), 'Ohne Filter kein „Zurücksetzen“');
   ok(await p.evaluate(() => document.querySelectorAll('.fd-pick[data-key="symbols"] .fd-chip').length === 0 && !!document.querySelector('.fd-pick[data-key="symbols"] .fd-add')), 'Symbole nicht aufgelistet, nur „+ Symbol“');
   ok((await footN()).includes(String(total)), 'Fuß zeigt alle Trades: ' + await footN());
   /* + Symbol: NQ suchen und wählen */
@@ -27,6 +29,7 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   ok(await p.evaluate(() => !!document.querySelector('#fd-layer .fd-panel') && !document.querySelector('.fd-drop')), 'Escape schließt nur die Suche');
   /* Richtung Long, Zeit: Di + Mi, Werte: R ≥ 0 */
   await p.click('[data-action="dash-f-set"][data-key="dir"][data-value="long"]'); await p.waitForTimeout(150);
+  ok(await p.evaluate(() => !!document.querySelector('.fd-foot [data-action="dash-f-reset"]')), 'Mit Filter erscheint „Zurücksetzen“');
   await p.click('[data-action="dash-f-group"][data-id="time"]'); await p.waitForTimeout(150);
   await p.click('[data-action="dash-f-toggle"][data-key="weekdays"][data-value="1"]'); await p.click('[data-action="dash-f-toggle"][data-key="weekdays"][data-value="2"]'); await p.waitForTimeout(150);
   await p.click('[data-action="dash-f-group"][data-id="vals"]'); await p.waitForTimeout(150);
@@ -68,6 +71,9 @@ let pass = 0, fail = 0; const ok = (c, m) => { if (c) { pass++; console.log('PAS
   /* alter gespeicherter Filter wird übernommen */
   const legacy = await p.evaluate(() => { Store.setSetting('dashFilter', { symbols: ['NQ'], dir: 'short', status: 'open', setups: [], tags: ['FOMO', 'Ruhig'] }); const f = DashFilter.state(); return [f.symbols.join(), f.dir, f.status, f.state, f.mistakes.join(), f.emotions.join(), 'tags' in f].join('|'); });
   ok(legacy === 'NQ|short||open|FOMO|Ruhig|false', 'Alter Filter übernommen: ' + legacy);
+  await p.evaluate(() => App.rerender()); await p.waitForTimeout(300); await p.click('[data-action="dash-f-open"]'); await p.waitForTimeout(300);
+  ok(await p.evaluate(() => [...document.querySelectorAll('.fd-group')].map(g => g.classList.contains('open')).join(',')) === 'true,true,false,false,false', 'Gefiltert nach „Offen“: „Status und Bewertung“ klappt von selbst auf');
+  await p.click('.fd-panel [data-action="dash-f-close"]'); await p.waitForTimeout(200);
   await p.evaluate(() => { Store.setSetting('dashFilter', null); App.rerender(); });
   /* Handy */
   const m = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }); m.on('pageerror', e => errs.push(e.message));

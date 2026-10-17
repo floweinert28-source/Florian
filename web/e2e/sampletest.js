@@ -74,7 +74,7 @@ const norm = s => String(s || '').replace(/ /g, ' ');
   ok('Payout-Planer in der Bilanz (Apex, funded): Payout-Bedingungen und Payout-Verlauf mit 3 Einträgen', ptxt.includes('Payout-Bedingungen') && ptxt.includes('Payouts dieses Kontos') && (await p.$$('.tbl-wrap.inset tbody tr')).length === 3);
   await go('#/prop/friedhof', 600);
   const gtxt = await content();
-  ok('Friedhof: ein Grabstein (FTMO) mit Ursache Daily Loss, Lebensdauer und Trade-Link', (await p.$$('.prop-grave')).length === 1 && gtxt.includes('FTMO') && gtxt.includes('Daily Loss') && gtxt.includes('gelebt') && !!(await p.$('.prop-grave a[href^="#/trades/"]')) && gtxt.includes('Serie davor') && /Verlusttrade/.test(gtxt));
+  ok('Friedhof: ein Grabstein (FTMO) mit Ursache Daily Loss, Lebensdauer und Trade-Link', (await p.$$('.prop-grave')).length === 1 && gtxt.includes('FTMO') && gtxt.includes('Daily Loss') && gtxt.includes('gelebt') && !!(await p.$('.prop-grave a[href^="#/trades/"]')) && !gtxt.includes('Serie davor') && !!(await p.$('.prop-grave .pg-why')));
   await p.click('.prop-grave .pg-front .pg-turn'); await p.waitForTimeout(850); /* Trade-Link steht auf der Rückseite */
   await p.click('.prop-grave a[href^="#/trades/"]'); await p.waitForTimeout(600);
   ok('Trade-Link öffnet den auslösenden Trade (DAX, Verlust)', (await p.textContent('.topbar h1')) === 'Trade' && (await p.textContent('.detail-head .sym')) === 'DAX' && !!(await p.$('.detail-head .pill.loss, .detail-head [class*=loss]')));

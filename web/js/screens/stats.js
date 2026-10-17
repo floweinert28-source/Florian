@@ -5,6 +5,20 @@
   const TABS = [['summary', 'Übersicht'], ['days', 'Tage'], ['setups', 'Setups'], ['time', 'Zeit'], ['mistakes', 'Fehler'], ['regime', 'Marktphase'], ['state', 'Zustand'], ['edge', 'Edge-Check'], ['mc', 'Monte Carlo']];
   const SIMPLE_TABS = ['summary', 'days', 'setups', 'time'];
   const REG_T = { up: 'Aufwärts', down: 'Abwärts', trending: 'Trend', ranging: 'Seitwärts' }, REG_V = { low: 'Vola niedrig', normal: 'Vola normal', high: 'Vola hoch' };
+  /* „Tage im Detail“ seitenweise wie TradeLog und Schatten-Ich: 10 Tage pro Seite (wählbar 10/25/50/100), Seitenwahl und Pfeile */
+  const dayPage = () => App.state.statsDayPage || (App.state.statsDayPage = { size: 10, page: 1 });
+  function dayTable(list, row, thead) {
+    const pg = dayPage(); const pages = Math.max(1, Math.ceil(list.length / pg.size)); if (pg.page > pages) pg.page = pages; if (pg.page < 1) pg.page = 1; const from = (pg.page - 1) * pg.size;
+    const table = `<table class="tbl compact">${thead}<tbody>${list.slice(from, from + pg.size).map(row).join('')}</tbody></table>`;
+    if (list.length <= 10) return `<div class="tbl-wrap inset">${table}</div>`;
+    const pager = `<div class="pager"><label class="pg-l"><span>Tage pro Seite:</span><select class="select sm" data-change="stats-day-page-size" aria-label="Tage pro Seite">${[10, 25, 50, 100].map(n => `<option value="${n}" ${pg.size === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label><span class="pg-sep"></span><span class="pg-info">${from + 1} – ${Math.min(list.length, from + pg.size)} von ${list.length} Tagen</span><span class="grow"></span><label class="pg-l"><select class="select sm" data-change="stats-day-page" aria-label="Seite">${Array.from({ length: pages }, (_, i) => `<option value="${i + 1}" ${pg.page === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select><span>von ${pages} Seite${pages === 1 ? '' : 'n'}</span></label><span class="pg-nav"><button type="button" data-action="stats-day-page-nav" data-dir="-1" ${pg.page <= 1 ? 'disabled' : ''} aria-label="Vorherige Seite">${I.chevL}</button><button type="button" data-action="stats-day-page-nav" data-dir="1" ${pg.page >= pages ? 'disabled' : ''} aria-label="Nächste Seite">${I.chevR}</button></span></div>`;
+    return `<div class="tbl-wrap inset paged"><div class="tbl-scroll">${table}</div>${pager}</div>`;
+  }
+  Object.assign(App.actions, {
+    'stats-day-page-size'(el) { const pg = dayPage(); pg.size = Number(el.value) || 10; pg.page = 1; App.rerender(); },
+    'stats-day-page'(el) { dayPage().page = Number(el.value) || 1; App.rerender(); },
+    'stats-day-page-nav'(el) { const pg = dayPage(); pg.page += Number(el.dataset.dir); App.rerender(); },
+  });
   App.screens.stats = {
     title: 'Statistiken',
     /* Zertifikat als Symbol-Werkzeug wie auf dem Dashboard, erst mit abgeschlossenen Trades */
@@ -33,7 +47,7 @@
     if (!days.length) return U.empty('day', 'Keine Handelstage im Zeitraum', '');
     const ds = C.daySummary(days);
     return `<div class="grid tiles kstrip">${U.tile('Handelstage', fmt.int(ds.days))}${U.tile('Gewinntage / Verlusttage', `<span class="${ds.winDays ? 'pos' : ''}">${ds.winDays}</span> / <span class="${ds.lossDays ? 'neg' : ''}">${ds.lossDays}</span>`)}${U.tile('Ø Gewinntag', U.pnl(ds.avgWinDay))}${U.tile('Ø Verlusttag', U.pnl(ds.avgLossDay))}${U.tile('Tages-Profit-Faktor', fmt.factor(ds.dayPF))}${U.tile('Ø Trades pro Tag', fmt.num(ds.avgTrades, 1))}</div>
-      ${U.card('Tage im Detail', `<div class="tbl-wrap inset"><table class="tbl compact"><thead><tr><th>Tag</th><th class="r">Trades</th><th class="r">Gewinner</th><th class="r">Verlierer</th><th class="r">Trefferquote</th><th class="r">Brutto</th><th class="r">Gebühren</th><th class="r">Netto-P&L</th><th class="r">Drawdown</th></tr></thead><tbody>${days.slice().reverse().map(d => `<tr class="link" data-action="day" data-day="${d.key}"><td>${fmt.weekdayLong(d.day)}</td><td class="r">${d.n}</td><td class="r pos">${d.wins}</td><td class="r neg">${d.losses}</td><td class="r">${fmt.pct(d.winRate)}</td><td class="r">${fmt.cur(d.gross, { signed: true })}</td><td class="r">${fmt.cur(d.fees)}</td><td class="r">${U.pnl(d.pnl)}</td>${d.intradayDD ? `<td class="r neg">${fmt.cur(-d.intradayDD)}</td>` : '<td class="r faint">—</td>'}</tr>`).join('')}</tbody></table></div>`)}`;
+      ${U.card('Tage im Detail', dayTable(days.slice().reverse(), d => `<tr class="link" data-action="day" data-day="${d.key}"><td>${fmt.weekdayLong(d.day)}</td><td class="r">${d.n}</td><td class="r pos">${d.wins}</td><td class="r neg">${d.losses}</td><td class="r">${fmt.pct(d.winRate)}</td><td class="r">${fmt.cur(d.gross, { signed: true })}</td><td class="r">${fmt.cur(d.fees)}</td><td class="r">${U.pnl(d.pnl)}</td>${d.intradayDD ? `<td class="r neg">${fmt.cur(-d.intradayDD)}</td>` : '<td class="r faint">—</td>'}</tr>`, `<thead><tr><th>Tag</th><th class="r">Trades</th><th class="r">Gewinner</th><th class="r">Verlierer</th><th class="r">Trefferquote</th><th class="r">Brutto</th><th class="r">Gebühren</th><th class="r">Netto-P&L</th><th class="r">Drawdown</th></tr></thead>`))}`;
   }
   function groupTable(groups, keyLabel) { return `<div class="tbl-wrap"><table class="tbl compact"><thead><tr><th>${keyLabel}</th><th class="r">Trades</th><th class="r">Trefferquote</th><th class="r">Ø pro Trade</th><th class="r">Ø R</th><th class="r">Profit-Faktor</th><th class="r">Netto-P&L</th></tr></thead><tbody>${groups.map(g => `<tr><td><b>${esc(g.label || g.key)}</b></td><td class="r">${g.s.n}</td><td class="r">${fmt.pct(g.s.winRate)}</td><td class="r">${U.pnl(g.s.expectancy)}</td><td class="r">${U.rText(g.s.avgR)}</td><td class="r">${fmt.factor(g.s.pf)}</td><td class="r">${U.pnl(g.s.total)}</td></tr>`).join('')}</tbody></table></div>`; }
   function tabSetups(list, closed) {

@@ -2706,8 +2706,8 @@ dl.rp-summary + .rp-small { margin-top: var(--sp-2); }
 /* Grabsteine: oben gerundet wie ein Stein, roter Deckel */
 /* Friedhof: jede Breach-Karte ist ein Grabstein. Gewölbter Stein mit Körnung, eingemeißeltem Rahmen, Riss und gravierter Schrift;
    er steht auf einem Sockel mit Grablicht. Farben nur aus den Theme-Tokens, Rot bleibt den Beträgen vorbehalten */
-.prop-graves { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18.75rem), 1fr)); align-items: end; gap: var(--sp-8) var(--sp-6); padding-top: var(--sp-2); }
-.prop-grave { --eng-hi: rgba(255, 255, 255, .07); --eng-lo: rgba(0, 0, 0, .6); --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); position: relative; display: flex; flex-direction: column; min-width: 0; }
+.prop-graves { grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); align-items: end; gap: var(--sp-8) var(--sp-6); padding-top: var(--sp-2); }
+.prop-grave { zoom: .84; --eng-hi: rgba(255, 255, 255, .07); --eng-lo: rgba(0, 0, 0, .6); --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); position: relative; display: flex; flex-direction: column; min-width: 0; }
 .pg-stone { position: relative; z-index: 1; margin: 0 var(--sp-6); perspective: 87.5rem; cursor: pointer; filter: drop-shadow(0 0.75rem 1.375rem rgba(0, 0, 0, .35)); } /* weicher Schatten folgt der Steinform */
 /* beide Seiten liegen übereinander (Höhe = höhere Seite); der Stein dreht sich um die senkrechte Achse */
 .pg-inner { position: relative; display: grid; width: 18.75rem; max-width: 100%; margin: 0 auto; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.3, .7, .2, 1); } /* feste Breite: die Steinform (Kuppel, Schultern) ist in Pixeln gezeichnet */
@@ -2743,7 +2743,8 @@ dl.rp-summary + .rp-small { margin-top: var(--sp-2); }
 .pg-cause { display: flex; flex-direction: column; align-items: center; gap: 0.125rem; }
 .pg-cause span { font-size: var(--fs-11); font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .pg-cause b { font-family: var(--font-display); font-size: var(--fs-18); font-weight: 700; text-shadow: 0 1px 0 var(--eng-hi), 0 -1px 0 var(--eng-lo); }
-.pg-epitaph { margin: var(--sp-2) 0 0; max-width: 32ch; font-size: var(--fs-13); font-style: italic; line-height: 1.4; color: var(--text-2); }
+.pg-why { margin-top: var(--sp-1); font-family: var(--font-display); font-size: var(--fs-18); font-weight: 700; color: var(--text); }
+.pg-epitaph { margin: 0; max-width: 32ch; font-size: var(--fs-13); font-style: italic; line-height: 1.4; color: var(--text-2); }
 /* Rückseite: ruhige Faktenliste – Bezeichnung links, Wert rechts, eine Zeile pro Punkt, feine Trennlinien; Tags als schlichter Text */
 .pg-facts { align-self: stretch; margin: 0.125rem 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-4); text-align: left; font-size: var(--fs-13); }
 .pg-facts dt, .pg-facts dd { margin: 0; padding: var(--sp-2) 0; border-top: 1px solid var(--border); }
@@ -2760,18 +2761,19 @@ dl.rp-summary + .rp-small { margin-top: var(--sp-2); }
 .pg-base { position: relative; z-index: 1; width: 21.75rem; max-width: 100%; height: 1rem; margin: var(--sp-2) auto 0; }
 /* Kerzenhaufen am Sockel: Stumpenkerzen mit Wachsläufen und Pfützen; die Flammen flackern versetzt, der Lichthof atmet mit,
    ein warmer Schein fällt auf den unteren Teil des Steins */
-.pg-candles { position: absolute; z-index: 2; bottom: calc(100% + 0.625rem); height: 6.75rem; pointer-events: none; overflow: visible; }
-.pg-candles.right { right: 0.4375rem; width: 8.4375rem; } /* ganz auf der oberen Sockelstufe */
-.pg-candles.left { left: 0.4375rem; width: 5.0625rem; }
+.pg-candles { position: absolute; z-index: 2; bottom: calc(100% + 0.625rem); height: 5.25rem; opacity: .9; pointer-events: none; overflow: visible; }
+.pg-candles.right { right: 0.4375rem; width: 6.5625rem; } /* ganz auf der oberen Sockelstufe */
+.pg-candles.left { left: 0.4375rem; width: 3.9375rem; }
 .pg-candles .runs-hi { fill: #fff3dc; opacity: .2; }
 .pg-candles .lip { fill: none; stroke: #fff4da; stroke-width: .55; stroke-linecap: round; opacity: .55; }
 .pg-candles .fi { fill: #fffef6; opacity: .9; }
 .pg-candles .fb { fill: rgba(90, 130, 255, .5); }
 .pg-candles .wick { fill: none; stroke: #2a211b; stroke-width: 1.1; stroke-linecap: round; }
+.pg-candles .halos { opacity: .45; } /* weniger Glühen um die Flammen */
 .pg-candles .halo { fill: url(#pgc-halo); mix-blend-mode: screen; animation: pg-halo 2.4s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
 .pg-candles .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: pg-flicker 2.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
 .pg-glow { position: absolute; left: 0; right: 0; bottom: 100%; height: 10.625rem; pointer-events: none;
-  background: radial-gradient(40% 64% at 80% 100%, rgba(255, 166, 78, .22), transparent 72%), radial-gradient(30% 58% at 11% 100%, rgba(255, 166, 78, .17), transparent 72%); }
+  background: radial-gradient(36% 52% at 82% 100%, rgba(255, 166, 78, .1), transparent 72%), radial-gradient(26% 46% at 10% 100%, rgba(255, 166, 78, .08), transparent 72%); } /* dezenter Lichtschein */
 :root[data-theme="light"] .pg-glow { opacity: .55; }
 @keyframes pg-flicker { 0%, 100% { transform: scale(1) rotate(0); opacity: .95; } 30% { transform: scale(1.06, 1.14) rotate(-3deg); opacity: 1; } 55% { transform: scale(.94, .9) rotate(2deg); opacity: .82; } 80% { transform: scale(1.03, 1.06) rotate(-1deg); opacity: .92; } }
 @keyframes pg-halo { 0%, 100% { opacity: .85; transform: scale(1); } 30% { opacity: 1; transform: scale(1.08); } 55% { opacity: .7; transform: scale(.95); } }

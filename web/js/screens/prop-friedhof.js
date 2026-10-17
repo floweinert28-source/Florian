@@ -12,6 +12,17 @@
   const WEEKDAY_LONG = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
   const DASH = '<span class="faint">—</span>';
   const call = (name, ...args) => typeof S[name] === 'function' ? (S[name](...args) || []) : [];
+  /* Rückseite: kurz der Grund und ein kurzer, lustiger Satz (je Regel einer von wenigen, fest je Konto) */
+  const tr = (t, v) => (root.I18N && root.I18N.t ? root.I18N.t(t, v) : t.replace(/\{(\d+)\}/g, (_, k) => v[k]));
+  const WHY = { dailyLoss: 'Daily Loss Limit', drawdown: 'Max. Drawdown', consistency: 'Consistency-Regel', maxContracts: 'Zu viele Kontrakte', manual: 'Regelbruch' };
+  const JOKES = {
+    dailyLoss: ['Der Tag war stärker als das Limit.', 'Ein Trade zu viel, ein Konto zu wenig.', 'Heute hat der Markt gewonnen. Morgen wieder du.'],
+    drawdown: ['Der Drawdown war schneller.', 'Ganz unten angekommen, aber mit Haltung.'],
+    consistency: ['Ein Tag war zu gut. Das gibt es wirklich.', 'Zu viel Erfolg auf einmal.'],
+    maxContracts: ['Größer war diesmal nicht besser.', 'Ein Lot zu viel Selbstvertrauen.'],
+    other: ['Ruhe in Frieden. Die Gebühr lebt weiter.', 'Gegangen, wie es gelebt hat: mit offenem Risiko.'],
+  };
+  const joke = (rule, id) => { const list = JOKES[rule] || JOKES.other; const h = [...String(id)].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 7); return list[h % list.length]; };
   const ruleLabel = r => r == null || r === '' ? DASH : esc(RULE_LABEL[r] || String(r));
   const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
   const top = vals => { const m = new Map(); for (const v of vals) if (v != null && v !== '') m.set(v, (m.get(v) || 0) + 1); let best = null; for (const [k, c] of m) if (!best || c > best.c) best = { k, c }; return best; };
@@ -53,7 +64,7 @@
     const avgLife = lifes.length ? C.mean(lifes) : null;
     const rule = top(g.tombstones.map(t => t.cause.rule));
     const firms = new Set(g.tombstones.map(t => t.firm)).size;
-    return `<div class="grid tiles prop-tiles kstrip prop-grave-tiles">${U.tile('Geplatzte Konten', `${g.n}`, { foot: `bei ${plural(firms, 'Firma', 'Firmen')}`, tint: 'neg' })}${U.tile('Verlorene Gebühren', fees.length ? fmt.cur(feeSum) : '—', { foot: fees.length ? `${plural(fees.length, 'Ausgabe', 'Ausgaben')} der geplatzten Konten` : 'Keine Ausgabe einem geplatzten Konto zugeordnet. In der Bilanz lässt sich jede Ausgabe einem Konto zuweisen.', tint: fees.length ? 'neg' : '', info: 'Summe der Ausgaben (Challenge-Gebühr, Reset, Aktivierung …), die einem geplatzten Konto zugeordnet sind.' })}${U.tile('Ø Lebensdauer', avgLife == null ? '—' : `${fmt.num(avgLife, 0)} Tage`, { foot: !lifes.length ? 'Kein Konto mit Start- und Breach-Datum' : lifes.length < g.n ? `${lifes.length} von ${g.n} mit Start- und Breach-Datum` : 'vom Start bis zum Breach' })}${U.tile('Häufigste Regel', rule ? ruleLabel(rule.k) : '—', { foot: rule ? `${rule.c} von ${g.n} Breaches` : 'Keine Regel hinterlegt' })}</div>`;
+    return `<div class="grid tiles prop-tiles kstrip prop-grave-tiles">${U.tile('Geplatzte Konten', `${g.n}`, { foot: `bei ${plural(firms, 'Firma', 'Firmen')}`, tint: 'neg' })}${U.tile('Verlorene Gebühren', fees.length ? fmt.cur(feeSum) : '—', { foot: fees.length ? (fees.length === 1 ? tr('1 Ausgabe der geplatzten Konten') : tr('{0} Ausgaben der geplatzten Konten', [fees.length])) : 'Keine Ausgabe einem geplatzten Konto zugeordnet. In der Bilanz lässt sich jede Ausgabe einem Konto zuweisen.', tint: fees.length ? 'neg' : '', info: 'Summe der Ausgaben (Challenge-Gebühr, Reset, Aktivierung …), die einem geplatzten Konto zugeordnet sind.' })}${U.tile('Ø Lebensdauer', avgLife == null ? '—' : `${fmt.num(avgLife, 0)} Tage`, { foot: !lifes.length ? 'Kein Konto mit Start- und Breach-Datum' : lifes.length < g.n ? `${lifes.length} von ${g.n} mit Start- und Breach-Datum` : 'vom Start bis zum Breach' })}${U.tile('Häufigste Regel', rule ? ruleLabel(rule.k) : '—', { foot: rule ? `${rule.c} von ${g.n} Breaches` : 'Keine Regel hinterlegt' })}</div>`;
   }
   function patternsCard(g) {
     const body = g.patterns.length
@@ -104,13 +115,12 @@
   };
   const cluster = (cls, vw, list) => { const c = list.map((x, i) => candle(x, i, cls[0], vw)); return `<svg class="pg-candles ${cls}" viewBox="0 0 ${vw} 80" aria-hidden="true" focusable="false">${CANDLE_DEFS}<defs>${c.map(x => x.grad).join('')}</defs><g class="halos">${c.map(x => x.halo).join('')}</g>${c.map(x => x.wax).join('')}</svg>`; };
   /* [x, Höhe, Breite, Flacker-Versatz, Wachsläufe [Abstand vom linken Rand, Länge, Breite]] – erst die hintere Reihe (hoch), dann die vordere (kurz) */
-  const CANDLES_R = cluster('right', 100, [
-    [4, 48, 13, -0.4, [[-1.2, 17, 3.2], [6, 31, 2.8], [10.8, 11, 2.8]]], [26, 62, 14, -1.3, [[-1.2, 36, 3.4], [4.6, 14, 2.8], [9.8, 46, 3.2]]], [50, 44, 12, -0.9, [[-.8, 22, 3], [8.8, 13, 3]]], [72, 56, 13, -2.1, [[-1, 11, 2.8], [4.5, 37, 3.2], [10.2, 24, 2.8]]],
-    [14, 26, 14, -1.7, [[-1, 12, 3], [9.6, 17, 3.2]]], [40, 18, 13, -0.6, [[1.5, 9, 2.8], [9.5, 12, 3]]], [60, 30, 14, -2.6, [[-1, 20, 3.2], [6.2, 8, 2.8], [11, 15, 2.8]]], [84, 16, 12, -1.1, [[1, 8, 2.8], [8.6, 11, 2.8]]],
+  const CANDLES_R = cluster('right', 100, [ /* dezent: vier Kerzen, zwei hinten, zwei vorn */
+    [26, 50, 14, -1.3, [[-1.2, 28, 3.4], [9.8, 36, 3.2]]], [66, 42, 13, -2.1, [[-1, 11, 2.8], [4.5, 27, 3.2]]],
+    [12, 22, 14, -1.7, [[-1, 12, 3], [9.6, 14, 3.2]]], [48, 18, 13, -0.6, [[1.5, 9, 2.8], [9.5, 12, 3]]],
   ]);
-  const CANDLES_L = cluster('left', 60, [
-    [3, 54, 14, -0.8, [[-1.2, 26, 3.2], [5.6, 38, 2.8], [11, 14, 2.8]]], [30, 40, 13, -1.9, [[-.8, 15, 3], [7.6, 27, 3.2]]],
-    [14, 24, 14, -2.4, [[-1, 14, 3], [9.8, 10, 2.8]]], [40, 15, 12, -0.3, [[1.2, 9, 2.8], [8.4, 7, 2.8]]],
+  const CANDLES_L = cluster('left', 60, [ /* dezent: zwei Kerzen */
+    [8, 40, 14, -0.8, [[-1.2, 20, 3.2], [9, 12, 2.8]]], [30, 20, 13, -1.9, [[-.8, 11, 3], [7.6, 15, 3.2]]],
   ]);
   function grave(t, byId, accs) {
     const acc = accs.find(a => a.id === t.accountId) || null; const tz = acc ? acc.tz : null;
@@ -121,7 +131,6 @@
       ? `<div class="prop-grave-trade"><span><span class="sym">${esc(trade.symbol || '—')}</span>${trade.setup ? `<span class="muted small"> · ${esc(trade.setup)}</span>` : ''}</span>${when ? `<span class="muted small">${esc(when)}</span>` : ''}<span>${c.pnl == null ? DASH : U.pnl(c.pnl, '', { r: trade.r })}</span></div>`
       : when ? `<div class="prop-grave-trade"><span class="muted small">kein Trade hinterlegt</span><span class="muted small">${esc(when)}</span></div>` : DASH;
     const whenShort = c.at ? `${c.weekdayIndex != null ? WEEKDAY_LONG[c.weekdayIndex].slice(0, 2) + '.' : (c.weekday || '')} ${dateIn(c.at, tz)} · ${timeIn(c.at, tz)}`.trim() : null;
-    const streak = t.lossStreakBefore > 0 ? `<span class="${t.lossStreakBefore >= 2 ? 'neg' : ''}">${plural(t.lossStreakBefore, 'Verlusttrade', 'Verlusttrades')}</span>` : '<span class="muted">keine</span>';
     const link = c.tradeId != null && trade ? `<div class="prop-grave-foot"><a class="btn xs ghost" data-stop href="#/trades/${esc(String(c.tradeId))}">${I.external} Trade öffnen</a></div>` : '';
     const born = t.startedAt ? fmt.dateFull(t.startedAt) : null, died = c.at ? dateIn(c.at, tz) : null;
     const dates = born || died ? `<span class="pg-dates"><span>* ${born || '—'}</span><span>† ${died || '—'}</span></span>` : '';
@@ -141,13 +150,11 @@
           </div>
           <div class="pg-face pg-back" aria-hidden="true">${ROCK}
             <span class="pg-rip" aria-hidden="true">${esc(t.firm)}${t.name ? ` ${esc(t.name)}` : ''}</span>
-            ${t.note ? `<p class="pg-epitaph prop-grave-note">„${esc(t.note)}“</p>` : ''}
+            <b class="pg-why">${esc(tr(WHY[c.rule] || 'Regelbruch'))}</b>
+            <p class="pg-epitaph">${esc(tr(joke(c.rule, t.accountId)))}</p>
             <dl class="pg-facts">
               <dt>Ergebnis</dt><dd>${t.result == null ? DASH : U.pnl(t.result)}</dd>
-              <dt>Trade</dt><dd>${trade ? `<b class="sym">${esc(trade.symbol || '—')}</b>${trade.setup ? ` · ${esc(trade.setup)}` : ''}` : '<span class="muted">kein Trade hinterlegt</span>'}</dd>
               ${whenShort ? `<dt>Wann</dt><dd>${esc(whenShort)}</dd>` : ''}
-              ${trade ? `<dt>Trade-P&L</dt><dd>${c.pnl == null ? DASH : U.pnl(c.pnl, '', { r: trade.r })}</dd>` : ''}
-              <dt>Serie davor</dt><dd>${streak}</dd>
               ${t.emotions.length ? `<dt>Emotion</dt><dd class="pg-tags">${t.emotions.map(e => U.chip(e, 'emotion')).join('')}</dd>` : ''}
               ${t.mistakes.length ? `<dt>Fehler</dt><dd class="pg-tags">${t.mistakes.map(m => U.chip(m, 'mistake')).join('')}</dd>` : ''}
             </dl>

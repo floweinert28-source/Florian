@@ -20,7 +20,7 @@ python3 -m http.server 8080
 ```
 
 Beim ersten Start werden Beispieldaten geladen (rund 170 Trades über vier Monate). Sie sind als
-Beispiele markiert und lassen sich unter **Einstellungen → Profil → Daten und Sicherung** mit einem Klick entfernen.
+Beispiele markiert und lassen sich unter **Einstellungen → Sicherheit und Daten** mit einem Klick entfernen.
 
 ## Veröffentlichen
 
@@ -324,7 +324,24 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   alle (Text, optional Fälligkeit); der Schüler hakt sie in der Coach-Übersicht ab, der Mentor sieht den Stand.
   **Gruppen-Statistik** (nur Mentoren): aktive Schüler, Trades, Ø Winrate, Ø Profit-Faktor, Ø Gewinn/Verlust in R,
   Ø Max. Drawdown, Journal-Einträge, Notizen und offene Aufgaben im Zeitraum; Durchschnitte, keine Rangliste.
-- **Einstellungen** in Bereichen: Profil (Angaben, Profilbild als kleines JPEG, Privatsphäre, 2FA, Daten und Sicherung), Design (Erscheinungsbild als Vorschaukarten mit kleinem App-Fenster in den jeweiligen Farben, die gewählte mit hellem Ring: Graphit (Standard, warmes dunkles Grau), Schwarz (tiefschwarz), Weiß (hell) oder Eigenes (eine Grundfarbe im Farbwähler; Hintergrund, Karten und Ränder werden daraus abgeleitet, helle Grundfarbe ergibt ein helles Design; bleibt gespeichert, auch wenn man zu den festen Designs wechselt); der Schalter im Konto-Menü wechselt Dunkel/Hell und behält die gewählte dunkle Variante; vier Schriftarten: Standard „Modern“ (Text in Satoshi, Zahlen in Onest), „Geschwungen“ (Quicksand, Zahlen in Onest), „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
+- **Einstellungen** in Bereichen: Profil (Angaben ohne Adresse und Bio, die gespeichert bleiben; Profilbild als kleines JPEG,
+  „Entfernen“ nur mit Bild; Christlicher Impuls), **Sicherheit und Daten** direkt danach (Satz, wo die Daten liegen; „Anmeldung,
+  Passwort und 2FA kommen mit Benutzerkonten“ statt toter Knöpfe; „Sicherung exportieren“ mit Häkchen „Bilder und Audio
+  einschließen“, gefüllt wenn Daten da sind; „Sicherung einspielen …“ mit Zusammenführen/Ersetzen im Dialog, Warnung nur bei
+  „Ersetzen“; Beispieldaten in einem Satz mit „Was passiert genau?“, „Laden“/„Entfernen“ umrandet, ohne Daten „Laden“ gefüllt und
+  Export samt „Alles löschen“ unter „Weitere Datenaktionen“; Tastatur: N, 1–9 und 0, Esc; der Text zum Kopieren steht im Export-
+  und Download-Fenster hinter „Download startet nicht?“). Kein Bereich „Abo“ mehr (`#/settings/abo` zeigt das Profil). Am Handy ist
+  `#/settings` eine Liste der Bereiche, jeder Bereich eine Unterseite mit „‹ Einstellungen“; dazwischen hält die waagerechte
+  Leiste den aktiven Bereich im Blick. Speichern-Knöpfe (Trading, Notebook, Mentor) sind gefüllt, aber aus, bis sich etwas
+  ändert (Trading mit „Ungespeicherte Änderungen“); Zurücksetzen-Knöpfe erscheinen nur bei Abweichung, „Aktuelles speichern“
+  ist aus, wenn das Design schon gespeichert ist, „Verbindung testen“ erst mit Adresse. Aufklappzeilen in gleicher Form mit
+  gemerktem Zustand: Trading „Mehr Optionen“ (Ruin-Schwelle, Monte-Carlo-Durchläufe, 1 R; offen bei Abweichung; „Was handelst
+  du?“ ist entfallen, der Wert bleibt gespeichert), Benachrichtigungen „Bereiche einzeln wählen“ (offen, wenn einer aus ist),
+  Design „Eigene Farben“, Mentor „So funktioniert es“ und „Wie die Auswertung läuft“. Der Geld-blind-Schalter baut die Seite nicht
+  neu auf, solange ungespeicherte Eingaben da sind. Konten und Tags: die Zeile öffnet „Bearbeiten“, gelöscht wird im Dialog
+  („Konto löschen“ bzw. „Tag löschen“ als Textknopf, rote Rückfrage). Inhalte ohne Reiter: Kategorien als Filter-Chips über der
+  Liste, „+ Tag hinzufügen“ im Kopf (übernimmt die gewählte Kategorie), „Tags auf Standardliste zurücksetzen“ unter der Tabelle;
+  Logs: „Verlauf leeren“ unter der Tabelle, ohne Einträge keine Werkzeuge, Imports leer mit „CSV importieren“. Design (Erscheinungsbild als Vorschaukarten mit kleinem App-Fenster in den jeweiligen Farben, die gewählte mit hellem Ring: Graphit (Standard, warmes dunkles Grau), Schwarz (tiefschwarz), Weiß (hell) oder Eigenes (eine Grundfarbe im Farbwähler; Hintergrund, Karten und Ränder werden daraus abgeleitet, helle Grundfarbe ergibt ein helles Design; bleibt gespeichert, auch wenn man zu den festen Designs wechselt); der Schalter im Konto-Menü wechselt Dunkel/Hell und behält die gewählte dunkle Variante; vier Schriftarten: Standard „Modern“ (Text in Satoshi, Zahlen in Onest), „Geschwungen“ (Quicksand, Zahlen in Onest), „Rund“ und „Klassisch“, Akzent-, Gewinn-, Verlust- und Break-even-Farbe), Benachrichtigungen, Abo, Konten, Trading, Regeln, Notebook, Mentor, Inhalte (Kategorien und Tags), Logs (Imports und Verlauf).
 - **Schrift**: Text in **Satoshi** (Fontshare, Indian Type Foundry), Zahlen in **Onest** (Google Fonts). Beide sind geometrisch
   mit ähnlicher x-Höhe, deshalb passen Text und Zahlen nebeneinander. Satoshi steht unter der ITF Free Font License: freie
   Nutzung auch kommerziell, Selbst-Hosting auf der eigenen Website erlaubt, Weitergabe der Schriftdateien nicht. Darum liegen

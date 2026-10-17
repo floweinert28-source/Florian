@@ -35,7 +35,10 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500);
   ok('Statistiken: kein „Trade loggen“ und kein ▷ (nicht die Aufgabe der Seite)', !(await p.$('#content > .page-head [data-action=new-trade]')) && !(await p.$('#content > .page-head [data-action=start-session]')) && !!(await p.$('#content > .page-head [data-pop=range]')));
   await p.evaluate(() => { location.hash = '#/mentor'; }); await p.waitForTimeout(500);
+  ok('Mentor ohne Server: keine Kopfreihe, nur die Einrichtungskarte', await p.evaluate(() => !document.querySelector('#content > .page-head') && !!document.querySelector('.mentor-setup')));
+  await p.evaluate(() => { Store.setSetting('mentor', { url: 'https://mentor.test', token: 't' }); App.rerender(false); }); await p.waitForTimeout(300);
   ok('Mentor: Kopfreihe nur mit Konto und Hinweis', await p.evaluate(() => { const h = document.querySelector('#content > .page-head'); return !!h && h.classList.contains('compact') && !!h.querySelector('[data-pop=account]') && !h.querySelector('[data-pop=range]') && !h.querySelector('[data-action=new-trade]') && !h.querySelector('[data-action=start-session]') && /20 Trades/.test(h.textContent); }));
+  await p.evaluate(() => { Store.setSetting('mentor', { url: '', token: '' }); App.rerender(false); }); await p.waitForTimeout(200);
   await p.evaluate(() => { location.hash = '#/stats'; }); await p.waitForTimeout(500);
   /* 4. Statistik-Kacheln */
   ok('Kennzahlen als 16 Kacheln ohne Gitter', (await p.$$('.stat-tiles .stat-tile')).length === 16 && !(await p.$('.stat-grid')));

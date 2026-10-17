@@ -44,7 +44,7 @@ const BASE = 'file:///home/user/Florian/web/app.html';
   await p.evaluate(() => { Store.setSetting('railHidden', false); App.rerender(); });
   /* Begrüßung entfernt: keine Namensform-Auswahl mehr im Profil, Profil speichert weiter */
   await p.goto(BASE + '#/settings/profil', { waitUntil: 'load' }); await p.waitForTimeout(700);
-  ok(await p.evaluate(() => !document.getElementById('pf-greet') && !document.querySelector('#sidebar .sb-hello') && !!document.getElementById('pf-first') && !!document.getElementById('pf-tz') && !!document.getElementById('pf-bio')), 'Profil ohne Begrüßungs-Auswahl, übrige Felder da');
+  ok(await p.evaluate(() => !document.getElementById('pf-greet') && !document.querySelector('#sidebar .sb-hello') && !!document.getElementById('pf-first') && !!document.getElementById('pf-tz') && !document.getElementById('pf-bio')), 'Profil ohne Begrüßungs-Auswahl, übrige Felder da');
   await p.screenshot({ path: 'langshots/greet-profile.png', fullPage: true });
   /* Englisch */
   await p.evaluate(async () => { Store.setLanguage('en'); I18N.setLang('en'); await new Promise(r => setTimeout(r, 900)); location.hash = '#/settings/benachrichtigungen'; }); await p.waitForTimeout(900);

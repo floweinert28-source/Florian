@@ -6,15 +6,16 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } }); const p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message)); await require('./localfonts.js')(p);
   await p.goto(base + '#/settings/profil', { waitUntil: 'load' }); await p.waitForTimeout(500);
   ok('13 Bereiche inkl. Design, Sprache, Mentor und Barrierefreiheit', await p.$$eval('.set-nav a', a => a.length) === 13);
-  await p.fill('#pf-first', 'Florian'); await p.fill('#pf-last', 'Weinert'); await p.fill('#pf-user', 'flo'); await p.fill('#pf-mail', 'flo@example.com'); await p.fill('#pf-addr', 'Musterstraße 1, 12345 Berlin'); await p.fill('#pf-bio', 'Daytrader seit 2024.'); await p.selectOption('#pf-tz', 'Europe/Berlin'); await p.click('form[data-action="save-profile"] button[type=submit]'); await p.waitForTimeout(300);
+  await p.fill('#pf-first', 'Florian'); await p.fill('#pf-last', 'Weinert'); await p.fill('#pf-user', 'flo'); await p.fill('#pf-mail', 'flo@example.com'); await p.selectOption('#pf-tz', 'Europe/Berlin'); await p.click('form[data-action="save-profile"] button[type=submit]'); await p.waitForTimeout(300);
   ok('Profil gespeichert, Name abgeleitet', await p.evaluate(() => Store.settings.profile.email === 'flo@example.com' && Store.settings.profile.timezone === 'Europe/Berlin' && Store.settings.name === 'Florian Weinert') && (await p.textContent('.topbar .avatar')).trim() === 'FW');
   // Foto
   const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
   await p.setInputFiles('form[data-action="save-profile"] input[type=file]', { name: 'me.png', mimeType: 'image/png', buffer: png }); await p.waitForTimeout(600);
   ok('Profilbild gespeichert + in Kopfzeile', !!(await p.evaluate(() => Store.settings.avatarId)) && !!(await p.$('.topbar .avatar img')) && !!(await p.$('.avatar-big img')));
   await p.click('[data-action="avatar-remove"]'); await p.waitForTimeout(400); ok('Profilbild entfernt', await p.evaluate(() => !Store.settings.avatarId) && !(await p.$('.topbar .avatar img')));
-  await p.click('form[data-action="save-privacy"] input[name=support]'); await p.click('form[data-action="save-privacy"] button[type=submit]'); await p.waitForTimeout(200); ok('Privatsphäre gespeichert', await p.evaluate(() => Store.settings.privacy.support === true));
-  await p.click('[data-action="pw-reset"]'); await p.waitForTimeout(200); ok('Passwort-Dialog', !!(await p.$('.modal'))); await p.keyboard.press('Escape'); await p.click('[data-action="twofa"]'); await p.waitForTimeout(200); ok('2FA-Dialog', (await p.textContent('.modal')).includes('Zwei-Faktor')); await p.keyboard.press('Escape');
+  ok('Profil ohne Adresse, Bio, Passwort, Privatsphäre, 2FA und Daten; „Entfernen“ nur mit Bild', !(await p.$('#pf-addr, #pf-bio, [data-action="pw-reset"], [data-action="twofa"], form[data-action="save-privacy"], [data-action="export"], [data-action="avatar-remove"]')));
+  await p.evaluate(() => { location.hash = '#/settings/daten'; }); await p.waitForTimeout(400);
+  ok('Sicherheit und Daten: Satz zur Privatsphäre, Hinweis auf Benutzerkonten, ein Export mit Häkchen, ein Einspielen-Knopf', (await p.textContent('.set-body')).includes('Deine Daten liegen nur in diesem Browser') && (await p.textContent('.set-body')).includes('Anmeldung, Passwort und 2FA kommen mit Benutzerkonten.') && (await p.$$('[data-action="export"]')).length === 1 && !!(await p.$('#exp-blobs')) && (await p.$$('[data-action="import-backup"]')).length === 1 && (await p.textContent('.set-body')).includes('1–9'));
   await p.screenshot({ path: 's2-profil.png', fullPage: true });
   // Design
   await p.evaluate(() => { location.hash = '#/settings/design'; }); await p.waitForTimeout(400);

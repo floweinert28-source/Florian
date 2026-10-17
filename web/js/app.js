@@ -139,6 +139,7 @@
       const subs = [...main.querySelectorAll('#content [data-subnav]')]; const stay = stayY != null && subs.some(e => e.dataset.subnav !== 'side'); /* Seitenmenü (Einstellungen): neuer Bereich beginnt oben */
       if (!keep) window.scrollTo({ top: stay ? stayY : 0 });
       if (stay) subs.forEach((e, i) => { if (subX[i] != null) e.scrollLeft = subX[i]; this.revealActive(e); });
+      subs.filter(e => e.dataset.subnav === 'side').forEach(e => this.revealActive(e)); /* Einstellungen: aktiver Bereich in der Leiste sichtbar */
       M.scan(main.querySelector('#content'), false);
       this.renderSidebar();
       /* Diagramme zeichnen sich nur beim Seitenwechsel ein (nicht beim Neuaufbau nach Eingaben); bei „Bewegung reduzieren“ nie */

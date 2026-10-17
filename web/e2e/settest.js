@@ -7,7 +7,8 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.goto(base + '#/settings', { waitUntil: 'load' }); await p.waitForTimeout(500);
   ok('Bereichsliste mit 13 Einträgen (inkl. Sprache und Barrierefreiheit)', await p.$$eval('.set-nav a', a => a.length) === 13 && await p.$eval('.set-nav a.active', a => a.textContent.trim()) === 'Profil');
   await p.screenshot({ path: 's-profil.png', fullPage: false });
-  for (const [sec, title] of [['benachrichtigungen', 'Benachrichtigungen'], ['abo', 'Abo'], ['konten', 'Konten'], ['trading', 'Trading'], ['regeln', 'Regeln'], ['notebook', 'Notebook'], ['inhalte', 'Inhalte'], ['logs', 'Logs']]) { await p.evaluate(h => { location.hash = '#/settings/' + h; }, sec); await p.waitForFunction(t => { const h = document.querySelector('.set-head h2'); return h && h.textContent.trim() === t; }, title, { timeout: 3000 }).catch(() => {}); ok(`Bereich ${title}`, (await p.textContent('.set-head h2')).trim() === title); }
+  for (const [sec, title] of [['benachrichtigungen', 'Benachrichtigungen'], ['daten', 'Sicherheit und Daten'], ['konten', 'Konten'], ['trading', 'Trading'], ['regeln', 'Regeln'], ['notebook', 'Notebook'], ['inhalte', 'Inhalte'], ['logs', 'Logs']]) { await p.evaluate(h => { location.hash = '#/settings/' + h; }, sec); await p.waitForFunction(t => { const h = document.querySelector('.set-head h2'); return h && h.textContent.trim() === t; }, title, { timeout: 3000 }).catch(() => {}); ok(`Bereich ${title}`, (await p.textContent('.set-head h2')).trim() === title); }
+  await p.evaluate(() => { location.hash = '#/settings/abo'; }); await p.waitForTimeout(300); ok('Abo entfällt: #/settings/abo zeigt das Profil, kein Abo im Menü', (await p.textContent('.set-head h2')).trim() === 'Profil' && !(await p.$('.set-nav a[href="#/settings/abo"]')));
   // Benachrichtigungen
   await p.evaluate(() => { location.hash = '#/settings/benachrichtigungen'; }); await p.waitForTimeout(250);
   ok('Recaps standardmäßig aus', await p.evaluate(() => Store.settings.notifications.weekly === false && Store.settings.notifications.monthly === false) && await p.$eval('[data-key="weekly"]', b => b.getAttribute('aria-checked') === 'false'));
@@ -18,9 +19,9 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.screenshot({ path: 's-notif.png', clip: { x: 232, y: 72, width: 1208, height: 420 } });
   // Trading: Break-even
   await p.evaluate(() => { location.hash = '#/settings/trading'; }); await p.waitForTimeout(250);
-  await p.click('[data-action="instrument-toggle"][data-value="futures"]'); await p.waitForTimeout(100);
+  ok('Trading: kein „Was handelst du?“, Speichern aus bis zur Änderung, Expertenwerte unter „Mehr Optionen“, kein Zurücksetzen ohne Abweichung', !(await p.$('[data-action="instrument-toggle"]')) && await p.$eval('form[data-action="save-trading"] button[type=submit]', b => b.disabled) && !!(await p.$('details.set-more[data-key="trading-expert"] #se-ruin')) && !(await p.$('[data-action="be-reset"]')));
   await p.fill('#be-from', '-150'); await p.fill('#be-to', '150'); await p.click('form[data-action="save-trading"] button[type=submit]'); await p.waitForTimeout(300);
-  ok('Trading gespeichert: Instrument + Break-even-Bereich', await p.evaluate(() => Store.settings.instruments.includes('futures') && Store.settings.beOffset.from === -150 && Store.settings.beOffset.to === 150));
+  ok('Trading gespeichert: Break-even-Bereich', await p.evaluate(() => Store.settings.beOffset.from === -150 && Store.settings.beOffset.to === 150));
   const beCount = await p.evaluate(() => App.allTrades().filter(t => t.status === 'be').length); ok('Break-even wirkt auf Trades', beCount > 0, String(beCount));
   await p.click('[data-action="be-mode"][data-value="pct"]'); await p.waitForTimeout(250); ok('Einheit auf % umgestellt', await p.evaluate(() => Store.settings.beOffset.mode === 'pct'));
   await p.click('[data-action="be-reset"]'); await p.waitForTimeout(250); ok('Break-even zurückgesetzt', await p.evaluate(() => Store.settings.beOffset.from === 0 && Store.settings.beOffset.to === 0 && App.allTrades().filter(t => t.status === 'be').length < 5));
@@ -33,17 +34,17 @@ const out = []; const ok = (n, c, x = '') => out.push(`${c ? 'PASS' : 'FAIL'} ${
   await p.screenshot({ path: 's-notebook.png', clip: { x: 232, y: 72, width: 1208, height: 620 } });
   // Inhalte
   await p.evaluate(() => { location.hash = '#/settings/inhalte'; }); await p.waitForTimeout(250);
-  ok('Kategorien-Tabelle mit 3 Zeilen', await p.$$eval('.set-body tbody tr', r => r.length) === 3);
-  await p.click('[data-action="content-tab"][data-value="tags"]'); await p.waitForTimeout(250);
+  ok('Inhalte: keine Reiter, Kategorien als Chips (Alle + 3), „Tag hinzufügen“ im Kopf, Zurücksetzen unter der Tabelle', !(await p.$('.set-tabs')) && (await p.$$('.set-cats [data-action=tag-filter]')).length === 4 && !!(await p.$('.set-head [data-action=tag-new].primary')) && !!(await p.$('.set-under [data-action=tags-reset]')) && !(await p.$('.set-body tbody [data-action=tag-delete]')));
   const before = await p.$$eval('.set-body tbody tr', r => r.length); ok('Tags-Tabelle gefüllt', before >= 20, String(before));
   await p.click('[data-action="tag-new"]'); await p.waitForTimeout(200); await p.fill('#tg-name', 'Gap and Go'); await p.selectOption('#tg-kind', 'setups'); await p.fill('#tg-desc', 'Einstieg nach Eröffnungslücke'); await p.click('.modal button[type=submit]'); await p.waitForTimeout(300);
   ok('Tag mit Beschreibung angelegt', await p.evaluate(() => Store.data.tags.setups.includes('Gap and Go') && Store.tagMeta('setups', 'Gap and Go').desc === 'Einstieg nach Eröffnungslücke'));
   await p.fill('#tag-q', 'gap'); await p.waitForTimeout(300); ok('Tag-Suche filtert', await p.$$eval('.set-body tbody tr', r => r.length) === 1);
   await p.click('[data-action="tag-edit"][data-value="Gap and Go"]'); await p.waitForTimeout(200); await p.fill('#tg-name', 'Gap & Go'); await p.click('.modal button[type=submit]'); await p.waitForTimeout(300);
   ok('Tag umbenannt, Beschreibung bleibt', await p.evaluate(() => Store.data.tags.setups.includes('Gap & Go') && !Store.data.tags.setups.includes('Gap and Go') && Store.tagMeta('setups', 'Gap & Go').desc.length > 0));
-  await p.click('[data-action="tag-delete"][data-value="Gap & Go"]'); await p.waitForTimeout(200); await p.click('.modal [data-confirm]'); await p.waitForTimeout(300);
+  await p.click('tr[data-action="tag-edit"][data-value="Gap & Go"] td:first-child'); await p.waitForTimeout(200); await p.click('.modal [data-action="tag-delete"]'); await p.waitForTimeout(200); await p.click('.modal [data-confirm]'); await p.waitForTimeout(300);
   ok('Tag gelöscht', await p.evaluate(() => !Store.data.tags.setups.includes('Gap & Go')));
-  await p.fill('#tag-q', ''); await p.waitForTimeout(300); await p.selectOption('[data-change="tag-filter"]', 'mistakes'); await p.waitForTimeout(250); ok('Filter nach Kategorie', await p.$$eval('.set-body tbody tr td:nth-child(2)', c => c.every(x => x.textContent.includes('Fehler'))));
+  await p.fill('#tag-q', ''); await p.waitForTimeout(300); await p.click('[data-action="tag-filter"][data-value="mistakes"]'); await p.waitForTimeout(250);
+  await p.click('[data-action="tag-new"]'); await p.waitForTimeout(200); ok('Neuer Tag übernimmt die gewählte Kategorie', (await p.$eval('#tg-kind', e => e.value)) === 'mistakes'); await p.keyboard.press('Escape'); await p.waitForTimeout(200); ok('Filter nach Kategorie', await p.$$eval('.set-body tbody tr td:nth-child(2)', c => c.every(x => x.textContent.includes('Fehler'))));
   await p.screenshot({ path: 's-tags.png', clip: { x: 232, y: 72, width: 1208, height: 700 } });
   // Logs
   await p.evaluate(() => { Store.addTrade({ symbol: 'TEST', direction: 1, openedAt: '2026-09-28T09:00:00', closedAt: '2026-09-28T10:00:00', entryPrice: 100, exitPrice: 105, quantity: 1 }); const t = Store.trades().find(x => x.symbol === 'TEST'); Store.updateTrade(t.id, { exitPrice: 107, setup: 'Pullback' }); location.hash = '#/settings/logs'; }); await p.waitForTimeout(300);

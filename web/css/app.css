@@ -3849,3 +3849,32 @@ html.page-primary .btn.accent.tl:hover { background: var(--surface-2); }
 .mr-write[hidden] { display: none; }
 .coach-notes-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); }
 @media (max-width: 35em) { .coach-gstats { order: 1; } }
+/* Einstellungen (Hick's 58–71, Audit): Aufklappzeilen, Datenbereich, Werkzeuge unter Tabellen, Handy als Liste mit Unterseiten */
+.set-more { margin-top: var(--sp-3); }
+.set-more > summary { cursor: pointer; color: var(--text-2); font-weight: 500; list-style: none; display: flex; align-items: center; gap: var(--sp-2); min-height: 2.25rem; }
+.set-more > summary::-webkit-details-marker { display: none; }
+.set-more > summary::before { content: '+'; display: inline-grid; place-items: center; width: 1.25rem; height: 1.25rem; border-radius: var(--radius); border: 1px solid var(--border-2); font-weight: 600; line-height: 1; }
+.set-more[open] > summary::before { content: '−'; }
+.set-more-body { padding-top: var(--sp-2); }
+.set-drow { gap: var(--sp-3); align-items: flex-start; }
+.set-drow > div { min-width: 0; }
+.set-blobs { margin-top: var(--sp-2); }
+.set-p { margin: 0; } .set-p + .set-p { margin-top: var(--sp-2); }
+.set-under { display: flex; justify-content: flex-start; margin-top: var(--sp-3); }
+.set-tagtools { gap: var(--sp-3); margin-bottom: var(--sp-3); flex-wrap: wrap; }
+.set-cats .chip .muted { font-weight: 400; margin-left: 0.125rem; }
+.set-save { align-items: center; gap: var(--sp-3); }
+.bk-mode { margin-bottom: var(--sp-2); }
+.bk-hint { margin: 0 0 var(--sp-3); }
+.set-back { display: none; align-items: center; gap: var(--sp-1); color: var(--text-2); text-decoration: none; font-weight: 500; font-size: var(--fs-14); margin-bottom: var(--sp-3); }
+.set-back svg { width: 1rem; height: 1rem; }
+@media (max-width: 35em) {
+  .settings.is-index .set-body { display: none; }
+  .settings.is-index .set-nav { flex-direction: column; overflow: visible; padding: 0; margin: 0; gap: 0.125rem; }
+  .settings.is-index .set-nav a { padding: var(--sp-3); font-size: var(--fs-15, var(--fs-14)); }
+  .settings.is-index .set-nav a.active { background: none; }
+  .settings.is-index .set-nav hr { display: block; }
+  .settings:not(.is-index) .set-nav { display: none; }
+  .set-back { display: inline-flex; }
+  .set-drow { flex-direction: column; }
+}

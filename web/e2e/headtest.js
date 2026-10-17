@@ -31,14 +31,14 @@ let pass = 0, fail = 0; const ok = (c, n) => { if (c) pass++; else fail++; conso
     const nar = await p.evaluate(() => ({ inHead: !!document.querySelector('.dash-head .dh-context [data-pop=range]'), topEmpty: !document.querySelector('#tb-tools').children.length, over: document.documentElement.scrollWidth <= innerWidth + 1, wrap: document.querySelector('.topbar').offsetHeight }));
     ok(nar.inHead && nar.topEmpty && nar.over && nar.wrap <= 80, w + 'px: Zeitraum und Konto in der Kopfreihe, kein Querscrollen · ' + JSON.stringify(nar)); }
   await p.click('.dash-head [data-pop=range]'); await p.waitForTimeout(350); const rp2 = await inView('#pop-range.open'); ok(rp2 && rp2.fits, '1440px: Zeitraum-Menü im Bild · ' + JSON.stringify(rp2)); await p.keyboard.press('Escape'); await p.waitForTimeout(250);
-  /* Score-Skala und Diagramme laufen nur beim Seitenwechsel */
-  const anim1 = await p.evaluate(() => ({ enter: document.querySelector('#content').classList.contains('enter'), score: getComputedStyle(document.querySelector('.score-scale')).animationName }));
-  ok(anim1.enter && anim1.score === 'score-run', 'Seite geöffnet: Score-Skala läuft · ' + JSON.stringify(anim1));
+  /* Score-Netz und Diagramme laufen nur beim Seitenwechsel */
+  const anim1 = await p.evaluate(() => ({ enter: document.querySelector('#content').classList.contains('enter'), score: getComputedStyle(document.querySelector('.score-radar svg .r2-cur')).animationName }));
+  ok(anim1.enter && anim1.score === 'r2-grow', 'Seite geöffnet: Score-Netz wächst · ' + JSON.stringify(anim1));
   await p.click('.w [data-action="cal-prev"]'); await p.waitForTimeout(300); /* Neuaufbau ohne Seitenwechsel (Reiter „Offene Positionen“ gibt es nur bei offenen Positionen) */
-  const anim2 = await p.evaluate(() => ({ enter: document.querySelector('#content').classList.contains('enter'), score: getComputedStyle(document.querySelector('.score-scale')).animationName, today: !!document.querySelector('[data-action="cal-today"]'), charts: [...document.querySelectorAll('.chart svg.enter')].length }));
+  const anim2 = await p.evaluate(() => ({ enter: document.querySelector('#content').classList.contains('enter'), score: getComputedStyle(document.querySelector('.score-radar svg .r2-cur')).animationName, today: !!document.querySelector('[data-action="cal-today"]'), charts: [...document.querySelectorAll('.chart svg.enter')].length }));
   ok(!anim2.enter && anim2.score === 'none' && anim2.today && anim2.charts === 0, 'Kalender: voriger Monat zeigt „Heute“, kein Neustart von Score und Diagrammen · ' + JSON.stringify(anim2));
   await p.goto(base + '#/stats'); await p.waitForTimeout(600); await p.goto(base + '#/dashboard'); await p.waitForTimeout(500);
-  ok(await p.evaluate(() => document.querySelector('#content').classList.contains('enter') && getComputedStyle(document.querySelector('.score-scale')).animationName === 'score-run'), 'Dashboard neu geöffnet: Score-Skala läuft wieder');
+  ok(await p.evaluate(() => document.querySelector('#content').classList.contains('enter') && getComputedStyle(document.querySelector('.score-radar svg .r2-cur')).animationName === 'r2-grow'), 'Dashboard neu geöffnet: Score-Netz wächst wieder');
   /* Balken wachsen von der Nulllinie */
   /* Balken-Diagramm „Netto-P&L pro Tag“ (nicht mehr im Standard-Dashboard, darum hier eingefügt): beim Öffnen des Dashboards wachsen die
      Balken; auf den ersten Balken warten statt fester Zeit. Vorher prüfte der Test über einen Seitenwechsel per Hash versehentlich dasselbe */
@@ -49,10 +49,10 @@ let pass = 0, fail = 0; const ok = (c, n) => { if (c) pass++; else fail++; conso
   ok(bars && bars.dnO && /\s0px$/.test(bars.dnO) && /[\d.]+px [\d.]+px$/.test(bars.upO) && +bars.upO.split(' ')[1].replace('px', '') > 0, 'Gewinn-Balken wachsen von unten, Verlust-Balken von oben · ' + bars.upO + ' / ' + bars.dnO);
   await p.waitForTimeout(1500);
   ok(await p.evaluate(() => [...document.querySelectorAll('.chart svg.enter rect.br')].every(e => { const t = getComputedStyle(e).transform; return t === 'none' || /matrix\(1, 0, 0, 1, 0, 0\)/.test(t); })), 'nach der Animation stehen alle Balken in voller Höhe');
-  /* Fortschritt: keine Ringe, schlanke Leisten */
+  /* Fortschritt: keine Ringe, keine Leisten unter den Zahlen; die Heatmap (Regeltreue) steht direkt unter den drei Karten */
   await p.waitForTimeout(400); await p.goto(base + '#/progress'); await p.waitForTimeout(260);
-  const pgBars = await p.evaluate(() => ({ ring: !!document.querySelector('.ring-arc'), seg: document.querySelectorAll('.pg-seg i').length, segOn: document.querySelectorAll('.pg-seg i.on').length, bar: !!document.querySelector('.pg-bar em'), flame: !!document.querySelector('.dstreak .big-stat .dstreak-flame') }));
-  ok(!pgBars.ring && pgBars.seg === 5 && pgBars.bar && pgBars.flame, 'Fortschritt: keine Ringe; Heute als 5-teilige Leiste, Regeln als Balken, Flamme neben der Serie · ' + JSON.stringify(pgBars));
+  const pgBars = await p.evaluate(() => ({ ring: !!document.querySelector('.ring-arc'), seg: document.querySelectorAll('.pg-seg i').length, segOn: document.querySelectorAll('.pg-seg i.on').length, bar: !!document.querySelector('.pg-bar em'), flame: !!document.querySelector('.dstreak .big-stat .dstreak-flame'), track: !!document.querySelector('.dstreak-track'), heatTop: (() => { const g = document.querySelector('#content .grid.three'); const n = g && g.nextElementSibling; return !!(n && n.querySelector('.activity')); })(), title: (() => { const a = document.querySelector('.activity'); return a ? a.closest('.card').querySelector('.card-title').textContent.trim() : ''; })() }));
+  ok(!pgBars.ring && pgBars.seg === 0 && !pgBars.bar && !pgBars.track && pgBars.flame && pgBars.heatTop && pgBars.title === 'Regeltreue', 'Fortschritt: keine Ringe und keine Leisten unter den Zahlen, Flamme neben der Serie, Heatmap „Regeltreue“ gleich unter den Karten · ' + JSON.stringify(pgBars));
   /* Schriftstärke aktiver Einträge */
   const fw = await p.evaluate(() => ({ nav: getComputedStyle(document.querySelector('.nav a.active')).fontWeight, navOther: getComputedStyle(document.querySelector('.nav a:not(.active)')).fontWeight }));
   await p.goto(base + '#/settings/profil'); await p.waitForTimeout(300); fw.set = await p.evaluate(() => getComputedStyle(document.querySelector('.set-nav a.active')).fontWeight); fw.setOther = await p.evaluate(() => getComputedStyle(document.querySelector('.set-nav a:not(.active)')).fontWeight);

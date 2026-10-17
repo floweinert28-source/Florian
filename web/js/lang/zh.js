@@ -2235,4 +2235,9 @@ I18N.add('zh', {
   "Vorherige 30 Tage": "之前 30 天",
   "Kumulierter P&L des Zeitraums als Linie, gestrichelt derselbe Zeitraum davor. Neben dem Titel der Unterschied zum gleichen Zeitpunkt.": "本期累计盈亏为一条线，虚线为之前的同一期间。标题旁显示同一时间点的差额。",
   "Durchgezogen: kumuliertes Netto-Ergebnis im gewählten Zeitraum. Gestrichelt: derselbe Zeitraum davor (z. B. der Vormonat), Tag für Tag darübergelegt. Die Zahl neben dem Titel zeigt, wie viel besser oder schlechter du jetzt stehst als am gleichen Tag des Zeitraums davor. Bei „Gesamt“: die letzten 30 Tage gegen die vorherigen 30 Tage.": "实线：所选期间的累计净结果。虚线：之前的同一期间（例如上个月），逐日叠加。标题旁的数字显示你现在比之前期间同一天好或差多少。“全部”时：最近 30 天对比之前 30 天。",
+  "Heutiger Score": "今日得分",
+  "Heute abgehakte Regeln von allen aktiven Regeln.": "今天已勾选的规则占所有启用规则的数量。",
+  "Kein Regel-Check": "无规则检查",
+  "{0} von {1} Regeln eingehalten": "遵守了 {1} 条规则中的 {0} 条",
+  "Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr deiner Regeln du an dem Tag abgehakt hast, desto kräftiger das Kästchen; ohne Regel-Check bleibt es leer. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.": "每天一个方格，最多回溯一年。当天勾选的规则越多，方格颜色越深；没有规则检查则留空。拖动或用箭头滚动，点击打开当日视图。",
 });

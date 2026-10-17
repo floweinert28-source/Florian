@@ -7,8 +7,8 @@
   /* Hinweis an einem Bereich der Leiste: Anzahl der Hinweise in seiner Navigation (Gründe im Tooltip) */
   const railBadge = w => { if (!w) return ''; const n = w.split(' · ').reduce((s, x) => { const m = /^(\d+)/.exec(x); return s + (m ? +m[1] : 1); }, 0); return `<span class="nav-dot rail-dot" role="img" title="${esc(w)}" aria-label="${esc(w)}">${n > 99 ? '99+' : n}</span>`; };
   /* Logo-Zeichen (J aus zwei Flächen, assets/logo.svg) */
-  /* Eigene Symbole nur für die Leiste ganz links (wie Vorlage): reine Kontur, kräftiger Strich, einfache Formen –
-     bewusst anders als die zweifarbigen Symbole der Seitenleiste */
+  /* Eigene Symbole für die Leiste ganz links (wie Vorlage): reine Kontur, einfache Formen, runde Enden; die Seitenleiste nutzt
+     denselben Stil (NAV_ICONS) */
   const RIC = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const RAIL_ICONS = {
     journal: RIC('<path d="M3.5 10 12 3.5l8.5 6.5V19a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z"/>'), /* gleiche Fläche wie die Seitenleisten-Symbole (3,5 bis 20,5) */
@@ -19,6 +19,21 @@
     coach: RIC('<path d="M2.5 9.5 12 5l9.5 4.5L12 14z"/><path d="M6.5 11.8v4.2c0 1.4 2.5 2.8 5.5 2.8s5.5-1.4 5.5-2.8v-4.2"/><path d="M21.5 9.5v5"/>'), /* Lernen: Doktorhut */
     affiliate: RIC('<circle cx="12" cy="12" r="8.5"/><path d="M9 15l6-6"/><circle cx="9.4" cy="9.4" r="1" fill="currentColor" stroke="none"/><circle cx="14.6" cy="14.6" r="1" fill="currentColor" stroke="none"/>'),
     contact: RIC('<rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7.5 7.5 5.5 7.5-5.5"/>'),
+  };
+  /* Seitenleiste im Stil der Leiste ganz links: dieselben Formen wie bisher, aber nur als Kontur (ohne weiche Fläche);
+     die Bereiche aus der Leiste (Prop, Mentor, News …) zeigen in der Seitenleiste genau ihr Leisten-Symbol */
+  const NAV_ICONS = {
+    dashboard: RIC('<rect x="3.5" y="3.5" width="8" height="17" rx="2.5"/><rect x="14.5" y="3.5" width="6" height="7" rx="2"/><rect x="14.5" y="13.5" width="6" height="7" rx="2"/>'),
+    stats: RIC('<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V12h8.5"/>'),
+    progress: RIC('<path d="M6 12.5h11.5l-2.5-4 2.5-4H6"/><path d="M6 3.5v17"/>'),
+    tradelog: RIC('<rect x="5.5" y="7" width="5" height="8.5" rx="1.3"/><path d="M8 3.5V7M8 15.5v5"/><rect x="13.5" y="9" width="5" height="6" rx="1.3"/><path d="M16 4.5V9M16 15v3.5"/>'),
+    day: RIC('<rect x="4" y="4" width="16" height="16.5" rx="3.5"/><path d="M4 9h16"/><path d="M8 13.5h8M8 17h4.5"/>'),
+    journal: RIC('<path d="M12 6.5C10 5 7 4.6 3.5 5v13c3.5-.4 6.5.1 8.5 1.5 2-1.4 5-1.9 8.5-1.5V5C17 4.6 14 5 12 6.5z"/><path d="M12 6.5v13"/>'),
+    shadow: RIC('<circle cx="10" cy="7.5" r="3.2"/><path d="M4 20.5c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5"/><path d="M15 4.6a3.2 3.2 0 0 1 0 5.8"/><path d="M17.5 14.6c1.6 1.1 2.5 3.1 2.5 5.9"/>'), /* Ich und mein Schatten */
+    replay: RIC('<rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v11"/><path d="M8 11l4 2-4 2z"/>'),
+    calm: RIC('<path d="M5 19.5C5 11 10 5 19.5 4.5 19.5 14 14 19.5 5.5 19.5z"/><path d="M4 20.5l9-9"/>'),
+    coupon: RIC('<path d="M3.5 11.4V5a1.5 1.5 0 0 1 1.5-1.5h6.4a1.5 1.5 0 0 1 1.06.44l7.6 7.6a1.5 1.5 0 0 1 0 2.12l-6.4 6.4a1.5 1.5 0 0 1-2.12 0l-7.6-7.6A1.5 1.5 0 0 1 3.5 11.4z"/><circle cx="8" cy="8" r="1.3"/>'),
+    prop: RAIL_ICONS.prop, chat: RAIL_ICONS.mentor, news: RAIL_ICONS.news, backtest: RAIL_ICONS.backtest, coach: RAIL_ICONS.coach, affiliate: RAIL_ICONS.affiliate, contact: RAIL_ICONS.contact,
   };
   const LOGO = '<svg viewBox="0 0 420 547" aria-hidden="true"><path d="M230 0H420V256C420 301 391.5 338.3 355 359L230 430ZM0 289L230 430V547H126A126 126 0 0 1 0 421Z" fill="currentColor"/></svg>';
   const M = root.Motion || { enabled: false, scan() {}, transition(fn) { fn(); }, leave(el, c, d, done) { done(); } };
@@ -259,7 +274,7 @@
       const dctx = all ? { all, todays: this.todayTrades(all), key: C.dayKey(new Date()) } : null;
       const why = key => { if (!dctx || nd[key] === false || !this.dots[key]) return null; try { return this.dots[key](dctx) || null; } catch (e) { console.warn(e); return null; } };
       const dot = key => { const w = why(key); return w ? navBadge(w) : ''; };
-      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${I[icon]}<span>${label}</span>${dot(key)}</a>`;
+      const item = ([key, label, icon]) => `<a href="#/${key}" class="${cur === key ? 'active' : ''}" title="${label}" data-action="nav-close">${NAV_ICONS[icon] || I[icon]}<span>${label}</span>${dot(key)}</a>`;
       /* Mini-Modus (nur Symbole) auf dem Desktop, gemerkt in den Einstellungen; auf dem Handy bleibt die Leiste ein Einblend-Menü */
       const desk = window.matchMedia('(min-width: 60.0625em)').matches; const mini = false; document.documentElement.classList.remove('sb-mini'); /* eingeklappte Seitenleiste entfällt: der Knopf oben links blendet jetzt die Bereichsleiste aus */
       const railOff = !!S.settings.railHidden && desk; document.documentElement.classList.toggle('rail-off', railOff);

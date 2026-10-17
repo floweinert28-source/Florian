@@ -197,7 +197,7 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Setup „Ohne Setup“. Das frühere Widget „Trefferquote nach Setup“ (Radar Chart) ist entfernt; den **Gesamt-Score** zeichnet jetzt
   `U.drawers.radar2` im Stil der 21st-Vorlage heygaia/radar-chart (vier Ringe als Vielecke, Fläche mit Rand, Vorzeitraum gestrichelt,
   Trefferflächen je Achse mit Tooltip, Punkt und Beschriftung beim Drüberfahren; Beschriftungen werden übersetzt und in echter Schriftgröße
-  gemessen und bei Bedarf an Leerzeichen, „/“ oder „-“ umbrochen; Score-Zahl und Skala bleiben; Netz gut sichtbar, feine Linie, Skala in der Akzentfarbe, Veränderung als ruhige Pille ohne Pfeil). Gespeicherte Vorlagen mit dem alten Widget räumt `dashboardsVersion` 5 auf. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
+  gemessen und bei Bedarf an Leerzeichen, „/“ oder „-“ umbrochen; an den Punkten nur der aktuelle Wert, der Vergleich als gestrichelte Fläche und im Tooltip; unten eine Fußzeile mit Score „/ 100“, Veränderung als ruhige Pille ohne Pfeil und der Legende; keine Skala; das Netz wächst beim Öffnen aus der Mitte). Gespeicherte Vorlagen mit dem alten Widget räumt `dashboardsVersion` 5 auf. **Trefferquote-Ring**: gestrichelte Spur, Fortschritt in der Akzentfarbe (Kreis als Pfad ab 12 Uhr, ohne Drehung per `transform`, die Safari anders umsetzt), die Zahl zählt beim ersten Laden
   hoch (danach nur, wenn sich der Wert ändert; bei „weniger Bewegung“ gar nicht), darunter die letzten 20 Trades. Test:
   `e2e/w21test.js`.
   Neue Widgets: ein Eintrag in `js/widgets.js` (Registry mit Typ, Name, Beschreibung, Bereich, Standardgröße, Info-Text).
@@ -232,8 +232,8 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
 - **Tagesansicht**: Kennzahlen des Tages, Trades, Check-in, Regeln abhaken, Marktphase, Tagesjournal. Die Datumszeile ist nur Navigation
   (‹ › Datum, „Heute“); „Trade loggen“ (Kopfreihe, Seitenleiste, runder Knopf, Taste N) belegt an vergangenen Tagen deren Datum vor, heute
   gilt die aktuelle Uhrzeit; der Check-in steht in seiner Karte, das Zertifikat als Symbol in der Kopfreihe (nur mit abgeschlossenen Trades).
-  Ein Tag ohne Trades zeigt keine Kennzahlen: Leerzustand, Check-in (heute oder mit Daten) und Tagesnotiz; Regeln und Marktphase erscheinen
-  mit Daten oder nach „Mehr anzeigen“ (je Tag gemerkt).
+  Jeder Tag hat denselben Aufbau: Kennzahlen-Kopf (ohne Trades „—“ statt falscher Nullen), links die Trades (oder ein Leerzustand), rechts
+  Check-in und Regeln, darunter Tagesnotiz und Marktphase.
 - **Statistiken** (ohne abgeschlossene Trades im Zeitraum nur ein Leerzustand: „Noch keine abgeschlossenen Trades“ mit „Trade loggen“
   bzw. „Außerhalb von … liegen n abgeschlossene Trades“ mit „Gesamten Zeitraum anzeigen“; die Reiterleiste steht immer direkt unter der
   Kopfreihe, die Kumulativ-Kurve nur in Übersicht und Tage; Leerzustände der Reiter mit dem einen passenden Knopf; „Rollierender Edge“
@@ -270,8 +270,9 @@ GitHub Pages. Dafür einmalig im Repository unter **Settings → Pages → Sourc
   Absatzformat mit fester Breite, Schriftgröße und Durchgestrichen am PC hinter „Weitere Formate“ (Aa, gemerkt); am Handy zuerst
   + · Text · B I U, beim Schreiben ohne Suchzeile. Notizen zu Handelstagen und Trades zeigen
   Netto-P&L und eine aufklappbare Statistik.
-- **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Aktivitäts-Heatmap und Tilt-Profil (Reihenfolge: Kacheln, Checkliste mit Regeln,
-  Disziplin und Tilt daneben, dann die Heatmap; Regelblock und „Automatische Regeln“ nur mit Inhalt; ohne abgeschlossene Trades keine
+- **Fortschritt** mit Serie, Tages-Checkliste, Regeltreue, Regeltreue-Heatmap und Tilt-Profil (Reihenfolge: drei Kacheln ohne Leisten unter den Zahlen,
+  gleich darunter die Heatmap „Regeltreue“ – je Tag der Anteil abgehakter Regeln in vier gedämpften Stufen, ohne Regel-Check leer, Tooltip „x von y
+  Regeln eingehalten“ –, dann Checkliste mit Regeln, Disziplin und Tilt daneben; Regelblock und „Automatische Regeln“ nur mit Inhalt; ohne abgeschlossene Trades keine
   Disziplin- und Tilt-Karten; „% Regeln eingehalten“ ohne Wert „—“; „Regeln anlegen“/„Regeln bearbeiten“ führen zu Einstellungen → Regeln). Die Serie hat drei Stufen (Werktage in Folge):
   ab 1 „Angefangen“ (Flamme gedämpft, ganz leichtes Flackern), ab 5 „Im Flow“ (Flamme und Zahl in Akzent mit Schein, leichtes Flackern), ab 20 (≈ ein Monat) „Unaufhaltsam“ als Effekt:
   Flamme in Gold-Grün mit aufsteigenden Funken und Sternchen, Zahl mit wanderndem Schimmer, leuchtende Stufenbalken, wanderndes

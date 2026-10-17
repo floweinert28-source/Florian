@@ -12,8 +12,8 @@ const view = () => { const w = document.querySelector('.w[data-typ="score"]'); c
   /* 1: Standard mit Vorzeitraum */
   let v = await p.evaluate(view);
   const exp = await p.evaluate(() => { const r = App.range(); const pf = new Date(r.from.getFullYear(), r.from.getMonth() - 1, 1), pt = new Date(r.from.getFullYear(), r.from.getMonth(), 0, 23, 59, 59, 999); const prev = Core.closedOnly(App.allTrades()).filter(t => t.close >= pf && t.close <= pt); const cur = Core.scoreAxes(App.tradesInRange(), Store.accountSize()), ps = Core.scoreAxes(prev, Store.accountSize());
-    return { overall: cur.overall, trader: Core.traderScore(App.tradesInRange(), Store.accountSize()).overall, pairs: cur.axes.map((a, i) => `${Math.round(a.score * 100)} / ${Math.round(ps.axes[i].score * 100)}`), prevOverall: ps.overall, n: prev.length }; });
-  ok(v.cur && v.prev && v.labels.length === 6 && v.labels.map(l => l[0]).join('|') === exp.pairs.join('|') && v.labels[0][1] === 'Trefferquote', 'Sechs Punkte, je „jetzt / vorher“ und Name · ' + v.labels.map(l => l.join(' ')).join(', '));
+    return { overall: cur.overall, trader: Core.traderScore(App.tradesInRange(), Store.accountSize()).overall, pairs: cur.axes.map(a => String(Math.round(a.score * 100))), prevOverall: ps.overall, n: prev.length }; });
+  ok(v.cur && v.prev && v.labels.length === 6 && v.labels.map(l => l[0]).join('|') === exp.pairs.join('|') && v.labels[0][1] === 'Trefferquote', 'Sechs Punkte, je aktueller Wert und Name (Vergleich nur als gestrichelte Fläche und im Tooltip) · ' + v.labels.map(l => l.join(' ')).join(', '));
   ok(v.legend.length === 2 && /2026/.test(v.legend[0]) && v.legend[0] !== v.legend[1], 'Legende: gewählter Monat und Vormonat · ' + v.legend.join(' | '));
   const dExp = exp.overall - exp.prevOverall; ok(v.big === exp.overall && exp.overall === exp.trader && v.delta === (dExp > 0 ? '+' + dExp : dExp < 0 ? '−' + -dExp : '±0'), `Score ${v.big} wie bisher (traderScore ${exp.trader}), Veränderung zum Vormonat als ruhige Pille ohne Pfeil: ${v.delta}`);
   /* 2: Tooltip nennt beide Zeiträume */
@@ -45,7 +45,7 @@ const view = () => { const w = document.querySelector('.w[data-typ="score"]'); c
   /* 5: Gesamt: Vergleich mit den letzten 30 Tagen */
   await p.evaluate(() => { Store.setSetting('range', { preset: 'all', from: null, to: null }); App.rerender(); }); await p.waitForTimeout(600);
   v = await p.evaluate(view);
-  const r30 = await p.evaluate(() => { const to = new Date(); to.setHours(23, 59, 59, 999); const from = new Date(); from.setHours(0, 0, 0, 0); from.setDate(from.getDate() - 29); const l = Core.closedOnly(App.allTrades()).filter(t => t.close >= from && t.close <= to); const a = Core.scoreAxes(App.allTrades(), Store.accountSize()), b = Core.scoreAxes(l, Store.accountSize()); return a.axes.map((x, i) => `${Math.round(x.score * 100)} / ${Math.round(b.axes[i].score * 100)}`); });
+  const r30 = await p.evaluate(() => { const to = new Date(); to.setHours(23, 59, 59, 999); const from = new Date(); from.setHours(0, 0, 0, 0); from.setDate(from.getDate() - 29); const l = Core.closedOnly(App.allTrades()).filter(t => t.close >= from && t.close <= to); const a = Core.scoreAxes(App.allTrades(), Store.accountSize()), b = Core.scoreAxes(l, Store.accountSize()); return a.axes.map(x => String(Math.round(x.score * 100))); });
   ok(v.prev && v.legend.join('|') === 'Gesamt|Letzte 30 Tage' && /^[+−±]\d+$/.test(v.delta) && v.labels.map(l => l[0]).join('|') === r30.join('|'), 'Gesamt: zweite Linie mit den letzten 30 Tagen, Legende „Gesamt | Letzte 30 Tage“ · ' + v.labels.map(l => l[0]).join(', '));
   await p.screenshot({ path: 'langshots/score-gesamt.png' });
   /* 6: Englisch und Handy */
@@ -58,7 +58,8 @@ const view = () => { const w = document.querySelector('.w[data-typ="score"]'); c
   ok(mo.fits && mo.sx === 0, 'Handy: Netz mit Beschriftungen passt, kein Querscrollen');
   await m.screenshot({ path: 'langshots/score-handy-en.png' });
   await m.evaluate(() => { Store.setSetting('language', 'de'); Store.saveNow(); });
-  ok(await p.evaluate(() => /\d+ \/ \d+/.test(WidgetPreviews.svg('score', 'radar')) && (WidgetPreviews.svg('score', 'radar').match(/<polygon/g) || []).length >= 6), 'Vorschaubild: Netz mit zwei Flächen und „jetzt / vorher“');
+  ok(await p.evaluate(() => /\/ 100/.test(WidgetPreviews.svg('score', 'radar')) && !/\d+ \/ \d+/.test(WidgetPreviews.svg('score', 'radar')) && (WidgetPreviews.svg('score', 'radar').match(/<polygon/g) || []).length >= 6), 'Vorschaubild: Netz mit zwei Flächen, ein Wert je Punkt, unten Score „/ 100“');
+  ok(await p.evaluate(() => { const w = document.querySelector('.w[data-typ="score"]'); const f = w.querySelector('.sc-foot'); return !!f && !w.querySelector('.score-scale') && /\/ 100/.test(f.textContent) && !!f.querySelector('.r2-legend') && !!f.querySelector('.r2-delta'); }), 'Unten aufgeräumt: Score „/ 100“, Veränderung und Legende in einer Fußzeile, keine Skala');
   ok(!errs.length, 'keine Fehler ' + errs.join(' | '));
   console.log(`${pass}/${pass + fail} bestanden`); await b.close(); process.exit(fail ? 1 : 0);
 })();

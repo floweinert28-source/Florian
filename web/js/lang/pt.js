@@ -2187,4 +2187,9 @@ I18N.add('pt', {
   "Vorherige 30 Tage": "30 dias anteriores",
   "Kumulierter P&L des Zeitraums als Linie, gestrichelt derselbe Zeitraum davor. Neben dem Titel der Unterschied zum gleichen Zeitpunkt.": "P&L acumulado do período como linha; tracejado, o mesmo período anterior. Ao lado do título, a diferença no mesmo ponto no tempo.",
   "Durchgezogen: kumuliertes Netto-Ergebnis im gewählten Zeitraum. Gestrichelt: derselbe Zeitraum davor (z. B. der Vormonat), Tag für Tag darübergelegt. Die Zahl neben dem Titel zeigt, wie viel besser oder schlechter du jetzt stehst als am gleichen Tag des Zeitraums davor. Bei „Gesamt“: die letzten 30 Tage gegen die vorherigen 30 Tage.": "Contínuo: resultado líquido acumulado no período escolhido. Tracejado: o mesmo período anterior (ex.: o mês anterior), sobreposto dia a dia. O número ao lado do título mostra quanto melhor ou pior você está agora do que no mesmo dia do período anterior. Em “Tudo”: os últimos 30 dias contra os 30 dias anteriores.",
+  "Heutiger Score": "Pontuação de hoje",
+  "Heute abgehakte Regeln von allen aktiven Regeln.": "Regras marcadas hoje entre todas as regras ativas.",
+  "Kein Regel-Check": "Sem verificação de regras",
+  "{0} von {1} Regeln eingehalten": "{0} de {1} regras cumpridas",
+  "Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr deiner Regeln du an dem Tag abgehakt hast, desto kräftiger das Kästchen; ohne Regel-Check bleibt es leer. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.": "Um quadrado por dia, até um ano atrás. Quanto mais regras você marcou naquele dia, mais forte o quadrado; sem verificação de regras fica vazio. Arraste ou use as setas para rolar; um clique abre a visão do dia.",
 });

@@ -2144,4 +2144,9 @@ I18N.add('en', {
   "Vorherige 30 Tage": "Previous 30 days",
   "Kumulierter P&L des Zeitraums als Linie, gestrichelt derselbe Zeitraum davor. Neben dem Titel der Unterschied zum gleichen Zeitpunkt.": "Cumulative P&L of the period as a line, the same period before as a dashed line. Next to the title, the difference at the same point in time.",
   "Durchgezogen: kumuliertes Netto-Ergebnis im gewählten Zeitraum. Gestrichelt: derselbe Zeitraum davor (z. B. der Vormonat), Tag für Tag darübergelegt. Die Zahl neben dem Titel zeigt, wie viel besser oder schlechter du jetzt stehst als am gleichen Tag des Zeitraums davor. Bei „Gesamt“: die letzten 30 Tage gegen die vorherigen 30 Tage.": "Solid: cumulative net result in the selected period. Dashed: the same period before (e.g. the previous month), laid over day by day. The number next to the title shows how much better or worse you are now than on the same day of the period before. For “All time”: the last 30 days against the previous 30 days.",
+  "Heutiger Score": "Today's score",
+  "Heute abgehakte Regeln von allen aktiven Regeln.": "Rules checked off today out of all active rules.",
+  "Kein Regel-Check": "No rule check",
+  "{0} von {1} Regeln eingehalten": "{0} of {1} rules followed",
+  "Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr deiner Regeln du an dem Tag abgehakt hast, desto kräftiger das Kästchen; ohne Regel-Check bleibt es leer. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.": "One square per day, up to a year back. The more of your rules you checked off that day, the stronger the square; without a rule check it stays empty. Drag or use the arrows to scroll, click opens the day view.",
 });

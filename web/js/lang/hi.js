@@ -2235,4 +2235,9 @@ I18N.add('hi', {
   "Vorherige 30 Tage": "उससे पहले के 30 दिन",
   "Kumulierter P&L des Zeitraums als Linie, gestrichelt derselbe Zeitraum davor. Neben dem Titel der Unterschied zum gleichen Zeitpunkt.": "अवधि का संचयी P&L रेखा के रूप में, पहले की वही अवधि डैश वाली रेखा में। शीर्षक के पास उसी समय पर अंतर।",
   "Durchgezogen: kumuliertes Netto-Ergebnis im gewählten Zeitraum. Gestrichelt: derselbe Zeitraum davor (z. B. der Vormonat), Tag für Tag darübergelegt. Die Zahl neben dem Titel zeigt, wie viel besser oder schlechter du jetzt stehst als am gleichen Tag des Zeitraums davor. Bei „Gesamt“: die letzten 30 Tage gegen die vorherigen 30 Tage.": "ठोस: चुनी गई अवधि का संचयी नेट परिणाम। डैश: पहले की वही अवधि (जैसे पिछला महीना), दिन-दर-दिन ऊपर रखी गई। शीर्षक के पास की संख्या दिखाती है कि आप पिछली अवधि के उसी दिन की तुलना में अभी कितने बेहतर या खराब हैं। „सभी समय“ में: पिछले 30 दिन बनाम उससे पहले के 30 दिन।",
+  "Heutiger Score": "आज का स्कोर",
+  "Heute abgehakte Regeln von allen aktiven Regeln.": "सभी सक्रिय नियमों में से आज टिक किए गए नियम।",
+  "Kein Regel-Check": "कोई नियम जाँच नहीं",
+  "{0} von {1} Regeln eingehalten": "{1} में से {0} नियमों का पालन",
+  "Ein Kästchen pro Tag, bis zu ein Jahr zurück. Je mehr deiner Regeln du an dem Tag abgehakt hast, desto kräftiger das Kästchen; ohne Regel-Check bleibt es leer. Ziehen oder Pfeile zum Verschieben, Klick öffnet die Tagesansicht.": "हर दिन के लिए एक खाना, एक साल पीछे तक। उस दिन आपने जितने ज़्यादा नियम टिक किए, खाना उतना गहरा; नियम जाँच के बिना खाली रहता है। खिसकाने के लिए खींचें या तीर इस्तेमाल करें, क्लिक से दिन का दृश्य खुलता है।",
 });
